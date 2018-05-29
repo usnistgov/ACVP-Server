@@ -1,6 +1,6 @@
 {
-  "Algorithm": "SHAKE",
-  "IsSample": true,
+  "algorithm": "SHAKE",
+  "isSample": true,
   "digestSize": [
     128,
     256

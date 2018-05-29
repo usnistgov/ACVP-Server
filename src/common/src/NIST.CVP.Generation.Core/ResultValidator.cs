@@ -12,7 +12,8 @@ namespace NIST.CVP.Generation.Core
     {
         public TestVectorValidation ValidateResults(
             IEnumerable<ITestCaseValidator<TTestGroup, TTestCase>> testCaseValidators, 
-            IEnumerable<TTestGroup> testResults
+            IEnumerable<TTestGroup> testResults,
+            bool showExpected
         )
         {
             var validations = new List<TestCaseValidation>();
@@ -31,7 +32,7 @@ namespace NIST.CVP.Generation.Core
 
                 try
                 {
-                    var validation = caseValidator.Validate(suppliedResult);
+                    var validation = caseValidator.Validate(suppliedResult, showExpected);
                     validations.Add(validation);
                 }
                 catch (Exception e)

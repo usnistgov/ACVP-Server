@@ -1,13 +1,19 @@
 {
-  "algorithm": "KAS-ECC",
+  "algorithm": "KAS",
+  "mode": "ECC",
   "isSample": true,
   "function": [
-    "dpGen"
+    "dpGen",
+    "dpVal",
+    "keyPairGen",
+    "partialVal",
+    "keyRegen"
   ],
   "scheme": {
     "ephemeralUnified": {
       "role": [
-        "initiator"
+        "initiator",
+        "responder"
       ],
       "noKdfNoKc": {
         "parameterSet": {
@@ -15,14 +21,51 @@
             "hashAlg": [
               "SHA2-224"
             ],
-            "curve": "P-224"
+            "curveName": "P-224"
+          }
+        }
+      },
+      "kdfNoKc": {
+        "kdfOption": {
+          "asn1": "uPartyInfo||vPartyInfo||literal[cafecafe]"
+        },
+        "parameterSet": {
+          "eb": {
+            "hashAlg": [
+              "SHA2-224"
+            ],
+            "macOption": {
+              "aeS-CCM": {
+                "keyLen": [
+                  128
+                ],
+                "macLen": 128,
+                "nonceLen": 64
+              },
+              "cmac": {
+                "keyLen": [
+                  128
+                ],
+                "macLen": 128,
+                "nonceLen": 0
+              },
+              "hmaC-SHA2-224": {
+                "keyLen": [
+                  128
+                ],
+                "macLen": 128,
+                "nonceLen": 0
+              }
+            },
+            "curveName": "P-224"
           }
         }
       }
     },
     "onePassMqv": {
       "role": [
-        "initiator"
+        "initiator",
+        "responder"
       ],
       "noKdfNoKc": {
         "parameterSet": {
@@ -30,14 +73,504 @@
             "hashAlg": [
               "SHA2-224"
             ],
-            "curve": "P-224"
+            "curveName": "P-224"
+          }
+        }
+      },
+      "kdfNoKc": {
+        "kdfOption": {
+          "asn1": "uPartyInfo||vPartyInfo||literal[cafecafe]"
+        },
+        "parameterSet": {
+          "eb": {
+            "hashAlg": [
+              "SHA2-224"
+            ],
+            "macOption": {
+              "aeS-CCM": {
+                "keyLen": [
+                  128
+                ],
+                "macLen": 128,
+                "nonceLen": 64
+              },
+              "cmac": {
+                "keyLen": [
+                  128
+                ],
+                "macLen": 128,
+                "nonceLen": 0
+              },
+              "hmaC-SHA2-224": {
+                "keyLen": [
+                  128
+                ],
+                "macLen": 128,
+                "nonceLen": 0
+              }
+            },
+            "curveName": "P-224"
+          }
+        }
+      },
+      "kdfKc": {
+        "kcOption": {
+          "kcRole": [
+            "provider",
+            "recipient"
+          ],
+          "kcType": [
+            "unilateral",
+            "bilateral"
+          ],
+          "nonceType": [
+            "randomNonce"
+          ]
+        },
+        "kdfOption": {
+          "asn1": "uPartyInfo||vPartyInfo||literal[cafecafe]"
+        },
+        "parameterSet": {
+          "eb": {
+            "hashAlg": [
+              "SHA2-224"
+            ],
+            "macOption": {
+              "aeS-CCM": {
+                "keyLen": [
+                  128
+                ],
+                "macLen": 128,
+                "nonceLen": 64
+              },
+              "cmac": {
+                "keyLen": [
+                  128
+                ],
+                "macLen": 128,
+                "nonceLen": 0
+              },
+              "hmaC-SHA2-224": {
+                "keyLen": [
+                  128
+                ],
+                "macLen": 128,
+                "nonceLen": 0
+              }
+            },
+            "curveName": "P-224"
+          }
+        }
+      }
+    },
+    "fullUnified": {
+      "role": [
+        "initiator",
+        "responder"
+      ],
+      "noKdfNoKc": {
+        "parameterSet": {
+          "eb": {
+            "hashAlg": [
+              "SHA2-224"
+            ],
+            "curveName": "P-224"
+          }
+        }
+      },
+      "kdfNoKc": {
+        "kdfOption": {
+          "asn1": "uPartyInfo||vPartyInfo||literal[cafecafe]"
+        },
+        "parameterSet": {
+          "eb": {
+            "hashAlg": [
+              "SHA2-224"
+            ],
+            "macOption": {
+              "aeS-CCM": {
+                "keyLen": [
+                  128
+                ],
+                "macLen": 128,
+                "nonceLen": 64
+              },
+              "cmac": {
+                "keyLen": [
+                  128
+                ],
+                "macLen": 128,
+                "nonceLen": 0
+              },
+              "hmaC-SHA2-224": {
+                "keyLen": [
+                  128
+                ],
+                "macLen": 128,
+                "nonceLen": 0
+              }
+            },
+            "curveName": "P-224"
+          }
+        }
+      },
+      "kdfKc": {
+        "kcOption": {
+          "kcRole": [
+            "provider",
+            "recipient"
+          ],
+          "kcType": [
+            "unilateral",
+            "bilateral"
+          ],
+          "nonceType": [
+            "randomNonce"
+          ]
+        },
+        "kdfOption": {
+          "asn1": "uPartyInfo||vPartyInfo||literal[cafecafe]"
+        },
+        "parameterSet": {
+          "eb": {
+            "hashAlg": [
+              "SHA2-224"
+            ],
+            "macOption": {
+              "aeS-CCM": {
+                "keyLen": [
+                  128
+                ],
+                "macLen": 128,
+                "nonceLen": 64
+              },
+              "cmac": {
+                "keyLen": [
+                  128
+                ],
+                "macLen": 128,
+                "nonceLen": 0
+              },
+              "hmaC-SHA2-224": {
+                "keyLen": [
+                  128
+                ],
+                "macLen": 128,
+                "nonceLen": 0
+              }
+            },
+            "curveName": "P-224"
+          }
+        }
+      }
+    },
+    "fullMqv": {
+      "role": [
+        "initiator",
+        "responder"
+      ],
+      "noKdfNoKc": {
+        "parameterSet": {
+          "eb": {
+            "hashAlg": [
+              "SHA2-224"
+            ],
+            "curveName": "P-224"
+          }
+        }
+      },
+      "kdfNoKc": {
+        "kdfOption": {
+          "asn1": "uPartyInfo||vPartyInfo||literal[cafecafe]"
+        },
+        "parameterSet": {
+          "eb": {
+            "hashAlg": [
+              "SHA2-224"
+            ],
+            "macOption": {
+              "aeS-CCM": {
+                "keyLen": [
+                  128
+                ],
+                "macLen": 128,
+                "nonceLen": 64
+              },
+              "cmac": {
+                "keyLen": [
+                  128
+                ],
+                "macLen": 128,
+                "nonceLen": 0
+              },
+              "hmaC-SHA2-224": {
+                "keyLen": [
+                  128
+                ],
+                "macLen": 128,
+                "nonceLen": 0
+              }
+            },
+            "curveName": "P-224"
+          }
+        }
+      },
+      "kdfKc": {
+        "kcOption": {
+          "kcRole": [
+            "provider",
+            "recipient"
+          ],
+          "kcType": [
+            "unilateral",
+            "bilateral"
+          ],
+          "nonceType": [
+            "randomNonce"
+          ]
+        },
+        "kdfOption": {
+          "asn1": "uPartyInfo||vPartyInfo||literal[cafecafe]"
+        },
+        "parameterSet": {
+          "eb": {
+            "hashAlg": [
+              "SHA2-224"
+            ],
+            "macOption": {
+              "aeS-CCM": {
+                "keyLen": [
+                  128
+                ],
+                "macLen": 128,
+                "nonceLen": 64
+              },
+              "cmac": {
+                "keyLen": [
+                  128
+                ],
+                "macLen": 128,
+                "nonceLen": 0
+              },
+              "hmaC-SHA2-224": {
+                "keyLen": [
+                  128
+                ],
+                "macLen": 128,
+                "nonceLen": 0
+              }
+            },
+            "curveName": "P-224"
+          }
+        }
+      }
+    },
+    "onePassUnified": {
+      "role": [
+        "initiator",
+        "responder"
+      ],
+      "noKdfNoKc": {
+        "parameterSet": {
+          "eb": {
+            "hashAlg": [
+              "SHA2-224"
+            ],
+            "curveName": "P-224"
+          }
+        }
+      },
+      "kdfNoKc": {
+        "kdfOption": {
+          "asn1": "uPartyInfo||vPartyInfo||literal[cafecafe]"
+        },
+        "parameterSet": {
+          "eb": {
+            "hashAlg": [
+              "SHA2-224"
+            ],
+            "macOption": {
+              "aeS-CCM": {
+                "keyLen": [
+                  128
+                ],
+                "macLen": 128,
+                "nonceLen": 64
+              },
+              "cmac": {
+                "keyLen": [
+                  128
+                ],
+                "macLen": 128,
+                "nonceLen": 0
+              },
+              "hmaC-SHA2-224": {
+                "keyLen": [
+                  128
+                ],
+                "macLen": 128,
+                "nonceLen": 0
+              }
+            },
+            "curveName": "P-224"
+          }
+        }
+      },
+      "kdfKc": {
+        "kcOption": {
+          "kcRole": [
+            "provider",
+            "recipient"
+          ],
+          "kcType": [
+            "unilateral",
+            "bilateral"
+          ],
+          "nonceType": [
+            "randomNonce"
+          ]
+        },
+        "kdfOption": {
+          "asn1": "uPartyInfo||vPartyInfo||literal[cafecafe]"
+        },
+        "parameterSet": {
+          "eb": {
+            "hashAlg": [
+              "SHA2-224"
+            ],
+            "macOption": {
+              "aeS-CCM": {
+                "keyLen": [
+                  128
+                ],
+                "macLen": 128,
+                "nonceLen": 64
+              },
+              "cmac": {
+                "keyLen": [
+                  128
+                ],
+                "macLen": 128,
+                "nonceLen": 0
+              },
+              "hmaC-SHA2-224": {
+                "keyLen": [
+                  128
+                ],
+                "macLen": 128,
+                "nonceLen": 0
+              }
+            },
+            "curveName": "P-224"
+          }
+        }
+      }
+    },
+    "onePassDh": {
+      "role": [
+        "initiator",
+        "responder"
+      ],
+      "noKdfNoKc": {
+        "parameterSet": {
+          "eb": {
+            "hashAlg": [
+              "SHA2-224"
+            ],
+            "curveName": "P-224"
+          }
+        }
+      },
+      "kdfNoKc": {
+        "kdfOption": {
+          "asn1": "uPartyInfo||vPartyInfo||literal[cafecafe]"
+        },
+        "parameterSet": {
+          "eb": {
+            "hashAlg": [
+              "SHA2-224"
+            ],
+            "macOption": {
+              "aeS-CCM": {
+                "keyLen": [
+                  128
+                ],
+                "macLen": 128,
+                "nonceLen": 64
+              },
+              "cmac": {
+                "keyLen": [
+                  128
+                ],
+                "macLen": 128,
+                "nonceLen": 0
+              },
+              "hmaC-SHA2-224": {
+                "keyLen": [
+                  128
+                ],
+                "macLen": 128,
+                "nonceLen": 0
+              }
+            },
+            "curveName": "P-224"
+          }
+        }
+      },
+      "kdfKc": {
+        "kcOption": {
+          "kcRole": [
+            "provider",
+            "recipient"
+          ],
+          "kcType": [
+            "unilateral",
+            "bilateral"
+          ],
+          "nonceType": [
+            "randomNonce"
+          ]
+        },
+        "kdfOption": {
+          "asn1": "uPartyInfo||vPartyInfo||literal[cafecafe]"
+        },
+        "parameterSet": {
+          "eb": {
+            "hashAlg": [
+              "SHA2-224"
+            ],
+            "macOption": {
+              "aeS-CCM": {
+                "keyLen": [
+                  128
+                ],
+                "macLen": 128,
+                "nonceLen": 64
+              },
+              "cmac": {
+                "keyLen": [
+                  128
+                ],
+                "macLen": 128,
+                "nonceLen": 0
+              },
+              "hmaC-SHA2-224": {
+                "keyLen": [
+                  128
+                ],
+                "macLen": 128,
+                "nonceLen": 0
+              }
+            },
+            "curveName": "P-224"
           }
         }
       }
     },
     "staticUnified": {
       "role": [
-        "initiator"
+        "initiator",
+        "responder"
       ],
       "noKdfNoKc": {
         "parameterSet": {
@@ -45,7 +578,98 @@
             "hashAlg": [
               "SHA2-224"
             ],
-            "curve": "P-224"
+            "curveName": "P-224"
+          }
+        }
+      },
+      "kdfNoKc": {
+        "kdfOption": {
+          "asn1": "uPartyInfo||vPartyInfo||literal[cafecafe]"
+        },
+        "dkmNonceTypes": [
+          "randomNonce"
+        ],
+        "parameterSet": {
+          "eb": {
+            "hashAlg": [
+              "SHA2-224"
+            ],
+            "macOption": {
+              "aeS-CCM": {
+                "keyLen": [
+                  128
+                ],
+                "macLen": 128,
+                "nonceLen": 64
+              },
+              "cmac": {
+                "keyLen": [
+                  128
+                ],
+                "macLen": 128,
+                "nonceLen": 0
+              },
+              "hmaC-SHA2-224": {
+                "keyLen": [
+                  128
+                ],
+                "macLen": 128,
+                "nonceLen": 0
+              }
+            },
+            "curveName": "P-224"
+          }
+        }
+      },
+      "kdfKc": {
+        "kcOption": {
+          "kcRole": [
+            "provider",
+            "recipient"
+          ],
+          "kcType": [
+            "unilateral",
+            "bilateral"
+          ],
+          "nonceType": [
+            "randomNonce"
+          ]
+        },
+        "kdfOption": {
+          "asn1": "uPartyInfo||vPartyInfo||literal[cafecafe]"
+        },
+        "dkmNonceTypes": [
+          "randomNonce"
+        ],
+        "parameterSet": {
+          "eb": {
+            "hashAlg": [
+              "SHA2-224"
+            ],
+            "macOption": {
+              "aeS-CCM": {
+                "keyLen": [
+                  128
+                ],
+                "macLen": 128,
+                "nonceLen": 64
+              },
+              "cmac": {
+                "keyLen": [
+                  128
+                ],
+                "macLen": 128,
+                "nonceLen": 0
+              },
+              "hmaC-SHA2-224": {
+                "keyLen": [
+                  128
+                ],
+                "macLen": 128,
+                "nonceLen": 0
+              }
+            },
+            "curveName": "P-224"
           }
         }
       }

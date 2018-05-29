@@ -140,15 +140,22 @@ namespace NIST.CVP.Generation.Core.Tests
             {
                 int tcId = test.tcId;
                 string result = test.result;
+                var expected = test.expected;
+                var provided = test.provided;
+
                 // Validate expected TCs are failure
                 if (expectedFailTestCases.Contains(tcId))
                 {
                     Assert.AreEqual(EnumHelpers.GetEnumDescriptionFromEnum(Disposition.Failed), result, tcId.ToString());
+                    Assert.IsNotNull(expected, "expected must not be null");
+                    Assert.IsNotNull(provided, "provided must not be null");
                 }
                 // Validate other TCs are success
                 else
                 {
                     Assert.AreEqual(EnumHelpers.GetEnumDescriptionFromEnum(Disposition.Passed), result, tcId.ToString());
+                    Assert.IsNull(expected, "expected must be null");
+                    Assert.IsNull(provided, "provided must be null");
                 }
             }
         }
@@ -209,7 +216,8 @@ namespace NIST.CVP.Generation.Core.Tests
                 var val = scope.Resolve<IValidator>();
                 var result = val.Validate(
                     $@"{targetFolder}\{TestVectorFileNames[0]}",
-                    $@"{targetFolder}\{TestVectorFileNames[1]}"
+                    $@"{targetFolder}\{TestVectorFileNames[1]}",
+                    showExpected: true
                 );
 
                 Assert.IsTrue(result.Success, "Validator failed to complete");

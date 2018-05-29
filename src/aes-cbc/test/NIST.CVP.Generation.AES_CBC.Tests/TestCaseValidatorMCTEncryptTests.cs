@@ -20,7 +20,7 @@ namespace NIST.CVP.Generation.AES_CBC.Tests
             var supplied = GetTestCase();
             TestCaseValidatorMCTEncrypt subject = new TestCaseValidatorMCTEncrypt(expected);
 
-            var result = subject.Validate(supplied);
+            var result = subject.Validate(supplied, false);
 
             Assert.AreEqual(Core.Enums.Disposition.Passed, result.Result);
         }
@@ -36,7 +36,7 @@ namespace NIST.CVP.Generation.AES_CBC.Tests
 
             TestCaseValidatorMCTEncrypt subject = new TestCaseValidatorMCTEncrypt(expected);
 
-            var result = subject.Validate(supplied);
+            var result = subject.Validate(supplied, false);
 
             Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
             Assert.IsTrue(result.Reason.ToLower().Contains("cipher text"), "Reason does not contain the expected Cipher Text");
@@ -56,7 +56,7 @@ namespace NIST.CVP.Generation.AES_CBC.Tests
 
             TestCaseValidatorMCTEncrypt subject = new TestCaseValidatorMCTEncrypt(expected);
 
-            var result = subject.Validate(supplied);
+            var result = subject.Validate(supplied, false);
 
             Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
             Assert.IsFalse(result.Reason.ToLower().Contains("cipher text"), "Reason contains the unexpected value Cipher Text");
@@ -76,7 +76,7 @@ namespace NIST.CVP.Generation.AES_CBC.Tests
 
             TestCaseValidatorMCTEncrypt subject = new TestCaseValidatorMCTEncrypt(expected);
 
-            var result = subject.Validate(supplied);
+            var result = subject.Validate(supplied, false);
 
             Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
             Assert.IsFalse(result.Reason.ToLower().Contains("cipher text"), "Reason contains the unexpected value Cipher Text");
@@ -97,7 +97,7 @@ namespace NIST.CVP.Generation.AES_CBC.Tests
 
             TestCaseValidatorMCTEncrypt subject = new TestCaseValidatorMCTEncrypt(expected);
 
-            var result = subject.Validate(supplied);
+            var result = subject.Validate(supplied, false);
 
             Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
             Assert.IsFalse(result.Reason.ToLower().Contains("cipher text"), "Reason contains the unexpected value Cipher Text");
@@ -123,7 +123,7 @@ namespace NIST.CVP.Generation.AES_CBC.Tests
 
             TestCaseValidatorMCTEncrypt subject = new TestCaseValidatorMCTEncrypt(expected);
 
-            var result = subject.Validate(supplied);
+            var result = subject.Validate(supplied, false);
 
             Assert.IsTrue(result.Reason.ToLower().Contains("cipher text"), "Reason does not contain the expected value Cipher Text");
             Assert.IsTrue(result.Reason.ToLower().Contains("plain text"), "Reason does not contain the expected value Plain Text");
@@ -141,7 +141,7 @@ namespace NIST.CVP.Generation.AES_CBC.Tests
 
             TestCaseValidatorMCTEncrypt subject = new TestCaseValidatorMCTEncrypt(expected);
 
-            var result = subject.Validate(suppliedResult);
+            var result = subject.Validate(suppliedResult, false);
 
             Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
             Assert.IsTrue(result.Reason.Contains($"{nameof(suppliedResult.ResultsArray)} was not present in the {nameof(TestCase)}"));
@@ -157,7 +157,7 @@ namespace NIST.CVP.Generation.AES_CBC.Tests
 
             TestCaseValidatorMCTEncrypt subject = new TestCaseValidatorMCTEncrypt(expected);
 
-            var result = subject.Validate(suppliedResult);
+            var result = subject.Validate(suppliedResult, false);
 
             Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
             Assert.IsTrue(result.Reason
@@ -174,7 +174,7 @@ namespace NIST.CVP.Generation.AES_CBC.Tests
 
             TestCaseValidatorMCTEncrypt subject = new TestCaseValidatorMCTEncrypt(expected);
 
-            var result = subject.Validate(suppliedResult);
+            var result = subject.Validate(suppliedResult, false);
 
             Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
             Assert.IsTrue(result.Reason
@@ -191,7 +191,7 @@ namespace NIST.CVP.Generation.AES_CBC.Tests
 
             TestCaseValidatorMCTEncrypt subject = new TestCaseValidatorMCTEncrypt(expected);
 
-            var result = subject.Validate(suppliedResult);
+            var result = subject.Validate(suppliedResult, false);
 
             Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
             Assert.IsTrue(result.Reason
@@ -208,7 +208,7 @@ namespace NIST.CVP.Generation.AES_CBC.Tests
 
             TestCaseValidatorMCTEncrypt subject = new TestCaseValidatorMCTEncrypt(expected);
 
-            var result = subject.Validate(suppliedResult);
+            var result = subject.Validate(suppliedResult, false);
 
             Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
             Assert.IsTrue(result.Reason

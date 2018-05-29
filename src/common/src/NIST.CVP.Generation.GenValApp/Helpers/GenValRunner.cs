@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using Autofac;
 using NIST.CVP.Common.Enums;
@@ -83,6 +84,7 @@ namespace NIST.CVP.Generation.GenValApp.Helpers
                     return (int) result.StatusCode;
 
                 errorMessage = $"ERROR! Generating Test Vectors for {registrationFile}: {result.ErrorMessage}";
+                ErrorLogger.LogError(result.StatusCode, "generator", result.ErrorMessage, Path.GetPathRoot(parsedParameters.RegistrationFile.FullName));
                 Console.Error.WriteLine(errorMessage);
                 Program.Logger.Error($"Status Code: {result.StatusCode}");
                 Program.Logger.Error(errorMessage);
@@ -92,12 +94,14 @@ namespace NIST.CVP.Generation.GenValApp.Helpers
             {
                 var responseFile = parsedParameters.ResponseFile.FullName;
                 var answerFile = parsedParameters.AnswerFile.FullName;
-                var result = RunValidation(responseFile, answerFile);
+                var showExpected = parsedParameters.ShowExpected;
+                var result = RunValidation(responseFile, answerFile, showExpected);
 
                 if (result.Success)
                     return (int) result.StatusCode;
 
                 errorMessage = $"ERROR! Validating Test Vectors for {responseFile}: {result.ErrorMessage}";
+                ErrorLogger.LogError(result.StatusCode, "validator", result.ErrorMessage, Path.GetPathRoot(parsedParameters.ResponseFile.FullName));
                 Console.Error.WriteLine(errorMessage);
                 Program.Logger.Error($"Status Code: {result.StatusCode}");
                 Program.Logger.Error(errorMessage);
@@ -121,13 +125,14 @@ namespace NIST.CVP.Generation.GenValApp.Helpers
             return result;
         }
 
+
         /// <summary>
         /// Run Validation of test vectors for an algorithm.
         /// </summary>
-        public ValidateResponse RunValidation(string responseFile, string answerFile)
+        public ValidateResponse RunValidation(string responseFile, string answerFile, bool showExpected)
         {
             var val = _scope.Resolve<IValidator>();
-            var result = val.Validate(responseFile, answerFile);
+            var result = val.Validate(responseFile, answerFile, showExpected);
             return result;
         }
     }

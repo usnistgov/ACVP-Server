@@ -17,7 +17,7 @@ namespace NIST.CVP.Generation.TDES_CTR
             _expectedResult = testCase;
         }
 
-        public TestCaseValidation Validate(TestCase suppliedResult)
+        public TestCaseValidation Validate(TestCase suppliedResult, bool showExpected = false)
         {
             return new TestCaseValidation { TestCaseId = TestCaseId, Result = Disposition.Failed, Reason = "Test type was not found" };
         }

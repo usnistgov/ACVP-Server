@@ -1,23 +1,23 @@
 {
-  "Algorithm": "CMAC-TDES",
-  "Mode": null,
-  "IsSample": false,
-  "Direction": [
+  "algorithm": "CMAC",
+  "mode": "TDES",
+  "isSample": false,
+  "direction": [
     "gen",
     "ver"
   ],
-  "KeyingOption": [
+  "keyingOption": [
     1,
     2
   ],
-  "MsgLen": [
+  "msgLen": [
     {
       "min": 0,
       "max": 65536,
       "increment": 8
     }
   ],
-  "MacLen": [
+  "macLen": [
     64
   ]
 }

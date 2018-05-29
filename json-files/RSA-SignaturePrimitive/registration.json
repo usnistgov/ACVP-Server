@@ -1,6 +1,6 @@
 {
-  "Algorithm": "RSA",
-  "Mode": "SignaturePrimitive",
-  "IsSample": false,
-  "KeyFormat": "standard"
+  "algorithm": "RSA",
+  "mode": "SignaturePrimitive",
+  "isSample": false,
+  "keyFormat": "standard"
 }

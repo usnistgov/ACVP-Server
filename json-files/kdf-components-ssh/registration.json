@@ -1,15 +1,15 @@
 {
-  "Algorithm": "kdf-components",
-  "Mode": "ssh",
-  "IsSample": true,
-  "HashAlg": [
+  "algorithm": "kdf-components",
+  "mode": "ssh",
+  "isSample": true,
+  "hashAlg": [
     "sha-1",
     "sha2-224",
     "sha2-256",
     "sha2-384",
     "sha2-512"
   ],
-  "Cipher": [
+  "cipher": [
     "tdes",
     "aes-128",
     "aes-192",

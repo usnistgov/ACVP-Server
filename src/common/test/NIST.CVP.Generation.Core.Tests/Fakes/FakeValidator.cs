@@ -13,7 +13,7 @@ namespace NIST.CVP.Generation.Core.Tests.Fakes
         ) : 
             base(resultValidator, testCaseValidatorFactory, vectorSetDeserializer) { }
 
-        protected override TestVectorValidation ValidateWorker(string answerText, string testResultText)
+        protected override TestVectorValidation ValidateWorker(string answerText, string testResultText, bool showExpected)
         {
             return new TestVectorValidation()
             {

@@ -21,9 +21,11 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
             _deferredResolver = deferredResolver;
         }
 
-        public TestCaseValidation Validate(TestCase suppliedResult)
+        public TestCaseValidation Validate(TestCase suppliedResult, bool showExpected = false)
         {
             var errors = new List<string>();
+            Dictionary<string, string> expected = null;
+            Dictionary<string, string> provided = null;
 
             if (suppliedResult.G == 0)
             {
@@ -35,12 +37,21 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
                 if (!validateResult.Success)
                 {
                     errors.Add($"Validation failed: {validateResult.ErrorMessage}");
+                    expected = new Dictionary<string, string>();
+                    provided = new Dictionary<string, string>();
                 }
             }
 
             if (errors.Count > 0)
             {
-                return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = Core.Enums.Disposition.Failed, Reason = string.Join(";", errors) };
+                return new TestCaseValidation
+                {
+                    TestCaseId = suppliedResult.TestCaseId, 
+                    Result = Core.Enums.Disposition.Failed, 
+                    Reason = string.Join(";", errors),
+                    Expected = expected.Count != 0 && showExpected ? expected : null,
+                    Provided = provided.Count != 0 && showExpected ? provided : null
+                };
             }
 
             return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = Core.Enums.Disposition.Passed };

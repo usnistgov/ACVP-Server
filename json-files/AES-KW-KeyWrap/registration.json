@@ -1,26 +1,25 @@
 {
-  "Algorithm": "AES-KW",
-  "Mode": "KeyWrap",
-  "IsSample": false,
-  "KeyLen": [
+  "algorithm": "AES-KW",
+  "mode": "KeyWrap",
+  "isSample": false,
+  "keyLen": [
     128,
     192,
     256
   ],
-  "Direction": [
+  "direction": [
     "encrypt",
     "decrypt"
   ],
-  "KwCipher": [
+  "kwCipher": [
     "cipher",
     "inverse"
   ],
-  "PtLen": [
+  "ptLen": [
     {
       "min": 128,
       "max": 4096,
       "increment": 64
     }
-  ],
-  "KeyingOption": null
+  ]
 }

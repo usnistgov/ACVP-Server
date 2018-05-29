@@ -27,7 +27,7 @@ namespace NIST.CVP.Generation.DSA.FFC.SigVer.Tests
                     L = 2048 + groupIdx,
                     N = 224,
                     HashAlg = new HashFunction(ModeValues.SHA2, DigestSizes.d256),
-                    DomainParams = new FfcDomainParameters(1, 2, 3)
+                    DomainParams = new FfcDomainParameters(4, 5, 6)
                 };
 
                 testGroups.Add(tg);

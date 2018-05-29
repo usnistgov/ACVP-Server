@@ -1,10 +1,10 @@
 {
-  "Algorithm": "ECDSA",
-  "Mode": "SigGen",
-  "IsSample": true,
-  "Capabilities": [
+  "algorithm": "ECDSA",
+  "mode": "SigGen",
+  "isSample": true,
+  "capabilities": [
     {
-      "Curve": [
+      "curve": [
         "p-224",
         "p-256",
         "p-384",
@@ -18,7 +18,7 @@
         "k-409",
         "k-571"
       ],
-      "HashAlg": [
+      "hashAlg": [
         "sha2-224",
         "sha2-256",
         "sha2-384",
@@ -27,5 +27,6 @@
         "sha2-512/256"
       ]
     }
-  ]
+  ],
+  "componentTest": false
 }

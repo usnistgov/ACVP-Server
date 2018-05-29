@@ -13,7 +13,7 @@ namespace NIST.CVP.Generation.Core.Tests.Fakes
             _result = result;
         }
 
-        public TestCaseValidation Validate(TTestCase suppliedResult)
+        public TestCaseValidation Validate(TTestCase suppliedResult, bool showExpected)
         {
             return new TestCaseValidation {TestCaseId = TestCaseId, Result = _result};
         }
