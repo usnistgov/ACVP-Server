@@ -8,6 +8,7 @@ using NIST.CVP.Generation.Core.Tests.Fakes;
 using NIST.CVP.Generation.KAS.FFC;
 using NIST.CVP.Crypto.Common;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Math.Domain;
 
 namespace NIST.CVP.Generation.KAS.IntegrationTests
 {
@@ -219,18 +220,18 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                                     {
                                         AesCcm = new MacOptionAesCcm()
                                         {
-                                            KeyLen = new int[] { 128 },
+                                            KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
                                             MacLen = 128,
                                             NonceLen = 64
                                         },
                                         Cmac = new MacOptionCmac()
                                         {
-                                            KeyLen = new int[] { 128 },
+                                            KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
                                             MacLen = 128
                                         },
                                         HmacSha2_D224 = new MacOptionHmacSha2_d224()
                                         {
-                                            KeyLen = new int[] { 128 },
+                                            KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
                                             MacLen = 128
                                         }
                                     }
@@ -266,18 +267,18 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                                     {
                                         AesCcm = new MacOptionAesCcm()
                                         {
-                                            KeyLen = new int[] { 256 },
+                                            KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(256)),
                                             MacLen = 128,
                                             NonceLen = 64
                                         },
                                         Cmac = new MacOptionCmac()
                                         {
-                                            KeyLen = new int[] { 256 },
+                                            KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(256)),
                                             MacLen = 128
                                         },
                                         HmacSha2_D224 = new MacOptionHmacSha2_d224()
                                         {
-                                            KeyLen = new int[] { 128 },
+                                            KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
                                             MacLen = 128
                                         }
                                     }
@@ -305,18 +306,18 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                                     {
                                         AesCcm = new MacOptionAesCcm()
                                         {
-                                            KeyLen = new int[] { 256 },
+                                            KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(256)),
                                             MacLen = 128,
                                             NonceLen = 64
                                         },
                                         Cmac = new MacOptionCmac()
                                         {
-                                            KeyLen = new int[] { 256 },
+                                            KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(256)),
                                             MacLen = 128
                                         },
                                         HmacSha2_D384 = new MacOptionHmacSha2_d384()
                                         {
-                                            KeyLen = new int[] { 128 },
+                                            KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
                                             MacLen = 128
                                         }
                                     }
@@ -352,18 +353,18 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                                     {
                                         AesCcm = new MacOptionAesCcm()
                                         {
-                                            KeyLen = new int[] { 128 },
+                                            KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
                                             MacLen = 128,
                                             NonceLen = 64
                                         },
                                         Cmac = new MacOptionCmac()
                                         {
-                                            KeyLen = new int[] { 128 },
+                                            KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
                                             MacLen = 128
                                         },
                                         HmacSha2_D224 = new MacOptionHmacSha2_d224()
                                         {
-                                            KeyLen = new int[] { 128 },
+                                            KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
                                             MacLen = 128
                                         }
                                     }
@@ -399,18 +400,18 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                                     {
                                         AesCcm = new MacOptionAesCcm()
                                         {
-                                            KeyLen = new int[] { 256 },
+                                            KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(256)),
                                             MacLen = 128,
                                             NonceLen = 64
                                         },
                                         Cmac = new MacOptionCmac()
                                         {
-                                            KeyLen = new int[] { 256 },
+                                            KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(256)),
                                             MacLen = 128
                                         },
                                         HmacSha2_D224 = new MacOptionHmacSha2_d224()
                                         {
-                                            KeyLen = new int[] { 128 },
+                                            KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
                                             MacLen = 128
                                         }
                                     }
@@ -438,18 +439,18 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                                     {
                                         AesCcm = new MacOptionAesCcm()
                                         {
-                                            KeyLen = new int[] { 256 },
+                                            KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(256)),
                                             MacLen = 128,
                                             NonceLen = 64
                                         },
                                         Cmac = new MacOptionCmac()
                                         {
-                                            KeyLen = new int[] { 256 },
+                                            KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(256)),
                                             MacLen = 128
                                         },
                                         HmacSha2_D384 = new MacOptionHmacSha2_d384()
                                         {
-                                            KeyLen = new int[] { 128 },
+                                            KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
                                             MacLen = 128
                                         }
                                     }
@@ -485,18 +486,18 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                                     {
                                         AesCcm = new MacOptionAesCcm()
                                         {
-                                            KeyLen = new int[] { 256 },
+                                            KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(256)),
                                             MacLen = 128,
                                             NonceLen = 64
                                         },
                                         Cmac = new MacOptionCmac()
                                         {
-                                            KeyLen = new int[] { 256 },
+                                            KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(256)),
                                             MacLen = 128
                                         },
                                         HmacSha2_D224 = new MacOptionHmacSha2_d224()
                                         {
-                                            KeyLen = new int[] { 128 },
+                                            KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
                                             MacLen = 128
                                         }
                                     }
@@ -524,18 +525,18 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                                     {
                                         AesCcm = new MacOptionAesCcm()
                                         {
-                                            KeyLen = new int[] { 256 },
+                                            KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(256)),
                                             MacLen = 128,
                                             NonceLen = 64
                                         },
                                         Cmac = new MacOptionCmac()
                                         {
-                                            KeyLen = new int[] { 256 },
+                                            KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(256)),
                                             MacLen = 128
                                         },
                                         HmacSha2_D384 = new MacOptionHmacSha2_d384()
                                         {
-                                            KeyLen = new int[] { 128 },
+                                            KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
                                             MacLen = 128
                                         }
                                     }
@@ -571,18 +572,18 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                                     {
                                         AesCcm = new MacOptionAesCcm()
                                         {
-                                            KeyLen = new int[] { 256 },
+                                            KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(256)),
                                             MacLen = 128,
                                             NonceLen = 64
                                         },
                                         Cmac = new MacOptionCmac()
                                         {
-                                            KeyLen = new int[] { 256 },
+                                            KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(256)),
                                             MacLen = 128
                                         },
                                         HmacSha2_D224 = new MacOptionHmacSha2_d224()
                                         {
-                                            KeyLen = new int[] { 128 },
+                                            KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
                                             MacLen = 128
                                         }
                                     }
@@ -610,18 +611,18 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                                     {
                                         AesCcm = new MacOptionAesCcm()
                                         {
-                                            KeyLen = new int[] { 256 },
+                                            KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(256)),
                                             MacLen = 128,
                                             NonceLen = 64
                                         },
                                         Cmac = new MacOptionCmac()
                                         {
-                                            KeyLen = new int[] { 256 },
+                                            KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(256)),
                                             MacLen = 128
                                         },
                                         HmacSha2_D384 = new MacOptionHmacSha2_d384()
                                         {
-                                            KeyLen = new int[] { 128 },
+                                            KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
                                             MacLen = 128
                                         }
                                     }
@@ -658,18 +659,18 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                                     {
                                         AesCcm = new MacOptionAesCcm()
                                         {
-                                            KeyLen = new int[] { 256 },
+                                            KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(256)),
                                             MacLen = 128,
                                             NonceLen = 64
                                         },
                                         Cmac = new MacOptionCmac()
                                         {
-                                            KeyLen = new int[] { 256 },
+                                            KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(256)),
                                             MacLen = 128
                                         },
                                         HmacSha2_D224 = new MacOptionHmacSha2_d224()
                                         {
-                                            KeyLen = new int[] { 128 },
+                                            KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
                                             MacLen = 128
                                         }
                                     }
@@ -698,18 +699,18 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                                     {
                                         AesCcm = new MacOptionAesCcm()
                                         {
-                                            KeyLen = new int[] { 256 },
+                                            KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(256)),
                                             MacLen = 128,
                                             NonceLen = 64
                                         },
                                         Cmac = new MacOptionCmac()
                                         {
-                                            KeyLen = new int[] { 256 },
+                                            KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(256)),
                                             MacLen = 128
                                         },
                                         HmacSha2_D384 = new MacOptionHmacSha2_d384()
                                         {
-                                            KeyLen = new int[] { 128 },
+                                            KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
                                             MacLen = 128
                                         }
                                     }

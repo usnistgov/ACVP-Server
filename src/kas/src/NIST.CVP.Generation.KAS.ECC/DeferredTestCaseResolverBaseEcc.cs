@@ -65,7 +65,7 @@ namespace NIST.CVP.Generation.KAS.ECC
         /// <inheritdoc />
         protected override EccDomainParameters GetDomainParameters(TestGroup testGroup)
         {
-            return new EccDomainParameters(_curveFactory.GetCurve(testGroup.CurveName));
+            return new EccDomainParameters(_curveFactory.GetCurve(testGroup.Curve));
         }
 
         /// <inheritdoc />

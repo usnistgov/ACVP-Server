@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using Newtonsoft.Json;
+using NIST.CVP.Common.Enums;
 using NIST.CVP.Generation.Core.ContractResolvers;
 using NIST.CVP.Generation.Core.DeSerialization;
 using NLog;
@@ -32,7 +33,6 @@ namespace NIST.CVP.Generation.Core
             var resultText = ReadFromFile(resultPath);
             var answerText = ReadFromFile(answerPath);
 
-            var response = ValidateWorker(resultText, answerText, showExpected);
 
             var validationJson = JsonConvert.SerializeObject(response, Formatting.Indented,
                 new JsonSerializerSettings
@@ -45,7 +45,7 @@ namespace NIST.CVP.Generation.Core
 
             if (!string.IsNullOrEmpty(saveResult))
             {
-                return new ValidateResponse(saveResult);
+                return new ValidateResponse(saveResult, StatusCode.FileSaveError);
             }
 
             return new ValidateResponse();

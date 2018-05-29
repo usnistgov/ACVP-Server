@@ -23,14 +23,24 @@ namespace NIST.CVP.Crypto.Symmetric.BlockModes
             {
                 case BlockCipherModesOfOperation.Cbc:
                     return new CbcBlockCipher(engine);
+                case BlockCipherModesOfOperation.CbcMac:
+                    return new CbcMacBlockCipher(engine);
                 case BlockCipherModesOfOperation.CfbBit:
                     return new CfbBlockCipher(engine, new ShiftRegisterStrategyBit(engine));
                 case BlockCipherModesOfOperation.CfbByte:
                     return new CfbBlockCipher(engine, new ShiftRegisterStrategyByte(engine));
                 case BlockCipherModesOfOperation.CfbBlock:
                     return new CfbBlockCipher(engine, new ShiftRegisterStrategyFullBlock(engine));
+                case BlockCipherModesOfOperation.CfbpBit:
+                    return new CfbpBlockCipher(engine, new ShiftRegisterStrategyBit(engine));
+                case BlockCipherModesOfOperation.CfbpByte:
+                    return new CfbpBlockCipher(engine, new ShiftRegisterStrategyByte(engine));
+                case BlockCipherModesOfOperation.CfbpBlock:
+                    return new CfbpBlockCipher(engine, new ShiftRegisterStrategyFullBlock(engine));
                 case BlockCipherModesOfOperation.Ctr:
                     throw new ArgumentException($"{modeOfOperation} not a standard mode, use {nameof(GetCounterCipher)} instead");
+                case BlockCipherModesOfOperation.Ecb:
+                    return new EcbBlockCipher(engine);
 
                 default:
                     throw new ArgumentException(nameof(modeOfOperation));

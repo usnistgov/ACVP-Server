@@ -1,6 +1,8 @@
 ﻿using System.IO;
 using NIST.CVP.Crypto.AES;
 using NIST.CVP.Crypto.AES_GCM;
+using NIST.CVP.Crypto.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Symmetric.Engines;
 using NIST.CVP.Generation.AES_GCM.Parsers;
 using NUnit.Framework;
 using NIST.CVP.Tests.Core;
@@ -19,7 +21,6 @@ namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
             _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\LegacyParserFiles\");
         }
  
-        //[Ignore("For integration -- coming soon")]
         [Test]
         public void ShouldRunThroughAllTestFilesAndValidate()
         {
@@ -32,9 +33,8 @@ namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
             var parser = new LegacyResponseFileParser();
             var algo = new Crypto.AES_GCM.AES_GCM(
                 new AES_GCMInternals(
-                    new RijndaelFactory(
-                        new RijndaelInternals()
-                    )
+                    new ModeBlockCipherFactory(),
+                    new BlockCipherEngineFactory()
                 ), 
                 new RijndaelFactory(
                     new RijndaelInternals()
@@ -85,7 +85,7 @@ namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
                                 continue;
                             }
 
-                            if (testCase.CipherText.ToHex() == result.CipherText.ToHex())
+                            if (testCase.CipherText.ToHex() == result.Result.ToHex())
                             {
                                 passes++;
                             }
@@ -94,7 +94,7 @@ namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
                                 fails++;
                             }
 
-                            Assert.AreEqual(testCase.CipherText.ToHex(), result.CipherText.ToHex(), $"Failed on count {count} expected CT {testCase.CipherText.ToHex()}, got {result.CipherText.ToHex()}");
+                            Assert.AreEqual(testCase.CipherText.ToHex(), result.Result.ToHex(), $"Failed on count {count} expected CT {testCase.CipherText.ToHex()}, got {result.Result.ToHex()}");
                             continue;
                         }
 

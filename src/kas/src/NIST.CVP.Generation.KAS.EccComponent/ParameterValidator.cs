@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Common.Helpers;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC.Enums;
@@ -8,13 +9,24 @@ namespace NIST.CVP.Generation.KAS.EccComponent
 {
     public class ParameterValidator : Core.ParameterValidatorBase, IParameterValidator<Parameters>
     {
-        public string Algorithm => "KAS";
-        public string Mode => "EccComponent";
+        public string Algorithm => "KAS-ECC";
+        public string Mode => "CDH-Component";
+
+        public static string[] ValidFunctions => new string[]
+        {
+            "dpGen",
+            "dpVal",
+            "keyPairGen",
+            "fullVal",
+            "partialVal",
+            "keyRegen"
+        };
 
         public ParameterValidateResponse Validate(Parameters parameters)
         {
             var errorResults = new List<string>();
             ValidateAlgorithm(parameters, errorResults);
+            ValidateFunctions(parameters, errorResults);
             ValidateCurves(parameters, errorResults);
 
             if (errorResults.Count > 0)
@@ -43,12 +55,19 @@ namespace NIST.CVP.Generation.KAS.EccComponent
             );
         }
 
+        private void ValidateFunctions(Parameters parameters, List<string> errorResults)
+        {
+            errorResults.AddIfNotNullOrEmpty(
+                ValidateArray(parameters.Function, ValidFunctions, "Functions")
+            );
+        }
+
         private void ValidateCurves(Parameters parameters, List<string> errorResults)
         {
             var validValues = EnumHelpers.GetEnumDescriptions<Curve>();
             errorResults.AddIfNotNullOrEmpty(
                 ValidateArray(
-                    parameters.Curves, 
+                    parameters.Curve, 
                     validValues.ToArray(), 
                     "Curves"
                 )
