@@ -10,37 +10,37 @@ namespace NIST.CVP.Common.Enums
         [EnumMember(Value = "success")]
         Success = 0,
 
-        [EnumMember(Value = "command line error, check arguments and usage")]
+        [EnumMember(Value = "Command line error, check arguments and usage. Contact service provider.")]
         CommandLineError = 1,
 
-        [EnumMember(Value = "general exception, see logs")]
+        [EnumMember(Value = "General exception. Contact service provider.")]
         Exception = 2,
 
-        [EnumMember(Value = "generator error, see logs")]
+        [EnumMember(Value = "Generator error. Contact service provider.")]
         GeneratorError = 3,
 
-        [EnumMember(Value = "validator error, see logs")]
+        [EnumMember(Value = "Validator error. Contact service provider.")]
         ValidatorError = 4,
 
-        [EnumMember(Value = "invalid mode provided, must run generator or validator and provide needed files")]
+        [EnumMember(Value = "Invalid mode provided. Must run generator or validator and provide needed files.")]
         ModeError = 5,
 
-        [EnumMember(Value = "parameter error, unable to parse parameters in registration file")]
+        [EnumMember(Value = "Parameter error. Unable to parse parameters in registration file.")]
         ParameterError = 6,
         
-        [EnumMember(Value = "parameter validator error, parameters do not match the required parameters for the algorithm, check appropriate values")]
+        [EnumMember(Value = "Parameter validator error. Parameters do not match the required parameters for the algorithm, check the appropriate values.")]
         ParameterValidationError = 7,
 
-        [EnumMember(Value = "file save error, unable to save json files")]
+        [EnumMember(Value = "File save error. Unable to save json files. Contact service provider.")]
         FileSaveError = 8,
 
-        [EnumMember(Value = "test case generator error, unable to produce test case for prompt file")]
+        [EnumMember(Value = "Test case generator error. Unable to produce test case for prompt file. Contact service provider.")]
         TestCaseGeneratorError = 9,
 
-        [EnumMember(Value = "test case validator error, unable to parse provided results file, or expected value is missing")]
+        [EnumMember(Value = "Test case validator error. Unable to parse provided results file, or expected value is missing.")]
         TestCaseValidatorError = 10,
 
-        [EnumMember(Value = "file read error, unable to read internal projection or results file")]
+        [EnumMember(Value = "File read error, unable to read internal projection or results file. Contact service provider.")]
         FileReadError = 11
     }
 }

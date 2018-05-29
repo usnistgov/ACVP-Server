@@ -31,20 +31,31 @@ namespace NIST.CVP.Generation.IKEv2
                 errors.Add("Incorrect mode");
             }
 
-            string result;
-            result = ValidateArray(parameters.HashAlg, VALID_HASH_ALGS, "Hash Algs");
-            errors.AddIfNotNullOrEmpty(result);
 
-            if (errors.Count > 0)
+            if (parameters.Capabilities.Length == 0)
             {
-                return new ParameterValidateResponse(string.Join(";", errors));
+                errors.Add("No capabilties provided");
             }
 
-            ValidateDomain(parameters.InitiatorNonceLength, errors, "NInit", MIN_NONCE, MAX_NONCE);
-            ValidateDomain(parameters.ResponderNonceLength, errors, "NResp", MIN_NONCE, MAX_NONCE);
-            ValidateDomain(parameters.DiffieHellmanSharedSecretLength, errors, "DH", MIN_DH, MAX_DH);
-            ValidateDomain(parameters.DerivedKeyingMaterialLength, errors, "DKM", MIN_DKM, MAX_DKM);
-            ValidateDKM(parameters.DerivedKeyingMaterialLength, parameters.HashAlg, errors, "DKM");
+
+            foreach (var capability in parameters.Capabilities)
+            {
+
+                var result = ValidateArray(capability.HashAlg, VALID_HASH_ALGS, "Hash Algs");
+                errors.AddIfNotNullOrEmpty(result);
+
+                if (errors.Count > 0)
+                {
+                    return new ParameterValidateResponse(string.Join(";", errors));
+                }
+
+                ValidateDomain(capability.InitiatorNonceLength, errors, "NInit", MIN_NONCE, MAX_NONCE);
+                ValidateDomain(capability.ResponderNonceLength, errors, "NResp", MIN_NONCE, MAX_NONCE);
+                ValidateDomain(capability.DiffieHellmanSharedSecretLength, errors, "DH", MIN_DH, MAX_DH);
+                ValidateDomain(capability.DerivedKeyingMaterialLength, errors, "DKM", MIN_DKM, MAX_DKM);
+                ValidateDKM(capability.DerivedKeyingMaterialLength, capability.HashAlg, errors, "DKM");
+            }
+
 
             if (errors.Count > 0)
             {
