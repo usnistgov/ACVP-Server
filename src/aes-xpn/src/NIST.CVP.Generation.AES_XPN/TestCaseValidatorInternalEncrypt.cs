@@ -50,10 +50,10 @@ namespace NIST.CVP.Generation.AES_XPN
         {
             var serverResult = _testCaseResolver.CompleteDeferredCrypto(_testGroup, _serverTestCase, suppliedResult);
 
-            if (!serverResult.CipherText.Equals(suppliedResult.CipherText))
+            if (!serverResult.Result.Equals(suppliedResult.CipherText))
             {
                 errors.Add("Cipher Text does not match");
-                expected.Add(nameof(serverResult.CipherText), serverResult.CipherText.ToHex());
+                expected.Add(nameof(serverResult.Result), serverResult.Result.ToHex());
                 provided.Add(nameof(suppliedResult.CipherText), suppliedResult.CipherText.ToHex());
             }
             if (!serverResult.Tag.Equals(suppliedResult.Tag))
@@ -93,5 +93,5 @@ namespace NIST.CVP.Generation.AES_XPN
                 errors.Add($"{nameof(suppliedResult.Tag)} was not present in the {nameof(TestCase)}");
             }
         }
-        }    }
+    }
 }
