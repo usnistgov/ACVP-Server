@@ -200,7 +200,7 @@ namespace NIST.CVP.Generation.Core.Tests
                 var gen = scope.Resolve<IGenerator>();
                 var result = gen.Generate(fileName);
 
-                Assert.IsTrue(result.Success, "Generator failed to complete");
+                Assert.IsTrue(result.Success, $"Generator failed to complete with status code: {result.StatusCode}, {EnumHelpers.GetEnumDescriptionFromEnum(result.StatusCode)}, {result.ErrorMessage}");
             }
 
             Assert.IsTrue(File.Exists($"{targetFolder}{TestVectorFileNames[0]}"), $"{targetFolder}{TestVectorFileNames[0]}");
@@ -220,7 +220,7 @@ namespace NIST.CVP.Generation.Core.Tests
                     showExpected: true
                 );
 
-                Assert.IsTrue(result.Success, "Validator failed to complete");
+                Assert.IsTrue(result.Success, $"Validator failed to complete with status code: {result.StatusCode}, {EnumHelpers.GetEnumDescriptionFromEnum(result.StatusCode)}, {result.ErrorMessage}");
             }
             Assert.IsTrue(File.Exists($@"{targetFolder}\validation.json"), $"{targetFolder} validation");
         }
