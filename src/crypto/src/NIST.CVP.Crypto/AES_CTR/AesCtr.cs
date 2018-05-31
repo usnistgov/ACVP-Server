@@ -154,6 +154,53 @@ namespace NIST.CVP.Crypto.AES_CTR
 
             return new SymmetricCounterResult(plainText, ivs);
         }
+
+        /// <summary>
+        /// Generates ivs used for counter testing
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="plainText"></param>
+        /// <param name="cipherText"></param>
+        /// <returns></returns>
+        public SymmetricCounterResult CounterEncrypt(BitString key, BitString plainText, BitString cipherText)
+        {
+            var numCompleteBlocks = cipherText.BitLength / _blockSize;
+            var ivs = new List<BitString>();
+            
+            for (var i = 0; i < numCompleteBlocks; i++)
+            {
+                var blockCt = cipherText.MSBSubstring(i * _blockSize, _blockSize);
+                var blockPt = plainText.MSBSubstring(i * _blockSize, _blockSize);
+
+                var completeBlockPlainText = blockPt.ConcatenateBits(BitString.Zeroes(_blockSize - blockPt.BitLength));
+                var completeBlockCipherText = blockCt.ConcatenateBits(BitString.Zeroes(_blockSize - blockCt.BitLength));
+
+                var xor = BitString.XOR(completeBlockCipherText, completeBlockPlainText);
+                var result = _aesEcb.BlockDecrypt(key, xor);
+
+                if (result.Success)
+                {
+                    ivs.Add(result.Result);
+                }
+                else
+                {
+                    return new SymmetricCounterResult(result.ErrorMessage);
+                }
+            }
+            return new SymmetricCounterResult(cipherText, ivs);
+        }
+
+        /// <summary>
+        /// Generates ivs used for counter testing
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="dipherText"></param>
+        /// <param name="plainText"></param>
+        /// <returns></returns>
+        public SymmetricCounterResult CounterDecrypt(BitString key, BitString cipherText, BitString plainText)
+        {
+            return CounterEncrypt(key, plainText, cipherText);
+        }
     }
 }
 
