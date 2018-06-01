@@ -17,8 +17,7 @@ namespace NIST.CVP.Generation.TDES_CTR
 
         public SymmetricCounterResult CompleteDeferredCrypto(TestGroup testGroup, TestCase serverTestCase, TestCase iutTestCase)
         {
-            var counter = new TestableCounter(Cipher.TDES, iutTestCase.Ivs);
-            return _algo.Encrypt(serverTestCase.Key, serverTestCase.PlainText, counter);
+            return _algo.CounterEncrypt(serverTestCase.Key, serverTestCase.PlainText, serverTestCase.CipherText);
         }
     }
 }

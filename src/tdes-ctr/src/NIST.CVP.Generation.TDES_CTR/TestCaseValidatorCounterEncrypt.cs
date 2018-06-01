@@ -33,8 +33,8 @@ namespace NIST.CVP.Generation.TDES_CTR
             ValidateResultPresent(suppliedResult, errors);
             if (errors.Count == 0)
             {
-                CheckResults(suppliedResult, errors, expected, provided);
-                ValidateIVs(suppliedResult.Ivs, errors);
+                var calculatedIVs = CheckResults(suppliedResult, errors, expected, provided);
+                ValidateIVs(calculatedIVs, errors);
             }
 
             if (errors.Count > 0)
@@ -57,27 +57,16 @@ namespace NIST.CVP.Generation.TDES_CTR
             {
                 errors.Add($"{nameof(suppliedResult.CipherText)} was not present in the {nameof(TestCase)}");
             }
-
-            if (suppliedResult.Ivs == null)
-            {
-                errors.Add($"{nameof(suppliedResult.Ivs)} was not present in the {nameof(TestCase)}");
-                return;
-            }
-
-            if (suppliedResult.Ivs.Count != _serverTestCase.PlainText.BitLength / 64)
-            {
-                errors.Add($"{nameof(suppliedResult.Ivs)} does not have the correct number of values");
-            }
         }
 
-        private void CheckResults(TestCase suppliedResult, List<string> errors, Dictionary<string, string> expected, Dictionary<string, string> provided)
+        private List<BitString> CheckResults(TestCase suppliedResult, List<string> errors, Dictionary<string, string> expected, Dictionary<string, string> provided)
         {
             var serverResult = _deferredTestCaseResolver.CompleteDeferredCrypto(_group, _serverTestCase, suppliedResult);
 
             if (!serverResult.Success)
             {
                 errors.Add($"Server unable to complete test case with error: {serverResult.ErrorMessage}");
-                return;
+                return new List<BitString>();
             }
 
             if (!serverResult.Result.Equals(suppliedResult.CipherText))
@@ -86,6 +75,8 @@ namespace NIST.CVP.Generation.TDES_CTR
                 expected.Add(nameof(serverResult.Result), serverResult.Result.ToHex());
                 provided.Add(nameof(suppliedResult.CipherText), suppliedResult.CipherText.ToHex());
             }
+
+            return serverResult.IVs;
         }
 
         private void ValidateIVs(List<BitString> ivs, List<string> errors)
