@@ -112,7 +112,6 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
 
             Assert.IsNotEmpty(((TestCase)result.TestCase).CipherText.ToString(), "CipherText");
             Assert.IsNotEmpty(((TestCase)result.TestCase).Key.ToString(), "Key");
-            Assert.IsNotEmpty(((TestCase)result.TestCase).IVs.ToString(), "IVs");
             Assert.IsNotEmpty(((TestCase)result.TestCase).PlainText.ToString(), "PlainText");
             Assert.IsTrue(result.TestCase.Deferred, "Deferred");
         }
@@ -134,7 +133,8 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
             Assert.AreEqual(1, testGroup.Tests.Count);
 
             var testCase = (TestCase) testGroup.Tests.First();
-            var decryptResult = aes_ctr.Decrypt(testCase.Key, testCase.CipherText, new TestableCounter(Cipher.AES, testCase.IVs));
+            var solveIVs = aes_ctr.CounterEncrypt(testCase.Key, testCase.PlainText, testCase.CipherText);
+            var decryptResult = aes_ctr.Decrypt(testCase.Key, testCase.CipherText, new TestableCounter(Cipher.AES, solveIVs.IVs));
             Assert.AreEqual(testCase.PlainText, decryptResult.Result);
         }
 

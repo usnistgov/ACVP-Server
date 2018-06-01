@@ -28,35 +28,6 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
             Assert.IsTrue(result.Reason.Contains($"{suppliedTestCase.PlainText} was not present"));
         }
 
-        // IVs no longer required in supplied result
-        /*[Test]
-        public void ShouldFailIfNoIVsArePresent()
-        {
-            var suppliedTestCase = GetTestCase();
-            suppliedTestCase.IVs = null;
-
-            var subject = new TestCaseValidatorCounterDecrypt(GetTestGroup(), GetTestCase(), GetDeferredResolver().Object);
-            var result = subject.Validate(suppliedTestCase);
-
-            Assert.IsNotNull(result);
-            Assert.AreEqual(Disposition.Failed, result.Result);
-            Assert.IsTrue(result.Reason.Contains($"{nameof(suppliedTestCase.IVs)} was not present"));
-        }
-
-        [Test]
-        public void ShouldFailWithIncorrectNumberOfIVs()
-        {
-            var suppliedTestCase = GetTestCase();
-            suppliedTestCase.IVs = new List<BitString>();
-
-            var subject = new TestCaseValidatorCounterDecrypt(GetTestGroup(), GetTestCase(), GetDeferredResolver().Object);
-            var result = subject.Validate(suppliedTestCase);
-
-            Assert.IsNotNull(result);
-            Assert.AreEqual(Disposition.Failed, result.Result, "Result");
-            Assert.IsTrue(result.Reason.Contains($"{nameof(suppliedTestCase.IVs)} does not have the correct number"), "Reason");
-        }*/
-
         [Test]
         public void ShouldFailIfDeferredResolverFails()
         {
@@ -82,7 +53,7 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
             var deferredMock = GetDeferredResolver();
             deferredMock
                 .Setup(s => s.CompleteDeferredCrypto(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()))
-                .Returns(new SymmetricCounterResult(GetTestCase().PlainText, GetTestCase().IVs));
+                .Returns(new SymmetricCounterResult(GetTestCase().PlainText, GetFakeIVs()));
 
             var subject = new TestCaseValidatorCounterDecrypt(GetTestGroup(), GetTestCase(), deferredMock.Object);
             var result = subject.Validate(suppliedResult);
@@ -98,7 +69,7 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
             var deferredMock = GetDeferredResolver();
             deferredMock
                 .Setup(s => s.CompleteDeferredCrypto(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()))
-                .Returns(new SymmetricCounterResult(GetTestCase().PlainText, GetTestCase().IVs));
+                .Returns(new SymmetricCounterResult(GetTestCase().PlainText, GetFakeIVs()));
 
             var subject = new TestCaseValidatorCounterDecrypt(GetTestGroup(), GetTestCase(), deferredMock.Object);
             var result = subject.Validate(GetTestCase());
@@ -117,18 +88,17 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
                 Key = new BitString(128),
                 Length = 256,
                 PlainText = new BitString(256),
-                CipherText = new BitString(256),
-                IVs = new List<BitString>
-                {
-                    new BitString(128),
-                    new BitString(128)
-                }
+                CipherText = new BitString(256)
             };
 
             var deferredMock = GetDeferredResolver();
             deferredMock
                 .Setup(s => s.CompleteDeferredCrypto(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()))
-                .Returns(new SymmetricCounterResult(suppliedTestCase.PlainText, suppliedTestCase.IVs));
+                .Returns(new SymmetricCounterResult(suppliedTestCase.PlainText, new List<BitString>
+                {
+                    new BitString(128),
+                    new BitString(128)
+                }));
 
             var subject = new TestCaseValidatorCounterDecrypt(GetTestGroup(), suppliedTestCase, deferredMock.Object);
             var result = subject.Validate(suppliedTestCase);
@@ -146,12 +116,7 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
                 Key = new BitString(128),
                 Length = 256,
                 PlainText = new BitString(256),
-                CipherText = new BitString(256),
-                IVs = new List<BitString>
-                {
-                    BitString.Ones(128),
-                    BitString.Zeroes(128)
-                }
+                CipherText = new BitString(256)
             };
 
             var group = new TestGroup
@@ -163,7 +128,11 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
             var deferredMock = GetDeferredResolver();
             deferredMock
                 .Setup(s => s.CompleteDeferredCrypto(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()))
-                .Returns(new SymmetricCounterResult(suppliedTestCase.PlainText, suppliedTestCase.IVs));
+                .Returns(new SymmetricCounterResult(suppliedTestCase.PlainText, new List<BitString>
+                {
+                    BitString.Ones(128),
+                    BitString.Zeroes(128)
+                }));
 
             var subject = new TestCaseValidatorCounterDecrypt(group, suppliedTestCase, deferredMock.Object);
             var result = subject.Validate(suppliedTestCase);
@@ -181,12 +150,7 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
                 Key = new BitString(128),
                 Length = 256,
                 PlainText = new BitString(256),
-                CipherText = new BitString(256),
-                IVs = new List<BitString>
-                {
-                    BitString.Zeroes(128),
-                    BitString.Ones(128)
-                }
+                CipherText = new BitString(256)
             };
 
             var group = new TestGroup
@@ -198,7 +162,11 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
             var deferredMock = GetDeferredResolver();
             deferredMock
                 .Setup(s => s.CompleteDeferredCrypto(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()))
-                .Returns(new SymmetricCounterResult(suppliedTestCase.PlainText, suppliedTestCase.IVs));
+                .Returns(new SymmetricCounterResult(suppliedTestCase.PlainText, new List<BitString>
+                {
+                    BitString.Zeroes(128),
+                    BitString.Ones(128)
+                }));
 
             var subject = new TestCaseValidatorCounterDecrypt(group, suppliedTestCase, deferredMock.Object);
             var result = subject.Validate(suppliedTestCase);
@@ -216,12 +184,7 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
                 Key = new BitString(128),
                 Length = 256,
                 PlainText = new BitString(256),
-                CipherText = new BitString(256),
-                IVs = new List<BitString>
-                {
-                    BitString.Zeroes(128),
-                    BitString.Ones(128)
-                }
+                CipherText = new BitString(256)
             };
 
             var group = new TestGroup
@@ -233,7 +196,11 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
             var deferredMock = GetDeferredResolver();
             deferredMock
                 .Setup(s => s.CompleteDeferredCrypto(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()))
-                .Returns(new SymmetricCounterResult(suppliedTestCase.PlainText, suppliedTestCase.IVs));
+                .Returns(new SymmetricCounterResult(suppliedTestCase.PlainText, new List<BitString>
+                {
+                    BitString.Zeroes(128),
+                    BitString.Ones(128)
+                }));
 
             var subject = new TestCaseValidatorCounterDecrypt(group, suppliedTestCase, deferredMock.Object);
             var result = subject.Validate(suppliedTestCase);
@@ -251,14 +218,7 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
                 Key = new BitString(128),
                 Length = 128 * 4,
                 PlainText = new BitString(128 * 4),
-                CipherText = new BitString(128 * 4),
-                IVs = new List<BitString>
-                {
-                    BitString.Zeroes(128),
-                    BitString.Zeroes(64).ConcatenateBits(BitString.Ones(64)),
-                    BitString.Zeroes(100).ConcatenateBits(BitString.Ones(28)),
-                    BitString.Ones(128)
-                }
+                CipherText = new BitString(128 * 4)
             };
 
             var group = new TestGroup
@@ -270,7 +230,13 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
             var deferredMock = GetDeferredResolver();
             deferredMock
                 .Setup(s => s.CompleteDeferredCrypto(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()))
-                .Returns(new SymmetricCounterResult(suppliedTestCase.PlainText, suppliedTestCase.IVs));
+                .Returns(new SymmetricCounterResult(suppliedTestCase.PlainText, new List<BitString>
+                {
+                    BitString.Zeroes(128),
+                    BitString.Zeroes(64).ConcatenateBits(BitString.Ones(64)),
+                    BitString.Zeroes(100).ConcatenateBits(BitString.Ones(28)),
+                    BitString.Ones(128)
+                }));
 
             var subject = new TestCaseValidatorCounterDecrypt(group, suppliedTestCase, deferredMock.Object);
             var result = subject.Validate(suppliedTestCase);
@@ -288,16 +254,7 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
                 Key = new BitString(128),
                 Length = 128 * 6,
                 PlainText = new BitString(128 * 6),
-                CipherText = new BitString(128 * 6),
-                IVs = new List<BitString>
-                {
-                    BitString.Zeroes(120).ConcatenateBits(BitString.Ones(8)),
-                    BitString.Zeroes(100).ConcatenateBits(BitString.Ones(28)),
-                    BitString.Zeroes(64).ConcatenateBits(BitString.Ones(64)),
-                    BitString.Ones(128),
-                    BitString.Zeroes(128),
-                    BitString.Zeroes(127).ConcatenateBits(BitString.Ones(1))
-                }
+                CipherText = new BitString(128 * 6)
             };
 
             var group = new TestGroup
@@ -309,7 +266,15 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
             var deferredMock = GetDeferredResolver();
             deferredMock
                 .Setup(s => s.CompleteDeferredCrypto(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()))
-                .Returns(new SymmetricCounterResult(suppliedTestCase.PlainText, suppliedTestCase.IVs));
+                .Returns(new SymmetricCounterResult(suppliedTestCase.PlainText, new List<BitString>
+                {
+                    BitString.Zeroes(120).ConcatenateBits(BitString.Ones(8)),
+                    BitString.Zeroes(100).ConcatenateBits(BitString.Ones(28)),
+                    BitString.Zeroes(64).ConcatenateBits(BitString.Ones(64)),
+                    BitString.Ones(128),
+                    BitString.Zeroes(128),
+                    BitString.Zeroes(127).ConcatenateBits(BitString.Ones(1))
+                }));
 
             var subject = new TestCaseValidatorCounterDecrypt(group, suppliedTestCase, deferredMock.Object);
             var result = subject.Validate(suppliedTestCase);
@@ -326,7 +291,7 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
             var deferredMock = GetDeferredResolver();
             deferredMock
                 .Setup(s => s.CompleteDeferredCrypto(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()))
-                .Returns(new SymmetricCounterResult(goodTestCase.PlainText, goodTestCase.IVs));
+                .Returns(new SymmetricCounterResult(goodTestCase.PlainText, GetFakeIVs()));
 
             var subject = new TestCaseValidatorCounterDecrypt(GetTestGroup(), goodTestCase, deferredMock.Object);
             var result = subject.Validate(goodTestCase);
@@ -342,12 +307,16 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
                 PlainText = new BitString(128),
                 Key = new BitString(128),
                 Length = 128,
-                IVs = new List<BitString>
-                {
-                    new BitString(128)
-                },
                 CipherText = new BitString(128)
             };
+        }
+
+        private List<BitString> GetFakeIVs()
+        {
+            return new List<BitString>
+                {
+                    new BitString(128)
+                };
         }
 
         private Mock<IDeferredTestCaseResolver<TestGroup, TestCase, SymmetricCounterResult>> GetDeferredResolver()

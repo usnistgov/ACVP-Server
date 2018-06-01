@@ -19,8 +19,6 @@ namespace NIST.CVP.Generation.AES_CTR
         public BitString CipherText { get; set; }
         [JsonProperty(PropertyName = "iv")]
         public BitString IV { get; set; }
-        [JsonProperty(PropertyName = "ivs")]
-        public List<BitString> IVs { get; set; }
         [JsonProperty(PropertyName = "key")]
         public BitString Key { get; set; }
         public bool SetString(string name, string value)
