@@ -30,8 +30,8 @@ namespace NIST.CVP.Generation.AES_CTR
             ValidateResultPresent(suppliedResult, errors);
             if (errors.Count == 0)
             {
-                CheckResults(suppliedResult, errors, expected, provided);
-                ValidateIVs(suppliedResult.IVs, errors);
+                var calculatedIVs = CheckResults(suppliedResult, errors, expected, provided);
+                ValidateIVs(calculatedIVs, errors);
             }
 
             if (errors.Count > 0)
@@ -55,7 +55,8 @@ namespace NIST.CVP.Generation.AES_CTR
                 errors.Add($"{nameof(suppliedResult.PlainText)} was not present in the {nameof(TestCase)}");
             }
 
-            if (suppliedResult.IVs == null)
+            // no longer necessary
+            /*if (suppliedResult.IVs == null)
             {
                 errors.Add($"{nameof(suppliedResult.IVs)} was not present in the {nameof(TestCase)}");
                 return;
@@ -64,17 +65,17 @@ namespace NIST.CVP.Generation.AES_CTR
             if (suppliedResult.IVs.Count != _serverTestCase.CipherText.BitLength / 128)
             {
                 errors.Add($"{nameof(suppliedResult.IVs)} does not have the correct number of values");
-            }
+            }*/
         }
 
-        private void CheckResults(TestCase suppliedResult, List<string> errors, Dictionary<string, string> expected, Dictionary<string, string> provided)
+        private List<BitString> CheckResults(TestCase suppliedResult, List<string> errors, Dictionary<string, string> expected, Dictionary<string, string> provided)
         {
             var serverResult = _deferredTestCaseResolver.CompleteDeferredCrypto(_group, _serverTestCase, suppliedResult);
 
             if (!serverResult.Success)
             {
                 errors.Add($"Server unable to complete test case with error: {serverResult.ErrorMessage}");
-                return;
+                return new List<BitString>();
             }
 
             if (!serverResult.Result.Equals(suppliedResult.PlainText))
@@ -83,6 +84,8 @@ namespace NIST.CVP.Generation.AES_CTR
                 expected.Add(nameof(_serverTestCase.PlainText), _serverTestCase.PlainText.ToHex());
                 provided.Add(nameof(suppliedResult.PlainText), suppliedResult.PlainText.ToHex());
             }
+
+            return serverResult.IVs;
         }
 
         private void ValidateIVs(List<BitString> ivs, List<string> errors)

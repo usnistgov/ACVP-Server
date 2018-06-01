@@ -199,7 +199,8 @@ namespace NIST.CVP.Crypto.AES_CTR
         /// <returns></returns>
         public SymmetricCounterResult CounterDecrypt(BitString key, BitString cipherText, BitString plainText)
         {
-            return CounterEncrypt(key, plainText, cipherText);
+            var result = CounterEncrypt(key, plainText, cipherText);
+            return new SymmetricCounterResult(plainText, result.IVs);
         }
     }
 }

@@ -28,7 +28,8 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
             Assert.IsTrue(result.Reason.Contains($"{suppliedTestCase.PlainText} was not present"));
         }
 
-        [Test]
+        // IVs no longer required in supplied result
+        /*[Test]
         public void ShouldFailIfNoIVsArePresent()
         {
             var suppliedTestCase = GetTestCase();
@@ -54,7 +55,7 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
             Assert.IsNotNull(result);
             Assert.AreEqual(Disposition.Failed, result.Result, "Result");
             Assert.IsTrue(result.Reason.Contains($"{nameof(suppliedTestCase.IVs)} does not have the correct number"), "Reason");
-        }
+        }*/
 
         [Test]
         public void ShouldFailIfDeferredResolverFails()
