@@ -21,7 +21,6 @@ namespace NIST.CVP.Generation.TDES_CTR
         public BitString PlainText { get; set; }
         public BitString CipherText { get; set; }
         public BitString Iv { get; set; }
-        public List<BitString> Ivs { get; set; }
 
         [JsonIgnore]
         public BitString Key { get; set; }
