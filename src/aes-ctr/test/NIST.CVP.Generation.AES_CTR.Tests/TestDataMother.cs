@@ -50,12 +50,6 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
 
                     if (testType.Equals("counter", StringComparison.OrdinalIgnoreCase))
                     {
-                        tc.IVs = new List<BitString>
-                        {
-                            new BitString("01"),
-                            new BitString("02"),
-                            new BitString("03")
-                        };
                         tc.IV = null;
                     }
                 }

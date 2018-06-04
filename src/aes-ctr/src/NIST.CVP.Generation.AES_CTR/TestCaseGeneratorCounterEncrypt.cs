@@ -87,7 +87,6 @@ namespace NIST.CVP.Generation.AES_CTR
             }
 
             testCase.CipherText = encryptionResult.Result;
-            testCase.IVs = encryptionResult.IVs;
             return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
         }
 

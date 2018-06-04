@@ -87,7 +87,6 @@ namespace NIST.CVP.Generation.TDES_CTR
             }
 
             testCase.PlainText = decryptionResult.Result;
-            testCase.Ivs = decryptionResult.IVs;
             return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
         }
 

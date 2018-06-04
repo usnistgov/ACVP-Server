@@ -16,8 +16,7 @@ namespace NIST.CVP.Generation.AES_CTR
 
         public SymmetricCounterResult CompleteDeferredCrypto(TestGroup testGroup, TestCase serverTestCase, TestCase iutTestCase)
         {
-            var counter = new TestableCounter(Crypto.Common.Symmetric.CTR.Enums.Cipher.AES, iutTestCase.IVs);
-            return _algo.Decrypt(serverTestCase.Key, serverTestCase.CipherText, counter);
+            return _algo.CounterDecrypt(serverTestCase.Key, serverTestCase.CipherText, iutTestCase.PlainText);
         }
     }
 }

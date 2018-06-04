@@ -24,14 +24,15 @@ namespace NIST.CVP.Generation.AES_CTR
         public TestCaseValidation Validate(TestCase suppliedResult, bool showExpected = false)
         {
             var errors = new List<string>();
+            var calculatedIVs = new List<BitString>();
             var expected = new Dictionary<string, string>();
             var provided = new Dictionary<string, string>();
 
             ValidateResultPresent(suppliedResult, errors);
             if (errors.Count == 0)
             {
-                CheckResults(suppliedResult, errors, expected, provided);
-                ValidateIVs(suppliedResult.IVs, errors);
+                CheckResults(suppliedResult, errors, calculatedIVs, expected, provided);
+                ValidateIVs(calculatedIVs, errors);
             }
 
             if (errors.Count > 0)
@@ -41,8 +42,8 @@ namespace NIST.CVP.Generation.AES_CTR
                     TestCaseId = suppliedResult.TestCaseId,
                     Result = Core.Enums.Disposition.Failed,
                     Reason = string.Join("; ", errors),
-                    Expected = expected.Count != 0 && showExpected ? expected : null,
-                    Provided = provided.Count != 0 && showExpected ? provided : null
+                    Expected = showExpected ? expected : null,
+                    Provided = showExpected ? provided : null
                 };
             }
             return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = Core.Enums.Disposition.Passed };
@@ -54,35 +55,18 @@ namespace NIST.CVP.Generation.AES_CTR
             {
                 errors.Add($"{nameof(suppliedResult.CipherText)} was not present in the {nameof(TestCase)}");
             }
-
-            if (suppliedResult.IVs == null)
-            {
-                errors.Add($"{nameof(suppliedResult.IVs)} was not present in the {nameof(TestCase)}");
-                return;
-            }
-
-            if (suppliedResult.IVs.Count != _serverTestCase.PlainText.BitLength / 128)
-            {
-                errors.Add($"{nameof(suppliedResult.IVs)} does not have the correct number of values");
-            }
         }
 
-        private void CheckResults(TestCase suppliedResult, List<string> errors, Dictionary<string, string> expected, Dictionary<string, string> provided)
+        private void CheckResults(TestCase suppliedResult, List<string> errors, List<BitString> calculatedIVs, Dictionary<string, string> expected, Dictionary<string, string> provided)
         {
             var serverResult = _deferredTestCaseResolver.CompleteDeferredCrypto(_group, _serverTestCase, suppliedResult);
 
             if (!serverResult.Success)
             {
                 errors.Add($"Server unable to complete test case with error: {serverResult.ErrorMessage}");
-                return;
             }
-
-            if (!serverResult.Result.Equals(suppliedResult.CipherText))
-            {
-                errors.Add("Cipher Text does not match");
-                expected.Add(nameof(_serverTestCase.CipherText), _serverTestCase.CipherText.ToHex());
-                provided.Add(nameof(suppliedResult.CipherText), suppliedResult.CipherText.ToHex());
-            }
+            
+            calculatedIVs = serverResult.IVs;
         }
 
         private void ValidateIVs(List<BitString> ivs, List<string> errors)
