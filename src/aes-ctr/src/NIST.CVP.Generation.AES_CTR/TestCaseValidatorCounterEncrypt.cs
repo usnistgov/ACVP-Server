@@ -24,13 +24,14 @@ namespace NIST.CVP.Generation.AES_CTR
         public TestCaseValidation Validate(TestCase suppliedResult, bool showExpected = false)
         {
             var errors = new List<string>();
+            var calculatedIVs = new List<BitString>();
             var expected = new Dictionary<string, string>();
             var provided = new Dictionary<string, string>();
 
             ValidateResultPresent(suppliedResult, errors);
             if (errors.Count == 0)
             {
-                var calculatedIVs = CheckResults(suppliedResult, errors, expected, provided);
+                CheckResults(suppliedResult, errors, calculatedIVs, expected, provided);
                 ValidateIVs(calculatedIVs, errors);
             }
 
@@ -56,17 +57,16 @@ namespace NIST.CVP.Generation.AES_CTR
             }
         }
 
-        private List<BitString> CheckResults(TestCase suppliedResult, List<string> errors, Dictionary<string, string> expected, Dictionary<string, string> provided)
+        private void CheckResults(TestCase suppliedResult, List<string> errors, List<BitString> calculatedIVs, Dictionary<string, string> expected, Dictionary<string, string> provided)
         {
             var serverResult = _deferredTestCaseResolver.CompleteDeferredCrypto(_group, _serverTestCase, suppliedResult);
 
             if (!serverResult.Success)
             {
                 errors.Add($"Server unable to complete test case with error: {serverResult.ErrorMessage}");
-                return new List<BitString>();
             }
             
-            return serverResult.IVs;
+            calculatedIVs = serverResult.IVs;
         }
 
         private void ValidateIVs(List<BitString> ivs, List<string> errors)
