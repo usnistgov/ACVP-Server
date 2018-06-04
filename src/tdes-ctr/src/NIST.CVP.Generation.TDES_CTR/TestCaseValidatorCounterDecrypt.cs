@@ -45,8 +45,8 @@ namespace NIST.CVP.Generation.TDES_CTR
                     TestCaseId = suppliedResult.TestCaseId, 
                     Result = Core.Enums.Disposition.Failed, 
                     Reason = string.Join("; ", errors),
-                    Expected = expected.Count != 0 && showExpected ? expected : null,
-                    Provided = provided.Count != 0 && showExpected ? provided : null
+                    Expected = showExpected ? expected : null,
+                    Provided = showExpected ? provided : null
                 };
             }
             return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = Core.Enums.Disposition.Passed };
@@ -68,13 +68,6 @@ namespace NIST.CVP.Generation.TDES_CTR
             {
                 errors.Add($"Server unable to complete test case with error: {serverResult.ErrorMessage}");
                 return new List<BitString>();
-            }
-
-            if (!serverResult.Result.Equals(suppliedResult.PlainText))
-            {
-                errors.Add("Plain Text does not match");
-                expected.Add(nameof(serverResult.Result), serverResult.Result.ToHex());
-                provided.Add(nameof(suppliedResult.PlainText), suppliedResult.PlainText.ToHex());
             }
 
             return serverResult.IVs;

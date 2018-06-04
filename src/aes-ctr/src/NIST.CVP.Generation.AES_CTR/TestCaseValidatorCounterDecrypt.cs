@@ -41,8 +41,8 @@ namespace NIST.CVP.Generation.AES_CTR
                     TestCaseId = suppliedResult.TestCaseId,
                     Result = Core.Enums.Disposition.Failed,
                     Reason = string.Join("; ", errors),
-                    Expected = expected.Count != 0 && showExpected ? expected : null,
-                    Provided = provided.Count != 0 && showExpected ? provided : null
+                    Expected = showExpected ? expected : null,
+                    Provided = showExpected ? provided : null
                 };
             }
             return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = Core.Enums.Disposition.Passed };
@@ -54,18 +54,6 @@ namespace NIST.CVP.Generation.AES_CTR
             {
                 errors.Add($"{nameof(suppliedResult.PlainText)} was not present in the {nameof(TestCase)}");
             }
-
-            // no longer necessary
-            /*if (suppliedResult.IVs == null)
-            {
-                errors.Add($"{nameof(suppliedResult.IVs)} was not present in the {nameof(TestCase)}");
-                return;
-            }
-
-            if (suppliedResult.IVs.Count != _serverTestCase.CipherText.BitLength / 128)
-            {
-                errors.Add($"{nameof(suppliedResult.IVs)} does not have the correct number of values");
-            }*/
         }
 
         private List<BitString> CheckResults(TestCase suppliedResult, List<string> errors, Dictionary<string, string> expected, Dictionary<string, string> provided)
@@ -76,13 +64,6 @@ namespace NIST.CVP.Generation.AES_CTR
             {
                 errors.Add($"Server unable to complete test case with error: {serverResult.ErrorMessage}");
                 return new List<BitString>();
-            }
-
-            if (!serverResult.Result.Equals(suppliedResult.PlainText))
-            {
-                errors.Add("Plain Text does not match");
-                expected.Add(nameof(_serverTestCase.PlainText), _serverTestCase.PlainText.ToHex());
-                provided.Add(nameof(suppliedResult.PlainText), suppliedResult.PlainText.ToHex());
             }
 
             return serverResult.IVs;

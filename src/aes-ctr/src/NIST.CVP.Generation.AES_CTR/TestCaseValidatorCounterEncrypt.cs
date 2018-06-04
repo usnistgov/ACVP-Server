@@ -41,8 +41,8 @@ namespace NIST.CVP.Generation.AES_CTR
                     TestCaseId = suppliedResult.TestCaseId,
                     Result = Core.Enums.Disposition.Failed,
                     Reason = string.Join("; ", errors),
-                    Expected = expected.Count != 0 && showExpected ? expected : null,
-                    Provided = provided.Count != 0 && showExpected ? provided : null
+                    Expected = showExpected ? expected : null,
+                    Provided = showExpected ? provided : null
                 };
             }
             return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = Core.Enums.Disposition.Passed };
@@ -54,18 +54,6 @@ namespace NIST.CVP.Generation.AES_CTR
             {
                 errors.Add($"{nameof(suppliedResult.CipherText)} was not present in the {nameof(TestCase)}");
             }
-
-            // no longer required
-            /*if (suppliedResult.IVs == null)
-            {
-                errors.Add($"{nameof(suppliedResult.IVs)} was not present in the {nameof(TestCase)}");
-                return;
-            }
-
-            if (suppliedResult.IVs.Count != _serverTestCase.PlainText.BitLength / 128)
-            {
-                errors.Add($"{nameof(suppliedResult.IVs)} does not have the correct number of values");
-            }*/
         }
 
         private List<BitString> CheckResults(TestCase suppliedResult, List<string> errors, Dictionary<string, string> expected, Dictionary<string, string> provided)
@@ -77,14 +65,7 @@ namespace NIST.CVP.Generation.AES_CTR
                 errors.Add($"Server unable to complete test case with error: {serverResult.ErrorMessage}");
                 return new List<BitString>();
             }
-
-            if (!serverResult.Result.Equals(suppliedResult.CipherText))
-            {
-                errors.Add("Cipher Text does not match");
-                expected.Add(nameof(_serverTestCase.CipherText), _serverTestCase.CipherText.ToHex());
-                provided.Add(nameof(suppliedResult.CipherText), suppliedResult.CipherText.ToHex());
-            }
-
+            
             return serverResult.IVs;
         }
 

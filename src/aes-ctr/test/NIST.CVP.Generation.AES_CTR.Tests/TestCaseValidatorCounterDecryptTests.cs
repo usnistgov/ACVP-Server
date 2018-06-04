@@ -45,25 +45,6 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
         }
 
         [Test]
-        public void ShouldFailIfPlainTextDoesNotMatch()
-        {
-            var suppliedResult = GetTestCase();
-            suppliedResult.PlainText = new BitString("BEEFFACE");
-
-            var deferredMock = GetDeferredResolver();
-            deferredMock
-                .Setup(s => s.CompleteDeferredCrypto(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()))
-                .Returns(new SymmetricCounterResult(GetTestCase().PlainText, GetFakeIVs()));
-
-            var subject = new TestCaseValidatorCounterDecrypt(GetTestGroup(), GetTestCase(), deferredMock.Object);
-            var result = subject.Validate(suppliedResult);
-
-            Assert.IsNotNull(result);
-            Assert.AreEqual(Disposition.Failed, result.Result);
-            Assert.IsTrue(result.Reason.Contains("Plain Text does not match"));
-        }
-
-        [Test]
         public void ShouldRunDeferredResolverIfAllComponentsAreInPlace()
         {
             var deferredMock = GetDeferredResolver();

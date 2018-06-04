@@ -17,7 +17,7 @@ namespace NIST.CVP.Generation.AES_CTR
 
         public SymmetricCounterResult CompleteDeferredCrypto(TestGroup testGroup, TestCase serverTestCase, TestCase iutTestCase)
         {
-            return _algo.CounterEncrypt(serverTestCase.Key, serverTestCase.PlainText, serverTestCase.CipherText);
+            return _algo.CounterEncrypt(serverTestCase.Key, serverTestCase.PlainText, iutTestCase.CipherText);
         }
 
     }
