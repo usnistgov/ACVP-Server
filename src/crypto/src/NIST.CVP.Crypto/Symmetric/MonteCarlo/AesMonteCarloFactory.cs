@@ -27,7 +27,7 @@ namespace NIST.CVP.Crypto.Symmetric.MonteCarlo
             switch (mode)
             {
                 case BlockCipherModesOfOperation.Ecb:
-                    throw new NotImplementedException();
+                    return new MonteCarloAesEcb(_engineFactory, _modeFactory, keyMaker);
                 case BlockCipherModesOfOperation.Cbc:
                     return new MonteCarloAesCbc(_engineFactory, _modeFactory, keyMaker);
                 case BlockCipherModesOfOperation.CfbBit:
