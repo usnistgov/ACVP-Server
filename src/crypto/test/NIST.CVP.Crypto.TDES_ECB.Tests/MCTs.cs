@@ -1,5 +1,11 @@
-﻿using NIST.CVP.Crypto.Common.Symmetric.TDES;
-using NIST.CVP.Crypto.TDES;
+﻿using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Common.Symmetric.Engines;
+using NIST.CVP.Crypto.Common.Symmetric.Enums;
+using NIST.CVP.Crypto.Common.Symmetric.MonteCarlo;
+using NIST.CVP.Crypto.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Symmetric.Engines;
+using NIST.CVP.Crypto.Symmetric.MonteCarlo;
+using NIST.CVP.Crypto.TDES_ECB;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -9,15 +15,14 @@ namespace NIST.CVP.Crypto.TDES_ECB.Tests
     [TestFixture, LongCryptoTest]
     public class MCTs
     {
-
-        private class TestTDesEcbMct : TDES_ECB_MCT
+        private class TestTDesEcbMct : MonteCarloTdesEcb
         {
-            public TestTDesEcbMct(ITDES_ECB algo, IMonteCarloKeyMaker keyMaker) 
-                : base(algo, keyMaker) { }
+            public TestTDesEcbMct(IBlockCipherEngineFactory engineFactory, IModeBlockCipherFactory modeFactory, IMonteCarloKeyMakerTdes keyMaker)
+                : base(engineFactory, modeFactory, keyMaker) { }
 
             private int _numberOfCases = 1;
 
-            protected override int NumberOfCases { get { return _numberOfCases; } }
+            protected override int NumberOfCases => _numberOfCases;
 
             public void SetNumberOfCases(int numberOfCases)
             {
@@ -25,7 +30,11 @@ namespace NIST.CVP.Crypto.TDES_ECB.Tests
             }
         }
 
-        TestTDesEcbMct _subject = new TestTDesEcbMct(new TDES_ECB(), new MonteCarloKeyMaker());
+        private readonly TestTDesEcbMct _subject = new TestTDesEcbMct(
+            new BlockCipherEngineFactory(),
+            new ModeBlockCipherFactory(),
+            new MonteCarloKeyMaker()
+        );
 
         [Test]
         [TestCase("6d087a8c917fbc163786e63d8f91d3a24c4a9132643e4f75", "df1ebc023e0f0225", 1, "6d087a8c917fbc163786e63d8f91d3a24c4a9132643e4f75", "cac1f53d6a69e2af")]
@@ -41,7 +50,13 @@ namespace NIST.CVP.Crypto.TDES_ECB.Tests
             BitString expectedFinalKey = new BitString(expectedFinalKeyHex);
             BitString expectedFinalCt = new BitString(expectedFinalCtHex);
 
-            var result = _subject.MCTEncrypt(key, pt);
+            var param = new ModeBlockCipherParameters(
+                BlockCipherDirections.Encrypt,
+                null,
+                key,
+                pt
+            );
+            var result = _subject.ProcessMonteCarloTest(param);
 
             Assert.AreEqual(expectedFinalKey.ToHex(), result.Response[result.Response.Count - 1].Keys.ToHex(), nameof(expectedFinalKey));
             Assert.AreEqual(expectedFinalCt.ToHex(), result.Response[result.Response.Count - 1].CipherText.ToHex(), nameof(expectedFinalCtHex));
@@ -61,7 +76,13 @@ namespace NIST.CVP.Crypto.TDES_ECB.Tests
             BitString expectedFinalKey = new BitString(expectedFinalKeyHex);
             BitString expectedFinalPt = new BitString(expectedFinalPtHex);
 
-            var result = _subject.MCTDecrypt(key, ct);
+            var param = new ModeBlockCipherParameters(
+                BlockCipherDirections.Decrypt,
+                null,
+                key,
+                ct
+            );
+            var result = _subject.ProcessMonteCarloTest(param);
 
             Assert.AreEqual(expectedFinalKey.ToHex(), result.Response[result.Response.Count - 1].Keys.ToHex(), nameof(expectedFinalKey));
             Assert.AreEqual(expectedFinalPt.ToHex(), result.Response[result.Response.Count - 1].PlainText.ToHex(), nameof(expectedFinalPtHex));
