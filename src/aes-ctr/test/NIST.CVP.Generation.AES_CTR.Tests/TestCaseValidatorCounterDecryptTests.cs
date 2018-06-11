@@ -45,6 +45,47 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
         }
 
         [Test]
+        public void ShouldFailIfPlainTextDoesNotMatch()
+        {
+            var suppliedResult = GetTestCase();
+            suppliedResult.PlainText = new BitString("BEEFFACEBEEFFACEBEEFFACEBEEFFACE");
+
+            var deferredMock = GetDeferredResolver();
+            deferredMock
+                .Setup(s => s.CompleteDeferredCrypto(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()))
+                .Returns(new SymmetricCounterResult(GetTestCase().PlainText, GetFakeIVs()));
+
+            var subject = new TestCaseValidatorCounterDecrypt(GetTestGroup(), GetTestCase(), deferredMock.Object);
+            var result = subject.Validate(suppliedResult);
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(Disposition.Failed, result.Result);
+            Assert.IsTrue(result.Reason.Contains("Plain Text does not match"));
+        }
+
+        [Test]
+        public void ShouldReportSuccessOnPlainTextFirstBlockMatch()
+        {
+            var suppliedResult = GetTestCase();
+            suppliedResult.CipherText = new BitString("0000000000000000000000000000000000000000000000000000000000000000");
+            suppliedResult.PlainText = new BitString("00000000000000000000000000000000BEEFFACEBEEFFACEBEEFFACEBEEFFACE");
+            var fakeTestCase = GetTestCase();
+            fakeTestCase.CipherText = new BitString("0000000000000000000000000000000000000000000000000000000000000000");
+            fakeTestCase.PlainText = new BitString("0000000000000000000000000000000000000000000000000000000000000000");
+
+            var deferredMock = GetDeferredResolver();
+            deferredMock
+                .Setup(s => s.CompleteDeferredCrypto(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()))
+                .Returns(new SymmetricCounterResult(fakeTestCase.PlainText, GetFakeIVs()));
+
+            var subject = new TestCaseValidatorCounterDecrypt(GetTestGroup(), fakeTestCase, deferredMock.Object);
+            var result = subject.Validate(suppliedResult);
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(Disposition.Passed, result.Result, result.Reason);
+        }
+
+        [Test]
         public void ShouldRunDeferredResolverIfAllComponentsAreInPlace()
         {
             var deferredMock = GetDeferredResolver();

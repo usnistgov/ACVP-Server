@@ -70,6 +70,14 @@ namespace NIST.CVP.Generation.TDES_CTR
                 return new List<BitString>();
             }
 
+            // only check first block
+            if (!serverResult.Result.GetMostSignificantBits(64).Equals(suppliedResult.PlainText.GetMostSignificantBits(64)))     // 64 is block size
+            {
+                errors.Add("Plain Text does not match");
+                expected.Add(nameof(serverResult.Result), serverResult.Result.ToHex());
+                provided.Add(nameof(suppliedResult.PlainText), suppliedResult.PlainText.ToHex());
+            }
+
             return serverResult.IVs;
         }
 
