@@ -11,22 +11,26 @@ using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
-namespace NIST.CVP.Crypto.AES_OFB.Tests
+namespace NIST.CVP.Crypto.AES_CFB1.Tests
 {
-    [TestFixture,  FastCryptoTest]
-    public class AES_OFB_MCTTests
+    [TestFixture, FastCryptoTest]
+    public class AES_CFB1_MCTTests
     {
         private Mock<IBlockCipherEngineFactory> _engineFactory;
         private Mock<IBlockCipherEngine> _engine;
         private Mock<IModeBlockCipher<SymmetricCipherResult>> _algo;
         private Mock<IModeBlockCipherFactory> _modeFactory;
         private Mock<IMonteCarloKeyMakerAes> _keyMaker;
-        private MonteCarloAesOfb _subject;
+        private MonteCarloAesCfb _subject;
 
         [SetUp]
         public void Setup()
         {
             _engine = new Mock<IBlockCipherEngine>();
+            _engine
+                .Setup(s => s.BlockSizeBits)
+                .Returns(128);
+
             _engineFactory = new Mock<IBlockCipherEngineFactory>();
             _engineFactory
                 .Setup(s => s.GetSymmetricCipherPrimitive(It.IsAny<BlockCipherEngines>()))
@@ -44,7 +48,13 @@ namespace NIST.CVP.Crypto.AES_OFB.Tests
                 .Setup(s => s.MixKeys(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>()))
                 .Returns(() => new BitString(128));
 
-            _subject = new MonteCarloAesOfb(_engineFactory.Object, _modeFactory.Object, _keyMaker.Object);
+            _subject = new MonteCarloAesCfb(
+                _engineFactory.Object, 
+                _modeFactory.Object, 
+                _keyMaker.Object, 
+                1, 
+                BlockCipherModesOfOperation.CfbBit
+            );
         }
 
         [Test]
@@ -84,7 +94,7 @@ namespace NIST.CVP.Crypto.AES_OFB.Tests
         [TestCase(128, BlockCipherDirections.Decrypt)]
         [TestCase(192, BlockCipherDirections.Decrypt)]
         [TestCase(256, BlockCipherDirections.Decrypt)]
-        public void ShouldReturnEncrypResponseWith100Count(int keySize, BlockCipherDirections direction)
+        public void ShouldReturnEncryptResponseWith100Count(int keySize, BlockCipherDirections direction)
         {
             BitString iv = new BitString(128);
             BitString key = new BitString(keySize);

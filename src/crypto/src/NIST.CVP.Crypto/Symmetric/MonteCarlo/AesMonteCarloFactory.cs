@@ -37,7 +37,7 @@ namespace NIST.CVP.Crypto.Symmetric.MonteCarlo
                 case BlockCipherModesOfOperation.CfbBlock:
                     return new MonteCarloAesCfb(_engineFactory, _modeFactory, keyMaker, 128, BlockCipherModesOfOperation.CfbBlock);
                 case BlockCipherModesOfOperation.Ofb:
-                    throw new NotImplementedException();
+                    return new MonteCarloAesOfb(_engineFactory, _modeFactory, keyMaker);
                 case BlockCipherModesOfOperation.Cbci:
                 case BlockCipherModesOfOperation.CbcMac:
                 case BlockCipherModesOfOperation.Ccm:
