@@ -68,7 +68,15 @@ namespace NIST.CVP.Generation.TDES_CTR
                 errors.Add($"Server unable to complete test case with error: {serverResult.ErrorMessage}");
                 return new List<BitString>();
             }
-            
+
+            // only check first block
+            if (!serverResult.Result.GetMostSignificantBits(64).Equals(suppliedResult.CipherText.GetMostSignificantBits(64)))     // 64 is block size
+            {
+                errors.Add("Cipher Text does not match");
+                expected.Add(nameof(serverResult.Result), serverResult.Result.ToHex());
+                provided.Add(nameof(suppliedResult.CipherText), suppliedResult.CipherText.ToHex());
+            }
+
             return serverResult.IVs;
         }
 

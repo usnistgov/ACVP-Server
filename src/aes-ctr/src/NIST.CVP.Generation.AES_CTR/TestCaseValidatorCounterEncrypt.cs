@@ -65,7 +65,15 @@ namespace NIST.CVP.Generation.AES_CTR
                 errors.Add($"Server unable to complete test case with error: {serverResult.ErrorMessage}");
                 return new List<BitString>();
             }
-            
+
+            // only check first block
+            if (!serverResult.Result.GetMostSignificantBits(128).Equals(suppliedResult.CipherText.GetMostSignificantBits(128)))     // 128 is block size
+            {
+                errors.Add("Cipher Text does not match");
+                expected.Add(nameof(_serverTestCase.CipherText), _serverTestCase.CipherText.ToHex());
+                provided.Add(nameof(suppliedResult.CipherText), suppliedResult.CipherText.ToHex());
+            }
+
             return serverResult.IVs;
         }
 

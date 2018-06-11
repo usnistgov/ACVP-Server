@@ -66,6 +66,14 @@ namespace NIST.CVP.Generation.AES_CTR
                 return new List<BitString>();
             }
 
+            // only check first block
+            if (!serverResult.Result.GetMostSignificantBits(128).Equals(suppliedResult.PlainText.GetMostSignificantBits(128)))     // 128 is block size
+            {
+                errors.Add("Plain Text does not match");
+                expected.Add(nameof(_serverTestCase.PlainText), _serverTestCase.PlainText.ToHex());
+                provided.Add(nameof(suppliedResult.PlainText), suppliedResult.PlainText.ToHex());
+            }
+
             return serverResult.IVs;
         }
 
