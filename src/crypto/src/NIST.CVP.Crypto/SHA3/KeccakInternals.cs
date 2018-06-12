@@ -101,7 +101,7 @@ namespace NIST.CVP.Crypto.SHA3
         /// <param name="message">Message to hash</param>
         /// <param name="digestSize">Size of the digest to return</param>
         /// <param name="capacity">Capacity of the function</param>
-        /// <param name="XOF">Extendable output function? True for SHAKE, false for SHA</param>
+        /// <param name="outputType">XOF for SHAKE, CONSTANT for SHA3, cXOF for cSHAKE</param>
         /// <returns>Message digest as BitString</returns>
         public static BitString Keccak(BitString message, int digestSize, int capacity, Output outputType)
         {
@@ -126,7 +126,9 @@ namespace NIST.CVP.Crypto.SHA3
         /// <param name="message">Message to hash</param>
         /// <param name="digestSize">Size of the digest to return</param>
         /// <param name="capacity">Capacity of the function</param>
-        /// <param name="XOF">Extendable output function? True for SHAKE, false for SHA</param>
+        /// <param name="outputType">XOF for SHAKE, CONSTANT for SHA3, cXOF for cSHAKE</param>
+        /// <param name="functionName">BitString representation of function name for cSHAKE</param>
+        /// <param name="customization">Customization string as a BitString. Used for cSHAKE</param>
         /// <returns>Message digest as BitString</returns>
         public static BitString Keccak(BitString message, int digestSize, int capacity, Output outputType, BitString functionName, BitString customization)
         {
@@ -143,13 +145,13 @@ namespace NIST.CVP.Crypto.SHA3
             {
                 return Keccak(message, digestSize, capacity, outputType);
             }
-
-            Console.Write("Encoded N: " + encode_string(functionName).ToHex());
-            Console.Write("\nEncoded S: " + encode_string(customization).ToHex());
-            var bytepad = Bytepad(BitString.ConcatenateBits(encode_string(functionName), encode_string(customization)), new BitString("A8")); //*** Change later to allow for variable
-            Console.Write("\nBytepad: " + bytepad.ToHex());
+            
+            var bytepad = Bytepad(BitString.ConcatenateBits(encode_string(functionName), encode_string(customization)), new BitString("A8")); //*** Change later to allow for variable between 128 and 256
+            
             message = BitString.ConcatenateBits(bytepad, message);
+
             message = BitString.ConcatenateBits(message, BitString.Zeroes(2));
+
             message = ConvertEndianness(message);
 
             return Sponge(message, digestSize, capacity);
