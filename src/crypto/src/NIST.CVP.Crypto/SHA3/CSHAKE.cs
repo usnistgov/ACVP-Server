@@ -20,7 +20,7 @@ namespace NIST.CVP.Crypto.SHA3
             _iCSHAKEFactory = new CSHAKEFactory();
         }
 
-        public HashResult HashMessage(HashFunction hashFunction, BitString message, BitString functionName, BitString customization)
+        public HashResult HashMessage(HashFunction hashFunction, BitString message, string functionName, string customization)
         {
             try
             {

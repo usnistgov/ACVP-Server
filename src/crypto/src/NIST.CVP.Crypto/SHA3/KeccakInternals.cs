@@ -1,6 +1,7 @@
 ﻿using NIST.CVP.Math;
 using NIST.CVP.Math.Helpers;
 using NIST.CVP.Crypto.Common.Hash.SHA3;
+using System;
 
 namespace NIST.CVP.Crypto.SHA3
 {
@@ -60,8 +61,13 @@ namespace NIST.CVP.Crypto.SHA3
         // Use this method for encoding strings for cSHAKE
         private static BitString encode_string(BitString message)
         {
-            var messageLen = message.BitLength / 8;
-            var messageLenBitString = new BitString(messageLen);
+            var messageLen = message.BitLength / 4;
+            var messageLenBitString = new BitString(new System.Numerics.BigInteger(messageLen));
+            if (messageLen == 0)
+            {
+                messageLenBitString = BitString.Zeroes(8);
+            }
+            messageLenBitString = new BitString(MsbLsbConversionHelpers.ReverseBitArrayBits(messageLenBitString.Bits));
             messageLenBitString = left_encode(messageLenBitString);
             return BitString.ConcatenateBits(messageLenBitString, message);
         }
@@ -70,9 +76,7 @@ namespace NIST.CVP.Crypto.SHA3
         private static BitString left_encode(BitString message)
         {
             var messageLen = message.BitLength / 8;
-            var messageLenBitString = new BitString(messageLen);
-            var messageLenBits = MsbLsbConversionHelpers.ReverseBitArrayBits(messageLenBitString.Bits);
-            messageLenBitString = new BitString(messageLenBits);
+            var messageLenBitString = new BitString(new System.Numerics.BigInteger(messageLen));
             return BitString.ConcatenateBits(messageLenBitString, message);
         }
 
@@ -84,7 +88,7 @@ namespace NIST.CVP.Crypto.SHA3
             {
                 z = BitString.ConcatenateBits(z, BitString.Zero());
             }
-            while ((z.BitLength / 8) % w.ToBigInteger() != 0)
+            while ((z.BitLength / 8) % w.ToPositiveBigInteger() != 0)
             {
                 z = BitString.ConcatenateBits(z, BitString.Zeroes(8));
             }
@@ -139,10 +143,14 @@ namespace NIST.CVP.Crypto.SHA3
             {
                 return Keccak(message, digestSize, capacity, outputType);
             }
-            message = ConvertEndianness(message);
-            var bytepad = Bytepad(BitString.ConcatenateBits(encode_string(functionName), encode_string(customization)), new BitString(168)); //*** Change later to allow for variable
+
+            Console.Write("Encoded N: " + encode_string(functionName).ToHex());
+            Console.Write("\nEncoded S: " + encode_string(customization).ToHex());
+            var bytepad = Bytepad(BitString.ConcatenateBits(encode_string(functionName), encode_string(customization)), new BitString("A8")); //*** Change later to allow for variable
+            Console.Write("\nBytepad: " + bytepad.ToHex());
             message = BitString.ConcatenateBits(bytepad, message);
             message = BitString.ConcatenateBits(message, BitString.Zeroes(2));
+            message = ConvertEndianness(message);
 
             return Sponge(message, digestSize, capacity);
         }

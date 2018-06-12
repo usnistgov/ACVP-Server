@@ -27,17 +27,15 @@ namespace NIST.CVP.Crypto.SHA3
             {
                 errors.Add("Invalid output type for CSHAKE");
             }
-            else
-            {
-                if (capacity != 128 * 2 && capacity != 256 * 2)
-                {
-                    errors.Add("Incorrect capacity size for cXOF");
-                }
 
-                if (digSize < 16 || digSize > 65536)
-                {
-                    errors.Add("Digest size must be between 16 and 65536 (2^16)");
-                }
+            if (capacity != 128 * 2 && capacity != 256 * 2)
+            {
+                errors.Add("Incorrect capacity size for cXOF");
+            }
+
+            if (digSize < 16 || digSize > 65536)
+            {
+                errors.Add("Digest size must be between 16 and 65536 (2^16)");
             }
 
             return string.Join("; ", errors);

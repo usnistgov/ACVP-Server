@@ -37,6 +37,7 @@ namespace NIST.CVP.Crypto.SHA3.Tests
         [TestCase(224, 256, Output.CONSTANT)]
         [TestCase(255, 512, Output.CONSTANT)]
         [TestCase(512, 1023, Output.CONSTANT)]
+        [TestCase(32, 256, Output.cXOF)]
         public void ShouldThrowExceptionWhenInvalidHashFunction(int digestSize, int capacity, Output outputType)
         {
             var hashFunction = new HashFunction()

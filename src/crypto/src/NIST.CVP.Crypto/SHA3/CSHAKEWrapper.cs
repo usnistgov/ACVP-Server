@@ -1,5 +1,7 @@
 ﻿using NIST.CVP.Crypto.Common.Hash.SHA3;
 using NIST.CVP.Math;
+using System.Text;
+
 
 namespace NIST.CVP.Crypto.SHA3
 {
@@ -7,7 +9,7 @@ namespace NIST.CVP.Crypto.SHA3
     {
         private BitString _message;
 
-        public virtual BitString HashMessage(BitString message, int digestSize, int capacity, Output outputType, BitString functionName, BitString customization)
+        public virtual BitString HashMessage(BitString message, int digestSize, int capacity, Output outputType, string functionName, string customization)
         {
             Init();
             Update(message);
@@ -25,9 +27,15 @@ namespace NIST.CVP.Crypto.SHA3
             _message = BitString.ConcatenateBits(_message, newContent);
         }
 
-        private BitString Final(int digestSize, int capacity, Output outputType, BitString functionName, BitString customization)
+        private BitString Final(int digestSize, int capacity, Output outputType, string functionName, string customization)
         {
-            return KeccakInternals.Keccak(_message, digestSize, capacity, outputType, functionName, customization);
+            return KeccakInternals.Keccak(_message, digestSize, capacity, outputType, StringToHex(functionName), StringToHex(customization));
+        }
+
+        private BitString StringToHex(string words)
+        {
+            byte[] ba = Encoding.Default.GetBytes(words);
+            return new BitString(ba);
         }
     }
 }
