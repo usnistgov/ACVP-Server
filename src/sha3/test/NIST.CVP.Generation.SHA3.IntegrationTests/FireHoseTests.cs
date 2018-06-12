@@ -63,7 +63,7 @@ namespace NIST.CVP.Generation.SHA3.IntegrationTests
                 {
                     Capacity = testGroup.DigestSize * 2,
                     DigestSize = testGroup.DigestSize,
-                    XOF = false
+                    OutputType = Output.CONSTANT
                 };
 
                 foreach (var iTestCase in testGroup.Tests)
@@ -133,7 +133,7 @@ namespace NIST.CVP.Generation.SHA3.IntegrationTests
                         {
                             Capacity = testGroup.DigestSize * 2,
                             DigestSize = testGroup.DigestSize,
-                            XOF = true
+                            OutputType = Output.XOF
                         };
 
                         var domain = new MathDomain();
@@ -155,7 +155,7 @@ namespace NIST.CVP.Generation.SHA3.IntegrationTests
                         {
                             Capacity = testGroup.DigestSize * 2,
                             DigestSize = testCase.Digest.BitLength,     // This is kinda awkward... but makes sense logistically because SHAKE128 at 17 bits is just appending on SHAKE128 at 16 bits
-                            XOF = true
+                            OutputType = Output.XOF
                         };
 
                         var result = _sha3.HashMessage(hashFunction, testCase.Message);

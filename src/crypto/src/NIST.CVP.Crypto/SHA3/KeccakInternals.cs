@@ -1,5 +1,6 @@
 ﻿using NIST.CVP.Math;
 using NIST.CVP.Math.Helpers;
+using NIST.CVP.Crypto.Common.Hash.SHA3;
 
 namespace NIST.CVP.Crypto.SHA3
 {
@@ -56,6 +57,40 @@ namespace NIST.CVP.Crypto.SHA3
             return BitString.ConcatenateBits(firstBytes, lastBits);
         }
 
+        // Use this method for encoding strings for cSHAKE
+        private static BitString encode_string(BitString message)
+        {
+            var messageLen = message.BitLength / 8;
+            var messageLenBitString = new BitString(messageLen);
+            messageLenBitString = left_encode(messageLenBitString);
+            return BitString.ConcatenateBits(messageLenBitString, message);
+        }
+
+        // Use this method for encoding strings for cSHAKE
+        private static BitString left_encode(BitString message)
+        {
+            var messageLen = message.BitLength / 8;
+            var messageLenBitString = new BitString(messageLen);
+            var messageLenBits = MsbLsbConversionHelpers.ReverseBitArrayBits(messageLenBitString.Bits);
+            messageLenBitString = new BitString(messageLenBits);
+            return BitString.ConcatenateBits(messageLenBitString, message);
+        }
+
+        // Use this method for encoding strings for cSHAKE
+        private static BitString Bytepad(BitString input, BitString w)
+        {
+            var z = BitString.ConcatenateBits(left_encode(w), input);
+            while (z.BitLength % 8 != 0)
+            {
+                z = BitString.ConcatenateBits(z, BitString.Zero());
+            }
+            while ((z.BitLength / 8) % w.ToBigInteger() != 0)
+            {
+                z = BitString.ConcatenateBits(z, BitString.Zeroes(8));
+            }
+            return z;
+        }
+
         /// <summary>
         /// External Keccak function. This is the method to call.
         /// </summary>
@@ -64,19 +99,50 @@ namespace NIST.CVP.Crypto.SHA3
         /// <param name="capacity">Capacity of the function</param>
         /// <param name="XOF">Extendable output function? True for SHAKE, false for SHA</param>
         /// <returns>Message digest as BitString</returns>
-        public static BitString Keccak(BitString message, int digestSize, int capacity, bool XOF)
+        public static BitString Keccak(BitString message, int digestSize, int capacity, Output outputType)
         {
             message = ConvertEndianness(message);
 
-            if (XOF)
+            if (outputType == Output.XOF || outputType == Output.cXOF)
             {
                 message = BitString.ConcatenateBits(message, BitString.Ones(4));
             }
-            else
+            if (outputType == Output.CONSTANT)
             {
                 message = BitString.ConcatenateBits(message, BitString.Zero());
                 message = BitString.ConcatenateBits(message, BitString.One());
             }
+
+            return Sponge(message, digestSize, capacity);
+        }
+
+        /// <summary>
+        /// External Keccak function. This is the method to call for cSHAKE
+        /// </summary>
+        /// <param name="message">Message to hash</param>
+        /// <param name="digestSize">Size of the digest to return</param>
+        /// <param name="capacity">Capacity of the function</param>
+        /// <param name="XOF">Extendable output function? True for SHAKE, false for SHA</param>
+        /// <returns>Message digest as BitString</returns>
+        public static BitString Keccak(BitString message, int digestSize, int capacity, Output outputType, BitString functionName, BitString customization)
+        {
+            if (outputType == Output.XOF)
+            {
+                return Keccak(message, digestSize, capacity, outputType);
+            }
+            else if (outputType == Output.CONSTANT)
+            {
+                return Keccak(message, digestSize, capacity, outputType);
+            }
+            // Output.cXOF
+            if (functionName.Equals(new BitString("")) && customization.Equals(new BitString("")))
+            {
+                return Keccak(message, digestSize, capacity, outputType);
+            }
+            message = ConvertEndianness(message);
+            var bytepad = Bytepad(BitString.ConcatenateBits(encode_string(functionName), encode_string(customization)), new BitString(168)); //*** Change later to allow for variable
+            message = BitString.ConcatenateBits(bytepad, message);
+            message = BitString.ConcatenateBits(message, BitString.Zeroes(2));
 
             return Sponge(message, digestSize, capacity);
         }

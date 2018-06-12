@@ -61,7 +61,7 @@ namespace NIST.CVP.Generation.SHA3
                 {
                     Capacity = _capacity,
                     DigestSize = _digestSize,
-                    XOF = true
+                    OutputType = Output.XOF
                 };
 
                 hashResult = _algo.HashMessage(hashFunction, testCase.Message);

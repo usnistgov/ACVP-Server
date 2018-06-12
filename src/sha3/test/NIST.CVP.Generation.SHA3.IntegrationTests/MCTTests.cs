@@ -28,7 +28,7 @@ namespace NIST.CVP.Generation.SHA3.IntegrationTests
             {
                 Capacity = digestSize * 2,
                 DigestSize = digestSize,
-                XOF = false
+                OutputType = Output.CONSTANT
             };
 
             var result = subject.MCTHash(hashFunction, messageBitString, null, true);
@@ -55,7 +55,7 @@ namespace NIST.CVP.Generation.SHA3.IntegrationTests
             {
                 Capacity = digestSize * 2,
                 DigestSize = digestSize,
-                XOF = true
+                OutputType = Output.XOF
             };
 
             var domain = new MathDomain();
@@ -82,7 +82,7 @@ namespace NIST.CVP.Generation.SHA3.IntegrationTests
             {
                 Capacity = 448,
                 DigestSize = 224,
-                XOF = false
+                OutputType = Output.CONSTANT
             };
 
             var result = subject.MCTHash(hashFunction, messageBitString, null, false);

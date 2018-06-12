@@ -236,7 +236,7 @@ namespace NIST.CVP.Crypto.SHA3.Tests
             {
                 DigestSize = digestSize,
                 Capacity = 2 * digestSize,
-                XOF = false
+                OutputType = Output.CONSTANT
             };
         }
 
@@ -246,7 +246,7 @@ namespace NIST.CVP.Crypto.SHA3.Tests
             {
                 DigestSize = digestSize,
                 Capacity = capacity,
-                XOF = true
+                OutputType = Output.XOF
             };
         }
     }
