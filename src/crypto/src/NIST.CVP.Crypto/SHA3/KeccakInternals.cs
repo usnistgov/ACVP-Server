@@ -145,8 +145,16 @@ namespace NIST.CVP.Crypto.SHA3
             {
                 return Keccak(message, digestSize, capacity, outputType);
             }
-            
-            var bytepad = Bytepad(BitString.ConcatenateBits(encode_string(functionName), encode_string(customization)), new BitString("A8")); //*** Change later to allow for variable between 128 and 256
+
+            BitString bytepad;
+            if (capacity == 256)
+            {
+                bytepad = Bytepad(BitString.ConcatenateBits(encode_string(functionName), encode_string(customization)), new BitString("A8"));
+            }
+            else   // capacity == 512
+            {
+                bytepad = Bytepad(BitString.ConcatenateBits(encode_string(functionName), encode_string(customization)), new BitString("88"));
+            }
             
             message = BitString.ConcatenateBits(bytepad, message);
 
