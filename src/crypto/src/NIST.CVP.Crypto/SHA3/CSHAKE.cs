@@ -36,6 +36,11 @@ namespace NIST.CVP.Crypto.SHA3
             }
         }
 
+        public HashResult HashMessage(HashFunction hashFunction, BitString message)
+        {
+            return HashMessage(hashFunction, message, "", "");
+        }
+
         private Logger ThisLogger { get { return LogManager.GetCurrentClassLogger(); } }
     }
 }
