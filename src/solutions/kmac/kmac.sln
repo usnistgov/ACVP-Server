@@ -29,6 +29,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Math.Tests", "..\.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Tests.Core", "..\..\common\test\NIST.CVP.Tests.Core\NIST.CVP.Tests.Core.csproj", "{2FE1597E-D903-4672-A3FB-F3BA4805A3CE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Crypto.KMAC.Tests", "..\..\crypto\test\NIST.CVP.Crypto.KMAC.Tests\NIST.CVP.Crypto.KMAC.Tests.csproj", "{18FC40CB-5B57-42C1-A277-75A6DF82B968}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -79,6 +81,10 @@ Global
 		{2FE1597E-D903-4672-A3FB-F3BA4805A3CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2FE1597E-D903-4672-A3FB-F3BA4805A3CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2FE1597E-D903-4672-A3FB-F3BA4805A3CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{18FC40CB-5B57-42C1-A277-75A6DF82B968}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{18FC40CB-5B57-42C1-A277-75A6DF82B968}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{18FC40CB-5B57-42C1-A277-75A6DF82B968}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{18FC40CB-5B57-42C1-A277-75A6DF82B968}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -95,6 +101,7 @@ Global
 		{0475E8AF-980D-4F4E-A3B7-25AA261AAD7E} = {09D4028B-AA95-4D5B-9719-C0E763C77112}
 		{7ADD2EFC-B23A-413F-9076-E451473D2BD0} = {09D4028B-AA95-4D5B-9719-C0E763C77112}
 		{2FE1597E-D903-4672-A3FB-F3BA4805A3CE} = {09D4028B-AA95-4D5B-9719-C0E763C77112}
+		{18FC40CB-5B57-42C1-A277-75A6DF82B968} = {09D4028B-AA95-4D5B-9719-C0E763C77112}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {ADAF9015-5919-4BD4-B0EE-7E018D02CF2B}
