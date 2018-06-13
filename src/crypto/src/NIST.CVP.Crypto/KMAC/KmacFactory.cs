@@ -16,7 +16,7 @@ namespace NIST.CVP.Crypto.KMAC
         {
             var cshake = _iCSHAKEFactory.GetCSHAKE(hashFunction);
 
-            return new Kmac(cshake);
+            return new Kmac(cshake, hashFunction.Capacity, hashFunction.DigestSize);
         }
     }
 }
