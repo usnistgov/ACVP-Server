@@ -1,10 +1,13 @@
 ﻿using System;
 using Moq;
-using NIST.CVP.Crypto.AES;
-using NIST.CVP.Crypto.AES_ECB;
 using NIST.CVP.Crypto.Common.Symmetric;
 using NIST.CVP.Crypto.Common.Symmetric.AES;
+using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Common.Symmetric.Engines;
+using NIST.CVP.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.Crypto.Common.Symmetric.KeyWrap.Enums;
+using NIST.CVP.Crypto.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Symmetric.Engines;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -14,20 +17,31 @@ namespace NIST.CVP.Crypto.KeyWrap.Tests
     [TestFixture,  FastCryptoTest]
     public class KeyWrapAesTests
     {
-        private Mock<IAES_ECB> _algo;
+        private Mock<IBlockCipherEngineFactory> _engineFactory;
+        private Mock<IModeBlockCipherFactory> _cipherFactory;
+        private Mock<IModeBlockCipher<SymmetricCipherResult>> _cipher;
+
         private KeyWrapAes _subject;
         
         [SetUp]
         public void Setup()
         {
-            _algo = new Mock<IAES_ECB>();
-            _algo
-                .Setup(s => s.BlockEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), false))
-                .Returns(new SymmetricCipherResult(new BitString(128)));
-            _algo
-                .Setup(s => s.BlockDecrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), false))
-                .Returns(new SymmetricCipherResult(new BitString(128)));
-            _subject = new KeyWrapAes(_algo.Object);
+            _cipher = new Mock<IModeBlockCipher<SymmetricCipherResult>>();
+            _cipher
+                .Setup(s => s.ProcessPayload(It.IsAny<IModeBlockCipherParameters>()))
+                .Returns(new SymmetricCipherResult(new BitString(0)));
+
+            _engineFactory = new Mock<IBlockCipherEngineFactory>();
+            _engineFactory
+                .Setup(s => s.GetSymmetricCipherPrimitive(It.IsAny<BlockCipherEngines>()))
+                .Returns(new AesEngine());
+
+            _cipherFactory = new Mock<IModeBlockCipherFactory>();
+            _cipherFactory
+                .Setup(s => s.GetStandardCipher(It.IsAny<IBlockCipherEngine>(), It.IsAny<BlockCipherModesOfOperation>()))
+                .Returns(_cipher.Object);
+
+            _subject = new KeyWrapAes(_engineFactory.Object, _cipherFactory.Object);
         }
 
         [Test]
@@ -56,7 +70,7 @@ namespace NIST.CVP.Crypto.KeyWrap.Tests
                 () => _subject.Encrypt(new BitString(264), new BitString(128), false)
             );
         }
-
+        
         [Test]
         [TestCase(128)]
         [TestCase(192)]
@@ -64,13 +78,13 @@ namespace NIST.CVP.Crypto.KeyWrap.Tests
         [TestCase(1024)]
         public void ShouldInvokeAesEncryptAtLeastTwelveTimes(int payloadSize)
         {
-            BitString payload = new BitString(payloadSize);
+            var payload = new BitString(payloadSize);
 
-            int expectedNumberOfInvocations = 6 * (((payloadSize + KeyWrapAes.Icv1.BitLength) / 64) - 1);
+            var expectedNumberOfInvocations = 6 * (((payloadSize + KeyWrapAes.Icv1.BitLength) / 64) - 1);
 
             _subject.Encrypt(new BitString(128), payload, false);
 
-            _algo.Verify(v => v.BlockEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), false), Times.Exactly(expectedNumberOfInvocations), $"{expectedNumberOfInvocations} invokations of {nameof(_algo.Object.BlockEncrypt)} expected.");
+            _cipher.Verify(v => v.ProcessPayload(It.IsAny<IModeBlockCipherParameters>()), Times.Exactly(expectedNumberOfInvocations), $"{expectedNumberOfInvocations} invokations expected.");
         }
         
         [Test, FastCryptoTest]
@@ -84,21 +98,21 @@ namespace NIST.CVP.Crypto.KeyWrap.Tests
         [TestCase("Case 16: KW_AD, inverse cipher function", KeyWrapType.AES_KW, true, false, "e8b58fb37ca9c313a679de74f2dbedfa", "11a608b60d46bc008e98b89a37966cc11c40ad543a75fe93", "")]
         public void ShouldReturnExpectedValue(string testLabel, KeyWrapType keyWrapType, bool useInverseCipher, bool successfulAuthenticate, string kString, string pString, string cExpectedString)
         {
-            BitString K = new BitString(kString);
-            BitString P = new BitString(pString);
-            BitString expectedC = new BitString(cExpectedString);
+            var K = new BitString(kString);
+            var P = new BitString(pString);
+            var expectedC = new BitString(cExpectedString);
 
-            _subject = new KeyWrapAes(new AES_ECB.AES_ECB(new RijndaelFactory(new RijndaelInternals())));
-            var actualC = _subject.Encrypt(K, P, useInverseCipher);
+            var subject = new KeyWrapAes(new BlockCipherEngineFactory(), new ModeBlockCipherFactory());
+            var actualC = subject.Encrypt(K, P, useInverseCipher);
 
             // Mangle the actualC returned when it should not decrypt successfully
             if (!successfulAuthenticate)
             {
-                Random800_90 rand = new Random800_90();
+                var rand = new Random800_90();
                 actualC = new SymmetricCipherResult(rand.GetDifferentBitStringOfSameSize(actualC.Result));
             }
 
-            var decrypt = _subject.Decrypt(K, actualC.Result, useInverseCipher);
+            var decrypt = subject.Decrypt(K, actualC.Result, useInverseCipher);
 
             if (!successfulAuthenticate)
             {

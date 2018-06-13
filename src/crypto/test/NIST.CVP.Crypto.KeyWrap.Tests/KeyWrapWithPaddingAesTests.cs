@@ -6,6 +6,11 @@ using NIST.CVP.Crypto.AES;
 using NIST.CVP.Crypto.AES_ECB;
 using NIST.CVP.Crypto.Common.Symmetric;
 using NIST.CVP.Crypto.Common.Symmetric.AES;
+using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Common.Symmetric.Engines;
+using NIST.CVP.Crypto.Common.Symmetric.Enums;
+using NIST.CVP.Crypto.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Symmetric.Engines;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -15,20 +20,31 @@ namespace NIST.CVP.Crypto.KeyWrap.Tests
     [TestFixture, FastCryptoTest]
     public class KeyWrapWithPaddingAesTests
     {
-        private Mock<IAES_ECB> _algo;
+        private Mock<IBlockCipherEngineFactory> _engineFactory;
+        private Mock<IModeBlockCipherFactory> _cipherFactory;
+        private Mock<IModeBlockCipher<SymmetricCipherResult>> _cipher;
+
         private KeyWrapWithPaddingAes _subject;
 
         [SetUp]
         public void Setup()
         {
-            _algo = new Mock<IAES_ECB>();
-            _algo
-                .Setup(s => s.BlockEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), false))
-                .Returns(new SymmetricCipherResult(new BitString(128)));
-            _algo
-                .Setup(s => s.BlockDecrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), false))
-                .Returns(new SymmetricCipherResult(new BitString(128)));
-            _subject = new KeyWrapWithPaddingAes(_algo.Object);
+            _cipher = new Mock<IModeBlockCipher<SymmetricCipherResult>>();
+            _cipher
+                .Setup(s => s.ProcessPayload(It.IsAny<IModeBlockCipherParameters>()))
+                .Returns(new SymmetricCipherResult(new BitString(0)));
+
+            _engineFactory = new Mock<IBlockCipherEngineFactory>();
+            _engineFactory
+                .Setup(s => s.GetSymmetricCipherPrimitive(It.IsAny<BlockCipherEngines>()))
+                .Returns(new AesEngine());
+
+            _cipherFactory = new Mock<IModeBlockCipherFactory>();
+            _cipherFactory
+                .Setup(s => s.GetStandardCipher(It.IsAny<IBlockCipherEngine>(), It.IsAny<BlockCipherModesOfOperation>()))
+                .Returns(_cipher.Object);
+
+            _subject = new KeyWrapWithPaddingAes(_engineFactory.Object, _cipherFactory.Object);
         }
 
         [Test]
@@ -97,8 +113,8 @@ namespace NIST.CVP.Crypto.KeyWrap.Tests
             var plaintext = new BitString(pHex);
             var expectedCiphertext = new BitString(expectedHex);
 
-            _subject = new KeyWrapWithPaddingAes(new AES_ECB.AES_ECB(new RijndaelFactory(new RijndaelInternals())));
-            var resultCiphertext = _subject.Encrypt(key, plaintext, useInverseCipher);
+            var subject = new KeyWrapWithPaddingAes(new BlockCipherEngineFactory(), new ModeBlockCipherFactory());
+            var resultCiphertext = subject.Encrypt(key, plaintext, useInverseCipher);
 
             Assert.IsTrue(resultCiphertext.Success, resultCiphertext.ErrorMessage);
 
@@ -109,7 +125,7 @@ namespace NIST.CVP.Crypto.KeyWrap.Tests
                 resultCiphertext = new SymmetricCipherResult(rand.GetDifferentBitStringOfSameSize(resultCiphertext.Result));
             }
 
-            var decrypt = _subject.Decrypt(key, resultCiphertext.Result, useInverseCipher);
+            var decrypt = subject.Decrypt(key, resultCiphertext.Result, useInverseCipher);
 
             if (!successfulAuthenticate)
             {
