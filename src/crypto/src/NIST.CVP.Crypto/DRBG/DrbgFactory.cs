@@ -6,6 +6,8 @@ using NIST.CVP.Crypto.Common.DRBG.Enums;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.HMAC;
 using NIST.CVP.Crypto.SHAWrapper;
+using NIST.CVP.Crypto.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Symmetric.Engines;
 using NIST.CVP.Math.Entropy;
 
 namespace NIST.CVP.Crypto.DRBG
@@ -29,19 +31,14 @@ namespace NIST.CVP.Crypto.DRBG
 
         private IDrbg GetCounterImplementation(DrbgParameters drbgParameters, IEntropyProvider iEntropyProvider)
         {
-            var aesEcb = new AES_ECB.AES_ECB(new RijndaelFactory(new RijndaelInternals()));
-            var tdesEcb = new TDES_ECB.TDES_ECB();
-
             switch (drbgParameters.Mode)
             {
                 case DrbgMode.AES128:
-                    return new DrbgCounterAes(iEntropyProvider, aesEcb, drbgParameters);
                 case DrbgMode.AES192:
-                    return new DrbgCounterAes(iEntropyProvider, aesEcb, drbgParameters);
                 case DrbgMode.AES256:
-                    return new DrbgCounterAes(iEntropyProvider, aesEcb, drbgParameters);
+                    return new DrbgCounterAes(iEntropyProvider, new BlockCipherEngineFactory(), new ModeBlockCipherFactory(), drbgParameters);
                 case DrbgMode.TDES:
-                    return new DrbgCounterTdes(iEntropyProvider, tdesEcb, drbgParameters);
+                    return new DrbgCounterTdes(iEntropyProvider, new BlockCipherEngineFactory(), new ModeBlockCipherFactory(), drbgParameters);
                 default:
                     throw new ArgumentException("Invalid DRBG mode provided for current mechanism");
             }

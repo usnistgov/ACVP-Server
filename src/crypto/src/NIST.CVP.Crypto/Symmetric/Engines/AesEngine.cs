@@ -46,10 +46,18 @@ namespace NIST.CVP.Crypto.Symmetric.Engines
             }
 
             _direction = param.Direction;
-            _key = param.Key;
             _useInverseCipher = param.UseInverseCipherMode;
 
-            PopulateKeySchedule();
+            if (_key == null)
+            {
+                _key = param.Key;
+                PopulateKeySchedule();
+            }
+            else if (!param.Key.SequenceEqual(_key))
+            {
+                _key = param.Key;
+                PopulateKeySchedule();
+            }
         }
 
         public void ProcessSingleBlock(byte[] payLoad, byte[] outBuffer, int blockIndex)

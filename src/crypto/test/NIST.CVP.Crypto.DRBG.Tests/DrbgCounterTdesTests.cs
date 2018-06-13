@@ -1,10 +1,11 @@
 ﻿using Moq;
 using NIST.CVP.Crypto.Common.DRBG;
 using NIST.CVP.Crypto.Common.Symmetric;
-using NIST.CVP.Crypto.Common.Symmetric.TDES;
+using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Common.Symmetric.Engines;
+using NIST.CVP.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.Crypto.DRBG.Tests.Fakes;
-using NIST.CVP.Crypto.TDES;
-using NIST.CVP.Crypto.TDES_ECB;
+using NIST.CVP.Crypto.Symmetric.Engines;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
@@ -15,30 +16,38 @@ namespace NIST.CVP.Crypto.DRBG.Tests
     [TestFixture, FastCryptoTest]
     public class DrbgCounterTdesTests
     {
-        private Mock<ITDES_ECB> _mockTdes;
+        private Mock<IBlockCipherEngineFactory> _engineFactory = new Mock<IBlockCipherEngineFactory>();
+        private Mock<IModeBlockCipherFactory> _cipherFactory = new Mock<IModeBlockCipherFactory>();
+        private Mock<IModeBlockCipher<SymmetricCipherResult>> _cipher = new Mock<IModeBlockCipher<SymmetricCipherResult>>();
         private FakeDrbgCounterTdes _subject;
 
         [SetUp]
         public void Setup()
         {
-            _mockTdes = new Mock<ITDES_ECB>();
-            _subject = new FakeDrbgCounterTdes(new Mock<IEntropyProvider>().Object, _mockTdes.Object, new DrbgParameters());
+            _cipher
+                .Setup(s => s.ProcessPayload(It.IsAny<IModeBlockCipherParameters>()))
+                .Returns(new SymmetricCipherResult(new BitString(0)));
+
+            _engineFactory
+                .Setup(s => s.GetSymmetricCipherPrimitive(It.IsAny<BlockCipherEngines>()))
+                .Returns(new TdesEngine());
+
+            _cipherFactory
+                .Setup(s => s.GetStandardCipher(It.IsAny<IBlockCipherEngine>(), It.IsAny<BlockCipherModesOfOperation>()))
+                .Returns(_cipher.Object);
+
+            _subject = new FakeDrbgCounterTdes(new Mock<IEntropyProvider>().Object, _engineFactory.Object, _cipherFactory.Object, new DrbgParameters());
         }
 
         [Test]
         public void ShouldCallUnderlyingTdesEncrypt()
         {
-            // Needs to be 168 because underlying call that happens before blockEncrypt needs it
-            BitString k = new BitString(168);
-            BitString x = new BitString(100);
-
-            _mockTdes
-                .Setup(s => s.BlockEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), false))
-                .Returns(new SymmetricCipherResult(new BitString(0)));
+            var k = new BitString(168);
+            var x = new BitString(100);
 
             _subject.PublicBlockEncrypt(k, x);
 
-            _mockTdes.Verify(v => v.BlockEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), false), Times.Once);
+            _cipher.Verify(v => v.ProcessPayload(It.IsAny<ModeBlockCipherParameters>()), Times.Once);
         }
 
         [Test]

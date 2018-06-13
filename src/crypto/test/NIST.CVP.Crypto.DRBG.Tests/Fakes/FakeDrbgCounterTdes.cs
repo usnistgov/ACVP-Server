@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using NIST.CVP.Crypto.Common.DRBG;
-using NIST.CVP.Crypto.Common.Symmetric.TDES;
-using NIST.CVP.Crypto.TDES_ECB;
+﻿using NIST.CVP.Crypto.Common.DRBG;
+using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Common.Symmetric.Engines;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
 
@@ -11,11 +8,8 @@ namespace NIST.CVP.Crypto.DRBG.Tests.Fakes
 {
     public class FakeDrbgCounterTdes : DrbgCounterTdes
     {
-        public FakeDrbgCounterTdes(IEntropyProvider entropyProvider, ITDES_ECB tdesEcb, DrbgParameters drbgParameters) :
-            base(entropyProvider, tdesEcb, drbgParameters)
-        {
-            TdesEcb = tdesEcb;
-        }
+        public FakeDrbgCounterTdes(IEntropyProvider entropyProvider, IBlockCipherEngineFactory engineFactory, IModeBlockCipherFactory cipherFactory, DrbgParameters drbgParameters)
+            : base(entropyProvider, engineFactory, cipherFactory, drbgParameters) { }
 
         public void PublicBlockEncrypt(BitString k, BitString x)
         {
