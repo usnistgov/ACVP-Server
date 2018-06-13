@@ -23,14 +23,14 @@ namespace NIST.CVP.Crypto.SHA3
 
             var capacity = hashFunction.Capacity;
             var digSize = hashFunction.DigestSize;
-            if (hashFunction.OutputType != Output.cXOF)
+            if (!hashFunction.XOF)
             {
-                errors.Add("Invalid output type for CSHAKE");
+                errors.Add("Invalid output type for cSHAKE");
             }
 
             if (capacity != 128 * 2 && capacity != 256 * 2)
             {
-                errors.Add("Incorrect capacity size for cXOF");
+                errors.Add("Incorrect capacity size for XOF");
             }
 
             if (digSize < 16 || digSize > 65536)

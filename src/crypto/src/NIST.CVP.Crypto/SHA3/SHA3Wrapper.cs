@@ -7,11 +7,11 @@ namespace NIST.CVP.Crypto.SHA3
     {
         private BitString _message;
 
-        public virtual BitString HashMessage(BitString message, int digestSize, int capacity, Output outputType)
+        public virtual BitString HashMessage(BitString message, int digestSize, int capacity, bool xof)
         {
             Init();
             Update(message);
-            return Final(digestSize, capacity, outputType);
+            return Final(digestSize, capacity, xof);
         }
 
         // These functions are for portability
@@ -25,9 +25,9 @@ namespace NIST.CVP.Crypto.SHA3
             _message = BitString.ConcatenateBits(_message, newContent);
         }
 
-        private BitString Final(int digestSize, int capacity, Output outputType)
+        private BitString Final(int digestSize, int capacity, bool xof)
         {
-            return KeccakInternals.Keccak(_message, digestSize, capacity, outputType);
+            return KeccakInternals.Keccak(_message, digestSize, capacity, xof);
         }
     }
 }

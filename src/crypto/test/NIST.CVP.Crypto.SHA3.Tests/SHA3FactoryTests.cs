@@ -9,19 +9,19 @@ namespace NIST.CVP.Crypto.SHA3.Tests
     public class SHA3FactoryTests
     {
         [Test]
-        [TestCase(32, 256, Output.XOF)]
-        [TestCase(1000, 512, Output.XOF)]
-        [TestCase(65536, 256, Output.XOF)]
-        [TestCase(224, 448, Output.CONSTANT)]
-        [TestCase(384, 768, Output.CONSTANT)]
-        [TestCase(512, 1024, Output.CONSTANT)]
-        public void ShouldProduceValidAlgorithmWithValidHashFunction(int digestSize, int capacity, Output outputType)
+        [TestCase(32, 256, true)]
+        [TestCase(1000, 512, true)]
+        [TestCase(65536, 256, true)]
+        [TestCase(224, 448, false)]
+        [TestCase(384, 768, false)]
+        [TestCase(512, 1024, false)]
+        public void ShouldProduceValidAlgorithmWithValidHashFunction(int digestSize, int capacity, bool xof)
         {
             var hashFunction = new HashFunction()
             {
                 Capacity = capacity,
                 DigestSize = digestSize,
-                OutputType = outputType
+                XOF = xof
             };
 
             var subject = new SHA3Factory();
@@ -31,20 +31,19 @@ namespace NIST.CVP.Crypto.SHA3.Tests
         }
 
         [Test]
-        [TestCase(32, 224, Output.XOF)]
-        [TestCase(15, 256, Output.XOF)]
-        [TestCase(65537, 512, Output.XOF)]
-        [TestCase(224, 256, Output.CONSTANT)]
-        [TestCase(255, 512, Output.CONSTANT)]
-        [TestCase(512, 1023, Output.CONSTANT)]
-        [TestCase(32, 256, Output.cXOF)]
-        public void ShouldThrowExceptionWhenInvalidHashFunction(int digestSize, int capacity, Output outputType)
+        [TestCase(32, 224, true)]
+        [TestCase(15, 256, true)]
+        [TestCase(65537, 512, true)]
+        [TestCase(224, 256, false)]
+        [TestCase(255, 512, false)]
+        [TestCase(512, 1023, false)]
+        public void ShouldThrowExceptionWhenInvalidHashFunction(int digestSize, int capacity, bool xof)
         {
             var hashFunction = new HashFunction()
             {
                 Capacity = capacity,
                 DigestSize = digestSize,
-                OutputType = outputType
+                XOF = xof
             };
 
             var subject = new SHA3Factory();

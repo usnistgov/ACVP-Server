@@ -42,7 +42,7 @@ namespace NIST.CVP.Crypto.SHAWrapper
                         message,
                         _mappedHashFunction.DigestSize,
                         _mappedHashFunction.Capacity,
-                        _mappedHashFunction.OutputType
+                        _mappedHashFunction.XOF
                     )
                 );
             }
@@ -84,7 +84,7 @@ namespace NIST.CVP.Crypto.SHAWrapper
             {
                 DigestSize = result.mappedDigestSize,
                 Capacity = result.mappedDigestSize * 2,
-                OutputType = Output.CONSTANT
+                XOF = false
             };
 
             return hashFunction;

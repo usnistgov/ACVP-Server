@@ -4,6 +4,6 @@ namespace NIST.CVP.Crypto.Common.Hash.SHA3
 {
     public interface ISHA3Wrapper
     {
-        BitString HashMessage(BitString message, int digestSize, int capacity, Output outputType);
+        BitString HashMessage(BitString message, int digestSize, int capacity, bool outputType);
     }
 }

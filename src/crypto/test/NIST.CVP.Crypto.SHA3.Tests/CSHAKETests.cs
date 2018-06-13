@@ -174,7 +174,7 @@ namespace NIST.CVP.Crypto.SHA3.Tests
             {
                 DigestSize = digestSize,
                 Capacity = capacity,
-                OutputType = Output.cXOF
+                XOF = true
             };
         }
     }

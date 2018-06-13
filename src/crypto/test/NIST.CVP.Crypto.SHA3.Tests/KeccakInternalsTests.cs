@@ -31,7 +31,7 @@ namespace NIST.CVP.Crypto.SHA3.Tests
             var message = new BitString(inputHex, length, false);
             var expectedResult = new BitString(outputHex);
 
-            var result = KeccakInternals.Keccak(message, digestSize, digestSize * 2, Common.Hash.SHA3.Output.CONSTANT);
+            var result = KeccakInternals.Keccak(message, digestSize, digestSize * 2, false);
 
             Assert.AreEqual(expectedResult.ToHex(), result.ToHex());
         }
@@ -48,7 +48,7 @@ namespace NIST.CVP.Crypto.SHA3.Tests
             var message = new BitString(inputHex, inputLen, false);
             var expectedResult = new BitString(outputHex);
 
-            var result = KeccakInternals.Keccak(message, digestSize, digestSize * 2, Common.Hash.SHA3.Output.CONSTANT);
+            var result = KeccakInternals.Keccak(message, digestSize, digestSize * 2, false);
 
             Assert.AreEqual(expectedResult.ToHex(), result.ToHex());
         }
@@ -71,7 +71,7 @@ namespace NIST.CVP.Crypto.SHA3.Tests
             var message = new BitString(inputHex, inputLen, false);
             var expectedResult = new BitString(outputHex, digestSize, false);
 
-            var result = KeccakInternals.Keccak(message, digestSize, capacity, Common.Hash.SHA3.Output.XOF);
+            var result = KeccakInternals.Keccak(message, digestSize, capacity, true);
 
             Assert.AreEqual(expectedResult, result);
         }

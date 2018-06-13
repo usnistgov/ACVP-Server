@@ -35,7 +35,7 @@ namespace NIST.CVP.Generation.SHA3
             {
                 Capacity = group.DigestSize * 2,
                 DigestSize = group.DigestSize,
-                OutputType = Output.CONSTANT
+                XOF = false
             };
 
             MCTResult<AlgoArrayResponse> hashResult = null;

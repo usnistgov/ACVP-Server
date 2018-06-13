@@ -9,16 +9,16 @@ namespace NIST.CVP.Crypto.SHA3.Tests
     public class CSHAKEFactoryTests
     {
         [Test]
-        [TestCase(32, 256, Output.cXOF)]
-        [TestCase(1000, 512, Output.cXOF)]
-        [TestCase(65536, 256, Output.cXOF)]
-        public void ShouldProduceValidAlgorithmWithValidHashFunction(int digestSize, int capacity, Output outputType)
+        [TestCase(32, 256, true)]
+        [TestCase(1000, 512, true)]
+        [TestCase(65536, 256, true)]
+        public void ShouldProduceValidAlgorithmWithValidHashFunction(int digestSize, int capacity, bool XOF)
         {
             var hashFunction = new HashFunction()
             {
                 Capacity = capacity,
                 DigestSize = digestSize,
-                OutputType = outputType
+                XOF = XOF
             };
 
             var subject = new CSHAKEFactory();
@@ -28,18 +28,17 @@ namespace NIST.CVP.Crypto.SHA3.Tests
         }
 
         [Test]
-        [TestCase(32, 224, Output.cXOF)]
-        [TestCase(15, 256, Output.cXOF)]
-        [TestCase(65537, 512, Output.cXOF)]
-        [TestCase(224, 448, Output.CONSTANT)]
-        [TestCase(1000, 512, Output.XOF)]
-        public void ShouldThrowExceptionWhenInvalidHashFunction(int digestSize, int capacity, Output outputType)
+        [TestCase(32, 224, true)]
+        [TestCase(15, 256, true)]
+        [TestCase(65537, 512, true)]
+        [TestCase(224, 448, false)]
+        public void ShouldThrowExceptionWhenInvalidHashFunction(int digestSize, int capacity, bool XOF)
         {
             var hashFunction = new HashFunction()
             {
                 Capacity = capacity,
                 DigestSize = digestSize,
-                OutputType = outputType
+                XOF = XOF
             };
 
             var subject = new CSHAKEFactory();

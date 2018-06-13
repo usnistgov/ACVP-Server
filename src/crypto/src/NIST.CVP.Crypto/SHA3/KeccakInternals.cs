@@ -65,21 +65,17 @@ namespace NIST.CVP.Crypto.SHA3
         /// <param name="digestSize">Size of the digest to return</param>
         /// <param name="capacity">Capacity of the function</param>
         /// <param name="outputType">XOF for SHAKE, CONSTANT for SHA3, cXOF for cSHAKE</param>
-        /// <param name="cSHAKEPrePad">True if cSHAKE had customization parameters other than ""</param>
+        /// <param name="cSHAKEPrePad">True if cSHAKE had customization parameters other than empty string</param>
         /// <returns>Message digest as BitString</returns>
-        public static BitString Keccak(BitString message, int digestSize, int capacity, Output outputType, Boolean cSHAKEPrePad = false)
+        public static BitString Keccak(BitString message, int digestSize, int capacity, bool XOF, bool cSHAKEPrePad = false)
         {
             message = ConvertEndianness(message);
 
-            if (!cSHAKEPrePad && outputType == Output.cXOF)
+            if (!cSHAKEPrePad && XOF)
             {
                 message = BitString.ConcatenateBits(message, BitString.Ones(4));
             }
-            else if (outputType == Output.XOF)
-            {
-                message = BitString.ConcatenateBits(message, BitString.Ones(4));
-            }
-            else if (outputType == Output.CONSTANT)
+            else if (!XOF)
             {
                 message = BitString.ConcatenateBits(message, BitString.Zero());
                 message = BitString.ConcatenateBits(message, BitString.One());

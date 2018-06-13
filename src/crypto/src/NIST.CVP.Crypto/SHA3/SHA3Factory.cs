@@ -23,7 +23,7 @@ namespace NIST.CVP.Crypto.SHA3
 
             var capacity = hashFunction.Capacity;
             var digSize = hashFunction.DigestSize;
-            if (hashFunction.OutputType == Output.XOF)
+            if (hashFunction.XOF)
             {
                 if (capacity != 128 * 2 && capacity != 256 * 2)
                 {
@@ -35,7 +35,7 @@ namespace NIST.CVP.Crypto.SHA3
                     errors.Add("Digest size must be between 16 and 65536 (2^16)");
                 }
             }
-            else if (hashFunction.OutputType == Output.CONSTANT)
+            else
             {
                 if (capacity != 224 * 2 && capacity != 256 * 2 && capacity != 384 * 2 && capacity != 512 * 2)
                 {
@@ -46,10 +46,6 @@ namespace NIST.CVP.Crypto.SHA3
                 {
                     errors.Add("Incorrect digest size. Must be one of: 224, 256, 384, 512");
                 }
-            }
-            else
-            {
-                errors.Add("Invalid output type for SHA3");
             }
 
             return string.Join("; ", errors);
