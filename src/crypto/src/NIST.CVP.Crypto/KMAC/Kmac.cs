@@ -3,6 +3,7 @@ using NIST.CVP.Crypto.Common.MAC;
 using NIST.CVP.Crypto.Common.MAC.KMAC;
 using NIST.CVP.Crypto.SHA3;
 using NIST.CVP.Math;
+using System;
 
 namespace NIST.CVP.Crypto.KMAC
 {
@@ -10,32 +11,44 @@ namespace NIST.CVP.Crypto.KMAC
     {
         private readonly ICSHAKEWrapper _iCSHAKE;
         private int _capacity;
-        private int _outputLength;
+        private bool _xof;
 
-        public Kmac(ICSHAKEWrapper iCSHAKE, int capacity, int outputLength)
+        public Kmac(ICSHAKEWrapper iCSHAKE, int capacity, bool xof)
         {
             _iCSHAKE = iCSHAKE;
             _capacity = capacity;
-            _outputLength = outputLength;
+            _xof = xof;
         }
 
-        int IMac.OutputLength => _outputLength;
+        int IMac.OutputLength => _capacity;
 
         public MacResult Generate(BitString key, BitString message, string customization, int macLength = 0)
         {
-            var macLengthBitString = new BitString(new System.Numerics.BigInteger(macLength));
+            if (macLength == 0)
+            {
+                macLength = _capacity;
+            }
 
+            var macLengthBitString = new BitString(new System.Numerics.BigInteger(macLength));
+            
             BitString newMessage;
             if (_capacity == 256)
             {
-                newMessage = CSHAKEHelpers.Bytepad(CSHAKEHelpers.EncodeString(key), new BitString("A8"));
+                newMessage = CSHAKEHelpers.Bytepad(CSHAKEHelpers.EncodeString(key), new BitString("A8"));   // "A8" is 164 (the rate)
             }
             else      // capacity == 512
             {
-                newMessage = CSHAKEHelpers.Bytepad(CSHAKEHelpers.EncodeString(key), new BitString("88"));
+                newMessage = CSHAKEHelpers.Bytepad(CSHAKEHelpers.EncodeString(key), new BitString("88"));   // "88" is 136 (the rate)
             }
             
-            newMessage = BitString.ConcatenateBits(newMessage, BitString.ConcatenateBits(message, CSHAKEHelpers.RightEncode(macLengthBitString)));
+            if (_xof)
+            {
+                newMessage = BitString.ConcatenateBits(newMessage, BitString.ConcatenateBits(message, CSHAKEHelpers.RightEncode(BitString.Zeroes(8))));
+            }
+            else
+            {
+                newMessage = BitString.ConcatenateBits(newMessage, BitString.ConcatenateBits(message, CSHAKEHelpers.RightEncode(macLengthBitString)));
+            }
 
             return new MacResult(_iCSHAKE.HashMessage(newMessage, macLength, _capacity, true, "KMAC", customization));
         }

@@ -21,11 +21,11 @@ namespace NIST.CVP.Crypto.SHA3
             BitString bytepad;
             if (capacity == 256)
             {
-                bytepad = Bytepad(BitString.ConcatenateBits(EncodeString(functionName), EncodeString(customization)), new BitString("A8"));
+                bytepad = Bytepad(BitString.ConcatenateBits(EncodeString(functionName), EncodeString(customization)), new BitString("A8")); // "A8" is 164 (the rate)
             }
             else   // capacity == 512
             {
-                bytepad = Bytepad(BitString.ConcatenateBits(EncodeString(functionName), EncodeString(customization)), new BitString("88"));
+                bytepad = Bytepad(BitString.ConcatenateBits(EncodeString(functionName), EncodeString(customization)), new BitString("88")); // "88" is 136 (the rate)
             }
 
             message = BitString.ConcatenateBits(bytepad, message);
@@ -38,13 +38,12 @@ namespace NIST.CVP.Crypto.SHA3
         // Use this method for encoding strings for cSHAKE
         public static BitString EncodeString(BitString message)
         {
-            var messageLen = message.BitLength / 4;
+            var messageLen = message.BitLength;
             var messageLenBitString = new BitString(new System.Numerics.BigInteger(messageLen));
             if (messageLen == 0)
             {
                 messageLenBitString = BitString.Zeroes(8);
             }
-            messageLenBitString = new BitString(MsbLsbConversionHelpers.ReverseBitArrayBits(messageLenBitString.Bits));
             messageLenBitString = LeftEncode(messageLenBitString);
             return BitString.ConcatenateBits(messageLenBitString, message);
         }

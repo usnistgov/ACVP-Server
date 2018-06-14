@@ -12,11 +12,11 @@ namespace NIST.CVP.Crypto.KMAC
             _iCSHAKEFactory = iCSHAKEFactory;
         }
 
-        public IKmac GetKmacInstance(HashFunction hashFunction)
+        public IKmac GetKmacInstance(HashFunction hashFunction, bool xof)
         {
             var cshake = _iCSHAKEFactory.GetCSHAKE(hashFunction);
 
-            return new Kmac(cshake, hashFunction.Capacity, hashFunction.DigestSize);
+            return new Kmac(cshake, hashFunction.Capacity, xof);
         }
     }
 }
