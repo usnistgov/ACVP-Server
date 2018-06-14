@@ -33,9 +33,16 @@ namespace NIST.CVP.Crypto.SHA3
 
         private BitString Final(int digestSize, int capacity, bool xof, string customization)
         {
-            _message = BitString.ConcatenateBits(_message, CSHAKEHelpers.RightEncode(new BitString(new System.Numerics.BigInteger(digestSize))));
+            if (xof)
+            {
+                _message = BitString.ConcatenateBits(_message, CSHAKEHelpers.RightEncode(new BitString(new System.Numerics.BigInteger(0))));
+            }
+            else
+            {
+                _message = BitString.ConcatenateBits(_message, CSHAKEHelpers.RightEncode(new BitString(new System.Numerics.BigInteger(digestSize))));
+            }
 
-            return _cSHAKE.HashMessage(_message, digestSize, capacity, xof, "TupleHash", customization);
+            return _cSHAKE.HashMessage(_message, digestSize, capacity, "TupleHash", customization);
         }
     }
 }
