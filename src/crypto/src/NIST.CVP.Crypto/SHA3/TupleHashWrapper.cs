@@ -35,7 +35,7 @@ namespace NIST.CVP.Crypto.SHA3
         {
             if (xof)
             {
-                _message = BitString.ConcatenateBits(_message, CSHAKEHelpers.RightEncode(new BitString(new System.Numerics.BigInteger(0))));
+                _message = BitString.ConcatenateBits(_message, CSHAKEHelpers.RightEncode(BitString.Zeroes(8)));
             }
             else
             {

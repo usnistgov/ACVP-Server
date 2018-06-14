@@ -15,9 +15,9 @@ namespace NIST.CVP.Crypto.SHA3
             return Final(digestSize, capacity, functionName, customization);
         }
 
-        public virtual BitString HashMessage(BitString message, int digestSize, int capacity, bool xof)
+        public virtual BitString HashMessage(BitString message, int digestSize, int capacity)
         {
-            return HashMessage(message, digestSize, capacity, xof, "", "");
+            return HashMessage(message, digestSize, capacity, "", "");
         }
 
         // These functions are for portability
