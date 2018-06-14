@@ -50,7 +50,7 @@ namespace NIST.CVP.Crypto.KMAC
                 newMessage = BitString.ConcatenateBits(newMessage, BitString.ConcatenateBits(message, CSHAKEHelpers.RightEncode(macLengthBitString)));
             }
 
-            return new MacResult(_iCSHAKE.HashMessage(newMessage, macLength, _capacity, true, "KMAC", customization));
+            return new MacResult(_iCSHAKE.HashMessage(newMessage, macLength, _capacity, "KMAC", customization));
         }
 
         public MacResult Generate(BitString key, BitString message, int macLength = 0)

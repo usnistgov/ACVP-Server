@@ -8,16 +8,16 @@ namespace NIST.CVP.Crypto.SHA3
     {
         private BitString _message;
 
-        public virtual BitString HashMessage(BitString message, int digestSize, int capacity, bool xof, string functionName, string customization)
+        public virtual BitString HashMessage(BitString message, int digestSize, int capacity, string functionName, string customization)
         {
             Init();
             Update(message);
-            return Final(digestSize, capacity, xof, functionName, customization);
+            return Final(digestSize, capacity, functionName, customization);
         }
 
-        public virtual BitString HashMessage(BitString message, int digestSize, int capacity, bool xof)
+        public virtual BitString HashMessage(BitString message, int digestSize, int capacity)
         {
-            return HashMessage(message, digestSize, capacity, xof, "", "");
+            return HashMessage(message, digestSize, capacity, "", "");
         }
 
         // These functions are for portability
@@ -31,16 +31,16 @@ namespace NIST.CVP.Crypto.SHA3
             _message = BitString.ConcatenateBits(_message, newContent);
         }
 
-        private BitString Final(int digestSize, int capacity, bool xof, string functionName, string customization)
+        private BitString Final(int digestSize, int capacity, string functionName, string customization)
         {
             if (functionName.Equals("") && customization.Equals(""))
             {
-                return KeccakInternals.Keccak(_message, digestSize, capacity, xof);
+                return KeccakInternals.Keccak(_message, digestSize, capacity, true);
             }
 
             var formattedMessage = CSHAKEHelpers.FormatMessage(_message, capacity, functionName, customization);
 
-            return KeccakInternals.Keccak(formattedMessage, digestSize, capacity, xof, true);
+            return KeccakInternals.Keccak(formattedMessage, digestSize, capacity, true, true);
         }
 
     }

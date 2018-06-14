@@ -25,7 +25,7 @@ namespace NIST.CVP.Crypto.SHA3
             try
             {
                 var sha = _iCSHAKEFactory.GetCSHAKE(hashFunction);
-                var digest = sha.HashMessage(message, hashFunction.DigestSize, hashFunction.Capacity, hashFunction.XOF, functionName, customization);
+                var digest = sha.HashMessage(message, hashFunction.DigestSize, hashFunction.Capacity, functionName, customization);
 
                 return new HashResult(digest);
             }
