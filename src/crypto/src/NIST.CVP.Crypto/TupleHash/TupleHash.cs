@@ -21,12 +21,12 @@ namespace NIST.CVP.Crypto.TupleHash
             _iTupleHashFactory = new TupleHashFactory();
         }
 
-        public HashResult HashMessage(HashFunction hashFunction, IEnumerable<BitString> tuples, string customization = "")
+        public HashResult HashMessage(HashFunction hashFunction, IEnumerable<BitString> tuples)
         {
             try
             {
                 var sha = _iTupleHashFactory.GetTupleHash(hashFunction);
-                var digest = sha.HashMessage(tuples, hashFunction.DigestSize, hashFunction.Capacity, hashFunction.XOF, customization);
+                var digest = sha.HashMessage(tuples, hashFunction.DigestSize, hashFunction.Capacity, hashFunction.XOF, hashFunction.Customization);
 
                 return new HashResult(digest);
             }

@@ -18,10 +18,10 @@ namespace NIST.CVP.Crypto.TupleHash.Tests
             var tuples = GetTestTuple(testTupleId);
 
             var expectedResult = new BitString(outputHex);
-            var hashFunction = GetTupleHashFunction(256, 256);
+            var hashFunction = GetTupleHashFunction(256, 256, customization);
 
             var subject = new TupleHash();
-            var result = subject.HashMessage(hashFunction, tuples, customization);
+            var result = subject.HashMessage(hashFunction, tuples);
 
             Assume.That(result.Success);
             Assert.AreEqual(expectedResult, result.Digest);
@@ -36,10 +36,10 @@ namespace NIST.CVP.Crypto.TupleHash.Tests
             var tuples = GetTestTuple(testTupleId);
 
             var expectedResult = new BitString(outputHex);
-            var hashFunction = GetTupleHashFunction(512, 512);
+            var hashFunction = GetTupleHashFunction(512, 512, customization);
 
             var subject = new TupleHash();
-            var result = subject.HashMessage(hashFunction, tuples, customization);
+            var result = subject.HashMessage(hashFunction, tuples);
 
             Assume.That(result.Success);
             Assert.AreEqual(expectedResult, result.Digest);
@@ -54,10 +54,10 @@ namespace NIST.CVP.Crypto.TupleHash.Tests
             var tuples = GetTestTuple(testTupleId);
 
             var expectedResult = new BitString(outputHex);
-            var hashFunction = GetTupleHashXOFFunction(256, 256);
+            var hashFunction = GetTupleHashXOFFunction(256, 256, customization);
 
             var subject = new TupleHash();
-            var result = subject.HashMessage(hashFunction, tuples, customization);
+            var result = subject.HashMessage(hashFunction, tuples);
 
             Assume.That(result.Success);
             Assert.AreEqual(expectedResult, result.Digest);
@@ -72,16 +72,16 @@ namespace NIST.CVP.Crypto.TupleHash.Tests
             var tuples = GetTestTuple(testTupleId);
 
             var expectedResult = new BitString(outputHex);
-            var hashFunction = GetTupleHashXOFFunction(512, 512);
+            var hashFunction = GetTupleHashXOFFunction(512, 512, customization);
 
             var subject = new TupleHash();
-            var result = subject.HashMessage(hashFunction, tuples, customization);
+            var result = subject.HashMessage(hashFunction, tuples);
 
             Assume.That(result.Success);
             Assert.AreEqual(expectedResult, result.Digest);
         }
 
-        private HashFunction GetTupleHashFunction(int digestSize, int capacity)
+        private HashFunction GetTupleHashFunction(int digestSize, int capacity, string customization)
         {
             return new HashFunction()
             {
@@ -91,13 +91,14 @@ namespace NIST.CVP.Crypto.TupleHash.Tests
             };
         }
 
-        private HashFunction GetTupleHashXOFFunction(int digestSize, int capacity)
+        private HashFunction GetTupleHashXOFFunction(int digestSize, int capacity, string customization)
         {
             return new HashFunction()
             {
                 DigestSize = digestSize,
                 Capacity = capacity,
-                XOF = true
+                XOF = true,
+                Customization = customization
             };
         }
 

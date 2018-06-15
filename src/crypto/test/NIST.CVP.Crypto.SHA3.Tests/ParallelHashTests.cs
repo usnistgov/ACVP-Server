@@ -16,10 +16,10 @@ namespace NIST.CVP.Crypto.ParallelHash.Tests
         {
             var message = new BitString(inputHex, length, false);
             var expectedResult = new BitString(outputHex);
-            var hashFunction = GetParallelHashHashFunction(256, 256, false);
+            var hashFunction = GetParallelHashHashFunction(256, 256, false, blockSize, customization);
 
             var subject = new ParallelHash();
-            var result = subject.HashMessage(hashFunction, message, blockSize, customization);
+            var result = subject.HashMessage(hashFunction, message);
 
             Assume.That(result.Success);
             Assert.AreEqual(expectedResult, result.Digest);
@@ -33,10 +33,10 @@ namespace NIST.CVP.Crypto.ParallelHash.Tests
         {
             var message = new BitString(inputHex, length, false);
             var expectedResult = new BitString(outputHex);
-            var hashFunction = GetParallelHashHashFunction(256, 256, true);
+            var hashFunction = GetParallelHashHashFunction(256, 256, true, blockSize, customization);
 
             var subject = new ParallelHash();
-            var result = subject.HashMessage(hashFunction, message, blockSize, customization);
+            var result = subject.HashMessage(hashFunction, message);
 
             Assume.That(result.Success);
             Assert.AreEqual(expectedResult, result.Digest);
@@ -50,10 +50,10 @@ namespace NIST.CVP.Crypto.ParallelHash.Tests
         {
             var message = new BitString(inputHex, length, false);
             var expectedResult = new BitString(outputHex);
-            var hashFunction = GetParallelHashHashFunction(512, 512, false);
+            var hashFunction = GetParallelHashHashFunction(512, 512, false, blockSize, customization);
 
             var subject = new ParallelHash();
-            var result = subject.HashMessage(hashFunction, message, blockSize, customization);
+            var result = subject.HashMessage(hashFunction, message);
 
             Assume.That(result.Success);
             Assert.AreEqual(expectedResult, result.Digest);
@@ -67,22 +67,24 @@ namespace NIST.CVP.Crypto.ParallelHash.Tests
         {
             var message = new BitString(inputHex, length, false);
             var expectedResult = new BitString(outputHex);
-            var hashFunction = GetParallelHashHashFunction(512, 512, true);
+            var hashFunction = GetParallelHashHashFunction(512, 512, true, blockSize, customization);
 
             var subject = new ParallelHash();
-            var result = subject.HashMessage(hashFunction, message, blockSize, customization);
+            var result = subject.HashMessage(hashFunction, message);
 
             Assume.That(result.Success);
             Assert.AreEqual(expectedResult, result.Digest);
         }
 
-        private HashFunction GetParallelHashHashFunction(int digestSize, int capacity, bool xof)
+        private HashFunction GetParallelHashHashFunction(int digestSize, int capacity, bool xof, int blockSize, string customization)
         {
             return new HashFunction()
             {
                 DigestSize = digestSize,
                 Capacity = capacity,
-                XOF = xof
+                XOF = xof,
+                BlockSize = blockSize,
+                Customization = customization
             };
         }
     }

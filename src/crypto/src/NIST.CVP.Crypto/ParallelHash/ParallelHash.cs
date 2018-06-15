@@ -20,12 +20,12 @@ namespace NIST.CVP.Crypto.ParallelHash
             _iParallelHashFactory = new ParallelHashFactory();
         }
 
-        public HashResult HashMessage(HashFunction hashFunction, BitString message, int blockSize, string customization = "")
+        public HashResult HashMessage(HashFunction hashFunction, BitString message)
         {
             try
             {
                 var sha = _iParallelHashFactory.GetParallelHash(hashFunction);
-                var digest = sha.HashMessage(message, hashFunction.DigestSize, hashFunction.Capacity, blockSize, hashFunction.XOF, customization);
+                var digest = sha.HashMessage(message, hashFunction.DigestSize, hashFunction.Capacity, hashFunction.BlockSize, hashFunction.XOF, hashFunction.Customization);
 
                 return new HashResult(digest);
             }
