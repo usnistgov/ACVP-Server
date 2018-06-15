@@ -1,7 +1,6 @@
 ﻿using System;
 using Moq;
 using NIST.CVP.Crypto.Common.Symmetric;
-using NIST.CVP.Crypto.Common.Symmetric.AES;
 using NIST.CVP.Crypto.Common.Symmetric.BlockModes.Aead;
 using NIST.CVP.Crypto.Common.Symmetric.Engines;
 using NIST.CVP.Crypto.Common.Symmetric.Enums;
@@ -60,7 +59,7 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
                 .Setup(s => s.GetAeadCipher(It.IsAny<IBlockCipherEngine>(), It.IsAny<BlockCipherModesOfOperation>()))
                 .Returns(aes.Object);
 
-            var subject = new TestCaseGeneratorEncrypt(GetRandomMock().Object, cipherFactory.Object, GetEngineFactoryMock().Object); ;
+            var subject = new TestCaseGeneratorEncrypt(GetRandomMock().Object, cipherFactory.Object, GetEngineFactoryMock().Object);
 
             var result = subject.Generate(new TestGroup(), false);
 
