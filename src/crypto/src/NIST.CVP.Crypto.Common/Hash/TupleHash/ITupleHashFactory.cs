@@ -1,4 +1,6 @@
-﻿namespace NIST.CVP.Crypto.Common.Hash.SHA3
+﻿using NIST.CVP.Crypto.Common.Hash.SHA3;
+
+namespace NIST.CVP.Crypto.Common.Hash.TupleHash
 {
     public interface ITupleHashFactory
     {

@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using NIST.CVP.Crypto.Common.Hash;
-using NIST.CVP.Crypto.Common.Hash.SHA3;
+using NIST.CVP.Crypto.Common.Hash.TupleHash;
 using NIST.CVP.Math;
 using NLog;
 
-namespace NIST.CVP.Crypto.SHA3
+namespace NIST.CVP.Crypto.TupleHash
 {
     public class TupleHash : ITupleHash
     {
@@ -21,7 +21,7 @@ namespace NIST.CVP.Crypto.SHA3
             _iTupleHashFactory = new TupleHashFactory();
         }
 
-        public HashResult HashMessage(HashFunction hashFunction, List<BitString> tuples, string customization = "")
+        public HashResult HashMessage(HashFunction hashFunction, IEnumerable<BitString> tuples, string customization = "")
         {
             try
             {

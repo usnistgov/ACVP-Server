@@ -1,9 +1,9 @@
 ﻿using System;
-using NIST.CVP.Crypto.Common.Hash.SHA3;
+using NIST.CVP.Crypto.Common.Hash.ParallelHash;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
-namespace NIST.CVP.Crypto.SHA3.Tests
+namespace NIST.CVP.Crypto.ParallelHash.Tests
 {
     [TestFixture, FastCryptoTest]
     public class ParallelHashFactoryTests

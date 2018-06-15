@@ -1,9 +1,9 @@
-﻿using NIST.CVP.Crypto.Common.Hash.SHA3;
+﻿using NIST.CVP.Crypto.Common.Hash.ParallelHash;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
-namespace NIST.CVP.Crypto.SHA3.Tests
+namespace NIST.CVP.Crypto.ParallelHash.Tests
 {
     [TestFixture, FastCryptoTest]
     public class ParallelHashTests
@@ -11,6 +11,7 @@ namespace NIST.CVP.Crypto.SHA3.Tests
         [Test]
         [TestCase(192, "000102030405060710111213141516172021222324252627", "ba8dc1d1d979331d3f813603c67f72609ab5e44b94a0b8f9af46514454a2b4f5", 8, "")]
         [TestCase(192, "000102030405060710111213141516172021222324252627", "fc484dcb3f84dceedc353438151bee58157d6efed0445a81f165e495795b7206", 8, "Parallel Data")]
+        [TestCase(576, "000102030405060708090a0b101112131415161718191a1b202122232425262728292a2b303132333435363738393a3b404142434445464748494a4b505152535455565758595a5b", "f7fd5312896c6685c828af7e2adb97e393e7f8d54e3c2ea4b95e5aca3796e8fc", 12, "Parallel Data")]
         public void ShouldParallelHash128HashCorrectly(int length, string inputHex, string outputHex, int blockSize, string customization)
         {
             var message = new BitString(inputHex, length, false);
@@ -25,13 +26,48 @@ namespace NIST.CVP.Crypto.SHA3.Tests
         }
 
         [Test]
-        [TestCase(32, "00010203", "d008828e2b80ac9d2218ffee1d070c48b8e4c87bff32c9699d5b6896eee0edd164020e2be0560858d9c00c037e34a96937c561a74c412bb4c746469527281c8c", "", "Email Signature")]
-        [TestCase(1600, "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7", "07dc27b11e51fbac75bc7b3c1d983e8b4b85fb1defaf218912ac86430273091727f42b17ed1df63e8ec118f04b23633c1dfb1574c8fb55cb45da8e25afb092bb", "", "Email Signature")]
+        [TestCase(192, "000102030405060710111213141516172021222324252627", "fe47d661e49ffe5b7d999922c062356750caf552985b8e8ce6667f2727c3c8d3", 8, "")]
+        [TestCase(192, "000102030405060710111213141516172021222324252627", "ea2a793140820f7a128b8eb70a9439f93257c6e6e79b4a540d291d6dae7098d7", 8, "Parallel Data")]
+        [TestCase(576, "000102030405060708090a0b101112131415161718191a1b202122232425262728292a2b303132333435363738393a3b404142434445464748494a4b505152535455565758595a5b", "0127ad9772ab904691987fcc4a24888f341fa0db2145e872d4efd255376602f0", 12, "Parallel Data")]
+        public void ShouldParallelHashXOF128HashCorrectly(int length, string inputHex, string outputHex, int blockSize, string customization)
+        {
+            var message = new BitString(inputHex, length, false);
+            var expectedResult = new BitString(outputHex);
+            var hashFunction = GetParallelHashHashFunction(256, 256, true);
+
+            var subject = new ParallelHash();
+            var result = subject.HashMessage(hashFunction, message, blockSize, customization);
+
+            Assume.That(result.Success);
+            Assert.AreEqual(expectedResult, result.Digest);
+        }
+
+        [Test]
+        [TestCase(192, "000102030405060710111213141516172021222324252627", "bc1ef124da34495e948ead207dd9842235da432d2bbc54b4c110e64c451105531b7f2a3e0ce055c02805e7c2de1fb746af97a1dd01f43b824e31b87612410429", 8, "")]
+        [TestCase(192, "000102030405060710111213141516172021222324252627", "cdf15289b54f6212b4bc270528b49526006dd9b54e2b6add1ef6900dda3963bb33a72491f236969ca8afaea29c682d47a393c065b38e29fae651a2091c833110", 8, "Parallel Data")]
+        [TestCase(576, "000102030405060708090a0b101112131415161718191a1b202122232425262728292a2b303132333435363738393a3b404142434445464748494a4b505152535455565758595a5b", "69d0fcb764ea055dd09334bc6021cb7e4b61348dff375da262671cdec3effa8d1b4568a6cce16b1cad946ddde27f6ce2b8dee4cd1b24851ebf00eb90d43813e9", 12, "Parallel Data")]
         public void ShouldParallelHash256HashCorrectly(int length, string inputHex, string outputHex, int blockSize, string customization)
         {
             var message = new BitString(inputHex, length, false);
             var expectedResult = new BitString(outputHex);
             var hashFunction = GetParallelHashHashFunction(512, 512, false);
+
+            var subject = new ParallelHash();
+            var result = subject.HashMessage(hashFunction, message, blockSize, customization);
+
+            Assume.That(result.Success);
+            Assert.AreEqual(expectedResult, result.Digest);
+        }
+
+        [Test]
+        [TestCase(192, "000102030405060710111213141516172021222324252627", "c10a052722614684144d28474850b410757e3cba87651ba167a5cbddff7f466675fbf84bcae7378ac444be681d729499afca667fb879348bfdda427863c82f1c", 8, "")]
+        [TestCase(192, "000102030405060710111213141516172021222324252627", "538e105f1a22f44ed2f5cc1674fbd40be803d9c99bf5f8d90a2c8193f3fe6ea768e5c1a20987e2c9c65febed03887a51d35624ed12377594b5585541dc377efc", 8, "Parallel Data")]
+        [TestCase(576, "000102030405060708090a0b101112131415161718191a1b202122232425262728292a2b303132333435363738393a3b404142434445464748494a4b505152535455565758595a5b", "6b3e790b330c889a204c2fbc728d809f19367328d852f4002dc829f73afd6bcefb7fe5b607b13a801c0be5c1170bdb794e339458fdb0e62a6af3d42558970249", 12, "Parallel Data")]
+        public void ShouldParallelHashXOF256HashCorrectly(int length, string inputHex, string outputHex, int blockSize, string customization)
+        {
+            var message = new BitString(inputHex, length, false);
+            var expectedResult = new BitString(outputHex);
+            var hashFunction = GetParallelHashHashFunction(512, 512, true);
 
             var subject = new ParallelHash();
             var result = subject.HashMessage(hashFunction, message, blockSize, customization);

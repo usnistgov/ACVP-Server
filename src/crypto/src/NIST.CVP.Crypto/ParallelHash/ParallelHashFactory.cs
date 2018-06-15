@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using NIST.CVP.Crypto.Common.Hash.SHA3;
+using NIST.CVP.Crypto.Common.Hash.ParallelHash;
 
-namespace NIST.CVP.Crypto.SHA3
+namespace NIST.CVP.Crypto.ParallelHash
 {
-    public class CSHAKEFactory : ICSHAKEFactory
+    public class ParallelHashFactory : IParallelHashFactory
     {
-        public ICSHAKEWrapper GetCSHAKE(HashFunction hashFunction)
+        public IParallelHashWrapper GetParallelHash(HashFunction hashFunction)
         {
             var errors = IsValidHashFunction(hashFunction);
             if (!string.IsNullOrEmpty(errors))
@@ -14,7 +14,7 @@ namespace NIST.CVP.Crypto.SHA3
                 throw new ArgumentException($"Invalid hash function. {errors}");
             }
 
-            return new CSHAKEWrapper();
+            return new ParallelHashWrapper();
         }
 
         private string IsValidHashFunction(HashFunction hashFunction)
@@ -23,10 +23,6 @@ namespace NIST.CVP.Crypto.SHA3
 
             var capacity = hashFunction.Capacity;
             var digSize = hashFunction.DigestSize;
-            if (!hashFunction.XOF)
-            {
-                errors.Add("Invalid output type for cSHAKE");
-            }
 
             if (capacity != 128 * 2 && capacity != 256 * 2)
             {

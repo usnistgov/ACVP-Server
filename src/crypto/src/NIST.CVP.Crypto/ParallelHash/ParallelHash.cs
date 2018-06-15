@@ -1,10 +1,10 @@
 ﻿using System;
 using NIST.CVP.Crypto.Common.Hash;
-using NIST.CVP.Crypto.Common.Hash.SHA3;
+using NIST.CVP.Crypto.Common.Hash.ParallelHash;
 using NIST.CVP.Math;
 using NLog;
 
-namespace NIST.CVP.Crypto.SHA3
+namespace NIST.CVP.Crypto.ParallelHash
 {
     public class ParallelHash : IParallelHash
     {
