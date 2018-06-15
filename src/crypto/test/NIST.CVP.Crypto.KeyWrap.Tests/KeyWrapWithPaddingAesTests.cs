@@ -32,7 +32,7 @@ namespace NIST.CVP.Crypto.KeyWrap.Tests
             _cipher = new Mock<IModeBlockCipher<SymmetricCipherResult>>();
             _cipher
                 .Setup(s => s.ProcessPayload(It.IsAny<IModeBlockCipherParameters>()))
-                .Returns(new SymmetricCipherResult(new BitString(0)));
+                .Returns(new SymmetricCipherResult(new BitString(128)));
 
             _engineFactory = new Mock<IBlockCipherEngineFactory>();
             _engineFactory

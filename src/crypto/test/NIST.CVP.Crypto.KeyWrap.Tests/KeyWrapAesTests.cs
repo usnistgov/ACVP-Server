@@ -29,7 +29,7 @@ namespace NIST.CVP.Crypto.KeyWrap.Tests
             _cipher = new Mock<IModeBlockCipher<SymmetricCipherResult>>();
             _cipher
                 .Setup(s => s.ProcessPayload(It.IsAny<IModeBlockCipherParameters>()))
-                .Returns(new SymmetricCipherResult(new BitString(0)));
+                .Returns(new SymmetricCipherResult(new BitString(128)));
 
             _engineFactory = new Mock<IBlockCipherEngineFactory>();
             _engineFactory
@@ -87,13 +87,13 @@ namespace NIST.CVP.Crypto.KeyWrap.Tests
             _cipher.Verify(v => v.ProcessPayload(It.IsAny<IModeBlockCipherParameters>()), Times.Exactly(expectedNumberOfInvocations), $"{expectedNumberOfInvocations} invokations expected.");
         }
         
-        [Test, FastCryptoTest]
-        [TestCase("CASE 1: KW with AES, wrap 128 bits of plaintext with a 128-bit key", KeyWrapType.AES_KW, false, true, "000102030405060708090A0B0C0D0E0F", "00112233445566778899AABBCCDDEEFF", "1fa68b0a8112b447AEF34BD8FB5A7B829D3E862371D2CFE5")]
-        [TestCase("CASE 2: KW with AES, wrap 128 bits of plaintext with a 192-bit key", KeyWrapType.AES_KW, false, true, "000102030405060708090A0B0C0D0E0F1011121314151617", "00112233445566778899AABBCCDDEEFF", "96778b25ae6ca435F92B5B97C050AED2468AB8A17AD84E5D")]
-        [TestCase("CASE 3: KW with AES, wrap 128 bits of plaintext with a 256-bit key", KeyWrapType.AES_KW, false, true, "000102030405060708090A0B0C0D0E0F101112131415161718191A1B1C1D1E1F", "00112233445566778899AABBCCDDEEFF", "64e8c3f9ce0f5ba263E9777905818A2A93C8191E7D6E8AE7")]
-        [TestCase("CASE 4: KW with AES, wrap 192 bits of plaintext with a 192-bit key", KeyWrapType.AES_KW, false, true, "000102030405060708090A0B0C0D0E0F1011121314151617", "00112233445566778899AABBCCDDEEFF0001020304050607", "031d33264e15d33268F24EC260743EDCE1C6C7DDEE725A936BA814915C6762D2")]
-        [TestCase("CASE 5: KW with AES, wrap 192 bits of plaintext with a 256-bit key", KeyWrapType.AES_KW, false, true, "000102030405060708090A0B0C0D0E0F101112131415161718191A1B1C1D1E1F", "00112233445566778899AABBCCDDEEFF0001020304050607", "a8f9bc1612c68b3fF6E6F4FBE30E71E4769C8B80A32CB8958CD5D17D6B254DA1")]
-        [TestCase("CASE 6: KW with AES, wrap 256 bits of plaintext with a 256-bit key", KeyWrapType.AES_KW, false, true, "000102030405060708090A0B0C0D0E0F101112131415161718191A1B1C1D1E1F", "00112233445566778899AABBCCDDEEFF000102030405060708090A0B0C0D0E0F", "28c9f404c4b810f4CBCCB35CFB87F8263F5786E2D80ED326CBC7F0E71A99F43BFB988B9B7A02DD21")]
+        [Test]
+        [TestCase("Case 1: KW with AES, wrap 128 bits of plaintext with a 128-bit key", KeyWrapType.AES_KW, false, true, "000102030405060708090A0B0C0D0E0F", "00112233445566778899AABBCCDDEEFF", "1fa68b0a8112b447AEF34BD8FB5A7B829D3E862371D2CFE5")]
+        [TestCase("Case 2: KW with AES, wrap 128 bits of plaintext with a 192-bit key", KeyWrapType.AES_KW, false, true, "000102030405060708090A0B0C0D0E0F1011121314151617", "00112233445566778899AABBCCDDEEFF", "96778b25ae6ca435F92B5B97C050AED2468AB8A17AD84E5D")]
+        [TestCase("Case 3: KW with AES, wrap 128 bits of plaintext with a 256-bit key", KeyWrapType.AES_KW, false, true, "000102030405060708090A0B0C0D0E0F101112131415161718191A1B1C1D1E1F", "00112233445566778899AABBCCDDEEFF", "64e8c3f9ce0f5ba263E9777905818A2A93C8191E7D6E8AE7")]
+        [TestCase("Case 4: KW with AES, wrap 192 bits of plaintext with a 192-bit key", KeyWrapType.AES_KW, false, true, "000102030405060708090A0B0C0D0E0F1011121314151617", "00112233445566778899AABBCCDDEEFF0001020304050607", "031d33264e15d33268F24EC260743EDCE1C6C7DDEE725A936BA814915C6762D2")]
+        [TestCase("Case 5: KW with AES, wrap 192 bits of plaintext with a 256-bit key", KeyWrapType.AES_KW, false, true, "000102030405060708090A0B0C0D0E0F101112131415161718191A1B1C1D1E1F", "00112233445566778899AABBCCDDEEFF0001020304050607", "a8f9bc1612c68b3fF6E6F4FBE30E71E4769C8B80A32CB8958CD5D17D6B254DA1")]
+        [TestCase("Case 6: KW with AES, wrap 256 bits of plaintext with a 256-bit key", KeyWrapType.AES_KW, false, true, "000102030405060708090A0B0C0D0E0F101112131415161718191A1B1C1D1E1F", "00112233445566778899AABBCCDDEEFF000102030405060708090A0B0C0D0E0F", "28c9f404c4b810f4CBCCB35CFB87F8263F5786E2D80ED326CBC7F0E71A99F43BFB988B9B7A02DD21")]
         [TestCase("Case 15: KW_AE, inverse cipher function", KeyWrapType.AES_KW, true, true, "761d0145907fb5064923a302b7f7924b", "ef6536af7de618b50ec11b5d719585a669dacdfd16b7067f", "046acacc2c25fd90bf15947ae9000d3a8c025684aad58bcdf970c19997207acb")]
         [TestCase("Case 16: KW_AD, inverse cipher function", KeyWrapType.AES_KW, true, false, "e8b58fb37ca9c313a679de74f2dbedfa", "11a608b60d46bc008e98b89a37966cc11c40ad543a75fe93", "")]
         public void ShouldReturnExpectedValue(string testLabel, KeyWrapType keyWrapType, bool useInverseCipher, bool successfulAuthenticate, string kString, string pString, string cExpectedString)
