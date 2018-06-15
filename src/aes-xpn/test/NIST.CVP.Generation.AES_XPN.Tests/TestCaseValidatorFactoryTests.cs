@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Moq;
 using NIST.CVP.Crypto.Common.Symmetric.AES;
+using NIST.CVP.Crypto.Common.Symmetric.BlockModes.Aead;
+using NIST.CVP.Crypto.Common.Symmetric.Engines;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
@@ -13,15 +15,16 @@ namespace NIST.CVP.Generation.AES_XPN.Tests
     [TestFixture, UnitTest]
     public class TestCaseValidatorFactoryTests
     {
-
-        private Mock<IAES_GCM> _mockAlgo;
+        private Mock<IAeadModeBlockCipherFactory> _cipherFactory;
+        private Mock<IBlockCipherEngineFactory> _engineFactory;
         private TestCaseValidatorFactory _subject;
 
         [SetUp]
         public void Setup()
         {
-            _mockAlgo = new Mock<IAES_GCM>();
-            _subject = new TestCaseValidatorFactory(_mockAlgo.Object);
+            _cipherFactory = new Mock<IAeadModeBlockCipherFactory>();
+            _engineFactory = new Mock<IBlockCipherEngineFactory>();
+            _subject = new TestCaseValidatorFactory(_cipherFactory.Object, _engineFactory.Object);
         }
 
         [Test]
