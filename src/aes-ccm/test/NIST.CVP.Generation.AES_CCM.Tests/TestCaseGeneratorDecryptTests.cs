@@ -1,7 +1,9 @@
 ﻿using System;
 using Moq;
 using NIST.CVP.Crypto.Common.Symmetric;
-using NIST.CVP.Crypto.Common.Symmetric.AES;
+using NIST.CVP.Crypto.Common.Symmetric.BlockModes.Aead;
+using NIST.CVP.Crypto.Common.Symmetric.Engines;
+using NIST.CVP.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
@@ -15,8 +17,7 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
         [Test]
         public void GenerateShouldReturnTestCaseGenerateResponse()
         {
-            TestCaseGeneratorDecrypt subject =
-                new TestCaseGeneratorDecrypt(GetRandomMock().Object, GetAESMock().Object);
+            var subject = new TestCaseGeneratorDecrypt(GetRandomMock().Object, GetCipherFactoryMock().Object, GetEngineFactoryMock().Object);
 
             var result = subject.Generate(new TestGroup(), false);
 
@@ -27,13 +28,17 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
         [Test]
         public void GenerateShouldReturnNullITestCaseOnFailedEncryption()
         {
-            var aes = GetAESMock();
+            var aes = GetAesMock();
             aes
-                .Setup(s => s.Encrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<int>()))
-                .Returns(new SymmetricCipherResult("Fail"));
+                .Setup(s => s.ProcessPayload(It.IsAny<AeadModeBlockCipherParameters>()))
+                .Returns(new SymmetricCipherAeadResult("Fail"));
 
-            TestCaseGeneratorDecrypt subject =
-                new TestCaseGeneratorDecrypt(GetRandomMock().Object, aes.Object);
+            var cipherFactory = GetCipherFactoryMock();
+            cipherFactory
+                .Setup(s => s.GetAeadCipher(It.IsAny<IBlockCipherEngine>(), It.IsAny<BlockCipherModesOfOperation>()))
+                .Returns(aes.Object);
+            
+            var subject = new TestCaseGeneratorDecrypt(GetRandomMock().Object, cipherFactory.Object, GetEngineFactoryMock().Object);
 
             var result = subject.Generate(new TestGroup(), false);
 
@@ -44,13 +49,17 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
         [Test]
         public void GenerateShouldReturnNullITestCaseOnExceptionEncryption()
         {
-            var aes = GetAESMock();
+            var aes = GetAesMock();
             aes
-                .Setup(s => s.Encrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<int>()))
+                .Setup(s => s.ProcessPayload(It.IsAny<AeadModeBlockCipherParameters>()))
                 .Throws(new Exception());
 
-            TestCaseGeneratorDecrypt subject =
-                new TestCaseGeneratorDecrypt(GetRandomMock().Object, aes.Object);
+            var cipherFactory = GetCipherFactoryMock();
+            cipherFactory
+                .Setup(s => s.GetAeadCipher(It.IsAny<IBlockCipherEngine>(), It.IsAny<BlockCipherModesOfOperation>()))
+                .Returns(aes.Object);
+
+            var subject = new TestCaseGeneratorDecrypt(GetRandomMock().Object, cipherFactory.Object, GetEngineFactoryMock().Object);
 
             var result = subject.Generate(new TestGroup(), false);
 
@@ -61,16 +70,23 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
         [Test]
         public void GenerateShouldInvokeEncryptionOperation()
         {
-            var aes = GetAESMock();
+            var aes = GetAesMock();
+            aes
+                .Setup(s => s.ProcessPayload(It.IsAny<AeadModeBlockCipherParameters>()))
+                .Returns(new SymmetricCipherAeadResult(new BitString(128)));
 
-            TestCaseGeneratorDecrypt subject =
-                new TestCaseGeneratorDecrypt(GetRandomMock().Object, aes.Object);
+            var cipherFactory = GetCipherFactoryMock();
+            cipherFactory
+                .Setup(s => s.GetAeadCipher(It.IsAny<IBlockCipherEngine>(), It.IsAny<BlockCipherModesOfOperation>()))
+                .Returns(aes.Object);
+
+            var subject = new TestCaseGeneratorDecrypt(GetRandomMock().Object, cipherFactory.Object, GetEngineFactoryMock().Object);
 
             var result = subject.Generate(new TestGroup(), true);
 
-            aes.Verify(v => v.Encrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<int>()),
+            aes.Verify(v => v.ProcessPayload(It.IsAny<AeadModeBlockCipherParameters>()),
                 Times.AtLeastOnce,
-                "BlockEncrypt should have been invoked"
+                "ProcessPayload should have been invoked"
             );
         }
 
@@ -78,19 +94,25 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
         public void GenerateShouldReturnFilledTestCaseObjectOnSuccess()
         {
             var fakeCipher = new BitString(new byte[] { 1 });
+
             var random = GetRandomMock();
             random
                 .Setup(s => s.GetRandomBitString(It.IsAny<int>()))
                 .Returns(new BitString(new byte[] { 3 }));
             random.Setup(s => s.GetDifferentBitStringOfSameSize(fakeCipher))
                 .Returns(new BitString(new byte[] { 4 }));
-            var aes = GetAESMock();
-            aes
-                .Setup(s => s.Encrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<int>()))
-                .Returns(new SymmetricCipherResult(fakeCipher));
 
-            TestCaseGeneratorDecrypt subject =
-                new TestCaseGeneratorDecrypt(random.Object, aes.Object);
+            var aes = GetAesMock();
+            aes
+                .Setup(s => s.ProcessPayload(It.IsAny<AeadModeBlockCipherParameters>()))
+                .Returns(new SymmetricCipherAeadResult(fakeCipher));
+
+            var cipherFactory = GetCipherFactoryMock();
+            cipherFactory
+                .Setup(s => s.GetAeadCipher(It.IsAny<IBlockCipherEngine>(), It.IsAny<BlockCipherModesOfOperation>()))
+                .Returns(aes.Object);
+
+            var subject = new TestCaseGeneratorDecrypt(random.Object, cipherFactory.Object, GetEngineFactoryMock().Object);
 
             var result = subject.Generate(new TestGroup(), false);
 
@@ -108,24 +130,31 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
         public void GenerateShouldSometimesMangleCipherText()
         {
             var fakeCipher = new BitString(new byte[] { 1 });
+
             var mangledCipher = new BitString(new byte[] { 2 });
+
             var random = GetRandomMock();
             random
                 .Setup(s => s.GetRandomBitString(It.IsAny<int>()))
                 .Returns(new BitString(new byte[] { 3 }));
             random.Setup(s => s.GetDifferentBitStringOfSameSize(fakeCipher))
                 .Returns(mangledCipher);
-            var aes = GetAESMock();
+
+            var aes = GetAesMock();
             aes
-                .Setup(s => s.Encrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<int>()))
-                .Returns(new SymmetricCipherResult(fakeCipher));
+                .Setup(s => s.ProcessPayload(It.IsAny<AeadModeBlockCipherParameters>()))
+                .Returns(new SymmetricCipherAeadResult(fakeCipher));
 
-            TestCaseGeneratorDecrypt subject =
-                new TestCaseGeneratorDecrypt(random.Object, aes.Object);
+            var cipherFactory = GetCipherFactoryMock();
+            cipherFactory
+                .Setup(s => s.GetAeadCipher(It.IsAny<IBlockCipherEngine>(), It.IsAny<BlockCipherModesOfOperation>()))
+                .Returns(aes.Object);
 
-            bool originalFakeCipherHit = false;
-            bool mangledCipherHit = false;
-            for (int i = 0; i < 4; i++)
+            var subject = new TestCaseGeneratorDecrypt(random.Object, cipherFactory.Object, GetEngineFactoryMock().Object);
+
+            var originalFakeCipherHit = false;
+            var mangledCipherHit = false;
+            for (var i = 0; i < 4; i++)
             {
                 random
                     .Setup(s => s.GetRandomInt(It.IsAny<int>(), It.IsAny<int>()))
@@ -138,6 +167,7 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
                     originalFakeCipherHit = true;
                     Assert.IsTrue(tc.TestPassed, "Should not be a failure test");
                 }
+
                 if (tc.CipherText == mangledCipher)
                 {
                     mangledCipherHit = true;
@@ -154,9 +184,19 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
             return new Mock<IRandom800_90>();
         }
 
-        private Mock<IAES_CCM> GetAESMock()
+        private Mock<IAeadModeBlockCipherFactory> GetCipherFactoryMock()
         {
-            return new Mock<IAES_CCM>();
+            return new Mock<IAeadModeBlockCipherFactory>();
+        }
+
+        private Mock<IBlockCipherEngineFactory> GetEngineFactoryMock()
+        {
+            return new Mock<IBlockCipherEngineFactory>();
+        }
+
+        private Mock<IAeadModeBlockCipher> GetAesMock()
+        {
+            return new Mock<IAeadModeBlockCipher>();
         }
     }
 }
