@@ -102,7 +102,7 @@ namespace NIST.CVP.Crypto.Symmetric.BlockModes.Aead
             counterParam.Payload = payLoadAtBlockSize;
             // ct should be made up of the most significant bits of the length of the payload.
             BitString ct = m > 0
-                ? counterRijndael.ProcessPayload(counterParam).Result.GetMostSignificantBits(counterParam.Payload.BitLength)
+                ? counterRijndael.ProcessPayload(counterParam).Result.GetMostSignificantBits(param.Payload.BitLength)
                 : new BitString(0);
 
             // final return is made up of the CT contatenated with  T
