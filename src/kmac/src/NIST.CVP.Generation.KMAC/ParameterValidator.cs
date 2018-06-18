@@ -10,7 +10,7 @@ namespace NIST.CVP.Generation.KMAC
     {
         public ParameterValidateResponse Validate(Parameters parameters)
         {
-            throw new NotImplementedException();
+            List<string> errorResults = new List<string>();
         }
     }
 }

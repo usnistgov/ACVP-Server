@@ -5,8 +5,11 @@ namespace NIST.CVP.Generation.KMAC
 {
     public class Parameters : IParameters
     {
-        public string Algorithm => throw new System.NotImplementedException();
-        public string Mode => throw new System.NotImplementedException();
-        public bool IsSample => throw new System.NotImplementedException();
+        public string Algorithm { get; set; }
+        public string Mode { get; set; }
+        public bool IsSample { get; set; }
+        public MathDomain KeyLen { get; set; }
+        public MathDomain MacLen { get; set; }
     }
+}
 }
