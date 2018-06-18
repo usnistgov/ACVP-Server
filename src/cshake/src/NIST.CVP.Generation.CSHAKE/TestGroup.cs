@@ -23,6 +23,10 @@ namespace NIST.CVP.Generation.CSHAKE
         [JsonIgnore]
         public int DigestSize { get; set; }
 
+        public string FunctionName { get; set; } = "";
+
+        public string Customization { get; set; } = "";
+
         [JsonProperty(PropertyName = "inBit")]
         public bool BitOrientedInput { get; set; } = false;
 

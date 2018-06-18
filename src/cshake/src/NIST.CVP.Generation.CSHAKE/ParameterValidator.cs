@@ -4,14 +4,13 @@ using System.Linq;
 using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Generation.Core;
 
-namespace NIST.CVP.Generation.SHA3
+namespace NIST.CVP.Generation.CSHAKE
 {
     public class ParameterValidator : ParameterValidatorBase, IParameterValidator<Parameters>
     {
-        public static string[] VALID_MODES = {"sha3", "shake"};
-        public static int[] VALID_DIGEST_SIZES = {128, 224, 256, 384, 512};
-        public static int[] VALID_SHA3_DIGEST_SIZES = { 224, 256, 384, 512 };
-        public static int[] VALID_SHAKE_DIGEST_SIZES = { 128, 256 };
+        public static string[] VALID_ALGORITHMS = {"cshake"};
+        public static string[] VALID_MODES = {"128", "256"};
+        public static int[] VALID_DIGEST_SIZES = {128, 256};
 
         public static int VALID_MIN_OUTPUT_SIZE = 16;
         public static int VALID_MAX_OUTPUT_SIZE = 65536;
@@ -21,13 +20,9 @@ namespace NIST.CVP.Generation.SHA3
             var errorResults = new List<string>();
 
             ValidateFunctions(parameters, errorResults);
-            ValidateMatching(parameters, errorResults);
 
-            if (parameters.Algorithm.ToLower() == "shake")
-            {
-                ValidateOutputLength(parameters, errorResults);
-            }
-
+            ValidateOutputLength(parameters, errorResults);
+            
             if (errorResults.Count > 0)
             {
                 return new ParameterValidateResponse(string.Join(";", errorResults));
@@ -38,7 +33,7 @@ namespace NIST.CVP.Generation.SHA3
 
         private void ValidateFunctions(Parameters parameters, List<string> errorResults)
         {
-            string result = ValidateValue(parameters.Algorithm.ToLower(), VALID_MODES, "SHA3 Function");
+            string result = ValidateValue(parameters.Algorithm.ToLower(), VALID_ALGORITHMS, "cSHAKE Function");
             if (!string.IsNullOrEmpty(result))
             {
                 errorResults.Add(result);
@@ -48,26 +43,6 @@ namespace NIST.CVP.Generation.SHA3
             if (!string.IsNullOrEmpty(result))
             {
                 errorResults.Add(result);
-            }
-        }
-
-        private void ValidateMatching(Parameters parameters, List<string> errorResults)
-        {
-            if (parameters.Algorithm.ToLower() == "sha3")
-            {
-                string result = ValidateArray(parameters.DigestSizes, VALID_SHA3_DIGEST_SIZES, "SHA3 digest size");
-                if (!string.IsNullOrEmpty(result))
-                {
-                    errorResults.Add(result);
-                }
-            }
-            else if (parameters.Algorithm.ToLower() == "shake")
-            {
-                string result = ValidateArray(parameters.DigestSizes, VALID_SHAKE_DIGEST_SIZES, "SHAKE digest size");
-                if (!string.IsNullOrEmpty(result))
-                {
-                    errorResults.Add(result);
-                }
             }
         }
 
