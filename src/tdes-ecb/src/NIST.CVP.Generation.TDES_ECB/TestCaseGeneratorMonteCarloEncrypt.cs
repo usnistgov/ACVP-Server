@@ -35,7 +35,7 @@ namespace NIST.CVP.Generation.TDES_ECB
             Crypto.Common.Symmetric.MCTResult<AlgoArrayResponse> encryptionResult = null;
             try
             {
-                var param = new ModeBlockCipherParameters(BlockCipherDirections.Encrypt, seedCase.Key, seedCase.CipherText);
+                var param = new ModeBlockCipherParameters(BlockCipherDirections.Encrypt, seedCase.Key, seedCase.PlainText);
                 encryptionResult = _algo.ProcessMonteCarloTest(param);
                 if (!encryptionResult.Success)
                 {
