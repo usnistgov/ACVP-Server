@@ -9,16 +9,17 @@ namespace NIST.CVP.Crypto.CSHAKE.Tests
     public class CSHAKEFactoryTests
     {
         [Test]
-        [TestCase(32, 256, true)]
-        [TestCase(1000, 512, true)]
-        [TestCase(65536, 256, true)]
-        public void ShouldProduceValidAlgorithmWithValidHashFunction(int digestSize, int capacity, bool XOF)
+        [TestCase(32, 256, "", "")]
+        [TestCase(1000, 512, "KMAC", "customization")]
+        [TestCase(65536, 256, "", "unique")]
+        public void ShouldProduceValidAlgorithmWithValidHashFunction(int digestSize, int capacity, string functionName, string customization)
         {
             var hashFunction = new HashFunction()
             {
                 Capacity = capacity,
                 DigestSize = digestSize,
-                XOF = XOF
+                FunctionName = functionName,
+                Customization = customization
             };
 
             var subject = new CSHAKEFactory();
@@ -28,17 +29,18 @@ namespace NIST.CVP.Crypto.CSHAKE.Tests
         }
 
         [Test]
-        [TestCase(32, 224, true)]
-        [TestCase(15, 256, true)]
-        [TestCase(65537, 512, true)]
-        [TestCase(224, 448, false)]
-        public void ShouldThrowExceptionWhenInvalidHashFunction(int digestSize, int capacity, bool XOF)
+        [TestCase(32, 224, "", "")]
+        [TestCase(15, 256, "", "")]
+        [TestCase(65537, 512, "", "")]
+        [TestCase(224, 448, "", "")]
+        public void ShouldThrowExceptionWhenInvalidHashFunction(int digestSize, int capacity, string functionName, string customization)
         {
             var hashFunction = new HashFunction()
             {
                 Capacity = capacity,
                 DigestSize = digestSize,
-                XOF = XOF
+                FunctionName = functionName,
+                Customization = customization
             };
 
             var subject = new CSHAKEFactory();

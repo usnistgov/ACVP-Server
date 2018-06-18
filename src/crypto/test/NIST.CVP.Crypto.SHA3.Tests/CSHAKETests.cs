@@ -28,7 +28,6 @@ namespace NIST.CVP.Crypto.CSHAKE.Tests
         [TestCase(256, "00010203", "c1c36925b6409a04f1b504fcbca9d82b4017277cb5ed2b2065fc1d3814d5aaf5", "", "Email Signature")]
         [TestCase(128, "00010203", "c1c36925b6409a04f1b504fcbca9d82b", "", "Email Signature")]
         [TestCase(32, "00010203", "c1c36925", "", "Email Signature")]
-        [TestCase(0, "00010203", "", "", "Email Signature")]        // should this be a case?
         public void ShouldCSHAKE128HashCorrectlyWithVariableOutput(int outputLength, string inputHex, string outputHex, string functionName, string customization)
         {
             var message = new BitString(inputHex);
@@ -90,7 +89,6 @@ namespace NIST.CVP.Crypto.CSHAKE.Tests
         [TestCase(512, "00010203", "d008828e2b80ac9d2218ffee1d070c48b8e4c87bff32c9699d5b6896eee0edd164020e2be0560858d9c00c037e34a96937c561a74c412bb4c746469527281c8c", "", "Email Signature")]
         [TestCase(256, "00010203", "d008828e2b80ac9d2218ffee1d070c48b8e4c87bff32c9699d5b6896eee0edd1", "", "Email Signature")]
         [TestCase(32, "00010203", "d008828e", "", "Email Signature")]
-        [TestCase(0, "00010203", "", "", "Email Signature")] // should this be a case?
         public void ShouldCSHAKE256HashCorrectlyWithVariableOutput(int outputLength, string inputHex, string outputHex, string functionName, string customization)
         {
             var message = new BitString(inputHex);
@@ -210,7 +208,6 @@ namespace NIST.CVP.Crypto.CSHAKE.Tests
             {
                 DigestSize = digestSize,
                 Capacity = capacity,
-                XOF = true,
                 FunctionName = functionName,
                 Customization = customization
             };
