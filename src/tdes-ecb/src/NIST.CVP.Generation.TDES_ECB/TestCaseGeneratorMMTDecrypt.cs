@@ -1,5 +1,7 @@
 ﻿using System;
 using NIST.CVP.Crypto.Common.Symmetric;
+using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.Crypto.Common.Symmetric.TDES;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
@@ -12,12 +14,12 @@ namespace NIST.CVP.Generation.TDES_ECB
         private const int BLOCK_SIZE_BITS = 64;
         private const int NUMBER_OF_CASES = 10;
         private readonly IRandom800_90 _random800_90;
-        private readonly ITDES_ECB _algo;
+        private readonly IModeBlockCipher<SymmetricCipherResult> _algo;
         private int _currentCase;
 
         public int NumberOfTestCasesToGenerate => NUMBER_OF_CASES;
 
-        public TestCaseGeneratorMMTDecrypt(IRandom800_90 random800_90, ITDES_ECB algo)
+        public TestCaseGeneratorMMTDecrypt(IRandom800_90 random800_90, IModeBlockCipher<SymmetricCipherResult> algo)
         {
             _random800_90 = random800_90;
             _algo = algo;
@@ -44,7 +46,8 @@ namespace NIST.CVP.Generation.TDES_ECB
             SymmetricCipherResult decryptionResult = null;
             try
             {
-                decryptionResult = _algo.BlockDecrypt(testCase.Key, testCase.CipherText);
+                var param = new ModeBlockCipherParameters(BlockCipherDirections.Decrypt, testCase.Key, testCase.CipherText);
+                decryptionResult = _algo.ProcessPayload(param);
                 if (!decryptionResult.Success)
                 {
                     ThisLogger.Warn(decryptionResult.ErrorMessage);

@@ -1,20 +1,25 @@
-﻿using NIST.CVP.Crypto.Common.Symmetric.TDES;
+﻿using NIST.CVP.Crypto.Common.Symmetric;
+using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Common.Symmetric.Engines;
+using NIST.CVP.Crypto.Common.Symmetric.Enums;
+using NIST.CVP.Crypto.Common.Symmetric.MonteCarlo;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
+using AlgoArrayResponse = NIST.CVP.Crypto.Common.Symmetric.TDES.AlgoArrayResponse;
 
 namespace NIST.CVP.Generation.TDES_ECB
 {
     public class TestCaseGeneratorFactory : ITestCaseGeneratorFactory<TestGroup, TestCase>
     {
         private readonly IRandom800_90 _random800_90;
-        private readonly ITDES_ECB _algo;
-        private readonly ITDES_ECB_MCT _mctAlgo;
+        private readonly IModeBlockCipher<SymmetricCipherResult> _algo;
+        private readonly IMonteCarloTester<MCTResult<AlgoArrayResponse>, AlgoArrayResponse> _mctAlgo;
 
-        public TestCaseGeneratorFactory(IRandom800_90 random800_90, ITDES_ECB algo, ITDES_ECB_MCT mctAlgo)
+        public TestCaseGeneratorFactory(IRandom800_90 random800_90, IBlockCipherEngineFactory engineFactory, IModeBlockCipherFactory cipherFactory, IMonteCarloFactoryTdes mctFactory)
         {
-            _algo = algo;
             _random800_90 = random800_90;
-            _mctAlgo = mctAlgo;
+            _algo = cipherFactory.GetStandardCipher(engineFactory.GetSymmetricCipherPrimitive(BlockCipherEngines.Tdes), BlockCipherModesOfOperation.Ecb);
+            _mctAlgo = mctFactory.GetInstance(BlockCipherModesOfOperation.Ecb);
         }
 
         public ITestCaseGenerator<TestGroup, TestCase> GetCaseGenerator(TestGroup group)

@@ -4,8 +4,6 @@ using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
 using NIST.CVP.Crypto.Common.Symmetric.Engines;
 using NIST.CVP.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.Crypto.Common.Symmetric.MonteCarlo;
-using NIST.CVP.Crypto.TDES_CBC;
-using NIST.CVP.Crypto.TDES_CFB;
 using AlgoArrayResponse = NIST.CVP.Crypto.Common.Symmetric.TDES.AlgoArrayResponse;
 
 namespace NIST.CVP.Crypto.Symmetric.MonteCarlo
@@ -26,7 +24,7 @@ namespace NIST.CVP.Crypto.Symmetric.MonteCarlo
             switch (mode)
             {
                 case BlockCipherModesOfOperation.Ecb:
-                    throw new NotImplementedException();
+                    return new MonteCarloTdesEcb(_engineFactory, _modeFactory, new TDES_ECB.MonteCarloKeyMaker());
                 case BlockCipherModesOfOperation.Cbc:
                     return new MonteCarloTdesCbc(_engineFactory, _modeFactory, new TDES_CBC.MonteCarloKeyMaker());
                 case BlockCipherModesOfOperation.CfbBit:

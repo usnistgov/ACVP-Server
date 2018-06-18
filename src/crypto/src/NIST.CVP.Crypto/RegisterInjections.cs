@@ -1,10 +1,6 @@
 ﻿using Autofac;
 using NIST.CVP.Common;
 using NIST.CVP.Crypto.AES;
-using NIST.CVP.Crypto.AES_CCM;
-using NIST.CVP.Crypto.AES_ECB;
-using NIST.CVP.Crypto.AES_OFB;
-using NIST.CVP.Crypto.AES_XTS;
 using NIST.CVP.Crypto.CMAC;
 using NIST.CVP.Crypto.DRBG;
 using NIST.CVP.Crypto.DSA.FFC;
@@ -28,7 +24,6 @@ using NIST.CVP.Crypto.TLS;
 using NIST.CVP.Crypto.KeyWrap;
 using NIST.CVP.Crypto.SHA2;
 using NIST.CVP.Crypto.SHA3;
-using NIST.CVP.Crypto.TDES_ECB;
 using NIST.CVP.Crypto.RSA2;
 using NIST.CVP.Crypto.DSA.ECC;
 using NIST.CVP.Crypto.DSA.FFC.GGeneratorValidators;
@@ -57,20 +52,6 @@ namespace NIST.CVP.Crypto
             builder.RegisterType<TdesMonteCarloFactory>().AsImplementedInterfaces();
             builder.RegisterType<TdesPartitionsMonteCarloFactory>().AsImplementedInterfaces();
             builder.RegisterType<CounterFactory>().AsImplementedInterfaces();
-
-            //builder.RegisterType<AES_CCM.AES_CCM>().AsImplementedInterfaces();
-            //builder.RegisterType<AES_CCMInternals>().AsImplementedInterfaces();
-            
-            //builder.RegisterType<AES_ECB.AES_ECB>().AsImplementedInterfaces();
-            //builder.RegisterType<AES_ECB_MCT>().AsImplementedInterfaces();
-
-            //builder.RegisterType<AES_GCM.AES_GCM>().AsImplementedInterfaces();
-            //builder.RegisterType<AES_GCM.AES_GCMInternals>().AsImplementedInterfaces();
-
-            //builder.RegisterType<AES_OFB.AES_OFB>().AsImplementedInterfaces();
-            //builder.RegisterType<AES_OFB_MCT>().AsImplementedInterfaces();
-
-            //builder.RegisterType<AesXts>().AsImplementedInterfaces();
 
             builder.RegisterType<CmacFactory>().AsImplementedInterfaces();
 
@@ -117,10 +98,6 @@ namespace NIST.CVP.Crypto
 
             builder.RegisterType<SHA3.SHA3>().AsImplementedInterfaces();
             builder.RegisterType<SHA3_MCT>().AsImplementedInterfaces();
-
-            //builder.RegisterType<TDES_ECB.TDES_ECB>().AsImplementedInterfaces();
-            //builder.RegisterType<TDES_ECB_MCT>().AsImplementedInterfaces();
-            //builder.RegisterType<TDES_ECB.MonteCarloKeyMaker>().AsImplementedInterfaces();
             
             builder.RegisterType<KeyBuilder>().AsImplementedInterfaces();
             builder.RegisterType<KeyComposerFactory>().AsImplementedInterfaces();
