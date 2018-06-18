@@ -1,6 +1,4 @@
 ﻿using System;
-using NIST.CVP.Crypto.AES;
-using NIST.CVP.Crypto.AES_ECB;
 using NIST.CVP.Crypto.Common.DRBG;
 using NIST.CVP.Crypto.Common.DRBG.Enums;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;

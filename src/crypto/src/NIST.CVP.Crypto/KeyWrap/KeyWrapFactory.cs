@@ -15,7 +15,7 @@ namespace NIST.CVP.Crypto.KeyWrap
                 case KeyWrapType.AES_KW:
                     return new KeyWrapAes(new BlockCipherEngineFactory(), new ModeBlockCipherFactory());
                 case KeyWrapType.TDES_KW:
-                    return new KeyWrapTdes(new TDES_ECB.TdesEcb());
+                    return new KeyWrapTdes(new BlockCipherEngineFactory(), new ModeBlockCipherFactory());
                 case KeyWrapType.AES_KWP:
                     return new KeyWrapWithPaddingAes(new BlockCipherEngineFactory(), new ModeBlockCipherFactory());
                 default:
