@@ -1,7 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using NIST.CVP.Crypto.Common.Symmetric.AES;
+﻿using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Common.Symmetric.Enums;
+using NIST.CVP.Crypto.Common.Symmetric.Helpers;
+using NIST.CVP.Crypto.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Symmetric.Engines;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -46,18 +47,21 @@ namespace NIST.CVP.Crypto.AES_XTS.Tests
         #endregion SingleBlockTests
         public void ShouldEncryptDecryptSingleBlockCorrectly(string keyHex, string iHex, string ptHex, string ctHex)
         {
-            var key = new XtsKey(new BitString(keyHex));
+            var key = new BitString(keyHex);
             var i = new BitString(iHex);
             var pt = new BitString(ptHex);
             var ct = new BitString(ctHex);
 
-            var subject = new AesXts();
-            var encryptResult = subject.Encrypt(key, pt, i);
+            var subject = new XtsBlockCipher(new AesEngine());
+
+            var encryptResult =
+                subject.ProcessPayload(new ModeBlockCipherParameters(BlockCipherDirections.Encrypt, i, key, pt));
 
             Assert.IsTrue(encryptResult.Success, $"encryption failed, {encryptResult.ErrorMessage}");
             Assert.AreEqual(ct.ToHex(), encryptResult.Result.ToHex(), "encrypt comparison");
 
-            var decryptResult = subject.Decrypt(key, ct, i);
+            var decryptResult =
+                subject.ProcessPayload(new ModeBlockCipherParameters(BlockCipherDirections.Decrypt, i, key, ct));
 
             Assert.IsTrue(decryptResult.Success, $"decryption failed, {decryptResult.ErrorMessage}");
             Assert.AreEqual(pt.ToHex(), decryptResult.Result.ToHex(), "decrypt comparison");
@@ -98,18 +102,21 @@ namespace NIST.CVP.Crypto.AES_XTS.Tests
         #endregion MultiBlockTests
         public void ShouldEncryptDecryptMultipleBlocksCorrectly(string keyHex, string iHex, string ptHex, string ctHex)
         {
-            var key = new XtsKey(new BitString(keyHex));
+            var key = new BitString(keyHex);
             var i = new BitString(iHex);
             var pt = new BitString(ptHex);
             var ct = new BitString(ctHex);
 
-            var subject = new AesXts();
-            var encryptResult = subject.Encrypt(key, pt, i);
+            var subject = new XtsBlockCipher(new AesEngine());
+
+            var encryptResult =
+                subject.ProcessPayload(new ModeBlockCipherParameters(BlockCipherDirections.Encrypt, i, key, pt));
 
             Assert.IsTrue(encryptResult.Success, $"encryption failed, {encryptResult.ErrorMessage}");
             Assert.AreEqual(ct.ToHex(), encryptResult.Result.ToHex(), "encrypt comparison");
 
-            var decryptResult = subject.Decrypt(key, ct, i);
+            var decryptResult =
+                subject.ProcessPayload(new ModeBlockCipherParameters(BlockCipherDirections.Decrypt, i, key, ct));
 
             Assert.IsTrue(decryptResult.Success, $"decryption failed, {decryptResult.ErrorMessage}");
             Assert.AreEqual(pt.ToHex(), decryptResult.Result.ToHex(), "decrypt comparison");
@@ -160,18 +167,21 @@ namespace NIST.CVP.Crypto.AES_XTS.Tests
         #endregion OddBlockTests
         public void ShouldEncryptDecryptIncompleteBlocks(string keyHex, string iHex, string ptHex, string ctHex)
         {
-            var key = new XtsKey(new BitString(keyHex));
+            var key = new BitString(keyHex);
             var i = new BitString(iHex);
             var pt = new BitString(ptHex);
             var ct = new BitString(ctHex);
 
-            var subject = new AesXts();
-            var encryptResult = subject.Encrypt(key, pt, i);
+            var subject = new XtsBlockCipher(new AesEngine());
+
+            var encryptResult =
+                subject.ProcessPayload(new ModeBlockCipherParameters(BlockCipherDirections.Encrypt, i, key, pt));
 
             Assert.IsTrue(encryptResult.Success, $"encryption failed, {encryptResult.ErrorMessage}");
             Assert.AreEqual(ct.ToHex(), encryptResult.Result.ToHex(), "encrypt comparison");
 
-            var decryptResult = subject.Decrypt(key, ct, i);
+            var decryptResult =
+                subject.ProcessPayload(new ModeBlockCipherParameters(BlockCipherDirections.Decrypt, i, key, ct));
 
             Assert.IsTrue(decryptResult.Success, $"decryption failed, {decryptResult.ErrorMessage}");
             Assert.AreEqual(pt.ToHex(), decryptResult.Result.ToHex(), "decrypt comparison");
@@ -185,8 +195,7 @@ namespace NIST.CVP.Crypto.AES_XTS.Tests
         {
             var expectedBitString = new BitString(hex);
 
-            var subject = new AesXts();
-            var result = subject.GetIFromInteger(dataUnitSeqNumber);
+            var result = XtsHelper.GetIFromInteger(dataUnitSeqNumber);
 
             Assert.AreEqual(expectedBitString, result);
         }
@@ -199,18 +208,24 @@ namespace NIST.CVP.Crypto.AES_XTS.Tests
             "cedbec745b96e714d77371005bc1e6a600")]
         public void ShouldGetCAVSFileRight(int length, string ptHex, string keyHex, int seqNum, string ctHex)
         {
-            var key = new XtsKey(new BitString(keyHex));
+            var key = new BitString(keyHex);
+            var i = XtsHelper.GetIFromInteger(seqNum);
             var pt = new BitString(ptHex, length);
             var ct = new BitString(ctHex, length);
-            
-            var subject = new AesXts();
 
-            var i = subject.GetIFromInteger(seqNum);
+            var subject = new XtsBlockCipher(new AesEngine());
 
-            var result = subject.Encrypt(key, pt, i);
+            var encryptResult =
+                subject.ProcessPayload(new ModeBlockCipherParameters(BlockCipherDirections.Encrypt, i, key, pt));
 
-            Assert.IsTrue(result.Success, result.ErrorMessage);
-            Assert.AreEqual(ct, result.Result);
+            Assert.IsTrue(encryptResult.Success, $"encryption failed, {encryptResult.ErrorMessage}");
+            Assert.AreEqual(ct.ToHex(), encryptResult.Result.ToHex(), "encrypt comparison");
+
+            var decryptResult =
+                subject.ProcessPayload(new ModeBlockCipherParameters(BlockCipherDirections.Decrypt, i, key, ct));
+
+            Assert.IsTrue(decryptResult.Success, $"decryption failed, {decryptResult.ErrorMessage}");
+            Assert.AreEqual(pt.ToHex(), decryptResult.Result.ToHex(), "decrypt comparison");
         }
     }
 }

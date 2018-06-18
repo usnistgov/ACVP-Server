@@ -1,6 +1,9 @@
 ﻿using System;
 using NIST.CVP.Crypto.Common.Symmetric;
 using NIST.CVP.Crypto.Common.Symmetric.AES;
+using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Common.Symmetric.Enums;
+using NIST.CVP.Crypto.Common.Symmetric.Helpers;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using NLog;
@@ -10,11 +13,11 @@ namespace NIST.CVP.Generation.AES_XTS
     public class TestCaseGeneratorEncrypt : ITestCaseGenerator<TestGroup, TestCase>
     {
         private readonly IRandom800_90 _random800_90;
-        private readonly IAesXts _algo;
+        private readonly IModeBlockCipher<SymmetricCipherResult> _algo;
 
         public int NumberOfTestCasesToGenerate { get; private set; } = 50;
 
-        public TestCaseGeneratorEncrypt(IRandom800_90 rand, IAesXts algo)
+        public TestCaseGeneratorEncrypt(IRandom800_90 rand, IModeBlockCipher<SymmetricCipherResult> algo)
         {
             _random800_90 = rand;
             _algo = algo;
@@ -40,7 +43,7 @@ namespace NIST.CVP.Generation.AES_XTS
             else // if (group.TweakMode.Equals("number", StringComparison.OrdinalIgnoreCase))
             {
                 number = _random800_90.GetRandomInt(0, 256);
-                i = _algo.GetIFromInteger(number);
+                i = XtsHelper.GetIFromInteger(number);
             }
 
             var testCase = new TestCase
@@ -59,7 +62,10 @@ namespace NIST.CVP.Generation.AES_XTS
             SymmetricCipherResult encryptionResult = null;
             try
             {
-                encryptionResult = _algo.Encrypt(testCase.XtsKey, testCase.PlainText, testCase.I);
+                var param = new ModeBlockCipherParameters(BlockCipherDirections.Encrypt, testCase.I, testCase.Key,
+                    testCase.PlainText);
+
+                encryptionResult = _algo.ProcessPayload(param);
                 if (!encryptionResult.Success)
                 {
                     ThisLogger.Warn(encryptionResult.ErrorMessage);

@@ -16,6 +16,7 @@
         Ctr,
         Gcm,
         Ofb,
-        Ofbi
+        Ofbi,
+        Xts
     }
 }
