@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using NIST.CVP.Crypto.Common.Hash.SHA3;
+using NIST.CVP.Crypto.Common.Hash.CSHAKE;
 
-namespace NIST.CVP.Crypto.SHA3
+namespace NIST.CVP.Crypto.CSHAKE
 {
     public class CSHAKEFactory : ICSHAKEFactory
     {

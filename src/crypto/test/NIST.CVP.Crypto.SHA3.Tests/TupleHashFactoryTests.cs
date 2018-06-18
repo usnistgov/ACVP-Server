@@ -1,17 +1,18 @@
 ﻿using System;
-using NIST.CVP.Crypto.Common.Hash.CSHAKE;
+using NIST.CVP.Crypto.Common.Hash.TupleHash;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
-namespace NIST.CVP.Crypto.CSHAKE.Tests
+namespace NIST.CVP.Crypto.TupleHash.Tests
 {
     [TestFixture, FastCryptoTest]
-    public class CSHAKEFactoryTests
+    public class TupleHashFactoryTests
     {
         [Test]
         [TestCase(32, 256, true)]
         [TestCase(1000, 512, true)]
         [TestCase(65536, 256, true)]
+        [TestCase(65536, 256, false)]
         public void ShouldProduceValidAlgorithmWithValidHashFunction(int digestSize, int capacity, bool XOF)
         {
             var hashFunction = new HashFunction()
@@ -21,10 +22,10 @@ namespace NIST.CVP.Crypto.CSHAKE.Tests
                 XOF = XOF
             };
 
-            var subject = new CSHAKEFactory();
-            var result = subject.GetCSHAKE(hashFunction);
+            var subject = new TupleHashFactory();
+            var result = subject.GetTupleHash(hashFunction);
 
-            Assert.IsInstanceOf<CSHAKEWrapper>(result);
+            Assert.IsInstanceOf<TupleHashWrapper>(result);
         }
 
         [Test]
@@ -41,8 +42,8 @@ namespace NIST.CVP.Crypto.CSHAKE.Tests
                 XOF = XOF
             };
 
-            var subject = new CSHAKEFactory();
-            Assert.Throws<ArgumentException>(() => subject.GetCSHAKE(hashFunction));
+            var subject = new TupleHashFactory();
+            Assert.Throws<ArgumentException>(() => subject.GetTupleHash(hashFunction));
         }
     }
 }

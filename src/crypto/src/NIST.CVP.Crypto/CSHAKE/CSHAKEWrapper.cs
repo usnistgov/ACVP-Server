@@ -1,8 +1,8 @@
-﻿using NIST.CVP.Crypto.Common.Hash.SHA3;
+﻿using NIST.CVP.Crypto.Common.Hash.CSHAKE;
+using NIST.CVP.Crypto.SHA3;
 using NIST.CVP.Math;
 
-
-namespace NIST.CVP.Crypto.SHA3
+namespace NIST.CVP.Crypto.CSHAKE
 {
     public class CSHAKEWrapper : ICSHAKEWrapper
     {

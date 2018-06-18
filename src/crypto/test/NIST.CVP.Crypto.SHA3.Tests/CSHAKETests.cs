@@ -1,9 +1,9 @@
-﻿using NIST.CVP.Crypto.Common.Hash.SHA3;
+﻿using NIST.CVP.Crypto.Common.Hash.CSHAKE;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
-namespace NIST.CVP.Crypto.SHA3.Tests
+namespace NIST.CVP.Crypto.CSHAKE.Tests
 {
     [TestFixture, FastCryptoTest]
     public class CSHAKETests
@@ -15,24 +15,28 @@ namespace NIST.CVP.Crypto.SHA3.Tests
         {
             var message = new BitString(inputHex, length, false);
             var expectedResult = new BitString(outputHex);
-            var hashFunction = GetCSHAKEHashFunction(256, 256);
+            var hashFunction = GetCSHAKEHashFunction(256, 256, functionName, customization);
 
             var subject = new CSHAKE();
-            var result = subject.HashMessage(hashFunction, message, functionName, customization);
+            var result = subject.HashMessage(hashFunction, message);
 
             Assume.That(result.Success);
             Assert.AreEqual(expectedResult, result.Digest);
         }
 
         [Test]
+        [TestCase(256, "00010203", "c1c36925b6409a04f1b504fcbca9d82b4017277cb5ed2b2065fc1d3814d5aaf5", "", "Email Signature")]
+        [TestCase(128, "00010203", "c1c36925b6409a04f1b504fcbca9d82b", "", "Email Signature")]
+        [TestCase(32, "00010203", "c1c36925", "", "Email Signature")]
+        [TestCase(0, "00010203", "", "", "Email Signature")]        // should this be a case?
         public void ShouldCSHAKE128HashCorrectlyWithVariableOutput(int outputLength, string inputHex, string outputHex, string functionName, string customization)
         {
             var message = new BitString(inputHex);
             var expectedResult = new BitString(outputHex, outputLength, false);
-            var hashFunction = GetCSHAKEHashFunction(outputLength, 256);
+            var hashFunction = GetCSHAKEHashFunction(outputLength, 256, functionName, customization);
 
             var subject = new CSHAKE();
-            var result = subject.HashMessage(hashFunction, message, functionName, customization);
+            var result = subject.HashMessage(hashFunction, message);
 
             Assume.That(result.Success);
             Assert.AreEqual(expectedResult, result.Digest);
@@ -43,10 +47,24 @@ namespace NIST.CVP.Crypto.SHA3.Tests
         {
             var message = new BitString(inputHex);
             var expectedResult = new BitString(outputHex, outputLength, false);
-            var hashFunction = GetCSHAKEHashFunction(outputLength, 256);
+            var hashFunction = GetCSHAKEHashFunction(outputLength, 256, functionName, customization);
 
             var subject = new CSHAKE();
-            var result = subject.HashMessage(hashFunction, message, functionName, customization);
+            var result = subject.HashMessage(hashFunction, message);
+
+            Assume.That(result.Success);
+            Assert.AreEqual(expectedResult, result.Digest);
+        }
+
+        [Test]
+        public void ShouldCSHAKE128HashCorrectlyBitWise(int length, string inputHex, string outputHex, string functionName, string customization)
+        {
+            var message = new BitString(inputHex, length, false);
+            var expectedResult = new BitString(outputHex);
+            var hashFunction = GetCSHAKEHashFunction(256, 256, functionName, customization);
+
+            var subject = new CSHAKE();
+            var result = subject.HashMessage(hashFunction, message);
 
             Assume.That(result.Success);
             Assert.AreEqual(expectedResult, result.Digest);
@@ -59,24 +77,28 @@ namespace NIST.CVP.Crypto.SHA3.Tests
         {
             var message = new BitString(inputHex, length, false);
             var expectedResult = new BitString(outputHex);
-            var hashFunction = GetCSHAKEHashFunction(512, 512);
+            var hashFunction = GetCSHAKEHashFunction(512, 512, functionName, customization);
 
             var subject = new CSHAKE();
-            var result = subject.HashMessage(hashFunction, message, functionName, customization);
+            var result = subject.HashMessage(hashFunction, message);
 
             Assume.That(result.Success);
             Assert.AreEqual(expectedResult, result.Digest);
         }
 
         [Test]
+        [TestCase(512, "00010203", "d008828e2b80ac9d2218ffee1d070c48b8e4c87bff32c9699d5b6896eee0edd164020e2be0560858d9c00c037e34a96937c561a74c412bb4c746469527281c8c", "", "Email Signature")]
+        [TestCase(256, "00010203", "d008828e2b80ac9d2218ffee1d070c48b8e4c87bff32c9699d5b6896eee0edd1", "", "Email Signature")]
+        [TestCase(32, "00010203", "d008828e", "", "Email Signature")]
+        [TestCase(0, "00010203", "", "", "Email Signature")] // should this be a case?
         public void ShouldCSHAKE256HashCorrectlyWithVariableOutput(int outputLength, string inputHex, string outputHex, string functionName, string customization)
         {
             var message = new BitString(inputHex);
             var expectedResult = new BitString(outputHex, outputLength, false);
-            var hashFunction = GetCSHAKEHashFunction(outputLength, 512);
+            var hashFunction = GetCSHAKEHashFunction(outputLength, 512, functionName, customization);
 
             var subject = new CSHAKE();
-            var result = subject.HashMessage(hashFunction, message, functionName, customization);
+            var result = subject.HashMessage(hashFunction, message);
 
             Assume.That(result.Success);
             Assert.AreEqual(expectedResult, result.Digest);
@@ -87,10 +109,24 @@ namespace NIST.CVP.Crypto.SHA3.Tests
         {
             var message = new BitString(inputHex);
             var expectedResult = new BitString(outputHex, outputLength, false);
-            var hashFunction = GetCSHAKEHashFunction(outputLength, 512);
+            var hashFunction = GetCSHAKEHashFunction(outputLength, 512, functionName, customization);
 
             var subject = new CSHAKE();
-            var result = subject.HashMessage(hashFunction, message, functionName, customization);
+            var result = subject.HashMessage(hashFunction, message);
+
+            Assume.That(result.Success);
+            Assert.AreEqual(expectedResult, result.Digest);
+        }
+
+        [Test]
+        public void ShouldCSHAKE256HashCorrectlyBitWise(int length, string inputHex, string outputHex, string functionName, string customization)
+        {
+            var message = new BitString(inputHex, length, false);
+            var expectedResult = new BitString(outputHex);
+            var hashFunction = GetCSHAKEHashFunction(256, 256, functionName, customization);
+
+            var subject = new CSHAKE();
+            var result = subject.HashMessage(hashFunction, message);
 
             Assume.That(result.Success);
             Assert.AreEqual(expectedResult, result.Digest);
@@ -105,7 +141,7 @@ namespace NIST.CVP.Crypto.SHA3.Tests
         {
             var message = new BitString(inputHex, length, false);
             var expectedResult = new BitString(outputHex);
-            var hashFunction = GetCSHAKEHashFunction(128, 256);
+            var hashFunction = GetCSHAKEHashFunction(128, 256, "", "");
 
             var subject = new CSHAKE();
             var result = subject.HashMessage(hashFunction, message);
@@ -123,7 +159,7 @@ namespace NIST.CVP.Crypto.SHA3.Tests
         {
             var message = new BitString(inputHex);
             var expectedResult = new BitString(outputHex, outputLength, false);
-            var hashFunction = GetCSHAKEHashFunction(outputLength, 256);
+            var hashFunction = GetCSHAKEHashFunction(outputLength, 256, "", "");
 
             var subject = new CSHAKE();
             var result = subject.HashMessage(hashFunction, message);
@@ -141,7 +177,7 @@ namespace NIST.CVP.Crypto.SHA3.Tests
         {
             var message = new BitString(inputHex, length, false);
             var expectedResult = new BitString(outputHex);
-            var hashFunction = GetCSHAKEHashFunction(256, 512);
+            var hashFunction = GetCSHAKEHashFunction(256, 512, "", "");
 
             var subject = new CSHAKE();
             var result = subject.HashMessage(hashFunction, message);
@@ -159,7 +195,7 @@ namespace NIST.CVP.Crypto.SHA3.Tests
         {
             var message = new BitString(inputHex);
             var expectedResult = new BitString(outputHex, outputLength, false);
-            var hashFunction = GetCSHAKEHashFunction(outputLength, 512);
+            var hashFunction = GetCSHAKEHashFunction(outputLength, 512, "", "");
 
             var subject = new CSHAKE();
             var result = subject.HashMessage(hashFunction, message);
@@ -168,13 +204,15 @@ namespace NIST.CVP.Crypto.SHA3.Tests
             Assert.AreEqual(expectedResult, result.Digest);
         }
 
-        private HashFunction GetCSHAKEHashFunction(int digestSize, int capacity)
+        private HashFunction GetCSHAKEHashFunction(int digestSize, int capacity, string functionName, string customization)
         {
             return new HashFunction()
             {
                 DigestSize = digestSize,
                 Capacity = capacity,
-                XOF = true
+                XOF = true,
+                FunctionName = functionName,
+                Customization = customization
             };
         }
     }

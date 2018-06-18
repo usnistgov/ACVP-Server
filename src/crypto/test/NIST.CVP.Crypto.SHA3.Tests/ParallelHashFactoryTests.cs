@@ -1,12 +1,12 @@
 ﻿using System;
-using NIST.CVP.Crypto.Common.Hash.CSHAKE;
+using NIST.CVP.Crypto.Common.Hash.ParallelHash;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
-namespace NIST.CVP.Crypto.CSHAKE.Tests
+namespace NIST.CVP.Crypto.ParallelHash.Tests
 {
     [TestFixture, FastCryptoTest]
-    public class CSHAKEFactoryTests
+    public class ParallelHashFactoryTests
     {
         [Test]
         [TestCase(32, 256, true)]
@@ -21,10 +21,10 @@ namespace NIST.CVP.Crypto.CSHAKE.Tests
                 XOF = XOF
             };
 
-            var subject = new CSHAKEFactory();
-            var result = subject.GetCSHAKE(hashFunction);
+            var subject = new ParallelHashFactory();
+            var result = subject.GetParallelHash(hashFunction);
 
-            Assert.IsInstanceOf<CSHAKEWrapper>(result);
+            Assert.IsInstanceOf<ParallelHashWrapper>(result);
         }
 
         [Test]
@@ -41,8 +41,8 @@ namespace NIST.CVP.Crypto.CSHAKE.Tests
                 XOF = XOF
             };
 
-            var subject = new CSHAKEFactory();
-            Assert.Throws<ArgumentException>(() => subject.GetCSHAKE(hashFunction));
+            var subject = new ParallelHashFactory();
+            Assert.Throws<ArgumentException>(() => subject.GetParallelHash(hashFunction));
         }
     }
 }

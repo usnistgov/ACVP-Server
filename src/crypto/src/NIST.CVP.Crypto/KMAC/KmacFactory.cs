@@ -1,4 +1,4 @@
-﻿using NIST.CVP.Crypto.Common.Hash.SHA3;
+﻿using NIST.CVP.Crypto.Common.Hash.CSHAKE;
 using NIST.CVP.Crypto.Common.MAC.KMAC;
 
 namespace NIST.CVP.Crypto.KMAC

@@ -1,10 +1,10 @@
 ﻿using System;
 using NIST.CVP.Crypto.Common.Hash;
-using NIST.CVP.Crypto.Common.Hash.SHA3;
+using NIST.CVP.Crypto.Common.Hash.CSHAKE;
 using NIST.CVP.Math;
 using NLog;
 
-namespace NIST.CVP.Crypto.SHA3
+namespace NIST.CVP.Crypto.CSHAKE
 {
     public class CSHAKE : ICSHAKE
     {
@@ -20,12 +20,12 @@ namespace NIST.CVP.Crypto.SHA3
             _iCSHAKEFactory = new CSHAKEFactory();
         }
 
-        public HashResult HashMessage(HashFunction hashFunction, BitString message, string functionName, string customization)
+        public HashResult HashMessage(HashFunction hashFunction, BitString message)
         {
             try
             {
                 var sha = _iCSHAKEFactory.GetCSHAKE(hashFunction);
-                var digest = sha.HashMessage(message, hashFunction.DigestSize, hashFunction.Capacity, functionName, customization);
+                var digest = sha.HashMessage(message, hashFunction.DigestSize, hashFunction.Capacity, hashFunction.FunctionName, hashFunction.Customization);
 
                 return new HashResult(digest);
             }
@@ -34,11 +34,6 @@ namespace NIST.CVP.Crypto.SHA3
                 ThisLogger.Error(ex);
                 return new HashResult(ex.Message);
             }
-        }
-
-        public HashResult HashMessage(HashFunction hashFunction, BitString message)
-        {
-            return HashMessage(hashFunction, message, "", "");
         }
 
         private Logger ThisLogger { get { return LogManager.GetCurrentClassLogger(); } }
