@@ -25,6 +25,10 @@ namespace NIST.CVP.Crypto.CSHAKE.Tests
         }
 
         [Test]
+        [TestCase(256, "00010203", "c1c36925b6409a04f1b504fcbca9d82b4017277cb5ed2b2065fc1d3814d5aaf5", "", "Email Signature")]
+        [TestCase(128, "00010203", "c1c36925b6409a04f1b504fcbca9d82b", "", "Email Signature")]
+        [TestCase(32, "00010203", "c1c36925", "", "Email Signature")]
+        [TestCase(0, "00010203", "", "", "Email Signature")]        // should this be a case?
         public void ShouldCSHAKE128HashCorrectlyWithVariableOutput(int outputLength, string inputHex, string outputHex, string functionName, string customization)
         {
             var message = new BitString(inputHex);
@@ -53,6 +57,20 @@ namespace NIST.CVP.Crypto.CSHAKE.Tests
         }
 
         [Test]
+        public void ShouldCSHAKE128HashCorrectlyBitWise(int length, string inputHex, string outputHex, string functionName, string customization)
+        {
+            var message = new BitString(inputHex, length, false);
+            var expectedResult = new BitString(outputHex);
+            var hashFunction = GetCSHAKEHashFunction(256, 256, functionName, customization);
+
+            var subject = new CSHAKE();
+            var result = subject.HashMessage(hashFunction, message);
+
+            Assume.That(result.Success);
+            Assert.AreEqual(expectedResult, result.Digest);
+        }
+
+        [Test]
         [TestCase(32, "00010203", "d008828e2b80ac9d2218ffee1d070c48b8e4c87bff32c9699d5b6896eee0edd164020e2be0560858d9c00c037e34a96937c561a74c412bb4c746469527281c8c", "", "Email Signature")]
         [TestCase(1600, "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7", "07dc27b11e51fbac75bc7b3c1d983e8b4b85fb1defaf218912ac86430273091727f42b17ed1df63e8ec118f04b23633c1dfb1574c8fb55cb45da8e25afb092bb", "", "Email Signature")]
         public void ShouldCSHAKE256HashCorrectly(int length, string inputHex, string outputHex, string functionName, string customization)
@@ -69,6 +87,10 @@ namespace NIST.CVP.Crypto.CSHAKE.Tests
         }
 
         [Test]
+        [TestCase(512, "00010203", "d008828e2b80ac9d2218ffee1d070c48b8e4c87bff32c9699d5b6896eee0edd164020e2be0560858d9c00c037e34a96937c561a74c412bb4c746469527281c8c", "", "Email Signature")]
+        [TestCase(256, "00010203", "d008828e2b80ac9d2218ffee1d070c48b8e4c87bff32c9699d5b6896eee0edd1", "", "Email Signature")]
+        [TestCase(32, "00010203", "d008828e", "", "Email Signature")]
+        [TestCase(0, "00010203", "", "", "Email Signature")] // should this be a case?
         public void ShouldCSHAKE256HashCorrectlyWithVariableOutput(int outputLength, string inputHex, string outputHex, string functionName, string customization)
         {
             var message = new BitString(inputHex);
@@ -88,6 +110,20 @@ namespace NIST.CVP.Crypto.CSHAKE.Tests
             var message = new BitString(inputHex);
             var expectedResult = new BitString(outputHex, outputLength, false);
             var hashFunction = GetCSHAKEHashFunction(outputLength, 512, functionName, customization);
+
+            var subject = new CSHAKE();
+            var result = subject.HashMessage(hashFunction, message);
+
+            Assume.That(result.Success);
+            Assert.AreEqual(expectedResult, result.Digest);
+        }
+
+        [Test]
+        public void ShouldCSHAKE256HashCorrectlyBitWise(int length, string inputHex, string outputHex, string functionName, string customization)
+        {
+            var message = new BitString(inputHex, length, false);
+            var expectedResult = new BitString(outputHex);
+            var hashFunction = GetCSHAKEHashFunction(256, 256, functionName, customization);
 
             var subject = new CSHAKE();
             var result = subject.HashMessage(hashFunction, message);

@@ -22,7 +22,7 @@ namespace NIST.CVP.Crypto.TupleHash.Tests
 
             var subject = new TupleHash();
             var result = subject.HashMessage(hashFunction, tuples);
-
+            System.Console.WriteLine(result.ErrorMessage);
             Assume.That(result.Success);
             Assert.AreEqual(expectedResult, result.Digest);
         }
@@ -46,15 +46,18 @@ namespace NIST.CVP.Crypto.TupleHash.Tests
         }
 
         [Test]
-        [TestCase(1, "2f103cd7c32320353495c68de1a8129245c6325f6f2a3d608d92179c96e68488", "")]
-        [TestCase(1, "3fc8ad69453128292859a18b6c67d7ad85f01b32815e22ce839c49ec374e9b9a", "My Tuple App")]
-        [TestCase(2, "900fe16cad098d28e74d632ed852f99daab7f7df4d99e775657885b4bf76d6f8", "My Tuple App")]
-        public void ShouldTupleHashXOF128HashCorrectly(int testTupleId, string outputHex, string customization)
+        [TestCase(1, 256, "2f103cd7c32320353495c68de1a8129245c6325f6f2a3d608d92179c96e68488", "")]
+        [TestCase(1, 256, "3fc8ad69453128292859a18b6c67d7ad85f01b32815e22ce839c49ec374e9b9a", "My Tuple App")]
+        [TestCase(2, 256, "900fe16cad098d28e74d632ed852f99daab7f7df4d99e775657885b4bf76d6f8", "My Tuple App")]
+        [TestCase(1, 128, "2f103cd7c32320353495c68de1a81292", "")]
+        [TestCase(1, 128, "3fc8ad69453128292859a18b6c67d7ad", "My Tuple App")]
+        [TestCase(2, 128, "900fe16cad098d28e74d632ed852f99d", "My Tuple App")]
+        public void ShouldTupleHashXOF128HashCorrectly(int testTupleId, int digestSize, string outputHex, string customization)
         {
             var tuples = GetTestTuple(testTupleId);
 
             var expectedResult = new BitString(outputHex);
-            var hashFunction = GetTupleHashXOFFunction(256, 256, customization);
+            var hashFunction = GetTupleHashXOFFunction(digestSize, 256, customization);
 
             var subject = new TupleHash();
             var result = subject.HashMessage(hashFunction, tuples);
@@ -64,15 +67,18 @@ namespace NIST.CVP.Crypto.TupleHash.Tests
         }
 
         [Test]
-        [TestCase(1, "03ded4610ed6450a1e3f8bc44951d14fbc384ab0efe57b000df6b6df5aae7cd568e77377daf13f37ec75cf5fc598b6841d51dd207c991cd45d210ba60ac52eb9", "")]
-        [TestCase(1, "6483cb3c9952eb20e830af4785851fc597ee3bf93bb7602c0ef6a65d741aeca7e63c3b128981aa05c6d27438c79d2754bb1b7191f125d6620fca12ce658b2442", "My Tuple App")]
-        [TestCase(2, "0c59b11464f2336c34663ed51b2b950bec743610856f36c28d1d088d8a2446284dd09830a6a178dc752376199fae935d86cfdee5913d4922dfd369b66a53c897", "My Tuple App")]
-        public void ShouldTupleHashXOF256HashCorrectly(int testTupleId, string outputHex, string customization)
+        [TestCase(1, 512, "03ded4610ed6450a1e3f8bc44951d14fbc384ab0efe57b000df6b6df5aae7cd568e77377daf13f37ec75cf5fc598b6841d51dd207c991cd45d210ba60ac52eb9", "")]
+        [TestCase(1, 512, "6483cb3c9952eb20e830af4785851fc597ee3bf93bb7602c0ef6a65d741aeca7e63c3b128981aa05c6d27438c79d2754bb1b7191f125d6620fca12ce658b2442", "My Tuple App")]
+        [TestCase(2, 512, "0c59b11464f2336c34663ed51b2b950bec743610856f36c28d1d088d8a2446284dd09830a6a178dc752376199fae935d86cfdee5913d4922dfd369b66a53c897", "My Tuple App")]
+        [TestCase(1, 256, "03ded4610ed6450a1e3f8bc44951d14fbc384ab0efe57b000df6b6df5aae7cd5", "")]
+        [TestCase(1, 256, "6483cb3c9952eb20e830af4785851fc597ee3bf93bb7602c0ef6a65d741aeca7", "My Tuple App")]
+        [TestCase(2, 256, "0c59b11464f2336c34663ed51b2b950bec743610856f36c28d1d088d8a244628", "My Tuple App")]
+        public void ShouldTupleHashXOF256HashCorrectly(int testTupleId, int digestSize, string outputHex, string customization)
         {
             var tuples = GetTestTuple(testTupleId);
 
             var expectedResult = new BitString(outputHex);
-            var hashFunction = GetTupleHashXOFFunction(512, 512, customization);
+            var hashFunction = GetTupleHashXOFFunction(digestSize, 512, customization);
 
             var subject = new TupleHash();
             var result = subject.HashMessage(hashFunction, tuples);
@@ -87,7 +93,8 @@ namespace NIST.CVP.Crypto.TupleHash.Tests
             {
                 DigestSize = digestSize,
                 Capacity = capacity,
-                XOF = false
+                XOF = false,
+                Customization = customization
             };
         }
 
