@@ -79,8 +79,6 @@ namespace NIST.CVP.Generation.AES_CTR.Tests.ContractResolvers
             Assert.AreEqual(tc.TestCaseId, newTc.TestCaseId, nameof(newTc.TestCaseId));
             Assert.AreEqual(tc.CipherText, newTc.CipherText, nameof(newTc.CipherText));
 
-            Assert.IsNull(newTc.IVs, nameof(newTc.IVs));
-
             Assert.AreNotEqual(tc.Key, newTc.Key, nameof(newTc.Key));
             Assert.AreNotEqual(tc.PlainText, newTc.PlainText, nameof(newTc.PlainText));
             Assert.AreNotEqual(tc.Deferred, newTc.Deferred, nameof(newTc.Deferred));
@@ -114,7 +112,6 @@ namespace NIST.CVP.Generation.AES_CTR.Tests.ContractResolvers
             Assert.AreEqual(tc.ParentGroup.TestGroupId, newTc.ParentGroup.TestGroupId, nameof(newTc.ParentGroup));
             Assert.AreEqual(tc.TestCaseId, newTc.TestCaseId, nameof(newTc.TestCaseId));
             Assert.AreEqual(tc.PlainText, newTc.PlainText, nameof(newTc.PlainText));
-            Assert.IsNull(newTc.IVs, nameof(newTc.IVs));
 
             Assert.AreNotEqual(tc.Key, newTc.Key, nameof(newTc.Key));
             Assert.AreNotEqual(tc.CipherText, newTc.CipherText, nameof(newTc.CipherText));

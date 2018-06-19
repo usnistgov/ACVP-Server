@@ -35,7 +35,7 @@ namespace NIST.CVP.Generation.TDES_CTR
             ValidateResultPresent(suppliedResult, errors);
             if (errors.Count == 0)
             {
-                CheckResults(suppliedResult, errors);
+                CheckResults(suppliedResult, errors, expected, provided);
                 ValidateIVs(_ivs, errors);
             }
 
@@ -61,14 +61,14 @@ namespace NIST.CVP.Generation.TDES_CTR
             }
         }
 
-        private List<BitString> CheckResults(TestCase suppliedResult, List<string> errors, Dictionary<string, string> expected, Dictionary<string, string> provided)
+        private void CheckResults(TestCase suppliedResult, List<string> errors, Dictionary<string, string> expected, Dictionary<string, string> provided)
         {
             var serverResult = _deferredTestCaseResolver.CompleteDeferredCrypto(_group, _serverTestCase, suppliedResult);
 
             if (!serverResult.Success)
             {
                 errors.Add($"Server unable to complete test case with error: {serverResult.ErrorMessage}");
-                return new List<BitString>();
+                return;
             }
 
             // only check first block

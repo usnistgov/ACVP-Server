@@ -86,7 +86,6 @@ namespace NIST.CVP.Generation.TDES_CTR
                 }
 
                 testCase.PlainText = result.Result;
-                testCase.Ivs = result.IVs;
             }
             catch (Exception ex)
             {

@@ -87,7 +87,6 @@ namespace NIST.CVP.Generation.AES_CTR
                 }
 
                 testCase.PlainText = result.Result;
-                testCase.IVs = result.IVs;
             }
             catch (Exception ex)
             {

@@ -86,7 +86,6 @@ namespace NIST.CVP.Generation.AES_CTR
                 }
 
                 testCase.CipherText = result.Result;
-                testCase.IVs = result.IVs;
             }
             catch (Exception ex)
             {

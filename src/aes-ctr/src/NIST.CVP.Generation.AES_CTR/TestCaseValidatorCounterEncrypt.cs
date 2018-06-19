@@ -31,13 +31,20 @@ namespace NIST.CVP.Generation.AES_CTR
             ValidateResultPresent(suppliedResult, errors);
             if (errors.Count == 0)
             {
-                CheckResults(suppliedResult, errors);
+                CheckResults(suppliedResult, errors, expected, provided);
                 ValidateIVs(_ivs, errors);
             }
 
             if (errors.Count > 0)
             {
-                return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = Core.Enums.Disposition.Failed, Reason = string.Join("; ", errors) };
+                return new TestCaseValidation
+                {
+                    TestCaseId = suppliedResult.TestCaseId,
+                    Result = Core.Enums.Disposition.Failed,
+                    Reason = string.Join("; ", errors),
+                    Expected = showExpected ? expected : null,
+                    Provided = showExpected ? provided : null
+                };
             }
             return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = Core.Enums.Disposition.Passed };
         }
@@ -50,7 +57,7 @@ namespace NIST.CVP.Generation.AES_CTR
             }
         }
 
-        private void CheckResults(TestCase suppliedResult, List<string> errors)
+        private void CheckResults(TestCase suppliedResult, List<string> errors, Dictionary<string, string> expected, Dictionary<string, string> provided)
         {
             var serverResult = _deferredTestCaseResolver.CompleteDeferredCrypto(_group, _serverTestCase, suppliedResult);
 
@@ -60,9 +67,12 @@ namespace NIST.CVP.Generation.AES_CTR
                 return;
             }
 
-            if (!serverResult.Result.Equals(suppliedResult.CipherText))
+            // only check first block
+            if (!serverResult.Result.GetMostSignificantBits(128).Equals(suppliedResult.CipherText.GetMostSignificantBits(128)))     // 128 is block size
             {
                 errors.Add("Cipher Text does not match");
+                expected.Add(nameof(serverResult.Result), serverResult.Result.ToHex());
+                provided.Add(nameof(suppliedResult.CipherText), suppliedResult.CipherText.ToHex());
             }
 
             _ivs = serverResult.IVs;

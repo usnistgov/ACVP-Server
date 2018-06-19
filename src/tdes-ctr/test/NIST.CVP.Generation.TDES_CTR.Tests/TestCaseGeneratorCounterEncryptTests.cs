@@ -179,7 +179,6 @@ namespace NIST.CVP.Generation.TDES_CTR.Tests
 
             Assert.IsNotEmpty((result.TestCase).CipherText.ToString(), "CipherText");
             Assert.IsNotEmpty((result.TestCase).Key.ToString(), "Key");
-            Assert.IsNotEmpty((result.TestCase).Ivs.ToString(), "Ivs");
             Assert.IsNotEmpty((result.TestCase).PlainText.ToString(), "PlainText");
             Assert.IsTrue(result.TestCase.Deferred, "Deferred");
         }

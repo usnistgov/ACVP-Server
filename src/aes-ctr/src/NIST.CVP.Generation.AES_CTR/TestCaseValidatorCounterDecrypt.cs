@@ -31,13 +31,12 @@ namespace NIST.CVP.Generation.AES_CTR
             ValidateResultPresent(suppliedResult, errors);
             if (errors.Count == 0)
             {
-                CheckResults(suppliedResult, errors);
+                CheckResults(suppliedResult, errors, expected, provided);
                 ValidateIVs(_ivs, errors);
             }
 
             if (errors.Count > 0)
             {
-                return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = Core.Enums.Disposition.Failed, Reason = string.Join("; ", errors) };
                 return new TestCaseValidation
                 {
                     TestCaseId = suppliedResult.TestCaseId,
@@ -58,21 +57,21 @@ namespace NIST.CVP.Generation.AES_CTR
             }
         }
 
-        private List<BitString> CheckResults(TestCase suppliedResult, List<string> errors, Dictionary<string, string> expected, Dictionary<string, string> provided)
+        private void CheckResults(TestCase suppliedResult, List<string> errors, Dictionary<string, string> expected, Dictionary<string, string> provided)
         {
             var serverResult = _deferredTestCaseResolver.CompleteDeferredCrypto(_group, _serverTestCase, suppliedResult);
 
             if (!serverResult.Success)
             {
                 errors.Add($"Server unable to complete test case with error: {serverResult.ErrorMessage}");
-                return new List<BitString>();
+                return;
             }
 
             // only check first block
             if (!serverResult.Result.GetMostSignificantBits(128).Equals(suppliedResult.PlainText.GetMostSignificantBits(128)))     // 128 is block size
             {
                 errors.Add("Plain Text does not match");
-                expected.Add(nameof(_serverTestCase.PlainText), _serverTestCase.PlainText.ToHex());
+                expected.Add(nameof(serverResult.Result), serverResult.Result.ToHex());
                 provided.Add(nameof(suppliedResult.PlainText), suppliedResult.PlainText.ToHex());
             }
 
