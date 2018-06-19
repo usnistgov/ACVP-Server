@@ -107,10 +107,10 @@ namespace NIST.CVP.Crypto.Symmetric.Engines
             switch (_direction)
             {
                 case BlockCipherDirections.Encrypt:
-                    _function = FunctionValues.Encryption;
+                    _function = !_useInverseCipher ? FunctionValues.Encryption : FunctionValues.Decryption;
                     break;
                 case BlockCipherDirections.Decrypt:
-                    _function = FunctionValues.Decryption;
+                    _function = !_useInverseCipher ? FunctionValues.Decryption : FunctionValues.Encryption;
                     break;
                 default:
                     throw new ArgumentException(nameof(_direction));
