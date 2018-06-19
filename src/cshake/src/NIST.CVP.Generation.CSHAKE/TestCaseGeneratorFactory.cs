@@ -10,7 +10,7 @@ namespace NIST.CVP.Generation.CSHAKE
         private readonly ICSHAKE _algo;
         private readonly ICSHAKE_MCT _mctAlgo;
 
-        public TestCaseGeneratorFactory(IRandom800_90 random800_90, ICSHAKE algo, ISHA3_MCT mctAlgo)
+        public TestCaseGeneratorFactory(IRandom800_90 random800_90, ICSHAKE algo, ICSHAKE_MCT mctAlgo)
         {
             _random800_90 = random800_90;
             _algo = algo;

@@ -50,8 +50,7 @@ namespace NIST.CVP.Generation.CSHAKE.Tests
             var subject = new ParameterValidator();
             var result = subject.Validate(
                 new ParameterBuilder()
-                    .WithAlgorithm("shake")
-                    .WithDigestSizes(new int[] { 128 })
+                    .WithAlgorithm("cshake")
                     .WithOutputLength(outputLength)
                     .WithBitOrientedOutput(bitOriented)
                     .Build()
@@ -61,27 +60,12 @@ namespace NIST.CVP.Generation.CSHAKE.Tests
         }
 
         [Test]
-        public void ShouldRejectBadSHA3DigestSize()
+        public void ShouldRejectBadCSHAKEDigestSize()
         {
             var subject = new ParameterValidator();
             var result = subject.Validate(
                 new ParameterBuilder()
-                    .WithAlgorithm("SHA3")
-                    .WithDigestSizes(new[] { 128 })
-                    .Build()
-            );
-
-            Assert.IsFalse(result.Success);
-        }
-
-        [Test]
-        public void ShouldRejectBadSHAKEDigestSize()
-        {
-            var subject = new ParameterValidator();
-            var result = subject.Validate(
-                new ParameterBuilder()
-                    .WithAlgorithm("SHAKE")
-                    .WithDigestSizes(new[] { 224 })
+                    .WithAlgorithm("cshake")
                     .Build()
             );
 
@@ -127,7 +111,7 @@ namespace NIST.CVP.Generation.CSHAKE.Tests
             var subject = new ParameterValidator();
             var result = subject.Validate(
                 new ParameterBuilder()
-                    .WithAlgorithm("shake")
+                    .WithAlgorithm("cshake")
                     .WithDigestSizes(new int[] { 128 })
                     .WithOutputLength(outputLength)
                     .WithBitOrientedOutput(bitOriented)
@@ -140,7 +124,7 @@ namespace NIST.CVP.Generation.CSHAKE.Tests
         public class ParameterBuilder
         {
             private string _algorithm;
-            private int[] _digestSizes;
+            private int[] _digestSize;
             private bool _includeNull;
             private bool _bitOrientedInput;
             private bool _bitOrientedOutput;
@@ -149,10 +133,10 @@ namespace NIST.CVP.Generation.CSHAKE.Tests
             public ParameterBuilder()
             {
                 _algorithm = "cSHAKE";
+                _digestSize = new int[] { 128 };
                 _includeNull = true;
                 _bitOrientedInput = true;
                 _bitOrientedOutput = true;
-
                 _outputLength = new MathDomain();
                 _outputLength.AddSegment(new RangeDomainSegment(null, 16, 65536));
             }
@@ -160,6 +144,12 @@ namespace NIST.CVP.Generation.CSHAKE.Tests
             public ParameterBuilder WithAlgorithm(string value)
             {
                 _algorithm = value;
+                return this;
+            }
+
+            public ParameterBuilder WithDigestSizes(int[] values)
+            {
+                _digestSize = values;
                 return this;
             }
 
@@ -192,6 +182,7 @@ namespace NIST.CVP.Generation.CSHAKE.Tests
                 return new Parameters
                 {
                     Algorithm = _algorithm,
+                    DigestSizes = _digestSize,
                     BitOrientedInput = _bitOrientedInput,
                     BitOrientedOutput = _bitOrientedOutput,
                     IncludeNull = _includeNull,

@@ -82,5 +82,18 @@ namespace NIST.CVP.Math
 
             return result;
         }
+
+        private const string VALID_STRING_CHARACTERS = " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~";
+
+        public string GetRandomString(int length)
+        {
+            var result = "";
+            for (var i = 0; i < length; i++)
+            {
+                result += VALID_STRING_CHARACTERS[_randy.Next(VALID_STRING_CHARACTERS.Length)];
+            }
+
+            return result;
+        }
     }
 }

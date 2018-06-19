@@ -46,6 +46,13 @@ namespace NIST.CVP.Generation.CSHAKE
 
             _numberOfCases = numSmallCases + numLargeCases;
 
+            var functionName = "";
+            var customization = "";
+            if (!group.SHAKEMode)
+            {
+                //functionName = _random800_90.
+            }
+
             var message = new BitString(0);
             if (_currentSmallCase <= numSmallCases)
             {

@@ -28,6 +28,10 @@ namespace NIST.CVP.Generation.CSHAKE
             }
         }
 
+        public string FunctionName { get; set; } = "";
+
+        public string Customization { get; set; } = "";
+
         [JsonProperty(PropertyName = "md")]
         public BitString Digest { get; set; }
 

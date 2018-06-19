@@ -98,6 +98,8 @@ namespace NIST.CVP.Crypto.CSHAKE
                         var rightmostBits = rightmostBitString.Bits;
 
                         outputLen = min + (8 * GetIntFromBits(rightmostBits)) % range;
+                        functionName = GetStringFromBytes(BitString.ConcatenateBits(innerMessage, rightmostBitString).ToBytes());
+                        customization = GetStringFromBytes(BitString.ConcatenateBits(innerMessage, leftmostBitString).ToBytes());
 
                         innerMessage = innerDigest.GetDeepCopy();
                     }

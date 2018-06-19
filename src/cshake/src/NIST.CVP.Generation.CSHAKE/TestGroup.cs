@@ -27,6 +27,9 @@ namespace NIST.CVP.Generation.CSHAKE
 
         public string Customization { get; set; } = "";
 
+        [JsonIgnore]
+        public bool SHAKEMode { get; set; }
+
         [JsonProperty(PropertyName = "inBit")]
         public bool BitOrientedInput { get; set; } = false;
 
