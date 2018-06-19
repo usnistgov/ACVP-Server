@@ -64,7 +64,7 @@ namespace NIST.CVP.Generation.CSHAKE.Tests
                 groups.AddRangeIfNotNullOrEmpty(genny.BuildTestGroups(p));
             }
 
-            Assert.AreEqual(6, groups.Count);       // 2 * 3 (digest sizes * test types)
+            Assert.AreEqual(10, groups.Count);       // 2 * 1 + 2 * 2 * 2 (digest sizes * MCT) + (digest sizes * 2 test groups * (AFT + VOT))
         }
     }
 }

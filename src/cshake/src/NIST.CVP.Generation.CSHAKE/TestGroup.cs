@@ -23,10 +23,6 @@ namespace NIST.CVP.Generation.CSHAKE
         [JsonIgnore]
         public int DigestSize { get; set; }
 
-        public string FunctionName { get; set; } = "";
-
-        public string Customization { get; set; } = "";
-
         [JsonIgnore]
         public bool SHAKEMode { get; set; }
 

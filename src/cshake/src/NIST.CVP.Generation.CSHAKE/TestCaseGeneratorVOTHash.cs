@@ -42,9 +42,12 @@ namespace NIST.CVP.Generation.CSHAKE
             _currentCase++;
 
             var message = _random800_90.GetRandomBitString(_capacity / 2);
+            var customization = group.SHAKEMode ? "" : _random800_90.GetRandomString(_random800_90.GetRandomInt(1, 21));
+            
             var testCase = new TestCase
             {
                 Message = message,
+                Customization = customization,
                 Deferred = false
             };
 
@@ -61,8 +64,8 @@ namespace NIST.CVP.Generation.CSHAKE
                 {
                     Capacity = _capacity,
                     DigestSize = _digestSize,
-                    FunctionName = group.FunctionName,
-                    Customization = group.Customization
+                    FunctionName = testCase.FunctionName,
+                    Customization = testCase.Customization
                 };
 
                 hashResult = _algo.HashMessage(hashFunction, testCase.Message);

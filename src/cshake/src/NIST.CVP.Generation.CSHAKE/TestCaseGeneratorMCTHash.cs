@@ -40,8 +40,8 @@ namespace NIST.CVP.Generation.CSHAKE
             {
                 Capacity = group.DigestSize * 2,
                 DigestSize = group.DigestSize,
-                FunctionName = group.FunctionName,
-                Customization = group.Customization
+                FunctionName = testCase.FunctionName,
+                Customization = testCase.Customization
             };
 
             MCTResult<AlgoArrayResponse> hashResult = null;

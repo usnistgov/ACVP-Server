@@ -12,6 +12,7 @@ namespace NIST.CVP.Generation.CSHAKE
         private int _numberOfCases = 512;
         private int _currentSmallCase = 0;
         private int _currentLargeCase = 1;
+        private int _customizationLength = 1;
 
         private readonly IRandom800_90 _random800_90;
         private readonly ICSHAKE _algo;
@@ -50,7 +51,7 @@ namespace NIST.CVP.Generation.CSHAKE
             var customization = "";
             if (!group.SHAKEMode)
             {
-                //functionName = _random800_90.
+                customization = _random800_90.GetRandomString(_customizationLength++);
             }
 
             var message = new BitString(0);
@@ -68,6 +69,8 @@ namespace NIST.CVP.Generation.CSHAKE
             var testCase = new TestCase
             {
                 Message = message,
+                FunctionName = functionName,
+                Customization = customization,
                 Deferred = false
             };
 
@@ -84,8 +87,8 @@ namespace NIST.CVP.Generation.CSHAKE
                 {
                     Capacity = group.DigestSize * 2,
                     DigestSize = group.DigestSize,
-                    FunctionName = group.FunctionName,
-                    Customization = group.Customization
+                    FunctionName = testCase.FunctionName,
+                    Customization = testCase.Customization
                 };
 
                 hashResult = _algo.HashMessage(hashFunction, testCase.Message);

@@ -60,12 +60,16 @@ namespace NIST.CVP.Generation.CSHAKE.Tests
         }
 
         [Test]
-        public void ShouldRejectBadCSHAKEDigestSize()
+        [TestCase(127)]
+        [TestCase(512)]
+        [TestCase(null)]
+        public void ShouldRejectBadCSHAKEDigestSize(int number)
         {
             var subject = new ParameterValidator();
             var result = subject.Validate(
                 new ParameterBuilder()
                     .WithAlgorithm("cshake")
+                    .WithDigestSizes(new int[]{ number })
                     .Build()
             );
 
@@ -133,7 +137,7 @@ namespace NIST.CVP.Generation.CSHAKE.Tests
             public ParameterBuilder()
             {
                 _algorithm = "cSHAKE";
-                _digestSize = new int[] { 128 };
+                _digestSize = new int[] { 128, 256 };
                 _includeNull = true;
                 _bitOrientedInput = true;
                 _bitOrientedOutput = true;

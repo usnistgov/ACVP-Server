@@ -21,10 +21,25 @@ namespace NIST.CVP.Generation.CSHAKE
                     BitOrientedInput = parameters.BitOrientedInput,
                     BitOrientedOutput = parameters.BitOrientedOutput,
                     OutputLength = parameters.OutputLength.GetDeepCopy(),
-                    TestType = TEST_TYPE
+                    TestType = TEST_TYPE,
+                    SHAKEMode = true
                 };
 
                 testGroups.Add(testGroup);
+
+                var testGroup2 = new TestGroup
+                {
+                    Function = parameters.Algorithm,
+                    DigestSize = digestSize,
+                    IncludeNull = parameters.IncludeNull,
+                    BitOrientedInput = parameters.BitOrientedInput,
+                    BitOrientedOutput = parameters.BitOrientedOutput,
+                    OutputLength = parameters.OutputLength.GetDeepCopy(),
+                    TestType = TEST_TYPE,
+                    SHAKEMode = false
+                };
+
+                testGroups.Add(testGroup2);
             }
 
             return testGroups;

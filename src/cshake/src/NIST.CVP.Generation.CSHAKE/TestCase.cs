@@ -28,8 +28,10 @@ namespace NIST.CVP.Generation.CSHAKE
             }
         }
 
+        [JsonProperty(PropertyName = "functionName")]
         public string FunctionName { get; set; } = "";
 
+        [JsonProperty(PropertyName = "customization")]
         public string Customization { get; set; } = "";
 
         [JsonProperty(PropertyName = "md")]
