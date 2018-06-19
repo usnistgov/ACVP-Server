@@ -18,7 +18,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen
             TestCaseId = testCaseId;
         }
 
-        public TestCaseValidation Validate(TestCase suppliedResult)
+        public TestCaseValidation Validate(TestCase suppliedResult, bool showExpected = false)
         {
             return new TestCaseValidation { Reason = _errorMessage, Result = Core.Enums.Disposition.Failed, TestCaseId = TestCaseId };
         }

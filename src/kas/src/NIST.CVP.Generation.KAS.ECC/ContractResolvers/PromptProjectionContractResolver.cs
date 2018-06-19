@@ -20,7 +20,7 @@ namespace NIST.CVP.Generation.KAS.ECC.ContractResolvers
                 nameof(TestGroup.KasMode),
                 nameof(TestGroup.ParmSet),
                 nameof(TestGroup.HashAlgName),
-                nameof(TestGroup.CurveName),
+                nameof(TestGroup.Curve),
             };
 
             if (includeProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))

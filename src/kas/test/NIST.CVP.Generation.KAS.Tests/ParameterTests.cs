@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.JsonConverters;
 using NIST.CVP.Generation.Core.Parsers;
+using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core;
 using NUnit.Framework;
 
@@ -56,7 +57,7 @@ namespace NIST.CVP.Generation.KAS.Tests
                                         {
                                             HmacSha2_D224 = new MacOptionHmacSha2_d224()
                                             {
-                                                KeyLen = new int[]{ 128 },
+                                                KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
                                                 MacLen = 128
                                             }
                                         }

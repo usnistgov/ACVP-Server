@@ -1,10 +1,11 @@
 {
   "algorithm": "ECDSA",
   "mode": "KeyGen",
+  "isSample": true,
   "testGroups": [
     {
-      "curve": "p-224",
-      "secretGenerationMode": "extra bits",
+      "tgId": 1,
+      "testType": "AFT",
       "tests": [
         {
           "tcId": 1
@@ -15,11 +16,13 @@
         {
           "tcId": 3
         }
-      ]
+      ],
+      "curve": "p-224",
+      "secretGenerationMode": "testing candidates"
     },
     {
-      "curve": "p-224",
-      "secretGenerationMode": "testing candidates",
+      "tgId": 2,
+      "testType": "AFT",
       "tests": [
         {
           "tcId": 4
@@ -30,11 +33,13 @@
         {
           "tcId": 6
         }
-      ]
+      ],
+      "curve": "p-224",
+      "secretGenerationMode": "extra bits"
     },
     {
-      "curve": "p-256",
-      "secretGenerationMode": "extra bits",
+      "tgId": 3,
+      "testType": "AFT",
       "tests": [
         {
           "tcId": 7
@@ -45,11 +50,13 @@
         {
           "tcId": 9
         }
-      ]
+      ],
+      "curve": "p-256",
+      "secretGenerationMode": "testing candidates"
     },
     {
-      "curve": "p-256",
-      "secretGenerationMode": "testing candidates",
+      "tgId": 4,
+      "testType": "AFT",
       "tests": [
         {
           "tcId": 10
@@ -60,11 +67,13 @@
         {
           "tcId": 12
         }
-      ]
+      ],
+      "curve": "p-256",
+      "secretGenerationMode": "extra bits"
     },
     {
-      "curve": "p-384",
-      "secretGenerationMode": "extra bits",
+      "tgId": 5,
+      "testType": "AFT",
       "tests": [
         {
           "tcId": 13
@@ -75,11 +84,13 @@
         {
           "tcId": 15
         }
-      ]
+      ],
+      "curve": "p-384",
+      "secretGenerationMode": "testing candidates"
     },
     {
-      "curve": "p-384",
-      "secretGenerationMode": "testing candidates",
+      "tgId": 6,
+      "testType": "AFT",
       "tests": [
         {
           "tcId": 16
@@ -90,11 +101,13 @@
         {
           "tcId": 18
         }
-      ]
+      ],
+      "curve": "p-384",
+      "secretGenerationMode": "extra bits"
     },
     {
-      "curve": "p-521",
-      "secretGenerationMode": "extra bits",
+      "tgId": 7,
+      "testType": "AFT",
       "tests": [
         {
           "tcId": 19
@@ -105,11 +118,13 @@
         {
           "tcId": 21
         }
-      ]
+      ],
+      "curve": "p-521",
+      "secretGenerationMode": "testing candidates"
     },
     {
-      "curve": "p-521",
-      "secretGenerationMode": "testing candidates",
+      "tgId": 8,
+      "testType": "AFT",
       "tests": [
         {
           "tcId": 22
@@ -120,11 +135,13 @@
         {
           "tcId": 24
         }
-      ]
+      ],
+      "curve": "p-521",
+      "secretGenerationMode": "extra bits"
     },
     {
-      "curve": "b-233",
-      "secretGenerationMode": "extra bits",
+      "tgId": 9,
+      "testType": "AFT",
       "tests": [
         {
           "tcId": 25
@@ -135,11 +152,13 @@
         {
           "tcId": 27
         }
-      ]
+      ],
+      "curve": "k-233",
+      "secretGenerationMode": "testing candidates"
     },
     {
-      "curve": "b-233",
-      "secretGenerationMode": "testing candidates",
+      "tgId": 10,
+      "testType": "AFT",
       "tests": [
         {
           "tcId": 28
@@ -150,11 +169,13 @@
         {
           "tcId": 30
         }
-      ]
+      ],
+      "curve": "k-233",
+      "secretGenerationMode": "extra bits"
     },
     {
-      "curve": "b-283",
-      "secretGenerationMode": "extra bits",
+      "tgId": 11,
+      "testType": "AFT",
       "tests": [
         {
           "tcId": 31
@@ -165,11 +186,13 @@
         {
           "tcId": 33
         }
-      ]
+      ],
+      "curve": "k-283",
+      "secretGenerationMode": "testing candidates"
     },
     {
-      "curve": "b-283",
-      "secretGenerationMode": "testing candidates",
+      "tgId": 12,
+      "testType": "AFT",
       "tests": [
         {
           "tcId": 34
@@ -180,11 +203,13 @@
         {
           "tcId": 36
         }
-      ]
+      ],
+      "curve": "k-283",
+      "secretGenerationMode": "extra bits"
     },
     {
-      "curve": "b-409",
-      "secretGenerationMode": "extra bits",
+      "tgId": 13,
+      "testType": "AFT",
       "tests": [
         {
           "tcId": 37
@@ -195,11 +220,13 @@
         {
           "tcId": 39
         }
-      ]
+      ],
+      "curve": "k-409",
+      "secretGenerationMode": "testing candidates"
     },
     {
-      "curve": "b-409",
-      "secretGenerationMode": "testing candidates",
+      "tgId": 14,
+      "testType": "AFT",
       "tests": [
         {
           "tcId": 40
@@ -210,11 +237,13 @@
         {
           "tcId": 42
         }
-      ]
+      ],
+      "curve": "k-409",
+      "secretGenerationMode": "extra bits"
     },
     {
-      "curve": "b-571",
-      "secretGenerationMode": "extra bits",
+      "tgId": 15,
+      "testType": "AFT",
       "tests": [
         {
           "tcId": 43
@@ -225,11 +254,13 @@
         {
           "tcId": 45
         }
-      ]
+      ],
+      "curve": "k-571",
+      "secretGenerationMode": "testing candidates"
     },
     {
-      "curve": "b-571",
-      "secretGenerationMode": "testing candidates",
+      "tgId": 16,
+      "testType": "AFT",
       "tests": [
         {
           "tcId": 46
@@ -240,11 +271,13 @@
         {
           "tcId": 48
         }
-      ]
+      ],
+      "curve": "k-571",
+      "secretGenerationMode": "extra bits"
     },
     {
-      "curve": "k-233",
-      "secretGenerationMode": "extra bits",
+      "tgId": 17,
+      "testType": "AFT",
       "tests": [
         {
           "tcId": 49
@@ -255,11 +288,13 @@
         {
           "tcId": 51
         }
-      ]
+      ],
+      "curve": "b-233",
+      "secretGenerationMode": "testing candidates"
     },
     {
-      "curve": "k-233",
-      "secretGenerationMode": "testing candidates",
+      "tgId": 18,
+      "testType": "AFT",
       "tests": [
         {
           "tcId": 52
@@ -270,11 +305,13 @@
         {
           "tcId": 54
         }
-      ]
+      ],
+      "curve": "b-233",
+      "secretGenerationMode": "extra bits"
     },
     {
-      "curve": "k-283",
-      "secretGenerationMode": "extra bits",
+      "tgId": 19,
+      "testType": "AFT",
       "tests": [
         {
           "tcId": 55
@@ -285,11 +322,13 @@
         {
           "tcId": 57
         }
-      ]
+      ],
+      "curve": "b-283",
+      "secretGenerationMode": "testing candidates"
     },
     {
-      "curve": "k-283",
-      "secretGenerationMode": "testing candidates",
+      "tgId": 20,
+      "testType": "AFT",
       "tests": [
         {
           "tcId": 58
@@ -300,11 +339,13 @@
         {
           "tcId": 60
         }
-      ]
+      ],
+      "curve": "b-283",
+      "secretGenerationMode": "extra bits"
     },
     {
-      "curve": "k-409",
-      "secretGenerationMode": "extra bits",
+      "tgId": 21,
+      "testType": "AFT",
       "tests": [
         {
           "tcId": 61
@@ -315,11 +356,13 @@
         {
           "tcId": 63
         }
-      ]
+      ],
+      "curve": "b-409",
+      "secretGenerationMode": "testing candidates"
     },
     {
-      "curve": "k-409",
-      "secretGenerationMode": "testing candidates",
+      "tgId": 22,
+      "testType": "AFT",
       "tests": [
         {
           "tcId": 64
@@ -330,11 +373,13 @@
         {
           "tcId": 66
         }
-      ]
+      ],
+      "curve": "b-409",
+      "secretGenerationMode": "extra bits"
     },
     {
-      "curve": "k-571",
-      "secretGenerationMode": "extra bits",
+      "tgId": 23,
+      "testType": "AFT",
       "tests": [
         {
           "tcId": 67
@@ -345,11 +390,13 @@
         {
           "tcId": 69
         }
-      ]
+      ],
+      "curve": "b-571",
+      "secretGenerationMode": "testing candidates"
     },
     {
-      "curve": "k-571",
-      "secretGenerationMode": "testing candidates",
+      "tgId": 24,
+      "testType": "AFT",
       "tests": [
         {
           "tcId": 70
@@ -360,7 +407,9 @@
         {
           "tcId": 72
         }
-      ]
+      ],
+      "curve": "b-571",
+      "secretGenerationMode": "extra bits"
     }
   ]
 }

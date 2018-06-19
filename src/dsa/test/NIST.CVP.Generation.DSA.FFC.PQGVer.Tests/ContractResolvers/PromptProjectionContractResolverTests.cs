@@ -82,10 +82,9 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer.Tests.ContractResolvers
             Assert.AreEqual(tc.P, newTc.P, nameof(newTc.P));
             Assert.AreEqual(tc.Q, newTc.Q, nameof(newTc.Q));
 
-            if (pqGenMode == PrimeGenMode.Probable)
+            if (pqGenMode != PrimeGenMode.None)
             {
                 Assert.AreEqual(tc.DomainSeed, newTc.DomainSeed, nameof(newTc.DomainSeed));
-                Assert.AreEqual(tc.Index, newTc.Index, nameof(newTc.Index));
             }
 
             if (pqGenMode == PrimeGenMode.Provable)

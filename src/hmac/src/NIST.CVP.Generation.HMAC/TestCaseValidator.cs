@@ -17,19 +17,28 @@ namespace NIST.CVP.Generation.HMAC
 
         public int TestCaseId => _expectedResult.TestCaseId;
 
-        public TestCaseValidation Validate(TestCase suppliedResult)
+        public TestCaseValidation Validate(TestCase suppliedResult, bool showExpected = false)
         {
             var errors = new List<string>();
+            var expected = new Dictionary<string, string>();
+            var provided = new Dictionary<string, string>();
 
             ValidateResultPresent(suppliedResult, errors);
             if (errors.Count == 0)
             {
-                CheckResults(suppliedResult, errors);
+                CheckResults(suppliedResult, errors, expected, provided);
             }
 
             if (errors.Count > 0)
             {
-                return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = Core.Enums.Disposition.Failed, Reason = string.Join("; ", errors) };
+                return new TestCaseValidation 
+                { 
+                    TestCaseId = suppliedResult.TestCaseId, 
+                    Result = Core.Enums.Disposition.Failed, 
+                    Reason = string.Join("; ", errors),
+                    Expected = expected.Count != 0 && showExpected ? expected : null,
+                    Provided = provided.Count != 0 && showExpected ? provided : null
+                };
             }
             return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = Core.Enums.Disposition.Passed };
         }
@@ -42,13 +51,15 @@ namespace NIST.CVP.Generation.HMAC
             }
         }
 
-        private void CheckResults(TestCase suppliedResult, List<string> errors)
+        private void CheckResults(TestCase suppliedResult, List<string> errors, Dictionary<string, string> expected, Dictionary<string, string> provided)
         {
             SetBitStringLengthsToCorrectLength(suppliedResult);
 
             if (!_expectedResult.Mac.Equals(suppliedResult.Mac))
             {
                 errors.Add("MAC does not match");
+                expected.Add(nameof(_expectedResult.Mac), _expectedResult.Mac.ToHex());
+                provided.Add(nameof(suppliedResult.Mac), suppliedResult.Mac.ToHex());
             }
         }
 

@@ -82,7 +82,7 @@ namespace NIST.CVP.Generation.AES_XTS.IntegrationTests
                 Direction = new[] { "encrypt", "decrypt" },
                 PtLen = new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 128, 65536)),
                 TweakModes = new[] { "hex", "number" },
-                IsSample = false
+                IsSample = true
             };
 
             return CreateRegistration(folderName, p);

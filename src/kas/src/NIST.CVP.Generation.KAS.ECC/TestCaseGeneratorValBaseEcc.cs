@@ -68,7 +68,7 @@ namespace NIST.CVP.Generation.KAS.ECC
 
         public override EccDomainParameters GetDomainParameters(TestGroup testGroup)
         {
-            return new EccDomainParameters(_curveFactory.GetCurve(testGroup.CurveName));
+            return new EccDomainParameters(_curveFactory.GetCurve(testGroup.Curve));
         }
 
         protected override void MangleKeys(TestCase testCase, TestCaseDispositionOption intendedDisposition, IKas<KasDsaAlgoAttributesEcc, OtherPartySharedInformation<EccDomainParameters, EccKeyPair>, EccDomainParameters, EccKeyPair> serverKas, IKas<KasDsaAlgoAttributesEcc, OtherPartySharedInformation<EccDomainParameters, EccKeyPair>, EccDomainParameters, EccKeyPair> iutKas)

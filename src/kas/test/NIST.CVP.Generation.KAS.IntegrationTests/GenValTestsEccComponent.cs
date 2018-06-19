@@ -16,10 +16,10 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
     {
         private readonly Random800_90 _random = new Random800_90();
 
-        public override string Algorithm => "KAS";
+        public override string Algorithm => "KAS-ECC";
 
-        public override string Mode => "EccComponent";
-        
+        public override string Mode => "CDH-Component";
+
         public override AlgoMode AlgoMode => AlgoMode.KAS_EccComponent;
 
         public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
@@ -31,7 +31,8 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
-                Curves = new string[] { "p-192" },
+                Function = ParameterValidator.ValidFunctions,
+                Curve = new string[] { "p-192" },
                 IsSample = true
             };
 
@@ -44,7 +45,8 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
-                Curves = new string[] { "p-192", "k-163", "b-163" },
+                Function = ParameterValidator.ValidFunctions,
+                Curve = new string[] { "p-192", "k-163", "b-163" },
                 IsSample = true
             };
 

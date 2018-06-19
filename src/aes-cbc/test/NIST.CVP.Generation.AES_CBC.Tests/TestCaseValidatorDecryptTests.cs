@@ -13,7 +13,7 @@ namespace NIST.CVP.Generation.AES_CBC.Tests
         {
             var testCase = GetTestCase();
             var subject = new TestCaseValidatorDecrypt(testCase);
-            var result = subject.Validate(testCase);
+            var result = subject.Validate(testCase, false);
             Assume.That(result != null);
             Assert.AreEqual(Disposition.Passed, result.Result);
         }
@@ -25,7 +25,7 @@ namespace NIST.CVP.Generation.AES_CBC.Tests
             var subject = new TestCaseValidatorDecrypt(testCase);
             var suppliedResult = GetTestCase();
             suppliedResult.PlainText = new BitString("D00000");
-            var result = subject.Validate(suppliedResult);
+            var result = subject.Validate(suppliedResult, false);
             Assume.That(result != null);
             Assert.AreEqual(Disposition.Failed, result.Result);
         }
@@ -37,7 +37,7 @@ namespace NIST.CVP.Generation.AES_CBC.Tests
             var subject = new TestCaseValidatorDecrypt(testCase);
             var suppliedResult = GetTestCase();
             suppliedResult.PlainText = new BitString("D00000");
-            var result = subject.Validate(suppliedResult);
+            var result = subject.Validate(suppliedResult, false);
             Assume.That(result != null);
             Assume.That(Disposition.Failed == result.Result);
             Assert.IsTrue(result.Reason.Contains("Plain Text"));
@@ -52,7 +52,7 @@ namespace NIST.CVP.Generation.AES_CBC.Tests
 
             suppliedResult.PlainText = null;
 
-            var result = subject.Validate(suppliedResult);
+            var result = subject.Validate(suppliedResult, false);
             Assume.That(result != null);
             Assume.That(Disposition.Failed == result.Result);
 

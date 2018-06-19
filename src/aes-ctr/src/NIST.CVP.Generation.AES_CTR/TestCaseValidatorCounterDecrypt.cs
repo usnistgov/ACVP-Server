@@ -22,9 +22,11 @@ namespace NIST.CVP.Generation.AES_CTR
             _group = group;
         }
 
-        public TestCaseValidation Validate(TestCase suppliedResult)
+        public TestCaseValidation Validate(TestCase suppliedResult, bool showExpected = false)
         {
             var errors = new List<string>();
+            var expected = new Dictionary<string, string>();
+            var provided = new Dictionary<string, string>();
 
             ValidateResultPresent(suppliedResult, errors);
             if (errors.Count == 0)
@@ -36,6 +38,14 @@ namespace NIST.CVP.Generation.AES_CTR
             if (errors.Count > 0)
             {
                 return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = Core.Enums.Disposition.Failed, Reason = string.Join("; ", errors) };
+                return new TestCaseValidation
+                {
+                    TestCaseId = suppliedResult.TestCaseId,
+                    Result = Core.Enums.Disposition.Failed,
+                    Reason = string.Join("; ", errors),
+                    Expected = showExpected ? expected : null,
+                    Provided = showExpected ? provided : null
+                };
             }
             return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = Core.Enums.Disposition.Passed };
         }
@@ -48,19 +58,22 @@ namespace NIST.CVP.Generation.AES_CTR
             }
         }
 
-        private void CheckResults(TestCase suppliedResult, List<string> errors)
+        private List<BitString> CheckResults(TestCase suppliedResult, List<string> errors, Dictionary<string, string> expected, Dictionary<string, string> provided)
         {
             var serverResult = _deferredTestCaseResolver.CompleteDeferredCrypto(_group, _serverTestCase, suppliedResult);
 
             if (!serverResult.Success)
             {
                 errors.Add($"Server unable to complete test case with error: {serverResult.ErrorMessage}");
-                return;
+                return new List<BitString>();
             }
 
-            if (!serverResult.Result.Equals(suppliedResult.PlainText))
+            // only check first block
+            if (!serverResult.Result.GetMostSignificantBits(128).Equals(suppliedResult.PlainText.GetMostSignificantBits(128)))     // 128 is block size
             {
                 errors.Add("Plain Text does not match");
+                expected.Add(nameof(_serverTestCase.PlainText), _serverTestCase.PlainText.ToHex());
+                provided.Add(nameof(suppliedResult.PlainText), suppliedResult.PlainText.ToHex());
             }
 
             _ivs = serverResult.IVs;

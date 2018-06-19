@@ -1,5 +1,6 @@
 ﻿using NIST.CVP.Generation.KAS.FFC;
 using NIST.CVP.Generation.KAS.Tests.Builders;
+using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
@@ -616,7 +617,7 @@ namespace NIST.CVP.Generation.KAS.Tests
                                                             new MacOptionsBuilder()
                                                                 .WithAesCcm(
                                                                     new MacOptionsBaseBuilder(true)
-                                                                        .WithKeyLen(new int[] { 40 })
+                                                                        .WithKeyLen(new MathDomain().AddSegment(new ValueDomainSegment(40)))
                                                                         .BuildAesCcm()
                                                                 )
                                                                 .WithCmac(null)
@@ -655,7 +656,7 @@ namespace NIST.CVP.Generation.KAS.Tests
                                                                 .WithAesCcm(null)
                                                                 .WithCmac(
                                                                     new MacOptionsBaseBuilder(true)
-                                                                        .WithKeyLen(new int[] { 40 })
+                                                                        .WithKeyLen(new MathDomain().AddSegment(new ValueDomainSegment(40)))
                                                                         .BuildAesCmac()
                                                                 )
                                                                 .WithHmac2_224(null)
@@ -694,7 +695,7 @@ namespace NIST.CVP.Generation.KAS.Tests
                                                                 .WithCmac(null)
                                                                 .WithHmac2_224(
                                                                     new MacOptionsBaseBuilder(true)
-                                                                        .WithKeyLen(new int[] { 131 })
+                                                                        .WithKeyLen(new MathDomain().AddSegment(new ValueDomainSegment(131)))
                                                                         .BuildHmac2_224()
                                                                 )
                                                                 .WithHmac2_256(null)
@@ -732,7 +733,7 @@ namespace NIST.CVP.Generation.KAS.Tests
                                                                 .WithCmac(null)
                                                                 .WithHmac2_224(
                                                                     new MacOptionsBaseBuilder(true)
-                                                                        .WithKeyLen(new int[] { 120 })
+                                                                        .WithKeyLen(new MathDomain().AddSegment(new ValueDomainSegment(120)))
                                                                         .BuildHmac2_224()
                                                                 )
                                                                 .WithHmac2_256(null)

@@ -74,11 +74,18 @@ namespace NIST.CVP.Generation.IKEv2.Tests
             {
                 Algorithm = _algorithm,
                 Mode = _mode,
-                HashAlg = _hashAlgs,
-                InitiatorNonceLength = _initNonceLengths,
-                ResponderNonceLength = _respNonceLengths,
-                DiffieHellmanSharedSecretLength = _dhLengths,
-                DerivedKeyingMaterialLength = _dkmLengths
+
+                Capabilities = new []
+                {
+                    new Capabilities
+                    {
+                        HashAlg = _hashAlgs,
+                        InitiatorNonceLength = _initNonceLengths,
+                        ResponderNonceLength = _respNonceLengths,
+                        DiffieHellmanSharedSecretLength = _dhLengths,
+                        DerivedKeyingMaterialLength = _dkmLengths
+                    }
+                }
             };
         }
     }

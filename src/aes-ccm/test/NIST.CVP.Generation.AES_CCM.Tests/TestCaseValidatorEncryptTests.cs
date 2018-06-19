@@ -12,7 +12,7 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
         {
             var testCase = GetTestCase();
             var subject = new TestCaseValidatorEncrypt(testCase);
-            var result = subject.Validate(testCase);
+            var result = subject.Validate(testCase, false);
             Assume.That(result != null);
             Assert.AreEqual(Core.Enums.Disposition.Passed, result.Result);
         }
@@ -24,7 +24,7 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
             var subject = new TestCaseValidatorEncrypt(testCase);
             var suppliedResult = GetTestCase();
             suppliedResult.CipherText = new BitString("D00000");
-            var result = subject.Validate(suppliedResult);
+            var result = subject.Validate(suppliedResult, false);
             Assume.That(result != null);
             Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
         }
@@ -36,7 +36,7 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
             var subject = new TestCaseValidatorEncrypt(testCase);
             var suppliedResult = GetTestCase();
             suppliedResult.CipherText = new BitString("D00000");
-            var result = subject.Validate(suppliedResult);
+            var result = subject.Validate(suppliedResult, false);
             Assume.That(result != null);
             Assume.That(Core.Enums.Disposition.Failed == result.Result);
             Assert.IsTrue(result.Reason.Contains("Cipher Text"));
@@ -51,7 +51,7 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
 
             suppliedResult.CipherText = null;
 
-            var result = subject.Validate(suppliedResult);
+            var result = subject.Validate(suppliedResult, false);
             Assume.That(result != null);
             Assume.That(Core.Enums.Disposition.Failed == result.Result);
 

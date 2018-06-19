@@ -19,10 +19,12 @@ namespace NIST.CVP.Generation.RSA_SigGen
             _expectedResult = expectedResult;
         }
 
-        public TestCaseValidation Validate(TestCase suppliedResult)
+        public TestCaseValidation Validate(TestCase suppliedResult, bool showExpected = false)
         {
             var errors = new List<string>();
-            
+            Dictionary<string, string> expected = null;
+            Dictionary<string, string> provided = null;
+
             if(_expectedResult.Message == null || suppliedResult.Signature == null)
             {
                 errors.Add($"Could not find message or signature");
@@ -33,12 +35,21 @@ namespace NIST.CVP.Generation.RSA_SigGen
                 if (!result.Success)
                 {
                     errors.Add($"Could not verify signature: {result.ErrorMessage}");
+                    expected = new Dictionary<string, string>();
+                    provided = new Dictionary<string, string>();
                 }
             }
 
             if (errors.Count > 0)
             {
-                return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = Core.Enums.Disposition.Failed, Reason = string.Join(";", errors) };
+                return new TestCaseValidation
+                {
+                    TestCaseId = suppliedResult.TestCaseId, 
+                    Result = Core.Enums.Disposition.Failed, 
+                    Reason = string.Join(";", errors),
+                    Expected = expected.Count != 0 && showExpected ? expected : null,
+                    Provided = provided.Count != 0 && showExpected ? provided : null
+                };
             }
 
             return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = Core.Enums.Disposition.Passed };

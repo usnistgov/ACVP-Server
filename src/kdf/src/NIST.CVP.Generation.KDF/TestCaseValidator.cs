@@ -21,19 +21,28 @@ namespace NIST.CVP.Generation.KDF
             _deferredTestCaseResolver = resolver;
         }
 
-        public TestCaseValidation Validate(TestCase iutResult)
+        public TestCaseValidation Validate(TestCase iutResult, bool showExpected = false)
         {
             var errors = new List<string>();
+            var expected = new Dictionary<string, string>();
+            var provided = new Dictionary<string, string>();
 
             ValidateResultPresent(iutResult, _group, errors);
             if (errors.Count == 0)
             {
-                CheckResults(iutResult, errors);
+                CheckResults(iutResult, errors, expected, provided);
             }
 
             if (errors.Count > 0)
             {
-                return new TestCaseValidation { TestCaseId = TestCaseId, Result = Core.Enums.Disposition.Failed, Reason = string.Join("; ", errors) };
+                return new TestCaseValidation 
+                { 
+                    TestCaseId = TestCaseId, 
+                    Result = Core.Enums.Disposition.Failed, 
+                    Reason = string.Join("; ", errors),
+                    Expected = expected.Count != 0 && showExpected ? expected : null,
+                    Provided = provided.Count != 0 && showExpected ? provided : null
+                };
             }
 
             return new TestCaseValidation { TestCaseId = TestCaseId, Result = Core.Enums.Disposition.Passed };
@@ -53,7 +62,7 @@ namespace NIST.CVP.Generation.KDF
             }
         }
 
-        private void CheckResults(TestCase suppliedResult, List<string> errors)
+        private void CheckResults(TestCase suppliedResult, List<string> errors, Dictionary<string, string> expected, Dictionary<string, string> provided)
         {
             var serverResult = _deferredTestCaseResolver.CompleteDeferredCrypto(_group, _serverTestCase, suppliedResult);
 
@@ -76,12 +85,16 @@ namespace NIST.CVP.Generation.KDF
             if (suppliedResult.KeyOut.BitLength < _group.KeyOutLength)
             {
                 errors.Add("KeyOut does not match");
+                expected.Add(nameof(serverResult.DerivedKey), serverResult.DerivedKey.ToHex());
+                provided.Add(nameof(suppliedResult.KeyOut), suppliedResult.KeyOut.ToHex());
                 return;
             }
 
             if (!serverResult.DerivedKey.Equals(suppliedResult.KeyOut.GetMostSignificantBits(_group.KeyOutLength)))
             {
                 errors.Add("KeyOut does not match");
+                expected.Add(nameof(serverResult.DerivedKey), serverResult.DerivedKey.ToHex());
+                provided.Add(nameof(suppliedResult.KeyOut), suppliedResult.KeyOut.ToHex());
             }
         }
     }

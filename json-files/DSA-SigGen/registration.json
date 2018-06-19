@@ -1,12 +1,12 @@
 {
-  "Algorithm": "DSA",
-  "Mode": "SigGen",
-  "IsSample": true,
-  "Capabilities": [
+  "algorithm": "DSA",
+  "mode": "SigGen",
+  "isSample": true,
+  "capabilities": [
     {
-      "N": 224,
-      "L": 2048,
-      "HashAlg": [
+      "n": 224,
+      "l": 2048,
+      "hashAlg": [
         "sha-1",
         "sha2-224",
         "sha2-256",
@@ -17,9 +17,9 @@
       ]
     },
     {
-      "N": 256,
-      "L": 2048,
-      "HashAlg": [
+      "n": 256,
+      "l": 2048,
+      "hashAlg": [
         "sha-1",
         "sha2-224",
         "sha2-256",
@@ -30,9 +30,9 @@
       ]
     },
     {
-      "N": 256,
-      "L": 3072,
-      "HashAlg": [
+      "n": 256,
+      "l": 3072,
+      "hashAlg": [
         "sha-1",
         "sha2-224",
         "sha2-256",

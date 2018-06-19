@@ -1,0 +1,18 @@
+{
+  "algorithm": "KAS-ECC",
+  "mode": "CDH-Component",
+  "isSample": true,
+  "function": [
+    "dpGen",
+    "dpVal",
+    "keyPairGen",
+    "fullVal",
+    "partialVal",
+    "keyRegen"
+  ],
+  "curve": [
+    "p-192",
+    "k-163",
+    "b-163"
+  ]
+}

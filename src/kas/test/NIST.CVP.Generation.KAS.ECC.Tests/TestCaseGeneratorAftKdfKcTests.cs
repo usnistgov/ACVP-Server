@@ -453,7 +453,7 @@ namespace NIST.CVP.Generation.KAS.ECC.Tests
                 KdfType = "concatenation",
                 OiPattern = "uPartyInfo||vPartyInfo",
                 TestType = "AFT",
-                CurveName = Curve.B163
+                Curve = Curve.B163
             };
 
             if (macType == KeyAgreementMacType.AesCcm)

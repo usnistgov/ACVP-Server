@@ -14,7 +14,7 @@ namespace NIST.CVP.Generation.Core.Tests
         public void ShouldReturnValidation()
         {
             var subject = new ResultValidator<FakeTestGroup, FakeTestCase>();
-            var valdiation = subject.ValidateResults(new List<ITestCaseValidator<FakeTestGroup, FakeTestCase>>(), new List<FakeTestGroup>());
+            var valdiation = subject.ValidateResults(new List<ITestCaseValidator<FakeTestGroup, FakeTestCase>>(), new List<FakeTestGroup>(), false);
             Assert.IsNotNull(valdiation);
         }
 
@@ -30,7 +30,7 @@ namespace NIST.CVP.Generation.Core.Tests
             }
 
             var subject = new ResultValidator<FakeTestGroup, FakeTestCase>();
-            var validation = subject.ValidateResults(validators, new List<FakeTestGroup>());
+            var validation = subject.ValidateResults(validators, new List<FakeTestGroup>(), false);
 
             Assume.That(validation != null);
             Assert.AreEqual(count, validation.Validations.Count);
@@ -49,7 +49,7 @@ namespace NIST.CVP.Generation.Core.Tests
                     new List<FakeTestGroup>
                     {
                         new FakeTestGroup {TestGroupId = 2, Tests = new List<FakeTestCase>{new FakeTestCase {TestCaseId = 2}}}
-                    });
+                    }, false);
 
             Assume.That(validation != null);
 
@@ -72,7 +72,7 @@ namespace NIST.CVP.Generation.Core.Tests
                     new List<FakeTestGroup>
                     {
                         new FakeTestGroup {TestGroupId = 2, Tests = new List<FakeTestCase>{new FakeTestCase {TestCaseId = 1}}}
-                    });
+                    }, false);
 
             Assume.That(validation != null);
 
@@ -95,7 +95,7 @@ namespace NIST.CVP.Generation.Core.Tests
                     new List<FakeTestGroup>
                     {
                         new FakeTestGroup {TestGroupId = 2, Tests = new List<FakeTestCase>{new FakeTestCase {TestCaseId = 1}}}
-                    });
+                    }, false);
 
             Assume.That(validation != null);
 
@@ -124,7 +124,7 @@ namespace NIST.CVP.Generation.Core.Tests
                             TestGroupId = 2, 
                             Tests = new List<FakeTestCase>{new FakeTestCase {TestCaseId = 1}, new FakeTestCase {TestCaseId = 2}}
                         }
-                    });
+                    }, false);
 
             Assume.That(validation != null);
 

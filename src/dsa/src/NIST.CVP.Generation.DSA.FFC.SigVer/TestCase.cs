@@ -1,11 +1,9 @@
 ﻿using System.Dynamic;
 using System.Numerics;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using NIST.CVP.Common.Helpers;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.Core.ExtensionMethods;
 using NIST.CVP.Generation.DSA.FFC.SigVer.Enums;
 using NIST.CVP.Generation.DSA.FFC.SigVer.FailureHandlers;
 using NIST.CVP.Math;
@@ -18,9 +16,21 @@ namespace NIST.CVP.Generation.DSA.FFC.SigVer
         public bool? TestPassed { get; set; }
         public bool Deferred => false;
         public TestGroup ParentGroup { get; set; }
-        [JsonIgnore] public ITestCaseExpectationReason<SigFailureReasons> Reason { get; set; }
+        
+        [JsonIgnore] 
+        public ITestCaseExpectationReason<SigFailureReasons> Reason { get; set; }
+
         [JsonProperty(PropertyName = "reason")]
-        public string ReasonVal => Reason?.GetName();
+        public string ReasonVal 
+        {
+            get => Reason?.GetName();
+
+            set
+            {
+                var failureReason = EnumHelpers.GetEnumFromEnumDescription<SigFailureReasons>(value);
+                Reason = new TestCaseExpectationReason(failureReason);
+            }
+        }
 
         /// <summary>
         /// Ignoring for (De)Serialization as KeyPairs are flattened

@@ -1,5 +1,5 @@
 {
-  "Algorithm": "RSA",
-  "Mode": "DecryptionPrimitive",
-  "IsSample": true
+  "algorithm": "RSA",
+  "mode": "DecryptionPrimitive",
+  "isSample": true
 }

@@ -15,7 +15,7 @@ namespace NIST.CVP.Generation.KAS.EccComponent.Tests
 
             var tg = new TestGroup()
             {
-                CurveName = Curve.B409,
+                Curve = Curve.B409,
                 TestGroupId = 2,
                 Tests = new List<TestCase>(),
                 TestType = "AFT"

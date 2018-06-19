@@ -12,13 +12,13 @@ namespace NIST.CVP.Generation.KAS.EccComponent
         public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
         {
             List<TestGroup> groups = new List<TestGroup>();
-            foreach (var curveString in parameters.Curves)
+            foreach (var curveString in parameters.Curve)
             {
                 var curve = EnumHelpers.GetEnumFromEnumDescription<Curve>(curveString);
 
                 var group = new TestGroup()
                 {
-                    CurveName = curve,
+                    Curve = curve,
                     TestType = testType
                 };
                 groups.Add(group);

@@ -15,9 +15,11 @@ namespace NIST.CVP.Generation.RSA_SPComponent
             _expectedResult = expectedResult;
         }
 
-        public TestCaseValidation Validate(TestCase suppliedResult)
+        public TestCaseValidation Validate(TestCase suppliedResult, bool showExpected = false)
         {
             var errors = new List<string>();
+            var expected = new Dictionary<string, string>();
+            var provided = new Dictionary<string, string>();
 
             if (suppliedResult.TestPassed == true)
             {
@@ -30,6 +32,8 @@ namespace NIST.CVP.Generation.RSA_SPComponent
                     if (!_expectedResult.Signature.Equals(suppliedResult.Signature))
                     {
                         errors.Add("Signature does not match expected value");
+                        expected.Add(nameof(_expectedResult.Signature), _expectedResult.Signature.ToHex());
+                        provided.Add(nameof(suppliedResult.Signature), suppliedResult.Signature.ToHex());
                     }
                 }
             }
@@ -50,7 +54,14 @@ namespace NIST.CVP.Generation.RSA_SPComponent
 
             if (errors.Count > 0)
             {
-                return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = Core.Enums.Disposition.Failed, Reason = string.Join(";", errors) };
+                return new TestCaseValidation 
+                { 
+                    TestCaseId = suppliedResult.TestCaseId, 
+                    Result = Core.Enums.Disposition.Failed, 
+                    Reason = string.Join(";", errors),
+                    Expected = expected.Count != 0 && showExpected ? expected : null,
+                    Provided = provided.Count != 0 && showExpected ? provided : null
+                };
             }
 
             return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = Core.Enums.Disposition.Passed };

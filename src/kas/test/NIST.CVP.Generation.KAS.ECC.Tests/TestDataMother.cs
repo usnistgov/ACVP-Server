@@ -39,7 +39,7 @@ namespace NIST.CVP.Generation.KAS.ECC.Tests
                     AesCcmNonceLen = 56,
                     MacLen = 128,
                     Function = KasAssurance.FullVal | KasAssurance.DpGen,
-                    CurveName = Curve.P224,
+                    Curve = Curve.P224,
                     OiPattern = "uPartyInfo||vPartyInfo",
                     IdIut = new BitString("AA"),
                     KdfType = "concatenation",

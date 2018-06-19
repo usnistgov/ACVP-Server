@@ -13,7 +13,7 @@ namespace NIST.CVP.Generation.KAS.EccComponent
     {
         public int TestGroupId { get; set; }
         public string TestType { get; set; }
-        public Curve CurveName { get; set; }
+        public Curve Curve { get; set; }
         public List<TestCase> Tests { get; set; } = new List<TestCase>();
     }
 }

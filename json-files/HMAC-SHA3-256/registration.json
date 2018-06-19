@@ -1,15 +1,15 @@
 {
-  "Algorithm": "HMAC-SHA3-256",
-  "Mode": "",
-  "IsSample": false,
-  "KeyLen": [
+  "algorithm": "HMAC-SHA3-256",
+  "mode": "",
+  "isSample": false,
+  "keyLen": [
     {
       "min": 8,
       "max": 2048,
       "increment": 8
     }
   ],
-  "MacLen": [
+  "macLen": [
     {
       "min": 80,
       "max": 160,

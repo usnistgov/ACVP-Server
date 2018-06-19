@@ -31,5 +31,9 @@ namespace NIST.CVP.Generation.GenValApp.Models
         [FileArgument('r', "responsesFile", FileMustExist = true, Optional = true,
             Description = "The response file to validate, provided by the IUT.")]
         public FileInfo ResponseFile { get; set; }
+
+        [ValueArgument(typeof(bool), 'e', "showExpected", Optional = true,
+            Description = "Show the expected answer property in the validation file")]
+        public bool ShowExpected { get; set; }
     }
 }

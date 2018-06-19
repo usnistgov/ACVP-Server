@@ -1,13 +1,58 @@
 {
-  "Algorithm": "DSA",
-  "Mode": "SigVer",
-  "IsSample": false,
-  "Capabilities": [
+  "algorithm": "DSA",
+  "mode": "SigVer",
+  "isSample": false,
+  "capabilities": [
     {
-      "N": 160,
-      "L": 1024,
-      "HashAlg": [
-        "sha-1"
+      "n": 160,
+      "l": 1024,
+      "hashAlg": [
+        "sha-1",
+        "sha2-224",
+        "sha2-256",
+        "sha2-384",
+        "sha2-512",
+        "sha2-512/224",
+        "sha2-512/256"
+      ]
+    },
+    {
+      "n": 224,
+      "l": 2048,
+      "hashAlg": [
+        "sha-1",
+        "sha2-224",
+        "sha2-256",
+        "sha2-384",
+        "sha2-512",
+        "sha2-512/224",
+        "sha2-512/256"
+      ]
+    },
+    {
+      "n": 256,
+      "l": 2048,
+      "hashAlg": [
+        "sha-1",
+        "sha2-224",
+        "sha2-256",
+        "sha2-384",
+        "sha2-512",
+        "sha2-512/224",
+        "sha2-512/256"
+      ]
+    },
+    {
+      "n": 256,
+      "l": 3072,
+      "hashAlg": [
+        "sha-1",
+        "sha2-224",
+        "sha2-256",
+        "sha2-384",
+        "sha2-512",
+        "sha2-512/224",
+        "sha2-512/256"
       ]
     }
   ]

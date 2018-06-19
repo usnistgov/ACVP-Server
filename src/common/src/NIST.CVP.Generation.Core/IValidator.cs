@@ -10,7 +10,8 @@
         /// </summary>
         /// <param name="resultPath">Results file (from IUT)</param>
         /// <param name="answerPath">Answer file (server generated)</param>
+        /// <param name="showExpected">Shows expected results for incorrect responses</param>
         /// <returns></returns>
-        ValidateResponse Validate(string resultPath, string answerPath);
+        ValidateResponse Validate(string resultPath, string answerPath, bool showExpected);
     }
 }

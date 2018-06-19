@@ -97,7 +97,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer.ContractResolvers
                     {
                         GetTestCaseFromTestCaseObject(instance, out var testGroup, out var testCase);
 
-                        if (testGroup.PQGenMode == PrimeGenMode.Probable || testGroup.GGenMode == GeneratorGenMode.Unverifiable)
+                        if (testGroup.PQGenMode != PrimeGenMode.None || testGroup.GGenMode == GeneratorGenMode.Unverifiable)
                         {
                             return true;
                         }
@@ -113,7 +113,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer.ContractResolvers
                     {
                         GetTestCaseFromTestCaseObject(instance, out var testGroup, out var testCase);
 
-                        if (testGroup.PQGenMode == PrimeGenMode.Probable || testGroup.GGenMode == GeneratorGenMode.Canonical)
+                        if (testGroup.GGenMode == GeneratorGenMode.Canonical)
                         {
                             return true;
                         }

@@ -13,8 +13,10 @@
         /// Perform validation between the <see cref="suppliedResult"/> and the server.
         /// </summary>
         /// <param name="suppliedResult">The IUT provided results</param>
+        /// <param name="showExpected">Shows the expected value for incorrect responses</param>
         /// <returns></returns>
-        TestCaseValidation Validate(TTestCase suppliedResult);
+        TestCaseValidation Validate(TTestCase suppliedResult, bool showExpected = false);
+
         /// <summary>
         /// The unique id of the test case (scoped to the vector set)
         /// </summary>
