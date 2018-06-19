@@ -59,5 +59,10 @@ namespace NIST.CVP.Crypto.Symmetric.BlockModes
         {
             return new CtrBlockCipher(engine, counter);
         }
+
+        public ICounterModeBlockCipher GetIvExtractor(IBlockCipherEngine engine)
+        {
+            return new CtrBlockCipher(engine, null);
+        }
     }
 }

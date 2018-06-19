@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using NIST.CVP.Crypto.Common.Symmetric.AES;
 using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
 using NIST.CVP.Crypto.Common.Symmetric.Engines;
+using NIST.CVP.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.AES_CTR
@@ -57,15 +55,15 @@ namespace NIST.CVP.Generation.AES_CTR
                             list.Add(new TestCaseValidatorCounterEncrypt(
                                 group, 
                                 test, 
-                                new DeferredTestCaseResolverEncrypt(_engineFactory, _modeFactory)
+                                new DeferredTestCaseResolverEncrypt(_modeFactory.GetIvExtractor(_engineFactory.GetSymmetricCipherPrimitive(BlockCipherEngines.Aes)))
                             ));
                         }
                         else if (direction == "decrypt")
                         {
                             list.Add(new TestCaseValidatorCounterDecrypt(
                                 group, 
-                                test, 
-                                new DeferredTestCaseResolverDecrypt(_engineFactory, _modeFactory)
+                                test,
+                                new DeferredTestCaseResolverDecrypt(_modeFactory.GetIvExtractor(_engineFactory.GetSymmetricCipherPrimitive(BlockCipherEngines.Aes)))
                             ));
                         }
                         else

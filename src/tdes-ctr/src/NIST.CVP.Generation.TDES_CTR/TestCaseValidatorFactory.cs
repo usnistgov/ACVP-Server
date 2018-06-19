@@ -2,6 +2,7 @@
 using System.Linq;
 using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
 using NIST.CVP.Crypto.Common.Symmetric.Engines;
+using NIST.CVP.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.TDES_CTR
@@ -51,18 +52,18 @@ namespace NIST.CVP.Generation.TDES_CTR
                         list.AddRange(group.Tests.Select(t => 
                             new TestCaseValidatorCounterEncrypt(
                                 group, 
-                                t, 
-                                new DeferredTestCaseResolverEncrypt(_engineFactory, _modeFactory))
-                        ));
+                                t,
+                                new DeferredTestCaseResolverEncrypt(_modeFactory.GetIvExtractor(_engineFactory.GetSymmetricCipherPrimitive(BlockCipherEngines.Tdes)))
+                        )));
                     }
                     else if (direction == "decrypt")
                     {
                         list.AddRange(group.Tests.Select(t => 
                             new TestCaseValidatorCounterDecrypt(
                                 group, 
-                                t, 
-                                new DeferredTestCaseResolverDecrypt(_engineFactory, _modeFactory))
-                        ));
+                                t,
+                                new DeferredTestCaseResolverDecrypt(_modeFactory.GetIvExtractor(_engineFactory.GetSymmetricCipherPrimitive(BlockCipherEngines.Tdes)))
+                        )));
                     }
                 }
                 else

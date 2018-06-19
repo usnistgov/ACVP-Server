@@ -30,7 +30,6 @@ namespace NIST.CVP.Generation.TDES_CTR.ContractResolvers
             var includeProperties = new[]
             {
                 nameof(TestCase.TestCaseId),
-                nameof(TestCase.Ivs)
             };
 
             if (includeProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))

@@ -29,34 +29,6 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
         }
 
         [Test]
-        public void ShouldFailIfNoIVsArePresent()
-        {
-            var suppliedTestCase = GetTestCase();
-            suppliedTestCase.IVs = null;
-
-            var subject = new TestCaseValidatorCounterDecrypt(GetTestGroup(), GetTestCase(), GetDeferredResolver().Object);
-            var result = subject.Validate(suppliedTestCase);
-
-            Assert.IsNotNull(result);
-            Assert.AreEqual(Disposition.Failed, result.Result);
-            Assert.IsTrue(result.Reason.Contains($"{nameof(suppliedTestCase.IVs)} was not present"));
-        }
-
-        [Test]
-        public void ShouldFailWithIncorrectNumberOfIVs()
-        {
-            var suppliedTestCase = GetTestCase();
-            suppliedTestCase.IVs = new List<BitString>();
-
-            var subject = new TestCaseValidatorCounterDecrypt(GetTestGroup(), GetTestCase(), GetDeferredResolver().Object);
-            var result = subject.Validate(suppliedTestCase);
-
-            Assert.IsNotNull(result);
-            Assert.AreEqual(Disposition.Failed, result.Result, "Result");
-            Assert.IsTrue(result.Reason.Contains($"{nameof(suppliedTestCase.IVs)} does not have the correct number"), "Reason");
-        }
-
-        [Test]
         public void ShouldFailIfDeferredResolverFails()
         {
             var deferredMock = GetDeferredResolver();

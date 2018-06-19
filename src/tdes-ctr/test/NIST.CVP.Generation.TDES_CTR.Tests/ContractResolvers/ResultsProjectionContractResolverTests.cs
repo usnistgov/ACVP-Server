@@ -81,17 +81,7 @@ namespace NIST.CVP.Generation.TDES_CTR.Tests.ContractResolvers
             Assert.AreEqual(tc.TestCaseId, newTc.TestCaseId, nameof(newTc.TestCaseId));
             Assert.AreEqual(tc.CipherText, newTc.CipherText, nameof(newTc.CipherText));
 
-            if (tg.TestType.Equals("counter", StringComparison.OrdinalIgnoreCase))
-            {
-                for (var i = 0; i < tc.Ivs.Count; i++)
-                {
-                    Assert.AreEqual(tc.Ivs[i], newTc.Ivs[i], "Iv");
-                }
-            }
-            else
-            {
-                Assert.IsNull(newTc.Ivs, nameof(newTc.Ivs));
-            }
+            Assert.IsNull(newTc.Ivs, nameof(newTc.Ivs));
 
             Assert.AreNotEqual(tc.Key1, newTc.Key1, nameof(newTc.Key1));
             Assert.AreNotEqual(tc.Key2, newTc.Key2, nameof(newTc.Key2));
@@ -129,17 +119,7 @@ namespace NIST.CVP.Generation.TDES_CTR.Tests.ContractResolvers
             Assert.AreEqual(tc.TestCaseId, newTc.TestCaseId, nameof(newTc.TestCaseId));
             Assert.AreEqual(tc.PlainText, newTc.PlainText, nameof(newTc.PlainText));
 
-            if (tg.TestType.Equals("counter", StringComparison.OrdinalIgnoreCase))
-            {
-                for (var i = 0; i < tc.Ivs.Count; i++)
-                {
-                    Assert.AreEqual(tc.Ivs[i], newTc.Ivs[i], "Iv");
-                }
-            }
-            else
-            {
-                Assert.IsNull(newTc.Ivs, nameof(newTc.Ivs));
-            }
+            Assert.IsNull(newTc.Ivs, nameof(newTc.Ivs));
 
             Assert.AreNotEqual(tc.Key1, newTc.Key1, nameof(newTc.Key1));
             Assert.AreNotEqual(tc.Key2, newTc.Key2, nameof(newTc.Key2));

@@ -7,7 +7,7 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.Symmetric.BlockModes
 {
-    public class CtrBlockCipher : ModeBlockCipherBase<SymmetricCounterResult>
+    public class CtrBlockCipher : ModeBlockCipherBase<SymmetricCounterResult>, ICounterModeBlockCipher
     {
         private readonly ICounter _counter;
 
@@ -18,6 +18,44 @@ namespace NIST.CVP.Crypto.Symmetric.BlockModes
         }
 
         public override bool IsPartialBlockAllowed => true;
+
+        public SymmetricCounterResult ExtractIvs(ICounterModeBlockCipherParameters parameters)
+        {
+            BitString plainText, cipherText;
+            if (parameters.Direction == BlockCipherDirections.Encrypt)
+            {
+                plainText = parameters.Payload;
+                cipherText = parameters.Result;
+            }
+            else
+            {
+                plainText = parameters.Result;
+                cipherText = parameters.Payload;
+            }
+
+            plainText = BitString.PadToModulus(plainText, _engine.BlockSizeBits);
+            cipherText = BitString.PadToModulus(cipherText, _engine.BlockSizeBits);
+
+            var numberOfBlocks = GetNumberOfBlocks(plainText.BitLength);
+            var ivs = new List<BitString>();
+            var engineParam = new EngineInitParameters(BlockCipherDirections.Decrypt, parameters.Key.ToBytes(), parameters.UseInverseCipherMode);
+            _engine.Init(engineParam);
+
+            for (var i = 0; i < numberOfBlocks; i++)
+            {
+                var blockPt = plainText.MSBSubstring(i * _engine.BlockSizeBits, _engine.BlockSizeBits);
+                var blockCt = cipherText.MSBSubstring(i * _engine.BlockSizeBits, _engine.BlockSizeBits);
+
+                var xor = BitString.XOR(blockPt, blockCt).ToBytes();
+                var outBuffer = GetOutputBuffer(blockPt.BitLength);
+                _engine.ProcessSingleBlock(xor, outBuffer, 0);
+
+                ivs.Add(new BitString(outBuffer));
+            }
+
+            // TODO by returning parameters.result no actual information is passed to the TestCaseValidator... 
+            return new SymmetricCounterResult(parameters.Result, ivs);
+        }
 
         public override SymmetricCounterResult ProcessPayload(IModeBlockCipherParameters param)
         {
@@ -36,10 +74,7 @@ namespace NIST.CVP.Crypto.Symmetric.BlockModes
 
             ProcessPayload(param, numberOfBlocks, outBuffer, ivs);
             
-            return new SymmetricCounterResult(
-                new BitString(outBuffer).GetMostSignificantBits(actualBitsToProcess),
-                ivs
-            );
+            return new SymmetricCounterResult(new BitString(outBuffer).GetMostSignificantBits(actualBitsToProcess), ivs);
         }
 
         private void ProcessPayload(

@@ -1,8 +1,5 @@
 ﻿using NIST.CVP.Crypto.Common.Symmetric;
-using NIST.CVP.Crypto.Common.Symmetric.AES;
 using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
-using NIST.CVP.Crypto.Common.Symmetric.CTR.Fakes;
-using NIST.CVP.Crypto.Common.Symmetric.Engines;
 using NIST.CVP.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.Generation.Core;
 
@@ -10,25 +7,17 @@ namespace NIST.CVP.Generation.AES_CTR
 {
     public class DeferredTestCaseResolverDecrypt : IDeferredTestCaseResolver<TestGroup, TestCase, SymmetricCounterResult>
     {
-        private readonly IBlockCipherEngine _engine;
-        private readonly IModeBlockCipherFactory _modeFactory;
+        private readonly ICounterModeBlockCipher _algo;
 
-        public DeferredTestCaseResolverDecrypt(
-            IBlockCipherEngineFactory engineFactory,
-            IModeBlockCipherFactory modeFactory
-        )
+        public DeferredTestCaseResolverDecrypt(ICounterModeBlockCipher algo)
         {
-            _engine = engineFactory.GetSymmetricCipherPrimitive(BlockCipherEngines.Aes);
-            _modeFactory = modeFactory;
+            _algo = algo;
         }
 
         public SymmetricCounterResult CompleteDeferredCrypto(TestGroup testGroup, TestCase serverTestCase, TestCase iutTestCase)
         {
-            var counter = new TestableCounter(_engine, iutTestCase.IVs);
-            var algo = _modeFactory.GetCounterCipher(_engine, counter);
-            return algo.ProcessPayload(new ModeBlockCipherParameters(
-                BlockCipherDirections.Decrypt, serverTestCase.Key, serverTestCase.CipherText
-            ));
+            var param = new CounterModeBlockCipherParameters(BlockCipherDirections.Decrypt, serverTestCase.Key, serverTestCase.CipherText, iutTestCase.PlainText);
+            return _algo.ExtractIvs(param);
         }
     }
 }

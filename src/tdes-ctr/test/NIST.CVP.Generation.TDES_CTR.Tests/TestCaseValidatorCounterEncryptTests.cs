@@ -27,34 +27,6 @@ namespace NIST.CVP.Generation.TDES_CTR.Tests
         }
 
         [Test]
-        public void ShouldFailIfNoIvsArePresent()
-        {
-            var suppliedTestCase = GetTestCase();
-            suppliedTestCase.Ivs = null;
-
-            var subject = new TestCaseValidatorCounterEncrypt(GetTestGroup(), GetTestCase(), GetDeferredResolver().Object);
-            var result = subject.Validate(suppliedTestCase);
-
-            Assert.IsNotNull(result);
-            Assert.AreEqual(Disposition.Failed, result.Result);
-            Assert.IsTrue(result.Reason.Contains($"{nameof(suppliedTestCase.Ivs)} was not present"));
-        }
-
-        [Test]
-        public void ShouldFailWithIncorrectNumberOfIvs()
-        {
-            var suppliedTestCase = GetTestCase();
-            suppliedTestCase.Ivs = new List<BitString>();
-
-            var subject = new TestCaseValidatorCounterEncrypt(GetTestGroup(), GetTestCase(), GetDeferredResolver().Object);
-            var result = subject.Validate(suppliedTestCase);
-
-            Assert.IsNotNull(result);
-            Assert.AreEqual(Disposition.Failed, result.Result, "Result");
-            Assert.IsTrue(result.Reason.Contains($"{nameof(suppliedTestCase.Ivs)} does not have the correct number"), "Reason");
-        }
-
-        [Test]
         public void ShouldFailIfDeferredResolverFails()
         {
             var deferredMock = GetDeferredResolver();

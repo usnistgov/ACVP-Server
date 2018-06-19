@@ -12,6 +12,7 @@ namespace NIST.CVP.Generation.TDES_CTR
         private readonly IDeferredTestCaseResolver<TestGroup, TestCase, SymmetricCounterResult> _deferredTestCaseResolver;
         private readonly TestCase _serverTestCase;
         private readonly TestGroup _group;
+        private List<BitString> _ivs = new List<BitString>();
         public int TestCaseId => _serverTestCase.TestCaseId;
 
         public TestCaseValidatorCounterDecrypt(
@@ -33,7 +34,7 @@ namespace NIST.CVP.Generation.TDES_CTR
             if (errors.Count == 0)
             {
                 CheckResults(suppliedResult, errors);
-                ValidateIVs(suppliedResult.Ivs, errors);
+                ValidateIVs(_ivs, errors);
             }
 
             if (errors.Count > 0)
@@ -48,17 +49,6 @@ namespace NIST.CVP.Generation.TDES_CTR
             if (suppliedResult.PlainText == null)
             {
                 errors.Add($"{nameof(suppliedResult.PlainText)} was not present in the {nameof(TestCase)}");
-            }
-
-            if (suppliedResult.Ivs == null)
-            {
-                errors.Add($"{nameof(suppliedResult.Ivs)} was not present in the {nameof(TestCase)}");
-                return;
-            }
-
-            if (suppliedResult.Ivs.Count != _serverTestCase.CipherText.BitLength / 64)
-            {
-                errors.Add($"{nameof(suppliedResult.Ivs)} does not have the correct number of values");
             }
         }
 
@@ -76,6 +66,8 @@ namespace NIST.CVP.Generation.TDES_CTR
             {
                 errors.Add("Plain Text does not match");
             }
+
+            _ivs = serverResult.IVs;
         }
 
         private void ValidateIVs(List<BitString> ivs, List<string> errors)

@@ -62,7 +62,7 @@ namespace NIST.CVP.Crypto
             builder.RegisterType<MacParametersBuilder>().AsImplementedInterfaces();
             builder.RegisterType<KeyConfirmationFactory>().AsImplementedInterfaces();
             builder.RegisterType<NoKeyConfirmationFactory>().AsImplementedInterfaces();
-            builder.RegisterType<Crypto.KAS.KDF.KdfFactory>().AsImplementedInterfaces();
+            builder.RegisterType<KdfFactory>().AsImplementedInterfaces();
 
             builder.RegisterType<DiffieHellmanFfc>().AsImplementedInterfaces();
             builder.RegisterType<MqvFfc>().AsImplementedInterfaces();
@@ -81,7 +81,7 @@ namespace NIST.CVP.Crypto
 
             builder.RegisterType<EccDhComponent>().AsImplementedInterfaces();
 
-            builder.RegisterType<Crypto.KDF.KdfFactory>().AsImplementedInterfaces();
+            builder.RegisterType<KDF.KdfFactory>().AsImplementedInterfaces();
 
             builder.RegisterType<AnsiX963Factory>().AsImplementedInterfaces();
             builder.RegisterType<IkeV1Factory>().AsImplementedInterfaces();
