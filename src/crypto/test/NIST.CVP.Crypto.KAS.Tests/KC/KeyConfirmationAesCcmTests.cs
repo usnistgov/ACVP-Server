@@ -2,6 +2,9 @@
 using NIST.CVP.Crypto.AES_CCM;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Crypto.KAS.KC;
+using NIST.CVP.Crypto.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Symmetric.BlockModes.Aead;
+using NIST.CVP.Crypto.Symmetric.Engines;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -96,7 +99,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.KC
             BitString derivedKeyingMaterial,
             BitString expectedMacData, BitString expectedTag)
         {
-            var ccm = new AES_CCM.AES_CCM(new AES_CCMInternals(), new RijndaelFactory(new RijndaelInternals()));
+            var ccm = new CcmBlockCipher(new AesEngine(), new ModeBlockCipherFactory(), new AES_CCMInternals());
 
             var p = new KeyConfirmationParameters(
                 KeyAgreementRole.InitiatorPartyU,

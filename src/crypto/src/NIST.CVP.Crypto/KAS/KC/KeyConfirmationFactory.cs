@@ -9,6 +9,9 @@ using NIST.CVP.Crypto.Common.KAS.KC;
 using NIST.CVP.Crypto.Common.MAC.CMAC.Enums;
 using NIST.CVP.Crypto.HMAC;
 using NIST.CVP.Crypto.SHAWrapper;
+using NIST.CVP.Crypto.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Symmetric.BlockModes.Aead;
+using NIST.CVP.Crypto.Symmetric.Engines;
 
 namespace NIST.CVP.Crypto.KAS.KC
 {
@@ -20,15 +23,7 @@ namespace NIST.CVP.Crypto.KAS.KC
             {
                 case KeyAgreementMacType.AesCcm:
                     ConfirmKeyLengthAesCcm(parameters.KeyLength);
-                    return new KeyConfirmationAesCcm(
-                        new AES_CCM.AES_CCM(
-                            new AES_CCMInternals(),
-                            new RijndaelFactory(
-                                new RijndaelInternals()
-                            )
-                        ),
-                        parameters
-                    );
+                    return new KeyConfirmationAesCcm(new CcmBlockCipher(new AesEngine(), new ModeBlockCipherFactory(), new AES_CCMInternals()), parameters);
                 case KeyAgreementMacType.CmacAes:
                     var cmacEnum = MapCmacEnum(parameters.KeyLength);
                     CmacFactory cmacFactory = new CmacFactory();

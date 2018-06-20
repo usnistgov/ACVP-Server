@@ -1,30 +1,36 @@
 ﻿using System;
 using NIST.CVP.Crypto.Common.KAS.KC;
 using NIST.CVP.Crypto.Common.Symmetric.AES;
+using NIST.CVP.Crypto.Common.Symmetric.BlockModes.Aead;
+using NIST.CVP.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.KAS.KC
 {
     public class KeyConfirmationAesCcm : KeyConfirmationBase
     {
+        private readonly IAeadModeBlockCipher _ccm;
         private readonly IAES_CCM _iAesCcm;
 
-        public KeyConfirmationAesCcm(IAES_CCM iAesCcm, IKeyConfirmationParameters keyConfirmationParameters)
+        public KeyConfirmationAesCcm(IAeadModeBlockCipher ccm, IKeyConfirmationParameters keyConfirmationParameters)
         {
+            _ccm = ccm;
             _keyConfirmationParameters = keyConfirmationParameters;
-            _iAesCcm = iAesCcm;
         }
 
         protected override BitString Mac(BitString macData)
         {
-            var result = _iAesCcm.Encrypt(
-                _keyConfirmationParameters.DerivedKeyingMaterial,
+            var param = new AeadModeBlockCipherParameters(
+                BlockCipherDirections.Encrypt,
                 _keyConfirmationParameters.CcmNonce,
+                _keyConfirmationParameters.DerivedKeyingMaterial,
                 new BitString(0),
                 macData,
                 _keyConfirmationParameters.MacLength
             );
 
+            var result = _ccm.ProcessPayload(param);
+            
             if (!result.Success)
             {
                 throw new Exception(result.ErrorMessage);
