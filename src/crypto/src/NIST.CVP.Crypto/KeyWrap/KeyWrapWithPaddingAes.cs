@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using NIST.CVP.Crypto.AES_ECB;
 using NIST.CVP.Crypto.Common.Symmetric;
-using NIST.CVP.Crypto.Common.Symmetric.AES;
+using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Common.Symmetric.Engines;
+using NIST.CVP.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.KeyWrap
@@ -12,7 +13,7 @@ namespace NIST.CVP.Crypto.KeyWrap
     {
         public static BitString Icv2 = new BitString("A65959A6");
 
-        public KeyWrapWithPaddingAes(IAES_ECB aes) : base(aes) { }
+        public KeyWrapWithPaddingAes(IBlockCipherEngineFactory engineFactory, IModeBlockCipherFactory cipherFactory) : base(engineFactory, cipherFactory) { }
 
         public override SymmetricCipherResult Encrypt(BitString key, BitString plainText, bool wrapWithInverseCipher)
         {
@@ -32,7 +33,7 @@ namespace NIST.CVP.Crypto.KeyWrap
 
             if (plainText.BitLength <= 64)
             {
-                var aesResult = _aes.BlockEncrypt(key, S, wrapWithInverseCipher);
+                var aesResult = Cipher.ProcessPayload(new ModeBlockCipherParameters(BlockCipherDirections.Encrypt, key, S, wrapWithInverseCipher));
                 return aesResult.Success ? new SymmetricCipherResult(aesResult.Result) : new SymmetricCipherResult(aesResult.ErrorMessage);
             }
             else
@@ -58,7 +59,7 @@ namespace NIST.CVP.Crypto.KeyWrap
             var S = new BitString(32);
             if (n == 2)
             {
-                var aesResult =  _aes.BlockDecrypt(key, cipherText, wrappedWithInverseCipher);
+                var aesResult = Cipher.ProcessPayload(new ModeBlockCipherParameters(BlockCipherDirections.Decrypt, key, cipherText, wrappedWithInverseCipher));
                 if (!aesResult.Success)
                 {
                     return new SymmetricCipherResult(aesResult.ErrorMessage);

@@ -1,32 +1,31 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using NIST.CVP.Crypto.AES_ECB;
-using NIST.CVP.Crypto.Common.Symmetric.AES;
+using NIST.CVP.Crypto.Common.Symmetric;
+using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Common.Symmetric.Engines;
+using NIST.CVP.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.KeyWrap
 {
     public abstract class KeyWrapBaseAes : KeyWrapBase
     {
-        protected IAES_ECB _aes;
+        protected readonly IModeBlockCipher<SymmetricCipherResult> Cipher;
 
-        public KeyWrapBaseAes(IAES_ECB aes)
+        protected KeyWrapBaseAes(IBlockCipherEngineFactory engineFactory, IModeBlockCipherFactory cipherFactory)
         {
-            _aes = aes;
+            Cipher = cipherFactory.GetStandardCipher(engineFactory.GetSymmetricCipherPrimitive(BlockCipherEngines.Aes), BlockCipherModesOfOperation.Ecb);
         }
 
         protected override BitString Wrap(BitString K, BitString S, bool wrapWithInverseCipher)
         {
             // 0. Pre-conditions
-            int n = S.BitLength / 64;
+            var n = S.BitLength / 64;
             if ((n < 3) || (S.BitLength % 64 != 0))
             {
                 throw new ArgumentException($"Invalid {nameof(S)} length.");
             }
-            int keyLen = K.BitLength;
+
+            var keyLen = K.BitLength;
             if ((keyLen != 128) && (keyLen != 192) && (keyLen != 256))
             {
                 throw new ArgumentException($"Invalid {nameof(keyLen)}");
@@ -34,21 +33,27 @@ namespace NIST.CVP.Crypto.KeyWrap
 
             // 1. Initialize variables
             // 1.a) Let s = 6(n-1)
-            int s = 6 * (n - 1);
+            var s = 6 * (n - 1);
             // 1.b) Let S1,S2,...,Sn be the semi-blocks s.t. S=S1 || S2 || ... || Sn
             // 1.c) Let A0 = S1
-            BitString A = S.GetMostSignificantBits(64);
+            var A = S.GetMostSignificantBits(64);
             // 1.d) For i=2,...,n: let Ri0 = Si
-            BitString R2n = S.GetLeastSignificantBits(S.BitLength - 64);
+            var R2n = S.GetLeastSignificantBits(S.BitLength - 64);
 
             // 2. Calculate the intermediate values.  For t = 1,...,s update variables
             //    as follows:
-            for (int t = 1; t <= s; ++t)
+            for (var t = 1; t <= s; ++t)
             {
                 // a) A^t = MSB64(CIPH_K(A^t-1 || R2^t-1)) xor [t]64
-                BitString R2 = R2n.GetMostSignificantBits(64);
-                BitString t64 = BitString.To64BitString(t);
-                BitString block_t = _aes.BlockEncrypt(K, A.ConcatenateBits(R2), wrapWithInverseCipher).Result;
+                var R2 = R2n.GetMostSignificantBits(64);
+                var t64 = BitString.To64BitString(t);
+                var block_t = Cipher.ProcessPayload(
+                    new ModeBlockCipherParameters(
+                        BlockCipherDirections.Encrypt,
+                        K,
+                        A.ConcatenateBits(R2), 
+                        wrapWithInverseCipher
+                    )).Result;
 
                 A = block_t.GetMostSignificantBits(64).XOR(t64);
                 // b) For i=2,...,n: Ri^t = Ri+1^t-1
@@ -68,12 +73,13 @@ namespace NIST.CVP.Crypto.KeyWrap
         protected override BitString WrapInverse(BitString K, BitString C, bool wrappedWithInverseCipher)
         {
             // 0. Pre-conditions
-            int n = C.BitLength / 64;
+            var n = C.BitLength / 64;
             if ((n < 3) || (C.BitLength % 64 != 0))
             {
                 throw new ArgumentException($"Invalid {nameof(C)} length.");
             }
-            int aesKeyLength = K.BitLength;
+
+            var aesKeyLength = K.BitLength;
             if ((aesKeyLength != 128) && (aesKeyLength != 192) && (aesKeyLength != 256))
             {
                 throw new ArgumentException($"Invalid {nameof(aesKeyLength)}");
@@ -81,21 +87,28 @@ namespace NIST.CVP.Crypto.KeyWrap
 
             // 1. Initialize variables
             // 1.a) Let s = 6(n-1)
-            int s = 6 * (n - 1);
+            var s = 6 * (n - 1);
             // 1.b) Let C1,C2,...,Cn be the semi-blocks s.t. C=C1 || C2 || ... || Cn
             // 1.c) Let As = C1
-            BitString A = C.GetMostSignificantBits(64);
+            var A = C.GetMostSignificantBits(64);
             // 1.d) For i=2,...,n: let Ri0 = Ci
-            BitString R2n = C.GetLeastSignificantBits(C.BitLength - 64);
+            var R2n = C.GetLeastSignificantBits(C.BitLength - 64);
 
             // 2. Calculate the intermediate values.  For t = s, s-1, ..., 1,
             //    update the variables as follows:
-            for (int t = s; t >= 1; --t)
+            for (var t = s; t >= 1; --t)
             {
                 // a) A^t-1 = MSB(CIPH^-1K((A^t xor [t]64) || Rn^t))
-                BitString t64 = BitString.To64BitString(t);
-                BitString Rn = R2n.GetLeastSignificantBits(64);
-                BitString block_t = _aes.BlockDecrypt(K, A.XOR(t64).ConcatenateBits(Rn), wrappedWithInverseCipher).Result;
+                var t64 = BitString.To64BitString(t);
+                var Rn = R2n.GetLeastSignificantBits(64);
+                var block_t = Cipher.ProcessPayload(
+                    new ModeBlockCipherParameters(
+                        BlockCipherDirections.Decrypt,
+                        K,
+                        A.XOR(t64).ConcatenateBits(Rn),
+                        wrappedWithInverseCipher
+                    )).Result;
+
                 A = block_t.GetMostSignificantBits(64);
                 // b) R2^t-1 = LSB(CIPH^-1K((A^t xor [t]64) || Rn^t))
                 // c) For i=2,...,n-1, Ri+1^t-1 = Ri^t

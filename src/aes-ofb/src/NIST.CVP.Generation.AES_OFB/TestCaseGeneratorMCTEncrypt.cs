@@ -1,6 +1,8 @@
 ﻿using System;
 using NIST.CVP.Crypto.Common.Symmetric;
-using NIST.CVP.Crypto.Common.Symmetric.AES;
+using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Common.Symmetric.Enums;
+using NIST.CVP.Crypto.Common.Symmetric.MonteCarlo;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using NLog;
@@ -10,14 +12,14 @@ namespace NIST.CVP.Generation.AES_OFB
     public class TestCaseGeneratorMCTEncrypt : ITestCaseGenerator<TestGroup, TestCase>
     {
         private readonly IRandom800_90 _iRandom80090;
-        private readonly IAES_OFB_MCT _iAesOfbMct;
+        private readonly IMonteCarloTester<MCTResult<AlgoArrayResponse>, AlgoArrayResponse> _mctAlgo;
 
         public int NumberOfTestCasesToGenerate => 1;
 
-        public TestCaseGeneratorMCTEncrypt(IRandom800_90 iRandom80090, IAES_OFB_MCT iAesOfbMct)
+        public TestCaseGeneratorMCTEncrypt(IRandom800_90 iRandom80090, IMonteCarloTester<MCTResult<AlgoArrayResponse>, AlgoArrayResponse> mctAlgo)
         {
             _iRandom80090 = iRandom80090;
-            _iAesOfbMct = iAesOfbMct;
+            _mctAlgo = mctAlgo;
         }
 
         public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup @group, bool isSample)
@@ -41,7 +43,8 @@ namespace NIST.CVP.Generation.AES_OFB
             MCTResult<AlgoArrayResponse> encryptionResult = null;
             try
             {
-                encryptionResult = _iAesOfbMct.MCTEncrypt(testCase.IV, testCase.Key, testCase.PlainText);
+                var param = new ModeBlockCipherParameters(BlockCipherDirections.Encrypt, testCase.IV, testCase.Key, testCase.PlainText);
+                encryptionResult = _mctAlgo.ProcessMonteCarloTest(param);
                 if (!encryptionResult.Success)
                 {
                     ThisLogger.Warn(encryptionResult.ErrorMessage);

@@ -1,4 +1,7 @@
 ﻿using System;
+using Moq;
+using NIST.CVP.Crypto.Common.Symmetric.BlockModes.Aead;
+using NIST.CVP.Crypto.Common.Symmetric.Engines;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
@@ -25,7 +28,10 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
                 Function = direction
             };
 
-            var subject = new TestCaseGeneratorFactory(null, null);
+            var cipherFactory = new Mock<IAeadModeBlockCipherFactory>();
+            var engineFactory = new Mock<IBlockCipherEngineFactory>();
+
+            var subject = new TestCaseGeneratorFactory(null, cipherFactory.Object, engineFactory.Object);
             var generator = subject.GetCaseGenerator(testGroup);
             Assume.That(generator != null);
             Assert.IsInstanceOf(expectedType, generator);
@@ -39,7 +45,7 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
                 Function = string.Empty
             };
 
-            var subject = new TestCaseGeneratorFactory(null, null);
+            var subject = new TestCaseGeneratorFactory(null, null, null);
             var generator = subject.GetCaseGenerator(testGroup);
             Assert.IsNotNull(generator);
         }

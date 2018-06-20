@@ -1,13 +1,14 @@
-﻿using Moq;
+﻿using System.Collections.Generic;
+using Moq;
 using NIST.CVP.Crypto.Common.Symmetric;
 using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Common.Symmetric.CTR.Fakes;
 using NIST.CVP.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.Crypto.Symmetric.BlockModes;
 using NIST.CVP.Crypto.Symmetric.Engines;
 using NIST.CVP.Math;
 using NUnit.Framework;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
-using System.Collections.Generic;
 
 namespace NIST.CVP.Crypto.TDES_CTR.Tests
 {
@@ -15,81 +16,14 @@ namespace NIST.CVP.Crypto.TDES_CTR.Tests
     public class TdesCtrTests
     {
         private Mock<ICounter> _mockCounter;
-        private CtrBlockCipher _newSubject;
+        private CtrBlockCipher _subject;
 
         [SetUp]
         public void Setup()
         {
             _mockCounter = new Mock<ICounter>();
-            _newSubject = new CtrBlockCipher(new TdesEngine(), _mockCounter.Object);
+            _subject = new CtrBlockCipher(new TdesEngine(), _mockCounter.Object);
         }
-
-        [Test]
-        [TestCase("0101010101010101",
-            "8000000000000000",
-            "0000000000000000",
-            "95f8a5e5dd31d900",
-            TestName = "TDES_CTR - Encrypt")]
-        public void ShouldEncryptCorrectly(string keyHex, string ivHex, string ptHex, string ctHex)
-        {
-            var key = new BitString(keyHex);
-            var iv = new BitString(ivHex);
-            var pt = new BitString(ptHex);
-            var ct = new BitString(ctHex);
-
-            var subject = new TdesCtr();
-
-            var result = subject.EncryptBlock(key, pt, iv);
-
-            Assert.IsTrue(result.Success);
-            Assert.AreEqual(ct, result.Result);
-        }
-
-        [Test]
-        [TestCase("0101010101010101",
-            "8000000000000000",
-            "000000000000",
-            "95f8a5e5dd20",
-            43,
-            TestName = "TDES_CTR - Encrypt Partial")]
-        public void ShouldEncryptPartialBlockCorrectly(string keyHex, string ivHex, string ptHex, string ctHex,
-            int length)
-        {
-            var key = new BitString(keyHex);
-            var iv = new BitString(ivHex);
-            var pt = new BitString(ptHex, length);
-            var ct = new BitString(ctHex, length);
-
-            var subject = new TdesCtr();
-
-            var result = subject.EncryptBlock(key, pt, iv);
-
-            Assert.IsTrue(result.Success);
-            Assert.AreEqual(ct, result.Result);
-        }
-
-        [Test]
-        [TestCase("0101010101010101",
-            "8000000000000000",
-            "95f8a5e5dd31d900",
-            "0000000000000000",
-            TestName = "TDES_CTR - Decrypt")]
-        public void ShouldDecryptCorrectly(string keyHex, string ivHex, string ctHex, string ptHex)
-        {
-            var key = new BitString(keyHex);
-            var iv = new BitString(ivHex);
-            var ct = new BitString(ctHex);
-            var pt = new BitString(ptHex);
-
-            var subject = new TdesCtr();
-
-            var result = subject.DecryptBlock(key, ct, iv);
-
-            Assert.IsTrue(result.Success);
-            Assert.AreEqual(pt, result.Result);
-        }
-
-
 
         [Test]
         [TestCase("0101010101010101",
@@ -111,7 +45,7 @@ namespace NIST.CVP.Crypto.TDES_CTR.Tests
                 key,
                 pt
             );
-            var result = _newSubject.ProcessPayload(param);
+            var result = _subject.ProcessPayload(param);
 
             Assert.IsTrue(result.Success);
             Assert.AreEqual(ct, result.Result);
@@ -139,7 +73,7 @@ namespace NIST.CVP.Crypto.TDES_CTR.Tests
                 key,
                 pt
             );
-            var result = _newSubject.ProcessPayload(param);
+            var result = _subject.ProcessPayload(param);
 
             Assert.IsTrue(result.Success);
             Assert.AreEqual(ct, result.Result);
@@ -165,7 +99,7 @@ namespace NIST.CVP.Crypto.TDES_CTR.Tests
                 key,
                 ct
             );
-            var result = _newSubject.ProcessPayload(param);
+            var result = _subject.ProcessPayload(param);
 
             Assert.IsTrue(result.Success);
             Assert.AreEqual(pt, result.Result);
@@ -290,9 +224,10 @@ namespace NIST.CVP.Crypto.TDES_CTR.Tests
                 ivsCorrect.Add(new BitString(ivgiven));
             }
 
-            var tdes_ctr = new TdesCtr();
+            _subject = new CtrBlockCipher(new TdesEngine(), new TestableCounter(new TdesEngine(), ivsCorrect));
 
-            var result = tdes_ctr.CounterEncrypt(key, pt, ct);
+            var param = new CounterModeBlockCipherParameters(BlockCipherDirections.Encrypt, key, pt, ct);
+            var result = _subject.ExtractIvs(param);
 
             Assert.AreEqual(ivsCorrect, result.IVs);
         }
@@ -416,12 +351,12 @@ namespace NIST.CVP.Crypto.TDES_CTR.Tests
                 ivsCorrect.Add(new BitString(ivgiven));
             }
 
-            var tdes_ctr = new TdesCtr();
+            _subject = new CtrBlockCipher(new TdesEngine(), new TestableCounter(new TdesEngine(), ivsCorrect));
 
-            var result = tdes_ctr.CounterDecrypt(key, ct, pt);
+            var param = new CounterModeBlockCipherParameters(BlockCipherDirections.Encrypt, key, pt, ct);
+            var result = _subject.ExtractIvs(param);
 
             Assert.AreEqual(ivsCorrect, result.IVs);
         }
-
     }
 }

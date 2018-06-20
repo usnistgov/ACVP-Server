@@ -2,7 +2,12 @@
 using NIST.CVP.Math;
 using NLog;
 using System;
+using System.Collections.Generic;
+using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Common.Symmetric.Enums;
+using NIST.CVP.Crypto.Common.Symmetric.MonteCarlo;
 using NIST.CVP.Crypto.Common.Symmetric.TDES;
+using NIST.CVP.Crypto.Common.Symmetric.TDES.Helpers;
 
 namespace NIST.CVP.Generation.TDES_CBCI
 {
@@ -11,14 +16,17 @@ namespace NIST.CVP.Generation.TDES_CBCI
         private const int BLOCK_SIZE_BITS = 64;
 
         private readonly IRandom800_90 _random800_90;
-        private readonly ITDES_CBCI_MCT _algo;
-       
+        private readonly IMonteCarloFactoryTdesPartitions _mctFactory;
+
         public int NumberOfTestCasesToGenerate => 1;
 
-        public TestCaseGeneratorMonteCarloEncrypt(IRandom800_90 random800_90, ITDES_CBCI_MCT algo)
+        public TestCaseGeneratorMonteCarloEncrypt(
+            IRandom800_90 random800_90,
+            IMonteCarloFactoryTdesPartitions mctFactory
+        )
         {
             _random800_90 = random800_90;
-            _algo = algo;
+            _mctFactory = mctFactory;
         }
 
         public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup @group, bool isSample)
@@ -30,17 +38,26 @@ namespace NIST.CVP.Generation.TDES_CBCI
 
         public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup @group, TestCase seedCase)
         {
-            MCTResult<AlgoArrayResponseWithIvs> encryptionResult = null;
             try
             {
-                encryptionResult = _algo.MCTEncrypt(seedCase.Keys, seedCase.IV1, seedCase.PlainText);
-                if (!encryptionResult.Success)
+                var mct = _mctFactory.GetInstance(BlockCipherModesOfOperation.Cbci);
+                var p = new ModeBlockCipherParameters(
+                    BlockCipherDirections.Encrypt,
+                    seedCase.IV1.GetDeepCopy(),
+                    seedCase.Keys.GetDeepCopy(),
+                    seedCase.PlainText.GetDeepCopy()
+                );
+
+                var result = mct.ProcessMonteCarloTest(p);
+                if (!result.Success)
                 {
-                    ThisLogger.Warn(encryptionResult.ErrorMessage);
+                    ThisLogger.Warn(result.ErrorMessage);
                     {
-                        return new TestCaseGenerateResponse<TestGroup, TestCase>(encryptionResult.ErrorMessage);
+                        return new TestCaseGenerateResponse<TestGroup, TestCase>(result.ErrorMessage);
                     }
                 }
+
+                seedCase.ResultsArray = result.Response;
             }
             catch (Exception ex)
             {
@@ -49,7 +66,7 @@ namespace NIST.CVP.Generation.TDES_CBCI
                     return new TestCaseGenerateResponse<TestGroup, TestCase>(ex.Message);
                 }
             }
-            seedCase.ResultsArray = encryptionResult.Response;
+            
             return new TestCaseGenerateResponse<TestGroup, TestCase>(seedCase);
         }
 

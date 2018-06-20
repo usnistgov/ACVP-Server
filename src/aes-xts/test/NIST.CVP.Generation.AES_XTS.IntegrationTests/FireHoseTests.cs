@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using NIST.CVP.Crypto.AES;
+using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Common.Symmetric.Enums;
+using NIST.CVP.Crypto.Common.Symmetric.Helpers;
+using NIST.CVP.Crypto.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Symmetric.Engines;
 using NIST.CVP.Generation.AES_XTS.Parsers;
 using NIST.CVP.Tests.Core;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
@@ -31,7 +36,7 @@ namespace NIST.CVP.Generation.AES_XTS.IntegrationTests
             }
             var testDir = new DirectoryInfo(_testPath);
             var parser = new LegacyResponseFileParser();
-            var algo = new Crypto.AES_XTS.AesXts();
+            var algo = new XtsBlockCipher(new AesEngine());
 
             int count = 0;
             foreach (var testFilePath in testDir.EnumerateFiles())
@@ -61,7 +66,7 @@ namespace NIST.CVP.Generation.AES_XTS.IntegrationTests
                         // If we were given an integer value instead of hex
                         if (testCase.I == null)
                         {
-                            testCase.I = algo.GetIFromInteger(testCase.SequenceNumber);
+                            testCase.I = XtsHelper.GetIFromInteger(testCase.SequenceNumber);
                         }
 
                         // Shorten plaintext and ciphertext to the length the group specifies
@@ -70,11 +75,10 @@ namespace NIST.CVP.Generation.AES_XTS.IntegrationTests
 
                         if (testGroup.Direction.ToLower() == "encrypt")
                         {
-                            var result = algo.Encrypt(
-                                testCase.XtsKey,
-                                testCase.PlainText,
-                                testCase.I
-                            );
+                            var param = new ModeBlockCipherParameters(BlockCipherDirections.Encrypt, testCase.I,
+                                testCase.Key, testCase.PlainText);
+
+                            var result = algo.ProcessPayload(param);
 
                             Assert.AreEqual(testCase.CipherText.ToHex(), result.Result.ToHex(), $"Failed on count {count} expected CT {testCase.CipherText.ToHex()}, got {result.Result.ToHex()}");
                             continue;
@@ -82,11 +86,10 @@ namespace NIST.CVP.Generation.AES_XTS.IntegrationTests
 
                         if (testGroup.Direction.ToLower() == "decrypt")
                         {
-                            var result = algo.Decrypt(
-                                testCase.XtsKey,
-                                testCase.CipherText,
-                                testCase.I
-                            );
+                            var param = new ModeBlockCipherParameters(BlockCipherDirections.Decrypt, testCase.I,
+                                testCase.Key, testCase.CipherText);
+
+                            var result = algo.ProcessPayload(param);
 
                             Assert.AreEqual(testCase.PlainText.ToHex(), result.Result.ToHex(), $"Failed on count {count} expected PT {testCase.PlainText.ToHex()}, got {result.Result.ToHex()}");
                             continue;

@@ -1,6 +1,10 @@
 ﻿using System;
 using NIST.CVP.Crypto.Common.Symmetric;
 using NIST.CVP.Crypto.Common.Symmetric.AES;
+using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Common.Symmetric.Enums;
+using NIST.CVP.Crypto.Common.Symmetric.Helpers;
+using NIST.CVP.Crypto.Common.Symmetric.MonteCarlo;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using NLog;
@@ -9,28 +13,31 @@ namespace NIST.CVP.Generation.AES_CFB128
 {
     public class TestCaseGeneratorMCTDecrypt : ITestCaseGenerator<TestGroup, TestCase>
     {
-        private readonly IRandom800_90 _iRandom80090;
-        private readonly IAES_CFB128_MCT _algo;
+        private readonly IRandom800_90 _random800_90;
+        private readonly IMonteCarloTester<
+            MCTResult<AlgoArrayResponse>, AlgoArrayResponse
+        > _algo;
 
         public int NumberOfTestCasesToGenerate => 1;
 
-        public TestCaseGeneratorMCTDecrypt(IRandom800_90 iRandom80090, IAES_CFB128_MCT algo)
+        public TestCaseGeneratorMCTDecrypt(TestGroup group, IRandom800_90 random800_90, IMonteCarloFactoryAes mctFactory)
         {
-            _iRandom80090 = iRandom80090;
-            _algo = algo;
+            _random800_90 = random800_90;
+
+            var mapping = AlgoModeToEngineModeOfOperationMapping.GetMapping(group.AlgoMode);
+            _algo = mctFactory.GetInstance(mapping.mode);
         }
 
         public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup @group, bool isSample)
         {
-            var iv = _iRandom80090.GetRandomBitString(128);
-            var key = _iRandom80090.GetRandomBitString(@group.KeyLength);
-            var cipherText = _iRandom80090.GetRandomBitString(128);
+            var iv = _random800_90.GetRandomBitString(128);
+            var key = _random800_90.GetRandomBitString(@group.KeyLength);
+            var cipherText = _random800_90.GetRandomBitString(128);
             TestCase testCase = new TestCase()
             {
                 IV = iv,
                 Key = key,
-                CipherText = cipherText,
-                Deferred = false
+                CipherText = cipherText
             };
 
             return Generate(@group, testCase);
@@ -38,17 +45,23 @@ namespace NIST.CVP.Generation.AES_CFB128
 
         public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup @group, TestCase testCase)
         {
-            MCTResult<AlgoArrayResponse> decryptionResult = null;
             try
             {
-                decryptionResult = _algo.MCTDecrypt(testCase.IV, testCase.Key, testCase.CipherText);
-                if (!decryptionResult.Success)
+                var result = _algo.ProcessMonteCarloTest(new ModeBlockCipherParameters(
+                    BlockCipherDirections.Decrypt,
+                    testCase.IV.GetDeepCopy(),
+                    testCase.Key.GetDeepCopy(),
+                    testCase.CipherText.GetDeepCopy()
+                ));
+                if (!result.Success)
                 {
-                    ThisLogger.Warn(decryptionResult.ErrorMessage);
+                    ThisLogger.Warn(result.ErrorMessage);
                     {
-                        return new TestCaseGenerateResponse<TestGroup, TestCase>(decryptionResult.ErrorMessage);
+                        return new TestCaseGenerateResponse<TestGroup, TestCase>(result.ErrorMessage);
                     }
                 }
+
+                testCase.ResultsArray = result.Response;
             }
             catch (Exception ex)
             {
@@ -57,7 +70,7 @@ namespace NIST.CVP.Generation.AES_CFB128
                     return new TestCaseGenerateResponse<TestGroup, TestCase>(ex.Message);
                 }
             }
-            testCase.ResultsArray = decryptionResult.Response;
+
             return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
         }
 

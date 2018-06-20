@@ -1,17 +1,39 @@
-﻿using NIST.CVP.Crypto.TDES_CBCI;
-using NIST.CVP.Generation.TDES_CBCI.Parsers;
+﻿using NIST.CVP.Generation.TDES_CBCI.Parsers;
 using NIST.CVP.Tests.Core;
 using NUnit.Framework;
 using System;
 using System.IO;
 using System.Linq;
+using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Common.Symmetric.Enums;
+using NIST.CVP.Crypto.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Symmetric.Engines;
+using NIST.CVP.Crypto.Symmetric.MonteCarlo;
 using NIST.CVP.Crypto.TDES;
+using NIST.CVP.Crypto.TDES_CBC;
+using MonteCarloKeyMaker = NIST.CVP.Crypto.TDES_CBCI.MonteCarloKeyMaker;
 
 namespace NIST.CVP.Generation.TDES_CBCI.IntegrationTests
 {
     public class FireHoseTests
     {
+        private string _testPath;
+        private CbciBlockCipher _algo;
+        private MonteCarloTdesCbci _algoMct;
+        private MonteCarloKeyMaker _keyMaker;
 
+        [SetUp]
+        public void Setup()
+        {
+            _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\LegacyParserFiles\");
+            _algo = new CbciBlockCipher(new TdesEngine());
+            _keyMaker = new MonteCarloKeyMaker();
+            _algoMct = new MonteCarloTdesCbci(
+                new BlockCipherEngineFactory(),
+                new ModeBlockCipherFactory(),
+                _keyMaker
+            );
+        }
 
         [Test]
         public void ShouldParseAndRunCAVSFiles()
@@ -35,58 +57,57 @@ namespace NIST.CVP.Generation.TDES_CBCI.IntegrationTests
                 Assert.Fail("No TestGroups were parsed.");
             }
 
-
-            var algoMct = new TdesCbciMCT(new MonteCarloKeyMaker());
-            var algo = new TdesCbci();
-
             int count = 0;
             int passes = 0;
             int fails = 0;
             bool mctTestHit = false;
             bool nonMctTestHit = false;
-            foreach (var iTestGroup in parsedTestVectorSet.ParsedObject.TestGroups)
+            foreach (var testGroup in parsedTestVectorSet.ParsedObject.TestGroups)
             {
-
-                var testGroup = (TestGroup)iTestGroup;
-                foreach (var iTestCase in testGroup.Tests)
+                foreach (var testCase in testGroup.Tests)
                 {
                     count++;
-
-                    var testCase = (TestCase)iTestCase;
-
                     if (testGroup.TestType.ToLower() == "mct")
                     {
                         mctTestHit = true;
-                        var firstResult = testCase.ResultsArray.First();
                         if (testGroup.Function.ToLower() == "encrypt")
                         {
-
-                            var result = algoMct.MCTEncrypt(
-                                firstResult.Keys,
-                                firstResult.IV1,
-                                firstResult.PlainText
+                            var param = new ModeBlockCipherParameters(
+                                BlockCipherDirections.Encrypt,
+                                testCase.ResultsArray.First().IV1,
+                                testCase.ResultsArray.First().Keys,
+                                testCase.ResultsArray.First().PlainText
                             );
+                            var result = _algoMct.ProcessMonteCarloTest(param);
 
                             Assert.IsTrue(testCase.ResultsArray.Count > 0, $"{nameof(testCase)} MCT encrypt count should be gt 0");
                             for (int i = 0; i < testCase.ResultsArray.Count; i++)
                             {
+                                Assert.AreEqual(testCase.ResultsArray[i].IV, result.Response[i].IV, $"IV mismatch on index {i}");
+                                Assert.AreEqual(testCase.ResultsArray[i].Keys, result.Response[i].Keys, $"Key mismatch on index {i}");
+                                Assert.AreEqual(testCase.ResultsArray[i].PlainText, result.Response[i].PlainText, $"PlainText mismatch on index {i}");
                                 Assert.AreEqual(testCase.ResultsArray[i].CipherText, result.Response[i].CipherText, $"CipherText mismatch on index {i}");
                             }
                             continue;
                         }
                         if (testGroup.Function.ToLower() == "decrypt")
                         {
-                            var result = algoMct.MCTDecrypt(
-                                firstResult.Keys,
-                                firstResult.IV1,
-                                firstResult.CipherText
+                            var param = new ModeBlockCipherParameters(
+                                BlockCipherDirections.Decrypt,
+                                testCase.ResultsArray.First().IV1,
+                                testCase.ResultsArray.First().Keys,
+                                testCase.ResultsArray.First().CipherText
                             );
+                            var result = _algoMct.ProcessMonteCarloTest(param);
 
                             Assert.IsTrue(testCase.ResultsArray.Count > 0, $"{nameof(testCase)} MCT decrypt count should be gt 0");
                             Assert.IsTrue(testCase.ResultsArray.Count == result.Response.Count, "Result and response arrays must be of the same size.");
                             for (int i = 0; i < testCase.ResultsArray.Count; i++)
                             {
+                                Assert.AreEqual(testCase.ResultsArray[i].IV, result.Response[i].IV, $"IV mismatch on index {i}");
+                                Assert.AreEqual(testCase.ResultsArray[i].Keys, result.Response[i].Keys, $"Key mismatch on index {i}");
                                 Assert.AreEqual(testCase.ResultsArray[i].PlainText, result.Response[i].PlainText, $"PlainText mismatch on index {i}");
+                                Assert.AreEqual(testCase.ResultsArray[i].CipherText, result.Response[i].CipherText, $"CipherText mismatch on index {i}");
                             }
                             continue;
                         }
@@ -100,11 +121,13 @@ namespace NIST.CVP.Generation.TDES_CBCI.IntegrationTests
                         {
                             if (testGroup.TestType.ToLower() == "inversepermutation")
                             {
-                                var result = algo.BlockEncrypt(
-                                    testCase.Keys,
-                                    testCase.IV1,
-                                    testCase.PlainText
+                                var param = new ModeBlockCipherParameters(
+                                    BlockCipherDirections.Encrypt,
+                                    testCase.IV1.GetDeepCopy(),
+                                    testCase.Keys.GetDeepCopy(),
+                                    testCase.PlainText.GetDeepCopy()
                                 );
+                                var result = _algo.ProcessPayload(param);
 
                                 if (testCase.CipherText.ToString() == result.Result.ToString() &&
                                     testCase.IV1.ToString() == result.IVs[0].ToString() &&
@@ -124,11 +147,13 @@ namespace NIST.CVP.Generation.TDES_CBCI.IntegrationTests
                             }
                             else if (testGroup.TestType.ToLower() == "multiblockmessage")
                             {
-                                var result = algo.BlockEncrypt(
-                                    testCase.Keys,
-                                    testCase.IV1,
-                                    testCase.PlainText
+                                var param = new ModeBlockCipherParameters(
+                                    BlockCipherDirections.Encrypt,
+                                    testCase.IV1.GetDeepCopy(),
+                                    testCase.Keys.GetDeepCopy(),
+                                    testCase.PlainText.GetDeepCopy()
                                 );
+                                var result = _algo.ProcessPayload(param);
 
                                 if (testCase.CipherText.ToString() == result.Result.ToString() && 
                                     testCase.IV1.ToString() == result.IVs[0].ToString() &&
@@ -150,11 +175,13 @@ namespace NIST.CVP.Generation.TDES_CBCI.IntegrationTests
                                      testGroup.TestType.ToLower() == "variablekey" ||
                                      testGroup.TestType.ToLower() == "variabletext")
                             {
-                                var result = algo.BlockEncrypt(
-                                    testCase.Keys,
-                                    testCase.IV1,
-                                    testCase.PlainText
+                                var param = new ModeBlockCipherParameters(
+                                    BlockCipherDirections.Encrypt,
+                                    testCase.IV1.GetDeepCopy(),
+                                    testCase.Keys.GetDeepCopy(),
+                                    testCase.PlainText.GetDeepCopy()
                                 );
+                                var result = _algo.ProcessPayload(param);
 
                                 if (testCase.CipherText.ToString() == result.Result.ToString() &&
                                     testCase.IV1.ToString() == result.IVs[0].ToString() &&
@@ -182,11 +209,13 @@ namespace NIST.CVP.Generation.TDES_CBCI.IntegrationTests
                         {
                             if (testGroup.TestType.ToLower() == "inversepermutation")
                             {
-                                var result = algo.BlockDecrypt(
-                                    testCase.Keys,
-                                    testCase.IV1,
-                                    testCase.CipherText
+                                var param = new ModeBlockCipherParameters(
+                                    BlockCipherDirections.Decrypt,
+                                    testCase.IV1.GetDeepCopy(),
+                                    testCase.Keys.GetDeepCopy(),
+                                    testCase.CipherText.GetDeepCopy()
                                 );
+                                var result = _algo.ProcessPayload(param);
 
                                 if (testCase.PlainText.ToString() == result.Result.ToString() &&
                                     testCase.IV1.ToString() == result.IVs[0].ToString() &&
@@ -206,11 +235,13 @@ namespace NIST.CVP.Generation.TDES_CBCI.IntegrationTests
                             }
                             else if (testGroup.TestType.ToLower() == "multiblockmessage")
                             {
-                                var result = algo.BlockDecrypt(
-                                    testCase.Key1.ConcatenateBits(testCase.Key2.ConcatenateBits(testCase.Key3)),
-                                    testCase.IV1,
-                                    testCase.CipherText
+                                var param = new ModeBlockCipherParameters(
+                                    BlockCipherDirections.Decrypt,
+                                    testCase.IV1.GetDeepCopy(),
+                                    testCase.Keys.GetDeepCopy(),
+                                    testCase.CipherText.GetDeepCopy()
                                 );
+                                var result = _algo.ProcessPayload(param);
 
                                 if (testCase.PlainText.ToString() == result.Result.ToString() &&
                                     testCase.IV1.ToString() == result.IVs[0].ToString() &&
@@ -232,11 +263,13 @@ namespace NIST.CVP.Generation.TDES_CBCI.IntegrationTests
                                      testGroup.TestType.ToLower() == "variablekey" ||
                                      testGroup.TestType.ToLower() == "variabletext")
                             {
-                                var result = algo.BlockDecrypt(
-                                    testCase.Keys,
-                                    testCase.IV1,
-                                    testCase.CipherText
+                                var param = new ModeBlockCipherParameters(
+                                    BlockCipherDirections.Decrypt,
+                                    testCase.IV1.GetDeepCopy(),
+                                    testCase.Keys.GetDeepCopy(),
+                                    testCase.CipherText.GetDeepCopy()
                                 );
+                                var result = _algo.ProcessPayload(param);
 
                                 if (testCase.PlainText.ToString() == result.Result.ToString() &&
                                     testCase.IV1.ToString() == result.IVs[0].ToString() &&

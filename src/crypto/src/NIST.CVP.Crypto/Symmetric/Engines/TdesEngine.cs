@@ -27,7 +27,7 @@ namespace NIST.CVP.Crypto.Symmetric.Engines
 
         public int BlockSizeBits => BlockSizeBytes * _bitsInByte;
 
-        public Cipher Cipher => Cipher.TDES;
+        public BlockCipherEngines CipherEngine => BlockCipherEngines.Tdes;
 
         public void Init(IBlockCipherEngineParameters param)
         {
@@ -47,11 +47,20 @@ namespace NIST.CVP.Crypto.Symmetric.Engines
                 throw new ArgumentOutOfRangeException(nameof(param.Key));
             }
 
-            _direction = param.Direction;
-            _key = param.Key;
             _useInverseCipher = param.UseInverseCipherMode;
 
-            PopulateKeySchedule();
+            if (_key == null)
+            {
+                _key = param.Key;
+                _direction = param.Direction;
+                PopulateKeySchedule();
+            }
+            else if (!param.Key.SequenceEqual(_key) || param.Direction != _direction)
+            {
+                _key = param.Key;
+                _direction = param.Direction;
+                PopulateKeySchedule();
+            }
         }
         
         public void ProcessSingleBlock(byte[] payLoad, byte[] outBuffer, int blockIndex)
@@ -98,10 +107,10 @@ namespace NIST.CVP.Crypto.Symmetric.Engines
             switch (_direction)
             {
                 case BlockCipherDirections.Encrypt:
-                    _function = FunctionValues.Encryption;
+                    _function = !_useInverseCipher ? FunctionValues.Encryption : FunctionValues.Decryption;
                     break;
                 case BlockCipherDirections.Decrypt:
-                    _function = FunctionValues.Decryption;
+                    _function = !_useInverseCipher ? FunctionValues.Decryption : FunctionValues.Encryption;
                     break;
                 default:
                     throw new ArgumentException(nameof(_direction));

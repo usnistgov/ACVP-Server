@@ -1,22 +1,23 @@
 ﻿using NIST.CVP.Crypto.Common.Symmetric;
-using NIST.CVP.Crypto.Common.Symmetric.AES;
-using NIST.CVP.Crypto.Common.Symmetric.CTR.Fakes;
+using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.AES_CTR
 {
     public class DeferredTestCaseResolverDecrypt : IDeferredTestCaseResolver<TestGroup, TestCase, SymmetricCounterResult>
     {
-        private readonly IAesCtr _algo;
+        private readonly ICounterModeBlockCipher _algo;
 
-        public DeferredTestCaseResolverDecrypt(IAesCtr algo)
+        public DeferredTestCaseResolverDecrypt(ICounterModeBlockCipher algo)
         {
             _algo = algo;
         }
 
         public SymmetricCounterResult CompleteDeferredCrypto(TestGroup testGroup, TestCase serverTestCase, TestCase iutTestCase)
         {
-            return _algo.CounterDecrypt(serverTestCase.Key, serverTestCase.CipherText, iutTestCase.PlainText);
+            var param = new CounterModeBlockCipherParameters(BlockCipherDirections.Decrypt, serverTestCase.Key, serverTestCase.CipherText, iutTestCase.PlainText);
+            return _algo.ExtractIvs(param);
         }
     }
 }

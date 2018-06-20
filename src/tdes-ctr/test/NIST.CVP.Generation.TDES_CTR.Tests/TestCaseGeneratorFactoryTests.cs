@@ -1,6 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using Moq;
+using NIST.CVP.Crypto.Common.Symmetric.Engines;
+using NIST.CVP.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
@@ -9,6 +10,21 @@ namespace NIST.CVP.Generation.TDES_CTR.Tests
     [TestFixture, UnitTest]
     public class TestCaseGeneratorFactoryTests
     {
+        private TestCaseGeneratorFactory _subject;
+        private Mock<IBlockCipherEngine> _engine;
+        private Mock<IBlockCipherEngineFactory> _engineFactory;
+
+        [SetUp]
+        public void Setup()
+        {
+            _engine = new Mock<IBlockCipherEngine>();
+            _engineFactory = new Mock<IBlockCipherEngineFactory>();
+            _engineFactory
+                .Setup(s => s.GetSymmetricCipherPrimitive(It.IsAny<BlockCipherEngines>()))
+                .Returns(_engine.Object);
+            _subject = new TestCaseGeneratorFactory(null, _engineFactory.Object, null, null);
+        }
+
         [Test]
         [TestCase("encrypt", "InversePermutation", typeof(TestCaseGeneratorKnownAnswer))]
         [TestCase("encrypt", "InversePermutation", typeof(TestCaseGeneratorKnownAnswer))]
@@ -50,8 +66,7 @@ namespace NIST.CVP.Generation.TDES_CTR.Tests
                 TestType = testType
             };
 
-            var subject = new TestCaseGeneratorFactory(null, null);
-            var generator = subject.GetCaseGenerator(testGroup);
+            var generator = _subject.GetCaseGenerator(testGroup);
             Assume.That(generator != null);
             Assert.IsInstanceOf(expectedType, generator);
         }
@@ -65,7 +80,7 @@ namespace NIST.CVP.Generation.TDES_CTR.Tests
                 TestType = string.Empty
             };
 
-            var subject = new TestCaseGeneratorFactory(null, null);
+            var subject = new TestCaseGeneratorFactory(null, null, null, null);
             var generator = subject.GetCaseGenerator(testGroup);
             Assert.IsNotNull(generator);
         }

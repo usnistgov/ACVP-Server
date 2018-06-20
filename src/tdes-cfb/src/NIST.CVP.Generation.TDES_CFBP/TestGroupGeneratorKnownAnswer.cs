@@ -1,5 +1,7 @@
 ﻿using NIST.CVP.Generation.Core;
 using System.Collections.Generic;
+using NIST.CVP.Common;
+using NIST.CVP.Common.Helpers;
 
 namespace NIST.CVP.Generation.TDES_CFBP
 {
@@ -16,6 +18,7 @@ namespace NIST.CVP.Generation.TDES_CFBP
 
         public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
         {
+            var algoMode = AlgoModeHelpers.GetAlgoModeFromAlgoAndMode(parameters.Algorithm, parameters.Mode);
             var testGroups = new List<TestGroup>();
             foreach (var function in parameters.Direction)
             {
@@ -23,6 +26,7 @@ namespace NIST.CVP.Generation.TDES_CFBP
                 {
                     var tg = new TestGroup()
                     {
+                        AlgoMode = algoMode,
                         Function = function,
                         KeyingOption = 1,
                         TestType = katTest

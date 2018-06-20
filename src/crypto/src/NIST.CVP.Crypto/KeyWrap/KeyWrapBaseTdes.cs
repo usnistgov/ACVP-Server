@@ -1,27 +1,31 @@
 ﻿using System;
-using NIST.CVP.Crypto.Common.Symmetric.TDES;
-using NIST.CVP.Crypto.TDES_ECB;
+using NIST.CVP.Crypto.Common.Symmetric;
+using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Common.Symmetric.Engines;
+using NIST.CVP.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.KeyWrap
 {
     public abstract class KeyWrapBaseTdes : KeyWrapBase
     {
-        protected ITDES_ECB _tdes;
+        protected readonly IModeBlockCipher<SymmetricCipherResult> Cipher;
 
-        public KeyWrapBaseTdes(ITDES_ECB tdes)
+        protected KeyWrapBaseTdes(IBlockCipherEngineFactory engineFactory, IModeBlockCipherFactory cipherFactory)
         {
-            _tdes = tdes;
+            Cipher = cipherFactory.GetStandardCipher(engineFactory.GetSymmetricCipherPrimitive(BlockCipherEngines.Tdes), BlockCipherModesOfOperation.Ecb);
         }
+
         protected override BitString Wrap(BitString K, BitString S, bool wrapWithInverseCipher)
         {
             // 0. Pre-conditions
-            int n = S.BitLength / 32;
+            var n = S.BitLength / 32;
             if ((n < 3) || (S.BitLength % 32 != 0))
             {
                 throw new ArgumentException($"Invalid {nameof(S)} length.");
             }
-            int keylen = K.BitLength;
+
+            var keylen = K.BitLength;
             var K2 = K.GetDeepCopy();
             //if (keylen == 192)
             //{
@@ -54,15 +58,12 @@ namespace NIST.CVP.Crypto.KeyWrap
                 // a) A^t = MSB32(CIPH_K(A^t-1 || R2^t-1)) xor [t]32
                 BitString R2 = R2n.GetMostSignificantBits(32);
 
-
-
                 //BitString t32 = to_bitstring32((unsigned long long)t);
+                // TODO wat is going on here... use BitString.To32BitString()?
                 BitString t32 = BitString.To64BitString(t).GetLeastSignificantBits(32); 
 
-
-
-
-                BitString block_t = _tdes.BlockEncrypt(K2, A.ConcatenateBits(R2), wrapWithInverseCipher).Result;
+                var param = new ModeBlockCipherParameters(BlockCipherDirections.Encrypt, K2, A.ConcatenateBits(R2), wrapWithInverseCipher);
+                BitString block_t = Cipher.ProcessPayload(param).Result;
                 A = block_t.GetMostSignificantBits(32).XOR(t32);
                 // b) For i=2,...,n: Ri^t = Ri+1^t-1
                 // c) Rn^t = LSB32(CIPH_K(CIPH_K(A^t-1 || R2^t-1)))
@@ -74,11 +75,7 @@ namespace NIST.CVP.Crypto.KeyWrap
             // b) For i=2,...,n: Ci = Ri^s
             // c) Return C1 || C2 || ... || Cn
             return A.ConcatenateBits(R2n);
-
-
         }
-
-
 
         protected override BitString WrapInverse(BitString K, BitString C, bool wrappedWithInverseCipher)
         {
@@ -122,7 +119,9 @@ namespace NIST.CVP.Crypto.KeyWrap
                 // a) A^t-1 = MSB(CIPH^-1K((A^t xor [t]32) || Rn^t))
                 BitString t32 = BitString.To64BitString(t).GetLeastSignificantBits(32);
                 BitString Rn = R2n.GetLeastSignificantBits(32);
-                BitString block_t = _tdes.BlockDecrypt(K2, A.XOR(t32).ConcatenateBits(Rn), wrappedWithInverseCipher).Result;
+
+                var param = new ModeBlockCipherParameters(BlockCipherDirections.Decrypt, K2, A.XOR(t32).ConcatenateBits(Rn), wrappedWithInverseCipher);
+                BitString block_t = Cipher.ProcessPayload(param).Result;
                 A = block_t.GetMostSignificantBits(32);
                 // b) R2^t-1 = LSB(CIPH^-1K((A^t xor [t]32) || Rn^t))
                 // c) For i=2,...,n-1, Ri+1^t-1 = Ri^t
@@ -153,7 +152,5 @@ namespace NIST.CVP.Crypto.KeyWrap
 
             return Kc;
         }
-}
-
-    
+    }
 }

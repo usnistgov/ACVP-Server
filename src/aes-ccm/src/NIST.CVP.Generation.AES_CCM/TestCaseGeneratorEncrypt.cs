@@ -1,6 +1,8 @@
 ﻿using System;
 using NIST.CVP.Crypto.Common.Symmetric;
-using NIST.CVP.Crypto.Common.Symmetric.AES;
+using NIST.CVP.Crypto.Common.Symmetric.BlockModes.Aead;
+using NIST.CVP.Crypto.Common.Symmetric.Engines;
+using NIST.CVP.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using NLog;
@@ -10,18 +12,16 @@ namespace NIST.CVP.Generation.AES_CCM
     public class TestCaseGeneratorEncrypt : ITestCaseGenerator<TestGroup, TestCase>
     {
         private readonly IRandom800_90 _random800_90;
-        private readonly IAES_CCM _algo;
+        private readonly IAeadModeBlockCipher _algo;
 
         private BitString _key = null;
         private BitString _nonce = null;
+        public int NumberOfTestCasesToGenerate { get; private set; } = 10;
 
-        private int _numberOfTestCases = 10;
-        public int NumberOfTestCasesToGenerate => _numberOfTestCases;
-
-        public TestCaseGeneratorEncrypt(IRandom800_90 random800_90, IAES_CCM algo)
+        public TestCaseGeneratorEncrypt(IRandom800_90 random800_90, IAeadModeBlockCipherFactory cipherFactory, IBlockCipherEngineFactory engineFactory)
         {
             _random800_90 = random800_90;
-            _algo = algo;
+            _algo = cipherFactory.GetAeadCipher(engineFactory.GetSymmetricCipherPrimitive(BlockCipherEngines.Aes), BlockCipherModesOfOperation.Ccm);
         }
 
         public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup @group, bool isSample)
@@ -29,7 +29,7 @@ namespace NIST.CVP.Generation.AES_CCM
             // In instances like 2^16 aadLength, we only want to do a single test case.
             if (group.AADLength > 32 * 8)
             {
-                _numberOfTestCases = 1;
+                NumberOfTestCasesToGenerate = 1;
             }
 
             var key = GetReusableInput(ref _key, group.GroupReusesKeyForTestCases, group.KeyLength);
@@ -45,7 +45,8 @@ namespace NIST.CVP.Generation.AES_CCM
                 Deferred = false,
                 TestPassed = true
             };
-            return Generate(@group, testCase);
+
+            return Generate(group, testCase);
         }
 
         public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup @group, TestCase testCase)
@@ -53,7 +54,16 @@ namespace NIST.CVP.Generation.AES_CCM
             SymmetricCipherResult encryptionResult = null;
             try
             {
-                encryptionResult = _algo.Encrypt(testCase.Key, testCase.IV, testCase.PlainText, testCase.AAD, @group.TagLength);
+                var param = new AeadModeBlockCipherParameters(
+                    BlockCipherDirections.Encrypt,
+                    testCase.IV,
+                    testCase.Key,
+                    testCase.PlainText,
+                    testCase.AAD,
+                    group.TagLength
+                );
+
+                encryptionResult = _algo.ProcessPayload(param);
                 if (!encryptionResult.Success)
                 {
                     ThisLogger.Warn(encryptionResult.ErrorMessage);
@@ -69,6 +79,7 @@ namespace NIST.CVP.Generation.AES_CCM
                     return new TestCaseGenerateResponse<TestGroup, TestCase>(ex.Message);
                 }
             }
+
             testCase.CipherText = encryptionResult.Result;
             return  new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
         }

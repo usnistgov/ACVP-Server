@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
+using NIST.CVP.Common;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.TDES_CFB
@@ -7,7 +8,10 @@ namespace NIST.CVP.Generation.TDES_CFB
     public class TestGroup : ITestGroup<TestGroup, TestCase>
     {
         public int TestGroupId { get; set; }
-        
+
+        [JsonIgnore]
+        public AlgoMode AlgoMode { get; set; }
+
         [JsonProperty(PropertyName = "direction")]
         public string Function { get; set; }
         

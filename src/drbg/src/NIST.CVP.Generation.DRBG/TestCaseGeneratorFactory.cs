@@ -6,7 +6,6 @@ namespace NIST.CVP.Generation.DRBG
 {
     public class TestCaseGeneratorFactory : ITestCaseGeneratorFactory<TestGroup, TestCase>
     {
-
         private readonly IEntropyProviderFactory _iEntropyProviderFactory;
         private readonly IDrbgFactory _iDrbgFactory;
 

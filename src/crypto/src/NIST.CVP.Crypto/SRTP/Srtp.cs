@@ -1,6 +1,9 @@
-﻿using NIST.CVP.Crypto.AES;
-using NIST.CVP.Crypto.Common.KDF.Components.SRTP;
-using NIST.CVP.Crypto.Common.Symmetric.AES;
+﻿using NIST.CVP.Crypto.Common.KDF.Components.SRTP;
+using NIST.CVP.Crypto.Common.Symmetric;
+using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Common.Symmetric.Enums;
+using NIST.CVP.Crypto.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Symmetric.Engines;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Helpers;
 
@@ -8,11 +11,11 @@ namespace NIST.CVP.Crypto.SRTP
 {
     public class Srtp : ISrtp
     {
-        private readonly IAES_ECB _aes;
+        private readonly IModeBlockCipher<SymmetricCipherResult> _aesEcb;
 
         public Srtp()
         {
-            _aes = new AES_ECB.AES_ECB(new RijndaelFactory(new RijndaelInternals()));
+            _aesEcb = new EcbBlockCipher(new AesEngine());
         }
 
         public KdfResult DeriveKey(int keyLength, BitString keyMaster, BitString saltMaster, BitString kdr, BitString index, BitString srtcpIndex)
@@ -64,7 +67,8 @@ namespace NIST.CVP.Crypto.SRTP
             for (short i = 0; i < m; i++)
             {
                 var inBlock = x.ConcatenateBits(BitString.To16BitString(i));
-                derivedKey = derivedKey.ConcatenateBits(_aes.BlockEncrypt(key, inBlock).Result);
+                var param = new ModeBlockCipherParameters(BlockCipherDirections.Encrypt, key, inBlock);
+                derivedKey = derivedKey.ConcatenateBits(_aesEcb.ProcessPayload(param).Result);
             }
 
             return derivedKey.GetMostSignificantBits(length);

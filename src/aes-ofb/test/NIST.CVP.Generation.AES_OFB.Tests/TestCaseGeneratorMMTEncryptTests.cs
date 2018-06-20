@@ -1,9 +1,7 @@
 ﻿using System;
 using Moq;
-using NIST.CVP.Crypto.AES;
-using NIST.CVP.Crypto.AES_OFB;
 using NIST.CVP.Crypto.Common.Symmetric;
-using NIST.CVP.Crypto.Common.Symmetric.AES;
+using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
@@ -18,7 +16,7 @@ namespace NIST.CVP.Generation.AES_OFB.Tests
         public void GenerateShouldReturnTestCaseGenerateResponse()
         {
             TestCaseGeneratorMMTEncrypt subject =
-                new TestCaseGeneratorMMTEncrypt(GetRandomMock().Object, GetAESMock().Object);
+                new TestCaseGeneratorMMTEncrypt(GetRandomMock().Object, GetAesMock().Object);
 
             var result = subject.Generate(new TestGroup(), false);
 
@@ -29,9 +27,9 @@ namespace NIST.CVP.Generation.AES_OFB.Tests
         [Test]
         public void GenerateShouldReturnNullITestCaseOnFailedEncryption()
         {
-            var aes = GetAESMock();
+            var aes = GetAesMock();
             aes
-                .Setup(s => s.BlockEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>()))
+                .Setup(s => s.ProcessPayload(It.IsAny<IModeBlockCipherParameters>()))
                 .Returns(new SymmetricCipherResult("Fail"));
 
             TestCaseGeneratorMMTEncrypt subject =
@@ -46,9 +44,9 @@ namespace NIST.CVP.Generation.AES_OFB.Tests
         [Test]
         public void GenerateShouldReturnNullITestCaseOnExceptionEncryption()
         {
-            var aes = GetAESMock();
+            var aes = GetAesMock();
             aes
-                .Setup(s => s.BlockEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>()))
+                .Setup(s => s.ProcessPayload(It.IsAny<IModeBlockCipherParameters>()))
                 .Throws(new Exception());
 
             TestCaseGeneratorMMTEncrypt subject =
@@ -63,7 +61,7 @@ namespace NIST.CVP.Generation.AES_OFB.Tests
         [Test]
         public void GenerateShouldInvokeEncryptionOperation()
         {
-            var aes = GetAESMock();
+            var aes = GetAesMock();
             var random = GetRandomMock();
             random
                 .Setup(s => s.GetRandomBitString(It.IsAny<int>()))
@@ -74,7 +72,7 @@ namespace NIST.CVP.Generation.AES_OFB.Tests
 
             var result = subject.Generate(new TestGroup(), true);
 
-            aes.Verify(v => v.BlockEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>()),
+            aes.Verify(v => v.ProcessPayload(It.IsAny<IModeBlockCipherParameters>()),
                 Times.AtLeastOnce,
                 "BlockEncrypt should have been invoked"
             );
@@ -88,9 +86,9 @@ namespace NIST.CVP.Generation.AES_OFB.Tests
             random
                 .Setup(s => s.GetRandomBitString(It.IsAny<int>()))
                 .Returns(new BitString(new byte[] { 3 }));
-            var aes = GetAESMock();
+            var aes = GetAesMock();
             aes
-                .Setup(s => s.BlockEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>()))
+                .Setup(s => s.ProcessPayload(It.IsAny<IModeBlockCipherParameters>()))
                 .Returns(new SymmetricCipherResult(fakeCipher));
 
             TestCaseGeneratorMMTEncrypt subject =
@@ -107,37 +105,14 @@ namespace NIST.CVP.Generation.AES_OFB.Tests
             Assert.IsFalse(result.TestCase.Deferred, "Deferred");
         }
 
-        [Test]
-        public void GeneratedCipherTextShouldDecryptBackToPlainText()
-        {
-            var ri = new RijndaelInternals();
-            var rf = new RijndaelFactory(ri);
-            var aes_ofb = new Crypto.AES_OFB.AES_OFB(rf);
-            var subject = new TestCaseGeneratorMMTDecrypt(new Random800_90(), aes_ofb);
-            var testGroup = new TestGroup { KeyLength = 128 };
-
-            for (var i = 0; i < subject.NumberOfTestCasesToGenerate; i++)
-            {
-                var result = subject.Generate(testGroup, false);
-                Assume.That(result.Success);
-                testGroup.Tests.Add(result.TestCase);
-            }
-
-            foreach (TestCase testCase in testGroup.Tests)
-            {
-                var decryptResult = aes_ofb.BlockEncrypt(testCase.IV, testCase.Key, testCase.PlainText);
-                Assert.AreEqual(testCase.CipherText, decryptResult.Result);
-            }
-        }
-
         private Mock<IRandom800_90> GetRandomMock()
         {
             return new Mock<IRandom800_90>();
         }
 
-        private Mock<IAES_OFB> GetAESMock()
+        private Mock<IModeBlockCipher<SymmetricCipherResult>> GetAesMock()
         {
-            return new Mock<IAES_OFB>();
+            return new Mock<IModeBlockCipher<SymmetricCipherResult>>();
         }
     }
 }

@@ -1,6 +1,7 @@
-﻿using NIST.CVP.Crypto.AES_ECB;
-using NIST.CVP.Crypto.Common.DRBG;
-using NIST.CVP.Crypto.Common.Symmetric.AES;
+﻿using NIST.CVP.Crypto.Common.DRBG;
+using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Common.Symmetric.Engines;
+using NIST.CVP.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
 
@@ -8,17 +9,19 @@ namespace NIST.CVP.Crypto.DRBG
 {
     public class DrbgCounterAes : DrbgCounterBase
     {
-        protected IAES_ECB AesEcb;
+        protected IModeBlockCipher<IModeBlockCipherResult> Cipher;
 
-        public DrbgCounterAes(IEntropyProvider entropyProvider, IAES_ECB aesEcb, DrbgParameters drbgParameters)
+        public DrbgCounterAes(IEntropyProvider entropyProvider, IBlockCipherEngineFactory engineFactory, IModeBlockCipherFactory cipherFactory, DrbgParameters drbgParameters)
             : base(entropyProvider, drbgParameters)
         {
-            AesEcb = aesEcb;
+            Cipher = cipherFactory.GetStandardCipher(
+                engineFactory.GetSymmetricCipherPrimitive(BlockCipherEngines.Aes), BlockCipherModesOfOperation.Ecb);
         }
 
-        protected override BitString BlockEncrypt(BitString k, BitString x)
+        protected override BitString BlockEncrypt(BitString K, BitString X)
         {
-            return AesEcb.BlockEncrypt(k, x).Result;
+            var param = new ModeBlockCipherParameters(BlockCipherDirections.Encrypt, K, X);
+            return Cipher.ProcessPayload(param).Result;
         }
     }
 }

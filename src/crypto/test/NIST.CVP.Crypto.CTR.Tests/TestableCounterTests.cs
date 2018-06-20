@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using NIST.CVP.Crypto.Common.Symmetric.CTR.Enums;
 using NIST.CVP.Crypto.Common.Symmetric.CTR.Fakes;
+using NIST.CVP.Crypto.Symmetric.Engines;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -11,6 +12,8 @@ namespace NIST.CVP.Crypto.CTR.Tests
     [TestFixture, FastCryptoTest]
     public class TestableCounterTests
     {
+        private readonly AesEngine _aesEngine = new AesEngine();
+
         [Test]
         public void ShouldAlwaysGetCorrectCounter()
         {
@@ -27,7 +30,7 @@ namespace NIST.CVP.Crypto.CTR.Tests
                 BitString.Zeroes(120).ConcatenateBits(new BitString("20"))
             };
 
-            var subject = new TestableCounter(Cipher.AES, ivs);
+            var subject = new TestableCounter(_aesEngine, ivs);
 
             foreach (var iv in ivs)
             {
@@ -44,25 +47,10 @@ namespace NIST.CVP.Crypto.CTR.Tests
                 BitString.Zeroes(128)
             };
 
-            var subject = new TestableCounter(Cipher.AES, ivs);
+            var subject = new TestableCounter(_aesEngine, ivs);
             var firstResult = subject.GetNextIV();
 
             Assert.Throws(Is.TypeOf<Exception>(), () => subject.GetNextIV());
-        }
-
-        [Test]
-        [TestCase(Cipher.AES, 128)]
-        [TestCase(Cipher.TDES, 64)]
-        public void ShouldGetCorrectBlockSize(Cipher cipher, int blockSize)
-        {
-            var ivs = new List<BitString>
-            {
-                BitString.Zero()
-            };
-
-            var subject = new TestableCounter(cipher, ivs);
-            var result = subject.GetNextIV();
-            Assert.AreEqual(blockSize, result.BitLength);
         }
 
         [Test]
@@ -79,7 +67,7 @@ namespace NIST.CVP.Crypto.CTR.Tests
                 new BitString(hex)
             };
 
-            var subject = new TestableCounter(Cipher.AES, ivs);
+            var subject = new TestableCounter(_aesEngine, ivs);
 
             foreach (var iv in ivs)
             {

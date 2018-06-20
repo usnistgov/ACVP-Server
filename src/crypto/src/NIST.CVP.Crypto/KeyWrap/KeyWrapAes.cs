@@ -1,6 +1,6 @@
-﻿using NIST.CVP.Crypto.AES_ECB;
-using NIST.CVP.Crypto.Common.Symmetric;
-using NIST.CVP.Crypto.Common.Symmetric.AES;
+﻿using NIST.CVP.Crypto.Common.Symmetric;
+using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Common.Symmetric.Engines;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.KeyWrap
@@ -10,7 +10,7 @@ namespace NIST.CVP.Crypto.KeyWrap
 
         public static BitString Icv1 = new BitString("A6A6A6A6A6A6A6A6");
 
-        public KeyWrapAes(IAES_ECB aes) : base(aes) { }
+        public KeyWrapAes(IBlockCipherEngineFactory engineFactory, IModeBlockCipherFactory cipherFactory) : base(engineFactory, cipherFactory) { }
 
         public override SymmetricCipherResult Encrypt(BitString key, BitString plainText, bool wrapWithInverseCipher)
         {

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using NIST.CVP.Common.Helpers;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.AES_CFB1
@@ -10,6 +11,7 @@ namespace NIST.CVP.Generation.AES_CFB1
         public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
         {
             var testGroups = new List<TestGroup>();
+            var algoMode = AlgoModeHelpers.GetAlgoModeFromAlgoAndMode(parameters.Algorithm, parameters.Mode);
 
             foreach (var direction in parameters.Direction)
             {
@@ -17,6 +19,7 @@ namespace NIST.CVP.Generation.AES_CFB1
                 {
                     var testGroup = new TestGroup()
                     {
+                        AlgoMode = algoMode,
                         Function = direction,
                         KeyLength = keyLength,
                         TestType = _MCT_TEST_TYPE_LABEL

@@ -67,7 +67,7 @@ namespace NIST.CVP.Generation.AES_CBC.Tests
                 TestType = testType
             };
 
-            var subject = new TestCaseGeneratorFactory(null, null, null);
+            var subject = new TestCaseGeneratorFactory(null, null, null, null);
             var generator = subject.GetCaseGenerator(testGroup);
             Assume.That(generator != null);
             Assert.IsInstanceOf(expectedType, generator);
@@ -76,7 +76,7 @@ namespace NIST.CVP.Generation.AES_CBC.Tests
         [Test]
         public void ShouldReturnAGenerator()
         {
-            var subject = new TestCaseGeneratorFactory(null, null, null);
+            var subject = new TestCaseGeneratorFactory(null, null, null, null);
             var generator = subject.GetCaseGenerator(new TestGroup()
             {
                 Function = string.Empty,

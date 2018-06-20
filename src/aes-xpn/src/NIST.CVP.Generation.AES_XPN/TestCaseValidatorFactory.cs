@@ -1,17 +1,20 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using NIST.CVP.Crypto.Common.Symmetric.AES;
+using NIST.CVP.Crypto.Common.Symmetric.BlockModes.Aead;
+using NIST.CVP.Crypto.Common.Symmetric.Engines;
+using NIST.CVP.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.AES_XPN
 {
     public class TestCaseValidatorFactory : ITestCaseValidatorFactory<TestVectorSet, TestGroup, TestCase>
     {
-        private readonly IAES_GCM _algo;
+        private readonly IAeadModeBlockCipher _algo;
 
-        public TestCaseValidatorFactory(IAES_GCM algo)
+        public TestCaseValidatorFactory(IAeadModeBlockCipherFactory cipherFactory, IBlockCipherEngineFactory engineFactory)
         {
-            _algo = algo;
+            _algo = cipherFactory.GetAeadCipher(engineFactory.GetSymmetricCipherPrimitive(BlockCipherEngines.Aes), BlockCipherModesOfOperation.Gcm);
         }
 
         public IEnumerable<ITestCaseValidator<TestGroup, TestCase>> GetValidators(TestVectorSet testVectorSet)

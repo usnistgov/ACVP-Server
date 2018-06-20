@@ -56,7 +56,7 @@ namespace NIST.CVP.Generation.TDES_CFBP.Tests
         {
             Parameters p = new Parameters()
             {
-                Algorithm = string.Empty,
+                Algorithm = "TDES-CFBP1",
                 Direction = mode,
                 KeyingOption = keyOption,
             };
@@ -71,7 +71,7 @@ namespace NIST.CVP.Generation.TDES_CFBP.Tests
         {
             Parameters p = new Parameters()
             {
-                Algorithm = string.Empty,
+                Algorithm = "TDES-CFBP1",
                 Direction = new[] { "encrypt", "decrypt" },
                 KeyingOption = new[] { 1, 2 },
             };

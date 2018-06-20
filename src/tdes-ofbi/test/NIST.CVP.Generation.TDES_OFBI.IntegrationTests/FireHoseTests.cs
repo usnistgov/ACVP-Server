@@ -5,17 +5,37 @@ using NUnit.Framework;
 using System;
 using System.IO;
 using System.Linq;
+using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Common.Symmetric.Enums;
+using NIST.CVP.Crypto.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Symmetric.Engines;
+using NIST.CVP.Crypto.Symmetric.MonteCarlo;
 
 namespace NIST.CVP.Generation.TDES_OFBI.IntegrationTests
 {
     public class FireHoseTests
     {
+        private string _testPath;
+        private OfbiBlockCipher _algo;
+        private MonteCarloTdesOfbi _algoMct;
+        private MonteCarloKeyMaker _keyMaker;
 
+        [SetUp]
+        public void Setup()
+        {
+            _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\LegacyParserFiles\");
+            _algo = new OfbiBlockCipher(new TdesEngine());
+            _keyMaker = new MonteCarloKeyMaker();
+            _algoMct = new MonteCarloTdesOfbi(
+                new BlockCipherEngineFactory(),
+                new ModeBlockCipherFactory(),
+                _keyMaker
+            );
+        }
 
         [Test]
         public void ShouldParseAndRunCAVSFiles()
         {
-            var _testPath = Utilities.GetConsistentTestingStartPath(GetType(), $@"..\..\TestFiles\LegacyParserFiles\");
             if (!Directory.Exists(_testPath))
             {
                 Assert.Fail("Test File Directory does not exist");
@@ -34,24 +54,16 @@ namespace NIST.CVP.Generation.TDES_OFBI.IntegrationTests
                 Assert.Fail("No TestGroups were parsed.");
             }
 
-
-            var algoMct = new TdesOfbiMCT(new MonteCarloKeyMaker());
-            var algo = new TdesOfbi();
-
             int count = 0;
             int passes = 0;
             int fails = 0;
             bool mctTestHit = false;
             bool nonMctTestHit = false;
-            foreach (var iTestGroup in parsedTestVectorSet.ParsedObject.TestGroups)
+            foreach (var testGroup in parsedTestVectorSet.ParsedObject.TestGroups)
             {
-
-                var testGroup = (TestGroup)iTestGroup;
-                foreach (var iTestCase in testGroup.Tests)
+                foreach (var testCase in testGroup.Tests)
                 {
                     count++;
-
-                    var testCase = (TestCase)iTestCase;
 
                     if (testGroup.TestType.ToLower() == "mct")
                     {
@@ -59,33 +71,42 @@ namespace NIST.CVP.Generation.TDES_OFBI.IntegrationTests
                         var firstResult = testCase.ResultsArray.First();
                         if (testGroup.Function.ToLower() == "encrypt")
                         {
-
-                            var result = algoMct.MCTEncrypt(
-                                firstResult.Keys,
-                                firstResult.IV1,
-                                firstResult.PlainText
+                            var param = new ModeBlockCipherParameters(
+                                BlockCipherDirections.Encrypt,
+                                testCase.ResultsArray.First().IV1,
+                                testCase.ResultsArray.First().Keys,
+                                testCase.ResultsArray.First().PlainText
                             );
+                            var result = _algoMct.ProcessMonteCarloTest(param);
 
                             Assert.IsTrue(testCase.ResultsArray.Count > 0, $"{nameof(testCase)} MCT encrypt count should be gt 0");
                             for (int i = 0; i < testCase.ResultsArray.Count; i++)
                             {
+                                Assert.AreEqual(testCase.ResultsArray[i].IV, result.Response[i].IV, $"IV mismatch on index {i}");
+                                Assert.AreEqual(testCase.ResultsArray[i].Keys, result.Response[i].Keys, $"Key mismatch on index {i}");
+                                Assert.AreEqual(testCase.ResultsArray[i].PlainText, result.Response[i].PlainText, $"PlainText mismatch on index {i}");
                                 Assert.AreEqual(testCase.ResultsArray[i].CipherText, result.Response[i].CipherText, $"CipherText mismatch on index {i}");
                             }
                             continue;
                         }
                         if (testGroup.Function.ToLower() == "decrypt")
                         {
-                            var result = algoMct.MCTDecrypt(
-                                firstResult.Keys,
-                                firstResult.IV1,
-                                firstResult.CipherText
+                            var param = new ModeBlockCipherParameters(
+                                BlockCipherDirections.Decrypt,
+                                testCase.ResultsArray.First().IV1,
+                                testCase.ResultsArray.First().Keys,
+                                testCase.ResultsArray.First().CipherText
                             );
+                            var result = _algoMct.ProcessMonteCarloTest(param);
 
                             Assert.IsTrue(testCase.ResultsArray.Count > 0, $"{nameof(testCase)} MCT decrypt count should be gt 0");
                             Assert.IsTrue(testCase.ResultsArray.Count == result.Response.Count, "Result and response arrays must be of the same size.");
                             for (int i = 0; i < testCase.ResultsArray.Count; i++)
                             {
+                                Assert.AreEqual(testCase.ResultsArray[i].IV, result.Response[i].IV, $"IV mismatch on index {i}");
+                                Assert.AreEqual(testCase.ResultsArray[i].Keys, result.Response[i].Keys, $"Key mismatch on index {i}");
                                 Assert.AreEqual(testCase.ResultsArray[i].PlainText, result.Response[i].PlainText, $"PlainText mismatch on index {i}");
+                                Assert.AreEqual(testCase.ResultsArray[i].CipherText, result.Response[i].CipherText, $"CipherText mismatch on index {i}");
                             }
                             continue;
                         }
@@ -97,166 +118,50 @@ namespace NIST.CVP.Generation.TDES_OFBI.IntegrationTests
 
                         if (testGroup.Function.ToLower() == "encrypt")
                         {
-                            if (testGroup.TestType.ToLower() == "inversepermutation")
+                            var param = new ModeBlockCipherParameters(
+                                BlockCipherDirections.Encrypt,
+                                testCase.IV1.GetDeepCopy(),
+                                testCase.Keys.GetDeepCopy(),
+                                testCase.PlainText.GetDeepCopy()
+                            );
+                            var result = _algo.ProcessPayload(param);
+
+                            if (testCase.CipherText.ToString() == result.Result.ToString())
                             {
-                                var result = algo.BlockEncrypt(
-                                    testCase.Keys,
-                                    testCase.IV1,
-                                    testCase.PlainText
-                                );
-
-                                if (testCase.CipherText.ToString() == result.Result.ToString() &&
-                                    testCase.IV1.ToString() == result.IVs[0].ToString() &&
-                                    testCase.IV2.ToString() == result.IVs[1].ToString() &&
-                                    testCase.IV3.ToString() == result.IVs[2].ToString())
-                                {
-                                    passes++;
-                                }
-                                else
-                                {
-                                    fails++;
-                                }
-
-                                Assert.AreEqual(testCase.CipherText.ToString(), result.Result.ToString(),
-                                    $"Failed on count {count} expected CT {testCase.CipherText}, got { result.Result}");
-                                continue;
-                            }
-                            else if (testGroup.TestType.ToLower() == "multiblockmessage")
-                            {
-                                var result = algo.BlockEncrypt(
-                                    testCase.Keys,
-                                    testCase.IV1,
-                                    testCase.PlainText
-                                );
-
-                                if (testCase.CipherText.ToString() == result.Result.ToString() &&
-                                    testCase.IV1.ToString() == result.IVs[0].ToString() &&
-                                    testCase.IV2.ToString() == result.IVs[1].ToString() &&
-                                    testCase.IV3.ToString() == result.IVs[2].ToString())
-                                {
-                                    passes++;
-                                }
-                                else
-                                {
-                                    fails++;
-                                }
-
-                                Assert.AreEqual(testCase.CipherText.ToString(), result.Result.ToString(), $"Failed on count {count} expected CT {testCase.CipherText}, got { result.Result}");
-                                continue;
-                            }
-                            else if (testGroup.TestType.ToLower() == "permutation" ||
-                                     testGroup.TestType.ToLower() == "substitutiontable" ||
-                                     testGroup.TestType.ToLower() == "variablekey" ||
-                                     testGroup.TestType.ToLower() == "variabletext")
-                            {
-                                var result = algo.BlockEncrypt(
-                                    testCase.Keys,
-                                    testCase.IV1,
-                                    testCase.PlainText
-                                );
-
-                                if (testCase.CipherText.ToString() == result.Result.ToString() &&
-                                    testCase.IV1.ToString() == result.IVs[0].ToString() &&
-                                    testCase.IV2.ToString() == result.IVs[1].ToString() &&
-                                    testCase.IV3.ToString() == result.IVs[2].ToString())
-                                {
-                                    passes++;
-                                }
-                                else
-                                {
-                                    fails++;
-                                }
-
-                                Assert.AreEqual(testCase.CipherText.ToString(), result.Result.ToString(),
-                                    $"Failed on count {count} expected CT {testCase.CipherText}, got { result.Result}");
-                                continue;
+                                passes++;
                             }
                             else
                             {
-                                throw new NotImplementedException();
+                                fails++;
                             }
+
+                            Assert.AreEqual(testCase.CipherText.ToHex(), result.Result.ToHex(),
+                                $"Failed on count {count} expected CT {testCase.CipherText}, got { result.Result}");
+                            continue;
                         }
 
                         if (testGroup.Function.ToLower() == "decrypt")
                         {
-                            if (testGroup.TestType.ToLower() == "inversepermutation")
+                            var param = new ModeBlockCipherParameters(
+                                BlockCipherDirections.Decrypt,
+                                testCase.IV1.GetDeepCopy(),
+                                testCase.Keys.GetDeepCopy(),
+                                testCase.CipherText.GetDeepCopy()
+                            );
+                            var result = _algo.ProcessPayload(param);
+
+                            if (testCase.PlainText.ToHex() == result.Result.ToHex())
                             {
-                                var result = algo.BlockDecrypt(
-                                    testCase.Keys,
-                                    testCase.IV1,
-                                    testCase.CipherText
-                                );
-
-                                if (testCase.PlainText.ToString() == result.Result.ToString() &&
-                                    testCase.IV1.ToString() == result.IVs[0].ToString() &&
-                                    testCase.IV2.ToString() == result.IVs[1].ToString() &&
-                                    testCase.IV3.ToString() == result.IVs[2].ToString())
-                                {
-                                    passes++;
-                                }
-                                else
-                                {
-                                    fails++;
-                                }
-
-                                Assert.AreEqual(testCase.PlainText.ToString(), result.Result.ToString(),
-                                    $"Failed on count {count} expected CT {testCase.PlainText}, got {result.Result}");
-                                continue;
-                            }
-                            else if (testGroup.TestType.ToLower() == "multiblockmessage")
-                            {
-                                var result = algo.BlockDecrypt(
-                                    testCase.Key1.ConcatenateBits(testCase.Key2.ConcatenateBits(testCase.Key3)),
-                                    testCase.IV1,
-                                    testCase.CipherText
-                                );
-
-                                if (testCase.PlainText.ToString() == result.Result.ToString() &&
-                                    testCase.IV1.ToString() == result.IVs[0].ToString() &&
-                                    testCase.IV2.ToString() == result.IVs[1].ToString() &&
-                                    testCase.IV3.ToString() == result.IVs[2].ToString())
-                                {
-                                    passes++;
-                                }
-                                else
-                                {
-                                    fails++;
-                                }
-
-                                Assert.AreEqual(testCase.PlainText.ToString(), result.Result.ToString(), $"Failed on count {count} expected CT {testCase.PlainText}, got {result.Result}");
-                                continue;
-                            }
-                            else if (testGroup.TestType.ToLower() == "permutation" ||
-                                     testGroup.TestType.ToLower() == "substitutiontable" ||
-                                     testGroup.TestType.ToLower() == "variablekey" ||
-                                     testGroup.TestType.ToLower() == "variabletext")
-                            {
-                                var result = algo.BlockDecrypt(
-                                    testCase.Keys,
-                                    testCase.IV1,
-                                    testCase.CipherText
-                                );
-
-                                if (testCase.PlainText.ToString() == result.Result.ToString() &&
-                                    testCase.IV1.ToString() == result.IVs[0].ToString() &&
-                                    testCase.IV2.ToString() == result.IVs[1].ToString() &&
-                                    testCase.IV3.ToString() == result.IVs[2].ToString())
-                                {
-                                    passes++;
-                                }
-                                else
-                                {
-                                    fails++;
-                                }
-
-                                Assert.AreEqual(testCase.PlainText.ToString(), result.Result.ToString(),
-                                    $"Failed on count {count} expected CT {testCase.PlainText}, got { result.Result}");
-                                continue;
+                                passes++;
                             }
                             else
                             {
-                                throw new NotImplementedException();
+                                fails++;
                             }
+
+                            Assert.AreEqual(testCase.PlainText.ToString(), result.Result.ToString(),
+                                $"Failed on count {count} expected CT {testCase.PlainText}, got {result.Result}");
+                            continue;
                         }
                     }
 

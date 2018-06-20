@@ -72,14 +72,12 @@ namespace NIST.CVP.Generation.TDES_CBCI
             }
             if (suppliedResult.ResultsArray.Any(a => a.IV2 == null))
             {
-                errors.Add($"{nameof(suppliedResult.ResultsArray)} did not contain expected element {nameof(AlgoArrayResponseWithIvs.IV2)}");
+                errors.Add($"{nameof(suppliedResult.ResultsArray)} did not contain expected element {nameof(AlgoArrayResponseWithIvs.IV3)}");
             }
             if (suppliedResult.ResultsArray.Any(a => a.IV3 == null))
             {
                 errors.Add($"{nameof(suppliedResult.ResultsArray)} did not contain expected element {nameof(AlgoArrayResponseWithIvs.IV3)}");
             }
-
-
         }
 
         private void CheckResults(TestCase suppliedResult, List<string> errors, Dictionary<string, string> expected, Dictionary<string, string> provided)

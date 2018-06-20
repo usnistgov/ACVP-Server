@@ -25,7 +25,7 @@ namespace NIST.CVP.Crypto.Symmetric.Engines
 
         public int BlockSizeBits => BlockSizeBytes * _bitsInByte;
 
-        public Common.Symmetric.CTR.Enums.Cipher Cipher => Common.Symmetric.CTR.Enums.Cipher.AES;
+        public BlockCipherEngines CipherEngine => BlockCipherEngines.Aes;
 
         public void Init(IBlockCipherEngineParameters param)
         {
@@ -46,10 +46,18 @@ namespace NIST.CVP.Crypto.Symmetric.Engines
             }
 
             _direction = param.Direction;
-            _key = param.Key;
             _useInverseCipher = param.UseInverseCipherMode;
 
-            PopulateKeySchedule();
+            if (_key == null)
+            {
+                _key = param.Key;
+                PopulateKeySchedule();
+            }
+            else if (!param.Key.SequenceEqual(_key))
+            {
+                _key = param.Key;
+                PopulateKeySchedule();
+            }
         }
 
         public void ProcessSingleBlock(byte[] payLoad, byte[] outBuffer, int blockIndex)

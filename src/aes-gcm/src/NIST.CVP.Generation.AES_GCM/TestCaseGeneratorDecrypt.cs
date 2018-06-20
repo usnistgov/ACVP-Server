@@ -1,6 +1,8 @@
 ﻿using System;
 using NIST.CVP.Crypto.Common.Symmetric;
-using NIST.CVP.Crypto.Common.Symmetric.AES;
+using NIST.CVP.Crypto.Common.Symmetric.BlockModes.Aead;
+using NIST.CVP.Crypto.Common.Symmetric.Engines;
+using NIST.CVP.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using NLog;
@@ -9,15 +11,15 @@ namespace NIST.CVP.Generation.AES_GCM
 {
     public class TestCaseGeneratorDecrypt : ITestCaseGenerator<TestGroup, TestCase>
     {
-        private readonly IAES_GCM _aesGcm;
         private readonly IRandom800_90 _random800_90;
+        private readonly IAeadModeBlockCipher _aesGcm;
 
         public int NumberOfTestCasesToGenerate => 15;
 
-        public TestCaseGeneratorDecrypt(IRandom800_90 random800_90, IAES_GCM aesGcm)
+        public TestCaseGeneratorDecrypt(IRandom800_90 random800_90, IAeadModeBlockCipherFactory cipherFactory, IBlockCipherEngineFactory engineFactory)
         {
             _random800_90 = random800_90;
-            _aesGcm = aesGcm;
+            _aesGcm = cipherFactory.GetAeadCipher(engineFactory.GetSymmetricCipherPrimitive(BlockCipherEngines.Aes), BlockCipherModesOfOperation.Gcm);
         }
 
         public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup @group, bool isSample)
@@ -44,7 +46,15 @@ namespace NIST.CVP.Generation.AES_GCM
             SymmetricCipherAeadResult encryptionResult = null;
             try
             {
-                encryptionResult = _aesGcm.BlockEncrypt(testCase.Key, testCase.PlainText, testCase.IV, testCase.AAD, @group.TagLength);
+                var param = new AeadModeBlockCipherParameters(
+                    BlockCipherDirections.Encrypt,
+                    testCase.IV,
+                    testCase.Key,
+                    testCase.PlainText,
+                    testCase.AAD,
+                    group.TagLength
+                );
+                encryptionResult = _aesGcm.ProcessPayload(param);
                 if (!encryptionResult.Success)
                 {
                     ThisLogger.Warn(encryptionResult.ErrorMessage);

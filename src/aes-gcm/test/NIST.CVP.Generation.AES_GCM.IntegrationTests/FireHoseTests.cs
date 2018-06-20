@@ -1,7 +1,10 @@
 ﻿using System.IO;
 using NIST.CVP.Crypto.AES;
 using NIST.CVP.Crypto.AES_GCM;
+using NIST.CVP.Crypto.Common.Symmetric.BlockModes.Aead;
+using NIST.CVP.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.Crypto.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Symmetric.BlockModes.Aead;
 using NIST.CVP.Crypto.Symmetric.Engines;
 using NIST.CVP.Generation.AES_GCM.Parsers;
 using NUnit.Framework;
@@ -31,15 +34,7 @@ namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
             }
             var testDir = new DirectoryInfo(_testPath);
             var parser = new LegacyResponseFileParser();
-            var algo = new Crypto.AES_GCM.AES_GCM(
-                new AES_GCMInternals(
-                    new ModeBlockCipherFactory(),
-                    new BlockCipherEngineFactory()
-                ), 
-                new RijndaelFactory(
-                    new RijndaelInternals()
-                )
-            );
+            var algo = new GcmBlockCipher(new AesEngine(), new ModeBlockCipherFactory(), new AES_GCMInternals(new ModeBlockCipherFactory(), new BlockCipherEngineFactory()));
 
             int count = 0;
             int passes = 0;
@@ -71,13 +66,16 @@ namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
 
                         if (testGroup.Function.ToLower() == "encrypt")
                         {
-                            var result = algo.BlockEncrypt(
+                            var param = new AeadModeBlockCipherParameters(
+                                BlockCipherDirections.Encrypt,
+                                testCase.IV,
                                 testCase.Key,
                                 testCase.PlainText,
-                                testCase.IV,
                                 testCase.AAD,
                                 testCase.Tag.BitLength
                             );
+
+                            var result = algo.ProcessPayload(param);
 
                             if (!result.Success)
                             {
@@ -100,13 +98,16 @@ namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
 
                         if (testGroup.Function.ToLower() == "decrypt")
                         {
-                            var result = algo.BlockDecrypt(
+                            var param = new AeadModeBlockCipherParameters(
+                                BlockCipherDirections.Decrypt,
+                                testCase.IV,
                                 testCase.Key,
                                 testCase.CipherText,
-                                testCase.IV,
                                 testCase.AAD,
                                 testCase.Tag
                             );
+
+                            var result = algo.ProcessPayload(param);
 
                             if (testCase.TestPassed != null && !testCase.TestPassed.Value)
                             {

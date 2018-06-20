@@ -1,4 +1,8 @@
-﻿using NIST.CVP.Crypto.Common.Symmetric.AES;
+﻿using NIST.CVP.Crypto.Common.Symmetric;
+using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Common.Symmetric.Engines;
+using NIST.CVP.Crypto.Common.Symmetric.Enums;
+using NIST.CVP.Crypto.Common.Symmetric.MonteCarlo;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 
@@ -7,14 +11,15 @@ namespace NIST.CVP.Generation.AES_OFB
     public class TestCaseGeneratorFactory : ITestCaseGeneratorFactory<TestGroup, TestCase>
     {
         private readonly IRandom800_90 _random800_90;
-        private readonly IAES_OFB _algo;
-        private readonly IAES_OFB_MCT _mctAlgo;
+        private readonly IModeBlockCipher<SymmetricCipherResult> _algo;
+        private readonly IMonteCarloTester<MCTResult<AlgoArrayResponse>, AlgoArrayResponse> _mctAlgo;
 
-        public TestCaseGeneratorFactory(IRandom800_90 random800_90, IAES_OFB algo, IAES_OFB_MCT mctAlgo)
+        public TestCaseGeneratorFactory(IRandom800_90 random800_90, IBlockCipherEngineFactory engineFactory, IModeBlockCipherFactory cipherFactory, IMonteCarloFactoryAes mctFactory)
         {
             _random800_90 = random800_90;
-            _algo = algo;
-            _mctAlgo = mctAlgo;
+
+            _algo = cipherFactory.GetStandardCipher(engineFactory.GetSymmetricCipherPrimitive(BlockCipherEngines.Aes), BlockCipherModesOfOperation.Ofb);
+            _mctAlgo = mctFactory.GetInstance(BlockCipherModesOfOperation.Ofb);
         }
 
         public ITestCaseGenerator<TestGroup, TestCase> GetCaseGenerator(TestGroup testGroup)
