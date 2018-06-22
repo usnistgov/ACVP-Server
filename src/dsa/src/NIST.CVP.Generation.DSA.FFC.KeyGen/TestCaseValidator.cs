@@ -49,8 +49,8 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen
                     TestCaseId = suppliedResult.TestCaseId, 
                     Result = Core.Enums.Disposition.Failed, 
                     Reason = string.Join(";", errors),
-                    Expected = expected.Count != 0 && showExpected ? expected : null,
-                    Provided = provided.Count != 0 && showExpected ? provided : null
+                    Expected = showExpected ? expected : null,
+                    Provided = showExpected ? provided : null
                 };
             }
 
