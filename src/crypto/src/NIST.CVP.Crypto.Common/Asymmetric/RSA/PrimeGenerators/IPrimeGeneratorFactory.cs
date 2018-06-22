@@ -1,7 +1,11 @@
-﻿namespace NIST.CVP.Crypto.Common.Asymmetric.RSA.PrimeGenerators
+﻿using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Enums;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
+using NIST.CVP.Math.Entropy;
+
+namespace NIST.CVP.Crypto.Common.Asymmetric.RSA2.PrimeGenerators
 {
     public interface IPrimeGeneratorFactory
     {
-        IPrimeGeneratorBase GetPrimeGenerator(string type);
+        IPrimeGenerator GetPrimeGenerator(PrimeGenModes primeGen, ISha sha, IEntropyProvider entropyProvider, PrimeTestModes primeTest);
     }
 }

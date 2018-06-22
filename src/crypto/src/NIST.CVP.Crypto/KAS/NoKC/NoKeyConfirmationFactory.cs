@@ -8,6 +8,9 @@ using NIST.CVP.Crypto.Common.KAS.Helpers;
 using NIST.CVP.Crypto.Common.KAS.NoKC;
 using NIST.CVP.Crypto.HMAC;
 using NIST.CVP.Crypto.SHAWrapper;
+using NIST.CVP.Crypto.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Symmetric.BlockModes.Aead;
+using NIST.CVP.Crypto.Symmetric.Engines;
 
 namespace NIST.CVP.Crypto.KAS.NoKC
 {
@@ -18,7 +21,7 @@ namespace NIST.CVP.Crypto.KAS.NoKC
             switch (parameters.KeyAgreementMacType)
             {
                 case KeyAgreementMacType.AesCcm:
-                    return new NoKeyConfirmationAesCcm(parameters, new AES_CCM.AES_CCM(new AES_CCMInternals(), new RijndaelFactory(new RijndaelInternals())));
+                    return new NoKeyConfirmationAesCcm(parameters, new CcmBlockCipher(new AesEngine(), new ModeBlockCipherFactory(), new AES_CCMInternals()));
                 case KeyAgreementMacType.CmacAes:
                     return new NoKeyConfirmationCmac(parameters, new CmacAes(new RijndaelFactory(new RijndaelInternals())));
                 case KeyAgreementMacType.HmacSha2D224:

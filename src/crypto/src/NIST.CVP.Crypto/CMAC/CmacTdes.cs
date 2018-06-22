@@ -1,22 +1,23 @@
 ﻿using System;
 using NIST.CVP.Crypto.Common.MAC;
 using NIST.CVP.Crypto.Common.MAC.CMAC;
-using NIST.CVP.Crypto.Common.Symmetric.TDES;
+using NIST.CVP.Crypto.Common.Symmetric;
+using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.Math;
 using NLog;
-using NIST.CVP.Crypto.TDES_ECB;
 
 namespace NIST.CVP.Crypto.CMAC
 {
     public class CmacTdes : ICmac
     {
         private const int BlockSize = 64;
-        private readonly ITDES_ECB _tdes;
+        private readonly IModeBlockCipher<SymmetricCipherResult> _tdes;
         private readonly BitString Rb64 = new BitString("000000000000001A");  //TODO this should be 1B, not 1A
 
         public int OutputLength => BlockSize;
 
-        public CmacTdes(ITDES_ECB tdes)
+        public CmacTdes(IModeBlockCipher<SymmetricCipherResult> tdes)
         {
             _tdes = tdes;
         }
@@ -39,7 +40,8 @@ namespace NIST.CVP.Crypto.CMAC
 
             //Steps:
             //    1.Let L = CIPHK(0^b).
-            var L = _tdes.BlockEncrypt(key, new BitString(BlockSize)).Result; 
+            var param = new ModeBlockCipherParameters(BlockCipherDirections.Encrypt, key, new BitString(BlockSize));
+            var L = _tdes.ProcessPayload(param).Result;
             BitString K1, K2;
             //    2.If MSB1(L) = 0, then K1 = L << 1;
             if (!L.GetMostSignificantBits(1).Bits[0])
@@ -120,7 +122,8 @@ namespace NIST.CVP.Crypto.CMAC
             for (var i = 0; i < numOfBlocks; i++)
             {
                 var block = message.MSBSubstring(i * BlockSize, BlockSize);
-                currC = _tdes.BlockEncrypt(key, (prevC.XOR(block))).Result;
+                var param2 = new ModeBlockCipherParameters(BlockCipherDirections.Encrypt, key, prevC.XOR(block));
+                currC = _tdes.ProcessPayload(param2).Result;
                 prevC = currC;
             }
 
@@ -150,8 +153,6 @@ namespace NIST.CVP.Crypto.CMAC
             
         }
 
-
-
         public MacResult Verify(BitString keyBits, BitString message, BitString macToVerify)
         {
             try
@@ -178,9 +179,6 @@ namespace NIST.CVP.Crypto.CMAC
             }
         }
 
-        private Logger ThisLogger
-        {
-            get { return LogManager.GetCurrentClassLogger(); }
-        }
+        private Logger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }

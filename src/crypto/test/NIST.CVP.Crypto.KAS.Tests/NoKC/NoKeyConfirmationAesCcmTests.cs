@@ -1,7 +1,9 @@
-﻿using NIST.CVP.Crypto.AES;
-using NIST.CVP.Crypto.AES_CCM;
+﻿using NIST.CVP.Crypto.AES_CCM;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Crypto.KAS.NoKC;
+using NIST.CVP.Crypto.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Symmetric.BlockModes.Aead;
+using NIST.CVP.Crypto.Symmetric.Engines;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -12,7 +14,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.NoKC
     public class NoKeyConfirmationAesCcmTests
     {
         private NoKeyConfirmationAesCcm _subject;
-        private readonly AES_CCM.AES_CCM _algo = new AES_CCM.AES_CCM(new AES_CCMInternals(), new RijndaelFactory(new RijndaelInternals()));
+        private readonly CcmBlockCipher _algo = new CcmBlockCipher(new AesEngine(), new ModeBlockCipherFactory(), new AES_CCMInternals());
         
         private static object[] _testData = new object[]
         {

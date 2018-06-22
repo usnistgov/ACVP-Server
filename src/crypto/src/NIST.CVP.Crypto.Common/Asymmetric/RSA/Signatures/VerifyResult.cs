@@ -1,16 +1,16 @@
-﻿namespace NIST.CVP.Crypto.Common.Asymmetric.RSA.Signatures
+﻿namespace NIST.CVP.Crypto.Common.Asymmetric.RSA2.Signatures
 {
-    public class VerifyResult
+    public class VerifyResult : ICryptoResult
     {
         public string ErrorMessage { get; }
 
+        public bool Success => string.IsNullOrEmpty(ErrorMessage);
+
         public VerifyResult() { }
 
-        public VerifyResult(string errorMessage)
+        public VerifyResult(string error)
         {
-            ErrorMessage = errorMessage;
+            ErrorMessage = error;
         }
-
-        public bool Success => string.IsNullOrEmpty(ErrorMessage);
     }
 }

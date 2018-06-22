@@ -1,5 +1,4 @@
-﻿using NIST.CVP.Crypto.AES;
-using NIST.CVP.Crypto.Common.Symmetric.BlockModes.Aead;
+﻿using NIST.CVP.Crypto.Common.Symmetric.BlockModes.Aead;
 using NIST.CVP.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.Crypto.Symmetric.BlockModes;
 using NIST.CVP.Crypto.Symmetric.BlockModes.Aead;
@@ -13,12 +12,7 @@ namespace NIST.CVP.Crypto.AES_GCM.Tests
     [TestFixture, FastCryptoTest]
     public class CAVS_HealthCheckTests
     {
-        private readonly AES_GCM _subject = new AES_GCM(
-            new AES_GCMInternals(new ModeBlockCipherFactory(), new BlockCipherEngineFactory()),
-            new RijndaelFactory(new RijndaelInternals())
-        );
-
-        private readonly IAeadModeBlockCipher _newSubject = new GcmBlockCipher(
+        private readonly IAeadModeBlockCipher _subject = new GcmBlockCipher(
             new AesEngine(), 
             new ModeBlockCipherFactory(), 
             new AES_GCMInternals(new ModeBlockCipherFactory(), new BlockCipherEngineFactory())
@@ -233,161 +227,6 @@ namespace NIST.CVP.Crypto.AES_GCM.Tests
                 96 // tag length
             },
         };
-        
-        [Test]
-        public void AESGCM_XPN()
-        {
-            BitString aad = new BitString("56d1dc66b2ae1c5c972aa1c22025c74b");
-            BitString plainText = new BitString("f15e9ceb86dd8309767c3f675eb5503c");
-            BitString key = new BitString("b9eac5c6 50daeab9 c15aec8d 362cfd1f ccef9d20 fe3c0e54 fd321554 8d203f0d");
-            BitString iv = new BitString("04527842 a98b3336 2a09067c");
-            BitString salt = new BitString("12345678 87654388 44888844");
-            BitString newIV;
-            newIV = iv.XOR(salt);
-            var encryptResult = _subject.BlockEncrypt(key, plainText, newIV, aad, 128);
-
-            Assert.IsTrue(encryptResult.Success);
-            Assert.AreEqual(encryptResult.Tag, new BitString("e47971b2 c83ed28a d66fb896 2478d01f"), nameof(encryptResult.Tag));
-
-            var decryptResult = _subject.BlockDecrypt(key, encryptResult.Result, newIV, aad, encryptResult.Tag);
-
-            Assert.IsTrue(decryptResult.Success);
-        }
-
-        [Test]
-        [TestCaseSource(nameof(aesGcmTestDataGroup))]
-        [TestCaseSource(nameof(aesGcmTestDataGroup192))]
-        [TestCaseSource(nameof(aesGcmTestDataGroup256))]
-        public void ShouldEncryptAndDecryptSuccessfully(
-            string testLabel, 
-            string keyString, 
-            string ivString, 
-            string aadString, 
-            string plainTextString, 
-            string cipherTextString, 
-            string tagString, 
-            int tagLength
-        )
-        {
-            BitString key = new BitString(keyString);
-            BitString iv = new BitString(ivString);
-            BitString aad = new BitString(aadString);
-            BitString plainText = new BitString(plainTextString);
-            BitString cipherText = new BitString(cipherTextString);
-            BitString tag = new BitString(tagString);
-
-            var encryptResult = _subject.BlockEncrypt(key, plainText, iv, aad, tagLength);
-
-            Assert.IsTrue(encryptResult.Success, nameof(_subject.BlockEncrypt));
-            Assert.AreEqual(tag.ToHex(), encryptResult.Tag.ToHex(), nameof(encryptResult.Tag));
-
-            var decryptResult = _subject.BlockDecrypt(key, encryptResult.Result, iv, aad, encryptResult.Tag);
-            Assert.IsTrue(decryptResult.Success, nameof(_subject.BlockDecrypt));
-
-            Assert.AreEqual(plainText.ToHex(), decryptResult.Result.ToHex(), nameof(plainText));
-        }
-
-        [Test]
-        [TestCaseSource(nameof(aesGcmTestDataGroup))]
-        [TestCaseSource(nameof(aesGcmTestDataGroup192))]
-        [TestCaseSource(nameof(aesGcmTestDataGroup256))]
-        public void ShouldReportErrorOnInvalidDecryptionTag(
-            string testLabel,
-            string keyString,
-            string ivString,
-            string aadString,
-            string plainTextString,
-            string cipherTextString,
-            string tagString,
-            int tagLength
-        )
-        {
-            BitString key = new BitString(keyString);
-            BitString iv = new BitString(ivString);
-            BitString aad = new BitString(aadString);
-            BitString plainText = new BitString(plainTextString);
-            BitString cipherText = new BitString(cipherTextString);
-            BitString tag = new BitString(tagString);
-
-            var encryptResult = _subject.BlockEncrypt(key, plainText, iv, aad, tagLength);
-
-            Assume.That(encryptResult.Success, nameof(_subject.BlockEncrypt));
-            Assume.That(tag.Equals(encryptResult.Tag), nameof(encryptResult.Tag));
-
-            var xoredTag = encryptResult.Tag.XOR(GetBitStringOfLengthWithAll1s(encryptResult.Tag.BitLength));
-
-            var decryptResult = _subject.BlockDecrypt(key, encryptResult.Result, iv, aad, xoredTag);
-            Assert.IsFalse(decryptResult.Success, nameof(_subject.BlockDecrypt));
-            Assert.AreEqual("Tags do not match", decryptResult.ErrorMessage, nameof(decryptResult.ErrorMessage));
-        }
-
-        [Test]
-        [TestCaseSource(nameof(aesGcmTestDataGroup))]
-        [TestCaseSource(nameof(aesGcmTestDataGroup192))]
-        [TestCaseSource(nameof(aesGcmTestDataGroup256))]
-        public void ShouldGetDifferingPlainTextAfterDecryptionWithModifiedCipherText(
-                    string testLabel,
-                    string keyString,
-                    string ivString,
-                    string aadString,
-                    string plainTextString,
-                    string cipherTextString,
-                    string tagString,
-                    int tagLength
-                )
-        {
-            BitString key = new BitString(keyString);
-            BitString iv = new BitString(ivString);
-            BitString aad = new BitString(aadString);
-            BitString plainText = new BitString(plainTextString);
-            BitString cipherText = new BitString(cipherTextString);
-            BitString tag = new BitString(tagString);
-
-            var encryptResult = _subject.BlockEncrypt(key, plainText, iv, aad, tagLength);
-
-            Assume.That(encryptResult.Success, nameof(_subject.BlockEncrypt));
-            Assume.That(tag.Equals(encryptResult.Tag), nameof(encryptResult.Tag));
-
-            var xoredTag = encryptResult.Tag.XOR(GetBitStringOfLengthWithAll1s(encryptResult.Tag.BitLength));
-
-            var decryptResult = _subject.BlockDecrypt(key, encryptResult.Result, iv, aad, xoredTag);
-
-            Assert.AreNotEqual(plainText, decryptResult.Result, nameof(plainText));
-        }
-
-        [Test]
-        public void ShouldEncryptSuccessfully()
-        {
-            var key = new BitString("FEFFE992 8665731C 6D6A8F94 67308308");
-            var iv = new BitString("CAFEBABE FACEDBAD DECAF888");
-            var aad = new BitString(0);
-            var plainText = new BitString(0);
-
-            var results = _subject.BlockEncrypt(key, plainText, iv, aad, 128);
-            Assert.IsTrue(results.Success);
-
-            var dResults = _subject.BlockDecrypt(key, results.Result, iv, aad, results.Tag);
-            Assert.IsTrue(dResults.Success);
-
-            Assert.AreEqual(new BitString("3247184B 3C4F69A4 4DBCD228 87BBB418"), results.Tag);
-        }
-
-        [Test]
-        public void ShouldEncryptWithPlainTextSuccessfully()
-        {
-            var key = new BitString("FEFFE992 8665731C 6D6A8F94 67308308");
-            var iv = new BitString("CAFEBABE FACEDBAD DECAF888");
-            var aad = new BitString(0);
-            var plainText = new BitString("D9313225 F88406E5 A55909C5 AFF5269A 86A7A953 1534F7DA 2E4C303D 8A318A72 1C3C0C95 95680953 2FCF0E24 49A6B525 B16AEDF5 AA0DE657 BA637B39 1AAFD255");
-
-            var results = _subject.BlockEncrypt(key, plainText, iv, aad, 128);
-            Assert.IsTrue(results.Success);
-
-            var dResults = _subject.BlockDecrypt(key, results.Result, iv, aad, results.Tag);
-            Assert.IsTrue(dResults.Success);
-            Assert.AreEqual(plainText, dResults.Result);
-            Assert.AreEqual(new BitString("4D5C2AF3 27CD64A6 2CF35ABD 2BA6FAB4"), results.Tag);
-        }
 
         private static object[] _testDataNon96BitIvs = new object[]
         {
@@ -474,17 +313,6 @@ namespace NIST.CVP.Crypto.AES_GCM.Tests
         };
 
         [Test]
-        [TestCaseSource(nameof(_testDataNon96BitIvs))]
-        public void ShouldEncryptNon96BitIvsCorrectly(string testLabel, BitString key, BitString iv, BitString pt, BitString aad, BitString expectedCt, BitString expectedTag)
-        {
-            var result = _subject.BlockEncrypt(key, pt, iv, aad, expectedTag.BitLength);
-
-            Assert.AreEqual(result.Result.ToHex(), expectedCt.ToHex(), nameof(expectedCt));
-            Assert.AreEqual(result.Tag.ToHex(), expectedTag.ToHex(), nameof(expectedTag));
-        }
-
-
-        [Test]
         public void AESGCM_XPNNewEngine()
         {
             BitString aad = new BitString("56d1dc66b2ae1c5c972aa1c22025c74b");
@@ -494,12 +322,15 @@ namespace NIST.CVP.Crypto.AES_GCM.Tests
             BitString salt = new BitString("12345678 87654388 44888844");
             BitString newIV;
             newIV = iv.XOR(salt);
-            var encryptResult = _subject.BlockEncrypt(key, plainText, newIV, aad, 128);
+
+            var param = new AeadModeBlockCipherParameters(BlockCipherDirections.Encrypt, newIV, key, plainText, aad, 128);
+            var encryptResult = _subject.ProcessPayload(param);
 
             Assert.IsTrue(encryptResult.Success);
             Assert.AreEqual(encryptResult.Tag, new BitString("e47971b2 c83ed28a d66fb896 2478d01f"), nameof(encryptResult.Tag));
 
-            var decryptResult = _subject.BlockDecrypt(key, encryptResult.Result, newIV, aad, encryptResult.Tag);
+            var param2 = new AeadModeBlockCipherParameters(BlockCipherDirections.Decrypt, newIV, key, encryptResult.Result, aad, encryptResult.Tag);
+            var decryptResult = _subject.ProcessPayload(param2);
 
             Assert.IsTrue(decryptResult.Success);
         }
@@ -526,13 +357,15 @@ namespace NIST.CVP.Crypto.AES_GCM.Tests
             BitString cipherText = new BitString(cipherTextString);
             BitString tag = new BitString(tagString);
 
-            var encryptResult = _subject.BlockEncrypt(key, plainText, iv, aad, tagLength);
+            var param = new AeadModeBlockCipherParameters(BlockCipherDirections.Encrypt, iv, key, plainText, aad, tagLength);
+            var encryptResult = _subject.ProcessPayload(param);
 
-            Assert.IsTrue(encryptResult.Success, nameof(_subject.BlockEncrypt));
+            Assert.IsTrue(encryptResult.Success, "Encrypt");
             Assert.AreEqual(tag.ToHex(), encryptResult.Tag.ToHex(), nameof(encryptResult.Tag));
 
-            var decryptResult = _subject.BlockDecrypt(key, encryptResult.Result, iv, aad, encryptResult.Tag);
-            Assert.IsTrue(decryptResult.Success, nameof(_subject.BlockDecrypt));
+            var param2 = new AeadModeBlockCipherParameters(BlockCipherDirections.Decrypt, iv, key, encryptResult.Result, aad, tag);
+            var decryptResult = _subject.ProcessPayload(param2);
+            Assert.IsTrue(decryptResult.Success, "Decrypt");
 
             Assert.AreEqual(plainText.ToHex(), decryptResult.Result.ToHex(), nameof(plainText));
         }
@@ -568,9 +401,9 @@ namespace NIST.CVP.Crypto.AES_GCM.Tests
                 tag.BitLength
             );
 
-            var encryptResult = _newSubject.ProcessPayload(gcmEncryptParam);
+            var encryptResult = _subject.ProcessPayload(gcmEncryptParam);
 
-            Assume.That(encryptResult.Success, nameof(_subject.BlockEncrypt));
+            Assume.That(encryptResult.Success, nameof(_subject.ProcessPayload));
             Assume.That(tag.Equals(encryptResult.Tag), nameof(encryptResult.Tag));
 
             var xoredTag = encryptResult.Tag.XOR(GetBitStringOfLengthWithAll1s(encryptResult.Tag.BitLength));
@@ -583,9 +416,9 @@ namespace NIST.CVP.Crypto.AES_GCM.Tests
                 aad,
                 xoredTag
             );
-            var decryptResult = _newSubject.ProcessPayload(gcmDecryptParam);
+            var decryptResult = _subject.ProcessPayload(gcmDecryptParam);
 
-            Assert.IsFalse(decryptResult.Success, nameof(_subject.BlockDecrypt));
+            Assert.IsFalse(decryptResult.Success, nameof(_subject.ProcessPayload));
             Assert.AreEqual("Tags do not match", decryptResult.ErrorMessage, nameof(decryptResult.ErrorMessage));
         }
 
@@ -620,9 +453,9 @@ namespace NIST.CVP.Crypto.AES_GCM.Tests
                 tag.BitLength
             );
 
-            var encryptResult = _newSubject.ProcessPayload(gcmEncryptParam);
+            var encryptResult = _subject.ProcessPayload(gcmEncryptParam);
 
-            Assume.That(encryptResult.Success, nameof(_subject.BlockEncrypt));
+            Assume.That(encryptResult.Success, nameof(_subject.ProcessPayload));
             Assume.That(tag.Equals(encryptResult.Tag), nameof(encryptResult.Tag));
 
             var xoredTag = encryptResult.Tag.XOR(GetBitStringOfLengthWithAll1s(encryptResult.Tag.BitLength));
@@ -635,7 +468,7 @@ namespace NIST.CVP.Crypto.AES_GCM.Tests
                 aad,
                 xoredTag
             );
-            var decryptResult = _newSubject.ProcessPayload(gcmDecryptParam);
+            var decryptResult = _subject.ProcessPayload(gcmDecryptParam);
 
             Assert.AreNotEqual(plainText, decryptResult.Result, nameof(plainText));
         }
@@ -661,7 +494,7 @@ namespace NIST.CVP.Crypto.AES_GCM.Tests
                 expectedTag.BitLength
             );
 
-            var result = _newSubject.ProcessPayload(gcmParam);
+            var result = _subject.ProcessPayload(gcmParam);
 
             Assert.AreEqual(result.Result.ToHex(), expectedCt.ToHex(), nameof(expectedCt));
             Assert.AreEqual(result.Tag.ToHex(), expectedTag.ToHex(), nameof(expectedTag));
@@ -684,7 +517,7 @@ namespace NIST.CVP.Crypto.AES_GCM.Tests
                 128
             );
 
-            var results = _newSubject.ProcessPayload(gcmEncryptParam);
+            var results = _subject.ProcessPayload(gcmEncryptParam);
             Assert.IsTrue(results.Success);
 
             var gcmDecryptParam = new AeadModeBlockCipherParameters(
@@ -696,7 +529,7 @@ namespace NIST.CVP.Crypto.AES_GCM.Tests
                 results.Tag
             );
 
-            var dResults = _newSubject.ProcessPayload(gcmDecryptParam);
+            var dResults = _subject.ProcessPayload(gcmDecryptParam);
             Assert.IsTrue(dResults.Success);
 
             Assert.AreEqual(new BitString("3247184B 3C4F69A4 4DBCD228 87BBB418"), results.Tag);
@@ -710,10 +543,28 @@ namespace NIST.CVP.Crypto.AES_GCM.Tests
             var aad = new BitString(0);
             var plainText = new BitString("D9313225 F88406E5 A55909C5 AFF5269A 86A7A953 1534F7DA 2E4C303D 8A318A72 1C3C0C95 95680953 2FCF0E24 49A6B525 B16AEDF5 AA0DE657 BA637B39 1AAFD255");
 
-            var results = _subject.BlockEncrypt(key, plainText, iv, aad, 128);
+            var gcmEncryptParam = new AeadModeBlockCipherParameters(
+                BlockCipherDirections.Encrypt,
+                iv,
+                key,
+                plainText,
+                aad,
+                128
+            );
+
+            var results = _subject.ProcessPayload(gcmEncryptParam);
             Assert.IsTrue(results.Success);
 
-            var dResults = _subject.BlockDecrypt(key, results.Result, iv, aad, results.Tag);
+            var gcmDecryptParam = new AeadModeBlockCipherParameters(
+                BlockCipherDirections.Decrypt,
+                iv,
+                key,
+                results.Result,
+                aad,
+                results.Tag
+            );
+
+            var dResults = _subject.ProcessPayload(gcmDecryptParam);
             Assert.IsTrue(dResults.Success);
             Assert.AreEqual(plainText, dResults.Result);
             Assert.AreEqual(new BitString("4D5C2AF3 27CD64A6 2CF35ABD 2BA6FAB4"), results.Tag);

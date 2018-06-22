@@ -1,18 +1,19 @@
 ﻿using System;
 using NIST.CVP.Crypto.Common.KAS.NoKC;
-using NIST.CVP.Crypto.Common.Symmetric.AES;
+using NIST.CVP.Crypto.Common.Symmetric.BlockModes.Aead;
+using NIST.CVP.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.KAS.NoKC
 {
     public class NoKeyConfirmationAesCcm : NoKeyConfirmationBase
     {
-        private readonly IAES_CCM Algo;
+        private readonly IAeadModeBlockCipher _algo;
 
-        public NoKeyConfirmationAesCcm(INoKeyConfirmationParameters noKeyConfirmationParameters, IAES_CCM algo) 
+        public NoKeyConfirmationAesCcm(INoKeyConfirmationParameters noKeyConfirmationParameters, IAeadModeBlockCipher algo) 
             : base(noKeyConfirmationParameters)
         {
-            Algo = algo;
+            _algo = algo;
 
             if (BitString.IsZeroLengthOrNull(noKeyConfirmationParameters.CcmNonce))
             {
@@ -22,13 +23,16 @@ namespace NIST.CVP.Crypto.KAS.NoKC
 
         protected override BitString Mac(BitString macData)
         {
-            var mac = Algo.Encrypt(
+            var param = new AeadModeBlockCipherParameters(
+                BlockCipherDirections.Encrypt, 
+                NoKeyConfirmationParameters.CcmNonce, 
                 NoKeyConfirmationParameters.DerivedKeyingMaterial, 
-                NoKeyConfirmationParameters.CcmNonce,
                 new BitString(0), 
                 macData, 
                 NoKeyConfirmationParameters.MacLength
             );
+
+            var mac = _algo.ProcessPayload(param);
 
             if (!mac.Success)
             {
