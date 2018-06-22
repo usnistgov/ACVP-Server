@@ -14,13 +14,7 @@ namespace NIST.CVP.Crypto.AES_ECB.Tests
     [TestFixture, FastCryptoTest]
     public class KATs
     {
-        Crypto.AES_ECB.AES_ECB _subject = new Crypto.AES_ECB.AES_ECB(
-            new RijndaelFactory(
-                new RijndaelInternals()
-            )
-        );
-
-        private EcbBlockCipher _newSubject = new EcbBlockCipher(new AesEngine());
+        private readonly EcbBlockCipher _newSubject = new EcbBlockCipher(new AesEngine());
 
         #region TestData
         static IEnumerable _GetGFSBox128BitKey()
@@ -108,56 +102,6 @@ namespace NIST.CVP.Crypto.AES_ECB.Tests
             }
         }
         #endregion TestData
-
-        [Test]
-        [TestCaseSource(nameof(_GetGFSBox128BitKey))]
-        [TestCaseSource(nameof(_GetGFSBox192BitKey))]
-        [TestCaseSource(nameof(_GetGFSBox256BitKey))]
-        public void ShouldGFSboxCorrectly(string expectedCipherText, AlgoArrayResponse algoArrayResponse)
-        {
-            var result = _subject.BlockEncrypt(algoArrayResponse.Key, algoArrayResponse.PlainText);
-
-            Assert.IsTrue(result.Success, nameof(result.Success));
-            Assert.AreEqual(algoArrayResponse.CipherText, result.Result, expectedCipherText);
-        }
-
-        [Test]
-        [TestCaseSource(nameof(_GetKeySBox128BitKey))]
-        [TestCaseSource(nameof(_GetKeySBox192BitKey))]
-        [TestCaseSource(nameof(_GetKeySBox256BitKey))]
-        public void ShouldKeySboxCorrectly(string expectedCipherText, AlgoArrayResponse algoArrayResponse)
-        {
-            var result = _subject.BlockEncrypt(algoArrayResponse.Key, algoArrayResponse.PlainText);
-
-            Assert.IsTrue(result.Success, nameof(result.Success));
-            Assert.AreEqual(algoArrayResponse.CipherText, result.Result, nameof(algoArrayResponse.CipherText));
-        }
-        
-        [Test]
-        [TestCaseSource(nameof(_GetVarTxt128BitKey))]
-        [TestCaseSource(nameof(_GetVarTxt192BitKey))]
-        [TestCaseSource(nameof(_GetVarTxt256BitKey))]
-        public void ShouldVarTxtCorrectly(string expectedCipherText, AlgoArrayResponse algoArrayResponse)
-        {
-            var result = _subject.BlockEncrypt(algoArrayResponse.Key, algoArrayResponse.PlainText);
-
-            Assert.IsTrue(result.Success, nameof(result.Success));
-            Assert.AreEqual(algoArrayResponse.CipherText, result.Result, nameof(algoArrayResponse.CipherText));
-        }
-        
-        [Test]
-        [TestCaseSource(nameof(_GetVarKey128BitKey))]
-        [TestCaseSource(nameof(_GetVarKey192BitKey))]
-        [TestCaseSource(nameof(_GetVarKey256BitKey))]
-        public void ShouldVarKeyCorrectly(string expectedCipherText, AlgoArrayResponse algoArrayResponse)
-        {
-            var result = _subject.BlockEncrypt(algoArrayResponse.Key, algoArrayResponse.PlainText);
-
-            Assert.IsTrue(result.Success, nameof(result.Success));
-            Assert.AreEqual(algoArrayResponse.CipherText, result.Result, nameof(algoArrayResponse.CipherText));
-        }
-
-
 
         [Test]
         [TestCaseSource(nameof(_GetGFSBox128BitKey))]

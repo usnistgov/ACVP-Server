@@ -1,9 +1,4 @@
-﻿using System;
-using Moq;
-using NIST.CVP.Crypto.AES;
-using NIST.CVP.Crypto.Common.Symmetric;
-using NIST.CVP.Crypto.Common.Symmetric.AES;
-using NIST.CVP.Crypto.Common.Symmetric.BlockModes.Aead;
+﻿using NIST.CVP.Crypto.Common.Symmetric.BlockModes.Aead;
 using NIST.CVP.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.Crypto.Symmetric.BlockModes;
 using NIST.CVP.Crypto.Symmetric.BlockModes.Aead;
@@ -18,81 +13,16 @@ namespace NIST.CVP.Crypto.AES_CCM.Tests
     [TestFixture,  FastCryptoTest]
     public class AES_CCMTests
     {
-        private AES_CCM _subject;
         private IAeadModeBlockCipher _newSubject;
 
         [SetUp]
         public void Setup()
         {
-            _subject = new AES_CCM(new AES_CCMInternals(), new RijndaelFactory(new RijndaelInternals()));
             _newSubject = new CcmBlockCipher(new AesEngine(), new ModeBlockCipherFactory(), new AES_CCMInternals());
         }
 
         [Test]
         public void ShouldEncryptAndDecryptWithValidatedTag()
-        {
-            var testData = GetTestData();
-
-            // Perform encryption operation and assert
-            var encryptionResult = _subject.Encrypt(testData.Key, testData.Nonce, testData.Payload, testData.AssocData,
-                128);
-
-            Assert.IsTrue(encryptionResult.Success, $"{nameof(encryptionResult.Success)} Encrypt");
-            Assert.AreEqual(testData.CipherText, encryptionResult.Result, nameof(testData.CipherText));
-
-            // Validate the decryption operation / tag
-            var decryptionResult = _subject.Decrypt(testData.Key, testData.Nonce, encryptionResult.Result,
-                testData.AssocData, 128);
-
-            Assert.IsTrue(decryptionResult.Success, $"{nameof(decryptionResult.Success)} Decrypt");
-            Assert.AreEqual(testData.Payload, decryptionResult.Result);
-        }
-
-        [Test]
-        [TestCase(0)]
-        [TestCase(1)]
-        [TestCase(2)]
-        [TestCase(3)]
-        [TestCase(4)]
-        public void ShouldFailDueToInvalidTag(int indexToChange)
-        {
-            var testData = GetTestData();
-
-            // Perform encryption operation and assert
-            var encryptionResult = _subject.Encrypt(testData.Key, testData.Nonce, testData.Payload, testData.AssocData,
-                128);
-
-            Assert.IsTrue(encryptionResult.Success, $"{nameof(encryptionResult.Success)} Encrypt");
-            Assert.AreEqual(testData.CipherText, encryptionResult.Result, nameof(testData.CipherText));
-
-            // Change a byte value to invalidate the decryption
-            var encryptionResultBytes = encryptionResult.Result.ToBytes();
-            if (encryptionResultBytes.Length >= indexToChange)
-            {
-                if (encryptionResultBytes[indexToChange] == 255)
-                {
-                    encryptionResultBytes[indexToChange]--;
-                }
-                else
-                {
-                    encryptionResultBytes[indexToChange]++;
-                }
-            }
-
-            var newCipherText = new BitString(encryptionResultBytes);
-
-            // Validate the decryption operation / tag
-            var decryptionResult = _subject.Decrypt(testData.Key, testData.Nonce, newCipherText,
-                testData.AssocData, 128);
-
-            Assert.IsFalse(decryptionResult.Success, $"{nameof(decryptionResult.Success)} Decrypt");
-            Assert.AreEqual(AES_CCM.INVALID_TAG_MESSAGE, decryptionResult.ErrorMessage);
-        }
-
-
-
-        [Test]
-        public void ShouldEncryptAndDecryptWithValidatedTagNewEngine()
         {
             var testData = GetTestData();
 
@@ -131,7 +61,7 @@ namespace NIST.CVP.Crypto.AES_CCM.Tests
         [TestCase(2)]
         [TestCase(3)]
         [TestCase(4)]
-        public void ShouldFailDueToInvalidTagNewEngine(int indexToChange)
+        public void ShouldFailDueToInvalidTag(int indexToChange)
         {
             var testData = GetTestData();
 
@@ -345,57 +275,6 @@ namespace NIST.CVP.Crypto.AES_CCM.Tests
             resp.Nonce = new BitString(NonceBytes);
 
             return resp;
-        }
-
-
-        [Test]
-        public void ShouldReturnDecryptionResultWithErrorOnException()
-        {
-            Mock<IAES_CCMInternals> iAES_CCMInternals = new Mock<IAES_CCMInternals>();
-            Mock<IRijndaelFactory> iRijndaelFactory = new Mock<IRijndaelFactory>();
-            _subject = new AES_CCM(iAES_CCMInternals.Object, iRijndaelFactory.Object);
-            string exceptionMessage = "Something bad happened.";
-
-            iRijndaelFactory
-                .Setup(s => s.GetRijndael(It.IsAny<ModeValues>()))
-                .Throws(new Exception(exceptionMessage));
-
-            var results = _subject.Decrypt(
-                new BitString(0),
-                new BitString(0),
-                new BitString(0),
-                new BitString(0),
-                8
-            );
-
-            Assert.IsFalse(results.Success, nameof(results));
-            Assert.IsInstanceOf<SymmetricCipherResult>(results, $"{nameof(results)} type");
-            Assert.AreEqual(exceptionMessage, results.ErrorMessage, nameof(exceptionMessage));
-        }
-
-        [Test]
-        public void ShouldReturnEncryptionResultWithErrorOnException()
-        {
-            Mock<IAES_CCMInternals> iAES_CCMInternals = new Mock<IAES_CCMInternals>();
-            Mock<IRijndaelFactory> iRijndaelFactory = new Mock<IRijndaelFactory>();
-            _subject = new AES_CCM(iAES_CCMInternals.Object, iRijndaelFactory.Object);
-            string exceptionMessage = "Something bad happened, sorry about that.";
-
-            iRijndaelFactory
-                .Setup(s => s.GetRijndael(It.IsAny<ModeValues>()))
-                .Throws(new Exception(exceptionMessage));
-
-            var results = _subject.Encrypt(
-                new BitString(0),
-                new BitString(0),
-                new BitString(0),
-                new BitString(0),
-                It.IsAny<int>()
-            );
-
-            Assert.IsFalse(results.Success, nameof(results));
-            Assert.IsInstanceOf<SymmetricCipherResult>(results, $"{nameof(results)} type");
-            Assert.AreEqual(exceptionMessage, results.ErrorMessage, nameof(exceptionMessage));
         }
 
         private Logger ThisLogger

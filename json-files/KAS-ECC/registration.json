@@ -21,7 +21,7 @@
             "hashAlg": [
               "SHA2-224"
             ],
-            "curveName": "P-224"
+            "curve": "P-224"
           }
         }
       },
@@ -57,7 +57,7 @@
                 "nonceLen": 0
               }
             },
-            "curveName": "P-224"
+            "curve": "P-224"
           }
         }
       }
@@ -73,7 +73,7 @@
             "hashAlg": [
               "SHA2-224"
             ],
-            "curveName": "P-224"
+            "curve": "P-224"
           }
         }
       },
@@ -109,7 +109,7 @@
                 "nonceLen": 0
               }
             },
-            "curveName": "P-224"
+            "curve": "P-224"
           }
         }
       },
@@ -158,7 +158,7 @@
                 "nonceLen": 0
               }
             },
-            "curveName": "P-224"
+            "curve": "P-224"
           }
         }
       }
@@ -174,7 +174,7 @@
             "hashAlg": [
               "SHA2-224"
             ],
-            "curveName": "P-224"
+            "curve": "P-224"
           }
         }
       },
@@ -210,7 +210,7 @@
                 "nonceLen": 0
               }
             },
-            "curveName": "P-224"
+            "curve": "P-224"
           }
         }
       },
@@ -259,7 +259,7 @@
                 "nonceLen": 0
               }
             },
-            "curveName": "P-224"
+            "curve": "P-224"
           }
         }
       }
@@ -275,7 +275,7 @@
             "hashAlg": [
               "SHA2-224"
             ],
-            "curveName": "P-224"
+            "curve": "P-224"
           }
         }
       },
@@ -311,7 +311,7 @@
                 "nonceLen": 0
               }
             },
-            "curveName": "P-224"
+            "curve": "P-224"
           }
         }
       },
@@ -360,7 +360,7 @@
                 "nonceLen": 0
               }
             },
-            "curveName": "P-224"
+            "curve": "P-224"
           }
         }
       }
@@ -376,7 +376,7 @@
             "hashAlg": [
               "SHA2-224"
             ],
-            "curveName": "P-224"
+            "curve": "P-224"
           }
         }
       },
@@ -412,7 +412,7 @@
                 "nonceLen": 0
               }
             },
-            "curveName": "P-224"
+            "curve": "P-224"
           }
         }
       },
@@ -461,7 +461,7 @@
                 "nonceLen": 0
               }
             },
-            "curveName": "P-224"
+            "curve": "P-224"
           }
         }
       }
@@ -477,7 +477,7 @@
             "hashAlg": [
               "SHA2-224"
             ],
-            "curveName": "P-224"
+            "curve": "P-224"
           }
         }
       },
@@ -513,7 +513,7 @@
                 "nonceLen": 0
               }
             },
-            "curveName": "P-224"
+            "curve": "P-224"
           }
         }
       },
@@ -562,7 +562,7 @@
                 "nonceLen": 0
               }
             },
-            "curveName": "P-224"
+            "curve": "P-224"
           }
         }
       }
@@ -578,7 +578,7 @@
             "hashAlg": [
               "SHA2-224"
             ],
-            "curveName": "P-224"
+            "curve": "P-224"
           }
         }
       },
@@ -617,7 +617,7 @@
                 "nonceLen": 0
               }
             },
-            "curveName": "P-224"
+            "curve": "P-224"
           }
         }
       },
@@ -669,7 +669,7 @@
                 "nonceLen": 0
               }
             },
-            "curveName": "P-224"
+            "curve": "P-224"
           }
         }
       }

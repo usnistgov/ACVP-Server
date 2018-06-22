@@ -1,0 +1,12 @@
+{
+  "algorithm": "TDES",
+  "mode": "CFBP8",
+  "isSample": true,
+  "direction": [
+    "encrypt",
+    "decrypt"
+  ],
+  "keyingOption": [
+    1
+  ]
+}
