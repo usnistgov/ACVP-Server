@@ -57,6 +57,8 @@ namespace NIST.CVP.Generation.KeyWrap
             if (!_expectedResult.CipherText.Equals(suppliedResult.CipherText))
             {
                 errors.Add($"{nameof(suppliedResult.CipherText)} does not match");
+                expected.Add(nameof(_expectedResult.CipherText), _expectedResult.CipherText.ToHex());
+                provided.Add(nameof(suppliedResult.CipherText), suppliedResult.CipherText.ToHex());
             }
         }
     }
