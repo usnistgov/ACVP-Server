@@ -10,6 +10,7 @@ using NIST.CVP.Crypto.AES_ECB;
 using NIST.CVP.Crypto.AES_OFB;
 using NIST.CVP.Crypto.AES_XTS;
 using NIST.CVP.Crypto.CMAC;
+using NIST.CVP.Crypto.CSHAKE;
 using NIST.CVP.Crypto.DRBG;
 using NIST.CVP.Crypto.DSA.FFC;
 using NIST.CVP.Crypto.HMAC;
@@ -184,6 +185,10 @@ namespace NIST.CVP.Crypto
 
             builder.RegisterType<PQGeneratorValidatorFactory>().AsImplementedInterfaces();
             builder.RegisterType<GGeneratorValidatorFactory>().AsImplementedInterfaces();
+
+            // Matt Algos
+            builder.RegisterType<CSHAKE.CSHAKE>().AsImplementedInterfaces();
+            builder.RegisterType<CSHAKE_MCT>().AsImplementedInterfaces();
         }
     }
 }
