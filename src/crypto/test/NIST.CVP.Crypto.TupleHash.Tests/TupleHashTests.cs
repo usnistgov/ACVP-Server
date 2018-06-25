@@ -15,13 +15,13 @@ namespace NIST.CVP.Crypto.TupleHash.Tests
         [TestCase(2, "e60f202c89a2631eda8d4c588ca5fd07f39e5151998deccf973adb3804bb6e84", "My Tuple App")]
         public void ShouldTupleHash128HashCorrectly(int testTupleId, string outputHex, string customization)
         {
-            var tuples = GetTestTuple(testTupleId);
+            var tuple = GetTestTuple(testTupleId);
 
             var expectedResult = new BitString(outputHex);
             var hashFunction = GetTupleHashFunction(256, 256, customization);
 
             var subject = new TupleHash();
-            var result = subject.HashMessage(hashFunction, tuples);
+            var result = subject.HashMessage(hashFunction, tuple);
             System.Console.WriteLine(result.ErrorMessage);
             Assume.That(result.Success);
             Assert.AreEqual(expectedResult, result.Digest);
@@ -33,13 +33,13 @@ namespace NIST.CVP.Crypto.TupleHash.Tests
         [TestCase(2, "45000be63f9b6bfd89f54717670f69a9bc763591a4f05c50d68891a744bcc6e7d6d5b5e82c018da999ed35b0bb49c9678e526abd8e85c13ed254021db9e790ce", "My Tuple App")]
         public void ShouldTupleHash256HashCorrectly(int testTupleId, string outputHex, string customization)
         {
-            var tuples = GetTestTuple(testTupleId);
+            var tuple = GetTestTuple(testTupleId);
 
             var expectedResult = new BitString(outputHex);
             var hashFunction = GetTupleHashFunction(512, 512, customization);
 
             var subject = new TupleHash();
-            var result = subject.HashMessage(hashFunction, tuples);
+            var result = subject.HashMessage(hashFunction, tuple);
 
             Assume.That(result.Success);
             Assert.AreEqual(expectedResult, result.Digest);
@@ -54,13 +54,13 @@ namespace NIST.CVP.Crypto.TupleHash.Tests
         [TestCase(2, 128, "900fe16cad098d28e74d632ed852f99d", "My Tuple App")]
         public void ShouldTupleHashXOF128HashCorrectly(int testTupleId, int digestSize, string outputHex, string customization)
         {
-            var tuples = GetTestTuple(testTupleId);
+            var tuple = GetTestTuple(testTupleId);
 
             var expectedResult = new BitString(outputHex);
             var hashFunction = GetTupleHashXOFFunction(digestSize, 256, customization);
 
             var subject = new TupleHash();
-            var result = subject.HashMessage(hashFunction, tuples);
+            var result = subject.HashMessage(hashFunction, tuple);
 
             Assume.That(result.Success);
             Assert.AreEqual(expectedResult, result.Digest);
@@ -75,13 +75,13 @@ namespace NIST.CVP.Crypto.TupleHash.Tests
         [TestCase(2, 256, "0c59b11464f2336c34663ed51b2b950bec743610856f36c28d1d088d8a244628", "My Tuple App")]
         public void ShouldTupleHashXOF256HashCorrectly(int testTupleId, int digestSize, string outputHex, string customization)
         {
-            var tuples = GetTestTuple(testTupleId);
+            var tuple = GetTestTuple(testTupleId);
 
             var expectedResult = new BitString(outputHex);
             var hashFunction = GetTupleHashXOFFunction(digestSize, 512, customization);
 
             var subject = new TupleHash();
-            var result = subject.HashMessage(hashFunction, tuples);
+            var result = subject.HashMessage(hashFunction, tuple);
 
             Assume.That(result.Success);
             Assert.AreEqual(expectedResult, result.Digest);

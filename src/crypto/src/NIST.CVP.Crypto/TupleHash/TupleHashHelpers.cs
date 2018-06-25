@@ -14,13 +14,13 @@ namespace NIST.CVP.Crypto.TupleHash
         /// <param name="customizationString">Character string for customization</param>
         /// <param name="xof">Is it xof mode?</param>
         /// <returns>Formatted message before calling Keccak</returns>
-        public static BitString FormatMessage(IEnumerable<BitString> tuples, int digestSize, string customizationString, bool xof)
+        public static BitString FormatMessage(IEnumerable<BitString> tuple, int digestSize, string customizationString, bool xof)
         {
             BitString message = new BitString(0);
 
-            foreach (BitString tuple in tuples)
+            foreach (BitString element in tuple)
             {
-                message = BitString.ConcatenateBits(message, EncodeString(tuple));
+                message = BitString.ConcatenateBits(message, EncodeString(element));
             }
 
             if (xof)

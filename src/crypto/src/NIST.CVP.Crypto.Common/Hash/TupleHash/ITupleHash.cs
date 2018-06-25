@@ -6,6 +6,6 @@ namespace NIST.CVP.Crypto.Common.Hash.TupleHash
 {
     public interface ITupleHash
     {
-        HashResult HashMessage(HashFunction hashFunction, IEnumerable<BitString> tuples);
+        HashResult HashMessage(HashFunction hashFunction, IEnumerable<BitString> tuple);
     }
 }

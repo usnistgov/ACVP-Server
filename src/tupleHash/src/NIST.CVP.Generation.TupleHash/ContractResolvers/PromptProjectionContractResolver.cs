@@ -5,7 +5,7 @@ using System.Text;
 using Newtonsoft.Json.Serialization;
 using NIST.CVP.Generation.Core.ContractResolvers;
 
-namespace NIST.CVP.Generation.CSHAKE.ContractResolvers
+namespace NIST.CVP.Generation.TupleHash.ContractResolvers
 {
     public class PromptProjectionContractResolver : ProjectionContractResolverBase<TestGroup, TestCase>
     {
@@ -36,7 +36,7 @@ namespace NIST.CVP.Generation.CSHAKE.ContractResolvers
             var includeProperties = new[]
             {
                 nameof(TestCase.TestCaseId),
-                nameof(TestCase.Message),
+                nameof(TestCase.Tuple),
                 nameof(TestCase.Customization),
                 nameof(TestCase.MessageLength)
             };
