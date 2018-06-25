@@ -37,6 +37,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Generation.TupleHa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Generation.TupleHash.IntegrationTests", "..\..\tupleHash\test\NIST.CVP.Generation.TupleHash.IntegrationTests\NIST.CVP.Generation.TupleHash.IntegrationTests.csproj", "{EB0D5932-AC6C-4B1F-8BBE-CBBD4C78104F}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.CSHAKE.Tests", "..\..\crypto\test\NIST.CVP.Crypto.CSHAKE.Tests\NIST.CVP.Crypto.CSHAKE.Tests.csproj", "{AF36A2C8-0C04-46DC-96C3-214A6F637C45}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -103,6 +105,10 @@ Global
 		{EB0D5932-AC6C-4B1F-8BBE-CBBD4C78104F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EB0D5932-AC6C-4B1F-8BBE-CBBD4C78104F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EB0D5932-AC6C-4B1F-8BBE-CBBD4C78104F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF36A2C8-0C04-46DC-96C3-214A6F637C45}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF36A2C8-0C04-46DC-96C3-214A6F637C45}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF36A2C8-0C04-46DC-96C3-214A6F637C45}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF36A2C8-0C04-46DC-96C3-214A6F637C45}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -123,6 +129,7 @@ Global
 		{DD0B2D6C-4939-4DC1-B894-D77BDB3DD76A} = {41F3BCCD-50A6-437B-8E75-B7AA4449DFCB}
 		{E04654F1-3D06-4C86-BFAD-13F61B2A87A2} = {36C56CC9-F328-4FE6-864D-22076C028AA2}
 		{EB0D5932-AC6C-4B1F-8BBE-CBBD4C78104F} = {36C56CC9-F328-4FE6-864D-22076C028AA2}
+		{AF36A2C8-0C04-46DC-96C3-214A6F637C45} = {36C56CC9-F328-4FE6-864D-22076C028AA2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7DFAE1DB-DAEE-4E0D-A1A4-E2E51A0B6C88}
