@@ -154,6 +154,8 @@ namespace NIST.CVP.Common
         [EnumMember(Value = "TDES-OFB")]
         TDES_OFB,
         [EnumMember(Value = "TDES-OFBI")]
-        TDES_OFBI
+        TDES_OFBI,
+        [EnumMember(Value = "TupleHash")]
+        TupleHash
     }
 }

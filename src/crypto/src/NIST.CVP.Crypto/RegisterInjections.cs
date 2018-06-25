@@ -40,6 +40,7 @@ using NIST.CVP.Crypto.TDES_CTR;
 using NIST.CVP.Crypto.TDES_ECB;
 using NIST.CVP.Crypto.TDES_OFB;
 using NIST.CVP.Crypto.TDES_OFBI;
+using NIST.CVP.Crypto.TupleHash;
 using NIST.CVP.Crypto.RSA2;
 using NIST.CVP.Crypto.DSA.ECC;
 using NIST.CVP.Crypto.DSA.FFC.GGeneratorValidators;
@@ -189,6 +190,9 @@ namespace NIST.CVP.Crypto
             // Matt Algos
             builder.RegisterType<CSHAKE.CSHAKE>().AsImplementedInterfaces();
             builder.RegisterType<CSHAKE_MCT>().AsImplementedInterfaces();
+
+            builder.RegisterType<TupleHash.TupleHash>().AsImplementedInterfaces();
+            builder.RegisterType<TupleHash_MCT>().AsImplementedInterfaces();
         }
     }
 }

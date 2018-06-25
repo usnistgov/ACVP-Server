@@ -75,7 +75,7 @@ namespace NIST.CVP.Crypto.TupleHash
                 {
                     var innerDigest = new BitString(0);
                     var iterationResponse = new AlgoArrayResponse() { };
-                    //iterationResponse.Tuple = innerMessage;
+                    iterationResponse.SetMessageFromTuple(innerTuple);
 
                     for (j = 0; j < 1000; j++)
                     {
