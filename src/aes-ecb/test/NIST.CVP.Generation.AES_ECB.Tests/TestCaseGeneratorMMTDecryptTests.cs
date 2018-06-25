@@ -1,8 +1,6 @@
 ﻿using System;
 using Moq;
-using NIST.CVP.Crypto.AES_ECB;
 using NIST.CVP.Crypto.Common.Symmetric;
-using NIST.CVP.Crypto.Common.Symmetric.AES;
 using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;

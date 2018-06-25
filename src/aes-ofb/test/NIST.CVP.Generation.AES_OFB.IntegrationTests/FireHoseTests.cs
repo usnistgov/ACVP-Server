@@ -1,7 +1,10 @@
 ﻿using System.IO;
 using System.Linq;
-using NIST.CVP.Crypto.AES;
-using NIST.CVP.Crypto.AES_OFB;
+using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Common.Symmetric.Enums;
+using NIST.CVP.Crypto.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Symmetric.Engines;
+using NIST.CVP.Crypto.Symmetric.MonteCarlo;
 using NIST.CVP.Generation.AES_OFB.Parsers;
 using NIST.CVP.Tests.Core;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
@@ -13,15 +16,15 @@ namespace NIST.CVP.Generation.AES_OFB.IntegrationTests
     public class FireHoseTests
     {
         private string _testPath;
-        private Crypto.AES_OFB.AES_OFB _aesOfb;
-        private AES_OFB_MCT _aesOfbMct;
+        private OfbBlockCipher _aesOfb;
+        private MonteCarloAesOfb _aesOfbMct;
         
         [SetUp]
         public void Setup()
         {
             _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\LegacyParserFiles\");
-            _aesOfb = new Crypto.AES_OFB.AES_OFB(new RijndaelFactory(new RijndaelInternals()));
-            _aesOfbMct = new AES_OFB_MCT(_aesOfb);
+            _aesOfb = new OfbBlockCipher(new AesEngine());
+            _aesOfbMct = new MonteCarloAesOfb(new BlockCipherEngineFactory(), new ModeBlockCipherFactory(), new AesMonteCarloKeyMaker());
         }
 
         [Test]
@@ -66,11 +69,8 @@ namespace NIST.CVP.Generation.AES_OFB.IntegrationTests
 
                         if (testGroup.Function.ToLower() == "encrypt")
                         {
-                            var result = _aesOfbMct.MCTEncrypt(
-                                testCase.ResultsArray.First().IV,
-                                testCase.ResultsArray.First().Key,
-                                testCase.ResultsArray.First().PlainText
-                            );
+                            var param = new ModeBlockCipherParameters(BlockCipherDirections.Encrypt, testCase.ResultsArray.First().IV, testCase.ResultsArray.First().Key, testCase.ResultsArray.First().PlainText);
+                            var result = _aesOfbMct.ProcessMonteCarloTest(param);
 
                             Assert.IsTrue(testCase.ResultsArray.Count > 0, $"{nameof(testCase)} MCT encrypt count should be gt 0");
                             for (int i = 0; i < testCase.ResultsArray.Count; i++)
@@ -84,11 +84,9 @@ namespace NIST.CVP.Generation.AES_OFB.IntegrationTests
                         }
                         if (testGroup.Function.ToLower() == "decrypt")
                         {
-                            var result = _aesOfbMct.MCTDecrypt(
-                                testCase.ResultsArray.First().IV,
-                                testCase.ResultsArray.First().Key,
-                                testCase.ResultsArray.First().CipherText
-                            );
+                            var param = new ModeBlockCipherParameters(BlockCipherDirections.Decrypt, testCase.ResultsArray.First().IV, testCase.ResultsArray.First().Key, testCase.ResultsArray.First().CipherText);
+                            var result = _aesOfbMct.ProcessMonteCarloTest(param);
+
 
                             Assert.IsTrue(testCase.ResultsArray.Count > 0, $"{nameof(testCase)} MCT decrypt count should be gt 0");
                             for (int i = 0; i < testCase.ResultsArray.Count; i++)
@@ -107,11 +105,8 @@ namespace NIST.CVP.Generation.AES_OFB.IntegrationTests
 
                         if (testGroup.Function.ToLower() == "encrypt")
                         {
-                            var result = _aesOfb.BlockEncrypt(
-                                testCase.IV,
-                                testCase.Key,
-                                testCase.PlainText
-                            );
+                            var param = new ModeBlockCipherParameters(BlockCipherDirections.Encrypt, testCase.IV, testCase.Key, testCase.PlainText);
+                            var result = _aesOfb.ProcessPayload(param);
 
                             if (testCase.CipherText.ToHex() == result.Result.ToHex())
                                 passes++;
@@ -125,11 +120,8 @@ namespace NIST.CVP.Generation.AES_OFB.IntegrationTests
 
                         if (testGroup.Function.ToLower() == "decrypt")
                         {
-                            var result = _aesOfb.BlockDecrypt(
-                                testCase.IV,
-                                testCase.Key,
-                                testCase.CipherText
-                            );
+                            var param = new ModeBlockCipherParameters(BlockCipherDirections.Decrypt, testCase.IV, testCase.Key, testCase.CipherText);
+                            var result = _aesOfb.ProcessPayload(param);
 
                             if (testCase.PlainText.ToHex() == result.Result.ToHex())
                                 passes++;
