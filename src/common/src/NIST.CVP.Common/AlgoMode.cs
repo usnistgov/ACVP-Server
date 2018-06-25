@@ -39,6 +39,8 @@ namespace NIST.CVP.Common
         CMAC_AES,
         [EnumMember(Value = "CMAC-TDES")]
         CMAC_TDES,
+        [EnumMember(Value = "CSHAKE")]
+        CSHAKE,
         [EnumMember(Value = "ctrDRBG")]
         DRBG_CTR,
         [EnumMember(Value = "hashDRBG")]

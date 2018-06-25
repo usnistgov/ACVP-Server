@@ -18,7 +18,7 @@ namespace NIST.CVP.Generation.CSHAKE.IntegrationTests
 
         public override string Algorithm { get; } = "CSHAKE";
         public override string Mode { get; } = string.Empty;
-        public override AlgoMode AlgoMode => AlgoMode.SHAKE;
+        public override AlgoMode AlgoMode => AlgoMode.CSHAKE;
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {
