@@ -7,19 +7,19 @@ using NLog;
 
 namespace NIST.CVP.Generation.CSHAKE
 {
-    public class TestCaseGeneratorAFTHash : ITestCaseGenerator<TestGroup, TestCase>
+    public class TestCaseGeneratorAFTSHAKEHash : ITestCaseGenerator<TestGroup, TestCase>
     {
         private int _numberOfCases = 512;
         private int _currentSmallCase = 0;
         private int _currentLargeCase = 1;
-        private int _customizationLength = 10;
+        private int _customizationLength = 1;
 
         private readonly IRandom800_90 _random800_90;
         private readonly ICSHAKE _algo;
 
         public int NumberOfTestCasesToGenerate => _numberOfCases;
 
-        public TestCaseGeneratorAFTHash(IRandom800_90 random800_90, ICSHAKE algo)
+        public TestCaseGeneratorAFTSHAKEHash(IRandom800_90 random800_90, ICSHAKE algo)
         {
             _random800_90 = random800_90;
             _algo = algo;
@@ -48,7 +48,7 @@ namespace NIST.CVP.Generation.CSHAKE
             _numberOfCases = numSmallCases + numLargeCases;
 
             var functionName = "";
-            var customization = _random800_90.GetRandomString(_customizationLength);
+            var customization = "";
 
             var message = new BitString(0);
             if (_currentSmallCase <= numSmallCases)

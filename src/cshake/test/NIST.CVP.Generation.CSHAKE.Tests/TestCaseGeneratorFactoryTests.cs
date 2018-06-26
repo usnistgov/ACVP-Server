@@ -18,6 +18,9 @@ namespace NIST.CVP.Generation.CSHAKE.Tests
         [TestCase("junk", typeof(TestCaseGeneratorNull))]
         [TestCase("aFt", typeof(TestCaseGeneratorAFTHash))]
         [TestCase("Mct", typeof(TestCaseGeneratorMCTHash))]
+        [TestCase("vOT", typeof(TestCaseGeneratorVOTHash))]
+        [TestCase("aftSHAKE", typeof(TestCaseGeneratorAFTSHAKEHash))]
+        [TestCase("VOtShAkE", typeof(TestCaseGeneratorVOTSHAKEHash))]
         public void ShouldReturnProperGenerator(string testType, Type expectedType)
         {
             var testGroup = new TestGroup

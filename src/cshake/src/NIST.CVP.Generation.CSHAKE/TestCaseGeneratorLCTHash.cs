@@ -7,19 +7,19 @@ using NLog;
 
 namespace NIST.CVP.Generation.CSHAKE
 {
-    public class TestCaseGeneratorAFTHash : ITestCaseGenerator<TestGroup, TestCase>
+    public class TestCaseGeneratorLCTHash : ITestCaseGenerator<TestGroup, TestCase>
     {
         private int _numberOfCases = 512;
         private int _currentSmallCase = 0;
         private int _currentLargeCase = 1;
-        private int _customizationLength = 10;
+        private int _customizationLength = 1;
 
         private readonly IRandom800_90 _random800_90;
         private readonly ICSHAKE _algo;
 
         public int NumberOfTestCasesToGenerate => _numberOfCases;
 
-        public TestCaseGeneratorAFTHash(IRandom800_90 random800_90, ICSHAKE algo)
+        public TestCaseGeneratorLCTHash(IRandom800_90 random800_90, ICSHAKE algo)
         {
             _random800_90 = random800_90;
             _algo = algo;
@@ -30,35 +30,25 @@ namespace NIST.CVP.Generation.CSHAKE
             var unitSize = group.BitOrientedInput ? 1 : 8;
             var rate = 1600 - group.DigestSize * 2;
 
-            var numSmallCases = (rate / unitSize) * 2;
-            var numLargeCases = 100;
-
-            if (!group.IncludeNull)
-            {
-                if (_currentSmallCase == 0)
-                {
-                    _currentSmallCase = 1;
-                }
-            }
-            else
-            {
-                numSmallCases = (rate / unitSize) * 2 + 1;
-            }
+            var numSmallCases = 30;
+            var numLargeCases = 30;
 
             _numberOfCases = numSmallCases + numLargeCases;
 
             var functionName = "";
-            var customization = _random800_90.GetRandomString(_customizationLength);
 
             var message = new BitString(0);
+            var customization = "";
             if (_currentSmallCase <= numSmallCases)
             {
-                message = _random800_90.GetRandomBitString(unitSize * _currentSmallCase);
+                message = _random800_90.GetRandomBitString(group.DigestSize);
+                customization = _random800_90.GetRandomString(_customizationLength++);
                 _currentSmallCase++;
             }
             else
             {
-                message = _random800_90.GetRandomBitString(rate + _currentLargeCase * (rate + unitSize));
+                message = _random800_90.GetRandomBitString(group.DigestSize);
+                customization = _random800_90.GetRandomString(_customizationLength++ * _currentLargeCase * _currentLargeCase);
                 _currentLargeCase++;
             }
 

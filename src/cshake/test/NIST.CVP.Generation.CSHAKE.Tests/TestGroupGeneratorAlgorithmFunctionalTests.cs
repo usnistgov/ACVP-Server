@@ -46,11 +46,11 @@ namespace NIST.CVP.Generation.CSHAKE.Tests
             var totalNotShakeModes = 0;
             foreach (var result in results)
             {
-                if (result.SHAKEMode)
+                if (result.TestType.Equals("aftshake"))
                 {
                     totalShakeModes++;
                 }
-                else
+                else if (result.TestType.Equals("aft"))
                 {
                     totalNotShakeModes++;
                 }

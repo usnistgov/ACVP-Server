@@ -6,6 +6,7 @@ namespace NIST.CVP.Generation.CSHAKE
     public class TestGroupGeneratorAlgorithmFunctional : ITestGroupGenerator<Parameters, TestGroup, TestCase>
     {
         private const string TEST_TYPE = "aft";
+        private const string TEST_TYPE_SHAKE = "aftshake";
 
         public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
         {
@@ -13,6 +14,18 @@ namespace NIST.CVP.Generation.CSHAKE
 
             foreach (var digestSize in parameters.DigestSizes)
             {
+                var testGroupShake = new TestGroup
+                {
+                    Function = parameters.Algorithm,
+                    DigestSize = digestSize,
+                    IncludeNull = parameters.IncludeNull,
+                    BitOrientedInput = parameters.BitOrientedInput,
+                    BitOrientedOutput = parameters.BitOrientedOutput,
+                    TestType = TEST_TYPE_SHAKE
+                };
+                    
+                testGroups.Add(testGroupShake);
+
                 var testGroup = new TestGroup
                 {
                     Function = parameters.Algorithm,
@@ -20,24 +33,10 @@ namespace NIST.CVP.Generation.CSHAKE
                     IncludeNull = parameters.IncludeNull,
                     BitOrientedInput = parameters.BitOrientedInput,
                     BitOrientedOutput = parameters.BitOrientedOutput,
-                    TestType = TEST_TYPE,
-                    SHAKEMode = true
+                    TestType = TEST_TYPE
                 };
-                    
+
                 testGroups.Add(testGroup);
-
-                var testGroup2 = new TestGroup
-                {
-                    Function = parameters.Algorithm,
-                    DigestSize = digestSize,
-                    IncludeNull = parameters.IncludeNull,
-                    BitOrientedInput = parameters.BitOrientedInput,
-                    BitOrientedOutput = parameters.BitOrientedOutput,
-                    TestType = TEST_TYPE,
-                    SHAKEMode = false
-                };
-
-                testGroups.Add(testGroup2);
             }
 
             return testGroups;

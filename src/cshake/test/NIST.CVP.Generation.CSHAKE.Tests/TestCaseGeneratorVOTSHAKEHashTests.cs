@@ -15,7 +15,7 @@ using NUnit.Framework;
 namespace NIST.CVP.Generation.CSHAKE.Tests
 {
     [TestFixture, UnitTest]
-    public class TestCaseGeneratorVOTHashTests
+    public class TestCaseGeneratorVOTSHAKEHashTests
     {
         [Test]
         public void ShouldSuccessfullyGenerate()
@@ -23,7 +23,7 @@ namespace NIST.CVP.Generation.CSHAKE.Tests
             var domain = new MathDomain();
             domain.AddSegment(new RangeDomainSegment(new Random800_90(), 16, 65536));
 
-            var subject = new TestCaseGeneratorVOTHash(new Random800_90(), new Crypto.CSHAKE.CSHAKE());
+            var subject = new TestCaseGeneratorVOTSHAKEHash(new Random800_90(), new Crypto.CSHAKE.CSHAKE());
             var result = subject.Generate(
                 new TestGroup
                 {
@@ -46,7 +46,7 @@ namespace NIST.CVP.Generation.CSHAKE.Tests
             var domain = new MathDomain();
             domain.AddSegment(new RangeDomainSegment(new Random800_90(), 16, 65536));
 
-            var subject = new TestCaseGeneratorVOTHash(new Random800_90(), algo.Object);
+            var subject = new TestCaseGeneratorVOTSHAKEHash(new Random800_90(), algo.Object);
             var result = subject.Generate(
                 new TestGroup
                 {
@@ -69,7 +69,7 @@ namespace NIST.CVP.Generation.CSHAKE.Tests
             var domain = new MathDomain();
             domain.AddSegment(new RangeDomainSegment(new Random800_90(), minLength, 65536));
 
-            var subject = new TestCaseGeneratorVOTHash(new Random800_90(), new Crypto.CSHAKE.CSHAKE());
+            var subject = new TestCaseGeneratorVOTSHAKEHash(new Random800_90(), new Crypto.CSHAKE.CSHAKE());
             var result = subject.Generate(
                 new TestGroup
                 {
@@ -95,7 +95,7 @@ namespace NIST.CVP.Generation.CSHAKE.Tests
             var domain = new MathDomain();
             domain.AddSegment(new RangeDomainSegment(new Random800_90(), 16, maxLength));
 
-            var subject = new TestCaseGeneratorVOTHash(new Random800_90(), new Crypto.CSHAKE.CSHAKE());
+            var subject = new TestCaseGeneratorVOTSHAKEHash(new Random800_90(), new Crypto.CSHAKE.CSHAKE());
             var result = subject.Generate(
                 new TestGroup
                 {
@@ -126,7 +126,7 @@ namespace NIST.CVP.Generation.CSHAKE.Tests
             var domain = new MathDomain();
             domain.AddSegment(new RangeDomainSegment(new Random800_90(), min, max, bitOriented ? 1 : 8));
 
-            var subject = new TestCaseGeneratorVOTHash(new Random800_90(), new Crypto.CSHAKE.CSHAKE());
+            var subject = new TestCaseGeneratorVOTSHAKEHash(new Random800_90(), new Crypto.CSHAKE.CSHAKE());
             var result = subject.Generate(
                 new TestGroup
                 {
@@ -153,7 +153,7 @@ namespace NIST.CVP.Generation.CSHAKE.Tests
             var domain = new MathDomain();
             domain.AddSegment(new RangeDomainSegment(new Random800_90(), 16, 65536));
 
-            var subject = new TestCaseGeneratorVOTHash(new Random800_90(), algo.Object);
+            var subject = new TestCaseGeneratorVOTSHAKEHash(new Random800_90(), algo.Object);
 
             for (var i = 0; i < subject.NumberOfTestCasesToGenerate; i++)
             {
@@ -173,7 +173,7 @@ namespace NIST.CVP.Generation.CSHAKE.Tests
         [Test]
         [TestCase(128, 1344, false)]
         [TestCase(256, 1088, true)]
-        public void ShouldGenerateNonEmptyCustomizationStringForEachGenerateCall(int digestSize, int rate, bool includeNull)
+        public void ShouldGenerateEmptyCustomizationStringForEachGenerateCall(int digestSize, int rate, bool includeNull)
         {
             var mockSHA = new Mock<ICSHAKE>();
             mockSHA.Setup(s => s.HashMessage(It.IsAny<HashFunction>(), It.IsAny<BitString>()))
@@ -182,7 +182,7 @@ namespace NIST.CVP.Generation.CSHAKE.Tests
             var domain = new MathDomain();
             domain.AddSegment(new RangeDomainSegment(new Random800_90(), 16, 65536));
 
-            var subject = new TestCaseGeneratorVOTHash(new Random800_90(), mockSHA.Object);
+            var subject = new TestCaseGeneratorVOTSHAKEHash(new Random800_90(), mockSHA.Object);
             for (var caseIdx = 0; caseIdx < subject.NumberOfTestCasesToGenerate; caseIdx++)
             {
                 var result = subject.Generate(
@@ -200,7 +200,7 @@ namespace NIST.CVP.Generation.CSHAKE.Tests
 
                 var testCase = (TestCase)result.TestCase;
 
-                Assert.AreNotEqual("", testCase.Customization);
+                Assert.AreEqual("", testCase.Customization);
             }
         }
 
@@ -214,7 +214,7 @@ namespace NIST.CVP.Generation.CSHAKE.Tests
             var domain = new MathDomain();
             domain.AddSegment(new RangeDomainSegment(new Random800_90(), 16, 65536));
 
-            var subject = new TestCaseGeneratorVOTHash(new Random800_90(), algo.Object);
+            var subject = new TestCaseGeneratorVOTSHAKEHash(new Random800_90(), algo.Object);
             var testGroup = new TestGroup
             {
                 Function = "cshake",

@@ -13,12 +13,12 @@ using NUnit.Framework;
 namespace NIST.CVP.Generation.CSHAKE.Tests
 {
     [TestFixture, UnitTest]
-    public class TestCaseGeneratorAFTHashTests
+    public class TestCaseGeneratorAFTSHAKEHashTests
     {
         [Test]
         public void ShouldSuccessfullyGenerate()
         {
-            var subject = new TestCaseGeneratorAFTHash(new Random800_90(), new Crypto.CSHAKE.CSHAKE());
+            var subject = new TestCaseGeneratorAFTSHAKEHash(new Random800_90(), new Crypto.CSHAKE.CSHAKE());
             var result = subject.Generate(new TestGroup { Function = "cSHAKE", DigestSize = 128 },
                 false);
             Assert.IsNotNull(result);
@@ -36,7 +36,7 @@ namespace NIST.CVP.Generation.CSHAKE.Tests
 
             var shortMessageCtr = 1;
             var longMessageCtr = 0;
-            var subject = new TestCaseGeneratorAFTHash(new Random800_90(), mockSHA.Object);
+            var subject = new TestCaseGeneratorAFTSHAKEHash(new Random800_90(), mockSHA.Object);
             for (var caseIdx = 0; caseIdx < subject.NumberOfTestCasesToGenerate; caseIdx++)
             {
                 var result = subject.Generate(
@@ -71,13 +71,13 @@ namespace NIST.CVP.Generation.CSHAKE.Tests
         [Test]
         [TestCase(128, 1344, false)]
         [TestCase(256, 1088, true)]
-        public void ShouldGenerateProperlySizedCustomizationStringForEachGenerateCall(int digestSize, int rate, bool includeNull)
+        public void ShouldGenerateEmptyCustomizationStringForEachGenerateCallWhenSHAKEMode(int digestSize, int rate, bool includeNull)
         {
             var mockSHA = new Mock<ICSHAKE>();
             mockSHA.Setup(s => s.HashMessage(It.IsAny<HashFunction>(), It.IsAny<BitString>()))
                 .Returns(new HashResult(new BitString("ABCD")));
-            
-            var subject = new TestCaseGeneratorAFTHash(new Random800_90(), mockSHA.Object);
+
+            var subject = new TestCaseGeneratorAFTSHAKEHash(new Random800_90(), mockSHA.Object);
             for (var caseIdx = 0; caseIdx < subject.NumberOfTestCasesToGenerate; caseIdx++)
             {
                 var result = subject.Generate(
@@ -94,7 +94,7 @@ namespace NIST.CVP.Generation.CSHAKE.Tests
 
                 var testCase = (TestCase)result.TestCase;
 
-                Assert.AreEqual(10, testCase.Customization.Length);
+                Assert.AreEqual("", testCase.Customization);
             }
         }
 
@@ -109,7 +109,7 @@ namespace NIST.CVP.Generation.CSHAKE.Tests
 
             var shortMessageCtr = 1;
             var longMessageCtr = 0;
-            var subject = new TestCaseGeneratorAFTHash(new Random800_90(), mockSHA.Object);
+            var subject = new TestCaseGeneratorAFTSHAKEHash(new Random800_90(), mockSHA.Object);
             for (var caseIdx = 0; caseIdx < subject.NumberOfTestCasesToGenerate; caseIdx++)
             {
                 var result = subject.Generate(
@@ -152,7 +152,7 @@ namespace NIST.CVP.Generation.CSHAKE.Tests
 
             var shortMessageCtr = 0;
             var longMessageCtr = 0;
-            var subject = new TestCaseGeneratorAFTHash(new Random800_90(), mockSHA.Object);
+            var subject = new TestCaseGeneratorAFTSHAKEHash(new Random800_90(), mockSHA.Object);
             for (var caseIdx = 0; caseIdx < subject.NumberOfTestCasesToGenerate; caseIdx++)
             {
                 var result = subject.Generate(
@@ -195,7 +195,7 @@ namespace NIST.CVP.Generation.CSHAKE.Tests
 
             var shortMessageCtr = 0;
             var longMessageCtr = 0;
-            var subject = new TestCaseGeneratorAFTHash(new Random800_90(), mockSHA.Object);
+            var subject = new TestCaseGeneratorAFTSHAKEHash(new Random800_90(), mockSHA.Object);
             for (var caseIdx = 0; caseIdx < subject.NumberOfTestCasesToGenerate; caseIdx++)
             {
                 var result = subject.Generate(
@@ -234,7 +234,7 @@ namespace NIST.CVP.Generation.CSHAKE.Tests
             algo.Setup(s => s.HashMessage(It.IsAny<HashFunction>(), It.IsAny<BitString>()))
                 .Returns(new HashResult("Fail"));
 
-            var subject = new TestCaseGeneratorAFTHash(new Random800_90(), algo.Object);
+            var subject = new TestCaseGeneratorAFTSHAKEHash(new Random800_90(), algo.Object);
             var result = subject.Generate(
                 new TestGroup
                 {

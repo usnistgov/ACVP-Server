@@ -10,7 +10,7 @@ using NLog;
 
 namespace NIST.CVP.Generation.CSHAKE
 {
-    public class TestCaseGeneratorVOTHash : ITestCaseGenerator<TestGroup, TestCase>
+    public class TestCaseGeneratorVOTSHAKEHash : ITestCaseGenerator<TestGroup, TestCase>
     {
         private int _capacity = 0;
         private int _currentCase = 0;
@@ -21,7 +21,7 @@ namespace NIST.CVP.Generation.CSHAKE
         public int NumberOfTestCasesToGenerate => TestCaseSizes.Count;
         public List<int> TestCaseSizes { get; } = new List<int>();                 // Primarily for testing purposes
 
-        public TestCaseGeneratorVOTHash(IRandom800_90 random800_90, ICSHAKE algo)
+        public TestCaseGeneratorVOTSHAKEHash(IRandom800_90 random800_90, ICSHAKE algo)
         {
             _random800_90 = random800_90;
             _algo = algo;
@@ -42,8 +42,8 @@ namespace NIST.CVP.Generation.CSHAKE
             _currentCase++;
 
             var message = _random800_90.GetRandomBitString(_capacity / 2);
-            var customization = _random800_90.GetRandomString(_random800_90.GetRandomInt(1, 21));
-            
+            var customization = "";
+
             var testCase = new TestCase
             {
                 Message = message,
@@ -97,7 +97,7 @@ namespace NIST.CVP.Generation.CSHAKE
             {
                 repetitions = 999;
             }
-            else if(values.Count() > 999)
+            else if (values.Count() > 999)
             {
                 repetitions = 1;
             }
@@ -106,9 +106,9 @@ namespace NIST.CVP.Generation.CSHAKE
                 repetitions = 1000 / values.Count() + (1000 % values.Count() > 0 ? 1 : 0);
             }
 
-            foreach(var value in values)
+            foreach (var value in values)
             {
-                for(var i = 0; i < repetitions; i++)
+                for (var i = 0; i < repetitions; i++)
                 {
                     TestCaseSizes.Add(value);
                 }
@@ -124,6 +124,3 @@ namespace NIST.CVP.Generation.CSHAKE
         private Logger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }
-
-
-

@@ -32,11 +32,11 @@ namespace NIST.CVP.Generation.CSHAKE.Tests
         }
 
         [Test]
-        public void ReturnedResultShouldContainThreeGenerators()
+        public void ReturnedResultShouldContainFourGenerators()
         {
             var result = _subject.GetTestGroupGenerators();
 
-            Assert.IsTrue(result.Count() == 3);
+            Assert.IsTrue(result.Count() == 4);
         }
 
         [Test]
@@ -64,7 +64,7 @@ namespace NIST.CVP.Generation.CSHAKE.Tests
                 groups.AddRangeIfNotNullOrEmpty(genny.BuildTestGroups(p));
             }
 
-            Assert.AreEqual(10, groups.Count);       // 2 * 1 + 2 * 2 * 2 (digest sizes * MCT) + (digest sizes * 2 test groups * (AFT + VOT))
+            Assert.AreEqual(12, groups.Count);       // (AFT,SHAKEAFT,VOT,SHAKEVOT,MCT,LCT) = 6 * 2 digestsizes = 12
         }
     }
 }
