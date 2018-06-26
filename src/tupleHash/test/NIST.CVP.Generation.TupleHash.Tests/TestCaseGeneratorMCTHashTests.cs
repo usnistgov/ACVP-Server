@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Moq;
-using NIST.CVP.Crypto.Common.Hash;
 using NIST.CVP.Crypto.Common.Hash.TupleHash;
 using NIST.CVP.Crypto.CSHAKE;
 using NIST.CVP.Math;
@@ -52,7 +51,7 @@ namespace NIST.CVP.Generation.TupleHash.Tests
         {
             var errorMessage = "something bad happened!";
             _mockMCT.Setup(v => v.MCTHash(It.IsAny<HashFunction>(), It.IsAny<List<BitString>>(), It.IsAny<MathDomain>(), It.IsAny<bool>()))
-                .Returns(new MCTResult<AlgoArrayResponse>(errorMessage));
+                .Returns(new MCTResultTuple<AlgoArrayResponse>(errorMessage));
 
             var testGroup = GetTestGroup();
             var testCase = new TestCase();

@@ -66,9 +66,9 @@ namespace NIST.CVP.Generation.TupleHash.Tests.ContractResolvers
         /// <param name="function">The function being tested</param>
         /// <param name="testType">The testType</param>
         [Test]
-        [TestCase("sha3", "aft")]
-        [TestCase("sha3", "mct")]
-        public void ShouldSerializeSha3CaseProperties(string function, string testType)
+        [TestCase("tuplehash", "aft")]
+        [TestCase("tuplehash", "mct")]
+        public void ShouldSerializeProperties(string function, string testType)
         {
             var tvs = TestDataMother.GetTestGroups(1, function, testType);
             var tg = tvs.TestGroups[0];
@@ -89,56 +89,8 @@ namespace NIST.CVP.Generation.TupleHash.Tests.ContractResolvers
                 for (var i = 0; i < tc.ResultsArray.Count; i++)
                 {
                     Assert.AreEqual(tc.ResultsArray[i].Digest, newTc.ResultsArray[i].Digest, "mctDigest");
-                    Assert.AreEqual(tc.ResultsArray[i].Message, newTc.ResultsArray[i].Message, "mctMessage");
-                }
-            }
-            else
-            {
-                Assert.IsNull(newTc.ResultsArray, nameof(newTc.ResultsArray));
-            }
-
-            Assert.AreNotEqual(tc.Tuple, newTc.Tuple, nameof(newTc.Tuple));
-            Assert.AreNotEqual(tc.MessageLength, newTc.MessageLength, nameof(newTc.MessageLength));
-            Assert.AreNotEqual(tc.Deferred, newTc.Deferred, nameof(newTc.Deferred));
-
-            // TestPassed will have the default value when re-hydrated, check to make sure it isn't in the JSON
-            var regex = new Regex("testPassed", RegexOptions.IgnoreCase);
-            Assert.IsTrue(regex.Matches(json).Count == 0);
-        }
-
-        /// <summary>
-        /// Decrypt test group should contain the plainText, results array (when mct)
-        /// all other properties excluded
-        /// </summary>
-        /// <param name="function">The function being tested</param>
-        /// <param name="testType">The testType</param>
-        [Test]
-        [TestCase("shake", "aft")]
-        [TestCase("shake", "mct")]
-        public void ShouldSerializeShakeCaseProperties(string function, string testType)
-        {
-            var tvs = TestDataMother.GetTestGroups(1, function, testType);
-            var tg = tvs.TestGroups[0];
-            var tc = tg.Tests[0];
-
-            var json = _serializer.Serialize(tvs, _projection);
-            var newTvs = _deserializer.Deserialize(json);
-
-            var newTg = newTvs.TestGroups[0];
-            var newTc = newTg.Tests[0];
-
-            Assert.AreEqual(tc.ParentGroup.TestGroupId, newTc.ParentGroup.TestGroupId, nameof(newTc.ParentGroup));
-            Assert.AreEqual(tc.TestCaseId, newTc.TestCaseId, nameof(newTc.TestCaseId));
-            Assert.AreEqual(tc.Digest, newTc.Digest, nameof(newTc.Digest));
-            Assert.AreEqual(tc.DigestLength, newTc.DigestLength, nameof(newTc.DigestLength));
-
-            if (tg.TestType.Equals("mct", StringComparison.OrdinalIgnoreCase))
-            {
-                for (var i = 0; i < tc.ResultsArray.Count; i++)
-                {
-                    Assert.AreEqual(tc.ResultsArray[i].Digest, newTc.ResultsArray[i].Digest, "mctDigest");
-                    Assert.AreEqual(tc.ResultsArray[i].DigestLength, newTc.ResultsArray[i].DigestLength, "mctDigestLength");
-                    Assert.AreEqual(tc.ResultsArray[i].Message, newTc.ResultsArray[i].Message, "mctMessage");
+                    Assert.AreEqual(tc.ResultsArray[i].Tuple, newTc.ResultsArray[i].Tuple, "mctTuple");
+                    Assert.AreEqual(tc.ResultsArray[i].Customization, newTc.ResultsArray[i].Customization, "mctCustomization");
                 }
             }
             else

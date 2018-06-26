@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using NIST.CVP.Crypto.Common.Hash;
 using NIST.CVP.Crypto.Common.Hash.TupleHash;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
@@ -45,7 +44,7 @@ namespace NIST.CVP.Generation.TupleHash
                 Customization = testCase.Customization
             };
 
-            MCTResult<AlgoArrayResponse> hashResult = null;
+            MCTResultTuple<AlgoArrayResponse> hashResult = null;
             try
             {
                 hashResult = _algo.MCTHash(hashFunction, testCase.Tuple, group.OutputLength, IsSample);

@@ -23,7 +23,7 @@ namespace NIST.CVP.Generation.TupleHash
         [JsonIgnore]
         public int DigestSize { get; set; }
 
-        [JsonIgnore]
+        [JsonProperty(PropertyName = "XOF")]
         public bool XOF { get; set; }
 
         [JsonProperty(PropertyName = "inBit")]

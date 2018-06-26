@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
-using NIST.CVP.Crypto.Common.Hash;
 using NIST.CVP.Crypto.Common.Hash.TupleHash;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Domain;
@@ -22,7 +21,7 @@ namespace NIST.CVP.Crypto.TupleHash
 
         #region MonteCarloAlgorithm Pseudocode
         /*
-         * INPUT: The initial Single-Tuple of 128 bits long
+         * INPUT: The initial Single-Tuple of 144 bits long
          * 
          * Initial Outputlen = (floor(maxoutlen/8) )*8
          * Initial Customization = ""
@@ -32,7 +31,11 @@ namespace NIST.CVP.Crypto.TupleHash
          *     Output0 = Msg;
          *     for (j=0; j<100; j++) {
          *         for (i=1; i<1001; i++) {
-         *             T[i][0] = 128 leftmost bits of Output[i-1];
+         *             leftbits = 144 leftmost bits of Output[i-1];
+         *             tupleSize = 3 leftmost bits of leftbits + 1
+         *             for (k=0; k<tupleSize; k++) {
+         *                 T[i][k] = Substring of leftbits from k * 144 / tupleSize to (k+1) * 144 / tupleSize - 1;
+         *             }
          *             Output[i] = TupleHash(T[i],Outputlen,Customization);
          *             If (i == 1000){
          *                 Outputlen[j] = Outputlen;
@@ -49,7 +52,7 @@ namespace NIST.CVP.Crypto.TupleHash
          */
         #endregion MonteCarloAlgorithm Pseudocode
 
-        public MCTResult<AlgoArrayResponse> MCTHash(HashFunction function, IEnumerable<BitString> tuple, MathDomain domain, bool isSample)
+        public MCTResultTuple<AlgoArrayResponse> MCTHash(HashFunction function, IEnumerable<BitString> tuple, MathDomain domain, bool isSample)
         {
             if (isSample)
             {
@@ -75,15 +78,21 @@ namespace NIST.CVP.Crypto.TupleHash
                 {
                     var innerDigest = new BitString(0);
                     var iterationResponse = new AlgoArrayResponse() { };
-                    iterationResponse.SetMessageFromTuple(innerTuple);
+                    iterationResponse.Tuple = innerTuple;
+                    iterationResponse.Customization = customization;
 
                     for (j = 0; j < 1000; j++)
-                    {
-                        // Might not have 128 bits to pull from so we pad with 0  
-                        var innerBitString = BitString.ConcatenateBits(innerTuple.ElementAt(0), BitString.Zeroes(128));
-                        innerBitString = BitString.MSBSubstring(innerBitString, 0, 128);
+                    { 
+                        // Might not have 144 bits to pull from so we pad with 0  
+                        var innerBitString = BitString.ConcatenateBits(innerTuple.ElementAt(0), BitString.Zeroes(144));
+                        innerBitString = BitString.MSBSubstring(innerBitString, 0, 144);
+                        var innerTupleSize = GetIntFromBits(BitString.MSBSubstring(innerBitString, 0, 3).Bits) % 4 + 1;
                         innerTuple = new List<BitString>();
-                        innerTuple.Add(innerBitString);
+                        for (int k = 0; k < innerTupleSize; k++)
+                        {
+                            innerTuple.Add(BitString.MSBSubstring(innerBitString, k * 144 / innerTupleSize, 144 / innerTupleSize));
+                        }
+                        
                         function.DigestSize = outputLen;
                         function.Customization = customization;
 
@@ -109,10 +118,10 @@ namespace NIST.CVP.Crypto.TupleHash
             {
                 ThisLogger.Debug($"i count {i}, j count {j}");
                 ThisLogger.Error(ex);
-                return new MCTResult<AlgoArrayResponse>($"{ex.Message}; {outputLen}");
+                return new MCTResultTuple<AlgoArrayResponse>($"{ex.Message}; {outputLen}");
             }
 
-            return new MCTResult<AlgoArrayResponse>(responses);
+            return new MCTResultTuple<AlgoArrayResponse>(responses);
         }
 
         private Logger ThisLogger { get { return LogManager.GetCurrentClassLogger(); } }

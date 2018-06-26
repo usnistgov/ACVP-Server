@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using NIST.CVP.Crypto.Common.Hash;
 using NIST.CVP.Crypto.Common.Hash.TupleHash;
 using NIST.CVP.Crypto.TupleHash;
 using NIST.CVP.Generation.Core;
@@ -58,7 +57,7 @@ namespace NIST.CVP.Generation.TupleHash.Tests
                         {
                             new AlgoArrayResponse
                             {
-                                Message = new BitString("123456"),
+                                Tuple = new List<BitString>(new BitString[] { new BitString("123456") }),
                                 Digest = new BitString("987654")
                             }
                         };

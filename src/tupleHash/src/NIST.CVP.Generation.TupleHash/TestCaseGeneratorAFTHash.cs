@@ -13,7 +13,7 @@ namespace NIST.CVP.Generation.TupleHash
         private int _numberOfCases = 512;
         private int _currentSmallCase = 0;
         private int _currentLargeCase = 1;
-        private int _customizationLength = 1;
+        private int _customizationLength = 0;
 
         private readonly IRandom800_90 _random800_90;
         private readonly ITupleHash _algo;

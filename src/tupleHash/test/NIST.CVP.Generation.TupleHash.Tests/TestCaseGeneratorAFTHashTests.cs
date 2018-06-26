@@ -78,7 +78,7 @@ namespace NIST.CVP.Generation.TupleHash.Tests
             mockSHA.Setup(s => s.HashMessage(It.IsAny<HashFunction>(), It.IsAny<List<BitString>>()))
                 .Returns(new HashResult(new BitString("ABCD")));
 
-            var stringCtr = 1;
+            var stringCtr = 0;
             var subject = new TestCaseGeneratorAFTHash(new Random800_90(), mockSHA.Object);
             for (var caseIdx = 0; caseIdx < subject.NumberOfTestCasesToGenerate; caseIdx++)
             {

@@ -14,6 +14,7 @@ namespace NIST.CVP.Generation.TupleHash.ContractResolvers
             var includeProperties = new[]
             {
                 nameof(TestGroup.TestGroupId),
+                nameof(TestGroup.XOF),
                 nameof(TestGroup.Tests)
             };
 
@@ -46,7 +47,7 @@ namespace NIST.CVP.Generation.TupleHash.ContractResolvers
                 {
                     GetTestCaseFromTestCaseObject(instance, out var testGroup, out var testCase);
 
-                    if (testGroup.Function.Equals("shake", StringComparison.OrdinalIgnoreCase))
+                    if (testGroup.Function.Equals("tuplehash", StringComparison.OrdinalIgnoreCase))
                     {
                         return true;
                     }

@@ -2,10 +2,11 @@
 using System.Dynamic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using NIST.CVP.Crypto.Common.Hash;
+using NIST.CVP.Crypto.Common.Hash.TupleHash;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.ExtensionMethods;
 using NIST.CVP.Math;
+using System.Linq;
 
 namespace NIST.CVP.Generation.TupleHash
 {
@@ -16,11 +17,26 @@ namespace NIST.CVP.Generation.TupleHash
         public bool? TestPassed { get; set; }
         public bool Deferred { get; set; }
 
-        [JsonProperty(PropertyName = "msg")]     // Does this need to be changed to something else?
+        [JsonProperty(PropertyName = "tuple")]     // Does this need to be changed to something else?
         public List<BitString> Tuple { get; set; }
 
         [JsonProperty(PropertyName = "len")]
-        public int MessageLength {
+        public int[] MessageLength {
+            get
+            {
+
+                if (Tuple == null) return new int[] { 0 };
+                var lengths = new int[Tuple.Count];
+                for (int i = 0; i < Tuple.Count; i++)
+                {
+                    lengths[i] = Tuple.ElementAt(i).BitLength;
+                }
+                return lengths;
+            }
+        }
+
+        [JsonProperty(PropertyName = "tupleLen")]
+        public int TupleLength {
             get
             {
                 if (Tuple == null) return 0;
@@ -74,15 +90,34 @@ namespace NIST.CVP.Generation.TupleHash
 
             switch (name.ToLower())
             {
-                case "message":
-                case "msg":
-                    ResultsArray[index].Message = new BitString(value, length, false);
-                    return true;
                 case "digest":
                 case "dig":
                 case "md":
                 case "output":
                     ResultsArray[index].Digest = new BitString(value, length, false);
+                    return true;
+            }
+
+            return false;
+        }
+
+        public bool SetResultsArrayList(int index, string name, IEnumerable<string> values, int length = -1)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                return false;
+            }
+
+            switch (name.ToLower())
+            {
+                case "tuple":
+                case "tup":
+                    var tuple = new List<BitString>();
+                    foreach (var value in values)
+                    {
+                        tuple.Add(new BitString(value, length, false));
+                    }
+                    ResultsArray[index].Tuple = tuple;
                     return true;
             }
 

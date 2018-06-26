@@ -18,7 +18,7 @@ namespace NIST.CVP.Generation.TupleHash.ContractResolvers
                 {
                     GetTestGroupFromTestGroupObject(instance, out var testGroup);
 
-                    if (testGroup.Function.Equals("shake", StringComparison.OrdinalIgnoreCase))
+                    if (testGroup.Function.Equals("tuplehash", StringComparison.OrdinalIgnoreCase))
                     {
                         return true;
                     }

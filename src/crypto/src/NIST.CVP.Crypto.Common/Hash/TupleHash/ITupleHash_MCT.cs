@@ -6,6 +6,6 @@ namespace NIST.CVP.Crypto.Common.Hash.TupleHash
 {
     public interface ITupleHash_MCT
     {
-        MCTResult<AlgoArrayResponse> MCTHash(HashFunction function, IEnumerable<BitString> tuple, MathDomain domain, bool isSample);
+        MCTResultTuple<AlgoArrayResponse> MCTHash(HashFunction function, IEnumerable<BitString> tuple, MathDomain domain, bool isSample);
     }
 }

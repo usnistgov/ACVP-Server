@@ -46,7 +46,7 @@ namespace NIST.CVP.Generation.CSHAKE.ContractResolvers
                 {
                     GetTestCaseFromTestCaseObject(instance, out var testGroup, out var testCase);
 
-                    if (testGroup.Function.Equals("shake", StringComparison.OrdinalIgnoreCase))
+                    if (testGroup.Function.Equals("cshake", StringComparison.OrdinalIgnoreCase))
                     {
                         return true;
                     }
