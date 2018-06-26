@@ -5,6 +5,6 @@ namespace NIST.CVP.Crypto.Common.Hash.CSHAKE
 {
     public interface ICSHAKE_MCT
     {
-        MCTResult<AlgoArrayResponse> MCTHash(HashFunction function, BitString message, MathDomain domain, bool isSample);
+        MCTResult<AlgoArrayResponseWithCustomization> MCTHash(HashFunction function, BitString message, MathDomain domain, bool isSample);
     }
 }

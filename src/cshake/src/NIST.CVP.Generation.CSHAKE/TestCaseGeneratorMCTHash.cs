@@ -44,7 +44,7 @@ namespace NIST.CVP.Generation.CSHAKE
                 Customization = testCase.Customization
             };
 
-            MCTResult<AlgoArrayResponse> hashResult = null;
+            MCTResult<AlgoArrayResponseWithCustomization> hashResult = null;
             try
             {
                 hashResult = _algo.MCTHash(hashFunction, testCase.Message, group.OutputLength, IsSample);

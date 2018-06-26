@@ -13,11 +13,11 @@ namespace NIST.CVP.Generation.CSHAKE.Tests
 {
     public class TestDataMother
     {
-        public static TestVectorSet GetTestGroups(int groups = 1, string mode = "sha3", string testType = "aft")
+        public static TestVectorSet GetTestGroups(int groups = 1, string mode = "", string testType = "aft")
         {
             var tvs = new TestVectorSet
             {
-                Algorithm = "SHA3",
+                Algorithm = "cSHAKE",
                 IsSample = true,
             };
 
@@ -53,12 +53,13 @@ namespace NIST.CVP.Generation.CSHAKE.Tests
 
                     if (testType.Equals("mct", StringComparison.OrdinalIgnoreCase))
                     {
-                        tc.ResultsArray = new List<AlgoArrayResponse>
+                        tc.ResultsArray = new List<AlgoArrayResponseWithCustomization>
                         {
-                            new AlgoArrayResponse
+                            new AlgoArrayResponseWithCustomization
                             {
                                 Message = new BitString("123456"),
-                                Digest = new BitString("987654")
+                                Digest = new BitString("987654"),
+                                Customization = "custom"
                             }
                         };
                     }

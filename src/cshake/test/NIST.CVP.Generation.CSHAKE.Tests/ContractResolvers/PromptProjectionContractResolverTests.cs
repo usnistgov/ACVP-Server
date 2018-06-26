@@ -64,10 +64,12 @@ namespace NIST.CVP.Generation.CSHAKE.Tests.ContractResolvers
         /// <param name="function">The function being tested</param>
         /// <param name="testType">The testType</param>
         [Test]
-        [TestCase("sha3", "aft")]
-        [TestCase("sha3", "mct")]
-        [TestCase("shake", "aft")]
-        [TestCase("shake", "mct")]
+        [TestCase("cshake", "aft")]
+        [TestCase("cshake", "mct")]
+        [TestCase("cshake", "aftshake")]
+        [TestCase("cshake", "votshake")]
+        [TestCase("cshake", "vot")]
+        [TestCase("cshake", "lct")]
         public void ShouldSerializeCaseProperties(string function, string testType)
         {
             var tvs = TestDataMother.GetTestGroups(1, function, testType);

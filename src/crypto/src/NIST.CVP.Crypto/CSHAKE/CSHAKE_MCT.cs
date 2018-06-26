@@ -51,14 +51,14 @@ namespace NIST.CVP.Crypto.CSHAKE
          */
         #endregion MonteCarloAlgorithm Pseudocode
 
-        public MCTResult<AlgoArrayResponse> MCTHash(HashFunction function, BitString message, MathDomain domain, bool isSample)
+        public MCTResult<AlgoArrayResponseWithCustomization> MCTHash(HashFunction function, BitString message, MathDomain domain, bool isSample)
         {
             if (isSample)
             {
                 NUM_OF_RESPONSES = 3;
             }
 
-            var responses = new List<AlgoArrayResponse>();
+            var responses = new List<AlgoArrayResponseWithCustomization>();
             var i = 0;
             var j = 0;
             var min = domain.GetDomainMinMax().Minimum;
@@ -77,8 +77,9 @@ namespace NIST.CVP.Crypto.CSHAKE
                 for (i = 0; i < NUM_OF_RESPONSES; i++)
                 {
                     var innerDigest = new BitString(0);
-                    var iterationResponse = new AlgoArrayResponse() { };
+                    var iterationResponse = new AlgoArrayResponseWithCustomization() { };
                     iterationResponse.Message = innerMessage;
+                    iterationResponse.Customization = customization;
 
                     for (j = 0; j < 1000; j++)
                     {
@@ -112,10 +113,10 @@ namespace NIST.CVP.Crypto.CSHAKE
             {
                 ThisLogger.Debug($"i count {i}, j count {j}");
                 ThisLogger.Error(ex);
-                return new MCTResult<AlgoArrayResponse>($"{ex.Message}; {outputLen}");
+                return new MCTResult<AlgoArrayResponseWithCustomization>($"{ex.Message}; {outputLen}");
             }
 
-            return new MCTResult<AlgoArrayResponse>(responses);
+            return new MCTResult<AlgoArrayResponseWithCustomization>(responses);
         }
 
         private Logger ThisLogger { get { return LogManager.GetCurrentClassLogger(); } }

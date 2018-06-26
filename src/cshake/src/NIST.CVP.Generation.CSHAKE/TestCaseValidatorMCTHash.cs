@@ -53,11 +53,15 @@ namespace NIST.CVP.Generation.CSHAKE
 
             if (suppliedResult.ResultsArray.Any(a => a.Message == null))
             {
-                errors.Add($"{nameof(suppliedResult.ResultsArray)} did not contain expected element {nameof(AlgoArrayResponse.Message)}");
+                errors.Add($"{nameof(suppliedResult.ResultsArray)} did not contain expected element {nameof(AlgoArrayResponseWithCustomization.Message)}");
             }
             if (suppliedResult.ResultsArray.Any(a => a.Digest == null))
             {
-                errors.Add($"{nameof(suppliedResult.ResultsArray)} did not contain expected element {nameof(AlgoArrayResponse.Digest)}");
+                errors.Add($"{nameof(suppliedResult.ResultsArray)} did not contain expected element {nameof(AlgoArrayResponseWithCustomization.Digest)}");
+            }
+            if (suppliedResult.ResultsArray.Any(a => a.Customization == null))
+            {
+                errors.Add($"{nameof(suppliedResult.ResultsArray)} did not contain expected element {nameof(AlgoArrayResponseWithCustomization.Customization)}");
             }
         }
 
@@ -76,6 +80,12 @@ namespace NIST.CVP.Generation.CSHAKE
                     errors.Add($"Digest does not match on iteration {i}");
                     expected.Add($"Digest {i}", _expectedResult.ResultsArray[i].Digest.ToHex());
                     provided.Add($"Digest {i}", suppliedResult.ResultsArray[i].Digest.ToHex());
+                }
+                if (!_expectedResult.ResultsArray[i].Customization.Equals(suppliedResult.ResultsArray[i].Customization))
+                {
+                    errors.Add($"Customization does not match on iteration {i}");
+                    expected.Add($"Customization {i}", _expectedResult.ResultsArray[i].Customization);
+                    provided.Add($"Customization {i}", suppliedResult.ResultsArray[i].Customization);
                 }
             }
         }

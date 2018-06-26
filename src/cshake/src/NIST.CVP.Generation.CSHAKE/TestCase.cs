@@ -46,7 +46,7 @@ namespace NIST.CVP.Generation.CSHAKE
             }
         }
 
-        public List<AlgoArrayResponse> ResultsArray { get; set; }
+        public List<AlgoArrayResponseWithCustomization> ResultsArray { get; set; }
 
         public bool SetString(string name, string value, int length = -1)
         {

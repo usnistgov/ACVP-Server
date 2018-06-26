@@ -52,7 +52,7 @@ namespace NIST.CVP.Generation.CSHAKE.Tests
         {
             var errorMessage = "something bad happened!";
             _mockMCT.Setup(v => v.MCTHash(It.IsAny<HashFunction>(), It.IsAny<BitString>(), It.IsAny<MathDomain>(), It.IsAny<bool>()))
-                .Returns(new MCTResult<AlgoArrayResponse>(errorMessage));
+                .Returns(new MCTResult<AlgoArrayResponseWithCustomization>(errorMessage));
 
             var testGroup = GetTestGroup();
             var testCase = new TestCase();

@@ -40,6 +40,7 @@ namespace NIST.CVP.Generation.CSHAKE.Tests
             Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
             Assert.IsTrue(result.Reason.ToLower().Contains("digest"), "Reason does not contain the expected digest");
             Assert.IsFalse(result.Reason.ToLower().Contains("message"), "Reason contains the unexpected value message");
+            Assert.IsFalse(result.Reason.ToLower().Contains("customization"), "Reason contains the unexpected value customization");
         }
 
         [Test]
@@ -57,6 +58,25 @@ namespace NIST.CVP.Generation.CSHAKE.Tests
             Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
             Assert.IsFalse(result.Reason.ToLower().Contains("digest"), "Reason contains the unexpected value digest");
             Assert.IsTrue(result.Reason.ToLower().Contains("message"), "Reason contains the unexpected value message");
+            Assert.IsFalse(result.Reason.ToLower().Contains("customization"), "Reason contains the unexpected value customization");
+        }
+
+        [Test]
+        public void ShouldReturnReasonOnMismatchedCustomization()
+        {
+            var rand = new Random800_90();
+            var expected = GetTestCase();
+            var supplied = GetTestCase();
+            supplied.ResultsArray[0].Customization = rand.GetRandomString(supplied.ResultsArray[0].Customization.Length + 1);
+
+            var subject = new TestCaseValidatorMCTHash(expected);
+
+            var result = subject.Validate(supplied);
+
+            Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
+            Assert.IsFalse(result.Reason.ToLower().Contains("digest"), "Reason contains the unexpected value digest");
+            Assert.IsFalse(result.Reason.ToLower().Contains("message"), "Reason contains the unexpected value message");
+            Assert.IsTrue(result.Reason.ToLower().Contains("customization"), "Reason does not contain the expected value customization");
         }
 
         [Test]
@@ -67,6 +87,7 @@ namespace NIST.CVP.Generation.CSHAKE.Tests
             var supplied = GetTestCase();
             supplied.ResultsArray[0].Digest = rand.GetDifferentBitStringOfSameSize(supplied.ResultsArray[0].Digest);
             supplied.ResultsArray[0].Message = rand.GetDifferentBitStringOfSameSize(supplied.ResultsArray[0].Message);
+            supplied.ResultsArray[0].Customization = rand.GetRandomString(supplied.ResultsArray[0].Customization.Length + 1);
 
             var subject = new TestCaseValidatorMCTHash(expected);
 
@@ -74,6 +95,7 @@ namespace NIST.CVP.Generation.CSHAKE.Tests
 
             Assert.IsTrue(result.Reason.ToLower().Contains("digest"), "Reason does not contain the expected value digest");
             Assert.IsTrue(result.Reason.ToLower().Contains("message"), "Reason does not contain the expected value message");
+            Assert.IsTrue(result.Reason.ToLower().Contains("customization"), "Reason does not contain the expected value customization");
         }
 
         [Test]
@@ -103,7 +125,7 @@ namespace NIST.CVP.Generation.CSHAKE.Tests
             var result = subject.Validate(suppliedResult);
 
             Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
-            Assert.IsTrue(result.Reason.Contains($"{nameof(suppliedResult.ResultsArray)} did not contain expected element {nameof(AlgoArrayResponse.Message)}"));
+            Assert.IsTrue(result.Reason.Contains($"{nameof(suppliedResult.ResultsArray)} did not contain expected element {nameof(AlgoArrayResponseWithCustomization.Message)}"));
         }
 
         [Test]
@@ -118,19 +140,35 @@ namespace NIST.CVP.Generation.CSHAKE.Tests
             var result = subject.Validate(suppliedResult);
 
             Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
-            Assert.IsTrue(result.Reason.Contains($"{nameof(suppliedResult.ResultsArray)} did not contain expected element {nameof(AlgoArrayResponse.Digest)}"));
+            Assert.IsTrue(result.Reason.Contains($"{nameof(suppliedResult.ResultsArray)} did not contain expected element {nameof(AlgoArrayResponseWithCustomization.Digest)}"));
+        }
+
+        [Test]
+        public void ShouldFailDueToMissingCustomizationInResultsArray()
+        {
+            var expected = GetTestCase();
+            var suppliedResult = GetTestCase();
+
+            suppliedResult.ResultsArray.ForEach(fe => fe.Customization = null);
+
+            var subject = new TestCaseValidatorMCTHash(expected);
+            var result = subject.Validate(suppliedResult);
+
+            Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
+            Assert.IsTrue(result.Reason.Contains($"{nameof(suppliedResult.ResultsArray)} did not contain expected element {nameof(AlgoArrayResponseWithCustomization.Customization)}"));
         }
 
         private TestCase GetTestCase()
         {
             var testCase = new TestCase
             {
-                ResultsArray = new List<AlgoArrayResponse>()
+                ResultsArray = new List<AlgoArrayResponseWithCustomization>()
                 {
-                    new AlgoArrayResponse()
+                    new AlgoArrayResponseWithCustomization()
                     {
                         Message = new BitString("1234567890"),
                         Digest = new BitString("ABCDEF0ABCDEF0ABCDEF0ABCDEF0"),
+                        Customization = "custom"
                     }
                 },
                 TestCaseId = 1
