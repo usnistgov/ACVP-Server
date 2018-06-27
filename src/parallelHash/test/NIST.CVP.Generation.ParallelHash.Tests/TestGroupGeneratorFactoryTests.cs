@@ -41,7 +41,9 @@ namespace NIST.CVP.Generation.ParallelHash.Tests
         }
 
         [Test]
-        public void ShouldReturnVectorSetWithProperTestGroupsForAllModes()
+        [TestCase(false, 8)]
+        [TestCase(true, 16)]
+        public void ShouldReturnVectorSetWithProperTestGroupsForXOFModes(bool xof, int expected)
         {
             var result = _subject.GetTestGroupGenerators();
 
@@ -50,13 +52,14 @@ namespace NIST.CVP.Generation.ParallelHash.Tests
 
             Parameters p = new Parameters
             {
-                Algorithm = "ParallelHash",
+                Algorithm = "TupleHash",
                 DigestSizes = new[] { 128, 256 },
                 BitOrientedInput = true,
                 BitOrientedOutput = true,
                 IncludeNull = true,
                 IsSample = false,
-                OutputLength = minMax
+                OutputLength = minMax,
+                XOF = xof
             };
 
             var groups = new List<TestGroup>();
@@ -65,7 +68,7 @@ namespace NIST.CVP.Generation.ParallelHash.Tests
                 groups.AddRangeIfNotNullOrEmpty(genny.BuildTestGroups(p));
             }
 
-            Assert.AreEqual(8, groups.Count);       // (AFT,VOT,MCT,LCT) = 4 * 2 digestsizes = 8
+            Assert.AreEqual(expected, groups.Count);       // 2 * 2 * 4    (digestsizes * XOF * TestGroups)
         }
     }
 }

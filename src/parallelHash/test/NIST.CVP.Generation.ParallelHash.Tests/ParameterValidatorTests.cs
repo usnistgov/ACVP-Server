@@ -133,6 +133,7 @@ namespace NIST.CVP.Generation.ParallelHash.Tests
             private bool _bitOrientedInput;
             private bool _bitOrientedOutput;
             private MathDomain _outputLength;
+            private bool _xof;
 
             public ParameterBuilder()
             {
@@ -143,6 +144,7 @@ namespace NIST.CVP.Generation.ParallelHash.Tests
                 _bitOrientedOutput = true;
                 _outputLength = new MathDomain();
                 _outputLength.AddSegment(new RangeDomainSegment(null, 16, 65536));
+                _xof = true;
             }
 
             public ParameterBuilder WithAlgorithm(string value)
@@ -181,6 +183,12 @@ namespace NIST.CVP.Generation.ParallelHash.Tests
                 return this;
             }
 
+            public ParameterBuilder WithXOF(bool xof)
+            {
+                _xof = xof;
+                return this;
+            }
+
             public Parameters Build()
             {
                 return new Parameters
@@ -190,7 +198,8 @@ namespace NIST.CVP.Generation.ParallelHash.Tests
                     BitOrientedInput = _bitOrientedInput,
                     BitOrientedOutput = _bitOrientedOutput,
                     IncludeNull = _includeNull,
-                    OutputLength = _outputLength
+                    OutputLength = _outputLength,
+                    XOF = _xof
                 };
             }
         }

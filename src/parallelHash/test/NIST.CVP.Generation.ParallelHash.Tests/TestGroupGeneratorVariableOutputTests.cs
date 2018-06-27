@@ -11,7 +11,7 @@ namespace NIST.CVP.Generation.ParallelHash.Tests
         {
             new object[]
             {
-                0, // 1 * 0 
+                0, // 1 * 0  * 2
                 new ParameterValidatorTests.ParameterBuilder()
                     .WithDigestSizes(new int[] { }) // 0
                     .WithAlgorithm("ParallelHash")  // 1
@@ -19,7 +19,7 @@ namespace NIST.CVP.Generation.ParallelHash.Tests
             },
             new object[]
             {
-                1, // 1 * 1 
+                2, // 1 * 1 * 2
                 new ParameterValidatorTests.ParameterBuilder()
                     .WithDigestSizes(new int[] { 128 }) // 1
                     .WithAlgorithm("ParallelHash")  // 1
@@ -27,7 +27,7 @@ namespace NIST.CVP.Generation.ParallelHash.Tests
             },
             new object[]
             {
-                2, // 1 * 2 
+                4, // 1 * 2 * 2
                 new ParameterValidatorTests.ParameterBuilder()
                     .WithDigestSizes(new int[] { 128, 256 }) // 2
                     .WithAlgorithm("ParallelHash")  // 1
@@ -36,11 +36,26 @@ namespace NIST.CVP.Generation.ParallelHash.Tests
         };
         [Test]
         [TestCaseSource(nameof(parameters))]
-        public void ShouldCreate1TestGroupForEachCombinationOfModeAndDigestSize(int expectedGroupsCreated, Parameters parameters)
+        public void ShouldCreate2TestGroupsForEachCombinationOfModeAndDigestSize(int expectedGroupsCreated, Parameters parameters)
         {
             var subject = new TestGroupGeneratorVariableOutput();
             var results = subject.BuildTestGroups(parameters);
             Assert.AreEqual(expectedGroupsCreated, results.Count());
+
+            var totalXOFModes = 0;
+            var totalNotXOFModes = 0;
+            foreach (var result in results)
+            {
+                if (result.XOF)
+                {
+                    totalXOFModes++;
+                }
+                else
+                {
+                    totalNotXOFModes++;
+                }
+            }
+            Assert.AreEqual(totalXOFModes, totalNotXOFModes);
         }
     }
 }

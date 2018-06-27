@@ -22,6 +22,9 @@ namespace NIST.CVP.Generation.ParallelHash
 
         [JsonIgnore]
         public int DigestSize { get; set; }
+        
+        [JsonProperty(PropertyName = "XOF")]
+        public bool XOF { get; set; }
 
         [JsonProperty(PropertyName = "inBit")]
         public bool BitOrientedInput { get; set; } = false;

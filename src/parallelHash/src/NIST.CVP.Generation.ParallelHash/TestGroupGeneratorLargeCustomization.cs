@@ -20,10 +20,27 @@ namespace NIST.CVP.Generation.ParallelHash
                     IncludeNull = parameters.IncludeNull,
                     BitOrientedInput = parameters.BitOrientedInput,
                     BitOrientedOutput = parameters.BitOrientedOutput,
-                    TestType = TEST_TYPE
+                    TestType = TEST_TYPE,
+                    XOF = false
                 };
 
                 testGroups.Add(testGroup);
+
+                if (parameters.XOF)
+                {
+                    var testGroupXOF = new TestGroup
+                    {
+                        Function = parameters.Algorithm,
+                        DigestSize = digestSize,
+                        IncludeNull = parameters.IncludeNull,
+                        BitOrientedInput = parameters.BitOrientedInput,
+                        BitOrientedOutput = parameters.BitOrientedOutput,
+                        TestType = TEST_TYPE,
+                        XOF = true
+                    };
+
+                    testGroups.Add(testGroupXOF);
+                }
             }
 
             return testGroups;

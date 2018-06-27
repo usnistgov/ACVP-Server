@@ -67,6 +67,7 @@ namespace NIST.CVP.Generation.ParallelHash
                     Capacity = _capacity,
                     DigestSize = _digestSize,
                     BlockSize = testCase.BlockSize,
+                    XOF = group.XOF,
                     Customization = testCase.Customization
                 };
 

@@ -27,6 +27,9 @@ namespace NIST.CVP.Generation.ParallelHash
         [JsonProperty(PropertyName = "inEmpty")]
         public bool IncludeNull { get; set; } = false;
 
+        [JsonProperty(PropertyName = "xof")]
+        public bool XOF { get; set; }
+
         // Hard assumption that this is just a single RangeSegment inside of a Domain
         [JsonProperty(PropertyName = "outputLength")]
         public MathDomain OutputLength { get; set; }
