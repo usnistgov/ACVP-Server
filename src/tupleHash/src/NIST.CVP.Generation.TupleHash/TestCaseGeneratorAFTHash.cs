@@ -13,7 +13,7 @@ namespace NIST.CVP.Generation.TupleHash
         private int _numberOfCases = 512;
         private int _currentSmallCase = 0;
         private int _currentLargeCase = 1;
-        private int _customizationLength = 0;
+        private int _maxCustomizationLength = 10;
 
         private readonly IRandom800_90 _random800_90;
         private readonly ITupleHash _algo;
@@ -47,9 +47,8 @@ namespace NIST.CVP.Generation.TupleHash
             }
 
             _numberOfCases = numSmallCases + numLargeCases;
-            
-            var customization = "";
-            customization = _random800_90.GetRandomString(_customizationLength++);
+
+            var customization = _random800_90.GetRandomString(_random800_90.GetRandomInt(0, _maxCustomizationLength + 1));
 
             var tuple = new List<BitString>();
             if (_currentSmallCase <= numSmallCases)

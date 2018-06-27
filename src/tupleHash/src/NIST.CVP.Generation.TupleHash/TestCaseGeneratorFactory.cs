@@ -31,6 +31,10 @@ namespace NIST.CVP.Generation.TupleHash
             {
                     return new TestCaseGeneratorVOTHash(_random800_90, _algo);
             }
+            else if (testGroup.TestType.ToLower() == "ltt")
+            {
+                return new TestCaseGeneratorLTTHash(_random800_90, _algo);
+            }
             
             return new TestCaseGeneratorNull();
         }

@@ -97,7 +97,7 @@ namespace NIST.CVP.Generation.TupleHash.Tests
 
                 var testCase = (TestCase)result.TestCase;
 
-                Assert.AreEqual(stringCtr++, testCase.Customization.Length);
+                Assert.IsTrue(testCase.Customization.Length < 11 && testCase.Customization.Length > -1);
             }
         }
 

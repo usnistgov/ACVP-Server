@@ -18,6 +18,7 @@ namespace NIST.CVP.Generation.TupleHash.Tests
         [TestCase("junk", typeof(TestCaseGeneratorNull))]
         [TestCase("aFt", typeof(TestCaseGeneratorAFTHash))]
         [TestCase("Mct", typeof(TestCaseGeneratorMCTHash))]
+        [TestCase("lTT", typeof(TestCaseGeneratorLTTHash))]
         public void ShouldReturnProperGenerator(string testType, Type expectedType)
         {
             var testGroup = new TestGroup

@@ -12,7 +12,8 @@ namespace NIST.CVP.Generation.TupleHash
                 {
                     new TestGroupGeneratorAlgorithmFunctional(),
                     new TestGroupGeneratorMonteCarlo(),
-                    new TestGroupGeneratorVariableOutput()
+                    new TestGroupGeneratorVariableOutput(),
+                    new TestGroupGeneratorLargeTuple()
                 };
 
             return list;

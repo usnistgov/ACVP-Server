@@ -36,12 +36,12 @@ namespace NIST.CVP.Generation.TupleHash.Tests
         {
             var result = _subject.GetTestGroupGenerators();
 
-            Assert.IsTrue(result.Count() == 3);
+            Assert.IsTrue(result.Count() == 4);
         }
 
         [Test]
-        [TestCase(false, 6)]
-        [TestCase(true, 12)]
+        [TestCase(false, 8)]
+        [TestCase(true, 16)]
         public void ShouldReturnVectorSetWithProperTestGroupsForXOFModes(bool xof, int expected)
         {
             var result = _subject.GetTestGroupGenerators();
@@ -67,7 +67,7 @@ namespace NIST.CVP.Generation.TupleHash.Tests
                 groups.AddRangeIfNotNullOrEmpty(genny.BuildTestGroups(p));
             }
 
-            Assert.AreEqual(expected, groups.Count);       // 2 * 2 * 3    (digestsizes * XOF * TestGroups)
+            Assert.AreEqual(expected, groups.Count);       // 2 * 2 * 4    (digestsizes * XOF * TestGroups)
         }
     }
 }
