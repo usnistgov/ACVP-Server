@@ -64,7 +64,7 @@ namespace NIST.CVP.Crypto.CSHAKE.Tests
         [TestCase(279, "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122", "e3644d9ed17995e4434ff0c188f6d86048225563bba2b68113f28c7d50c616f8", "", "My Function")]
         public void ShouldCSHAKE128HashCorrectlyBitWise(int length, string inputHex, string outputHex, string functionName, string customization)
         {
-            var message = new BitString(inputHex, length, false);
+            var message = new BitString(inputHex, length, true);
             var expectedResult = new BitString(outputHex);
             var hashFunction = GetCSHAKEHashFunction(256, 256, functionName, customization);
 
@@ -131,9 +131,9 @@ namespace NIST.CVP.Crypto.CSHAKE.Tests
         [TestCase(279, "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122", "b0e70cbd61743124d09185562b2002858970ff2150721f5e2f33a516009e75c9", "", "My Function")]
         public void ShouldCSHAKE256HashCorrectlyBitWise(int length, string inputHex, string outputHex, string functionName, string customization)
         {
-            var message = new BitString(inputHex, length, false);
+            var message = new BitString(inputHex, length, true);
             var expectedResult = new BitString(outputHex);
-            var hashFunction = GetCSHAKEHashFunction(256, 256, functionName, customization);
+            var hashFunction = GetCSHAKEHashFunction(256, 512, functionName, customization);
 
             var subject = new CSHAKE();
             var result = subject.HashMessage(hashFunction, message);

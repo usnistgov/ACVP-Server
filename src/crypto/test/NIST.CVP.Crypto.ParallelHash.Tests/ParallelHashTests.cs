@@ -46,7 +46,7 @@ namespace NIST.CVP.Crypto.ParallelHash.Tests
         [TestCase(279, 256, "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122", "517eef5a0676f364e9416256a1cb939baf02a26525fb61aad86bb3b408a83a33", 8, "My Function")]
         public void ShouldParallelHash128HashCorrectlyBitWise(int length, int digestSize, string inputHex, string outputHex, int blockSize, string customization)
         {
-            var message = new BitString(inputHex, length, false);
+            var message = new BitString(inputHex, length, true);
             var expectedResult = new BitString(outputHex);
             var hashFunction = GetParallelHashHashFunction(digestSize, 256, false, blockSize, customization);
 
@@ -129,7 +129,7 @@ namespace NIST.CVP.Crypto.ParallelHash.Tests
         [TestCase(279, 256, "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122", "742e0796b902859f35ce709e351518142c7a17ef3ea6c4aa9e2f21262e3daf5b", 8, "My Function")]
         public void ShouldParallelHash256HashCorrectlyBitWise(int length, int digestSize, string inputHex, string outputHex, int blockSize, string customization)
         {
-            var message = new BitString(inputHex, length, false);
+            var message = new BitString(inputHex, length, true);
             var expectedResult = new BitString(outputHex);
             var hashFunction = GetParallelHashHashFunction(digestSize, 512, false, blockSize, customization);
 
