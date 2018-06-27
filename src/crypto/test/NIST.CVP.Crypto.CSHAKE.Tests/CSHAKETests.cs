@@ -28,6 +28,8 @@ namespace NIST.CVP.Crypto.CSHAKE.Tests
         [TestCase(256, "00010203", "c1c36925b6409a04f1b504fcbca9d82b4017277cb5ed2b2065fc1d3814d5aaf5", "", "Email Signature")]
         [TestCase(128, "00010203", "c1c36925b6409a04f1b504fcbca9d82b", "", "Email Signature")]
         [TestCase(32, "00010203", "c1c36925", "", "Email Signature")]
+        [TestCase(1607, "0001020304050607", "16aff1ef84ae6eaadbac782c4887fef0a196b8f13903be596b24f3fb1bb471b714d5daaf66e9dc07117ffec515f74c0671ab1358bdacf4bfbc2a124960735b6f1968734e81997026aa7cc472a08db8ed1350a8bc2708ee043752f0aff0fe62af2ee12bd5e6b41373610a0cb52bf181cae27023039d4341c3a5af3ffb5b5d87eed7cb5e220644de7e9e51f8b4831b7f01ccbded14bf6ebcc4b15888c7e70d2b7da856c000d77b0d2e14ed17615a918b348c5c53a75a4512c9383137d4661050f380e9441afbaeaa870c", "", "My Function")]
+        [TestCase(35, "0001020304050607", "16aff1ef04", "", "My Function")]
         public void ShouldCSHAKE128HashCorrectlyWithVariableOutput(int outputLength, string inputHex, string outputHex, string functionName, string customization)
         {
             var message = new BitString(inputHex);
@@ -42,6 +44,8 @@ namespace NIST.CVP.Crypto.CSHAKE.Tests
         }
 
         [Test]
+        [TestCase(256, "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f", "00f558b08d8882c8299e08591be92c9e1c7782965494bdc73e5b3296593760bc", "FakeFunction", "My Function")]
+        [TestCase(256, "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f", "d8e6b41ac0fd096dc244f8583033ec0a252e003a019e40788f7ca30ef056649b", "FakeFunction", "")]
         public void ShouldCSHAKE128HashCorrectlyWithVariableCustomization(int outputLength, string inputHex, string outputHex, string functionName, string customization)
         {
             var message = new BitString(inputHex);
@@ -56,6 +60,8 @@ namespace NIST.CVP.Crypto.CSHAKE.Tests
         }
 
         [Test]
+        [TestCase(2407, "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c", "e12a4ffddf604ea18b52255e66ecbac9b9f6dd77653cdae068f35a5dfddcea0d", "", "My Function")]
+        [TestCase(279, "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122", "e3644d9ed17995e4434ff0c188f6d86048225563bba2b68113f28c7d50c616f8", "", "My Function")]
         public void ShouldCSHAKE128HashCorrectlyBitWise(int length, string inputHex, string outputHex, string functionName, string customization)
         {
             var message = new BitString(inputHex, length, false);
@@ -89,6 +95,8 @@ namespace NIST.CVP.Crypto.CSHAKE.Tests
         [TestCase(512, "00010203", "d008828e2b80ac9d2218ffee1d070c48b8e4c87bff32c9699d5b6896eee0edd164020e2be0560858d9c00c037e34a96937c561a74c412bb4c746469527281c8c", "", "Email Signature")]
         [TestCase(256, "00010203", "d008828e2b80ac9d2218ffee1d070c48b8e4c87bff32c9699d5b6896eee0edd1", "", "Email Signature")]
         [TestCase(32, "00010203", "d008828e", "", "Email Signature")]
+        [TestCase(1607, "0001020304050607", "13796d04960a501342a1a80bc72c9ecb95dc8594a8c389b598c4f51b5cd8e2ffc9542984898893d78e59b5c5204e9cdf2e4ed37963d4176a3b81f0d86bab6bd7581ac2aa58ff84c10e26201d6b21d28c46b81b9d8b6f16dca68d015c3184e40eb231f93e3aebc9838bc19a1597e91cbc8597e54b0e5a8868964c178283212d49e54b94cdbcb07014fc492e751bc99948cd6c0669dacad009419c98add809601efb49160010f34d5bedc5dd5930edff2449e4edc6951aaa105a6f18274df29ad1b82efde133c87add32", "", "My Function")]
+        [TestCase(35, "0001020304050607", "13796d0406", "", "My Function")]
         public void ShouldCSHAKE256HashCorrectlyWithVariableOutput(int outputLength, string inputHex, string outputHex, string functionName, string customization)
         {
             var message = new BitString(inputHex);
@@ -103,6 +111,8 @@ namespace NIST.CVP.Crypto.CSHAKE.Tests
         }
 
         [Test]
+        [TestCase(256, "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f", "b166f2a35caead8f270fe62cf382e4acc2d74ed532339a7648a58f808a1d2041", "FakeFunction", "My Function")]
+        [TestCase(256, "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f", "426137335a28f01f98c47e72725afb1bd53c5f01b2122a7a3da1899194100a94", "FakeFunction", "")]
         public void ShouldCSHAKE256HashCorrectlyWithVariableCustomization(int outputLength, string inputHex, string outputHex, string functionName, string customization)
         {
             var message = new BitString(inputHex);
@@ -117,6 +127,8 @@ namespace NIST.CVP.Crypto.CSHAKE.Tests
         }
 
         [Test]
+        [TestCase(2407, "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c", "c79d82a233f24414e2483c78b46bc15b070726af03602bc0b25fbf21c3867ffe", "", "My Function")]
+        [TestCase(279, "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122", "b0e70cbd61743124d09185562b2002858970ff2150721f5e2f33a516009e75c9", "", "My Function")]
         public void ShouldCSHAKE256HashCorrectlyBitWise(int length, string inputHex, string outputHex, string functionName, string customization)
         {
             var message = new BitString(inputHex, length, false);

@@ -59,7 +59,7 @@ namespace NIST.CVP.Crypto.SHA3
             }
             else
             {
-                return X.Substring(start, X.BitLength - 1);
+                return X.Substring(start, X.BitLength - start);
             }
         }
         

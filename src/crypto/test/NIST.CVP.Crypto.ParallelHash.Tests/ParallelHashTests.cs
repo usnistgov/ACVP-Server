@@ -26,6 +26,24 @@ namespace NIST.CVP.Crypto.ParallelHash.Tests
         }
 
         [Test]
+        [TestCase(1607, "000102030405060708090a0b0c0d0e0f1011121314151617", "5ecce5ca1708265cdce11cb73f5f59d4d1d20789a887b96adad3675fcdda9d7dbe8f121cd9886207ca8a585c2373952519228a202aa7841effebcef8dd68b110c62d66ed1d43969065669e39cc6290ea3371a0dd4c08b0a4f776b2fec7f01a56f957c2c596b66d1723176a85999c2a3e3fdcc785cc3eed3ef9335e1d5690ee5e54bf7178c44ce12440bb253f56aa5a61611df67f3ad4110c70e6e78a7e3300a9ae33a51e547e09da021a3cab20fa15e7e8a4c1a90d62aaeb44356c93db3c9d5385e22ff65d05437a71", 8, "My Function")]
+        [TestCase(35, "000102030405060708090a0b0c0d0e0f1011121314151617", "261171c004", 8, "My Function")]
+        public void ShouldParallelHash128HashCorrectlyWithVariableOutput(int outputLength, string inputHex, string outputHex, int blockSize, string customization)
+        {
+            var message = new BitString(inputHex);
+            var expectedResult = new BitString(outputHex, outputLength, false);
+            var hashFunction = GetParallelHashHashFunction(outputLength, 256, false, blockSize, customization);
+
+            var subject = new ParallelHash();
+            var result = subject.HashMessage(hashFunction, message);
+
+            Assume.That(result.Success);
+            Assert.AreEqual(expectedResult, result.Digest);
+        }
+
+        [Test]
+        [TestCase(2407, 256, "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c", "d3d76a4aacbd40afb6456df693e980928cae90172ba9f5d5b45a36d07afb27d8", 8, "My Function")]
+        [TestCase(279, 256, "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122", "517eef5a0676f364e9416256a1cb939baf02a26525fb61aad86bb3b408a83a33", 8, "My Function")]
         public void ShouldParallelHash128HashCorrectlyBitWise(int length, int digestSize, string inputHex, string outputHex, int blockSize, string customization)
         {
             var message = new BitString(inputHex, length, false);
@@ -91,6 +109,24 @@ namespace NIST.CVP.Crypto.ParallelHash.Tests
         }
 
         [Test]
+        [TestCase(1607, "000102030405060708090a0b0c0d0e0f1011121314151617", "4b67687720aa8244f2707775ca4eca9e1493fb25933069bf4bcff904c8c14651d977ad4dc9c339592fdbd82802af54d9242c2c81b8ef921a696b66b02ca47bd7614dd274ca2f58f17634af930afdbab98be29f33a0ead877da26576f6bac7b243bce5f59a1033292991fb31031b6fb8eb5921a233ffe5ae014a38efa1112a0c0f189508c0847fc4b193c839314f0a7cf6769bd848e6f73fccc47f8445bfc65401b832351a380a006840fced19cbc7c533300430fed03cba7078f44cac740f8e959c4786b128846ec23", 8, "My Function")]
+        [TestCase(35, "000102030405060708090a0b0c0d0e0f1011121314151617", "615d36de02", 8, "My Function")]
+        public void ShouldParallelHash256HashCorrectlyWithVariableOutput(int outputLength, string inputHex, string outputHex, int blockSize, string customization)
+        {
+            var message = new BitString(inputHex);
+            var expectedResult = new BitString(outputHex, outputLength, false);
+            var hashFunction = GetParallelHashHashFunction(outputLength, 512, false, blockSize, customization);
+
+            var subject = new ParallelHash();
+            var result = subject.HashMessage(hashFunction, message);
+
+            Assume.That(result.Success);
+            Assert.AreEqual(expectedResult, result.Digest);
+        }
+
+        [Test]
+        [TestCase(2407, 256, "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c", "200a319d1bb1c6686366bd1f8fd9d6de01f0a2e23f03279426f5e295c9ba79d5", 8, "My Function")]
+        [TestCase(279, 256, "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122", "742e0796b902859f35ce709e351518142c7a17ef3ea6c4aa9e2f21262e3daf5b", 8, "My Function")]
         public void ShouldParallelHash256HashCorrectlyBitWise(int length, int digestSize, string inputHex, string outputHex, int blockSize, string customization)
         {
             var message = new BitString(inputHex, length, false);
