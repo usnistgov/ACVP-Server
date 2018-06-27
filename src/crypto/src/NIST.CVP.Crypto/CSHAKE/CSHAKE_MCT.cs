@@ -69,7 +69,7 @@ namespace NIST.CVP.Crypto.CSHAKE
             var outputLen = (int)System.Math.Floor((double)max / 8) * 8;
             var functionName = "";
             var customization = "";
-            var range = (max - min) + 8;
+            var range = isSample ? 64 : (max - min) + 8;        // only set for faster testing, change back later
             var innerMessage = message.GetDeepCopy();
 
             try
@@ -81,7 +81,7 @@ namespace NIST.CVP.Crypto.CSHAKE
                     iterationResponse.Message = innerMessage;
                     iterationResponse.Customization = customization;
 
-                    for (j = 0; j < 1000; j++)
+                    for (j = 0; j < (isSample ? 5 : 1000); j++)      // only uses isSample for faster testing, change back later
                     {
                         // Might not have 128 bits to pull from so we pad with 0                        
                         innerMessage = BitString.ConcatenateBits(innerMessage, BitString.Zeroes(128));
