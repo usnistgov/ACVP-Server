@@ -39,8 +39,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Generation.Paralle
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Generation.ParallelHash.IntegrationTests", "..\..\parallelHash\test\NIST.CVP.Generation.ParallelHash.IntegrationTests\NIST.CVP.Generation.ParallelHash.IntegrationTests.csproj", "{476FBEAB-4D70-4EAB-890D-742AEB794EAB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.CSHAKE", "..\..\cshake\src\NIST.CVP.Generation.CSHAKE\NIST.CVP.Generation.CSHAKE.csproj", "{50F85225-DA90-46F5-9333-D610159DBA5B}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -111,10 +109,6 @@ Global
 		{476FBEAB-4D70-4EAB-890D-742AEB794EAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{476FBEAB-4D70-4EAB-890D-742AEB794EAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{476FBEAB-4D70-4EAB-890D-742AEB794EAB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{50F85225-DA90-46F5-9333-D610159DBA5B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{50F85225-DA90-46F5-9333-D610159DBA5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{50F85225-DA90-46F5-9333-D610159DBA5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{50F85225-DA90-46F5-9333-D610159DBA5B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -136,7 +130,6 @@ Global
 		{4611D713-61EC-40B0-BD87-32EC94D380E0} = {FE0A984A-235F-4B7F-821C-55968CD93421}
 		{72C68E8A-22CD-4FF9-B3F1-F3E6CE7BB75E} = {C064E885-FF29-4CEC-A1D2-0B6309625D6D}
 		{476FBEAB-4D70-4EAB-890D-742AEB794EAB} = {C064E885-FF29-4CEC-A1D2-0B6309625D6D}
-		{50F85225-DA90-46F5-9333-D610159DBA5B} = {FE0A984A-235F-4B7F-821C-55968CD93421}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BF2F0E46-24D1-4FD6-A788-667DE8621D9B}
