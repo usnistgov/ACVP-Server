@@ -7,6 +7,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Common.Oracle", ".
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Math", "..\..\common\src\NIST.CVP.Math\NIST.CVP.Math.csproj", "{D0CD2E0C-8B56-4DEB-96AE-A644825DE49B}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{D110F3B1-EDE6-45E8-BB42-8F52BF428BA2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{FE4DA138-C1D7-44B9-B667-EBF189DC3616}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Common.Oracle.Tests", "..\..\oracle\test\NIST.CVP.Common.Oracle.Tests\NIST.CVP.Common.Oracle.Tests.csproj", "{5B1DADAA-BEAE-4494-A246-F8F9549D9C18}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,9 +27,18 @@ Global
 		{D0CD2E0C-8B56-4DEB-96AE-A644825DE49B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D0CD2E0C-8B56-4DEB-96AE-A644825DE49B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D0CD2E0C-8B56-4DEB-96AE-A644825DE49B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5B1DADAA-BEAE-4494-A246-F8F9549D9C18}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B1DADAA-BEAE-4494-A246-F8F9549D9C18}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B1DADAA-BEAE-4494-A246-F8F9549D9C18}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B1DADAA-BEAE-4494-A246-F8F9549D9C18}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{82427FF0-7F2C-4B38-A18B-492437327CAF} = {D110F3B1-EDE6-45E8-BB42-8F52BF428BA2}
+		{D0CD2E0C-8B56-4DEB-96AE-A644825DE49B} = {D110F3B1-EDE6-45E8-BB42-8F52BF428BA2}
+		{5B1DADAA-BEAE-4494-A246-F8F9549D9C18} = {FE4DA138-C1D7-44B9-B667-EBF189DC3616}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3F18FBE2-46A0-4980-A187-97304CB7E791}
