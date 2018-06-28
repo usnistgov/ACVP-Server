@@ -23,9 +23,10 @@ namespace NIST.CVP.Crypto.ParallelHash
             var newMessage = LeftEncode(IntToBitString(blockSize));
 
             BitString substring;
-            for (int i = numberOfBlocks - 1; i > -1; i--)        // reversed because LSB v MSB
+            for (int i = 0; i < numberOfBlocks; i++)
             {
                 substring = SubString(message, i * blockSize * 8, (i + 1) * blockSize * 8);
+                System.Console.WriteLine("Substring: " + substring.ToHex() + " Size: " + substring.BitLength);
                 newMessage = BitString.ConcatenateBits(newMessage, cSHAKE.HashMessage(substring, capacity, capacity));
             }
 

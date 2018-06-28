@@ -55,11 +55,11 @@ namespace NIST.CVP.Crypto.SHA3
             }
             else if (end <= X.BitLength)
             {
-                return X.Substring(start, end - start);
+                return X.MSBSubstring(start, end - start);
             }
             else
             {
-                return X.Substring(start, X.BitLength - start);
+                return X.MSBSubstring(start, X.BitLength - start);
             }
         }
         
