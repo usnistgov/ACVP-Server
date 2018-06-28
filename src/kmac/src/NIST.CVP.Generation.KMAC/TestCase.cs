@@ -6,11 +6,35 @@ namespace NIST.CVP.Generation.KMAC
 {
     public class TestCase : ITestCase<TestGroup, TestCase>
     {
-        public int TestCaseId { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
-        public TestGroup ParentGroup { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+        public int TestCaseId { get; set; }
+        public bool? TestPassed => true;
+        public bool Deferred => false;
+        public TestGroup ParentGroup { get; set; }
+        public BitString Key { get; set; }
+        [JsonProperty(PropertyName = "msg")]
+        public BitString Message { get; set; }
+        public BitString Mac { get; set; }
 
-        public bool? TestPassed => throw new System.NotImplementedException();
+        public bool SetString(string name, string value)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                return false;
+            }
 
-        public bool Deferred => throw new System.NotImplementedException();
+            switch (name.ToLower())
+            {
+                case "key":
+                    Key = new BitString(value);
+                    return true;
+                case "msg":
+                    Message = new BitString(value);
+                    return true;
+                case "mac":
+                    Mac = new BitString(value);
+                    return true;
+            }
+            return false;
+        }
     }
 }

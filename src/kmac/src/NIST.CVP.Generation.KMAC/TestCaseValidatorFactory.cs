@@ -8,7 +8,18 @@ namespace NIST.CVP.Generation.KMAC
     {
         public IEnumerable<ITestCaseValidator<TestGroup, TestCase>> GetValidators(TestVectorSet testVectorSet)
         {
-            throw new System.NotImplementedException();
+            var list = new List<ITestCaseValidator<TestGroup, TestCase>>();
+
+            foreach (var group in testVectorSet.TestGroups.Select(g => g))
+            {
+                foreach (var test in group.Tests.Select(t => t))
+                {
+                    var workingTest = test;
+                    list.Add(new TestCaseValidator(workingTest, group));
+                }
+            }
+
+            return list;
         }
     }
 }
