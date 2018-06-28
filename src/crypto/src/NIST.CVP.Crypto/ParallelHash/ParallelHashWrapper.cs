@@ -31,7 +31,6 @@ namespace NIST.CVP.Crypto.ParallelHash
         private BitString Final(int digestSize, int capacity, int blockSize, bool xof, string customization)
         {
             var newMessage = ParallelHashHelpers.FormatMessage(_message, _cSHAKE, digestSize, capacity, blockSize, customization, xof);
-            System.Console.WriteLine(newMessage.ToHex());
             return _cSHAKE.HashMessage(newMessage, digestSize, capacity, "ParallelHash", customization);
         }
     }
