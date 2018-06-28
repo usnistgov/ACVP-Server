@@ -39,6 +39,8 @@ namespace NIST.CVP.Common
         CMAC_AES,
         [EnumMember(Value = "CMAC-TDES")]
         CMAC_TDES,
+        [EnumMember(Value = "CSHAKE")]
+        CSHAKE,
         [EnumMember(Value = "ctrDRBG")]
         DRBG_CTR,
         [EnumMember(Value = "hashDRBG")]
@@ -152,6 +154,8 @@ namespace NIST.CVP.Common
         [EnumMember(Value = "TDES-OFB")]
         TDES_OFB,
         [EnumMember(Value = "TDES-OFBI")]
-        TDES_OFBI
+        TDES_OFBI,
+        [EnumMember(Value = "TupleHash")]
+        TupleHash
     }
 }

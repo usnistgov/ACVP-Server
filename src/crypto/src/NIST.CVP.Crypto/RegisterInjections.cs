@@ -10,6 +10,7 @@ using NIST.CVP.Crypto.AES_ECB;
 using NIST.CVP.Crypto.AES_OFB;
 using NIST.CVP.Crypto.AES_XTS;
 using NIST.CVP.Crypto.CMAC;
+using NIST.CVP.Crypto.CSHAKE;
 using NIST.CVP.Crypto.DRBG;
 using NIST.CVP.Crypto.DSA.FFC;
 using NIST.CVP.Crypto.HMAC;
@@ -39,6 +40,7 @@ using NIST.CVP.Crypto.TDES_CTR;
 using NIST.CVP.Crypto.TDES_ECB;
 using NIST.CVP.Crypto.TDES_OFB;
 using NIST.CVP.Crypto.TDES_OFBI;
+using NIST.CVP.Crypto.TupleHash;
 using NIST.CVP.Crypto.RSA2;
 using NIST.CVP.Crypto.DSA.ECC;
 using NIST.CVP.Crypto.DSA.FFC.GGeneratorValidators;
@@ -184,6 +186,13 @@ namespace NIST.CVP.Crypto
 
             builder.RegisterType<PQGeneratorValidatorFactory>().AsImplementedInterfaces();
             builder.RegisterType<GGeneratorValidatorFactory>().AsImplementedInterfaces();
+
+            // Matt Algos
+            builder.RegisterType<CSHAKE.CSHAKE>().AsImplementedInterfaces();
+            builder.RegisterType<CSHAKE_MCT>().AsImplementedInterfaces();
+
+            builder.RegisterType<TupleHash.TupleHash>().AsImplementedInterfaces();
+            builder.RegisterType<TupleHash_MCT>().AsImplementedInterfaces();
         }
     }
 }

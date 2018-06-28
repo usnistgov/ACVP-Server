@@ -23,10 +23,6 @@ namespace NIST.CVP.Crypto.CSHAKE
 
             var capacity = hashFunction.Capacity;
             var digSize = hashFunction.DigestSize;
-            if (!hashFunction.XOF)
-            {
-                errors.Add("Invalid output type for cSHAKE");
-            }
 
             if (capacity != 128 * 2 && capacity != 256 * 2)
             {
