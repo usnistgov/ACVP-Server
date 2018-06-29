@@ -8,14 +8,14 @@ using NUnit.Framework;
 namespace NIST.CVP.Generation.KMAC.Tests
 {
     [TestFixture, UnitTest]
-    public class TestGroupGeneratorTests
+    public class TestGroupGeneratorAlgorithmFunctionalTests
     {
-        private TestGroupGenerator _subject;
+        private TestGroupGeneratorAlgorithmFunctional _subject;
 
         [SetUp]
         public void Setup()
         {
-            _subject = new TestGroupGenerator();
+            _subject = new TestGroupGeneratorAlgorithmFunctional();
         }
 
         private static object[] testData = new[]

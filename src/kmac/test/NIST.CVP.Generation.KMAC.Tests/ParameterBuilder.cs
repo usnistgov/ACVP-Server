@@ -23,8 +23,10 @@ namespace NIST.CVP.Generation.KMAC.Tests
         public ParameterBuilder()
         {
             _algorithm = "KMAC";
-            _keyLen = new MathDomain().AddSegment(new RangeDomainSegment(null, ParameterValidator._MIN_KEY_LENGTH, ParameterValidator._MAX_KEY_LENGTH, 8));
-            _macLen = new MathDomain().AddSegment(new RangeDomainSegment(null, 32, 65536, 8));
+            _keyLen = new MathDomain();
+            _keyLen = _keyLen.AddSegment(new RangeDomainSegment(null, ParameterValidator._MIN_KEY_LENGTH, ParameterValidator._MAX_KEY_LENGTH, 8));
+            _macLen = new MathDomain();
+            _macLen = _macLen.AddSegment(new RangeDomainSegment(null, 32, 65536, 8));
             _bitOrientedInput = false;
             _bitOrientedOutput = false;
             _includeNull = false;

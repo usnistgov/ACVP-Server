@@ -10,7 +10,8 @@ namespace NIST.CVP.Generation.KMAC.Tests
         private TestGroupGeneratorFactory _subject;
 
         [Test]
-        [TestCase(typeof(TestGroupGenerator))]
+        [TestCase(typeof(TestGroupGeneratorAlgorithmFunctional))]
+        [TestCase(typeof(TestGroupGeneratorVariableMac))]
         public void ReturnedResultShouldContainExpectedTypes(Type expectedType)
         {
             _subject = new TestGroupGeneratorFactory();
@@ -21,13 +22,13 @@ namespace NIST.CVP.Generation.KMAC.Tests
         }
 
         [Test]
-        public void ReturnedResultShouldContainOneGenerators()
+        public void ReturnedResultShouldContainTwoGenerators()
         {
             _subject = new TestGroupGeneratorFactory();
 
             var result = _subject.GetTestGroupGenerators();
 
-            Assert.IsTrue(result.Count() == 1);
+            Assert.IsTrue(result.Count() == 2);
         }
     }
 }

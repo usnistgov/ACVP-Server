@@ -1,18 +1,12 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Math.Domain;
 
 namespace NIST.CVP.Generation.KMAC
 {
-    public class TestGroupGenerator : ITestGroupGenerator<Parameters, TestGroup, TestCase>
+    public class TestGroupGeneratorVariableMac : ITestGroupGenerator<Parameters, TestGroup, TestCase>
     {
         private const int _MESSAGE_LENGTH = 128;
-        private const string TEST_TYPE = "aft";
-
-        public int[] KeyLens { get; private set; }
-        public int[] MacLens { get; private set; }
+        private const string TEST_TYPE = "vmt";
 
         public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
         {
@@ -28,6 +22,7 @@ namespace NIST.CVP.Generation.KMAC
                     TestType = TEST_TYPE,
                     KeyLength = parameters.KeyLen.GetDomainMinMax().Minimum,    // temporary fix later
                     MacLength = parameters.MacLen.GetDomainMinMax().Minimum,    // temporary fix later
+                    MacLengths = parameters.MacLen,
                     MessageLength = _MESSAGE_LENGTH,
                     XOF = false
                 };
@@ -44,6 +39,7 @@ namespace NIST.CVP.Generation.KMAC
                         TestType = TEST_TYPE,
                         KeyLength = parameters.KeyLen.GetDomainMinMax().Minimum,    // temporary fix later
                         MacLength = parameters.MacLen.GetDomainMinMax().Minimum,    // temporary fix later
+                        MacLengths = parameters.MacLen,
                         MessageLength = _MESSAGE_LENGTH,
                         XOF = true
                     };

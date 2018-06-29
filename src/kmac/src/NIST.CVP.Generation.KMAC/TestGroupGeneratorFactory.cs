@@ -11,7 +11,8 @@ namespace NIST.CVP.Generation.KMAC
             var list =
                 new HashSet<ITestGroupGenerator<Parameters, TestGroup, TestCase>>()
                 {
-                    new TestGroupGenerator()
+                    new TestGroupGeneratorAlgorithmFunctional(),
+                    new TestGroupGeneratorVariableMac()
                 };
 
             return list;

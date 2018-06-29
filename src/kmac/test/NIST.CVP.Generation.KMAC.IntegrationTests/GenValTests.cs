@@ -48,7 +48,7 @@ namespace NIST.CVP.Generation.KMAC.IntegrationTests
             {
                 return new List<ITestGroupGenerator<Parameters, TestGroup, TestCase>>()
                 {
-                    new TestGroupGenerator()
+                    new TestGroupGeneratorAlgorithmFunctional()
                 };
             }
         }

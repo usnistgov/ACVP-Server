@@ -33,7 +33,7 @@ namespace NIST.CVP.Generation.CSHAKE
             }
             else if (testGroup.TestType.ToLower() == "vot")
             {
-                    return new TestCaseGeneratorVOTHash(_random800_90, _algo);
+                return new TestCaseGeneratorVOTHash(_random800_90, _algo);
             }
             else if (testGroup.TestType.ToLower() == "votshake")
             {

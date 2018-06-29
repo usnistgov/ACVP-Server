@@ -31,10 +31,15 @@ namespace NIST.CVP.Generation.KMAC.Tests
         }
 
         [Test]
-        [TestCase(typeof(TestCaseGenerator))]
-        public void ShouldReturnProperGenerator(Type expectedType)
+        [TestCase("aFt", typeof(TestCaseGeneratorAFT))]
+        [TestCase("VMt", typeof(TestCaseGeneratorVMT))]
+        [TestCase("junk", typeof(TestCaseGeneratorNull))]
+        public void ShouldReturnProperGenerator(string testType, Type expectedType)
         {
-            TestGroup testGroup = new TestGroup();
+            TestGroup testGroup = new TestGroup
+            {
+                TestType = testType
+            };
 
             var generator = _subject.GetCaseGenerator(testGroup);
             Assume.That(generator != null);

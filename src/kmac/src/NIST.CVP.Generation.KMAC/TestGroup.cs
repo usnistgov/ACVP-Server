@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Math.Domain;
 
 namespace NIST.CVP.Generation.KMAC
 {
@@ -19,6 +20,8 @@ namespace NIST.CVP.Generation.KMAC
         [JsonProperty(PropertyName = "macLen")]
         public int MacLength { get; set; }
 
+        public MathDomain MacLengths { get; set; }
+
         [JsonProperty(PropertyName = "inBit")]
         public bool BitOrientedInput { get; set; } = false;
 
@@ -32,6 +35,8 @@ namespace NIST.CVP.Generation.KMAC
 
         [JsonProperty(PropertyName = "digestSize")]
         public int DigestSize { get; set; }
+
+        public bool IncludeNull { get; set; }
 
         public bool SetString(string name, string value)
         {

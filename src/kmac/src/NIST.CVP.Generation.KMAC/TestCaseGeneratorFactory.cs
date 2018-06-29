@@ -20,7 +20,16 @@ namespace NIST.CVP.Generation.KMAC
         {
             var algo = _algoFactory.GetKmacInstance(testGroup.DigestSize * 2, testGroup.XOF);
 
-            return new TestCaseGenerator(_random800_90, algo);
+            if (testGroup.TestType.ToLower() == "aft")
+            {
+                return new TestCaseGeneratorAFT(_random800_90, algo);
+            }
+            else if (testGroup.TestType.ToLower() == "vmt")
+            {
+                return new TestCaseGeneratorVMT(_random800_90, algo);
+            }
+
+            return new TestCaseGeneratorNull();
         }
     }
 }
