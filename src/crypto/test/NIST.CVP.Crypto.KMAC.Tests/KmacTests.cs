@@ -11,12 +11,12 @@ namespace NIST.CVP.Crypto.KMAC.Tests
     [TestFixture, FastCryptoTest]
     public class KmacTests
     {
-        private CSHAKEFactory _cSHAKEFactory;
+        private KmacFactory _kmacFactory;
 
         [SetUp]
         public void Setup()
         {
-            _cSHAKEFactory = new CSHAKEFactory();
+            _kmacFactory = new KmacFactory(new CSHAKEWrapper());
         }
 
         [Test]
@@ -30,11 +30,8 @@ namespace NIST.CVP.Crypto.KMAC.Tests
         {
             var message = new BitString(inputHex, length, true);
             var expectedResult = new BitString(outputHex, macLength, false);
-            var hashFunction = GetCSHAKEHashFunction(macLength, 256, customization);
-
-            var CSHAKEWrapped = _cSHAKEFactory.GetCSHAKE(hashFunction);
-
-            var subject = new Kmac(CSHAKEWrapped, 256, false);
+            
+            var subject = _kmacFactory.GetKmacInstance(256, false);
             var result = subject.Generate(new BitString(key, keyLen, true), message, customization, macLength);
 
             Assume.That(result.Success);
@@ -52,11 +49,8 @@ namespace NIST.CVP.Crypto.KMAC.Tests
         {
             var message = new BitString(inputHex, length, false);
             var expectedResult = new BitString(outputHex, macLength, false);
-            var hashFunction = GetCSHAKEHashFunction(macLength, 512, customization);
 
-            var CSHAKEWrapped = _cSHAKEFactory.GetCSHAKE(hashFunction);
-
-            var subject = new Kmac(CSHAKEWrapped, 512, false);
+            var subject = _kmacFactory.GetKmacInstance(512, false);
             var result = subject.Generate(new BitString(key, keyLen, true), message, customization, macLength);
 
             Assume.That(result.Success);
@@ -77,11 +71,8 @@ namespace NIST.CVP.Crypto.KMAC.Tests
         {
             var message = new BitString(inputHex, length, false);
             var expectedResult = new BitString(outputHex, macLength, false);
-            var hashFunction = GetCSHAKEHashFunction(macLength, 256, customization);
 
-            var CSHAKEWrapped = _cSHAKEFactory.GetCSHAKE(hashFunction);
-
-            var subject = new Kmac(CSHAKEWrapped, 256, true);
+            var subject = _kmacFactory.GetKmacInstance(256, true);
             var result = subject.Generate(new BitString(key, keyLen, true), message, customization, macLength);
 
             Assume.That(result.Success);
@@ -102,26 +93,12 @@ namespace NIST.CVP.Crypto.KMAC.Tests
         {
             var message = new BitString(inputHex, length, false);
             var expectedResult = new BitString(outputHex, macLength, false);
-            var hashFunction = GetCSHAKEHashFunction(macLength, 512, customization);
-
-            var CSHAKEWrapped = _cSHAKEFactory.GetCSHAKE(hashFunction);
-
-            var subject = new Kmac(CSHAKEWrapped, 512, true);
+            
+            var subject = _kmacFactory.GetKmacInstance(512, true);
             var result = subject.Generate(new BitString(key, keyLen, true), message, customization, macLength);
 
             Assume.That(result.Success);
             Assert.AreEqual(expectedResult, result.Mac);
-        }
-
-        private HashFunction GetCSHAKEHashFunction(int digestSize, int capacity, string customization)
-        {
-            return new HashFunction()
-            {
-                DigestSize = digestSize,
-                Capacity = capacity,
-                Customization = customization,
-                FunctionName = "KMAC"
-            };
         }
     }
 }

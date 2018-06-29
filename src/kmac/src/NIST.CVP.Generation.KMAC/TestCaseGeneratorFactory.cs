@@ -18,12 +18,7 @@ namespace NIST.CVP.Generation.KMAC
 
         public ITestCaseGenerator<TestGroup, TestCase> GetCaseGenerator(TestGroup testGroup)
         {
-            var algo = _algoFactory.GetKmacInstance(new HashFunction {
-                Capacity = testGroup.DigestSize * 2,
-                DigestSize = testGroup.MacLength,
-                Customization = "",     // can this be restructured?
-                FunctionName = "KMAC"
-            }, testGroup.XOF);
+            var algo = _algoFactory.GetKmacInstance(testGroup.DigestSize * 2, testGroup.XOF);
 
             return new TestCaseGenerator(_random800_90, algo);
         }

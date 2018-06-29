@@ -196,7 +196,7 @@ namespace NIST.CVP.Crypto
             builder.RegisterType<TupleHash_MCT>().AsImplementedInterfaces();
 
             builder.RegisterType<KmacFactory>().AsImplementedInterfaces();
-            builder.RegisterType<CSHAKEFactory>().AsImplementedInterfaces();
+            builder.RegisterType<CSHAKEWrapper>().AsImplementedInterfaces();
         }
     }
 }

@@ -26,13 +26,7 @@ namespace NIST.CVP.Generation.KMAC.Tests
             _subject = new TestCaseGeneratorFactory(_random.Object, _algoFactory.Object);
 
             _algoFactory
-                .Setup(s => s.GetKmacInstance(new HashFunction
-                {
-                    FunctionName = "KMAC",
-                    Customization = "",
-                    Capacity = 256,
-                    DigestSize = 256
-                }, false))
+                .Setup(s => s.GetKmacInstance(256, false))
                 .Returns(_algo.Object);
         }
 

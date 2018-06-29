@@ -5,18 +5,16 @@ namespace NIST.CVP.Crypto.KMAC
 {
     public class KmacFactory : IKmacFactory
     {
-        private readonly ICSHAKEFactory _iCSHAKEFactory;
+        private readonly ICSHAKEWrapper _iCSHAKEWrapper;
 
-        public KmacFactory(ICSHAKEFactory iCSHAKEFactory)
+        public KmacFactory(ICSHAKEWrapper iCSHAKEWrapper)
         {
-            _iCSHAKEFactory = iCSHAKEFactory;
+            _iCSHAKEWrapper = iCSHAKEWrapper;
         }
 
-        public IKmac GetKmacInstance(HashFunction hashFunction, bool xof)
+        public IKmac GetKmacInstance(int capacity, bool xof)
         {
-            var cshake = _iCSHAKEFactory.GetCSHAKE(hashFunction);
-
-            return new Kmac(cshake, hashFunction.Capacity, xof);
+            return new Kmac(_iCSHAKEWrapper, capacity, xof);
         }
     }
 }
