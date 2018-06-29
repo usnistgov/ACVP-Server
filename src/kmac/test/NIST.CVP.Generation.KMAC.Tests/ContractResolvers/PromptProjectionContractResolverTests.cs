@@ -68,6 +68,7 @@ namespace NIST.CVP.Generation.KMAC.Tests.ContractResolvers
             Assert.AreEqual(tc.TestCaseId, newTc.TestCaseId, nameof(newTc.TestCaseId));
             Assert.AreEqual(tc.Key, newTc.Key, nameof(newTc.Key));
             Assert.AreEqual(tc.Message, newTc.Message, nameof(newTc.Message));
+            Assert.AreEqual(tc.Customization, newTc.Customization, nameof(newTc.Customization));
 
             Assert.AreNotEqual(tc.Mac, newTc.Mac, nameof(newTc.Mac));
 

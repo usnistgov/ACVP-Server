@@ -12,6 +12,8 @@ namespace NIST.CVP.Generation.KMAC
         private readonly IKmac _algo;
         private readonly IRandom800_90 _random800_90;
 
+        private const int CUSTOMIZATION_LENGTH = 10;
+
         public int NumberOfTestCasesToGenerate => 75;
 
         public TestCaseGenerator(IRandom800_90 random800_90, IKmac algo)
@@ -24,10 +26,12 @@ namespace NIST.CVP.Generation.KMAC
         {
             var key = _random800_90.GetRandomBitString(@group.KeyLength);
             var msg = _random800_90.GetRandomBitString(@group.MessageLength);
+            var customization = _random800_90.GetRandomString(10);
             var testCase = new TestCase
             {
                 Key = key,
-                Message = msg
+                Message = msg,
+                Customization = customization
             };
             return Generate(@group, testCase);
         }
@@ -37,7 +41,7 @@ namespace NIST.CVP.Generation.KMAC
             MacResult genResult = null;
             try
             {
-                genResult = _algo.Generate(testCase.Key, testCase.Message, group.MacLength);
+                genResult = _algo.Generate(testCase.Key, testCase.Message, testCase.Customization, group.MacLength);
                 if (!genResult.Success)
                 {
                     ThisLogger.Warn(genResult.ErrorMessage);

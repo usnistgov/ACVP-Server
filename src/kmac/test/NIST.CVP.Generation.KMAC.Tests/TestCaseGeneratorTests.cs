@@ -65,7 +65,7 @@ namespace NIST.CVP.Generation.KMAC.Tests
         {
             _subject.Generate(new TestGroup(), true);
 
-            _algo.Verify(v => v.Generate(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<int>()),
+            _algo.Verify(v => v.Generate(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<string>(), It.IsAny<int>()),
                 Times.AtLeastOnce,
                 $"{nameof(_algo.Object.Generate)} should have been invoked"
             );
@@ -80,7 +80,7 @@ namespace NIST.CVP.Generation.KMAC.Tests
                 .Setup(s => s.GetRandomBitString(It.IsAny<int>()))
                 .Returns(new BitString(new byte[] { 3 }));
             _algo
-                .Setup(s => s.Generate(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<int>()))
+                .Setup(s => s.Generate(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<string>(), It.IsAny<int>()))
                 .Returns(new MacResult(fakeMac));
 
             var result = _subject.Generate(new TestGroup(), false);
@@ -90,6 +90,7 @@ namespace NIST.CVP.Generation.KMAC.Tests
             Assert.IsNotEmpty((result.TestCase).Key.ToString(), "Key");
             Assert.IsNotEmpty((result.TestCase).Message.ToString(), "Message");
             Assert.IsNotEmpty((result.TestCase).Mac.ToString(), "Mac");
+            Assert.IsNotEmpty((result.TestCase).Customization, "Customization");
             Assert.IsFalse(result.TestCase.Deferred, "Deferred");
         }
     }

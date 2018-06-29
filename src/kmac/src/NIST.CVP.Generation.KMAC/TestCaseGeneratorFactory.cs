@@ -21,7 +21,7 @@ namespace NIST.CVP.Generation.KMAC
             var algo = _algoFactory.GetKmacInstance(new HashFunction {
                 Capacity = testGroup.DigestSize * 2,
                 DigestSize = testGroup.MacLength,
-                Customization = testGroup.Customization,
+                Customization = "",     // can this be restructured?
                 FunctionName = "KMAC"
             }, testGroup.XOF);
 

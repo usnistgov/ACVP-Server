@@ -34,7 +34,8 @@ namespace NIST.CVP.Generation.KMAC.ContractResolvers
             {
                 nameof(TestCase.TestCaseId),
                 nameof(TestCase.Key),
-                nameof(TestCase.Message)
+                nameof(TestCase.Message),
+                nameof(TestCase.Customization)
             };
 
             if (includeProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))

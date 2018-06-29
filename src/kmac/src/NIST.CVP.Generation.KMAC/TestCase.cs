@@ -15,6 +15,9 @@ namespace NIST.CVP.Generation.KMAC
         public BitString Message { get; set; }
         public BitString Mac { get; set; }
 
+        [JsonProperty(PropertyName = "customization")]
+        public string Customization { get; set; }
+
         public bool SetString(string name, string value)
         {
             if (string.IsNullOrEmpty(name))

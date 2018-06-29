@@ -33,9 +33,6 @@ namespace NIST.CVP.Generation.KMAC
         [JsonProperty(PropertyName = "digestSize")]
         public int DigestSize { get; set; }
 
-        [JsonProperty(PropertyName = "customization")]
-        public string Customization { get; set; }
-
         public bool SetString(string name, string value)
         {
             if (string.IsNullOrEmpty(name))
