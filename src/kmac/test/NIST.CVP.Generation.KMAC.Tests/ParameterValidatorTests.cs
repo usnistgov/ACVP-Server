@@ -31,15 +31,16 @@ namespace NIST.CVP.Generation.KMAC.Tests
         }
 
         [Test]
-        [TestCase("test0 - below minimum", 0, false)]
-        [TestCase("test1 - at minimum", ParameterValidator._MIN_KEY_LENGTH, true)]
-        [TestCase("test2 - not mod 8", 15, false)]
-        [TestCase("test3 - at max", ParameterValidator._MAX_KEY_LENGTH, true)]
-        public void ShouldSucceedOnValidKeyLen(string label, int keyLen, bool isSuccessExpected)
+        [TestCase("test0 - below minimum", 0, 2048, false, false)]
+        [TestCase("test1 - at minimum", ParameterValidator._MIN_KEY_LENGTH, 2048, true, false)]
+        [TestCase("test2 - not mod 8", 255, 2047, false, false)]
+        [TestCase("test3 - at max", 2048, ParameterValidator._MAX_KEY_LENGTH, true, false)]
+        [TestCase("test4 - bitOriented", 255, 2049, true, true)]
+        public void ShouldSucceedOnValidKeyLen(string label, int keyLenMin, int keyLenMax, bool isSuccessExpected, bool bitOriented)
         {
-            // SHA flavor does not matter for keylen
             Parameters parameters = new ParameterBuilder()
-                .WithKeyLen(new MathDomain().AddSegment(new ValueDomainSegment(keyLen)))
+                .WithKeyLen(new MathDomain().AddSegment(new RangeDomainSegment(null, keyLenMin, keyLenMax, bitOriented ? 1 : 8)))
+                .WithBitOrientedInput(bitOriented)
                 .Build();
 
             var result = _subject.Validate(parameters);
@@ -48,44 +49,18 @@ namespace NIST.CVP.Generation.KMAC.Tests
         }
 
         [Test]
-        [TestCase("test0 - sha1 valid", "HMAC-SHA-1", 80, true)]
-        [TestCase("test1 - sha1 invalid", "HMAC-SHA-1", 31, false)]
-        [TestCase("test2 - sha1 invalid", "HMAC-SHA-1", 161, false)]
-        [TestCase("test3 - sha2-224 valid", "HMAC-SHA2-224", 112, true)]
-        [TestCase("test4 - sha2-224 invalid", "HMAC-SHA2-224", 31, false)]
-        [TestCase("test5 - sha2-224 invalid", "HMAC-SHA2-224", 225, false)]
-        [TestCase("test6 - sha2-256 valid", "HMAC-SHA2-256", 128, true)]
-        [TestCase("test7 - sha2-256 invalid", "HMAC-SHA2-256", 31, false)]
-        [TestCase("test8 - sha2-256 invalid", "HMAC-SHA2-256", 257, false)]
-        [TestCase("test9 - sha2-384 valid", "HMAC-SHA2-384", 192, true)]
-        [TestCase("test10 - sha2-384 invalid", "HMAC-SHA2-384", 31, false)]
-        [TestCase("test11 - sha2-384 invalid", "HMAC-SHA2-384", 385, false)]
-        [TestCase("test12 - sha2-512 valid", "HMAC-SHA2-512", 256, true)]
-        [TestCase("test13 - sha2-512 invalid", "HMAC-SHA2-512", 31, false)]
-        [TestCase("test14 - sha2-512 invalid", "HMAC-SHA2-512", 513, false)]
-        [TestCase("test15 - sha2-512/224 valid", "HMAC-SHA2-512/224", 112, true)]
-        [TestCase("test16 - sha2-512/224 invalid", "HMAC-SHA2-512/224", 31, false)]
-        [TestCase("test17 - sha2-512/224 invalid", "HMAC-SHA2-512/224", 225, false)]
-        [TestCase("test18 - sha2-512/256 valid", "HMAC-SHA2-512/256", 128, true)]
-        [TestCase("test19 - sha2-512/256 invalid", "HMAC-SHA2-512/256", 31, false)]
-        [TestCase("test20 - sha2-512/256 invalid", "HMAC-SHA2-512/256", 257, false)]
-        [TestCase("test21 - sha3-224 valid", "HMAC-SHA3-224", 112, true)]
-        [TestCase("test22 - sha3-224 invalid", "HMAC-SHA3-224", 31, false)]
-        [TestCase("test23 - sha3-224 invalid", "HMAC-SHA3-224", 225, false)]
-        [TestCase("test24 - sha3-256 valid", "HMAC-SHA3-256", 128, true)]
-        [TestCase("test25 - sha3-256 invalid", "HMAC-SHA3-256", 31, false)]
-        [TestCase("test26 - sha3-256 invalid", "HMAC-SHA3-256", 257, false)]
-        [TestCase("test27 - sha3-384 valid", "HMAC-SHA3-384", 192, true)]
-        [TestCase("test28 - sha3-384 invalid", "HMAC-SHA3-384", 31, false)]
-        [TestCase("test29 - sha3-384 invalid", "HMAC-SHA3-384", 385, false)]
-        [TestCase("test30 - sha3-512 valid", "HMAC-SHA3-512", 256, true)]
-        [TestCase("test31 - sha3-512 invalid", "HMAC-SHA3-512", 31, false)]
-        [TestCase("test32 - sha3-512 invalid", "HMAC-SHA3-512", 513, false)]
-        public void ShouldSucceedOnValidMacLen(string label, string algorithm, int macLen, bool isSuccessExpected)
+        [TestCase("test0 - valid", "KMAC", 64, 2048, true, false)]
+        [TestCase("test1 - valid", "KMAC", 128, 256, true, false)]
+        [TestCase("test2 - invalid", "KMAC", 31, 256, false, true)]
+        [TestCase("test3 - invalid", "KMAC", 256, 65537, false, true)]
+        [TestCase("test4 - invalid", "KMAC", 255, 2047, false, false)]
+        [TestCase("test5 - valid", "KMAC", 255, 2049, true, true)]
+        public void ShouldSucceedOnValidMacLen(string label, string algorithm, int macLenMin, int macLenMax, bool isSuccessExpected, bool bitOriented)
         {
             Parameters parameters = new ParameterBuilder()
                 .WithAlgorithm(algorithm)
-                .WithMacLen(new MathDomain().AddSegment(new ValueDomainSegment(macLen)))
+                .WithMacLen(new MathDomain().AddSegment(new RangeDomainSegment(null, macLenMin, macLenMax, bitOriented ? 1 : 8)))
+                .WithBitOrientedOutput(bitOriented)
                 .Build();
 
             var result = _subject.Validate(parameters);

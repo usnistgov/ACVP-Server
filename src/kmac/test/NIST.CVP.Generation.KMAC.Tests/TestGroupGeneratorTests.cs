@@ -23,88 +23,76 @@ namespace NIST.CVP.Generation.KMAC.Tests
             // 0
             new object[]
             {
-                "test1 - 1",
-                new MathDomain().AddSegment(new ValueDomainSegment(8)),
-                new MathDomain().AddSegment(new ValueDomainSegment(8)), // note this is an invalid MAC length, but validated as such in the parameters validator
-                1
+                "test1 - 0",
+                new int[] {},
+                0
             },
-            // 1 (1*1)
+            // 1 
             new object[]
             {
                 "test2 - 1",
-                new MathDomain().AddSegment(new ValueDomainSegment(8)),
-                new MathDomain().AddSegment(new ValueDomainSegment(80)),
+                new int[] { 128 },
                 1
             },
-            // 4 (1*4)
+            // 2 
             new object[]
             {
-                "test3 - 4",
-                new MathDomain().AddSegment(new ValueDomainSegment(8)),
-                // 4 valid segments in this range for sha1
-                new MathDomain()
-                    .AddSegment(new ValueDomainSegment(80))
-                    .AddSegment(new ValueDomainSegment(96))
-                    .AddSegment(new ValueDomainSegment(128))
-                    .AddSegment(new ValueDomainSegment(160)),
-                4
-            },
-            // 4 (1*4)
-            new object[]
-            {
-                "test4 - 4",
-                new MathDomain().AddSegment(new ValueDomainSegment(8)),
-                // 4 valid segments in this range for sha1
-                new MathDomain()
-                    .AddSegment(new ValueDomainSegment(80))
-                    .AddSegment(new ValueDomainSegment(96))
-                    .AddSegment(new ValueDomainSegment(128))
-                    .AddSegment(new ValueDomainSegment(160))
-                    .AddSegment(new ValueDomainSegment(88)), // invalid for sha1, don't include
-                4
-            },
-            // 4 (1*4)
-            new object[]
-            {
-                "test5 - 4",
-                new MathDomain().AddSegment(new ValueDomainSegment(8)),
-                // 4 valid segments in this range for sha1
-                new MathDomain()
-                    .AddSegment(new RangeDomainSegment(new Random800_90(), 8, 1024, 8)), // 4
-                4
-            },
-            // 4 (5*4)
-            new object[]
-            {
-                "test5 - 20",
-                // pull 5 random values (2 < block size, 1 = block size, 2 > block size
-                new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 8, 1024)),
-                // 4 valid segments in this range for sha1
-                new MathDomain()
-                    .AddSegment(new RangeDomainSegment(new Random800_90(), 8, 1024, 8)), // 4
-                20
-            },
+                "test3 - 2",
+                new int[] { 128, 256 },
+                2
+            }
         };
         
         [Test]
         [TestCaseSource(nameof(testData))]
-        public void ShouldReturnOneITestGroupForEveryMultiplicativeIterationOfParamters(
+        public void ShouldReturnOneITestGroupForEveryDigestSize(
             string label,
-            MathDomain keyLen,
-            MathDomain macLen,
+            int[] digestSizes,
             int expectedResultCount
         )
         {
             Parameters p = new Parameters()
             {
-                Algorithm = "HMAC-SHA-1",
-                KeyLen = keyLen,
-                MacLen = macLen
+                Algorithm = "KMAC",
+                KeyLen = new MathDomain().AddSegment(new RangeDomainSegment(null, 256, 1024, 8)),
+                MacLen = new MathDomain().AddSegment(new RangeDomainSegment(null, 256, 1024, 8)),
+                XOF = false,
+                BitOrientedInput = false,
+                BitOrientedOutput = false,
+                DigestSizes = digestSizes,
+                IncludeNull = false,
+                IsSample = true
             };
 
             var result = _subject.BuildTestGroups(p);
 
             Assert.AreEqual(expectedResultCount, result.Count());
+        }
+
+        [Test]
+        [TestCaseSource(nameof(testData))]
+        public void ShouldReturnTwoITestGroupsForEveryDigestSizeXOF(
+            string label,
+            int[] digestSizes,
+            int expectedResultCount
+        )
+        {
+            Parameters p = new Parameters()
+            {
+                Algorithm = "KMAC",
+                KeyLen = new MathDomain().AddSegment(new RangeDomainSegment(null, 256, 1024, 8)),
+                MacLen = new MathDomain().AddSegment(new RangeDomainSegment(null, 256, 1024, 8)),
+                XOF = true,
+                BitOrientedInput = false,
+                BitOrientedOutput = false,
+                DigestSizes = digestSizes,
+                IncludeNull = false,
+                IsSample = true
+            };
+
+            var result = _subject.BuildTestGroups(p);
+
+            Assert.AreEqual(expectedResultCount * 2, result.Count());
         }
     }
 }

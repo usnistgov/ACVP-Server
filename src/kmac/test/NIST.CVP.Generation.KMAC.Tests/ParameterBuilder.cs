@@ -11,6 +11,11 @@ namespace NIST.CVP.Generation.KMAC.Tests
         private string _algorithm;
         private MathDomain _keyLen;
         private MathDomain _macLen;
+        private bool _bitOrientedInput;
+        private bool _bitOrientedOutput;
+        private bool _includeNull;
+        private bool _xof;
+        private int[] _digestSizes;
 
         /// <summary>
         /// Provides default parameters that are valid (as of construction)
@@ -18,8 +23,13 @@ namespace NIST.CVP.Generation.KMAC.Tests
         public ParameterBuilder()
         {
             _algorithm = "KMAC";
-            _keyLen = new MathDomain().AddSegment(new ValueDomainSegment(8));
-            _macLen = new MathDomain().AddSegment(new ValueDomainSegment(80));
+            _keyLen = new MathDomain().AddSegment(new RangeDomainSegment(null, ParameterValidator._MIN_KEY_LENGTH, ParameterValidator._MAX_KEY_LENGTH, 8));
+            _macLen = new MathDomain().AddSegment(new RangeDomainSegment(null, 32, 65536, 8));
+            _bitOrientedInput = false;
+            _bitOrientedOutput = false;
+            _includeNull = false;
+            _xof = false;
+            _digestSizes = new int[] { 128, 256 };
         }
 
         public ParameterBuilder WithAlgorithm(string value)
@@ -40,14 +50,59 @@ namespace NIST.CVP.Generation.KMAC.Tests
             return this;
         }
 
+        public ParameterBuilder WithBitOrientedInput(bool value)
+        {
+            _bitOrientedInput = value;
+            return this;
+        }
+
+        public ParameterBuilder WithBitOrientedOutput(bool value)
+        {
+            _bitOrientedOutput = value;
+            return this;
+        }
+
+        public ParameterBuilder WithIncludeNull(bool value)
+        {
+            _includeNull = value;
+            return this;
+        }
+
+        public ParameterBuilder WithXOF(bool value)
+        {
+            _xof = value;
+            return this;
+        }
+
+        public ParameterBuilder WithDigestSizes(int[] values)
+        {
+            _digestSizes = GetDeepCopy(values);
+            return this;
+        }
+
         public Parameters Build()
         {
             return new Parameters()
             {
                 Algorithm = _algorithm,
                 KeyLen = _keyLen,
-                MacLen = _macLen
+                MacLen = _macLen,
+                BitOrientedInput = _bitOrientedInput,
+                BitOrientedOutput = _bitOrientedOutput,
+                DigestSizes = _digestSizes,
+                IncludeNull = _includeNull,
+                XOF = _xof
             };
+        }
+
+        private int[] GetDeepCopy(int[] values)
+        {
+            var copy = new int[values.Length];
+            for (int i = 0; i < values.Length; i++)
+            {
+                copy[i] = values[i];
+            }
+            return copy;
         }
     }
 }

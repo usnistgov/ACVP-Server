@@ -8,9 +8,12 @@ namespace NIST.CVP.Generation.KMAC
 {
     public class TestVectorSet : ITestVectorSet<TestGroup, TestCase>
     {
-        public string Algorithm { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
-        public string Mode { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
-        public bool IsSample { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
-        public List<TestGroup> TestGroups { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+        public string Algorithm { get; set; }
+
+        [JsonIgnore]
+        public string Mode { get; set; }
+        public bool IsSample { get; set; }
+
+        public List<TestGroup> TestGroups { get; set; } = new List<TestGroup>();
     }
 }

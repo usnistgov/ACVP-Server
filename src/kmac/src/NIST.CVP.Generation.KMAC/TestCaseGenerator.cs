@@ -9,16 +9,55 @@ namespace NIST.CVP.Generation.KMAC
 {
     public class TestCaseGenerator : ITestCaseGenerator<TestGroup, TestCase>
     {
-        public int NumberOfTestCasesToGenerate => throw new NotImplementedException();
+        private readonly IKmac _algo;
+        private readonly IRandom800_90 _random800_90;
 
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
+        public int NumberOfTestCasesToGenerate => 75;
+
+        public TestCaseGenerator(IRandom800_90 random800_90, IKmac algo)
         {
-            throw new NotImplementedException();
+            _random800_90 = random800_90;
+            _algo = algo;
         }
 
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup @group, bool isSample)
         {
-            throw new NotImplementedException();
+            var key = _random800_90.GetRandomBitString(@group.KeyLength);
+            var msg = _random800_90.GetRandomBitString(@group.MessageLength);
+            var testCase = new TestCase
+            {
+                Key = key,
+                Message = msg
+            };
+            return Generate(@group, testCase);
         }
+
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup @group, TestCase testCase)
+        {
+            MacResult genResult = null;
+            try
+            {
+                genResult = _algo.Generate(testCase.Key, testCase.Message, group.MacLength);
+                if (!genResult.Success)
+                {
+                    ThisLogger.Warn(genResult.ErrorMessage);
+                    {
+                        return new TestCaseGenerateResponse<TestGroup, TestCase>(genResult.ErrorMessage);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ThisLogger.Error(ex);
+                {
+                    return new TestCaseGenerateResponse<TestGroup, TestCase>(ex.Message);
+                }
+            }
+            testCase.Mac = genResult.Mac;
+
+            return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
+        }
+
+        private Logger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }

@@ -93,8 +93,6 @@ namespace NIST.CVP.Generation.KMAC.Tests
         {
             var testGroup = new TestGroup
             {
-                ShaMode = ModeValues.SHA1,
-                ShaDigestSize = DigestSizes.d160,
                 MacLength = 80,
                 KeyLength = 128,
                 MessageLength = 128

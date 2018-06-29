@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using NIST.CVP.Math;
 
-namespace NIST.CVP.Generation.HMAC.Tests
+namespace NIST.CVP.Generation.KMAC.Tests
 {
     public static class TestDataMother
     {

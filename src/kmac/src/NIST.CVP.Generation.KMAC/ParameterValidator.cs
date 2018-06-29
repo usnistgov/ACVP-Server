@@ -8,12 +8,12 @@ namespace NIST.CVP.Generation.KMAC
 {
     public class ParameterValidator : ParameterValidatorBase, IParameterValidator<Parameters>
     {
-        public const int _MIN_KEY_LENGTH = 8;
+        public const int _MIN_KEY_LENGTH = 128;
         public const int _MAX_KEY_LENGTH = 524288;
         public static string[] VALID_ALGORITHMS = {"kmac"};
         public static int[] VALID_DIGEST_SIZES = { 128, 256 };
 
-        private int _minMacLength = 16;
+        private int _minMacLength = 32;
         private int _maxMacLength = 65536;
 
         public ParameterValidateResponse Validate(Parameters parameters)
@@ -66,13 +66,19 @@ namespace NIST.CVP.Generation.KMAC
             );
             errorResults.AddIfNotNullOrEmpty(rangeCheck);
 
-            var modCheck = ValidateMultipleOf(parameters.KeyLen, 8, "KeyLen Modulus");
+            // Links BitOriented and Domain
+            var bitOriented = parameters.BitOrientedInput ? 1 : 8;
+            var modCheck = ValidateMultipleOf(parameters.KeyLen, bitOriented, "KeyLen Modulus");
             errorResults.AddIfNotNullOrEmpty(modCheck);
         }
 
         private void ValidateMacLen(Parameters parameters, List<string> errorResults)
         {
-            var segmentCheck = ValidateSegmentCountGreaterThanZero(parameters.MacLen, "MacLen Domain");
+            string segmentCheck = "";
+            if (parameters.MacLen.DomainSegments.Count() != 1)
+            {
+                segmentCheck = "Must have exactly one segment in the domain";
+            }
             errorResults.AddIfNotNullOrEmpty(segmentCheck);
             if (!string.IsNullOrEmpty(segmentCheck))
             {
@@ -87,6 +93,11 @@ namespace NIST.CVP.Generation.KMAC
                 "MacLen Range"
             );
             errorResults.AddIfNotNullOrEmpty(rangeCheck);
+
+            // Links BitOriented and Domain
+            var bitOriented = parameters.BitOrientedOutput ? 1 : 8;
+            var modCheck = ValidateMultipleOf(parameters.MacLen, bitOriented, "MacLen Modulus");
+            errorResults.AddIfNotNullOrEmpty(modCheck);
         }
     }
 }
