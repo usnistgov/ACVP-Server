@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\NIST.CVP.Oracle\NIST.CVP.Common.Oracle.csproj" />
+    <ProjectReference Include="..\..\src\NIST.CVP.Common.Oracle\NIST.CVP.Common.Oracle.csproj" />
   </ItemGroup>
 
 </Project>
