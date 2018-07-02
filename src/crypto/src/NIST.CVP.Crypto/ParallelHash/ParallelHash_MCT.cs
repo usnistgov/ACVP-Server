@@ -68,7 +68,7 @@ namespace NIST.CVP.Crypto.ParallelHash
             var outputLen = (int)System.Math.Floor((double)max / 8) * 8;
             var blockSize = 8;
             var customization = "";
-            var range = isSample ? 64 : (max - min) + 8;        // only set for faster testing, change back later
+            var range = (max - min) + 8;
             var innerMessage = message.GetDeepCopy();
 
             try
@@ -80,7 +80,7 @@ namespace NIST.CVP.Crypto.ParallelHash
                     iterationResponse.Message = innerMessage;
                     iterationResponse.Customization = customization;
 
-                    for (j = 0; j < (isSample ? 5 : 1000); j++)      // only uses isSample for faster testing, change back later
+                    for (j = 0; j < 1000; j++)
                     {
                         // Might not have 128 bits to pull from so we pad with 0                        
                         innerMessage = BitString.ConcatenateBits(innerMessage, BitString.Zeroes(128));
