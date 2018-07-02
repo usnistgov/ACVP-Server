@@ -74,7 +74,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
             Parameters p = new Parameters()
             {
                 Algorithm = Algorithm,
-                Mode = Mode,
+                KasMode = Mode,
                 Function = new string[] { "dpGen" },
                 Scheme = new Schemes()
                 {
@@ -135,7 +135,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
             Parameters p = new Parameters()
             {
                 Algorithm = Algorithm,
-                Mode = Mode,
+                KasMode = Mode,
                 Function = new string[] { "dpGen", "dpVal", "keyPairGen", "partialVal", "keyRegen" },
                 Scheme = new Schemes()
                 {

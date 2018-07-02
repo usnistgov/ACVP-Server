@@ -30,7 +30,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
             EccComponent.Parameters p = new EccComponent.Parameters()
             {
                 Algorithm = Algorithm,
-                Mode = Mode,
+                KasMode = Mode,
                 Function = ParameterValidator.ValidFunctions,
                 Curve = new string[] { "p-192" },
                 IsSample = true
@@ -44,7 +44,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
             EccComponent.Parameters p = new EccComponent.Parameters()
             {
                 Algorithm = Algorithm,
-                Mode = Mode,
+                KasMode = Mode,
                 Function = ParameterValidator.ValidFunctions,
                 Curve = new string[] { "p-192", "k-163", "b-163" },
                 IsSample = true

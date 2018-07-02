@@ -42,7 +42,7 @@ namespace NIST.CVP.Generation.Core
                 TestGroups = groups,
                 IsSample = parameters.IsSample,
                 Algorithm = parameters.Algorithm,
-                Mode = parameters.Mode
+                Mode = parameters.KasMode
             };
 
             return testVector;

@@ -9,7 +9,7 @@ namespace NIST.CVP.Generation.KAS
         /// <inheritdoc />
         public string Algorithm { get; set; }
         /// <inheritdoc />
-        public string Mode { get; set; }
+        public string KasMode { get; set; }
         /// <inheritdoc />
         public bool IsSample { get; set; }
         /// <summary>

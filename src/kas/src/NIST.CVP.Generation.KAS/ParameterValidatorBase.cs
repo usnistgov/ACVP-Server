@@ -73,7 +73,7 @@ namespace NIST.CVP.Generation.KAS
         private void ValidateAlgorithm(Parameters parameters, List<string> errorResults)
         {
             errorResults.AddIfNotNullOrEmpty(ValidateValue(parameters.Algorithm, new string[] {Algorithm}, "Algorithm"));
-            errorResults.AddIfNotNullOrEmpty(ValidateValue(parameters.Mode, new string[] { Mode }, "Mode"));
+            errorResults.AddIfNotNullOrEmpty(ValidateValue(parameters.KasMode, new string[] { Mode }, "Mode"));
         }
 
         private void ValidateFunction(Parameters parameters, List<string> errorResults)
