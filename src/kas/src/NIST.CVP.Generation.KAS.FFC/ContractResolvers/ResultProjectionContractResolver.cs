@@ -61,9 +61,7 @@ namespace NIST.CVP.Generation.KAS.FFC.ContractResolvers
 
             var aftIncludeProperties = new[]
             {
-                nameof(TestCase.StaticPrivateKeyIut),
                 nameof(TestCase.StaticPublicKeyIut),
-                nameof(TestCase.EphemeralPrivateKeyIut),
                 nameof(TestCase.EphemeralPublicKeyIut),
                 nameof(TestCase.DkmNonceIut),
                 nameof(TestCase.EphemeralNonceIut),
