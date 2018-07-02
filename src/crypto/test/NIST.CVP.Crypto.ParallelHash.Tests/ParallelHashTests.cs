@@ -79,13 +79,13 @@ namespace NIST.CVP.Crypto.ParallelHash.Tests
         [TestCase(192, 128, "000102030405060710111213141516172021222324252627", "fe47d661e49ffe5b7d999922c0623567", 8, "")]
         [TestCase(192, 128, "000102030405060710111213141516172021222324252627", "ea2a793140820f7a128b8eb70a9439f9", 8, "Parallel Data")]
         [TestCase(576, 128, "000102030405060708090a0b101112131415161718191a1b202122232425262728292a2b303132333435363738393a3b404142434445464748494a4b505152535455565758595a5b", "0127ad9772ab904691987fcc4a24888f", 12, "Parallel Data")]
-        [TestCase(1607, "000102030405060708090a0b0c0d0e0f1011121314151617", "148afd6b4554041b42b072e5d7b4377098c38d6bf8d3192bc0dc1d2360662e1ad536be70c8d2004a86d99d09d476d34f64d051662513d30d41a02d62bf3aeaedcd25069490b572d6e295f8d6d75d4a5e127727a71c270ca332518c6c7c160518b724b6116fd403f8e211178f44b729deb4b6ee7063df8cfd63c0efc0c56bf5116c5d63e7437b176b35ce84a1c1d79eae73f747e6435b21a4c73f872e9b2892a257ae0c96703c67c1b85d1824cfb83c0e6a65654cf95d22be3240f36baf7a0a3f098a81bfa510f68c66", 8, "My Function")]
-        [TestCase(35, "000102030405060708090a0b0c0d0e0f1011121314151617", "148afd6b05", 8, "My Function")]
-        public void ShouldParallelHashXOF128HashCorrectly(int length, int digestSize, string inputHex, string outputHex, int blockSize, string customization)
+        [TestCase(192, 1607, "000102030405060708090a0b0c0d0e0f1011121314151617", "148afd6b4554041b42b072e5d7b4377098c38d6bf8d3192bc0dc1d2360662e1ad536be70c8d2004a86d99d09d476d34f64d051662513d30d41a02d62bf3aeaedcd25069490b572d6e295f8d6d75d4a5e127727a71c270ca332518c6c7c160518b724b6116fd403f8e211178f44b729deb4b6ee7063df8cfd63c0efc0c56bf5116c5d63e7437b176b35ce84a1c1d79eae73f747e6435b21a4c73f872e9b2892a257ae0c96703c67c1b85d1824cfb83c0e6a65654cf95d22be3240f36baf7a0a3f098a81bfa510f68c66", 8, "My Function")]
+        [TestCase(192, 35, "000102030405060708090a0b0c0d0e0f1011121314151617", "148afd6b05", 8, "My Function")]
+        public void ShouldParallelHash128XOFHashCorrectly(int length, int outLength, string inputHex, string outputHex, int blockSize, string customization)
         {
             var message = new BitString(inputHex, length, false);
-            var expectedResult = new BitString(outputHex);
-            var hashFunction = GetParallelHashHashFunction(digestSize, 256, true, blockSize, customization);
+            var expectedResult = new BitString(outputHex, outLength, false);
+            var hashFunction = GetParallelHashHashFunction(outLength, 256, true, blockSize, customization);
 
             var subject = new ParallelHash();
             var result = subject.HashMessage(hashFunction, message);
@@ -166,13 +166,13 @@ namespace NIST.CVP.Crypto.ParallelHash.Tests
         [TestCase(192, 256, "000102030405060710111213141516172021222324252627", "c10a052722614684144d28474850b410757e3cba87651ba167a5cbddff7f4666", 8, "")]
         [TestCase(192, 256, "000102030405060710111213141516172021222324252627", "538e105f1a22f44ed2f5cc1674fbd40be803d9c99bf5f8d90a2c8193f3fe6ea7", 8, "Parallel Data")]
         [TestCase(576, 256, "000102030405060708090a0b101112131415161718191a1b202122232425262728292a2b303132333435363738393a3b404142434445464748494a4b505152535455565758595a5b", "6b3e790b330c889a204c2fbc728d809f19367328d852f4002dc829f73afd6bce", 12, "Parallel Data")]
-        [TestCase(1607, "000102030405060708090a0b0c0d0e0f1011121314151617", "967539d68bb797972c2255f58dc921739565094b3ae4a98d49585d6b96e08255aee8611225a6483a8b331772ba9f78e9b98812f38fcf681016264e595c415b84eca20912c1243cf35141951c2293a3bbe8dac2f8f8dc6a02277c15b5e98da80573cf842d533ebdf6a6e15f1f2219af004661fe2638e552018f01b868e36ac1805a9f5240438f24dc5849f33db8dd98f87d0834631657808ada7d7fede692925c762c90b572796f642268b8a611a03354308c22da747b4c6723536b29d058cfee320133bcad62058838", 8, "My Function")]
-        [TestCase(35, "000102030405060708090a0b0c0d0e0f1011121314151617", "967539d603", 8, "My Function")]
-        public void ShouldParallelHashXOF256HashCorrectly(int length, int digestSize, string inputHex, string outputHex, int blockSize, string customization)
+        [TestCase(192, 1607, "000102030405060708090a0b0c0d0e0f1011121314151617", "967539d68bb797972c2255f58dc921739565094b3ae4a98d49585d6b96e08255aee8611225a6483a8b331772ba9f78e9b98812f38fcf681016264e595c415b84eca20912c1243cf35141951c2293a3bbe8dac2f8f8dc6a02277c15b5e98da80573cf842d533ebdf6a6e15f1f2219af004661fe2638e552018f01b868e36ac1805a9f5240438f24dc5849f33db8dd98f87d0834631657808ada7d7fede692925c762c90b572796f642268b8a611a03354308c22da747b4c6723536b29d058cfee320133bcad62058838", 8, "My Function")]
+        [TestCase(192, 35, "000102030405060708090a0b0c0d0e0f1011121314151617", "967539d603", 8, "My Function")]
+        public void ShouldParallelHash256XOFHashCorrectly(int length, int outLength, string inputHex, string outputHex, int blockSize, string customization)
         {
             var message = new BitString(inputHex, length, false);
-            var expectedResult = new BitString(outputHex);
-            var hashFunction = GetParallelHashHashFunction(digestSize, 512, true, blockSize, customization);
+            var expectedResult = new BitString(outputHex, outLength, false);
+            var hashFunction = GetParallelHashHashFunction(outLength, 512, true, blockSize, customization);
 
             var subject = new ParallelHash();
             var result = subject.HashMessage(hashFunction, message);
