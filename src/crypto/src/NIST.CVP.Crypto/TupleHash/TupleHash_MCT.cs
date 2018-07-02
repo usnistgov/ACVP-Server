@@ -23,6 +23,13 @@ namespace NIST.CVP.Crypto.TupleHash
         /*
          * INPUT: The initial Single-Tuple of 144 bits long
          * 
+         * BitsToString(bits) { 
+         *     string = "";
+         *     foreach byte in bits {
+         *         string = string + ASCII((byte % 26) + 65); 
+         *     }
+         * }
+         * 
          * Initial Outputlen = (floor(maxoutlen/8) )*8
          * Initial Customization = ""
          * //makes maxoutlen a multiple of 8 and remains within the range specified.
@@ -32,7 +39,7 @@ namespace NIST.CVP.Crypto.TupleHash
          *     for (j=0; j<100; j++) {
          *         for (i=1; i<1001; i++) {
          *             leftbits = 144 leftmost bits of Output[i-1];
-         *             tupleSize = 3 leftmost bits of leftbits + 1
+         *             tupleSize = 3 leftmost bits of leftbits + 1;
          *             for (k=0; k<tupleSize; k++) {
          *                 T[i][k] = Substring of leftbits from k * 144 / tupleSize to (k+1) * 144 / tupleSize - 1;
          *             }
@@ -43,7 +50,7 @@ namespace NIST.CVP.Crypto.TupleHash
          *             Rightmost_Output_bits = rightmost 16 bits of Output[i];
          *             Range = (maxoutbytes – minoutbytes + 1);
          *             Outputlen = minoutbytes + (Rightmost_Output_bits mod Range);
-         *             Customization = T[i][0] || Rightmost_Output_bits
+         *             Customization = BitsToString(T[i][0] || Rightmost_Output_bits);
          *         }
          *         Output[j] = Output[1000];
          *         OUTPUT: Outputlen[j], Output[j]
@@ -142,7 +149,12 @@ namespace NIST.CVP.Crypto.TupleHash
 
         private string GetStringFromBytes(byte[] bytes)
         {
-            return System.Text.Encoding.ASCII.GetString(bytes);
+            var result = "";
+            foreach (var num in bytes)
+            {
+                result += System.Text.Encoding.ASCII.GetString(new byte[] { (byte)((num % 26) + 65) });
+            }
+            return result;
         }
 
         private List<BitString> GetDeepCopy(IEnumerable<BitString> tuple)

@@ -31,7 +31,7 @@ namespace NIST.CVP.Generation.CSHAKE
             var rate = 1600 - group.DigestSize * 2;
 
             var numSmallCases = 30;
-            var numLargeCases = 30;
+            var numLargeCases = 25;
 
             _numberOfCases = numSmallCases + numLargeCases;
 

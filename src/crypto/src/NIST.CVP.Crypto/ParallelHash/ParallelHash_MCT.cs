@@ -23,6 +23,13 @@ namespace NIST.CVP.Crypto.ParallelHash
         /*
          * INPUT: The initial Msg of 128 bits long
          * 
+         * BitsToString(bits) { 
+         *     string = "";
+         *     foreach byte in bits {
+         *         string = string + ASCII((byte % 26) + 65); 
+         *     }
+         * }
+         * 
          * Initial Outputlen = (floor(maxoutlen/8) )*8
          * Initial Customization = ""
          * Initial BlockSize = 8 bytes
@@ -40,8 +47,8 @@ namespace NIST.CVP.Crypto.ParallelHash
          *             Rightmost_Output_bits = rightmost 16 bits of Output[i];
          *             Range = (maxoutbytes – minoutbytes + 1);
          *             Outputlen = minoutbytes + (Rightmost_Output_bits mod Range);
-         *             BlockSize = rightmost 8 bits of Rightmost_Output_bits
-         *             Customization = M[i] || Rightmost_Output_bits
+         *             BlockSize = rightmost 8 bits of Rightmost_Output_bits;
+         *             Customization = BitsToString(M[i] || Rightmost_Output_bits);
          *         }
          *         Output[j] = Output[1000];
          *         OUTPUT: Outputlen[j], Output[j]
@@ -136,7 +143,12 @@ namespace NIST.CVP.Crypto.ParallelHash
 
         private string GetStringFromBytes(byte[] bytes)
         {
-            return System.Text.Encoding.ASCII.GetString(bytes);
+            var result = "";
+            foreach (var num in bytes)
+            {
+                result += System.Text.Encoding.ASCII.GetString(new byte[] { (byte)((num % 26) + 65) });
+            }
+            return result;
         }
     }
 }
