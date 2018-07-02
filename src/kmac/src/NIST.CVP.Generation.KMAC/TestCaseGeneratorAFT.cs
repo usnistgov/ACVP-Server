@@ -31,8 +31,8 @@ namespace NIST.CVP.Generation.KMAC
             var unitSize = group.BitOrientedInput ? 1 : 8;
             var rate = 1600 - group.DigestSize * 2;
 
-            var numSmallCases = isSample ? 5 : (rate / unitSize) * 2;
-            var numLargeCases = isSample ? 3 : 100;
+            var numSmallCases = (rate / unitSize) * 2;
+            var numLargeCases = 100;
 
             if (!group.IncludeNull)
             {
@@ -62,7 +62,7 @@ namespace NIST.CVP.Generation.KMAC
                 _currentLargeCase++;
             }
 
-            var customization = _random800_90.GetRandomString(10);
+            var customization = _random800_90.GetRandomString(_customizationLength);
 
             var testCase = new TestCase
             {

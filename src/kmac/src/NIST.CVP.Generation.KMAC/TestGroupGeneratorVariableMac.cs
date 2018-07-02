@@ -22,7 +22,7 @@ namespace NIST.CVP.Generation.KMAC
                     TestType = TEST_TYPE,
                     KeyLength = parameters.KeyLen.GetDomainMinMax().Minimum,    // temporary fix later
                     MacLength = parameters.MacLen.GetDomainMinMax().Minimum,    // temporary fix later
-                    MacLengths = parameters.MacLen,
+                    MacLengths = parameters.MacLen.GetDeepCopy(),
                     MessageLength = _MESSAGE_LENGTH,
                     XOF = false
                 };
@@ -39,7 +39,7 @@ namespace NIST.CVP.Generation.KMAC
                         TestType = TEST_TYPE,
                         KeyLength = parameters.KeyLen.GetDomainMinMax().Minimum,    // temporary fix later
                         MacLength = parameters.MacLen.GetDomainMinMax().Minimum,    // temporary fix later
-                        MacLengths = parameters.MacLen,
+                        MacLengths = parameters.MacLen.GetDeepCopy(),
                         MessageLength = _MESSAGE_LENGTH,
                         XOF = true
                     };

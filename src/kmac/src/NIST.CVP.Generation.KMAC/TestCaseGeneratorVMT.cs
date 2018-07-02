@@ -14,7 +14,7 @@ namespace NIST.CVP.Generation.KMAC
     {
         private int _capacity = 0;
         private int _currentCase = 0;
-        private int _digestSize = 0;
+        private int _macLength = 0;
         private readonly IRandom800_90 _random800_90;
         private readonly IKmac _algo;
 
@@ -34,11 +34,11 @@ namespace NIST.CVP.Generation.KMAC
             if (_capacity == 0)
             {
                 TestCaseSizes.Clear();
-                DetermineLengths(group.MacLengths, isSample);
+                DetermineLengths(group.MacLengths);
                 _capacity = 2 * group.DigestSize;
             }
 
-            _digestSize = TestCaseSizes[_currentCase];
+            _macLength = TestCaseSizes[_currentCase];
             _currentCase++;
 
             var message = _random800_90.GetRandomBitString(group.MessageLength);
@@ -60,7 +60,7 @@ namespace NIST.CVP.Generation.KMAC
             MacResult genResult = null;
             try
             {
-                genResult = _algo.Generate(testCase.Key, testCase.Message, testCase.Customization, group.MacLength);
+                genResult = _algo.Generate(testCase.Key, testCase.Message, testCase.Customization, _macLength);
                 if (!genResult.Success)
                 {
                     ThisLogger.Warn(genResult.ErrorMessage);
@@ -81,32 +81,25 @@ namespace NIST.CVP.Generation.KMAC
             return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
         }
 
-        private void DetermineLengths(MathDomain domain, bool isSample)
+        private void DetermineLengths(MathDomain domain)
         {
             domain.SetRangeOptions(RangeDomainSegmentOptions.Random);
             var minMax = domain.GetDomainMinMax();
 
-            var values = domain.GetValues(isSample ? 10 : 1000).OrderBy(o => Guid.NewGuid()).Take(isSample ? 10 : 1000);
+            var values = domain.GetValues(1000).OrderBy(o => Guid.NewGuid()).Take(1000);
             int repetitions;
 
             if (values.Count() == 0)
             {
-                repetitions = isSample ? 9 : 999;
+                repetitions = 999;
             }
-            else if (values.Count() > (isSample ? 9 : 999))
+            else if (values.Count() > 999)
             {
                 repetitions = 1;
             }
             else
             {
-                if (isSample)
-                {
-                    repetitions = 3;
-                }
-                else
-                {
-                    repetitions = 1000 / values.Count() + (1000 % values.Count() > 0 ? 1 : 0);
-                }
+                repetitions = 1000 / values.Count() + (1000 % values.Count() > 0 ? 1 : 0);
             }
 
             foreach (var value in values)
