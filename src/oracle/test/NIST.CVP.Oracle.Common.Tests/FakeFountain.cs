@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using NIST.CVP.Math;
 
 namespace NIST.CVP.Common.Oracle.Tests
 {

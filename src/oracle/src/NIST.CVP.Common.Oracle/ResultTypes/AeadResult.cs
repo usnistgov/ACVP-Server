@@ -5,6 +5,7 @@ namespace NIST.CVP.Common.Oracle.ResultTypes
     public class AeadResult : AesResult
     {
         public bool TestPassed { get; set; }
+        public BitString Aad { get; set; }
         public BitString Tag { get; set; }
     }
 }

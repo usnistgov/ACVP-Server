@@ -7,8 +7,8 @@ namespace NIST.CVP.Common.Oracle
     {
         #region AEAD
         AeadResult GetAesCcmCase();
-        AeadResult GetAesGcmCase();
-        AeadResult GetAesXpnCase();
+        AeadResult GetAesGcmCase(AeadParameters param);
+        AeadResult GetAesXpnCase(AeadParameters param);
         #endregion AEAD
 
         #region AES
@@ -67,6 +67,7 @@ namespace NIST.CVP.Common.Oracle
 
         #region KeyWrap
         AesResult GetAesKeyWrapCase();
+        AesResult GetAesKeyWrapWithPaddingCase();
         TdesResult GetTdesKeyWrapCase();
         #endregion KeyWrap
 
