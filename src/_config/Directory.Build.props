@@ -20,7 +20,7 @@
     <!-- NuGet package versions -->
     <PropertyGroup>
         <NuGetVersionMicrosoftNETTestSdk>15.7.0</NuGetVersionMicrosoftNETTestSdk>
-        <NuGetVersionMicrosoftAspNetCoreAll>2.0.0</NuGetVersionMicrosoftAspNetCoreAll>
+        <NuGetVersionMicrosoftAspNetCoreAll>2.1.1</NuGetVersionMicrosoftAspNetCoreAll>
         <NuGetVersiondotnettestnunit>3.4.0-beta-3</NuGetVersiondotnettestnunit>
         <NuGetVersionTeamCityVSTestTestAdapter>1.0.5</NuGetVersionTeamCityVSTestTestAdapter>
         <NuGetVersionMoq>4.8.2</NuGetVersionMoq>
@@ -30,7 +30,7 @@
         <NuGetVersionAutofac>4.8.0</NuGetVersionAutofac>
         <NuGetVersionNewtonsoftJson>11.0.2</NuGetVersionNewtonsoftJson>
         <NuGetVersionCommandLineArgumentsParser>3.0.18</NuGetVersionCommandLineArgumentsParser>
-        <NuGetVersionMicrosoftExtensionsOptionsConfigurationExtensions>2.0.0</NuGetVersionMicrosoftExtensionsOptionsConfigurationExtensions>
+        <NuGetVersionMicrosoftExtensionsOptionsConfigurationExtensions>2.1.1</NuGetVersionMicrosoftExtensionsOptionsConfigurationExtensions>
         <NuGetVersionSystemRuntimeLoader>4.3.0</NuGetVersionSystemRuntimeLoader>
     </PropertyGroup>
 
