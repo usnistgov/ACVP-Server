@@ -1,7 +1,9 @@
-﻿using NIST.CVP.Crypto.Common.DRBG;
+﻿using NIST.CVP.Common.Oracle;
+using NIST.CVP.Crypto.Common.DRBG;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
+using System;
 
 namespace NIST.CVP.Generation.DRBG
 {
@@ -11,58 +13,78 @@ namespace NIST.CVP.Generation.DRBG
     /// </summary>
     public class TestCaseGeneratorNoReseed : ITestCaseGenerator<TestGroup, TestCase>
     {
-        private readonly IEntropyProviderFactory _iEntropyProviderFactory;
-        private readonly IDrbgFactory _iDrbgFactory;
+        private readonly IOracle _oracle;
 
-        public TestCaseGeneratorNoReseed(IEntropyProviderFactory iEntropyProviderFactory, IDrbgFactory iDrbgFactory)
+        public TestCaseGeneratorNoReseed(IOracle oracle)
         {
-            _iEntropyProviderFactory = iEntropyProviderFactory;
-            _iDrbgFactory = iDrbgFactory;
+            _oracle = oracle;
         }
 
         public int NumberOfTestCasesToGenerate => 15;
 
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup @group, bool isSample)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
         {
-            var randomEntropyProvider = _iEntropyProviderFactory.GetEntropyProvider(EntropyProviderTypes.Random);
-
-            TestCase testCase = new TestCase
+            DrbgResult oracleResult = null;
+            try
             {
-                EntropyInput = randomEntropyProvider.GetEntropy(@group.EntropyInputLen),
-                Nonce = randomEntropyProvider.GetEntropy(@group.NonceLen),
-                PersoString = randomEntropyProvider.GetEntropy(@group.PersoStringLen)
-            };
-
-            // Gen
-            AddOtherInput(group, randomEntropyProvider, testCase);
-
-            // Gen
-            AddOtherInput(group, randomEntropyProvider, testCase);
-
-            return Generate(group, testCase);
-        }
-
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup @group, TestCase testCase)
-        {
-            var testableEntropyProvider = _iEntropyProviderFactory.GetEntropyProvider(EntropyProviderTypes.Testable) as TestableEntropyProvider;
-            SetupTestableEntropy(testCase, testableEntropyProvider);
-
-            var drbg = _iDrbgFactory.GetDrbgInstance(group.DrbgParameters, testableEntropyProvider);
-
-            drbg.Instantiate(group.DrbgParameters.SecurityStrength, testCase.PersoString);
-
-            foreach (var item in testCase.OtherInput)
+                oracleResult = _oracle.GetDrbgCase(group.DrbgParameters);
+            }
+            catch (Exception ex)
             {
-                var result = drbg.Generate(group.ReturnedBitsLen, item.AdditionalInput);
-                if (!result.Success)
-                {
-                    return new TestCaseGenerateResponse<TestGroup, TestCase>(result.DrbgStatus.ToString());
-                }
-
-                testCase.ReturnedBits = result.Bits.GetDeepCopy();
+                return new TestCaseGenerateResponse<TestGroup, TestCase>($"Failed to generate. {ex.Message}");
             }
 
-            return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
+            if (oracleResult.Success)
+            {
+                return new TestCaseGenerateResponse<TestGroup, TestCase>(
+                    new TestCase {
+                        ReturnedBits = oracleResult.Bits
+                    }
+                );
+            }
+
+            return new TestCaseGenerateResponse<TestGroup, TestCase>(oracleResult.DrbgStatus.ToString());
+
+            //var randomEntropyProvider = _iEntropyProviderFactory.GetEntropyProvider(EntropyProviderTypes.Random);
+
+            //TestCase testCase = new TestCase
+            //{
+            //    EntropyInput = randomEntropyProvider.GetEntropy(@group.EntropyInputLen),
+            //    Nonce = randomEntropyProvider.GetEntropy(@group.NonceLen),
+            //    PersoString = randomEntropyProvider.GetEntropy(@group.PersoStringLen)
+            //};
+
+            //// Gen
+            //AddOtherInput(group, randomEntropyProvider, testCase);
+
+            //// Gen
+            //AddOtherInput(group, randomEntropyProvider, testCase);
+
+            //return Generate(group, testCase);
+        }
+
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
+        {
+            return null;
+            //var testableEntropyProvider = _iEntropyProviderFactory.GetEntropyProvider(EntropyProviderTypes.Testable) as TestableEntropyProvider;
+            //SetupTestableEntropy(testCase, testableEntropyProvider);
+
+            //var drbg = _iDrbgFactory.GetDrbgInstance(group.DrbgParameters, testableEntropyProvider);
+
+            //drbg.Instantiate(group.DrbgParameters.SecurityStrength, testCase.PersoString);
+
+            //foreach (var item in testCase.OtherInput)
+            //{
+            //    var result = drbg.Generate(group.ReturnedBitsLen, item.AdditionalInput);
+            //    if (!result.Success)
+            //    {
+            //        return new TestCaseGenerateResponse<TestGroup, TestCase>(result.DrbgStatus.ToString());
+            //    }
+
+            //    testCase.ReturnedBits = result.Bits.GetDeepCopy();
+            //}
+
+            //return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
         }
 
         private void AddOtherInput(TestGroup group, IEntropyProvider randomEntropyProvider, TestCase tc)

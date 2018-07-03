@@ -1,18 +1,15 @@
-﻿using NIST.CVP.Crypto.Common.DRBG;
+﻿using NIST.CVP.Common.Oracle;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Math.Entropy;
 
 namespace NIST.CVP.Generation.DRBG
 {
     public class TestCaseGeneratorFactory : ITestCaseGeneratorFactory<TestGroup, TestCase>
     {
-        private readonly IEntropyProviderFactory _iEntropyProviderFactory;
-        private readonly IDrbgFactory _iDrbgFactory;
+        private readonly IOracle _oracle;
 
-        public TestCaseGeneratorFactory(IEntropyProviderFactory iEntropyProviderFactory, IDrbgFactory iDrbgFactory)
+        public TestCaseGeneratorFactory(IOracle oracle)
         {
-            _iEntropyProviderFactory = iEntropyProviderFactory;
-            _iDrbgFactory = iDrbgFactory;
+            _oracle = oracle;
         }
 
         public ITestCaseGenerator<TestGroup, TestCase> GetCaseGenerator(TestGroup testGroup)
@@ -21,13 +18,13 @@ namespace NIST.CVP.Generation.DRBG
             {
                 if (testGroup.PredResistance)
                 {
-                    return new TestCaseGeneratorReseedPredResist(_iEntropyProviderFactory, _iDrbgFactory);
+                    return new TestCaseGeneratorReseedPredResist(_oracle);
                 }
                 
-                return new TestCaseGeneratorReseedNoPredResist(_iEntropyProviderFactory, _iDrbgFactory);
+                return new TestCaseGeneratorReseedNoPredResist(_oracle);
             }
 
-            return new TestCaseGeneratorNoReseed(_iEntropyProviderFactory, _iDrbgFactory);
+            return new TestCaseGeneratorNoReseed(_oracle);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
+using NIST.CVP.Crypto.Common.DRBG;
 
 namespace NIST.CVP.Common.Oracle
 {
@@ -29,7 +30,7 @@ namespace NIST.CVP.Common.Oracle
         #endregion AES
 
         #region Drbg
-        DrbgResult GetDrbgCase();
+        ResultTypes.DrbgResult GetDrbgCase(DrbgParameters param);
         #endregion Drbg
 
         #region DSA
