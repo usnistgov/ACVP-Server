@@ -26,7 +26,8 @@ namespace NIST.CVP.Generation.AES_GCM
                 KeyLength = group.KeyLength,
                 AadLength = group.AADLength,
                 TagLength = group.TagLength,
-                IvLength = group.IVLength
+                IvLength = group.IVLength,
+                CouldFail = true
             };
 
             AeadResult oracleResult = null;

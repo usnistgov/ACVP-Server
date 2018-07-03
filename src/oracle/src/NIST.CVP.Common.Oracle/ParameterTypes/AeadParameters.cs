@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace NIST.CVP.Common.Oracle.ParameterTypes
+﻿namespace NIST.CVP.Common.Oracle.ParameterTypes
 {
     public class AeadParameters
     {
@@ -11,5 +7,7 @@ namespace NIST.CVP.Common.Oracle.ParameterTypes
         public int DataLength { get; set; }
         public int AadLength { get; set; }
         public int TagLength { get; set; }
+
+        public bool CouldFail { get; set; }
     }
 }

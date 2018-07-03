@@ -9,6 +9,9 @@ namespace NIST.CVP.Common.Oracle
         AeadResult GetAesCcmCase();
         AeadResult GetAesGcmCase(AeadParameters param);
         AeadResult GetAesXpnCase(AeadParameters param);
+
+        AeadResult GetDeferredAesGcmCase(AeadParameters param);
+        AeadResult CompleteDeferredAesGcmCase(AeadParameters param, AeadResult fullParam);
         #endregion AEAD
 
         #region AES

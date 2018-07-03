@@ -1,5 +1,4 @@
-﻿using System;
-using NIST.CVP.Common.Oracle.ParameterTypes;
+﻿using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.AES_GCM;
 using NIST.CVP.Crypto.Common.Symmetric.BlockModes.Aead;
@@ -7,20 +6,17 @@ using NIST.CVP.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.Crypto.Symmetric.BlockModes;
 using NIST.CVP.Crypto.Symmetric.BlockModes.Aead;
 using NIST.CVP.Crypto.Symmetric.Engines;
+using System;
 
 namespace NIST.CVP.Crypto.Oracle
 {
     public partial class Oracle
     {
-        private AeadResult DoSimpleAead(IAeadModeBlockCipher cipher, AeadParameters param)
-        {
-            var payload = _rand.GetRandomBitString(param.DataLength);
-            var key = _rand.GetRandomBitString(param.KeyLength);
-            var iv = _rand.GetRandomBitString(param.IvLength);
-            var aad = _rand.GetRandomBitString(param.AadLength);
-            var tagLength = param.TagLength;
+        private readonly GcmBlockCipher _gcm = new GcmBlockCipher(new AesEngine(), new ModeBlockCipherFactory(), new AES_GCMInternals(new ModeBlockCipherFactory(), new BlockCipherEngineFactory()));
 
-            var aeadBlockCipherParams = new AeadModeBlockCipherParameters(BlockCipherDirections.Encrypt, iv, key, payload, aad, tagLength);
+        private AeadResult DoSimpleAead(IAeadModeBlockCipher cipher, AeadResult fullParam, AeadParameters param)
+        {
+            var aeadBlockCipherParams = new AeadModeBlockCipherParameters(BlockCipherDirections.Encrypt, fullParam.Iv, fullParam.Key, fullParam.PlainText, fullParam.Aad, param.TagLength);
             var result = cipher.ProcessPayload(aeadBlockCipherParams);
 
             if (!result.Success)
@@ -31,9 +27,10 @@ namespace NIST.CVP.Crypto.Oracle
 
             return new AeadResult
             {
-                PlainText = payload,
-                Key = key,
-                Iv = iv,
+                PlainText = fullParam.PlainText,
+                Key = fullParam.Key,
+                Iv = fullParam.Iv,
+                Aad = fullParam.Aad,
                 CipherText = result.Result,
                 Tag = result.Tag,
                 TestPassed = true
@@ -44,17 +41,27 @@ namespace NIST.CVP.Crypto.Oracle
 
         public AeadResult GetAesGcmCase(AeadParameters param)
         {
-            var cipher = new GcmBlockCipher(new AesEngine(), new ModeBlockCipherFactory(), new AES_GCMInternals(new ModeBlockCipherFactory(), new BlockCipherEngineFactory()));
-            var result = DoSimpleAead(cipher, param);
-
-            // Should Fail at certain ratio, 25%
-            var upperBound = (int)(1.0 / GCM_FAIL_RATIO);
-            var shouldFail = _rand.GetRandomInt(0, upperBound) == 0;
-
-            if (shouldFail)
+            var fullParams = new AeadResult
             {
-                result.Tag = _rand.GetDifferentBitStringOfSameSize(result.Tag);
-                result.TestPassed = false;
+                PlainText = _rand.GetRandomBitString(param.DataLength),
+                Key = _rand.GetRandomBitString(param.KeyLength),
+                Iv = _rand.GetRandomBitString(param.IvLength),
+                Aad = _rand.GetRandomBitString(param.AadLength)
+            };
+
+            var result = DoSimpleAead(_gcm, fullParams, param);
+
+            if (param.CouldFail)
+            {
+                // Should Fail at certain ratio, 25%
+                var upperBound = (int)(1.0 / GCM_FAIL_RATIO);
+                var shouldFail = _rand.GetRandomInt(0, upperBound) == 0;
+
+                if (shouldFail)
+                {
+                    result.Tag = _rand.GetDifferentBitStringOfSameSize(result.Tag);
+                    result.TestPassed = false;
+                }
             }
 
             return result;
@@ -62,8 +69,16 @@ namespace NIST.CVP.Crypto.Oracle
 
         public AeadResult GetAesXpnCase(AeadParameters param)
         {
-            var cipher = new GcmBlockCipher(new AesEngine(), new ModeBlockCipherFactory(), new AES_GCMInternals(new ModeBlockCipherFactory(), new BlockCipherEngineFactory()));
-            var result = DoSimpleAead(cipher, param);
+            var fullParams = new AeadResult
+            {
+                PlainText = _rand.GetRandomBitString(param.DataLength),
+                Key = _rand.GetRandomBitString(param.KeyLength),
+                Iv = _rand.GetRandomBitString(param.IvLength),
+                Aad = _rand.GetRandomBitString(param.AadLength)
+            };
+
+            // Uses gcm as a cipher instead of xpn
+            var result = DoSimpleAead(_gcm, fullParams, param);
 
             // Should Fail at certain ratio, 25%
             var upperBound = (int)(1.0 / XPN_FAIL_RATIO);
@@ -76,6 +91,21 @@ namespace NIST.CVP.Crypto.Oracle
             }
 
             return result;
+        }
+
+        public AeadResult GetDeferredAesGcmCase(AeadParameters param)
+        {
+            return new AeadResult
+            {
+                Aad = _rand.GetRandomBitString(param.AadLength),
+                PlainText = _rand.GetRandomBitString(param.DataLength),
+                Key = _rand.GetRandomBitString(param.KeyLength)
+            };
+        }
+
+        public AeadResult CompleteDeferredAesGcmCase(AeadParameters param, AeadResult fullParam)
+        {
+            return DoSimpleAead(_gcm, fullParam, param);
         }
     }
 }

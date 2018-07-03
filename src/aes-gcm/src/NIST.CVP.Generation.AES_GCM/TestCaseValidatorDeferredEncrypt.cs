@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using NIST.CVP.Crypto.Common.Symmetric;
+﻿using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Enums;
+using System.Collections.Generic;
 
 namespace NIST.CVP.Generation.AES_GCM
 {
@@ -9,9 +9,9 @@ namespace NIST.CVP.Generation.AES_GCM
     {
         private readonly TestGroup _testGroup;
         private readonly TestCase _serverTestCase;
-        private readonly IDeferredTestCaseResolver<TestGroup, TestCase, SymmetricCipherAeadResult> _testCaseResolver;
+        private readonly IDeferredTestCaseResolver<TestGroup, TestCase, AeadResult> _testCaseResolver;
 
-        public TestCaseValidatorDeferredEncrypt(TestGroup testGroup, TestCase serverTestCase, IDeferredTestCaseResolver<TestGroup, TestCase, SymmetricCipherAeadResult> deferredTestCaseResolver)
+        public TestCaseValidatorDeferredEncrypt(TestGroup testGroup, TestCase serverTestCase, IDeferredTestCaseResolver<TestGroup, TestCase, AeadResult> deferredTestCaseResolver)
         {
             _testGroup = testGroup;
             _serverTestCase = serverTestCase;
@@ -62,12 +62,13 @@ namespace NIST.CVP.Generation.AES_GCM
         {
             var serverResult = _testCaseResolver.CompleteDeferredCrypto(_testGroup, _serverTestCase, suppliedResult);
 
-            if (!serverResult.Result.Equals(suppliedResult.CipherText))
+            if (!serverResult.CipherText.Equals(suppliedResult.CipherText))
             {
                 errors.Add("Cipher Text does not match");
-                expected.Add(nameof(serverResult.Result), serverResult.Result.ToHex());
+                expected.Add(nameof(serverResult.CipherText), serverResult.CipherText.ToHex());
                 provided.Add(nameof(suppliedResult.CipherText), suppliedResult.CipherText.ToHex());
             }
+
             if (!serverResult.Tag.Equals(suppliedResult.Tag))
             {
                 errors.Add("Tag does not match");
