@@ -12,7 +12,7 @@
         /// <summary>
         /// The mode the algorithm is running in (can be null/empty)
         /// </summary>
-        string KasMode { get; }
+        string Mode { get; }
         /// <summary>
         /// Is the algorithm running in "sample" mode?  
         /// (Can impact number of tests generated and how they are generated)

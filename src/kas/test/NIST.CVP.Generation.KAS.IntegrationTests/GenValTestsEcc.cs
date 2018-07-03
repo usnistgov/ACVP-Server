@@ -74,13 +74,13 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
             Parameters p = new Parameters()
             {
                 Algorithm = Algorithm,
-                KasMode = Mode,
+                Mode = Mode,
                 Function = new string[] { "dpGen" },
                 Scheme = new Schemes()
                 {
                     EccEphemeralUnified = new EccEphemeralUnified()
                     {
-                        Role = new string[] { "initiator" },
+                        KasRole = new string[] { "initiator" },
                         NoKdfNoKc = new NoKdfNoKc()
                         {
                             ParameterSet = new ParameterSets()
@@ -95,7 +95,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                     },
                     EccOnePassMqv = new EccOnePassMqv()
                     {
-                        Role = new string[] { "initiator" },
+                        KasRole = new string[] { "initiator" },
                         NoKdfNoKc = new NoKdfNoKc()
                         {
                             ParameterSet = new ParameterSets()
@@ -110,7 +110,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                     },
                     EccStaticUnified = new EccStaticUnified()
                     {
-                        Role = new string[] { "initiator" },
+                        KasRole = new string[] { "initiator" },
                         NoKdfNoKc = new NoKdfNoKc()
                         {
                             ParameterSet = new ParameterSets()
@@ -135,13 +135,13 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
             Parameters p = new Parameters()
             {
                 Algorithm = Algorithm,
-                KasMode = Mode,
+                Mode = Mode,
                 Function = new string[] { "dpGen", "dpVal", "keyPairGen", "partialVal", "keyRegen" },
                 Scheme = new Schemes()
                 {
                     EccFullUnified = new EccFullUnified()
                     {
-                        Role = new string[] { "initiator", "responder" },
+                        KasRole = new string[] { "initiator", "responder" },
                         NoKdfNoKc = new NoKdfNoKc()
                         {
                             ParameterSet = new ParameterSets()
@@ -230,7 +230,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                     },
                     EccFullMqv = new EccFullMqv()
                     {
-                        Role = new string[] { "initiator", "responder" },
+                        KasRole = new string[] { "initiator", "responder" },
                         NoKdfNoKc = new NoKdfNoKc()
                         {
                             ParameterSet = new ParameterSets()
@@ -319,7 +319,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                     },
                     EccEphemeralUnified = new EccEphemeralUnified()
                     {
-                        Role = new string[] { "initiator", "responder" },
+                        KasRole = new string[] { "initiator", "responder" },
                         NoKdfNoKc = new NoKdfNoKc()
                         {
                             ParameterSet = new ParameterSets()
@@ -368,7 +368,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                     },
                     EccOnePassUnified = new EccOnePassUnified()
                     {
-                        Role = new string[] { "initiator", "responder" },
+                        KasRole = new string[] { "initiator", "responder" },
                         NoKdfNoKc = new NoKdfNoKc()
                         {
                             ParameterSet = new ParameterSets()
@@ -457,7 +457,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                     },
                     EccOnePassMqv = new EccOnePassMqv()
                     {
-                        Role = new string[] { "initiator", "responder" },
+                        KasRole = new string[] { "initiator", "responder" },
                         NoKdfNoKc = new NoKdfNoKc()
                         {
                             ParameterSet = new ParameterSets()
@@ -546,7 +546,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                     },
                     EccOnePassDh = new EccOnePassDh()
                     {
-                        Role = new string[] { "initiator", "responder" },
+                        KasRole = new string[] { "initiator", "responder" },
                         NoKdfNoKc = new NoKdfNoKc()
                         {
                             ParameterSet = new ParameterSets()
@@ -635,7 +635,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                     },
                     EccStaticUnified = new EccStaticUnified()
                     {
-                        Role = new string[] { "initiator", "responder" },
+                        KasRole = new string[] { "initiator", "responder" },
                         NoKdfNoKc = new NoKdfNoKc()
                         {
                             ParameterSet = new ParameterSets()

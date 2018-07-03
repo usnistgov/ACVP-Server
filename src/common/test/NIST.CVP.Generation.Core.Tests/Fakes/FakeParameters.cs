@@ -3,7 +3,7 @@
     public class FakeParameters : IParameters
     {
         public string Algorithm { get; set; } = "test";
-        public string KasMode { get; set; } = "test2";
+        public string Mode { get; set; } = "test2";
         public bool IsSample { get; set; } = true;
     }
 }

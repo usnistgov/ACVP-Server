@@ -40,7 +40,7 @@ namespace NIST.CVP.Generation.KAS.EccComponent.Tests
             return new Parameters()
             {
                 Algorithm = _algorithm,
-                KasMode = _mode,
+                Mode = _mode,
                 Function = _function,
                 Curve = _curves
             };

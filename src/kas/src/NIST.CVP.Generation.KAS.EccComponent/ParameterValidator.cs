@@ -48,7 +48,7 @@ namespace NIST.CVP.Generation.KAS.EccComponent
             );
             errorResults.AddIfNotNullOrEmpty(
                 ValidateValue(
-                    parameters.KasMode,
+                    parameters.Mode,
                     new string[] { Mode },
                     nameof(Mode)
                 )

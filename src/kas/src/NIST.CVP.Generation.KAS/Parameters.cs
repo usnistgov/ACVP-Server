@@ -9,7 +9,7 @@ namespace NIST.CVP.Generation.KAS
         /// <inheritdoc />
         public string Algorithm { get; set; }
         /// <inheritdoc />
-        public string KasMode { get; set; }
+        public string Mode { get; set; }
         /// <inheritdoc />
         public bool IsSample { get; set; }
         /// <summary>
@@ -112,7 +112,7 @@ namespace NIST.CVP.Generation.KAS
         /// <summary>
         /// The Key Agreement ROles
         /// </summary>
-        public string[] Role { get; set; }
+        public string[] KasRole { get; set; }
         /// <summary>
         /// Registration options for NoKdfNoKc (Component only test)
         /// </summary>

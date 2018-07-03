@@ -51,7 +51,7 @@
             return new Parameters()
             {
                 Algorithm = _algorithm,
-                KasMode = _mode,
+                Mode = _mode,
                 Function = _functions,
                 Scheme = _schemes
             };
