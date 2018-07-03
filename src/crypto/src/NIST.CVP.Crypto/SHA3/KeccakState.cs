@@ -100,7 +100,7 @@ namespace NIST.CVP.Crypto.SHA3
 
             for (var i = 0; i < RowSize; i++)
             {
-                result = BitString.ConcatenateBits(result, new BitString(BitConverter.GetBytes(_state[i, plane])));
+                result = BitString.ConcatenateBits(result, new BitString(BitConverter.GetBytes(_state[i, plane]), Width));
             }
 
             return result;
