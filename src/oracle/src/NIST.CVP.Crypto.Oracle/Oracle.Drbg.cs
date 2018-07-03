@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Crypto.Common.DRBG;
+﻿using System;
+using NIST.CVP.Crypto.Common.DRBG;
 using NIST.CVP.Crypto.Common.DRBG.Enums;
 using NIST.CVP.Crypto.DRBG;
 using NIST.CVP.Math;
