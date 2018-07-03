@@ -81,7 +81,7 @@ namespace NIST.CVP.Crypto.SHA3.Tests
         #endregion Creating KeccakStates
 
         #region Getters and Setters
-        [Test]
+        /*[Test]
         [TestCaseSource(nameof(testCases))]
         public void ShouldSetAndGetProperLane(int b, int Width, int L)
         {
@@ -99,7 +99,7 @@ namespace NIST.CVP.Crypto.SHA3.Tests
                     Assert.AreEqual(newLane.ToHex(), subject.GetLane(i, j).ToHex());
                 }
             }
-        }
+        }*/
         #endregion Getters and Setters
 
         #region Transformation Functions
