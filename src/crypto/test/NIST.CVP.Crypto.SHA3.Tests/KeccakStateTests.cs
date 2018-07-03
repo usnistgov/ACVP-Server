@@ -44,7 +44,7 @@ namespace NIST.CVP.Crypto.SHA3.Tests
                 {
                     for (var k = 0; k < Width; k++)
                     {
-                        Assert.AreEqual(BitString.Zero(), subject.GetBit(i, j, k));
+                        Assert.AreEqual(false, subject.GetBit(i, j, k));
                     }
                 }
             }

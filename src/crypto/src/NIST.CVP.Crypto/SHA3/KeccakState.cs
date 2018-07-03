@@ -12,8 +12,9 @@ namespace NIST.CVP.Crypto.SHA3
         public readonly int L;
 
         //private BitString[,] _state;
-        private static ulong[,] _workingStatePi = new ulong[5, 5];
         private ulong[,] _state;
+
+        private const ulong ONES = 18446744073709551615;
 
         public KeccakState(BitString content, int b)        // b is always 1600 but keep it flexible for future
         {
@@ -132,6 +133,8 @@ namespace NIST.CVP.Crypto.SHA3
 
         public static KeccakState Iota(KeccakState A, int roundIdx)
         {
+            var A_prime = new KeccakState(A);
+
             ulong rc = 0;
 
             for (var j = 0; j <= A.L; j++)
@@ -142,8 +145,8 @@ namespace NIST.CVP.Crypto.SHA3
                 rc = bit ? rc | mask : rc & ~mask;
             }
 
-            A.SetLane(0, 0, A.GetLane(0, 0) ^ rc);
-            return A;
+            A_prime.SetLane(0, 0, A_prime.GetLane(0, 0) ^ rc);
+            return A_prime;
         }
 
         /*public static KeccakState Chi(KeccakState A)
@@ -170,8 +173,8 @@ namespace NIST.CVP.Crypto.SHA3
             {
                 for (var y = 0; y < 5; y++)
                 {
-                    //var intermediate = BitString.AND(BitString.XOR(A.GetLane((x + 1) % 5, y), BitString.Ones(A.Width)), A.GetLane((x + 2) % 5, y)); ***********
-                    //A_prime.SetLane(x, y, BitString.XOR(A.GetLane(x, y), intermediate)); ***************
+                    var intermediate = (A.GetLane((x + 1) % 5, y) ^ ONES) & A.GetLane((x + 2) % 5, y);
+                    A_prime.SetLane(x, y, A.GetLane(x, y) ^ intermediate);
                 }
             }
 
@@ -195,15 +198,17 @@ namespace NIST.CVP.Crypto.SHA3
 
         public static KeccakState Pi(KeccakState A)
         {
+            var A_prime = new KeccakState(A);
+
             for (var x = 0; x < 5; x++)
             {
                 for (var y = 0; y < 5; y++)
                 {
-                    _workingStatePi[x, y] = A.GetLane((x + 3 * y) % 5, x);
+                    A_prime.SetLane(x, y, A.GetLane((x + 3 * y) % 5, x));
                 }
             }
-            A._state = _workingStatePi;
-            return A;
+
+            return A_prime;
         }
 
         /*public static KeccakState Rho(KeccakState A)
@@ -224,17 +229,19 @@ namespace NIST.CVP.Crypto.SHA3
 
         public static KeccakState Rho(KeccakState A)
         {
+            var A_prime = new KeccakState(A);
+
             var offsets = RhoOffsets(A.Width);
 
             for (var x = 0; x < 5; x++)
             {
                 for (var y = 0; y < 5; y++)
                 {
-                    A.SetLane(x, y, KeccakRotateLeft(A.GetLane(x, y), offsets[x, y]));
+                    A_prime.SetLane(x, y, KeccakRotateLeft(A_prime.GetLane(x, y), offsets[x, y]));
                 }
             }
 
-            return A;
+            return A_prime;
         }
 
         /*public static KeccakState Theta(KeccakState A)
@@ -290,26 +297,25 @@ namespace NIST.CVP.Crypto.SHA3
         public static KeccakState Theta(KeccakState A)
         {
             var A_prime = new KeccakState(A);
-            var C = new BitString[5];
-            var D = new BitString[5];
+            var C = new ulong[5];
+            var D = new ulong[5];
 
             for (var x = 0; x < 5; x++)
             {
-                C[x] = new BitString(A.Width);
+                C[x] = (ulong)0;
                 for (var y = 0; y < 5; y++)
                 {
-                    //C[x] = BitString.XOR(C[x], A.GetLane(x, y)); ***********
+                    C[x] = C[x] ^ A.GetLane(x, y);
                 }
             }
 
-            var E = new BitString[5];
-            var F = new BitString[5];
+            var E = new ulong[5];
+            var F = new ulong[5];
             for (var x = 0; x < 5; x++)
             {
                 F[x] = C[(x + 1) % 5];
-                //E[x] = KeccakRotateLeft(F[x], 1); **********
-                //E[x] = BitString.MSBRotate(F[x], 1); ***********
-                D[x] = BitString.XOR(C[(x - 1 + 5) % 5], E[x]);
+                E[x] = KeccakRotateLeft(F[x], 1);
+                D[x] = C[(x - 1 + 5) % 5] ^ E[x];
             }
 
             //string e0 = E[0].ToHex();
@@ -330,7 +336,7 @@ namespace NIST.CVP.Crypto.SHA3
             {
                 for (var y = 0; y < 5; y++)
                 {
-                    //A_prime.SetLane(x, y, BitString.XOR(A_prime.GetLane(x, y), D[x])); *************
+                    A_prime.SetLane(x, y, A_prime.GetLane(x, y) ^ D[x]);
                 }
             }
 
