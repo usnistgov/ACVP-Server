@@ -88,21 +88,21 @@ namespace NIST.CVP.Common.Oracle
         #endregion RSA
 
         #region TDES
-        TdesResult GetTdesCbcCase();
-        TdesResult GetTdesCfbCase();
-        TdesResult GetTdesEcbCase();
-        TdesResult GetTdesOfbCase();
+        TdesResult GetTdesCbcCase(TdesParameters param);
+        TdesResult GetTdesCfbCase(TdesParameters param);
+        TdesResult GetTdesEcbCase(TdesParameters param);
+        TdesResult GetTdesOfbCase(TdesParameters param);
 
-        TdesResultWithIvs GetTdesCbcICase();
-        TdesResultWithIvs GetTdesOfbICase();
+        TdesResultWithIvs GetTdesCbcICase(TdesParameters param);
+        TdesResultWithIvs GetTdesOfbICase(TdesParameters param);
 
-        MctResult<TdesResult> GetTdesCbcMctCase();
-        MctResult<TdesResult> GetTdesCfbMctCase();
-        MctResult<TdesResult> GetTdesEcbMctCase();
-        MctResult<TdesResult> GetTdesOfbMctCase();
+        MctResult<TdesResult> GetTdesCbcMctCase(TdesParameters param);
+        MctResult<TdesResult> GetTdesCfbMctCase(TdesParameters param);
+        MctResult<TdesResult> GetTdesEcbMctCase(TdesParameters param);
+        MctResult<TdesResult> GetTdesOfbMctCase(TdesParameters param);
 
-        MctResult<TdesResultWithIvs> GetTdesCbcIMctCase();
-        MctResult<TdesResultWithIvs> GetTdesOfbIMctCase();
+        MctResult<TdesResultWithIvs> GetTdesCbcIMctCase(TdesParameters param);
+        MctResult<TdesResultWithIvs> GetTdesOfbIMctCase(TdesParameters param);
         #endregion TDES
     }
 }
