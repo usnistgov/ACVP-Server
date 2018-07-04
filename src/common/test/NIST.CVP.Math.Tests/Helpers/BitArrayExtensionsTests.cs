@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Linq;
-using Microsoft.EntityFrameworkCore.Extensions.Internal;
 using NIST.CVP.Math.Helpers;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;

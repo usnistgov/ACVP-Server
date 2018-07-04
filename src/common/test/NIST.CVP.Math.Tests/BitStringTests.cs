@@ -1637,64 +1637,38 @@ namespace NIST.CVP.Math.Tests
         }
 
         [Test]
-        [TestCase(
-            new bool[] { true, false, true, false, true, false },
-            1,
-            new bool[] { false, true, false, true, false, false }
-        )]
-        [TestCase(
-            new bool[] { false, false, false, true, true, false },
-            4,
-            new bool[] { true, false, false, false, false, false }
-        )]
-        [TestCase(
-            new bool[] { false, false, true, false, true, false },
-            8,
-            new bool[] { false, false, false, false, false, false }
-        )]
-        public void LSBShiftShouldShiftBitsAndReturnNewBitString(bool[] bits, int distance, bool[] expectedBits)
+        [TestCase("FF", "FE")]
+        [TestCase("F00F", "E01E")]
+        public void LSBShiftShouldShiftBitsAndReturnNewBitString(string hexToShift, string expectedHex)
         {
             // Arrange
-            var inputString = new BitString(new BitArray(bits));
-            var expectedResult = new BitString(new BitArray(expectedBits));
+            var inputString = new BitString(hexToShift);
+            var expectedResult = new BitString(expectedHex);
 
             // Act
-            var results = BitString.LSBShift(inputString, distance);
+            var results = BitString.LSBShift(inputString);
 
             // Assert
             Assert.AreEqual(expectedResult, results);
         }
 
         [Test]
-        [TestCase(
-            new bool[] { true, false, true, false, true, false },
-            1,
-            new bool[] { false, true, false, true, false, false }
-        )]
-        [TestCase(
-            new bool[] { false, false, false, true, true, false },
-            4,
-            new bool[] { true, false, false, false, false, false }
-        )]
-        [TestCase(
-            new bool[] { false, false, true, false, true, false },
-            8,
-            new bool[] { false, false, false, false, false, false }
-        )]
-        public void LSBShiftShouldNotModifyParameters(bool[] bits, int distance, bool[] expectedBits)
+        [TestCase("FF", "FE")]
+        [TestCase("F00F", "E01E")]
+        public void LSBShiftShouldNotModifyParameters(string hexToShift, string expectedHex)
         {
             // Arrange
-            var originalString = new BitString(new BitArray(bits));
-            var expectedResult = new BitString(new BitArray(expectedBits));
+            var originalString = new BitString(hexToShift);
+            var expectedResult = new BitString(expectedHex);
 
             // Act
-            var results = BitString.LSBShift(originalString, distance);
+            var results = BitString.LSBShift(originalString);
 
             // Assume
             Assume.That(expectedResult.Equals(results));
 
             // Assert
-            Assert.AreEqual(originalString, new BitString(new BitArray(bits)));
+            Assert.AreEqual(originalString, new BitString(hexToShift));
         }
         #endregion BitShifts
 

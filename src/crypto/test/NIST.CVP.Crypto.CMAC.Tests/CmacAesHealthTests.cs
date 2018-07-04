@@ -1,4 +1,6 @@
 ﻿using NIST.CVP.Crypto.AES;
+using NIST.CVP.Crypto.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Symmetric.Engines;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -13,7 +15,7 @@ namespace NIST.CVP.Crypto.CMAC.Tests
         [SetUp]
         public void Setup()
         {
-            _subject = new CmacAes(new RijndaelFactory(new RijndaelInternals()));
+            _subject = new CmacAes(new BlockCipherEngineFactory(), new ModeBlockCipherFactory());
         }
 
         [Test]
