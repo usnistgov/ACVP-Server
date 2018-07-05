@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.Rest.TransientFaultHandling;
 using NIST.CVP.Common.Enums;
 
 namespace NIST.CVP.Generation.Core

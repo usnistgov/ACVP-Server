@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Microsoft.EntityFrameworkCore.Internal;
 using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Common.Helpers;
 using NIST.CVP.Generation.Core;

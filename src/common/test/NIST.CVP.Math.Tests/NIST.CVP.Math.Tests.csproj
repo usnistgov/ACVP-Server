@@ -13,7 +13,6 @@
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="$(NuGetVersionMicrosoftNETTestSdk)" />
     <PackageReference Include="dotnet-test-nunit" Version="$(NuGetVersiondotnettestnunit)" />
     <PackageReference Include="TeamCity.VSTest.TestAdapter" Version="$(NuGetVersionTeamCityVSTestTestAdapter)" />
-    
     <PackageReference Include="NLog" Version="$(NuGetVersionNLog)" />
     <PackageReference Include="NUnit" Version="$(NuGetVersionNUnit)" />
     <PackageReference Include="Moq" Version="$(NuGetVersionMoq)" />

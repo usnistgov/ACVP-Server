@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.Localization.Internal;
-
-namespace NIST.CVP.Generation.KAS.Tests.Builders
+﻿namespace NIST.CVP.Generation.KAS.Tests.Builders
 {
     public class KcOptionsBuilder
     {
