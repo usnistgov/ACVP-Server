@@ -28,21 +28,6 @@ namespace NIST.CVP.Crypto.SHA3
             }
         }
 
-        public KeccakState(KeccakState old)
-        {
-            Width = old.Width;
-            L = old.L;
-            _state = new ulong[RowSize, ColSize];
-
-            for (var x = 0; x < RowSize; x++)
-            {
-                for (var y = 0; y < ColSize; y++)
-                {
-                    _state[x, y] = old.GetLane(x, y);
-                }
-            }
-        }
-
         public bool GetBit(int x, int y, int z)
         {
             return (GetLane(x, y) & (ulong)(1 << z - 1)) != 0;
