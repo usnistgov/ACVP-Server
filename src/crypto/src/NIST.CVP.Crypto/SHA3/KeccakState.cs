@@ -13,10 +13,6 @@ namespace NIST.CVP.Crypto.SHA3
         
         private ulong[,] _state;
 
-        private const ulong ONES = 18446744073709551615;
-        private static ulong[,] workingStateChi = new ulong[5, 5];
-        private static ulong[,] workingStatePi = new ulong[5, 5];
-
         public KeccakState(BitString content, int b)        // b is always 1600 but keep it flexible for future
         {
             Width = b / GridSize;
@@ -54,7 +50,7 @@ namespace NIST.CVP.Crypto.SHA3
 
         public void SetBit(int x, int y, int z, bool bit)
         {
-            ulong mask = (ulong)(1 << z);
+            ulong mask = ((ulong)1 << z);
             _state[x, y] = bit ? _state[x, y] | mask : _state[x, y] & ~mask;
         }
 
@@ -102,7 +98,7 @@ namespace NIST.CVP.Crypto.SHA3
             {
                 var idx = (int)System.Math.Pow(2, j) - 1;
                 var bit = RC(7 * roundIdx + j);
-                ulong mask = ((ulong)(1) << idx);
+                ulong mask = ((ulong)1 << idx);
                 rc = bit ? rc | mask : rc & ~mask;
             }
 
@@ -112,11 +108,13 @@ namespace NIST.CVP.Crypto.SHA3
 
         public static KeccakState Chi(KeccakState A)
         {
+            var workingStateChi = new ulong[5, 5];
+
             for (var x = 0; x < 5; x++)
             {
                 for (var y = 0; y < 5; y++)
                 {
-                    var intermediate = (A.GetLane((x + 1) % 5, y) ^ ONES) & A.GetLane((x + 2) % 5, y);
+                    var intermediate = (A.GetLane((x + 1) % 5, y) ^ ulong.MaxValue) & A.GetLane((x + 2) % 5, y);
                     workingStateChi[x, y] = A.GetLane(x, y) ^ intermediate;
                 }
             }
@@ -127,6 +125,8 @@ namespace NIST.CVP.Crypto.SHA3
 
         public static KeccakState Pi(KeccakState A)
         {
+            var workingStatePi = new ulong[5, 5];
+
             for (var x = 0; x < 5; x++)
             {
                 for (var y = 0; y < 5; y++)
