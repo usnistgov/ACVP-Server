@@ -37,8 +37,10 @@ namespace NIST.CVP.Generation.CSHAKE.ContractResolvers
             {
                 nameof(TestCase.TestCaseId),
                 nameof(TestCase.Message),
+                nameof(TestCase.MessageLength),
+                nameof(TestCase.FunctionName),
                 nameof(TestCase.Customization),
-                nameof(TestCase.MessageLength)
+                nameof(TestCase.DigestLength)
             };
 
             if (includeProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))

@@ -27,6 +27,9 @@ namespace NIST.CVP.Generation.CSHAKE
         [JsonProperty(PropertyName = "inEmpty")]
         public bool IncludeNull { get; set; } = false;
 
+        [JsonProperty(PropertyName = "hexCustomization")]
+        public bool HexCustomization { get; set; } = false;
+
         // Hard assumption that this is just a single RangeSegment inside of a Domain
         [JsonProperty(PropertyName = "outputLength")]
         public MathDomain OutputLength { get; set; }

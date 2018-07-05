@@ -23,25 +23,9 @@ namespace NIST.CVP.Generation.CSHAKE
             {
                 return new TestCaseGeneratorAFTHash(_random800_90, _algo);
             }
-            else if (testGroup.TestType.ToLower() == "aftshake")
-            {
-                return new TestCaseGeneratorAFTSHAKEHash(_random800_90, _algo);
-            }
             else if (testGroup.TestType.ToLower() == "mct")
             {
                 return new TestCaseGeneratorMCTHash(_random800_90, _mctAlgo);
-            }
-            else if (testGroup.TestType.ToLower() == "vot")
-            {
-                    return new TestCaseGeneratorVOTHash(_random800_90, _algo);
-            }
-            else if (testGroup.TestType.ToLower() == "votshake")
-            {
-                return new TestCaseGeneratorVOTSHAKEHash(_random800_90, _algo);
-            }
-            else if (testGroup.TestType.ToLower() == "lct")
-            {
-                return new TestCaseGeneratorLCTHash(_random800_90, _algo);
             }
 
             return new TestCaseGeneratorNull();

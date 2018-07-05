@@ -48,8 +48,7 @@ namespace NIST.CVP.Crypto.CSHAKE
          *             Leftmost_Output_bits = leftmost 16 bits of Output[i];
          *             Range = (maxoutbytes – minoutbytes + 1);
          *             Outputlen = minoutbytes + (Rightmost_Output_bits mod Range);
-         *             FunctionName = BitsToString(M[i] || Rightmost_Output_bits)
-         *             Customization = BitsToString(M[i] || Leftmost_Output_bits)
+         *             Customization = BitsToString(M[i] || Rightmost_Output_bits);
          *         }
          *         Output[j] = Output[1000];
          *         OUTPUT: Outputlen[j], Output[j]
@@ -102,12 +101,10 @@ namespace NIST.CVP.Crypto.CSHAKE
 
                         // Will always have 16 bits to pull from
                         var rightmostBitString = BitString.Substring(innerDigest, 0, 16);
-                        var leftmostBitString = BitString.Substring(innerDigest, innerDigest.BitLength - 16, 16);
                         var rightmostBits = rightmostBitString.Bits;
 
                         outputLen = min + (8 * GetIntFromBits(rightmostBits)) % range;
-                        functionName = GetStringFromBytes(BitString.ConcatenateBits(innerMessage, rightmostBitString).ToBytes());
-                        customization = GetStringFromBytes(BitString.ConcatenateBits(innerMessage, leftmostBitString).ToBytes());
+                        customization = GetStringFromBytes(BitString.ConcatenateBits(innerMessage, rightmostBitString).ToBytes());
 
                         innerMessage = innerDigest.GetDeepCopy();
                     }
