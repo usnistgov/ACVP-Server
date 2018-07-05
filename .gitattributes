@@ -1,1 +1,1 @@
-*.json merge = ours
+**/json-files/*.json merge = ours
