@@ -40984,30 +40984,6 @@
     {
       "tcId": 10246,
       "result": "passed"
-    },
-    {
-      "tcId": 10247,
-      "result": "passed"
-    },
-    {
-      "tcId": 10248,
-      "result": "passed"
-    },
-    {
-      "tcId": 10249,
-      "result": "passed"
-    },
-    {
-      "tcId": 10250,
-      "result": "passed"
-    },
-    {
-      "tcId": 10251,
-      "result": "passed"
-    },
-    {
-      "tcId": 10252,
-      "result": "passed"
     }
   ]
 }

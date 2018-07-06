@@ -1,16 +1,15 @@
-﻿using NIST.CVP.Common.Oracle.ResultTypes;
+﻿using NIST.CVP.Common.Oracle.ParameterTypes;
+using NIST.CVP.Common.Oracle.ResultTypes;
 
 namespace NIST.CVP.Common.Oracle
 {
     public partial interface IOracle
     {
-        HashResult GetSha1Case();
-        HashResult GetSha2Case();
+        HashResult GetShaCase(HashParameters param);
         HashResult GetSha3Case();
         HashResult GetShakeCase();
 
-        MctResult<HashResult> GetSha1MctCase();
-        MctResult<HashResult> GetSha2MctCase();
+        MctResult<HashResult> GetShaMctCase(HashParameters param);
         MctResult<HashResult> GetSha3MctCase();
         MctResult<HashResult> GetShakeMctCase();
 
