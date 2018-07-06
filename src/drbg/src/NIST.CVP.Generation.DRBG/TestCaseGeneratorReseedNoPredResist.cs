@@ -1,4 +1,6 @@
-﻿using NIST.CVP.Crypto.Common.DRBG;
+﻿using System;
+using NIST.CVP.Common.Oracle;
+using NIST.CVP.Crypto.Common.DRBG;
 using NIST.CVP.Crypto.Common.DRBG.Enums;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
@@ -10,15 +12,16 @@ namespace NIST.CVP.Generation.DRBG
     /// Reseed flow w/o Prediction Resistance:
     ///    Instantiate -> Reseed -> Generate -> Generate 
     /// </summary>
+    [Obsolete("Use TestCaseGenerator instead")]
     public class TestCaseGeneratorReseedNoPredResist : ITestCaseGenerator<TestGroup, TestCase>
     {
+        private readonly IOracle _oracle;
         private readonly IEntropyProviderFactory _iEntropyProviderFactory;
         private readonly IDrbgFactory _iDrbgFactory;
 
-        public TestCaseGeneratorReseedNoPredResist(IEntropyProviderFactory iEntropyProviderFactory, IDrbgFactory iDrbgFactory)
+        public TestCaseGeneratorReseedNoPredResist(IOracle oracle)
         {
-            _iEntropyProviderFactory = iEntropyProviderFactory;
-            _iDrbgFactory = iDrbgFactory;
+            _oracle = oracle;
         }
 
         public int NumberOfTestCasesToGenerate => 15;

@@ -137,7 +137,53 @@ namespace NIST.CVP.Crypto.Oracle
 
         private DrbgResult GetReseedPredResistCase(DrbgParameters param)
         {
-            throw new NotImplementedException();
+            var otherInput = new List<OtherInput>
+            {
+                new OtherInput
+                {
+                    EntropyInput = _rand.GetRandomBitString(param.EntropyInputLen),
+                    AdditionalInput = _rand.GetRandomBitString(param.AdditionalInputLen)
+                },
+                new OtherInput
+                {
+                    EntropyInput = _rand.GetRandomBitString(param.EntropyInputLen),
+                    AdditionalInput = _rand.GetRandomBitString(param.AdditionalInputLen)
+                }
+            };
+
+            var entropyInput = _rand.GetRandomBitString(param.EntropyInputLen);
+            var nonce = _rand.GetRandomBitString(param.NonceLen);
+            var persoString = _rand.GetRandomBitString(param.PersoStringLen);
+
+            var testableEntropy = new TestableEntropyProvider();
+            testableEntropy.AddEntropy(entropyInput);
+            testableEntropy.AddEntropy(nonce);
+            otherInput.ForEach(oi => testableEntropy.AddEntropy(oi.EntropyInput));
+
+            var drbg = _drbgFactory.GetDrbgInstance(param, testableEntropy);
+            drbg.Instantiate(param.SecurityStrength, persoString);
+
+            var fullResult = new DrbgResult
+            {
+                EntropyInput = entropyInput,
+                Nonce = nonce,
+                PersoString = persoString,
+                OtherInput = otherInput
+            };
+
+            foreach (var item in otherInput)
+            {
+                var result = drbg.Generate(param.ReturnedBitsLen, item.AdditionalInput);
+                if (!result.Success)
+                {
+                    fullResult.Status = result.DrbgStatus;
+                    return fullResult;
+                }
+
+                fullResult.ReturnedBits = result.Bits.GetDeepCopy();
+            }
+
+            return fullResult;
         }
 
         public DrbgResult GetDrbgCase(DrbgParameters param)

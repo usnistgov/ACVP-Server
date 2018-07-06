@@ -1,9 +1,10 @@
 ﻿using NIST.CVP.Common.Oracle;
-using NIST.CVP.Crypto.Common.DRBG;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
 using System;
+using NIST.CVP.Common.Oracle.ResultTypes;
+using NIST.CVP.Crypto.Common.DRBG.Enums;
 
 namespace NIST.CVP.Generation.DRBG
 {
@@ -11,6 +12,7 @@ namespace NIST.CVP.Generation.DRBG
     /// No Reseed flow 
     ///    Instantiate -> Generate -> Generate
     /// </summary>
+    [Obsolete("Use TestCaseGenerator instead")]
     public class TestCaseGeneratorNoReseed : ITestCaseGenerator<TestGroup, TestCase>
     {
         private readonly IOracle _oracle;
@@ -34,16 +36,16 @@ namespace NIST.CVP.Generation.DRBG
                 return new TestCaseGenerateResponse<TestGroup, TestCase>($"Failed to generate. {ex.Message}");
             }
 
-            if (oracleResult.Success)
+            if (oracleResult.Status == DrbgStatus.Success)
             {
                 return new TestCaseGenerateResponse<TestGroup, TestCase>(
                     new TestCase {
-                        ReturnedBits = oracleResult.Bits
+                        ReturnedBits = oracleResult.ReturnedBits
                     }
                 );
             }
 
-            return new TestCaseGenerateResponse<TestGroup, TestCase>(oracleResult.DrbgStatus.ToString());
+            return new TestCaseGenerateResponse<TestGroup, TestCase>(oracleResult.Status.ToString());
 
             //var randomEntropyProvider = _iEntropyProviderFactory.GetEntropyProvider(EntropyProviderTypes.Random);
 

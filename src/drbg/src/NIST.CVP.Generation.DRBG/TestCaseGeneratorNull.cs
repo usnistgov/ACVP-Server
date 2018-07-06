@@ -6,6 +6,7 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.DRBG
 {
+    [Obsolete("Use TestCaseGenerator instead")]
     public class TestCaseGeneratorNull : ITestCaseGenerator<TestGroup, TestCase>
     {
         public int NumberOfTestCasesToGenerate => 1;

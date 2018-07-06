@@ -14,17 +14,7 @@ namespace NIST.CVP.Generation.DRBG
 
         public ITestCaseGenerator<TestGroup, TestCase> GetCaseGenerator(TestGroup testGroup)
         {
-            if (testGroup.ReSeed)
-            {
-                if (testGroup.PredResistance)
-                {
-                    return new TestCaseGeneratorReseedPredResist(_oracle);
-                }
-                
-                return new TestCaseGeneratorReseedNoPredResist(_oracle);
-            }
-
-            return new TestCaseGeneratorNoReseed(_oracle);
+            return new TestCaseGenerator(_oracle);
         }
     }
 }
