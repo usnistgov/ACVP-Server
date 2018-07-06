@@ -11,7 +11,7 @@ using NIST.CVP.Crypto.Common.Symmetric.TDES.Helpers;
 using NIST.CVP.Crypto.Symmetric.BlockModes;
 using NIST.CVP.Crypto.Symmetric.Engines;
 using NIST.CVP.Crypto.Symmetric.MonteCarlo;
-using AlgoArrayResponse = NIST.CVP.Crypto.Common.Symmetric.AlgoArrayResponse;
+using AlgoArrayResponse = NIST.CVP.Crypto.Common.Symmetric.TDES.AlgoArrayResponse;
 
 namespace NIST.CVP.Crypto.Oracle
 {
@@ -20,21 +20,32 @@ namespace NIST.CVP.Crypto.Oracle
         public TdesResult GetTdesCbcCase(TdesParameters param) => throw new NotImplementedException();
         public TdesResult GetTdesCfbCase(TdesParameters param) => throw new NotImplementedException();
         public TdesResult GetTdesEcbCase(TdesParameters param) => throw new NotImplementedException();
-        public TdesResult GetTdesOfbCase(TdesParameters param) => throw new NotImplementedException();
+        public TdesResult GetTdesOfbCase(TdesParameters param)
+        {
+            // Check Pool first
+            return DoSimpleTdes(new OfbBlockCipher(new TdesEngine()), param);
+        }
 
         public TdesResultWithIvs GetTdesCbcICase(TdesParameters param) => throw new NotImplementedException();
 
         public TdesResultWithIvs GetTdesOfbICase(TdesParameters param)
         {
             // Check Pool first
-            var cipher = new OfbiBlockCipher(new TdesEngine());
-            return DoTdesWithIvs(cipher, param);
+            return DoTdesWithIvs(new OfbiBlockCipher(new TdesEngine()), param);
         }
 
         public MctResult<TdesResult> GetTdesCbcMctCase(TdesParameters param) => throw new NotImplementedException();
         public MctResult<TdesResult> GetTdesCfbMctCase(TdesParameters param) => throw new NotImplementedException();
         public MctResult<TdesResult> GetTdesEcbMctCase(TdesParameters param) => throw new NotImplementedException();
-        public MctResult<TdesResult> GetTdesOfbMctCase(TdesParameters param) => throw new NotImplementedException();
+        public MctResult<TdesResult> GetTdesOfbMctCase(TdesParameters param)
+        {
+            var cipher = new MonteCarloTdesOfb(
+                new BlockCipherEngineFactory(), 
+                new ModeBlockCipherFactory(),
+                new TDES_OFB.MonteCarloKeyMaker()
+            );
+            return DoSimpleTdesMct(cipher, param);
+        }
 
         public MctResult<TdesResultWithIvs> GetTdesCbcIMctCase(TdesParameters param) => throw new NotImplementedException();
 
@@ -88,7 +99,7 @@ namespace NIST.CVP.Crypto.Oracle
 
             var payload = _rand.GetRandomBitString(param.DataLength);
             var key = TdesHelpers.GenerateTdesKey(param.KeyingOption);
-            var iv = _rand.GetRandomBitString(128);
+            var iv = _rand.GetRandomBitString(64);
 
             var blockCipherParams = new ModeBlockCipherParameters(direction, iv, key, payload);
             var result = cipher.ProcessMonteCarloTest(blockCipherParams);
@@ -103,7 +114,7 @@ namespace NIST.CVP.Crypto.Oracle
             {
                 Results = Array.ConvertAll(result.Response.ToArray(), element => new TdesResult
                 {
-                    Key = element.Key,
+                    Key = element.Keys,
                     Iv = element.IV,
                     PlainText = element.PlainText,
                     CipherText = element.CipherText

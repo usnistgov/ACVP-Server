@@ -119,7 +119,6 @@ namespace NIST.CVP.Crypto.Symmetric.MonteCarlo
                 var lastPlainTexts = new List<BitString>();
                 for (var j = 0; j < NUMBER_OF_ITERATIONS; j++)
                 {
-                    Debug.WriteLine($"Encrypting {i + 1}.{j + 1} out of {NumberOfCases}.{NUMBER_OF_ITERATIONS}");
                     prevTempIv = tempIv.GetDeepCopy();
                     decryptionResult = _algo.ProcessPayload(new ModeBlockCipherParameters(
                         BlockCipherDirections.Decrypt,
