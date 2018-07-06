@@ -14,7 +14,7 @@ namespace NIST.CVP.Crypto.CMAC.Tests
         [SetUp]
         public void Setup()
         {
-            _subject = new CmacTdes(new EcbBlockCipher(new TdesEngine()));
+            _subject = new CmacTdes(new BlockCipherEngineFactory(), new ModeBlockCipherFactory());
         }
        
         [Test]

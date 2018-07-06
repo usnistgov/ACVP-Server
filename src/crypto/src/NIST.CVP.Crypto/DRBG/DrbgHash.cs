@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Spatial;
 using System.Text;
 using NIST.CVP.Crypto.Common.DRBG;
 using NIST.CVP.Crypto.Common.DRBG.Enums;

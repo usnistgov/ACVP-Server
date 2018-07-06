@@ -23,7 +23,7 @@ namespace NIST.CVP.Crypto.KAS.NoKC
                 case KeyAgreementMacType.AesCcm:
                     return new NoKeyConfirmationAesCcm(parameters, new CcmBlockCipher(new AesEngine(), new ModeBlockCipherFactory(), new AES_CCMInternals()));
                 case KeyAgreementMacType.CmacAes:
-                    return new NoKeyConfirmationCmac(parameters, new CmacAes(new RijndaelFactory(new RijndaelInternals())));
+                    return new NoKeyConfirmationCmac(parameters, new CmacAes(new BlockCipherEngineFactory(), new ModeBlockCipherFactory()));
                 case KeyAgreementMacType.HmacSha2D224:
                 case KeyAgreementMacType.HmacSha2D256:
                 case KeyAgreementMacType.HmacSha2D384:

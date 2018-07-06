@@ -112,7 +112,7 @@ namespace NIST.CVP.Generation.KAS
         /// <summary>
         /// The Key Agreement ROles
         /// </summary>
-        public string[] Role { get; set; }
+        public string[] KasRole { get; set; }
         /// <summary>
         /// Registration options for NoKdfNoKc (Component only test)
         /// </summary>

@@ -506,24 +506,29 @@ namespace NIST.CVP.Math
         /// <summary>
         /// Shifts bits in the LSB direction. Shift adds 0s to the end.
         /// </summary>
-        /// <param name="bStr"></param>
-        /// <param name="distance">Amount of bits to shift.</param>
+        /// <remarks>Keeps output length same as input.</remarks>
+        /// <param name="bStr">THe bitstring to shift</param>
         /// <returns></returns>
-        public static BitString LSBShift(BitString bStr, int distance)
+        public static BitString LSBShift(BitString bStr)
         {
-            var minDistance = System.Math.Min(bStr.BitLength, distance);
-            var circleShift = BitString.MSBRotate(bStr, bStr.BitLength - minDistance);
-            for (var i = 0; i < minDistance; i++)
+            var block = bStr.ToBytes();
+            var output = new byte[block.Length];
+
+            int i = block.Length;
+            uint bit = 0;
+            while (--i >= 0)
             {
-                circleShift.Set(bStr.BitLength - i - 1, false);
+                uint b = block[i];
+                output[i] = (byte)((b << 1) | bit);
+                bit = (b >> 7) & 1;
             }
 
-            return circleShift;
+            return new BitString(output).GetLeastSignificantBits(bStr.BitLength);
         }
 
-        public BitString LSBShift(int distance)
+        public BitString LSBShift()
         {
-            return BitString.LSBShift(this, distance);
+            return BitString.LSBShift(this);
         }
 
         public static BitString BitStringSubtraction(BitString larger, BitString smaller)

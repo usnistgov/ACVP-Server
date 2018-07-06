@@ -105,7 +105,7 @@ namespace NIST.CVP.Generation.KAS.FFC
 
             foreach (var testType in _testTypes)
             {
-                foreach (var role in schemeBase.Role)
+                foreach (var role in schemeBase.KasRole)
                 {
                     foreach (var parameterSet in hashPerParameterSet)
                     {
@@ -157,7 +157,7 @@ namespace NIST.CVP.Generation.KAS.FFC
 
             foreach (var testType in _testTypes)
             {
-                foreach (var role in schemeBase.Role)
+                foreach (var role in schemeBase.KasRole)
                 {
                     foreach (var kdf in GetKdfOptions(schemeBase.KdfNoKc.KdfOption))
                     {
@@ -221,7 +221,7 @@ namespace NIST.CVP.Generation.KAS.FFC
 
             foreach (var testType in _testTypes)
             {
-                foreach (var role in schemeBase.Role)
+                foreach (var role in schemeBase.KasRole)
                 {
                     foreach (var kdf in GetKdfOptions(schemeBase.KdfKc.KdfOption))
                     {

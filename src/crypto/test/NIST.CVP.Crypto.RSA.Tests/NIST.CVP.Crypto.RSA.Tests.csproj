@@ -5,7 +5,6 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.All" Version="$(NuGetVersionMicrosoftAspNetCoreAll)" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="$(NuGetVersionMicrosoftNETTestSdk)" />
     <PackageReference Include="dotnet-test-nunit" Version="$(NuGetVersiondotnettestnunit)" />
     <PackageReference Include="TeamCity.VSTest.TestAdapter" Version="$(NuGetVersionTeamCityVSTestTestAdapter)" />
