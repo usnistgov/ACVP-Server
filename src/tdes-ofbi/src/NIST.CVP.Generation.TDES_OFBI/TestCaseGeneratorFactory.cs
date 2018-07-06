@@ -12,9 +12,7 @@ namespace NIST.CVP.Generation.TDES_OFBI
     {
         private readonly IOracle _oracle;
 
-        public TestCaseGeneratorFactory(
-            IOracle oracle
-        )
+        public TestCaseGeneratorFactory(IOracle oracle)
         {
             _oracle = oracle;
         }
