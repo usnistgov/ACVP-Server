@@ -201,6 +201,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.RSA-DPC
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.RSA-LegacySigVer", "..\..\rsa\src\NIST.CVP.Generation.RSA-LegacySigVer\NIST.CVP.Generation.RSA-LegacySigVer.csproj", "{FC97A694-7D4D-4BF3-A38E-306B1BC181BF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Common.Oracle", "..\..\oracle\src\NIST.CVP.Common.Oracle\NIST.CVP.Common.Oracle.csproj", "{4510D476-AC9A-4451-BC19-AA88C779BE29}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Crypto.Oracle", "..\..\oracle\src\NIST.CVP.Crypto.Oracle\NIST.CVP.Crypto.Oracle.csproj", "{DB08582A-58E7-4E1C-9964-E7FDF95C8E9B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -463,6 +467,14 @@ Global
 		{FC97A694-7D4D-4BF3-A38E-306B1BC181BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FC97A694-7D4D-4BF3-A38E-306B1BC181BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FC97A694-7D4D-4BF3-A38E-306B1BC181BF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4510D476-AC9A-4451-BC19-AA88C779BE29}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4510D476-AC9A-4451-BC19-AA88C779BE29}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4510D476-AC9A-4451-BC19-AA88C779BE29}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4510D476-AC9A-4451-BC19-AA88C779BE29}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DB08582A-58E7-4E1C-9964-E7FDF95C8E9B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB08582A-58E7-4E1C-9964-E7FDF95C8E9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB08582A-58E7-4E1C-9964-E7FDF95C8E9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB08582A-58E7-4E1C-9964-E7FDF95C8E9B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

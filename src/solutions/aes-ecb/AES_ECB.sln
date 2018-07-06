@@ -1,4 +1,4 @@
-Microsoft Visual Studio Solution File, Format Version 12.00
+﻿Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2036
 MinimumVisualStudioVersion = 10.0.40219.1
@@ -42,6 +42,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Common.Oracle", "..\..\oracle\src\NIST.CVP.Common.Oracle\NIST.CVP.Common.Oracle.csproj", "{3D79F550-C3B7-41A5-874B-CBAE63D514E8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.Oracle", "..\..\oracle\src\NIST.CVP.Crypto.Oracle\NIST.CVP.Crypto.Oracle.csproj", "{0FE4EEA6-8A8B-4FB5-AC28-9F1CCEB55B62}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Common.Oracle.Tests", "..\..\oracle\test\NIST.CVP.Oracle.Common.Tests\NIST.CVP.Common.Oracle.Tests.csproj", "{0CD16833-274B-4E14-B1BB-0AA64CD9AFC2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -257,6 +259,18 @@ Global
 		{0FE4EEA6-8A8B-4FB5-AC28-9F1CCEB55B62}.Release|x64.Build.0 = Release|Any CPU
 		{0FE4EEA6-8A8B-4FB5-AC28-9F1CCEB55B62}.Release|x86.ActiveCfg = Release|Any CPU
 		{0FE4EEA6-8A8B-4FB5-AC28-9F1CCEB55B62}.Release|x86.Build.0 = Release|Any CPU
+		{0CD16833-274B-4E14-B1BB-0AA64CD9AFC2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0CD16833-274B-4E14-B1BB-0AA64CD9AFC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0CD16833-274B-4E14-B1BB-0AA64CD9AFC2}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{0CD16833-274B-4E14-B1BB-0AA64CD9AFC2}.Debug|x64.Build.0 = Debug|Any CPU
+		{0CD16833-274B-4E14-B1BB-0AA64CD9AFC2}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{0CD16833-274B-4E14-B1BB-0AA64CD9AFC2}.Debug|x86.Build.0 = Debug|Any CPU
+		{0CD16833-274B-4E14-B1BB-0AA64CD9AFC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0CD16833-274B-4E14-B1BB-0AA64CD9AFC2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0CD16833-274B-4E14-B1BB-0AA64CD9AFC2}.Release|x64.ActiveCfg = Release|Any CPU
+		{0CD16833-274B-4E14-B1BB-0AA64CD9AFC2}.Release|x64.Build.0 = Release|Any CPU
+		{0CD16833-274B-4E14-B1BB-0AA64CD9AFC2}.Release|x86.ActiveCfg = Release|Any CPU
+		{0CD16833-274B-4E14-B1BB-0AA64CD9AFC2}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,4 +1,4 @@
-Microsoft Visual Studio Solution File, Format Version 12.00
+﻿Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2026
 MinimumVisualStudioVersion = 10.0.40219.1
@@ -119,6 +119,12 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.RSA.Tests", "..\..\crypto\test\NIST.CVP.Crypto.RSA2.Tests\NIST.CVP.Crypto.RSA.Tests.csproj", "{609DC00F-DFC0-4F4A-8AD9-F8F21D99FA4F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.TDES_OFBI.Tests", "..\..\crypto\test\NIST.CVP.Crypto.TDES_OFBI.Tests\NIST.CVP.Crypto.TDES_OFBI.Tests.csproj", "{EB753155-F891-4754-8B19-69BF2BAB184B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Common.Oracle", "..\..\oracle\src\NIST.CVP.Common.Oracle\NIST.CVP.Common.Oracle.csproj", "{0E768449-005E-4FA8-99DD-BE7457FF2533}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Crypto.Oracle", "..\..\oracle\src\NIST.CVP.Crypto.Oracle\NIST.CVP.Crypto.Oracle.csproj", "{4AFF6533-3FB2-49D8-86D9-65F82FA03638}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Common.Oracle.Tests", "..\..\oracle\test\NIST.CVP.Oracle.Common.Tests\NIST.CVP.Common.Oracle.Tests.csproj", "{06AEF1A5-72D2-4280-98B6-86D0571DB41A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -334,6 +340,18 @@ Global
 		{EB753155-F891-4754-8B19-69BF2BAB184B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EB753155-F891-4754-8B19-69BF2BAB184B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EB753155-F891-4754-8B19-69BF2BAB184B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E768449-005E-4FA8-99DD-BE7457FF2533}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E768449-005E-4FA8-99DD-BE7457FF2533}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E768449-005E-4FA8-99DD-BE7457FF2533}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E768449-005E-4FA8-99DD-BE7457FF2533}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4AFF6533-3FB2-49D8-86D9-65F82FA03638}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4AFF6533-3FB2-49D8-86D9-65F82FA03638}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4AFF6533-3FB2-49D8-86D9-65F82FA03638}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4AFF6533-3FB2-49D8-86D9-65F82FA03638}.Release|Any CPU.Build.0 = Release|Any CPU
+		{06AEF1A5-72D2-4280-98B6-86D0571DB41A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{06AEF1A5-72D2-4280-98B6-86D0571DB41A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{06AEF1A5-72D2-4280-98B6-86D0571DB41A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{06AEF1A5-72D2-4280-98B6-86D0571DB41A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
