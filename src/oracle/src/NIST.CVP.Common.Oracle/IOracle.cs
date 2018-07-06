@@ -4,105 +4,10 @@ using NIST.CVP.Crypto.Common.DRBG;
 
 namespace NIST.CVP.Common.Oracle
 {
-    public interface IOracle
+    public partial interface IOracle
     {
-        #region AEAD
-        AeadResult GetAesCcmCase();
-        AeadResult GetAesGcmCase(AeadParameters param);
-        AeadResult GetAesXpnCase(AeadParameters param);
-
-        AeadResult GetDeferredAesGcmCase(AeadParameters param);
-        AeadResult CompleteDeferredAesGcmCase(AeadParameters param, AeadResult fullParam);
-        #endregion AEAD
-
-        #region AES
-        AesResult GetAesCbcCase(AesParameters param);
-        AesResult GetAesCfbCase(AesParameters param);
-        AesResult GetAesCtrCase(AesParameters param);
-        AesResult GetAesEcbCase(AesParameters param);
-        AesResult GetAesOfbCase(AesParameters param);
-        AesResult GetAesXtsCase(AesParameters param);
-
-        MctResult<AesResult> GetAesCbcMctCase(AesParameters param);
-        MctResult<AesResult> GetAesCfbMctCase(AesParameters param);
-        MctResult<AesResult> GetAesEcbMctCase(AesParameters param);
-        MctResult<AesResult> GetAesOfbMctCase(AesParameters param);
-        #endregion AES
-
-        #region Drbg
-        ResultTypes.DrbgResult GetDrbgCase(DrbgParameters param);
-        #endregion Drbg
-
-        #region DSA
-        DsaDomainParametersResult GetDsaDomainParameters();
-        VerifyResult<DsaDomainParametersResult> GetDsaDomainParametersVerify();
-        DsaKeyResult GetDsaKey();
-        VerifyResult<DsaKeyResult> GetDsaKeyVerify();
-        DsaSignatureResult GetDsaSignature();
-        VerifyResult<DsaSignatureResult> GetDsaVerifyResult();
-        #endregion DSA
-
-        #region ECDSA
-        // TODO same as DSA
-        #endregion ECDSA
-
-        #region Hash
-        HashResult GetSha1Case();
-        HashResult GetSha2Case();
-        HashResult GetSha3Case();
-        HashResult GetShakeCase();
-
-        MctResult<HashResult> GetSha1MctCase();
-        MctResult<HashResult> GetSha2MctCase();
-        MctResult<HashResult> GetSha3MctCase();
-        MctResult<HashResult> GetShakeMctCase();
-
-        HashResult GetShakeVotCase();
-        #endregion Hash
-
-        #region KAS
-        // TODO
-        #endregion KAS
-
-        #region KDF
-        KdfResult GetKdfCase();
-        // All the components individually probably, but those are straight-forward input/output
-        #endregion KDF
-
-        #region KeyWrap
-        AesResult GetAesKeyWrapCase();
-        AesResult GetAesKeyWrapWithPaddingCase();
-        TdesResult GetTdesKeyWrapCase();
-        #endregion KeyWrap
-
-        #region MAC
-        MacResult GetCmacCase();
-        MacResult GetHmacCase();
-        #endregion MAC
-
-        #region RSA
-        RsaKeyResult GetRsaKey();
-        VerifyResult<RsaKeyResult> GetRsaKeyVerify();
-        RsaSignatureResult GetRsaSignature();
-        VerifyResult<RsaSignatureResult> GetRsaVerify();
-        #endregion RSA
-
-        #region TDES
-        TdesResult GetTdesCbcCase(TdesParameters param);
-        TdesResult GetTdesCfbCase(TdesParameters param);
-        TdesResult GetTdesEcbCase(TdesParameters param);
-        TdesResult GetTdesOfbCase(TdesParameters param);
-
-        TdesResultWithIvs GetTdesCbcICase(TdesParameters param);
-        TdesResultWithIvs GetTdesOfbICase(TdesParameters param);
-
-        MctResult<TdesResult> GetTdesCbcMctCase(TdesParameters param);
-        MctResult<TdesResult> GetTdesCfbMctCase(TdesParameters param);
-        MctResult<TdesResult> GetTdesEcbMctCase(TdesParameters param);
-        MctResult<TdesResult> GetTdesOfbMctCase(TdesParameters param);
-
-        MctResult<TdesResultWithIvs> GetTdesCbcIMctCase(TdesParameters param);
-        MctResult<TdesResultWithIvs> GetTdesOfbIMctCase(TdesParameters param);
-        #endregion TDES
+        // NOTE: Since we'll likely be touching interface methods, 
+        // separating out into partial classes to help avoid merge conflicts.
+        // Classes are nested underneath this base in solution explorer
     }
 }

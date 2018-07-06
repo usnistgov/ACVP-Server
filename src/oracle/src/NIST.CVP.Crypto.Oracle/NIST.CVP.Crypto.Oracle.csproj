@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
@@ -9,6 +9,12 @@
     <ProjectReference Include="..\..\..\crypto\src\NIST.CVP.Crypto.Common\NIST.CVP.Crypto.Common.csproj" />
     <ProjectReference Include="..\..\..\crypto\src\NIST.CVP.Crypto\NIST.CVP.Crypto.csproj" />
     <ProjectReference Include="..\NIST.CVP.Common.Oracle\NIST.CVP.Common.Oracle.csproj" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Compile Update="Oracle.*.cs">
+      <DependentUpon>Oracle.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
 
 </Project>
