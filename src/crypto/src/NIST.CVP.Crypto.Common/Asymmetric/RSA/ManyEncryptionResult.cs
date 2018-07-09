@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
-namespace NIST.CVP.Crypto.Common.Asymmetric.RSA2
+namespace NIST.CVP.Crypto.Common.Asymmetric.RSA
 {
     public class ManyEncryptionResult : ICryptoResult
     {

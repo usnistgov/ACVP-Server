@@ -1,5 +1,5 @@
-﻿using NIST.CVP.Crypto.Common.Asymmetric.RSA2;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Keys;
+﻿using NIST.CVP.Crypto.Common.Asymmetric.RSA;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 

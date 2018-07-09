@@ -1,7 +1,7 @@
-﻿using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Keys;
+﻿using NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys;
 using NIST.CVP.Math;
 
-namespace NIST.CVP.Crypto.Common.Asymmetric.RSA2.Signatures
+namespace NIST.CVP.Crypto.Common.Asymmetric.RSA.Signatures
 {
     public interface ISignatureBuilder
     {

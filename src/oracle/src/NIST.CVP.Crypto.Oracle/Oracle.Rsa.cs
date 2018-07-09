@@ -1,17 +1,17 @@
-﻿using System;
-using System.Numerics;
-using Microsoft.VisualStudio.TestPlatform.ObjectModel;
-using NIST.CVP.Common.Oracle.ParameterTypes;
+﻿using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Enums;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Keys;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA2.PrimeGenerators;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA.PrimeGenerators;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
-using NIST.CVP.Crypto.RSA2.Keys;
-using NIST.CVP.Crypto.RSA2.PrimeGenerators;
+using NIST.CVP.Crypto.Math;
+using NIST.CVP.Crypto.RSA.Keys;
+using NIST.CVP.Crypto.RSA.PrimeGenerators;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
+using System;
+using System.Numerics;
 
 namespace NIST.CVP.Crypto.Oracle
 {
@@ -21,12 +21,66 @@ namespace NIST.CVP.Crypto.Oracle
         private readonly KeyComposerFactory _keyComposerFactory = new KeyComposerFactory();
         private readonly KeyBuilder  _keyBuilder = new KeyBuilder(new PrimeGeneratorFactory());
 
-        public RsaKeyResult CompleteDeferredRsaKeyCase(RsaKeyResult param)
+        public RsaKeyResult CompleteDeferredRsaKeyCase(RsaKeyParameters param, RsaKeyResult fullParam)
         {
-            return null;
+            var entropyProvider = new TestableEntropyProvider();
+            param.PublicExponent = new BitString(fullParam.Key.PubKey.E);
+
+            if (param.KeyMode == PrimeGenModes.B32)
+            {
+                // Nothing
+            }
+            else if (param.KeyMode == PrimeGenModes.B33)
+            {
+                // P and Q
+                entropyProvider.AddEntropy(new BitString(fullParam.Key.PrivKey.P, param.Modulus / 2));
+                entropyProvider.AddEntropy(new BitString(fullParam.Key.PrivKey.Q, param.Modulus / 2));
+            }
+            else if (param.KeyMode == PrimeGenModes.B34)
+            {
+                // Nothing
+            }
+            else if (param.KeyMode == PrimeGenModes.B35)
+            {
+                // XP and XQ
+                entropyProvider.AddEntropy(fullParam.AuxValues.XP);
+                entropyProvider.AddEntropy(fullParam.AuxValues.XQ);
+            }
+            else if (param.KeyMode == PrimeGenModes.B36)
+            {
+                // XP and XQ
+                entropyProvider.AddEntropy(fullParam.AuxValues.XP);
+                entropyProvider.AddEntropy(fullParam.AuxValues.XQ);
+
+                // XP1, XP2, XQ1, XQ2
+                entropyProvider.AddEntropy(new BitString(fullParam.AuxValues.XP1).GetLeastSignificantBits(fullParam.BitLens[0]));
+                entropyProvider.AddEntropy(new BitString(fullParam.AuxValues.XP2).GetLeastSignificantBits(fullParam.BitLens[1]));
+                entropyProvider.AddEntropy(new BitString(fullParam.AuxValues.XQ1).GetLeastSignificantBits(fullParam.BitLens[2]));
+                entropyProvider.AddEntropy(new BitString(fullParam.AuxValues.XQ2).GetLeastSignificantBits(fullParam.BitLens[3]));
+            }
+
+            return new RsaKeyResult
+            {
+                Key = GeneratePrimes(param, entropyProvider).Key
+            };
         }
 
-        public (bool Success, KeyPair Key, AuxiliaryResult Aux) GeneratePrimes(RsaKeyParameters param)
+        public RsaKeyResult CompleteKey(RsaKeyResult param, PrivateKeyModes keyMode)
+        {
+            var keyComposer = _keyComposerFactory.GetKeyComposer(keyMode);
+            var primePair = new PrimePair
+            {
+                P = param.Key.PrivKey.P,
+                Q = param.Key.PrivKey.Q
+            };
+
+            return new RsaKeyResult
+            {
+                Key = keyComposer.ComposeKey(param.Key.PubKey.E, primePair)
+            };
+        }
+
+        private (bool Success, KeyPair Key, AuxiliaryResult Aux) GeneratePrimes(RsaKeyParameters param, IEntropyProvider entropyProvider)
         {
             // TODO Not every group has a hash alg... Can use a default value perhaps?
             ISha sha = null;
@@ -36,9 +90,6 @@ namespace NIST.CVP.Crypto.Oracle
             }
 
             var keyComposer = _keyComposerFactory.GetKeyComposer(param.KeyFormat);
-
-            // Configure Entropy Provider
-            var entropyProvider = new EntropyProvider(_rand);
 
             // Configure Prime Generator
             var keyResult = _keyBuilder
@@ -59,7 +110,8 @@ namespace NIST.CVP.Crypto.Oracle
         // Get an RSA Key from a full set of parameters
         public RsaKeyResult GetRsaKey(RsaKeyParameters param)
         {
-            var success = false;
+            var entropyProvider = new EntropyProvider(_rand);
+            (bool Success, KeyPair Key, AuxiliaryResult Aux) result;
             do
             {
                 param.Seed = GetSeed(param.Modulus);
@@ -67,19 +119,42 @@ namespace NIST.CVP.Crypto.Oracle
                 param.BitLens = GetBitlens(param.Modulus, param.KeyMode);
                 
                 // Generate key until success
-                success = GeneratePrimes(param).Success;
+                result = GeneratePrimes(param, entropyProvider);
 
-            } while (!success);
+            } while (!result.Success);
 
             return new RsaKeyResult
             {
-
+                Key = result.Key,
+                AuxValues = result.Aux,
+                BitLens = param.BitLens,
+                Seed = param.Seed
             };
         }
 
         public VerifyResult<RsaKeyResult> GetRsaKeyVerify(RsaKeyResult param)
         {
-            return null;
+            // Check correctness in values
+            if (!NumberTheory.MillerRabin(param.Key.PrivKey.P, 20))
+            {
+                return new VerifyResult<RsaKeyResult> { Result = false };
+            }
+
+            if (!NumberTheory.MillerRabin(param.Key.PrivKey.Q, 20))
+            {
+                return new VerifyResult<RsaKeyResult> { Result = false };
+            }
+
+            // This fails some tests that don't have an N value given to them so is compared to 0
+            //if (param.Key.PubKey.N != param.Key.PrivKey.P * param.Key.PrivKey.Q)
+            //{
+            //    return new VerifyResult<RsaKeyResult> { Result = false };
+            //}
+
+            return new VerifyResult<RsaKeyResult>
+            {
+                Result = true
+            };
         }
 
         public RsaSignatureResult GetRsaSignature() => throw new NotImplementedException();

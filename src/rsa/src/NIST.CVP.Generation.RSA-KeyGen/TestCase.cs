@@ -1,13 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Dynamic;
-using System.Linq;
-using System.Numerics;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Keys;
+﻿using Newtonsoft.Json;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.Core.ExtensionMethods;
 using NIST.CVP.Math;
+using System.Numerics;
 
 namespace NIST.CVP.Generation.RSA_KeyGen
 {
@@ -22,13 +17,13 @@ namespace NIST.CVP.Generation.RSA_KeyGen
         public int[] Bitlens { get; set; }
 
         // Potential auxiliary values
-        public BitString XP { get; set; }
-        public BitString XQ { get; set; }
+        public BitString XP { get; set; } = new BitString(0);
+        public BitString XQ { get; set; } = new BitString(0);
 
-        public BitString XP1 { get; set; }
-        public BitString XP2 { get; set; }
-        public BitString XQ1 { get; set; }
-        public BitString XQ2 { get; set; }
+        public BitString XP1 { get; set; } = new BitString(0);
+        public BitString XP2 { get; set; } = new BitString(0);
+        public BitString XQ1 { get; set; } = new BitString(0);
+        public BitString XQ2 { get; set; } = new BitString(0);
 
         [JsonIgnore]
         public KeyPair Key { get; set; } = new KeyPair { PubKey = new PublicKey() };

@@ -1,19 +1,18 @@
-﻿using NIST.CVP.Tests.Core;
+﻿using NIST.CVP.Common.Helpers;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
+using NIST.CVP.Crypto.Oracle;
+using NIST.CVP.Crypto.RSA.Keys;
+using NIST.CVP.Crypto.RSA.PrimeGenerators;
+using NIST.CVP.Crypto.SHAWrapper;
+using NIST.CVP.Generation.RSA_KeyGen.Parsers;
+using NIST.CVP.Math;
+using NIST.CVP.Math.Entropy;
+using NIST.CVP.Tests.Core;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
-using System;
 using System.IO;
-using NIST.CVP.Generation.RSA_KeyGen.Parsers;
-using System.Linq;
-using NIST.CVP.Common.Helpers;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Enums;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Keys;
-using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
-using NIST.CVP.Math.Entropy;
-using NIST.CVP.Crypto.RSA2.Keys;
-using NIST.CVP.Crypto.RSA2.PrimeGenerators;
-using NIST.CVP.Crypto.SHAWrapper;
-using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
 {
@@ -139,7 +138,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
             };
 
             var count = 1;
-            var katGen = new TestCaseGeneratorKat(group, new KeyComposerFactory());
+            var katGen = new TestCaseGeneratorKat(group, new Oracle());
             for (int i = 0; i < katGen.NumberOfTestCasesToGenerate; i++)
             {
                 var kat = katGen.Generate(group, false);

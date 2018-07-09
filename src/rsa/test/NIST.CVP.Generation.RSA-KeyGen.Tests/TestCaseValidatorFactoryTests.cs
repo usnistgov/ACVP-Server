@@ -1,9 +1,8 @@
-﻿using System;
+﻿using NIST.CVP.Tests.Core.TestCategoryAttributes;
+using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using NIST.CVP.Generation.Core;
-using NIST.CVP.Tests.Core.TestCategoryAttributes;
-using NUnit.Framework;
 
 namespace NIST.CVP.Generation.RSA_KeyGen.Tests
 {
@@ -15,7 +14,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
         [SetUp]
         public void SetUp()
         {
-            _subject = new TestCaseValidatorFactory(null, null, null);
+            _subject = new TestCaseValidatorFactory(null);
         }
 
         [Test]

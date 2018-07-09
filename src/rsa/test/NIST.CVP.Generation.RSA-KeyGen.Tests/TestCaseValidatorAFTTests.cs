@@ -1,7 +1,5 @@
-﻿using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Enums;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Keys;
-using NIST.CVP.Crypto.RSA2.Keys;
-using NIST.CVP.Math;
+﻿using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
@@ -17,7 +15,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
         {
             var testCase = GetTestCase(crtForm);
             var testGroup = GetTestGroup(crtForm);
-            var subject = new TestCaseValidatorAft(testCase, testGroup, new DeferredTestCaseResolver(null, null, null));
+            var subject = new TestCaseValidatorAft(testCase, testGroup, new DeferredTestCaseResolver(null));
 
             var result = subject.Validate(testCase);
 
@@ -32,7 +30,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
         {
             var testCase = GetTestCase(crtForm);
             var testGroup = GetTestGroup(crtForm);
-            var subject = new TestCaseValidatorAft(testCase, testGroup, new DeferredTestCaseResolver(null, null, null));
+            var subject = new TestCaseValidatorAft(testCase, testGroup, new DeferredTestCaseResolver(null));
 
             var suppliedResult = GetTestCase(crtForm);
             suppliedResult.Key.PubKey.N = 9001;
@@ -50,7 +48,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
         {
             var testCase = GetTestCase(crtForm);
             var testGroup = GetTestGroup(crtForm);
-            var subject = new TestCaseValidatorAft(testCase, testGroup, new DeferredTestCaseResolver(null, null, null));
+            var subject = new TestCaseValidatorAft(testCase, testGroup, new DeferredTestCaseResolver(null));
 
             var suppliedResult = GetTestCase(crtForm);
             suppliedResult.Key.PrivKey.P = 9001;
@@ -68,7 +66,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
         {
             var testCase = GetTestCase(crtForm);
             var testGroup = GetTestGroup(crtForm);
-            var subject = new TestCaseValidatorAft(testCase, testGroup, new DeferredTestCaseResolver(null, null, null));
+            var subject = new TestCaseValidatorAft(testCase, testGroup, new DeferredTestCaseResolver(null));
 
             var suppliedResult = GetTestCase(crtForm);
             suppliedResult.Key.PrivKey.Q = 9001;
@@ -85,7 +83,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
             var crtForm = false;
             var testCase = GetTestCase(crtForm);
             var testGroup = GetTestGroup(crtForm);
-            var subject = new TestCaseValidatorAft(testCase, testGroup, new DeferredTestCaseResolver(null, null, null));
+            var subject = new TestCaseValidatorAft(testCase, testGroup, new DeferredTestCaseResolver(null));
 
             var suppliedResult = GetTestCase(crtForm);
             ((PrivateKey)suppliedResult.Key.PrivKey).D = 9001;
@@ -102,7 +100,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
             var crtForm = true;
             var testCase = GetTestCase(crtForm);
             var testGroup = GetTestGroup(crtForm);
-            var subject = new TestCaseValidatorAft(testCase, testGroup, new DeferredTestCaseResolver(null, null, null));
+            var subject = new TestCaseValidatorAft(testCase, testGroup, new DeferredTestCaseResolver(null));
 
             var suppliedResult = GetTestCase(crtForm);
             ((CrtPrivateKey)suppliedResult.Key.PrivKey).DMP1 = 9001;
@@ -119,7 +117,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
             var crtForm = true;
             var testCase = GetTestCase(crtForm);
             var testGroup = GetTestGroup(crtForm);
-            var subject = new TestCaseValidatorAft(testCase, testGroup, new DeferredTestCaseResolver(null, null, null));
+            var subject = new TestCaseValidatorAft(testCase, testGroup, new DeferredTestCaseResolver(null));
 
             var suppliedResult = GetTestCase(crtForm);
             ((CrtPrivateKey)suppliedResult.Key.PrivKey).DMQ1 = 9001;
@@ -136,7 +134,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
             var crtForm = true;
             var testCase = GetTestCase(crtForm);
             var testGroup = GetTestGroup(crtForm);
-            var subject = new TestCaseValidatorAft(testCase, testGroup, new DeferredTestCaseResolver(null, null, null));
+            var subject = new TestCaseValidatorAft(testCase, testGroup, new DeferredTestCaseResolver(null));
 
             var suppliedResult = GetTestCase(crtForm);
             ((CrtPrivateKey)suppliedResult.Key.PrivKey).IQMP = 9001;

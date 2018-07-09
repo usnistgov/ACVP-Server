@@ -1,13 +1,11 @@
-﻿using NIST.CVP.Tests.Core.TestCategoryAttributes;
-using NUnit.Framework;
-using Moq;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Enums;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Keys;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Signatures;
-using NIST.CVP.Math;
-using NIST.CVP.Crypto.RSA2.Keys;
+﻿using Moq;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA.Signatures;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Crypto.RSA2.Signatures;
+using NIST.CVP.Math;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
+using NUnit.Framework;
 
 namespace NIST.CVP.Generation.RSA_SigGen.Tests
 {

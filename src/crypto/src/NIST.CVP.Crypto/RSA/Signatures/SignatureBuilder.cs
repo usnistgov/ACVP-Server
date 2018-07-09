@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Numerics;
-using System.Text;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA2;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Keys;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Signatures;
-using NIST.CVP.Crypto.RSA2.Keys;
+﻿using NIST.CVP.Crypto.Common.Asymmetric.RSA;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA.Signatures;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Helpers;
 
-namespace NIST.CVP.Crypto.RSA2.Signatures
+namespace NIST.CVP.Crypto.RSA.Signatures
 {
     public class SignatureBuilder : ISignatureBuilder
     {

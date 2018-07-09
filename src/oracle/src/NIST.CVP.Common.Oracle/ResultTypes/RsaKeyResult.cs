@@ -1,15 +1,15 @@
-﻿using System.Numerics;
+﻿using NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA.PrimeGenerators;
+using NIST.CVP.Math;
 
 namespace NIST.CVP.Common.Oracle.ResultTypes
 {
     public class RsaKeyResult
     {
-        // Lots of inputs go here
-        public BigInteger E { get; set; }
+        public KeyPair Key { get; set; }
 
-        public BigInteger P { get; set; }
-        public BigInteger Q { get; set; }
-        public BigInteger N { get; set; }
-        public BigInteger D { get; set; }
+        public BitString Seed { get; set; }
+        public int[] BitLens { get; set; }
+        public AuxiliaryResult AuxValues { get; set; }
     }
 }

@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Signatures;
+﻿using NIST.CVP.Crypto.Common.Asymmetric.RSA.Signatures;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
 using NIST.CVP.Math.Helpers;
 
-namespace NIST.CVP.Crypto.RSA2.Signatures.Pss
+namespace NIST.CVP.Crypto.RSA.Signatures.Pss
 {
     public class PssPadderWithModifiedTrailer : PssPadder
     {

@@ -2,7 +2,7 @@
 {
     public class VerifyResult<T>
     {
-        public T Signature { get; set; }
+        public T VerifiedValue { get; set; }
         public bool Result { get; set; }
     }
 }

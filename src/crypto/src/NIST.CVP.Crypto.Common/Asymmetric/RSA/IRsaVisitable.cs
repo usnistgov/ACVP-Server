@@ -1,7 +1,7 @@
-﻿using System.Numerics;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Keys;
+﻿using NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys;
+using System.Numerics;
 
-namespace NIST.CVP.Crypto.Common.Asymmetric.RSA2
+namespace NIST.CVP.Crypto.Common.Asymmetric.RSA
 {
     public interface IRsaVisitable
     {

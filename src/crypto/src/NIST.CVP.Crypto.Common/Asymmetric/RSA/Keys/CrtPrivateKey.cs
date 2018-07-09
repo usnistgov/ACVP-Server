@@ -1,6 +1,6 @@
 ﻿using System.Numerics;
 
-namespace NIST.CVP.Crypto.Common.Asymmetric.RSA2.Keys
+namespace NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys
 {
     // Chinese Remainder Theorem
     public class CrtPrivateKey : PrivateKeyBase

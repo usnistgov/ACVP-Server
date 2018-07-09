@@ -1,24 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA2;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Keys;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA2.PrimeGenerators;
+﻿using NIST.CVP.Common.Oracle;
+using NIST.CVP.Common.Oracle.ResultTypes;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys;
 using NIST.CVP.Generation.Core;
+using System;
+using System.Collections.Generic;
 
 namespace NIST.CVP.Generation.RSA_KeyGen
 {
     public class TestCaseGeneratorKat : ITestCaseGenerator<TestGroup, TestCase>
     {
         private readonly List<AlgoArrayResponseKey> _kats;
-        private readonly IKeyComposerFactory _keyComposerFactory;
+        private readonly IOracle _oracle;
         private int _katsIndex;
 
         public int NumberOfTestCasesToGenerate => _kats.Count;
 
-        public TestCaseGeneratorKat(TestGroup testGroup, IKeyComposerFactory keyComposerFactory)
+        public TestCaseGeneratorKat(TestGroup testGroup, IOracle oracle)
         {
             _kats = KatData.GetKatsForProperties(testGroup.Modulo, testGroup.PrimeTest);
-            _keyComposerFactory = keyComposerFactory;
+            _oracle = oracle;
 
             if (_kats == null)
             {
@@ -41,14 +42,23 @@ namespace NIST.CVP.Generation.RSA_KeyGen
 
             var currentKat = _kats[_katsIndex++];
 
-            var keyComposer = _keyComposerFactory.GetKeyComposer(group.KeyFormat);
-            var primePair = new PrimePair
+            var keyResult = new RsaKeyResult
             {
-                P = currentKat.P.ToPositiveBigInteger(),
-                Q = currentKat.Q.ToPositiveBigInteger()
+                Key = new KeyPair
+                {
+                    PrivKey = new PrivateKey
+                    {
+                        P = currentKat.P.ToPositiveBigInteger(),
+                        Q = currentKat.Q.ToPositiveBigInteger()
+                    },
+                    PubKey = new PublicKey
+                    {
+                        E = currentKat.E.ToPositiveBigInteger()
+                    }
+                }
             };
 
-            testCase.Key = keyComposer.ComposeKey(currentKat.E.ToPositiveBigInteger(), primePair);
+            testCase.Key = _oracle.CompleteKey(keyResult, group.KeyFormat).Key;
             testCase.TestPassed = !currentKat.FailureTest;
             
             return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);

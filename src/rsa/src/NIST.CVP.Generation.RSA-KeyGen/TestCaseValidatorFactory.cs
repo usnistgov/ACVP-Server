@@ -1,22 +1,16 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Keys;
-using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
+﻿using NIST.CVP.Common.Oracle;
 using NIST.CVP.Generation.Core;
+using System.Collections.Generic;
 
 namespace NIST.CVP.Generation.RSA_KeyGen
 {
     public class TestCaseValidatorFactory : ITestCaseValidatorFactory<TestVectorSet, TestGroup, TestCase>
     {
-        private readonly IKeyBuilder _keyBuilder;
-        private readonly IKeyComposerFactory _keyComposerFactory;
-        private readonly IShaFactory _shaFactory;
+        private readonly IOracle _oracle;
 
-        public TestCaseValidatorFactory(IKeyBuilder keyBuilder, IKeyComposerFactory keyComposerFactory, IShaFactory shaFactory)
+        public TestCaseValidatorFactory(IOracle oracle)
         {
-            _keyBuilder = keyBuilder;
-            _keyComposerFactory = keyComposerFactory;
-            _shaFactory = shaFactory;
+            _oracle = oracle;
         }
 
         public IEnumerable<ITestCaseValidator<TestGroup, TestCase>> GetValidators(TestVectorSet testVectorSet)
@@ -31,7 +25,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen
 
                     if (testType == "aft" || testType == "gdt")
                     {
-                        list.Add(new TestCaseValidatorAft(test, group, new DeferredTestCaseResolver(_keyBuilder, _keyComposerFactory, _shaFactory)));
+                        list.Add(new TestCaseValidatorAft(test, group, new DeferredTestCaseResolver(_oracle)));
                     }
                     else if (testType == "kat")
                     {

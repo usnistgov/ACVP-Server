@@ -1,17 +1,13 @@
-﻿using NIST.CVP.Tests.Core.TestCategoryAttributes;
-using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Numerics;
-using System.Text;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA2;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Enums;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Keys;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA2.PrimeGenerators;
+﻿using Moq;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA.PrimeGenerators;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
-using Moq;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
+using NUnit.Framework;
 using System.Linq;
+using System.Numerics;
 
 namespace NIST.CVP.Generation.RSA_DPComponent.Tests
 {
