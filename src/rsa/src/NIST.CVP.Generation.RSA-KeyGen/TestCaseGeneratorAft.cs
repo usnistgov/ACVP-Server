@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Numerics;
-using System.Text;
+using NIST.CVP.Common.Oracle;
+using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Enums;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Keys;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
@@ -14,6 +14,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen
 {
     public class TestCaseGeneratorAft : ITestCaseGenerator<TestGroup, TestCase>
     {
+        private readonly IOracle _oracle;
         private readonly IRandom800_90 _rand;
         private readonly IKeyBuilder _keyBuilder;
         private readonly IKeyComposerFactory _keyComposerFactory;
@@ -21,12 +22,9 @@ namespace NIST.CVP.Generation.RSA_KeyGen
 
         public int NumberOfTestCasesToGenerate { get; private set; } = 25;
 
-        public TestCaseGeneratorAft(IRandom800_90 rand, IKeyBuilder keyBuilder, IKeyComposerFactory keyComposerFactory, IShaFactory shaFactory)
+        public TestCaseGeneratorAft(IOracle oracle)
         {
-            _rand = rand;
-            _keyBuilder = keyBuilder;
-            _keyComposerFactory = keyComposerFactory;
-            _shaFactory = shaFactory;
+            _oracle = oracle;
         }
 
         public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
@@ -38,29 +36,25 @@ namespace NIST.CVP.Generation.RSA_KeyGen
 
             if (group.InfoGeneratedByServer || isSample)
             {
-                var response = new TestCaseGenerateResponse<TestGroup, TestCase>("fail");
-                do
+                // Generate a full key
+                var param = new RsaKeyParameters
                 {
-                    var seed = GetSeed(group.Modulo);
-                    var e = group.PubExp == PublicExponentModes.Fixed ? group.FixedPubExp.ToPositiveBigInteger() : GetEValue(32, 64);
-                    var bitlens = GetBitlens(group.Modulo, group.PrimeGenMode);
+                    Modulus = group.Modulo,
+                    KeyFormat = group.KeyFormat,
+                    KeyMode = group.PrimeGenMode,
+                    PrimeTest = group.PrimeTest,
+                    HashAlg = group.HashAlg,
+                    PublicExponentMode = group.PubExp,
+                    PublicExponent = group.FixedPubExp
+                };
 
-                    var testCase = new TestCase
-                    {
-                        Bitlens = bitlens,
-                        Seed = seed,
-                        Key = new KeyPair { PubKey = new PublicKey { E = e }},
-                        Deferred = !group.InfoGeneratedByServer
-                    };
-                    
-                    response = Generate(group, testCase);
-
-                } while (!response.Success);
+                var result = _oracle.GetRsaKey(param);
 
                 return response;
             }
             else
             {
+                // Leave all the properties blank
                 var testCase = new TestCase();
                 if (group.PubExp == PublicExponentModes.Fixed)
                 {
@@ -136,99 +130,5 @@ namespace NIST.CVP.Generation.RSA_KeyGen
         }
 
         private Logger ThisLogger => LogManager.GetCurrentClassLogger();
-
-        private BigInteger GetEValue(int minLen, int maxLen)
-        {
-            BigInteger e;
-            BitString e_bs;
-            do
-            {
-                var min = minLen / 2;
-                var max = maxLen / 2;
-
-                e = GetRandomBigIntegerOfBitLength(_rand.GetRandomInt(min, max) * 2);
-                if (e.IsEven)
-                {
-                    e++;
-                }
-
-                e_bs = new BitString(e);
-            } while (e_bs.BitLength >= maxLen || e_bs.BitLength < minLen);
-
-            return e;
-        }
-
-        private BigInteger GetRandomBigIntegerOfBitLength(int len)
-        {
-            var bs = _rand.GetRandomBitString(len);
-            return bs.ToPositiveBigInteger();
-        }
-
-        private BitString GetSeed(int modulo)
-        {
-            var security_strength = 0;
-            if(modulo == 1024)
-            {
-                security_strength = 80;
-            }
-            else if (modulo == 2048)
-            {
-                security_strength = 112;
-            }
-            else if (modulo == 3072)
-            {
-                security_strength = 128;
-            }
-
-            return _rand.GetRandomBitString(2 * security_strength);
-        }
-
-        private int[] GetBitlens(int modulo, PrimeGenModes mode)
-        {
-            var bitlens = new int[4];
-            var min_single = 0;
-            var max_both = 0;
-
-            // Min_single values were given as exclusive, we add 1 to make them inclusive
-            if(modulo == 1024)
-            {
-                // Rough estimate based on existing test vectors
-                min_single = 101;
-                max_both = 236;
-            }
-            else if (modulo == 2048)
-            {
-                min_single = 140 + 1;
-
-                if (mode == PrimeGenModes.B32 || mode == PrimeGenModes.B34)
-                {
-                    max_both = 494;
-                }
-                else
-                {
-                    max_both = 750;
-                }
-            }
-            else if (modulo == 3072)
-            {
-                min_single = 170 + 1;
-
-                if (mode == PrimeGenModes.B32 || mode == PrimeGenModes.B34)
-                {
-                    max_both = 1007;
-                }
-                else
-                {
-                    max_both = 1518;
-                }
-            }
-
-            bitlens[0] = _rand.GetRandomInt(min_single, max_both - min_single);
-            bitlens[1] = _rand.GetRandomInt(min_single, max_both - bitlens[0]);
-            bitlens[2] = _rand.GetRandomInt(min_single, max_both - min_single);
-            bitlens[3] = _rand.GetRandomInt(min_single, max_both - bitlens[2]);
-
-            return bitlens;
-        }
     }
 }

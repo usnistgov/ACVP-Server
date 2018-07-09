@@ -55,6 +55,12 @@ namespace NIST.CVP.Crypto.RSA2.Keys
             return this;
         }
 
+        public IKeyBuilder WithPublicExponent(BitString e)
+        {
+            _e = e.ToPositiveBigInteger();
+            return this;
+        }
+
         public IKeyBuilder WithSeed(BitString seed)
         {
             _seed = seed;

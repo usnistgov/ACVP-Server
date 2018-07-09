@@ -17,6 +17,7 @@ namespace NIST.CVP.Crypto.Common.Asymmetric.RSA2.Keys
         IKeyBuilder WithPrimeGenMode(PrimeGenModes primeGenMode);
         IKeyBuilder WithPrimeTestMode(PrimeTestModes primeTestMode);
         IKeyBuilder WithPublicExponent(BigInteger e);
+        IKeyBuilder WithPublicExponent(BitString e);
         IKeyBuilder WithSeed(BitString seed);
     }
 }
