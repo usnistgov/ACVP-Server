@@ -1,35 +1,19 @@
-﻿using NIST.CVP.Crypto.Common.Symmetric.AES;
-using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
-using NIST.CVP.Crypto.Common.Symmetric.Engines;
-using NIST.CVP.Crypto.Common.Symmetric.MonteCarlo;
+﻿using NIST.CVP.Common.Oracle;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.AES_CBC
 {
     public class TestCaseGeneratorFactory : ITestCaseGeneratorFactory<TestGroup, TestCase>
     {
-        private readonly IRandom800_90 _random800_90;
-        private readonly IMonteCarloFactoryAes _mctFactory;
-        private readonly IBlockCipherEngineFactory _engineFactory;
-        private readonly IModeBlockCipherFactory _modeFactory;
+        private readonly IOracle _oracle;
 
-        public TestCaseGeneratorFactory(
-            IRandom800_90 random800_90, 
-            IMonteCarloFactoryAes mctFactory,
-            IBlockCipherEngineFactory engineFactory,
-            IModeBlockCipherFactory modeFactory
-        )
+        public TestCaseGeneratorFactory(IOracle oracle)
         {
-            _random800_90 = random800_90;
-            _mctFactory = mctFactory;
-            _engineFactory = engineFactory;
-            _modeFactory = modeFactory;
+            _oracle = oracle;
         }
 
         public ITestCaseGenerator<TestGroup, TestCase> GetCaseGenerator(TestGroup testGroup)
         {
-            var direction = testGroup.Function.ToLower();
             var testType = testGroup.TestType.ToLower();
 
             switch (testType)
@@ -40,23 +24,9 @@ namespace NIST.CVP.Generation.AES_CBC
                 case "varkey":
                     return new TestCaseGeneratorKnownAnswer(testGroup.KeyLength, testType);
                 case "mct":
-                    switch (direction)
-                    {
-                        case "encrypt":
-                            return new TestCaseGeneratorMCTEncrypt(_random800_90, _mctFactory);
-                        case "decrypt":
-                            return new TestCaseGeneratorMCTDecrypt(_random800_90, _mctFactory);
-                    }
-                    break;
+                    return new TestCaseGeneratorMct(_oracle);
                 case "mmt":
-                    switch (direction)
-                    {
-                        case "encrypt":
-                            return new TestCaseGeneratorMMTEncrypt(_random800_90, _engineFactory, _modeFactory);
-                        case "decrypt":
-                            return new TestCaseGeneratorMMTDecrypt(_random800_90, _engineFactory, _modeFactory);
-                    }
-                    break;
+                    return new TestCaseGeneratorMmt(_oracle);
             }
 
             return new TestCaseGeneratorNull();
