@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using NIST.CVP.Common.Oracle;
+﻿using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.Common.Symmetric;
+using NIST.CVP.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.Generation.Core;
+using System;
+using System.Linq;
 
 namespace NIST.CVP.Generation.AES_ECB
 {
@@ -25,6 +24,7 @@ namespace NIST.CVP.Generation.AES_ECB
         {
             var param = new AesParameters
             {
+                Mode = BlockCipherModesOfOperation.Ecb,
                 DataLength = 128,
                 Direction = group.Function,
                 KeyLength = group.KeyLength
@@ -33,7 +33,7 @@ namespace NIST.CVP.Generation.AES_ECB
             MctResult<AesResult> oracleResult = null;
             try
             {
-                oracleResult = _oracle.GetAesEcbMctCase(param);
+                oracleResult = _oracle.GetAesMctCase(param);
             }
             catch (Exception ex)
             {

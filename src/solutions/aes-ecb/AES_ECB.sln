@@ -1,4 +1,5 @@
-﻿Microsoft Visual Studio Solution File, Format Version 12.00
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2036
 MinimumVisualStudioVersion = 10.0.40219.1
@@ -43,7 +44,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Common.Oracle", ".
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.Oracle", "..\..\oracle\src\NIST.CVP.Crypto.Oracle\NIST.CVP.Crypto.Oracle.csproj", "{0FE4EEA6-8A8B-4FB5-AC28-9F1CCEB55B62}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Common.Oracle.Tests", "..\..\oracle\test\NIST.CVP.Oracle.Common.Tests\NIST.CVP.Common.Oracle.Tests.csproj", "{0CD16833-274B-4E14-B1BB-0AA64CD9AFC2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Common.Oracle.Tests", "..\..\oracle\test\NIST.CVP.Oracle.Common.Tests\NIST.CVP.Common.Oracle.Tests.csproj", "{0CD16833-274B-4E14-B1BB-0AA64CD9AFC2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -293,6 +294,7 @@ Global
 		{33D7BED4-CD3B-421C-9A0C-C4D735C4EF08} = {0B113BDD-3E60-45BE-940B-0C346168DCF1}
 		{3D79F550-C3B7-41A5-874B-CBAE63D514E8} = {0B113BDD-3E60-45BE-940B-0C346168DCF1}
 		{0FE4EEA6-8A8B-4FB5-AC28-9F1CCEB55B62} = {0B113BDD-3E60-45BE-940B-0C346168DCF1}
+		{0CD16833-274B-4E14-B1BB-0AA64CD9AFC2} = {1A10CAF5-041E-4404-89FB-306D6263F42E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {61ACDC99-6CCF-4D2A-B19B-42516CB914D0}

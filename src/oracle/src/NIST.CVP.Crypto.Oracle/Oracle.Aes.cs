@@ -1,21 +1,23 @@
-﻿using System;
-using System.Linq;
-using NIST.CVP.Common.Oracle.ParameterTypes;
+﻿using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
-using NIST.CVP.Crypto.Common.Symmetric;
 using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
 using NIST.CVP.Crypto.Common.Symmetric.Enums;
-using NIST.CVP.Crypto.Common.Symmetric.MonteCarlo;
 using NIST.CVP.Crypto.Symmetric.BlockModes;
 using NIST.CVP.Crypto.Symmetric.Engines;
 using NIST.CVP.Crypto.Symmetric.MonteCarlo;
+using System;
+using System.Linq;
 
 namespace NIST.CVP.Crypto.Oracle
 {
     public partial class Oracle
     {
-        private AesResult DoSimpleAes(IModeBlockCipher<SymmetricCipherResult> cipher, AesParameters param)
+        private readonly ModeBlockCipherFactory _modeFactory = new ModeBlockCipherFactory();
+        private readonly AesMonteCarloFactory _mctFactory = new AesMonteCarloFactory(new BlockCipherEngineFactory(), new ModeBlockCipherFactory());
+
+        public AesResult GetAesCase(AesParameters param)
         {
+            var cipher = _modeFactory.GetStandardCipher(new AesEngine(), param.Mode);
             var direction = BlockCipherDirections.Encrypt;
             if (param.Direction.ToLower() == "decrypt")
             {
@@ -44,8 +46,9 @@ namespace NIST.CVP.Crypto.Oracle
             };
         }
 
-        private MctResult<AesResult> DoSimpleAesMct(IMonteCarloTester<MCTResult<AlgoArrayResponse>, AlgoArrayResponse> cipher, AesParameters param)
+        public MctResult<AesResult> GetAesMctCase(AesParameters param)
         {
+            var cipher = _mctFactory.GetInstance(param.Mode);
             var direction = BlockCipherDirections.Encrypt;
             if (param.Direction.ToLower() == "decrypt")
             {
@@ -76,56 +79,5 @@ namespace NIST.CVP.Crypto.Oracle
                 }).ToList()
             };
         }
-
-        public AesResult GetAesCbcCase(AesParameters param)
-        {
-            // Check Pool first
-            var cipher = new CbcBlockCipher(new AesEngine());
-            return DoSimpleAes(cipher, param);
-        }
-
-        public AesResult GetAesEcbCase(AesParameters param)
-        {
-            // Check Pool first
-            var cipher = new EcbBlockCipher(new AesEngine());
-            return DoSimpleAes(cipher, param);
-        }
-
-        public AesResult GetAesOfbCase(AesParameters param)
-        {
-            // Check Pool first
-            var cipher = new OfbBlockCipher(new AesEngine());
-            return DoSimpleAes(cipher, param);
-        }
-
-        public AesResult GetAesXtsCase(AesParameters param)
-        {
-            // Check Pool first
-            var cipher = new XtsBlockCipher(new AesEngine());
-            return DoSimpleAes(cipher, param);
-        }
-
-        public AesResult GetAesCfbCase(AesParameters param) => throw new NotImplementedException();
-        public AesResult GetAesCtrCase(AesParameters param) => throw new NotImplementedException();
-
-        public MctResult<AesResult> GetAesCbcMctCase(AesParameters param)
-        {
-            var cipher = new MonteCarloAesCbc(new BlockCipherEngineFactory(), new ModeBlockCipherFactory(), new AesMonteCarloKeyMaker());
-            return DoSimpleAesMct(cipher, param);
-        }
-
-        public MctResult<AesResult> GetAesEcbMctCase(AesParameters param)
-        {
-            var cipher = new MonteCarloAesEcb(new BlockCipherEngineFactory(), new ModeBlockCipherFactory(), new AesMonteCarloKeyMaker());
-            return DoSimpleAesMct(cipher, param);
-        }
-
-        public MctResult<AesResult> GetAesOfbMctCase(AesParameters param)
-        {
-            var cipher = new MonteCarloAesOfb(new BlockCipherEngineFactory(), new ModeBlockCipherFactory(), new AesMonteCarloKeyMaker());
-            return DoSimpleAesMct(cipher, param);
-        }
-
-        public MctResult<AesResult> GetAesCfbMctCase(AesParameters param) => throw new NotImplementedException();
     }
 }
