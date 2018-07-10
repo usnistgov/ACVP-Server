@@ -19,7 +19,9 @@ namespace NIST.CVP.Crypto.Oracle
         {
             // TODO utilize oracle calls to ECDSA functions
 
-            return null;
+            return new KasAftEccTestGeneratorFactory()
+                .GetInstance(param.KasMode)
+                .GetTest(param);
         }
     }
 }

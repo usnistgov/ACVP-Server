@@ -3,6 +3,7 @@ using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
 using NIST.CVP.Crypto.Common.KAS;
+using NIST.CVP.Crypto.Common.KAS.Builders;
 using NIST.CVP.Crypto.Common.KAS.Schema;
 using NIST.CVP.Crypto.DSA.ECC;
 using NIST.CVP.Crypto.Oracle.KAS.Ecc.Helpers;
@@ -13,6 +14,17 @@ namespace NIST.CVP.Crypto.Oracle.KAS.Ecc
     KasValParametersEcc, KasValResultEcc,
     KasDsaAlgoAttributesEcc, EccDomainParameters, EccKeyPair>
     {
+        protected readonly EccCurveFactory _curveFactory;
+
+        protected KasValEccTestGeneratorBase(
+            IKasBuilder<KasDsaAlgoAttributesEcc, OtherPartySharedInformation<EccDomainParameters, EccKeyPair>, EccDomainParameters, EccKeyPair
+            > kasBuilder, 
+            ISchemeBuilder<KasDsaAlgoAttributesEcc, OtherPartySharedInformation<EccDomainParameters, EccKeyPair>, EccDomainParameters, EccKeyPair
+            > schemeBuilder) : base(kasBuilder, schemeBuilder)
+        {
+            _curveFactory = new EccCurveFactory();
+        }
+
         protected override EccDomainParameters GetDomainParameters(KasValParametersEcc param)
         {
             return new EccDomainParameters(new EccCurveFactory().GetCurve(param.Curve));

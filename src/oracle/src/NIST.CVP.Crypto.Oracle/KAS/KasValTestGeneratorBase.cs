@@ -4,6 +4,7 @@ using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA;
 using NIST.CVP.Crypto.Common.KAS;
+using NIST.CVP.Crypto.Common.KAS.Builders;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Crypto.Common.KAS.Fakes;
 using NIST.CVP.Crypto.Common.KAS.KC;
@@ -30,6 +31,25 @@ namespace NIST.CVP.Crypto.Oracle.KAS
         where TDomainParameters : IDsaDomainParameters
         where TKeyPair : IDsaKeyPair
     {
+        protected readonly IKasBuilder<TKasDsaAlgoAttributes, OtherPartySharedInformation<TDomainParameters, TKeyPair>, TDomainParameters, TKeyPair 
+        > _kasBuilder;
+        protected readonly ISchemeBuilder<TKasDsaAlgoAttributes, OtherPartySharedInformation<TDomainParameters, TKeyPair>, TDomainParameters, TKeyPair 
+        > _schemeBuilder;
+        protected readonly EntropyProviderFactory _entropyProviderFactory;
+        protected readonly MacParametersBuilder _macParametersBuilder;
+
+        protected KasValTestGeneratorBase(
+            IKasBuilder<TKasDsaAlgoAttributes, OtherPartySharedInformation<TDomainParameters, TKeyPair>, TDomainParameters, TKeyPair 
+            > kasBuilder, 
+            ISchemeBuilder<TKasDsaAlgoAttributes, OtherPartySharedInformation<TDomainParameters, TKeyPair>, TDomainParameters, TKeyPair 
+            > schemeBuilder)
+        {
+            _kasBuilder = kasBuilder;
+            _schemeBuilder = schemeBuilder;
+            _entropyProviderFactory = new EntropyProviderFactory();
+            _macParametersBuilder = new MacParametersBuilder();
+        }
+
         public TKasValResult GetTest(TKasValParameters param)
         {
             var result = new TKasValResult()
