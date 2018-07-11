@@ -11,5 +11,7 @@ namespace NIST.CVP.Common.Oracle
 
         AeadResult GetDeferredAesGcmCase(AeadParameters param);
         AeadResult CompleteDeferredAesGcmCase(AeadParameters param, AeadResult fullParam);
+        AeadResult GetDeferredAesXpnCase(AeadParameters param);
+        AeadResult CompleteDeferredAesXpnCase(AeadParameters param, AeadResult fullParam);
     }
 }

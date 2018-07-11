@@ -7,6 +7,7 @@ namespace NIST.CVP.Common.Oracle.ResultTypes
     {
         public bool TestPassed { get; set; }
         public BitString Aad { get; set; }
+        public BitString Salt { get; set; }
         public BitString Tag { get; set; }
     }
 }

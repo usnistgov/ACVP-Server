@@ -52,6 +52,7 @@ namespace NIST.CVP.Generation.AES_GCM
 
             return new TestCaseGenerateResponse<TestGroup, TestCase>(new TestCase
             {
+                Deferred = true,
                 AAD = oracleResult.Aad,
                 CipherText = oracleResult.CipherText,
                 IV = oracleResult.Iv,

@@ -73,12 +73,21 @@ namespace NIST.CVP.Crypto.Oracle
             {
                 PlainText = _rand.GetRandomBitString(param.DataLength),
                 Key = _rand.GetRandomBitString(param.KeyLength),
+                Salt = _rand.GetRandomBitString(param.SaltLength),
                 Iv = _rand.GetRandomBitString(param.IvLength),
                 Aad = _rand.GetRandomBitString(param.AadLength)
             };
 
+            var tempParams = new AeadResult
+            {
+                PlainText = fullParams.PlainText,
+                Key = fullParams.Key,
+                Iv = fullParams.Iv.XOR(fullParams.Salt),
+                Aad = fullParams.Aad
+            };
+
             // Uses gcm as a cipher instead of xpn
-            var result = DoSimpleAead(_gcm, fullParams, param);
+            var result = DoSimpleAead(_gcm, tempParams, param);
 
             // Should Fail at certain ratio, 25%
             var upperBound = (int)(1.0 / XPN_FAIL_RATIO);
@@ -89,6 +98,9 @@ namespace NIST.CVP.Crypto.Oracle
                 result.Tag = _rand.GetDifferentBitStringOfSameSize(result.Tag);
                 result.TestPassed = false;
             }
+
+            result.Iv = fullParams.Iv;
+            result.Salt = fullParams.Salt;
 
             return result;
         }
@@ -106,6 +118,33 @@ namespace NIST.CVP.Crypto.Oracle
         public AeadResult CompleteDeferredAesGcmCase(AeadParameters param, AeadResult fullParam)
         {
             return DoSimpleAead(_gcm, fullParam, param);
+        }
+
+        public AeadResult GetDeferredAesXpnCase(AeadParameters param)
+        {
+            return new AeadResult
+            {
+                Aad = _rand.GetRandomBitString(param.AadLength),
+                PlainText = _rand.GetRandomBitString(param.DataLength),
+                Key = _rand.GetRandomBitString(param.KeyLength),
+                Salt = param.ExternalSalt ? _rand.GetRandomBitString(param.SaltLength) : null,
+                Iv = param.ExternalIv ? _rand.GetRandomBitString(param.IvLength) : null
+            };
+        }
+
+        public AeadResult CompleteDeferredAesXpnCase(AeadParameters param, AeadResult fullParam)
+        {
+            var testParam = new AeadResult
+            {
+                Aad = fullParam.Aad,
+                CipherText = fullParam.CipherText,
+                Iv = fullParam.Iv.XOR(fullParam.Salt),
+                Key = fullParam.Key,
+                PlainText = fullParam.PlainText,
+                Tag = fullParam.Tag
+            };
+
+            return DoSimpleAead(_gcm, testParam, param);
         }
     }
 }

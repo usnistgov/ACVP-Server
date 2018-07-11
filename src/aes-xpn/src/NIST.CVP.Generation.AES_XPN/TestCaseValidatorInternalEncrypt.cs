@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Crypto.Common.Symmetric;
 using NIST.CVP.Generation.Core.Enums;
+using System.Collections.Generic;
 
 namespace NIST.CVP.Generation.AES_XPN
 {
@@ -9,9 +9,9 @@ namespace NIST.CVP.Generation.AES_XPN
     {
         private readonly TestGroup _testGroup;
         private readonly TestCase _serverTestCase;
-        private readonly IDeferredTestCaseResolver<TestGroup, TestCase, SymmetricCipherAeadResult> _testCaseResolver;
+        private readonly IDeferredTestCaseResolver<TestGroup, TestCase, AeadResult> _testCaseResolver;
 
-        public TestCaseValidatorInternalEncrypt(TestGroup testGroup, TestCase serverTestCase, IDeferredTestCaseResolver<TestGroup, TestCase, SymmetricCipherAeadResult> testCaseResolver)
+        public TestCaseValidatorInternalEncrypt(TestGroup testGroup, TestCase serverTestCase, IDeferredTestCaseResolver<TestGroup, TestCase, AeadResult> testCaseResolver)
         {
             _serverTestCase = serverTestCase;
             _testGroup = testGroup;
@@ -50,10 +50,10 @@ namespace NIST.CVP.Generation.AES_XPN
         {
             var serverResult = _testCaseResolver.CompleteDeferredCrypto(_testGroup, _serverTestCase, suppliedResult);
 
-            if (!serverResult.Result.Equals(suppliedResult.CipherText))
+            if (!serverResult.CipherText.Equals(suppliedResult.CipherText))
             {
                 errors.Add("Cipher Text does not match");
-                expected.Add(nameof(serverResult.Result), serverResult.Result.ToHex());
+                expected.Add(nameof(serverResult.CipherText), serverResult.CipherText.ToHex());
                 provided.Add(nameof(suppliedResult.CipherText), suppliedResult.CipherText.ToHex());
             }
             if (!serverResult.Tag.Equals(suppliedResult.Tag))
