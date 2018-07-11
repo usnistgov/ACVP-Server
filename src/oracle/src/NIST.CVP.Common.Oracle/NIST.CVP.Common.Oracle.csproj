@@ -13,7 +13,7 @@
     <ProjectReference Include="..\..\..\crypto\src\NIST.CVP.Crypto.Common\NIST.CVP.Crypto.Common.csproj" />
   </ItemGroup>
   
-    <ItemGroup>
+  <ItemGroup>
     <Compile Update="IOracle.*.cs">
       <DependentUpon>IOracle.cs</DependentUpon>
     </Compile>

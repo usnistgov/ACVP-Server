@@ -8,5 +8,6 @@ namespace NIST.CVP.Common.Oracle
     {
         KasValResultEcc GetKasValTestEcc(KasValParametersEcc param);
         KasAftResultEcc GetKasAftTestEcc(KasAftParametersEcc param);
+        KasAftDeferredResult CompleteKasDeferredTest(KasAftDeferredParametersEcc param);
     }
 }
