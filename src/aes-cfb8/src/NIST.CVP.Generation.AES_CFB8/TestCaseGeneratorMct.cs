@@ -24,7 +24,7 @@ namespace NIST.CVP.Generation.AES_CFB8
         {
             var param = new AesParameters
             {
-                Mode = BlockCipherModesOfOperation.CfbBlock,
+                Mode = BlockCipherModesOfOperation.CfbByte,
                 DataLength = 8,
                 Direction = group.Function,
                 KeyLength = group.KeyLength
