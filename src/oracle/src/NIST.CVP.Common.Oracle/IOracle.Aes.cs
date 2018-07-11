@@ -7,6 +7,7 @@ namespace NIST.CVP.Common.Oracle
     {
         AesResult GetAesCase(AesParameters param);
         MctResult<AesResult> GetAesMctCase(AesParameters param);
+        AesXtsResult GetAesXtsCase(AesXtsParameters param);
 
         AesResult GetDeferredAesCounterCase(CounterParameters<AesParameters> param);
         AesResult CompleteDeferredAesCounterCase(CounterParameters<AesParameters> param);

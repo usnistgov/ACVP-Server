@@ -1,15 +1,16 @@
 ﻿using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Common.Symmetric.CTR;
+using NIST.CVP.Crypto.Common.Symmetric.CTR.Enums;
 using NIST.CVP.Crypto.Common.Symmetric.Enums;
+using NIST.CVP.Crypto.Common.Symmetric.Helpers;
 using NIST.CVP.Crypto.Symmetric.BlockModes;
 using NIST.CVP.Crypto.Symmetric.Engines;
 using NIST.CVP.Crypto.Symmetric.MonteCarlo;
+using NIST.CVP.Math;
 using System;
 using System.Linq;
-using NIST.CVP.Crypto.Common.Symmetric.CTR;
-using NIST.CVP.Crypto.Common.Symmetric.CTR.Enums;
-using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.Oracle
 {
@@ -159,6 +160,43 @@ namespace NIST.CVP.Crypto.Oracle
                 PlainText = direction == BlockCipherDirections.Encrypt ? null : extractedIvs.Result,
                 CipherText = direction == BlockCipherDirections.Decrypt ? null : extractedIvs.Result,
                 IVs = extractedIvs.IVs
+            };
+        }
+
+        public AesXtsResult GetAesXtsCase(AesXtsParameters param)
+        {
+            var cipher = _modeFactory.GetStandardCipher(_aes, param.Mode);
+            var direction = BlockCipherDirections.Encrypt;
+            if (param.Direction.ToLower() == "decrypt")
+            {
+                direction = BlockCipherDirections.Decrypt;
+            }
+
+            var payload = _rand.GetRandomBitString(param.DataLength);
+            var key = _rand.GetRandomBitString(param.KeyLength * 2);
+            var i = new BitString(0);
+            var number = 0;
+
+            if (param.TweakMode.Equals("hex", StringComparison.OrdinalIgnoreCase))
+            {
+                i = _rand.GetRandomBitString(128);
+            }
+            else if (param.TweakMode.Equals("number", StringComparison.OrdinalIgnoreCase))
+            {
+                number = _rand.GetRandomInt(0, 256);
+                i = XtsHelper.GetIFromInteger(number);
+            }
+
+            var blockCipherParams = new ModeBlockCipherParameters(direction, i, key, payload);
+            var result = cipher.ProcessPayload(blockCipherParams);
+
+            return new AesXtsResult
+            {
+                PlainText = direction == BlockCipherDirections.Encrypt ? payload : result.Result,
+                CipherText = direction == BlockCipherDirections.Decrypt ? payload : result.Result,
+                SequenceNumber = number,
+                Iv = i,
+                Key = key
             };
         }
 
