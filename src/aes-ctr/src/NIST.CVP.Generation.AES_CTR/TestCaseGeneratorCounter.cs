@@ -1,10 +1,10 @@
-﻿using System;
-using NIST.CVP.Common.Oracle;
+﻿using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.Generation.Core;
 using NLog;
+using System;
 
 namespace NIST.CVP.Generation.AES_CTR
 {
@@ -47,12 +47,12 @@ namespace NIST.CVP.Generation.AES_CTR
                 if (isSample)
                 {
                     // Generate full test case
-                    result = _oracle.GetDeferredAesCounterCase(param);
+                    result = _oracle.CompleteDeferredAesCounterCase(param);
                 }
                 else
                 {
                     // Generate partial test case
-                    result = _oracle.CompleteDeferredAesCounterCase(param);
+                    result = _oracle.GetDeferredAesCounterCase(param);
                 }
             }
             catch (Exception ex)
@@ -67,7 +67,7 @@ namespace NIST.CVP.Generation.AES_CTR
                 IV = result.Iv,
                 Key = result.Key,
                 PlainText = result.PlainText,
-                Length = result.PlainText.BitLength
+                Length = result.PlainText?.BitLength ?? result.CipherText.BitLength
             });
         }
 
