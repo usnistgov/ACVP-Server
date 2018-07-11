@@ -1,9 +1,6 @@
-﻿using System;
-using Moq;
-using NIST.CVP.Crypto.Common.Symmetric.BlockModes.Aead;
-using NIST.CVP.Crypto.Common.Symmetric.Engines;
-using NIST.CVP.Tests.Core.TestCategoryAttributes;
+﻿using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
+using System;
 
 namespace NIST.CVP.Generation.AES_CCM.Tests
 {
@@ -11,16 +8,14 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
     public class TestCaseGeneratorFactoryTests
     {
         [Test]
-        [TestCase("encrypt", typeof(TestCaseGeneratorEncrypt))]
-        [TestCase("Encrypt", typeof(TestCaseGeneratorEncrypt))]
-        [TestCase("Encrypt", typeof(TestCaseGeneratorEncrypt))]
-        [TestCase("ENcrypt", typeof(TestCaseGeneratorEncrypt))]
-        [TestCase("Decrypt", typeof(TestCaseGeneratorDecrypt))]
-        [TestCase("decrypt", typeof(TestCaseGeneratorDecrypt))]
-        [TestCase("decrypt", typeof(TestCaseGeneratorDecrypt))]
-        [TestCase("decrypt", typeof(TestCaseGeneratorDecrypt))]
-        [TestCase("Junk", typeof(TestCaseGeneratorNull))]
-        [TestCase("encrypto", typeof(TestCaseGeneratorNull))]
+        [TestCase("encrypt", typeof(TestCaseGenerator))]
+        [TestCase("Encrypt", typeof(TestCaseGenerator))]
+        [TestCase("Encrypt", typeof(TestCaseGenerator))]
+        [TestCase("ENcrypt", typeof(TestCaseGenerator))]
+        [TestCase("Decrypt", typeof(TestCaseGenerator))]
+        [TestCase("decrypt", typeof(TestCaseGenerator))]
+        [TestCase("decrypt", typeof(TestCaseGenerator))]
+        [TestCase("decrypt", typeof(TestCaseGenerator))]
         public void ShouldReturnProperGenerator(string direction, Type expectedType)
         {
             TestGroup testGroup = new TestGroup()
@@ -28,10 +23,7 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
                 Function = direction
             };
 
-            var cipherFactory = new Mock<IAeadModeBlockCipherFactory>();
-            var engineFactory = new Mock<IBlockCipherEngineFactory>();
-
-            var subject = new TestCaseGeneratorFactory(null, cipherFactory.Object, engineFactory.Object);
+            var subject = new TestCaseGeneratorFactory(null);
             var generator = subject.GetCaseGenerator(testGroup);
             Assume.That(generator != null);
             Assert.IsInstanceOf(expectedType, generator);
@@ -45,7 +37,7 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
                 Function = string.Empty
             };
 
-            var subject = new TestCaseGeneratorFactory(null, null, null);
+            var subject = new TestCaseGeneratorFactory(null);
             var generator = subject.GetCaseGenerator(testGroup);
             Assert.IsNotNull(generator);
         }

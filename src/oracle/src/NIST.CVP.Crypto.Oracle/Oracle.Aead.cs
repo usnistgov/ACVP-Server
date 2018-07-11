@@ -1,5 +1,6 @@
 ﻿using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
+using NIST.CVP.Crypto.AES_CCM;
 using NIST.CVP.Crypto.AES_GCM;
 using NIST.CVP.Crypto.Common.Symmetric.BlockModes.Aead;
 using NIST.CVP.Crypto.Common.Symmetric.Enums;
@@ -13,6 +14,7 @@ namespace NIST.CVP.Crypto.Oracle
     public partial class Oracle
     {
         private readonly GcmBlockCipher _gcm = new GcmBlockCipher(new AesEngine(), new ModeBlockCipherFactory(), new AES_GCMInternals(new ModeBlockCipherFactory(), new BlockCipherEngineFactory()));
+        private readonly CcmBlockCipher _ccm = new CcmBlockCipher(new AesEngine(), new ModeBlockCipherFactory(), new AES_CCMInternals());
 
         private AeadResult DoSimpleAead(IAeadModeBlockCipher cipher, AeadResult fullParam, AeadParameters param)
         {
@@ -37,7 +39,18 @@ namespace NIST.CVP.Crypto.Oracle
             };
         }
 
-        public AeadResult GetAesCcmCase() => throw new NotImplementedException();
+        public AeadResult GetAesCcmCase(AeadParameters param)
+        {
+            var fullParams = new AeadResult
+            {
+                PlainText = _rand.GetRandomBitString(param.DataLength),
+                Key = _rand.GetRandomBitString(param.KeyLength),
+                Iv = _rand.GetRandomBitString(param.IvLength),
+                Aad = _rand.GetRandomBitString(param.AadLength),
+            };
+
+            return DoSimpleAead(_ccm, fullParams, param);
+        }
 
         public AeadResult GetAesGcmCase(AeadParameters param)
         {

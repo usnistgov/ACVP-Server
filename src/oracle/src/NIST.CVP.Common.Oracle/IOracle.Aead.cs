@@ -5,7 +5,7 @@ namespace NIST.CVP.Common.Oracle
 {
     public partial interface IOracle
     {
-        AeadResult GetAesCcmCase();
+        AeadResult GetAesCcmCase(AeadParameters param);
         AeadResult GetAesGcmCase(AeadParameters param);
         AeadResult GetAesXpnCase(AeadParameters param);
 
