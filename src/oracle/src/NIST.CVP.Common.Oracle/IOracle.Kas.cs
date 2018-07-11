@@ -1,11 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using NIST.CVP.Common.Oracle.ParameterTypes;
+using NIST.CVP.Common.Oracle.ResultTypes;
 
 namespace NIST.CVP.Common.Oracle
 {
     public partial interface IOracle
     {
-        // TODO
+        KasValResultEcc GetKasValTestEcc(KasValParametersEcc param);
+        KasAftResultEcc GetKasAftTestEcc(KasAftParametersEcc param);
+        KasAftDeferredResult CompleteKasDeferredTest(KasAftDeferredParametersEcc param);
     }
 }
