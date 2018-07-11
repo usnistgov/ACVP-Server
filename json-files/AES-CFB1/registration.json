@@ -1,6 +1,6 @@
 {
   "algorithm": "AES",
-  "mode": "OFB",
+  "mode": "CFB1",
   "isSample": false,
   "direction": [
     "encrypt",
