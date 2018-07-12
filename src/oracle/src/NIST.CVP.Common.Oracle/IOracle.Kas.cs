@@ -1,5 +1,4 @@
-﻿using System;
-using NIST.CVP.Common.Oracle.ParameterTypes;
+﻿using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
 
 namespace NIST.CVP.Common.Oracle
@@ -9,5 +8,9 @@ namespace NIST.CVP.Common.Oracle
         KasValResultEcc GetKasValTestEcc(KasValParametersEcc param);
         KasAftResultEcc GetKasAftTestEcc(KasAftParametersEcc param);
         KasAftDeferredResult CompleteDeferredKasTest(KasAftDeferredParametersEcc param);
+
+        KasValResultFfc GetKasValTestFfc(KasValParametersFfc param);
+        KasAftResultFfc GetKasAftTestFfc(KasAftParametersFfc param);
+        KasAftDeferredResult CompleteDeferredKasTest(KasAftDeferredParametersFfc param);
     }
 }
