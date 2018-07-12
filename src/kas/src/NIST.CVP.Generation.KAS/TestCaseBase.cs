@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
+using NIST.CVP.Common.Oracle.DispositionTypes;
 using NIST.CVP.Crypto.Common.KAS.Schema;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.KAS.Enums;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.KAS
@@ -16,7 +16,7 @@ namespace NIST.CVP.Generation.KAS
         public bool Deferred { get; set; }
         public TTestGroup ParentGroup { get; set; }
 
-        [JsonIgnore] public TestCaseDispositionOption TestCaseDisposition { get; set; }
+        [JsonIgnore] public KasValTestDisposition TestCaseDisposition { get; set; }
 
         [JsonProperty(PropertyName = "nonceDkmServer")]
         public BitString DkmNonceServer { get; set; }

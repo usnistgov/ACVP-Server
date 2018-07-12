@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Moq;
+using NIST.CVP.Common.Oracle.DispositionTypes;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Common.KAS.Builders;
@@ -14,7 +15,6 @@ using NIST.CVP.Crypto.KAS.Builders.Ffc;
 using NIST.CVP.Crypto.KAS.KC;
 using NIST.CVP.Crypto.KAS.KDF;
 using NIST.CVP.Crypto.KAS.NoKC;
-using NIST.CVP.Crypto.KAS.Scheme.Ffc;
 using NIST.CVP.Crypto.KES;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Generation.KAS.Enums;
@@ -100,7 +100,7 @@ namespace NIST.CVP.Generation.KAS.FFC.Tests
             _kdfFactory = new KdfFactory(_shaFactory);
 
             _subject = new TestCaseGeneratorValNoKdfNoKc(
-                _kasBuilder, _schemeBuilder, _shaFactory, _entropyProviderFactory, _macParametersBuilder, _kdfFactory, _keyConfirmationFactory, _noKeyConfirmationFactory, new List<TestCaseDispositionOption>() {TestCaseDispositionOption.Success}
+                _kasBuilder, _schemeBuilder, _shaFactory, _entropyProviderFactory, _macParametersBuilder, _kdfFactory, _keyConfirmationFactory, _noKeyConfirmationFactory, new List<KasValTestDisposition>() {KasValTestDisposition.Success}
             );
         }
 
@@ -208,45 +208,45 @@ namespace NIST.CVP.Generation.KAS.FFC.Tests
             #endregion KeyCheck
         }
 
-        [TestCase(FfcScheme.DhEphem, KeyAgreementRole.InitiatorPartyU, TestCaseDispositionOption.Success, false)]
-        [TestCase(FfcScheme.DhEphem, KeyAgreementRole.ResponderPartyV, TestCaseDispositionOption.Success, false)]
-        [TestCase(FfcScheme.DhEphem, KeyAgreementRole.InitiatorPartyU, TestCaseDispositionOption.FailAssuranceServerEphemeralPublicKey, true)]
-        [TestCase(FfcScheme.DhEphem, KeyAgreementRole.ResponderPartyV, TestCaseDispositionOption.FailAssuranceServerEphemeralPublicKey, true)]
-        [TestCase(FfcScheme.DhEphem, KeyAgreementRole.InitiatorPartyU, TestCaseDispositionOption.FailChangedTag, true)]
-        [TestCase(FfcScheme.DhEphem, KeyAgreementRole.ResponderPartyV, TestCaseDispositionOption.FailChangedTag, true)]
-        [TestCase(FfcScheme.DhEphem, KeyAgreementRole.InitiatorPartyU, TestCaseDispositionOption.FailChangedZ, true)]
-        [TestCase(FfcScheme.DhEphem, KeyAgreementRole.ResponderPartyV, TestCaseDispositionOption.FailChangedZ, true)]
+        [TestCase(FfcScheme.DhEphem, KeyAgreementRole.InitiatorPartyU, KasValTestDisposition.Success, false)]
+        [TestCase(FfcScheme.DhEphem, KeyAgreementRole.ResponderPartyV, KasValTestDisposition.Success, false)]
+        [TestCase(FfcScheme.DhEphem, KeyAgreementRole.InitiatorPartyU, KasValTestDisposition.FailAssuranceServerEphemeralPublicKey, true)]
+        [TestCase(FfcScheme.DhEphem, KeyAgreementRole.ResponderPartyV, KasValTestDisposition.FailAssuranceServerEphemeralPublicKey, true)]
+        [TestCase(FfcScheme.DhEphem, KeyAgreementRole.InitiatorPartyU, KasValTestDisposition.FailChangedTag, true)]
+        [TestCase(FfcScheme.DhEphem, KeyAgreementRole.ResponderPartyV, KasValTestDisposition.FailChangedTag, true)]
+        [TestCase(FfcScheme.DhEphem, KeyAgreementRole.InitiatorPartyU, KasValTestDisposition.FailChangedZ, true)]
+        [TestCase(FfcScheme.DhEphem, KeyAgreementRole.ResponderPartyV, KasValTestDisposition.FailChangedZ, true)]
 
-        [TestCase(FfcScheme.Mqv1, KeyAgreementRole.InitiatorPartyU, TestCaseDispositionOption.Success, false)]
-        [TestCase(FfcScheme.Mqv1, KeyAgreementRole.ResponderPartyV, TestCaseDispositionOption.Success, false)]
-        [TestCase(FfcScheme.Mqv1, KeyAgreementRole.InitiatorPartyU, TestCaseDispositionOption.FailAssuranceServerEphemeralPublicKey, false)] // server doesn't generate ephem key when party v
-        [TestCase(FfcScheme.Mqv1, KeyAgreementRole.ResponderPartyV, TestCaseDispositionOption.FailAssuranceServerEphemeralPublicKey, true)]
-        [TestCase(FfcScheme.Mqv1, KeyAgreementRole.InitiatorPartyU, TestCaseDispositionOption.FailChangedTag, true)]
-        [TestCase(FfcScheme.Mqv1, KeyAgreementRole.ResponderPartyV, TestCaseDispositionOption.FailChangedTag, true)]
-        [TestCase(FfcScheme.Mqv1, KeyAgreementRole.InitiatorPartyU, TestCaseDispositionOption.FailChangedZ, true)]
-        [TestCase(FfcScheme.Mqv1, KeyAgreementRole.ResponderPartyV, TestCaseDispositionOption.FailChangedZ, true)]
+        [TestCase(FfcScheme.Mqv1, KeyAgreementRole.InitiatorPartyU, KasValTestDisposition.Success, false)]
+        [TestCase(FfcScheme.Mqv1, KeyAgreementRole.ResponderPartyV, KasValTestDisposition.Success, false)]
+        [TestCase(FfcScheme.Mqv1, KeyAgreementRole.InitiatorPartyU, KasValTestDisposition.FailAssuranceServerEphemeralPublicKey, false)] // server doesn't generate ephem key when party v
+        [TestCase(FfcScheme.Mqv1, KeyAgreementRole.ResponderPartyV, KasValTestDisposition.FailAssuranceServerEphemeralPublicKey, true)]
+        [TestCase(FfcScheme.Mqv1, KeyAgreementRole.InitiatorPartyU, KasValTestDisposition.FailChangedTag, true)]
+        [TestCase(FfcScheme.Mqv1, KeyAgreementRole.ResponderPartyV, KasValTestDisposition.FailChangedTag, true)]
+        [TestCase(FfcScheme.Mqv1, KeyAgreementRole.InitiatorPartyU, KasValTestDisposition.FailChangedZ, true)]
+        [TestCase(FfcScheme.Mqv1, KeyAgreementRole.ResponderPartyV, KasValTestDisposition.FailChangedZ, true)]
 
-        [TestCase(FfcScheme.DhHybrid1, KeyAgreementRole.InitiatorPartyU, TestCaseDispositionOption.Success, false)]
-        [TestCase(FfcScheme.DhHybrid1, KeyAgreementRole.ResponderPartyV, TestCaseDispositionOption.Success, false)]
-        [TestCase(FfcScheme.DhHybrid1, KeyAgreementRole.InitiatorPartyU, TestCaseDispositionOption.FailAssuranceServerEphemeralPublicKey, true)]
-        [TestCase(FfcScheme.DhHybrid1, KeyAgreementRole.ResponderPartyV, TestCaseDispositionOption.FailAssuranceServerEphemeralPublicKey, true)]
-        [TestCase(FfcScheme.DhHybrid1, KeyAgreementRole.InitiatorPartyU, TestCaseDispositionOption.FailChangedTag, true)]
-        [TestCase(FfcScheme.DhHybrid1, KeyAgreementRole.ResponderPartyV, TestCaseDispositionOption.FailChangedTag, true)]
-        [TestCase(FfcScheme.DhHybrid1, KeyAgreementRole.InitiatorPartyU, TestCaseDispositionOption.FailChangedZ, true)]
-        [TestCase(FfcScheme.DhHybrid1, KeyAgreementRole.ResponderPartyV, TestCaseDispositionOption.FailChangedZ, true)]
+        [TestCase(FfcScheme.DhHybrid1, KeyAgreementRole.InitiatorPartyU, KasValTestDisposition.Success, false)]
+        [TestCase(FfcScheme.DhHybrid1, KeyAgreementRole.ResponderPartyV, KasValTestDisposition.Success, false)]
+        [TestCase(FfcScheme.DhHybrid1, KeyAgreementRole.InitiatorPartyU, KasValTestDisposition.FailAssuranceServerEphemeralPublicKey, true)]
+        [TestCase(FfcScheme.DhHybrid1, KeyAgreementRole.ResponderPartyV, KasValTestDisposition.FailAssuranceServerEphemeralPublicKey, true)]
+        [TestCase(FfcScheme.DhHybrid1, KeyAgreementRole.InitiatorPartyU, KasValTestDisposition.FailChangedTag, true)]
+        [TestCase(FfcScheme.DhHybrid1, KeyAgreementRole.ResponderPartyV, KasValTestDisposition.FailChangedTag, true)]
+        [TestCase(FfcScheme.DhHybrid1, KeyAgreementRole.InitiatorPartyU, KasValTestDisposition.FailChangedZ, true)]
+        [TestCase(FfcScheme.DhHybrid1, KeyAgreementRole.ResponderPartyV, KasValTestDisposition.FailChangedZ, true)]
 
-        [TestCase(FfcScheme.DhStatic, KeyAgreementRole.InitiatorPartyU, TestCaseDispositionOption.Success, false)]
-        [TestCase(FfcScheme.DhStatic, KeyAgreementRole.ResponderPartyV, TestCaseDispositionOption.Success, false)]
-        [TestCase(FfcScheme.DhStatic, KeyAgreementRole.InitiatorPartyU, TestCaseDispositionOption.FailAssuranceServerEphemeralPublicKey, false)]
-        [TestCase(FfcScheme.DhStatic, KeyAgreementRole.ResponderPartyV, TestCaseDispositionOption.FailAssuranceServerEphemeralPublicKey, false)]
-        [TestCase(FfcScheme.DhStatic, KeyAgreementRole.InitiatorPartyU, TestCaseDispositionOption.FailChangedTag, true)]
-        [TestCase(FfcScheme.DhStatic, KeyAgreementRole.ResponderPartyV, TestCaseDispositionOption.FailChangedTag, true)]
-        [TestCase(FfcScheme.DhStatic, KeyAgreementRole.InitiatorPartyU, TestCaseDispositionOption.FailChangedZ, true)]
-        [TestCase(FfcScheme.DhStatic, KeyAgreementRole.ResponderPartyV, TestCaseDispositionOption.FailChangedZ, true)]
+        [TestCase(FfcScheme.DhStatic, KeyAgreementRole.InitiatorPartyU, KasValTestDisposition.Success, false)]
+        [TestCase(FfcScheme.DhStatic, KeyAgreementRole.ResponderPartyV, KasValTestDisposition.Success, false)]
+        [TestCase(FfcScheme.DhStatic, KeyAgreementRole.InitiatorPartyU, KasValTestDisposition.FailAssuranceServerEphemeralPublicKey, false)]
+        [TestCase(FfcScheme.DhStatic, KeyAgreementRole.ResponderPartyV, KasValTestDisposition.FailAssuranceServerEphemeralPublicKey, false)]
+        [TestCase(FfcScheme.DhStatic, KeyAgreementRole.InitiatorPartyU, KasValTestDisposition.FailChangedTag, true)]
+        [TestCase(FfcScheme.DhStatic, KeyAgreementRole.ResponderPartyV, KasValTestDisposition.FailChangedTag, true)]
+        [TestCase(FfcScheme.DhStatic, KeyAgreementRole.InitiatorPartyU, KasValTestDisposition.FailChangedZ, true)]
+        [TestCase(FfcScheme.DhStatic, KeyAgreementRole.ResponderPartyV, KasValTestDisposition.FailChangedZ, true)]
         public void ShouldSetProperTestCaseFailureTestProperty(FfcScheme scheme, KeyAgreementRole testGroupIutRole,
-            TestCaseDispositionOption option, bool isFailure)
+            KasValTestDisposition option, bool isFailure)
         {
-            _subject = new TestCaseGeneratorValNoKdfNoKc(_kasBuilder, _schemeBuilder, _shaFactory, _entropyProviderFactory, _macParametersBuilder, _kdfFactory, _keyConfirmationFactory, _noKeyConfirmationFactory, new List<TestCaseDispositionOption>() {option});
+            _subject = new TestCaseGeneratorValNoKdfNoKc(_kasBuilder, _schemeBuilder, _shaFactory, _entropyProviderFactory, _macParametersBuilder, _kdfFactory, _keyConfirmationFactory, _noKeyConfirmationFactory, new List<KasValTestDisposition>() {option});
 
             BuildTestGroup(scheme, testGroupIutRole, out var iutKeyGenRequirements, out var serverKeyGenRequirements, out var resultTestCase);
 

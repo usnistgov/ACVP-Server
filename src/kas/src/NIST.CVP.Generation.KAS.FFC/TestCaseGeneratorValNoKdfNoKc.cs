@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using NIST.CVP.Common.Oracle.DispositionTypes;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Common.KAS;
@@ -8,7 +9,6 @@ using NIST.CVP.Crypto.Common.KAS.KC;
 using NIST.CVP.Crypto.Common.KAS.KDF;
 using NIST.CVP.Crypto.Common.KAS.NoKC;
 using NIST.CVP.Crypto.Common.KAS.Schema;
-using NIST.CVP.Generation.KAS.Enums;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
 
@@ -42,7 +42,7 @@ namespace NIST.CVP.Generation.KAS.FFC
             IKdfFactory kdfFactory,
             IKeyConfirmationFactory keyConfirmationFactory,
             INoKeyConfirmationFactory noKeyConfirmationFactory,
-            List<TestCaseDispositionOption> dispositionList
+            List<KasValTestDisposition> dispositionList
         )
             : base(
                   kasBuilder, 

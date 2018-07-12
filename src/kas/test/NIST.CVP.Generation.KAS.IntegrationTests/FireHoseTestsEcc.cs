@@ -12,6 +12,7 @@ using NIST.CVP.Crypto.KAS.KC;
 using NIST.CVP.Crypto.KAS.KDF;
 using NIST.CVP.Crypto.KAS.NoKC;
 using NIST.CVP.Crypto.KES;
+using NIST.CVP.Crypto.Oracle;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.KAS.ECC;
@@ -21,6 +22,9 @@ using NIST.CVP.Tests.Core;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using NIST.CVP.Generation.KAS.ECC.Parsers;
+using NIST.CVP.Generation.KAS.FFC;
+using TestCase = NIST.CVP.Generation.KAS.ECC.TestCase;
+using TestGroup = NIST.CVP.Generation.KAS.ECC.TestGroup;
 
 namespace NIST.CVP.Generation.KAS.IntegrationTests
 {
@@ -28,8 +32,6 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
     public class FireHoseTestsEcc
     {
         string _testPath;
-        private readonly IShaFactory _shaFactory = new ShaFactory();
-        private readonly IEccCurveFactory _curveFactory = new EccCurveFactory();
 
         [SetUp]
         public void Setup()
@@ -62,88 +64,46 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                 Assert.Fail("No TestGroups were parsed.");
             }
 
-            foreach (var iTestGroup in testVector.TestGroups)
+            try
             {
-                var testGroup = (TestGroup)iTestGroup;
-
-                SwitchTestGroupIutServerInformation(testGroup);
-
-                foreach (var iTestCase in testGroup.Tests)
+                foreach (var testGroup in testVector.TestGroups)
                 {
-                    var testCase = (TestCase)iTestCase;
+                    SwitchTestGroupIutServerInformation(testGroup);
 
-                    var schemeBuilder = new SchemeBuilderEcc(
-                        new DsaEccFactory(_shaFactory),
-                        _curveFactory,
-                        new KdfFactory(_shaFactory),
-                        new KeyConfirmationFactory(),
-                        new NoKeyConfirmationFactory(),
-                        new OtherInfoFactory(new EntropyProvider(new Random800_90())),
-                        new EntropyProvider(new Random800_90()),
-                        new DiffieHellmanEcc(),
-                        new MqvEcc()
-                    );
-                    var kasBuilder = new KasBuilderEcc(schemeBuilder);
-                    IDeferredTestCaseResolver<TestGroup, TestCase, KasResult> testCaseResolver;
-
-                    switch (testGroup.KasMode)
+                    foreach (var testCase in testGroup.Tests)
                     {
-                        case KasMode.NoKdfNoKc:
-                            testCaseResolver = new DeferredTestCaseResolverAftNoKdfNoKc(
-                                _curveFactory,
-                                kasBuilder,
-                                schemeBuilder,
-                                new MacParametersBuilder(),
-                                new EntropyProviderFactory()
-                            );
-                            break;
-                        case KasMode.KdfNoKc:
-                            testCaseResolver = new DeferredTestCaseResolverAftKdfNoKc(
-                                _curveFactory,
-                                kasBuilder,
-                                schemeBuilder,
-                                new MacParametersBuilder(),
-                                new EntropyProviderFactory()
-                            );
-                            break;
-                        case KasMode.KdfKc:
-                            testCaseResolver = new DeferredTestCaseResolverAftKdfKc(
-                                _curveFactory,
-                                kasBuilder,
-                                schemeBuilder,
-                                new MacParametersBuilder(),
-                                new EntropyProviderFactory()
-                            );
-                            break;
-                        default:
-                            throw new NotImplementedException();
-                    }
+                        var testCaseResolver = new DeferredTestCaseResolver(new Oracle());
 
-                    SwitchTestCaseIutServerInformation(testCase);
+                        SwitchTestCaseIutServerInformation(testCase);
 
-                    var result = testCaseResolver.CompleteDeferredCrypto(testGroup, testCase, testCase);
+                        var result = testCaseResolver.CompleteDeferredCrypto(testGroup, testCase, testCase);
 
-                    Debug.Assert(testCase.TestPassed != null, "testCase.TestPassed != null");
-                    if (testCase.TestPassed.Value)
-                    {
-                        Assert.AreEqual(
-                            testGroup.KasMode == KasMode.NoKdfNoKc ? testCase.HashZ.ToHex() : testCase.Tag.ToHex(),
-                            result.Tag.ToHex()
-                        );
-                        passes++;
-                    }
-                    else
-                    {
-                        Assert.AreNotEqual(
-                            testGroup.KasMode == KasMode.NoKdfNoKc ? testCase.HashZ.ToHex() : testCase.Tag.ToHex(),
-                            result.Tag.ToHex()
-                        );
-                        passes++;
-                        expectedFails++;
+                        Debug.Assert(testCase.TestPassed != null, "testCase.TestPassed != null");
+                        if (testCase.TestPassed.Value)
+                        {
+                            Assert.AreEqual(
+                                testGroup.KasMode == KasMode.NoKdfNoKc ? testCase.HashZ.ToHex() : testCase.Tag.ToHex(),
+                                result.Tag.ToHex()
+                            );
+                            passes++;
+                        }
+                        else
+                        {
+                            Assert.AreNotEqual(
+                                testGroup.KasMode == KasMode.NoKdfNoKc ? testCase.HashZ.ToHex() : testCase.Tag.ToHex(),
+                                result.Tag.ToHex()
+                            );
+                            passes++;
+                            expectedFails++;
+                        }
                     }
                 }
             }
-
+            catch (Exception e)
+            {
+                Assert.Fail(e.Message);
+            }
+            
             Assert.IsTrue(passes > 0, nameof(passes));
             Assert.IsTrue(expectedFails > 0, nameof(expectedFails));
         }

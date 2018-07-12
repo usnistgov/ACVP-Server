@@ -46,20 +46,8 @@ namespace NIST.CVP.Common.Oracle.ParameterTypes
 
         public int MacLen { get; set; }
         
-        public int IdServerLen { get; set; } = 48;
-
         public BitString IdServer { get; set; } = new BitString("434156536964");
 
         public string OiPattern { get; set; }
-
-
-        public BitString DkmNonceServer { get; set; }
-
-        public BitString EphemeralNonceServer { get; set; }
-
-        
-        public BitString NonceNoKc { get; set; }
-
-        public BitString NonceAesCcm { get; set; }
     }
 }

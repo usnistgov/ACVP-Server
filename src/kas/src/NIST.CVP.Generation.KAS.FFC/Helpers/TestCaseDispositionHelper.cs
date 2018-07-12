@@ -1,4 +1,5 @@
 ﻿using System;
+using NIST.CVP.Common.Oracle.DispositionTypes;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
 using NIST.CVP.Crypto.Common.KAS;
 using NIST.CVP.Crypto.Common.KAS.Enums;
@@ -15,7 +16,7 @@ namespace NIST.CVP.Generation.KAS.FFC.Helpers
     {
         #region MangleKeys
         /// <summary>
-        /// Used to mangle a private or public key, based on the <see cref="TestCaseDispositionOption"/>
+        /// Used to mangle a private or public key, based on the <see cref="KasValTestDisposition"/>
         /// </summary>
         /// <param name="testCase">The current test case</param>
         /// <param name="dispositionOption">The disposition to </param>
@@ -23,7 +24,7 @@ namespace NIST.CVP.Generation.KAS.FFC.Helpers
         /// <param name="iutKas"></param>
         public static void MangleKeys(
             TestCase testCase,
-            TestCaseDispositionOption dispositionOption, 
+            KasValTestDisposition dispositionOption, 
             IKas<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> serverKas, 
             IKas<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> iutKas
         )
@@ -45,26 +46,26 @@ namespace NIST.CVP.Generation.KAS.FFC.Helpers
 
             switch (dispositionOption)
             {
-                case TestCaseDispositionOption.FailAssuranceServerStaticPublicKey:
+                case KasValTestDisposition.FailAssuranceServerStaticPublicKey:
                     MangleServerStaticPublicKey(testCase, serverKas, serverKeyExpectations.GeneratesStaticKeyPair);
                     break;
-                case TestCaseDispositionOption.FailAssuranceServerEphemeralPublicKey:
+                case KasValTestDisposition.FailAssuranceServerEphemeralPublicKey:
                     MangleServerEphemeralPublicKey(testCase, serverKas, serverKeyExpectations.GeneratesEphemeralKeyPair);
                     break;
-                case TestCaseDispositionOption.FailAssuranceIutStaticPrivateKey:
+                case KasValTestDisposition.FailAssuranceIutStaticPrivateKey:
                     MangleIutStaticPrivateKey(testCase, iutKas, iutKeyExpectations.GeneratesStaticKeyPair);
                     break;
-                case TestCaseDispositionOption.FailAssuranceIutStaticPublicKey:
+                case KasValTestDisposition.FailAssuranceIutStaticPublicKey:
                     MangleIutStaticPublicKey(testCase, iutKas, iutKeyExpectations.GeneratesStaticKeyPair);
                     break;
-                case TestCaseDispositionOption.Success:
-                case TestCaseDispositionOption.SuccessLeadingZeroNibbleZ:
-                case TestCaseDispositionOption.SuccessLeadingZeroNibbleDkm:
-                case TestCaseDispositionOption.FailChangedZ:
-                case TestCaseDispositionOption.FailChangedDkm:
-                case TestCaseDispositionOption.FailChangedOi:
-                case TestCaseDispositionOption.FailChangedMacData:
-                case TestCaseDispositionOption.FailChangedTag:
+                case KasValTestDisposition.Success:
+                case KasValTestDisposition.SuccessLeadingZeroNibbleZ:
+                case KasValTestDisposition.SuccessLeadingZeroNibbleDkm:
+                case KasValTestDisposition.FailChangedZ:
+                case KasValTestDisposition.FailChangedDkm:
+                case KasValTestDisposition.FailChangedOi:
+                case KasValTestDisposition.FailChangedMacData:
+                case KasValTestDisposition.FailChangedTag:
                     // These are not key mangling dispositions, do nothing
                     break;
                 default:

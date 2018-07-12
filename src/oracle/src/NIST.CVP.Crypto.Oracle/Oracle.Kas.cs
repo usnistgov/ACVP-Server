@@ -24,7 +24,7 @@ namespace NIST.CVP.Crypto.Oracle
                 .GetTest(param);
         }
 
-        public KasAftDeferredResult CompleteKasDeferredTest(KasAftDeferredParametersEcc param)
+        public KasAftDeferredResult CompleteDeferredKasTest(KasAftDeferredParametersEcc param)
         {
             return new KasAftEccDeferredTestResolverFactory()
                 .GetInstance(param.KasMode)

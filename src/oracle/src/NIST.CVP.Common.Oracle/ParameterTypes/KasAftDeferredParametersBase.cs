@@ -40,12 +40,8 @@ namespace NIST.CVP.Common.Oracle.ParameterTypes
 
         public int KeyLen { get; set; }
 
-        public BitString AesCcmNonce { get; set; }
-
         public int MacLen { get; set; }
 
-        public BitString Mac { get; set; }
-        
         public BitString IdServer { get; set; } = new BitString("434156536964");
 
         public BitString IdIut { get; set; }
@@ -69,16 +65,5 @@ namespace NIST.CVP.Common.Oracle.ParameterTypes
         public BitString NonceNoKc { get; set; }
 
         public BitString NonceAesCcm { get; set; }
-
-
-        public BitString Z { get; set; }
-
-        public BitString Dkm { get; set; }
-
-        public BitString MacData { get; set; }
-
-        public BitString HashZ { get; set; }
-
-        public BitString Tag { get; set; }
     }
 }

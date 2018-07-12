@@ -1,9 +1,9 @@
-﻿using NIST.CVP.Math;
+﻿using NIST.CVP.Crypto.Common.KAS;
 
 namespace NIST.CVP.Common.Oracle.ResultTypes
 {
     public class KasAftDeferredResult
     {
-        public BitString Result { get; set; }
+        public KasResult Result { get; set; }
     }
 }

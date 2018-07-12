@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using NIST.CVP.Common.Oracle.DispositionTypes;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Common.KAS;
@@ -7,7 +8,6 @@ using NIST.CVP.Crypto.Common.KAS.KC;
 using NIST.CVP.Crypto.Common.KAS.KDF;
 using NIST.CVP.Crypto.Common.KAS.NoKC;
 using NIST.CVP.Crypto.Common.KAS.Schema;
-using NIST.CVP.Generation.KAS.Enums;
 using NIST.CVP.Generation.KAS.FFC.Helpers;
 using NIST.CVP.Math.Entropy;
 
@@ -46,7 +46,7 @@ namespace NIST.CVP.Generation.KAS.FFC
             IKdfFactory kdfFactory,
             IKeyConfirmationFactory keyConfirmationFactory,
             INoKeyConfirmationFactory noKeyConfirmationFactory,
-            List<TestCaseDispositionOption> dispositionList)
+            List<KasValTestDisposition> dispositionList)
             : base(
                   kasBuilder,
                   schemeBuilder,
@@ -69,7 +69,7 @@ namespace NIST.CVP.Generation.KAS.FFC
         /// <inheritdoc />
         protected override void MangleKeys(
             TestCase testCase, 
-            TestCaseDispositionOption intendedDisposition, 
+            KasValTestDisposition intendedDisposition, 
             IKas<
                 KasDsaAlgoAttributesFfc, 
                 OtherPartySharedInformation<

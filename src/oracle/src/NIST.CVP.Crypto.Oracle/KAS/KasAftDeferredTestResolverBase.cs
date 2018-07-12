@@ -113,7 +113,10 @@ namespace NIST.CVP.Crypto.Oracle.KAS
             UpdateKasInstanceWithTestCaseInformation(serverKas, serverKeyRequirements, param);
 
             var serverResult = serverKas.ComputeResult(iutSharedInformation);
-            return new TKasAftDeferredResult() {Result = serverResult.Tag};
+            return new TKasAftDeferredResult()
+            {
+                Result = serverResult
+            };
         }
 
         /// <summary>
