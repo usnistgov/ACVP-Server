@@ -1,66 +1,26 @@
-﻿using System;
-using System.Linq;
-using NIST.CVP.Common.Oracle.ParameterTypes;
+﻿using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
-using NIST.CVP.Crypto.Common.Symmetric;
 using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
 using NIST.CVP.Crypto.Common.Symmetric.Enums;
-using NIST.CVP.Crypto.Common.Symmetric.MonteCarlo;
 using NIST.CVP.Crypto.Common.Symmetric.TDES;
 using NIST.CVP.Crypto.Common.Symmetric.TDES.Helpers;
 using NIST.CVP.Crypto.Symmetric.BlockModes;
 using NIST.CVP.Crypto.Symmetric.Engines;
 using NIST.CVP.Crypto.Symmetric.MonteCarlo;
-using AlgoArrayResponse = NIST.CVP.Crypto.Common.Symmetric.TDES.AlgoArrayResponse;
+using System;
+using System.Linq;
 
 namespace NIST.CVP.Crypto.Oracle
 {
     public partial class Oracle
     {
-        public TdesResult GetTdesCbcCase(TdesParameters param) => throw new NotImplementedException();
-        public TdesResult GetTdesCfbCase(TdesParameters param) => throw new NotImplementedException();
-        public TdesResult GetTdesEcbCase(TdesParameters param) => throw new NotImplementedException();
-        public TdesResult GetTdesOfbCase(TdesParameters param)
+        private readonly TdesEngine _tdes = new TdesEngine();
+        private readonly TdesMonteCarloFactory _tdesMctFactory = new TdesMonteCarloFactory(new BlockCipherEngineFactory(), new ModeBlockCipherFactory());
+        private readonly TdesPartitionsMonteCarloFactory _tdesWithIvsMctFactory = new TdesPartitionsMonteCarloFactory(new BlockCipherEngineFactory(), new ModeBlockCipherFactory());
+
+        public TdesResult GetTdesCase(TdesParameters param)
         {
-            // Check Pool first
-            return DoSimpleTdes(new OfbBlockCipher(new TdesEngine()), param);
-        }
-
-        public TdesResultWithIvs GetTdesCbcICase(TdesParameters param) => throw new NotImplementedException();
-
-        public TdesResultWithIvs GetTdesOfbICase(TdesParameters param)
-        {
-            // Check Pool first
-            return DoTdesWithIvs(new OfbiBlockCipher(new TdesEngine()), param);
-        }
-
-        public MctResult<TdesResult> GetTdesCbcMctCase(TdesParameters param) => throw new NotImplementedException();
-        public MctResult<TdesResult> GetTdesCfbMctCase(TdesParameters param) => throw new NotImplementedException();
-        public MctResult<TdesResult> GetTdesEcbMctCase(TdesParameters param) => throw new NotImplementedException();
-        public MctResult<TdesResult> GetTdesOfbMctCase(TdesParameters param)
-        {
-            var cipher = new MonteCarloTdesOfb(
-                new BlockCipherEngineFactory(), 
-                new ModeBlockCipherFactory(),
-                new TDES_OFB.MonteCarloKeyMaker()
-            );
-            return DoSimpleTdesMct(cipher, param);
-        }
-
-        public MctResult<TdesResultWithIvs> GetTdesCbcIMctCase(TdesParameters param) => throw new NotImplementedException();
-
-        public MctResult<TdesResultWithIvs> GetTdesOfbIMctCase(TdesParameters param)
-        {
-            var cipher = new MonteCarloTdesOfbi(
-                new BlockCipherEngineFactory(), 
-                new ModeBlockCipherFactory(),
-                new TDES_OFBI.MonteCarloKeyMaker()
-            );
-            return DoTdesMctWithIvs(cipher, param);
-        }
-
-        private TdesResult DoSimpleTdes(IModeBlockCipher<SymmetricCipherResult> cipher, TdesParameters param)
-        {
+            var cipher = _modeFactory.GetStandardCipher(_tdes, param.Mode);
             var direction = BlockCipherDirections.Encrypt;
             if (param.Direction.ToLower() == "decrypt")
             {
@@ -89,8 +49,9 @@ namespace NIST.CVP.Crypto.Oracle
             };
         }
 
-        private MctResult<TdesResult> DoSimpleTdesMct(IMonteCarloTester<Common.Symmetric.MCTResult<AlgoArrayResponse>, AlgoArrayResponse> cipher, TdesParameters param)
+        public MctResult<TdesResult> GetTdesMctCase(TdesParameters param)
         {
+            var cipher = _tdesMctFactory.GetInstance(param.Mode);
             var direction = BlockCipherDirections.Encrypt;
             if (param.Direction.ToLower() == "decrypt")
             {
@@ -122,8 +83,9 @@ namespace NIST.CVP.Crypto.Oracle
             };
         }
 
-        private TdesResultWithIvs DoTdesWithIvs(IModeBlockCipher<SymmetricCipherWithIvResult> cipher, TdesParameters param)
+        public TdesResultWithIvs GetTdesWithIvsCase(TdesParameters param)
         {
+            var cipher = _modeFactory.GetStandardCipher(_tdes, param.Mode);
             var direction = BlockCipherDirections.Encrypt;
             if (param.Direction.ToLower() == "decrypt")
             {
@@ -155,8 +117,9 @@ namespace NIST.CVP.Crypto.Oracle
             };
         }
 
-        private MctResult<TdesResultWithIvs> DoTdesMctWithIvs(IMonteCarloTester<Common.Symmetric.MCTResult<AlgoArrayResponseWithIvs>, AlgoArrayResponseWithIvs> cipher, TdesParameters param)
+        public MctResult<TdesResultWithIvs> GetTdesMctWithIvsCase(TdesParameters param)
         {
+            var cipher = _tdesWithIvsMctFactory.GetInstance(param.Mode);
             var direction = BlockCipherDirections.Encrypt;
             if (param.Direction.ToLower() == "decrypt")
             {

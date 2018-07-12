@@ -1,16 +1,8 @@
-﻿using NIST.CVP.Generation.Core;
-using NIST.CVP.Math;
-using NLog;
-using System;
-using NIST.CVP.Common.Oracle;
+﻿using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
-using NIST.CVP.Common.Oracle.ResultTypes;
-using NIST.CVP.Crypto.Common.Symmetric;
-using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
-using NIST.CVP.Crypto.Common.Symmetric.Engines;
 using NIST.CVP.Crypto.Common.Symmetric.Enums;
-using NIST.CVP.Crypto.Common.Symmetric.TDES;
-using NIST.CVP.Crypto.Common.Symmetric.TDES.Helpers;
+using NIST.CVP.Generation.Core;
+using System;
 
 namespace NIST.CVP.Generation.TDES_OFBI
 {
@@ -21,8 +13,6 @@ namespace NIST.CVP.Generation.TDES_OFBI
 
         private int _lenGenIteration = 1;
         private readonly IOracle _oracle;
-
-        private int _currentCase;
 
         public TestCaseGeneratorMmt(IOracle oracle)
         {
@@ -35,6 +25,7 @@ namespace NIST.CVP.Generation.TDES_OFBI
         {
             var param = new TdesParameters
             {
+                Mode = BlockCipherModesOfOperation.Ofbi,
                 DataLength = _lenGenIteration++ * LENGTH_MULTIPLIER,
                 Direction = group.Function,
                 KeyingOption = group.KeyingOption
@@ -42,7 +33,7 @@ namespace NIST.CVP.Generation.TDES_OFBI
 
             try
             {
-                var oracleResult = _oracle.GetTdesOfbICase(param);
+                var oracleResult = _oracle.GetTdesWithIvsCase(param);
 
                 return new TestCaseGenerateResponse<TestGroup, TestCase>(new TestCase
                 {

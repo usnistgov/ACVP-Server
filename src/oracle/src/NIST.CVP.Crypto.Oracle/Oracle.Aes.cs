@@ -18,7 +18,7 @@ namespace NIST.CVP.Crypto.Oracle
     {
         private readonly AesEngine _aes = new AesEngine();
         private readonly ModeBlockCipherFactory _modeFactory = new ModeBlockCipherFactory();
-        private readonly AesMonteCarloFactory _mctFactory = new AesMonteCarloFactory(new BlockCipherEngineFactory(), new ModeBlockCipherFactory());
+        private readonly AesMonteCarloFactory _aesMctFactory = new AesMonteCarloFactory(new BlockCipherEngineFactory(), new ModeBlockCipherFactory());
         private readonly CounterFactory _ctrFactory = new CounterFactory();
 
         public AesResult GetAesCase(AesParameters param)
@@ -54,7 +54,7 @@ namespace NIST.CVP.Crypto.Oracle
 
         public MctResult<AesResult> GetAesMctCase(AesParameters param)
         {
-            var cipher = _mctFactory.GetInstance(param.Mode);
+            var cipher = _aesMctFactory.GetInstance(param.Mode);
             var direction = BlockCipherDirections.Encrypt;
             if (param.Direction.ToLower() == "decrypt")
             {

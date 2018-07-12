@@ -1,16 +1,9 @@
 ﻿using Moq;
-using NIST.CVP.Math;
-using NIST.CVP.Tests.Core;
-using NLog;
-using NUnit.Framework;
-using System;
 using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
-using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
-using NIST.CVP.Crypto.Common.Symmetric.Enums;
-using NIST.CVP.Crypto.Common.Symmetric.MonteCarlo;
-using NIST.CVP.Crypto.Common.Symmetric.TDES;
+using NUnit.Framework;
+using System;
 
 namespace NIST.CVP.Generation.TDES_OFBI.Tests
 {
@@ -20,18 +13,12 @@ namespace NIST.CVP.Generation.TDES_OFBI.Tests
         private Mock<IOracle> _oracle;
         private TestCaseGeneratorMonteCarlo _subject;
 
-        [OneTimeSetUp]
-        public void OneTimeSetup()
-        {
-            Utilities.ConfigureLogging("TDES_CFBI", true);
-        }
-
         [SetUp]
         public void Setup()
         {
             _oracle = new Mock<IOracle>();
             _oracle
-                .Setup(s => s.GetTdesOfbIMctCase(It.IsAny<TdesParameters>()))
+                .Setup(s => s.GetTdesMctWithIvsCase(It.IsAny<TdesParameters>()))
                 .Returns(() => new MctResult<TdesResultWithIvs>());
             _subject = new TestCaseGeneratorMonteCarlo(_oracle.Object);
         }
@@ -40,7 +27,7 @@ namespace NIST.CVP.Generation.TDES_OFBI.Tests
         public void ShouldReturnErrorMessageIfAlgoFailsWithException()
         {
             string errorMessage = "something bad happened! oh noes!";
-            _oracle.Setup(s => s.GetTdesOfbIMctCase(It.IsAny<TdesParameters>()))
+            _oracle.Setup(s => s.GetTdesMctWithIvsCase(It.IsAny<TdesParameters>()))
                 .Throws(new Exception(errorMessage));
 
             TestGroup testGroup = new TestGroup()

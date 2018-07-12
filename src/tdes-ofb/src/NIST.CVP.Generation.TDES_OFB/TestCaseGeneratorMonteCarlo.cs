@@ -1,14 +1,10 @@
-﻿using System;
-using System.Linq;
-using NIST.CVP.Common.Oracle;
+﻿using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
-using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
 using NIST.CVP.Crypto.Common.Symmetric.Enums;
-using NIST.CVP.Crypto.Common.Symmetric.MonteCarlo;
 using NIST.CVP.Crypto.Common.Symmetric.TDES;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Math;
-using NLog;
+using System;
+using System.Linq;
 
 namespace NIST.CVP.Generation.TDES_OFB
 {
@@ -27,6 +23,7 @@ namespace NIST.CVP.Generation.TDES_OFB
         {
             var param = new TdesParameters
             {
+                Mode = BlockCipherModesOfOperation.Ofb,
                 DataLength = 64,
                 Direction = group.Function,
                 KeyingOption = TdesHelpers.GetKeyingOptionFromNumberOfKeys(group.NumberOfKeys)
@@ -34,7 +31,7 @@ namespace NIST.CVP.Generation.TDES_OFB
 
             try
             {
-                var oracleResult = _oracle.GetTdesOfbMctCase(param);
+                var oracleResult = _oracle.GetTdesMctCase(param);
 
                 return new TestCaseGenerateResponse<TestGroup, TestCase>(new TestCase
                 {

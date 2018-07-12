@@ -1,10 +1,10 @@
-﻿using System;
-using Moq;
+﻿using Moq;
 using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
+using System;
 
 namespace NIST.CVP.Generation.TDES_OFBI.Tests
 {
@@ -19,7 +19,7 @@ namespace NIST.CVP.Generation.TDES_OFBI.Tests
         {
             _oracle = new Mock<IOracle>();
             _oracle
-                .Setup(s => s.GetTdesOfbICase(It.IsAny<TdesParameters>()))
+                .Setup(s => s.GetTdesWithIvsCase(It.IsAny<TdesParameters>()))
                 .Returns(() => new TdesResultWithIvs());
             _subject = new TestCaseGeneratorMmt(
                 _oracle.Object
@@ -44,7 +44,7 @@ namespace NIST.CVP.Generation.TDES_OFBI.Tests
         public void ShouldReturnAnErrorIfAnEncryptionFails()
         {
             _oracle
-                .Setup(s => s.GetTdesOfbICase(It.IsAny<TdesParameters>()))
+                .Setup(s => s.GetTdesWithIvsCase(It.IsAny<TdesParameters>()))
                 .Throws(new Exception());
             var result = _subject.Generate(new TestGroup { Function = "encrypt", KeyingOption = 1 }, false);
             Assert.IsFalse(result.Success);
