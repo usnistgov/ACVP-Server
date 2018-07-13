@@ -1,33 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
-using NIST.CVP.Crypto.Common.KAS.Builders;
+using NIST.CVP.Common.Oracle;
 using NIST.CVP.Crypto.Common.KAS.Enums;
-using NIST.CVP.Crypto.Common.KAS.Schema;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Math.Entropy;
 
 namespace NIST.CVP.Generation.KAS.FFC
 {
     public class TestCaseValidatorFactory : ITestCaseValidatorFactory<TestVectorSet, TestGroup, TestCase>
     {
-        private readonly IKasBuilder<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> _kasBuilder;
-        private readonly IMacParametersBuilder _macParametersBuilder;
-        private readonly ISchemeBuilder<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> _schemeBuilder;
-        private readonly IEntropyProviderFactory _entropyProviderFactory;
+        private readonly IOracle _oracle;
 
-        public TestCaseValidatorFactory(
-            IKasBuilder<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> kasBuilder,
-            IMacParametersBuilder macParametersBuilder,
-            ISchemeBuilder<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> schemeBuilder,
-            IEntropyProviderFactory entropyProviderFactory
-        )
+        public TestCaseValidatorFactory(IOracle oracle)
         {
-            _kasBuilder = kasBuilder;
-            _macParametersBuilder = macParametersBuilder;
-            _schemeBuilder = schemeBuilder;
-            _entropyProviderFactory = entropyProviderFactory;
+            _oracle = oracle;
         }
 
         public IEnumerable<ITestCaseValidator<TestGroup, TestCase>> GetValidators(TestVectorSet testVectorSet)
@@ -49,12 +35,7 @@ namespace NIST.CVP.Generation.KAS.FFC
                                     new TestCaseValidatorAftNoKdfNoKc(
                                         workingTest, 
                                         group,
-                                        new DeferredTestCaseResolverAftNoKdfNoKc(
-                                            _kasBuilder,
-                                            _schemeBuilder,
-                                            _macParametersBuilder,
-                                            _entropyProviderFactory
-                                        )
+                                        new DeferredTestCaseResolver(_oracle)
                                     )
                                 );
                                 break;
@@ -63,12 +44,7 @@ namespace NIST.CVP.Generation.KAS.FFC
                                     new TestCaseValidatorAftKdfNoKc(
                                         workingTest, 
                                         group,
-                                        new DeferredTestCaseResolverAftKdfNoKc(
-                                            _kasBuilder,
-                                            _schemeBuilder,
-                                            _macParametersBuilder,
-                                            _entropyProviderFactory
-                                        )
+                                        new DeferredTestCaseResolver(_oracle)
                                     )
                                 );
                                 break;
@@ -77,12 +53,7 @@ namespace NIST.CVP.Generation.KAS.FFC
                                     new TestCaseValidatorAftKdfKc(
                                         workingTest, 
                                         group,
-                                        new DeferredTestCaseResolverAftKdfKc(
-                                            _kasBuilder,
-                                            _schemeBuilder,
-                                            _macParametersBuilder,
-                                            _entropyProviderFactory
-                                        )
+                                        new DeferredTestCaseResolver(_oracle)
                                     )
                                 );
                                 break;

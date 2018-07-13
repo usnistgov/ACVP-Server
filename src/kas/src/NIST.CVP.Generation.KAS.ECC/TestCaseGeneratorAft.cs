@@ -2,6 +2,7 @@
 using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Generation.Core;
+using NLog;
 
 namespace NIST.CVP.Generation.KAS.ECC
 {
@@ -78,6 +79,7 @@ namespace NIST.CVP.Generation.KAS.ECC
             }
             catch (Exception ex)
             {
+                Logger.Error(ex);
                 return new TestCaseGenerateResponse<TestGroup, TestCase>(ex.Message);
             }
         }
@@ -86,5 +88,7 @@ namespace NIST.CVP.Generation.KAS.ECC
         {
             throw new System.NotImplementedException();
         }
+
+        private static Logger Logger => LogManager.GetCurrentClassLogger();
     }
 }

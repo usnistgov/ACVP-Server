@@ -3,6 +3,7 @@ using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Crypto.Common.KAS;
 using NIST.CVP.Generation.Core;
+using NLog;
 
 namespace NIST.CVP.Generation.KAS.ECC
 {
@@ -64,8 +65,11 @@ namespace NIST.CVP.Generation.KAS.ECC
             }
             catch (Exception ex)
             {
+                Logger.Error(ex);
                 return new KasResult(ex.Message);
             }
         }
+
+        private static Logger Logger => LogManager.GetCurrentClassLogger();
     }
 }

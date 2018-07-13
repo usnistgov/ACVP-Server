@@ -35,6 +35,8 @@ namespace NIST.CVP.Crypto.Oracle
 
         public KasValResultFfc GetKasValTestFfc(KasValParametersFfc param)
         {
+            // TODO utilize oracle calls to DSA functions
+
             return new KasValFfcTestGeneratorFactory()
                 .GetInstance(param.KasMode)
                 .GetTest(param);
@@ -42,6 +44,8 @@ namespace NIST.CVP.Crypto.Oracle
 
         public KasAftResultFfc GetKasAftTestFfc(KasAftParametersFfc param)
         {
+            // TODO utilize oracle calls to DSA functions
+
             return new KasAftFfcTestGeneratorFactory()
                 .GetInstance(param.KasMode)
                 .GetTest(param);

@@ -11,7 +11,7 @@ namespace NIST.CVP.Generation.KAS.FFC.Tests
     [TestFixture, UnitTest]
     public class TestCaseValidatorFactoryTests
     {
-        private readonly TestCaseValidatorFactory _subject = new TestCaseValidatorFactory(null, null, null, null);
+        private readonly TestCaseValidatorFactory _subject = new TestCaseValidatorFactory(null);
         
         [Test]
         [TestCase("AFT", FfcScheme.DhHybrid1, KasMode.NoKdfNoKc, KeyConfirmationRole.None, KeyConfirmationDirection.None, typeof(TestCaseValidatorAftNoKdfNoKc))]
