@@ -2,29 +2,31 @@
 using NIST.CVP.Common.Oracle.DispositionTypes;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
-using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
 using NIST.CVP.Crypto.Common.KAS;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Crypto.Common.KAS.Helpers;
 using NIST.CVP.Crypto.Common.KAS.Schema;
 
-namespace NIST.CVP.Crypto.Oracle.KAS.Ecc.Helpers
+namespace NIST.CVP.Crypto.Oracle.KAS.Ffc.Helpers
 {
-    public static class TestDispositionHelperEcc
+    public static class TestDispositionHelperFfc
     {
         #region MangleKeys
         /// <summary>
-        /// Used to mangle a private or public key, based on the <see cref="dispositionOption"/>
+        /// Used to mangle a private or public key, based on the <see cref="KasValTestDisposition"/>
         /// </summary>
-        /// <param name="result">The current result</param>
-        /// <param name="dispositionOption">The disposition to acheive</param>
-        /// <param name="serverKas">The server instance of kas</param>
-        /// <param name="iutKas">The iut instance of kas</param>
+        /// <param name="result">The current result case</param>
+        /// <param name="dispositionOption">The disposition to </param>
+        /// <param name="serverKas"></param>
+        /// <param name="iutKas"></param>
         public static void MangleKeys(
-            KasValResultEcc result,
+            KasValResultFfc result,
             KasValTestDisposition dispositionOption,
-            IKas<KasDsaAlgoAttributesEcc, OtherPartySharedInformation<EccDomainParameters, EccKeyPair>, EccDomainParameters, EccKeyPair> serverKas,
-            IKas<KasDsaAlgoAttributesEcc, OtherPartySharedInformation<EccDomainParameters, EccKeyPair>, EccDomainParameters, EccKeyPair> iutKas
+            IKas<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>,
+                FfcDomainParameters, FfcKeyPair> serverKas,
+            IKas<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>,
+                FfcDomainParameters, FfcKeyPair> iutKas
         )
         {
             var serverKeyExpectations = KeyGenerationRequirementsHelper.GetKeyGenerationOptionsForSchemeAndRole(
@@ -48,7 +50,8 @@ namespace NIST.CVP.Crypto.Oracle.KAS.Ecc.Helpers
                     MangleServerStaticPublicKey(result, serverKas, serverKeyExpectations.GeneratesStaticKeyPair);
                     break;
                 case KasValTestDisposition.FailAssuranceServerEphemeralPublicKey:
-                    MangleServerEphemeralPublicKey(result, serverKas, serverKeyExpectations.GeneratesEphemeralKeyPair);
+                    MangleServerEphemeralPublicKey(result, serverKas,
+                        serverKeyExpectations.GeneratesEphemeralKeyPair);
                     break;
                 case KasValTestDisposition.FailAssuranceIutStaticPrivateKey:
                     MangleIutStaticPrivateKey(result, iutKas, iutKeyExpectations.GeneratesStaticKeyPair);
@@ -72,8 +75,9 @@ namespace NIST.CVP.Crypto.Oracle.KAS.Ecc.Helpers
         }
 
         private static void MangleServerStaticPublicKey(
-            KasValResultEcc result,
-            IKas<KasDsaAlgoAttributesEcc, OtherPartySharedInformation<EccDomainParameters, EccKeyPair>, EccDomainParameters, EccKeyPair> serverKas,
+            KasValResultFfc result,
+            IKas<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>,
+                FfcDomainParameters, FfcKeyPair> serverKas,
             bool generatesKeyPair
         )
         {
@@ -83,14 +87,11 @@ namespace NIST.CVP.Crypto.Oracle.KAS.Ecc.Helpers
                 // modify the static public key until no longer valid
                 while (true)
                 {
-                    serverKas.Scheme.StaticKeyPair.PublicQ = new EccPoint(
-                        serverKas.Scheme.StaticKeyPair.PublicQ.X + 2,
-                        serverKas.Scheme.StaticKeyPair.PublicQ.Y
-                    );
-                    if (!KeyValidationHelper.PerformEccPublicKeyValidation(
-                        serverKas.Scheme.DomainParameters.CurveE,
-                        serverKas.Scheme.StaticKeyPair.PublicQ,
-                        false))
+                    serverKas.Scheme.StaticKeyPair.PublicKeyY += 2;
+                    if (!KeyValidationHelper.PerformFfcPublicKeyValidation(
+                        serverKas.Scheme.DomainParameters.P,
+                        serverKas.Scheme.DomainParameters.Q,
+                        serverKas.Scheme.StaticKeyPair.PublicKeyY))
                     {
                         break;
                     }
@@ -99,8 +100,9 @@ namespace NIST.CVP.Crypto.Oracle.KAS.Ecc.Helpers
         }
 
         private static void MangleServerEphemeralPublicKey(
-            KasValResultEcc result,
-            IKas<KasDsaAlgoAttributesEcc, OtherPartySharedInformation<EccDomainParameters, EccKeyPair>, EccDomainParameters, EccKeyPair> serverKas,
+            KasValResultFfc result,
+            IKas<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>,
+                FfcDomainParameters, FfcKeyPair> serverKas,
             bool generatesKeyPair
         )
         {
@@ -110,14 +112,11 @@ namespace NIST.CVP.Crypto.Oracle.KAS.Ecc.Helpers
                 // modify the ephemeral public key until no longer valid
                 while (true)
                 {
-                    serverKas.Scheme.EphemeralKeyPair.PublicQ = new EccPoint(
-                        serverKas.Scheme.EphemeralKeyPair.PublicQ.X + 2,
-                        serverKas.Scheme.EphemeralKeyPair.PublicQ.Y
-                    );
-                    if (!KeyValidationHelper.PerformEccPublicKeyValidation(
-                        serverKas.Scheme.DomainParameters.CurveE,
-                        serverKas.Scheme.EphemeralKeyPair.PublicQ,
-                        false))
+                    serverKas.Scheme.EphemeralKeyPair.PublicKeyY += 2;
+                    if (!KeyValidationHelper.PerformFfcPublicKeyValidation(
+                        serverKas.Scheme.DomainParameters.P,
+                        serverKas.Scheme.DomainParameters.Q,
+                        serverKas.Scheme.EphemeralKeyPair.PublicKeyY))
                     {
                         break;
                     }
@@ -126,8 +125,9 @@ namespace NIST.CVP.Crypto.Oracle.KAS.Ecc.Helpers
         }
 
         private static void MangleIutStaticPrivateKey(
-            KasValResultEcc result,
-            IKas<KasDsaAlgoAttributesEcc, OtherPartySharedInformation<EccDomainParameters, EccKeyPair>, EccDomainParameters, EccKeyPair> iutKas,
+            KasValResultFfc result,
+            IKas<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>,
+                FfcDomainParameters, FfcKeyPair> iutKas,
             bool generatesKeyPair
         )
         {
@@ -135,13 +135,14 @@ namespace NIST.CVP.Crypto.Oracle.KAS.Ecc.Helpers
             {
                 result.TestPassed = false;
                 // modify the static private key to make it invalid
-                iutKas.Scheme.StaticKeyPair.PrivateD += 2;
+                iutKas.Scheme.StaticKeyPair.PrivateKeyX += 2;
             }
         }
 
         private static void MangleIutStaticPublicKey(
-            KasValResultEcc result,
-            IKas<KasDsaAlgoAttributesEcc, OtherPartySharedInformation<EccDomainParameters, EccKeyPair>, EccDomainParameters, EccKeyPair> iutKas,
+            KasValResultFfc result,
+            IKas<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>,
+                FfcDomainParameters, FfcKeyPair> iutKas,
             bool generatesKeyPair
         )
         {
@@ -151,45 +152,41 @@ namespace NIST.CVP.Crypto.Oracle.KAS.Ecc.Helpers
                 // modify the static public key until no longer valid
                 while (true)
                 {
-                    iutKas.Scheme.StaticKeyPair.PublicQ = new EccPoint(
-                        iutKas.Scheme.StaticKeyPair.PublicQ.X + 2,
-                        iutKas.Scheme.StaticKeyPair.PublicQ.Y
-                    );
-                    if (!KeyValidationHelper.PerformEccPublicKeyValidation(
-                        iutKas.Scheme.DomainParameters.CurveE,
-                        iutKas.Scheme.StaticKeyPair.PublicQ,
-                        false))
+                    iutKas.Scheme.StaticKeyPair.PublicKeyY += 2;
+                    if (!KeyValidationHelper.PerformFfcPublicKeyValidation(
+                        iutKas.Scheme.DomainParameters.P,
+                        iutKas.Scheme.DomainParameters.Q,
+                        iutKas.Scheme.StaticKeyPair.PublicKeyY))
                     {
                         break;
                     }
                 }
             }
         }
+
         #endregion MangleKeys
 
         public static void SetResultInformationFromKasProcessing(
-            KasValParametersEcc param,
-            KasValResultEcc result,
-            IKas<KasDsaAlgoAttributesEcc, OtherPartySharedInformation<EccDomainParameters, EccKeyPair>, EccDomainParameters, EccKeyPair> serverKas,
-            IKas<KasDsaAlgoAttributesEcc, OtherPartySharedInformation<EccDomainParameters, EccKeyPair>, EccDomainParameters, EccKeyPair> iutKas,
+            KasValParametersFfc param,
+            KasValResultFfc result,
+            IKas<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>,
+                FfcDomainParameters, FfcKeyPair> serverKas,
+            IKas<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>,
+                FfcDomainParameters, FfcKeyPair> iutKas,
             KasResult iutResult
         )
         {
-            result.StaticPrivateKeyServer = serverKas.Scheme.StaticKeyPair?.PrivateD ?? 0;
-            result.StaticPublicKeyServerX = serverKas.Scheme.StaticKeyPair?.PublicQ?.X ?? 0;
-            result.StaticPublicKeyServerY = serverKas.Scheme.StaticKeyPair?.PublicQ?.Y ?? 0;
-            result.EphemeralPrivateKeyServer = serverKas.Scheme.EphemeralKeyPair?.PrivateD ?? 0;
-            result.EphemeralPublicKeyServerX = serverKas.Scheme.EphemeralKeyPair?.PublicQ?.X ?? 0;
-            result.EphemeralPublicKeyServerY = serverKas.Scheme.EphemeralKeyPair?.PublicQ?.Y ?? 0;
+            result.StaticPrivateKeyServer = serverKas.Scheme.StaticKeyPair?.PrivateKeyX ?? 0;
+            result.StaticPublicKeyServer = serverKas.Scheme.StaticKeyPair?.PublicKeyY ?? 0;
+            result.EphemeralPrivateKeyServer = serverKas.Scheme.EphemeralKeyPair?.PrivateKeyX ?? 0;
+            result.EphemeralPublicKeyServer = serverKas.Scheme.EphemeralKeyPair?.PublicKeyY ?? 0;
             result.DkmNonceServer = serverKas.Scheme.DkmNonce;
             result.EphemeralNonceServer = serverKas.Scheme.EphemeralNonce;
 
-            result.StaticPrivateKeyIut = iutKas?.Scheme?.StaticKeyPair?.PrivateD ?? 0;
-            result.StaticPublicKeyIutX = iutKas?.Scheme?.StaticKeyPair?.PublicQ?.X ?? 0;
-            result.StaticPublicKeyIutY = iutKas?.Scheme?.StaticKeyPair?.PublicQ?.Y ?? 0;
-            result.EphemeralPrivateKeyIut = iutKas?.Scheme?.EphemeralKeyPair?.PrivateD ?? 0;
-            result.EphemeralPublicKeyIutX = iutKas?.Scheme?.EphemeralKeyPair?.PublicQ?.X ?? 0;
-            result.EphemeralPublicKeyIutY = iutKas?.Scheme?.EphemeralKeyPair?.PublicQ?.Y ?? 0;
+            result.StaticPrivateKeyIut = iutKas?.Scheme?.StaticKeyPair?.PrivateKeyX ?? 0;
+            result.StaticPublicKeyIut = iutKas?.Scheme?.StaticKeyPair?.PublicKeyY ?? 0;
+            result.EphemeralPrivateKeyIut = iutKas?.Scheme?.EphemeralKeyPair?.PrivateKeyX ?? 0;
+            result.EphemeralPublicKeyIut = iutKas?.Scheme?.EphemeralKeyPair?.PublicKeyY ?? 0;
             result.DkmNonceIut = iutKas?.Scheme?.DkmNonce;
             result.EphemeralNonceIut = iutKas?.Scheme?.EphemeralNonce;
 
@@ -209,28 +206,24 @@ namespace NIST.CVP.Crypto.Oracle.KAS.Ecc.Helpers
         }
 
         public static void SetResultInformationFromKasProcessing(
-            KasAftParametersEcc param,
-            KasAftResultEcc result,
-            IKas<KasDsaAlgoAttributesEcc, OtherPartySharedInformation<EccDomainParameters, EccKeyPair>, EccDomainParameters, EccKeyPair> serverKas,
-            IKas<KasDsaAlgoAttributesEcc, OtherPartySharedInformation<EccDomainParameters, EccKeyPair>, EccDomainParameters, EccKeyPair> iutKas,
+            KasAftParametersFfc param,
+            KasAftResultFfc result,
+            IKas<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> serverKas,
+            IKas<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> iutKas,
             KasResult iutResult
         )
         {
-            result.StaticPrivateKeyServer = serverKas.Scheme.StaticKeyPair?.PrivateD ?? 0;
-            result.StaticPublicKeyServerX = serverKas.Scheme.StaticKeyPair?.PublicQ?.X ?? 0;
-            result.StaticPublicKeyServerY = serverKas.Scheme.StaticKeyPair?.PublicQ?.Y ?? 0;
-            result.EphemeralPrivateKeyServer = serverKas.Scheme.EphemeralKeyPair?.PrivateD ?? 0;
-            result.EphemeralPublicKeyServerX = serverKas.Scheme.EphemeralKeyPair?.PublicQ?.X ?? 0;
-            result.EphemeralPublicKeyServerY = serverKas.Scheme.EphemeralKeyPair?.PublicQ?.Y ?? 0;
+            result.StaticPrivateKeyServer = serverKas.Scheme.StaticKeyPair?.PrivateKeyX ?? 0;
+            result.StaticPublicKeyServer = serverKas.Scheme.StaticKeyPair?.PublicKeyY ?? 0;
+            result.EphemeralPrivateKeyServer = serverKas.Scheme.EphemeralKeyPair?.PrivateKeyX ?? 0;
+            result.EphemeralPublicKeyServer = serverKas.Scheme.EphemeralKeyPair?.PublicKeyY ?? 0;
             result.DkmNonceServer = serverKas.Scheme.DkmNonce;
             result.EphemeralNonceServer = serverKas.Scheme.EphemeralNonce;
 
-            result.StaticPrivateKeyIut = iutKas?.Scheme?.StaticKeyPair?.PrivateD ?? 0;
-            result.StaticPublicKeyIutX = iutKas?.Scheme?.StaticKeyPair?.PublicQ?.X ?? 0;
-            result.StaticPublicKeyIutY = iutKas?.Scheme?.StaticKeyPair?.PublicQ?.Y ?? 0;
-            result.EphemeralPrivateKeyIut = iutKas?.Scheme?.EphemeralKeyPair?.PrivateD ?? 0;
-            result.EphemeralPublicKeyIutX = iutKas?.Scheme?.EphemeralKeyPair?.PublicQ?.X ?? 0;
-            result.EphemeralPublicKeyIutY = iutKas?.Scheme?.EphemeralKeyPair?.PublicQ?.Y ?? 0;
+            result.StaticPrivateKeyIut = iutKas?.Scheme?.StaticKeyPair?.PrivateKeyX ?? 0;
+            result.StaticPublicKeyIut = iutKas?.Scheme?.StaticKeyPair?.PublicKeyY ?? 0;
+            result.EphemeralPrivateKeyIut = iutKas?.Scheme?.EphemeralKeyPair?.PrivateKeyX ?? 0;
+            result.EphemeralPublicKeyIut = iutKas?.Scheme?.EphemeralKeyPair?.PublicKeyY ?? 0;
             result.DkmNonceIut = iutKas?.Scheme?.DkmNonce;
             result.EphemeralNonceIut = iutKas?.Scheme?.EphemeralNonce;
 

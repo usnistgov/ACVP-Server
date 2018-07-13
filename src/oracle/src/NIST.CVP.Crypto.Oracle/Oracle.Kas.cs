@@ -2,6 +2,7 @@
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.Oracle.KAS.Ecc;
+using NIST.CVP.Crypto.Oracle.KAS.Ffc;
 
 namespace NIST.CVP.Crypto.Oracle
 {
@@ -34,17 +35,23 @@ namespace NIST.CVP.Crypto.Oracle
 
         public KasValResultFfc GetKasValTestFfc(KasValParametersFfc param)
         {
-            throw new NotImplementedException();
+            return new KasValFfcTestGeneratorFactory()
+                .GetInstance(param.KasMode)
+                .GetTest(param);
         }
 
         public KasAftResultFfc GetKasAftTestFfc(KasAftParametersFfc param)
         {
-            throw new NotImplementedException();
+            return new KasAftFfcTestGeneratorFactory()
+                .GetInstance(param.KasMode)
+                .GetTest(param);
         }
 
         public KasAftDeferredResult CompleteDeferredKasTest(KasAftDeferredParametersFfc param)
         {
-            throw new NotImplementedException();
+            return new KasAftFfcDeferredTestResolverFactory()
+                .GetInstance(param.KasMode)
+                .CompleteTest(param);
         }
     }
 }
