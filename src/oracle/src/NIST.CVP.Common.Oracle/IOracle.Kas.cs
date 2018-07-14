@@ -12,5 +12,9 @@ namespace NIST.CVP.Common.Oracle
         KasValResultFfc GetKasValTestFfc(KasValParametersFfc param);
         KasAftResultFfc GetKasAftTestFfc(KasAftParametersFfc param);
         KasAftDeferredResult CompleteDeferredKasTest(KasAftDeferredParametersFfc param);
+
+        KasEccComponentResult GetKasEccComponentTest(KasEccComponentParameters param);
+        KasEccComponentResult CompleteDeferredKasComponentTest(KasEccComponentDeferredParameters param);
+
     }
 }

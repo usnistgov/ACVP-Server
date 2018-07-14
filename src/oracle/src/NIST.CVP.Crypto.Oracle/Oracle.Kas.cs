@@ -57,5 +57,15 @@ namespace NIST.CVP.Crypto.Oracle
                 .GetInstance(param.KasMode)
                 .CompleteTest(param);
         }
+
+        public KasEccComponentResult GetKasEccComponentTest(KasEccComponentParameters param)
+        {
+            throw new NotImplementedException();
+        }
+
+        public KasEccComponentResult CompleteDeferredKasComponentTest(KasEccComponentDeferredParameters param)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
