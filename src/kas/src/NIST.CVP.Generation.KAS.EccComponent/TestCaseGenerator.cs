@@ -1,65 +1,64 @@
-﻿using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
+﻿using System;
+using NIST.CVP.Common.Oracle;
+using NIST.CVP.Common.Oracle.ParameterTypes;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
 using NIST.CVP.Crypto.Common.KAS;
 using NIST.CVP.Generation.Core;
+using NLog;
 
 namespace NIST.CVP.Generation.KAS.EccComponent
 {
     public class TestCaseGenerator : ITestCaseGenerator<TestGroup, TestCase>
     {
-        private readonly IEccCurve _curve;
-        private readonly IDsaEcc _dsa;
-        private readonly IEccDhComponent _eccDhComponent;
-        private readonly EccDomainParameters _domainParameters;
+        private readonly IOracle _oracle;
 
-        public TestCaseGenerator(IEccCurve curve, IDsaEcc dsa, IEccDhComponent eccDhComponent)
+        public TestCaseGenerator(IOracle oracle)
         {
-            _curve = curve;
-            _dsa = dsa;
-            _eccDhComponent = eccDhComponent;
-            _domainParameters = new EccDomainParameters(_curve);
+            _oracle = oracle;
         }
 
         public int NumberOfTestCasesToGenerate => 25;
 
         public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
         {
-            var testCase = new TestCase();
-
-            // When sample, generate the IUT portion as well
-            if (isSample)
+            try
             {
-                testCase.Deferred = false;
-                var iutKeyPair = _dsa.GenerateKeyPair(_domainParameters);
+                var result = _oracle.GetKasEccComponentTest(
+                    new KasEccComponentParameters()
+                    {
+                        Curve = group.Curve,
+                        IsSample = isSample
+                    }
+                );
 
-                testCase.PrivateKeyIut = iutKeyPair.KeyPair.PrivateD;
-                testCase.PublicKeyIutX = iutKeyPair.KeyPair.PublicQ.X;
-                testCase.PublicKeyIutY = iutKeyPair.KeyPair.PublicQ.Y;
+                var testCase = new TestCase()
+                {
+                    PrivateKeyServer = result.PrivateKeyServer,
+                    PublicKeyServerX = result.PublicKeyServerX,
+                    PublicKeyServerY = result.PublicKeyServerY,
+
+                    // These have values only when sample
+                    Deferred = !isSample,
+                    PrivateKeyIut = result.PrivateKeyIut,
+                    PublicKeyIutX = result.PublicKeyIutX,
+                    PublicKeyIutY = result.PublicKeyIutY,
+                    Z = result.Z
+                };
+
+                return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
             }
-
-            return Generate(group, testCase);
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                return new TestCaseGenerateResponse<TestGroup, TestCase>(ex.Message);
+            }
         }
 
         public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
         {
-            var serverKeyPair = _dsa.GenerateKeyPair(_domainParameters);
-
-            testCase.PrivateKeyServer = serverKeyPair.KeyPair.PrivateD;
-            testCase.PublicKeyServerX = serverKeyPair.KeyPair.PublicQ.X;
-            testCase.PublicKeyServerY = serverKeyPair.KeyPair.PublicQ.Y;
-
-            // Sample tests aren't deferred, calculate the shared secret
-            if (!testCase.Deferred)
-            {
-                var sharedSecret = _eccDhComponent.GenerateSharedSecret(
-                    _domainParameters, 
-                    testCase.KeyPairPartyServer,
-                    testCase.KeyPairPartyIut
-                );
-
-                testCase.Z = sharedSecret.SharedSecretZ;
-            }
-
-            return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
+            throw new NotImplementedException();
         }
+
+        private static Logger Logger => LogManager.GetCurrentClassLogger();
     }
 }

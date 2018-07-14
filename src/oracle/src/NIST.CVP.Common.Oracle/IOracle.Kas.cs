@@ -14,7 +14,6 @@ namespace NIST.CVP.Common.Oracle
         KasAftDeferredResult CompleteDeferredKasTest(KasAftDeferredParametersFfc param);
 
         KasEccComponentResult GetKasEccComponentTest(KasEccComponentParameters param);
-        KasEccComponentResult CompleteDeferredKasComponentTest(KasEccComponentDeferredParameters param);
-
+        KasEccComponentDeferredResult CompleteDeferredKasComponentTest(KasEccComponentDeferredParameters param);
     }
 }

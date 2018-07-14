@@ -19,7 +19,5 @@ namespace NIST.CVP.Common.Oracle.ParameterTypes
         public BigInteger PublicKeyIutX { get; set; }
                                    
         public BigInteger PublicKeyIutY { get; set; }
-
-        public BitString Z { get; set; }
     }
 }

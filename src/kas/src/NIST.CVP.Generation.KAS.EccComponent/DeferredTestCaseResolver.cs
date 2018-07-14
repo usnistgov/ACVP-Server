@@ -1,29 +1,46 @@
-﻿using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
-using NIST.CVP.Crypto.Common.KAS;
+﻿using System;
+using NIST.CVP.Common.Oracle;
+using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Crypto.Common.KES;
 using NIST.CVP.Generation.Core;
+using NLog;
 
 namespace NIST.CVP.Generation.KAS.EccComponent
 {
     public class DeferredTestCaseResolver : IDeferredTestCaseResolver<TestGroup, TestCase, SharedSecretResponse>
     {
-        private readonly IEccCurveFactory _curveFactory;
-        private readonly IEccDhComponent _eccDhComponent;
+        private readonly IOracle _oracle;
 
-        public DeferredTestCaseResolver(IEccCurveFactory curveFactory, IEccDhComponent eccDhComponent)
+        public DeferredTestCaseResolver(IOracle oracle)
         {
-            _curveFactory = curveFactory;
-            _eccDhComponent = eccDhComponent;
+            _oracle = oracle;
         }
 
         public SharedSecretResponse CompleteDeferredCrypto(TestGroup testGroup, TestCase serverTestCase, TestCase iutTestCase)
         {
-            var domainParameters = new EccDomainParameters(_curveFactory.GetCurve(testGroup.Curve));
-            return _eccDhComponent.GenerateSharedSecret(
-                domainParameters,
-                serverTestCase.KeyPairPartyServer,
-                iutTestCase.KeyPairPartyIut
-            );
+            try
+            {
+                return new SharedSecretResponse(_oracle.CompleteDeferredKasComponentTest(
+                    new KasEccComponentDeferredParameters()
+                    {
+                        Curve = testGroup.Curve,
+
+                        PrivateKeyServer = serverTestCase.PrivateKeyServer,
+                        PublicKeyServerX = serverTestCase.PublicKeyIutX,
+                        PublicKeyServerY = serverTestCase.PublicKeyIutY,
+
+                        PublicKeyIutX = iutTestCase.PublicKeyIutX,
+                        PublicKeyIutY = iutTestCase.PublicKeyIutY,
+                    }
+                ).Z);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                return new SharedSecretResponse(ex.Message);
+            }
         }
+
+        private static Logger Logger => LogManager.GetCurrentClassLogger();
     }
 }

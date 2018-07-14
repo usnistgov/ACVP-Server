@@ -1,5 +1,6 @@
 ﻿using System;
 using Moq;
+using NIST.CVP.Common.Oracle;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC.Enums;
 using NIST.CVP.Crypto.Common.KAS;
@@ -17,14 +18,9 @@ namespace NIST.CVP.Generation.KAS.EccComponent.Tests
         [SetUp]
         public void Setup()
         {
-            Mock<IEccCurveFactory> curveFactory = new Mock<IEccCurveFactory>();
-            curveFactory
-                .Setup(s => s.GetCurve(It.IsAny<Curve>()))
-                .Returns(It.IsAny<IEccCurve>());
-            Mock<IDsaEccFactory> dsaFactory = new Mock<IDsaEccFactory>();
-            Mock<IEccDhComponent> dh = new Mock<IEccDhComponent>();
+            Mock<IOracle> oracle = new Mock<IOracle>();
 
-            _subject = new TestCaseGeneratorFactory(curveFactory.Object, dsaFactory.Object, dh.Object);
+            _subject = new TestCaseGeneratorFactory(oracle.Object);
         }
 
         [Test]
