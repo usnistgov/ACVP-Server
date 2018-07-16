@@ -32,7 +32,6 @@ namespace NIST.CVP.Generation.KMAC.Tests
 
         [Test]
         [TestCase("aFt", typeof(TestCaseGeneratorAFT))]
-        [TestCase("VMt", typeof(TestCaseGeneratorVMT))]
         [TestCase("junk", typeof(TestCaseGeneratorNull))]
         public void ShouldReturnProperGenerator(string testType, Type expectedType)
         {

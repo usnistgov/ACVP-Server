@@ -53,25 +53,12 @@ namespace NIST.CVP.Generation.KMAC
 
         private void CheckResults(TestCase suppliedResult, List<string> errors, Dictionary<string, string> expected, Dictionary<string, string> provided)
         {
-            SetBitStringLengthsToCorrectLength(suppliedResult);
-
             if (!_expectedResult.Mac.Equals(suppliedResult.Mac))
             {
                 errors.Add("MAC does not match");
                 expected.Add(nameof(_expectedResult.Mac), _expectedResult.Mac.ToHex());
                 provided.Add(nameof(suppliedResult.Mac), suppliedResult.Mac.ToHex());
             }
-        }
-
-        /// <summary>
-        /// The <see cref="TestCase"/> <see cref="BitString"/>s are not parsed w/ the <see cref="TestGroups"/> length in mind.
-        /// This method will ensure the correct bitlengths are compared.
-        /// </summary>
-        /// <param name="suppliedResult"></param>
-        private void SetBitStringLengthsToCorrectLength(TestCase suppliedResult)
-        {
-            _expectedResult.Mac = _expectedResult.Mac.GetMostSignificantBits(_currentGroup.MacLength);
-            suppliedResult.Mac = suppliedResult.Mac.GetMostSignificantBits(_currentGroup.MacLength);
         }
     }
 }

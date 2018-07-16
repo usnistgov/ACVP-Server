@@ -47,7 +47,6 @@ namespace NIST.CVP.Generation.KMAC.Tests.ContractResolvers
             Assert.AreEqual(tg.Tests.Count, newTg.Tests.Count, nameof(newTg.Tests));
             Assert.AreEqual(tg.KeyLength, newTg.KeyLength, nameof(newTg.KeyLength));
             Assert.AreEqual(tg.MessageLength, newTg.MessageLength, nameof(newTg.MessageLength));
-            Assert.AreEqual(tg.MacLength, newTg.MacLength, nameof(newTg.MacLength));
             Assert.AreEqual(tg.TestType, newTg.TestType, nameof(newTg.TestType));
         }
 

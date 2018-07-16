@@ -17,9 +17,6 @@ namespace NIST.CVP.Generation.KMAC
         [JsonProperty(PropertyName = "msgLen")]
         public int MessageLength { get; set; }
 
-        [JsonProperty(PropertyName = "macLen")]
-        public int MacLength { get; set; }
-
         public MathDomain MacLengths { get; set; }
 
         [JsonProperty(PropertyName = "inBit")]
@@ -37,35 +34,5 @@ namespace NIST.CVP.Generation.KMAC
         public int DigestSize { get; set; }
 
         public bool IncludeNull { get; set; }
-
-        public bool SetString(string name, string value)
-        {
-            if (string.IsNullOrEmpty(name))
-            {
-                return false;
-            }
-
-            if (!int.TryParse(value, out var intVal))
-            {
-                return false;
-            }
-
-            switch (name.ToLower())
-            {
-                case "keylen":
-                case "klen":
-                    KeyLength = intVal * 8;
-                    return true;
-                case "msglen":
-                case "mlen":
-                    MessageLength = intVal * 8;
-                    return true;
-                case "maclen":
-                case "tlen":
-                    MacLength = intVal * 8;
-                    return true;
-            }
-            return false;
-        }
     }
 }

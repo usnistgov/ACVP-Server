@@ -4,6 +4,7 @@ using NIST.CVP.Crypto.Common.MAC;
 using NIST.CVP.Crypto.Common.MAC.KMAC;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
+using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
@@ -27,7 +28,10 @@ namespace NIST.CVP.Generation.KMAC.Tests
         [Test]
         public void GenerateShouldReturnTestCaseGenerateResponse()
         {
-            var result = _subject.Generate(new TestGroup(), false);
+            var result = _subject.Generate(new TestGroup
+            {
+                MacLengths = new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 32, 65536))
+            }, false);
 
             Assert.IsNotNull(result, $"{nameof(result)} should be null");
             Assert.IsInstanceOf(typeof(TestCaseGenerateResponse<TestGroup, TestCase>), result, $"{nameof(result)} incorrect type");
@@ -40,7 +44,10 @@ namespace NIST.CVP.Generation.KMAC.Tests
                 .Setup(s => s.Generate(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<int>()))
                 .Returns(new MacResult("Fail"));
 
-            var result = _subject.Generate(new TestGroup(), false);
+            var result = _subject.Generate(new TestGroup
+            {
+                MacLengths = new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 32, 65536))
+            }, false);
 
             Assert.IsNull(result.TestCase, $"{nameof(result.TestCase)} should be null");
             Assert.IsFalse(result.Success, $"{nameof(result.Success)} should indicate failure");
@@ -54,7 +61,10 @@ namespace NIST.CVP.Generation.KMAC.Tests
                 .Throws(new Exception());
 
             
-            var result = _subject.Generate(new TestGroup(), false);
+            var result = _subject.Generate(new TestGroup
+            {
+                MacLengths = new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 32, 65536))
+            }, false);
 
             Assert.IsNull(result.TestCase, $"{nameof(result.TestCase)} should be null");
             Assert.IsFalse(result.Success, $"{nameof(result.Success)} should indicate failure");
@@ -63,7 +73,10 @@ namespace NIST.CVP.Generation.KMAC.Tests
         [Test]
         public void GenerateShouldInvokeGenerateOperation()
         {
-            _subject.Generate(new TestGroup(), true);
+            _subject.Generate(new TestGroup
+            {
+                MacLengths = new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 32, 65536))
+            }, false);
 
             _algo.Verify(v => v.Generate(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<string>(), It.IsAny<int>()),
                 Times.AtLeastOnce,
@@ -83,7 +96,10 @@ namespace NIST.CVP.Generation.KMAC.Tests
                 .Setup(s => s.Generate(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<string>(), It.IsAny<int>()))
                 .Returns(new MacResult(fakeMac));
 
-            var result = _subject.Generate(new TestGroup(), false);
+            var result = _subject.Generate(new TestGroup
+            {
+                MacLengths = new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 32, 65536))
+            }, false);
 
             Assert.IsTrue(result.Success, $"{nameof(result)} should be successful");
             Assert.IsInstanceOf(typeof(TestCase), result.TestCase, $"{nameof(result.TestCase)} type mismatch");

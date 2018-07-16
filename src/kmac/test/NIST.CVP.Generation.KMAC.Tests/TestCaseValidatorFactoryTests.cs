@@ -58,7 +58,6 @@ namespace NIST.CVP.Generation.KMAC.Tests
                         TestType = string.Empty,
                         KeyLength = 128,
                         MessageLength = 0,
-                        MacLength = 64,
                         Tests = new List<TestCase>()
                         {
                             new TestCase()

@@ -17,7 +17,6 @@ namespace NIST.CVP.Generation.KMAC.Tests
                 {
                     KeyLength = 128 + groupIdx * 2,
                     MessageLength = 52 + groupIdx * 8,
-                    MacLength = 64,
                     TestType = "AFT"
                 };
                 testGroups.Add(tg);

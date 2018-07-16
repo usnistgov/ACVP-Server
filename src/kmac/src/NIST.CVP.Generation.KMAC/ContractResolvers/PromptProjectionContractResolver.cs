@@ -15,8 +15,7 @@ namespace NIST.CVP.Generation.KMAC.ContractResolvers
                 nameof(TestGroup.Tests),
                 nameof(TestGroup.TestType),
                 nameof(TestGroup.KeyLength),
-                nameof(TestGroup.MessageLength),
-                nameof(TestGroup.MacLength)
+                nameof(TestGroup.MessageLength)
             };
 
             if (includeProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))

@@ -27,7 +27,6 @@ namespace NIST.CVP.Generation.KMAC.Tests
 
             var testCase = GetTestCase();
             var testGroup = GetTestGroup();
-            testGroup.MacLength = testMac.BitLength;
 
             _subject = new TestCaseValidator(testCase, testGroup);
             var suppliedResult = GetTestCase();
@@ -44,7 +43,6 @@ namespace NIST.CVP.Generation.KMAC.Tests
 
             var testCase = GetTestCase();
             var testGroup = GetTestGroup();
-            testGroup.MacLength = testMac.BitLength;
 
             _subject = new TestCaseValidator(testCase, testGroup);
             var suppliedResult = GetTestCase();
@@ -72,28 +70,10 @@ namespace NIST.CVP.Generation.KMAC.Tests
             Assert.IsTrue(result.Reason.Contains($"{nameof(suppliedResult.Mac)} was not present in the {nameof(TestCase)}"));
         }
 
-        [Test]
-        public void ShouldPassWithMacsDifferingAfterBitLength()
-        {
-            var testCaseExpected = GetTestCase();
-            var testCaseSupplied = GetTestCase();
-            var testGroup = GetTestGroup();
-            testGroup.MacLength = 9;
-
-            testCaseExpected.Mac = new BitString("F500CAFECAFE");
-            testCaseSupplied.Mac = new BitString("F500FACEFACE");
-
-            _subject = new TestCaseValidator(testCaseExpected, testGroup);
-            var result = _subject.Validate(testCaseSupplied);
-            Assume.That(result != null);
-            Assert.AreEqual(Core.Enums.Disposition.Passed, result.Result);
-        }
-
         private TestGroup GetTestGroup()
         {
             var testGroup = new TestGroup
             {
-                MacLength = 80,
                 KeyLength = 128,
                 MessageLength = 128
             };
