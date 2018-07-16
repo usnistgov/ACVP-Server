@@ -47,7 +47,7 @@ namespace NIST.CVP.Crypto.ParallelHash
          *             Rightmost_Output_bits = rightmost 16 bits of Output[i];
          *             Range = (maxoutbytes – minoutbytes + 1);
          *             Outputlen = minoutbytes + (Rightmost_Output_bits mod Range);
-         *             BlockSize = rightmost 8 bits of Rightmost_Output_bits;
+         *             BlockSize = rightmost 8 bits of Rightmost_Output_bits + 1;
          *             Customization = BitsToString(M[i] || Rightmost_Output_bits);
          *         }
          *         Output[j] = Output[1000];
@@ -105,7 +105,7 @@ namespace NIST.CVP.Crypto.ParallelHash
                         var rightmostBits = rightmostBitString.Bits;
 
                         outputLen = min + (8 * GetIntFromBits(rightmostBits)) % range;
-                        blockSize = GetIntFromBits(BitString.Substring(rightmostBitString, 0, 8).Bits);
+                        blockSize = GetIntFromBits(BitString.Substring(rightmostBitString, 0, 8).Bits) + 1;
                         customization = GetStringFromBytes(BitString.ConcatenateBits(innerMessage, leftmostBitString).ToBytes());
 
                         innerMessage = innerDigest.GetDeepCopy();

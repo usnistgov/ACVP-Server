@@ -27,14 +27,6 @@ namespace NIST.CVP.Generation.ParallelHash
             {
                 return new TestCaseGeneratorMCTHash(_random800_90, _mctAlgo);
             }
-            else if (testGroup.TestType.ToLower() == "vot")
-            {
-                    return new TestCaseGeneratorVOTHash(_random800_90, _algo);
-            }
-            else if (testGroup.TestType.ToLower() == "lct")
-            {
-                return new TestCaseGeneratorLCTHash(_random800_90, _algo);
-            }
 
             return new TestCaseGeneratorNull();
         }

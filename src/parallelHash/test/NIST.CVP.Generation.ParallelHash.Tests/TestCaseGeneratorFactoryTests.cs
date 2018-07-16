@@ -18,7 +18,6 @@ namespace NIST.CVP.Generation.ParallelHash.Tests
         [TestCase("junk", typeof(TestCaseGeneratorNull))]
         [TestCase("aFt", typeof(TestCaseGeneratorAFTHash))]
         [TestCase("Mct", typeof(TestCaseGeneratorMCTHash))]
-        [TestCase("vOT", typeof(TestCaseGeneratorVOTHash))]
         public void ShouldReturnProperGenerator(string testType, Type expectedType)
         {
             var testGroup = new TestGroup

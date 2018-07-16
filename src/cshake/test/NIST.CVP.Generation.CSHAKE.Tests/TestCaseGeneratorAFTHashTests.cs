@@ -214,7 +214,7 @@ namespace NIST.CVP.Generation.CSHAKE.Tests
                 else
                 {
                     longMessageCtr++;
-                    Assert.AreEqual((rate + longMessageCtr * (rate + 1)) % 134499, testCase.Message.BitLength);
+                    Assert.AreEqual((rate + longMessageCtr * (rate + 1)), testCase.Message.BitLength);
                 }
             }
         }
@@ -261,7 +261,7 @@ namespace NIST.CVP.Generation.CSHAKE.Tests
                 else
                 {
                     longMessageCtr++;
-                    Assert.AreEqual((rate + longMessageCtr * (rate + 8)) % 134499, testCase.Message.BitLength);
+                    Assert.AreEqual((rate + longMessageCtr * (rate + 8)), testCase.Message.BitLength);
                 }
             }
         }
