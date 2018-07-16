@@ -1,4 +1,5 @@
-﻿Microsoft Visual Studio Solution File, Format Version 12.00
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2036
 MinimumVisualStudioVersion = 10.0.40219.1
@@ -34,11 +35,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto", "..\..\cr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.Math", "..\..\crypto\src\NIST.CVP.Crypto.Math\NIST.CVP.Crypto.Math.csproj", "{9702E33D-FE5E-4C81-8B8D-CF19BE7C0226}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Common.Oracle", "..\..\oracle\src\NIST.CVP.Common.Oracle\NIST.CVP.Common.Oracle.csproj", "{EDCB7F2D-C76D-4B06-B2D9-219FD4BD3F03}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Common.Oracle", "..\..\oracle\src\NIST.CVP.Common.Oracle\NIST.CVP.Common.Oracle.csproj", "{EDCB7F2D-C76D-4B06-B2D9-219FD4BD3F03}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Crypto.Oracle", "..\..\oracle\src\NIST.CVP.Crypto.Oracle\NIST.CVP.Crypto.Oracle.csproj", "{E46508AC-9C3D-473A-BA5D-26B2166622CC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.Oracle", "..\..\oracle\src\NIST.CVP.Crypto.Oracle\NIST.CVP.Crypto.Oracle.csproj", "{E46508AC-9C3D-473A-BA5D-26B2166622CC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Common.Oracle.Tests", "..\..\oracle\test\NIST.CVP.Oracle.Common.Tests\NIST.CVP.Common.Oracle.Tests.csproj", "{0F347DBF-7656-43AF-8212-1F28A7D3D6BD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Common.Oracle.Tests", "..\..\oracle\test\NIST.CVP.Oracle.Common.Tests\NIST.CVP.Common.Oracle.Tests.csproj", "{0F347DBF-7656-43AF-8212-1F28A7D3D6BD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -273,6 +274,9 @@ Global
 		{BDA5F79E-3991-4DA4-BDA0-F43D534F4386} = {069B77AF-43BD-431F-96C6-A4AB1E2243CB}
 		{930FFEF0-D130-41E9-A353-EDB937459D2E} = {069B77AF-43BD-431F-96C6-A4AB1E2243CB}
 		{9702E33D-FE5E-4C81-8B8D-CF19BE7C0226} = {069B77AF-43BD-431F-96C6-A4AB1E2243CB}
+		{EDCB7F2D-C76D-4B06-B2D9-219FD4BD3F03} = {069B77AF-43BD-431F-96C6-A4AB1E2243CB}
+		{E46508AC-9C3D-473A-BA5D-26B2166622CC} = {069B77AF-43BD-431F-96C6-A4AB1E2243CB}
+		{0F347DBF-7656-43AF-8212-1F28A7D3D6BD} = {C142CAC9-2225-4180-AEA1-B6758A86AC23}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7452D30D-7EDA-44EE-B6FB-C2F49C16F491}
