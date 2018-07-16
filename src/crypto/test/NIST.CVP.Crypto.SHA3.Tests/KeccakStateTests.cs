@@ -52,24 +52,6 @@ namespace NIST.CVP.Crypto.SHA3.Tests
 
         [Test]
         [TestCaseSource(nameof(testCases))]
-        public void ShouldCopyFromAnotherRandomKeccakState(int b, int Width, int L)
-        {
-            var randy = new Random800_90();
-            var stateBitString = randy.GetRandomBitString(b);
-            var state = new KeccakState(stateBitString, b);
-            var subject = new KeccakState(state);
-
-            for (var i = 0; i < 5; i++)
-            {
-                for (var j = 0; j < 5; j++)
-                {
-                    Assert.AreEqual(state.GetLane(i, j), subject.GetLane(i, j));
-                }
-            }
-        }
-
-        [Test]
-        [TestCaseSource(nameof(testCases))]
         public void ShouldConvertToBitString(int b, int Width, int L)
         {
             var randy = new Random800_90();
