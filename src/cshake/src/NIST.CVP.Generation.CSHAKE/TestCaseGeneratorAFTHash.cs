@@ -50,8 +50,6 @@ namespace NIST.CVP.Generation.CSHAKE
             var numSmallCases = (rate / unitSize) * 2;
             var numLargeCases = 100;
 
-            _testCasesToGenerate = numSmallCases + numLargeCases;
-
             if (!group.IncludeNull)
             {
                 if (_currentSmallCase == 0)
@@ -63,6 +61,8 @@ namespace NIST.CVP.Generation.CSHAKE
             {
                 numSmallCases = (rate / unitSize) * 2 + 1;
             }
+
+            _testCasesToGenerate = numSmallCases + numLargeCases;
 
             _digestSize = TestCaseSizes[_currentTestCase++ % TestCaseSizes.Count];
 

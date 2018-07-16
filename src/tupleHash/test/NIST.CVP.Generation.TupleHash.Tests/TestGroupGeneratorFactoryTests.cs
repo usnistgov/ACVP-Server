@@ -23,7 +23,6 @@ namespace NIST.CVP.Generation.TupleHash.Tests
         [Test]
         [TestCase(typeof(TestGroupGeneratorAlgorithmFunctional))]
         [TestCase(typeof(TestGroupGeneratorMonteCarlo))]
-        [TestCase(typeof(TestGroupGeneratorVariableOutput))]
         public void ReturnedResultShouldContainExpectedTypes(Type expectedType)
         {
             var result = _subject.GetTestGroupGenerators();
@@ -32,16 +31,16 @@ namespace NIST.CVP.Generation.TupleHash.Tests
         }
 
         [Test]
-        public void ReturnedResultShouldContainThreeGenerators()
+        public void ReturnedResultShouldContainTwoGenerators()
         {
             var result = _subject.GetTestGroupGenerators();
 
-            Assert.IsTrue(result.Count() == 4);
+            Assert.IsTrue(result.Count() == 2);
         }
 
         [Test]
-        [TestCase(false, 8)]
-        [TestCase(true, 16)]
+        [TestCase(false, 4)]
+        [TestCase(true, 8)]
         public void ShouldReturnVectorSetWithProperTestGroupsForXOFModes(bool xof, int expected)
         {
             var result = _subject.GetTestGroupGenerators();
@@ -67,7 +66,7 @@ namespace NIST.CVP.Generation.TupleHash.Tests
                 groups.AddRangeIfNotNullOrEmpty(genny.BuildTestGroups(p));
             }
 
-            Assert.AreEqual(expected, groups.Count);       // 2 * 2 * 4    (digestsizes * XOF * TestGroups)
+            Assert.AreEqual(expected, groups.Count);       // 2 * 2 * 2    (digestsizes * XOF * TestGroups)
         }
     }
 }
