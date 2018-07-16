@@ -36,8 +36,6 @@ namespace NIST.CVP.Generation.TupleHash.IntegrationTests
             Assert.IsNotNull(result, "null check");
             Assert.IsTrue(result.Success, result.ErrorMessage);
 
-            Console.WriteLine("Result: " + result.Response[result.Response.Count - 1].Digest.ToHex());
-
             var resultDigest = result.Response[result.Response.Count - 1].Digest;
             Assert.AreEqual(digestBitString.BitLength, resultDigest.BitLength);
             Assert.AreEqual(digestBitString.ToHex(), resultDigest.ToHex());

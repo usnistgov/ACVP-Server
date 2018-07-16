@@ -208,7 +208,7 @@ namespace NIST.CVP.Generation.TupleHash
 
         private int GetRandomValidLength(bool bitOriented)
         {
-            var length = _random800_90.GetRandomInt(1, 2049);
+            var length = _random800_90.GetRandomInt(1, 1025);
             if (!bitOriented)
             {
                 while (length % 8 != 0)
