@@ -31,7 +31,7 @@ namespace NIST.CVP.Generation.ParallelHash.IntegrationTests
             };
 
             var domain = new MathDomain();
-            domain.AddSegment(new RangeDomainSegment(null, 16, 65536));
+            domain.AddSegment(new RangeDomainSegment(null, 256, 2048));
             var result = subject.MCTHash(hashFunction, messageBitString, domain, true);
 
             Assert.IsNotNull(result, "null check");
