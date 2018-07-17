@@ -21,6 +21,7 @@ using NIST.CVP.Crypto.KAS.Builders.Ffc;
 using NIST.CVP.Crypto.KAS.KC;
 using NIST.CVP.Crypto.KAS.KDF;
 using NIST.CVP.Crypto.KAS.NoKC;
+using NIST.CVP.Crypto.KMAC;
 using NIST.CVP.Crypto.KES;
 using NIST.CVP.Crypto.ANSIX963;
 using NIST.CVP.Crypto.IKEv1;
@@ -195,6 +196,9 @@ namespace NIST.CVP.Crypto
             builder.RegisterType<TupleHash.TupleHash>().AsImplementedInterfaces();
             builder.RegisterType<TupleHash_MCT>().AsImplementedInterfaces();
 
+            builder.RegisterType<KmacFactory>().AsImplementedInterfaces();
+            builder.RegisterType<CSHAKEWrapper>().AsImplementedInterfaces();
+            
             builder.RegisterType<ParallelHash.ParallelHash>().AsImplementedInterfaces();
             builder.RegisterType<ParallelHash_MCT>().AsImplementedInterfaces();
         }

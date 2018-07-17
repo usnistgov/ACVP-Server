@@ -109,6 +109,8 @@ namespace NIST.CVP.Common
         KDFComponents_SSH,
         [EnumMember(Value = "KDF-Components-TLS")]
         KDFComponents_TLS,
+        [EnumMember(Value = "KMAC")]
+        KMAC,
         [EnumMember(Value = "ParallelHash")]
         ParallelHash,
         [EnumMember(Value = "RSA-DecryptionPrimitive")]
