@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ResultTypes;
@@ -35,6 +36,15 @@ namespace NIST.CVP.Generation.DRBG
             {
                 return new TestCaseGenerateResponse<TestGroup, TestCase>(
                     new TestCase {
+                        EntropyInput = oracleResult.EntropyInput,
+                        Nonce = oracleResult.Nonce,
+                        OtherInput = Array.ConvertAll(oracleResult.OtherInput.ToArray(), element => new OtherInput
+                        {
+                            IntendedUse = element.IntendedUse,
+                            AdditionalInput = element.AdditionalInput,
+                            EntropyInput = element.EntropyInput
+                        }).ToList(),
+                        PersoString = oracleResult.PersoString,
                         ReturnedBits = oracleResult.ReturnedBits
                     }
                 );
