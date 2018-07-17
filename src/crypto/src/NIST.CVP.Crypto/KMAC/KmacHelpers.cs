@@ -28,12 +28,16 @@ namespace NIST.CVP.Crypto.KMAC
 
             if (xof)
             {
-                newMessage = BitString.ConcatenateBits(newMessage, BitString.ConcatenateBits(message, RightEncode(BitString.Zeroes(8))));
+                var concatenatedMessageEncode = SafeConcatenation(message, RightEncode(BitString.Zeroes(8)));
+                newMessage = BitString.ConcatenateBits(newMessage, concatenatedMessageEncode);
             }
             else
             {
-                newMessage = BitString.ConcatenateBits(newMessage, BitString.ConcatenateBits(message, RightEncode(macLengthBitString)));
+                var concatenatedMessageEncode = SafeConcatenation(message, RightEncode(macLengthBitString));
+                newMessage = BitString.ConcatenateBits(newMessage, concatenatedMessageEncode);
             }
+
+            System.Console.WriteLine("newX: " + newMessage.ToHex());
 
             return newMessage;
         }
