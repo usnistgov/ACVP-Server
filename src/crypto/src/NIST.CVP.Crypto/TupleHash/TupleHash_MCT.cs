@@ -23,6 +23,13 @@ namespace NIST.CVP.Crypto.TupleHash
         /*
          * INPUT: The initial Single-Tuple of 144 bits long
          * 
+         * BitsToString(bits) { 
+         *     string = "";
+         *     foreach byte in bits {
+         *         string = string + ASCII((byte % 26) + 65); 
+         *     }
+         * }
+         * 
          * Initial Outputlen = (floor(maxoutlen/8) )*8
          * Initial Customization = ""
          * //makes maxoutlen a multiple of 8 and remains within the range specified.
@@ -32,7 +39,7 @@ namespace NIST.CVP.Crypto.TupleHash
          *     for (j=0; j<100; j++) {
          *         for (i=1; i<1001; i++) {
          *             leftbits = 144 leftmost bits of Output[i-1];
-         *             tupleSize = 3 leftmost bits of leftbits + 1
+         *             tupleSize = 3 leftmost bits of leftbits + 1;
          *             for (k=0; k<tupleSize; k++) {
          *                 T[i][k] = Substring of leftbits from k * 144 / tupleSize to (k+1) * 144 / tupleSize - 1;
          *             }
@@ -43,7 +50,7 @@ namespace NIST.CVP.Crypto.TupleHash
          *             Rightmost_Output_bits = rightmost 16 bits of Output[i];
          *             Range = (maxoutbytes – minoutbytes + 1);
          *             Outputlen = minoutbytes + (Rightmost_Output_bits mod Range);
-         *             Customization = T[i][0] || Rightmost_Output_bits
+         *             Customization = BitsToString(T[i][0] || Rightmost_Output_bits);
          *         }
          *         Output[j] = Output[1000];
          *         OUTPUT: Outputlen[j], Output[j]
@@ -69,7 +76,7 @@ namespace NIST.CVP.Crypto.TupleHash
 
             var outputLen = (int)System.Math.Floor((double)max / 8) * 8;
             var customization = "";
-            var range = isSample ? 64 : (max - min) + 8;        // only set for faster testing, change back later
+            var range = (max - min) + 8;
             var innerTuple = GetDeepCopy(tuple);
 
             try
@@ -81,7 +88,7 @@ namespace NIST.CVP.Crypto.TupleHash
                     iterationResponse.Tuple = innerTuple;
                     iterationResponse.Customization = customization;
 
-                    for (j = 0; j < (isSample ? 5 : 1000); j++)      // only uses isSample for faster testing, change back later
+                    for (j = 0; j < 1000; j++)
                     { 
                         // Might not have 144 bits to pull from so we pad with 0  
                         var innerBitString = BitString.ConcatenateBits(innerTuple.ElementAt(0), BitString.Zeroes(144));
@@ -142,7 +149,12 @@ namespace NIST.CVP.Crypto.TupleHash
 
         private string GetStringFromBytes(byte[] bytes)
         {
-            return System.Text.Encoding.ASCII.GetString(bytes);
+            var result = "";
+            foreach (var num in bytes)
+            {
+                result += System.Text.Encoding.ASCII.GetString(new byte[] { (byte)((num % 26) + 65) });
+            }
+            return result;
         }
 
         private List<BitString> GetDeepCopy(IEnumerable<BitString> tuple)

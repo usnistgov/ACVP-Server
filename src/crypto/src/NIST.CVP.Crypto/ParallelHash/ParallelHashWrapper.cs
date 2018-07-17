@@ -1,4 +1,5 @@
 ﻿using NIST.CVP.Crypto.Common.Hash.ParallelHash;
+using NIST.CVP.Crypto.Common.Hash.CSHAKE;
 using NIST.CVP.Crypto.CSHAKE;
 using NIST.CVP.Math;
 
@@ -7,7 +8,7 @@ namespace NIST.CVP.Crypto.ParallelHash
     public class ParallelHashWrapper : IParallelHashWrapper
     {
         private BitString _message;
-        private CSHAKEWrapper _cSHAKE;
+        private CSHAKE.CSHAKE _cSHAKE;
 
         public virtual BitString HashMessage(BitString message, int digestSize, int capacity, int blockSize, bool xof, string customization = "")
         {
@@ -20,7 +21,7 @@ namespace NIST.CVP.Crypto.ParallelHash
         private void Init()
         {
             _message = new BitString(0);
-            _cSHAKE = new CSHAKEWrapper();
+            _cSHAKE = new CSHAKE.CSHAKE();
         }
 
         private void Update(BitString newContent)
@@ -31,7 +32,13 @@ namespace NIST.CVP.Crypto.ParallelHash
         private BitString Final(int digestSize, int capacity, int blockSize, bool xof, string customization)
         {
             var newMessage = ParallelHashHelpers.FormatMessage(_message, _cSHAKE, digestSize, capacity, blockSize, customization, xof);
-            return _cSHAKE.HashMessage(newMessage, digestSize, capacity, "ParallelHash", customization);
+            return _cSHAKE.HashMessage(new Common.Hash.CSHAKE.HashFunction
+            {
+                FunctionName = "ParallelHash",
+                Customization = customization,
+                Capacity = capacity,
+                DigestSize = digestSize
+            }, newMessage).Digest;
         }
     }
 }

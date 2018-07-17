@@ -11,9 +11,7 @@ namespace NIST.CVP.Generation.CSHAKE
                 new HashSet<ITestGroupGenerator<Parameters, TestGroup, TestCase>>()
                 {
                     new TestGroupGeneratorAlgorithmFunctional(),
-                    new TestGroupGeneratorMonteCarlo(),
-                    new TestGroupGeneratorVariableOutput(),
-                    new TestGroupGeneratorLargeCustomization()
+                    new TestGroupGeneratorMonteCarlo()
                 };
 
             return list;

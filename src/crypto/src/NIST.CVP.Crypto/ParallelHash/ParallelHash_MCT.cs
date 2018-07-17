@@ -23,6 +23,13 @@ namespace NIST.CVP.Crypto.ParallelHash
         /*
          * INPUT: The initial Msg of 128 bits long
          * 
+         * BitsToString(bits) { 
+         *     string = "";
+         *     foreach byte in bits {
+         *         string = string + ASCII((byte % 26) + 65); 
+         *     }
+         * }
+         * 
          * Initial Outputlen = (floor(maxoutlen/8) )*8
          * Initial Customization = ""
          * Initial BlockSize = 8 bytes
@@ -40,8 +47,8 @@ namespace NIST.CVP.Crypto.ParallelHash
          *             Rightmost_Output_bits = rightmost 16 bits of Output[i];
          *             Range = (maxoutbytes – minoutbytes + 1);
          *             Outputlen = minoutbytes + (Rightmost_Output_bits mod Range);
-         *             BlockSize = rightmost 8 bits of Rightmost_Output_bits
-         *             Customization = M[i] || Rightmost_Output_bits
+         *             BlockSize = rightmost 8 bits of Rightmost_Output_bits + 1;
+         *             Customization = BitsToString(M[i] || Rightmost_Output_bits);
          *         }
          *         Output[j] = Output[1000];
          *         OUTPUT: Outputlen[j], Output[j]
@@ -68,7 +75,7 @@ namespace NIST.CVP.Crypto.ParallelHash
             var outputLen = (int)System.Math.Floor((double)max / 8) * 8;
             var blockSize = 8;
             var customization = "";
-            var range = isSample ? 64 : (max - min) + 8;        // only set for faster testing, change back later
+            var range = (max - min) + 8;
             var innerMessage = message.GetDeepCopy();
 
             try
@@ -80,7 +87,7 @@ namespace NIST.CVP.Crypto.ParallelHash
                     iterationResponse.Message = innerMessage;
                     iterationResponse.Customization = customization;
 
-                    for (j = 0; j < (isSample ? 5 : 1000); j++)      // only uses isSample for faster testing, change back later
+                    for (j = 0; j < 1000; j++)
                     {
                         // Might not have 128 bits to pull from so we pad with 0                        
                         innerMessage = BitString.ConcatenateBits(innerMessage, BitString.Zeroes(128));
@@ -98,7 +105,7 @@ namespace NIST.CVP.Crypto.ParallelHash
                         var rightmostBits = rightmostBitString.Bits;
 
                         outputLen = min + (8 * GetIntFromBits(rightmostBits)) % range;
-                        blockSize = GetIntFromBits(BitString.Substring(rightmostBitString, 0, 8).Bits);
+                        blockSize = GetIntFromBits(BitString.Substring(rightmostBitString, 0, 8).Bits) + 1;
                         customization = GetStringFromBytes(BitString.ConcatenateBits(innerMessage, leftmostBitString).ToBytes());
 
                         innerMessage = innerDigest.GetDeepCopy();
@@ -136,7 +143,12 @@ namespace NIST.CVP.Crypto.ParallelHash
 
         private string GetStringFromBytes(byte[] bytes)
         {
-            return System.Text.Encoding.ASCII.GetString(bytes);
+            var result = "";
+            foreach (var num in bytes)
+            {
+                result += System.Text.Encoding.ASCII.GetString(new byte[] { (byte)((num % 26) + 65) });
+            }
+            return result;
         }
     }
 }

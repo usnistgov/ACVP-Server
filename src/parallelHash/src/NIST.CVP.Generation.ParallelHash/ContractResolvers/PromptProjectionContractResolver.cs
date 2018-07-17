@@ -37,6 +37,7 @@ namespace NIST.CVP.Generation.ParallelHash.ContractResolvers
             {
                 nameof(TestCase.TestCaseId),
                 nameof(TestCase.Message),
+                nameof(TestCase.BlockSize),
                 nameof(TestCase.Customization),
                 nameof(TestCase.MessageLength)
             };

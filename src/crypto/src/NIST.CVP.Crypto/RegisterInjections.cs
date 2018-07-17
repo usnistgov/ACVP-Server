@@ -26,6 +26,7 @@ using NIST.CVP.Crypto.KES;
 using NIST.CVP.Crypto.ANSIX963;
 using NIST.CVP.Crypto.IKEv1;
 using NIST.CVP.Crypto.IKEv2;
+using NIST.CVP.Crypto.ParallelHash;
 using NIST.CVP.Crypto.SNMP;
 using NIST.CVP.Crypto.SRTP;
 using NIST.CVP.Crypto.SSH;
@@ -197,6 +198,9 @@ namespace NIST.CVP.Crypto
 
             builder.RegisterType<KmacFactory>().AsImplementedInterfaces();
             builder.RegisterType<CSHAKEWrapper>().AsImplementedInterfaces();
+            
+            builder.RegisterType<ParallelHash.ParallelHash>().AsImplementedInterfaces();
+            builder.RegisterType<ParallelHash_MCT>().AsImplementedInterfaces();
         }
     }
 }

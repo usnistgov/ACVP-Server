@@ -18,7 +18,7 @@ namespace NIST.CVP.Generation.ParallelHash.IntegrationTests
 
         public override string Algorithm { get; } = "ParallelHash";
         public override string Mode { get; } = string.Empty;
-        public override AlgoMode AlgoMode => AlgoMode.CSHAKE;
+        public override AlgoMode AlgoMode => AlgoMode.ParallelHash;
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {

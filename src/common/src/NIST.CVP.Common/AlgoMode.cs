@@ -111,6 +111,8 @@ namespace NIST.CVP.Common
         KDFComponents_TLS,
         [EnumMember(Value = "KMAC")]
         KMAC,
+        [EnumMember(Value = "ParallelHash")]
+        ParallelHash,
         [EnumMember(Value = "RSA-DecryptionPrimitive")]
         RSA_DecryptionPrimitive,
         [EnumMember(Value = "RSA-KeyGen")]
