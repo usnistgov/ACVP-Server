@@ -20,16 +20,16 @@ namespace NIST.CVP.Crypto.TupleHash
 
             foreach (BitString element in tuple)
             {
-                message = BitString.ConcatenateBits(message, EncodeString(element));
+                message = SafeConcatenation(message, EncodeString(element));
             }
 
             if (xof)
             {
-                message = BitString.ConcatenateBits(message, RightEncode(BitString.Zeroes(8)));
+                message = SafeConcatenation(message, RightEncode(BitString.Zeroes(8)));
             }
             else
             {
-                message = BitString.ConcatenateBits(message, RightEncode(IntToBitString(digestSize)));
+                message = SafeConcatenation(message, RightEncode(IntToBitString(digestSize)));
             }
 
             return message;
