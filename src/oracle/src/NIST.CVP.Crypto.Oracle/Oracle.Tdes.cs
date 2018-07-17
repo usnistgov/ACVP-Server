@@ -9,6 +9,7 @@ using NIST.CVP.Crypto.Symmetric.Engines;
 using NIST.CVP.Crypto.Symmetric.MonteCarlo;
 using System;
 using System.Linq;
+using NIST.CVP.Crypto.Common.Symmetric.CTR.Enums;
 
 namespace NIST.CVP.Crypto.Oracle
 {
@@ -150,6 +151,83 @@ namespace NIST.CVP.Crypto.Oracle
                     PlainText = element.PlainText,
                     CipherText = element.CipherText
                 }).ToList()
+            };
+        }
+
+        public TdesResult GetDeferredTdesCounterCase(CounterParameters<TdesParameters> param)
+        {
+            var iv = GetStartingIV(param.Overflow, param.Incremental);
+
+            var direction = BlockCipherDirections.Encrypt;
+            if (param.Parameters.Direction.ToLower() == "decrypt")
+            {
+                direction = BlockCipherDirections.Decrypt;
+            }
+
+            var payload = _rand.GetRandomBitString(param.Parameters.DataLength);
+            var key = TdesHelpers.GenerateTdesKey(param.Parameters.KeyingOption);
+
+            return new TdesResult
+            {
+                Key = key,
+                Iv = iv,
+                PlainText = direction == BlockCipherDirections.Encrypt ? payload : null,
+                CipherText = direction == BlockCipherDirections.Decrypt ? payload : null
+            };
+        }
+
+        public TdesResult CompleteDeferredTdesCounterCase(CounterParameters<TdesParameters> param)
+        {
+            var fullParam = GetDeferredTdesCounterCase(param);
+            var direction = BlockCipherDirections.Encrypt;
+            if (param.Parameters.Direction.ToLower() == "decrypt")
+            {
+                direction = BlockCipherDirections.Decrypt;
+            }
+
+            var counter = _ctrFactory.GetCounter(_tdes, param.Incremental ? CounterTypes.Additive : CounterTypes.Subtractive, fullParam.Iv);
+            var cipher = _modeFactory.GetCounterCipher(_tdes, counter);
+
+            var blockCipherParams = new CounterModeBlockCipherParameters(direction, fullParam.Iv, fullParam.Key, direction == BlockCipherDirections.Encrypt ? fullParam.PlainText : fullParam.CipherText, null);
+  
+            var result = cipher.ProcessPayload(blockCipherParams);
+
+            return new TdesResult
+            {
+                Key = fullParam.Key,
+                Iv = fullParam.Iv,
+                PlainText = direction == BlockCipherDirections.Encrypt ? fullParam.PlainText : result.Result,
+                CipherText = direction == BlockCipherDirections.Decrypt ? fullParam.CipherText : result.Result
+            };
+        }
+
+        public CounterResult ExtractIvs(TdesParameters param, TdesResult fullParam)
+        {
+            var cipher = _modeFactory.GetIvExtractor(_tdes);
+            var direction = BlockCipherDirections.Encrypt;
+            if (param.Direction.ToLower() == "decrypt")
+            {
+                direction = BlockCipherDirections.Decrypt;
+            }
+
+            var payload = direction == BlockCipherDirections.Encrypt ? fullParam.PlainText : fullParam.CipherText;
+            var result = direction == BlockCipherDirections.Encrypt ? fullParam.CipherText : fullParam.PlainText;
+
+            var counterCipherParams = new CounterModeBlockCipherParameters(direction, fullParam.Iv, fullParam.Key, payload, result);
+
+            var extractedIvs = cipher.ExtractIvs(counterCipherParams);
+
+            if (!extractedIvs.Success)
+            {
+                // TODO log error somewhere
+                throw new Exception();
+            }
+
+            return new CounterResult
+            {
+                PlainText = direction == BlockCipherDirections.Encrypt ? null : extractedIvs.Result,
+                CipherText = direction == BlockCipherDirections.Decrypt ? null : extractedIvs.Result,
+                IVs = extractedIvs.IVs
             };
         }
     }

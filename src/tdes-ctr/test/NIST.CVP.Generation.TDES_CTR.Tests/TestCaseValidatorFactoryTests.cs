@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Moq;
+using NIST.CVP.Common.Oracle;
 using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
 using NIST.CVP.Crypto.Common.Symmetric.Engines;
 using NIST.CVP.Crypto.Common.Symmetric.Enums;
@@ -14,27 +15,14 @@ namespace NIST.CVP.Generation.TDES_CTR.Tests
     public class TestCaseValidatorFactoryTests
     {
         private TestCaseValidatorFactory _subject;
-        private Mock<IBlockCipherEngine> _engine;
-        private Mock<IBlockCipherEngineFactory> _engineFactory;
-        private Mock<IModeBlockCipherFactory> _cipherFactory;
-        private Mock<ICounterModeBlockCipher> _cipher;
-
+        private Mock<IOracle> _oracle;
+        
         [SetUp]
         public void Setup()
         {
-            _engine = new Mock<IBlockCipherEngine>();
-            _engineFactory = new Mock<IBlockCipherEngineFactory>();
-            _engineFactory
-                .Setup(s => s.GetSymmetricCipherPrimitive(It.IsAny<BlockCipherEngines>()))
-                .Returns(_engine.Object);
-
-            _cipher = new Mock<ICounterModeBlockCipher>();
-            _cipherFactory = new Mock<IModeBlockCipherFactory>();
-            _cipherFactory
-                .Setup(s => s.GetIvExtractor(It.IsAny<IBlockCipherEngine>()))
-                .Returns(_cipher.Object);
-
-            _subject = new TestCaseValidatorFactory(_engineFactory.Object, _cipherFactory.Object);
+            _oracle = new Mock<IOracle>();
+            
+            _subject = new TestCaseValidatorFactory(_oracle.Object);
         }
 
         [Test]

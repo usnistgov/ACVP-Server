@@ -10,5 +10,9 @@ namespace NIST.CVP.Common.Oracle
 
         MctResult<TdesResult> GetTdesMctCase(TdesParameters param);
         MctResult<TdesResultWithIvs> GetTdesMctWithIvsCase(TdesParameters param);
+
+        TdesResult GetDeferredTdesCounterCase(CounterParameters<TdesParameters> param);
+        TdesResult CompleteDeferredTdesCounterCase(CounterParameters<TdesParameters> param);
+        CounterResult ExtractIvs(TdesParameters param, TdesResult fullParam);
     }
 }
