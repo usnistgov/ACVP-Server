@@ -23,7 +23,6 @@ namespace NIST.CVP.Generation.CSHAKE.Tests
         [Test]
         [TestCase(typeof(TestGroupGeneratorAlgorithmFunctional))]
         [TestCase(typeof(TestGroupGeneratorMonteCarlo))]
-        [TestCase(typeof(TestGroupGeneratorVariableOutput))]
         public void ReturnedResultShouldContainExpectedTypes(Type expectedType)
         {
             var result = _subject.GetTestGroupGenerators();
@@ -32,11 +31,11 @@ namespace NIST.CVP.Generation.CSHAKE.Tests
         }
 
         [Test]
-        public void ReturnedResultShouldContainFourGenerators()
+        public void ReturnedResultShouldContainTwoGenerators()
         {
             var result = _subject.GetTestGroupGenerators();
 
-            Assert.IsTrue(result.Count() == 4);
+            Assert.IsTrue(result.Count() == 2);
         }
 
         [Test]
@@ -64,7 +63,7 @@ namespace NIST.CVP.Generation.CSHAKE.Tests
                 groups.AddRangeIfNotNullOrEmpty(genny.BuildTestGroups(p));
             }
 
-            Assert.AreEqual(12, groups.Count);       // (AFT,SHAKEAFT,VOT,SHAKEVOT,MCT,LCT) = 6 * 2 digestsizes = 12
+            Assert.AreEqual(4, groups.Count);       // (AFT,MCT) = 2 * 2 digestsizes = 4
         }
     }
 }

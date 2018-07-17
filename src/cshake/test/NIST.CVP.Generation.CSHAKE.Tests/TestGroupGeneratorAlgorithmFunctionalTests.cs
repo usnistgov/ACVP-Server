@@ -11,7 +11,7 @@ namespace NIST.CVP.Generation.CSHAKE.Tests
         {
             new object[]
             {
-                0, // 1 * 0 * 2
+                0, // 1 * 0
                 new ParameterValidatorTests.ParameterBuilder()
                     .WithDigestSizes(new int[] { }) // 0
                     .WithAlgorithm("cSHAKE")  // 1
@@ -19,7 +19,7 @@ namespace NIST.CVP.Generation.CSHAKE.Tests
             },
             new object[]
             {
-                2, // 1 * 1 * 2
+                1, // 1 * 1 
                 new ParameterValidatorTests.ParameterBuilder()
                     .WithDigestSizes(new int[] { 128 }) // 1
                     .WithAlgorithm("cSHAKE")  // 1
@@ -27,7 +27,7 @@ namespace NIST.CVP.Generation.CSHAKE.Tests
             },
             new object[]
             {
-                4, // 1 * 2 * 2
+                2, // 1 * 2
                 new ParameterValidatorTests.ParameterBuilder()
                     .WithDigestSizes(new int[] { 128, 256 }) // 2
                     .WithAlgorithm("cSHAKE")  // 1
@@ -36,26 +36,11 @@ namespace NIST.CVP.Generation.CSHAKE.Tests
         };
         [Test]
         [TestCaseSource(nameof(parameters))]
-        public void ShouldCreate2TestGroupsForEachCombinationOfModeAndDigestSize(int expectedGroupsCreated, Parameters parameters)
+        public void ShouldCreate1TestGroupForEachCombinationOfModeAndDigestSize(int expectedGroupsCreated, Parameters parameters)
         {
             var subject = new TestGroupGeneratorAlgorithmFunctional();
             var results = subject.BuildTestGroups(parameters);
             Assert.AreEqual(expectedGroupsCreated, results.Count());
-
-            var totalShakeModes = 0;
-            var totalNotShakeModes = 0;
-            foreach (var result in results)
-            {
-                if (result.TestType.Equals("aftshake"))
-                {
-                    totalShakeModes++;
-                }
-                else if (result.TestType.Equals("aft"))
-                {
-                    totalNotShakeModes++;
-                }
-            }
-            Assert.AreEqual(totalShakeModes, totalNotShakeModes);
         }
     }
 }

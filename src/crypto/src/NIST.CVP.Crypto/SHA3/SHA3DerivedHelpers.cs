@@ -1,4 +1,5 @@
 ﻿using NIST.CVP.Math;
+using NIST.CVP.Math.Helpers;
 using System.Text;
 
 namespace NIST.CVP.Crypto.SHA3
@@ -72,6 +73,40 @@ namespace NIST.CVP.Crypto.SHA3
         protected static BitString IntToBitString(int num)
         {
             return new BitString(new System.Numerics.BigInteger(num));
+        }
+
+        // use for KMAC and TupleHash bit oriented messages when concatenating with encoded lengths
+        // this occurs when the leftBits are bitoriented
+        protected static BitString SafeConcatenation(BitString leftBits, BitString rightBits)
+        {
+            var result = BitString.ConcatenateBits(ConvertEndianness(leftBits), ConvertEndianness(rightBits));
+            return ConvertEndianness(result);
+            //result.Set(0, false);
+            //return result.ConcatenateBits(BitString.One());
+        }
+
+        // needed for KMAC and TupleHash bit oriented messages
+        private static BitString ConvertEndianness(BitString message)
+        {
+            // This is kinda gross... The message input is in the correct byte order but reversed bit order
+            // So we must reverse the bits, then reverse the bytes to put everything in the correct order
+            //
+            // For a small example... 60 01 (hex) = 0110 0001 (binary)
+            //    should turn into    06 80 (hex) = 0110 1000 (binary
+
+            var messageLen = message.BitLength;
+
+            // Convert to big endian byte order but little endian bit order
+            var reversedBits = MsbLsbConversionHelpers.ReverseBitArrayBits(message.Bits);
+            var normalizedBits = MsbLsbConversionHelpers.ReverseByteOrder(new BitString(reversedBits).ToBytes());
+
+            // After the byte conversion make sure the result is the correct length
+            // The constructor here handles this for us
+            message = new BitString(normalizedBits);
+            var hex = message.ToHex();
+            message = new BitString(hex, messageLen, false);
+
+            return message;
         }
     }
 }

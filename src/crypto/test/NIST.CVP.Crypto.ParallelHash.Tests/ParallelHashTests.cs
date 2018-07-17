@@ -42,11 +42,11 @@ namespace NIST.CVP.Crypto.ParallelHash.Tests
         }
 
         [Test]
-        [TestCase(2407, 256, "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c", "d3d76a4aacbd40afb6456df693e980928cae90172ba9f5d5b45a36d07afb27d8", 8, "My Function")]
-        [TestCase(279, 256, "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122", "517eef5a0676f364e9416256a1cb939baf02a26525fb61aad86bb3b408a83a33", 8, "My Function")]
+        [TestCase(2407, 256, "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c", "77b58c572f012d33d152a25a6cf352a3efc344a34c932ff071fd670cc9335d88", 8, "My Function")]
+        [TestCase(279, 256, "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122", "85332d798f0d49d97c722b81b353c0113c289907f1cfadb7d6485c756612575a", 8, "My Function")]
         public void ShouldParallelHash128HashCorrectlyBitWise(int length, int digestSize, string inputHex, string outputHex, int blockSize, string customization)
         {
-            var message = new BitString(inputHex, length, true);
+            var message = new BitString(inputHex, length, false);
             var expectedResult = new BitString(outputHex);
             var hashFunction = GetParallelHashHashFunction(digestSize, 256, false, blockSize, customization);
 
@@ -56,21 +56,6 @@ namespace NIST.CVP.Crypto.ParallelHash.Tests
             Assume.That(result.Success);
             Assert.AreEqual(expectedResult, result.Digest);
         }
-
-        /*[Test]
-        [TestCase(64, "2021220000000000", "78773007189dc19ade9723058906c37517bf3fa2f91847bb52fcebdbf7853144", "", "")]
-        public void LarryTest(int length, string inputHex, string outputHex, string functionName, string customization)
-        {
-            var message = new BitString(inputHex, length, true);
-            var expectedResult = new BitString(outputHex);
-            var hashFunction = GetCSHAKEHashFunction(256, 256, functionName, customization);
-
-            var subject = new CSHAKE();
-            var result = subject.HashMessage(hashFunction, message);
-
-            Assume.That(result.Success);
-            Assert.AreEqual(expectedResult, result.Digest);
-        }*/
 
         [Test]
         [TestCase(192, 256, "000102030405060710111213141516172021222324252627", "fe47d661e49ffe5b7d999922c062356750caf552985b8e8ce6667f2727c3c8d3", 8, "")]
@@ -95,8 +80,8 @@ namespace NIST.CVP.Crypto.ParallelHash.Tests
         }
 
         [Test]
-        [TestCase(2407, 256, "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c", "1420d1ab4b70c1805dca55c4cb0329d96c5498d7ddc945291b01128298f35719", 8, "My Function")]
-        [TestCase(279, 256, "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122", "846023ef4f6e0d8a31cc176fa5dc5d071cf34f6b1702e695d8e66ea73e4a79d1", 8, "My Function")]
+        [TestCase(2407, 256, "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c", "7ac7478866d146bcb0dab6db4a4fe76e27317817b040ccf53f90c93dffdc6a6a", 8, "My Function")]
+        [TestCase(279, 256, "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122", "a65a74ee70181fddff87deebc72a3f2c97fc2dc914111eafe39ed7b891ca1703", 8, "My Function")]
         public void ShouldParallelHash128XOFHashCorrectlyBitWise(int length, int digestSize, string inputHex, string outputHex, int blockSize, string customization)
         {
             var message = new BitString(inputHex, length, false);
@@ -144,11 +129,11 @@ namespace NIST.CVP.Crypto.ParallelHash.Tests
         }
 
         [Test]
-        [TestCase(2407, 256, "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c", "200a319d1bb1c6686366bd1f8fd9d6de01f0a2e23f03279426f5e295c9ba79d5", 8, "My Function")]
-        [TestCase(279, 256, "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122", "742e0796b902859f35ce709e351518142c7a17ef3ea6c4aa9e2f21262e3daf5b", 8, "My Function")]
+        [TestCase(2407, 256, "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c", "92542b304f383c1114ea0420a9102488978fda9ca9bbac2988fa269e23b91430", 8, "My Function")]
+        [TestCase(279, 256, "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122", "e49596a6da5e9c75dde39456539fe76c711aba40868637fdf2a6969f5586bffa", 8, "My Function")]
         public void ShouldParallelHash256HashCorrectlyBitWise(int length, int digestSize, string inputHex, string outputHex, int blockSize, string customization)
         {
-            var message = new BitString(inputHex, length, true);
+            var message = new BitString(inputHex, length, false);
             var expectedResult = new BitString(outputHex);
             var hashFunction = GetParallelHashHashFunction(digestSize, 512, false, blockSize, customization);
 
@@ -182,8 +167,8 @@ namespace NIST.CVP.Crypto.ParallelHash.Tests
         }
 
         [Test]
-        [TestCase(2407, 256, "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c", "fe44e27ad9c7f3ffec89fdb2729574fdca4e4a5bfcdbd32ff775a73dfd95bf9b", 8, "My Function")]
-        [TestCase(279, 256, "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122", "97d25dffe346f6ebefc10a8a652b79c1491a2b1a7a527379f7512fdee3d9de1d", 8, "My Function")]
+        [TestCase(2407, 256, "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c", "9622ba7085ad82dbf1fe2f39f8d432b4e71de566ba7f298a446267ea213d6762", 8, "My Function")]
+        [TestCase(279, 256, "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122", "56abc9d7c2f68f24b5d0278edea4b8e3dece1ebd5ca08dc56ddfaaa7cdb5a466", 8, "My Function")]
         public void ShouldParallelHash256XOFHashCorrectlyBitWise(int length, int digestSize, string inputHex, string outputHex, int blockSize, string customization)
         {
             var message = new BitString(inputHex, length, false);
