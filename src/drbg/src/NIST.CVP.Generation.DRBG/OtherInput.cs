@@ -5,7 +5,9 @@ namespace NIST.CVP.Generation.DRBG
 {
     public class OtherInput
     {
-        [JsonProperty(PropertyName = "additionalInput")]
+        [JsonProperty(PropertyName = "intendedUse")]
+        public string IntendedUse { get; set; }
+		[JsonProperty(PropertyName = "additionalInput")]
         public BitString AdditionalInput { get; set; }
         [JsonProperty(PropertyName = "entropyInput")]
         public BitString EntropyInput { get; set; }
