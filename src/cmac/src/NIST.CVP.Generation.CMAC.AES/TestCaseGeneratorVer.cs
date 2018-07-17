@@ -1,14 +1,11 @@
 ﻿using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
-using NIST.CVP.Crypto.Common.MAC.CMAC;
-using NIST.CVP.Generation.Core;
-using NIST.CVP.Math;
 
-namespace NIST.CVP.Generation.CMAC.TDES
+namespace NIST.CVP.Generation.CMAC.AES
 {
-    public class TestCaseGeneratorGen : TestCaseGeneratorGenBase<TestGroup, TestCase>
+    public class TestCaseGeneratorVer : TestCaseGeneratorVerBase<TestGroup, TestCase>
     {
-        public TestCaseGeneratorGen(IOracle oracle) : base(oracle)
+        public TestCaseGeneratorVer(IOracle oracle) : base(oracle)
         {
         }
 
@@ -17,8 +14,8 @@ namespace NIST.CVP.Generation.CMAC.TDES
             return new CmacParameters()
             {
                 CmacType = group.CmacType,
-                CouldFail = false,
-                KeyingOption = group.KeyingOption,
+                CouldFail = true,
+                KeyingOption = 0,
                 KeyLength = group.KeyLength,
                 MacLength = group.MacLength,
                 PayloadLength = group.MessageLength

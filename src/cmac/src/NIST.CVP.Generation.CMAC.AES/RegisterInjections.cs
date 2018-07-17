@@ -19,7 +19,7 @@ namespace NIST.CVP.Generation.CMAC.AES
             builder.RegisterType<ParameterParser<Parameters>>().AsImplementedInterfaces();
             builder.RegisterType<ParameterValidator>().AsImplementedInterfaces();
             builder.RegisterType<ResultValidator<TestGroup, TestCase>>().AsImplementedInterfaces();
-            builder.RegisterType<TestCaseGeneratorFactory<TestCaseGeneratorGen, TestGroup, TestCase>>().AsImplementedInterfaces();
+            builder.RegisterType<TestCaseGeneratorFactory<TestCaseGeneratorGen, TestCaseGeneratorVer, TestGroup, TestCase>>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseGeneratorFactoryFactory<TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseValidatorFactory<TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
             builder.RegisterType<TestGroupGeneratorFactory>().AsImplementedInterfaces();

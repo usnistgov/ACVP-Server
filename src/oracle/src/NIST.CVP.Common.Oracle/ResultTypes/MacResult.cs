@@ -8,6 +8,6 @@ namespace NIST.CVP.Common.Oracle.ResultTypes
         public BitString Key { get; set; }
         public BitString Iv { get; set; }
         public BitString Tag { get; set; }
-        public bool TestPassed { get; set; }
+        public bool TestPassed { get; set; } = true;
     }
 }

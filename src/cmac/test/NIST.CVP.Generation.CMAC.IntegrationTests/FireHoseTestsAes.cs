@@ -6,7 +6,7 @@ using NUnit.Framework;
 namespace NIST.CVP.Generation.CMAC.IntegrationTests
 {
     [TestFixture, FastIntegrationTest]
-    public class FireHoseTestsAes : FireHoseTestsBase<LegacyResponseFileParser, TestCaseGeneratorGen, TestVectorSet, TestGroup, TestCase>
+    public class FireHoseTestsAes : FireHoseTestsBase<LegacyResponseFileParser, TestVectorSet, TestGroup, TestCase>
     {
         [Test]
         public void ShouldRunThroughAllTestFilesAndValidateAes()

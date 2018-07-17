@@ -9,5 +9,6 @@ namespace NIST.CVP.Crypto.Oracle
 
         private const double GCM_FAIL_RATIO = .25;
         private const double XPN_FAIL_RATIO = .25;
+        private const double CMAC_FAIL_RATIO = .25;
     }
 }

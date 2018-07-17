@@ -16,7 +16,7 @@ namespace NIST.CVP.Generation.CMAC
         [JsonProperty(PropertyName = "direction")]
         public string Function { get; set; }
         [JsonProperty(PropertyName = "keyLen")]
-        public abstract int KeyLength { get; set; }
+        public int KeyLength { get; set; }
         [JsonProperty(PropertyName = "msgLen")]
         public int MessageLength { get; set; }
         [JsonProperty(PropertyName = "macLen")]

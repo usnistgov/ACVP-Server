@@ -1,6 +1,5 @@
 ﻿using NIST.CVP.Crypto.CMAC;
 using NIST.CVP.Generation.CMAC.Parsers;
-using NIST.CVP.Math;
 using NIST.CVP.Tests.Core;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -8,9 +7,8 @@ using NUnit.Framework;
 namespace NIST.CVP.Generation.CMAC.IntegrationTests
 {
     [TestFixture, FastIntegrationTest]
-    public abstract class FireHoseTestsBase<TLegacyResponseFileParser, TTestCaseGeneratorGen, TTestVectorSet, TTestGroup, TTestCase>
+    public abstract class FireHoseTestsBase<TLegacyResponseFileParser, TTestVectorSet, TTestGroup, TTestCase>
         where TLegacyResponseFileParser : LegacyResponseFileParserBase<TTestVectorSet, TTestGroup, TTestCase>, new()
-        where TTestCaseGeneratorGen : TestCaseGeneratorGenBase<TTestGroup, TTestCase>
         where TTestVectorSet : TestVectorSetBase<TTestGroup, TTestCase>, new()
         where TTestGroup : TestGroupBase<TTestGroup, TTestCase>, new()
         where TTestCase : TestCaseBase<TTestGroup, TTestCase>, new()
@@ -18,9 +16,8 @@ namespace NIST.CVP.Generation.CMAC.IntegrationTests
         string _testPath;
         protected abstract string FolderName { get; }
 
-        private readonly TestCaseGeneratorFactory<TTestCaseGeneratorGen, TTestGroup, TTestCase> _subject = 
-            new TestCaseGeneratorFactory<TTestCaseGeneratorGen, TTestGroup, TTestCase>(
-                new Random800_90(), new CmacFactory());
+        protected readonly CmacFactory _subject = new CmacFactory();
+
         [SetUp]
         public void Setup()
         {
@@ -55,24 +52,16 @@ namespace NIST.CVP.Generation.CMAC.IntegrationTests
                 Assert.Fail("No TestGroups were parsed.");
             }
 
-            foreach (var iTestGroup in testVector.TestGroups)
+            foreach (var testGroup in testVector.TestGroups)
             {
-
-                var testGroup = iTestGroup;
-                var algo = _subject.GetCmac(testGroup);
-                foreach (var iTestCase in testGroup.Tests)
+                foreach (var testCase in testGroup.Tests)
                 {
                     count++;
 
-                    var testCase = iTestCase;
-
                     if (testGroup.Function.ToLower() == "gen")
                     {
-                        var result = algo.Generate(
-                            testCase.Key,
-                            testCase.Message,
-                            testGroup.MacLength
-                        );
+                        var result = _subject.GetCmacInstance(testGroup.CmacType)
+                            .Generate(testCase.Key, testCase.Message, testGroup.MacLength);
 
                         if (!result.Success)
                         {
@@ -99,11 +88,8 @@ namespace NIST.CVP.Generation.CMAC.IntegrationTests
 
                     if (testGroup.Function.ToLower() == "ver")
                     {
-                        var result = algo.Verify(
-                            testCase.Key,
-                            testCase.Message,
-                            testCase.Mac
-                        );
+                        var result = _subject.GetCmacInstance(testGroup.CmacType)
+                            .Verify(testCase.Key, testCase.Message, testCase.Mac);
 
                         if (testCase.TestPassed != null && !testCase.TestPassed.Value)
                         {
