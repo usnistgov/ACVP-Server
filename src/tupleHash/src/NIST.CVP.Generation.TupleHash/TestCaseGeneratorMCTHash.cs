@@ -27,7 +27,7 @@ namespace NIST.CVP.Generation.TupleHash
             IsSample = isSample;
             var seedCase = new TestCase
             {
-                Tuple = new List<BitString>(new BitString[] { _random800_90.GetRandomBitString(144) })  // always 144 for the length
+                Tuple = new List<BitString>(new BitString[] { _random800_90.GetRandomBitString(288) })  // always 288 for the length (divisible by 1,2,3,4 to multiples of 8)
             };
 
             return Generate(group, seedCase);
