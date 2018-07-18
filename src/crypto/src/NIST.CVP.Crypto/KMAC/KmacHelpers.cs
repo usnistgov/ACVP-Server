@@ -37,8 +37,6 @@ namespace NIST.CVP.Crypto.KMAC
                 newMessage = BitString.ConcatenateBits(newMessage, concatenatedMessageEncode);
             }
 
-            System.Console.WriteLine("newX: " + newMessage.ToHex());
-
             return newMessage;
         }
     }
