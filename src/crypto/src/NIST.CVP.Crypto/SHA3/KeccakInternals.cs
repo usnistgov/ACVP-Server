@@ -15,8 +15,8 @@ namespace NIST.CVP.Crypto.SHA3
             // This is kinda gross... The message input is in the correct byte order but reversed bit order
             // So we must reverse the bits, then reverse the bytes to put everything in the correct order
             //
-            // For a small example... 60 01 (hex) = 0110 0001 (binary)
-            //    should turn into    06 80 (hex) = 0110 1000 (binary
+            // For a small example... 60 01 (hex) = 0110 0000 0000 0001 (binary)
+            //    should turn into    06 80 (hex) = 0000 0110 1000 0000 (binary
 
             var messageLen = message.BitLength;
 
@@ -165,7 +165,7 @@ namespace NIST.CVP.Crypto.SHA3
             // For A.L = 6 and _numRounds = 24 which they must be for now, this loop is just... (i = 0; i <= 23; i++)
             for (var i = startRound; i <= endRound; i++)
             {
-                A = A.Theta().Rho().Pi().Chi().Iota(i);
+                A = Round(A, i);
             }
 
             return A.ToBitString();
@@ -173,7 +173,6 @@ namespace NIST.CVP.Crypto.SHA3
 
         public static KeccakState Round(KeccakState A, int roundNumber)
         {
-            //return KeccakState.Iota(KeccakState.Chi(KeccakState.Pi(KeccakState.Rho(KeccakState.Theta(A)))), roundNumber);
             return A.Theta().Rho().Pi().Chi().Iota(roundNumber);
         }
     }

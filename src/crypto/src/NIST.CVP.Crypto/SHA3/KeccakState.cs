@@ -13,7 +13,10 @@ namespace NIST.CVP.Crypto.SHA3
         
         private ulong[,] _state;
 
-        public int[,] _offsets;
+        private int[,] _offsets;
+        private ulong[,] _workingStateChi = new ulong[5, 5];
+        private ulong[,] _workingStatePi = new ulong[5, 5];
+
 
         public KeccakState(BitString content, int b)        // b is always 1600 but keep it flexible for future
         {
@@ -21,6 +24,8 @@ namespace NIST.CVP.Crypto.SHA3
             L = (int)System.Math.Log(Width, 2);
             _state = new ulong[RowSize, ColSize];
 
+
+            // done for better speed when using b as 1600
             if (b == 1600)
             {
                 _offsets = new int[5, 5] { 
@@ -121,33 +126,29 @@ namespace NIST.CVP.Crypto.SHA3
 
         public KeccakState Chi()
         {
-            var workingStateChi = new ulong[5, 5];
-
             for (var x = 0; x < 5; x++)
             {
                 for (var y = 0; y < 5; y++)
                 {
                     var intermediate = (_state[(x + 1) % 5, y] ^ ulong.MaxValue) & _state[(x + 2) % 5, y];
-                    workingStateChi[x, y] = _state[x, y] ^ intermediate;
+                    _workingStateChi[x, y] = _state[x, y] ^ intermediate;
                 }
             }
-            _state = workingStateChi;
+            _state = _workingStateChi;
 
             return this;
         }
 
         public KeccakState Pi()
         {
-            var workingStatePi = new ulong[5, 5];
-
             for (var x = 0; x < 5; x++)
             {
                 for (var y = 0; y < 5; y++)
                 {
-                    workingStatePi[x, y] = _state[(x + 3 * y) % 5, x];
+                    _workingStatePi[x, y] = _state[(x + 3 * y) % 5, x];
                 }
             }
-            _state = workingStatePi;
+            _state = _workingStatePi;
 
             return this;
         }
@@ -222,14 +223,10 @@ namespace NIST.CVP.Crypto.SHA3
 
                 // XORs
                 var R_8 = (prev_R & 1) != 0;
-                byte mask = 0b10000000;
-                R = (R_8 != ((R & mask) != 0) ? R |= mask : R &= (byte)~mask);
-                mask = 0b00001000;
-                R = (R_8 != ((R & mask) != 0) ? R |= mask : R &= (byte)~mask);
-                mask = 0b00000100;
-                R = (R_8 != ((R & mask) != 0) ? R |= mask : R &= (byte)~mask);
-                mask = 0b00000010;
-                R = (R_8 != ((R & mask) != 0) ? R |= mask : R &= (byte)~mask);
+                R = (R_8 != ((R & 0b10000000) != 0) ? R |= 0b10000000 : R &= 0b01111111);
+                R = (R_8 != ((R & 0b00001000) != 0) ? R |= 0b00001000 : R &= 0b11110111);
+                R = (R_8 != ((R & 0b00000100) != 0) ? R |= 0b00000100 : R &= 0b11111011);
+                R = (R_8 != ((R & 0b00000010) != 0) ? R |= 0b00000010 : R &= 0b11111101);
             }
             return (R & 0b10000000) != 0;
         }
