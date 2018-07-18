@@ -165,7 +165,7 @@ namespace NIST.CVP.Crypto.SHA3
             // For A.L = 6 and _numRounds = 24 which they must be for now, this loop is just... (i = 0; i <= 23; i++)
             for (var i = startRound; i <= endRound; i++)
             {
-                A = Round(A, i);
+                A = A.Theta().Rho().Pi().Chi().Iota(i);
             }
 
             return A.ToBitString();
@@ -173,7 +173,8 @@ namespace NIST.CVP.Crypto.SHA3
 
         public static KeccakState Round(KeccakState A, int roundNumber)
         {
-            return KeccakState.Iota(KeccakState.Chi(KeccakState.Pi(KeccakState.Rho(KeccakState.Theta(A)))), roundNumber);
+            //return KeccakState.Iota(KeccakState.Chi(KeccakState.Pi(KeccakState.Rho(KeccakState.Theta(A)))), roundNumber);
+            return A.Theta().Rho().Pi().Chi().Iota(roundNumber);
         }
     }
 }

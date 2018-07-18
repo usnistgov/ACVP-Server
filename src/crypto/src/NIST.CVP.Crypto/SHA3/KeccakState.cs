@@ -13,11 +13,39 @@ namespace NIST.CVP.Crypto.SHA3
         
         private ulong[,] _state;
 
+        public int[,] _offsets;
+
         public KeccakState(BitString content, int b)        // b is always 1600 but keep it flexible for future
         {
             Width = b / GridSize;
             L = (int)System.Math.Log(Width, 2);
             _state = new ulong[RowSize, ColSize];
+
+            if (b == 1600)
+            {
+                _offsets = new int[5, 5] { 
+                    { 0, 36, 3, 41, 18 },
+                    { 1, 44, 10, 45, 2 }, 
+                    { 62, 6, 43, 15, 61 }, 
+                    { 28, 55, 25, 21, 56 },
+                    { 27, 20, 39, 8, 14 }
+                };
+            }
+            else
+            {
+                _offsets = new int[5, 5];
+
+                int x = 1, y = 0;
+
+                for (var t = 0; t < 24; t++)
+                {
+                    _offsets[x, y] = ((t + 1) * (t + 2) / 2) % Width;
+                    var newX = (0 * x + 1 * y) % 5;
+                    var newY = (2 * x + 3 * y) % 5;
+                    x = newX;
+                    y = newY;
+                }
+            }
 
             for (var x = 0; x < RowSize; x++)
             {
@@ -30,7 +58,7 @@ namespace NIST.CVP.Crypto.SHA3
 
         public bool GetBit(int x, int y, int z)
         {
-            return (GetLane(x, y) & (ulong)(1 << z - 1)) != 0;
+            return (_state[x, y] & (ulong)(1 << z - 1)) != 0;
         }
 
         public void SetBit(int x, int y, int z, bool bit)
@@ -39,9 +67,9 @@ namespace NIST.CVP.Crypto.SHA3
             _state[x, y] = bit ? _state[x, y] | mask : _state[x, y] & ~mask;
         }
 
-        public void SetLane(int x, int y, ulong lane)
+        public void SetLane(int x, int y, BitString lane)
         {
-            _state[x, y] = lane;
+            _state[x, y] = BitStringToLong(lane);
         }
 
         public BitString ToBitString()
@@ -68,18 +96,18 @@ namespace NIST.CVP.Crypto.SHA3
             return result;
         }
         
-        public ulong GetLane(int x, int y)
+        public BitString GetLane(int x, int y)
         {
-            return _state[x, y];
+            return new BitString(BitConverter.GetBytes(_state[x, y]));
         }
 
         #region Transformation Functions
 
-        public static KeccakState Iota(KeccakState A, int roundIdx)
+        public KeccakState Iota(int roundIdx)
         {
             ulong rc = 0;
 
-            for (var j = 0; j <= A.L; j++)
+            for (var j = 0; j <= L; j++)
             {
                 var idx = (int)System.Math.Pow(2, j) - 1;
                 var bit = RC(7 * roundIdx + j);
@@ -87,11 +115,11 @@ namespace NIST.CVP.Crypto.SHA3
                 rc = bit ? rc | mask : rc & ~mask;
             }
 
-            A.SetLane(0, 0, A.GetLane(0, 0) ^ rc);
-            return A;
+            _state[0, 0] = _state[0, 0] ^ rc;
+            return this;
         }
 
-        public static KeccakState Chi(KeccakState A)
+        public KeccakState Chi()
         {
             var workingStateChi = new ulong[5, 5];
 
@@ -99,16 +127,16 @@ namespace NIST.CVP.Crypto.SHA3
             {
                 for (var y = 0; y < 5; y++)
                 {
-                    var intermediate = (A.GetLane((x + 1) % 5, y) ^ ulong.MaxValue) & A.GetLane((x + 2) % 5, y);
-                    workingStateChi[x, y] = A.GetLane(x, y) ^ intermediate;
+                    var intermediate = (_state[(x + 1) % 5, y] ^ ulong.MaxValue) & _state[(x + 2) % 5, y];
+                    workingStateChi[x, y] = _state[x, y] ^ intermediate;
                 }
             }
-            A._state = workingStateChi;
+            _state = workingStateChi;
 
-            return A;
+            return this;
         }
 
-        public static KeccakState Pi(KeccakState A)
+        public KeccakState Pi()
         {
             var workingStatePi = new ulong[5, 5];
 
@@ -116,30 +144,30 @@ namespace NIST.CVP.Crypto.SHA3
             {
                 for (var y = 0; y < 5; y++)
                 {
-                    workingStatePi[x, y] = A.GetLane((x + 3 * y) % 5, x);
+                    workingStatePi[x, y] = _state[(x + 3 * y) % 5, x];
                 }
             }
-            A._state = workingStatePi;
+            _state = workingStatePi;
 
-            return A;
+            return this;
         }
 
-        public static KeccakState Rho(KeccakState A)
+        public KeccakState Rho()
         {
-            var offsets = RhoOffsets(A.Width);
-
             for (var x = 0; x < 5; x++)
             {
                 for (var y = 0; y < 5; y++)
                 {
-                    A.SetLane(x, y, KeccakRotateLeft(A.GetLane(x, y), offsets[x, y]));
+                    var input = _state[x, y];
+                    var distance = _offsets[x, y];
+                    _state[x, y] =  (input << distance) | (input >> (64 - distance));
                 }
             }
 
-            return A;
+            return this;
         }
 
-        public static KeccakState Theta(KeccakState A)
+        public KeccakState Theta()
         {
             var C = new ulong[5];
             var D = new ulong[5];
@@ -149,7 +177,7 @@ namespace NIST.CVP.Crypto.SHA3
                 C[x] = (ulong)0;
                 for (var y = 0; y < 5; y++)
                 {
-                    C[x] = C[x] ^ A.GetLane(x, y);
+                    C[x] = C[x] ^ _state[x, y];
                 }
             }
 
@@ -158,7 +186,7 @@ namespace NIST.CVP.Crypto.SHA3
             for (var x = 0; x < 5; x++)
             {
                 F[x] = C[(x + 1) % 5];
-                E[x] = KeccakRotateLeft(F[x], 1);
+                E[x] = (F[x] << 1) | (F[x] >> 63);
                 D[x] = C[(x - 1 + 5) % 5] ^ E[x];
             }
 
@@ -166,45 +194,15 @@ namespace NIST.CVP.Crypto.SHA3
             {
                 for (var y = 0; y < 5; y++)
                 {
-                    A.SetLane(x, y, A.GetLane(x, y) ^ D[x]);
+                    _state[x, y] =  _state[x, y] ^ D[x];
                 }
             }
 
-            return A;
+            return this;
         }
         #endregion Transformation Functions
 
         #region Helpers
-
-        private static ulong ReverseByteOrder(ulong value) 
-        {
-            return (value & 0x00000000000000FF) << 56 | (value & 0x000000000000FF00) << 40 |
-                (value & 0x0000000000FF0000) << 24 | (value & 0x00000000FF000000) << 8 |
-                (value & 0x000000FF00000000) >> 8 | (value & 0x0000FF0000000000) >> 24 |
-                (value & 0x00FF000000000000) >> 40 | (value & 0xFF00000000000000) >> 56;
-        }
-
-        private static ulong KeccakRotateLeft(ulong input, int distance)
-        {
-            return (input << distance) | (input >> (64 - distance));
-        }
-
-        private static int[,] RhoOffsets(int Width)
-        {
-            var offsets = new int[5, 5];
-            int x = 1, y = 0;
-
-            for (var t = 0; t < 24; t++)
-            {
-                offsets[x, y] = ((t + 1) * (t + 2) / 2) % Width;
-                var newX = (0 * x + 1 * y) % 5;
-                var newY = (2 * x + 3 * y) % 5;
-                x = newX;
-                y = newY;
-            }
-
-            return offsets;
-        }
 
         private static bool RC(int t)
         {
@@ -214,29 +212,26 @@ namespace NIST.CVP.Crypto.SHA3
                 return true;
             }
 
-            // R = 1000 0000
-            var R = new bool[9];
-            R[0] = true;
-            R[1] = R[2] = R[3] = R[4] = R[5] = R[6] = R[7] = false;
+            byte R = 0b10000000;
+            byte prev_R;
 
             for (var i = 0; i < iterations; i++)
             {
-                // R = 0 || R
-                for (var j = 8; j > 0; j--)
-                {
-                    // Truncation happens silently
-                    R[j] = R[j - 1];
-                }
-                R[0] = false;
+                prev_R = R;
+                R = (byte)(R >> 1);
 
                 // XORs
-                R[0] = (R[0] != R[8]);
-                R[4] = (R[4] != R[8]);
-                R[5] = (R[5] != R[8]);
-                R[6] = (R[6] != R[8]);
+                var R_8 = (prev_R & 1) != 0;
+                byte mask = 0b10000000;
+                R = (R_8 != ((R & mask) != 0) ? R |= mask : R &= (byte)~mask);
+                mask = 0b00001000;
+                R = (R_8 != ((R & mask) != 0) ? R |= mask : R &= (byte)~mask);
+                mask = 0b00000100;
+                R = (R_8 != ((R & mask) != 0) ? R |= mask : R &= (byte)~mask);
+                mask = 0b00000010;
+                R = (R_8 != ((R & mask) != 0) ? R |= mask : R &= (byte)~mask);
             }
-
-            return R[0];
+            return (R & 0b10000000) != 0;
         }
         #endregion Helpers
 

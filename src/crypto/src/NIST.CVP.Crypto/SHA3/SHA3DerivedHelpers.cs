@@ -79,8 +79,18 @@ namespace NIST.CVP.Crypto.SHA3
         // this occurs when the leftBits are bitoriented
         protected static BitString SafeConcatenation(BitString leftBits, BitString rightBits)
         {
-            var result = BitString.ConcatenateBits(ConvertEndianness(leftBits), ConvertEndianness(rightBits));
-            return ConvertEndianness(result);
+            BitString result;
+            if (leftBits.BitLength % 8 == 0)
+            {
+                result = BitString.ConcatenateBits(leftBits, rightBits);
+                return result;
+            }
+            else
+            {
+                result = BitString.ConcatenateBits(ConvertEndianness(leftBits), ConvertEndianness(rightBits));
+                return ConvertEndianness(result);
+            }
+            
             //result.Set(0, false);
             //return result.ConcatenateBits(BitString.One());
         }
