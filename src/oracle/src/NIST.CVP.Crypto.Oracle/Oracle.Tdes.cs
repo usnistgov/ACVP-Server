@@ -9,6 +9,7 @@ using NIST.CVP.Crypto.Symmetric.Engines;
 using NIST.CVP.Crypto.Symmetric.MonteCarlo;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using NIST.CVP.Crypto.Common.Symmetric.CTR.Enums;
 
 namespace NIST.CVP.Crypto.Oracle
@@ -229,6 +230,20 @@ namespace NIST.CVP.Crypto.Oracle
                 CipherText = direction == BlockCipherDirections.Decrypt ? null : extractedIvs.Result,
                 IVs = extractedIvs.IVs
             };
+        }
+
+        public async Task<TdesResult> GetTdesCaseAsync(TdesParameters param)
+        {
+            // TODO note this should not be done this way, proof of concept
+            // implementing with orleans will allow for the more appropriate awaiting
+            return await Task.Factory.StartNew(() => GetTdesCase(param));
+        }
+
+        public async Task<MctResult<TdesResult>> GetTdesMctCaseAsync(TdesParameters param)
+        {
+            // TODO note this should not be done this way, proof of concept
+            // implementing with orleans will allow for the more appropriate awaiting
+            return await Task.Factory.StartNew(() => GetTdesMctCase(param));
         }
     }
 }

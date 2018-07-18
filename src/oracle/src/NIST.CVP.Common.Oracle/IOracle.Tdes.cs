@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Common.Oracle.ParameterTypes;
+﻿using System.Threading.Tasks;
+using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
 
 namespace NIST.CVP.Common.Oracle
@@ -14,5 +15,8 @@ namespace NIST.CVP.Common.Oracle
         TdesResult GetDeferredTdesCounterCase(CounterParameters<TdesParameters> param);
         TdesResult CompleteDeferredTdesCounterCase(CounterParameters<TdesParameters> param);
         CounterResult ExtractIvs(TdesParameters param, TdesResult fullParam);
+
+        Task<TdesResult> GetTdesCaseAsync(TdesParameters param);
+        Task<MctResult<TdesResult>> GetTdesMctCaseAsync(TdesParameters param);
     }
 }
