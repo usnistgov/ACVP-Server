@@ -90,8 +90,8 @@ namespace NIST.CVP.Crypto.SHA3
             // This is kinda gross... The message input is in the correct byte order but reversed bit order
             // So we must reverse the bits, then reverse the bytes to put everything in the correct order
             //
-            // For a small example... 60 01 (hex) = 0110 0001 (binary)
-            //    should turn into    06 80 (hex) = 0110 1000 (binary
+            // For a small example... 60 01 (hex) = 0110 0000 0000 0001 (binary)
+            //    should turn into    06 80 (hex) = 0000 0110 1000 0000 (binary
 
             var messageLen = message.BitLength;
 
