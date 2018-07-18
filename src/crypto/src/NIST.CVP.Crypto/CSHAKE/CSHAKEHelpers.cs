@@ -30,7 +30,7 @@ namespace NIST.CVP.Crypto.CSHAKE
 
             message = BitString.ConcatenateBits(bytepad, message);
 
-            message = SafeConcatenation(message, BitString.Zeroes(2));
+            message = BitString.ConcatenateBits(message, BitString.Zeroes(2));
 
             return message;
         }

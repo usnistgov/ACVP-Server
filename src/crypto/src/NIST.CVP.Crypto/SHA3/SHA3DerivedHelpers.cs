@@ -80,9 +80,8 @@ namespace NIST.CVP.Crypto.SHA3
         protected static BitString SafeConcatenation(BitString leftBits, BitString rightBits)
         {
             var result = BitString.ConcatenateBits(ConvertEndianness(leftBits), ConvertEndianness(rightBits));
+            //result = BitString.ConcatenateBits(result, BitString.Zeroes((8 - result.BitLength % 8) % 8)); this is wrong though
             return ConvertEndianness(result);
-            //result.Set(0, false);
-            //return result.ConcatenateBits(BitString.One());
         }
 
         // needed for KMAC and TupleHash bit oriented messages

@@ -71,8 +71,6 @@ namespace NIST.CVP.Crypto.SHA3
         {
             message = ConvertEndianness(message);
 
-            System.Console.WriteLine("message: " + message.ToHex());
-
             if (!cSHAKEPrePad && XOF)
             {
                 message = BitString.ConcatenateBits(message, BitString.Ones(4));
