@@ -140,6 +140,7 @@ namespace NIST.CVP.Crypto
 
             builder.RegisterType<SHA3.SHA3>().AsImplementedInterfaces();
             builder.RegisterType<SHA3_MCT>().AsImplementedInterfaces();
+            builder.RegisterType<SHAKE_MCT>().AsImplementedInterfaces();
 
             builder.RegisterType<TdesCbc>().AsImplementedInterfaces();
             builder.RegisterType<TDES_CBC_MCT>().AsImplementedInterfaces();

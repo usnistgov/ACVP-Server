@@ -120,8 +120,9 @@ namespace NIST.CVP.Generation.SHA3.Tests
             var random = new Mock<IRandom800_90>().Object;
             var algo = new Mock<ISHA3>().Object;
             var mctAlgo = new Mock<ISHA3_MCT>().Object;
+            var shakeMctAlgo = new Mock<ISHAKE_MCT>().Object;
 
-            return new TestCaseGeneratorFactory(random, algo, mctAlgo);
+            return new TestCaseGeneratorFactory(random, algo, mctAlgo, shakeMctAlgo);
         }
     }
 }

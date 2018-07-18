@@ -10,13 +10,13 @@ namespace NIST.CVP.Generation.SHA3
     public class TestCaseGeneratorSHAKEMCTHash : ITestCaseGenerator<TestGroup, TestCase>
     {
         private readonly IRandom800_90 _random800_90;
-        private readonly ISHA3_MCT _algo;
+        private readonly ISHAKE_MCT _algo;
 
         public bool IsSample { get; set; } = false;
 
         public int NumberOfTestCasesToGenerate => 1;
 
-        public TestCaseGeneratorSHAKEMCTHash(IRandom800_90 random800_90, ISHA3_MCT algo)
+        public TestCaseGeneratorSHAKEMCTHash(IRandom800_90 random800_90, ISHAKE_MCT algo)
         {
             _random800_90 = random800_90;
             _algo = algo;
