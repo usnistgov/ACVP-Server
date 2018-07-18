@@ -95,7 +95,7 @@ namespace NIST.CVP.Crypto.SHA3.Tests
 
             var expectedResult = new BitString(expectedOutput);
 
-            var result = KeccakState.Theta(subject);
+            var result = subject.Theta();
 
             Assert.AreEqual(expectedResult.ToHex(), result.ToBitString().ToHex());
         }
@@ -110,7 +110,7 @@ namespace NIST.CVP.Crypto.SHA3.Tests
 
             var expectedResult = new BitString(expectedOutput);
 
-            var result = KeccakState.Rho(subject);
+            var result = subject.Rho();
 
             Assert.AreEqual(expectedResult.ToHex(), result.ToBitString().ToHex());
         }
@@ -125,7 +125,7 @@ namespace NIST.CVP.Crypto.SHA3.Tests
 
             var expectedResult = new BitString(expectedOutput);
 
-            var result = KeccakState.Pi(subject);
+            var result = subject.Pi();
 
             Assert.AreEqual(expectedResult.ToHex(), result.ToBitString().ToHex());
         }
@@ -140,7 +140,7 @@ namespace NIST.CVP.Crypto.SHA3.Tests
 
             var expectedResult = new BitString(expectedOutput);
 
-            var result = KeccakState.Chi(subject);
+            var result = subject.Chi();
 
             Assert.AreEqual(expectedResult.ToHex(), result.ToBitString().ToHex());
         }
@@ -157,7 +157,7 @@ namespace NIST.CVP.Crypto.SHA3.Tests
 
             var expectedResult = new BitString(expectedOutput);
 
-            var result = KeccakState.Iota(subject, roundIdx);
+            var result = subject.Iota(roundIdx);
 
             Assert.AreEqual(expectedResult.ToHex(), result.ToBitString().ToHex());
         }
