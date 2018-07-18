@@ -219,7 +219,7 @@ namespace NIST.CVP.Crypto.CSHAKE.Tests
         {
             return new HashFunction()
             {
-                DigestSize = digestSize,
+                DigestLength = digestSize,
                 Capacity = capacity,
                 FunctionName = functionName,
                 Customization = customization

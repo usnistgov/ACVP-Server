@@ -17,7 +17,7 @@ namespace NIST.CVP.Crypto.CSHAKE.Tests
             var hashFunction = new HashFunction()
             {
                 Capacity = capacity,
-                DigestSize = digestSize,
+                DigestLength = digestSize,
                 FunctionName = functionName,
                 Customization = customization
             };
@@ -38,7 +38,7 @@ namespace NIST.CVP.Crypto.CSHAKE.Tests
             var hashFunction = new HashFunction()
             {
                 Capacity = capacity,
-                DigestSize = digestSize,
+                DigestLength = digestSize,
                 FunctionName = functionName,
                 Customization = customization
             };

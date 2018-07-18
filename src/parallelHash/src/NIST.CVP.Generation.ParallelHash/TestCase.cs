@@ -38,13 +38,7 @@ namespace NIST.CVP.Generation.ParallelHash
         public BitString Digest { get; set; }
 
         [JsonProperty(PropertyName = "outLen")]
-        public int DigestLength {
-            get
-            {
-                if (Digest == null) return 0;
-                return Digest.BitLength;
-            }
-        }
+        public int DigestLength { get; set; }
 
         public List<AlgoArrayResponseWithCustomization> ResultsArray { get; set; }
 

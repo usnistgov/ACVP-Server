@@ -25,7 +25,7 @@ namespace NIST.CVP.Generation.CSHAKE.IntegrationTests
             var hashFunction = new HashFunction
             {
                 Capacity = digestSize * 2,
-                DigestSize = digestSize,
+                DigestLength = digestSize,
                 FunctionName = "",
                 Customization = ""
             };

@@ -25,7 +25,7 @@ namespace NIST.CVP.Crypto.ParallelHash
             try
             {
                 var sha = _iParallelHashFactory.GetParallelHash(hashFunction);
-                var digest = sha.HashMessage(message, hashFunction.DigestSize, hashFunction.Capacity, hashFunction.BlockSize, hashFunction.XOF, hashFunction.Customization);
+                var digest = sha.HashMessage(message, hashFunction.DigestLength, hashFunction.Capacity, hashFunction.BlockSize, hashFunction.XOF, hashFunction.Customization);
 
                 return new HashResult(digest);
             }

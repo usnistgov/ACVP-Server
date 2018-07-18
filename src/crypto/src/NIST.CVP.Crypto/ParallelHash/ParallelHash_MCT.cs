@@ -92,7 +92,7 @@ namespace NIST.CVP.Crypto.ParallelHash
                         // Might not have 128 bits to pull from so we pad with 0                        
                         innerMessage = BitString.ConcatenateBits(innerMessage, BitString.Zeroes(128));
                         innerMessage = BitString.MSBSubstring(innerMessage, 0, 128);
-                        function.DigestSize = outputLen;
+                        function.DigestLength = outputLen;
                         function.BlockSize = blockSize;
                         function.Customization = customization;
 

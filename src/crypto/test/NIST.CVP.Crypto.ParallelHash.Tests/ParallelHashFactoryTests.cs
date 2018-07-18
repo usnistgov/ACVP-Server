@@ -17,7 +17,7 @@ namespace NIST.CVP.Crypto.ParallelHash.Tests
             var hashFunction = new HashFunction()
             {
                 Capacity = capacity,
-                DigestSize = digestSize,
+                DigestLength = digestSize,
                 XOF = XOF
             };
 
@@ -37,7 +37,7 @@ namespace NIST.CVP.Crypto.ParallelHash.Tests
             var hashFunction = new HashFunction()
             {
                 Capacity = capacity,
-                DigestSize = digestSize,
+                DigestLength = digestSize,
                 XOF = XOF
             };
 

@@ -18,7 +18,7 @@ namespace NIST.CVP.Crypto.ParallelHash
         /// <param name="customizationString">Character string for customization</param>
         /// <param name="xof">Is it xof mode?</param>
         /// <returns>Formatted message before calling Keccak</returns>
-        public static BitString FormatMessage(BitString message, CSHAKE.CSHAKE cSHAKE, int digestSize, int capacity, int blockSize, string customizationString, bool xof)
+        public static BitString FormatMessage(BitString message, CSHAKE.CSHAKE cSHAKE, int digestLength, int capacity, int blockSize, string customizationString, bool xof)
         {
             var numberOfBlocks = ((message.BitLength / 8) + blockSize - 1) / blockSize;
 
@@ -32,7 +32,7 @@ namespace NIST.CVP.Crypto.ParallelHash
                 {
                     FunctionName = "",
                     Customization = "",
-                    DigestSize = capacity,
+                    DigestLength = capacity,
                     Capacity = capacity
                 }, substring).Digest;
             });
@@ -50,7 +50,7 @@ namespace NIST.CVP.Crypto.ParallelHash
             }
             else
             {
-                newMessage = BitString.ConcatenateBits(newMessage, RightEncode(IntToBitString(digestSize)));
+                newMessage = BitString.ConcatenateBits(newMessage, RightEncode(IntToBitString(digestLength)));
             }
 
             return newMessage;

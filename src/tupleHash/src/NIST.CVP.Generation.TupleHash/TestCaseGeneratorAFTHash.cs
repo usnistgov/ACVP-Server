@@ -129,7 +129,8 @@ namespace NIST.CVP.Generation.TupleHash
             {
                 Tuple = tuple,
                 Customization = customization,
-                Deferred = false
+                Deferred = false,
+                DigestLength = _digestSize
             };
 
             return Generate(group, testCase);
@@ -144,7 +145,7 @@ namespace NIST.CVP.Generation.TupleHash
                 var hashFunction = new HashFunction
                 {
                     Capacity = group.DigestSize * 2,
-                    DigestSize = group.DigestSize,
+                    DigestLength = testCase.DigestLength,
                     XOF = group.XOF,
                     Customization = testCase.Customization
                 };
@@ -208,7 +209,7 @@ namespace NIST.CVP.Generation.TupleHash
 
         private int GetRandomValidLength(bool bitOriented)
         {
-            var length = _random800_90.GetRandomInt(1, 1025);
+            var length = _random800_90.GetRandomInt(1, 513);
             if (!bitOriented)
             {
                 while (length % 8 != 0)

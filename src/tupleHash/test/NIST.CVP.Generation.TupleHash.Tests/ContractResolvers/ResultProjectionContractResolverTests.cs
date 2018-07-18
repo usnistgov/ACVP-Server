@@ -83,6 +83,7 @@ namespace NIST.CVP.Generation.TupleHash.Tests.ContractResolvers
             Assert.AreEqual(tc.ParentGroup.TestGroupId, newTc.ParentGroup.TestGroupId, nameof(newTc.ParentGroup));
             Assert.AreEqual(tc.TestCaseId, newTc.TestCaseId, nameof(newTc.TestCaseId));
             Assert.AreEqual(tc.Digest, newTc.Digest, nameof(newTc.Digest));
+            Assert.AreEqual(tc.DigestLength, newTc.DigestLength, nameof(newTc.DigestLength));
 
             if (tg.TestType.Equals("mct", StringComparison.OrdinalIgnoreCase))
             {

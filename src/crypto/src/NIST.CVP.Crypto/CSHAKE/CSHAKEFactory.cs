@@ -22,7 +22,7 @@ namespace NIST.CVP.Crypto.CSHAKE
             var errors = new List<string>();
 
             var capacity = hashFunction.Capacity;
-            var digSize = hashFunction.DigestSize;
+            var digSize = hashFunction.DigestLength;
 
             if (capacity != 128 * 2 && capacity != 256 * 2)
             {

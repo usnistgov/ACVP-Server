@@ -39,7 +39,8 @@ namespace NIST.CVP.Generation.ParallelHash.ContractResolvers
                 nameof(TestCase.Message),
                 nameof(TestCase.BlockSize),
                 nameof(TestCase.Customization),
-                nameof(TestCase.MessageLength)
+                nameof(TestCase.MessageLength),
+                nameof(TestCase.DigestLength)
             };
 
             if (includeProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))

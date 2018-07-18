@@ -11,7 +11,6 @@ namespace NIST.CVP.Generation.TupleHash
     {
         private readonly IRandom800_90 _random800_90;
         private readonly ITupleHash_MCT _algo;
-        private readonly int _stringBitLength = 160;
 
         public bool IsSample { get; set; } = false;
 
@@ -28,7 +27,7 @@ namespace NIST.CVP.Generation.TupleHash
             IsSample = isSample;
             var seedCase = new TestCase
             {
-                Tuple = new List<BitString>(new BitString[] { _random800_90.GetRandomBitString(group.DigestSize) })
+                Tuple = new List<BitString>(new BitString[] { _random800_90.GetRandomBitString(144) })  // always 144 for the length
             };
 
             return Generate(group, seedCase);
@@ -39,7 +38,7 @@ namespace NIST.CVP.Generation.TupleHash
             var hashFunction = new HashFunction
             {
                 Capacity = group.DigestSize * 2,
-                DigestSize = group.DigestSize,
+                DigestLength = group.DigestSize,
                 XOF = group.XOF,
                 Customization = testCase.Customization
             };

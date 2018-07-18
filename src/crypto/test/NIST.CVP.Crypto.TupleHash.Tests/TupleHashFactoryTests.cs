@@ -18,7 +18,7 @@ namespace NIST.CVP.Crypto.TupleHash.Tests
             var hashFunction = new HashFunction()
             {
                 Capacity = capacity,
-                DigestSize = digestSize,
+                DigestLength = digestSize,
                 XOF = XOF
             };
 
@@ -38,7 +38,7 @@ namespace NIST.CVP.Crypto.TupleHash.Tests
             var hashFunction = new HashFunction()
             {
                 Capacity = capacity,
-                DigestSize = digestSize,
+                DigestLength = digestSize,
                 XOF = XOF
             };
 

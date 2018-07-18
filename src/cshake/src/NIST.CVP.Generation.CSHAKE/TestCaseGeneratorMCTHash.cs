@@ -11,7 +11,6 @@ namespace NIST.CVP.Generation.CSHAKE
     {
         private readonly IRandom800_90 _random800_90;
         private readonly ICSHAKE_MCT _algo;
-        private readonly int _stringBitLength = 160;
 
         public bool IsSample { get; set; } = false;
 
@@ -39,7 +38,7 @@ namespace NIST.CVP.Generation.CSHAKE
             var hashFunction = new HashFunction
             {
                 Capacity = group.DigestSize * 2,
-                DigestSize = group.DigestSize,
+                DigestLength = group.DigestSize,
                 FunctionName = testCase.FunctionName,
                 Customization = testCase.Customization
             };

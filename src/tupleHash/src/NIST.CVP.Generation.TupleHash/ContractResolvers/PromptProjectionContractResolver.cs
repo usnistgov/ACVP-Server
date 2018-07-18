@@ -38,7 +38,8 @@ namespace NIST.CVP.Generation.TupleHash.ContractResolvers
                 nameof(TestCase.TestCaseId),
                 nameof(TestCase.Tuple),
                 nameof(TestCase.Customization),
-                nameof(TestCase.MessageLength)
+                nameof(TestCase.MessageLength),
+                nameof(TestCase.DigestLength)
             };
 
             if (includeProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))

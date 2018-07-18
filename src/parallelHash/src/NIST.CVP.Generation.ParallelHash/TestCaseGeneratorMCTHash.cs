@@ -39,7 +39,7 @@ namespace NIST.CVP.Generation.ParallelHash
             var hashFunction = new HashFunction
             {
                 Capacity = group.DigestSize * 2,
-                DigestSize = group.DigestSize,
+                DigestLength = group.DigestSize,
                 BlockSize = testCase.BlockSize,
                 XOF = group.XOF,
                 Customization = testCase.Customization

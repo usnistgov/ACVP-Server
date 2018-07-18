@@ -68,10 +68,6 @@ namespace NIST.CVP.Generation.CSHAKE.Tests.ContractResolvers
         [Test]
         [TestCase("cshake", "aft")]
         [TestCase("cshake", "mct")]
-        [TestCase("cshake", "vot")]
-        [TestCase("cshake", "aftshake")]
-        [TestCase("cshake", "votshake")]
-        [TestCase("cshake", "lct")]
         public void ShouldSerializeProperties(string function, string testType)
         {
             var tvs = TestDataMother.GetTestGroups(1, function, testType);

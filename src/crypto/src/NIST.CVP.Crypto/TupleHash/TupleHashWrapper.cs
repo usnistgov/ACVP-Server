@@ -10,11 +10,11 @@ namespace NIST.CVP.Crypto.TupleHash
         private List<BitString> _tuple;
         private CSHAKEWrapper _cSHAKE;
 
-        public virtual BitString HashMessage(IEnumerable<BitString> tuple, int digestSize, int capacity, bool xof, string customization = "")
+        public virtual BitString HashMessage(IEnumerable<BitString> tuple, int digestLength, int capacity, bool xof, string customization = "")
         {
             Init();
             Update(tuple);
-            return Final(digestSize, capacity, xof, customization);
+            return Final(digestLength, capacity, xof, customization);
         }
 
         // These functions are for portability
@@ -29,10 +29,10 @@ namespace NIST.CVP.Crypto.TupleHash
             _tuple.AddRange(newContent);
         }
 
-        private BitString Final(int digestSize, int capacity, bool xof, string customization)
+        private BitString Final(int digestLength, int capacity, bool xof, string customization)
         {
-            var newMessage = TupleHashHelpers.FormatMessage(_tuple, digestSize, customization, xof);
-            return _cSHAKE.HashMessage(newMessage, digestSize, capacity, "TupleHash", customization);
+            var newMessage = TupleHashHelpers.FormatMessage(_tuple, digestLength, customization, xof);
+            return _cSHAKE.HashMessage(newMessage, digestLength, capacity, "TupleHash", customization);
         }
     }
 }

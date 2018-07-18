@@ -99,7 +99,8 @@ namespace NIST.CVP.Generation.ParallelHash
                 Message = message,
                 Customization = customization,
                 BlockSize = _blockSize,
-                Deferred = false
+                Deferred = false,
+                DigestLength = _digestSize
             };
 
             return Generate(group, testCase);
@@ -114,7 +115,7 @@ namespace NIST.CVP.Generation.ParallelHash
                 var hashFunction = new HashFunction
                 {
                     Capacity = group.DigestSize * 2,
-                    DigestSize = group.DigestSize,
+                    DigestLength = testCase.DigestLength,
                     BlockSize = testCase.BlockSize,
                     XOF = group.XOF,
                     Customization = testCase.Customization

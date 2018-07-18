@@ -31,28 +31,14 @@ namespace NIST.CVP.Generation.CSHAKE.ContractResolvers
             {
                 nameof(TestCase.TestCaseId),
                 nameof(TestCase.Digest),
-                nameof(TestCase.ResultsArray)
+                nameof(TestCase.ResultsArray),
+                nameof(TestCase.DigestLength)
             };
 
             if (includeProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
             {
                 return jsonProperty.ShouldSerialize =
                     instance => true;
-            }
-
-            if (jsonProperty.UnderlyingName == nameof(TestCase.DigestLength))
-            {
-                return jsonProperty.ShouldSerialize = instance =>
-                {
-                    GetTestCaseFromTestCaseObject(instance, out var testGroup, out var testCase);
-
-                    if (testGroup.Function.Equals("cshake", StringComparison.OrdinalIgnoreCase))
-                    {
-                        return true;
-                    }
-
-                    return false;
-                };
             }
 
             return jsonProperty.ShouldSerialize = instance => false;

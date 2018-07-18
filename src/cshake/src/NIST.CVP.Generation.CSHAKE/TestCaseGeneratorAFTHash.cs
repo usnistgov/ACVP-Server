@@ -17,7 +17,7 @@ namespace NIST.CVP.Generation.CSHAKE
         private int _currentLargeCase = 1;
         private int _currentTestCase = 0;
         private int _customizationLength = 1;
-        private int _digestSize = 0;
+        private int _digestLength = 0;
         private int _capacity = 0;
 
         private string[] VALID_FUNCTION_NAMES = new string[] { "KMAC", "TupleHash", "ParallelHash", "" };
@@ -64,7 +64,7 @@ namespace NIST.CVP.Generation.CSHAKE
 
             _testCasesToGenerate = numSmallCases + numLargeCases;
 
-            _digestSize = TestCaseSizes[_currentTestCase++ % TestCaseSizes.Count];
+            _digestLength = TestCaseSizes[_currentTestCase++ % TestCaseSizes.Count];
 
             var functionName = "";
             var customization = "";
@@ -93,7 +93,8 @@ namespace NIST.CVP.Generation.CSHAKE
                 Message = message,
                 FunctionName = functionName,
                 Customization = customization,
-                Deferred = false
+                Deferred = false,
+                DigestLength = _digestLength
             };
 
             return Generate(group, testCase);
@@ -108,7 +109,7 @@ namespace NIST.CVP.Generation.CSHAKE
                 var hashFunction = new HashFunction
                 {
                     Capacity = _capacity,
-                    DigestSize = _digestSize,
+                    DigestLength = testCase.DigestLength,
                     FunctionName = testCase.FunctionName,
                     Customization = testCase.Customization
                 };

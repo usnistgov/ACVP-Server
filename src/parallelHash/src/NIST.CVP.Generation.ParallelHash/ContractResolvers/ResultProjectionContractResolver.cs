@@ -31,6 +31,7 @@ namespace NIST.CVP.Generation.ParallelHash.ContractResolvers
             {
                 nameof(TestCase.TestCaseId),
                 nameof(TestCase.Digest),
+                nameof(TestCase.DigestLength),
                 nameof(TestCase.ResultsArray)
             };
 
@@ -38,21 +39,6 @@ namespace NIST.CVP.Generation.ParallelHash.ContractResolvers
             {
                 return jsonProperty.ShouldSerialize =
                     instance => true;
-            }
-
-            if (jsonProperty.UnderlyingName == nameof(TestCase.DigestLength))
-            {
-                return jsonProperty.ShouldSerialize = instance =>
-                {
-                    GetTestCaseFromTestCaseObject(instance, out var testGroup, out var testCase);
-
-                    if (testGroup.Function.Equals("parallelhash", StringComparison.OrdinalIgnoreCase))
-                    {
-                        return true;
-                    }
-
-                    return false;
-                };
             }
 
             return jsonProperty.ShouldSerialize = instance => false;

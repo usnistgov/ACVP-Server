@@ -100,7 +100,7 @@ namespace NIST.CVP.Crypto.TupleHash
                             innerTuple.Add(BitString.MSBSubstring(innerBitString, k * 144 / innerTupleSize, 144 / innerTupleSize));
                         }
                         
-                        function.DigestSize = outputLen;
+                        function.DigestLength = outputLen;
                         function.Customization = customization;
 
                         var innerResult = _iTupleHash.HashMessage(function, innerTuple);

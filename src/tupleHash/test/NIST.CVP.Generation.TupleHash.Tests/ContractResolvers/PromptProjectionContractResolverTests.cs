@@ -64,10 +64,8 @@ namespace NIST.CVP.Generation.TupleHash.Tests.ContractResolvers
         /// <param name="function">The function being tested</param>
         /// <param name="testType">The testType</param>
         [Test]
-        [TestCase("sha3", "aft")]
-        [TestCase("sha3", "mct")]
-        [TestCase("shake", "aft")]
-        [TestCase("shake", "mct")]
+        [TestCase("tuplehash", "aft")]
+        [TestCase("tuplehash", "mct")]
         public void ShouldSerializeCaseProperties(string function, string testType)
         {
             var tvs = TestDataMother.GetTestGroups(1, function, testType);
@@ -84,11 +82,11 @@ namespace NIST.CVP.Generation.TupleHash.Tests.ContractResolvers
             Assert.AreEqual(tc.TestCaseId, newTc.TestCaseId, nameof(newTc.TestCaseId));
             Assert.AreEqual(tc.Tuple, newTc.Tuple, nameof(newTc.Tuple));
             Assert.AreEqual(tc.MessageLength, newTc.MessageLength, nameof(newTc.MessageLength));
+            Assert.AreEqual(tc.DigestLength, newTc.DigestLength, nameof(newTc.DigestLength));
 
             Assert.IsNull(newTc.ResultsArray, nameof(newTc.ResultsArray));
 
             Assert.AreNotEqual(tc.Digest, newTc.Digest, nameof(newTc.Digest));
-            Assert.AreNotEqual(tc.DigestLength, newTc.DigestLength, nameof(newTc.DigestLength));
             Assert.AreNotEqual(tc.Deferred, newTc.Deferred, nameof(newTc.Deferred));
 
             // TestPassed will have the default value when re-hydrated, check to make sure it isn't in the JSON

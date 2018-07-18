@@ -10,11 +10,11 @@ namespace NIST.CVP.Crypto.TupleHash
         /// Call this method to format correctly for TupleHash
         /// </summary>
         /// <param name="message">BitString representation of message</param>
-        /// <param name="digestSize">Desired output size</param>
+        /// <param name="digestLength">Desired output size</param>
         /// <param name="customizationString">Character string for customization</param>
         /// <param name="xof">Is it xof mode?</param>
         /// <returns>Formatted message before calling Keccak</returns>
-        public static BitString FormatMessage(IEnumerable<BitString> tuple, int digestSize, string customizationString, bool xof)
+        public static BitString FormatMessage(IEnumerable<BitString> tuple, int digestLength, string customizationString, bool xof)
         {
             BitString message = new BitString(0);
 
@@ -29,7 +29,7 @@ namespace NIST.CVP.Crypto.TupleHash
             }
             else
             {
-                message = SafeConcatenation(message, RightEncode(IntToBitString(digestSize)));
+                message = SafeConcatenation(message, RightEncode(IntToBitString(digestLength)));
             }
 
             return message;

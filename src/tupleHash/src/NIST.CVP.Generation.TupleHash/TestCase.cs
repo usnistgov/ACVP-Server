@@ -17,7 +17,7 @@ namespace NIST.CVP.Generation.TupleHash
         public bool? TestPassed { get; set; }
         public bool Deferred { get; set; }
 
-        [JsonProperty(PropertyName = "tuple")]     // Does this need to be changed to something else?
+        [JsonProperty(PropertyName = "tuple")]
         public List<BitString> Tuple { get; set; }
 
         [JsonProperty(PropertyName = "len")]
@@ -51,13 +51,7 @@ namespace NIST.CVP.Generation.TupleHash
         public BitString Digest { get; set; }
 
         [JsonProperty(PropertyName = "outLen")]
-        public int DigestLength {
-            get
-            {
-                if (Digest == null) return 0;
-                return Digest.BitLength;
-            }
-        }
+        public int DigestLength { get; set; }
 
         public List<AlgoArrayResponse> ResultsArray { get; set; }
 

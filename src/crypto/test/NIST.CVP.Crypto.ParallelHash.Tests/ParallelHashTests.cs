@@ -186,7 +186,7 @@ namespace NIST.CVP.Crypto.ParallelHash.Tests
         {
             return new HashFunction()
             {
-                DigestSize = digestSize,
+                DigestLength = digestSize,
                 Capacity = capacity,
                 XOF = xof,
                 BlockSize = blockSize,

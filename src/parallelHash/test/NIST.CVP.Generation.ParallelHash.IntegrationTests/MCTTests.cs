@@ -25,7 +25,7 @@ namespace NIST.CVP.Generation.ParallelHash.IntegrationTests
             var hashFunction = new HashFunction
             {
                 Capacity = digestSize * 2,
-                DigestSize = digestSize,
+                DigestLength = digestSize,
                 BlockSize = 8,
                 Customization = ""
             };

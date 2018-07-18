@@ -10,11 +10,11 @@ namespace NIST.CVP.Crypto.ParallelHash
         private BitString _message;
         private CSHAKE.CSHAKE _cSHAKE;
 
-        public virtual BitString HashMessage(BitString message, int digestSize, int capacity, int blockSize, bool xof, string customization = "")
+        public virtual BitString HashMessage(BitString message, int digestLength, int capacity, int blockSize, bool xof, string customization = "")
         {
             Init();
             Update(message);
-            return Final(digestSize, capacity, blockSize, xof, customization);
+            return Final(digestLength, capacity, blockSize, xof, customization);
         }
 
         // These functions are for portability
@@ -29,15 +29,15 @@ namespace NIST.CVP.Crypto.ParallelHash
             _message = BitString.ConcatenateBits(_message, newContent);
         }
 
-        private BitString Final(int digestSize, int capacity, int blockSize, bool xof, string customization)
+        private BitString Final(int digestLength, int capacity, int blockSize, bool xof, string customization)
         {
-            var newMessage = ParallelHashHelpers.FormatMessage(_message, _cSHAKE, digestSize, capacity, blockSize, customization, xof);
+            var newMessage = ParallelHashHelpers.FormatMessage(_message, _cSHAKE, digestLength, capacity, blockSize, customization, xof);
             return _cSHAKE.HashMessage(new Common.Hash.CSHAKE.HashFunction
             {
                 FunctionName = "ParallelHash",
                 Customization = customization,
                 Capacity = capacity,
-                DigestSize = digestSize
+                DigestLength = digestLength
             }, newMessage).Digest;
         }
     }

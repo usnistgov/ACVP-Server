@@ -26,7 +26,7 @@ namespace NIST.CVP.Crypto.TupleHash
             try
             {
                 var sha = _iTupleHashFactory.GetTupleHash(hashFunction);
-                var digest = sha.HashMessage(tuple, hashFunction.DigestSize, hashFunction.Capacity, hashFunction.XOF, hashFunction.Customization);
+                var digest = sha.HashMessage(tuple, hashFunction.DigestLength, hashFunction.Capacity, hashFunction.XOF, hashFunction.Customization);
 
                 return new HashResult(digest);
             }

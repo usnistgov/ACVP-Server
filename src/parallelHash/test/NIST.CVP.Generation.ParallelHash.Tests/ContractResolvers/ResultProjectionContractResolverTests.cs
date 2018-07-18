@@ -66,12 +66,8 @@ namespace NIST.CVP.Generation.ParallelHash.Tests.ContractResolvers
         /// <param name="function">The function being tested</param>
         /// <param name="testType">The testType</param>
         [Test]
-        [TestCase("cshake", "aft")]
-        [TestCase("cshake", "mct")]
-        [TestCase("cshake", "vot")]
-        [TestCase("cshake", "aftshake")]
-        [TestCase("cshake", "votshake")]
-        [TestCase("cshake", "lct")]
+        [TestCase("parallelhash", "aft")]
+        [TestCase("parallelhash", "mct")]
         public void ShouldSerializeProperties(string function, string testType)
         {
             var tvs = TestDataMother.GetTestGroups(1, function, testType);
