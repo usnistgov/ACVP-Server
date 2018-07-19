@@ -24,6 +24,10 @@ namespace NIST.CVP.Generation.KMAC
             {
                 return new TestCaseGeneratorAFT(_random800_90, algo);
             }
+            else if (testGroup.TestType.ToLower() == "mvt")
+            {
+                return new TestCaseGeneratorMVT(_random800_90, algo);
+            }
 
             return new TestCaseGeneratorNull();
         }

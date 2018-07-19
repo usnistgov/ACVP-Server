@@ -33,12 +33,13 @@ namespace NIST.CVP.Generation.KMAC.Tests
         }
 
         [Test]
-        [TestCase(typeof(TestCaseValidator))]
-        public void ShouldReturnCorrectValidatorTypeDependantOnFunction(Type expectedType)
+        [TestCase(typeof(TestCaseValidatorAFT), false)]
+        [TestCase(typeof(TestCaseValidatorMVT), true)]
+        public void ShouldReturnCorrectValidatorTypeDependantOnFunction(Type expectedType, bool mvt)
         {
             TestVectorSet testVectorSet = null;
 
-            GetData(ref testVectorSet);
+            GetData(ref testVectorSet, mvt);
 
             var results = _subject.GetValidators(testVectorSet);
 
@@ -46,7 +47,7 @@ namespace NIST.CVP.Generation.KMAC.Tests
             Assert.IsInstanceOf(expectedType, results.First());
         }
 
-        private void GetData(ref TestVectorSet testVectorSet)
+        private void GetData(ref TestVectorSet testVectorSet, bool mvt)
         {
             testVectorSet = new TestVectorSet()
             {
@@ -55,7 +56,7 @@ namespace NIST.CVP.Generation.KMAC.Tests
                 {
                     new TestGroup()
                     {
-                        TestType = string.Empty,
+                        TestType = mvt ? "mvt" : string.Empty,
                         KeyLength = 128,
                         MessageLength = 0,
                         Tests = new List<TestCase>()

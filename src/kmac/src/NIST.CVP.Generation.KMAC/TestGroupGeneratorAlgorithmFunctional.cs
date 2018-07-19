@@ -8,7 +8,6 @@ namespace NIST.CVP.Generation.KMAC
 {
     public class TestGroupGeneratorAlgorithmFunctional : ITestGroupGenerator<Parameters, TestGroup, TestCase>
     {
-        private const int _MESSAGE_LENGTH = 128;
         private const string TEST_TYPE = "aft";
 
         public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
@@ -25,7 +24,6 @@ namespace NIST.CVP.Generation.KMAC
                     TestType = TEST_TYPE,
                     KeyLength = parameters.KeyLen.GetDomainMinMax().Minimum,    // temporary fix later
                     MacLengths = parameters.MacLen.GetDeepCopy(),
-                    MessageLength = _MESSAGE_LENGTH,
                     XOF = false
                 };
 
@@ -41,7 +39,6 @@ namespace NIST.CVP.Generation.KMAC
                         TestType = TEST_TYPE,
                         KeyLength = parameters.KeyLen.GetDomainMinMax().Minimum,    // temporary fix later
                         MacLengths = parameters.MacLen.GetDeepCopy(),
-                        MessageLength = _MESSAGE_LENGTH,
                         XOF = true
                     };
 

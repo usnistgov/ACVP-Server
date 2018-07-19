@@ -45,9 +45,12 @@ namespace NIST.CVP.Generation.KMAC.Tests.ContractResolvers
 
             Assert.AreEqual(tg.TestGroupId, newTg.TestGroupId, nameof(newTg.TestGroupId));
             Assert.AreEqual(tg.Tests.Count, newTg.Tests.Count, nameof(newTg.Tests));
-            Assert.AreEqual(tg.KeyLength, newTg.KeyLength, nameof(newTg.KeyLength));
-            Assert.AreEqual(tg.MessageLength, newTg.MessageLength, nameof(newTg.MessageLength));
             Assert.AreEqual(tg.TestType, newTg.TestType, nameof(newTg.TestType));
+            Assert.AreEqual(tg.XOF, newTg.XOF, nameof(newTg.XOF));
+            Assert.AreEqual(tg.DigestSize, newTg.DigestSize, nameof(newTg.DigestSize));
+            Assert.AreEqual(tg.BitOrientedInput, newTg.BitOrientedInput, nameof(newTg.BitOrientedInput));
+            Assert.AreEqual(tg.BitOrientedOutput, newTg.BitOrientedOutput, nameof(newTg.BitOrientedOutput));
+            Assert.AreEqual(tg.IncludeNull, newTg.IncludeNull, nameof(newTg.IncludeNull));
         }
 
         [Test]
@@ -66,7 +69,9 @@ namespace NIST.CVP.Generation.KMAC.Tests.ContractResolvers
             Assert.AreEqual(tc.ParentGroup.TestGroupId, newTc.ParentGroup.TestGroupId, nameof(newTc.ParentGroup));
             Assert.AreEqual(tc.TestCaseId, newTc.TestCaseId, nameof(newTc.TestCaseId));
             Assert.AreEqual(tc.Key, newTc.Key, nameof(newTc.Key));
+            Assert.AreEqual(tc.KeyLength, newTc.KeyLength, nameof(newTc.KeyLength));
             Assert.AreEqual(tc.Message, newTc.Message, nameof(newTc.Message));
+            Assert.AreEqual(tc.MessageLength, newTc.MessageLength, nameof(newTc.MessageLength));
             Assert.AreEqual(tc.Customization, newTc.Customization, nameof(newTc.Customization));
 
             Assert.AreNotEqual(tc.Mac, newTc.Mac, nameof(newTc.Mac));

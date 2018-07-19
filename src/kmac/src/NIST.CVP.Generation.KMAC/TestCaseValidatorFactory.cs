@@ -15,7 +15,14 @@ namespace NIST.CVP.Generation.KMAC
                 foreach (var test in group.Tests.Select(t => t))
                 {
                     var workingTest = test;
-                    list.Add(new TestCaseValidator(workingTest, group));
+                    if (group.TestType.ToLower() == "mvt")
+                    {
+                        list.Add(new TestCaseValidatorMVT(workingTest, group));
+                    }
+                    else
+                    {
+                        list.Add(new TestCaseValidatorAFT(workingTest, group));
+                    }
                 }
             }
 

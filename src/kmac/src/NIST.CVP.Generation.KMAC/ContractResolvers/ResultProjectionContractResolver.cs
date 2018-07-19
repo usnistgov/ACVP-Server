@@ -28,8 +28,7 @@ namespace NIST.CVP.Generation.KMAC.ContractResolvers
         {
             var includeProperties = new[]
             {
-                nameof(TestCase.TestCaseId),
-                nameof(TestCase.Mac)
+                nameof(TestCase.TestCaseId)
             };
 
             if (includeProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
@@ -37,6 +36,38 @@ namespace NIST.CVP.Generation.KMAC.ContractResolvers
                 return jsonProperty.ShouldSerialize =
                     instance => true;
             }
+
+            #region Conditional Test Case properties
+            if (jsonProperty.UnderlyingName == nameof(TestCase.MacVerified))
+            {
+                return jsonProperty.ShouldSerialize = instance =>
+                {
+                    GetTestCaseFromTestCaseObject(instance, out var testGroup, out var testCase);
+
+                    if (testGroup.TestType.Equals("mvt", StringComparison.OrdinalIgnoreCase))
+                    {
+                        return true;
+                    }
+
+                    return false;
+                };
+            }
+
+            if (jsonProperty.UnderlyingName == nameof(TestCase.Mac))
+            {
+                return jsonProperty.ShouldSerialize = instance =>
+                {
+                    GetTestCaseFromTestCaseObject(instance, out var testGroup, out var testCase);
+
+                    if (testGroup.TestType.Equals("aft", StringComparison.OrdinalIgnoreCase))
+                    {
+                        return true;
+                    }
+
+                    return false;
+                };
+            }
+            #endregion Conditional Test Case properties
 
             return jsonProperty.ShouldSerialize = instance => false;
         }
