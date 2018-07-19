@@ -43,5 +43,25 @@ namespace NIST.CVP.Crypto.CSHAKE
             return KeccakInternals.Keccak(formattedMessage, digestLength, capacity, true, true);
         }
 
+        #region BitString Customization
+        public virtual BitString HashMessage(BitString message, int digestLength, int capacity, string functionName, BitString customization)
+        {
+            Init();
+            Update(message);
+            return Final(digestLength, capacity, functionName, customization);
+        }
+
+        private BitString Final(int digestLength, int capacity, string functionName, BitString customization)
+        {
+            if (functionName.Equals("") && customization.Equals(""))
+            {
+                return KeccakInternals.Keccak(_message, digestLength, capacity, true);
+            }
+
+            var formattedMessage = CSHAKEHelpers.FormatMessage(_message, capacity, functionName, customization);
+
+            return KeccakInternals.Keccak(formattedMessage, digestLength, capacity, true, true);
+        }
+        #endregion BitString Customization
     }
 }

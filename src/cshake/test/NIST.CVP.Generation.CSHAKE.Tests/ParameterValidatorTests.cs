@@ -132,6 +132,7 @@ namespace NIST.CVP.Generation.CSHAKE.Tests
             private bool _includeNull;
             private bool _bitOrientedInput;
             private bool _bitOrientedOutput;
+            private bool _hexCustomization;
             private MathDomain _outputLength;
 
             public ParameterBuilder()
@@ -141,6 +142,7 @@ namespace NIST.CVP.Generation.CSHAKE.Tests
                 _includeNull = true;
                 _bitOrientedInput = true;
                 _bitOrientedOutput = true;
+                _hexCustomization = false;
                 _outputLength = new MathDomain();
                 _outputLength.AddSegment(new RangeDomainSegment(null, 16, 65536));
             }
@@ -175,6 +177,12 @@ namespace NIST.CVP.Generation.CSHAKE.Tests
                 return this;
             }
 
+            public ParameterBuilder WithHexCustomization(bool value)
+            {
+                _hexCustomization = value;
+                return this;
+            }
+
             public ParameterBuilder WithOutputLength(MathDomain value)
             {
                 _outputLength = value;
@@ -190,6 +198,7 @@ namespace NIST.CVP.Generation.CSHAKE.Tests
                     BitOrientedInput = _bitOrientedInput,
                     BitOrientedOutput = _bitOrientedOutput,
                     IncludeNull = _includeNull,
+                    HexCustomization = _hexCustomization,
                     OutputLength = _outputLength
                 };
             }

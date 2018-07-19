@@ -6,5 +6,6 @@ namespace NIST.CVP.Crypto.Common.Hash.CSHAKE
     {
         BitString HashMessage(BitString message, int digestSize, int capacity, string functionName, string customization);
         BitString HashMessage(BitString message, int digestSize, int capacity);
+        BitString HashMessage(BitString message, int digestSize, int capacity, string functionName, BitString customization);
     }
 }

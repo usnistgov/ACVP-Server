@@ -15,8 +15,14 @@ namespace NIST.CVP.Crypto.CSHAKE
         /// <returns>Formatted message before calling Keccak</returns>
         public static BitString FormatMessage(BitString message, int capacity, string functionNameString, string customizationString)
         {
-            var functionName = StringToHex(functionNameString);
             var customization = StringToHex(customizationString);
+
+            return FormatMessage(message, capacity, functionNameString, customization); 
+        }
+
+        public static BitString FormatMessage(BitString message, int capacity, string functionNameString, BitString customization)
+        {
+            var functionName = StringToHex(functionNameString);
 
             BitString bytepad;
             if (capacity == 256)

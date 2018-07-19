@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using NIST.CVP.Crypto.Common.Hash;
 using NIST.CVP.Crypto.Common.Hash.CSHAKE;
 using NIST.CVP.Generation.Core;
@@ -68,12 +69,20 @@ namespace NIST.CVP.Generation.CSHAKE
 
             var functionName = "";
             var customization = "";
+            var customizationHex = new BitString(0);
 
             var message = new BitString(0);
             if (_currentSmallCase <= numSmallCases)
             {
                 message = _random800_90.GetRandomBitString(unitSize * _currentSmallCase);
-                customization = _random800_90.GetRandomString(_customizationLength);
+                if (group.HexCustomization)
+                {
+                    customizationHex = _random800_90.GetRandomBitString(_customizationLength * 8);  // always byte oriented... for now?
+                }
+                else
+                {
+                    customization = _random800_90.GetRandomString(_customizationLength);
+                }
                 _customizationLength = (_customizationLength + 1) % 100;
                 _currentSmallCase++;
             }
@@ -81,21 +90,43 @@ namespace NIST.CVP.Generation.CSHAKE
             {
                 if (_customizationLength * _currentLargeCase < 2000)
                 {
-                    customization = _random800_90.GetRandomString(_customizationLength++ * _currentLargeCase);
+                    if (group.HexCustomization)
+                    {
+                        customizationHex = _random800_90.GetRandomBitString(_customizationLength++ * _currentLargeCase * 8);  // always byte oriented... for now?
+                    }
+                    else
+                    {
+                        customization = _random800_90.GetRandomString(_customizationLength++ * _currentLargeCase);
+                    }
                     functionName = VALID_FUNCTION_NAMES[_currentLargeCase % 4];
                 }
                 message = _random800_90.GetRandomBitString(rate + _currentLargeCase * (rate + unitSize));
                 _currentLargeCase++;
             }
 
-            var testCase = new TestCase
+            TestCase testCase = null;
+            if (group.HexCustomization)
             {
-                Message = message,
-                FunctionName = functionName,
-                Customization = customization,
-                Deferred = false,
-                DigestLength = _digestLength
-            };
+                testCase = new TestCase
+                {
+                    Message = message,
+                    FunctionName = functionName,
+                    CustomizationHex = customizationHex,
+                    Deferred = false,
+                    DigestLength = _digestLength
+                };
+            }
+            else
+            {
+                testCase = new TestCase
+                {
+                    Message = message,
+                    FunctionName = functionName,
+                    Customization = customization,
+                    Deferred = false,
+                    DigestLength = _digestLength
+                };
+            }
 
             return Generate(group, testCase);
         }
@@ -114,7 +145,15 @@ namespace NIST.CVP.Generation.CSHAKE
                     Customization = testCase.Customization
                 };
 
-                hashResult = _algo.HashMessage(hashFunction, testCase.Message);
+                if (group.HexCustomization)
+                {
+                    hashResult = _algo.HashMessage(hashFunction, testCase.Message, testCase.CustomizationHex);
+                }
+                else
+                {
+                    hashResult = _algo.HashMessage(hashFunction, testCase.Message);
+                }
+
                 if (!hashResult.Success)
                 {
                     ThisLogger.Warn(hashResult.ErrorMessage);
@@ -169,6 +208,12 @@ namespace NIST.CVP.Generation.CSHAKE
             TestCaseSizes.Add(minMax.Maximum);
 
             TestCaseSizes.Sort();
+        }
+
+        private string BitStringToString(BitString bs)
+        {
+            var ba = bs.ToBytes();
+            return Encoding.ASCII.GetString(ba);
         }
 
         private Logger ThisLogger => LogManager.GetCurrentClassLogger();
