@@ -125,6 +125,25 @@ namespace NIST.CVP.Generation.ParallelHash.Tests
             Assert.IsTrue(result.Success, result.ErrorMessage);
         }
 
+        [Test]
+        [TestCase(true, false, true)]
+        [TestCase(false, true, true)]
+        [TestCase(true, true, true)]
+        [TestCase(false, false, false)]
+        public void ShouldSucceedOnValidXOFSettingsLen(bool nonXOF, bool XOF, bool isSuccessExpected)
+        {
+            var subject = new ParameterValidator();
+            var result = subject.Validate(
+                new ParameterBuilder()
+                    .WithAlgorithm("parallelhash")
+                    .WithNonXOF(nonXOF)
+                    .WithXOF(XOF)
+                    .Build()
+            );
+
+            Assert.AreEqual(isSuccessExpected, result.Success);
+        }
+
         public class ParameterBuilder
         {
             private string _algorithm;
@@ -133,6 +152,7 @@ namespace NIST.CVP.Generation.ParallelHash.Tests
             private bool _bitOrientedInput;
             private bool _bitOrientedOutput;
             private MathDomain _outputLength;
+            private bool _nonxof;
             private bool _xof;
 
             public ParameterBuilder()
@@ -145,6 +165,7 @@ namespace NIST.CVP.Generation.ParallelHash.Tests
                 _outputLength = new MathDomain();
                 _outputLength.AddSegment(new RangeDomainSegment(null, 16, 65536));
                 _xof = true;
+                _nonxof = true;
             }
 
             public ParameterBuilder WithAlgorithm(string value)
@@ -183,6 +204,12 @@ namespace NIST.CVP.Generation.ParallelHash.Tests
                 return this;
             }
 
+            public ParameterBuilder WithNonXOF(bool nonxof)
+            {
+                _nonxof = nonxof;
+                return this;
+            }
+
             public ParameterBuilder WithXOF(bool xof)
             {
                 _xof = xof;
@@ -199,7 +226,8 @@ namespace NIST.CVP.Generation.ParallelHash.Tests
                     BitOrientedOutput = _bitOrientedOutput,
                     IncludeNull = _includeNull,
                     OutputLength = _outputLength,
-                    XOF = _xof
+                    XOF = _xof,
+                    NonXOF = _nonxof
                 };
             }
         }

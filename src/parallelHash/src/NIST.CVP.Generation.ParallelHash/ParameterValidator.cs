@@ -44,6 +44,12 @@ namespace NIST.CVP.Generation.ParallelHash
             {
                 errorResults.Add(result);
             }
+
+            result = ValidateValue((parameters.NonXOF || parameters.XOF).ToString(), new string[] { (true).ToString() }, "XOF Settings");
+            if (!string.IsNullOrEmpty(result))
+            {
+                errorResults.Add(result);
+            }
         }
 
         private void ValidateOutputLength(Parameters parameters, List<string> errorResults)

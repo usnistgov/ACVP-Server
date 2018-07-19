@@ -46,6 +46,12 @@ namespace NIST.CVP.Generation.KMAC
             {
                 errorResults.Add(result);
             }
+
+            result = ValidateValue((parameters.NonXOF || parameters.XOF).ToString(), new string[] { (true).ToString() }, "XOF Settings");
+            if (!string.IsNullOrEmpty(result))
+            {
+                errorResults.Add(result);
+            }
         }
 
         private void ValidateKeyLen(Parameters parameters, List<string> errorResults)

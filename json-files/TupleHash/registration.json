@@ -8,6 +8,7 @@
   "inBit": true,
   "outBit": true,
   "inEmpty": true,
+  "nonxof": true,
   "xof": true,
   "outputLength": [
     {

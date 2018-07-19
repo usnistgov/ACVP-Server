@@ -133,6 +133,7 @@ namespace NIST.CVP.Generation.TupleHash.Tests
             private bool _bitOrientedInput;
             private bool _bitOrientedOutput;
             private MathDomain _outputLength;
+            private bool _nonxof;
             private bool _xof;
 
             public ParameterBuilder()
@@ -144,6 +145,7 @@ namespace NIST.CVP.Generation.TupleHash.Tests
                 _bitOrientedOutput = true;
                 _outputLength = new MathDomain();
                 _outputLength.AddSegment(new RangeDomainSegment(null, 16, 65536));
+                _nonxof = true;
                 _xof = true;
             }
 
@@ -177,6 +179,18 @@ namespace NIST.CVP.Generation.TupleHash.Tests
                 return this;
             }
 
+            public ParameterBuilder WithXOF(bool value)
+            {
+                _xof = value;
+                return this;
+            }
+
+            public ParameterBuilder WithNonXOF(bool value)
+            {
+                _nonxof = value;
+                return this;
+            }
+
             public ParameterBuilder WithOutputLength(MathDomain value)
             {
                 _outputLength = value;
@@ -193,6 +207,7 @@ namespace NIST.CVP.Generation.TupleHash.Tests
                     BitOrientedOutput = _bitOrientedOutput,
                     IncludeNull = _includeNull,
                     OutputLength = _outputLength,
+                    NonXOF = _nonxof,
                     XOF = _xof
                 };
             }

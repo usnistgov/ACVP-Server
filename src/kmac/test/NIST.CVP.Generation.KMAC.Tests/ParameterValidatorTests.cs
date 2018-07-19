@@ -67,5 +67,23 @@ namespace NIST.CVP.Generation.KMAC.Tests
 
             Assert.AreEqual(isSuccessExpected, result.Success);
         }
+
+        [Test]
+        [TestCase("test0 - valid", "KMAC", true, false, true)]
+        [TestCase("test1 - valid", "KMAC", false, true, true)]
+        [TestCase("test2 - valid", "KMAC", true, true, true)]
+        [TestCase("test3 - invalid", "KMAC", false, false, false)]
+        public void ShouldSucceedOnValidXOFSettingsLen(string label, string algorithm, bool nonXOF, bool XOF, bool isSuccessExpected)
+        {
+            Parameters parameters = new ParameterBuilder()
+                .WithAlgorithm(algorithm)
+                .WithNonXOF(nonXOF)
+                .WithXOF(XOF)
+                .Build();
+
+            var result = _subject.Validate(parameters);
+
+            Assert.AreEqual(isSuccessExpected, result.Success);
+        }
     }
 }

@@ -94,5 +94,32 @@ namespace NIST.CVP.Generation.KMAC.Tests
 
             Assert.AreEqual(expectedResultCount * 2, result.Count());
         }
+
+        [Test]
+        [TestCaseSource(nameof(testData))]
+        public void ShouldReturnOneITestGroupForEveryDigestSizeNonXOF(
+            string label,
+            int[] digestSizes,
+            int expectedResultCount
+        )
+        {
+            Parameters p = new Parameters()
+            {
+                Algorithm = "KMAC",
+                KeyLen = new MathDomain().AddSegment(new RangeDomainSegment(null, 256, 1024, 8)),
+                MacLen = new MathDomain().AddSegment(new RangeDomainSegment(null, 256, 1024, 8)),
+                XOF = true,
+                NonXOF = false,
+                BitOrientedInput = false,
+                BitOrientedOutput = false,
+                DigestSizes = digestSizes,
+                IncludeNull = false,
+                IsSample = true
+            };
+
+            var result = _subject.BuildTestGroups(p);
+
+            Assert.AreEqual(expectedResultCount, result.Count());
+        }
     }
 }

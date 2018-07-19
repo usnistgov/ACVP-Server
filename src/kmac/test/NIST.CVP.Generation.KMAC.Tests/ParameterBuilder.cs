@@ -16,6 +16,7 @@ namespace NIST.CVP.Generation.KMAC.Tests
         private bool _bitOrientedKey;
         private bool _includeNull;
         private bool _xof;
+        private bool _nonxof;
         private int[] _digestSizes;
 
         /// <summary>
@@ -33,6 +34,7 @@ namespace NIST.CVP.Generation.KMAC.Tests
             _bitOrientedKey = false;
             _includeNull = false;
             _xof = false;
+            _nonxof = true;
             _digestSizes = new int[] { 128, 256 };
         }
 
@@ -84,6 +86,12 @@ namespace NIST.CVP.Generation.KMAC.Tests
             return this;
         }
 
+        public ParameterBuilder WithNonXOF(bool value)
+        {
+            _nonxof = value;
+            return this;
+        }
+
         public ParameterBuilder WithDigestSizes(int[] values)
         {
             _digestSizes = GetDeepCopy(values);
@@ -102,7 +110,8 @@ namespace NIST.CVP.Generation.KMAC.Tests
                 BitOrientedKey = _bitOrientedKey,
                 DigestSizes = _digestSizes,
                 IncludeNull = _includeNull,
-                XOF = _xof
+                XOF = _xof,
+                NonXOF = _nonxof
             };
         }
 

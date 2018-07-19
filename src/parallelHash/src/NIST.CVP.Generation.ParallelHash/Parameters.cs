@@ -27,6 +27,9 @@ namespace NIST.CVP.Generation.ParallelHash
         [JsonProperty(PropertyName = "inEmpty")]
         public bool IncludeNull { get; set; } = false;
 
+        [JsonProperty(PropertyName = "nonxof")]
+        public bool NonXOF { get; set; } = true;
+
         [JsonProperty(PropertyName = "xof")]
         public bool XOF { get; set; }
 

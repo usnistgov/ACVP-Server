@@ -16,19 +16,22 @@ namespace NIST.CVP.Generation.KMAC
 
             foreach (var digestSize in parameters.DigestSizes)
             {
-                var testGroup = new TestGroup
+                if (parameters.NonXOF)
                 {
-                    DigestSize = digestSize,
-                    BitOrientedInput = parameters.BitOrientedInput,
-                    BitOrientedOutput = parameters.BitOrientedOutput,
-                    TestType = TEST_TYPE,
-                    KeyLengths = parameters.KeyLen.GetDeepCopy(),
-                    MacLengths = parameters.MacLen.GetDeepCopy(),
-                    MessageLength = digestSize,
-                    XOF = false
-                };
+                    var testGroup = new TestGroup
+                    {
+                        DigestSize = digestSize,
+                        BitOrientedInput = parameters.BitOrientedInput,
+                        BitOrientedOutput = parameters.BitOrientedOutput,
+                        TestType = TEST_TYPE,
+                        KeyLengths = parameters.KeyLen.GetDeepCopy(),
+                        MacLengths = parameters.MacLen.GetDeepCopy(),
+                        MessageLength = digestSize,
+                        XOF = false
+                    };
 
-                testGroups.Add(testGroup);
+                    testGroups.Add(testGroup);
+                }
 
                 if (parameters.XOF)
                 {

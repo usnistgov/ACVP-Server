@@ -9,6 +9,7 @@
   "outBit": true,
   "keyBit": true,
   "inEmpty": true,
+  "nonxof": true,
   "xof": true,
   "keyLen": [
     {

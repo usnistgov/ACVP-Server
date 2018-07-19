@@ -14,18 +14,21 @@ namespace NIST.CVP.Generation.TupleHash
 
             foreach (var digSize in parameters.DigestSizes)
             {
-                var testGroup = new TestGroup
+                if (parameters.NonXOF)
                 {
-                    Function = parameters.Algorithm,
-                    DigestSize = digSize,
-                    BitOrientedInput = parameters.BitOrientedInput,
-                    BitOrientedOutput = parameters.BitOrientedOutput,
-                    OutputLength = parameters.OutputLength,
-                    TestType = TEST_TYPE,
-                    XOF = false
-                };
+                    var testGroup = new TestGroup
+                    {
+                        Function = parameters.Algorithm,
+                        DigestSize = digSize,
+                        BitOrientedInput = parameters.BitOrientedInput,
+                        BitOrientedOutput = parameters.BitOrientedOutput,
+                        OutputLength = parameters.OutputLength,
+                        TestType = TEST_TYPE,
+                        XOF = false
+                    };
 
-                testGroups.Add(testGroup);
+                    testGroups.Add(testGroup);
+                }
 
                 if (parameters.XOF)
                 {

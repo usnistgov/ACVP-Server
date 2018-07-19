@@ -11,26 +11,72 @@ namespace NIST.CVP.Generation.TupleHash.Tests
         {
             new object[]
             {
-                0, // 1 * 0
+                0, // 1 * 0 * 2
                 new ParameterValidatorTests.ParameterBuilder()
                     .WithDigestSizes(new int[] { }) // 0
-                    .WithAlgorithm("TupleHash")  // 1
+                    .WithAlgorithm("ParallelHash")  // 1
+                    .WithXOF(true)
+                    .WithNonXOF(true)
                     .Build()
             },
             new object[]
             {
-                2, // 1 * 2
+                2, // 1 * 1 * 2
                 new ParameterValidatorTests.ParameterBuilder()
-                    .WithDigestSizes(new int[] { 128 }) // 2
-                    .WithAlgorithm("TupleHash")  // 1
+                    .WithDigestSizes(new int[] { 128 }) // 1
+                    .WithAlgorithm("ParallelHash")  // 1
+                    .WithXOF(true)
+                    .WithNonXOF(true)
                     .Build()
             },
             new object[]
             {
-                4, // 2 * 2
+                4, // 1 * 2 * 2
                 new ParameterValidatorTests.ParameterBuilder()
                     .WithDigestSizes(new int[] { 128, 256 }) // 2
-                    .WithAlgorithm("TupleHash")  // 1
+                    .WithAlgorithm("ParallelHash")  // 1
+                    .WithXOF(true)
+                    .WithNonXOF(true)
+                    .Build()
+            },
+            new object[]
+            {
+                1, // 1 * 1 * 1
+                new ParameterValidatorTests.ParameterBuilder()
+                    .WithDigestSizes(new int[] { 128 }) // 1
+                    .WithAlgorithm("ParallelHash")  // 1
+                    .WithXOF(true)
+                    .WithNonXOF(false)
+                    .Build()
+            },
+            new object[]
+            {
+                2, // 1 * 2 * 1
+                new ParameterValidatorTests.ParameterBuilder()
+                    .WithDigestSizes(new int[] { 128, 256 }) // 2
+                    .WithAlgorithm("ParallelHash")  // 1
+                    .WithXOF(true)
+                    .WithNonXOF(false)
+                    .Build()
+            },
+            new object[]
+            {
+                1, // 1 * 1 * 1
+                new ParameterValidatorTests.ParameterBuilder()
+                    .WithDigestSizes(new int[] { 128 }) // 1
+                    .WithAlgorithm("ParallelHash")  // 1
+                    .WithXOF(false)
+                    .WithNonXOF(true)
+                    .Build()
+            },
+            new object[]
+            {
+                2, // 1 * 2 * 1
+                new ParameterValidatorTests.ParameterBuilder()
+                    .WithDigestSizes(new int[] { 128, 256 }) // 2
+                    .WithAlgorithm("ParallelHash")  // 1
+                    .WithXOF(false)
+                    .WithNonXOF(true)
                     .Build()
             }
         };
@@ -41,21 +87,6 @@ namespace NIST.CVP.Generation.TupleHash.Tests
             var subject = new TestGroupGeneratorMonteCarlo();
             var results = subject.BuildTestGroups(parameters);
             Assert.AreEqual(expectedGroupsCreated, results.Count());
-
-            var totalXOFModes = 0;
-            var totalNotXOFModes = 0;
-            foreach (var result in results)
-            {
-                if (result.XOF)
-                {
-                    totalXOFModes++;
-                }
-                else
-                {
-                    totalNotXOFModes++;
-                }
-            }
-            Assert.AreEqual(totalXOFModes, totalNotXOFModes);
         }
     }
 }
