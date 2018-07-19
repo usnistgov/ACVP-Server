@@ -15,8 +15,9 @@ namespace NIST.CVP.Generation.TDES_CFB.Async
         private readonly int _shift;
         private readonly BlockCipherModesOfOperation _mode;
         private int _lenGenIteration = 1;
+        private bool _hasRunOnce = false;
 
-        public int NumberOfTestCasesToGenerate => 10;
+        public int NumberOfTestCasesToGenerate { get; private set; } = 1;
 
         public TestCaseGeneratorMmt(IOracle oracle, TestGroup group)
         {
@@ -42,6 +43,13 @@ namespace NIST.CVP.Generation.TDES_CFB.Async
 
         public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample)
         {
+            // TODO this is only an example to show the numberOfTestCases is reflected successfully when changed on first call
+            if (!_hasRunOnce)
+            {
+                NumberOfTestCasesToGenerate = 10;
+                _hasRunOnce = true;
+            }
+
             var param = new TdesParameters
             {
                 Mode = _mode,
