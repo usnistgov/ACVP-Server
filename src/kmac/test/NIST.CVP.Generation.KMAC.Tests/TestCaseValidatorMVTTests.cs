@@ -1,4 +1,5 @@
 ﻿using NIST.CVP.Math;
+using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
@@ -74,7 +75,7 @@ namespace NIST.CVP.Generation.KMAC.Tests
         {
             var testGroup = new TestGroup
             {
-                KeyLength = 128,
+                KeyLengths = new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 256, 512)),
                 MessageLength = 128
             };
 

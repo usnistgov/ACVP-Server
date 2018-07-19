@@ -73,7 +73,8 @@ namespace NIST.CVP.Generation.KMAC.Tests.ContractResolvers
             Assert.AreEqual(tc.Message, newTc.Message, nameof(newTc.Message));
             Assert.AreEqual(tc.MessageLength, newTc.MessageLength, nameof(newTc.MessageLength));
             Assert.AreEqual(tc.Customization, newTc.Customization, nameof(newTc.Customization));
-
+            Assert.AreEqual(tc.MacLength, newTc.MacLength, nameof(newTc.MacLength));
+            
             Assert.AreNotEqual(tc.Mac, newTc.Mac, nameof(newTc.Mac));
 
             Regex regexDeferred = new Regex(nameof(TestCase.Deferred), RegexOptions.IgnoreCase);

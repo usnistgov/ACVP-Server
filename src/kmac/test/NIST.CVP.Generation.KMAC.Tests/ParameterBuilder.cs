@@ -13,6 +13,7 @@ namespace NIST.CVP.Generation.KMAC.Tests
         private MathDomain _macLen;
         private bool _bitOrientedInput;
         private bool _bitOrientedOutput;
+        private bool _bitOrientedKey;
         private bool _includeNull;
         private bool _xof;
         private int[] _digestSizes;
@@ -29,6 +30,7 @@ namespace NIST.CVP.Generation.KMAC.Tests
             _macLen = _macLen.AddSegment(new RangeDomainSegment(null, 32, 65536, 8));
             _bitOrientedInput = false;
             _bitOrientedOutput = false;
+            _bitOrientedKey = false;
             _includeNull = false;
             _xof = false;
             _digestSizes = new int[] { 128, 256 };
@@ -64,6 +66,12 @@ namespace NIST.CVP.Generation.KMAC.Tests
             return this;
         }
 
+        public ParameterBuilder WithBitOrientedKey(bool value)
+        {
+            _bitOrientedKey = value;
+            return this;
+        }
+
         public ParameterBuilder WithIncludeNull(bool value)
         {
             _includeNull = value;
@@ -91,6 +99,7 @@ namespace NIST.CVP.Generation.KMAC.Tests
                 MacLen = _macLen,
                 BitOrientedInput = _bitOrientedInput,
                 BitOrientedOutput = _bitOrientedOutput,
+                BitOrientedKey = _bitOrientedKey,
                 DigestSizes = _digestSizes,
                 IncludeNull = _includeNull,
                 XOF = _xof

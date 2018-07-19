@@ -4,6 +4,7 @@ using System.Linq;
 using Moq;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
+using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
@@ -57,7 +58,7 @@ namespace NIST.CVP.Generation.KMAC.Tests
                     new TestGroup()
                     {
                         TestType = mvt ? "mvt" : string.Empty,
-                        KeyLength = 128,
+                        KeyLengths = new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 256, 512)),
                         MessageLength = 0,
                         Tests = new List<TestCase>()
                         {

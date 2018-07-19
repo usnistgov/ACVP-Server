@@ -34,7 +34,7 @@ namespace NIST.CVP.Generation.KMAC
             }
 
             //known answer - need to do an encryption operation to get the tag
-            var key = _random800_90.GetRandomBitString(group.KeyLength);
+            var key = _random800_90.GetRandomBitString(group.KeyLengths.GetDomainMinMax().Minimum);
             var msg = _random800_90.GetRandomBitString(group.MessageLength);
             var customization = _random800_90.GetRandomAlphaCharacters(_random800_90.GetRandomInt(0, 11));
             var macLen = group.MacLengths.GetValues(1).ElementAt(0);    // assuming there is only one segment

@@ -49,7 +49,7 @@ namespace NIST.CVP.Generation.KMAC.Tests.ContractResolvers
             Assert.AreEqual(tg.TestGroupId, newTg.TestGroupId, nameof(newTg.TestGroupId));
             Assert.AreEqual(tg.Tests.Count, newTg.Tests.Count, nameof(newTg.Tests));
 
-            Assert.AreNotEqual(tg.KeyLength, newTg.KeyLength, nameof(newTg.KeyLength));
+            Assert.AreNotEqual(tg.KeyLengths, newTg.KeyLengths, nameof(newTg.KeyLengths));
             Assert.AreNotEqual(tg.MessageLength, newTg.MessageLength, nameof(newTg.MessageLength));
         }
 

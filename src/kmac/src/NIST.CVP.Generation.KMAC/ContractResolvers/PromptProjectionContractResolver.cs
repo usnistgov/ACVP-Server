@@ -39,7 +39,8 @@ namespace NIST.CVP.Generation.KMAC.ContractResolvers
                 nameof(TestCase.KeyLength),
                 nameof(TestCase.Message),
                 nameof(TestCase.MessageLength),
-                nameof(TestCase.Customization)
+                nameof(TestCase.Customization),
+                nameof(TestCase.MacLength)
             };
 
             if (includeProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
@@ -49,7 +50,7 @@ namespace NIST.CVP.Generation.KMAC.ContractResolvers
             }
 
             #region Conditional Test Case properties
-            if (jsonProperty.UnderlyingName == nameof(TestCase.Mac) || jsonProperty.UnderlyingName == nameof(TestCase.MacLength))
+            if (jsonProperty.UnderlyingName == nameof(TestCase.Mac))
             {
                 return jsonProperty.ShouldSerialize = instance =>
                 {

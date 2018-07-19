@@ -19,6 +19,9 @@ namespace NIST.CVP.Generation.KMAC
         [JsonProperty(PropertyName = "outBit")]
         public bool BitOrientedOutput { get; set; } = false;
 
+        [JsonProperty(PropertyName = "keyBit")]
+        public bool BitOrientedKey { get; set; } = false;
+
         [JsonProperty(PropertyName = "inEmpty")]
         public bool IncludeNull { get; set; } = false;
 

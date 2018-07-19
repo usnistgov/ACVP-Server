@@ -17,6 +17,7 @@ namespace NIST.CVP.Generation.KMAC
 
         private int _capacity = 0;
         private int _macLength = 0;
+        private int _keyLength = 0;
         private int _numberOfCases = 512;
         private int _currentTestCase = 0;
         private int _currentSmallCase = 0;
@@ -25,6 +26,7 @@ namespace NIST.CVP.Generation.KMAC
 
         public int NumberOfTestCasesToGenerate => _numberOfCases;
         public List<int> TestCaseSizes { get; } = new List<int>();                 // Primarily for testing purposes
+        public List<int> KeySizes { get; } = new List<int>();                 // Primarily for testing purposes
 
         public TestCaseGeneratorAFT(IRandom800_90 random800_90, IKmac algo)
         {
@@ -41,7 +43,9 @@ namespace NIST.CVP.Generation.KMAC
             if (_capacity == 0)
             {
                 TestCaseSizes.Clear();
-                DetermineLengths(group.MacLengths);
+                KeySizes.Clear();
+                DetermineLengths(group.KeyLengths, true);
+                DetermineLengths(group.MacLengths, false);
                 _capacity = 2 * group.DigestSize;
             }
 
@@ -62,9 +66,11 @@ namespace NIST.CVP.Generation.KMAC
 
             _numberOfCases = numSmallCases + numLargeCases;
 
-            _macLength = TestCaseSizes[_currentTestCase++ % TestCaseSizes.Count];
+            _macLength = TestCaseSizes[_currentTestCase % TestCaseSizes.Count];
 
-            var key = _random800_90.GetRandomBitString(group.KeyLength);
+            _keyLength = KeySizes[_currentTestCase++ % KeySizes.Count];
+
+            var key = _random800_90.GetRandomBitString(_keyLength);
 
             var message = new BitString(0);
             var customization = "";
@@ -120,7 +126,7 @@ namespace NIST.CVP.Generation.KMAC
             return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
         }
 
-        private void DetermineLengths(MathDomain domain)
+        private void DetermineLengths(MathDomain domain, bool key)
         {
             domain.SetRangeOptions(RangeDomainSegmentOptions.Random);
             var minMax = domain.GetDomainMinMax();
@@ -145,6 +151,14 @@ namespace NIST.CVP.Generation.KMAC
             {
                 for (var i = 0; i < repetitions; i++)
                 {
+                    if (key)
+                    {
+                        KeySizes.Add(value);
+                    }
+                    else
+                    {
+                        TestCaseSizes.Add(value);
+                    }
                     TestCaseSizes.Add(value);
                 }
             }

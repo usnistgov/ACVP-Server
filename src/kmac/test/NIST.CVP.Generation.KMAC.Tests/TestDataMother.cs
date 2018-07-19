@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using NIST.CVP.Math;
+using NIST.CVP.Math.Domain;
 
 namespace NIST.CVP.Generation.KMAC.Tests
 {
@@ -15,7 +16,7 @@ namespace NIST.CVP.Generation.KMAC.Tests
             {
                 var tg = new TestGroup
                 {
-                    KeyLength = 128 + groupIdx * 2,
+                    KeyLengths = new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 256, 512 + groupIdx * 2)),
                     MessageLength = 52 + groupIdx * 8,
                     TestType = "AFT"
                 };

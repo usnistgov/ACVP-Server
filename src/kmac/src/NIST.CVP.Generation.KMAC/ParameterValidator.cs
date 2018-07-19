@@ -67,7 +67,7 @@ namespace NIST.CVP.Generation.KMAC
             errorResults.AddIfNotNullOrEmpty(rangeCheck);
 
             // Links BitOriented and Domain
-            var bitOriented = parameters.BitOrientedInput ? 1 : 8;
+            var bitOriented = parameters.BitOrientedKey ? 1 : 8;
             var modCheck = ValidateMultipleOf(parameters.KeyLen, bitOriented, "KeyLen Modulus");
             errorResults.AddIfNotNullOrEmpty(modCheck);
         }

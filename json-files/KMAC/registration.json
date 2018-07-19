@@ -7,6 +7,7 @@
   ],
   "inBit": true,
   "outBit": true,
+  "keyBit": true,
   "inEmpty": true,
   "xof": true,
   "keyLen": [

@@ -22,7 +22,7 @@ namespace NIST.CVP.Generation.KMAC
                     BitOrientedInput = parameters.BitOrientedInput,
                     BitOrientedOutput = parameters.BitOrientedOutput,
                     TestType = TEST_TYPE,
-                    KeyLength = parameters.KeyLen.GetDomainMinMax().Minimum,    // temporary fix later
+                    KeyLengths = parameters.KeyLen.GetDeepCopy(),
                     MacLengths = parameters.MacLen.GetDeepCopy(),
                     XOF = false
                 };
@@ -37,7 +37,7 @@ namespace NIST.CVP.Generation.KMAC
                         BitOrientedInput = parameters.BitOrientedInput,
                         BitOrientedOutput = parameters.BitOrientedOutput,
                         TestType = TEST_TYPE,
-                        KeyLength = parameters.KeyLen.GetDomainMinMax().Minimum,    // temporary fix later
+                        KeyLengths = parameters.KeyLen.GetDeepCopy(),
                         MacLengths = parameters.MacLen.GetDeepCopy(),
                         XOF = true
                     };

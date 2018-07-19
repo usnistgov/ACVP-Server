@@ -38,7 +38,8 @@ namespace NIST.CVP.Generation.KMAC.Tests
         {
             var result = _subject.Generate(new TestGroup
             {
-                MacLengths = new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 32, 65536))
+                MacLengths = new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 32, 65536)),
+                KeyLengths = new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 256, 512))
             }, false);
 
             Assert.IsNotNull(result, $"{nameof(result)} should be null");
@@ -54,7 +55,8 @@ namespace NIST.CVP.Generation.KMAC.Tests
 
             var result = _subject.Generate(new TestGroup
             {
-                MacLengths = new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 32, 65536))
+                MacLengths = new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 32, 65536)),
+                KeyLengths = new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 256, 512))
             }, false);
 
             Assert.IsNull(result.TestCase, $"{nameof(result.TestCase)} should be null");
@@ -71,7 +73,8 @@ namespace NIST.CVP.Generation.KMAC.Tests
 
             var result = _subject.Generate(new TestGroup
             {
-                MacLengths = new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 32, 65536))
+                MacLengths = new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 32, 65536)),
+                KeyLengths = new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 256, 512))
             }, false);
 
             Assert.IsNull(result.TestCase, $"{nameof(result.TestCase)} should be null");
@@ -83,7 +86,8 @@ namespace NIST.CVP.Generation.KMAC.Tests
         {
             _subject.Generate(new TestGroup
             {
-                MacLengths = new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 32, 65536))
+                MacLengths = new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 32, 65536)),
+                KeyLengths = new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 256, 512))
             }, false);
 
             _algo.Verify(v => v.Generate(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<string>(), It.IsAny<int>()),
@@ -112,7 +116,8 @@ namespace NIST.CVP.Generation.KMAC.Tests
 
             var result = _subject.Generate(new TestGroup
             {
-                MacLengths = new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 32, 65536))
+                MacLengths = new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 32, 65536)),
+                KeyLengths = new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 256, 512))
             }, false);
 
             Assert.IsTrue(result.Success, $"{nameof(result)} should be successful");

@@ -40,7 +40,7 @@ namespace NIST.CVP.Generation.KMAC.Tests
         {
             Parameters parameters = new ParameterBuilder()
                 .WithKeyLen(new MathDomain().AddSegment(new RangeDomainSegment(null, keyLenMin, keyLenMax, bitOriented ? 1 : 8)))
-                .WithBitOrientedInput(bitOriented)
+                .WithBitOrientedKey(bitOriented)
                 .Build();
 
             var result = _subject.Validate(parameters);

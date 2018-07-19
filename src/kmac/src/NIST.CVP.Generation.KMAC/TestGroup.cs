@@ -11,8 +11,7 @@ namespace NIST.CVP.Generation.KMAC
 
         public string TestType { get; set; }
 
-        [JsonProperty(PropertyName = "keyLen")]
-        public int KeyLength { get; set; }
+        public MathDomain KeyLengths { get; set; }
 
         [JsonProperty(PropertyName = "msgLen")]
         public int MessageLength { get; set; }
