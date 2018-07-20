@@ -33,6 +33,9 @@ namespace NIST.CVP.Generation.TupleHash
         [JsonProperty(PropertyName = "xof")]
         public bool XOF { get; set; }
 
+        [JsonProperty(PropertyName = "hexCustomization")]
+        public bool HexCustomization { get; set; } = false;
+
         // Hard assumption that this is just a single RangeSegment inside of a Domain
         [JsonProperty(PropertyName = "outputLength")]
         public MathDomain OutputLength { get; set; }

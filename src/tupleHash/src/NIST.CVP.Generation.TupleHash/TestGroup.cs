@@ -36,6 +36,9 @@ namespace NIST.CVP.Generation.TupleHash
         public bool IncludeNull { get; set; } = false;
 
         [JsonIgnore]
+        public bool HexCustomization { get; set; } = false;
+
+        [JsonIgnore]
         public MathDomain OutputLength { get; set; }
         
         public bool SetString(string name, string value)

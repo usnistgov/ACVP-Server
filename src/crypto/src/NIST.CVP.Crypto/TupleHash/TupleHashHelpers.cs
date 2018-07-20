@@ -11,10 +11,9 @@ namespace NIST.CVP.Crypto.TupleHash
         /// </summary>
         /// <param name="message">BitString representation of message</param>
         /// <param name="digestLength">Desired output size</param>
-        /// <param name="customizationString">Character string for customization</param>
         /// <param name="xof">Is it xof mode?</param>
         /// <returns>Formatted message before calling Keccak</returns>
-        public static BitString FormatMessage(IEnumerable<BitString> tuple, int digestLength, string customizationString, bool xof)
+        public static BitString FormatMessage(IEnumerable<BitString> tuple, int digestLength, bool xof)
         {
             BitString message = new BitString(0);
 

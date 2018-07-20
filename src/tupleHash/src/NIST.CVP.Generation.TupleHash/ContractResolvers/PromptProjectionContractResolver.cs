@@ -11,23 +11,6 @@ namespace NIST.CVP.Generation.TupleHash.ContractResolvers
     {
         protected override Predicate<object> TestGroupSerialization(JsonProperty jsonProperty)
         {
-            #region Conditional Test Group properties
-            if (jsonProperty.UnderlyingName == nameof(TestGroup.BitOrientedOutput))
-            {
-                return jsonProperty.ShouldSerialize = instance =>
-                {
-                    GetTestGroupFromTestGroupObject(instance, out var testGroup);
-
-                    if (testGroup.Function.Equals("tuplehash", StringComparison.OrdinalIgnoreCase))
-                    {
-                        return true;
-                    }
-
-                    return false;
-                };
-            }
-            #endregion Conditional Test Group properties
-
             return jsonProperty.ShouldDeserialize = instance => true;
         }
 
@@ -37,7 +20,6 @@ namespace NIST.CVP.Generation.TupleHash.ContractResolvers
             {
                 nameof(TestCase.TestCaseId),
                 nameof(TestCase.Tuple),
-                nameof(TestCase.Customization),
                 nameof(TestCase.MessageLength),
                 nameof(TestCase.DigestLength)
             };
@@ -46,6 +28,45 @@ namespace NIST.CVP.Generation.TupleHash.ContractResolvers
             {
                 return jsonProperty.ShouldSerialize = instance => true;
             }
+
+            #region Conditional Test Case properties
+            if (jsonProperty.UnderlyingName == nameof(TestCase.Customization))
+            {
+                return jsonProperty.ShouldSerialize = instance =>
+                {
+                    GetTestCaseFromTestCaseObject(instance, out var testGroup, out var testCase);
+
+                    if (testGroup.TestType.Equals("aft", StringComparison.OrdinalIgnoreCase))
+                    {
+                        if (testGroup.HexCustomization)
+                        {
+                            return false;
+                        }
+
+                        return true;
+                    }
+                    return true;
+                };
+            }
+
+            if (jsonProperty.UnderlyingName == nameof(TestCase.CustomizationHex))
+            {
+                return jsonProperty.ShouldSerialize = instance =>
+                {
+                    GetTestCaseFromTestCaseObject(instance, out var testGroup, out var testCase);
+
+                    if (testGroup.TestType.Equals("aft", StringComparison.OrdinalIgnoreCase))
+                    {
+                        if (testGroup.HexCustomization)
+                        {
+                            return true;
+                        }
+                        return false;
+                    }
+                    return false;
+                };
+            }
+            #endregion Conditional Test Case properties
 
             return jsonProperty.ShouldSerialize = instance => false;
         }

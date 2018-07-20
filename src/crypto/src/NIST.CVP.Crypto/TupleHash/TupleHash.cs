@@ -37,6 +37,24 @@ namespace NIST.CVP.Crypto.TupleHash
             }
         }
 
+        #region BitString Customization
+        public HashResult HashMessage(HashFunction hashFunction, IEnumerable<BitString> tuple, BitString customizationHex)
+        {
+            try
+            {
+                var sha = _iTupleHashFactory.GetTupleHash(hashFunction);
+                var digest = sha.HashMessage(tuple, hashFunction.DigestLength, hashFunction.Capacity, hashFunction.XOF, customizationHex);
+
+                return new HashResult(digest);
+            }
+            catch (Exception ex)
+            {
+                ThisLogger.Error(ex);
+                return new HashResult(ex.Message);
+            }
+        }
+        #endregion BitString Customization
+
         private Logger ThisLogger { get { return LogManager.GetCurrentClassLogger(); } }
     }
 }

@@ -24,7 +24,8 @@ namespace NIST.CVP.Generation.TupleHash
                         BitOrientedOutput = parameters.BitOrientedOutput,
                         TestType = TEST_TYPE,
                         OutputLength = parameters.OutputLength.GetDeepCopy(),
-                        XOF = false
+                        XOF = false,
+                        HexCustomization = parameters.HexCustomization
                     };
 
                     testGroups.Add(testGroup);
@@ -41,7 +42,8 @@ namespace NIST.CVP.Generation.TupleHash
                         BitOrientedOutput = parameters.BitOrientedOutput,
                         TestType = TEST_TYPE,
                         OutputLength = parameters.OutputLength.GetDeepCopy(),
-                        XOF = true
+                        XOF = true,
+                        HexCustomization = parameters.HexCustomization
                     };
 
                     testGroups.Add(testGroupXOF);

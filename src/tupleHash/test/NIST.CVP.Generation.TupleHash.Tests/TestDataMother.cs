@@ -46,6 +46,8 @@ namespace NIST.CVP.Generation.TupleHash.Tests
                         ParentGroup = tg,
                         Tuple = new List<BitString>(new BitString[] { new BitString("ABCD") }),
                         Digest = new BitString("ABCDEF"),
+                        Customization = "custom",
+                        CustomizationHex = new BitString(8),
                         Deferred = true,
                         TestCaseId = testId
                     };

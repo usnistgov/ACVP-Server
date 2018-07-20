@@ -20,7 +20,7 @@ namespace NIST.CVP.Generation.TupleHash
         private int _currentMiddleCase = 1;
         private int _currentTestCase = 0;
         private int _customizationLength = 1;
-        private int _digestSize = 0;
+        private int _digestLength = 0;
         private int _capacity = 0;
 
         private readonly IRandom800_90 _random800_90;
@@ -56,9 +56,10 @@ namespace NIST.CVP.Generation.TupleHash
 
             _testCasesToGenerate = numSmallCases + numLargeCases + numEmptyCases + numSemiEmptyCases;
 
-            _digestSize = TestCaseSizes[_currentTestCase++ % TestCaseSizes.Count];
+            _digestLength = TestCaseSizes[_currentTestCase++ % TestCaseSizes.Count];
 
             var customization = "";
+            var customizationHex = new BitString(0);
 
             var tuple = new List<BitString>();
             var tupleSize = 0;
@@ -94,7 +95,14 @@ namespace NIST.CVP.Generation.TupleHash
                 {
                     tuple.Add(_random800_90.GetRandomBitString(unitSize * _currentSmallCase));
                 }
-                customization = _random800_90.GetRandomString(_customizationLength);
+                if (group.HexCustomization)
+                {
+                    customizationHex = _random800_90.GetRandomBitString(_customizationLength * 8);  // always byte oriented... for now?
+                }
+                else
+                {
+                    customization = _random800_90.GetRandomString(_customizationLength);
+                }
                 _customizationLength = (_customizationLength + 1) % 100;
                 _currentSmallCase++;
             }
@@ -116,22 +124,42 @@ namespace NIST.CVP.Generation.TupleHash
             }
             else
             {
-                tuple.Add(_random800_90.GetRandomBitString(GetRandomValidLength(group.BitOrientedInput)));
                 if (_customizationLength * _currentLargeCase < 2000)
                 {
-                    customization = _random800_90.GetRandomString(_customizationLength++ * _currentLargeCase);
+                    if (group.HexCustomization)
+                    {
+                        customizationHex = _random800_90.GetRandomBitString(_customizationLength++ * _currentLargeCase * 8);  // always byte oriented... for now?
+                    }
+                    else
+                    {
+                        customization = _random800_90.GetRandomString(_customizationLength++ * _currentLargeCase);
+                    }
                 }
                 tuple.Add(_random800_90.GetRandomBitString(rate + _currentLargeCase * (rate + unitSize)));
                 _currentLargeCase++;
             }
-
-            var testCase = new TestCase
+            
+            TestCase testCase = null;
+            if (group.HexCustomization)
             {
-                Tuple = tuple,
-                Customization = customization,
-                Deferred = false,
-                DigestLength = _digestSize
-            };
+                testCase = new TestCase
+                {
+                    Tuple = tuple,
+                    CustomizationHex = customizationHex,
+                    Deferred = false,
+                    DigestLength = _digestLength
+                };
+            }
+            else
+            {
+                testCase = new TestCase
+                {
+                    Tuple = tuple,
+                    Customization = customization,
+                    Deferred = false,
+                    DigestLength = _digestLength
+                };
+            }
 
             return Generate(group, testCase);
         }
@@ -150,7 +178,14 @@ namespace NIST.CVP.Generation.TupleHash
                     Customization = testCase.Customization
                 };
 
-                hashResult = _algo.HashMessage(hashFunction, testCase.Tuple);
+                if (group.HexCustomization)
+                {
+                    hashResult = _algo.HashMessage(hashFunction, testCase.Tuple, testCase.CustomizationHex);
+                }
+                else
+                {
+                    hashResult = _algo.HashMessage(hashFunction, testCase.Tuple);
+                }
                 if (!hashResult.Success)
                 {
                     ThisLogger.Warn(hashResult.ErrorMessage);

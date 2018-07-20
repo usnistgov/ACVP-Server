@@ -135,6 +135,7 @@ namespace NIST.CVP.Generation.TupleHash.Tests
             private MathDomain _outputLength;
             private bool _nonxof;
             private bool _xof;
+            private bool _hexCustomization;
 
             public ParameterBuilder()
             {
@@ -147,6 +148,7 @@ namespace NIST.CVP.Generation.TupleHash.Tests
                 _outputLength.AddSegment(new RangeDomainSegment(null, 16, 65536));
                 _nonxof = true;
                 _xof = true;
+                _hexCustomization = false;
             }
 
             public ParameterBuilder WithAlgorithm(string value)
@@ -191,6 +193,12 @@ namespace NIST.CVP.Generation.TupleHash.Tests
                 return this;
             }
 
+            public ParameterBuilder WithHexCustomization(bool value)
+            {
+                _hexCustomization = value;
+                return this;
+            }
+
             public ParameterBuilder WithOutputLength(MathDomain value)
             {
                 _outputLength = value;
@@ -208,7 +216,8 @@ namespace NIST.CVP.Generation.TupleHash.Tests
                     IncludeNull = _includeNull,
                     OutputLength = _outputLength,
                     NonXOF = _nonxof,
-                    XOF = _xof
+                    XOF = _xof,
+                    HexCustomization = _hexCustomization
                 };
             }
         }
