@@ -12,7 +12,7 @@ namespace NIST.CVP.Generation.TupleHash.Tests
 {
     public class TestDataMother
     {
-        public static TestVectorSet GetTestGroups(int groups = 1, string mode = "", string testType = "aft")
+        public static TestVectorSet GetTestGroups(int groups = 1, string mode = "", string testType = "aft", bool hexCustomization = false)
         {
             var tvs = new TestVectorSet
             {
@@ -33,6 +33,7 @@ namespace NIST.CVP.Generation.TupleHash.Tests
                     BitOrientedOutput = true,
                     OutputLength = new MathDomain().AddSegment(new ValueDomainSegment(128)),
                     TestType = testType,
+                    HexCustomization = hexCustomization,
                     XOF = true
                 };
                 testGroups.Add(tg);

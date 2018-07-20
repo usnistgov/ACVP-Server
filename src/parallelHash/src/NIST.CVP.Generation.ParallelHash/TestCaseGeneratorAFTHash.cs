@@ -81,7 +81,7 @@ namespace NIST.CVP.Generation.ParallelHash
                     customization = _random800_90.GetRandomString(_customizationLength);
                 }
                 _customizationLength = (_customizationLength + 1) % 100;
-                _blockSize = 8;
+                _blockSize = 64;
                 _currentSmallCase++;
             }
             else
@@ -100,11 +100,11 @@ namespace NIST.CVP.Generation.ParallelHash
                 message = _random800_90.GetRandomBitString(rate + _currentLargeCase * (rate + unitSize));
                 if (_currentLargeCase < 33)
                 {
-                    _blockSize = _currentLargeCase;
+                    _blockSize = _currentLargeCase * 8;
                 }
                 else
                 {
-                    _blockSize = _currentLargeCase < 56 ? 64 : (_currentLargeCase < 79 ? 128 : 256);    // 33 to 55 is 64, 56 to 78 is 128, 79 to 100 is 256
+                    _blockSize = _currentLargeCase < 56 ? 512 : (_currentLargeCase < 79 ? 1024 : 2048);    // 33 to 55 is 64, 56 to 78 is 128, 79 to 100 is 256
                 }
                 _currentLargeCase++;
             }
@@ -146,7 +146,7 @@ namespace NIST.CVP.Generation.ParallelHash
                 {
                     Capacity = group.DigestSize * 2,
                     DigestLength = testCase.DigestLength,
-                    BlockSize = testCase.BlockSize,
+                    BlockSize = testCase.BlockSize / 8,     // stored as bits, but need bytes for the crypto
                     XOF = group.XOF,
                     Customization = testCase.Customization
                 };

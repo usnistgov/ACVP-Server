@@ -13,7 +13,7 @@ namespace NIST.CVP.Generation.ParallelHash.Tests
 {
     public class TestDataMother
     {
-        public static TestVectorSet GetTestGroups(int groups = 1, string mode = "", string testType = "aft")
+        public static TestVectorSet GetTestGroups(int groups = 1, string mode = "", string testType = "aft", bool hexCustomization = false)
         {
             var tvs = new TestVectorSet
             {
@@ -33,6 +33,7 @@ namespace NIST.CVP.Generation.ParallelHash.Tests
                     IncludeNull = true,
                     BitOrientedOutput = true,
                     OutputLength = new MathDomain().AddSegment(new ValueDomainSegment(128)),
+                    HexCustomization = hexCustomization,
                     TestType = testType
                 };
                 testGroups.Add(tg);

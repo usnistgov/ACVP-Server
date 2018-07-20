@@ -40,7 +40,7 @@ namespace NIST.CVP.Generation.ParallelHash
             {
                 Capacity = group.DigestSize * 2,
                 DigestLength = group.DigestSize,
-                BlockSize = testCase.BlockSize,
+                BlockSize = testCase.BlockSize, // this doesn't matter for MCT
                 XOF = group.XOF,
                 Customization = testCase.Customization
             };

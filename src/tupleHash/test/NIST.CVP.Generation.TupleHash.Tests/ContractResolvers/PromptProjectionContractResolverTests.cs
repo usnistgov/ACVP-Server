@@ -69,7 +69,7 @@ namespace NIST.CVP.Generation.TupleHash.Tests.ContractResolvers
         [TestCase("tuplehash", "mct", false)]
         public void ShouldSerializeCaseProperties(string function, string testType, bool hexCustomization)
         {
-            var tvs = TestDataMother.GetTestGroups(1, function, testType);
+            var tvs = TestDataMother.GetTestGroups(1, function, testType, hexCustomization);
             var tg = tvs.TestGroups[0];
             var tc = tg.Tests[0];
 

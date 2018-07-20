@@ -210,7 +210,7 @@ namespace NIST.CVP.Generation.ParallelHash.Tests
                 // Short message
                 if (shortMessageCtr <= rate * 2)
                 {
-                    Assert.AreEqual(8, testCase.BlockSize);
+                    Assert.AreEqual(8, testCase.BlockSize / 8);
                     shortMessageCtr++;
                 }
                 // Long message
@@ -218,19 +218,19 @@ namespace NIST.CVP.Generation.ParallelHash.Tests
                 {
                     if (longMessageCtr < 33)
                     {
-                        Assert.AreEqual(longMessageCtr, testCase.BlockSize);
+                        Assert.AreEqual(longMessageCtr, testCase.BlockSize / 8);
                     }
                     else if (longMessageCtr < 56)
                     {
-                        Assert.AreEqual(64, testCase.BlockSize);
+                        Assert.AreEqual(64, testCase.BlockSize / 8);
                     }
                     else if (longMessageCtr < 79)
                     {
-                        Assert.AreEqual(128, testCase.BlockSize);
+                        Assert.AreEqual(128, testCase.BlockSize / 8);
                     }
                     else
                     {
-                        Assert.AreEqual(256, testCase.BlockSize);
+                        Assert.AreEqual(256, testCase.BlockSize / 8);
                     }
                     longMessageCtr++;
                 }
