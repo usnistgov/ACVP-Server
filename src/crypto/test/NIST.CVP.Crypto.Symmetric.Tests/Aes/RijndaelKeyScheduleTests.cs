@@ -1,9 +1,10 @@
-﻿using NIST.CVP.Tests.Core.TestCategoryAttributes;
+﻿using NIST.CVP.Crypto.AES;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
-namespace NIST.CVP.Crypto.AES.Tests
+namespace NIST.CVP.Crypto.Symmetric.Tests.Aes
 {
-    [TestFixture,  FastCryptoTest]
+    [TestFixture, FastCryptoTest]
     public class RijndaelKeyScheduleTests
     {
         [Test]

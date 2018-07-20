@@ -1,18 +1,38 @@
 ﻿using System.Collections.Generic;
 using Moq;
+using NIST.CVP.Crypto.AES;
 using NIST.CVP.Crypto.Common.Symmetric.AES;
+using NIST.CVP.Crypto.Common.Symmetric.Engines;
+using NIST.CVP.Crypto.Common.Symmetric.Enums;
+using NIST.CVP.Crypto.Symmetric.Engines;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
-namespace NIST.CVP.Crypto.AES.Tests
+namespace NIST.CVP.Crypto.Symmetric.Tests.Aes
 {
     /// <summary>
     /// Note unit tests can utilize <see cref="RijndaelTest"/> for hitting protected functions.
     /// </summary>
-    [TestFixture,  FastCryptoTest]
+    [TestFixture, FastCryptoTest]
     public class RijndaelInternalsTests
     {
+        /// <summary>
+        /// publicly exposing protected functions to get at RijndaelInternals
+        /// </summary>
+        public class TestableAesEngine : AesEngine
+        {
+            public new byte[,] PopulateMultiDimensionBlock(byte[] payLoad, int blockIndex)
+            {
+                return base.PopulateMultiDimensionBlock(payLoad, blockIndex);
+            }
+
+            public new void PopulateOutputFromResult(byte[,] multiDimensionBlock, byte[] outBuffer, int blockIndex)
+            {
+                base.PopulateOutputFromResult(multiDimensionBlock, outBuffer, blockIndex);
+            }
+        }
+
         /// <summary>
         /// Creates a 2d byte array of values.  Given default values of 4 and 8, array will look like:
         /// 
@@ -67,57 +87,43 @@ namespace NIST.CVP.Crypto.AES.Tests
             {
                 "test1",
                 GetTestBlock(),
-                new Key()
-                {
-                    BlockLength = 8,
-                    Bytes = null,
-                    Direction = DirectionValues.Encrypt,
-                    KeySchedule = new RijndaelKeySchedule(
-                        128, 
-                        128, 
-                        new byte[4,1] { { 1 }, { 2 }, { 3 }, { 4 } }
-                    )
-                }
+                new byte[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 },
+                BlockCipherDirections.Encrypt
             },
             new object[]
             {
                 "test2",
                 GetTestBlock(),
-                new Key()
-                {
-                    BlockLength = 8,
-                    Bytes = null,
-                    Direction = DirectionValues.Decrypt,
-                    KeySchedule = new RijndaelKeySchedule(
-                        128,
-                        128,
-                        new byte[4,1] { { 1 }, { 2 }, { 3 }, { 4 } }
-                    )
-                }
+                new byte[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 },
+                BlockCipherDirections.Decrypt
             }
         };
         [Test]
         [TestCaseSource(nameof(encryptSingleBlockTestCase))]
-        public void EncryptSingleBlockShouldRunInternalMethodsMultipleTimesAtLeastOnePerRound(string label, byte[,] block, Key key)
+        public void EncryptSingleBlockShouldRunInternalMethodsMultipleTimesAtLeastOnePerRound(string label, byte[,] block, byte[] key, BlockCipherDirections direction)
         {
-            Mock<RijndaelInternals> subject = new Mock<RijndaelInternals>();
-            subject.CallBase = true;
-            subject.Object.EncryptSingleBlock(block, key);
+            Mock<TestableAesEngine> subject = new Mock<TestableAesEngine>
+            {
+                CallBase = true
+            };
+
+            var payload = new byte[subject.Object.BlockSizeBytes];
+            subject.Object.PopulateOutputFromResult(block, payload, 0);
+            subject.Object.Init(new EngineInitParameters(direction, key));
+            var keySchedule = subject.Object.PopulateKeySchedule();
+            subject.Object.ProcessSingleBlock(payload, new byte[subject.Object.BlockSizeBytes], 0);
 
             // KeyAddition runs 2x + 1x for each round within key - 1
-            int expectedKeyAdditionRounds = 2 + key.KeySchedule.Rounds - 1;
+            int expectedKeyAdditionRounds = 2 + keySchedule.Rounds - 1;
             // Substitution runs 1x + 1x for each round within key - 1
-            int expectedSubstitutionRounds = 1 + key.KeySchedule.Rounds - 1;
+            int expectedSubstitutionRounds = 1 + keySchedule.Rounds - 1;
             // ShiftRow runs 1x + 1x for each round within key - 1
-            int expectedShiftRow = 1 + key.KeySchedule.Rounds - 1;
+            int expectedShiftRow = 1 + keySchedule.Rounds - 1;
             // MixColumn runs 1x for each round within key - 1, encrypt only
-            int expectedMixColumns = key.Direction == DirectionValues.Encrypt ? key.KeySchedule.Rounds - 1 : 0;
+            int expectedMixColumns = direction == BlockCipherDirections.Encrypt ? keySchedule.Rounds - 1 : 0;
             // InvMixColumn runs 1x for each round within key - 1, decrypt only
-            int expectedInvMixColumns = key.Direction == DirectionValues.Decrypt ? key.KeySchedule.Rounds - 1 : 0;
+            int expectedInvMixColumns = direction == BlockCipherDirections.Decrypt ? keySchedule.Rounds - 1 : 0;
 
-            subject.Verify(v => v.EncryptSingleBlock(It.IsAny<byte[,]>(), It.IsAny<Key>()), 
-                Times.Once, 
-                nameof(subject.Object.EncryptSingleBlock));
             subject.Verify(v => v.KeyAddition(It.IsAny<byte[,]>(), It.IsAny<byte[,]>(), It.IsAny<int>()), 
                 Times.Exactly(expectedKeyAdditionRounds), 
                 nameof(subject.Object.KeyAddition));
@@ -198,7 +204,7 @@ namespace NIST.CVP.Crypto.AES.Tests
         [TestCaseSource(nameof(keyAdditionTestCase))]
         public void ShouldXorBlockWithProvidedBlockForKeyAddition(string label, byte[,] block, byte[,] schedule, byte[,] expectedBlock)
         {
-            RijndaelInternals subject = new RijndaelInternals();
+            TestableAesEngine subject = new TestableAesEngine();
             Array2D array = new Array2D(block);
 
             subject.KeyAddition(array.Array, schedule, array.Dimension2Size);
@@ -246,7 +252,7 @@ namespace NIST.CVP.Crypto.AES.Tests
         [TestCaseSource(nameof(substituteTestCase))]
         public void ShouldSubstituteFromProvidedSBox(string label, byte[,] block, byte[] sBox, byte[,] expectedBlock)
         {
-            RijndaelInternals subject = new RijndaelInternals();
+            TestableAesEngine subject = new TestableAesEngine();
             Array2D array = new Array2D(block);
 
             subject.Substitution(array.Array, sBox, array.Dimension2Size);
@@ -265,7 +271,7 @@ namespace NIST.CVP.Crypto.AES.Tests
         [Test]
         public void ShouldNotModifyRow0ButOtherRowsAreModifiedWithShiftRow()
         {
-            RijndaelInternals subject = new RijndaelInternals();
+            TestableAesEngine subject = new TestableAesEngine();
             var testBlock = GetTestBlock();
 
             byte[] row0 = new byte[8];
@@ -304,7 +310,7 @@ namespace NIST.CVP.Crypto.AES.Tests
         [Test]
         public void ShouldKeepValuesWithinRow()
         {
-            RijndaelInternals subject = new RijndaelInternals();
+            TestableAesEngine subject = new TestableAesEngine();
             var testBlock = GetTestBlock();
 
             byte[,] rowsOverIndex0 = new byte[3, 8];
@@ -414,7 +420,7 @@ namespace NIST.CVP.Crypto.AES.Tests
         public void ShouldMixColumns(byte multiplyFirstReturn, byte multiplySecondReturn, byte row, byte column, 
             byte rowColumnOriginal, byte rowColumnExpectation)
         {
-            Mock<RijndaelInternals> subject = new Mock<RijndaelInternals>();
+            Mock<TestableAesEngine> subject = new Mock<TestableAesEngine>();
             subject.CallBase = true;
             subject
                 .Setup(s => s.Multiply(2, It.IsAny<byte>()))
@@ -481,7 +487,7 @@ namespace NIST.CVP.Crypto.AES.Tests
             byte multiplyThirdReturn, byte multiplyFourthReturn,
             byte row, byte column, byte rowColumnOriginal, byte rowColumnExpectation)
         {
-            Mock<RijndaelInternals> subject = new Mock<RijndaelInternals>();
+            Mock<TestableAesEngine> subject = new Mock<TestableAesEngine>();
             subject.CallBase = true;
             subject
                 .Setup(s => s.Multiply(14, It.IsAny<byte>()))
@@ -509,7 +515,7 @@ namespace NIST.CVP.Crypto.AES.Tests
         [Test]
         public void ShouldCallMultiply2xForEachBlockIndex()
         {
-            Mock<RijndaelInternals> subject = new Mock<RijndaelInternals>();
+            Mock<TestableAesEngine> subject = new Mock<TestableAesEngine>();
             subject.CallBase = true;
 
             var testBlock = GetTestBlock();
@@ -537,7 +543,7 @@ namespace NIST.CVP.Crypto.AES.Tests
         [TestCase(0, 0)]
         public void MultiplyShouldReturnZeroIfEitherAorBAre0(byte a, byte b)
         {
-            RijndaelInternals subject = new RijndaelInternals();
+            TestableAesEngine subject = new TestableAesEngine();
             var result = subject.Multiply(a, b);
             Assert.AreEqual(0, result);
         }
@@ -556,7 +562,7 @@ namespace NIST.CVP.Crypto.AES.Tests
             byte expectedAlgoTableValue
         )
         {
-            RijndaelInternals subject = new RijndaelInternals();
+            TestableAesEngine subject = new TestableAesEngine();
 
             Assume.That(RijndaelBoxes.Logtable[a] == logTableAValue, nameof(logTableAValue));
             Assume.That(RijndaelBoxes.Logtable[b] == logTableBValue, nameof(logTableBValue));

@@ -14,8 +14,6 @@ namespace NIST.CVP.Generation.TDES_CBC
         private int _lenGenIteration = 1;
         private readonly IOracle _oracle;
 
-        private int _currentCase;
-
         public TestCaseGeneratorMmt(IOracle oracle)
         {
             _oracle = oracle;

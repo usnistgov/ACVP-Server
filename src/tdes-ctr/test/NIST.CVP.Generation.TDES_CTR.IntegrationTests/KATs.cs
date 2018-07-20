@@ -22,7 +22,6 @@ namespace NIST.CVP.Generation.TDES_CTR.IntegrationTests
 
         private readonly string[] _katTypes = { "permutation", "substitutiontable", "variablekey", "variabletext", "inversepermutation"};
         private readonly string _encryptLabel = "encrypt";
-        private readonly string _decryptLabel = "decrypt";
 
         [Test]
         public void ShouldPerformAllEncryptKATsCorrectly()
