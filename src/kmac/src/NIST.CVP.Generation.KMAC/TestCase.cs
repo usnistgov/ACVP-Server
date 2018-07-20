@@ -44,6 +44,9 @@ namespace NIST.CVP.Generation.KMAC
 
         [JsonProperty(PropertyName = "customization")]
         public string Customization { get; set; }
+        
+        [JsonProperty(PropertyName = "customizationHex")]
+        public BitString CustomizationHex { get; set; }
 
         public bool SetString(string name, string value)
         {

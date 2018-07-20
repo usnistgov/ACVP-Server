@@ -27,6 +27,7 @@ namespace NIST.CVP.Generation.KMAC
                         KeyLengths = parameters.KeyLen.GetDeepCopy(),
                         MacLengths = parameters.MacLen.GetDeepCopy(),
                         MessageLength = digestSize,
+                        HexCustomization = parameters.HexCustomization,
                         XOF = false
                     };
 
@@ -44,6 +45,7 @@ namespace NIST.CVP.Generation.KMAC
                         KeyLengths = parameters.KeyLen.GetDeepCopy(),
                         MacLengths = parameters.MacLen.GetDeepCopy(),
                         MessageLength = digestSize,
+                        HexCustomization = parameters.HexCustomization,
                         XOF = true
                     };
 

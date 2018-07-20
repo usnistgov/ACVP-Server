@@ -18,7 +18,8 @@ namespace NIST.CVP.Generation.KMAC.ContractResolvers
                 nameof(TestGroup.XOF),
                 nameof(TestGroup.BitOrientedInput),
                 nameof(TestGroup.BitOrientedOutput),
-                nameof(TestGroup.IncludeNull)
+                nameof(TestGroup.IncludeNull),
+                nameof(TestGroup.HexCustomization)
             };
 
             if (includeProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
@@ -39,7 +40,6 @@ namespace NIST.CVP.Generation.KMAC.ContractResolvers
                 nameof(TestCase.KeyLength),
                 nameof(TestCase.Message),
                 nameof(TestCase.MessageLength),
-                nameof(TestCase.Customization),
                 nameof(TestCase.MacLength)
             };
 
@@ -61,6 +61,34 @@ namespace NIST.CVP.Generation.KMAC.ContractResolvers
                         return true;
                     }
 
+                    return false;
+                };
+            }
+
+            if (jsonProperty.UnderlyingName == nameof(TestCase.Customization))
+            {
+                return jsonProperty.ShouldSerialize = instance =>
+                {
+                    GetTestCaseFromTestCaseObject(instance, out var testGroup, out var testCase);
+
+                    if (testGroup.HexCustomization)
+                    {
+                        return false;
+                    }
+                    return true;
+                };
+            }
+
+            if (jsonProperty.UnderlyingName == nameof(TestCase.CustomizationHex))
+            {
+                return jsonProperty.ShouldSerialize = instance =>
+                {
+                    GetTestCaseFromTestCaseObject(instance, out var testGroup, out var testCase);
+
+                    if (testGroup.HexCustomization)
+                    {
+                        return true;
+                    }
                     return false;
                 };
             }

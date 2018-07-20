@@ -12,7 +12,7 @@ namespace NIST.CVP.Crypto.KMAC
         /// <param name="capacity">Capacity</param>
         /// <param name="customizationString">Character string for customization</param>
         /// <returns>Formatted message before calling Keccak</returns>
-        public static BitString FormatMessage(BitString message, BitString key, int capacity, string customizationString, int macLength, bool xof)
+        public static BitString FormatMessage(BitString message, BitString key, int capacity, int macLength, bool xof)
         {
             var macLengthBitString = new BitString(new System.Numerics.BigInteger(macLength));
 

@@ -74,29 +74,59 @@ namespace NIST.CVP.Generation.KMAC
 
             var message = new BitString(0);
             var customization = "";
+            var customizationHex = new BitString(0);
             if (_currentSmallCase <= numSmallCases)
             {
                 message = _random800_90.GetRandomBitString(unitSize * _currentSmallCase);
+                if (group.HexCustomization)
+                {
+                    customizationHex = _random800_90.GetRandomBitString(_customizationLength * 8);  // always byte oriented... for now?
+                }
+                else
+                {
+                    customization = _random800_90.GetRandomString(_customizationLength);
+                }
                 _customizationLength = (_customizationLength + 1) % 100;
-                customization = _random800_90.GetRandomString(_customizationLength);
                 _currentSmallCase++;
             }
             else
             {
                 if (_customizationLength * _currentLargeCase < 2000)
                 {
-                    customization = _random800_90.GetRandomString(_customizationLength++ * _currentLargeCase);
+                    if (group.HexCustomization)
+                    {
+                        customizationHex = _random800_90.GetRandomBitString(_customizationLength++ * _currentLargeCase * 8);  // always byte oriented... for now?
+                    }
+                    else
+                    {
+                        customization = _random800_90.GetRandomString(_customizationLength++ * _currentLargeCase);
+                    }
                 }
                 message = _random800_90.GetRandomBitString(rate + _currentLargeCase * (rate + unitSize));
                 _currentLargeCase++;
             }
 
-            var testCase = new TestCase
+            TestCase testCase = null;
+            if (group.HexCustomization)
             {
-                Key = key,
-                Message = message,
-                Customization = customization
-            };
+                testCase = new TestCase
+                {
+                    Key = key,
+                    Message = message,
+                    CustomizationHex = customizationHex,
+                    MacLength = _macLength
+                };
+            }
+            else
+            {
+                testCase = new TestCase
+                {
+                    Key = key,
+                    Message = message,
+                    Customization = customization,
+                    MacLength = _macLength
+                };
+            }
             return Generate(group, testCase);
         }
 
@@ -105,7 +135,15 @@ namespace NIST.CVP.Generation.KMAC
             MacResult genResult = null;
             try
             {
-                genResult = _algo.Generate(testCase.Key, testCase.Message, testCase.Customization, _macLength);
+                if (group.HexCustomization)
+                {
+                    genResult = _algo.Generate(testCase.Key, testCase.Message, testCase.Customization, testCase.MacLength);
+                }
+                else
+                {
+                    genResult = _algo.Generate(testCase.Key, testCase.Message, testCase.Customization, testCase.MacLength);
+                }
+                
                 if (!genResult.Success)
                 {
                     ThisLogger.Warn(genResult.ErrorMessage);

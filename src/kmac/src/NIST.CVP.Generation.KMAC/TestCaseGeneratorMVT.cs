@@ -36,7 +36,16 @@ namespace NIST.CVP.Generation.KMAC
             //known answer - need to do an encryption operation to get the tag
             var key = _random800_90.GetRandomBitString(group.KeyLengths.GetDomainMinMax().Minimum);
             var msg = _random800_90.GetRandomBitString(group.MessageLength);
-            var customization = _random800_90.GetRandomAlphaCharacters(_random800_90.GetRandomInt(0, 11));
+            var customization = "";
+            var customizationHex = new BitString(0);
+            if (group.HexCustomization)
+            {
+                customizationHex = _random800_90.GetRandomBitString(_random800_90.GetRandomInt(0, 11) * 8);
+            }
+            else
+            {
+                customization = _random800_90.GetRandomAlphaCharacters(_random800_90.GetRandomInt(0, 11));
+            }
             var macLen = group.MacLengths.GetValues(1).ElementAt(0);    // assuming there is only one segment
             var testCase = new TestCase
             {
@@ -44,6 +53,7 @@ namespace NIST.CVP.Generation.KMAC
                 Message = msg,
                 MacLength = macLen,
                 Customization = customization,
+                CustomizationHex = customizationHex,
                 MacVerified = true
             };
             return Generate(group, testCase);
@@ -54,7 +64,15 @@ namespace NIST.CVP.Generation.KMAC
             MacResult macResult = null;
             try
             {
-                macResult = _kmac.Generate(testCase.Key, testCase.Message, testCase.Customization, testCase.MacLength);
+                if (group.HexCustomization)
+                {
+                    macResult = _kmac.Generate(testCase.Key, testCase.Message, testCase.CustomizationHex, testCase.MacLength);
+                }
+                else
+                {
+                    macResult = _kmac.Generate(testCase.Key, testCase.Message, testCase.Customization, testCase.MacLength);
+                }
+
                 if (!macResult.Success)
                 {
                     ThisLogger.Warn(macResult.ErrorMessage);

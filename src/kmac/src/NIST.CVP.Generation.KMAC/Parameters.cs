@@ -30,6 +30,9 @@ namespace NIST.CVP.Generation.KMAC
 
         [JsonProperty(PropertyName = "xof")]
         public bool XOF { get; set; }
+        
+        [JsonProperty(PropertyName = "hexCustomization")]
+        public bool HexCustomization { get; set; } = false;
 
         public MathDomain KeyLen { get; set; }
         public MathDomain MacLen { get; set; }

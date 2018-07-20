@@ -18,6 +18,7 @@ namespace NIST.CVP.Generation.KMAC.Tests
         private bool _xof;
         private bool _nonxof;
         private int[] _digestSizes;
+        private bool _hexCustomization;
 
         /// <summary>
         /// Provides default parameters that are valid (as of construction)
@@ -36,6 +37,7 @@ namespace NIST.CVP.Generation.KMAC.Tests
             _xof = false;
             _nonxof = true;
             _digestSizes = new int[] { 128, 256 };
+            _hexCustomization = false;
         }
 
         public ParameterBuilder WithAlgorithm(string value)
@@ -92,6 +94,12 @@ namespace NIST.CVP.Generation.KMAC.Tests
             return this;
         }
 
+        public ParameterBuilder WithHexCustomization(bool value)
+        {
+            _hexCustomization = value;
+            return this;
+        }
+
         public ParameterBuilder WithDigestSizes(int[] values)
         {
             _digestSizes = GetDeepCopy(values);
@@ -111,7 +119,8 @@ namespace NIST.CVP.Generation.KMAC.Tests
                 DigestSizes = _digestSizes,
                 IncludeNull = _includeNull,
                 XOF = _xof,
-                NonXOF = _nonxof
+                NonXOF = _nonxof,
+                HexCustomization = _hexCustomization
             };
         }
 

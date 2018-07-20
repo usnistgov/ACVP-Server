@@ -32,6 +32,8 @@ namespace NIST.CVP.Generation.KMAC.Tests
                         Message = new BitString("FACE"),
                         Mac = new BitString("CAFE"),
                         Key = new BitString("9998ADCD"),
+                        Customization = "custom",
+                        CustomizationHex = new BitString(8),
                         TestCaseId = testId,
                         ParentGroup = tg
                     });

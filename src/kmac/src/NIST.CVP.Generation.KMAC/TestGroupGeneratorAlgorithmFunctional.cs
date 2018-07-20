@@ -26,6 +26,8 @@ namespace NIST.CVP.Generation.KMAC
                         TestType = TEST_TYPE,
                         KeyLengths = parameters.KeyLen.GetDeepCopy(),
                         MacLengths = parameters.MacLen.GetDeepCopy(),
+                        HexCustomization = parameters.HexCustomization,
+                        IncludeNull = parameters.IncludeNull,
                         XOF = false
                     };
 
@@ -42,6 +44,8 @@ namespace NIST.CVP.Generation.KMAC
                         TestType = TEST_TYPE,
                         KeyLengths = parameters.KeyLen.GetDeepCopy(),
                         MacLengths = parameters.MacLen.GetDeepCopy(),
+                        HexCustomization = parameters.HexCustomization,
+                        IncludeNull = parameters.IncludeNull,
                         XOF = true
                     };
 

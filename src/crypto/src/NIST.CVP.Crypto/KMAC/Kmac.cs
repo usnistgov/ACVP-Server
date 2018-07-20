@@ -28,7 +28,7 @@ namespace NIST.CVP.Crypto.KMAC
                 macLength = _capacity;
             }
 
-            var newMessage = KmacHelpers.FormatMessage(message, key, _capacity, customization, macLength, _xof);
+            var newMessage = KmacHelpers.FormatMessage(message, key, _capacity, macLength, _xof);
 
             return new MacResult(_iCSHAKE.HashMessage(newMessage, macLength, _capacity, "KMAC", customization));
         }
@@ -37,5 +37,19 @@ namespace NIST.CVP.Crypto.KMAC
         {
             return Generate(key, message, "", macLength);
         }
+
+        #region Hex Customization
+        public MacResult Generate(BitString key, BitString message, BitString customizationHex, int macLength = 0)
+        {
+            if (macLength == 0)
+            {
+                macLength = _capacity;
+            }
+
+            var newMessage = KmacHelpers.FormatMessage(message, key, _capacity, macLength, _xof);
+
+            return new MacResult(_iCSHAKE.HashMessage(newMessage, macLength, _capacity, "KMAC", customizationHex));
+        }
+        #endregion Hex Customization
     }
 }

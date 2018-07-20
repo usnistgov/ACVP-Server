@@ -97,7 +97,9 @@ namespace NIST.CVP.Generation.KMAC.Tests
         }
 
         [Test]
-        public void GenerateShouldReturnFilledTestCaseObjectOnSuccess()
+        [TestCase(false)]
+        [TestCase(true)]
+        public void GenerateShouldReturnFilledTestCaseObjectOnSuccess(bool hexCustomization)
         {
             var fakeMac = new BitString(new byte[] { 1 });
             var fakeMsg = new BitString(new byte[] { 2 });
@@ -113,11 +115,15 @@ namespace NIST.CVP.Generation.KMAC.Tests
             _algo
                 .Setup(s => s.Generate(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<string>(), It.IsAny<int>()))
                 .Returns(new MacResult(fakeMac));
+            _algo
+                .Setup(s => s.Generate(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<int>()))
+                .Returns(new MacResult(fakeMac));
 
             var result = _subject.Generate(new TestGroup
             {
                 MacLengths = new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 32, 65536)),
-                KeyLengths = new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 256, 512))
+                KeyLengths = new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 256, 512)),
+                HexCustomization = hexCustomization
             }, false);
 
             Assert.IsTrue(result.Success, $"{nameof(result)} should be successful");
@@ -125,7 +131,16 @@ namespace NIST.CVP.Generation.KMAC.Tests
             Assert.IsNotEmpty((result.TestCase).Key.ToString(), "Key");
             Assert.IsNotEmpty((result.TestCase).Message.ToString(), "Message");
             Assert.IsNotEmpty((result.TestCase).Mac.ToString(), "Mac");
-            Assert.IsNotEmpty((result.TestCase).Customization, "Customization");
+            if (hexCustomization)
+            {
+                Assert.IsEmpty((result.TestCase).Customization, "Customization");
+                Assert.IsNotEmpty((result.TestCase).CustomizationHex.ToString(), "CustomizationHex");
+            }
+            else
+            {
+                Assert.IsNotEmpty((result.TestCase).Customization, "Customization");
+                Assert.IsEmpty((result.TestCase).CustomizationHex.ToString(), "CustomizationHex");
+            }
             Assert.IsNotEmpty((result.TestCase).MacVerified.ToString(), "Mac Verification");
             Assert.IsFalse(result.TestCase.Deferred, "Deferred");
         }

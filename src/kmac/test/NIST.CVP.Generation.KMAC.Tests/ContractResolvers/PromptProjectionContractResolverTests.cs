@@ -54,10 +54,16 @@ namespace NIST.CVP.Generation.KMAC.Tests.ContractResolvers
         }
 
         [Test]
-        public void ShouldSerializeCaseProperties()
+        [TestCase("aft", true)]
+        [TestCase("aft", false)]
+        [TestCase("mvt", true)]
+        [TestCase("mvt", false)]
+        public void ShouldSerializeCaseProperties(string testType, bool hexCustomization)
         {
             var tvs = TestDataMother.GetTestGroups();
             var tg = tvs.TestGroups[0];
+            tg.TestType = testType;
+            tg.HexCustomization = hexCustomization;
             var tc = tg.Tests[0];
             
             var json = _serializer.Serialize(tvs, _projection);
@@ -72,10 +78,27 @@ namespace NIST.CVP.Generation.KMAC.Tests.ContractResolvers
             Assert.AreEqual(tc.KeyLength, newTc.KeyLength, nameof(newTc.KeyLength));
             Assert.AreEqual(tc.Message, newTc.Message, nameof(newTc.Message));
             Assert.AreEqual(tc.MessageLength, newTc.MessageLength, nameof(newTc.MessageLength));
-            Assert.AreEqual(tc.Customization, newTc.Customization, nameof(newTc.Customization));
             Assert.AreEqual(tc.MacLength, newTc.MacLength, nameof(newTc.MacLength));
             
-            Assert.AreNotEqual(tc.Mac, newTc.Mac, nameof(newTc.Mac));
+            if (testType == "mvt")
+            {
+                Assert.AreEqual(tc.Mac, newTc.Mac, nameof(newTc.Mac));
+            }
+            else
+            {
+                Assert.AreNotEqual(tc.Mac, newTc.Mac, nameof(newTc.Mac));
+            }
+
+            if (hexCustomization)
+            {
+                Assert.AreNotEqual(tc.Customization, newTc.Customization, nameof(newTc.Customization));
+                Assert.AreEqual(tc.CustomizationHex, newTc.CustomizationHex, nameof(newTc.CustomizationHex));
+            }
+            else
+            {
+                Assert.AreEqual(tc.Customization, newTc.Customization, nameof(newTc.Customization));
+                Assert.AreNotEqual(tc.CustomizationHex, newTc.CustomizationHex, nameof(newTc.CustomizationHex));
+            }
 
             Regex regexDeferred = new Regex(nameof(TestCase.Deferred), RegexOptions.IgnoreCase);
             Assert.IsTrue(regexDeferred.Matches(json).Count == 0);

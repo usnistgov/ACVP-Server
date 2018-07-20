@@ -25,6 +25,22 @@ namespace NIST.CVP.Crypto.CSHAKE.Tests
         }
 
         [Test]
+        [TestCase(32, "00010203", "c1c36925b6409a04f1b504fcbca9d82b4017277cb5ed2b2065fc1d3814d5aaf5", "", "456d61696c205369676e6174757265")]
+        public void ShouldCSHAKEHashCorrectlyWithBitStringCustomization(int length, string inputHex, string outputHex, string functionName, string customizationHex)
+        {
+            var message = new BitString(inputHex, length, false);
+            var customization = new BitString(customizationHex);
+            var expectedResult = new BitString(outputHex);
+            var hashFunction = GetCSHAKEHashFunction(256, 256, functionName, "not used");
+
+            var subject = new CSHAKE();
+            var result = subject.HashMessage(hashFunction, message, customization);
+
+            Assume.That(result.Success);
+            Assert.AreEqual(expectedResult, result.Digest);
+        }
+
+        [Test]
         [TestCase(256, "00010203", "c1c36925b6409a04f1b504fcbca9d82b4017277cb5ed2b2065fc1d3814d5aaf5", "", "Email Signature")]
         [TestCase(128, "00010203", "c1c36925b6409a04f1b504fcbca9d82b", "", "Email Signature")]
         [TestCase(32, "00010203", "c1c36925", "", "Email Signature")]
