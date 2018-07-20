@@ -49,6 +49,8 @@ namespace NIST.CVP.Generation.ParallelHash.Tests
                         Digest = new BitString("ABCDEF"),
                         Customization = "custom",
                         CustomizationHex = new BitString(8),
+                        BlockSize = 64,
+                        DigestLength = 128,
                         Deferred = true,
                         TestCaseId = testId
                     };

@@ -49,8 +49,10 @@ namespace NIST.CVP.Generation.CSHAKE.Tests
                         Digest = new BitString("ABCDEF"),
                         CustomizationHex = new BitString(8),
                         Customization = "custom",
+                        FunctionName = "fun",
                         Deferred = true,
-                        TestCaseId = testId
+                        TestCaseId = testId,
+                        DigestLength = 64
                     };
                     tests.Add(tc);
 

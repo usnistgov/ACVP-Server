@@ -83,7 +83,6 @@ namespace NIST.CVP.Generation.CSHAKE.Tests.ContractResolvers
             Assert.AreEqual(tc.TestCaseId, newTc.TestCaseId, nameof(newTc.TestCaseId));
             Assert.AreEqual(tc.Message, newTc.Message, nameof(newTc.Message));
             Assert.AreEqual(tc.MessageLength, newTc.MessageLength, nameof(newTc.MessageLength));
-            Assert.AreEqual(tc.DigestLength, newTc.DigestLength, nameof(newTc.DigestLength));
 
             Assert.IsNull(newTc.ResultsArray, nameof(newTc.ResultsArray));
 
@@ -92,6 +91,8 @@ namespace NIST.CVP.Generation.CSHAKE.Tests.ContractResolvers
 
             if (testType == "aft")
             {
+                Assert.AreEqual(tc.FunctionName, newTc.FunctionName, nameof(newTc.FunctionName));
+                Assert.AreEqual(tc.DigestLength, newTc.DigestLength, nameof(newTc.DigestLength));
                 if (hexCustomization)
                 {
                     Assert.AreEqual(tc.CustomizationHex, newTc.CustomizationHex, nameof(newTc.CustomizationHex));
@@ -105,8 +106,10 @@ namespace NIST.CVP.Generation.CSHAKE.Tests.ContractResolvers
             }
             else
             {
+                Assert.AreNotEqual(tc.FunctionName, newTc.FunctionName, nameof(newTc.FunctionName));
                 Assert.AreNotEqual(tc.CustomizationHex, newTc.CustomizationHex, nameof(newTc.CustomizationHex));
-                Assert.AreEqual(tc.Customization, newTc.Customization, nameof(newTc.Customization));
+                Assert.AreNotEqual(tc.Customization, newTc.Customization, nameof(newTc.Customization));
+                Assert.AreNotEqual(tc.DigestLength, newTc.DigestLength, nameof(newTc.DigestLength));
             }
 
             // TestPassed will have the default value when re-hydrated, check to make sure it isn't in the JSON

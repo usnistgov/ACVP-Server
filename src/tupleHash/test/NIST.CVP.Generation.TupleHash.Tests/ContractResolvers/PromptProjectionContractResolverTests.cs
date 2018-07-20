@@ -83,7 +83,6 @@ namespace NIST.CVP.Generation.TupleHash.Tests.ContractResolvers
             Assert.AreEqual(tc.TestCaseId, newTc.TestCaseId, nameof(newTc.TestCaseId));
             Assert.AreEqual(tc.Tuple, newTc.Tuple, nameof(newTc.Tuple));
             Assert.AreEqual(tc.MessageLength, newTc.MessageLength, nameof(newTc.MessageLength));
-            Assert.AreEqual(tc.DigestLength, newTc.DigestLength, nameof(newTc.DigestLength));
 
             Assert.IsNull(newTc.ResultsArray, nameof(newTc.ResultsArray));
 
@@ -92,6 +91,7 @@ namespace NIST.CVP.Generation.TupleHash.Tests.ContractResolvers
 
             if (testType == "aft")
             {
+                Assert.AreEqual(tc.DigestLength, newTc.DigestLength, nameof(newTc.DigestLength));
                 if (hexCustomization)
                 {
                     Assert.AreEqual(tc.CustomizationHex, newTc.CustomizationHex, nameof(newTc.CustomizationHex));
@@ -105,8 +105,9 @@ namespace NIST.CVP.Generation.TupleHash.Tests.ContractResolvers
             }
             else
             {
+                Assert.AreNotEqual(tc.DigestLength, newTc.DigestLength, nameof(newTc.DigestLength));
                 Assert.AreNotEqual(tc.CustomizationHex, newTc.CustomizationHex, nameof(newTc.CustomizationHex));
-                Assert.AreEqual(tc.Customization, newTc.Customization, nameof(newTc.Customization));
+                Assert.AreNotEqual(tc.Customization, newTc.Customization, nameof(newTc.Customization));
             }
 
             // TestPassed will have the default value when re-hydrated, check to make sure it isn't in the JSON

@@ -20,9 +20,7 @@ namespace NIST.CVP.Generation.CSHAKE.ContractResolvers
             {
                 nameof(TestCase.TestCaseId),
                 nameof(TestCase.Message),
-                nameof(TestCase.MessageLength),
-                nameof(TestCase.FunctionName),
-                nameof(TestCase.DigestLength)
+                nameof(TestCase.MessageLength)
             };
 
             if (includeProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
@@ -46,7 +44,7 @@ namespace NIST.CVP.Generation.CSHAKE.ContractResolvers
 
                         return true;
                     }
-                    return true;
+                    return false;
                 };
             }
 
@@ -63,6 +61,34 @@ namespace NIST.CVP.Generation.CSHAKE.ContractResolvers
                             return true;
                         }
                         return false;
+                    }
+                    return false;
+                };
+            }
+
+            if (jsonProperty.UnderlyingName == nameof(TestCase.FunctionName))
+            {
+                return jsonProperty.ShouldSerialize = instance =>
+                {
+                    GetTestCaseFromTestCaseObject(instance, out var testGroup, out var testCase);
+
+                    if (testGroup.TestType.Equals("aft", StringComparison.OrdinalIgnoreCase))
+                    {
+                        return true;
+                    }
+                    return false;
+                };
+            }
+
+            if (jsonProperty.UnderlyingName == nameof(TestCase.DigestLength))
+            {
+                return jsonProperty.ShouldSerialize = instance =>
+                {
+                    GetTestCaseFromTestCaseObject(instance, out var testGroup, out var testCase);
+
+                    if (testGroup.TestType.Equals("aft", StringComparison.OrdinalIgnoreCase))
+                    {
+                        return true;
                     }
                     return false;
                 };

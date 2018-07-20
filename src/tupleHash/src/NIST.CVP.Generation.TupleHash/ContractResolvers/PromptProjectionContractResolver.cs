@@ -20,8 +20,7 @@ namespace NIST.CVP.Generation.TupleHash.ContractResolvers
             {
                 nameof(TestCase.TestCaseId),
                 nameof(TestCase.Tuple),
-                nameof(TestCase.MessageLength),
-                nameof(TestCase.DigestLength)
+                nameof(TestCase.MessageLength)
             };
 
             if (includeProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
@@ -45,7 +44,7 @@ namespace NIST.CVP.Generation.TupleHash.ContractResolvers
 
                         return true;
                     }
-                    return true;
+                    return false;
                 };
             }
 
@@ -62,6 +61,20 @@ namespace NIST.CVP.Generation.TupleHash.ContractResolvers
                             return true;
                         }
                         return false;
+                    }
+                    return false;
+                };
+            }
+
+            if (jsonProperty.UnderlyingName == nameof(TestCase.DigestLength))
+            {
+                return jsonProperty.ShouldSerialize = instance =>
+                {
+                    GetTestCaseFromTestCaseObject(instance, out var testGroup, out var testCase);
+
+                    if (testGroup.TestType.Equals("aft", StringComparison.OrdinalIgnoreCase))
+                    {
+                        return true;
                     }
                     return false;
                 };
