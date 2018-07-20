@@ -53,8 +53,7 @@ namespace NIST.CVP.Generation.CSHAKE.Tests.ContractResolvers
             Assert.AreEqual(tg.Tests.Count, newTg.Tests.Count, nameof(newTg.Tests));
             Assert.AreEqual(tg.BitOrientedInput, newTg.BitOrientedInput, nameof(newTg.BitOrientedInput));
             Assert.AreEqual(tg.IncludeNull, newTg.IncludeNull, nameof(newTg.IncludeNull));
-
-            Assert.AreNotEqual(tg.BitOrientedOutput, newTg.BitOrientedOutput, nameof(newTg.BitOrientedOutput));
+            Assert.AreEqual(tg.BitOrientedOutput, newTg.BitOrientedOutput, nameof(newTg.BitOrientedOutput));
         }
 
         /// <summary>
@@ -64,11 +63,13 @@ namespace NIST.CVP.Generation.CSHAKE.Tests.ContractResolvers
         /// <param name="function">The function being tested</param>
         /// <param name="testType">The testType</param>
         [Test]
-        [TestCase("cshake", "aft")]
-        [TestCase("cshake", "mct")]
-        public void ShouldSerializeCaseProperties(string function, string testType)
+        [TestCase("cshake", "aft", true)]
+        [TestCase("cshake", "aft", false)]
+        [TestCase("cshake", "mct", true)]
+        [TestCase("cshake", "mct", false)]
+        public void ShouldSerializeCaseProperties(string function, string testType, bool hexCustomization)
         {
-            var tvs = TestDataMother.GetTestGroups(1, function, testType);
+            var tvs = TestDataMother.GetTestGroups(1, function, testType, hexCustomization);
             var tg = tvs.TestGroups[0];
             var tc = tg.Tests[0];
 
@@ -88,6 +89,25 @@ namespace NIST.CVP.Generation.CSHAKE.Tests.ContractResolvers
 
             Assert.AreNotEqual(tc.Digest, newTc.Digest, nameof(newTc.Digest));
             Assert.AreNotEqual(tc.Deferred, newTc.Deferred, nameof(newTc.Deferred));
+
+            if (testType == "aft")
+            {
+                if (hexCustomization)
+                {
+                    Assert.AreEqual(tc.CustomizationHex, newTc.CustomizationHex, nameof(newTc.CustomizationHex));
+                    Assert.AreNotEqual(tc.Customization, newTc.Customization, nameof(newTc.Customization));
+                }
+                else
+                {
+                    Assert.AreNotEqual(tc.CustomizationHex, newTc.CustomizationHex, nameof(newTc.CustomizationHex));
+                    Assert.AreEqual(tc.Customization, newTc.Customization, nameof(newTc.Customization));
+                }
+            }
+            else
+            {
+                Assert.AreNotEqual(tc.CustomizationHex, newTc.CustomizationHex, nameof(newTc.CustomizationHex));
+                Assert.AreEqual(tc.Customization, newTc.Customization, nameof(newTc.Customization));
+            }
 
             // TestPassed will have the default value when re-hydrated, check to make sure it isn't in the JSON
             var regex = new Regex("testPassed", RegexOptions.IgnoreCase);
