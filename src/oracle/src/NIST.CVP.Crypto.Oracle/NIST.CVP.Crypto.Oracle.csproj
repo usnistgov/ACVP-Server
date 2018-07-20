@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="$(NuGetVersionMicrosoftNETTestSdk)" />
+    <PackageReference Include="Microsoft.Orleans.Client" Version="$(NugetVersionMicrosoftOrleansClient)" />
   </ItemGroup>
 
   <ItemGroup>

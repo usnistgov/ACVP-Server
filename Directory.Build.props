@@ -32,6 +32,10 @@
         <NuGetVersionCommandLineArgumentsParser>3.0.18</NuGetVersionCommandLineArgumentsParser>
         <NuGetVersionMicrosoftExtensionsOptionsConfigurationExtensions>2.1.0</NuGetVersionMicrosoftExtensionsOptionsConfigurationExtensions>
         <NuGetVersionSystemRuntimeLoader>4.3.0</NuGetVersionSystemRuntimeLoader>
+        <NugetVersionMicrosoftOrleansServer>2.0.3</NugetVersionMicrosoftOrleansServer>
+        <NugetVersionMicrosoftOrleansOrleansCodeGeneratorBuild>2.0.3</NugetVersionMicrosoftOrleansOrleansCodeGeneratorBuild>
+        <NugetVersionMicrosoftOrleansClient>2.0.3</NugetVersionMicrosoftOrleansClient>
+        <NugetVersionMicrosoftOrleansCoreAbstractions>2.0.0</NugetVersionMicrosoftOrleansCoreAbstractions>
     </PropertyGroup>
 
 </Project>
