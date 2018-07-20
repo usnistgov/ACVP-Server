@@ -24,6 +24,7 @@ namespace NIST.CVP.Generation.ParallelHash
                         BitOrientedOutput = parameters.BitOrientedOutput,
                         TestType = TEST_TYPE,
                         OutputLength = parameters.OutputLength.GetDeepCopy(),
+                        HexCustomization = parameters.HexCustomization,
                         XOF = false
                     };
 
@@ -41,6 +42,7 @@ namespace NIST.CVP.Generation.ParallelHash
                         BitOrientedOutput = parameters.BitOrientedOutput,
                         TestType = TEST_TYPE,
                         OutputLength = parameters.OutputLength.GetDeepCopy(),
+                        HexCustomization = parameters.HexCustomization,
                         XOF = true
                     };
 

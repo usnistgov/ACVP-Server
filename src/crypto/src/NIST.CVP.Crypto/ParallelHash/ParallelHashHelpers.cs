@@ -15,10 +15,9 @@ namespace NIST.CVP.Crypto.ParallelHash
         /// <param name="cSHAKE">A cSHAKE module</param>
         /// <param name="capacity">Capacity</param>
         /// <param name="blockSize">The desired block size in bytes</param>
-        /// <param name="customizationString">Character string for customization</param>
         /// <param name="xof">Is it xof mode?</param>
         /// <returns>Formatted message before calling Keccak</returns>
-        public static BitString FormatMessage(BitString message, CSHAKE.CSHAKE cSHAKE, int digestLength, int capacity, int blockSize, string customizationString, bool xof)
+        public static BitString FormatMessage(BitString message, CSHAKE.CSHAKE cSHAKE, int digestLength, int capacity, int blockSize, bool xof)
         {
             var numberOfBlocks = ((message.BitLength / 8) + blockSize - 1) / blockSize;
 

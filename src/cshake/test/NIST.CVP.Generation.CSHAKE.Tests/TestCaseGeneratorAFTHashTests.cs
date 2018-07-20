@@ -131,7 +131,7 @@ namespace NIST.CVP.Generation.CSHAKE.Tests
         public void ShouldGenerateProperlySizedCustomizationHexForEachGenerateCall(int digestSize, int rate, bool includeNull)
         {
             var mockSHA = new Mock<ICSHAKE>();
-            mockSHA.Setup(s => s.HashMessage(It.IsAny<HashFunction>(), It.IsAny<BitString>()))
+            mockSHA.Setup(s => s.HashMessage(It.IsAny<HashFunction>(), It.IsAny<BitString>(), It.IsAny<BitString>()))
                 .Returns(new HashResult(new BitString("ABCD")));
 
             var domain = new MathDomain();

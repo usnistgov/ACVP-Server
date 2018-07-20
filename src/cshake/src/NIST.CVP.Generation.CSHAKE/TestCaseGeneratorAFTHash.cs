@@ -210,12 +210,6 @@ namespace NIST.CVP.Generation.CSHAKE
             TestCaseSizes.Sort();
         }
 
-        private string BitStringToString(BitString bs)
-        {
-            var ba = bs.ToBytes();
-            return Encoding.ASCII.GetString(ba);
-        }
-
         private Logger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }

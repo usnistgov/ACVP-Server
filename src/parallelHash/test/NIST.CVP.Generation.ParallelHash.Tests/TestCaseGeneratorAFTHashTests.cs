@@ -128,6 +128,56 @@ namespace NIST.CVP.Generation.ParallelHash.Tests
         [Test]
         [TestCase(128, 1344, false)]
         [TestCase(256, 1088, false)]
+        public void ShouldGenerateProperlySizedCustomizationHexForEachGenerateCall(int digestSize, int rate, bool includeNull)
+        {
+            var mockSHA = new Mock<IParallelHash>();
+            mockSHA.Setup(s => s.HashMessage(It.IsAny<HashFunction>(), It.IsAny<BitString>(), It.IsAny<BitString>()))
+                .Returns(new HashResult(new BitString("ABCD")));
+
+            var domain = new MathDomain();
+            domain.AddSegment(new RangeDomainSegment(new Random800_90(), 16, 65536));
+
+            var shortMessageCtr = 1;
+            var longMessageCtr = 1;
+            var customizationCtr = 1;
+            var subject = new TestCaseGeneratorAFTHash(new Random800_90(), mockSHA.Object);
+            for (var caseIdx = 0; caseIdx < subject.NumberOfTestCasesToGenerate; caseIdx++)
+            {
+                var result = subject.Generate(
+                    new TestGroup
+                    {
+                        Function = "ParallelHash",
+                        DigestSize = digestSize,
+                        BitOrientedInput = true,
+                        IncludeNull = includeNull,
+                        OutputLength = domain,
+                        HexCustomization = true
+                    }, false);
+
+                Assume.That(result != null);
+                Assume.That(result.Success);
+
+                var testCase = (TestCase)result.TestCase;
+
+                // Short message
+                if (shortMessageCtr <= rate * 2)
+                {
+                    Assert.AreEqual(customizationCtr * 8, testCase.CustomizationHex.BitLength);
+                    customizationCtr = (customizationCtr + 1) % 100;
+                    shortMessageCtr++;
+                }
+                // Long message
+                else
+                {
+                    Assert.AreEqual(customizationCtr * longMessageCtr < 2000 ? customizationCtr++ * longMessageCtr * 8 : 0, testCase.CustomizationHex.BitLength);
+                    longMessageCtr++;
+                }
+            }
+        }
+
+        [Test]
+        [TestCase(128, 1344, false)]
+        [TestCase(256, 1088, false)]
         public void ShouldGenerateProperBlockSizeForEachGenerateCall(int digestSize, int rate, bool includeNull)
         {
             var mockSHA = new Mock<IParallelHash>();

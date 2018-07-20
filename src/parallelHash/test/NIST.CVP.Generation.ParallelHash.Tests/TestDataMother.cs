@@ -46,6 +46,8 @@ namespace NIST.CVP.Generation.ParallelHash.Tests
                         ParentGroup = tg,
                         Message = new BitString("ABCD"),
                         Digest = new BitString("ABCDEF"),
+                        Customization = "custom",
+                        CustomizationHex = new BitString(8),
                         Deferred = true,
                         TestCaseId = testId
                     };

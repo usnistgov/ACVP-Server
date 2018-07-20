@@ -17,7 +17,7 @@ namespace NIST.CVP.Generation.ParallelHash
         private int _currentLargeCase = 1;
         private int _currentTestCase = 0;
         private int _customizationLength = 1;
-        private int _digestSize = 0;
+        private int _digestLength = 0;
         private int _capacity = 0;
         private int _blockSize = 8;
 
@@ -63,15 +63,23 @@ namespace NIST.CVP.Generation.ParallelHash
 
             _testCasesToGenerate = numSmallCases + numLargeCases;
 
-            _digestSize = TestCaseSizes[_currentTestCase++ % TestCaseSizes.Count];
+            _digestLength = TestCaseSizes[_currentTestCase++ % TestCaseSizes.Count];
 
             var customization = "";
+            var customizationHex = new BitString(0);
 
             var message = new BitString(0);
             if (_currentSmallCase <= numSmallCases)
             {
                 message = _random800_90.GetRandomBitString(unitSize * _currentSmallCase);
-                customization = _random800_90.GetRandomString(_customizationLength);
+                if (group.HexCustomization)
+                {
+                    customizationHex = _random800_90.GetRandomBitString(_customizationLength * 8);  // always byte oriented... for now?
+                }
+                else
+                {
+                    customization = _random800_90.GetRandomString(_customizationLength);
+                }
                 _customizationLength = (_customizationLength + 1) % 100;
                 _blockSize = 8;
                 _currentSmallCase++;
@@ -80,7 +88,14 @@ namespace NIST.CVP.Generation.ParallelHash
             {
                 if (_customizationLength * _currentLargeCase < 2000)
                 {
-                    customization = _random800_90.GetRandomString(_customizationLength++ * _currentLargeCase);
+                    if (group.HexCustomization)
+                    {
+                        customizationHex = _random800_90.GetRandomBitString(_customizationLength++ * _currentLargeCase * 8);  // always byte oriented... for now?
+                    }
+                    else
+                    {
+                        customization = _random800_90.GetRandomString(_customizationLength++ * _currentLargeCase);
+                    }
                 }
                 message = _random800_90.GetRandomBitString(rate + _currentLargeCase * (rate + unitSize));
                 if (_currentLargeCase < 33)
@@ -93,15 +108,30 @@ namespace NIST.CVP.Generation.ParallelHash
                 }
                 _currentLargeCase++;
             }
-
-            var testCase = new TestCase
+            
+            TestCase testCase = null;
+            if (group.HexCustomization)
             {
-                Message = message,
-                Customization = customization,
-                BlockSize = _blockSize,
-                Deferred = false,
-                DigestLength = _digestSize
-            };
+                testCase = new TestCase
+                {
+                    Message = message,
+                    CustomizationHex = customizationHex,
+                    BlockSize = _blockSize,
+                    Deferred = false,
+                    DigestLength = _digestLength
+                };
+            }
+            else
+            {
+                testCase = new TestCase
+                {
+                    Message = message,
+                    Customization = customization,
+                    BlockSize = _blockSize,
+                    Deferred = false,
+                    DigestLength = _digestLength
+                };
+            }
 
             return Generate(group, testCase);
         }
@@ -121,7 +151,15 @@ namespace NIST.CVP.Generation.ParallelHash
                     Customization = testCase.Customization
                 };
 
-                hashResult = _algo.HashMessage(hashFunction, testCase.Message);
+                if (group.HexCustomization)
+                {
+                    hashResult = _algo.HashMessage(hashFunction, testCase.Message, testCase.CustomizationHex);
+                }
+                else
+                {
+                    hashResult = _algo.HashMessage(hashFunction, testCase.Message);
+                }
+                
                 if (!hashResult.Success)
                 {
                     ThisLogger.Warn(hashResult.ErrorMessage);

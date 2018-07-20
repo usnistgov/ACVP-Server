@@ -154,6 +154,7 @@ namespace NIST.CVP.Generation.ParallelHash.Tests
             private MathDomain _outputLength;
             private bool _nonxof;
             private bool _xof;
+            private bool _hexCustomization;
 
             public ParameterBuilder()
             {
@@ -166,6 +167,7 @@ namespace NIST.CVP.Generation.ParallelHash.Tests
                 _outputLength.AddSegment(new RangeDomainSegment(null, 16, 65536));
                 _xof = true;
                 _nonxof = true;
+                _hexCustomization = false;
             }
 
             public ParameterBuilder WithAlgorithm(string value)
@@ -204,15 +206,21 @@ namespace NIST.CVP.Generation.ParallelHash.Tests
                 return this;
             }
 
-            public ParameterBuilder WithNonXOF(bool nonxof)
+            public ParameterBuilder WithNonXOF(bool value)
             {
-                _nonxof = nonxof;
+                _nonxof = value;
                 return this;
             }
 
-            public ParameterBuilder WithXOF(bool xof)
+            public ParameterBuilder WithXOF(bool value)
             {
-                _xof = xof;
+                _xof = value;
+                return this;
+            }
+
+            public ParameterBuilder WithHexCustomization(bool value)
+            {
+                _hexCustomization = value;
                 return this;
             }
 
@@ -227,7 +235,8 @@ namespace NIST.CVP.Generation.ParallelHash.Tests
                     IncludeNull = _includeNull,
                     OutputLength = _outputLength,
                     XOF = _xof,
-                    NonXOF = _nonxof
+                    NonXOF = _nonxof,
+                    HexCustomization = _hexCustomization
                 };
             }
         }

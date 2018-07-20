@@ -34,6 +34,9 @@ namespace NIST.CVP.Generation.ParallelHash
         [JsonProperty(PropertyName = "customization")]
         public string Customization { get; set; } = "";
 
+        [JsonProperty(PropertyName = "customizationHex")]
+        public BitString CustomizationHex { get; set; }
+
         [JsonProperty(PropertyName = "md")]
         public BitString Digest { get; set; }
 
