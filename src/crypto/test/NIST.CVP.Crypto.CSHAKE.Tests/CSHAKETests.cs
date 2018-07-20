@@ -25,13 +25,14 @@ namespace NIST.CVP.Crypto.CSHAKE.Tests
         }
 
         [Test]
-        [TestCase(32, "00010203", "c1c36925b6409a04f1b504fcbca9d82b4017277cb5ed2b2065fc1d3814d5aaf5", "", "456d61696c205369676e6174757265")]
-        public void ShouldCSHAKEHashCorrectlyWithBitStringCustomization(int length, string inputHex, string outputHex, string functionName, string customizationHex)
+        [TestCase(32, 256, "00010203", "c1c36925b6409a04f1b504fcbca9d82b4017277cb5ed2b2065fc1d3814d5aaf5", "", "456d61696c205369676e6174757265")]
+        [TestCase(811, 128, "66c03e10e9de3487b90d0825d327c12495e3c89ad09c9d591e55c91376fb14c2fde9f7461fb25450df1a65806b65f3caf4d5c81ebc6e664871fcf915b9578bb70ee6776acc62205888dce2baa4024941209e81b4b35f0eda1bdcbd9ab1d6db6140bda4c41706", "447a80a502458e5aed5f270f88db81db", "", "")]
+        public void ShouldCSHAKEHashCorrectlyWithBitStringCustomization(int length, int outputLength, string inputHex, string outputHex, string functionName, string customizationHex)
         {
             var message = new BitString(inputHex, length, false);
             var customization = new BitString(customizationHex);
             var expectedResult = new BitString(outputHex);
-            var hashFunction = GetCSHAKEHashFunction(256, 256, functionName, "not used");
+            var hashFunction = GetCSHAKEHashFunction(outputLength, 256, functionName, "not used");
 
             var subject = new CSHAKE();
             var result = subject.HashMessage(hashFunction, message, customization);

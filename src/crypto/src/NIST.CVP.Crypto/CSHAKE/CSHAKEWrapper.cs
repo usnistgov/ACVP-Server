@@ -44,21 +44,21 @@ namespace NIST.CVP.Crypto.CSHAKE
         }
 
         #region BitString Customization
-        public virtual BitString HashMessage(BitString message, int digestLength, int capacity, string functionName, BitString customization)
+        public virtual BitString HashMessage(BitString message, int digestLength, int capacity, string functionName, BitString customizationHex)
         {
             Init();
             Update(message);
-            return Final(digestLength, capacity, functionName, customization);
+            return Final(digestLength, capacity, functionName, customizationHex);
         }
 
-        private BitString Final(int digestLength, int capacity, string functionName, BitString customization)
+        private BitString Final(int digestLength, int capacity, string functionName, BitString customizationHex)
         {
-            if (functionName.Equals("") && customization.Equals(""))
+            if (functionName.Equals("") && BitString.Equals(customizationHex, new BitString(0)))
             {
                 return KeccakInternals.Keccak(_message, digestLength, capacity, true);
             }
 
-            var formattedMessage = CSHAKEHelpers.FormatMessage(_message, capacity, functionName, customization);
+            var formattedMessage = CSHAKEHelpers.FormatMessage(_message, capacity, functionName, customizationHex);
 
             return KeccakInternals.Keccak(formattedMessage, digestLength, capacity, true, true);
         }

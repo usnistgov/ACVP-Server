@@ -26,6 +26,7 @@ namespace NIST.CVP.Crypto.ParallelHash.Tests
         }
 
         [Test]
+        [TestCase(192, "000102030405060710111213141516172021222324252627", "ba8dc1d1d979331d3f813603c67f72609ab5e44b94a0b8f9af46514454a2b4f5", 8, "")]
         [TestCase(192, "000102030405060710111213141516172021222324252627", "fc484dcb3f84dceedc353438151bee58157d6efed0445a81f165e495795b7206", 8, "506172616c6c656c2044617461")]
         public void ShouldParallelHashHexCustomizationCorrectly(int length, string inputHex, string outputHex, int blockSize, string customizationHex)
         {

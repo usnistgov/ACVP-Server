@@ -39,6 +39,7 @@ namespace NIST.CVP.Crypto.KMAC.Tests
         }
 
         [Test]
+        [TestCase(32, 256, 256, "404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f", "00010203", "e5780b0d3ea6f7d3a429c5706aa43a00fadbd7d49628839e3187243f456ee14e", "")]
         [TestCase(32, 256, 256, "404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f", "00010203", "3b1fba963cd8b0b59e8c1a6d71888b7143651af8ba0a7070c0979e2811324aa5", "4d7920546167676564204170706c69636174696f6e")]
         public void ShouldKMACHexCustomizationCorrectly(int length, int macLength, int keyLen, string key, string inputHex, string outputHex, string customizationHex)
         {
