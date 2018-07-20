@@ -43,8 +43,6 @@ namespace NIST.CVP.Crypto
     {
         public void RegisterTypes(ContainerBuilder builder, AlgoMode algoMode)
         {
-            builder.RegisterType<RijndaelInternals>().AsImplementedInterfaces();
-            builder.RegisterType<RijndaelFactory>().AsImplementedInterfaces();
             builder.RegisterType<ModeBlockCipherFactory>().AsImplementedInterfaces();
             builder.RegisterType<AeadModeBlockCipherFactory>().AsImplementedInterfaces();
             builder.RegisterType<BlockCipherEngineFactory>().AsImplementedInterfaces();

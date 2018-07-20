@@ -1,10 +1,12 @@
-﻿using NIST.CVP.Crypto.Common.Symmetric.TDES.Enums;
+﻿using NIST.CVP.Crypto.Common.Symmetric.Enums;
+using NIST.CVP.Crypto.Common.Symmetric.TDES.Enums;
+using NIST.CVP.Crypto.TDES;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
-namespace NIST.CVP.Crypto.TDES.Tests
+namespace NIST.CVP.Crypto.Symmetric.Tests.Tdes
 {
-    [TestFixture,  FastCryptoTest]
+    [TestFixture, FastCryptoTest]
     public class KeyScheduleTests
     {
         [Test]
@@ -192,7 +194,7 @@ namespace NIST.CVP.Crypto.TDES.Tests
 
         private static KeySchedule GetSubject()
         {
-            var subject = new KeySchedule(new byte[] {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}, FunctionValues.Encryption,
+            var subject = new KeySchedule(new byte[] {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}, BlockCipherDirections.Encrypt,
                 true);
             return subject;
         }

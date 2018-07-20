@@ -6,6 +6,6 @@ namespace NIST.CVP.Common.Oracle
     public partial interface IOracle
     {
         MacResult GetCmacCase(CmacParameters param);
-        MacResult GetHmacCase();
+        MacResult GetHmacCase(HmacParameters param);
     }
 }
