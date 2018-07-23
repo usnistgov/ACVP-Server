@@ -56,6 +56,8 @@ namespace NIST.CVP.Generation.RSA_DPComponent
                         else
                         {
                             errors.Add($"Test case should have failed, 1 < cipherText < n - 1 not satisfied on iteration {i}");
+                            expected.Add($"{nameof(computedResult.FailureTest)} {i}", computedResult.FailureTest.ToString());
+                            provided.Add($"{nameof(iutResult.FailureTest)} {i}", iutResult.FailureTest.ToString());
                         }
                     }
                     else

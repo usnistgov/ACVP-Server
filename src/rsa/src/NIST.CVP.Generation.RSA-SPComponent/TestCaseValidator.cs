@@ -44,10 +44,14 @@ namespace NIST.CVP.Generation.RSA_SPComponent
                     if (_expectedResult.TestPassed == false)
                     {
                         errors.Add("Test was expected to fail");
+                        expected.Add(nameof(_expectedResult.TestPassed), _expectedResult.TestPassed.ToString());
+                        provided.Add(nameof(suppliedResult.TestPassed), suppliedResult.TestPassed.ToString());
                     }
                     else
                     {
                         errors.Add("Test was not expected to fail");
+                        expected.Add(nameof(_expectedResult.TestPassed), _expectedResult.TestPassed.ToString());
+                        provided.Add(nameof(suppliedResult.TestPassed), suppliedResult.TestPassed.ToString());
                     }
                 }
             }
