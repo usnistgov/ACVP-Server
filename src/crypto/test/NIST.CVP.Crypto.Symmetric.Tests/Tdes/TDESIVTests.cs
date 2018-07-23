@@ -1,7 +1,8 @@
-﻿using NIST.CVP.Tests.Core.TestCategoryAttributes;
+﻿using NIST.CVP.Crypto.TDES;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
-namespace NIST.CVP.Crypto.TDES.Tests
+namespace NIST.CVP.Crypto.Symmetric.Tests.Tdes
 {
     [TestFixture,  FastCryptoTest]
     public class TDESIVTests

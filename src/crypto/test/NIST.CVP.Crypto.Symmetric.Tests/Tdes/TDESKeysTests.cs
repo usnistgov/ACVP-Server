@@ -4,9 +4,9 @@ using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
-namespace NIST.CVP.Crypto.TDES.Tests
+namespace NIST.CVP.Crypto.Symmetric.Tests.Tdes
 {
-    [TestFixture,  FastCryptoTest]
+    [TestFixture, FastCryptoTest]
     public class TDESKeysTests
     {
 

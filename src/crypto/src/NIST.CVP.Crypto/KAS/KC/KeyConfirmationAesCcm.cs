@@ -10,7 +10,6 @@ namespace NIST.CVP.Crypto.KAS.KC
     public class KeyConfirmationAesCcm : KeyConfirmationBase
     {
         private readonly IAeadModeBlockCipher _ccm;
-        private readonly IAES_CCM _iAesCcm;
 
         public KeyConfirmationAesCcm(IAeadModeBlockCipher ccm, IKeyConfirmationParameters keyConfirmationParameters)
         {

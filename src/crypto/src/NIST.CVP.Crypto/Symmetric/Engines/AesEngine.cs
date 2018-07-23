@@ -9,7 +9,7 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.Symmetric.Engines
 {
-    public class AesEngine : IBlockCipherEngine
+    public class AesEngine : IBlockCipherEngine, IRijndaelInternals
     {
         private const int _bitsInByte = 8;
 
@@ -51,12 +51,12 @@ namespace NIST.CVP.Crypto.Symmetric.Engines
             if (_key == null)
             {
                 _key = param.Key;
-                PopulateKeySchedule();
+                _keySchedule = PopulateKeySchedule();
             }
             else if (!param.Key.SequenceEqual(_key))
             {
                 _key = param.Key;
-                PopulateKeySchedule();
+                _keySchedule = PopulateKeySchedule();
             }
         }
 
@@ -105,7 +105,7 @@ namespace NIST.CVP.Crypto.Symmetric.Engines
         /// <param name="payLoad">The payload (all blocks)</param>
         /// <param name="blockIndex">The index of the block to process</param>
         /// <returns></returns>
-        private byte[,] PopulateMultiDimensionBlock(byte[] payLoad, int blockIndex)
+        protected virtual byte[,] PopulateMultiDimensionBlock(byte[] payLoad, int blockIndex)
         {
             // (Blocksize / BitsInByte).Sqrt => (128 / 8).Sqrt => 4
             var dimension = 4;
@@ -129,7 +129,7 @@ namespace NIST.CVP.Crypto.Symmetric.Engines
         /// <param name="multiDimensionBlock"></param>
         /// <param name="outBuffer"></param>
         /// <param name="blockIndex"></param>
-        private void PopulateOutputFromResult(byte[,] multiDimensionBlock, byte[] outBuffer, int blockIndex)
+        protected virtual void PopulateOutputFromResult(byte[,] multiDimensionBlock, byte[] outBuffer, int blockIndex)
         {
             // (Blocksize / BitsInByte).Sqrt => (128 / 8).Sqrt => 4
             var dimension = 4;
@@ -289,7 +289,7 @@ namespace NIST.CVP.Crypto.Symmetric.Engines
             return 0;
         }
 
-        private void PopulateKeySchedule()
+        public IRijndaelKeySchedule PopulateKeySchedule()
         {
             var keyBytes = _key.Length;
             int keyBits = keyBytes * 8;
@@ -301,7 +301,7 @@ namespace NIST.CVP.Crypto.Symmetric.Engines
             {
                 k[i % 4, i / 4] = _key[i];
             }
-            _keySchedule = new RijndaelKeySchedule(keyBits, BlockSizeBytes * _bitsInByte, k);
+            return new RijndaelKeySchedule(keyBits, BlockSizeBytes * _bitsInByte, k);
         }
     }
 }

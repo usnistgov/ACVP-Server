@@ -1,11 +1,10 @@
-﻿using NIST.CVP.Common.Oracle.ResultTypes;
+﻿using NIST.CVP.Common.Oracle.ParameterTypes;
+using NIST.CVP.Common.Oracle.ResultTypes;
 
 namespace NIST.CVP.Common.Oracle
 {
     public partial interface IOracle
     {
-        AesResult GetAesKeyWrapCase();
-        AesResult GetAesKeyWrapWithPaddingCase();
-        TdesResult GetTdesKeyWrapCase();
+        KeyWrapResult GetKeyWrapCase(KeyWrapParameters param);
     }
 }

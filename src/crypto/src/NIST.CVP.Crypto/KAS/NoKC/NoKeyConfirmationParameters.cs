@@ -15,7 +15,7 @@ namespace NIST.CVP.Crypto.KAS.NoKC
         /// <param name="derivedKeyingMaterial">The keying material used as the MAC key</param>
         /// <param name="macLength">The returned MAC length</param>
         /// <param name="nonce">The nonce used (concatenated onto "Standard Test Message")</param>
-        /// <param name="ccmNonce">The Nonce used in <see cref="IAES_CCM"/> nonce</param>
+        /// <param name="ccmNonce">The Nonce used in AES-CCM</param>
         public NoKeyConfirmationParameters(KeyAgreementMacType keyAgreementMacType, int macLength, BitString derivedKeyingMaterial, BitString nonce, BitString ccmNonce)
         {
             if (keyAgreementMacType != KeyAgreementMacType.AesCcm)

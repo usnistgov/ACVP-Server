@@ -2,11 +2,9 @@
 using NIST.CVP.Crypto.KeyWrap;
 using NUnit.Framework;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.KeyWrap.AES;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
-using NLog;
 using NIST.CVP.Generation.KeyWrap.Parsers;
 
 namespace NIST.CVP.Generation.KeyWrap.IntegrationTests
@@ -19,10 +17,7 @@ namespace NIST.CVP.Generation.KeyWrap.IntegrationTests
     {
         string _testPath;
         protected abstract string FolderName { get; }
-        private readonly TestCaseGeneratorFactory<TTestGroup, TTestCase> _subject = new TestCaseGeneratorFactory<TTestGroup, TTestCase>(
-            new KeyWrapFactory(),
-            new Random800_90()
-        );
+        private readonly KeyWrapFactory _subject = new KeyWrapFactory();
 
         [OneTimeSetUp]
         public void OneTimeSetup()
@@ -78,9 +73,8 @@ namespace NIST.CVP.Generation.KeyWrap.IntegrationTests
                     if (testGroup.Direction.ToLower() == "encrypt")
                     {
                         var expectedCipher = testCase.CipherText.GetDeepCopy();
-                        var generator = _subject.GetCaseGenerator(testGroup);
-                        var result = generator.Generate(testGroup, testCase);
-                        var resultingTestCase = result.TestCase;
+                        var result = _subject.GetKeyWrapInstance(testGroup.KeyWrapType)
+                            .Encrypt(testCase.Key, testCase.PlainText, testGroup.UseInverseCipher);
 
                         if (!result.Success)
                         {
@@ -88,7 +82,7 @@ namespace NIST.CVP.Generation.KeyWrap.IntegrationTests
                             continue;
                         }
 
-                        Assert.AreEqual(expectedCipher.ToHex(), resultingTestCase.CipherText.ToHex(), $"Failed on count {count} expected CT {expectedCipher.ToHex()}, got {resultingTestCase.CipherText.ToHex()}");
+                        Assert.AreEqual(expectedCipher.ToHex(), result.Result.ToHex(), $"Failed on count {count} expected CT {expectedCipher.ToHex()}, got {result.Result.ToHex()}");
                         testPasses++;
                         continue;
                     }
@@ -100,11 +94,8 @@ namespace NIST.CVP.Generation.KeyWrap.IntegrationTests
                             expectedPlainText = testCase.PlainText.GetDeepCopy();
                         }
 
-                        var result = new KeyWrapFactory().GetKeyWrapInstance(testGroup.KeyWrapType).Decrypt(
-                            testCase.Key,
-                            testCase.CipherText,
-                            testGroup.UseInverseCipher
-                        );
+                        var result = _subject.GetKeyWrapInstance(testGroup.KeyWrapType)
+                            .Decrypt(testCase.Key, testCase.CipherText, testGroup.UseInverseCipher);
 
                         if (!testCase.TestPassed.Value)
                         {

@@ -1,7 +1,8 @@
 ﻿using System;
 using Moq;
-using NIST.CVP.Crypto.Common.MAC;
-using NIST.CVP.Crypto.Common.MAC.HMAC;
+using NIST.CVP.Common.Oracle;
+using NIST.CVP.Common.Oracle.ParameterTypes;
+using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
@@ -13,15 +14,13 @@ namespace NIST.CVP.Generation.HMAC.Tests
     public class TestCaseGeneratorTests
     {
         private TestCaseGenerator _subject;
-        private Mock<IRandom800_90> _random;
-        private Mock<IHmac> _algo;
+        private Mock<IOracle> _oracle;
         
         [SetUp]
         public void Setup()
         {
-            _random = new Mock<IRandom800_90>();
-            _algo = new Mock<IHmac>();
-            _subject = new TestCaseGenerator(_random.Object, _algo.Object);
+            _oracle = new Mock<IOracle>();
+            _subject = new TestCaseGenerator(_oracle.Object);
         }
         
         [Test]
@@ -36,24 +35,10 @@ namespace NIST.CVP.Generation.HMAC.Tests
         [Test]
         public void GenerateShouldReturnNullITestCaseOnFailedGenerate()
         {
-            _algo
-                .Setup(s => s.Generate(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<int>()))
-                .Returns(new MacResult("Fail"));
+            _oracle
+                .Setup(s => s.GetHmacCase(It.IsAny<HmacParameters>()))
+                .Throws(new Exception("Fail"));
 
-            var result = _subject.Generate(new TestGroup(), false);
-
-            Assert.IsNull(result.TestCase, $"{nameof(result.TestCase)} should be null");
-            Assert.IsFalse(result.Success, $"{nameof(result.Success)} should indicate failure");
-        }
-
-        [Test]
-        public void GenerateShouldReturnNullITestCaseOnExceptionGen()
-        {
-            _algo
-                .Setup(s => s.Generate(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<int>()))
-                .Throws(new Exception());
-
-            
             var result = _subject.Generate(new TestGroup(), false);
 
             Assert.IsNull(result.TestCase, $"{nameof(result.TestCase)} should be null");
@@ -65,31 +50,35 @@ namespace NIST.CVP.Generation.HMAC.Tests
         {
             _subject.Generate(new TestGroup(), true);
 
-            _algo.Verify(v => v.Generate(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<int>()),
+            _oracle.Verify(v => v.GetHmacCase(It.IsAny<HmacParameters>()),
                 Times.AtLeastOnce,
-                $"{nameof(_algo.Object.Generate)} should have been invoked"
+                $"{nameof(_oracle.Object.GetHmacCase)} should have been invoked"
             );
         }
 
         [Test]
         public void GenerateShouldReturnFilledTestCaseObjectOnSuccess()
         {
-            var fakeMac = new BitString(new byte[] { 1 });
-            var fakeMsg = new BitString(new byte[] { 2 });
-            _random
-                .Setup(s => s.GetRandomBitString(It.IsAny<int>()))
-                .Returns(new BitString(new byte[] { 3 }));
-            _algo
-                .Setup(s => s.Generate(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<int>()))
-                .Returns(new MacResult(fakeMac));
+            var key = new BitString("01");
+            var message = new BitString("02");
+            var tag = new BitString("03");
+
+            _oracle
+                .Setup(s => s.GetHmacCase(It.IsAny<HmacParameters>()))
+                .Returns(new MacResult()
+                {
+                    Key = key,
+                    Message = message,
+                    Tag = tag
+                });
 
             var result = _subject.Generate(new TestGroup(), false);
 
             Assert.IsTrue(result.Success, $"{nameof(result)} should be successful");
             Assert.IsInstanceOf(typeof(TestCase), result.TestCase, $"{nameof(result.TestCase)} type mismatch");
-            Assert.IsNotEmpty((result.TestCase).Key.ToString(), "Key");
-            Assert.IsNotEmpty((result.TestCase).Message.ToString(), "Message");
-            Assert.IsNotEmpty((result.TestCase).Mac.ToString(), "Mac");
+            Assert.AreEqual(key, result.TestCase.Key, nameof(key));
+            Assert.AreEqual(message, result.TestCase.Message, nameof(message));
+            Assert.AreEqual(tag, result.TestCase.Mac, nameof(tag));
             Assert.IsFalse(result.TestCase.Deferred, "Deferred");
         }
     }

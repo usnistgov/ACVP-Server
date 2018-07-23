@@ -7,7 +7,6 @@ namespace NIST.CVP.Generation.RSA_KeyGen
     public class TestCaseGeneratorFactory : ITestCaseGeneratorFactory<TestGroup, TestCase>
     {
         private readonly IOracle _oracle;
-        private readonly IKeyComposerFactory _keyComposerFactory;
 
         public TestCaseGeneratorFactory(IOracle oracle)
         {
