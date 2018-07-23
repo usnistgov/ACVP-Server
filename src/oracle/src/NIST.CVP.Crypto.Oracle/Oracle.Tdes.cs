@@ -234,16 +234,12 @@ namespace NIST.CVP.Crypto.Oracle
 
         public async Task<TdesResult> GetTdesCaseAsync(TdesParameters param)
         {
-            // TODO note this should not be done this way, proof of concept
-            // implementing with orleans will allow for the more appropriate awaiting
-            return await Task.Factory.StartNew(() => GetTdesCase(param));
+            return await Task.Run(() => GetTdesCase(param));
         }
 
         public async Task<MctResult<TdesResult>> GetTdesMctCaseAsync(TdesParameters param)
         {
-            // TODO note this should not be done this way, proof of concept
-            // implementing with orleans will allow for the more appropriate awaiting
-            return await Task.Factory.StartNew(() => GetTdesMctCase(param));
+            return await Task.Run(() => GetTdesMctCase(param));
         }
     }
 }

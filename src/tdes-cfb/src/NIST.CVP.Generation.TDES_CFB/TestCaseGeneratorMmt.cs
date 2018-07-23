@@ -1,18 +1,21 @@
-﻿using NIST.CVP.Generation.Core;
-using System;
+﻿using System;
+using System.Threading.Tasks;
 using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.Crypto.Common.Symmetric.Helpers;
+using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.TDES_CFB
 {
-    public class TestCaseGeneratorMmt : ITestCaseGenerator<TestGroup, TestCase>
+    public class TestCaseGeneratorMmt : ITestCaseGeneratorAsync<TestGroup, TestCase>
     {
         private readonly IOracle _oracle;
         private readonly int _shift;
         private readonly BlockCipherModesOfOperation _mode;
         private int _lenGenIteration = 1;
+        private bool _hasRunOnce = false;
 
         public int NumberOfTestCasesToGenerate => 10;
 
@@ -38,7 +41,7 @@ namespace NIST.CVP.Generation.TDES_CFB
             }
         }
 
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
+        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample)
         {
             var param = new TdesParameters
             {
@@ -50,7 +53,7 @@ namespace NIST.CVP.Generation.TDES_CFB
 
             try
             {
-                var oracleResult = _oracle.GetTdesCase(param);
+                var oracleResult = await _oracle.GetTdesCaseAsync(param);
 
                 return new TestCaseGenerateResponse<TestGroup, TestCase>(new TestCase
                 {
@@ -64,11 +67,6 @@ namespace NIST.CVP.Generation.TDES_CFB
             {
                 return new TestCaseGenerateResponse<TestGroup, TestCase>($"Failed to generate. {ex.Message}");
             }
-        }
-
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
-        {
-            throw new NotImplementedException();
         }
     }
 }
