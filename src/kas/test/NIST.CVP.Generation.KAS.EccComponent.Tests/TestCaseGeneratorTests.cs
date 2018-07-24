@@ -1,4 +1,5 @@
-﻿using Moq;
+﻿using System.Threading.Tasks;
+using Moq;
 using NIST.CVP.Common.Oracle;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
 using NIST.CVP.Crypto.Common.KAS;
@@ -29,9 +30,9 @@ namespace NIST.CVP.Generation.KAS.EccComponent.Tests
         [Test]
         [TestCase(false)]
         [TestCase(true)]
-        public void ShouldGenerateSuccessfully(bool isSample)
+        public async Task ShouldGenerateSuccessfully(bool isSample)
         {
-            var result = _subject.Generate(GetTestGroup(), isSample);
+            var result = await _subject.GenerateAsync(GetTestGroup(), isSample);
 
             Assert.IsTrue(result.Success);
         }

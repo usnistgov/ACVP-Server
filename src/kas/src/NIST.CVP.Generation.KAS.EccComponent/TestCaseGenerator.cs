@@ -1,14 +1,14 @@
 ﻿using System;
+using System.Threading.Tasks;
 using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
-using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
-using NIST.CVP.Crypto.Common.KAS;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.Async;
 using NLog;
 
 namespace NIST.CVP.Generation.KAS.EccComponent
 {
-    public class TestCaseGenerator : ITestCaseGenerator<TestGroup, TestCase>
+    public class TestCaseGenerator : ITestCaseGeneratorAsync<TestGroup, TestCase>
     {
         private readonly IOracle _oracle;
 
@@ -19,11 +19,11 @@ namespace NIST.CVP.Generation.KAS.EccComponent
 
         public int NumberOfTestCasesToGenerate => 25;
 
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
+        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample)
         {
             try
             {
-                var result = _oracle.GetKasEccComponentTest(
+                var result = await _oracle.GetKasEccComponentTestAsync(
                     new KasEccComponentParameters()
                     {
                         Curve = group.Curve,
@@ -52,11 +52,6 @@ namespace NIST.CVP.Generation.KAS.EccComponent
                 Logger.Error(ex);
                 return new TestCaseGenerateResponse<TestGroup, TestCase>(ex.Message);
             }
-        }
-
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
-        {
-            throw new NotImplementedException();
         }
 
         private static Logger Logger => LogManager.GetCurrentClassLogger();
