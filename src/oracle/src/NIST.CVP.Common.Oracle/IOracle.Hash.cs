@@ -5,14 +5,10 @@ namespace NIST.CVP.Common.Oracle
 {
     public partial interface IOracle
     {
-        HashResult GetShaCase(HashParameters param);
-        HashResult GetSha3Case();
-        HashResult GetShakeCase();
+        HashResult GetShaCase(ShaParameters param);
+        HashResult GetSha3Case(Sha3Parameters param);
 
-        MctResult<HashResult> GetShaMctCase(HashParameters param);
-        MctResult<HashResult> GetSha3MctCase();
-        MctResult<HashResult> GetShakeMctCase();
-
-        HashResult GetShakeVotCase();
+        MctResult<HashResult> GetShaMctCase(ShaParameters param);
+        MctResult<HashResult> GetSha3MctCase(Sha3Parameters param);
     }
 }

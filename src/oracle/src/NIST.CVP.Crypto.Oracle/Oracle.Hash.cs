@@ -1,7 +1,8 @@
-﻿using System;
-using NIST.CVP.Common.Oracle.ParameterTypes;
+﻿using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.SHA2;
+using NIST.CVP.Crypto.SHA3;
+using System;
 
 namespace NIST.CVP.Crypto.Oracle
 {
@@ -9,8 +10,10 @@ namespace NIST.CVP.Crypto.Oracle
     {
         private readonly SHA _sha = new SHA(new SHAFactory());
         private SHA_MCT _shaMct;
+        private readonly SHA3.SHA3 _sha3 = new SHA3.SHA3(new SHA3Factory());
+        private SHA3_MCT _sha3Mct;
 
-        public HashResult GetShaCase(HashParameters param)
+        public HashResult GetShaCase(ShaParameters param)
         {
             var message = _rand.GetRandomBitString(param.MessageLength);
 
@@ -28,7 +31,7 @@ namespace NIST.CVP.Crypto.Oracle
             };
         }
 
-        public MctResult<HashResult> GetShaMctCase(HashParameters param)
+        public MctResult<HashResult> GetShaMctCase(ShaParameters param)
         {
             _shaMct = new SHA_MCT(_sha);
 
@@ -49,12 +52,43 @@ namespace NIST.CVP.Crypto.Oracle
             };
         }
 
-        public HashResult GetSha3Case() => throw new NotImplementedException();
-        public HashResult GetShakeCase() => throw new NotImplementedException();
+        public HashResult GetSha3Case(Sha3Parameters param)
+        {
+            var message = _rand.GetRandomBitString(param.MessageLength);
 
-        public MctResult<HashResult> GetSha3MctCase() => throw new NotImplementedException();
-        public MctResult<HashResult> GetShakeMctCase() => throw new NotImplementedException();
+            var result = _sha3.HashMessage(param.HashFunction, message);
 
-        public HashResult GetShakeVotCase() => throw new NotImplementedException();
+            if (!result.Success)
+            {
+                throw new Exception();
+            }
+
+            return new HashResult
+            {
+                Message = message,
+                Digest = result.Digest
+            };
+        }
+
+        public MctResult<HashResult> GetSha3MctCase(Sha3Parameters param)
+        {
+            _sha3Mct = new SHA3_MCT(_sha3);
+
+            var message = _rand.GetRandomBitString(param.MessageLength);
+
+            // TODO isSample up in here?
+            var result = _sha3Mct.MCTHash(param.HashFunction, message);
+
+            if (!result.Success)
+            {
+                throw new Exception();
+            }
+
+            return new MctResult<HashResult>
+            {
+                Results = result.Response.ConvertAll(element =>
+                    new HashResult { Message = element.Message, Digest = element.Digest })
+            };
+        }
     }
 }

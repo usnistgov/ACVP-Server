@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace NIST.CVP.Common.Oracle
 {
     public class Pool<T>
     {
-        public ContentType WaterType { get; }
+        //public ContentType WaterType { get; }
 
         private readonly Queue<T> _water;
         public int WaterLevel => _water.Count;

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using NIST.CVP.Crypto.Oracle;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
@@ -24,7 +21,7 @@ namespace NIST.CVP.Generation.SHA3.IntegrationTests
         [TestCase(5679, 12409, true)]
         public void ShouldGenerateSHAKEVOTWithProperSizes(int min, int max, bool bitOriented)
         {
-            var subject = new TestCaseGeneratorSHAKEVOTHash(new Random800_90(), new Crypto.SHA3.SHA3());
+            var subject = new TestCaseGeneratorVot(new Oracle());
             var prevCase = 0;
 
             for (var i = 0; i < subject.NumberOfTestCasesToGenerate; i++)

@@ -1,5 +1,4 @@
-﻿using System;
-using NIST.CVP.Common.Oracle.ParameterTypes;
+﻿using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.CMAC;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;

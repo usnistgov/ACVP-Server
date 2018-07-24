@@ -1,15 +1,7 @@
-﻿using System;
+﻿using NIST.CVP.Tests.Core.TestCategoryAttributes;
+using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Moq;
-using NIST.CVP.Crypto.Common.KDF;
-using NIST.CVP.Crypto.Common.KDF.Enums;
-using NIST.CVP.Crypto.KDF;
-using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.KDF.Tests.Fakes;
-using NIST.CVP.Tests.Core.TestCategoryAttributes;
-using NUnit.Framework;
 
 namespace NIST.CVP.Generation.KDF.Tests
 {
@@ -21,11 +13,7 @@ namespace NIST.CVP.Generation.KDF.Tests
         [SetUp]
         public void Setup()
         {
-            var fakeFactory = new Mock<IKdfFactory>();
-            fakeFactory
-                .Setup(s => s.GetKdfInstance(It.IsAny<KdfModes>(), It.IsAny<MacModes>(), It.IsAny<CounterLocations>(), It.IsAny<int>()))
-                .Returns(new FakeKdf());
-            _subject = new TestCaseValidatorFactory(fakeFactory.Object);
+            _subject = new TestCaseValidatorFactory(null);
         }
 
         [Test]
