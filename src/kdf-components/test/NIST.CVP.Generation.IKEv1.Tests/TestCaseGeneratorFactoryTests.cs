@@ -1,8 +1,5 @@
-﻿using Moq;
-using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
-using NIST.CVP.Crypto.Common.KDF.Components.IKEv1;
+﻿using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Common.KDF.Components.IKEv1.Enums;
-using NIST.CVP.Crypto.IKEv1;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
@@ -21,12 +18,7 @@ namespace NIST.CVP.Generation.IKEv1.Tests
                 TestType = "aft"
             };
 
-            var kdfFactoryMock = new Mock<IIkeV1Factory>();
-            kdfFactoryMock
-                .Setup(s => s.GetIkeV1Instance(It.IsAny<AuthenticationMethods>(), It.IsAny<HashFunction>()))
-                .Returns(new DsaIkeV1(null));
-
-            var subject = new TestCaseGeneratorFactory(null, kdfFactoryMock.Object);
+            var subject = new TestCaseGeneratorFactory(null);
             var generator = subject.GetCaseGenerator(testGroup);
             Assume.That(generator != null);
             Assert.IsInstanceOf(typeof(TestCaseGenerator), generator);

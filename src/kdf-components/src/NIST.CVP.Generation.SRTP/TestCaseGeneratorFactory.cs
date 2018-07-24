@@ -1,25 +1,20 @@
-﻿using NIST.CVP.Crypto.Common.KDF.Components.SRTP;
+﻿using NIST.CVP.Common.Oracle;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.SRTP
 {
     public class TestCaseGeneratorFactory : ITestCaseGeneratorFactory<TestGroup, TestCase>
     {
-        private readonly IRandom800_90 _random800_90;
-        private readonly ISrtpFactory _srtpFactory;
+        private readonly IOracle _oracle;
 
-        public TestCaseGeneratorFactory(IRandom800_90 random800_90, ISrtpFactory srtpFactory)
+        public TestCaseGeneratorFactory(IOracle oracle)
         {
-            _random800_90 = random800_90;
-            _srtpFactory = srtpFactory;
+            _oracle = oracle;
         }
 
         public ITestCaseGenerator<TestGroup, TestCase> GetCaseGenerator(TestGroup testGroup)
         {
-            var srtp = _srtpFactory.GetInstance();
-
-            return new TestCaseGenerator(_random800_90, srtp);
+            return new TestCaseGenerator(_oracle);
         }
     }
 }

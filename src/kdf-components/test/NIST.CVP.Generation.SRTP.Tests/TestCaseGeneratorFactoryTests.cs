@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using NIST.CVP.Crypto.SRTP;
-using NIST.CVP.Tests.Core.TestCategoryAttributes;
+﻿using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.SRTP.Tests
@@ -18,7 +14,7 @@ namespace NIST.CVP.Generation.SRTP.Tests
                 TestType = "aft"
             };
 
-            var subject = new TestCaseGeneratorFactory(null, new SrtpFactory());
+            var subject = new TestCaseGeneratorFactory(null);
             var generator = subject.GetCaseGenerator(testGroup);
             Assume.That(generator != null);
             Assert.IsInstanceOf(typeof(TestCaseGenerator), generator);
