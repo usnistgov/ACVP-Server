@@ -45,17 +45,18 @@ namespace NIST.CVP.Crypto.Symmetric.Engines
                 throw new ArgumentOutOfRangeException(nameof(param.Key));
             }
 
-            _direction = param.Direction;
             _useInverseCipher = param.UseInverseCipherMode;
 
             if (_key == null)
             {
                 _key = param.Key;
+                _direction = param.Direction;
                 _keySchedule = PopulateKeySchedule();
             }
-            else if (!param.Key.SequenceEqual(_key))
+            else if (!param.Key.SequenceEqual(_key) || param.Direction != _direction)
             {
                 _key = param.Key;
+                _direction = param.Direction;
                 _keySchedule = PopulateKeySchedule();
             }
         }

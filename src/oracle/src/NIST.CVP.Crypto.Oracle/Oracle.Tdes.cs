@@ -16,13 +16,15 @@ namespace NIST.CVP.Crypto.Oracle
 {
     public partial class Oracle
     {
-        private readonly TdesEngine _tdes = new TdesEngine();
         private readonly TdesMonteCarloFactory _tdesMctFactory = new TdesMonteCarloFactory(new BlockCipherEngineFactory(), new ModeBlockCipherFactory());
         private readonly TdesPartitionsMonteCarloFactory _tdesWithIvsMctFactory = new TdesPartitionsMonteCarloFactory(new BlockCipherEngineFactory(), new ModeBlockCipherFactory());
 
         public TdesResult GetTdesCase(TdesParameters param)
         {
-            var cipher = _modeFactory.GetStandardCipher(_tdes, param.Mode);
+            var cipher = _modeFactory.GetStandardCipher(
+                _engineFactory.GetSymmetricCipherPrimitive(BlockCipherEngines.Tdes), 
+                param.Mode
+            );
             var direction = BlockCipherDirections.Encrypt;
             if (param.Direction.ToLower() == "decrypt")
             {
@@ -87,7 +89,10 @@ namespace NIST.CVP.Crypto.Oracle
 
         public TdesResultWithIvs GetTdesWithIvsCase(TdesParameters param)
         {
-            var cipher = _modeFactory.GetStandardCipher(_tdes, param.Mode);
+            var cipher = _modeFactory.GetStandardCipher(
+                _engineFactory.GetSymmetricCipherPrimitive(BlockCipherEngines.Tdes), 
+                param.Mode
+            );
             var direction = BlockCipherDirections.Encrypt;
             if (param.Direction.ToLower() == "decrypt")
             {
@@ -186,8 +191,15 @@ namespace NIST.CVP.Crypto.Oracle
                 direction = BlockCipherDirections.Decrypt;
             }
 
-            var counter = _ctrFactory.GetCounter(_tdes, param.Incremental ? CounterTypes.Additive : CounterTypes.Subtractive, fullParam.Iv);
-            var cipher = _modeFactory.GetCounterCipher(_tdes, counter);
+            var counter = _ctrFactory.GetCounter(
+                _engineFactory.GetSymmetricCipherPrimitive(BlockCipherEngines.Tdes), 
+                param.Incremental ? CounterTypes.Additive : CounterTypes.Subtractive, 
+                fullParam.Iv
+            );
+            var cipher = _modeFactory.GetCounterCipher(
+                _engineFactory.GetSymmetricCipherPrimitive(BlockCipherEngines.Tdes), 
+                counter
+            );
 
             var blockCipherParams = new CounterModeBlockCipherParameters(direction, fullParam.Iv, fullParam.Key, direction == BlockCipherDirections.Encrypt ? fullParam.PlainText : fullParam.CipherText, null);
   
@@ -204,7 +216,9 @@ namespace NIST.CVP.Crypto.Oracle
 
         public CounterResult ExtractIvs(TdesParameters param, TdesResult fullParam)
         {
-            var cipher = _modeFactory.GetIvExtractor(_tdes);
+            var cipher = _modeFactory.GetIvExtractor(
+                _engineFactory.GetSymmetricCipherPrimitive(BlockCipherEngines.Tdes)
+            );
             var direction = BlockCipherDirections.Encrypt;
             if (param.Direction.ToLower() == "decrypt")
             {

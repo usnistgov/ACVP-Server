@@ -17,14 +17,17 @@ namespace NIST.CVP.Crypto.Oracle
 {
     public partial class Oracle
     {
-        private readonly AesEngine _aes = new AesEngine();
+        private readonly BlockCipherEngineFactory _engineFactory = new BlockCipherEngineFactory();
         private readonly ModeBlockCipherFactory _modeFactory = new ModeBlockCipherFactory();
         private readonly AesMonteCarloFactory _aesMctFactory = new AesMonteCarloFactory(new BlockCipherEngineFactory(), new ModeBlockCipherFactory());
         private readonly CounterFactory _ctrFactory = new CounterFactory();
 
         public AesResult GetAesCase(AesParameters param)
         {
-            var cipher = _modeFactory.GetStandardCipher(_aes, param.Mode);
+            var cipher = _modeFactory.GetStandardCipher(
+                _engineFactory.GetSymmetricCipherPrimitive(BlockCipherEngines.Aes), 
+                param.Mode
+            );
             var direction = BlockCipherDirections.Encrypt;
             if (param.Direction.ToLower() == "decrypt")
             {
@@ -118,8 +121,14 @@ namespace NIST.CVP.Crypto.Oracle
                 direction = BlockCipherDirections.Decrypt;
             }
 
-            var counter = _ctrFactory.GetCounter(_aes, param.Incremental ? CounterTypes.Additive : CounterTypes.Subtractive, fullParam.Iv);
-            var cipher = _modeFactory.GetCounterCipher(_aes, counter);
+            var counter = _ctrFactory.GetCounter(
+                _engineFactory.GetSymmetricCipherPrimitive(BlockCipherEngines.Aes), 
+                param.Incremental ? CounterTypes.Additive : CounterTypes.Subtractive, fullParam.Iv
+            );
+            var cipher = _modeFactory.GetCounterCipher(
+                _engineFactory.GetSymmetricCipherPrimitive(BlockCipherEngines.Aes), 
+                counter
+            );
 
             var blockCipherParams = new CounterModeBlockCipherParameters(direction, fullParam.Iv, fullParam.Key, direction == BlockCipherDirections.Encrypt ? fullParam.PlainText : fullParam.CipherText, null);
   
@@ -136,7 +145,9 @@ namespace NIST.CVP.Crypto.Oracle
 
         public CounterResult ExtractIvs(AesParameters param, AesResult fullParam)
         {
-            var cipher = _modeFactory.GetIvExtractor(_aes);
+            var cipher = _modeFactory.GetIvExtractor(
+                _engineFactory.GetSymmetricCipherPrimitive(BlockCipherEngines.Aes)
+            );
             var direction = BlockCipherDirections.Encrypt;
             if (param.Direction.ToLower() == "decrypt")
             {
@@ -166,7 +177,10 @@ namespace NIST.CVP.Crypto.Oracle
 
         public AesXtsResult GetAesXtsCase(AesXtsParameters param)
         {
-            var cipher = _modeFactory.GetStandardCipher(_aes, param.Mode);
+            var cipher = _modeFactory.GetStandardCipher(
+                _engineFactory.GetSymmetricCipherPrimitive(BlockCipherEngines.Aes), 
+                param.Mode
+            );
             var direction = BlockCipherDirections.Encrypt;
             if (param.Direction.ToLower() == "decrypt")
             {
