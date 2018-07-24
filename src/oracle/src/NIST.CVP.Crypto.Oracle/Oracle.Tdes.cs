@@ -157,7 +157,7 @@ namespace NIST.CVP.Crypto.Oracle
 
         public TdesResult GetDeferredTdesCounterCase(CounterParameters<TdesParameters> param)
         {
-            var iv = GetStartingIV(param.Overflow, param.Incremental);
+            var iv = GetStartingIv(param.Overflow, param.Incremental);
 
             var direction = BlockCipherDirections.Encrypt;
             if (param.Parameters.Direction.ToLower() == "decrypt")

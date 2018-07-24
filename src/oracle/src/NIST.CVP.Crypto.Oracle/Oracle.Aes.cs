@@ -11,6 +11,7 @@ using NIST.CVP.Crypto.Symmetric.MonteCarlo;
 using NIST.CVP.Math;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Crypto.Oracle
 {
@@ -88,7 +89,7 @@ namespace NIST.CVP.Crypto.Oracle
 
         public AesResult GetDeferredAesCounterCase(CounterParameters<AesParameters> param)
         {
-            var iv = GetStartingIV(param.Overflow, param.Incremental);
+            var iv = GetStartingIv(param.Overflow, param.Incremental);
 
             var direction = BlockCipherDirections.Encrypt;
             if (param.Parameters.Direction.ToLower() == "decrypt")
@@ -200,7 +201,38 @@ namespace NIST.CVP.Crypto.Oracle
             };
         }
 
-        private BitString GetStartingIV(bool overflow, bool incremental)
+
+        public async Task<AesResult> GetAesCaseAsync(AesParameters param)
+        {
+            return await Task.Run(() => GetAesCase(param));
+        }
+
+        public async Task<MctResult<AesResult>> GetAesMctCaseAsync(AesParameters param)
+        {
+            return await Task.Run(() => GetAesMctCase(param));
+        }
+
+        public async Task<AesXtsResult> GetAesXtsCaseAsync(AesXtsParameters param)
+        {
+            return await Task.Run(() => GetAesXtsCase(param));
+        }
+
+        public async Task<AesResult> GetDeferredAesCounterCaseAsync(CounterParameters<AesParameters> param)
+        {
+            return await Task.Run(() => GetDeferredAesCounterCase(param));
+        }
+
+        public async Task<AesResult> CompleteDeferredAesCounterCaseAsync(CounterParameters<AesParameters> param)
+        {
+            return await Task.Run(() => CompleteDeferredAesCounterCaseAsync(param));
+        }
+
+        public async Task<CounterResult> ExtractIvsAsync(AesParameters param, AesResult fullParam)
+        {
+            return await Task.Run(() => ExtractIvsAsync(param, fullParam));
+        }
+
+        private BitString GetStartingIv(bool overflow, bool incremental)
         {
             BitString padding;
 
