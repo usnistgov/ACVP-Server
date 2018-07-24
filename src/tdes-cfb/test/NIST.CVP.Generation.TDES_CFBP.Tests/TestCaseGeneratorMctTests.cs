@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Moq;
 using NIST.CVP.Common;
 using NIST.CVP.Common.Oracle;
@@ -18,8 +19,8 @@ namespace NIST.CVP.Generation.TDES_CFBP.Tests
         [SetUp]
         public void Setup()
         {
-            var mctResult = new MctResult<TdesResultWithIvs>();
-            mctResult.Results.Add(new TdesResultWithIvs()
+            var mctResult = Task.FromResult(new MctResult<TdesResultWithIvs>());
+            mctResult.Result.Results.Add(new TdesResultWithIvs()
             {
                 Key = new BitString(192),
                 Iv = new BitString(64),
@@ -32,7 +33,7 @@ namespace NIST.CVP.Generation.TDES_CFBP.Tests
 
             _mockOracle = new Mock<IOracle>();
             _mockOracle
-                .Setup(s => s.GetTdesMctWithIvsCase(It.IsAny<TdesParameters>()))
+                .Setup(s => s.GetTdesMctWithIvsCaseAsync(It.IsAny<TdesParameters>()))
                 .Returns(mctResult);
         }
 
@@ -40,7 +41,7 @@ namespace NIST.CVP.Generation.TDES_CFBP.Tests
         [TestCase(AlgoMode.TDES_CFBP1)]
         [TestCase(AlgoMode.TDES_CFBP8)]
         [TestCase(AlgoMode.TDES_CFBP64)]
-        public void ShouldCallAlgoFromIsSampleMethod(AlgoMode algoMode)
+        public async Task ShouldCallAlgoFromIsSampleMethod(AlgoMode algoMode)
         {
             TestGroup testGroup = new TestGroup()
             {
@@ -48,20 +49,20 @@ namespace NIST.CVP.Generation.TDES_CFBP.Tests
                 AlgoMode = algoMode
             };
             _subject = new TestCaseGeneratorMct(_mockOracle.Object, testGroup);
-            _subject.Generate(testGroup, false);
+            await _subject.GenerateAsync(testGroup, false);
 
-            _mockOracle.Verify(v => v.GetTdesMctWithIvsCase(It.IsAny<TdesParameters>()));
+            _mockOracle.Verify(v => v.GetTdesMctWithIvsCaseAsync(It.IsAny<TdesParameters>()));
         }
 
         [Test]
         [TestCase(AlgoMode.TDES_CFBP1)]
         [TestCase(AlgoMode.TDES_CFBP8)]
         [TestCase(AlgoMode.TDES_CFBP64)]
-        public void ShouldReturnErrorMessageIfAlgoFailsWithException(AlgoMode algoMode)
+        public async Task ShouldReturnErrorMessageIfAlgoFailsWithException(AlgoMode algoMode)
         {
             string errorMessage = "something bad happened! oh noes!";
             _mockOracle
-                .Setup(s => s.GetTdesMctWithIvsCase(It.IsAny<TdesParameters>()))
+                .Setup(s => s.GetTdesMctWithIvsCaseAsync(It.IsAny<TdesParameters>()))
                 .Throws(new Exception(errorMessage));
 
             TestGroup testGroup = new TestGroup()
@@ -71,7 +72,7 @@ namespace NIST.CVP.Generation.TDES_CFBP.Tests
             };
             _subject = new TestCaseGeneratorMct(_mockOracle.Object, testGroup);
             
-            var result = _subject.Generate(testGroup, false);
+            var result = await _subject.GenerateAsync(testGroup, false);
 
             Assert.IsFalse(result.Success, nameof(result.Success));
         }

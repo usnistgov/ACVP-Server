@@ -22,7 +22,7 @@ namespace NIST.CVP.Generation.TDES_CFB
 
             builder.RegisterType<TestCaseGeneratorKnownAnswer>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseGeneratorFactory>().AsImplementedInterfaces();
-            builder.RegisterType<Core.Async.TestCaseGeneratorFactoryFactory<TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
+            builder.RegisterType<Core.Async.TestCaseGeneratorFactoryFactoryAsync<TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
 
             builder.RegisterType<TestVectorFactory<Parameters, TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
             builder.RegisterType<TestGroupGeneratorFactory>().AsImplementedInterfaces();

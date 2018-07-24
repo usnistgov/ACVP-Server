@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using NIST.CVP.Common;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.Async;
 using NIST.CVP.Generation.Core.DeSerialization;
 using NIST.CVP.Generation.Core.JsonConverters;
 using NIST.CVP.Generation.Core.Parsers;
@@ -22,7 +23,7 @@ namespace NIST.CVP.Generation.TDES_CFBP
 
             builder.RegisterType<TestCaseGeneratorKnownAnswer>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseGeneratorFactory>().AsImplementedInterfaces();
-            builder.RegisterType<TestCaseGeneratorFactoryFactory<TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
+            builder.RegisterType<TestCaseGeneratorFactoryFactoryAsync<TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
 
             builder.RegisterType<TestVectorFactory<Parameters, TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
             builder.RegisterType<TestGroupGeneratorFactory>().AsImplementedInterfaces();

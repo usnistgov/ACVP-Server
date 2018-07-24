@@ -2,6 +2,7 @@
 using NIST.CVP.Math;
 using NLog;
 using System;
+using System.Threading.Tasks;
 using NIST.CVP.Common;
 using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
@@ -12,10 +13,11 @@ using NIST.CVP.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.Crypto.Common.Symmetric.Helpers;
 using NIST.CVP.Crypto.Common.Symmetric.TDES;
 using NIST.CVP.Crypto.Common.Symmetric.TDES.Helpers;
+using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.TDES_CFBP
 {
-    public class TestCaseGeneratorMmt : ITestCaseGenerator<TestGroup, TestCase>
+    public class TestCaseGeneratorMmt : ITestCaseGeneratorAsync<TestGroup, TestCase>
     {
         private readonly IOracle _oracle;
         private readonly int _shift;
@@ -46,7 +48,7 @@ namespace NIST.CVP.Generation.TDES_CFBP
             }
         }
 
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
+        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample)
         {
             var param = new TdesParameters
             {
@@ -58,7 +60,7 @@ namespace NIST.CVP.Generation.TDES_CFBP
 
             try
             {
-                var oracleResult = _oracle.GetTdesWithIvsCase(param);
+                var oracleResult = await _oracle.GetTdesWithIvsCaseAsync(param);
 
                 return new TestCaseGenerateResponse<TestGroup, TestCase>(new TestCase
                 {
@@ -74,11 +76,6 @@ namespace NIST.CVP.Generation.TDES_CFBP
             {
                 return new TestCaseGenerateResponse<TestGroup, TestCase>($"Failed to generate. {ex.Message}");
             }
-        }
-
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
-        {
-            throw new NotImplementedException();
         }
     }
 }

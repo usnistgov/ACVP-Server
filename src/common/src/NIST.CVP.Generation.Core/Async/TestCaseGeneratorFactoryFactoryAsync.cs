@@ -6,14 +6,14 @@ using NIST.CVP.Common.Enums;
 
 namespace NIST.CVP.Generation.Core.Async
 {
-    public class TestCaseGeneratorFactoryFactory<TTestVectorSet, TTestGroup, TTestCase> : ITestCaseGeneratorFactoryFactory<TTestVectorSet, TTestGroup, TTestCase>
+    public class TestCaseGeneratorFactoryFactoryAsync<TTestVectorSet, TTestGroup, TTestCase> : ITestCaseGeneratorFactoryFactory<TTestVectorSet, TTestGroup, TTestCase>
         where TTestVectorSet : ITestVectorSet<TTestGroup, TTestCase>
         where TTestGroup : ITestGroup<TTestGroup, TTestCase>
         where TTestCase : ITestCase<TTestGroup, TTestCase>
     {
         private readonly ITestCaseGeneratorFactoryAsync<TTestGroup, TTestCase> _testCaseGeneratorFactory;
 
-        public TestCaseGeneratorFactoryFactory(ITestCaseGeneratorFactoryAsync<TTestGroup, TTestCase> iTestCaseGeneratorFactory)
+        public TestCaseGeneratorFactoryFactoryAsync(ITestCaseGeneratorFactoryAsync<TTestGroup, TTestCase> iTestCaseGeneratorFactory)
         {
             _testCaseGeneratorFactory = iTestCaseGeneratorFactory;
         }

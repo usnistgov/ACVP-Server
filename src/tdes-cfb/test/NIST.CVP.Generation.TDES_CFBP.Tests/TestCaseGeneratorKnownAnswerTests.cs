@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Castle.Components.DictionaryAdapter;
 using NIST.CVP.Common;
 using NIST.CVP.Generation.Core;
@@ -71,7 +72,7 @@ namespace NIST.CVP.Generation.TDES_CFBP.Tests
         [TestCase("SubstitutiontablE", "encrypt", AlgoMode.TDES_CFBP64)]
         [TestCase("VariableTExt", "ENcryPt", AlgoMode.TDES_CFBP64)]
         [TestCase("VariableKey", "ENCRYPT", AlgoMode.TDES_CFBP64)]
-        public void ShouldReturnKat(string testType, string direction, AlgoMode algoMode)
+        public async Task ShouldReturnKat(string testType, string direction, AlgoMode algoMode)
         {
             TestGroup testGroup = new TestGroup()
             {
@@ -81,7 +82,7 @@ namespace NIST.CVP.Generation.TDES_CFBP.Tests
             };
 
             var subject = new TestCaseGeneratorKnownAnswer(testGroup);
-            var result = subject.Generate(testGroup, false);
+            var result = await subject.GenerateAsync(testGroup, false);
             Assert.IsNotNull(result);
             Assert.IsTrue(result.Success);
         }
@@ -104,7 +105,7 @@ namespace NIST.CVP.Generation.TDES_CFBP.Tests
         [TestCase("VariableKey", 112, "decrypt", AlgoMode.TDES_CFBP64)]
         [TestCase("VariableText", 128, "encrypt", AlgoMode.TDES_CFBP64)]
         [TestCase("SubstitutionTable", 38, "encrypt", AlgoMode.TDES_CFBP64)]
-        public void ShouldReturnExpectedListCount(string testType, int count, string direction, AlgoMode algoMode)
+        public async Task ShouldReturnExpectedListCount(string testType, int count, string direction, AlgoMode algoMode)
         {
             TestGroup testGroup = new TestGroup()
             {
@@ -117,7 +118,7 @@ namespace NIST.CVP.Generation.TDES_CFBP.Tests
             var results = new EditableList<TestCaseGenerateResponse<TestGroup, TestCase>>();
             for (int i = 0; i < subject.NumberOfTestCasesToGenerate; i++)
             {
-                results.Add(subject.Generate(testGroup, false));
+                results.Add(await subject.GenerateAsync(testGroup, false));
             }
             Assert.AreEqual(count, results.Count);
         }
