@@ -1,6 +1,8 @@
 ﻿using System.Threading.Tasks;
 using Moq;
 using NIST.CVP.Common.Oracle;
+using NIST.CVP.Common.Oracle.ParameterTypes;
+using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
 using NIST.CVP.Crypto.Common.KAS;
 using NIST.CVP.Crypto.Common.KES;
@@ -23,7 +25,19 @@ namespace NIST.CVP.Generation.KAS.EccComponent.Tests
         public void Setup()
         {
             _oracle = new Mock<IOracle>();
-            
+            _oracle
+                .Setup(s => s.GetKasEccComponentTestAsync(It.IsAny<KasEccComponentParameters>()))
+                .Returns(() => Task.FromResult(new KasEccComponentResult()
+                {
+                    PrivateKeyIut = 0,
+                    PrivateKeyServer = 1,
+                    PublicKeyIutX = 2,
+                    PublicKeyIutY = 3,
+                    PublicKeyServerX = 4,
+                    PublicKeyServerY = 5,
+                    Z = new BitString("00")
+                }));
+
             _subject = new TestCaseGenerator(_oracle.Object);
         }
 

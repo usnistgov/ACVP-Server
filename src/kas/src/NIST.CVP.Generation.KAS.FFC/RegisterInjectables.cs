@@ -20,7 +20,7 @@ namespace NIST.CVP.Generation.KAS.FFC
             builder.RegisterType<EntropyProvider>().AsImplementedInterfaces();
             
             builder.RegisterType<Generator<Parameters, TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
-            builder.RegisterType<Validator<TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
+            builder.RegisterType<ValidatorAsync<TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
 
             builder.RegisterType<PqgProviderReuseGenerations>().AsImplementedInterfaces();
             
@@ -32,7 +32,7 @@ namespace NIST.CVP.Generation.KAS.FFC
             builder.RegisterType<TestVectorFactory<Parameters, TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
             builder.RegisterType<TestGroupGeneratorFactory>().AsImplementedInterfaces();
             builder.RegisterType<DynamicParser>().AsImplementedInterfaces();
-            builder.RegisterType<ResultValidator<TestGroup, TestCase>>().AsImplementedInterfaces();
+            builder.RegisterType<ResultValidatorAsync<TestGroup, TestCase>>().AsImplementedInterfaces();
 
             builder.RegisterType<JsonConverterProvider>().AsImplementedInterfaces();
             builder.RegisterType<ContractResolverFactory>().AsImplementedInterfaces();

@@ -2,21 +2,22 @@
 using System.Linq;
 using NIST.CVP.Crypto.Common.KES;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.KAS.EccComponent
 {
-    public class TestCaseValidatorFactory : ITestCaseValidatorFactory<TestVectorSet, TestGroup, TestCase>
+    public class TestCaseValidatorFactory : ITestCaseValidatorFactoryAsync<TestVectorSet, TestGroup, TestCase>
     {
-        private readonly IDeferredTestCaseResolver<TestGroup, TestCase, SharedSecretResponse> _deferredTestCaseResolver;
+        private readonly IDeferredTestCaseResolverAsync<TestGroup, TestCase, SharedSecretResponse> _deferredTestCaseResolver;
 
-        public TestCaseValidatorFactory(IDeferredTestCaseResolver<TestGroup, TestCase, SharedSecretResponse> deferredTestCaseResolver)
+        public TestCaseValidatorFactory(IDeferredTestCaseResolverAsync<TestGroup, TestCase, SharedSecretResponse> deferredTestCaseResolver)
         {
             _deferredTestCaseResolver = deferredTestCaseResolver;
         }
 
-        public IEnumerable<ITestCaseValidator<TestGroup, TestCase>> GetValidators(TestVectorSet testVectorSet)
+        public IEnumerable<ITestCaseValidatorAsync<TestGroup, TestCase>> GetValidators(TestVectorSet testVectorSet)
         {
-            var list = new List<ITestCaseValidator<TestGroup, TestCase>>();
+            var list = new List<ITestCaseValidatorAsync<TestGroup, TestCase>>();
 
             foreach (var group in testVectorSet.TestGroups.Select(g => g))
             {

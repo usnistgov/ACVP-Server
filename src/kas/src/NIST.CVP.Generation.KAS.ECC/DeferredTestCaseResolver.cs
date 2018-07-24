@@ -1,13 +1,14 @@
 ﻿using System;
+using System.Threading.Tasks;
 using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Crypto.Common.KAS;
-using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.Async;
 using NLog;
 
 namespace NIST.CVP.Generation.KAS.ECC
 {
-    public class DeferredTestCaseResolver : IDeferredTestCaseResolver<TestGroup, TestCase, KasResult>
+    public class DeferredTestCaseResolver : IDeferredTestCaseResolverAsync<TestGroup, TestCase, KasResult>
     {
         private readonly IOracle _oracle;
 
@@ -16,11 +17,11 @@ namespace NIST.CVP.Generation.KAS.ECC
             _oracle = oracle;
         }
 
-        public KasResult CompleteDeferredCrypto(TestGroup serverTestGroup, TestCase serverTestCase, TestCase iutTestCase)
+        public async Task<KasResult> CompleteDeferredCryptoAsync(TestGroup serverTestGroup, TestCase serverTestCase, TestCase iutTestCase)
         {
             try
             {
-                var result = _oracle.CompleteDeferredKasTest(new KasAftDeferredParametersEcc()
+                var result = await _oracle.CompleteDeferredKasTestAsync(new KasAftDeferredParametersEcc()
                     {
                         Curve = serverTestGroup.Curve,
                         DkmNonceIut = iutTestCase.DkmNonceIut,

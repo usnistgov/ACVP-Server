@@ -1,19 +1,14 @@
 ﻿using System;
+using System.Threading.Tasks;
 using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
-using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
 using NIST.CVP.Crypto.Common.KAS;
-using NIST.CVP.Crypto.Common.KAS.Builders;
-using NIST.CVP.Crypto.Common.KAS.Enums;
-using NIST.CVP.Crypto.Common.KAS.Helpers;
-using NIST.CVP.Crypto.Common.KAS.Schema;
-using NIST.CVP.Generation.Core;
-using NIST.CVP.Math.Entropy;
+using NIST.CVP.Generation.Core.Async;
 using NLog;
 
 namespace NIST.CVP.Generation.KAS.FFC
 {
-    public class DeferredTestCaseResolver : IDeferredTestCaseResolver<TestGroup, TestCase, KasResult>
+    public class DeferredTestCaseResolver : IDeferredTestCaseResolverAsync<TestGroup, TestCase, KasResult>
     {
         private readonly IOracle _oracle;
 
@@ -22,11 +17,11 @@ namespace NIST.CVP.Generation.KAS.FFC
             _oracle = oracle;
         }
 
-        public KasResult CompleteDeferredCrypto(TestGroup serverTestGroup, TestCase serverTestCase, TestCase iutTestCase)
+        public async Task<KasResult> CompleteDeferredCryptoAsync(TestGroup serverTestGroup, TestCase serverTestCase, TestCase iutTestCase)
         {
             try
             {
-                var result = _oracle.CompleteDeferredKasTest(new KasAftDeferredParametersFfc()
+                var result = await _oracle.CompleteDeferredKasTestAsync(new KasAftDeferredParametersFfc()
                     {
                         P = serverTestGroup.P,
                         Q = serverTestGroup.Q,

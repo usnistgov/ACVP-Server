@@ -1,13 +1,14 @@
 ﻿using System;
+using System.Threading.Tasks;
 using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Crypto.Common.KES;
-using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.Async;
 using NLog;
 
 namespace NIST.CVP.Generation.KAS.EccComponent
 {
-    public class DeferredTestCaseResolver : IDeferredTestCaseResolver<TestGroup, TestCase, SharedSecretResponse>
+    public class DeferredTestCaseResolver : IDeferredTestCaseResolverAsync<TestGroup, TestCase, SharedSecretResponse>
     {
         private readonly IOracle _oracle;
 
@@ -16,11 +17,11 @@ namespace NIST.CVP.Generation.KAS.EccComponent
             _oracle = oracle;
         }
 
-        public SharedSecretResponse CompleteDeferredCrypto(TestGroup testGroup, TestCase serverTestCase, TestCase iutTestCase)
+        public async Task<SharedSecretResponse> CompleteDeferredCryptoAsync(TestGroup testGroup, TestCase serverTestCase, TestCase iutTestCase)
         {
             try
             {
-                return new SharedSecretResponse(_oracle.CompleteDeferredKasComponentTest(
+                var result = await _oracle.CompleteDeferredKasComponentTestAsync(
                     new KasEccComponentDeferredParameters()
                     {
                         Curve = testGroup.Curve,
@@ -32,7 +33,9 @@ namespace NIST.CVP.Generation.KAS.EccComponent
                         PublicKeyIutX = iutTestCase.PublicKeyIutX,
                         PublicKeyIutY = iutTestCase.PublicKeyIutY,
                     }
-                ).Z);
+                );
+
+                return new SharedSecretResponse(result.Z);
             }
             catch (Exception ex)
             {
