@@ -27,9 +27,13 @@ namespace NIST.CVP.Generation.Core.Async
 
         private async Task<GenerateResponse> BuildTestCasesAsync(TTestVectorSet testVector)
         {
+            // Keep track of a map of tasks for generating test cases, keyed on the group
             var tasks = new Dictionary<
                 TTestGroup, List<Task<TestCaseGenerateResponse<TTestGroup, TTestCase>>>
             >();
+
+            // for every test group, get a generator,
+            // and start tasks attibuted to the group for creating test cases
             foreach (var group in testVector.TestGroups.Select(g => g))
             {
                 var generator = _testCaseGeneratorFactory.GetCaseGenerator(group);
@@ -42,9 +46,11 @@ namespace NIST.CVP.Generation.Core.Async
             }
 
             int testId = 1;
+            // for each group
             foreach (var keyValuePair in tasks)
             {
                 var group = keyValuePair.Key;
+                // foreach task in the group, once they're completed, finish setting up the test case
                 foreach (var task in await Task.WhenAll(keyValuePair.Value))
                 {
                     if (!task.Success)

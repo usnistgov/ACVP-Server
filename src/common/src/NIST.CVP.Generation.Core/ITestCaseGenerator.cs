@@ -1,3 +1,5 @@
+using System;
+
 namespace NIST.CVP.Generation.Core
 {
     /// <summary>
@@ -5,6 +7,7 @@ namespace NIST.CVP.Generation.Core
     /// </summary>
     /// <typeparam name="TTestGroup">The test group information.</typeparam>
     /// <typeparam name="TTestCase">The test case type.</typeparam>
+    [Obsolete("Being replaced by ITestCaseGeneratorAsync")]
     public interface ITestCaseGenerator<TTestGroup, TTestCase>
         where TTestGroup : ITestGroup<TTestGroup, TTestCase>
         where TTestCase : ITestCase<TTestGroup, TTestCase>

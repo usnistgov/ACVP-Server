@@ -1,8 +1,10 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using NIST.CVP.Common.Enums;
 
 namespace NIST.CVP.Generation.Core
 {
+    [Obsolete("Being replaced by factory that works with asyncronous test case generators")]
     public class TestCaseGeneratorFactoryFactory<TTestVectorSet, TTestGroup, TTestCase> : ITestCaseGeneratorFactoryFactory<TTestVectorSet, TTestGroup, TTestCase>
         where TTestVectorSet : ITestVectorSet<TTestGroup, TTestCase>
         where TTestGroup : ITestGroup<TTestGroup, TTestCase>
