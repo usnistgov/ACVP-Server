@@ -8,6 +8,7 @@ using NLog;
 
 namespace NIST.CVP.Generation.Core
 {
+    [Obsolete("Being replaced by ValidatorAsync")]
     public class Validator<TTestVectorSet, TTestGroup, TTestCase> : IValidator
         where TTestVectorSet : ITestVectorSet<TTestGroup, TTestCase>
         where TTestGroup : ITestGroup<TTestGroup, TTestCase>

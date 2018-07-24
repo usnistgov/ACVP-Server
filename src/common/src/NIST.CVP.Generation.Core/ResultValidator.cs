@@ -6,6 +6,7 @@ using NLog;
 
 namespace NIST.CVP.Generation.Core
 {
+    [Obsolete("Being replaced by ResultValidatorAsync")]
     public class ResultValidator<TTestGroup, TTestCase> : IResultValidator<TTestGroup, TTestCase>
         where TTestGroup : ITestGroup<TTestGroup, TTestCase>
         where TTestCase : ITestCase<TTestGroup, TTestCase>

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace NIST.CVP.Generation.Core
 {
@@ -7,6 +8,7 @@ namespace NIST.CVP.Generation.Core
     /// </summary>
     /// <typeparam name="TTestGroup">Specific test group type in which to perform validation</typeparam>
     /// <typeparam name="TTestCase">Specific test case type in which to perform validation</typeparam>
+    [Obsolete("Being replace by IResultValidatorAsync")]
     public interface IResultValidator<TTestGroup, out TTestCase>
         where TTestGroup : ITestGroup<TTestGroup, TTestCase>
         where TTestCase : ITestCase<TTestGroup, TTestCase>

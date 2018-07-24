@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace NIST.CVP.Generation.Core
 {
@@ -9,6 +10,7 @@ namespace NIST.CVP.Generation.Core
     /// <typeparam name="TTestVectorSet">The test vector set type.</typeparam>
     /// <typeparam name="TTestGroup">The test group type</typeparam>
     /// <typeparam name="TTestCase">The test case type.</typeparam>
+    [Obsolete("Being replace by ITestCaseValidatorFactoryAsync")]
     public interface ITestCaseValidatorFactory<in TTestVectorSet, TTestGroup, in TTestCase>
         where TTestVectorSet : ITestVectorSet<TTestGroup, TTestCase>
         where TTestGroup : ITestGroup<TTestGroup, TTestCase>

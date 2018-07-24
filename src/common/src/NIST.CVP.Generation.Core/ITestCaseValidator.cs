@@ -1,10 +1,13 @@
-﻿namespace NIST.CVP.Generation.Core
+﻿using System;
+
+namespace NIST.CVP.Generation.Core
 {
     /// <summary>
     /// Performs server to IUT TestCase validation
     /// </summary>
     /// <typeparam name="TTestGroup">The test group type</typeparam>
     /// <typeparam name="TTestCase">The test case type to validate</typeparam>
+    [Obsolete("Being replace by ITestCaseValidatorAsync")]
     public interface ITestCaseValidator<TTestGroup, in TTestCase>
         where TTestGroup : ITestGroup<TTestGroup, TTestCase>
         where TTestCase : ITestCase<TTestGroup, TTestCase>

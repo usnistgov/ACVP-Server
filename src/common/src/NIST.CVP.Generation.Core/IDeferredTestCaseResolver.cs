@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Crypto.Common;
+﻿using System;
+using NIST.CVP.Crypto.Common;
 
 namespace NIST.CVP.Generation.Core
 {
@@ -8,6 +9,7 @@ namespace NIST.CVP.Generation.Core
     /// <typeparam name="TTestGroup">The <see cref="ITestGroup{TTestGroup,TTestCase}"/></typeparam>
     /// <typeparam name="TTestCase">The <see cref="ITestCase{TTestGroup,TTestCase}"/></typeparam>
     /// <typeparam name="TCryptoResult">The <see cref="ICryptoResult"/> of the completed crypto operation</typeparam>
+    [Obsolete("Being replace by IDeferredTestCaseResolverAsync")]
     public interface IDeferredTestCaseResolver<in TTestGroup, in TTestCase, out TCryptoResult>
         where TTestGroup : ITestGroup<TTestGroup, TTestCase>
         where TTestCase : ITestCase<TTestGroup, TTestCase>
