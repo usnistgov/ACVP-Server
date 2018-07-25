@@ -1,8 +1,6 @@
 ﻿using NIST.CVP.Math;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Threading.Tasks;
 using NIST.CVP.Generation.Core.Enums;
 
 namespace NIST.CVP.Generation.TDES_CFB.Tests
@@ -11,35 +9,35 @@ namespace NIST.CVP.Generation.TDES_CFB.Tests
     public class TestCaseValidatorDecryptTests
     {
         [Test]
-        public void ShouldValidateIfExpectedAndSuppliedResultsMatch()
+        public async Task ShouldValidateIfExpectedAndSuppliedResultsMatch()
         {
             var testCase = GetTestCase();
             var subject = new TestCaseValidatorDecrypt(testCase);
-            var result = subject.Validate(testCase);
+            var result = await subject.ValidateAsync(testCase);
             Assume.That(result != null);
             Assert.AreEqual(Disposition.Passed, result.Result);
         }
 
         [Test]
-        public void ShouldFailIfPlainTextDoesNotMatch()
+        public async Task ShouldFailIfPlainTextDoesNotMatch()
         {
             var testCase = GetTestCase();
             var subject = new TestCaseValidatorDecrypt(testCase);
             var suppliedResult = GetTestCase();
             suppliedResult.PlainText = new BitString("D00000");
-            var result = subject.Validate(suppliedResult);
+            var result = await subject.ValidateAsync(suppliedResult);
             Assume.That(result != null);
             Assert.AreEqual(Disposition.Failed, result.Result);
         }
 
         [Test]
-        public void ShouldShowPlainTextAsReasonIfItDoesNotMatch()
+        public async Task ShouldShowPlainTextAsReasonIfItDoesNotMatch()
         {
             var testCase = GetTestCase();
             var subject = new TestCaseValidatorDecrypt(testCase);
             var suppliedResult = GetTestCase();
             suppliedResult.PlainText = new BitString("D00000");
-            var result = subject.Validate(suppliedResult);
+            var result = await subject.ValidateAsync(suppliedResult);
             Assume.That(result != null);
             Assume.That(Disposition.Failed == result.Result);
             Assert.IsTrue(result.Reason.Contains("Plain Text"));
@@ -56,7 +54,7 @@ namespace NIST.CVP.Generation.TDES_CFB.Tests
         }
 
         [Test]
-        public void ShouldFailIfPlainTextNotPresent()
+        public async Task ShouldFailIfPlainTextNotPresent()
         {
             var testCase = GetTestCase();
             var subject = new TestCaseValidatorDecrypt(testCase);
@@ -64,7 +62,7 @@ namespace NIST.CVP.Generation.TDES_CFB.Tests
 
             suppliedResult.PlainText = null;
 
-            var result = subject.Validate(suppliedResult);
+            var result = await subject.ValidateAsync(suppliedResult);
             Assume.That(result != null);
             Assume.That(Disposition.Failed == result.Result);
 

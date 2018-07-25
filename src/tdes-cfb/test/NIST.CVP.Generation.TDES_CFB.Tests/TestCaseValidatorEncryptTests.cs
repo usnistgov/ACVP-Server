@@ -1,8 +1,6 @@
-﻿using NIST.CVP.Math;
+﻿using System.Threading.Tasks;
+using NIST.CVP.Math;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using NIST.CVP.Generation.Core.Enums;
 
 namespace NIST.CVP.Generation.TDES_CFB.Tests
@@ -11,35 +9,35 @@ namespace NIST.CVP.Generation.TDES_CFB.Tests
     public class TestCaseValidatorEncryptTests
     {
         [Test]
-        public void ShouldValidateIfExpectedAndSuppliedResultsMatch()
+        public async Task ShouldValidateIfExpectedAndSuppliedResultsMatch()
         {
             var testCase = GetTestCase();
             var subject = new TestCaseValidatorEncrypt(testCase);
-            var result = subject.Validate(testCase);
+            var result = await subject.ValidateAsync(testCase);
             Assume.That(result != null);
             Assert.AreEqual(Disposition.Passed, result.Result);
         }
 
         [Test]
-        public void ShouldFailIfCipherTextDoesNotMatch()
+        public async Task ShouldFailIfCipherTextDoesNotMatch()
         {
             var testCase = GetTestCase();
             var subject = new TestCaseValidatorEncrypt(testCase);
             var suppliedResult = GetTestCase();
             suppliedResult.CipherText = new BitString("D00000");
-            var result = subject.Validate(suppliedResult);
+            var result = await subject.ValidateAsync(suppliedResult);
             Assume.That(result != null);
             Assert.AreEqual(Disposition.Failed, result.Result);
         }
 
         [Test]
-        public void ShouldShowCipherTextAsReasonIfItDoesNotMatch()
+        public async Task ShouldShowCipherTextAsReasonIfItDoesNotMatch()
         {
             var testCase = GetTestCase();
             var subject = new TestCaseValidatorEncrypt(testCase);
             var suppliedResult = GetTestCase();
             suppliedResult.CipherText = new BitString("D00000");
-            var result = subject.Validate(suppliedResult);
+            var result = await subject.ValidateAsync(suppliedResult);
             Assume.That(result != null);
             Assume.That(Disposition.Failed == result.Result);
             Assert.IsTrue(result.Reason.Contains("Cipher Text"));
@@ -56,7 +54,7 @@ namespace NIST.CVP.Generation.TDES_CFB.Tests
         }
 
         [Test]
-        public void ShouldFailIfCipherTextNotPresent()
+        public async Task ShouldFailIfCipherTextNotPresent()
         {
             var testCase = GetTestCase();
             var subject = new TestCaseValidatorEncrypt(testCase);
@@ -64,7 +62,7 @@ namespace NIST.CVP.Generation.TDES_CFB.Tests
 
             suppliedResult.CipherText = null;
 
-            var result = subject.Validate(suppliedResult);
+            var result = await subject.ValidateAsync(suppliedResult);
             Assume.That(result != null);
             Assume.That(Disposition.Failed == result.Result);
 
