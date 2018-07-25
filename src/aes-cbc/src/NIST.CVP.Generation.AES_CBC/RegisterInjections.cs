@@ -17,7 +17,7 @@ namespace NIST.CVP.Generation.AES_CBC
             builder.RegisterType<Random800_90>().AsImplementedInterfaces();
             
             builder.RegisterType<Generator<Parameters, TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
-            builder.RegisterType<Validator<TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
+            builder.RegisterType<ValidatorAsync<TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
 
             builder.RegisterType<ParameterParser<Parameters>>().AsImplementedInterfaces();
             builder.RegisterType<ParameterValidator>().AsImplementedInterfaces();
@@ -27,7 +27,7 @@ namespace NIST.CVP.Generation.AES_CBC
             builder.RegisterType<TestCaseGeneratorFactoryFactoryAsync<TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseGeneratorFactory>().AsImplementedInterfaces();
 
-            builder.RegisterType<ResultValidator<TestGroup, TestCase>>().AsImplementedInterfaces();
+            builder.RegisterType<ResultValidatorAsync<TestGroup, TestCase>>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseValidatorFactory>().AsImplementedInterfaces();
 
             builder.RegisterType<JsonConverterProvider>().AsImplementedInterfaces();
