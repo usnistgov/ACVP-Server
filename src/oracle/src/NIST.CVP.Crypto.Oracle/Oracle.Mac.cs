@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.CMAC;
@@ -73,6 +74,16 @@ namespace NIST.CVP.Crypto.Oracle
             };
 
             return result;
+        }
+
+        public async Task<MacResult> GetCmacCaseAsync(CmacParameters param)
+        {
+            return await _taskFactory.StartNew(() => GetCmacCase(param));
+        }
+
+        public async Task<MacResult> GetHmacCaseAsync(HmacParameters param)
+        {
+            return await _taskFactory.StartNew(() => GetHmacCase(param));
         }
     }
 }
