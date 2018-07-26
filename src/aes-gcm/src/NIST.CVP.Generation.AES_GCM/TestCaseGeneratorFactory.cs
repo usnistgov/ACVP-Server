@@ -1,9 +1,10 @@
 ﻿using NIST.CVP.Common.Oracle;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.AES_GCM
 {
-    public class TestCaseGeneratorFactory : ITestCaseGeneratorFactory<TestGroup, TestCase>
+    public class TestCaseGeneratorFactory : ITestCaseGeneratorFactoryAsync<TestGroup, TestCase>
     {
         private readonly IOracle _oracle;
 
@@ -12,7 +13,7 @@ namespace NIST.CVP.Generation.AES_GCM
             _oracle = oracle;
         }
 
-        public ITestCaseGenerator<TestGroup, TestCase> GetCaseGenerator(TestGroup testGroup)
+        public ITestCaseGeneratorAsync<TestGroup, TestCase> GetCaseGenerator(TestGroup testGroup)
         {
             var direction = testGroup.Function.ToLower();
             var ivGen = testGroup.IVGeneration.ToLower();

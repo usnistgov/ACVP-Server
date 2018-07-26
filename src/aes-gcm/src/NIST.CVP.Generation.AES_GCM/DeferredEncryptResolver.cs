@@ -1,11 +1,12 @@
-﻿using NIST.CVP.Common.Oracle;
+﻿using System.Threading.Tasks;
+using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
-using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.AES_GCM
 {
-    public class DeferredEncryptResolver : IDeferredTestCaseResolver<TestGroup, TestCase, AeadResult>
+    public class DeferredEncryptResolver : IDeferredTestCaseResolverAsync<TestGroup, TestCase, AeadResult>
     {
         private readonly IOracle _oracle;
 
@@ -14,7 +15,7 @@ namespace NIST.CVP.Generation.AES_GCM
             _oracle = oracle;
         }
 
-        public AeadResult CompleteDeferredCrypto(TestGroup testGroup, TestCase serverTestCase, TestCase iutTestCase)
+        public async Task<AeadResult> CompleteDeferredCryptoAsync(TestGroup testGroup, TestCase serverTestCase, TestCase iutTestCase)
         {
             var param = new AeadParameters
             {
@@ -29,7 +30,7 @@ namespace NIST.CVP.Generation.AES_GCM
                 Aad = serverTestCase.AAD
             };
             
-            return _oracle.CompleteDeferredAesGcmCase(param, fullParam);
+            return await _oracle.CompleteDeferredAesGcmCaseAsync(param, fullParam);
         }
     }
 }

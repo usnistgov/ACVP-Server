@@ -13,67 +13,67 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
     public class TestCaseValidatorEncryptTests
     {
         [Test]
-        public void ShouldValidateIfExpectedAndSuppliedResultsMatch()
+        public async Task ShouldValidateIfExpectedAndSuppliedResultsMatch()
         {
             var testCase = GetTestCase();
             var subject = new TestCaseValidatorEncrypt(testCase);
-            var result = subject.Validate(testCase);
+            var result = await subject.ValidateAsync(testCase);
             Assume.That(result != null);
             Assert.AreEqual(Disposition.Passed, result.Result);
         }
 
         [Test]
-        public void ShouldFailIfCipherTextDoesNotMatch()
+        public async Task ShouldFailIfCipherTextDoesNotMatch()
         {
             var testCase = GetTestCase();
             var subject = new TestCaseValidatorEncrypt(testCase);
             var suppliedResult = GetTestCase();
             suppliedResult.CipherText = new BitString("D00000");
-            var result = subject.Validate(suppliedResult);
+            var result = await subject.ValidateAsync(suppliedResult);
             Assume.That(result != null);
             Assert.AreEqual(Disposition.Failed, result.Result);
         }
 
         [Test]
-        public void ShouldShowCipherTextAsReasonIfItDoesNotMatch()
+        public async Task ShouldShowCipherTextAsReasonIfItDoesNotMatch()
         {
             var testCase = GetTestCase();
             var subject = new TestCaseValidatorEncrypt(testCase);
             var suppliedResult = GetTestCase();
             suppliedResult.CipherText = new BitString("D00000");
-            var result = subject.Validate(suppliedResult);
+            var result = await subject.ValidateAsync(suppliedResult);
             Assume.That(result != null);
             Assume.That(Disposition.Failed == result.Result);
             Assert.IsTrue(result.Reason.Contains("Cipher Text"));
         }
 
         [Test]
-        public void ShouldFailIfTagDoesNotMatch()
+        public async Task ShouldFailIfTagDoesNotMatch()
         {
             var testCase = GetTestCase();
             var subject = new TestCaseValidatorEncrypt(testCase);
             var suppliedResult = GetTestCase();
             suppliedResult.Tag = new BitString("D00000");
-            var result = subject.Validate(suppliedResult);
+            var result = await subject.ValidateAsync(suppliedResult);
             Assume.That(result != null);
             Assert.AreEqual(Disposition.Failed, result.Result);
         }
 
         [Test]
-        public void ShouldShowTagAsReasonIfItDoesNotMatch()
+        public async Task ShouldShowTagAsReasonIfItDoesNotMatch()
         {
             var testCase = GetTestCase();
             var subject = new TestCaseValidatorEncrypt(testCase);
             var suppliedResult = GetTestCase();
             suppliedResult.Tag = new BitString("D00000");
-            var result = subject.Validate(suppliedResult);
+            var result = await subject.ValidateAsync(suppliedResult);
             Assume.That(result != null);
             Assume.That(Disposition.Failed == result.Result);
             Assert.IsTrue(result.Reason.Contains("Tag"));
         }
 
         [Test]
-        public void ShouldFailIfCipherTextNotPresent()
+        public async Task ShouldFailIfCipherTextNotPresent()
         {
             var testCase = GetTestCase();
             var subject = new TestCaseValidatorEncrypt(testCase);
@@ -81,7 +81,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
 
             suppliedResult.CipherText = null;
 
-            var result = subject.Validate(suppliedResult);
+            var result = await subject.ValidateAsync(suppliedResult);
             Assume.That(result != null);
             Assume.That(Disposition.Failed == result.Result);
 
@@ -89,7 +89,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
         }
 
         [Test]
-        public void ShouldFailIfTagNotPresent()
+        public async Task ShouldFailIfTagNotPresent()
         {
             var testCase = GetTestCase();
             var subject = new TestCaseValidatorEncrypt(testCase);
@@ -97,7 +97,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
 
             suppliedResult.Tag = null;
 
-            var result = subject.Validate(suppliedResult);
+            var result = await subject.ValidateAsync(suppliedResult);
             Assume.That(result != null);
             Assume.That(Disposition.Failed == result.Result);
 
