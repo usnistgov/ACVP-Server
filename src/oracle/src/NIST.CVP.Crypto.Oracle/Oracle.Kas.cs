@@ -126,42 +126,42 @@ namespace NIST.CVP.Crypto.Oracle
 
         public async Task<KasValResultEcc> GetKasValTestEccAsync(KasValParametersEcc param)
         {
-            return await Task.Run(() => GetKasValTestEcc(param));
+            return await _taskFactory.StartNew(() => GetKasValTestEcc(param));
         }
 
         public async Task<KasAftResultEcc> GetKasAftTestEccAsync(KasAftParametersEcc param)
         {
-            return await Task.Run(() => GetKasAftTestEcc(param));
+            return await _taskFactory.StartNew(() => GetKasAftTestEcc(param));
         }
 
         public async Task<KasAftDeferredResult> CompleteDeferredKasTestAsync(KasAftDeferredParametersEcc param)
         {
-            return await Task.Run(() => CompleteDeferredKasTest(param));
+            return await _taskFactory.StartNew(() => CompleteDeferredKasTest(param));
         }
 
         public async Task<KasValResultFfc> GetKasValTestFfcAsync(KasValParametersFfc param)
         {
-            return await Task.Run(() => GetKasValTestFfc(param));
+            return await _taskFactory.StartNew(() => GetKasValTestFfc(param));
         }
 
         public async Task<KasAftResultFfc> GetKasAftTestFfcAsync(KasAftParametersFfc param)
         {
-            return await Task.Run(() => GetKasAftTestFfc(param));
+            return await _taskFactory.StartNew(() => GetKasAftTestFfc(param));
         }
 
         public async Task<KasAftDeferredResult> CompleteDeferredKasTestAsync(KasAftDeferredParametersFfc param)
         {
-            return await Task.Run(() => CompleteDeferredKasTest(param));
+            return await _taskFactory.StartNew(() => CompleteDeferredKasTest(param));
         }
 
         public async Task<KasEccComponentResult> GetKasEccComponentTestAsync(KasEccComponentParameters param)
         {
-            return await Task.Run(() => GetKasEccComponentTest(param));
+            return await _taskFactory.StartNew(() => GetKasEccComponentTest(param));
         }
 
         public async Task<KasEccComponentDeferredResult> CompleteDeferredKasComponentTestAsync(KasEccComponentDeferredParameters param)
         {
-            return await Task.Run(() => CompleteDeferredKasComponentTest(param));
+            return await _taskFactory.StartNew(() => CompleteDeferredKasComponentTest(param));
         }
 
         private BitString GenerateSharedSecretZ(

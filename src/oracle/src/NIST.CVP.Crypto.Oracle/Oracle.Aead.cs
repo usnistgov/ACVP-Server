@@ -190,39 +190,39 @@ namespace NIST.CVP.Crypto.Oracle
             );
         }
 
-        public Task<AeadResult> GetAesCcmCaseAsync(AeadParameters param)
+        public async Task<AeadResult> GetAesCcmCaseAsync(AeadParameters param)
         {
-            return Task.Run(() => GetAesCcmCase(param));
+            return await _taskFactory.StartNew(() => GetAesCcmCase(param));
         }
 
-        public Task<AeadResult> GetAesGcmCaseAsync(AeadParameters param)
+        public async Task<AeadResult> GetAesGcmCaseAsync(AeadParameters param)
         {
-            return Task.Run(() => GetAesGcmCase(param));
+            return await _taskFactory.StartNew(() => GetAesGcmCase(param));
         }
 
-        public Task<AeadResult> GetAesXpnCaseAsync(AeadParameters param)
+        public async Task<AeadResult> GetAesXpnCaseAsync(AeadParameters param)
         {
-            return Task.Run(() => GetAesXpnCase(param));
+            return await _taskFactory.StartNew(() => GetAesXpnCase(param));
         }
 
-        public Task<AeadResult> GetDeferredAesGcmCaseAsync(AeadParameters param)
+        public async Task<AeadResult> GetDeferredAesGcmCaseAsync(AeadParameters param)
         {
-            return Task.Run(() => GetDeferredAesGcmCase(param));
+            return await _taskFactory.StartNew(() => GetDeferredAesGcmCase(param));
         }
 
-        public Task<AeadResult> CompleteDeferredAesGcmCaseAsync(AeadParameters param, AeadResult fullParam)
+        public async Task<AeadResult> CompleteDeferredAesGcmCaseAsync(AeadParameters param, AeadResult fullParam)
         {
-            return Task.Run(() => CompleteDeferredAesGcmCase(param, fullParam));
+            return await _taskFactory.StartNew(() => CompleteDeferredAesGcmCase(param, fullParam));
         }
 
-        public Task<AeadResult> GetDeferredAesXpnCaseAsync(AeadParameters param)
+        public async Task<AeadResult> GetDeferredAesXpnCaseAsync(AeadParameters param)
         {
-            return Task.Run(() => GetDeferredAesXpnCase(param));
+            return await _taskFactory.StartNew(() => GetDeferredAesXpnCase(param));
         }
 
-        public Task<AeadResult> CompleteDeferredAesXpnCaseAsync(AeadParameters param, AeadResult fullParam)
+        public async Task<AeadResult> CompleteDeferredAesXpnCaseAsync(AeadParameters param, AeadResult fullParam)
         {
-            return Task.Run(() => CompleteDeferredAesXpnCase(param, fullParam));
+            return await _taskFactory.StartNew(() => CompleteDeferredAesXpnCase(param, fullParam));
         }
     }
 }

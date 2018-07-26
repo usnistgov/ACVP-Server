@@ -249,22 +249,22 @@ namespace NIST.CVP.Crypto.Oracle
 
         public async Task<TdesResult> GetTdesCaseAsync(TdesParameters param)
         {
-            return await Task.Run(() => GetTdesCase(param));
+            return await _taskFactory.StartNew(() => GetTdesCase(param));
         }
 
         public async Task<MctResult<TdesResult>> GetTdesMctCaseAsync(TdesParameters param)
         {
-            return await Task.Run(() => GetTdesMctCase(param));
+            return await _taskFactory.StartNew(() => GetTdesMctCase(param));
         }
 
         public async Task<TdesResultWithIvs> GetTdesWithIvsCaseAsync(TdesParameters param)
         {
-            return await Task.Run(() => GetTdesWithIvsCase(param));
+            return await _taskFactory.StartNew(() => GetTdesWithIvsCase(param));
         }
 
         public async Task<MctResult<TdesResultWithIvs>> GetTdesMctWithIvsCaseAsync(TdesParameters param)
         {
-            return await Task.Run(() => GetTdesMctWithIvsCase(param));
+            return await _taskFactory.StartNew(() => GetTdesMctWithIvsCase(param));
         }
     }
 }
