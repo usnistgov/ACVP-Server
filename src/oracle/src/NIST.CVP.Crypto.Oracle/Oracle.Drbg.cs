@@ -5,6 +5,7 @@ using NIST.CVP.Crypto.DRBG;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using DrbgResult = NIST.CVP.Common.Oracle.ResultTypes.DrbgResult;
 
 namespace NIST.CVP.Crypto.Oracle
@@ -212,6 +213,11 @@ namespace NIST.CVP.Crypto.Oracle
                     return GetReseedNoPredResistCase(param);
                 }
             }
+        }
+
+        public async Task<DrbgResult> GetDrbgCaseAsync(DrbgParameters param)
+        {
+            return await _taskFactory.StartNew(() => GetDrbgCase(param));
         }
     }
 }
