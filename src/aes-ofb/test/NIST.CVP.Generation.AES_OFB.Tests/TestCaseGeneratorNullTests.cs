@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Tests.Core.TestCategoryAttributes;
+﻿using System.Threading.Tasks;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.AES_OFB.Tests
@@ -14,18 +15,10 @@ namespace NIST.CVP.Generation.AES_OFB.Tests
         }
 
         [Test]
-        public void ShouldReturnErrorForInitialGenerate()
+        public async Task ShouldReturnErrorForInitialGenerate()
         {
             var subject = new TestCaseGeneratorNull();
-            var result = subject.Generate(new TestGroup(), false);
-            Assert.IsFalse(result.Success);
-        }
-
-        [Test]
-        public void ShouldReturnErrorForRedoGenerate()
-        {
-            var subject = new TestCaseGeneratorNull();
-            var result = subject.Generate(new TestGroup(), new TestCase());
+            var result = await subject.GenerateAsync(new TestGroup(), false);
             Assert.IsFalse(result.Success);
         }
     }

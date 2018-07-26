@@ -6,10 +6,13 @@ using NIST.CVP.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.Generation.Core;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
+using NIST.CVP.Generation.Core.Async;
+using NLog;
 
 namespace NIST.CVP.Generation.AES_OFB
 {
-    public class TestCaseGeneratorMct : ITestCaseGenerator<TestGroup, TestCase>
+    public class TestCaseGeneratorMct : ITestCaseGeneratorAsync<TestGroup, TestCase>
     {
         private readonly IOracle _oracle;
 
@@ -20,7 +23,7 @@ namespace NIST.CVP.Generation.AES_OFB
             _oracle = oracle;
         }
 
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
+        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample)
         {
             var param = new AesParameters
             {
@@ -30,35 +33,32 @@ namespace NIST.CVP.Generation.AES_OFB
                 KeyLength = group.KeyLength
             };
 
-            MctResult<AesResult> oracleResult = null;
             try
             {
-                oracleResult = _oracle.GetAesMctCase(param);
+                var oracleResult = await _oracle.GetAesMctCaseAsync(param);
+
+                return new TestCaseGenerateResponse<TestGroup, TestCase>(new TestCase
+                {
+                    PlainText = oracleResult.Results[0].PlainText,
+                    CipherText = oracleResult.Results[0].CipherText,
+                    IV = oracleResult.Results[0].Iv,
+                    Key = oracleResult.Results[0].Key,
+                    ResultsArray = Array.ConvertAll(oracleResult.Results.ToArray(), element => new AlgoArrayResponse
+                    {
+                        PlainText = element.PlainText,
+                        IV = element.Iv,
+                        CipherText = element.CipherText,
+                        Key = element.Key
+                    }).ToList()
+                });
             }
             catch (Exception ex)
             {
+                ThisLogger.Error(ex);
                 return new TestCaseGenerateResponse<TestGroup, TestCase>($"Failed to generate. {ex.Message}");
             }
-
-            return new TestCaseGenerateResponse<TestGroup, TestCase>(new TestCase
-            {
-                PlainText = oracleResult.Results[0].PlainText,
-                CipherText = oracleResult.Results[0].CipherText,
-                IV = oracleResult.Results[0].Iv,
-                Key = oracleResult.Results[0].Key,
-                ResultsArray = Array.ConvertAll(oracleResult.Results.ToArray(), element => new AlgoArrayResponse
-                {
-                    PlainText = element.PlainText,
-                    IV = element.Iv,
-                    CipherText = element.CipherText,
-                    Key = element.Key
-                }).ToList()
-            });
         }
 
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
-        {
-            return null;
-        }
+        private static ILogger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }
