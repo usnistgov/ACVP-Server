@@ -2,16 +2,22 @@
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Enums;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.AES_XPN
 {
-    public class TestCaseValidatorInternalEncrypt : ITestCaseValidator<TestGroup, TestCase>
+    public class TestCaseValidatorInternalEncrypt : ITestCaseValidatorAsync<TestGroup, TestCase>
     {
         private readonly TestGroup _testGroup;
         private readonly TestCase _serverTestCase;
-        private readonly IDeferredTestCaseResolver<TestGroup, TestCase, AeadResult> _testCaseResolver;
+        private readonly IDeferredTestCaseResolverAsync<TestGroup, TestCase, AeadResult> _testCaseResolver;
 
-        public TestCaseValidatorInternalEncrypt(TestGroup testGroup, TestCase serverTestCase, IDeferredTestCaseResolver<TestGroup, TestCase, AeadResult> testCaseResolver)
+        public TestCaseValidatorInternalEncrypt(
+            TestGroup testGroup, 
+            TestCase serverTestCase, 
+            IDeferredTestCaseResolverAsync<TestGroup, TestCase, AeadResult> testCaseResolver
+        )
         {
             _serverTestCase = serverTestCase;
             _testGroup = testGroup;
@@ -20,7 +26,7 @@ namespace NIST.CVP.Generation.AES_XPN
 
         public int TestCaseId => _serverTestCase.TestCaseId;
 
-        public TestCaseValidation Validate(TestCase suppliedResult, bool showExpected = false)
+        public async Task<TestCaseValidation> ValidateAsync(TestCase suppliedResult, bool showExpected = false)
         {
             var errors = new List<string>();
             var expected = new Dictionary<string, string>();
@@ -29,7 +35,7 @@ namespace NIST.CVP.Generation.AES_XPN
             ValidateResultPresent(suppliedResult, errors);
             if (errors.Count == 0)
             {
-                CheckResults(suppliedResult, errors, expected, provided);
+                await CheckResults(suppliedResult, errors, expected, provided);
             }
 
             if (errors.Count > 0)
@@ -46,9 +52,9 @@ namespace NIST.CVP.Generation.AES_XPN
             return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = Disposition.Passed };
         }
 
-        private void CheckResults(TestCase suppliedResult, List<string> errors, Dictionary<string, string> expected, Dictionary<string, string> provided)
+        private async Task CheckResults(TestCase suppliedResult, List<string> errors, Dictionary<string, string> expected, Dictionary<string, string> provided)
         {
-            var serverResult = _testCaseResolver.CompleteDeferredCrypto(_testGroup, _serverTestCase, suppliedResult);
+            var serverResult = await _testCaseResolver.CompleteDeferredCryptoAsync(_testGroup, _serverTestCase, suppliedResult);
 
             if (!serverResult.CipherText.Equals(suppliedResult.CipherText))
             {
