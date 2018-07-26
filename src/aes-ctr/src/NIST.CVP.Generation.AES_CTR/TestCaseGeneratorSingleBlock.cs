@@ -1,14 +1,16 @@
 ﻿using System;
+using System.Threading.Tasks;
 using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.Async;
 using NLog;
 
 namespace NIST.CVP.Generation.AES_CTR
 {
-    public class TestCaseGeneratorSingleBlock : ITestCaseGenerator<TestGroup, TestCase>
+    public class TestCaseGeneratorSingleBlock : ITestCaseGeneratorAsync<TestGroup, TestCase>
     {
         private readonly IOracle _oracle;
 
@@ -19,7 +21,7 @@ namespace NIST.CVP.Generation.AES_CTR
             _oracle = oracle;
         }
 
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
+        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample)
         {
             // This is a little hacky... but single block CTR is the same as OFB. So we can get past the awkward factory
             // TODO fix this up
@@ -31,30 +33,25 @@ namespace NIST.CVP.Generation.AES_CTR
                 Mode = BlockCipherModesOfOperation.Ofb
             };
 
-            AesResult result = null;
             try
             {
-                result = _oracle.GetAesCase(param);
+                var result = await _oracle.GetAesCaseAsync(param);
+
+                return new TestCaseGenerateResponse<TestGroup, TestCase>(new TestCase
+                {
+                    Key = result.Key,
+                    IV = result.Iv,
+                    PlainText = result.PlainText,
+                    CipherText = result.CipherText
+                });
             }
             catch (Exception ex)
             {
+                ThisLogger.Error(ex);
                 return new TestCaseGenerateResponse<TestGroup, TestCase>($"Failed to generate. {ex.Message}");
             }
-
-            return new TestCaseGenerateResponse<TestGroup, TestCase>(new TestCase
-            {
-                Key = result.Key,
-                IV = result.Iv,
-                PlainText = result.PlainText,
-                CipherText = result.CipherText
-            });
         }
 
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
-        {
-            return null;
-        }
-
-        private Logger ThisLogger => LogManager.GetCurrentClassLogger();
+        private static ILogger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }

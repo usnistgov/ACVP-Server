@@ -121,12 +121,13 @@ namespace NIST.CVP.Crypto.Oracle
                 direction = BlockCipherDirections.Decrypt;
             }
 
+            var engine = _engineFactory.GetSymmetricCipherPrimitive(BlockCipherEngines.Aes);
             var counter = _ctrFactory.GetCounter(
-                _engineFactory.GetSymmetricCipherPrimitive(BlockCipherEngines.Aes), 
+                engine, 
                 param.Incremental ? CounterTypes.Additive : CounterTypes.Subtractive, fullParam.Iv
             );
             var cipher = _modeFactory.GetCounterCipher(
-                _engineFactory.GetSymmetricCipherPrimitive(BlockCipherEngines.Aes), 
+                engine, 
                 counter
             );
 
@@ -228,22 +229,22 @@ namespace NIST.CVP.Crypto.Oracle
 
         public async Task<AesXtsResult> GetAesXtsCaseAsync(AesXtsParameters param)
         {
-            return await Task.Run(() => GetAesXtsCase(param));
+            return await _taskFactory.StartNew(() => GetAesXtsCase(param));
         }
 
         public async Task<AesResult> GetDeferredAesCounterCaseAsync(CounterParameters<AesParameters> param)
         {
-            return await Task.Run(() => GetDeferredAesCounterCase(param));
+            return await _taskFactory.StartNew(() => GetDeferredAesCounterCase(param));
         }
 
         public async Task<AesResult> CompleteDeferredAesCounterCaseAsync(CounterParameters<AesParameters> param)
         {
-            return await Task.Run(() => CompleteDeferredAesCounterCaseAsync(param));
+            return await _taskFactory.StartNew(() => CompleteDeferredAesCounterCase(param));
         }
 
         public async Task<CounterResult> ExtractIvsAsync(AesParameters param, AesResult fullParam)
         {
-            return await Task.Run(() => ExtractIvsAsync(param, fullParam));
+            return await _taskFactory.StartNew(() => ExtractIvs(param, fullParam));
         }
 
         private BitString GetStartingIv(bool overflow, bool incremental)

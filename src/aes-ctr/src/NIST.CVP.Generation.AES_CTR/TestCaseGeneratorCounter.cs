@@ -5,10 +5,12 @@ using NIST.CVP.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.Generation.Core;
 using NLog;
 using System;
+using System.Threading.Tasks;
+using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.AES_CTR
 {
-    public class TestCaseGeneratorCounter : ITestCaseGenerator<TestGroup, TestCase>
+    public class TestCaseGeneratorCounter : ITestCaseGeneratorAsync<TestGroup, TestCase>
     {
         private readonly IOracle _oracle;
 
@@ -21,7 +23,7 @@ namespace NIST.CVP.Generation.AES_CTR
             _oracle = oracle;
         }
 
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
+        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample)
         {
             if (isSample)
             {
@@ -41,41 +43,38 @@ namespace NIST.CVP.Generation.AES_CTR
                 Incremental = group.IncrementalCounter
             };
 
-            AesResult result = null;
             try
             {
+                AesResult result = null;
+
                 if (isSample)
                 {
                     // Generate full test case
-                    result = _oracle.CompleteDeferredAesCounterCase(param);
+                    result = await _oracle.CompleteDeferredAesCounterCaseAsync(param);
                 }
                 else
                 {
                     // Generate partial test case
-                    result = _oracle.GetDeferredAesCounterCase(param);
+                    result = await _oracle.GetDeferredAesCounterCaseAsync(param);
                 }
+
+                return new TestCaseGenerateResponse<TestGroup, TestCase>(new TestCase
+                {
+                    Deferred = true,
+                    CipherText = result.CipherText,
+                    IV = result.Iv,
+                    Key = result.Key,
+                    PlainText = result.PlainText,
+                    Length = result.PlainText?.BitLength ?? result.CipherText.BitLength
+                });
             }
             catch (Exception ex)
             {
+                ThisLogger.Error(ex);
                 return new TestCaseGenerateResponse<TestGroup, TestCase>($"Failed to generate. {ex.Message}");
             }
-
-            return new TestCaseGenerateResponse<TestGroup, TestCase>(new TestCase
-            {
-                Deferred = true,
-                CipherText = result.CipherText,
-                IV = result.Iv,
-                Key = result.Key,
-                PlainText = result.PlainText,
-                Length = result.PlainText?.BitLength ?? result.CipherText.BitLength
-            });
         }
-
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
-        {
-            return null;
-        }
-
-        private Logger ThisLogger => LogManager.GetCurrentClassLogger();
+        
+        private static ILogger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }

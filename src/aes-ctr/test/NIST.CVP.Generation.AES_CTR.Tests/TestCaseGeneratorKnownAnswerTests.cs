@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -24,7 +25,7 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
         [TestCase(128, "varkey")]
         [TestCase(192, "varkey")]
         [TestCase(256, "varkey")]
-        public void ShouldReturnResponseWithCollectionMatchingKeySize(int keyLength, string katType)
+        public async Task ShouldReturnResponseWithCollectionMatchingKeySize(int keyLength, string katType)
         {
             TestGroup testGroup = new TestGroup()
             {
@@ -32,10 +33,10 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
             };
 
             _subject = new TestCaseGeneratorKnownAnswer(keyLength, katType);
-            var result = _subject.Generate(testGroup, false);
+            var result = await _subject.GenerateAsync(testGroup, false);
 
             Assert.IsTrue(result.Success, nameof(result.Success));
-            Assert.AreEqual(keyLength, ((TestCase)result.TestCase).Key.BitLength, nameof(keyLength));
+            Assert.AreEqual(keyLength, result.TestCase.Key.BitLength, nameof(keyLength));
         }
 
         [Test]
@@ -64,7 +65,7 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
         [TestCase(128, "varkey")]
         [TestCase(192, "varkey")]
         [TestCase(256, "varkey")]
-        public void ShouldReturnSuccessResponseWhenKatsGenerated(int keyLength, string katType)
+        public async Task ShouldReturnSuccessResponseWhenKatsGenerated(int keyLength, string katType)
         {
             TestGroup testGroup = new TestGroup()
             {
@@ -76,7 +77,7 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
             var results = new List<TestCaseGenerateResponse<TestGroup, TestCase>>();
             for (int i = 0; i < _subject.NumberOfTestCasesToGenerate; i++)
             {
-                results.Add(_subject.Generate(testGroup, false));
+                results.Add(await _subject.GenerateAsync(testGroup, false));
             }
 
             Assert.IsTrue(results.TrueForAll(tfa => tfa.Success));
@@ -95,7 +96,7 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
         [TestCase(128, "varkey")]
         [TestCase(192, "varkey")]
         [TestCase(256, "varkey")]
-        public void ShouldReturnFailureResponseWhenKatsExhausted(int keyLength, string katType)
+        public async Task ShouldReturnFailureResponseWhenKatsExhausted(int keyLength, string katType)
         {
             TestGroup testGroup = new TestGroup()
             {
@@ -107,7 +108,7 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
             var results = new List<TestCaseGenerateResponse<TestGroup, TestCase>>();
             for (int i = 0; i <= _subject.NumberOfTestCasesToGenerate; i++)
             {
-                results.Add(_subject.Generate(testGroup, false));
+                results.Add(await _subject.GenerateAsync(testGroup, false));
             }
 
             Assert.IsTrue(results.Any(a => !a.Success));

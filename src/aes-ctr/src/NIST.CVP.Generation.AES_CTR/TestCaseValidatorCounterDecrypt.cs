@@ -1,28 +1,33 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using System.Threading.Tasks;
 using NIST.CVP.Crypto.Common.Symmetric;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.Async;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.AES_CTR
 {
-    public class TestCaseValidatorCounterDecrypt : ITestCaseValidator<TestGroup, TestCase>
+    public class TestCaseValidatorCounterDecrypt : ITestCaseValidatorAsync<TestGroup, TestCase>
     {
-        private readonly IDeferredTestCaseResolver<TestGroup, TestCase, SymmetricCounterResult> _deferredTestCaseResolver;
+        private readonly IDeferredTestCaseResolverAsync<TestGroup, TestCase, SymmetricCounterResult> _deferredTestCaseResolver;
         private readonly TestCase _serverTestCase;
         private readonly TestGroup _group;
         private List<BitString> _ivs = new List<BitString>();
         public int TestCaseId => _serverTestCase.TestCaseId;
 
-        public TestCaseValidatorCounterDecrypt(TestGroup group, TestCase testCase, IDeferredTestCaseResolver<TestGroup, TestCase, SymmetricCounterResult> resolver)
+        public TestCaseValidatorCounterDecrypt(
+            TestGroup group, 
+            TestCase testCase, 
+            IDeferredTestCaseResolverAsync<TestGroup, TestCase, SymmetricCounterResult> resolver)
         {
             _serverTestCase = testCase;
             _deferredTestCaseResolver = resolver;
             _group = group;
         }
 
-        public TestCaseValidation Validate(TestCase suppliedResult, bool showExpected = false)
+        public async Task<TestCaseValidation> ValidateAsync(TestCase suppliedResult, bool showExpected = false)
         {
             var errors = new List<string>();
             var expected = new Dictionary<string, string>();
@@ -31,7 +36,7 @@ namespace NIST.CVP.Generation.AES_CTR
             ValidateResultPresent(suppliedResult, errors);
             if (errors.Count == 0)
             {
-                CheckResults(suppliedResult, errors, expected, provided);
+                await CheckResults(suppliedResult, errors, expected, provided);
                 ValidateIVs(_ivs, errors);
             }
 
@@ -57,9 +62,9 @@ namespace NIST.CVP.Generation.AES_CTR
             }
         }
 
-        private void CheckResults(TestCase suppliedResult, List<string> errors, Dictionary<string, string> expected, Dictionary<string, string> provided)
+        private async Task CheckResults(TestCase suppliedResult, List<string> errors, Dictionary<string, string> expected, Dictionary<string, string> provided)
         {
-            var serverResult = _deferredTestCaseResolver.CompleteDeferredCrypto(_group, _serverTestCase, suppliedResult);
+            var serverResult = await _deferredTestCaseResolver.CompleteDeferredCryptoAsync(_group, _serverTestCase, suppliedResult);
 
             if (!serverResult.Success)
             {

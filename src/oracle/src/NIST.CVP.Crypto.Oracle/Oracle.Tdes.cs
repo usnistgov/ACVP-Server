@@ -191,13 +191,14 @@ namespace NIST.CVP.Crypto.Oracle
                 direction = BlockCipherDirections.Decrypt;
             }
 
+            var engine = _engineFactory.GetSymmetricCipherPrimitive(BlockCipherEngines.Tdes);
             var counter = _ctrFactory.GetCounter(
-                _engineFactory.GetSymmetricCipherPrimitive(BlockCipherEngines.Tdes), 
+                engine, 
                 param.Incremental ? CounterTypes.Additive : CounterTypes.Subtractive, 
                 fullParam.Iv
             );
             var cipher = _modeFactory.GetCounterCipher(
-                _engineFactory.GetSymmetricCipherPrimitive(BlockCipherEngines.Tdes), 
+                engine, 
                 counter
             );
 
