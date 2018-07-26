@@ -10,6 +10,7 @@
   "inEmpty": true,
   "nonxof": true,
   "xof": false,
+  "hexCustomization": false,
   "outputLength": [
     {
       "min": 256,
