@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Castle.Components.DictionaryAdapter;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
@@ -37,7 +38,7 @@ namespace NIST.CVP.Generation.TDES_OFBI.Tests
         [TestCase("SubstitutiontablE", "encrypt")]
         [TestCase("VariableTExt", "ENcryPt")]
         [TestCase("VariableKey", "ENCRYPT")]
-        public void ShouldReturnKat(string testType, string direction)
+        public async Task ShouldReturnKat(string testType, string direction)
         {
             var testGroup = new TestGroup
             {
@@ -46,7 +47,7 @@ namespace NIST.CVP.Generation.TDES_OFBI.Tests
             };
 
             var subject = new TestCaseGeneratorKnownAnswer(testGroup);
-            var result = subject.Generate(testGroup, false);
+            var result = await subject.GenerateAsync(testGroup, false);
             Assert.IsNotNull(result);
             Assert.IsTrue(result.Success);
         }
@@ -57,7 +58,7 @@ namespace NIST.CVP.Generation.TDES_OFBI.Tests
         [TestCase("VariableKey", 112, "decrypt")]
         [TestCase("VariableText", 128, "encrypt")]
         [TestCase("SubstitutionTable", 38, "encrypt")]
-        public void ShouldReturnExpectedListCount(string testType, int count, string direction)
+        public async Task ShouldReturnExpectedListCount(string testType, int count, string direction)
         {
             var testGroup = new TestGroup
             {
@@ -69,7 +70,7 @@ namespace NIST.CVP.Generation.TDES_OFBI.Tests
             List<TestCaseGenerateResponse<TestGroup, TestCase>> results = new EditableList<TestCaseGenerateResponse<TestGroup, TestCase>>();
             for (var i = 0; i < subject.NumberOfTestCasesToGenerate; i++)
             {
-                results.Add(subject.Generate(testGroup, false));
+                results.Add(await subject.GenerateAsync(testGroup, false));
             }
 
             Assert.AreEqual(count, results.Count);
@@ -84,7 +85,7 @@ namespace NIST.CVP.Generation.TDES_OFBI.Tests
         [TestCase("VariableText", 4, "20b9e767b2fb1456c39193d42381b3134f1b8036d441af95", "encrypt")]
         [TestCase("SubstitutionTable", 0, "690f5b0d9a26939b97fc1b9381f05ffae90a658ca212b240", "encrypt")]
         [TestCase("SubstitutionTable", 14, "6fbf1cafcffd05560aa3768ad4358b6c68b40c29c2238233", "encrypt")]
-        public void ShouldReturnExpectedElement(string testType, int elementId, string expectedCipherHex, string direction)
+        public async Task ShouldReturnExpectedElement(string testType, int elementId, string expectedCipherHex, string direction)
         {
             var testGroup = new TestGroup
             {
@@ -96,7 +97,7 @@ namespace NIST.CVP.Generation.TDES_OFBI.Tests
             var results = new List<TestCaseGenerateResponse<TestGroup, TestCase>>();
             for (var i = 0; i < subject.NumberOfTestCasesToGenerate; i++)
             {
-                results.Add(subject.Generate(testGroup, false));
+                results.Add(await subject.GenerateAsync(testGroup, false));
             }
 
             Assume.That(results.Count > elementId);

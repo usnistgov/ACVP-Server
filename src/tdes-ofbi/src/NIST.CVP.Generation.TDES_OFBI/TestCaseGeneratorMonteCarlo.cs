@@ -5,10 +5,13 @@ using NIST.CVP.Crypto.Common.Symmetric.TDES;
 using NIST.CVP.Generation.Core;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
+using NIST.CVP.Generation.Core.Async;
+using NLog;
 
 namespace NIST.CVP.Generation.TDES_OFBI
 {
-    public class TestCaseGeneratorMonteCarlo : ITestCaseGenerator<TestGroup, TestCase>
+    public class TestCaseGeneratorMonteCarlo : ITestCaseGeneratorAsync<TestGroup, TestCase>
     {
         private readonly IOracle _oracle;
 
@@ -19,7 +22,7 @@ namespace NIST.CVP.Generation.TDES_OFBI
             _oracle = oracle;
         }
 
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
+        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample)
         {
             var param = new TdesParameters
             {
@@ -31,7 +34,7 @@ namespace NIST.CVP.Generation.TDES_OFBI
 
             try
             {
-                var oracleResult = _oracle.GetTdesMctWithIvsCase(param);
+                var oracleResult = await _oracle.GetTdesMctWithIvsCaseAsync(param);
 
                 return new TestCaseGenerateResponse<TestGroup, TestCase>(new TestCase
                 {
@@ -52,13 +55,11 @@ namespace NIST.CVP.Generation.TDES_OFBI
             }
             catch (Exception ex)
             {
+                ThisLogger.Error(ex);
                 return new TestCaseGenerateResponse<TestGroup, TestCase>($"Failed to generate. {ex.Message}");
             }
         }
 
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
-        {
-            throw new NotImplementedException();
-        }
+        private static ILogger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }
