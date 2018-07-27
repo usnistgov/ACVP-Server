@@ -39,6 +39,8 @@ namespace NIST.CVP.Common
         CMAC_AES,
         [EnumMember(Value = "CMAC-TDES")]
         CMAC_TDES,
+        [EnumMember(Value = "CSHAKE")]
+        CSHAKE,
         [EnumMember(Value = "ctrDRBG")]
         DRBG_CTR,
         [EnumMember(Value = "hashDRBG")]
@@ -107,6 +109,10 @@ namespace NIST.CVP.Common
         KDFComponents_SSH,
         [EnumMember(Value = "KDF-Components-TLS")]
         KDFComponents_TLS,
+        [EnumMember(Value = "KMAC")]
+        KMAC,
+        [EnumMember(Value = "ParallelHash")]
+        ParallelHash,
         [EnumMember(Value = "RSA-DecryptionPrimitive")]
         RSA_DecryptionPrimitive,
         [EnumMember(Value = "RSA-KeyGen")]
@@ -152,6 +158,8 @@ namespace NIST.CVP.Common
         [EnumMember(Value = "TDES-OFB")]
         TDES_OFB,
         [EnumMember(Value = "TDES-OFBI")]
-        TDES_OFBI
+        TDES_OFBI,
+        [EnumMember(Value = "TupleHash")]
+        TupleHash
     }
 }

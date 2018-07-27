@@ -1,7 +1,8 @@
-﻿using System.Collections.Generic;
-using NIST.CVP.Crypto.Common.KDF;
+﻿using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.Common.KDF.Enums;
 using NIST.CVP.Generation.Core;
+using System;
+using System.Collections.Generic;
 
 namespace NIST.CVP.Generation.KDF
 {
@@ -64,8 +65,6 @@ namespace NIST.CVP.Generation.KDF
 
         private void CheckResults(TestCase suppliedResult, List<string> errors, Dictionary<string, string> expected, Dictionary<string, string> provided)
         {
-            var serverResult = _deferredTestCaseResolver.CompleteDeferredCrypto(_group, _serverTestCase, suppliedResult);
-
             if (_group.KdfMode == KdfModes.Counter && _group.CounterLocation == CounterLocations.MiddleFixedData)
             {
                 if (suppliedResult.BreakLocation <= 0 || suppliedResult.BreakLocation >= suppliedResult.FixedData.BitLength)
@@ -75,26 +74,30 @@ namespace NIST.CVP.Generation.KDF
                 }
             }
 
-            if (!serverResult.Success)
+            try
             {
-                errors.Add($"Server unable to complete test case with error: {serverResult.ErrorMessage}");
-                return;
-            }
+                var serverResult = _deferredTestCaseResolver.CompleteDeferredCrypto(_group, _serverTestCase, suppliedResult);
 
-            // Check the less than so 'GetMostSignificantBits' doesn't cause an error
-            if (suppliedResult.KeyOut.BitLength < _group.KeyOutLength)
-            {
-                errors.Add("KeyOut does not match");
-                expected.Add(nameof(serverResult.DerivedKey), serverResult.DerivedKey.ToHex());
-                provided.Add(nameof(suppliedResult.KeyOut), suppliedResult.KeyOut.ToHex());
-                return;
-            }
+                // Check the less than so 'GetMostSignificantBits' doesn't cause an error
+                if (suppliedResult.KeyOut.BitLength < _group.KeyOutLength)
+                {
+                    errors.Add("KeyOut does not match");
+                    expected.Add(nameof(serverResult.KeyOut), serverResult.KeyOut.ToHex());
+                    provided.Add(nameof(suppliedResult.KeyOut), suppliedResult.KeyOut.ToHex());
+                    return;
+                }
 
-            if (!serverResult.DerivedKey.Equals(suppliedResult.KeyOut.GetMostSignificantBits(_group.KeyOutLength)))
+                if (!serverResult.KeyOut.Equals(suppliedResult.KeyOut.GetMostSignificantBits(_group.KeyOutLength)))
+                {
+                    errors.Add("KeyOut does not match");
+                    expected.Add(nameof(serverResult.KeyOut), serverResult.KeyOut.ToHex());
+                    provided.Add(nameof(suppliedResult.KeyOut), suppliedResult.KeyOut.ToHex());
+                }
+            }
+            catch (Exception ex)
             {
-                errors.Add("KeyOut does not match");
-                expected.Add(nameof(serverResult.DerivedKey), serverResult.DerivedKey.ToHex());
-                provided.Add(nameof(suppliedResult.KeyOut), suppliedResult.KeyOut.ToHex());
+                errors.Add($"Server unable to complete test case with error: {ex.Message}");
+                return;
             }
         }
     }

@@ -1,24 +1,20 @@
-﻿using NIST.CVP.Crypto.Common.KDF.Components.IKEv1;
+﻿using NIST.CVP.Common.Oracle;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.IKEv1
 {
     public class TestCaseGeneratorFactory : ITestCaseGeneratorFactory<TestGroup, TestCase>
     {
-        private readonly IRandom800_90 _random800_90;
-        private readonly IIkeV1Factory _ikeFactory;
+        private readonly IOracle _oracle;
 
-        public TestCaseGeneratorFactory(IRandom800_90 random800_90, IIkeV1Factory factory)
+        public TestCaseGeneratorFactory(IOracle oracle)
         {
-            _random800_90 = random800_90;
-            _ikeFactory = factory;
+            _oracle = oracle;
         }
 
         public ITestCaseGenerator<TestGroup, TestCase> GetCaseGenerator(TestGroup testGroup)
         {
-            var ike = _ikeFactory.GetIkeV1Instance(testGroup.AuthenticationMethod, testGroup.HashAlg);
-            return new TestCaseGenerator(_random800_90, ike);
+            return new TestCaseGenerator(_oracle);
         }
     }
 }

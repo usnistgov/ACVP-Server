@@ -1,9 +1,9 @@
-﻿using System;
-using NIST.CVP.Common.Oracle;
+﻿using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Crypto.Common.Hash.SHA2;
 using NIST.CVP.Generation.Core;
 using NLog;
+using System;
 
 namespace NIST.CVP.Generation.SHA2
 {
@@ -23,7 +23,7 @@ namespace NIST.CVP.Generation.SHA2
 
         public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
         {
-            var param = new HashParameters
+            var param = new ShaParameters
             {
                 HashFunction = new HashFunction(group.Function, group.DigestSize),
                 MessageLength = DetermineMessageLength(group.BitOriented, group.IncludeNull, SHAEnumHelpers.DetermineBlockSize(group.DigestSize))

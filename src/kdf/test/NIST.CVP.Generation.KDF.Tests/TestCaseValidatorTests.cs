@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Moq;
-using NIST.CVP.Crypto.Common.KDF;
+﻿using Moq;
+using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.Common.KDF.Enums;
-using NIST.CVP.Crypto.KDF;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
@@ -97,7 +93,7 @@ namespace NIST.CVP.Generation.KDF.Tests
         {
             var mock = new Mock<IDeferredTestCaseResolver<TestGroup, TestCase, KdfResult>>();
             mock.Setup(s => s.CompleteDeferredCrypto(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()))
-                .Returns(new KdfResult(new BitString("ABCDEF0123456789ABCDEF0123456789")));
+                .Returns(new KdfResult{ KeyOut = new BitString("ABCDEF0123456789ABCDEF0123456789") });
             return mock;
         }
     }
