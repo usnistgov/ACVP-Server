@@ -174,267 +174,248 @@ namespace NIST.CVP.Generation.TupleHash.Tests
 
         // Need to rewrite these tests
 
-            /*[Test]
-            [TestCase(128, 1344)]
-            [TestCase(256, 1088)]
-            public void ShouldGenerateProperlySizedBitOrientedMessageForEachGenerateCallForEachRate(int digestSize, int rate)
+        [Test]
+        [TestCase(128, true, true)]
+        [TestCase(256, false, false)]
+        public void ShouldGenerateProperlySizedBitOrientedMessageForEachGenerateCallForEachRate(int digestSize, bool xof, bool includeNull)
+        {
+            var mockSHA = new Mock<ITupleHash>();
+            mockSHA.Setup(s => s.HashMessage(It.IsAny<HashFunction>(), It.IsAny<List<BitString>>()))
+                .Returns(new HashResult(new BitString("ABCD")));
+
+            var domain = new MathDomain();
+            domain.AddSegment(new RangeDomainSegment(new Random800_90(), 16, 65536));
+
+            var small = 0;
+            var nonEmpty = 1;
+            var empty = 0;
+            var semiEmpty = 0;
+            var currentLargeCase = 1;
+            var rate = 1600 - digestSize * 2;
+            var subject = new TestCaseGeneratorAFTHash(new Random800_90(), mockSHA.Object);
+            for (var caseIdx = 0; caseIdx < subject.NumberOfTestCasesToGenerate; caseIdx++)
             {
-                var mockSHA = new Mock<ITupleHash>();
-                mockSHA.Setup(s => s.HashMessage(It.IsAny<HashFunction>(), It.IsAny<IEnumerable<BitString>>()))
-                    .Returns(new HashResult(new BitString("ABCD")));
+                var result = subject.Generate(
+                    new TestGroup
+                    {
+                        Function = "TupleHash",
+                        DigestSize = digestSize,
+                        BitOrientedInput = true,
+                        BitOrientedOutput = true,
+                        IncludeNull = includeNull,
+                        OutputLength = domain,
+                        XOF = xof
+                    }, false);
 
-                var shortMessageCtr = 1;
-                var longMessageCtr = 0;
-                var subject = new TestCaseGeneratorAFTHash(new Random800_90(), mockSHA.Object);
+                Assume.That(result != null);
+                Assume.That(result.Success);
 
-                var domain = new MathDomain();
-                domain.AddSegment(new RangeDomainSegment(new Random800_90(), 16, 65536));
+                var testCase = (TestCase)result.TestCase;
 
-                for (var caseIdx = 0; caseIdx < subject.NumberOfTestCasesToGenerate; caseIdx++)
+                if (includeNull)
                 {
-                    var result = subject.Generate(
-                        new TestGroup
-                        {
-                            Function = "TupleHash",
-                            DigestSize = digestSize,
-                            BitOrientedInput = true,
-                            IncludeNull = false,
-                            OutputLength = domain
-                        }, false);
-
-                    Assume.That(result != null);
-                    Assume.That(result.Success);
-
-                    var testCase = (TestCase)result.TestCase;
-
-                    // Short message
-                    if (shortMessageCtr <= rate * 2)
+                    if (empty < 10)
                     {
                         foreach (var element in testCase.Tuple)
                         {
-                            Assert.AreEqual(shortMessageCtr, element.BitLength);
+                            Assert.AreEqual(0, element.BitLength);
                         }
-                        shortMessageCtr++;
+                        empty++;
                     }
-                    // Long message
+                    else if (semiEmpty < 30)
+                    {
+                        // nothing really to check
+                        semiEmpty++;
+                    }
+                    else if (small <= ((1600 - (digestSize * 2)) * 2))
+                    {
+                        Assert.AreEqual(small++, testCase.Tuple.ElementAt(0).BitLength);
+                    }
+                    else if (nonEmpty <= 25)
+                    {
+                        foreach (var element in testCase.Tuple)
+                        {
+                            Assert.IsTrue(element.BitLength > 0 && element.BitLength < 513);
+                        }
+                        nonEmpty++;
+                    }
                     else
                     {
-                        longMessageCtr++;
+                        Assert.AreEqual(rate + currentLargeCase++ * (rate + 1), testCase.Tuple.ElementAt(0).BitLength);
+                    }
+                }
+                else
+                {
+                    if (small <= (1600 - digestSize * 2) * 2)
+                    {
+                        Assert.AreEqual(small++, testCase.Tuple.ElementAt(0).BitLength);
+                    }
+                    else if (nonEmpty <= 25)
+                    {
                         foreach (var element in testCase.Tuple)
                         {
-                            Assert.AreEqual(shortMessageCtr, element.BitLength);
+                            Assert.IsTrue(element.BitLength > 0 && element.BitLength < 513);
                         }
+                        nonEmpty++;
+                    }
+                    else
+                    {
+                        Assert.AreEqual(rate + currentLargeCase++ * (rate + 1), testCase.Tuple.ElementAt(0).BitLength);
                     }
                 }
             }
+        }
 
-            /*[Test]
-            [TestCase(128, 1344, false)]
-            [TestCase(256, 1088, false)]
-            public void ShouldGenerateProperlySizedCustomizationStringForEachGenerateCall(int digestSize, int rate, bool includeNull)
-            {
-                var mockSHA = new Mock<ITupleHash>();
-                mockSHA.Setup(s => s.HashMessage(It.IsAny<HashFunction>(), It.IsAny<IEnumerable<BitString>>()))
+        [Test]
+        [TestCase(128, 1344, false)]
+        [TestCase(256, 1088, false)]
+        public void ShouldGenerateProperlySizedCustomizationStringForEachGenerateCall(int digestSize, int rate, bool includeNull)
+        {
+            var mockSHA = new Mock<ITupleHash>();
+            mockSHA.Setup(s => s.HashMessage(It.IsAny<HashFunction>(), It.IsAny<List<BitString>>()))
                     .Returns(new HashResult(new BitString("ABCD")));
 
-                var domain = new MathDomain();
-                domain.AddSegment(new RangeDomainSegment(new Random800_90(), 16, 65536));
+            var domain = new MathDomain();
+            domain.AddSegment(new RangeDomainSegment(new Random800_90(), 16, 65536));
 
-                var shortMessageCtr = 1;
-                var longMessageCtr = 1;
-                var customizationCtr = 1;
-                var subject = new TestCaseGeneratorAFTHash(new Random800_90(), mockSHA.Object);
-                for (var caseIdx = 0; caseIdx < subject.NumberOfTestCasesToGenerate; caseIdx++)
-                {
-                    var result = subject.Generate(
-                        new TestGroup
-                        {
-                            Function = "TupleHash",
-                            DigestSize = digestSize,
-                            BitOrientedInput = true,
-                            IncludeNull = includeNull,
-                            OutputLength = domain
-                        }, false);
-
-                    Assume.That(result != null);
-                    Assume.That(result.Success);
-
-                    var testCase = (TestCase)result.TestCase;
-
-                    // Short message
-                    if (shortMessageCtr <= rate * 2)
+            var shortMessageCtr = 0;
+            var longMessageCtr = 1;
+            var nonEmpty = 1;
+            var customizationCtr = 1;
+            var subject = new TestCaseGeneratorAFTHash(new Random800_90(), mockSHA.Object);
+            for (var caseIdx = 0; caseIdx < subject.NumberOfTestCasesToGenerate; caseIdx++)
+            {
+                var result = subject.Generate(
+                    new TestGroup
                     {
-                        Assert.AreEqual(customizationCtr, testCase.Customization.Length);
-                        customizationCtr = (customizationCtr + 1) % 100;
-                        shortMessageCtr++;
+                        Function = "TupleHash",
+                        DigestSize = digestSize,
+                        BitOrientedInput = true,
+                        BitOrientedOutput = true,
+                        IncludeNull = false,
+                        OutputLength = domain
+                    }, false);
+
+                Assume.That(result != null);
+                Assume.That(result.Success);
+
+                var testCase = (TestCase)result.TestCase;
+
+                if (shortMessageCtr <= (1600 - digestSize * 2) * 2)
+                {
+                    Assert.AreEqual(customizationCtr, testCase.Customization.Length);
+                    customizationCtr = (customizationCtr + 1) % 100;
+                    shortMessageCtr++;
+                }
+                else if (nonEmpty <= 20)
+                {
+                    // nothing for now
+                }
+                else if (nonEmpty <= 25)
+                {
+                    // nothing for now
+                }
+                else
+                {
+                    Assert.AreEqual(customizationCtr * longMessageCtr < 2000 ? customizationCtr++ * longMessageCtr : 0, testCase.Customization.Length);
+                    longMessageCtr++;
+                }
+            }
+        }
+
+        [Test]
+        [TestCase(128, true, true)]
+        [TestCase(256, false, false)]
+        public void ShouldGenerateProperlySizedByteOrientedMessageForEachGenerateCallForEachRate(int digestSize, bool xof, bool includeNull)
+        {
+            var mockSHA = new Mock<ITupleHash>();
+            mockSHA.Setup(s => s.HashMessage(It.IsAny<HashFunction>(), It.IsAny<List<BitString>>()))
+                .Returns(new HashResult(new BitString("ABCD")));
+
+            var domain = new MathDomain();
+            domain.AddSegment(new RangeDomainSegment(new Random800_90(), 16, 65536));
+
+            var small = 0;
+            var nonEmpty = 1;
+            var empty = 0;
+            var semiEmpty = 0;
+            var currentLargeCase = 1;
+            var rate = 1600 - digestSize * 2;
+            var subject = new TestCaseGeneratorAFTHash(new Random800_90(), mockSHA.Object);
+            for (var caseIdx = 0; caseIdx < subject.NumberOfTestCasesToGenerate; caseIdx++)
+            {
+                var result = subject.Generate(
+                    new TestGroup
+                    {
+                        Function = "TupleHash",
+                        DigestSize = digestSize,
+                        BitOrientedInput = false,
+                        BitOrientedOutput = true,
+                        IncludeNull = includeNull,
+                        OutputLength = domain,
+                        XOF = xof
+                    }, false);
+
+                Assume.That(result != null);
+                Assume.That(result.Success);
+
+                var testCase = (TestCase)result.TestCase;
+
+                if (includeNull)
+                {
+                    if (empty < 10)
+                    {
+                        foreach (var element in testCase.Tuple)
+                        {
+                            Assert.AreEqual(0, element.BitLength);
+                        }
+                        empty++;
                     }
-                    // Long message
+                    else if (semiEmpty < 30)
+                    {
+                        // nothing really to check
+                        semiEmpty++;
+                    }
+                    else if (small <= ((1600 - (digestSize * 2)) * 2) / 8)
+                    {
+                        Assert.AreEqual(small++ * 8, testCase.Tuple.ElementAt(0).BitLength);
+                    }
+                    else if (nonEmpty <= 25)
+                    {
+                        foreach (var element in testCase.Tuple)
+                        {
+                            Assert.IsTrue(element.BitLength > 0 && element.BitLength < 513);
+                            Assert.IsTrue(element.BitLength % 8 == 0);
+                        }
+                        nonEmpty++;
+                    }
                     else
                     {
-                        Assert.AreEqual(customizationCtr * longMessageCtr < 2000 ? customizationCtr++ * longMessageCtr : 0, testCase.Customization.Length);
-                        longMessageCtr++;
+                        Assert.AreEqual(rate + currentLargeCase++ * (rate + 8), testCase.Tuple.ElementAt(0).BitLength);
+                    }
+                }
+                else
+                {
+                    if (small <= (1600 - digestSize * 2) * 2 / 8)
+                    {
+                        Assert.AreEqual(small++ * 8, testCase.Tuple.ElementAt(0).BitLength);
+                    }
+                    else if (nonEmpty <= 25)
+                    {
+                        foreach (var element in testCase.Tuple)
+                        {
+                            Assert.IsTrue(element.BitLength > 0 && element.BitLength < 513);
+                            Assert.IsTrue(element.BitLength % 8 == 0);
+                        }
+                        nonEmpty++;
+                    }
+                    else
+                    {
+                        Assert.AreEqual(rate + currentLargeCase++ * (rate + 8), testCase.Tuple.ElementAt(0).BitLength);
                     }
                 }
             }
-
-            [Test]
-            [TestCase(128, 1344)]
-            [TestCase(256, 1088)]
-            public void ShouldGenerateProperlySizedByteOrientedMessageForEachGenerateCallForEachRate(int digestSize, int rate)
-            {
-                var mockSHA = new Mock<ITupleHash>();
-                mockSHA.Setup(s => s.HashMessage(It.IsAny<HashFunction>(), It.IsAny<IEnumerable<BitString>>()))
-                    .Returns(new HashResult(new BitString("ABCD")));
-
-                var domain = new MathDomain();
-                domain.AddSegment(new RangeDomainSegment(new Random800_90(), 16, 65536));
-
-                var shortMessageCtr = 1;
-                var longMessageCtr = 0;
-                var subject = new TestCaseGeneratorAFTHash(new Random800_90(), mockSHA.Object);
-                for (var caseIdx = 0; caseIdx < subject.NumberOfTestCasesToGenerate; caseIdx++)
-                {
-                    var result = subject.Generate(
-                        new TestGroup
-                        {
-                            Function = "TupleHash",
-                            DigestSize = digestSize,
-                            BitOrientedInput = false,
-                            IncludeNull = false,
-                            OutputLength = domain
-                        }, false);
-
-                    Assume.That(result != null);
-                    Assume.That(result.Success);
-
-                    var testCase = (TestCase)result.TestCase;
-
-                    // Short message
-                    if (shortMessageCtr <= (rate / 8) * 2)
-                    {
-                        foreach (var element in testCase.Tuple)
-                        {
-                            Assert.AreEqual(shortMessageCtr, element.BitLength);
-                        }
-                        shortMessageCtr++;
-                    }
-                    // Long message
-                    else
-                    {
-                        longMessageCtr++;
-                        foreach (var element in testCase.Tuple)
-                        {
-                            Assert.AreEqual(shortMessageCtr, element.BitLength);
-                        }
-                    }
-                }
-            }
-
-            [Test]
-            [TestCase(128, 1344)]
-            [TestCase(256, 1088)]
-            public void ShouldGenerateProperlyWhenIncludingNullMessageForBitOrientedMessages(int digestSize, int rate)
-            {
-                var mockSHA = new Mock<ITupleHash>();
-                mockSHA.Setup(s => s.HashMessage(It.IsAny<HashFunction>(), It.IsAny<IEnumerable<BitString>>()))
-                    .Returns(new HashResult(new BitString("ABCD")));
-
-                var domain = new MathDomain();
-                domain.AddSegment(new RangeDomainSegment(new Random800_90(), 16, 65536));
-
-                var shortMessageCtr = 0;
-                var longMessageCtr = 0;
-                var subject = new TestCaseGeneratorAFTHash(new Random800_90(), mockSHA.Object);
-                for (var caseIdx = 0; caseIdx < subject.NumberOfTestCasesToGenerate; caseIdx++)
-                {
-                    var result = subject.Generate(
-                        new TestGroup
-                        {
-                            Function = "TupleHash",
-                            DigestSize = digestSize,
-                            BitOrientedInput = true,
-                            IncludeNull = true,
-                            OutputLength = domain
-                        }, false);
-
-                    Assume.That(result != null);
-                    Assume.That(result.Success);
-
-                    var testCase = (TestCase)result.TestCase;
-
-                    // Short message
-                    if (shortMessageCtr <= (rate * 2) + 1)
-                    {
-                        foreach (var element in testCase.Tuple)
-                        {
-                            Assert.AreEqual(shortMessageCtr, element.BitLength);
-                        }
-                        shortMessageCtr++;
-                    }
-                    // Long message
-                    else
-                    {
-                        longMessageCtr++;
-                        foreach (var element in testCase.Tuple)
-                        {
-                            Assert.AreEqual(shortMessageCtr, element.BitLength);
-                        }
-                    }
-                }
-            }
-
-            [Test]
-            [TestCase(128, 1344)]
-            [TestCase(256, 1088)]
-            public void ShouldGenerateProperlyWhenIncludingNullMessageForByteOrientedMessages(int digestSize, int rate)
-            {
-                var mockSHA = new Mock<ITupleHash>();
-                mockSHA.Setup(s => s.HashMessage(It.IsAny<HashFunction>(), It.IsAny<IEnumerable<BitString>>()))
-                    .Returns(new HashResult(new BitString("ABCD")));
-
-                var domain = new MathDomain();
-                domain.AddSegment(new RangeDomainSegment(new Random800_90(), 16, 65536));
-
-                var shortMessageCtr = 0;
-                var longMessageCtr = 0;
-                var subject = new TestCaseGeneratorAFTHash(new Random800_90(), mockSHA.Object);
-                for (var caseIdx = 0; caseIdx < subject.NumberOfTestCasesToGenerate; caseIdx++)
-                {
-                    var result = subject.Generate(
-                        new TestGroup
-                        {
-                            Function = "TupleHash",
-                            DigestSize = digestSize,
-                            BitOrientedInput = false,
-                            IncludeNull = true,
-                            OutputLength = domain
-                        }, false);
-
-                    Assume.That(result != null);
-                    Assume.That(result.Success);
-
-                    var testCase = (TestCase)result.TestCase;
-
-                    // Short message
-                    if (shortMessageCtr <= (rate / 8) * 2 + 1)
-                    {
-                        foreach (var element in testCase.Tuple)
-                        {
-                            Assert.AreEqual(shortMessageCtr, element.BitLength);
-                        }
-                        shortMessageCtr++;
-                    }
-                    // Long message
-                    else
-                    {
-                        longMessageCtr++;
-                        foreach (var element in testCase.Tuple)
-                        {
-                            Assert.AreEqual(shortMessageCtr, element.BitLength);
-                        }
-                    }
-                }
-            }*/
+        }
 
         [Test]
         [TestCase(16)]

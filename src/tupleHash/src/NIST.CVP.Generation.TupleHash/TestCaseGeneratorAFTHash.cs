@@ -17,7 +17,7 @@ namespace NIST.CVP.Generation.TupleHash
         private int _currentLargeCase = 1;
         private int _currentEmptyCase = 1;
         private int _currentSemiEmptyCase = 1;
-        private int _currentMiddleCase = 1;
+        private int _currentLongTupleCase = 1;
         private int _currentTestCase = 0;
         private int _customizationLength = 1;
         private int _digestLength = 0;
@@ -52,7 +52,7 @@ namespace NIST.CVP.Generation.TupleHash
             var numLargeCases = 100;
             var numEmptyCases = group.IncludeNull ? 10 : 0;
             var numSemiEmptyCases = group.IncludeNull ? 30 : 0;
-            var numMiddleCases = 25;
+            var numLongTupleCases = 25;
 
             _testCasesToGenerate = numSmallCases + numLargeCases + numEmptyCases + numSemiEmptyCases;
 
@@ -106,21 +106,21 @@ namespace NIST.CVP.Generation.TupleHash
                 _customizationLength = (_customizationLength + 1) % 100;
                 _currentSmallCase++;
             }
-            else if (_currentMiddleCase <= numMiddleCases)
+            else if (_currentLongTupleCase <= numLongTupleCases)
             {
-                if (_currentMiddleCase <= 20)
+                if (_currentLongTupleCase <= 20)
                 {
-                    tupleSize = _currentMiddleCase;
+                    tupleSize = _currentLongTupleCase;
                 }
                 else
                 {
-                    tupleSize = _currentMiddleCase * 5;
+                    tupleSize = _currentLongTupleCase * 5;
                 }
                 for (int i = 0; i < tupleSize; i++)
                 {
                     tuple.Add(_random800_90.GetRandomBitString(GetRandomValidLength(group.BitOrientedInput)));
                 }
-                _currentMiddleCase++;
+                _currentLongTupleCase++;
             }
             else
             {
