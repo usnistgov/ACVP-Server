@@ -89,8 +89,11 @@ namespace NIST.CVP.Generation.TDES_CBCI
 
         public BitString CipherText { get; set; }
 
+        [JsonProperty(PropertyName = "iv1")]
         public BitString IV1 { get; set; }
+        [JsonProperty(PropertyName = "iv2")]
         public BitString IV2 { get; set; }
+        [JsonProperty(PropertyName = "iv3")]
         public BitString IV3 { get; set; }
         
         public List<AlgoArrayResponseWithIvs> ResultsArray { get; set; }

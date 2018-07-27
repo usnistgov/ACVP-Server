@@ -80,7 +80,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                 {
                     FfcDhHybrid1 = new FfcDhHybrid1()
                     {
-                        Role = new string[] { "initiator" },
+                        KasRole = new string[] { "initiator" },
                         NoKdfNoKc = new NoKdfNoKc()
                         {
                             ParameterSet = new ParameterSets()
@@ -94,7 +94,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                     },
                     FfcMqv2 = new FfcMqv2()
                     {
-                        Role = new string[] { "initiator" },
+                        KasRole = new string[] { "initiator" },
                         NoKdfNoKc = new NoKdfNoKc()
                         {
                             ParameterSet = new ParameterSets()
@@ -108,7 +108,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                     },
                     FfcDhEphem = new FfcDhEphem()
                     {
-                        Role = new string[] { "initiator" },
+                        KasRole = new string[] { "initiator" },
                         NoKdfNoKc = new NoKdfNoKc()
                         {
                             ParameterSet = new ParameterSets()
@@ -122,7 +122,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                     },
                     FfcDhHybridOneFlow = new FfcDhHybridOneFlow()
                     {
-                        Role = new string[] { "initiator" },
+                        KasRole = new string[] { "initiator" },
                         NoKdfNoKc = new NoKdfNoKc()
                         {
                             ParameterSet = new ParameterSets()
@@ -136,7 +136,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                     },
                     FfcMqv1 = new FfcMqv1()
                     {
-                        Role = new string[] { "initiator" },
+                        KasRole = new string[] { "initiator" },
                         NoKdfNoKc = new NoKdfNoKc()
                         {
                             ParameterSet = new ParameterSets()
@@ -150,7 +150,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                     },
                     FfcDhOneFlow = new FfcDhOneFlow()
                     {
-                        Role = new string[] { "initiator" },
+                        KasRole = new string[] { "initiator" },
                         NoKdfNoKc = new NoKdfNoKc()
                         {
                             ParameterSet = new ParameterSets()
@@ -164,7 +164,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                     },
                     FfcDhStatic = new FfcDhStatic()
                     {
-                        Role = new string[] { "initiator" },
+                        KasRole = new string[] { "initiator" },
                         NoKdfNoKc = new NoKdfNoKc()
                         {
                             ParameterSet = new ParameterSets()
@@ -194,7 +194,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                 {
                     FfcDhHybrid1 = new FfcDhHybrid1()
                     {
-                        Role = new string[] { "initiator", "responder" },
+                        KasRole = new string[] { "initiator", "responder" },
                         NoKdfNoKc = new NoKdfNoKc()
                         {
                             ParameterSet = new ParameterSets()
@@ -241,7 +241,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                     },
                     FfcMqv2 = new FfcMqv2()
                     {
-                        Role = new string[] { "initiator", "responder" },
+                        KasRole = new string[] { "initiator", "responder" },
                         NoKdfNoKc = new NoKdfNoKc()
                         {
                             ParameterSet = new ParameterSets()
@@ -327,7 +327,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                     },
                     FfcDhEphem = new FfcDhEphem()
                     {
-                        Role = new string[] { "initiator", "responder" },
+                        KasRole = new string[] { "initiator", "responder" },
                         NoKdfNoKc = new NoKdfNoKc()
                         {
                             ParameterSet = new ParameterSets()
@@ -374,7 +374,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                     },
                     FfcDhHybridOneFlow = new FfcDhHybridOneFlow()
                     {
-                        Role = new string[] { "initiator", "responder" },
+                        KasRole = new string[] { "initiator", "responder" },
                         NoKdfNoKc = new NoKdfNoKc()
                         {
                             ParameterSet = new ParameterSets()
@@ -460,7 +460,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                     },
                     FfcMqv1 = new FfcMqv1()
                     {
-                        Role = new string[] { "initiator", "responder" },
+                        KasRole = new string[] { "initiator", "responder" },
                         NoKdfNoKc = new NoKdfNoKc()
                         {
                             ParameterSet = new ParameterSets()
@@ -546,7 +546,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                     },
                     FfcDhOneFlow = new FfcDhOneFlow()
                     {
-                        Role = new string[] { "initiator", "responder" },
+                        KasRole = new string[] { "initiator", "responder" },
                         NoKdfNoKc = new NoKdfNoKc()
                         {
                             ParameterSet = new ParameterSets()
@@ -632,7 +632,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                     },
                     FfcDhStatic = new FfcDhStatic()
                     {
-                        Role = new string[] { "initiator", "responder" },
+                        KasRole = new string[] { "initiator", "responder" },
                         NoKdfNoKc = new NoKdfNoKc()
                         {
                             ParameterSet = new ParameterSets()

@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using NIST.CVP.Crypto.AES;
-using NIST.CVP.Crypto.TDES_ECB;
+﻿using NIST.CVP.Crypto.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Symmetric.Engines;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -17,10 +14,9 @@ namespace NIST.CVP.Crypto.CMAC.Tests
         [SetUp]
         public void Setup()
         {
-            _subject = new CmacTdes(new TdesEcb());
+            _subject = new CmacTdes(new BlockCipherEngineFactory(), new ModeBlockCipherFactory());
         }
-
-
+       
         [Test]
         [TestCase("4a4937e5e670139bfbf298f80e925eef73f4e36eba40df23", "ddfa8cc929f345f0fbe960e87a75e1307a28e700a420ea80d0d84137b644e7c6c61e7ed6547b944ff8a126ca351c624a580fb126a3c9f54aab980fa0ffe2a5c8", "4c5b8c33d81b5114")]
         [TestCase("46ad6ebad9644a67da684aa48f23d61943a2316b40a46e25", "cf97c2abe3d0fc89e05538b50147a3f405391219", "7ac08967edc5730b")]

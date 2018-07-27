@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Moq;
+﻿using Moq;
 using NIST.CVP.Crypto.Common.Symmetric.AES;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;

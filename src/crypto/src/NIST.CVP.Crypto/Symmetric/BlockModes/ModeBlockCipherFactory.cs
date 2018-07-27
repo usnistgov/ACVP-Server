@@ -13,7 +13,7 @@ namespace NIST.CVP.Crypto.Symmetric.BlockModes
             TODO should different types of instances be broken out as their own enums?
             "standard", "counter", "aead", etc?
         */
-
+        
         public IModeBlockCipher<SymmetricCipherResult> GetStandardCipher(
             IBlockCipherEngine engine, 
             BlockCipherModesOfOperation modeOfOperation
@@ -23,6 +23,8 @@ namespace NIST.CVP.Crypto.Symmetric.BlockModes
             {
                 case BlockCipherModesOfOperation.Cbc:
                     return new CbcBlockCipher(engine);
+                case BlockCipherModesOfOperation.Cbci:
+                    return new CbciBlockCipher(engine);
                 case BlockCipherModesOfOperation.CbcMac:
                     return new CbcMacBlockCipher(engine);
                 case BlockCipherModesOfOperation.CfbBit:
@@ -41,6 +43,12 @@ namespace NIST.CVP.Crypto.Symmetric.BlockModes
                     throw new ArgumentException($"{modeOfOperation} not a standard mode, use {nameof(GetCounterCipher)} instead");
                 case BlockCipherModesOfOperation.Ecb:
                     return new EcbBlockCipher(engine);
+                case BlockCipherModesOfOperation.Ofb:
+                    return new OfbBlockCipher(engine);
+                case BlockCipherModesOfOperation.Ofbi:
+                    return new OfbiBlockCipher(engine);
+                case BlockCipherModesOfOperation.Xts:
+                    return new XtsBlockCipher(engine);
 
                 default:
                     throw new ArgumentException(nameof(modeOfOperation));
@@ -50,6 +58,11 @@ namespace NIST.CVP.Crypto.Symmetric.BlockModes
         public IModeBlockCipher<SymmetricCounterResult> GetCounterCipher(IBlockCipherEngine engine, ICounter counter)
         {
             return new CtrBlockCipher(engine, counter);
+        }
+
+        public ICounterModeBlockCipher GetIvExtractor(IBlockCipherEngine engine)
+        {
+            return new CtrBlockCipher(engine, null);
         }
     }
 }

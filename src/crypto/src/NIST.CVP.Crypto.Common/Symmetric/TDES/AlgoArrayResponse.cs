@@ -3,7 +3,7 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.Common.Symmetric.TDES
 {
-    public class AlgoArrayResponse
+    public class AlgoArrayResponse : ICryptoResult
     {
         [JsonIgnore]
         public BitString Keys { get; set; }

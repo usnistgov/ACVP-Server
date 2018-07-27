@@ -1,6 +1,7 @@
 ﻿using System;
 using NIST.CVP.Crypto.Common.Symmetric;
-using NIST.CVP.Crypto.Common.Symmetric.AES;
+using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using NLog;
@@ -10,7 +11,7 @@ namespace NIST.CVP.Generation.AES_ECB
     public class TestCaseGeneratorMMTEncrypt : ITestCaseGenerator<TestGroup, TestCase>
     {
         private readonly IRandom800_90 _random800_90;
-        private readonly IAES_ECB _algo;
+        private readonly IModeBlockCipher<SymmetricCipherResult> _algo;
 
         private const int _PT_LENGTH_MULTIPLIER = 16;
         private const int _BITS_IN_BYTE = 8;
@@ -19,7 +20,7 @@ namespace NIST.CVP.Generation.AES_ECB
 
         public int NumberOfTestCasesToGenerate => 10;
 
-        public TestCaseGeneratorMMTEncrypt(IRandom800_90 random800_90, IAES_ECB algo)
+        public TestCaseGeneratorMMTEncrypt(IRandom800_90 random800_90, IModeBlockCipher<SymmetricCipherResult> algo)
         {
             _random800_90 = random800_90;
             _algo = algo;
@@ -44,7 +45,8 @@ namespace NIST.CVP.Generation.AES_ECB
             SymmetricCipherResult encryptionResult = null;
             try
             {
-                encryptionResult = _algo.BlockEncrypt(testCase.Key, testCase.PlainText);
+                var param = new ModeBlockCipherParameters(BlockCipherDirections.Encrypt, testCase.Key, testCase.PlainText);
+                encryptionResult = _algo.ProcessPayload(param);
                 if (!encryptionResult.Success)
                 {
                     ThisLogger.Warn(encryptionResult.ErrorMessage);

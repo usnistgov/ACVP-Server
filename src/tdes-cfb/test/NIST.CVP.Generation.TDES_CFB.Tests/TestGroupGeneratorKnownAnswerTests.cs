@@ -70,7 +70,7 @@ namespace NIST.CVP.Generation.TDES_CFB.Tests
         {
             Parameters p = new Parameters()
             {
-                Algorithm = string.Empty,
+                Algorithm = "TDES-CFB1",
                 Direction = mode,
                 KeyingOption = keyOption,
             };

@@ -95,7 +95,7 @@ namespace NIST.CVP.Generation.KAS.ECC
 
             foreach (var testType in _testTypes)
             {
-                foreach (var role in schemeBase.Role)
+                foreach (var role in schemeBase.KasRole)
                 {
                     foreach (var parameterSet in hashPerParameterSet)
                     {
@@ -136,7 +136,7 @@ namespace NIST.CVP.Generation.KAS.ECC
                         GetMacAlgsPerParameterSet(schemeBase.KdfNoKc.ParameterSet.Eb)
                             .OrderBy(ob => Guid.NewGuid())
                             .ToList(),
-                        schemeBase.NoKdfNoKc.ParameterSet.Eb?.Curve)
+                        schemeBase.KdfNoKc.ParameterSet.Eb?.Curve)
                     },
                     {
                         EccParameterSet.Ec,
@@ -144,7 +144,7 @@ namespace NIST.CVP.Generation.KAS.ECC
                             .ToList(),
                         GetMacAlgsPerParameterSet(schemeBase.KdfNoKc.ParameterSet.Ec)
                             .OrderBy(ob => Guid.NewGuid()).ToList(),
-                        schemeBase.NoKdfNoKc.ParameterSet.Ec?.Curve)
+                        schemeBase.KdfNoKc.ParameterSet.Ec?.Curve)
                     },
                     {
                         EccParameterSet.Ed,
@@ -152,7 +152,7 @@ namespace NIST.CVP.Generation.KAS.ECC
                             .ToList(),
                         GetMacAlgsPerParameterSet(schemeBase.KdfNoKc.ParameterSet.Ed)
                             .OrderBy(ob => Guid.NewGuid()).ToList(),
-                        schemeBase.NoKdfNoKc.ParameterSet.Ed?.Curve)
+                        schemeBase.KdfNoKc.ParameterSet.Ed?.Curve)
                     },
                     {
                         EccParameterSet.Ee,
@@ -160,13 +160,13 @@ namespace NIST.CVP.Generation.KAS.ECC
                             .ToList(),
                         GetMacAlgsPerParameterSet(schemeBase.KdfNoKc.ParameterSet.Ee)
                             .OrderBy(ob => Guid.NewGuid()).ToList(),
-                        schemeBase.NoKdfNoKc.ParameterSet.Ee?.Curve)
+                        schemeBase.KdfNoKc.ParameterSet.Ee?.Curve)
                     }
                 };
 
             foreach (var testType in _testTypes)
             {
-                foreach (var role in schemeBase.Role)
+                foreach (var role in schemeBase.KasRole)
                 {
                     foreach (var kdf in GetKdfOptions(schemeBase.KdfNoKc.KdfOption))
                     {
@@ -221,31 +221,31 @@ namespace NIST.CVP.Generation.KAS.ECC
                             .ToList(),
                         GetMacAlgsPerParameterSet(schemeBase.KdfKc.ParameterSet.Eb)
                             .ToList(),
-                        schemeBase.NoKdfNoKc.ParameterSet.Eb?.Curve)
+                        schemeBase.KdfKc.ParameterSet.Eb?.Curve)
                     },
                     {
                         EccParameterSet.Ec,
                         (GetHashAlgsPerParameterSet(schemeBase.KdfKc.ParameterSet.Ec).ToList(),
                         GetMacAlgsPerParameterSet(schemeBase.KdfKc.ParameterSet.Ec).ToList(),
-                        schemeBase.NoKdfNoKc.ParameterSet.Ec?.Curve)
+                        schemeBase.KdfKc.ParameterSet.Ec?.Curve)
                     },
                     {
                         EccParameterSet.Ed,
                         (GetHashAlgsPerParameterSet(schemeBase.KdfKc.ParameterSet.Ed).ToList(),
                         GetMacAlgsPerParameterSet(schemeBase.KdfKc.ParameterSet.Ed).ToList(),
-                        schemeBase.NoKdfNoKc.ParameterSet.Ed?.Curve)
+                        schemeBase.KdfKc.ParameterSet.Ed?.Curve)
                     },
                     {
                         EccParameterSet.Ee,
                         (GetHashAlgsPerParameterSet(schemeBase.KdfKc.ParameterSet.Ee).ToList(),
                         GetMacAlgsPerParameterSet(schemeBase.KdfKc.ParameterSet.Ee).ToList(),
-                        schemeBase.NoKdfNoKc.ParameterSet.Ee?.Curve)
+                        schemeBase.KdfKc.ParameterSet.Ee?.Curve)
                     }
                 };
 
             foreach (var testType in _testTypes)
             {
-                foreach (var role in schemeBase.Role)
+                foreach (var role in schemeBase.KasRole)
                 {
                     foreach (var kdf in GetKdfOptions(schemeBase.KdfKc.KdfOption))
                     {

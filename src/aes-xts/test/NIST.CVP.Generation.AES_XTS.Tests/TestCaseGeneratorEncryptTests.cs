@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using Moq;
-using NIST.CVP.Crypto.AES;
-using NIST.CVP.Crypto.AES_XTS;
 using NIST.CVP.Crypto.Common.Symmetric;
-using NIST.CVP.Crypto.Common.Symmetric.AES;
+using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
@@ -27,14 +23,10 @@ namespace NIST.CVP.Generation.AES_XTS.Tests
                 .Setup(s => s.GetRandomInt(It.IsAny<int>(), It.IsAny<int>()))
                 .Returns(10);
 
-            var aes = GetAESMock();
+            var aes = GetAesMock();
             aes
-                .Setup(s => s.Encrypt(It.IsAny<XtsKey>(), It.IsAny<BitString>(), It.IsAny<BitString>()))
+                .Setup(s => s.ProcessPayload(It.IsAny<IModeBlockCipherParameters>()))
                 .Returns(new SymmetricCipherResult(new BitString("ABCD")));
-
-            aes
-                .Setup(s => s.GetIFromInteger(It.IsAny<int>()))
-                .Returns(new BitString("ABCD"));
 
             var subject = new TestCaseGeneratorEncrypt(random.Object, aes.Object);
 
@@ -55,9 +47,9 @@ namespace NIST.CVP.Generation.AES_XTS.Tests
                 .Setup(s => s.GetRandomInt(It.IsAny<int>(), It.IsAny<int>()))
                 .Returns(10);
 
-            var aes = GetAESMock();
+            var aes = GetAesMock();
             aes
-                .Setup(s => s.Encrypt(It.IsAny<XtsKey>(), It.IsAny<BitString>(), It.IsAny<BitString>()))
+                .Setup(s => s.ProcessPayload(It.IsAny<IModeBlockCipherParameters>()))
                 .Returns(new SymmetricCipherResult("Fail"));
 
             var subject = new TestCaseGeneratorEncrypt(random.Object, aes.Object);
@@ -79,9 +71,9 @@ namespace NIST.CVP.Generation.AES_XTS.Tests
                 .Setup(s => s.GetRandomInt(It.IsAny<int>(), It.IsAny<int>()))
                 .Returns(10);
 
-            var aes = GetAESMock();
+            var aes = GetAesMock();
             aes
-                .Setup(s => s.Encrypt(It.IsAny<XtsKey>(), It.IsAny<BitString>(), It.IsAny<BitString>()))
+                .Setup(s => s.ProcessPayload(It.IsAny<IModeBlockCipherParameters>()))
                 .Throws(new Exception());
 
             var subject = new TestCaseGeneratorEncrypt(random.Object, aes.Object);
@@ -95,9 +87,9 @@ namespace NIST.CVP.Generation.AES_XTS.Tests
         [Test]
         public void GenerateShouldInvokeEncryptionOperation()
         {
-            var aes = GetAESMock();
+            var aes = GetAesMock();
             aes
-                .Setup(s => s.Encrypt(It.IsAny<XtsKey>(), It.IsAny<BitString>(), It.IsAny<BitString>()))
+                .Setup(s => s.ProcessPayload(It.IsAny<IModeBlockCipherParameters>()))
                 .Returns(new SymmetricCipherResult(new BitString("ABCD")));
 
             var random = GetRandomMock();
@@ -112,9 +104,9 @@ namespace NIST.CVP.Generation.AES_XTS.Tests
 
             var result = subject.Generate(GetTestGroup(), true);
 
-            aes.Verify(v => v.Encrypt(It.IsAny<XtsKey>(), It.IsAny<BitString>(), It.IsAny<BitString>()),
+            aes.Verify(v => v.ProcessPayload(It.IsAny<IModeBlockCipherParameters>()),
                 Times.AtLeastOnce,
-                "BlockEncrypt should have been invoked"
+                "ProcessPayload should have been invoked"
             );
         }
 
@@ -130,14 +122,10 @@ namespace NIST.CVP.Generation.AES_XTS.Tests
                 .Setup(s => s.GetRandomInt(It.IsAny<int>(), It.IsAny<int>()))
                 .Returns(10);
 
-            var aes = GetAESMock();
+            var aes = GetAesMock();
             aes
-                .Setup(s => s.Encrypt(It.IsAny<XtsKey>(), It.IsAny<BitString>(), It.IsAny<BitString>()))
+                .Setup(s => s.ProcessPayload(It.IsAny<IModeBlockCipherParameters>()))
                 .Returns(new SymmetricCipherResult(new BitString("ABCD")));
-
-            aes
-                .Setup(s => s.GetIFromInteger(It.IsAny<int>()))
-                .Returns(new BitString("ABCD"));
 
             var subject = new TestCaseGeneratorEncrypt(random.Object, aes.Object);
 
@@ -159,9 +147,9 @@ namespace NIST.CVP.Generation.AES_XTS.Tests
             return new Mock<IRandom800_90>();
         }
 
-        private Mock<IAesXts> GetAESMock()
+        private Mock<IModeBlockCipher<SymmetricCipherResult>> GetAesMock()
         {
-            return new Mock<IAesXts>();
+            return new Mock<IModeBlockCipher<SymmetricCipherResult>>();
         }
 
         private TestGroup GetTestGroup()

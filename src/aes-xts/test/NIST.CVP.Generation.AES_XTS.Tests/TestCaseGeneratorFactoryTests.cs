@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Moq;
+using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Common.Symmetric.Engines;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
@@ -23,7 +26,10 @@ namespace NIST.CVP.Generation.AES_XTS.Tests
                 Direction = direction,
             };
 
-            var subject = new TestCaseGeneratorFactory(null, null);
+            var engineFactory = new Mock<IBlockCipherEngineFactory>();
+            var cipherFactory = new Mock<IModeBlockCipherFactory>();
+
+            var subject = new TestCaseGeneratorFactory(null, engineFactory.Object, cipherFactory.Object);
             var generator = subject.GetCaseGenerator(testGroup);
             Assume.That(generator != null);
             Assert.IsInstanceOf(expectedType, generator);
@@ -38,7 +44,10 @@ namespace NIST.CVP.Generation.AES_XTS.Tests
                 TestType = string.Empty
             };
 
-            var subject = new TestCaseGeneratorFactory(null, null);
+            var engineFactory = new Mock<IBlockCipherEngineFactory>();
+            var cipherFactory = new Mock<IModeBlockCipherFactory>();
+
+            var subject = new TestCaseGeneratorFactory(null, engineFactory.Object, cipherFactory.Object);
             var generator = subject.GetCaseGenerator(testGroup);
             Assert.IsNotNull(generator);
         }

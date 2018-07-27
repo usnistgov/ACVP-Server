@@ -1,4 +1,7 @@
-﻿using NIST.CVP.Crypto.AES;
+﻿using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Common.Symmetric.Enums;
+using NIST.CVP.Crypto.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Symmetric.Engines;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -8,13 +11,11 @@ namespace NIST.CVP.Crypto.AES_ECB.Tests
     [TestFixture, FastIntegrationTest]
     public class CAVS_HealthCheckTests
     {
-
-        private readonly AES_ECB _subject = new AES_ECB(new RijndaelFactory(new RijndaelInternals()));
+        private readonly EcbBlockCipher _subject = new EcbBlockCipher(new AesEngine());
 
         [Test]
         public void ShouldEncryptWith128BitKey()
         {
-            
             byte[] keyBytes = new byte[128/8];
             BitString keyBits = new BitString(keyBytes);
 
@@ -39,7 +40,8 @@ namespace NIST.CVP.Crypto.AES_ECB.Tests
 
             BitString plainTextBits = new BitString(plainText);
 
-            var encryptOperation = _subject.BlockEncrypt(keyBits, plainTextBits);
+            var param = new ModeBlockCipherParameters(BlockCipherDirections.Encrypt, keyBits, plainTextBits);
+            var encryptOperation = _subject.ProcessPayload(param);
             Assert.IsTrue(encryptOperation.Success, nameof(encryptOperation));
             var ct = encryptOperation.Result.ToBytes();
             if ((ct[0] != 0x03) || (ct[1] != 0x36) || (ct[2] != 0x76) || (ct[3] != 0x3e) ||
@@ -49,7 +51,8 @@ namespace NIST.CVP.Crypto.AES_ECB.Tests
                 Assert.Fail("Invalid cipher");
 
             // Do the decryption to ensure we arrive back at plain text
-            var decryptOperation = _subject.BlockDecrypt(keyBits, encryptOperation.Result);
+            var param2 = new ModeBlockCipherParameters(BlockCipherDirections.Decrypt, keyBits, encryptOperation.Result);
+            var decryptOperation = _subject.ProcessPayload(param2);
             var pt = decryptOperation.Result.ToBytes();
             for (int i = 0; i < pt.Length; i++)
             {
@@ -62,7 +65,6 @@ namespace NIST.CVP.Crypto.AES_ECB.Tests
         [Test]
         public void ShouldEncryptWith192BitKey()
         {
-
             byte[] keyBytes = new byte[192 / 8];
             BitString keyBits = new BitString(keyBytes);
 
@@ -88,8 +90,8 @@ namespace NIST.CVP.Crypto.AES_ECB.Tests
 
             BitString plainTextBits = new BitString(plainText);
 
-            var encryptOperation = _subject.BlockEncrypt(keyBits, plainTextBits);
-
+            var param = new ModeBlockCipherParameters(BlockCipherDirections.Encrypt, keyBits, plainTextBits);
+            var encryptOperation = _subject.ProcessPayload(param);
             Assert.IsTrue(encryptOperation.Success, nameof(encryptOperation));
 
             var ct = encryptOperation.Result.ToBytes();
@@ -101,7 +103,8 @@ namespace NIST.CVP.Crypto.AES_ECB.Tests
                 Assert.Fail("Invalid cipher");
 
             // Do the decryption to ensure we arrive back at plain text
-            var decryptOperation = _subject.BlockDecrypt(keyBits, encryptOperation.Result);
+            var param2 = new ModeBlockCipherParameters(BlockCipherDirections.Decrypt, keyBits, encryptOperation.Result);
+            var decryptOperation = _subject.ProcessPayload(param2);
             var pt = decryptOperation.Result.ToBytes();
             for (int i = 0; i < pt.Length; i++)
             {
@@ -114,7 +117,6 @@ namespace NIST.CVP.Crypto.AES_ECB.Tests
         [Test]
         public void ShouldEncryptWith256BitKey()
         {
-
             byte[] keyBytes = new byte[256 / 8];
             BitString keyBits = new BitString(keyBytes);
 
@@ -139,8 +141,8 @@ namespace NIST.CVP.Crypto.AES_ECB.Tests
 
             BitString plainTextBits = new BitString(plainText);
 
-            var encryptOperation = _subject.BlockEncrypt(keyBits, plainTextBits);
-
+            var param = new ModeBlockCipherParameters(BlockCipherDirections.Encrypt, keyBits, plainTextBits);
+            var encryptOperation = _subject.ProcessPayload(param);
             Assert.IsTrue(encryptOperation.Success, nameof(encryptOperation));
 
             var ct = encryptOperation.Result.ToBytes();
@@ -152,7 +154,8 @@ namespace NIST.CVP.Crypto.AES_ECB.Tests
                 Assert.Fail("Invalid cipher");
 
             // Do the decryption to ensure we arrive back at plain text
-            var decryptOperation = _subject.BlockDecrypt(keyBits, encryptOperation.Result);
+            var param2 = new ModeBlockCipherParameters(BlockCipherDirections.Decrypt, keyBits, encryptOperation.Result);
+            var decryptOperation = _subject.ProcessPayload(param2);
             var pt = decryptOperation.Result.ToBytes();
             for (int i = 0; i < pt.Length; i++)
             {

@@ -8551,93 +8551,93 @@
       "tests": [
         {
           "tcId": 941,
-          "key1": "017CDD4AB14621E3",
-          "key2": "3DBF3374CA709229",
-          "key3": "FB86B19C8C1AFFA7",
-          "plainText": "00",
+          "key1": "8D0FBD1036E27FC2",
+          "key2": "502C3904420E3C6A",
+          "key3": "9CC6BAA07DF1DA29",
+          "plainText": "80",
           "dataLen": 1,
-          "iv": "72F44EBC5A2BE989"
+          "iv": "8090A98466A72D9A"
         },
         {
           "tcId": 942,
-          "key1": "BD5CB3EBA226E96B",
-          "key2": "B2A10E411316A448",
-          "key3": "EDD5E282CB8E849E",
-          "plainText": "C0",
+          "key1": "11C0635EA92B367A",
+          "key2": "D37D4547F6DF10CF",
+          "key3": "E646F3E5D19A8BFA",
+          "plainText": "00",
           "dataLen": 2,
-          "iv": "51572FA45B4B5769"
+          "iv": "A5F2907B2F3C1C1B"
         },
         {
           "tcId": 943,
-          "key1": "32EA25369FC18B9E",
-          "key2": "7615DAB761454A9A",
-          "key3": "98FCAB1CCF81B335",
-          "plainText": "00",
+          "key1": "077DC165F89E628A",
+          "key2": "072F6592DABC46B9",
+          "key3": "E308365AF372FC7C",
+          "plainText": "C0",
           "dataLen": 3,
-          "iv": "C5FAA7C1840A5142"
+          "iv": "CA007CAED853B916"
         },
         {
           "tcId": 944,
-          "key1": "8979BB2218EE685E",
-          "key2": "2386BCF260033813",
-          "key3": "C4FA40C9F779E4B9",
-          "plainText": "00",
+          "key1": "86B6F52015821D5C",
+          "key2": "0DABC7C4FC1F45EF",
+          "key3": "9541A389013DD793",
+          "plainText": "E0",
           "dataLen": 4,
-          "iv": "9FDAC84BA1C4452D"
+          "iv": "9D4FA66FB7365DB5"
         },
         {
           "tcId": 945,
-          "key1": "F2D00660CF95176E",
-          "key2": "DF0FD236CE40288F",
-          "key3": "7984B5D67E4DBCD1",
-          "plainText": "10",
+          "key1": "548C5281E955935B",
+          "key2": "C3E7683F489CBA59",
+          "key3": "B44233464DEB3690",
+          "plainText": "08",
           "dataLen": 5,
-          "iv": "FDCAAC0D77F4348C"
+          "iv": "326F8290D8E20882"
         },
         {
           "tcId": 946,
-          "key1": "1ECF053238155E2C",
-          "key2": "0D28A9250BAA296D",
-          "key3": "E7ECB87BC9D11067",
-          "plainText": "E8",
+          "key1": "B95A06F982606551",
+          "key2": "9C05CDA08DB9EDDB",
+          "key3": "2BCE622B09A2CAB8",
+          "plainText": "C0",
           "dataLen": 6,
-          "iv": "8AF9D1141C2B172C"
+          "iv": "BDD654358FDFEABF"
         },
         {
           "tcId": 947,
-          "key1": "B9ED7BF20C2599D5",
-          "key2": "8AC098F002A31C92",
-          "key3": "27B903280D602259",
-          "plainText": "60",
+          "key1": "284EF4B7537179EF",
+          "key2": "535B09F21C97A150",
+          "key3": "C3235AAE526CE260",
+          "plainText": "28",
           "dataLen": 7,
-          "iv": "C64DF7608428041C"
+          "iv": "DBCBB9652B7FC193"
         },
         {
           "tcId": 948,
-          "key1": "73FDBBE4C6173F94",
-          "key2": "F12BC2DF99632E71",
-          "key3": "CF1C25060978F03B",
-          "plainText": "2D",
+          "key1": "EE8839907B944E30",
+          "key2": "E70106957F933596",
+          "key3": "AFAAE935FF3C919E",
+          "plainText": "22",
           "dataLen": 8,
-          "iv": "CBEC0580830CC83A"
+          "iv": "702FDEDF96AD63D9"
         },
         {
           "tcId": 949,
-          "key1": "D1BFDF5759704650",
-          "key2": "D7D52764B378FEDF",
-          "key3": "96AB2635C2912F1E",
-          "plainText": "0E80",
+          "key1": "947C7CF548A94F6F",
+          "key2": "1697D25F6922AE55",
+          "key3": "59BEDB75BC85A818",
+          "plainText": "CE80",
           "dataLen": 9,
-          "iv": "AECDEDC3BA5D43CB"
+          "iv": "E041CC7C68D1293D"
         },
         {
           "tcId": 950,
-          "key1": "6E21B08B37D16EF6",
-          "key2": "921BA34A9D754722",
-          "key3": "148D784AE0BA916E",
-          "plainText": "7540",
+          "key1": "478D241D1DB385E1",
+          "key2": "1AF93F90410CE4A4",
+          "key3": "CC8798E4E62AFFB8",
+          "plainText": "BFC0",
           "dataLen": 10,
-          "iv": "1A9ABE97C1A8F230"
+          "iv": "E1DBBC11B1E0E128"
         }
       ]
     },
@@ -8649,93 +8649,93 @@
       "tests": [
         {
           "tcId": 951,
-          "key1": "2A9A5A94D6EBA01B",
-          "key2": "2F46870DE962DA9B",
-          "key3": "7A8D37B21C9009DC",
+          "key1": "943AED638CE626FA",
+          "key2": "31765EC970674F90",
+          "key3": "D88655C67BC5DA20",
           "cipherText": "80",
           "dataLen": 1,
-          "iv": "AE35907F472AFCD4"
+          "iv": "03CE955FB40D29A2"
         },
         {
           "tcId": 952,
-          "key1": "7E4BCA6CA353FF13",
-          "key2": "C8DA4BC5EA1BBDE1",
-          "key3": "E684324170014BAD",
-          "cipherText": "40",
+          "key1": "4974D7B176036AAF",
+          "key2": "B6E4003DF723E6FD",
+          "key3": "5A5189D740B077AA",
+          "cipherText": "00",
           "dataLen": 2,
-          "iv": "ECBFECB449302596"
+          "iv": "6B802BB7C55F000A"
         },
         {
           "tcId": 953,
-          "key1": "E46170E841048A4B",
-          "key2": "D1BDF60695C27013",
-          "key3": "916A5B6C5007E48E",
-          "cipherText": "C0",
+          "key1": "A4050CD20AC5F988",
+          "key2": "B9E2C3E9F9DD0D9F",
+          "key3": "20F37E3BE2721EDA",
+          "cipherText": "40",
           "dataLen": 3,
-          "iv": "FCB578489296644A"
+          "iv": "FAB5CBD9245F0359"
         },
         {
           "tcId": 954,
-          "key1": "E1391C36676EC72E",
-          "key2": "719609C5E1586D7A",
-          "key3": "B7C2458854D6375B",
-          "cipherText": "70",
+          "key1": "260045A44ED10EF6",
+          "key2": "F1766A11B8EEA918",
+          "key3": "E6CCEA222F587EE1",
+          "cipherText": "80",
           "dataLen": 4,
-          "iv": "48C3D16AC2EB4A20"
+          "iv": "FA194E022385FC83"
         },
         {
           "tcId": 955,
-          "key1": "EF7A332B5CE12F8D",
-          "key2": "F7ADFA0120127220",
-          "key3": "840BDC9E991AE136",
-          "cipherText": "78",
+          "key1": "091E6F16B966F795",
+          "key2": "59FFB63AC314A505",
+          "key3": "6FA72AD53FE0B70C",
+          "cipherText": "10",
           "dataLen": 5,
-          "iv": "18243F8E2ADEFCA0"
+          "iv": "D518C9ADD272742F"
         },
         {
           "tcId": 956,
-          "key1": "E908158534F5964E",
-          "key2": "47B6DC3A06D9B704",
-          "key3": "606F75F752C069F2",
-          "cipherText": "BC",
+          "key1": "0BFDC326BC0080A8",
+          "key2": "A90F47DFADB9EA42",
+          "key3": "2AB6B2566CB2E48B",
+          "cipherText": "F8",
           "dataLen": 6,
-          "iv": "50FFAB01BB3DE7E0"
+          "iv": "82FAA531B42962C6"
         },
         {
           "tcId": 957,
-          "key1": "B119292BA71DDF89",
-          "key2": "0B6A453E940E5D23",
-          "key3": "59BCA7214A1B2969",
-          "cipherText": "6A",
+          "key1": "6A108D0A6B22FE7E",
+          "key2": "42E2616F9510F64F",
+          "key3": "C57A52FD508108A8",
+          "cipherText": "BC",
           "dataLen": 7,
-          "iv": "15488291B2B34271"
+          "iv": "4A9D64FF414F7EF8"
         },
         {
           "tcId": 958,
-          "key1": "D98DB91B34A6D32B",
-          "key2": "DBBE61F7A5AA9427",
-          "key3": "AC0821CEDDE2279E",
-          "cipherText": "63",
+          "key1": "F6193B78F0B437A8",
+          "key2": "B40192A0273ED6CA",
+          "key3": "293A7937E85D4FD9",
+          "cipherText": "06",
           "dataLen": 8,
-          "iv": "1EDD6C855EBAD3BD"
+          "iv": "50A9BDAC11FEE7A3"
         },
         {
           "tcId": 959,
-          "key1": "E23F2459CDE8B5FF",
-          "key2": "6A96E483577BC422",
-          "key3": "0813C49AA96D35CF",
-          "cipherText": "F780",
+          "key1": "2C2D66304EC37001",
+          "key2": "14F11FD8D2C25D84",
+          "key3": "15A1BB2399CB1ADD",
+          "cipherText": "FB80",
           "dataLen": 9,
-          "iv": "15D4C8306E57D620"
+          "iv": "98EFCD040B955586"
         },
         {
           "tcId": 960,
-          "key1": "0A8ADFC4F9AC406A",
-          "key2": "027FBFD06535F9CA",
-          "key3": "B95866E63382C855",
-          "cipherText": "0280",
+          "key1": "2F8E92F4AD76CC06",
+          "key2": "63C6CA7708EF8AFD",
+          "key3": "B9DC2FCF42A211A8",
+          "cipherText": "B380",
           "dataLen": 10,
-          "iv": "5B06521C1AC33F48"
+          "iv": "327C216F8028DFCA"
         }
       ]
     },
@@ -8747,12 +8747,12 @@
       "tests": [
         {
           "tcId": 961,
-          "key1": "3A115FB3990D7791",
-          "key2": "431D45781863E0A1",
-          "key3": "0F9A30AE898D7139",
-          "plainText": "00",
+          "key1": "4606A1AD1C0A495D",
+          "key2": "F2377FF06347ADCE",
+          "key3": "129CE9304ED593CF",
+          "plainText": "80",
           "dataLen": 1,
-          "iv": "20BCE3DDD16182F5"
+          "iv": "AAAEE00B6CB6B400"
         }
       ]
     },
@@ -8764,12 +8764,12 @@
       "tests": [
         {
           "tcId": 962,
-          "key1": "0421E041D2546BB5",
-          "key2": "6B56F1D14D67F2E8",
-          "key3": "0F89675CEFC3FBE7",
-          "cipherText": "00",
+          "key1": "D7465F1811F06854",
+          "key2": "5C817187AA50BCF0",
+          "key3": "29736283C93AA983",
+          "cipherText": "80",
           "dataLen": 1,
-          "iv": "3342A0107E1AB03E"
+          "iv": "8AA27DBEC43B7BCE"
         }
       ]
     }

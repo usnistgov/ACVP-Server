@@ -14,17 +14,16 @@ namespace NIST.CVP.Crypto.AES_CTR.Tests
     [TestFixture, FastCryptoTest]
     public class KATs
     {
-        private readonly IAesCtr _subject = new AesCtr();
         private static int[] _keyLens = {128, 192, 256};
 
         private Mock<ICounter> _mockCounter;
-        private CtrBlockCipher _newSubject;
+        private CtrBlockCipher _subject;
 
         [SetUp]
         public void Setup()
         {
             _mockCounter = new Mock<ICounter>();
-            _newSubject = new CtrBlockCipher(new AesEngine(), _mockCounter.Object);
+            _subject = new CtrBlockCipher(new AesEngine(), _mockCounter.Object);
         }
 
         [Test]
@@ -33,7 +32,14 @@ namespace NIST.CVP.Crypto.AES_CTR.Tests
         {
             foreach (var test in KatDataCtr.GetGfSBox(keyLen))
             {
-                var result = _subject.EncryptBlock(test.Key, test.PlainText, test.IV);
+                _mockCounter.Setup(s => s.GetNextIV()).Returns(test.IV);
+
+                var param = new ModeBlockCipherParameters(
+                    BlockCipherDirections.Encrypt,
+                    test.Key,
+                    test.PlainText
+                );
+                var result = _subject.ProcessPayload(param);
 
                 Assert.IsTrue(result.Success, nameof(result.Success));
                 Assert.AreEqual(test.CipherText, result.Result, test.CipherText.ToHex());
@@ -46,8 +52,15 @@ namespace NIST.CVP.Crypto.AES_CTR.Tests
         {
             foreach (var test in KatDataCtr.GetKeySBox(keyLen))
             {
-                var result = _subject.EncryptBlock(test.Key, test.PlainText, test.IV);
+                _mockCounter.Setup(s => s.GetNextIV()).Returns(test.IV);
 
+                var param = new ModeBlockCipherParameters(
+                    BlockCipherDirections.Encrypt,
+                    test.Key,
+                    test.PlainText
+                );
+                var result = _subject.ProcessPayload(param);
+                
                 Assert.IsTrue(result.Success, nameof(result.Success));
                 Assert.AreEqual(test.CipherText, result.Result, test.CipherText.ToHex());
             }
@@ -59,8 +72,15 @@ namespace NIST.CVP.Crypto.AES_CTR.Tests
         {
             foreach (var test in KatDataCtr.GetVarKey(keyLen))
             {
-                var result = _subject.EncryptBlock(test.Key, test.PlainText, test.IV);
+                _mockCounter.Setup(s => s.GetNextIV()).Returns(test.IV);
 
+                var param = new ModeBlockCipherParameters(
+                    BlockCipherDirections.Encrypt,
+                    test.Key,
+                    test.PlainText
+                );
+                var result = _subject.ProcessPayload(param);
+                
                 Assert.IsTrue(result.Success, nameof(result.Success));
                 Assert.AreEqual(test.CipherText, result.Result, test.CipherText.ToHex());
             }
@@ -72,20 +92,6 @@ namespace NIST.CVP.Crypto.AES_CTR.Tests
         {
             foreach (var test in KatDataCtr.GetVarTxt(keyLen))
             {
-                var result = _subject.EncryptBlock(test.Key, test.PlainText, test.IV);
-
-                Assert.IsTrue(result.Success, nameof(result.Success));
-                Assert.AreEqual(test.CipherText, result.Result, test.CipherText.ToHex());
-            }
-        }
-
-
-        [Test]
-        [TestCaseSource(nameof(_keyLens))]
-        public void ShouldGfSBoxCorrectlyWithEachKeySizeNewEngine(int keyLen)
-        {
-            foreach (var test in KatDataCtr.GetGfSBox(keyLen))
-            {
                 _mockCounter.Setup(s => s.GetNextIV()).Returns(test.IV);
 
                 var param = new ModeBlockCipherParameters(
@@ -93,67 +99,7 @@ namespace NIST.CVP.Crypto.AES_CTR.Tests
                     test.Key,
                     test.PlainText
                 );
-                var result = _newSubject.ProcessPayload(param);
-
-                Assert.IsTrue(result.Success, nameof(result.Success));
-                Assert.AreEqual(test.CipherText, result.Result, test.CipherText.ToHex());
-            }
-        }
-
-        [Test]
-        [TestCaseSource(nameof(_keyLens))]
-        public void ShouldKeySBoxCorrectlyWithEachKeySizeNewEngine(int keyLen)
-        {
-            foreach (var test in KatDataCtr.GetKeySBox(keyLen))
-            {
-                _mockCounter.Setup(s => s.GetNextIV()).Returns(test.IV);
-
-                var param = new ModeBlockCipherParameters(
-                    BlockCipherDirections.Encrypt,
-                    test.Key,
-                    test.PlainText
-                );
-                var result = _newSubject.ProcessPayload(param);
-                
-                Assert.IsTrue(result.Success, nameof(result.Success));
-                Assert.AreEqual(test.CipherText, result.Result, test.CipherText.ToHex());
-            }
-        }
-
-        [Test]
-        [TestCaseSource(nameof(_keyLens))]
-        public void ShouldVarKeyCorrectlyWithEachKeySizeNewEngine(int keyLen)
-        {
-            foreach (var test in KatDataCtr.GetVarKey(keyLen))
-            {
-                _mockCounter.Setup(s => s.GetNextIV()).Returns(test.IV);
-
-                var param = new ModeBlockCipherParameters(
-                    BlockCipherDirections.Encrypt,
-                    test.Key,
-                    test.PlainText
-                );
-                var result = _newSubject.ProcessPayload(param);
-                
-                Assert.IsTrue(result.Success, nameof(result.Success));
-                Assert.AreEqual(test.CipherText, result.Result, test.CipherText.ToHex());
-            }
-        }
-
-        [Test]
-        [TestCaseSource(nameof(_keyLens))]
-        public void ShouldVarTxtCorrectlyWithEachKeySizeNewEngine(int keyLen)
-        {
-            foreach (var test in KatDataCtr.GetVarTxt(keyLen))
-            {
-                _mockCounter.Setup(s => s.GetNextIV()).Returns(test.IV);
-
-                var param = new ModeBlockCipherParameters(
-                    BlockCipherDirections.Encrypt,
-                    test.Key,
-                    test.PlainText
-                );
-                var result = _newSubject.ProcessPayload(param);
+                var result = _subject.ProcessPayload(param);
                 
                 Assert.IsTrue(result.Success, nameof(result.Success));
                 Assert.AreEqual(test.CipherText, result.Result, test.CipherText.ToHex());

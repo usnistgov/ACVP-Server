@@ -36,3 +36,4 @@ tempIntegrationTests
 temp_IntegrationTests
 *.dll
 LoggingTests
+orleans-master

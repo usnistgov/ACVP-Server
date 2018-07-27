@@ -67,7 +67,7 @@ namespace NIST.CVP.Generation.KAS.Tests.Builders
             instance.NoKdfNoKc = _noKdfNoKc;
             instance.KdfNoKc = _kdfNoKc;
             instance.KdfKc = _kdfKc;
-            instance.Role = _role;
+            instance.KasRole = _role;
 
             return instance;
         }

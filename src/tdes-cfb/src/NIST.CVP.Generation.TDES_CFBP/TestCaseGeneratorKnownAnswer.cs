@@ -13,18 +13,18 @@ namespace NIST.CVP.Generation.TDES_CFBP
 
         public int NumberOfTestCasesToGenerate => _katTestCases.Count;
 
-        public TestCaseGeneratorKnownAnswer(TestGroup group, AlgoMode algo)
+        public TestCaseGeneratorKnownAnswer(TestGroup group)
         {
             var testType = group.TestType?.ToLower();
             var direction = group.Function?.ToLower();
             var concatTestType = string.Concat(testType, direction);
 
-            if (!_kats[algo].ContainsKey(concatTestType))
+            if (!_kats[group.AlgoMode].ContainsKey(concatTestType))
             {
                 throw new ArgumentException($"No KATs found with {nameof(testType)} and {nameof(direction)}");
             }
 
-            _katTestCases = _kats[algo][concatTestType];
+            _katTestCases = _kats[group.AlgoMode][concatTestType];
         }
 
         public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)

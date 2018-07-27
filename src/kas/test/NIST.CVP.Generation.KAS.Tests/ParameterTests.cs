@@ -41,7 +41,7 @@ namespace NIST.CVP.Generation.KAS.Tests
                     {
                         FfcDhEphem = new FfcDhEphem()
                         {
-                            Role = new string[]{ "initiator" },
+                            KasRole = new string[]{ "initiator" },
                             KdfNoKc = new KdfNoKc()
                             {
                                 KdfOption = new KdfOptions()

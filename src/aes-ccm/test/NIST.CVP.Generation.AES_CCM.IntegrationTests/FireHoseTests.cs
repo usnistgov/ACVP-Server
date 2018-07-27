@@ -1,6 +1,11 @@
 ﻿using System.IO;
 using NIST.CVP.Crypto.AES;
 using NIST.CVP.Crypto.AES_CCM;
+using NIST.CVP.Crypto.Common.Symmetric.BlockModes.Aead;
+using NIST.CVP.Crypto.Common.Symmetric.Enums;
+using NIST.CVP.Crypto.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Symmetric.BlockModes.Aead;
+using NIST.CVP.Crypto.Symmetric.Engines;
 using NUnit.Framework;
 using NIST.CVP.Generation.AES_CCM.Parsers;
 using NIST.CVP.Generation.Core;
@@ -14,12 +19,7 @@ namespace NIST.CVP.Generation.AES_CCM.IntegrationTests
     public class FireHoseTests
     {
         private string _testPath;
-        private readonly Crypto.AES_CCM.AES_CCM _subject = new Crypto.AES_CCM.AES_CCM(
-            new AES_CCMInternals(),
-            new RijndaelFactory(
-                new RijndaelInternals()
-            )
-        );
+        private IAeadModeBlockCipher _subject;
 
         [OneTimeSetUp]
         public void OneTimeSetup()
@@ -31,8 +31,9 @@ namespace NIST.CVP.Generation.AES_CCM.IntegrationTests
         public void Setup()
         {
             _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\LegacyParserFiles\");
+            _subject = new CcmBlockCipher(new AesEngine(), new ModeBlockCipherFactory(), new AES_CCMInternals());
         }
- 
+
         [Test]
         public void ShouldRunThroughAllTestFilesAndValidate()
         {
@@ -77,13 +78,15 @@ namespace NIST.CVP.Generation.AES_CCM.IntegrationTests
 
                     if (testGroup.Function.ToLower() == "encrypt")
                     {
-                        var result = _subject.Encrypt(
-                            testCase.Key,
+                        var param = new AeadModeBlockCipherParameters(
+                            BlockCipherDirections.Encrypt,
                             testCase.IV,
+                            testCase.Key,
                             testCase.PlainText,
                             testCase.AAD,
                             testGroup.TagLength
                         );
+                        var result = _subject.ProcessPayload(param);
 
                         if (!result.Success)
                         {
@@ -98,13 +101,15 @@ namespace NIST.CVP.Generation.AES_CCM.IntegrationTests
 
                     if (testGroup.Function.ToLower() == "decrypt")
                     {
-                        var result = _subject.Decrypt(
-                            testCase.Key,
+                        var param = new AeadModeBlockCipherParameters(
+                            BlockCipherDirections.Decrypt,
                             testCase.IV,
+                            testCase.Key,
                             testCase.CipherText,
                             testCase.AAD,
                             testGroup.TagLength
                         );
+                        var result = _subject.ProcessPayload(param);
 
                         if (testCase.TestPassed != null && !testCase.TestPassed.Value)
                         {

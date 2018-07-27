@@ -1,32 +1,22 @@
-﻿using NIST.CVP.Math;
+﻿using System.Numerics;
 
-namespace NIST.CVP.Crypto.Common.Asymmetric.RSA.Signatures
+namespace NIST.CVP.Crypto.Common.Asymmetric.RSA2.Signatures
 {
     public class SignatureResult
     {
-        public BitString Signature { get; }
+        public BigInteger Signature { get; }
         public string ErrorMessage { get; }
 
-        public SignatureResult(BitString signature)
+        public bool Success => string.IsNullOrEmpty(ErrorMessage);
+
+        public SignatureResult(BigInteger signature)
         {
             Signature = signature;
         }
 
-        public SignatureResult(string errorMessage)
+        public SignatureResult(string error)
         {
-            ErrorMessage = errorMessage;
-        }
-
-        public bool Success => string.IsNullOrEmpty(ErrorMessage);
-
-        public override string ToString()
-        {
-            if (!Success)
-            {
-                return ErrorMessage;
-            }
-
-            return $"Signature: {Signature}";
+            ErrorMessage = error;
         }
     }
 }

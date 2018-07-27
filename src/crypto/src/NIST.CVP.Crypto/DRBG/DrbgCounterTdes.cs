@@ -1,27 +1,30 @@
 ﻿using System;
 using System.Collections;
 using NIST.CVP.Crypto.Common.DRBG;
-using NIST.CVP.Crypto.Common.Symmetric.TDES;
+using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Common.Symmetric.Engines;
+using NIST.CVP.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
-using NIST.CVP.Crypto.TDES_ECB;
 using NIST.CVP.Math.Helpers;
 
 namespace NIST.CVP.Crypto.DRBG
 {
     public class DrbgCounterTdes : DrbgCounterBase
     {
-        protected ITDES_ECB TdesEcb;
+        protected IModeBlockCipher<IModeBlockCipherResult> Cipher;
 
-        public DrbgCounterTdes(IEntropyProvider entropyProvider, ITDES_ECB tdesEcb, DrbgParameters drbgParameters)
+        public DrbgCounterTdes(IEntropyProvider entropyProvider, IBlockCipherEngineFactory engineFactory, IModeBlockCipherFactory cipherFactory, DrbgParameters drbgParameters)
             : base(entropyProvider, drbgParameters)
         {
-            TdesEcb = tdesEcb;
+            Cipher = cipherFactory.GetStandardCipher(
+                engineFactory.GetSymmetricCipherPrimitive(BlockCipherEngines.Tdes), BlockCipherModesOfOperation.Ecb);
         }
 
         protected override BitString BlockEncrypt(BitString K, BitString X)
         {
-            return TdesEcb.BlockEncrypt(Convert168BitKeyTo192BitKey(K), X).Result;
+            var param = new ModeBlockCipherParameters(BlockCipherDirections.Encrypt, Convert168BitKeyTo192BitKey(K), X);
+            return Cipher.ProcessPayload(param).Result;
         }
 
         protected BitString Convert168BitKeyTo192BitKey(BitString origKey)

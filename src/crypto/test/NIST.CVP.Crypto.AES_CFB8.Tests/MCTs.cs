@@ -1,4 +1,9 @@
 ﻿using NIST.CVP.Crypto.AES;
+using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Common.Symmetric.Enums;
+using NIST.CVP.Crypto.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Symmetric.Engines;
+using NIST.CVP.Crypto.Symmetric.MonteCarlo;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -8,12 +13,12 @@ namespace NIST.CVP.Crypto.AES_CFB8.Tests
     [TestFixture, LongCryptoTest]
     public class MCTs
     {
-        AES_CFB8_MCT _subject = new AES_CFB8_MCT(
-            new Crypto.AES_CFB8.AES_CFB8(
-                new RijndaelFactory(
-                    new RijndaelInternals()
-                )
-            )
+        private readonly MonteCarloAesCfb _subject = new MonteCarloAesCfb(
+            new BlockCipherEngineFactory(),
+            new ModeBlockCipherFactory(),
+            new AesMonteCarloKeyMaker(),
+            8,
+            BlockCipherModesOfOperation.CfbByte
         );
 
         #region Encrypt
@@ -42,7 +47,9 @@ namespace NIST.CVP.Crypto.AES_CFB8.Tests
             var lastExpectedCipherText = new BitString("77");
 
 
-            var result = _subject.MCTEncrypt(iv, key, plainText);
+            var result = _subject.ProcessMonteCarloTest(new ModeBlockCipherParameters(
+                BlockCipherDirections.Encrypt, iv, key, plainText
+            ));
 
 
             Assert.AreEqual(key, sanityCheckFirstKey, nameof(sanityCheckFirstKey));
@@ -96,7 +103,9 @@ namespace NIST.CVP.Crypto.AES_CFB8.Tests
             var lastExpectedCipherText = new BitString("df");
 
 
-            var result = _subject.MCTEncrypt(iv, key, plainText);
+            var result = _subject.ProcessMonteCarloTest(new ModeBlockCipherParameters(
+                BlockCipherDirections.Encrypt, iv, key, plainText
+            ));
 
 
             Assert.AreEqual(key, sanityCheckFirstKey, nameof(sanityCheckFirstKey));
@@ -146,7 +155,9 @@ namespace NIST.CVP.Crypto.AES_CFB8.Tests
             var lastExpectedCipherText = new BitString("c3");
 
 
-            var result = _subject.MCTEncrypt(iv, key, plainText);
+            var result = _subject.ProcessMonteCarloTest(new ModeBlockCipherParameters(
+                BlockCipherDirections.Encrypt, iv, key, plainText
+            ));
 
 
             Assert.AreEqual(key, sanityCheckFirstKey, nameof(sanityCheckFirstKey));
@@ -198,7 +209,9 @@ namespace NIST.CVP.Crypto.AES_CFB8.Tests
             var lastExpectedPlainText = new BitString("87");
 
 
-            var result = _subject.MCTDecrypt(iv, key, cipherText);
+            var result = _subject.ProcessMonteCarloTest(new ModeBlockCipherParameters(
+                BlockCipherDirections.Decrypt, iv, key, cipherText
+            ));
 
 
             Assert.AreEqual(key, sanityCheckFirstKey, nameof(sanityCheckFirstKey));
@@ -248,7 +261,9 @@ namespace NIST.CVP.Crypto.AES_CFB8.Tests
             var lastExpectedPlainText = new BitString("b7");
 
 
-            var result = _subject.MCTDecrypt(iv, key, cipherText);
+            var result = _subject.ProcessMonteCarloTest(new ModeBlockCipherParameters(
+                BlockCipherDirections.Decrypt, iv, key, cipherText
+            ));
 
 
             Assert.AreEqual(key, sanityCheckFirstKey, nameof(sanityCheckFirstKey));
@@ -298,7 +313,9 @@ namespace NIST.CVP.Crypto.AES_CFB8.Tests
             var lastExpectedPlainText = new BitString("51");
 
 
-            var result = _subject.MCTDecrypt(iv, key, cipherText);
+            var result = _subject.ProcessMonteCarloTest(new ModeBlockCipherParameters(
+                BlockCipherDirections.Decrypt, iv, key, cipherText
+            ));
 
 
             Assert.AreEqual(key, sanityCheckFirstKey, nameof(sanityCheckFirstKey));

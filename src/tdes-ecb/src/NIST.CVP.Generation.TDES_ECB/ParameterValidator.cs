@@ -7,8 +7,6 @@ using System.Numerics;
 
 namespace NIST.CVP.Generation.TDES_ECB
 {
-    
-
     public class ParameterValidator : ParameterValidatorBase, IParameterValidator<Parameters>
     {
         // @@@ better way to do this without having to redefine valid values in tests?

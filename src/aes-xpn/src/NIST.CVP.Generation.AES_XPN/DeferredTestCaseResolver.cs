@@ -1,15 +1,16 @@
 ﻿using System;
 using NIST.CVP.Crypto.Common.Symmetric;
-using NIST.CVP.Crypto.Common.Symmetric.AES;
+using NIST.CVP.Crypto.Common.Symmetric.BlockModes.Aead;
+using NIST.CVP.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.AES_XPN
 {
     public class DeferredTestCaseResolver : IDeferredTestCaseResolver<TestGroup, TestCase, SymmetricCipherAeadResult>
     {
-        private readonly IAES_GCM _algo;
+        private readonly IAeadModeBlockCipher _algo;
 
-        public DeferredTestCaseResolver(IAES_GCM algo)
+        public DeferredTestCaseResolver(IAeadModeBlockCipher algo)
         {
             _algo = algo;
         }
@@ -30,13 +31,16 @@ namespace NIST.CVP.Generation.AES_XPN
 
             var ivXorSalt = salt.XOR(iv);
 
-            return _algo.BlockEncrypt(
+            var param = new AeadModeBlockCipherParameters(
+                BlockCipherDirections.Encrypt,
+                ivXorSalt,
                 serverTestCase.Key,
                 serverTestCase.PlainText,
-                ivXorSalt,
                 serverTestCase.AAD,
                 testGroup.TagLength
             );
+
+            return _algo.ProcessPayload(param);
         }
     }
 }

@@ -2,11 +2,24 @@
 using NIST.CVP.Crypto.AES;
 using NIST.CVP.Crypto.Common.MAC.CMAC;
 using NIST.CVP.Crypto.Common.MAC.CMAC.Enums;
+using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Common.Symmetric.Engines;
+using NIST.CVP.Crypto.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Symmetric.Engines;
 
 namespace NIST.CVP.Crypto.CMAC
 {
     public class CmacFactory : ICmacFactory
     {
+        private readonly IBlockCipherEngineFactory _engineFactory;
+        private readonly IModeBlockCipherFactory _modeFactory;
+
+        public CmacFactory()
+        {
+            _engineFactory = new BlockCipherEngineFactory();
+            _modeFactory = new ModeBlockCipherFactory();
+        }
+
         public ICmac GetCmacInstance(CmacTypes cmacType)
         {
             switch (cmacType)
@@ -14,10 +27,10 @@ namespace NIST.CVP.Crypto.CMAC
                 case CmacTypes.AES128:
                 case CmacTypes.AES192:
                 case CmacTypes.AES256:
-                    return new CmacAes(new RijndaelFactory(new RijndaelInternals()));
+                    return new CmacAes(_engineFactory, _modeFactory);
 
                 case CmacTypes.TDES:
-                    return new CmacTdes(new TDES_ECB.TdesEcb());
+                    return new CmacTdes(_engineFactory, _modeFactory);
             }
             
             throw new ArgumentException($"Invalid {cmacType}");

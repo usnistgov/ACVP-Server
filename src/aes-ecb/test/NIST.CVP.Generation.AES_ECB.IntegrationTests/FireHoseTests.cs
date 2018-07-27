@@ -1,7 +1,10 @@
 ﻿using System.IO;
 using System.Linq;
-using NIST.CVP.Crypto.AES;
-using NIST.CVP.Crypto.AES_ECB;
+using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Common.Symmetric.Enums;
+using NIST.CVP.Crypto.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Symmetric.Engines;
+using NIST.CVP.Crypto.Symmetric.MonteCarlo;
 using NIST.CVP.Generation.AES_ECB.Parsers;
 using NIST.CVP.Tests.Core;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
@@ -14,15 +17,15 @@ namespace NIST.CVP.Generation.AES_ECB.IntegrationTests
     {
         string _testPath;
 
-        private Crypto.AES_ECB.AES_ECB _aesEcb;
-        private AES_ECB_MCT _aesEcbMct;
+        private EcbBlockCipher _aesEcb;
+        private MonteCarloAesEcb _aesEcbMct;
 
         [SetUp]
         public void Setup()
         {
             _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\LegacyParserFiles\");
-            _aesEcb = new Crypto.AES_ECB.AES_ECB(new RijndaelFactory(new RijndaelInternals()));
-            _aesEcbMct = new AES_ECB_MCT(_aesEcb);
+            _aesEcb = new EcbBlockCipher(new AesEngine());
+            _aesEcbMct = new MonteCarloAesEcb(new BlockCipherEngineFactory(), new ModeBlockCipherFactory(), new AesMonteCarloKeyMaker());
         }
 
         [Test]
@@ -67,29 +70,33 @@ namespace NIST.CVP.Generation.AES_ECB.IntegrationTests
 
                         if (testGroup.Function.ToLower() == "encrypt")
                         {
-                            var result = _aesEcbMct.MCTEncrypt(
-                                testCase.ResultsArray.First().Key,
-                                testCase.ResultsArray.First().PlainText
-                            );
+                            var param = new ModeBlockCipherParameters(BlockCipherDirections.Encrypt,
+                                testCase.ResultsArray.First().Key, testCase.ResultsArray.First().PlainText);
+                            var result = _aesEcbMct.ProcessMonteCarloTest(param);
 
                             Assert.IsTrue(testCase.ResultsArray.Count > 0, $"{nameof(testCase)} MCT encrypt count should be gt 0");
                             for (int i = 0; i < testCase.ResultsArray.Count; i++)
                             {
+                                Assert.AreEqual(testCase.ResultsArray[i].IV, result.Response[i].IV, $"IV mismatch on index {i}");
+                                Assert.AreEqual(testCase.ResultsArray[i].Key, result.Response[i].Key, $"Key mismatch on index {i}");
+                                Assert.AreEqual(testCase.ResultsArray[i].PlainText, result.Response[i].PlainText, $"PlainText mismatch on index {i}");
                                 Assert.AreEqual(testCase.ResultsArray[i].CipherText, result.Response[i].CipherText, $"CipherText mismatch on index {i}");
                             }
                             continue;
                         }
                         if (testGroup.Function.ToLower() == "decrypt")
                         {
-                            var result = _aesEcbMct.MCTDecrypt(
-                                testCase.ResultsArray.First().Key,
-                                testCase.ResultsArray.First().CipherText
-                            );
+                            var param = new ModeBlockCipherParameters(BlockCipherDirections.Decrypt,
+                                testCase.ResultsArray.First().Key, testCase.ResultsArray.First().CipherText);
+                            var result = _aesEcbMct.ProcessMonteCarloTest(param);
 
                             Assert.IsTrue(testCase.ResultsArray.Count > 0, $"{nameof(testCase)} MCT decrypt count should be gt 0");
                             for (int i = 0; i < testCase.ResultsArray.Count; i++)
                             {
+                                Assert.AreEqual(testCase.ResultsArray[i].IV, result.Response[i].IV, $"IV mismatch on index {i}");
+                                Assert.AreEqual(testCase.ResultsArray[i].Key, result.Response[i].Key, $"Key mismatch on index {i}");
                                 Assert.AreEqual(testCase.ResultsArray[i].PlainText, result.Response[i].PlainText, $"PlainText mismatch on index {i}");
+                                Assert.AreEqual(testCase.ResultsArray[i].CipherText, result.Response[i].CipherText, $"CipherText mismatch on index {i}");
                             }
                             continue;
                         }
@@ -100,10 +107,8 @@ namespace NIST.CVP.Generation.AES_ECB.IntegrationTests
 
                         if (testGroup.Function.ToLower() == "encrypt")
                         {
-                            var result = _aesEcb.BlockEncrypt(
-                                testCase.Key,
-                                testCase.PlainText
-                            );
+                            var param = new ModeBlockCipherParameters(BlockCipherDirections.Encrypt,testCase.Key, testCase.PlainText);
+                            var result = _aesEcb.ProcessPayload(param);
 
                             if (testCase.CipherText.ToHex() == result.Result.ToHex())
                                 passes++;
@@ -117,10 +122,8 @@ namespace NIST.CVP.Generation.AES_ECB.IntegrationTests
 
                         if (testGroup.Function.ToLower() == "decrypt")
                         {
-                            var result = _aesEcb.BlockDecrypt(
-                                testCase.Key,
-                                testCase.CipherText
-                            );
+                            var param = new ModeBlockCipherParameters(BlockCipherDirections.Decrypt,testCase.Key, testCase.CipherText);
+                            var result = _aesEcb.ProcessPayload(param);
 
                             if (testCase.PlainText.ToHex() == result.Result.ToHex())
                                 passes++;

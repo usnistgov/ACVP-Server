@@ -29,5 +29,7 @@ namespace NIST.CVP.Crypto.Common.Symmetric.BlockModes
             IBlockCipherEngine engine,
             ICounter counter
         );
+
+        ICounterModeBlockCipher GetIvExtractor(IBlockCipherEngine engine);
     }
 }

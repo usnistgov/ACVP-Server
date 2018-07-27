@@ -3,6 +3,10 @@ using NIST.CVP.Math;
 using NLog;
 using System;
 using NIST.CVP.Common;
+using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Common.Symmetric.Enums;
+using NIST.CVP.Crypto.Common.Symmetric.Helpers;
+using NIST.CVP.Crypto.Common.Symmetric.MonteCarlo;
 using NIST.CVP.Crypto.Common.Symmetric.TDES;
 
 namespace NIST.CVP.Generation.TDES_CFB
@@ -12,29 +16,34 @@ namespace NIST.CVP.Generation.TDES_CFB
         private const int BLOCK_SIZE_BITS = 64;
 
         private readonly IRandom800_90 _random800_90;
+        private readonly IMonteCarloTester<
+            Crypto.Common.Symmetric.MCTResult<AlgoArrayResponse>, AlgoArrayResponse
+        > _algo;
         private readonly int _shift;
-        private readonly ICFBModeMCT _mode;
 
         public int NumberOfTestCasesToGenerate => 1;
 
-        public TestCaseGeneratorMonteCarloDecrypt(IRandom800_90 random800_90, ICFBModeMCT mode)
+        public TestCaseGeneratorMonteCarloDecrypt(TestGroup group, IRandom800_90 random800_90, IMonteCarloFactoryTdes mctFactory)
         {
-            switch (mode.Algo)
+            _random800_90 = random800_90;
+
+            var mapping = AlgoModeToEngineModeOfOperationMapping.GetMapping(group.AlgoMode);
+            _algo = mctFactory.GetInstance(mapping.mode);
+
+            switch (mapping.mode)
             {
-                case AlgoMode.TDES_CFB1:
+                case BlockCipherModesOfOperation.CfbBit:
                     _shift = 1;
                     break;
-                case AlgoMode.TDES_CFB8:
+                case BlockCipherModesOfOperation.CfbByte:
                     _shift = 8;
                     break;
-                case AlgoMode.TDES_CFB64:
+                case BlockCipherModesOfOperation.CfbBlock:
                     _shift = 64;
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(mode.Algo), mode.Algo, null);
+                    throw new ArgumentException(nameof(mapping.mode));
             }
-            _random800_90 = random800_90;
-            _mode = mode;
         }
 
         public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup @group, bool isSample)
@@ -46,17 +55,22 @@ namespace NIST.CVP.Generation.TDES_CFB
 
         public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup @group, TestCase seedCase)
         {
-            MCTResult<AlgoArrayResponse> decryptionResult = null;
             try
             {
-                decryptionResult = _mode.MCTDecrypt(seedCase.Keys, seedCase.Iv, seedCase.CipherText);
-                if (!decryptionResult.Success)
+                var result = _algo.ProcessMonteCarloTest(new ModeBlockCipherParameters(
+                    BlockCipherDirections.Decrypt,
+                    seedCase.Iv.GetDeepCopy(),
+                    seedCase.Keys.GetDeepCopy(),
+                    seedCase.CipherText.GetDeepCopy()
+                ));
+                if (!result.Success)
                 {
-                    ThisLogger.Warn(decryptionResult.ErrorMessage);
+                    ThisLogger.Warn(result.ErrorMessage);
                     {
-                        return new TestCaseGenerateResponse<TestGroup, TestCase>(decryptionResult.ErrorMessage);
+                        return new TestCaseGenerateResponse<TestGroup, TestCase>(result.ErrorMessage);
                     }
                 }
+                seedCase.ResultsArray = result.Response;
             }
             catch (Exception ex)
             {
@@ -65,7 +79,7 @@ namespace NIST.CVP.Generation.TDES_CFB
                     return new TestCaseGenerateResponse<TestGroup, TestCase>(ex.Message);
                 }
             }
-            seedCase.ResultsArray = decryptionResult.Response;
+            
             return new TestCaseGenerateResponse<TestGroup, TestCase>(seedCase);
         }
 

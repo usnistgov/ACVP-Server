@@ -12,6 +12,7 @@ namespace NIST.CVP.Generation.TDES_CTR
         private readonly IDeferredTestCaseResolver<TestGroup, TestCase, SymmetricCounterResult> _deferredTestCaseResolver;
         private readonly TestCase _serverTestCase;
         private readonly TestGroup _group;
+        private List<BitString> _ivs = new List<BitString>();
         public int TestCaseId => _serverTestCase.TestCaseId;
 
         public TestCaseValidatorCounterEncrypt(
@@ -33,8 +34,8 @@ namespace NIST.CVP.Generation.TDES_CTR
             ValidateResultPresent(suppliedResult, errors);
             if (errors.Count == 0)
             {
-                var calculatedIVs = CheckResults(suppliedResult, errors, expected, provided);
-                ValidateIVs(calculatedIVs, errors);
+                CheckResults(suppliedResult, errors, expected, provided);
+                ValidateIVs(_ivs, errors);
             }
 
             if (errors.Count > 0)
@@ -59,14 +60,14 @@ namespace NIST.CVP.Generation.TDES_CTR
             }
         }
 
-        private List<BitString> CheckResults(TestCase suppliedResult, List<string> errors, Dictionary<string, string> expected, Dictionary<string, string> provided)
+        private void CheckResults(TestCase suppliedResult, List<string> errors, Dictionary<string, string> expected, Dictionary<string, string> provided)
         {
             var serverResult = _deferredTestCaseResolver.CompleteDeferredCrypto(_group, _serverTestCase, suppliedResult);
 
             if (!serverResult.Success)
             {
                 errors.Add($"Server unable to complete test case with error: {serverResult.ErrorMessage}");
-                return new List<BitString>();
+                return;
             }
 
             // only check first block
@@ -77,7 +78,7 @@ namespace NIST.CVP.Generation.TDES_CTR
                 provided.Add(nameof(suppliedResult.CipherText), suppliedResult.CipherText.ToHex());
             }
 
-            return serverResult.IVs;
+            _ivs = serverResult.IVs;
         }
 
         private void ValidateIVs(List<BitString> ivs, List<string> errors)

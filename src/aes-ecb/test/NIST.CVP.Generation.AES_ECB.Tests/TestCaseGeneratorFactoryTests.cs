@@ -1,4 +1,8 @@
 ﻿using System;
+using Moq;
+using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Common.Symmetric.Engines;
+using NIST.CVP.Crypto.Common.Symmetric.MonteCarlo;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
@@ -67,7 +71,11 @@ namespace NIST.CVP.Generation.AES_ECB.Tests
                 TestType = testType
             };
 
-            var subject = new TestCaseGeneratorFactory(null, null, null);
+            var engineFactory = new Mock<IBlockCipherEngineFactory>();
+            var cipherFactory = new Mock<IModeBlockCipherFactory>();
+            var mctFactory = new Mock<IMonteCarloFactoryAes>();
+
+            var subject = new TestCaseGeneratorFactory(null, engineFactory.Object, cipherFactory.Object, mctFactory.Object);
             var generator = subject.GetCaseGenerator(testGroup);
             Assume.That(generator != null);
             Assert.IsInstanceOf(expectedType, generator);
@@ -76,7 +84,11 @@ namespace NIST.CVP.Generation.AES_ECB.Tests
         [Test]
         public void ShouldReturnAGenerator()
         {
-            var subject = new TestCaseGeneratorFactory(null, null, null);
+            var engineFactory = new Mock<IBlockCipherEngineFactory>();
+            var cipherFactory = new Mock<IModeBlockCipherFactory>();
+            var mctFactory = new Mock<IMonteCarloFactoryAes>();
+
+            var subject = new TestCaseGeneratorFactory(null, engineFactory.Object, cipherFactory.Object, mctFactory.Object);
             var generator = subject.GetCaseGenerator(new TestGroup()
             {
                 Function = string.Empty,

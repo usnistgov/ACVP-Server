@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using NIST.CVP.Generation.Core;
+using Moq;
+using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Common.Symmetric.Engines;
+using NIST.CVP.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
@@ -12,11 +14,27 @@ namespace NIST.CVP.Generation.TDES_CTR.Tests
     public class TestCaseValidatorFactoryTests
     {
         private TestCaseValidatorFactory _subject;
+        private Mock<IBlockCipherEngine> _engine;
+        private Mock<IBlockCipherEngineFactory> _engineFactory;
+        private Mock<IModeBlockCipherFactory> _cipherFactory;
+        private Mock<ICounterModeBlockCipher> _cipher;
 
         [SetUp]
         public void Setup()
         {
-            _subject = new TestCaseValidatorFactory(null);
+            _engine = new Mock<IBlockCipherEngine>();
+            _engineFactory = new Mock<IBlockCipherEngineFactory>();
+            _engineFactory
+                .Setup(s => s.GetSymmetricCipherPrimitive(It.IsAny<BlockCipherEngines>()))
+                .Returns(_engine.Object);
+
+            _cipher = new Mock<ICounterModeBlockCipher>();
+            _cipherFactory = new Mock<IModeBlockCipherFactory>();
+            _cipherFactory
+                .Setup(s => s.GetIvExtractor(It.IsAny<IBlockCipherEngine>()))
+                .Returns(_cipher.Object);
+
+            _subject = new TestCaseValidatorFactory(_engineFactory.Object, _cipherFactory.Object);
         }
 
         [Test]

@@ -105,9 +105,7 @@ namespace NIST.CVP.Generation.KAS.FFC.Tests.ContractResolvers
             {
                 Assert.AreEqual(tc.TestPassed, newTc.TestPassed, nameof(newTc.TestPassed));
 
-                Assert.AreNotEqual(tc.StaticPrivateKeyIut, newTc.StaticPrivateKeyIut, nameof(newTc.StaticPrivateKeyIut));
                 Assert.AreNotEqual(tc.StaticPublicKeyIut, newTc.StaticPublicKeyIut, nameof(newTc.StaticPublicKeyIut));
-                Assert.AreNotEqual(tc.EphemeralPrivateKeyIut, newTc.EphemeralPrivateKeyIut, nameof(newTc.EphemeralPrivateKeyIut));
                 Assert.AreNotEqual(tc.EphemeralPublicKeyIut, newTc.EphemeralPublicKeyIut, nameof(newTc.EphemeralPublicKeyIut));
                 Assert.AreNotEqual(tc.DkmNonceIut, newTc.DkmNonceIut, nameof(newTc.DkmNonceIut));
                 Assert.AreNotEqual(tc.EphemeralNonceIut, newTc.EphemeralNonceIut, nameof(newTc.EphemeralNonceIut));
@@ -119,13 +117,14 @@ namespace NIST.CVP.Generation.KAS.FFC.Tests.ContractResolvers
                 Regex regex = new Regex(nameof(TestCase.TestPassed), RegexOptions.IgnoreCase);
                 Assert.IsTrue(regex.Matches(json).Count == 0);
 
-                Assert.AreEqual(tc.StaticPrivateKeyIut, newTc.StaticPrivateKeyIut, nameof(newTc.StaticPrivateKeyIut));
                 Assert.AreEqual(tc.StaticPublicKeyIut, newTc.StaticPublicKeyIut, nameof(newTc.StaticPublicKeyIut));
-                Assert.AreEqual(tc.EphemeralPrivateKeyIut, newTc.EphemeralPrivateKeyIut, nameof(newTc.EphemeralPrivateKeyIut));
                 Assert.AreEqual(tc.EphemeralPublicKeyIut, newTc.EphemeralPublicKeyIut, nameof(newTc.EphemeralPublicKeyIut));
                 Assert.AreEqual(tc.DkmNonceIut, newTc.DkmNonceIut, nameof(newTc.DkmNonceIut));
                 Assert.AreEqual(tc.EphemeralNonceIut, newTc.EphemeralNonceIut, nameof(newTc.EphemeralNonceIut));
             }
+
+            Assert.AreNotEqual(tc.StaticPrivateKeyIut, newTc.StaticPrivateKeyIut, nameof(newTc.StaticPrivateKeyIut));
+            Assert.AreNotEqual(tc.EphemeralPrivateKeyIut, newTc.EphemeralPrivateKeyIut, nameof(newTc.EphemeralPrivateKeyIut));
 
             Assert.AreNotEqual(tc.NonceAesCcm, newTc.NonceAesCcm, nameof(newTc.NonceAesCcm));
 

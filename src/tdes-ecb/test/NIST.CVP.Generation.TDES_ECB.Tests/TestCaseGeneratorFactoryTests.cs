@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Moq;
-using NIST.CVP.Crypto.Common.Symmetric.TDES;
-using NIST.CVP.Crypto.TDES;
-using NIST.CVP.Crypto.TDES_ECB;
+using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Common.Symmetric.Engines;
+using NIST.CVP.Crypto.Common.Symmetric.MonteCarlo;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -70,9 +67,11 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
         private TestCaseGeneratorFactory GetSubject()
         {
             var randy = new Mock<IRandom800_90>().Object;
-            var algo = new Mock<ITDES_ECB>().Object;
-            var algoMct = new Mock<ITDES_ECB_MCT>().Object;
-            return new TestCaseGeneratorFactory(randy, algo, algoMct);
+            var engineFactory = new Mock<IBlockCipherEngineFactory>().Object;
+            var cipherFactory = new Mock<IModeBlockCipherFactory>().Object;
+            var mctFactory = new Mock<IMonteCarloFactoryTdes>().Object;
+
+            return new TestCaseGeneratorFactory(randy, engineFactory, cipherFactory, mctFactory);
         }
     }
 }

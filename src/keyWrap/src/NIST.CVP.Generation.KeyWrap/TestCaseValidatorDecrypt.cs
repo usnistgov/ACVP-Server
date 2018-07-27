@@ -27,6 +27,8 @@ namespace NIST.CVP.Generation.KeyWrap
                 if (!suppliedResult.TestPassed.Value)
                 {
                     errors.Add("Expected tag validation failure");
+                    expected.Add(nameof(_expectedResult.TestPassed), _expectedResult.TestPassed.Value.ToString());
+                    provided.Add(nameof(suppliedResult.TestPassed), suppliedResult.TestPassed.Value.ToString());
                 }
             }
             else

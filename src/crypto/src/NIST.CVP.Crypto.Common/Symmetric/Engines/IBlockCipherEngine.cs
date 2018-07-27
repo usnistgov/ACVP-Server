@@ -1,4 +1,5 @@
 ﻿using NIST.CVP.Crypto.Common.Symmetric.CTR.Enums;
+using NIST.CVP.Crypto.Common.Symmetric.Enums;
 
 namespace NIST.CVP.Crypto.Common.Symmetric.Engines
 {
@@ -18,9 +19,8 @@ namespace NIST.CVP.Crypto.Common.Symmetric.Engines
         int BlockSizeBits { get; }
         /// <summary>
         /// The underlying engine cipher
-        /// TODO consolidate enums
         /// </summary>
-        Cipher Cipher { get; }
+        BlockCipherEngines CipherEngine { get; }
         /// <summary>
         /// Initialize the primitive
         /// </summary>

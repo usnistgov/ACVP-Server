@@ -1,20 +1,30 @@
-﻿using NIST.CVP.Crypto.Common.Symmetric.TDES;
+﻿using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Common.Symmetric.Engines;
+using NIST.CVP.Crypto.Common.Symmetric.MonteCarlo;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
+
 
 namespace NIST.CVP.Generation.TDES_CBC
 {
     public class TestCaseGeneratorFactory : ITestCaseGeneratorFactory<TestGroup, TestCase>
     {
         private readonly IRandom800_90 _random800_90;
-        private readonly ITDES_CBC _algo;
-        private readonly ITDES_CBC_MCT _mctAlgo;
+        private readonly IMonteCarloFactoryTdes _mctFactory;
+        private readonly IBlockCipherEngineFactory _engineFactory;
+        private readonly IModeBlockCipherFactory _modeFactory;
 
-        public TestCaseGeneratorFactory(IRandom800_90 random800_90, ITDES_CBC algo, ITDES_CBC_MCT mctAlgo)
+        public TestCaseGeneratorFactory(
+            IRandom800_90 random800_90,
+            IMonteCarloFactoryTdes mctFactory,
+            IBlockCipherEngineFactory engineFactory,
+            IModeBlockCipherFactory modeFactory
+        )
         {
-            _algo = algo;
             _random800_90 = random800_90;
-            _mctAlgo = mctAlgo;
+            _mctFactory = mctFactory;
+            _engineFactory = engineFactory;
+            _modeFactory = modeFactory;
         }
 
         public ITestCaseGenerator<TestGroup, TestCase> GetCaseGenerator(TestGroup @group)
@@ -33,9 +43,9 @@ namespace NIST.CVP.Generation.TDES_CBC
                     switch (@group.Function.ToLower())
                     {
                         case "encrypt":
-                            return new TestCaseGeneratorMMTEncrypt(_random800_90, _algo);
+                            return new TestCaseGeneratorMMTEncrypt(_random800_90, _engineFactory, _modeFactory);
                         case "decrypt":
-                            return new TestCaseGeneratorMMTDecrypt(_random800_90, _algo);
+                            return new TestCaseGeneratorMMTDecrypt(_random800_90, _engineFactory, _modeFactory);
                     }
 
                     break;
@@ -44,9 +54,9 @@ namespace NIST.CVP.Generation.TDES_CBC
                     switch (@group.Function.ToLower())
                     {
                         case "encrypt":
-                            return new TestCaseGeneratorMonteCarloEncrypt(_random800_90, _mctAlgo);
+                            return new TestCaseGeneratorMonteCarloEncrypt(_random800_90, _mctFactory);
                         case "decrypt":
-                            return new TestCaseGeneratorMonteCarloDecrypt(_random800_90, _mctAlgo);
+                            return new TestCaseGeneratorMonteCarloDecrypt(_random800_90, _mctFactory);
                     }
 
                     break;

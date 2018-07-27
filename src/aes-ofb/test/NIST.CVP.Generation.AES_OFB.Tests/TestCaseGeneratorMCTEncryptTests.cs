@@ -1,9 +1,9 @@
 ﻿using System;
 using Moq;
-using NIST.CVP.Crypto.AES;
-using NIST.CVP.Crypto.AES_OFB;
 using NIST.CVP.Crypto.Common.Symmetric;
 using NIST.CVP.Crypto.Common.Symmetric.AES;
+using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Common.Symmetric.MonteCarlo;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -14,14 +14,14 @@ namespace NIST.CVP.Generation.AES_OFB.Tests
     public class TestCaseGeneratorMCTEncryptTests
     {
         private Mock<IRandom800_90> _mockRandom;
-        private Mock<IAES_OFB_MCT> _mockMCT;
+        private Mock<IMonteCarloTester<MCTResult<AlgoArrayResponse>, AlgoArrayResponse>> _mockMCT;
         private TestCaseGeneratorMCTEncrypt _subject;
 
         [SetUp]
         public void Setup()
         {
             _mockRandom = new Mock<IRandom800_90>();
-            _mockMCT = new Mock<IAES_OFB_MCT>();
+            _mockMCT = new Mock<IMonteCarloTester<MCTResult<AlgoArrayResponse>, AlgoArrayResponse>>();
             _subject = new TestCaseGeneratorMCTEncrypt(_mockRandom.Object, _mockMCT.Object);
         }
 
@@ -48,7 +48,7 @@ namespace NIST.CVP.Generation.AES_OFB.Tests
             };
             _subject.Generate(testGroup, false);
 
-            _mockMCT.Verify(v => v.MCTEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>()));
+            _mockMCT.Verify(v => v.ProcessMonteCarloTest(It.IsAny<IModeBlockCipherParameters>()));
         }
 
         [Test]
@@ -61,14 +61,14 @@ namespace NIST.CVP.Generation.AES_OFB.Tests
             TestCase testCase = new TestCase();
             _subject.Generate(testGroup, testCase);
 
-            _mockMCT.Verify(v => v.MCTEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>()));
+            _mockMCT.Verify(v => v.ProcessMonteCarloTest(It.IsAny<IModeBlockCipherParameters>()));
         }
 
         [Test]
         public void ShouldReturnErrorMessageIfAlgoNotSuccessful()
         {
             string errorMessage = "something bad happened!";
-            _mockMCT.Setup(s => s.MCTEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>()))
+            _mockMCT.Setup(s => s.ProcessMonteCarloTest(It.IsAny<IModeBlockCipherParameters>()))
                 .Returns(new MCTResult<AlgoArrayResponse>(errorMessage));
 
             TestGroup testGroup = new TestGroup()
@@ -86,7 +86,7 @@ namespace NIST.CVP.Generation.AES_OFB.Tests
         public void ShouldReturnErrorMessageIfAlgoFailsWithException()
         {
             string errorMessage = "something bad happened! oh noes!";
-            _mockMCT.Setup(s => s.MCTEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>()))
+            _mockMCT.Setup(s => s.ProcessMonteCarloTest(It.IsAny<IModeBlockCipherParameters>()))
                 .Throws(new Exception(errorMessage));
 
             TestGroup testGroup = new TestGroup()

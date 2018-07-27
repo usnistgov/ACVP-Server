@@ -5,6 +5,7 @@ using NIST.CVP.Crypto.Common.Symmetric;
 using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
 using NIST.CVP.Crypto.Common.Symmetric.Engines;
 using NIST.CVP.Crypto.Common.Symmetric.Enums;
+using NIST.CVP.Crypto.Common.Symmetric.TDES.Helpers;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.Symmetric.BlockModes
@@ -31,8 +32,8 @@ namespace NIST.CVP.Crypto.Symmetric.BlockModes
                 throw new ArgumentException($"CBCI mode needs at least {PARTITIONS} blocks of data");
             }
 
-            var payloads = TriPartitionBitString(param.Payload);
-            var ivs = SetupIvs(param.Iv);
+            var payloads = TdesPartitionHelpers.TriPartitionBitString(param.Payload);
+            var ivs = TdesPartitionHelpers.SetupIvs(param.Iv);
             var key = param.Key.ToBytes();
 
             var engineParam = new EngineInitParameters(param.Direction, key, param.UseInverseCipherMode);
@@ -54,41 +55,7 @@ namespace NIST.CVP.Crypto.Symmetric.BlockModes
                 ivs
             );
         }
-
-        private BitString[] SetupIvs(BitString iv)
-        {
-            //TODO can be moved to the TDES project
-            return new[] 
-            {
-                iv,
-                iv.AddWithModulo(new BitString("5555555555555555"), 64),
-                iv.AddWithModulo(new BitString("AAAAAAAAAAAAAAAA"), 64)
-            };
-        }
-
-        private BitString[] TriPartitionBitString(BitString bitString)
-        {
-            //string needs to be evently splittable into three parts, and be on the byte boundary. 3 * 8 = 24
-            if (bitString.BitLength % 24 != 0)
-            {
-                throw new Exception($"Can't tripartition a bitstring of size {bitString.BitLength}");
-            }
-
-            var retVal = new BitString[PARTITIONS];
-            for (var i = 0; i < PARTITIONS; i++)
-            {
-                retVal[i] = new BitString(0);
-            }
-
-            for (var i = 0; i < bitString.BitLength / _engine.BlockSizeBits; i++)
-            {
-                var ptIndex = i % PARTITIONS;
-                retVal[ptIndex] = retVal[ptIndex].ConcatenateBits(bitString.MSBSubstring(i * _engine.BlockSizeBits, _engine.BlockSizeBits));
-            }
-
-            return retVal;
-        }
-
+        
         private void Encrypt(
             IModeBlockCipherParameters param, 
             BitString[] payloads, 

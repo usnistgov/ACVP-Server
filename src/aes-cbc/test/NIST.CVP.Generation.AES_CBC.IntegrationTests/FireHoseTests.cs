@@ -1,7 +1,12 @@
 ﻿using System.IO;
 using System.Linq;
 using NIST.CVP.Crypto.AES;
-using NIST.CVP.Crypto.AES_CBC;
+using NIST.CVP.Crypto.Common.Symmetric;
+using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Common.Symmetric.Enums;
+using NIST.CVP.Crypto.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Symmetric.Engines;
+using NIST.CVP.Crypto.Symmetric.MonteCarlo;
 using NIST.CVP.Generation.AES_CBC.Parsers;
 using NIST.CVP.Tests.Core;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
@@ -13,15 +18,19 @@ namespace NIST.CVP.Generation.AES_CBC.IntegrationTests
     public class FireHoseTests
     {
         private string _testPath;
-        private Crypto.AES_CBC.AES_CBC _aesCbc;
-        private AES_CBC_MCT _aesCbcMct;
+        private IModeBlockCipher<SymmetricCipherResult> _algo;
+        private MonteCarloAesCbc _mct;
         
         [SetUp]
         public void Setup()
         {
             _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\LegacyParserFiles\");
-            _aesCbc = new Crypto.AES_CBC.AES_CBC(new RijndaelFactory(new RijndaelInternals()));
-            _aesCbcMct = new AES_CBC_MCT(_aesCbc);
+            _algo = new CbcBlockCipher(new AesEngine());
+            _mct = new MonteCarloAesCbc(
+                new BlockCipherEngineFactory(), 
+                new ModeBlockCipherFactory(),
+                new AesMonteCarloKeyMaker()
+            );
         }
 
         [Test]
@@ -66,31 +75,41 @@ namespace NIST.CVP.Generation.AES_CBC.IntegrationTests
 
                         if (testGroup.Function.ToLower() == "encrypt")
                         {
-                            var result = _aesCbcMct.MCTEncrypt(
-                                testCase.ResultsArray.First().IV,
-                                testCase.ResultsArray.First().Key,
-                                testCase.ResultsArray.First().PlainText
+                            var p = new ModeBlockCipherParameters(
+                                BlockCipherDirections.Encrypt,
+                                testCase.ResultsArray.First().IV.GetDeepCopy(),
+                                testCase.ResultsArray.First().Key.GetDeepCopy(),
+                                testCase.ResultsArray.First().PlainText.GetDeepCopy()
                             );
+                            var result = _mct.ProcessMonteCarloTest(p);
 
                             Assert.IsTrue(testCase.ResultsArray.Count > 0, $"{nameof(testCase)} MCT encrypt count should be gt 0");
                             for (int i = 0; i < testCase.ResultsArray.Count; i++)
                             {
+                                Assert.AreEqual(testCase.ResultsArray[i].IV, result.Response[i].IV, $"IV mismatch on index {i}");
+                                Assert.AreEqual(testCase.ResultsArray[i].Key, result.Response[i].Key, $"Key mismatch on index {i}");
+                                Assert.AreEqual(testCase.ResultsArray[i].PlainText, result.Response[i].PlainText, $"PlainText mismatch on index {i}");
                                 Assert.AreEqual(testCase.ResultsArray[i].CipherText, result.Response[i].CipherText, $"CipherText mismatch on index {i}");
                             }
                             continue;
                         }
                         if (testGroup.Function.ToLower() == "decrypt")
                         {
-                            var result = _aesCbcMct.MCTDecrypt(
-                                testCase.ResultsArray.First().IV,
-                                testCase.ResultsArray.First().Key,
-                                testCase.ResultsArray.First().CipherText
+                            var p = new ModeBlockCipherParameters(
+                                BlockCipherDirections.Decrypt,
+                                testCase.ResultsArray.First().IV.GetDeepCopy(),
+                                testCase.ResultsArray.First().Key.GetDeepCopy(),
+                                testCase.ResultsArray.First().CipherText.GetDeepCopy()
                             );
+                            var result = _mct.ProcessMonteCarloTest(p);
 
                             Assert.IsTrue(testCase.ResultsArray.Count > 0, $"{nameof(testCase)} MCT decrypt count should be gt 0");
                             for (int i = 0; i < testCase.ResultsArray.Count; i++)
                             {
+                                Assert.AreEqual(testCase.ResultsArray[i].IV, result.Response[i].IV, $"IV mismatch on index {i}");
+                                Assert.AreEqual(testCase.ResultsArray[i].Key, result.Response[i].Key, $"Key mismatch on index {i}");
                                 Assert.AreEqual(testCase.ResultsArray[i].PlainText, result.Response[i].PlainText, $"PlainText mismatch on index {i}");
+                                Assert.AreEqual(testCase.ResultsArray[i].CipherText, result.Response[i].CipherText, $"CipherText mismatch on index {i}");
                             }
                             continue;
                         }
@@ -101,11 +120,13 @@ namespace NIST.CVP.Generation.AES_CBC.IntegrationTests
 
                         if (testGroup.Function.ToLower() == "encrypt")
                         {
-                            var result = _aesCbc.BlockEncrypt(
-                                testCase.IV,
-                                testCase.Key,
-                                testCase.PlainText
+                            var p = new ModeBlockCipherParameters(
+                                BlockCipherDirections.Encrypt,
+                                testCase.IV.GetDeepCopy(),
+                                testCase.Key.GetDeepCopy(),
+                                testCase.PlainText.GetDeepCopy()
                             );
+                            var result = _algo.ProcessPayload(p);
 
                             if (testCase.CipherText.ToHex() == result.Result.ToHex())
                                 passes++;
@@ -119,11 +140,13 @@ namespace NIST.CVP.Generation.AES_CBC.IntegrationTests
 
                         if (testGroup.Function.ToLower() == "decrypt")
                         {
-                            var result = _aesCbc.BlockDecrypt(
-                                testCase.IV,
-                                testCase.Key,
-                                testCase.CipherText
+                            var p = new ModeBlockCipherParameters(
+                                BlockCipherDirections.Decrypt,
+                                testCase.IV.GetDeepCopy(),
+                                testCase.Key.GetDeepCopy(),
+                                testCase.CipherText.GetDeepCopy()
                             );
+                            var result = _algo.ProcessPayload(p);
 
                             if (testCase.PlainText.ToHex() == result.Result.ToHex())
                                 passes++;

@@ -90,7 +90,7 @@ namespace NIST.CVP.Generation.KAS.ECC
                 return;
             }
 
-            ValidateKeyAgreementRoles(scheme.Role, errorResults);
+            ValidateKeyAgreementRoles(scheme.KasRole, errorResults);
 
             ValidateAtLeastOneKasModePresent(scheme, errorResults);
             if (errorResults.Count > 0)
