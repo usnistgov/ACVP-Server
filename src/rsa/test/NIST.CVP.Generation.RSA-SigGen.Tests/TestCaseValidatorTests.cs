@@ -10,7 +10,7 @@ using NUnit.Framework;
 namespace NIST.CVP.Generation.RSA_SigGen.Tests
 {
     [TestFixture, UnitTest]
-    public class TestCaseValidatorGDTTests
+    public class TestCaseValidatorTests
     {
         [Test]
         public void ShouldRunVerifyMethodAndSucceedWithGoodSignature()
@@ -20,7 +20,7 @@ namespace NIST.CVP.Generation.RSA_SigGen.Tests
                 .Setup(s => s.CompleteDeferredCrypto(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()))
                 .Returns(new VerifyResult());
 
-            var subject = new TestCaseValidatorGDT(GetTestCase(), GetTestGroup(), mockSigner.Object);
+            var subject = new TestCaseValidator(GetTestCase(), GetTestGroup(), mockSigner.Object);
             var result = subject.Validate(GetResultTestCase());
 
             mockSigner.Verify(v => v.CompleteDeferredCrypto(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()), Times.Once);
@@ -35,7 +35,7 @@ namespace NIST.CVP.Generation.RSA_SigGen.Tests
                 .Setup(s => s.CompleteDeferredCrypto(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()))
                 .Returns(new VerifyResult("Fail"));
 
-            var subject = new TestCaseValidatorGDT(GetTestCase(), GetTestGroup(), mockSigner.Object);
+            var subject = new TestCaseValidator(GetTestCase(), GetTestGroup(), mockSigner.Object);
             var result = subject.Validate(GetResultTestCase());
 
             mockSigner.Verify(v => v.CompleteDeferredCrypto(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()), Times.Once);

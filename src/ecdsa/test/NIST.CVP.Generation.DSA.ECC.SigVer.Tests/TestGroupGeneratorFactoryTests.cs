@@ -1,17 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Moq;
-using NIST.CVP.Common.ExtensionMethods;
-using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
-using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC.Enums;
-using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
-using NIST.CVP.Crypto.DSA.ECC;
-using NIST.CVP.Generation.Core;
-using NIST.CVP.Math.Entropy;
+﻿using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace NIST.CVP.Generation.DSA.ECC.SigVer.Tests
 {
@@ -23,22 +15,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer.Tests
         [SetUp]
         public void SetUp()
         {
-            var curveFactoryMock = new Mock<IEccCurveFactory>();
-            curveFactoryMock
-                .Setup(s => s.GetCurve(It.IsAny<Curve>()))
-                .Returns(new PrimeCurve(Curve.B163, 0, 0, new EccPoint(0, 0), 0));
-
-            var eccDsaMock = new Mock<IDsaEcc>();
-            eccDsaMock
-                .Setup(s => s.GenerateKeyPair(It.IsAny<EccDomainParameters>()))
-                .Returns(new EccKeyPairGenerateResult(new EccKeyPair(new EccPoint(1, 2), 3)));
-
-            var eccDsaFactoryMock = new Mock<IDsaEccFactory>();
-            eccDsaFactoryMock
-                .Setup(s => s.GetInstance(It.IsAny<HashFunction>(), It.IsAny<EntropyProviderTypes>()))
-                .Returns(eccDsaMock.Object);
-
-            _subject = new TestGroupGeneratorFactory(eccDsaFactoryMock.Object, curveFactoryMock.Object);
+            _subject = new TestGroupGeneratorFactory();
         }
 
         [Test]

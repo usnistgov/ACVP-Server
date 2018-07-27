@@ -1,32 +1,23 @@
-﻿using System;
-using System.Numerics;
+﻿using NIST.CVP.Common.Oracle;
+using NIST.CVP.Common.Oracle.DispositionTypes;
+using NIST.CVP.Common.Oracle.ParameterTypes;
+using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC.Enums;
-using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC.GGeneratorValidators;
-using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC.PQGeneratorValidators;
-using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.DSA.FFC.PQGVer.Enums;
-using NIST.CVP.Math;
-using NIST.CVP.Math.Entropy;
 using NLog;
+using System;
 
 namespace NIST.CVP.Generation.DSA.FFC.PQGVer
 {
     public class TestCaseGeneratorG : ITestCaseGenerator<TestGroup, TestCase>
     {
-        private readonly IRandom800_90 _rand;
-        private readonly IGGeneratorValidatorFactory _gGenFactory;
-        private readonly IPQGeneratorValidatorFactory _pqGenFactory;
-        private readonly IShaFactory _shaFactory;
+        private readonly IOracle _oracle;
 
         public int NumberOfTestCasesToGenerate { get; private set; } = 5;
 
-        public TestCaseGeneratorG(IRandom800_90 rand, IShaFactory shaFactory, IPQGeneratorValidatorFactory pqGenFactory, IGGeneratorValidatorFactory gGenFactory)
+        public TestCaseGeneratorG(IOracle oracle)
         {
-            _rand = rand;
-            _shaFactory = shaFactory;
-            _pqGenFactory = pqGenFactory;
-            _gGenFactory = gGenFactory;
+            _oracle = oracle;
         }
 
         public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
@@ -36,24 +27,47 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer
                 NumberOfTestCasesToGenerate = 2;
             }
 
-            // Make sure index is not "0000 0000"
-            BitString index;
-            do
+            // Get a PQ pair for the test case
+            var pqParam = new DsaDomainParametersParameters
             {
-                index = _rand.GetRandomBitString(8);
-            } while (index.Equals(BitString.Zeroes(8)));
+                PQGenMode = PrimeGenMode.Probable,
+                HashAlg = group.HashAlg,
+                L = group.L,
+                N = group.N
+            };
 
-            // We need a PQ pair for the test case
-            var sha = _shaFactory.GetShaInstance(group.HashAlg);
-            var pqGen = _pqGenFactory.GetGeneratorValidator(PrimeGenMode.Probable, sha, EntropyProviderTypes.Random);
-            var pqResult = pqGen.Generate(group.L, group.N, group.N);
-            if (!pqResult.Success)
+            DsaDomainParametersResult pqResult = null;
+            try
             {
-                return new TestCaseGenerateResponse<TestGroup, TestCase>(pqResult.ErrorMessage);
+                pqResult = _oracle.GetDsaPQ(pqParam);
+            }
+            catch (Exception ex)
+            {
+                ThisLogger.Error(ex.StackTrace);
+                return new TestCaseGenerateResponse<TestGroup, TestCase>("Error generating PQ for test case");
             }
 
-            // Determine failure reason
+            // Get a G
             var reason = group.GTestCaseExpectationProvider.GetRandomReason();
+            var gParam = new DsaDomainParametersParameters
+            {
+                Disposition = reason.GetName(),
+                GGenMode = group.GGenMode,
+                HashAlg = group.HashAlg,
+                L = group.L,
+                N = group.N
+            };
+
+            DsaDomainParametersResult gResult = null;
+            try
+            {
+                gResult = _oracle.GetDsaG(gParam, pqResult);
+            }
+            catch (Exception ex)
+            {
+                ThisLogger.Error(ex.StackTrace);
+                return new TestCaseGenerateResponse<TestGroup, TestCase>("Error generating G for test case");
+            }
 
             // Assign values of the TestCase
             var testCase = new TestCase
@@ -61,53 +75,20 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer
                 P = pqResult.P,
                 Q = pqResult.Q,
                 Seed = pqResult.Seed,
-                Counter = pqResult.Count,
-                Index = index,
+                Counter = pqResult.Counter,
+                Index = gResult.Index,
                 Reason = reason.GetName(),
-                TestPassed = reason.GetReason() == GFailureReasons.None
+                TestPassed = reason.GetReason() == DsaGDisposition.None,
+                G = gResult.G,
+                H = gResult.H
             };
 
-            return Generate(group, testCase);
+            return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
         }
 
         public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
         {
-            GGenerateResult gResult = null;
-            try
-            {
-                var sha = _shaFactory.GetShaInstance(group.HashAlg);
-                var gGen = _gGenFactory.GetGeneratorValidator(group.GGenMode, sha);
-                gResult = gGen.Generate(testCase.P, testCase.Q, testCase.Seed, testCase.Index);
-
-                if (!gResult.Success)
-                {
-                    ThisLogger.Warn($"Error generating g: {gResult.ErrorMessage}");
-                    return new TestCaseGenerateResponse<TestGroup, TestCase>($"Error generating g: {gResult.ErrorMessage}");
-                }
-            }
-            catch (Exception ex)
-            {
-                ThisLogger.Error($"Exception generating g: {ex.StackTrace}");
-                return new TestCaseGenerateResponse<TestGroup, TestCase>($"Exception generating g: {ex.Message}");
-            }
-
-            testCase.G = gResult.G;
-            if (group.GGenMode == GeneratorGenMode.Unverifiable)
-            {
-                testCase.H = gResult.H;
-            }
-
-            // Modify g
-            if (testCase.TestPassed != null && !testCase.TestPassed.Value)
-            {
-                do
-                {
-                    testCase.G = _rand.GetRandomBitString(group.L).ToPositiveBigInteger();
-
-                } while (BigInteger.ModPow(testCase.G, testCase.Q, testCase.P) == 1);
-            }
-
-            return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
+            return null;
         }
 
         private Logger ThisLogger => LogManager.GetCurrentClassLogger();

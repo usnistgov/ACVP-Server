@@ -1,72 +1,68 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
-using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
+﻿using NIST.CVP.Common.Oracle;
+using NIST.CVP.Common.Oracle.ParameterTypes;
+using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Math;
 using NLog;
+using System;
 
 namespace NIST.CVP.Generation.DSA.ECC.SigGen
 {
     public class TestCaseGenerator : ITestCaseGenerator<TestGroup, TestCase>
     {
-        private readonly IRandom800_90 _random;
-        private readonly IDsaEccFactory _eccDsaFactory;
-        private IDsaEcc _eccDsa;
-        private readonly IEccCurveFactory _curveFactory;
+        private readonly IOracle _oracle;
 
         public int NumberOfTestCasesToGenerate { get; private set; } = 10;
 
-        public TestCaseGenerator(IRandom800_90 rand, IDsaEccFactory eccDsaFactory, IEccCurveFactory curveFactory)
+        public TestCaseGenerator(IOracle oracle)
         {
-            _random = rand;
-            _eccDsaFactory = eccDsaFactory;
-            _curveFactory = curveFactory;
+            _oracle = oracle;
         }
 
         public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
         {
-            // For component test, get a post-hash message (just random value of hash output length)
-            var testCase = new TestCase
+            var param = new EcdsaSignatureParameters
             {
-                Message = _random.GetRandomBitString(group.ComponentTest ? group.HashAlg.OutputLen : 1024)
+                Curve = group.Curve,
+                HashAlg = group.HashAlg,
+                PreHashedMessage = group.ComponentTest,
+                Key = group.KeyPair
             };
 
-            if (isSample)
+            try
             {
-                return Generate(group, testCase);
-            }
-            else
-            {
+                TestCase testCase = null;
+                EcdsaSignatureResult result = null;
+                if (isSample)
+                {
+                    result = _oracle.GetEcdsaSignature(param);
+                    testCase = new TestCase
+                    {
+                        Message = result.Message,
+                        Signature = result.Signature
+                    };
+
+                }
+                else
+                {
+                    result = _oracle.GetDeferredEcdsaSignature(param);
+                    testCase = new TestCase
+                    {
+                        Message = result.Message
+                    };
+                }
+
                 return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
+            }
+            catch (Exception ex)
+            {
+                ThisLogger.Error(ex.StackTrace);
+                return new TestCaseGenerateResponse<TestGroup, TestCase>($"Error generating case: {ex.Message}");
             }
         }
 
         public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
         {
-            // Generate the signature
-            EccSignatureResult sigResult = null;
-            try
-            {
-                _eccDsa = _eccDsaFactory.GetInstance(group.HashAlg);
-                var curve = _curveFactory.GetCurve(group.Curve);
-                var domainParams = new EccDomainParameters(curve);
-                sigResult = _eccDsa.Sign(domainParams, group.KeyPair, testCase.Message, group.ComponentTest);
-                if (!sigResult.Success)
-                {
-                    ThisLogger.Warn($"Error generating signature: {sigResult.ErrorMessage}");
-                    return new TestCaseGenerateResponse<TestGroup, TestCase>($"Error generating signature: {sigResult.ErrorMessage}");
-                }
-            }
-            catch (Exception ex)
-            {
-                ThisLogger.Warn($"Exception generating signature: {sigResult.ErrorMessage}, {ex.Message}");
-                return new TestCaseGenerateResponse<TestGroup, TestCase>($"Exception generating signature: {sigResult.ErrorMessage}");
-            }
-
-            testCase.Signature = sigResult.Signature;
-            return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
+            return null;
         }
 
         private Logger ThisLogger => LogManager.GetCurrentClassLogger();

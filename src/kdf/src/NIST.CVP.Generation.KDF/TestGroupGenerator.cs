@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using NIST.CVP.Common.Helpers;
+﻿using NIST.CVP.Common.Helpers;
 using NIST.CVP.Crypto.Common.KDF;
 using NIST.CVP.Crypto.Common.KDF.Enums;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math.Domain;
+using System;
+using System.Collections.Generic;
 
 namespace NIST.CVP.Generation.KDF
 {
@@ -70,7 +70,7 @@ namespace NIST.CVP.Generation.KDF
 
                                 testGroups.Add(testGroup);
 
-                                // Only counter has an IV
+                                // Only Feedback has an IV
                                 if (capability.SupportsEmptyIv && kdfMode == KdfModes.Feedback)
                                 {
                                     var testGroupNoIv = new TestGroup

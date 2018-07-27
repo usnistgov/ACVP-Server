@@ -11,5 +11,8 @@ namespace NIST.CVP.Crypto.Oracle
         private const double XPN_FAIL_RATIO = .25;
         private const double CMAC_FAIL_RATIO = .25;
         private const double KEYWRAP_FAIL_RATIO = .2;
+
+        private const int RSA_PUBLIC_EXPONENT_BITS_MIN = 32;
+        private const int RSA_PUBLIC_EXPONENT_BITS_MAX = 64;
     }
 }

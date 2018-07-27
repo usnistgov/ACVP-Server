@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace NIST.CVP.Generation.RSA_SigGen
 {
-    public class TestCaseValidatorGDT : ITestCaseValidator<TestGroup, TestCase>
+    public class TestCaseValidator : ITestCaseValidator<TestGroup, TestCase>
     {
         private readonly TestGroup _serverGroup;
         private readonly IDeferredTestCaseResolver<TestGroup, TestCase, VerifyResult> _deferredTestCaseResolver;
@@ -12,7 +12,7 @@ namespace NIST.CVP.Generation.RSA_SigGen
 
         public int TestCaseId => _expectedResult.TestCaseId;
 
-        public TestCaseValidatorGDT(TestCase expectedResult, TestGroup serverGroup, IDeferredTestCaseResolver<TestGroup, TestCase, VerifyResult> resolver)
+        public TestCaseValidator(TestCase expectedResult, TestGroup serverGroup, IDeferredTestCaseResolver<TestGroup, TestCase, VerifyResult> resolver)
         {
             _serverGroup = serverGroup;
             _deferredTestCaseResolver = resolver;
