@@ -1,14 +1,16 @@
 ﻿using System;
+using System.Threading.Tasks;
 using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.Common.Symmetric;
 using NIST.CVP.Crypto.Common.Symmetric.TDES;
-using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.Async;
+using NLog;
 
 namespace NIST.CVP.Generation.TDES_CTR
 {
-    public class DeferredIvExtractor : IDeferredTestCaseResolver<TestGroup, TestCase, SymmetricCounterResult>
+    public class DeferredIvExtractor : IDeferredTestCaseResolverAsync<TestGroup, TestCase, SymmetricCounterResult>
     {
         private readonly IOracle _oracle;
 
@@ -17,7 +19,7 @@ namespace NIST.CVP.Generation.TDES_CTR
             _oracle = oracle;
         }
 
-        public SymmetricCounterResult CompleteDeferredCrypto(TestGroup serverTestGroup, TestCase serverTestCase, TestCase iutTestCase)
+        public async Task<SymmetricCounterResult> CompleteDeferredCryptoAsync(TestGroup serverTestGroup, TestCase serverTestCase, TestCase iutTestCase)
         {
             var param = new TdesParameters
             {
@@ -39,7 +41,7 @@ namespace NIST.CVP.Generation.TDES_CTR
 
             try
             {
-                var result = _oracle.ExtractIvs(param, fullParam);
+                var result = await _oracle.ExtractIvsAsync(param, fullParam);
 
                 return new SymmetricCounterResult(
                     serverTestGroup.Direction.ToLower() == "encrypt" ? result.CipherText : result.PlainText,
@@ -47,8 +49,11 @@ namespace NIST.CVP.Generation.TDES_CTR
             }
             catch (Exception ex)
             {
+                ThisLogger.Error(ex);
                 return new SymmetricCounterResult($"Unable to compute IVs. {ex.Message}");
             }
         }
+
+        private static ILogger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }

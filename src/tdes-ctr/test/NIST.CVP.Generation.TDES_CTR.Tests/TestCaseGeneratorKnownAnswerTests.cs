@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using Castle.Components.DictionaryAdapter;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
@@ -20,7 +21,7 @@ namespace NIST.CVP.Generation.TDES_CTR.Tests
         [TestCase("Julie", "decrypt")]
         [TestCase("permutation", "dodo")]
         [TestCase("SubstitutiontablE", "dreamweaver")]
-        public void ShouldThrowIfInvalidTestTypeOrDirection(string testType, string direction)
+        public async Task ShouldThrowIfInvalidTestTypeOrDirection(string testType, string direction)
         {
             TestGroup testGroup = new TestGroup()
             {
@@ -40,7 +41,7 @@ namespace NIST.CVP.Generation.TDES_CTR.Tests
         [TestCase("VariableTExt", "ENcryPt")]
         [TestCase("VariableKey", "ENCRYPT")]
 
-        public void ShouldReturnKat(string testType, string direction)
+        public async Task ShouldReturnKat(string testType, string direction)
         {
             TestGroup testGroup = new TestGroup()
             {
@@ -49,7 +50,7 @@ namespace NIST.CVP.Generation.TDES_CTR.Tests
             };
 
             var subject = new TestCaseGeneratorKnownAnswer(testGroup);
-            var result = subject.Generate(testGroup, false);
+            var result = await subject.GenerateAsync(testGroup, false);
             Assert.IsNotNull(result);
             Assert.IsTrue(result.Success);
         }
@@ -60,7 +61,7 @@ namespace NIST.CVP.Generation.TDES_CTR.Tests
         [TestCase("VariableText", 64, "encrypt")]
         [TestCase("SubstitutionTable", 19, "encrypt")]
 
-        public void ShouldReturnExpectedListCount(string testType, int count, string direction)
+        public async Task ShouldReturnExpectedListCount(string testType, int count, string direction)
         {
             TestGroup testGroup = new TestGroup()
             {
@@ -72,7 +73,7 @@ namespace NIST.CVP.Generation.TDES_CTR.Tests
             var results = new EditableList<TestCaseGenerateResponse<TestGroup, TestCase>>();
             for (int i = 0; i < subject.NumberOfTestCasesToGenerate; i++)
             {
-                results.Add(subject.Generate(testGroup, false));
+                results.Add(await subject.GenerateAsync(testGroup, false));
             }
             Assert.AreEqual(count, results.Count);
         }
@@ -86,7 +87,7 @@ namespace NIST.CVP.Generation.TDES_CTR.Tests
         [TestCase("VariableText", 63, "166b40b44aba4bd6", "encrypt")]
         [TestCase("SubstitutionTable", 0, "690f5b0d9a26939b", "encrypt")]
         [TestCase("SubstitutionTable", 18, "63fac0d034d9f793", "encrypt")]
-        public void ShouldReturnExpectedElement(string testType, int elementId, string expectedPlainText, string direction)
+        public async Task ShouldReturnExpectedElement(string testType, int elementId, string expectedPlainText, string direction)
         {
             TestGroup testGroup = new TestGroup()
             {
@@ -98,11 +99,11 @@ namespace NIST.CVP.Generation.TDES_CTR.Tests
             List<TestCaseGenerateResponse<TestGroup, TestCase>> results = new List<TestCaseGenerateResponse<TestGroup, TestCase>>();
             for (int i = 0; i < subject.NumberOfTestCasesToGenerate; i++)
             {
-                results.Add(subject.Generate(testGroup, false));
+                results.Add(await subject.GenerateAsync(testGroup, false));
             }
 
             Assume.That(results.Count > elementId);
-            var testCase = (TestCase)results[elementId].TestCase;
+            var testCase = results[elementId].TestCase;
             Assert.AreEqual(expectedPlainText.ToUpper(), testCase.PlainText.ToHex());
         }
     }
