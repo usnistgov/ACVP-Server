@@ -22,12 +22,12 @@ namespace NIST.CVP.Generation.RSA_SigGen
         public TestCaseValidation Validate(TestCase suppliedResult, bool showExpected = false)
         {
             var errors = new List<string>();
-            Dictionary<string, string> expected = null;
-            Dictionary<string, string> provided = null;
+            var expected = new Dictionary<string, string>();
+            var provided = new Dictionary<string, string>();
 
             if(_expectedResult.Message == null || suppliedResult.Signature == null)
             {
-                errors.Add($"Could not find message or signature");
+                errors.Add("Could not find message or signature");
             }
             else
             {
@@ -35,8 +35,8 @@ namespace NIST.CVP.Generation.RSA_SigGen
                 if (!result.Success)
                 {
                     errors.Add($"Could not verify signature: {result.ErrorMessage}");
-                    expected = new Dictionary<string, string>();
-                    provided = new Dictionary<string, string>();
+                    expected.Add(nameof(result.Success), (!result.Success).ToString());
+                    provided.Add(nameof(result.Success), result.Success.ToString());
                 }
             }
 

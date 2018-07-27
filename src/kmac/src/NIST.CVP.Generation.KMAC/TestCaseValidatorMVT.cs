@@ -1,0 +1,64 @@
+﻿using System.Collections.Generic;
+using NIST.CVP.Generation.Core;
+using NIST.CVP.Math;
+
+namespace NIST.CVP.Generation.KMAC
+{
+    public class TestCaseValidatorMVT : ITestCaseValidator<TestGroup, TestCase>
+    {
+        private readonly TestCase _expectedResult;
+        private readonly TestGroup _currentGroup;
+
+        public TestCaseValidatorMVT(TestCase expectedResult, TestGroup currentGroup)
+        {
+            _expectedResult = expectedResult;
+            _currentGroup = currentGroup;
+        }
+
+        public int TestCaseId => _expectedResult.TestCaseId;
+
+        public TestCaseValidation Validate(TestCase suppliedResult, bool showExpected = false)
+        {
+            var errors = new List<string>();
+            var expected = new Dictionary<string, string>();
+            var provided = new Dictionary<string, string>();
+
+            ValidateResultPresent(suppliedResult, errors);
+            if (errors.Count == 0)
+            {
+                CheckResults(suppliedResult, errors, expected, provided);
+            }
+
+            if (errors.Count > 0)
+            {
+                return new TestCaseValidation
+                {
+                    TestCaseId = suppliedResult.TestCaseId,
+                    Result = Core.Enums.Disposition.Failed,
+                    Reason = string.Join("; ", errors),
+                    Expected = expected.Count != 0 && showExpected ? expected : null,
+                    Provided = provided.Count != 0 && showExpected ? provided : null
+                };
+            }
+            return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = Core.Enums.Disposition.Passed };
+        }
+
+        private void ValidateResultPresent(TestCase suppliedResult, List<string> errors)
+        {
+            if (suppliedResult.MacVerified == null)
+            {
+                errors.Add($"{nameof(suppliedResult.MacVerified)} was not present in the {nameof(TestCase)}");
+            }
+        }
+
+        private void CheckResults(TestCase suppliedResult, List<string> errors, Dictionary<string, string> expected, Dictionary<string, string> provided)
+        {
+            if (_expectedResult.MacVerified != suppliedResult.MacVerified)
+            {
+                errors.Add("MAC Verification does not match");
+                expected.Add(nameof(_expectedResult.MacVerified), _expectedResult.MacVerified.ToString());
+                provided.Add(nameof(suppliedResult.MacVerified), suppliedResult.MacVerified.ToString());
+            }
+        }
+    }
+}
