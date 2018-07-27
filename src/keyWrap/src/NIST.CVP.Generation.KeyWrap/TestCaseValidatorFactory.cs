@@ -1,18 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.KeyWrap
 {
-    public class TestCaseValidatorFactory<TTestVectorSet, TTestGroup, TTestCase> : ITestCaseValidatorFactory<TTestVectorSet, TTestGroup, TTestCase>
+    public class TestCaseValidatorFactory<TTestVectorSet, TTestGroup, TTestCase> : ITestCaseValidatorFactoryAsync<TTestVectorSet, TTestGroup, TTestCase>
         where TTestVectorSet : TestVectorSetBase<TTestGroup, TTestCase>
         where TTestGroup : TestGroupBase<TTestGroup, TTestCase>
         where TTestCase : TestCaseBase<TTestGroup, TTestCase>, new()
     {
-        public IEnumerable<ITestCaseValidator<TTestGroup, TTestCase>> GetValidators(TTestVectorSet testVectorSet)
+        public IEnumerable<ITestCaseValidatorAsync<TTestGroup, TTestCase>> GetValidators(TTestVectorSet testVectorSet)
         {
-            var list = new List<ITestCaseValidator<TTestGroup, TTestCase>>();
+            var list = new List<ITestCaseValidatorAsync<TTestGroup, TTestCase>>();
 
             foreach (var group in testVectorSet.TestGroups)
             {

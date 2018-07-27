@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Moq;
 using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
@@ -26,54 +27,54 @@ namespace NIST.CVP.Generation.KeyWrap.Tests.TDES
         }
 
         [Test]
-        public void GenerateShouldReturnTestCaseGenerateResponse()
+        public async Task GenerateShouldReturnTestCaseGenerateResponse()
         {
-            var result = _subject.Generate(GetTestGroup(), false);
+            var result = await _subject.GenerateAsync(GetTestGroup(), false);
 
             Assert.IsNotNull(result, $"{nameof(result)} should be null");
             Assert.IsInstanceOf(typeof(TestCaseGenerateResponse<TestGroup, TestCase>), result, $"{nameof(result)} incorrect type");
         }
 
         [Test]
-        public void GenerateShouldReturnNullITestCaseOnExceptionEncryption()
+        public async Task GenerateShouldReturnNullITestCaseOnExceptionEncryption()
         {
             _oracle
-                .Setup(s => s.GetKeyWrapCase(It.IsAny<KeyWrapParameters>()))
+                .Setup(s => s.GetKeyWrapCaseAsync(It.IsAny<KeyWrapParameters>()))
                 .Throws(new Exception());
 
-            var result = _subject.Generate(GetTestGroup(), false);
+            var result = await _subject.GenerateAsync(GetTestGroup(), false);
 
             Assert.IsNull(result.TestCase, $"{nameof(result.TestCase)} should be null");
             Assert.IsFalse(result.Success, $"{nameof(result.Success)} should indicate failure");
         }
 
         [Test]
-        public void GenerateShouldInvokeEncryptionOperation()
+        public async Task GenerateShouldInvokeEncryptionOperation()
         {
-            _subject.Generate(GetTestGroup(), true);
+            await _subject.GenerateAsync(GetTestGroup(), true);
 
-            _oracle.Verify(v => v.GetKeyWrapCase(It.IsAny<KeyWrapParameters>()),
+            _oracle.Verify(v => v.GetKeyWrapCaseAsync(It.IsAny<KeyWrapParameters>()),
                 Times.AtLeastOnce,
                 "Encrypt should have been invoked"
             );
         }
 
         [Test]
-        public void GenerateShouldReturnFilledTestCaseObjectOnSuccess()
+        public async Task GenerateShouldReturnFilledTestCaseObjectOnSuccess()
         {
             var key = new BitString("01");
             var plaintext = new BitString("02");
             var ciphertext = new BitString("03");
 
-            _oracle.Setup(s => s.GetKeyWrapCase(It.IsAny<KeyWrapParameters>()))
-                .Returns(new KeyWrapResult()
+            _oracle.Setup(s => s.GetKeyWrapCaseAsync(It.IsAny<KeyWrapParameters>()))
+                .Returns(Task.FromResult(new KeyWrapResult()
                 {
                     Key = key,
                     Plaintext = plaintext,
                     Ciphertext = ciphertext
-                });
+                }));
 
-            var result = _subject.Generate(GetTestGroup(), false);
+            var result = await _subject.GenerateAsync(GetTestGroup(), false);
 
             Assert.IsTrue(result.Success, $"{nameof(result)} should be successful");
             Assert.IsInstanceOf(typeof(TestCase), result.TestCase, $"{nameof(result.TestCase)} type mismatch");

@@ -1,15 +1,14 @@
 ﻿using System;
+using System.Threading.Tasks;
 using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
-using NIST.CVP.Crypto.Common.Symmetric;
-using NIST.CVP.Crypto.Common.Symmetric.KeyWrap;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Math;
+using NIST.CVP.Generation.Core.Async;
 using NLog;
 
 namespace NIST.CVP.Generation.KeyWrap
 {
-    public class TestCaseGeneratorEncrypt<TTestGroup, TTestCase> : ITestCaseGenerator<TTestGroup, TTestCase>
+    public class TestCaseGeneratorEncrypt<TTestGroup, TTestCase> : ITestCaseGeneratorAsync<TTestGroup, TTestCase>
         where TTestGroup : TestGroupBase<TTestGroup, TTestCase>
         where TTestCase : TestCaseBase<TTestGroup, TTestCase>, new()
     {
@@ -22,7 +21,7 @@ namespace NIST.CVP.Generation.KeyWrap
 
         public int NumberOfTestCasesToGenerate => 100;
 
-        public TestCaseGenerateResponse<TTestGroup, TTestCase> Generate(TTestGroup group, bool isSample)
+        public async Task<TestCaseGenerateResponse<TTestGroup, TTestCase>> GenerateAsync(TTestGroup group, bool isSample)
         {
             var param = new KeyWrapParameters
             {
@@ -36,7 +35,7 @@ namespace NIST.CVP.Generation.KeyWrap
 
             try
             {
-                var oracleResult = _oracle.GetKeyWrapCase(param);
+                var oracleResult = await _oracle.GetKeyWrapCaseAsync(param);
 
                 return new TestCaseGenerateResponse<TTestGroup, TTestCase>(new TTestCase()
                 {
@@ -52,11 +51,6 @@ namespace NIST.CVP.Generation.KeyWrap
             }
         }
 
-        public TestCaseGenerateResponse<TTestGroup, TTestCase> Generate(TTestGroup group, TTestCase testCase)
-        {
-            throw new NotImplementedException();
-        }
-
-        private static Logger ThisLogger => LogManager.GetCurrentClassLogger();
+        private static ILogger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }

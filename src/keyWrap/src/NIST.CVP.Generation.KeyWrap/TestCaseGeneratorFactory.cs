@@ -1,11 +1,9 @@
 ﻿using NIST.CVP.Common.Oracle;
-using NIST.CVP.Crypto.Common.Symmetric.KeyWrap;
-using NIST.CVP.Generation.Core;
-using NIST.CVP.Math;
+using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.KeyWrap
 {
-    public class TestCaseGeneratorFactory<TTestGroup, TTestCase> : ITestCaseGeneratorFactory<TTestGroup, TTestCase>
+    public class TestCaseGeneratorFactory<TTestGroup, TTestCase> : ITestCaseGeneratorFactoryAsync<TTestGroup, TTestCase>
         where TTestGroup : TestGroupBase<TTestGroup, TTestCase>
         where TTestCase : TestCaseBase<TTestGroup, TTestCase>, new()
     {
@@ -16,7 +14,7 @@ namespace NIST.CVP.Generation.KeyWrap
             _oracle = oracle;
         }
 
-        public ITestCaseGenerator<TTestGroup, TTestCase> GetCaseGenerator(TTestGroup testGroup)
+        public ITestCaseGeneratorAsync<TTestGroup, TTestCase> GetCaseGenerator(TTestGroup testGroup)
         {
             switch (testGroup.Direction.ToLower())
             {
