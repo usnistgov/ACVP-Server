@@ -9,12 +9,14 @@ namespace NIST.CVP.Generation.SHA3
         private readonly IRandom800_90 _random800_90;
         private readonly ISHA3 _algo;
         private readonly ISHA3_MCT _mctAlgo;
+        private readonly ISHAKE_MCT _shakeMctAlgo;
 
-        public TestCaseGeneratorFactory(IRandom800_90 random800_90, ISHA3 algo, ISHA3_MCT mctAlgo)
+        public TestCaseGeneratorFactory(IRandom800_90 random800_90, ISHA3 algo, ISHA3_MCT mctAlgo, ISHAKE_MCT shakeMctAlgo)
         {
             _random800_90 = random800_90;
             _algo = algo;
             _mctAlgo = mctAlgo;
+            _shakeMctAlgo = shakeMctAlgo;
         }
         
         public ITestCaseGenerator<TestGroup, TestCase> GetCaseGenerator(TestGroup testGroup)
@@ -38,7 +40,7 @@ namespace NIST.CVP.Generation.SHA3
                 }
                 else if (testGroup.TestType.ToLower() == "mct")
                 {
-                    return new TestCaseGeneratorSHAKEMCTHash(_random800_90, _mctAlgo);
+                    return new TestCaseGeneratorSHAKEMCTHash(_random800_90, _shakeMctAlgo);
                 }
                 else if (testGroup.TestType.ToLower() == "vot")
                 {

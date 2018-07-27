@@ -2,6 +2,7 @@
 using NIST.CVP.Common;
 using NIST.CVP.Crypto.AES;
 using NIST.CVP.Crypto.CMAC;
+using NIST.CVP.Crypto.CSHAKE;
 using NIST.CVP.Crypto.DRBG;
 using NIST.CVP.Crypto.DSA.FFC;
 using NIST.CVP.Crypto.HMAC;
@@ -12,11 +13,13 @@ using NIST.CVP.Crypto.KAS.Builders.Ffc;
 using NIST.CVP.Crypto.KAS.KC;
 using NIST.CVP.Crypto.KAS.KDF;
 using NIST.CVP.Crypto.KAS.NoKC;
+using NIST.CVP.Crypto.KMAC;
 using NIST.CVP.Crypto.KES;
 using NIST.CVP.Crypto.ANSIX963;
 using NIST.CVP.Crypto.Common.Symmetric.CTR;
 using NIST.CVP.Crypto.IKEv1;
 using NIST.CVP.Crypto.IKEv2;
+using NIST.CVP.Crypto.ParallelHash;
 using NIST.CVP.Crypto.SNMP;
 using NIST.CVP.Crypto.SRTP;
 using NIST.CVP.Crypto.SSH;
@@ -24,6 +27,7 @@ using NIST.CVP.Crypto.TLS;
 using NIST.CVP.Crypto.KeyWrap;
 using NIST.CVP.Crypto.SHA2;
 using NIST.CVP.Crypto.SHA3;
+using NIST.CVP.Crypto.TupleHash;
 using NIST.CVP.Crypto.RSA2;
 using NIST.CVP.Crypto.DSA.ECC;
 using NIST.CVP.Crypto.DSA.FFC.GGeneratorValidators;
@@ -98,7 +102,8 @@ namespace NIST.CVP.Crypto
 
             builder.RegisterType<SHA3.SHA3>().AsImplementedInterfaces();
             builder.RegisterType<SHA3_MCT>().AsImplementedInterfaces();
-            
+            builder.RegisterType<SHAKE_MCT>().AsImplementedInterfaces();
+
             builder.RegisterType<KeyBuilder>().AsImplementedInterfaces();
             builder.RegisterType<KeyComposerFactory>().AsImplementedInterfaces();
             builder.RegisterType<PrimeGeneratorFactory>().AsImplementedInterfaces();
@@ -115,6 +120,18 @@ namespace NIST.CVP.Crypto
 
             builder.RegisterType<PQGeneratorValidatorFactory>().AsImplementedInterfaces();
             builder.RegisterType<GGeneratorValidatorFactory>().AsImplementedInterfaces();
+
+            builder.RegisterType<CSHAKE.CSHAKE>().AsImplementedInterfaces();
+            builder.RegisterType<CSHAKE_MCT>().AsImplementedInterfaces();
+
+            builder.RegisterType<TupleHash.TupleHash>().AsImplementedInterfaces();
+            builder.RegisterType<TupleHash_MCT>().AsImplementedInterfaces();
+
+            builder.RegisterType<KmacFactory>().AsImplementedInterfaces();
+            builder.RegisterType<CSHAKEWrapper>().AsImplementedInterfaces();
+            
+            builder.RegisterType<ParallelHash.ParallelHash>().AsImplementedInterfaces();
+            builder.RegisterType<ParallelHash_MCT>().AsImplementedInterfaces();
         }
     }
 }

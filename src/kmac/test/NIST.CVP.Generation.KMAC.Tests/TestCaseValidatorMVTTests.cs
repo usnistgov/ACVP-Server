@@ -1,0 +1,97 @@
+﻿using NIST.CVP.Math;
+using NIST.CVP.Math.Domain;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
+using NUnit.Framework;
+
+namespace NIST.CVP.Generation.KMAC.Tests
+{
+    [TestFixture, UnitTest]
+    public class TestCaseValidatorMVTTests
+    {
+        private TestCaseValidatorMVT _subject;
+
+        [Test]
+        public void ShouldValidateIfExpectedAndSuppliedResultsMatch()
+        {
+            var testCase = GetTestCase();
+            var testGroup = GetTestGroup();
+            _subject = new TestCaseValidatorMVT(testCase, testGroup);
+            var result = _subject.Validate(testCase);
+            Assume.That(result != null);
+            Assert.AreEqual(Core.Enums.Disposition.Passed, result.Result);
+        }
+
+        [Test]
+        public void ShouldFailIfMacVerifiedDoesNotMatch()
+        {
+            var testMacVerified = false;
+
+            var testCase = GetTestCase();
+            var testGroup = GetTestGroup();
+
+            _subject = new TestCaseValidatorMVT(testCase, testGroup);
+            var suppliedResult = GetTestCase();
+            suppliedResult.MacVerified = testMacVerified;
+            var result = _subject.Validate(suppliedResult);
+            Assume.That(result != null);
+            Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
+        }
+
+        [Test]
+        public void ShouldShowMacVerifiedAsReasonIfItDoesNotMatch()
+        {
+            var testMacVerified = false;
+
+            var testCase = GetTestCase();
+            var testGroup = GetTestGroup();
+
+            _subject = new TestCaseValidatorMVT(testCase, testGroup);
+            var suppliedResult = GetTestCase();
+            suppliedResult.MacVerified = testMacVerified;
+            var result = _subject.Validate(suppliedResult);
+            Assume.That(result != null);
+            Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
+            Assert.IsTrue(result.Reason.Contains("MAC Verification"));
+        }
+
+        [Test]
+        public void ShouldFailIfMacVerifiedNotPresent()
+        {
+            var testCase = GetTestCase();
+            var testGroup = GetTestGroup();
+            _subject = new TestCaseValidatorMVT(testCase, testGroup);
+            var suppliedResult = GetTestCase();
+
+            suppliedResult.MacVerified = null;
+
+            var result = _subject.Validate(suppliedResult);
+            Assume.That(result != null);
+            Assume.That(Core.Enums.Disposition.Failed == result.Result);
+
+            Assert.IsTrue(result.Reason.Contains($"{nameof(suppliedResult.MacVerified)} was not present in the {nameof(TestCase)}"));
+        }
+
+        private TestGroup GetTestGroup()
+        {
+            var testGroup = new TestGroup
+            {
+                KeyLengths = new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 256, 512)),
+                MessageLength = 128
+            };
+
+            return testGroup;
+        }
+
+        private TestCase GetTestCase()
+        {
+            var testCase = new TestCase
+            {
+                Message = new BitString("AADAADAADAAD"),
+                Mac = new BitString("ABCDEF0123456789ABCDEF0123456789"),
+                MacVerified = true,
+                TestCaseId = 1
+            };
+            return testCase;
+        }
+    }
+}

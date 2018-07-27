@@ -10,5 +10,6 @@ namespace NIST.CVP.Math
         BigInteger GetRandomBigInteger(BigInteger maxInclusive);
         BigInteger GetRandomBigInteger(BigInteger minInclusive, BigInteger maxInclusive);
         string GetRandomAlphaCharacters(int length);
+        string GetRandomString(int length);
     }
 }

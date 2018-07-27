@@ -17,14 +17,14 @@ namespace NIST.CVP.Generation.SHA3.Tests
     public class TestCaseGeneratorSHAKEMCTHashTests
     {
         private Mock<IRandom800_90> _mockRandom;
-        private Mock<ISHA3_MCT> _mockMCT;
+        private Mock<ISHAKE_MCT> _mockMCT;
         private TestCaseGeneratorSHAKEMCTHash _subject;
 
         [SetUp]
         public void SetUp()
         {
             _mockRandom = new Mock<IRandom800_90>();
-            _mockMCT = new Mock<ISHA3_MCT>();
+            _mockMCT = new Mock<ISHAKE_MCT>();
             _subject = new TestCaseGeneratorSHAKEMCTHash(_mockRandom.Object, _mockMCT.Object);
         }
 
