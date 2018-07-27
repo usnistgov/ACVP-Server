@@ -1,4 +1,4 @@
-﻿using NIST.CVP.Crypto.Common.Asymmetric.RSA;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA;
 using NIST.CVP.Generation.Core;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,6 +32,8 @@ namespace NIST.CVP.Generation.RSA_DPComponent
             else if (suppliedResult.ResultsArray.Count(ra => ra.FailureTest) != _group.TotalFailingCases)
             {
                 errors.Add("Incorrect number of failures detected");
+                expected.Add(nameof(_group.TotalFailingCases), _group.TotalFailingCases.ToString());
+                provided.Add(nameof(_group.TotalFailingCases), suppliedResult.ResultsArray.Count(ra => ra.FailureTest).ToString());
             }
             else
             {

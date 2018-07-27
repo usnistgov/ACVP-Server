@@ -1,5 +1,7 @@
 ﻿using NIST.CVP.Math;
 using NIST.CVP.Math.Helpers;
+using NIST.CVP.Crypto.Common.Hash.SHA3;
+using System;
 
 namespace NIST.CVP.Crypto.SHA3
 {
@@ -13,8 +15,8 @@ namespace NIST.CVP.Crypto.SHA3
             // This is kinda gross... The message input is in the correct byte order but reversed bit order
             // So we must reverse the bits, then reverse the bytes to put everything in the correct order
             //
-            // For a small example... 60 01 (hex) = 0110 0001 (binary)
-            //    should turn into    06 80 (hex) = 0110 1000 (binary
+            // For a small example... 60 01 (hex) = 0110 0000 0000 0001 (binary)
+            //    should turn into    06 80 (hex) = 0000 0110 1000 0000 (binary
 
             var messageLen = message.BitLength;
 
@@ -62,17 +64,18 @@ namespace NIST.CVP.Crypto.SHA3
         /// <param name="message">Message to hash</param>
         /// <param name="digestSize">Size of the digest to return</param>
         /// <param name="capacity">Capacity of the function</param>
-        /// <param name="XOF">Extendable output function? True for SHAKE, false for SHA</param>
+        /// <param name="outputType">XOF for SHAKE, CONSTANT for SHA3, cXOF for cSHAKE</param>
+        /// <param name="cSHAKEPrePad">True if cSHAKE had customization parameters other than empty string</param>
         /// <returns>Message digest as BitString</returns>
-        public static BitString Keccak(BitString message, int digestSize, int capacity, bool XOF)
+        public static BitString Keccak(BitString message, int digestSize, int capacity, bool XOF, bool cSHAKEPrePad = false)
         {
             message = ConvertEndianness(message);
 
-            if (XOF)
+            if (!cSHAKEPrePad && XOF)
             {
                 message = BitString.ConcatenateBits(message, BitString.Ones(4));
             }
-            else
+            else if (!XOF)
             {
                 message = BitString.ConcatenateBits(message, BitString.Zero());
                 message = BitString.ConcatenateBits(message, BitString.One());
@@ -170,7 +173,7 @@ namespace NIST.CVP.Crypto.SHA3
 
         public static KeccakState Round(KeccakState A, int roundNumber)
         {
-            return KeccakState.Iota(KeccakState.Chi(KeccakState.Pi(KeccakState.Rho(KeccakState.Theta(A)))), roundNumber);
+            return A.Theta().Rho().Pi().Chi().Iota(roundNumber);
         }
     }
 }

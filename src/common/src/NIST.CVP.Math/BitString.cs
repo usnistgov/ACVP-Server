@@ -227,6 +227,14 @@ namespace NIST.CVP.Math
             return new BitString(bitArrayLSb);
         }
 
+        public static BitString To64BitString(ulong value)
+        {
+            var bytesInLSB = BitConverter.GetBytes(value);
+            var bitArrayLSb = Helper.LeastSignificantByteArrayToLeastSignificantBitArray(bytesInLSB);
+
+            return new BitString(bitArrayLSb);
+        }
+
         public static BitString To32BitString(int value)
         {
             var bytesInLSB = BitConverter.GetBytes(value);
