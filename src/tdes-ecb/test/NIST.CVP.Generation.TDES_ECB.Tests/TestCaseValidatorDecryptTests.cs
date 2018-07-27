@@ -46,7 +46,7 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
         [Test]
         [TestCase(100)]
         [TestCase(-2)]
-        public async Task ShouldHaveTestCaseIdSetFromResult(int id)
+        public void ShouldHaveTestCaseIdSetFromResult(int id)
         {
             var testCase = GetTestCase(id);
             var subject = new TestCaseValidatorDecrypt(testCase);

@@ -21,7 +21,7 @@ namespace NIST.CVP.Generation.TDES_CTR.Tests
         [TestCase("Julie", "decrypt")]
         [TestCase("permutation", "dodo")]
         [TestCase("SubstitutiontablE", "dreamweaver")]
-        public async Task ShouldThrowIfInvalidTestTypeOrDirection(string testType, string direction)
+        public void ShouldThrowIfInvalidTestTypeOrDirection(string testType, string direction)
         {
             TestGroup testGroup = new TestGroup()
             {
