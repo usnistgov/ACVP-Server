@@ -1,6 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using NIST.CVP.Common.Oracle;
+using NIST.CVP.Common.Oracle.ParameterTypes;
+using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
 using NIST.CVP.Generation.Core;
 
@@ -8,13 +8,11 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen
 {
     public class DeferredTestCaseResolver : IDeferredTestCaseResolver<TestGroup, TestCase, EccVerificationResult>
     {
-        private readonly IDsaEccFactory _eccDsaFactory;
-        private readonly IEccCurveFactory _curveFactory;
+        private readonly IOracle _oracle;
 
-        public DeferredTestCaseResolver(IDsaEccFactory eccDsaFactory, IEccCurveFactory curveFactory)
+        public DeferredTestCaseResolver(IOracle oracle)
         {
-            _eccDsaFactory = eccDsaFactory;
-            _curveFactory = curveFactory;
+            _oracle = oracle;
         }
 
         public EccVerificationResult CompleteDeferredCrypto(TestGroup serverTestGroup, TestCase serverTestCase, TestCase iutTestCase)
@@ -25,13 +23,22 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen
                 return new EccVerificationResult("Could not find Q");
             }
 
-            var eccDsa = _eccDsaFactory.GetInstance(serverTestGroup.HashAlg);
-            var curve = _curveFactory.GetCurve(serverTestGroup.Curve);
-            var domainParams = new EccDomainParameters(curve);
+            var param = new EcdsaSignatureParameters
+            {
+                Curve = serverTestGroup.Curve,
+                HashAlg = serverTestGroup.HashAlg,
+                PreHashedMessage = serverTestGroup.ComponentTest,
+                Key = iutTestGroup.KeyPair
+            };
 
-            var verifyResult = eccDsa.Verify(domainParams, iutTestGroup.KeyPair, serverTestCase.Message, iutTestCase.Signature);
+            var fullParam = new EcdsaSignatureResult
+            {
+                Message = serverTestCase.Message,
+                Signature = iutTestCase.Signature
+            };
 
-            return verifyResult;
+            var result = _oracle.CompleteDeferredEcdsaSignature(param, fullParam);
+            return result.Result ? new EccVerificationResult() : new EccVerificationResult("Failed to verify");
         }
     }
 }

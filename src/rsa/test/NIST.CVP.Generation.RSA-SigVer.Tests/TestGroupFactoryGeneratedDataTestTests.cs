@@ -1,8 +1,7 @@
 ﻿using Moq;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA.PrimeGenerators;
-using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
-using NIST.CVP.Math;
+using NIST.CVP.Common.Oracle;
+using NIST.CVP.Common.Oracle.ParameterTypes;
+using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using System.Linq;
@@ -56,22 +55,12 @@ namespace NIST.CVP.Generation.RSA_SigVer.Tests
         [TestCaseSource(nameof(parameters))]
         public void ShouldCreate3TestGroupsForEachCombinationOfModeModuloAndHashAlg(int expectedGroups, Parameters parameters)
         {
-            var randMock = new Mock<IRandom800_90>();
-            randMock
-                .Setup(s => s.GetRandomBitString(It.IsAny<int>()))
-                .Returns(new BitString("ABCDEFABCDEF"));            // Needs to be between 32/64 bits
+            var oracleMock = new Mock<IOracle>();
+            oracleMock
+                .Setup(s => s.GetRsaKey(It.IsAny<RsaKeyParameters>()))
+                .Returns(new RsaKeyResult());
 
-            var keyBuilderMock = new Mock<IKeyBuilder>();
-            keyBuilderMock
-                .Setup(s => s.Build())
-                .Returns(new KeyResult(new KeyPair(), new AuxiliaryResult()));
-            keyBuilderMock.SetReturnsDefault(keyBuilderMock.Object);
-
-            var keyComposerFactoryMock = new Mock<IKeyComposerFactory>();
-
-            var shaFactoryMock = new Mock<IShaFactory>();
-
-            var subject = new TestGroupGeneratorGeneratedDataTest(randMock.Object, keyBuilderMock.Object, keyComposerFactoryMock.Object, shaFactoryMock.Object);
+            var subject = new TestGroupGenerator(oracleMock.Object);
             var result = subject.BuildTestGroups(parameters);
             Assert.AreEqual(expectedGroups * 3, result.Count());
         }

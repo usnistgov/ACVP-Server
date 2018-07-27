@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using NIST.CVP.Common.Helpers;
+﻿using NIST.CVP.Common.Helpers;
+using NIST.CVP.Common.Oracle.DispositionTypes;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.DSA.ECC.KeyVer.Enums;
 
 namespace NIST.CVP.Generation.DSA.ECC.KeyVer.TestCaseExpectations
 {
-    public class TestCaseExpectationReason : ITestCaseExpectationReason<TestCaseExpectationEnum>
+    public class TestCaseExpectationReason : ITestCaseExpectationReason<EcdsaKeyDisposition>
     {
-        private readonly TestCaseExpectationEnum _reason;
+        private readonly EcdsaKeyDisposition _reason;
 
-        public TestCaseExpectationReason(TestCaseExpectationEnum reason)
+        public TestCaseExpectationReason(EcdsaKeyDisposition reason)
         {
             _reason = reason;
         }
@@ -21,7 +18,7 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyVer.TestCaseExpectations
             return EnumHelpers.GetEnumDescriptionFromEnum(_reason);
         }
 
-        public TestCaseExpectationEnum GetReason()
+        public EcdsaKeyDisposition GetReason()
         {
             return _reason;
         }

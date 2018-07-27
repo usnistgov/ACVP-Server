@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Crypto.Common.Asymmetric.RSA;
+﻿using NIST.CVP.Common.Oracle;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys;
 using NIST.CVP.Crypto.Math;
@@ -15,6 +16,7 @@ namespace NIST.CVP.Generation.RSA_DPComponent
 {
     public class TestCaseGenerator : ITestCaseGenerator<TestGroup, TestCase>
     {
+        private readonly IOracle _oracle;
         private readonly IRandom800_90 _rand;
         private readonly IKeyBuilder _keyBuilder;
         private readonly IKeyComposerFactory _keyComposerFactory;
@@ -22,12 +24,9 @@ namespace NIST.CVP.Generation.RSA_DPComponent
 
         public int NumberOfTestCasesToGenerate { get; } = 1;
 
-        public TestCaseGenerator(IRandom800_90 rand, IKeyBuilder keyBuilder, IKeyComposerFactory keyComposerFactory, IRsa rsa)
+        public TestCaseGenerator(IOracle oracle)
         {
-            _rand = rand;
-            _keyBuilder = keyBuilder;
-            _keyComposerFactory = keyComposerFactory;
-            _rsa = rsa;
+            _oracle = oracle;
         }
 
         public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)

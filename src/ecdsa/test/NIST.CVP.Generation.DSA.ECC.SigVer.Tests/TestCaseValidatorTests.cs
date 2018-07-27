@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using NIST.CVP.Generation.DSA.ECC.SigVer.Enums;
+﻿using NIST.CVP.Common.Oracle.DispositionTypes;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
@@ -38,7 +35,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer.Tests
             {
                 TestCaseId = 1,
                 TestPassed = shouldPass,   // Says the test Core.Enums.Disposition.Passed
-                Reason = SigFailureReasons.ModifyMessage    // Only matters in the failure event
+                Reason = EcdsaSignatureDisposition.ModifyMessage    // Only matters in the failure event
             };
         }
     }

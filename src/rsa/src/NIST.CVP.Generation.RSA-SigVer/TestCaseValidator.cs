@@ -1,14 +1,14 @@
-﻿using System.Collections.Generic;
-using NIST.CVP.Generation.Core;
+﻿using NIST.CVP.Generation.Core;
+using System.Collections.Generic;
 
 namespace NIST.CVP.Generation.RSA_SigVer
 {
-    public class TestCaseValidatorGDT : ITestCaseValidator<TestGroup, TestCase>
+    public class TestCaseValidator : ITestCaseValidator<TestGroup, TestCase>
     {
         private readonly TestCase _expectedResult;
         public int TestCaseId => _expectedResult.TestCaseId;
 
-        public TestCaseValidatorGDT(TestCase expectedResult)
+        public TestCaseValidator(TestCase expectedResult)
         {
             _expectedResult = expectedResult;
         }

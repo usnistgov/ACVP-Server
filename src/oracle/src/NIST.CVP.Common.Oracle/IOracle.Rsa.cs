@@ -10,7 +10,12 @@ namespace NIST.CVP.Common.Oracle
         RsaKeyResult CompleteKey(RsaKeyResult param, PrivateKeyModes keyMode);
         RsaKeyResult CompleteDeferredRsaKeyCase(RsaKeyParameters param, RsaKeyResult fullParam);
         VerifyResult<RsaKeyResult> GetRsaKeyVerify(RsaKeyResult param);
-        RsaSignatureResult GetRsaSignature();
-        VerifyResult<RsaSignatureResult> GetRsaVerify();
+
+        RsaSignaturePrimitiveResult GetRsaSignaturePrimitive(RsaSignaturePrimitiveParameters param);
+
+        RsaSignatureResult GetDeferredRsaSignature(RsaSignatureParameters param);
+        VerifyResult<RsaSignatureResult> CompleteDeferredRsaSignature(RsaSignatureParameters param, RsaSignatureResult fullParam);
+        RsaSignatureResult GetRsaSignature(RsaSignatureParameters param);
+        VerifyResult<RsaSignatureResult> GetRsaVerify(RsaSignatureParameters param);
     }
 }

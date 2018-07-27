@@ -1,9 +1,9 @@
-﻿using System.Numerics;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using NIST.CVP.Common.Oracle.DispositionTypes;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.DSA.ECC.KeyVer.Enums;
 using NIST.CVP.Math;
+using System.Numerics;
 
 namespace NIST.CVP.Generation.DSA.ECC.KeyVer
 {
@@ -13,7 +13,7 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyVer
         public bool? TestPassed { get; set; }
         public bool Deferred => false;
         public TestGroup ParentGroup { get; set; }
-        public TestCaseExpectationEnum Reason { get; set; }
+        public EcdsaKeyDisposition Reason { get; set; }
 
         [JsonIgnore] public EccKeyPair KeyPair { get; set; } = new EccKeyPair();
         [JsonProperty(PropertyName = "d", DefaultValueHandling = DefaultValueHandling.Ignore)]
