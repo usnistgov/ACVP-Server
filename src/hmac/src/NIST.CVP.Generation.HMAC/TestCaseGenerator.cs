@@ -1,15 +1,14 @@
 ﻿using System;
+using System.Threading.Tasks;
 using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
-using NIST.CVP.Crypto.Common.MAC;
-using NIST.CVP.Crypto.Common.MAC.HMAC;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Math;
+using NIST.CVP.Generation.Core.Async;
 using NLog;
 
 namespace NIST.CVP.Generation.HMAC
 {
-    public class TestCaseGenerator : ITestCaseGenerator<TestGroup, TestCase>
+    public class TestCaseGenerator : ITestCaseGeneratorAsync<TestGroup, TestCase>
     {
         private readonly IOracle _oracle;
 
@@ -20,7 +19,7 @@ namespace NIST.CVP.Generation.HMAC
             _oracle = oracle;
         }
 
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup @group, bool isSample)
+        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup @group, bool isSample)
         {
             var param = new HmacParameters()
             {
@@ -33,7 +32,7 @@ namespace NIST.CVP.Generation.HMAC
 
             try
             {
-                var oracleResult = _oracle.GetHmacCase(param);
+                var oracleResult = await _oracle.GetHmacCaseAsync(param);
                 
                 return new TestCaseGenerateResponse<TestGroup, TestCase>(new TestCase
                 {
@@ -48,12 +47,7 @@ namespace NIST.CVP.Generation.HMAC
                 return new TestCaseGenerateResponse<TestGroup, TestCase>($"Failed to generate. {ex.Message}");
             }
         }
-
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup @group, TestCase testCase)
-        {
-            throw new NotImplementedException();
-        }
-
-        private Logger ThisLogger => LogManager.GetCurrentClassLogger();
+        
+        private ILogger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }
