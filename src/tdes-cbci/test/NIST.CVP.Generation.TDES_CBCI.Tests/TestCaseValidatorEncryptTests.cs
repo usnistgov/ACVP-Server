@@ -45,7 +45,7 @@ namespace NIST.CVP.Generation.TDES_CBCI.Tests
         [Test]
         [TestCase(100)]
         [TestCase(-2)]
-        public async Task ShouldHaveTestCaseIdSetFromResult(int id)
+        public void ShouldHaveTestCaseIdSetFromResult(int id)
         {
             var testCase = GetTestCase(id);
             var subject = new TestCaseValidatorEncrypt(testCase);
