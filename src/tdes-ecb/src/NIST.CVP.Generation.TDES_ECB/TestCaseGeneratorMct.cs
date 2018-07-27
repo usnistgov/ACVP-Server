@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.Crypto.Common.Symmetric.TDES;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.Async;
+using NLog;
 
 namespace NIST.CVP.Generation.TDES_ECB
 {
-    public class TestCaseGeneratorMct : ITestCaseGenerator<TestGroup, TestCase>
+    public class TestCaseGeneratorMct : ITestCaseGeneratorAsync<TestGroup, TestCase>
     {
         private readonly IOracle _oracle;
 
@@ -19,7 +22,7 @@ namespace NIST.CVP.Generation.TDES_ECB
             _oracle = oracle;
         }
 
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
+        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample)
         {
             var param = new TdesParameters
             {
@@ -31,7 +34,7 @@ namespace NIST.CVP.Generation.TDES_ECB
 
             try
             {
-                var oracleResult = _oracle.GetTdesMctCase(param);
+                var oracleResult = await _oracle.GetTdesMctCaseAsync(param);
 
                 return new TestCaseGenerateResponse<TestGroup, TestCase>(new TestCase
                 {
@@ -48,13 +51,11 @@ namespace NIST.CVP.Generation.TDES_ECB
             }
             catch (Exception ex)
             {
+                ThisLogger.Error(ex);
                 return new TestCaseGenerateResponse<TestGroup, TestCase>($"Failed to generate. {ex.Message}");
             }
         }
 
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
-        {
-            throw new NotImplementedException();
-        }
+        private static ILogger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }

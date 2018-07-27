@@ -1,14 +1,10 @@
 ﻿using NIST.CVP.Common.Oracle;
-using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
-using NIST.CVP.Crypto.Common.Symmetric.Engines;
-using NIST.CVP.Crypto.Common.Symmetric.MonteCarlo;
-using NIST.CVP.Crypto.Common.Symmetric.TDES;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Math;
+using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.TDES_OFB
 {
-    public class TestCaseGeneratorFactory : ITestCaseGeneratorFactory<TestGroup, TestCase>
+    public class TestCaseGeneratorFactory : ITestCaseGeneratorFactoryAsync<TestGroup, TestCase>
     {
         private readonly IOracle _oracle;
 
@@ -17,7 +13,7 @@ namespace NIST.CVP.Generation.TDES_OFB
             _oracle = oracle;
         }
 
-        public ITestCaseGenerator<TestGroup, TestCase> GetCaseGenerator(TestGroup group)
+        public ITestCaseGeneratorAsync<TestGroup, TestCase> GetCaseGenerator(TestGroup group)
         {
             switch (group.TestType.ToLower())
             {
