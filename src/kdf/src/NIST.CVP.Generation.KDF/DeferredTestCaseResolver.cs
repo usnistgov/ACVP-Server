@@ -1,11 +1,12 @@
-﻿using NIST.CVP.Common.Oracle;
+﻿using System.Threading.Tasks;
+using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
-using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.KDF
 {
-    public class DeferredTestCaseResolver : IDeferredTestCaseResolver<TestGroup, TestCase, KdfResult>
+    public class DeferredTestCaseResolver : IDeferredTestCaseResolverAsync<TestGroup, TestCase, KdfResult>
     {
         private readonly IOracle _oracle;
 
@@ -14,7 +15,7 @@ namespace NIST.CVP.Generation.KDF
             _oracle = oracle;
         }
 
-        public KdfResult CompleteDeferredCrypto(TestGroup group, TestCase serverTestCase, TestCase iutTestCase)
+        public async Task<KdfResult> CompleteDeferredCryptoAsync(TestGroup group, TestCase serverTestCase, TestCase iutTestCase)
         {
             var param = new KdfParameters
             {
@@ -33,7 +34,7 @@ namespace NIST.CVP.Generation.KDF
                 BreakLocation = iutTestCase.BreakLocation
             };
 
-            return _oracle.CompleteDeferredKdfCase(param, fullParam);
+            return await _oracle.CompleteDeferredKdfCaseAsync(param, fullParam);
         }
     }
 }

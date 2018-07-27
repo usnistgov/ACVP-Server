@@ -13,6 +13,7 @@ using NIST.CVP.Crypto.SSH;
 using NIST.CVP.Crypto.TLS;
 using NIST.CVP.Math;
 using System;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Crypto.Oracle
 {
@@ -250,6 +251,51 @@ namespace NIST.CVP.Crypto.Oracle
                 ServerHelloRandom = serverHelloRandom,
                 ServerRandom = serverRandom
             };
+        }
+
+        public async Task<KdfResult> GetDeferredKdfCaseAsync(KdfParameters param)
+        {
+            return await _taskFactory.StartNew(() => GetDeferredKdfCase(param));
+        }
+
+        public async Task<KdfResult> CompleteDeferredKdfCaseAsync(KdfParameters param, KdfResult fullParam)
+        {
+            return await _taskFactory.StartNew(() => CompleteDeferredKdfCase(param, fullParam));
+        }
+
+        public async Task<AnsiX963KdfResult> GetAnsiX963KdfCaseAsync(AnsiX963Parameters param)
+        {
+            return await _taskFactory.StartNew(() => GetAnsiX963KdfCase(param));
+        }
+
+        public async Task<IkeV1KdfResult> GetIkeV1KdfCaseAsync(IkeV1KdfParameters param)
+        {
+            return await _taskFactory.StartNew(() => GetIkeV1KdfCase(param));
+        }
+
+        public async Task<IkeV2KdfResult> GetIkeV2KdfCaseAsync(IkeV2KdfParameters param)
+        {
+            return await _taskFactory.StartNew(() => GetIkeV2KdfCase(param));
+        }
+
+        public async Task<SnmpKdfResult> GetSnmpKdfCaseAsync(SnmpKdfParameters param)
+        {
+            return await _taskFactory.StartNew(() => GetSnmpKdfCase(param));
+        }
+
+        public async Task<SrtpKdfResult> GetSrtpKdfCaseAsync(SrtpKdfParameters param)
+        {
+            return await _taskFactory.StartNew(() => GetSrtpKdfCase(param));
+        }
+
+        public async Task<SshKdfResult> GetSshKdfCaseAsync(SshKdfParameters param)
+        {
+            return await _taskFactory.StartNew(() => GetSshKdfCase(param));
+        }
+
+        public async Task<TlsKdfResult> GetTlsKdfCaseAsync(TlsKdfParameters param)
+        {
+            return await _taskFactory.StartNew(() => GetTlsKdfCase(param));
         }
     }
 }

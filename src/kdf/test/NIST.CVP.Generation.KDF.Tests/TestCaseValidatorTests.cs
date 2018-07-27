@@ -1,7 +1,9 @@
-﻿using Moq;
+﻿using System.Threading.Tasks;
+using Moq;
 using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.Common.KDF.Enums;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.Async;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -12,40 +14,40 @@ namespace NIST.CVP.Generation.KDF.Tests
     public class TestCaseValidatorEncryptTests
     {
         [Test]
-        public void ShouldValidateIfExpectedAndSuppliedResultsMatch()
+        public async Task ShouldValidateIfExpectedAndSuppliedResultsMatch()
         {
             var testCase = GetTestCase();
             var subject = new TestCaseValidator(testCase, GetTestGroup(), GetResolver().Object);
 
-            var result = subject.Validate(testCase);
+            var result = await subject.ValidateAsync(testCase);
 
             Assume.That(result != null);
             Assert.AreEqual(Core.Enums.Disposition.Passed, result.Result, result.Reason);
         }
 
         [Test]
-        public void ShouldFailIfKeyOutDoesNotMatch()
+        public async Task ShouldFailIfKeyOutDoesNotMatch()
         {
             var testCase = GetTestCase();
             var subject = new TestCaseValidator(testCase, GetTestGroup(), GetResolver().Object);
             var suppliedResult = GetTestCase();
             suppliedResult.KeyOut = new BitString("D00000");
 
-            var result = subject.Validate(suppliedResult);
+            var result = await subject.ValidateAsync(suppliedResult);
 
             Assume.That(result != null);
             Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
         }
 
         [Test]
-        public void ShouldShowKeyOutAsReasonIfItDoesNotMatch()
+        public async Task ShouldShowKeyOutAsReasonIfItDoesNotMatch()
         {
             var testCase = GetTestCase();
             var subject = new TestCaseValidator(testCase, GetTestGroup(), GetResolver().Object);
             var suppliedResult = GetTestCase();
             suppliedResult.KeyOut = new BitString("D00000");
 
-            var result = subject.Validate(suppliedResult);
+            var result = await subject.ValidateAsync(suppliedResult);
 
             Assume.That(result != null);
             Assume.That(Core.Enums.Disposition.Failed == result.Result);
@@ -53,7 +55,7 @@ namespace NIST.CVP.Generation.KDF.Tests
         }
 
         [Test]
-        public void ShouldFailIfKeyOutNotPresent()
+        public async Task ShouldFailIfKeyOutNotPresent()
         {
             var testCase = GetTestCase();
             var subject = new TestCaseValidator(testCase, GetTestGroup(), GetResolver().Object);
@@ -61,7 +63,7 @@ namespace NIST.CVP.Generation.KDF.Tests
 
             suppliedResult.KeyOut = null;
 
-            var result = subject.Validate(suppliedResult);
+            var result = await subject.ValidateAsync(suppliedResult);
             Assume.That(result != null);
             Assume.That(Core.Enums.Disposition.Failed == result.Result);
 
@@ -89,11 +91,11 @@ namespace NIST.CVP.Generation.KDF.Tests
             };
         }
 
-        private Mock<IDeferredTestCaseResolver<TestGroup, TestCase, KdfResult>> GetResolver()
+        private Mock<IDeferredTestCaseResolverAsync<TestGroup, TestCase, KdfResult>> GetResolver()
         {
-            var mock = new Mock<IDeferredTestCaseResolver<TestGroup, TestCase, KdfResult>>();
-            mock.Setup(s => s.CompleteDeferredCrypto(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()))
-                .Returns(new KdfResult{ KeyOut = new BitString("ABCDEF0123456789ABCDEF0123456789") });
+            var mock = new Mock<IDeferredTestCaseResolverAsync<TestGroup, TestCase, KdfResult>>();
+            mock.Setup(s => s.CompleteDeferredCryptoAsync(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()))
+                .Returns(Task.FromResult(new KdfResult{ KeyOut = new BitString("ABCDEF0123456789ABCDEF0123456789") }));
             return mock;
         }
     }
