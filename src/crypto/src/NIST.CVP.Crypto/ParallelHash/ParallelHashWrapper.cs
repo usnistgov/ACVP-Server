@@ -34,11 +34,9 @@ namespace NIST.CVP.Crypto.ParallelHash
             var newMessage = ParallelHashHelpers.FormatMessage(_message, _cSHAKE, digestLength, capacity, blockSize, xof);
             return _cSHAKE.HashMessage(new Common.Hash.CSHAKE.HashFunction
             {
-                FunctionName = "ParallelHash",
-                Customization = customization,
                 Capacity = capacity,
                 DigestLength = digestLength
-            }, newMessage).Digest;
+            }, newMessage, customization, "ParallelHash").Digest;
         }
 
         #region BitString Customization
@@ -54,11 +52,9 @@ namespace NIST.CVP.Crypto.ParallelHash
             var newMessage = ParallelHashHelpers.FormatMessage(_message, _cSHAKE, digestLength, capacity, blockSize, xof);
             return _cSHAKE.HashMessage(new Common.Hash.CSHAKE.HashFunction
             {
-                FunctionName = "ParallelHash",
-                Customization = "hex",  // does not matter what this is
                 Capacity = capacity,
                 DigestLength = digestLength
-            }, newMessage, customizationHex).Digest;
+            }, newMessage, customizationHex, "ParallelHash").Digest;
         }
         #endregion BitString Customization
     }
