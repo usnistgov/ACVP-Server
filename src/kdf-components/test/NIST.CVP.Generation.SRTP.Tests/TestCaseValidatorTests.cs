@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -11,26 +12,26 @@ namespace NIST.CVP.Generation.SRTP.Tests
     public class TestCaseValidatorTests
     {
         [Test]
-        public void ShouldValidateIfExpectedAndSuppliedResultsMatch()
+        public async Task ShouldValidateIfExpectedAndSuppliedResultsMatch()
         {
             var testCase = GetTestCase();
             var subject = new TestCaseValidator(testCase);
 
-            var result = subject.Validate(testCase);
+            var result = await subject.ValidateAsync(testCase);
 
             Assume.That(result != null);
             Assert.AreEqual(Core.Enums.Disposition.Passed, result.Result, result.Reason);
         }
 
         [Test]
-        public void ShouldFailIfValueDoesNotMatch()
+        public async Task ShouldFailIfValueDoesNotMatch()
         {
             var testCase = GetTestCase();
             var subject = new TestCaseValidator(testCase);
             var suppliedResult = GetTestCase();
             suppliedResult.SrtpKe = new BitString("D00000");
 
-            var result = subject.Validate(suppliedResult);
+            var result = await subject.ValidateAsync(suppliedResult);
 
             Assume.That(result != null);
             Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
@@ -38,14 +39,14 @@ namespace NIST.CVP.Generation.SRTP.Tests
         }
 
         [Test]
-        public void ShouldShowValueAsReasonIfItDoesNotMatch()
+        public async Task ShouldShowValueAsReasonIfItDoesNotMatch()
         {
             var testCase = GetTestCase();
             var subject = new TestCaseValidator(testCase);
             var suppliedResult = GetTestCase();
             suppliedResult.SrtcpKa = new BitString("D00000");
 
-            var result = subject.Validate(suppliedResult);
+            var result = await subject.ValidateAsync(suppliedResult);
 
             Assume.That(result != null);
             Assume.That(Core.Enums.Disposition.Failed == result.Result);
@@ -53,7 +54,7 @@ namespace NIST.CVP.Generation.SRTP.Tests
         }
 
         [Test]
-        public void ShouldFailIfValueNotPresent()
+        public async Task ShouldFailIfValueNotPresent()
         {
             var testCase = GetTestCase();
             var subject = new TestCaseValidator(testCase);
@@ -61,7 +62,7 @@ namespace NIST.CVP.Generation.SRTP.Tests
 
             suppliedResult.SrtcpKs = null;
 
-            var result = subject.Validate(suppliedResult);
+            var result = await subject.ValidateAsync(suppliedResult);
             Assume.That(result != null);
             Assume.That(Core.Enums.Disposition.Failed == result.Result);
 

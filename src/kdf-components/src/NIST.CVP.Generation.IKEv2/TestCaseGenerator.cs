@@ -4,10 +4,12 @@ using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Generation.Core;
 using NLog;
 using System;
+using System.Threading.Tasks;
+using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.IKEv2
 {
-    public class TestCaseGenerator : ITestCaseGenerator<TestGroup, TestCase>
+    public class TestCaseGenerator : ITestCaseGeneratorAsync<TestGroup, TestCase>
     {
         private readonly IOracle _oracle;
 
@@ -18,7 +20,7 @@ namespace NIST.CVP.Generation.IKEv2
             _oracle = oracle;
         }
 
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
+        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample)
         {
             if (isSample)
             {
@@ -34,39 +36,34 @@ namespace NIST.CVP.Generation.IKEv2
                 DerivedKeyingMaterialLength = group.DerivedKeyingMaterialLength
             };
 
-            IkeV2KdfResult result = null;
             try
             {
-                result = _oracle.GetIkeV2KdfCase(param);
+                var result = await _oracle.GetIkeV2KdfCaseAsync(param);
+
+                var testCase = new TestCase
+                {
+                    NResp = result.NResp,
+                    NInit = result.NInit,
+                    DerivedKeyingMaterial = result.DerivedKeyingMaterial,
+                    DerivedKeyingMaterialChild = result.DerivedKeyingMaterialChild,
+                    DerivedKeyingMaterialDh = result.DerivedKeyingMaterialDh,
+                    Gir = result.Gir,
+                    GirNew = result.GirNew,
+                    SKeySeed = result.SKeySeed,
+                    SKeySeedReKey = result.SKeySeedReKey,
+                    SpiInit = result.SpiInit,
+                    SpiResp = result.SpiResp
+                };
+
+                return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
             }
             catch (Exception ex)
             {
+                ThisLogger.Error(ex);
                 return new TestCaseGenerateResponse<TestGroup, TestCase>($"Failed to generate. {ex.Message}");
             }
-
-            var testCase = new TestCase
-            {
-                NResp = result.NResp,
-                NInit = result.NInit,
-                DerivedKeyingMaterial = result.DerivedKeyingMaterial,
-                DerivedKeyingMaterialChild = result.DerivedKeyingMaterialChild,
-                DerivedKeyingMaterialDh = result.DerivedKeyingMaterialDh,
-                Gir = result.Gir,
-                GirNew = result.GirNew,
-                SKeySeed = result.SKeySeed,
-                SKeySeedReKey = result.SKeySeedReKey,
-                SpiInit = result.SpiInit,
-                SpiResp = result.SpiResp
-            };
-
-            return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
         }
 
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
-        {
-            return null;
-        }
-
-        private Logger ThisLogger => LogManager.GetCurrentClassLogger();
+        private ILogger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }

@@ -23,8 +23,8 @@ namespace NIST.CVP.Crypto.Oracle
         private readonly AnsiX963Factory _ansiFactory = new AnsiX963Factory(new ShaFactory());
         private readonly IkeV1Factory _ikeV1Factory = new IkeV1Factory();
         private readonly IkeV2Factory _ikeV2Factory = new IkeV2Factory(new HmacFactory(new ShaFactory()));
-        private readonly Snmp _snmp = new Snmp();
-        private readonly Srtp _srtp = new Srtp();
+        private readonly SnmpFactory _snmpFactory = new SnmpFactory();
+        private readonly SrtpFactory _srtpFactory = new SrtpFactory();
         private readonly SshFactory _sshFactory = new SshFactory();
         private readonly TlsKdfFactory _tlsFactory = new TlsKdfFactory();
 
@@ -146,7 +146,7 @@ namespace NIST.CVP.Crypto.Oracle
         {
             var password = _rand.GetRandomAlphaCharacters(param.PasswordLength);
 
-            var result = _snmp.KeyLocalizationFunction(param.EngineId, password);
+            var result = _snmpFactory.GetInstance().KeyLocalizationFunction(param.EngineId, password);
             if (!result.Success)
             {
                 throw new Exception();
@@ -166,7 +166,8 @@ namespace NIST.CVP.Crypto.Oracle
             var index = _rand.GetRandomBitString(48);
             var srtcpIndex = _rand.GetRandomBitString(32);
 
-            var result = _srtp.DeriveKey(param.AesKeyLength, key, salt, param.KeyDerivationRate, index, srtcpIndex);
+            var result = _srtpFactory.GetInstance()
+                .DeriveKey(param.AesKeyLength, key, salt, param.KeyDerivationRate, index, srtcpIndex);
             if (!result.Success)
             {
                 throw new Exception();

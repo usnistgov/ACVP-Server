@@ -4,10 +4,12 @@ using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Generation.Core;
 using NLog;
 using System;
+using System.Threading.Tasks;
+using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.ANSIX963
 {
-    public class TestCaseGenerator : ITestCaseGenerator<TestGroup, TestCase>
+    public class TestCaseGenerator : ITestCaseGeneratorAsync<TestGroup, TestCase>
     {
         private readonly IOracle _oracle;
 
@@ -18,7 +20,7 @@ namespace NIST.CVP.Generation.ANSIX963
             _oracle = oracle;
         }
 
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
+        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample)
         {
             if (isSample)
             {
@@ -33,31 +35,26 @@ namespace NIST.CVP.Generation.ANSIX963
                 KeyDataLength = group.KeyDataLength
             };
 
-            AnsiX963KdfResult result = null;
             try
             {
-                result = _oracle.GetAnsiX963KdfCase(param);
+                var result = await _oracle.GetAnsiX963KdfCaseAsync(param);
+                
+                var testCase = new TestCase
+                {
+                    Z = result.Z,
+                    SharedInfo = result.SharedInfo,
+                    KeyData = result.KeyOut
+                };
+
+                return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
             }
             catch (Exception ex)
             {
+                ThisLogger.Error(ex);
                 return new TestCaseGenerateResponse<TestGroup, TestCase>($"Failed to generate. {ex.Message}");
             }
-
-            var testCase = new TestCase
-            {
-                Z = result.Z,
-                SharedInfo = result.SharedInfo,
-                KeyData = result.KeyOut
-            };
-
-            return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
         }
-
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
-        {
-            return null;
-        }
-
-        private Logger ThisLogger => LogManager.GetCurrentClassLogger();
+        
+        private ILogger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }

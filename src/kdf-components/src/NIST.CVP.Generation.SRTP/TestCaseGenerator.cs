@@ -4,10 +4,12 @@ using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Generation.Core;
 using NLog;
 using System;
+using System.Threading.Tasks;
+using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.SRTP
 {
-    public class TestCaseGenerator : ITestCaseGenerator<TestGroup, TestCase>
+    public class TestCaseGenerator : ITestCaseGeneratorAsync<TestGroup, TestCase>
     {
         private readonly IOracle _oracle;
 
@@ -18,7 +20,7 @@ namespace NIST.CVP.Generation.SRTP
             _oracle = oracle;
         }
 
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
+        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample)
         {
             if (isSample)
             {
@@ -31,38 +33,33 @@ namespace NIST.CVP.Generation.SRTP
                 KeyDerivationRate = group.Kdr
             };
 
-            SrtpKdfResult result = null;
             try
             {
-                result = _oracle.GetSrtpKdfCase(param);
+                var result = await _oracle.GetSrtpKdfCaseAsync(param);
+
+                var testCase = new TestCase
+                {
+                    Index = result.Index,
+                    MasterKey = result.MasterKey,
+                    MasterSalt = result.MasterSalt,
+                    SrtcpIndex = result.SrtcpIndex,
+                    SrtcpKa = result.SrtcpAuthenticationKey,
+                    SrtcpKe = result.SrtcpEncryptionKey,
+                    SrtcpKs = result.SrtcpSaltingKey,
+                    SrtpKa = result.SrtpAuthenticationKey,
+                    SrtpKe = result.SrtpEncryptionKey,
+                    SrtpKs = result.SrtpSaltingKey
+                };
+
+                return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
             }
             catch (Exception ex)
             {
+                ThisLogger.Error(ex);
                 return new TestCaseGenerateResponse<TestGroup, TestCase>($"Failed to generate. {ex.Message}");
             }
-
-            var testCase = new TestCase
-            {
-                Index = result.Index,
-                MasterKey = result.MasterKey,
-                MasterSalt = result.MasterSalt,
-                SrtcpIndex = result.SrtcpIndex,
-                SrtcpKa = result.SrtcpAuthenticationKey,
-                SrtcpKe = result.SrtcpEncryptionKey,
-                SrtcpKs = result.SrtcpSaltingKey,
-                SrtpKa = result.SrtpAuthenticationKey,
-                SrtpKe = result.SrtpEncryptionKey,
-                SrtpKs = result.SrtpSaltingKey
-            };
-
-            return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
         }
-
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
-        {
-            return null;
-        }
-
-        public Logger ThisLogger => LogManager.GetCurrentClassLogger();
+        
+        public ILogger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }

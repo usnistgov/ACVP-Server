@@ -4,10 +4,12 @@ using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Generation.Core;
 using NLog;
 using System;
+using System.Threading.Tasks;
+using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.SNMP
 {
-    public class TestCaseGenerator : ITestCaseGenerator<TestGroup, TestCase>
+    public class TestCaseGenerator : ITestCaseGeneratorAsync<TestGroup, TestCase>
     {
         private readonly IOracle _oracle;
 
@@ -18,7 +20,7 @@ namespace NIST.CVP.Generation.SNMP
             _oracle = oracle;
         }
 
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
+        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample)
         {
             if (isSample)
             {
@@ -31,30 +33,25 @@ namespace NIST.CVP.Generation.SNMP
                 EngineId = group.EngineId
             };
 
-            SnmpKdfResult result = null;
             try
             {
-                result = _oracle.GetSnmpKdfCase(param);
+                var result = await _oracle.GetSnmpKdfCaseAsync(param);
+
+                var testCase = new TestCase
+                {
+                    Password = result.Password,
+                    SharedKey = result.SharedKey
+                };
+
+                return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
             }
             catch (Exception ex)
             {
+                ThisLogger.Error(ex);
                 return new TestCaseGenerateResponse<TestGroup, TestCase>($"Failed to generate. {ex.Message}");
             }
-
-            var testCase = new TestCase
-            {
-                Password = result.Password,
-                SharedKey = result.SharedKey
-            };
-
-            return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
         }
 
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
-        {
-            return null;
-        }
-
-        public Logger ThisLogger => LogManager.GetCurrentClassLogger();
+        public ILogger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }

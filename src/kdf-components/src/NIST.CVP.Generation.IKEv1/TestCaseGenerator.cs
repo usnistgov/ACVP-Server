@@ -4,10 +4,12 @@ using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Generation.Core;
 using NLog;
 using System;
+using System.Threading.Tasks;
+using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.IKEv1
 {
-    public class TestCaseGenerator : ITestCaseGenerator<TestGroup, TestCase>
+    public class TestCaseGenerator : ITestCaseGeneratorAsync<TestGroup, TestCase>
     {
         private readonly IOracle _oracle;
 
@@ -18,7 +20,7 @@ namespace NIST.CVP.Generation.IKEv1
             _oracle = oracle;
         }
 
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
+        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample)
         {
             if (isSample)
             {
@@ -35,38 +37,33 @@ namespace NIST.CVP.Generation.IKEv1
                 PreSharedKeyLength = group.PreSharedKeyLength
             };
 
-            IkeV1KdfResult result = null;
             try
             {
-                result = _oracle.GetIkeV1KdfCase(param);
+                var result = await _oracle.GetIkeV1KdfCaseAsync(param);
+
+                var testCase = new TestCase
+                {
+                    NInit = result.NInit,
+                    NResp = result.NResp,
+                    CkyInit = result.CkyInit,
+                    CkyResp = result.CkyResp,
+                    Gxy = result.Gxy,
+                    SKeyId = result.sKeyId,
+                    SKeyIdD = result.sKeyIdD,
+                    SKeyIdE = result.sKeyIdE,
+                    SKeyIdA = result.sKeyIdA,
+                    PreSharedKey = result.PreSharedKey
+                };
+
+                return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
             }
             catch (Exception ex)
             {
+                ThisLogger.Error(ex);
                 return new TestCaseGenerateResponse<TestGroup, TestCase>($"Failed to generate. {ex.Message}");
             }
-
-            var testCase = new TestCase
-            {
-                NInit = result.NInit,
-                NResp = result.NResp,
-                CkyInit = result.CkyInit,
-                CkyResp = result.CkyResp,
-                Gxy = result.Gxy,
-                SKeyId = result.sKeyId,
-                SKeyIdD = result.sKeyIdD,
-                SKeyIdE = result.sKeyIdE,
-                SKeyIdA = result.sKeyIdA,
-                PreSharedKey = result.PreSharedKey
-            };
-
-            return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
         }
 
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
-        {
-            return null;
-        }
-
-        private Logger ThisLogger => LogManager.GetCurrentClassLogger();
+        private ILogger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }
