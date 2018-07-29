@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using NIST.CVP.Crypto.Common.Hash.SHA2;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -32,7 +33,7 @@ namespace NIST.CVP.Generation.SHA2.Tests
         [Test]
         [TestCase(true)]
         [TestCase(false)]
-        public void ShouldReturnSampleMonteCarloGeneratorIfRequested(bool isSample)
+        public async Task ShouldReturnSampleMonteCarloGeneratorIfRequested(bool isSample)
         {
             var testGroup = new TestGroup()
             {
@@ -48,7 +49,7 @@ namespace NIST.CVP.Generation.SHA2.Tests
             var typedGen = generator as TestCaseGeneratorMCTHash;
             Assume.That(generator != null);
 
-            typedGen.Generate(testGroup, isSample);
+            await typedGen.GenerateAsync(testGroup, isSample);
             
             Assert.AreEqual(isSample, typedGen.IsSample);
         }

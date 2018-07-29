@@ -6,11 +6,13 @@ using NIST.CVP.Crypto.Common.Hash.SHA2;
 using NIST.CVP.Generation.Core;
 using NLog;
 using System;
+using System.Threading.Tasks;
+using NIST.CVP.Generation.Core.Async;
 using HashResult = NIST.CVP.Common.Oracle.ResultTypes.HashResult;
 
 namespace NIST.CVP.Generation.SHA2
 {
-    public class TestCaseGeneratorMCTHash : ITestCaseGenerator<TestGroup, TestCase>
+    public class TestCaseGeneratorMCTHash : ITestCaseGeneratorAsync<TestGroup, TestCase>
     {
         private readonly IOracle _oracle;
 
@@ -23,7 +25,7 @@ namespace NIST.CVP.Generation.SHA2
             _oracle = oracle;
         }
         
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
+        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample)
         {
             IsSample = isSample;
             var param = new ShaParameters
@@ -32,30 +34,25 @@ namespace NIST.CVP.Generation.SHA2
                 MessageLength = SHAEnumHelpers.DigestSizeToInt(group.DigestSize)
             };
 
-            MctResult<HashResult> oracleResult = null;
             try
             {
-                oracleResult = _oracle.GetShaMctCase(param);
+                var oracleResult = await _oracle.GetShaMctCaseAsync(param);
+
+                return new TestCaseGenerateResponse<TestGroup, TestCase>(new TestCase
+                {
+                    Message = oracleResult.Results[0].Message,
+                    Digest = oracleResult.Results[0].Digest,
+                    ResultsArray = oracleResult.Results.ConvertAll(element => new AlgoArrayResponse { Message = element.Message, Digest = element.Digest })
+                });
             }
             catch (Exception ex)
             {
+                ThisLogger.Error(ex);
                 return new TestCaseGenerateResponse<TestGroup, TestCase>($"Failed to generate. {ex.Message}");
             }
-
-            return new TestCaseGenerateResponse<TestGroup, TestCase>(new TestCase
-            {
-                Message = oracleResult.Results[0].Message,
-                Digest = oracleResult.Results[0].Digest,
-                ResultsArray = oracleResult.Results.ConvertAll(element => new AlgoArrayResponse { Message = element.Message, Digest = element.Digest })
-            });
         }
-
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
-        {
-            return null;
-        }
-
-        private Logger ThisLogger => LogManager.GetCurrentClassLogger();
+        
+        private ILogger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }
 

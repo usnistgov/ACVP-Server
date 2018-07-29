@@ -3,6 +3,7 @@ using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.SHA2;
 using NIST.CVP.Crypto.SHA3;
 using System;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Crypto.Oracle
 {
@@ -89,6 +90,26 @@ namespace NIST.CVP.Crypto.Oracle
                 Results = result.Response.ConvertAll(element =>
                     new HashResult { Message = element.Message, Digest = element.Digest })
             };
+        }
+
+        public async Task<HashResult> GetShaCaseAsync(ShaParameters param)
+        {
+            return await _taskFactory.StartNew(() => GetShaCase(param));
+        }
+
+        public async Task<HashResult> GetSha3CaseAsync(Sha3Parameters param)
+        {
+            return await _taskFactory.StartNew(() => GetSha3Case(param));
+        }
+
+        public async Task<MctResult<HashResult>> GetShaMctCaseAsync(ShaParameters param)
+        {
+            return await _taskFactory.StartNew(() => GetShaMctCase(param));
+        }
+
+        public async Task<MctResult<HashResult>> GetSha3MctCaseAsync(Sha3Parameters param)
+        {
+            return await _taskFactory.StartNew(() => GetSha3MctCase(param));
         }
     }
 }
