@@ -1,6 +1,7 @@
 ﻿using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using System;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Generation.SHA3.Tests
 {
@@ -49,7 +50,7 @@ namespace NIST.CVP.Generation.SHA3.Tests
         [Test]
         [TestCase(true)]
         [TestCase(false)]
-        public void ShouldReturnSampleSHA3MonteCarloGeneratorIfRequested(bool isSample)
+        public async Task ShouldReturnSampleSHA3MonteCarloGeneratorIfRequested(bool isSample)
         {
             var testGroup = new TestGroup
             {
@@ -65,7 +66,7 @@ namespace NIST.CVP.Generation.SHA3.Tests
             var typedGen = generator as TestCaseGeneratorMct;
             Assume.That(typedGen != null);
 
-            var result = typedGen.Generate(testGroup, isSample);
+            await typedGen.GenerateAsync(testGroup, isSample);
 
             Assert.AreEqual(isSample, typedGen.IsSample);
         }
@@ -73,7 +74,7 @@ namespace NIST.CVP.Generation.SHA3.Tests
         [Test]
         [TestCase(true)]
         [TestCase(false)]
-        public void ShouldReturnSampleSHAKEMonteCarloGeneratorIfRequested(bool isSample)
+        public async Task ShouldReturnSampleSHAKEMonteCarloGeneratorIfRequested(bool isSample)
         {
             var testGroup = new TestGroup
             {
@@ -89,7 +90,7 @@ namespace NIST.CVP.Generation.SHA3.Tests
             var typedGen = generator as TestCaseGeneratorMct;
             Assume.That(typedGen != null);
 
-            var result = typedGen.Generate(testGroup, isSample);
+            await typedGen.GenerateAsync(testGroup, isSample);
 
             Assert.AreEqual(isSample, typedGen.IsSample);
         }

@@ -7,10 +7,12 @@ using NLog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.SHA3
 {
-    public class TestCaseGeneratorVot : ITestCaseGenerator<TestGroup, TestCase>
+    public class TestCaseGeneratorVot : ITestCaseGeneratorAsync<TestGroup, TestCase>
     {
         private int _capacity = 0;
         private int _currentCase = 0;
@@ -26,7 +28,7 @@ namespace NIST.CVP.Generation.SHA3
             TestCaseSizes.Add(-1);
         }
 
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
+        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample)
         {
             // Only do this logic once
             if (_capacity == 0)
@@ -45,26 +47,21 @@ namespace NIST.CVP.Generation.SHA3
                 MessageLength = _capacity / 2
             };
 
-            Common.Oracle.ResultTypes.HashResult oracleResult = null;
             try
             {
-                oracleResult = _oracle.GetSha3Case(param);
+                var oracleResult = await _oracle.GetSha3CaseAsync(param);
+
+                return new TestCaseGenerateResponse<TestGroup, TestCase>(new TestCase
+                {
+                    Message = oracleResult.Message,
+                    Digest = oracleResult.Digest
+                });
             }
             catch (Exception ex)
             {
+                ThisLogger.Error(ex);
                 return new TestCaseGenerateResponse<TestGroup, TestCase>($"Failed to generate. {ex.Message}");
             }
-
-            return new TestCaseGenerateResponse<TestGroup, TestCase>(new TestCase
-            {
-                Message = oracleResult.Message,
-                Digest = oracleResult.Digest
-            });
-        }
-
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
-        {
-            return null;
         }
 
         private void DetermineLengths(MathDomain domain)
@@ -103,7 +100,7 @@ namespace NIST.CVP.Generation.SHA3
             TestCaseSizes.Sort();
         }
 
-        private Logger ThisLogger => LogManager.GetCurrentClassLogger();
+        private static ILogger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }
 
