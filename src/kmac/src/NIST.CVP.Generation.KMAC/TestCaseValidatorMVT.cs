@@ -4,12 +4,12 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.KMAC
 {
-    public class TestCaseValidatorMVT : ITestCaseValidator<TestGroup, TestCase>
+    public class TestCaseValidatorMvt : ITestCaseValidator<TestGroup, TestCase>
     {
         private readonly TestCase _expectedResult;
         private readonly TestGroup _currentGroup;
 
-        public TestCaseValidatorMVT(TestCase expectedResult, TestGroup currentGroup)
+        public TestCaseValidatorMvt(TestCase expectedResult, TestGroup currentGroup)
         {
             _expectedResult = expectedResult;
             _currentGroup = currentGroup;

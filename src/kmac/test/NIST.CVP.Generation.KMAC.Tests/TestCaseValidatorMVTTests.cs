@@ -6,16 +6,16 @@ using NUnit.Framework;
 namespace NIST.CVP.Generation.KMAC.Tests
 {
     [TestFixture, UnitTest]
-    public class TestCaseValidatorMVTTests
+    public class TestCaseValidatorMvtTests
     {
-        private TestCaseValidatorMVT _subject;
+        private TestCaseValidatorMvt _subject;
 
         [Test]
         public void ShouldValidateIfExpectedAndSuppliedResultsMatch()
         {
             var testCase = GetTestCase();
             var testGroup = GetTestGroup();
-            _subject = new TestCaseValidatorMVT(testCase, testGroup);
+            _subject = new TestCaseValidatorMvt(testCase, testGroup);
             var result = _subject.Validate(testCase);
             Assume.That(result != null);
             Assert.AreEqual(Core.Enums.Disposition.Passed, result.Result);
@@ -29,7 +29,7 @@ namespace NIST.CVP.Generation.KMAC.Tests
             var testCase = GetTestCase();
             var testGroup = GetTestGroup();
 
-            _subject = new TestCaseValidatorMVT(testCase, testGroup);
+            _subject = new TestCaseValidatorMvt(testCase, testGroup);
             var suppliedResult = GetTestCase();
             suppliedResult.MacVerified = testMacVerified;
             var result = _subject.Validate(suppliedResult);
@@ -45,7 +45,7 @@ namespace NIST.CVP.Generation.KMAC.Tests
             var testCase = GetTestCase();
             var testGroup = GetTestGroup();
 
-            _subject = new TestCaseValidatorMVT(testCase, testGroup);
+            _subject = new TestCaseValidatorMvt(testCase, testGroup);
             var suppliedResult = GetTestCase();
             suppliedResult.MacVerified = testMacVerified;
             var result = _subject.Validate(suppliedResult);
@@ -59,7 +59,7 @@ namespace NIST.CVP.Generation.KMAC.Tests
         {
             var testCase = GetTestCase();
             var testGroup = GetTestGroup();
-            _subject = new TestCaseValidatorMVT(testCase, testGroup);
+            _subject = new TestCaseValidatorMvt(testCase, testGroup);
             var suppliedResult = GetTestCase();
 
             suppliedResult.MacVerified = null;

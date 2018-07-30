@@ -17,11 +17,11 @@ namespace NIST.CVP.Generation.KMAC
                     var workingTest = test;
                     if (group.TestType.ToLower() == "mvt")
                     {
-                        list.Add(new TestCaseValidatorMVT(workingTest, group));
+                        list.Add(new TestCaseValidatorMvt(workingTest, group));
                     }
                     else
                     {
-                        list.Add(new TestCaseValidatorAFT(workingTest, group));
+                        list.Add(new TestCaseValidatorAft(workingTest, group));
                     }
                 }
             }
