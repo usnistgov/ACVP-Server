@@ -1,13 +1,13 @@
-﻿using System;
+﻿using NIST.CVP.Common.ExtensionMethods;
+using NIST.CVP.Common.Oracle.DispositionTypes;
+using NIST.CVP.Generation.Core;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using NIST.CVP.Common.ExtensionMethods;
-using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.DSA.FFC.SigVer.Enums;
 
-namespace NIST.CVP.Generation.DSA.FFC.SigVer.FailureHandlers
+namespace NIST.CVP.Generation.DSA.FFC.SigVer.TestCaseExpectations
 {
-    public class TestCaseExpectationProvider : ITestCaseExpectationProvider<SigFailureReasons>
+    public class TestCaseExpectationProvider : ITestCaseExpectationProvider<DsaSignatureDisposition>
     {
         private List<TestCaseExpectationReason> _expectationReasons;
 
@@ -17,25 +17,25 @@ namespace NIST.CVP.Generation.DSA.FFC.SigVer.FailureHandlers
 
             if (isSample)
             {
-                _expectationReasons.Add(new TestCaseExpectationReason(SigFailureReasons.None));
-                _expectationReasons.Add(new TestCaseExpectationReason(SigFailureReasons.ModifyMessage));
-                _expectationReasons.Add(new TestCaseExpectationReason(SigFailureReasons.ModifyKey));
-                _expectationReasons.Add(new TestCaseExpectationReason(SigFailureReasons.ModifyR));
-                _expectationReasons.Add(new TestCaseExpectationReason(SigFailureReasons.ModifyS));
+                _expectationReasons.Add(new TestCaseExpectationReason(DsaSignatureDisposition.None));
+                _expectationReasons.Add(new TestCaseExpectationReason(DsaSignatureDisposition.ModifyMessage));
+                _expectationReasons.Add(new TestCaseExpectationReason(DsaSignatureDisposition.ModifyKey));
+                _expectationReasons.Add(new TestCaseExpectationReason(DsaSignatureDisposition.ModifyR));
+                _expectationReasons.Add(new TestCaseExpectationReason(DsaSignatureDisposition.ModifyS));
             }
             else
             {
-                _expectationReasons.Add(new TestCaseExpectationReason(SigFailureReasons.None), 7);
-                _expectationReasons.Add(new TestCaseExpectationReason(SigFailureReasons.ModifyMessage), 2);
-                _expectationReasons.Add(new TestCaseExpectationReason(SigFailureReasons.ModifyKey), 2);
-                _expectationReasons.Add(new TestCaseExpectationReason(SigFailureReasons.ModifyR), 2);
-                _expectationReasons.Add(new TestCaseExpectationReason(SigFailureReasons.ModifyS), 2);
+                _expectationReasons.Add(new TestCaseExpectationReason(DsaSignatureDisposition.None), 7);
+                _expectationReasons.Add(new TestCaseExpectationReason(DsaSignatureDisposition.ModifyMessage), 2);
+                _expectationReasons.Add(new TestCaseExpectationReason(DsaSignatureDisposition.ModifyKey), 2);
+                _expectationReasons.Add(new TestCaseExpectationReason(DsaSignatureDisposition.ModifyR), 2);
+                _expectationReasons.Add(new TestCaseExpectationReason(DsaSignatureDisposition.ModifyS), 2);
             }
 
             _expectationReasons = _expectationReasons.OrderBy(a => Guid.NewGuid()).ToList();
         }
 
-        public ITestCaseExpectationReason<SigFailureReasons> GetRandomReason()
+        public ITestCaseExpectationReason<DsaSignatureDisposition> GetRandomReason()
         {
             if (_expectationReasons.Count == 0)
             {
