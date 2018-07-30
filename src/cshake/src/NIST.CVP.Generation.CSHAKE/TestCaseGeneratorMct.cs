@@ -28,7 +28,8 @@ namespace NIST.CVP.Generation.CSHAKE
             var param = new CSHAKEParameters
             {
                 HashFunction = new HashFunction(group.DigestSize, group.DigestSize * 2),
-                MessageLength = group.DigestSize
+                MessageLength = group.DigestSize,
+                OutLens = group.OutputLength.GetDeepCopy()
             };
 
             MctResult<HashResultCSHAKE> oracleResult = null;
