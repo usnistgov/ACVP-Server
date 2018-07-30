@@ -48,7 +48,7 @@ namespace NIST.CVP.Generation.CSHAKE
 
             var param = DetermineParameters(group.BitOrientedInput, group.IncludeNull, group.DigestSize, group.HexCustomization);
 
-            Common.Oracle.ResultTypes.HashResultCSHAKE oracleResult = null;
+            Common.Oracle.ResultTypes.CShakeResult oracleResult = null;
             try
             {
                 oracleResult = _oracle.GetCShakeCase(param);
@@ -110,7 +110,7 @@ namespace NIST.CVP.Generation.CSHAKE
             TestCaseSizes.Sort();
         }
 
-        private CSHAKEParameters DetermineParameters(bool bitOriented, bool includeNull, int digestSize, bool hexCustomization)
+        private CShakeParameters DetermineParameters(bool bitOriented, bool includeNull, int digestSize, bool hexCustomization)
         {
             var unitSize = bitOriented ? 1 : 8;
             var rate = 1600 - digestSize * 2;
@@ -167,7 +167,7 @@ namespace NIST.CVP.Generation.CSHAKE
                 _currentLargeCase++;
             }
 
-            return new CSHAKEParameters
+            return new CShakeParameters
             {
                 HashFunction = new HashFunction(_digestLength, digestSize * 2),
                 CustomizationLength = customizationLength,

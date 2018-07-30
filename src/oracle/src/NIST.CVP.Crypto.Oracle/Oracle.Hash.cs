@@ -103,7 +103,7 @@ namespace NIST.CVP.Crypto.Oracle
             };
         }
 
-        public HashResultCSHAKE GetCShakeCase(CSHAKEParameters param)
+        public CShakeResult GetCShakeCase(CShakeParameters param)
         {
             var message = _rand.GetRandomBitString(param.MessageLength);
 
@@ -126,7 +126,7 @@ namespace NIST.CVP.Crypto.Oracle
                 throw new Exception();
             }
 
-            return new HashResultCSHAKE
+            return new CShakeResult
             {
                 Message = message,
                 Digest = result.Digest,
@@ -136,7 +136,7 @@ namespace NIST.CVP.Crypto.Oracle
             };
         }
 
-        public MctResult<HashResultCSHAKE> GetCShakeMctCase(CSHAKEParameters param)
+        public MctResult<CShakeResult> GetCShakeMctCase(CShakeParameters param)
         {
             _cSHAKEMct = new CSHAKE_MCT(_cSHAKE);
 
@@ -150,14 +150,14 @@ namespace NIST.CVP.Crypto.Oracle
                 throw new Exception();
             }
 
-            return new MctResult<HashResultCSHAKE>
+            return new MctResult<CShakeResult>
             {
                 Results = result.Response.ConvertAll(element =>
-                    new HashResultCSHAKE { Message = element.Message, Digest = element.Digest, Customization = element.Customization })
+                    new CShakeResult { Message = element.Message, Digest = element.Digest, Customization = element.Customization })
             };
         }
 
-        public HashResultParallelHash GetParallelHashCase(ParallelHashParameters param)
+        public ParallelHashResult GetParallelHashCase(ParallelHashParameters param)
         {
             var message = _rand.GetRandomBitString(param.MessageLength);
 
@@ -180,7 +180,7 @@ namespace NIST.CVP.Crypto.Oracle
                 throw new Exception();
             }
 
-            return new HashResultParallelHash
+            return new ParallelHashResult
             {
                 Message = message,
                 Digest = result.Digest,
@@ -190,7 +190,7 @@ namespace NIST.CVP.Crypto.Oracle
             };
         }
 
-        public MctResult<HashResultParallelHash> GetParallelHashMctCase(ParallelHashParameters param)
+        public MctResult<ParallelHashResult> GetParallelHashMctCase(ParallelHashParameters param)
         {
             _parallelHashMct = new ParallelHash_MCT(_parallelHash);
 
@@ -204,14 +204,14 @@ namespace NIST.CVP.Crypto.Oracle
                 throw new Exception();
             }
 
-            return new MctResult<HashResultParallelHash>
+            return new MctResult<ParallelHashResult>
             {
                 Results = result.Response.ConvertAll(element =>
-                    new HashResultParallelHash { Message = element.Message, Digest = element.Digest, Customization = element.Customization })
+                    new ParallelHashResult { Message = element.Message, Digest = element.Digest, Customization = element.Customization })
             };
         }
 
-        public HashResultTupleHash GetTupleHashCase(TupleHashParameters param)
+        public TupleHashResult GetTupleHashCase(TupleHashParameters param)
         {
             var tuple = new List<BitString>();
 
@@ -263,7 +263,7 @@ namespace NIST.CVP.Crypto.Oracle
                 throw new Exception();
             }
 
-            return new HashResultTupleHash
+            return new TupleHashResult
             {
                 Tuple = tuple,
                 Digest = result.Digest,
@@ -272,7 +272,7 @@ namespace NIST.CVP.Crypto.Oracle
             };
         }
 
-        public MctResult<HashResultTupleHash> GetTupleHashMctCase(TupleHashParameters param)
+        public MctResult<TupleHashResult> GetTupleHashMctCase(TupleHashParameters param)
         {
             _tupleHashMct = new TupleHash_MCT(_tupleHash);
 
@@ -286,10 +286,10 @@ namespace NIST.CVP.Crypto.Oracle
                 throw new Exception();
             }
 
-            return new MctResult<HashResultTupleHash>
+            return new MctResult<TupleHashResult>
             {
                 Results = result.Response.ConvertAll(element =>
-                    new HashResultTupleHash { Tuple = element.Tuple, Digest = element.Digest, Customization = element.Customization })
+                    new TupleHashResult { Tuple = element.Tuple, Digest = element.Digest, Customization = element.Customization })
             };
         }
 

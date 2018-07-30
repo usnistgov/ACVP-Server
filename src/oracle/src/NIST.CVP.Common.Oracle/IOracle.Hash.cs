@@ -7,14 +7,14 @@ namespace NIST.CVP.Common.Oracle
     {
         HashResult GetShaCase(ShaParameters param);
         HashResult GetSha3Case(Sha3Parameters param);
-        HashResultCSHAKE GetCShakeCase(CSHAKEParameters param);
-        HashResultParallelHash GetParallelHashCase(ParallelHashParameters param);
-        HashResultTupleHash GetTupleHashCase(TupleHashParameters param);
+        CShakeResult GetCShakeCase(CShakeParameters param);
+        ParallelHashResult GetParallelHashCase(ParallelHashParameters param);
+        TupleHashResult GetTupleHashCase(TupleHashParameters param);
 
         MctResult<HashResult> GetShaMctCase(ShaParameters param);
         MctResult<HashResult> GetSha3MctCase(Sha3Parameters param);
-        MctResult<HashResultCSHAKE> GetCShakeMctCase(CSHAKEParameters param);
-        MctResult<HashResultParallelHash> GetParallelHashMctCase(ParallelHashParameters param);
-        MctResult<HashResultTupleHash> GetTupleHashMctCase(TupleHashParameters param);
+        MctResult<CShakeResult> GetCShakeMctCase(CShakeParameters param);
+        MctResult<ParallelHashResult> GetParallelHashMctCase(ParallelHashParameters param);
+        MctResult<TupleHashResult> GetTupleHashMctCase(TupleHashParameters param);
     }
 }
