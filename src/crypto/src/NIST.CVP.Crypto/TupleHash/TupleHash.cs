@@ -21,12 +21,12 @@ namespace NIST.CVP.Crypto.TupleHash
             _iTupleHashFactory = new TupleHashFactory();
         }
 
-        public HashResult HashMessage(HashFunction hashFunction, IEnumerable<BitString> tuple)
+        public HashResult HashMessage(HashFunction hashFunction, IEnumerable<BitString> tuple, string customization)
         {
             try
             {
-                var sha = _iTupleHashFactory.GetTupleHash(hashFunction);
-                var digest = sha.HashMessage(tuple, hashFunction.DigestLength, hashFunction.Capacity, hashFunction.XOF, hashFunction.Customization);
+                var tupleHash = _iTupleHashFactory.GetTupleHash(hashFunction);
+                var digest = tupleHash.HashMessage(tuple, hashFunction.DigestLength, hashFunction.Capacity, hashFunction.XOF, customization);
 
                 return new HashResult(digest);
             }
@@ -42,8 +42,8 @@ namespace NIST.CVP.Crypto.TupleHash
         {
             try
             {
-                var sha = _iTupleHashFactory.GetTupleHash(hashFunction);
-                var digest = sha.HashMessage(tuple, hashFunction.DigestLength, hashFunction.Capacity, hashFunction.XOF, customizationHex);
+                var tupleHash = _iTupleHashFactory.GetTupleHash(hashFunction);
+                var digest = tupleHash.HashMessage(tuple, hashFunction.DigestLength, hashFunction.Capacity, hashFunction.XOF, customizationHex);
 
                 return new HashResult(digest);
             }

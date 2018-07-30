@@ -24,10 +24,10 @@ namespace NIST.CVP.Crypto.TupleHash.Tests
             var tuple = GetTestTuple(testTupleId);
 
             var expectedResult = new BitString(outputHex, outputLength, false);
-            var hashFunction = GetTupleHashFunction(outputLength, 256, customization);
+            var hashFunction = GetTupleHashFunction(outputLength, 256);
 
             var subject = new TupleHash();
-            var result = subject.HashMessage(hashFunction, tuple);
+            var result = subject.HashMessage(hashFunction, tuple, customization);
 
             Assume.That(result.Success);
             Assert.AreEqual(expectedResult, result.Digest);
@@ -42,7 +42,7 @@ namespace NIST.CVP.Crypto.TupleHash.Tests
             var customization = new BitString(customizationHex);
 
             var expectedResult = new BitString(outputHex, outputLength, false);
-            var hashFunction = GetTupleHashFunction(outputLength, 256, "does not matter");
+            var hashFunction = GetTupleHashFunction(outputLength, 256);
 
             var subject = new TupleHash();
             var result = subject.HashMessage(hashFunction, tuple, customization);
@@ -64,10 +64,10 @@ namespace NIST.CVP.Crypto.TupleHash.Tests
             var tuple = GetTestTuple(testTupleId);
 
             var expectedResult = new BitString(outputHex, outputLength, false);
-            var hashFunction = GetTupleHashFunction(outputLength, 512, customization);
+            var hashFunction = GetTupleHashFunction(outputLength, 512);
 
             var subject = new TupleHash();
-            var result = subject.HashMessage(hashFunction, tuple);
+            var result = subject.HashMessage(hashFunction, tuple, customization);
 
             Assume.That(result.Success);
             Assert.AreEqual(expectedResult, result.Digest);
@@ -89,10 +89,10 @@ namespace NIST.CVP.Crypto.TupleHash.Tests
             var tuple = GetTestTuple(testTupleId);
 
             var expectedResult = new BitString(outputHex, outputLength, false);
-            var hashFunction = GetTupleHashXOFFunction(outputLength, 256, customization);
+            var hashFunction = GetTupleHashXOFFunction(outputLength, 256);
 
             var subject = new TupleHash();
-            var result = subject.HashMessage(hashFunction, tuple);
+            var result = subject.HashMessage(hashFunction, tuple, customization);
 
             Assume.That(result.Success);
             Assert.AreEqual(expectedResult, result.Digest);
@@ -114,34 +114,32 @@ namespace NIST.CVP.Crypto.TupleHash.Tests
             var tuple = GetTestTuple(testTupleId);
 
             var expectedResult = new BitString(outputHex, outputLength, false);
-            var hashFunction = GetTupleHashXOFFunction(outputLength, 512, customization);
+            var hashFunction = GetTupleHashXOFFunction(outputLength, 512);
 
             var subject = new TupleHash();
-            var result = subject.HashMessage(hashFunction, tuple);
+            var result = subject.HashMessage(hashFunction, tuple, customization);
 
             Assume.That(result.Success);
             Assert.AreEqual(expectedResult, result.Digest);
         }
 
-        private HashFunction GetTupleHashFunction(int digestSize, int capacity, string customization)
+        private HashFunction GetTupleHashFunction(int digestSize, int capacity)
         {
             return new HashFunction()
             {
                 DigestLength = digestSize,
                 Capacity = capacity,
-                XOF = false,
-                Customization = customization
+                XOF = false
             };
         }
 
-        private HashFunction GetTupleHashXOFFunction(int digestSize, int capacity, string customization)
+        private HashFunction GetTupleHashXOFFunction(int digestSize, int capacity)
         {
             return new HashFunction()
             {
                 DigestLength = digestSize,
                 Capacity = capacity,
-                XOF = true,
-                Customization = customization
+                XOF = true
             };
         }
 

@@ -6,7 +6,7 @@ namespace NIST.CVP.Crypto.Common.Hash.TupleHash
 {
     public interface ITupleHash
     {
-        HashResult HashMessage(HashFunction hashFunction, IEnumerable<BitString> tuple);
+        HashResult HashMessage(HashFunction hashFunction, IEnumerable<BitString> tuple, string customization);
         HashResult HashMessage(HashFunction hashFunction, IEnumerable<BitString> tuple, BitString customizationHex);
     }
 }

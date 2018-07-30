@@ -8,6 +8,7 @@ using NIST.CVP.Crypto.TupleHash;
 
 using System;
 using NIST.CVP.Math;
+using System.Collections.Generic;
 
 namespace NIST.CVP.Crypto.Oracle
 {
@@ -208,6 +209,101 @@ namespace NIST.CVP.Crypto.Oracle
                 Results = result.Response.ConvertAll(element =>
                     new HashResultParallelHash { Message = element.Message, Digest = element.Digest, Customization = element.Customization })
             };
+        }
+
+        public HashResultTupleHash GetTupleHashCase(TupleHashParameters param)
+        {
+            var tuple = new List<BitString>();
+
+            if (param.SemiEmptyCase)
+            {
+                for (int i = 0; i < param.TupleSize; i++)
+                {
+                    if (_rand.GetRandomInt(0, 2) == 1)  // either 1 or 0
+                    {
+                        tuple.Add(_rand.GetRandomBitString(GetRandomValidLength(param.BitOrientedInput)));
+                    }
+                    else
+                    {
+                        tuple.Add(new BitString(""));
+                    }
+                }
+            }
+            else if (param.LongRandomCase)
+            {
+                for (int i = 0; i < param.TupleSize; i++)
+                {
+                    tuple.Add(_rand.GetRandomBitString(GetRandomValidLength(param.BitOrientedInput)));
+                }
+            }
+            else
+            {
+                for (int i = 0; i < param.TupleSize; i++)
+                {
+                    tuple.Add(_rand.GetRandomBitString(param.MessageLength));
+                }
+            }
+            
+            Common.Hash.HashResult result;
+            BitString customizationHex = null;
+            string customization = "";
+            if (param.HexCustomization)
+            {
+                customizationHex = _rand.GetRandomBitString(param.CustomizationLength);
+                result = _tupleHash.HashMessage(param.HashFunction, tuple, customizationHex);
+            }
+            else
+            {
+                customization = _rand.GetRandomString(param.CustomizationLength);
+                result = _tupleHash.HashMessage(param.HashFunction, tuple, customization);
+            }
+
+            if (!result.Success)
+            {
+                throw new Exception();
+            }
+
+            return new HashResultTupleHash
+            {
+                Tuple = tuple,
+                Digest = result.Digest,
+                Customization = customization,
+                CustomizationHex = customizationHex
+            };
+        }
+
+        public MctResult<HashResultTupleHash> GetTupleHashMctCase(TupleHashParameters param)
+        {
+            _tupleHashMct = new TupleHash_MCT(_tupleHash);
+
+            var tuple = new List<BitString>() { _rand.GetRandomBitString(param.MessageLength) };
+
+            // TODO isSample up in here?
+            var result = _tupleHashMct.MCTHash(param.HashFunction, tuple, param.OutLens, true); // currently always a sample
+
+            if (!result.Success)
+            {
+                throw new Exception();
+            }
+
+            return new MctResult<HashResultTupleHash>
+            {
+                Results = result.Response.ConvertAll(element =>
+                    new HashResultTupleHash { Tuple = element.Tuple, Digest = element.Digest, Customization = element.Customization })
+            };
+        }
+
+        private int GetRandomValidLength(bool bitOriented)
+        {
+            var length = _rand.GetRandomInt(1, 513);
+            if (!bitOriented)
+            {
+                while (length % 8 != 0)
+                {
+                    length++;
+                }
+            }
+            return length;
         }
     }
 }
