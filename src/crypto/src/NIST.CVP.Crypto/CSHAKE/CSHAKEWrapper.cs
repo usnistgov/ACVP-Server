@@ -12,7 +12,7 @@ namespace NIST.CVP.Crypto.CSHAKE
         {
             Init();
             Update(message);
-            return Final(digestLength, capacity, functionName, customization);
+            return Final(digestLength, capacity, customization, functionName);
         }
 
         public virtual BitString HashMessage(BitString message, int digestLength, int capacity)

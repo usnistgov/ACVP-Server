@@ -70,7 +70,7 @@ namespace NIST.CVP.Crypto.CSHAKE.Tests
             var hashFunction = GetCSHAKEHashFunction(outputLength, 256);
 
             var subject = new CSHAKE();
-            var result = subject.HashMessage(hashFunction, message, customization);
+            var result = subject.HashMessage(hashFunction, message, customization, functionName);
 
             Assume.That(result.Success);
             Assert.AreEqual(expectedResult, result.Digest);
@@ -138,7 +138,7 @@ namespace NIST.CVP.Crypto.CSHAKE.Tests
             var hashFunction = GetCSHAKEHashFunction(outputLength, 512);
 
             var subject = new CSHAKE();
-            var result = subject.HashMessage(hashFunction, message, customization);
+            var result = subject.HashMessage(hashFunction, message, customization, functionName);
 
             Assume.That(result.Success);
             Assert.AreEqual(expectedResult, result.Digest);
