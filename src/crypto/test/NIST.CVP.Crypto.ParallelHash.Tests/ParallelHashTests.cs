@@ -199,14 +199,9 @@ namespace NIST.CVP.Crypto.ParallelHash.Tests
             Assert.AreEqual(expectedResult, result.Digest);
         }
 
-        private HashFunction GetParallelHashHashFunction(int digestSize, int capacity, bool xof)
+        private HashFunction GetParallelHashHashFunction(int digestLength, int capacity, bool xof)
         {
-            return new HashFunction()
-            {
-                DigestLength = digestSize,
-                Capacity = capacity,
-                XOF = xof
-            };
+            return new HashFunction(digestLength, capacity, xof);
         }
     }
 }

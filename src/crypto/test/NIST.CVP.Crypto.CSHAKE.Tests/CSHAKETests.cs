@@ -232,13 +232,9 @@ namespace NIST.CVP.Crypto.CSHAKE.Tests
             Assert.AreEqual(expectedResult, result.Digest);
         }
 
-        private HashFunction GetCSHAKEHashFunction(int digestSize, int capacity)
+        private HashFunction GetCSHAKEHashFunction(int digestLength, int capacity)
         {
-            return new HashFunction()
-            {
-                DigestLength = digestSize,
-                Capacity = capacity
-            };
+            return new HashFunction(digestLength, capacity);
         }
     }
 

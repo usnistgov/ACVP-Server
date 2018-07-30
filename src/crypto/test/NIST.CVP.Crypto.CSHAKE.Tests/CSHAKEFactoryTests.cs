@@ -12,13 +12,9 @@ namespace NIST.CVP.Crypto.CSHAKE.Tests
         [TestCase(32, 256)]
         [TestCase(1000, 512)]
         [TestCase(65536, 256)]
-        public void ShouldProduceValidAlgorithmWithValidHashFunction(int digestSize, int capacity)
+        public void ShouldProduceValidAlgorithmWithValidHashFunction(int digestLength, int capacity)
         {
-            var hashFunction = new HashFunction()
-            {
-                Capacity = capacity,
-                DigestLength = digestSize
-            };
+            var hashFunction = new HashFunction(digestLength, capacity);
 
             var subject = new CSHAKEFactory();
             var result = subject.GetCSHAKE(hashFunction);
@@ -31,13 +27,9 @@ namespace NIST.CVP.Crypto.CSHAKE.Tests
         [TestCase(15, 256)]
         [TestCase(65537, 512)]
         [TestCase(224, 448)]
-        public void ShouldThrowExceptionWhenInvalidHashFunction(int digestSize, int capacity)
+        public void ShouldThrowExceptionWhenInvalidHashFunction(int digestLength, int capacity)
         {
-            var hashFunction = new HashFunction()
-            {
-                Capacity = capacity,
-                DigestLength = digestSize
-            };
+            var hashFunction = new HashFunction(digestLength, capacity);
 
             var subject = new CSHAKEFactory();
             Assert.Throws<ArgumentException>(() => subject.GetCSHAKE(hashFunction));

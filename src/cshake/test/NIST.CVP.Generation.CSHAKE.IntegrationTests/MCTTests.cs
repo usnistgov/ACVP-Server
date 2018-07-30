@@ -22,11 +22,7 @@ namespace NIST.CVP.Generation.CSHAKE.IntegrationTests
             var subject = new CSHAKE_MCT(new Crypto.CSHAKE.CSHAKE());
             var messageBitString = new BitString(message);
             var digestBitString = new BitString(digest);
-            var hashFunction = new HashFunction
-            {
-                Capacity = digestSize * 2,
-                DigestLength = digestSize
-            };
+            var hashFunction = new HashFunction(digestSize, digestSize * 2);
 
             var domain = new MathDomain();
             domain.AddSegment(new RangeDomainSegment(null, 16, 65536));

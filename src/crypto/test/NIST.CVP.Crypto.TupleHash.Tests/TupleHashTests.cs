@@ -123,24 +123,14 @@ namespace NIST.CVP.Crypto.TupleHash.Tests
             Assert.AreEqual(expectedResult, result.Digest);
         }
 
-        private HashFunction GetTupleHashFunction(int digestSize, int capacity)
+        private HashFunction GetTupleHashFunction(int digestLength, int capacity)
         {
-            return new HashFunction()
-            {
-                DigestLength = digestSize,
-                Capacity = capacity,
-                XOF = false
-            };
+            return new HashFunction(digestLength, capacity, false);
         }
 
-        private HashFunction GetTupleHashXOFFunction(int digestSize, int capacity)
+        private HashFunction GetTupleHashXOFFunction(int digestLength, int capacity)
         {
-            return new HashFunction()
-            {
-                DigestLength = digestSize,
-                Capacity = capacity,
-                XOF = true
-            };
+            return new HashFunction(digestLength, capacity, true);
         }
 
         private List<BitString> GetTestTuple(int id)
