@@ -25,9 +25,7 @@ namespace NIST.CVP.Generation.ParallelHash.IntegrationTests
             var hashFunction = new HashFunction
             {
                 Capacity = digestSize * 2,
-                DigestLength = digestSize,
-                BlockSize = 8,
-                Customization = ""
+                DigestLength = digestSize
             };
 
             var domain = new MathDomain();

@@ -155,5 +155,59 @@ namespace NIST.CVP.Crypto.Oracle
                     new HashResultCSHAKE { Message = element.Message, Digest = element.Digest, Customization = element.Customization })
             };
         }
+
+        public HashResultParallelHash GetParallelHashCase(ParallelHashParameters param)
+        {
+            var message = _rand.GetRandomBitString(param.MessageLength);
+
+            Common.Hash.HashResult result;
+            BitString customizationHex = null;
+            string customization = "";
+            if (param.HexCustomization)
+            {
+                customizationHex = _rand.GetRandomBitString(param.CustomizationLength);
+                result = _parallelHash.HashMessage(param.HashFunction, message, param.BlockSize, customizationHex);
+            }
+            else
+            {
+                customization = _rand.GetRandomString(param.CustomizationLength);
+                result = _parallelHash.HashMessage(param.HashFunction, message, param.BlockSize, customization);
+            }
+
+            if (!result.Success)
+            {
+                throw new Exception();
+            }
+
+            return new HashResultParallelHash
+            {
+                Message = message,
+                Digest = result.Digest,
+                Customization = customization,
+                CustomizationHex = customizationHex,
+                BlockSize = param.BlockSize
+            };
+        }
+
+        public MctResult<HashResultParallelHash> GetParallelHashMctCase(ParallelHashParameters param)
+        {
+            _parallelHashMct = new ParallelHash_MCT(_parallelHash);
+
+            var message = _rand.GetRandomBitString(param.MessageLength);
+
+            // TODO isSample up in here?
+            var result = _parallelHashMct.MCTHash(param.HashFunction, message, param.OutLens, true); // currently always a sample
+
+            if (!result.Success)
+            {
+                throw new Exception();
+            }
+
+            return new MctResult<HashResultParallelHash>
+            {
+                Results = result.Response.ConvertAll(element =>
+                    new HashResultParallelHash { Message = element.Message, Digest = element.Digest, Customization = element.Customization })
+            };
+        }
     }
 }
