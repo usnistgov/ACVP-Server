@@ -2,10 +2,14 @@
 using NIST.CVP.Common.Oracle.DispositionTypes;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC.Helpers;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
+using NIST.CVP.Crypto.DSA.FFC;
 using NIST.CVP.Crypto.DSA.FFC.GGeneratorValidators;
 using NIST.CVP.Crypto.DSA.FFC.PQGeneratorValidators;
 using NIST.CVP.Crypto.Math;
+using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Math;
 using System;
 using System.Numerics;
@@ -16,6 +20,7 @@ namespace NIST.CVP.Crypto.Oracle
     {
         private readonly PQGeneratorValidatorFactory _pqGenFactory = new PQGeneratorValidatorFactory();
         private readonly GGeneratorValidatorFactory _gGenFactory = new GGeneratorValidatorFactory();
+        private readonly DsaFfcFactory _dsaFactory = new DsaFfcFactory(new ShaFactory());
 
         public DsaDomainParametersResult GetDsaPQ(DsaDomainParametersParameters param)
         {
@@ -158,29 +163,35 @@ namespace NIST.CVP.Crypto.Oracle
             };
         }
 
-        public DsaDomainParametersResult CompleteDeferredDsaDomainParameters(DsaDomainParametersParameters param, DsaKeyResult fullParam)
-        {
-            throw new NotImplementedException();
-        }
-
-        public VerifyResult<DsaDomainParametersResult> GetDsaDomainParametersVerify(DsaDomainParametersParameters param)
-        {
-            throw new NotImplementedException();
-        }
-
         public DsaKeyResult GetDsaKey(DsaKeyParameters param)
         {
-            throw new NotImplementedException();
+            var hashFunction = new HashFunction(ModeValues.SHA2, DigestSizes.d256);
+            var dsa = _dsaFactory.GetInstance(hashFunction);
+
+            var result = dsa.GenerateKeyPair(param.DomainParameters);
+            if (!result.Success)
+            {
+                throw new Exception();
+            }
+
+            return new DsaKeyResult
+            {
+                Key = result.KeyPair
+            };
         }
 
-        public DsaKeyResult CompleteDeferredDsaKey(DsaKeyParameters param, DsaKeyResult fullParam)
+        public VerifyResult<DsaKeyResult> CompleteDeferredDsaKey(DsaKeyParameters param, DsaKeyResult fullParam)
         {
-            throw new NotImplementedException();
-        }
+            var hashFunction = new HashFunction(ModeValues.SHA2, DigestSizes.d256);
+            var dsa = _dsaFactory.GetInstance(hashFunction);
 
-        public VerifyResult<DsaKeyResult> GetDsaKeyVerify(DsaKeyParameters param)
-        {
-            throw new NotImplementedException();
+            var result = dsa.ValidateKeyPair(param.DomainParameters, fullParam.Key);
+
+            return new VerifyResult<DsaKeyResult>
+            {
+                Result = result.Success,
+                VerifiedValue = fullParam
+            };
         }
 
         public DsaSignatureResult GetDeferredDsaSignature(DsaSignatureParameters param)
@@ -195,12 +206,55 @@ namespace NIST.CVP.Crypto.Oracle
 
         public DsaSignatureResult GetDsaSignature(DsaSignatureParameters param)
         {
-            throw new NotImplementedException();
-        }
+            var message = _rand.GetRandomBitString(param.MessageLength);
 
-        public VerifyResult<DsaSignatureResult> GetDsaVerifyResult(DsaSignatureParameters param)
-        {
-            throw new NotImplementedException();
+            var ffcDsa = _dsaFactory.GetInstance(param.HashAlg);
+            var sigResult = ffcDsa.Sign(param.DomainParameters, param.Key, message);
+            if (!sigResult.Success)
+            {
+                throw new Exception();
+            }
+
+            var result = new DsaSignatureResult
+            {
+                Message = message,
+                Signature = sigResult.Signature,
+                Key = param.Key
+            };
+
+            if (param.Disposition == DsaSignatureDisposition.None)
+            {
+                return result;
+            }
+
+            // Modify message
+            if (param.Disposition == DsaSignatureDisposition.ModifyMessage)
+            {
+                result.Message = _rand.GetDifferentBitStringOfSameSize(message);
+            }
+            // Modify public key
+            else if (param.Disposition == DsaSignatureDisposition.ModifyKey)
+            {
+                var x = result.Key.PrivateKeyX;
+                var y = result.Key.PublicKeyY + 2;
+                result.Key = new FfcKeyPair(x, y);
+            }
+            // Modify r
+            else if (param.Disposition == DsaSignatureDisposition.ModifyR)
+            {
+                var s = result.Signature.S;
+                var r = result.Signature.R + 2;
+                result.Signature = new FfcSignature(s, r);
+            }
+            // Modify s
+            else if (param.Disposition == DsaSignatureDisposition.ModifyS)
+            {
+                var s = result.Signature.S + 2;
+                var r = result.Signature.R;
+                result.Signature = new FfcSignature(s, r);
+            }
+
+            return result;
         }
     }
 }

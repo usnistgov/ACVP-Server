@@ -1,5 +1,5 @@
-﻿using NIST.CVP.Generation.DSA.FFC.SigVer.Enums;
-using NIST.CVP.Generation.DSA.FFC.SigVer.FailureHandlers;
+﻿using NIST.CVP.Common.Oracle.DispositionTypes;
+using NIST.CVP.Generation.DSA.FFC.SigVer.TestCaseExpectations;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
@@ -36,7 +36,7 @@ namespace NIST.CVP.Generation.DSA.FFC.SigVer.Tests
             {
                 TestCaseId = 1,
                 TestPassed = shouldPass,   // Says the test Core.Enums.Disposition.Passed
-                Reason = new TestCaseExpectationReason(SigFailureReasons.ModifyMessage)     // Only matters in the failure event
+                Reason = new TestCaseExpectationReason(DsaSignatureDisposition.ModifyMessage)     // Only matters in the failure event
             };
         }
     }
