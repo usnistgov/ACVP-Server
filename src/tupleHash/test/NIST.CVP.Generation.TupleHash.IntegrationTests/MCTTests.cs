@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using NIST.CVP.Crypto.Common.Hash.TupleHash;
 using NIST.CVP.Crypto.TupleHash;
 using NIST.CVP.Math;
@@ -26,7 +24,7 @@ namespace NIST.CVP.Generation.TupleHash.IntegrationTests
             {
                 Capacity = digestSize * 2,
                 DigestLength = digestSize,
-                Customization = ""
+                XOF = false
             };
 
             var domain = new MathDomain();

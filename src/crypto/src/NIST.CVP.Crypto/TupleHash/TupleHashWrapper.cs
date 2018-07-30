@@ -32,7 +32,7 @@ namespace NIST.CVP.Crypto.TupleHash
         private BitString Final(int digestLength, int capacity, bool xof, string customization)
         {
             var newMessage = TupleHashHelpers.FormatMessage(_tuple, digestLength, xof);
-            return _cSHAKE.HashMessage(newMessage, digestLength, capacity, "TupleHash", customization);
+            return _cSHAKE.HashMessage(newMessage, digestLength, capacity, customization, "TupleHash");
         }
 
         #region BitString Customization
@@ -46,7 +46,7 @@ namespace NIST.CVP.Crypto.TupleHash
         private BitString Final(int digestLength, int capacity, bool xof, BitString customizationHex)
         {
             var newMessage = TupleHashHelpers.FormatMessage(_tuple, digestLength, xof);
-            return _cSHAKE.HashMessage(newMessage, digestLength, capacity, "TupleHash", customizationHex);
+            return _cSHAKE.HashMessage(newMessage, digestLength, capacity, customizationHex, "TupleHash");
         }
         #endregion BitString Customization
     }

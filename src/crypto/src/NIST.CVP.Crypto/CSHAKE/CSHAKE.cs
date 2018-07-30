@@ -20,12 +20,12 @@ namespace NIST.CVP.Crypto.CSHAKE
             _iCSHAKEFactory = new CSHAKEFactory();
         }
 
-        public HashResult HashMessage(HashFunction hashFunction, BitString message)
+        public HashResult HashMessage(HashFunction hashFunction, BitString message, string customization, string functionName = "")
         {
             try
             {
                 var sha = _iCSHAKEFactory.GetCSHAKE(hashFunction);
-                var digest = sha.HashMessage(message, hashFunction.DigestLength, hashFunction.Capacity, hashFunction.FunctionName, hashFunction.Customization);
+                var digest = sha.HashMessage(message, hashFunction.DigestLength, hashFunction.Capacity, customization, functionName);
 
                 return new HashResult(digest);
             }
@@ -37,12 +37,12 @@ namespace NIST.CVP.Crypto.CSHAKE
         }
 
         #region BitString Customization
-        public HashResult HashMessage(HashFunction hashFunction, BitString message, BitString customization)
+        public HashResult HashMessage(HashFunction hashFunction, BitString message, BitString customization, string functionName = "")
         {
             try
             {
                 var sha = _iCSHAKEFactory.GetCSHAKE(hashFunction);
-                var digest = sha.HashMessage(message, hashFunction.DigestLength, hashFunction.Capacity, hashFunction.FunctionName, customization);
+                var digest = sha.HashMessage(message, hashFunction.DigestLength, hashFunction.Capacity, customization, functionName);
 
                 return new HashResult(digest);
             }

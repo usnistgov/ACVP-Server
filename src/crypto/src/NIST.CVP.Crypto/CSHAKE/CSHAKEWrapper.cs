@@ -8,11 +8,11 @@ namespace NIST.CVP.Crypto.CSHAKE
     {
         private BitString _message;
 
-        public virtual BitString HashMessage(BitString message, int digestLength, int capacity, string functionName, string customization)
+        public virtual BitString HashMessage(BitString message, int digestLength, int capacity, string customization, string functionName)
         {
             Init();
             Update(message);
-            return Final(digestLength, capacity, functionName, customization);
+            return Final(digestLength, capacity, customization, functionName);
         }
 
         public virtual BitString HashMessage(BitString message, int digestLength, int capacity)
@@ -31,7 +31,7 @@ namespace NIST.CVP.Crypto.CSHAKE
             _message = BitString.ConcatenateBits(_message, newContent);
         }
 
-        private BitString Final(int digestLength, int capacity, string functionName, string customization)
+        private BitString Final(int digestLength, int capacity, string customization, string functionName)
         {
             if (functionName.Equals("") && customization.Equals(""))
             {
@@ -44,7 +44,7 @@ namespace NIST.CVP.Crypto.CSHAKE
         }
 
         #region BitString Customization
-        public virtual BitString HashMessage(BitString message, int digestLength, int capacity, string functionName, BitString customizationHex)
+        public virtual BitString HashMessage(BitString message, int digestLength, int capacity, BitString customizationHex, string functionName)
         {
             Init();
             Update(message);
