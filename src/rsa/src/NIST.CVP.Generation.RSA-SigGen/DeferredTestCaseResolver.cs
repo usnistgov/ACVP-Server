@@ -1,43 +1,43 @@
-﻿using NIST.CVP.Crypto.Common.Asymmetric.RSA;
+﻿using NIST.CVP.Common.Oracle;
+using NIST.CVP.Common.Oracle.ParameterTypes;
+using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Signatures;
-using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Math.Entropy;
 
 namespace NIST.CVP.Generation.RSA_SigGen
 {
     public class DeferredTestCaseResolver : IDeferredTestCaseResolver<TestGroup, TestCase, VerifyResult>
     {
-        private readonly IPaddingFactory _paddingFactory;
-        private readonly ISignatureBuilder _signatureBuilder;
-        private readonly IShaFactory _shaFactory;
-        private readonly IRsa _rsa;
+        private readonly IOracle _oracle;
 
-        public DeferredTestCaseResolver(IPaddingFactory paddingFactory, ISignatureBuilder sigBuilder, IShaFactory shaFactory, IRsa rsa)
+        public DeferredTestCaseResolver(IOracle oracle)
         {
-            _paddingFactory = paddingFactory;
-            _signatureBuilder = sigBuilder;
-            _shaFactory = shaFactory;
-            _rsa = rsa;
+            _oracle = oracle;
         }
 
         public VerifyResult CompleteDeferredCrypto(TestGroup serverTestGroup, TestCase serverTestCase, TestCase iutTestCase)
         {
             var iutTestGroup = iutTestCase.ParentGroup;
-            var sha = _shaFactory.GetShaInstance(serverTestGroup.HashAlg);
 
-            var entropyProvider = new TestableEntropyProvider();
-            entropyProvider.AddEntropy(serverTestCase.Salt);
+            var param = new RsaSignatureParameters
+            {
+                HashAlg = serverTestGroup.HashAlg,
+                Key = iutTestGroup.Key,
+                Modulo = serverTestGroup.Modulo,
+                PaddingScheme = serverTestGroup.Mode,
+                SaltLength = serverTestGroup.SaltLen
+            };
 
-            var paddingScheme = _paddingFactory.GetPaddingScheme(serverTestGroup.Mode, sha, entropyProvider, serverTestGroup.SaltLen);
+            var fullParam = new RsaSignatureResult
+            {
+                Message = serverTestCase.Message,
+                Salt = serverTestCase.Salt,
+                Signature = iutTestCase.Signature
+            };
 
-            return _signatureBuilder
-                .WithDecryptionScheme(_rsa)
-                .WithKey(iutTestGroup.Key)
-                .WithMessage(serverTestCase.Message)
-                .WithPaddingScheme(paddingScheme)
-                .WithSignature(iutTestCase.Signature)
-                .BuildVerify();
+            var result = _oracle.CompleteDeferredRsaSignature(param, fullParam);
+
+            return result.Result ? new VerifyResult() : new VerifyResult("Failed to verify.");
         }
     }
 }

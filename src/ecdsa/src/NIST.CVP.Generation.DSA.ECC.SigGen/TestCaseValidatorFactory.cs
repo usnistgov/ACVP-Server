@@ -1,20 +1,17 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
-using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
+﻿using NIST.CVP.Common.Oracle;
 using NIST.CVP.Generation.Core;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace NIST.CVP.Generation.DSA.ECC.SigGen
 {
     public class TestCaseValidatorFactory : ITestCaseValidatorFactory<TestVectorSet, TestGroup, TestCase>
     {
-        private readonly IDsaEccFactory _eccDsaFactory;
-        private readonly IEccCurveFactory _curveFactory;
+        private readonly IOracle _oracle;
 
-        public TestCaseValidatorFactory(IDsaEccFactory eccDsaFactory, IEccCurveFactory curveFactory)
+        public TestCaseValidatorFactory(IOracle oracle)
         {
-            _eccDsaFactory = eccDsaFactory;
-            _curveFactory = curveFactory;
+            _oracle = oracle;
         }
 
         public IEnumerable<ITestCaseValidator<TestGroup, TestCase>> GetValidators(TestVectorSet testVectorSet)
@@ -25,7 +22,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen
             {
                 foreach (var test in group.Tests.Select(t => t))
                 {
-                    var deferredResolver = new DeferredTestCaseResolver(_eccDsaFactory, _curveFactory);
+                    var deferredResolver = new DeferredTestCaseResolver(_oracle);
                     list.Add(new TestCaseValidator(test, group, deferredResolver));
                 }
             }

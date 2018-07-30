@@ -29,11 +29,9 @@ namespace NIST.CVP.Crypto.ParallelHash
                 BitString substring = SubString(message, i * blockSize * 8, (i + 1) * blockSize * 8);
                 strings[i] = cSHAKE.HashMessage(new HashFunction
                 {
-                    FunctionName = "",
-                    Customization = "",
                     DigestLength = capacity,
                     Capacity = capacity
-                }, substring).Digest;
+                }, substring, "").Digest;
             });
 
             for (int i = 0; i < numberOfBlocks; i++)

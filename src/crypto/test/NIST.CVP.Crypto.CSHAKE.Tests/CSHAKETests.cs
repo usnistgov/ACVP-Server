@@ -15,10 +15,10 @@ namespace NIST.CVP.Crypto.CSHAKE.Tests
         {
             var message = new BitString(inputHex, length, false);
             var expectedResult = new BitString(outputHex);
-            var hashFunction = GetCSHAKEHashFunction(256, 256, functionName, customization);
+            var hashFunction = GetCSHAKEHashFunction(256, 256);
 
             var subject = new CSHAKE();
-            var result = subject.HashMessage(hashFunction, message);
+            var result = subject.HashMessage(hashFunction, message, customization);
 
             Assume.That(result.Success);
             Assert.AreEqual(expectedResult, result.Digest);
@@ -32,7 +32,7 @@ namespace NIST.CVP.Crypto.CSHAKE.Tests
             var message = new BitString(inputHex, length, false);
             var customization = new BitString(customizationHex);
             var expectedResult = new BitString(outputHex);
-            var hashFunction = GetCSHAKEHashFunction(outputLength, 256, functionName, "not used");
+            var hashFunction = GetCSHAKEHashFunction(outputLength, 256);
 
             var subject = new CSHAKE();
             var result = subject.HashMessage(hashFunction, message, customization);
@@ -51,10 +51,10 @@ namespace NIST.CVP.Crypto.CSHAKE.Tests
         {
             var message = new BitString(inputHex);
             var expectedResult = new BitString(outputHex, outputLength, false);
-            var hashFunction = GetCSHAKEHashFunction(outputLength, 256, functionName, customization);
+            var hashFunction = GetCSHAKEHashFunction(outputLength, 256);
 
             var subject = new CSHAKE();
-            var result = subject.HashMessage(hashFunction, message);
+            var result = subject.HashMessage(hashFunction, message, customization);
 
             Assume.That(result.Success);
             Assert.AreEqual(expectedResult, result.Digest);
@@ -67,10 +67,10 @@ namespace NIST.CVP.Crypto.CSHAKE.Tests
         {
             var message = new BitString(inputHex);
             var expectedResult = new BitString(outputHex, outputLength, false);
-            var hashFunction = GetCSHAKEHashFunction(outputLength, 256, functionName, customization);
+            var hashFunction = GetCSHAKEHashFunction(outputLength, 256);
 
             var subject = new CSHAKE();
-            var result = subject.HashMessage(hashFunction, message);
+            var result = subject.HashMessage(hashFunction, message, customization);
 
             Assume.That(result.Success);
             Assert.AreEqual(expectedResult, result.Digest);
@@ -84,10 +84,10 @@ namespace NIST.CVP.Crypto.CSHAKE.Tests
         {
             var message = new BitString(inputHex, length, false);
             var expectedResult = new BitString(outputHex);
-            var hashFunction = GetCSHAKEHashFunction(256, 256, functionName, customization);
+            var hashFunction = GetCSHAKEHashFunction(256, 256);
 
             var subject = new CSHAKE();
-            var result = subject.HashMessage(hashFunction, message);
+            var result = subject.HashMessage(hashFunction, message, customization);
 
             Assume.That(result.Success);
             Assert.AreEqual(expectedResult, result.Digest);
@@ -100,10 +100,10 @@ namespace NIST.CVP.Crypto.CSHAKE.Tests
         {
             var message = new BitString(inputHex, length, false);
             var expectedResult = new BitString(outputHex);
-            var hashFunction = GetCSHAKEHashFunction(512, 512, functionName, customization);
+            var hashFunction = GetCSHAKEHashFunction(512, 512);
 
             var subject = new CSHAKE();
-            var result = subject.HashMessage(hashFunction, message);
+            var result = subject.HashMessage(hashFunction, message, customization);
 
             Assume.That(result.Success);
             Assert.AreEqual(expectedResult, result.Digest);
@@ -119,10 +119,10 @@ namespace NIST.CVP.Crypto.CSHAKE.Tests
         {
             var message = new BitString(inputHex);
             var expectedResult = new BitString(outputHex, outputLength, false);
-            var hashFunction = GetCSHAKEHashFunction(outputLength, 512, functionName, customization);
+            var hashFunction = GetCSHAKEHashFunction(outputLength, 512);
 
             var subject = new CSHAKE();
-            var result = subject.HashMessage(hashFunction, message);
+            var result = subject.HashMessage(hashFunction, message, customization);
 
             Assume.That(result.Success);
             Assert.AreEqual(expectedResult, result.Digest);
@@ -135,10 +135,10 @@ namespace NIST.CVP.Crypto.CSHAKE.Tests
         {
             var message = new BitString(inputHex);
             var expectedResult = new BitString(outputHex, outputLength, false);
-            var hashFunction = GetCSHAKEHashFunction(outputLength, 512, functionName, customization);
+            var hashFunction = GetCSHAKEHashFunction(outputLength, 512);
 
             var subject = new CSHAKE();
-            var result = subject.HashMessage(hashFunction, message);
+            var result = subject.HashMessage(hashFunction, message, customization);
 
             Assume.That(result.Success);
             Assert.AreEqual(expectedResult, result.Digest);
@@ -151,10 +151,10 @@ namespace NIST.CVP.Crypto.CSHAKE.Tests
         {
             var message = new BitString(inputHex, length, false);
             var expectedResult = new BitString(outputHex);
-            var hashFunction = GetCSHAKEHashFunction(256, 512, functionName, customization);
+            var hashFunction = GetCSHAKEHashFunction(256, 512);
 
             var subject = new CSHAKE();
-            var result = subject.HashMessage(hashFunction, message);
+            var result = subject.HashMessage(hashFunction, message, customization);
 
             Assume.That(result.Success);
             Assert.AreEqual(expectedResult, result.Digest);
@@ -169,10 +169,10 @@ namespace NIST.CVP.Crypto.CSHAKE.Tests
         {
             var message = new BitString(inputHex, length, false);
             var expectedResult = new BitString(outputHex);
-            var hashFunction = GetCSHAKEHashFunction(128, 256, "", "");
+            var hashFunction = GetCSHAKEHashFunction(128, 256);
 
             var subject = new CSHAKE();
-            var result = subject.HashMessage(hashFunction, message);
+            var result = subject.HashMessage(hashFunction, message, "");
 
             Assume.That(result.Success);
             Assert.AreEqual(expectedResult, result.Digest);
@@ -187,10 +187,10 @@ namespace NIST.CVP.Crypto.CSHAKE.Tests
         {
             var message = new BitString(inputHex);
             var expectedResult = new BitString(outputHex, outputLength, false);
-            var hashFunction = GetCSHAKEHashFunction(outputLength, 256, "", "");
+            var hashFunction = GetCSHAKEHashFunction(outputLength, 256);
 
             var subject = new CSHAKE();
-            var result = subject.HashMessage(hashFunction, message);
+            var result = subject.HashMessage(hashFunction, message, "");
 
             Assume.That(result.Success);
             Assert.AreEqual(expectedResult, result.Digest);
@@ -205,10 +205,10 @@ namespace NIST.CVP.Crypto.CSHAKE.Tests
         {
             var message = new BitString(inputHex, length, false);
             var expectedResult = new BitString(outputHex);
-            var hashFunction = GetCSHAKEHashFunction(256, 512, "", "");
+            var hashFunction = GetCSHAKEHashFunction(256, 512);
 
             var subject = new CSHAKE();
-            var result = subject.HashMessage(hashFunction, message);
+            var result = subject.HashMessage(hashFunction, message, "");
 
             Assume.That(result.Success);
             Assert.AreEqual(expectedResult, result.Digest);
@@ -223,23 +223,21 @@ namespace NIST.CVP.Crypto.CSHAKE.Tests
         {
             var message = new BitString(inputHex);
             var expectedResult = new BitString(outputHex, outputLength, false);
-            var hashFunction = GetCSHAKEHashFunction(outputLength, 512, "", "");
+            var hashFunction = GetCSHAKEHashFunction(outputLength, 512);
 
             var subject = new CSHAKE();
-            var result = subject.HashMessage(hashFunction, message);
+            var result = subject.HashMessage(hashFunction, message, "");
 
             Assume.That(result.Success);
             Assert.AreEqual(expectedResult, result.Digest);
         }
 
-        private HashFunction GetCSHAKEHashFunction(int digestSize, int capacity, string functionName, string customization)
+        private HashFunction GetCSHAKEHashFunction(int digestSize, int capacity)
         {
             return new HashFunction()
             {
                 DigestLength = digestSize,
-                Capacity = capacity,
-                FunctionName = functionName,
-                Customization = customization
+                Capacity = capacity
             };
         }
     }

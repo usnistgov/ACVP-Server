@@ -1,9 +1,9 @@
-﻿using System.Numerics;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using NIST.CVP.Common.Oracle.DispositionTypes;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.DSA.ECC.SigVer.Enums;
 using NIST.CVP.Math;
+using System.Numerics;
 
 namespace NIST.CVP.Generation.DSA.ECC.SigVer
 {
@@ -15,7 +15,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer
         public TestGroup ParentGroup { get; set; }
 
         [JsonProperty(PropertyName = "reason")]
-        public SigFailureReasons Reason { get; set; }
+        public EcdsaSignatureDisposition Reason { get; set; }
         [JsonProperty(PropertyName = "message")]
         public BitString Message { get; set; }
 

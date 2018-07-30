@@ -73,7 +73,6 @@ namespace NIST.CVP.Crypto.CSHAKE
             var maxBytes = max / 8;
 
             var outputLen = (int)System.Math.Floor((double)max / 8) * 8;
-            var functionName = "";
             var customization = "";
             var range = (max - min) + 8;
             var innerMessage = message.GetDeepCopy();
@@ -93,10 +92,8 @@ namespace NIST.CVP.Crypto.CSHAKE
                         innerMessage = BitString.ConcatenateBits(innerMessage, BitString.Zeroes(128));
                         innerMessage = BitString.MSBSubstring(innerMessage, 0, 128);
                         function.DigestLength = outputLen;
-                        function.FunctionName = functionName;
-                        function.Customization = customization;
 
-                        var innerResult = _iCSHAKE.HashMessage(function, innerMessage);
+                        var innerResult = _iCSHAKE.HashMessage(function, innerMessage, customization);
                         innerDigest = innerResult.Digest.GetDeepCopy();
 
                         // Will always have 16 bits to pull from

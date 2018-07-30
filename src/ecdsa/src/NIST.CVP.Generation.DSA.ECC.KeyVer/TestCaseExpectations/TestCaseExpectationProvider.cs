@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using NIST.CVP.Common.ExtensionMethods;
+﻿using NIST.CVP.Common.ExtensionMethods;
+using NIST.CVP.Common.Oracle.DispositionTypes;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.DSA.ECC.KeyVer.Enums;
+using System;
+using System.Collections.Generic;
 
 namespace NIST.CVP.Generation.DSA.ECC.KeyVer.TestCaseExpectations
 {
-    public class TestCaseExpectationProvider : ITestCaseExpectationProvider<TestCaseExpectationEnum>
+    public class TestCaseExpectationProvider : ITestCaseExpectationProvider<EcdsaKeyDisposition>
     {
-        private List<TestCaseExpectationReason> _expectationReasons;
+        private readonly List<TestCaseExpectationReason> _expectationReasons;
 
         public TestCaseExpectationProvider(bool isSample = false)
         {
@@ -17,14 +16,14 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyVer.TestCaseExpectations
 
             int countForEachCase = (isSample ? 1 : 4);
 
-            _expectationReasons.Add(new TestCaseExpectationReason(TestCaseExpectationEnum.None), countForEachCase);
-            _expectationReasons.Add(new TestCaseExpectationReason(TestCaseExpectationEnum.OutOfRange), countForEachCase);
-            _expectationReasons.Add(new TestCaseExpectationReason(TestCaseExpectationEnum.NotOnCurve), countForEachCase);
+            _expectationReasons.Add(new TestCaseExpectationReason(EcdsaKeyDisposition.None), countForEachCase);
+            _expectationReasons.Add(new TestCaseExpectationReason(EcdsaKeyDisposition.OutOfRange), countForEachCase);
+            _expectationReasons.Add(new TestCaseExpectationReason(EcdsaKeyDisposition.NotOnCurve), countForEachCase);
 
             _expectationReasons = _expectationReasons.Shuffle();
         }
 
-        public ITestCaseExpectationReason<TestCaseExpectationEnum> GetRandomReason()
+        public ITestCaseExpectationReason<EcdsaKeyDisposition> GetRandomReason()
         {
             if (_expectationReasons.Count == 0)
             {

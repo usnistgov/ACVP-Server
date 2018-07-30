@@ -1,23 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using NIST.CVP.Common.Helpers;
+﻿using NIST.CVP.Common.Helpers;
+using NIST.CVP.Common.Oracle;
+using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC.Enums;
-using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
 using NIST.CVP.Generation.Core;
+using System.Collections.Generic;
 
 namespace NIST.CVP.Generation.DSA.ECC.SigGen
 {
     public class TestGroupGenerator : ITestGroupGenerator<Parameters, TestGroup, TestCase>
     {
-        private readonly IDsaEccFactory _eccDsaFactory;
-        private readonly IEccCurveFactory _curveFactory;
+        private readonly IOracle _oracle;
 
-        public TestGroupGenerator(IDsaEccFactory eccDsaFactory, IEccCurveFactory curveFactory)
+        public TestGroupGenerator(IOracle oracle)
         {
-            _eccDsaFactory = eccDsaFactory;
-            _curveFactory = curveFactory;
+            _oracle = oracle;
         }
 
         public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
@@ -36,14 +34,15 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen
                         var sha = ShaAttributes.GetHashFunctionFromName(hashAlg);
                         var curve = EnumHelpers.GetEnumFromEnumDescription<Curve>(curveName);
 
-                        // Generate the key
                         EccKeyPair key = null;
+                        var param = new EcdsaKeyParameters
+                        {
+                            Curve = curve
+                        };
+
                         if (parameters.IsSample)
                         {
-                            var eccDsa = _eccDsaFactory.GetInstance(sha);
-                            var domainParams = new EccDomainParameters(_curveFactory.GetCurve(curve));
-                            var keyResult = eccDsa.GenerateKeyPair(domainParams);
-                            key = keyResult.KeyPair;
+                            key = _oracle.GetEcdsaKey(param).Key;
                         }
 
                         var testGroup = new TestGroup

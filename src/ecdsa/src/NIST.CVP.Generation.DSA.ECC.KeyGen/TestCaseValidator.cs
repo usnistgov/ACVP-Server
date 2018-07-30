@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
-using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
+﻿using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Enums;
 using NIST.CVP.Math;
-using NIST.CVP.Math.Entropy;
-using NIST.CVP.Math.Helpers;
+using System.Collections.Generic;
 
 namespace NIST.CVP.Generation.DSA.ECC.KeyGen
 {

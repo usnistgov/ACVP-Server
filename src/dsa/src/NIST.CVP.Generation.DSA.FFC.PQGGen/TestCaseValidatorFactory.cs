@@ -1,25 +1,18 @@
-﻿using System;
+﻿using NIST.CVP.Common.Oracle;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC.Enums;
+using NIST.CVP.Generation.Core;
 using System.Collections.Generic;
 using System.Linq;
-using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC.Enums;
-using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC.GGeneratorValidators;
-using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC.PQGeneratorValidators;
-using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
-using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.DSA.FFC.PQGGen
 {
     public class TestCaseValidatorFactory : ITestCaseValidatorFactory<TestVectorSet, TestGroup, TestCase>
     {
-        private readonly IShaFactory _shaFactory;
-        private readonly IPQGeneratorValidatorFactory _pqGenFactory;
-        private readonly IGGeneratorValidatorFactory _gGenFactory;
+        private readonly IOracle _oracle;
 
-        public TestCaseValidatorFactory(IShaFactory shaFactory, IPQGeneratorValidatorFactory pqGenFactory, IGGeneratorValidatorFactory gGenFactory)
+        public TestCaseValidatorFactory(IOracle oracle)
         {
-            _shaFactory = shaFactory;
-            _pqGenFactory = pqGenFactory;
-            _gGenFactory = gGenFactory;
+            _oracle = oracle;
         }
 
         public IEnumerable<ITestCaseValidator<TestGroup, TestCase>> GetValidators(TestVectorSet testVectorSet)
@@ -32,12 +25,12 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
                 {
                     if (group.PQGenMode != PrimeGenMode.None)
                     {
-                        var deferredResolver = new DeferredTestCaseResolverPQ(_pqGenFactory, _shaFactory);
+                        var deferredResolver = new DeferredTestCaseResolverPQ(_oracle);
                         list.Add(new TestCaseValidatorPQ(test, group, deferredResolver));
                     }
                     else if (group.GGenMode != GeneratorGenMode.None)
                     {
-                        var deferredResolver = new DeferredTestCaseResolverG(_gGenFactory, _shaFactory);
+                        var deferredResolver = new DeferredTestCaseResolverG(_oracle);
                         list.Add(new TestCaseValidatorG(test, group, deferredResolver));
                     }
                     else
