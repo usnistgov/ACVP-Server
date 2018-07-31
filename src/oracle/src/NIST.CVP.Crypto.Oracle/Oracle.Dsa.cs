@@ -196,12 +196,22 @@ namespace NIST.CVP.Crypto.Oracle
 
         public DsaSignatureResult GetDeferredDsaSignature(DsaSignatureParameters param)
         {
-            throw new NotImplementedException();
+            return new DsaSignatureResult
+            {
+                Message = _rand.GetRandomBitString(param.MessageLength)
+            };
         }
 
         public VerifyResult<DsaSignatureResult> CompleteDeferredDsaSignature(DsaSignatureParameters param, DsaSignatureResult fullParam)
         {
-            throw new NotImplementedException();
+            var ffcDsa = _dsaFactory.GetInstance(param.HashAlg);
+            var verifyResult = ffcDsa.Verify(param.DomainParameters, fullParam.Key, fullParam.Message, fullParam.Signature);
+
+            return new VerifyResult<DsaSignatureResult>
+            {
+                Result = verifyResult.Success,
+                VerifiedValue = fullParam
+            };
         }
 
         public DsaSignatureResult GetDsaSignature(DsaSignatureParameters param)
