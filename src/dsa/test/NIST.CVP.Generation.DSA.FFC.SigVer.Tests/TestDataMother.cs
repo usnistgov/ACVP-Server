@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using NIST.CVP.Common.Oracle.DispositionTypes;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
-using NIST.CVP.Generation.DSA.FFC.SigVer.FailureHandlers;
-using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.DSA.FFC.SigVer.TestCaseExpectations;
 using NIST.CVP.Math;
-using NIST.CVP.Generation.DSA.FFC.SigVer.Enums;
+using System.Collections.Generic;
 
 namespace NIST.CVP.Generation.DSA.FFC.SigVer.Tests
 {
@@ -42,7 +41,7 @@ namespace NIST.CVP.Generation.DSA.FFC.SigVer.Tests
                         Message = new BitString("BEEFFACE"),
                         Signature = new FfcSignature(1, 2),
                         TestPassed = true,
-                        Reason = new TestCaseExpectationReason(SigFailureReasons.None),
+                        Reason = new TestCaseExpectationReason(DsaSignatureDisposition.None),
                         TestCaseId = testId,
                         ParentGroup = tg
                     });

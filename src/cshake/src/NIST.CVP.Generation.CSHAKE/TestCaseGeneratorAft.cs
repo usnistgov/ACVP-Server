@@ -44,20 +44,11 @@ namespace NIST.CVP.Generation.CSHAKE
                 _capacity = 2 * group.DigestSize;
             }
 
-            var parameters = DetermineParameters(group.BitOrientedInput, group.IncludeNull, group.DigestSize, group.HexCustomization);
-
             _digestLength = TestCaseSizes[_currentTestCase++ % TestCaseSizes.Count];
 
-            var param = new CSHAKEParameters
-            {
-                HashFunction = new HashFunction(_digestLength, group.DigestSize * 2),
-                CustomizationLength = parameters.CustomizationLength,
-                HexCustomization = group.HexCustomization,
-                FunctionName = parameters.FunctionName,
-                MessageLength = parameters.MessageLength
-            };
+            var param = DetermineParameters(group.BitOrientedInput, group.IncludeNull, group.DigestSize, group.HexCustomization);
 
-            Common.Oracle.ResultTypes.HashResultCSHAKE oracleResult = null;
+            Common.Oracle.ResultTypes.CShakeResult oracleResult = null;
             try
             {
                 oracleResult = _oracle.GetCShakeCase(param);
@@ -119,7 +110,7 @@ namespace NIST.CVP.Generation.CSHAKE
             TestCaseSizes.Sort();
         }
 
-        private (int CustomizationLength, string FunctionName, int MessageLength) DetermineParameters(bool bitOriented, bool includeNull, int digestSize, bool hexCustomization)
+        private CShakeParameters DetermineParameters(bool bitOriented, bool includeNull, int digestSize, bool hexCustomization)
         {
             var unitSize = bitOriented ? 1 : 8;
             var rate = 1600 - digestSize * 2;
@@ -175,7 +166,15 @@ namespace NIST.CVP.Generation.CSHAKE
                 messageLength = rate + _currentLargeCase * (rate + unitSize);
                 _currentLargeCase++;
             }
-            return (customizationLength, functionName, messageLength);
+
+            return new CShakeParameters
+            {
+                HashFunction = new HashFunction(_digestLength, digestSize * 2),
+                CustomizationLength = customizationLength,
+                HexCustomization = hexCustomization,
+                FunctionName = functionName,
+                MessageLength = messageLength
+            };
         }
 
         private Logger ThisLogger => LogManager.GetCurrentClassLogger();

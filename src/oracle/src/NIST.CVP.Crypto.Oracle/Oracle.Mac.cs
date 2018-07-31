@@ -4,7 +4,9 @@ using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.CMAC;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Common.Symmetric.TDES;
+using NIST.CVP.Crypto.CSHAKE;
 using NIST.CVP.Crypto.HMAC;
+using NIST.CVP.Crypto.KMAC;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Math;
 
@@ -14,6 +16,7 @@ namespace NIST.CVP.Crypto.Oracle
     {
         private readonly CmacFactory _cmacFactory = new CmacFactory();
         private readonly HmacFactory _hmacFactory = new HmacFactory(new ShaFactory());
+        private readonly KmacFactory _kmacFactory = new KmacFactory(new CSHAKEWrapper());
 
         public MacResult GetCmacCase(CmacParameters param)
         {
@@ -71,6 +74,65 @@ namespace NIST.CVP.Crypto.Oracle
                 Message = msg,
                 Tag = mac.Mac
             };
+
+            return result;
+        }
+
+        public KmacResult GetKmacCase(KmacParameters param)
+        {
+            var kmac = _kmacFactory.GetKmacInstance(param.DigestSize * 2, param.XOF);
+
+            var key = _rand.GetRandomBitString(param.KeyLength);
+            var msg = _rand.GetRandomBitString(param.MessageLength);
+
+            BitString customizationHex = new BitString(0);
+            string customization = "";
+            if (param.HexCustomization)
+            {
+                if (param.CouldFail)
+                {
+                    customizationHex = _rand.GetRandomBitString(_rand.GetRandomInt(0, 11) * 8); // only for mvt
+                }
+                else
+                {
+                    customizationHex = _rand.GetRandomBitString(param.CustomizationLength);
+                }
+            }
+            else
+            {
+                if (param.CouldFail)
+                {
+                    customization = _rand.GetRandomString(_rand.GetRandomInt(0, 11)); // only for mvt
+                }
+                else
+                {
+                    customization = _rand.GetRandomString(param.CustomizationLength);
+                }
+            }
+
+            var mac = kmac.Generate(key, msg, param.MacLength);
+
+            var result = new KmacResult()
+            {
+                Key = key,
+                Message = msg,
+                Tag = mac.Mac,
+                Customization = customization,
+                CustomizationHex = customizationHex
+            };
+
+            if (param.CouldFail)
+            {
+                // Should Fail at certain ratio, 50%
+                var upperBound = (int)(1.0 / KMAC_FAIL_RATIO);
+                var shouldFail = _rand.GetRandomInt(0, upperBound) == 0;
+
+                if (shouldFail)
+                {
+                    result.Tag = _rand.GetDifferentBitStringOfSameSize(result.Tag);
+                    result.TestPassed = false;
+                }
+            }
 
             return result;
         }

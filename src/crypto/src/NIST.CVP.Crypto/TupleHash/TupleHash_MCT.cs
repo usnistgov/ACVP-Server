@@ -101,9 +101,8 @@ namespace NIST.CVP.Crypto.TupleHash
                         }
                         
                         function.DigestLength = outputLen;
-                        function.Customization = customization;
 
-                        var innerResult = _iTupleHash.HashMessage(function, innerTuple);
+                        var innerResult = _iTupleHash.HashMessage(function, innerTuple, customization);
                         innerDigest = innerResult.Digest.GetDeepCopy();
 
                         // Will always have 16 bits to pull from

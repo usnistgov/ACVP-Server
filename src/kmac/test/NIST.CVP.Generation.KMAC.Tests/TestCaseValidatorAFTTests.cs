@@ -6,16 +6,16 @@ using NUnit.Framework;
 namespace NIST.CVP.Generation.KMAC.Tests
 {
     [TestFixture, UnitTest]
-    public class TestCaseValidatorAFTTests
+    public class TestCaseValidatorAftTests
     {
-        private TestCaseValidatorAFT _subject;
+        private TestCaseValidatorAft _subject;
         
         [Test]
         public void ShouldValidateIfExpectedAndSuppliedResultsMatch()
         {
             var testCase = GetTestCase();
             var testGroup = GetTestGroup();
-            _subject = new TestCaseValidatorAFT(testCase, testGroup);
+            _subject = new TestCaseValidatorAft(testCase, testGroup);
             var result = _subject.Validate(testCase);
             Assume.That(result != null);
             Assert.AreEqual(Core.Enums.Disposition.Passed, result.Result);
@@ -29,7 +29,7 @@ namespace NIST.CVP.Generation.KMAC.Tests
             var testCase = GetTestCase();
             var testGroup = GetTestGroup();
 
-            _subject = new TestCaseValidatorAFT(testCase, testGroup);
+            _subject = new TestCaseValidatorAft(testCase, testGroup);
             var suppliedResult = GetTestCase();
             suppliedResult.Mac = testMac;
             var result = _subject.Validate(suppliedResult);
@@ -45,7 +45,7 @@ namespace NIST.CVP.Generation.KMAC.Tests
             var testCase = GetTestCase();
             var testGroup = GetTestGroup();
 
-            _subject = new TestCaseValidatorAFT(testCase, testGroup);
+            _subject = new TestCaseValidatorAft(testCase, testGroup);
             var suppliedResult = GetTestCase();
             suppliedResult.Mac = testMac;
             var result = _subject.Validate(suppliedResult);
@@ -59,7 +59,7 @@ namespace NIST.CVP.Generation.KMAC.Tests
         {
             var testCase = GetTestCase();
             var testGroup = GetTestGroup();
-            _subject = new TestCaseValidatorAFT(testCase, testGroup);
+            _subject = new TestCaseValidatorAft(testCase, testGroup);
             var suppliedResult = GetTestCase();
 
             suppliedResult.Mac = null;

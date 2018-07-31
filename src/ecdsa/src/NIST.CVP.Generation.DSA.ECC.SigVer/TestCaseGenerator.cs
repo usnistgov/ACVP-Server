@@ -51,7 +51,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer
                 TestPassed = result.Result
             };
 
-            return Generate(group, testCase);
+            return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
         }
 
         public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)

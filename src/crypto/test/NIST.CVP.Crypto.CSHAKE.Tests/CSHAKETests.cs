@@ -70,7 +70,7 @@ namespace NIST.CVP.Crypto.CSHAKE.Tests
             var hashFunction = GetCSHAKEHashFunction(outputLength, 256);
 
             var subject = new CSHAKE();
-            var result = subject.HashMessage(hashFunction, message, customization);
+            var result = subject.HashMessage(hashFunction, message, customization, functionName);
 
             Assume.That(result.Success);
             Assert.AreEqual(expectedResult, result.Digest);
@@ -138,7 +138,7 @@ namespace NIST.CVP.Crypto.CSHAKE.Tests
             var hashFunction = GetCSHAKEHashFunction(outputLength, 512);
 
             var subject = new CSHAKE();
-            var result = subject.HashMessage(hashFunction, message, customization);
+            var result = subject.HashMessage(hashFunction, message, customization, functionName);
 
             Assume.That(result.Success);
             Assert.AreEqual(expectedResult, result.Digest);
@@ -232,13 +232,9 @@ namespace NIST.CVP.Crypto.CSHAKE.Tests
             Assert.AreEqual(expectedResult, result.Digest);
         }
 
-        private HashFunction GetCSHAKEHashFunction(int digestSize, int capacity)
+        private HashFunction GetCSHAKEHashFunction(int digestLength, int capacity)
         {
-            return new HashFunction()
-            {
-                DigestLength = digestSize,
-                Capacity = capacity
-            };
+            return new HashFunction(digestLength, capacity);
         }
     }
 

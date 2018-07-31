@@ -31,13 +31,19 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.SHA3.Tests"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.CSHAKE.Tests", "..\..\crypto\test\NIST.CVP.Crypto.CSHAKE.Tests\NIST.CVP.Crypto.CSHAKE.Tests.csproj", "{3B34694D-BA53-4522-A088-C7C3BC9BA839}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Crypto.ParallelHash.Tests", "..\..\crypto\test\NIST.CVP.Crypto.ParallelHash.Tests\NIST.CVP.Crypto.ParallelHash.Tests.csproj", "{07082C35-5A6B-49B6-AD42-C1C20F1C7BE4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.ParallelHash.Tests", "..\..\crypto\test\NIST.CVP.Crypto.ParallelHash.Tests\NIST.CVP.Crypto.ParallelHash.Tests.csproj", "{07082C35-5A6B-49B6-AD42-C1C20F1C7BE4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Generation.ParallelHash", "..\..\parallelHash\src\NIST.CVP.Generation.ParallelHash\NIST.CVP.Generation.ParallelHash.csproj", "{4611D713-61EC-40B0-BD87-32EC94D380E0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.ParallelHash", "..\..\parallelHash\src\NIST.CVP.Generation.ParallelHash\NIST.CVP.Generation.ParallelHash.csproj", "{4611D713-61EC-40B0-BD87-32EC94D380E0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Generation.ParallelHash.Tests", "..\..\parallelHash\test\NIST.CVP.Generation.ParallelHash.Tests\NIST.CVP.Generation.ParallelHash.Tests.csproj", "{72C68E8A-22CD-4FF9-B3F1-F3E6CE7BB75E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.ParallelHash.Tests", "..\..\parallelHash\test\NIST.CVP.Generation.ParallelHash.Tests\NIST.CVP.Generation.ParallelHash.Tests.csproj", "{72C68E8A-22CD-4FF9-B3F1-F3E6CE7BB75E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Generation.ParallelHash.IntegrationTests", "..\..\parallelHash\test\NIST.CVP.Generation.ParallelHash.IntegrationTests\NIST.CVP.Generation.ParallelHash.IntegrationTests.csproj", "{476FBEAB-4D70-4EAB-890D-742AEB794EAB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.ParallelHash.IntegrationTests", "..\..\parallelHash\test\NIST.CVP.Generation.ParallelHash.IntegrationTests\NIST.CVP.Generation.ParallelHash.IntegrationTests.csproj", "{476FBEAB-4D70-4EAB-890D-742AEB794EAB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Common.Oracle", "..\..\oracle\src\NIST.CVP.Common.Oracle\NIST.CVP.Common.Oracle.csproj", "{A09C9F1B-4D52-48B8-97CB-D399DBF1F6AB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.Oracle", "..\..\oracle\src\NIST.CVP.Crypto.Oracle\NIST.CVP.Crypto.Oracle.csproj", "{AE3D30F8-4C90-445C-B3B0-90362F27C591}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Common.Oracle.Tests", "..\..\oracle\test\NIST.CVP.Oracle.Common.Tests\NIST.CVP.Common.Oracle.Tests.csproj", "{4372A15C-1BA2-43A6-9FAB-F9DBFFD00FAE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -109,6 +115,18 @@ Global
 		{476FBEAB-4D70-4EAB-890D-742AEB794EAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{476FBEAB-4D70-4EAB-890D-742AEB794EAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{476FBEAB-4D70-4EAB-890D-742AEB794EAB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A09C9F1B-4D52-48B8-97CB-D399DBF1F6AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A09C9F1B-4D52-48B8-97CB-D399DBF1F6AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A09C9F1B-4D52-48B8-97CB-D399DBF1F6AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A09C9F1B-4D52-48B8-97CB-D399DBF1F6AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AE3D30F8-4C90-445C-B3B0-90362F27C591}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE3D30F8-4C90-445C-B3B0-90362F27C591}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE3D30F8-4C90-445C-B3B0-90362F27C591}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE3D30F8-4C90-445C-B3B0-90362F27C591}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4372A15C-1BA2-43A6-9FAB-F9DBFFD00FAE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4372A15C-1BA2-43A6-9FAB-F9DBFFD00FAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4372A15C-1BA2-43A6-9FAB-F9DBFFD00FAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4372A15C-1BA2-43A6-9FAB-F9DBFFD00FAE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -130,6 +148,9 @@ Global
 		{4611D713-61EC-40B0-BD87-32EC94D380E0} = {FE0A984A-235F-4B7F-821C-55968CD93421}
 		{72C68E8A-22CD-4FF9-B3F1-F3E6CE7BB75E} = {C064E885-FF29-4CEC-A1D2-0B6309625D6D}
 		{476FBEAB-4D70-4EAB-890D-742AEB794EAB} = {C064E885-FF29-4CEC-A1D2-0B6309625D6D}
+		{A09C9F1B-4D52-48B8-97CB-D399DBF1F6AB} = {FE0A984A-235F-4B7F-821C-55968CD93421}
+		{AE3D30F8-4C90-445C-B3B0-90362F27C591} = {FE0A984A-235F-4B7F-821C-55968CD93421}
+		{4372A15C-1BA2-43A6-9FAB-F9DBFFD00FAE} = {C064E885-FF29-4CEC-A1D2-0B6309625D6D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BF2F0E46-24D1-4FD6-A788-667DE8621D9B}

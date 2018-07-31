@@ -2,7 +2,6 @@
 using NIST.CVP.Crypto.Common.MAC;
 using NIST.CVP.Crypto.Common.MAC.KMAC;
 using NIST.CVP.Math;
-using System;
 
 namespace NIST.CVP.Crypto.KMAC
 {

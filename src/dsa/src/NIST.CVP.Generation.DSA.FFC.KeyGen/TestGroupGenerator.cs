@@ -1,19 +1,23 @@
-﻿using System.Collections.Generic;
+﻿using NIST.CVP.Common.Oracle;
+using NIST.CVP.Common.Oracle.ParameterTypes;
+using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC.Enums;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Generation.Core;
 using NLog;
+using System;
+using System.Collections.Generic;
 
 namespace NIST.CVP.Generation.DSA.FFC.KeyGen
 {
     public class TestGroupGenerator : ITestGroupGenerator<Parameters, TestGroup, TestCase>
     {
-        private readonly IDsaFfcFactory _dsaFactory;
+        private readonly IOracle _oracle;
 
-        public TestGroupGenerator(IDsaFfcFactory dsaFactory)
+        public TestGroupGenerator(IOracle oracle)
         {
-            _dsaFactory = dsaFactory;
+            _oracle = oracle;
         }
 
         public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
@@ -28,18 +32,27 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen
                 FfcDomainParameters domainParams = null;
                 if (parameters.IsSample)
                 {
-                    var hashFunction = new HashFunction(ModeValues.SHA2, DigestSizes.d256);
-                    var domainParamsRequest = new FfcDomainParametersGenerateRequest(n, l, n, hashFunction.OutputLen, null, PrimeGenMode.Provable, GeneratorGenMode.Unverifiable);
-                    var ffcDsa = _dsaFactory.GetInstance(hashFunction);
-                    var domainParamsResult = ffcDsa.GenerateDomainParameters(domainParamsRequest);
-
-                    if (!domainParamsResult.Success)
+                    var param = new DsaDomainParametersParameters
                     {
-                        ThisLogger.Error($"Failure generating domain parameters for L = {l}, N = {n}: {domainParamsResult.ErrorMessage}");
-                        continue;
+                        GGenMode = GeneratorGenMode.Unverifiable,
+                        PQGenMode = PrimeGenMode.Provable,
+                        HashAlg = new HashFunction(ModeValues.SHA2, DigestSizes.d256),
+                        L = l,
+                        N = n
+                    };
+
+                    DsaDomainParametersResult result = null;
+                    try
+                    {
+                        result = _oracle.GetDsaDomainParameters(param);
+                    }
+                    catch (Exception ex)
+                    {
+                        ThisLogger.Error(ex.StackTrace);
+                        throw;
                     }
 
-                    domainParams = domainParamsResult.PqgDomainParameters;
+                    domainParams = new FfcDomainParameters(result.P, result.Q, result.G);
                 }
 
                 var testGroup = new TestGroup

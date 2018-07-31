@@ -8,6 +8,7 @@ namespace NIST.CVP.Common.Oracle
     {
         MacResult GetCmacCase(CmacParameters param);
         MacResult GetHmacCase(HmacParameters param);
+        KmacResult GetKmacCase(KmacParameters param);
 
         Task<MacResult> GetCmacCaseAsync(CmacParameters param);
         Task<MacResult> GetHmacCaseAsync(HmacParameters param);

@@ -25,13 +25,14 @@ namespace NIST.CVP.Generation.CSHAKE
         public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
         {
             IsSample = isSample;
-            var param = new CSHAKEParameters
+            var param = new CShakeParameters
             {
                 HashFunction = new HashFunction(group.DigestSize, group.DigestSize * 2),
-                MessageLength = group.DigestSize
+                MessageLength = group.DigestSize,
+                OutLens = group.OutputLength.GetDeepCopy()
             };
 
-            MctResult<HashResultCSHAKE> oracleResult = null;
+            MctResult<CShakeResult> oracleResult = null;
             try
             {
                 oracleResult = _oracle.GetCShakeMctCase(param);

@@ -34,8 +34,8 @@ namespace NIST.CVP.Generation.KMAC.Tests
         }
 
         [Test]
-        [TestCase(typeof(TestCaseValidatorAFT), false)]
-        [TestCase(typeof(TestCaseValidatorMVT), true)]
+        [TestCase(typeof(TestCaseValidatorAft), false)]
+        [TestCase(typeof(TestCaseValidatorMvt), true)]
         public void ShouldReturnCorrectValidatorTypeDependantOnFunction(Type expectedType, bool mvt)
         {
             TestVectorSet testVectorSet = null;

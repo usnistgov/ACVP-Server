@@ -7,6 +7,7 @@ using NIST.CVP.Crypto.ParallelHash;
 using NIST.CVP.Crypto.TupleHash;
 using System;
 using NIST.CVP.Math;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace NIST.CVP.Crypto.Oracle
@@ -102,7 +103,7 @@ namespace NIST.CVP.Crypto.Oracle
             };
         }
 
-        public HashResultCSHAKE GetCShakeCase(CSHAKEParameters param)
+        public CShakeResult GetCShakeCase(CShakeParameters param)
         {
             var message = _rand.GetRandomBitString(param.MessageLength);
 
@@ -125,7 +126,7 @@ namespace NIST.CVP.Crypto.Oracle
                 throw new Exception();
             }
 
-            return new HashResultCSHAKE
+            return new CShakeResult
             {
                 Message = message,
                 Digest = result.Digest,
@@ -135,7 +136,7 @@ namespace NIST.CVP.Crypto.Oracle
             };
         }
 
-        public MctResult<HashResultCSHAKE> GetCShakeMctCase(CSHAKEParameters param)
+        public MctResult<CShakeResult> GetCShakeMctCase(CShakeParameters param)
         {
             _cSHAKEMct = new CSHAKE_MCT(_cSHAKE);
 
@@ -149,11 +150,160 @@ namespace NIST.CVP.Crypto.Oracle
                 throw new Exception();
             }
 
-            return new MctResult<HashResultCSHAKE>
+            return new MctResult<CShakeResult>
             {
                 Results = result.Response.ConvertAll(element =>
-                    new HashResultCSHAKE { Message = element.Message, Digest = element.Digest, Customization = element.Customization })
+                    new CShakeResult { Message = element.Message, Digest = element.Digest, Customization = element.Customization })
             };
+        }
+
+        public ParallelHashResult GetParallelHashCase(ParallelHashParameters param)
+        {
+            var message = _rand.GetRandomBitString(param.MessageLength);
+
+            Common.Hash.HashResult result;
+            BitString customizationHex = null;
+            string customization = "";
+            if (param.HexCustomization)
+            {
+                customizationHex = _rand.GetRandomBitString(param.CustomizationLength);
+                result = _parallelHash.HashMessage(param.HashFunction, message, param.BlockSize, customizationHex);
+            }
+            else
+            {
+                customization = _rand.GetRandomString(param.CustomizationLength);
+                result = _parallelHash.HashMessage(param.HashFunction, message, param.BlockSize, customization);
+            }
+
+            if (!result.Success)
+            {
+                throw new Exception();
+            }
+
+            return new ParallelHashResult
+            {
+                Message = message,
+                Digest = result.Digest,
+                Customization = customization,
+                CustomizationHex = customizationHex,
+                BlockSize = param.BlockSize
+            };
+        }
+
+        public MctResult<ParallelHashResult> GetParallelHashMctCase(ParallelHashParameters param)
+        {
+            _parallelHashMct = new ParallelHash_MCT(_parallelHash);
+
+            var message = _rand.GetRandomBitString(param.MessageLength);
+
+            // TODO isSample up in here?
+            var result = _parallelHashMct.MCTHash(param.HashFunction, message, param.OutLens, true); // currently always a sample
+
+            if (!result.Success)
+            {
+                throw new Exception();
+            }
+
+            return new MctResult<ParallelHashResult>
+            {
+                Results = result.Response.ConvertAll(element =>
+                    new ParallelHashResult { Message = element.Message, Digest = element.Digest, Customization = element.Customization })
+            };
+        }
+
+        public TupleHashResult GetTupleHashCase(TupleHashParameters param)
+        {
+            var tuple = new List<BitString>();
+
+            if (param.SemiEmptyCase)
+            {
+                for (int i = 0; i < param.TupleSize; i++)
+                {
+                    if (_rand.GetRandomInt(0, 2) == 1)  // either 1 or 0
+                    {
+                        tuple.Add(_rand.GetRandomBitString(GetRandomValidLength(param.BitOrientedInput)));
+                    }
+                    else
+                    {
+                        tuple.Add(new BitString(""));
+                    }
+                }
+            }
+            else if (param.LongRandomCase)
+            {
+                for (int i = 0; i < param.TupleSize; i++)
+                {
+                    tuple.Add(_rand.GetRandomBitString(GetRandomValidLength(param.BitOrientedInput)));
+                }
+            }
+            else
+            {
+                for (int i = 0; i < param.TupleSize; i++)
+                {
+                    tuple.Add(_rand.GetRandomBitString(param.MessageLength));
+                }
+            }
+            
+            Common.Hash.HashResult result;
+            BitString customizationHex = null;
+            string customization = "";
+            if (param.HexCustomization)
+            {
+                customizationHex = _rand.GetRandomBitString(param.CustomizationLength);
+                result = _tupleHash.HashMessage(param.HashFunction, tuple, customizationHex);
+            }
+            else
+            {
+                customization = _rand.GetRandomString(param.CustomizationLength);
+                result = _tupleHash.HashMessage(param.HashFunction, tuple, customization);
+            }
+
+            if (!result.Success)
+            {
+                throw new Exception();
+            }
+
+            return new TupleHashResult
+            {
+                Tuple = tuple,
+                Digest = result.Digest,
+                Customization = customization,
+                CustomizationHex = customizationHex
+            };
+        }
+
+        public MctResult<TupleHashResult> GetTupleHashMctCase(TupleHashParameters param)
+        {
+            _tupleHashMct = new TupleHash_MCT(_tupleHash);
+
+            var tuple = new List<BitString>() { _rand.GetRandomBitString(param.MessageLength) };
+
+            // TODO isSample up in here?
+            var result = _tupleHashMct.MCTHash(param.HashFunction, tuple, param.OutLens, true); // currently always a sample
+
+            if (!result.Success)
+            {
+                throw new Exception();
+            }
+
+            return new MctResult<TupleHashResult>
+            {
+                Results = result.Response.ConvertAll(element =>
+                    new TupleHashResult { Tuple = element.Tuple, Digest = element.Digest, Customization = element.Customization })
+            };
+        }
+
+        private int GetRandomValidLength(bool bitOriented)
+        {
+            var length = _rand.GetRandomInt(1, 513);
+            if (!bitOriented)
+            {
+                while (length % 8 != 0)
+                {
+                    length++;
+                }
+            }
+            return length;
         }
 
         public async Task<HashResult> GetShaCaseAsync(ShaParameters param)
