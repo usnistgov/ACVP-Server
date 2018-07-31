@@ -33,7 +33,7 @@ namespace NIST.CVP.Generation.ParallelHash
                 OutLens = group.OutputLength.GetDeepCopy()
             };
 
-            MctResult<HashResultParallelHash> oracleResult = null;
+            MctResult<ParallelHashResult> oracleResult = null;
             try
             {
                 oracleResult = _oracle.GetParallelHashMctCase(param);

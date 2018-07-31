@@ -33,7 +33,7 @@ namespace NIST.CVP.Generation.TupleHash
                 OutLens = group.OutputLength.GetDeepCopy()
             };
 
-            MctResult<HashResultTupleHash> oracleResult = null;
+            MctResult<TupleHashResult> oracleResult = null;
             try
             {
                 oracleResult = _oracle.GetTupleHashMctCase(param);

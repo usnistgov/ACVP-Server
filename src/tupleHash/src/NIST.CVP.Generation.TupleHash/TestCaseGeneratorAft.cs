@@ -47,7 +47,7 @@ namespace NIST.CVP.Generation.TupleHash
 
             var param = DetermineParameters(group.BitOrientedInput, group.IncludeNull, group.DigestSize, group.HexCustomization, group.XOF);
 
-            Common.Oracle.ResultTypes.HashResultTupleHash oracleResult = null;
+            Common.Oracle.ResultTypes.TupleHashResult oracleResult = null;
             try
             {
                 oracleResult = _oracle.GetTupleHashCase(param);

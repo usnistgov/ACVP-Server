@@ -45,7 +45,7 @@ namespace NIST.CVP.Generation.ParallelHash
 
             var param = DetermineParameters(group.BitOrientedInput, group.IncludeNull, group.DigestSize, group.HexCustomization, group.XOF);
 
-            Common.Oracle.ResultTypes.HashResultParallelHash oracleResult = null;
+            Common.Oracle.ResultTypes.ParallelHashResult oracleResult = null;
             try
             {
                 oracleResult = _oracle.GetParallelHashCase(param);
