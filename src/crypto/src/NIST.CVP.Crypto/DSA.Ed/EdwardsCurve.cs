@@ -2,7 +2,6 @@
 using System.Numerics;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.Ed;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.Ed.Enums;
-using NIST.CVP.Crypto.DSA.ECC;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.DSA.Ed
@@ -35,7 +34,7 @@ namespace NIST.CVP.Crypto.DSA.Ed
             BasePointG = g;
             OrderN = n;
 
-            _operator = new PrimeFieldOperator(p);
+            _operator = new PrimeFieldOperator(p);      // current Edwards curves only use prime field operator... and possibly all ed curves??
         }
 
         public EdPoint Add(EdPoint pointA, EdPoint pointB)
@@ -123,25 +122,27 @@ namespace NIST.CVP.Crypto.DSA.Ed
             return true;
         }
 
-        public BitString EncodePoint(EdPoint point, int b)
+        public BigInteger Encode(EdPoint point, int b)
         {
-            if (!PointExistsOnCurve(point))
-            {
-                throw new Exception("Point cannot be encoded if not on curve.");
-            }
-
             var encoding = new BitString(point.Y, b - 1);
 
-            if (point.X >= _operator.Inverse(point.X))
-            {
-                encoding = BitString.ConcatenateBits(BitString.One(), encoding);
-            }
-            else
-            {
-                encoding = BitString.ConcatenateBits(BitString.Zero(), encoding);
-            }
+            encoding = BitString.ConcatenateBits(new BitString(point.X).GetLeastSignificantBits(1), encoding);
 
-            return encoding;
+            return encoding.ToPositiveBigInteger();
+        }
+
+        public EdPoint Decode(BigInteger encoded, int b)
+        {
+            var encodedBitString = new BitString(encoded, b);
+            var x = encodedBitString.GetMostSignificantBits(1);
+            var Y = encodedBitString.GetMostSignificantBits(b - 1).ToPositiveBigInteger();
+            BigInteger X;
+            if (FieldSizeQ % 4 == 3)
+            {
+                var u = Y * Y - 1;
+                var v = CoefficientD * Y * Y + 1;
+                
+            }
         }
     }
 }

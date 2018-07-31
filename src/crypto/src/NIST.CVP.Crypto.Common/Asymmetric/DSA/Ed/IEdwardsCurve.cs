@@ -79,5 +79,15 @@ namespace NIST.CVP.Crypto.Common.Asymmetric.DSA.Ed
         /// Determines if a given point exists in the field
         /// </summary>
         bool PointExistsInField(EdPoint point);
+
+        /// <summary>
+        /// Encodes a point properly
+        /// </summary>
+        BigInteger Encode(EdPoint point, int b);
+
+        /// <summary>
+        /// Decodes a point properly
+        /// </summary>
+        BigInteger Decode(EdPoint point, int b);
     }
 }
