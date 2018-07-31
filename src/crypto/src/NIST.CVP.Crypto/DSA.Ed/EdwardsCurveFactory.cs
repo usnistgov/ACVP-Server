@@ -25,20 +25,19 @@ namespace NIST.CVP.Crypto.DSA.Ed
         private readonly BigInteger ed25519P = LoadValue("7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffed");
         private readonly BigInteger ed25519A = LoadValue("7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffec");
         private readonly BigInteger ed25519D = LoadValue("52036cee2b6ffe738cc740797779e89800700a4d4141d8ab75eb4dca135978a3");
-        // need to set the rest
-        private readonly BigInteger ed25519Gx = LoadValue("188da80eb03090f67cbf20eb43a18800f4ff0afd82ff1012");
-        private readonly BigInteger ed25519Gy = LoadValue("07192b95ffc8da78631011ed6b24cdd573f977a11e794811");
-        private readonly BigInteger ed25519N = LoadValue("ffffffffffffffffffffffff99def836146bc9b1b4d22831");
+        private readonly BigInteger ed25519Gx = LoadValue("216936d3cd6e53fec0a4e231fdd6dc5c692cc7609525a7b2c9562d608f25d51a");
+        private readonly BigInteger ed25519Gy = LoadValue("6666666666666666666666666666666666666666666666666666666666666658");
+        private readonly BigInteger ed25519N = LoadValue("10000000000000000000000000000000014def9dea2f79cd65812631a5cf5d3ed");
         #endregion Ed25519
 
         #region Ed448
         // need to set these
-        private readonly BigInteger ed448P = LoadValue("ffffffffffffffffffffffffffffffff000000000000000000000001");
-        private readonly BigInteger ed448A = LoadValue("b4050a850c04b3abf54132565044b0b7d7bfd8ba270b39432355ffb4");
-        private readonly BigInteger ed448D = LoadValue("b4050a850c04b3abf54132565044b0b7d7bfd8ba270b39432355ffb4");
-        private readonly BigInteger ed448Gx = LoadValue("b70e0cbd6bb4bf7f321390b94a03c1d356c21122343280d6115c1d21");
-        private readonly BigInteger ed448Gy = LoadValue("bd376388b5f723fb4c22dfe6cd4375a05a07476444d5819985007e34");
-        private readonly BigInteger ed448N = LoadValue("ffffffffffffffffffffffffffff16a2e0b8f03e13dd29455c5c2a3d");
+        private readonly BigInteger ed448P = LoadValue("fffffffffffffffffffffffffffffffffffffffffffffffffffffffeffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
+        private readonly BigInteger ed448A = LoadValue("01");
+        private readonly BigInteger ed448D = LoadValue("fffffffffffffffffffffffffffffffffffffffffffffffffffffffeffffffffffffffffffffffffffffffffffffffffffffffffffff6756");
+        private readonly BigInteger ed448Gx = LoadValue("4f1970c66bed0ded221d15a622bf36da9e146570470f1767ea6de324a3d3a46412ae1af72ab66511433b80e18b00938e2626a82bc70cc05e");
+        private readonly BigInteger ed448Gy = LoadValue("693f46716eb6bc248876203756c9c7624bea73736ca3984087789c1e05a0c2d73ad3ff1ce67c39c4fdbd132c4ed7c8ad9808795bf230fa14");
+        private readonly BigInteger ed448N = LoadValue("3fffffffffffffffffffffffffffffffffffffffffffffffffffffff7cca23e9c44edb49aed63690216cc2728dc58f552378c292ab5844f3");
         #endregion Ed448
 
         private static BigInteger LoadValue(string hex)
