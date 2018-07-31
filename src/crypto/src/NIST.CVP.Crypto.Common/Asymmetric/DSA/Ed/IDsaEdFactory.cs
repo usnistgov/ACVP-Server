@@ -3,17 +3,17 @@
     public interface IDsaEdFactory
         : IDsaFactory<
             IDsaEd,
-            EccDomainParametersGenerateRequest,
-            EccDomainParametersGenerateResult,
-            EccDomainParametersValidateRequest,
-            EccDomainParametersValidateResult,
-            EccDomainParameters,
-            EccKeyPairGenerateResult,
-            EccKeyPair,
-            EccKeyPairValidateResult,
-            EccSignature,
-            EccSignatureResult,
-            EccVerificationResult
+            EdDomainParametersGenerateRequest,
+            EdDomainParametersGenerateResult,
+            EdDomainParametersValidateRequest,
+            EdDomainParametersValidateResult,
+            EdDomainParameters,
+            EdKeyPairGenerateResult,
+            EdKeyPair,
+            EdKeyPairValidateResult,
+            EdSignature,
+            EdSignatureResult,
+            EdVerificationResult
         >
     {
     }
