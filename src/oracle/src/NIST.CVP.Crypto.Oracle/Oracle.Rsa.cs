@@ -302,6 +302,85 @@ namespace NIST.CVP.Crypto.Oracle
             };
         }
 
+        public RsaDecryptionPrimitiveResult GetDeferredRsaDecryptionPrimitive(RsaDecryptionPrimitiveParameters param)
+        {
+            return new RsaDecryptionPrimitiveResult
+            {
+                CipherText = param.TestPassed
+                    ? _rand.GetRandomBitString(param.Modulo)
+                    : BitString.Ones(2).ConcatenateBits(_rand.GetRandomBitString(param.Modulo - 2))         // Try to force the failing case high
+            };
+        }
+
+        public RsaDecryptionPrimitiveResult CompleteDeferredRsaDecryptionPrimitive(RsaDecryptionPrimitiveParameters param, RsaDecryptionPrimitiveResult fullParam)
+        {
+            var rsa = new Rsa(new RsaVisitor());
+            var result = rsa.Encrypt(fullParam.PlainText.ToPositiveBigInteger(), fullParam.Key.PubKey);
+            if (result.Success)
+            {
+                return new RsaDecryptionPrimitiveResult
+                {
+                    CipherText = new BitString(result.CipherText, param.Modulo, false),
+                    TestPassed = true
+                };
+            }
+            else
+            {
+                return new RsaDecryptionPrimitiveResult
+                {
+                    TestPassed = false
+                };
+            }
+        }
+
+        public RsaDecryptionPrimitiveResult GetRsaDecryptionPrimitive(RsaDecryptionPrimitiveParameters param)
+        {
+            if (param.TestPassed)
+            {
+                // Correct tests
+                KeyResult keyResult;
+                do
+                {
+                    var e = GetEValue(RSA_PUBLIC_EXPONENT_BITS_MIN, RSA_PUBLIC_EXPONENT_BITS_MAX);
+                    keyResult = new KeyBuilder(new PrimeGeneratorFactory())
+                        .WithPrimeGenMode(PrimeGenModes.B33)
+                        .WithEntropyProvider(new EntropyProvider(_rand))
+                        .WithNlen(param.Modulo)
+                        .WithPublicExponent(e)
+                        .WithPrimeTestMode(PrimeTestModes.C2)
+                        .WithKeyComposer(_keyComposerFactory.GetKeyComposer(PrivateKeyModes.Standard))
+                        .Build();
+                } while (!keyResult.Success);
+
+                var cipherText = new BitString(_rand.GetRandomBigInteger(1, keyResult.Key.PubKey.N - 1));
+                var plainText = new Rsa(new RsaVisitor()).Decrypt(cipherText.ToPositiveBigInteger(), keyResult.Key.PrivKey, keyResult.Key.PubKey).PlainText;
+
+                return new RsaDecryptionPrimitiveResult
+                {
+                    CipherText = cipherText,
+                    Key = keyResult.Key,
+                    PlainText = new BitString(plainText, param.Modulo, false)
+                };
+            }
+            else
+            {
+                // Failure tests - save some time and generate a dummy key
+
+                // Pick a random ciphertext and force a leading '1' (so that it MUST be 2048 bits)
+                var cipherText = BitString.One().ConcatenateBits(_rand.GetRandomBitString(param.Modulo - 1));
+
+                // Pick a random n that is 2048 bits and less than the ciphertext
+                var n = _rand.GetRandomBigInteger(NumberTheory.Pow2(param.Modulo - 1), cipherText.ToPositiveBigInteger());
+                var e = GetEValue(RSA_PUBLIC_EXPONENT_BITS_MIN, RSA_PUBLIC_EXPONENT_BITS_MAX).ToPositiveBigInteger();
+
+                return new RsaDecryptionPrimitiveResult
+                {
+                    CipherText = cipherText,
+                    Key = new KeyPair { PubKey = new PublicKey { E = e, N = n } }
+                };
+            }
+        }
+
         public async Task<RsaKeyResult> GetRsaKeyAsync(RsaKeyParameters param)
         {
             return await _taskFactory.StartNew(() => GetRsaKey(param));
