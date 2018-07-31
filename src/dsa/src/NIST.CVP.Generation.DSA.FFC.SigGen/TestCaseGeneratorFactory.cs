@@ -1,26 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
+﻿using NIST.CVP.Common.Oracle;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.DSA.FFC.SigGen
 {
     public class TestCaseGeneratorFactory : ITestCaseGeneratorFactory<TestGroup, TestCase>
     {
-        private readonly IRandom800_90 _random800_90;
-        private readonly IDsaFfcFactory _dsaFactory;
+        private readonly IOracle _oracle;
 
-        public TestCaseGeneratorFactory(IRandom800_90 rand, IDsaFfcFactory dsaFactory)
+        public TestCaseGeneratorFactory(IOracle oracle)
         {
-            _random800_90 = rand;
-            _dsaFactory = dsaFactory;
+            _oracle = oracle;
         }
 
         public ITestCaseGenerator<TestGroup, TestCase> GetCaseGenerator(TestGroup testGroup)
         {
-            return new TestCaseGenerator(_random800_90, _dsaFactory);
+            return new TestCaseGenerator(_oracle);
         }
     }
 }

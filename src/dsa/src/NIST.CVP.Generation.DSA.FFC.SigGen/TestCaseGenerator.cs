@@ -1,86 +1,78 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
-using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
+﻿using NIST.CVP.Common.Oracle;
+using NIST.CVP.Common.Oracle.ParameterTypes;
+using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Math;
 using NLog;
+using System;
 
 namespace NIST.CVP.Generation.DSA.FFC.SigGen
 {
     public class TestCaseGenerator : ITestCaseGenerator<TestGroup, TestCase>
     {
-        private readonly IRandom800_90 _random;
-        private readonly IDsaFfcFactory _dsaFactory;
+        private readonly IOracle _oracle;
 
         public int NumberOfTestCasesToGenerate { get; private set; } = 10;
 
-        public TestCaseGenerator(IRandom800_90 rand, IDsaFfcFactory ffcDsaFactory)
+        public TestCaseGenerator(IOracle oracle)
         {
-            _random = rand;
-            _dsaFactory = ffcDsaFactory;
+            _oracle = oracle;
         }
 
         public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
         {
-            var testCase = new TestCase
+            var param = new DsaSignatureParameters
             {
-                Message = _random.GetRandomBitString(group.L)
+                HashAlg = group.HashAlg,
+                MessageLength = group.L
             };
 
-            if (isSample)
+            DsaSignatureResult result = null;
+            try
             {
-                return Generate(group, testCase);
+                if (isSample)
+                {
+                    // If we are a sample, the group MUST have domain parameters
+                    var keyParam = new DsaKeyParameters
+                    {
+                        DomainParameters = group.DomainParams
+                    };
+
+                    var keyResult = _oracle.GetDsaKey(keyParam);
+
+                    param.Key = keyResult.Key;
+                    param.DomainParameters = keyParam.DomainParameters;
+
+                    result = _oracle.GetDsaSignature(param);
+                    var testCase = new TestCase
+                    {
+                        Message = result.Message,
+                        Key = param.Key,
+                        Signature = result.Signature
+                    };
+
+                    return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
+                }
+                else
+                {
+                    result = _oracle.GetDeferredDsaSignature(param);
+                    var testCase = new TestCase
+                    {
+                        Message = result.Message
+                    };
+
+                    return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
+                ThisLogger.Error(ex.StackTrace);
+                return new TestCaseGenerateResponse<TestGroup, TestCase>("Unable to generate test case");
             }
         }
 
         public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
         {
-            var ffcDsa = _dsaFactory.GetInstance(group.HashAlg);
-
-            // Generate a key
-            FfcKeyPairGenerateResult keyResult = null;
-            try
-            {
-                keyResult = ffcDsa.GenerateKeyPair(group.DomainParams);
-                if (!keyResult.Success)
-                {
-                    ThisLogger.Warn($"Error generating key: {keyResult.ErrorMessage}");
-                    return new TestCaseGenerateResponse<TestGroup, TestCase>($"Error generating key: {keyResult.ErrorMessage}");
-                }
-            }
-            catch (Exception ex)
-            {
-                ThisLogger.Error($"Exception generating key: {ex.StackTrace}");
-                return new TestCaseGenerateResponse<TestGroup, TestCase>($"Exception generating key: {ex.Message}");
-            }
-
-            testCase.Key = keyResult.KeyPair;
-
-            // Generate the signature
-            FfcSignatureResult sigResult = null;
-            try
-            {
-                sigResult = ffcDsa.Sign(group.DomainParams, testCase.Key, testCase.Message);
-                if (!sigResult.Success)
-                {
-                    ThisLogger.Warn($"Error generating signature: {sigResult.ErrorMessage}");
-                    return new TestCaseGenerateResponse<TestGroup, TestCase>($"Error generating signature: {sigResult.ErrorMessage}");
-                }
-            }
-            catch (Exception ex)
-            {
-                ThisLogger.Warn($"Exception generating signature: {ex.Message}");
-                return new TestCaseGenerateResponse<TestGroup, TestCase>($"Exception generating signature: {ex.Message}");
-            }
-
-            testCase.Signature = sigResult.Signature;
-            return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
+            return null;
         }
 
         private Logger ThisLogger => LogManager.GetCurrentClassLogger();
