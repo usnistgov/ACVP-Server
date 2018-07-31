@@ -2,18 +2,18 @@
 using System.Numerics;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.Ed;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.Ed.Enums;
+using NIST.CVP.Crypto.DSA.ECC;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.DSA.Ed
 {
-    public class EdwardsCurve
+    public class EdwardsCurve : IEdwardsCurve
     {
-        private readonly PrimeFieldOperator _operator;
-
-        // A = -3 (mod p) for prime curves
-        public BigInteger CoefficientA { get { return FieldSizeQ - 3; } }
-        public BigInteger CoefficientB { get; }
-        public EccPoint BasePointG { get; }
+        private readonly IFieldOperator _operator;
+        
+        public BigInteger CoefficientA { get; }
+        public BigInteger CoefficientD { get; }
+        public EdPoint BasePointG { get; }
         public BigInteger OrderN { get; }
         public BigInteger FieldSizeQ { get; }
 
@@ -25,95 +25,51 @@ namespace NIST.CVP.Crypto.DSA.Ed
 
         public Curve CurveName { get; }
 
-        public PrimeCurve(Curve curveName, BigInteger p, BigInteger b, EccPoint g, BigInteger n)
+        public EdwardsCurve(Curve curveName, BigInteger p, BigInteger a, BigInteger b, EdPoint g, BigInteger n)
         {
             CurveName = curveName;
 
             FieldSizeQ = p;
-            CoefficientB = b;
+            CoefficientA = a;
+            CoefficientD = b;
             BasePointG = g;
             OrderN = n;
 
             _operator = new PrimeFieldOperator(p);
         }
 
-        public EccPoint Add(EccPoint pointA, EccPoint pointB)
+        public EdPoint Add(EdPoint pointA, EdPoint pointB)
         {
-            // Any point added to infinity is itself
-            if (pointA.Infinity)
-            {
-                return pointB;
-            }
+            var numeratorX = _operator.Add(_operator.Multiply(pointA.X, pointB.Y), _operator.Multiply(pointA.Y, pointB.X));
+            var numeratorY = _operator.Subtract(_operator.Multiply(pointA.Y, pointB.Y), _operator.Multiply(CoefficientA, _operator.Multiply(pointA.X, pointB.X)));
+            var denominatorMult = _operator.Multiply(CoefficientD, _operator.Multiply(_operator.Multiply(pointA.X, pointB.X), _operator.Multiply(pointA.Y, pointB.Y)));
+            var denominatorX = _operator.Add(1, denominatorMult);
+            var denominatorY = _operator.Subtract(1, denominatorMult);
 
-            // Any point added to infinity is itself
-            if (pointB.Infinity)
-            {
-                return pointA;
-            }
+            var x = _operator.Divide(numeratorX, denominatorX);
+            var y = _operator.Divide(numeratorY, denominatorY);
 
-            // Any point added to its inverse is infinity
-            if (pointA.Equals(Negate(pointB)))
-            {
-                return new EccPoint("infinity");
-            }
-
-            // Cannot add two identical points, use Double instead
-            if (pointA.Equals(pointB))
-            {
-                return Double(pointA);
-            }
-
-            var numerator = _operator.Subtract(pointB.Y, pointA.Y);
-            var denominator = _operator.Subtract(pointB.X, pointA.X);
-            var lambda = _operator.Divide(numerator, denominator);
-
-            var x = _operator.Subtract(_operator.Subtract(_operator.Multiply(lambda, lambda), pointA.X), pointB.X);
-            var y = _operator.Subtract(_operator.Multiply(_operator.Subtract(pointA.X, x), lambda), pointA.Y);
-
-            return new EccPoint(x, y);
+            return new EdPoint(x, y);
         }
 
-        public EccPoint Negate(EccPoint point)
+        public EdPoint Negate(EdPoint point)
         {
-            if (point.Infinity)
-            {
-                return point;
-            }
-
-            // Negate the point, - (x, y) == (x, -y), but -1 * y (mod q) == q - y
-            return new EccPoint(point.X, _operator.Negate(point.Y));
+            return new EdPoint(_operator.Negate(point.X), point.Y);
         }
 
-        public EccPoint Subtract(EccPoint pointA, EccPoint pointB)
+        public EdPoint Subtract(EdPoint pointA, EdPoint pointB)
         {
             return Add(pointA, Negate(pointB));
         }
 
-        public EccPoint Double(EccPoint point)
+        public EdPoint Double(EdPoint point)
         {
-            if ((point.X == 0 && point.Y == 0) || point.Infinity)
-            {
-                return point;
-            }
-
-            if (point.Y == 0)
-            {
-                throw new ArgumentException("Cannot double a point with y = 0");
-            }
-
-            var numerator = _operator.Add(_operator.Multiply(_operator.Multiply(3, point.X), point.X), CoefficientA);
-            var denominator = _operator.Multiply(2, point.Y);
-            var lambda = _operator.Divide(numerator, denominator);
-
-            var x = _operator.Subtract(_operator.Multiply(lambda, lambda), _operator.Multiply(2, point.X));
-            var y = _operator.Subtract(_operator.Multiply(_operator.Subtract(point.X, x), lambda), point.Y);
-
-            return new EccPoint(x, y);
+            return Add(point, point);
         }
 
-        private EccPoint Multiply(EccPoint startPoint, NonAdjacentBitString nafBs)
+        private EdPoint Multiply(EdPoint startPoint, NonAdjacentBitString nafBs)
         {
-            var point = new EccPoint("infinity");
+            var point = new EdPoint(0 , 1);
             var naBits = nafBs.Bits;
 
             for (var i = naBits.Length - 1; i >= 0; i--)
@@ -132,32 +88,27 @@ namespace NIST.CVP.Crypto.DSA.Ed
             return point;
         }
 
-        public EccPoint Multiply(EccPoint startPoint, BigInteger scalar)
+        public EdPoint Multiply(EdPoint startPoint, BigInteger scalar)
         {
             // Find scalar within group and convert to NABS, normal modulo here, not on the field, like CAVS
             return Multiply(startPoint, new NonAdjacentBitString(scalar % OrderN));
         }
 
-        public bool PointExistsOnCurve(EccPoint point)
+        public bool PointExistsOnCurve(EdPoint point)
         {
-            if (point.Infinity)
-            {
-                return true;
-            }
-
             // Point is out of bounds
             if (!PointExistsInField(point))
             {
                 return false;
             }
 
-            var lhs = _operator.Multiply(point.Y, point.Y);
-            var rhs = _operator.Add(_operator.Add(_operator.Multiply(_operator.Multiply(point.X, point.X), point.X), _operator.Multiply(CoefficientA, point.X)), CoefficientB);
+            var lhs = _operator.Add(_operator.Multiply(CoefficientA, _operator.Multiply(point.X, point.X)), _operator.Multiply(point.Y, point.Y));
+            var rhs = _operator.Add(1, _operator.Multiply(CoefficientD, _operator.Multiply(_operator.Multiply(point.X, point.X), _operator.Multiply(point.Y, point.Y))));
 
             return (lhs == rhs);
         }
 
-        public bool PointExistsInField(EccPoint point)
+        public bool PointExistsInField(EdPoint point)
         {
             if (point.X < 0 || point.X > FieldSizeQ - 1)
             {
@@ -170,6 +121,27 @@ namespace NIST.CVP.Crypto.DSA.Ed
             }
 
             return true;
+        }
+
+        public BitString EncodePoint(EdPoint point, int b)
+        {
+            if (!PointExistsOnCurve(point))
+            {
+                throw new Exception("Point cannot be encoded if not on curve.");
+            }
+
+            var encoding = new BitString(point.Y, b - 1);
+
+            if (point.X >= _operator.Inverse(point.X))
+            {
+                encoding = BitString.ConcatenateBits(BitString.One(), encoding);
+            }
+            else
+            {
+                encoding = BitString.ConcatenateBits(BitString.Zero(), encoding);
+            }
+
+            return encoding;
         }
     }
 }
