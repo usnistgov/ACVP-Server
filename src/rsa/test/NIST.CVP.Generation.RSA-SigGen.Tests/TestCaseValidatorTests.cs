@@ -1,8 +1,10 @@
-﻿using Moq;
+﻿using System.Threading.Tasks;
+using Moq;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Signatures;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.Async;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -13,38 +15,38 @@ namespace NIST.CVP.Generation.RSA_SigGen.Tests
     public class TestCaseValidatorTests
     {
         [Test]
-        public void ShouldRunVerifyMethodAndSucceedWithGoodSignature()
+        public async Task ShouldRunVerifyMethodAndSucceedWithGoodSignature()
         {
             var mockSigner = GetResolverMock();
             mockSigner
-                .Setup(s => s.CompleteDeferredCrypto(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()))
-                .Returns(new VerifyResult());
+                .Setup(s => s.CompleteDeferredCryptoAsync(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()))
+                .Returns(Task.FromResult(new VerifyResult()));
 
             var subject = new TestCaseValidator(GetTestCase(), GetTestGroup(), mockSigner.Object);
-            var result = subject.Validate(GetResultTestCase());
+            var result = await subject.ValidateAsync(GetResultTestCase());
 
-            mockSigner.Verify(v => v.CompleteDeferredCrypto(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()), Times.Once);
+            mockSigner.Verify(v => v.CompleteDeferredCryptoAsync(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()), Times.Once);
             Assert.AreEqual(Core.Enums.Disposition.Passed, result.Result);
         }
 
         [Test]
-        public void ShouldRunVerifyMethodAndFailWithBadSignature()
+        public async Task ShouldRunVerifyMethodAndFailWithBadSignature()
         {
             var mockSigner = GetResolverMock();
             mockSigner
-                .Setup(s => s.CompleteDeferredCrypto(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()))
-                .Returns(new VerifyResult("Fail"));
+                .Setup(s => s.CompleteDeferredCryptoAsync(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()))
+                .Returns(Task.FromResult(new VerifyResult("Fail")));
 
             var subject = new TestCaseValidator(GetTestCase(), GetTestGroup(), mockSigner.Object);
-            var result = subject.Validate(GetResultTestCase());
+            var result = await subject.ValidateAsync(GetResultTestCase());
 
-            mockSigner.Verify(v => v.CompleteDeferredCrypto(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()), Times.Once);
+            mockSigner.Verify(v => v.CompleteDeferredCryptoAsync(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()), Times.Once);
             Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
         }
 
-        private Mock<IDeferredTestCaseResolver<TestGroup, TestCase, VerifyResult>> GetResolverMock()
+        private Mock<IDeferredTestCaseResolverAsync<TestGroup, TestCase, VerifyResult>> GetResolverMock()
         {
-            return new Mock<IDeferredTestCaseResolver<TestGroup, TestCase, VerifyResult>>();
+            return new Mock<IDeferredTestCaseResolverAsync<TestGroup, TestCase, VerifyResult>>();
         }
 
         private TestCase GetTestCase()

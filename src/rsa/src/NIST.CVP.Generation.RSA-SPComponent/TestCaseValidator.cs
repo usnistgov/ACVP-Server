@@ -1,9 +1,11 @@
 ﻿using NIST.CVP.Generation.Core;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.RSA_SPComponent
 {
-    public class TestCaseValidator : ITestCaseValidator<TestGroup, TestCase>
+    public class TestCaseValidator : ITestCaseValidatorAsync<TestGroup, TestCase>
     {
         private readonly TestCase _expectedResult;
         public int TestCaseId => _expectedResult.TestCaseId;
@@ -13,7 +15,7 @@ namespace NIST.CVP.Generation.RSA_SPComponent
             _expectedResult = expectedResult;
         }
 
-        public TestCaseValidation Validate(TestCase suppliedResult, bool showExpected = false)
+        public Task<TestCaseValidation> ValidateAsync(TestCase suppliedResult, bool showExpected = false)
         {
             var errors = new List<string>();
             var expected = new Dictionary<string, string>();
@@ -56,17 +58,21 @@ namespace NIST.CVP.Generation.RSA_SPComponent
 
             if (errors.Count > 0)
             {
-                return new TestCaseValidation 
+                return Task.FromResult(new TestCaseValidation 
                 { 
                     TestCaseId = suppliedResult.TestCaseId, 
                     Result = Core.Enums.Disposition.Failed, 
                     Reason = string.Join(";", errors),
                     Expected = expected.Count != 0 && showExpected ? expected : null,
                     Provided = provided.Count != 0 && showExpected ? provided : null
-                };
+                });
             }
 
-            return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = Core.Enums.Disposition.Passed };
+            return Task.FromResult(new TestCaseValidation
+            {
+                TestCaseId = suppliedResult.TestCaseId,
+                Result = Core.Enums.Disposition.Passed
+            });
         }
     }
 }

@@ -4,10 +4,12 @@ using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Generation.Core;
 using NLog;
 using System;
+using System.Threading.Tasks;
+using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.RSA_SigGen
 {
-    public class TestCaseGenerator : ITestCaseGenerator<TestGroup, TestCase>
+    public class TestCaseGenerator : ITestCaseGeneratorAsync<TestGroup, TestCase>
     {
         private readonly IOracle _oracle;
 
@@ -18,7 +20,7 @@ namespace NIST.CVP.Generation.RSA_SigGen
             _oracle = oracle;
         }
 
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
+        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample)
         {
             if (isSample)
             {
@@ -39,11 +41,11 @@ namespace NIST.CVP.Generation.RSA_SigGen
                 RsaSignatureResult result = null;
                 if (isSample)
                 {
-                    result = _oracle.GetRsaSignature(param);
+                    result = await _oracle.GetRsaSignatureAsync(param);
                 }
                 else
                 {
-                    result = _oracle.GetDeferredRsaSignature(param);
+                    result = await _oracle.GetDeferredRsaSignatureAsync(param);
                 }
 
                 var testCase = new TestCase
@@ -57,16 +59,11 @@ namespace NIST.CVP.Generation.RSA_SigGen
             }
             catch (Exception ex)
             {
-                ThisLogger.Error(ex.StackTrace);
+                ThisLogger.Error(ex);
                 return new TestCaseGenerateResponse<TestGroup, TestCase>($"Failed to generate. {ex.Message}");
             }
         }
-
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
-        {
-            return null;
-        }
-
-        private Logger ThisLogger => LogManager.GetCurrentClassLogger();
+        
+        private ILogger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }

@@ -1,13 +1,14 @@
-﻿using NIST.CVP.Common.Oracle;
+﻿using System.Threading.Tasks;
+using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.PrimeGenerators;
-using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.RSA_KeyGen
 {
-    public class DeferredTestCaseResolver : IDeferredTestCaseResolver<TestGroup, TestCase, KeyResult>
+    public class DeferredTestCaseResolver : IDeferredTestCaseResolverAsync<TestGroup, TestCase, KeyResult>
     {
         private readonly IOracle _oracle;
 
@@ -16,7 +17,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen
             _oracle = oracle;
         }
 
-        public KeyResult CompleteDeferredCrypto(TestGroup serverTestGroup, TestCase serverTestCase, TestCase iutTestCase)
+        public async Task<KeyResult> CompleteDeferredCryptoAsync(TestGroup serverTestGroup, TestCase serverTestCase, TestCase iutTestCase)
         {
             var param = new RsaKeyParameters
             {
@@ -45,8 +46,8 @@ namespace NIST.CVP.Generation.RSA_KeyGen
                 Key = iutTestCase.Key
             };
 
-            var result = _oracle.CompleteDeferredRsaKeyCase(param, fullParam);
-            var verifyResult = _oracle.GetRsaKeyVerify(new RsaKeyResult{Key = iutTestCase.Key});
+            var result = await _oracle.CompleteDeferredRsaKeyCaseAsync(param, fullParam);
+            var verifyResult = await _oracle.GetRsaKeyVerifyAsync(new RsaKeyResult{Key = iutTestCase.Key});
 
             if (verifyResult.Result)
             {

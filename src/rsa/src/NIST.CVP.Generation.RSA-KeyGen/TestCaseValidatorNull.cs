@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.RSA_KeyGen
 {
-    public class TestCaseValidatorNull : ITestCaseValidator<TestGroup, TestCase>
+    public class TestCaseValidatorNull : ITestCaseValidatorAsync<TestGroup, TestCase>
     {
         private readonly string _errorMessage;
 
@@ -18,9 +19,14 @@ namespace NIST.CVP.Generation.RSA_KeyGen
             TestCaseId = testCaseId;
         }
 
-        public TestCaseValidation Validate(TestCase suppliedResult, bool showExpected = false)
+        public Task<TestCaseValidation> ValidateAsync(TestCase suppliedResult, bool showExpected = false)
         {
-            return new TestCaseValidation { Reason = _errorMessage, Result = Core.Enums.Disposition.Failed, TestCaseId = TestCaseId };
+            return Task.FromResult(new TestCaseValidation
+            {
+                Reason = _errorMessage,
+                Result = Core.Enums.Disposition.Failed,
+                TestCaseId = TestCaseId
+            });
         }
     }
 }

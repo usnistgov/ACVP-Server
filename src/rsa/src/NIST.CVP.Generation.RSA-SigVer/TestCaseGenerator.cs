@@ -5,10 +5,12 @@ using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.RSA_SigVer.TestCaseExpectations;
 using NLog;
 using System;
+using System.Threading.Tasks;
+using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.RSA_SigVer
 {
-    public class TestCaseGenerator : ITestCaseGenerator<TestGroup, TestCase>
+    public class TestCaseGenerator : ITestCaseGeneratorAsync<TestGroup, TestCase>
     {
         private readonly IOracle _oracle;
 
@@ -19,7 +21,7 @@ namespace NIST.CVP.Generation.RSA_SigVer
             _oracle = oracle;
         }
 
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
+        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample)
         {
             var param = new RsaSignatureParameters
             {
@@ -31,33 +33,28 @@ namespace NIST.CVP.Generation.RSA_SigVer
                 Key = group.Key
             };
 
-            VerifyResult<RsaSignatureResult> result = null;
             try
             {
-                result = _oracle.GetRsaVerify(param);
+                var result = await _oracle.GetRsaVerifyAsync(param);
+
+                var testCase = new TestCase
+                {
+                    Message = result.VerifiedValue.Message,
+                    Reason = new TestCaseExpectationReason(param.Reason),
+                    TestPassed = result.Result,
+                    Salt = result.VerifiedValue.Salt,
+                    Signature = result.VerifiedValue.Signature
+                };
+
+                return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
             }
             catch (Exception ex)
             {
+                ThisLogger.Error(ex);
                 return new TestCaseGenerateResponse<TestGroup, TestCase>($"Failed to generate. {ex.Message}");
             }
-
-            var testCase = new TestCase
-            {
-                Message = result.VerifiedValue.Message,
-                Reason = new TestCaseExpectationReason(param.Reason),
-                TestPassed = result.Result,
-                Salt = result.VerifiedValue.Salt,
-                Signature = result.VerifiedValue.Signature
-            };
-
-            return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
         }
 
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
-        {
-            return null;
-        }
-
-        private Logger ThisLogger => LogManager.GetCurrentClassLogger();
+        private ILogger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }

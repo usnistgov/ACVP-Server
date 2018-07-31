@@ -1,25 +1,30 @@
 ﻿using NIST.CVP.Crypto.Common.Asymmetric.RSA.Signatures;
 using NIST.CVP.Generation.Core;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.RSA_SigGen
 {
-    public class TestCaseValidator : ITestCaseValidator<TestGroup, TestCase>
+    public class TestCaseValidator : ITestCaseValidatorAsync<TestGroup, TestCase>
     {
         private readonly TestGroup _serverGroup;
-        private readonly IDeferredTestCaseResolver<TestGroup, TestCase, VerifyResult> _deferredTestCaseResolver;
+        private readonly IDeferredTestCaseResolverAsync<TestGroup, TestCase, VerifyResult> _deferredTestCaseResolver;
         private readonly TestCase _expectedResult;
 
         public int TestCaseId => _expectedResult.TestCaseId;
 
-        public TestCaseValidator(TestCase expectedResult, TestGroup serverGroup, IDeferredTestCaseResolver<TestGroup, TestCase, VerifyResult> resolver)
+        public TestCaseValidator(
+            TestCase expectedResult, 
+            TestGroup serverGroup, 
+            IDeferredTestCaseResolverAsync<TestGroup, TestCase, VerifyResult> resolver)
         {
             _serverGroup = serverGroup;
             _deferredTestCaseResolver = resolver;
             _expectedResult = expectedResult;
         }
 
-        public TestCaseValidation Validate(TestCase suppliedResult, bool showExpected = false)
+        public async Task<TestCaseValidation> ValidateAsync(TestCase suppliedResult, bool showExpected = false)
         {
             var errors = new List<string>();
             var expected = new Dictionary<string, string>();
@@ -31,7 +36,7 @@ namespace NIST.CVP.Generation.RSA_SigGen
             }
             else
             {
-                var result = _deferredTestCaseResolver.CompleteDeferredCrypto(_serverGroup, _expectedResult, suppliedResult);
+                var result = await _deferredTestCaseResolver.CompleteDeferredCryptoAsync(_serverGroup, _expectedResult, suppliedResult);
                 if (!result.Success)
                 {
                     errors.Add($"Could not verify signature: {result.ErrorMessage}");

@@ -1,10 +1,11 @@
 ﻿using NIST.CVP.Common.Oracle;
 using NIST.CVP.Generation.Core;
 using System.Collections.Generic;
+using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.RSA_SigGen
 {
-    public class TestCaseValidatorFactory : ITestCaseValidatorFactory<TestVectorSet, TestGroup, TestCase>
+    public class TestCaseValidatorFactory : ITestCaseValidatorFactoryAsync<TestVectorSet, TestGroup, TestCase>
     {
         private readonly IOracle _oracle;
 
@@ -13,9 +14,9 @@ namespace NIST.CVP.Generation.RSA_SigGen
             _oracle = oracle;
         }
 
-        public IEnumerable<ITestCaseValidator<TestGroup, TestCase>> GetValidators(TestVectorSet testVectorSet)
+        public IEnumerable<ITestCaseValidatorAsync<TestGroup, TestCase>> GetValidators(TestVectorSet testVectorSet)
         {
-            var list = new List<ITestCaseValidator<TestGroup, TestCase>>();
+            var list = new List<ITestCaseValidatorAsync<TestGroup, TestCase>>();
 
             foreach (var group in testVectorSet.TestGroups)
             {

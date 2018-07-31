@@ -4,10 +4,12 @@ using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Generation.Core;
 using NLog;
 using System;
+using System.Threading.Tasks;
+using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.RSA_SPComponent
 {
-    public class TestCaseGenerator : ITestCaseGenerator<TestGroup, TestCase>
+    public class TestCaseGenerator : ITestCaseGeneratorAsync<TestGroup, TestCase>
     {
         private readonly IOracle _oracle;
 
@@ -18,7 +20,7 @@ namespace NIST.CVP.Generation.RSA_SPComponent
             _oracle = oracle;
         }
 
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
+        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample)
         {
             if (isSample)
             {
@@ -31,33 +33,27 @@ namespace NIST.CVP.Generation.RSA_SPComponent
                 Modulo = group.Modulo
             };
 
-            RsaSignaturePrimitiveResult result = null;
             try
             {
-                result = _oracle.GetRsaSignaturePrimitive(param);
+                var result = await _oracle.GetRsaSignaturePrimitiveAsync(param);
+
+                var testCase = new TestCase
+                {
+                    Signature = result.Signature,
+                    Key = result.Key,
+                    Message = result.Message,
+                    TestPassed = result.ShouldPass     // Failure test if m > N, meaning it can't be signed
+                };
+
+                return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
             }
             catch (Exception ex)
             {
-                ThisLogger.Error(ex.StackTrace);
+                ThisLogger.Error(ex);
                 return new TestCaseGenerateResponse<TestGroup, TestCase>($"Failed to generate. {ex.Message}");
             }
-
-            var testCase = new TestCase
-            {
-                Signature = result.Signature,
-                Key = result.Key,
-                Message = result.Message,
-                TestPassed = result.ShouldPass     // Failure test if m > N, meaning it can't be signed
-            };
-
-            return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
         }
-
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
-        {
-            return null;
-        }
-
-        private Logger ThisLogger => LogManager.GetCurrentClassLogger();
+        
+        private static ILogger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }

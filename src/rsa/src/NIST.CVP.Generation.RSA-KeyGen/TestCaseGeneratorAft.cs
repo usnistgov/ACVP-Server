@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Common.Oracle;
+﻿using System;
+using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys;
@@ -6,10 +7,12 @@ using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using NLog;
 using System.Numerics;
+using System.Threading.Tasks;
+using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.RSA_KeyGen
 {
-    public class TestCaseGeneratorAft : ITestCaseGenerator<TestGroup, TestCase>
+    public class TestCaseGeneratorAft : ITestCaseGeneratorAsync<TestGroup, TestCase>
     {
         private readonly IOracle _oracle;
 
@@ -20,7 +23,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen
             _oracle = oracle;
         }
 
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
+        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample)
         {
             if (isSample)
             {
@@ -41,31 +44,39 @@ namespace NIST.CVP.Generation.RSA_KeyGen
                     PublicExponent = group.FixedPubExp
                 };
 
-                var result = _oracle.GetRsaKey(param);
-
-                var testCase = new TestCase
+                try
                 {
-                    Key = result.Key,
-                    XP = new BitString(result.AuxValues.XP),
-                    XP1 = new BitString(result.AuxValues.XP1),
-                    XP2 = new BitString(result.AuxValues.XP2),
-                    XQ = new BitString(result.AuxValues.XQ),
-                    XQ1 = new BitString(result.AuxValues.XQ1),
-                    XQ2 = new BitString(result.AuxValues.XQ2),
-                    Bitlens = result.BitLens,
-                    Seed = result.Seed
-                };
+                    var result = await _oracle.GetRsaKeyAsync(param);
 
-                // TODO this really sucks, these bitstring values need slight modification because they don't always match the bitlens if they start with some 0s
-                if (group.PrimeGenMode == PrimeGenModes.B36)
-                {
-                    testCase.XP1 = PadAuxValuesToMatchBitLens(result.AuxValues.XP1, testCase.Bitlens[0]);
-                    testCase.XP2 = PadAuxValuesToMatchBitLens(result.AuxValues.XP2, testCase.Bitlens[1]);
-                    testCase.XQ1 = PadAuxValuesToMatchBitLens(result.AuxValues.XQ1, testCase.Bitlens[2]);
-                    testCase.XQ2 = PadAuxValuesToMatchBitLens(result.AuxValues.XQ2, testCase.Bitlens[3]);
+                    var testCase = new TestCase
+                    {
+                        Key = result.Key,
+                        XP = new BitString(result.AuxValues.XP),
+                        XP1 = new BitString(result.AuxValues.XP1),
+                        XP2 = new BitString(result.AuxValues.XP2),
+                        XQ = new BitString(result.AuxValues.XQ),
+                        XQ1 = new BitString(result.AuxValues.XQ1),
+                        XQ2 = new BitString(result.AuxValues.XQ2),
+                        Bitlens = result.BitLens,
+                        Seed = result.Seed
+                    };
+
+                    // TODO this really sucks, these bitstring values need slight modification because they don't always match the bitlens if they start with some 0s
+                    if (group.PrimeGenMode == PrimeGenModes.B36)
+                    {
+                        testCase.XP1 = PadAuxValuesToMatchBitLens(result.AuxValues.XP1, testCase.Bitlens[0]);
+                        testCase.XP2 = PadAuxValuesToMatchBitLens(result.AuxValues.XP2, testCase.Bitlens[1]);
+                        testCase.XQ1 = PadAuxValuesToMatchBitLens(result.AuxValues.XQ1, testCase.Bitlens[2]);
+                        testCase.XQ2 = PadAuxValuesToMatchBitLens(result.AuxValues.XQ2, testCase.Bitlens[3]);
+                    }
+
+                    return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
                 }
-
-                return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
+                catch (Exception ex)
+                {
+                    ThisLogger.Error(ex);
+                    return new TestCaseGenerateResponse<TestGroup, TestCase>($"Failed to generate. {ex.Message}");
+                }
             }
             else
             {
@@ -81,16 +92,11 @@ namespace NIST.CVP.Generation.RSA_KeyGen
             }
         }
 
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
-        {
-            return null;
-        }
-
         private BitString PadAuxValuesToMatchBitLens(BigInteger original, int bitLen)
         {
             return new BitString(original, bitLen % 8 == 0 ? bitLen : bitLen + 8 - bitLen % 8, false);
         }
 
-        private Logger ThisLogger => LogManager.GetCurrentClassLogger();
+        private static ILogger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }

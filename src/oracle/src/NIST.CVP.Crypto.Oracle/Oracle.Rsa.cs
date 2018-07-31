@@ -14,6 +14,7 @@ using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
 using System;
 using System.Numerics;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Crypto.Oracle
 {
@@ -21,11 +22,8 @@ namespace NIST.CVP.Crypto.Oracle
     {
         private readonly ShaFactory _shaFactory = new ShaFactory();
         private readonly KeyComposerFactory _keyComposerFactory = new KeyComposerFactory();
-        private readonly KeyBuilder _keyBuilder = new KeyBuilder(new PrimeGeneratorFactory());
         private readonly PaddingFactory _paddingFactory = new PaddingFactory();
-        private readonly SignatureBuilder _signatureBuilder = new SignatureBuilder();
-        private readonly Rsa _rsa = new Rsa(new RsaVisitor());
-
+        
         public RsaKeyResult CompleteDeferredRsaKeyCase(RsaKeyParameters param, RsaKeyResult fullParam)
         {
             var entropyProvider = new TestableEntropyProvider();
@@ -97,7 +95,7 @@ namespace NIST.CVP.Crypto.Oracle
             var keyComposer = _keyComposerFactory.GetKeyComposer(param.KeyFormat);
 
             // Configure Prime Generator
-            var keyResult = _keyBuilder
+            var keyResult = new KeyBuilder(new PrimeGeneratorFactory())
                 .WithBitlens(param.BitLens)
                 .WithEntropyProvider(entropyProvider)
                 .WithHashFunction(sha)
@@ -156,7 +154,7 @@ namespace NIST.CVP.Crypto.Oracle
             {
                 // No failure, get a random 2048-bit value less than N
                 message = new BitString(_rand.GetRandomBigInteger(key.PubKey.N), 2048);
-                signature = new BitString(_rsa.Decrypt(message.ToPositiveBigInteger(), key.PrivKey, key.PubKey).PlainText, 2048);
+                signature = new BitString(new Rsa(new RsaVisitor()).Decrypt(message.ToPositiveBigInteger(), key.PrivKey, key.PubKey).PlainText, 2048);
             }
             else
             {
@@ -216,8 +214,8 @@ namespace NIST.CVP.Crypto.Oracle
 
             var paddingScheme = _paddingFactory.GetPaddingScheme(param.PaddingScheme, sha, entropyProvider, param.SaltLength);
 
-            var result = _signatureBuilder
-                .WithDecryptionScheme(_rsa)
+            var result = new SignatureBuilder()
+                .WithDecryptionScheme(new Rsa(new RsaVisitor()))
                 .WithMessage(message)
                 .WithPaddingScheme(paddingScheme)
                 .WithKey(param.Key)
@@ -244,8 +242,8 @@ namespace NIST.CVP.Crypto.Oracle
 
             var paddingScheme = _paddingFactory.GetPaddingScheme(param.PaddingScheme, sha, entropyProvider, param.SaltLength);
 
-            var result = _signatureBuilder
-                .WithDecryptionScheme(_rsa)
+            var result = new SignatureBuilder()
+                .WithDecryptionScheme(new Rsa(new RsaVisitor()))
                 .WithKey(param.Key)
                 .WithMessage(fullParam.Message)
                 .WithPaddingScheme(paddingScheme)
@@ -279,8 +277,8 @@ namespace NIST.CVP.Crypto.Oracle
                 }
             };
 
-            var result = _signatureBuilder
-                .WithDecryptionScheme(_rsa)
+            var result = new SignatureBuilder()
+                .WithDecryptionScheme(new Rsa(new RsaVisitor()))
                 .WithMessage(message)
                 .WithPaddingScheme(paddingScheme)
                 .WithKey(copyKey)
@@ -302,6 +300,51 @@ namespace NIST.CVP.Crypto.Oracle
                     Salt = param.PaddingScheme == SignatureSchemes.Pss ? salt : null
                 }
             };
+        }
+
+        public async Task<RsaKeyResult> GetRsaKeyAsync(RsaKeyParameters param)
+        {
+            return await _taskFactory.StartNew(() => GetRsaKey(param));
+        }
+
+        public async Task<RsaKeyResult> CompleteKeyAsync(RsaKeyResult param, PrivateKeyModes keyMode)
+        {
+            return await _taskFactory.StartNew(() => CompleteKey(param, keyMode));
+        }
+
+        public async Task<RsaKeyResult> CompleteDeferredRsaKeyCaseAsync(RsaKeyParameters param, RsaKeyResult fullParam)
+        {
+            return await _taskFactory.StartNew(() => CompleteDeferredRsaKeyCase(param, fullParam));
+        }
+
+        public async Task<VerifyResult<RsaKeyResult>> GetRsaKeyVerifyAsync(RsaKeyResult param)
+        {
+            return await _taskFactory.StartNew(() => GetRsaKeyVerify(param));
+        }
+
+        public async Task<RsaSignaturePrimitiveResult> GetRsaSignaturePrimitiveAsync(RsaSignaturePrimitiveParameters param)
+        {
+            return await _taskFactory.StartNew(() => GetRsaSignaturePrimitive(param));
+        }
+
+        public async Task<RsaSignatureResult> GetDeferredRsaSignatureAsync(RsaSignatureParameters param)
+        {
+            return await _taskFactory.StartNew(() => GetDeferredRsaSignature(param));
+        }
+
+        public async Task<VerifyResult<RsaSignatureResult>> CompleteDeferredRsaSignatureAsync(RsaSignatureParameters param, RsaSignatureResult fullParam)
+        {
+            return await _taskFactory.StartNew(() => CompleteDeferredRsaSignature(param, fullParam));
+        }
+
+        public async Task<RsaSignatureResult> GetRsaSignatureAsync(RsaSignatureParameters param)
+        {
+            return await _taskFactory.StartNew(() => GetRsaSignature(param));
+        }
+
+        public async Task<VerifyResult<RsaSignatureResult>> GetRsaVerifyAsync(RsaSignatureParameters param)
+        {
+            return await _taskFactory.StartNew(() => GetRsaVerify(param));
         }
 
         private BitString GetEValue(int minLen, int maxLen)

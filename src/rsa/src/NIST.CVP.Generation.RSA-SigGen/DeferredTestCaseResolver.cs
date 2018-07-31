@@ -1,12 +1,13 @@
-﻿using NIST.CVP.Common.Oracle;
+﻿using System.Threading.Tasks;
+using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Signatures;
-using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.RSA_SigGen
 {
-    public class DeferredTestCaseResolver : IDeferredTestCaseResolver<TestGroup, TestCase, VerifyResult>
+    public class DeferredTestCaseResolver : IDeferredTestCaseResolverAsync<TestGroup, TestCase, VerifyResult>
     {
         private readonly IOracle _oracle;
 
@@ -15,7 +16,7 @@ namespace NIST.CVP.Generation.RSA_SigGen
             _oracle = oracle;
         }
 
-        public VerifyResult CompleteDeferredCrypto(TestGroup serverTestGroup, TestCase serverTestCase, TestCase iutTestCase)
+        public async Task<VerifyResult> CompleteDeferredCryptoAsync(TestGroup serverTestGroup, TestCase serverTestCase, TestCase iutTestCase)
         {
             var iutTestGroup = iutTestCase.ParentGroup;
 
@@ -35,7 +36,7 @@ namespace NIST.CVP.Generation.RSA_SigGen
                 Signature = iutTestCase.Signature
             };
 
-            var result = _oracle.CompleteDeferredRsaSignature(param, fullParam);
+            var result = await _oracle.CompleteDeferredRsaSignatureAsync(param, fullParam);
 
             return result.Result ? new VerifyResult() : new VerifyResult("Failed to verify.");
         }
