@@ -1,16 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Crypto.Common.Hash.ParallelHash;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.Async;
 using NIST.CVP.Math.Domain;
 using NLog;
 
 namespace NIST.CVP.Generation.ParallelHash
 {
-    public class TestCaseGeneratorAft : ITestCaseGenerator<TestGroup, TestCase>
+    public class TestCaseGeneratorAft : ITestCaseGeneratorAsync<TestGroup, TestCase>
     {
         private int _testCasesToGenerate = 512;
         private int _currentSmallCase = 0;
@@ -31,7 +33,7 @@ namespace NIST.CVP.Generation.ParallelHash
             _oracle = oracle;
         }
 
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
+        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample)
         {
             // Only do this logic once
             if (_capacity == 0)
@@ -45,31 +47,26 @@ namespace NIST.CVP.Generation.ParallelHash
 
             var param = DetermineParameters(group.BitOrientedInput, group.IncludeNull, group.DigestSize, group.HexCustomization, group.XOF);
 
-            Common.Oracle.ResultTypes.HashResultParallelHash oracleResult = null;
             try
             {
-                oracleResult = _oracle.GetParallelHashCase(param);
+                var oracleResult = await _oracle.GetParallelHashCaseAsync(param);
+
+                return new TestCaseGenerateResponse<TestGroup, TestCase>(new TestCase
+                {
+                    Message = oracleResult.Message,
+                    Digest = oracleResult.Digest,
+                    Customization = oracleResult.Customization,
+                    CustomizationHex = oracleResult.CustomizationHex,
+                    BlockSize = _blockSize,
+                    Deferred = false,
+                    DigestLength = _digestLength
+                });
             }
             catch (Exception ex)
             {
+                ThisLogger.Error(ex);
                 return new TestCaseGenerateResponse<TestGroup, TestCase>($"Failed to generate. {ex.Message}");
             }
-
-            return new TestCaseGenerateResponse<TestGroup, TestCase>(new TestCase
-            {
-                Message = oracleResult.Message,
-                Digest = oracleResult.Digest,
-                Customization = oracleResult.Customization,
-                CustomizationHex = oracleResult.CustomizationHex,
-                BlockSize = _blockSize,
-                Deferred = false,
-                DigestLength = _digestLength
-            });
-        }
-
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
-        {
-            return null;
         }
 
         private void DetermineLengths(MathDomain domain)
@@ -183,6 +180,6 @@ namespace NIST.CVP.Generation.ParallelHash
             };
         }
 
-        private Logger ThisLogger => LogManager.GetCurrentClassLogger();
+        private static ILogger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }
