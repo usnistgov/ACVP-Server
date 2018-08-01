@@ -7,6 +7,7 @@ using NIST.CVP.Crypto.DSA.ECC;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Math.Entropy;
 using System;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Crypto.Oracle
 {
@@ -198,6 +199,41 @@ namespace NIST.CVP.Crypto.Oracle
                 Result = param.Disposition == EcdsaSignatureDisposition.None,
                 VerifiedValue = sigResult
             };
+        }
+
+        public async Task<EcdsaKeyResult> GetEcdsaKeyAsync(EcdsaKeyParameters param)
+        {
+            return await _taskFactory.StartNew(() => GetEcdsaKey(param));
+        }
+
+        public async Task<EcdsaKeyResult> CompleteDeferredEcdsaKeyAsync(EcdsaKeyParameters param, EcdsaKeyResult fullParam)
+        {
+            return await _taskFactory.StartNew(() => CompleteDeferredEcdsaKey(param, fullParam));
+        }
+
+        public async Task<VerifyResult<EcdsaKeyResult>> GetEcdsaKeyVerifyAsync(EcdsaKeyParameters param)
+        {
+            return await _taskFactory.StartNew(() => GetEcdsaKeyVerify(param));
+        }
+
+        public async Task<EcdsaSignatureResult> GetDeferredEcdsaSignatureAsync(EcdsaSignatureParameters param)
+        {
+            return await _taskFactory.StartNew(() => GetDeferredEcdsaSignature(param));
+        }
+
+        public async Task<VerifyResult<EcdsaSignatureResult>> CompleteDeferredEcdsaSignatureAsync(EcdsaSignatureParameters param, EcdsaSignatureResult fullParam)
+        {
+            return await _taskFactory.StartNew(() => CompleteDeferredEcdsaSignature(param, fullParam));
+        }
+
+        public async Task<EcdsaSignatureResult> GetEcdsaSignatureAsync(EcdsaSignatureParameters param)
+        {
+            return await _taskFactory.StartNew(() => GetEcdsaSignature(param));
+        }
+
+        public async Task<VerifyResult<EcdsaSignatureResult>> GetEcdsaVerifyResultAsync(EcdsaSignatureParameters param)
+        {
+            return await _taskFactory.StartNew(() => GetEcdsaVerifyResult(param));
         }
     }
 }

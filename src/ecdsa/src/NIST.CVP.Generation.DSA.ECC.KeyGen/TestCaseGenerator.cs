@@ -4,10 +4,12 @@ using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Generation.Core;
 using NLog;
 using System;
+using System.Threading.Tasks;
+using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.DSA.ECC.KeyGen
 {
-    public class TestCaseGenerator : ITestCaseGenerator<TestGroup, TestCase>
+    public class TestCaseGenerator : ITestCaseGeneratorAsync<TestGroup, TestCase>
     {
         private readonly IOracle _oracle;
 
@@ -18,7 +20,7 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyGen
             _oracle = oracle;
         }
 
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
+        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample)
         {
             if (isSample)
             {
@@ -29,33 +31,27 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyGen
                     Curve = group.Curve
                 };
 
-                EcdsaKeyResult result = null;
                 try
                 {
-                    result = _oracle.GetEcdsaKey(param);
+                    var result = await _oracle.GetEcdsaKeyAsync(param);
+
+                    return new TestCaseGenerateResponse<TestGroup, TestCase>(new TestCase
+                    {
+                        KeyPair = result.Key
+                    });
                 }
                 catch (Exception ex)
                 {
-                    ThisLogger.Error(ex.StackTrace);
+                    ThisLogger.Error(ex);
                     return new TestCaseGenerateResponse<TestGroup, TestCase>($"Error generating key: {ex.Message}");
                 }
-
-                return new TestCaseGenerateResponse<TestGroup, TestCase>(new TestCase
-                {
-                    KeyPair = result.Key
-                });
             }
             else
             {
                 return new TestCaseGenerateResponse<TestGroup, TestCase>(new TestCase());
             }
         }
-
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
-        {
-            return null;
-        }
-
-        private Logger ThisLogger => LogManager.GetCurrentClassLogger();
+        
+        private static ILogger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }

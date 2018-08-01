@@ -4,10 +4,12 @@ using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Generation.Core;
 using NLog;
 using System;
+using System.Threading.Tasks;
+using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.DSA.ECC.SigVer
 {
-    public class TestCaseGenerator : ITestCaseGenerator<TestGroup, TestCase>
+    public class TestCaseGenerator : ITestCaseGeneratorAsync<TestGroup, TestCase>
     {
         private readonly IOracle _oracle;
 
@@ -18,7 +20,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer
             _oracle = oracle;
         }
 
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
+        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample)
         {
             if (isSample)
             {
@@ -33,33 +35,28 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer
                 Key = group.KeyPair
             };
 
-            VerifyResult<EcdsaSignatureResult> result = null;
             try
             {
-                result = _oracle.GetEcdsaVerifyResult(param);
+                var result = await _oracle.GetEcdsaVerifyResultAsync(param);
+
+                var testCase = new TestCase
+                {
+                    Message = result.VerifiedValue.Message,
+                    KeyPair = result.VerifiedValue.Key,
+                    Reason = param.Disposition,
+                    TestPassed = result.Result
+                };
+
+                return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
             }
             catch (Exception ex)
             {
+                ThisLogger.Error(ex);
                 return new TestCaseGenerateResponse<TestGroup, TestCase>($"Error generating case: {ex.Message}");
             }
-
-            var testCase = new TestCase
-            {
-                Message = result.VerifiedValue.Message,
-                KeyPair = result.VerifiedValue.Key,
-                Reason = param.Disposition,
-                TestPassed = result.Result
-            };
-
-            return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
         }
 
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
-        {
-            return null;
-        }
-
-        private Logger ThisLogger => LogManager.GetCurrentClassLogger();
+        private static ILogger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }
 
