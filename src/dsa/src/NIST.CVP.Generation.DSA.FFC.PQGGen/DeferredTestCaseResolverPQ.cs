@@ -1,12 +1,13 @@
-﻿using NIST.CVP.Common.Oracle;
+﻿using System.Threading.Tasks;
+using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC.PQGeneratorValidators;
-using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.DSA.FFC.PQGGen
 {
-    public class DeferredTestCaseResolverPQ : IDeferredTestCaseResolver<TestGroup, TestCase, PQValidateResult>
+    public class DeferredTestCaseResolverPQ : IDeferredTestCaseResolverAsync<TestGroup, TestCase, PQValidateResult>
     {
         private readonly IOracle _oracle;
 
@@ -15,7 +16,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
             _oracle = oracle;
         }
         
-        public PQValidateResult CompleteDeferredCrypto(TestGroup serverTestGroup, TestCase serverTestCase, TestCase iutTestCase)
+        public async Task<PQValidateResult> CompleteDeferredCryptoAsync(TestGroup serverTestGroup, TestCase serverTestCase, TestCase iutTestCase)
         {
             var param = new DsaDomainParametersParameters
             {
@@ -29,11 +30,11 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
             {
                 P = iutTestCase.P,
                 Q = iutTestCase.Q,
-                Seed = serverTestCase.Seed,
+                Seed = iutTestCase.Seed,
                 Counter = iutTestCase.Counter
             };
 
-            var result = _oracle.GetDsaPQVerify(param, fullParam);
+            var result = await _oracle.GetDsaPQVerifyAsync(param, fullParam);
 
             return result.Result ? new PQValidateResult() : new PQValidateResult("Failed to validate");
         }

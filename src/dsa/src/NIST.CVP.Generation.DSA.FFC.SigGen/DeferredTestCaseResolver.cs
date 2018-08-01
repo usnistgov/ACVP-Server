@@ -1,12 +1,13 @@
-﻿using NIST.CVP.Common.Oracle;
+﻿using System.Threading.Tasks;
+using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
-using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.DSA.FFC.SigGen
 {
-    public class DeferredTestCaseResolver : IDeferredTestCaseResolver<TestGroup, TestCase, FfcVerificationResult>
+    public class DeferredTestCaseResolver : IDeferredTestCaseResolverAsync<TestGroup, TestCase, FfcVerificationResult>
     {
         private readonly IOracle _oracle;
 
@@ -15,7 +16,7 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen
             _oracle = oracle;
         }
 
-        public FfcVerificationResult CompleteDeferredCrypto(TestGroup serverTestGroup, TestCase serverTestCase, TestCase iutTestCase)
+        public async Task<FfcVerificationResult> CompleteDeferredCryptoAsync(TestGroup serverTestGroup, TestCase serverTestCase, TestCase iutTestCase)
         {
             var iutTestGroup = iutTestCase.ParentGroup;
             if (iutTestGroup.DomainParams == null)
@@ -36,7 +37,7 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen
                 Signature = iutTestCase.Signature
             };
 
-            var result = _oracle.CompleteDeferredDsaSignature(param, fullParam);
+            var result = await _oracle.CompleteDeferredDsaSignatureAsync(param, fullParam);
             return result.Result ? new FfcVerificationResult() : new FfcVerificationResult("Failed to verify"); 
         }
     }

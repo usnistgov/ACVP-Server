@@ -1,7 +1,9 @@
-﻿using Moq;
+﻿using System.Threading.Tasks;
+using Moq;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.Async;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -12,19 +14,19 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen.Tests
     public class TestCaseValidatorTests
     {
         [Test]
-        public void ShouldRunVerifyMethodAndSucceedWithGoodSignature()
+        public async Task ShouldRunVerifyMethodAndSucceedWithGoodSignature()
         {
             var subject = new TestCaseValidator(GetTestCase(), GetTestGroup(), GetDeferredMock(true).Object);
-            var result = subject.Validate(GetResultTestCase());
+            var result = await subject.ValidateAsync(GetResultTestCase());
 
             Assert.AreEqual(Core.Enums.Disposition.Passed, result.Result);
         }
 
         [Test]
-        public void ShouldRunVerifyMethodAndFailWithBadSignature()
+        public async Task ShouldRunVerifyMethodAndFailWithBadSignature()
         {
             var subject = new TestCaseValidator(GetTestCase(), GetTestGroup(), GetDeferredMock(false).Object);
-            var result = subject.Validate(GetResultTestCase());
+            var result = await subject.ValidateAsync(GetResultTestCase());
 
             Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
         }
@@ -59,14 +61,14 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen.Tests
             };
         }
 
-        private Mock<IDeferredTestCaseResolver<TestGroup, TestCase, FfcVerificationResult>> GetDeferredMock(bool shouldPass)
+        private Mock<IDeferredTestCaseResolverAsync<TestGroup, TestCase, FfcVerificationResult>> GetDeferredMock(bool shouldPass)
         {
-            var goodResult = new FfcVerificationResult();
-            var badResult = new FfcVerificationResult("fail");
+            var goodResult = Task.FromResult(new FfcVerificationResult());
+            var badResult = Task.FromResult(new FfcVerificationResult("fail"));
 
-            var mock = new Mock<IDeferredTestCaseResolver<TestGroup, TestCase, FfcVerificationResult>>();
+            var mock = new Mock<IDeferredTestCaseResolverAsync<TestGroup, TestCase, FfcVerificationResult>>();
             mock
-                .Setup(s => s.CompleteDeferredCrypto(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()))
+                .Setup(s => s.CompleteDeferredCryptoAsync(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()))
                 .Returns(shouldPass ? goodResult : badResult);
 
             return mock;

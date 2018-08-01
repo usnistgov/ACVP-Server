@@ -4,10 +4,12 @@ using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Generation.Core;
 using NLog;
 using System;
+using System.Threading.Tasks;
+using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.DSA.FFC.SigGen
 {
-    public class TestCaseGenerator : ITestCaseGenerator<TestGroup, TestCase>
+    public class TestCaseGenerator : ITestCaseGeneratorAsync<TestGroup, TestCase>
     {
         private readonly IOracle _oracle;
 
@@ -18,7 +20,7 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen
             _oracle = oracle;
         }
 
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
+        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample)
         {
             var param = new DsaSignatureParameters
             {
@@ -26,9 +28,10 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen
                 MessageLength = group.L
             };
 
-            DsaSignatureResult result = null;
             try
             {
+                DsaSignatureResult result = null;
+
                 if (isSample)
                 {
                     // If we are a sample, the group MUST have domain parameters
@@ -37,12 +40,12 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen
                         DomainParameters = group.DomainParams
                     };
 
-                    var keyResult = _oracle.GetDsaKey(keyParam);
+                    var keyResult = await _oracle.GetDsaKeyAsync(keyParam);
 
                     param.Key = keyResult.Key;
                     param.DomainParameters = keyParam.DomainParameters;
 
-                    result = _oracle.GetDsaSignature(param);
+                    result = await _oracle.GetDsaSignatureAsync(param);
                     var testCase = new TestCase
                     {
                         Message = result.Message,
@@ -54,7 +57,7 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen
                 }
                 else
                 {
-                    result = _oracle.GetDeferredDsaSignature(param);
+                    result = await _oracle.GetDeferredDsaSignatureAsync(param);
                     var testCase = new TestCase
                     {
                         Message = result.Message
@@ -65,16 +68,11 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen
             }
             catch (Exception ex)
             {
-                ThisLogger.Error(ex.StackTrace);
+                ThisLogger.Error(ex);
                 return new TestCaseGenerateResponse<TestGroup, TestCase>("Unable to generate test case");
             }
         }
 
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
-        {
-            return null;
-        }
-
-        private Logger ThisLogger => LogManager.GetCurrentClassLogger();
+        private static ILogger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }

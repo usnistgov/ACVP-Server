@@ -6,10 +6,12 @@ using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC.Enums;
 using NIST.CVP.Generation.Core;
 using NLog;
 using System;
+using System.Threading.Tasks;
+using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.DSA.FFC.PQGVer
 {
-    public class TestCaseGeneratorG : ITestCaseGenerator<TestGroup, TestCase>
+    public class TestCaseGeneratorG : ITestCaseGeneratorAsync<TestGroup, TestCase>
     {
         private readonly IOracle _oracle;
 
@@ -20,7 +22,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer
             _oracle = oracle;
         }
 
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
+        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample)
         {
             if (isSample)
             {
@@ -39,11 +41,11 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer
             DsaDomainParametersResult pqResult = null;
             try
             {
-                pqResult = _oracle.GetDsaPQ(pqParam);
+                pqResult = await _oracle.GetDsaPQAsync(pqParam);
             }
             catch (Exception ex)
             {
-                ThisLogger.Error(ex.StackTrace);
+                ThisLogger.Error(ex);
                 return new TestCaseGenerateResponse<TestGroup, TestCase>("Error generating PQ for test case");
             }
 
@@ -58,39 +60,33 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer
                 N = group.N
             };
 
-            DsaDomainParametersResult gResult = null;
             try
             {
-                gResult = _oracle.GetDsaG(gParam, pqResult);
+                var gResult = await _oracle.GetDsaGAsync(gParam, pqResult);
+
+                // Assign values of the TestCase
+                var testCase = new TestCase
+                {
+                    P = pqResult.P,
+                    Q = pqResult.Q,
+                    Seed = pqResult.Seed,
+                    Counter = pqResult.Counter,
+                    Index = gResult.Index,
+                    Reason = reason.GetName(),
+                    TestPassed = reason.GetReason() == DsaGDisposition.None,
+                    G = gResult.G,
+                    H = gResult.H
+                };
+
+                return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
             }
             catch (Exception ex)
             {
-                ThisLogger.Error(ex.StackTrace);
+                ThisLogger.Error(ex);
                 return new TestCaseGenerateResponse<TestGroup, TestCase>("Error generating G for test case");
             }
-
-            // Assign values of the TestCase
-            var testCase = new TestCase
-            {
-                P = pqResult.P,
-                Q = pqResult.Q,
-                Seed = pqResult.Seed,
-                Counter = pqResult.Counter,
-                Index = gResult.Index,
-                Reason = reason.GetName(),
-                TestPassed = reason.GetReason() == DsaGDisposition.None,
-                G = gResult.G,
-                H = gResult.H
-            };
-
-            return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
         }
 
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
-        {
-            return null;
-        }
-
-        private Logger ThisLogger => LogManager.GetCurrentClassLogger();
+        private static ILogger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }

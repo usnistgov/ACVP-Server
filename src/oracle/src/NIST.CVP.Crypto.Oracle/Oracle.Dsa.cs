@@ -13,6 +13,7 @@ using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Math;
 using System;
 using System.Numerics;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Crypto.Oracle
 {
@@ -265,6 +266,56 @@ namespace NIST.CVP.Crypto.Oracle
             }
 
             return result;
+        }
+
+        public async Task<DsaDomainParametersResult> GetDsaPQAsync(DsaDomainParametersParameters param)
+        {
+            return await _taskFactory.StartNew(() => GetDsaPQ(param));
+        }
+
+        public async Task<DsaDomainParametersResult> GetDsaGAsync(DsaDomainParametersParameters param, DsaDomainParametersResult pqParam)
+        {
+            return await _taskFactory.StartNew(() => GetDsaG(param, pqParam));
+        }
+
+        public async Task<DsaDomainParametersResult> GetDsaDomainParametersAsync(DsaDomainParametersParameters param)
+        {
+            return await _taskFactory.StartNew(() => GetDsaDomainParameters(param));
+        }
+
+        public async Task<VerifyResult<DsaDomainParametersResult>> GetDsaPQVerifyAsync(DsaDomainParametersParameters param, DsaDomainParametersResult fullParam)
+        {
+            return await _taskFactory.StartNew(() => GetDsaPQVerify(param, fullParam));
+        }
+
+        public async Task<VerifyResult<DsaDomainParametersResult>> GetDsaGVerifyAsync(DsaDomainParametersParameters param, DsaDomainParametersResult fullParam)
+        {
+            return await _taskFactory.StartNew(() => GetDsaGVerify(param, fullParam));
+        }
+
+        public async Task<DsaKeyResult> GetDsaKeyAsync(DsaKeyParameters param)
+        {
+            return await _taskFactory.StartNew(() => GetDsaKey(param));
+        }
+
+        public async Task<VerifyResult<DsaKeyResult>> CompleteDeferredDsaKeyAsync(DsaKeyParameters param, DsaKeyResult fullParam)
+        {
+            return await _taskFactory.StartNew(() => CompleteDeferredDsaKey(param, fullParam));
+        }
+
+        public async Task<DsaSignatureResult> GetDeferredDsaSignatureAsync(DsaSignatureParameters param)
+        {
+            return await _taskFactory.StartNew(() => GetDeferredDsaSignature(param));
+        }
+
+        public async Task<VerifyResult<DsaSignatureResult>> CompleteDeferredDsaSignatureAsync(DsaSignatureParameters param, DsaSignatureResult fullParam)
+        {
+            return await _taskFactory.StartNew(() => CompleteDeferredDsaSignature(param, fullParam));
+        }
+
+        public async Task<DsaSignatureResult> GetDsaSignatureAsync(DsaSignatureParameters param)
+        {
+            return await _taskFactory.StartNew(() => GetDsaSignature(param));
         }
     }
 }

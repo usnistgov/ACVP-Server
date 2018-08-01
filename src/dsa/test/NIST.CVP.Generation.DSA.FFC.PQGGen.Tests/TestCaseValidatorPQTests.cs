@@ -1,6 +1,8 @@
-﻿using Moq;
+﻿using System.Threading.Tasks;
+using Moq;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC.PQGeneratorValidators;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.Async;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
@@ -10,19 +12,19 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen.Tests
     public class TestCaseValidatorPQTests
     {
         [Test]
-        public void ShouldRunVerifyMethodAndSucceedWithGoodPQ()
+        public async Task ShouldRunVerifyMethodAndSucceedWithGoodPQ()
         {
             var subject = new TestCaseValidatorPQ(GetTestCase(), GetTestGroup(), GetResolverMock(true).Object);
-            var result = subject.Validate(GetResultTestCase());
+            var result = await subject.ValidateAsync(GetResultTestCase());
 
             Assert.AreEqual(Core.Enums.Disposition.Passed, result.Result);
         }
 
         [Test]
-        public void ShouldRunVerifyMethodAndFailWithBadG()
+        public async Task ShouldRunVerifyMethodAndFailWithBadG()
         {
             var subject = new TestCaseValidatorPQ(GetTestCase(), GetTestGroup(), GetResolverMock(false).Object);
-            var result = subject.Validate(GetResultTestCase());
+            var result = await subject.ValidateAsync(GetResultTestCase());
 
             Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
         }
@@ -53,14 +55,14 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen.Tests
             };
         }
 
-        private Mock<IDeferredTestCaseResolver<TestGroup, TestCase, PQValidateResult>> GetResolverMock(bool shouldPass)
+        private Mock<IDeferredTestCaseResolverAsync<TestGroup, TestCase, PQValidateResult>> GetResolverMock(bool shouldPass)
         {
-            var goodResult = new PQValidateResult();
-            var badResult = new PQValidateResult("fail");
+            var goodResult = Task.FromResult(new PQValidateResult());
+            var badResult = Task.FromResult(new PQValidateResult("fail"));
 
-            var mock = new Mock<IDeferredTestCaseResolver<TestGroup, TestCase, PQValidateResult>>();
+            var mock = new Mock<IDeferredTestCaseResolverAsync<TestGroup, TestCase, PQValidateResult>>();
             mock
-                .Setup(s => s.CompleteDeferredCrypto(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()))
+                .Setup(s => s.CompleteDeferredCryptoAsync(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()))
                 .Returns(shouldPass ? goodResult : badResult);
 
             return mock;

@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.DSA.FFC.PQGVer
 {
-    public class TestCaseValidator : ITestCaseValidator<TestGroup, TestCase>
+    public class TestCaseValidator : ITestCaseValidatorAsync<TestGroup, TestCase>
     {
         private readonly TestCase _expectedResult;
         public int TestCaseId => _expectedResult.TestCaseId;
@@ -15,7 +17,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer
             _expectedResult = expectedResult;
         }
 
-        public TestCaseValidation Validate(TestCase suppliedResult, bool showExpected = false)
+        public Task<TestCaseValidation> ValidateAsync(TestCase suppliedResult, bool showExpected = false)
         {
             if (_expectedResult.TestPassed != suppliedResult.TestPassed)
             {
@@ -25,17 +27,21 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer
                 var provided = new Dictionary<string, string>();
                 provided.Add(nameof(suppliedResult.TestPassed), suppliedResult.TestPassed.Value.ToString());
 
-                return new TestCaseValidation
+                return Task.FromResult(new TestCaseValidation
                 {
                     TestCaseId = suppliedResult.TestCaseId,
                     Result = Core.Enums.Disposition.Failed,
                     Reason = _expectedResult.Reason,
                     Expected = expected.Count != 0 && showExpected ? expected : null,
                     Provided = provided.Count != 0 && showExpected ? provided : null
-                };
+                });
             }
 
-            return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = Core.Enums.Disposition.Passed };
+            return Task.FromResult(new TestCaseValidation
+            {
+                TestCaseId = suppliedResult.TestCaseId,
+                Result = Core.Enums.Disposition.Passed
+            });
         }
     }
 }

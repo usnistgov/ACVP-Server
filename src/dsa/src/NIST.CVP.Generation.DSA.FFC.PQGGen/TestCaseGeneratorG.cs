@@ -3,21 +3,23 @@ using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Generation.Core;
 using NLog;
 using System;
+using System.Threading.Tasks;
+using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.DSA.FFC.PQGGen
 {
-    public class TestCaseGeneratorG : ITestCaseGenerator<TestGroup, TestCase>
+    public class TestCaseGeneratorG : ITestCaseGeneratorAsync<TestGroup, TestCase>
     {
         private readonly IOracle _oracle;
 
-        public int NumberOfTestCasesToGenerate { get; private set; } = 2;
+        public int NumberOfTestCasesToGenerate { get; private set; } = 5;
 
         public TestCaseGeneratorG(IOracle oracle)
         {
             _oracle = oracle;
         }
 
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
+        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample)
         {
             if (isSample)
             {
@@ -38,7 +40,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
                 if (isSample)
                 {
                     // Needs PQ and G
-                    var result = _oracle.GetDsaDomainParameters(param);
+                    var result = await _oracle.GetDsaDomainParametersAsync(param);
                     var testCase = new TestCase
                     {
                         Counter = result.Counter,
@@ -54,7 +56,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
                 else
                 {
                     // Needs PQ
-                    var result = _oracle.GetDsaPQ(param);
+                    var result = await _oracle.GetDsaPQAsync(param);
                     var testCase = new TestCase
                     {
                         Counter = result.Counter,
@@ -68,16 +70,11 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
             }
             catch (Exception ex)
             {
-                ThisLogger.Error(ex.StackTrace);
+                ThisLogger.Error(ex);
                 return new TestCaseGenerateResponse<TestGroup, TestCase>("Unable to generate test case");
             }
         }
-
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
-        {
-            return null;
-        }
-
-        private Logger ThisLogger => LogManager.GetCurrentClassLogger();
+        
+        private static ILogger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }

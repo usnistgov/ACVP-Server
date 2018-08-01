@@ -1,12 +1,13 @@
-﻿using NIST.CVP.Common.Oracle;
+﻿using System.Threading.Tasks;
+using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
-using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.DSA.FFC.KeyGen
 {
-    public class DeferredTestCaseResolver : IDeferredTestCaseResolver<TestGroup, TestCase, FfcKeyPairValidateResult>
+    public class DeferredTestCaseResolver : IDeferredTestCaseResolverAsync<TestGroup, TestCase, FfcKeyPairValidateResult>
     {
         private readonly IOracle _oracle;
 
@@ -15,7 +16,7 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen
             _oracle = oracle;
         }
 
-        public FfcKeyPairValidateResult CompleteDeferredCrypto(TestGroup serverTestGroup, TestCase serverTestCase, TestCase iutTestCase)
+        public async Task<FfcKeyPairValidateResult> CompleteDeferredCryptoAsync(TestGroup serverTestGroup, TestCase serverTestCase, TestCase iutTestCase)
         {
             var iutTestGroup = iutTestCase.ParentGroup;
             if (iutTestGroup.DomainParams.P == 0 || iutTestGroup.DomainParams.Q == 0 || iutTestGroup.DomainParams.G == 0)
@@ -33,7 +34,7 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen
                 Key = iutTestCase.Key
             };
 
-            var result = _oracle.CompleteDeferredDsaKey(param, fullParam);
+            var result = await _oracle.CompleteDeferredDsaKeyAsync(param, fullParam);
             return result.Result ? new FfcKeyPairValidateResult() : new FfcKeyPairValidateResult("Fail");
         }
     }

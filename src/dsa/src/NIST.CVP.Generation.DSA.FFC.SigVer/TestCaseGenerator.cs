@@ -5,10 +5,12 @@ using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Generation.Core;
 using NLog;
 using System;
+using System.Threading.Tasks;
+using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.DSA.FFC.SigVer
 {
-    public class TestCaseGenerator : ITestCaseGenerator<TestGroup, TestCase>
+    public class TestCaseGenerator : ITestCaseGeneratorAsync<TestGroup, TestCase>
     {
         private readonly IOracle _oracle;
 
@@ -19,7 +21,7 @@ namespace NIST.CVP.Generation.DSA.FFC.SigVer
             _oracle = oracle;
         }
 
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
+        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample)
         {
             if (isSample)
             {
@@ -34,11 +36,11 @@ namespace NIST.CVP.Generation.DSA.FFC.SigVer
             DsaKeyResult keyResult = null;
             try
             {
-                keyResult = _oracle.GetDsaKey(keyParam);
+                keyResult = await _oracle.GetDsaKeyAsync(keyParam);
             }
             catch (Exception ex)
             {
-                ThisLogger.Error(ex.StackTrace);
+                ThisLogger.Error(ex);
                 return new TestCaseGenerateResponse<TestGroup, TestCase>("Unable to generate key");
             }
 
@@ -52,33 +54,27 @@ namespace NIST.CVP.Generation.DSA.FFC.SigVer
                 Disposition = reason.GetReason()
             };
 
-            DsaSignatureResult result = null;
             try
             {
-                result = _oracle.GetDsaSignature(param);
+                var result = await _oracle.GetDsaSignatureAsync(param);
+
+                var testCase = new TestCase
+                {
+                    Message = result.Message,
+                    Key = param.Key,
+                    Reason = reason,
+                    TestPassed = reason.GetReason() == DsaSignatureDisposition.None
+                };
+
+                return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
             }
             catch (Exception ex)
             {
-                ThisLogger.Error(ex.StackTrace);
+                ThisLogger.Error(ex);
                 return new TestCaseGenerateResponse<TestGroup, TestCase>("Unable to generate signature");
             }
-
-            var testCase = new TestCase
-            {
-                Message = result.Message,
-                Key = param.Key,
-                Reason = reason,
-                TestPassed = reason.GetReason() == DsaSignatureDisposition.None
-            };
-
-            return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
         }
-
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
-        {
-            return null;
-        }
-
-        private Logger ThisLogger => LogManager.GetCurrentClassLogger();
+        
+        private ILogger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }

@@ -3,21 +3,23 @@ using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Generation.Core;
 using NLog;
 using System;
+using System.Threading.Tasks;
+using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.DSA.FFC.PQGGen
 {
-    public class TestCaseGeneratorPQ : ITestCaseGenerator<TestGroup, TestCase>
+    public class TestCaseGeneratorPQ : ITestCaseGeneratorAsync<TestGroup, TestCase>
     {
         private readonly IOracle _oracle;
 
-        public int NumberOfTestCasesToGenerate { get; private set; } = 2;
+        public int NumberOfTestCasesToGenerate { get; private set; } = 5;
 
         public TestCaseGeneratorPQ(IOracle oracle)
         {
             _oracle = oracle;
         }
 
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
+        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample)
         {
             if (isSample)
             {
@@ -36,7 +38,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
             {
                 if (isSample)
                 {
-                    var result = _oracle.GetDsaPQ(param);
+                    var result = await _oracle.GetDsaPQAsync(param);
                     var testCase = new TestCase
                     {
                         P = result.P,
@@ -54,7 +56,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
             }
             catch (Exception ex)
             {
-                ThisLogger.Error(ex.StackTrace);
+                ThisLogger.Error(ex);
                 return new TestCaseGenerateResponse<TestGroup, TestCase>("Unable to generate test case");
             }
         }

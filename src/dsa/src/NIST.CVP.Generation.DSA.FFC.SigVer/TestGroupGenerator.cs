@@ -44,12 +44,12 @@ namespace NIST.CVP.Generation.DSA.FFC.SigVer
                     FfcDomainParameters domainParams = null;
                     try
                     {
-                        var result = _oracle.GetDsaDomainParameters(param);
+                        var result = _oracle.GetDsaDomainParametersAsync(param).Result;
                         domainParams = new FfcDomainParameters(result.P, result.Q, result.G);
                     }
                     catch (Exception ex)
                     {
-                        ThisLogger.Error(ex.StackTrace);
+                        ThisLogger.Error(ex);
                         throw;
                     }
                     
