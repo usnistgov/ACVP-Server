@@ -26,6 +26,8 @@ namespace NIST.CVP.Generation.RSA_SPComponent
                 if(suppliedResult.Signature == null)
                 {
                     errors.Add("Could not find signature");
+                    expected.Add(nameof(_expectedResult.Signature), "");
+                    provided.Add(nameof(suppliedResult.Signature), "");
                 }
                 else
                 {
