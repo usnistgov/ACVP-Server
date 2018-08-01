@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using NIST.CVP.Crypto.Common.Hash;
 using NIST.CVP.Crypto.Common.Hash.CSHAKE;
 using NIST.CVP.Common.Oracle;
@@ -6,10 +7,11 @@ using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Generation.Core;
 using NLog;
 using NIST.CVP.Common.Oracle.ResultTypes;
+using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.CSHAKE
 {
-    public class TestCaseGeneratorMct : ITestCaseGenerator<TestGroup, TestCase>
+    public class TestCaseGeneratorMct : ITestCaseGeneratorAsync<TestGroup, TestCase>
     {
         private readonly IOracle _oracle;
 
@@ -22,7 +24,7 @@ namespace NIST.CVP.Generation.CSHAKE
             _oracle = oracle;
         }
 
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
+        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample)
         {
             IsSample = isSample;
             var param = new CShakeParameters
@@ -32,29 +34,24 @@ namespace NIST.CVP.Generation.CSHAKE
                 OutLens = group.OutputLength.GetDeepCopy()
             };
 
-            MctResult<CShakeResult> oracleResult = null;
             try
             {
-                oracleResult = _oracle.GetCShakeMctCase(param);
+                var oracleResult = await _oracle.GetCShakeMctCaseAsync(param);
+
+                return new TestCaseGenerateResponse<TestGroup, TestCase>(new TestCase
+                {
+                    Message = oracleResult.Results[0].Message,
+                    Digest = oracleResult.Results[0].Digest,
+                    ResultsArray = oracleResult.Results.ConvertAll(element => new AlgoArrayResponseWithCustomization { Message = element.Message, Digest = element.Digest, Customization = element.Customization })
+                });
             }
             catch (Exception ex)
             {
+                ThisLogger.Error(ex);
                 return new TestCaseGenerateResponse<TestGroup, TestCase>($"Failed to generate. {ex.Message}");
             }
-
-            return new TestCaseGenerateResponse<TestGroup, TestCase>(new TestCase
-            {
-                Message = oracleResult.Results[0].Message,
-                Digest = oracleResult.Results[0].Digest,
-                ResultsArray = oracleResult.Results.ConvertAll(element => new AlgoArrayResponseWithCustomization { Message = element.Message, Digest = element.Digest, Customization = element.Customization })
-            });
         }
-
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
-        {
-            return null;
-        }
-
-        private Logger ThisLogger => LogManager.GetCurrentClassLogger();
+        
+        private static ILogger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }
