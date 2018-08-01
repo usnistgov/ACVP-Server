@@ -146,5 +146,10 @@ namespace NIST.CVP.Crypto.Oracle
         {
             return await _taskFactory.StartNew(() => GetHmacCase(param));
         }
+
+        public async Task<KmacResult> GetKmacCaseAsync(KmacParameters param)
+        {
+            return await _taskFactory.StartNew(() => GetKmacCase(param));
+        }
     }
 }

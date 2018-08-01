@@ -12,5 +12,6 @@ namespace NIST.CVP.Common.Oracle
 
         Task<MacResult> GetCmacCaseAsync(CmacParameters param);
         Task<MacResult> GetHmacCaseAsync(HmacParameters param);
+        Task<KmacResult> GetKmacCaseAsync(KmacParameters param);
     }
 }

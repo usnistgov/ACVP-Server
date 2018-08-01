@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Math;
+﻿using System.Threading.Tasks;
+using NIST.CVP.Math;
 using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -11,18 +12,18 @@ namespace NIST.CVP.Generation.KMAC.Tests
         private TestCaseValidatorMvt _subject;
 
         [Test]
-        public void ShouldValidateIfExpectedAndSuppliedResultsMatch()
+        public async Task ShouldValidateIfExpectedAndSuppliedResultsMatch()
         {
             var testCase = GetTestCase();
             var testGroup = GetTestGroup();
             _subject = new TestCaseValidatorMvt(testCase, testGroup);
-            var result = _subject.Validate(testCase);
+            var result = await _subject.ValidateAsync(testCase);
             Assume.That(result != null);
             Assert.AreEqual(Core.Enums.Disposition.Passed, result.Result);
         }
 
         [Test]
-        public void ShouldFailIfMacVerifiedDoesNotMatch()
+        public async Task ShouldFailIfMacVerifiedDoesNotMatch()
         {
             var testMacVerified = false;
 
@@ -32,13 +33,13 @@ namespace NIST.CVP.Generation.KMAC.Tests
             _subject = new TestCaseValidatorMvt(testCase, testGroup);
             var suppliedResult = GetTestCase();
             suppliedResult.MacVerified = testMacVerified;
-            var result = _subject.Validate(suppliedResult);
+            var result = await _subject.ValidateAsync(suppliedResult);
             Assume.That(result != null);
             Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
         }
 
         [Test]
-        public void ShouldShowMacVerifiedAsReasonIfItDoesNotMatch()
+        public async Task ShouldShowMacVerifiedAsReasonIfItDoesNotMatch()
         {
             var testMacVerified = false;
 
@@ -48,14 +49,14 @@ namespace NIST.CVP.Generation.KMAC.Tests
             _subject = new TestCaseValidatorMvt(testCase, testGroup);
             var suppliedResult = GetTestCase();
             suppliedResult.MacVerified = testMacVerified;
-            var result = _subject.Validate(suppliedResult);
+            var result = await _subject.ValidateAsync(suppliedResult);
             Assume.That(result != null);
             Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
             Assert.IsTrue(result.Reason.Contains("MAC Verification"));
         }
 
         [Test]
-        public void ShouldFailIfMacVerifiedNotPresent()
+        public async Task ShouldFailIfMacVerifiedNotPresent()
         {
             var testCase = GetTestCase();
             var testGroup = GetTestGroup();
@@ -64,7 +65,7 @@ namespace NIST.CVP.Generation.KMAC.Tests
 
             suppliedResult.MacVerified = null;
 
-            var result = _subject.Validate(suppliedResult);
+            var result = await _subject.ValidateAsync(suppliedResult);
             Assume.That(result != null);
             Assume.That(Core.Enums.Disposition.Failed == result.Result);
 
