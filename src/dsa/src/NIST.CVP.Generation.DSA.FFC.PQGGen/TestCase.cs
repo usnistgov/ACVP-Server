@@ -43,6 +43,12 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
             get => Seed.QSeed;
             set => Seed.QSeed = value;
         }
+        [JsonProperty(PropertyName = "fullSeed")]
+        public BigInteger FullSeed
+        {
+            get => Seed.GetFullSeed();
+            set => Seed.Seed = value;
+        }
 
         [JsonIgnore] public Counter Counter { get; set; } = new Counter();
         [JsonProperty(PropertyName = "counter")]

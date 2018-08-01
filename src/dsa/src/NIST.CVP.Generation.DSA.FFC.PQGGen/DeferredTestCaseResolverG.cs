@@ -21,7 +21,6 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
             var param = new DsaDomainParametersParameters
             {
                 HashAlg = serverTestGroup.HashAlg,
-                PQGenMode = serverTestGroup.PQGenMode,
                 GGenMode = serverTestGroup.GGenMode,
                 L = serverTestGroup.L,
                 N = serverTestGroup.N

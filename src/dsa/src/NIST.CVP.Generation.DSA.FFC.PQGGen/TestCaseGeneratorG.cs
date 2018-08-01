@@ -4,6 +4,7 @@ using NIST.CVP.Generation.Core;
 using NLog;
 using System;
 using System.Threading.Tasks;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC.Enums;
 using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.DSA.FFC.PQGGen
@@ -28,7 +29,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
 
             var param = new DsaDomainParametersParameters
             {
-                PQGenMode = group.PQGenMode,
+                PQGenMode = PrimeGenMode.Probable,
                 GGenMode = group.GGenMode,
                 HashAlg = group.HashAlg,
                 L = group.L,
