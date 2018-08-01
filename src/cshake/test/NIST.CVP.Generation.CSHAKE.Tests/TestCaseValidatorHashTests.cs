@@ -12,42 +12,42 @@ namespace NIST.CVP.Generation.CSHAKE.Tests
     public class TestCaseValidatorHashTests
     {
         [Test]
-        public void ShouldValidateIfExpectedAndSuppliedResultsMatch()
+        public async Task ShouldValidateIfExpectedAndSuppliedResultsMatch()
         {
             var testCase = GetTestCase();
             var subject = new TestCaseValidatorHash(testCase);
-            var result = subject.Validate(testCase);
+            var result = await subject.ValidateAsync(testCase);
             Assume.That(result != null);
             Assert.AreEqual(Core.Enums.Disposition.Passed, result.Result);
         }
 
         [Test]
-        public void ShouldFailIfDigestDoesNotMatch()
+        public async Task ShouldFailIfDigestDoesNotMatch()
         {
             var testCase = GetTestCase();
             var subject = new TestCaseValidatorHash(testCase);
             var suppliedResult = GetTestCase();
             suppliedResult.Digest = new BitString("BEEFFACE");
-            var result = subject.Validate(suppliedResult);
+            var result = await subject.ValidateAsync(suppliedResult);
             Assume.That(result != null);
             Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
         }
 
         [Test]
-        public void ShouldShowDigestAsReasonIfItDoesNotMatch()
+        public async Task ShouldShowDigestAsReasonIfItDoesNotMatch()
         {
             var testCase = GetTestCase();
             var subject = new TestCaseValidatorHash(testCase);
             var suppliedResult = GetTestCase();
             suppliedResult.Digest = new BitString("BEEFFACE");
-            var result = subject.Validate(suppliedResult);
+            var result = await subject.ValidateAsync(suppliedResult);
             Assume.That(result != null);
             Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
             Assert.IsTrue(result.Reason.Contains("Digest"));
         }
 
         [Test]
-        public void ShouldFailIfDigestNotPresent()
+        public async Task ShouldFailIfDigestNotPresent()
         {
             var testCase = GetTestCase();
             var subject = new TestCaseValidatorHash(testCase);
@@ -55,7 +55,7 @@ namespace NIST.CVP.Generation.CSHAKE.Tests
 
             suppliedResult.Digest = null;
 
-            var result = subject.Validate(suppliedResult);
+            var result = await subject.ValidateAsync(suppliedResult);
             Assume.That(result != null);
             Assume.That(Core.Enums.Disposition.Failed == result.Result);
 

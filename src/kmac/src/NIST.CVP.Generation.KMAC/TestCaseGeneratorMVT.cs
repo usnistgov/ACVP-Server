@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.Async;
 using NIST.CVP.Math.Domain;
 using NLog;
 
 namespace NIST.CVP.Generation.KMAC
 {
-    public class TestCaseGeneratorMvt : ITestCaseGenerator<TestGroup, TestCase>
+    public class TestCaseGeneratorMvt : ITestCaseGeneratorAsync<TestGroup, TestCase>
     {
         private readonly IOracle _oracle;
 
@@ -21,7 +23,7 @@ namespace NIST.CVP.Generation.KMAC
             _oracle = oracle;
         }
 
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
+        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample)
         {
             if (_capacity == 0)
             {
@@ -33,7 +35,7 @@ namespace NIST.CVP.Generation.KMAC
 
             try
             {
-                var oracleResult = _oracle.GetKmacCase(param);
+                var oracleResult = await _oracle.GetKmacCaseAsync(param);
 
                 return new TestCaseGenerateResponse<TestGroup, TestCase>(new TestCase
                 {
@@ -48,15 +50,11 @@ namespace NIST.CVP.Generation.KMAC
             }
             catch (Exception ex)
             {
+                ThisLogger.Error(ex);
                 return new TestCaseGenerateResponse<TestGroup, TestCase>($"Failed to generate. {ex.Message}");
             }
         }
-
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
-        {
-            throw new NotImplementedException();
-        }
-
+        
         // can only be called once
         private void SetDomainRandomness(MathDomain domain)
         {
@@ -81,6 +79,6 @@ namespace NIST.CVP.Generation.KMAC
             };
         }
 
-        private Logger ThisLogger => LogManager.GetCurrentClassLogger();
+        private static ILogger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }

@@ -1,9 +1,9 @@
-﻿using NIST.CVP.Generation.Core;
-using NIST.CVP.Common.Oracle;
+﻿using NIST.CVP.Common.Oracle;
+using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.KMAC
 {
-    public class TestCaseGeneratorFactory : ITestCaseGeneratorFactory<TestGroup, TestCase>
+    public class TestCaseGeneratorFactory : ITestCaseGeneratorFactoryAsync<TestGroup, TestCase>
     {
         private readonly IOracle _oracle;
 
@@ -12,7 +12,7 @@ namespace NIST.CVP.Generation.KMAC
             _oracle = oracle;
         }
 
-        public ITestCaseGenerator<TestGroup, TestCase> GetCaseGenerator(TestGroup testGroup)
+        public ITestCaseGeneratorAsync<TestGroup, TestCase> GetCaseGenerator(TestGroup testGroup)
         {
             if (testGroup.TestType.ToLower() == "aft")
             {

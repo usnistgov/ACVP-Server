@@ -316,6 +316,21 @@ namespace NIST.CVP.Crypto.Oracle
             return await _taskFactory.StartNew(() => GetSha3Case(param));
         }
 
+        public async Task<CShakeResult> GetCShakeCaseAsync(CShakeParameters param)
+        {
+            return await _taskFactory.StartNew(() => GetCShakeCase(param));
+        }
+
+        public async Task<ParallelHashResult> GetParallelHashCaseAsync(ParallelHashParameters param)
+        {
+            return await _taskFactory.StartNew(() => GetParallelHashCase(param));
+        }
+
+        public async Task<TupleHashResult> GetTupleHashCaseAsync(TupleHashParameters param)
+        {
+            return await _taskFactory.StartNew(() => GetTupleHashCase(param));
+        }
+
         public async Task<MctResult<HashResult>> GetShaMctCaseAsync(ShaParameters param)
         {
             return await _taskFactory.StartNew(() => GetShaMctCase(param));
@@ -324,6 +339,21 @@ namespace NIST.CVP.Crypto.Oracle
         public async Task<MctResult<HashResult>> GetSha3MctCaseAsync(Sha3Parameters param)
         {
             return await _taskFactory.StartNew(() => GetSha3MctCase(param));
+        }
+
+        public async Task<MctResult<CShakeResult>> GetCShakeMctCaseAsync(CShakeParameters param)
+        {
+            return await _taskFactory.StartNew(() => GetCShakeMctCase(param));
+        }
+
+        public async Task<MctResult<ParallelHashResult>> GetParallelHashMctCaseAsync(ParallelHashParameters param)
+        {
+            return await _taskFactory.StartNew(() => GetParallelHashMctCase(param));
+        }
+
+        public async Task<MctResult<TupleHashResult>> GetTupleHashMctCaseAsync(TupleHashParameters param)
+        {
+            return await _taskFactory.StartNew(() => GetTupleHashMctCase(param));
         }
     }
 }

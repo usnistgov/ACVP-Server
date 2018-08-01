@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
@@ -29,7 +30,7 @@ namespace NIST.CVP.Generation.ParallelHash.Tests
         [Test]
         [TestCase(true)]
         [TestCase(false)]
-        public void ShouldReturnSampleMonteCarloGeneratorIfRequested(bool isSample)
+        public async Task ShouldReturnSampleMonteCarloGeneratorIfRequested(bool isSample)
         {
             var testGroup = new TestGroup
             {
@@ -47,7 +48,7 @@ namespace NIST.CVP.Generation.ParallelHash.Tests
             var typedGen = generator as TestCaseGeneratorMct;
             Assume.That(typedGen != null);
 
-            var result = typedGen.Generate(testGroup, isSample);
+            await typedGen.GenerateAsync(testGroup, isSample);
 
             Assert.AreEqual(isSample, typedGen.IsSample);
         }

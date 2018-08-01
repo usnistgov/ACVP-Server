@@ -1,12 +1,13 @@
-﻿using NIST.CVP.Common.Oracle;
+﻿using System.Threading.Tasks;
+using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
-using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.DSA.ECC.SigGen
 {
-    public class DeferredTestCaseResolver : IDeferredTestCaseResolver<TestGroup, TestCase, EccVerificationResult>
+    public class DeferredTestCaseResolver : IDeferredTestCaseResolverAsync<TestGroup, TestCase, EccVerificationResult>
     {
         private readonly IOracle _oracle;
 
@@ -15,7 +16,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen
             _oracle = oracle;
         }
 
-        public EccVerificationResult CompleteDeferredCrypto(TestGroup serverTestGroup, TestCase serverTestCase, TestCase iutTestCase)
+        public async Task<EccVerificationResult> CompleteDeferredCryptoAsync(TestGroup serverTestGroup, TestCase serverTestCase, TestCase iutTestCase)
         {
             var iutTestGroup = iutTestCase.ParentGroup;
             if (iutTestGroup.KeyPair == null)
@@ -37,7 +38,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen
                 Signature = iutTestCase.Signature
             };
 
-            var result = _oracle.CompleteDeferredEcdsaSignature(param, fullParam);
+            var result = await _oracle.CompleteDeferredEcdsaSignatureAsync(param, fullParam);
             return result.Result ? new EccVerificationResult() : new EccVerificationResult("Failed to verify");
         }
     }

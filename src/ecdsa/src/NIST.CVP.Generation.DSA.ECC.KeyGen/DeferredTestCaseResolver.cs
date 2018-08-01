@@ -2,12 +2,13 @@
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
-using NIST.CVP.Generation.Core;
 using System;
+using System.Threading.Tasks;
+using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.DSA.ECC.KeyGen
 {
-    public class DeferredTestCaseResolver : IDeferredTestCaseResolver<TestGroup, TestCase, EccKeyPairGenerateResult>
+    public class DeferredTestCaseResolver : IDeferredTestCaseResolverAsync<TestGroup, TestCase, EccKeyPairGenerateResult>
     {
         private readonly IOracle _oracle;
 
@@ -16,7 +17,7 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyGen
             _oracle = oracle;
         }
 
-        public EccKeyPairGenerateResult CompleteDeferredCrypto(TestGroup serverTestGroup, TestCase serverTestCase, TestCase iutTestCase)
+        public async Task<EccKeyPairGenerateResult> CompleteDeferredCryptoAsync(TestGroup serverTestGroup, TestCase serverTestCase, TestCase iutTestCase)
         {
             var param = new EcdsaKeyParameters
             {
@@ -28,17 +29,16 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyGen
                 Key = iutTestCase.KeyPair
             };
 
-            EcdsaKeyResult result = null;
             try
             {
-                result = _oracle.CompleteDeferredEcdsaKey(param, fullParam);
+                var result = await _oracle.CompleteDeferredEcdsaKeyAsync(param, fullParam);
+
+                return new EccKeyPairGenerateResult(result.Key);
             }
             catch (Exception ex)
             {
                 return new EccKeyPairGenerateResult(ex.Message);
             }            
-
-            return new EccKeyPairGenerateResult(result.Key);
         }
     }
 }

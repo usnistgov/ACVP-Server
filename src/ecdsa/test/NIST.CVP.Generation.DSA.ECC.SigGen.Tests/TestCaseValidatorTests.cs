@@ -1,9 +1,11 @@
-﻿using Moq;
+﻿using System.Threading.Tasks;
+using Moq;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC.Enums;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.DSA.ECC;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.Async;
 using NIST.CVP.Generation.Core.Enums;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
@@ -16,19 +18,19 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen.Tests
     public class TestCaseValidatorTests
     {
         [Test]
-        public void ShouldRunVerifyMethodAndSucceedWithGoodSignature()
+        public async Task ShouldRunVerifyMethodAndSucceedWithGoodSignature()
         {
             var subject = new TestCaseValidator(GetTestCase(), GetTestGroup(), GetDeferredResolver(true).Object);
-            var result = subject.Validate(GetResultTestCase());
+            var result = await subject.ValidateAsync(GetResultTestCase());
 
             Assert.AreEqual(Disposition.Passed, result.Result);
         }
 
         [Test]
-        public void ShouldRunVerifyMethodAndFailWithBadSignature()
+        public async Task ShouldRunVerifyMethodAndFailWithBadSignature()
         {
             var subject = new TestCaseValidator(GetTestCase(), GetTestGroup(), GetDeferredResolver(false).Object);
-            var result = subject.Validate(GetResultTestCase());
+            var result = await subject.ValidateAsync(GetResultTestCase());
 
             Assert.AreEqual(Disposition.Failed, result.Result);
         }
@@ -61,14 +63,14 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen.Tests
             };
         }
 
-        private Mock<IDeferredTestCaseResolver<TestGroup, TestCase, EccVerificationResult>> GetDeferredResolver(bool shouldPass)
+        private Mock<IDeferredTestCaseResolverAsync<TestGroup, TestCase, EccVerificationResult>> GetDeferredResolver(bool shouldPass)
         {
-            var goodResult = new EccVerificationResult();
-            var badResult = new EccVerificationResult("fail");
+            var goodResult = Task.FromResult(new EccVerificationResult());
+            var badResult = Task.FromResult(new EccVerificationResult("fail"));
 
-            var mock = new Mock<IDeferredTestCaseResolver<TestGroup, TestCase, EccVerificationResult>>();
+            var mock = new Mock<IDeferredTestCaseResolverAsync<TestGroup, TestCase, EccVerificationResult>>();
             mock
-                .Setup(s => s.CompleteDeferredCrypto(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()))
+                .Setup(s => s.CompleteDeferredCryptoAsync(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()))
                 .Returns(shouldPass ? goodResult : badResult);
 
             return mock;
