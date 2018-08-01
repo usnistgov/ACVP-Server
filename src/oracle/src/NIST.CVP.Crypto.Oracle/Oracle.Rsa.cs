@@ -426,6 +426,22 @@ namespace NIST.CVP.Crypto.Oracle
             return await _taskFactory.StartNew(() => GetRsaVerify(param));
         }
 
+        public async Task<RsaDecryptionPrimitiveResult> GetDeferredRsaDecryptionPrimitiveAsync(RsaDecryptionPrimitiveParameters param)
+        {
+            return await _taskFactory.StartNew(() => GetDeferredRsaDecryptionPrimitive(param));
+        }
+
+        public async Task<RsaDecryptionPrimitiveResult> CompleteDeferredRsaDecryptionPrimitiveAsync(RsaDecryptionPrimitiveParameters param,
+            RsaDecryptionPrimitiveResult fullParam)
+        {
+            return await _taskFactory.StartNew(() => CompleteDeferredRsaDecryptionPrimitive(param, fullParam));
+        }
+
+        public async Task<RsaDecryptionPrimitiveResult> GetRsaDecryptionPrimitiveAsync(RsaDecryptionPrimitiveParameters param)
+        {
+            return await _taskFactory.StartNew(() => GetRsaDecryptionPrimitive(param));
+        }
+
         private BitString GetEValue(int minLen, int maxLen)
         {
             BigInteger e;

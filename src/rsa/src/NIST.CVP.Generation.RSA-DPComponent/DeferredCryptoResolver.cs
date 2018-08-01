@@ -4,10 +4,12 @@ using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA;
 using NIST.CVP.Generation.Core;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.RSA_DPComponent
 {
-    public class DeferredCryptoResolver : IDeferredTestCaseResolver<TestGroup, TestCase, ManyEncryptionResult>
+    public class DeferredCryptoResolver : IDeferredTestCaseResolverAsync<TestGroup, TestCase, ManyEncryptionResult>
     {
         private readonly IOracle _oracle;
 
@@ -16,7 +18,7 @@ namespace NIST.CVP.Generation.RSA_DPComponent
             _oracle = oracle;
         }
 
-        public ManyEncryptionResult CompleteDeferredCrypto(TestGroup serverTestGroup, TestCase serverTestCase, TestCase iutTestCase)
+        public async Task<ManyEncryptionResult> CompleteDeferredCryptoAsync(TestGroup serverTestGroup, TestCase serverTestCase, TestCase iutTestCase)
         {
             var responses = new List<AlgoArrayResponseSignature>();
 
@@ -53,7 +55,7 @@ namespace NIST.CVP.Generation.RSA_DPComponent
                             Key = serverResponse.Key
                         };
 
-                        var result = _oracle.CompleteDeferredRsaDecryptionPrimitive(param, fullParam);
+                        var result = await _oracle.CompleteDeferredRsaDecryptionPrimitiveAsync(param, fullParam);
                         if (result.TestPassed)
                         {
                             serverResponse.CipherText = result.CipherText;

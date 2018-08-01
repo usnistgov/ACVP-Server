@@ -6,10 +6,12 @@ using NLog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.RSA_DPComponent
 {
-    public class TestCaseGenerator : ITestCaseGenerator<TestGroup, TestCase>
+    public class TestCaseGenerator : ITestCaseGeneratorAsync<TestGroup, TestCase>
     {
         private readonly IOracle _oracle;
 
@@ -20,7 +22,7 @@ namespace NIST.CVP.Generation.RSA_DPComponent
             _oracle = oracle;
         }
 
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
+        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample)
         {
             var failureTestIndexes = GetFailureIndexes(group.TotalTestCases, group.TotalFailingCases);
             var testCase = new TestCase
@@ -42,7 +44,7 @@ namespace NIST.CVP.Generation.RSA_DPComponent
 
                     try
                     {
-                        var result = _oracle.GetRsaDecryptionPrimitive(param);
+                        var result = await _oracle.GetRsaDecryptionPrimitiveAsync(param);
                         algoArrayResponse.Key = result.Key;
                         algoArrayResponse.CipherText = result.CipherText;
                         algoArrayResponse.PlainText = result.PlainText;
@@ -62,7 +64,7 @@ namespace NIST.CVP.Generation.RSA_DPComponent
                         TestPassed = !failureTestIndexes.Contains(i)
                     };
 
-                    var result = _oracle.GetDeferredRsaDecryptionPrimitive(param);
+                    var result = await _oracle.GetDeferredRsaDecryptionPrimitiveAsync(param);
                     algoArrayResponse.CipherText = result.CipherText;
                     algoArrayResponse.FailureTest = !param.TestPassed;
                 }
@@ -73,12 +75,7 @@ namespace NIST.CVP.Generation.RSA_DPComponent
             return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
         }
 
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
-        {
-            return null;
-        }
-
-        private Logger ThisLogger => LogManager.GetCurrentClassLogger();
+        private static ILogger ThisLogger => LogManager.GetCurrentClassLogger();
 
         private int[] GetFailureIndexes(int total, int failing)
         {
