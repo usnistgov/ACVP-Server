@@ -62,7 +62,7 @@ namespace NIST.CVP.Generation.RSA_DPComponent
                     else
                     {
                         // Prompt CT, must equal computed CT if it's not a failure case
-                        if (serverPrompt.CipherText.Equals(computedResult.CipherText))
+                        if (serverPrompt.CipherText.ToPositiveBigInteger() == computedResult.CipherText.ToPositiveBigInteger())
                         {
                             // Good, pass
                         }

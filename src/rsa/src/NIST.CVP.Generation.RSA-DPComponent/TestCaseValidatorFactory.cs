@@ -1,4 +1,4 @@
-﻿using NIST.CVP.Crypto.Common.Asymmetric.RSA;
+﻿using NIST.CVP.Common.Oracle;
 using NIST.CVP.Generation.Core;
 using System.Collections.Generic;
 
@@ -6,11 +6,11 @@ namespace NIST.CVP.Generation.RSA_DPComponent
 {
     public class TestCaseValidatorFactory : ITestCaseValidatorFactory<TestVectorSet, TestGroup, TestCase>
     {
-        private readonly IRsa _rsa;
+        private readonly IOracle _oracle;
 
-        public TestCaseValidatorFactory(IRsa rsa)
+        public TestCaseValidatorFactory(IOracle oracle)
         {
-            _rsa = rsa;
+            _oracle = oracle;
         }
 
         public IEnumerable<ITestCaseValidator<TestGroup, TestCase>> GetValidators(TestVectorSet testVectorSet)
@@ -21,7 +21,7 @@ namespace NIST.CVP.Generation.RSA_DPComponent
             {
                 foreach (var test in group.Tests)
                 {
-                    list.Add(new TestCaseValidator(group, test, new DeferredCryptoResolver(_rsa)));
+                    list.Add(new TestCaseValidator(group, test, new DeferredCryptoResolver(_oracle)));
                 }
             }
 

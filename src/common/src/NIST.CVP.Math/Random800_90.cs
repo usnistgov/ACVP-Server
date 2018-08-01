@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using System.Numerics;
-using System.Threading.Tasks;
 
 namespace NIST.CVP.Math
 {
@@ -67,6 +64,11 @@ namespace NIST.CVP.Math
 
         public BigInteger GetRandomBigInteger(BigInteger minInclusive, BigInteger maxInclusive)
         {
+            if (maxInclusive < minInclusive)
+            {
+                throw new Exception("Cannot have max < min");
+            }
+
             return GetRandomBigInteger(maxInclusive - minInclusive) + minInclusive;
         }
 

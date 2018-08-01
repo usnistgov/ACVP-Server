@@ -1,7 +1,7 @@
-﻿using System.Threading.Tasks;
-using NIST.CVP.Common.Oracle.ParameterTypes;
+﻿using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Common.Oracle
 {
@@ -19,6 +19,9 @@ namespace NIST.CVP.Common.Oracle
         RsaSignatureResult GetRsaSignature(RsaSignatureParameters param);
         VerifyResult<RsaSignatureResult> GetRsaVerify(RsaSignatureParameters param);
 
+        RsaDecryptionPrimitiveResult GetDeferredRsaDecryptionPrimitive(RsaDecryptionPrimitiveParameters param);
+        RsaDecryptionPrimitiveResult CompleteDeferredRsaDecryptionPrimitive(RsaDecryptionPrimitiveParameters param, RsaDecryptionPrimitiveResult fullParam);
+        RsaDecryptionPrimitiveResult GetRsaDecryptionPrimitive(RsaDecryptionPrimitiveParameters param);
 
         Task<RsaKeyResult> GetRsaKeyAsync(RsaKeyParameters param);
         Task<RsaKeyResult> CompleteKeyAsync(RsaKeyResult param, PrivateKeyModes keyMode);
