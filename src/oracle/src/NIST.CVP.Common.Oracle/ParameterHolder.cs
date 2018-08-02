@@ -1,4 +1,6 @@
-﻿namespace NIST.CVP.Common.Oracle.ParameterTypes
+﻿using NIST.CVP.Common.Oracle.ParameterTypes;
+
+namespace NIST.CVP.Common.Oracle
 {
     public class ParameterHolder
     {

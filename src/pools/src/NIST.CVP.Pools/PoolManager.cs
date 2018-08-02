@@ -4,7 +4,7 @@ using NIST.CVP.Common.Oracle.ResultTypes;
 using System.Collections.Generic;
 using System.IO;
 
-namespace NIST.CVP.Common.Oracle
+namespace NIST.CVP.Pools
 {
     public class PoolManager
     {

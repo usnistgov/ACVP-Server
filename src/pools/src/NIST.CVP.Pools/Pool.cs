@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using NIST.CVP.Generation.Core.JsonConverters;
+using System.Collections.Generic;
 using System.IO;
 
-namespace NIST.CVP.Common.Oracle
+namespace NIST.CVP.Pools
 {
     public class Pool<TParam, TResult>
     {
@@ -17,6 +19,13 @@ namespace NIST.CVP.Common.Oracle
         // TODO load from config.json file?
         //private const int MONITOR_FREQUENCY = 300; // seconds
         //private const int MAX_WATER_LEVEL = 1000;
+
+        private readonly IList<JsonConverter> _jsonConverters = new List<JsonConverter>
+        {
+            new BitstringConverter(),
+            new DomainConverter(),
+            new BigIntegerConverter()
+        };
 
         public Pool(TParam waterType, string filename)
         {
@@ -44,9 +53,25 @@ namespace NIST.CVP.Common.Oracle
 
         private void LoadPoolFromFile(string filename)
         {
-            if (Directory.Exists(filename))
+            if (File.Exists(filename))
             {
                 // Load file
+                var poolContents = JsonConvert.DeserializeObject<TResult[]>(
+                    File.ReadAllText(filename),
+                    new JsonSerializerSettings
+                    {
+                        Converters = _jsonConverters
+                    }
+                );
+
+                foreach (var result in poolContents)
+                {
+                    _water.Enqueue(result);
+                }
+            }
+            else
+            {
+                File.Create(filename);
             }
         }
 

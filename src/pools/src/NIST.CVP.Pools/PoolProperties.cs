@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
-using NIST.CVP.Common.Oracle.ParameterTypes;
+using NIST.CVP.Common.Oracle;
 
-namespace NIST.CVP.Common.Oracle
+namespace NIST.CVP.Pools
 {
     [JsonConverter(typeof(ParametersConverter))]
     public class PoolProperties

@@ -1,4 +1,4 @@
-﻿namespace NIST.CVP.Common.Oracle
+﻿namespace NIST.CVP.Pools
 {
     public class PoolResult<TResult>
     {

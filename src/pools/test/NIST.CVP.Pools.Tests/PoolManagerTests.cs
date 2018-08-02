@@ -3,7 +3,7 @@ using NIST.CVP.Tests.Core;
 using NUnit.Framework;
 using System.IO;
 
-namespace NIST.CVP.Common.Oracle.Tests
+namespace NIST.CVP.Pools.Tests
 {
     [TestFixture]
     public class PoolManagerTests

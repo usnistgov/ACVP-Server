@@ -1,9 +1,10 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using System;
 
-namespace NIST.CVP.Common.Oracle
+namespace NIST.CVP.Pools
 {
     public class ParametersConverter : JsonConverter
     {
