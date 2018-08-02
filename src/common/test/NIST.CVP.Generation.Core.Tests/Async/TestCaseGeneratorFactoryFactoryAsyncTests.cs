@@ -9,11 +9,11 @@ using NUnit.Framework;
 namespace NIST.CVP.Generation.Core.Tests.Async
 {
     [TestFixture, UnitTest]
-    public class TestCaseGeneratorFactoryFactoryTests
+    public class TestCaseGeneratorFactoryFactoryAsyncTests
     {
         private Mock<ITestCaseGeneratorFactoryAsync<FakeTestGroup, FakeTestCase>> _testCaseGeneratorFactory;
         private Mock<ITestCaseGeneratorAsync<FakeTestGroup, FakeTestCase>> _testCaseGenerator;
-        private Core.Async.TestCaseGeneratorFactoryFactoryAsync<FakeTestVectorSet, FakeTestGroup, FakeTestCase> _subject;
+        private TestCaseGeneratorFactoryFactoryAsync<FakeTestVectorSet, FakeTestGroup, FakeTestCase> _subject;
         private FakeTestVectorSet _testVectorSet;
 
         [SetUp]
@@ -33,7 +33,7 @@ namespace NIST.CVP.Generation.Core.Tests.Async
                 .Returns(_testCaseGenerator.Object);
 
             _subject =
-                new Core.Async.TestCaseGeneratorFactoryFactoryAsync<FakeTestVectorSet, FakeTestGroup, FakeTestCase>(
+                new TestCaseGeneratorFactoryFactoryAsync<FakeTestVectorSet, FakeTestGroup, FakeTestCase>(
                     _testCaseGeneratorFactory.Object);
             _testVectorSet = new FakeTestVectorSet()
             {

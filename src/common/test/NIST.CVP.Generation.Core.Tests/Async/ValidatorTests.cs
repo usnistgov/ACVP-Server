@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Dynamic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Moq;
+using NIST.CVP.Generation.Core.Async;
+using NIST.CVP.Generation.Core.DeSerialization;
 using NIST.CVP.Generation.Core.Enums;
-using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Generation.Core.Tests.Fakes;
 using NIST.CVP.Tests.Core;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
@@ -13,7 +15,7 @@ using NUnit.Framework;
 
 // TODO fix, things are weird with the refactor, no more projections within the TVS
 
-namespace NIST.CVP.Generation.Core.Tests
+namespace NIST.CVP.Generation.Core.Tests.Async
 {
     //[TestFixture, UnitTest]
     //public class ValidatorTests
@@ -29,7 +31,7 @@ namespace NIST.CVP.Generation.Core.Tests
     //            for (int groupIdx = 0; groupIdx < groups; groupIdx++)
     //            {
 
-    //                var tests = new List<ITestCase>();
+    //                var tests = new List<FakeTestCase>();
     //                for (int testId = 15 * groupIdx + 1; testId <= (groupIdx + 1) * 15; testId++)
     //                {
     //                    tests.Add(new FakeTestCase());
@@ -66,56 +68,21 @@ namespace NIST.CVP.Generation.Core.Tests
     //    {
     //        var mocks = new MockedSystemDependencies();
     //        var subject = new FakeSuccessValidator(
-    //            mocks.MockIDynamicParser.Object, 
-    //            mocks.MockIResultValidator.Object, 
-    //            mocks.MockITestCaseValidatorFactory.Object, 
-    //            mocks.MockITestReconstitutor.Object
+    //            mocks.MockIResultValidator.Object,
+    //            mocks.MockITestCaseValidatorFactory.Object,
+    //            mocks.MockIVectorSetDeserializer.Object
     //        );
     //        string localTestPath = GetUniqueTestPath(_testPath);
-
-    //        mocks.MockIDynamicParser
-    //            .Setup(s => s.Parse(It.IsAny<string>()))
-    //            .Returns(new ParseResponse<object>(new object()));
 
     //        subject
     //            .Validate(
-    //            $"{localTestPath}{_testVectorFileNames[0]}",
-    //            $"{localTestPath}{_testVectorFileNames[1]}");
+    //                $"{localTestPath}{_testVectorFileNames[0]}",
+    //                $"{localTestPath}{_testVectorFileNames[1]}",
+    //                true
+    //            );
 
     //        var expectedFile = $@"{localTestPath}\validation.json";
     //        Assert.IsTrue(File.Exists(expectedFile));
-    //    }
-
-    //    [Test]
-    //    [TestCase(0)]
-    //    [TestCase(1)]
-    //    public void ShouldHandleFailedFileParse(int failFileIndex)
-    //    {
-    //        var mocks = new MockedSystemDependencies();
-    //        var subject = new FakeSuccessValidator(
-    //            mocks.MockIDynamicParser.Object,
-    //            mocks.MockIResultValidator.Object,
-    //            mocks.MockITestCaseValidatorFactory.Object,
-    //            mocks.MockITestReconstitutor.Object
-    //        );
-    //        string localTestPath = GetUniqueTestPath(_testPath);
-
-    //        var failFile = $"{localTestPath}{_testVectorFileNames[failFileIndex]}";
-
-    //        mocks.MockIDynamicParser
-    //            .Setup(s => s.Parse(It.IsAny<string>()))
-    //            .Returns(new ParseResponse<object>(new object()));
-    //        mocks.MockIDynamicParser
-    //            .Setup(s => s.Parse(failFile))
-    //            .Returns(new ParseResponse<object>(failFile));
-
-    //        var result = subject
-    //            .Validate(
-    //                $"{localTestPath}{_testVectorFileNames[0]}",
-    //                $"{localTestPath}{_testVectorFileNames[1]}"
-    //            );
-
-    //        Assert.AreEqual(failFile, result.ErrorMessage);
     //    }
 
     //    [Test]
@@ -123,26 +90,26 @@ namespace NIST.CVP.Generation.Core.Tests
     //    {
     //        var mocks = new MockedSystemDependencies();
     //        var subject = new FakeSuccessValidator(
-    //            mocks.MockIDynamicParser.Object,
     //            mocks.MockIResultValidator.Object,
     //            mocks.MockITestCaseValidatorFactory.Object,
-    //            mocks.MockITestReconstitutor.Object
+    //            mocks.MockIVectorSetDeserializer.Object
     //        );
     //        string localTestPath = GetUniqueTestPath(_testPath);
 
     //        string validationFileLocation = $"{localTestPath}\\validation.json";
     //        string expectedMessage = $"Could not create {validationFileLocation}";
 
-    //        mocks.MockIDynamicParser
-    //            .Setup(s => s.Parse(It.IsAny<string>()))
-    //            .Returns(new ParseResponse<object>(new object()));
+    //        mocks.MockIVectorSetDeserializer
+    //            .Setup(s => s.Deserialize(It.IsAny<string>()))
+    //            .Returns(new FakeTestVectorSet());
 
     //        using (FileStream fs = File.Create(validationFileLocation))
     //        {
     //            var result = subject
     //                .Validate(
     //                    $"{localTestPath}{_testVectorFileNames[0]}",
-    //                    $"{localTestPath}{_testVectorFileNames[1]}"
+    //                    $"{localTestPath}{_testVectorFileNames[1]}",
+    //                    true
     //                );
 
     //            Assert.AreEqual(expectedMessage, result.ErrorMessage);
@@ -161,7 +128,7 @@ namespace NIST.CVP.Generation.Core.Tests
     //    public void ShouldReturnErrorForNonExistentPath()
     //    {
     //        var subject = GetSubject(true, false);
-    //        var result = subject.Validate($"C:\\{Guid.NewGuid()}\\result.json", $"C:\\{Guid.NewGuid()}\\answer.json");
+    //        var result = subject.Validate($"C:\\{Guid.NewGuid()}\\result.json", $"C:\\{Guid.NewGuid()}\\answer.json", true);
     //        Assert.IsNotNull(result);
     //        Assert.IsFalse(result.Success);
     //    }
@@ -172,7 +139,7 @@ namespace NIST.CVP.Generation.Core.Tests
     //    public void ShouldReturnErrorForNullOrEmptyPath(string path)
     //    {
     //        var subject = GetSubject(true, false);
-    //        var result = subject.Validate(path, path);
+    //        var result = subject.Validate(path, path, true);
     //        Assert.IsNotNull(result);
     //        Assert.IsFalse(result.Success);
     //    }
@@ -183,7 +150,11 @@ namespace NIST.CVP.Generation.Core.Tests
     //        var subject = GetSubject(false, false);
     //        var testPath = GetTestPath();
 
-    //        var result = subject.Validate(Path.Combine(testPath, "result.json"), Path.Combine(testPath, "answer.json"));
+    //        var result = subject.Validate(
+    //            Path.Combine(testPath, "result.json"), 
+    //            Path.Combine(testPath, "answer.json"),
+    //            true
+    //        );
     //        Assert.IsNotNull(result);
     //        Assert.IsTrue(result.Success);
     //    }
@@ -194,53 +165,49 @@ namespace NIST.CVP.Generation.Core.Tests
     //        var subject = GetSubject(false, true);
     //        var testPath = GetTestPath();
 
-    //        var result = subject.Validate(Path.Combine(testPath, "result.json"), Path.Combine(testPath, "answer.json"));
+    //        var result = subject.Validate(
+    //            Path.Combine(testPath, "result.json"), 
+    //            Path.Combine(testPath, "answer.json"),
+    //            true
+    //        );
     //        Assert.IsNotNull(result);
     //        Assert.IsTrue(result.Success);
     //    }
 
-    //    private Validator<FakeTestVectorSet, FakeTestGroup, FakeTestCase> GetSubject(bool parserFail, bool validationFail)
+    //    private ValidatorAsync<FakeTestVectorSet, FakeTestGroup, FakeTestCase> GetSubject(bool parserFail, bool validationFail)
     //    {
     //        var mocks = new MockedSystemDependencies();
     //        if (parserFail)
     //        {
-    //            mocks.MockIDynamicParser
-    //            .Setup(s => s.Parse(It.IsAny<string>()))
-    //            .Returns(new ParseResponse<dynamic>("Parser failed."));
+    //            mocks.MockIVectorSetDeserializer
+    //                .Setup(s => s.Deserialize(It.IsAny<string>()))
+    //                .Throws(new Exception());
     //        }
     //        else
     //        {
-    //          var vectorSet = GetTestTestVectorSet();
-    //          mocks.MockIDynamicParser
-    //            .Setup(s => s.Parse(It.Is<string>( p=> p.Contains("answer.json") ||  p.Contains("prompt.json"))))
-    //            .Returns(new ParseResponse<dynamic>((dynamic)vectorSet.ToDynamic()));
-    //          mocks.MockIDynamicParser
-    //            .Setup(s => s.Parse(It.Is<string>(p => p.Contains("result.json"))))
-    //            .Returns(new ParseResponse<dynamic>(GetTestResults()));
+    //            var vectorSet = GetTestTestVectorSet();
+    //            mocks.MockIVectorSetDeserializer
+    //              .Setup(s => s.Deserialize(It.Is<string>(p => p.Contains("answer.json") || p.Contains("prompt.json"))))
+    //              .Returns(vectorSet);
+    //            mocks.MockIVectorSetDeserializer
+    //              .Setup(s => s.Deserialize(It.Is<string>(p => p.Contains("result.json"))))
+    //              .Returns(vectorSet);
     //        }
 
     //        if (validationFail)
     //        {
     //            mocks.MockIResultValidator
-    //                .Setup(s => s.ValidateResults(It.IsAny<List<ITestCaseValidator<FakeTestCase>>>(), It.IsAny<List<FakeTestGroup>>()))
-    //                .Returns(new TestVectorValidation { Validations = new List<TestCaseValidation> {new TestCaseValidation { Result = Disposition.Failed } } });
+    //                .Setup(s => s.ValidateResults(It.IsAny<IEnumerable<ITestCaseValidatorAsync<FakeTestGroup, FakeTestCase>>>(), It.IsAny<IEnumerable<FakeTestGroup>>(), It.IsAny<bool>()))
+    //                .Returns(new TestVectorValidation { Validations = new List<TestCaseValidation> { new TestCaseValidation { Result = Disposition.Failed } } });
     //        }
     //        else
     //        {
     //            mocks.MockIResultValidator
-    //               .Setup(s => s.ValidateResults(It.IsAny<List<ITestCaseValidator<FakeTestCase>>>(), It.IsAny<List<FakeTestGroup>>()))
-    //               .Returns(new TestVectorValidation { Validations = new List<TestCaseValidation> { new TestCaseValidation { Result = Disposition.Passed } } });
+    //                .Setup(s => s.ValidateResults(It.IsAny<IEnumerable<ITestCaseValidatorAsync<FakeTestGroup, FakeTestCase>>>(), It.IsAny<IEnumerable<FakeTestGroup>>(), It.IsAny<bool>()))
+    //                .Returns(new TestVectorValidation { Validations = new List<TestCaseValidation> {new TestCaseValidation {Result = Disposition.Passed} } });
     //        }
 
-    //        return new Validator<FakeTestVectorSet, FakeTestGroup, FakeTestCase>(mocks.MockIDynamicParser.Object, mocks.MockIResultValidator.Object, mocks.MockITestCaseValidatorFactory.Object, mocks.MockITestReconstitutor.Object);
-    //    }
-
-    //    private dynamic GetTestResults(int groups = 2)
-    //    {
-    //        var vectorSet = GetTestTestVectorSet(groups);
-    //        dynamic updateObject = new ExpandoObject();
-    //        ((IDictionary<string, object>)updateObject).Add("testResults", vectorSet.ResultProjection);
-    //        return updateObject;
+    //        return new ValidatorAsync<FakeTestVectorSet, FakeTestGroup, FakeTestCase>(mocks.MockIResultValidator.Object, mocks.MockITestCaseValidatorFactory.Object, mocks.MockIVectorSetDeserializer.Object);
     //    }
 
     //    private FakeTestVectorSet GetTestTestVectorSet(int groups = 2)
@@ -254,7 +221,7 @@ namespace NIST.CVP.Generation.Core.Tests
     //    private string GetTestPath()
     //    {
     //        var guid = Guid.NewGuid();
-           
+
     //        var testDir = Path.Combine(_testPath, guid.ToString());
     //        Directory.CreateDirectory(testDir);
     //        return testDir;
@@ -262,10 +229,9 @@ namespace NIST.CVP.Generation.Core.Tests
 
     //    private class MockedSystemDependencies
     //    {
-    //        public Mock<IResultValidator<FakeTestGroup, FakeTestCase>> MockIResultValidator { get; } = new Mock<IResultValidator<FakeTestGroup, FakeTestCase>>();
-    //        public Mock<IDynamicParser> MockIDynamicParser { get; } = new Mock<IDynamicParser>();
-    //        public Mock<ITestCaseValidatorFactory<FakeTestVectorSet, FakeTestGroup, FakeTestCase>> MockITestCaseValidatorFactory { get; } = new Mock<ITestCaseValidatorFactory<FakeTestVectorSet, FakeTestGroup, FakeTestCase>>();
-    //        public Mock<ITestReconstitutor<FakeTestVectorSet, FakeTestGroup, FakeTestCase>> MockITestReconstitutor { get; } = new Mock<ITestReconstitutor<FakeTestVectorSet, FakeTestGroup, FakeTestCase>>();
+    //        public Mock<IResultValidatorAsync<FakeTestGroup, FakeTestCase>> MockIResultValidator { get; } = new Mock<IResultValidatorAsync<FakeTestGroup, FakeTestCase>>();
+    //        public Mock<ITestCaseValidatorFactoryAsync<FakeTestVectorSet, FakeTestGroup, FakeTestCase>> MockITestCaseValidatorFactory { get; } = new Mock<ITestCaseValidatorFactoryAsync<FakeTestVectorSet, FakeTestGroup, FakeTestCase>>();
+    //        public Mock<IVectorSetDeserializer<FakeTestVectorSet, FakeTestGroup, FakeTestCase>> MockIVectorSetDeserializer { get; } = new Mock<IVectorSetDeserializer<FakeTestVectorSet, FakeTestGroup, FakeTestCase>>();
     //    }
     //}
 }

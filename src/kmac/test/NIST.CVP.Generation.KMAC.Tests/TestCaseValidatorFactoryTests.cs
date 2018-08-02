@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Moq;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.Async;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
@@ -13,19 +15,19 @@ namespace NIST.CVP.Generation.KMAC.Tests
     [TestFixture, UnitTest]
     public class TestCaseValidatorFactoryTests
     {
-        private Mock<ITestCaseGeneratorFactory<TestGroup, TestCase>> _mockTestCaseGeneratorFactory;
-        private Mock<ITestCaseGenerator<TestGroup, TestCase>> _mockTestCaseGenerator;
+        private Mock<ITestCaseGeneratorFactoryAsync<TestGroup, TestCase>> _mockTestCaseGeneratorFactory;
+        private Mock<ITestCaseGeneratorAsync<TestGroup, TestCase>> _mockTestCaseGenerator;
         private TestCaseValidatorFactory _subject;
 
         [SetUp]
         public void Setup()
         {
-            _mockTestCaseGeneratorFactory = new Mock<ITestCaseGeneratorFactory<TestGroup, TestCase>>();
-            _mockTestCaseGenerator = new Mock<ITestCaseGenerator<TestGroup, TestCase>>();
+            _mockTestCaseGeneratorFactory = new Mock<ITestCaseGeneratorFactoryAsync<TestGroup, TestCase>>();
+            _mockTestCaseGenerator = new Mock<ITestCaseGeneratorAsync<TestGroup, TestCase>>();
 
             _mockTestCaseGenerator
-                .Setup(s => s.Generate(It.IsAny<TestGroup>(), It.IsAny<TestCase>()))
-                .Returns(new TestCaseGenerateResponse<TestGroup, TestCase>(new TestCase()));
+                .Setup(s => s.GenerateAsync(It.IsAny<TestGroup>(), true))
+                .Returns(Task.FromResult(new TestCaseGenerateResponse<TestGroup, TestCase>(new TestCase())));
             _mockTestCaseGeneratorFactory
                 .Setup(s => s.GetCaseGenerator(It.IsAny<TestGroup>()))
                 .Returns(_mockTestCaseGenerator.Object);

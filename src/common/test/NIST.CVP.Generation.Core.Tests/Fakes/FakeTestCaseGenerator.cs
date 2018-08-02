@@ -1,20 +1,17 @@
-﻿namespace NIST.CVP.Generation.Core.Tests.Fakes
+﻿using System.Threading.Tasks;
+using NIST.CVP.Generation.Core.Async;
+
+namespace NIST.CVP.Generation.Core.Tests.Fakes
 {
-    public class FakeTestCaseGenerator<TTestGroup, TTestCase> : ITestCaseGenerator<TTestGroup, TTestCase>
+    public class FakeTestCaseGenerator<TTestGroup, TTestCase> : ITestCaseGeneratorAsync<TTestGroup, TTestCase>
         where TTestGroup : ITestGroup<TTestGroup, TTestCase>
         where TTestCase : ITestCase<TTestGroup, TTestCase>, new()
     {
         public int NumberOfTestCasesToGenerate => 1;
-        public TestCaseGenerateResponse<TTestGroup, TTestCase> Generate(TTestGroup @group, bool isSample)
+        public Task<TestCaseGenerateResponse<TTestGroup, TTestCase>> GenerateAsync(TTestGroup @group, bool isSample)
         {
-            TTestCase testCase = new TTestCase();
-
-            return Generate(group, testCase);
-        }
-
-        public TestCaseGenerateResponse<TTestGroup, TTestCase> Generate(TTestGroup @group, TTestCase testCase)
-        {
-            return new TestCaseGenerateResponse<TTestGroup, TTestCase>(testCase);
+            var testCase = new TTestCase();
+            return Task.FromResult(new TestCaseGenerateResponse<TTestGroup, TTestCase>(testCase));
         }
     }
 }
