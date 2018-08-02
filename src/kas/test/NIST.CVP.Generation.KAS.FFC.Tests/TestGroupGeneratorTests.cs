@@ -1,5 +1,9 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using Moq;
+using NIST.CVP.Common.Oracle;
+using NIST.CVP.Common.Oracle.ParameterTypes;
+using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
@@ -12,17 +16,17 @@ namespace NIST.CVP.Generation.KAS.FFC.Tests
     public class TestGroupGeneratorTests
     {
         private TestGroupGenerator _subject;
-        private Mock<IPqgProvider> _pqgProvider;
+        private Mock<IOracle> _oracle;
 
         [SetUp]
         public void Setup()
         {
-            _pqgProvider = new Mock<IPqgProvider>();
-            _pqgProvider
-                .Setup(s => s.GetPqg(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<HashFunction>()))
-                .Returns(new FfcDomainParameters(1, 1, 1));
+            _oracle = new Mock<IOracle>();
+            _oracle
+                .Setup(s => s.GetDsaDomainParametersAsync(It.IsAny<DsaDomainParametersParameters>()))
+                .Returns(Task.FromResult(new DsaDomainParametersResult()));
 
-            _subject = new TestGroupGenerator(_pqgProvider.Object);
+            _subject = new TestGroupGenerator(_oracle.Object);
         }
 
         private static object[] _testShouldReturnCorrectNumberOfGroups = new object[]

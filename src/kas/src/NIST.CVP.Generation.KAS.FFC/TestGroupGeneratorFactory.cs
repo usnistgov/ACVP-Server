@@ -1,15 +1,16 @@
 ﻿using System.Collections.Generic;
+using NIST.CVP.Common.Oracle;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.KAS.FFC
 {
     public class TestGroupGeneratorFactory : ITestGroupGeneratorFactory<Parameters, TestGroup, TestCase>
     {
-        private readonly IPqgProvider _iPqgProvider;
+        private readonly IOracle _oracle;
         
-        public TestGroupGeneratorFactory(IPqgProvider iPqgProvider)
+        public TestGroupGeneratorFactory(IOracle oracle)
         {
-            _iPqgProvider = iPqgProvider;
+            _oracle = oracle;
         }
 
         public IEnumerable<ITestGroupGenerator<Parameters, TestGroup, TestCase>> GetTestGroupGenerators()
@@ -17,7 +18,7 @@ namespace NIST.CVP.Generation.KAS.FFC
             var list =
                 new HashSet<ITestGroupGenerator<Parameters, TestGroup, TestCase>>()
                 {
-                    new TestGroupGenerator(_iPqgProvider),
+                    new TestGroupGenerator(_oracle),
                 };
 
             return list;
