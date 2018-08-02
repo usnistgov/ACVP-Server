@@ -26,23 +26,13 @@ namespace NIST.CVP.Pools
                 switch (poolProperty.Parameters.TypeId)
                 {
                     case 1:
-                        var pool1 = new Pool<ShaParameters, HashResult>(param as ShaParameters, poolProperty.FilePath)
-                        {
-                            MaxWaterLevel = poolProperty.MaxCapacity,
-                            MonitorFrequency = poolProperty.MonitorFrequency
-                        };
-
-                        _shaPools.Add(pool1);
+                        var shaPool = new Pool<ShaParameters, HashResult>(param as ShaParameters, poolProperty.FilePath);
+                        _shaPools.Add(shaPool);
                         break;
 
                     case 2:
-                        var pool2 = new Pool<AesParameters, AesResult>(param as AesParameters, poolProperty.FilePath)
-                        {
-                            MaxWaterLevel = poolProperty.MaxCapacity,
-                            MonitorFrequency = poolProperty.MonitorFrequency
-                        };
-
-                        _aesPools.Add(pool2);
+                        var aesPool = new Pool<AesParameters, AesResult>(param as AesParameters, poolProperty.FilePath);
+                        _aesPools.Add(aesPool);
                         break;
                 }
             }

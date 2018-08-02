@@ -6,7 +6,7 @@ using System;
 
 namespace NIST.CVP.Pools
 {
-    public class ParametersConverter : JsonConverter
+    public class PoolPropertiesConverter : JsonConverter
     {
         public override bool CanConvert(Type objectType)
         {

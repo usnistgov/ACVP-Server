@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using NIST.CVP.Common.Oracle;
 using NIST.CVP.Generation.Core.JsonConverters;
 using System.Collections.Generic;
 using System.IO;
@@ -6,19 +7,12 @@ using System.IO;
 namespace NIST.CVP.Pools
 {
     public class Pool<TParam, TResult>
+        where TParam : Parameters
     {
         public TParam WaterType { get; }
-
         private readonly Queue<TResult> _water;
         public int WaterLevel => _water.Count;
-        public double WaterLevelPercent => WaterLevel / (double) MaxWaterLevel;
-        public int MaxWaterLevel { get; set; }
         public bool IsEmpty => WaterLevel == 0;
-        public int MonitorFrequency { get; set; }
-
-        // TODO load from config.json file?
-        //private const int MONITOR_FREQUENCY = 300; // seconds
-        //private const int MAX_WATER_LEVEL = 1000;
 
         private readonly IList<JsonConverter> _jsonConverters = new List<JsonConverter>
         {
@@ -64,9 +58,15 @@ namespace NIST.CVP.Pools
                     }
                 );
 
+                // Pool is empty
+                if (poolContents == null)
+                {
+                    return;
+                }
+
                 foreach (var result in poolContents)
                 {
-                    _water.Enqueue(result);
+                    AddWater(result);
                 }
             }
             else
@@ -77,11 +77,15 @@ namespace NIST.CVP.Pools
 
         public void SavePoolToFile(string filename)
         {
-            // Store some meta data about the pool
-            // Content Type
-            // Max Capacity
+            var poolContents = JsonConvert.SerializeObject(
+                _water,
+                new JsonSerializerSettings
+                {
+                    Converters = _jsonConverters
+                }
+            );
 
-            // Store actual content of pool
+            File.WriteAllText(filename, poolContents);
         }
     }
 }

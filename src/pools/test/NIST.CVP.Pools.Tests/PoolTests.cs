@@ -3,6 +3,7 @@ using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.Tests.Core;
 using NUnit.Framework;
+using System;
 using System.IO;
 
 namespace NIST.CVP.Pools.Tests
@@ -75,6 +76,26 @@ namespace NIST.CVP.Pools.Tests
 
             Assert.IsTrue(pool.IsEmpty);
             Assert.IsTrue(result3.PoolEmpty);
+        }
+
+        [Test]
+        public void ShouldWriteToFile()
+        {
+            var param = new AesParameters
+            {
+                Direction = "encrypt",
+                DataLength = 128,
+                Mode = BlockCipherModesOfOperation.Ecb,
+                KeyLength = 128
+            };
+
+            var pool = new Pool<AesParameters, AesResult>(param, _fullPath);
+
+            var writePath = Path.Combine(_testPath, $"saveTest-{Guid.NewGuid().ToString().Substring(0, 8)}.json");
+            pool.SavePoolToFile(writePath);
+
+            Assert.IsTrue(File.Exists(writePath));
+            //File.Delete(writePath);
         }
     }
 }

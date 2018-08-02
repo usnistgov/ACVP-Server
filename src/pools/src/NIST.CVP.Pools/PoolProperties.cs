@@ -3,7 +3,7 @@ using NIST.CVP.Common.Oracle;
 
 namespace NIST.CVP.Pools
 {
-    [JsonConverter(typeof(ParametersConverter))]
+    [JsonConverter(typeof(PoolPropertiesConverter))]
     public class PoolProperties
     {
         public ParameterHolder Parameters { get; set; }

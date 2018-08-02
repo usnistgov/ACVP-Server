@@ -28,7 +28,7 @@
 	{
 		"typeId": 2,
 		"parameters":{
-			"mode": 1,
+			"mode": 0,
 			"keyLength": 128,
 			"dataLength": 128,
 			"direction": "encrypt"
