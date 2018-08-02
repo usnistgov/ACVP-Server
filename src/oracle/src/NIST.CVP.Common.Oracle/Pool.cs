@@ -1,68 +1,53 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
+using System.IO;
 
 namespace NIST.CVP.Common.Oracle
 {
-    public class Pool<T>
+    public class Pool<TParam, TResult>
     {
-        //public ContentType WaterType { get; }
+        public TParam WaterType { get; }
 
-        private readonly Queue<T> _water;
+        private readonly Queue<TResult> _water;
         public int WaterLevel => _water.Count;
         public double WaterLevelPercent => WaterLevel / (double) MaxWaterLevel;
-        public int MaxWaterLevel { get; set; } = MAX_WATER_LEVEL;
+        public int MaxWaterLevel { get; set; }
         public bool IsEmpty => WaterLevel == 0;
-
-        public int MonitorFrequency => MONITOR_FREQUENCY;
-
-        public int ExpectedFillTime { get; private set; }
+        public int MonitorFrequency { get; set; }
 
         // TODO load from config.json file?
-        private const int MONITOR_FREQUENCY = 300; // seconds
-        private const int MAX_WATER_LEVEL = 1000;
+        //private const int MONITOR_FREQUENCY = 300; // seconds
+        //private const int MAX_WATER_LEVEL = 1000;
 
-        public Pool(int expectedFillTime, int maxCapacity)
+        public Pool(TParam waterType, string filename)
         {
-            _water = new Queue<T>();
-            ExpectedFillTime = expectedFillTime;
-            MaxWaterLevel = maxCapacity;
-        }
-
-        public Pool(Queue<T> water, int fillTime)
-        {
-            _water = water;
-            ExpectedFillTime = fillTime;
-        }
-
-        public Pool(string filename)
-        {
-            _water = new Queue<T>();
+            WaterType = waterType;
+            _water = new Queue<TResult>();
             LoadPoolFromFile(filename);
         }
 
-        public IEnumerable<T> GetNext(int amountToGet)
+        public PoolResult<TResult> GetNext()
         {
-            if (IsEmpty || amountToGet > WaterLevel)
+            if (IsEmpty)
             {
-                // Generate it, skip the pool, but show others you need more data
-                MaxWaterLevel *= 2;
-                _water.Clear();
-                return Enumerable.Range(0, amountToGet).Select(s => default(T));
+                return new PoolResult<TResult> {PoolEmpty = true};
             }
             else
             {
-                return Enumerable.Range(0, amountToGet).Select(s => _water.Dequeue());
+                return new PoolResult<TResult> {Result = _water.Dequeue()};
             }
         }
 
-        public void AddWater(T value)
+        public void AddWater(TResult value)
         {
             _water.Enqueue(value);
         }
 
         private void LoadPoolFromFile(string filename)
         {
-
+            if (Directory.Exists(filename))
+            {
+                // Load file
+            }
         }
 
         public void SavePoolToFile(string filename)

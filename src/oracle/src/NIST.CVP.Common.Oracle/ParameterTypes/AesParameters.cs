@@ -2,7 +2,7 @@
 
 namespace NIST.CVP.Common.Oracle.ParameterTypes
 {
-    public class AesParameters
+    public class AesParameters : Parameters
     {
         public BlockCipherModesOfOperation Mode { get; set; }
         public int KeyLength { get; set; }
