@@ -11,6 +11,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using NIST.CVP.Crypto.Common.Symmetric.CTR.Enums;
+using NIST.CVP.Orleans.Grains.Interfaces;
 
 namespace NIST.CVP.Crypto.Oracle
 {
@@ -18,75 +19,7 @@ namespace NIST.CVP.Crypto.Oracle
     {
         private readonly TdesMonteCarloFactory _tdesMctFactory = new TdesMonteCarloFactory(new BlockCipherEngineFactory(), new ModeBlockCipherFactory());
         private readonly TdesPartitionsMonteCarloFactory _tdesWithIvsMctFactory = new TdesPartitionsMonteCarloFactory(new BlockCipherEngineFactory(), new ModeBlockCipherFactory());
-
-        private TdesResult GetTdesCase(TdesParameters param)
-        {
-            var cipher = _modeFactory.GetStandardCipher(
-                _engineFactory.GetSymmetricCipherPrimitive(BlockCipherEngines.Tdes), 
-                param.Mode
-            );
-            var direction = BlockCipherDirections.Encrypt;
-            if (param.Direction.ToLower() == "decrypt")
-            {
-                direction = BlockCipherDirections.Decrypt;
-            }
-
-            var payload = _rand.GetRandomBitString(param.DataLength);
-            var key = TdesHelpers.GenerateTdesKey(param.KeyingOption);
-            var iv = _rand.GetRandomBitString(64);
-
-            var blockCipherParams = new ModeBlockCipherParameters(direction, iv, key, payload);
-            var result = cipher.ProcessPayload(blockCipherParams);
-
-            if (!result.Success)
-            {
-                // Log error somewhere
-                throw new Exception();
-            }
-
-            return new TdesResult
-            {
-                PlainText = direction == BlockCipherDirections.Encrypt ? payload : result.Result,
-                CipherText = direction == BlockCipherDirections.Decrypt ? payload : result.Result,
-                Key = key,
-                Iv = iv
-            };
-        }
-
-        private MctResult<TdesResult> GetTdesMctCase(TdesParameters param)
-        {
-            var cipher = _tdesMctFactory.GetInstance(param.Mode);
-            var direction = BlockCipherDirections.Encrypt;
-            if (param.Direction.ToLower() == "decrypt")
-            {
-                direction = BlockCipherDirections.Decrypt;
-            }
-
-            var payload = _rand.GetRandomBitString(param.DataLength);
-            var key = TdesHelpers.GenerateTdesKey(param.KeyingOption);
-            var iv = _rand.GetRandomBitString(64);
-
-            var blockCipherParams = new ModeBlockCipherParameters(direction, iv, key, payload);
-            var result = cipher.ProcessMonteCarloTest(blockCipherParams);
-
-            if (!result.Success)
-            {
-                // Log error somewhere
-                throw new Exception();
-            }
-
-            return new MctResult<TdesResult>
-            {
-                Results = Array.ConvertAll(result.Response.ToArray(), element => new TdesResult
-                {
-                    Key = element.Keys,
-                    Iv = element.IV,
-                    PlainText = element.PlainText,
-                    CipherText = element.CipherText
-                }).ToList()
-            };
-        }
-
+        
         private TdesResultWithIvs GetTdesWithIvsCase(TdesParameters param)
         {
             var cipher = _modeFactory.GetStandardCipher(
@@ -249,12 +182,14 @@ namespace NIST.CVP.Crypto.Oracle
 
         public async Task<TdesResult> GetTdesCaseAsync(TdesParameters param)
         {
-            return await _taskFactory.StartNew(() => GetTdesCase(param));
+            var grain = _clusterClient.GetGrain<IOracleGrain>(Guid.NewGuid());
+            return await grain.GetTdesCaseAsync(param);
         }
 
         public async Task<MctResult<TdesResult>> GetTdesMctCaseAsync(TdesParameters param)
         {
-            return await _taskFactory.StartNew(() => GetTdesMctCase(param));
+            var grain = _clusterClient.GetGrain<IOracleGrain>(Guid.NewGuid());
+            return await grain.GetTdesMctCaseAsync(param);
         }
 
         public async Task<TdesResultWithIvs> GetTdesWithIvsCaseAsync(TdesParameters param)

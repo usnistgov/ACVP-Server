@@ -1,6 +1,12 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
 using NIST.CVP.Common.Oracle;
 using NIST.CVP.Math;
+using NIST.CVP.Orleans.Grains.Interfaces;
+using Orleans;
+using Orleans.Configuration;
+using Orleans.Hosting;
 
 namespace NIST.CVP.Crypto.Oracle
 {
@@ -22,11 +28,60 @@ namespace NIST.CVP.Crypto.Oracle
         // you can potentially cap out memory usage w/o being able to complete tasks.
         private static readonly LimitedConcurrencyLevelTaskScheduler _scheduler;
         private static readonly TaskFactory _taskFactory;
+        private static IClusterClient _clusterClient;
 
         static Oracle()
         {
             _scheduler = new LimitedConcurrencyLevelTaskScheduler(3);
             _taskFactory = new TaskFactory(_scheduler);
+
+            _clusterClient = InitializeClient().GetAwaiter().GetResult();
+        }
+
+        private static async Task<IClusterClient> InitializeClient()
+        {
+            int initializeCounter = 0;
+
+            var initSucceed = false;
+            while (!initSucceed)
+            {
+                try
+                {
+                    var client = new ClientBuilder()
+                        .Configure<ClusterOptions>(options =>
+                        {
+                            options.ClusterId = Constants.ClusterId;
+                            options.ServiceId = Constants.ServiceId;
+                        })
+                        .UseLocalhostClustering()
+                        .ConfigureApplicationParts(parts => parts.AddApplicationPart(typeof(IOracleGrain).Assembly).WithReferences())
+                        //.ConfigureLogging(logging => logging.AddConsole())
+                        //Depends on your application requirements, you can configure your client with other stream providers, which can provide other features, 
+                        //such as persistence or recoverability. For more information, please see http://dotnet.github.io/orleans/Documentation/Orleans-Streams/Stream-Providers.html
+                        //.AddSimpleMessageStreamProvider(Constants.ChatRoomStreamProvider)
+                        .Build();
+                    await client.Connect();
+                    initSucceed = client.IsInitialized;
+
+                    if (initSucceed)
+                    {
+                        return client;
+                    }
+                }
+                catch (Exception exc)
+                {
+                    initSucceed = false;
+                }
+
+                if (initializeCounter++ > 10)
+                {
+                    return null;
+                }
+
+                Thread.Sleep(TimeSpan.FromSeconds(5));
+            }
+
+            return null;
         }
     }
 }
