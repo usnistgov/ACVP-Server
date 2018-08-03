@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Numerics;
-using System.Text;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Enums;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Keys;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA2.PrimeGenerators;
+﻿using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA.PrimeGenerators;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
-using NIST.CVP.Crypto.RSA2.Keys;
-using NIST.CVP.Crypto.RSA2.PrimeGenerators;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
+using System.Numerics;
 
-namespace NIST.CVP.Crypto.RSA2.Keys
+namespace NIST.CVP.Crypto.RSA.Keys
 {
     public class KeyBuilder : IKeyBuilder
     {
@@ -52,6 +47,12 @@ namespace NIST.CVP.Crypto.RSA2.Keys
         public IKeyBuilder WithPublicExponent(BigInteger e)
         {
             _e = e;
+            return this;
+        }
+
+        public IKeyBuilder WithPublicExponent(BitString e)
+        {
+            _e = e.ToPositiveBigInteger();
             return this;
         }
 

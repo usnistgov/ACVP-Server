@@ -1,39 +1,61 @@
-﻿using System;
-using System.Collections.Generic;
-using NIST.CVP.Crypto.Common.Hash;
+﻿using NIST.CVP.Common.Oracle;
+using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Crypto.Common.Hash.SHA2;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Math;
 using NLog;
+using System;
+using System.Threading.Tasks;
+using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.SHA2
 {
-    public class TestCaseGeneratorAFTHash : ITestCaseGenerator<TestGroup, TestCase>
+    public class TestCaseGeneratorAFTHash : ITestCaseGeneratorAsync<TestGroup, TestCase>
     {
-        private int _numberOfCases = 512;
         private int _currentSmallCase = 0;
         private int _currentLargeCase = 1;
 
-        private readonly IRandom800_90 _random800_90;
-        private readonly ISHA _algo;
+        private readonly IOracle _oracle;
 
-        public int NumberOfTestCasesToGenerate => _numberOfCases;
+        public int NumberOfTestCasesToGenerate { get; private set; } = 512;
 
-        public TestCaseGeneratorAFTHash(IRandom800_90 random800_90, ISHA algo)
+        public TestCaseGeneratorAFTHash(IOracle oracle)
         {
-            _random800_90 = random800_90;
-            _algo = algo;
+            _oracle = oracle;
         }
 
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
+        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample)
         {
-            var unitSize = group.BitOriented ? 1 : 8;
-            var blockSize = SHAEnumHelpers.DetermineBlockSize(group.DigestSize);
+            var param = new ShaParameters
+            {
+                HashFunction = new HashFunction(group.Function, group.DigestSize),
+                MessageLength = DetermineMessageLength(group.BitOriented, group.IncludeNull, SHAEnumHelpers.DetermineBlockSize(group.DigestSize))
+            };
+
+            try
+            {
+                var oracleResult = await _oracle.GetShaCaseAsync(param);
+
+                return new TestCaseGenerateResponse<TestGroup, TestCase>(new TestCase
+                {
+                    Message = oracleResult.Message,
+                    Digest = oracleResult.Digest
+                });
+            }
+            catch (Exception ex)
+            {
+                ThisLogger.Error(ex);
+                return new TestCaseGenerateResponse<TestGroup, TestCase>($"Failed to generate. {ex.Message}");
+            }
+        }
+
+        private int DetermineMessageLength(bool bitOriented, bool includeNull, int blockSize)
+        {
+            var unitSize = bitOriented ? 1 : 8;
 
             var numSmallCases = blockSize / unitSize;
             var numLargeCases = blockSize / unitSize;
 
-            if (!group.IncludeNull)
+            if (includeNull)
             {
                 if (_currentSmallCase == 0)
                 {
@@ -45,62 +67,18 @@ namespace NIST.CVP.Generation.SHA2
                 numSmallCases = blockSize / unitSize + 1;
             }
 
-            _numberOfCases = numSmallCases + numLargeCases;
+            NumberOfTestCasesToGenerate = numSmallCases + numLargeCases;
 
-            var message = new BitString(0);
             if (_currentSmallCase <= numSmallCases)
             {
-                message = _random800_90.GetRandomBitString(unitSize * _currentSmallCase);
-                _currentSmallCase++;
+                return unitSize * _currentSmallCase++;
             }
             else
             {
-                message = _random800_90.GetRandomBitString(blockSize + (unitSize * 99 * _currentLargeCase));
-                _currentLargeCase++;
+                return blockSize + unitSize * 99 * _currentLargeCase++;
             }
-
-            var testCase = new TestCase
-            {
-                Message = message,
-                Deferred = false
-            };
-
-            return Generate(group, testCase);
         }
 
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
-        {
-            HashResult hashResult = null;
-
-            try
-            {
-                var hashFunction = new HashFunction
-                {
-                    Mode = group.Function,
-                    DigestSize = group.DigestSize
-                };
-
-                hashResult = _algo.HashMessage(hashFunction, testCase.Message);
-                if (!hashResult.Success)
-                {
-                    ThisLogger.Warn(hashResult.ErrorMessage);
-                    {
-                        return new TestCaseGenerateResponse<TestGroup, TestCase>(hashResult.ErrorMessage);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                ThisLogger.Error(ex);
-                {
-                    return new TestCaseGenerateResponse<TestGroup, TestCase>(ex.Message);
-                }
-            }
-
-            testCase.Digest = hashResult.Digest;
-            return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
-        }
-
-        private Logger ThisLogger => LogManager.GetCurrentClassLogger();
+        private ILogger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }

@@ -1,30 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA2;
+﻿using NIST.CVP.Common.Oracle;
 using NIST.CVP.Generation.Core;
+using System.Collections.Generic;
+using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.RSA_DPComponent
 {
-    public class TestCaseValidatorFactory : ITestCaseValidatorFactory<TestVectorSet, TestGroup, TestCase>
+    public class TestCaseValidatorFactory : ITestCaseValidatorFactoryAsync<TestVectorSet, TestGroup, TestCase>
     {
-        private readonly IRsa _rsa;
+        private readonly IOracle _oracle;
 
-        public TestCaseValidatorFactory(IRsa rsa)
+        public TestCaseValidatorFactory(IOracle oracle)
         {
-            _rsa = rsa;
+            _oracle = oracle;
         }
 
-        public IEnumerable<ITestCaseValidator<TestGroup, TestCase>> GetValidators(TestVectorSet testVectorSet)
+        public IEnumerable<ITestCaseValidatorAsync<TestGroup, TestCase>> GetValidators(TestVectorSet testVectorSet)
         {
-            var list = new List<ITestCaseValidator<TestGroup, TestCase>>();
+            var list = new List<ITestCaseValidatorAsync<TestGroup, TestCase>>();
 
             foreach (var group in testVectorSet.TestGroups)
             {
                 foreach (var test in group.Tests)
                 {
-                    list.Add(new TestCaseValidator(group, test, new DeferredCryptoResolver(_rsa)));
+                    list.Add(new TestCaseValidator(group, test, new DeferredCryptoResolver(_oracle)));
                 }
             }
 

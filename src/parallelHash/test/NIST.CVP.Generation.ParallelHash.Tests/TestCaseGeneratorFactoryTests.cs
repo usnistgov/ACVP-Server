@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Moq;
-using NIST.CVP.Crypto.Common.Hash.ParallelHash;
-using NIST.CVP.Crypto.ParallelHash;
-using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
@@ -16,8 +10,8 @@ namespace NIST.CVP.Generation.ParallelHash.Tests
     {
         [Test]
         [TestCase("junk", typeof(TestCaseGeneratorNull))]
-        [TestCase("aFt", typeof(TestCaseGeneratorAFTHash))]
-        [TestCase("Mct", typeof(TestCaseGeneratorMCTHash))]
+        [TestCase("aFt", typeof(TestCaseGeneratorAft))]
+        [TestCase("Mct", typeof(TestCaseGeneratorMct))]
         public void ShouldReturnProperGenerator(string testType, Type expectedType)
         {
             var testGroup = new TestGroup
@@ -36,23 +30,25 @@ namespace NIST.CVP.Generation.ParallelHash.Tests
         [Test]
         [TestCase(true)]
         [TestCase(false)]
-        public void ShouldReturnSampleMonteCarloGeneratorIfRequested(bool isSample)
+        public async Task ShouldReturnSampleMonteCarloGeneratorIfRequested(bool isSample)
         {
             var testGroup = new TestGroup
             {
                 Function = "ParallelHash",
                 DigestSize = 128,
-                TestType = "MCT"
+                XOF = false,
+                TestType = "MCT",
+                OutputLength = new Math.Domain.MathDomain().AddSegment(new Math.Domain.RangeDomainSegment(new Math.Random800_90(), 16, 32))
             };
 
             var subject = GetSubject();
             var generator = subject.GetCaseGenerator(testGroup);
             Assume.That(generator != null);
 
-            var typedGen = generator as TestCaseGeneratorMCTHash;
+            var typedGen = generator as TestCaseGeneratorMct;
             Assume.That(typedGen != null);
 
-            var result = typedGen.Generate(testGroup, isSample);
+            await typedGen.GenerateAsync(testGroup, isSample);
 
             Assert.AreEqual(isSample, typedGen.IsSample);
         }
@@ -74,11 +70,7 @@ namespace NIST.CVP.Generation.ParallelHash.Tests
 
         private TestCaseGeneratorFactory GetSubject()
         {
-            var random = new Mock<IRandom800_90>().Object;
-            var algo = new Mock<IParallelHash>().Object;
-            var mctAlgo = new Mock<IParallelHash_MCT>().Object;
-
-            return new TestCaseGeneratorFactory(random, algo, mctAlgo);
+            return new TestCaseGeneratorFactory(null);
         }
     }
 }

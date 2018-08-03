@@ -1,11 +1,11 @@
-﻿using System.Numerics;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Enums;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA2.PrimeGenerators;
+﻿using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA.PrimeGenerators;
 using NIST.CVP.Crypto.Math;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
+using System.Numerics;
 
-namespace NIST.CVP.Crypto.RSA2.PrimeGenerators
+namespace NIST.CVP.Crypto.RSA.PrimeGenerators
 {
     public class AllProbablePrimesWithConditionsGenerator : PrimeGeneratorBase
     {

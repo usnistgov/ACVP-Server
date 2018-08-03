@@ -1,7 +1,7 @@
-﻿using System;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Enums;
+﻿using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
+using System;
 
 namespace NIST.CVP.Generation.RSA_KeyGen.Tests
 {
@@ -25,7 +25,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
                 PrimeTest = PrimeTestModes.C2
             };
 
-            var subject = new TestCaseGeneratorFactory(null, null, null, null);
+            var subject = new TestCaseGeneratorFactory(null);
             var generator = subject.GetCaseGenerator(testGroup);
             Assume.That(generator != null);
             Assert.IsInstanceOf(expectedType, generator);

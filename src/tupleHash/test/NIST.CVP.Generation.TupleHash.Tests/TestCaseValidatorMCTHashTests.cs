@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using NIST.CVP.Crypto.Common.Hash.TupleHash;
-using NIST.CVP.Crypto.TupleHash;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -14,19 +13,19 @@ namespace NIST.CVP.Generation.TupleHash.Tests
     public class TestCaseValidatorMCTHashTests
     {
         [Test]
-        public void ShouldReturnPassWithAllMatches()
+        public async Task ShouldReturnPassWithAllMatches()
         {
             var expected = GetTestCase();
             var supplied = GetTestCase();
             var subject = new TestCaseValidatorMCTHash(expected);
 
-            var result = subject.Validate(supplied);
+            var result = await subject.ValidateAsync(supplied);
 
             Assert.AreEqual(Core.Enums.Disposition.Passed, result.Result);
         }
 
         [Test]
-        public void ShouldReturnReasonOnMismatchedDigest()
+        public async Task ShouldReturnReasonOnMismatchedDigest()
         {
             var rand = new Random800_90();
             var expected = GetTestCase();
@@ -35,7 +34,7 @@ namespace NIST.CVP.Generation.TupleHash.Tests
 
             var subject = new TestCaseValidatorMCTHash(expected);
 
-            var result = subject.Validate(supplied);
+            var result = await subject.ValidateAsync(supplied);
 
             Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
             Assert.IsTrue(result.Reason.ToLower().Contains("digest"), "Reason does not contain the expected digest");
@@ -44,7 +43,7 @@ namespace NIST.CVP.Generation.TupleHash.Tests
         }
 
         [Test]
-        public void ShouldReturnReasonOnMismatchedCustomization()
+        public async Task ShouldReturnReasonOnMismatchedCustomization()
         {
             var rand = new Random800_90();
             var expected = GetTestCase();
@@ -53,7 +52,7 @@ namespace NIST.CVP.Generation.TupleHash.Tests
 
             var subject = new TestCaseValidatorMCTHash(expected);
 
-            var result = subject.Validate(supplied);
+            var result = await subject.ValidateAsync(supplied);
 
             Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
             Assert.IsFalse(result.Reason.ToLower().Contains("digest"), "Reason does not contain the expected digest");
@@ -62,7 +61,7 @@ namespace NIST.CVP.Generation.TupleHash.Tests
         }
 
         [Test]
-        public void ShouldReturnReasonOnMismatchedSimpleTuple()
+        public async Task ShouldReturnReasonOnMismatchedSimpleTuple()
         {
             var rand = new Random800_90();
             var expected = GetTestCase();
@@ -71,7 +70,7 @@ namespace NIST.CVP.Generation.TupleHash.Tests
 
             var subject = new TestCaseValidatorMCTHash(expected);
 
-            var result = subject.Validate(supplied);
+            var result = await subject.ValidateAsync(supplied);
 
             Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
             Assert.IsFalse(result.Reason.ToLower().Contains("digest"), "Reason contains the unexpected value digest");
@@ -80,7 +79,7 @@ namespace NIST.CVP.Generation.TupleHash.Tests
         }
 
         [Test]
-        public void ShouldReturnReasonOnMismatchedComplexTuple()
+        public async Task ShouldReturnReasonOnMismatchedComplexTuple()
         {
             var rand = new Random800_90();
             var expected = GetTestCaseComplexTuple();
@@ -89,7 +88,7 @@ namespace NIST.CVP.Generation.TupleHash.Tests
 
             var subject = new TestCaseValidatorMCTHash(expected);
 
-            var result = subject.Validate(supplied);
+            var result = await subject.ValidateAsync(supplied);
 
             Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
             Assert.IsFalse(result.Reason.ToLower().Contains("digest"), "Reason contains the unexpected value digest");
@@ -98,7 +97,7 @@ namespace NIST.CVP.Generation.TupleHash.Tests
         }
 
         [Test]
-        public void ShouldReturnReasonWithMultipleErrorReasons()
+        public async Task ShouldReturnReasonWithMultipleErrorReasons()
         {
             var rand = new Random800_90();
             var expected = GetTestCase();
@@ -109,7 +108,7 @@ namespace NIST.CVP.Generation.TupleHash.Tests
 
             var subject = new TestCaseValidatorMCTHash(expected);
 
-            var result = subject.Validate(supplied);
+            var result = await subject.ValidateAsync(supplied);
 
             Assert.IsTrue(result.Reason.ToLower().Contains("digest"), "Reason does not contain the expected value digest");
             Assert.IsTrue(result.Reason.ToLower().Contains("tuple"), "Reason does not contain the expected value tuple");
@@ -117,7 +116,7 @@ namespace NIST.CVP.Generation.TupleHash.Tests
         }
 
         [Test]
-        public void ShouldFailDueToMissingResultsArray()
+        public async Task ShouldFailDueToMissingResultsArray()
         {
             var expected = GetTestCase();
             var suppliedResult = GetTestCase();
@@ -125,14 +124,14 @@ namespace NIST.CVP.Generation.TupleHash.Tests
             suppliedResult.ResultsArray = null;
 
             var subject = new TestCaseValidatorMCTHash(expected);
-            var result = subject.Validate(suppliedResult);
+            var result = await subject.ValidateAsync(suppliedResult);
 
             Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
             Assert.IsTrue(result.Reason.Contains($"{nameof(suppliedResult.ResultsArray)} was not present in the {nameof(TestCase)}"));
         }
 
         [Test]
-        public void ShouldFailDueToMissingTupleInResultsArray()
+        public async Task ShouldFailDueToMissingTupleInResultsArray()
         {
             var expected = GetTestCase();
             var suppliedResult = GetTestCase();
@@ -140,14 +139,14 @@ namespace NIST.CVP.Generation.TupleHash.Tests
             suppliedResult.ResultsArray.ForEach(fe => fe.Tuple = null);
 
             var subject = new TestCaseValidatorMCTHash(expected);
-            var result = subject.Validate(suppliedResult);
+            var result = await subject.ValidateAsync(suppliedResult);
 
             Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
             Assert.IsTrue(result.Reason.Contains($"{nameof(suppliedResult.ResultsArray)} did not contain expected element {nameof(AlgoArrayResponse.Tuple)}"));
         }
 
         [Test]
-        public void ShouldFailDueToMissingDigestInResultsArray()
+        public async Task ShouldFailDueToMissingDigestInResultsArray()
         {
             var expected = GetTestCase();
             var suppliedResult = GetTestCase();
@@ -155,14 +154,14 @@ namespace NIST.CVP.Generation.TupleHash.Tests
             suppliedResult.ResultsArray.ForEach(fe => fe.Digest = null);
 
             var subject = new TestCaseValidatorMCTHash(expected);
-            var result = subject.Validate(suppliedResult);
+            var result = await subject.ValidateAsync(suppliedResult);
 
             Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
             Assert.IsTrue(result.Reason.Contains($"{nameof(suppliedResult.ResultsArray)} did not contain expected element {nameof(AlgoArrayResponse.Digest)}"));
         }
 
         [Test]
-        public void ShouldFailDueToMissingCustomizationInResultsArray()
+        public async Task ShouldFailDueToMissingCustomizationInResultsArray()
         {
             var expected = GetTestCase();
             var suppliedResult = GetTestCase();
@@ -170,7 +169,7 @@ namespace NIST.CVP.Generation.TupleHash.Tests
             suppliedResult.ResultsArray.ForEach(fe => fe.Customization = null);
 
             var subject = new TestCaseValidatorMCTHash(expected);
-            var result = subject.Validate(suppliedResult);
+            var result = await subject.ValidateAsync(suppliedResult);
 
             Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
             Assert.IsTrue(result.Reason.Contains($"{nameof(suppliedResult.ResultsArray)} did not contain expected element {nameof(AlgoArrayResponse.Customization)}"));

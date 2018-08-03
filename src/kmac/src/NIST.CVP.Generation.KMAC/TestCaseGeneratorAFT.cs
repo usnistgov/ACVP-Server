@@ -1,19 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using NIST.CVP.Crypto.Common.MAC;
-using NIST.CVP.Crypto.Common.MAC.KMAC;
+using System.Threading.Tasks;
+using NIST.CVP.Common.Oracle;
+using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Math;
+using NIST.CVP.Generation.Core.Async;
 using NIST.CVP.Math.Domain;
 using NLog;
 
 namespace NIST.CVP.Generation.KMAC
 {
-    public class TestCaseGeneratorAFT : ITestCaseGenerator<TestGroup, TestCase>
+    public class TestCaseGeneratorAft : ITestCaseGeneratorAsync<TestGroup, TestCase>
     {
-        private readonly IKmac _algo;
-        private readonly IRandom800_90 _random800_90;
+        private readonly IOracle _oracle;
 
         private int _capacity = 0;
         private int _macLength = 0;
@@ -28,17 +28,13 @@ namespace NIST.CVP.Generation.KMAC
         public List<int> TestCaseSizes { get; } = new List<int>();                 // Primarily for testing purposes
         public List<int> KeySizes { get; } = new List<int>();                 // Primarily for testing purposes
 
-        public TestCaseGeneratorAFT(IRandom800_90 random800_90, IKmac algo)
+        public TestCaseGeneratorAft(IOracle oracle)
         {
-            _random800_90 = random800_90;
-            _algo = algo;
+            _oracle = oracle;
         }
 
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
+        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample)
         {
-            var unitSize = group.BitOrientedInput ? 1 : 8;
-            var rate = 1600 - group.DigestSize * 2;
-
             // Only do this logic once
             if (_capacity == 0)
             {
@@ -49,121 +45,29 @@ namespace NIST.CVP.Generation.KMAC
                 _capacity = 2 * group.DigestSize;
             }
 
-            var numSmallCases = (rate / unitSize) * 2;
-            var numLargeCases = 100;
+            var param = DetermineParameters(group.BitOrientedInput, group.DigestSize, group.IncludeNull, group.HexCustomization, group.XOF);
 
-            if (!group.IncludeNull)
-            {
-                if (_currentSmallCase == 0)
-                {
-                    _currentSmallCase = 1;
-                }
-            }
-            else
-            {
-                numSmallCases = (rate / unitSize) * 2 + 1;
-            }
-
-            _numberOfCases = numSmallCases + numLargeCases;
-
-            _macLength = TestCaseSizes[_currentTestCase % TestCaseSizes.Count];
-
-            _keyLength = KeySizes[_currentTestCase++ % KeySizes.Count];
-
-            var key = _random800_90.GetRandomBitString(_keyLength);
-
-            var message = new BitString(0);
-            var customization = "";
-            var customizationHex = new BitString(0);
-            if (_currentSmallCase <= numSmallCases)
-            {
-                message = _random800_90.GetRandomBitString(unitSize * _currentSmallCase);
-                if (group.HexCustomization)
-                {
-                    customizationHex = _random800_90.GetRandomBitString(_customizationLength * 8);  // always byte oriented... for now?
-                }
-                else
-                {
-                    customization = _random800_90.GetRandomString(_customizationLength);
-                }
-                _customizationLength = (_customizationLength + 1) % 100;
-                _currentSmallCase++;
-            }
-            else
-            {
-                if (_customizationLength * _currentLargeCase < 2000)
-                {
-                    if (group.HexCustomization)
-                    {
-                        customizationHex = _random800_90.GetRandomBitString(_customizationLength++ * _currentLargeCase * 8);  // always byte oriented... for now?
-                    }
-                    else
-                    {
-                        customization = _random800_90.GetRandomString(_customizationLength++ * _currentLargeCase);
-                    }
-                }
-                message = _random800_90.GetRandomBitString(rate + _currentLargeCase * (rate + unitSize));
-                _currentLargeCase++;
-            }
-
-            TestCase testCase = null;
-            if (group.HexCustomization)
-            {
-                testCase = new TestCase
-                {
-                    Key = key,
-                    Message = message,
-                    CustomizationHex = customizationHex,
-                    MacLength = _macLength
-                };
-            }
-            else
-            {
-                testCase = new TestCase
-                {
-                    Key = key,
-                    Message = message,
-                    Customization = customization,
-                    MacLength = _macLength
-                };
-            }
-            return Generate(group, testCase);
-        }
-
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
-        {
-            MacResult genResult = null;
             try
             {
-                if (group.HexCustomization)
+                var oracleResult = await _oracle.GetKmacCaseAsync(param);
+
+                return new TestCaseGenerateResponse<TestGroup, TestCase>(new TestCase
                 {
-                    genResult = _algo.Generate(testCase.Key, testCase.Message, testCase.Customization, testCase.MacLength);
-                }
-                else
-                {
-                    genResult = _algo.Generate(testCase.Key, testCase.Message, testCase.Customization, testCase.MacLength);
-                }
-                
-                if (!genResult.Success)
-                {
-                    ThisLogger.Warn(genResult.ErrorMessage);
-                    {
-                        return new TestCaseGenerateResponse<TestGroup, TestCase>(genResult.ErrorMessage);
-                    }
-                }
+                    Key = oracleResult.Key,
+                    Message = oracleResult.Message,
+                    Mac = oracleResult.Tag,
+                    Customization = oracleResult.Customization,
+                    CustomizationHex = oracleResult.CustomizationHex,
+                    MacLength = oracleResult.Tag.BitLength
+                });
             }
             catch (Exception ex)
             {
                 ThisLogger.Error(ex);
-                {
-                    return new TestCaseGenerateResponse<TestGroup, TestCase>(ex.Message);
-                }
+                return new TestCaseGenerateResponse<TestGroup, TestCase>($"Failed to generate. {ex.Message}");
             }
-            testCase.Mac = genResult.Mac;
-
-            return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
         }
-
+        
         private void DetermineLengths(MathDomain domain, bool key)
         {
             domain.SetRangeOptions(RangeDomainSegmentOptions.Random);
@@ -208,6 +112,78 @@ namespace NIST.CVP.Generation.KMAC
             TestCaseSizes.Sort();
         }
 
-        private Logger ThisLogger => LogManager.GetCurrentClassLogger();
+        private KmacParameters DetermineParameters(bool bitOriented, int digestSize, bool includeNull, bool hexCustomization, bool xof)
+        {
+            var unitSize = bitOriented ? 1 : 8;
+            var rate = 1600 - digestSize * 2;
+
+            var numSmallCases = (rate / unitSize) * 2;
+            var numLargeCases = 100;
+
+            if (!includeNull)
+            {
+                if (_currentSmallCase == 0)
+                {
+                    _currentSmallCase = 1;
+                }
+            }
+            else
+            {
+                numSmallCases = (rate / unitSize) * 2 + 1;
+            }
+
+            _numberOfCases = numSmallCases + numLargeCases;
+
+            _macLength = TestCaseSizes[_currentTestCase % TestCaseSizes.Count];
+
+            _keyLength = KeySizes[_currentTestCase++ % KeySizes.Count];
+
+            var messageLength = 0;
+            var customizationLength = 0;
+            if (_currentSmallCase <= numSmallCases)
+            {
+                messageLength = unitSize * _currentSmallCase;
+                if (hexCustomization)
+                {
+                    customizationLength = _customizationLength * 8;  // always byte oriented... for now?
+                }
+                else
+                {
+                    customizationLength = _customizationLength;
+                }
+                _customizationLength = (_customizationLength + 1) % 100;
+                _currentSmallCase++;
+            }
+            else
+            {
+                if (_customizationLength * _currentLargeCase < 2000)
+                {
+                    if (hexCustomization)
+                    {
+                        customizationLength = _customizationLength++ * _currentLargeCase * 8;  // always byte oriented... for now?
+                    }
+                    else
+                    {
+                        customizationLength = _customizationLength++ * _currentLargeCase;
+                    }
+                }
+                messageLength = rate + _currentLargeCase * (rate + unitSize);
+                _currentLargeCase++;
+            }
+
+            return new KmacParameters()
+            {
+                CouldFail = false,
+                CustomizationLength = customizationLength,
+                DigestSize = digestSize,
+                HexCustomization = hexCustomization,
+                KeyLength = _keyLength,
+                MacLength = _macLength,
+                MessageLength = messageLength,
+                XOF = xof
+            };
+        }
+
+        private static ILogger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }

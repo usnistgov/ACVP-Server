@@ -1,14 +1,14 @@
-﻿using System.ComponentModel;
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
 
-namespace NIST.CVP.Crypto.Common.Asymmetric.RSA2.Enums
+namespace NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums
 {
     public enum SignatureModifications
     {
         [EnumMember(Value = "No modification")]
         None,
 
-		[EnumMember(Value = "Key modified")]        E,
+		[EnumMember(Value = "Key modified")]
+        E,
 
         [EnumMember(Value = "Message modified")]
         Message,

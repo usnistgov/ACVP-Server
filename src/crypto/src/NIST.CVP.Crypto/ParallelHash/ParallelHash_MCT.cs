@@ -93,10 +93,8 @@ namespace NIST.CVP.Crypto.ParallelHash
                         innerMessage = BitString.ConcatenateBits(innerMessage, BitString.Zeroes(128));
                         innerMessage = BitString.MSBSubstring(innerMessage, 0, 128);
                         function.DigestLength = outputLen;
-                        function.BlockSize = blockSize;
-                        function.Customization = customization;
 
-                        var innerResult = _iCSHAKE.HashMessage(function, innerMessage);
+                        var innerResult = _iCSHAKE.HashMessage(function, innerMessage, blockSize, customization);
                         innerDigest = innerResult.Digest.GetDeepCopy();
 
                         // Will always have 16 bits to pull from

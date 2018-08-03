@@ -13,14 +13,9 @@ namespace NIST.CVP.Crypto.TupleHash.Tests
         [TestCase(1000, 512, true)]
         [TestCase(65536, 256, true)]
         [TestCase(65536, 256, false)]
-        public void ShouldProduceValidAlgorithmWithValidHashFunction(int digestSize, int capacity, bool XOF)
+        public void ShouldProduceValidAlgorithmWithValidHashFunction(int digestLength, int capacity, bool xof)
         {
-            var hashFunction = new HashFunction()
-            {
-                Capacity = capacity,
-                DigestLength = digestSize,
-                XOF = XOF
-            };
+            var hashFunction = new HashFunction(digestLength, capacity, xof);
 
             var subject = new TupleHashFactory();
             var result = subject.GetTupleHash(hashFunction);
@@ -33,14 +28,9 @@ namespace NIST.CVP.Crypto.TupleHash.Tests
         [TestCase(15, 256, true)]
         [TestCase(65537, 512, true)]
         [TestCase(224, 448, false)]
-        public void ShouldThrowExceptionWhenInvalidHashFunction(int digestSize, int capacity, bool XOF)
+        public void ShouldThrowExceptionWhenInvalidHashFunction(int digestLength, int capacity, bool xof)
         {
-            var hashFunction = new HashFunction()
-            {
-                Capacity = capacity,
-                DigestLength = digestSize,
-                XOF = XOF
-            };
+            var hashFunction = new HashFunction(digestLength, capacity, xof);
 
             var subject = new TupleHashFactory();
             Assert.Throws<ArgumentException>(() => subject.GetTupleHash(hashFunction));

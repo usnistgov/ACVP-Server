@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using NIST.CVP.Common.Helpers;
+﻿using NIST.CVP.Common.Helpers;
+using NIST.CVP.Common.Oracle.DispositionTypes;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.DSA.ECC.SigVer.Enums;
 
 namespace NIST.CVP.Generation.DSA.ECC.SigVer.TestCaseExpectations
 {
-    public class TestCaseExpectationReason : ITestCaseExpectationReason<SigFailureReasons>
+    public class TestCaseExpectationReason : ITestCaseExpectationReason<EcdsaSignatureDisposition>
     {
-        private readonly SigFailureReasons _reason;
+        private readonly EcdsaSignatureDisposition _reason;
 
-        public TestCaseExpectationReason(SigFailureReasons reason)
+        public TestCaseExpectationReason(EcdsaSignatureDisposition reason)
         {
             _reason = reason;
         }
@@ -21,7 +18,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer.TestCaseExpectations
             return EnumHelpers.GetEnumDescriptionFromEnum(_reason);
         }
 
-        public SigFailureReasons GetReason()
+        public EcdsaSignatureDisposition GetReason()
         {
             return _reason;
         }

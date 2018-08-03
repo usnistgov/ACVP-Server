@@ -1,6 +1,6 @@
 ﻿using NIST.CVP.Math;
 
-namespace NIST.CVP.Crypto.Common.Asymmetric.RSA2
+namespace NIST.CVP.Crypto.Common.Asymmetric.RSA
 {
     public class AlgoArrayResponseKey
     {

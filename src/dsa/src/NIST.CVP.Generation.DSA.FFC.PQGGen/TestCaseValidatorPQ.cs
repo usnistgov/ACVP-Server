@@ -1,27 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC.PQGeneratorValidators;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.DSA.FFC.PQGGen
 {
-    public class TestCaseValidatorPQ : ITestCaseValidator<TestGroup, TestCase>
+    public class TestCaseValidatorPQ : ITestCaseValidatorAsync<TestGroup, TestCase>
     {
         private readonly TestCase _expectedResult;
         private readonly TestGroup _group;
-        private readonly IDeferredTestCaseResolver<TestGroup, TestCase, PQValidateResult> _deferredResolver;
+        private readonly IDeferredTestCaseResolverAsync<TestGroup, TestCase, PQValidateResult> _deferredResolver;
 
         public int TestCaseId => _expectedResult.TestCaseId;
 
-        public TestCaseValidatorPQ(TestCase expectedResult, TestGroup group, IDeferredTestCaseResolver<TestGroup, TestCase, PQValidateResult> deferredResolver)
+        public TestCaseValidatorPQ(
+            TestCase expectedResult, 
+            TestGroup group, 
+            IDeferredTestCaseResolverAsync<TestGroup, TestCase, PQValidateResult> deferredResolver
+        )
         {
             _expectedResult = expectedResult;
             _group = group;
             _deferredResolver = deferredResolver;
         }
 
-        public TestCaseValidation Validate(TestCase suppliedResult, bool showExpected = false)
+        public async Task<TestCaseValidation> ValidateAsync(TestCase suppliedResult, bool showExpected = false)
         {
             var errors = new List<string>();
             var expected = new Dictionary<string, string>();
@@ -33,7 +39,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
             }
             else
             {
-                var validateResult = _deferredResolver.CompleteDeferredCrypto(_group, _expectedResult, suppliedResult);
+                var validateResult = await _deferredResolver.CompleteDeferredCryptoAsync(_group, _expectedResult, suppliedResult);
                 if (!validateResult.Success)
                 {
                     errors.Add($"Validation failed: {validateResult.ErrorMessage}");

@@ -1,7 +1,6 @@
-﻿using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Enums;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Keys;
-using NIST.CVP.Crypto.RSA2.Keys;
-using NIST.CVP.Math;
+﻿using System.Threading.Tasks;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
@@ -13,13 +12,13 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
         [Test]
         [TestCase(true)]
         [TestCase(false)]
-        public void ShouldValidateIfExpectedAndSuppliedResultsMatch(bool crtForm)
+        public async Task ShouldValidateIfExpectedAndSuppliedResultsMatch(bool crtForm)
         {
             var testCase = GetTestCase(crtForm);
             var testGroup = GetTestGroup(crtForm);
-            var subject = new TestCaseValidatorAft(testCase, testGroup, new DeferredTestCaseResolver(null, null, null));
+            var subject = new TestCaseValidatorAft(testCase, testGroup, new DeferredTestCaseResolver(null));
 
-            var result = subject.Validate(testCase);
+            var result = await subject.ValidateAsync(testCase);
 
             Assume.That(result != null);
             Assert.AreEqual(Core.Enums.Disposition.Passed, result.Result);
@@ -28,16 +27,16 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
         [Test]
         [TestCase(true)]
         [TestCase(false)]
-        public void ShouldFailIfNDoesNotMatch(bool crtForm)
+        public async Task ShouldFailIfNDoesNotMatch(bool crtForm)
         {
             var testCase = GetTestCase(crtForm);
             var testGroup = GetTestGroup(crtForm);
-            var subject = new TestCaseValidatorAft(testCase, testGroup, new DeferredTestCaseResolver(null, null, null));
+            var subject = new TestCaseValidatorAft(testCase, testGroup, new DeferredTestCaseResolver(null));
 
             var suppliedResult = GetTestCase(crtForm);
             suppliedResult.Key.PubKey.N = 9001;
 
-            var result = subject.Validate(suppliedResult);
+            var result = await subject.ValidateAsync(suppliedResult);
 
             Assume.That(result != null);
             Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
@@ -46,16 +45,16 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
         [Test]
         [TestCase(true)]
         [TestCase(false)]
-        public void ShouldFailIfPDoesNotMatch(bool crtForm)
+        public async Task ShouldFailIfPDoesNotMatch(bool crtForm)
         {
             var testCase = GetTestCase(crtForm);
             var testGroup = GetTestGroup(crtForm);
-            var subject = new TestCaseValidatorAft(testCase, testGroup, new DeferredTestCaseResolver(null, null, null));
+            var subject = new TestCaseValidatorAft(testCase, testGroup, new DeferredTestCaseResolver(null));
 
             var suppliedResult = GetTestCase(crtForm);
             suppliedResult.Key.PrivKey.P = 9001;
 
-            var result = subject.Validate(suppliedResult);
+            var result = await subject.ValidateAsync(suppliedResult);
 
             Assume.That(result != null);
             Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
@@ -64,84 +63,84 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
         [Test]
         [TestCase(true)]
         [TestCase(false)]
-        public void ShouldFailIfQDoesNotMatch(bool crtForm)
+        public async Task ShouldFailIfQDoesNotMatch(bool crtForm)
         {
             var testCase = GetTestCase(crtForm);
             var testGroup = GetTestGroup(crtForm);
-            var subject = new TestCaseValidatorAft(testCase, testGroup, new DeferredTestCaseResolver(null, null, null));
+            var subject = new TestCaseValidatorAft(testCase, testGroup, new DeferredTestCaseResolver(null));
 
             var suppliedResult = GetTestCase(crtForm);
             suppliedResult.Key.PrivKey.Q = 9001;
 
-            var result = subject.Validate(suppliedResult);
+            var result = await subject.ValidateAsync(suppliedResult);
 
             Assume.That(result != null);
             Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
         }
 
         [Test]
-        public void ShouldFailIfDDoesNotMatch()
+        public async Task ShouldFailIfDDoesNotMatch()
         {
             var crtForm = false;
             var testCase = GetTestCase(crtForm);
             var testGroup = GetTestGroup(crtForm);
-            var subject = new TestCaseValidatorAft(testCase, testGroup, new DeferredTestCaseResolver(null, null, null));
+            var subject = new TestCaseValidatorAft(testCase, testGroup, new DeferredTestCaseResolver(null));
 
             var suppliedResult = GetTestCase(crtForm);
             ((PrivateKey)suppliedResult.Key.PrivKey).D = 9001;
 
-            var result = subject.Validate(suppliedResult);
+            var result = await subject.ValidateAsync(suppliedResult);
 
             Assume.That(result != null);
             Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
         }
 
         [Test]
-        public void ShouldFailIfDMP1DoesNotMatch()
+        public async Task ShouldFailIfDMP1DoesNotMatch()
         {
             var crtForm = true;
             var testCase = GetTestCase(crtForm);
             var testGroup = GetTestGroup(crtForm);
-            var subject = new TestCaseValidatorAft(testCase, testGroup, new DeferredTestCaseResolver(null, null, null));
+            var subject = new TestCaseValidatorAft(testCase, testGroup, new DeferredTestCaseResolver(null));
 
             var suppliedResult = GetTestCase(crtForm);
             ((CrtPrivateKey)suppliedResult.Key.PrivKey).DMP1 = 9001;
 
-            var result = subject.Validate(suppliedResult);
+            var result = await subject.ValidateAsync(suppliedResult);
 
             Assume.That(result != null);
             Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
         }
 
         [Test]
-        public void ShouldFailIfDMQ1DoesNotMatch()
+        public async Task ShouldFailIfDMQ1DoesNotMatch()
         {
             var crtForm = true;
             var testCase = GetTestCase(crtForm);
             var testGroup = GetTestGroup(crtForm);
-            var subject = new TestCaseValidatorAft(testCase, testGroup, new DeferredTestCaseResolver(null, null, null));
+            var subject = new TestCaseValidatorAft(testCase, testGroup, new DeferredTestCaseResolver(null));
 
             var suppliedResult = GetTestCase(crtForm);
             ((CrtPrivateKey)suppliedResult.Key.PrivKey).DMQ1 = 9001;
 
-            var result = subject.Validate(suppliedResult);
+            var result = await subject.ValidateAsync(suppliedResult);
 
             Assume.That(result != null);
             Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
         }
 
         [Test]
-        public void ShouldFailIfIQMPDoesNotMatch()
+        public async Task ShouldFailIfIQMPDoesNotMatch()
         {
             var crtForm = true;
             var testCase = GetTestCase(crtForm);
             var testGroup = GetTestGroup(crtForm);
-            var subject = new TestCaseValidatorAft(testCase, testGroup, new DeferredTestCaseResolver(null, null, null));
+            var subject = new TestCaseValidatorAft(testCase, testGroup, new DeferredTestCaseResolver(null));
 
             var suppliedResult = GetTestCase(crtForm);
             ((CrtPrivateKey)suppliedResult.Key.PrivKey).IQMP = 9001;
 
-            var result = subject.Validate(suppliedResult);
+            var result = await subject.ValidateAsync(suppliedResult);
 
             Assume.That(result != null);
             Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);

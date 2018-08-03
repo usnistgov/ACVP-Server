@@ -1,105 +1,80 @@
-﻿using System;
-using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
+﻿using NIST.CVP.Common.Oracle;
+using NIST.CVP.Common.Oracle.DispositionTypes;
+using NIST.CVP.Common.Oracle.ParameterTypes;
+using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.DSA.FFC.SigVer.Enums;
-using NIST.CVP.Math;
 using NLog;
+using System;
+using System.Threading.Tasks;
+using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.DSA.FFC.SigVer
 {
-    public class TestCaseGenerator : ITestCaseGenerator<TestGroup, TestCase>
+    public class TestCaseGenerator : ITestCaseGeneratorAsync<TestGroup, TestCase>
     {
-        private readonly IRandom800_90 _rand;
-        private readonly IDsaFfcFactory _dsaFactory;
+        private readonly IOracle _oracle;
 
         public int NumberOfTestCasesToGenerate { get; private set; } = 15;
 
-        public TestCaseGenerator(IRandom800_90 rand, IDsaFfcFactory dsaFactory)
+        public TestCaseGenerator(IOracle oracle)
         {
-            _rand = rand;
-            _dsaFactory = dsaFactory;
+            _oracle = oracle;
         }
 
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
+        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample)
         {
             if (isSample)
             {
                 NumberOfTestCasesToGenerate = 5;
             }
 
-            var ffcDsa = _dsaFactory.GetInstance(group.HashAlg);
-            var keyResult = ffcDsa.GenerateKeyPair(group.DomainParams);
-            if (!keyResult.Success)
+            var keyParam = new DsaKeyParameters
             {
-                return new TestCaseGenerateResponse<TestGroup, TestCase>(keyResult.ErrorMessage);
-            }
-
-            var reason = group.TestCaseExpectationProvider.GetRandomReason();
-
-            var testCase = new TestCase
-            {
-                Message = _rand.GetRandomBitString(group.N),
-                Key = keyResult.KeyPair,
-                Reason = reason,
-                TestPassed = reason.GetReason() == SigFailureReasons.None
+                DomainParameters = group.DomainParams
             };
 
-            return Generate(group, testCase);
-        }
-
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
-        {
-            FfcSignatureResult sigResult = null;
+            DsaKeyResult keyResult = null;
             try
             {
-                var ffcDsa = _dsaFactory.GetInstance(group.HashAlg);
-                sigResult = ffcDsa.Sign(group.DomainParams, testCase.Key, testCase.Message);
-                if (!sigResult.Success)
-                {
-                    ThisLogger.Warn($"Error generating g: {sigResult.ErrorMessage}");
-                    return new TestCaseGenerateResponse<TestGroup, TestCase>($"Error generating g: {sigResult.ErrorMessage}");
-                }
+                keyResult = await _oracle.GetDsaKeyAsync(keyParam);
             }
             catch (Exception ex)
             {
-                ThisLogger.Error($"Exception generating g: {ex.StackTrace}");
-                return new TestCaseGenerateResponse<TestGroup, TestCase>($"Exception generating g: {ex.StackTrace}");
+                ThisLogger.Error(ex);
+                return new TestCaseGenerateResponse<TestGroup, TestCase>("Unable to generate key");
             }
 
-            testCase.Signature = sigResult.Signature;
+            var reason = group.TestCaseExpectationProvider.GetRandomReason();
+            var param = new DsaSignatureParameters
+            {
+                HashAlg = group.HashAlg,
+                DomainParameters = group.DomainParams,
+                MessageLength = group.N,
+                Key = keyResult.Key,
+                Disposition = reason.GetReason()
+            };
 
-            // Modify message
-            //var modifiedTestBuilder = new ModifiedTestCaseBuilder();
-            if (testCase.Reason.GetReason() == SigFailureReasons.ModifyMessage)
+            try
             {
-                //testCase = modifiedTestBuilder.WithTestCase(testCase).Apply(modifiedTestBuilder.ModifyMessage).Build();
-                testCase.Message = _rand.GetDifferentBitStringOfSameSize(testCase.Message);
-            }
-            // Modify public key
-            else if (testCase.Reason.GetReason() == SigFailureReasons.ModifyKey)
-            {
-                var x = testCase.Key.PrivateKeyX;
-                var y = testCase.Key.PublicKeyY + 2;
-                testCase.Key = new FfcKeyPair(x, y);
-            }
-            // Modify r
-            else if (testCase.Reason.GetReason() == SigFailureReasons.ModifyR)
-            {
-                var s = testCase.Signature.S;
-                var r = testCase.Signature.R + 2;
-                testCase.Signature = new FfcSignature(s, r);
-            }
-            // Modify s
-            else if (testCase.Reason.GetReason() == SigFailureReasons.ModifyS)
-            {
-                var s = testCase.Signature.S + 2;
-                var r = testCase.Signature.R;
-                testCase.Signature = new FfcSignature(s, r);
-            }
+                var result = await _oracle.GetDsaSignatureAsync(param);
 
-            return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
+                var testCase = new TestCase
+                {
+                    Message = result.Message,
+                    Key = param.Key,
+                    Reason = reason,
+                    TestPassed = reason.GetReason() == DsaSignatureDisposition.None
+                };
+
+                return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
+            }
+            catch (Exception ex)
+            {
+                ThisLogger.Error(ex);
+                return new TestCaseGenerateResponse<TestGroup, TestCase>("Unable to generate signature");
+            }
         }
-
-        private Logger ThisLogger => LogManager.GetCurrentClassLogger();
+        
+        private ILogger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }

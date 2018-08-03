@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using Moq;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
 using NIST.CVP.Crypto.DSA.FFC;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.Async;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
@@ -14,27 +16,27 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen.Tests
     public class TestCaseValidatorGTests
     {
         [Test]
-        public void ShouldRunVerifyMethodAndSucceedWithGoodKey()
+        public async Task ShouldRunVerifyMethodAndSucceedWithGoodKey()
         {
             var deferredMock = GetDeferredMock(true);
 
             var subject = new TestCaseValidator(GetTestCase(), GetTestGroup(), deferredMock.Object);
-            var result = subject.Validate(GetResultTestCase());
+            var result = await subject.ValidateAsync(GetResultTestCase());
 
-            deferredMock.Verify(v => v.CompleteDeferredCrypto(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()), Times.Once);
+            deferredMock.Verify(v => v.CompleteDeferredCryptoAsync(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()), Times.Once);
 
             Assert.AreEqual(Core.Enums.Disposition.Passed, result.Result);
         }
 
         [Test]
-        public void ShouldRunVerifyMethodAndFailWithBadKey()
+        public async Task ShouldRunVerifyMethodAndFailWithBadKey()
         {
             var deferredMock = GetDeferredMock(false);
 
             var subject = new TestCaseValidator(GetTestCase(), GetTestGroup(), deferredMock.Object);
-            var result = subject.Validate(GetResultTestCase());
+            var result = await subject.ValidateAsync(GetResultTestCase());
 
-            deferredMock.Verify(v => v.CompleteDeferredCrypto(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()), Times.Once);
+            deferredMock.Verify(v => v.CompleteDeferredCryptoAsync(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()), Times.Once);
 
             Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
         }
@@ -65,14 +67,14 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen.Tests
             };
         }
         
-        private Mock<IDeferredTestCaseResolver<TestGroup, TestCase, FfcKeyPairValidateResult>> GetDeferredMock(bool shouldPass)
+        private Mock<IDeferredTestCaseResolverAsync<TestGroup, TestCase, FfcKeyPairValidateResult>> GetDeferredMock(bool shouldPass)
         {
-            var goodResult = new FfcKeyPairValidateResult();
-            var badResult = new FfcKeyPairValidateResult("fail");
+            var goodResult = Task.FromResult(new FfcKeyPairValidateResult());
+            var badResult = Task.FromResult(new FfcKeyPairValidateResult("fail"));
 
-            var mock = new Mock<IDeferredTestCaseResolver<TestGroup, TestCase, FfcKeyPairValidateResult>>();
+            var mock = new Mock<IDeferredTestCaseResolverAsync<TestGroup, TestCase, FfcKeyPairValidateResult>>();
             mock
-                .Setup(s => s.CompleteDeferredCrypto(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()))
+                .Setup(s => s.CompleteDeferredCryptoAsync(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()))
                 .Returns(shouldPass ? goodResult : badResult);
 
             return mock;

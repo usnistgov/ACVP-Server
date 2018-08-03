@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System.Threading.Tasks;
+using NUnit.Framework;
 
 namespace NIST.CVP.Generation.TDES_OFBI.Tests
 {
@@ -6,19 +7,10 @@ namespace NIST.CVP.Generation.TDES_OFBI.Tests
     public class TestCaseGeneratorNullTests
     {
         [Test]
-        public void ShouldReturnErrorResponseForIsSampleCall()
+        public async Task ShouldReturnErrorResponseForIsSampleCall()
         {
             var subject = new TestCaseGeneratorNull();
-            var result = subject.Generate(new TestGroup(), false);
-            Assert.IsFalse(result.Success);
-            Assert.AreEqual("This is the null generator -- nothing is generated", result.ErrorMessage);
-        }
-
-        [Test]
-        public void ShouldReturnErrorResponseForTestCaseCall()
-        {
-            var subject = new TestCaseGeneratorNull();
-            var result = subject.Generate(new TestGroup(), new TestCase());
+            var result = await subject.GenerateAsync(new TestGroup(), false);
             Assert.IsFalse(result.Success);
             Assert.AreEqual("This is the null generator -- nothing is generated", result.ErrorMessage);
         }

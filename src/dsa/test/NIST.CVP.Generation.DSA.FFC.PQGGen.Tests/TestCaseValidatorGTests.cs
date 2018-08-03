@@ -1,6 +1,8 @@
-﻿using Moq;
+﻿using System.Threading.Tasks;
+using Moq;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC.GGeneratorValidators;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.Async;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
@@ -10,19 +12,19 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen.Tests
     public class TestCaseValidatorGTests
     {
         [Test]
-        public void ShouldRunVerifyMethodAndSucceedWithGoodG()
+        public async Task ShouldRunVerifyMethodAndSucceedWithGoodG()
         {
             var subject = new TestCaseValidatorG(GetTestCase(), GetTestGroup(), GetResolverMock(true).Object);
-            var result = subject.Validate(GetResultTestCase());
+            var result = await subject.ValidateAsync(GetResultTestCase());
 
             Assert.AreEqual(Core.Enums.Disposition.Passed, result.Result);
         }
 
         [Test]
-        public void ShouldRunVerifyMethodAndFailWithBadG()
+        public async Task ShouldRunVerifyMethodAndFailWithBadG()
         {
             var subject = new TestCaseValidatorG(GetTestCase(), GetTestGroup(), GetResolverMock(false).Object);
-            var result = subject.Validate(GetResultTestCase());
+            var result = await subject.ValidateAsync(GetResultTestCase());
 
             Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
         }
@@ -52,22 +54,17 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen.Tests
             };
         }
 
-        private Mock<IDeferredTestCaseResolver<TestGroup, TestCase, GValidateResult>> GetResolverMock(bool shouldPass)
+        private Mock<IDeferredTestCaseResolverAsync<TestGroup, TestCase, GValidateResult>> GetResolverMock(bool shouldPass)
         {
-            var goodResult = new GValidateResult();
-            var badResult = new GValidateResult("fail");
+            var goodResult = Task.FromResult(new GValidateResult());
+            var badResult = Task.FromResult(new GValidateResult("fail"));
 
-            var mock = new Mock<IDeferredTestCaseResolver<TestGroup, TestCase, GValidateResult>>();
+            var mock = new Mock<IDeferredTestCaseResolverAsync<TestGroup, TestCase, GValidateResult>>();
             mock
-                .Setup(s => s.CompleteDeferredCrypto(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()))
+                .Setup(s => s.CompleteDeferredCryptoAsync(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()))
                 .Returns(shouldPass ? goodResult : badResult);
 
             return mock;
-        }
-
-        private Mock<IGGeneratorValidator> GetGMock()
-        {
-            return new Mock<IGGeneratorValidator>();
         }
     }
 }

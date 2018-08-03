@@ -41,25 +41,25 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen.IntegrationTests
         
         protected override string GetTestFileFewTestCases(string targetFolder)
         {
-            var caps = new Capability[2];
+            var caps = new Capability[1];
 
             caps[0] = new Capability
             {
-                PQGen = new[] { "provable" },
-                GGen = new[] { "canonical" },
+                PQGen = new[] { "provable", "probable" },
+                GGen = new[] { "canonical", "unverifiable" },
                 L = 2048,
                 N = 224,
-                HashAlg = new[] { "sha2-224", "sha2-512/224" }
+                HashAlg = new[] { "sha2-224" }
             };
 
-            caps[1] = new Capability
-            {
-                PQGen = new[] { "probable" },
-                GGen = new[] { "unverifiable" },
-                L = 2048,
-                N = 256,
-                HashAlg = new[] { "sha2-256" }
-            };
+            //caps[1] = new Capability
+            //{
+            //    PQGen = new[] { "probable" },
+            //    GGen = new[] { "unverifiable" },
+            //    L = 2048,
+            //    N = 256,
+            //    HashAlg = new[] { "sha2-256" }
+            //};
 
             var p = new Parameters
             {

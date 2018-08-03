@@ -1,10 +1,10 @@
-﻿using System.Numerics;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Enums;
+﻿using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
+using System.Numerics;
 
-namespace NIST.CVP.Crypto.Common.Asymmetric.RSA2.Keys
+namespace NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys
 {
     public interface IKeyBuilder
     {
@@ -17,6 +17,7 @@ namespace NIST.CVP.Crypto.Common.Asymmetric.RSA2.Keys
         IKeyBuilder WithPrimeGenMode(PrimeGenModes primeGenMode);
         IKeyBuilder WithPrimeTestMode(PrimeTestModes primeTestMode);
         IKeyBuilder WithPublicExponent(BigInteger e);
+        IKeyBuilder WithPublicExponent(BitString e);
         IKeyBuilder WithSeed(BitString seed);
     }
 }

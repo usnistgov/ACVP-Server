@@ -32,12 +32,7 @@ namespace NIST.CVP.Generation.AES_XTS.Parsers
                 return new ParseResponse<TestVectorSet>(ex.Message);
             }
 
-            string direction = "encrypt";
             string fileName = Path.GetFileName(path).ToLower();
-            if (fileName.Contains("decrypt"))
-            {
-                direction = "decrypt";
-            }
 
             var groups = new List<TestGroup>();
             TestGroup currentGroup = null;

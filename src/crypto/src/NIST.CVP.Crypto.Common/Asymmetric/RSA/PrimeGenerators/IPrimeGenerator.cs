@@ -1,7 +1,7 @@
-﻿using System.Numerics;
-using NIST.CVP.Math;
+﻿using NIST.CVP.Math;
+using System.Numerics;
 
-namespace NIST.CVP.Crypto.Common.Asymmetric.RSA2.PrimeGenerators
+namespace NIST.CVP.Crypto.Common.Asymmetric.RSA.PrimeGenerators
 {
     public interface IPrimeGenerator
     {

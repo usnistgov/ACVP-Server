@@ -1,16 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Dynamic;
-using System.Linq;
-using System.Numerics;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json;
+using NIST.CVP.Common.Oracle.DispositionTypes;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.Core.ExtensionMethods;
-using NIST.CVP.Generation.DSA.FFC.SigVer.Enums;
 using NIST.CVP.Math;
+using System.Collections.Generic;
+using System.Numerics;
 
 namespace NIST.CVP.Generation.DSA.FFC.SigVer
 {
@@ -55,7 +51,7 @@ namespace NIST.CVP.Generation.DSA.FFC.SigVer
         public List<TestCase> Tests { get; set; } = new List<TestCase>();
         
         [JsonIgnore]
-        public ITestCaseExpectationProvider<SigFailureReasons> TestCaseExpectationProvider { get; set; }
+        public ITestCaseExpectationProvider<DsaSignatureDisposition> TestCaseExpectationProvider { get; set; }
 
         public bool SetString(string name, string value)
         {

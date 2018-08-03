@@ -1,14 +1,15 @@
 ﻿using System.Collections.Generic;
+using NIST.CVP.Generation.Core.Async;
 using NIST.CVP.Generation.Core.DeSerialization;
 using NIST.CVP.Generation.Core.Enums;
 
 namespace NIST.CVP.Generation.Core.Tests.Fakes
 {
-    public class FakeSuccessValidator : Validator<FakeTestVectorSet, FakeTestGroup, FakeTestCase>
+    public class FakeSuccessValidator : ValidatorAsync<FakeTestVectorSet, FakeTestGroup, FakeTestCase>
     {
         public FakeSuccessValidator(
-            IResultValidator<FakeTestGroup, FakeTestCase> resultValidator, 
-            ITestCaseValidatorFactory<FakeTestVectorSet, FakeTestGroup, FakeTestCase> testCaseValidatorFactory, 
+            IResultValidatorAsync<FakeTestGroup, FakeTestCase> resultValidator, 
+            ITestCaseValidatorFactoryAsync<FakeTestVectorSet, FakeTestGroup, FakeTestCase> testCaseValidatorFactory, 
             IVectorSetDeserializer<FakeTestVectorSet, FakeTestGroup, FakeTestCase> vectorSetDeserializer
         ) : 
             base(resultValidator, testCaseValidatorFactory, vectorSetDeserializer) { }

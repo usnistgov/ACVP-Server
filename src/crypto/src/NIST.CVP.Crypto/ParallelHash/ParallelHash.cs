@@ -20,12 +20,12 @@ namespace NIST.CVP.Crypto.ParallelHash
             _iParallelHashFactory = new ParallelHashFactory();
         }
 
-        public HashResult HashMessage(HashFunction hashFunction, BitString message)
+        public HashResult HashMessage(HashFunction hashFunction, BitString message, int blockSize, string customization)
         {
             try
             {
-                var sha = _iParallelHashFactory.GetParallelHash(hashFunction);
-                var digest = sha.HashMessage(message, hashFunction.DigestLength, hashFunction.Capacity, hashFunction.BlockSize, hashFunction.XOF, hashFunction.Customization);
+                var parallelHash = _iParallelHashFactory.GetParallelHash(hashFunction);
+                var digest = parallelHash.HashMessage(message, hashFunction.DigestLength, hashFunction.Capacity, blockSize, hashFunction.XOF, customization);
 
                 return new HashResult(digest);
             }
@@ -37,12 +37,12 @@ namespace NIST.CVP.Crypto.ParallelHash
         }
 
         #region BitString Customization
-        public HashResult HashMessage(HashFunction hashFunction, BitString message, BitString customizationHex)
+        public HashResult HashMessage(HashFunction hashFunction, BitString message, int blockSize, BitString customizationHex)
         {
             try
             {
-                var sha = _iParallelHashFactory.GetParallelHash(hashFunction);
-                var digest = sha.HashMessage(message, hashFunction.DigestLength, hashFunction.Capacity, hashFunction.BlockSize, hashFunction.XOF, customizationHex);
+                var parallelHash = _iParallelHashFactory.GetParallelHash(hashFunction);
+                var digest = parallelHash.HashMessage(message, hashFunction.DigestLength, hashFunction.Capacity, blockSize, hashFunction.XOF, customizationHex);
 
                 return new HashResult(digest);
             }

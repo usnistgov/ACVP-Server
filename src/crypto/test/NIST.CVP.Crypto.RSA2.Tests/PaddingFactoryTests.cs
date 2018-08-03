@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Enums;
-using NIST.CVP.Crypto.RSA2.Signatures;
-using NIST.CVP.Crypto.RSA2.Signatures.Ansx;
-using NIST.CVP.Crypto.RSA2.Signatures.Pkcs;
-using NIST.CVP.Crypto.RSA2.Signatures.Pss;
+﻿using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
+using NIST.CVP.Crypto.RSA.Signatures;
+using NIST.CVP.Crypto.RSA.Signatures.Ansx;
+using NIST.CVP.Crypto.RSA.Signatures.Pkcs;
+using NIST.CVP.Crypto.RSA.Signatures.Pss;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
+using System;
 
-namespace NIST.CVP.Crypto.RSA2.Tests
+namespace NIST.CVP.Crypto.RSA.Tests
 {
     [TestFixture, FastCryptoTest]
     public class PaddingFactoryTests

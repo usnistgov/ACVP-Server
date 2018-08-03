@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using NIST.CVP.Common.ExtensionMethods;
+using NIST.CVP.Crypto.Common.Symmetric.TDES;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math.Domain;
 
@@ -44,6 +45,7 @@ namespace NIST.CVP.Generation.CMAC.TDES
                             {
                                 CmacType = result.mappedCmacType,
                                 Function = function,
+                                KeyLength = 192,
                                 KeyingOption = keyingOption,
                                 MessageLength = msgLen,
                                 MacLength = macLen

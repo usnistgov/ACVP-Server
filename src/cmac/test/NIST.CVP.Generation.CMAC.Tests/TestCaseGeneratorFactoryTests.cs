@@ -1,5 +1,6 @@
 ﻿using System;
 using Moq;
+using NIST.CVP.Common.Oracle;
 using NIST.CVP.Crypto.CMAC;
 using NIST.CVP.Crypto.Common.MAC.CMAC;
 using NIST.CVP.Crypto.Common.MAC.CMAC.Enums;
@@ -14,29 +15,21 @@ namespace NIST.CVP.Generation.CMAC_AES.Tests
     [TestFixture, UnitTest]
     public class TestCaseGeneratorFactoryTests
     {
-        private Mock<IRandom800_90> _random;
-        private Mock<ICmac> _cmac;
-        private Mock<ICmacFactory> _cmacFactory;
-        private TestCaseGeneratorFactory<TestCaseGeneratorGen, TestGroup, TestCase> _subject;
+        private Mock<IOracle> _oracle;
+        private TestCaseGeneratorFactory<TestCaseGeneratorGen, TestCaseGeneratorVer, TestGroup, TestCase> _subject;
 
         [SetUp]
         public void Setup()
         {
-            _random = new Mock<IRandom800_90>();
-            _cmac = new Mock<ICmac>();
-            _cmacFactory = new Mock<ICmacFactory>();
-            _subject = new TestCaseGeneratorFactory<TestCaseGeneratorGen, TestGroup, TestCase>(_random.Object, _cmacFactory.Object);
-
-            _cmacFactory
-                .Setup(s => s.GetCmacInstance(It.IsAny<CmacTypes>()))
-                .Returns(_cmac.Object);
+            _oracle = new Mock<IOracle>();
+            _subject = new TestCaseGeneratorFactory<TestCaseGeneratorGen, TestCaseGeneratorVer, TestGroup, TestCase>(_oracle.Object);
         }
 
         [Test]
         [TestCase("gen", typeof(TestCaseGeneratorGen))]
         [TestCase("GeN", typeof(TestCaseGeneratorGen))]
-        [TestCase("Ver", typeof(TestCaseGeneratorVer<TestGroup, TestCase>))]
-        [TestCase("veR", typeof(TestCaseGeneratorVer<TestGroup, TestCase>))]
+        [TestCase("Ver", typeof(TestCaseGeneratorVer))]
+        [TestCase("veR", typeof(TestCaseGeneratorVer))]
         [TestCase("Junk", typeof(TestCaseGeneratorNull<TestGroup, TestCase>))]
         [TestCase("", typeof(TestCaseGeneratorNull<TestGroup, TestCase>))]
         public void ShouldReturnProperGenerator(string direction, Type expectedType)

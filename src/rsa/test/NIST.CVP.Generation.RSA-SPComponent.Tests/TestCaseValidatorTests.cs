@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -11,55 +12,55 @@ namespace NIST.CVP.Generation.RSA_SPComponent.Tests
     public class TestCaseValidatorTests
     {
         [Test]
-        public void ShouldRunVerifyMethodAndSucceedWithCorrectSignature()
+        public async Task ShouldRunVerifyMethodAndSucceedWithCorrectSignature()
         {
             var subject = new TestCaseValidator(GetTestCase());
-            var result = subject.Validate(GetTestCase());
+            var result = await subject.ValidateAsync(GetTestCase());
 
             Assert.AreEqual(Core.Enums.Disposition.Passed, result.Result);
         }
 
         [Test]
-        public void ShouldRunVerifyMethodAndFailWithIncorrectSignature()
+        public async Task ShouldRunVerifyMethodAndFailWithIncorrectSignature()
         {
             var responseTestCase = GetTestCase();
             responseTestCase.Signature = new BitString("1234");
 
             var subject = new TestCaseValidator(GetTestCase());
-            var result = subject.Validate(responseTestCase);
+            var result = await subject.ValidateAsync(responseTestCase);
 
             Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
         }
 
         [Test]
-        public void ShouldRunVerifyMethodAndFailWithMismatchedFailingTests()
+        public async Task ShouldRunVerifyMethodAndFailWithMismatchedFailingTests()
         {
             var responseTestCase = GetFailureTestCase();
             responseTestCase.TestPassed = true;
 
             var subject = new TestCaseValidator(GetFailureTestCase());
-            var result = subject.Validate(responseTestCase);
+            var result = await subject.ValidateAsync(responseTestCase);
 
             Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
         }
 
         [Test]
-        public void ShouldRunVerifyMethodAndFailIfNoSignatureProvidedWhenExpected()
+        public async Task ShouldRunVerifyMethodAndFailIfNoSignatureProvidedWhenExpected()
         {
             var responseTestCase = GetFailureTestCase();
             responseTestCase.TestPassed = true;
 
             var subject = new TestCaseValidator(GetTestCase());
-            var result = subject.Validate(responseTestCase);
+            var result = await subject.ValidateAsync(responseTestCase);
 
             Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
         }
 
         [Test]
-        public void ShouldRunVerifyMethodAndSucceedWithMatchingFailureTests()
+        public async Task ShouldRunVerifyMethodAndSucceedWithMatchingFailureTests()
         {
             var subject = new TestCaseValidator(GetFailureTestCase());
-            var result = subject.Validate(GetFailureTestCase());
+            var result = await subject.ValidateAsync(GetFailureTestCase());
 
             Assert.AreEqual(Core.Enums.Disposition.Passed, result.Result);
         }

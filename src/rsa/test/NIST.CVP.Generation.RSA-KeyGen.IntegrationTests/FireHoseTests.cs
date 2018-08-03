@@ -1,19 +1,19 @@
-﻿using NIST.CVP.Tests.Core;
+﻿using NIST.CVP.Common.Helpers;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
+using NIST.CVP.Crypto.Oracle;
+using NIST.CVP.Crypto.RSA.Keys;
+using NIST.CVP.Crypto.RSA.PrimeGenerators;
+using NIST.CVP.Crypto.SHAWrapper;
+using NIST.CVP.Generation.RSA_KeyGen.Parsers;
+using NIST.CVP.Math;
+using NIST.CVP.Math.Entropy;
+using NIST.CVP.Tests.Core;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
-using System;
 using System.IO;
-using NIST.CVP.Generation.RSA_KeyGen.Parsers;
-using System.Linq;
-using NIST.CVP.Common.Helpers;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Enums;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Keys;
-using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
-using NIST.CVP.Math.Entropy;
-using NIST.CVP.Crypto.RSA2.Keys;
-using NIST.CVP.Crypto.RSA2.PrimeGenerators;
-using NIST.CVP.Crypto.SHAWrapper;
-using NIST.CVP.Math;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
 {
@@ -72,10 +72,8 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
                     // Pick 2 from each group and run those 
                     //var shuffledTests = testGroup.Tests.OrderBy(a => Guid.NewGuid()).ToList().GetRange(0, 2);
                     var shuffledTests = testGroup.Tests;
-                    foreach (var iTestCase in shuffledTests)
+                    foreach (var testCase in shuffledTests)
                     {
-                        var testCase = (TestCase)iTestCase;
-
                         var algo = new KeyBuilder(new PrimeGeneratorFactory());
                         
                         var entropyProvider = new TestableEntropyProvider();
@@ -128,7 +126,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
         [TestCase(2048, PrimeTestModes.C3)]
         [TestCase(3072, PrimeTestModes.C2)]
         [TestCase(3072, PrimeTestModes.C3)]
-        public void ShouldRunThroughKatsAndValidate(int modulo, PrimeTestModes primeTest)
+        public async Task ShouldRunThroughKatsAndValidate(int modulo, PrimeTestModes primeTest)
         {
             var group = new TestGroup
             {
@@ -139,17 +137,17 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
             };
 
             var count = 1;
-            var katGen = new TestCaseGeneratorKat(group, new KeyComposerFactory());
+            var katGen = new TestCaseGeneratorKat(group, new Oracle());
             for (int i = 0; i < katGen.NumberOfTestCasesToGenerate; i++)
             {
-                var kat = katGen.Generate(group, false);
+                var kat = await katGen.GenerateAsync(group, false);
 
                 if (!kat.Success)
                 {
                     Assert.Fail("Can't find KATs");
                 }
 
-                var katTestCase = (TestCase) kat.TestCase;
+                var katTestCase = kat.TestCase;
                 katTestCase.TestCaseId = count++;
 
                 var algo = new KeyBuilder(new PrimeGeneratorFactory());

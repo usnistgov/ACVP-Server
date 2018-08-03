@@ -5,8 +5,6 @@ namespace NIST.CVP.Crypto.Math
 {
     public static class NumberTheory
     {
-        private static readonly Random800_90 _rand = new Random800_90();
-
         /// <summary>
         /// C.3.1 Probabilistic Primality Check, Miller-Rabin Algorithm
         /// </summary>
@@ -31,9 +29,10 @@ namespace NIST.CVP.Crypto.Math
                 s >>= 1;
             }
 
+            var rand = new Random800_90();
             for (var i = 0; i < k; i++)
             {
-                var a = _rand.GetRandomBigInteger(n - 1) + 1;
+                var a = rand.GetRandomBigInteger(n - 1) + 1;
                 var temp = s;
                 var mod = BigInteger.ModPow(a, temp, n);
                 while (temp != n - 1 && mod != 1 && mod != n - 1)

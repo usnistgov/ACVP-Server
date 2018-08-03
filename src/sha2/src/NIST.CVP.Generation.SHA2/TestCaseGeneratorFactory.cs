@@ -1,31 +1,28 @@
-﻿using NIST.CVP.Crypto.Common.Hash.SHA2;
+﻿using NIST.CVP.Common.Oracle;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Math;
+using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.SHA2
 {
-    public class TestCaseGeneratorFactory : ITestCaseGeneratorFactory<TestGroup, TestCase>
+    public class TestCaseGeneratorFactory : ITestCaseGeneratorFactoryAsync<TestGroup, TestCase>
     {
-        private readonly IRandom800_90 _random800_90;
-        private readonly ISHA _algo;
-        private readonly ISHA_MCT _mctAlgo;
+        private readonly IOracle _oracle;
 
-        public TestCaseGeneratorFactory(IRandom800_90 random800_90, ISHA algo, ISHA_MCT mctAlgo)
+        public TestCaseGeneratorFactory(IOracle oracle)
         {
-            _random800_90 = random800_90;
-            _algo = algo;
-            _mctAlgo = mctAlgo;
+            _oracle = oracle;
         }
                 
-        public ITestCaseGenerator<TestGroup, TestCase> GetCaseGenerator(TestGroup testGroup)
+        public ITestCaseGeneratorAsync<TestGroup, TestCase> GetCaseGenerator(TestGroup testGroup)
         {
             if (testGroup.TestType.ToLower() == "aft")
             {
-                return new TestCaseGeneratorAFTHash(_random800_90, _algo);
+                return new TestCaseGeneratorAFTHash(_oracle);
             }
-            else if (testGroup.TestType.ToLower() == "mct")
+            
+            if (testGroup.TestType.ToLower() == "mct")
             {
-                return new TestCaseGeneratorMCTHash(_random800_90, _mctAlgo);
+                return new TestCaseGeneratorMCTHash(_oracle);
             }
 
             return new TestCaseGeneratorNull();

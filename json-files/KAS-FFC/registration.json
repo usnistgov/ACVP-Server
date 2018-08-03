@@ -11,7 +11,7 @@
   ],
   "scheme": {
     "dhEphem": {
-      "role": [
+      "kasRole": [
         "initiator",
         "responder"
       ],
@@ -61,7 +61,7 @@
       }
     },
     "mqv1": {
-      "role": [
+      "kasRole": [
         "initiator",
         "responder"
       ],
@@ -159,7 +159,7 @@
       }
     },
     "dhHybrid1": {
-      "role": [
+      "kasRole": [
         "initiator",
         "responder"
       ],
@@ -209,7 +209,7 @@
       }
     },
     "mqv2": {
-      "role": [
+      "kasRole": [
         "initiator",
         "responder"
       ],
@@ -307,7 +307,7 @@
       }
     },
     "hybridOneFlow": {
-      "role": [
+      "kasRole": [
         "initiator",
         "responder"
       ],
@@ -405,7 +405,7 @@
       }
     },
     "dhOneFlow": {
-      "role": [
+      "kasRole": [
         "initiator",
         "responder"
       ],
@@ -502,7 +502,7 @@
       }
     },
     "dhStatic": {
-      "role": [
+      "kasRole": [
         "initiator",
         "responder"
       ],

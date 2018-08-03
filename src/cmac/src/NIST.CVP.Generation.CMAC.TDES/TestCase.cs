@@ -24,7 +24,7 @@ namespace NIST.CVP.Generation.CMAC.TDES
         }
         public BitString Key3
         {
-            get => Key?.MSBSubstring(128, 64);
+            get => Key?.BitLength > 128 ? Key?.MSBSubstring(128, 64) : Key?.MSBSubstring(0, 64);
             set => Key = Key?.Substring(0, 128).ConcatenateBits(value);
         }
 

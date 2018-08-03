@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Common.KAS;
 using NIST.CVP.Crypto.Common.KAS.Enums;
@@ -11,6 +12,7 @@ using NIST.CVP.Crypto.KAS.KC;
 using NIST.CVP.Crypto.KAS.KDF;
 using NIST.CVP.Crypto.KAS.NoKC;
 using NIST.CVP.Crypto.KES;
+using NIST.CVP.Crypto.Oracle;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.KAS.FFC;
@@ -37,7 +39,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
         }
 
         [Test]
-        public void ShouldRunThroughAllTestFilesAndValidate()
+        public async Task ShouldRunThroughAllTestFilesAndValidate()
         {
             LegacyResponseFileParser parser = new LegacyResponseFileParser();
             var parsedFiles = parser.Parse(_testPath);
@@ -61,62 +63,17 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                 Assert.Fail("No TestGroups were parsed.");
             }
 
-            foreach (var iTestGroup in testVector.TestGroups)
+            foreach (var testGroup in testVector.TestGroups)
             {
-                var testGroup = (TestGroup)iTestGroup;
-
                 SwitchTestGroupIutServerInformation(testGroup);
 
-                foreach (var iTestCase in testGroup.Tests)
+                foreach (var testCase in testGroup.Tests)
                 {
-                    var testCase = (TestCase)iTestCase;
-
-                    var schemeBuilder = new SchemeBuilderFfc(
-                        new DsaFfcFactory(_shaFactory),
-                        new KdfFactory(_shaFactory),
-                        new KeyConfirmationFactory(),
-                        new NoKeyConfirmationFactory(),
-                        new OtherInfoFactory(new EntropyProvider(new Random800_90())),
-                        new EntropyProvider(new Random800_90()),
-                        new DiffieHellmanFfc(),
-                        new MqvFfc()
-                    );
-                    var kasBuilder = new KasBuilderFfc(schemeBuilder);
-                    IDeferredTestCaseResolver<TestGroup, TestCase, KasResult> testCaseResolver;
-
-                    switch (testGroup.KasMode)
-                    {
-                        case KasMode.NoKdfNoKc:
-                            testCaseResolver = new DeferredTestCaseResolverAftNoKdfNoKc(
-                                kasBuilder,
-                                schemeBuilder,
-                                new MacParametersBuilder(),
-                                new EntropyProviderFactory()
-                            );
-                            break;
-                        case KasMode.KdfNoKc:
-                            testCaseResolver = new DeferredTestCaseResolverAftKdfNoKc(
-                                kasBuilder,
-                                schemeBuilder,
-                                new MacParametersBuilder(),
-                                new EntropyProviderFactory()
-                            );
-                            break;
-                        case KasMode.KdfKc:
-                            testCaseResolver = new DeferredTestCaseResolverAftKdfKc(
-                                kasBuilder,
-                                schemeBuilder,
-                                new MacParametersBuilder(),
-                                new EntropyProviderFactory()
-                            );
-                            break;
-                        default:
-                            throw new NotImplementedException();
-                    }
+                    var testCaseResolver = new DeferredTestCaseResolver(new Oracle());
 
                     SwitchTestCaseIutServerInformation(testCase);
 
-                    var result = testCaseResolver.CompleteDeferredCrypto(testGroup, testCase, testCase);
+                    var result = await testCaseResolver.CompleteDeferredCryptoAsync(testGroup, testCase, testCase);
 
                     Debug.Assert(testCase.TestPassed != null, "testCase.TestPassed != null");
                     if (testCase.TestPassed.Value)

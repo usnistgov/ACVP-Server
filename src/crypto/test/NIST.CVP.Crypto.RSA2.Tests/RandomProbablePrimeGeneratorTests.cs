@@ -1,14 +1,12 @@
-﻿using NIST.CVP.Tests.Core.TestCategoryAttributes;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Enums;
-using NIST.CVP.Crypto.RSA2.PrimeGenerators;
+﻿using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
+using NIST.CVP.Crypto.RSA.PrimeGenerators;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
+using System;
 
-namespace NIST.CVP.Crypto.RSA2.Tests
+namespace NIST.CVP.Crypto.RSA.Tests
 {
     // Based on random calls, could take any amount of time. Usually about 50 seconds.
     [TestFixture, LongCryptoTest]

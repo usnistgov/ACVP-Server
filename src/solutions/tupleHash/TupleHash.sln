@@ -29,15 +29,21 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.Math", "..\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.SHA3.Tests", "..\..\crypto\test\NIST.CVP.Crypto.SHA3.Tests\NIST.CVP.Crypto.SHA3.Tests.csproj", "{1C05288A-BE9D-4A63-B7EE-55750FD29359}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Crypto.TupleHash.Tests", "..\..\crypto\test\NIST.CVP.Crypto.TupleHash.Tests\NIST.CVP.Crypto.TupleHash.Tests.csproj", "{8845FD7F-F492-4397-8ED3-5B0C97F6DD20}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.TupleHash.Tests", "..\..\crypto\test\NIST.CVP.Crypto.TupleHash.Tests\NIST.CVP.Crypto.TupleHash.Tests.csproj", "{8845FD7F-F492-4397-8ED3-5B0C97F6DD20}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Generation.TupleHash", "..\..\tupleHash\src\NIST.CVP.Generation.TupleHash\NIST.CVP.Generation.TupleHash.csproj", "{DD0B2D6C-4939-4DC1-B894-D77BDB3DD76A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.TupleHash", "..\..\tupleHash\src\NIST.CVP.Generation.TupleHash\NIST.CVP.Generation.TupleHash.csproj", "{DD0B2D6C-4939-4DC1-B894-D77BDB3DD76A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Generation.TupleHash.Tests", "..\..\tupleHash\test\NIST.CVP.Generation.TupleHash.Tests\NIST.CVP.Generation.TupleHash.Tests.csproj", "{E04654F1-3D06-4C86-BFAD-13F61B2A87A2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.TupleHash.Tests", "..\..\tupleHash\test\NIST.CVP.Generation.TupleHash.Tests\NIST.CVP.Generation.TupleHash.Tests.csproj", "{E04654F1-3D06-4C86-BFAD-13F61B2A87A2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Generation.TupleHash.IntegrationTests", "..\..\tupleHash\test\NIST.CVP.Generation.TupleHash.IntegrationTests\NIST.CVP.Generation.TupleHash.IntegrationTests.csproj", "{EB0D5932-AC6C-4B1F-8BBE-CBBD4C78104F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.TupleHash.IntegrationTests", "..\..\tupleHash\test\NIST.CVP.Generation.TupleHash.IntegrationTests\NIST.CVP.Generation.TupleHash.IntegrationTests.csproj", "{EB0D5932-AC6C-4B1F-8BBE-CBBD4C78104F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.CSHAKE.Tests", "..\..\crypto\test\NIST.CVP.Crypto.CSHAKE.Tests\NIST.CVP.Crypto.CSHAKE.Tests.csproj", "{AF36A2C8-0C04-46DC-96C3-214A6F637C45}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Common.Oracle", "..\..\oracle\src\NIST.CVP.Common.Oracle\NIST.CVP.Common.Oracle.csproj", "{3B4C9FC4-F4E2-4180-8D1D-CD0284AA2260}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.Oracle", "..\..\oracle\src\NIST.CVP.Crypto.Oracle\NIST.CVP.Crypto.Oracle.csproj", "{56FFB023-1A58-445B-83EA-FE3789D50BB2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Common.Oracle.Tests", "..\..\oracle\test\NIST.CVP.Oracle.Common.Tests\NIST.CVP.Common.Oracle.Tests.csproj", "{17A344AF-D1BD-4D30-9F7F-D91428D14F87}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -109,6 +115,18 @@ Global
 		{AF36A2C8-0C04-46DC-96C3-214A6F637C45}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AF36A2C8-0C04-46DC-96C3-214A6F637C45}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AF36A2C8-0C04-46DC-96C3-214A6F637C45}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B4C9FC4-F4E2-4180-8D1D-CD0284AA2260}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B4C9FC4-F4E2-4180-8D1D-CD0284AA2260}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B4C9FC4-F4E2-4180-8D1D-CD0284AA2260}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B4C9FC4-F4E2-4180-8D1D-CD0284AA2260}.Release|Any CPU.Build.0 = Release|Any CPU
+		{56FFB023-1A58-445B-83EA-FE3789D50BB2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{56FFB023-1A58-445B-83EA-FE3789D50BB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{56FFB023-1A58-445B-83EA-FE3789D50BB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{56FFB023-1A58-445B-83EA-FE3789D50BB2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{17A344AF-D1BD-4D30-9F7F-D91428D14F87}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{17A344AF-D1BD-4D30-9F7F-D91428D14F87}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{17A344AF-D1BD-4D30-9F7F-D91428D14F87}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{17A344AF-D1BD-4D30-9F7F-D91428D14F87}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -130,6 +148,9 @@ Global
 		{E04654F1-3D06-4C86-BFAD-13F61B2A87A2} = {36C56CC9-F328-4FE6-864D-22076C028AA2}
 		{EB0D5932-AC6C-4B1F-8BBE-CBBD4C78104F} = {36C56CC9-F328-4FE6-864D-22076C028AA2}
 		{AF36A2C8-0C04-46DC-96C3-214A6F637C45} = {36C56CC9-F328-4FE6-864D-22076C028AA2}
+		{3B4C9FC4-F4E2-4180-8D1D-CD0284AA2260} = {41F3BCCD-50A6-437B-8E75-B7AA4449DFCB}
+		{56FFB023-1A58-445B-83EA-FE3789D50BB2} = {41F3BCCD-50A6-437B-8E75-B7AA4449DFCB}
+		{17A344AF-D1BD-4D30-9F7F-D91428D14F87} = {36C56CC9-F328-4FE6-864D-22076C028AA2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7DFAE1DB-DAEE-4E0D-A1A4-E2E51A0B6C88}

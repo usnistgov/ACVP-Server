@@ -1,27 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.DSA.FFC.SigGen
 {
-    public class TestCaseValidator : ITestCaseValidator<TestGroup, TestCase>
+    public class TestCaseValidator : ITestCaseValidatorAsync<TestGroup, TestCase>
     {
         private readonly TestCase _expectedResult;
         private readonly TestGroup _group;
-        private readonly IDeferredTestCaseResolver<TestGroup, TestCase, FfcVerificationResult> _deferredResolver;
+        private readonly IDeferredTestCaseResolverAsync<TestGroup, TestCase, FfcVerificationResult> _deferredResolver;
 
         public int TestCaseId => _expectedResult.TestCaseId;
 
-        public TestCaseValidator(TestCase expectedResult, TestGroup group, IDeferredTestCaseResolver<TestGroup, TestCase, FfcVerificationResult> deferredResolver)
+        public TestCaseValidator(
+            TestCase expectedResult, 
+            TestGroup group, 
+            IDeferredTestCaseResolverAsync<TestGroup, TestCase, FfcVerificationResult> deferredResolver
+        )
         {
             _expectedResult = expectedResult;
             _group = group;
             _deferredResolver = deferredResolver;
         }
 
-        public TestCaseValidation Validate(TestCase suppliedResult, bool showExpected = false)
+        public async Task<TestCaseValidation> ValidateAsync(TestCase suppliedResult, bool showExpected = false)
         {
             var errors = new List<string>();
             Dictionary<string, string> expected = null;
@@ -33,7 +39,7 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen
             }
             else
             {
-                var verifyResult = _deferredResolver.CompleteDeferredCrypto(_group, _expectedResult, suppliedResult);
+                var verifyResult = await _deferredResolver.CompleteDeferredCryptoAsync(_group, _expectedResult, suppliedResult);
                 if (!verifyResult.Success)
                 {
                     errors.Add($"Validation failed: {verifyResult.ErrorMessage}");

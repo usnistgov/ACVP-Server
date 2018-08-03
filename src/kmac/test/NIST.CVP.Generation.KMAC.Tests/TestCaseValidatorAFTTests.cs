@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Math;
+﻿using System.Threading.Tasks;
+using NIST.CVP.Math;
 using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -6,65 +7,65 @@ using NUnit.Framework;
 namespace NIST.CVP.Generation.KMAC.Tests
 {
     [TestFixture, UnitTest]
-    public class TestCaseValidatorAFTTests
+    public class TestCaseValidatorAftTests
     {
-        private TestCaseValidatorAFT _subject;
+        private TestCaseValidatorAft _subject;
         
         [Test]
-        public void ShouldValidateIfExpectedAndSuppliedResultsMatch()
+        public async Task ShouldValidateIfExpectedAndSuppliedResultsMatch()
         {
             var testCase = GetTestCase();
             var testGroup = GetTestGroup();
-            _subject = new TestCaseValidatorAFT(testCase, testGroup);
-            var result = _subject.Validate(testCase);
+            _subject = new TestCaseValidatorAft(testCase, testGroup);
+            var result = await _subject.ValidateAsync(testCase);
             Assume.That(result != null);
             Assert.AreEqual(Core.Enums.Disposition.Passed, result.Result);
         }
 
         [Test]
-        public void ShouldFailIfMacDoesNotMatch()
+        public async Task ShouldFailIfMacDoesNotMatch()
         {
             var testMac = new BitString("D00000");
 
             var testCase = GetTestCase();
             var testGroup = GetTestGroup();
 
-            _subject = new TestCaseValidatorAFT(testCase, testGroup);
+            _subject = new TestCaseValidatorAft(testCase, testGroup);
             var suppliedResult = GetTestCase();
             suppliedResult.Mac = testMac;
-            var result = _subject.Validate(suppliedResult);
+            var result = await _subject.ValidateAsync(suppliedResult);
             Assume.That(result != null);
             Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
         }
 
         [Test]
-        public void ShouldShowMacAsReasonIfItDoesNotMatch()
+        public async Task ShouldShowMacAsReasonIfItDoesNotMatch()
         {
             var testMac = new BitString("D00000");
 
             var testCase = GetTestCase();
             var testGroup = GetTestGroup();
 
-            _subject = new TestCaseValidatorAFT(testCase, testGroup);
+            _subject = new TestCaseValidatorAft(testCase, testGroup);
             var suppliedResult = GetTestCase();
             suppliedResult.Mac = testMac;
-            var result = _subject.Validate(suppliedResult);
+            var result = await _subject.ValidateAsync(suppliedResult);
             Assume.That(result != null);
             Assume.That(Core.Enums.Disposition.Failed == result.Result);
             Assert.IsTrue(result.Reason.Contains("MAC"));
         }
 
         [Test]
-        public void ShouldFailIfCipherTextNotPresent()
+        public async Task ShouldFailIfCipherTextNotPresent()
         {
             var testCase = GetTestCase();
             var testGroup = GetTestGroup();
-            _subject = new TestCaseValidatorAFT(testCase, testGroup);
+            _subject = new TestCaseValidatorAft(testCase, testGroup);
             var suppliedResult = GetTestCase();
 
             suppliedResult.Mac = null;
 
-            var result = _subject.Validate(suppliedResult);
+            var result = await _subject.ValidateAsync(suppliedResult);
             Assume.That(result != null);
             Assume.That(Core.Enums.Disposition.Failed == result.Result);
 

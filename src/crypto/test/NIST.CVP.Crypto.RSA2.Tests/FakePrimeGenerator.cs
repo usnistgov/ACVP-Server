@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using NIST.CVP.Math;
-using System.Numerics;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA2.PrimeGenerators;
+﻿using NIST.CVP.Crypto.Common.Asymmetric.RSA.PrimeGenerators;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
-using NIST.CVP.Crypto.RSA2.PrimeGenerators;
+using NIST.CVP.Crypto.RSA.PrimeGenerators;
+using NIST.CVP.Math;
+using System;
+using System.Numerics;
 
-namespace NIST.CVP.Crypto.RSA2.Tests
+namespace NIST.CVP.Crypto.RSA.Tests
 {
     public class FakePrimeGenerator : PrimeGeneratorBase
     {

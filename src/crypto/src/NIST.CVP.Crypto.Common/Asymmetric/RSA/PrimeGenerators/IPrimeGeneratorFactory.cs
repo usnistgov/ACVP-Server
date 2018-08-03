@@ -1,8 +1,8 @@
-﻿using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Enums;
+﻿using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Math.Entropy;
 
-namespace NIST.CVP.Crypto.Common.Asymmetric.RSA2.PrimeGenerators
+namespace NIST.CVP.Crypto.Common.Asymmetric.RSA.PrimeGenerators
 {
     public interface IPrimeGeneratorFactory
     {

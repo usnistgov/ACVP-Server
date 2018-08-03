@@ -22,13 +22,7 @@ namespace NIST.CVP.Generation.ParallelHash.IntegrationTests
             var subject = new ParallelHash_MCT(new Crypto.ParallelHash.ParallelHash());
             var messageBitString = new BitString(message);
             var digestBitString = new BitString(digest);
-            var hashFunction = new HashFunction
-            {
-                Capacity = digestSize * 2,
-                DigestLength = digestSize,
-                BlockSize = 8,
-                Customization = ""
-            };
+            var hashFunction = new HashFunction(digestSize, digestSize * 2, false);
 
             var domain = new MathDomain();
             domain.AddSegment(new RangeDomainSegment(null, 16, 65536));

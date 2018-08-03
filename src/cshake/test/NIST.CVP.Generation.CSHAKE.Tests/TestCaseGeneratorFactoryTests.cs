@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Moq;
-using NIST.CVP.Crypto.Common.Hash.CSHAKE;
-using NIST.CVP.Crypto.CSHAKE;
-using NIST.CVP.Math;
+using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
@@ -16,8 +11,8 @@ namespace NIST.CVP.Generation.CSHAKE.Tests
     {
         [Test]
         [TestCase("junk", typeof(TestCaseGeneratorNull))]
-        [TestCase("aFt", typeof(TestCaseGeneratorAFTHash))]
-        [TestCase("Mct", typeof(TestCaseGeneratorMCTHash))]
+        [TestCase("aFt", typeof(TestCaseGeneratorAft))]
+        [TestCase("Mct", typeof(TestCaseGeneratorMct))]
         public void ShouldReturnProperGenerator(string testType, Type expectedType)
         {
             var testGroup = new TestGroup
@@ -36,23 +31,24 @@ namespace NIST.CVP.Generation.CSHAKE.Tests
         [Test]
         [TestCase(true)]
         [TestCase(false)]
-        public void ShouldReturnSampleMonteCarloGeneratorIfRequested(bool isSample)
+        public async Task ShouldReturnSampleMonteCarloGeneratorIfRequested(bool isSample)
         {
             var testGroup = new TestGroup
             {
                 Function = "cSHAKE",
                 DigestSize = 128,
-                TestType = "MCT"
+                TestType = "MCT",
+                OutputLength = new MathDomain().AddSegment(new ValueDomainSegment(8))
             };
 
             var subject = GetSubject();
             var generator = subject.GetCaseGenerator(testGroup);
             Assume.That(generator != null);
 
-            var typedGen = generator as TestCaseGeneratorMCTHash;
+            var typedGen = generator as TestCaseGeneratorMct;
             Assume.That(typedGen != null);
 
-            var result = typedGen.Generate(testGroup, isSample);
+            await typedGen.GenerateAsync(testGroup, isSample);
 
             Assert.AreEqual(isSample, typedGen.IsSample);
         }
@@ -66,7 +62,8 @@ namespace NIST.CVP.Generation.CSHAKE.Tests
                 {
                     Function = "cSHAKE",
                     DigestSize = 0,
-                    TestType = ""
+                    TestType = "",
+                    OutputLength = new MathDomain().AddSegment(new ValueDomainSegment(8))
                 }
                 );
             Assert.IsNotNull(generator);
@@ -74,11 +71,7 @@ namespace NIST.CVP.Generation.CSHAKE.Tests
 
         private TestCaseGeneratorFactory GetSubject()
         {
-            var random = new Mock<IRandom800_90>().Object;
-            var algo = new Mock<ICSHAKE>().Object;
-            var mctAlgo = new Mock<ICSHAKE_MCT>().Object;
-
-            return new TestCaseGeneratorFactory(random, algo, mctAlgo);
+            return new TestCaseGeneratorFactory(null);
         }
     }
 }

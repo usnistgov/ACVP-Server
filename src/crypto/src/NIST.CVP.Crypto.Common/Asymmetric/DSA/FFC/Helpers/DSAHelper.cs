@@ -39,7 +39,7 @@ namespace NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC.Helpers
                 return 64;
             }
 
-            return 1;
+            throw new Exception("Not a valid L");
         }
     }
 }

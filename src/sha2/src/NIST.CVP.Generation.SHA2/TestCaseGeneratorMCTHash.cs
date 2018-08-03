@@ -1,104 +1,58 @@
-﻿using System;
+﻿using NIST.CVP.Common.Oracle;
+using NIST.CVP.Common.Oracle.ParameterTypes;
+using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.Common.Hash;
 using NIST.CVP.Crypto.Common.Hash.SHA2;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Math;
 using NLog;
+using System;
+using System.Threading.Tasks;
+using NIST.CVP.Generation.Core.Async;
+using HashResult = NIST.CVP.Common.Oracle.ResultTypes.HashResult;
 
 namespace NIST.CVP.Generation.SHA2
 {
-    public class TestCaseGeneratorMCTHash : ITestCaseGenerator<TestGroup, TestCase>
+    public class TestCaseGeneratorMCTHash : ITestCaseGeneratorAsync<TestGroup, TestCase>
     {
-        private readonly IRandom800_90 _random800_90;
-        private readonly ISHA_MCT _algo;
+        private readonly IOracle _oracle;
 
         public bool IsSample { get; set; } = false;
-        private TestCase _seedCaseForTest = null;
 
         public int NumberOfTestCasesToGenerate => 1;
 
-        public TestCaseGeneratorMCTHash(IRandom800_90 random800_90, ISHA_MCT algo)
+        public TestCaseGeneratorMCTHash(IOracle oracle)
         {
-            _random800_90 = random800_90;
-            _algo = algo;
+            _oracle = oracle;
         }
         
-        public TestCaseGeneratorMCTHash(IRandom800_90 random800_90, ISHA_MCT algo, TestCase seedCase)
-        {
-            _random800_90 = random800_90;
-            _algo = algo;
-            _seedCaseForTest = seedCase;
-        }
-        
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
+        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample)
         {
             IsSample = isSample;
-            var seedCase = GetSeedCase(group);
-            return Generate(group, seedCase);
-        }
-
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
-        {
-            var hashFunction = new HashFunction
+            var param = new ShaParameters
             {
-                Mode = group.Function,
-                DigestSize = group.DigestSize
+                HashFunction = new HashFunction(group.Function, group.DigestSize),
+                MessageLength = SHAEnumHelpers.DigestSizeToInt(group.DigestSize)
             };
 
-            MCTResult<AlgoArrayResponse> hashResult = null;
             try
             {
-                hashResult = _algo.MCTHash(hashFunction, testCase.Message, IsSample);
-                if (!hashResult.Success)
+                var oracleResult = await _oracle.GetShaMctCaseAsync(param);
+
+                return new TestCaseGenerateResponse<TestGroup, TestCase>(new TestCase
                 {
-                    ThisLogger.Warn(hashResult.ErrorMessage);
-                    return new TestCaseGenerateResponse<TestGroup, TestCase>(hashResult.ErrorMessage);
-                }
+                    Message = oracleResult.Results[0].Message,
+                    Digest = oracleResult.Results[0].Digest,
+                    ResultsArray = oracleResult.Results.ConvertAll(element => new AlgoArrayResponse { Message = element.Message, Digest = element.Digest })
+                });
             }
             catch (Exception ex)
             {
                 ThisLogger.Error(ex);
-                return new TestCaseGenerateResponse<TestGroup, TestCase>(ex.Message);
+                return new TestCaseGenerateResponse<TestGroup, TestCase>($"Failed to generate. {ex.Message}");
             }
-
-            testCase.ResultsArray = hashResult.Response;
-            return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
         }
-
-        private TestCase GetSeedCase(TestGroup group)
-        {
-            if (_seedCaseForTest != null)
-            {
-                return _seedCaseForTest;
-            }
-
-            var digestSize = 0;
-            switch (group.DigestSize)
-            {
-                case DigestSizes.d160:
-                    digestSize = 160;
-                    break;
-                case DigestSizes.d224:
-                case DigestSizes.d512t224:
-                    digestSize = 224;
-                    break;
-                case DigestSizes.d256:
-                case DigestSizes.d512t256:
-                    digestSize = 256;
-                    break;
-                case DigestSizes.d384:
-                    digestSize = 384;
-                    break;
-                case DigestSizes.d512:
-                    digestSize = 512;
-                    break;
-            }
-
-            var seed = _random800_90.GetRandomBitString(digestSize);
-            return new TestCase { Message = seed };
-        }
-
-        private Logger ThisLogger => LogManager.GetCurrentClassLogger();
+        
+        private ILogger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }
 

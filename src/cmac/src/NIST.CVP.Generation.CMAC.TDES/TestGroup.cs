@@ -12,12 +12,6 @@ namespace NIST.CVP.Generation.CMAC.TDES
 {
     public class TestGroup : TestGroupBase<TestGroup, TestCase>
     {
-        public override int KeyLength
-        {
-            get => 192;
-            set { } //there must be a better way to do this
-        }
-
         [JsonProperty(PropertyName = "keyingOption")]
         public int KeyingOption { get; set; }
 

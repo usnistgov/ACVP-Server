@@ -1,30 +1,24 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
-using NIST.CVP.Crypto.Common.Symmetric.Engines;
-using NIST.CVP.Crypto.Common.Symmetric.Enums;
+using NIST.CVP.Common.Oracle;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.AES_CTR
 {
-    public class TestCaseValidatorFactory : ITestCaseValidatorFactory<TestVectorSet, TestGroup, TestCase>
+    public class TestCaseValidatorFactory : ITestCaseValidatorFactoryAsync<TestVectorSet, TestGroup, TestCase>
     {
-        private readonly IBlockCipherEngineFactory _engineFactory;
-        private readonly IModeBlockCipherFactory _modeFactory;
+        private readonly IOracle _oracle;
         private readonly List<string> _katTestTypes = new List<string> { "gfsbox", "keysbox", "varkey", "vartxt" };
 
-        public TestCaseValidatorFactory(
-            IBlockCipherEngineFactory engineFactory,
-            IModeBlockCipherFactory modeFactory
-        )
+        public TestCaseValidatorFactory(IOracle oracle)
         {
-            _engineFactory = engineFactory;
-            _modeFactory = modeFactory;
+            _oracle = oracle;
         }
 
-        public IEnumerable<ITestCaseValidator<TestGroup, TestCase>> GetValidators(TestVectorSet testVectorSet)
+        public IEnumerable<ITestCaseValidatorAsync<TestGroup, TestCase>> GetValidators(TestVectorSet testVectorSet)
         {
-            var list = new List<ITestCaseValidator<TestGroup, TestCase>>();
+            var list = new List<ITestCaseValidatorAsync<TestGroup, TestCase>>();
 
             foreach (var group in testVectorSet.TestGroups.Select(g => g))
             {
@@ -55,7 +49,7 @@ namespace NIST.CVP.Generation.AES_CTR
                             list.Add(new TestCaseValidatorCounterEncrypt(
                                 group, 
                                 test, 
-                                new DeferredTestCaseResolverEncrypt(_modeFactory.GetIvExtractor(_engineFactory.GetSymmetricCipherPrimitive(BlockCipherEngines.Aes)))
+                                new DeferredIvExtractor(_oracle)
                             ));
                         }
                         else if (direction == "decrypt")
@@ -63,7 +57,7 @@ namespace NIST.CVP.Generation.AES_CTR
                             list.Add(new TestCaseValidatorCounterDecrypt(
                                 group, 
                                 test,
-                                new DeferredTestCaseResolverDecrypt(_modeFactory.GetIvExtractor(_engineFactory.GetSymmetricCipherPrimitive(BlockCipherEngines.Aes)))
+                                new DeferredIvExtractor(_oracle)
                             ));
                         }
                         else

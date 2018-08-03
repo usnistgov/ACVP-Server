@@ -1,31 +1,36 @@
-﻿using NIST.CVP.Crypto.Common.Symmetric;
-using NIST.CVP.Crypto.Common.Symmetric.BlockModes.Aead;
-using NIST.CVP.Crypto.Common.Symmetric.Enums;
-using NIST.CVP.Generation.Core;
+﻿using System.Threading.Tasks;
+using NIST.CVP.Common.Oracle;
+using NIST.CVP.Common.Oracle.ParameterTypes;
+using NIST.CVP.Common.Oracle.ResultTypes;
+using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.AES_GCM
 {
-    public class DeferredEncryptResolver : IDeferredTestCaseResolver<TestGroup, TestCase, SymmetricCipherAeadResult>
+    public class DeferredEncryptResolver : IDeferredTestCaseResolverAsync<TestGroup, TestCase, AeadResult>
     {
-        private readonly IAeadModeBlockCipher _algo;
+        private readonly IOracle _oracle;
 
-        public DeferredEncryptResolver(IAeadModeBlockCipher algo)
+        public DeferredEncryptResolver(IOracle oracle)
         {
-            _algo = algo;
+            _oracle = oracle;
         }
 
-        public SymmetricCipherAeadResult CompleteDeferredCrypto(TestGroup testGroup, TestCase serverTestCase, TestCase iutTestCase)
+        public async Task<AeadResult> CompleteDeferredCryptoAsync(TestGroup testGroup, TestCase serverTestCase, TestCase iutTestCase)
         {
-            var param = new AeadModeBlockCipherParameters(
-                BlockCipherDirections.Encrypt,
-                iutTestCase.IV,
-                serverTestCase.Key,
-                serverTestCase.PlainText,
-                serverTestCase.AAD,
-                testGroup.TagLength
-            );
+            var param = new AeadParameters
+            {
+                TagLength = testGroup.TagLength
+            };
 
-            return _algo.ProcessPayload(param);
+            var fullParam = new AeadResult
+            {
+                Iv = iutTestCase.IV,
+                Key = serverTestCase.Key,
+                PlainText = serverTestCase.PlainText,
+                Aad = serverTestCase.AAD
+            };
+            
+            return await _oracle.CompleteDeferredAesGcmCaseAsync(param, fullParam);
         }
     }
 }

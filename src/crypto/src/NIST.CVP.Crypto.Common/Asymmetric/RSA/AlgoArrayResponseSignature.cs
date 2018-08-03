@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Numerics;
-using System.Text;
-using Newtonsoft.Json;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Keys;
+﻿using Newtonsoft.Json;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys;
 using NIST.CVP.Math;
+using System.Numerics;
 
-namespace NIST.CVP.Crypto.Common.Asymmetric.RSA2
+namespace NIST.CVP.Crypto.Common.Asymmetric.RSA
 {
     public class AlgoArrayResponseSignature
     {

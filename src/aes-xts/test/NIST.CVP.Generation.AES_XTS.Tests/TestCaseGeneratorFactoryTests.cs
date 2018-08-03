@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Moq;
-using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
-using NIST.CVP.Crypto.Common.Symmetric.Engines;
-using NIST.CVP.Tests.Core.TestCategoryAttributes;
+﻿using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
+using System;
 
 namespace NIST.CVP.Generation.AES_XTS.Tests
 {
@@ -13,12 +8,12 @@ namespace NIST.CVP.Generation.AES_XTS.Tests
     public class TestCaseGeneratorFactoryTests
     {
         [Test]
-        [TestCase("encrypt", typeof(TestCaseGeneratorEncrypt))]
-        [TestCase("Encrypt", typeof(TestCaseGeneratorEncrypt))]
-        [TestCase("ENcrypt", typeof(TestCaseGeneratorEncrypt))]
-        [TestCase("Decrypt", typeof(TestCaseGeneratorDecrypt))]
-        [TestCase("decrypt", typeof(TestCaseGeneratorDecrypt))]
-        [TestCase("dECrypt", typeof(TestCaseGeneratorDecrypt))]
+        [TestCase("encrypt", typeof(TestCaseGenerator))]
+        [TestCase("Encrypt", typeof(TestCaseGenerator))]
+        [TestCase("ENcrypt", typeof(TestCaseGenerator))]
+        [TestCase("Decrypt", typeof(TestCaseGenerator))]
+        [TestCase("decrypt", typeof(TestCaseGenerator))]
+        [TestCase("dECrypt", typeof(TestCaseGenerator))]
         public void ShouldReturnProperGenerator(string direction, Type expectedType)
         {
             TestGroup testGroup = new TestGroup
@@ -26,10 +21,7 @@ namespace NIST.CVP.Generation.AES_XTS.Tests
                 Direction = direction,
             };
 
-            var engineFactory = new Mock<IBlockCipherEngineFactory>();
-            var cipherFactory = new Mock<IModeBlockCipherFactory>();
-
-            var subject = new TestCaseGeneratorFactory(null, engineFactory.Object, cipherFactory.Object);
+            var subject = new TestCaseGeneratorFactory(null);
             var generator = subject.GetCaseGenerator(testGroup);
             Assume.That(generator != null);
             Assert.IsInstanceOf(expectedType, generator);
@@ -44,10 +36,7 @@ namespace NIST.CVP.Generation.AES_XTS.Tests
                 TestType = string.Empty
             };
 
-            var engineFactory = new Mock<IBlockCipherEngineFactory>();
-            var cipherFactory = new Mock<IModeBlockCipherFactory>();
-
-            var subject = new TestCaseGeneratorFactory(null, engineFactory.Object, cipherFactory.Object);
+            var subject = new TestCaseGeneratorFactory(null);
             var generator = subject.GetCaseGenerator(testGroup);
             Assert.IsNotNull(generator);
         }

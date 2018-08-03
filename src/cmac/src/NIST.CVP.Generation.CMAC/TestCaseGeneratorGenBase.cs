@@ -1,56 +1,49 @@
 ﻿using System;
-using NIST.CVP.Crypto.Common.MAC;
-using NIST.CVP.Crypto.Common.MAC.CMAC;
+using System.Threading.Tasks;
+using NIST.CVP.Common.Oracle;
+using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Math;
+using NIST.CVP.Generation.Core.Async;
 using NLog;
 
 namespace NIST.CVP.Generation.CMAC
 {
-    public abstract class TestCaseGeneratorGenBase<TTestGroup, TTestCase> : ITestCaseGenerator<TTestGroup, TTestCase>
+    public abstract class TestCaseGeneratorGenBase<TTestGroup, TTestCase> : ITestCaseGeneratorAsync<TTestGroup, TTestCase>
         where TTestGroup : TestGroupBase<TTestGroup, TTestCase>
         where TTestCase : TestCaseBase<TTestGroup, TTestCase>, new()
     {
-        protected readonly ICmac _algo;
-        protected readonly IRandom800_90 _random800_90;
+        protected readonly IOracle _oracle;
 
         public int NumberOfTestCasesToGenerate => 8;
 
-        protected TestCaseGeneratorGenBase(IRandom800_90 random800_90, ICmac algo)
+        protected TestCaseGeneratorGenBase(IOracle oracle)
         {
-            _random800_90 = random800_90;
-            _algo = algo;
+            _oracle = oracle;
         }
 
-        public abstract TestCaseGenerateResponse<TTestGroup, TTestCase> Generate(TTestGroup @group, bool isSample);
-
-
-        public TestCaseGenerateResponse<TTestGroup, TTestCase> Generate(TTestGroup @group, TTestCase testCase)
+        public async Task<TestCaseGenerateResponse<TTestGroup, TTestCase>> GenerateAsync(TTestGroup group, bool isSample)
         {
-            MacResult genResult = null;
+            var param = GetParam(group);
+
             try
             {
-                genResult = _algo.Generate(testCase.Key, testCase.Message, group.MacLength);
-                if (!genResult.Success)
+                var oracleResult = await _oracle.GetCmacCaseAsync(param);
+                
+                return new TestCaseGenerateResponse<TTestGroup, TTestCase>(new TTestCase
                 {
-                    ThisLogger.Warn(genResult.ErrorMessage);
-                    {
-                        return new TestCaseGenerateResponse<TTestGroup, TTestCase>(genResult.ErrorMessage);
-                    }
-                }
+                    Key = oracleResult.Key,
+                    Message = oracleResult.Message,
+                    Mac = oracleResult.Tag
+                });
             }
             catch (Exception ex)
             {
                 ThisLogger.Error(ex);
-                {
-                    return new TestCaseGenerateResponse<TTestGroup, TTestCase>(ex.Message);
-                }
+                return new TestCaseGenerateResponse<TTestGroup, TTestCase>($"Failed to generate. {ex.Message}");
             }
-            testCase.Mac = genResult.Mac;
-
-            return new TestCaseGenerateResponse<TTestGroup, TTestCase>(testCase);
         }
 
-        private Logger ThisLogger => LogManager.GetCurrentClassLogger();
+        protected abstract CmacParameters GetParam(TTestGroup group);
+        private static ILogger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }

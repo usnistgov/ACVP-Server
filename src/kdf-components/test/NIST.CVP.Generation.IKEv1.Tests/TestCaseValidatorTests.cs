@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using Moq;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
@@ -13,26 +14,26 @@ namespace NIST.CVP.Generation.IKEv1.Tests
     public class TestCaseValidatorEncryptTests
     {
         [Test]
-        public void ShouldValidateIfExpectedAndSuppliedResultsMatch()
+        public async Task ShouldValidateIfExpectedAndSuppliedResultsMatch()
         {
             var testCase = GetTestCase();
             var subject = new TestCaseValidator(testCase);
 
-            var result = subject.Validate(testCase);
+            var result = await subject.ValidateAsync(testCase);
 
             Assume.That(result != null);
             Assert.AreEqual(Core.Enums.Disposition.Passed, result.Result, result.Reason);
         }
 
         [Test]
-        public void ShouldFailIfKeyOutDoesNotMatch()
+        public async Task ShouldFailIfKeyOutDoesNotMatch()
         {
             var testCase = GetTestCase();
             var subject = new TestCaseValidator(testCase);
             var suppliedResult = GetTestCase();
             suppliedResult.SKeyIdD = new BitString("D00000");
 
-            var result = subject.Validate(suppliedResult);
+            var result = await subject.ValidateAsync(suppliedResult);
 
             Assume.That(result != null);
             Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
@@ -40,14 +41,14 @@ namespace NIST.CVP.Generation.IKEv1.Tests
         }
 
         [Test]
-        public void ShouldShowKeyOutAsReasonIfItDoesNotMatch()
+        public async Task ShouldShowKeyOutAsReasonIfItDoesNotMatch()
         {
             var testCase = GetTestCase();
             var subject = new TestCaseValidator(testCase);
             var suppliedResult = GetTestCase();
             suppliedResult.SKeyIdA = new BitString("D00000");
 
-            var result = subject.Validate(suppliedResult);
+            var result = await subject.ValidateAsync(suppliedResult);
 
             Assume.That(result != null);
             Assume.That(Core.Enums.Disposition.Failed == result.Result);
@@ -55,7 +56,7 @@ namespace NIST.CVP.Generation.IKEv1.Tests
         }
 
         [Test]
-        public void ShouldFailIfKeyOutNotPresent()
+        public async Task ShouldFailIfKeyOutNotPresent()
         {
             var testCase = GetTestCase();
             var subject = new TestCaseValidator(testCase);
@@ -63,7 +64,7 @@ namespace NIST.CVP.Generation.IKEv1.Tests
 
             suppliedResult.SKeyId = null;
 
-            var result = subject.Validate(suppliedResult);
+            var result = await subject.ValidateAsync(suppliedResult);
             Assume.That(result != null);
             Assume.That(Core.Enums.Disposition.Failed == result.Result);
 

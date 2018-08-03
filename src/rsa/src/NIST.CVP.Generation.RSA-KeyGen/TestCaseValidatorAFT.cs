@@ -1,29 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Enums;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Keys;
+﻿using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math.Helpers;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.RSA_KeyGen
 {
-    public class TestCaseValidatorAft : ITestCaseValidator<TestGroup, TestCase>
+    public class TestCaseValidatorAft : ITestCaseValidatorAsync<TestGroup, TestCase>
     {
         private readonly TestCase _expectedResult;
         private readonly TestGroup _serverGroup;
-        private readonly IDeferredTestCaseResolver<TestGroup, TestCase, KeyResult> _deferredTestCaseResolver;
+        private readonly IDeferredTestCaseResolverAsync<TestGroup, TestCase, KeyResult> _deferredTestCaseResolver;
         public int TestCaseId => _expectedResult.TestCaseId;
 
-        public TestCaseValidatorAft(TestCase expectedResult, TestGroup serverGroup, IDeferredTestCaseResolver<TestGroup, TestCase, KeyResult> deferredTestCaseResolver)
+        public TestCaseValidatorAft(
+            TestCase expectedResult, 
+            TestGroup serverGroup, 
+            IDeferredTestCaseResolverAsync<TestGroup, TestCase, KeyResult> deferredTestCaseResolver
+        )
         {
             _expectedResult = expectedResult;
             _serverGroup = serverGroup;
             _deferredTestCaseResolver = deferredTestCaseResolver;
         }
 
-        public TestCaseValidation Validate(TestCase suppliedResult, bool showExpected = false)
+        public async Task<TestCaseValidation> ValidateAsync(TestCase suppliedResult, bool showExpected = false)
         {
             var errors = new List<string>();
             var expected = new Dictionary<string, string>();
@@ -31,7 +34,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen
 
             if (_expectedResult.Deferred)
             {
-                var computedResult = _deferredTestCaseResolver.CompleteDeferredCrypto(_serverGroup, _expectedResult, suppliedResult);
+                var computedResult = await _deferredTestCaseResolver.CompleteDeferredCryptoAsync(_serverGroup, _expectedResult, suppliedResult);
                 if (!computedResult.Success)
                 {
                     errors.Add($"Unable to resolve deferred crypto: {computedResult.ErrorMessage}");

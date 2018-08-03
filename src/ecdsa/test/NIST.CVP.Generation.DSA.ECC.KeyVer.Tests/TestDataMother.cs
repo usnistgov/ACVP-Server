@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using NIST.CVP.Common.Oracle.DispositionTypes;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC.Enums;
-using NIST.CVP.Generation.DSA.ECC.KeyVer.Enums;
+using System.Collections.Generic;
 
 namespace NIST.CVP.Generation.DSA.ECC.KeyVer.Tests
 {
@@ -34,7 +34,7 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyVer.Tests
                         TestCaseId = testId,
                         KeyPair = new EccKeyPair(new EccPoint(1, 2), 3),
                         TestPassed = testPassed,
-                        Reason = TestCaseExpectationEnum.NotOnCurve,
+                        Reason = EcdsaKeyDisposition.NotOnCurve,
                         ParentGroup = tg
                     });
                 }

@@ -11,6 +11,7 @@
   "inEmpty": true,
   "nonxof": true,
   "xof": true,
+  "hexCustomization": false,
   "keyLen": [
     {
       "min": 256,

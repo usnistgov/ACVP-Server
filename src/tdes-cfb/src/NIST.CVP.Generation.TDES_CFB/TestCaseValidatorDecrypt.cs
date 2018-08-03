@@ -1,12 +1,12 @@
 ﻿using NIST.CVP.Generation.Core;
-using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Threading.Tasks;
+using NIST.CVP.Generation.Core.Async;
 using NIST.CVP.Generation.Core.Enums;
 
 namespace NIST.CVP.Generation.TDES_CFB
 {
-    public class TestCaseValidatorDecrypt : ITestCaseValidator<TestGroup, TestCase>
+    public class TestCaseValidatorDecrypt : ITestCaseValidatorAsync<TestGroup, TestCase>
     {
         private readonly TestCase _expectedResult;
 
@@ -17,7 +17,7 @@ namespace NIST.CVP.Generation.TDES_CFB
 
         public int TestCaseId => _expectedResult.TestCaseId;
         
-        public TestCaseValidation Validate(TestCase suppliedResult, bool showExpected = false)
+        public async Task<TestCaseValidation> ValidateAsync(TestCase suppliedResult, bool showExpected = false)
         {
             var errors = new List<string>();
             var expected = new Dictionary<string, string>();
@@ -31,17 +31,21 @@ namespace NIST.CVP.Generation.TDES_CFB
 
             if (errors.Count > 0)
             {
-                return new TestCaseValidation 
+                return await Task.FromResult(new TestCaseValidation 
                 { 
                     TestCaseId = suppliedResult.TestCaseId, 
                     Result = Disposition.Failed, 
                     Reason = string.Join("; ", errors),
                     Expected = expected.Count != 0 && showExpected ? expected : null,
                     Provided = provided.Count != 0 && showExpected ? provided : null
-                };
+                });
             }
 
-            return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = Disposition.Passed };
+            return await Task.FromResult(new TestCaseValidation
+            {
+                TestCaseId = suppliedResult.TestCaseId,
+                Result = Disposition.Passed
+            });
         }
 
         private void ValidateResultPresent(TestCase suppliedResult, List<string> errors)

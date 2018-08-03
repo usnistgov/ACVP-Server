@@ -1,26 +1,22 @@
-﻿using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
-using NIST.CVP.Crypto.Common.MAC.HMAC;
+﻿using NIST.CVP.Common.Oracle;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Math;
+using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.HMAC
 {
-    public class TestCaseGeneratorFactory : ITestCaseGeneratorFactory<TestGroup, TestCase>
+    public class TestCaseGeneratorFactory : ITestCaseGeneratorFactoryAsync<TestGroup, TestCase>
     {
-        private readonly IRandom800_90 _random800_90;
-        private readonly IHmacFactory _algoFactory;
+        private readonly IOracle _oracle;
 
-        public TestCaseGeneratorFactory(IRandom800_90 random800_90, IHmacFactory algoFactory)
+
+        public TestCaseGeneratorFactory(IOracle oracle)
         {
-            _algoFactory = algoFactory;
-            _random800_90 = random800_90;
+            _oracle = oracle;
         }
 
-        public ITestCaseGenerator<TestGroup, TestCase> GetCaseGenerator(TestGroup testGroup)
+        public ITestCaseGeneratorAsync<TestGroup, TestCase> GetCaseGenerator(TestGroup testGroup)
         {
-            var algo = _algoFactory.GetHmacInstance(new HashFunction(testGroup.ShaMode, testGroup.ShaDigestSize));
-            
-            return new TestCaseGenerator(_random800_90, algo);
+            return new TestCaseGenerator(_oracle);
         }
     }
 }

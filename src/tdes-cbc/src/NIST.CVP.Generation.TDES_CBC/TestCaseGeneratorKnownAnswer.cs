@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.TDES_CBC
 {
-    public class TestCaseGeneratorKnownAnswer : ITestCaseGenerator<TestGroup, TestCase>
+    public class TestCaseGeneratorKnownAnswer : ITestCaseGeneratorAsync<TestGroup, TestCase>
     {
         private readonly List<TestCase> _katTestCases = new List<TestCase>();
         private int _katsIndex = 0;
@@ -27,22 +27,16 @@ namespace NIST.CVP.Generation.TDES_CBC
 
         public int NumberOfTestCasesToGenerate => _katTestCases.Count;
 
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
-        {
-            TestCase testCase = new TestCase();
-            return Generate(group, testCase);
-        }
-
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
+        public Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample)
         {
             if (_katsIndex + 1 > _katTestCases.Count)
             {
-                return new TestCaseGenerateResponse<TestGroup, TestCase>("No additional KATs exist.");
+                return Task.FromResult(new TestCaseGenerateResponse<TestGroup, TestCase>("No additional KATs exist."));
             }
 
-            return new TestCaseGenerateResponse<TestGroup, TestCase>(_katTestCases[_katsIndex++]);
+            return Task.FromResult(new TestCaseGenerateResponse<TestGroup, TestCase>(_katTestCases[_katsIndex++]));
         }
-
+        
         private static readonly Dictionary<string, List<TestCase>> _kats =
             new Dictionary<string, List<TestCase>>
             {

@@ -1,28 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Moq;
-using NIST.CVP.Crypto.Common.Symmetric.BlockModes.Aead;
-using NIST.CVP.Crypto.Common.Symmetric.Engines;
-using NIST.CVP.Math;
+﻿using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace NIST.CVP.Generation.AES_GCM.Tests
 {
     [TestFixture, UnitTest]
     public class TestCaseValidatorFactoryTests
     {
-        private Mock<IAeadModeBlockCipherFactory> _cipherFactory;
-        private Mock<IBlockCipherEngineFactory> _engineFactory;
         private TestCaseValidatorFactory _subject;
 
         [SetUp]
         public void Setup()
         {
-            _cipherFactory = new Mock<IAeadModeBlockCipherFactory>();
-            _engineFactory = new Mock<IBlockCipherEngineFactory>();
-            _subject = new TestCaseValidatorFactory(_cipherFactory.Object, _engineFactory.Object);
+            _subject = new TestCaseValidatorFactory(null);
         }
 
         [Test]
