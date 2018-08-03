@@ -196,7 +196,7 @@ namespace NIST.CVP.Crypto.Oracle
             return fullResult;
         }
 
-        public DrbgResult GetDrbgCase(DrbgParameters param)
+        private DrbgResult GetDrbgCase(DrbgParameters param)
         {
             if (!param.ReseedImplemented)
             {

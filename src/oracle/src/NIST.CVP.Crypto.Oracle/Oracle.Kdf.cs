@@ -28,7 +28,7 @@ namespace NIST.CVP.Crypto.Oracle
         private readonly SshFactory _sshFactory = new SshFactory();
         private readonly TlsKdfFactory _tlsFactory = new TlsKdfFactory();
 
-        public KdfResult GetDeferredKdfCase(KdfParameters param)
+        private KdfResult GetDeferredKdfCase(KdfParameters param)
         {
             return new KdfResult
             {
@@ -39,7 +39,7 @@ namespace NIST.CVP.Crypto.Oracle
             };
         }
 
-        public KdfResult CompleteDeferredKdfCase(KdfParameters param, KdfResult fullParam)
+        private KdfResult CompleteDeferredKdfCase(KdfParameters param, KdfResult fullParam)
         {
             var kdf = _kdfFactory.GetKdfInstance(param.Mode, param.MacMode, param.CounterLocation, param.CounterLength);
 
@@ -56,7 +56,7 @@ namespace NIST.CVP.Crypto.Oracle
             };
         }
 
-        public AnsiX963KdfResult GetAnsiX963KdfCase(AnsiX963Parameters param)
+        private AnsiX963KdfResult GetAnsiX963KdfCase(AnsiX963Parameters param)
         {
             var ansi = _ansiFactory.GetInstance(param.HashAlg);
 
@@ -77,7 +77,7 @@ namespace NIST.CVP.Crypto.Oracle
             };
         }
 
-        public IkeV1KdfResult GetIkeV1KdfCase(IkeV1KdfParameters param)
+        private IkeV1KdfResult GetIkeV1KdfCase(IkeV1KdfParameters param)
         {
             var ike = _ikeV1Factory.GetIkeV1Instance(param.AuthenticationMethod, param.HashAlg);
 
@@ -109,7 +109,7 @@ namespace NIST.CVP.Crypto.Oracle
             };
         }
 
-        public IkeV2KdfResult GetIkeV2KdfCase(IkeV2KdfParameters param)
+        private IkeV2KdfResult GetIkeV2KdfCase(IkeV2KdfParameters param)
         {
             var ike = _ikeV2Factory.GetInstance(param.HashAlg);
 
@@ -142,7 +142,7 @@ namespace NIST.CVP.Crypto.Oracle
             };
         }
 
-        public SnmpKdfResult GetSnmpKdfCase(SnmpKdfParameters param)
+        private SnmpKdfResult GetSnmpKdfCase(SnmpKdfParameters param)
         {
             var password = _rand.GetRandomAlphaCharacters(param.PasswordLength);
 
@@ -159,7 +159,7 @@ namespace NIST.CVP.Crypto.Oracle
             };
         }
 
-        public SrtpKdfResult GetSrtpKdfCase(SrtpKdfParameters param)
+        private SrtpKdfResult GetSrtpKdfCase(SrtpKdfParameters param)
         {
             var key = _rand.GetRandomBitString(param.AesKeyLength);
             var salt = _rand.GetRandomBitString(112);
@@ -188,7 +188,7 @@ namespace NIST.CVP.Crypto.Oracle
             };
         }
 
-        public SshKdfResult GetSshKdfCase(SshKdfParameters param)
+        private SshKdfResult GetSshKdfCase(SshKdfParameters param)
         {
             var ssh = _sshFactory.GetSshInstance(param.HashAlg, param.Cipher);
 
@@ -226,7 +226,7 @@ namespace NIST.CVP.Crypto.Oracle
             };
         }
 
-        public TlsKdfResult GetTlsKdfCase(TlsKdfParameters param)
+        private TlsKdfResult GetTlsKdfCase(TlsKdfParameters param)
         {
             var tls = _tlsFactory.GetTlsKdfInstance(param.TlsMode, param.HashAlg);
 
