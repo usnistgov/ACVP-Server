@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Math;
+﻿using System.Threading.Tasks;
+using NIST.CVP.Math;
 using NIST.CVP.Generation.DRBG;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -9,42 +10,42 @@ namespace NIST.CVP.Generation.DRBG.Tests
     public class TestCaseValidatorTests
     {
         [Test]
-        public void ShouldValidateIfExpectedAndSuppliedResultsMatch()
+        public async Task ShouldValidateIfExpectedAndSuppliedResultsMatch()
         {
             var testCase = GetTestCase();
             var subject = new TestCaseValidator(testCase);
-            var result = subject.Validate(testCase);
+            var result = await subject.ValidateAsync(testCase);
             Assume.That(result != null);
             Assert.AreEqual(Core.Enums.Disposition.Passed, result.Result);
         }
 
         [Test]
-        public void ShouldFailIfCipherTextDoesNotMatch()
+        public async Task ShouldFailIfCipherTextDoesNotMatch()
         {
             var testCase = GetTestCase();
             var subject = new TestCaseValidator(testCase);
             var suppliedResult = GetTestCase();
             suppliedResult.ReturnedBits = new BitString("D00000");
-            var result = subject.Validate(suppliedResult);
+            var result = await subject.ValidateAsync(suppliedResult);
             Assume.That(result != null);
             Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
         }
 
         [Test]
-        public void ShouldShowCipherTextAsReasonIfItDoesNotMatch()
+        public async Task ShouldShowCipherTextAsReasonIfItDoesNotMatch()
         {
             var testCase = GetTestCase();
             var subject = new TestCaseValidator(testCase);
             var suppliedResult = GetTestCase();
             suppliedResult.ReturnedBits = new BitString("D00000");
-            var result = subject.Validate(suppliedResult);
+            var result = await subject.ValidateAsync(suppliedResult);
             Assume.That(result != null);
             Assume.That(Core.Enums.Disposition.Failed == result.Result);
             Assert.IsTrue(result.Reason.Contains("Returned Bits"));
         }
 
         [Test]
-        public void ShouldFailIfReturnedBitsNotPresent()
+        public async Task ShouldFailIfReturnedBitsNotPresent()
         {
             var testCase = GetTestCase();
             var subject = new TestCaseValidator(testCase);
@@ -52,7 +53,7 @@ namespace NIST.CVP.Generation.DRBG.Tests
 
             suppliedResult.ReturnedBits = null;
 
-            var result = subject.Validate(suppliedResult);
+            var result = await subject.ValidateAsync(suppliedResult);
             Assume.That(result != null);
             Assume.That(Core.Enums.Disposition.Failed == result.Result);
 

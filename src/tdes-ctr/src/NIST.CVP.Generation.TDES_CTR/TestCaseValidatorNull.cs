@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.Async;
 using NIST.CVP.Generation.Core.Enums;
 
 namespace NIST.CVP.Generation.TDES_CTR
 {
-    public class TestCaseValidatorNull : ITestCaseValidator<TestGroup, TestCase>
+    public class TestCaseValidatorNull : ITestCaseValidatorAsync<TestGroup, TestCase>
     {
         private readonly TestCase _expectedResult;
 
@@ -17,9 +19,14 @@ namespace NIST.CVP.Generation.TDES_CTR
             _expectedResult = testCase;
         }
 
-        public TestCaseValidation Validate(TestCase suppliedResult, bool showExpected = false)
+        public Task<TestCaseValidation> ValidateAsync(TestCase suppliedResult, bool showExpected = false)
         {
-            return new TestCaseValidation { TestCaseId = TestCaseId, Result = Disposition.Failed, Reason = "Test type was not found" };
+            return Task.FromResult(new TestCaseValidation
+            {
+                TestCaseId = TestCaseId,
+                Result = Disposition.Failed,
+                Reason = "Test type was not found"
+            });
         }
     }
 }

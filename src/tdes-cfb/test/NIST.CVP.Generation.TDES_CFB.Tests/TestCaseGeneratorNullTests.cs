@@ -1,7 +1,5 @@
 ﻿using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Generation.TDES_CFB.Tests
 {
@@ -9,19 +7,19 @@ namespace NIST.CVP.Generation.TDES_CFB.Tests
     public class TestCaseGeneratorNullTests
     {
         [Test]
-        public void ShouldReturnErrorResponseForIsSampleCall()
+        public async Task ShouldReturnErrorResponseForIsSampleCall()
         {
             var subject = new TestCaseGeneratorNull();
-            var result = subject.Generate(new TestGroup(), false);
+            var result = await subject.GenerateAsync(new TestGroup(), false);
             Assert.IsFalse(result.Success);
             Assert.AreEqual("This is the null generator -- nothing is generated", result.ErrorMessage);
         }
 
         [Test]
-        public void ShouldReturnErrorResponseForTestCaseCall()
+        public async Task ShouldReturnErrorResponseForTestCaseCall()
         {
             var subject = new TestCaseGeneratorNull();
-            var result = subject.Generate(new TestGroup(), new TestCase());
+            var result = await subject.GenerateAsync(new TestGroup(), false);
             Assert.IsFalse(result.Success);
             Assert.AreEqual("This is the null generator -- nothing is generated", result.ErrorMessage);
         }

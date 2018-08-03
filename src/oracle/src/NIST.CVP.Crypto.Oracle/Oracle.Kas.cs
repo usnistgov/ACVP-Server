@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Numerics;
+using System.Threading.Tasks;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
@@ -121,6 +122,46 @@ namespace NIST.CVP.Crypto.Oracle
                     new EccPoint(param.PublicKeyIutX, param.PublicKeyIutY)
                 )
             };
+        }
+
+        public async Task<KasValResultEcc> GetKasValTestEccAsync(KasValParametersEcc param)
+        {
+            return await _taskFactory.StartNew(() => GetKasValTestEcc(param));
+        }
+
+        public async Task<KasAftResultEcc> GetKasAftTestEccAsync(KasAftParametersEcc param)
+        {
+            return await _taskFactory.StartNew(() => GetKasAftTestEcc(param));
+        }
+
+        public async Task<KasAftDeferredResult> CompleteDeferredKasTestAsync(KasAftDeferredParametersEcc param)
+        {
+            return await _taskFactory.StartNew(() => CompleteDeferredKasTest(param));
+        }
+
+        public async Task<KasValResultFfc> GetKasValTestFfcAsync(KasValParametersFfc param)
+        {
+            return await _taskFactory.StartNew(() => GetKasValTestFfc(param));
+        }
+
+        public async Task<KasAftResultFfc> GetKasAftTestFfcAsync(KasAftParametersFfc param)
+        {
+            return await _taskFactory.StartNew(() => GetKasAftTestFfc(param));
+        }
+
+        public async Task<KasAftDeferredResult> CompleteDeferredKasTestAsync(KasAftDeferredParametersFfc param)
+        {
+            return await _taskFactory.StartNew(() => CompleteDeferredKasTest(param));
+        }
+
+        public async Task<KasEccComponentResult> GetKasEccComponentTestAsync(KasEccComponentParameters param)
+        {
+            return await _taskFactory.StartNew(() => GetKasEccComponentTest(param));
+        }
+
+        public async Task<KasEccComponentDeferredResult> CompleteDeferredKasComponentTestAsync(KasEccComponentDeferredParameters param)
+        {
+            return await _taskFactory.StartNew(() => CompleteDeferredKasComponentTest(param));
         }
 
         private BitString GenerateSharedSecretZ(

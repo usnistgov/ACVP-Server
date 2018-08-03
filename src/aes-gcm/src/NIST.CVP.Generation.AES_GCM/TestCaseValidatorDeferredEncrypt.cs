@@ -2,16 +2,21 @@
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Enums;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.AES_GCM
 {
-    public class TestCaseValidatorDeferredEncrypt : ITestCaseValidator<TestGroup, TestCase>
+    public class TestCaseValidatorDeferredEncrypt : ITestCaseValidatorAsync<TestGroup, TestCase>
     {
         private readonly TestGroup _testGroup;
         private readonly TestCase _serverTestCase;
-        private readonly IDeferredTestCaseResolver<TestGroup, TestCase, AeadResult> _testCaseResolver;
+        private readonly IDeferredTestCaseResolverAsync<TestGroup, TestCase, AeadResult> _testCaseResolver;
 
-        public TestCaseValidatorDeferredEncrypt(TestGroup testGroup, TestCase serverTestCase, IDeferredTestCaseResolver<TestGroup, TestCase, AeadResult> deferredTestCaseResolver)
+        public TestCaseValidatorDeferredEncrypt(
+            TestGroup testGroup, 
+            TestCase serverTestCase, 
+            IDeferredTestCaseResolverAsync<TestGroup, TestCase, AeadResult> deferredTestCaseResolver)
         {
             _testGroup = testGroup;
             _serverTestCase = serverTestCase;
@@ -20,7 +25,7 @@ namespace NIST.CVP.Generation.AES_GCM
 
         public int TestCaseId => _serverTestCase.TestCaseId;
 
-        public TestCaseValidation Validate(TestCase suppliedResult, bool showExpected = false)
+        public async Task<TestCaseValidation> ValidateAsync(TestCase suppliedResult, bool showExpected = false)
         {
             var errors = new List<string>();
             var expected = new Dictionary<string, string>();
@@ -29,7 +34,7 @@ namespace NIST.CVP.Generation.AES_GCM
             ValidateResultPresent(suppliedResult, errors);
             if (errors.Count == 0)
             {
-                CheckResults(suppliedResult, errors, expected, provided);
+                await CheckResults(suppliedResult, errors, expected, provided);
             }
 
             if (errors.Count > 0)
@@ -58,9 +63,9 @@ namespace NIST.CVP.Generation.AES_GCM
             }
         }
 
-        private void CheckResults(TestCase suppliedResult, List<string> errors, Dictionary<string, string> expected, Dictionary<string, string> provided)
+        private async Task CheckResults(TestCase suppliedResult, List<string> errors, Dictionary<string, string> expected, Dictionary<string, string> provided)
         {
-            var serverResult = _testCaseResolver.CompleteDeferredCrypto(_testGroup, _serverTestCase, suppliedResult);
+            var serverResult = await _testCaseResolver.CompleteDeferredCryptoAsync(_testGroup, _serverTestCase, suppliedResult);
 
             if (!serverResult.CipherText.Equals(suppliedResult.CipherText))
             {

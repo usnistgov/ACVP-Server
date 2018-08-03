@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Moq;
 using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
@@ -19,23 +20,23 @@ namespace NIST.CVP.Generation.TDES_CBC.Tests
         {
             _oracle = new Mock<IOracle>();
             _oracle
-                .Setup(s => s.GetTdesMctCase(It.IsAny<TdesParameters>()))
-                .Returns(() => new MctResult<TdesResult>());
+                .Setup(s => s.GetTdesMctCaseAsync(It.IsAny<TdesParameters>()))
+                .Returns(() => Task.FromResult(new MctResult<TdesResult>()));
             _subject = new TestCaseGeneratorMct(_oracle.Object);
         }
 
         [Test]
-        public void ShouldReturnErrorMessageIfAlgoFailsWithException()
+        public async Task ShouldReturnErrorMessageIfAlgoFailsWithException()
         {
             string errorMessage = "something bad happened! oh noes!";
-            _oracle.Setup(s => s.GetTdesMctCase(It.IsAny<TdesParameters>()))
+            _oracle.Setup(s => s.GetTdesMctCaseAsync(It.IsAny<TdesParameters>()))
                 .Throws(new Exception(errorMessage));
 
             TestGroup testGroup = new TestGroup()
             {
                 KeyingOption = 1
             };
-            var result = _subject.Generate(testGroup, true);
+            var result = await _subject.GenerateAsync(testGroup, true);
 
             Assert.IsFalse(result.Success, nameof(result.Success));
         }

@@ -11,35 +11,35 @@ namespace NIST.CVP.Generation.TDES_OFB.Tests
     public class TestCaseValidatorEncryptTests
     {
         [Test]
-        public void ShouldValidateIfExpectedAndSuppliedResultsMatch()
+        public async Task ShouldValidateIfExpectedAndSuppliedResultsMatch()
         {
             var testCase = GetTestCase();
             var subject = new TestCaseValidatorEncrypt(testCase);
-            var result = subject.Validate(testCase);
+            var result = await subject.ValidateAsync(testCase);
             Assume.That(result != null);
             Assert.AreEqual(Core.Enums.Disposition.Passed, result.Result);
         }
 
         [Test]
-        public void ShouldFailIfCipherTextDoesNotMatch()
+        public async Task ShouldFailIfCipherTextDoesNotMatch()
         {
             var testCase = GetTestCase();
             var subject = new TestCaseValidatorEncrypt(testCase);
             var suppliedResult = GetTestCase();
             suppliedResult.CipherText = new BitString("D00000");
-            var result = subject.Validate(suppliedResult);
+            var result = await subject.ValidateAsync(suppliedResult);
             Assume.That(result != null);
             Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
         }
 
         [Test]
-        public void ShouldShowCipherTextAsReasonIfItDoesNotMatch()
+        public async Task ShouldShowCipherTextAsReasonIfItDoesNotMatch()
         {
             var testCase = GetTestCase();
             var subject = new TestCaseValidatorEncrypt(testCase);
             var suppliedResult = GetTestCase();
             suppliedResult.CipherText = new BitString("D00000");
-            var result = subject.Validate(suppliedResult);
+            var result = await subject.ValidateAsync(suppliedResult);
             Assume.That(result != null);
             Assume.That(Core.Enums.Disposition.Failed == result.Result);
             Assert.IsTrue(result.Reason.Contains("Cipher Text"));
@@ -56,7 +56,7 @@ namespace NIST.CVP.Generation.TDES_OFB.Tests
         }
 
         [Test]
-        public void ShouldFailIfCipherTextNotPresent()
+        public async Task ShouldFailIfCipherTextNotPresent()
         {
             var testCase = GetTestCase();
             var subject = new TestCaseValidatorEncrypt(testCase);
@@ -64,7 +64,7 @@ namespace NIST.CVP.Generation.TDES_OFB.Tests
 
             suppliedResult.CipherText = null;
 
-            var result = subject.Validate(suppliedResult);
+            var result = await subject.ValidateAsync(suppliedResult);
             Assume.That(result != null);
             Assume.That(Core.Enums.Disposition.Failed == result.Result);
 

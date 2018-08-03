@@ -1,71 +1,69 @@
-﻿using System;
-using NIST.CVP.Crypto.Common.KDF.Components.IKEv2;
+﻿using NIST.CVP.Common.Oracle;
+using NIST.CVP.Common.Oracle.ParameterTypes;
+using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Math;
 using NLog;
+using System;
+using System.Threading.Tasks;
+using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.IKEv2
 {
-    public class TestCaseGenerator : ITestCaseGenerator<TestGroup, TestCase>
+    public class TestCaseGenerator : ITestCaseGeneratorAsync<TestGroup, TestCase>
     {
-        private readonly IRandom800_90 _rand;
-        private readonly IIkeV2 _algo;
+        private readonly IOracle _oracle;
 
         public int NumberOfTestCasesToGenerate { get; private set; } = 100;
 
-        public TestCaseGenerator(IRandom800_90 rand, IIkeV2 algo)
+        public TestCaseGenerator(IOracle oracle)
         {
-            _rand = rand;
-            _algo = algo;
+            _oracle = oracle;
         }
 
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
+        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample)
         {
             if (isSample)
             {
                 NumberOfTestCasesToGenerate = 20;
             }
 
-            var testCase = new TestCase
+            var param = new IkeV2KdfParameters
             {
-                NInit = _rand.GetRandomBitString(group.NInitLength),
-                NResp = _rand.GetRandomBitString(group.NRespLength),
-                Gir = _rand.GetRandomBitString(group.GirLength),
-                GirNew = _rand.GetRandomBitString(group.GirLength),
-                SpiInit = _rand.GetRandomBitString(64),
-                SpiResp = _rand.GetRandomBitString(64),
+                HashAlg = group.HashAlg,
+                GirLength = group.GirLength,
+                NRespLength = group.NRespLength,
+                NInitLength = group.NInitLength,
+                DerivedKeyingMaterialLength = group.DerivedKeyingMaterialLength
             };
 
-            return Generate(group, testCase);
-        }
-
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
-        {
-            IkeResult ikeResult = null;
             try
             {
-                ikeResult = _algo.GenerateIke(testCase.NInit, testCase.NResp, testCase.Gir, testCase.GirNew, testCase.SpiInit, testCase.SpiResp, group.DerivedKeyingMaterialLength);
-                if (!ikeResult.Success)
+                var result = await _oracle.GetIkeV2KdfCaseAsync(param);
+
+                var testCase = new TestCase
                 {
-                    ThisLogger.Warn(ikeResult.ErrorMessage);
-                    return new TestCaseGenerateResponse<TestGroup, TestCase>(ikeResult.ErrorMessage);
-                }
+                    NResp = result.NResp,
+                    NInit = result.NInit,
+                    DerivedKeyingMaterial = result.DerivedKeyingMaterial,
+                    DerivedKeyingMaterialChild = result.DerivedKeyingMaterialChild,
+                    DerivedKeyingMaterialDh = result.DerivedKeyingMaterialDh,
+                    Gir = result.Gir,
+                    GirNew = result.GirNew,
+                    SKeySeed = result.SKeySeed,
+                    SKeySeedReKey = result.SKeySeedReKey,
+                    SpiInit = result.SpiInit,
+                    SpiResp = result.SpiResp
+                };
+
+                return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
             }
             catch (Exception ex)
             {
-                ThisLogger.Error(ex.StackTrace);
-                return new TestCaseGenerateResponse<TestGroup, TestCase>(ex.Message);
+                ThisLogger.Error(ex);
+                return new TestCaseGenerateResponse<TestGroup, TestCase>($"Failed to generate. {ex.Message}");
             }
-
-            testCase.SKeySeed = ikeResult.SKeySeed;
-            testCase.DerivedKeyingMaterial = ikeResult.DKM;
-            testCase.DerivedKeyingMaterialChild = ikeResult.DKMChildSA;
-            testCase.DerivedKeyingMaterialDh = ikeResult.DKMChildSADh;
-            testCase.SKeySeedReKey = ikeResult.SKeySeedReKey;
-
-            return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
         }
 
-        private Logger ThisLogger => LogManager.GetCurrentClassLogger();
+        private ILogger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }

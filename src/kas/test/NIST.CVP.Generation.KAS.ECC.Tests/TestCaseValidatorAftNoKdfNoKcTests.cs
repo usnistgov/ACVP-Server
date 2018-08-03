@@ -1,8 +1,10 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using Moq;
 using NIST.CVP.Crypto.Common.KAS;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.Async;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -13,12 +15,12 @@ namespace NIST.CVP.Generation.KAS.ECC.Tests
     public class TestCaseValidatorAftNoKdfNoKcTests
     {
         private TestCaseValidatorAftNoKdfNoKc _subject;
-        private Mock<IDeferredTestCaseResolver<TestGroup, TestCase, KasResult>> _deferredResolver;
+        private Mock<IDeferredTestCaseResolverAsync<TestGroup, TestCase, KasResult>> _deferredResolver;
 
         [SetUp]
         public void Setup()
         {
-            _deferredResolver = new Mock<IDeferredTestCaseResolver<TestGroup, TestCase, KasResult>>();
+            _deferredResolver = new Mock<IDeferredTestCaseResolverAsync<TestGroup, TestCase, KasResult>>();
         }
 
         [Test]
@@ -42,18 +44,18 @@ namespace NIST.CVP.Generation.KAS.ECC.Tests
 
         [TestCase(EccScheme.StaticUnified, KeyAgreementRole.InitiatorPartyU)]
         [TestCase(EccScheme.StaticUnified, KeyAgreementRole.ResponderPartyV)]
-        public void ShouldSucceedValidation(EccScheme scheme, KeyAgreementRole kasRole)
+        public async Task ShouldSucceedValidation(EccScheme scheme, KeyAgreementRole kasRole)
         {
             var testGroup = GetData(scheme, kasRole);
-            var testCase = (TestCase)testGroup.Tests[0];
+            var testCase = testGroup.Tests[0];
 
             _subject = new TestCaseValidatorAftNoKdfNoKc(testCase, testGroup, _deferredResolver.Object);
             
             _deferredResolver
-                .Setup(s => s.CompleteDeferredCrypto(testGroup, testCase, testCase))
-                .Returns(new KasResult(testCase.Z, testCase.HashZ));
+                .Setup(s => s.CompleteDeferredCryptoAsync(testGroup, testCase, testCase))
+                .Returns(Task.FromResult(new KasResult(testCase.Z, testCase.HashZ)));
 
-            var result = _subject.Validate(testCase);
+            var result = await _subject.ValidateAsync(testCase);
 
             Assert.IsTrue(result.Result == Core.Enums.Disposition.Passed);
         }
@@ -79,15 +81,15 @@ namespace NIST.CVP.Generation.KAS.ECC.Tests
 
         //[TestCase(EccScheme.StaticUnified, KeyAgreementRole.InitiatorPartyU)]
         //[TestCase(EccScheme.StaticUnified, KeyAgreementRole.ResponderPartyV)]
-        public void ShouldFailWhenIutDoesNotProvideEphemeralKeyPair(EccScheme scheme, KeyAgreementRole kasRole)
+        public async Task ShouldFailWhenIutDoesNotProvideEphemeralKeyPair(EccScheme scheme, KeyAgreementRole kasRole)
         {
             var testGroup = GetData(scheme, kasRole);
-            var testCase = (TestCase)testGroup.Tests[0];
+            var testCase = testGroup.Tests[0];
             testCase.EphemeralPublicKeyIutX = 0;
 
             _subject = new TestCaseValidatorAftNoKdfNoKc(testCase, testGroup, _deferredResolver.Object);
 
-            var result = _subject.Validate(testCase);
+            var result = await _subject.ValidateAsync(testCase);
 
             Assert.IsTrue(result.Result == Core.Enums.Disposition.Failed);
         }
@@ -113,15 +115,15 @@ namespace NIST.CVP.Generation.KAS.ECC.Tests
 
         [TestCase(EccScheme.StaticUnified, KeyAgreementRole.InitiatorPartyU)]
         [TestCase(EccScheme.StaticUnified, KeyAgreementRole.ResponderPartyV)]
-        public void ShouldFailWhenIutDoesNotProvideStaticKeyPair(EccScheme scheme, KeyAgreementRole kasRole)
+        public async Task ShouldFailWhenIutDoesNotProvideStaticKeyPair(EccScheme scheme, KeyAgreementRole kasRole)
         {
             var testGroup = GetData(scheme, kasRole);
-            var testCase = (TestCase)testGroup.Tests[0];
+            var testCase = testGroup.Tests[0];
             testCase.StaticPublicKeyIutX = 0;
 
             _subject = new TestCaseValidatorAftNoKdfNoKc(testCase, testGroup, _deferredResolver.Object);
 
-            var result = _subject.Validate(testCase);
+            var result = await _subject.ValidateAsync(testCase);
 
             Assert.IsTrue(result.Result == Core.Enums.Disposition.Failed);
         }
@@ -147,16 +149,16 @@ namespace NIST.CVP.Generation.KAS.ECC.Tests
 
         [TestCase(EccScheme.StaticUnified, KeyAgreementRole.InitiatorPartyU)]
         [TestCase(EccScheme.StaticUnified, KeyAgreementRole.ResponderPartyV)]
-        public void ShouldFailWhenIutDoesNotProvideHashZ(EccScheme scheme, KeyAgreementRole kasRole)
+        public async Task ShouldFailWhenIutDoesNotProvideHashZ(EccScheme scheme, KeyAgreementRole kasRole)
         {
             var testGroup = GetData(scheme, kasRole);
-            var testCase = (TestCase)testGroup.Tests[0];
+            var testCase = testGroup.Tests[0];
             
             testCase.HashZ = null;
 
             _subject = new TestCaseValidatorAftNoKdfNoKc(testCase, testGroup, _deferredResolver.Object);
 
-            var result = _subject.Validate(testCase);
+            var result = await _subject.ValidateAsync(testCase);
 
             Assert.IsTrue(result.Result == Core.Enums.Disposition.Failed);
         }
@@ -182,21 +184,21 @@ namespace NIST.CVP.Generation.KAS.ECC.Tests
 
         [TestCase(EccScheme.StaticUnified, KeyAgreementRole.InitiatorPartyU)]
         [TestCase(EccScheme.StaticUnified, KeyAgreementRole.ResponderPartyV)]
-        public void ShouldFailWhenMismatchedHashZ(EccScheme scheme, KeyAgreementRole kasRole)
+        public async Task ShouldFailWhenMismatchedHashZ(EccScheme scheme, KeyAgreementRole kasRole)
         {
             var testGroup = GetData(scheme, kasRole);
-            var testCase = (TestCase)testGroup.Tests[0];
+            var testCase = testGroup.Tests[0];
 
             BitString newValue = testCase.HashZ.GetDeepCopy();
             newValue[0] += 2;
 
             _deferredResolver
-                .Setup(s => s.CompleteDeferredCrypto(testGroup, testCase, testCase))
-                .Returns(new KasResult(testCase.Z, newValue));
+                .Setup(s => s.CompleteDeferredCryptoAsync(testGroup, testCase, testCase))
+                .Returns(Task.FromResult(new KasResult(testCase.Z, newValue)));
 
             _subject = new TestCaseValidatorAftNoKdfNoKc(testCase, testGroup, _deferredResolver.Object);
 
-            var result = _subject.Validate(testCase);
+            var result = await _subject.ValidateAsync(testCase);
 
             Assert.IsTrue(result.Result == Core.Enums.Disposition.Failed);
         }

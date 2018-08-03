@@ -1,26 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
+﻿using NIST.CVP.Common.Oracle;
 using NIST.CVP.Generation.Core;
+using System.Collections.Generic;
 
 namespace NIST.CVP.Generation.DSA.ECC.SigGen
 {
     public class TestGroupGeneratorFactory : ITestGroupGeneratorFactory<Parameters, TestGroup, TestCase>
     {
-        private readonly IDsaEccFactory _eccDsaFactory;
-        private readonly IEccCurveFactory _curveFactory;
+        private readonly IOracle _oracle;
 
-        public TestGroupGeneratorFactory(IDsaEccFactory eccDsaFactory, IEccCurveFactory curveFactory)
+        public TestGroupGeneratorFactory(IOracle oracle)
         {
-            _eccDsaFactory = eccDsaFactory;
-            _curveFactory = curveFactory;
+            _oracle = oracle;
         }
 
         public IEnumerable<ITestGroupGenerator<Parameters, TestGroup, TestCase>> GetTestGroupGenerators()
         {
             var list = new HashSet<ITestGroupGenerator<Parameters, TestGroup, TestCase>>
             {
-                new TestGroupGenerator(_eccDsaFactory, _curveFactory)
+                new TestGroupGenerator(_oracle)
             };
 
             return list;

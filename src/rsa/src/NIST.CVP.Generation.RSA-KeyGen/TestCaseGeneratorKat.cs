@@ -5,10 +5,12 @@ using NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys;
 using NIST.CVP.Generation.Core;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.RSA_KeyGen
 {
-    public class TestCaseGeneratorKat : ITestCaseGenerator<TestGroup, TestCase>
+    public class TestCaseGeneratorKat : ITestCaseGeneratorAsync<TestGroup, TestCase>
     {
         private readonly List<AlgoArrayResponseKey> _kats;
         private readonly IOracle _oracle;
@@ -27,13 +29,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen
             }
         }
 
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
-        {
-            var testCase = new TestCase();
-            return Generate(group, testCase);
-        }
-
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
+        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample)
         {
             if (_katsIndex + 1 > _kats.Count)
             {
@@ -58,9 +54,14 @@ namespace NIST.CVP.Generation.RSA_KeyGen
                 }
             };
 
-            testCase.Key = _oracle.CompleteKey(keyResult, group.KeyFormat).Key;
-            testCase.TestPassed = !currentKat.FailureTest;
-            
+            var result = await _oracle.CompleteKeyAsync(keyResult, group.KeyFormat);
+
+            TestCase testCase = new TestCase
+            {
+                Key = result.Key,
+                TestPassed = !currentKat.FailureTest
+            };
+
             return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
         }
     }

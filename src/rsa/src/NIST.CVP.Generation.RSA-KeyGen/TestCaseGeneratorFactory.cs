@@ -1,10 +1,10 @@
 ﻿using NIST.CVP.Common.Oracle;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.RSA_KeyGen
 {
-    public class TestCaseGeneratorFactory : ITestCaseGeneratorFactory<TestGroup, TestCase>
+    public class TestCaseGeneratorFactory : ITestCaseGeneratorFactoryAsync<TestGroup, TestCase>
     {
         private readonly IOracle _oracle;
 
@@ -13,7 +13,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen
             _oracle = oracle;
         }
 
-        public ITestCaseGenerator<TestGroup, TestCase> GetCaseGenerator(TestGroup testGroup)
+        public ITestCaseGeneratorAsync<TestGroup, TestCase> GetCaseGenerator(TestGroup testGroup)
         {
             switch (testGroup.TestType.ToLower())
             {

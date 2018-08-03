@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Generation.CMAC;
+﻿using System.Threading.Tasks;
+using NIST.CVP.Generation.CMAC;
 using NIST.CVP.Generation.CMAC.AES;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
@@ -12,50 +13,50 @@ namespace NIST.CVP.Generation.CMAC_AES.Tests
         private TestCaseValidatorVer<TestGroup, TestCase> _subject;
 
         [Test]
-        public void ShouldValidateIfExpectedAndSuppliedResultsMatch()
+        public async Task ShouldValidateIfExpectedAndSuppliedResultsMatch()
         {
             var testCase = GetTestCase();
             _subject = new TestCaseValidatorVer<TestGroup, TestCase>(testCase);
-            var result = _subject.Validate(testCase);
+            var result = await _subject.ValidateAsync(testCase);
             Assume.That(result != null);
             Assert.AreEqual(Core.Enums.Disposition.Passed, result.Result);
         }
 
         [Test]
-        public void ShouldFailIfResultDoesNotMatch()
+        public async Task ShouldFailIfResultDoesNotMatch()
         {
             var testCase = GetTestCase();
             testCase.TestPassed = true;
             _subject = new TestCaseValidatorVer<TestGroup, TestCase>(testCase);
             var suppliedResult = GetTestCase();
             suppliedResult.TestPassed = false;
-            var result = _subject.Validate(suppliedResult);
+            var result = await _subject.ValidateAsync(suppliedResult);
             Assume.That(result != null);
             Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
         }
 
         [Test]
-        public void ShouldThrowErrorWhenReasonNotPresent()
+        public async Task ShouldThrowErrorWhenReasonNotPresent()
         {
             var testCase = GetTestCase();
             testCase.TestPassed = true;
             _subject = new TestCaseValidatorVer<TestGroup, TestCase>(testCase);
             var suppliedResult = GetTestCase();
             suppliedResult.TestPassed = null;
-            var result = _subject.Validate(suppliedResult);
+            var result = await _subject.ValidateAsync(suppliedResult);
             Assume.That(result != null);
             Assert.IsTrue(Core.Enums.Disposition.Failed == result.Result);
         }
         
         [Test]
-        public void ShouldShowResultAsReasonIfItDoesNotMatch()
+        public async Task ShouldShowResultAsReasonIfItDoesNotMatch()
         {
             var testCase = GetTestCase();
             testCase.TestPassed = true;
             _subject = new TestCaseValidatorVer<TestGroup, TestCase>(testCase);
             var suppliedResult = GetTestCase();
             suppliedResult.TestPassed = false;
-            var result = _subject.Validate(suppliedResult);
+            var result = await _subject.ValidateAsync(suppliedResult);
             Assume.That(result != null);
             Assert.IsTrue(Core.Enums.Disposition.Failed == result.Result);
         }

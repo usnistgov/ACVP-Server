@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using NIST.CVP.Generation.DSA.ECC.SigVer.Enums;
+﻿using System.Threading.Tasks;
+using NIST.CVP.Common.Oracle.DispositionTypes;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
@@ -13,10 +11,10 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer.Tests
         [Test]
         [TestCase(true, true)]
         [TestCase(false, false)]
-        public void ShouldRunVerifyMethodAndSucceedWithGoodTest(bool expected, bool supplied)
+        public async Task ShouldRunVerifyMethodAndSucceedWithGoodTest(bool expected, bool supplied)
         {
             var subject = new TestCaseValidator(GetResultTestCase(expected));
-            var result = subject.Validate(GetResultTestCase(supplied));
+            var result = await subject.ValidateAsync(GetResultTestCase(supplied));
 
             Assert.AreEqual(Core.Enums.Disposition.Passed, result.Result);
         }
@@ -24,10 +22,10 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer.Tests
         [Test]
         [TestCase(true, false)]
         [TestCase(false, true)]
-        public void ShouldRunVerifyMethodAndFailWithBadTest(bool expected, bool supplied)
+        public async Task ShouldRunVerifyMethodAndFailWithBadTest(bool expected, bool supplied)
         {
             var subject = new TestCaseValidator(GetResultTestCase(expected));
-            var result = subject.Validate(GetResultTestCase(supplied));
+            var result = await subject.ValidateAsync(GetResultTestCase(supplied));
 
             Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
         }
@@ -38,7 +36,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer.Tests
             {
                 TestCaseId = 1,
                 TestPassed = shouldPass,   // Says the test Core.Enums.Disposition.Passed
-                Reason = SigFailureReasons.ModifyMessage    // Only matters in the failure event
+                Reason = EcdsaSignatureDisposition.ModifyMessage    // Only matters in the failure event
             };
         }
     }

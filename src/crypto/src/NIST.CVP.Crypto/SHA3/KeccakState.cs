@@ -1,4 +1,5 @@
 ﻿using NIST.CVP.Math;
+using System;
 
 namespace NIST.CVP.Crypto.SHA3
 {
@@ -9,54 +10,71 @@ namespace NIST.CVP.Crypto.SHA3
         private const int GridSize = 25;
         public readonly int Width;              
         public readonly int L;
+        
+        private ulong[,] _state;
 
-        private readonly BitString[,] _state;
+        private int[,] _offsets;
+        private ulong[,] _workingStateChi = new ulong[5, 5];
+        private ulong[,] _workingStatePi = new ulong[5, 5];
+
 
         public KeccakState(BitString content, int b)        // b is always 1600 but keep it flexible for future
         {
             Width = b / GridSize;
             L = (int)System.Math.Log(Width, 2);
-            _state = new BitString[RowSize, ColSize];
+            _state = new ulong[RowSize, ColSize];
+
+
+            // done for better speed when using b as 1600
+            if (b == 1600)
+            {
+                _offsets = new int[5, 5] { 
+                    { 0, 36, 3, 41, 18 },
+                    { 1, 44, 10, 45, 2 }, 
+                    { 62, 6, 43, 15, 61 }, 
+                    { 28, 55, 25, 21, 56 },
+                    { 27, 20, 39, 8, 14 }
+                };
+            }
+            else
+            {
+                _offsets = new int[5, 5];
+
+                int x = 1, y = 0;
+
+                for (var t = 0; t < 24; t++)
+                {
+                    _offsets[x, y] = ((t + 1) * (t + 2) / 2) % Width;
+                    var newX = (0 * x + 1 * y) % 5;
+                    var newY = (2 * x + 3 * y) % 5;
+                    x = newX;
+                    y = newY;
+                }
+            }
 
             for (var x = 0; x < RowSize; x++)
             {
                 for (var y = 0; y < ColSize; y++)
                 {
-                    _state[x, y] = content.MSBSubstring((x + RowSize * y) * Width, Width);
+                    _state[x, y] = BitStringToLong(content.MSBSubstring((x + RowSize * y) * Width, Width));
                 }
             }
         }
 
-        public KeccakState(KeccakState old)
+        public bool GetBit(int x, int y, int z)
         {
-            Width = old.Width;
-            L = old.L;
-            _state = new BitString[RowSize, ColSize];
-
-            for (var x = 0; x < RowSize; x++)
-            {
-                for (var y = 0; y < ColSize; y++)
-                {
-                    _state[x, y] = old.GetLane(x, y);
-                }
-            }
-        }
-
-        public BitString GetBit(int x, int y, int z)
-        {
-            return GetLane(x, y).MSBSubstring(z, 1);
+            return (_state[x, y] & (ulong)(1 << z - 1)) != 0;
         }
 
         public void SetBit(int x, int y, int z, bool bit)
         {
-            var newBits = _state[x, y].Bits;
-            newBits[z] = bit;
-            _state[x, y] = new BitString(newBits);
+            ulong mask = ((ulong)1 << z);
+            _state[x, y] = bit ? _state[x, y] | mask : _state[x, y] & ~mask;
         }
 
         public void SetLane(int x, int y, BitString lane)
         {
-            _state[x, y] = lane.GetDeepCopy();
+            _state[x, y] = BitStringToLong(lane);
         }
 
         public BitString ToBitString()
@@ -77,157 +95,115 @@ namespace NIST.CVP.Crypto.SHA3
 
             for (var i = 0; i < RowSize; i++)
             {
-                result = BitString.ConcatenateBits(result, _state[i, plane]);
+                result = BitString.ConcatenateBits(result, new BitString(BitConverter.GetBytes(_state[i, plane]), Width));
             }
 
             return result;
         }
-
+        
         public BitString GetLane(int x, int y)
         {
-            return _state[x, y];
+            return new BitString(BitConverter.GetBytes(_state[x, y]));
         }
 
         #region Transformation Functions
-        public static KeccakState Iota(KeccakState A, int roundIdx)
+
+        public KeccakState Iota(int roundIdx)
         {
-            var A_prime = new KeccakState(A);
+            ulong rc = 0;
 
-            var rc = new BitString(A.Width);
-
-            for (var j = 0; j <= A.L; j++)
+            for (var j = 0; j <= L; j++)
             {
                 var idx = (int)System.Math.Pow(2, j) - 1;
-                rc.Set(idx, RC(7 * roundIdx + j));
+                var bit = RC(7 * roundIdx + j);
+                ulong mask = ((ulong)1 << idx);
+                rc = bit ? rc | mask : rc & ~mask;
             }
 
-            rc = BitString.ReverseByteOrder(rc);
-
-            A_prime.SetLane(0, 0, BitString.XOR(A.GetLane(0, 0), rc));
-            return A_prime;
+            _state[0, 0] = _state[0, 0] ^ rc;
+            return this;
         }
 
-        public static KeccakState Chi(KeccakState A)
+        public KeccakState Chi()
         {
-            var A_prime = new KeccakState(A);
-
             for (var x = 0; x < 5; x++)
             {
                 for (var y = 0; y < 5; y++)
                 {
-                    var intermediate = BitString.AND(BitString.XOR(A.GetLane((x + 1) % 5, y), BitString.Ones(A.Width)), A.GetLane((x + 2) % 5, y));
-                    A_prime.SetLane(x, y, BitString.XOR(A.GetLane(x, y), intermediate));
+                    var intermediate = (_state[(x + 1) % 5, y] ^ ulong.MaxValue) & _state[(x + 2) % 5, y];
+                    _workingStateChi[x, y] = _state[x, y] ^ intermediate;
                 }
             }
+            _state = _workingStateChi;
 
-            return A_prime;
+            return this;
         }
 
-        public static KeccakState Pi(KeccakState A)
+        public KeccakState Pi()
         {
-            var A_prime = new KeccakState(A);
-
             for (var x = 0; x < 5; x++)
             {
                 for (var y = 0; y < 5; y++)
                 {
-                    A_prime.SetLane(x, y, A.GetLane((x + 3 * y) % 5, x));
+                    _workingStatePi[x, y] = _state[(x + 3 * y) % 5, x];
                 }
             }
+            _state = _workingStatePi;
 
-            return A_prime;
+            return this;
         }
 
-        public static KeccakState Rho(KeccakState A)
+        public KeccakState Rho()
         {
-            var A_prime = new KeccakState(A);
-            var offsets = RhoOffsets(A.Width);
-
             for (var x = 0; x < 5; x++)
             {
                 for (var y = 0; y < 5; y++)
                 {
-                    A_prime.SetLane(x, y, KeccakRotateLeft(A.GetLane(x, y), offsets[x, y]));
+                    var input = _state[x, y];
+                    var distance = _offsets[x, y];
+                    _state[x, y] =  (input << distance) | (input >> (64 - distance));
                 }
             }
 
-            return A_prime;
+            return this;
         }
 
-        public static KeccakState Theta(KeccakState A)
+        public KeccakState Theta()
         {
-            var A_prime = new KeccakState(A);
-            var C = new BitString[5];
-            var D = new BitString[5];
+            var C = new ulong[5];
+            var D = new ulong[5];
 
             for (var x = 0; x < 5; x++)
             {
-                C[x] = new BitString(A.Width);
+                C[x] = (ulong)0;
                 for (var y = 0; y < 5; y++)
                 {
-                    C[x] = BitString.XOR(C[x], A.GetLane(x, y));
+                    C[x] = C[x] ^ _state[x, y];
                 }
             }
 
-            var E = new BitString[5];
-            var F = new BitString[5];
+            var E = new ulong[5];
+            var F = new ulong[5];
             for (var x = 0; x < 5; x++)
             {
                 F[x] = C[(x + 1) % 5];
-                E[x] = KeccakRotateLeft(F[x], 1);
-                //E[x] = BitString.MSBRotate(F[x], 1);
-                D[x] = BitString.XOR(C[(x - 1 + 5) % 5], E[x]);
+                E[x] = (F[x] << 1) | (F[x] >> 63);
+                D[x] = C[(x - 1 + 5) % 5] ^ E[x];
             }
-
-            //string e0 = E[0].ToHex();
-            //string e1 = E[1].ToHex();
-            //string e2 = E[2].ToHex();
-            //string e3 = E[3].ToHex();
-            //string e4 = E[4].ToHex();
-
-            //string f0 = F[0].ToHex();
-            //string f1 = F[1].ToHex();
-            //string f2 = F[2].ToHex();
-            //string f3 = F[3].ToHex();
-            //string f4 = F[4].ToHex();
-
-            //throw new Exception($"{f0}\n{f1}\n{f2}\n{f3}\n{f4}\n\n\n{e0}\n{e1}\n{e2}\n{e3}\n{e4}");
 
             for (var x = 0; x < 5; x++)
             {
                 for (var y = 0; y < 5; y++)
                 {
-                    A_prime.SetLane(x, y, BitString.XOR(A_prime.GetLane(x, y), D[x]));
+                    _state[x, y] =  _state[x, y] ^ D[x];
                 }
             }
 
-            return A_prime;
+            return this;
         }
         #endregion Transformation Functions
 
         #region Helpers
-        private static BitString KeccakRotateLeft(BitString input, int distance)
-        {
-            // This will ALWAYS work because the bitlength will be a multiple of 8
-            return BitString.ReverseByteOrder(BitString.MSBRotate(BitString.ReverseByteOrder(input), distance));
-        }
-
-        private static int[,] RhoOffsets(int Width)
-        {
-            var offsets = new int[5, 5];
-            int x = 1, y = 0;
-
-            for (var t = 0; t < 24; t++)
-            {
-                offsets[x, y] = ((t + 1) * (t + 2) / 2) % Width;
-                var newX = (0 * x + 1 * y) % 5;
-                var newY = (2 * x + 3 * y) % 5;
-                x = newX;
-                y = newY;
-            }
-
-            return offsets;
-        }
 
         private static bool RC(int t)
         {
@@ -237,30 +213,45 @@ namespace NIST.CVP.Crypto.SHA3
                 return true;
             }
 
-            // R = 1000 0000
-            var R = new bool[9];
-            R[0] = true;
-            R[1] = R[2] = R[3] = R[4] = R[5] = R[6] = R[7] = false;
+            byte R = 0b10000000;
+            byte prev_R;
 
             for (var i = 0; i < iterations; i++)
             {
-                // R = 0 || R
-                for (var j = 8; j > 0; j--)
-                {
-                    // Truncation happens silently
-                    R[j] = R[j - 1];
-                }
-                R[0] = false;
+                prev_R = R;
+                R = (byte)(R >> 1);
 
                 // XORs
-                R[0] = (R[0] != R[8]);
-                R[4] = (R[4] != R[8]);
-                R[5] = (R[5] != R[8]);
-                R[6] = (R[6] != R[8]);
+                var R_8 = (prev_R & 1) != 0;
+                R = (R_8 != ((R & 0b10000000) != 0) ? R |= 0b10000000 : R &= 0b01111111);
+                R = (R_8 != ((R & 0b00001000) != 0) ? R |= 0b00001000 : R &= 0b11110111);
+                R = (R_8 != ((R & 0b00000100) != 0) ? R |= 0b00000100 : R &= 0b11111011);
+                R = (R_8 != ((R & 0b00000010) != 0) ? R |= 0b00000010 : R &= 0b11111101);
             }
-
-            return R[0];
+            return (R & 0b10000000) != 0;
         }
         #endregion Helpers
+
+        private static ulong BitStringToLong(BitString bitString)
+        {
+            var bytes = bitString.ToBytes();
+            if (bytes.Length < 8)
+            {
+                byte[] bytesCopy = new byte[8];
+                for (int i = 0; i < 8; i++)
+                {
+                    if (i < bytes.Length)
+                    {
+                        bytesCopy[i] = bytes[i];
+                    }
+                    else
+                    {
+                        bytesCopy[i] = 0;
+                    }
+                }
+                return BitConverter.ToUInt64(bytesCopy, 0);
+            }
+            return BitConverter.ToUInt64(bytes, 0);
+        }
     }
 }

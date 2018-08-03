@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Moq;
 using NIST.CVP.Crypto.Common.Symmetric;
-using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.Async;
 using NIST.CVP.Generation.Core.Enums;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
@@ -15,13 +14,13 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
     public class TestCaseValidatorCounterEncryptTests
     {
         [Test]
-        public void ShouldFailIfNoCipherTextIsPresent()
+        public async Task ShouldFailIfNoCipherTextIsPresent()
         {
             var suppliedTestCase = GetTestCase();
             suppliedTestCase.CipherText = null;
 
             var subject = new TestCaseValidatorCounterEncrypt(GetTestGroup(), GetTestCase(), GetDeferredResolver().Object);
-            var result = subject.Validate(suppliedTestCase);
+            var result = await subject.ValidateAsync(suppliedTestCase);
 
             Assert.IsNotNull(result);
             Assert.AreEqual(Disposition.Failed, result.Result);
@@ -29,15 +28,15 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
         }
 
         [Test]
-        public void ShouldFailIfDeferredResolverFails()
+        public async Task ShouldFailIfDeferredResolverFails()
         {
             var deferredMock = GetDeferredResolver();
             deferredMock
-                .Setup(s => s.CompleteDeferredCrypto(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()))
-                .Returns(new SymmetricCounterResult("fail"));
+                .Setup(s => s.CompleteDeferredCryptoAsync(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()))
+                .Returns(Task.FromResult(new SymmetricCounterResult("fail")));
 
             var subject = new TestCaseValidatorCounterEncrypt(GetTestGroup(), GetTestCase(), deferredMock.Object);
-            var result = subject.Validate(GetTestCase());
+            var result = await subject.ValidateAsync(GetTestCase());
 
             Assert.IsNotNull(result);
             Assert.AreEqual(Disposition.Failed, result.Result);
@@ -45,18 +44,18 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
         }
 
         [Test]
-        public void ShouldFailIfCipherTextDoesNotMatch()
+        public async Task ShouldFailIfCipherTextDoesNotMatch()
         {
             var suppliedResult = GetTestCase();
             suppliedResult.CipherText = new BitString("BEEFFACEBEEFFACEBEEFFACEBEEFFACE");
 
             var deferredMock = GetDeferredResolver();
             deferredMock
-                .Setup(s => s.CompleteDeferredCrypto(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()))
-                .Returns(new SymmetricCounterResult(GetTestCase().CipherText, new List<BitString> { new BitString("abcd"), new BitString("abcd") }));
+                .Setup(s => s.CompleteDeferredCryptoAsync(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()))
+                .Returns(Task.FromResult(new SymmetricCounterResult(GetTestCase().CipherText, new List<BitString> { new BitString("abcd"), new BitString("abcd") })));
 
             var subject = new TestCaseValidatorCounterEncrypt(GetTestGroup(), GetTestCase(), deferredMock.Object);
-            var result = subject.Validate(suppliedResult);
+            var result = await subject.ValidateAsync(suppliedResult);
 
             Assert.IsNotNull(result);
             Assert.AreEqual(Disposition.Failed, result.Result);
@@ -64,24 +63,24 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
         }
 
         [Test]
-        public void ShouldRunDeferredResolverIfAllComponentsAreInPlace()
+        public async Task ShouldRunDeferredResolverIfAllComponentsAreInPlace()
         {
             var deferredMock = GetDeferredResolver();
             deferredMock
-                .Setup(s => s.CompleteDeferredCrypto(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()))
-                .Returns(new SymmetricCounterResult(GetTestCase().CipherText, new List<BitString> { new BitString("abcd"), new BitString("abcd") }));
+                .Setup(s => s.CompleteDeferredCryptoAsync(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()))
+                .Returns(Task.FromResult(new SymmetricCounterResult(GetTestCase().CipherText, new List<BitString> { new BitString("abcd"), new BitString("abcd") })));
 
             var subject = new TestCaseValidatorCounterEncrypt(GetTestGroup(), GetTestCase(), deferredMock.Object);
-            var result = subject.Validate(GetTestCase());
+            var result = await subject.ValidateAsync(GetTestCase());
 
             Assert.IsNotNull(result);
             
             deferredMock
-                .Verify(v => v.CompleteDeferredCrypto(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()), Times.Once);
+                .Verify(v => v.CompleteDeferredCryptoAsync(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()), Times.Once);
         }
 
         [Test]
-        public void ShouldFailWhenAnIVIsRepeated()
+        public async Task ShouldFailWhenAnIVIsRepeated()
         {
             var suppliedTestCase = new TestCase
             {
@@ -93,15 +92,15 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
 
             var deferredMock = GetDeferredResolver();
             deferredMock
-                .Setup(s => s.CompleteDeferredCrypto(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()))
-                .Returns(new SymmetricCounterResult(suppliedTestCase.CipherText, new List<BitString>
+                .Setup(s => s.CompleteDeferredCryptoAsync(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()))
+                .Returns(Task.FromResult(new SymmetricCounterResult(suppliedTestCase.CipherText, new List<BitString>
                 {
                     new BitString(128),
                     new BitString(128)
-                }));
+                })));
 
             var subject = new TestCaseValidatorCounterEncrypt(GetTestGroup(), suppliedTestCase, deferredMock.Object);
-            var result = subject.Validate(suppliedTestCase);
+            var result = await subject.ValidateAsync(suppliedTestCase);
 
             Assert.IsNotNull(result);
             Assert.AreEqual(Disposition.Failed, result.Result, "Result");
@@ -109,7 +108,7 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
         }
 
         [Test]
-        public void ShouldFailWhenAnIVIsOverflowedWhenItShouldNot()
+        public async Task ShouldFailWhenAnIVIsOverflowedWhenItShouldNot()
         {
             var suppliedTestCase = new TestCase
             {
@@ -127,15 +126,15 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
 
             var deferredMock = GetDeferredResolver();
             deferredMock
-                .Setup(s => s.CompleteDeferredCrypto(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()))
-                .Returns(new SymmetricCounterResult(suppliedTestCase.CipherText, new List<BitString>
+                .Setup(s => s.CompleteDeferredCryptoAsync(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()))
+                .Returns(Task.FromResult(new SymmetricCounterResult(suppliedTestCase.CipherText, new List<BitString>
                 {
                     BitString.Ones(128),
                     BitString.Zeroes(128)
-                }));
+                })));
 
             var subject = new TestCaseValidatorCounterEncrypt(group, suppliedTestCase, deferredMock.Object);
-            var result = subject.Validate(suppliedTestCase);
+            var result = await subject.ValidateAsync(suppliedTestCase);
 
             Assert.IsNotNull(result);
             Assert.AreEqual(Disposition.Failed, result.Result, "Result");
@@ -143,7 +142,7 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
         }
 
         [Test]
-        public void ShouldFailWhenAnIVIsUnderflowedWhenItShouldNot()
+        public async Task ShouldFailWhenAnIVIsUnderflowedWhenItShouldNot()
         {
             var suppliedTestCase = new TestCase
             {
@@ -161,15 +160,15 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
 
             var deferredMock = GetDeferredResolver();
             deferredMock
-                .Setup(s => s.CompleteDeferredCrypto(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()))
-                .Returns(new SymmetricCounterResult(suppliedTestCase.CipherText, new List<BitString>
+                .Setup(s => s.CompleteDeferredCryptoAsync(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()))
+                .Returns(Task.FromResult(new SymmetricCounterResult(suppliedTestCase.CipherText, new List<BitString>
                 {
                     BitString.Zeroes(128),
                     BitString.Ones(128)
-                }));
+                })));
 
             var subject = new TestCaseValidatorCounterEncrypt(group, suppliedTestCase, deferredMock.Object);
-            var result = subject.Validate(suppliedTestCase);
+            var result = await subject.ValidateAsync(suppliedTestCase);
 
             Assert.IsNotNull(result);
             Assert.AreEqual(Disposition.Failed, result.Result, "Result");
@@ -177,7 +176,7 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
         }
 
         [Test]
-        public void ShouldFailWhenNoOverflowOccursWhenItShould()
+        public async Task ShouldFailWhenNoOverflowOccursWhenItShould()
         {
             var suppliedTestCase = new TestCase
             {
@@ -195,15 +194,15 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
 
             var deferredMock = GetDeferredResolver();
             deferredMock
-                .Setup(s => s.CompleteDeferredCrypto(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()))
-                .Returns(new SymmetricCounterResult(suppliedTestCase.CipherText, new List<BitString>
+                .Setup(s => s.CompleteDeferredCryptoAsync(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()))
+                .Returns(Task.FromResult(new SymmetricCounterResult(suppliedTestCase.CipherText, new List<BitString>
                 {
                     BitString.Zeroes(128),
                     BitString.Ones(128)
-                }));
+                })));
 
             var subject = new TestCaseValidatorCounterEncrypt(group, suppliedTestCase, deferredMock.Object);
-            var result = subject.Validate(suppliedTestCase);
+            var result = await subject.ValidateAsync(suppliedTestCase);
 
             Assert.IsNotNull(result);
             Assert.AreEqual(Disposition.Failed, result.Result, "Result");
@@ -211,7 +210,7 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
         }
 
         [Test]
-        public void ShouldFailWhenIVsAreNotSequential()
+        public async Task ShouldFailWhenIVsAreNotSequential()
         {
             var suppliedTestCase = new TestCase
             {
@@ -229,17 +228,17 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
 
             var deferredMock = GetDeferredResolver();
             deferredMock
-                .Setup(s => s.CompleteDeferredCrypto(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()))
-                .Returns(new SymmetricCounterResult(suppliedTestCase.CipherText, new List<BitString>
+                .Setup(s => s.CompleteDeferredCryptoAsync(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()))
+                .Returns(Task.FromResult(new SymmetricCounterResult(suppliedTestCase.CipherText, new List<BitString>
                 {
                     BitString.Zeroes(128),
                     BitString.Zeroes(64).ConcatenateBits(BitString.Ones(64)),
                     BitString.Zeroes(100).ConcatenateBits(BitString.Ones(28)),
                     BitString.Ones(128)
-                }));
+                })));
 
             var subject = new TestCaseValidatorCounterEncrypt(group, suppliedTestCase, deferredMock.Object);
-            var result = subject.Validate(suppliedTestCase);
+            var result = await subject.ValidateAsync(suppliedTestCase);
 
             Assert.IsNotNull(result);
             Assert.AreEqual(Disposition.Failed, result.Result, "Result");
@@ -247,7 +246,7 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
         }
 
         [Test]
-        public void ShouldReportSuccessOnValidTestCaseWithMultipleIVs()
+        public async Task ShouldReportSuccessOnValidTestCaseWithMultipleIVs()
         {
             var suppliedTestCase = new TestCase
             {
@@ -265,8 +264,8 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
 
             var deferredMock = GetDeferredResolver();
             deferredMock
-                .Setup(s => s.CompleteDeferredCrypto(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()))
-                .Returns(new SymmetricCounterResult(suppliedTestCase.CipherText, new List<BitString>
+                .Setup(s => s.CompleteDeferredCryptoAsync(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()))
+                .Returns(Task.FromResult(new SymmetricCounterResult(suppliedTestCase.CipherText, new List<BitString>
                 {
                     BitString.Zeroes(120).ConcatenateBits(BitString.Ones(8)),
                     BitString.Zeroes(100).ConcatenateBits(BitString.Ones(28)),
@@ -274,30 +273,30 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
                     BitString.Ones(128),
                     BitString.Zeroes(128),
                     BitString.Zeroes(127).ConcatenateBits(BitString.Ones(1))
-                }));
+                })));
 
             var subject = new TestCaseValidatorCounterEncrypt(group, suppliedTestCase, deferredMock.Object);
-            var result = subject.Validate(suppliedTestCase);
+            var result = await subject.ValidateAsync(suppliedTestCase);
 
             Assert.IsNotNull(result);
             Assert.AreEqual(Disposition.Passed, result.Result, result.Reason);
         }
 
         [Test]
-        public void ShouldReportSuccessOnValidTestCase()
+        public async Task ShouldReportSuccessOnValidTestCase()
         {
             var goodTestCase = GetTestCase();
 
             var deferredMock = GetDeferredResolver();
             deferredMock
-                .Setup(s => s.CompleteDeferredCrypto(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()))
-                .Returns(new SymmetricCounterResult(goodTestCase.CipherText, new List<BitString>
+                .Setup(s => s.CompleteDeferredCryptoAsync(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()))
+                .Returns(Task.FromResult(new SymmetricCounterResult(goodTestCase.CipherText, new List<BitString>
                 {
                     new BitString(128)
-                }));
+                })));
 
             var subject = new TestCaseValidatorCounterEncrypt(GetTestGroup(), goodTestCase, deferredMock.Object);
-            var result = subject.Validate(goodTestCase);
+            var result = await subject.ValidateAsync(goodTestCase);
 
             Assert.IsNotNull(result);
             Assert.AreEqual(Disposition.Passed, result.Result);
@@ -314,9 +313,9 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
             };
         }
 
-        private Mock<IDeferredTestCaseResolver<TestGroup, TestCase, SymmetricCounterResult>> GetDeferredResolver()
+        private Mock<IDeferredTestCaseResolverAsync<TestGroup, TestCase, SymmetricCounterResult>> GetDeferredResolver()
         {
-            return new Mock<IDeferredTestCaseResolver<TestGroup,TestCase, SymmetricCounterResult>>();
+            return new Mock<IDeferredTestCaseResolverAsync<TestGroup,TestCase, SymmetricCounterResult>>();
         }
 
         private TestGroup GetTestGroup()

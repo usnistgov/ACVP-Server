@@ -5,13 +5,16 @@ using NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.PrimeGenerators;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Math;
+using NIST.CVP.Crypto.RSA;
 using NIST.CVP.Crypto.RSA.Keys;
 using NIST.CVP.Crypto.RSA.PrimeGenerators;
+using NIST.CVP.Crypto.RSA.Signatures;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
 using System;
 using System.Numerics;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Crypto.Oracle
 {
@@ -19,8 +22,8 @@ namespace NIST.CVP.Crypto.Oracle
     {
         private readonly ShaFactory _shaFactory = new ShaFactory();
         private readonly KeyComposerFactory _keyComposerFactory = new KeyComposerFactory();
-        private readonly KeyBuilder  _keyBuilder = new KeyBuilder(new PrimeGeneratorFactory());
-
+        private readonly PaddingFactory _paddingFactory = new PaddingFactory();
+        
         public RsaKeyResult CompleteDeferredRsaKeyCase(RsaKeyParameters param, RsaKeyResult fullParam)
         {
             var entropyProvider = new TestableEntropyProvider();
@@ -92,7 +95,7 @@ namespace NIST.CVP.Crypto.Oracle
             var keyComposer = _keyComposerFactory.GetKeyComposer(param.KeyFormat);
 
             // Configure Prime Generator
-            var keyResult = _keyBuilder
+            var keyResult = new KeyBuilder(new PrimeGeneratorFactory())
                 .WithBitlens(param.BitLens)
                 .WithEntropyProvider(entropyProvider)
                 .WithHashFunction(sha)
@@ -107,7 +110,6 @@ namespace NIST.CVP.Crypto.Oracle
             return (keyResult.Success, keyResult.Key, keyResult.AuxValues);
         }
         
-        // Get an RSA Key from a full set of parameters
         public RsaKeyResult GetRsaKey(RsaKeyParameters param)
         {
             var entropyProvider = new EntropyProvider(_rand);
@@ -115,7 +117,7 @@ namespace NIST.CVP.Crypto.Oracle
             do
             {
                 param.Seed = GetSeed(param.Modulus);
-                param.PublicExponent = param.PublicExponentMode == PublicExponentModes.Fixed ? param.PublicExponent : GetEValue(32, 64);
+                param.PublicExponent = param.PublicExponentMode == PublicExponentModes.Fixed ? param.PublicExponent : GetEValue(RSA_PUBLIC_EXPONENT_BITS_MIN, RSA_PUBLIC_EXPONENT_BITS_MAX);
                 param.BitLens = GetBitlens(param.Modulus, param.KeyMode);
                 
                 // Generate key until success
@@ -129,6 +131,43 @@ namespace NIST.CVP.Crypto.Oracle
                 AuxValues = result.Aux,
                 BitLens = param.BitLens,
                 Seed = param.Seed
+            };
+        }
+
+        public RsaSignaturePrimitiveResult GetRsaSignaturePrimitive(RsaSignaturePrimitiveParameters param)
+        {
+            var keyParam = new RsaKeyParameters
+            {
+                KeyFormat = param.KeyFormat,
+                Modulus = param.Modulo,
+                PrimeTest = PrimeTestModes.C2,
+                PublicExponentMode = PublicExponentModes.Random,
+                KeyMode = PrimeGenModes.B33
+            };
+
+            var key = GetRsaKey(keyParam).Key;
+
+            var shouldPass = _rand.GetRandomInt(0, 2) == 0;
+            BitString message;
+            BitString signature = null;
+            if (shouldPass)
+            {
+                // No failure, get a random 2048-bit value less than N
+                message = new BitString(_rand.GetRandomBigInteger(key.PubKey.N), 2048);
+                signature = new BitString(new Rsa(new RsaVisitor()).Decrypt(message.ToPositiveBigInteger(), key.PrivKey, key.PubKey).PlainText, 2048);
+            }
+            else
+            {
+                // Yes failure, get a random 2048-bit value greater than N
+                message = new BitString(_rand.GetRandomBigInteger(key.PubKey.N, NumberTheory.Pow2(2048)), 2048);
+            }
+
+            return new RsaSignaturePrimitiveResult
+            {
+                Key = key,
+                Message = message,
+                Signature = signature,
+                ShouldPass = shouldPass
             };
         }
 
@@ -157,8 +196,251 @@ namespace NIST.CVP.Crypto.Oracle
             };
         }
 
-        public RsaSignatureResult GetRsaSignature() => throw new NotImplementedException();
-        public VerifyResult<RsaSignatureResult> GetRsaVerify() => throw new NotImplementedException();
+        public RsaSignatureResult GetDeferredRsaSignature(RsaSignatureParameters param)
+        {
+            return new RsaSignatureResult
+            {
+                Message = _rand.GetRandomBitString(param.Modulo / 2)
+            };
+        }
+
+        public RsaSignatureResult GetRsaSignature(RsaSignatureParameters param)
+        {
+            var message = _rand.GetRandomBitString(param.Modulo / 2);
+            var sha = _shaFactory.GetShaInstance(param.HashAlg);
+            var salt = _rand.GetRandomBitString(param.SaltLength * 8);       // Comes in bytes, convert to bits
+            var entropyProvider = new TestableEntropyProvider();
+            entropyProvider.AddEntropy(salt);
+
+            var paddingScheme = _paddingFactory.GetPaddingScheme(param.PaddingScheme, sha, entropyProvider, param.SaltLength);
+
+            var result = new SignatureBuilder()
+                .WithDecryptionScheme(new Rsa(new RsaVisitor()))
+                .WithMessage(message)
+                .WithPaddingScheme(paddingScheme)
+                .WithKey(param.Key)
+                .BuildSign();
+
+            if (!result.Success)
+            {
+                throw new Exception();
+            }
+
+            return new RsaSignatureResult
+            {
+                Message = message,
+                Signature = new BitString(result.Signature),
+                Salt = param.PaddingScheme == SignatureSchemes.Pss ? salt : null
+            };
+        }
+
+        public VerifyResult<RsaSignatureResult> CompleteDeferredRsaSignature(RsaSignatureParameters param, RsaSignatureResult fullParam)
+        {
+            var sha = _shaFactory.GetShaInstance(param.HashAlg);
+            var entropyProvider = new TestableEntropyProvider();
+            entropyProvider.AddEntropy(fullParam.Salt);
+
+            var paddingScheme = _paddingFactory.GetPaddingScheme(param.PaddingScheme, sha, entropyProvider, param.SaltLength);
+
+            var result = new SignatureBuilder()
+                .WithDecryptionScheme(new Rsa(new RsaVisitor()))
+                .WithKey(param.Key)
+                .WithMessage(fullParam.Message)
+                .WithPaddingScheme(paddingScheme)
+                .WithSignature(fullParam.Signature)
+                .BuildVerify();
+
+            return new VerifyResult<RsaSignatureResult>
+            {
+                VerifiedValue = fullParam,
+                Result = result.Success
+            };
+        }
+
+        public VerifyResult<RsaSignatureResult> GetRsaVerify(RsaSignatureParameters param)
+        {
+            var message = _rand.GetRandomBitString(param.Modulo / 2);
+            var sha = _shaFactory.GetShaInstance(param.HashAlg);
+            var salt = _rand.GetRandomBitString(param.SaltLength * 8);      // Comes in bytes, convert to bits
+            var entropyProvider = new TestableEntropyProvider();
+            entropyProvider.AddEntropy(salt);
+
+            var paddingScheme = _paddingFactory.GetSigningPaddingScheme(param.PaddingScheme, sha, param.Reason, entropyProvider, param.SaltLength);
+            
+            var copyKey = new KeyPair
+            {
+                PrivKey = param.Key.PrivKey,
+                PubKey = new PublicKey
+                {
+                    E = param.Key.PubKey.E,
+                    N = param.Key.PubKey.N
+                }
+            };
+
+            var result = new SignatureBuilder()
+                .WithDecryptionScheme(new Rsa(new RsaVisitor()))
+                .WithMessage(message)
+                .WithPaddingScheme(paddingScheme)
+                .WithKey(copyKey)
+                .BuildSign();
+
+            if (!result.Success)
+            {
+                throw new Exception();
+            }
+
+            return new VerifyResult<RsaSignatureResult>
+            {
+                Result = param.Reason == SignatureModifications.None,
+                VerifiedValue = new RsaSignatureResult
+                {
+                    Key = copyKey,
+                    Message = message,
+                    Signature = new BitString(result.Signature),
+                    Salt = param.PaddingScheme == SignatureSchemes.Pss ? salt : null
+                }
+            };
+        }
+
+        public RsaDecryptionPrimitiveResult GetDeferredRsaDecryptionPrimitive(RsaDecryptionPrimitiveParameters param)
+        {
+            return new RsaDecryptionPrimitiveResult
+            {
+                CipherText = param.TestPassed
+                    ? _rand.GetRandomBitString(param.Modulo)
+                    : BitString.Ones(2).ConcatenateBits(_rand.GetRandomBitString(param.Modulo - 2))         // Try to force the failing case high
+            };
+        }
+
+        public RsaDecryptionPrimitiveResult CompleteDeferredRsaDecryptionPrimitive(RsaDecryptionPrimitiveParameters param, RsaDecryptionPrimitiveResult fullParam)
+        {
+            var rsa = new Rsa(new RsaVisitor());
+            var result = rsa.Encrypt(fullParam.PlainText.ToPositiveBigInteger(), fullParam.Key.PubKey);
+            if (result.Success)
+            {
+                return new RsaDecryptionPrimitiveResult
+                {
+                    CipherText = new BitString(result.CipherText, param.Modulo, false),
+                    TestPassed = true
+                };
+            }
+            else
+            {
+                return new RsaDecryptionPrimitiveResult
+                {
+                    TestPassed = false
+                };
+            }
+        }
+
+        public RsaDecryptionPrimitiveResult GetRsaDecryptionPrimitive(RsaDecryptionPrimitiveParameters param)
+        {
+            if (param.TestPassed)
+            {
+                // Correct tests
+                KeyResult keyResult;
+                do
+                {
+                    var e = GetEValue(RSA_PUBLIC_EXPONENT_BITS_MIN, RSA_PUBLIC_EXPONENT_BITS_MAX);
+                    keyResult = new KeyBuilder(new PrimeGeneratorFactory())
+                        .WithPrimeGenMode(PrimeGenModes.B33)
+                        .WithEntropyProvider(new EntropyProvider(_rand))
+                        .WithNlen(param.Modulo)
+                        .WithPublicExponent(e)
+                        .WithPrimeTestMode(PrimeTestModes.C2)
+                        .WithKeyComposer(_keyComposerFactory.GetKeyComposer(PrivateKeyModes.Standard))
+                        .Build();
+                } while (!keyResult.Success);
+
+                var cipherText = new BitString(_rand.GetRandomBigInteger(1, keyResult.Key.PubKey.N - 1));
+                var plainText = new Rsa(new RsaVisitor()).Decrypt(cipherText.ToPositiveBigInteger(), keyResult.Key.PrivKey, keyResult.Key.PubKey).PlainText;
+
+                return new RsaDecryptionPrimitiveResult
+                {
+                    CipherText = cipherText,
+                    Key = keyResult.Key,
+                    PlainText = new BitString(plainText, param.Modulo, false)
+                };
+            }
+            else
+            {
+                // Failure tests - save some time and generate a dummy key
+
+                // Pick a random ciphertext and force a leading '1' (so that it MUST be 2048 bits)
+                var cipherText = BitString.One().ConcatenateBits(_rand.GetRandomBitString(param.Modulo - 1));
+
+                // Pick a random n that is 2048 bits and less than the ciphertext
+                var n = _rand.GetRandomBigInteger(NumberTheory.Pow2(param.Modulo - 1), cipherText.ToPositiveBigInteger());
+                var e = GetEValue(RSA_PUBLIC_EXPONENT_BITS_MIN, RSA_PUBLIC_EXPONENT_BITS_MAX).ToPositiveBigInteger();
+
+                return new RsaDecryptionPrimitiveResult
+                {
+                    CipherText = cipherText,
+                    Key = new KeyPair { PubKey = new PublicKey { E = e, N = n } }
+                };
+            }
+        }
+
+        public async Task<RsaKeyResult> GetRsaKeyAsync(RsaKeyParameters param)
+        {
+            return await _taskFactory.StartNew(() => GetRsaKey(param));
+        }
+
+        public async Task<RsaKeyResult> CompleteKeyAsync(RsaKeyResult param, PrivateKeyModes keyMode)
+        {
+            return await _taskFactory.StartNew(() => CompleteKey(param, keyMode));
+        }
+
+        public async Task<RsaKeyResult> CompleteDeferredRsaKeyCaseAsync(RsaKeyParameters param, RsaKeyResult fullParam)
+        {
+            return await _taskFactory.StartNew(() => CompleteDeferredRsaKeyCase(param, fullParam));
+        }
+
+        public async Task<VerifyResult<RsaKeyResult>> GetRsaKeyVerifyAsync(RsaKeyResult param)
+        {
+            return await _taskFactory.StartNew(() => GetRsaKeyVerify(param));
+        }
+
+        public async Task<RsaSignaturePrimitiveResult> GetRsaSignaturePrimitiveAsync(RsaSignaturePrimitiveParameters param)
+        {
+            return await _taskFactory.StartNew(() => GetRsaSignaturePrimitive(param));
+        }
+
+        public async Task<RsaSignatureResult> GetDeferredRsaSignatureAsync(RsaSignatureParameters param)
+        {
+            return await _taskFactory.StartNew(() => GetDeferredRsaSignature(param));
+        }
+
+        public async Task<VerifyResult<RsaSignatureResult>> CompleteDeferredRsaSignatureAsync(RsaSignatureParameters param, RsaSignatureResult fullParam)
+        {
+            return await _taskFactory.StartNew(() => CompleteDeferredRsaSignature(param, fullParam));
+        }
+
+        public async Task<RsaSignatureResult> GetRsaSignatureAsync(RsaSignatureParameters param)
+        {
+            return await _taskFactory.StartNew(() => GetRsaSignature(param));
+        }
+
+        public async Task<VerifyResult<RsaSignatureResult>> GetRsaVerifyAsync(RsaSignatureParameters param)
+        {
+            return await _taskFactory.StartNew(() => GetRsaVerify(param));
+        }
+
+        public async Task<RsaDecryptionPrimitiveResult> GetDeferredRsaDecryptionPrimitiveAsync(RsaDecryptionPrimitiveParameters param)
+        {
+            return await _taskFactory.StartNew(() => GetDeferredRsaDecryptionPrimitive(param));
+        }
+
+        public async Task<RsaDecryptionPrimitiveResult> CompleteDeferredRsaDecryptionPrimitiveAsync(RsaDecryptionPrimitiveParameters param,
+            RsaDecryptionPrimitiveResult fullParam)
+        {
+            return await _taskFactory.StartNew(() => CompleteDeferredRsaDecryptionPrimitive(param, fullParam));
+        }
+
+        public async Task<RsaDecryptionPrimitiveResult> GetRsaDecryptionPrimitiveAsync(RsaDecryptionPrimitiveParameters param)
+        {
+            return await _taskFactory.StartNew(() => GetRsaDecryptionPrimitive(param));
+        }
 
         private BitString GetEValue(int minLen, int maxLen)
         {

@@ -4,10 +4,12 @@ using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Generation.Core;
 using NLog;
 using System;
+using System.Threading.Tasks;
+using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.AES_CCM
 {
-    public class TestCaseGenerator : ITestCaseGenerator<TestGroup, TestCase>
+    public class TestCaseGenerator : ITestCaseGeneratorAsync<TestGroup, TestCase>
     {
         private readonly IOracle _oracle;
 
@@ -18,7 +20,7 @@ namespace NIST.CVP.Generation.AES_CCM
             _oracle = oracle;
         }
 
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
+        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample)
         {
             // In instances like 2^16 aadLength, we only want to do a single test case.
             if (group.AADLength > 32 * 8)
@@ -35,31 +37,26 @@ namespace NIST.CVP.Generation.AES_CCM
                 TagLength = group.TagLength
             };
 
-            AeadResult oracleResult = null;
             try
             {
-                oracleResult = _oracle.GetAesCcmCase(param);
+                var oracleResult = await _oracle.GetAesCcmCaseAsync(param);
+
+                return new TestCaseGenerateResponse<TestGroup, TestCase>(new TestCase
+                {
+                    AAD = oracleResult.Aad,
+                    CipherText = oracleResult.CipherText,
+                    IV = oracleResult.Iv,
+                    Key = oracleResult.Key,
+                    PlainText = oracleResult.PlainText,
+                });
             }
             catch (Exception ex)
             {
+                ThisLogger.Error(ex);
                 return new TestCaseGenerateResponse<TestGroup, TestCase>($"Failed to generate. {ex.Message}");
             }
-
-            return new TestCaseGenerateResponse<TestGroup, TestCase>(new TestCase
-            {
-                AAD = oracleResult.Aad,
-                CipherText = oracleResult.CipherText,
-                IV = oracleResult.Iv,
-                Key = oracleResult.Key,
-                PlainText = oracleResult.PlainText,
-            });
         }
-
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
-        {
-            return null;
-        }
-
+        
         private Logger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }

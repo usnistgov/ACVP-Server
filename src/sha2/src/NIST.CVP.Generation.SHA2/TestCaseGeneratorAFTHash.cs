@@ -1,13 +1,15 @@
-﻿using System;
-using NIST.CVP.Common.Oracle;
+﻿using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Crypto.Common.Hash.SHA2;
 using NIST.CVP.Generation.Core;
 using NLog;
+using System;
+using System.Threading.Tasks;
+using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.SHA2
 {
-    public class TestCaseGeneratorAFTHash : ITestCaseGenerator<TestGroup, TestCase>
+    public class TestCaseGeneratorAFTHash : ITestCaseGeneratorAsync<TestGroup, TestCase>
     {
         private int _currentSmallCase = 0;
         private int _currentLargeCase = 1;
@@ -21,34 +23,29 @@ namespace NIST.CVP.Generation.SHA2
             _oracle = oracle;
         }
 
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
+        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample)
         {
-            var param = new HashParameters
+            var param = new ShaParameters
             {
                 HashFunction = new HashFunction(group.Function, group.DigestSize),
                 MessageLength = DetermineMessageLength(group.BitOriented, group.IncludeNull, SHAEnumHelpers.DetermineBlockSize(group.DigestSize))
             };
 
-            Common.Oracle.ResultTypes.HashResult oracleResult = null;
             try
             {
-                oracleResult = _oracle.GetShaCase(param);
+                var oracleResult = await _oracle.GetShaCaseAsync(param);
+
+                return new TestCaseGenerateResponse<TestGroup, TestCase>(new TestCase
+                {
+                    Message = oracleResult.Message,
+                    Digest = oracleResult.Digest
+                });
             }
             catch (Exception ex)
             {
+                ThisLogger.Error(ex);
                 return new TestCaseGenerateResponse<TestGroup, TestCase>($"Failed to generate. {ex.Message}");
             }
-
-            return new TestCaseGenerateResponse<TestGroup, TestCase>(new TestCase
-            {
-                Message = oracleResult.Message,
-                Digest = oracleResult.Digest
-            });
-        }
-
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
-        {
-            return null;
         }
 
         private int DetermineMessageLength(bool bitOriented, bool includeNull, int blockSize)
@@ -82,6 +79,6 @@ namespace NIST.CVP.Generation.SHA2
             }
         }
 
-        private Logger ThisLogger => LogManager.GetCurrentClassLogger();
+        private ILogger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }

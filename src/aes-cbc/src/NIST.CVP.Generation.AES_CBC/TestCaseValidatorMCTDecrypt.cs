@@ -1,12 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using NIST.CVP.Crypto.Common.Symmetric;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.Async;
 using NIST.CVP.Generation.Core.Enums;
 
 namespace NIST.CVP.Generation.AES_CBC
 {
-    public class TestCaseValidatorMCTDecrypt : ITestCaseValidator<TestGroup, TestCase>
+    public class TestCaseValidatorMCTDecrypt : ITestCaseValidatorAsync<TestGroup, TestCase>
     {
         private readonly TestCase _expectedResult;
 
@@ -17,7 +19,7 @@ namespace NIST.CVP.Generation.AES_CBC
 
         public int TestCaseId => _expectedResult.TestCaseId;
 
-        public TestCaseValidation Validate(TestCase suppliedResult, bool showExpected)
+        public async Task<TestCaseValidation> ValidateAsync(TestCase suppliedResult, bool showExpected)
         {
             var errors = new List<string>();
             var expected = new Dictionary<string, string>();
@@ -33,16 +35,21 @@ namespace NIST.CVP.Generation.AES_CBC
             
             if (errors.Count > 0)
             {
-                return new TestCaseValidation
+                return await Task.FromResult(new TestCaseValidation
                 {
                     TestCaseId = suppliedResult.TestCaseId,
                     Result = Disposition.Failed,
                     Reason = string.Join("; ", errors), 
                     Expected = expected.Count != 0 && showExpected ? expected : null,
                     Provided = provided.Count != 0 && showExpected ? provided : null
-                };
+                });
             }
-            return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = Disposition.Passed };
+
+            return await Task.FromResult(new TestCaseValidation
+            {
+                TestCaseId = suppliedResult.TestCaseId,
+                Result = Disposition.Passed
+            });
         }
 
         private void ValidateArrayResultPresent(TestCase suppliedResult, List<string> errors)

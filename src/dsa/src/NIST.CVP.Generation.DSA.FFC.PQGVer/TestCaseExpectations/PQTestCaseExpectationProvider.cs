@@ -1,14 +1,13 @@
-﻿using System;
+﻿using NIST.CVP.Common.ExtensionMethods;
+using NIST.CVP.Common.Oracle.DispositionTypes;
+using NIST.CVP.Generation.Core;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using NIST.CVP.Common.ExtensionMethods;
-using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.DSA.FFC.PQGVer.Enums;
 
 namespace NIST.CVP.Generation.DSA.FFC.PQGVer.TestCaseExpectations
 {
-    public class PQTestCaseExpectationProvider : ITestCaseExpectationProvider<PQFailureReasons>
+    public class PQTestCaseExpectationProvider : ITestCaseExpectationProvider<DsaPQDisposition>
     {
         private List<PQTestCaseExpectationReason> _expectationReasons;
 
@@ -21,27 +20,27 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer.TestCaseExpectations
             {
                 var badReasons = new List<PQTestCaseExpectationReason>
                 {
-                    new PQTestCaseExpectationReason(PQFailureReasons.ModifyP),
-                    new PQTestCaseExpectationReason(PQFailureReasons.ModifyQ),
-                    new PQTestCaseExpectationReason(PQFailureReasons.ModifySeed)
+                    new PQTestCaseExpectationReason(DsaPQDisposition.ModifyP),
+                    new PQTestCaseExpectationReason(DsaPQDisposition.ModifyQ),
+                    new PQTestCaseExpectationReason(DsaPQDisposition.ModifySeed)
                 };
 
-                _expectationReasons.Add(new PQTestCaseExpectationReason(PQFailureReasons.None));
+                _expectationReasons.Add(new PQTestCaseExpectationReason(DsaPQDisposition.None));
                 _expectationReasons.Add(badReasons.OrderBy(a => Guid.NewGuid()).First());
             }
             // Otherwise we want everything
             else
             {
-                _expectationReasons.Add(new PQTestCaseExpectationReason(PQFailureReasons.None), 2);
-                _expectationReasons.Add(new PQTestCaseExpectationReason(PQFailureReasons.ModifyP));
-                _expectationReasons.Add(new PQTestCaseExpectationReason(PQFailureReasons.ModifyQ));
-                _expectationReasons.Add(new PQTestCaseExpectationReason(PQFailureReasons.ModifySeed));
+                _expectationReasons.Add(new PQTestCaseExpectationReason(DsaPQDisposition.None), 2);
+                _expectationReasons.Add(new PQTestCaseExpectationReason(DsaPQDisposition.ModifyP));
+                _expectationReasons.Add(new PQTestCaseExpectationReason(DsaPQDisposition.ModifyQ));
+                _expectationReasons.Add(new PQTestCaseExpectationReason(DsaPQDisposition.ModifySeed));
             }
 
             _expectationReasons = _expectationReasons.OrderBy(a => Guid.NewGuid()).ToList();
         }
 
-        public ITestCaseExpectationReason<PQFailureReasons> GetRandomReason()
+        public ITestCaseExpectationReason<DsaPQDisposition> GetRandomReason()
         {
             if (_expectationReasons.Count == 0)
             {

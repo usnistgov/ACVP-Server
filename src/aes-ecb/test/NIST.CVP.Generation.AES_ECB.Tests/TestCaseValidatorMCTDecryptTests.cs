@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using NIST.CVP.Crypto.AES;
+using System.Threading.Tasks;
 using NIST.CVP.Crypto.Common.Symmetric;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
@@ -11,19 +11,19 @@ namespace NIST.CVP.Generation.AES_ECB.Tests
     public class TestCaseValidatorMCTDecryptTests
     {
         [Test]
-        public void ShouldReturnPassWithAllMatches()
+        public async Task ShouldReturnPassWithAllMatches()
         {
             var expected = GetTestCase();
             var supplied = GetTestCase();
             TestCaseValidatorMCTDecrypt subject = new TestCaseValidatorMCTDecrypt(expected);
 
-            var result = subject.Validate(supplied);
+            var result = await subject.ValidateAsync(supplied);
 
             Assert.AreEqual(Core.Enums.Disposition.Passed, result.Result);
         }
 
         [Test]
-        public void ShouldReturnReasonOnMismatchedCipherText()
+        public async Task ShouldReturnReasonOnMismatchedCipherText()
         {
             Random800_90 rand = new Random800_90();
             var expected = GetTestCase();
@@ -33,7 +33,7 @@ namespace NIST.CVP.Generation.AES_ECB.Tests
 
             TestCaseValidatorMCTDecrypt subject = new TestCaseValidatorMCTDecrypt(expected);
 
-            var result = subject.Validate(supplied);
+            var result = await subject.ValidateAsync(supplied);
 
             Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
             Assert.IsTrue(result.Reason.ToLower().Contains("cipher text"), "Reason does not contain the expected Cipher Text");
@@ -42,7 +42,7 @@ namespace NIST.CVP.Generation.AES_ECB.Tests
         }
 
         [Test]
-        public void ShouldReturnReasonOnMismatchedPlainText()
+        public async Task ShouldReturnReasonOnMismatchedPlainText()
         {
             Random800_90 rand = new Random800_90();
             var expected = GetTestCase();
@@ -52,7 +52,7 @@ namespace NIST.CVP.Generation.AES_ECB.Tests
 
             TestCaseValidatorMCTDecrypt subject = new TestCaseValidatorMCTDecrypt(expected);
 
-            var result = subject.Validate(supplied);
+            var result = await subject.ValidateAsync(supplied);
 
             Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
             Assert.IsFalse(result.Reason.ToLower().Contains("cipher text"), "Reason contains the unexpected value Cipher Text");
@@ -61,7 +61,7 @@ namespace NIST.CVP.Generation.AES_ECB.Tests
         }
 
         [Test]
-        public void ShouldReturnReasonOnMismatchedKey()
+        public async Task ShouldReturnReasonOnMismatchedKey()
         {
             Random800_90 rand = new Random800_90();
             var expected = GetTestCase();
@@ -71,7 +71,7 @@ namespace NIST.CVP.Generation.AES_ECB.Tests
 
             TestCaseValidatorMCTDecrypt subject = new TestCaseValidatorMCTDecrypt(expected);
 
-            var result = subject.Validate(supplied);
+            var result = await subject.ValidateAsync(supplied);
 
             Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
             Assert.IsFalse(result.Reason.ToLower().Contains("cipher text"), "Reason contains the unexpected value Cipher Text");
@@ -80,7 +80,7 @@ namespace NIST.CVP.Generation.AES_ECB.Tests
         }
 
         [Test]
-        public void ShouldReturnReasonWithMultipleErrorReasons()
+        public async Task ShouldReturnReasonWithMultipleErrorReasons()
         {
             Random800_90 rand = new Random800_90();
             var expected = GetTestCase();
@@ -94,7 +94,7 @@ namespace NIST.CVP.Generation.AES_ECB.Tests
 
             TestCaseValidatorMCTDecrypt subject = new TestCaseValidatorMCTDecrypt(expected);
 
-            var result = subject.Validate(supplied);
+            var result = await subject.ValidateAsync(supplied);
             
             Assert.IsTrue(result.Reason.ToLower().Contains("cipher text"), "Reason does not contain the expected value Cipher Text");
             Assert.IsTrue(result.Reason.ToLower().Contains("plain text"), "Reason does not contain the expected value Plain Text");

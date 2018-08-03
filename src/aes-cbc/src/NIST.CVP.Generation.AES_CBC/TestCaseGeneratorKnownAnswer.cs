@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Crypto.Common.Symmetric;
 using NIST.CVP.Crypto.Common.Symmetric.AES.KATs;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.Async;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.AES_CBC
 {
-    public class TestCaseGeneratorKnownAnswer : ITestCaseGenerator<TestGroup, TestCase>
+    public class TestCaseGeneratorKnownAnswer : ITestCaseGeneratorAsync<TestGroup, TestCase>
     {
         private readonly List<AlgoArrayResponse> _kats = new List<AlgoArrayResponse>();
         private readonly Dictionary<(int keyLength, string katType), List<AlgoArrayResponse>> _katMapping =
@@ -47,26 +49,23 @@ namespace NIST.CVP.Generation.AES_CBC
 
         public int NumberOfTestCasesToGenerate => _kats.Count;
 
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
-        {
-            TestCase testCase = new TestCase();
-            return Generate(group, testCase);
-        }
-
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
+        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample)
         {
             if (_katsIndex + 1 > _kats.Count)
             {
-                return new TestCaseGenerateResponse<TestGroup, TestCase>("No additional KATs exist.");
+                return await Task.FromResult(new TestCaseGenerateResponse<TestGroup, TestCase>("No additional KATs exist."));
             }
 
             var currentKat = _kats[_katsIndex++];
-            testCase.Key = currentKat.Key;
-            testCase.IV = currentKat.IV;
-            testCase.PlainText = currentKat.PlainText;
-            testCase.CipherText = currentKat.CipherText;
+            TestCase testCase = new TestCase
+            {
+                Key = currentKat.Key,
+                IV = currentKat.IV,
+                PlainText = currentKat.PlainText,
+                CipherText = currentKat.CipherText
+            };
 
-            return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
+            return await Task.FromResult(new TestCaseGenerateResponse<TestGroup, TestCase>(testCase));
         }
     }
 }

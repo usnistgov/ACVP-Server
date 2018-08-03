@@ -43,7 +43,8 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen.ContractResolvers
             var includePQGenProperties = new[]
             {
                 nameof(TestCase.P),
-                nameof(TestCase.Q)
+                nameof(TestCase.Q),
+                nameof(TestCase.DomainSeed)
             };
             if (includePQGenProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
             {

@@ -1,13 +1,13 @@
-﻿using System.Collections.Generic;
-using System.Numerics;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using NIST.CVP.Common.Helpers;
+using NIST.CVP.Common.Oracle.DispositionTypes;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC.Enums;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.DSA.ECC.SigVer.Enums;
+using System.Collections.Generic;
+using System.Numerics;
 
 namespace NIST.CVP.Generation.DSA.ECC.SigVer
 {
@@ -48,7 +48,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer
             set => KeyPair.PublicQ.Y = value;
         }
 
-        [JsonIgnore] public ITestCaseExpectationProvider<SigFailureReasons> TestCaseExpectationProvider { get; set; }
+        [JsonIgnore] public ITestCaseExpectationProvider<EcdsaSignatureDisposition> TestCaseExpectationProvider { get; set; }
         
         public List<TestCase> Tests { get; set; } = new List<TestCase>();
 

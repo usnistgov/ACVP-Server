@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using NIST.CVP.Common.Helpers;
+using NIST.CVP.Common.Oracle.DispositionTypes;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC.Enums;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.DSA.ECC.KeyVer.Enums;
+using System.Collections.Generic;
 
 namespace NIST.CVP.Generation.DSA.ECC.KeyVer
 {
@@ -14,7 +14,7 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyVer
         public Curve Curve { get; set; }
 
         // Used internally to build test cases with particular error cases
-        [JsonIgnore] public ITestCaseExpectationProvider<TestCaseExpectationEnum> TestCaseExpectationProvider { get; set; }
+        [JsonIgnore] public ITestCaseExpectationProvider<EcdsaKeyDisposition> TestCaseExpectationProvider { get; set; }
 
         public string TestType { get; set; }
         public List<TestCase> Tests { get; set; } = new List<TestCase>();

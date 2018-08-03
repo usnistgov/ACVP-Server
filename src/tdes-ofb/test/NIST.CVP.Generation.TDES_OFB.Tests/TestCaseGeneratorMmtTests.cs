@@ -4,6 +4,7 @@ using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
 using NUnit.Framework;
 using System;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Generation.TDES_OFB.Tests
 {
@@ -18,17 +19,17 @@ namespace NIST.CVP.Generation.TDES_OFB.Tests
         {
             _oracle = new Mock<IOracle>();
             _oracle
-                .Setup(s => s.GetTdesCase(It.IsAny<TdesParameters>()))
-                .Returns(() => new TdesResult());
+                .Setup(s => s.GetTdesCaseAsync(It.IsAny<TdesParameters>()))
+                .Returns(() => Task.FromResult(new TdesResult()));
             _subject = new TestCaseGeneratorMmt(
                 _oracle.Object
             );
         }
 
         [Test]
-        public void ShouldSuccessfullyGenerate()
+        public async Task ShouldSuccessfullyGenerate()
         {
-            var result = _subject.Generate(new TestGroup { Function = "encrypt", NumberOfKeys = 3 }, false);
+            var result = await _subject.GenerateAsync(new TestGroup { Function = "encrypt", NumberOfKeys = 3 }, false);
             Assert.IsNotNull(result);
             Assert.IsTrue(result.Success);
         }
@@ -40,12 +41,12 @@ namespace NIST.CVP.Generation.TDES_OFB.Tests
         }
 
         [Test]
-        public void ShouldReturnAnErrorIfAnEncryptionFails()
+        public async Task ShouldReturnAnErrorIfAnEncryptionFails()
         {
             _oracle
-                .Setup(s => s.GetTdesCase(It.IsAny<TdesParameters>()))
+                .Setup(s => s.GetTdesCaseAsync(It.IsAny<TdesParameters>()))
                 .Throws(new Exception());
-            var result = _subject.Generate(new TestGroup { Function = "encrypt", NumberOfKeys = 3 }, false);
+            var result = await _subject.GenerateAsync(new TestGroup { Function = "encrypt", NumberOfKeys = 3 }, false);
             Assert.IsFalse(result.Success);
         }
     }

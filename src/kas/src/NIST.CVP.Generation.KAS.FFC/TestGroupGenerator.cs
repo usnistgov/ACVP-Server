@@ -1,9 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Common.Helpers;
+using NIST.CVP.Common.Oracle;
+using NIST.CVP.Common.Oracle.ParameterTypes;
+using NIST.CVP.Common.Oracle.ResultTypes;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC.Enums;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
 using NIST.CVP.Crypto.Common.KAS.Enums;
@@ -16,11 +21,11 @@ namespace NIST.CVP.Generation.KAS.FFC
     {
         private const int MAX_KEY_SIZE = 4096;
         private readonly string[] _testTypes = new string[] { "AFT", "VAL" };
-        private readonly IPqgProvider _pqgProvider;
+        private readonly IOracle _oracle;
 
-        public TestGroupGenerator(IPqgProvider pqgProvider)
+        public TestGroupGenerator(IOracle oracle)
         {
-            _pqgProvider = pqgProvider;
+            _oracle = oracle;
         }
 
         public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
@@ -48,19 +53,50 @@ namespace NIST.CVP.Generation.KAS.FFC
 
         private void GeneratePqgPerGroup(List<TestGroup> groups)
         {
+            var task = GeneratePqgPerGroupAsync(groups);
+            task.Wait();
+        }
+
+        private async Task GeneratePqgPerGroupAsync(List<TestGroup> groups)
+        {
+            // Get collection of individual permutations of L/N/Hash for PQG creation
+            // Doing it this way as there will likely be overlap between l/n/hashFunc
+            // and no reason to generate a new PQG for each individual instance
+            var perms = new HashSet<(int l, int n, HashFunction hashFunc)>();
             foreach (var group in groups)
             {
                 var parameterSetAttributes = ParameterSetDetails.GetDetailsForFfcParameterSet(group.ParmSet);
+                perms.Add((parameterSetAttributes.pLength, parameterSetAttributes.qLength, group.HashAlg));
+            }
 
-                var domainParams = _pqgProvider.GetPqg(
-                    parameterSetAttributes.pLength,
-                    parameterSetAttributes.qLength,
-                    group.HashAlg
-                );
+            // Get PQG for each permutation
+            var pqgTasks = new Dictionary<(int l, int n, HashFunction hashFunc), Task<DsaDomainParametersResult>>();
+            foreach (var perm in perms)
+            {
+                pqgTasks.Add(perm, _oracle.GetDsaDomainParametersAsync(new DsaDomainParametersParameters()
+                {
+                    GGenMode = GeneratorGenMode.Unverifiable,
+                    HashAlg = perm.hashFunc,
+                    L = perm.l,
+                    N = perm.n,
+                    PQGenMode = PrimeGenMode.Probable
+                }));
+            }
 
-                group.P = domainParams.P;
-                group.Q = domainParams.Q;
-                group.G = domainParams.G;
+            // Assign the groups to the appropriate PQG
+            foreach (var group in groups)
+            {
+                var parameterSetAttributes = ParameterSetDetails.GetDetailsForFfcParameterSet(group.ParmSet);
+                var pqgTask = pqgTasks
+                    .First(w => w.Key.l == parameterSetAttributes.pLength &&
+                                w.Key.n == parameterSetAttributes.qLength &&
+                                w.Key.hashFunc == group.HashAlg).Value;
+
+                var pqg = await pqgTask;
+
+                group.P = pqg.P;
+                group.Q = pqg.Q;
+                group.G = pqg.G;
             }
         }
 

@@ -41,7 +41,7 @@ namespace NIST.CVP.Generation.TDES_CBC.Tests
         [TestCase("VariableTExt", "ENcryPt")]
         [TestCase("VariableKey", "ENCRYPT")]
 
-        public void ShouldReturnKat(string testType, string direction)
+        public async Task ShouldReturnKat(string testType, string direction)
         {
             TestGroup testGroup = new TestGroup()
             {
@@ -50,7 +50,7 @@ namespace NIST.CVP.Generation.TDES_CBC.Tests
             };
 
             var subject = new TestCaseGeneratorKnownAnswer(testGroup);
-            var result = subject.Generate(testGroup, false);
+            var result = await subject.GenerateAsync(testGroup, false);
             Assert.IsNotNull(result);
             Assert.IsTrue(result.Success);
         }
@@ -62,7 +62,7 @@ namespace NIST.CVP.Generation.TDES_CBC.Tests
         [TestCase("VariableText", 64, "encrypt")]
         [TestCase("SubstitutionTable", 19, "encrypt")]
 
-        public void ShouldReturnExpectedListCount(string testType, int count, string direction)
+        public async Task ShouldReturnExpectedListCount(string testType, int count, string direction)
         {
             TestGroup testGroup = new TestGroup()
             {
@@ -74,7 +74,7 @@ namespace NIST.CVP.Generation.TDES_CBC.Tests
             var results = new EditableList<TestCaseGenerateResponse<TestGroup, TestCase>>();
             for (int i = 0; i < subject.NumberOfTestCasesToGenerate; i++)
             {
-                results.Add(subject.Generate(testGroup, false));
+                results.Add(await subject.GenerateAsync(testGroup, false));
             }
             Assert.AreEqual(count, results.Count);
         }
@@ -90,7 +90,7 @@ namespace NIST.CVP.Generation.TDES_CBC.Tests
         [TestCase("VariableText", 63, "166b40b44aba4bd6", "encrypt")]
         [TestCase("SubstitutionTable", 0, "690f5b0d9a26939b", "encrypt")]
         [TestCase("SubstitutionTable", 18, "63fac0d034d9f793", "encrypt")]
-        public void ShouldReturnExpectedElement(string testType, int elementId, string expectedCipherHex, string direction)
+        public async Task ShouldReturnExpectedElement(string testType, int elementId, string expectedCipherHex, string direction)
         {
             TestGroup testGroup = new TestGroup()
             {
@@ -102,7 +102,7 @@ namespace NIST.CVP.Generation.TDES_CBC.Tests
             var results = new List<TestCaseGenerateResponse<TestGroup, TestCase>>();
             for (int i = 0; i < subject.NumberOfTestCasesToGenerate; i++)
             {
-                results.Add(subject.Generate(testGroup, false));
+                results.Add(await subject.GenerateAsync(testGroup, false));
             }
 
             Assume.That(results.Count > elementId);

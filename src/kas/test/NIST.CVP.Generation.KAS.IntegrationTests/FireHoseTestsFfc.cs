@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Common.KAS;
 using NIST.CVP.Crypto.Common.KAS.Enums;
@@ -38,7 +39,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
         }
 
         [Test]
-        public void ShouldRunThroughAllTestFilesAndValidate()
+        public async Task ShouldRunThroughAllTestFilesAndValidate()
         {
             LegacyResponseFileParser parser = new LegacyResponseFileParser();
             var parsedFiles = parser.Parse(_testPath);
@@ -72,7 +73,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
 
                     SwitchTestCaseIutServerInformation(testCase);
 
-                    var result = testCaseResolver.CompleteDeferredCrypto(testGroup, testCase, testCase);
+                    var result = await testCaseResolver.CompleteDeferredCryptoAsync(testGroup, testCase, testCase);
 
                     Debug.Assert(testCase.TestPassed != null, "testCase.TestPassed != null");
                     if (testCase.TestPassed.Value)

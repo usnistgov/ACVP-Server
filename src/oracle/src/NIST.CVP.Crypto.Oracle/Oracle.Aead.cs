@@ -1,20 +1,16 @@
 ﻿using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
-using NIST.CVP.Crypto.AES_CCM;
-using NIST.CVP.Crypto.AES_GCM;
 using NIST.CVP.Crypto.Common.Symmetric.BlockModes.Aead;
 using NIST.CVP.Crypto.Common.Symmetric.Enums;
-using NIST.CVP.Crypto.Symmetric.BlockModes;
 using NIST.CVP.Crypto.Symmetric.BlockModes.Aead;
-using NIST.CVP.Crypto.Symmetric.Engines;
 using System;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Crypto.Oracle
 {
     public partial class Oracle
     {
-        private readonly GcmBlockCipher _gcm = new GcmBlockCipher(new AesEngine(), new ModeBlockCipherFactory(), new AES_GCMInternals(new ModeBlockCipherFactory(), new BlockCipherEngineFactory()));
-        private readonly CcmBlockCipher _ccm = new CcmBlockCipher(new AesEngine(), new ModeBlockCipherFactory(), new AES_CCMInternals());
+        private readonly AeadModeBlockCipherFactory _aeadModeBlockCipherFactory = new AeadModeBlockCipherFactory();
 
         private AeadResult DoSimpleAead(IAeadModeBlockCipher cipher, AeadResult fullParam, AeadParameters param)
         {
@@ -49,7 +45,13 @@ namespace NIST.CVP.Crypto.Oracle
                 Aad = _rand.GetRandomBitString(param.AadLength),
             };
 
-            return DoSimpleAead(_ccm, fullParams, param);
+            return DoSimpleAead(
+                _aeadModeBlockCipherFactory.GetAeadCipher(
+                    _engineFactory.GetSymmetricCipherPrimitive(BlockCipherEngines.Aes), 
+                    BlockCipherModesOfOperation.Ccm
+                ), 
+                fullParams, param
+            );
         }
 
         public AeadResult GetAesGcmCase(AeadParameters param)
@@ -62,7 +64,14 @@ namespace NIST.CVP.Crypto.Oracle
                 Aad = _rand.GetRandomBitString(param.AadLength)
             };
 
-            var result = DoSimpleAead(_gcm, fullParams, param);
+            var result = DoSimpleAead(
+                _aeadModeBlockCipherFactory.GetAeadCipher(
+                    _engineFactory.GetSymmetricCipherPrimitive(BlockCipherEngines.Aes), 
+                    BlockCipherModesOfOperation.Gcm
+                ), 
+                fullParams, 
+                param
+            );
 
             if (param.CouldFail)
             {
@@ -100,7 +109,14 @@ namespace NIST.CVP.Crypto.Oracle
             };
 
             // Uses gcm as a cipher instead of xpn
-            var result = DoSimpleAead(_gcm, tempParams, param);
+            var result = DoSimpleAead(
+                _aeadModeBlockCipherFactory.GetAeadCipher(
+                    _engineFactory.GetSymmetricCipherPrimitive(BlockCipherEngines.Aes), 
+                    BlockCipherModesOfOperation.Gcm
+                ), 
+                tempParams, 
+                param
+            );
 
             // Should Fail at certain ratio, 25%
             var upperBound = (int)(1.0 / XPN_FAIL_RATIO);
@@ -130,7 +146,14 @@ namespace NIST.CVP.Crypto.Oracle
 
         public AeadResult CompleteDeferredAesGcmCase(AeadParameters param, AeadResult fullParam)
         {
-            return DoSimpleAead(_gcm, fullParam, param);
+            return DoSimpleAead(
+                _aeadModeBlockCipherFactory.GetAeadCipher(
+                    _engineFactory.GetSymmetricCipherPrimitive(BlockCipherEngines.Aes), 
+                    BlockCipherModesOfOperation.Gcm
+                ), 
+                fullParam, 
+                param
+            );
         }
 
         public AeadResult GetDeferredAesXpnCase(AeadParameters param)
@@ -157,7 +180,49 @@ namespace NIST.CVP.Crypto.Oracle
                 Tag = fullParam.Tag
             };
 
-            return DoSimpleAead(_gcm, testParam, param);
+            return DoSimpleAead(
+                _aeadModeBlockCipherFactory.GetAeadCipher(
+                    _engineFactory.GetSymmetricCipherPrimitive(BlockCipherEngines.Aes), 
+                    BlockCipherModesOfOperation.Gcm
+                ), 
+                testParam, 
+                param
+            );
+        }
+
+        public async Task<AeadResult> GetAesCcmCaseAsync(AeadParameters param)
+        {
+            return await _taskFactory.StartNew(() => GetAesCcmCase(param));
+        }
+
+        public async Task<AeadResult> GetAesGcmCaseAsync(AeadParameters param)
+        {
+            return await _taskFactory.StartNew(() => GetAesGcmCase(param));
+        }
+
+        public async Task<AeadResult> GetAesXpnCaseAsync(AeadParameters param)
+        {
+            return await _taskFactory.StartNew(() => GetAesXpnCase(param));
+        }
+
+        public async Task<AeadResult> GetDeferredAesGcmCaseAsync(AeadParameters param)
+        {
+            return await _taskFactory.StartNew(() => GetDeferredAesGcmCase(param));
+        }
+
+        public async Task<AeadResult> CompleteDeferredAesGcmCaseAsync(AeadParameters param, AeadResult fullParam)
+        {
+            return await _taskFactory.StartNew(() => CompleteDeferredAesGcmCase(param, fullParam));
+        }
+
+        public async Task<AeadResult> GetDeferredAesXpnCaseAsync(AeadParameters param)
+        {
+            return await _taskFactory.StartNew(() => GetDeferredAesXpnCase(param));
+        }
+
+        public async Task<AeadResult> CompleteDeferredAesXpnCaseAsync(AeadParameters param, AeadResult fullParam)
+        {
+            return await _taskFactory.StartNew(() => CompleteDeferredAesXpnCase(param, fullParam));
         }
     }
 }

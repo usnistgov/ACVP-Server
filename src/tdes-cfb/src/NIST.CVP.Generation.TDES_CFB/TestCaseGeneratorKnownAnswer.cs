@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using NIST.CVP.Math;
-using NIST.CVP.Generation.Core;
+using System.Threading.Tasks;
 using NIST.CVP.Common;
+using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.Async;
+using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.TDES_CFB
 {
-    public class TestCaseGeneratorKnownAnswer : ITestCaseGenerator<TestGroup, TestCase>
+    public class TestCaseGeneratorKnownAnswer : ITestCaseGeneratorAsync<TestGroup, TestCase>
     {
-        private readonly List<TestCase> _katTestCases = new List<TestCase>();
+        private readonly List<TestCase> _katTestCases;
         private int _katsIndex = 0;
 
         public int NumberOfTestCasesToGenerate => _katTestCases.Count;
@@ -26,21 +28,15 @@ namespace NIST.CVP.Generation.TDES_CFB
 
             _katTestCases = _kats[group.AlgoMode][concatTestType];
         }
-
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
-        {
-            var testCase = new TestCase();
-            return Generate(group, testCase);
-        }
-
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
+        
+        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample)
         {
             if (_katsIndex + 1 > _katTestCases.Count)
             {
-                return new TestCaseGenerateResponse<TestGroup, TestCase>("No additional KATs exist.");
+                return await Task.FromResult(new TestCaseGenerateResponse<TestGroup, TestCase>("No additional KATs exist."));
             }
 
-            return new TestCaseGenerateResponse<TestGroup, TestCase>(_katTestCases[_katsIndex++]);
+            return await Task.FromResult(new TestCaseGenerateResponse<TestGroup, TestCase>(_katTestCases[_katsIndex++]));
         }
 
 
@@ -98,9 +94,6 @@ namespace NIST.CVP.Generation.TDES_CFB
                     }
                 }
             };
-
-
-
 
         private static List<TestCase> InversPermutationTest(AlgoMode algo)
         {

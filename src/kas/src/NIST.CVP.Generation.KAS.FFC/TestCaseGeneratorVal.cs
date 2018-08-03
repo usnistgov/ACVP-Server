@@ -1,15 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.DispositionTypes;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.Async;
 using NIST.CVP.Generation.KAS.Helpers;
 using NLog;
 
 namespace NIST.CVP.Generation.KAS.FFC
 {
-    public class TestCaseGeneratorVal : ITestCaseGenerator<TestGroup, TestCase>
+    public class TestCaseGeneratorVal : ITestCaseGeneratorAsync<TestGroup, TestCase>
     {
         protected readonly IOracle _oracle;
         private readonly List<KasValTestDisposition> _dispositionList;
@@ -22,13 +24,13 @@ namespace NIST.CVP.Generation.KAS.FFC
             _dispositionList = dispositionList;
         }
 
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
+        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample)
         {
             var testCaseDisposition = TestCaseDispositionHelper.GetTestCaseIntention(_dispositionList);
 
             try
             {
-                var result = _oracle.GetKasValTestFfc(
+                var result = await _oracle.GetKasValTestFfcAsync(
                     new KasValParametersFfc()
                     {
                         P = group.P,

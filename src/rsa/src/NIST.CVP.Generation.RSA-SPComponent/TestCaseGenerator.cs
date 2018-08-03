@@ -1,141 +1,59 @@
-﻿using NIST.CVP.Crypto.Common.Asymmetric.RSA;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys;
-using NIST.CVP.Crypto.Math;
+﻿using NIST.CVP.Common.Oracle;
+using NIST.CVP.Common.Oracle.ParameterTypes;
+using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Math;
-using NIST.CVP.Math.Entropy;
 using NLog;
 using System;
-using System.Numerics;
+using System.Threading.Tasks;
+using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.RSA_SPComponent
 {
-    public class TestCaseGenerator : ITestCaseGenerator<TestGroup, TestCase>
+    public class TestCaseGenerator : ITestCaseGeneratorAsync<TestGroup, TestCase>
     {
-        private readonly IRandom800_90 _rand;
-        private readonly IKeyBuilder _keyBuilder;
-        private readonly IRsa _rsa;
-        private readonly IKeyComposerFactory _keyComposerFactory;
+        private readonly IOracle _oracle;
 
         public int NumberOfTestCasesToGenerate { get; private set; } = 30;
 
-        public TestCaseGenerator(IRandom800_90 rand, IKeyBuilder keyBuilder, IRsa rsa, IKeyComposerFactory keyComposerFactory)
+        public TestCaseGenerator(IOracle oracle)
         {
-            _rand = rand;
-            _keyBuilder = keyBuilder;
-            _rsa = rsa;
-            _keyComposerFactory = keyComposerFactory;
+            _oracle = oracle;
         }
 
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
+        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample)
         {
             if (isSample)
             {
                 NumberOfTestCasesToGenerate = 5;
             }
 
-            // Chance of all 30 tests not having a single expected failure is one in one billion
-            var testShouldPass = _rand.GetRandomInt(0, 2); // 0 or 1
-
-            KeyResult keyResult;
-            do
+            var param = new RsaSignaturePrimitiveParameters
             {
-                var e = GetEValue(32, 64);
-                keyResult = _keyBuilder
-                    .WithPrimeGenMode(PrimeGenModes.B33)
-                    .WithEntropyProvider(new EntropyProvider(_rand))
-                    .WithNlen(group.Modulo)
-                    .WithPublicExponent(e)
-                    .WithPrimeTestMode(PrimeTestModes.C2)
-                    .WithKeyComposer(_keyComposerFactory.GetKeyComposer(group.KeyFormat))
-                    .Build();
-
-            } while (!keyResult.Success);
-
-            var key = keyResult.Key;
-
-            BitString message;
-            if (testShouldPass == 0)
-            {
-                // No failure, get a random 2048-bit value less than N
-                message = new BitString(_rand.GetRandomBigInteger(key.PubKey.N), 2048);
-            }
-            else
-            {
-                // Yes failure, get a random 2048-bit value greater than N
-                message = new BitString(_rand.GetRandomBigInteger(key.PubKey.N, NumberTheory.Pow2(2048)), 2048);
-            }
-
-            var testCase = new TestCase
-            {
-                Key = key,
-                Message = message,
-                TestPassed = (testShouldPass == 0)     // Failure test if m > N, meaning it can't be signed
+                KeyFormat = group.KeyFormat,
+                Modulo = group.Modulo
             };
 
-            return Generate(group, testCase);
-        }
-
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
-        {
-            if (testCase.TestPassed == null)
+            try
             {
-                return new TestCaseGenerateResponse<TestGroup, TestCase>("Internal error setting pass setting");
+                var result = await _oracle.GetRsaSignaturePrimitiveAsync(param);
+
+                var testCase = new TestCase
+                {
+                    Signature = result.Signature,
+                    Key = result.Key,
+                    Message = result.Message,
+                    TestPassed = result.ShouldPass     // Failure test if m > N, meaning it can't be signed
+                };
+
+                return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
             }
-
-            if (testCase.TestPassed == true)
+            catch (Exception ex)
             {
-                DecryptionResult result;
-                try
-                {
-                    result = _rsa.Decrypt(testCase.Message.ToPositiveBigInteger(), testCase.Key.PrivKey, testCase.Key.PubKey);
-
-                    if (!result.Success)
-                    {
-                        ThisLogger.Error($"Error generating signature: {result.ErrorMessage}");
-                        return new TestCaseGenerateResponse<TestGroup, TestCase>(result.ErrorMessage);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    ThisLogger.Error($"Exception generating signature: {ex.StackTrace}");
-                    return new TestCaseGenerateResponse<TestGroup, TestCase>($"Exception generating signature: {ex.StackTrace}");
-                }
-
-                testCase.Signature = new BitString(result.PlainText, 2048);
+                ThisLogger.Error(ex);
+                return new TestCaseGenerateResponse<TestGroup, TestCase>($"Failed to generate. {ex.Message}");
             }
-            
-            return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
         }
-
-        private Logger ThisLogger => LogManager.GetCurrentClassLogger();
-
-        private BigInteger GetEValue(int minLen, int maxLen)
-        {
-            BigInteger e;
-            BitString e_bs;
-            do
-            {
-                var min = minLen / 2;
-                var max = maxLen / 2;
-
-                e = GetRandomBigIntegerOfBitLength(_rand.GetRandomInt(min, max) * 2);
-                if (e.IsEven)
-                {
-                    e++;
-                }
-
-                e_bs = new BitString(e);
-            } while (e_bs.BitLength >= maxLen || e_bs.BitLength < minLen);
-
-            return e;
-        }
-
-        private BigInteger GetRandomBigIntegerOfBitLength(int len)
-        {
-            var bs = _rand.GetRandomBitString(len);
-            return bs.ToPositiveBigInteger();
-        }
+        
+        private static ILogger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }

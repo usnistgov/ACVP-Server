@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestPlatform.ObjectModel.Adapter;
+﻿using System.Threading.Tasks;
+using Microsoft.VisualStudio.TestPlatform.ObjectModel.Adapter;
 using NIST.CVP.Generation.CMAC;
 using NIST.CVP.Generation.CMAC.AES;
 using NIST.CVP.Math;
@@ -13,42 +14,42 @@ namespace NIST.CVP.Generation.CMAC_AES.Tests
         private TestCaseValidatorGen<TestGroup, TestCase> _subject;
         
         [Test]
-        public void ShouldValidateIfExpectedAndSuppliedResultsMatch()
+        public async Task ShouldValidateIfExpectedAndSuppliedResultsMatch()
         {
             var testCase = GetTestCase();
             _subject = new TestCaseValidatorGen<TestGroup, TestCase>(testCase);
-            var result = _subject.Validate(testCase);
+            var result = await _subject.ValidateAsync(testCase);
             Assume.That(result != null);
             Assert.AreEqual(Core.Enums.Disposition.Passed, result.Result);
         }
 
         [Test]
-        public void ShouldFailIfMacDoesNotMatch()
+        public async Task ShouldFailIfMacDoesNotMatch()
         {
             var testCase = GetTestCase();
             _subject = new TestCaseValidatorGen<TestGroup, TestCase>(testCase);
             var suppliedResult = GetTestCase();
             suppliedResult.Mac = new BitString("D00000");
-            var result = _subject.Validate(suppliedResult);
+            var result = await _subject.ValidateAsync(suppliedResult);
             Assume.That(result != null);
             Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
         }
 
         [Test]
-        public void ShouldShowMacAsReasonIfItDoesNotMatch()
+        public async Task ShouldShowMacAsReasonIfItDoesNotMatch()
         {
             var testCase = GetTestCase();
             _subject = new TestCaseValidatorGen<TestGroup, TestCase>(testCase);
             var suppliedResult = GetTestCase();
             suppliedResult.Mac = new BitString("D00000");
-            var result = _subject.Validate(suppliedResult);
+            var result = await _subject.ValidateAsync(suppliedResult);
             Assume.That(result != null);
             Assume.That(Core.Enums.Disposition.Failed == result.Result);
             Assert.IsTrue(result.Reason.Contains("MAC"));
         }
 
         [Test]
-        public void ShouldFailIfCipherTextNotPresent()
+        public async Task ShouldFailIfCipherTextNotPresent()
         {
             var testCase = GetTestCase();
             _subject = new TestCaseValidatorGen<TestGroup, TestCase>(testCase);
@@ -56,7 +57,7 @@ namespace NIST.CVP.Generation.CMAC_AES.Tests
 
             suppliedResult.Mac = null;
 
-            var result = _subject.Validate(suppliedResult);
+            var result = await _subject.ValidateAsync(suppliedResult);
             Assume.That(result != null);
             Assume.That(Core.Enums.Disposition.Failed == result.Result);
 

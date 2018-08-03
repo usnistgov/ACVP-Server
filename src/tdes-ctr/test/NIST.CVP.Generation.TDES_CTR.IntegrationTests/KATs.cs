@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
 using NIST.CVP.Crypto.Common.Symmetric.CTR;
 using NIST.CVP.Crypto.Common.Symmetric.CTR.Enums;
 using NIST.CVP.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.Crypto.Symmetric.BlockModes;
 using NIST.CVP.Crypto.Symmetric.Engines;
-using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.Async;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
@@ -18,7 +19,7 @@ namespace NIST.CVP.Generation.TDES_CTR.IntegrationTests
         private readonly ModeBlockCipherFactory _modeFactory = new ModeBlockCipherFactory();
         private readonly CounterFactory _counterFactory = new CounterFactory();
 
-        private ITestCaseGenerator<TestGroup, TestCase> _katTestCaseGenerator;
+        private ITestCaseGeneratorAsync<TestGroup, TestCase> _katTestCaseGenerator;
 
         private readonly string[] _katTypes = { "permutation", "substitutiontable", "variablekey", "variabletext", "inversepermutation"};
         private readonly string _encryptLabel = "encrypt";
@@ -39,7 +40,7 @@ namespace NIST.CVP.Generation.TDES_CTR.IntegrationTests
                 List<TestCase> tests = new List<TestCase>();
                 for (int i = 0; i < _katTestCaseGenerator.NumberOfTestCasesToGenerate; i++)
                 {
-                    tests.Add(_katTestCaseGenerator.Generate(tg, false).TestCase);
+                    tests.Add(_katTestCaseGenerator.GenerateAsync(tg, false).Result.TestCase);
                 }
 
                 foreach (var test in tests)
@@ -72,7 +73,7 @@ namespace NIST.CVP.Generation.TDES_CTR.IntegrationTests
                 List<TestCase> tests = new List<TestCase>();
                 for (int i = 0; i < _katTestCaseGenerator.NumberOfTestCasesToGenerate; i++)
                 {
-                    tests.Add(_katTestCaseGenerator.Generate(tg, false).TestCase);
+                    tests.Add(_katTestCaseGenerator.GenerateAsync(tg, false).Result.TestCase);
                 }
 
                 foreach (var test in tests)

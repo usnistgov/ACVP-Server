@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Moq;
 using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
@@ -24,55 +25,55 @@ namespace NIST.CVP.Generation.HMAC.Tests
         }
         
         [Test]
-        public void GenerateShouldReturnTestCaseGenerateResponse()
+        public async Task GenerateShouldReturnTestCaseGenerateResponse()
         {
-            var result = _subject.Generate(new TestGroup(), false);
+            var result = await _subject.GenerateAsync(new TestGroup(), false);
 
             Assert.IsNotNull(result, $"{nameof(result)} should be null");
             Assert.IsInstanceOf(typeof(TestCaseGenerateResponse<TestGroup, TestCase>), result, $"{nameof(result)} incorrect type");
         }
 
         [Test]
-        public void GenerateShouldReturnNullITestCaseOnFailedGenerate()
+        public async Task GenerateShouldReturnNullITestCaseOnFailedGenerate()
         {
             _oracle
-                .Setup(s => s.GetHmacCase(It.IsAny<HmacParameters>()))
+                .Setup(s => s.GetHmacCaseAsync(It.IsAny<HmacParameters>()))
                 .Throws(new Exception("Fail"));
 
-            var result = _subject.Generate(new TestGroup(), false);
+            var result = await _subject.GenerateAsync(new TestGroup(), false);
 
             Assert.IsNull(result.TestCase, $"{nameof(result.TestCase)} should be null");
             Assert.IsFalse(result.Success, $"{nameof(result.Success)} should indicate failure");
         }
 
         [Test]
-        public void GenerateShouldInvokeGenerateOperation()
+        public async Task GenerateShouldInvokeGenerateOperation()
         {
-            _subject.Generate(new TestGroup(), true);
+            await _subject.GenerateAsync(new TestGroup(), true);
 
-            _oracle.Verify(v => v.GetHmacCase(It.IsAny<HmacParameters>()),
+            _oracle.Verify(v => v.GetHmacCaseAsync(It.IsAny<HmacParameters>()),
                 Times.AtLeastOnce,
                 $"{nameof(_oracle.Object.GetHmacCase)} should have been invoked"
             );
         }
 
         [Test]
-        public void GenerateShouldReturnFilledTestCaseObjectOnSuccess()
+        public async Task GenerateShouldReturnFilledTestCaseObjectOnSuccess()
         {
             var key = new BitString("01");
             var message = new BitString("02");
             var tag = new BitString("03");
 
             _oracle
-                .Setup(s => s.GetHmacCase(It.IsAny<HmacParameters>()))
-                .Returns(new MacResult()
+                .Setup(s => s.GetHmacCaseAsync(It.IsAny<HmacParameters>()))
+                .Returns(Task.FromResult(new MacResult()
                 {
                     Key = key,
                     Message = message,
                     Tag = tag
-                });
+                }));
 
-            var result = _subject.Generate(new TestGroup(), false);
+            var result = await _subject.GenerateAsync(new TestGroup(), false);
 
             Assert.IsTrue(result.Success, $"{nameof(result)} should be successful");
             Assert.IsInstanceOf(typeof(TestCase), result.TestCase, $"{nameof(result.TestCase)} type mismatch");

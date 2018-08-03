@@ -2,14 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.Common.DRBG.Enums;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.Async;
+using NLog;
 
 namespace NIST.CVP.Generation.DRBG
 {
-    public class TestCaseGenerator : ITestCaseGenerator<TestGroup, TestCase>
+    public class TestCaseGenerator : ITestCaseGeneratorAsync<TestGroup, TestCase>
     {
         private readonly IOracle _oracle;
 
@@ -20,43 +23,40 @@ namespace NIST.CVP.Generation.DRBG
             _oracle = oracle;
         }
 
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
+        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample)
         {
-            DrbgResult oracleResult = null;
             try
             {
-                oracleResult = _oracle.GetDrbgCase(group.DrbgParameters);
+                var oracleResult = await _oracle.GetDrbgCaseAsync(group.DrbgParameters);
+
+                if (oracleResult.Status == DrbgStatus.Success)
+                {
+                    return new TestCaseGenerateResponse<TestGroup, TestCase>(
+                        new TestCase {
+                            EntropyInput = oracleResult.EntropyInput,
+                            Nonce = oracleResult.Nonce,
+                            OtherInput = Array.ConvertAll(oracleResult.OtherInput.ToArray(), element => new OtherInput
+                            {
+                                IntendedUse = element.IntendedUse,
+                                AdditionalInput = element.AdditionalInput,
+                                EntropyInput = element.EntropyInput
+                            }).ToList(),
+                            PersoString = oracleResult.PersoString,
+                            ReturnedBits = oracleResult.ReturnedBits
+                        }
+                    );
+                }
+
+                return new TestCaseGenerateResponse<TestGroup, TestCase>(oracleResult.Status.ToString());
             }
             catch (Exception ex)
             {
+                ThisLogger.Error(ex);
                 return new TestCaseGenerateResponse<TestGroup, TestCase>($"Failed to generate. {ex.Message}");
             }
-
-            if (oracleResult.Status == DrbgStatus.Success)
-            {
-                return new TestCaseGenerateResponse<TestGroup, TestCase>(
-                    new TestCase {
-                        EntropyInput = oracleResult.EntropyInput,
-                        Nonce = oracleResult.Nonce,
-                        OtherInput = Array.ConvertAll(oracleResult.OtherInput.ToArray(), element => new OtherInput
-                        {
-                            IntendedUse = element.IntendedUse,
-                            AdditionalInput = element.AdditionalInput,
-                            EntropyInput = element.EntropyInput
-                        }).ToList(),
-                        PersoString = oracleResult.PersoString,
-                        ReturnedBits = oracleResult.ReturnedBits
-                    }
-                );
-            }
-
-            return new TestCaseGenerateResponse<TestGroup, TestCase>(oracleResult.Status.ToString());
         }
 
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
-        {
-            return null;
-        }
+        private static ILogger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }
 

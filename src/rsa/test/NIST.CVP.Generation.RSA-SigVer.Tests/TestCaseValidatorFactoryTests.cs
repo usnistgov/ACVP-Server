@@ -21,8 +21,7 @@ namespace NIST.CVP.Generation.RSA_SigVer.Tests
         }
 
         [Test]
-        [TestCase("gdt", typeof(TestCaseValidatorGDT))]
-        [TestCase("junk", typeof(TestCaseValidatorNull))]
+        [TestCase("gdt", typeof(TestCaseValidator))]
         public void ShouldReturnCorrectValidatorTypeDependentOnFunction(string testType, Type expectedType)
         {
             TestVectorSet testVectorSet = null;

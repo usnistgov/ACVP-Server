@@ -1,21 +1,18 @@
-﻿using NIST.CVP.Generation.Core;
+﻿using System.Threading.Tasks;
+using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.KeyWrap
 {
-    public class TestCaseGeneratorNull<TTestGroup, TTestCase> : ITestCaseGenerator<TTestGroup, TTestCase>
+    public class TestCaseGeneratorNull<TTestGroup, TTestCase> : ITestCaseGeneratorAsync<TTestGroup, TTestCase>
         where TTestGroup : TestGroupBase<TTestGroup, TTestCase>
         where TTestCase : TestCaseBase<TTestGroup, TTestCase>, new()
     {
         public int NumberOfTestCasesToGenerate => 1;
 
-        public TestCaseGenerateResponse<TTestGroup, TTestCase> Generate(TTestGroup group, bool isSample)
+        public Task<TestCaseGenerateResponse<TTestGroup, TTestCase>> GenerateAsync(TTestGroup group, bool isSample)
         {
-            return new TestCaseGenerateResponse<TTestGroup, TTestCase>("Null generator");
-        }
-
-        public TestCaseGenerateResponse<TTestGroup, TTestCase> Generate(TTestGroup group, TTestCase testCase)
-        {
-            return new TestCaseGenerateResponse<TTestGroup, TTestCase>("Null generator");
+            return Task.FromResult(new TestCaseGenerateResponse<TTestGroup, TTestCase>("Null generator"));
         }
     }
 }

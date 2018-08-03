@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using System.Numerics;
-using System.Threading.Tasks;
 
 namespace NIST.CVP.Math
 {
@@ -67,6 +64,11 @@ namespace NIST.CVP.Math
 
         public BigInteger GetRandomBigInteger(BigInteger minInclusive, BigInteger maxInclusive)
         {
+            if (maxInclusive < minInclusive)
+            {
+                throw new Exception("Cannot have max < min");
+            }
+
             return GetRandomBigInteger(maxInclusive - minInclusive) + minInclusive;
         }
 
@@ -78,6 +80,19 @@ namespace NIST.CVP.Math
             for (var i = 0; i < length; i++)
             {
                 result += VALID_ALPHA_CHARACTERS[_randy.Next(VALID_ALPHA_CHARACTERS.Length)];
+            }
+
+            return result;
+        }
+
+        private const string VALID_STRING_CHARACTERS = " !#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[]^_`abcdefghijklmnopqrstuvwxyz{|}~";
+
+        public string GetRandomString(int length)
+        {
+            var result = "";
+            for (var i = 0; i < length; i++)
+            {
+                result += VALID_STRING_CHARACTERS[_randy.Next(VALID_STRING_CHARACTERS.Length)];
             }
 
             return result;

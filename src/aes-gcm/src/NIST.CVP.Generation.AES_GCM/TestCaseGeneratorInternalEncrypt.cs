@@ -4,10 +4,12 @@ using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Generation.Core;
 using NLog;
 using System;
+using System.Threading.Tasks;
+using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.AES_GCM
 {
-    public class TestCaseGeneratorInternalEncrypt : ITestCaseGenerator<TestGroup, TestCase>
+    public class TestCaseGeneratorInternalEncrypt : ITestCaseGeneratorAsync<TestGroup, TestCase>
     {
         private readonly IOracle _oracle;
 
@@ -18,7 +20,7 @@ namespace NIST.CVP.Generation.AES_GCM
             _oracle = oracle;
         }
 
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
+        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample)
         {
             var param = new AeadParameters
             {
@@ -28,46 +30,43 @@ namespace NIST.CVP.Generation.AES_GCM
                 CouldFail = false
             };
 
-            AeadResult oracleResult = null;
             try
             {
+                AeadResult oracleResult = null;
+
                 if (isSample)
                 {
                     // Get complete test case, we need all the information
                     param.TagLength = group.TagLength;
                     param.IvLength = group.IVLength;
 
-                    oracleResult = _oracle.GetAesGcmCase(param);
+                    oracleResult = await _oracle.GetAesGcmCaseAsync(param);
                 }
                 else
                 {
                     // Get incomplete test case, no need to compute the rest
-                    oracleResult = _oracle.GetDeferredAesGcmCase(param);
+                    oracleResult = await _oracle.GetDeferredAesGcmCaseAsync(param);
                 }
+
+                return new TestCaseGenerateResponse<TestGroup, TestCase>(new TestCase
+                {
+                    Deferred = true,
+                    AAD = oracleResult.Aad,
+                    CipherText = oracleResult.CipherText,
+                    IV = oracleResult.Iv,
+                    Key = oracleResult.Key,
+                    PlainText = oracleResult.PlainText,
+                    Tag = oracleResult.Tag,
+                    TestPassed = oracleResult.TestPassed
+                });
             }
             catch (Exception ex)
             {
+                ThisLogger.Error(ex);
                 return new TestCaseGenerateResponse<TestGroup, TestCase>($"Failed to generate. {ex.Message}");
             }
-
-            return new TestCaseGenerateResponse<TestGroup, TestCase>(new TestCase
-            {
-                Deferred = true,
-                AAD = oracleResult.Aad,
-                CipherText = oracleResult.CipherText,
-                IV = oracleResult.Iv,
-                Key = oracleResult.Key,
-                PlainText = oracleResult.PlainText,
-                Tag = oracleResult.Tag,
-                TestPassed = oracleResult.TestPassed
-            });
         }
-
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup @group, TestCase testCase)
-        {
-            return null;
-        }
-
-        private Logger ThisLogger => LogManager.GetCurrentClassLogger();
+        
+        private static ILogger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }

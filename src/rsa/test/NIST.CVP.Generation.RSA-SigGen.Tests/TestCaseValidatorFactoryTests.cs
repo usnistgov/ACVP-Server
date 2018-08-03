@@ -17,12 +17,11 @@ namespace NIST.CVP.Generation.RSA_SigGen.Tests
         [SetUp]
         public void SetUp()
         {
-            _subject = new TestCaseValidatorFactory(null, null, null, null);
+            _subject = new TestCaseValidatorFactory(null);
         }
 
         [Test]
-        [TestCase("gdt", typeof(TestCaseValidatorGDT))]
-        [TestCase("junk", typeof(TestCaseValidatorNull))]
+        [TestCase("gdt", typeof(TestCaseValidator))]
         public void ShouldReturnCorrectValidatorTypeDependentOnFunction(string testType, Type expectedType)
         {
             TestVectorSet testVectorSet = null;

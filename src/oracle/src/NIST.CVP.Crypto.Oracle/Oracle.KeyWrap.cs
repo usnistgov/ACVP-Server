@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.KeyWrap;
@@ -38,6 +39,12 @@ namespace NIST.CVP.Crypto.Oracle
             }
 
             return result;
+        }
+
+
+        public async Task<KeyWrapResult> GetKeyWrapCaseAsync(KeyWrapParameters param)
+        {
+            return await _taskFactory.StartNew(() => GetKeyWrapCase(param));
         }
     }
 }

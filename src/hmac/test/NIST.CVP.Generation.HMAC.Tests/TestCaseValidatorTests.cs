@@ -1,5 +1,5 @@
-﻿using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
-using NIST.CVP.Crypto.SHAWrapper;
+﻿using System.Threading.Tasks;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -12,18 +12,18 @@ namespace NIST.CVP.Generation.HMAC.Tests
         private TestCaseValidator _subject;
         
         [Test]
-        public void ShouldValidateIfExpectedAndSuppliedResultsMatch()
+        public async Task ShouldValidateIfExpectedAndSuppliedResultsMatch()
         {
             var testCase = GetTestCase();
             var testGroup = GetTestGroup();
             _subject = new TestCaseValidator(testCase, testGroup);
-            var result = _subject.Validate(testCase);
+            var result = await _subject.ValidateAsync(testCase);
             Assume.That(result != null);
             Assert.AreEqual(Core.Enums.Disposition.Passed, result.Result);
         }
 
         [Test]
-        public void ShouldFailIfMacDoesNotMatch()
+        public async Task ShouldFailIfMacDoesNotMatch()
         {
             var testMac = new BitString("D00000");
 
@@ -34,13 +34,13 @@ namespace NIST.CVP.Generation.HMAC.Tests
             _subject = new TestCaseValidator(testCase, testGroup);
             var suppliedResult = GetTestCase();
             suppliedResult.Mac = testMac;
-            var result = _subject.Validate(suppliedResult);
+            var result = await _subject.ValidateAsync(suppliedResult);
             Assume.That(result != null);
             Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
         }
 
         [Test]
-        public void ShouldShowMacAsReasonIfItDoesNotMatch()
+        public async Task ShouldShowMacAsReasonIfItDoesNotMatch()
         {
             var testMac = new BitString("D00000");
 
@@ -51,14 +51,14 @@ namespace NIST.CVP.Generation.HMAC.Tests
             _subject = new TestCaseValidator(testCase, testGroup);
             var suppliedResult = GetTestCase();
             suppliedResult.Mac = testMac;
-            var result = _subject.Validate(suppliedResult);
+            var result = await _subject.ValidateAsync(suppliedResult);
             Assume.That(result != null);
             Assume.That(Core.Enums.Disposition.Failed == result.Result);
             Assert.IsTrue(result.Reason.Contains("MAC"));
         }
 
         [Test]
-        public void ShouldFailIfCipherTextNotPresent()
+        public async Task ShouldFailIfCipherTextNotPresent()
         {
             var testCase = GetTestCase();
             var testGroup = GetTestGroup();
@@ -67,7 +67,7 @@ namespace NIST.CVP.Generation.HMAC.Tests
 
             suppliedResult.Mac = null;
 
-            var result = _subject.Validate(suppliedResult);
+            var result = await _subject.ValidateAsync(suppliedResult);
             Assume.That(result != null);
             Assume.That(Core.Enums.Disposition.Failed == result.Result);
 
@@ -75,7 +75,7 @@ namespace NIST.CVP.Generation.HMAC.Tests
         }
 
         [Test]
-        public void ShouldPassWithMacsDifferingAfterBitLength()
+        public async Task ShouldPassWithMacsDifferingAfterBitLength()
         {
             var testCaseExpected = GetTestCase();
             var testCaseSupplied = GetTestCase();
@@ -86,7 +86,7 @@ namespace NIST.CVP.Generation.HMAC.Tests
             testCaseSupplied.Mac = new BitString("F500FACEFACE");
 
             _subject = new TestCaseValidator(testCaseExpected, testGroup);
-            var result = _subject.Validate(testCaseSupplied);
+            var result = await _subject.ValidateAsync(testCaseSupplied);
             Assume.That(result != null);
             Assert.AreEqual(Core.Enums.Disposition.Passed, result.Result);
         }

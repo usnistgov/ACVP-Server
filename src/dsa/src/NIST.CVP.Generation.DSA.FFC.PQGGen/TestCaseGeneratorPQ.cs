@@ -1,71 +1,69 @@
-﻿using System;
-using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC.PQGeneratorValidators;
-using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
+﻿using NIST.CVP.Common.Oracle;
+using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Math;
-using NIST.CVP.Math.Entropy;
 using NLog;
+using System;
+using System.Threading.Tasks;
+using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.DSA.FFC.PQGGen
 {
-    public class TestCaseGeneratorPQ : ITestCaseGenerator<TestGroup, TestCase>
+    public class TestCaseGeneratorPQ : ITestCaseGeneratorAsync<TestGroup, TestCase>
     {
-        private readonly IRandom800_90 _rand;
-        private readonly IPQGeneratorValidatorFactory _pqGenFactory;
-        private readonly IShaFactory _shaFactory;
+        private readonly IOracle _oracle;
 
-        public int NumberOfTestCasesToGenerate { get; private set; } = 2;
+        public int NumberOfTestCasesToGenerate { get; private set; } = 5;
 
-        public TestCaseGeneratorPQ(IRandom800_90 rand, IShaFactory shaFactory, IPQGeneratorValidatorFactory pqGenFactory)
+        public TestCaseGeneratorPQ(IOracle oracle)
         {
-            _rand = rand;
-            _shaFactory = shaFactory;
-            _pqGenFactory = pqGenFactory;
+            _oracle = oracle;
         }
 
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
+        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample)
         {
-            var testCase = new TestCase();
-
             if (isSample)
             {
                 NumberOfTestCasesToGenerate = 2;
-                return Generate(group, testCase);
             }
 
-            return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
-        }
+            var param = new DsaDomainParametersParameters
+            {
+                PQGenMode = group.PQGenMode,
+                HashAlg = group.HashAlg,
+                L = group.L,
+                N = group.N
+            };
 
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
-        {
-            PQGenerateResult sampleResult = null;
             try
             {
-                var sha = _shaFactory.GetShaInstance(group.HashAlg);
-                var pqGen = _pqGenFactory.GetGeneratorValidator(group.PQGenMode, sha, EntropyProviderTypes.Random);
-                sampleResult = pqGen.Generate(group.L, group.N, group.N);
-                if (!sampleResult.Success)
+                if (isSample)
                 {
-                    ThisLogger.Warn($"Error generating sample: {sampleResult.ErrorMessage}");
-                    return new TestCaseGenerateResponse<TestGroup, TestCase>(sampleResult.ErrorMessage);
+                    var result = await _oracle.GetDsaPQAsync(param);
+                    var testCase = new TestCase
+                    {
+                        P = result.P,
+                        Q = result.Q,
+                        Seed = result.Seed,
+                        Counter = result.Counter
+                    };
+
+                    return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
+                }
+                else
+                {
+                    return new TestCaseGenerateResponse<TestGroup, TestCase>(new TestCase());
                 }
             }
             catch (Exception ex)
             {
-                ThisLogger.Error($"Exception generating sample: {ex.StackTrace}");
-                return new TestCaseGenerateResponse<TestGroup, TestCase>($"Exception generating sample: {ex.Message}");
+                ThisLogger.Error(ex);
+                return new TestCaseGenerateResponse<TestGroup, TestCase>("Unable to generate test case");
             }
+        }
 
-            // We don't actually need anything from the old test case
-            testCase = new TestCase
-            {
-                P = sampleResult.P,
-                Q = sampleResult.Q,
-                Seed = sampleResult.Seed,
-                Counter = sampleResult.Count
-            };
-
-            return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
+        {
+            return null;
         }
 
         private Logger ThisLogger => LogManager.GetCurrentClassLogger();

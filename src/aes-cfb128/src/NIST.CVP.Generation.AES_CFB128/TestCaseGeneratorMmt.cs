@@ -4,10 +4,13 @@ using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.Generation.Core;
 using System;
+using System.Threading.Tasks;
+using NIST.CVP.Generation.Core.Async;
+using NLog;
 
 namespace NIST.CVP.Generation.AES_CFB128
 {
-    public class TestCaseGeneratorMmt : ITestCaseGenerator<TestGroup, TestCase>
+    public class TestCaseGeneratorMmt : ITestCaseGeneratorAsync<TestGroup, TestCase>
     {
         private readonly IOracle _oracle;
 
@@ -23,7 +26,7 @@ namespace NIST.CVP.Generation.AES_CFB128
             _oracle = oracle;
         }
 
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
+        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample)
         {
             var param = new AesParameters
             {
@@ -33,28 +36,25 @@ namespace NIST.CVP.Generation.AES_CFB128
                 KeyLength = group.KeyLength
             };
 
-            AesResult oracleResult = null;
             try
             {
-                oracleResult = _oracle.GetAesCase(param);
+                var oracleResult = await _oracle.GetAesCaseAsync(param);
+
+                return new TestCaseGenerateResponse<TestGroup, TestCase>(new TestCase
+                {
+                    Key = oracleResult.Key,
+                    IV = oracleResult.Iv,
+                    PlainText = oracleResult.PlainText,
+                    CipherText = oracleResult.CipherText
+                });
             }
             catch (Exception ex)
             {
+                ThisLogger.Error(ex);
                 return new TestCaseGenerateResponse<TestGroup, TestCase>($"Failed to generate. {ex.Message}");
             }
-
-            return new TestCaseGenerateResponse<TestGroup, TestCase>(new TestCase
-            {
-                Key = oracleResult.Key,
-                IV = oracleResult.Iv,
-                PlainText = oracleResult.PlainText,
-                CipherText = oracleResult.CipherText
-            });
         }
 
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup @group, TestCase testCase)
-        {
-            return null;
-        }
+        private static ILogger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }

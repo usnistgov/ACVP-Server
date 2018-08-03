@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Castle.Components.DictionaryAdapter;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
@@ -39,7 +40,7 @@ namespace NIST.CVP.Generation.TDES_CBCI.Tests
         [TestCase("VariableTExt", "ENcryPt")]
         [TestCase("VariableKey", "ENCRYPT")]
 
-        public void ShouldReturnKat(string testType, string direction)
+        public async Task ShouldReturnKat(string testType, string direction)
         {
             TestGroup testGroup = new TestGroup()
             {
@@ -48,7 +49,7 @@ namespace NIST.CVP.Generation.TDES_CBCI.Tests
             };
 
             var subject = new TestCaseGeneratorKnownAnswer(testGroup);
-            var result = subject.Generate(testGroup, false);
+            var result = await subject.GenerateAsync(testGroup, false);
             Assert.IsNotNull(result);
             Assert.IsTrue(result.Success);
         }
@@ -60,7 +61,7 @@ namespace NIST.CVP.Generation.TDES_CBCI.Tests
         [TestCase("VariableText", 128, "encrypt")]
         [TestCase("SubstitutionTable", 38, "encrypt")]
 
-        public void ShouldReturnExpectedListCount(string testType, int count, string direction)
+        public async Task ShouldReturnExpectedListCount(string testType, int count, string direction)
         {
             TestGroup testGroup = new TestGroup()
             {
@@ -72,7 +73,7 @@ namespace NIST.CVP.Generation.TDES_CBCI.Tests
             var results = new EditableList<TestCaseGenerateResponse<TestGroup, TestCase>>();
             for (int i = 0; i < subject.NumberOfTestCasesToGenerate; i++)
             {
-                results.Add(subject.Generate(testGroup, false));
+                results.Add(await subject.GenerateAsync(testGroup, false));
             }
             Assert.AreEqual(count, results.Count);
         }
@@ -86,7 +87,7 @@ namespace NIST.CVP.Generation.TDES_CBCI.Tests
         [TestCase("VariableText", 4, "20b9e767b2fb145620b9e767b2fb145620b9e767b2fb1456", "encrypt")]
         [TestCase("SubstitutionTable", 0, "690f5b0d9a26939b690f5b0d9a26939b690f5b0d9a26939b", "encrypt")]
         [TestCase("SubstitutionTable", 14, "6fbf1cafcffd05566fbf1cafcffd05566fbf1cafcffd0556", "encrypt")]
-        public void ShouldReturnExpectedElement(string testType, int elementId, string expectedCipherHex, string direction)
+        public async Task ShouldReturnExpectedElement(string testType, int elementId, string expectedCipherHex, string direction)
         {
             TestGroup testGroup = new TestGroup()
             {
@@ -98,11 +99,11 @@ namespace NIST.CVP.Generation.TDES_CBCI.Tests
             var results = new List<TestCaseGenerateResponse<TestGroup, TestCase>>();
             for (int i = 0; i < subject.NumberOfTestCasesToGenerate; i++)
             {
-                results.Add(subject.Generate(testGroup, false));
+                results.Add(await subject.GenerateAsync(testGroup, false));
             }
 
             Assume.That(results.Count > elementId);
-            var testCase = (TestCase)results[elementId].TestCase;
+            var testCase = results[elementId].TestCase;
             Assert.AreEqual(expectedCipherHex.ToUpper(), testCase.CipherText.ToHex());
         }
        

@@ -1,12 +1,14 @@
 ﻿using System;
+using System.Threading.Tasks;
 using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.Async;
 using NLog;
 
 namespace NIST.CVP.Generation.KAS.FFC
 {
-    public class TestCaseGeneratorAft : ITestCaseGenerator<TestGroup, TestCase>
+    public class TestCaseGeneratorAft : ITestCaseGeneratorAsync<TestGroup, TestCase>
     {
         protected readonly IOracle _oracle;
 
@@ -17,11 +19,11 @@ namespace NIST.CVP.Generation.KAS.FFC
             _oracle = oracle;
         }
 
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
+        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample)
         {
             try
             {
-                var result = _oracle.GetKasAftTestFfc(
+                var result = await _oracle.GetKasAftTestFfcAsync(
                     new KasAftParametersFfc()
                     {
                         P = group.P,
@@ -81,12 +83,7 @@ namespace NIST.CVP.Generation.KAS.FFC
                 return new TestCaseGenerateResponse<TestGroup, TestCase>(ex.Message);
             }
         }
-
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
-        {
-            throw new NotImplementedException();
-        }
-
+        
         private static Logger Logger => LogManager.GetCurrentClassLogger();
     }
 }

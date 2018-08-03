@@ -1,25 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
+﻿using NIST.CVP.Common.Oracle;
 using NIST.CVP.Generation.Core;
+using System.Collections.Generic;
 
 namespace NIST.CVP.Generation.DSA.FFC.KeyGen
 {
     public class TestGroupGeneratorFactory : ITestGroupGeneratorFactory<Parameters, TestGroup, TestCase>
     {
-        private readonly IDsaFfcFactory _dsaFactory;
+        private readonly IOracle _oracle;
 
-        public TestGroupGeneratorFactory(IDsaFfcFactory dsaFactory)
+        public TestGroupGeneratorFactory(IOracle oracle)
         {
-            _dsaFactory = dsaFactory;
+            _oracle = oracle;
         }
 
         public IEnumerable<ITestGroupGenerator<Parameters, TestGroup, TestCase>> GetTestGroupGenerators()
         {
             var list = new HashSet<ITestGroupGenerator<Parameters, TestGroup, TestCase>>
             {
-                new TestGroupGenerator(_dsaFactory)
+                new TestGroupGenerator(_oracle)
             };
 
             return list;

@@ -4,6 +4,7 @@ using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
 using NUnit.Framework;
 using System;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Generation.TDES_OFBI.Tests
 {
@@ -18,23 +19,23 @@ namespace NIST.CVP.Generation.TDES_OFBI.Tests
         {
             _oracle = new Mock<IOracle>();
             _oracle
-                .Setup(s => s.GetTdesMctWithIvsCase(It.IsAny<TdesParameters>()))
-                .Returns(() => new MctResult<TdesResultWithIvs>());
+                .Setup(s => s.GetTdesMctWithIvsCaseAsync(It.IsAny<TdesParameters>()))
+                .Returns(() => Task.FromResult(new MctResult<TdesResultWithIvs>()));
             _subject = new TestCaseGeneratorMonteCarlo(_oracle.Object);
         }
         
         [Test]
-        public void ShouldReturnErrorMessageIfAlgoFailsWithException()
+        public async Task ShouldReturnErrorMessageIfAlgoFailsWithException()
         {
             string errorMessage = "something bad happened! oh noes!";
-            _oracle.Setup(s => s.GetTdesMctWithIvsCase(It.IsAny<TdesParameters>()))
+            _oracle.Setup(s => s.GetTdesMctWithIvsCaseAsync(It.IsAny<TdesParameters>()))
                 .Throws(new Exception(errorMessage));
 
             TestGroup testGroup = new TestGroup()
             {
                 KeyingOption = 1
             };
-            var result = _subject.Generate(testGroup, true);
+            var result = await _subject.GenerateAsync(testGroup, true);
 
             Assert.IsFalse(result.Success, nameof(result.Success));
             Assert.IsTrue(result.ErrorMessage.Contains(errorMessage));

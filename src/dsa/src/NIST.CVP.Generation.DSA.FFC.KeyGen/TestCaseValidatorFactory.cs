@@ -1,30 +1,29 @@
-﻿using System;
+﻿using NIST.CVP.Common.Oracle;
+using NIST.CVP.Generation.Core;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
-using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.DSA.FFC.KeyGen
 {
-    public class TestCaseValidatorFactory : ITestCaseValidatorFactory<TestVectorSet, TestGroup, TestCase>
+    public class TestCaseValidatorFactory : ITestCaseValidatorFactoryAsync<TestVectorSet, TestGroup, TestCase>
     {
-        private readonly IDsaFfcFactory _dsaFactory;
+        private readonly IOracle _oracle;
 
-        public TestCaseValidatorFactory(IDsaFfcFactory dsaFactory)
+        public TestCaseValidatorFactory(IOracle oracle)
         {
-            _dsaFactory = dsaFactory;
+            _oracle = oracle;
         }
 
-        public IEnumerable<ITestCaseValidator<TestGroup, TestCase>> GetValidators(TestVectorSet testVectorSet)
+        public IEnumerable<ITestCaseValidatorAsync<TestGroup, TestCase>> GetValidators(TestVectorSet testVectorSet)
         {
-            var list = new List<ITestCaseValidator<TestGroup, TestCase>>();
+            var list = new List<ITestCaseValidatorAsync<TestGroup, TestCase>>();
 
             foreach (var group in testVectorSet.TestGroups.Select(g => g))
             {
                 foreach (var test in group.Tests.Select(t => t))
                 {
-                    var deferredResolver = new DeferredTestCaseResolver(_dsaFactory);
+                    var deferredResolver = new DeferredTestCaseResolver(_oracle);
                     list.Add(new TestCaseValidator(test, group, deferredResolver));
                 }
             }

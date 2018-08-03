@@ -1,14 +1,17 @@
 ﻿using System;
+using System.Threading.Tasks;
 using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.Crypto.Common.Symmetric.TDES;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.Async;
+using NLog;
 
 namespace NIST.CVP.Generation.TDES_CTR
 {
-    public class TestCaseGeneratorCounter : ITestCaseGenerator<TestGroup, TestCase>
+    public class TestCaseGeneratorCounter : ITestCaseGeneratorAsync<TestGroup, TestCase>
     {
         private readonly IOracle _oracle;
 
@@ -21,7 +24,7 @@ namespace NIST.CVP.Generation.TDES_CTR
             _oracle = oracle;
         }
 
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
+        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample)
         {
             if (isSample)
             {
@@ -47,12 +50,12 @@ namespace NIST.CVP.Generation.TDES_CTR
                 if (isSample)
                 {
                     // Generate full test case
-                    result = _oracle.CompleteDeferredTdesCounterCase(param);
+                    result = await _oracle.CompleteDeferredTdesCounterCaseAsync(param);
                 }
                 else
                 {
                     // Generate partial test case
-                    result = _oracle.GetDeferredTdesCounterCase(param);
+                    result = await _oracle.GetDeferredTdesCounterCaseAsync(param);
                 }
 
                 return new TestCaseGenerateResponse<TestGroup, TestCase>(new TestCase
@@ -67,13 +70,11 @@ namespace NIST.CVP.Generation.TDES_CTR
             }
             catch (Exception ex)
             {
+                ThisLogger.Error(ex);
                 return new TestCaseGenerateResponse<TestGroup, TestCase>($"Failed to generate. {ex.Message}");
             }
         }
 
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
-        {
-            throw new NotImplementedException();
-        }
+        private static ILogger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }

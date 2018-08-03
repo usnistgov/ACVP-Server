@@ -1,20 +1,24 @@
-﻿using NIST.CVP.Crypto.Common.Asymmetric.RSA;
+﻿using NIST.CVP.Common.Oracle;
+using NIST.CVP.Common.Oracle.ParameterTypes;
+using NIST.CVP.Common.Oracle.ResultTypes;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Math;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.RSA_DPComponent
 {
-    public class DeferredCryptoResolver : IDeferredTestCaseResolver<TestGroup, TestCase, ManyEncryptionResult>
+    public class DeferredCryptoResolver : IDeferredTestCaseResolverAsync<TestGroup, TestCase, ManyEncryptionResult>
     {
-        private readonly IRsa _rsa;
+        private readonly IOracle _oracle;
 
-        public DeferredCryptoResolver(IRsa rsa)
+        public DeferredCryptoResolver(IOracle oracle)
         {
-            _rsa = rsa;
+            _oracle = oracle;
         }
 
-        public ManyEncryptionResult CompleteDeferredCrypto(TestGroup serverTestGroup, TestCase serverTestCase, TestCase iutTestCase)
+        public async Task<ManyEncryptionResult> CompleteDeferredCryptoAsync(TestGroup serverTestGroup, TestCase serverTestCase, TestCase iutTestCase)
         {
             var responses = new List<AlgoArrayResponseSignature>();
 
@@ -40,10 +44,21 @@ namespace NIST.CVP.Generation.RSA_DPComponent
                     }
                     else
                     {
-                        var result = _rsa.Encrypt(serverResponse.PlainText.ToPositiveBigInteger(), serverResponse.Key.PubKey);
-                        if (result.Success)
+                        var param = new RsaDecryptionPrimitiveParameters
                         {
-                            serverResponse.CipherText = new BitString(result.CipherText);
+                            Modulo = serverTestGroup.Modulo
+                        };
+
+                        var fullParam = new RsaDecryptionPrimitiveResult
+                        {
+                            PlainText = serverResponse.PlainText,
+                            Key = serverResponse.Key
+                        };
+
+                        var result = await _oracle.CompleteDeferredRsaDecryptionPrimitiveAsync(param, fullParam);
+                        if (result.TestPassed)
+                        {
+                            serverResponse.CipherText = result.CipherText;
                         }
                         else
                         {

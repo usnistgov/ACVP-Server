@@ -1,85 +1,64 @@
-﻿using System;
-using NIST.CVP.Crypto.Common.KDF.Components.SSH;
+﻿using NIST.CVP.Common.Oracle;
+using NIST.CVP.Common.Oracle.ParameterTypes;
+using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Math;
 using NLog;
+using System;
+using System.Threading.Tasks;
+using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.SSH
 {
-    public class TestCaseGenerator : ITestCaseGenerator<TestGroup, TestCase>
+    public class TestCaseGenerator : ITestCaseGeneratorAsync<TestGroup, TestCase>
     {
-        private readonly IRandom800_90 _rand;
-        private readonly ISsh _algo;
-        private const int SHARED_SECRET_LENGTH = 2048;
+        private readonly IOracle _oracle;
 
         public int NumberOfTestCasesToGenerate { get; private set; } = 100;
 
-        public TestCaseGenerator(IRandom800_90 rand, ISsh algo)
+        public TestCaseGenerator(IOracle oracle)
         {
-            _rand = rand;
-            _algo = algo;
+            _oracle = oracle;
         }
 
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
+        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample)
         {
             if (isSample)
             {
                 NumberOfTestCasesToGenerate = 20;
             }
 
-            // Get a random 2048-bit value (256-byte)
-            var k = _rand.GetRandomBitString(SHARED_SECRET_LENGTH);
-
-            // If the MSbit is a 1, append "00" to the front
-            if (k.GetMostSignificantBits(1).Equals(BitString.One()))
+            var param = new SshKdfParameters
             {
-                k = BitString.Zeroes(8).ConcatenateBits(k);
-            }
-
-            // Append the length (32-bit) to the front (in bytes, so 256 or 257 bytes)
-            var fullK = BitString.To32BitString(k.BitLength / 8).ConcatenateBits(k);
-            var randH = _rand.GetRandomBitString(group.HashAlg.OutputLen);
-            var randSessionId = _rand.GetRandomBitString(group.HashAlg.OutputLen);
-
-            var testCase = new TestCase
-            {
-                K = fullK,
-                H = randH,
-                SessionId = randSessionId
+                Cipher = group.Cipher,
+                HashAlg = group.HashAlg
             };
 
-            return Generate(group, testCase);
-        }
-
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
-        {
-            KdfResult kdfResult = null;
             try
             {
-                kdfResult = _algo.DeriveKey(testCase.K, testCase.H, testCase.SessionId);
-                if (!kdfResult.Success)
+                var result = await _oracle.GetSshKdfCaseAsync(param);
+
+                var testCase = new TestCase
                 {
-                    ThisLogger.Warn(kdfResult.ErrorMessage);
-                    return new TestCaseGenerateResponse<TestGroup, TestCase>(kdfResult.ErrorMessage);
-                }
+                    EncryptionKeyClient = result.EncryptionKeyClient,
+                    K = result.K,
+                    SessionId = result.SessionId,
+                    H = result.H,
+                    IntegrityKeyServer = result.IntegrityKeyServer,
+                    IntegrityKeyClient = result.IntegrityKeyClient,
+                    InitialIvServer = result.InitialIvServer,
+                    EncryptionKeyServer = result.EncryptionKeyServer,
+                    InitialIvClient = result.InitialIvClient
+                };
+
+                return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
             }
             catch (Exception ex)
             {
-                ThisLogger.Error(ex.StackTrace);
-                return new TestCaseGenerateResponse<TestGroup, TestCase>(ex.Message);
+                ThisLogger.Error(ex);
+                return new TestCaseGenerateResponse<TestGroup, TestCase>($"Failed to generate. {ex.Message}");
             }
-
-            testCase.InitialIvClient = kdfResult.ClientToServer.InitialIv;
-            testCase.EncryptionKeyClient = kdfResult.ClientToServer.EncryptionKey;
-            testCase.IntegrityKeyClient = kdfResult.ClientToServer.IntegrityKey;
-
-            testCase.InitialIvServer = kdfResult.ServerToClient.InitialIv;
-            testCase.EncryptionKeyServer = kdfResult.ServerToClient.EncryptionKey;
-            testCase.IntegrityKeyServer = kdfResult.ServerToClient.IntegrityKey;
-
-            return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
         }
 
-        public Logger ThisLogger => LogManager.GetCurrentClassLogger();
+        public ILogger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }

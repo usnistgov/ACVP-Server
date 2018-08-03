@@ -11,19 +11,23 @@ using NIST.CVP.Crypto.Symmetric.MonteCarlo;
 using NIST.CVP.Math;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Crypto.Oracle
 {
     public partial class Oracle
     {
-        private readonly AesEngine _aes = new AesEngine();
+        private readonly BlockCipherEngineFactory _engineFactory = new BlockCipherEngineFactory();
         private readonly ModeBlockCipherFactory _modeFactory = new ModeBlockCipherFactory();
         private readonly AesMonteCarloFactory _aesMctFactory = new AesMonteCarloFactory(new BlockCipherEngineFactory(), new ModeBlockCipherFactory());
         private readonly CounterFactory _ctrFactory = new CounterFactory();
 
         public AesResult GetAesCase(AesParameters param)
         {
-            var cipher = _modeFactory.GetStandardCipher(_aes, param.Mode);
+            var cipher = _modeFactory.GetStandardCipher(
+                _engineFactory.GetSymmetricCipherPrimitive(BlockCipherEngines.Aes), 
+                param.Mode
+            );
             var direction = BlockCipherDirections.Encrypt;
             if (param.Direction.ToLower() == "decrypt")
             {
@@ -88,7 +92,7 @@ namespace NIST.CVP.Crypto.Oracle
 
         public AesResult GetDeferredAesCounterCase(CounterParameters<AesParameters> param)
         {
-            var iv = GetStartingIV(param.Overflow, param.Incremental);
+            var iv = GetStartingIv(param.Overflow, param.Incremental);
 
             var direction = BlockCipherDirections.Encrypt;
             if (param.Parameters.Direction.ToLower() == "decrypt")
@@ -117,8 +121,15 @@ namespace NIST.CVP.Crypto.Oracle
                 direction = BlockCipherDirections.Decrypt;
             }
 
-            var counter = _ctrFactory.GetCounter(_aes, param.Incremental ? CounterTypes.Additive : CounterTypes.Subtractive, fullParam.Iv);
-            var cipher = _modeFactory.GetCounterCipher(_aes, counter);
+            var engine = _engineFactory.GetSymmetricCipherPrimitive(BlockCipherEngines.Aes);
+            var counter = _ctrFactory.GetCounter(
+                engine, 
+                param.Incremental ? CounterTypes.Additive : CounterTypes.Subtractive, fullParam.Iv
+            );
+            var cipher = _modeFactory.GetCounterCipher(
+                engine, 
+                counter
+            );
 
             var blockCipherParams = new CounterModeBlockCipherParameters(direction, fullParam.Iv, fullParam.Key, direction == BlockCipherDirections.Encrypt ? fullParam.PlainText : fullParam.CipherText, null);
   
@@ -135,7 +146,9 @@ namespace NIST.CVP.Crypto.Oracle
 
         public CounterResult ExtractIvs(AesParameters param, AesResult fullParam)
         {
-            var cipher = _modeFactory.GetIvExtractor(_aes);
+            var cipher = _modeFactory.GetIvExtractor(
+                _engineFactory.GetSymmetricCipherPrimitive(BlockCipherEngines.Aes)
+            );
             var direction = BlockCipherDirections.Encrypt;
             if (param.Direction.ToLower() == "decrypt")
             {
@@ -165,7 +178,10 @@ namespace NIST.CVP.Crypto.Oracle
 
         public AesXtsResult GetAesXtsCase(AesXtsParameters param)
         {
-            var cipher = _modeFactory.GetStandardCipher(_aes, param.Mode);
+            var cipher = _modeFactory.GetStandardCipher(
+                _engineFactory.GetSymmetricCipherPrimitive(BlockCipherEngines.Aes), 
+                param.Mode
+            );
             var direction = BlockCipherDirections.Encrypt;
             if (param.Direction.ToLower() == "decrypt")
             {
@@ -200,7 +216,38 @@ namespace NIST.CVP.Crypto.Oracle
             };
         }
 
-        private BitString GetStartingIV(bool overflow, bool incremental)
+
+        public async Task<AesResult> GetAesCaseAsync(AesParameters param)
+        {
+            return await Task.Run(() => GetAesCase(param));
+        }
+
+        public async Task<MctResult<AesResult>> GetAesMctCaseAsync(AesParameters param)
+        {
+            return await Task.Run(() => GetAesMctCase(param));
+        }
+
+        public async Task<AesXtsResult> GetAesXtsCaseAsync(AesXtsParameters param)
+        {
+            return await _taskFactory.StartNew(() => GetAesXtsCase(param));
+        }
+
+        public async Task<AesResult> GetDeferredAesCounterCaseAsync(CounterParameters<AesParameters> param)
+        {
+            return await _taskFactory.StartNew(() => GetDeferredAesCounterCase(param));
+        }
+
+        public async Task<AesResult> CompleteDeferredAesCounterCaseAsync(CounterParameters<AesParameters> param)
+        {
+            return await _taskFactory.StartNew(() => CompleteDeferredAesCounterCase(param));
+        }
+
+        public async Task<CounterResult> ExtractIvsAsync(AesParameters param, AesResult fullParam)
+        {
+            return await _taskFactory.StartNew(() => ExtractIvs(param, fullParam));
+        }
+
+        private BitString GetStartingIv(bool overflow, bool incremental)
         {
             BitString padding;
 

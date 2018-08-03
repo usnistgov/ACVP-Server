@@ -16,13 +16,15 @@ namespace NIST.CVP.Crypto.Oracle
 {
     public partial class Oracle
     {
-        private readonly TdesEngine _tdes = new TdesEngine();
         private readonly TdesMonteCarloFactory _tdesMctFactory = new TdesMonteCarloFactory(new BlockCipherEngineFactory(), new ModeBlockCipherFactory());
         private readonly TdesPartitionsMonteCarloFactory _tdesWithIvsMctFactory = new TdesPartitionsMonteCarloFactory(new BlockCipherEngineFactory(), new ModeBlockCipherFactory());
 
         public TdesResult GetTdesCase(TdesParameters param)
         {
-            var cipher = _modeFactory.GetStandardCipher(_tdes, param.Mode);
+            var cipher = _modeFactory.GetStandardCipher(
+                _engineFactory.GetSymmetricCipherPrimitive(BlockCipherEngines.Tdes), 
+                param.Mode
+            );
             var direction = BlockCipherDirections.Encrypt;
             if (param.Direction.ToLower() == "decrypt")
             {
@@ -87,7 +89,10 @@ namespace NIST.CVP.Crypto.Oracle
 
         public TdesResultWithIvs GetTdesWithIvsCase(TdesParameters param)
         {
-            var cipher = _modeFactory.GetStandardCipher(_tdes, param.Mode);
+            var cipher = _modeFactory.GetStandardCipher(
+                _engineFactory.GetSymmetricCipherPrimitive(BlockCipherEngines.Tdes), 
+                param.Mode
+            );
             var direction = BlockCipherDirections.Encrypt;
             if (param.Direction.ToLower() == "decrypt")
             {
@@ -157,7 +162,7 @@ namespace NIST.CVP.Crypto.Oracle
 
         public TdesResult GetDeferredTdesCounterCase(CounterParameters<TdesParameters> param)
         {
-            var iv = GetStartingIV(param.Overflow, param.Incremental);
+            var iv = GetStartingIv(param.Overflow, param.Incremental);
 
             var direction = BlockCipherDirections.Encrypt;
             if (param.Parameters.Direction.ToLower() == "decrypt")
@@ -186,8 +191,16 @@ namespace NIST.CVP.Crypto.Oracle
                 direction = BlockCipherDirections.Decrypt;
             }
 
-            var counter = _ctrFactory.GetCounter(_tdes, param.Incremental ? CounterTypes.Additive : CounterTypes.Subtractive, fullParam.Iv);
-            var cipher = _modeFactory.GetCounterCipher(_tdes, counter);
+            var engine = _engineFactory.GetSymmetricCipherPrimitive(BlockCipherEngines.Tdes);
+            var counter = _ctrFactory.GetCounter(
+                engine, 
+                param.Incremental ? CounterTypes.Additive : CounterTypes.Subtractive, 
+                fullParam.Iv
+            );
+            var cipher = _modeFactory.GetCounterCipher(
+                engine, 
+                counter
+            );
 
             var blockCipherParams = new CounterModeBlockCipherParameters(direction, fullParam.Iv, fullParam.Key, direction == BlockCipherDirections.Encrypt ? fullParam.PlainText : fullParam.CipherText, null);
   
@@ -204,7 +217,9 @@ namespace NIST.CVP.Crypto.Oracle
 
         public CounterResult ExtractIvs(TdesParameters param, TdesResult fullParam)
         {
-            var cipher = _modeFactory.GetIvExtractor(_tdes);
+            var cipher = _modeFactory.GetIvExtractor(
+                _engineFactory.GetSymmetricCipherPrimitive(BlockCipherEngines.Tdes)
+            );
             var direction = BlockCipherDirections.Encrypt;
             if (param.Direction.ToLower() == "decrypt")
             {
@@ -234,16 +249,37 @@ namespace NIST.CVP.Crypto.Oracle
 
         public async Task<TdesResult> GetTdesCaseAsync(TdesParameters param)
         {
-            // TODO note this should not be done this way, proof of concept
-            // implementing with orleans will allow for the more appropriate awaiting
-            return await Task.Factory.StartNew(() => GetTdesCase(param));
+            return await _taskFactory.StartNew(() => GetTdesCase(param));
         }
 
         public async Task<MctResult<TdesResult>> GetTdesMctCaseAsync(TdesParameters param)
         {
-            // TODO note this should not be done this way, proof of concept
-            // implementing with orleans will allow for the more appropriate awaiting
-            return await Task.Factory.StartNew(() => GetTdesMctCase(param));
+            return await _taskFactory.StartNew(() => GetTdesMctCase(param));
+        }
+
+        public async Task<TdesResultWithIvs> GetTdesWithIvsCaseAsync(TdesParameters param)
+        {
+            return await _taskFactory.StartNew(() => GetTdesWithIvsCase(param));
+        }
+
+        public async Task<MctResult<TdesResultWithIvs>> GetTdesMctWithIvsCaseAsync(TdesParameters param)
+        {
+            return await _taskFactory.StartNew(() => GetTdesMctWithIvsCase(param));
+        }
+
+        public async Task<TdesResult> GetDeferredTdesCounterCaseAsync(CounterParameters<TdesParameters> param)
+        {
+            return await _taskFactory.StartNew(() => GetDeferredTdesCounterCase(param));
+        }
+
+        public async Task<TdesResult> CompleteDeferredTdesCounterCaseAsync(CounterParameters<TdesParameters> param)
+        {
+            return await _taskFactory.StartNew(() => CompleteDeferredTdesCounterCase(param));
+        }
+
+        public async Task<CounterResult> ExtractIvsAsync(TdesParameters param, TdesResult fullParam)
+        {
+            return await _taskFactory.StartNew(() => ExtractIvs(param, fullParam));
         }
     }
 }

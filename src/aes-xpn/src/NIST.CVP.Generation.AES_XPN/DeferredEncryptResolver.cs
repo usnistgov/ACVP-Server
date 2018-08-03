@@ -1,12 +1,13 @@
 ﻿using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
-using NIST.CVP.Generation.Core;
 using System;
+using System.Threading.Tasks;
+using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.AES_XPN
 {
-    public class DeferredEncryptResolver : IDeferredTestCaseResolver<TestGroup, TestCase, AeadResult>
+    public class DeferredEncryptResolver : IDeferredTestCaseResolverAsync<TestGroup, TestCase, AeadResult>
     {
         private readonly IOracle _oracle;
 
@@ -15,7 +16,7 @@ namespace NIST.CVP.Generation.AES_XPN
             _oracle = oracle;
         }
 
-        public AeadResult CompleteDeferredCrypto(TestGroup testGroup, TestCase serverTestCase, TestCase iutTestCase)
+        public async Task<AeadResult> CompleteDeferredCryptoAsync(TestGroup testGroup, TestCase serverTestCase, TestCase iutTestCase)
         {
             var iv = serverTestCase.IV.GetDeepCopy();
             if (testGroup.IVGeneration.Equals("internal", StringComparison.OrdinalIgnoreCase))
@@ -44,7 +45,7 @@ namespace NIST.CVP.Generation.AES_XPN
                 Aad = serverTestCase.AAD
             };
 
-            return _oracle.CompleteDeferredAesXpnCase(param, fullParam);
+            return await _oracle.CompleteDeferredAesXpnCaseAsync(param, fullParam);
         }
     }
 }
