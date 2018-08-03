@@ -8,6 +8,7 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Generation.DSA.FFC.SigGen.Tests
 {
@@ -21,8 +22,8 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen.Tests
         {
             var oracleMock = new Mock<IOracle>();
             oracleMock
-                .Setup(s => s.GetDsaDomainParameters(It.IsAny<DsaDomainParametersParameters>()))
-                .Returns(new DsaDomainParametersResult());
+                .Setup(s => s.GetDsaDomainParametersAsync(It.IsAny<DsaDomainParametersParameters>()))
+                .Returns(Task.FromResult(new DsaDomainParametersResult()));
 
             _subject = new TestGroupGeneratorFactory(oracleMock.Object);
         }

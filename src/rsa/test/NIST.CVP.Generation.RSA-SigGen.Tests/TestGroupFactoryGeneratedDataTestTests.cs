@@ -6,6 +6,7 @@ using NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Generation.RSA_SigGen.Tests
 {
@@ -19,8 +20,8 @@ namespace NIST.CVP.Generation.RSA_SigGen.Tests
         {
             var oracle = new Mock<IOracle>();
             oracle
-                .Setup(s => s.GetRsaKey(It.IsAny<RsaKeyParameters>()))
-                .Returns(new RsaKeyResult { Key = new KeyPair() });
+                .Setup(s => s.GetRsaKeyAsync(It.IsAny<RsaKeyParameters>()))
+                .Returns(Task.FromResult(new RsaKeyResult { Key = new KeyPair() }));
 
             _subject = new TestGroupGenerator(oracle.Object);
         }

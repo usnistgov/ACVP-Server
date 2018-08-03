@@ -30,8 +30,8 @@ namespace NIST.CVP.Generation.TDES_CFB.Tests
 
             _mockOracle = new Mock<IOracle>();
             _mockOracle
-                .Setup(s => s.GetTdesMctCase(It.IsAny<TdesParameters>()))
-                .Returns(mctResult);
+                .Setup(s => s.GetTdesMctCaseAsync(It.IsAny<TdesParameters>()))
+                .Returns(Task.FromResult(mctResult));
         }
 
         [Test]
@@ -59,7 +59,7 @@ namespace NIST.CVP.Generation.TDES_CFB.Tests
         {
             string errorMessage = "something bad happened! oh noes!";
             _mockOracle
-                .Setup(s => s.GetTdesMctCase(It.IsAny<TdesParameters>()))
+                .Setup(s => s.GetTdesMctCaseAsync(It.IsAny<TdesParameters>()))
                 .Throws(new Exception(errorMessage));
 
             TestGroup testGroup = new TestGroup()

@@ -10,7 +10,7 @@ namespace NIST.CVP.Crypto.Oracle
     {
         private readonly KeyWrapFactory _keyWrapFactory = new KeyWrapFactory();
 
-        public KeyWrapResult GetKeyWrapCase(KeyWrapParameters param)
+        private KeyWrapResult GetKeyWrapCase(KeyWrapParameters param)
         {
             var keyWrap = _keyWrapFactory.GetKeyWrapInstance(param.KeyWrapType);
 

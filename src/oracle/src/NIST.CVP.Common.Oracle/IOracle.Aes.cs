@@ -6,15 +6,6 @@ namespace NIST.CVP.Common.Oracle
 {
     public partial interface IOracle
     {
-        AesResult GetAesCase(AesParameters param);
-        MctResult<AesResult> GetAesMctCase(AesParameters param);
-        AesXtsResult GetAesXtsCase(AesXtsParameters param);
-
-        AesResult GetDeferredAesCounterCase(CounterParameters<AesParameters> param);
-        AesResult CompleteDeferredAesCounterCase(CounterParameters<AesParameters> param);
-        CounterResult ExtractIvs(AesParameters param, AesResult fullParam);
-
-
         Task<AesResult> GetAesCaseAsync(AesParameters param);
         Task<MctResult<AesResult>> GetAesMctCaseAsync(AesParameters param);
         Task<AesXtsResult> GetAesXtsCaseAsync(AesXtsParameters param);

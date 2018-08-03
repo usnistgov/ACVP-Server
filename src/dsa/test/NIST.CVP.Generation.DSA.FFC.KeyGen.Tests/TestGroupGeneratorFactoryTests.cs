@@ -9,6 +9,7 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Generation.DSA.FFC.KeyGen.Tests
 {
@@ -22,8 +23,8 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen.Tests
         {
             var oracleMock = new Mock<IOracle>();
             oracleMock
-                .Setup(s => s.GetDsaKey(It.IsAny<DsaKeyParameters>()))
-                .Returns(new DsaKeyResult { Key = new FfcKeyPair() });
+                .Setup(s => s.GetDsaKeyAsync(It.IsAny<DsaKeyParameters>()))
+                .Returns(Task.FromResult(new DsaKeyResult { Key = new FfcKeyPair() }));
 
             _subject = new TestGroupGeneratorFactory(oracleMock.Object);
         }

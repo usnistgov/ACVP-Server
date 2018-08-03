@@ -35,7 +35,7 @@ namespace NIST.CVP.Crypto.Oracle
             };
         }
 
-        public AeadResult GetAesCcmCase(AeadParameters param)
+        private AeadResult GetAesCcmCase(AeadParameters param)
         {
             var fullParams = new AeadResult
             {
@@ -54,7 +54,7 @@ namespace NIST.CVP.Crypto.Oracle
             );
         }
 
-        public AeadResult GetAesGcmCase(AeadParameters param)
+        private AeadResult GetAesGcmCase(AeadParameters param)
         {
             var fullParams = new AeadResult
             {
@@ -89,7 +89,7 @@ namespace NIST.CVP.Crypto.Oracle
             return result;
         }
 
-        public AeadResult GetAesXpnCase(AeadParameters param)
+        private AeadResult GetAesXpnCase(AeadParameters param)
         {
             var fullParams = new AeadResult
             {
@@ -134,7 +134,7 @@ namespace NIST.CVP.Crypto.Oracle
             return result;
         }
 
-        public AeadResult GetDeferredAesGcmCase(AeadParameters param)
+        private AeadResult GetDeferredAesGcmCase(AeadParameters param)
         {
             return new AeadResult
             {
@@ -144,7 +144,7 @@ namespace NIST.CVP.Crypto.Oracle
             };
         }
 
-        public AeadResult CompleteDeferredAesGcmCase(AeadParameters param, AeadResult fullParam)
+        private AeadResult CompleteDeferredAesGcmCase(AeadParameters param, AeadResult fullParam)
         {
             return DoSimpleAead(
                 _aeadModeBlockCipherFactory.GetAeadCipher(
@@ -156,7 +156,7 @@ namespace NIST.CVP.Crypto.Oracle
             );
         }
 
-        public AeadResult GetDeferredAesXpnCase(AeadParameters param)
+        private AeadResult GetDeferredAesXpnCase(AeadParameters param)
         {
             return new AeadResult
             {
@@ -168,7 +168,7 @@ namespace NIST.CVP.Crypto.Oracle
             };
         }
 
-        public AeadResult CompleteDeferredAesXpnCase(AeadParameters param, AeadResult fullParam)
+        private AeadResult CompleteDeferredAesXpnCase(AeadParameters param, AeadResult fullParam)
         {
             var testParam = new AeadResult
             {

@@ -23,7 +23,7 @@ namespace NIST.CVP.Crypto.Oracle
         private readonly GGeneratorValidatorFactory _gGenFactory = new GGeneratorValidatorFactory();
         private readonly DsaFfcFactory _dsaFactory = new DsaFfcFactory(new ShaFactory());
 
-        public DsaDomainParametersResult GetDsaPQ(DsaDomainParametersParameters param)
+        private DsaDomainParametersResult GetDsaPQ(DsaDomainParametersParameters param)
         {
             var sha = _shaFactory.GetShaInstance(param.HashAlg);
             var pqGen = _pqGenFactory.GetGeneratorValidator(param.PQGenMode, sha);
@@ -75,7 +75,7 @@ namespace NIST.CVP.Crypto.Oracle
             return domainParams;
         }
 
-        public DsaDomainParametersResult GetDsaG(DsaDomainParametersParameters param, DsaDomainParametersResult pqParam)
+        private DsaDomainParametersResult GetDsaG(DsaDomainParametersParameters param, DsaDomainParametersResult pqParam)
         {
             // Make sure index is not "0000 0000"
             BitString index;
@@ -119,7 +119,7 @@ namespace NIST.CVP.Crypto.Oracle
             return domainParams;
         }
 
-        public DsaDomainParametersResult GetDsaDomainParameters(DsaDomainParametersParameters param)
+        private DsaDomainParametersResult GetDsaDomainParameters(DsaDomainParametersParameters param)
         {
             var pqResult = GetDsaPQ(param);
             var gResult = GetDsaG(param, pqResult);
@@ -136,7 +136,7 @@ namespace NIST.CVP.Crypto.Oracle
             };
         }
 
-        public VerifyResult<DsaDomainParametersResult> GetDsaPQVerify(DsaDomainParametersParameters param, DsaDomainParametersResult fullParam)
+        private VerifyResult<DsaDomainParametersResult> GetDsaPQVerify(DsaDomainParametersParameters param, DsaDomainParametersResult fullParam)
         {
             var sha = _shaFactory.GetShaInstance(param.HashAlg);
             var pqGen = _pqGenFactory.GetGeneratorValidator(param.PQGenMode, sha);
@@ -150,7 +150,7 @@ namespace NIST.CVP.Crypto.Oracle
             };
         }
 
-        public VerifyResult<DsaDomainParametersResult> GetDsaGVerify(DsaDomainParametersParameters param, DsaDomainParametersResult fullParam)
+        private VerifyResult<DsaDomainParametersResult> GetDsaGVerify(DsaDomainParametersParameters param, DsaDomainParametersResult fullParam)
         {
             var sha = _shaFactory.GetShaInstance(param.HashAlg);
             var gGen = _gGenFactory.GetGeneratorValidator(param.GGenMode, sha);
@@ -164,7 +164,7 @@ namespace NIST.CVP.Crypto.Oracle
             };
         }
 
-        public DsaKeyResult GetDsaKey(DsaKeyParameters param)
+        private DsaKeyResult GetDsaKey(DsaKeyParameters param)
         {
             var hashFunction = new HashFunction(ModeValues.SHA2, DigestSizes.d256);
             var dsa = _dsaFactory.GetInstance(hashFunction);
@@ -181,7 +181,7 @@ namespace NIST.CVP.Crypto.Oracle
             };
         }
 
-        public VerifyResult<DsaKeyResult> CompleteDeferredDsaKey(DsaKeyParameters param, DsaKeyResult fullParam)
+        private VerifyResult<DsaKeyResult> CompleteDeferredDsaKey(DsaKeyParameters param, DsaKeyResult fullParam)
         {
             var hashFunction = new HashFunction(ModeValues.SHA2, DigestSizes.d256);
             var dsa = _dsaFactory.GetInstance(hashFunction);
@@ -195,7 +195,7 @@ namespace NIST.CVP.Crypto.Oracle
             };
         }
 
-        public DsaSignatureResult GetDeferredDsaSignature(DsaSignatureParameters param)
+        private DsaSignatureResult GetDeferredDsaSignature(DsaSignatureParameters param)
         {
             return new DsaSignatureResult
             {
@@ -203,7 +203,7 @@ namespace NIST.CVP.Crypto.Oracle
             };
         }
 
-        public VerifyResult<DsaSignatureResult> CompleteDeferredDsaSignature(DsaSignatureParameters param, DsaSignatureResult fullParam)
+        private VerifyResult<DsaSignatureResult> CompleteDeferredDsaSignature(DsaSignatureParameters param, DsaSignatureResult fullParam)
         {
             var ffcDsa = _dsaFactory.GetInstance(param.HashAlg);
             var verifyResult = ffcDsa.Verify(param.DomainParameters, fullParam.Key, fullParam.Message, fullParam.Signature);
@@ -215,7 +215,7 @@ namespace NIST.CVP.Crypto.Oracle
             };
         }
 
-        public DsaSignatureResult GetDsaSignature(DsaSignatureParameters param)
+        private DsaSignatureResult GetDsaSignature(DsaSignatureParameters param)
         {
             var message = _rand.GetRandomBitString(param.MessageLength);
 

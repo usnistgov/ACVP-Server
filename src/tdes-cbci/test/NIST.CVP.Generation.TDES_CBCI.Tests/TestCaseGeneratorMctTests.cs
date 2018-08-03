@@ -28,7 +28,7 @@ namespace NIST.CVP.Generation.TDES_CBCI.Tests
         public async Task ShouldReturnErrorMessageIfAlgoFailsWithException()
         {
             string errorMessage = "something bad happened! oh noes!";
-            _oracle.Setup(s => s.GetTdesMctWithIvsCase(It.IsAny<TdesParameters>()))
+            _oracle.Setup(s => s.GetTdesMctWithIvsCaseAsync(It.IsAny<TdesParameters>()))
                 .Throws(new Exception(errorMessage));
 
             TestGroup testGroup = new TestGroup()

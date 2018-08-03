@@ -18,7 +18,7 @@ namespace NIST.CVP.Crypto.Oracle
         private readonly HmacFactory _hmacFactory = new HmacFactory(new ShaFactory());
         private readonly KmacFactory _kmacFactory = new KmacFactory(new CSHAKEWrapper());
 
-        public MacResult GetCmacCase(CmacParameters param)
+        private MacResult GetCmacCase(CmacParameters param)
         {
             var cmac = _cmacFactory.GetCmacInstance(param.CmacType);
 
@@ -60,7 +60,7 @@ namespace NIST.CVP.Crypto.Oracle
             return result;
         }
 
-        public MacResult GetHmacCase(HmacParameters param)
+        private MacResult GetHmacCase(HmacParameters param)
         {
             var hmac = _hmacFactory.GetHmacInstance(new HashFunction(param.ShaMode, param.ShaDigestSize));
 
@@ -78,7 +78,7 @@ namespace NIST.CVP.Crypto.Oracle
             return result;
         }
 
-        public KmacResult GetKmacCase(KmacParameters param)
+        private KmacResult GetKmacCase(KmacParameters param)
         {
             var kmac = _kmacFactory.GetKmacInstance(param.DigestSize * 2, param.XOF);
 

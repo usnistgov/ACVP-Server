@@ -53,7 +53,7 @@ namespace NIST.CVP.Generation.HMAC.Tests
 
             _oracle.Verify(v => v.GetHmacCaseAsync(It.IsAny<HmacParameters>()),
                 Times.AtLeastOnce,
-                $"{nameof(_oracle.Object.GetHmacCase)} should have been invoked"
+                $"{nameof(_oracle.Object.GetHmacCaseAsync)} should have been invoked"
             );
         }
 
