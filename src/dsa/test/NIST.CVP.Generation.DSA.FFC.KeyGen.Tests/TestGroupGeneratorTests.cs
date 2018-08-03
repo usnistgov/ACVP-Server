@@ -6,6 +6,7 @@ using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Generation.DSA.FFC.KeyGen.Tests
 {
@@ -55,8 +56,8 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen.Tests
         {
             var oracleMock = new Mock<IOracle>();
             oracleMock
-                .Setup(s => s.GetDsaKey(It.IsAny<DsaKeyParameters>()))
-                .Returns(new DsaKeyResult { Key = new FfcKeyPair() });
+                .Setup(s => s.GetDsaKeyAsync(It.IsAny<DsaKeyParameters>()))
+                .Returns(Task.FromResult(new DsaKeyResult { Key = new FfcKeyPair() }));
 
             var subject = new TestGroupGenerator(oracleMock.Object);
             var result = subject.BuildTestGroups(parameters);

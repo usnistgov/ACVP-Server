@@ -25,7 +25,7 @@ namespace NIST.CVP.Crypto.Oracle
         private readonly TupleHash.TupleHash _tupleHash = new TupleHash.TupleHash(new TupleHashFactory());
         private TupleHash_MCT _tupleHashMct;
 
-        public HashResult GetShaCase(ShaParameters param)
+        private HashResult GetShaCase(ShaParameters param)
         {
             var message = _rand.GetRandomBitString(param.MessageLength);
 
@@ -43,7 +43,7 @@ namespace NIST.CVP.Crypto.Oracle
             };
         }
 
-        public MctResult<HashResult> GetShaMctCase(ShaParameters param)
+        private MctResult<HashResult> GetShaMctCase(ShaParameters param)
         {
             _shaMct = new SHA_MCT(_sha);
 
@@ -64,7 +64,7 @@ namespace NIST.CVP.Crypto.Oracle
             };
         }
 
-        public HashResult GetSha3Case(Sha3Parameters param)
+        private HashResult GetSha3Case(Sha3Parameters param)
         {
             var message = _rand.GetRandomBitString(param.MessageLength);
 
@@ -82,7 +82,7 @@ namespace NIST.CVP.Crypto.Oracle
             };
         }
 
-        public MctResult<HashResult> GetSha3MctCase(Sha3Parameters param)
+        private MctResult<HashResult> GetSha3MctCase(Sha3Parameters param)
         {
             _sha3Mct = new SHA3_MCT(_sha3);
 
@@ -103,7 +103,7 @@ namespace NIST.CVP.Crypto.Oracle
             };
         }
 
-        public CShakeResult GetCShakeCase(CShakeParameters param)
+        private CShakeResult GetCShakeCase(CShakeParameters param)
         {
             var message = _rand.GetRandomBitString(param.MessageLength);
 
@@ -136,7 +136,7 @@ namespace NIST.CVP.Crypto.Oracle
             };
         }
 
-        public MctResult<CShakeResult> GetCShakeMctCase(CShakeParameters param)
+        private MctResult<CShakeResult> GetCShakeMctCase(CShakeParameters param)
         {
             _cSHAKEMct = new CSHAKE_MCT(_cSHAKE);
 
@@ -157,7 +157,7 @@ namespace NIST.CVP.Crypto.Oracle
             };
         }
 
-        public ParallelHashResult GetParallelHashCase(ParallelHashParameters param)
+        private ParallelHashResult GetParallelHashCase(ParallelHashParameters param)
         {
             var message = _rand.GetRandomBitString(param.MessageLength);
 
@@ -190,7 +190,7 @@ namespace NIST.CVP.Crypto.Oracle
             };
         }
 
-        public MctResult<ParallelHashResult> GetParallelHashMctCase(ParallelHashParameters param)
+        private MctResult<ParallelHashResult> GetParallelHashMctCase(ParallelHashParameters param)
         {
             _parallelHashMct = new ParallelHash_MCT(_parallelHash);
 
@@ -211,7 +211,7 @@ namespace NIST.CVP.Crypto.Oracle
             };
         }
 
-        public TupleHashResult GetTupleHashCase(TupleHashParameters param)
+        private TupleHashResult GetTupleHashCase(TupleHashParameters param)
         {
             var tuple = new List<BitString>();
 
@@ -272,7 +272,7 @@ namespace NIST.CVP.Crypto.Oracle
             };
         }
 
-        public MctResult<TupleHashResult> GetTupleHashMctCase(TupleHashParameters param)
+        private MctResult<TupleHashResult> GetTupleHashMctCase(TupleHashParameters param)
         {
             _tupleHashMct = new TupleHash_MCT(_tupleHash);
 

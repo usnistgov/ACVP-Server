@@ -16,7 +16,7 @@ namespace NIST.CVP.Crypto.Oracle
         private readonly EccCurveFactory _curveFactory = new EccCurveFactory();
         private readonly DsaEccFactory _eccFactory = new DsaEccFactory(new ShaFactory());
 
-        public EcdsaKeyResult GetEcdsaKey(EcdsaKeyParameters param)
+        private EcdsaKeyResult GetEcdsaKey(EcdsaKeyParameters param)
         {
             var curve = _curveFactory.GetCurve(param.Curve);
             var domainParams = new EccDomainParameters(curve);
@@ -36,7 +36,7 @@ namespace NIST.CVP.Crypto.Oracle
             };
         }
 
-        public EcdsaKeyResult CompleteDeferredEcdsaKey(EcdsaKeyParameters param, EcdsaKeyResult fullParam)
+        private EcdsaKeyResult CompleteDeferredEcdsaKey(EcdsaKeyParameters param, EcdsaKeyResult fullParam)
         {
             var curve = _curveFactory.GetCurve(param.Curve);
             var domainParams = new EccDomainParameters(curve);
@@ -56,7 +56,7 @@ namespace NIST.CVP.Crypto.Oracle
             };
         }
 
-        public VerifyResult<EcdsaKeyResult> GetEcdsaKeyVerify(EcdsaKeyParameters param)
+        private VerifyResult<EcdsaKeyResult> GetEcdsaKeyVerify(EcdsaKeyParameters param)
         {
             var key = GetEcdsaKey(param).Key;
             var curve = _curveFactory.GetCurve(param.Curve);
@@ -101,7 +101,7 @@ namespace NIST.CVP.Crypto.Oracle
             };
         }
 
-        public EcdsaSignatureResult GetEcdsaSignature(EcdsaSignatureParameters param)
+        private EcdsaSignatureResult GetEcdsaSignature(EcdsaSignatureParameters param)
         {
             var curve = _curveFactory.GetCurve(param.Curve);
             var domainParams = new EccDomainParameters(curve);
@@ -122,7 +122,7 @@ namespace NIST.CVP.Crypto.Oracle
             };
         }
 
-        public EcdsaSignatureResult GetDeferredEcdsaSignature(EcdsaSignatureParameters param)
+        private EcdsaSignatureResult GetDeferredEcdsaSignature(EcdsaSignatureParameters param)
         {
             var message = _rand.GetRandomBitString(param.PreHashedMessage ? param.HashAlg.OutputLen : 1024);
 
@@ -132,7 +132,7 @@ namespace NIST.CVP.Crypto.Oracle
             };
         }
 
-        public VerifyResult<EcdsaSignatureResult> CompleteDeferredEcdsaSignature(EcdsaSignatureParameters param, EcdsaSignatureResult fullParam)
+        private VerifyResult<EcdsaSignatureResult> CompleteDeferredEcdsaSignature(EcdsaSignatureParameters param, EcdsaSignatureResult fullParam)
         {
             var eccDsa = _eccFactory.GetInstance(param.HashAlg);
             var curve = _curveFactory.GetCurve(param.Curve);
@@ -146,7 +146,7 @@ namespace NIST.CVP.Crypto.Oracle
             };
         }
 
-        public VerifyResult<EcdsaSignatureResult> GetEcdsaVerifyResult(EcdsaSignatureParameters param)
+        private VerifyResult<EcdsaSignatureResult> GetEcdsaVerifyResult(EcdsaSignatureParameters param)
         {
             var keyParam = new EcdsaKeyParameters
             {

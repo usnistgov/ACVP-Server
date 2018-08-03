@@ -19,7 +19,7 @@ namespace NIST.CVP.Crypto.Oracle
         private readonly TdesMonteCarloFactory _tdesMctFactory = new TdesMonteCarloFactory(new BlockCipherEngineFactory(), new ModeBlockCipherFactory());
         private readonly TdesPartitionsMonteCarloFactory _tdesWithIvsMctFactory = new TdesPartitionsMonteCarloFactory(new BlockCipherEngineFactory(), new ModeBlockCipherFactory());
 
-        public TdesResult GetTdesCase(TdesParameters param)
+        private TdesResult GetTdesCase(TdesParameters param)
         {
             var cipher = _modeFactory.GetStandardCipher(
                 _engineFactory.GetSymmetricCipherPrimitive(BlockCipherEngines.Tdes), 
@@ -53,7 +53,7 @@ namespace NIST.CVP.Crypto.Oracle
             };
         }
 
-        public MctResult<TdesResult> GetTdesMctCase(TdesParameters param)
+        private MctResult<TdesResult> GetTdesMctCase(TdesParameters param)
         {
             var cipher = _tdesMctFactory.GetInstance(param.Mode);
             var direction = BlockCipherDirections.Encrypt;
@@ -87,7 +87,7 @@ namespace NIST.CVP.Crypto.Oracle
             };
         }
 
-        public TdesResultWithIvs GetTdesWithIvsCase(TdesParameters param)
+        private TdesResultWithIvs GetTdesWithIvsCase(TdesParameters param)
         {
             var cipher = _modeFactory.GetStandardCipher(
                 _engineFactory.GetSymmetricCipherPrimitive(BlockCipherEngines.Tdes), 
@@ -124,7 +124,7 @@ namespace NIST.CVP.Crypto.Oracle
             };
         }
 
-        public MctResult<TdesResultWithIvs> GetTdesMctWithIvsCase(TdesParameters param)
+        private MctResult<TdesResultWithIvs> GetTdesMctWithIvsCase(TdesParameters param)
         {
             var cipher = _tdesWithIvsMctFactory.GetInstance(param.Mode);
             var direction = BlockCipherDirections.Encrypt;
@@ -160,7 +160,7 @@ namespace NIST.CVP.Crypto.Oracle
             };
         }
 
-        public TdesResult GetDeferredTdesCounterCase(CounterParameters<TdesParameters> param)
+        private TdesResult GetDeferredTdesCounterCase(CounterParameters<TdesParameters> param)
         {
             var iv = GetStartingIv(param.Overflow, param.Incremental);
 
@@ -182,7 +182,7 @@ namespace NIST.CVP.Crypto.Oracle
             };
         }
 
-        public TdesResult CompleteDeferredTdesCounterCase(CounterParameters<TdesParameters> param)
+        private TdesResult CompleteDeferredTdesCounterCase(CounterParameters<TdesParameters> param)
         {
             var fullParam = GetDeferredTdesCounterCase(param);
             var direction = BlockCipherDirections.Encrypt;
@@ -215,7 +215,7 @@ namespace NIST.CVP.Crypto.Oracle
             };
         }
 
-        public CounterResult ExtractIvs(TdesParameters param, TdesResult fullParam)
+        private CounterResult ExtractIvs(TdesParameters param, TdesResult fullParam)
         {
             var cipher = _modeFactory.GetIvExtractor(
                 _engineFactory.GetSymmetricCipherPrimitive(BlockCipherEngines.Tdes)

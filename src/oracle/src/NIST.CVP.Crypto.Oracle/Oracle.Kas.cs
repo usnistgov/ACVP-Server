@@ -17,60 +17,50 @@ namespace NIST.CVP.Crypto.Oracle
 {
     public partial class Oracle
     {
-        public KasValResultEcc GetKasValTestEcc(KasValParametersEcc param)
+        private KasValResultEcc GetKasValTestEcc(KasValParametersEcc param)
         {
-            // TODO utilize oracle calls to ECDSA functions
-
             return new KasValEccTestGeneratorFactory()
                 .GetInstance(param.KasMode)
                 .GetTest(param);
         }
 
-        public KasAftResultEcc GetKasAftTestEcc(KasAftParametersEcc param)
+        private KasAftResultEcc GetKasAftTestEcc(KasAftParametersEcc param)
         {
-            // TODO utilize oracle calls to ECDSA functions
-
             return new KasAftEccTestGeneratorFactory()
                 .GetInstance(param.KasMode)
                 .GetTest(param);
         }
 
-        public KasAftDeferredResult CompleteDeferredKasTest(KasAftDeferredParametersEcc param)
+        private KasAftDeferredResult CompleteDeferredKasTest(KasAftDeferredParametersEcc param)
         {
             return new KasAftEccDeferredTestResolverFactory()
                 .GetInstance(param.KasMode)
                 .CompleteTest(param);
         }
 
-        public KasValResultFfc GetKasValTestFfc(KasValParametersFfc param)
+        private KasValResultFfc GetKasValTestFfc(KasValParametersFfc param)
         {
-            // TODO utilize oracle calls to DSA functions
-
             return new KasValFfcTestGeneratorFactory()
                 .GetInstance(param.KasMode)
                 .GetTest(param);
         }
 
-        public KasAftResultFfc GetKasAftTestFfc(KasAftParametersFfc param)
+        private KasAftResultFfc GetKasAftTestFfc(KasAftParametersFfc param)
         {
-            // TODO utilize oracle calls to DSA functions
-
             return new KasAftFfcTestGeneratorFactory()
                 .GetInstance(param.KasMode)
                 .GetTest(param);
         }
 
-        public KasAftDeferredResult CompleteDeferredKasTest(KasAftDeferredParametersFfc param)
+        private KasAftDeferredResult CompleteDeferredKasTest(KasAftDeferredParametersFfc param)
         {
             return new KasAftFfcDeferredTestResolverFactory()
                 .GetInstance(param.KasMode)
                 .CompleteTest(param);
         }
 
-        public KasEccComponentResult GetKasEccComponentTest(KasEccComponentParameters param)
+        private KasEccComponentResult GetKasEccComponentTest(KasEccComponentParameters param)
         {
-            // TODO utilize oracle for ECDSA operations
-
             var curveFactory = new EccCurveFactory();
             var curve = curveFactory.GetCurve(param.Curve);
             var domainParameters = new EccDomainParameters(curve);
@@ -108,7 +98,7 @@ namespace NIST.CVP.Crypto.Oracle
             return result;
         }
 
-        public KasEccComponentDeferredResult CompleteDeferredKasComponentTest(KasEccComponentDeferredParameters param)
+        private KasEccComponentDeferredResult CompleteDeferredKasComponentTest(KasEccComponentDeferredParameters param)
         {
             var curveFactory = new EccCurveFactory();
             var curve = curveFactory.GetCurve(param.Curve);

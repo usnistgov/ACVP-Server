@@ -22,7 +22,7 @@ namespace NIST.CVP.Crypto.Oracle
         private readonly AesMonteCarloFactory _aesMctFactory = new AesMonteCarloFactory(new BlockCipherEngineFactory(), new ModeBlockCipherFactory());
         private readonly CounterFactory _ctrFactory = new CounterFactory();
 
-        public AesResult GetAesCase(AesParameters param)
+        private AesResult GetAesCase(AesParameters param)
         {
             var cipher = _modeFactory.GetStandardCipher(
                 _engineFactory.GetSymmetricCipherPrimitive(BlockCipherEngines.Aes), 
@@ -56,7 +56,7 @@ namespace NIST.CVP.Crypto.Oracle
             };
         }
 
-        public MctResult<AesResult> GetAesMctCase(AesParameters param)
+        private MctResult<AesResult> GetAesMctCase(AesParameters param)
         {
             var cipher = _aesMctFactory.GetInstance(param.Mode);
             var direction = BlockCipherDirections.Encrypt;
@@ -90,7 +90,7 @@ namespace NIST.CVP.Crypto.Oracle
             };
         }
 
-        public AesResult GetDeferredAesCounterCase(CounterParameters<AesParameters> param)
+        private AesResult GetDeferredAesCounterCase(CounterParameters<AesParameters> param)
         {
             var iv = GetStartingIv(param.Overflow, param.Incremental);
 
@@ -112,7 +112,7 @@ namespace NIST.CVP.Crypto.Oracle
             };
         }
 
-        public AesResult CompleteDeferredAesCounterCase(CounterParameters<AesParameters> param)
+        private AesResult CompleteDeferredAesCounterCase(CounterParameters<AesParameters> param)
         {
             var fullParam = GetDeferredAesCounterCase(param);
             var direction = BlockCipherDirections.Encrypt;
@@ -144,7 +144,7 @@ namespace NIST.CVP.Crypto.Oracle
             };
         }
 
-        public CounterResult ExtractIvs(AesParameters param, AesResult fullParam)
+        private CounterResult ExtractIvs(AesParameters param, AesResult fullParam)
         {
             var cipher = _modeFactory.GetIvExtractor(
                 _engineFactory.GetSymmetricCipherPrimitive(BlockCipherEngines.Aes)
@@ -176,7 +176,7 @@ namespace NIST.CVP.Crypto.Oracle
             };
         }
 
-        public AesXtsResult GetAesXtsCase(AesXtsParameters param)
+        private AesXtsResult GetAesXtsCase(AesXtsParameters param)
         {
             var cipher = _modeFactory.GetStandardCipher(
                 _engineFactory.GetSymmetricCipherPrimitive(BlockCipherEngines.Aes), 

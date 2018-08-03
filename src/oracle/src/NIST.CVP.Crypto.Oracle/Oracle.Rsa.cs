@@ -24,7 +24,7 @@ namespace NIST.CVP.Crypto.Oracle
         private readonly KeyComposerFactory _keyComposerFactory = new KeyComposerFactory();
         private readonly PaddingFactory _paddingFactory = new PaddingFactory();
         
-        public RsaKeyResult CompleteDeferredRsaKeyCase(RsaKeyParameters param, RsaKeyResult fullParam)
+        private RsaKeyResult CompleteDeferredRsaKeyCase(RsaKeyParameters param, RsaKeyResult fullParam)
         {
             var entropyProvider = new TestableEntropyProvider();
             param.PublicExponent = new BitString(fullParam.Key.PubKey.E);
@@ -68,7 +68,7 @@ namespace NIST.CVP.Crypto.Oracle
             };
         }
 
-        public RsaKeyResult CompleteKey(RsaKeyResult param, PrivateKeyModes keyMode)
+        private RsaKeyResult CompleteKey(RsaKeyResult param, PrivateKeyModes keyMode)
         {
             var keyComposer = _keyComposerFactory.GetKeyComposer(keyMode);
             var primePair = new PrimePair
@@ -110,7 +110,7 @@ namespace NIST.CVP.Crypto.Oracle
             return (keyResult.Success, keyResult.Key, keyResult.AuxValues);
         }
         
-        public RsaKeyResult GetRsaKey(RsaKeyParameters param)
+        private RsaKeyResult GetRsaKey(RsaKeyParameters param)
         {
             var entropyProvider = new EntropyProvider(_rand);
             (bool Success, KeyPair Key, AuxiliaryResult Aux) result;
@@ -134,7 +134,7 @@ namespace NIST.CVP.Crypto.Oracle
             };
         }
 
-        public RsaSignaturePrimitiveResult GetRsaSignaturePrimitive(RsaSignaturePrimitiveParameters param)
+        private RsaSignaturePrimitiveResult GetRsaSignaturePrimitive(RsaSignaturePrimitiveParameters param)
         {
             var keyParam = new RsaKeyParameters
             {
@@ -171,7 +171,7 @@ namespace NIST.CVP.Crypto.Oracle
             };
         }
 
-        public VerifyResult<RsaKeyResult> GetRsaKeyVerify(RsaKeyResult param)
+        private VerifyResult<RsaKeyResult> GetRsaKeyVerify(RsaKeyResult param)
         {
             // Check correctness in values
             if (!NumberTheory.MillerRabin(param.Key.PrivKey.P, 20))
@@ -196,7 +196,7 @@ namespace NIST.CVP.Crypto.Oracle
             };
         }
 
-        public RsaSignatureResult GetDeferredRsaSignature(RsaSignatureParameters param)
+        private RsaSignatureResult GetDeferredRsaSignature(RsaSignatureParameters param)
         {
             return new RsaSignatureResult
             {
@@ -204,7 +204,7 @@ namespace NIST.CVP.Crypto.Oracle
             };
         }
 
-        public RsaSignatureResult GetRsaSignature(RsaSignatureParameters param)
+        private RsaSignatureResult GetRsaSignature(RsaSignatureParameters param)
         {
             var message = _rand.GetRandomBitString(param.Modulo / 2);
             var sha = _shaFactory.GetShaInstance(param.HashAlg);
@@ -234,7 +234,7 @@ namespace NIST.CVP.Crypto.Oracle
             };
         }
 
-        public VerifyResult<RsaSignatureResult> CompleteDeferredRsaSignature(RsaSignatureParameters param, RsaSignatureResult fullParam)
+        private VerifyResult<RsaSignatureResult> CompleteDeferredRsaSignature(RsaSignatureParameters param, RsaSignatureResult fullParam)
         {
             var sha = _shaFactory.GetShaInstance(param.HashAlg);
             var entropyProvider = new TestableEntropyProvider();
@@ -257,7 +257,7 @@ namespace NIST.CVP.Crypto.Oracle
             };
         }
 
-        public VerifyResult<RsaSignatureResult> GetRsaVerify(RsaSignatureParameters param)
+        private VerifyResult<RsaSignatureResult> GetRsaVerify(RsaSignatureParameters param)
         {
             var message = _rand.GetRandomBitString(param.Modulo / 2);
             var sha = _shaFactory.GetShaInstance(param.HashAlg);
@@ -302,7 +302,7 @@ namespace NIST.CVP.Crypto.Oracle
             };
         }
 
-        public RsaDecryptionPrimitiveResult GetDeferredRsaDecryptionPrimitive(RsaDecryptionPrimitiveParameters param)
+        private RsaDecryptionPrimitiveResult GetDeferredRsaDecryptionPrimitive(RsaDecryptionPrimitiveParameters param)
         {
             return new RsaDecryptionPrimitiveResult
             {
@@ -312,7 +312,7 @@ namespace NIST.CVP.Crypto.Oracle
             };
         }
 
-        public RsaDecryptionPrimitiveResult CompleteDeferredRsaDecryptionPrimitive(RsaDecryptionPrimitiveParameters param, RsaDecryptionPrimitiveResult fullParam)
+        private RsaDecryptionPrimitiveResult CompleteDeferredRsaDecryptionPrimitive(RsaDecryptionPrimitiveParameters param, RsaDecryptionPrimitiveResult fullParam)
         {
             var rsa = new Rsa(new RsaVisitor());
             var result = rsa.Encrypt(fullParam.PlainText.ToPositiveBigInteger(), fullParam.Key.PubKey);
@@ -333,7 +333,7 @@ namespace NIST.CVP.Crypto.Oracle
             }
         }
 
-        public RsaDecryptionPrimitiveResult GetRsaDecryptionPrimitive(RsaDecryptionPrimitiveParameters param)
+        private RsaDecryptionPrimitiveResult GetRsaDecryptionPrimitive(RsaDecryptionPrimitiveParameters param)
         {
             if (param.TestPassed)
             {
