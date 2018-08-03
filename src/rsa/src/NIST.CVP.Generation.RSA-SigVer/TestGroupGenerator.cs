@@ -10,6 +10,7 @@ using NIST.CVP.Math;
 using NLog;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Generation.RSA_SigVer
 {
@@ -25,6 +26,13 @@ namespace NIST.CVP.Generation.RSA_SigVer
         }
 
         public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
+        {
+            var groups = BuildTestGroupsAsync(parameters);
+            groups.Wait();
+            return groups.Result;
+        }
+
+        public async Task<IEnumerable<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             var testGroups = new List<TestGroup>();
             var pubExpMode = EnumHelpers.GetEnumFromEnumDescription<PublicExponentModes>(parameters.PubExpMode);
@@ -51,29 +59,28 @@ namespace NIST.CVP.Generation.RSA_SigVer
                                 PublicExponent = new BitString(parameters.FixedPubExpValue),
                             };
 
-                            RsaKeyResult keyResult = null;
                             try
                             {
-                                keyResult = _oracle.GetRsaKey(param);
+                                var keyResult = await _oracle.GetRsaKeyAsync(param);
+
+                                var testGroup = new TestGroup
+                                {
+                                    Mode = EnumHelpers.GetEnumFromEnumDescription<SignatureSchemes>(sigType),
+                                    Modulo = modulo,
+                                    HashAlg = ShaAttributes.GetHashFunctionFromName(hashPair.HashAlg),
+                                    SaltLen = hashPair.SaltLen,
+                                    Key = keyResult.Key,
+                                    TestCaseExpectationProvider = new TestCaseExpectationProvider(parameters.IsSample),
+
+                                    TestType = TEST_TYPE
+                                };
+
+                                testGroups.Add(testGroup);
                             }
                             catch (Exception ex)
                             {
                                 ThisLogger.Warn($"Error generating key for {modulo}. {ex.Message}");
                             }
-
-                            var testGroup = new TestGroup
-                            {
-                                Mode = EnumHelpers.GetEnumFromEnumDescription<SignatureSchemes>(sigType),
-                                Modulo = modulo,
-                                HashAlg = ShaAttributes.GetHashFunctionFromName(hashPair.HashAlg),
-                                SaltLen = hashPair.SaltLen,
-                                Key = keyResult.Key,
-                                TestCaseExpectationProvider = new TestCaseExpectationProvider(parameters.IsSample),
-
-                                TestType = TEST_TYPE
-                            };
-
-                            testGroups.Add(testGroup);
                         }
                     }
                 }
@@ -82,6 +89,6 @@ namespace NIST.CVP.Generation.RSA_SigVer
             return testGroups;
         }
 
-        private Logger ThisLogger => LogManager.GetCurrentClassLogger();
+        private static ILogger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }

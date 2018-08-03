@@ -7,6 +7,7 @@ using NIST.CVP.Generation.Core;
 using NLog;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Generation.DSA.FFC.SigGen
 {
@@ -20,6 +21,13 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen
         }
 
         public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
+        {
+            var groups = BuildTestGroupsAsync(parameters);
+            groups.Wait();
+            return groups.Result;
+        }
+
+        public async Task<IEnumerable<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             var testGroups = new List<TestGroup>();
 
@@ -46,12 +54,12 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen
 
                         try
                         {
-                            var result = _oracle.GetDsaDomainParameters(param);
+                            var result = await _oracle.GetDsaDomainParametersAsync(param);
                             domainParams = new FfcDomainParameters(result.P, result.Q, result.G);
                         }
                         catch (Exception ex)
                         {
-                            ThisLogger.Error(ex.StackTrace);
+                            ThisLogger.Error(ex);
                             throw;
                         }
                     }
@@ -71,6 +79,6 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen
             return testGroups;
         }
 
-        private Logger ThisLogger => LogManager.GetCurrentClassLogger();
+        private static ILogger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }

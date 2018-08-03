@@ -8,6 +8,7 @@ using NIST.CVP.Crypto.Common.Symmetric.Helpers;
 using NIST.CVP.Crypto.Common.Symmetric.TDES;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Async;
+using NLog;
 
 namespace NIST.CVP.Generation.TDES_CFB
 {
@@ -72,8 +73,11 @@ namespace NIST.CVP.Generation.TDES_CFB
             }
             catch (Exception ex)
             {
+                ThisLogger.Error(ex);
                 return new TestCaseGenerateResponse<TestGroup, TestCase>($"Failed to generate. {ex.Message}");
             }
         }
+
+        private static ILogger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }

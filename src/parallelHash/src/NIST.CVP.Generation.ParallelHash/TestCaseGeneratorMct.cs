@@ -14,7 +14,6 @@ namespace NIST.CVP.Generation.ParallelHash
     public class TestCaseGeneratorMct : ITestCaseGeneratorAsync<TestGroup, TestCase>
     {
         private readonly IOracle _oracle;
-        private readonly int _stringBitLength = 160;
 
         public bool IsSample { get; set; } = false;
 

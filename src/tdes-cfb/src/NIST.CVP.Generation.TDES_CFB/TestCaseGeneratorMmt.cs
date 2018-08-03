@@ -6,6 +6,7 @@ using NIST.CVP.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.Crypto.Common.Symmetric.Helpers;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Async;
+using NLog;
 
 namespace NIST.CVP.Generation.TDES_CFB
 {
@@ -15,7 +16,6 @@ namespace NIST.CVP.Generation.TDES_CFB
         private readonly int _shift;
         private readonly BlockCipherModesOfOperation _mode;
         private int _lenGenIteration = 1;
-        private bool _hasRunOnce = false;
 
         public int NumberOfTestCasesToGenerate => 10;
 
@@ -65,8 +65,11 @@ namespace NIST.CVP.Generation.TDES_CFB
             }
             catch (Exception ex)
             {
+                ThisLogger.Error(ex);
                 return new TestCaseGenerateResponse<TestGroup, TestCase>($"Failed to generate. {ex.Message}");
             }
         }
+
+        private static ILogger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }

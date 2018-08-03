@@ -8,6 +8,7 @@ using NIST.CVP.Generation.Core;
 using NLog;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Generation.RSA_SigGen
 {
@@ -23,6 +24,13 @@ namespace NIST.CVP.Generation.RSA_SigGen
         public const string TEST_TYPE = "GDT";
 
         public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
+        {
+            var groups = BuildTestGroupsAsync(parameters);
+            groups.Wait();
+            return groups.Result;
+        }
+
+        public async Task<IEnumerable<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             var testGroups = new List<TestGroup>();
 
@@ -57,17 +65,15 @@ namespace NIST.CVP.Generation.RSA_SigGen
                                 PublicExponentMode = PublicExponentModes.Random
                             };
 
-                            RsaKeyResult keyResult = null;
                             try
                             {
-                                keyResult = _oracle.GetRsaKey(param);
+                                var keyResult = await _oracle.GetRsaKeyAsync(param);
+                                testGroup.Key = keyResult.Key;
                             }
                             catch (Exception ex)
                             {
                                 ThisLogger.Warn($"Error generating key for {modulo}. {ex.Message}");
                             }
-
-                            testGroup.Key = keyResult.Key;
                         }
 
                         testGroups.Add(testGroup);
@@ -78,6 +84,6 @@ namespace NIST.CVP.Generation.RSA_SigGen
             return testGroups;
         }
 
-        private Logger ThisLogger => LogManager.GetCurrentClassLogger();
+        private static ILogger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }

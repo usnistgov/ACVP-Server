@@ -1,20 +1,21 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using NIST.CVP.Generation.Core.Async;
 using NIST.CVP.Generation.Core.Enums;
 using NIST.CVP.Generation.Core.Tests.Fakes;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
-namespace NIST.CVP.Generation.Core.Tests
+namespace NIST.CVP.Generation.Core.Tests.Async
 {
     [TestFixture, UnitTest]
-    public class ResultValidatorTests
+    public class ResultValidatorAsyncTests
     {
         [Test]
         public void ShouldReturnValidation()
         {
-            var subject = new ResultValidator<FakeTestGroup, FakeTestCase>();
-            var valdiation = subject.ValidateResults(new List<ITestCaseValidator<FakeTestGroup, FakeTestCase>>(), new List<FakeTestGroup>(), false);
+            var subject = new ResultValidatorAsync<FakeTestGroup, FakeTestCase>();
+            var valdiation = subject.ValidateResults(new List<ITestCaseValidatorAsync<FakeTestGroup, FakeTestCase>>(), new List<FakeTestGroup>(), false);
             Assert.IsNotNull(valdiation);
         }
 
@@ -23,13 +24,13 @@ namespace NIST.CVP.Generation.Core.Tests
         [TestCase(16)]
         public void ShouldReturnOnResultValidationPerSuppliedValidator(int count)
         {
-            var validators = new List<ITestCaseValidator<FakeTestGroup, FakeTestCase>>();
+            var validators = new List<ITestCaseValidatorAsync<FakeTestGroup, FakeTestCase>>();
             for (var idx = 0; idx < count; idx++)
             {
                 validators.Add(new FakeTestCaseValidator<FakeTestGroup, FakeTestCase>(Disposition.Passed) {TestCaseId = idx+1});
             }
 
-            var subject = new ResultValidator<FakeTestGroup, FakeTestCase>();
+            var subject = new ResultValidatorAsync<FakeTestGroup, FakeTestCase>();
             var validation = subject.ValidateResults(validators, new List<FakeTestGroup>(), false);
 
             Assume.That(validation != null);
@@ -39,10 +40,10 @@ namespace NIST.CVP.Generation.Core.Tests
         [Test]
         public void ShouldMarkMissingIfNoMatchingResultPresent()
         {
-            var subject = new ResultValidator<FakeTestGroup, FakeTestCase>();
+            var subject = new ResultValidatorAsync<FakeTestGroup, FakeTestCase>();
             var validation =
                 subject.ValidateResults(
-                    new List<ITestCaseValidator<FakeTestGroup, FakeTestCase>>
+                    new List<ITestCaseValidatorAsync<FakeTestGroup, FakeTestCase>>
                     {
                         new FakeTestCaseValidator<FakeTestGroup, FakeTestCase>(Disposition.Passed) {TestCaseId = 1}
                     },
@@ -62,10 +63,10 @@ namespace NIST.CVP.Generation.Core.Tests
         [Test]
         public void ShouldMarkPassedForValidResult()
         {
-            var subject = new ResultValidator<FakeTestGroup, FakeTestCase>();
+            var subject = new ResultValidatorAsync<FakeTestGroup, FakeTestCase>();
             var validation =
                 subject.ValidateResults(
-                    new List<ITestCaseValidator<FakeTestGroup, FakeTestCase>>
+                    new List<ITestCaseValidatorAsync<FakeTestGroup, FakeTestCase>>
                     {
                         new FakeTestCaseValidator<FakeTestGroup, FakeTestCase>(Disposition.Passed) {TestCaseId = 1}
                     },
@@ -85,10 +86,10 @@ namespace NIST.CVP.Generation.Core.Tests
         [Test]
         public void ShouldMarkFailedForInvalidResult()
         {
-            var subject = new ResultValidator<FakeTestGroup, FakeTestCase>();
+            var subject = new ResultValidatorAsync<FakeTestGroup, FakeTestCase>();
             var validation =
                 subject.ValidateResults(
-                    new List<ITestCaseValidator<FakeTestGroup, FakeTestCase>>
+                    new List<ITestCaseValidatorAsync<FakeTestGroup, FakeTestCase>>
                     {
                         new FakeTestCaseValidator<FakeTestGroup, FakeTestCase>(Disposition.Failed) {TestCaseId = 1}
                     },
@@ -108,10 +109,10 @@ namespace NIST.CVP.Generation.Core.Tests
         [Test]
         public void ShouldMarkAllResultsProperly()
         {
-            var subject = new ResultValidator<FakeTestGroup, FakeTestCase>();
+            var subject = new ResultValidatorAsync<FakeTestGroup, FakeTestCase>();
             var validation =
                 subject.ValidateResults(
-                    new List<ITestCaseValidator<FakeTestGroup, FakeTestCase>>
+                    new List<ITestCaseValidatorAsync<FakeTestGroup, FakeTestCase>>
                     {
                         new FakeTestCaseValidator<FakeTestGroup, FakeTestCase>(Disposition.Failed) {TestCaseId = 1},
                         new FakeTestCaseValidator<FakeTestGroup, FakeTestCase>(Disposition.Passed) {TestCaseId = 2},
