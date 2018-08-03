@@ -8,6 +8,7 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Generation.RSA_SigVer.Tests
 {
@@ -21,8 +22,8 @@ namespace NIST.CVP.Generation.RSA_SigVer.Tests
         {
             var oracleMock = new Mock<IOracle>();
             oracleMock
-                .Setup(s => s.GetRsaKey(It.IsAny<RsaKeyParameters>()))
-                .Returns(new RsaKeyResult());
+                .Setup(s => s.GetRsaKeyAsync(It.IsAny<RsaKeyParameters>()))
+                .Returns(Task.FromResult(new RsaKeyResult()));
 
             _subject = new TestGroupGeneratorFactory(oracleMock.Object);
         }
