@@ -19,7 +19,7 @@ namespace NIST.CVP.Crypto.Oracle
     {
         private readonly TdesMonteCarloFactory _tdesMctFactory = new TdesMonteCarloFactory(new BlockCipherEngineFactory(), new ModeBlockCipherFactory());
         private readonly TdesPartitionsMonteCarloFactory _tdesWithIvsMctFactory = new TdesPartitionsMonteCarloFactory(new BlockCipherEngineFactory(), new ModeBlockCipherFactory());
-        
+
         private TdesResultWithIvs GetTdesWithIvsCase(TdesParameters param)
         {
             var cipher = _modeFactory.GetStandardCipher(
@@ -182,13 +182,13 @@ namespace NIST.CVP.Crypto.Oracle
 
         public async Task<TdesResult> GetTdesCaseAsync(TdesParameters param)
         {
-            var grain = _clusterClient.GetGrain<IOracleGrain>(Guid.NewGuid());
+            var grain = _clusterClient.GetGrain<IOracleGrain>(_grainId);
             return await grain.GetTdesCaseAsync(param);
         }
 
         public async Task<MctResult<TdesResult>> GetTdesMctCaseAsync(TdesParameters param)
         {
-            var grain = _clusterClient.GetGrain<IOracleGrain>(Guid.NewGuid());
+            var grain = _clusterClient.GetGrain<IOracleGrain>(_grainId);
             return await grain.GetTdesMctCaseAsync(param);
         }
 

@@ -14,6 +14,7 @@ namespace NIST.CVP.Crypto.Oracle
     {
         private readonly Random800_90 _rand = new Random800_90();
 
+        private const int TimeoutMs = 30000; // 30000 is default
         private const double GCM_FAIL_RATIO = .25;
         private const double XPN_FAIL_RATIO = .25;
         private const double CMAC_FAIL_RATIO = .25;
@@ -28,8 +29,9 @@ namespace NIST.CVP.Crypto.Oracle
         // you can potentially cap out memory usage w/o being able to complete tasks.
         private static readonly LimitedConcurrencyLevelTaskScheduler _scheduler;
         private static readonly TaskFactory _taskFactory;
-        private static IClusterClient _clusterClient;
-
+        private static readonly IClusterClient _clusterClient;
+        private readonly Guid _grainId = Guid.NewGuid();
+        
         static Oracle()
         {
             _scheduler = new LimitedConcurrencyLevelTaskScheduler(3);
@@ -53,8 +55,15 @@ namespace NIST.CVP.Crypto.Oracle
                             options.ClusterId = Constants.ClusterId;
                             options.ServiceId = Constants.ServiceId;
                         })
+                        .Configure<ClientMessagingOptions>(opts =>
+                        {
+                            opts.ResponseTimeout = TimeSpan.FromMilliseconds(TimeoutMs);
+                        })
                         .UseLocalhostClustering()
-                        .ConfigureApplicationParts(parts => parts.AddApplicationPart(typeof(IOracleGrain).Assembly).WithReferences())
+                        .ConfigureApplicationParts(parts =>
+                        {
+                            parts.AddApplicationPart(typeof(IOracleGrain).Assembly).WithReferences();
+                        })
                         //.ConfigureLogging(logging => logging.AddConsole())
                         //Depends on your application requirements, you can configure your client with other stream providers, which can provide other features, 
                         //such as persistence or recoverability. For more information, please see http://dotnet.github.io/orleans/Documentation/Orleans-Streams/Stream-Providers.html
@@ -68,7 +77,7 @@ namespace NIST.CVP.Crypto.Oracle
                         return client;
                     }
                 }
-                catch (Exception exc)
+                catch (Exception)
                 {
                     initSucceed = false;
                 }

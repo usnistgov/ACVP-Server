@@ -14,9 +14,11 @@ using NIST.CVP.Crypto.Symmetric.MonteCarlo;
 using NIST.CVP.Math;
 using NIST.CVP.Orleans.Grains.Interfaces;
 using Orleans;
+using Orleans.Concurrency;
 
 namespace NIST.CVP.Orleans.Grains
 {
+    [StatelessWorker, Reentrant]
     public class OracleGrain : Grain, IOracleGrain
     {
         #region not impl
