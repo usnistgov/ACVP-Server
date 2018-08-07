@@ -87,5 +87,10 @@ namespace NIST.CVP.Pools
 
             File.WriteAllText(filename, poolContents);
         }
+
+        public bool PoolIsOfType(Parameters potentialType)
+        {
+            return potentialType is TParam;
+        }
     }
 }

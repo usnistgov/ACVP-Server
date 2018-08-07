@@ -74,6 +74,8 @@ namespace NIST.CVP.Pools.Tests
             var result2 = pool.GetNext();
             var result3 = pool.GetNext();
 
+            Assert.IsFalse(result1.PoolEmpty);
+            Assert.IsFalse(result2.PoolEmpty);
             Assert.IsTrue(pool.IsEmpty);
             Assert.IsTrue(result3.PoolEmpty);
         }
@@ -95,7 +97,7 @@ namespace NIST.CVP.Pools.Tests
             pool.SavePoolToFile(writePath);
 
             Assert.IsTrue(File.Exists(writePath));
-            //File.Delete(writePath);
+            File.Delete(writePath);
         }
     }
 }
