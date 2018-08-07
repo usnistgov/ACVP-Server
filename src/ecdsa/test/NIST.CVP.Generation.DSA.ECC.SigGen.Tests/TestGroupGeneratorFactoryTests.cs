@@ -9,6 +9,7 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Generation.DSA.ECC.SigGen.Tests
 {
@@ -22,8 +23,8 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen.Tests
         {
             var oracleMock = new Mock<IOracle>();
             oracleMock
-                .Setup(s => s.GetEcdsaKey(It.IsAny<EcdsaKeyParameters>()))
-                .Returns(new EcdsaKeyResult { Key = new EccKeyPair(new EccPoint(1, 2), 3) });
+                .Setup(s => s.GetEcdsaKeyAsync(It.IsAny<EcdsaKeyParameters>()))
+                .Returns(Task.FromResult(new EcdsaKeyResult { Key = new EccKeyPair(new EccPoint(1, 2), 3) }));
 
             _subject = new TestGroupGeneratorFactory(oracleMock.Object);
         }
