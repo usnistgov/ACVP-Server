@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using NIST.CVP.Common.Oracle;
@@ -49,6 +50,7 @@ namespace NIST.CVP.Crypto.Oracle
             {
                 try
                 {
+                    var ipEndpoint = new IPEndPoint(IPAddress.Parse("10.0.0.2"), 30000);
                     var client = new ClientBuilder()
                         .Configure<ClusterOptions>(options =>
                         {
@@ -59,7 +61,8 @@ namespace NIST.CVP.Crypto.Oracle
                         {
                             opts.ResponseTimeout = TimeSpan.FromMinutes(TimeoutMinutes);
                         })
-                        .UseLocalhostClustering()
+                        //.UseLocalhostClustering()
+                        .UseStaticClustering(ipEndpoint)
                         .ConfigureApplicationParts(parts =>
                         {
                             parts.AddApplicationPart(typeof(IOracleGrain).Assembly).WithReferences();
