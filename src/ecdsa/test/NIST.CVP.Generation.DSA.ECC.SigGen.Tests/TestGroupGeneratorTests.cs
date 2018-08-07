@@ -6,6 +6,7 @@ using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Generation.DSA.ECC.SigGen.Tests
 {
@@ -77,8 +78,8 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen.Tests
         {
             var oracleMock = new Mock<IOracle>();
             oracleMock
-                .Setup(s => s.GetEcdsaKey(It.IsAny<EcdsaKeyParameters>()))
-                .Returns(new EcdsaKeyResult { Key = new EccKeyPair(new EccPoint(1, 2), 3) });
+                .Setup(s => s.GetEcdsaKeyAsync(It.IsAny<EcdsaKeyParameters>()))
+                .Returns(Task.FromResult(new EcdsaKeyResult { Key = new EccKeyPair(new EccPoint(1, 2), 3) }));
 
             var subject = new TestGroupGenerator(oracleMock.Object);
             var result = subject.BuildTestGroups(parameters);

@@ -6,6 +6,7 @@ using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC.Enums;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
 using NIST.CVP.Generation.Core;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Generation.DSA.ECC.SigGen
 {
@@ -19,6 +20,13 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen
         }
 
         public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
+        {
+            var groups = BuildTestGroupsAsync(parameters);
+            groups.Wait();
+            return groups.Result;
+        }
+
+        public async Task<IEnumerable<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             // Use a hash set because the registration allows for duplicate pairings to occur
             // Equality of groups is done via name of the curve and name of the hash function.
@@ -42,7 +50,8 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen
 
                         if (parameters.IsSample)
                         {
-                            key = _oracle.GetEcdsaKey(param).Key;
+                            var keyResult = await _oracle.GetEcdsaKeyAsync(param);
+                            key = keyResult.Key;
                         }
 
                         var testGroup = new TestGroup
