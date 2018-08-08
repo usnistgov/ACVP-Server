@@ -32,8 +32,10 @@ namespace NIST.CVP.Orleans.ServerHost
                 .ConfigureApplicationParts(parts =>
                     {
                         parts.AddApplicationPart(typeof(OracleGrain).Assembly).WithReferences();
+                        parts.AddApplicationPart(typeof(OracleMctResultTdesGrain).Assembly).WithReferences();
                     }
                 )
+                .AddMemoryGrainStorage(Constants.StorageProviderName)
                 .ConfigureLogging(logging => logging.AddConsole());
                 //need to configure a grain storage called "PubSubStore" for using streaming with ExplicitSubscribe pubsub type
                 //.AddMemoryGrainStorage("PubSubStore")

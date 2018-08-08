@@ -59,7 +59,7 @@ namespace NIST.CVP.Crypto.Oracle
                         })
                         .Configure<ClientMessagingOptions>(opts =>
                         {
-                            opts.ResponseTimeout = TimeSpan.FromMinutes(TimeoutMinutes);
+                            //opts.ResponseTimeout = TimeSpan.FromMinutes(TimeoutMinutes);
                         })
                         // TODO need to make this properly configurable based on environment
                         .UseLocalhostClustering()
@@ -67,6 +67,7 @@ namespace NIST.CVP.Crypto.Oracle
                         .ConfigureApplicationParts(parts =>
                         {
                             parts.AddApplicationPart(typeof(IOracleGrain).Assembly).WithReferences();
+                            parts.AddApplicationPart(typeof(IOracleMctResultTdesGrain).Assembly).WithReferences();
                         })
                         //.ConfigureLogging(logging => logging.AddConsole())
                         //Depends on your application requirements, you can configure your client with other stream providers, which can provide other features, 
