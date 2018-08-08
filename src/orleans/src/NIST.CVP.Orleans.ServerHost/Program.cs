@@ -20,13 +20,14 @@ namespace NIST.CVP.Orleans.ServerHost
                     options.ClusterId = Constants.ClusterId;
                     options.ServiceId = Constants.ServiceId;
                 })
-                //.Configure<EndpointOptions>(options =>
-                //{
-                //    options.AdvertisedIPAddress = IPAddress.Loopback; 
-                //})
-                //.UseLocalhostClustering()
-                .UseDevelopmentClustering(primarySiloEndpoint)
-                .ConfigureEndpoints(siloPort: 8080, gatewayPort: 30000)
+                // TODO need to make this properly configurable based on environment
+                .Configure<EndpointOptions>(options =>
+                {
+                    options.AdvertisedIPAddress = IPAddress.Loopback; 
+                })
+                .UseLocalhostClustering()
+                //.UseDevelopmentClustering(primarySiloEndpoint)
+                //.ConfigureEndpoints(siloPort: 8080, gatewayPort: 30000)
                 
                 .ConfigureApplicationParts(parts =>
                     {

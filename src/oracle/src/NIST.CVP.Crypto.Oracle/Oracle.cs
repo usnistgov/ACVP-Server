@@ -61,8 +61,9 @@ namespace NIST.CVP.Crypto.Oracle
                         {
                             opts.ResponseTimeout = TimeSpan.FromMinutes(TimeoutMinutes);
                         })
-                        //.UseLocalhostClustering()
-                        .UseStaticClustering(ipEndpoint)
+                        // TODO need to make this properly configurable based on environment
+                        .UseLocalhostClustering()
+                        //.UseStaticClustering(ipEndpoint)
                         .ConfigureApplicationParts(parts =>
                         {
                             parts.AddApplicationPart(typeof(IOracleGrain).Assembly).WithReferences();
