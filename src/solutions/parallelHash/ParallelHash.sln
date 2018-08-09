@@ -45,6 +45,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.Oracle", ".
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Common.Oracle.Tests", "..\..\oracle\test\NIST.CVP.Oracle.Common.Tests\NIST.CVP.Common.Oracle.Tests.csproj", "{4372A15C-1BA2-43A6-9FAB-F9DBFFD00FAE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Orleans.Grains", "..\..\orleans\src\NIST.CVP.Orleans.Grains\NIST.CVP.Orleans.Grains.csproj", "{B2CDA9C4-ACEE-4C4B-9D87-BB41B6504D95}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Orleans.Grains.Interfaces", "..\..\orleans\src\NIST.CVP.Orleans.Grains.Interfaces\NIST.CVP.Orleans.Grains.Interfaces.csproj", "{DA66EAAE-065C-4A34-A38C-7D8FDF79DBEF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Orleans.ServerHost", "..\..\orleans\src\NIST.CVP.Orleans.ServerHost\NIST.CVP.Orleans.ServerHost.csproj", "{AC5FD2E7-C057-4A7D-BC68-D751CEE1497F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -127,6 +133,18 @@ Global
 		{4372A15C-1BA2-43A6-9FAB-F9DBFFD00FAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4372A15C-1BA2-43A6-9FAB-F9DBFFD00FAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4372A15C-1BA2-43A6-9FAB-F9DBFFD00FAE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B2CDA9C4-ACEE-4C4B-9D87-BB41B6504D95}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2CDA9C4-ACEE-4C4B-9D87-BB41B6504D95}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2CDA9C4-ACEE-4C4B-9D87-BB41B6504D95}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2CDA9C4-ACEE-4C4B-9D87-BB41B6504D95}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DA66EAAE-065C-4A34-A38C-7D8FDF79DBEF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA66EAAE-065C-4A34-A38C-7D8FDF79DBEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA66EAAE-065C-4A34-A38C-7D8FDF79DBEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA66EAAE-065C-4A34-A38C-7D8FDF79DBEF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC5FD2E7-C057-4A7D-BC68-D751CEE1497F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC5FD2E7-C057-4A7D-BC68-D751CEE1497F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC5FD2E7-C057-4A7D-BC68-D751CEE1497F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC5FD2E7-C057-4A7D-BC68-D751CEE1497F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

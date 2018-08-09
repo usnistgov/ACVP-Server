@@ -213,6 +213,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.Paralle
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.TupleHash", "..\..\tupleHash\src\NIST.CVP.Generation.TupleHash\NIST.CVP.Generation.TupleHash.csproj", "{10743033-3797-4AE5-B1E1-9556E2C8A770}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Orleans.Grains", "..\..\orleans\src\NIST.CVP.Orleans.Grains\NIST.CVP.Orleans.Grains.csproj", "{04E34125-9357-4D6C-B9AE-3929A7CF8570}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Orleans.Grains.Interfaces", "..\..\orleans\src\NIST.CVP.Orleans.Grains.Interfaces\NIST.CVP.Orleans.Grains.Interfaces.csproj", "{A3D99179-E093-40E2-8C34-6EEEBDA716F1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Orleans.ServerHost", "..\..\orleans\src\NIST.CVP.Orleans.ServerHost\NIST.CVP.Orleans.ServerHost.csproj", "{5E439CF4-3ADA-4B32-AA82-CE8CBB35A0E9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -499,6 +505,18 @@ Global
 		{10743033-3797-4AE5-B1E1-9556E2C8A770}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{10743033-3797-4AE5-B1E1-9556E2C8A770}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{10743033-3797-4AE5-B1E1-9556E2C8A770}.Release|Any CPU.Build.0 = Release|Any CPU
+		{04E34125-9357-4D6C-B9AE-3929A7CF8570}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{04E34125-9357-4D6C-B9AE-3929A7CF8570}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{04E34125-9357-4D6C-B9AE-3929A7CF8570}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{04E34125-9357-4D6C-B9AE-3929A7CF8570}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3D99179-E093-40E2-8C34-6EEEBDA716F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3D99179-E093-40E2-8C34-6EEEBDA716F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3D99179-E093-40E2-8C34-6EEEBDA716F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3D99179-E093-40E2-8C34-6EEEBDA716F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E439CF4-3ADA-4B32-AA82-CE8CBB35A0E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E439CF4-3ADA-4B32-AA82-CE8CBB35A0E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E439CF4-3ADA-4B32-AA82-CE8CBB35A0E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E439CF4-3ADA-4B32-AA82-CE8CBB35A0E9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -23,6 +23,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Common.Oracle.Test
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.Math", "..\..\crypto\src\NIST.CVP.Crypto.Math\NIST.CVP.Crypto.Math.csproj", "{8C87D74A-0DE5-46F0-97CF-86A0FAE8F7D1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Orleans.Grains", "..\..\orleans\src\NIST.CVP.Orleans.Grains\NIST.CVP.Orleans.Grains.csproj", "{FAF9CDA5-54B3-4C8B-A0AA-90FE7E5BC89E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Orleans.Grains.Interfaces", "..\..\orleans\src\NIST.CVP.Orleans.Grains.Interfaces\NIST.CVP.Orleans.Grains.Interfaces.csproj", "{52841FD5-EADD-4D11-BC49-5D21D2C8C3E9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Orleans.ServerHost", "..\..\orleans\src\NIST.CVP.Orleans.ServerHost\NIST.CVP.Orleans.ServerHost.csproj", "{FD38763C-5C6B-44B6-B9CC-8BA5E9416669}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -61,6 +67,18 @@ Global
 		{8C87D74A-0DE5-46F0-97CF-86A0FAE8F7D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8C87D74A-0DE5-46F0-97CF-86A0FAE8F7D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8C87D74A-0DE5-46F0-97CF-86A0FAE8F7D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FAF9CDA5-54B3-4C8B-A0AA-90FE7E5BC89E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FAF9CDA5-54B3-4C8B-A0AA-90FE7E5BC89E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FAF9CDA5-54B3-4C8B-A0AA-90FE7E5BC89E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FAF9CDA5-54B3-4C8B-A0AA-90FE7E5BC89E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{52841FD5-EADD-4D11-BC49-5D21D2C8C3E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52841FD5-EADD-4D11-BC49-5D21D2C8C3E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52841FD5-EADD-4D11-BC49-5D21D2C8C3E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52841FD5-EADD-4D11-BC49-5D21D2C8C3E9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD38763C-5C6B-44B6-B9CC-8BA5E9416669}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD38763C-5C6B-44B6-B9CC-8BA5E9416669}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD38763C-5C6B-44B6-B9CC-8BA5E9416669}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD38763C-5C6B-44B6-B9CC-8BA5E9416669}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

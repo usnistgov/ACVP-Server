@@ -15,7 +15,6 @@ namespace NIST.CVP.Crypto.Oracle
     {
         private readonly Random800_90 _rand = new Random800_90();
 
-        private const int TimeoutMinutes = 25; // 30000ms is default
         private const double GCM_FAIL_RATIO = .25;
         private const double XPN_FAIL_RATIO = .25;
         private const double CMAC_FAIL_RATIO = .25;
