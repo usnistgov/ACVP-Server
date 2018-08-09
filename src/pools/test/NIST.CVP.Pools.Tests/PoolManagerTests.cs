@@ -24,14 +24,14 @@ namespace NIST.CVP.Pools.Tests
         {
             var poolManager = new PoolManager(_fullPath);
 
-            Assert.AreEqual(2, poolManager._shaPools.Count);
+            Assert.AreEqual(2, poolManager.ShaPools.Count);
 
-            var shaPools = poolManager._shaPools;
+            var shaPools = poolManager.ShaPools;
             Assert.AreEqual(ModeValues.SHA2, shaPools[0].WaterType.HashFunction.Mode);
             Assert.AreEqual(DigestSizes.d256, shaPools[0].WaterType.HashFunction.DigestSize);
 
-            Assert.AreEqual(1, poolManager._aesPools.Count);
-            Assert.AreEqual("encrypt", poolManager._aesPools[0].WaterType.Direction);
+            Assert.AreEqual(1, poolManager.AesPools.Count);
+            Assert.AreEqual("encrypt", poolManager.AesPools[0].WaterType.Direction);
         }
     }
 }

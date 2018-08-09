@@ -1,49 +1,55 @@
 ﻿using Newtonsoft.Json;
+using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
-using NIST.CVP.Common.Oracle.ResultTypes;
+using NIST.CVP.Generation.Core.JsonConverters;
 using NIST.CVP.Pools.PoolTypes;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using NIST.CVP.Common.Oracle;
 
 namespace NIST.CVP.Pools
 {
     public class PoolManager
     {
-        public List<ShaPool> _shaPools = new List<ShaPool>();
-        public List<AesPool> _aesPools = new List<AesPool>();
+        public readonly List<ShaPool> ShaPools = new List<ShaPool>();
+        public readonly List<AesPool> AesPools = new List<AesPool>();
+
+        private readonly IList<JsonConverter> _jsonConverters = new List<JsonConverter>
+        {
+            new BitstringConverter(),
+            new DomainConverter(),
+            new BigIntegerConverter()
+        };
 
         public PoolManager(string configFile)
         {
             LoadPools(configFile);
         }
 
-        public string GetResultFromPool(IParameters param)
+        public int GetPoolCount(IParameters param)
         {
-            // Cast param to specific type
-            // Get result from pool
-            // Serialize result into json and return that
-            return "testtest";
+            switch (param)
+            {
+                case AesParameters aesParam:
+                    return AesPools.First(pool => pool.WaterType.Equals(aesParam)).WaterLevel;
+                case ShaParameters shaParam:
+                    return ShaPools.First(pool => pool.WaterType.Equals(shaParam)).WaterLevel;
+            }
+
+            return 0;
         }
 
-        public PoolResult<AesResult> GetAesResultFromPool(AesParameters param)
+        public object GetResultFromPool(IParameters param)
         {
-            // TODO need an Equals call for each parameter type?
-            try
+            switch (param)
             {
-                return _aesPools.First(pool => pool.WaterType.Equals(param)).GetNext();
+                case AesParameters aesParam:
+                    return AesPools.First(pool => pool.WaterType.Equals(aesParam)).GetNext();
+                case ShaParameters shaParam:
+                    return ShaPools.First(pool => pool.WaterType.Equals(shaParam)).GetNext();
             }
-            catch (Exception)
-            {
-                return new PoolResult<AesResult> {PoolEmpty = true};
-            }
-        }
 
-        public PoolResult<HashResult> GetHashResultFromPool(ShaParameters param)
-        {
-            return _shaPools.First(pool => pool.WaterType.Equals(param)).GetNext();
+            return null;
         }
 
         private void LoadPools(string filename)
@@ -53,19 +59,19 @@ namespace NIST.CVP.Pools
             foreach (var poolProperty in config)
             {
                 var param = poolProperty.Parameters.Parameters;
-                var filePath = Path.Combine(Path.GetDirectoryName(filename), @"..\Pools\", poolProperty.FilePath);
+                var filePath = Path.Combine(new FileInfo(filename).DirectoryName, poolProperty.FilePath);
 
                 // TODO need a case for each one? Should use switch with an ID, or just try to cast the param?
                 switch (poolProperty.Parameters.TypeId)
                 {
                     case 1:
-                        var shaPool = new ShaPool(param as ShaParameters, filePath);
-                        _shaPools.Add(shaPool);
+                        var shaPool = new ShaPool(param as ShaParameters, filePath, _jsonConverters);
+                        ShaPools.Add(shaPool);
                         break;
 
                     case 2:
-                        var aesPool = new AesPool(param as AesParameters, filePath);
-                        _aesPools.Add(aesPool);
+                        var aesPool = new AesPool(param as AesParameters, filePath, _jsonConverters);
+                        AesPools.Add(aesPool);
                         break;
                 }
             }
