@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using NIST.CVP.Common.Oracle;
 
 namespace NIST.CVP.Pools
 {
@@ -17,6 +18,14 @@ namespace NIST.CVP.Pools
         public PoolManager(string configFile)
         {
             LoadPools(configFile);
+        }
+
+        public string GetResultFromPool(IParameters param)
+        {
+            // Cast param to specific type
+            // Get result from pool
+            // Serialize result into json and return that
+            return "testtest";
         }
 
         public PoolResult<AesResult> GetAesResultFromPool(AesParameters param)
@@ -44,7 +53,7 @@ namespace NIST.CVP.Pools
             foreach (var poolProperty in config)
             {
                 var param = poolProperty.Parameters.Parameters;
-                var filePath = Path.Combine(@"Pools\", poolProperty.FilePath);
+                var filePath = Path.Combine(Path.GetDirectoryName(filename), @"..\Pools\", poolProperty.FilePath);
 
                 // TODO need a case for each one? Should use switch with an ID, or just try to cast the param?
                 switch (poolProperty.Parameters.TypeId)

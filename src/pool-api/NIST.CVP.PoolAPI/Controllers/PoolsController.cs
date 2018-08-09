@@ -3,6 +3,7 @@ using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.Pools;
 using System.Linq;
+using NIST.CVP.Common.Oracle.ResultTypes;
 
 namespace NIST.CVP.PoolAPI.Controllers
 {
@@ -10,10 +11,11 @@ namespace NIST.CVP.PoolAPI.Controllers
     [ApiController]
     public class PoolsController : ControllerBase
     {
-        private readonly PoolManager _poolManager = new PoolManager(@"D:\ACVP\gen-val\src\pool-api\NIST.CVP.PoolAPI\Pools\testConfig.json");
-
+        //private readonly PoolManager _poolManager = new PoolManager(@"D:\ACVP\gen-val\src\pool-api\NIST.CVP.PoolAPI\Pools\testConfig.json");
+        private readonly PoolManager _poolManager = new PoolManager(@"C:\Users\ctc\Documents\ACVP\gen-val\src\pool-api\NIST.CVP.PoolAPI\Pools\testConfig.json");
+        
         [HttpGet]
-        public ActionResult<string> Get()
+        public ActionResult<PoolResult<AesResult>> Get()
         {
             // TODO this is not a good way of doing this
             var param = new AesParameters
@@ -23,8 +25,8 @@ namespace NIST.CVP.PoolAPI.Controllers
                 Direction = "encrypt",
                 DataLength = 128
             };
-            //return _poolManager.GetAesResultFromPool(param);
-            return _poolManager._aesPools.First().FilePath;
+            return _poolManager.GetAesResultFromPool(param);
+            //return _poolManager._aesPools.First().FilePath;
         }
     }
 }
