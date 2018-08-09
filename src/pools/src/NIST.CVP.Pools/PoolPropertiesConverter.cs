@@ -18,7 +18,7 @@ namespace NIST.CVP.Pools
             var jo = JObject.Load(reader);
             var holder = new ParameterHolder
             {
-                TypeId = (int)jo["typeId"]
+                TypeId = (int) jo["typeId"]
             };
 
             holder.Parameters = GetParameters(holder.TypeId, jo["parameters"], serializer);
@@ -37,8 +37,9 @@ namespace NIST.CVP.Pools
             throw new NotImplementedException();
         }
 
-        private Parameters GetParameters(int typeId, JToken jo, JsonSerializer serializer)
+        private IParameters GetParameters(int typeId, JToken jo, JsonSerializer serializer)
         {
+            // TODO need one for each parameter type
             switch (typeId)
             {
                 case 1:

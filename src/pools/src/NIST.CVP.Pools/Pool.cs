@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using NIST.CVP.Common.Oracle;
+using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Generation.Core.JsonConverters;
 using System.Collections.Generic;
 using System.IO;
@@ -7,12 +8,14 @@ using System.IO;
 namespace NIST.CVP.Pools
 {
     public class Pool<TParam, TResult>
-        where TParam : Parameters
+        where TParam : IParameters
+        where TResult : IResult
     {
         public TParam WaterType { get; }
         private readonly Queue<TResult> _water;
         public int WaterLevel => _water.Count;
         public bool IsEmpty => WaterLevel == 0;
+        public string FilePath { get; set; }
 
         private readonly IList<JsonConverter> _jsonConverters = new List<JsonConverter>
         {
@@ -47,6 +50,7 @@ namespace NIST.CVP.Pools
 
         private void LoadPoolFromFile(string filename)
         {
+            FilePath = filename;
             if (File.Exists(filename))
             {
                 // Load file
@@ -86,11 +90,6 @@ namespace NIST.CVP.Pools
             );
 
             File.WriteAllText(filename, poolContents);
-        }
-
-        public bool PoolIsOfType(Parameters potentialType)
-        {
-            return potentialType is TParam;
         }
     }
 }

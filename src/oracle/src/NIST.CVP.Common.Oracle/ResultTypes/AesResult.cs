@@ -2,7 +2,7 @@
 
 namespace NIST.CVP.Common.Oracle.ResultTypes
 {
-    public class AesResult : Result
+    public class AesResult : IResult
     {
         public BitString PlainText { get; set; }
         public BitString Key { get; set; }
