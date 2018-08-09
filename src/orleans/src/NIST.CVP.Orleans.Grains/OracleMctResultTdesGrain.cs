@@ -13,60 +13,37 @@ using NIST.CVP.Crypto.Symmetric.MonteCarlo;
 using NIST.CVP.Math;
 using NIST.CVP.Orleans.Grains.Interfaces;
 using NIST.CVP.Orleans.Grains.Interfaces.Enums;
-using Orleans;
-using Orleans.Providers;
 
 namespace NIST.CVP.Orleans.Grains
 {
-    [StorageProvider(ProviderName = Constants.StorageProviderName)]
-    public class OracleMctResultTdesGrain : Grain<GrainState>, IOracleMctResultTdesGrain
+    
+    public class OracleMctResultTdesGrain : OracleGrainBase<MctResult<TdesResult>>, IOracleMctResultTdesGrain
     {
-        private readonly TdesMonteCarloFactory _tdesMctFactory = new TdesMonteCarloFactory(new BlockCipherEngineFactory(), new ModeBlockCipherFactory());
+        private readonly TdesMonteCarloFactory _tdesMctFactory = new TdesMonteCarloFactory(
+            new BlockCipherEngineFactory(), new ModeBlockCipherFactory()
+        );
         private readonly Random800_90 _rand = new Random800_90();
 
-        private MctResult<TdesResult> _result;
+        private TdesParameters _param;
 
         public async Task<MctResult<TdesResult>> GetTdesMctCaseAsync(TdesParameters param)
         {
-            switch (State)
-            {
-                case GrainState.Faulted:
-                    throw new NotSupportedException(
-                        $"{this} is in state {State} and not available for further invocations."
-                    );
-                case GrainState.Initialized:
-                    State = GrainState.Working;
-                    await WriteStateAsync();
-
-                    Task.Run(() =>
-                    {
-                        PerformWorkAsync(param).FireAndForget();
-                    }).FireAndForget();
-
-                    return (null);
-                case GrainState.Working:
-                    return (null);
-                case GrainState.CompletedWork:
-                    State = GrainState.ShouldDispose;
-                    await WriteStateAsync();
-                    
-                    return (_result);
-                default:
-                    throw new ArgumentException($"Unexpected {nameof(State)}");
-            }
+            _param = param;
+            await StateHandling();
+            return Result;
         }
 
-        private async Task PerformWorkAsync(TdesParameters param)
+        protected override async Task DoWorkAsync()
         {
-            var cipher = _tdesMctFactory.GetInstance(param.Mode);
+            var cipher = _tdesMctFactory.GetInstance(_param.Mode);
             var direction = BlockCipherDirections.Encrypt;
-            if (param.Direction.ToLower() == "decrypt")
+            if (_param.Direction.ToLower() == "decrypt")
             {
                 direction = BlockCipherDirections.Decrypt;
             }
 
-            var payload = _rand.GetRandomBitString(param.DataLength);
-            var key = TdesHelpers.GenerateTdesKey(param.KeyingOption);
+            var payload = _rand.GetRandomBitString(_param.DataLength);
+            var key = TdesHelpers.GenerateTdesKey(_param.KeyingOption);
             var iv = _rand.GetRandomBitString(64);
 
             var blockCipherParams = new ModeBlockCipherParameters(direction, iv, key, payload);
@@ -78,7 +55,7 @@ namespace NIST.CVP.Orleans.Grains
                 throw new Exception();
             }
 
-            _result = new MctResult<TdesResult>
+            Result = new MctResult<TdesResult>
             {
                 Results = Array.ConvertAll(result.Response.ToArray(), element => new TdesResult
                 {

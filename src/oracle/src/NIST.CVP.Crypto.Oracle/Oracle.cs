@@ -31,7 +31,6 @@ namespace NIST.CVP.Crypto.Oracle
         private static readonly LimitedConcurrencyLevelTaskScheduler _scheduler;
         private static readonly TaskFactory _taskFactory;
         private static readonly IClusterClient _clusterClient;
-        private readonly Guid _grainId = Guid.NewGuid();
         
         static Oracle()
         {
