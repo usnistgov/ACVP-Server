@@ -22,7 +22,7 @@ namespace NIST.CVP.Pools.Tests
         [Test]
         public void ShouldLoadConfigCorrectly()
         {
-            var poolManager = new PoolManager(_fullPath);
+            var poolManager = new PoolManager(_fullPath, _testPath);
 
             Assert.AreEqual(2, poolManager.ShaPools.Count);
 

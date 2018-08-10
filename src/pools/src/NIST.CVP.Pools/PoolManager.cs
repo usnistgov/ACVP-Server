@@ -2,7 +2,8 @@
 using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Generation.Core.JsonConverters;
-using NIST.CVP.Pools.PoolTypes;
+using NIST.CVP.Pools.Enums;
+using NIST.CVP.Pools.PoolModels;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -21,9 +22,9 @@ namespace NIST.CVP.Pools
             new BigIntegerConverter()
         };
 
-        public PoolManager(string configFile)
+        public PoolManager(string configFile, string poolDirectory)
         {
-            LoadPools(configFile);
+            LoadPools(configFile, poolDirectory);
         }
 
         public int GetPoolCount(IParameters param)
@@ -52,24 +53,24 @@ namespace NIST.CVP.Pools
             return null;
         }
 
-        private void LoadPools(string filename)
+        private void LoadPools(string configFile, string poolDirectory)
         {
-            var config = JsonConvert.DeserializeObject<PoolProperties[]>(File.ReadAllText(filename));
+            var config = JsonConvert.DeserializeObject<PoolProperties[]>(File.ReadAllText(configFile));
 
             foreach (var poolProperty in config)
             {
-                var param = poolProperty.Parameters.Parameters;
-                var filePath = Path.Combine(new FileInfo(filename).DirectoryName, poolProperty.FilePath);
+                var filePath = Path.Combine(poolDirectory, poolProperty.FilePath);
+                var param = poolProperty.PoolType.Parameters;
 
-                // TODO need a case for each one? Should use switch with an ID, or just try to cast the param?
-                switch (poolProperty.Parameters.TypeId)
+                // TODO need a case for each one?
+                switch (poolProperty.PoolType.Type)
                 {
-                    case 1:
+                    case PoolTypes.SHA:
                         var shaPool = new ShaPool(param as ShaParameters, filePath, _jsonConverters);
                         ShaPools.Add(shaPool);
                         break;
 
-                    case 2:
+                    case PoolTypes.AES:
                         var aesPool = new AesPool(param as AesParameters, filePath, _jsonConverters);
                         AesPools.Add(aesPool);
                         break;

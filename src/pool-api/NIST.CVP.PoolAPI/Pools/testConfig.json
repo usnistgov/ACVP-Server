@@ -1,11 +1,13 @@
 [
 	{
-		"typeId": 1,
-		"parameters": {
-			"messageLength": 512,
-			"hashFunction": {
-				"mode": 1,
-				"digestSize": 2
+		"poolType": {
+			"type": "sha",
+			"parameters": {
+				"messageLength": 512,
+				"hashFunction": {
+					"mode": 1,
+					"digestSize": 2
+				}
 			}
 		},
 		"filePath": "sha2-test1.json",
@@ -13,12 +15,14 @@
 		"monitorFrequency": 30
 	},
 	{
-		"typeId": 1,
-		"parameters": {
-			"messageLength": 256,
-			"hashFunction": {
-				"mode": 1,
-				"digestSize": 2
+		"poolType": {
+			"type": "sha",
+			"parameters": {
+				"messageLength": 256,
+				"hashFunction": {
+					"mode": 1,
+					"digestSize": 2
+				}
 			}
 		},
 		"filePath": "sha2-test2.json",
@@ -26,12 +30,14 @@
 		"monitorFrequency": 30
 	},
 	{
-		"typeId": 2,
-		"parameters":{
-			"mode": 0,
-			"keyLength": 128,
-			"dataLength": 128,
-			"direction": "encrypt"
+		"poolType": {
+			"type": "aes",
+			"parameters": {
+				"mode": 0,
+				"keyLength": 128,
+				"dataLength": 128,
+				"direction": "encrypt"
+			}
 		},
 		"filePath": "aes-test1.json",
 		"maxCapacity": 10,

@@ -2,28 +2,29 @@
 using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ResultTypes;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 
 namespace NIST.CVP.Pools
 {
-    public class Pool<TParam, TResult>
+    public abstract class PoolBase<TParam, TResult>
         where TParam : IParameters
         where TResult : IResult
     {
         public TParam WaterType { get; }
-        private readonly Queue<TResult> _water;
+        private readonly ConcurrentQueue<TResult> _water;
         public int WaterLevel => _water.Count;
         public bool IsEmpty => WaterLevel == 0;
         public string FilePath { get; set; }
 
         private readonly IList<JsonConverter> _jsonConverters;
 
-        public Pool(TParam waterType, string filename, IList<JsonConverter> jsonConverters)
+        protected PoolBase(TParam waterType, string filename, IList<JsonConverter> jsonConverters)
         {
             WaterType = waterType;
             _jsonConverters = jsonConverters;
-            _water = new Queue<TResult>();
+            _water = new ConcurrentQueue<TResult>();
             LoadPoolFromFile(filename);
         }
 
@@ -35,7 +36,15 @@ namespace NIST.CVP.Pools
             }
             else
             {
-                return new PoolResult<TResult> {Result = _water.Dequeue()};
+                var success = _water.TryDequeue(out var result);
+                if (success)
+                {
+                    return new PoolResult<TResult> { Result = result };
+                }
+                else
+                {
+                    throw new Exception("Unable to get next from queue");
+                }
             }
         }
 

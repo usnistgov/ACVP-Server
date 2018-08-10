@@ -1,12 +1,8 @@
-﻿using Newtonsoft.Json;
-using NIST.CVP.Common.Oracle;
-
-namespace NIST.CVP.Pools
+﻿namespace NIST.CVP.Pools
 {
-    [JsonConverter(typeof(PoolPropertiesConverter))]
     public class PoolProperties
     {
-        public ParameterHolder Parameters { get; set; }
+        public ParameterHolder PoolType { get; set; }
         public string FilePath { get; set; }
         public int MaxCapacity { get; set; }
         public int MonitorFrequency { get; set; }

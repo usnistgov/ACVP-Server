@@ -1,6 +1,6 @@
 [
 	{
-		"typeId": 1,
+		"type": "sha",
 		"parameters": {
 			"messageLength": 512,
 			"hashFunction": {
@@ -13,7 +13,7 @@
 		"monitorFrequency": 30
 	},
 	{
-		"typeId": 1,
+		"type": "sha",
 		"parameters": {
 			"messageLength": 256,
 			"hashFunction": {
@@ -26,7 +26,7 @@
 		"monitorFrequency": 30
 	},
 	{
-		"typeId": 2,
+		"type": "aes",
 		"parameters":{
 			"mode": 0,
 			"keyLength": 128,
