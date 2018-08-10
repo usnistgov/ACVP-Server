@@ -100,8 +100,21 @@ namespace NIST.CVP.Crypto.Symmetric.Engines
 
         private void PopulateKeySchedule()
         {
+            var contextDirection = BlockCipherDirections.Encrypt;
+            switch (_direction)
+            {
+                case BlockCipherDirections.Encrypt:
+                    contextDirection = !_useInverseCipher ? BlockCipherDirections.Encrypt : BlockCipherDirections.Decrypt;
+                    break;
+                case BlockCipherDirections.Decrypt:
+                    contextDirection = !_useInverseCipher ? BlockCipherDirections.Decrypt : BlockCipherDirections.Encrypt;
+                    break;
+                default:
+                    throw new ArgumentException(nameof(_direction));
+            }
+
             var keys = new TDESKeys(new BitString(_key));
-            _context = new TDESContext(keys, _direction);
+            _context = new TDESContext(keys, contextDirection);
         }
 
         private void Encrypt(byte[] block)
