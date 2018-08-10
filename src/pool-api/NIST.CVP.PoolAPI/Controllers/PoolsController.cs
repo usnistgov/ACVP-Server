@@ -22,7 +22,7 @@ namespace NIST.CVP.PoolAPI.Controllers
         public string Get(ParameterHolder parameterHolder)
         {
             var json = JsonConvert.SerializeObject(
-                Startup.PoolManager.GetResultFromPool(parameterHolder.Parameters),
+                Startup.PoolManager.GetResultFromPool(parameterHolder),
                 new JsonSerializerSettings
                 {
                     Converters = _jsonConverters
@@ -37,7 +37,7 @@ namespace NIST.CVP.PoolAPI.Controllers
         // https://localhost:5001/api/pools/status
         public int Status(ParameterHolder parameterHolder)
         {
-            return Startup.PoolManager.GetPoolCount(parameterHolder.Parameters);
+            return Startup.PoolManager.GetPoolCount(parameterHolder);
         }
     }
 }

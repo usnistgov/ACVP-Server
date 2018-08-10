@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Generation.Core.JsonConverters;
 using NIST.CVP.Pools.Enums;
@@ -27,27 +26,27 @@ namespace NIST.CVP.Pools
             LoadPools(configFile, poolDirectory);
         }
 
-        public int GetPoolCount(IParameters param)
+        public int GetPoolCount(ParameterHolder paramHolder)
         {
-            switch (param)
+            switch (paramHolder.Type)
             {
-                case AesParameters aesParam:
-                    return AesPools.First(pool => pool.WaterType.Equals(aesParam)).WaterLevel;
-                case ShaParameters shaParam:
-                    return ShaPools.First(pool => pool.WaterType.Equals(shaParam)).WaterLevel;
+                case PoolTypes.AES:
+                    return AesPools.First(pool => pool.WaterType.Equals(paramHolder.Parameters)).WaterLevel;
+                case PoolTypes.SHA:
+                    return ShaPools.First(pool => pool.WaterType.Equals(paramHolder.Parameters)).WaterLevel;
             }
 
             return 0;
         }
 
-        public object GetResultFromPool(IParameters param)
+        public object GetResultFromPool(ParameterHolder paramHolder)
         {
-            switch (param)
+            switch (paramHolder.Type)
             {
-                case AesParameters aesParam:
-                    return AesPools.First(pool => pool.WaterType.Equals(aesParam)).GetNext();
-                case ShaParameters shaParam:
-                    return ShaPools.First(pool => pool.WaterType.Equals(shaParam)).GetNext();
+                case PoolTypes.AES:
+                    return AesPools.First(pool => pool.WaterType.Equals(paramHolder.Parameters)).GetNext();
+                case PoolTypes.SHA:
+                    return ShaPools.First(pool => pool.WaterType.Equals(paramHolder.Parameters)).GetNext();
             }
 
             return null;

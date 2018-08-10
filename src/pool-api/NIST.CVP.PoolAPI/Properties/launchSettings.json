@@ -19,7 +19,7 @@
     },
     "NIST.CVP.PoolAPI": {
       "commandName": "Project",
-      "launchBrowser": true,
+      "launchBrowser": false,
       "launchUrl": "api/pools/status",
       "applicationUrl": "https://localhost:5001",
       "environmentVariables": {
