@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
@@ -17,7 +16,8 @@ using NIST.CVP.Orleans.Grains.Interfaces.Enums;
 namespace NIST.CVP.Orleans.Grains
 {
     
-    public class OracleMctResultTdesGrain : OracleGrainBase<MctResult<TdesResult>>, IOracleMctResultTdesGrain
+    public class OracleMctResultTdesGrain : 
+        OracleGrainBase<MctResult<TdesResult>>, IOracleMctResultTdesGrain<MctResult<TdesResult>>
     {
         private readonly TdesMonteCarloFactory _tdesMctFactory = new TdesMonteCarloFactory(
             new BlockCipherEngineFactory(), new ModeBlockCipherFactory()
@@ -26,14 +26,13 @@ namespace NIST.CVP.Orleans.Grains
 
         private TdesParameters _param;
 
-        public async Task<MctResult<TdesResult>> GetTdesMctCaseAsync(TdesParameters param)
+        public async Task<bool> BeginTdesMctCaseAsync(TdesParameters param)
         {
             _param = param;
-            await StateHandling();
-            return Result;
+            return await BeginGrainWorkAsync();
         }
 
-        protected override async Task DoWorkAsync()
+        protected override Task DoWorkAsync()
         {
             var cipher = _tdesMctFactory.GetInstance(_param.Mode);
             var direction = BlockCipherDirections.Encrypt;
@@ -67,7 +66,7 @@ namespace NIST.CVP.Orleans.Grains
             };
 
             State = GrainState.CompletedWork;
-            await WriteStateAsync();
+            return Task.CompletedTask;
         }
     }
 }

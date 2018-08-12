@@ -12,7 +12,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using NIST.CVP.Crypto.Common.Symmetric.CTR.Enums;
 using NIST.CVP.Orleans.Grains.Interfaces;
-using NIST.CVP.Orleans.Grains.Interfaces.Enums;
 
 namespace NIST.CVP.Crypto.Oracle
 {
@@ -189,20 +188,12 @@ namespace NIST.CVP.Crypto.Oracle
 
         public async Task<MctResult<TdesResult>> GetTdesMctCaseAsync(TdesParameters param)
         {
-            var grain = _clusterClient.GetGrain<IOracleMctResultTdesGrain>(Guid.NewGuid());
+            var grain = _clusterClient.GetGrain<IOracleMctResultTdesGrain<MctResult<TdesResult>>>(
+                Guid.NewGuid()
+            );
 
-            // Perform polling of grain until a result is present
-            while (true)
-            {
-                var result = await grain.GetTdesMctCaseAsync(param);
-
-                if (result != null)
-                {
-                    return result;
-                }
-
-                await Task.Delay(Constants.TaskPollingSeconds);
-            }
+            await grain.BeginTdesMctCaseAsync(param);
+            return await PollWorkUntilCompleteAsync(grain);
         }
 
         public async Task<TdesResultWithIvs> GetTdesWithIvsCaseAsync(TdesParameters param)

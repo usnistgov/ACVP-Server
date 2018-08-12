@@ -3,8 +3,10 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using NIST.CVP.Common.Oracle;
+using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Math;
 using NIST.CVP.Orleans.Grains.Interfaces;
+using NIST.CVP.Orleans.Grains.Interfaces.Enums;
 using Orleans;
 using Orleans.Configuration;
 using Orleans.Hosting;
@@ -65,7 +67,7 @@ namespace NIST.CVP.Crypto.Oracle
                         .ConfigureApplicationParts(parts =>
                         {
                             parts.AddApplicationPart(typeof(IOracleGrain).Assembly).WithReferences();
-                            parts.AddApplicationPart(typeof(IOracleMctResultTdesGrain).Assembly).WithReferences();
+                            parts.AddApplicationPart(typeof(IOracleMctResultTdesGrain<MctResult<TdesResult>>).Assembly).WithReferences();
                         })
                         //.ConfigureLogging(logging => logging.AddConsole())
                         //Depends on your application requirements, you can configure your client with other stream providers, which can provide other features, 
@@ -94,6 +96,30 @@ namespace NIST.CVP.Crypto.Oracle
             }
 
             return null;
+        }
+
+        /// <summary>
+        /// Handles polling a <see cref="IPollableOracleGrain{TResult}"/> until a result is available,
+        /// then returns that result as a <see cref="Task{TResult}"/>
+        /// </summary>
+        /// <typeparam name="TResult">The type of returned result</typeparam>
+        /// <param name="pollableGrain">The pollable grain.</param>
+        /// <returns><see cref="Task{TResult}"/></returns>
+        protected async Task<TResult> PollWorkUntilCompleteAsync<TResult>(
+            IPollableOracleGrain<TResult> pollableGrain
+        )
+        {
+            while (true)
+            {
+                var state = await pollableGrain.CheckStatusAsync();
+
+                if (state == GrainState.CompletedWork)
+                {
+                    return await pollableGrain.GetResultAsync();
+                }
+
+                await Task.Delay(Constants.TaskPollingSeconds);
+            }
         }
     }
 }

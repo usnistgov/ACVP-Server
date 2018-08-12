@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Orleans.Grains.Interfaces;
@@ -11,7 +9,7 @@ using Orleans.Providers;
 namespace NIST.CVP.Orleans.Grains
 {
     /// <summary>
-    /// Base class for Oracle Grains.
+    /// Base class for Pollable Oracle Grains.
     ///
     /// <see cref="DoWorkAsync"/> is implemented for performing the actual CPU bound work.
     ///     <see cref="Result"/> should be updated within this method.
@@ -24,61 +22,86 @@ namespace NIST.CVP.Orleans.Grains
     /// Sample implementation:
     /// <code>
     ///
-    ///     public async Task{T} MyGrainMethod(Parameters param)
+    ///     public async Task{bool} MyGrainMethod(Parameters param)
     ///     {
     ///         _param = param;
-    ///         await StateHandling();
-    ///         return Result;
+    ///         return await BeginGrainWorkAsync();
     ///     }
     /// 
     /// </code>
     /// </example>
-    /// <typeparam name="TResult"></typeparam>
+    /// <typeparam name="TResult">The type the grain returns</typeparam>
     [StorageProvider(ProviderName = Constants.StorageProviderName)]
-    public abstract class OracleGrainBase<TResult> : Grain<GrainState>
+    public abstract class OracleGrainBase<TResult> : Grain<GrainState>, IPollableOracleGrain<TResult>
     {
         protected TResult Result;
 
         /// <summary>
-        /// Used to encapsulate the boilerplate state handling per grain.
-        /// Should be invoked via actual grain implementation
+        /// Kicks off <see cref="DoWorkAsync"/>, this method should be invoked
+        /// via actual grain implementation after saving necessary parameters as members of the instance.
+        /// This is done to keep a consistent task execution abstraction, one place to update if it's ever
+        /// changed.
         /// </summary>
-        protected virtual async Task<TResult> StateHandling()
+        /// <remarks>Calls <see cref="DoWorkAsync"/></remarks>
+        /// <returns></returns>
+        protected Task<bool> BeginGrainWorkAsync()
         {
-            switch (State)
+            if (State == GrainState.Initialized)
             {
-                case GrainState.Faulted:
-                    throw new NotSupportedException(
-                        $"{this} is in state {State} and not available for further invocations."
-                    );
-                case GrainState.Initialized:
-                    State = GrainState.Working;
-                    await WriteStateAsync();
+                State = GrainState.Working;
 
-                    Task.Run(() =>
-                    {
-                        DoWorkAsync().FireAndForget();
-                    }).FireAndForget();
+                Task.Run(() =>
+                {
+                    DoWorkAsync().FireAndForget();
+                }).FireAndForget();
 
-                    return default(TResult);
-                case GrainState.Working:
-                    return default(TResult);
-                case GrainState.CompletedWork:
-                    State = GrainState.ShouldDispose;
-                    await WriteStateAsync();
-                    
-                    return Result;
-                default:
-                    throw new ArgumentException($"Unexpected {nameof(State)}");
+                return Task.FromResult(true);
             }
+
+            return Task.FromResult(false);
         }
 
         /// <summary>
         /// The CPU bound work to do related to the grain.
-        /// Implementation should update state to <see cref="GrainState.CompletedWork"/>
-        /// when finished.
+        /// Many grain methods will have differing parameters required,
+        /// those parameters should be saved to the instance for utilization within <see cref="DoWorkAsync"/>.
+        ///
+        /// <see cref="Result"/> should be set with the outcome of this method,
+        /// and State set to <see cref="GrainState.CompletedWork"/>
         /// </summary>
+        /// <remarks>Invoked via <see cref="BeginGrainWorkAsync"/></remarks>
         /// <returns></returns>
         protected abstract Task DoWorkAsync();
+        
+        /// <summary>
+        /// Returns the grain state
+        /// </summary>
+        /// <returns></returns>
+        public Task<GrainState> CheckStatusAsync()
+        {
+            if (Result != null)
+            {
+                State = GrainState.CompletedWork;
+            }
+
+            return Task.FromResult(State);
+        }
+
+        /// <summary>
+        /// Gets the result from the grain when available.  Should only be called once polling
+        /// confirms calculation is complete.
+        /// </summary>
+        /// <returns></returns>
+        public Task<TResult> GetResultAsync()
+        {
+            if (State != GrainState.CompletedWork)
+            {
+                throw new NotSupportedException(
+                    $"Invalid State for returning result, must be in state {nameof(GrainState.CompletedWork)} to return result");
+            }
+
+            State = GrainState.ShouldDispose;
+            return Task.FromResult(Result);
+        }
     }
 }
