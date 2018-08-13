@@ -156,7 +156,7 @@ namespace NIST.CVP.Crypto.DSA.Ed
 
             // Compute point R = u1 * G + u2 * Q, if R is infinity, return invalid
             var u1TimesG = domainParameters.CurveE.Multiply(domainParameters.CurveE.BasePointG, u1);
-            var u2TimesQ = domainParameters.CurveE.Multiply(keyPair.PublicQ, u2);
+            var u2TimesQ = domainParameters.CurveE.Multiply(domainParameters.CurveE.Decode(keyPair.PublicQ, domainParameters.CurveE.VariableB), u2);
             var pointR = domainParameters.CurveE.Add(u1TimesG, u2TimesQ);
 
             // Convert xR to an integer j
