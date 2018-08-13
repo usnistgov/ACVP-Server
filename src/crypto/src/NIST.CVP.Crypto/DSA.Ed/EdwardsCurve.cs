@@ -2,6 +2,7 @@
 using System.Numerics;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.Ed;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.Ed.Enums;
+using NIST.CVP.Crypto.Math;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.DSA.Ed
@@ -19,20 +20,28 @@ namespace NIST.CVP.Crypto.DSA.Ed
         // Cofactor is always 1 for a prime curve
         public int CofactorH { get { return 1; } }
 
+        // Coefficients used for EdDSA as specified in IETF RFC 8032
+        public int VariableB { get; }
+        public int VariableN { get; }
+        public int VariableC { get; }
+
         // CurveType is obviously prime
         public CurveType CurveType { get { return CurveType.Prime; } }
 
         public Curve CurveName { get; }
 
-        public EdwardsCurve(Curve curveName, BigInteger p, BigInteger a, BigInteger b, EdPoint g, BigInteger n)
+        public EdwardsCurve(Curve curveName, BigInteger p, BigInteger a, BigInteger d, EdPoint g, BigInteger n, int b, int dSAn, int c)
         {
             CurveName = curveName;
 
             FieldSizeQ = p;
             CoefficientA = a;
-            CoefficientD = b;
+            CoefficientD = d;
             BasePointG = g;
             OrderN = n;
+            VariableB = b;
+            VariableN = dSAn;
+            VariableC = c;
 
             _operator = new PrimeFieldOperator(p);      // current Edwards curves only use prime field operator... and possibly all ed curves??
         }
@@ -134,14 +143,58 @@ namespace NIST.CVP.Crypto.DSA.Ed
         public EdPoint Decode(BigInteger encoded, int b)
         {
             var encodedBitString = new BitString(encoded, b);
-            var x = encodedBitString.GetMostSignificantBits(1);
+            var x = encodedBitString.GetMostSignificantBits(1).ToPositiveBigInteger();
             var Y = encodedBitString.GetMostSignificantBits(b - 1).ToPositiveBigInteger();
+
             BigInteger X;
+            var u = (Y * Y - 1) % FieldSizeQ;
+            var v = (CoefficientD * Y * Y + 1) % FieldSizeQ;
             if (FieldSizeQ % 4 == 3)
             {
-                var u = Y * Y - 1;
-                var v = CoefficientD * Y * Y + 1;
-                
+                var w = (u * u * u * v * BigInteger.ModPow(BigInteger.ModPow(u, 5, FieldSizeQ) * BigInteger.ModPow(v, 3, FieldSizeQ) % FieldSizeQ, (FieldSizeQ - 3) / 4, FieldSizeQ)) % FieldSizeQ;
+                if ((v * w * w) % FieldSizeQ == u)
+                {
+                    X = w;
+                }
+                else
+                {
+                    throw new Exception("Square root does not exist");
+                }
+            }
+            else if (FieldSizeQ % 8 == 5)
+            {
+                var w = (u * v * v * v * BigInteger.ModPow(u * BigInteger.ModPow(v, 7, FieldSizeQ), (FieldSizeQ - 5) / 8, FieldSizeQ)) % FieldSizeQ;
+                if ((v * w * w) % FieldSizeQ == u)
+                {
+                    X = w;
+                }
+                else if ((v * w * w) % FieldSizeQ == (-u) % FieldSizeQ)
+                {
+                    X = (w * BigInteger.ModPow(2, (FieldSizeQ - 1) / 4, FieldSizeQ)) % FieldSizeQ;
+                }
+                else
+                {
+                    throw new Exception("Square root does not exist");
+                }
+
+            }
+            else
+            {
+                // need to use Tonelli-Shanks algorithm in SP800-186 Appendix E
+            }
+
+            if (X == 0 && x == 1)
+            {
+                throw new Exception("Point Decode failed");
+            }
+
+            if (X % 2 == x)
+            {
+                return new EdPoint(X, Y);
+            }
+            else
+            {
+                return new EdPoint(FieldSizeQ - X, Y);
             }
         }
     }

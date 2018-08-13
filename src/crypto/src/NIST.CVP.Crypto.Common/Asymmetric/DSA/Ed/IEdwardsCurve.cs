@@ -46,6 +46,21 @@ namespace NIST.CVP.Crypto.Common.Asymmetric.DSA.Ed
         BigInteger OrderN { get; }
 
         /// <summary>
+        /// Used for EdDSA. It is the length of the private key for EdDSA on this curve.
+        /// </summary>
+        int VariableB { get; }
+
+        /// <summary>
+        /// Used in EdDSA for the specific curve.
+        /// </summary>
+        int VariableN { get; }
+
+        /// <summary>
+        /// Used in EdDSA for the specific curve. Either 2 or 3.
+        /// </summary>
+        int VariableC { get; }
+
+        /// <summary>
         /// Multiply a point by a scalar value over a curve
         /// </summary>
         EdPoint Multiply(EdPoint startPoint, BigInteger scalar);
@@ -88,6 +103,6 @@ namespace NIST.CVP.Crypto.Common.Asymmetric.DSA.Ed
         /// <summary>
         /// Decodes a point properly
         /// </summary>
-        BigInteger Decode(EdPoint point, int b);
+        EdPoint Decode(BigInteger encoded, int b);
     }
 }

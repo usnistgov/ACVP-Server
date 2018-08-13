@@ -1,4 +1,5 @@
 ﻿using NIST.CVP.Crypto.Common.Asymmetric.DSA.Ed.Enums;
+using NIST.CVP.Crypto.Common.Hash.SHA3;
 
 namespace NIST.CVP.Crypto.Common.Asymmetric.DSA.Ed
 {
@@ -8,6 +9,32 @@ namespace NIST.CVP.Crypto.Common.Asymmetric.DSA.Ed
         /// The polynomial representing the curve, contains a, b and the curve type
         /// </summary>
         public IEdwardsCurve CurveE { get; }
+
+        public HashFunction Hash
+        {
+            get
+            {
+                if (CurveE.CurveName == Curve.Ed25519)
+                {
+                    return new HashFunction
+                    {
+                        Capacity = 1024,
+                        DigestSize = 512,
+                        XOF = false
+                    };
+                }
+                else
+                {
+                    return new HashFunction
+                    {
+                        Capacity = 512,
+                        DigestSize = 512,
+                        XOF = true
+                    };
+                }
+                
+            }
+        }
 
         /// <summary>
         /// How secrets are generated used by these <see cref="EdDomainParameters"/>.

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Numerics;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.Ed;
+using NIST.CVP.Crypto.Common.Hash.SHA3;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
+using NIST.CVP.Crypto.SHA3;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
 using NIST.CVP.Math.Helpers;
@@ -10,24 +12,12 @@ namespace NIST.CVP.Crypto.DSA.Ed
 {
     public class EdDsa : IDsaEd
     {
-        public ISha Sha { get; }
+        public ISha Sha => throw new NotImplementedException();
 
         private readonly IEntropyProviderFactory _entropyFactory = new EntropyProviderFactory();
         private readonly IEntropyProvider _entropyProvider;
-        private readonly int _b;
-        private readonly int _n;
-        private readonly int _c;
 
-        public EdDsa(ISha sha, int b, int n, int c, EntropyProviderTypes entropyType = EntropyProviderTypes.Random)
-        {
-            Sha = sha;
-            _b = b;
-            _n = n;
-            _c = c;
-            _entropyProvider = _entropyFactory.GetEntropyProvider(entropyType);
-        }
-
-        public EdDsa(EntropyProviderTypes entropyType)
+        public EdDsa(EntropyProviderTypes entropyType = EntropyProviderTypes.Random)
         {
             _entropyProvider = _entropyFactory.GetEntropyProvider(entropyType);
         }
@@ -52,27 +42,30 @@ namespace NIST.CVP.Crypto.DSA.Ed
             // Generate random number k [1, n - 2]
             var k = _entropyProvider.GetEntropy(1, domainParameters.CurveE.OrderN - 1);
 
-            // Hash the private key
-            var h = Sha.HashMessage(new BitString(k, _b)).Digest.MSBSubstring(0, 2 * _b - 1);
+            // 1. Hash the private key
+            var sha = new SHA3.SHA3();
+            var h = sha.HashMessage(domainParameters.Hash, new BitString(k, domainParameters.CurveE.VariableB)).Digest.MSBSubstring(0, 2 * domainParameters.CurveE.VariableB - 1);
 
-            // Format
-            for (int i = 0; i < _c; i++)
+            // 2. Prune the buffer
+            // Currently this is accomplished using the specifications in IETF RFC 8032
+            // Could switch over to how it is specified in SP186-5 in the future
+            for (int i = 0; i < domainParameters.CurveE.VariableC; i++)
             {
                 h.Bits.Set(i, false);
             }
-            for (int i = _n; i < h.Bits.Length; i++)
+            for (int i = domainParameters.CurveE.VariableN; i < h.Bits.Length; i++)
             {
                 h.Bits.Set(i, false);
             }
 
-            // Determine s
-            var s = BigInteger.Pow(2, _n) + h.ToPositiveBigInteger();
+            // 3. Determine s
+            var s = BigInteger.Pow(2, domainParameters.CurveE.VariableN) + h.ToPositiveBigInteger();
 
-            // Compute Q such that Q = d * G
+            // 4. Compute Q such that Q = s * G
             var Q = domainParameters.CurveE.Multiply(domainParameters.CurveE.BasePointG, s);
 
             // Return key pair (Q, d)
-            return new EdKeyPairGenerateResult(new EdKeyPair(domainParameters.CurveE.Encode(Q), k));
+            return new EdKeyPairGenerateResult(new EdKeyPair(domainParameters.CurveE.Encode(Q, domainParameters.CurveE.VariableB), k));
         }
 
         public EdKeyPairValidateResult ValidateKeyPair(EdDomainParameters domainParameters, EdKeyPair keyPair)
@@ -84,20 +77,22 @@ namespace NIST.CVP.Crypto.DSA.Ed
             }
 
             // If Q is not a valid point (x, y are within the field), invalid
-            if (!domainParameters.CurveE.PointExistsInField(keyPair.PublicQ))
+            // could make this more efficient
+            if (!domainParameters.CurveE.PointExistsInField(domainParameters.CurveE.Decode(keyPair.PublicQ, domainParameters.CurveE.VariableB)))
             {
                 return new EdKeyPairValidateResult("Q is out of range of the field");
             }
 
             // If Q is not a valid point on the specific curve, invalid
-            if (!domainParameters.CurveE.PointExistsOnCurve(keyPair.PublicQ))
+            // could make this more efficient
+            if (!domainParameters.CurveE.PointExistsOnCurve(domainParameters.CurveE.Decode(keyPair.PublicQ, domainParameters.CurveE.VariableB)))
             {
                 return new EdKeyPairValidateResult("Q does not lie on the curve");
             }
 
             // If n * Q == 0, valid
             // This is fast because the scalar (n) is taken modulo n... so it's 0
-            if (domainParameters.CurveE.Multiply(keyPair.PublicQ, domainParameters.CurveE.OrderN).Equals(new EdPoint(0, 1)))
+            if (domainParameters.CurveE.Multiply(domainParameters.CurveE.Decode(keyPair.PublicQ, domainParameters.CurveE.VariableB), domainParameters.CurveE.OrderN).Equals(new EdPoint(0, 1)))
             {
                 return new EdKeyPairValidateResult();
             }
