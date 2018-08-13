@@ -1,8 +1,10 @@
 ﻿using Newtonsoft.Json;
 using NIST.CVP.Common.Oracle.ParameterTypes;
+using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Generation.Core.JsonConverters;
 using NIST.CVP.Pools.Enums;
 using NIST.CVP.Pools.PoolModels;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -13,6 +15,8 @@ namespace NIST.CVP.Pools
     {
         public readonly List<ShaPool> ShaPools = new List<ShaPool>();
         public readonly List<AesPool> AesPools = new List<AesPool>();
+
+        private PoolProperties[] _properties;
 
         private readonly IList<JsonConverter> _jsonConverters = new List<JsonConverter>
         {
@@ -34,9 +38,22 @@ namespace NIST.CVP.Pools
                     return AesPools.First(pool => pool.WaterType.Equals(paramHolder.Parameters)).WaterLevel;
                 case PoolTypes.SHA:
                     return ShaPools.First(pool => pool.WaterType.Equals(paramHolder.Parameters)).WaterLevel;
+                default:
+                    return 0;
             }
+        }
 
-            return 0;
+        public bool AddResultToPool(ParameterHolder paramHolder)
+        {
+            switch (paramHolder.Type)
+            {
+                case PoolTypes.AES:
+                    return AesPools.First(pool => pool.WaterType.Equals(paramHolder.Parameters)).AddWater(paramHolder.Result as AesResult);
+                case PoolTypes.SHA:
+                    return ShaPools.First(pool => pool.WaterType.Equals(paramHolder.Parameters)).AddWater(paramHolder.Result as HashResult);
+                default:
+                    return false;
+            }
         }
 
         public object GetResultFromPool(ParameterHolder paramHolder)
@@ -47,21 +64,25 @@ namespace NIST.CVP.Pools
                     return AesPools.First(pool => pool.WaterType.Equals(paramHolder.Parameters)).GetNext();
                 case PoolTypes.SHA:
                     return ShaPools.First(pool => pool.WaterType.Equals(paramHolder.Parameters)).GetNext();
+                default:
+                    return new PoolResult<IResult> { PoolEmpty = true };
             }
+        }
 
-            return null;
+        public bool SavePools()
+        {
+            return true;
         }
 
         private void LoadPools(string configFile, string poolDirectory)
         {
-            var config = JsonConvert.DeserializeObject<PoolProperties[]>(File.ReadAllText(configFile));
+            _properties = JsonConvert.DeserializeObject<PoolProperties[]>(File.ReadAllText(configFile));
 
-            foreach (var poolProperty in config)
+            foreach (var poolProperty in _properties)
             {
                 var filePath = Path.Combine(poolDirectory, poolProperty.FilePath);
                 var param = poolProperty.PoolType.Parameters;
 
-                // TODO need a case for each one?
                 switch (poolProperty.PoolType.Type)
                 {
                     case PoolTypes.SHA:
@@ -73,6 +94,9 @@ namespace NIST.CVP.Pools
                         var aesPool = new AesPool(param as AesParameters, filePath, _jsonConverters);
                         AesPools.Add(aesPool);
                         break;
+
+                    default:
+                        throw new Exception("No pool found");
                 }
             }
         }

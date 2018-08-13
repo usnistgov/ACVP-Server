@@ -3,6 +3,7 @@ using Newtonsoft.Json.Linq;
 using NIST.CVP.Common.Helpers;
 using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
+using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Pools.Enums;
 using System;
 
@@ -25,6 +26,7 @@ namespace NIST.CVP.Pools
             };
 
             holder.Parameters = GetParameters(holder.Type, jo["parameters"], serializer);
+            holder.Result = GetResult(holder.Type, jo["result"], serializer);
 
             return holder;
         }
@@ -36,7 +38,6 @@ namespace NIST.CVP.Pools
 
         private IParameters GetParameters(PoolTypes typeId, JToken jo, JsonSerializer serializer)
         {
-            // TODO need one for each parameter type
             switch (typeId)
             {
                 case PoolTypes.SHA:
@@ -46,6 +47,20 @@ namespace NIST.CVP.Pools
 
                 default:
                     throw new Exception("Unable to parse parameters");
+            }
+        }
+
+        private IResult GetResult(PoolTypes typeId, JToken jo, JsonSerializer serializer)
+        {
+            switch (typeId)
+            {
+                case PoolTypes.SHA:
+                    return jo.ToObject<HashResult>(serializer);
+                case PoolTypes.AES:
+                    return jo.ToObject<AesResult>(serializer);
+
+                default:
+                    throw new Exception("Unable to parse result");
             }
         }
     }

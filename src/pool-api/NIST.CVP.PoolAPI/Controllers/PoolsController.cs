@@ -33,11 +33,27 @@ namespace NIST.CVP.PoolAPI.Controllers
         }
 
         [HttpPost]
+        [Route("add")]
+        // https://localhost:5001/api/pools/add
+        public bool Post(ParameterHolder parameterHolder)
+        {
+            return Startup.PoolManager.AddResultToPool(parameterHolder);
+        }
+
+        [HttpPost]
         [Route("status")]
         // https://localhost:5001/api/pools/status
         public int Status(ParameterHolder parameterHolder)
         {
             return Startup.PoolManager.GetPoolCount(parameterHolder);
+        }
+
+        [HttpGet]
+        [Route("save")]
+        // https://localhost:5001/api/pools/save
+        public bool Save()
+        {
+            return Startup.PoolManager.SavePools();
         }
     }
 }

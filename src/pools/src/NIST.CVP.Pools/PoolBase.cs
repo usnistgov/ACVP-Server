@@ -16,7 +16,6 @@ namespace NIST.CVP.Pools
         private readonly ConcurrentQueue<TResult> _water;
         public int WaterLevel => _water.Count;
         public bool IsEmpty => WaterLevel == 0;
-        public string FilePath { get; set; }
 
         private readonly IList<JsonConverter> _jsonConverters;
 
@@ -48,14 +47,14 @@ namespace NIST.CVP.Pools
             }
         }
 
-        public void AddWater(TResult value)
+        public bool AddWater(TResult value)
         {
             _water.Enqueue(value);
+            return true;
         }
 
         private void LoadPoolFromFile(string filename)
         {
-            FilePath = filename;
             if (File.Exists(filename))
             {
                 // Load file
@@ -84,7 +83,7 @@ namespace NIST.CVP.Pools
             }
         }
 
-        public void SavePoolToFile(string filename)
+        public bool SavePoolToFile(string filename)
         {
             var poolContents = JsonConvert.SerializeObject(
                 _water,
@@ -94,7 +93,15 @@ namespace NIST.CVP.Pools
                 }
             );
 
-            File.WriteAllText(filename, poolContents);
+            try
+            {
+                File.WriteAllText(filename, poolContents);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
     }
 }
