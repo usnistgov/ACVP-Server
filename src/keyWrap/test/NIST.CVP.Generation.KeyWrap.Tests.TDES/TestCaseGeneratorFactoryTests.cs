@@ -19,7 +19,7 @@ namespace NIST.CVP.Generation.KeyWrap.Tests.TDES
                 Direction = direction
             };
 
-            var subject = new TestCaseGeneratorFactory<TestGroup, TestCase>(null, null);
+            var subject = new TestCaseGeneratorFactory<TestGroup, TestCase>(null);
             var generator = subject.GetCaseGenerator(testGroup);
             Assert.IsInstanceOf(expectedType, generator);
         }

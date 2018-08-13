@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Tests.Core.TestCategoryAttributes;
+﻿using System.Threading.Tasks;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.RSA_KeyGen.Tests
@@ -9,12 +10,12 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
         [Test]
         [TestCase(true)]
         [TestCase(false)]
-        public void ShouldValidateIfExpectedAndSuppliedResultsMatch(bool testPassed)
+        public async Task ShouldValidateIfExpectedAndSuppliedResultsMatch(bool testPassed)
         {
             var testCase = GetTestCase(testPassed);
             var subject = new TestCaseValidatorKat(testCase);
 
-            var result = subject.Validate(testCase);
+            var result = await subject.ValidateAsync(testCase);
 
             Assume.That(result != null);
             Assert.AreEqual(Core.Enums.Disposition.Passed, result.Result);
@@ -23,12 +24,12 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
         [Test]
         [TestCase(true)]
         [TestCase(false)]
-        public void ShouldNotValidateIfExpectedAndSuppliedDoNotMatch(bool testPassed)
+        public async Task ShouldNotValidateIfExpectedAndSuppliedDoNotMatch(bool testPassed)
         {
             var testCase = GetTestCase(testPassed);
             var subject = new TestCaseValidatorKat(GetTestCase(!testPassed));
 
-            var result = subject.Validate(testCase);
+            var result = await subject.ValidateAsync(testCase);
 
             Assume.That(result != null);
             Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);

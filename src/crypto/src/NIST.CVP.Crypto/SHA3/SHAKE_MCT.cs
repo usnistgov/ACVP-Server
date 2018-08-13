@@ -9,7 +9,7 @@ using NLog;
 
 namespace NIST.CVP.Crypto.SHA3
 {
-    public class SHAKE_MCT : ISHA3_MCT
+    public class SHAKE_MCT : ISHAKE_MCT
     {
         private readonly ISHA3 _iSHA3;
         private int NUM_OF_RESPONSES = 100;

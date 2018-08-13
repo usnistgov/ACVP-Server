@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Math;
+﻿using System.Threading.Tasks;
+using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
@@ -10,67 +11,67 @@ namespace NIST.CVP.Generation.AES_XPN.Tests
         private TestCaseValidatorExternalEncrypt _subject;
 
         [Test]
-        public void ShouldValidateIfExpectedAndSuppliedResultsMatch()
+        public async Task ShouldValidateIfExpectedAndSuppliedResultsMatch()
         {
             var testCase = GetTestCase();
             _subject = new TestCaseValidatorExternalEncrypt(testCase);
-            var result = _subject.Validate(testCase);
+            var result = await _subject.ValidateAsync(testCase);
             Assume.That(result != null);
             Assert.AreEqual(Core.Enums.Disposition.Passed, result.Result);
         }
 
         [Test]
-        public void ShouldFailIfCipherTextDoesNotMatch()
+        public async Task ShouldFailIfCipherTextDoesNotMatch()
         {
             var testCase = GetTestCase();
             _subject = new TestCaseValidatorExternalEncrypt(testCase);
             var suppliedResult = GetTestCase();
             suppliedResult.CipherText = new BitString("D00000");
-            var result = _subject.Validate(suppliedResult);
+            var result = await _subject.ValidateAsync(suppliedResult);
             Assume.That(result != null);
             Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
         }
 
         [Test]
-        public void ShouldShowCipherTextAsReasonIfItDoesNotMatch()
+        public async Task ShouldShowCipherTextAsReasonIfItDoesNotMatch()
         {
             var testCase = GetTestCase();
             _subject = new TestCaseValidatorExternalEncrypt(testCase);
             var suppliedResult = GetTestCase();
             suppliedResult.CipherText = new BitString("D00000");
-            var result = _subject.Validate(suppliedResult);
+            var result = await _subject.ValidateAsync(suppliedResult);
             Assume.That(result != null);
             Assume.That(Core.Enums.Disposition.Failed == result.Result);
             Assert.IsTrue(result.Reason.Contains("Cipher Text"));
         }
 
         [Test]
-        public void ShouldFailIfTagDoesNotMatch()
+        public async Task ShouldFailIfTagDoesNotMatch()
         {
             var testCase = GetTestCase();
             _subject = new TestCaseValidatorExternalEncrypt(testCase);
             var suppliedResult = GetTestCase();
             suppliedResult.Tag = new BitString("D00000");
-            var result = _subject.Validate(suppliedResult);
+            var result = await _subject.ValidateAsync(suppliedResult);
             Assume.That(result != null);
             Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
         }
 
         [Test]
-        public void ShouldShowTagAsReasonIfItDoesNotMatch()
+        public async Task ShouldShowTagAsReasonIfItDoesNotMatch()
         {
             var testCase = GetTestCase();
             _subject = new TestCaseValidatorExternalEncrypt(testCase);
             var suppliedResult = GetTestCase();
             suppliedResult.Tag = new BitString("D00000");
-            var result = _subject.Validate(suppliedResult);
+            var result = await _subject.ValidateAsync(suppliedResult);
             Assume.That(result != null);
             Assume.That(Core.Enums.Disposition.Failed == result.Result);
             Assert.IsTrue(result.Reason.Contains("Tag"));
         }
 
         [Test]
-        public void ShouldFailIfCipherTextNotPresent()
+        public async Task ShouldFailIfCipherTextNotPresent()
         {
             var testCase = GetTestCase();
             _subject = new TestCaseValidatorExternalEncrypt(testCase);
@@ -78,7 +79,7 @@ namespace NIST.CVP.Generation.AES_XPN.Tests
 
             suppliedResult.CipherText = null;
 
-            var result = _subject.Validate(suppliedResult);
+            var result = await _subject.ValidateAsync(suppliedResult);
             Assume.That(result != null);
             Assume.That(Core.Enums.Disposition.Failed == result.Result);
 
@@ -86,7 +87,7 @@ namespace NIST.CVP.Generation.AES_XPN.Tests
         }
 
         [Test]
-        public void ShouldFailIfTagNotPresent()
+        public async Task ShouldFailIfTagNotPresent()
         {
             var testCase = GetTestCase();
             _subject = new TestCaseValidatorExternalEncrypt(testCase);
@@ -94,7 +95,7 @@ namespace NIST.CVP.Generation.AES_XPN.Tests
 
             suppliedResult.Tag = null;
 
-            var result = _subject.Validate(suppliedResult);
+            var result = await _subject.ValidateAsync(suppliedResult);
             Assume.That(result != null);
             Assume.That(Core.Enums.Disposition.Failed == result.Result);
 

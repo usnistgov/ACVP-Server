@@ -1,98 +1,76 @@
-﻿using System;
-using NIST.CVP.Crypto.Common.Symmetric;
-using NIST.CVP.Crypto.Common.Symmetric.AES;
-using NIST.CVP.Crypto.Common.Symmetric.BlockModes.Aead;
-using NIST.CVP.Crypto.Common.Symmetric.Engines;
-using NIST.CVP.Crypto.Common.Symmetric.Enums;
+﻿using NIST.CVP.Common.Oracle;
+using NIST.CVP.Common.Oracle.ParameterTypes;
+using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Math;
 using NLog;
+using System;
+using System.Threading.Tasks;
+using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.AES_XPN
 {
-    public class TestCaseGeneratorInternalEncrypt : ITestCaseGenerator<TestGroup, TestCase>
+    public class TestCaseGeneratorInternalEncrypt : ITestCaseGeneratorAsync<TestGroup, TestCase>
     {
-        private readonly IRandom800_90 _random800_90;
-        private readonly IAeadModeBlockCipher _aesGcm;
+        private readonly IOracle _oracle;
 
         public int NumberOfTestCasesToGenerate => 15;
 
-        public TestCaseGeneratorInternalEncrypt(IRandom800_90 random800_90, IAeadModeBlockCipherFactory cipherFactory, IBlockCipherEngineFactory engineFactory)
+        public TestCaseGeneratorInternalEncrypt(IOracle oracle)
         {
-            _random800_90 = random800_90;
-            _aesGcm = cipherFactory.GetAeadCipher(engineFactory.GetSymmetricCipherPrimitive(BlockCipherEngines.Aes), BlockCipherModesOfOperation.Gcm);
+            _oracle = oracle;
         }
 
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup @group, bool isSample)
+        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample)
         {
-            //no known answer, but we need the prompts
-            var key = _random800_90.GetRandomBitString(group.KeyLength);
-            var plainText = _random800_90.GetRandomBitString(group.PTLength);
-            var aad = _random800_90.GetRandomBitString(group.AADLength);
-
-            var testCase = new TestCase
+            var param = new AeadParameters
             {
-                Key = key,
-                AAD = aad,
-                PlainText = plainText,
-                Deferred = true
+                ExternalIv = group.IVGeneration.ToLower() == "external",
+                ExternalSalt = group.SaltGen.ToLower() == "external",
+                AadLength = group.AADLength,
+                KeyLength = group.KeyLength,
+                DataLength = group.PTLength,
+                CouldFail = false
             };
 
-            // if a sample is requested, we need to generate an IV and go through with the actual encryption like we do for External
-            if (isSample)
-            {
-                testCase.IV = _random800_90.GetRandomBitString(group.IVLength);
-                testCase.Salt = _random800_90.GetRandomBitString(group.SaltLength);
-                return Generate(group, testCase);
-            }
-
-            if (group.IVGeneration.ToLower() == "external")
-            {
-                testCase.IV = _random800_90.GetRandomBitString(group.IVLength);
-            }
-
-            if (group.SaltGen.ToLower() == "external")
-            {
-                testCase.Salt = _random800_90.GetRandomBitString(group.SaltLength);
-            }
-            
-            return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
-        }
-
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup @group, TestCase testCase)
-        {
-            SymmetricCipherAeadResult encryptionResult = null;
             try
             {
-                var param = new AeadModeBlockCipherParameters(
-                    BlockCipherDirections.Encrypt,
-                    testCase.Salt.XOR(testCase.IV),
-                    testCase.Key,
-                    testCase.PlainText,
-                    testCase.AAD,
-                    group.TagLength
-                );
-                encryptionResult = _aesGcm.ProcessPayload(param);
-                if (!encryptionResult.Success)
+                AeadResult oracleResult = null;
+
+                if (isSample)
                 {
-                    ThisLogger.Warn(encryptionResult.ErrorMessage);
-                    {
-                        return new TestCaseGenerateResponse<TestGroup, TestCase>(encryptionResult.ErrorMessage);
-                    }
+                    // Get complete test case, we need all the information
+                    param.TagLength = group.TagLength;
+                    param.IvLength = group.IVLength;
+                    param.SaltLength = group.SaltLength;
+
+                    oracleResult = await _oracle.GetAesXpnCaseAsync(param);
                 }
+                else
+                {
+                    // Get incomplete test case, no need to compute the rest
+                    oracleResult = await _oracle.GetDeferredAesXpnCaseAsync(param);
+                }
+
+                return new TestCaseGenerateResponse<TestGroup, TestCase>(new TestCase
+                {
+                    Deferred = true,
+                    AAD = oracleResult.Aad,
+                    CipherText = oracleResult.CipherText,
+                    IV = oracleResult.Iv,
+                    Salt = oracleResult.Salt,
+                    Key = oracleResult.Key,
+                    PlainText = oracleResult.PlainText,
+                    Tag = oracleResult.Tag,
+                    TestPassed = oracleResult.TestPassed
+                });
             }
             catch (Exception ex)
             {
                 ThisLogger.Error(ex);
-                {
-                    return new TestCaseGenerateResponse<TestGroup, TestCase>(ex.Message);
-                }
+                return new TestCaseGenerateResponse<TestGroup, TestCase>($"Failed to generate. {ex.Message}");
             }
-            testCase.CipherText = encryptionResult.Result;
-            testCase.Tag = encryptionResult.Tag;
-            return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
         }
-
-        private Logger ThisLogger => LogManager.GetCurrentClassLogger();
+        
+        private static ILogger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }

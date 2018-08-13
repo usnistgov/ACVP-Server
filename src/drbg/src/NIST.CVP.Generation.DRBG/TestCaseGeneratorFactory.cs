@@ -1,33 +1,20 @@
-﻿using NIST.CVP.Crypto.Common.DRBG;
-using NIST.CVP.Generation.Core;
-using NIST.CVP.Math.Entropy;
+﻿using NIST.CVP.Common.Oracle;
+using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.DRBG
 {
-    public class TestCaseGeneratorFactory : ITestCaseGeneratorFactory<TestGroup, TestCase>
+    public class TestCaseGeneratorFactory : ITestCaseGeneratorFactoryAsync<TestGroup, TestCase>
     {
-        private readonly IEntropyProviderFactory _iEntropyProviderFactory;
-        private readonly IDrbgFactory _iDrbgFactory;
+        private readonly IOracle _oracle;
 
-        public TestCaseGeneratorFactory(IEntropyProviderFactory iEntropyProviderFactory, IDrbgFactory iDrbgFactory)
+        public TestCaseGeneratorFactory(IOracle oracle)
         {
-            _iEntropyProviderFactory = iEntropyProviderFactory;
-            _iDrbgFactory = iDrbgFactory;
+            _oracle = oracle;
         }
 
-        public ITestCaseGenerator<TestGroup, TestCase> GetCaseGenerator(TestGroup testGroup)
+        public ITestCaseGeneratorAsync<TestGroup, TestCase> GetCaseGenerator(TestGroup testGroup)
         {
-            if (testGroup.ReSeed)
-            {
-                if (testGroup.PredResistance)
-                {
-                    return new TestCaseGeneratorReseedPredResist(_iEntropyProviderFactory, _iDrbgFactory);
-                }
-                
-                return new TestCaseGeneratorReseedNoPredResist(_iEntropyProviderFactory, _iDrbgFactory);
-            }
-
-            return new TestCaseGeneratorNoReseed(_iEntropyProviderFactory, _iDrbgFactory);
+            return new TestCaseGenerator(_oracle);
         }
     }
 }

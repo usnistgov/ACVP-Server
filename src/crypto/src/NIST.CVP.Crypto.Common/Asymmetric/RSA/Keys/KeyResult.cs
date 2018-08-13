@@ -1,6 +1,6 @@
-﻿using NIST.CVP.Crypto.Common.Asymmetric.RSA2.PrimeGenerators;
+﻿using NIST.CVP.Crypto.Common.Asymmetric.RSA.PrimeGenerators;
 
-namespace NIST.CVP.Crypto.Common.Asymmetric.RSA2.Keys
+namespace NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys
 {
     public class KeyResult : ICryptoResult
     {

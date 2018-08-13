@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Newtonsoft.Json.Serialization;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Enums;
+﻿using Newtonsoft.Json.Serialization;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
 using NIST.CVP.Generation.Core.ContractResolvers;
+using System;
+using System.Linq;
 
 namespace NIST.CVP.Generation.RSA_SPComponent.ContractResolvers
 {

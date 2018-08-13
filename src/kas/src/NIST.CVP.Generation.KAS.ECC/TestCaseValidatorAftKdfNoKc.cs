@@ -1,20 +1,26 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using NIST.CVP.Crypto.Common.KAS;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Crypto.Common.KAS.Helpers;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.KAS.ECC
 {
-    public class TestCaseValidatorAftKdfNoKc : ITestCaseValidator<TestGroup, TestCase>
+    public class TestCaseValidatorAftKdfNoKc : ITestCaseValidatorAsync<TestGroup, TestCase>
     {
         private readonly TestCase _workingResult;
         private readonly TestGroup _testGroup;
-        private readonly IDeferredTestCaseResolver<TestGroup, TestCase, KasResult> _deferredResolver;
+        private readonly IDeferredTestCaseResolverAsync<TestGroup, TestCase, KasResult> _deferredResolver;
 
         private readonly SchemeKeyNonceGenRequirement<EccScheme> _iutKeyRequirements;
 
-        public TestCaseValidatorAftKdfNoKc(TestCase workingResult, TestGroup testGroup, IDeferredTestCaseResolver<TestGroup, TestCase, KasResult> deferredResolver)
+        public TestCaseValidatorAftKdfNoKc(
+            TestCase workingResult, 
+            TestGroup testGroup, 
+            IDeferredTestCaseResolverAsync<TestGroup, TestCase, KasResult> deferredResolver
+        )
         {
             _workingResult = workingResult;
             _testGroup = testGroup;
@@ -32,7 +38,7 @@ namespace NIST.CVP.Generation.KAS.ECC
 
         public int TestCaseId => _workingResult.TestCaseId;
 
-        public TestCaseValidation Validate(TestCase suppliedResult, bool showExpected = false)
+        public async Task<TestCaseValidation> ValidateAsync(TestCase suppliedResult, bool showExpected = false)
         {
             var errors = new List<string>();
             var expected = new Dictionary<string, string>();
@@ -41,7 +47,7 @@ namespace NIST.CVP.Generation.KAS.ECC
             ValidateResultPresent(suppliedResult, errors);
             if (errors.Count == 0)
             {
-                CheckResults(suppliedResult, errors, expected, provided);
+                await CheckResults(suppliedResult, errors, expected, provided);
             }
 
             if (errors.Count > 0)
@@ -126,9 +132,11 @@ namespace NIST.CVP.Generation.KAS.ECC
             }
         }
 
-        private void CheckResults(TestCase suppliedResult, List<string> errors, Dictionary<string, string> expected, Dictionary<string, string> provided)
+        private async Task CheckResults(TestCase suppliedResult, List<string> errors, Dictionary<string, string> expected, Dictionary<string, string> provided)
         {
-            KasResult serverResult = _deferredResolver.CompleteDeferredCrypto(_testGroup, _workingResult, suppliedResult);
+            KasResult serverResult = await _deferredResolver.CompleteDeferredCryptoAsync(
+                _testGroup, _workingResult, suppliedResult
+            );
 
             if (!serverResult.Tag.Equals(suppliedResult.Tag))
             {

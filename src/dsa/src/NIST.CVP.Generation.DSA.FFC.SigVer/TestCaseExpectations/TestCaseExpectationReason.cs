@@ -1,14 +1,14 @@
 ﻿using NIST.CVP.Common.Helpers;
+using NIST.CVP.Common.Oracle.DispositionTypes;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.DSA.FFC.SigVer.Enums;
 
-namespace NIST.CVP.Generation.DSA.FFC.SigVer.FailureHandlers
+namespace NIST.CVP.Generation.DSA.FFC.SigVer.TestCaseExpectations
 {
-    public class TestCaseExpectationReason : ITestCaseExpectationReason<SigFailureReasons>
+    public class TestCaseExpectationReason : ITestCaseExpectationReason<DsaSignatureDisposition>
     {
-        private readonly SigFailureReasons _reason;
+        private readonly DsaSignatureDisposition _reason;
 
-        public TestCaseExpectationReason(SigFailureReasons reason)
+        public TestCaseExpectationReason(DsaSignatureDisposition reason)
         {
             _reason = reason;
         }
@@ -18,7 +18,7 @@ namespace NIST.CVP.Generation.DSA.FFC.SigVer.FailureHandlers
             return EnumHelpers.GetEnumDescriptionFromEnum(_reason);
         }
 
-        public SigFailureReasons GetReason()
+        public DsaSignatureDisposition GetReason()
         {
             return _reason;
         }

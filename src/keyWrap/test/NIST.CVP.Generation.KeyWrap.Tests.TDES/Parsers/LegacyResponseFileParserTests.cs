@@ -166,7 +166,7 @@ C = 28e75c91dc23981ee5d313517f960043d6d634495003d7f732bd60e9d74eb2371060061b21fa
         [OneTimeSetUp]
         public void Setup()
         {
-            _unitTestPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\temp_LegacyFileParser");
+            _unitTestPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\temp_LegacyFileParser\tdes");
             if (Directory.Exists(_unitTestPath))
             {
                 Directory.Delete(_unitTestPath, true);

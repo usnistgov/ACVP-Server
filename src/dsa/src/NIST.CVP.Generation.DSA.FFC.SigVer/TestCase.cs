@@ -1,12 +1,11 @@
-﻿using System.Dynamic;
-using System.Numerics;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using NIST.CVP.Common.Helpers;
+using NIST.CVP.Common.Oracle.DispositionTypes;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.DSA.FFC.SigVer.Enums;
-using NIST.CVP.Generation.DSA.FFC.SigVer.FailureHandlers;
+using NIST.CVP.Generation.DSA.FFC.SigVer.TestCaseExpectations;
 using NIST.CVP.Math;
+using System.Numerics;
 
 namespace NIST.CVP.Generation.DSA.FFC.SigVer
 {
@@ -18,7 +17,7 @@ namespace NIST.CVP.Generation.DSA.FFC.SigVer
         public TestGroup ParentGroup { get; set; }
         
         [JsonIgnore] 
-        public ITestCaseExpectationReason<SigFailureReasons> Reason { get; set; }
+        public ITestCaseExpectationReason<DsaSignatureDisposition> Reason { get; set; }
 
         [JsonProperty(PropertyName = "reason")]
         public string ReasonVal 
@@ -27,7 +26,7 @@ namespace NIST.CVP.Generation.DSA.FFC.SigVer
 
             set
             {
-                var failureReason = EnumHelpers.GetEnumFromEnumDescription<SigFailureReasons>(value);
+                var failureReason = EnumHelpers.GetEnumFromEnumDescription<DsaSignatureDisposition>(value);
                 Reason = new TestCaseExpectationReason(failureReason);
             }
         }

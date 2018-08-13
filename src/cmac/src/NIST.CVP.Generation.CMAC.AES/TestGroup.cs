@@ -13,9 +13,6 @@ namespace NIST.CVP.Generation.CMAC.AES
 {
     public class TestGroup : TestGroupBase<TestGroup, TestCase>
     {
-        [JsonProperty(PropertyName = "keyLen")]
-        public override int KeyLength { get; set; }
-
         public override bool SetString(string name, string value)
         {
             if (string.IsNullOrEmpty(name))

@@ -132,5 +132,18 @@ namespace NIST.CVP.Math.Tests
             Assert.IsTrue(Regex.IsMatch(result, @"^[a-zA-Z]+$"));
             Assert.AreEqual(length, result.Length);
         }
+
+        [Test]
+        [TestCase(1)]
+        [TestCase(100)]
+        [TestCase(1000)]
+        public void ShouldReturnCorrectNumberOfCharacters(int length)
+        {
+            var subject = new Random800_90();
+
+            var result = subject.GetRandomString(length);
+            
+            Assert.AreEqual(length, result.Length);
+        }
     }
 }

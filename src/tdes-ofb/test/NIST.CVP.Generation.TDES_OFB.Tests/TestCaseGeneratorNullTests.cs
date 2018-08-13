@@ -10,23 +10,14 @@ namespace NIST.CVP.Generation.TDES_OFB.Tests
     public class TestCaseGeneratorNullTests
     {
         [Test]
-        public void ShouldReturnErrorResponseForIsSampleCall()
+        public async Task ShouldReturnErrorResponseForIsSampleCall()
         {
             var subject = new TestCaseGeneratorNull();
-            var result = subject.Generate(new TestGroup(), false);
+            var result = await subject.GenerateAsync(new TestGroup(), false);
             Assert.IsFalse(result.Success);
             Assert.AreEqual("This is the null generator -- nothing is generated", result.ErrorMessage);
         }
-
-        [Test]
-        public void ShouldReturnErrorResponseForTestCaseCall()
-        {
-            var subject = new TestCaseGeneratorNull();
-            var result = subject.Generate(new TestGroup(), new TestCase());
-            Assert.IsFalse(result.Success);
-            Assert.AreEqual("This is the null generator -- nothing is generated", result.ErrorMessage);
-        }
-
+        
         [Test]
         public void ShouldHave0NumberOfCases()
         {

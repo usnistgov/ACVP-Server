@@ -1,80 +1,65 @@
-﻿using System;
-using NIST.CVP.Crypto.Common.KDF.Components.SRTP;
+﻿using NIST.CVP.Common.Oracle;
+using NIST.CVP.Common.Oracle.ParameterTypes;
+using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Math;
 using NLog;
+using System;
+using System.Threading.Tasks;
+using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.SRTP
 {
-    public class TestCaseGenerator : ITestCaseGenerator<TestGroup, TestCase>
+    public class TestCaseGenerator : ITestCaseGeneratorAsync<TestGroup, TestCase>
     {
-        private readonly IRandom800_90 _rand;
-        private readonly ISrtp _algo;
-
-        private const int SALT_LENGTH = 112;
-        private const int INDEX_LENGTH = 48;
-        private const int SRTCP_INDEX_LENGTH = 32;
+        private readonly IOracle _oracle;
 
         public int NumberOfTestCasesToGenerate { get; private set; } = 10;
 
-        public TestCaseGenerator(IRandom800_90 rand, ISrtp algo)
+        public TestCaseGenerator(IOracle oracle)
         {
-            _rand = rand;
-            _algo = algo;
+            _oracle = oracle;
         }
 
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
+        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample)
         {
             if (isSample)
             {
                 NumberOfTestCasesToGenerate = 2;
             }
 
-            var key = _rand.GetRandomBitString(group.AesKeyLength);
-            var salt = _rand.GetRandomBitString(SALT_LENGTH);
-            var index = _rand.GetRandomBitString(INDEX_LENGTH);
-            var srtcpIndex = _rand.GetRandomBitString(SRTCP_INDEX_LENGTH);
-
-            var testCase = new TestCase
+            var param = new SrtpKdfParameters
             {
-                MasterKey = key,
-                MasterSalt = salt,
-                Index = index,
-                SrtcpIndex = srtcpIndex
+                AesKeyLength = group.AesKeyLength,
+                KeyDerivationRate = group.Kdr
             };
 
-            return Generate(group, testCase);
-        }
-
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
-        {
-            KdfResult kdfResult = null;
             try
             {
-                kdfResult = _algo.DeriveKey(group.AesKeyLength, testCase.MasterKey, testCase.MasterSalt, group.Kdr, testCase.Index, testCase.SrtcpIndex);
-                if (!kdfResult.Success)
+                var result = await _oracle.GetSrtpKdfCaseAsync(param);
+
+                var testCase = new TestCase
                 {
-                    ThisLogger.Warn(kdfResult.ErrorMessage);
-                    return new TestCaseGenerateResponse<TestGroup, TestCase>(kdfResult.ErrorMessage);
-                }
+                    Index = result.Index,
+                    MasterKey = result.MasterKey,
+                    MasterSalt = result.MasterSalt,
+                    SrtcpIndex = result.SrtcpIndex,
+                    SrtcpKa = result.SrtcpAuthenticationKey,
+                    SrtcpKe = result.SrtcpEncryptionKey,
+                    SrtcpKs = result.SrtcpSaltingKey,
+                    SrtpKa = result.SrtpAuthenticationKey,
+                    SrtpKe = result.SrtpEncryptionKey,
+                    SrtpKs = result.SrtpSaltingKey
+                };
+
+                return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
             }
             catch (Exception ex)
             {
-                ThisLogger.Error(ex.StackTrace);
-                return new TestCaseGenerateResponse<TestGroup, TestCase>(ex.Message);
+                ThisLogger.Error(ex);
+                return new TestCaseGenerateResponse<TestGroup, TestCase>($"Failed to generate. {ex.Message}");
             }
-
-            testCase.SrtpKe = kdfResult.SrtpResult.EncryptionKey;
-            testCase.SrtpKa = kdfResult.SrtpResult.AuthenticationKey;
-            testCase.SrtpKs = kdfResult.SrtpResult.SaltingKey;
-
-            testCase.SrtcpKe = kdfResult.SrtcpResult.EncryptionKey;
-            testCase.SrtcpKa = kdfResult.SrtcpResult.AuthenticationKey;
-            testCase.SrtcpKs = kdfResult.SrtcpResult.SaltingKey;
-
-            return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
         }
-
-        public Logger ThisLogger => LogManager.GetCurrentClassLogger();
+        
+        public ILogger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }

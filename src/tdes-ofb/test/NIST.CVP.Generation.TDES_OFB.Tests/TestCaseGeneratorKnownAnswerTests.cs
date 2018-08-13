@@ -39,7 +39,7 @@ namespace NIST.CVP.Generation.TDES_OFB.Tests
         [TestCase("SubstitutiontablE", "encrypt")]
         [TestCase("VariableTExt", "ENcryPt")]
         [TestCase("VariableKey", "ENCRYPT")]
-        public void ShouldReturnKat(string testType, string direction)
+        public async Task ShouldReturnKat(string testType, string direction)
         {
             var testGroup = new TestGroup
             {
@@ -48,7 +48,7 @@ namespace NIST.CVP.Generation.TDES_OFB.Tests
             };
 
             var subject = new TestCaseGeneratorKnownAnswer(testGroup);
-            var result = subject.Generate(testGroup, false);
+            var result = await subject.GenerateAsync(testGroup, false);
             Assert.IsNotNull(result);
             Assert.IsTrue(result.Success);
         }
@@ -58,7 +58,7 @@ namespace NIST.CVP.Generation.TDES_OFB.Tests
         [TestCase("VariableKey", 64, "decrypt")]
         [TestCase("VariableText", 64, "encrypt")]
         [TestCase("SubstitutionTable", 19, "encrypt")]
-        public void ShouldReturnExpectedListCount(string testType, int count, string direction)
+        public async Task ShouldReturnExpectedListCount(string testType, int count, string direction)
         {
             var testGroup = new TestGroup
             {
@@ -70,7 +70,7 @@ namespace NIST.CVP.Generation.TDES_OFB.Tests
             List<TestCaseGenerateResponse<TestGroup, TestCase>> results = new EditableList<TestCaseGenerateResponse<TestGroup, TestCase>>();
             for (var i = 0; i < subject.NumberOfTestCasesToGenerate; i++)
             {
-                results.Add(subject.Generate(testGroup, false));
+                results.Add(await subject.GenerateAsync(testGroup, false));
             }
             Assert.AreEqual(count, results.Count);
         }
@@ -84,7 +84,7 @@ namespace NIST.CVP.Generation.TDES_OFB.Tests
         [TestCase("VariableText", 63, "166b40b44aba4bd6", "encrypt")]
         [TestCase("SubstitutionTable", 0, "690f5b0d9a26939b", "encrypt")]
         [TestCase("SubstitutionTable", 18, "63fac0d034d9f793", "encrypt")]
-        public void ShouldReturnExpectedElement(string testType, int elementId, string expected, string direction)
+        public async Task ShouldReturnExpectedElement(string testType, int elementId, string expected, string direction)
         {
             var testGroup = new TestGroup
             {
@@ -96,7 +96,7 @@ namespace NIST.CVP.Generation.TDES_OFB.Tests
             var results = new List<TestCaseGenerateResponse<TestGroup, TestCase>>();
             for (var i = 0; i < subject.NumberOfTestCasesToGenerate; i++)
             {
-                results.Add(subject.Generate(testGroup, false));
+                results.Add(await subject.GenerateAsync(testGroup, false));
             }
 
             Assume.That(results.Count > elementId);

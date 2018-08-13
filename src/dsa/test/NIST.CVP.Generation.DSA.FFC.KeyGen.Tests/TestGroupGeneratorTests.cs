@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Moq;
+﻿using Moq;
+using NIST.CVP.Common.Oracle;
+using NIST.CVP.Common.Oracle.ParameterTypes;
+using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
-using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
-using NIST.CVP.Math.Entropy;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Generation.DSA.FFC.KeyGen.Tests
 {
@@ -55,17 +54,12 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen.Tests
         [TestCaseSource(nameof(parameters))]
         public void ShouldCreate1TestGroupForEachCombinationOfModeLN(int expectedGroups, Parameters parameters)
         {
-            var dsaMock = new Mock<IDsaFfc>();
-            dsaMock
-                .Setup(s => s.GenerateDomainParameters(It.IsAny<FfcDomainParametersGenerateRequest>()))
-                .Returns(new FfcDomainParametersGenerateResult(new FfcDomainParameters(1, 2, 3), new DomainSeed(4), new Counter(5)));
+            var oracleMock = new Mock<IOracle>();
+            oracleMock
+                .Setup(s => s.GetDsaKeyAsync(It.IsAny<DsaKeyParameters>()))
+                .Returns(Task.FromResult(new DsaKeyResult { Key = new FfcKeyPair() }));
 
-            var factoryMock = new Mock<IDsaFfcFactory>();
-            factoryMock
-                .Setup(s => s.GetInstance(It.IsAny<HashFunction>(), It.IsAny<EntropyProviderTypes>()))
-                .Returns(dsaMock.Object);
-
-            var subject = new TestGroupGenerator(factoryMock.Object);
+            var subject = new TestGroupGenerator(oracleMock.Object);
             var result = subject.BuildTestGroups(parameters);
             Assert.AreEqual(expectedGroups, result.Count());
         }

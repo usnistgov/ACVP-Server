@@ -1,0 +1,21 @@
+{
+  "algorithm": "TupleHash",
+  "isSample": true,
+  "digestSize": [
+    128,
+    256
+  ],
+  "inBit": true,
+  "outBit": true,
+  "inEmpty": true,
+  "nonxof": true,
+  "xof": true,
+  "hexCustomization": false,
+  "outputLength": [
+    {
+      "min": 256,
+      "max": 4096,
+      "increment": 1
+    }
+  ]
+}

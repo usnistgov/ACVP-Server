@@ -1,9 +1,5 @@
-﻿using Autofac;
-using NIST.CVP.Common;
-using NIST.CVP.Crypto.Common;
-using NIST.CVP.Generation.Core;
+﻿using NIST.CVP.Common;
 using NIST.CVP.Generation.Core.Tests;
-using NIST.CVP.Generation.Core.Tests.Fakes;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -43,6 +39,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen.IntegrationTests
                 Mode = Mode,
                 IsSample = true,
                 Capabilities = caps,
+                ComponentTest = true
             };
 
             return CreateRegistration(targetFolder, p);

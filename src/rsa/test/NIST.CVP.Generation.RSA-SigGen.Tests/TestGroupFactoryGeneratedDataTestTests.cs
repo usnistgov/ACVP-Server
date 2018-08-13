@@ -1,48 +1,29 @@
-﻿using NIST.CVP.Tests.Core.TestCategoryAttributes;
+﻿using Moq;
+using NIST.CVP.Common.Oracle;
+using NIST.CVP.Common.Oracle.ParameterTypes;
+using NIST.CVP.Common.Oracle.ResultTypes;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Moq;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Enums;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Keys;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA2.PrimeGenerators;
-using NIST.CVP.Crypto.RSA2.Keys;
-using NIST.CVP.Math;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Generation.RSA_SigGen.Tests
 {
     [TestFixture, UnitTest]
     public class TestGroupFactoryGeneratedDataTestTests
     {
-        private TestGroupGeneratorGeneratedDataTest _subject;
+        private TestGroupGenerator _subject;
 
         [SetUp]
         public void SetUp()
         {
-            var rand = new Mock<IRandom800_90>();
-            rand
-                .Setup(s => s.GetRandomBitString(It.IsAny<int>()))
-                .Returns(new BitString("ABCDABCDABCD"));
+            var oracle = new Mock<IOracle>();
+            oracle
+                .Setup(s => s.GetRsaKeyAsync(It.IsAny<RsaKeyParameters>()))
+                .Returns(Task.FromResult(new RsaKeyResult { Key = new KeyPair() }));
 
-            rand
-                .Setup(s => s.GetRandomInt(It.IsAny<int>(), It.IsAny<int>()))
-                .Returns(1);
-
-            var keyBuilder = new Mock<IKeyBuilder>();
-            keyBuilder
-                .Setup(s => s.Build())
-                .Returns(new KeyResult(new KeyPair(), new AuxiliaryResult()));
-
-            keyBuilder.SetReturnsDefault(keyBuilder.Object);
-
-            var keyComposerFactory = new Mock<IKeyComposerFactory>();
-            keyComposerFactory
-                .Setup(s => s.GetKeyComposer(It.IsAny<PrivateKeyModes>()))
-                .Returns(new RsaKeyComposer());
-
-            _subject = new TestGroupGeneratorGeneratedDataTest(keyBuilder.Object, rand.Object, keyComposerFactory.Object);
+            _subject = new TestGroupGenerator(oracle.Object);
         }
 
         private static object[] parameters =

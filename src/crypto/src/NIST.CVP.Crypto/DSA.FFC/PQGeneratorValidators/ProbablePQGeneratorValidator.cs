@@ -209,7 +209,7 @@ namespace NIST.CVP.Crypto.DSA.FFC.PQGeneratorValidators
             // 14
             if (i != count.Count || computed_p != p || !NumberTheory.MillerRabin(computed_p, DSAHelper.GetMillerRabinIterations(L, N)))
             {
-                return new PQValidateResult("Invalid p value or counter");
+                return new PQValidateResult($"Invalid p value or counter. computed_p = {new BitString(computed_p).ToHex()}");
             }
 
             // 15

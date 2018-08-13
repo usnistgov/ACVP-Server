@@ -1,11 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using NIST.CVP.Common.Oracle.DispositionTypes;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC.Enums;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
-using NIST.CVP.Crypto.DSA.ECC;
-using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.DSA.ECC.SigVer.Enums;
 using NIST.CVP.Math;
+using System.Collections.Generic;
 
 namespace NIST.CVP.Generation.DSA.ECC.SigVer.Tests
 {
@@ -40,7 +38,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer.Tests
                         Message = new BitString("BEEFFACE"),
                         Signature = new EccSignature(1, 2),
                         TestPassed = true,
-                        Reason = SigFailureReasons.None,
+                        Reason = EcdsaSignatureDisposition.None,
                         TestCaseId = testId,
                         ParentGroup = tg
                     });

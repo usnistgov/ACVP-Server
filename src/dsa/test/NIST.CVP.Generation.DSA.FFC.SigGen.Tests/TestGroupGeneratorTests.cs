@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Moq;
-using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
-using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
-using NIST.CVP.Crypto.DSA.FFC;
-using NIST.CVP.Math.Entropy;
+﻿using Moq;
+using NIST.CVP.Common.Oracle;
+using NIST.CVP.Common.Oracle.ParameterTypes;
+using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Generation.DSA.FFC.SigGen.Tests
 {
@@ -56,17 +53,12 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen.Tests
         [TestCaseSource(nameof(parameters))]
         public void ShouldCreate1TestGroupForEachCombinationOfModeLN(int expectedGroups, Parameters parameters)
         {
-            var dsaMock = new Mock<IDsaFfc>();
-            dsaMock
-                .Setup(s => s.GenerateDomainParameters(It.IsAny<FfcDomainParametersGenerateRequest>()))
-                .Returns(new FfcDomainParametersGenerateResult(new FfcDomainParameters(1, 2, 3), new DomainSeed(4), new Counter(5)));
+            var oracleMock = new Mock<IOracle>();
+            oracleMock
+                .Setup(s => s.GetDsaDomainParametersAsync(It.IsAny<DsaDomainParametersParameters>()))
+                .Returns(Task.FromResult(new DsaDomainParametersResult()));
 
-            var dsaFactoryMock = new Mock<IDsaFfcFactory>();
-            dsaFactoryMock
-                .Setup(s => s.GetInstance(It.IsAny<HashFunction>(), It.IsAny<EntropyProviderTypes>()))
-                .Returns(dsaMock.Object);
-
-            var subject = new TestGroupGenerator(dsaFactoryMock.Object);
+            var subject = new TestGroupGenerator(oracleMock.Object);
             var result = subject.BuildTestGroups(parameters);
             Assert.AreEqual(expectedGroups, result.Count());
         }

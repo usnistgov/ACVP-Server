@@ -1,8 +1,8 @@
-﻿using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Enums;
+﻿using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Math.Entropy;
 
-namespace NIST.CVP.Crypto.Common.Asymmetric.RSA2.Signatures
+namespace NIST.CVP.Crypto.Common.Asymmetric.RSA.Signatures
 {
     public interface IPaddingFactory
     {

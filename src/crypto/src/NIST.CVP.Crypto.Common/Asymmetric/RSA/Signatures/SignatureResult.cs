@@ -1,6 +1,6 @@
 ﻿using System.Numerics;
 
-namespace NIST.CVP.Crypto.Common.Asymmetric.RSA2.Signatures
+namespace NIST.CVP.Crypto.Common.Asymmetric.RSA.Signatures
 {
     public class SignatureResult
     {

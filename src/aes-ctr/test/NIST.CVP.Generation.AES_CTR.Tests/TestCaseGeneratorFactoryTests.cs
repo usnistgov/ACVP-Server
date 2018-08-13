@@ -13,18 +13,11 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
     public class TestCaseGeneratorFactoryTests
     {
         private TestCaseGeneratorFactory _subject;
-        private Mock<IBlockCipherEngine> _engine;
-        private Mock<IBlockCipherEngineFactory> _engineFactory;
 
         [SetUp]
         public void Setup()
         {
-            _engine = new Mock<IBlockCipherEngine>();
-            _engineFactory = new Mock<IBlockCipherEngineFactory>();
-            _engineFactory
-                .Setup(s => s.GetSymmetricCipherPrimitive(It.IsAny<BlockCipherEngines>()))
-                .Returns(_engine.Object);
-            _subject = new TestCaseGeneratorFactory(null, _engineFactory.Object, null, null);
+            _subject = new TestCaseGeneratorFactory(null);
         }
 
         [Test]
@@ -32,18 +25,18 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
         [TestCase("not relevant", "keysbox", typeof(TestCaseGeneratorKnownAnswer))]
         [TestCase("not relevant", "vartxt", typeof(TestCaseGeneratorKnownAnswer))]
         [TestCase("not relevant", "varkey", typeof(TestCaseGeneratorKnownAnswer))]
-        [TestCase("encrypt", "singleblock", typeof(TestCaseGeneratorSingleBlockEncrypt))]
-        [TestCase("Encrypt", "sInGlEbLoCk", typeof(TestCaseGeneratorSingleBlockEncrypt))]
-        [TestCase("DEcrypt", "SINGLEBLOCK", typeof(TestCaseGeneratorSingleBlockDecrypt))]
-        [TestCase("Decrypt", "SingleBlock", typeof(TestCaseGeneratorSingleBlockDecrypt))]
-        [TestCase("encrypt", "PartialBlock", typeof(TestCaseGeneratorPartialBlockEncrypt))]
-        [TestCase("ENCRYPT", "PARTIALBLOCK", typeof(TestCaseGeneratorPartialBlockEncrypt))]
-        [TestCase("deCRYPT", "partialBLOCK", typeof(TestCaseGeneratorPartialBlockDecrypt))]
-        [TestCase("Decrypt", "PaRtIaLbLoCk", typeof(TestCaseGeneratorPartialBlockDecrypt))]
-        [TestCase("EncRypt", "counter", typeof(TestCaseGeneratorCounterEncrypt))]
-        [TestCase("ENCRYPT", "COUNTER", typeof(TestCaseGeneratorCounterEncrypt))]
-        [TestCase("decrypt", "Counter", typeof(TestCaseGeneratorCounterDecrypt))]
-        [TestCase("Decrypt", "COUNTer", typeof(TestCaseGeneratorCounterDecrypt))]
+        [TestCase("encrypt", "singleblock", typeof(TestCaseGeneratorSingleBlock))]
+        [TestCase("Encrypt", "sInGlEbLoCk", typeof(TestCaseGeneratorSingleBlock))]
+        [TestCase("DEcrypt", "SINGLEBLOCK", typeof(TestCaseGeneratorSingleBlock))]
+        [TestCase("Decrypt", "SingleBlock", typeof(TestCaseGeneratorSingleBlock))]
+        [TestCase("encrypt", "PartialBlock", typeof(TestCaseGeneratorPartialBlock))]
+        [TestCase("ENCRYPT", "PARTIALBLOCK", typeof(TestCaseGeneratorPartialBlock))]
+        [TestCase("deCRYPT", "partialBLOCK", typeof(TestCaseGeneratorPartialBlock))]
+        [TestCase("Decrypt", "PaRtIaLbLoCk", typeof(TestCaseGeneratorPartialBlock))]
+        [TestCase("EncRypt", "counter", typeof(TestCaseGeneratorCounter))]
+        [TestCase("ENCRYPT", "COUNTER", typeof(TestCaseGeneratorCounter))]
+        [TestCase("decrypt", "Counter", typeof(TestCaseGeneratorCounter))]
+        [TestCase("Decrypt", "COUNTer", typeof(TestCaseGeneratorCounter))]
         [TestCase("Junk", "Junk", typeof(TestCaseGeneratorNull))]
         [TestCase("", "", typeof(TestCaseGeneratorNull))]
         public void ShouldReturnProperGenerator(string direction, string testType, Type expectedType)
@@ -55,7 +48,7 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
                 KeyLength = 128
             };
 
-            _subject = new TestCaseGeneratorFactory(null, _engineFactory.Object, null, null);
+            _subject = new TestCaseGeneratorFactory(null);
             var generator = _subject.GetCaseGenerator(testGroup);
             Assume.That(generator != null);
             Assert.IsInstanceOf(expectedType, generator);
@@ -70,7 +63,7 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
                 TestType = string.Empty
             };
 
-            _subject = new TestCaseGeneratorFactory(null, _engineFactory.Object, null, null);
+            _subject = new TestCaseGeneratorFactory(null);
             var generator = _subject.GetCaseGenerator(testGroup);
             Assert.IsNotNull(generator);
         }

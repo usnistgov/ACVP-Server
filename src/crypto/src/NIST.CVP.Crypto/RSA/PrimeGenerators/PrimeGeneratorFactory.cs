@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Enums;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA2.PrimeGenerators;
+﻿using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA.PrimeGenerators;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Math.Entropy;
+using System;
 
-namespace NIST.CVP.Crypto.RSA2.PrimeGenerators
+namespace NIST.CVP.Crypto.RSA.PrimeGenerators
 {
     public class PrimeGeneratorFactory : IPrimeGeneratorFactory
     {

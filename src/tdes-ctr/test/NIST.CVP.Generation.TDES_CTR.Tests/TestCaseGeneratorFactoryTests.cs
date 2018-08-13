@@ -1,5 +1,6 @@
 ﻿using System;
 using Moq;
+using NIST.CVP.Common.Oracle;
 using NIST.CVP.Crypto.Common.Symmetric.Engines;
 using NIST.CVP.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
@@ -11,18 +12,14 @@ namespace NIST.CVP.Generation.TDES_CTR.Tests
     public class TestCaseGeneratorFactoryTests
     {
         private TestCaseGeneratorFactory _subject;
-        private Mock<IBlockCipherEngine> _engine;
-        private Mock<IBlockCipherEngineFactory> _engineFactory;
+        private Mock<IOracle> _oracle;
 
         [SetUp]
         public void Setup()
         {
-            _engine = new Mock<IBlockCipherEngine>();
-            _engineFactory = new Mock<IBlockCipherEngineFactory>();
-            _engineFactory
-                .Setup(s => s.GetSymmetricCipherPrimitive(It.IsAny<BlockCipherEngines>()))
-                .Returns(_engine.Object);
-            _subject = new TestCaseGeneratorFactory(null, _engineFactory.Object, null, null);
+            _oracle = new Mock<IOracle>();
+            
+            _subject = new TestCaseGeneratorFactory(_oracle.Object);
         }
 
         [Test]
@@ -44,18 +41,18 @@ namespace NIST.CVP.Generation.TDES_CTR.Tests
         [TestCase("decrypt", "VariableKey", typeof(TestCaseGeneratorKnownAnswer))]
         [TestCase("decrypt", "VariableText", typeof(TestCaseGeneratorKnownAnswer))]
         [TestCase("decrypt", "VariableText", typeof(TestCaseGeneratorKnownAnswer))]
-        [TestCase("encrypt", "singleblock", typeof(TestCaseGeneratorSingleBlockEncrypt))]
-        [TestCase("Encrypt", "sInGlEbLoCk", typeof(TestCaseGeneratorSingleBlockEncrypt))]
-        [TestCase("DEcrypt", "SINGLEBLOCK", typeof(TestCaseGeneratorSingleBlockDecrypt))]
-        [TestCase("Decrypt", "SingleBlock", typeof(TestCaseGeneratorSingleBlockDecrypt))]
-        [TestCase("encrypt", "PartialBlock", typeof(TestCaseGeneratorPartialBlockEncrypt))]
-        [TestCase("ENCRYPT", "PARTIALBLOCK", typeof(TestCaseGeneratorPartialBlockEncrypt))]
-        [TestCase("deCRYPT", "partialBLOCK", typeof(TestCaseGeneratorPartialBlockDecrypt))]
-        [TestCase("Decrypt", "PaRtIaLbLoCk", typeof(TestCaseGeneratorPartialBlockDecrypt))]
-        [TestCase("EncRypt", "counter", typeof(TestCaseGeneratorCounterEncrypt))]
-        [TestCase("ENCRYPT", "COUNTER", typeof(TestCaseGeneratorCounterEncrypt))]
-        [TestCase("decrypt", "Counter", typeof(TestCaseGeneratorCounterDecrypt))]
-        [TestCase("Decrypt", "COUNTer", typeof(TestCaseGeneratorCounterDecrypt))]
+        [TestCase("encrypt", "singleblock", typeof(TestCaseGeneratorSingleBlock))]
+        [TestCase("Encrypt", "sInGlEbLoCk", typeof(TestCaseGeneratorSingleBlock))]
+        [TestCase("DEcrypt", "SINGLEBLOCK", typeof(TestCaseGeneratorSingleBlock))]
+        [TestCase("Decrypt", "SingleBlock", typeof(TestCaseGeneratorSingleBlock))]
+        [TestCase("encrypt", "PartialBlock", typeof(TestCaseGeneratorPartialBlock))]
+        [TestCase("ENCRYPT", "PARTIALBLOCK", typeof(TestCaseGeneratorPartialBlock))]
+        [TestCase("deCRYPT", "partialBLOCK", typeof(TestCaseGeneratorPartialBlock))]
+        [TestCase("Decrypt", "PaRtIaLbLoCk", typeof(TestCaseGeneratorPartialBlock))]
+        [TestCase("EncRypt", "counter", typeof(TestCaseGeneratorCounter))]
+        [TestCase("ENCRYPT", "COUNTER", typeof(TestCaseGeneratorCounter))]
+        [TestCase("decrypt", "Counter", typeof(TestCaseGeneratorCounter))]
+        [TestCase("Decrypt", "COUNTer", typeof(TestCaseGeneratorCounter))]
         [TestCase("Junk", "Junk", typeof(TestCaseGeneratorNull))]
         [TestCase("", "", typeof(TestCaseGeneratorNull))]
         public void ShouldReturnProperGenerator(string direction, string testType, Type expectedType)
@@ -80,7 +77,7 @@ namespace NIST.CVP.Generation.TDES_CTR.Tests
                 TestType = string.Empty
             };
 
-            var subject = new TestCaseGeneratorFactory(null, null, null, null);
+            var subject = new TestCaseGeneratorFactory(_oracle.Object);
             var generator = subject.GetCaseGenerator(testGroup);
             Assert.IsNotNull(generator);
         }

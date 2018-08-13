@@ -1,0 +1,21 @@
+{
+  "algorithm": "ParallelHash",
+  "isSample": true,
+  "digestSize": [
+    128,
+    256
+  ],
+  "inBit": true,
+  "outBit": true,
+  "inEmpty": true,
+  "nonxof": true,
+  "xof": false,
+  "hexCustomization": false,
+  "outputLength": [
+    {
+      "min": 256,
+      "max": 4096,
+      "increment": 1
+    }
+  ]
+}

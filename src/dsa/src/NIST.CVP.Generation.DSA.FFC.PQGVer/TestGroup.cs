@@ -1,13 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Dynamic;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json;
 using NIST.CVP.Common.Helpers;
+using NIST.CVP.Common.Oracle.DispositionTypes;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC.Enums;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.DSA.FFC.PQGVer.Enums;
+using System.Collections.Generic;
 
 namespace NIST.CVP.Generation.DSA.FFC.PQGVer
 {
@@ -33,8 +31,8 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer
         }
 
         // Used internally to build test cases for the group
-        [JsonIgnore] public ITestCaseExpectationProvider<PQFailureReasons> PQTestCaseExpectationProvider { get; set; }
-        [JsonIgnore] public ITestCaseExpectationProvider<GFailureReasons> GTestCaseExpectationProvider { get; set; }
+        [JsonIgnore] public ITestCaseExpectationProvider<DsaPQDisposition> PQTestCaseExpectationProvider { get; set; }
+        [JsonIgnore] public ITestCaseExpectationProvider<DsaGDisposition> GTestCaseExpectationProvider { get; set; }
 
         
         public List<TestCase> Tests { get; set; } = new List<TestCase>();

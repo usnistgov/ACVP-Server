@@ -1,25 +1,30 @@
-﻿using NIST.CVP.Crypto.Common.Asymmetric.RSA2;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA;
 using NIST.CVP.Generation.Core;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.RSA_DPComponent
 {
-    public class TestCaseValidator : ITestCaseValidator<TestGroup, TestCase>
+    public class TestCaseValidator : ITestCaseValidatorAsync<TestGroup, TestCase>
     {
         private readonly TestGroup _group;
         private readonly TestCase _expectedResult;
-        private readonly IDeferredTestCaseResolver<TestGroup, TestCase, ManyEncryptionResult> _deferredTestCaseResolver;
+        private readonly IDeferredTestCaseResolverAsync<TestGroup, TestCase, ManyEncryptionResult> _deferredTestCaseResolver;
         public int TestCaseId => _expectedResult.TestCaseId;
 
-        public TestCaseValidator(TestGroup group, TestCase expectedResult, IDeferredTestCaseResolver<TestGroup, TestCase, ManyEncryptionResult> resolver)
+        public TestCaseValidator(
+            TestGroup group, 
+            TestCase expectedResult, 
+            IDeferredTestCaseResolverAsync<TestGroup, TestCase, ManyEncryptionResult> resolver)
         {
             _group = group;
             _expectedResult = expectedResult;
             _deferredTestCaseResolver = resolver;
         }
 
-        public TestCaseValidation Validate(TestCase suppliedResult, bool showExpected = false)
+        public async Task<TestCaseValidation> ValidateAsync(TestCase suppliedResult, bool showExpected = false)
         {
             var errors = new List<string>();
             var expected = new Dictionary<string, string>();
@@ -37,7 +42,7 @@ namespace NIST.CVP.Generation.RSA_DPComponent
             }
             else
             {
-                var computedResults = _deferredTestCaseResolver.CompleteDeferredCrypto(_group, _expectedResult, suppliedResult);
+                var computedResults = await _deferredTestCaseResolver.CompleteDeferredCryptoAsync(_group, _expectedResult, suppliedResult);
 
                 for (var i = 0; i < computedResults.AlgoArrayResponses.Count; i++)
                 {
@@ -55,14 +60,14 @@ namespace NIST.CVP.Generation.RSA_DPComponent
                         else
                         {
                             errors.Add($"Test case should have failed, 1 < cipherText < n - 1 not satisfied on iteration {i}");
-                            expected.Add($"{nameof(computedResult.FailureTest)} {i}", computedResult.FailureTest.ToString());
+                            expected.Add($"{nameof(serverPrompt.FailureTest)} {i}", serverPrompt.FailureTest.ToString());
                             provided.Add($"{nameof(iutResult.FailureTest)} {i}", iutResult.FailureTest.ToString());
                         }
                     }
                     else
                     {
                         // Prompt CT, must equal computed CT if it's not a failure case
-                        if (serverPrompt.CipherText.Equals(computedResult.CipherText))
+                        if (serverPrompt.CipherText.ToPositiveBigInteger() == computedResult.CipherText.ToPositiveBigInteger())
                         {
                             // Good, pass
                         }

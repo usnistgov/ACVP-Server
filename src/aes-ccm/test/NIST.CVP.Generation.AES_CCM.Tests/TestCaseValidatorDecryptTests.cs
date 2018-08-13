@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Math;
+﻿using System.Threading.Tasks;
+using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
@@ -8,65 +9,65 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
     public class TestCaseValidatorDecryptTests
     {
         [Test]
-        public void ShouldValidateIfExpectedAndSuppliedResultsMatch()
+        public async Task ShouldValidateIfExpectedAndSuppliedResultsMatch()
         {
             var testCase = GetTestCase();
             var subject = new TestCaseValidatorDecrypt(testCase);
-            var result = subject.Validate(testCase, false);
+            var result = await subject.ValidateAsync(testCase, false);
             Assume.That(result != null);
             Assert.AreEqual(Core.Enums.Disposition.Passed, result.Result);
         }
 
         [Test]
-        public void ShouldFailIfPlainTextDoesNotMatch()
+        public async Task ShouldFailIfPlainTextDoesNotMatch()
         {
             var testCase = GetTestCase();
             var subject = new TestCaseValidatorDecrypt(testCase);
             var suppliedResult = GetTestCase();
             suppliedResult.PlainText = new BitString("D00000");
-            var result = subject.Validate(suppliedResult, false);
+            var result = await subject.ValidateAsync(suppliedResult, false);
             Assume.That(result != null);
             Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
         }
 
         [Test]
-        public void ShouldShowPlainTextAsReasonIfItDoesNotMatch()
+        public async Task ShouldShowPlainTextAsReasonIfItDoesNotMatch()
         {
             var testCase = GetTestCase();
             var subject = new TestCaseValidatorDecrypt(testCase);
             var suppliedResult = GetTestCase();
             suppliedResult.PlainText = new BitString("D00000");
-            var result = subject.Validate(suppliedResult, false);
+            var result = await subject.ValidateAsync(suppliedResult, false);
             Assume.That(result != null);
             Assume.That(Core.Enums.Disposition.Failed == result.Result);
             Assert.IsTrue(result.Reason.Contains("Plain Text"));
         }
         
         [Test]
-        public void ShouldFailIfFailedTestDoesNotMatch()
+        public async Task ShouldFailIfFailedTestDoesNotMatch()
         {
             var testCase = GetTestCase(false);
             var subject = new TestCaseValidatorDecrypt(testCase);
             var suppliedResult = GetTestCase(true);
-            var result = subject.Validate(suppliedResult, false);
+            var result = await subject.ValidateAsync(suppliedResult, false);
             Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result, nameof(result.Result));
             Assert.IsTrue(result.Reason.Contains("tag"), nameof(result.Reason));
         }
 
         [Test]
-        public void ShouldNotFailTestDueToBadPlainTextWhenTestIsExpectedToBeFailureTest()
+        public async Task ShouldNotFailTestDueToBadPlainTextWhenTestIsExpectedToBeFailureTest()
         {
             var testCase = GetTestCase(false);
             var subject = new TestCaseValidatorDecrypt(testCase);
             var suppliedResult = GetTestCase(false);
             suppliedResult.PlainText = new BitString(0);
-            var result = subject.Validate(suppliedResult, false);
+            var result = await subject.ValidateAsync(suppliedResult, false);
             Assume.That(result != null);
             Assert.AreEqual(Core.Enums.Disposition.Passed, result.Result);
         }
 
         [Test]
-        public void ShouldFailIfPlainTextNotPresent()
+        public async Task ShouldFailIfPlainTextNotPresent()
         {
             var testCase = GetTestCase();
             var subject = new TestCaseValidatorDecrypt(testCase);
@@ -74,7 +75,7 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
 
             suppliedResult.PlainText = null;
 
-            var result = subject.Validate(suppliedResult, false);
+            var result = await subject.ValidateAsync(suppliedResult, false);
             Assume.That(result != null);
             Assume.That(Core.Enums.Disposition.Failed == result.Result);
 

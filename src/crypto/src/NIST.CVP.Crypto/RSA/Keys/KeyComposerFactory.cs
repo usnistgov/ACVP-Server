@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Enums;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Keys;
+﻿using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys;
+using System;
 
-namespace NIST.CVP.Crypto.RSA2.Keys
+namespace NIST.CVP.Crypto.RSA.Keys
 {
     public class KeyComposerFactory : IKeyComposerFactory
     {

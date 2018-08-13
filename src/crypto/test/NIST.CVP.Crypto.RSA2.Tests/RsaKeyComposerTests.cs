@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Keys;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA2.PrimeGenerators;
-using NIST.CVP.Crypto.RSA2.Keys;
-using NIST.CVP.Crypto.RSA2.PrimeGenerators;
+﻿using NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA.PrimeGenerators;
+using NIST.CVP.Crypto.RSA.Keys;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
-namespace NIST.CVP.Crypto.RSA2.Tests
+namespace NIST.CVP.Crypto.RSA.Tests
 {
     [TestFixture, FastCryptoTest]
     public class RsaKeyComposerTests

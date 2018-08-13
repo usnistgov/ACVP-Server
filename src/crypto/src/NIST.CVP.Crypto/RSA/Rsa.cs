@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using NIST.CVP.Crypto.Common.Asymmetric.RSA;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys;
 using System.Numerics;
-using System.Text;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA2;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Keys;
-using NIST.CVP.Crypto.RSA2.Keys;
 
-namespace NIST.CVP.Crypto.RSA2
+namespace NIST.CVP.Crypto.RSA
 {
     public class Rsa : IRsa
     {

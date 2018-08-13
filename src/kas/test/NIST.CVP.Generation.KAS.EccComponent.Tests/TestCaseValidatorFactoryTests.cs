@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Moq;
 using NIST.CVP.Crypto.Common.KES;
 using NIST.CVP.Crypto.KES;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.Async;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -14,20 +16,20 @@ namespace NIST.CVP.Generation.KAS.EccComponent.Tests
     public class TestCaseValidatorFactoryTests
     {
         private TestCaseValidatorFactory _subject;
-        private Mock<IDeferredTestCaseResolver<TestGroup, TestCase, SharedSecretResponse>> _deferredTestCaseResolver;
+        private Mock<IDeferredTestCaseResolverAsync<TestGroup, TestCase, SharedSecretResponse>> _deferredTestCaseResolver;
 
         [SetUp]
         public void Setup()
         {
             _deferredTestCaseResolver =
-                new Mock<IDeferredTestCaseResolver<TestGroup, TestCase, SharedSecretResponse>>();
+                new Mock<IDeferredTestCaseResolverAsync<TestGroup, TestCase, SharedSecretResponse>>();
             _deferredTestCaseResolver
-                .Setup(s => s.CompleteDeferredCrypto(
+                .Setup(s => s.CompleteDeferredCryptoAsync(
                     It.IsAny<TestGroup>(), 
                     It.IsAny<TestCase>(), 
                     It.IsAny<TestCase>()
                 ))
-                .Returns(() => new SharedSecretResponse(new BitString(1)));
+                .Returns(() => Task.FromResult(new SharedSecretResponse(new BitString(1))));
 
             _subject = new TestCaseValidatorFactory(_deferredTestCaseResolver.Object);
         }

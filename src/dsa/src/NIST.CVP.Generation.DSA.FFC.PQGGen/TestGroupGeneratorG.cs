@@ -23,7 +23,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
                         var testGroup = new TestGroup
                         {
                             GGenMode = EnumHelpers.GetEnumFromEnumDescription<GeneratorGenMode>(gGen),
-                            PQGenMode = PrimeGenMode.Probable,
+                            PQGenMode = PrimeGenMode.None,
                             L = capability.L,
                             N = capability.N,
                             HashAlg = ShaAttributes.GetHashFunctionFromName(hashAlg),

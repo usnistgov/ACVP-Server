@@ -8,10 +8,10 @@ namespace NIST.CVP.Generation.DRBG.Tests
     public class TestCaseGeneratorFactoryTests
     {
         [Test]
-        [TestCase("Reseed PredResist", true, true, typeof(TestCaseGeneratorReseedPredResist))]
-        [TestCase("Reseed No PredResist", true, false, typeof(TestCaseGeneratorReseedNoPredResist))]
-        [TestCase("No Reseed PredResist", false, true, typeof(TestCaseGeneratorNoReseed))]
-        [TestCase("No Reseed No PredResist", false, false, typeof(TestCaseGeneratorNoReseed))]
+        [TestCase("Reseed PredResist", true, true, typeof(TestCaseGenerator))]
+        [TestCase("Reseed No PredResist", true, false, typeof(TestCaseGenerator))]
+        [TestCase("No Reseed PredResist", false, true, typeof(TestCaseGenerator))]
+        [TestCase("No Reseed No PredResist", false, false, typeof(TestCaseGenerator))]
         public void ShouldReturnProperGenerator(string label, bool reseed, bool predResist, Type expectedType)
         {
             TestGroup testGroup = new TestGroup()
@@ -20,7 +20,7 @@ namespace NIST.CVP.Generation.DRBG.Tests
                 PredResistance = predResist
             };
 
-            var subject = new TestCaseGeneratorFactory(null, null);
+            var subject = new TestCaseGeneratorFactory(null);
             var generator = subject.GetCaseGenerator(testGroup);
             Assert.IsInstanceOf(expectedType, generator);
         }

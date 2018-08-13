@@ -11,7 +11,7 @@
   ],
   "scheme": {
     "ephemeralUnified": {
-      "role": [
+      "kasRole": [
         "initiator",
         "responder"
       ],
@@ -63,7 +63,7 @@
       }
     },
     "onePassMqv": {
-      "role": [
+      "kasRole": [
         "initiator",
         "responder"
       ],
@@ -164,7 +164,7 @@
       }
     },
     "fullUnified": {
-      "role": [
+      "kasRole": [
         "initiator",
         "responder"
       ],
@@ -265,7 +265,7 @@
       }
     },
     "fullMqv": {
-      "role": [
+      "kasRole": [
         "initiator",
         "responder"
       ],
@@ -366,7 +366,7 @@
       }
     },
     "onePassUnified": {
-      "role": [
+      "kasRole": [
         "initiator",
         "responder"
       ],
@@ -467,7 +467,7 @@
       }
     },
     "onePassDh": {
-      "role": [
+      "kasRole": [
         "initiator",
         "responder"
       ],
@@ -568,7 +568,7 @@
       }
     },
     "staticUnified": {
-      "role": [
+      "kasRole": [
         "initiator",
         "responder"
       ],

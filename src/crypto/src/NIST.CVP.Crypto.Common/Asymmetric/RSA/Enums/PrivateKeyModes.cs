@@ -1,7 +1,6 @@
-﻿using System.ComponentModel;
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
 
-namespace NIST.CVP.Crypto.Common.Asymmetric.RSA2.Enums
+namespace NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums
 {
     public enum PrivateKeyModes
     {

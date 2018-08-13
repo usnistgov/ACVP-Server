@@ -1,24 +1,20 @@
-﻿using NIST.CVP.Crypto.Common.KDF.Components.TLS;
-using NIST.CVP.Generation.Core;
-using NIST.CVP.Math;
+﻿using NIST.CVP.Common.Oracle;
+using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.TLS
 {
-    public class TestCaseGeneratorFactory : ITestCaseGeneratorFactory<TestGroup, TestCase>
+    public class TestCaseGeneratorFactory : ITestCaseGeneratorFactoryAsync<TestGroup, TestCase>
     {
-        private readonly IRandom800_90 _random800_90;
-        private readonly ITlsKdfFactory _tlsKdfFactory;
+        private readonly IOracle _oracle;
 
-        public TestCaseGeneratorFactory(IRandom800_90 random800_90, ITlsKdfFactory tlsKdfFactory)
+        public TestCaseGeneratorFactory(IOracle oracle)
         {
-            _random800_90 = random800_90;
-            _tlsKdfFactory = tlsKdfFactory;
+            _oracle = oracle;
         }
 
-        public ITestCaseGenerator<TestGroup, TestCase> GetCaseGenerator(TestGroup testGroup)
+        public ITestCaseGeneratorAsync<TestGroup, TestCase> GetCaseGenerator(TestGroup testGroup)
         {
-            var tls = _tlsKdfFactory.GetTlsKdfInstance(testGroup.TlsMode, testGroup.HashAlg);
-            return new TestCaseGenerator(_random800_90, tls);
+            return new TestCaseGenerator(_oracle);
         }
     }
 }

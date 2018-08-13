@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using NIST.CVP.Crypto.Common.Symmetric.CTR.Enums;
 using NIST.CVP.Crypto.Common.Symmetric.Engines;
 using NIST.CVP.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.Crypto.Common.Symmetric.TDES;
-using NIST.CVP.Crypto.Common.Symmetric.TDES.Enums;
 using NIST.CVP.Crypto.TDES;
 using NIST.CVP.Math;
 
@@ -17,8 +15,6 @@ namespace NIST.CVP.Crypto.Symmetric.Engines
         private static readonly int[] _validKeyLengths = { 64, 128, 192 };
 
         private BlockCipherDirections _direction;
-        // TODO get rid of this enum
-        private FunctionValues _function;
         private byte[] _key;
         private bool _useInverseCipher;
         private TDESContext _context;
@@ -104,20 +100,21 @@ namespace NIST.CVP.Crypto.Symmetric.Engines
 
         private void PopulateKeySchedule()
         {
+            var contextDirection = BlockCipherDirections.Encrypt;
             switch (_direction)
             {
                 case BlockCipherDirections.Encrypt:
-                    _function = !_useInverseCipher ? FunctionValues.Encryption : FunctionValues.Decryption;
+                    contextDirection = !_useInverseCipher ? BlockCipherDirections.Encrypt : BlockCipherDirections.Decrypt;
                     break;
                 case BlockCipherDirections.Decrypt:
-                    _function = !_useInverseCipher ? FunctionValues.Decryption : FunctionValues.Encryption;
+                    contextDirection = !_useInverseCipher ? BlockCipherDirections.Decrypt : BlockCipherDirections.Encrypt;
                     break;
                 default:
                     throw new ArgumentException(nameof(_direction));
             }
 
             var keys = new TDESKeys(new BitString(_key));
-            _context = new TDESContext(keys, _function);
+            _context = new TDESContext(keys, contextDirection);
         }
 
         private void Encrypt(byte[] block)

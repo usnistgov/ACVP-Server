@@ -1,63 +1,53 @@
 ﻿using System;
-using NIST.CVP.Crypto.Common.MAC;
-using NIST.CVP.Crypto.Common.MAC.HMAC;
+using System.Threading.Tasks;
+using NIST.CVP.Common.Oracle;
+using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Math;
+using NIST.CVP.Generation.Core.Async;
 using NLog;
 
 namespace NIST.CVP.Generation.HMAC
 {
-    public class TestCaseGenerator : ITestCaseGenerator<TestGroup, TestCase>
+    public class TestCaseGenerator : ITestCaseGeneratorAsync<TestGroup, TestCase>
     {
-        private readonly IHmac _algo;
-        private readonly IRandom800_90 _random800_90;
+        private readonly IOracle _oracle;
 
         public int NumberOfTestCasesToGenerate => 75;
 
-        public TestCaseGenerator(IRandom800_90 random800_90, IHmac algo)
+        public TestCaseGenerator(IOracle oracle)
         {
-            _random800_90 = random800_90;
-            _algo = algo;
+            _oracle = oracle;
         }
 
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup @group, bool isSample)
+        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup @group, bool isSample)
         {
-            var key = _random800_90.GetRandomBitString(@group.KeyLength);
-            var msg = _random800_90.GetRandomBitString(@group.MessageLength);
-            var testCase = new TestCase
+            var param = new HmacParameters()
             {
-                Key = key,
-                Message = msg
+                KeyLength = group.KeyLength,
+                MacLength = group.MacLength,
+                MessageLength = group.MessageLength,
+                ShaMode = group.ShaMode,
+                ShaDigestSize = group.ShaDigestSize
             };
-            return Generate(@group, testCase);
-        }
 
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup @group, TestCase testCase)
-        {
-            MacResult genResult = null;
             try
             {
-                genResult = _algo.Generate(testCase.Key, testCase.Message, group.MacLength);
-                if (!genResult.Success)
+                var oracleResult = await _oracle.GetHmacCaseAsync(param);
+                
+                return new TestCaseGenerateResponse<TestGroup, TestCase>(new TestCase
                 {
-                    ThisLogger.Warn(genResult.ErrorMessage);
-                    {
-                        return new TestCaseGenerateResponse<TestGroup, TestCase>(genResult.ErrorMessage);
-                    }
-                }
+                    Key = oracleResult.Key,
+                    Message = oracleResult.Message,
+                    Mac = oracleResult.Tag
+                });
             }
             catch (Exception ex)
             {
                 ThisLogger.Error(ex);
-                {
-                    return new TestCaseGenerateResponse<TestGroup, TestCase>(ex.Message);
-                }
+                return new TestCaseGenerateResponse<TestGroup, TestCase>($"Failed to generate. {ex.Message}");
             }
-            testCase.Mac = genResult.Mac;
-
-            return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
         }
-
-        private Logger ThisLogger => LogManager.GetCurrentClassLogger();
+        
+        private ILogger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }

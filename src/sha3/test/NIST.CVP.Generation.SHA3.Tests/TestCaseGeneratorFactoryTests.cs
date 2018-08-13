@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Moq;
-using NIST.CVP.Crypto.Common.Hash.SHA3;
-using NIST.CVP.Crypto.SHA3;
-using NIST.CVP.Math;
-using NIST.CVP.Tests.Core.TestCategoryAttributes;
+﻿using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
+using System;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Generation.SHA3.Tests
 {
@@ -16,8 +10,8 @@ namespace NIST.CVP.Generation.SHA3.Tests
     {
         [Test]
         [TestCase("junk", typeof(TestCaseGeneratorNull))]
-        [TestCase("aFt", typeof(TestCaseGeneratorSHA3AFTHash))]
-        [TestCase("Mct", typeof(TestCaseGeneratorSHA3MCTHash))]
+        [TestCase("aFt", typeof(TestCaseGeneratorAft))]
+        [TestCase("Mct", typeof(TestCaseGeneratorMct))]
         public void ShouldReturnProperSHA3Generator(string testType, Type expectedType)
         {
             var testGroup = new TestGroup
@@ -35,9 +29,9 @@ namespace NIST.CVP.Generation.SHA3.Tests
 
         [Test]
         [TestCase("junk", typeof(TestCaseGeneratorNull))]
-        [TestCase("aFt", typeof(TestCaseGeneratorSHAKEAFTHash))]
-        [TestCase("Mct", typeof(TestCaseGeneratorSHAKEMCTHash))]
-        [TestCase("VOT", typeof(TestCaseGeneratorSHAKEVOTHash))]
+        [TestCase("aFt", typeof(TestCaseGeneratorAft))]
+        [TestCase("Mct", typeof(TestCaseGeneratorMct))]
+        [TestCase("VOT", typeof(TestCaseGeneratorVot))]
         public void ShouldReturnProperSHAKEGenerator(string testType, Type expectedType)
         {
             var testGroup = new TestGroup
@@ -56,7 +50,7 @@ namespace NIST.CVP.Generation.SHA3.Tests
         [Test]
         [TestCase(true)]
         [TestCase(false)]
-        public void ShouldReturnSampleSHA3MonteCarloGeneratorIfRequested(bool isSample)
+        public async Task ShouldReturnSampleSHA3MonteCarloGeneratorIfRequested(bool isSample)
         {
             var testGroup = new TestGroup
             {
@@ -69,10 +63,10 @@ namespace NIST.CVP.Generation.SHA3.Tests
             var generator = subject.GetCaseGenerator(testGroup);
             Assume.That(generator != null);
 
-            var typedGen = generator as TestCaseGeneratorSHA3MCTHash;
+            var typedGen = generator as TestCaseGeneratorMct;
             Assume.That(typedGen != null);
 
-            var result = typedGen.Generate(testGroup, isSample);
+            await typedGen.GenerateAsync(testGroup, isSample);
 
             Assert.AreEqual(isSample, typedGen.IsSample);
         }
@@ -80,7 +74,7 @@ namespace NIST.CVP.Generation.SHA3.Tests
         [Test]
         [TestCase(true)]
         [TestCase(false)]
-        public void ShouldReturnSampleSHAKEMonteCarloGeneratorIfRequested(bool isSample)
+        public async Task ShouldReturnSampleSHAKEMonteCarloGeneratorIfRequested(bool isSample)
         {
             var testGroup = new TestGroup
             {
@@ -93,10 +87,10 @@ namespace NIST.CVP.Generation.SHA3.Tests
             var generator = subject.GetCaseGenerator(testGroup);
             Assume.That(generator != null);
 
-            var typedGen = generator as TestCaseGeneratorSHAKEMCTHash;
+            var typedGen = generator as TestCaseGeneratorMct;
             Assume.That(typedGen != null);
 
-            var result = typedGen.Generate(testGroup, isSample);
+            await typedGen.GenerateAsync(testGroup, isSample);
 
             Assert.AreEqual(isSample, typedGen.IsSample);
         }
@@ -117,11 +111,7 @@ namespace NIST.CVP.Generation.SHA3.Tests
 
         private TestCaseGeneratorFactory GetSubject()
         {
-            var random = new Mock<IRandom800_90>().Object;
-            var algo = new Mock<ISHA3>().Object;
-            var mctAlgo = new Mock<ISHA3_MCT>().Object;
-
-            return new TestCaseGeneratorFactory(random, algo, mctAlgo);
+            return new TestCaseGeneratorFactory(null);
         }
     }
 }

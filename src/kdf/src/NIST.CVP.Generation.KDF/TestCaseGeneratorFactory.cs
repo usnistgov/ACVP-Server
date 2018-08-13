@@ -1,24 +1,21 @@
-﻿using NIST.CVP.Crypto.Common.KDF;
+﻿using NIST.CVP.Common.Oracle;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Math;
+using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.KDF
 {
-    public class TestCaseGeneratorFactory : ITestCaseGeneratorFactory<TestGroup, TestCase>
+    public class TestCaseGeneratorFactory : ITestCaseGeneratorFactoryAsync<TestGroup, TestCase>
     {
-        private readonly IRandom800_90 _random800_90;
-        private readonly IKdfFactory _kdfFactory;
+        private readonly IOracle _oracle;
 
-        public TestCaseGeneratorFactory(IRandom800_90 random800_90, IKdfFactory factory)
+        public TestCaseGeneratorFactory(IOracle oracle)
         {
-            _random800_90 = random800_90;
-            _kdfFactory = factory;
+            _oracle = oracle;
         }
 
-        public ITestCaseGenerator<TestGroup, TestCase> GetCaseGenerator(TestGroup testGroup)
+        public ITestCaseGeneratorAsync<TestGroup, TestCase> GetCaseGenerator(TestGroup testGroup)
         {
-            var kdf = _kdfFactory.GetKdfInstance(testGroup.KdfMode, testGroup.MacMode, testGroup.CounterLocation, testGroup.CounterLength);
-            return new TestCaseGenerator(_random800_90, kdf);
+            return new TestCaseGenerator(_oracle);
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace NIST.CVP.Crypto.Common.Asymmetric.RSA2.PrimeGenerators
+﻿namespace NIST.CVP.Crypto.Common.Asymmetric.RSA.PrimeGenerators
 {
     public class PrimeGeneratorResult
     {

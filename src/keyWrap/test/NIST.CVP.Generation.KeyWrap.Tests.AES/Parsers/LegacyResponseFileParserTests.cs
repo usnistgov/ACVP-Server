@@ -163,7 +163,7 @@ P = 182b244d51ddcb004cbd8db2c20e9f6de3b61069b32e0b977ff19ef94183c24b68ef627e3e6f
         [OneTimeSetUp]
         public void Setup()
         {
-            _unitTestPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\temp_LegacyFileParser");
+            _unitTestPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\temp_LegacyFileParser\aes");
             if (Directory.Exists(_unitTestPath))
             {
                 Directory.Delete(_unitTestPath, true);

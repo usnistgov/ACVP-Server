@@ -1,49 +1,31 @@
-﻿using NIST.CVP.Crypto.Common.Hash.SHA3;
+﻿using NIST.CVP.Common.Oracle;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Math;
+using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.SHA3
 {
-    public class TestCaseGeneratorFactory : ITestCaseGeneratorFactory<TestGroup, TestCase>
+    public class TestCaseGeneratorFactory : ITestCaseGeneratorFactoryAsync<TestGroup, TestCase>
     {
-        private readonly IRandom800_90 _random800_90;
-        private readonly ISHA3 _algo;
-        private readonly ISHA3_MCT _mctAlgo;
+        private readonly IOracle _oracle;
 
-        public TestCaseGeneratorFactory(IRandom800_90 random800_90, ISHA3 algo, ISHA3_MCT mctAlgo)
+        public TestCaseGeneratorFactory(IOracle oracle)
         {
-            _random800_90 = random800_90;
-            _algo = algo;
-            _mctAlgo = mctAlgo;
+            _oracle = oracle;
         }
         
-        public ITestCaseGenerator<TestGroup, TestCase> GetCaseGenerator(TestGroup testGroup)
+        public ITestCaseGeneratorAsync<TestGroup, TestCase> GetCaseGenerator(TestGroup testGroup)
         {
-            if (testGroup.Function.ToLower() == "sha3")
+            if (testGroup.TestType.ToLower() == "aft")
             {
-                if (testGroup.TestType.ToLower() == "aft")
-                {
-                    return new TestCaseGeneratorSHA3AFTHash(_random800_90, _algo);
-                }
-                else if (testGroup.TestType.ToLower() == "mct")
-                {
-                    return new TestCaseGeneratorSHA3MCTHash(_random800_90, _mctAlgo);
-                }
+                return new TestCaseGeneratorAft(_oracle);
             }
-            else if (testGroup.Function.ToLower() == "shake")
+            else if (testGroup.TestType.ToLower() == "mct")
             {
-                if (testGroup.TestType.ToLower() == "aft")
-                {
-                    return new TestCaseGeneratorSHAKEAFTHash(_random800_90, _algo);
-                }
-                else if (testGroup.TestType.ToLower() == "mct")
-                {
-                    return new TestCaseGeneratorSHAKEMCTHash(_random800_90, _mctAlgo);
-                }
-                else if (testGroup.TestType.ToLower() == "vot")
-                {
-                    return new TestCaseGeneratorSHAKEVOTHash(_random800_90, _algo);
-                }
+                return new TestCaseGeneratorMct(_oracle);
+            }
+            else if (testGroup.TestType.ToLower() == "vot")
+            {
+                return new TestCaseGeneratorVot(_oracle);
             }
 
             return new TestCaseGeneratorNull();

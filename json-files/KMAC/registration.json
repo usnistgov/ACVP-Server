@@ -1,0 +1,29 @@
+{
+  "algorithm": "KMAC",
+  "isSample": true,
+  "digestSize": [
+    128,
+    256
+  ],
+  "inBit": true,
+  "outBit": true,
+  "keyBit": true,
+  "inEmpty": true,
+  "nonxof": true,
+  "xof": true,
+  "hexCustomization": false,
+  "keyLen": [
+    {
+      "min": 256,
+      "max": 4096,
+      "increment": 1
+    }
+  ],
+  "macLen": [
+    {
+      "min": 256,
+      "max": 4096,
+      "increment": 1
+    }
+  ]
+}

@@ -1,33 +1,23 @@
-﻿using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
+﻿using NIST.CVP.Common.Oracle;
+using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
 using NIST.CVP.Crypto.Common.Symmetric.Engines;
 using NIST.CVP.Crypto.Common.Symmetric.MonteCarlo;
-using NIST.CVP.Crypto.Common.Symmetric.TDES;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.Async;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.TDES_CFBP
 {
-    public class TestCaseGeneratorFactory : ITestCaseGeneratorFactory<TestGroup, TestCase>
+    public class TestCaseGeneratorFactory : ITestCaseGeneratorFactoryAsync<TestGroup, TestCase>
     {
-        private readonly IRandom800_90 _random800_90;
-        private readonly IMonteCarloFactoryTdesPartitions _mctFactory;
-        private readonly IBlockCipherEngineFactory _engineFactory;
-        private readonly IModeBlockCipherFactory _modeFactory;
+        private readonly IOracle _oracle;
 
-        public TestCaseGeneratorFactory(
-            IRandom800_90 random800_90,
-            IMonteCarloFactoryTdesPartitions mctFactory,
-            IBlockCipherEngineFactory engineFactory,
-            IModeBlockCipherFactory modeFactory
-        )
+        public TestCaseGeneratorFactory(IOracle oracle)
         {
-            _random800_90 = random800_90;
-            _mctFactory = mctFactory;
-            _engineFactory = engineFactory;
-            _modeFactory = modeFactory;
+            _oracle = oracle;
         }
 
-        public ITestCaseGenerator<TestGroup, TestCase> GetCaseGenerator(TestGroup @group)
+        public ITestCaseGeneratorAsync<TestGroup, TestCase> GetCaseGenerator(TestGroup @group)
         {
             switch (@group.TestType.ToLower())
             {
@@ -39,26 +29,10 @@ namespace NIST.CVP.Generation.TDES_CFBP
                     return new TestCaseGeneratorKnownAnswer(group);
 
                 case "multiblockmessage":
-                    switch (@group.Function.ToLower())
-                    {
-                        case "encrypt":
-                            return new TestCaseGeneratorMMTEncrypt(group, _random800_90, _engineFactory, _modeFactory);
-                        case "decrypt":
-                            return new TestCaseGeneratorMMTDecrypt(group, _random800_90, _engineFactory, _modeFactory);
-                    }
-
-                    break;
+                    return new TestCaseGeneratorMmt(_oracle, group);
 
                 case "mct":
-                    switch (@group.Function.ToLower())
-                    {
-                        case "encrypt":
-                            return new TestCaseGeneratorMonteCarloEncrypt(group, _random800_90, _mctFactory);
-                        case "decrypt":
-                            return new TestCaseGeneratorMonteCarloDecrypt(group, _random800_90, _mctFactory);
-                    }
-
-                    break;
+                    return new TestCaseGeneratorMct(_oracle, group);
             }
 
             return new TestCaseGeneratorNull();

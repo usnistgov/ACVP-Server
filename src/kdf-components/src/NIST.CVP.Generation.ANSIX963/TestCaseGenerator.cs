@@ -1,62 +1,60 @@
-﻿using System;
-using NIST.CVP.Crypto.Common.KDF.Components.AnsiX963;
+﻿using NIST.CVP.Common.Oracle;
+using NIST.CVP.Common.Oracle.ParameterTypes;
+using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Math;
 using NLog;
+using System;
+using System.Threading.Tasks;
+using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.ANSIX963
 {
-    public class TestCaseGenerator : ITestCaseGenerator<TestGroup, TestCase>
+    public class TestCaseGenerator : ITestCaseGeneratorAsync<TestGroup, TestCase>
     {
-        private readonly IRandom800_90 _rand;
-        private readonly IAnsiX963 _algo;
+        private readonly IOracle _oracle;
 
         public int NumberOfTestCasesToGenerate { get; private set; } = 100;
 
-        public TestCaseGenerator(IRandom800_90 rand, IAnsiX963 algo)
+        public TestCaseGenerator(IOracle oracle)
         {
-            _rand = rand;
-            _algo = algo;
+            _oracle = oracle;
         }
 
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
+        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample)
         {
             if (isSample)
             {
                 NumberOfTestCasesToGenerate = 20;
             }
 
-            var testCase = new TestCase
+            var param = new AnsiX963Parameters
             {
-                Z = _rand.GetRandomBitString(group.FieldSize),
-                SharedInfo = _rand.GetRandomBitString(group.SharedInfoLength)
+                FieldSize = group.FieldSize,
+                SharedInfoLength = group.SharedInfoLength,
+                HashAlg = group.HashAlg,
+                KeyDataLength = group.KeyDataLength
             };
 
-            return Generate(group, testCase);
-        }
-
-        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
-        {
-            KdfResult kdfResult = null;
             try
             {
-                kdfResult = _algo.DeriveKey(testCase.Z, testCase.SharedInfo, group.KeyDataLength);
-                if (!kdfResult.Success)
+                var result = await _oracle.GetAnsiX963KdfCaseAsync(param);
+                
+                var testCase = new TestCase
                 {
-                    ThisLogger.Warn(kdfResult.ErrorMessage);
-                    return new TestCaseGenerateResponse<TestGroup, TestCase>(kdfResult.ErrorMessage);
-                }
+                    Z = result.Z,
+                    SharedInfo = result.SharedInfo,
+                    KeyData = result.KeyOut
+                };
+
+                return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
             }
             catch (Exception ex)
             {
-                ThisLogger.Error(ex.StackTrace);
-                return new TestCaseGenerateResponse<TestGroup, TestCase>(ex.Message);
+                ThisLogger.Error(ex);
+                return new TestCaseGenerateResponse<TestGroup, TestCase>($"Failed to generate. {ex.Message}");
             }
-
-            testCase.KeyData = kdfResult.DerivedKey;
-            return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
         }
-
-        private Logger ThisLogger => LogManager.GetCurrentClassLogger();
+        
+        private ILogger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }

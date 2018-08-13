@@ -26,7 +26,7 @@ namespace NIST.CVP.Crypto.Common.KAS.NoKC
         /// </summary>
         BitString Nonce { get; }
         /// <summary>
-        /// The nonce used for <see cref="IAES_CCM"/>
+        /// The nonce used for AES-CCM
         /// </summary>
         BitString CcmNonce { get; }
     }

@@ -1,30 +1,24 @@
-﻿using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
+﻿using NIST.CVP.Common.Oracle;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Common.KAS;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.KAS.EccComponent
 {
-    public class TestCaseGeneratorFactory : ITestCaseGeneratorFactory<TestGroup, TestCase>
+    public class TestCaseGeneratorFactory : ITestCaseGeneratorFactoryAsync<TestGroup, TestCase>
     {
-        private readonly IEccCurveFactory _curveFactory;
-        private readonly IDsaEccFactory _dsaFactory;
-        private readonly IEccDhComponent _eccDhComponent;
+        private readonly IOracle _oracle;
 
-        public TestCaseGeneratorFactory(IEccCurveFactory curveFactory, IDsaEccFactory dsaFactory, IEccDhComponent eccDhComponent)
+        public TestCaseGeneratorFactory(IOracle oracle)
         {
-            _curveFactory = curveFactory;
-            _dsaFactory = dsaFactory;
-            _eccDhComponent = eccDhComponent;
+            _oracle = oracle;
         }
 
-        public ITestCaseGenerator<TestGroup, TestCase> GetCaseGenerator(TestGroup testGroup)
+        public ITestCaseGeneratorAsync<TestGroup, TestCase> GetCaseGenerator(TestGroup testGroup)
         {
-            var curve = _curveFactory.GetCurve(testGroup.Curve);
-            // note hash function is used for signing/verifying - not relevant for use in this algo
-            var dsa = _dsaFactory.GetInstance(new HashFunction(ModeValues.SHA2, DigestSizes.d512));
-
-            return new TestCaseGenerator(curve, dsa, _eccDhComponent);
+            return new TestCaseGenerator(_oracle);
         }
     }
 }

@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using NIST.CVP.Common.Helpers;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Enums;
+﻿using NIST.CVP.Common.Helpers;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
 using NIST.CVP.Crypto.Math;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.RSA_SigVer;
 using NIST.CVP.Math;
+using System.Collections.Generic;
 
 namespace NIST.CVP.Generation.RSA_LegacySigVer
 {

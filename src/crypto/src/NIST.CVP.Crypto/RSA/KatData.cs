@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA2;
+﻿using NIST.CVP.Crypto.Common.Asymmetric.RSA;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
 using NIST.CVP.Math;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Enums;
+using System.Collections.Generic;
 
-namespace NIST.CVP.Crypto.RSA2
+namespace NIST.CVP.Crypto.RSA
 {
     public static class KatData
     {

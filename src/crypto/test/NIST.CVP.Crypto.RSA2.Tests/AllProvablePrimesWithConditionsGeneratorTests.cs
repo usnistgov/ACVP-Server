@@ -1,14 +1,11 @@
-﻿using NIST.CVP.Tests.Core.TestCategoryAttributes;
-using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using NIST.CVP.Crypto.RSA2.PrimeGenerators;
+﻿using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
+using NIST.CVP.Crypto.RSA.PrimeGenerators;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Math;
-using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
+using NUnit.Framework;
 
-namespace NIST.CVP.Crypto.RSA2.Tests
+namespace NIST.CVP.Crypto.RSA.Tests
 {
     // Takes 16 seconds
     [TestFixture, LongCryptoTest]

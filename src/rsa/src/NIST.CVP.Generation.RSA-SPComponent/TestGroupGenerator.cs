@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using NIST.CVP.Common.Helpers;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Enums;
+﻿using NIST.CVP.Common.Helpers;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
 using NIST.CVP.Generation.Core;
+using System.Collections.Generic;
 
 namespace NIST.CVP.Generation.RSA_SPComponent
 {

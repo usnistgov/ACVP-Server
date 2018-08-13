@@ -13,19 +13,19 @@ namespace NIST.CVP.Generation.TDES_OFB.Tests
     public class TestCaseValidatorMonteCarloEncryptTests
     {
         [Test]
-        public void ShouldReturnPassWithAllMatches()
+        public async Task ShouldReturnPassWithAllMatches()
         {
             var expected = GetTestCase();
             var supplied = GetTestCase();
             var subject = new TestCaseValidatorMonteCarloEncrypt(expected);
 
-            var result = subject.Validate(supplied);
+            var result = await subject.ValidateAsync(supplied);
 
             Assert.AreEqual(Core.Enums.Disposition.Passed, result.Result);
         }
 
         [Test]
-        public void ShouldReturnReasonOnMismatchedCipherText()
+        public async Task ShouldReturnReasonOnMismatchedCipherText()
         {
             var rand = new Random800_90();
             var expected = GetTestCase();
@@ -35,7 +35,7 @@ namespace NIST.CVP.Generation.TDES_OFB.Tests
 
             var subject = new TestCaseValidatorMonteCarloEncrypt(expected);
 
-            var result = subject.Validate(supplied);
+            var result = await subject.ValidateAsync(supplied);
 
             Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
             Assert.IsTrue(result.Reason.ToLower().Contains("cipher text"), "Reason does not contain the expected Cipher Text");
@@ -44,7 +44,7 @@ namespace NIST.CVP.Generation.TDES_OFB.Tests
         }
 
         [Test]
-        public void ShouldReturnReasonOnMismatchedPlainText()
+        public async Task ShouldReturnReasonOnMismatchedPlainText()
         {
             var rand = new Random800_90();
             var expected = GetTestCase();
@@ -54,7 +54,7 @@ namespace NIST.CVP.Generation.TDES_OFB.Tests
 
             var subject = new TestCaseValidatorMonteCarloEncrypt(expected);
 
-            var result = subject.Validate(supplied);
+            var result = await subject.ValidateAsync(supplied);
 
             Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
             Assert.IsFalse(result.Reason.ToLower().Contains("cipher text"), "Reason contains the unexpected value Cipher Text");
@@ -63,7 +63,7 @@ namespace NIST.CVP.Generation.TDES_OFB.Tests
         }
 
         [Test]
-        public void ShouldReturnReasonOnMismatchedKey()
+        public async Task ShouldReturnReasonOnMismatchedKey()
         {
             var rand = new Random800_90();
             var expected = GetTestCase();
@@ -73,7 +73,7 @@ namespace NIST.CVP.Generation.TDES_OFB.Tests
 
             var subject = new TestCaseValidatorMonteCarloEncrypt(expected);
 
-            var result = subject.Validate(supplied);
+            var result = await subject.ValidateAsync(supplied);
 
             Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
             Assert.IsFalse(result.Reason.ToLower().Contains("cipher text"), "Reason contains the unexpected value Cipher Text");
@@ -82,7 +82,7 @@ namespace NIST.CVP.Generation.TDES_OFB.Tests
         }
 
         [Test]
-        public void ShouldReturnReasonWithMultipleErrorReasons()
+        public async Task ShouldReturnReasonWithMultipleErrorReasons()
         {
             var rand = new Random800_90();
             var expected = GetTestCase();
@@ -96,7 +96,7 @@ namespace NIST.CVP.Generation.TDES_OFB.Tests
 
             var subject = new TestCaseValidatorMonteCarloEncrypt(expected);
 
-            var result = subject.Validate(supplied);
+            var result = await subject.ValidateAsync(supplied);
 
             Assert.IsTrue(result.Reason.ToLower().Contains("cipher text"), "Reason does not contain the expected value Cipher Text");
             Assert.IsTrue(result.Reason.ToLower().Contains("plain text"), "Reason does not contain the expected value Plain Text");
@@ -104,7 +104,7 @@ namespace NIST.CVP.Generation.TDES_OFB.Tests
         }
 
         [Test]
-        public void ShouldFailDueToMissingResultsArray()
+        public async Task ShouldFailDueToMissingResultsArray()
         {
             var expected = GetTestCase();
             var suppliedResult = GetTestCase();
@@ -112,14 +112,14 @@ namespace NIST.CVP.Generation.TDES_OFB.Tests
             suppliedResult.ResultsArray = null;
 
             var subject = new TestCaseValidatorMonteCarloDecrypt(expected);
-            var result = subject.Validate(suppliedResult);
+            var result = await subject.ValidateAsync(suppliedResult);
 
             Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
             Assert.IsTrue(result.Reason.Contains($"{nameof(suppliedResult.ResultsArray)} was not present in the {nameof(TestCase)}"));
         }
 
         [Test]
-        public void ShouldFailDueToMissingPlainTextInResultsArray()
+        public async Task ShouldFailDueToMissingPlainTextInResultsArray()
         {
             var expected = GetTestCase();
             var suppliedResult = GetTestCase();
@@ -127,14 +127,14 @@ namespace NIST.CVP.Generation.TDES_OFB.Tests
             suppliedResult.ResultsArray.ForEach(fe => fe.PlainText = null);
 
             var subject = new TestCaseValidatorMonteCarloDecrypt(expected);
-            var result = subject.Validate(suppliedResult);
+            var result = await subject.ValidateAsync(suppliedResult);
 
             Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
             Assert.IsTrue(result.Reason.Contains($"{nameof(suppliedResult.ResultsArray)} did not contain expected element {nameof(AlgoArrayResponse.PlainText)}"));
         }
 
         [Test]
-        public void ShouldFailDueToMissingCipherTextInResultsArray()
+        public async Task ShouldFailDueToMissingCipherTextInResultsArray()
         {
             var expected = GetTestCase();
             var suppliedResult = GetTestCase();
@@ -142,14 +142,14 @@ namespace NIST.CVP.Generation.TDES_OFB.Tests
             suppliedResult.ResultsArray.ForEach(fe => fe.CipherText = null);
 
             var subject = new TestCaseValidatorMonteCarloDecrypt(expected);
-            var result = subject.Validate(suppliedResult);
+            var result = await subject.ValidateAsync(suppliedResult);
 
             Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
             Assert.IsTrue(result.Reason.Contains($"{nameof(suppliedResult.ResultsArray)} did not contain expected element {nameof(AlgoArrayResponse.CipherText)}"));
         }
 
         [Test]
-        public void ShouldFailDueToMissingKeysInResultsArray()
+        public async Task ShouldFailDueToMissingKeysInResultsArray()
         {
             var expected = GetTestCase();
             var suppliedResult = GetTestCase();
@@ -157,7 +157,7 @@ namespace NIST.CVP.Generation.TDES_OFB.Tests
             suppliedResult.ResultsArray.ForEach(fe => fe.Keys = null);
 
             var subject = new TestCaseValidatorMonteCarloDecrypt(expected);
-            var result = subject.Validate(suppliedResult);
+            var result = await subject.ValidateAsync(suppliedResult);
 
             Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
             Assert.IsTrue(result.Reason.Contains($"{nameof(suppliedResult.ResultsArray)} did not contain expected element {nameof(AlgoArrayResponse.Keys)}"));

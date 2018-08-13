@@ -1,6 +1,6 @@
 ﻿using System.Numerics;
 
-namespace NIST.CVP.Crypto.RSA2.PrimeGenerators
+namespace NIST.CVP.Crypto.RSA.PrimeGenerators
 {
     public class PpfResult
     {

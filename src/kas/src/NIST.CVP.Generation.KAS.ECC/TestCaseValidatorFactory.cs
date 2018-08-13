@@ -1,41 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
-using NIST.CVP.Crypto.Common.KAS.Builders;
+using NIST.CVP.Common.Oracle;
 using NIST.CVP.Crypto.Common.KAS.Enums;
-using NIST.CVP.Crypto.Common.KAS.Schema;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Math.Entropy;
+using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.KAS.ECC
 {
-    public class TestCaseValidatorFactory : ITestCaseValidatorFactory<TestVectorSet, TestGroup, TestCase>
+    public class TestCaseValidatorFactory : ITestCaseValidatorFactoryAsync<TestVectorSet, TestGroup, TestCase>
     {
-        private readonly IEccCurveFactory _curveFactory;
-        private readonly IKasBuilder<KasDsaAlgoAttributesEcc, OtherPartySharedInformation<EccDomainParameters, EccKeyPair>, EccDomainParameters, EccKeyPair> _kasBuilder;
-        private readonly IMacParametersBuilder _macParametersBuilder;
-        private readonly ISchemeBuilder<KasDsaAlgoAttributesEcc, OtherPartySharedInformation<EccDomainParameters, EccKeyPair>, EccDomainParameters, EccKeyPair> _schemeBuilder;
-        private readonly IEntropyProviderFactory _entropyProviderFactory;
+        private readonly IOracle _oracle;
 
-        public TestCaseValidatorFactory(
-            IEccCurveFactory curveFactory,
-            IKasBuilder<KasDsaAlgoAttributesEcc, OtherPartySharedInformation<EccDomainParameters, EccKeyPair>, EccDomainParameters, EccKeyPair> kasBuilder,
-            IMacParametersBuilder macParametersBuilder,
-            ISchemeBuilder<KasDsaAlgoAttributesEcc, OtherPartySharedInformation<EccDomainParameters, EccKeyPair>, EccDomainParameters, EccKeyPair> schemeBuilder,
-            IEntropyProviderFactory entropyProviderFactory
-        )
+        public TestCaseValidatorFactory(IOracle oracle)
         {
-            _curveFactory = curveFactory;
-            _kasBuilder = kasBuilder;
-            _macParametersBuilder = macParametersBuilder;
-            _schemeBuilder = schemeBuilder;
-            _entropyProviderFactory = entropyProviderFactory;
+            _oracle = oracle;
         }
 
-        public IEnumerable<ITestCaseValidator<TestGroup, TestCase>> GetValidators(TestVectorSet testVectorSet)
+        public IEnumerable<ITestCaseValidatorAsync<TestGroup, TestCase>> GetValidators(TestVectorSet testVectorSet)
         {
-            var list = new List<ITestCaseValidator<TestGroup, TestCase>>();
+            var list = new List<ITestCaseValidatorAsync<TestGroup, TestCase>>();
 
             foreach (var group in testVectorSet.TestGroups.Select(g => g))
             {
@@ -52,13 +36,7 @@ namespace NIST.CVP.Generation.KAS.ECC
                                     new TestCaseValidatorAftNoKdfNoKc(
                                         workingTest, 
                                         group,
-                                        new DeferredTestCaseResolverAftNoKdfNoKc(
-                                            _curveFactory,
-                                            _kasBuilder,
-                                            _schemeBuilder,
-                                            _macParametersBuilder,
-                                            _entropyProviderFactory
-                                        )
+                                        new DeferredTestCaseResolver(_oracle)
                                     )
                                 );
                                 break;
@@ -67,13 +45,7 @@ namespace NIST.CVP.Generation.KAS.ECC
                                     new TestCaseValidatorAftKdfNoKc(
                                         workingTest, 
                                         group,
-                                        new DeferredTestCaseResolverAftKdfNoKc(
-                                            _curveFactory,
-                                            _kasBuilder,
-                                            _schemeBuilder,
-                                            _macParametersBuilder,
-                                            _entropyProviderFactory
-                                        )
+                                        new DeferredTestCaseResolver(_oracle)
                                     )
                                 );
                                 break;
@@ -82,13 +54,7 @@ namespace NIST.CVP.Generation.KAS.ECC
                                     new TestCaseValidatorAftKdfKc(
                                         workingTest, 
                                         group,
-                                        new DeferredTestCaseResolverAftKdfKc(
-                                            _curveFactory,
-                                            _kasBuilder,
-                                            _schemeBuilder,
-                                            _macParametersBuilder,
-                                            _entropyProviderFactory
-                                        )
+                                        new DeferredTestCaseResolver(_oracle)
                                     )
                                 );
                                 break;

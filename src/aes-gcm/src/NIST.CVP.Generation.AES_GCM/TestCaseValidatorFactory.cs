@@ -1,24 +1,22 @@
-﻿using System.Collections.Generic;
+﻿using NIST.CVP.Common.Oracle;
+using System.Collections.Generic;
 using System.Linq;
-using NIST.CVP.Crypto.Common.Symmetric.BlockModes.Aead;
-using NIST.CVP.Crypto.Common.Symmetric.Engines;
-using NIST.CVP.Crypto.Common.Symmetric.Enums;
-using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.AES_GCM
 {
-    public class TestCaseValidatorFactory : ITestCaseValidatorFactory<TestVectorSet, TestGroup, TestCase>
+    public class TestCaseValidatorFactory : ITestCaseValidatorFactoryAsync<TestVectorSet, TestGroup, TestCase>
     {
-        private readonly IAeadModeBlockCipher _algo;
+        private readonly IOracle _oracle;
 
-        public TestCaseValidatorFactory(IAeadModeBlockCipherFactory cipherFactory, IBlockCipherEngineFactory engineFactory)
+        public TestCaseValidatorFactory(IOracle oracle)
         {
-            _algo = cipherFactory.GetAeadCipher(engineFactory.GetSymmetricCipherPrimitive(BlockCipherEngines.Aes), BlockCipherModesOfOperation.Gcm);
+            _oracle = oracle;
         }
 
-        public IEnumerable<ITestCaseValidator<TestGroup, TestCase>> GetValidators(TestVectorSet testVectorSet)
+        public IEnumerable<ITestCaseValidatorAsync<TestGroup, TestCase>> GetValidators(TestVectorSet testVectorSet)
         {
-            var list = new List<ITestCaseValidator<TestGroup, TestCase>>();
+            var list = new List<ITestCaseValidatorAsync<TestGroup, TestCase>>();
 
             foreach (var group in testVectorSet.TestGroups.Select(g => g))
             {
@@ -31,7 +29,7 @@ namespace NIST.CVP.Generation.AES_GCM
                             new TestCaseValidatorDeferredEncrypt(
                                 group, 
                                 workingTest,
-                                new DeferredEncryptResolver(_algo)
+                                new DeferredEncryptResolver(_oracle)
                             )
                         );
                     }

@@ -1,45 +1,39 @@
 ﻿using System;
-using NIST.CVP.Crypto.Common.MAC.CMAC;
+using NIST.CVP.Common.Oracle;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Math;
+using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.CMAC
 {
-    public class TestCaseGeneratorFactory<TTestCaseGeneratorGen, TTestGroup, TTestCase> : ITestCaseGeneratorFactory<TTestGroup, TTestCase>
+    public class TestCaseGeneratorFactory<TTestCaseGeneratorGen, TTestCaseGeneratorVer, TTestGroup, TTestCase> 
+        : ITestCaseGeneratorFactoryAsync<TTestGroup, TTestCase>
         where TTestCaseGeneratorGen : TestCaseGeneratorGenBase<TTestGroup, TTestCase>
+        where TTestCaseGeneratorVer : TestCaseGeneratorVerBase<TTestGroup, TTestCase>
         where TTestGroup : TestGroupBase<TTestGroup, TTestCase>
         where TTestCase : TestCaseBase<TTestGroup, TTestCase>, new()
     {
-        private readonly IRandom800_90 _random800_90;
-        private readonly ICmacFactory _algoFactory;
+        private readonly IOracle _oracle;
 
-        public TestCaseGeneratorFactory(IRandom800_90 random800_90, ICmacFactory algoFactory)
+        public TestCaseGeneratorFactory(IOracle oracle)
         {
-            _algoFactory = algoFactory;
-            _random800_90 = random800_90;
+            _oracle = oracle;
         }
 
-        public ITestCaseGenerator<TTestGroup, TTestCase> GetCaseGenerator(TTestGroup testGroup)
+        public ITestCaseGeneratorAsync<TTestGroup, TTestCase> GetCaseGenerator(TTestGroup testGroup)
         {
             var direction = testGroup.Function.ToLower();
-            ICmac cmac = _algoFactory.GetCmacInstance(testGroup.CmacType);
 
             if (direction == "gen")
             {
-                return (TTestCaseGeneratorGen)Activator.CreateInstance(typeof(TTestCaseGeneratorGen), _random800_90, cmac);
+                return (TTestCaseGeneratorGen)Activator.CreateInstance(typeof(TTestCaseGeneratorGen), _oracle);
             }
 
             if (direction == "ver")
             {
-                return new TestCaseGeneratorVer<TTestGroup, TTestCase>(_random800_90, cmac);
+                return (TTestCaseGeneratorVer)Activator.CreateInstance(typeof(TTestCaseGeneratorVer), _oracle);
             }
 
             return new TestCaseGeneratorNull<TTestGroup, TTestCase>();
-        }
-
-        public ICmac GetCmac(TTestGroup testGroup)
-        {
-            return _algoFactory.GetCmacInstance(testGroup.CmacType);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Tests.Core.TestCategoryAttributes;
+﻿using System.Threading.Tasks;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.KAS.ECC.Tests
@@ -11,7 +12,7 @@ namespace NIST.CVP.Generation.KAS.ECC.Tests
         [Test]
         [TestCase(true)]
         [TestCase(false)]
-        public void ShouldContainNoErrorsOnValidValidation(bool testPassed)
+        public async Task ShouldContainNoErrorsOnValidValidation(bool testPassed)
         {
             var testGroup = TestDataMother.GetTestGroups(1, false, "val").TestGroups[0];
             var testCase = testGroup.Tests[0];
@@ -20,13 +21,13 @@ namespace NIST.CVP.Generation.KAS.ECC.Tests
 
             _subject = new TestCaseValidatorVal(testCase);
 
-            var validateResult = _subject.Validate(testCase);
+            var validateResult = await _subject.ValidateAsync(testCase);
 
             Assert.IsTrue(validateResult.Result == Core.Enums.Disposition.Passed);
         }
 
         [Test]
-        public void ShouldContainErrorWhenResultNotPresent()
+        public async Task ShouldContainErrorWhenResultNotPresent()
         {
             var testGroup = TestDataMother.GetTestGroups(1, false, "val").TestGroups[0];
             var testCase = testGroup.Tests[0];
@@ -36,7 +37,7 @@ namespace NIST.CVP.Generation.KAS.ECC.Tests
 
             _subject = new TestCaseValidatorVal(testCase);
 
-            var validateResult = _subject.Validate(suppliedTestCase);
+            var validateResult = await _subject.ValidateAsync(suppliedTestCase);
 
             Assert.IsTrue(validateResult.Result == Core.Enums.Disposition.Failed);
         }

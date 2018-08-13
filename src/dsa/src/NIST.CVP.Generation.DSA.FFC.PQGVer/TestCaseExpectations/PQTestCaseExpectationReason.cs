@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using NIST.CVP.Common.Helpers;
+﻿using NIST.CVP.Common.Helpers;
+using NIST.CVP.Common.Oracle.DispositionTypes;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.DSA.FFC.PQGVer.Enums;
 
 namespace NIST.CVP.Generation.DSA.FFC.PQGVer.TestCaseExpectations
 {
-    public class PQTestCaseExpectationReason : ITestCaseExpectationReason<PQFailureReasons>
+    public class PQTestCaseExpectationReason : ITestCaseExpectationReason<DsaPQDisposition>
     {
-        private readonly PQFailureReasons _reason;
+        private readonly DsaPQDisposition _reason;
 
-        public PQTestCaseExpectationReason(PQFailureReasons reason)
+        public PQTestCaseExpectationReason(DsaPQDisposition reason)
         {
             _reason = reason;
         }
@@ -21,7 +18,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer.TestCaseExpectations
             return EnumHelpers.GetEnumDescriptionFromEnum(_reason);
         }
 
-        public PQFailureReasons GetReason()
+        public DsaPQDisposition GetReason()
         {
             return _reason;
         }

@@ -1,30 +1,27 @@
-﻿using NIST.CVP.Crypto.Common.Symmetric.KeyWrap;
-using NIST.CVP.Generation.Core;
-using NIST.CVP.Math;
+﻿using NIST.CVP.Common.Oracle;
+using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.KeyWrap
 {
-    public class TestCaseGeneratorFactory<TTestGroup, TTestCase> : ITestCaseGeneratorFactory<TTestGroup, TTestCase>
+    public class TestCaseGeneratorFactory<TTestGroup, TTestCase> : ITestCaseGeneratorFactoryAsync<TTestGroup, TTestCase>
         where TTestGroup : TestGroupBase<TTestGroup, TTestCase>
         where TTestCase : TestCaseBase<TTestGroup, TTestCase>, new()
     {
-        private readonly IKeyWrapFactory _iKeyWrapFactory;
-        private readonly IRandom800_90 _iRandom800_90;
+        private readonly IOracle _oracle;
 
-        public TestCaseGeneratorFactory(IKeyWrapFactory iKeyWrapFactory, IRandom800_90 iRandom800_90)
+        public TestCaseGeneratorFactory(IOracle oracle)
         {
-            _iKeyWrapFactory = iKeyWrapFactory;
-            _iRandom800_90 = iRandom800_90;
+            _oracle = oracle;
         }
 
-        public ITestCaseGenerator<TTestGroup, TTestCase> GetCaseGenerator(TTestGroup testGroup)
+        public ITestCaseGeneratorAsync<TTestGroup, TTestCase> GetCaseGenerator(TTestGroup testGroup)
         {
             switch (testGroup.Direction.ToLower())
             {
                 case "encrypt":
-                    return new TestCaseGeneratorEncrypt<TTestGroup, TTestCase>(_iKeyWrapFactory, _iRandom800_90);
+                    return new TestCaseGeneratorEncrypt<TTestGroup, TTestCase>(_oracle);
                 case "decrypt":
-                    return new TestCaseGeneratorDecrypt<TTestGroup, TTestCase>(_iKeyWrapFactory, _iRandom800_90);
+                    return new TestCaseGeneratorDecrypt<TTestGroup, TTestCase>(_oracle);
                 default:
                     return new TestCaseGeneratorNull<TTestGroup, TTestCase>();
             }

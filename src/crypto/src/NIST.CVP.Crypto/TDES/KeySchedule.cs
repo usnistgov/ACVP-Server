@@ -1,5 +1,5 @@
 ﻿using System;
-using NIST.CVP.Crypto.Common.Symmetric.TDES.Enums;
+using NIST.CVP.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.Math.Helpers;
 
 namespace NIST.CVP.Crypto.TDES
@@ -303,10 +303,10 @@ namespace NIST.CVP.Crypto.TDES
             0X408048L,0X408148L,0X448048L,0X448148L,0X408048L,0X408148L,0X448048L,0X448148L }
             };
 
-        public FunctionValues Function { get; private set; }
+        public BlockCipherDirections Function { get; private set; }
         public uint[,] Schedule { get; private set; }
 
-        public KeySchedule(byte[] rawkey, FunctionValues function, bool ignoreParity)
+        public KeySchedule(byte[] rawkey, BlockCipherDirections function, bool ignoreParity)
         {
             Schedule = new uint[16,4];
             Function = function;
@@ -351,7 +351,7 @@ namespace NIST.CVP.Crypto.TDES
                 pc2out[1] |= pc2otab[5,0X7F & (pcdt >> 14)];
                 pc2out[1] |= pc2otab[6,0X7F & (pcdt >> 7)];
                 pc2out[1] |= pc2otab[7,0X7F & pcdt];
-                int workingRound = function == FunctionValues.Decryption ? 15 - round : round;
+                int workingRound = function == BlockCipherDirections.Decrypt ? 15 - round : round;
 
                 Schedule[workingRound,0] = (uint)(0XFC00 & (pc2out[0] >> 8));
                 Schedule[workingRound,0] |= (uint)(0XFC & (pc2out[0] >> 4));

@@ -1,25 +1,14 @@
-﻿using System.Collections.Generic;
-using NIST.CVP.Common.Helpers;
-using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
+﻿using NIST.CVP.Common.Helpers;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC.Enums;
-using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.DSA.ECC.SigVer.TestCaseExpectations;
+using System.Collections.Generic;
 
 namespace NIST.CVP.Generation.DSA.ECC.SigVer
 {
     public class TestGroupGenerator : ITestGroupGenerator<Parameters, TestGroup, TestCase>
     {
-        private readonly IDsaEccFactory _eccDsaFactory;
-        private readonly IEccCurveFactory _curveFactory;
-
-        public TestGroupGenerator(IDsaEccFactory eccDsaFactory, IEccCurveFactory curveFactory)
-        {
-            _eccDsaFactory = eccDsaFactory;
-            _curveFactory = curveFactory;
-        }
-
         public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
         {
             // Use a hash set because the registration allows for duplicate pairings to occur
@@ -36,19 +25,11 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer
                         var sha = ShaAttributes.GetHashFunctionFromName(hashAlg);
                         var curve = EnumHelpers.GetEnumFromEnumDescription<Curve>(curveName);
 
-                        // Generate the key
-                        EccKeyPair key = null;
-                        var eccDsa = _eccDsaFactory.GetInstance(sha);
-                        var domainParams = new EccDomainParameters(_curveFactory.GetCurve(curve));
-                        var keyResult = eccDsa.GenerateKeyPair(domainParams);
-                        key = keyResult.KeyPair;
-
                         var testGroup = new TestGroup
                         {
                             TestCaseExpectationProvider = new TestCaseExpectationProvider(parameters.IsSample),
                             Curve = curve,
-                            HashAlg = sha,
-                            KeyPair = key
+                            HashAlg = sha
                         };
 
                         testGroups.Add(testGroup);

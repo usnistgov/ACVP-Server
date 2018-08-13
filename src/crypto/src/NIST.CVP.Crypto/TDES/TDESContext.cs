@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
+using NIST.CVP.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.Crypto.Common.Symmetric.TDES;
-using NIST.CVP.Crypto.Common.Symmetric.TDES.Enums;
 
 namespace NIST.CVP.Crypto.TDES
 {
@@ -9,8 +9,8 @@ namespace NIST.CVP.Crypto.TDES
        
         public List<KeySchedule> Schedule{ get;}
         public TDESIVs IVs { get; set; }
-        public FunctionValues Function { get; }
-        public TDESContext(TDESKeys keys, FunctionValues function)
+        public BlockCipherDirections Function { get; }
+        public TDESContext(TDESKeys keys, BlockCipherDirections function)
         {
             Schedule= new List<KeySchedule>();
             Function = function;
@@ -22,18 +22,18 @@ namespace NIST.CVP.Crypto.TDES
             }
         }
 
-        private FunctionValues GetWorkingFunction(int keyIdx)
+        private BlockCipherDirections GetWorkingFunction(int keyIdx)
         {
             var workingFunction = Function;
             if (keyIdx % 2 == 1)
             {
-                if (Function == FunctionValues.Decryption)
+                if (Function == BlockCipherDirections.Decrypt)
                 {
-                    workingFunction = FunctionValues.Encryption;
+                    workingFunction = BlockCipherDirections.Encrypt;
                 }
                 else
                 {
-                    workingFunction = FunctionValues.Decryption;
+                    workingFunction = BlockCipherDirections.Decrypt;
                 }
             }
             return workingFunction;

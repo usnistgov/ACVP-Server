@@ -1,19 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Numerics;
-using System.Text;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Enums;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Keys;
+﻿using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
-using NIST.CVP.Crypto.RSA2.Keys;
-using NIST.CVP.Crypto.RSA2.Signatures;
+using NIST.CVP.Crypto.RSA.Signatures;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
-namespace NIST.CVP.Crypto.RSA2.Tests
+namespace NIST.CVP.Crypto.RSA.Tests
 {
     [TestFixture, FastCryptoTest]
     public class FailingSignatureTests
