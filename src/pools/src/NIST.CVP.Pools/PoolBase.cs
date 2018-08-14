@@ -8,14 +8,19 @@ using System.IO;
 
 namespace NIST.CVP.Pools
 {
-    public abstract class PoolBase<TParam, TResult>
+    public abstract class PoolBase<TParam, TResult> : IPool<TParam, TResult>
         where TParam : IParameters
         where TResult : IResult
     {
         public TParam WaterType { get; }
+        
         private readonly ConcurrentQueue<TResult> _water;
         public int WaterLevel => _water.Count;
         public bool IsEmpty => WaterLevel == 0;
+
+        public Type ParamType => typeof(TParam);
+        public IParameters Param => WaterType;
+        public Type ResultType => typeof(TResult);
 
         private readonly IList<JsonConverter> _jsonConverters;
 
@@ -31,7 +36,7 @@ namespace NIST.CVP.Pools
         {
             if (IsEmpty)
             {
-                return new PoolResult<TResult> {PoolEmpty = true};
+                return new PoolResult<TResult> { PoolEmpty = true };
             }
             else
             {
@@ -47,11 +52,35 @@ namespace NIST.CVP.Pools
             }
         }
 
+        
+        public PoolResult<IResult> GetNextUntyped()
+        {
+            var result = GetNext();
+            return new PoolResult<IResult>()
+            {
+                PoolEmpty = result.PoolEmpty,
+                Result = result.Result
+            };
+        }
+
         public bool AddWater(TResult value)
         {
             _water.Enqueue(value);
             return true;
         }
+
+        public bool AddWater(IResult value)
+        {
+            if (value.GetType() != typeof(TResult))
+            {
+                throw new ArgumentException($"Expecting {nameof(value)} to be of type {typeof(TResult)}");
+            }
+
+            _water.Enqueue((TResult)value);
+            return true;
+        }
+
+
 
         private void LoadPoolFromFile(string filename)
         {

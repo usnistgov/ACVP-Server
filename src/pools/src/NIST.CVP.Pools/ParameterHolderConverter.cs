@@ -52,6 +52,11 @@ namespace NIST.CVP.Pools
 
         private IResult GetResult(PoolTypes typeId, JToken jo, JsonSerializer serializer)
         {
+            if (jo == null)
+            {
+                return null;
+            }
+
             switch (typeId)
             {
                 case PoolTypes.SHA:

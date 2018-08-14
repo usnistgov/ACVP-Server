@@ -8,6 +8,8 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using NIST.CVP.Common.Oracle;
+using NIST.CVP.Common.Oracle.ResultTypes;
 
 namespace NIST.CVP.Pools.Tests
 {
@@ -46,6 +48,32 @@ namespace NIST.CVP.Pools.Tests
             var pool = new AesPool(param, _fullPath, _jsonConverters);
 
             Assert.AreEqual(2, pool.WaterLevel);
+        }
+
+        [TestCase(true)]
+        [TestCase(false)]
+        public void ShouldThrowWhenDirtyWaterAdded(bool cleanWater)
+        {
+            var param = new AesParameters
+            {
+                Direction = "encrypt",
+                DataLength = 128,
+                Mode = BlockCipherModesOfOperation.Ecb,
+                KeyLength = 128
+            };
+
+            var pool = new AesPool(param, _fullPath, _jsonConverters) as IPool;
+
+            if (cleanWater)
+            {
+                Assert.IsTrue(pool.AddWater(new AesResult()));
+            }
+            else
+            {
+                Assert.Throws(typeof(ArgumentException), () => pool.AddWater(new HashResult()));
+            }
+
+
         }
 
         [Test]
