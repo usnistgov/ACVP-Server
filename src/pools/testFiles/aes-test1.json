@@ -1,0 +1,12 @@
+[
+	{
+		"plainText": "ABCD",
+		"key": "BEEF",
+		"cipherText": "5678"
+	},
+	{
+		"plainText": "ABCD22",
+		"key": "BEEF22",
+		"cipherText": "567822"
+	}
+]

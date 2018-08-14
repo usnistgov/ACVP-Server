@@ -1,7 +1,10 @@
-﻿using System.Numerics;
+﻿using Newtonsoft.Json;
+using NIST.CVP.Generation.Core.JsonConverters;
+using System.Numerics;
 
 namespace NIST.CVP.Math.Helpers
 {
+    [JsonConverter(typeof(BigIntegerConverter))]
     public static class BigIntegerExtensions
     {
         /// <summary>
