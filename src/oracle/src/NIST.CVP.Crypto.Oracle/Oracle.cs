@@ -1,6 +1,6 @@
-﻿using System.Threading.Tasks;
-using NIST.CVP.Common.Oracle;
+﻿using NIST.CVP.Common.Oracle;
 using NIST.CVP.Math;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Crypto.Oracle
 {
