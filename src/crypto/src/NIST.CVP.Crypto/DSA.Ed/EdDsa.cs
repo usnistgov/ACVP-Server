@@ -3,6 +3,7 @@ using System.Numerics;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.Ed;
 using NIST.CVP.Crypto.Common.Hash.SHA3;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
+using NIST.CVP.Crypto.Math;
 using NIST.CVP.Crypto.SHA3;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
@@ -59,13 +60,13 @@ namespace NIST.CVP.Crypto.DSA.Ed
             }
 
             // 3. Determine s
-            var s = BigInteger.Pow(2, domainParameters.CurveE.VariableN) + h.ToPositiveBigInteger();
+            var s = NumberTheory.Pow2(domainParameters.CurveE.VariableN) + h.ToPositiveBigInteger();
 
             // 4. Compute Q such that Q = s * G
             var Q = domainParameters.CurveE.Multiply(domainParameters.CurveE.BasePointG, s);
 
             // Return key pair (Q, d)
-            return new EdKeyPairGenerateResult(new EdKeyPair(domainParameters.CurveE.Encode(Q, domainParameters.CurveE.VariableB), k));
+            return new EdKeyPairGenerateResult(new EdKeyPair(domainParameters.CurveE.Encode(Q), k));
         }
 
         public EdKeyPairValidateResult ValidateKeyPair(EdDomainParameters domainParameters, EdKeyPair keyPair)
@@ -78,21 +79,21 @@ namespace NIST.CVP.Crypto.DSA.Ed
 
             // If Q is not a valid point (x, y are within the field), invalid
             // could make this more efficient
-            if (!domainParameters.CurveE.PointExistsInField(domainParameters.CurveE.Decode(keyPair.PublicQ, domainParameters.CurveE.VariableB)))
+            if (!domainParameters.CurveE.PointExistsInField(domainParameters.CurveE.Decode(keyPair.PublicQ)))
             {
                 return new EdKeyPairValidateResult("Q is out of range of the field");
             }
 
             // If Q is not a valid point on the specific curve, invalid
             // could make this more efficient
-            if (!domainParameters.CurveE.PointExistsOnCurve(domainParameters.CurveE.Decode(keyPair.PublicQ, domainParameters.CurveE.VariableB)))
+            if (!domainParameters.CurveE.PointExistsOnCurve(domainParameters.CurveE.Decode(keyPair.PublicQ)))
             {
                 return new EdKeyPairValidateResult("Q does not lie on the curve");
             }
 
             // If n * Q == 0, valid
             // This is fast because the scalar (n) is taken modulo n... so it's 0
-            if (domainParameters.CurveE.Multiply(domainParameters.CurveE.Decode(keyPair.PublicQ, domainParameters.CurveE.VariableB), domainParameters.CurveE.OrderN).Equals(new EdPoint(0, 1)))
+            if (domainParameters.CurveE.Multiply(domainParameters.CurveE.Decode(keyPair.PublicQ), domainParameters.CurveE.OrderN).Equals(new EdPoint(0, 1)))
             {
                 return new EdKeyPairValidateResult();
             }
@@ -156,7 +157,7 @@ namespace NIST.CVP.Crypto.DSA.Ed
 
             // Compute point R = u1 * G + u2 * Q, if R is infinity, return invalid
             var u1TimesG = domainParameters.CurveE.Multiply(domainParameters.CurveE.BasePointG, u1);
-            var u2TimesQ = domainParameters.CurveE.Multiply(domainParameters.CurveE.Decode(keyPair.PublicQ, domainParameters.CurveE.VariableB), u2);
+            var u2TimesQ = domainParameters.CurveE.Multiply(domainParameters.CurveE.Decode(keyPair.PublicQ), u2);
             var pointR = domainParameters.CurveE.Add(u1TimesG, u2TimesQ);
 
             // Convert xR to an integer j

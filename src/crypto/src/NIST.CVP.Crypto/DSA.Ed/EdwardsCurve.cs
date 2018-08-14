@@ -131,24 +131,33 @@ namespace NIST.CVP.Crypto.DSA.Ed
             return true;
         }
 
-        public BigInteger Encode(EdPoint point, int b)
+        public BigInteger Encode(EdPoint point)
         {
-            var encoding = new BitString(point.Y, b - 1);
+            var encoding = new BitString(point.Y, VariableB - 1);
 
             encoding = BitString.ConcatenateBits(new BitString(point.X).GetLeastSignificantBits(1), encoding);
 
             return encoding.ToPositiveBigInteger();
         }
 
-        public EdPoint Decode(BigInteger encoded, int b)
+        public EdPoint Decode(BigInteger encoded)
         {
-            var encodedBitString = new BitString(encoded, b);
+            var encodedBitString = new BitString(encoded, VariableB);
             var x = encodedBitString.GetMostSignificantBits(1).ToPositiveBigInteger();
-            var Y = encodedBitString.GetMostSignificantBits(b - 1).ToPositiveBigInteger();
+            var YBits = BitString.ConcatenateBits(BitString.Zero(), encodedBitString.GetLeastSignificantBits(VariableB - 1));
+            var Y = YBits.ToPositiveBigInteger();
 
             BigInteger X;
-            var u = (Y * Y - 1) % FieldSizeQ;
-            var v = (CoefficientD * Y * Y + 1) % FieldSizeQ;
+            var u = ((Y * Y) - 1) % FieldSizeQ;
+            var v = ((CoefficientD * Y * Y) - CoefficientA) % FieldSizeQ;
+            
+            // This block is for testing purposes only
+            // If a test makes it past this block, then a square root certainly exists
+            if (BigInteger.ModPow(_operator.Inverse(v) * u, (FieldSizeQ - 1) / 2, FieldSizeQ) != 1)
+            {
+                throw new Exception("Fails Euler's Criterion!!!!!");
+            }
+
             if (FieldSizeQ % 4 == 3)
             {
                 var w = (u * u * u * v * BigInteger.ModPow(BigInteger.ModPow(u, 5, FieldSizeQ) * BigInteger.ModPow(v, 3, FieldSizeQ) % FieldSizeQ, (FieldSizeQ - 3) / 4, FieldSizeQ)) % FieldSizeQ;

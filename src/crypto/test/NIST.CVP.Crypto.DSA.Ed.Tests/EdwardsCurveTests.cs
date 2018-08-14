@@ -2,6 +2,7 @@
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.Ed;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.Ed.Enums;
 using NIST.CVP.Math;
+using NIST.CVP.Math.Helpers;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
@@ -409,6 +410,7 @@ namespace NIST.CVP.Crypto.DSA.Ed.Tests
             Assert.AreEqual(expectedY, (int)result.Y, "y");
         }
 
+        [Test]
         #region PointsOnCurve
         [TestCase(0, 0, false)]
         [TestCase(0, 1, true)]
@@ -467,9 +469,93 @@ namespace NIST.CVP.Crypto.DSA.Ed.Tests
             Assert.AreEqual(expectedResult, result);
         }
 
+        [Test]
+        [TestCase(Curve.Ed25519, "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a")]
+        [TestCase(Curve.Ed448, "5fd7449b59b461fd2ce787ec616ad46a1da1342485a70e1f8a0ea75d80e96778edf124769b46c7061bd6783df1e50f6cd1fa1abeafe8256180")]
+        public void ShouldEncodeAndDecodeProperly(Curve curve, string encoded)
+        {
+            var encodedOriginal = LoadValue(encoded);
+            
+            var factory = new EdwardsCurveFactory();
+            var subject = factory.GetCurve(curve);
+
+            var decoded = subject.Decode(encodedOriginal);
+
+            Assert.IsTrue(subject.PointExistsOnCurve(decoded));
+
+            var reEncoded = subject.Encode(decoded);
+
+            Assert.AreEqual(encodedOriginal, reEncoded);
+        }
+
+        [Test]
+        [TestCase("03")]
+        public void ShouldEncodeAndDecodeProperlyMattsCurve(string encoded)
+        {
+            var encodedOriginal = LoadValue(encoded);
+            var mattsCurve = new EdwardsCurve(Curve.Ed25519, 7, 2, 3, new EdPoint(0, 6), 12, 8, 247, 2);
+
+            var decoded = mattsCurve.Decode(encodedOriginal);
+
+            Assert.IsTrue(mattsCurve.PointExistsOnCurve(decoded));
+
+            Assert.AreEqual(4, (int)decoded.X);
+            Assert.AreEqual(3, (int)decoded.Y);
+
+            var reEncoded = mattsCurve.Encode(decoded);
+
+            Assert.AreEqual(encodedOriginal, reEncoded);
+        }
+
+        [Test]
+        [TestCase("2880", 3, 40)]
+        [TestCase("3F80", 3, 63)]
+        [TestCase("2800", 100, 40)]
+        [TestCase("3F00", 100, 63)]
+        public void ShouldEncodeAndDecodeProperlyMattsCurve2(string encoded, int expectedX, int expectedY)
+        {
+            var encodedOriginal = LoadValue(encoded);
+            var mattsCurve = new EdwardsCurve(Curve.Ed25519, 103, 1, 2, new EdPoint(0, 6), 12, 16, 247, 2);
+
+            var decoded = mattsCurve.Decode(encodedOriginal);
+
+            Assert.IsTrue(mattsCurve.PointExistsOnCurve(decoded));
+
+            Assert.AreEqual(expectedX, (int)decoded.X);
+            Assert.AreEqual(expectedY, (int)decoded.Y);
+
+            var reEncoded = mattsCurve.Encode(decoded);
+
+            Assert.AreEqual(encodedOriginal, reEncoded);
+        }
+
+        [Test]
+        [TestCase("04", 4, 4)]
+        [TestCase("09", 4, 9)]
+        [TestCase("84", 9, 4)]
+        [TestCase("89", 9, 9)]
+        public void ShouldEncodeAndDecodeProperlyMattsCurve3(string encoded, int expectedX, int expectedY)
+        {
+            var encodedOriginal = LoadValue(encoded);
+            var mattsCurve = new EdwardsCurve(Curve.Ed25519, 13, 1, 2, new EdPoint(0, 6), 12, 8, 247, 2);
+
+            var decoded = mattsCurve.Decode(encodedOriginal);
+
+            Assert.IsTrue(mattsCurve.PointExistsOnCurve(decoded));
+
+            Assert.AreEqual(expectedX, (int)decoded.X);
+            Assert.AreEqual(expectedY, (int)decoded.Y);
+
+            var reEncoded = mattsCurve.Encode(decoded);
+
+            Assert.AreEqual(encodedOriginal, reEncoded);
+        }
+
         private BigInteger LoadValue(string value)
         {
-            return new BitString(value).ToPositiveBigInteger();
+            var bits = new BitString(value);
+            bits = new BitString(MsbLsbConversionHelpers.ReverseByteOrder(bits.ToBytes()));
+            return bits.ToPositiveBigInteger();
         }
     }
 }

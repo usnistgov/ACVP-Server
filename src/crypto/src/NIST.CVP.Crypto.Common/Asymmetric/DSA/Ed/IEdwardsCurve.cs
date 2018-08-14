@@ -98,11 +98,11 @@ namespace NIST.CVP.Crypto.Common.Asymmetric.DSA.Ed
         /// <summary>
         /// Encodes a point properly
         /// </summary>
-        BigInteger Encode(EdPoint point, int b);
+        BigInteger Encode(EdPoint point);
 
         /// <summary>
         /// Decodes a point properly
         /// </summary>
-        EdPoint Decode(BigInteger encoded, int b);
+        EdPoint Decode(BigInteger encoded);
     }
 }
