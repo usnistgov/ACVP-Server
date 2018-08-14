@@ -16,6 +16,7 @@ namespace NIST.CVP.Pools
         public readonly List<IPool> Pools = new List<IPool>();
 
         private PoolProperties[] _properties;
+        private string _poolDirectory;
 
         private readonly IList<JsonConverter> _jsonConverters = new List<JsonConverter>
         {
@@ -29,14 +30,14 @@ namespace NIST.CVP.Pools
             LoadPools(configFile, poolDirectory);
         }
 
-        public int GetPoolCount(ParameterHolder paramHolder)
+        public PoolInformation GetPoolStatus(ParameterHolder paramHolder)
         {
             if (Pools.TryFirst(pool => pool.Param.Equals(paramHolder.Parameters), out var result))
             {
-                return result.WaterLevel;
+                return new PoolInformation {FillLevel = result.WaterLevel};
             }
 
-            return 0;
+            return new PoolInformation {PoolExists = false};
         }
 
         public bool AddResultToPool(ParameterHolder paramHolder)
@@ -49,7 +50,7 @@ namespace NIST.CVP.Pools
             return false;
         }
 
-        public object GetResultFromPool(ParameterHolder paramHolder)
+        public PoolResult<IResult> GetResultFromPool(ParameterHolder paramHolder)
         {
             if (Pools.TryFirst(pool => pool.Param.Equals(paramHolder.Parameters), out var result))
             {
@@ -61,16 +62,33 @@ namespace NIST.CVP.Pools
 
         public bool SavePools()
         {
+            foreach (var pool in Pools)
+            {
+                if (_properties.TryFirst(prop => pool.Param.Equals(prop.PoolType.Parameters), out var properties))
+                {
+                    var filePath = Path.Combine(_poolDirectory, properties.FilePath);
+                    if (!pool.SavePoolToFile(filePath))
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
             return true;
         }
 
         private void LoadPools(string configFile, string poolDirectory)
         {
             _properties = JsonConvert.DeserializeObject<PoolProperties[]>(File.ReadAllText(configFile));
+            _poolDirectory = poolDirectory;
 
             foreach (var poolProperty in _properties)
             {
-                var filePath = Path.Combine(poolDirectory, poolProperty.FilePath);
+                var filePath = Path.Combine(_poolDirectory, poolProperty.FilePath);
                 var param = poolProperty.PoolType.Parameters;
 
                 switch (poolProperty.PoolType.Type)

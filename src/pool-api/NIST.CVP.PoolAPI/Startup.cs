@@ -14,7 +14,7 @@ namespace NIST.CVP.PoolAPI
         public Startup(IConfiguration config)
         {
             Configuration = config;
-
+            
             var poolConfigFile = config.GetValue<string>("PoolConfig");
             var poolDirectory = config.GetValue<string>("PoolDirectory");
             PoolManager = new PoolManager(poolConfigFile, poolDirectory);

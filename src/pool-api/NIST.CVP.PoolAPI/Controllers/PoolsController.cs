@@ -19,7 +19,7 @@ namespace NIST.CVP.PoolAPI.Controllers
 
         [HttpPost]
         // https://localhost:5001/api/pools
-        public string Get(ParameterHolder parameterHolder)
+        public string GetDataFromPool(ParameterHolder parameterHolder)
         {
             var json = JsonConvert.SerializeObject(
                 Startup.PoolManager.GetResultFromPool(parameterHolder),
@@ -35,23 +35,25 @@ namespace NIST.CVP.PoolAPI.Controllers
         [HttpPost]
         [Route("add")]
         // https://localhost:5001/api/pools/add
-        public bool Post(ParameterHolder parameterHolder)
+        public bool PostDataToPool(ParameterHolder parameterHolder)
         {
+            // TODO fix error here trying to accept custom types with _jsonConverters
             return Startup.PoolManager.AddResultToPool(parameterHolder);
         }
 
         [HttpPost]
         [Route("status")]
         // https://localhost:5001/api/pools/status
-        public int Status(ParameterHolder parameterHolder)
+        public string PoolStatus(ParameterHolder parameterHolder)
         {
-            return Startup.PoolManager.GetPoolCount(parameterHolder);
+            var json = JsonConvert.SerializeObject(Startup.PoolManager.GetPoolStatus(parameterHolder));
+            return json;
         }
 
         [HttpGet]
         [Route("save")]
         // https://localhost:5001/api/pools/save
-        public bool Save()
+        public bool SavePools()
         {
             return Startup.PoolManager.SavePools();
         }
