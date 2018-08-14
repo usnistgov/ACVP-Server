@@ -10,26 +10,21 @@ namespace NIST.CVP.PoolAPI.Controllers
     [ApiController]
     public class PoolsController : Controller
     {
-        private readonly IList<JsonConverter> _jsonConverters = new List<JsonConverter>
+        private readonly JsonSerializerSettings _jsonSettings = new JsonSerializerSettings
         {
-            new BitstringConverter(),
-            new DomainConverter(),
-            new BigIntegerConverter()
+            Converters = new List<JsonConverter>
+            {
+                new BitstringConverter(),
+                new DomainConverter(),
+                new BigIntegerConverter()
+            }
         };
 
         [HttpPost]
         // https://localhost:5001/api/pools
         public string GetDataFromPool(ParameterHolder parameterHolder)
         {
-            var json = JsonConvert.SerializeObject(
-                Startup.PoolManager.GetResultFromPool(parameterHolder),
-                new JsonSerializerSettings
-                {
-                    Converters = _jsonConverters
-                }
-            );
-
-            return json;
+            return JsonConvert.SerializeObject(Startup.PoolManager.GetResultFromPool(parameterHolder), _jsonSettings);
         }
 
         [HttpPost]
@@ -37,7 +32,6 @@ namespace NIST.CVP.PoolAPI.Controllers
         // https://localhost:5001/api/pools/add
         public bool PostDataToPool(ParameterHolder parameterHolder)
         {
-            // TODO fix error here trying to accept custom types with _jsonConverters
             return Startup.PoolManager.AddResultToPool(parameterHolder);
         }
 
@@ -46,8 +40,7 @@ namespace NIST.CVP.PoolAPI.Controllers
         // https://localhost:5001/api/pools/status
         public string PoolStatus(ParameterHolder parameterHolder)
         {
-            var json = JsonConvert.SerializeObject(Startup.PoolManager.GetPoolStatus(parameterHolder));
-            return json;
+            return JsonConvert.SerializeObject(Startup.PoolManager.GetPoolStatus(parameterHolder));
         }
 
         [HttpGet]
