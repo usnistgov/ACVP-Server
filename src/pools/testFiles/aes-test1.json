@@ -1,12 +1,1 @@
-[
-	{
-		"plainText": "ABCD",
-		"key": "BEEF",
-		"cipherText": "5678"
-	},
-	{
-		"plainText": "ABCD22",
-		"key": "BEEF22",
-		"cipherText": "567822"
-	}
-]
+[{"PlainText":"ABCD","Key":"BEEF","Iv":null,"CipherText":"5678"},{"PlainText":"ABCD22","Key":"BEEF22","Iv":null,"CipherText":"567822"}]
