@@ -16,6 +16,8 @@ namespace NIST.CVP.Crypto.SHAWrapper
                     return new Sha2Wrapper(new SHAFactory(), hashFunction);
                 case ModeValues.SHA3:
                     return new Sha3Wrapper(new SHA3Factory(), hashFunction);
+                case ModeValues.SHAKE:
+                    return new ShakeWrapper(new SHA3Factory(), hashFunction);
                 default:
                     throw new ArgumentException($"{nameof(hashFunction)}");
             }

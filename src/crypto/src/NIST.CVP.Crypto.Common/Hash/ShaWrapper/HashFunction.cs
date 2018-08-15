@@ -29,11 +29,13 @@ namespace NIST.CVP.Crypto.Common.Hash.ShaWrapper
     {
         SHA1,
         SHA2,
-        SHA3
+        SHA3,
+        SHAKE
     }
 
     public enum DigestSizes
     {
+        d128,
         d160,
         d224,
         d256,
