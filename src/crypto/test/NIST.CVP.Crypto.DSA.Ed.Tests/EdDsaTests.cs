@@ -6,6 +6,7 @@ using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
+using NIST.CVP.Math.Helpers;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
@@ -47,9 +48,11 @@ namespace NIST.CVP.Crypto.DSA.Ed.Tests
             Assert.AreEqual(q, result.KeyPair.PublicQ, "q");
         }
 
-        private BigInteger LoadValue(string hex)
+        private BigInteger LoadValue(string value)
         {
-            return new BitString(hex).ToPositiveBigInteger();
+            var bits = new BitString(value);
+            bits = new BitString(MsbLsbConversionHelpers.ReverseByteOrder(bits.ToBytes()));
+            return bits.ToPositiveBigInteger();
         }
     }
 }

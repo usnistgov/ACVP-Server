@@ -133,9 +133,20 @@ namespace NIST.CVP.Crypto.DSA.Ed
 
         public BigInteger Encode(EdPoint point)
         {
-            var encoding = new BitString(point.Y, VariableB - 1);
+            var encoding = new BitString(point.Y, VariableB);
 
-            encoding = BitString.ConcatenateBits(new BitString(point.X).GetLeastSignificantBits(1), encoding);
+            var xBit = new BitString(point.X).GetLeastSignificantBits(1);
+
+            var bytes = new byte[VariableB / 8];
+            bytes[0] = 1 << 7;
+            if (xBit.Equals(BitString.One()))
+            {
+                encoding = encoding.OR(new BitString(bytes));
+            }
+            else
+            {
+                encoding = encoding.AND(new BitString(bytes).NOT());
+            }
 
             return encoding.ToPositiveBigInteger();
         }
@@ -153,15 +164,16 @@ namespace NIST.CVP.Crypto.DSA.Ed
             
             // This block is for testing purposes only
             // If a test makes it past this block, then a square root certainly exists
-            if (BigInteger.ModPow(_operator.Inverse(v) * u, (FieldSizeQ - 1) / 2, FieldSizeQ) != 1)
-            {
-                throw new Exception("Fails Euler's Criterion!!!!!");
-            }
+            //if (BigInteger.ModPow(_operator.Inverse(v) * u, (FieldSizeQ - 1) / 2, FieldSizeQ) != 1)
+            //{
+            //    throw new Exception("Fails Euler's Criterion!!!!!");
+            //}
 
             if (FieldSizeQ % 4 == 3)
             {
                 var w = (u * u * u * v * BigInteger.ModPow(BigInteger.ModPow(u, 5, FieldSizeQ) * BigInteger.ModPow(v, 3, FieldSizeQ) % FieldSizeQ, (FieldSizeQ - 3) / 4, FieldSizeQ)) % FieldSizeQ;
-                if ((v * w * w) % FieldSizeQ == u)
+                var vwSquare = (v * ((w * w) % FieldSizeQ)) % FieldSizeQ;
+                if (vwSquare == u)
                 {
                     X = w;
                 }
@@ -173,11 +185,12 @@ namespace NIST.CVP.Crypto.DSA.Ed
             else if (FieldSizeQ % 8 == 5)
             {
                 var w = (u * v * v * v * BigInteger.ModPow(u * BigInteger.ModPow(v, 7, FieldSizeQ), (FieldSizeQ - 5) / 8, FieldSizeQ)) % FieldSizeQ;
-                if ((v * w * w) % FieldSizeQ == u)
+                var vwSquare = (v * ((w * w) % FieldSizeQ)) % FieldSizeQ;
+                if (vwSquare == u)
                 {
                     X = w;
                 }
-                else if ((v * w * w) % FieldSizeQ == (-u) % FieldSizeQ)
+                else if (vwSquare == _operator.Negate(u))
                 {
                     X = (w * BigInteger.ModPow(2, (FieldSizeQ - 1) / 4, FieldSizeQ)) % FieldSizeQ;
                 }

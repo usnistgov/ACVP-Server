@@ -366,14 +366,14 @@ namespace NIST.CVP.Crypto.DSA.Ed.Tests
 
             Assert.AreEqual(expectedResult.X, result.X, "x");
             Assert.AreEqual(expectedResult.Y, result.Y, "y");
-        }
+        }*/
 
         [Test]
         #region PointsOnCurve
-        [TestCase(Curve.Ed25519,
-            "03f0eba16286a2d57ea0991168d4994637e8343e36", "00d51fbc6c71a0094fa2cdd545b11c5c0c797324f1",
-            true, TestName = "PointExistsOnCurve b-163 #1")]
-        [TestCase(Curve.Ed25519,
+        [TestCase(Curve.Ed25519, 
+            "ce457677bd8627b1247c185372d413c520f6d0608de0972229349d2b9ae0d055", "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+            true, TestName = "PointExistsOnCurve Ed25519 #1")]
+        /*[TestCase(Curve.Ed25519,
             "00066499232C0FED45301404782344A374766533B60A", "0004B549A871C577A2EC6B53DE8FBCA532B9AD7E6C61",
             false, TestName = "PointExistsOnCurve b-163 #2")]
         [TestCase(Curve.Ed448,
@@ -381,7 +381,7 @@ namespace NIST.CVP.Crypto.DSA.Ed.Tests
             true, TestName = "PointExistsOnCurve b-233 #1")]
         [TestCase(Curve.Ed448,
             "01DA664638DA59453A816E842DC776C37D7222AF808971FC4993182804E3", "01BB7AADE0594383E663A91582D86DB7F5C5551678BA1A1BBE2F97F42069",
-            false, TestName = "PointExistsOnCurve b-233 #2")]
+            false, TestName = "PointExistsOnCurve b-233 #2")]*/
         #endregion PointsOnCurve
         public void ShouldKnowIfAPointIsOnTheCurve(Curve curve, string xHex, string yHex, bool expectedResult)
         {
@@ -395,7 +395,7 @@ namespace NIST.CVP.Crypto.DSA.Ed.Tests
             var result = subject.PointExistsOnCurve(a);
 
             Assert.AreEqual(expectedResult, result);
-        }*/
+        }
 
         [Test]
         [TestCase(0, 1, 4, 4, 4, 4)]
@@ -462,7 +462,7 @@ namespace NIST.CVP.Crypto.DSA.Ed.Tests
         [TestCase(6, 5, true)]
         [TestCase(6, 6, false)]
         #endregion PointsOnCurve
-        public void ShouldKnowIfAPointIsOnTheCurve(int x, int y, bool expectedResult)
+        public void ShouldKnowIfAPointIsOnMattsCurve(int x, int y, bool expectedResult)
         {
             var mattsCurve = new EdwardsCurve(Curve.Ed25519, 7, 2, 3, new EdPoint(0, 6), 12, 256, 247, 2);
             var result = mattsCurve.PointExistsOnCurve(new EdPoint(x, y));
@@ -471,9 +471,19 @@ namespace NIST.CVP.Crypto.DSA.Ed.Tests
 
         [Test]
         [TestCase(Curve.Ed25519, "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a")]
+        [TestCase(Curve.Ed25519, "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c")]
+        [TestCase(Curve.Ed25519, "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025")]
+        [TestCase(Curve.Ed25519, "278117fc144c72340f67d0f2316e8386ceffbf2b2428c9c51fef7c597f1d426e")]
+        [TestCase(Curve.Ed25519, "ec172b93ad5e563bf4932c70e1245034c35467ef2efd4d64ebf819683467e2bf")]
         [TestCase(Curve.Ed448, "5fd7449b59b461fd2ce787ec616ad46a1da1342485a70e1f8a0ea75d80e96778edf124769b46c7061bd6783df1e50f6cd1fa1abeafe8256180")]
+        [TestCase(Curve.Ed448, "43ba28f430cdff456ae531545f7ecd0ac834a55d9358c0372bfa0c6c6798c0866aea01eb00742802b8438ea4cb82169c235160627b4c3a9480")]
+        [TestCase(Curve.Ed448, "dcea9e78f35a1bf3499a831b10b86c90aac01cd84b67a0109b55a36e9328b1e365fce161d71ce7131a543ea4cb5f7e9f1d8b00696447001400")]
+        [TestCase(Curve.Ed448, "3ba16da0c6f2cc1f30187740756f5e798d6bc5fc015d7c63cc9510ee3fd44adc24d8e968b6e46e6f94d19b945361726bd75e149ef09817f580")]
+        [TestCase(Curve.Ed448, "b3da079b0aa493a5772029f0467baebee5a8112d9d3a22532361da294f7bb3815c5dc59e176b4d9f381ca0938e13c6c07b174be65dfa578e80")]
         public void ShouldEncodeAndDecodeProperly(Curve curve, string encoded)
         {
+            System.Console.WriteLine(LoadValue("ce457677bd8627b1247c185372d413c520f6d0608de0972229349d2b9ae0d055"));
+            System.Console.WriteLine(LoadValue("d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a"));
             var encodedOriginal = LoadValue(encoded);
             
             var factory = new EdwardsCurveFactory();
