@@ -71,35 +71,39 @@ namespace NIST.CVP.Crypto.DSA.Ed
 
         public EdKeyPairValidateResult ValidateKeyPair(EdDomainParameters domainParameters, EdKeyPair keyPair)
         {
+            // If Q is not a valid point on the specific curve, invalid
+            EdPoint Q;
+            try
+            {
+                Q = domainParameters.CurveE.Decode(keyPair.PublicQ);
+            }
+            catch (Exception e)     // the exception will be raised because square root cannot be taken
+            {
+                return new EdKeyPairValidateResult("Q does not lie on the curve");
+            }
+
             // If Q == (0, 1), invalid
-            if (keyPair.PublicQ.Equals(new EdPoint(0, 1)))
+            if (Q.Equals(new EdPoint(0, 1)))
             {
                 return new EdKeyPairValidateResult("Q cannot be neutral element");
             }
 
-            // If Q is not a valid point (x, y are within the field), invalid
-            // could make this more efficient
-            if (!domainParameters.CurveE.PointExistsInField(domainParameters.CurveE.Decode(keyPair.PublicQ)))
-            {
-                return new EdKeyPairValidateResult("Q is out of range of the field");
-            }
-
             // If Q is not a valid point on the specific curve, invalid
             // could make this more efficient
-            if (!domainParameters.CurveE.PointExistsOnCurve(domainParameters.CurveE.Decode(keyPair.PublicQ)))
+            if (!domainParameters.CurveE.PointExistsOnCurve(Q))
             {
                 return new EdKeyPairValidateResult("Q does not lie on the curve");
             }
 
             // If n * Q == 0, valid
             // This is fast because the scalar (n) is taken modulo n... so it's 0
-            if (domainParameters.CurveE.Multiply(domainParameters.CurveE.Decode(keyPair.PublicQ), domainParameters.CurveE.OrderN).Equals(new EdPoint(0, 1)))
+            if (domainParameters.CurveE.Multiply(Q, domainParameters.CurveE.OrderN).Equals(new EdPoint(0, 1)))
             {
                 return new EdKeyPairValidateResult();
             }
 
             // Otherwise invalid
-            return new EdKeyPairValidateResult("n * Q must equal infinity");
+            return new EdKeyPairValidateResult("n * Q must equal (0, 1)");
         }
 
         public EdSignatureResult Sign(EdDomainParameters domainParameters, EdKeyPair keyPair, BitString message, bool skipHash = false)

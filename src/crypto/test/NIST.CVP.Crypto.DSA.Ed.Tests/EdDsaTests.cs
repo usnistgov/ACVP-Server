@@ -91,6 +91,50 @@ namespace NIST.CVP.Crypto.DSA.Ed.Tests
             Assert.AreEqual(q, result.KeyPair.PublicQ, "q");
         }
 
+        // need more/ better data for this test
+        [Test]
+        #region KeyPairVer-25519
+        [TestCase(Curve.Ed25519,
+            "9d61b19deffd5a60ba844af492ec2cc44449c5697b326919703bac031cae7f60",
+            "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+            true,
+            TestName = "KeyVer 25519 Good Pair")]
+        [TestCase(Curve.Ed25519,
+            "9d61b19deffd5a60ba844af492ec2cc44449c5697b326919703bac031cae7f61",
+            "d75a980182b10ab7df4bfed3cf64073f0ee172f3daa62325af021a68f707511a",
+            false,
+            TestName = "KeyVer 25519 Bad Pair")]
+        #endregion KeyPairVer-25519
+        #region KeyPairVer-448
+        [TestCase(Curve.Ed448,
+            "6c82a562cb808d10d632be89c8513ebf6c929f34ddfa8c9f63c9960ef6e348a3528c8a3fcc2f044e39a3fc5b94492f8f032e7549a20098f95b",
+            "5fd7449b59b461fd2ce787ec616ad46a1da1342485a70e1f8a0ea75d80e96778edf124769b46c7061bd6783df1e50f6cd1fa1abeafe8256180",
+            true,
+            TestName = "KeyVer 448 Good Pair")]
+        [TestCase(Curve.Ed448,
+            "6c82a562cb808d10d632be89c8513ebf6c929f34ddfa8c9f63c9960ef6e348a3528c8a3fcc2f044e39a3fc5b94492f8f032e7549a20098f95b",
+            "5fd7449b59b461fd2ce787ec616ad46a1da1342485a70e1f8a0ea75d80e96778edf124769b46c7061bd6783de1e50f6cd1fa1abeafe8256180",
+            false,
+            TestName = "KeyVer 448 Bad Pair")]
+        #endregion KeyPairVer-448
+        public void ShouldValidateKeyPairsCorrectly(Curve curveEnum, string dHex, string qHex, bool expectedResult)
+        {
+            var d = LoadValue(dHex);
+            var q = LoadValue(qHex);
+
+            var factory = new EdwardsCurveFactory();
+            var curve = factory.GetCurve(curveEnum);
+
+            var domainParams = new EdDomainParameters(curve, new ShaFactory());
+            var keyPair = new EdKeyPair(q, d);
+
+            var subject = new EdDsa(EntropyProviderTypes.Random);
+
+            var result = subject.ValidateKeyPair(domainParams, keyPair);
+
+            Assert.AreEqual(expectedResult, result.Success);
+        }
+
         private BigInteger LoadValue(string value)
         {
             var bits = new BitString(value);
