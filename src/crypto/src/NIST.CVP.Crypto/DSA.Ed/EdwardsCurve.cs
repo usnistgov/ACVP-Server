@@ -4,6 +4,7 @@ using NIST.CVP.Crypto.Common.Asymmetric.DSA.Ed;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.Ed.Enums;
 using NIST.CVP.Crypto.Math;
 using NIST.CVP.Math;
+using NIST.CVP.Math.Helpers;
 
 namespace NIST.CVP.Crypto.DSA.Ed
 {
@@ -148,12 +149,13 @@ namespace NIST.CVP.Crypto.DSA.Ed
                 encoding = encoding.AND(new BitString(bytes).NOT());
             }
 
-            return encoding.ToPositiveBigInteger();
+            return BitString.ReverseByteOrder(new BitString(encoding.ToBytes())).ToPositiveBigInteger();      // needed to switch to little endian
         }
 
         public EdPoint Decode(BigInteger encoded)
         {
             var encodedBitString = new BitString(encoded, VariableB);
+            encodedBitString = BitString.ReverseByteOrder(new BitString(encodedBitString.ToBytes()));       // switch to big endian
             var x = encodedBitString.GetMostSignificantBits(1).ToPositiveBigInteger();
             var YBits = BitString.ConcatenateBits(BitString.Zero(), encodedBitString.GetLeastSignificantBits(VariableB - 1));
             var Y = YBits.ToPositiveBigInteger();

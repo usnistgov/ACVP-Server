@@ -1,5 +1,6 @@
 ﻿using NIST.CVP.Crypto.Common.Asymmetric.DSA.Ed.Enums;
 using NIST.CVP.Crypto.Common.Hash.SHA3;
+using NIST.CVP.Crypto.Common.Hash.SHA2;
 
 namespace NIST.CVP.Crypto.Common.Asymmetric.DSA.Ed
 {
@@ -10,29 +11,34 @@ namespace NIST.CVP.Crypto.Common.Asymmetric.DSA.Ed
         /// </summary>
         public IEdwardsCurve CurveE { get; }
 
-        public HashFunction Hash
+        public Hash.SHA2.HashFunction SHA2Hash
         {
             get
             {
                 if (CurveE.CurveName == Curve.Ed25519)
                 {
-                    return new HashFunction
-                    {
-                        Capacity = 1024,
-                        DigestSize = 512,
-                        XOF = false
-                    };
+                    return new Hash.SHA2.HashFunction(ModeValues.SHA2, DigestSizes.d512);
                 }
                 else
                 {
-                    return new HashFunction
-                    {
-                        Capacity = 512,
-                        DigestSize = 512,
-                        XOF = true
-                    };
+                    return null;
                 }
                 
+            }
+        }
+
+        public Hash.SHA3.HashFunction SHA3Hash
+        {
+            get
+            {
+                if (CurveE.CurveName == Curve.Ed25519)
+                {
+                    return new Hash.SHA3.HashFunction();    // this should never happen
+                }
+                else
+                {
+                    return new Hash.SHA3.HashFunction(512, 512, true);
+                }
             }
         }
 

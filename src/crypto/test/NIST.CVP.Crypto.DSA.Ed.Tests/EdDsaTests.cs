@@ -51,7 +51,6 @@ namespace NIST.CVP.Crypto.DSA.Ed.Tests
         private BigInteger LoadValue(string value)
         {
             var bits = new BitString(value);
-            bits = new BitString(MsbLsbConversionHelpers.ReverseByteOrder(bits.ToBytes()));
             return bits.ToPositiveBigInteger();
         }
     }

@@ -40,12 +40,13 @@ namespace NIST.CVP.Crypto.DSA.Ed
 
         public EdKeyPairGenerateResult GenerateKeyPair(EdDomainParameters domainParameters)
         {
-            // Generate random number k [1, n - 2]
-            var k = _entropyProvider.GetEntropy(1, domainParameters.CurveE.OrderN - 1);
+            // Generate random number k ... not sure what the range should be for this.
+            var k = _entropyProvider.GetEntropy(1, NumberTheory.Pow2(domainParameters.CurveE.VariableB + 1) - 1);
 
             // 1. Hash the private key
-            var sha = new SHA3.SHA3();
-            var h = sha.HashMessage(domainParameters.Hash, new BitString(k, domainParameters.CurveE.VariableB)).Digest.MSBSubstring(0, 2 * domainParameters.CurveE.VariableB - 1);
+            var sha = new SHA2.SHA();
+            var h = sha.HashMessage(domainParameters.SHA2Hash, new BitString(k, domainParameters.CurveE.VariableB)).Digest.MSBSubstring(0, domainParameters.CurveE.VariableB);
+            h = BitString.ReverseByteOrder(h);
 
             // 2. Prune the buffer
             // Currently this is accomplished using the specifications in IETF RFC 8032
