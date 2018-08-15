@@ -1,6 +1,5 @@
 ﻿using NIST.CVP.Crypto.Common.Asymmetric.DSA.Ed.Enums;
-using NIST.CVP.Crypto.Common.Hash.SHA3;
-using NIST.CVP.Crypto.Common.Hash.SHA2;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 
 namespace NIST.CVP.Crypto.Common.Asymmetric.DSA.Ed
 {
@@ -11,34 +10,21 @@ namespace NIST.CVP.Crypto.Common.Asymmetric.DSA.Ed
         /// </summary>
         public IEdwardsCurve CurveE { get; }
 
-        public Hash.SHA2.HashFunction SHA2Hash
+        private IShaFactory _shaFactory;
+
+        public ISha Hash
         {
             get
             {
                 if (CurveE.CurveName == Curve.Ed25519)
                 {
-                    return new Hash.SHA2.HashFunction(ModeValues.SHA2, DigestSizes.d512);
+                    return _shaFactory.GetShaInstance(new HashFunction(ModeValues.SHA2, DigestSizes.d512));
                 }
                 else
                 {
-                    return null;
+                    return _shaFactory.GetShaInstance(new HashFunction(ModeValues.SHAKE, DigestSizes.d256));
                 }
                 
-            }
-        }
-
-        public Hash.SHA3.HashFunction SHA3Hash
-        {
-            get
-            {
-                if (CurveE.CurveName == Curve.Ed25519)
-                {
-                    return new Hash.SHA3.HashFunction();    // this should never happen
-                }
-                else
-                {
-                    return new Hash.SHA3.HashFunction(512, 512, true);
-                }
             }
         }
 
@@ -49,15 +35,17 @@ namespace NIST.CVP.Crypto.Common.Asymmetric.DSA.Ed
         /// </summary>
         public SecretGenerationMode SecretGeneration { get; }
 
-        public EdDomainParameters(IEdwardsCurve e)
+        public EdDomainParameters(IEdwardsCurve e, IShaFactory shaFactory)
         {
             CurveE = e;
+            _shaFactory = shaFactory;
         }
 
-        public EdDomainParameters(IEdwardsCurve e, SecretGenerationMode secretMode)
+        public EdDomainParameters(IEdwardsCurve e, IShaFactory shaFactory, SecretGenerationMode secretMode)
         {
             CurveE = e;
             SecretGeneration = secretMode;
+            _shaFactory = shaFactory;
         }
     }
 }

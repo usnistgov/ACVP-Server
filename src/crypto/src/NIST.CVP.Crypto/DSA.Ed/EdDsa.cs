@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Numerics;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.Ed;
-using NIST.CVP.Crypto.Common.Hash.SHA3;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Math;
-using NIST.CVP.Crypto.SHA3;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
 using NIST.CVP.Math.Helpers;
@@ -13,7 +11,7 @@ namespace NIST.CVP.Crypto.DSA.Ed
 {
     public class EdDsa : IDsaEd
     {
-        public ISha Sha => throw new NotImplementedException();
+        public ISha Sha { get; set; }
 
         private readonly IEntropyProviderFactory _entropyFactory = new EntropyProviderFactory();
         private readonly IEntropyProvider _entropyProvider;
@@ -44,8 +42,9 @@ namespace NIST.CVP.Crypto.DSA.Ed
             var k = _entropyProvider.GetEntropy(1, NumberTheory.Pow2(domainParameters.CurveE.VariableB + 1) - 1);
 
             // 1. Hash the private key
-            var sha = new SHA2.SHA();
-            var h = sha.HashMessage(domainParameters.SHA2Hash, new BitString(k, domainParameters.CurveE.VariableB)).Digest.MSBSubstring(0, domainParameters.CurveE.VariableB);
+            Sha = domainParameters.Hash;
+            // 912 is the output length for Ed448 when using SHAKE. It will not affect SHA512 output length for Ed25519.
+            var h = Sha.HashMessage(new BitString(k, domainParameters.CurveE.VariableB), 912).Digest.MSBSubstring(0, domainParameters.CurveE.VariableB);
             h = BitString.ReverseByteOrder(h);
 
             // 2. Prune the buffer
