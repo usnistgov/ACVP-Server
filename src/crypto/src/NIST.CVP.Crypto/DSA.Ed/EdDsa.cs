@@ -43,22 +43,9 @@ namespace NIST.CVP.Crypto.DSA.Ed
             var k = _entropyProvider.GetEntropy(1, NumberTheory.Pow2(domainParameters.CurveE.VariableB + 1) - 1);
 
             // 1. Hash the private key
-            Sha = domainParameters.Hash;
-            // 912 is the output length for Ed448 when using SHAKE. It will not affect SHA512 output length for Ed25519.
-            var h = Sha.HashMessage(new BitString(k, domainParameters.CurveE.VariableB), 912).Digest.MSBSubstring(0, domainParameters.CurveE.VariableB);
-            h = BitString.ReverseByteOrder(h);
-
             // 2. Prune the buffer
-            // Currently this is accomplished using the specifications in IETF RFC 8032
-            // Could switch over to how it is specified in SP186-5 in the future
-            for (int i = 0; i < domainParameters.CurveE.VariableC; i++)
-            {
-                h.Bits.Set(i, false);
-            }
-            for (int i = domainParameters.CurveE.VariableN; i < h.Bits.Length; i++)
-            {
-                h.Bits.Set(i, false);
-            }
+            // Both accomplished by this function
+            var h = HashPrivate(domainParameters, k).Buffer;
 
             // 3. Determine s
             var s = NumberTheory.Pow2(domainParameters.CurveE.VariableN) + h.ToPositiveBigInteger();
@@ -110,38 +97,39 @@ namespace NIST.CVP.Crypto.DSA.Ed
         public EdSignatureResult Sign(EdDomainParameters domainParameters, EdKeyPair keyPair, BitString message, bool skipHash = false)
         {
             // 1. Hash the private key
-            Sha = domainParameters.Hash;
-            // 912 is the output length for Ed448 when using SHAKE. It will not affect SHA512 output length for Ed25519.
-            var h = Sha.HashMessage(new BitString(keyPair.PrivateD, domainParameters.CurveE.VariableB), 912).Digest;
-            var prefix = h.Substring(0, domainParameters.CurveE.VariableB);
-            // prune a as before. probably a better way to repeat these steps
-            var a = BitString.ReverseByteOrder(h.MSBSubstring(0, domainParameters.CurveE.VariableB));
-            for (int i = 0; i < domainParameters.CurveE.VariableC; i++)
-            {
-                a.Bits.Set(i, false);
-            }
-            for (int i = domainParameters.CurveE.VariableN; i < a.Bits.Length; i++)
-            {
-                a.Bits.Set(i, false);
-            }
+            var hashResult = HashPrivate(domainParameters, keyPair.PrivateD);
 
             // 2. Compute r
-            // need to use dom4 if ed448
+            // Determine dom4. Empty if ed25519
             var dom4 = domainParameters.CurveE.CurveName == Common.Asymmetric.DSA.Ed.Enums.Curve.Ed448 ? Dom4(0) : new BitString("");
-            var rBits = Sha.HashMessage(BitString.ConcatenateBits(dom4, BitString.ConcatenateBits(prefix, message)), 912).Digest;
-            rBits = BitString.ReverseByteOrder(rBits);
-            var r = rBits.ToPositiveBigInteger() % domainParameters.CurveE.OrderN;
+
+            // Hash (dom4 || Prefix || message)
+            var rBits = Sha.HashMessage(BitString.ConcatenateBits(dom4, BitString.ConcatenateBits(hashResult.HDigest2, message)), 912).Digest;
+
+            // Convert rBits to little endian and mod order n
+            var r = BitString.ReverseByteOrder(rBits).ToPositiveBigInteger() % domainParameters.CurveE.OrderN;
 
             // 3. Compute [r]G. R is the encoding of [r]G
             var rG = domainParameters.CurveE.Multiply(domainParameters.CurveE.BasePointG, r);
+            
+            // Encode the point rG into a b-bit bitstring
             var R = domainParameters.CurveE.Encode(rG);
 
             // 4. Define S
-            // need to use dom4 if ed448
-            var hash = Sha.HashMessage(BitString.ConcatenateBits(dom4, BitString.ConcatenateBits(new BitString(R, domainParameters.CurveE.VariableB), BitString.ConcatenateBits(new BitString(keyPair.PublicQ, domainParameters.CurveE.VariableB), message))), 912).Digest;
+            // Hash (dom4 || R || Q || B). Need to use dom4 if ed448
+            var preHash = BitString.ConcatenateBits(new BitString(keyPair.PublicQ, domainParameters.CurveE.VariableB), message);
+            preHash = BitString.ConcatenateBits(dom4, BitString.ConcatenateBits(new BitString(R, domainParameters.CurveE.VariableB), preHash));
+            var hash = Sha.HashMessage(preHash, 912).Digest;
+
+            // Convert hash to int from little endian and mod order n
             var hashInt = BitString.ReverseByteOrder(hash).ToPositiveBigInteger() % domainParameters.CurveE.OrderN;
-            var s = NumberTheory.Pow2(domainParameters.CurveE.VariableN) + a.ToPositiveBigInteger();
+
+            // Determine s as done in key generation
+            var s = NumberTheory.Pow2(domainParameters.CurveE.VariableN) + hashResult.Buffer.ToPositiveBigInteger();
+
+            // Calculate S as an BigInteger
             var Sint = (r + (hashInt * s)).PosMod(domainParameters.CurveE.OrderN);
+
             // Encode S in little endian
             var S = BitString.ReverseByteOrder(new BitString(Sint, domainParameters.CurveE.VariableB));
 
@@ -194,6 +182,36 @@ namespace NIST.CVP.Crypto.DSA.Ed
             var cBits = new BitString(c.BitLength / 8, 8);  // length in octets
 
             return BitString.ConcatenateBits(nameBits, BitString.ConcatenateBits(fBits, cBits));
+        }
+
+        /// <summary>
+        /// Hashs private key and formats both the prefix (used in signing) and A (used in generating the public key)
+        /// </summary>
+        /// <param name="domainParameters"></param>
+        /// <param name="d"></param>
+        /// <returns></returns>
+        private (BitString Buffer, BitString HDigest2) HashPrivate(EdDomainParameters domainParameters, BigInteger d)
+        {
+            Sha = domainParameters.Hash;
+
+            // 912 is the output length for Ed448 when using SHAKE. It will not affect SHA512 output length for Ed25519.
+            var h = Sha.HashMessage(new BitString(d, domainParameters.CurveE.VariableB), 912).Digest;
+
+            // Split the hash result in half
+            var hDigest2 = h.Substring(0, domainParameters.CurveE.VariableB);
+            var buffer = BitString.ReverseByteOrder(h.MSBSubstring(0, domainParameters.CurveE.VariableB));
+
+            // Prune the buffer
+            for (int i = 0; i < domainParameters.CurveE.VariableC; i++)
+            {
+                buffer.Bits.Set(i, false);
+            }
+            for (int i = domainParameters.CurveE.VariableN; i < buffer.Bits.Length; i++)
+            {
+                buffer.Bits.Set(i, false);
+            }
+
+            return (buffer, hDigest2);
         }
 
         private static BitString StringToHex(string words)
