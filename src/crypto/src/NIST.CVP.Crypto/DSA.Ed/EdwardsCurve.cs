@@ -10,7 +10,7 @@ namespace NIST.CVP.Crypto.DSA.Ed
 {
     public class EdwardsCurve : IEdwardsCurve
     {
-        private readonly IFieldOperator _operator;
+        private readonly PrimeFieldOperator _operator;
         
         public BigInteger CoefficientA { get; }
         public BigInteger CoefficientD { get; }
@@ -44,7 +44,7 @@ namespace NIST.CVP.Crypto.DSA.Ed
             VariableN = dSAn;
             VariableC = c;
 
-            _operator = new PrimeFieldOperator(p);      // current Edwards curves only use prime field operator... and possibly all ed curves??
+            _operator = new PrimeFieldOperator(p);
         }
 
         public EdPoint Add(EdPoint pointA, EdPoint pointB)
@@ -149,7 +149,7 @@ namespace NIST.CVP.Crypto.DSA.Ed
                 encoding = encoding.AND(new BitString(bytes).NOT());
             }
 
-            return BitString.ReverseByteOrder(new BitString(encoding.ToBytes())).ToPositiveBigInteger();      // needed to switch to little endian
+            return BitString.ReverseByteOrder(new BitString(encoding.ToBytes())).ToPositiveBigInteger();      // switch to little endian
         }
 
         public EdPoint Decode(BigInteger encoded)
@@ -163,13 +163,6 @@ namespace NIST.CVP.Crypto.DSA.Ed
             BigInteger X;
             var u = ((Y * Y) - 1) % FieldSizeQ;
             var v = ((CoefficientD * Y * Y) - CoefficientA) % FieldSizeQ;
-            
-            // This block is for testing purposes only
-            // If a test makes it past this block, then a square root certainly exists
-            //if (BigInteger.ModPow(_operator.Inverse(v) * u, (FieldSizeQ - 1) / 2, FieldSizeQ) != 1)
-            //{
-            //    throw new Exception("Fails Euler's Criterion!!!!!");
-            //}
 
             if (FieldSizeQ % 4 == 3)
             {
@@ -205,6 +198,7 @@ namespace NIST.CVP.Crypto.DSA.Ed
             else
             {
                 // need to use Tonelli-Shanks algorithm in SP800-186 Appendix E
+                throw new NotImplementedException("Need to implement Tonelli-Shanks");
             }
 
             if (X == 0 && x == 1)
@@ -219,6 +213,52 @@ namespace NIST.CVP.Crypto.DSA.Ed
             else
             {
                 return new EdPoint(FieldSizeQ - X, Y);
+            }
+        }
+
+        // Prime Field Operator for use in Edwards Curves
+        private class PrimeFieldOperator
+        {
+            private readonly BigInteger _m;
+
+            public PrimeFieldOperator(BigInteger modulo)
+            {
+                _m = modulo;
+            }
+
+            public BigInteger Add(BigInteger a, BigInteger b)
+            {
+                return Modulo(a + b);
+            }
+
+            public BigInteger Divide(BigInteger a, BigInteger b)
+            {
+                return Multiply(a, Inverse(b));
+            }
+
+            public BigInteger Negate(BigInteger a)
+            {
+                return Modulo(_m - a);
+            }
+
+            public BigInteger Inverse(BigInteger a)
+            {
+                return a.ModularInverse(_m);
+            }
+
+            public BigInteger Modulo(BigInteger a)
+            {
+                return a.PosMod(_m);
+            }
+
+            public BigInteger Multiply(BigInteger a, BigInteger b)
+            {
+                return Modulo(a * b);
+            }
+
+            public BigInteger Subtract(BigInteger a, BigInteger b)
+            {
+                return Modulo(a - b);
             }
         }
     }
