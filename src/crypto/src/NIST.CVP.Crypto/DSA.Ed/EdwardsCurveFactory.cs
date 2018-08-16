@@ -27,7 +27,7 @@ namespace NIST.CVP.Crypto.DSA.Ed
         private readonly BigInteger ed25519D = LoadValue("52036cee2b6ffe738cc740797779e89800700a4d4141d8ab75eb4dca135978a3");
         private readonly BigInteger ed25519Gx = LoadValue("216936d3cd6e53fec0a4e231fdd6dc5c692cc7609525a7b2c9562d608f25d51a");
         private readonly BigInteger ed25519Gy = LoadValue("6666666666666666666666666666666666666666666666666666666666666658");
-        private readonly BigInteger ed25519N = LoadValue("10000000000000000000000000000000014def9dea2f79cd65812631a5cf5d3ed");
+        private readonly BigInteger ed25519N = LoadValue("1000000000000000000000000000000014def9dea2f79cd65812631a5cf5d3ed");
         private readonly int ed25519b = 256;
         private readonly int ed25519n = 254;
         private readonly int ed25519c = 3;

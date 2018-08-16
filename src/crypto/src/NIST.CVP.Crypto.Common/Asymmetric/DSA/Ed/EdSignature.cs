@@ -4,18 +4,16 @@ namespace NIST.CVP.Crypto.Common.Asymmetric.DSA.Ed
 {
     public class EdSignature : IDsaSignature
     {
-        public BigInteger R { get; set; }
-        public BigInteger S { get; set; }
+        public BigInteger Sig { get; set; }
 
         public EdSignature()
         {
             
         }
 
-        public EdSignature(BigInteger r, BigInteger s)
+        public EdSignature(BigInteger sig)
         {
-            R = r;
-            S = s;
+            Sig = sig;
         }
     }
 }

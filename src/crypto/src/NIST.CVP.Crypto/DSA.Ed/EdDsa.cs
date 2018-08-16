@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Numerics;
+using System.Text;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.Ed;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Math;
@@ -108,77 +109,50 @@ namespace NIST.CVP.Crypto.DSA.Ed
 
         public EdSignatureResult Sign(EdDomainParameters domainParameters, EdKeyPair keyPair, BitString message, bool skipHash = false)
         {
-            // Generate random number k [1, n-1]
-            var k = _entropyProvider.GetEntropy(1, domainParameters.CurveE.OrderN - 1);
+            // 1. Hash the private key
+            Sha = domainParameters.Hash;
+            // 912 is the output length for Ed448 when using SHAKE. It will not affect SHA512 output length for Ed25519.
+            var h = Sha.HashMessage(new BitString(keyPair.PrivateD, domainParameters.CurveE.VariableB), 912).Digest;
+            var prefix = h.Substring(0, domainParameters.CurveE.VariableB);
+            // prune a as before. probably a better way to repeat these steps
+            var a = BitString.ReverseByteOrder(h.MSBSubstring(0, domainParameters.CurveE.VariableB));
+            for (int i = 0; i < domainParameters.CurveE.VariableC; i++)
+            {
+                a.Bits.Set(i, false);
+            }
+            for (int i = domainParameters.CurveE.VariableN; i < a.Bits.Length; i++)
+            {
+                a.Bits.Set(i, false);
+            }
 
-            // Compute point (x, y) = k * G
-            var point = domainParameters.CurveE.Multiply(domainParameters.CurveE.BasePointG, k);
+            // 2. Compute r
+            // need to use dom4 if ed448
+            var dom4 = domainParameters.CurveE.CurveName == Common.Asymmetric.DSA.Ed.Enums.Curve.Ed448 ? Dom4(0) : new BitString("");
+            var rBits = Sha.HashMessage(BitString.ConcatenateBits(dom4, BitString.ConcatenateBits(prefix, message)), 912).Digest;
+            rBits = BitString.ReverseByteOrder(rBits);
+            var r = rBits.ToPositiveBigInteger() % domainParameters.CurveE.OrderN;
 
-            // Represent x as an integer j
-            var j = point.X;
+            // 3. Compute [r]G. R is the encoding of [r]G
+            var rG = domainParameters.CurveE.Multiply(domainParameters.CurveE.BasePointG, r);
+            var R = domainParameters.CurveE.Encode(rG);
 
-            // Compute r = j mod n
-            var r = j % domainParameters.CurveE.OrderN;
+            // 4. Define S
+            // need to use dom4 if ed448
+            var hash = Sha.HashMessage(BitString.ConcatenateBits(dom4, BitString.ConcatenateBits(new BitString(R, domainParameters.CurveE.VariableB), BitString.ConcatenateBits(new BitString(keyPair.PublicQ, domainParameters.CurveE.VariableB), message))), 912).Digest;
+            var hashInt = BitString.ReverseByteOrder(hash).ToPositiveBigInteger() % domainParameters.CurveE.OrderN;
+            var s = NumberTheory.Pow2(domainParameters.CurveE.VariableN) + a.ToPositiveBigInteger();
+            var Sint = (r + (hashInt * s)).PosMod(domainParameters.CurveE.OrderN);
+            // Encode S in little endian
+            var S = BitString.ReverseByteOrder(new BitString(Sint, domainParameters.CurveE.VariableB));
 
-            // Compute s = k^-1 (e + d*r) mod n, where e = H(m) as an integer
-            var kInverse = k.ModularInverse(domainParameters.CurveE.OrderN);
-
-            var bitsOfDigestNeeded = System.Math.Min(domainParameters.CurveE.OrderN.ExactBitLength(), Sha.HashFunction.OutputLen);
-
-            // Determine whether to hash or skip the hash step for component test
-            var hashDigest = skipHash ? message : Sha.HashMessage(message).Digest;
-
-            var e = hashDigest.MSBSubstring(0, bitsOfDigestNeeded).ToPositiveBigInteger();
-
-            var s = (kInverse * (e + keyPair.PrivateD * r)).PosMod(domainParameters.CurveE.OrderN);
-
-            // Return pair (r, s)
-            return new EdSignatureResult(new EdSignature(r, s));
+            // 5. Form the signature by concatenating R and S
+            var sig = BitString.ConcatenateBits(new BitString(R), S);
+            return new EdSignatureResult(new EdSignature(sig.ToPositiveBigInteger()));
         }
 
         public EdVerificationResult Verify(EdDomainParameters domainParameters, EdKeyPair keyPair, BitString message, EdSignature signature, bool skipHash = false)
         {
-            // Check r and s to be within the interval [1, n-1]
-            if (signature.R < 1 || signature.R > domainParameters.CurveE.OrderN - 1 || signature.S < 1 || signature.S > domainParameters.CurveE.OrderN)
-            {
-                return new EdVerificationResult("signature values not within the necessary interval");
-            }
-
-            // Hash message e = H(m)
-            var bitsOfDigestNeeded = System.Math.Min(domainParameters.CurveE.OrderN.ExactBitLength(), Sha.HashFunction.OutputLen);
-
-            // Determine whether to hash or skip the hash step for component test
-            var hashDigest = skipHash ? message : Sha.HashMessage(message).Digest;
-
-            var e = hashDigest.MSBSubstring(0, bitsOfDigestNeeded).ToPositiveBigInteger();
-
-            // Compute u1 = e * s^-1 (mod n)
-            var sInverse = signature.S.ModularInverse(domainParameters.CurveE.OrderN);
-            var u1 = (e * sInverse) % domainParameters.CurveE.OrderN;
-
-            // Compute u2 = r * s^-1 (mod n)
-            var u2 = (signature.R * sInverse) % domainParameters.CurveE.OrderN;
-
-            // Compute point R = u1 * G + u2 * Q, if R is infinity, return invalid
-            var u1TimesG = domainParameters.CurveE.Multiply(domainParameters.CurveE.BasePointG, u1);
-            var u2TimesQ = domainParameters.CurveE.Multiply(domainParameters.CurveE.Decode(keyPair.PublicQ), u2);
-            var pointR = domainParameters.CurveE.Add(u1TimesG, u2TimesQ);
-
-            // Convert xR to an integer j
-            var j = pointR.X;
-
-            // Compute v = j (mod n)
-            var v = j % domainParameters.CurveE.OrderN;
-
-            // If v == r, return valid, otherwise invalid
-            if (v == signature.R)
-            {
-                return new EdVerificationResult();
-            }
-            else
-            {
-                return new EdVerificationResult("v did not match r, signature not valid");
-            }
+            throw new NotImplementedException();
         }
 
         // Both secret generation methods exist, but we don't have a reason to use them. No need to worry about them.
@@ -204,6 +178,28 @@ namespace NIST.CVP.Crypto.DSA.Ed
 
             var d = c + 1;
             return d;
+        }
+
+        // Helper functions
+        private BitString Dom4(BigInteger f, BitString c = null)
+        {
+            const string NAME = "SigEd448";
+            if (c == null)
+            {
+                c = new BitString(""); // by default
+            }
+
+            var nameBits = StringToHex(NAME);
+            var fBits = new BitString(f, 8);
+            var cBits = new BitString(c.BitLength / 8, 8);  // length in octets
+
+            return BitString.ConcatenateBits(nameBits, BitString.ConcatenateBits(fBits, cBits));
+        }
+
+        private static BitString StringToHex(string words)
+        {
+            var ba = Encoding.ASCII.GetBytes(words);
+            return new BitString(ba);
         }
     }
 }
