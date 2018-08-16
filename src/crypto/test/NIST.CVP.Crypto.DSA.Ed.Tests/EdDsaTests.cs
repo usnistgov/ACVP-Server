@@ -239,6 +239,37 @@ namespace NIST.CVP.Crypto.DSA.Ed.Tests
             Assert.AreEqual(expectedSig, result.Signature.Sig, "sig");
         }
 
+        #region SigGenContext-448
+        [TestCase(Curve.Ed448,
+            "c4eab05d357007c632f3dbb48489924d552b08fe0c353a0d4a1f00acda2c463afbea67c5e8d2877c5e3bc397a659949ef8021e954e0a12274e",
+            "43ba28f430cdff456ae531545f7ecd0ac834a55d9358c0372bfa0c6c6798c0866aea01eb00742802b8438ea4cb82169c235160627b4c3a9480",
+            "03",
+            "d4f8f6131770dd46f40867d6fd5d5055de43541f8c5e35abbcd001b32a89f7d2151f7647f11d8ca2ae279fb842d607217fce6e042f6815ea000c85741de5c8da1144a6a1aba7f96de42505d7a7298524fda538fccbbb754f578c1cad10d54d0d5428407e85dcbc98a49155c13764e66c3c00",
+            "666f6f",
+            TestName = "SigGenWithContext 448 - 1")]
+        #endregion
+        public void ShouldGenerateSignaturesWithContextCorrectly(Curve curveEnum, string dHex, string qHex, string msgHex, string sigHex, string contextHex)
+        {
+            var d = LoadValue(dHex);
+            var q = LoadValue(qHex);
+            var context = new BitString(contextHex);
+            var msg = new BitString(msgHex);
+            var expectedSig = LoadValue(sigHex);
+
+            var factory = new EdwardsCurveFactory();
+            var curve = factory.GetCurve(curveEnum);
+
+            var domainParams = new EdDomainParameters(curve, new ShaFactory());
+            var keyPair = new EdKeyPair(q, d);
+
+            var subject = new EdDsa(EntropyProviderTypes.Testable);
+
+            var result = subject.Sign(domainParams, keyPair, msg, context);
+
+            Assert.IsTrue(result.Success);
+            Assert.AreEqual(expectedSig, result.Signature.Sig, "sig");
+        }
+
         private BigInteger LoadValue(string value)
         {
             var bits = new BitString(value);

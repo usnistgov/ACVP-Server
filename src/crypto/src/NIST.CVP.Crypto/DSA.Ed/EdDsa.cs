@@ -96,12 +96,18 @@ namespace NIST.CVP.Crypto.DSA.Ed
 
         public EdSignatureResult Sign(EdDomainParameters domainParameters, EdKeyPair keyPair, BitString message, bool skipHash = false)
         {
+            return Sign(domainParameters, keyPair, message, null, skipHash);
+        }
+
+        public EdSignatureResult Sign(EdDomainParameters domainParameters, EdKeyPair keyPair, BitString message, BitString context, bool skipHash = false)
+        {
             // 1. Hash the private key
             var hashResult = HashPrivate(domainParameters, keyPair.PrivateD);
 
             // 2. Compute r
             // Determine dom4. Empty if ed25519
-            var dom4 = domainParameters.CurveE.CurveName == Common.Asymmetric.DSA.Ed.Enums.Curve.Ed448 ? Dom4(0) : new BitString("");
+            var dom4 = domainParameters.CurveE.CurveName == Common.Asymmetric.DSA.Ed.Enums.Curve.Ed448 ? Dom4(0, context) : new BitString("");
+            System.Console.WriteLine(dom4.ToHex());
 
             // Hash (dom4 || Prefix || message)
             var rBits = Sha.HashMessage(BitString.ConcatenateBits(dom4, BitString.ConcatenateBits(hashResult.HDigest2, message)), 912).Digest;
@@ -169,7 +175,7 @@ namespace NIST.CVP.Crypto.DSA.Ed
         }
 
         // Helper functions
-        private BitString Dom4(BigInteger f, BitString c = null)
+        private BitString Dom4(BigInteger f, BitString c)
         {
             const string NAME = "SigEd448";
             if (c == null)
@@ -179,7 +185,8 @@ namespace NIST.CVP.Crypto.DSA.Ed
 
             var nameBits = StringToHex(NAME);
             var fBits = new BitString(f, 8);
-            var cBits = new BitString(c.BitLength / 8, 8);  // length in octets
+            var cBits = new BitString(c.BitLength / 8, 8);  // length of c in octets
+            cBits = BitString.ConcatenateBits(cBits, c);    // concatenate c
 
             return BitString.ConcatenateBits(nameBits, BitString.ConcatenateBits(fBits, cBits));
         }
