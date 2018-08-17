@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
+using NIST.CVP.Common;
 using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Orleans.Grains.Interfaces;
 using NIST.CVP.Orleans.Grains.Interfaces.Enums;
@@ -35,6 +37,12 @@ namespace NIST.CVP.Orleans.Grains
     public abstract class OracleGrainBase<TResult> : Grain<GrainState>, IPollableOracleGrain<TResult>
     {
         protected TResult Result;
+        protected readonly LimitedConcurrencyLevelTaskScheduler Scheduler;
+
+        protected OracleGrainBase(LimitedConcurrencyLevelTaskScheduler scheduler)
+        {
+            Scheduler = scheduler;
+        }
 
         /// <summary>
         /// Kicks off <see cref="DoWorkAsync"/>, this method should be invoked
@@ -50,11 +58,11 @@ namespace NIST.CVP.Orleans.Grains
             {
                 State = GrainState.Working;
 
-                Task.Run(() =>
+                Task.Factory.StartNew(() =>
                 {
                     DoWorkAsync().FireAndForget();
-                }).FireAndForget();
-
+                }, CancellationToken.None, TaskCreationOptions.None, scheduler: Scheduler).FireAndForget();
+                
                 return Task.FromResult(true);
             }
 

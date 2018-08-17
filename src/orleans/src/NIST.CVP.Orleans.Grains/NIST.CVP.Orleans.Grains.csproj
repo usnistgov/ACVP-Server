@@ -5,6 +5,7 @@
   </PropertyGroup>
   
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="$(NuGetVersionMicrosoftAspNetCoreAll)" />
     <PackageReference Include="Microsoft.Orleans.Core.Abstractions" Version="$(NugetVersionMicrosoftOrleansCoreAbstractions)" />
     <PackageReference Include="Microsoft.Orleans.OrleansCodeGenerator.Build" Version="$(NugetVersionMicrosoftOrleansOrleansCodeGeneratorBuild)" />
   </ItemGroup>
@@ -13,5 +14,5 @@
     <ProjectReference Include="..\..\..\crypto\src\NIST.CVP.Crypto\NIST.CVP.Crypto.csproj" />
     <ProjectReference Include="..\NIST.CVP.Orleans.Grains.Interfaces\NIST.CVP.Orleans.Grains.Interfaces.csproj" />
   </ItemGroup>
-
+  
 </Project>
