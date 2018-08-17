@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Numerics;
-using System.Text;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.Ed;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.Ed.Enums;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Math;
 using NIST.CVP.Math;
@@ -98,24 +98,38 @@ namespace NIST.CVP.Crypto.DSA.Ed
             return new EdKeyPairValidateResult("n * Q must equal (0, 1)");
         }
 
-        public EdSignatureResult Sign(EdDomainParameters domainParameters, EdKeyPair keyPair, BitString message, bool skipHash = false)
+        public EdSignatureResult Sign(EdDomainParameters domainParameters, EdKeyPair keyPair, BitString message, bool preHash = false)
         {
-            return Sign(domainParameters, keyPair, message, null, skipHash);
+            return Sign(domainParameters, keyPair, message, null, preHash);
         }
 
-        public EdSignatureResult Sign(EdDomainParameters domainParameters, EdKeyPair keyPair, BitString message, BitString context, bool skipHash = false)
+        public EdSignatureResult Sign(EdDomainParameters domainParameters, EdKeyPair keyPair, BitString message, BitString context, bool preHash = false)
         {
             Sha = domainParameters.Hash;
+
+            // If preHash version, then the message becomes the hash of the message
+            if (preHash)
+            {
+                message = Sha.HashMessage(message, 512).Digest;
+            }
 
             // 1. Hash the private key
             var hashResult = HashPrivate(domainParameters, keyPair.PrivateD);
 
             // 2. Compute r
-            // Determine dom4. Empty if ed25519
-            var dom4 = domainParameters.CurveE.CurveName == Common.Asymmetric.DSA.Ed.Enums.Curve.Ed448 ? Dom4(0, context) : new BitString("");
+            // Determine dom. Empty if ed25519. Different for preHash function
+            BitString dom;
+            if (preHash)
+            {
+                dom = domainParameters.CurveE.CurveName == Curve.Ed448 ? Dom4(1, context) : Dom2(1, context);
+            }
+            else
+            {
+                dom = domainParameters.CurveE.CurveName == Curve.Ed448 ? Dom4(0, context) : new BitString("");
+            }
 
             // Hash (dom4 || Prefix || message)
-            var rBits = Sha.HashMessage(BitString.ConcatenateBits(dom4, BitString.ConcatenateBits(hashResult.HDigest2, message)), 912).Digest;
+            var rBits = Sha.HashMessage(BitString.ConcatenateBits(dom, BitString.ConcatenateBits(hashResult.HDigest2, message)), 912).Digest;
 
             // Convert rBits to little endian and mod order n
             var r = BitString.ReverseByteOrder(rBits).ToPositiveBigInteger() % domainParameters.CurveE.OrderN;
@@ -128,9 +142,9 @@ namespace NIST.CVP.Crypto.DSA.Ed
 
             // 4. Define S
             // Hash (dom4 || R || Q || B). Need to use dom4 if ed448
-            var preHash = BitString.ConcatenateBits(new BitString(keyPair.PublicQ, domainParameters.CurveE.VariableB), message);
-            preHash = BitString.ConcatenateBits(dom4, BitString.ConcatenateBits(new BitString(R, domainParameters.CurveE.VariableB), preHash));
-            var hash = Sha.HashMessage(preHash, 912).Digest;
+            var hashData = BitString.ConcatenateBits(new BitString(keyPair.PublicQ, domainParameters.CurveE.VariableB), message);
+            hashData = BitString.ConcatenateBits(dom, BitString.ConcatenateBits(new BitString(R, domainParameters.CurveE.VariableB), hashData));
+            var hash = Sha.HashMessage(hashData, 912).Digest;
 
             // Convert hash to int from little endian and mod order n
             var hashInt = BitString.ReverseByteOrder(hash).ToPositiveBigInteger() % domainParameters.CurveE.OrderN;
@@ -149,14 +163,20 @@ namespace NIST.CVP.Crypto.DSA.Ed
             return new EdSignatureResult(new EdSignature(sig.ToPositiveBigInteger()));
         }
 
-        public EdVerificationResult Verify(EdDomainParameters domainParameters, EdKeyPair keyPair, BitString message, EdSignature signature, bool skipHash = false)
+        public EdVerificationResult Verify(EdDomainParameters domainParameters, EdKeyPair keyPair, BitString message, EdSignature signature, bool preHash = false)
         {
-            return Verify(domainParameters, keyPair, message, signature, null, skipHash);
+            return Verify(domainParameters, keyPair, message, signature, null, preHash);
         }
 
-        public EdVerificationResult Verify(EdDomainParameters domainParameters, EdKeyPair keyPair, BitString message, EdSignature signature, BitString context, bool skipHash = false)
+        public EdVerificationResult Verify(EdDomainParameters domainParameters, EdKeyPair keyPair, BitString message, EdSignature signature, BitString context, bool preHash = false)
         {
             Sha = domainParameters.Hash;
+
+            // If preHash version, then the message becomes the hash of the message
+            if (preHash)
+            {
+                message = Sha.HashMessage(message, 512).Digest;
+            }
 
             // 1. Decode R, s, and Q
             EdPoint R;
@@ -176,13 +196,21 @@ namespace NIST.CVP.Crypto.DSA.Ed
 
             // 2. Concatenate R || Q || M
             var hashData = BitString.ConcatenateBits(new BitString(domainParameters.CurveE.Encode(R)), BitString.ConcatenateBits(new BitString(keyPair.PublicQ), message));
-            
+
             // 3. Compute t
-            // Determine dom4. Empty if ed25519
-            var dom4 = domainParameters.CurveE.CurveName == Common.Asymmetric.DSA.Ed.Enums.Curve.Ed448 ? Dom4(0, context) : new BitString("");
+            // Determine dom. Empty if ed25519. Different for preHash function
+            BitString dom;
+            if (preHash)
+            {
+                dom = domainParameters.CurveE.CurveName == Curve.Ed448 ? Dom4(1, context) : Dom2(1, context);
+            }
+            else
+            {
+                dom = domainParameters.CurveE.CurveName == Curve.Ed448 ? Dom4(0, context) : new BitString("");
+            }
 
             // Compute Hash(dom4 || HashData)
-            var hash = Sha.HashMessage(BitString.ConcatenateBits(dom4, hashData), 912).Digest;
+            var hash = Sha.HashMessage(BitString.ConcatenateBits(dom, hashData), 912).Digest;
 
             // Interpret hash as a little endian integer
             var t = BitString.ReverseByteOrder(hash).ToPositiveBigInteger();
@@ -237,15 +265,31 @@ namespace NIST.CVP.Crypto.DSA.Ed
         }
 
         // Helper functions
-        private BitString Dom4(BigInteger f, BitString c)
+        private BitString Dom2(BigInteger f, BitString c)
         {
-            const string NAME = "SigEd448";
             if (c == null)
             {
                 c = new BitString(""); // by default
             }
 
-            var nameBits = StringToHex(NAME);
+            // "SigEd25519 no Ed25519 collisions" as hex
+            var nameBits = new BitString("53696745643235353139206E6F204564323535313920636F6C6C6973696F6E73");
+            var fBits = new BitString(f, 8);
+            var cBits = new BitString(c.BitLength / 8, 8);  // length of c in octets
+            cBits = BitString.ConcatenateBits(cBits, c);    // concatenate c
+
+            return BitString.ConcatenateBits(nameBits, BitString.ConcatenateBits(fBits, cBits));
+        }
+
+        private BitString Dom4(BigInteger f, BitString c)
+        {
+            if (c == null)
+            {
+                c = new BitString(""); // by default
+            }
+
+            // "SigEd448" as hex
+            var nameBits = new BitString("5369674564343438");
             var fBits = new BitString(f, 8);
             var cBits = new BitString(c.BitLength / 8, 8);  // length of c in octets
             cBits = BitString.ConcatenateBits(cBits, c);    // concatenate c
@@ -290,12 +334,6 @@ namespace NIST.CVP.Crypto.DSA.Ed
             var s = BitString.ReverseByteOrder(sBits).ToPositiveBigInteger();
 
             return (R, s);
-        } 
-
-        private static BitString StringToHex(string words)
-        {
-            var ba = Encoding.ASCII.GetBytes(words);
-            return new BitString(ba);
         }
     }
 }

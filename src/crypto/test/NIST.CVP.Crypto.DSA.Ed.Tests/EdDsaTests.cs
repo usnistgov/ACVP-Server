@@ -239,6 +239,7 @@ namespace NIST.CVP.Crypto.DSA.Ed.Tests
             Assert.AreEqual(expectedSig, result.Signature.Sig, "sig");
         }
 
+        [Test]
         #region SigGenContext-448
         [TestCase(Curve.Ed448,
             "c4eab05d357007c632f3dbb48489924d552b08fe0c353a0d4a1f00acda2c463afbea67c5e8d2877c5e3bc397a659949ef8021e954e0a12274e",
@@ -265,6 +266,54 @@ namespace NIST.CVP.Crypto.DSA.Ed.Tests
             var subject = new EdDsa(EntropyProviderTypes.Testable);
 
             var result = subject.Sign(domainParams, keyPair, msg, context);
+
+            Assert.IsTrue(result.Success);
+            Assert.AreEqual(expectedSig, result.Signature.Sig, "sig");
+        }
+
+        [Test]
+        #region SigGenPreHash-25519
+        [TestCase(Curve.Ed25519,
+            "833fe62409237b9d62ec77587520911e9a759cec1d19755b7da901b96dca3d42",
+            "ec172b93ad5e563bf4932c70e1245034c35467ef2efd4d64ebf819683467e2bf",
+            "616263",
+            "98a70222f0b8121aa9d30f813d683f809e462b469c7ff87639499bb94e6dae4131f85042463c2a355a2003d062adf5aaa10b8c61e636062aaad11c2a26083406",
+            "",
+            TestName = "SigGen 25519ph - 1")]
+        #endregion SigGenPreHash-25519
+        #region SigGenPreHash-448
+        [TestCase(Curve.Ed448,
+            "833fe62409237b9d62ec77587520911e9a759cec1d19755b7da901b96dca3d42ef7822e0d5104127dc05d6dbefde69e3ab2cec7c867c6e2c49",
+            "259b71c19f83ef77a7abd26524cbdb3161b590a48f7d17de3ee0ba9c52beb743c09428a131d6b1b57303d90d8132c276d5ed3d5d01c0f53880",
+            "616263",
+            "822f6901f7480f3d5f562c592994d9693602875614483256505600bbc281ae381f54d6bce2ea911574932f52a4e6cadd78769375ec3ffd1b801a0d9b3f4030cd433964b6457ea39476511214f97469b57dd32dbc560a9a94d00bff07620464a3ad203df7dc7ce360c3cd3696d9d9fab90f00",
+            "",
+            TestName = "SigGen 448ph - 1")]
+        [TestCase(Curve.Ed448,
+            "833fe62409237b9d62ec77587520911e9a759cec1d19755b7da901b96dca3d42ef7822e0d5104127dc05d6dbefde69e3ab2cec7c867c6e2c49",
+            "259b71c19f83ef77a7abd26524cbdb3161b590a48f7d17de3ee0ba9c52beb743c09428a131d6b1b57303d90d8132c276d5ed3d5d01c0f53880",
+            "616263",
+            "c32299d46ec8ff02b54540982814dce9a05812f81962b649d528095916a2aa481065b1580423ef927ecf0af5888f90da0f6a9a85ad5dc3f280d91224ba9911a3653d00e484e2ce232521481c8658df304bb7745a73514cdb9bf3e15784ab71284f8d0704a608c54a6b62d97beb511d132100",
+            "666f6f",
+            TestName = "SigGen 448ph - 2")]
+        #endregion SigGenPreHash-448
+        public void ShouldGenerateSignaturesPreHashCorrectly(Curve curveEnum, string dHex, string qHex, string msgHex, string sigHex, string contextHex)
+        {
+            var d = LoadValue(dHex);
+            var q = LoadValue(qHex);
+            var context = new BitString(contextHex);
+            var msg = new BitString(msgHex);
+            var expectedSig = LoadValue(sigHex);
+
+            var factory = new EdwardsCurveFactory();
+            var curve = factory.GetCurve(curveEnum);
+
+            var domainParams = new EdDomainParameters(curve, new ShaFactory());
+            var keyPair = new EdKeyPair(q, d);
+
+            var subject = new EdDsa(EntropyProviderTypes.Testable);
+
+            var result = subject.Sign(domainParams, keyPair, msg, context, true);
 
             Assert.IsTrue(result.Success);
             Assert.AreEqual(expectedSig, result.Signature.Sig, "sig");
@@ -326,6 +375,7 @@ namespace NIST.CVP.Crypto.DSA.Ed.Tests
             Assert.AreEqual(expectedResult, result.Success);
         }
 
+        [Test]
         #region SigVer-448
         [TestCase(Curve.Ed448,
             "c4eab05d357007c632f3dbb48489924d552b08fe0c353a0d4a1f00acda2c463afbea67c5e8d2877c5e3bc397a659949ef8021e954e0a12274e",
@@ -344,7 +394,7 @@ namespace NIST.CVP.Crypto.DSA.Ed.Tests
             false,
             TestName = "SigVerWithContext 448 Bad Signature")]
         #endregion SigVer-488
-        public void ShouldValidateSignaturesCorrectlyWithContext(Curve curveEnum, string dHex, string qHex, string msgHex, string sigHex, string contextHex, bool expectedResult)
+        public void ShouldValidateSignaturesWithContextCorrectly(Curve curveEnum, string dHex, string qHex, string msgHex, string sigHex, string contextHex, bool expectedResult)
         {
             var d = LoadValue(dHex);
             var q = LoadValue(qHex);
@@ -363,6 +413,82 @@ namespace NIST.CVP.Crypto.DSA.Ed.Tests
             var subject = new EdDsa();
 
             var result = subject.Verify(domainParams, keyPair, msg, signature, context);
+
+            Assert.AreEqual(expectedResult, result.Success);
+        }
+
+        [Test]
+        #region SigVerPreHash-25519
+        [TestCase(Curve.Ed25519,
+            "833fe62409237b9d62ec77587520911e9a759cec1d19755b7da901b96dca3d42",
+            "ec172b93ad5e563bf4932c70e1245034c35467ef2efd4d64ebf819683467e2bf",
+            "616263",
+            "98a70222f0b8121aa9d30f813d683f809e462b469c7ff87639499bb94e6dae4131f85042463c2a355a2003d062adf5aaa10b8c61e636062aaad11c2a26083406",
+            "",
+            true,
+            TestName = "SigVer 25519ph Good Signature")]
+        [TestCase(Curve.Ed25519,
+            "833fe62409237b9d62ec77587520911e9a759cec1d19755b7da901b96dca3d42",
+            "ec172b93ad5e563bf4932c70e1245034c35467ef2efd4d64ebf819683467e2bf",
+            "616263",
+            "98a70222f0b8121aa9d30f813d683f809e462b469c7ff87639499bb94e6dae4131f85042463c2a355a2003d062adf5baa10b8c61e636062aaad11c2a26083406",
+            "",
+            false,
+            TestName = "SigVer 25519ph Bad Signature")]
+        #endregion SigVerPreHash-25519
+        #region SigVerPreHash-448
+        [TestCase(Curve.Ed448,
+            "833fe62409237b9d62ec77587520911e9a759cec1d19755b7da901b96dca3d42ef7822e0d5104127dc05d6dbefde69e3ab2cec7c867c6e2c49",
+            "259b71c19f83ef77a7abd26524cbdb3161b590a48f7d17de3ee0ba9c52beb743c09428a131d6b1b57303d90d8132c276d5ed3d5d01c0f53880",
+            "616263",
+            "822f6901f7480f3d5f562c592994d9693602875614483256505600bbc281ae381f54d6bce2ea911574932f52a4e6cadd78769375ec3ffd1b801a0d9b3f4030cd433964b6457ea39476511214f97469b57dd32dbc560a9a94d00bff07620464a3ad203df7dc7ce360c3cd3696d9d9fab90f00",
+            "",
+            true,
+            TestName = "SigVer 448ph Good Signature - 1")]
+        [TestCase(Curve.Ed448,
+            "833fe62409237b9d62ec77587520911e9a759cec1d19755b7da901b96dca3d42ef7822e0d5104127dc05d6dbefde69e3ab2cec7c867c6e2c49",
+            "259b71c19f83ef77a7abd26524cbdb3161b590a48f7d17de3ee0ba9c52beb743c09428a131d6b1b57303d90d8132c276d5ed3d5d01c0f53880",
+            "616263",
+            "822f6901f7480f3d5f562c592994d9693602875614483256505600bbc281ae381f54d6bce2ea911574922f52a4e6cadd78769375ec3ffd1b801a0d9b3f4030cd433964b6457ea39476511214f97469b57dd32dbc560a9a94d00bff07620464a3ad203df7dc7ce360c3cd3696d9d9fab90f00",
+            "",
+            false,
+            TestName = "SigVer 448ph Bad Signature - 1")]
+        [TestCase(Curve.Ed448,
+            "833fe62409237b9d62ec77587520911e9a759cec1d19755b7da901b96dca3d42ef7822e0d5104127dc05d6dbefde69e3ab2cec7c867c6e2c49",
+            "259b71c19f83ef77a7abd26524cbdb3161b590a48f7d17de3ee0ba9c52beb743c09428a131d6b1b57303d90d8132c276d5ed3d5d01c0f53880",
+            "616263",
+            "c32299d46ec8ff02b54540982814dce9a05812f81962b649d528095916a2aa481065b1580423ef927ecf0af5888f90da0f6a9a85ad5dc3f280d91224ba9911a3653d00e484e2ce232521481c8658df304bb7745a73514cdb9bf3e15784ab71284f8d0704a608c54a6b62d97beb511d132100",
+            "666f6f",
+            true,
+            TestName = "SigVer 448ph Good Signature - 2")]
+        [TestCase(Curve.Ed448,
+            "833fe62409237b9d62ec77587520911e9a759cec1d19755b7da901b96dca3d42ef7822e0d5104127dc05d6dbefde69e3ab2cec7c867c6e2c49",
+            "259b71c19f83ef77a7abd26524cbdb3161b590a48f7d17de3ee0ba9c52beb743c09428a131d6b1b57303d90d8132c276d5ed3d5d01c0f53880",
+            "616263",
+            "c32299d46ec8ff02b54540982814dce9a05812f81962b649d528095916a2aa481065b1580423ef927ecf0af5888f90da0f6a9a85ad5dc3f280d91224ba9911a3653d00e484e2ce232521481c8658df304bb7745a73514cdb9bf3e15784ab71284f8d0704a608c54a6b62d97beb511d132100",
+            "666e6f",
+            false,
+            TestName = "SigVer 448ph Bad Signature - 2")]
+        #endregion SigVerPreHash-448
+        public void ShouldValidateSignaturesPreHashCorrectly(Curve curveEnum, string dHex, string qHex, string msgHex, string sigHex, string contextHex, bool expectedResult)
+        {
+            var d = LoadValue(dHex);
+            var q = LoadValue(qHex);
+            var context = new BitString(contextHex);
+            var msg = new BitString(msgHex);
+            var expectedSig = LoadValue(sigHex);
+
+            var factory = new EdwardsCurveFactory();
+            var curve = factory.GetCurve(curveEnum);
+
+            var keyPair = new EdKeyPair(q);
+            var signature = new EdSignature(expectedSig);
+
+            var domainParams = new EdDomainParameters(curve, new ShaFactory());
+
+            var subject = new EdDsa();
+
+            var result = subject.Verify(domainParams, keyPair, msg, signature, context, true);
 
             Assert.AreEqual(expectedResult, result.Success);
         }
