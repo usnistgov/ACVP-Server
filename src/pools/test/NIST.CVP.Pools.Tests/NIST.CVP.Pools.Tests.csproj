@@ -1,7 +1,7 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
@@ -12,7 +12,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\common\test\NIST.CVP.Tests.Core\NIST.CVP.Tests.Core.csproj" />
-    <ProjectReference Include="..\..\src\NIST.CVP.Common.Oracle\NIST.CVP.Common.Oracle.csproj" />
+    <ProjectReference Include="..\..\..\crypto\src\NIST.CVP.Crypto.Common\NIST.CVP.Crypto.Common.csproj" />
+    <ProjectReference Include="..\..\src\NIST.CVP.Pools\NIST.CVP.Pools.csproj" />
   </ItemGroup>
 
 </Project>
