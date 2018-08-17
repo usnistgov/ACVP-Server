@@ -176,7 +176,7 @@ namespace NIST.CVP.Crypto.DSA.Ed
 
             // 2. Concatenate R || Q || M
             var hashData = BitString.ConcatenateBits(new BitString(domainParameters.CurveE.Encode(R)), BitString.ConcatenateBits(new BitString(keyPair.PublicQ), message));
-
+            
             // 3. Compute t
             // Determine dom4. Empty if ed25519
             var dom4 = domainParameters.CurveE.CurveName == Common.Asymmetric.DSA.Ed.Enums.Curve.Ed448 ? Dom4(0, context) : new BitString("");
@@ -185,13 +185,22 @@ namespace NIST.CVP.Crypto.DSA.Ed
             var hash = Sha.HashMessage(BitString.ConcatenateBits(dom4, hashData), 912).Digest;
 
             // Interpret hash as a little endian integer
-            var t = BitString.ReverseByteOrder(hash).ToBigInteger();
+            var t = BitString.ReverseByteOrder(hash).ToPositiveBigInteger();
 
-            // 4. Check the verification equation [2^c * s]G = [2^c]R + (2^c * t)Q
+            // 4. Check the verification equation [2^c * s]G = [2^c]R + [2^c * t]Q
+            // 2^c
             var powC = NumberTheory.Pow2(domainParameters.CurveE.VariableC);
+
+            // [2^c * s]G
             var lhs = domainParameters.CurveE.Multiply(domainParameters.CurveE.BasePointG, (powC * s).PosMod(domainParameters.CurveE.OrderN));
+
+            // [2^c]R
             var rhs1 = domainParameters.CurveE.Multiply(R, powC);
+
+            // [2^c * t]Q
             var rhs2 = domainParameters.CurveE.Multiply(Q, (powC * t).PosMod(domainParameters.CurveE.OrderN));
+
+            // [2^c]R + [2^c * t]Q
             var rhs = domainParameters.CurveE.Add(rhs1, rhs2);
 
             if (lhs.Equals(rhs))
