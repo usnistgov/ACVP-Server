@@ -56,23 +56,19 @@ namespace NIST.CVP.Crypto.DSA.Ed
             var Q = domainParameters.CurveE.Multiply(domainParameters.CurveE.BasePointG, s);
 
             // Return key pair (Q, d)
-            return new EdKeyPairGenerateResult(new EdKeyPair(domainParameters.CurveE.Encode(Q), k));
+            return new EdKeyPairGenerateResult(new EdKeyPair(Q, k, domainParameters));
         }
 
         public EdKeyPairValidateResult ValidateKeyPair(EdDomainParameters domainParameters, EdKeyPair keyPair)
         {
             Sha = domainParameters.Hash;
 
-            // If Q is not a valid point on the specific curve, invalid
-            EdPoint Q;
-            try
-            {
-                Q = domainParameters.CurveE.Decode(keyPair.PublicQ);
-            }
-            catch (Exception e)     // the exception will be raised because square root cannot be taken
+            if (keyPair.PublicQOffCurve)
             {
                 return new EdKeyPairValidateResult("Q does not lie on the curve");
             }
+
+            var Q = keyPair.PublicQ;
 
             // If Q == (0, 1), invalid
             if (Q.Equals(new EdPoint(0, 1)))
@@ -142,7 +138,7 @@ namespace NIST.CVP.Crypto.DSA.Ed
 
             // 4. Define S
             // Hash (dom4 || R || Q || B). Need to use dom4 if ed448
-            var hashData = BitString.ConcatenateBits(new BitString(keyPair.PublicQ, domainParameters.CurveE.VariableB), message);
+            var hashData = BitString.ConcatenateBits(new BitString(keyPair.PublicQEncoded, domainParameters.CurveE.VariableB), message);
             hashData = BitString.ConcatenateBits(dom, BitString.ConcatenateBits(new BitString(R, domainParameters.CurveE.VariableB), hashData));
             var hash = Sha.HashMessage(hashData, 912).Digest;
 
@@ -187,7 +183,7 @@ namespace NIST.CVP.Crypto.DSA.Ed
                 var sigDecoded = DecodeSig(domainParameters, signature);
                 R = sigDecoded.R;
                 s = sigDecoded.s;
-                Q = domainParameters.CurveE.Decode(keyPair.PublicQ);
+                Q = keyPair.PublicQ;
             }
             catch (Exception e)
             {
@@ -195,7 +191,7 @@ namespace NIST.CVP.Crypto.DSA.Ed
             }
 
             // 2. Concatenate R || Q || M
-            var hashData = BitString.ConcatenateBits(new BitString(domainParameters.CurveE.Encode(R)), BitString.ConcatenateBits(new BitString(keyPair.PublicQ), message));
+            var hashData = BitString.ConcatenateBits(new BitString(domainParameters.CurveE.Encode(R)), BitString.ConcatenateBits(new BitString(keyPair.PublicQEncoded), message));
 
             // 3. Compute t
             // Determine dom. Empty if ed25519. Different for preHash function

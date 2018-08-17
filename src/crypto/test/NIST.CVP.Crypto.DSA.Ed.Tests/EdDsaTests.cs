@@ -88,7 +88,7 @@ namespace NIST.CVP.Crypto.DSA.Ed.Tests
 
             Assert.IsTrue(result.Success);
             Assert.AreEqual(result.KeyPair.PrivateD, d, "d");
-            Assert.AreEqual(q, result.KeyPair.PublicQ, "q");
+            Assert.AreEqual(q, result.KeyPair.PublicQEncoded, "q");
         }
 
         // need more/ better data for this test
@@ -126,7 +126,7 @@ namespace NIST.CVP.Crypto.DSA.Ed.Tests
             var curve = factory.GetCurve(curveEnum);
 
             var domainParams = new EdDomainParameters(curve, new ShaFactory());
-            var keyPair = new EdKeyPair(q, d);
+            var keyPair = new EdKeyPair(q, d, domainParams);
 
             var subject = new EdDsa(EntropyProviderTypes.Random);
 
@@ -229,7 +229,7 @@ namespace NIST.CVP.Crypto.DSA.Ed.Tests
             var curve = factory.GetCurve(curveEnum);
 
             var domainParams = new EdDomainParameters(curve, new ShaFactory());
-            var keyPair = new EdKeyPair(q, d);
+            var keyPair = new EdKeyPair(q, d, domainParams);
 
             var subject = new EdDsa(EntropyProviderTypes.Testable);
 
@@ -261,7 +261,7 @@ namespace NIST.CVP.Crypto.DSA.Ed.Tests
             var curve = factory.GetCurve(curveEnum);
 
             var domainParams = new EdDomainParameters(curve, new ShaFactory());
-            var keyPair = new EdKeyPair(q, d);
+            var keyPair = new EdKeyPair(q, d, domainParams);
 
             var subject = new EdDsa(EntropyProviderTypes.Testable);
 
@@ -309,7 +309,7 @@ namespace NIST.CVP.Crypto.DSA.Ed.Tests
             var curve = factory.GetCurve(curveEnum);
 
             var domainParams = new EdDomainParameters(curve, new ShaFactory());
-            var keyPair = new EdKeyPair(q, d);
+            var keyPair = new EdKeyPair(q, d, domainParams);
 
             var subject = new EdDsa(EntropyProviderTypes.Testable);
 
@@ -363,10 +363,10 @@ namespace NIST.CVP.Crypto.DSA.Ed.Tests
             var factory = new EdwardsCurveFactory();
             var curve = factory.GetCurve(curveEnum);
 
-            var keyPair = new EdKeyPair(q);
-            var signature = new EdSignature(expectedSig);
-
             var domainParams = new EdDomainParameters(curve, new ShaFactory());
+
+            var keyPair = new EdKeyPair(q, domainParams);
+            var signature = new EdSignature(expectedSig);
 
             var subject = new EdDsa();
 
@@ -405,10 +405,10 @@ namespace NIST.CVP.Crypto.DSA.Ed.Tests
             var factory = new EdwardsCurveFactory();
             var curve = factory.GetCurve(curveEnum);
 
-            var keyPair = new EdKeyPair(q);
-            var signature = new EdSignature(expectedSig);
-
             var domainParams = new EdDomainParameters(curve, new ShaFactory());
+
+            var keyPair = new EdKeyPair(q, domainParams);
+            var signature = new EdSignature(expectedSig);
 
             var subject = new EdDsa();
 
@@ -481,10 +481,10 @@ namespace NIST.CVP.Crypto.DSA.Ed.Tests
             var factory = new EdwardsCurveFactory();
             var curve = factory.GetCurve(curveEnum);
 
-            var keyPair = new EdKeyPair(q);
-            var signature = new EdSignature(expectedSig);
-
             var domainParams = new EdDomainParameters(curve, new ShaFactory());
+
+            var keyPair = new EdKeyPair(q, domainParams);
+            var signature = new EdSignature(expectedSig);
 
             var subject = new EdDsa();
 

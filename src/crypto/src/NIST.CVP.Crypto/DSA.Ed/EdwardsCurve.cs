@@ -134,86 +134,12 @@ namespace NIST.CVP.Crypto.DSA.Ed
 
         public BigInteger Encode(EdPoint point)
         {
-            var encoding = new BitString(point.Y, VariableB);
-
-            var xBit = new BitString(point.X).GetLeastSignificantBits(1);
-
-            var bytes = new byte[VariableB / 8];
-            bytes[0] = 1 << 7;
-            if (xBit.Equals(BitString.One()))
-            {
-                encoding = encoding.OR(new BitString(bytes));
-            }
-            else
-            {
-                encoding = encoding.AND(new BitString(bytes).NOT());
-            }
-
-            return BitString.ReverseByteOrder(new BitString(encoding.ToBytes())).ToPositiveBigInteger();      // switch to little endian
+            return EdPointEncoder.Encode(point, VariableB);
         }
 
         public EdPoint Decode(BigInteger encoded)
         {
-            var encodedBitString = new BitString(encoded, VariableB);
-            encodedBitString = BitString.ReverseByteOrder(new BitString(encodedBitString.ToBytes()));       // switch to big endian
-            var x = encodedBitString.GetMostSignificantBits(1).ToPositiveBigInteger();
-            var YBits = BitString.ConcatenateBits(BitString.Zero(), encodedBitString.GetLeastSignificantBits(VariableB - 1));
-            var Y = YBits.ToPositiveBigInteger();
-
-            BigInteger X;
-            var u = ((Y * Y) - 1) % FieldSizeQ;
-            var v = ((CoefficientD * Y * Y) - CoefficientA) % FieldSizeQ;
-
-            if (FieldSizeQ % 4 == 3)
-            {
-                var w = (u * u * u * v * BigInteger.ModPow(BigInteger.ModPow(u, 5, FieldSizeQ) * BigInteger.ModPow(v, 3, FieldSizeQ) % FieldSizeQ, (FieldSizeQ - 3) / 4, FieldSizeQ)) % FieldSizeQ;
-                var vwSquare = (v * ((w * w) % FieldSizeQ)) % FieldSizeQ;
-                if (vwSquare == u)
-                {
-                    X = w;
-                }
-                else
-                {
-                    throw new Exception("Square root does not exist");
-                }
-            }
-            else if (FieldSizeQ % 8 == 5)
-            {
-                var w = (u * v * v * v * BigInteger.ModPow(u * BigInteger.ModPow(v, 7, FieldSizeQ), (FieldSizeQ - 5) / 8, FieldSizeQ)) % FieldSizeQ;
-                var vwSquare = (v * ((w * w) % FieldSizeQ)) % FieldSizeQ;
-                if (vwSquare == u)
-                {
-                    X = w;
-                }
-                else if (vwSquare == _operator.Negate(u))
-                {
-                    X = (w * BigInteger.ModPow(2, (FieldSizeQ - 1) / 4, FieldSizeQ)) % FieldSizeQ;
-                }
-                else
-                {
-                    throw new Exception("Square root does not exist");
-                }
-
-            }
-            else
-            {
-                // need to use Tonelli-Shanks algorithm in SP800-186 Appendix E
-                throw new NotImplementedException("Need to implement Tonelli-Shanks");
-            }
-
-            if (X == 0 && x == 1)
-            {
-                throw new Exception("Point Decode failed");
-            }
-
-            if (X % 2 == x)
-            {
-                return new EdPoint(X, Y);
-            }
-            else
-            {
-                return new EdPoint(FieldSizeQ - X, Y);
-            }
+            return EdPointEncoder.Decode(encoded, FieldSizeQ, CoefficientA, CoefficientD, VariableB); 
         }
 
         // Prime Field Operator for use in Edwards Curves
