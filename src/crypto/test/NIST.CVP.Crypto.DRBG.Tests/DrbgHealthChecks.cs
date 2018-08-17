@@ -227,7 +227,7 @@ namespace NIST.CVP.Crypto.DRBG.Tests
 
             entropyProvider.AddEntropy(entropy); // Entropy Input
             entropyProvider.AddEntropy(nonce); // Nonce
-            subject.Instantiate(160, persoString); // Perso string
+            subject.Instantiate(0, persoString); // Perso string
             entropyProvider.AddEntropy(entropyInput1); // Entropy Input Reseed
             entropyProvider.AddEntropy(entropyInput2); // Entropy Input Reseed
 
