@@ -20,7 +20,10 @@ namespace NIST.CVP.Common.Oracle.ParameterTypes
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(MessageLength, HashFunction.DigestSize, HashFunction.Mode);
+            // TODO this is enabled in 2.1
+            //return HashCode.Combine(MessageLength, HashFunction.DigestSize, HashFunction.Mode);
+
+            return $"{MessageLength}|{HashFunction.DigestSize}|{HashFunction.Mode}".GetHashCode();
         }
     }
 }
