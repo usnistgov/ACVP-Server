@@ -33,8 +33,7 @@ namespace NIST.CVP.Orleans.ServerHost
 
                 .ConfigureApplicationParts(parts =>
                 {
-                    parts.AddApplicationPart(typeof(OracleGrain).Assembly).WithReferences();
-                    parts.AddApplicationPart(typeof(OracleMctResultTdesGrain).Assembly).WithReferences();
+                    parts.AddApplicationPart(typeof(Grains.Interfaces.IGrain).Assembly).WithReferences();
                 }
                 )
                 .AddMemoryGrainStorage(Constants.StorageProviderName)

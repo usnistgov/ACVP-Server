@@ -34,12 +34,12 @@ namespace NIST.CVP.Orleans.Grains
     /// </example>
     /// <typeparam name="TResult">The type the grain returns</typeparam>
     [StorageProvider(ProviderName = Constants.StorageProviderName)]
-    public abstract class OracleGrainBase<TResult> : Grain<GrainState>, IPollableOracleGrain<TResult>
+    public abstract class PollableOracleGrainBase<TResult> : Grain<GrainState>, IPollableOracleGrain<TResult>, Interfaces.IGrain
     {
         protected TResult Result;
         protected readonly LimitedConcurrencyLevelTaskScheduler Scheduler;
 
-        protected OracleGrainBase(LimitedConcurrencyLevelTaskScheduler scheduler)
+        protected PollableOracleGrainBase(LimitedConcurrencyLevelTaskScheduler scheduler)
         {
             Scheduler = scheduler;
         }
