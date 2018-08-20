@@ -1,0 +1,15 @@
+{
+  "algorithm": "EDDSA",
+  "mode": "SigGen",
+  "isSample": true,
+  "capabilities": [
+    {
+      "curve": [
+        "ed-25519",
+        "ed-448"
+      ]
+    }
+  ],
+  "pure": true,
+  "preHash": true
+}

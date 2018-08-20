@@ -9,10 +9,10 @@ namespace NIST.CVP.Generation.DSA.Ed.SigGen.IntegrationTests
     [TestFixture, LongRunningIntegrationTest]
     public class GenValTests : GenValTestsSingleRunnerBase
     {
-        public override string Algorithm { get; } = "ECDSA";
+        public override string Algorithm { get; } = "EDDSA";
         public override string Mode { get; } = "SigGen";
 
-        public override AlgoMode AlgoMode => AlgoMode.ECDSA_SigGen;
+        public override AlgoMode AlgoMode => AlgoMode.EDDSA_SigGen;
 
         public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
@@ -63,14 +63,9 @@ namespace NIST.CVP.Generation.DSA.Ed.SigGen.IntegrationTests
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {
             var rand = new Random800_90();
-            if (testCase.r != null)
+            if (testCase.sig != null)
             {
-                testCase.r = rand.GetDifferentBitStringOfSameSize(new BitString(testCase.r.ToString())).ToHex();
-            }
-
-            if (testCase.s != null)
-            {
-                testCase.s = rand.GetDifferentBitStringOfSameSize(new BitString(testCase.s.ToString())).ToHex();
+                testCase.sig = rand.GetDifferentBitStringOfSameSize(new BitString(testCase.sig.ToString())).ToHex();
             }
         }
     }
