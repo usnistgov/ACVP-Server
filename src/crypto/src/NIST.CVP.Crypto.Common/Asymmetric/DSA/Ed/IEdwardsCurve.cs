@@ -1,15 +1,11 @@
 ﻿using System.Numerics;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.Ed.Enums;
+using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.Common.Asymmetric.DSA.Ed
 {
     public interface IEdwardsCurve
     {
-        /// <summary>
-        /// Type of curve, prime or binary
-        /// </summary>
-        CurveType CurveType { get; }
-
         /// <summary>
         /// Name of the curve as an enum
         /// </summary>
@@ -98,11 +94,11 @@ namespace NIST.CVP.Crypto.Common.Asymmetric.DSA.Ed
         /// <summary>
         /// Encodes a point properly
         /// </summary>
-        BigInteger Encode(EdPoint point);
+        BitString Encode(EdPoint point);
 
         /// <summary>
         /// Decodes a point properly
         /// </summary>
-        EdPoint Decode(BigInteger encoded);
+        EdPoint Decode(BitString encoded);
     }
 }

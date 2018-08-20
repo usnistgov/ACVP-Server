@@ -55,20 +55,26 @@ namespace NIST.CVP.Crypto.DSA.Ed
             // 4. Compute Q such that Q = s * G
             var Q = domainParameters.CurveE.Multiply(domainParameters.CurveE.BasePointG, s);
 
+            // Encode Q
+            var qEncoded = EdPointEncoder.Encode(Q, domainParameters.CurveE.VariableB);
+
             // Return key pair (Q, d)
-            return new EdKeyPairGenerateResult(new EdKeyPair(Q, k, domainParameters));
+            return new EdKeyPairGenerateResult(new EdKeyPair(qEncoded, k));
         }
 
         public EdKeyPairValidateResult ValidateKeyPair(EdDomainParameters domainParameters, EdKeyPair keyPair)
         {
             Sha = domainParameters.Hash;
 
-            if (keyPair.PublicQOffCurve)
+            EdPoint Q;
+            try
             {
-                return new EdKeyPairValidateResult("Q does not lie on the curve");
+                Q = domainParameters.CurveE.Decode(keyPair.PublicQ);
             }
-
-            var Q = keyPair.PublicQ;
+            catch (Exception e)
+            {
+                return new EdKeyPairValidateResult(e.Message);
+            }
 
             // If Q == (0, 1), invalid
             if (Q.Equals(new EdPoint(0, 1)))
@@ -138,8 +144,8 @@ namespace NIST.CVP.Crypto.DSA.Ed
 
             // 4. Define S
             // Hash (dom4 || R || Q || B). Need to use dom4 if ed448
-            var hashData = BitString.ConcatenateBits(new BitString(keyPair.PublicQEncoded, domainParameters.CurveE.VariableB), message);
-            hashData = BitString.ConcatenateBits(dom, BitString.ConcatenateBits(new BitString(R, domainParameters.CurveE.VariableB), hashData));
+            var hashData = BitString.ConcatenateBits(keyPair.PublicQ, message);
+            hashData = BitString.ConcatenateBits(dom, BitString.ConcatenateBits(R, hashData));
             var hash = Sha.HashMessage(hashData, 912).Digest;
 
             // Convert hash to int from little endian and mod order n
@@ -155,7 +161,7 @@ namespace NIST.CVP.Crypto.DSA.Ed
             var S = BitString.ReverseByteOrder(new BitString(Sint, domainParameters.CurveE.VariableB));
 
             // 5. Form the signature by concatenating R and S
-            var sig = BitString.ConcatenateBits(new BitString(R), S);
+            var sig = BitString.ConcatenateBits(R, S);
             return new EdSignatureResult(new EdSignature(sig.ToPositiveBigInteger()));
         }
 
@@ -183,7 +189,7 @@ namespace NIST.CVP.Crypto.DSA.Ed
                 var sigDecoded = DecodeSig(domainParameters, signature);
                 R = sigDecoded.R;
                 s = sigDecoded.s;
-                Q = keyPair.PublicQ;
+                Q = domainParameters.CurveE.Decode(keyPair.PublicQ);
             }
             catch (Exception e)
             {
@@ -191,7 +197,7 @@ namespace NIST.CVP.Crypto.DSA.Ed
             }
 
             // 2. Concatenate R || Q || M
-            var hashData = BitString.ConcatenateBits(new BitString(domainParameters.CurveE.Encode(R)), BitString.ConcatenateBits(new BitString(keyPair.PublicQEncoded), message));
+            var hashData = BitString.ConcatenateBits(domainParameters.CurveE.Encode(R), BitString.ConcatenateBits(keyPair.PublicQ, message));
 
             // 3. Compute t
             // Determine dom. Empty if ed25519. Different for preHash function
@@ -326,7 +332,7 @@ namespace NIST.CVP.Crypto.DSA.Ed
             var rBits = new BitString(sig.Sig).MSBSubstring(0, domainParameters.CurveE.VariableB);
             var sBits = new BitString(sig.Sig).Substring(0, domainParameters.CurveE.VariableB);
 
-            var R = domainParameters.CurveE.Decode(rBits.ToPositiveBigInteger());
+            var R = domainParameters.CurveE.Decode(rBits);
             var s = BitString.ReverseByteOrder(sBits).ToPositiveBigInteger();
 
             return (R, s);

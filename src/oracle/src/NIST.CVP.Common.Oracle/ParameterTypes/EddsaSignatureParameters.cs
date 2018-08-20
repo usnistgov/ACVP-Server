@@ -9,7 +9,6 @@ namespace NIST.CVP.Common.Oracle.ParameterTypes
     {
         public bool PreHash { get; set; }
         public EdKeyPair Key { get; set; }
-        public BitString Context { get; set; }
         public Curve Curve { get; set; }
         public EddsaSignatureDisposition Disposition { get; set; }
     }

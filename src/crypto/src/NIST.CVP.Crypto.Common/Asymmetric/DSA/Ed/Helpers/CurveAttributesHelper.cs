@@ -8,8 +8,8 @@ namespace NIST.CVP.Crypto.Common.Asymmetric.DSA.Ed.Helpers
     {
         public static Dictionary<Curve, CurveAttributes> CurveAttributes = new Dictionary<Curve, CurveAttributes>()
         {
-            {Curve.Ed25519, new CurveAttributes(Curve.Ed25519, CurveType.Prime, 192)}, // need to fix length N
-            {Curve.Ed448, new CurveAttributes(Curve.Ed448, CurveType.Binary, 224)} // same here
+            {Curve.Ed25519, new CurveAttributes(Curve.Ed25519, 192)}, // need to fix length N
+            {Curve.Ed448, new CurveAttributes(Curve.Ed448,  224)} // same here
         };
 
         public static CurveAttributes GetCurveAttribute(Curve curve)

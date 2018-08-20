@@ -26,9 +26,6 @@ namespace NIST.CVP.Crypto.DSA.Ed
         public int VariableN { get; }
         public int VariableC { get; }
 
-        // CurveType is obviously prime
-        public CurveType CurveType { get { return CurveType.Prime; } }
-
         public Curve CurveName { get; }
 
         public EdwardsCurve(Curve curveName, BigInteger p, BigInteger a, BigInteger d, EdPoint g, BigInteger n, int b, int dSAn, int c)
@@ -132,12 +129,12 @@ namespace NIST.CVP.Crypto.DSA.Ed
             return true;
         }
 
-        public BigInteger Encode(EdPoint point)
+        public BitString Encode(EdPoint point)
         {
             return EdPointEncoder.Encode(point, VariableB);
         }
 
-        public EdPoint Decode(BigInteger encoded)
+        public EdPoint Decode(BitString encoded)
         {
             return EdPointEncoder.Decode(encoded, FieldSizeQ, CoefficientA, CoefficientD, VariableB); 
         }

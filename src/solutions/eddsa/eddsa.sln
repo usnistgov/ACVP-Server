@@ -35,11 +35,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.Math", "..\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.SHA3.Tests", "..\..\crypto\test\NIST.CVP.Crypto.SHA3.Tests\NIST.CVP.Crypto.SHA3.Tests.csproj", "{C77B1BDD-C57A-466F-8A92-C6AD139A1CC7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Crypto.DSA.Ed.Tests", "..\..\crypto\test\NIST.CVP.Crypto.DSA.Ed.Tests\NIST.CVP.Crypto.DSA.Ed.Tests.csproj", "{F360BEC7-5632-402F-A8B5-BA3E7F91D7CC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.DSA.Ed.Tests", "..\..\crypto\test\NIST.CVP.Crypto.DSA.Ed.Tests\NIST.CVP.Crypto.DSA.Ed.Tests.csproj", "{F360BEC7-5632-402F-A8B5-BA3E7F91D7CC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.SHA2.Tests", "..\..\crypto\test\NIST.CVP.Crypto.SHA2.Tests\NIST.CVP.Crypto.SHA2.Tests.csproj", "{AD0A5E48-01AC-423F-94B3-28A6C8F54872}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.SHAWrapper.Tests", "..\..\crypto\test\NIST.CVP.Crypto.SHAWrapper.Tests\NIST.CVP.Crypto.SHAWrapper.Tests.csproj", "{F1C7A330-3DBE-499E-8A88-1F227870B060}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Generation.DSA.Ed.SigGen", "..\..\eddsa\src\NIST.CVP.Generation.DSA.Ed.SigGen\NIST.CVP.Generation.DSA.Ed.SigGen.csproj", "{A04E59D0-5873-426E-99A4-F8FB8F9089CE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Generation.DSA.Ed.SigGen.Tests", "..\..\eddsa\test\NIST.CVP.Generation.DSA.Ed.SigGen.Tests\NIST.CVP.Generation.DSA.Ed.SigGen.Tests.csproj", "{6F7E277C-ED84-4A31-A240-C34EBC2A0278}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Generation.DSA.Ed.SigGen.IntegrationTests", "..\..\eddsa\test\NIST.CVP.Generation.DSA.Ed.SigGen.IntegrationTests\NIST.CVP.Generation.DSA.Ed.SigGen.IntegrationTests.csproj", "{5425D86D-E990-440C-8FA5-9EED1C17ABB4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -115,6 +121,18 @@ Global
 		{F1C7A330-3DBE-499E-8A88-1F227870B060}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F1C7A330-3DBE-499E-8A88-1F227870B060}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F1C7A330-3DBE-499E-8A88-1F227870B060}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A04E59D0-5873-426E-99A4-F8FB8F9089CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A04E59D0-5873-426E-99A4-F8FB8F9089CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A04E59D0-5873-426E-99A4-F8FB8F9089CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A04E59D0-5873-426E-99A4-F8FB8F9089CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6F7E277C-ED84-4A31-A240-C34EBC2A0278}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F7E277C-ED84-4A31-A240-C34EBC2A0278}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F7E277C-ED84-4A31-A240-C34EBC2A0278}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F7E277C-ED84-4A31-A240-C34EBC2A0278}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5425D86D-E990-440C-8FA5-9EED1C17ABB4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5425D86D-E990-440C-8FA5-9EED1C17ABB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5425D86D-E990-440C-8FA5-9EED1C17ABB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5425D86D-E990-440C-8FA5-9EED1C17ABB4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -137,6 +155,9 @@ Global
 		{F360BEC7-5632-402F-A8B5-BA3E7F91D7CC} = {2A2257E8-9E66-41D9-A48A-DD57EAE15C9A}
 		{AD0A5E48-01AC-423F-94B3-28A6C8F54872} = {2A2257E8-9E66-41D9-A48A-DD57EAE15C9A}
 		{F1C7A330-3DBE-499E-8A88-1F227870B060} = {2A2257E8-9E66-41D9-A48A-DD57EAE15C9A}
+		{A04E59D0-5873-426E-99A4-F8FB8F9089CE} = {3BE3514F-0788-4496-B7A5-90B0E24C92AC}
+		{6F7E277C-ED84-4A31-A240-C34EBC2A0278} = {2A2257E8-9E66-41D9-A48A-DD57EAE15C9A}
+		{5425D86D-E990-440C-8FA5-9EED1C17ABB4} = {2A2257E8-9E66-41D9-A48A-DD57EAE15C9A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {76747C5F-8014-4582-B609-C94D95F8E6FE}

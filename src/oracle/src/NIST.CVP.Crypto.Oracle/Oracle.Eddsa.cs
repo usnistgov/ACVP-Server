@@ -5,6 +5,7 @@ using NIST.CVP.Crypto.Common.Asymmetric.DSA.Ed;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.DSA.Ed;
 using NIST.CVP.Crypto.SHAWrapper;
+using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
 using System;
 using System.Threading.Tasks;
@@ -65,19 +66,19 @@ namespace NIST.CVP.Crypto.Oracle
             if (param.Disposition == EddsaKeyDisposition.NotOnCurve)
             {
                 // Modify the public key value until the point is no longer on the curve
-                var modifiedPublicQ = key.PublicQ;
+                var modifiedPublicQ = curve.Decode(key.PublicQ);
 
                 do
                 {
                     modifiedPublicQ = new EdPoint(modifiedPublicQ.X + 1, modifiedPublicQ.Y);
                 } while (curve.PointExistsOnCurve(modifiedPublicQ));
 
-                key = new EdKeyPair(modifiedPublicQ, key.PrivateD, edParam);
+                key = new EdKeyPair(curve.Encode(modifiedPublicQ), key.PrivateD);
             }
             else if (param.Disposition == EddsaKeyDisposition.OutOfRange)
             {
                 // Make Qx or Qy out of range by adding the field size
-                var modifiedPublicQ = key.PublicQ;
+                var modifiedPublicQ = curve.Decode(key.PublicQ);
 
                 // Get a random number 0, or 1
                 if (_rand.GetRandomInt(0, 2) == 0)
@@ -89,7 +90,7 @@ namespace NIST.CVP.Crypto.Oracle
                     modifiedPublicQ = new EdPoint(modifiedPublicQ.X, modifiedPublicQ.Y + curve.FieldSizeQ);
                 }
 
-                key = new EdKeyPair(modifiedPublicQ, key.PrivateD, edParam);
+                key = new EdKeyPair(curve.Encode(modifiedPublicQ), key.PrivateD);
             }
 
             return new VerifyResult<EddsaKeyResult>
@@ -105,12 +106,23 @@ namespace NIST.CVP.Crypto.Oracle
         private EddsaSignatureResult GetEddsaSignature(EddsaSignatureParameters param)
         {
             var curve = _edCurveFactory.GetCurve(param.Curve);
+            var noContext = param.Curve == Common.Asymmetric.DSA.Ed.Enums.Curve.Ed25519 && !param.PreHash;
             var domainParams = new EdDomainParameters(curve, new ShaFactory());
             var edDsa = _edFactory.GetInstance(null);
 
             var message = _rand.GetRandomBitString(1024);
 
-            var result = edDsa.Sign(domainParams, param.Key, message, param.Context, param.PreHash);
+            BitString context;
+            if (noContext)
+            {
+                context = new BitString("");
+            }
+            else
+            {
+                context = _rand.GetRandomBitString(_rand.GetRandomInt(0, 255) * 8);
+            }
+
+            var result = edDsa.Sign(domainParams, param.Key, message, context, param.PreHash);
             if (!result.Success)
             {
                 throw new Exception();
@@ -119,6 +131,7 @@ namespace NIST.CVP.Crypto.Oracle
             return new EddsaSignatureResult
             {
                 Message = message,
+                Context = context,
                 Signature = result.Signature
             };
         }
@@ -127,9 +140,12 @@ namespace NIST.CVP.Crypto.Oracle
         {
             var message = _rand.GetRandomBitString(1024);
 
+            var context = _rand.GetRandomBitString(_rand.GetRandomInt(0, 255) * 8);
+
             return new EddsaSignatureResult
             {
-                Message = message
+                Message = message,
+                Context = context
             };
         }
 
@@ -139,7 +155,7 @@ namespace NIST.CVP.Crypto.Oracle
             var curve = _edCurveFactory.GetCurve(param.Curve);
             var domainParams = new EdDomainParameters(curve, new ShaFactory());
 
-            var result = edDsa.Verify(domainParams, param.Key, fullParam.Message, fullParam.Signature, param.Context, param.PreHash);
+            var result = edDsa.Verify(domainParams, param.Key, fullParam.Message, fullParam.Signature, fullParam.Context , param.PreHash);
 
             return new VerifyResult<EddsaSignatureResult>
             {

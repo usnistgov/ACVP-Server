@@ -9,11 +9,11 @@ namespace NIST.CVP.Crypto.Common.Asymmetric.DSA.Ed
 {
     public class EdPointEncoder
     {
-        public static BigInteger Encode(EdPoint point, int b)
+        public static BitString Encode(EdPoint point, int b)
         {
             var encoding = new BitString(point.Y, b);
 
-            var xBit = new BitString(point.X).GetLeastSignificantBits(1);
+            var xBit = new BitString(point.X, b).GetLeastSignificantBits(1);
 
             var bytes = new byte[b / 8];
             bytes[0] = 1 << 7;
@@ -26,15 +26,14 @@ namespace NIST.CVP.Crypto.Common.Asymmetric.DSA.Ed
                 encoding = encoding.AND(new BitString(bytes).NOT());
             }
 
-            return BitString.ReverseByteOrder(new BitString(encoding.ToBytes())).ToPositiveBigInteger();      // switch to little endian
+            return BitString.ReverseByteOrder(encoding);      // switch to little endian
         }
 
-        public static EdPoint Decode(BigInteger encoded, BigInteger p, BigInteger a, BigInteger d, int b)
+        public static EdPoint Decode(BitString encoded, BigInteger p, BigInteger a, BigInteger d, int b)
         {
-            var encodedBitString = new BitString(encoded, b);
-            encodedBitString = BitString.ReverseByteOrder(new BitString(encodedBitString.ToBytes()));       // switch to big endian
-            var x = encodedBitString.GetMostSignificantBits(1).ToPositiveBigInteger();
-            var YBits = BitString.ConcatenateBits(BitString.Zero(), encodedBitString.GetLeastSignificantBits(b - 1));
+            encoded = BitString.ReverseByteOrder(encoded);       // switch to big endian
+            var x = encoded.GetMostSignificantBits(1).ToPositiveBigInteger();
+            var YBits = BitString.ConcatenateBits(BitString.Zero(), encoded.GetLeastSignificantBits(b - 1));
             var Y = YBits.ToPositiveBigInteger();
 
             BigInteger X;
