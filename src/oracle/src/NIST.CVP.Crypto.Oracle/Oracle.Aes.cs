@@ -12,6 +12,7 @@ using NIST.CVP.Math;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using NIST.CVP.Orleans.Grains.Interfaces;
 
 namespace NIST.CVP.Crypto.Oracle
 {
@@ -21,75 +22,7 @@ namespace NIST.CVP.Crypto.Oracle
         private readonly ModeBlockCipherFactory _modeFactory = new ModeBlockCipherFactory();
         private readonly AesMonteCarloFactory _aesMctFactory = new AesMonteCarloFactory(new BlockCipherEngineFactory(), new ModeBlockCipherFactory());
         private readonly CounterFactory _ctrFactory = new CounterFactory();
-
-        private AesResult GetAesCase(AesParameters param)
-        {
-            var cipher = _modeFactory.GetStandardCipher(
-                _engineFactory.GetSymmetricCipherPrimitive(BlockCipherEngines.Aes), 
-                param.Mode
-            );
-            var direction = BlockCipherDirections.Encrypt;
-            if (param.Direction.ToLower() == "decrypt")
-            {
-                direction = BlockCipherDirections.Decrypt;
-            }
-
-            var payload = _rand.GetRandomBitString(param.DataLength);
-            var key = _rand.GetRandomBitString(param.KeyLength);
-            var iv = _rand.GetRandomBitString(128);
-
-            var blockCipherParams = new ModeBlockCipherParameters(direction, iv, key, payload);
-            var result = cipher.ProcessPayload(blockCipherParams);
-
-            if (!result.Success)
-            {
-                // Log error somewhere
-                throw new Exception();
-            }
-
-            return new AesResult
-            {
-                PlainText = direction == BlockCipherDirections.Encrypt ? payload : result.Result,
-                CipherText = direction == BlockCipherDirections.Decrypt ? payload : result.Result,
-                Key = key,
-                Iv = iv
-            };
-        }
-
-        private MctResult<AesResult> GetAesMctCase(AesParameters param)
-        {
-            var cipher = _aesMctFactory.GetInstance(param.Mode);
-            var direction = BlockCipherDirections.Encrypt;
-            if (param.Direction.ToLower() == "decrypt")
-            {
-                direction = BlockCipherDirections.Decrypt;
-            }
-
-            var payload = _rand.GetRandomBitString(param.DataLength);
-            var key = _rand.GetRandomBitString(param.KeyLength);
-            var iv = _rand.GetRandomBitString(128);
-
-            var blockCipherParams = new ModeBlockCipherParameters(direction, iv, key, payload);
-            var result = cipher.ProcessMonteCarloTest(blockCipherParams);
-
-            if (!result.Success)
-            {
-                // Log error somewhere
-                throw new Exception();
-            }
-
-            return new MctResult<AesResult>
-            {
-                Results = Array.ConvertAll(result.Response.ToArray(), element => new AesResult
-                {
-                    Key = element.Key,
-                    Iv = element.IV,
-                    PlainText = element.PlainText,
-                    CipherText = element.CipherText
-                }).ToList()
-            };
-        }
-
+        
         private AesResult GetDeferredAesCounterCase(CounterParameters<AesParameters> param)
         {
             var iv = GetStartingIv(param.Overflow, param.Incremental);
@@ -219,12 +152,22 @@ namespace NIST.CVP.Crypto.Oracle
 
         public async Task<AesResult> GetAesCaseAsync(AesParameters param)
         {
-            return await Task.Run(() => GetAesCase(param));
+            var grain = _clusterClient.GetGrain<IOracleAesCaseGrain>(
+                Guid.NewGuid()
+            );
+
+            await grain.BeginWorkAsync(param);
+            return await PollWorkUntilCompleteAsync(grain);
         }
 
         public async Task<MctResult<AesResult>> GetAesMctCaseAsync(AesParameters param)
         {
-            return await Task.Run(() => GetAesMctCase(param));
+            var grain = _clusterClient.GetGrain<IOracleAesMctCaseGrain>(
+                Guid.NewGuid()
+            );
+
+            await grain.BeginWorkAsync(param);
+            return await PollWorkUntilCompleteAsync(grain);
         }
 
         public async Task<AesXtsResult> GetAesXtsCaseAsync(AesXtsParameters param)

@@ -5,8 +5,8 @@ using Orleans;
 
 namespace NIST.CVP.Orleans.Grains.Interfaces
 {
-    public interface IOracleAesCaseGrain :
-        IPollableOracleGrain<AesResult>, IGrainWithGuidKey
+    public interface IOracleAesMctCaseGrain : 
+        IPollableOracleGrain<MctResult<AesResult>>, IGrainWithGuidKey
     {
         Task<bool> BeginWorkAsync(AesParameters param);
     }
