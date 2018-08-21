@@ -9,7 +9,7 @@ namespace NIST.CVP.Crypto.Common.Asymmetric.DSA.Ed
 {
     public class EdPointEncoder
     {
-        public static BitString Encode(EdPoint point, int b)
+        public static BigInteger Encode(EdPoint point, int b)
         {
             var encoding = new BitString(point.Y, b);
 
@@ -26,14 +26,14 @@ namespace NIST.CVP.Crypto.Common.Asymmetric.DSA.Ed
                 encoding = encoding.AND(new BitString(bytes).NOT());
             }
 
-            return BitString.ReverseByteOrder(encoding);      // switch to little endian
+            return BitString.ReverseByteOrder(encoding).ToPositiveBigInteger();      // switch to little endian
         }
 
-        public static EdPoint Decode(BitString encoded, BigInteger p, BigInteger a, BigInteger d, int b)
+        public static EdPoint Decode(BigInteger encoded, BigInteger p, BigInteger a, BigInteger d, int b)
         {
-            encoded = BitString.ReverseByteOrder(encoded);       // switch to big endian
-            var x = encoded.GetMostSignificantBits(1).ToPositiveBigInteger();
-            var YBits = BitString.ConcatenateBits(BitString.Zero(), encoded.GetLeastSignificantBits(b - 1));
+            var encodedBits = BitString.ReverseByteOrder(new BitString(encoded, b));       // switch to big endian
+            var x = encodedBits.GetMostSignificantBits(1).ToPositiveBigInteger();
+            var YBits = BitString.ConcatenateBits(BitString.Zero(), encodedBits.GetLeastSignificantBits(b - 1));
             var Y = YBits.ToPositiveBigInteger();
 
             BigInteger X;

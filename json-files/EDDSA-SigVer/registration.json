@@ -1,6 +1,6 @@
 {
   "algorithm": "EDDSA",
-  "mode": "SigGen",
+  "mode": "SigVer",
   "isSample": true,
   "pure": true,
   "preHash": true,

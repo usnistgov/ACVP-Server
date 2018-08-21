@@ -60,7 +60,7 @@ namespace NIST.CVP.Generation.DSA.Ed.SigGen.Tests
             {
                 Curve = Curve.Ed25519,
                 PreHash = false,
-                KeyPair = new EdKeyPair(new BitString("ec172b93ad5e563bf4932c70e1245034c35467ef2efd4d64ebf819683467e2bf"))
+                KeyPair = new EdKeyPair(new BitString("ec172b93ad5e563bf4932c70e1245034c35467ef2efd4d64ebf819683467e2bf").ToPositiveBigInteger())
             };
         }
 

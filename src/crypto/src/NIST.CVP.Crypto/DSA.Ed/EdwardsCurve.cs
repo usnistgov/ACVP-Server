@@ -129,12 +129,12 @@ namespace NIST.CVP.Crypto.DSA.Ed
             return true;
         }
 
-        public BitString Encode(EdPoint point)
+        public BigInteger Encode(EdPoint point)
         {
             return EdPointEncoder.Encode(point, VariableB);
         }
 
-        public EdPoint Decode(BitString encoded)
+        public EdPoint Decode(BigInteger encoded)
         {
             return EdPointEncoder.Decode(encoded, FieldSizeQ, CoefficientA, CoefficientD, VariableB); 
         }

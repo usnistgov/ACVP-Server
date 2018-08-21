@@ -67,6 +67,8 @@ namespace NIST.CVP.Common
         ECDSA_SigVer,
         [EnumMember(Value = "EDDSA-SigGen")]
         EDDSA_SigGen,
+        [EnumMember(Value = "EDDSA-SigVer")]
+        EDDSA_SigVer,
         [EnumMember(Value = "HMAC-SHA-1")]
         HMAC_SHA1,
         [EnumMember(Value = "HMAC-SHA2-224")]

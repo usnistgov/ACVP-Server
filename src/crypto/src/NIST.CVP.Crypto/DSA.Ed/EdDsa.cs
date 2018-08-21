@@ -140,11 +140,11 @@ namespace NIST.CVP.Crypto.DSA.Ed
             var rG = domainParameters.CurveE.Multiply(domainParameters.CurveE.BasePointG, r);
             
             // Encode the point rG into a b-bit bitstring
-            var R = domainParameters.CurveE.Encode(rG);
+            var R = new BitString(domainParameters.CurveE.Encode(rG), domainParameters.CurveE.VariableB);
 
             // 4. Define S
             // Hash (dom4 || R || Q || B). Need to use dom4 if ed448
-            var hashData = BitString.ConcatenateBits(keyPair.PublicQ, message);
+            var hashData = BitString.ConcatenateBits(new BitString(keyPair.PublicQ, domainParameters.CurveE.VariableB), message);
             hashData = BitString.ConcatenateBits(dom, BitString.ConcatenateBits(R, hashData));
             var hash = Sha.HashMessage(hashData, 912).Digest;
 
@@ -197,7 +197,7 @@ namespace NIST.CVP.Crypto.DSA.Ed
             }
 
             // 2. Concatenate R || Q || M
-            var hashData = BitString.ConcatenateBits(domainParameters.CurveE.Encode(R), BitString.ConcatenateBits(keyPair.PublicQ, message));
+            var hashData = BitString.ConcatenateBits(new BitString(domainParameters.CurveE.Encode(R), domainParameters.CurveE.VariableB), BitString.ConcatenateBits(new BitString(keyPair.PublicQ, domainParameters.CurveE.VariableB), message));
 
             // 3. Compute t
             // Determine dom. Empty if ed25519. Different for preHash function
@@ -329,7 +329,7 @@ namespace NIST.CVP.Crypto.DSA.Ed
 
         private (EdPoint R, BigInteger s) DecodeSig(EdDomainParameters domainParameters, EdSignature sig)
         {
-            var rBits = new BitString(sig.Sig).MSBSubstring(0, domainParameters.CurveE.VariableB);
+            var rBits = new BitString(sig.Sig).MSBSubstring(0, domainParameters.CurveE.VariableB).ToPositiveBigInteger();
             var sBits = new BitString(sig.Sig).Substring(0, domainParameters.CurveE.VariableB);
 
             var R = domainParameters.CurveE.Decode(rBits);

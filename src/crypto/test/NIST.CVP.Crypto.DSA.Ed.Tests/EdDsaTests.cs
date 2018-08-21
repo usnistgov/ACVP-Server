@@ -74,7 +74,7 @@ namespace NIST.CVP.Crypto.DSA.Ed.Tests
         public void ShouldGenerateKeyPairsCorrectly(Curve curveEnum, string dHex, string qHex)
         {
             var d = LoadValue(dHex);
-            var q = new BitString(qHex);
+            var q = LoadValue(qHex);
 
             var factory = new EdwardsCurveFactory();
             var curve = factory.GetCurve(curveEnum);
@@ -120,7 +120,7 @@ namespace NIST.CVP.Crypto.DSA.Ed.Tests
         public void ShouldValidateKeyPairsCorrectly(Curve curveEnum, string dHex, string qHex, bool expectedResult)
         {
             var d = LoadValue(dHex);
-            var q = new BitString(qHex);
+            var q = LoadValue(qHex);
 
             var factory = new EdwardsCurveFactory();
             var curve = factory.GetCurve(curveEnum);
@@ -221,7 +221,7 @@ namespace NIST.CVP.Crypto.DSA.Ed.Tests
         public void ShouldGenerateSignaturesCorrectly(Curve curveEnum, string dHex, string qHex, string msgHex, string sigHex)
         {
             var d = LoadValue(dHex);
-            var q = new BitString(qHex);
+            var q = LoadValue(qHex);
             var msg = new BitString(msgHex);
             var expectedSig = LoadValue(sigHex);
 
@@ -252,7 +252,7 @@ namespace NIST.CVP.Crypto.DSA.Ed.Tests
         public void ShouldGenerateSignaturesWithContextCorrectly(Curve curveEnum, string dHex, string qHex, string msgHex, string sigHex, string contextHex)
         {
             var d = LoadValue(dHex);
-            var q = new BitString(qHex);
+            var q = LoadValue(qHex);
             var context = new BitString(contextHex);
             var msg = new BitString(msgHex);
             var expectedSig = LoadValue(sigHex);
@@ -300,7 +300,7 @@ namespace NIST.CVP.Crypto.DSA.Ed.Tests
         public void ShouldGenerateSignaturesPreHashCorrectly(Curve curveEnum, string dHex, string qHex, string msgHex, string sigHex, string contextHex)
         {
             var d = LoadValue(dHex);
-            var q = new BitString(qHex);
+            var q = LoadValue(qHex);
             var context = new BitString(contextHex);
             var msg = new BitString(msgHex);
             var expectedSig = LoadValue(sigHex);
@@ -356,7 +356,7 @@ namespace NIST.CVP.Crypto.DSA.Ed.Tests
         public void ShouldValidateSignaturesCorrectly(Curve curveEnum, string dHex, string qHex, string msgHex, string sigHex, bool expectedResult)
         {
             var d = LoadValue(dHex);
-            var q = new BitString(qHex);
+            var q = LoadValue(qHex);
             var msg = new BitString(msgHex);
             var expectedSig = LoadValue(sigHex);
 
@@ -397,7 +397,7 @@ namespace NIST.CVP.Crypto.DSA.Ed.Tests
         public void ShouldValidateSignaturesWithContextCorrectly(Curve curveEnum, string dHex, string qHex, string msgHex, string sigHex, string contextHex, bool expectedResult)
         {
             var d = LoadValue(dHex);
-            var q = new BitString(qHex);
+            var q = LoadValue(qHex);
             var context = new BitString(contextHex);
             var msg = new BitString(msgHex);
             var expectedSig = LoadValue(sigHex);
@@ -473,7 +473,7 @@ namespace NIST.CVP.Crypto.DSA.Ed.Tests
         public void ShouldValidateSignaturesPreHashCorrectly(Curve curveEnum, string dHex, string qHex, string msgHex, string sigHex, string contextHex, bool expectedResult)
         {
             var d = LoadValue(dHex);
-            var q = new BitString(qHex);
+            var q = LoadValue(qHex);
             var context = new BitString(contextHex);
             var msg = new BitString(msgHex);
             var expectedSig = LoadValue(sigHex);

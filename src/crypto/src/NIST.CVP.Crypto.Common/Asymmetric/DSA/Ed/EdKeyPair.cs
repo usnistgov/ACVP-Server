@@ -1,12 +1,10 @@
-﻿using NIST.CVP.Math;
-using System;
-using System.Numerics;
+﻿using System.Numerics;
 
 namespace NIST.CVP.Crypto.Common.Asymmetric.DSA.Ed
 {
     public class EdKeyPair : IDsaKeyPair
     {
-        public BitString PublicQ { get; set; }
+        public BigInteger PublicQ { get; set; }
         public BigInteger PrivateD { get; set; }
 
         public EdKeyPair()
@@ -14,13 +12,13 @@ namespace NIST.CVP.Crypto.Common.Asymmetric.DSA.Ed
             
         }
 
-        public EdKeyPair(BitString q, BigInteger d)
+        public EdKeyPair(BigInteger q, BigInteger d)
         {
             PublicQ = q;
             PrivateD = d;
         }
 
-        public EdKeyPair(BitString q)
+        public EdKeyPair(BigInteger q)
         {
             PublicQ = q;
         }

@@ -3,16 +3,13 @@ using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.Ed;
-using NIST.CVP.Crypto.Common.Asymmetric.DSA.Ed.Enums;
-using NIST.CVP.Crypto.DSA.Ed;
-using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace NIST.CVP.Generation.DSA.Ed.SigGen.Tests
+namespace NIST.CVP.Generation.DSA.Ed.SigVer.Tests
 {
     [TestFixture, UnitTest]
     public class TestGroupGeneratorTests
@@ -132,7 +129,7 @@ namespace NIST.CVP.Generation.DSA.Ed.SigGen.Tests
                 .Setup(s => s.GetEddsaKeyAsync(It.IsAny<EddsaKeyParameters>()))
                 .Returns(Task.FromResult(new EddsaKeyResult { Key = new EdKeyPair(new BitString("ec172b93ad5e563bf4932c70e1245034c35467ef2efd4d64ebf819683467e2bf").ToPositiveBigInteger()) }));
 
-            var subject = new TestGroupGenerator(oracleMock.Object);
+            var subject = new TestGroupGenerator();
             var result = subject.BuildTestGroups(parameters);
             Assert.AreEqual(expectedGroups, result.Count());
         }

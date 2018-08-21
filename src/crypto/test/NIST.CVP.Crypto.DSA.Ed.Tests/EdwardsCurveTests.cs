@@ -240,7 +240,7 @@ namespace NIST.CVP.Crypto.DSA.Ed.Tests
         [TestCase(Curve.Ed448, "b3da079b0aa493a5772029f0467baebee5a8112d9d3a22532361da294f7bb3815c5dc59e176b4d9f381ca0938e13c6c07b174be65dfa578e80")]
         public void ShouldEncodeAndDecodeProperly(Curve curve, string encoded)
         {
-            var encodedOriginal = new BitString(encoded);
+            var encodedOriginal = LoadValue(encoded);
             
             var factory = new EdwardsCurveFactory();
             var subject = factory.GetCurve(curve);
@@ -258,7 +258,7 @@ namespace NIST.CVP.Crypto.DSA.Ed.Tests
         [TestCase("03")]
         public void ShouldEncodeAndDecodeProperlyMattsCurve(string encoded)
         {
-            var encodedOriginal = new BitString(encoded);
+            var encodedOriginal = LoadValue(encoded);
             var mattsCurve = new EdwardsCurve(Curve.Ed25519, 7, 2, 3, new EdPoint(0, 6), 12, 8, 247, 2);
 
             var decoded = mattsCurve.Decode(encodedOriginal);
@@ -280,7 +280,7 @@ namespace NIST.CVP.Crypto.DSA.Ed.Tests
         [TestCase("3F00", 100, 63)]
         public void ShouldEncodeAndDecodeProperlyMattsCurve2(string encoded, int expectedX, int expectedY)
         {
-            var encodedOriginal = new BitString(encoded);
+            var encodedOriginal = LoadValue(encoded);
             var mattsCurve = new EdwardsCurve(Curve.Ed25519, 103, 1, 2, new EdPoint(0, 6), 12, 16, 247, 2);
 
             var decoded = mattsCurve.Decode(encodedOriginal);
@@ -302,7 +302,7 @@ namespace NIST.CVP.Crypto.DSA.Ed.Tests
         [TestCase("89", 9, 9)]
         public void ShouldEncodeAndDecodeProperlyMattsCurve3(string encoded, int expectedX, int expectedY)
         {
-            var encodedOriginal = new BitString(encoded);
+            var encodedOriginal = LoadValue(encoded);
             var mattsCurve = new EdwardsCurve(Curve.Ed25519, 13, 1, 2, new EdPoint(0, 6), 12, 8, 247, 2);
 
             var decoded = mattsCurve.Decode(encodedOriginal);
