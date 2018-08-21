@@ -1,0 +1,69 @@
+{
+  "algorithm": "EDDSA",
+  "mode": "KeyVer",
+  "isSample": true,
+  "testGroups": [
+    {
+      "tgId": 1,
+      "curve": "ed-25519",
+      "testType": "AFT",
+      "tests": [
+        {
+          "tcId": 1,
+          "testPassed": true,
+          "deferred": false,
+          "reason": "none",
+          "d": "D21061EB218F97336A337A79034BE4438C50BD5905FE544D391D51C566CCBBDD",
+          "q": "A21AD7E505A8C2AA57E72F4108955B377F93EAF00FC38CC6930258ECB0CF8A64"
+        },
+        {
+          "tcId": 2,
+          "testPassed": false,
+          "deferred": false,
+          "reason": "x or y out of range",
+          "d": "253550AC820FE22F342F39AA7FA6FEB070E896AA813F20F03B0E78AB11581731",
+          "q": "8DB2FCD5D9ACC0417FEC18E817834B65F27E6CA2DE6E867E4E63653AF8D75726"
+        },
+        {
+          "tcId": 3,
+          "testPassed": false,
+          "deferred": false,
+          "reason": "point not on curve",
+          "d": "629932679D5C1A8BD15513BB9206B67313EAD55F52E39041DEAD6E856B719E47",
+          "q": "1E44DB1C35069D45E9E2EE402849AFEDF5EDA1CEA92F162E6CAF9E5C0050F22D"
+        }
+      ]
+    },
+    {
+      "tgId": 2,
+      "curve": "ed-448",
+      "testType": "AFT",
+      "tests": [
+        {
+          "tcId": 4,
+          "testPassed": true,
+          "deferred": false,
+          "reason": "none",
+          "d": "812E69597A2B3B62EE22340BE72AFB63286715A60ABD85B06B699906A60EF63CDE777F0A9E8219FBF54D6580D8EAE7E80D08341ED57F770139",
+          "q": "AAF8B248DB25F9A1416221ED32F67B5B76F8C8B36F086900C55EDF9AFE88A6F62861B07A22A010C9F9E4AC8FA56A2F34115FE7160E16F0E300"
+        },
+        {
+          "tcId": 5,
+          "testPassed": false,
+          "deferred": false,
+          "reason": "point not on curve",
+          "d": "01FF26418948F04FC0D4DCF24C11A46AE208D8D86E63FFCF18D37C3062EC044BE7EC68078AE3DA0F779DF604631025546DC522824C535AEA06B2",
+          "q": "CB37E7F5163B9C82816E4DD20E7A46A5B4E6B7C2E7F85E670D7D6C1FFF06FFF1E3745CEDA7CE280F2E89526E318C96B5431E9067FAFCED4880"
+        },
+        {
+          "tcId": 6,
+          "testPassed": false,
+          "deferred": false,
+          "reason": "x or y out of range",
+          "d": "8E2D2D715F77284A8862278A2A81F8B2BC06551CBD8C1F79508EADEF6180D31351C27E223BB97EDF1381C6459BC17C19FAA1EE7E228EC30C50",
+          "q": "1E59682ED9EB850536AC6E1AEAD37E4D6E7C0165C3D4B31AAAB2B2C6BA0D916D51BAC0DAA7527DDAB107CA7AD888A9D9F7AD2F37BD79772480"
+        }
+      ]
+    }
+  ]
+}

@@ -67,6 +67,8 @@ namespace NIST.CVP.Common
         ECDSA_SigVer,
         [EnumMember(Value = "EDDSA-KeyGen")]
         EDDSA_KeyGen,
+        [EnumMember(Value = "EDDSA-KeyVer")]
+        EDDSA_KeyVer,
         [EnumMember(Value = "EDDSA-SigGen")]
         EDDSA_SigGen,
         [EnumMember(Value = "EDDSA-SigVer")]

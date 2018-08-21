@@ -1,0 +1,45 @@
+{
+  "algorithm": "EDDSA",
+  "mode": "KeyVer",
+  "isSample": true,
+  "testGroups": [
+    {
+      "tgId": 1,
+      "curve": "ed-25519",
+      "testType": "AFT",
+      "tests": [
+        {
+          "tcId": 1,
+          "q": "A21AD7E505A8C2AA57E72F4108955B377F93EAF00FC38CC6930258ECB0CF8A64"
+        },
+        {
+          "tcId": 2,
+          "q": "8DB2FCD5D9ACC0417FEC18E817834B65F27E6CA2DE6E867E4E63653AF8D75726"
+        },
+        {
+          "tcId": 3,
+          "q": "1E44DB1C35069D45E9E2EE402849AFEDF5EDA1CEA92F162E6CAF9E5C0050F22D"
+        }
+      ]
+    },
+    {
+      "tgId": 2,
+      "curve": "ed-448",
+      "testType": "AFT",
+      "tests": [
+        {
+          "tcId": 4,
+          "q": "AAF8B248DB25F9A1416221ED32F67B5B76F8C8B36F086900C55EDF9AFE88A6F62861B07A22A010C9F9E4AC8FA56A2F34115FE7160E16F0E300"
+        },
+        {
+          "tcId": 5,
+          "q": "CB37E7F5163B9C82816E4DD20E7A46A5B4E6B7C2E7F85E670D7D6C1FFF06FFF1E3745CEDA7CE280F2E89526E318C96B5431E9067FAFCED4880"
+        },
+        {
+          "tcId": 6,
+          "q": "1E59682ED9EB850536AC6E1AEAD37E4D6E7C0165C3D4B31AAAB2B2C6BA0D916D51BAC0DAA7527DDAB107CA7AD888A9D9F7AD2F37BD79772480"
+        }
+      ]
+    }
+  ]
+}

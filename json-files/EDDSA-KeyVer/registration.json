@@ -1,0 +1,9 @@
+{
+  "algorithm": "EDDSA",
+  "mode": "KeyVer",
+  "isSample": true,
+  "curve": [
+    "ed-25519",
+    "ed-448"
+  ]
+}

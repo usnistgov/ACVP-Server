@@ -6,7 +6,7 @@
     <ApplicationIcon />
     <StartupObject />
   </PropertyGroup>
-
+  
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="$(NuGetVersionMicrosoftNETTestSdk)" />
     <PackageReference Include="NUnit" Version="$(NuGetVersionNUnit)" />
