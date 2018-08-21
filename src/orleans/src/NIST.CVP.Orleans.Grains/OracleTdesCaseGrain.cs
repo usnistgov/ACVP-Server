@@ -7,13 +7,15 @@ using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
 using NIST.CVP.Crypto.Common.Symmetric.Engines;
 using NIST.CVP.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.Crypto.Common.Symmetric.TDES;
+using NIST.CVP.Crypto.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Symmetric.Engines;
 using NIST.CVP.Math.Entropy;
 using NIST.CVP.Orleans.Grains.Interfaces;
 using NIST.CVP.Orleans.Grains.Interfaces.Enums;
 
 namespace NIST.CVP.Orleans.Grains
 {
-    public class OracleTdesCaseGrain : PollableOracleGrainBase<TdesResult>, IOracleTdesCaseGrain<TdesResult>
+    public class OracleTdesCaseGrain : PollableOracleGrainBase<TdesResult>, IOracleTdesCaseGrain
     {
         private readonly IBlockCipherEngineFactory _engineFactory;
         private readonly IModeBlockCipherFactory _modeFactory;
@@ -22,16 +24,20 @@ namespace NIST.CVP.Orleans.Grains
         private TdesParameters _param;
 
         public OracleTdesCaseGrain(
-            LimitedConcurrencyLevelTaskScheduler scheduler,
-            IBlockCipherEngineFactory engineFactory,
-            IModeBlockCipherFactory modeFactory,
-            IEntropyProviderFactory entropyProviderFactory
+            LimitedConcurrencyLevelTaskScheduler scheduler
+            //IBlockCipherEngineFactory engineFactory,
+            //IModeBlockCipherFactory modeFactory,
+            //IEntropyProviderFactory entropyProviderFactory
         )
             : base(scheduler)
         {
-            _engineFactory = engineFactory;
-            _modeFactory = modeFactory;
-            _entropyProvider = entropyProviderFactory.GetEntropyProvider(EntropyProviderTypes.Random);
+            //_engineFactory = engineFactory;
+            //_modeFactory = modeFactory;
+            //_entropyProvider = entropyProviderFactory.GetEntropyProvider(EntropyProviderTypes.Random);
+
+            _engineFactory = new BlockCipherEngineFactory();
+            _modeFactory = new ModeBlockCipherFactory();
+            _entropyProvider = new EntropyProviderFactory().GetEntropyProvider(EntropyProviderTypes.Random);
         }
 
         public async Task<bool> BeginWorkAsync(TdesParameters param)

@@ -8,6 +8,9 @@ using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
 using NIST.CVP.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.Crypto.Common.Symmetric.MonteCarlo;
 using NIST.CVP.Crypto.Common.Symmetric.TDES;
+using NIST.CVP.Crypto.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Symmetric.Engines;
+using NIST.CVP.Crypto.Symmetric.MonteCarlo;
 using NIST.CVP.Math.Entropy;
 using NIST.CVP.Orleans.Grains.Interfaces;
 using NIST.CVP.Orleans.Grains.Interfaces.Enums;
@@ -15,23 +18,25 @@ using NIST.CVP.Orleans.Grains.Interfaces.Enums;
 namespace NIST.CVP.Orleans.Grains
 {
     
-    public class OracleTdesMctCaseGrain : PollableOracleGrainBase<MctResult<TdesResult>>, 
-        IOracleTdesMctCaseGrain<MctResult<TdesResult>>
+    public class OracleTdesMctCaseGrain : PollableOracleGrainBase<MctResult<TdesResult>>, IOracleTdesMctCaseGrain
     {
-        private readonly IMonteCarloFactoryTdes _tdesMctFactory;
+        private readonly IMonteCarloFactoryTdes _mctFactory;
         private readonly IEntropyProvider _entropyProvider;
 
         private TdesParameters _param;
 
         public OracleTdesMctCaseGrain(
-            LimitedConcurrencyLevelTaskScheduler scheduler,
-            IMonteCarloFactoryTdes tdesMctFactory,
-            IEntropyProviderFactory entropyProviderFactory
+            LimitedConcurrencyLevelTaskScheduler scheduler
+            //IMonteCarloFactoryTdes mctFactory,
+            //IEntropyProviderFactory entropyProviderFactory
         )
             : base(scheduler)
         {
-            _tdesMctFactory = tdesMctFactory;
-            _entropyProvider = entropyProviderFactory.GetEntropyProvider(EntropyProviderTypes.Random);
+            //_mctFactory = mctFactory;
+            //_entropyProvider = entropyProviderFactory.GetEntropyProvider(EntropyProviderTypes.Random);
+
+            _mctFactory = new TdesMonteCarloFactory(new BlockCipherEngineFactory(), new ModeBlockCipherFactory());
+            _entropyProvider = new EntropyProviderFactory().GetEntropyProvider(EntropyProviderTypes.Random);
         }
 
         public async Task<bool> BeginWorkAsync(TdesParameters param)
@@ -42,7 +47,7 @@ namespace NIST.CVP.Orleans.Grains
 
         protected override Task DoWorkAsync()
         {
-            var cipher = _tdesMctFactory.GetInstance(_param.Mode);
+            var cipher = _mctFactory.GetInstance(_param.Mode);
             var direction = BlockCipherDirections.Encrypt;
             if (_param.Direction.ToLower() == "decrypt")
             {

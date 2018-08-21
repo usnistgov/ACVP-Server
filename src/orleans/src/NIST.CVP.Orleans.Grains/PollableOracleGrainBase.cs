@@ -34,7 +34,7 @@ namespace NIST.CVP.Orleans.Grains
     /// </example>
     /// <typeparam name="TResult">The type the grain returns</typeparam>
     [StorageProvider(ProviderName = Constants.StorageProviderName)]
-    public abstract class PollableOracleGrainBase<TResult> : Grain<GrainState>, IPollableOracleGrain<TResult>, Interfaces.IGrain
+    public abstract class PollableOracleGrainBase<TResult> : Grain<GrainState>, IPollableOracleGrain<TResult>, IGrainMarker
     {
         protected TResult Result;
         protected readonly LimitedConcurrencyLevelTaskScheduler Scheduler;
@@ -58,10 +58,15 @@ namespace NIST.CVP.Orleans.Grains
             {
                 State = GrainState.Working;
 
-                Task.Factory.StartNew(() =>
+                //Task.Factory.StartNew(() =>
+                //{
+                //    DoWorkAsync().FireAndForget();
+                //}, CancellationToken.None, TaskCreationOptions.None, scheduler: Scheduler).FireAndForget();
+
+                Task.Run(() =>
                 {
                     DoWorkAsync().FireAndForget();
-                }, CancellationToken.None, TaskCreationOptions.None, scheduler: Scheduler).FireAndForget();
+                }).FireAndForget();
                 
                 return Task.FromResult(true);
             }

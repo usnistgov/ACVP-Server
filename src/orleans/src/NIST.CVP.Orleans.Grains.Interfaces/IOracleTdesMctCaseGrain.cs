@@ -1,11 +1,12 @@
 ﻿using System.Threading.Tasks;
 using NIST.CVP.Common.Oracle.ParameterTypes;
+using NIST.CVP.Common.Oracle.ResultTypes;
 using Orleans;
 
 namespace NIST.CVP.Orleans.Grains.Interfaces
 {
-    public interface IOracleTdesMctCaseGrain<TResult> : 
-        IPollableOracleGrain<TResult>, IGrainWithGuidKey
+    public interface IOracleTdesMctCaseGrain : 
+        IPollableOracleGrain<MctResult<TdesResult>>, IGrainWithGuidKey
     {
         Task<bool> BeginWorkAsync(TdesParameters param);
     }

@@ -182,7 +182,7 @@ namespace NIST.CVP.Crypto.Oracle
 
         public async Task<TdesResult> GetTdesCaseAsync(TdesParameters param)
         {
-            var grain = _clusterClient.GetGrain<IOracleTdesCaseGrain<TdesResult>>(
+            var grain = _clusterClient.GetGrain<IOracleTdesCaseGrain>(
                 Guid.NewGuid()
             );
 
@@ -192,7 +192,7 @@ namespace NIST.CVP.Crypto.Oracle
 
         public async Task<MctResult<TdesResult>> GetTdesMctCaseAsync(TdesParameters param)
         {
-            var grain = _clusterClient.GetGrain<IOracleTdesMctCaseGrain<MctResult<TdesResult>>>(
+            var grain = _clusterClient.GetGrain<IOracleTdesMctCaseGrain>(
                 Guid.NewGuid()
             );
 
