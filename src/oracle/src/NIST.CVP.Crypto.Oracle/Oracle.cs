@@ -66,9 +66,7 @@ namespace NIST.CVP.Crypto.Oracle
                         //.UseStaticClustering(ipEndpoint)
                         .ConfigureApplicationParts(parts =>
                         {
-                            //parts.AddApplicationPart(typeof(IGrainInterfaceMarker).Assembly).WithReferences();
-                            parts.AddApplicationPart(typeof(IOracleTdesCaseGrain).Assembly).WithReferences();
-                            parts.AddApplicationPart(typeof(IOracleTdesMctCaseGrain).Assembly).WithReferences();
+                            parts.AddApplicationPart(typeof(IGrainInterfaceMarker).Assembly).WithReferences();
                         })
                         //.ConfigureLogging(logging => logging.AddConsole())
                         //Depends on your application requirements, you can configure your client with other stream providers, which can provide other features, 
