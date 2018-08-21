@@ -1,0 +1,30 @@
+﻿using System.Numerics;
+using Newtonsoft.Json;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.Ed;
+using NIST.CVP.Generation.Core;
+
+namespace NIST.CVP.Generation.DSA.Ed.KeyGen
+{
+    public class TestCase : ITestCase<TestGroup, TestCase>
+    {
+        public int TestCaseId { get; set; }
+        public bool? TestPassed => true;
+        public bool Deferred => true;
+        public TestGroup ParentGroup { get; set; }
+
+        [JsonIgnore] public EdKeyPair KeyPair { get; set; } = new EdKeyPair();
+        [JsonProperty(PropertyName = "d", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public BigInteger D
+        {
+            get => KeyPair.PrivateD;
+            set => KeyPair.PrivateD = value;
+        }
+
+        [JsonProperty(PropertyName = "q", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public BigInteger Q
+        {
+            get => KeyPair.PublicQ;
+            set => KeyPair.PublicQ = value;
+        }
+    }
+}

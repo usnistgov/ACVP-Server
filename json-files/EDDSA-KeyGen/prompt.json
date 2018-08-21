@@ -1,0 +1,75 @@
+{
+  "algorithm": "EDDSA",
+  "mode": "KeyGen",
+  "isSample": true,
+  "testGroups": [
+    {
+      "tgId": 1,
+      "testType": "AFT",
+      "tests": [
+        {
+          "tcId": 1
+        },
+        {
+          "tcId": 2
+        },
+        {
+          "tcId": 3
+        }
+      ],
+      "curve": "ed-25519",
+      "secretGenerationMode": "testing candidates"
+    },
+    {
+      "tgId": 2,
+      "testType": "AFT",
+      "tests": [
+        {
+          "tcId": 4
+        },
+        {
+          "tcId": 5
+        },
+        {
+          "tcId": 6
+        }
+      ],
+      "curve": "ed-25519",
+      "secretGenerationMode": "extra bits"
+    },
+    {
+      "tgId": 3,
+      "testType": "AFT",
+      "tests": [
+        {
+          "tcId": 7
+        },
+        {
+          "tcId": 8
+        },
+        {
+          "tcId": 9
+        }
+      ],
+      "curve": "ed-448",
+      "secretGenerationMode": "testing candidates"
+    },
+    {
+      "tgId": 4,
+      "testType": "AFT",
+      "tests": [
+        {
+          "tcId": 10
+        },
+        {
+          "tcId": 11
+        },
+        {
+          "tcId": 12
+        }
+      ],
+      "curve": "ed-448",
+      "secretGenerationMode": "extra bits"
+    }
+  ]
+}
