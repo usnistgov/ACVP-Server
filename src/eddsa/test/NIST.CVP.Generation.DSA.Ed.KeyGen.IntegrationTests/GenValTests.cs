@@ -11,8 +11,7 @@ namespace NIST.CVP.Generation.DSA.Ed.KeyGen.IntegrationTests
     {
         public override string Algorithm { get; } = "EDDSA";
         public override string Mode { get; } = "KeyGen";
-
-
+        
         public override AlgoMode AlgoMode => AlgoMode.EDDSA_KeyGen;
 
         public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();

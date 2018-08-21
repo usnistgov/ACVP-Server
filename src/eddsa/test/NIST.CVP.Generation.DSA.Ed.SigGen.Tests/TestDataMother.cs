@@ -27,13 +27,13 @@ namespace NIST.CVP.Generation.DSA.Ed.SigGen.Tests
                 {
                     Curve = Curve.Ed25519,
                     PreHash = false,
-                    KeyPair = new EdKeyPair(new BitString("ec172b93ad5e563bf4932c70e1245034c35467ef2efd4d64ebf819683467e2bf").ToPositiveBigInteger(), 14)
+                    KeyPair = new EdKeyPair(14, 3)
                 };
                 testGroups.Add(tg);
 
                 if (!isSample)
                 {
-                    tg.KeyPair = new EdKeyPair(new BitString("3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c").ToPositiveBigInteger(), 14);
+                    tg.KeyPair = new EdKeyPair(-14, -3);
                 }
 
                 var tests = new List<TestCase>();
