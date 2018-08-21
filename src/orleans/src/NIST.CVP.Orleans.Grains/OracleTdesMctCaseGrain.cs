@@ -26,17 +26,14 @@ namespace NIST.CVP.Orleans.Grains
         private TdesParameters _param;
 
         public OracleTdesMctCaseGrain(
-            LimitedConcurrencyLevelTaskScheduler scheduler
-            //IMonteCarloFactoryTdes mctFactory,
-            //IEntropyProviderFactory entropyProviderFactory
+            LimitedConcurrencyLevelTaskScheduler scheduler,
+            IMonteCarloFactoryTdes mctFactory,
+            IEntropyProviderFactory entropyProviderFactory
         )
             : base(scheduler)
         {
-            //_mctFactory = mctFactory;
-            //_entropyProvider = entropyProviderFactory.GetEntropyProvider(EntropyProviderTypes.Random);
-
-            _mctFactory = new TdesMonteCarloFactory(new BlockCipherEngineFactory(), new ModeBlockCipherFactory());
-            _entropyProvider = new EntropyProviderFactory().GetEntropyProvider(EntropyProviderTypes.Random);
+            _mctFactory = mctFactory;
+            _entropyProvider = entropyProviderFactory.GetEntropyProvider(EntropyProviderTypes.Random);
         }
 
         public async Task<bool> BeginWorkAsync(TdesParameters param)

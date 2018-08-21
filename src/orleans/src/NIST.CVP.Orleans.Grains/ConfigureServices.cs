@@ -2,7 +2,30 @@
 using NIST.CVP.Common;
 using NIST.CVP.Crypto.ANSIX963;
 using NIST.CVP.Crypto.CMAC;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC.GGeneratorValidators;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC.PQGeneratorValidators;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA.PrimeGenerators;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA.Signatures;
+using NIST.CVP.Crypto.Common.DRBG;
+using NIST.CVP.Crypto.Common.Hash.CSHAKE;
+using NIST.CVP.Crypto.Common.Hash.ParallelHash;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
+using NIST.CVP.Crypto.Common.Hash.SHA2;
+using NIST.CVP.Crypto.Common.Hash.SHA3;
+using NIST.CVP.Crypto.Common.Hash.TupleHash;
+using NIST.CVP.Crypto.Common.KAS;
+using NIST.CVP.Crypto.Common.KAS.Builders;
+using NIST.CVP.Crypto.Common.KAS.KC;
+using NIST.CVP.Crypto.Common.Symmetric;
+using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Common.Symmetric.BlockModes.Aead;
 using NIST.CVP.Crypto.Common.Symmetric.CTR;
+using NIST.CVP.Crypto.Common.Symmetric.Engines;
+using NIST.CVP.Crypto.Common.Symmetric.MonteCarlo;
 using NIST.CVP.Crypto.CSHAKE;
 using NIST.CVP.Crypto.DRBG;
 using NIST.CVP.Crypto.DSA.ECC;
@@ -40,6 +63,21 @@ using NIST.CVP.Crypto.Symmetric.MonteCarlo;
 using NIST.CVP.Crypto.TLS;
 using NIST.CVP.Crypto.TupleHash;
 using NIST.CVP.Math.Entropy;
+using NIST.CVP.Crypto.Common.MAC.CMAC;
+using NIST.CVP.Crypto.Common.KAS.KDF;
+using NIST.CVP.Crypto.Common.KAS.NoKC;
+using NIST.CVP.Crypto.Common.KAS.Schema;
+using NIST.CVP.Crypto.Common.KDF.Components.AnsiX963;
+using NIST.CVP.Crypto.Common.KDF.Components.IKEv1;
+using NIST.CVP.Crypto.Common.KDF.Components.IKEv2;
+using NIST.CVP.Crypto.Common.KDF.Components.SNMP;
+using NIST.CVP.Crypto.Common.KDF.Components.SRTP;
+using NIST.CVP.Crypto.Common.KDF.Components.SSH;
+using NIST.CVP.Crypto.Common.KDF.Components.TLS;
+using NIST.CVP.Crypto.Common.KES;
+using NIST.CVP.Crypto.Common.MAC.HMAC;
+using NIST.CVP.Crypto.Common.MAC.KMAC;
+using NIST.CVP.Crypto.Common.Symmetric.KeyWrap;
 
 namespace NIST.CVP.Orleans.Grains
 {
@@ -51,91 +89,89 @@ namespace NIST.CVP.Orleans.Grains
         public static void RegisterServices(IServiceCollection svc)
         {
             svc.AddSingleton(new LimitedConcurrencyLevelTaskScheduler(25));
-            svc.AddSingleton<EntropyProviderFactory>();
+            svc.AddSingleton<IEntropyProviderFactory, EntropyProviderFactory>();
 
-            svc.AddSingleton<ModeBlockCipherFactory>();
-            svc.AddSingleton<AeadModeBlockCipherFactory>();
-            svc.AddSingleton<BlockCipherEngineFactory>();
-            svc.AddSingleton<AesMonteCarloFactory>();
-            svc.AddSingleton<TdesMonteCarloFactory>();
-            svc.AddSingleton<TdesPartitionsMonteCarloFactory>();
-            svc.AddSingleton<CounterFactory>();
+            svc.AddSingleton<IBlockCipherEngineFactory, BlockCipherEngineFactory>();
+            svc.AddSingleton<IModeBlockCipherFactory, ModeBlockCipherFactory>();
+            svc.AddSingleton<IAeadModeBlockCipherFactory, AeadModeBlockCipherFactory>();
+            svc.AddSingleton<IMonteCarloFactoryAes, AesMonteCarloFactory>();
+            svc.AddSingleton<IMonteCarloFactoryTdes, TdesMonteCarloFactory>();
+            svc.AddSingleton<IMonteCarloFactoryTdesPartitions, TdesPartitionsMonteCarloFactory>();
+            svc.AddSingleton<ICounterFactory, CounterFactory>();
 
-            svc.AddSingleton<CmacFactory>();
+            svc.AddSingleton<ICmacFactory, CmacFactory>();
 
-            svc.AddSingleton<DrbgFactory>();
+            svc.AddSingleton<IDrbgFactory, DrbgFactory>();
 
-            svc.AddSingleton<HmacFactory>();
+            svc.AddSingleton<IHmacFactory, HmacFactory>();
 
-            svc.AddSingleton<MacParametersBuilder>();
-            svc.AddSingleton<KeyConfirmationFactory>();
-            svc.AddSingleton<NoKeyConfirmationFactory>();
-            svc.AddSingleton<KdfFactory>();
+            svc.AddSingleton<IMacParametersBuilder, MacParametersBuilder>();
+            svc.AddSingleton<IKeyConfirmationFactory, KeyConfirmationFactory>();
+            svc.AddSingleton<INoKeyConfirmationFactory, NoKeyConfirmationFactory>();
+            svc.AddSingleton<IKdfFactory, KdfFactory>();
 
-            svc.AddSingleton<DiffieHellmanFfc>();
-            svc.AddSingleton<MqvFfc>();
-            svc.AddSingleton<SchemeBuilderFfc>();
-            svc.AddSingleton<KasBuilderFfc>();
-            svc.AddSingleton<OtherInfoFactory>();
-            svc.AddSingleton<DsaFfcFactory>();
+            svc.AddSingleton<IDiffieHellman<FfcDomainParameters, FfcKeyPair>, DiffieHellmanFfc>();
+            svc.AddSingleton<IMqv<FfcDomainParameters, FfcKeyPair>, MqvFfc>();
+            svc.AddSingleton<SchemeBuilderBase<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair>, SchemeBuilderFfc>();
+            svc.AddSingleton<KasBuilderBase<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair>, KasBuilderFfc>();
+            svc.AddSingleton<IOtherInfoFactory, OtherInfoFactory>();
+            svc.AddSingleton<IDsaFfcFactory, DsaFfcFactory>();
 
-            svc.AddSingleton<DiffieHellmanEcc>();
-            svc.AddSingleton<MqvEcc>();
-            svc.AddSingleton<SchemeBuilderEcc>();
-            svc.AddSingleton<KasBuilderEcc>();
-            svc.AddSingleton<OtherInfoFactory>();
-            svc.AddSingleton<DsaEccFactory>();
-            svc.AddSingleton<EccCurveFactory>();
+            svc.AddSingleton<IDiffieHellman<EccDomainParameters, EccKeyPair>, DiffieHellmanEcc>();
+            svc.AddSingleton<IMqv<EccDomainParameters, EccKeyPair>, MqvEcc>();
+            svc.AddSingleton<SchemeBuilderBase<KasDsaAlgoAttributesEcc, OtherPartySharedInformation<EccDomainParameters, EccKeyPair>, EccDomainParameters, EccKeyPair>, SchemeBuilderEcc>();
+            svc.AddSingleton<KasBuilderBase<KasDsaAlgoAttributesEcc, OtherPartySharedInformation<EccDomainParameters, EccKeyPair>, EccDomainParameters, EccKeyPair>, KasBuilderEcc>();
+            svc.AddSingleton<IDsaEccFactory, DsaEccFactory>();
+            svc.AddSingleton<IEccCurveFactory, EccCurveFactory>();
 
-            svc.AddSingleton<EccDhComponent>();
+            svc.AddSingleton<IEccDhComponent, EccDhComponent>();
 
-            svc.AddSingleton<Crypto.KDF.KdfFactory>();
+            svc.AddSingleton<Crypto.Common.KDF.IKdfFactory, Crypto.KDF.KdfFactory>();
 
-            svc.AddSingleton<AnsiX963Factory>();
-            svc.AddSingleton<IkeV1Factory>();
-            svc.AddSingleton<IkeV2Factory>();
-            svc.AddSingleton<SnmpFactory>();
-            svc.AddSingleton<SrtpFactory>();
-            svc.AddSingleton<SshFactory>();
-            svc.AddSingleton<TlsKdfFactory>();
+            svc.AddSingleton<IAnsiX963Factory, AnsiX963Factory>();
+            svc.AddSingleton<IIkeV1Factory, IkeV1Factory>();
+            svc.AddSingleton<IIkeV2Factory, IkeV2Factory>();
+            svc.AddSingleton<ISnmpFactory, SnmpFactory>();
+            svc.AddSingleton<ISrtpFactory, SrtpFactory>();
+            svc.AddSingleton<ISshFactory, SshFactory>();
+            svc.AddSingleton<ITlsKdfFactory, TlsKdfFactory>();
 
-            svc.AddSingleton<KeyWrapFactory>();
+            svc.AddSingleton<IKeyWrapFactory, KeyWrapFactory>();
 
-            svc.AddSingleton<SHA>();
-            svc.AddSingleton<SHA_MCT>();
+            svc.AddTransient<ISHA, SHA>();
+            svc.AddTransient<ISHA_MCT, SHA_MCT>();
 
-            svc.AddSingleton<SHA3>();
-            svc.AddSingleton<SHA3_MCT>();
-            svc.AddSingleton<SHAKE_MCT>();
+            svc.AddTransient<ISHA3, SHA3>();
+            svc.AddTransient<ISHA3_MCT, SHA3_MCT>();
+            svc.AddTransient<ISHAKE_MCT, SHAKE_MCT>();
 
-            svc.AddSingleton<KeyBuilder>();
-            svc.AddSingleton<KeyComposerFactory>();
-            svc.AddSingleton<PrimeGeneratorFactory>();
-            svc.AddSingleton<Rsa>();
-            svc.AddSingleton<RsaVisitor>();
+            svc.AddSingleton<IKeyBuilder, KeyBuilder>();
+            svc.AddSingleton<IKeyComposerFactory, KeyComposerFactory>();
+            svc.AddSingleton<IPrimeGeneratorFactory, PrimeGeneratorFactory>();
+            svc.AddTransient<IRsa, Rsa>();
+            svc.AddTransient<IRsaVisitor, RsaVisitor>();
+            
+            svc.AddSingleton<ISignatureBuilder, SignatureBuilder>();
+            svc.AddSingleton<IPaddingFactory, PaddingFactory>();
+            svc.AddSingleton<IShaFactory, ShaFactory>();
 
-            svc.AddSingleton<SignatureBuilder>();
-            svc.AddSingleton<PaddingFactory>();
-            svc.AddSingleton<ShaFactory>();
+            svc.AddSingleton<IEccCurveFactory, EccCurveFactory>();
+            svc.AddSingleton<IDsaEccFactory, DsaEccFactory>();
 
-            svc.AddSingleton<EccCurveFactory>();
-            svc.AddSingleton<EccDsa>();
-            svc.AddSingleton<DsaEccFactory>();
+            svc.AddSingleton<IPQGeneratorValidatorFactory, PQGeneratorValidatorFactory>();
+            svc.AddSingleton<IGGeneratorValidatorFactory, GGeneratorValidatorFactory>();
 
-            svc.AddSingleton<PQGeneratorValidatorFactory>();
-            svc.AddSingleton<GGeneratorValidatorFactory>();
-
-            svc.AddSingleton<CSHAKE>();
-            svc.AddSingleton<CSHAKE_MCT>();
-
-            svc.AddSingleton<TupleHash>();
-            svc.AddSingleton<TupleHash_MCT>();
-
-            svc.AddSingleton<KmacFactory>();
-            svc.AddSingleton<CSHAKEWrapper>();
-
-            svc.AddSingleton<ParallelHash>();
-            svc.AddSingleton<ParallelHash_MCT>();
+            svc.AddTransient<ICSHAKE, CSHAKE>();
+            svc.AddTransient<ICSHAKE_MCT, CSHAKE_MCT>();
+                             
+            svc.AddTransient<ITupleHash, TupleHash>();
+            svc.AddTransient<ITupleHash_MCT, TupleHash_MCT>();
+                             
+            svc.AddTransient<IKmacFactory, KmacFactory>();
+            svc.AddTransient<ICSHAKEWrapper, CSHAKEWrapper>();
+                             
+            svc.AddTransient<IParallelHash, ParallelHash>();
+            svc.AddTransient<IParallelHash_MCT, ParallelHash_MCT>();
         }
     }
 }

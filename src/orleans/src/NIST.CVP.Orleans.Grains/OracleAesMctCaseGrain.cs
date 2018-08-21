@@ -7,7 +7,6 @@ using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
 using NIST.CVP.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.Crypto.Common.Symmetric.MonteCarlo;
-using NIST.CVP.Crypto.Common.Symmetric.TDES;
 using NIST.CVP.Crypto.Symmetric.BlockModes;
 using NIST.CVP.Crypto.Symmetric.Engines;
 using NIST.CVP.Crypto.Symmetric.MonteCarlo;
@@ -26,17 +25,14 @@ namespace NIST.CVP.Orleans.Grains
         private AesParameters _param;
 
         public OracleAesMctCaseGrain(
-            LimitedConcurrencyLevelTaskScheduler scheduler
-            //IMonteCarloFactoryTdes mctFactory,
-            //IEntropyProviderFactory entropyProviderFactory
+            LimitedConcurrencyLevelTaskScheduler scheduler,
+            IMonteCarloFactoryAes mctFactory,
+            IEntropyProviderFactory entropyProviderFactory
         )
             : base(scheduler)
         {
-            //_mctFactory = mctFactory;
-            //_entropyProvider = entropyProviderFactory.GetEntropyProvider(EntropyProviderTypes.Random);
-
-            _mctFactory = new AesMonteCarloFactory(new BlockCipherEngineFactory(), new ModeBlockCipherFactory());
-            _entropyProvider = new EntropyProviderFactory().GetEntropyProvider(EntropyProviderTypes.Random);
+            _mctFactory = mctFactory;
+            _entropyProvider = entropyProviderFactory.GetEntropyProvider(EntropyProviderTypes.Random);
         }
 
         public async Task<bool> BeginWorkAsync(AesParameters param)
