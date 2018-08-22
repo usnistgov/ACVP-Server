@@ -6,6 +6,7 @@ using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Async;
+using NIST.CVP.Math;
 using NIST.CVP.Math.Domain;
 using NLog;
 
@@ -19,14 +20,17 @@ namespace NIST.CVP.Generation.KMAC
         private int _macLength = 0;
         private int _keyLength = 0;
         private int _numberOfCases = 512;
+        private int _numberOfSmallCases = 0;
+        private int _numberOfLargeCases = 0;
         private int _currentTestCase = 0;
         private int _currentSmallCase = 0;
         private int _currentLargeCase = 1;
         private int _customizationLength = 0;
 
         public int NumberOfTestCasesToGenerate => _numberOfCases;
-        public List<int> TestCaseSizes { get; } = new List<int>();                 // Primarily for testing purposes
+        public List<int> MacSizes { get; } = new List<int>();                 // Primarily for testing purposes
         public List<int> KeySizes { get; } = new List<int>();                 // Primarily for testing purposes
+        public List<int> MessageSizes { get; } = new List<int>();             // Primarily for testing purposes
 
         public TestCaseGeneratorAft(IOracle oracle)
         {
@@ -38,14 +42,15 @@ namespace NIST.CVP.Generation.KMAC
             // Only do this logic once
             if (_capacity == 0)
             {
-                TestCaseSizes.Clear();
+                MacSizes.Clear();
                 KeySizes.Clear();
-                DetermineLengths(group.KeyLengths, true);
-                DetermineLengths(group.MacLengths, false);
+                var smallMessageLengths = DetermineSmallMessageDomain(group.MsgLengths, group);
+                var largeMessageLengths = DetermineLargeMessageDomain(group.MsgLengths, group);
+                DetermineLengths(group.MacLengths, group.KeyLengths, smallMessageLengths, largeMessageLengths);
                 _capacity = 2 * group.DigestSize;
             }
 
-            var param = DetermineParameters(group.BitOrientedInput, group.DigestSize, group.IncludeNull, group.HexCustomization, group.XOF);
+            var param = DetermineParameters(group.DigestSize, group.HexCustomization, group.XOF);
 
             try
             {
@@ -67,82 +72,131 @@ namespace NIST.CVP.Generation.KMAC
                 return new TestCaseGenerateResponse<TestGroup, TestCase>($"Failed to generate. {ex.Message}");
             }
         }
-        
-        private void DetermineLengths(MathDomain domain, bool key)
+
+        private MathDomain DetermineSmallMessageDomain(MathDomain msgLengths, TestGroup group)
         {
-            domain.SetRangeOptions(RangeDomainSegmentOptions.Random);
-            var minMax = domain.GetDomainMinMax();
-
-            var values = domain.GetValues(1000).OrderBy(o => Guid.NewGuid()).Take(1000);
-            int repetitions;
-
-            if (values.Count() == 0)
+            if (msgLengths.DomainSegments.ElementAt(0).RangeMinMax.Maximum - msgLengths.DomainSegments.ElementAt(0).RangeMinMax.Minimum < (group.DigestSize == 128 ? 2688 : 2176))
             {
-                repetitions = 999;
+                return msgLengths.GetDeepCopy();
             }
-            else if (values.Count() > 999)
+            return new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), msgLengths.DomainSegments.ElementAt(0).RangeMinMax.Minimum, msgLengths.DomainSegments.ElementAt(0).RangeMinMax.Minimum + (group.DigestSize == 128 ? 2688 : 2176), msgLengths.DomainSegments.ElementAt(0).RangeMinMax.Increment));
+        }
+
+        private MathDomain DetermineLargeMessageDomain(MathDomain msgLengths, TestGroup group)
+        {
+            if (msgLengths.DomainSegments.ElementAt(0).RangeMinMax.Maximum < (group.DigestSize == 128 ? 2688 : 2176))
             {
-                repetitions = 1;
+                return msgLengths.GetDeepCopy();
+            }
+            return new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), group.DigestSize == 128 ? 2688 : 2176, msgLengths.DomainSegments.ElementAt(0).RangeMinMax.Maximum, msgLengths.DomainSegments.ElementAt(0).RangeMinMax.Increment));
+        }
+
+        private void DetermineLengths(MathDomain macDomain, MathDomain keyDomain, MathDomain smallMessageDomain, MathDomain largeMessageDomain)
+        {
+            macDomain.SetRangeOptions(RangeDomainSegmentOptions.Random);
+            var macMinMax = macDomain.GetDomainMinMax();
+            keyDomain.SetRangeOptions(RangeDomainSegmentOptions.Random);
+            var keyMinMax = keyDomain.GetDomainMinMax();
+            smallMessageDomain.SetRangeOptions(RangeDomainSegmentOptions.Random);
+            var smallMinMax = smallMessageDomain.GetDomainMinMax();
+            largeMessageDomain.SetRangeOptions(RangeDomainSegmentOptions.Random);
+            var largeMinMax = largeMessageDomain.GetDomainMinMax();
+
+            var macValues = macDomain.GetValues(500).OrderBy(o => Guid.NewGuid()).Take(500);
+            int macRepetitions;
+            var keyValues = keyDomain.GetValues(500).OrderBy(o => Guid.NewGuid()).Take(500);
+            int keyRepetitions;
+            var smallValues = smallMessageDomain.GetValues(473).OrderBy(o => Guid.NewGuid()).Take(473);
+            var largeValues = largeMessageDomain.GetValues(23).OrderBy(o => Guid.NewGuid()).Take(23);
+
+            if (macValues.Count() == 0)
+            {
+                macRepetitions = 50;
+            }
+            else if (macValues.Count() > 499)
+            {
+                macRepetitions = 1;
             }
             else
             {
-                repetitions = 1000 / values.Count() + (1000 % values.Count() > 0 ? 1 : 0);
+                macRepetitions = 50 / (macValues.Count() / 10) + (500 % macValues.Count() > 0 ? 1 : 0);
             }
 
-            foreach (var value in values)
+            if (keyValues.Count() == 0)
             {
-                for (var i = 0; i < repetitions; i++)
+                keyRepetitions = 50;
+            }
+            else if (keyValues.Count() > 499)
+            {
+                keyRepetitions = 1;
+            }
+            else
+            {
+                keyRepetitions = 50 / (keyValues.Count() / 10) + (500 % keyValues.Count() > 0 ? 1 : 0);
+            }
+
+            foreach (var value in macValues)
+            {
+                for (var i = 0; i < macRepetitions; i++)
                 {
-                    if (key)
-                    {
-                        KeySizes.Add(value);
-                    }
-                    else
-                    {
-                        TestCaseSizes.Add(value);
-                    }
-                    TestCaseSizes.Add(value);
+                    MacSizes.Add(value);
                 }
+            }
+
+            foreach (var value in keyValues)
+            {
+                for (var i = 0; i < keyRepetitions; i++)
+                {
+                    KeySizes.Add(value);
+                }
+            }
+
+            foreach (var value in smallValues)
+            {
+                MessageSizes.Add(value);
+                _numberOfSmallCases++;
+            }
+
+            foreach (var value in largeValues)
+            {
+                MessageSizes.Add(value);
+                _numberOfLargeCases++;
+            }
+
+            while (_numberOfLargeCases < 23)
+            {
+                MessageSizes.Add(largeMessageDomain.GetDomainMinMax().Maximum);
+                _numberOfLargeCases++;
             }
 
             // Make sure min and max appear in the list
-            TestCaseSizes.Add(minMax.Minimum);
-            TestCaseSizes.Add(minMax.Maximum);
+            MacSizes.Add(macMinMax.Minimum);
+            MacSizes.Add(macMinMax.Maximum);
+            KeySizes.Add(keyMinMax.Minimum);
+            KeySizes.Add(keyMinMax.Maximum);
+            MessageSizes.Add(smallMinMax.Minimum);
+            MessageSizes.Add(smallMinMax.Maximum);
+            MessageSizes.Add(largeMinMax.Minimum);
+            MessageSizes.Add(largeMinMax.Maximum);
 
-            TestCaseSizes.Sort();
+            MacSizes.Sort();
+            KeySizes.Sort();
+            MessageSizes.Sort();
         }
 
-        private KmacParameters DetermineParameters(bool bitOriented, int digestSize, bool includeNull, bool hexCustomization, bool xof)
+        private KmacParameters DetermineParameters(int digestSize, bool hexCustomization, bool xof)
         {
-            var unitSize = bitOriented ? 1 : 8;
-            var rate = 1600 - digestSize * 2;
+            _numberOfCases = _numberOfSmallCases + _numberOfLargeCases;
 
-            var numSmallCases = (rate / unitSize) * 2;
-            var numLargeCases = 100;
+            _macLength = MacSizes[_currentTestCase % MacSizes.Count];
 
-            if (!includeNull)
-            {
-                if (_currentSmallCase == 0)
-                {
-                    _currentSmallCase = 1;
-                }
-            }
-            else
-            {
-                numSmallCases = (rate / unitSize) * 2 + 1;
-            }
+            _keyLength = KeySizes[_currentTestCase % KeySizes.Count];
 
-            _numberOfCases = numSmallCases + numLargeCases;
-
-            _macLength = TestCaseSizes[_currentTestCase % TestCaseSizes.Count];
-
-            _keyLength = KeySizes[_currentTestCase++ % KeySizes.Count];
-
-            var messageLength = 0;
+            var messageLength = MessageSizes[_currentTestCase++ % MessageSizes.Count];
+            
             var customizationLength = 0;
-            if (_currentSmallCase <= numSmallCases)
+            if (_currentSmallCase <= _numberOfSmallCases)
             {
-                messageLength = unitSize * _currentSmallCase;
                 if (hexCustomization)
                 {
                     customizationLength = _customizationLength * 8;  // always byte oriented... for now?
@@ -167,7 +221,6 @@ namespace NIST.CVP.Generation.KMAC
                         customizationLength = _customizationLength++ * _currentLargeCase;
                     }
                 }
-                messageLength = rate + _currentLargeCase * (rate + unitSize);
                 _currentLargeCase++;
             }
 

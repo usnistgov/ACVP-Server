@@ -13,18 +13,6 @@ namespace NIST.CVP.Generation.KMAC
         [JsonProperty(PropertyName = "digestSize")]
         public int[] DigestSizes { get; set; }
 
-        [JsonProperty(PropertyName = "inBit")]
-        public bool BitOrientedInput { get; set; } = false;
-
-        [JsonProperty(PropertyName = "outBit")]
-        public bool BitOrientedOutput { get; set; } = false;
-
-        [JsonProperty(PropertyName = "keyBit")]
-        public bool BitOrientedKey { get; set; } = false;
-
-        [JsonProperty(PropertyName = "inEmpty")]
-        public bool IncludeNull { get; set; } = false;
-
         [JsonProperty(PropertyName = "nonxof")]
         public bool NonXOF { get; set; } = true;
 
@@ -34,6 +22,7 @@ namespace NIST.CVP.Generation.KMAC
         [JsonProperty(PropertyName = "hexCustomization")]
         public bool HexCustomization { get; set; } = false;
 
+        public MathDomain MsgLen { get; set; }
         public MathDomain KeyLen { get; set; }
         public MathDomain MacLen { get; set; }
     }

@@ -54,13 +54,11 @@ namespace NIST.CVP.Generation.KMAC.Tests
             Parameters p = new Parameters()
             {
                 Algorithm = "KMAC",
+                MsgLen = new MathDomain().AddSegment(new RangeDomainSegment(null, 256, 1024, 8)),
                 KeyLen = new MathDomain().AddSegment(new RangeDomainSegment(null, 256, 1024, 8)),
                 MacLen = new MathDomain().AddSegment(new RangeDomainSegment(null, 256, 1024, 8)),
                 XOF = false,
-                BitOrientedInput = false,
-                BitOrientedOutput = false,
                 DigestSizes = digestSizes,
-                IncludeNull = false,
                 IsSample = true
             };
 
@@ -80,13 +78,11 @@ namespace NIST.CVP.Generation.KMAC.Tests
             Parameters p = new Parameters()
             {
                 Algorithm = "KMAC",
+                MsgLen = new MathDomain().AddSegment(new RangeDomainSegment(null, 256, 1024, 8)),
                 KeyLen = new MathDomain().AddSegment(new RangeDomainSegment(null, 256, 1024, 8)),
                 MacLen = new MathDomain().AddSegment(new RangeDomainSegment(null, 256, 1024, 8)),
                 XOF = true,
-                BitOrientedInput = false,
-                BitOrientedOutput = false,
                 DigestSizes = digestSizes,
-                IncludeNull = false,
                 IsSample = true
             };
 
@@ -106,14 +102,12 @@ namespace NIST.CVP.Generation.KMAC.Tests
             Parameters p = new Parameters()
             {
                 Algorithm = "KMAC",
+                MsgLen = new MathDomain().AddSegment(new RangeDomainSegment(null, 256, 1024, 8)),
                 KeyLen = new MathDomain().AddSegment(new RangeDomainSegment(null, 256, 1024, 8)),
                 MacLen = new MathDomain().AddSegment(new RangeDomainSegment(null, 256, 1024, 8)),
                 XOF = true,
                 NonXOF = false,
-                BitOrientedInput = false,
-                BitOrientedOutput = false,
                 DigestSizes = digestSizes,
-                IncludeNull = false,
                 IsSample = true
             };
 
