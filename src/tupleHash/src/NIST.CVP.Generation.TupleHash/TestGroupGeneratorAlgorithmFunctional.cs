@@ -19,11 +19,9 @@ namespace NIST.CVP.Generation.TupleHash
                     {
                         Function = parameters.Algorithm,
                         DigestSize = digestSize,
-                        IncludeNull = parameters.IncludeNull,
-                        BitOrientedInput = parameters.BitOrientedInput,
-                        BitOrientedOutput = parameters.BitOrientedOutput,
                         TestType = TEST_TYPE,
                         OutputLength = parameters.OutputLength.GetDeepCopy(),
+                        MessageLength = parameters.MessageLength.GetDeepCopy(),
                         XOF = false,
                         HexCustomization = parameters.HexCustomization
                     };
@@ -37,11 +35,9 @@ namespace NIST.CVP.Generation.TupleHash
                     {
                         Function = parameters.Algorithm,
                         DigestSize = digestSize,
-                        IncludeNull = parameters.IncludeNull,
-                        BitOrientedInput = parameters.BitOrientedInput,
-                        BitOrientedOutput = parameters.BitOrientedOutput,
                         TestType = TEST_TYPE,
                         OutputLength = parameters.OutputLength.GetDeepCopy(),
+                        MessageLength = parameters.MessageLength.GetDeepCopy(),
                         XOF = true,
                         HexCustomization = parameters.HexCustomization
                     };

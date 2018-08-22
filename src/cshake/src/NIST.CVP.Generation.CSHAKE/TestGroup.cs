@@ -1,10 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.Dynamic;
-using System.Linq;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.Core.ExtensionMethods;
 using NIST.CVP.Math.Domain;
 
 namespace NIST.CVP.Generation.CSHAKE

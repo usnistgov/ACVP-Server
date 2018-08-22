@@ -47,14 +47,14 @@ namespace NIST.CVP.Generation.TupleHash.Tests
 
             var minMax = new MathDomain();
             minMax.AddSegment(new RangeDomainSegment(null, 16, 65536));
+            var minMaxMsg = new MathDomain();
+            minMaxMsg.AddSegment(new RangeDomainSegment(null, 0, 65536));
 
             Parameters p = new Parameters
             {
                 Algorithm = "TupleHash",
                 DigestSizes = new[] { 128, 256 },
-                BitOrientedInput = true,
-                BitOrientedOutput = true,
-                IncludeNull = true,
+                MessageLength = minMaxMsg,
                 IsSample = false,
                 OutputLength = minMax,
                 XOF = xof
