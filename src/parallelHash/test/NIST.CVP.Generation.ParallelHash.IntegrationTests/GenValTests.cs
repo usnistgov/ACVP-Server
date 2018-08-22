@@ -79,11 +79,10 @@ namespace NIST.CVP.Generation.ParallelHash.IntegrationTests
                 Algorithm = "ParallelHash",
                 Mode = Mode,
                 DigestSizes = new[] { 128 },
-                BitOrientedInput = false,
-                BitOrientedOutput = false,
-                IncludeNull = false,
+                MessageLength = minMax,
                 OutputLength = minMax,
-                IsSample = true
+                IsSample = true,
+                XOF = false
             };
 
             return CreateRegistration(targetFolder, parameters);
@@ -94,14 +93,17 @@ namespace NIST.CVP.Generation.ParallelHash.IntegrationTests
             var minMax = new MathDomain();
             minMax.AddSegment(new RangeDomainSegment(null, 256, 4096, 1));
 
+            var minMaxMsg = new MathDomain();
+            minMaxMsg.AddSegment(new RangeDomainSegment(null, 0, 65536, 1));
+
             var parameters = new Parameters
             {
                 Algorithm = "ParallelHash",
                 DigestSizes = new[] { 128, 256 },
-                BitOrientedInput = true,
-                BitOrientedOutput = true,
-                IncludeNull = true,
+                MessageLength = minMaxMsg,
                 OutputLength = minMax,
+                XOF = true,
+                NonXOF = true,
                 IsSample = true
             };
 

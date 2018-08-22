@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using NIST.CVP.Math;
-using NIST.CVP.Math.Domain;
+﻿using NIST.CVP.Math.Domain;
 
 namespace NIST.CVP.Generation.KMAC.Tests
 {
@@ -11,10 +7,7 @@ namespace NIST.CVP.Generation.KMAC.Tests
         private string _algorithm;
         private MathDomain _keyLen;
         private MathDomain _macLen;
-        private bool _bitOrientedInput;
-        private bool _bitOrientedOutput;
-        private bool _bitOrientedKey;
-        private bool _includeNull;
+        private MathDomain _msgLen;
         private bool _xof;
         private bool _nonxof;
         private int[] _digestSizes;
@@ -26,14 +19,12 @@ namespace NIST.CVP.Generation.KMAC.Tests
         public ParameterBuilder()
         {
             _algorithm = "KMAC";
+            _msgLen = new MathDomain();
+            _msgLen = _msgLen.AddSegment(new RangeDomainSegment(null, 0, 65536, 8));
             _keyLen = new MathDomain();
             _keyLen = _keyLen.AddSegment(new RangeDomainSegment(null, ParameterValidator._MIN_KEY_LENGTH, ParameterValidator._MAX_KEY_LENGTH, 8));
             _macLen = new MathDomain();
             _macLen = _macLen.AddSegment(new RangeDomainSegment(null, 32, 65536, 8));
-            _bitOrientedInput = false;
-            _bitOrientedOutput = false;
-            _bitOrientedKey = false;
-            _includeNull = false;
             _xof = false;
             _nonxof = true;
             _digestSizes = new int[] { 128, 256 };
@@ -46,6 +37,12 @@ namespace NIST.CVP.Generation.KMAC.Tests
             return this;
         }
 
+        public ParameterBuilder WithMsgLen(MathDomain value)
+        {
+            _msgLen = value;
+            return this;
+        }
+
         public ParameterBuilder WithKeyLen(MathDomain value)
         {
             _keyLen = value;
@@ -55,30 +52,6 @@ namespace NIST.CVP.Generation.KMAC.Tests
         public ParameterBuilder WithMacLen(MathDomain value)
         {
             _macLen = value;
-            return this;
-        }
-
-        public ParameterBuilder WithBitOrientedInput(bool value)
-        {
-            _bitOrientedInput = value;
-            return this;
-        }
-
-        public ParameterBuilder WithBitOrientedOutput(bool value)
-        {
-            _bitOrientedOutput = value;
-            return this;
-        }
-
-        public ParameterBuilder WithBitOrientedKey(bool value)
-        {
-            _bitOrientedKey = value;
-            return this;
-        }
-
-        public ParameterBuilder WithIncludeNull(bool value)
-        {
-            _includeNull = value;
             return this;
         }
 
@@ -111,13 +84,10 @@ namespace NIST.CVP.Generation.KMAC.Tests
             return new Parameters()
             {
                 Algorithm = _algorithm,
+                MsgLen = _msgLen,
                 KeyLen = _keyLen,
                 MacLen = _macLen,
-                BitOrientedInput = _bitOrientedInput,
-                BitOrientedOutput = _bitOrientedOutput,
-                BitOrientedKey = _bitOrientedKey,
                 DigestSizes = _digestSizes,
-                IncludeNull = _includeNull,
                 XOF = _xof,
                 NonXOF = _nonxof,
                 HexCustomization = _hexCustomization

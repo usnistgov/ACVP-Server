@@ -26,41 +26,13 @@ namespace NIST.CVP.Generation.ParallelHash
         [JsonProperty(PropertyName = "XOF")]
         public bool XOF { get; set; }
 
-        [JsonProperty(PropertyName = "inBit")]
-        public bool BitOrientedInput { get; set; } = false;
-
-        [JsonProperty(PropertyName = "outBit")]
-        public bool BitOrientedOutput { get; set; } = false;
-
-        [JsonProperty(PropertyName = "inEmpty")]
-        public bool IncludeNull { get; set; } = false;
-
         [JsonIgnore]
         public bool HexCustomization { get; set; } = false;
 
         [JsonIgnore]
         public MathDomain OutputLength { get; set; }
-        
-        public bool SetString(string name, string value)
-        {
-            if (string.IsNullOrEmpty(name) || string.IsNullOrEmpty(value))
-            {
-                return false;
-            }
 
-            name = name.ToLower();
-
-            switch (name)
-            {
-                case "testtype":
-                    TestType = value;
-                    return true;
-                case "function":
-                    Function = value;
-                    return true;
-            }
-
-            return false;
-        }
+        [JsonIgnore]
+        public MathDomain MessageLength { get; set; }
     }
 }

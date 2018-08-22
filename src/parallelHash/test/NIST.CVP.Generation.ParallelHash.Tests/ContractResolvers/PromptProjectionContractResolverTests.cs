@@ -51,9 +51,6 @@ namespace NIST.CVP.Generation.ParallelHash.Tests.ContractResolvers
 
             Assert.AreEqual(tg.TestGroupId, newTg.TestGroupId, nameof(newTg.TestGroupId));
             Assert.AreEqual(tg.Tests.Count, newTg.Tests.Count, nameof(newTg.Tests));
-            Assert.AreEqual(tg.BitOrientedInput, newTg.BitOrientedInput, nameof(newTg.BitOrientedInput));
-            Assert.AreEqual(tg.IncludeNull, newTg.IncludeNull, nameof(newTg.IncludeNull));
-            Assert.AreEqual(tg.BitOrientedOutput, newTg.BitOrientedOutput, nameof(newTg.BitOrientedOutput));
         }
 
         /// <summary>

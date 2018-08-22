@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using NIST.CVP.Math.Domain;
+﻿using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
@@ -52,7 +49,28 @@ namespace NIST.CVP.Generation.ParallelHash.Tests
                 new ParameterBuilder()
                     .WithAlgorithm("parallelhash")
                     .WithOutputLength(outputLength)
-                    .WithBitOrientedOutput(bitOriented)
+                    .Build()
+            );
+
+            Assert.IsFalse(result.Success, result.ErrorMessage);
+        }
+
+        [Test]
+        [TestCase(16, 65537, true)]
+        [TestCase(65535, 65535, false)]
+        [TestCase(15, 16, true)]
+        [TestCase(17, 50091, false)]
+        public void ShouldReturnErrorWithInvalidMessageLength(int min, int max, bool bitOriented)
+        {
+            var messageLength = new MathDomain();
+            messageLength.AddSegment(new ValueDomainSegment(min));
+            messageLength.AddSegment(new ValueDomainSegment(max));
+
+            var subject = new ParameterValidator();
+            var result = subject.Validate(
+                new ParameterBuilder()
+                    .WithAlgorithm("parallelhash")
+                    .WithMessageLength(messageLength)
                     .Build()
             );
 
@@ -77,32 +95,6 @@ namespace NIST.CVP.Generation.ParallelHash.Tests
         }
 
         [Test]
-        public void ShouldReturnSuccessWithNewIncludeNull()
-        {
-            var subject = new ParameterValidator();
-            var result = subject.Validate(
-                new ParameterBuilder()
-                    .WithIncludeNull(false)
-                    .Build()
-            );
-
-            Assert.IsTrue(result.Success);
-        }
-
-        [Test]
-        public void ShouldReturnSuccessWithNewBitOrientedInput()
-        {
-            var subject = new ParameterValidator();
-            var result = subject.Validate(
-                new ParameterBuilder()
-                    .WithBitOrientedInput(false)
-                    .Build()
-            );
-
-            Assert.IsTrue(result.Success);
-        }
-
-        [Test]
         [TestCase(16, 17, true)]
         [TestCase(65528, 65536, false)]
         [TestCase(256, 512, false)]
@@ -118,7 +110,28 @@ namespace NIST.CVP.Generation.ParallelHash.Tests
                     .WithAlgorithm("parallelhash")
                     .WithDigestSizes(new int[] { 128 })
                     .WithOutputLength(outputLength)
-                    .WithBitOrientedOutput(bitOriented)
+                    .Build()
+            );
+
+            Assert.IsTrue(result.Success, result.ErrorMessage);
+        }
+
+        [Test]
+        [TestCase(16, 17, true)]
+        [TestCase(65528, 65536, false)]
+        [TestCase(256, 512, false)]
+        [TestCase(17, 50091, true)]
+        public void ShouldReturnSuccessWithNewMessageLength(int min, int max, bool bitOriented)
+        {
+            var messageLength = new MathDomain();
+            messageLength.AddSegment(new RangeDomainSegment(null, min, max, bitOriented ? 1 : 8));
+
+            var subject = new ParameterValidator();
+            var result = subject.Validate(
+                new ParameterBuilder()
+                    .WithAlgorithm("parallelhash")
+                    .WithDigestSizes(new int[] { 128 })
+                    .WithMessageLength(messageLength)
                     .Build()
             );
 
@@ -148,10 +161,8 @@ namespace NIST.CVP.Generation.ParallelHash.Tests
         {
             private string _algorithm;
             private int[] _digestSize;
-            private bool _includeNull;
-            private bool _bitOrientedInput;
-            private bool _bitOrientedOutput;
             private MathDomain _outputLength;
+            private MathDomain _messageLength;
             private bool _nonxof;
             private bool _xof;
             private bool _hexCustomization;
@@ -160,11 +171,8 @@ namespace NIST.CVP.Generation.ParallelHash.Tests
             {
                 _algorithm = "ParallelHash";
                 _digestSize = new int[] { 128, 256 };
-                _includeNull = true;
-                _bitOrientedInput = true;
-                _bitOrientedOutput = true;
-                _outputLength = new MathDomain();
-                _outputLength.AddSegment(new RangeDomainSegment(null, 16, 65536));
+                _messageLength = new MathDomain().AddSegment(new RangeDomainSegment(null, 16, 65536));
+                _outputLength = new MathDomain().AddSegment(new RangeDomainSegment(null, 16, 65536));
                 _xof = true;
                 _nonxof = true;
                 _hexCustomization = false;
@@ -182,27 +190,15 @@ namespace NIST.CVP.Generation.ParallelHash.Tests
                 return this;
             }
 
-            public ParameterBuilder WithIncludeNull(bool value)
-            {
-                _includeNull = value;
-                return this;
-            }
-
-            public ParameterBuilder WithBitOrientedInput(bool value)
-            {
-                _bitOrientedInput = value;
-                return this;
-            }
-
-            public ParameterBuilder WithBitOrientedOutput(bool value)
-            {
-                _bitOrientedOutput = value;
-                return this;
-            }
-
             public ParameterBuilder WithOutputLength(MathDomain value)
             {
                 _outputLength = value;
+                return this;
+            }
+
+            public ParameterBuilder WithMessageLength(MathDomain value)
+            {
+                _messageLength = value;
                 return this;
             }
 
@@ -230,9 +226,7 @@ namespace NIST.CVP.Generation.ParallelHash.Tests
                 {
                     Algorithm = _algorithm,
                     DigestSizes = _digestSize,
-                    BitOrientedInput = _bitOrientedInput,
-                    BitOrientedOutput = _bitOrientedOutput,
-                    IncludeNull = _includeNull,
+                    MessageLength = _messageLength,
                     OutputLength = _outputLength,
                     XOF = _xof,
                     NonXOF = _nonxof,

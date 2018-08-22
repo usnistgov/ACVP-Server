@@ -52,7 +52,28 @@ namespace NIST.CVP.Generation.CSHAKE.Tests
                 new ParameterBuilder()
                     .WithAlgorithm("cshake")
                     .WithOutputLength(outputLength)
-                    .WithBitOrientedOutput(bitOriented)
+                    .Build()
+            );
+
+            Assert.IsFalse(result.Success, result.ErrorMessage);
+        }
+
+        [Test]
+        [TestCase(16, 65537, true)]
+        [TestCase(65535, 65535, false)]
+        [TestCase(15, 16, true)]
+        [TestCase(17, 50091, false)]
+        public void ShouldReturnErrorWithInvalidMessageLength(int min, int max, bool bitOriented)
+        {
+            var messageLength = new MathDomain();
+            messageLength.AddSegment(new ValueDomainSegment(min));
+            messageLength.AddSegment(new ValueDomainSegment(max));
+
+            var subject = new ParameterValidator();
+            var result = subject.Validate(
+                new ParameterBuilder()
+                    .WithAlgorithm("cshake")
+                    .WithOutputLength(messageLength)
                     .Build()
             );
 
@@ -77,32 +98,6 @@ namespace NIST.CVP.Generation.CSHAKE.Tests
         }
 
         [Test]
-        public void ShouldReturnSuccessWithNewIncludeNull()
-        {
-            var subject = new ParameterValidator();
-            var result = subject.Validate(
-                new ParameterBuilder()
-                    .WithIncludeNull(false)
-                    .Build()
-            );
-
-            Assert.IsTrue(result.Success);
-        }
-
-        [Test]
-        public void ShouldReturnSuccessWithNewBitOrientedInput()
-        {
-            var subject = new ParameterValidator();
-            var result = subject.Validate(
-                new ParameterBuilder()
-                    .WithBitOrientedInput(false)
-                    .Build()
-            );
-
-            Assert.IsTrue(result.Success);
-        }
-
-        [Test]
         [TestCase(16, 17, true)]
         [TestCase(65528, 65536, false)]
         [TestCase(256, 512, false)]
@@ -118,7 +113,28 @@ namespace NIST.CVP.Generation.CSHAKE.Tests
                     .WithAlgorithm("cshake")
                     .WithDigestSizes(new int[] { 128 })
                     .WithOutputLength(outputLength)
-                    .WithBitOrientedOutput(bitOriented)
+                    .Build()
+            );
+
+            Assert.IsTrue(result.Success, result.ErrorMessage);
+        }
+
+        [Test]
+        [TestCase(16, 17, true)]
+        [TestCase(65528, 65536, false)]
+        [TestCase(256, 512, false)]
+        [TestCase(17, 50091, true)]
+        public void ShouldReturnSuccessWithNewMessageLength(int min, int max, bool bitOriented)
+        {
+            var messageLength = new MathDomain();
+            messageLength.AddSegment(new RangeDomainSegment(null, min, max, bitOriented ? 1 : 8));
+
+            var subject = new ParameterValidator();
+            var result = subject.Validate(
+                new ParameterBuilder()
+                    .WithAlgorithm("cshake")
+                    .WithDigestSizes(new int[] { 128 })
+                    .WithMessageLength(messageLength)
                     .Build()
             );
 
@@ -129,22 +145,19 @@ namespace NIST.CVP.Generation.CSHAKE.Tests
         {
             private string _algorithm;
             private int[] _digestSize;
-            private bool _includeNull;
-            private bool _bitOrientedInput;
-            private bool _bitOrientedOutput;
             private bool _hexCustomization;
             private MathDomain _outputLength;
+            private MathDomain _messageLength;
 
             public ParameterBuilder()
             {
                 _algorithm = "cSHAKE";
                 _digestSize = new int[] { 128, 256 };
-                _includeNull = true;
-                _bitOrientedInput = true;
-                _bitOrientedOutput = true;
                 _hexCustomization = false;
                 _outputLength = new MathDomain();
                 _outputLength.AddSegment(new RangeDomainSegment(null, 16, 65536));
+                _messageLength = new MathDomain();
+                _messageLength.AddSegment(new RangeDomainSegment(null, 16, 65536));
             }
 
             public ParameterBuilder WithAlgorithm(string value)
@@ -156,24 +169,6 @@ namespace NIST.CVP.Generation.CSHAKE.Tests
             public ParameterBuilder WithDigestSizes(int[] values)
             {
                 _digestSize = values;
-                return this;
-            }
-
-            public ParameterBuilder WithIncludeNull(bool value)
-            {
-                _includeNull = value;
-                return this;
-            }
-
-            public ParameterBuilder WithBitOrientedInput(bool value)
-            {
-                _bitOrientedInput = value;
-                return this;
-            }
-
-            public ParameterBuilder WithBitOrientedOutput(bool value)
-            {
-                _bitOrientedOutput = value;
                 return this;
             }
 
@@ -189,17 +184,21 @@ namespace NIST.CVP.Generation.CSHAKE.Tests
                 return this;
             }
 
+            public ParameterBuilder WithMessageLength(MathDomain value)
+            {
+                _messageLength = value;
+                return this;
+            }
+
             public Parameters Build()
             {
                 return new Parameters
                 {
                     Algorithm = _algorithm,
                     DigestSizes = _digestSize,
-                    BitOrientedInput = _bitOrientedInput,
-                    BitOrientedOutput = _bitOrientedOutput,
-                    IncludeNull = _includeNull,
                     HexCustomization = _hexCustomization,
-                    OutputLength = _outputLength
+                    OutputLength = _outputLength,
+                    MessageLength = _messageLength
                 };
             }
         }

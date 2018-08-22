@@ -16,13 +16,9 @@ namespace NIST.CVP.Generation.KMAC
         [JsonProperty(PropertyName = "msgLen")]
         public int MessageLength { get; set; }
 
+        public MathDomain MsgLengths { get; set; }
+
         public MathDomain MacLengths { get; set; }
-
-        [JsonProperty(PropertyName = "inBit")]
-        public bool BitOrientedInput { get; set; } = false;
-
-        [JsonProperty(PropertyName = "outBit")]
-        public bool BitOrientedOutput { get; set; } = false;
 
         public List<TestCase> Tests { get; set; } = new List<TestCase>();
 
@@ -34,7 +30,5 @@ namespace NIST.CVP.Generation.KMAC
 
         [JsonIgnore]
         public bool HexCustomization { get; set; } = false;
-
-        public bool IncludeNull { get; set; }
     }
 }

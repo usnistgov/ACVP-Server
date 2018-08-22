@@ -28,9 +28,7 @@ namespace NIST.CVP.Generation.TupleHash.Tests
                 {
                     Function = mode,
                     DigestSize = groupIdx + 1,
-                    BitOrientedInput = true,
-                    IncludeNull = true,
-                    BitOrientedOutput = true,
+                    MessageLength = new MathDomain().AddSegment(new ValueDomainSegment(128)),
                     OutputLength = new MathDomain().AddSegment(new ValueDomainSegment(128)),
                     TestType = testType,
                     HexCustomization = hexCustomization,

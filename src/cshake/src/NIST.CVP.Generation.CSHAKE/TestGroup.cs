@@ -1,10 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.Dynamic;
-using System.Linq;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.Core.ExtensionMethods;
 using NIST.CVP.Math.Domain;
 
 namespace NIST.CVP.Generation.CSHAKE
@@ -23,41 +19,13 @@ namespace NIST.CVP.Generation.CSHAKE
         [JsonIgnore]
         public int DigestSize { get; set; }
 
-        [JsonProperty(PropertyName = "inBit")]
-        public bool BitOrientedInput { get; set; } = false;
-
-        [JsonProperty(PropertyName = "outBit")]
-        public bool BitOrientedOutput { get; set; } = false;
-
-        [JsonProperty(PropertyName = "inEmpty")]
-        public bool IncludeNull { get; set; } = false;
-
         [JsonIgnore]
         public bool HexCustomization { get; set; } = false;
 
         [JsonIgnore]
         public MathDomain OutputLength { get; set; }
-        
-        public bool SetString(string name, string value)
-        {
-            if (string.IsNullOrEmpty(name) || string.IsNullOrEmpty(value))
-            {
-                return false;
-            }
 
-            name = name.ToLower();
-
-            switch (name)
-            {
-                case "testtype":
-                    TestType = value;
-                    return true;
-                case "function":
-                    Function = value;
-                    return true;
-            }
-
-            return false;
-        }
+        [JsonIgnore]
+        public MathDomain MessageLength { get; set; }
     }
 }

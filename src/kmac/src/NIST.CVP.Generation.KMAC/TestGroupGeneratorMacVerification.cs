@@ -1,8 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Math.Domain;
 
 namespace NIST.CVP.Generation.KMAC
 {
@@ -21,8 +18,6 @@ namespace NIST.CVP.Generation.KMAC
                     var testGroup = new TestGroup
                     {
                         DigestSize = digestSize,
-                        BitOrientedInput = parameters.BitOrientedInput,
-                        BitOrientedOutput = parameters.BitOrientedOutput,
                         TestType = TEST_TYPE,
                         KeyLengths = parameters.KeyLen.GetDeepCopy(),
                         MacLengths = parameters.MacLen.GetDeepCopy(),
@@ -39,8 +34,6 @@ namespace NIST.CVP.Generation.KMAC
                     var testGroupXOF = new TestGroup
                     {
                         DigestSize = digestSize,
-                        BitOrientedInput = parameters.BitOrientedInput,
-                        BitOrientedOutput = parameters.BitOrientedOutput,
                         TestType = TEST_TYPE,
                         KeyLengths = parameters.KeyLen.GetDeepCopy(),
                         MacLengths = parameters.MacLen.GetDeepCopy(),

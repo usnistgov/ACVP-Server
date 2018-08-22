@@ -18,20 +18,15 @@ namespace NIST.CVP.Generation.CSHAKE
         [JsonProperty(PropertyName = "digestSize")]
         public int[] DigestSizes { get; set; }
 
-        [JsonProperty(PropertyName = "inBit")]
-        public bool BitOrientedInput { get; set; } = false;
-
-        [JsonProperty(PropertyName = "outBit")]
-        public bool BitOrientedOutput { get; set; } = false;
-
-        [JsonProperty(PropertyName = "inEmpty")]
-        public bool IncludeNull { get; set; } = false;
-
         [JsonProperty(PropertyName = "hexCustomization")]
         public bool HexCustomization { get; set; } = false;
 
         // Hard assumption that this is just a single RangeSegment inside of a Domain
         [JsonProperty(PropertyName = "outputLength")]
         public MathDomain OutputLength { get; set; }
+
+        // Hard assumption that this is just a single RangeSegment inside of a Domain
+        [JsonProperty(PropertyName = "msgLength")]
+        public MathDomain MessageLength { get; set; }
     }
 }

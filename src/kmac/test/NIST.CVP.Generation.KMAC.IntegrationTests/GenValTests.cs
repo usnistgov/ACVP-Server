@@ -68,10 +68,7 @@ namespace NIST.CVP.Generation.KMAC.IntegrationTests
                 Algorithm = "KMAC",
                 Mode = Mode,
                 DigestSizes = new[] { 128 },
-                BitOrientedInput = false,
-                BitOrientedOutput = false,
-                BitOrientedKey = false,
-                IncludeNull = false,
+                MsgLen = minMax,
                 MacLen = minMax,
                 KeyLen = minMax,
                 XOF = false,
@@ -86,14 +83,14 @@ namespace NIST.CVP.Generation.KMAC.IntegrationTests
             var minMax = new MathDomain();
             minMax.AddSegment(new RangeDomainSegment(null, 256, 4096, 1));
 
+            var minMaxMsg = new MathDomain();
+            minMaxMsg.AddSegment(new RangeDomainSegment(null, 0, 65536, 1));
+
             var parameters = new Parameters
             {
                 Algorithm = "KMAC",
                 DigestSizes = new[] { 128, 256 },
-                BitOrientedInput = true,
-                BitOrientedOutput = true,
-                BitOrientedKey = true,
-                IncludeNull = true,
+                MsgLen = minMaxMsg,
                 MacLen = minMax,
                 KeyLen = minMax,
                 XOF = true,

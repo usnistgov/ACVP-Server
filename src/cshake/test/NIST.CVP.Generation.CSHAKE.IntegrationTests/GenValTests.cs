@@ -79,10 +79,8 @@ namespace NIST.CVP.Generation.CSHAKE.IntegrationTests
                 Algorithm = "cSHAKE",
                 Mode = Mode,
                 DigestSizes = new[] { 128 },
-                BitOrientedInput = false,
-                BitOrientedOutput = false,
-                IncludeNull = false,
                 OutputLength = minMax,
+                MessageLength = minMax,
                 IsSample = true
             };
 
@@ -94,14 +92,15 @@ namespace NIST.CVP.Generation.CSHAKE.IntegrationTests
             var minMax = new MathDomain();
             minMax.AddSegment(new RangeDomainSegment(null, 256, 4096, 1));
 
+            var minMaxMsg = new MathDomain();
+            minMaxMsg.AddSegment(new RangeDomainSegment(null, 0, 65536, 1));
+
             var parameters = new Parameters
             {
                 Algorithm = "cSHAKE",
                 DigestSizes = new[] { 128, 256 },
-                BitOrientedInput = true,
-                BitOrientedOutput = true,
-                IncludeNull = true,
                 OutputLength = minMax,
+                MessageLength = minMaxMsg,
                 IsSample = true
             };
 

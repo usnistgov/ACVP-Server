@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Math.Domain;
 
 namespace NIST.CVP.Generation.ParallelHash
 {
@@ -20,8 +19,6 @@ namespace NIST.CVP.Generation.ParallelHash
                     {
                         Function = parameters.Algorithm,
                         DigestSize = digSize,
-                        BitOrientedInput = parameters.BitOrientedInput,
-                        BitOrientedOutput = parameters.BitOrientedOutput,
                         OutputLength = parameters.OutputLength,
                         TestType = TEST_TYPE,
                         XOF = false
@@ -36,8 +33,6 @@ namespace NIST.CVP.Generation.ParallelHash
                     {
                         Function = parameters.Algorithm,
                         DigestSize = digSize,
-                        BitOrientedInput = parameters.BitOrientedInput,
-                        BitOrientedOutput = parameters.BitOrientedOutput,
                         OutputLength = parameters.OutputLength,
                         TestType = TEST_TYPE,
                         XOF = true

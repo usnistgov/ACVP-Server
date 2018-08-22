@@ -16,9 +16,6 @@ namespace NIST.CVP.Generation.KMAC.ContractResolvers
                 nameof(TestGroup.TestType),
                 nameof(TestGroup.DigestSize),
                 nameof(TestGroup.XOF),
-                nameof(TestGroup.BitOrientedInput),
-                nameof(TestGroup.BitOrientedOutput),
-                nameof(TestGroup.IncludeNull),
                 nameof(TestGroup.HexCustomization)
             };
 
