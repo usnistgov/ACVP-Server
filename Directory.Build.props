@@ -14,13 +14,13 @@
 
 
     <PropertyGroup>
-        <TargetFramework>netcoreapp2.0</TargetFramework>
+        <TargetFramework>netcoreapp2.1</TargetFramework>
     </PropertyGroup>
 
     <!-- NuGet package versions -->
     <PropertyGroup>
         <NuGetVersionMicrosoftNETTestSdk>15.7.0</NuGetVersionMicrosoftNETTestSdk>
-        <NuGetVersionMicrosoftAspNetCoreAll>2.0.0</NuGetVersionMicrosoftAspNetCoreAll>
+        <NuGetVersionMicrosoftAspNetCoreAll>2.1.0</NuGetVersionMicrosoftAspNetCoreAll>
         <NuGetVersiondotnettestnunit>3.4.0-beta-3</NuGetVersiondotnettestnunit>
         <NuGetVersionTeamCityVSTestTestAdapter>1.0.5</NuGetVersionTeamCityVSTestTestAdapter>
         <NuGetVersionMoq>4.8.2</NuGetVersionMoq>
@@ -32,11 +32,11 @@
         <NuGetVersionCommandLineArgumentsParser>3.0.18</NuGetVersionCommandLineArgumentsParser>
         <NuGetVersionMicrosoftExtensionsOptionsConfigurationExtensions>2.0.0</NuGetVersionMicrosoftExtensionsOptionsConfigurationExtensions>
         <NuGetVersionSystemRuntimeLoader>4.3.0</NuGetVersionSystemRuntimeLoader>
-        <NugetVersionMicrosoftOrleansServer>2.0.3</NugetVersionMicrosoftOrleansServer>
-        <NugetVersionMicrosoftOrleansOrleansCodeGeneratorBuild>2.0.3</NugetVersionMicrosoftOrleansOrleansCodeGeneratorBuild>
+        <NugetVersionMicrosoftOrleansServer>2.0.4</NugetVersionMicrosoftOrleansServer>
+        <NugetVersionMicrosoftOrleansOrleansCodeGeneratorBuild>2.0.4</NugetVersionMicrosoftOrleansOrleansCodeGeneratorBuild>
         <NugetVersionMicrosoftOrleansClient>2.0.3</NugetVersionMicrosoftOrleansClient>
         <NugetVersionMicrosoftOrleansCoreAbstractions>2.0.0</NugetVersionMicrosoftOrleansCoreAbstractions>
-        <NugetVersionMicrosoftExtensionsLoggingConsole>2.0.0</NugetVersionMicrosoftExtensionsLoggingConsole>
+        <NugetVersionMicrosoftExtensionsLoggingConsole>2.1.0</NugetVersionMicrosoftExtensionsLoggingConsole>
     </PropertyGroup>
 
 </Project>

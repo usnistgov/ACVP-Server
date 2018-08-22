@@ -22,10 +22,7 @@ namespace NIST.CVP.Common.Oracle.ParameterTypes
 
         public override int GetHashCode()
         {
-            // TODO this is enabled in 2.1
-            //return HashCode.Combine(Mode, KeyLength, DataLength, Direction);
-
-            return $"{Mode}|{KeyLength}|{DataLength}|{Direction}".GetHashCode();
+            return HashCode.Combine(Mode, KeyLength, DataLength, Direction);
         }
     }
 }
