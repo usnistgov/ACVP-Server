@@ -58,16 +58,11 @@ namespace NIST.CVP.Orleans.Grains
             {
                 State = GrainState.Working;
 
-                //Task.Factory.StartNew(() =>
-                //{
-                //    DoWorkAsync().FireAndForget();
-                //}, CancellationToken.None, TaskCreationOptions.None, scheduler: Scheduler).FireAndForget();
-
-                Task.Run(() =>
+                Task.Factory.StartNew(() =>
                 {
                     DoWorkAsync().FireAndForget();
-                }).FireAndForget();
-                
+                }, CancellationToken.None, TaskCreationOptions.None, scheduler: Scheduler).FireAndForget();
+
                 return Task.FromResult(true);
             }
 

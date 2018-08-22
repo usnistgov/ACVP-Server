@@ -5,6 +5,6 @@
         public const string ClusterId = "cryptoDist-deployment1";
         public const string ServiceId = "CryptoDistApp";
         public const string StorageProviderName = "OrleansProvider";
-        public const int TaskPollingSeconds = 5;
+        public const int TaskPollingSeconds = 10;
     }
 }

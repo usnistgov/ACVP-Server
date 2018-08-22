@@ -2,14 +2,13 @@
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using NIST.CVP.Common;
 using NIST.CVP.Common.Oracle;
-using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Math;
 using NIST.CVP.Orleans.Grains.Interfaces;
 using NIST.CVP.Orleans.Grains.Interfaces.Enums;
 using Orleans;
 using Orleans.Configuration;
-using Orleans.Hosting;
 
 namespace NIST.CVP.Crypto.Oracle
 {
@@ -35,7 +34,7 @@ namespace NIST.CVP.Crypto.Oracle
         
         static Oracle()
         {
-            _scheduler = new LimitedConcurrencyLevelTaskScheduler(3);
+            _scheduler = new LimitedConcurrencyLevelTaskScheduler(1);
             _taskFactory = new TaskFactory(_scheduler);
 
             _clusterClient = InitializeClient().GetAwaiter().GetResult();
@@ -108,6 +107,7 @@ namespace NIST.CVP.Crypto.Oracle
             IPollableOracleGrain<TResult> pollableGrain
         )
         {
+
             while (true)
             {
                 var state = await pollableGrain.CheckStatusAsync();
@@ -119,6 +119,21 @@ namespace NIST.CVP.Crypto.Oracle
 
                 await Task.Delay(Constants.TaskPollingSeconds);
             }
+
+            //GrainState state = GrainState.Initialized;
+            //while (state != GrainState.CompletedWork)
+            //{
+            //    await _taskFactory.StartNew(async () =>
+            //    {
+            //        state = await pollableGrain.CheckStatusAsync();
+            //    });
+
+            //    await Task.Delay(Constants.TaskPollingSeconds);
+            //}
+
+            //var result = await _taskFactory.StartNew(async () => await pollableGrain.GetResultAsync());
+
+            //return await result;
         }
     }
 }

@@ -41,11 +41,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.Oracle", ".
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Common.Oracle.Tests", "..\..\oracle\test\NIST.CVP.Oracle.Common.Tests\NIST.CVP.Common.Oracle.Tests.csproj", "{7D993A6B-69B9-4F95-9D4D-0F400146311D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Orleans.Grains", "..\..\orleans\src\NIST.CVP.Orleans.Grains\NIST.CVP.Orleans.Grains.csproj", "{5A451FB3-FF38-4186-853E-80C4C4C9AF4D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Orleans.Grains", "..\..\orleans\src\NIST.CVP.Orleans.Grains\NIST.CVP.Orleans.Grains.csproj", "{5A451FB3-FF38-4186-853E-80C4C4C9AF4D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Orleans.Grains.Interfaces", "..\..\orleans\src\NIST.CVP.Orleans.Grains.Interfaces\NIST.CVP.Orleans.Grains.Interfaces.csproj", "{BE4E5D8E-FEA3-4706-B95F-0EBF27636BAE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Orleans.Grains.Interfaces", "..\..\orleans\src\NIST.CVP.Orleans.Grains.Interfaces\NIST.CVP.Orleans.Grains.Interfaces.csproj", "{BE4E5D8E-FEA3-4706-B95F-0EBF27636BAE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Orleans.ServerHost", "..\..\orleans\src\NIST.CVP.Orleans.ServerHost\NIST.CVP.Orleans.ServerHost.csproj", "{1835E270-6589-4507-920B-96783C0DE651}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Orleans.ServerHost", "..\..\orleans\src\NIST.CVP.Orleans.ServerHost\NIST.CVP.Orleans.ServerHost.csproj", "{1835E270-6589-4507-920B-96783C0DE651}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -319,6 +319,9 @@ Global
 		{A013573E-2AEC-40D3-B00D-17D60929DA17} = {67C64279-C7F0-4BE4-89D1-15246F3C4DF4}
 		{AF97B6A2-73BB-4769-8C7E-2F37CF4667EA} = {67C64279-C7F0-4BE4-89D1-15246F3C4DF4}
 		{7D993A6B-69B9-4F95-9D4D-0F400146311D} = {427D9EC8-68F8-4213-A05E-B7D3C0B590D7}
+		{5A451FB3-FF38-4186-853E-80C4C4C9AF4D} = {67C64279-C7F0-4BE4-89D1-15246F3C4DF4}
+		{BE4E5D8E-FEA3-4706-B95F-0EBF27636BAE} = {67C64279-C7F0-4BE4-89D1-15246F3C4DF4}
+		{1835E270-6589-4507-920B-96783C0DE651} = {67C64279-C7F0-4BE4-89D1-15246F3C4DF4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {78C01849-5B7E-4F46-BAAA-A0E4570C9CD1}

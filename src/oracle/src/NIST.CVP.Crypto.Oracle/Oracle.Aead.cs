@@ -5,6 +5,7 @@ using NIST.CVP.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.Crypto.Symmetric.BlockModes.Aead;
 using System;
 using System.Threading.Tasks;
+using NIST.CVP.Orleans.Grains.Interfaces;
 
 namespace NIST.CVP.Crypto.Oracle
 {
@@ -33,25 +34,6 @@ namespace NIST.CVP.Crypto.Oracle
                 Tag = result.Tag,
                 TestPassed = true
             };
-        }
-
-        private AeadResult GetAesCcmCase(AeadParameters param)
-        {
-            var fullParams = new AeadResult
-            {
-                PlainText = _rand.GetRandomBitString(param.DataLength),
-                Key = _rand.GetRandomBitString(param.KeyLength),
-                Iv = _rand.GetRandomBitString(param.IvLength),
-                Aad = _rand.GetRandomBitString(param.AadLength),
-            };
-
-            return DoSimpleAead(
-                _aeadModeBlockCipherFactory.GetAeadCipher(
-                    _engineFactory.GetSymmetricCipherPrimitive(BlockCipherEngines.Aes), 
-                    BlockCipherModesOfOperation.Ccm
-                ), 
-                fullParams, param
-            );
         }
 
         private AeadResult GetAesGcmCase(AeadParameters param)
@@ -192,7 +174,16 @@ namespace NIST.CVP.Crypto.Oracle
 
         public async Task<AeadResult> GetAesCcmCaseAsync(AeadParameters param)
         {
-            return await _taskFactory.StartNew(() => GetAesCcmCase(param));
+            var grain = _clusterClient.GetGrain<IOracleAesCcmCaseGrain>(
+                Guid.NewGuid()
+            );
+
+            await _taskFactory.StartNew(async () =>
+            {
+                await grain.BeginWorkAsync(param);
+            });
+
+            return await PollWorkUntilCompleteAsync(grain);
         }
 
         public async Task<AeadResult> GetAesGcmCaseAsync(AeadParameters param)

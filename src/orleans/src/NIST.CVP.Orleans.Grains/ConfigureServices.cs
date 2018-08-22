@@ -78,6 +78,7 @@ using NIST.CVP.Crypto.Common.KES;
 using NIST.CVP.Crypto.Common.MAC.HMAC;
 using NIST.CVP.Crypto.Common.MAC.KMAC;
 using NIST.CVP.Crypto.Common.Symmetric.KeyWrap;
+using NIST.CVP.Orleans.Grains.Aead;
 
 namespace NIST.CVP.Orleans.Grains
 {
@@ -88,9 +89,10 @@ namespace NIST.CVP.Orleans.Grains
     {
         public static void RegisterServices(IServiceCollection svc)
         {
-            svc.AddSingleton(new LimitedConcurrencyLevelTaskScheduler(25));
+            svc.AddSingleton(new LimitedConcurrencyLevelTaskScheduler(1));
             svc.AddSingleton<IEntropyProviderFactory, EntropyProviderFactory>();
 
+            svc.AddSingleton<IAeadRunner, AeadRunner>();
             svc.AddSingleton<IBlockCipherEngineFactory, BlockCipherEngineFactory>();
             svc.AddSingleton<IModeBlockCipherFactory, ModeBlockCipherFactory>();
             svc.AddSingleton<IAeadModeBlockCipherFactory, AeadModeBlockCipherFactory>();
