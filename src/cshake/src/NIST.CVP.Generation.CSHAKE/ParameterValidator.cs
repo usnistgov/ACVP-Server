@@ -15,6 +15,9 @@ namespace NIST.CVP.Generation.CSHAKE
         public static int VALID_MIN_OUTPUT_SIZE = 16;
         public static int VALID_MAX_OUTPUT_SIZE = 65536;
 
+        private int _minMsgLength = 0;
+        private int _maxMsgLength = 65536;
+
         public ParameterValidateResponse Validate(Parameters parameters)
         {
             var errorResults = new List<string>();
@@ -22,6 +25,8 @@ namespace NIST.CVP.Generation.CSHAKE
             ValidateFunctions(parameters, errorResults);
 
             ValidateOutputLength(parameters, errorResults);
+
+            ValidateMessageLength(parameters, errorResults);
             
             if (errorResults.Count > 0)
             {
@@ -94,9 +99,9 @@ namespace NIST.CVP.Generation.CSHAKE
             var fullDomain = parameters.MessageLength.GetDomainMinMax();
             var rangeCheck = ValidateRange(
                 new long[] { fullDomain.Minimum, fullDomain.Maximum },
-                VALID_MIN_OUTPUT_SIZE,
-                VALID_MAX_OUTPUT_SIZE,
-                "OutputLength Range"
+                _minMsgLength,
+                _maxMsgLength,
+                "MessageLength Range"
             );
             errorResults.AddIfNotNullOrEmpty(rangeCheck);
 
@@ -106,7 +111,7 @@ namespace NIST.CVP.Generation.CSHAKE
             {
                 bitOriented = 1;
             }
-            var modCheck = ValidateMultipleOf(parameters.OutputLength, bitOriented, "OutputLength Modulus");
+            var modCheck = ValidateMultipleOf(parameters.MessageLength, bitOriented, "MessageLength Modulus");
             errorResults.AddIfNotNullOrEmpty(modCheck);
         }
     }

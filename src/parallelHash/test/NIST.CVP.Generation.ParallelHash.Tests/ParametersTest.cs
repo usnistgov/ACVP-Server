@@ -17,8 +17,12 @@ namespace NIST.CVP.Generation.ParallelHash.Tests
             var parameters = new Parameters
             {
                 Algorithm = "ParallelHash",
-                BitOrientedInput = true,
-                IncludeNull = true,
+                NonXOF = true,
+                XOF = false,
+                DigestSizes = new int[5],
+                HexCustomization = false,
+                MessageLength = new MathDomain(),
+                OutputLength = new MathDomain(),
                 IsSample = false
             };
             Assert.IsNotNull(parameters);
@@ -33,9 +37,11 @@ namespace NIST.CVP.Generation.ParallelHash.Tests
             var parameters = new Parameters
             {
                 Algorithm = "ParallelHash",
-                BitOrientedInput = true,
-                BitOrientedOutput = false,
-                IncludeNull = true,
+                MessageLength = minMax,
+                NonXOF = true,
+                XOF = false,
+                DigestSizes = new int[5],
+                HexCustomization = false,
                 OutputLength = minMax,
                 IsSample = false
             };

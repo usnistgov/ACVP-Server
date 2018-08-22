@@ -44,53 +44,5 @@ namespace NIST.CVP.Generation.ParallelHash
         public int DigestLength { get; set; }
 
         public List<AlgoArrayResponseWithCustomization> ResultsArray { get; set; }
-
-        public bool SetString(string name, string value, int length = -1)
-        {
-            if (string.IsNullOrEmpty(name))
-            {
-                return false;
-            }
-
-            switch (name.ToLower())
-            {
-                case "message":
-                case "msg":
-                    Message = new BitString(value, length, false);
-                    return true;
-                case "digest":
-                case "dig":
-                case "md":
-                case "output":
-                    Digest = new BitString(value, length, false);
-                    return true;
-            }
-
-            return false;
-        }
-
-        public bool SetResultsArrayString(int index, string name, string value, int length = -1)
-        {
-            if (string.IsNullOrEmpty(name))
-            {
-                return false;
-            }
-
-            switch (name.ToLower())
-            {
-                case "message":
-                case "msg":
-                    ResultsArray[index].Message = new BitString(value, length, false);
-                    return true;
-                case "digest":
-                case "dig":
-                case "md":
-                case "output":
-                    ResultsArray[index].Digest = new BitString(value, length, false);
-                    return true;
-            }
-
-            return false;
-        }
     }
 }
