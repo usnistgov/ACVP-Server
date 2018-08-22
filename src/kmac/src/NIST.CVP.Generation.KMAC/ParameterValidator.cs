@@ -117,7 +117,7 @@ namespace NIST.CVP.Generation.KMAC
             {
                 bitOriented = 1;
             }
-            var modCheck = ValidateMultipleOf(parameters.MacLen, bitOriented, "MacLen Modulus");
+            var modCheck = ValidateMultipleOf(parameters.MacLen, bitOriented, "MsgLen Modulus");
             errorResults.AddIfNotNullOrEmpty(modCheck);
         }
 
@@ -139,7 +139,7 @@ namespace NIST.CVP.Generation.KMAC
                 new long[] { fullDomain.Minimum, fullDomain.Maximum },
                 _minMsgLength,
                 _maxMsgLength,
-                "MacLen Range"
+                "MsgLen Range"
             );
             errorResults.AddIfNotNullOrEmpty(rangeCheck);
 

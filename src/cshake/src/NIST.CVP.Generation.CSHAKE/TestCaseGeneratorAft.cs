@@ -59,6 +59,9 @@ namespace NIST.CVP.Generation.CSHAKE
 
             try
             {
+                // local variable before await
+                var digestLength = _digestLength;
+
                 var oracleResult = await _oracle.GetCShakeCaseAsync(param);
 
                 return new TestCaseGenerateResponse<TestGroup, TestCase>(new TestCase
@@ -68,7 +71,7 @@ namespace NIST.CVP.Generation.CSHAKE
                     Customization = oracleResult.Customization,
                     CustomizationHex = oracleResult.CustomizationHex,
                     Deferred = false,
-                    DigestLength = _digestLength
+                    DigestLength = digestLength
                 });
             }
             catch (Exception ex)

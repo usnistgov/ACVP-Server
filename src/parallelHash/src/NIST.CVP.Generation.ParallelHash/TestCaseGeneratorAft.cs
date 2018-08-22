@@ -58,6 +58,10 @@ namespace NIST.CVP.Generation.ParallelHash
 
             try
             {
+                // local variable before await
+                var digestLength = _digestLength;
+                var blockSize = _blockSize;
+
                 var oracleResult = await _oracle.GetParallelHashCaseAsync(param);
 
                 return new TestCaseGenerateResponse<TestGroup, TestCase>(new TestCase
@@ -66,9 +70,9 @@ namespace NIST.CVP.Generation.ParallelHash
                     Digest = oracleResult.Digest,
                     Customization = oracleResult.Customization,
                     CustomizationHex = oracleResult.CustomizationHex,
-                    BlockSize = _blockSize,
+                    BlockSize = blockSize,
                     Deferred = false,
-                    DigestLength = _digestLength
+                    DigestLength = digestLength
                 });
             }
             catch (Exception ex)
