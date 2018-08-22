@@ -44,6 +44,7 @@ namespace NIST.CVP.Generation.KMAC
             {
                 MacSizes.Clear();
                 KeySizes.Clear();
+                MessageSizes.Clear();
                 var smallMessageLengths = DetermineSmallMessageDomain(group.MsgLengths, group);
                 var largeMessageLengths = DetermineLargeMessageDomain(group.MsgLengths, group);
                 DetermineLengths(group.MacLengths, group.KeyLengths, smallMessageLengths, largeMessageLengths);

@@ -69,7 +69,43 @@ namespace NIST.CVP.Generation.CSHAKE
             errorResults.AddIfNotNullOrEmpty(rangeCheck);
 
             // Links BitOriented and Domain
-            var bitOriented = parameters.BitOrientedOutput ? 1 : 8;
+            var bitOriented = parameters.OutputLength.DomainSegments.ElementAt(0).RangeMinMax.Increment;
+            if (bitOriented == 0)
+            {
+                bitOriented = 1;
+            }
+            var modCheck = ValidateMultipleOf(parameters.OutputLength, bitOriented, "OutputLength Modulus");
+            errorResults.AddIfNotNullOrEmpty(modCheck);
+        }
+
+        private void ValidateMessageLength(Parameters parameters, List<string> errorResults)
+        {
+            string segmentCheck = "";
+            if (parameters.MessageLength.DomainSegments.Count() != 1)
+            {
+                segmentCheck = "Must have exactly one segment in the domain";
+            }
+            errorResults.AddIfNotNullOrEmpty(segmentCheck);
+            if (!string.IsNullOrEmpty(segmentCheck))
+            {
+                return;
+            }
+
+            var fullDomain = parameters.MessageLength.GetDomainMinMax();
+            var rangeCheck = ValidateRange(
+                new long[] { fullDomain.Minimum, fullDomain.Maximum },
+                VALID_MIN_OUTPUT_SIZE,
+                VALID_MAX_OUTPUT_SIZE,
+                "OutputLength Range"
+            );
+            errorResults.AddIfNotNullOrEmpty(rangeCheck);
+
+            // Links BitOriented and Domain
+            var bitOriented = parameters.MessageLength.DomainSegments.ElementAt(0).RangeMinMax.Increment;
+            if (bitOriented == 0)
+            {
+                bitOriented = 1;
+            }
             var modCheck = ValidateMultipleOf(parameters.OutputLength, bitOriented, "OutputLength Modulus");
             errorResults.AddIfNotNullOrEmpty(modCheck);
         }

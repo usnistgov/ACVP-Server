@@ -53,10 +53,7 @@ namespace NIST.CVP.Generation.CSHAKE.Tests.ContractResolvers
             Assert.AreEqual(tg.Tests.Count, newTg.Tests.Count, nameof(newTg.Tests));
 
             Assert.AreNotEqual(tg.Function, newTg.Function, nameof(newTg.Function));
-            Assert.AreNotEqual(tg.BitOrientedInput, newTg.BitOrientedInput, nameof(newTg.BitOrientedInput));
             Assert.AreNotEqual(tg.DigestSize, newTg.DigestSize, nameof(newTg.DigestSize));
-            Assert.AreNotEqual(tg.BitOrientedOutput, newTg.BitOrientedOutput, nameof(newTg.BitOrientedOutput));
-            Assert.AreNotEqual(tg.IncludeNull, newTg.IncludeNull, nameof(newTg.IncludeNull));
         }
 
         /// <summary>

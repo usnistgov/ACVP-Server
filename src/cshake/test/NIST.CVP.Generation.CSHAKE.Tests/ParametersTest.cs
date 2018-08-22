@@ -16,9 +16,11 @@ namespace NIST.CVP.Generation.CSHAKE.Tests
         {
             var parameters = new Parameters
             {
-                Algorithm = "SHA3",
-                BitOrientedInput = true,
-                IncludeNull = true,
+                Algorithm = "CSHAKE",
+                DigestSizes = new int[5],
+                HexCustomization = false,
+                MessageLength = new MathDomain(),
+                OutputLength = new MathDomain(),
                 IsSample = false
             };
             Assert.IsNotNull(parameters);
@@ -32,16 +34,16 @@ namespace NIST.CVP.Generation.CSHAKE.Tests
 
             var parameters = new Parameters
             {
-                Algorithm = "SHAKE",
-                BitOrientedInput = true,
-                BitOrientedOutput = false,
-                IncludeNull = true,
+                Algorithm = "CSHAKE",
+                DigestSizes = new int[5],
+                HexCustomization = false,
+                MessageLength = minMax,
                 OutputLength = minMax,
                 IsSample = false
             };
 
             Assume.That(parameters != null);
-            Assert.AreEqual("SHAKE", parameters.Algorithm);
+            Assert.AreEqual("CSHAKE", parameters.Algorithm);
         }
     }
 }
