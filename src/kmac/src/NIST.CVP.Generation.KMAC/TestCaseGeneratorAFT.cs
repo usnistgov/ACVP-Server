@@ -75,20 +75,20 @@ namespace NIST.CVP.Generation.KMAC
 
         private MathDomain DetermineSmallMessageDomain(MathDomain msgLengths, TestGroup group)
         {
-            if (msgLengths.DomainSegments.ElementAt(0).RangeMinMax.Maximum - msgLengths.DomainSegments.ElementAt(0).RangeMinMax.Minimum < (group.DigestSize == 128 ? 2688 : 2176))
+            if (msgLengths.DomainSegments.ElementAt(0).RangeMinMax.Maximum - msgLengths.DomainSegments.ElementAt(0).RangeMinMax.Minimum < (group.DigestSize == 128 ? 1344 : 1088))
             {
                 return msgLengths.GetDeepCopy();
             }
-            return new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), msgLengths.DomainSegments.ElementAt(0).RangeMinMax.Minimum, msgLengths.DomainSegments.ElementAt(0).RangeMinMax.Minimum + (group.DigestSize == 128 ? 2688 : 2176), msgLengths.DomainSegments.ElementAt(0).RangeMinMax.Increment));
+            return new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), msgLengths.DomainSegments.ElementAt(0).RangeMinMax.Minimum, msgLengths.DomainSegments.ElementAt(0).RangeMinMax.Minimum + (group.DigestSize == 128 ? 1344 : 1088), msgLengths.DomainSegments.ElementAt(0).RangeMinMax.Increment));
         }
 
         private MathDomain DetermineLargeMessageDomain(MathDomain msgLengths, TestGroup group)
         {
-            if (msgLengths.DomainSegments.ElementAt(0).RangeMinMax.Maximum < (group.DigestSize == 128 ? 2688 : 2176))
+            if (msgLengths.DomainSegments.ElementAt(0).RangeMinMax.Maximum < (group.DigestSize == 128 ? 1344 : 1088))
             {
                 return msgLengths.GetDeepCopy();
             }
-            return new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), group.DigestSize == 128 ? 2688 : 2176, msgLengths.DomainSegments.ElementAt(0).RangeMinMax.Maximum, msgLengths.DomainSegments.ElementAt(0).RangeMinMax.Increment));
+            return new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), group.DigestSize == 128 ? 1344 : 1088, msgLengths.DomainSegments.ElementAt(0).RangeMinMax.Maximum, msgLengths.DomainSegments.ElementAt(0).RangeMinMax.Increment));
         }
 
         private void DetermineLengths(MathDomain macDomain, MathDomain keyDomain, MathDomain smallMessageDomain, MathDomain largeMessageDomain)
@@ -102,16 +102,16 @@ namespace NIST.CVP.Generation.KMAC
             largeMessageDomain.SetRangeOptions(RangeDomainSegmentOptions.Random);
             var largeMinMax = largeMessageDomain.GetDomainMinMax();
 
-            var macValues = macDomain.GetValues(500).OrderBy(o => Guid.NewGuid()).Take(500);
+            var macValues = macDomain.GetValues(250).OrderBy(o => Guid.NewGuid()).Take(250);
             int macRepetitions;
-            var keyValues = keyDomain.GetValues(500).OrderBy(o => Guid.NewGuid()).Take(500);
+            var keyValues = keyDomain.GetValues(250).OrderBy(o => Guid.NewGuid()).Take(250);
             int keyRepetitions;
-            var smallValues = smallMessageDomain.GetValues(473).OrderBy(o => Guid.NewGuid()).Take(473);
-            var largeValues = largeMessageDomain.GetValues(23).OrderBy(o => Guid.NewGuid()).Take(23);
+            var smallValues = smallMessageDomain.GetValues(225).OrderBy(o => Guid.NewGuid()).Take(225);
+            var largeValues = largeMessageDomain.GetValues(25).OrderBy(o => Guid.NewGuid()).Take(25);
 
             if (macValues.Count() == 0)
             {
-                macRepetitions = 50;
+                macRepetitions = 25;
             }
             else if (macValues.Count() > 499)
             {
@@ -119,7 +119,7 @@ namespace NIST.CVP.Generation.KMAC
             }
             else
             {
-                macRepetitions = 50 / (macValues.Count() / 10) + (500 % macValues.Count() > 0 ? 1 : 0);
+                macRepetitions = 25 / (macValues.Count() / 10) + (250 % macValues.Count() > 0 ? 1 : 0);
             }
 
             if (keyValues.Count() == 0)
@@ -132,7 +132,7 @@ namespace NIST.CVP.Generation.KMAC
             }
             else
             {
-                keyRepetitions = 50 / (keyValues.Count() / 10) + (500 % keyValues.Count() > 0 ? 1 : 0);
+                keyRepetitions = 25 / (keyValues.Count() / 10) + (250 % keyValues.Count() > 0 ? 1 : 0);
             }
 
             foreach (var value in macValues)
