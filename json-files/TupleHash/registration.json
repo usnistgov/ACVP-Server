@@ -1,6 +1,7 @@
 {
   "algorithm": "TupleHash",
-  "isSample": true,
+  "mode": "",
+  "isSample": false,
   "digestSize": [
     128,
     256

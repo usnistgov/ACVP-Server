@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Autofac;
+﻿using Autofac;
 using NIST.CVP.Common;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Tests;
@@ -7,6 +6,7 @@ using NIST.CVP.Math;
 using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
+using System.Collections.Generic;
 
 namespace NIST.CVP.Generation.KMAC.IntegrationTests
 {
@@ -65,7 +65,7 @@ namespace NIST.CVP.Generation.KMAC.IntegrationTests
 
             var parameters = new Parameters
             {
-                Algorithm = "KMAC",
+                Algorithm = Algorithm,
                 Mode = Mode,
                 DigestSizes = new[] { 128 },
                 MsgLen = minMax,
@@ -88,13 +88,14 @@ namespace NIST.CVP.Generation.KMAC.IntegrationTests
 
             var parameters = new Parameters
             {
-                Algorithm = "KMAC",
+                Algorithm = Algorithm,
+                Mode = Mode,
                 DigestSizes = new[] { 128, 256 },
                 MsgLen = minMaxMsg,
                 MacLen = minMax,
                 KeyLen = minMax,
                 XOF = true,
-                IsSample = true
+                IsSample = false,
             };
 
             return CreateRegistration(targetFolder, parameters);

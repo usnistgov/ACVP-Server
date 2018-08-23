@@ -1,6 +1,6 @@
 {
   "algorithm": "cSHAKE",
-  "isSample": true,
+  "isSample": false,
   "digestSize": [
     128,
     256
