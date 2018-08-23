@@ -7,6 +7,7 @@ using NIST.CVP.Crypto.Common.Symmetric.CTR;
 using NIST.CVP.Crypto.CSHAKE;
 using NIST.CVP.Crypto.DRBG;
 using NIST.CVP.Crypto.DSA.ECC;
+using NIST.CVP.Crypto.DSA.Ed;
 using NIST.CVP.Crypto.DSA.FFC;
 using NIST.CVP.Crypto.DSA.FFC.GGeneratorValidators;
 using NIST.CVP.Crypto.DSA.FFC.PQGeneratorValidators;
@@ -130,6 +131,10 @@ namespace NIST.CVP.Crypto
             
             builder.RegisterType<ParallelHash.ParallelHash>().AsImplementedInterfaces();
             builder.RegisterType<ParallelHash_MCT>().AsImplementedInterfaces();
+
+            builder.RegisterType<DsaEdFactory>().AsImplementedInterfaces();
+            builder.RegisterType<EdwardsCurveFactory>().AsImplementedInterfaces();
+            builder.RegisterType<EdDsa>().AsImplementedInterfaces();
         }
     }
 }

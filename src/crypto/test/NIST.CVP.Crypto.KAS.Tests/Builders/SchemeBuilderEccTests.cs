@@ -76,7 +76,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.Builders
                 .Setup(s => s.HashFunction)
                 .Returns(new HashFunction(ModeValues.SHA2, DigestSizes.d224));
             _sha
-                .Setup(s => s.HashMessage(It.IsAny<BitString>()))
+                .Setup(s => s.HashMessage(It.IsAny<BitString>(), It.IsAny<int>()))
                 .Returns(new HashResult(new BitString(1)));
             _shaFactory
                 .Setup(s => s.GetShaInstance(It.IsAny<HashFunction>()))
