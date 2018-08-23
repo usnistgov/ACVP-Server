@@ -143,7 +143,7 @@ namespace NIST.CVP.Crypto.DSA.Ed
             var R = new BitString(domainParameters.CurveE.Encode(rG), domainParameters.CurveE.VariableB);
 
             // 4. Define S
-            // Hash (dom4 || R || Q || B). Need to use dom4 if ed448
+            // Hash (dom4 || R || Q || M). Need to use dom4 if ed448
             var hashData = BitString.ConcatenateBits(new BitString(keyPair.PublicQ, domainParameters.CurveE.VariableB), message);
             hashData = BitString.ConcatenateBits(dom, BitString.ConcatenateBits(R, hashData));
             var hash = Sha.HashMessage(hashData, 912).Digest;
