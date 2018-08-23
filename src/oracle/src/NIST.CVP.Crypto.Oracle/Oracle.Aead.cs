@@ -178,9 +178,9 @@ namespace NIST.CVP.Crypto.Oracle
                 Guid.NewGuid()
             );
 
-            await _taskFactory.StartNew(async () =>
+            await _taskFactory.StartNew(() =>
             {
-                await grain.BeginWorkAsync(param);
+                grain.BeginWorkAsync(param);
             });
 
             return await PollWorkUntilCompleteAsync(grain);

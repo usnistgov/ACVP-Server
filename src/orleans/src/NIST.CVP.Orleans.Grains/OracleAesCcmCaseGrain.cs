@@ -37,10 +37,12 @@ namespace NIST.CVP.Orleans.Grains
             _aeadCipherFactory = aeadCipherFactory;
         }
 
-        public async Task<bool> BeginWorkAsync(AeadParameters param)
+        public Task<bool> BeginWorkAsync(AeadParameters param)
         {
             _param = param;
-            return await BeginGrainWorkAsync();
+            BeginGrainWorkAsync();
+
+            return Task.FromResult(true);
         }
 
         protected override Task DoWorkAsync()

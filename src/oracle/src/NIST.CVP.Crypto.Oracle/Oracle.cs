@@ -16,6 +16,7 @@ namespace NIST.CVP.Crypto.Oracle
     {
         private readonly Random800_90 _rand = new Random800_90();
 
+        private const int TimeoutSeconds = 60;
         private const double GCM_FAIL_RATIO = .25;
         private const double XPN_FAIL_RATIO = .25;
         private const double CMAC_FAIL_RATIO = .25;
@@ -58,7 +59,7 @@ namespace NIST.CVP.Crypto.Oracle
                         })
                         .Configure<ClientMessagingOptions>(opts =>
                         {
-                            //opts.ResponseTimeout = TimeSpan.FromMinutes(TimeoutMinutes);
+                            opts.ResponseTimeout = TimeSpan.FromSeconds(TimeoutSeconds);
                         })
                         // TODO need to make this properly configurable based on environment
                         .UseLocalhostClustering()
@@ -110,30 +111,15 @@ namespace NIST.CVP.Crypto.Oracle
 
             while (true)
             {
+                await Task.Delay(TimeSpan.FromSeconds(Constants.TaskPollingSeconds));
+
                 var state = await pollableGrain.CheckStatusAsync();
 
                 if (state == GrainState.CompletedWork)
                 {
                     return await pollableGrain.GetResultAsync();
                 }
-
-                await Task.Delay(Constants.TaskPollingSeconds);
             }
-
-            //GrainState state = GrainState.Initialized;
-            //while (state != GrainState.CompletedWork)
-            //{
-            //    await _taskFactory.StartNew(async () =>
-            //    {
-            //        state = await pollableGrain.CheckStatusAsync();
-            //    });
-
-            //    await Task.Delay(Constants.TaskPollingSeconds);
-            //}
-
-            //var result = await _taskFactory.StartNew(async () => await pollableGrain.GetResultAsync());
-
-            //return await result;
         }
     }
 }
