@@ -138,9 +138,11 @@ namespace NIST.CVP.Crypto.Oracle
 
         private EddsaSignatureResult GetDeferredEddsaSignature(EddsaSignatureParameters param)
         {
+            var noContext = param.Curve == Common.Asymmetric.DSA.Ed.Enums.Curve.Ed25519 && !param.PreHash;
+
             var message = _rand.GetRandomBitString(1024);
 
-            var context = _rand.GetRandomBitString(_rand.GetRandomInt(0, 255) * 8);
+            var context = noContext ? new BitString("") : _rand.GetRandomBitString(_rand.GetRandomInt(0, 255) * 8);
 
             return new EddsaSignatureResult
             {
@@ -149,13 +151,66 @@ namespace NIST.CVP.Crypto.Oracle
             };
         }
 
+        // Remove or merge based on what we do with test group
+        private EddsaSignatureResult GetEddsaSignatureBitFlip(EddsaSignatureParameters param)
+        {
+            var noContext = param.Curve == Common.Asymmetric.DSA.Ed.Enums.Curve.Ed25519 && !param.PreHash;
+
+            var curve = _edCurveFactory.GetCurve(param.Curve);
+            var domainParams = new EdDomainParameters(curve, new ShaFactory());
+            var edDsa = _edFactory.GetInstance(null);
+
+            var message = param.Message.GetDeepCopy();
+            if (param.Bit != -1)
+            {
+                message.Bits.Set(param.Bit, !message.Bits.Get(param.Bit));      // flip bit
+            }
+
+            var result = edDsa.Sign(domainParams, param.Key, message, param.PreHash);
+            if (!result.Success)
+            {
+                throw new Exception();
+            }
+
+            return new EddsaSignatureResult
+            {
+                Message = message,
+                Context = new BitString(""),
+                Signature = result.Signature
+            };
+        }
+
+        // Remove or merge based on what we do with test group
+        private EddsaSignatureResult GetDeferredEddsaSignatureBitFlip(EddsaSignatureParameters param)
+        {
+            var noContext = param.Curve == Common.Asymmetric.DSA.Ed.Enums.Curve.Ed25519 && !param.PreHash;
+            
+            var message = param.Message;
+            if (param.Bit != -1)
+            {
+                message.Bits.Set(param.Bit, !message.Bits.Get(param.Bit));      // flip bit
+            }
+
+            return new EddsaSignatureResult
+            {
+                Message = message,
+                Context = new BitString("")
+            };
+        }
+
+        // Remove or do something... this is a little awkward how it is done
+        private BitString GetEddsaMessageBitFlip(EddsaMessageParameters param)
+        {
+            return _rand.GetRandomBitString(param.IsSample ? 32 : 1024);
+        }
+
         private VerifyResult<EddsaSignatureResult> CompleteDeferredEddsaSignature(EddsaSignatureParameters param, EddsaSignatureResult fullParam)
         {
             var edDsa = _edFactory.GetInstance(null);
             var curve = _edCurveFactory.GetCurve(param.Curve);
             var domainParams = new EdDomainParameters(curve, new ShaFactory());
 
-            var result = edDsa.Verify(domainParams, param.Key, fullParam.Message, fullParam.Signature, fullParam.Context , param.PreHash);
+            var result = edDsa.Verify(domainParams, param.Key, fullParam.Message, fullParam.Signature, fullParam.Context, param.PreHash);
 
             return new VerifyResult<EddsaSignatureResult>
             {
@@ -251,6 +306,22 @@ namespace NIST.CVP.Crypto.Oracle
         public async Task<VerifyResult<EddsaSignatureResult>> GetEddsaVerifyResultAsync(EddsaSignatureParameters param)
         {
             return await _taskFactory.StartNew(() => GetEddsaVerifyResult(param));
+        }
+
+        // These can be merged or removed depending on test group bit flip
+        public async Task<EddsaSignatureResult> GetDeferredEddsaSignatureBitFlipAsync(EddsaSignatureParameters param)
+        {
+            return await _taskFactory.StartNew(() => GetDeferredEddsaSignatureBitFlip(param));
+        }
+
+        public async Task<EddsaSignatureResult> GetEddsaSignatureBitFlipAsync(EddsaSignatureParameters param)
+        {
+            return await _taskFactory.StartNew(() => GetEddsaSignatureBitFlip(param));
+        }
+
+        public async Task<BitString> GetEddsaMessageBitFlipAsync(EddsaMessageParameters param)
+        {
+            return await _taskFactory.StartNew(() => GetEddsaMessageBitFlip(param));
         }
     }
 }

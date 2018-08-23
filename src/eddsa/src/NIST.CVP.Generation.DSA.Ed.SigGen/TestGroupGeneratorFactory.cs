@@ -17,7 +17,8 @@ namespace NIST.CVP.Generation.DSA.Ed.SigGen
         {
             var list = new HashSet<ITestGroupGenerator<Parameters, TestGroup, TestCase>>
             {
-                new TestGroupGenerator(_oracle)
+                new TestGroupGenerator(_oracle),
+                new TestGroupGeneratorBitFlip(_oracle)
             };
 
             return list;

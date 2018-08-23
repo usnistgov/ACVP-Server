@@ -10,13 +10,13 @@ using System.Threading.Tasks;
 
 namespace NIST.CVP.Generation.DSA.Ed.SigGen
 {
-    public class TestGroupGenerator : ITestGroupGenerator<Parameters, TestGroup, TestCase>
+    public class TestGroupGeneratorBitFlip : ITestGroupGenerator<Parameters, TestGroup, TestCase>
     {
-        private const string TEST_TYPE = "aft";
+        private const string TEST_TYPE = "bft";
 
         private readonly IOracle _oracle;
 
-        public TestGroupGenerator(IOracle oracle)
+        public TestGroupGeneratorBitFlip(IOracle oracle)
         {
             _oracle = oracle;
         }
@@ -53,6 +53,13 @@ namespace NIST.CVP.Generation.DSA.Ed.SigGen
                         key = keyResult.Key;
                     }
 
+                    var paramMsg = new EddsaMessageParameters
+                    {
+                        IsSample = parameters.IsSample
+                    };
+
+                    var message = await _oracle.GetEddsaMessageBitFlipAsync(paramMsg);
+
                     if (parameters.Pure)
                     {
                         var testGroup = new TestGroup
@@ -60,6 +67,7 @@ namespace NIST.CVP.Generation.DSA.Ed.SigGen
                             Curve = curve,
                             PreHash = false,
                             KeyPair = key,
+                            Message = message,
                             TestType = TEST_TYPE
                         };
                         testGroups.Add(testGroup);
@@ -72,6 +80,7 @@ namespace NIST.CVP.Generation.DSA.Ed.SigGen
                             Curve = curve,
                             PreHash = true,
                             KeyPair = key,
+                            Message = message,
                             TestType = TEST_TYPE
                         };
                         testGroups.Add(testGroup);

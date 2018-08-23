@@ -15,7 +15,18 @@ namespace NIST.CVP.Generation.DSA.Ed.SigGen
 
         public ITestCaseGeneratorAsync<TestGroup, TestCase> GetCaseGenerator(TestGroup testGroup)
         {
-            return new TestCaseGenerator(_oracle);
+            if (testGroup.TestType.ToLower() == "aft")
+            {
+                return new TestCaseGenerator(_oracle);
+            }
+            else if (testGroup.TestType.ToLower() == "bft")
+            {
+                return new TestCaseGeneratorBft(_oracle);
+            }
+            else
+            {
+                return new TestCaseGeneratorNull();
+            }
         }
     }
 }

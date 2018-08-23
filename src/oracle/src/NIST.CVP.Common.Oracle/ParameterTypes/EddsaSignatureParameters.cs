@@ -11,5 +11,7 @@ namespace NIST.CVP.Common.Oracle.ParameterTypes
         public EdKeyPair Key { get; set; }
         public Curve Curve { get; set; }
         public EddsaSignatureDisposition Disposition { get; set; }
+        public BitString Message { get; set; }
+        public int Bit { get; set; }
     }
 }

@@ -35,6 +35,7 @@ namespace NIST.CVP.Generation.DSA.Ed.SigGen.Tests
 
         [Test]
         [TestCase(typeof(TestGroupGenerator))]
+        [TestCase(typeof(TestGroupGeneratorBitFlip))]
         public void ReturnedResultShouldContainExpectedTypes(Type expectedType)
         {
             var result = _subject.GetTestGroupGenerators();
@@ -45,7 +46,7 @@ namespace NIST.CVP.Generation.DSA.Ed.SigGen.Tests
         public void ReturnedResultShouldContainOneGenerator()
         {
             var result = _subject.GetTestGroupGenerators();
-            Assert.AreEqual(1, result.Count());
+            Assert.AreEqual(2, result.Count());
         }
 
         [Test]
@@ -92,7 +93,7 @@ namespace NIST.CVP.Generation.DSA.Ed.SigGen.Tests
                 groups.AddRangeIfNotNullOrEmpty(genny.BuildTestGroups(p));
             }
 
-            Assert.AreEqual(4, groups.Count);
+            Assert.AreEqual(8, groups.Count);
         }
 
         private Capability[] GetCapabilities()
