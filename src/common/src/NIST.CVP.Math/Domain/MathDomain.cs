@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using NIST.CVP.Generation.Core.JsonConverters;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -7,6 +9,7 @@ namespace NIST.CVP.Math.Domain
     /// <summary>
     /// A domain of values - literal values and/or a range of values
     /// </summary>
+    [JsonConverter(typeof(DomainConverter))]
     public class MathDomain
     {
         private readonly List<IDomainSegment> _domainSegments = new List<IDomainSegment>();

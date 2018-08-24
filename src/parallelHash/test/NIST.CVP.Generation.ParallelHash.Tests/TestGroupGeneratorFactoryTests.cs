@@ -52,9 +52,7 @@ namespace NIST.CVP.Generation.ParallelHash.Tests
             {
                 Algorithm = "TupleHash",
                 DigestSizes = new[] { 128, 256 },
-                BitOrientedInput = true,
-                BitOrientedOutput = true,
-                IncludeNull = true,
+                MessageLength = minMax,
                 IsSample = false,
                 OutputLength = minMax,
                 XOF = xof

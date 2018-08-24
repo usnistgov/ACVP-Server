@@ -19,11 +19,9 @@ namespace NIST.CVP.Generation.ParallelHash
                     {
                         Function = parameters.Algorithm,
                         DigestSize = digestSize,
-                        IncludeNull = parameters.IncludeNull,
-                        BitOrientedInput = parameters.BitOrientedInput,
-                        BitOrientedOutput = parameters.BitOrientedOutput,
                         TestType = TEST_TYPE,
                         OutputLength = parameters.OutputLength.GetDeepCopy(),
+                        MessageLength = parameters.MessageLength.GetDeepCopy(),
                         HexCustomization = parameters.HexCustomization,
                         XOF = false
                     };
@@ -37,11 +35,9 @@ namespace NIST.CVP.Generation.ParallelHash
                     {
                         Function = parameters.Algorithm,
                         DigestSize = digestSize,
-                        IncludeNull = parameters.IncludeNull,
-                        BitOrientedInput = parameters.BitOrientedInput,
-                        BitOrientedOutput = parameters.BitOrientedOutput,
                         TestType = TEST_TYPE,
                         OutputLength = parameters.OutputLength.GetDeepCopy(),
+                        MessageLength = parameters.MessageLength.GetDeepCopy(),
                         HexCustomization = parameters.HexCustomization,
                         XOF = true
                     };

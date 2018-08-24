@@ -41,7 +41,7 @@ namespace NIST.CVP.Crypto.DRBG.Tests
 
             entropyProvider.AddEntropy(new BitString("65568162700f22ac868a504110fa466c70cfe0e7c32f1451")); // Entropy Input
             entropyProvider.AddEntropy(new BitString("69545e871b89c7b3f95885eb")); // Nonce
-            subject.Instantiate(160, new BitString(0)); // Perso string
+            subject.Instantiate(0, new BitString(0)); // Perso string
             entropyProvider.AddEntropy(new BitString(0)); // Entropy Input Reseed
 
             //subject.Reseed(false, new BitString(0));
@@ -76,7 +76,7 @@ namespace NIST.CVP.Crypto.DRBG.Tests
 
             entropyProvider.AddEntropy(new BitString("33764f3e4edf7dda77cf42d8f05db5ec")); // Entropy Input
             entropyProvider.AddEntropy(new BitString("327e8be96dc19e25")); // Nonce
-            subject.Instantiate(160, new BitString(0)); // Perso string
+            subject.Instantiate(0, new BitString(0)); // Perso string
             entropyProvider.AddEntropy(new BitString(0)); // Entropy Input Reseed
 
             //subject.Reseed(false, new BitString(0));
@@ -111,7 +111,7 @@ namespace NIST.CVP.Crypto.DRBG.Tests
 
             entropyProvider.AddEntropy(new BitString("cc569f9c71e2ef011991085377ba2ec4ce4f20372cc9325b")); // Entropy Input
             entropyProvider.AddEntropy(new BitString("6f02ba8a24b96a087d3b516e")); // Nonce
-            subject.Instantiate(224, new BitString(0)); // Perso string
+            subject.Instantiate(0, new BitString(0)); // Perso string
             entropyProvider.AddEntropy(new BitString("efaf7059a0a18ecac458e12864c9840a8680cad8b6402090")); // Entropy Input Reseed
             entropyProvider.AddEntropy(new BitString("ae626fa52cf75ba0f830c4936f060d4ccfe8ab5aeda42cbf")); // Entropy Input Reseed
 
@@ -147,7 +147,7 @@ namespace NIST.CVP.Crypto.DRBG.Tests
 
             entropyProvider.AddEntropy(new BitString("587db71d1772d78a43ac5db76159cc1d938a279211cafa75c7268f603f2d8210")); // Entropy Input
             entropyProvider.AddEntropy(new BitString("6cd151fc87ad8a96e4cc2dfa5cbaa923")); // Nonce
-            subject.Instantiate(256, new BitString(0)); // Perso string
+            subject.Instantiate(0, new BitString(0)); // Perso string
             entropyProvider.AddEntropy(new BitString("f9b75d5aff19b49470fbfc72463ffdca845b62c26a7da35c2fc0be307ab0e639")); // Entropy Input Reseed
             entropyProvider.AddEntropy(new BitString("73add18476397e22be249cea23d4b43b761bdbed01e8218e53d214646b9bf35d")); // Entropy Input Reseed
 
@@ -183,7 +183,7 @@ namespace NIST.CVP.Crypto.DRBG.Tests
 
             entropyProvider.AddEntropy(new BitString("b16be65ecff9f739fd6ca4523224a07e7bde4f648c89f18c1f62b491ee1bde46")); // Entropy Input
             entropyProvider.AddEntropy(new BitString("0c69654d2d6333dffc082391c1625a02")); // Nonce
-            subject.Instantiate(384, new BitString("f76c1246129b5a15e9f31fda4d29eeb8902d12b3ff6b2adbc3a4e9c3f9891b41")); // Perso string
+            subject.Instantiate(0, new BitString("f76c1246129b5a15e9f31fda4d29eeb8902d12b3ff6b2adbc3a4e9c3f9891b41")); // Perso string
             entropyProvider.AddEntropy(new BitString("512e26f4a76517dd08f8c61949f936aec036bfba734ba924d6816be8c7629964")); // Entropy Input Reseed
             entropyProvider.AddEntropy(new BitString("433563dda3519d3a0ffb2f0fa489dd38d3c4da3838f479ccb50cc50fec8e7cc9")); // Entropy Input Reseed
 
@@ -219,7 +219,7 @@ namespace NIST.CVP.Crypto.DRBG.Tests
 
             entropyProvider.AddEntropy(new BitString("702c8d9beddaf7fb897a425d0fd17d1d5002264001ff28e53d05fd8bab63babb")); // Entropy Input
             entropyProvider.AddEntropy(new BitString("4b69c503a3ae83dcfad2b3613e0f17d8")); // Nonce
-            subject.Instantiate(512, new BitString("63a3d7801dfb8696f5d4c82608832b719dab156c1b3b6047bfec5e6604fc2b8f")); // Perso string
+            subject.Instantiate(0, new BitString("63a3d7801dfb8696f5d4c82608832b719dab156c1b3b6047bfec5e6604fc2b8f")); // Perso string
             entropyProvider.AddEntropy(new BitString("98ee8bf9ee77af04c0da1e6b3d06d2b20cb97ad4e46d9257875f82aca809a21a")); // Entropy Input Reseed
             entropyProvider.AddEntropy(new BitString("f438d35a35b7ec6ea13897e429280615220daa7f91f2dbcbe83263c5a26bfe85")); // Entropy Input Reseed
 
@@ -255,7 +255,7 @@ namespace NIST.CVP.Crypto.DRBG.Tests
 
             entropyProvider.AddEntropy(new BitString("23b649d085ac363211067b01581925722a56be00b38c8a18")); // Entropy Input
             entropyProvider.AddEntropy(new BitString("b13d4b96fc9d6a544e8fc8e1")); // Nonce
-            subject.Instantiate(224, new BitString("a5c95fa1bc898e89950b7b34f03a63d194108a98de882d58")); // Perso string
+            subject.Instantiate(0, new BitString("a5c95fa1bc898e89950b7b34f03a63d194108a98de882d58")); // Perso string
             entropyProvider.AddEntropy(new BitString("0a0be76e8665d231d7cb0ad0248cba3985dcaa7f2d20b2e8")); // Entropy Input Reseed
             entropyProvider.AddEntropy(new BitString("7321c5a56d89551cf99dcbde7260820dd301300e09aab920")); // Entropy Input Reseed
 
@@ -291,7 +291,7 @@ namespace NIST.CVP.Crypto.DRBG.Tests
 
             entropyProvider.AddEntropy(new BitString("8391576a34d3986dcccd61e403cac3b3f219992128004870eec9e7925e51f92c")); // Entropy Input
             entropyProvider.AddEntropy(new BitString("e4e4d529853e19e2bc1165148b0070bc")); // Nonce
-            subject.Instantiate(256, new BitString(0)); // Perso string
+            subject.Instantiate(0, new BitString(0)); // Perso string
             entropyProvider.AddEntropy(new BitString("69f81788fdf6fee5b62dba259fd66135409c133d6c2e7a7e7a05eefea39b8999")); // Entropy Input Reseed
 
             subject.Reseed(new BitString("c3d25860b81a452314dc9a9dc24ad1e34b8182944ee17172da0be649c8df0f85"));

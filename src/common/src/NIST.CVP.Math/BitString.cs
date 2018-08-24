@@ -1,11 +1,12 @@
-﻿using NIST.CVP.Math.Helpers;
+﻿using Newtonsoft.Json;
+using NIST.CVP.Generation.Core.JsonConverters;
+using NIST.CVP.Math.Helpers;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using System.Text;
-using System.Threading.Tasks;
 using Helper = NIST.CVP.Math.Helpers.MsbLsbConversionHelpers;
 
 namespace NIST.CVP.Math
@@ -16,8 +17,9 @@ namespace NIST.CVP.Math
     ///     Input/Output of bits is always:
     ///         LSb to MSb - least significant bit first (index 0), most significant bit last (last index)
     ///     Everything else (bytes, hex, etc):
-    ///         MSB to LSB - most significant Byte first (index 0), least significiant Byte last (last index)
+    ///         MSB to LSB - most significant Byte first (index 0), least significant Byte last (last index)
     /// </summary>
+    [JsonConverter(typeof(BitstringConverter))]
     public class BitString
     {
         public const int BYTESPERDIGIT = 4;

@@ -37,3 +37,4 @@ temp_IntegrationTests
 *.dll
 LoggingTests
 orleans-master
+appsettings.json

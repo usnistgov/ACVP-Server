@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Math.Domain;
 
 namespace NIST.CVP.Generation.CSHAKE
 {
@@ -18,8 +17,7 @@ namespace NIST.CVP.Generation.CSHAKE
                 {
                     Function = parameters.Algorithm,
                     DigestSize = digSize,
-                    BitOrientedInput = parameters.BitOrientedInput,
-                    BitOrientedOutput = parameters.BitOrientedOutput,
+                    MessageLength = parameters.MessageLength,
                     OutputLength = parameters.OutputLength,
                     TestType = TEST_TYPE
                 };
