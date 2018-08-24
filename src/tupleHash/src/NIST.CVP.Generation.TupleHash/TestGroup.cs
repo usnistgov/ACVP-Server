@@ -16,7 +16,7 @@ namespace NIST.CVP.Generation.TupleHash
         [JsonIgnore]
         public string Function { get; set; }
 
-        [JsonIgnore]
+        [JsonProperty(PropertyName = "digestSize")]
         public int DigestSize { get; set; }
 
         [JsonProperty(PropertyName = "XOF")]
