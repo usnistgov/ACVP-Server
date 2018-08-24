@@ -168,12 +168,19 @@ namespace NIST.CVP.Crypto.Oracle
         
         public async Task<MctResult<AesResult>> GetAesMctCaseAsync(AesParameters param)
         {
-            var grain = _clusterClient.GetGrain<IOracleAesMctCaseGrain>(
+            var grain = _clusterClient.GetGrain<IOracleObserverAesMctCaseGrain>(
                 Guid.NewGuid()
             );
 
+            var observer = new OracleGrainObserver<MctResult<AesResult>>();
+            var observerReference = 
+                await _clusterClient.CreateObjectReference<IGrainObserver<MctResult<AesResult>>>(observer);
+            await grain.Subscribe(observerReference);
             await grain.BeginWorkAsync(param);
-            return await PollWorkUntilCompleteAsync(grain);
+
+            var result = await ObserveUntilResult(grain, observer, observerReference);
+
+            return result;
         }
 
         public async Task<AesXtsResult> GetAesXtsCaseAsync(AesXtsParameters param)
