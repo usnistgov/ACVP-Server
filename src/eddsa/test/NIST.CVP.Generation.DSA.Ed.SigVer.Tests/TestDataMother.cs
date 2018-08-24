@@ -24,7 +24,7 @@ namespace NIST.CVP.Generation.DSA.Ed.SigVer.Tests
                 {
                     Curve = Curve.Ed25519,
                     PreHash = false,
-                    KeyPair = new EdKeyPair(52, 3)
+                    KeyPair = new EdKeyPair(new BitString("BEEF"), new BitString("FACE"))
                 };
                 testGroups.Add(tg);
 
@@ -36,7 +36,7 @@ namespace NIST.CVP.Generation.DSA.Ed.SigVer.Tests
                     {
                         Message = new BitString("BEEFFACE"),
                         Context = new BitString("BEEFFACE"),
-                        Signature = new EdSignature(7),
+                        Signature = new EdSignature(new BitString("BEEF")),
                         TestPassed = true,
                         Reason = EddsaSignatureDisposition.None,
                         TestCaseId = testId,

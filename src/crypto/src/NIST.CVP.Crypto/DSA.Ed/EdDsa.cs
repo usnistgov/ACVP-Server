@@ -47,7 +47,7 @@ namespace NIST.CVP.Crypto.DSA.Ed
             // 1. Hash the private key
             // 2. Prune the buffer
             // Both accomplished by this function
-            var h = HashPrivate(domainParameters, d).Buffer;
+            var h = HashPrivate(domainParameters, new BitString(d, domainParameters.CurveE.VariableB)).Buffer;
 
             // 3. Determine s
             var s = NumberTheory.Pow2(domainParameters.CurveE.VariableN) + h.ToPositiveBigInteger();
@@ -59,13 +59,13 @@ namespace NIST.CVP.Crypto.DSA.Ed
             var qEncoded = EdPointEncoder.Encode(Q, domainParameters.CurveE.VariableB);
 
             // Return key pair (Q, d)
-            return new EdKeyPairGenerateResult(new EdKeyPair(qEncoded, d));
+            return new EdKeyPairGenerateResult(new EdKeyPair(qEncoded, new BitString(d, domainParameters.CurveE.VariableB)));
         }
 
         public EdKeyPairValidateResult ValidateKeyPair(EdDomainParameters domainParameters, EdKeyPair keyPair)
         {
             // If D is out of bounds, reject
-            if (keyPair.PrivateD < 1 || keyPair.PrivateD > NumberTheory.Pow2(domainParameters.CurveE.VariableB) - 1)
+            if (keyPair.PrivateD.ToPositiveBigInteger() < 1 || keyPair.PrivateD.ToPositiveBigInteger() > NumberTheory.Pow2(domainParameters.CurveE.VariableB) - 1)
             {
                 return new EdKeyPairValidateResult("D must be able to be a b-bit string");
             }
@@ -144,11 +144,11 @@ namespace NIST.CVP.Crypto.DSA.Ed
             var rG = domainParameters.CurveE.Multiply(domainParameters.CurveE.BasePointG, r);
             
             // Encode the point rG into a b-bit bitstring
-            var R = new BitString(domainParameters.CurveE.Encode(rG), domainParameters.CurveE.VariableB);
+            var R = domainParameters.CurveE.Encode(rG);
 
             // 4. Define S
             // Hash (dom4 || R || Q || M). Need to use dom4 if ed448
-            var hashData = BitString.ConcatenateBits(new BitString(keyPair.PublicQ, domainParameters.CurveE.VariableB), message);
+            var hashData = BitString.ConcatenateBits(keyPair.PublicQ, message);
             hashData = BitString.ConcatenateBits(dom, BitString.ConcatenateBits(R, hashData));
             var hash = Sha.HashMessage(hashData, 912).Digest;
 
@@ -166,7 +166,7 @@ namespace NIST.CVP.Crypto.DSA.Ed
 
             // 5. Form the signature by concatenating R and S
             var sig = BitString.ConcatenateBits(R, S);
-            return new EdSignatureResult(new EdSignature(sig.ToPositiveBigInteger()));
+            return new EdSignatureResult(new EdSignature(sig));
         }
 
         public EdVerificationResult Verify(EdDomainParameters domainParameters, EdKeyPair keyPair, BitString message, EdSignature signature, bool preHash = false)
@@ -201,7 +201,7 @@ namespace NIST.CVP.Crypto.DSA.Ed
             }
 
             // 2. Concatenate R || Q || M
-            var hashData = BitString.ConcatenateBits(new BitString(domainParameters.CurveE.Encode(R), domainParameters.CurveE.VariableB), BitString.ConcatenateBits(new BitString(keyPair.PublicQ, domainParameters.CurveE.VariableB), message));
+            var hashData = BitString.ConcatenateBits(domainParameters.CurveE.Encode(R), BitString.ConcatenateBits(keyPair.PublicQ, message));
 
             // 3. Compute t
             // Determine dom. Empty if ed25519. Different for preHash function
@@ -309,10 +309,10 @@ namespace NIST.CVP.Crypto.DSA.Ed
         /// <param name="domainParameters"></param>
         /// <param name="d"></param>
         /// <returns></returns>
-        private (BitString Buffer, BitString HDigest2) HashPrivate(EdDomainParameters domainParameters, BigInteger d)
+        private (BitString Buffer, BitString HDigest2) HashPrivate(EdDomainParameters domainParameters, BitString d)
         {
             // 912 is the output length for Ed448 when using SHAKE. It will not affect SHA512 output length for Ed25519.
-            var h = Sha.HashMessage(new BitString(d, domainParameters.CurveE.VariableB), 912).Digest;
+            var h = Sha.HashMessage(d, 912).Digest;
 
             // Split the hash result in half
             var hDigest2 = h.Substring(0, domainParameters.CurveE.VariableB);
@@ -333,8 +333,8 @@ namespace NIST.CVP.Crypto.DSA.Ed
 
         private (EdPoint R, BigInteger s) DecodeSig(EdDomainParameters domainParameters, EdSignature sig)
         {
-            var rBits = new BitString(sig.Sig).MSBSubstring(0, domainParameters.CurveE.VariableB).ToPositiveBigInteger();
-            var sBits = new BitString(sig.Sig).Substring(0, domainParameters.CurveE.VariableB);
+            var rBits = sig.Sig.MSBSubstring(0, domainParameters.CurveE.VariableB);
+            var sBits = sig.Sig.Substring(0, domainParameters.CurveE.VariableB);
 
             var R = domainParameters.CurveE.Decode(rBits);
             var s = BitString.ReverseByteOrder(sBits).ToPositiveBigInteger();

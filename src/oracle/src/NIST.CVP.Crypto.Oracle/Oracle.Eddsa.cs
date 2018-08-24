@@ -43,7 +43,7 @@ namespace NIST.CVP.Crypto.Oracle
             var domainParams = new EdDomainParameters(curve, new ShaFactory());
 
             var edDsa = _edFactory.GetInstance(new HashFunction(ModeValues.SHA2, DigestSizes.d256), EntropyProviderTypes.Testable);
-            edDsa.AddEntropy(fullParam.Key.PrivateD);
+            edDsa.AddEntropy(fullParam.Key.PrivateD.ToPositiveBigInteger());
 
             var result = edDsa.GenerateKeyPair(domainParams);
             if (!result.Success)

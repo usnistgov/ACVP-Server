@@ -94,11 +94,11 @@ namespace NIST.CVP.Crypto.Common.Asymmetric.DSA.Ed
         /// <summary>
         /// Encodes a point properly
         /// </summary>
-        BigInteger Encode(EdPoint point);
+        BitString Encode(EdPoint point);
 
         /// <summary>
         /// Decodes a point properly
         /// </summary>
-        EdPoint Decode(BigInteger encoded);
+        EdPoint Decode(BitString encoded);
     }
 }

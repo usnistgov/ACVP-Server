@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.Ed;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.Ed.Enums;
+using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.DSA.Ed.KeyGen.Tests
 {
@@ -34,14 +35,14 @@ namespace NIST.CVP.Generation.DSA.Ed.KeyGen.Tests
                     var tc = new TestCase
                     {
                         TestCaseId = testId,
-                        KeyPair = new EdKeyPair(14, 3),
+                        KeyPair = new EdKeyPair(new BitString("BEEF"), new BitString("FACE")),
                         ParentGroup = tg
                     };
                     tests.Add(tc);
 
                     if (!isSample)
                     {
-                        tc.KeyPair = new EdKeyPair(-14, -3);
+                        tc.KeyPair = new EdKeyPair(new BitString("FACE"), new BitString("BEEF"));
                     }
 
                 }

@@ -1,7 +1,6 @@
 ﻿using NIST.CVP.Crypto.Common.Asymmetric.DSA.Ed;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Enums;
-using NIST.CVP.Math;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using NIST.CVP.Generation.Core.Async;
@@ -33,7 +32,7 @@ namespace NIST.CVP.Generation.DSA.Ed.KeyGen
             var expected = new Dictionary<string, string>();
             var provided = new Dictionary<string, string>();
 
-            if (suppliedResult.KeyPair.PrivateD == 0 || suppliedResult.KeyPair.PublicQ == 0)
+            if (suppliedResult.KeyPair.PrivateD.ToPositiveBigInteger() == 0 || suppliedResult.KeyPair.PublicQ.ToPositiveBigInteger() == 0)
             {
                 errors.Add("Could not find value in key pair");
             }
@@ -46,11 +45,11 @@ namespace NIST.CVP.Generation.DSA.Ed.KeyGen
                 }
                 else
                 {
-                    if (deferredResult.KeyPair.PublicQ != suppliedResult.KeyPair.PublicQ)
+                    if (!deferredResult.KeyPair.PublicQ.Equals(suppliedResult.KeyPair.PublicQ))
                     {
                         errors.Add("Incorrect Q generated from private key");
-                        expected.Add(nameof(deferredResult.KeyPair.PublicQ), new BitString(deferredResult.KeyPair.PublicQ).ToHex());
-                        provided.Add(nameof(suppliedResult.KeyPair.PublicQ), new BitString(suppliedResult.KeyPair.PublicQ).ToHex());
+                        expected.Add(nameof(deferredResult.KeyPair.PublicQ), deferredResult.KeyPair.PublicQ.ToHex());
+                        provided.Add(nameof(suppliedResult.KeyPair.PublicQ), suppliedResult.KeyPair.PublicQ.ToHex());
                     }
                 }
             }

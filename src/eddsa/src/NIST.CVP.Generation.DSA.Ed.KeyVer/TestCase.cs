@@ -2,7 +2,7 @@
 using NIST.CVP.Common.Oracle.DispositionTypes;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.Ed;
 using NIST.CVP.Generation.Core;
-using System.Numerics;
+using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.DSA.Ed.KeyVer
 {
@@ -16,14 +16,14 @@ namespace NIST.CVP.Generation.DSA.Ed.KeyVer
 
         [JsonIgnore] public EdKeyPair KeyPair { get; set; } = new EdKeyPair();
         [JsonProperty(PropertyName = "d", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public BigInteger D
+        public BitString D
         {
             get => KeyPair.PrivateD;
             set => KeyPair.PrivateD = value;
         }
 
         [JsonProperty(PropertyName = "q", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public BigInteger Q
+        public BitString Q
         {
             get => KeyPair.PublicQ;
             set => KeyPair.PublicQ = value;

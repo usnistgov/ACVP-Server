@@ -1,17 +1,17 @@
-﻿using System.Numerics;
+﻿using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.Common.Asymmetric.DSA.Ed
 {
     public class EdSignature : IDsaSignature
     {
-        public BigInteger Sig { get; set; }
+        public BitString Sig { get; set; }
 
         public EdSignature()
         {
             
         }
 
-        public EdSignature(BigInteger sig)
+        public EdSignature(BitString sig)
         {
             Sig = sig;
         }

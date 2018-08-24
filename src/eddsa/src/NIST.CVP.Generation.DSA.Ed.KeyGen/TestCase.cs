@@ -1,7 +1,7 @@
-﻿using System.Numerics;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.Ed;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.DSA.Ed.KeyGen
 {
@@ -14,14 +14,14 @@ namespace NIST.CVP.Generation.DSA.Ed.KeyGen
 
         [JsonIgnore] public EdKeyPair KeyPair { get; set; } = new EdKeyPair();
         [JsonProperty(PropertyName = "d", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public BigInteger D
+        public BitString D
         {
             get => KeyPair.PrivateD;
             set => KeyPair.PrivateD = value;
         }
 
         [JsonProperty(PropertyName = "q", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public BigInteger Q
+        public BitString Q
         {
             get => KeyPair.PublicQ;
             set => KeyPair.PublicQ = value;

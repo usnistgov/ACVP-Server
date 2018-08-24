@@ -3,7 +3,6 @@ using NIST.CVP.Common.Oracle.DispositionTypes;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.Ed;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
-using System.Numerics;
 
 namespace NIST.CVP.Generation.DSA.Ed.SigVer
 {
@@ -24,7 +23,7 @@ namespace NIST.CVP.Generation.DSA.Ed.SigVer
 
         [JsonIgnore] public EdSignature Signature { get; set; } = new EdSignature();
         [JsonProperty(PropertyName = "sig", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public BigInteger Sig
+        public BitString Sig
         {
             get => Signature.Sig;
             set => Signature.Sig = value;

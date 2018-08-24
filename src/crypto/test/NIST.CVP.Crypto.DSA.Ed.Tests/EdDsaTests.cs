@@ -82,7 +82,7 @@ namespace NIST.CVP.Crypto.DSA.Ed.Tests
             var domainParams = new EdDomainParameters(curve, new ShaFactory());
 
             var subject = new EdDsa(EntropyProviderTypes.Testable);
-            subject.AddEntropy(d);
+            subject.AddEntropy(d.ToPositiveBigInteger());
 
             var result = subject.GenerateKeyPair(domainParams);
 
@@ -506,10 +506,9 @@ namespace NIST.CVP.Crypto.DSA.Ed.Tests
             Assert.AreEqual(expectedResult, result.Success);
         }
 
-        private BigInteger LoadValue(string value)
+        private BitString LoadValue(string value)
         {
-            var bits = new BitString(value);
-            return bits.ToPositiveBigInteger();
+            return new BitString(value);
         }
     }
 }

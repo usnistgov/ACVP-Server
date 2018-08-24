@@ -1,6 +1,7 @@
 ﻿using NIST.CVP.Common.Oracle.DispositionTypes;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.Ed;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.Ed.Enums;
+using NIST.CVP.Math;
 using System.Collections.Generic;
 
 namespace NIST.CVP.Generation.DSA.Ed.KeyVer.Tests
@@ -32,7 +33,7 @@ namespace NIST.CVP.Generation.DSA.Ed.KeyVer.Tests
                     tests.Add(new TestCase
                     {
                         TestCaseId = testId,
-                        KeyPair = new EdKeyPair(14, 3),
+                        KeyPair = new EdKeyPair(new BitString("BEEF"), new BitString("FACE")),
                         TestPassed = testPassed,
                         Reason = EddsaKeyDisposition.NotOnCurve,
                         ParentGroup = tg

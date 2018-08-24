@@ -2,14 +2,9 @@
 using Moq;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.Ed;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.Ed.Enums;
-using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
-using NIST.CVP.Crypto.DSA.Ed;
-using NIST.CVP.Crypto.SHAWrapper;
-using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Async;
 using NIST.CVP.Generation.Core.Enums;
 using NIST.CVP.Math;
-using NIST.CVP.Math.Entropy;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
@@ -50,7 +45,7 @@ namespace NIST.CVP.Generation.DSA.Ed.SigGen.Tests
             return new TestCase
             {
                 TestCaseId = 1,
-                Signature = new EdSignature(5)
+                Signature = new EdSignature(new BitString("BEEF"))
             };
         }
 
@@ -60,7 +55,7 @@ namespace NIST.CVP.Generation.DSA.Ed.SigGen.Tests
             {
                 Curve = Curve.Ed25519,
                 PreHash = false,
-                KeyPair = new EdKeyPair(new BitString("ec172b93ad5e563bf4932c70e1245034c35467ef2efd4d64ebf819683467e2bf").ToPositiveBigInteger())
+                KeyPair = new EdKeyPair(new BitString("ec172b93ad5e563bf4932c70e1245034c35467ef2efd4d64ebf819683467e2bf"))
             };
         }
 

@@ -1,5 +1,4 @@
-﻿using System.Numerics;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.Ed;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
@@ -21,7 +20,7 @@ namespace NIST.CVP.Generation.DSA.Ed.SigGen
 
         [JsonIgnore] public EdSignature Signature { get; set; } = new EdSignature();
         [JsonProperty(PropertyName = "sig", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public BigInteger Sig
+        public BitString Sig
         {
             get => Signature.Sig;
             set => Signature.Sig = value;

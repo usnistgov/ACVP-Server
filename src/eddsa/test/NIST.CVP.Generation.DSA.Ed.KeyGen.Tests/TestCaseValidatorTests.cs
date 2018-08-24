@@ -46,7 +46,7 @@ namespace NIST.CVP.Generation.DSA.Ed.KeyGen.Tests
 
         private EdKeyPair GetKey(bool correctKey)
         {
-            return correctKey ? new EdKeyPair(14, 3) : new EdKeyPair(18, 6);
+            return correctKey ? new EdKeyPair(new Math.BitString("9d61b19deffd5a60ba844af492ec2cc44449c5697b326919703bac031cae7f60"), new Math.BitString("d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a")) : new EdKeyPair(new Math.BitString("FACE"), new Math.BitString("BEEF"));
         }
 
         private Mock<IDeferredTestCaseResolverAsync<TestGroup, TestCase, EdKeyPairGenerateResult>> GetDeferredResolver(bool shouldPass)

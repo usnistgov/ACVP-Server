@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Numerics;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.Ed;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.Ed.Enums;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
@@ -27,13 +28,13 @@ namespace NIST.CVP.Generation.DSA.Ed.SigGen.Tests
                 {
                     Curve = Curve.Ed25519,
                     PreHash = false,
-                    KeyPair = new EdKeyPair(14, 3)
+                    KeyPair = new EdKeyPair(new BitString(new BigInteger(14)), new BitString(new BigInteger(3)))
                 };
                 testGroups.Add(tg);
 
                 if (!isSample)
                 {
-                    tg.KeyPair = new EdKeyPair(-14, -3);
+                    tg.KeyPair = new EdKeyPair(new BitString(new BigInteger(-14)), new BitString(new BigInteger(-3)));
                 }
 
                 var tests = new List<TestCase>();
@@ -43,7 +44,7 @@ namespace NIST.CVP.Generation.DSA.Ed.SigGen.Tests
                     var tc = new TestCase
                     {
                         Message = new BitString("BEEFFACE"),
-                        Signature = new EdSignature(5),
+                        Signature = new EdSignature(new BitString("BEEF")),
                         TestCaseId = testId,
                         ParentGroup = tg,
                         Context = new BitString("BEEFFACE")
@@ -52,7 +53,7 @@ namespace NIST.CVP.Generation.DSA.Ed.SigGen.Tests
 
                     if (!isSample)
                     {
-                        tc.Signature = new EdSignature(-4);
+                        tc.Signature = new EdSignature(new BitString("FACE"));
                     }
                 }
             }

@@ -127,7 +127,7 @@ namespace NIST.CVP.Generation.DSA.Ed.SigVer.Tests
             var oracleMock = new Mock<IOracle>();
             oracleMock
                 .Setup(s => s.GetEddsaKeyAsync(It.IsAny<EddsaKeyParameters>()))
-                .Returns(Task.FromResult(new EddsaKeyResult { Key = new EdKeyPair(new BitString("ec172b93ad5e563bf4932c70e1245034c35467ef2efd4d64ebf819683467e2bf").ToPositiveBigInteger()) }));
+                .Returns(Task.FromResult(new EddsaKeyResult { Key = new EdKeyPair(new BitString("ec172b93ad5e563bf4932c70e1245034c35467ef2efd4d64ebf819683467e2bf")) }));
 
             var subject = new TestGroupGenerator();
             var result = subject.BuildTestGroups(parameters);

@@ -5,7 +5,6 @@ using NIST.CVP.Crypto.Common.Asymmetric.DSA.Ed.Enums;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using System.Collections.Generic;
-using System.Numerics;
 
 namespace NIST.CVP.Generation.DSA.Ed.SigVer
 {
@@ -18,14 +17,14 @@ namespace NIST.CVP.Generation.DSA.Ed.SigVer
 
         [JsonIgnore] public EdKeyPair KeyPair { get; set; } = new EdKeyPair();
         [JsonProperty(PropertyName = "d", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public BigInteger D
+        public BitString D
         {
             get => KeyPair.PrivateD;
             set => KeyPair.PrivateD = value;
         }
 
         [JsonProperty(PropertyName = "q", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public BigInteger Q
+        public BitString Q
         {
             get => KeyPair.PublicQ;
             set => KeyPair.PublicQ = value;
