@@ -41,13 +41,13 @@ namespace NIST.CVP.Crypto.DSA.Ed
         {
             Sha = domainParameters.Hash;
 
-            // Generate random number k ... not sure what the range should be for this.
-            var k = _entropyProvider.GetEntropy(1, NumberTheory.Pow2(domainParameters.CurveE.VariableB + 1) - 1);
+            // Generate random number d
+            var d = _entropyProvider.GetEntropy(1, NumberTheory.Pow2(domainParameters.CurveE.VariableB) - 1);
 
             // 1. Hash the private key
             // 2. Prune the buffer
             // Both accomplished by this function
-            var h = HashPrivate(domainParameters, k).Buffer;
+            var h = HashPrivate(domainParameters, d).Buffer;
 
             // 3. Determine s
             var s = NumberTheory.Pow2(domainParameters.CurveE.VariableN) + h.ToPositiveBigInteger();
@@ -59,12 +59,16 @@ namespace NIST.CVP.Crypto.DSA.Ed
             var qEncoded = EdPointEncoder.Encode(Q, domainParameters.CurveE.VariableB);
 
             // Return key pair (Q, d)
-            return new EdKeyPairGenerateResult(new EdKeyPair(qEncoded, k));
+            return new EdKeyPairGenerateResult(new EdKeyPair(qEncoded, d));
         }
 
         public EdKeyPairValidateResult ValidateKeyPair(EdDomainParameters domainParameters, EdKeyPair keyPair)
         {
-            Sha = domainParameters.Hash;
+            // If D is out of bounds, reject
+            if (keyPair.PrivateD < 1 || keyPair.PrivateD > NumberTheory.Pow2(domainParameters.CurveE.VariableB) - 1)
+            {
+                return new EdKeyPairValidateResult("D must be able to be a b-bit string");
+            }
 
             EdPoint Q;
             try

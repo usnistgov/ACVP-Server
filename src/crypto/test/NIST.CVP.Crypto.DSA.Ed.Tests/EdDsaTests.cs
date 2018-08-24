@@ -116,6 +116,11 @@ namespace NIST.CVP.Crypto.DSA.Ed.Tests
             "5fd7449b59b461fd2ce787ec616ad46a1da1342485a70e1f8a0ea75d80e96778edf124769b46c7061bd6783de1e50f6cd1fa1abeafe8256180",
             false,
             TestName = "KeyVer 448 Bad Pair")]
+        [TestCase(Curve.Ed448,
+            "018bdfa928dd25dbf2533e8f088a71d0d42e878c61edd12b81465c8e70638085067dcfc97739f5418c2bb28403f2127da6a9401cd252f1d05458",
+            "fc35f437c8ffd3b1aac2da6be89a6fdb5a48def9bffefcaf900a4bbf39f4556fd60f97a33ceb37a37a11f4ba180974b04fa24283a62152f200",
+            false,
+            TestName = "KeyVer 448 Bad Pair - 2")]
         #endregion KeyPairVer-448
         public void ShouldValidateKeyPairsCorrectly(Curve curveEnum, string dHex, string qHex, bool expectedResult)
         {
@@ -469,6 +474,14 @@ namespace NIST.CVP.Crypto.DSA.Ed.Tests
             "666e6f",
             false,
             TestName = "SigVer 448ph Bad Signature - 2")]
+        [TestCase(Curve.Ed448,
+            "018bdfa928dd25dbf2533e8f088a71d0d42e878c61edd12b81465c8e70638085067dcfc97739f5418c2bb28403f2127da6a9401cd252f1d05458",
+            "fc35f437c8ffd3b1aac2da6be89a6fdb5a48def9bffefcaf900a4bbf39f4556fd60f97a33ceb37a37a11f4ba180974b04fa24283a62152f200",
+            "686e713d",
+            "f9406f9f59498e939bb1ebc45451ea815d32a2976d1c6b7d60beb62867f43a29eebb83a54a10c555ee385920813c14913eb9b1dd47260a80dc3829317c4158b549bfd09f4ddc3f9fa64c1041adea909849fbe21e9b58923ad8898bc5e2c5400e9d8b2dd6e5ba5dd220948b49989a7f2600",
+            "",
+            false,
+            TestName = "SigVer 448ph Bad Signature - 3")]
         #endregion SigVerPreHash-448
         public void ShouldValidateSignaturesPreHashCorrectly(Curve curveEnum, string dHex, string qHex, string msgHex, string sigHex, string contextHex, bool expectedResult)
         {
