@@ -1,7 +1,7 @@
 ﻿namespace NIST.CVP.Orleans.Grains
 {
-    public interface IGrainMarker
-    {
-        
-    }
+    /// <summary>
+    /// Indicates implementations as Orleans Grains
+    /// </summary>
+    public interface IGrainMarker { }
 }
