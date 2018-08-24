@@ -50,6 +50,7 @@ namespace NIST.CVP.PoolAPI
                         config.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
                     });
                 builder.UseStartup<Startup>();
+                builder.UseUrls("http://+:5002");
             }
 
             var host = builder.Build();
