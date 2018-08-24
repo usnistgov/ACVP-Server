@@ -11,6 +11,7 @@ using NIST.CVP.Crypto.Symmetric.MonteCarlo;
 using NIST.CVP.Math;
 using System;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using NIST.CVP.Orleans.Grains.Interfaces;
 
@@ -152,13 +153,54 @@ namespace NIST.CVP.Crypto.Oracle
 
         public async Task<AesResult> GetAesCaseAsync(AesParameters param)
         {
-            var grain = _clusterClient.GetGrain<IOracleAesCaseGrain>(
+            //var grain = _clusterClient.GetGrain<IOracleAesCaseGrain>(
+            //    Guid.NewGuid()
+            //);
+
+            //await grain.BeginWorkAsync(param);
+            //return await PollWorkUntilCompleteAsync(grain);
+
+            var grain = _clusterClient.GetGrain<IOracleObserverAesCaseGrain>(
                 Guid.NewGuid()
             );
 
+            var observer = new OracleGrainObserver<AesResult>();
+            var observerReference = await _clusterClient.CreateObjectReference<IGrainObserver<AesResult>>(observer);
+            await grain.Subscribe(observerReference);
             await grain.BeginWorkAsync(param);
-            return await PollWorkUntilCompleteAsync(grain);
+
+            //var cancellationTokenSource = new CancellationTokenSource();
+            //var subscriptionTask = StaySubscribed(grain, observerReference, cancellationTokenSource.Token);
+
+            while (!observer.HasResult)
+            {
+                //await Task.Delay(TimeSpan.FromSeconds(Constants.TaskPollingSeconds), cancellationTokenSource.Token);
+                await Task.Delay(TimeSpan.FromSeconds(Constants.TaskPollingSeconds));
+                await grain.Subscribe(observerReference);
+            }
+
+            var result = observer.GetResult();
+            await grain.Unsubscribe(observerReference);
+            //cancellationTokenSource.Cancel();
+
+            return result;
         }
+
+        //private static async Task StaySubscribed(IOracleObserverAesCaseGrain grain, IGrainObserver<AesResult> observer, CancellationToken token)
+        //{
+        //    while (!token.IsCancellationRequested)
+        //    {
+        //        try
+        //        {
+        //            await Task.Delay(TimeSpan.FromSeconds(5), token);
+        //            await grain.Subscribe(observer);
+        //        }
+        //        catch (Exception exception)
+        //        {
+        //            Console.WriteLine($"Exception while trying to subscribe for updates: {exception}");
+        //        }
+        //    }
+        //}
 
         public async Task<MctResult<AesResult>> GetAesMctCaseAsync(AesParameters param)
         {
