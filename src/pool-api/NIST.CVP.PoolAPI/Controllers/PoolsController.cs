@@ -24,7 +24,7 @@ namespace NIST.CVP.PoolAPI.Controllers
         // https://localhost:5001/api/pools
         public string GetDataFromPool(ParameterHolder parameterHolder)
         {
-            return JsonConvert.SerializeObject(Startup.PoolManager.GetResultFromPool(parameterHolder), _jsonSettings);
+            return JsonConvert.SerializeObject(Program.PoolManager.GetResultFromPool(parameterHolder), _jsonSettings);
         }
 
         [HttpPost]
@@ -32,7 +32,7 @@ namespace NIST.CVP.PoolAPI.Controllers
         // https://localhost:5001/api/pools/add
         public bool PostDataToPool(ParameterHolder parameterHolder)
         {
-            return Startup.PoolManager.AddResultToPool(parameterHolder);
+            return Program.PoolManager.AddResultToPool(parameterHolder);
         }
 
         [HttpPost]
@@ -40,7 +40,7 @@ namespace NIST.CVP.PoolAPI.Controllers
         // https://localhost:5001/api/pools/status
         public string PoolStatus(ParameterHolder parameterHolder)
         {
-            return JsonConvert.SerializeObject(Startup.PoolManager.GetPoolStatus(parameterHolder));
+            return JsonConvert.SerializeObject(Program.PoolManager.GetPoolStatus(parameterHolder));
         }
 
         [HttpGet]
@@ -48,7 +48,7 @@ namespace NIST.CVP.PoolAPI.Controllers
         // https://localhost:5001/api/pools/save
         public bool SavePools()
         {
-            return Startup.PoolManager.SavePools();
+            return Program.PoolManager.SavePools();
         }
     }
 }

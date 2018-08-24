@@ -1,46 +1,45 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Hosting.WindowsServices;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
+using NLog;
 
 namespace NIST.CVP.PoolAPI
 {
-    internal class PoolWebHostService : WebHostService
+    public class PoolWebHostService : WebHostService
     {
         private readonly ILogger _logger;
 
         public PoolWebHostService(IWebHost host) : base(host)
         {
-            _logger = host.Services.GetRequiredService<ILogger<PoolWebHostService>>();
+            _logger = LogManager.GetCurrentClassLogger();
         }
 
         protected override void OnStarting(string[] args)
         {
-            _logger.LogInformation("PoolWebAPI service started...");
+            _logger.Info("PoolWebAPI service started...");
             base.OnStarting(args);
         }
 
         protected override void OnStarted()
         {
-            _logger.LogInformation("PoolWebAPI service running...");
+            _logger.Info("PoolWebAPI service running...");
             base.OnStarted();
         }
 
         protected override void OnStopping()
         {
-            _logger.LogInformation("PoolWebAPI service stopped...");
+            _logger.Info("PoolWebAPI service stopped...");
 
             // Save Pool Data
-            _logger.LogInformation("Saving pool data...");
+            _logger.Info("Saving pool data...");
 
-            var saveSuccess = Startup.PoolManager.SavePools();
+            var saveSuccess = Program.PoolManager.SavePools();
             if (saveSuccess)
             {
-                _logger.LogInformation("Pools saved successfully.");
+                _logger.Info("Pools saved successfully.");
             }
             else
             {
-                _logger.LogError("Pools failed to save!");
+                _logger.Error("Pools failed to save!");
             }
 
             base.OnStopping();

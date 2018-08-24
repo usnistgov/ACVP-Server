@@ -83,8 +83,10 @@ namespace NIST.CVP.Pools
 
         private void LoadPools(string configFile, string poolDirectory)
         {
-            _properties = JsonConvert.DeserializeObject<PoolProperties[]>(File.ReadAllText(configFile));
             _poolDirectory = poolDirectory;
+
+            var fullConfigFile = Path.Combine(_poolDirectory, configFile);
+            _properties = JsonConvert.DeserializeObject<PoolProperties[]>(File.ReadAllText(fullConfigFile));
 
             foreach (var poolProperty in _properties)
             {
