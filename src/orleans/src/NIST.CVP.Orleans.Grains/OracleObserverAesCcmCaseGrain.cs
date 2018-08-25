@@ -29,8 +29,7 @@ namespace NIST.CVP.Orleans.Grains
             IEntropyProviderFactory entropyProviderFactory,
             IAeadRunner aeadRunner,
             IAeadModeBlockCipherFactory aeadCipherFactory
-        )
-        : base (nonOrleansScheduler)
+        ) : base (nonOrleansScheduler)
         {
             _engineFactory = engineFactory;
             _entropyProvider = entropyProviderFactory.GetEntropyProvider(EntropyProviderTypes.Random);

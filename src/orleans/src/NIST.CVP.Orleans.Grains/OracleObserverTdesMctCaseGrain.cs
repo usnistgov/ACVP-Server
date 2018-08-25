@@ -1,38 +1,37 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using NIST.CVP.Common;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
-using NIST.CVP.Crypto.Common.Symmetric.Engines;
 using NIST.CVP.Crypto.Common.Symmetric.Enums;
+using NIST.CVP.Crypto.Common.Symmetric.MonteCarlo;
+using NIST.CVP.Crypto.Common.Symmetric.TDES;
 using NIST.CVP.Math.Entropy;
 using NIST.CVP.Orleans.Grains.Interfaces;
 
 namespace NIST.CVP.Orleans.Grains
 {
-    public class OracleObserverAesCaseGrain : ObservableOracleGrainBase<AesResult>, 
-        IOracleObserverAesCaseGrain
+    public class OracleObserverTdesMctCaseGrain : ObservableOracleGrainBase<MctResult<TdesResult>>, 
+        IOracleObserverTdesMctCaseGrain
     {
-        private readonly IBlockCipherEngineFactory _engineFactory;
-        private readonly IModeBlockCipherFactory _modeFactory;
+        private readonly IMonteCarloFactoryTdes _mctFactory;
         private readonly IEntropyProvider _entropyProvider;
 
-        private AesParameters _param;
+        private TdesParameters _param;
 
-        public OracleObserverAesCaseGrain(
+        public OracleObserverTdesMctCaseGrain(
             LimitedConcurrencyLevelTaskScheduler nonOrleansScheduler,
-            IBlockCipherEngineFactory engineFactory,
-            IModeBlockCipherFactory modeFactory,
+            IMonteCarloFactoryTdes mctFactory,
             IEntropyProviderFactory entropyProviderFactory
         ) : base (nonOrleansScheduler)
         {
-            _engineFactory = engineFactory;
-            _modeFactory = modeFactory;
+            _mctFactory = mctFactory;
             _entropyProvider = entropyProviderFactory.GetEntropyProvider(EntropyProviderTypes.Random);
         }
         
-        public async Task<bool> BeginWorkAsync(AesParameters param)
+        public async Task<bool> BeginWorkAsync(TdesParameters param)
         {
             _param = param;
 
@@ -42,10 +41,7 @@ namespace NIST.CVP.Orleans.Grains
         
         protected override async Task DoWorkAsync()
         {
-            var cipher = _modeFactory.GetStandardCipher(
-                _engineFactory.GetSymmetricCipherPrimitive(BlockCipherEngines.Aes), 
-                _param.Mode
-            );
+            var cipher = _mctFactory.GetInstance(_param.Mode);
             var direction = BlockCipherDirections.Encrypt;
             if (_param.Direction.ToLower() == "decrypt")
             {
@@ -53,11 +49,11 @@ namespace NIST.CVP.Orleans.Grains
             }
 
             var payload = _entropyProvider.GetEntropy(_param.DataLength);
-            var key = _entropyProvider.GetEntropy(_param.KeyLength);
-            var iv = _entropyProvider.GetEntropy(128);
+            var key = TdesHelpers.GenerateTdesKey(_param.KeyingOption);
+            var iv = _entropyProvider.GetEntropy(64);
 
             var blockCipherParams = new ModeBlockCipherParameters(direction, iv, key, payload);
-            var result = cipher.ProcessPayload(blockCipherParams);
+            var result = cipher.ProcessMonteCarloTest(blockCipherParams);
 
             if (!result.Success)
             {
@@ -66,12 +62,15 @@ namespace NIST.CVP.Orleans.Grains
             }
 
             // Notify observers of result
-            await Notify(new AesResult
+            await Notify(new MctResult<TdesResult>
             {
-                PlainText = direction == BlockCipherDirections.Encrypt ? payload : result.Result,
-                CipherText = direction == BlockCipherDirections.Decrypt ? payload : result.Result,
-                Key = key,
-                Iv = iv
+                Results = Array.ConvertAll(result.Response.ToArray(), element => new TdesResult
+                {
+                    Key = element.Keys,
+                    Iv = element.IV,
+                    PlainText = element.PlainText,
+                    CipherText = element.CipherText
+                }).ToList()
             });
         }
     }

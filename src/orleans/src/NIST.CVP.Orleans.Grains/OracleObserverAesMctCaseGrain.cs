@@ -24,8 +24,7 @@ namespace NIST.CVP.Orleans.Grains
             LimitedConcurrencyLevelTaskScheduler nonOrleansScheduler,
             IMonteCarloFactoryAes mctFactory,
             IEntropyProviderFactory entropyProviderFactory
-        )
-        : base (nonOrleansScheduler)
+        ) : base (nonOrleansScheduler)
         {
             _mctFactory = mctFactory;
             _entropyProvider = entropyProviderFactory.GetEntropyProvider(EntropyProviderTypes.Random);

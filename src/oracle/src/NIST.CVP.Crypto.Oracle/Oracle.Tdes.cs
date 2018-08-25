@@ -182,22 +182,36 @@ namespace NIST.CVP.Crypto.Oracle
 
         public async Task<TdesResult> GetTdesCaseAsync(TdesParameters param)
         {
-            var grain = _clusterClient.GetGrain<IOracleTdesCaseGrain>(
+            var grain = _clusterClient.GetGrain<IOracleObserverTdesCaseGrain>(
                 Guid.NewGuid()
             );
 
+            var observer = new OracleGrainObserver<TdesResult>();
+            var observerReference = 
+                await _clusterClient.CreateObjectReference<IGrainObserver<TdesResult>>(observer);
+            await grain.Subscribe(observerReference);
             await grain.BeginWorkAsync(param);
-            return await PollWorkUntilCompleteAsync(grain);
+
+            var result = await ObserveUntilResult(grain, observer, observerReference);
+
+            return result;
         }
 
         public async Task<MctResult<TdesResult>> GetTdesMctCaseAsync(TdesParameters param)
         {
-            var grain = _clusterClient.GetGrain<IOracleTdesMctCaseGrain>(
+            var grain = _clusterClient.GetGrain<IOracleObserverTdesMctCaseGrain>(
                 Guid.NewGuid()
             );
 
+            var observer = new OracleGrainObserver<MctResult<TdesResult>>();
+            var observerReference = 
+                await _clusterClient.CreateObjectReference<IGrainObserver<MctResult<TdesResult>>>(observer);
+            await grain.Subscribe(observerReference);
             await grain.BeginWorkAsync(param);
-            return await PollWorkUntilCompleteAsync(grain);
+
+            var result = await ObserveUntilResult(grain, observer, observerReference);
+
+            return result;
         }
 
         public async Task<TdesResultWithIvs> GetTdesWithIvsCaseAsync(TdesParameters param)

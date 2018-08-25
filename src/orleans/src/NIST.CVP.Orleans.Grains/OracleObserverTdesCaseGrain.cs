@@ -6,21 +6,22 @@ using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
 using NIST.CVP.Crypto.Common.Symmetric.Engines;
 using NIST.CVP.Crypto.Common.Symmetric.Enums;
+using NIST.CVP.Crypto.Common.Symmetric.TDES;
 using NIST.CVP.Math.Entropy;
 using NIST.CVP.Orleans.Grains.Interfaces;
 
 namespace NIST.CVP.Orleans.Grains
 {
-    public class OracleObserverAesCaseGrain : ObservableOracleGrainBase<AesResult>, 
-        IOracleObserverAesCaseGrain
+    public class OracleObserverTdesCaseGrain : ObservableOracleGrainBase<TdesResult>, 
+        IOracleObserverTdesCaseGrain
     {
         private readonly IBlockCipherEngineFactory _engineFactory;
         private readonly IModeBlockCipherFactory _modeFactory;
         private readonly IEntropyProvider _entropyProvider;
 
-        private AesParameters _param;
+        private TdesParameters _param;
 
-        public OracleObserverAesCaseGrain(
+        public OracleObserverTdesCaseGrain(
             LimitedConcurrencyLevelTaskScheduler nonOrleansScheduler,
             IBlockCipherEngineFactory engineFactory,
             IModeBlockCipherFactory modeFactory,
@@ -32,7 +33,7 @@ namespace NIST.CVP.Orleans.Grains
             _entropyProvider = entropyProviderFactory.GetEntropyProvider(EntropyProviderTypes.Random);
         }
         
-        public async Task<bool> BeginWorkAsync(AesParameters param)
+        public async Task<bool> BeginWorkAsync(TdesParameters param)
         {
             _param = param;
 
@@ -43,7 +44,7 @@ namespace NIST.CVP.Orleans.Grains
         protected override async Task DoWorkAsync()
         {
             var cipher = _modeFactory.GetStandardCipher(
-                _engineFactory.GetSymmetricCipherPrimitive(BlockCipherEngines.Aes), 
+                _engineFactory.GetSymmetricCipherPrimitive(BlockCipherEngines.Tdes),
                 _param.Mode
             );
             var direction = BlockCipherDirections.Encrypt;
@@ -53,8 +54,8 @@ namespace NIST.CVP.Orleans.Grains
             }
 
             var payload = _entropyProvider.GetEntropy(_param.DataLength);
-            var key = _entropyProvider.GetEntropy(_param.KeyLength);
-            var iv = _entropyProvider.GetEntropy(128);
+            var key = TdesHelpers.GenerateTdesKey(_param.KeyingOption);
+            var iv = _entropyProvider.GetEntropy(64);
 
             var blockCipherParams = new ModeBlockCipherParameters(direction, iv, key, payload);
             var result = cipher.ProcessPayload(blockCipherParams);
@@ -66,7 +67,7 @@ namespace NIST.CVP.Orleans.Grains
             }
 
             // Notify observers of result
-            await Notify(new AesResult
+            await Notify(new TdesResult
             {
                 PlainText = direction == BlockCipherDirections.Encrypt ? payload : result.Result,
                 CipherText = direction == BlockCipherDirections.Decrypt ? payload : result.Result,
