@@ -97,31 +97,6 @@ namespace NIST.CVP.Crypto.Oracle
             return null;
         }
 
-        /// <summary>
-        /// Handles polling a <see cref="IPollableOracleGrain{TResult}"/> until a result is available,
-        /// then returns that result as a <see cref="Task{TResult}"/>
-        /// </summary>
-        /// <typeparam name="TResult">The type of returned result</typeparam>
-        /// <param name="pollableGrain">The pollable grain.</param>
-        /// <returns><see cref="Task{TResult}"/></returns>
-        protected async Task<TResult> PollWorkUntilCompleteAsync<TResult>(
-            IPollableOracleGrain<TResult> pollableGrain
-        )
-        {
-
-            while (true)
-            {
-                await Task.Delay(TimeSpan.FromSeconds(Constants.TaskPollingSeconds));
-
-                var state = await pollableGrain.CheckStatusAsync();
-
-                if (state == GrainState.CompletedWork)
-                {
-                    return await pollableGrain.GetResultAsync();
-                }
-            }
-        }
-
         private static async Task<TResult> ObserveUntilResult<TResult>(IGrainObservable<TResult> grain, OracleGrainObserver<TResult> observer, IGrainObserver<TResult> observerReference)
         {
             while (!observer.HasResult)
