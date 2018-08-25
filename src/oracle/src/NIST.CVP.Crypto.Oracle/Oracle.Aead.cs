@@ -174,16 +174,19 @@ namespace NIST.CVP.Crypto.Oracle
 
         public async Task<AeadResult> GetAesCcmCaseAsync(AeadParameters param)
         {
-            var grain = _clusterClient.GetGrain<IOracleAesCcmCaseGrain>(
+            var grain = _clusterClient.GetGrain<IOracleObserverAesCcmCaseGrain>(
                 Guid.NewGuid()
             );
 
-            await _taskFactory.StartNew(() =>
-            {
-                grain.BeginWorkAsync(param);
-            });
+            var observer = new OracleGrainObserver<AeadResult>();
+            var observerReference = 
+                await _clusterClient.CreateObjectReference<IGrainObserver<AeadResult>>(observer);
+            await grain.Subscribe(observerReference);
+            await grain.BeginWorkAsync(param);
 
-            return await PollWorkUntilCompleteAsync(grain);
+            var result = await ObserveUntilResult(grain, observer, observerReference);
+
+            return result;
         }
 
         public async Task<AeadResult> GetAesGcmCaseAsync(AeadParameters param)
