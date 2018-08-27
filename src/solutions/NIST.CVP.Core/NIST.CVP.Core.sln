@@ -31,8 +31,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Common.Oracle.Test
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto", "..\..\crypto\src\NIST.CVP.Crypto\NIST.CVP.Crypto.csproj", "{BCFCAF83-0E93-4AE4-8B4F-CEF860826F34}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.Math", "..\..\crypto\src\NIST.CVP.Crypto.Math\NIST.CVP.Crypto.Math.csproj", "{EC76F64C-117D-445A-8458-38A0F0F7402F}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -87,10 +85,6 @@ Global
 		{BCFCAF83-0E93-4AE4-8B4F-CEF860826F34}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BCFCAF83-0E93-4AE4-8B4F-CEF860826F34}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BCFCAF83-0E93-4AE4-8B4F-CEF860826F34}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EC76F64C-117D-445A-8458-38A0F0F7402F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EC76F64C-117D-445A-8458-38A0F0F7402F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EC76F64C-117D-445A-8458-38A0F0F7402F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EC76F64C-117D-445A-8458-38A0F0F7402F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -108,7 +102,6 @@ Global
 		{52A5A89C-C9EC-4510-8C9D-33AA7EC239F7} = {3676E839-3D27-4EE9-9459-E6B4B9A8D091}
 		{608352EB-5704-485A-8785-CD7D6041FB43} = {D549AE61-2AE7-45AC-80CD-36AB799DDB1F}
 		{BCFCAF83-0E93-4AE4-8B4F-CEF860826F34} = {3676E839-3D27-4EE9-9459-E6B4B9A8D091}
-		{EC76F64C-117D-445A-8458-38A0F0F7402F} = {3676E839-3D27-4EE9-9459-E6B4B9A8D091}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {38402417-A5EE-46C1-B2F2-72AEF7684347}
