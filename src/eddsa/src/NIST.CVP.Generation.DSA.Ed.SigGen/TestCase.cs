@@ -19,7 +19,8 @@ namespace NIST.CVP.Generation.DSA.Ed.SigGen
         public BitString Context { get; set; } = null;
 
         [JsonIgnore] public EdSignature Signature { get; set; } = new EdSignature();
-        [JsonProperty(PropertyName = "sig", DefaultValueHandling = DefaultValueHandling.Ignore)]
+
+        [JsonProperty(PropertyName = "signature", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public BitString Sig
         {
             get => Signature.Sig;

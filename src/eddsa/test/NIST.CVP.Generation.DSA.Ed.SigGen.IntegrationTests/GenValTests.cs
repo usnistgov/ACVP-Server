@@ -47,9 +47,9 @@ namespace NIST.CVP.Generation.DSA.Ed.SigGen.IntegrationTests
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {
             var rand = new Random800_90();
-            if (testCase.sig != null)
+            if (testCase.signature != null)
             {
-                testCase.sig = rand.GetDifferentBitStringOfSameSize(new BitString(testCase.sig.ToString())).ToHex();
+                testCase.signature = rand.GetDifferentBitStringOfSameSize(new BitString(testCase.signature.ToString())).ToHex();
             }
         }
     }
