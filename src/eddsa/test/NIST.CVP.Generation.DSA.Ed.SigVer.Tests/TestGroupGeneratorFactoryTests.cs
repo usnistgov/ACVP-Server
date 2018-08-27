@@ -43,7 +43,7 @@ namespace NIST.CVP.Generation.DSA.Ed.SigVer.Tests
                 Algorithm = "EDDSA",
                 Mode = "SigVer",
                 IsSample = false,
-                Capabilities = GetCapabilities(),
+                Curve = ParameterValidator.VALID_CURVES
             };
 
             var groups = new List<TestGroup>();
@@ -66,7 +66,7 @@ namespace NIST.CVP.Generation.DSA.Ed.SigVer.Tests
                 Algorithm = "EDDSA",
                 Mode = "SigVer",
                 IsSample = false,
-                Capabilities = GetCapabilities(),
+                Curve = ParameterValidator.VALID_CURVES,
                 PreHash = true
             };
 
@@ -78,17 +78,6 @@ namespace NIST.CVP.Generation.DSA.Ed.SigVer.Tests
             }
 
             Assert.AreEqual(4, groups.Count);
-        }
-
-        private Capability[] GetCapabilities()
-        {
-            return new Capability[]
-            {
-                new Capability
-                {
-                    Curve = ParameterValidator.VALID_CURVES
-                }
-            };
         }
     }
 }

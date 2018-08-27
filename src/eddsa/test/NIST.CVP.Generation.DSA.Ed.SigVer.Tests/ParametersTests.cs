@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using NIST.CVP.Tests.Core.TestCategoryAttributes;
+﻿using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.DSA.Ed.SigVer.Tests
@@ -17,7 +14,7 @@ namespace NIST.CVP.Generation.DSA.Ed.SigVer.Tests
                 Algorithm = "EDDSA",
                 Mode = "SigVer",
                 IsSample = false,
-                Capabilities = GetCapabilities()
+                Curve = ParameterValidator.VALID_CURVES
             };
 
             Assert.IsNotNull(parameters);
@@ -31,21 +28,10 @@ namespace NIST.CVP.Generation.DSA.Ed.SigVer.Tests
                 Algorithm = "EDDSA",
                 Mode = "SigVer",
                 IsSample = false,
-                Capabilities = GetCapabilities()
+                Curve = ParameterValidator.VALID_CURVES
             };
 
             Assert.AreEqual("EDDSA", parameters.Algorithm);
-        }
-
-        private Capability[] GetCapabilities()
-        {
-            return new Capability[]
-            {
-                new Capability
-                {
-                    Curve = ParameterValidator.VALID_CURVES
-                }
-            };
         }
     }
 }

@@ -3,17 +3,14 @@ using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
-using NIST.CVP.Crypto.Common.Asymmetric.DSA.Ed.Enums;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.Ed;
-using NIST.CVP.Crypto.DSA.Ed;
-using NIST.CVP.Crypto.SHAWrapper;
+using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.DSA.Ed.SigGen.Tests
 {
@@ -59,7 +56,7 @@ namespace NIST.CVP.Generation.DSA.Ed.SigGen.Tests
                 Algorithm = "EDDSA",
                 Mode = "SigGen",
                 IsSample = false,
-                Capabilities = GetCapabilities(),
+                Curve = ParameterValidator.VALID_CURVES
             };
 
             var groups = new List<TestGroup>();
@@ -82,7 +79,7 @@ namespace NIST.CVP.Generation.DSA.Ed.SigGen.Tests
                 Algorithm = "EDDSA",
                 Mode = "SigGen",
                 IsSample = false,
-                Capabilities = GetCapabilities(),
+                Curve = ParameterValidator.VALID_CURVES,
                 PreHash = true
             };
 
@@ -94,17 +91,6 @@ namespace NIST.CVP.Generation.DSA.Ed.SigGen.Tests
             }
 
             Assert.AreEqual(8, groups.Count);
-        }
-
-        private Capability[] GetCapabilities()
-        {
-            return new Capability[]
-            {
-                new Capability
-                {
-                    Curve = ParameterValidator.VALID_CURVES
-                }
-            };
         }
     }
 }

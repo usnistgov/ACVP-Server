@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using NIST.CVP.Generation.Core;
+﻿using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.DSA.Ed.SigGen
 {
@@ -12,12 +9,6 @@ namespace NIST.CVP.Generation.DSA.Ed.SigGen
         public bool IsSample { get; set; }
         public bool Pure { get; set; } = true;
         public bool PreHash { get; set; } = false;
-
-        public Capability[] Capabilities { get; set; }
-    }
-
-    public class Capability
-    {
         public string[] Curve { get; set; }
     }
 }

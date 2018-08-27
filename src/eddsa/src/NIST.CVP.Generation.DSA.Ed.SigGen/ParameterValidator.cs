@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using NIST.CVP.Common.ExtensionMethods;
+﻿using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Generation.Core;
+using System.Collections.Generic;
 
 namespace NIST.CVP.Generation.DSA.Ed.SigGen
 {
@@ -15,18 +13,15 @@ namespace NIST.CVP.Generation.DSA.Ed.SigGen
             var errors = new List<string>();
             var result = "";
 
-            if (parameters.Capabilities.Length == 0)
+            if (parameters.Curve.Length == 0)
             {
-                errors.Add("No capabilities found");
+                errors.Add("No curves found");
             }
 
-            foreach (var capability in parameters.Capabilities)
-            {
-                result = ValidateArray(capability.Curve, VALID_CURVES, "Curves");
-                errors.AddIfNotNullOrEmpty(result);
-            }
+            result = ValidateArray(parameters.Curve, VALID_CURVES, "Curves");
+            errors.AddIfNotNullOrEmpty(result);
 
-            if ((!parameters.PreHash) && (!parameters.Pure))
+            if (!parameters.PreHash && !parameters.Pure)
             {
                 errors.Add("No valid mode chosen");
             }

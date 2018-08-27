@@ -19,20 +19,12 @@ namespace NIST.CVP.Generation.DSA.Ed.SigGen.IntegrationTests
 
         protected override string GetTestFileFewTestCases(string targetFolder)
         {
-            var caps = new[]
-            {
-                new Capability
-                {
-                    Curve = new[] { "ed-25519" }
-                }
-            };
-
             var p = new Parameters
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
                 IsSample = true,
-                Capabilities = caps
+                Curve = new [] {"ed-25519"}
             };
 
             return CreateRegistration(targetFolder, p);
@@ -40,20 +32,12 @@ namespace NIST.CVP.Generation.DSA.Ed.SigGen.IntegrationTests
 
         protected override string GetTestFileLotsOfTestCases(string targetFolder)
         {
-            var caps = new[]
-            {
-                new Capability
-                {
-                    Curve = ParameterValidator.VALID_CURVES
-                }
-            };
-
             var p = new Parameters
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
                 IsSample = true,
-                Capabilities = caps,
+                Curve = ParameterValidator.VALID_CURVES,
                 PreHash = true
             };
 

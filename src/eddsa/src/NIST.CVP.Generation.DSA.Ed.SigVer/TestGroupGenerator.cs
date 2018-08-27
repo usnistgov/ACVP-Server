@@ -1,6 +1,5 @@
 ﻿using NIST.CVP.Common.Helpers;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.Ed.Enums;
-using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.DSA.Ed.SigVer.TestCaseExpectations;
 using System.Collections.Generic;
@@ -16,35 +15,32 @@ namespace NIST.CVP.Generation.DSA.Ed.SigVer
             // HashSet eliminates any duplicates that may be registered
             var testGroups = new HashSet<TestGroup>();
 
-            foreach (var capability in parameters.Capabilities)
+            foreach (var curveName in parameters.Curve)
             {
-                foreach (var curveName in capability.Curve)
+                var curve = EnumHelpers.GetEnumFromEnumDescription<Curve>(curveName);
+
+                if (parameters.Pure)
                 {
-                    var curve = EnumHelpers.GetEnumFromEnumDescription<Curve>(curveName);
-
-                    if (parameters.Pure)
+                    var testGroup = new TestGroup
                     {
-                        var testGroup = new TestGroup
-                        {
-                            TestCaseExpectationProvider = new TestCaseExpectationProvider(parameters.IsSample),
-                            Curve = curve,
-                            PreHash = false
-                        };
+                        TestCaseExpectationProvider = new TestCaseExpectationProvider(parameters.IsSample),
+                        Curve = curve,
+                        PreHash = false
+                    };
 
-                        testGroups.Add(testGroup);
-                    }
+                    testGroups.Add(testGroup);
+                }
 
-                    if (parameters.PreHash)
+                if (parameters.PreHash)
+                {
+                    var testGroup = new TestGroup
                     {
-                        var testGroup = new TestGroup
-                        {
-                            TestCaseExpectationProvider = new TestCaseExpectationProvider(parameters.IsSample),
-                            Curve = curve,
-                            PreHash = true
-                        };
+                        TestCaseExpectationProvider = new TestCaseExpectationProvider(parameters.IsSample),
+                        Curve = curve,
+                        PreHash = true
+                    };
 
-                        testGroups.Add(testGroup);
-                    }
+                    testGroups.Add(testGroup);
                 }
             }
 

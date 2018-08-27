@@ -16,45 +16,32 @@ namespace NIST.CVP.Generation.DSA.Ed.SigVer.Tests
     {
        private static object[] parameters =
        {
-            new object[]
+                        new object[]
             {
                 1,
                 new ParameterBuilder()
-                    .WithCapabilities(new []
-                        {
-                            ParameterBuilder.GetCapabilityWith(new[] { "ed-25519" })
-                        })
+                    .WithCurve(new [] {"ed-25519"})
                     .Build()
             },
             new object[]
             {
                 2,
                 new ParameterBuilder()
-                    .WithCapabilities(new []
-                        {
-                            ParameterBuilder.GetCapabilityWith(new[] { "ed-25519" }),
-                            ParameterBuilder.GetCapabilityWith(new[] { "ed-448" })
-                        })
+                    .WithCurve(new [] {"ed-25519", "ed-448"})
                     .Build()
             },
             new object[]
             {
                 2,
                 new ParameterBuilder()
-                    .WithCapabilities(new []
-                        {
-                            ParameterBuilder.GetCapabilityWith(ParameterValidator.VALID_CURVES),
-                        })
+                    .WithCurve(ParameterValidator.VALID_CURVES)
                     .Build()
             },
             new object[]
             {
                 2,
                 new ParameterBuilder()
-                    .WithCapabilities(new []
-                        {
-                            ParameterBuilder.GetCapabilityWith(new[] { "ed-25519" })
-                        })
+                    .WithCurve(new [] {"ed-25519"})
                     .WithPreHash(true)
                     .Build()
             },
@@ -62,11 +49,7 @@ namespace NIST.CVP.Generation.DSA.Ed.SigVer.Tests
             {
                 4,
                 new ParameterBuilder()
-                    .WithCapabilities(new []
-                        {
-                            ParameterBuilder.GetCapabilityWith(new[] { "ed-25519" }),
-                            ParameterBuilder.GetCapabilityWith(new[] { "ed-448" })
-                        })
+                    .WithCurve(new [] {"ed-25519", "ed-448"})
                     .WithPreHash(true)
                     .Build()
             },
@@ -74,10 +57,7 @@ namespace NIST.CVP.Generation.DSA.Ed.SigVer.Tests
             {
                 4,
                 new ParameterBuilder()
-                    .WithCapabilities(new []
-                        {
-                            ParameterBuilder.GetCapabilityWith(ParameterValidator.VALID_CURVES),
-                        })
+                    .WithCurve(ParameterValidator.VALID_CURVES)
                     .WithPreHash(true)
                     .Build()
             },
@@ -85,10 +65,7 @@ namespace NIST.CVP.Generation.DSA.Ed.SigVer.Tests
             {
                 1,
                 new ParameterBuilder()
-                    .WithCapabilities(new []
-                        {
-                            ParameterBuilder.GetCapabilityWith(new[] { "ed-25519" })
-                        })
+                    .WithCurve(new [] {"ed-25519"})
                     .WithPreHash(true)
                     .WithPure(false)
                     .Build()
@@ -97,11 +74,7 @@ namespace NIST.CVP.Generation.DSA.Ed.SigVer.Tests
             {
                 2,
                 new ParameterBuilder()
-                    .WithCapabilities(new []
-                        {
-                            ParameterBuilder.GetCapabilityWith(new[] { "ed-25519" }),
-                            ParameterBuilder.GetCapabilityWith(new[] { "ed-448" })
-                        })
+                    .WithCurve(new [] {"ed-25519", "ed-448"})
                     .WithPreHash(true)
                     .WithPure(false)
                     .Build()
@@ -110,10 +83,7 @@ namespace NIST.CVP.Generation.DSA.Ed.SigVer.Tests
             {
                 2,
                 new ParameterBuilder()
-                    .WithCapabilities(new []
-                        {
-                            ParameterBuilder.GetCapabilityWith(ParameterValidator.VALID_CURVES),
-                        })
+                    .WithCurve(ParameterValidator.VALID_CURVES)
                     .WithPreHash(true)
                     .WithPure(false)
                     .Build()

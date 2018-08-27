@@ -9,12 +9,6 @@ namespace NIST.CVP.Generation.DSA.Ed.SigVer
         public bool IsSample { get; set; }
         public bool Pure { get; set; } = true;
         public bool PreHash { get; set; } = false;
-
-        public Capability[] Capabilities { get; set; }
-    }
-
-    public class Capability
-    {
         public string[] Curve { get; set; }
     }
 }

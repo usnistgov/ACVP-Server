@@ -3,7 +3,6 @@ using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.Ed;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.Ed.Enums;
-using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
 using NIST.CVP.Generation.Core;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -35,56 +34,53 @@ namespace NIST.CVP.Generation.DSA.Ed.SigGen
             // HashSet eliminates any duplicates that may be registered
             var testGroups = new HashSet<TestGroup>();
 
-            foreach (var capability in parameters.Capabilities)
+            foreach (var curveName in parameters.Curve)
             {
-                foreach (var curveName in capability.Curve)
+                var curve = EnumHelpers.GetEnumFromEnumDescription<Curve>(curveName);
+
+                EdKeyPair key = null;
+                var param = new EddsaKeyParameters
                 {
-                    var curve = EnumHelpers.GetEnumFromEnumDescription<Curve>(curveName);
+                    Curve = curve
+                };
 
-                    EdKeyPair key = null;
-                    var param = new EddsaKeyParameters
+                if (parameters.IsSample)
+                {
+                    var keyResult = await _oracle.GetEddsaKeyAsync(param);
+                    key = keyResult.Key;
+                }
+
+                var paramMsg = new EddsaMessageParameters
+                {
+                    IsSample = parameters.IsSample
+                };
+
+                var message = await _oracle.GetEddsaMessageBitFlipAsync(paramMsg);
+
+                if (parameters.Pure)
+                {
+                    var testGroup = new TestGroup
                     {
-                        Curve = curve
+                        Curve = curve,
+                        PreHash = false,
+                        KeyPair = key,
+                        Message = message,
+                        TestType = TEST_TYPE
                     };
+                    testGroups.Add(testGroup);
+                }
 
-                    if (parameters.IsSample)
+                if (parameters.PreHash)
+                {
+                    var testGroup = new TestGroup
                     {
-                        var keyResult = await _oracle.GetEddsaKeyAsync(param);
-                        key = keyResult.Key;
-                    }
-
-                    var paramMsg = new EddsaMessageParameters
-                    {
-                        IsSample = parameters.IsSample
+                        Curve = curve,
+                        PreHash = true,
+                        KeyPair = key,
+                        Message = message,
+                        TestType = TEST_TYPE
                     };
-
-                    var message = await _oracle.GetEddsaMessageBitFlipAsync(paramMsg);
-
-                    if (parameters.Pure)
-                    {
-                        var testGroup = new TestGroup
-                        {
-                            Curve = curve,
-                            PreHash = false,
-                            KeyPair = key,
-                            Message = message,
-                            TestType = TEST_TYPE
-                        };
-                        testGroups.Add(testGroup);
-                    }
-
-                    if (parameters.PreHash)
-                    {
-                        var testGroup = new TestGroup
-                        {
-                            Curve = curve,
-                            PreHash = true,
-                            KeyPair = key,
-                            Message = message,
-                            TestType = TEST_TYPE
-                        };
-                        testGroups.Add(testGroup);
-                    }
+                    testGroups.Add(testGroup);
                 }
             }
 

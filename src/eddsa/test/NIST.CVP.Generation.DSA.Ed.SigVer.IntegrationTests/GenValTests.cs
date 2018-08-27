@@ -1,13 +1,7 @@
-﻿using Autofac;
-using NIST.CVP.Common;
-using NIST.CVP.Common.Helpers;
+﻿using NIST.CVP.Common;
+using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
-using NIST.CVP.Generation.Core.Enums;
-using NIST.CVP.Generation.Core.Tests;
-using NIST.CVP.Generation.Core.Tests.Fakes;
-using NIST.CVP.Crypto.Common;
-using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.DSA.Ed.SigVer.IntegrationTests
 {
@@ -24,20 +18,12 @@ namespace NIST.CVP.Generation.DSA.Ed.SigVer.IntegrationTests
 
         protected override string GetTestFileFewTestCases(string targetFolder)
         {
-            var caps = new[]
-            {
-                new Capability
-                {
-                    Curve = new[] { "ed-25519" }
-                }
-            };
-
             var p = new Parameters
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
                 IsSample = true,
-                Capabilities = caps,
+                Curve = new [] {"ed-25519"}
             };
 
             return CreateRegistration(targetFolder, p);
@@ -45,21 +31,13 @@ namespace NIST.CVP.Generation.DSA.Ed.SigVer.IntegrationTests
 
         protected override string GetTestFileLotsOfTestCases(string targetFolder)
         {
-            var caps = new[]
-            {
-                new Capability
-                {
-                    Curve = ParameterValidator.VALID_CURVES
-                }
-            };
-
             var p = new Parameters
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
                 IsSample = true,
                 PreHash = true,
-                Capabilities = caps,
+                Curve = ParameterValidator.VALID_CURVES
             };
 
             return CreateRegistration(targetFolder, p);

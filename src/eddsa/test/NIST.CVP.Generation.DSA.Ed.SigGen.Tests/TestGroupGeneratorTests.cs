@@ -3,9 +3,6 @@ using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.Ed;
-using NIST.CVP.Crypto.Common.Asymmetric.DSA.Ed.Enums;
-using NIST.CVP.Crypto.DSA.Ed;
-using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -23,41 +20,28 @@ namespace NIST.CVP.Generation.DSA.Ed.SigGen.Tests
             {
                 1,
                 new ParameterBuilder()
-                    .WithCapabilities(new []
-                        {
-                            ParameterBuilder.GetCapabilityWith(new[] { "ed-25519" })
-                        })
+                    .WithCurve(new [] {"ed-25519"})
                     .Build()
             },
             new object[]
             {
                 2,
                 new ParameterBuilder()
-                    .WithCapabilities(new []
-                        {
-                            ParameterBuilder.GetCapabilityWith(new[] { "ed-25519" }),
-                            ParameterBuilder.GetCapabilityWith(new[] { "ed-448" })
-                        })
+                    .WithCurve(new [] {"ed-25519", "ed-448"})
                     .Build()
             },
             new object[]
             {
                 2,
                 new ParameterBuilder()
-                    .WithCapabilities(new []
-                        {
-                            ParameterBuilder.GetCapabilityWith(ParameterValidator.VALID_CURVES),
-                        })
+                    .WithCurve(ParameterValidator.VALID_CURVES)
                     .Build()
             },
             new object[]
             {
                 2,
                 new ParameterBuilder()
-                    .WithCapabilities(new []
-                        {
-                            ParameterBuilder.GetCapabilityWith(new[] { "ed-25519" })
-                        })
+                    .WithCurve(new [] {"ed-25519"})
                     .WithPreHash(true)
                     .Build()
             },
@@ -65,11 +49,7 @@ namespace NIST.CVP.Generation.DSA.Ed.SigGen.Tests
             {
                 4,
                 new ParameterBuilder()
-                    .WithCapabilities(new []
-                        {
-                            ParameterBuilder.GetCapabilityWith(new[] { "ed-25519" }),
-                            ParameterBuilder.GetCapabilityWith(new[] { "ed-448" })
-                        })
+                    .WithCurve(new [] {"ed-25519", "ed-448"})
                     .WithPreHash(true)
                     .Build()
             },
@@ -77,10 +57,7 @@ namespace NIST.CVP.Generation.DSA.Ed.SigGen.Tests
             {
                 4,
                 new ParameterBuilder()
-                    .WithCapabilities(new []
-                        {
-                            ParameterBuilder.GetCapabilityWith(ParameterValidator.VALID_CURVES),
-                        })
+                    .WithCurve(ParameterValidator.VALID_CURVES)
                     .WithPreHash(true)
                     .Build()
             },
@@ -88,10 +65,7 @@ namespace NIST.CVP.Generation.DSA.Ed.SigGen.Tests
             {
                 1,
                 new ParameterBuilder()
-                    .WithCapabilities(new []
-                        {
-                            ParameterBuilder.GetCapabilityWith(new[] { "ed-25519" })
-                        })
+                    .WithCurve(new [] {"ed-25519"})
                     .WithPreHash(true)
                     .WithPure(false)
                     .Build()
@@ -100,11 +74,7 @@ namespace NIST.CVP.Generation.DSA.Ed.SigGen.Tests
             {
                 2,
                 new ParameterBuilder()
-                    .WithCapabilities(new []
-                        {
-                            ParameterBuilder.GetCapabilityWith(new[] { "ed-25519" }),
-                            ParameterBuilder.GetCapabilityWith(new[] { "ed-448" })
-                        })
+                    .WithCurve(new [] {"ed-25519", "ed-448"})
                     .WithPreHash(true)
                     .WithPure(false)
                     .Build()
@@ -113,10 +83,7 @@ namespace NIST.CVP.Generation.DSA.Ed.SigGen.Tests
             {
                 2,
                 new ParameterBuilder()
-                    .WithCapabilities(new []
-                        {
-                            ParameterBuilder.GetCapabilityWith(ParameterValidator.VALID_CURVES),
-                        })
+                    .WithCurve(ParameterValidator.VALID_CURVES)
                     .WithPreHash(true)
                     .WithPure(false)
                     .Build()

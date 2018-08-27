@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using NIST.CVP.Tests.Core.TestCategoryAttributes;
+﻿using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
+using System.Linq;
 
 namespace NIST.CVP.Generation.DSA.Ed.SigGen.Tests
 {
@@ -52,7 +49,7 @@ namespace NIST.CVP.Generation.DSA.Ed.SigGen.Tests
         }
 
         [Test]
-        [TestCase(new object[] { "notValid" }, TestName = "ShouldReturnErrorWithInvalidHashAlg - invalid")]
+        [TestCase(new object[] { "notValid" }, TestName = "ShouldReturnErrorWithInvalidCurve - invalid")]
         public void ShouldReturnErrorWithInvalidCurve(object[] mode)
         {
             var strModes = mode.Select(v => (string)v).ToArray();
@@ -60,10 +57,7 @@ namespace NIST.CVP.Generation.DSA.Ed.SigGen.Tests
             var subject = new ParameterValidator();
             var result = subject.Validate(
                 new ParameterBuilder()
-                    .WithCapabilities(new[]
-                    {
-                        ParameterBuilder.GetCapabilityWith(strModes)
-                    })
+                    .WithCurve(strModes)
                     .Build());
 
             Assert.IsFalse(result.Success);
@@ -80,10 +74,7 @@ namespace NIST.CVP.Generation.DSA.Ed.SigGen.Tests
             var subject = new ParameterValidator();
             var result = subject.Validate(
                 new ParameterBuilder()
-                    .WithCapabilities(new[]
-                    {
-                        ParameterBuilder.GetCapabilityWith(strCurve)
-                    })
+                    .WithCurve(strCurve)
                     .Build());
 
             Assert.IsTrue(result.Success, result.ErrorMessage);
@@ -96,7 +87,7 @@ namespace NIST.CVP.Generation.DSA.Ed.SigGen.Tests
         private string _mode;
         private bool _preHash;
         private bool _pure;
-        private Capability[] _capabilities;
+        private string[] _curve;
 
         public ParameterBuilder()
         {
@@ -104,10 +95,7 @@ namespace NIST.CVP.Generation.DSA.Ed.SigGen.Tests
             _mode = "SigGen";
             _preHash = false;
             _pure = true;
-            _capabilities = new[]
-            {
-                GetCapabilityWith(ParameterValidator.VALID_CURVES),
-            };
+            _curve = ParameterValidator.VALID_CURVES;
         }
 
         public ParameterBuilder WithAlgorithm(string value)
@@ -122,9 +110,9 @@ namespace NIST.CVP.Generation.DSA.Ed.SigGen.Tests
             return this;
         }
 
-        public ParameterBuilder WithCapabilities(Capability[] value)
+        public ParameterBuilder WithCurve(string[] value)
         {
-            _capabilities = value;
+            _curve = value;
             return this;
         }
 
@@ -140,14 +128,6 @@ namespace NIST.CVP.Generation.DSA.Ed.SigGen.Tests
             return this;
         }
 
-        public static Capability GetCapabilityWith(string[] curves)
-        {
-            return new Capability
-            {
-                Curve = curves
-            };
-        }
-
         public Parameters Build()
         {
             return new Parameters
@@ -156,7 +136,7 @@ namespace NIST.CVP.Generation.DSA.Ed.SigGen.Tests
                 Mode = _mode,
                 PreHash = _preHash,
                 Pure = _pure,
-                Capabilities = _capabilities
+                Curve = _curve
             };
         }
     }
