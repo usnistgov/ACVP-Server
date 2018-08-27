@@ -30,7 +30,7 @@
         <NuGetVersionAutofac>4.8.0</NuGetVersionAutofac>
         <NuGetVersionNewtonsoftJson>11.0.2</NuGetVersionNewtonsoftJson>
         <NuGetVersionCommandLineArgumentsParser>3.0.18</NuGetVersionCommandLineArgumentsParser>
-        <NuGetVersionMicrosoftExtensionsOptionsConfigurationExtensions>2.0.0</NuGetVersionMicrosoftExtensionsOptionsConfigurationExtensions>
+        <NuGetVersionMicrosoftExtensionsOptionsConfigurationExtensions>2.1.0</NuGetVersionMicrosoftExtensionsOptionsConfigurationExtensions>
         <NuGetVersionSystemRuntimeLoader>4.3.0</NuGetVersionSystemRuntimeLoader>
         <NugetVersionMicrosoftOrleansServer>2.0.4</NugetVersionMicrosoftOrleansServer>
         <NugetVersionMicrosoftOrleansOrleansCodeGeneratorBuild>2.0.4</NugetVersionMicrosoftOrleansOrleansCodeGeneratorBuild>
