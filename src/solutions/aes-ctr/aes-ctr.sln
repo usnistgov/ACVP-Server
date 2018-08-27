@@ -45,11 +45,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.Oracle", ".
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Common.Oracle.Tests", "..\..\oracle\test\NIST.CVP.Oracle.Common.Tests\NIST.CVP.Common.Oracle.Tests.csproj", "{00EE049D-C60F-488D-9640-5E6DED82B95A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Orleans.Grains", "..\..\orleans\src\NIST.CVP.Orleans.Grains\NIST.CVP.Orleans.Grains.csproj", "{E0F6561A-3A30-4334-BD37-1964CE625CD4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Orleans.Grains", "..\..\orleans\src\NIST.CVP.Orleans.Grains\NIST.CVP.Orleans.Grains.csproj", "{E0F6561A-3A30-4334-BD37-1964CE625CD4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Orleans.Grains.Interfaces", "..\..\orleans\src\NIST.CVP.Orleans.Grains.Interfaces\NIST.CVP.Orleans.Grains.Interfaces.csproj", "{EEBF4C88-51FE-44E2-9A58-7610A8ED8801}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Orleans.Grains.Interfaces", "..\..\orleans\src\NIST.CVP.Orleans.Grains.Interfaces\NIST.CVP.Orleans.Grains.Interfaces.csproj", "{EEBF4C88-51FE-44E2-9A58-7610A8ED8801}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Orleans.ServerHost", "..\..\orleans\src\NIST.CVP.Orleans.ServerHost\NIST.CVP.Orleans.ServerHost.csproj", "{48DE3D89-646D-460B-A7FA-599B184D576F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Orleans.ServerHost", "..\..\orleans\src\NIST.CVP.Orleans.ServerHost\NIST.CVP.Orleans.ServerHost.csproj", "{48DE3D89-646D-460B-A7FA-599B184D576F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -349,6 +349,9 @@ Global
 		{39E8E2A8-CE6C-4269-AF82-91FDBA2FAA58} = {990A2277-6B24-4990-AAF8-42A2789F6F86}
 		{AC1F566F-2FD1-4689-899D-C5B6F945B389} = {990A2277-6B24-4990-AAF8-42A2789F6F86}
 		{00EE049D-C60F-488D-9640-5E6DED82B95A} = {21686148-779C-4190-A625-6626C53A34CE}
+		{E0F6561A-3A30-4334-BD37-1964CE625CD4} = {990A2277-6B24-4990-AAF8-42A2789F6F86}
+		{EEBF4C88-51FE-44E2-9A58-7610A8ED8801} = {990A2277-6B24-4990-AAF8-42A2789F6F86}
+		{48DE3D89-646D-460B-A7FA-599B184D576F} = {990A2277-6B24-4990-AAF8-42A2789F6F86}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A6F0764F-EDF3-4C38-91D3-5ACB4C8CCE34}

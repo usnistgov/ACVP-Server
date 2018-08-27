@@ -6,6 +6,7 @@ using NIST.CVP.Crypto.Symmetric.BlockModes.Aead;
 using System;
 using System.Threading.Tasks;
 using NIST.CVP.Orleans.Grains.Interfaces;
+using NIST.CVP.Orleans.Grains.Interfaces.Helpers;
 
 namespace NIST.CVP.Crypto.Oracle
 {
@@ -184,7 +185,7 @@ namespace NIST.CVP.Crypto.Oracle
             await grain.Subscribe(observerReference);
             await grain.BeginWorkAsync(param);
 
-            var result = await ObserveUntilResult(grain, observer, observerReference);
+            var result = await ObservableHelpers.ObserveUntilResult(grain, observer, observerReference);
 
             return result;
         }

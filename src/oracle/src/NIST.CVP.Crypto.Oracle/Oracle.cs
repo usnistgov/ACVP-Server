@@ -96,18 +96,5 @@ namespace NIST.CVP.Crypto.Oracle
 
             return null;
         }
-
-        private static async Task<TResult> ObserveUntilResult<TResult>(IGrainObservable<TResult> grain, OracleGrainObserver<TResult> observer, IGrainObserver<TResult> observerReference)
-        {
-            while (!observer.HasResult)
-            {
-                await Task.Delay(TimeSpan.FromSeconds(Constants.TaskPollingSeconds));
-                await grain.Subscribe(observerReference);
-            }
-
-            var result = observer.GetResult();
-            await grain.Unsubscribe(observerReference);
-            return result;
-        }
     }
 }
