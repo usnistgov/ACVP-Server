@@ -12,18 +12,19 @@ namespace NIST.CVP.Generation.DSA.Ed.SigVer
     {
         public int TestGroupId { get; set; }
         public string TestType { get; set; }
+
         [JsonProperty(PropertyName = "curve")]
         public Curve Curve { get; set; }
 
         [JsonIgnore] public EdKeyPair KeyPair { get; set; } = new EdKeyPair();
-        [JsonProperty(PropertyName = "d", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonProperty(PropertyName = "d")]
         public BitString D
         {
             get => KeyPair.PrivateD;
             set => KeyPair.PrivateD = value;
         }
 
-        [JsonProperty(PropertyName = "q", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonProperty(PropertyName = "q")]
         public BitString Q
         {
             get => KeyPair.PublicQ;

@@ -8,7 +8,7 @@
       "tests": [
         {
           "tcId": 1,
-          "testPassed": false
+          "testPassed": true
         },
         {
           "tcId": 2,
@@ -16,7 +16,7 @@
         },
         {
           "tcId": 3,
-          "testPassed": true
+          "testPassed": false
         }
       ]
     },

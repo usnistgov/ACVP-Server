@@ -22,7 +22,7 @@ namespace NIST.CVP.Generation.DSA.Ed.SigVer
         public BitString Context { get; set; }
 
         [JsonIgnore] public EdSignature Signature { get; set; } = new EdSignature();
-        [JsonProperty(PropertyName = "signature", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonProperty(PropertyName = "signature")]
         public BitString Sig
         {
             get => Signature.Sig;
