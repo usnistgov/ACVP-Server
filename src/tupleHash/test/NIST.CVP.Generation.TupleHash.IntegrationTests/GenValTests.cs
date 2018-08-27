@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Autofac;
+﻿using Autofac;
 using NIST.CVP.Common;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Tests;
@@ -7,6 +6,7 @@ using NIST.CVP.Math;
 using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
+using System.Collections.Generic;
 
 namespace NIST.CVP.Generation.TupleHash.IntegrationTests
 {
@@ -76,14 +76,12 @@ namespace NIST.CVP.Generation.TupleHash.IntegrationTests
 
             var parameters = new Parameters
             {
-                Algorithm = "TupleHash",
+                Algorithm = Algorithm,
                 Mode = Mode,
                 DigestSizes = new[] { 128 },
-                BitOrientedInput = false,
-                BitOrientedOutput = false,
-                IncludeNull = false,
                 OutputLength = minMax,
-                XOF = true,
+                MessageLength = minMax,
+                XOF = false,
                 IsSample = true
             };
 
@@ -94,17 +92,18 @@ namespace NIST.CVP.Generation.TupleHash.IntegrationTests
         {
             var minMax = new MathDomain();
             minMax.AddSegment(new RangeDomainSegment(null, 256, 4096, 1));
+            var minMaxMsg = new MathDomain();
+            minMaxMsg.AddSegment(new RangeDomainSegment(null, 0, 65536, 1));
 
             var parameters = new Parameters
             {
-                Algorithm = "TupleHash",
+                Algorithm = Algorithm,
+                Mode = Mode,
                 DigestSizes = new[] { 128, 256 },
-                BitOrientedInput = true,
-                BitOrientedOutput = true,
-                IncludeNull = true,
+                MessageLength = minMaxMsg,
                 OutputLength = minMax,
                 XOF = true,
-                IsSample = true
+                IsSample = false
             };
 
             return CreateRegistration(targetFolder, parameters);

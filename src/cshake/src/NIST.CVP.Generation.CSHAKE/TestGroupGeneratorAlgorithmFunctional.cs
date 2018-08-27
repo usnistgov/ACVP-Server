@@ -17,9 +17,7 @@ namespace NIST.CVP.Generation.CSHAKE
                 {
                     Function = parameters.Algorithm,
                     DigestSize = digestSize,
-                    IncludeNull = parameters.IncludeNull,
-                    BitOrientedInput = parameters.BitOrientedInput,
-                    BitOrientedOutput = parameters.BitOrientedOutput,
+                    MessageLength = parameters.MessageLength.GetDeepCopy(),
                     HexCustomization = parameters.HexCustomization,
                     OutputLength = parameters.OutputLength.GetDeepCopy(),
                     TestType = TEST_TYPE

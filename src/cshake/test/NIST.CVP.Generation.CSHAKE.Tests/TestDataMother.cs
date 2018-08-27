@@ -1,11 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using NIST.CVP.Crypto.Common.Hash;
-using NIST.CVP.Crypto.Common.Hash.CSHAKE;
-using NIST.CVP.Crypto.CSHAKE;
-using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Domain;
 
@@ -29,9 +24,7 @@ namespace NIST.CVP.Generation.CSHAKE.Tests
                 {
                     Function = mode,
                     DigestSize = groupIdx + 1,
-                    BitOrientedInput = true,
-                    IncludeNull = true,
-                    BitOrientedOutput = true,
+                    MessageLength = new MathDomain().AddSegment(new ValueDomainSegment(128)),
                     OutputLength = new MathDomain().AddSegment(new ValueDomainSegment(128)),
                     HexCustomization = hexCustomization,
                     TestType = testType

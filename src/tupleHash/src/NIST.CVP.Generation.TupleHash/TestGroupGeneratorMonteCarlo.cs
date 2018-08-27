@@ -20,8 +20,6 @@ namespace NIST.CVP.Generation.TupleHash
                     {
                         Function = parameters.Algorithm,
                         DigestSize = digSize,
-                        BitOrientedInput = parameters.BitOrientedInput,
-                        BitOrientedOutput = parameters.BitOrientedOutput,
                         OutputLength = parameters.OutputLength,
                         TestType = TEST_TYPE,
                         XOF = false
@@ -36,8 +34,6 @@ namespace NIST.CVP.Generation.TupleHash
                     {
                         Function = parameters.Algorithm,
                         DigestSize = digSize,
-                        BitOrientedInput = parameters.BitOrientedInput,
-                        BitOrientedOutput = parameters.BitOrientedOutput,
                         OutputLength = parameters.OutputLength,
                         TestType = TEST_TYPE,
                         XOF = true

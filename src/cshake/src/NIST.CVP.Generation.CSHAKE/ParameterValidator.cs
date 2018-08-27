@@ -15,6 +15,9 @@ namespace NIST.CVP.Generation.CSHAKE
         public static int VALID_MIN_OUTPUT_SIZE = 16;
         public static int VALID_MAX_OUTPUT_SIZE = 65536;
 
+        private int _minMsgLength = 0;
+        private int _maxMsgLength = 65536;
+
         public ParameterValidateResponse Validate(Parameters parameters)
         {
             var errorResults = new List<string>();
@@ -22,6 +25,8 @@ namespace NIST.CVP.Generation.CSHAKE
             ValidateFunctions(parameters, errorResults);
 
             ValidateOutputLength(parameters, errorResults);
+
+            ValidateMessageLength(parameters, errorResults);
             
             if (errorResults.Count > 0)
             {
@@ -69,8 +74,44 @@ namespace NIST.CVP.Generation.CSHAKE
             errorResults.AddIfNotNullOrEmpty(rangeCheck);
 
             // Links BitOriented and Domain
-            var bitOriented = parameters.BitOrientedOutput ? 1 : 8;
+            var bitOriented = parameters.OutputLength.DomainSegments.ElementAt(0).RangeMinMax.Increment;
+            if (bitOriented == 0)
+            {
+                bitOriented = 1;
+            }
             var modCheck = ValidateMultipleOf(parameters.OutputLength, bitOriented, "OutputLength Modulus");
+            errorResults.AddIfNotNullOrEmpty(modCheck);
+        }
+
+        private void ValidateMessageLength(Parameters parameters, List<string> errorResults)
+        {
+            string segmentCheck = "";
+            if (parameters.MessageLength.DomainSegments.Count() != 1)
+            {
+                segmentCheck = "Must have exactly one segment in the domain";
+            }
+            errorResults.AddIfNotNullOrEmpty(segmentCheck);
+            if (!string.IsNullOrEmpty(segmentCheck))
+            {
+                return;
+            }
+
+            var fullDomain = parameters.MessageLength.GetDomainMinMax();
+            var rangeCheck = ValidateRange(
+                new long[] { fullDomain.Minimum, fullDomain.Maximum },
+                _minMsgLength,
+                _maxMsgLength,
+                "MessageLength Range"
+            );
+            errorResults.AddIfNotNullOrEmpty(rangeCheck);
+
+            // Links BitOriented and Domain
+            var bitOriented = parameters.MessageLength.DomainSegments.ElementAt(0).RangeMinMax.Increment;
+            if (bitOriented == 0)
+            {
+                bitOriented = 1;
+            }
+            var modCheck = ValidateMultipleOf(parameters.MessageLength, bitOriented, "MessageLength Modulus");
             errorResults.AddIfNotNullOrEmpty(modCheck);
         }
     }

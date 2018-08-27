@@ -17,8 +17,10 @@ namespace NIST.CVP.Generation.TupleHash.Tests
             var parameters = new Parameters
             {
                 Algorithm = "TupleHash",
-                BitOrientedInput = true,
-                IncludeNull = true,
+                XOF = true,
+                DigestSizes = new int[5],
+                OutputLength = new MathDomain(),
+                MessageLength = new MathDomain(),
                 IsSample = false
             };
             Assert.IsNotNull(parameters);
@@ -33,9 +35,7 @@ namespace NIST.CVP.Generation.TupleHash.Tests
             var parameters = new Parameters
             {
                 Algorithm = "TupleHash",
-                BitOrientedInput = true,
-                BitOrientedOutput = false,
-                IncludeNull = true,
+                MessageLength = minMax,
                 OutputLength = minMax,
                 IsSample = false,
                 XOF = true

@@ -48,9 +48,6 @@ namespace NIST.CVP.Generation.KMAC.Tests.ContractResolvers
             Assert.AreEqual(tg.TestType, newTg.TestType, nameof(newTg.TestType));
             Assert.AreEqual(tg.XOF, newTg.XOF, nameof(newTg.XOF));
             Assert.AreEqual(tg.DigestSize, newTg.DigestSize, nameof(newTg.DigestSize));
-            Assert.AreEqual(tg.BitOrientedInput, newTg.BitOrientedInput, nameof(newTg.BitOrientedInput));
-            Assert.AreEqual(tg.BitOrientedOutput, newTg.BitOrientedOutput, nameof(newTg.BitOrientedOutput));
-            Assert.AreEqual(tg.IncludeNull, newTg.IncludeNull, nameof(newTg.IncludeNull));
         }
 
         [Test]

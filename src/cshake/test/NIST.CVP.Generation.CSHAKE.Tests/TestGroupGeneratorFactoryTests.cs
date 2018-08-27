@@ -50,11 +50,9 @@ namespace NIST.CVP.Generation.CSHAKE.Tests
             {
                 Algorithm = "cSHAKE",
                 DigestSizes = new[] { 128, 256 },
-                BitOrientedInput = true,
-                BitOrientedOutput = true,
-                IncludeNull = true,
                 IsSample = false,
-                OutputLength = minMax
+                OutputLength = minMax,
+                MessageLength = minMax
             };
 
             var groups = new List<TestGroup>();

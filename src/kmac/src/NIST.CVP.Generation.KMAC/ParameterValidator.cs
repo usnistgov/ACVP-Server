@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using NIST.CVP.Generation.Core;
 using System.Linq;
 using NIST.CVP.Common.ExtensionMethods;
@@ -16,12 +15,16 @@ namespace NIST.CVP.Generation.KMAC
         private int _minMacLength = 32;
         private int _maxMacLength = 65536;
 
+        private int _minMsgLength = 0;
+        private int _maxMsgLength = 65536;
+
         public ParameterValidateResponse Validate(Parameters parameters)
         {
             List<string> errorResults = new List<string>();
 
             ValidateFunctions(parameters, errorResults);
 
+            ValidateMsgLen(parameters, errorResults);
             ValidateKeyLen(parameters, errorResults);
             ValidateMacLen(parameters, errorResults);
 
@@ -56,7 +59,11 @@ namespace NIST.CVP.Generation.KMAC
 
         private void ValidateKeyLen(Parameters parameters, List<string> errorResults)
         {
-            var segmentCheck = ValidateSegmentCountGreaterThanZero(parameters.KeyLen, "KeyLen Domain");
+            string segmentCheck = "";
+            if (parameters.KeyLen.DomainSegments.Count() != 1)
+            {
+                segmentCheck = "Must have exactly one segment in the domain";
+            }
             errorResults.AddIfNotNullOrEmpty(segmentCheck);
             if (!string.IsNullOrEmpty(segmentCheck))
             {
@@ -73,7 +80,11 @@ namespace NIST.CVP.Generation.KMAC
             errorResults.AddIfNotNullOrEmpty(rangeCheck);
 
             // Links BitOriented and Domain
-            var bitOriented = parameters.BitOrientedKey ? 1 : 8;
+            var bitOriented = parameters.KeyLen.DomainSegments.ElementAt(0).RangeMinMax.Increment;
+            if (bitOriented == 0)
+            {
+                bitOriented = 1;
+            }
             var modCheck = ValidateMultipleOf(parameters.KeyLen, bitOriented, "KeyLen Modulus");
             errorResults.AddIfNotNullOrEmpty(modCheck);
         }
@@ -101,8 +112,44 @@ namespace NIST.CVP.Generation.KMAC
             errorResults.AddIfNotNullOrEmpty(rangeCheck);
 
             // Links BitOriented and Domain
-            var bitOriented = parameters.BitOrientedOutput ? 1 : 8;
-            var modCheck = ValidateMultipleOf(parameters.MacLen, bitOriented, "MacLen Modulus");
+            var bitOriented = parameters.MacLen.DomainSegments.ElementAt(0).RangeMinMax.Increment;
+            if (bitOriented == 0)
+            {
+                bitOriented = 1;
+            }
+            var modCheck = ValidateMultipleOf(parameters.MacLen, bitOriented, "MsgLen Modulus");
+            errorResults.AddIfNotNullOrEmpty(modCheck);
+        }
+
+        private void ValidateMsgLen(Parameters parameters, List<string> errorResults)
+        {
+            string segmentCheck = "";
+            if (parameters.MsgLen.DomainSegments.Count() != 1)
+            {
+                segmentCheck = "Must have exactly one segment in the domain";
+            }
+            errorResults.AddIfNotNullOrEmpty(segmentCheck);
+            if (!string.IsNullOrEmpty(segmentCheck))
+            {
+                return;
+            }
+
+            var fullDomain = parameters.MsgLen.GetDomainMinMax();
+            var rangeCheck = ValidateRange(
+                new long[] { fullDomain.Minimum, fullDomain.Maximum },
+                _minMsgLength,
+                _maxMsgLength,
+                "MsgLen Range"
+            );
+            errorResults.AddIfNotNullOrEmpty(rangeCheck);
+
+            // Links BitOriented and Domain
+            var bitOriented = parameters.MsgLen.DomainSegments.ElementAt(0).RangeMinMax.Increment;
+            if (bitOriented == 0)
+            {
+                bitOriented = 1;
+            }
+            var modCheck = ValidateMultipleOf(parameters.MsgLen, bitOriented, "MsgLen Modulus");
             errorResults.AddIfNotNullOrEmpty(modCheck);
         }
     }

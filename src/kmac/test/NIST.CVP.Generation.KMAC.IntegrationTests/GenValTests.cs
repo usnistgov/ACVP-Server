@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Autofac;
+﻿using Autofac;
 using NIST.CVP.Common;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Tests;
@@ -7,6 +6,7 @@ using NIST.CVP.Math;
 using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
+using System.Collections.Generic;
 
 namespace NIST.CVP.Generation.KMAC.IntegrationTests
 {
@@ -65,13 +65,10 @@ namespace NIST.CVP.Generation.KMAC.IntegrationTests
 
             var parameters = new Parameters
             {
-                Algorithm = "KMAC",
+                Algorithm = Algorithm,
                 Mode = Mode,
                 DigestSizes = new[] { 128 },
-                BitOrientedInput = false,
-                BitOrientedOutput = false,
-                BitOrientedKey = false,
-                IncludeNull = false,
+                MsgLen = minMax,
                 MacLen = minMax,
                 KeyLen = minMax,
                 XOF = false,
@@ -86,18 +83,19 @@ namespace NIST.CVP.Generation.KMAC.IntegrationTests
             var minMax = new MathDomain();
             minMax.AddSegment(new RangeDomainSegment(null, 256, 4096, 1));
 
+            var minMaxMsg = new MathDomain();
+            minMaxMsg.AddSegment(new RangeDomainSegment(null, 0, 65536, 1));
+
             var parameters = new Parameters
             {
-                Algorithm = "KMAC",
+                Algorithm = Algorithm,
+                Mode = Mode,
                 DigestSizes = new[] { 128, 256 },
-                BitOrientedInput = true,
-                BitOrientedOutput = true,
-                BitOrientedKey = true,
-                IncludeNull = true,
+                MsgLen = minMaxMsg,
                 MacLen = minMax,
                 KeyLen = minMax,
                 XOF = true,
-                IsSample = true
+                IsSample = false,
             };
 
             return CreateRegistration(targetFolder, parameters);
