@@ -1,0 +1,11 @@
+{
+  "algorithm": "EDDSA",
+  "mode": "SigVer",
+  "isSample": true,
+  "pure": true,
+  "preHash": true,
+  "curve": [
+    "ed-25519",
+    "ed-448"
+  ]
+}

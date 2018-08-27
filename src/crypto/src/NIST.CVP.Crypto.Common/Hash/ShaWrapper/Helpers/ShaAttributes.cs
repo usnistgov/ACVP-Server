@@ -24,7 +24,9 @@ namespace NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers
                 (ModeValues.SHA3, DigestSizes.d224, 224, 1152, -1, "SHA3-224"), // no limit
                 (ModeValues.SHA3, DigestSizes.d256, 256, 1088, -1, "SHA3-256"), // no limit
                 (ModeValues.SHA3, DigestSizes.d384, 384, 832, -1, "SHA3-384"), // no limit
-                (ModeValues.SHA3, DigestSizes.d512, 512, 576, -1, "SHA3-512") // no limit
+                (ModeValues.SHA3, DigestSizes.d512, 512, 576, -1, "SHA3-512"), // no limit
+                (ModeValues.SHAKE, DigestSizes.d128, -1, 1344, -1, "SHAKE-128"), // no limit
+                (ModeValues.SHAKE, DigestSizes.d256, -1, 1088, -1, "SHAKE-256") // no limit
             };
 
         public static List<(ModeValues mode, DigestSizes digestSize, int outputLen, int blockSize, BigInteger maxMessageSize, string name)> GetShaAttributes()
@@ -64,6 +66,8 @@ namespace NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers
         {
             switch (digestSize)
             {
+                case DigestSizes.d128:
+                    return new BitString("32");
                 case DigestSizes.d160:
                     return new BitString("33");
                 case DigestSizes.d224:

@@ -18,7 +18,7 @@ namespace NIST.CVP.Crypto.Common.Hash.ShaWrapper
         /// </summary>
         /// <param name="message">The message to hash</param>
         /// <returns></returns>
-        HashResult HashMessage(BitString message);
+        HashResult HashMessage(BitString message, int outLen = 0);
 
         /// <summary>
         /// Given a <see cref="BigInteger"/>, return a digest

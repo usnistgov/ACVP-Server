@@ -1,12 +1,12 @@
 ﻿using Autofac;
 using NIST.CVP.Common;
-using NIST.CVP.Crypto.AES;
 using NIST.CVP.Crypto.ANSIX963;
 using NIST.CVP.Crypto.CMAC;
 using NIST.CVP.Crypto.Common.Symmetric.CTR;
 using NIST.CVP.Crypto.CSHAKE;
 using NIST.CVP.Crypto.DRBG;
 using NIST.CVP.Crypto.DSA.ECC;
+using NIST.CVP.Crypto.DSA.Ed;
 using NIST.CVP.Crypto.DSA.FFC;
 using NIST.CVP.Crypto.DSA.FFC.GGeneratorValidators;
 using NIST.CVP.Crypto.DSA.FFC.PQGeneratorValidators;
@@ -20,17 +20,16 @@ using NIST.CVP.Crypto.KAS.Builders.Ffc;
 using NIST.CVP.Crypto.KAS.KC;
 using NIST.CVP.Crypto.KAS.KDF;
 using NIST.CVP.Crypto.KAS.NoKC;
-using NIST.CVP.Crypto.KMAC;
 using NIST.CVP.Crypto.KES;
-using NIST.CVP.Crypto.ParallelHash;
 using NIST.CVP.Crypto.KeyWrap;
+using NIST.CVP.Crypto.KMAC;
+using NIST.CVP.Crypto.ParallelHash;
 using NIST.CVP.Crypto.RSA;
 using NIST.CVP.Crypto.RSA.Keys;
 using NIST.CVP.Crypto.RSA.PrimeGenerators;
 using NIST.CVP.Crypto.RSA.Signatures;
 using NIST.CVP.Crypto.SHA2;
 using NIST.CVP.Crypto.SHA3;
-using NIST.CVP.Crypto.TupleHash;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Crypto.SNMP;
 using NIST.CVP.Crypto.SRTP;
@@ -40,6 +39,7 @@ using NIST.CVP.Crypto.Symmetric.BlockModes.Aead;
 using NIST.CVP.Crypto.Symmetric.Engines;
 using NIST.CVP.Crypto.Symmetric.MonteCarlo;
 using NIST.CVP.Crypto.TLS;
+using NIST.CVP.Crypto.TupleHash;
 
 namespace NIST.CVP.Crypto
 {
@@ -130,6 +130,10 @@ namespace NIST.CVP.Crypto
             
             builder.RegisterType<ParallelHash.ParallelHash>().AsImplementedInterfaces();
             builder.RegisterType<ParallelHash_MCT>().AsImplementedInterfaces();
+
+            builder.RegisterType<DsaEdFactory>().AsImplementedInterfaces();
+            builder.RegisterType<EdwardsCurveFactory>().AsImplementedInterfaces();
+            builder.RegisterType<EdDsa>().AsImplementedInterfaces();
         }
     }
 }

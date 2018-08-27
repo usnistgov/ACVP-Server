@@ -32,7 +32,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.KDF
         [TestCase(KdfHashMode.Sha, typeof(KdfSha))]
         public void ShouldReturnCorrectImplementation(KdfHashMode kdfHashMode, Type expectedType)
         {
-            var result = _subject.GetInstance(kdfHashMode, new HashFunction(0, 0));
+            var result = _subject.GetInstance(kdfHashMode, new HashFunction(ModeValues.SHA1, DigestSizes.d160));
 
             Assert.IsInstanceOf(expectedType, result);
         }
@@ -43,7 +43,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.KDF
             int i = -1;
             var badType = (KdfHashMode)i;
 
-            Assert.Throws(typeof(ArgumentException), () => _subject.GetInstance(badType, new HashFunction(0, 0)));
+            Assert.Throws(typeof(ArgumentException), () => _subject.GetInstance(badType, new HashFunction(ModeValues.SHA1, DigestSizes.d160)));
         }
     }
 }

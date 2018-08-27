@@ -1,11 +1,11 @@
 ﻿using NIST.CVP.Common.Helpers;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
-using NIST.CVP.Crypto.Math;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.RSA_SigVer;
 using NIST.CVP.Math;
 using System.Collections.Generic;
+using System.Numerics;
 
 namespace NIST.CVP.Generation.RSA_LegacySigVer
 {
@@ -97,7 +97,7 @@ namespace NIST.CVP.Generation.RSA_LegacySigVer
                     {
                         // Check range for E value, larger range than normal SigVer
                         var eValue = new BitString(parameters.FixedPubExpValue).ToPositiveBigInteger();
-                        if (eValue < 3 || eValue > NumberTheory.Pow2(256) || eValue.IsEven)
+                        if (eValue < 3 || eValue > (BigInteger) 2 << 255 || eValue.IsEven)
                         {
                             errorResults.Add("Improper E value provided");
                         }

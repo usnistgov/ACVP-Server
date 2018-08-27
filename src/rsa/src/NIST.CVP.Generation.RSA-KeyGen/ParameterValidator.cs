@@ -1,10 +1,10 @@
 ﻿using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Common.Helpers;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
-using NIST.CVP.Crypto.Math;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using System.Collections.Generic;
+using System.Numerics;
 
 namespace NIST.CVP.Generation.RSA_KeyGen
 {
@@ -38,7 +38,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen
             if (EnumHelpers.GetEnumFromEnumDescription<PublicExponentModes>(parameters.PubExpMode) == PublicExponentModes.Fixed)
             {
                 var eValue = new BitString(parameters.FixedPubExp).ToPositiveBigInteger();
-                if (eValue <= NumberTheory.Pow2(16) || eValue >= NumberTheory.Pow2(256) || eValue.IsEven)
+                if (eValue < (BigInteger)2 << 15 || eValue > (BigInteger)2 << 255 || eValue.IsEven)
                 {
                     errorResults.Add("Invalid public exponent value provided");
                 }
