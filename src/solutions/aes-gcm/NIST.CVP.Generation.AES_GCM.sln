@@ -1,4 +1,5 @@
-﻿Microsoft Visual Studio Solution File, Format Version 12.00
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2036
 MinimumVisualStudioVersion = 10.0.40219.1
@@ -38,13 +39,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Common.Oracle", ".
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.Oracle", "..\..\oracle\src\NIST.CVP.Crypto.Oracle\NIST.CVP.Crypto.Oracle.csproj", "{53A4EA7B-7DC4-4274-AAC3-D95E3B7C83E8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Common.Oracle.Tests", "..\..\oracle\test\NIST.CVP.Oracle.Common.Tests\NIST.CVP.Common.Oracle.Tests.csproj", "{81035E3C-0667-4BA2-A882-020F6F4AFA17}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Common.Oracle.Tests", "..\..\oracle\test\NIST.CVP.Oracle.Common.Tests\NIST.CVP.Common.Oracle.Tests.csproj", "{81035E3C-0667-4BA2-A882-020F6F4AFA17}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Orleans.Grains", "..\..\orleans\src\NIST.CVP.Orleans.Grains\NIST.CVP.Orleans.Grains.csproj", "{98F86F9E-F351-48CC-A96C-E3FA774959B4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Orleans.Grains", "..\..\orleans\src\NIST.CVP.Orleans.Grains\NIST.CVP.Orleans.Grains.csproj", "{98F86F9E-F351-48CC-A96C-E3FA774959B4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Orleans.Grains.Interfaces", "..\..\orleans\src\NIST.CVP.Orleans.Grains.Interfaces\NIST.CVP.Orleans.Grains.Interfaces.csproj", "{04E0B139-903B-4C0F-AA0F-F6CCE7C88C1B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Orleans.Grains.Interfaces", "..\..\orleans\src\NIST.CVP.Orleans.Grains.Interfaces\NIST.CVP.Orleans.Grains.Interfaces.csproj", "{04E0B139-903B-4C0F-AA0F-F6CCE7C88C1B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Orleans.ServerHost", "..\..\orleans\src\NIST.CVP.Orleans.ServerHost\NIST.CVP.Orleans.ServerHost.csproj", "{53BE4270-CE30-4700-A47B-B61DD5E87913}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Orleans.ServerHost", "..\..\orleans\src\NIST.CVP.Orleans.ServerHost\NIST.CVP.Orleans.ServerHost.csproj", "{53BE4270-CE30-4700-A47B-B61DD5E87913}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -317,6 +318,10 @@ Global
 		{0D0DD391-6EB9-4B9C-B23A-A9B73F97C9F7} = {C4CF630A-135D-473D-A957-C22A7D019723}
 		{51467B95-16DC-403A-B65D-7D066E5ED664} = {C4CF630A-135D-473D-A957-C22A7D019723}
 		{53A4EA7B-7DC4-4274-AAC3-D95E3B7C83E8} = {C4CF630A-135D-473D-A957-C22A7D019723}
+		{81035E3C-0667-4BA2-A882-020F6F4AFA17} = {5AF6D6AA-1986-49F0-AE30-7CDC09D8F015}
+		{98F86F9E-F351-48CC-A96C-E3FA774959B4} = {C4CF630A-135D-473D-A957-C22A7D019723}
+		{04E0B139-903B-4C0F-AA0F-F6CCE7C88C1B} = {C4CF630A-135D-473D-A957-C22A7D019723}
+		{53BE4270-CE30-4700-A47B-B61DD5E87913} = {C4CF630A-135D-473D-A957-C22A7D019723}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {18B2B4E1-32E7-411C-AA15-6044DFEC984D}
