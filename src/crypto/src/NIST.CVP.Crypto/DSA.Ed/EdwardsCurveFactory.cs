@@ -34,7 +34,6 @@ namespace NIST.CVP.Crypto.DSA.Ed
         #endregion Ed25519
 
         #region Ed448
-        // need to set these
         private readonly BigInteger ed448P = LoadValue("fffffffffffffffffffffffffffffffffffffffffffffffffffffffeffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
         private readonly BigInteger ed448A = LoadValue("01");
         private readonly BigInteger ed448D = LoadValue("fffffffffffffffffffffffffffffffffffffffffffffffffffffffeffffffffffffffffffffffffffffffffffffffffffffffffffff6756");

@@ -1,11 +1,11 @@
-﻿using System;
-using System.Numerics;
-using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC.Enums;
+﻿using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC.Enums;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
+using System;
+using System.Numerics;
 
-namespace NIST.CVP.Crypto.DSA.ECC.Tests
+namespace NIST.CVP.Crypto.Math.Tests
 {
     [TestFixture, FastCryptoTest]
     public class GaloisFieldOperatorTests

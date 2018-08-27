@@ -1,10 +1,8 @@
-﻿using System;
-using System.Numerics;
-using NIST.CVP.Crypto.Common.Asymmetric.DSA.Ed;
+﻿using NIST.CVP.Crypto.Common.Asymmetric.DSA.Ed;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.Ed.Enums;
 using NIST.CVP.Crypto.Math;
 using NIST.CVP.Math;
-using NIST.CVP.Math.Helpers;
+using System.Numerics;
 
 namespace NIST.CVP.Crypto.DSA.Ed
 {
@@ -199,52 +197,6 @@ namespace NIST.CVP.Crypto.DSA.Ed
         private EdPoint ExtendedToEdPoint(ExtendedEdPoint point)
         {
             return new EdPoint(_operator.Divide(point.X, point.Z), _operator.Divide(point.Y, point.Z));
-        }
-
-        // Prime Field Operator for use in Edwards Curves
-        private class PrimeFieldOperator
-        {
-            private readonly BigInteger _m;
-
-            public PrimeFieldOperator(BigInteger modulo)
-            {
-                _m = modulo;
-            }
-
-            public BigInteger Add(BigInteger a, BigInteger b)
-            {
-                return Modulo(a + b);
-            }
-
-            public BigInteger Divide(BigInteger a, BigInteger b)
-            {
-                return Multiply(a, Inverse(b));
-            }
-
-            public BigInteger Negate(BigInteger a)
-            {
-                return Modulo(_m - a);
-            }
-
-            public BigInteger Inverse(BigInteger a)
-            {
-                return a.ModularInverse(_m);
-            }
-
-            public BigInteger Modulo(BigInteger a)
-            {
-                return a.PosMod(_m);
-            }
-
-            public BigInteger Multiply(BigInteger a, BigInteger b)
-            {
-                return Modulo(a * b);
-            }
-
-            public BigInteger Subtract(BigInteger a, BigInteger b)
-            {
-                return Modulo(a - b);
-            }
         }
     }
 }

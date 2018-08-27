@@ -1,8 +1,8 @@
-﻿using System.Numerics;
-using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
+﻿using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
 using NIST.CVP.Math.Helpers;
+using System.Numerics;
 
-namespace NIST.CVP.Crypto.DSA.ECC
+namespace NIST.CVP.Crypto.Math
 {
     public class PrimeFieldOperator : IFieldOperator
     {

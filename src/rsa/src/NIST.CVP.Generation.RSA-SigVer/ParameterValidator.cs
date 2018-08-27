@@ -1,10 +1,10 @@
 ﻿using NIST.CVP.Common.Helpers;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
-using NIST.CVP.Crypto.Math;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using System.Collections.Generic;
+using System.Numerics;
 
 namespace NIST.CVP.Generation.RSA_SigVer
 {
@@ -95,7 +95,7 @@ namespace NIST.CVP.Generation.RSA_SigVer
                     {
                         // Check range for E value
                         var eValue = new BitString(parameters.FixedPubExpValue).ToPositiveBigInteger();
-                        if (eValue < NumberTheory.Pow2(16) || eValue > NumberTheory.Pow2(256) || eValue.IsEven)
+                        if (eValue < (BigInteger) 2 << 15 || eValue > (BigInteger) 2 << 255 || eValue.IsEven)
                         {
                             errorResults.Add("Improper E value provided");
                         }

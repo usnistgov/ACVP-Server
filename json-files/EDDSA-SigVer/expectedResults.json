@@ -45,11 +45,11 @@
         },
         {
           "tcId": 9,
-          "testPassed": false
+          "testPassed": true
         },
         {
           "tcId": 10,
-          "testPassed": true
+          "testPassed": false
         }
       ]
     },
@@ -66,7 +66,7 @@
         },
         {
           "tcId": 13,
-          "testPassed": false
+          "testPassed": true
         },
         {
           "tcId": 14,
@@ -74,7 +74,7 @@
         },
         {
           "tcId": 15,
-          "testPassed": true
+          "testPassed": false
         }
       ]
     },
@@ -95,11 +95,11 @@
         },
         {
           "tcId": 19,
-          "testPassed": true
+          "testPassed": false
         },
         {
           "tcId": 20,
-          "testPassed": false
+          "testPassed": true
         }
       ]
     }

@@ -4,12 +4,8 @@
   "isSample": true,
   "pure": true,
   "preHash": true,
-  "capabilities": [
-    {
-      "curve": [
-        "ed-25519",
-        "ed-448"
-      ]
-    }
+  "curve": [
+    "ed-25519",
+    "ed-448"
   ]
 }
