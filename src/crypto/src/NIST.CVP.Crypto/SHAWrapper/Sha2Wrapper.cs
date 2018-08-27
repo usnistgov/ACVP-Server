@@ -35,7 +35,7 @@ namespace NIST.CVP.Crypto.SHAWrapper
             HashFunction = hashFunction;
         }
         
-        public HashResult HashMessage(BitString message)
+        public HashResult HashMessage(BitString message, int outLen = 0)
         {
             try
             {

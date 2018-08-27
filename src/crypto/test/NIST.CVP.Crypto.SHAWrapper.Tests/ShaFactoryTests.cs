@@ -31,6 +31,8 @@ namespace NIST.CVP.Crypto.SHAWrapper.Tests
         [TestCase(ModeValues.SHA3, DigestSizes.d256, typeof(Sha3Wrapper))]
         [TestCase(ModeValues.SHA3, DigestSizes.d384, typeof(Sha3Wrapper))]
         [TestCase(ModeValues.SHA3, DigestSizes.d512, typeof(Sha3Wrapper))]
+        [TestCase(ModeValues.SHAKE, DigestSizes.d128, typeof(ShakeWrapper))]
+        [TestCase(ModeValues.SHAKE, DigestSizes.d256, typeof(ShakeWrapper))]
         public void ShouldReturnCorrectInstance(ModeValues mode, DigestSizes digestSize, Type expectedType)
         {
             HashFunction hashFunction = new HashFunction(mode, digestSize);

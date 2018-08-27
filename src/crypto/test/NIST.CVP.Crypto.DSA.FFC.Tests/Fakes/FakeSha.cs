@@ -22,7 +22,7 @@ namespace NIST.CVP.Crypto.DSA.FFC.Tests.Fakes
 
         public HashFunction HashFunction => _sha.HashFunction;
 
-        public HashResult HashMessage(BitString message)
+        public HashResult HashMessage(BitString message, int outlen = 0)
         {
             Count++;
             return _sha.HashMessage(message);

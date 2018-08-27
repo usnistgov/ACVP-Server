@@ -1,0 +1,45 @@
+{
+  "algorithm": "EDDSA",
+  "mode": "KeyVer",
+  "isSample": true,
+  "testGroups": [
+    {
+      "tgId": 1,
+      "curve": "ed-25519",
+      "testType": "AFT",
+      "tests": [
+        {
+          "tcId": 1,
+          "q": "F70D943CDB87D7331B59290999E5621F7E2349F88D4C8E0EFA687C1512B8CF30"
+        },
+        {
+          "tcId": 2,
+          "q": "B9DE6FBB49F37D8706B7A19E8C5475430834E3622AFCA873C5E6ED617AC1F88D"
+        },
+        {
+          "tcId": 3,
+          "q": "71F30D955409643F5DB3A0C3EBC2F6FE506E2D18C76A48D009E6591118A168FF"
+        }
+      ]
+    },
+    {
+      "tgId": 2,
+      "curve": "ed-448",
+      "testType": "AFT",
+      "tests": [
+        {
+          "tcId": 4,
+          "q": "327DB7892FA4B007096E314753CC293C9CA2E620F729F831CE8176A2BCD89EEE294A4EEA32DCCF41066A0C664B206B0E95B15C7C6A4FCDEC80"
+        },
+        {
+          "tcId": 5,
+          "q": "C9E2652B8193E23DF8A8A0E571BCD68663F91D028D297CE2DAEDD530AF5E65D32BD95892D79AAC1541CEA7E6669BFB772C5AF53415C2386E81"
+        },
+        {
+          "tcId": 6,
+          "q": "AED03C9165D64D3E92926DBBA43766E153E0153E83E71F148C765861C295A856E20C0144FF4F12F459BD5827EC0E113A688CF3E64438BFA800"
+        }
+      ]
+    }
+  ]
+}
