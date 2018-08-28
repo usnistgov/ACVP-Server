@@ -39,11 +39,42 @@ namespace NIST.CVP.PoolAPI.Controllers
         }
 
         [HttpPost]
+        [Route("spawn")]
+        // /api/pools/spawn
+        public bool SpawnJobForPool(ParameterHolder parameterHolder)
+        {
+            try
+            {
+                // Spawn job
+                
+                // parameterHolder.Result = result;
+                
+                // Add to pool
+                // return Program.PoolManager.AddResultToPool(parameterHolder);
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                LogManager.GetCurrentClassLogger().Error(ex);
+                return false;
+            }
+        }
+
+        [HttpPost]
         [Route("add")]
         // /api/pools/add
         public bool PostDataToPool(ParameterHolder parameterHolder)
         {
-            return Program.PoolManager.AddResultToPool(parameterHolder);
+            try
+            {
+                return Program.PoolManager.AddResultToPool(parameterHolder);
+            }
+            catch (Exception ex)
+            {
+                LogManager.GetCurrentClassLogger().Error(ex);
+                return false;
+            }
         }
 
         [HttpPost]
@@ -51,7 +82,16 @@ namespace NIST.CVP.PoolAPI.Controllers
         // /api/pools/status
         public string PoolStatus(ParameterHolder parameterHolder)
         {
-            return JsonConvert.SerializeObject(Program.PoolManager.GetPoolStatus(parameterHolder));
+            try
+            {
+                LogManager.GetCurrentClassLogger().Info("Request received");
+                return JsonConvert.SerializeObject(Program.PoolManager.GetPoolStatus(parameterHolder));
+            }
+            catch (Exception ex)
+            {
+                LogManager.GetCurrentClassLogger().Error(ex);
+                return "";
+            }
         }
 
         [HttpGet]
