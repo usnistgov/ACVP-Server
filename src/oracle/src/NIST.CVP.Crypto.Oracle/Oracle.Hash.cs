@@ -9,6 +9,8 @@ using System;
 using NIST.CVP.Math;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using NIST.CVP.Orleans.Grains.Interfaces;
+using NIST.CVP.Orleans.Grains.Interfaces.Helpers;
 
 namespace NIST.CVP.Crypto.Oracle
 {
@@ -100,60 +102,6 @@ namespace NIST.CVP.Crypto.Oracle
             {
                 Results = result.Response.ConvertAll(element =>
                     new HashResult { Message = element.Message, Digest = element.Digest })
-            };
-        }
-
-        private CShakeResult GetCShakeCase(CShakeParameters param)
-        {
-            var message = _rand.GetRandomBitString(param.MessageLength);
-
-            Common.Hash.HashResult result;
-            BitString customizationHex = null;
-            string customization = "";
-            if (param.HexCustomization)
-            {
-                customizationHex = _rand.GetRandomBitString(param.CustomizationLength);
-                result = _cSHAKE.HashMessage(param.HashFunction, message, customizationHex, param.FunctionName);
-            }
-            else
-            {
-                customization = _rand.GetRandomString(param.CustomizationLength);
-                result = _cSHAKE.HashMessage(param.HashFunction, message, customization, param.FunctionName);
-            }
-
-            if (!result.Success)
-            {
-                throw new Exception();
-            }
-
-            return new CShakeResult
-            {
-                Message = message,
-                Digest = result.Digest,
-                Customization = customization,
-                CustomizationHex = customizationHex,
-                FunctionName = param.FunctionName
-            };
-        }
-
-        private MctResult<CShakeResult> GetCShakeMctCase(CShakeParameters param)
-        {
-            _cSHAKEMct = new CSHAKE_MCT(_cSHAKE);
-
-            var message = _rand.GetRandomBitString(param.MessageLength);
-
-            // TODO isSample up in here?
-            var result = _cSHAKEMct.MCTHash(param.HashFunction, message, param.OutLens, true); // currently always a sample
-
-            if (!result.Success)
-            {
-                throw new Exception();
-            }
-
-            return new MctResult<CShakeResult>
-            {
-                Results = result.Response.ConvertAll(element =>
-                    new CShakeResult { Message = element.Message, Digest = element.Digest, Customization = element.Customization })
             };
         }
 
@@ -318,7 +266,19 @@ namespace NIST.CVP.Crypto.Oracle
 
         public async Task<CShakeResult> GetCShakeCaseAsync(CShakeParameters param)
         {
-            return await _taskFactory.StartNew(() => GetCShakeCase(param));
+            var grain = _clusterClient.GetGrain<IOracleObserverCShakeCaseGrain>(
+                Guid.NewGuid()
+            );
+
+            var observer = new OracleGrainObserver<CShakeResult>();
+            var observerReference = 
+                await _clusterClient.CreateObjectReference<IGrainObserver<CShakeResult>>(observer);
+            await grain.Subscribe(observerReference);
+            await grain.BeginWorkAsync(param);
+
+            var result = await ObservableHelpers.ObserveUntilResult(grain, observer, observerReference);
+
+            return result;
         }
 
         public async Task<ParallelHashResult> GetParallelHashCaseAsync(ParallelHashParameters param)
@@ -343,7 +303,19 @@ namespace NIST.CVP.Crypto.Oracle
 
         public async Task<MctResult<CShakeResult>> GetCShakeMctCaseAsync(CShakeParameters param)
         {
-            return await _taskFactory.StartNew(() => GetCShakeMctCase(param));
+            var grain = _clusterClient.GetGrain<IOracleObserverCShakeMctCaseGrain>(
+                Guid.NewGuid()
+            );
+
+            var observer = new OracleGrainObserver<MctResult<CShakeResult>>();
+            var observerReference = 
+                await _clusterClient.CreateObjectReference<IGrainObserver<MctResult<CShakeResult>>>(observer);
+            await grain.Subscribe(observerReference);
+            await grain.BeginWorkAsync(param);
+
+            var result = await ObservableHelpers.ObserveUntilResult(grain, observer, observerReference);
+
+            return result;
         }
 
         public async Task<MctResult<ParallelHashResult>> GetParallelHashMctCaseAsync(ParallelHashParameters param)
