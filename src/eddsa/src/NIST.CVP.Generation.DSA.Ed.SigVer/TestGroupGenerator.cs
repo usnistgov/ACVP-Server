@@ -1,4 +1,7 @@
 ﻿using NIST.CVP.Common.Helpers;
+using NIST.CVP.Common.Oracle;
+using NIST.CVP.Common.Oracle.DispositionTypes;
+using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.Ed.Enums;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.DSA.Ed.SigVer.TestCaseExpectations;
@@ -8,6 +11,13 @@ namespace NIST.CVP.Generation.DSA.Ed.SigVer
 {
     public class TestGroupGenerator : ITestGroupGenerator<Parameters, TestGroup, TestCase>
     {
+        private readonly IOracle _oracle;
+
+        public TestGroupGenerator(IOracle oracle)
+        {
+            _oracle = oracle;
+        }
+
         public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
         {
             // Use a hash set because the registration allows for duplicate pairings to occur
@@ -19,13 +29,22 @@ namespace NIST.CVP.Generation.DSA.Ed.SigVer
             {
                 var curve = EnumHelpers.GetEnumFromEnumDescription<Curve>(curveName);
 
+                var keyParam = new EddsaKeyParameters
+                {
+                    Curve = curve,
+                    Disposition = EddsaKeyDisposition.None
+                };
+
+                var keyResult = _oracle.GetEddsaKeyAsync(keyParam).Result.Key;
+
                 if (parameters.Pure)
                 {
                     var testGroup = new TestGroup
                     {
                         TestCaseExpectationProvider = new TestCaseExpectationProvider(parameters.IsSample),
                         Curve = curve,
-                        PreHash = false
+                        PreHash = false,
+                        KeyPair = keyResult
                     };
 
                     testGroups.Add(testGroup);
@@ -37,7 +56,8 @@ namespace NIST.CVP.Generation.DSA.Ed.SigVer
                     {
                         TestCaseExpectationProvider = new TestCaseExpectationProvider(parameters.IsSample),
                         Curve = curve,
-                        PreHash = true
+                        PreHash = true,
+                        KeyPair = keyResult
                     };
 
                     testGroups.Add(testGroup);

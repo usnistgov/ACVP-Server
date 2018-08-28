@@ -1,9 +1,16 @@
-﻿using NIST.CVP.Common.ExtensionMethods;
+﻿using Moq;
+using NIST.CVP.Common.ExtensionMethods;
+using NIST.CVP.Common.Oracle;
+using NIST.CVP.Common.Oracle.ParameterTypes;
+using NIST.CVP.Common.Oracle.ResultTypes;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.Ed;
+using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Generation.DSA.Ed.SigVer.Tests
 {
@@ -15,7 +22,12 @@ namespace NIST.CVP.Generation.DSA.Ed.SigVer.Tests
         [SetUp]
         public void SetUp()
         {
-            _subject = new TestGroupGeneratorFactory();
+            var oracleMock = new Mock<IOracle>();
+            oracleMock
+                .Setup(s => s.GetEddsaKeyAsync(It.IsAny<EddsaKeyParameters>()))
+                .Returns(Task.FromResult(new EddsaKeyResult { Key = new EdKeyPair(new BitString("ec172b93ad5e563bf4932c70e1245034c35467ef2efd4d64ebf819683467e2bf")) }));
+
+            _subject = new TestGroupGeneratorFactory(oracleMock.Object);
         }
 
         [Test]

@@ -1,11 +1,10 @@
 ﻿using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
-using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.Async;
 using NLog;
 using System;
 using System.Threading.Tasks;
-using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.DSA.Ed.SigVer
 {
@@ -44,6 +43,7 @@ namespace NIST.CVP.Generation.DSA.Ed.SigVer
                     Message = result.VerifiedValue.Message,
                     Context = result.VerifiedValue.Context,
                     KeyPair = result.VerifiedValue.Key,
+                    Signature = result.VerifiedValue.Signature,
                     Reason = param.Disposition,
                     TestPassed = result.Result
                 };
