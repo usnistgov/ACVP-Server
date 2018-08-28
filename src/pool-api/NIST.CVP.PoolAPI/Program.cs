@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using NIST.CVP.Pools;
 using NLog;
 using NLog.Config;
@@ -45,10 +44,6 @@ namespace NIST.CVP.PoolAPI
                 var pathToExe = Process.GetCurrentProcess().MainModule.FileName;
                 var pathToContentRoot = Path.GetDirectoryName(pathToExe);
                 builder.UseContentRoot(pathToContentRoot);
-                builder.ConfigureAppConfiguration((hostingContext, config) =>
-                    {
-                        config.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
-                    });
                 builder.UseStartup<Startup>();
                 builder.UseUrls("http://+:5002");
             }
