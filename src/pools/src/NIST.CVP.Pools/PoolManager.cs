@@ -105,6 +105,11 @@ namespace NIST.CVP.Pools
                         Pools.Add(aesPool);
                         break;
 
+                    case PoolTypes.SHA_MCT:
+                        var shaMctPool = new ShaMctPool(param as ShaParameters, filePath, _jsonConverters);
+                        Pools.Add(shaMctPool);
+                        break;
+
                     default:
                         throw new Exception("No pool found");
                 }
