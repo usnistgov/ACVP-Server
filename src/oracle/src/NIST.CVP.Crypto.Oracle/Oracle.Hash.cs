@@ -1,12 +1,12 @@
 ﻿using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
-using NIST.CVP.Crypto.SHA2;
-using NIST.CVP.Crypto.SHA3;
 using NIST.CVP.Crypto.CSHAKE;
 using NIST.CVP.Crypto.ParallelHash;
+using NIST.CVP.Crypto.SHA2;
+using NIST.CVP.Crypto.SHA3;
 using NIST.CVP.Crypto.TupleHash;
-using System;
 using NIST.CVP.Math;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -59,6 +59,7 @@ namespace NIST.CVP.Crypto.Oracle
 
             return new MctResult<HashResult>
             {
+                Seed = new HashResult {Message = message},
                 Results = result.Response.ConvertAll(element =>
                     new HashResult {Message = element.Message, Digest = element.Digest})
             };

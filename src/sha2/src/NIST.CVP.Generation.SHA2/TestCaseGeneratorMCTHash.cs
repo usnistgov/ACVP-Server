@@ -1,14 +1,12 @@
 ﻿using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
-using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.Common.Hash;
 using NIST.CVP.Crypto.Common.Hash.SHA2;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.Async;
 using NLog;
 using System;
 using System.Threading.Tasks;
-using NIST.CVP.Generation.Core.Async;
-using HashResult = NIST.CVP.Common.Oracle.ResultTypes.HashResult;
 
 namespace NIST.CVP.Generation.SHA2
 {
@@ -40,8 +38,7 @@ namespace NIST.CVP.Generation.SHA2
 
                 return new TestCaseGenerateResponse<TestGroup, TestCase>(new TestCase
                 {
-                    Message = oracleResult.Results[0].Message,
-                    Digest = oracleResult.Results[0].Digest,
+                    Message = oracleResult.Seed.Message,
                     ResultsArray = oracleResult.Results.ConvertAll(element => new AlgoArrayResponse { Message = element.Message, Digest = element.Digest })
                 });
             }
