@@ -99,6 +99,7 @@ namespace NIST.CVP.Crypto.Oracle
 
             return new MctResult<HashResult>
             {
+                Seed = new HashResult { Message = message },
                 Results = result.Response.ConvertAll(element =>
                     new HashResult { Message = element.Message, Digest = element.Digest })
             };
@@ -153,6 +154,7 @@ namespace NIST.CVP.Crypto.Oracle
 
             return new MctResult<CShakeResult>
             {
+                Seed = new CShakeResult { Message = message },
                 Results = result.Response.ConvertAll(element =>
                     new CShakeResult { Message = element.Message, Digest = element.Digest, Customization = element.Customization })
             };
@@ -207,6 +209,7 @@ namespace NIST.CVP.Crypto.Oracle
 
             return new MctResult<ParallelHashResult>
             {
+                Seed = new ParallelHashResult { Message = message },
                 Results = result.Response.ConvertAll(element =>
                     new ParallelHashResult { Message = element.Message, Digest = element.Digest, Customization = element.Customization })
             };
@@ -289,6 +292,7 @@ namespace NIST.CVP.Crypto.Oracle
 
             return new MctResult<TupleHashResult>
             {
+                Seed = new TupleHashResult { Tuple = tuple },
                 Results = result.Response.ConvertAll(element =>
                     new TupleHashResult { Tuple = element.Tuple, Digest = element.Digest, Customization = element.Customization })
             };
