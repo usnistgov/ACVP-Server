@@ -80,6 +80,7 @@ using NIST.CVP.Crypto.Common.MAC.KMAC;
 using NIST.CVP.Crypto.Common.Symmetric.KeyWrap;
 using NIST.CVP.Math;
 using NIST.CVP.Orleans.Grains.Aead;
+using NIST.CVP.Orleans.Grains.Ecdsa;
 
 namespace NIST.CVP.Orleans.Grains
 {
@@ -95,6 +96,7 @@ namespace NIST.CVP.Orleans.Grains
             svc.AddTransient<IRandom800_90, Random800_90>();
 
             svc.AddSingleton<IAeadRunner, AeadRunner>();
+            svc.AddSingleton<IEcdsaKeyGenRunner, EcdsaKeyGenRunner>();
             svc.AddSingleton<IBlockCipherEngineFactory, BlockCipherEngineFactory>();
             svc.AddSingleton<IModeBlockCipherFactory, ModeBlockCipherFactory>();
             svc.AddSingleton<IAeadModeBlockCipherFactory, AeadModeBlockCipherFactory>();
