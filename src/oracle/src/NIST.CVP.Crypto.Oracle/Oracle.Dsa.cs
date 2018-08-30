@@ -1,19 +1,9 @@
-﻿using NIST.CVP.Common.Helpers;
-using NIST.CVP.Common.Oracle.DispositionTypes;
-using NIST.CVP.Common.Oracle.ParameterTypes;
+﻿using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
-using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
-using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC.Helpers;
-using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
-using NIST.CVP.Crypto.DSA.FFC;
-using NIST.CVP.Crypto.DSA.FFC.GGeneratorValidators;
-using NIST.CVP.Crypto.DSA.FFC.PQGeneratorValidators;
-using NIST.CVP.Crypto.Math;
-using NIST.CVP.Crypto.SHAWrapper;
-using NIST.CVP.Math;
 using System;
 using System.Threading.Tasks;
 using NIST.CVP.Orleans.Grains.Interfaces;
+using NIST.CVP.Orleans.Grains.Interfaces.Dsa;
 using NIST.CVP.Orleans.Grains.Interfaces.Helpers;
 
 namespace NIST.CVP.Crypto.Oracle

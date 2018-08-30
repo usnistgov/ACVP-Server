@@ -10,6 +10,7 @@ using NIST.CVP.Math;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using NIST.CVP.Orleans.Grains.Interfaces;
+using NIST.CVP.Orleans.Grains.Interfaces.Cshake;
 using NIST.CVP.Orleans.Grains.Interfaces.Helpers;
 
 namespace NIST.CVP.Crypto.Oracle
@@ -20,8 +21,6 @@ namespace NIST.CVP.Crypto.Oracle
         private SHA_MCT _shaMct;
         private readonly SHA3.SHA3 _sha3 = new SHA3.SHA3(new SHA3Factory());
         private SHA3_MCT _sha3Mct;
-        private readonly CSHAKE.CSHAKE _cSHAKE = new CSHAKE.CSHAKE(new CSHAKEFactory());
-        private CSHAKE_MCT _cSHAKEMct;
         private readonly ParallelHash.ParallelHash _parallelHash = new ParallelHash.ParallelHash(new ParallelHashFactory());
         private ParallelHash_MCT _parallelHashMct;
         private readonly TupleHash.TupleHash _tupleHash = new TupleHash.TupleHash(new TupleHashFactory());

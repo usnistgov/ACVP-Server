@@ -1,26 +1,16 @@
 ﻿using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
-using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
-using NIST.CVP.Crypto.Common.Symmetric.CTR;
-using NIST.CVP.Crypto.Common.Symmetric.Enums;
-using NIST.CVP.Crypto.Common.Symmetric.Helpers;
-using NIST.CVP.Crypto.Symmetric.BlockModes;
-using NIST.CVP.Crypto.Symmetric.Engines;
-using NIST.CVP.Crypto.Symmetric.MonteCarlo;
 using NIST.CVP.Math;
 using System;
 using System.Threading.Tasks;
 using NIST.CVP.Orleans.Grains.Interfaces;
+using NIST.CVP.Orleans.Grains.Interfaces.Aes;
 using NIST.CVP.Orleans.Grains.Interfaces.Helpers;
 
 namespace NIST.CVP.Crypto.Oracle
 {
     public partial class Oracle
     {
-        private readonly BlockCipherEngineFactory _engineFactory = new BlockCipherEngineFactory();
-        private readonly ModeBlockCipherFactory _modeFactory = new ModeBlockCipherFactory();
-        private readonly CounterFactory _ctrFactory = new CounterFactory();
-        
         public async Task<AesResult> GetAesCaseAsync(AesParameters param)
         {
             var grain = _clusterClient.GetGrain<IOracleObserverAesCaseGrain>(

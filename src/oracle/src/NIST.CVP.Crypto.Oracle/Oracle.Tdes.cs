@@ -10,15 +10,19 @@ using NIST.CVP.Crypto.Symmetric.MonteCarlo;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using NIST.CVP.Crypto.Common.Symmetric.CTR;
 using NIST.CVP.Crypto.Common.Symmetric.CTR.Enums;
 using NIST.CVP.Orleans.Grains.Interfaces;
 using NIST.CVP.Orleans.Grains.Interfaces.Helpers;
+using NIST.CVP.Orleans.Grains.Interfaces.Tdes;
 
 namespace NIST.CVP.Crypto.Oracle
 {
     public partial class Oracle
     {
-        private readonly TdesMonteCarloFactory _tdesMctFactory = new TdesMonteCarloFactory(new BlockCipherEngineFactory(), new ModeBlockCipherFactory());
+        private readonly BlockCipherEngineFactory _engineFactory = new BlockCipherEngineFactory();
+        private readonly ModeBlockCipherFactory _modeFactory = new ModeBlockCipherFactory();
+        private readonly CounterFactory _ctrFactory = new CounterFactory();
         private readonly TdesPartitionsMonteCarloFactory _tdesWithIvsMctFactory = new TdesPartitionsMonteCarloFactory(new BlockCipherEngineFactory(), new ModeBlockCipherFactory());
 
         private TdesResultWithIvs GetTdesWithIvsCase(TdesParameters param)

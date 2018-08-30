@@ -3,6 +3,7 @@ using NIST.CVP.Common.Oracle.ResultTypes;
 using System;
 using System.Threading.Tasks;
 using NIST.CVP.Orleans.Grains.Interfaces;
+using NIST.CVP.Orleans.Grains.Interfaces.Aead;
 using NIST.CVP.Orleans.Grains.Interfaces.Helpers;
 
 namespace NIST.CVP.Crypto.Oracle

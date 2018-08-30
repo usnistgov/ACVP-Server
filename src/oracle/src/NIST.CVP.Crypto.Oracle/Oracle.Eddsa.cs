@@ -1,13 +1,10 @@
-﻿using NIST.CVP.Common.Oracle.DispositionTypes;
-using NIST.CVP.Common.Oracle.ParameterTypes;
+﻿using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
-using NIST.CVP.Crypto.Common.Asymmetric.DSA.Ed;
-using NIST.CVP.Crypto.DSA.Ed;
-using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Math;
 using System;
 using System.Threading.Tasks;
 using NIST.CVP.Orleans.Grains.Interfaces;
+using NIST.CVP.Orleans.Grains.Interfaces.Eddsa;
 using NIST.CVP.Orleans.Grains.Interfaces.Helpers;
 
 namespace NIST.CVP.Crypto.Oracle
