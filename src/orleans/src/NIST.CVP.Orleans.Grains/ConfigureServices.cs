@@ -3,6 +3,7 @@ using NIST.CVP.Common;
 using NIST.CVP.Crypto.ANSIX963;
 using NIST.CVP.Crypto.CMAC;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.Ed;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC.GGeneratorValidators;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC.PQGeneratorValidators;
@@ -78,9 +79,11 @@ using NIST.CVP.Crypto.Common.KES;
 using NIST.CVP.Crypto.Common.MAC.HMAC;
 using NIST.CVP.Crypto.Common.MAC.KMAC;
 using NIST.CVP.Crypto.Common.Symmetric.KeyWrap;
+using NIST.CVP.Crypto.DSA.Ed;
 using NIST.CVP.Math;
 using NIST.CVP.Orleans.Grains.Aead;
 using NIST.CVP.Orleans.Grains.Ecdsa;
+using NIST.CVP.Orleans.Grains.Eddsa;
 
 namespace NIST.CVP.Orleans.Grains
 {
@@ -97,6 +100,8 @@ namespace NIST.CVP.Orleans.Grains
 
             svc.AddSingleton<IAeadRunner, AeadRunner>();
             svc.AddSingleton<IEcdsaKeyGenRunner, EcdsaKeyGenRunner>();
+            svc.AddSingleton<IEddsaKeyGenRunner, EddsaKeyGenRunner>();
+
             svc.AddSingleton<IBlockCipherEngineFactory, BlockCipherEngineFactory>();
             svc.AddSingleton<IModeBlockCipherFactory, ModeBlockCipherFactory>();
             svc.AddSingleton<IAeadModeBlockCipherFactory, AeadModeBlockCipherFactory>();
@@ -131,6 +136,9 @@ namespace NIST.CVP.Orleans.Grains
             svc.AddSingleton<IEccCurveFactory, EccCurveFactory>();
 
             svc.AddSingleton<IEccDhComponent, EccDhComponent>();
+
+            svc.AddSingleton<IEdwardsCurveFactory, EdwardsCurveFactory>();
+            svc.AddSingleton<IDsaEdFactory, DsaEdFactory>();
 
             svc.AddSingleton<Crypto.Common.KDF.IKdfFactory, Crypto.KDF.KdfFactory>();
 
