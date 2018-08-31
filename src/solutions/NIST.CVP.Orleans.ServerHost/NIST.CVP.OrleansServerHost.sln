@@ -7,23 +7,23 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{734F17C4-9E4
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{20A634C9-F1DF-4F88-B2D0-9F0B5B69BF5F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Orleans.ServerHost", "..\..\..\orleans\src\NIST.CVP.Orleans.ServerHost\NIST.CVP.Orleans.ServerHost.csproj", "{48AC9EA3-B33F-4D3A-8EAF-C62E8B6571BD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Orleans.ServerHost", "..\..\orleans\src\NIST.CVP.Orleans.ServerHost\NIST.CVP.Orleans.ServerHost.csproj", "{48AC9EA3-B33F-4D3A-8EAF-C62E8B6571BD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Orleans.Grains", "..\..\..\orleans\src\NIST.CVP.Orleans.Grains\NIST.CVP.Orleans.Grains.csproj", "{BFA9306C-E20D-418E-BC2D-FE13D9049AE5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Orleans.Grains", "..\..\orleans\src\NIST.CVP.Orleans.Grains\NIST.CVP.Orleans.Grains.csproj", "{BFA9306C-E20D-418E-BC2D-FE13D9049AE5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Orleans.Grains.Interfaces", "..\..\..\orleans\src\NIST.CVP.Orleans.Grains.Interfaces\NIST.CVP.Orleans.Grains.Interfaces.csproj", "{1A0B72EE-5A07-43F8-92DA-E05A2D780485}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Orleans.Grains.Interfaces", "..\..\orleans\src\NIST.CVP.Orleans.Grains.Interfaces\NIST.CVP.Orleans.Grains.Interfaces.csproj", "{1A0B72EE-5A07-43F8-92DA-E05A2D780485}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Common.Oracle", "..\..\..\oracle\src\NIST.CVP.Common.Oracle\NIST.CVP.Common.Oracle.csproj", "{F5EE6EF4-C39E-48BA-80D5-6CDFE60FCC0E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Common.Oracle", "..\..\oracle\src\NIST.CVP.Common.Oracle\NIST.CVP.Common.Oracle.csproj", "{F5EE6EF4-C39E-48BA-80D5-6CDFE60FCC0E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.Oracle", "..\..\..\oracle\src\NIST.CVP.Crypto.Oracle\NIST.CVP.Crypto.Oracle.csproj", "{9C804BB9-9A11-420D-848B-8A54C2E7CE53}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.Oracle", "..\..\oracle\src\NIST.CVP.Crypto.Oracle\NIST.CVP.Crypto.Oracle.csproj", "{9C804BB9-9A11-420D-848B-8A54C2E7CE53}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto", "..\..\..\crypto\src\NIST.CVP.Crypto\NIST.CVP.Crypto.csproj", "{02CFF168-1DEC-4889-A1C3-6782955AED1E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto", "..\..\crypto\src\NIST.CVP.Crypto\NIST.CVP.Crypto.csproj", "{02CFF168-1DEC-4889-A1C3-6782955AED1E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.Common", "..\..\..\crypto\src\NIST.CVP.Crypto.Common\NIST.CVP.Crypto.Common.csproj", "{83475D5B-CAB5-4F07-AFA1-793A34519B81}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.Common", "..\..\crypto\src\NIST.CVP.Crypto.Common\NIST.CVP.Crypto.Common.csproj", "{83475D5B-CAB5-4F07-AFA1-793A34519B81}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Common", "..\..\..\common\src\NIST.CVP.Common\NIST.CVP.Common.csproj", "{0FFA401E-718A-4783-B6EF-795A46DFEE2D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Common", "..\..\common\src\NIST.CVP.Common\NIST.CVP.Common.csproj", "{0FFA401E-718A-4783-B6EF-795A46DFEE2D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Math", "..\..\..\common\src\NIST.CVP.Math\NIST.CVP.Math.csproj", "{024A3A45-6319-4141-8F05-8FD8624786E1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Math", "..\..\common\src\NIST.CVP.Math\NIST.CVP.Math.csproj", "{024A3A45-6319-4141-8F05-8FD8624786E1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
