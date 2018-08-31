@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using NIST.CVP.Common;
+using NIST.CVP.Common.Oracle.ParameterTypes;
+using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.ANSIX963;
 using NIST.CVP.Crypto.CMAC;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
@@ -84,6 +86,9 @@ using NIST.CVP.Math;
 using NIST.CVP.Orleans.Grains.Aead;
 using NIST.CVP.Orleans.Grains.Ecdsa;
 using NIST.CVP.Orleans.Grains.Eddsa;
+using NIST.CVP.Orleans.Grains.Kas;
+using NIST.CVP.Orleans.Grains.Kas.Ecc;
+using NIST.CVP.Orleans.Grains.Kas.Ffc;
 
 namespace NIST.CVP.Orleans.Grains
 {
@@ -98,10 +103,28 @@ namespace NIST.CVP.Orleans.Grains
             svc.AddSingleton<IEntropyProviderFactory, EntropyProviderFactory>();
             svc.AddTransient<IRandom800_90, Random800_90>();
 
+            #region Orleans Registrations
             svc.AddSingleton<IAeadRunner, AeadRunner>();
+            
             svc.AddSingleton<IEcdsaKeyGenRunner, EcdsaKeyGenRunner>();
             svc.AddSingleton<IEddsaKeyGenRunner, EddsaKeyGenRunner>();
 
+            svc.AddSingleton<IKasAftTestGeneratorFactory<KasAftParametersEcc, KasAftResultEcc>,
+                KasAftEccTestGeneratorFactory>();
+            svc.AddSingleton<IKasAftTestGeneratorFactory<KasAftParametersFfc, KasAftResultFfc>,
+                KasAftFfcTestGeneratorFactory>();
+            svc.AddSingleton<IKasAftDeferredTestResolverFactory<KasAftDeferredParametersEcc, KasAftDeferredResult>,
+                KasAftEccDeferredTestResolverFactory>();
+            svc.AddSingleton<IKasAftDeferredTestResolverFactory<KasAftDeferredParametersFfc, KasAftDeferredResult>,
+                KasAftFfcDeferredTestResolverFactory>();
+            svc.AddSingleton<IKasValTestGeneratorFactory<KasValParametersEcc, KasValResultEcc>,
+                KasValEccTestGeneratorFactory>();
+            svc.AddSingleton<IKasValTestGeneratorFactory<KasValParametersFfc, KasValResultFfc>,
+                KasValFfcTestGeneratorFactory>();
+            
+            #endregion Orleans Registrations
+
+            #region Crypto Registrations
             svc.AddSingleton<IBlockCipherEngineFactory, BlockCipherEngineFactory>();
             svc.AddSingleton<IModeBlockCipherFactory, ModeBlockCipherFactory>();
             svc.AddSingleton<IAeadModeBlockCipherFactory, AeadModeBlockCipherFactory>();
@@ -186,6 +209,7 @@ namespace NIST.CVP.Orleans.Grains
                              
             svc.AddTransient<IParallelHash, ParallelHash>();
             svc.AddTransient<IParallelHash_MCT, ParallelHash_MCT>();
+            #endregion Crypto Registrations
         }
     }
 }
