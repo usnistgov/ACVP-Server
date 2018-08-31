@@ -10,12 +10,12 @@ Console application build in dotnet core used to generate (depending on a crypto
 
 ### To Run
 
-* [Dotnet core runtime](https://www.microsoft.com/net/download/Windows/run), at least meeting netstandard2.0..
+* [Dotnet core runtime](https://www.microsoft.com/net/download/Windows/run), at least meeting netstandard2.1.
 * That's it.
 
 ### To Develop
 
-* [Dotnet core SDK](https://www.microsoft.com/net/download/), at least meeting netstandard2.0..
+* [Dotnet core SDK](https://www.microsoft.com/net/download/), at least meeting netstandard2.1.
 * IDE such as [Visual Studio](https://www.visualstudio.com/), or [VSCode](https://code.visualstudio.com/?wt.mc_id=adw-brand&gclid=Cj0KCQjwibDXBRCyARIsAFHp4fojTxuEuNCbj-3iNK5DIGpPHUJeDkAzOkEkdCJjrZ42ijrzoi3sUxAaAu4rEALw_wcB)
 
 ## How it works
