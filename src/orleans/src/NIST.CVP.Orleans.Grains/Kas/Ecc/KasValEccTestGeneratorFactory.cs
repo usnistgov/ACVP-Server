@@ -1,40 +1,79 @@
 ﻿using System;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
+using NIST.CVP.Crypto.Common.KAS.Builders;
 using NIST.CVP.Crypto.Common.KAS.Enums;
-using NIST.CVP.Crypto.DSA.ECC;
-using NIST.CVP.Crypto.KAS.Builders.Ecc;
-using NIST.CVP.Crypto.KAS.KC;
-using NIST.CVP.Crypto.KAS.KDF;
-using NIST.CVP.Crypto.KAS.NoKC;
-using NIST.CVP.Crypto.KES;
-using NIST.CVP.Crypto.SHAWrapper;
-using NIST.CVP.Math;
+using NIST.CVP.Crypto.Common.KAS.KC;
+using NIST.CVP.Crypto.Common.KAS.KDF;
+using NIST.CVP.Crypto.Common.KAS.NoKC;
+using NIST.CVP.Crypto.Common.KAS.Schema;
 using NIST.CVP.Math.Entropy;
 
 namespace NIST.CVP.Orleans.Grains.Kas.Ecc
 {
     public class KasValEccTestGeneratorFactory : IKasValTestGeneratorFactory<KasValParametersEcc, KasValResultEcc>
     {
-        private readonly SchemeBuilderEcc _schemeBuilder;
-        private readonly KasBuilderEcc _kasBuilder;
+        private readonly ISchemeBuilder<
+            KasDsaAlgoAttributesEcc, 
+            OtherPartySharedInformation<
+                EccDomainParameters, 
+                EccKeyPair
+            >, 
+            EccDomainParameters, 
+            EccKeyPair
+        > _schemeBuilder;
+        private readonly IKasBuilder<
+            KasDsaAlgoAttributesEcc,
+            OtherPartySharedInformation<
+                EccDomainParameters,
+                EccKeyPair
+            >,
+            EccDomainParameters,
+            EccKeyPair
+        > _kasBuilder;
+        private readonly IEntropyProviderFactory _entropyProviderFactory;
+        private readonly IMacParametersBuilder _macParametersBuilder;
+        private readonly IKdfFactory _kdfFactory;
+        private readonly INoKeyConfirmationFactory _noKeyConfirmationFactory;
+        private readonly IKeyConfirmationFactory _keyConfirmationFactory;
+        private readonly IEccCurveFactory _curveFactory;
 
-        public KasValEccTestGeneratorFactory()
+        public KasValEccTestGeneratorFactory(
+            ISchemeBuilder<
+                KasDsaAlgoAttributesEcc, 
+                OtherPartySharedInformation<
+                    EccDomainParameters, 
+                    EccKeyPair
+                >, 
+                EccDomainParameters, 
+                EccKeyPair
+            > schemeBuilder,
+            IKasBuilder<
+                KasDsaAlgoAttributesEcc,
+                OtherPartySharedInformation<
+                    EccDomainParameters,
+                    EccKeyPair
+                >,
+                EccDomainParameters,
+                EccKeyPair
+            > kasBuilder,
+            IEntropyProviderFactory entropyProviderFactory,
+            IMacParametersBuilder macParametersBuilder,
+            IKdfFactory kdfFactory,
+            INoKeyConfirmationFactory noKeyConfirmationFactory,
+            IKeyConfirmationFactory keyConfirmationFactory,
+            IEccCurveFactory curveFactory
+        )
         {
-            var shaFactory = new ShaFactory();
-            var entropyProvider = new EntropyProvider(new Random800_90());
-            _schemeBuilder = new SchemeBuilderEcc(
-                new DsaEccFactory(shaFactory),
-                new EccCurveFactory(),
-                new KdfFactory(shaFactory),
-                new KeyConfirmationFactory(),
-                new NoKeyConfirmationFactory(),
-                new OtherInfoFactory(new EntropyProvider(new Random800_90())),
-                entropyProvider,
-                new DiffieHellmanEcc(),
-                new MqvEcc()
-            );
-            _kasBuilder = new KasBuilderEcc(_schemeBuilder);
+            _schemeBuilder = schemeBuilder;
+            _kasBuilder = kasBuilder;
+            _entropyProviderFactory = entropyProviderFactory;
+            _macParametersBuilder = macParametersBuilder;
+            _kdfFactory = kdfFactory;
+            _noKeyConfirmationFactory = noKeyConfirmationFactory;
+            _keyConfirmationFactory = keyConfirmationFactory;
+            _curveFactory = curveFactory;
         }
 
         public IKasValTestGenerator<KasValParametersEcc, KasValResultEcc> GetInstance(KasMode kasMode)
@@ -42,11 +81,11 @@ namespace NIST.CVP.Orleans.Grains.Kas.Ecc
             switch (kasMode)
             {
                 case KasMode.NoKdfNoKc:
-                    return new KasValFfcTestGeneratorNoKdfNoKc(_kasBuilder, _schemeBuilder);
+                    return new KasValFfcTestGeneratorNoKdfNoKc(_kasBuilder, _schemeBuilder, _entropyProviderFactory, _macParametersBuilder, _kdfFactory, _noKeyConfirmationFactory, _keyConfirmationFactory, _curveFactory);
                 case KasMode.KdfNoKc:
-                    return new KasValEccTestGeneratorKdfNoKc(_kasBuilder, _schemeBuilder);
+                    return new KasValEccTestGeneratorKdfNoKc(_kasBuilder, _schemeBuilder, _entropyProviderFactory, _macParametersBuilder, _kdfFactory, _noKeyConfirmationFactory, _keyConfirmationFactory, _curveFactory);
                 case KasMode.KdfKc:
-                    return new KasValEccTestGeneratorKdfKc(_kasBuilder, _schemeBuilder);
+                    return new KasValEccTestGeneratorKdfKc(_kasBuilder, _schemeBuilder, _entropyProviderFactory, _macParametersBuilder, _kdfFactory, _noKeyConfirmationFactory, _keyConfirmationFactory, _curveFactory);
                 default:
                     throw new ArgumentException(nameof(kasMode));
             }

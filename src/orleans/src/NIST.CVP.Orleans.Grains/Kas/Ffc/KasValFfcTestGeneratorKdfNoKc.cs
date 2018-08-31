@@ -10,6 +10,7 @@ using NIST.CVP.Crypto.Common.KAS.NoKC;
 using NIST.CVP.Crypto.Common.KAS.Schema;
 using NIST.CVP.Crypto.KAS.Builders.Ffc;
 using NIST.CVP.Math;
+using NIST.CVP.Math.Entropy;
 
 namespace NIST.CVP.Orleans.Grains.Kas.Ffc
 {
@@ -19,21 +20,27 @@ namespace NIST.CVP.Orleans.Grains.Kas.Ffc
             IKasBuilder<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair
             > kasBuilder, 
             ISchemeBuilder<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair
-            > schemeBuilder) : base(kasBuilder, schemeBuilder)
+            > schemeBuilder,
+            IEntropyProviderFactory entropyProviderFactory,
+            IMacParametersBuilder macParametersBuilder,
+            IKdfFactory kdfFactory,
+            INoKeyConfirmationFactory noKeyConfirmationFactory,
+            IKeyConfirmationFactory keyConfirmationFactory
+        ) : base(kasBuilder, schemeBuilder, entropyProviderFactory, macParametersBuilder, kdfFactory, noKeyConfirmationFactory, keyConfirmationFactory)
         {
         }
 
         protected override IKas<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> 
             GetKasInstance(KeyAgreementRole partyRole, KeyConfirmationRole partyKcRole, MacParameters macParameters, KasValParametersFfc param, KasValResultFfc result, BitString partyId, IKdfFactory kdfFactory, INoKeyConfirmationFactory noKeyConfirmationFactory, IKeyConfirmationFactory keyConfirmationFactory)
         {
-            return new KasBuilderFfc(_schemeBuilder)
+            return new KasBuilderFfc(SchemeBuilder)
                 .WithPartyId(partyId)
                 .WithKeyAgreementRole(partyRole)
                 .WithKasDsaAlgoAttributes(new KasDsaAlgoAttributesFfc(
                         param.FfcScheme, param.FfcParameterSet
                 ))
                 .WithSchemeBuilder(
-                    _schemeBuilder
+                    SchemeBuilder
                         .WithHashFunction(param.HashFunction)
                         .WithKdfFactory(kdfFactory)
                         .WithNoKeyConfirmationFactory(noKeyConfirmationFactory)

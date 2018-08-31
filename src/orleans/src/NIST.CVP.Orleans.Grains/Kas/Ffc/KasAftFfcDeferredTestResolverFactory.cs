@@ -1,42 +1,38 @@
 using System;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
+using NIST.CVP.Crypto.Common.KAS.Builders;
 using NIST.CVP.Crypto.Common.KAS.Enums;
-using NIST.CVP.Crypto.DSA.FFC;
-using NIST.CVP.Crypto.KAS.Builders;
-using NIST.CVP.Crypto.KAS.Builders.Ffc;
-using NIST.CVP.Crypto.KAS.KC;
-using NIST.CVP.Crypto.KAS.KDF;
-using NIST.CVP.Crypto.KAS.NoKC;
-using NIST.CVP.Crypto.KES;
-using NIST.CVP.Crypto.SHAWrapper;
-using NIST.CVP.Math;
+using NIST.CVP.Crypto.Common.KAS.Schema;
 using NIST.CVP.Math.Entropy;
 
 namespace NIST.CVP.Orleans.Grains.Kas.Ffc
 {
     public class KasAftFfcDeferredTestResolverFactory : IKasAftDeferredTestResolverFactory<KasAftDeferredParametersFfc, KasAftDeferredResult>
     {
-        private readonly SchemeBuilderFfc _schemeBuilder;
-        private readonly KasBuilderFfc _kasBuilder;
-        private readonly MacParametersBuilder _macParametersBuilder = new MacParametersBuilder();
-        private readonly EntropyProviderFactory _entropyProviderFactory = new EntropyProviderFactory();
+        private readonly IKasBuilder<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>,
+            FfcDomainParameters, FfcKeyPair
+        > _kasBuilder;
+        private readonly ISchemeBuilder<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>,
+            FfcDomainParameters, FfcKeyPair
+        > _schemeBuilder;
+        private readonly IMacParametersBuilder _macParametersBuilder;
+        private readonly IEntropyProviderFactory _entropyProviderFactory;
 
-        public KasAftFfcDeferredTestResolverFactory()
+        public KasAftFfcDeferredTestResolverFactory(
+            IKasBuilder<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair
+            > kasBuilder,
+            ISchemeBuilder<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair
+            > schemeBuilder,
+            IMacParametersBuilder macParametersBuilder,
+            IEntropyProviderFactory entropyProviderFactory
+        )
         {
-            var shaFactory = new ShaFactory();
-            var entropyProvider = new EntropyProvider(new Random800_90());
-            _schemeBuilder = new SchemeBuilderFfc(
-                new DsaFfcFactory(shaFactory),
-                new KdfFactory(shaFactory),
-                new KeyConfirmationFactory(),
-                new NoKeyConfirmationFactory(),
-                new OtherInfoFactory(new EntropyProvider(new Random800_90())),
-                entropyProvider,
-                new DiffieHellmanFfc(),
-                new MqvFfc()
-            );
-            _kasBuilder = new KasBuilderFfc(_schemeBuilder);
+            _kasBuilder = kasBuilder;
+            _schemeBuilder = schemeBuilder;
+            _macParametersBuilder = macParametersBuilder;
+            _entropyProviderFactory = entropyProviderFactory;
         }
 
         public IKasAftDeferredTestResolver<KasAftDeferredParametersFfc, KasAftDeferredResult> GetInstance(KasMode kasMode)

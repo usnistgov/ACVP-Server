@@ -7,7 +7,7 @@ using NIST.CVP.Crypto.Common.KAS.Builders;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Crypto.Common.KAS.Helpers;
 using NIST.CVP.Crypto.Common.KAS.Schema;
-using NIST.CVP.Crypto.DSA.ECC;
+using NIST.CVP.Math.Entropy;
 using NIST.CVP.Orleans.Grains.Kas.Ecc.Helpers;
 
 namespace NIST.CVP.Orleans.Grains.Kas.Ecc
@@ -16,15 +16,19 @@ namespace NIST.CVP.Orleans.Grains.Kas.Ecc
         KasAftParametersEcc, KasAftResultEcc,
         KasDsaAlgoAttributesEcc, EccDomainParameters, EccKeyPair, EccScheme>
     {
-        protected readonly EccCurveFactory _curveFactory;
+        private readonly IEccCurveFactory _curveFactory;
 
         protected KasAftEccTestGeneratorBase(
             IKasBuilder<KasDsaAlgoAttributesEcc, OtherPartySharedInformation<EccDomainParameters, EccKeyPair>, EccDomainParameters, EccKeyPair
             > kasBuilder, 
             ISchemeBuilder<KasDsaAlgoAttributesEcc, OtherPartySharedInformation<EccDomainParameters, EccKeyPair>, EccDomainParameters, EccKeyPair
-            > schemeBuilder) : base(kasBuilder, schemeBuilder)
+            > schemeBuilder,
+            IEntropyProviderFactory entropyProviderFactory,
+            IMacParametersBuilder macParametersBuilder,
+            IEccCurveFactory curveFactory
+        ) : base(kasBuilder, schemeBuilder, entropyProviderFactory, macParametersBuilder)
         {
-            _curveFactory = new EccCurveFactory();
+            _curveFactory = curveFactory;
         }
 
         protected override int GetDkmLengthRequirement(KasAftParametersEcc param)

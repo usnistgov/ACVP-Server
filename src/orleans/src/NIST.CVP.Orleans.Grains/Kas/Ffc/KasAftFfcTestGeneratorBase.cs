@@ -6,6 +6,7 @@ using NIST.CVP.Crypto.Common.KAS.Builders;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Crypto.Common.KAS.Helpers;
 using NIST.CVP.Crypto.Common.KAS.Schema;
+using NIST.CVP.Math.Entropy;
 using NIST.CVP.Orleans.Grains.Kas.Ffc.Helpers;
 
 namespace NIST.CVP.Orleans.Grains.Kas.Ffc
@@ -18,7 +19,10 @@ namespace NIST.CVP.Orleans.Grains.Kas.Ffc
             IKasBuilder<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair
             > kasBuilder, 
             ISchemeBuilder<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair
-            > schemeBuilder) : base(kasBuilder, schemeBuilder)
+            > schemeBuilder,
+            IEntropyProviderFactory entropyProviderFactory,
+            IMacParametersBuilder macParametersBuilder
+        ) : base(kasBuilder, schemeBuilder, entropyProviderFactory, macParametersBuilder)
         {
         }
 

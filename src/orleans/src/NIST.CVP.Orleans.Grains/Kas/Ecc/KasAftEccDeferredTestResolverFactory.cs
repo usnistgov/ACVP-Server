@@ -1,44 +1,67 @@
 using System;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
+using NIST.CVP.Crypto.Common.KAS.Builders;
 using NIST.CVP.Crypto.Common.KAS.Enums;
-using NIST.CVP.Crypto.DSA.ECC;
-using NIST.CVP.Crypto.KAS.Builders;
-using NIST.CVP.Crypto.KAS.Builders.Ecc;
-using NIST.CVP.Crypto.KAS.KC;
-using NIST.CVP.Crypto.KAS.KDF;
-using NIST.CVP.Crypto.KAS.NoKC;
-using NIST.CVP.Crypto.KES;
-using NIST.CVP.Crypto.SHAWrapper;
-using NIST.CVP.Math;
+using NIST.CVP.Crypto.Common.KAS.Schema;
 using NIST.CVP.Math.Entropy;
 
 namespace NIST.CVP.Orleans.Grains.Kas.Ecc
 {
     public class KasAftEccDeferredTestResolverFactory : IKasAftDeferredTestResolverFactory<KasAftDeferredParametersEcc, KasAftDeferredResult>
     {
-        private readonly SchemeBuilderEcc _schemeBuilder;
-        private readonly KasBuilderEcc _kasBuilder;
-        private readonly EccCurveFactory _curveFactory = new EccCurveFactory();
-        private readonly MacParametersBuilder _macParametersBuilder = new MacParametersBuilder();
-        private readonly EntropyProviderFactory _entropyProviderFactory = new EntropyProviderFactory();
+        private readonly ISchemeBuilder<
+            KasDsaAlgoAttributesEcc, 
+            OtherPartySharedInformation<
+                EccDomainParameters, 
+                EccKeyPair
+            >, 
+            EccDomainParameters, 
+            EccKeyPair
+        > _schemeBuilder;
+        private readonly IKasBuilder<
+            KasDsaAlgoAttributesEcc,
+            OtherPartySharedInformation<
+                EccDomainParameters,
+                EccKeyPair
+            >,
+            EccDomainParameters,
+            EccKeyPair
+        > _kasBuilder;
+        private readonly IEccCurveFactory _curveFactory;
+        private readonly IMacParametersBuilder _macParametersBuilder;
+        private readonly IEntropyProviderFactory _entropyProviderFactory;
 
-        public KasAftEccDeferredTestResolverFactory()
+        public KasAftEccDeferredTestResolverFactory(
+            ISchemeBuilder<
+                KasDsaAlgoAttributesEcc, 
+                OtherPartySharedInformation<
+                    EccDomainParameters, 
+                    EccKeyPair
+                >, 
+                EccDomainParameters, 
+                EccKeyPair
+            > schemeBuilder,
+            IKasBuilder<
+                KasDsaAlgoAttributesEcc,
+                OtherPartySharedInformation<
+                    EccDomainParameters,
+                    EccKeyPair
+                >,
+                EccDomainParameters,
+                EccKeyPair
+            > kasBuilder,
+            IEccCurveFactory curveFactory,
+            IMacParametersBuilder macParametersBuilder,
+            IEntropyProviderFactory entropyProviderFactory
+        )
         {
-            var shaFactory = new ShaFactory();
-            var entropyProvider = new EntropyProvider(new Random800_90());
-            _schemeBuilder = new SchemeBuilderEcc(
-                new DsaEccFactory(shaFactory),
-                new EccCurveFactory(),
-                new KdfFactory(shaFactory),
-                new KeyConfirmationFactory(),
-                new NoKeyConfirmationFactory(),
-                new OtherInfoFactory(new EntropyProvider(new Random800_90())),
-                entropyProvider,
-                new DiffieHellmanEcc(),
-                new MqvEcc()
-            );
-            _kasBuilder = new KasBuilderEcc(_schemeBuilder);
+            _schemeBuilder = schemeBuilder;
+            _kasBuilder = kasBuilder;
+            _curveFactory = curveFactory;
+            _macParametersBuilder = macParametersBuilder;
+            _entropyProviderFactory = entropyProviderFactory;
         }
 
         public IKasAftDeferredTestResolver<KasAftDeferredParametersEcc, KasAftDeferredResult> GetInstance(KasMode kasMode)

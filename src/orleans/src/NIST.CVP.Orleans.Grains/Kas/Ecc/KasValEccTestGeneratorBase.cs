@@ -4,8 +4,11 @@ using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
 using NIST.CVP.Crypto.Common.KAS;
 using NIST.CVP.Crypto.Common.KAS.Builders;
+using NIST.CVP.Crypto.Common.KAS.KC;
+using NIST.CVP.Crypto.Common.KAS.KDF;
+using NIST.CVP.Crypto.Common.KAS.NoKC;
 using NIST.CVP.Crypto.Common.KAS.Schema;
-using NIST.CVP.Crypto.DSA.ECC;
+using NIST.CVP.Math.Entropy;
 using NIST.CVP.Orleans.Grains.Kas.Ecc.Helpers;
 
 namespace NIST.CVP.Orleans.Grains.Kas.Ecc
@@ -14,20 +17,27 @@ namespace NIST.CVP.Orleans.Grains.Kas.Ecc
     KasValParametersEcc, KasValResultEcc,
     KasDsaAlgoAttributesEcc, EccDomainParameters, EccKeyPair>
     {
-        protected readonly EccCurveFactory _curveFactory;
+        private readonly IEccCurveFactory _curveFactory;
 
         protected KasValEccTestGeneratorBase(
             IKasBuilder<KasDsaAlgoAttributesEcc, OtherPartySharedInformation<EccDomainParameters, EccKeyPair>, EccDomainParameters, EccKeyPair
             > kasBuilder, 
             ISchemeBuilder<KasDsaAlgoAttributesEcc, OtherPartySharedInformation<EccDomainParameters, EccKeyPair>, EccDomainParameters, EccKeyPair
-            > schemeBuilder) : base(kasBuilder, schemeBuilder)
+            > schemeBuilder,
+            IEntropyProviderFactory entropyProviderFactory,
+            IMacParametersBuilder macParametersBuilder,
+            IKdfFactory kdfFactory,
+            INoKeyConfirmationFactory noKeyConfirmationFactory,
+            IKeyConfirmationFactory keyConfirmationFactory,
+            IEccCurveFactory curveFactory
+        ) : base(kasBuilder, schemeBuilder, entropyProviderFactory, macParametersBuilder, kdfFactory, noKeyConfirmationFactory, keyConfirmationFactory)
         {
-            _curveFactory = new EccCurveFactory();
+            _curveFactory = curveFactory;
         }
 
         protected override EccDomainParameters GetDomainParameters(KasValParametersEcc param)
         {
-            return new EccDomainParameters(new EccCurveFactory().GetCurve(param.Curve));
+            return new EccDomainParameters(_curveFactory.GetCurve(param.Curve));
         }
 
         protected override void MangleKeys(KasValResultEcc result, KasValTestDisposition intendedDisposition, IKas<KasDsaAlgoAttributesEcc, OtherPartySharedInformation<EccDomainParameters, EccKeyPair>, EccDomainParameters, EccKeyPair> serverKas, IKas<KasDsaAlgoAttributesEcc, OtherPartySharedInformation<EccDomainParameters, EccKeyPair>, EccDomainParameters, EccKeyPair> iutKas)

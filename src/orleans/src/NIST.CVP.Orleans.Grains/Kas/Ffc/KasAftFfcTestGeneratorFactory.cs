@@ -1,39 +1,40 @@
 ﻿using System;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
+using NIST.CVP.Crypto.Common.KAS.Builders;
 using NIST.CVP.Crypto.Common.KAS.Enums;
-using NIST.CVP.Crypto.DSA.FFC;
-using NIST.CVP.Crypto.KAS.Builders.Ffc;
-using NIST.CVP.Crypto.KAS.KC;
-using NIST.CVP.Crypto.KAS.KDF;
-using NIST.CVP.Crypto.KAS.NoKC;
-using NIST.CVP.Crypto.KES;
-using NIST.CVP.Crypto.SHAWrapper;
-using NIST.CVP.Math;
+using NIST.CVP.Crypto.Common.KAS.Schema;
 using NIST.CVP.Math.Entropy;
 
 namespace NIST.CVP.Orleans.Grains.Kas.Ffc
 {
     public class KasAftFfcTestGeneratorFactory : IKasAftTestGeneratorFactory<KasAftParametersFfc, KasAftResultFfc>
     {
-        private readonly SchemeBuilderFfc _schemeBuilder;
-        private readonly KasBuilderFfc _kasBuilder;
+        private readonly IKasBuilder<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>,
+            FfcDomainParameters, FfcKeyPair
+        > _kasBuilder;
+        private readonly ISchemeBuilder<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>,
+            FfcDomainParameters, FfcKeyPair
+        > _schemeBuilder;
+        private readonly IEntropyProviderFactory _entropyProviderFactory;
+        private readonly IMacParametersBuilder _macParametersBuilder;
 
-        public KasAftFfcTestGeneratorFactory()
+        public KasAftFfcTestGeneratorFactory(
+            IKasBuilder<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>,
+                FfcDomainParameters, FfcKeyPair
+            > kasBuilder,
+            ISchemeBuilder<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>,
+                FfcDomainParameters, FfcKeyPair
+            > schemeBuilder,
+            IEntropyProviderFactory entropyProviderFactory,
+            IMacParametersBuilder macParametersBuilder
+        )
         {
-            var shaFactory = new ShaFactory();
-            var entropyProvider = new EntropyProvider(new Random800_90());
-            _schemeBuilder = new SchemeBuilderFfc(
-                new DsaFfcFactory(shaFactory),
-                new KdfFactory(shaFactory),
-                new KeyConfirmationFactory(),
-                new NoKeyConfirmationFactory(),
-                new OtherInfoFactory(new EntropyProvider(new Random800_90())),
-                entropyProvider,
-                new DiffieHellmanFfc(),
-                new MqvFfc()
-            );
-            _kasBuilder = new KasBuilderFfc(_schemeBuilder);
+            _kasBuilder = kasBuilder;
+            _schemeBuilder = schemeBuilder;
+            _entropyProviderFactory = entropyProviderFactory;
+            _macParametersBuilder = macParametersBuilder;
         }
 
         public IKasAftTestGenerator<KasAftParametersFfc, KasAftResultFfc> GetInstance(KasMode kasMode)
@@ -41,11 +42,11 @@ namespace NIST.CVP.Orleans.Grains.Kas.Ffc
             switch (kasMode)
             {
                 case KasMode.NoKdfNoKc:
-                    return new KasAftFfcTestGeneratorNoKdfNoKc(_kasBuilder, _schemeBuilder);
+                    return new KasAftFfcTestGeneratorNoKdfNoKc(_kasBuilder, _schemeBuilder, _entropyProviderFactory, _macParametersBuilder);
                 case KasMode.KdfNoKc:
-                    return new KasAftFfcTestGeneratorKdfNoKc(_kasBuilder, _schemeBuilder);
+                    return new KasAftFfcTestGeneratorKdfNoKc(_kasBuilder, _schemeBuilder, _entropyProviderFactory, _macParametersBuilder);
                 case KasMode.KdfKc:
-                    return new KasAftFfcTestGeneratorKdfKc(_kasBuilder, _schemeBuilder);
+                    return new KasAftFfcTestGeneratorKdfKc(_kasBuilder, _schemeBuilder, _entropyProviderFactory, _macParametersBuilder);
                 default:
                     throw new ArgumentException(nameof(kasMode));
             }

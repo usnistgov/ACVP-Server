@@ -7,6 +7,7 @@ using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Crypto.Common.KAS.Helpers;
 using NIST.CVP.Crypto.Common.KAS.Schema;
 using NIST.CVP.Math;
+using NIST.CVP.Math.Entropy;
 
 namespace NIST.CVP.Orleans.Grains.Kas.Ecc
 {
@@ -16,19 +17,23 @@ namespace NIST.CVP.Orleans.Grains.Kas.Ecc
             IKasBuilder<KasDsaAlgoAttributesEcc, OtherPartySharedInformation<EccDomainParameters, EccKeyPair>, EccDomainParameters, EccKeyPair
             > kasBuilder, 
             ISchemeBuilder<KasDsaAlgoAttributesEcc, OtherPartySharedInformation<EccDomainParameters, EccKeyPair>, EccDomainParameters, EccKeyPair
-            > schemeBuilder) : base(kasBuilder, schemeBuilder)
+            > schemeBuilder,
+            IEntropyProviderFactory entropyProviderFactory,
+            IMacParametersBuilder macParametersBuilder,
+            IEccCurveFactory curveFactory
+        ) : base(kasBuilder, schemeBuilder, entropyProviderFactory, macParametersBuilder, curveFactory)
         {
         }
 
         protected override IKas<KasDsaAlgoAttributesEcc, OtherPartySharedInformation<EccDomainParameters, EccKeyPair>, EccDomainParameters, EccKeyPair> GetKasInstance(SchemeKeyNonceGenRequirement<EccScheme> partyKeyNonceRequirements, KeyAgreementRole partyRole, KeyConfirmationRole partyKcRole, MacParameters macParameters, KasAftParametersEcc param, KasAftResultEcc result, BitString partyId)
         {
-            return _kasBuilder
+            return KasBuilder
                 .WithAssurances(KasAssurance.None)
                 .WithKasDsaAlgoAttributes(new KasDsaAlgoAttributesEcc(
                     param.EccScheme, param.EccParameterSet, param.Curve
                 ))
                 .WithSchemeBuilder(
-                    _schemeBuilder
+                    SchemeBuilder
                         .WithHashFunction(param.HashFunction)
                 )
                 .WithPartyId(partyId)

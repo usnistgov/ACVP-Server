@@ -10,11 +10,6 @@ using NIST.CVP.Crypto.Common.KAS.KC;
 using NIST.CVP.Crypto.Common.KAS.KDF;
 using NIST.CVP.Crypto.Common.KAS.NoKC;
 using NIST.CVP.Crypto.Common.KAS.Schema;
-using NIST.CVP.Crypto.KAS.Builders;
-using NIST.CVP.Crypto.KAS.KC;
-using NIST.CVP.Crypto.KAS.KDF;
-using NIST.CVP.Crypto.KAS.NoKC;
-using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
 
@@ -31,22 +26,34 @@ namespace NIST.CVP.Orleans.Grains.Kas
         where TKeyPair : IDsaKeyPair
     {
         protected readonly IKasBuilder<TKasDsaAlgoAttributes, OtherPartySharedInformation<TDomainParameters, TKeyPair>, TDomainParameters, TKeyPair 
-        > _kasBuilder;
+        > KasBuilder;
         protected readonly ISchemeBuilder<TKasDsaAlgoAttributes, OtherPartySharedInformation<TDomainParameters, TKeyPair>, TDomainParameters, TKeyPair 
-        > _schemeBuilder;
-        protected readonly EntropyProviderFactory _entropyProviderFactory;
-        protected readonly MacParametersBuilder _macParametersBuilder;
+        > SchemeBuilder;
+        private readonly IEntropyProviderFactory _entropyProviderFactory;
+        private readonly IMacParametersBuilder _macParametersBuilder;
+        private readonly IKdfFactory _kdfFactory;
+        private readonly INoKeyConfirmationFactory _noKeyConfirmationFactory;
+        private readonly IKeyConfirmationFactory _keyConfirmationFactory;
 
         protected KasValTestGeneratorBase(
             IKasBuilder<TKasDsaAlgoAttributes, OtherPartySharedInformation<TDomainParameters, TKeyPair>, TDomainParameters, TKeyPair 
             > kasBuilder, 
             ISchemeBuilder<TKasDsaAlgoAttributes, OtherPartySharedInformation<TDomainParameters, TKeyPair>, TDomainParameters, TKeyPair 
-            > schemeBuilder)
+            > schemeBuilder,
+            IEntropyProviderFactory entropyProviderFactory,
+            IMacParametersBuilder macParametersBuilder,
+            IKdfFactory kdfFactory,
+            INoKeyConfirmationFactory noKeyConfirmationFactory,
+            IKeyConfirmationFactory keyConfirmationFactory
+        )
         {
-            _kasBuilder = kasBuilder;
-            _schemeBuilder = schemeBuilder;
-            _entropyProviderFactory = new EntropyProviderFactory();
-            _macParametersBuilder = new MacParametersBuilder();
+            KasBuilder = kasBuilder;
+            SchemeBuilder = schemeBuilder;
+            _entropyProviderFactory = entropyProviderFactory;
+            _macParametersBuilder = macParametersBuilder;
+            _kdfFactory = kdfFactory;
+            _noKeyConfirmationFactory = noKeyConfirmationFactory;
+            _keyConfirmationFactory = keyConfirmationFactory;
         }
 
         public TKasValResult GetTest(TKasValParameters param)
@@ -56,10 +63,11 @@ namespace NIST.CVP.Orleans.Grains.Kas
                 TestPassed = true
             };
 
-            var macParameters = new MacParametersBuilder()
+            var macParameters = _macParametersBuilder
                 .WithKeyAgreementMacType(param.MacType)
                 .WithMacLength(param.MacLen)
-                .WithNonce(new EntropyProvider(new Random800_90()).GetEntropy(param.AesCcmNonceLen))
+                .WithNonce(_entropyProviderFactory.GetEntropyProvider(EntropyProviderTypes.Random)
+                    .GetEntropy(param.AesCcmNonceLen))
                 .Build();
 
             if (param.AesCcmNonceLen != 0)
@@ -71,8 +79,7 @@ namespace NIST.CVP.Orleans.Grains.Kas
             var serverKeyConfirmationRole = param.ServerKeyConfirmationRole;
 
             // Handles Failures due to changed z, dkm, macData
-            var shaFactory = new ShaFactory();
-            IKdfFactory kdfFactory = new KdfFactory(shaFactory);
+            IKdfFactory kdfFactory = _kdfFactory;
             if (param.KasValTestDisposition == KasValTestDisposition.FailChangedZ)
             {
                 result.TestPassed = false;
@@ -83,13 +90,13 @@ namespace NIST.CVP.Orleans.Grains.Kas
                 result.TestPassed = false;
                 kdfFactory = new FakeKdfFactory_BadDkm(kdfFactory);
             }
-            INoKeyConfirmationFactory noKeyConfirmationFactory = new NoKeyConfirmationFactory();
+            INoKeyConfirmationFactory noKeyConfirmationFactory = _noKeyConfirmationFactory;
             if (param.KasValTestDisposition == KasValTestDisposition.FailChangedMacData)
             {
                 result.TestPassed = false;
                 noKeyConfirmationFactory = new FakeNoKeyConfirmationFactory_BadMacData(noKeyConfirmationFactory);
             }
-            IKeyConfirmationFactory keyConfirmationFactory = new KeyConfirmationFactory();
+            IKeyConfirmationFactory keyConfirmationFactory = _keyConfirmationFactory;
             if (param.KasValTestDisposition == KasValTestDisposition.FailChangedMacData)
             {
                 result.TestPassed = false;

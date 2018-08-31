@@ -102,6 +102,7 @@ namespace NIST.CVP.Orleans.Grains
             svc.AddSingleton(new LimitedConcurrencyLevelTaskScheduler(1));
             svc.AddSingleton<IEntropyProviderFactory, EntropyProviderFactory>();
             svc.AddTransient<IRandom800_90, Random800_90>();
+            svc.AddTransient<IEntropyProvider, EntropyProvider>();
 
             #region Orleans Registrations
             svc.AddSingleton<IAeadRunner, AeadRunner>();
@@ -144,17 +145,18 @@ namespace NIST.CVP.Orleans.Grains
             svc.AddSingleton<INoKeyConfirmationFactory, NoKeyConfirmationFactory>();
             svc.AddSingleton<IKdfFactory, KdfFactory>();
 
+            svc.AddSingleton<IOtherInfoFactory, OtherInfoFactory>();
+
             svc.AddSingleton<IDiffieHellman<FfcDomainParameters, FfcKeyPair>, DiffieHellmanFfc>();
             svc.AddSingleton<IMqv<FfcDomainParameters, FfcKeyPair>, MqvFfc>();
-            svc.AddSingleton<SchemeBuilderBase<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair>, SchemeBuilderFfc>();
-            svc.AddSingleton<KasBuilderBase<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair>, KasBuilderFfc>();
-            svc.AddSingleton<IOtherInfoFactory, OtherInfoFactory>();
+            svc.AddSingleton<ISchemeBuilder<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair>, SchemeBuilderFfc>();
+            svc.AddSingleton<IKasBuilder<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair>, KasBuilderFfc>();
             svc.AddSingleton<IDsaFfcFactory, DsaFfcFactory>();
 
             svc.AddSingleton<IDiffieHellman<EccDomainParameters, EccKeyPair>, DiffieHellmanEcc>();
             svc.AddSingleton<IMqv<EccDomainParameters, EccKeyPair>, MqvEcc>();
-            svc.AddSingleton<SchemeBuilderBase<KasDsaAlgoAttributesEcc, OtherPartySharedInformation<EccDomainParameters, EccKeyPair>, EccDomainParameters, EccKeyPair>, SchemeBuilderEcc>();
-            svc.AddSingleton<KasBuilderBase<KasDsaAlgoAttributesEcc, OtherPartySharedInformation<EccDomainParameters, EccKeyPair>, EccDomainParameters, EccKeyPair>, KasBuilderEcc>();
+            svc.AddSingleton<ISchemeBuilder<KasDsaAlgoAttributesEcc, OtherPartySharedInformation<EccDomainParameters, EccKeyPair>, EccDomainParameters, EccKeyPair>, SchemeBuilderEcc>();
+            svc.AddSingleton<IKasBuilder<KasDsaAlgoAttributesEcc, OtherPartySharedInformation<EccDomainParameters, EccKeyPair>, EccDomainParameters, EccKeyPair>, KasBuilderEcc>();
             svc.AddSingleton<IDsaEccFactory, DsaEccFactory>();
             svc.AddSingleton<IEccCurveFactory, EccCurveFactory>();
 

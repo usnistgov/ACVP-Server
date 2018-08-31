@@ -14,7 +14,7 @@ namespace NIST.CVP.Orleans.Grains.Kas.Ecc
         KasAftDeferredParametersEcc, KasAftDeferredResult,
         KasDsaAlgoAttributesEcc, EccDomainParameters, EccKeyPair, EccScheme>
     {
-        protected readonly IEccCurveFactory _curveFactory;
+        protected readonly IEccCurveFactory CurveFactory;
 
         protected KasAftEccDeferredTestResolverBase(
             IEccCurveFactory curveFactory,
@@ -26,12 +26,12 @@ namespace NIST.CVP.Orleans.Grains.Kas.Ecc
             IEntropyProviderFactory entropyProviderFactory
         ) : base(kasBuilder, macParametersBuilder, schemeBuilder, entropyProviderFactory)
         {
-            _curveFactory = curveFactory;
+            CurveFactory = curveFactory;
         }
 
         protected override EccDomainParameters GetDomainParameters(KasAftDeferredParametersEcc param)
         {
-            return new EccDomainParameters(_curveFactory.GetCurve(param.Curve));
+            return new EccDomainParameters(CurveFactory.GetCurve(param.Curve));
         }
 
         protected override OtherPartySharedInformation<EccDomainParameters, EccKeyPair> GetIutSharedInformation(KasAftDeferredParametersEcc param, EccDomainParameters domainParameters)

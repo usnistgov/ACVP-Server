@@ -7,7 +7,6 @@ using NIST.CVP.Crypto.Common.KAS.Builders;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Crypto.Common.KAS.Helpers;
 using NIST.CVP.Crypto.Common.KAS.Schema;
-using NIST.CVP.Crypto.KAS.Builders;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
 
@@ -26,22 +25,25 @@ namespace NIST.CVP.Orleans.Grains.Kas
     {
         
         protected readonly IKasBuilder<TKasDsaAlgoAttributes, OtherPartySharedInformation<TDomainParameters, TKeyPair>, TDomainParameters, TKeyPair 
-        > _kasBuilder;
+        > KasBuilder;
         protected readonly ISchemeBuilder<TKasDsaAlgoAttributes, OtherPartySharedInformation<TDomainParameters, TKeyPair>, TDomainParameters, TKeyPair 
-        > _schemeBuilder;
-        protected readonly EntropyProviderFactory _entropyProviderFactory;
-        protected readonly MacParametersBuilder _macParametersBuilder;
+        > SchemeBuilder;
+        private readonly IEntropyProviderFactory _entropyProviderFactory;
+        private readonly IMacParametersBuilder _macParametersBuilder;
 
         protected KasAftTestGeneratorBase(
             IKasBuilder<TKasDsaAlgoAttributes, OtherPartySharedInformation<TDomainParameters, TKeyPair>, TDomainParameters, TKeyPair 
         > kasBuilder, 
             ISchemeBuilder<TKasDsaAlgoAttributes, OtherPartySharedInformation<TDomainParameters, TKeyPair>, TDomainParameters, TKeyPair 
-        > schemeBuilder)
+        > schemeBuilder,
+            IEntropyProviderFactory entropyProviderFactory,
+            IMacParametersBuilder macParametersBuilder
+        )
         {
-            _kasBuilder = kasBuilder;
-            _schemeBuilder = schemeBuilder;
-            _entropyProviderFactory = new EntropyProviderFactory();
-            _macParametersBuilder = new MacParametersBuilder();
+            KasBuilder = kasBuilder;
+            SchemeBuilder = schemeBuilder;
+            _entropyProviderFactory = entropyProviderFactory;
+            _macParametersBuilder = macParametersBuilder;
         }
 
         public TKasAftResult GetTest(TKasAftParameters param)
@@ -69,7 +71,7 @@ namespace NIST.CVP.Orleans.Grains.Kas
                 testResult.DkmNonceServer = _entropyProviderFactory.GetEntropyProvider(EntropyProviderTypes.Random)
                     .GetEntropy(dkmNonceLength);
                 entropyProvider.AddEntropy(testResult.DkmNonceServer.GetDeepCopy());
-                _schemeBuilder.WithEntropyProvider(entropyProvider);
+                SchemeBuilder.WithEntropyProvider(entropyProvider);
             }
 
             // Set up entropy injection when server generates an ephemeral nonce
@@ -80,7 +82,7 @@ namespace NIST.CVP.Orleans.Grains.Kas
                 testResult.EphemeralNonceServer = _entropyProviderFactory.GetEntropyProvider(EntropyProviderTypes.Random)
                     .GetEntropy(ephemeralNonceLength);
                 entropyProvider.AddEntropy(testResult.EphemeralNonceServer.GetDeepCopy());
-                _schemeBuilder.WithEntropyProvider(entropyProvider);
+                SchemeBuilder.WithEntropyProvider(entropyProvider);
             }
 
             // a nonce is used for KdfNoKc, set up entropy injection
@@ -90,7 +92,7 @@ namespace NIST.CVP.Orleans.Grains.Kas
                     .GetEntropy(128);
 
                 entropyProvider.AddEntropy(testResult.NonceNoKc.GetDeepCopy());
-                _schemeBuilder.WithEntropyProvider(entropyProvider);
+                SchemeBuilder.WithEntropyProvider(entropyProvider);
             }
 
             BitString aesCcmNonce = null;
@@ -131,7 +133,7 @@ namespace NIST.CVP.Orleans.Grains.Kas
             {
                 testResult.Deferred = false;
 
-                _schemeBuilder.WithEntropyProvider(
+                SchemeBuilder.WithEntropyProvider(
                     _entropyProviderFactory.GetEntropyProvider(EntropyProviderTypes.Random)
                 );
 
@@ -152,7 +154,7 @@ namespace NIST.CVP.Orleans.Grains.Kas
                         .GetEntropy(dkmNonceLength);
 
                     entropyProviderSample.AddEntropy(testResult.DkmNonceIut.GetDeepCopy());
-                    _schemeBuilder.WithEntropyProvider(entropyProviderSample);
+                    SchemeBuilder.WithEntropyProvider(entropyProviderSample);
                 }
 
                 if (iutKeyNonceRequirements.GeneratesEphemeralNonce)
@@ -163,13 +165,13 @@ namespace NIST.CVP.Orleans.Grains.Kas
                         .GetEntropy(ephemeralNonceLength);
 
                     entropyProviderSample.AddEntropy(testResult.EphemeralNonceIut.GetDeepCopy());
-                    _schemeBuilder.WithEntropyProvider(entropyProviderSample);
+                    SchemeBuilder.WithEntropyProvider(entropyProviderSample);
                 }
 
                 if (param.KasMode == KasMode.KdfNoKc)
                 {
                     entropyProviderSample.AddEntropy(testResult.NonceNoKc.GetDeepCopy());
-                    _schemeBuilder.WithEntropyProvider(entropyProviderSample);
+                    SchemeBuilder.WithEntropyProvider(entropyProviderSample);
                 }
 
                 if (param.AesCcmNonceLen != 0)

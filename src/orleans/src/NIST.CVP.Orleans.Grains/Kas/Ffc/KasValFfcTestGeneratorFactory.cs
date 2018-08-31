@@ -1,39 +1,51 @@
 ﻿using System;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
+using NIST.CVP.Crypto.Common.KAS.Builders;
 using NIST.CVP.Crypto.Common.KAS.Enums;
-using NIST.CVP.Crypto.DSA.FFC;
-using NIST.CVP.Crypto.KAS.Builders.Ffc;
-using NIST.CVP.Crypto.KAS.KC;
-using NIST.CVP.Crypto.KAS.KDF;
-using NIST.CVP.Crypto.KAS.NoKC;
-using NIST.CVP.Crypto.KES;
-using NIST.CVP.Crypto.SHAWrapper;
-using NIST.CVP.Math;
+using NIST.CVP.Crypto.Common.KAS.KC;
+using NIST.CVP.Crypto.Common.KAS.KDF;
+using NIST.CVP.Crypto.Common.KAS.NoKC;
+using NIST.CVP.Crypto.Common.KAS.Schema;
 using NIST.CVP.Math.Entropy;
 
 namespace NIST.CVP.Orleans.Grains.Kas.Ffc
 {
     public class KasValFfcTestGeneratorFactory : IKasValTestGeneratorFactory<KasValParametersFfc, KasValResultFfc>
     {
-        private readonly SchemeBuilderFfc _schemeBuilder;
-        private readonly KasBuilderFfc _kasBuilder;
-
-        public KasValFfcTestGeneratorFactory()
+        private readonly IKasBuilder<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>,
+            FfcDomainParameters, FfcKeyPair
+        > _kasBuilder;
+        private readonly ISchemeBuilder<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>,
+            FfcDomainParameters, FfcKeyPair
+        > _schemeBuilder;
+        private readonly IEntropyProviderFactory _entropyProviderFactory;
+        private readonly IMacParametersBuilder _macParametersBuilder;
+        private readonly IKdfFactory _kdfFactory;
+        private readonly INoKeyConfirmationFactory _noKeyConfirmationFactory;
+        private readonly IKeyConfirmationFactory _keyConfirmationFactory;
+        public KasValFfcTestGeneratorFactory(
+            IKasBuilder<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>,
+            FfcDomainParameters, FfcKeyPair
+            > kasBuilder,
+            ISchemeBuilder<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>,
+                FfcDomainParameters, FfcKeyPair
+            > schemeBuilder,
+            IEntropyProviderFactory entropyProviderFactory,
+            IMacParametersBuilder macParametersBuilder,
+            IKdfFactory kdfFactory,
+            INoKeyConfirmationFactory noKeyConfirmationFactory,
+            IKeyConfirmationFactory keyConfirmationFactory
+        )
         {
-            var shaFactory = new ShaFactory();
-            var entropyProvider = new EntropyProvider(new Random800_90());
-            _schemeBuilder = new SchemeBuilderFfc(
-                new DsaFfcFactory(shaFactory),
-                new KdfFactory(shaFactory),
-                new KeyConfirmationFactory(),
-                new NoKeyConfirmationFactory(),
-                new OtherInfoFactory(new EntropyProvider(new Random800_90())),
-                entropyProvider,
-                new DiffieHellmanFfc(),
-                new MqvFfc()
-            );
-            _kasBuilder = new KasBuilderFfc(_schemeBuilder);
+            _kasBuilder = kasBuilder;
+            _schemeBuilder = schemeBuilder;
+            _entropyProviderFactory = entropyProviderFactory;
+            _macParametersBuilder = macParametersBuilder;
+            _kdfFactory = kdfFactory;
+            _noKeyConfirmationFactory = noKeyConfirmationFactory;
+            _keyConfirmationFactory = keyConfirmationFactory;
         }
 
         public IKasValTestGenerator<KasValParametersFfc, KasValResultFfc> GetInstance(KasMode kasMode)
@@ -41,11 +53,11 @@ namespace NIST.CVP.Orleans.Grains.Kas.Ffc
             switch (kasMode)
             {
                 case KasMode.NoKdfNoKc:
-                    return new KasValFfcTestGeneratorNoKdfNoKc(_kasBuilder, _schemeBuilder);
+                    return new KasValFfcTestGeneratorNoKdfNoKc(_kasBuilder, _schemeBuilder, _entropyProviderFactory, _macParametersBuilder, _kdfFactory, _noKeyConfirmationFactory, _keyConfirmationFactory);
                 case KasMode.KdfNoKc:
-                    return new KasValFfcTestGeneratorKdfNoKc(_kasBuilder, _schemeBuilder);
+                    return new KasValFfcTestGeneratorKdfNoKc(_kasBuilder, _schemeBuilder, _entropyProviderFactory, _macParametersBuilder, _kdfFactory, _noKeyConfirmationFactory, _keyConfirmationFactory);
                 case KasMode.KdfKc:
-                    return new KasValFfcTestGeneratorKdfKc(_kasBuilder, _schemeBuilder);
+                    return new KasValFfcTestGeneratorKdfKc(_kasBuilder, _schemeBuilder, _entropyProviderFactory, _macParametersBuilder, _kdfFactory, _noKeyConfirmationFactory, _keyConfirmationFactory);
                 default:
                     throw new ArgumentException(nameof(kasMode));
             }
