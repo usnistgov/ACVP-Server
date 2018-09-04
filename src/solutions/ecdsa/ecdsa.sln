@@ -45,7 +45,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.DSA.ECC
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.DSA.ECC.SigVer.Tests", "..\..\ecdsa\test\NIST.CVP.Generation.DSA.ECC.SigVer.Tests\NIST.CVP.Generation.DSA.ECC.SigVer.Tests.csproj", "{AE6B5685-F419-48AF-9FD2-EF97AC457901}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.DSA.ECC.SigVer.IntegrationTests", "..\..\ecdsa\test\NIST.CVP.Generation.DSA.ECC.SigVer.IntegrationTests.cs\NIST.CVP.Generation.DSA.ECC.SigVer.IntegrationTests.csproj", "{BC447FF2-2D89-4F95-A79E-30C9EA563A66}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.DSA.ECC.SigVer.IntegrationTests", "..\..\ecdsa\test\NIST.CVP.Generation.DSA.ECC.SigVer.IntegrationTests\NIST.CVP.Generation.DSA.ECC.SigVer.IntegrationTests.csproj", "{BC447FF2-2D89-4F95-A79E-30C9EA563A66}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.Common", "..\..\crypto\src\NIST.CVP.Crypto.Common\NIST.CVP.Crypto.Common.csproj", "{2CE55695-E9FF-4D54-B71A-9190B7B13507}"
 EndProject
