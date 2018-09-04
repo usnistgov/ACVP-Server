@@ -22,212 +22,6 @@ namespace NIST.CVP.Crypto.Oracle
 {
     public partial class Oracle
     {
-        private readonly AnsiX963Factory _ansiFactory = new AnsiX963Factory(new ShaFactory());
-        private readonly IkeV1Factory _ikeV1Factory = new IkeV1Factory();
-        private readonly IkeV2Factory _ikeV2Factory = new IkeV2Factory(new HmacFactory(new ShaFactory()));
-        private readonly SnmpFactory _snmpFactory = new SnmpFactory();
-        private readonly SrtpFactory _srtpFactory = new SrtpFactory();
-        private readonly SshFactory _sshFactory = new SshFactory();
-        private readonly TlsKdfFactory _tlsFactory = new TlsKdfFactory();
-        
-        private AnsiX963KdfResult GetAnsiX963KdfCase(AnsiX963Parameters param)
-        {
-            var ansi = _ansiFactory.GetInstance(param.HashAlg);
-
-            var z = _rand.GetRandomBitString(param.FieldSize);
-            var sharedInfo = _rand.GetRandomBitString(param.SharedInfoLength);
-
-            var result = ansi.DeriveKey(z, sharedInfo, param.KeyDataLength);
-            if (!result.Success)
-            {
-                throw new Exception();
-            }
-
-            return new AnsiX963KdfResult
-            {
-                Z = z,
-                SharedInfo = sharedInfo,
-                KeyOut = result.DerivedKey
-            };
-        }
-
-        private IkeV1KdfResult GetIkeV1KdfCase(IkeV1KdfParameters param)
-        {
-            var ike = _ikeV1Factory.GetIkeV1Instance(param.AuthenticationMethod, param.HashAlg);
-
-            var nInit = _rand.GetRandomBitString(param.NInitLength);
-            var nResp = _rand.GetRandomBitString(param.NRespLength);
-            var ckyInit = _rand.GetRandomBitString(64);
-            var ckyResp = _rand.GetRandomBitString(64);
-            var gxy = _rand.GetRandomBitString(param.GxyLength);
-            var preSharedKey = param.AuthenticationMethod == AuthenticationMethods.Psk ? _rand.GetRandomBitString(param.PreSharedKeyLength) : null;
-
-            var result = ike.GenerateIke(nInit, nResp, gxy, ckyInit, ckyResp, preSharedKey);
-            if (!result.Success)
-            {
-                throw new Exception();
-            }
-
-            return new IkeV1KdfResult
-            {
-                CkyInit = ckyInit,
-                CkyResp = ckyResp,
-                Gxy = gxy,
-                NInit = nInit,
-                NResp = nResp,
-                PreSharedKey = preSharedKey,
-                sKeyId = result.SKeyId,
-                sKeyIdA = result.SKeyIdA,
-                sKeyIdD = result.SKeyIdD,
-                sKeyIdE = result.SKeyIdE
-            };
-        }
-
-        private IkeV2KdfResult GetIkeV2KdfCase(IkeV2KdfParameters param)
-        {
-            var ike = _ikeV2Factory.GetInstance(param.HashAlg);
-
-            var nInit = _rand.GetRandomBitString(param.NInitLength);
-            var nResp = _rand.GetRandomBitString(param.NRespLength);
-            var gir = _rand.GetRandomBitString(param.GirLength);
-            var girNew = _rand.GetRandomBitString(param.GirLength);
-            var spiInit = _rand.GetRandomBitString(64);
-            var spiResp = _rand.GetRandomBitString(64);
-
-            var result = ike.GenerateIke(nInit, nResp, gir, girNew, spiInit, spiResp, param.DerivedKeyingMaterialLength);
-            if (!result.Success)
-            {
-                throw new Exception();
-            }
-
-            return new IkeV2KdfResult
-            {
-                DerivedKeyingMaterial = result.DKM,
-                NResp = nResp,
-                NInit = nInit,
-                DerivedKeyingMaterialChild = result.DKMChildSA,
-                DerivedKeyingMaterialDh = result.DKMChildSADh,
-                Gir = gir,
-                GirNew = girNew,
-                SKeySeed = result.SKeySeed,
-                SKeySeedReKey = result.SKeySeedReKey,
-                SpiInit = spiInit,
-                SpiResp = spiResp
-            };
-        }
-
-        private SnmpKdfResult GetSnmpKdfCase(SnmpKdfParameters param)
-        {
-            var password = _rand.GetRandomAlphaCharacters(param.PasswordLength);
-
-            var result = _snmpFactory.GetInstance().KeyLocalizationFunction(param.EngineId, password);
-            if (!result.Success)
-            {
-                throw new Exception();
-            }
-
-            return new SnmpKdfResult
-            {
-                Password = password,
-                SharedKey = result.SharedKey
-            };
-        }
-
-        private SrtpKdfResult GetSrtpKdfCase(SrtpKdfParameters param)
-        {
-            var key = _rand.GetRandomBitString(param.AesKeyLength);
-            var salt = _rand.GetRandomBitString(112);
-            var index = _rand.GetRandomBitString(48);
-            var srtcpIndex = _rand.GetRandomBitString(32);
-
-            var result = _srtpFactory.GetInstance()
-                .DeriveKey(param.AesKeyLength, key, salt, param.KeyDerivationRate, index, srtcpIndex);
-            if (!result.Success)
-            {
-                throw new Exception();
-            }
-
-            return new SrtpKdfResult
-            {
-                Index = index,
-                MasterKey = key,
-                MasterSalt = salt,
-                SrtcpIndex = srtcpIndex,
-                SrtcpAuthenticationKey = result.SrtcpResult.AuthenticationKey,
-                SrtcpEncryptionKey = result.SrtcpResult.EncryptionKey,
-                SrtcpSaltingKey = result.SrtcpResult.SaltingKey,
-                SrtpAuthenticationKey = result.SrtpResult.AuthenticationKey,
-                SrtpEncryptionKey = result.SrtpResult.EncryptionKey,
-                SrtpSaltingKey = result.SrtpResult.SaltingKey
-            };
-        }
-
-        private SshKdfResult GetSshKdfCase(SshKdfParameters param)
-        {
-            var ssh = _sshFactory.GetSshInstance(param.HashAlg, param.Cipher);
-
-            var k = _rand.GetRandomBitString(2048);
-
-            // If the MSbit is a 1, append "00" to the front
-            if (k.GetMostSignificantBits(1).Equals(BitString.One()))
-            {
-                k = BitString.Zeroes(8).ConcatenateBits(k);
-            }
-
-            // Append the length (32-bit) to the front (in bytes, so 256 or 257 bytes)
-            var fullK = BitString.To32BitString(k.BitLength / 8).ConcatenateBits(k);
-
-            var h = _rand.GetRandomBitString(param.HashAlg.OutputLen);
-            var sessionId = _rand.GetRandomBitString(param.HashAlg.OutputLen);
-
-            var result = ssh.DeriveKey(fullK, h, sessionId);
-            if (!result.Success)
-            {
-                throw new Exception();
-            }
-
-            return new SshKdfResult
-            {
-                H = h,
-                K = fullK,
-                SessionId = sessionId,
-                EncryptionKeyClient = result.ClientToServer.EncryptionKey,
-                EncryptionKeyServer = result.ServerToClient.EncryptionKey,
-                InitialIvClient = result.ClientToServer.InitialIv,
-                InitialIvServer = result.ServerToClient.InitialIv,
-                IntegrityKeyClient = result.ClientToServer.IntegrityKey,
-                IntegrityKeyServer = result.ServerToClient.IntegrityKey
-            };
-        }
-
-        private TlsKdfResult GetTlsKdfCase(TlsKdfParameters param)
-        {
-            var tls = _tlsFactory.GetTlsKdfInstance(param.TlsMode, param.HashAlg);
-
-            var preMasterSecret = _rand.GetRandomBitString(param.PreMasterSecretLength);
-            var clientHelloRandom = _rand.GetRandomBitString(256);
-            var serverHelloRandom = _rand.GetRandomBitString(256);
-            var clientRandom = _rand.GetRandomBitString(256);
-            var serverRandom = _rand.GetRandomBitString(256);
-
-            var result = tls.DeriveKey(preMasterSecret, clientHelloRandom, serverHelloRandom, clientRandom, serverRandom, param.KeyBlockLength);
-            if (!result.Success)
-            {
-                throw new Exception();
-            }
-
-            return new TlsKdfResult
-            {
-                PreMasterSecret = preMasterSecret,
-                ClientHelloRandom = clientHelloRandom,
-                ClientRandom = clientRandom,
-                KeyBlock = result.DerivedKey,
-                MasterSecret = result.MasterSecret,
-                ServerHelloRandom = serverHelloRandom,
-                ServerRandom = serverRandom
-            };
-        }
-
         public async Task<KdfResult> GetDeferredKdfCaseAsync(KdfParameters param)
         {
             var grain = _clusterClient.GetGrain<IOracleObserverKdfDeferredCaseGrain>(
@@ -264,37 +58,121 @@ namespace NIST.CVP.Crypto.Oracle
 
         public async Task<AnsiX963KdfResult> GetAnsiX963KdfCaseAsync(AnsiX963Parameters param)
         {
-            return await _taskFactory.StartNew(() => GetAnsiX963KdfCase(param));
+            var grain = _clusterClient.GetGrain<IOracleObserverAnsiX963KdfCaseGrain>(
+                Guid.NewGuid()
+            );
+
+            var observer = new OracleGrainObserver<AnsiX963KdfResult>();
+            var observerReference = 
+                await _clusterClient.CreateObjectReference<IGrainObserver<AnsiX963KdfResult>>(observer);
+            await grain.Subscribe(observerReference);
+            await grain.BeginWorkAsync(param);
+
+            var result = await ObservableHelpers.ObserveUntilResult(grain, observer, observerReference);
+
+            return result;
         }
 
         public async Task<IkeV1KdfResult> GetIkeV1KdfCaseAsync(IkeV1KdfParameters param)
         {
-            return await _taskFactory.StartNew(() => GetIkeV1KdfCase(param));
+            var grain = _clusterClient.GetGrain<IOracleObserverIkeV1KdfCaseGrain>(
+                Guid.NewGuid()
+            );
+
+            var observer = new OracleGrainObserver<IkeV1KdfResult>();
+            var observerReference = 
+                await _clusterClient.CreateObjectReference<IGrainObserver<IkeV1KdfResult>>(observer);
+            await grain.Subscribe(observerReference);
+            await grain.BeginWorkAsync(param);
+
+            var result = await ObservableHelpers.ObserveUntilResult(grain, observer, observerReference);
+
+            return result;
         }
 
         public async Task<IkeV2KdfResult> GetIkeV2KdfCaseAsync(IkeV2KdfParameters param)
         {
-            return await _taskFactory.StartNew(() => GetIkeV2KdfCase(param));
+            var grain = _clusterClient.GetGrain<IOracleObserverIkeV2KdfCaseGrain>(
+                Guid.NewGuid()
+            );
+
+            var observer = new OracleGrainObserver<IkeV2KdfResult>();
+            var observerReference = 
+                await _clusterClient.CreateObjectReference<IGrainObserver<IkeV2KdfResult>>(observer);
+            await grain.Subscribe(observerReference);
+            await grain.BeginWorkAsync(param);
+
+            var result = await ObservableHelpers.ObserveUntilResult(grain, observer, observerReference);
+
+            return result;
         }
 
         public async Task<SnmpKdfResult> GetSnmpKdfCaseAsync(SnmpKdfParameters param)
         {
-            return await _taskFactory.StartNew(() => GetSnmpKdfCase(param));
+            var grain = _clusterClient.GetGrain<IOracleObserverSnmpKdfCaseGrain>(
+                Guid.NewGuid()
+            );
+
+            var observer = new OracleGrainObserver<SnmpKdfResult>();
+            var observerReference = 
+                await _clusterClient.CreateObjectReference<IGrainObserver<SnmpKdfResult>>(observer);
+            await grain.Subscribe(observerReference);
+            await grain.BeginWorkAsync(param);
+
+            var result = await ObservableHelpers.ObserveUntilResult(grain, observer, observerReference);
+
+            return result;
         }
 
         public async Task<SrtpKdfResult> GetSrtpKdfCaseAsync(SrtpKdfParameters param)
         {
-            return await _taskFactory.StartNew(() => GetSrtpKdfCase(param));
+            var grain = _clusterClient.GetGrain<IOracleObserverSrtpKdfCaseGrain>(
+                Guid.NewGuid()
+            );
+
+            var observer = new OracleGrainObserver<SrtpKdfResult>();
+            var observerReference = 
+                await _clusterClient.CreateObjectReference<IGrainObserver<SrtpKdfResult>>(observer);
+            await grain.Subscribe(observerReference);
+            await grain.BeginWorkAsync(param);
+
+            var result = await ObservableHelpers.ObserveUntilResult(grain, observer, observerReference);
+
+            return result;
         }
 
         public async Task<SshKdfResult> GetSshKdfCaseAsync(SshKdfParameters param)
         {
-            return await _taskFactory.StartNew(() => GetSshKdfCase(param));
+            var grain = _clusterClient.GetGrain<IOracleObserverSshKdfCaseGrain>(
+                Guid.NewGuid()
+            );
+
+            var observer = new OracleGrainObserver<SshKdfResult>();
+            var observerReference = 
+                await _clusterClient.CreateObjectReference<IGrainObserver<SshKdfResult>>(observer);
+            await grain.Subscribe(observerReference);
+            await grain.BeginWorkAsync(param);
+
+            var result = await ObservableHelpers.ObserveUntilResult(grain, observer, observerReference);
+
+            return result;
         }
 
         public async Task<TlsKdfResult> GetTlsKdfCaseAsync(TlsKdfParameters param)
         {
-            return await _taskFactory.StartNew(() => GetTlsKdfCase(param));
+            var grain = _clusterClient.GetGrain<IOracleObserverTlsKdfCaseGrain>(
+                Guid.NewGuid()
+            );
+
+            var observer = new OracleGrainObserver<TlsKdfResult>();
+            var observerReference = 
+                await _clusterClient.CreateObjectReference<IGrainObserver<TlsKdfResult>>(observer);
+            await grain.Subscribe(observerReference);
+            await grain.BeginWorkAsync(param);
+
+            var result = await ObservableHelpers.ObserveUntilResult(grain, observer, observerReference);
+
+            return result;
         }
     }
 }
