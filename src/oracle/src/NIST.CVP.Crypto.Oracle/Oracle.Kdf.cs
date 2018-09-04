@@ -14,12 +14,14 @@ using NIST.CVP.Crypto.TLS;
 using NIST.CVP.Math;
 using System;
 using System.Threading.Tasks;
+using NIST.CVP.Orleans.Grains.Interfaces;
+using NIST.CVP.Orleans.Grains.Interfaces.Helpers;
+using NIST.CVP.Orleans.Grains.Interfaces.Kdf;
 
 namespace NIST.CVP.Crypto.Oracle
 {
     public partial class Oracle
     {
-        private readonly KdfFactory _kdfFactory = new KdfFactory();
         private readonly AnsiX963Factory _ansiFactory = new AnsiX963Factory(new ShaFactory());
         private readonly IkeV1Factory _ikeV1Factory = new IkeV1Factory();
         private readonly IkeV2Factory _ikeV2Factory = new IkeV2Factory(new HmacFactory(new ShaFactory()));
@@ -27,35 +29,7 @@ namespace NIST.CVP.Crypto.Oracle
         private readonly SrtpFactory _srtpFactory = new SrtpFactory();
         private readonly SshFactory _sshFactory = new SshFactory();
         private readonly TlsKdfFactory _tlsFactory = new TlsKdfFactory();
-
-        private KdfResult GetDeferredKdfCase(KdfParameters param)
-        {
-            return new KdfResult
-            {
-                KeyIn = _rand.GetRandomBitString(128),
-                Iv = _rand.GetRandomBitString(param.ZeroLengthIv ? 0 : 128),
-                FixedData = _rand.GetRandomBitString(128),
-                BreakLocation = _rand.GetRandomInt(1, 128)
-            };
-        }
-
-        private KdfResult CompleteDeferredKdfCase(KdfParameters param, KdfResult fullParam)
-        {
-            var kdf = _kdfFactory.GetKdfInstance(param.Mode, param.MacMode, param.CounterLocation, param.CounterLength);
-
-            var result = kdf.DeriveKey(fullParam.KeyIn, fullParam.FixedData, param.KeyOutLength, fullParam.Iv, fullParam.BreakLocation);
-
-            if (!result.Success)
-            {
-                throw new Exception();
-            }
-
-            return new KdfResult
-            {
-                KeyOut = result.DerivedKey
-            };
-        }
-
+        
         private AnsiX963KdfResult GetAnsiX963KdfCase(AnsiX963Parameters param)
         {
             var ansi = _ansiFactory.GetInstance(param.HashAlg);
@@ -256,12 +230,36 @@ namespace NIST.CVP.Crypto.Oracle
 
         public async Task<KdfResult> GetDeferredKdfCaseAsync(KdfParameters param)
         {
-            return await _taskFactory.StartNew(() => GetDeferredKdfCase(param));
+            var grain = _clusterClient.GetGrain<IOracleObserverKdfDeferredCaseGrain>(
+                Guid.NewGuid()
+            );
+
+            var observer = new OracleGrainObserver<KdfResult>();
+            var observerReference = 
+                await _clusterClient.CreateObjectReference<IGrainObserver<KdfResult>>(observer);
+            await grain.Subscribe(observerReference);
+            await grain.BeginWorkAsync(param);
+
+            var result = await ObservableHelpers.ObserveUntilResult(grain, observer, observerReference);
+
+            return result;
         }
 
         public async Task<KdfResult> CompleteDeferredKdfCaseAsync(KdfParameters param, KdfResult fullParam)
         {
-            return await _taskFactory.StartNew(() => CompleteDeferredKdfCase(param, fullParam));
+            var grain = _clusterClient.GetGrain<IOracleObserverKdfCompleteDeferredCaseGrain>(
+                Guid.NewGuid()
+            );
+
+            var observer = new OracleGrainObserver<KdfResult>();
+            var observerReference = 
+                await _clusterClient.CreateObjectReference<IGrainObserver<KdfResult>>(observer);
+            await grain.Subscribe(observerReference);
+            await grain.BeginWorkAsync(param, fullParam);
+
+            var result = await ObservableHelpers.ObserveUntilResult(grain, observer, observerReference);
+
+            return result;
         }
 
         public async Task<AnsiX963KdfResult> GetAnsiX963KdfCaseAsync(AnsiX963Parameters param)
