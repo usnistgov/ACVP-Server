@@ -7,7 +7,7 @@
       "tgId": 1,
       "direction": "encrypt",
       "testType": "Permutation",
-      "keyingOption": 3,
+      "keyingOption": 0,
       "tests": [
         {
           "tcId": 1,
@@ -239,7 +239,7 @@
       "tgId": 2,
       "direction": "encrypt",
       "testType": "InversePermutation",
-      "keyingOption": 3,
+      "keyingOption": 0,
       "tests": [
         {
           "tcId": 33,
@@ -695,7 +695,7 @@
       "tgId": 3,
       "direction": "encrypt",
       "testType": "SubstitutionTable",
-      "keyingOption": 3,
+      "keyingOption": 0,
       "tests": [
         {
           "tcId": 97,
@@ -836,7 +836,7 @@
       "tgId": 4,
       "direction": "encrypt",
       "testType": "VariableKey",
-      "keyingOption": 3,
+      "keyingOption": 0,
       "tests": [
         {
           "tcId": 116,
@@ -1236,7 +1236,7 @@
       "tgId": 5,
       "direction": "encrypt",
       "testType": "VariableText",
-      "keyingOption": 3,
+      "keyingOption": 0,
       "tests": [
         {
           "tcId": 172,
@@ -1692,7 +1692,7 @@
       "tgId": 6,
       "direction": "decrypt",
       "testType": "Permutation",
-      "keyingOption": 3,
+      "keyingOption": 0,
       "tests": [
         {
           "tcId": 236,
@@ -1924,7 +1924,7 @@
       "tgId": 7,
       "direction": "decrypt",
       "testType": "InversePermutation",
-      "keyingOption": 3,
+      "keyingOption": 0,
       "tests": [
         {
           "tcId": 268,
@@ -2380,7 +2380,7 @@
       "tgId": 8,
       "direction": "decrypt",
       "testType": "SubstitutionTable",
-      "keyingOption": 3,
+      "keyingOption": 0,
       "tests": [
         {
           "tcId": 332,
@@ -2521,7 +2521,7 @@
       "tgId": 9,
       "direction": "decrypt",
       "testType": "VariableKey",
-      "keyingOption": 3,
+      "keyingOption": 0,
       "tests": [
         {
           "tcId": 351,
@@ -2921,7 +2921,7 @@
       "tgId": 10,
       "direction": "decrypt",
       "testType": "VariableText",
-      "keyingOption": 3,
+      "keyingOption": 0,
       "tests": [
         {
           "tcId": 407,
@@ -3381,73 +3381,73 @@
       "tests": [
         {
           "tcId": 471,
-          "plainText": "DAACCF40A10F8157",
-          "key1": "5292541F620D5486",
-          "key2": "1F9B986749EC2FBF",
-          "key3": "F8D585686B7C3E23"
+          "plainText": "6C34967347A40868",
+          "key1": "795B655D0DA8468F",
+          "key2": "E7B5AD493445304C",
+          "key3": "A4CBC5316AB2245D"
         },
         {
           "tcId": 472,
-          "plainText": "AF54BF9C85701383EEB83474E71329AA",
-          "key1": "CEA2C1A82A5D64B9",
-          "key2": "1038D3B57A51AB0B",
-          "key3": "4A0DD6CBDAFDE0D9"
+          "plainText": "D5FBD775A533F7BA4DCB2C73C1A40868",
+          "key1": "FC52309BBDD513A5",
+          "key2": "1E1B37493445E64C",
+          "key3": "A4CBC5316AB2245D"
         },
         {
           "tcId": 473,
-          "plainText": "017CDD4A769F8E8B92CC2D6AE6E3AD11F875B362A0F862F2",
-          "key1": "D6D626C4A12F2C3E",
-          "key2": "16318073DAE9FE46",
-          "key3": "859E19027557C246"
+          "plainText": "00EEBC05FADE1CF36CBD317C90D52CCFDB89E2D493D522F1",
+          "key1": "4DA14C179BD251E7",
+          "key2": "6CFEFE1F53E69999",
+          "key3": "C0A293421A03F235"
         },
         {
           "tcId": 474,
-          "plainText": "9762B71359ED0C6C8D712CAAE9F9C2C35D68066C09BDF6E6158C5F8636159D60",
-          "key1": "10AD4A9EC4CBF189",
-          "key2": "9223FE20A18380EC",
-          "key3": "20EAB38F6E4658E3"
+          "plainText": "434DEAAAC0B1D5333568918D33AD7A653C77F503C1AD311EF327439F8341892D",
+          "key1": "C98A0122838D4C40",
+          "key2": "0061BF930B26047A",
+          "key3": "5FFFC851B09BF845"
         },
         {
           "tcId": 475,
-          "plainText": "C01B1FEA16C7D9D0E84587B6A6D16BE4544D47723DF66C290FBE76F8355D26932E0232717AC9872B",
-          "key1": "3467C251DA016D89",
-          "key2": "8326194029B96DF2",
-          "key3": "8C98B59EF20E37AB"
+          "plainText": "2B4C84930F1069E333486691C94F0B219B5447DF1339FB9BECFD2C0ED3DCEBF5AFCC39EFF362F3B1",
+          "key1": "5361B1C13F354526",
+          "key2": "982A1DBECB5B11AF",
+          "key3": "76D9F2D81BD81C0E"
         },
         {
           "tcId": 476,
-          "plainText": "0731DA569793A8CD06626A8E453989130F5F148974DCE317A71C60D5C4F7C0E1F29933B1E7D135510924A7AF1E6475E0",
-          "key1": "0D795D610794753B",
-          "key2": "E3C129CDE5B3F2AE",
-          "key3": "1089F2BA1A978A6B"
+          "plainText": "EBEB82A40CFEB0DEAA4167B1CC70A605A9839842CCF148E48CE6B208E1650EAE1759ED1BA4EFA8A28E1E02E9E4D2C69F",
+          "key1": "776FF2F84AD40391",
+          "key2": "C8084BCCDC5D2E4D",
+          "key3": "28419564825CD2A3"
         },
         {
           "tcId": 477,
-          "plainText": "C71292683FD57417184C9817F61ACA6BD4B20ABC7343AD3E870E090794C057281D3B9663D2ECB9525FABBDF0E798D4B13C5084CC2CF7F15D",
-          "key1": "766454F829D3C2D6",
-          "key2": "3D7FAECBCB07BC58",
-          "key3": "7F37B364A125A2DC"
+          "plainText": "0639087F1AD6B9A6DF6E75E25EE6F4638D99A0676BEC834482D3E0973560065D62E7DAB35802BACC47668C7C759F46250A4C5111A1FF46E0",
+          "key1": "3386E3EF35A102CD",
+          "key2": "BC5B17DDBEADBE6C",
+          "key3": "C3CC4DBF907EE3A2"
         },
         {
           "tcId": 478,
-          "plainText": "2180CF96A6C09C0A019F00140904B807CA41BF7AFEA8FCF1F873A3401B6A74D2714B792B50388DD1DF9E09F0062F7294AE103C06E3BD7B9AAC1FCE34927CA80A",
-          "key1": "8F07457A98671907",
-          "key2": "46A2377A43A810C7",
-          "key3": "A734BCC47504D9B5"
+          "plainText": "91D014EDBAADF41BBA3B94886F725D1DD4127A140AFAA9DAAC3E7545C4EBA1824D9C8F5BCA0DE54A3B02B80ADE8E8198E78089F3BEF475202CDFFAA0F8301D72",
+          "key1": "FC12579506770F14",
+          "key2": "69873A50F67CABC2",
+          "key3": "8CEB4A9D0D7029A7"
         },
         {
           "tcId": 479,
-          "plainText": "7E2F8FF1713EE0DA6E9A3A73336BA6C928E67F37612935769D6336D0DA77F2D5300FCBE368BD3DEFEDAC0D872759AE376B9FACEBDC0A134913F8AFAF2ECE867B2261CDE2A31169D4",
-          "key1": "D35D437573496E4C",
-          "key2": "13649E61F21537FE",
-          "key3": "F16EF4D392104C31"
+          "plainText": "8A5D1E00CD424B011293BAC755873F22BF5B51116DEC4FE2AC74D267B4E7DDCC22FBDB8FA62C4FBB6136C03D6C3068D8C5BF83C750A93165EDC42C1CFEAD38D3D027F8BE6004E243",
+          "key1": "8069B01780E09F77",
+          "key2": "159D7F6CE020DE36",
+          "key3": "676C649A32FBB1AC"
         },
         {
           "tcId": 480,
-          "plainText": "D1A44FFCBDA58E60623EC84B0D3F368C13F64FD72AC56F800E1305F3F6319AA169F759EB3A4CCA115908A9C52AA16B1D271EF1F05C1ACE2A90894888B7E8690B04F3ED785D5EAA05E6ABF1F8F0FF0957",
-          "key1": "9BBCDA613D9E9457",
-          "key2": "70B64AE552B0BC4A",
-          "key3": "019BC434F807DA02"
+          "plainText": "E42817CCB71F7A97A3E21845D26F6B48819CC49172FCC6D84D764158C6A0712B8F360D9B94DAD8FB383DA530436081E1172371CD8A3761F1C3ABA68F1BB2D549125BA65350836CF36A4FC9D4ED8A84F4",
+          "key1": "CA26BFDD95E9155B",
+          "key2": "11E59176F68FEB24",
+          "key3": "27FDA71972C0FC41"
         }
       ]
     },
@@ -3459,73 +3459,73 @@
       "tests": [
         {
           "tcId": 481,
-          "cipherText": "3112555F6595CF5C",
-          "key1": "D91CEA19B5AE38D5",
-          "key2": "C280DFE557AB9258",
-          "key3": "163226C154BAB0D6"
+          "cipherText": "37A6CAA9696A130A",
+          "key1": "12F1B84EEC605B8C",
+          "key2": "76A3D4C701257833",
+          "key3": "1B9EA7F080BB56B8"
         },
         {
           "tcId": 482,
-          "cipherText": "342D5A8BF08C798002B8CE92F0F9E192",
-          "key1": "ECB6EFA1C2E9E30D",
-          "key2": "837CE61FB9B52602",
-          "key3": "6452A1942652F4CB"
+          "cipherText": "EAB14165E948189DC181BF22DD2EFD8F",
+          "key1": "B34EF9A49EF0EACC",
+          "key2": "6C7B3A5E8209C118",
+          "key3": "6D49E36BFEC27DFA"
         },
         {
           "tcId": 483,
-          "cipherText": "31963C767F9E84272DB7C63E57DEB4B5B3F68D5BA439B26F",
-          "key1": "34D062A7B394673D",
-          "key2": "DA914F6D7C581352",
-          "key3": "75BA6434F1B049E5"
+          "cipherText": "FAD1BC8290CCA8914B7DE12ED3CC4C5DC646F9CA737BE8D3",
+          "key1": "E4377CECC2BA4959",
+          "key2": "396D52C7641F45BC",
+          "key3": "7E1821CA06E97129"
         },
         {
           "tcId": 484,
-          "cipherText": "B0C0DE75D163D96B11023444C1DE5B263AEED3D8AABB071C33BE52C4228B66B0",
-          "key1": "759D3870B9C7A41C",
-          "key2": "C419152A83837C79",
-          "key3": "838C7AC423B5B0E9"
+          "cipherText": "452B787569CB8017164969AC05A07D52C9BCDD74188C81D1A4F60E44390A6202",
+          "key1": "E9AF9FE473864EDA",
+          "key2": "9BC78B3F5B4583A0",
+          "key3": "A7A4171A19C5258A"
         },
         {
           "tcId": 485,
-          "cipherText": "D137D3B375F9F60C3956AC4DEA1A1AEDFBB6DECEF502B89DBB4B8F609A950B463EBDEDEFEAB77A64",
-          "key1": "7A31DA5B15918AB6",
-          "key2": "49EC6E5B23644FBF",
-          "key3": "26BF6BEF5E733E15"
+          "cipherText": "5EE547AB84521D760EF2F00DBF314656592E8C42C322F318996A5F771E7BB9A5C986B83001BE27B2",
+          "key1": "38A343F9FAD4890F",
+          "key2": "1CFFC3F69DE73C30",
+          "key3": "9EFA120D44C33695"
         },
         {
           "tcId": 486,
-          "cipherText": "5B8305D8A61FADCC69907DC37D9A4136BDFE62D6F7B17349CF60B43577AAF3329C216701A7643181C908D6966A8D5CB5",
-          "key1": "9BF1D3D3D5FDBAC2",
-          "key2": "85AD3DD9A176D53E",
-          "key3": "26E651D94FDC2691"
+          "cipherText": "33D6FB9B458B2DDD32EC0E3CD675A978495B73C840C9C40ED1EEE60C59A86CC7B4BCC687EAAB65F925404321E3B3374A",
+          "key1": "C363FF5BA57C4EA9",
+          "key2": "5CEFB4CB5B63DEAA",
+          "key3": "C6A429A3032A0DDF"
         },
         {
           "tcId": 487,
-          "cipherText": "F458D22233E3B311135D7CB3CF32DCC6426BDDCEE77CEB88F58EC495317300BABB446E5C05819ADCBD941FC1765D55EF43F7B99588AB4062",
-          "key1": "B5D9A4CDBF70A732",
-          "key2": "1FF210252320BCFB",
-          "key3": "01647929DFA1619B"
+          "cipherText": "A0089CF7EE123A975EE2F889393B05D0DDB88F385A8D112D04E5C97FB8FB95ED1235A85BDF7C757FB978E651DE71620A865CFF7A5DD5E249",
+          "key1": "FD9A5F53E383A825",
+          "key2": "31DCFDC7AB50368F",
+          "key3": "E051A36017F324D8"
         },
         {
           "tcId": 488,
-          "cipherText": "BA21F056FB1DBBEE1AAEBC6D33523F4358EE10C01B4239946C4BCCA6E6F190E786B9D893E204E5C46471888E4B07072DFFFCD60FDEEC8793B5D35AE0E11F5FA2",
-          "key1": "3D08753B803E3E2F",
-          "key2": "FEEFADA2D5EF67C7",
-          "key3": "2AAEC74694CDEFFB"
+          "cipherText": "8688C28267327A39B132B18D573222BA7904A2471CBCFAFE2CD8D31F76ADEC09910DF6B744219DB2F589FB6D560E9FBCEF801D5940B06C7C4006A304E570C2AC",
+          "key1": "7FFAF7E7FF646646",
+          "key2": "4A6F7F7BB27FB5A9",
+          "key3": "E295446394CC6544"
         },
         {
           "tcId": 489,
-          "cipherText": "770F65D14C0D045349526B4B44D35E048725450D956D7039879A4809BF3D13856CB26E1E0D9DCC4D4833CE51AA046A1798D35905D277F0E62D736F185A4C8717A3154FAEEBF7D7E1",
-          "key1": "2A198586529EADF7",
-          "key2": "B3A2574654B69BBC",
-          "key3": "615815E57FF767CE"
+          "cipherText": "7E04CFA27FD86F8AFAFD57257B44DA9D00A585AE08011C3755472BCD73B3DF1BA9C2F337DACE21CCCD72BF59AC904951B00A976B28BD36713BAA71A1A43CFCB95703B6C4958AA798",
+          "key1": "82668C367E2AF931",
+          "key2": "98169BFBED9CA357",
+          "key3": "58B5297E1101D13B"
         },
         {
           "tcId": 490,
-          "cipherText": "916E7EF15C05F47144464403C61785191076F9AA373BB50B501F53F896EF19A9740F38476A7F9DC880928AA9273032EAD1DC505CBBA404C9B5E871FACD7504CFF06C33F90256F661D3B54E3B046BF4C1",
-          "key1": "1A206D9BBF0815A7",
-          "key2": "083B9D61E0707CCE",
-          "key3": "CE8F151AF14C0B3E"
+          "cipherText": "71D5DFC4C10DC87B21E298CD906536B262CD83D53A250D8739D284AE2CA948912DCFA692D4039151203CC0E2EA791EF7061C19799A94831867B3C7535EE8B8E1C48346AE5D3DCE7C461E69BD3D753A01",
+          "key1": "027CBCD7FAD3A9B5",
+          "key2": "1C497BCCEDCE82D1",
+          "key3": "A94F82E2D85BFD4F"
         }
       ]
     },
@@ -3537,73 +3537,73 @@
       "tests": [
         {
           "tcId": 491,
-          "cipherText": "64704820C1506F27",
-          "key1": "CED65B4FF21AE013",
-          "key2": "97D94661431331F4",
-          "key3": "CED65B4FF21AE013"
+          "cipherText": "CD4B029BD4633F4C",
+          "key1": "076483429258344F",
+          "key2": "9BAB6BB98DC9D143",
+          "key3": "076483429258344F"
         },
         {
           "tcId": 492,
-          "cipherText": "AC70AD2D8235361D16F5522923B37FAC",
-          "key1": "D3AE32E67940A846",
-          "key2": "8C5EC24C0225ABD3",
-          "key3": "D3AE32E67940A846"
+          "cipherText": "C2F29C7A6D85B338A8751077E5B08866",
+          "key1": "C0CB28CC781B9A26",
+          "key2": "3376DCCE80C2E587",
+          "key3": "C0CB28CC781B9A26"
         },
         {
           "tcId": 493,
-          "cipherText": "D6B1FAC239BA9439985FDC8D16E60EB67F3B4D95A1157DBF",
-          "key1": "F2E65D1AA4AD8F80",
-          "key2": "4F4AD523B570ADBF",
-          "key3": "F2E65D1AA4AD8F80"
+          "cipherText": "3CFC723FE7CA1007753079BD23FD3F7C78860D348D43F2DD",
+          "key1": "4DC0E963A2AA2A5A",
+          "key2": "E463BCB1FBA9C61E",
+          "key3": "4DC0E963A2AA2A5A"
         },
         {
           "tcId": 494,
-          "cipherText": "6900AF194BC7261266DAA0AC316C3ECCC530ADA2866C152EA4C133EF14FFF171",
-          "key1": "7016CE98AEC2434F",
-          "key2": "C1FB4FA49BA16234",
-          "key3": "7016CE98AEC2434F"
+          "cipherText": "367AE2FB5E75D5ED9EFB9E7079C307F56A820AD169651082BEEA511237693702",
+          "key1": "27DCD66648B2C052",
+          "key2": "6739E3C15D0B9868",
+          "key3": "27DCD66648B2C052"
         },
         {
           "tcId": 495,
-          "cipherText": "9606A6CC1B3A25089C844934AF8F6A562FCA5FE5590902147F8B766CC9019817D1C5E66359E3FD11",
-          "key1": "A11C75E3916DFDA1",
-          "key2": "01E69DFBD0C8497C",
-          "key3": "A11C75E3916DFDA1"
+          "cipherText": "04268E3992A84ADD31617B25601D2F95A0C38CDB3D49CA3C63E84A0EF35813DCA356E8786C65DDD0",
+          "key1": "3C3708C08E32965B",
+          "key2": "CB0ED07E065ACDDA",
+          "key3": "3C3708C08E32965B"
         },
         {
           "tcId": 496,
-          "cipherText": "02EF4D5D364DEC5A6D400EA418E887684431A5CE473D64D6389468A5EED672FB6DB26F3C47C06414CD9C1656F802B333",
-          "key1": "B3BCC26BDF7AEC70",
-          "key2": "2A941F9B62BAF783",
-          "key3": "B3BCC26BDF7AEC70"
+          "cipherText": "F1B522AFA4D71A070E16DB0B09BD44A4AD2A55A2C31527B1617DF5CB48D7C41A449DEC7B3ECB818802288789E881D27F",
+          "key1": "83CC2D2A0E2EDE81",
+          "key2": "3A8C62DECA39834E",
+          "key3": "83CC2D2A0E2EDE81"
         },
         {
           "tcId": 497,
-          "cipherText": "FBAD3E489E7B99EFC1B1543A85C6F544A07B3A6EE202DFED04944FECD9F91C799A5738C1C00C3A7588DA5D1AB8946832EDC99A87B4DF7B33",
-          "key1": "6EFE54D9F123CB1F",
-          "key2": "CB0DCEECF8E30D3B",
-          "key3": "6EFE54D9F123CB1F"
+          "cipherText": "A055224D4DF0A76E7B6C889DEEC63A2A19C27F88914DA4BAA39DB4A5EBB5330BC6F6B5DD3E1623718FB1D81DB040C8AE3E39932E369A1D56",
+          "key1": "4923D4891B9F428D",
+          "key2": "98A9D57C986E7588",
+          "key3": "4923D4891B9F428D"
         },
         {
           "tcId": 498,
-          "cipherText": "F59BB5208DD7286DAF3CF13A53091CD4DC0FAE0668FF15E5528AE1C2DCDE407EF7667589AAB1E3F454FF10FF29BD0731AEBBF6D352E9376B245FD271CB7C6CBF",
-          "key1": "3B1AF85B3BCB8FD3",
-          "key2": "E301F1A16B3B4525",
-          "key3": "3B1AF85B3BCB8FD3"
+          "cipherText": "999C53B5DD295D47DC359BD0A433A7AA1FB1B20E50ECFE9F4EF0F39200C2CDA0DD3BC755B46AAD4E98564FC4FE7D39C7832907EFA213FD61F1071F8A78F69D2B",
+          "key1": "2D3C2BB5E2DB4089",
+          "key2": "775E6CCE3D40AFC9",
+          "key3": "2D3C2BB5E2DB4089"
         },
         {
           "tcId": 499,
-          "cipherText": "4C51E64179BF9890B1DEEC3CB33CE110566C39FE076E133880465270E98E4735BE892DDE4BBA90DAD69E52ADCFD6B830F4C47DD91397097A3032FC0A9A6E2E048CBC136C6DD6D5D3",
-          "key1": "464C9710E9436B7C",
-          "key2": "51ECDF1992D5F2D0",
-          "key3": "464C9710E9436B7C"
+          "cipherText": "29C86A3C35F8876F6AEBB1770F631195360ABC705E89FC292A04EE496AE28ED341796F3CA15A5FB681DA90B0D88E53624C9812C934B9E698050C9794AE094AFB9B890662C55E2E49",
+          "key1": "AD41F3303B791F41",
+          "key2": "780733BEB585E4BA",
+          "key3": "AD41F3303B791F41"
         },
         {
           "tcId": 500,
-          "cipherText": "B1B454B0C6CDDDC66DA5617673185E0E24F39B9492A004FC4944B20EC2D84516A64BAB8112299557AA5B54ACDD561FC0FACD4455E6405E5C3667DA5B258721C2513ECC92D858DC684881D5F1FD3A6423",
-          "key1": "A1D697E59B975473",
-          "key2": "DF85DAEF92DFD980",
-          "key3": "A1D697E59B975473"
+          "cipherText": "9660D6EEF64B08136C20B4A91B1DA41D849D198CA680EF747F7E4133B8983DAE031D9D5E18E0FE76F263360214C0EF0E6706CF5BF8F06033BFEECFF5C1FB77A222C9690B2B0C2454F9117C06B4AF634E",
+          "key1": "6285A9879D40A1DA",
+          "key2": "1B7BE694DA517106",
+          "key3": "6285A9879D40A1DA"
         }
       ]
     },
@@ -3615,10 +3615,10 @@
       "tests": [
         {
           "tcId": 501,
-          "plainText": "A8987EE531FC6AA0",
-          "key1": "B531D992230404A1",
-          "key2": "BC15C8B3A8E00DDA",
-          "key3": "0DEA0B6D10CE9B13"
+          "plainText": "5C66BCB5129F4171",
+          "key1": "96676D5C5C57F717",
+          "key2": "966F87A5D0282DFE",
+          "key3": "98EFC02C2D62C7A8"
         }
       ]
     },
@@ -3630,10 +3630,10 @@
       "tests": [
         {
           "tcId": 502,
-          "cipherText": "5C28B90F0170196A",
-          "key1": "3B1C9151AB2510C7",
-          "key2": "FDBAFD8068980B73",
-          "key3": "02B9E3CDFB7FEF4F"
+          "cipherText": "FA5A027FBAFA5C61",
+          "key1": "99EE6822EB8B884E",
+          "key2": "69D41867A1BE3417",
+          "key3": "396C1CAADCC79E6A"
         }
       ]
     },
@@ -3645,10 +3645,10 @@
       "tests": [
         {
           "tcId": 503,
-          "cipherText": "BD58EC59D46AFEB0",
-          "key1": "A234C73E89AE014C",
-          "key2": "BFF11A49C4583875",
-          "key3": "A234C73E89AE014C"
+          "cipherText": "9E9087F52AA42B1C",
+          "key1": "027FBCB581599EAA",
+          "key2": "8FF430EF5D4532BB",
+          "key3": "027FBCB581599EAA"
         }
       ]
     }

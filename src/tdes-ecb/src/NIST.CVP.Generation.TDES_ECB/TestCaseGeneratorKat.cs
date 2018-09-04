@@ -1,20 +1,49 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using NIST.CVP.Common.ExtensionMethods;
+using NIST.CVP.Crypto.Common.Symmetric.TDES;
+using NIST.CVP.Crypto.Common.Symmetric.TDES.KATs;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Async;
+using NIST.CVP.Math;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Generation.TDES_ECB
 {
-    public class TestCaseGeneratorKnownAnswer : ITestCaseGeneratorAsync<TestGroup, TestCase>
+    public class TestCaseGeneratorKat : ITestCaseGeneratorAsync<TestGroup, TestCase>
     {
+        private readonly List<AlgoArrayResponse> _kats2 = new List<AlgoArrayResponse>();
+        private readonly Dictionary<string, List<AlgoArrayResponse>> _katMapping =
+            new Dictionary<string, List<AlgoArrayResponse>>()
+            {
+                {"permutation", KatData.GetPermutationData()},
+                {"inversepermutation", KatData.GetInversePermutationData()},
+                {"substitutiontable", KatData.GetSubstitutionTableData()},
+                {"variablekey", KatData.GetVariableKeyData()},
+                {"variabletext", KatData.GetVariableTextData()}
+            };
+
+
         private readonly List<TestCase> _katTestCases = new List<TestCase>();
         private int _katsIndex = 0;
 
         public int NumberOfTestCasesToGenerate => _katTestCases.Count;
 
-        public TestCaseGeneratorKnownAnswer(TestGroup group)
+        public TestCaseGeneratorKat(string katType)
+        {
+            if (!_katMapping
+                .TryFirst(w => w.Key.Equals(katType, StringComparison.OrdinalIgnoreCase),
+                    out var result)
+            )
+            {
+                throw new ArgumentException($"Invalid {nameof(katType)}");
+            }
+
+            _kats2 = result.Value;
+            _kats2.ForEach(fe => fe.IV = BitString.Zeroes(64));
+        }
+
+        public TestCaseGeneratorKat(TestGroup group)
         {
             var testType = group.TestType?.ToLower();
             var direction = group.Function?.ToLower();
@@ -28,14 +57,26 @@ namespace NIST.CVP.Generation.TDES_ECB
             _katTestCases = _kats[concatTestType];
         }
 
-        public Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample)
+        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample)
         {
             if (_katsIndex + 1 > _katTestCases.Count)
             {
-                return Task.FromResult(new TestCaseGenerateResponse<TestGroup, TestCase>("No additional KATs exist."));
+                return await Task.FromResult(new TestCaseGenerateResponse<TestGroup, TestCase>("No additional KATs exist."));
             }
 
-            return Task.FromResult(new TestCaseGenerateResponse<TestGroup, TestCase>(_katTestCases[_katsIndex++]));
+            //var currentKat = _kats[_katsIndex++];
+            //var testCase = new TestCase
+            //{
+            //    Key1 = currentKat.Key1,
+            //    Key2 = currentKat.Key2,
+            //    Key3 = currentKat.Key3,
+            //    PlainText = currentKat.PlainText,
+            //    CipherText = currentKat.CipherText
+            //};
+
+            // return await Task.FromResult(new TestCaseGenerateResponse<TestGroup, TestCase>(testCase));
+
+            return await Task.FromResult(new TestCaseGenerateResponse<TestGroup, TestCase>(_katTestCases[_katsIndex++]));
         }
         
         private static Dictionary<string, List<TestCase>> _kats =

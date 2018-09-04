@@ -29,7 +29,7 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
                 Function = direction
             };
 
-            Assert.Throws(typeof(ArgumentException), () => new TestCaseGeneratorKnownAnswer(testGroup));  
+            Assert.Throws(typeof(ArgumentException), () => new TestCaseGeneratorKat(testGroup));  
         }
 
         [Test]
@@ -47,7 +47,7 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
                 Function = direction
             };
 
-            var subject = new TestCaseGeneratorKnownAnswer(testGroup);
+            var subject = new TestCaseGeneratorKat(testGroup);
             var result = await subject.GenerateAsync(testGroup, false);
             Assert.IsNotNull(result);
             Assert.IsTrue(result.Success);
@@ -67,7 +67,7 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
                 Function = direction
             };
 
-            var subject = new TestCaseGeneratorKnownAnswer(testGroup);
+            var subject = new TestCaseGeneratorKat(testGroup);
             var results = new EditableList<TestCaseGenerateResponse<TestGroup, TestCase>>();
             for (int i = 0; i < subject.NumberOfTestCasesToGenerate; i++)
             {
@@ -96,7 +96,7 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
                 Function = direction
             };
 
-            var subject = new TestCaseGeneratorKnownAnswer(testGroup);
+            var subject = new TestCaseGeneratorKat(testGroup);
             var results = new EditableList<TestCaseGenerateResponse<TestGroup, TestCase>>();
             for (var i = 0; i < subject.NumberOfTestCasesToGenerate; i++)
             {
