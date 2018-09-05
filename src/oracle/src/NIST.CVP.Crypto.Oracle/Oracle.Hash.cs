@@ -2,7 +2,6 @@
 using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.SHA2;
 using NIST.CVP.Crypto.SHA3;
-using NIST.CVP.Crypto.CSHAKE;
 using NIST.CVP.Crypto.ParallelHash;
 using NIST.CVP.Crypto.TupleHash;
 using System;
@@ -11,6 +10,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using NIST.CVP.Orleans.Grains.Interfaces;
 using NIST.CVP.Orleans.Grains.Interfaces.Cshake;
+using NIST.CVP.Orleans.Grains.Interfaces.Hash;
 using NIST.CVP.Orleans.Grains.Interfaces.Helpers;
 
 namespace NIST.CVP.Crypto.Oracle
@@ -21,8 +21,6 @@ namespace NIST.CVP.Crypto.Oracle
         private SHA_MCT _shaMct;
         private readonly SHA3.SHA3 _sha3 = new SHA3.SHA3(new SHA3Factory());
         private SHA3_MCT _sha3Mct;
-        private readonly ParallelHash.ParallelHash _parallelHash = new ParallelHash.ParallelHash(new ParallelHashFactory());
-        private ParallelHash_MCT _parallelHashMct;
         private readonly TupleHash.TupleHash _tupleHash = new TupleHash.TupleHash(new TupleHashFactory());
         private TupleHash_MCT _tupleHashMct;
 
@@ -103,61 +101,7 @@ namespace NIST.CVP.Crypto.Oracle
                     new HashResult { Message = element.Message, Digest = element.Digest })
             };
         }
-
-        private ParallelHashResult GetParallelHashCase(ParallelHashParameters param)
-        {
-            var message = _rand.GetRandomBitString(param.MessageLength);
-
-            Common.Hash.HashResult result;
-            BitString customizationHex = null;
-            string customization = "";
-            if (param.HexCustomization)
-            {
-                customizationHex = _rand.GetRandomBitString(param.CustomizationLength);
-                result = _parallelHash.HashMessage(param.HashFunction, message, param.BlockSize, customizationHex);
-            }
-            else
-            {
-                customization = _rand.GetRandomString(param.CustomizationLength);
-                result = _parallelHash.HashMessage(param.HashFunction, message, param.BlockSize, customization);
-            }
-
-            if (!result.Success)
-            {
-                throw new Exception();
-            }
-
-            return new ParallelHashResult
-            {
-                Message = message,
-                Digest = result.Digest,
-                Customization = customization,
-                CustomizationHex = customizationHex,
-                BlockSize = param.BlockSize
-            };
-        }
-
-        private MctResult<ParallelHashResult> GetParallelHashMctCase(ParallelHashParameters param)
-        {
-            _parallelHashMct = new ParallelHash_MCT(_parallelHash);
-
-            var message = _rand.GetRandomBitString(param.MessageLength);
-
-            // TODO isSample up in here?
-            var result = _parallelHashMct.MCTHash(param.HashFunction, message, param.OutLens, true); // currently always a sample
-
-            if (!result.Success)
-            {
-                throw new Exception();
-            }
-
-            return new MctResult<ParallelHashResult>
-            {
-                Results = result.Response.ConvertAll(element =>
-                    new ParallelHashResult { Message = element.Message, Digest = element.Digest, Customization = element.Customization })
-            };
-        }
-
+        
         private TupleHashResult GetTupleHashCase(TupleHashParameters param)
         {
             var tuple = new List<BitString>();
@@ -282,7 +226,19 @@ namespace NIST.CVP.Crypto.Oracle
 
         public async Task<ParallelHashResult> GetParallelHashCaseAsync(ParallelHashParameters param)
         {
-            return await _taskFactory.StartNew(() => GetParallelHashCase(param));
+            var grain = _clusterClient.GetGrain<IOracleObserverParallelHashCaseGrain>(
+                Guid.NewGuid()
+            );
+
+            var observer = new OracleGrainObserver<ParallelHashResult>();
+            var observerReference = 
+                await _clusterClient.CreateObjectReference<IGrainObserver<ParallelHashResult>>(observer);
+            await grain.Subscribe(observerReference);
+            await grain.BeginWorkAsync(param);
+
+            var result = await ObservableHelpers.ObserveUntilResult(grain, observer, observerReference);
+
+            return result;
         }
 
         public async Task<TupleHashResult> GetTupleHashCaseAsync(TupleHashParameters param)
@@ -319,7 +275,19 @@ namespace NIST.CVP.Crypto.Oracle
 
         public async Task<MctResult<ParallelHashResult>> GetParallelHashMctCaseAsync(ParallelHashParameters param)
         {
-            return await _taskFactory.StartNew(() => GetParallelHashMctCase(param));
+            var grain = _clusterClient.GetGrain<IOracleObserverParallelHashMctCaseGrain>(
+                Guid.NewGuid()
+            );
+
+            var observer = new OracleGrainObserver<MctResult<ParallelHashResult>>();
+            var observerReference = 
+                await _clusterClient.CreateObjectReference<IGrainObserver<MctResult<ParallelHashResult>>>(observer);
+            await grain.Subscribe(observerReference);
+            await grain.BeginWorkAsync(param);
+
+            var result = await ObservableHelpers.ObserveUntilResult(grain, observer, observerReference);
+
+            return result;
         }
 
         public async Task<MctResult<TupleHashResult>> GetTupleHashMctCaseAsync(TupleHashParameters param)
