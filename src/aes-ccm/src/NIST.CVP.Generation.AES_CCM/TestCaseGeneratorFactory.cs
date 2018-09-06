@@ -14,7 +14,17 @@ namespace NIST.CVP.Generation.AES_CCM
 
         public ITestCaseGeneratorAsync<TestGroup, TestCase> GetCaseGenerator(TestGroup testGroup)
         {
-            return new TestCaseGenerator(_oracle);
+            switch (testGroup.TestType.ToLower())
+            {
+                case "ecma-aft":
+                    return new TestCaseGeneratorEcma(_oracle);
+                case "ecma-vadt":
+                    return new TestCaseGeneratorEcmaVadt(_oracle);
+                case "802.11":
+                    return new TestCaseGenerator80211();
+                default:
+                    return new TestCaseGenerator(_oracle);
+            }
         }
     }
 }

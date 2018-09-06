@@ -8,6 +8,7 @@ namespace NIST.CVP.Generation.RSA_SigGen
         public string Algorithm { get; set; }
         public string Mode { get; set; }
         public bool IsSample { get; set; }
+        public string[] Conformances { get; set; } = { };
 
         [JsonProperty(PropertyName = "algSpecs")]
         public AlgSpecs[] Capabilities { get; set; }

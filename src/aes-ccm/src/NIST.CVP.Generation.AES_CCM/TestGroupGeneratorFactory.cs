@@ -1,18 +1,32 @@
-﻿using System.Collections.Generic;
-using NIST.CVP.Generation.Core;
+﻿using NIST.CVP.Generation.Core;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace NIST.CVP.Generation.AES_CCM
 {
     public class TestGroupGeneratorFactory : ITestGroupGeneratorFactory<Parameters, TestGroup, TestCase>
     {
-        public IEnumerable<ITestGroupGenerator<Parameters, TestGroup, TestCase>> GetTestGroupGenerators()
+        public IEnumerable<ITestGroupGenerator<Parameters, TestGroup, TestCase>> GetTestGroupGenerators(Parameters parameters)
         {
-            HashSet<ITestGroupGenerator<Parameters, TestGroup, TestCase>> list =
-                new HashSet<ITestGroupGenerator<Parameters, TestGroup, TestCase>>()
-                {
-                    new TestGroupGenerator()
-                };
+            var list = new HashSet<ITestGroupGenerator<Parameters, TestGroup, TestCase>>();
 
+            if (parameters.Conformances.Length == 0)
+            {
+                list.Add(new TestGroupGenerator());
+            }
+
+            // Having any extra conformances invalidates the default TestGroupGenerator
+            if (parameters.Conformances.Contains("802.11"))
+            {
+                list.Add(new TestGroupGenerator80211());
+            }
+
+            if (parameters.Conformances.Contains("ecma", StringComparer.OrdinalIgnoreCase))
+            {
+                list.Add(new TestGroupGeneratorEcma());
+            }
+            
             return list;
         }
     }

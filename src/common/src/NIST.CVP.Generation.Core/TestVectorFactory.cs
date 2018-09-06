@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using NIST.CVP.Common.ExtensionMethods;
+using System.Collections.Generic;
 using System.Linq;
-using NIST.CVP.Common.ExtensionMethods;
 
 namespace NIST.CVP.Generation.Core
 {
@@ -21,7 +21,7 @@ namespace NIST.CVP.Generation.Core
         {
             List<TTestGroup> groups = new List<TTestGroup>();
 
-            var groupGenerators = _iTestGroupGeneratorFactory.GetTestGroupGenerators().ToList();
+            var groupGenerators = _iTestGroupGeneratorFactory.GetTestGroupGenerators(parameters).ToList();
             foreach (var groupGenerator in groupGenerators)
             {
                 groups.AddRangeIfNotNullOrEmpty(groupGenerator.BuildTestGroups(parameters));

@@ -10,6 +10,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen
         public string Algorithm { get; set; }
         public string Mode { get; set; }
         public bool IsSample { get; set; }
+        public string[] Conformances { get; set; } = { };
 
         public Capability[] Capabilities { get; set; }
         public bool ComponentTest { get; set; } = false;

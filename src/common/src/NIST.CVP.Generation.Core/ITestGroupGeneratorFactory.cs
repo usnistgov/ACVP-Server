@@ -18,6 +18,6 @@ namespace NIST.CVP.Generation.Core
         /// Separate group generators are often used for the different test types (AFT, KAT, VOT, etc)
         /// </summary>
         /// <returns></returns>
-        IEnumerable<ITestGroupGenerator<TParameters, TTestGroup, TTestCase>> GetTestGroupGenerators();
+        IEnumerable<ITestGroupGenerator<TParameters, TTestGroup, TTestCase>> GetTestGroupGenerators(TParameters parameters);
     }
 }

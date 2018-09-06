@@ -1,7 +1,7 @@
-﻿using System;
+﻿using NIST.CVP.Generation.Core;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.AES_CCM
 {
@@ -55,7 +55,7 @@ namespace NIST.CVP.Generation.AES_CCM
                     CreateDecryptionVerificationTestGroups(testType, groups);
                     break;
                 case TestTypes.VariableAssociatedData:
-                    CreateVariableAssocatedDataTestGroups(testType, groups);
+                    CreateVariableAssociatedDataTestGroups(testType, groups);
                     break;
                 case TestTypes.VariableNonce:
                     CreateVariableNonceTestGroups(testType, groups);
@@ -121,7 +121,7 @@ namespace NIST.CVP.Generation.AES_CCM
         }
 
         /// <summary>
-        /// VariableAssocatedData creates test cases based on:
+        /// VariableAssociatedData creates test cases based on:
         /// 
         ///     - Each key size
         ///     - Each AAD length (including 2^16)
@@ -133,7 +133,7 @@ namespace NIST.CVP.Generation.AES_CCM
         /// <param name="testType"></param>
         /// <param name="parameters"></param>
         /// <param name="groups"></param>
-        private void CreateVariableAssocatedDataTestGroups(TestTypes testType, List<TestGroup> groups)
+        private void CreateVariableAssociatedDataTestGroups(TestTypes testType, List<TestGroup> groups)
         {
             var ptLen = PtLens.Max();
             var nonceLen = NonceLens.Max();

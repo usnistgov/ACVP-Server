@@ -9,6 +9,7 @@ namespace NIST.CVP.Generation.KMAC
         public string Algorithm { get; set; }
         public string Mode { get; set; }
         public bool IsSample { get; set; }
+        public string[] Conformances { get; set; } = { };
 
         [JsonProperty(PropertyName = "digestSize")]
         public int[] DigestSizes { get; set; }

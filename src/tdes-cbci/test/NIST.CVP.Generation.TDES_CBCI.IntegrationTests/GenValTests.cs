@@ -104,7 +104,7 @@ namespace NIST.CVP.Generation.TDES_CBCI.IntegrationTests
         /// </summary>
         public class FakeTestGroupGeneratorFactory : ITestGroupGeneratorFactory<Parameters, TestGroup, TestCase>
         {
-            public IEnumerable<ITestGroupGenerator<Parameters, TestGroup, TestCase>> GetTestGroupGenerators()
+            public IEnumerable<ITestGroupGenerator<Parameters, TestGroup, TestCase>> GetTestGroupGenerators(Parameters parameters)
             {
                 return new List<ITestGroupGenerator<Parameters, TestGroup, TestCase>>()
                 {

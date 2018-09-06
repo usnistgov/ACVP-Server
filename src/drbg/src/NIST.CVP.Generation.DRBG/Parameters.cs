@@ -8,7 +8,8 @@ namespace NIST.CVP.Generation.DRBG
         public string Algorithm { get; set; }       // "ctrDRBG/hashDRBG/hmacDRBG"
         public string Mode { get; set; } = "";      // empty
         public bool IsSample { get; set; }
-
+        public string[] Conformances { get; set; } = { };
+        
         public bool[] PredResistanceEnabled { get; set; }
         public bool ReseedImplemented { get; set; }
 
