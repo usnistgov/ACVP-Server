@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using Castle.Components.DictionaryAdapter;
+﻿using Castle.Components.DictionaryAdapter;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Generation.TDES_CTR.Tests
 {
@@ -13,24 +12,17 @@ namespace NIST.CVP.Generation.TDES_CTR.Tests
     public class TestCaseGeneratorKnownAnswerTests
     {
         [Test]
-        [TestCase(null, "Decrypt")]
-        [TestCase("", "Decrypt")]
-        [TestCase("permutation", "")]
-        [TestCase("SubstitutiontablE", null)]
-        [TestCase("fredo", "decrypt")]
-        [TestCase("Julie", "decrypt")]
-        [TestCase("permutation", "dodo")]
-        [TestCase("SubstitutiontablE", "dreamweaver")]
-        public void ShouldThrowIfInvalidTestTypeOrDirection(string testType, string direction)
+        [TestCase(null)]
+        [TestCase("")]
+        [TestCase("permutationn")]
+        [TestCase("SubstitutiontablEe")]
+        [TestCase("fredo")]
+        [TestCase("Julie")]
+        [TestCase("permutation2")]
+        [TestCase("SubbstitutiontablE")]
+        public void ShouldThrowIfInvalidTestType(string testType)
         {
-            TestGroup testGroup = new TestGroup()
-            {
-                TestType = testType,
-                Direction = direction
-            };
-
-            Assert.Throws(typeof(ArgumentException), () => new TestCaseGeneratorKnownAnswer(testGroup));
-
+            Assert.Throws(typeof(ArgumentException), () => new TestCaseGeneratorKat(testType));
         }
 
         [Test]
@@ -46,16 +38,16 @@ namespace NIST.CVP.Generation.TDES_CTR.Tests
             TestGroup testGroup = new TestGroup()
             {
                 TestType = testType,
-                Direction = direction
             };
 
-            var subject = new TestCaseGeneratorKnownAnswer(testGroup);
+            var subject = new TestCaseGeneratorKat(testType);
             var result = await subject.GenerateAsync(testGroup, false);
             Assert.IsNotNull(result);
             Assert.IsTrue(result.Success);
         }
 
         [Test]
+        [TestCase("InversePermutation", 64, "decrypt")]
         [TestCase("Permutation", 32, "decrypt")]
         [TestCase("VariableKey", 64, "decrypt")]
         [TestCase("VariableText", 64, "encrypt")]
@@ -66,10 +58,9 @@ namespace NIST.CVP.Generation.TDES_CTR.Tests
             TestGroup testGroup = new TestGroup()
             {
                 TestType = testType,
-                Direction = direction
             };
 
-            var subject = new TestCaseGeneratorKnownAnswer(testGroup);
+            var subject = new TestCaseGeneratorKat(testType);
             var results = new EditableList<TestCaseGenerateResponse<TestGroup, TestCase>>();
             for (int i = 0; i < subject.NumberOfTestCasesToGenerate; i++)
             {
@@ -79,24 +70,25 @@ namespace NIST.CVP.Generation.TDES_CTR.Tests
         }
 
         [Test]
+        [TestCase("InversePermutation", 0, "8000000000000000", "decrypt")]
+        [TestCase("InversePermutation", 63, "0000000000000001", "decrypt")]
         [TestCase("Permutation", 0, "88d55e54f54c97b4", "decrypt")]
         [TestCase("Permutation", 31, "1aeac39a61f0a464", "decrypt")]
-        [TestCase("VariableKey", 0, "95f8a5e5dd31d900", "decrypt")]
-        [TestCase("VariableKey", 55, "dd7c0bbd61fafd54", "decrypt")]
+        [TestCase("VariableKey", 0, "8000000000000000", "decrypt")]
+        [TestCase("VariableKey", 63, "0000000000000001", "decrypt")]
         [TestCase("VariableText", 0, "95f8a5e5dd31d900", "encrypt")]
         [TestCase("VariableText", 63, "166b40b44aba4bd6", "encrypt")]
         [TestCase("SubstitutionTable", 0, "690f5b0d9a26939b", "encrypt")]
         [TestCase("SubstitutionTable", 18, "63fac0d034d9f793", "encrypt")]
-        public async Task ShouldReturnExpectedElement(string testType, int elementId, string expectedPlainText, string direction)
+        public async Task ShouldReturnExpectedElement(string testType, int elementId, string expectedCipherHex, string direction)
         {
             TestGroup testGroup = new TestGroup()
             {
                 TestType = testType,
-                Direction = direction
             };
 
-            var subject = new TestCaseGeneratorKnownAnswer(testGroup);
-            List<TestCaseGenerateResponse<TestGroup, TestCase>> results = new List<TestCaseGenerateResponse<TestGroup, TestCase>>();
+            var subject = new TestCaseGeneratorKat(testType);
+            var results = new List<TestCaseGenerateResponse<TestGroup, TestCase>>();
             for (int i = 0; i < subject.NumberOfTestCasesToGenerate; i++)
             {
                 results.Add(await subject.GenerateAsync(testGroup, false));
@@ -104,7 +96,7 @@ namespace NIST.CVP.Generation.TDES_CTR.Tests
 
             Assume.That(results.Count > elementId);
             var testCase = results[elementId].TestCase;
-            Assert.AreEqual(expectedPlainText.ToUpper(), testCase.PlainText.ToHex());
+            Assert.AreEqual(expectedCipherHex.ToUpper(), testCase.CipherText.ToHex());
         }
     }
 }

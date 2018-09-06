@@ -8,7 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace NIST.CVP.Generation.TDES_OFB
+namespace NIST.CVP.Generation.TDES_CTR
 {
     public class TestCaseGeneratorKat : ITestCaseGeneratorAsync<TestGroup, TestCase>
     {
