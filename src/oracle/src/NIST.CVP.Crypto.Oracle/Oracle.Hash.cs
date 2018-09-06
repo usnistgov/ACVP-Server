@@ -2,7 +2,6 @@
 using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.SHA2;
 using NIST.CVP.Crypto.SHA3;
-using NIST.CVP.Crypto.ParallelHash;
 using NIST.CVP.Crypto.TupleHash;
 using System;
 using NIST.CVP.Math;

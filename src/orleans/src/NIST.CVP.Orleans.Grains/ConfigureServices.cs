@@ -89,6 +89,7 @@ using NIST.CVP.Orleans.Grains.Eddsa;
 using NIST.CVP.Orleans.Grains.Kas;
 using NIST.CVP.Orleans.Grains.Kas.Ecc;
 using NIST.CVP.Orleans.Grains.Kas.Ffc;
+using NIST.CVP.Orleans.Grains.Rsa;
 
 namespace NIST.CVP.Orleans.Grains
 {
@@ -123,6 +124,8 @@ namespace NIST.CVP.Orleans.Grains
             svc.AddSingleton<IKasValTestGeneratorFactory<KasValParametersFfc, KasValResultFfc>,
                 KasValFfcTestGeneratorFactory>();
             
+            svc.AddSingleton<IRsaRunner, RsaRunner>();
+
             #endregion Orleans Registrations
 
             #region Crypto Registrations
@@ -187,7 +190,7 @@ namespace NIST.CVP.Orleans.Grains
             svc.AddSingleton<IKeyBuilder, KeyBuilder>();
             svc.AddSingleton<IKeyComposerFactory, KeyComposerFactory>();
             svc.AddSingleton<IPrimeGeneratorFactory, PrimeGeneratorFactory>();
-            svc.AddTransient<IRsa, Rsa>();
+            svc.AddTransient<IRsa, Crypto.RSA.Rsa>();
             svc.AddTransient<IRsaVisitor, RsaVisitor>();
             
             svc.AddSingleton<ISignatureBuilder, SignatureBuilder>();

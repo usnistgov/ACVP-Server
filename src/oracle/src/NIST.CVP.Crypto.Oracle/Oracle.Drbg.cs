@@ -1,6 +1,5 @@
 ﻿using System;
 using NIST.CVP.Crypto.Common.DRBG;
-using NIST.CVP.Crypto.DRBG;
 using System.Threading.Tasks;
 using NIST.CVP.Orleans.Grains.Interfaces;
 using NIST.CVP.Orleans.Grains.Interfaces.Drbg;
