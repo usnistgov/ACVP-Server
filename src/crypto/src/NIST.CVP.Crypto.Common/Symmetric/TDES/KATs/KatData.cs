@@ -730,6 +730,77 @@ namespace NIST.CVP.Crypto.Common.Symmetric.TDES.KATs
             };
         }
 
+        public static List<AlgoArrayResponse> GetVariableKeyDataOFB()
+        {
+            return new List<AlgoArrayResponse>
+            {
+                new AlgoArrayResponse("0101010101010101", "95f8a5e5dd31d900", "8000000000000000"),
+                new AlgoArrayResponse("0101010101010101", "dd7f121ca5015619", "4000000000000000"),
+                new AlgoArrayResponse("0101010101010101", "2e8653104f3834ea", "2000000000000000"),
+                new AlgoArrayResponse("0101010101010101", "4bd388ff6cd81d4f", "1000000000000000"),
+                new AlgoArrayResponse("0101010101010101", "20b9e767b2fb1456", "0800000000000000"),
+                new AlgoArrayResponse("0101010101010101", "55579380d77138ef", "0400000000000000"),
+                new AlgoArrayResponse("0101010101010101", "6cc5defaaf04512f", "0200000000000000"),
+                new AlgoArrayResponse("0101010101010101", "0d9f279ba5d87260", "0100000000000000"),
+                new AlgoArrayResponse("0101010101010101", "d9031b0271bd5a0a", "0080000000000000"),
+                new AlgoArrayResponse("0101010101010101", "424250b37c3dd951", "0040000000000000"),
+                new AlgoArrayResponse("0101010101010101", "b8061b7ecd9a21e5", "0020000000000000"),
+                new AlgoArrayResponse("0101010101010101", "f15d0f286b65bd28", "0010000000000000"),
+                new AlgoArrayResponse("0101010101010101", "add0cc8d6e5deba1", "0008000000000000"),
+                new AlgoArrayResponse("0101010101010101", "e6d5f82752ad63d1", "0004000000000000"),
+                new AlgoArrayResponse("0101010101010101", "ecbfe3bd3f591a5e", "0002000000000000"),
+                new AlgoArrayResponse("0101010101010101", "f356834379d165cd", "0001000000000000"),
+                new AlgoArrayResponse("0101010101010101", "2b9f982f20037fa9", "0000800000000000"),
+                new AlgoArrayResponse("0101010101010101", "889de068a16f0be6", "0000400000000000"),
+                new AlgoArrayResponse("0101010101010101", "e19e275d846a1298", "0000200000000000"),
+                new AlgoArrayResponse("0101010101010101", "329a8ed523d71aec", "0000100000000000"),
+                new AlgoArrayResponse("0101010101010101", "e7fce22557d23c97", "0000080000000000"),
+                new AlgoArrayResponse("0101010101010101", "12a9f5817ff2d65d", "0000040000000000"),
+                new AlgoArrayResponse("0101010101010101", "a484c3ad38dc9c19", "0000020000000000"),
+                new AlgoArrayResponse("0101010101010101", "fbe00a8a1ef8ad72", "0000010000000000"),
+                new AlgoArrayResponse("0101010101010101", "750d079407521363", "0000008000000000"),
+                new AlgoArrayResponse("0101010101010101", "64feed9c724c2faf", "0000004000000000"),
+                new AlgoArrayResponse("0101010101010101", "f02b263b328e2b60", "0000002000000000"),
+                new AlgoArrayResponse("0101010101010101", "9d64555a9a10b852", "0000001000000000"),
+                new AlgoArrayResponse("0101010101010101", "d106ff0bed5255d7", "0000000800000000"),
+                new AlgoArrayResponse("0101010101010101", "e1652c6b138c64a5", "0000000400000000"),
+                new AlgoArrayResponse("0101010101010101", "e428581186ec8f46", "0000000200000000"),
+                new AlgoArrayResponse("0101010101010101", "aeb5f5ede22d1a36", "0000000100000000"),
+                new AlgoArrayResponse("0101010101010101", "e943d7568aec0c5c", "0000000080000000"),
+                new AlgoArrayResponse("0101010101010101", "df98c8276f54b04b", "0000000040000000"),
+                new AlgoArrayResponse("0101010101010101", "b160e4680f6c696f", "0000000020000000"),
+                new AlgoArrayResponse("0101010101010101", "fa0752b07d9c4ab8", "0000000010000000"),
+                new AlgoArrayResponse("0101010101010101", "ca3a2b036dbc8502", "0000000008000000"),
+                new AlgoArrayResponse("0101010101010101", "5e0905517bb59bcf", "0000000004000000"),
+                new AlgoArrayResponse("0101010101010101", "814eeb3b91d90726", "0000000002000000"),
+                new AlgoArrayResponse("0101010101010101", "4d49db1532919c9f", "0000000001000000"),
+                new AlgoArrayResponse("0101010101010101", "25eb5fc3f8cf0621", "0000000000800000"),
+                new AlgoArrayResponse("0101010101010101", "ab6a20c0620d1c6f", "0000000000400000"),
+                new AlgoArrayResponse("0101010101010101", "79e90dbc98f92cca", "0000000000200000"),
+                new AlgoArrayResponse("0101010101010101", "866ecedd8072bb0e", "0000000000100000"),
+                new AlgoArrayResponse("0101010101010101", "8b54536f2f3e64a8", "0000000000080000"),
+                new AlgoArrayResponse("0101010101010101", "ea51d3975595b86b", "0000000000040000"),
+                new AlgoArrayResponse("0101010101010101", "caffc6ac4542de31", "0000000000020000"),
+                new AlgoArrayResponse("0101010101010101", "8dd45a2ddf90796c", "0000000000010000"),
+                new AlgoArrayResponse("0101010101010101", "1029d55e880ec2d0", "0000000000008000"),
+                new AlgoArrayResponse("0101010101010101", "5d86cb23639dbea9", "0000000000004000"),
+                new AlgoArrayResponse("0101010101010101", "1d1ca853ae7c0c5f", "0000000000002000"),
+                new AlgoArrayResponse("0101010101010101", "ce332329248f3228", "0000000000001000"),
+                new AlgoArrayResponse("0101010101010101", "8405d1abe24fb942", "0000000000000800"),
+                new AlgoArrayResponse("0101010101010101", "e643d78090ca4207", "0000000000000400"),
+                new AlgoArrayResponse("0101010101010101", "48221b9937748a23", "0000000000000200"),
+                new AlgoArrayResponse("0101010101010101", "dd7c0bbd61fafd54", "0000000000000100"),
+                new AlgoArrayResponse("0101010101010101", "2fbc291a570db5c4", "0000000000000080"),
+                new AlgoArrayResponse("0101010101010101", "e07c30d7e4e26e12", "0000000000000040"),
+                new AlgoArrayResponse("0101010101010101", "0953e2258e8e90a1", "0000000000000020"),
+                new AlgoArrayResponse("0101010101010101", "5b711bc4ceebf2ee", "0000000000000010"),
+                new AlgoArrayResponse("0101010101010101", "cc083f1e6d9e85f6", "0000000000000008"),
+                new AlgoArrayResponse("0101010101010101", "d2fd8867d50d2dfe", "0000000000000004"),
+                new AlgoArrayResponse("0101010101010101", "06e7ea22ce92708f", "0000000000000002"),
+                new AlgoArrayResponse("0101010101010101", "166b40b44aba4bd6", "0000000000000001")
+            };
+        }
+
         public static List<AlgoArrayResponseWithIvs> GetVariableKeyDataCBCI()
         {
             return new List<AlgoArrayResponseWithIvs>

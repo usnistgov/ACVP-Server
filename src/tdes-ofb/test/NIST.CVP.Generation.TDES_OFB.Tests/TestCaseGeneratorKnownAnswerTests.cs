@@ -1,5 +1,4 @@
-﻿using Castle.Components.DictionaryAdapter;
-using NIST.CVP.Generation.Core;
+﻿using NIST.CVP.Generation.Core;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using System;
@@ -60,7 +59,7 @@ namespace NIST.CVP.Generation.TDES_OFB.Tests
             };
 
             var subject = new TestCaseGeneratorKat(testType);
-            List<TestCaseGenerateResponse<TestGroup, TestCase>> results = new EditableList<TestCaseGenerateResponse<TestGroup, TestCase>>();
+            var results = new List<TestCaseGenerateResponse<TestGroup, TestCase>>();
             for (var i = 0; i < subject.NumberOfTestCasesToGenerate; i++)
             {
                 results.Add(await subject.GenerateAsync(testGroup, false));
@@ -71,8 +70,8 @@ namespace NIST.CVP.Generation.TDES_OFB.Tests
         [Test]
         [TestCase("Permutation", 0, "88d55e54f54c97b4", "decrypt")]
         [TestCase("Permutation", 31, "1aeac39a61f0a464", "decrypt")]
-        [TestCase("VariableKey", 0, "95f8a5e5dd31d900", "decrypt")]
-        [TestCase("VariableKey", 55, "dd7c0bbd61fafd54", "decrypt")]
+        [TestCase("VariableKey", 0, "8000000000000000", "decrypt")]
+        [TestCase("VariableKey", 63, "0000000000000001", "decrypt")]
         [TestCase("VariableText", 0, "95f8a5e5dd31d900", "encrypt")]
         [TestCase("VariableText", 63, "166b40b44aba4bd6", "encrypt")]
         [TestCase("SubstitutionTable", 0, "690f5b0d9a26939b", "encrypt")]
@@ -94,7 +93,7 @@ namespace NIST.CVP.Generation.TDES_OFB.Tests
 
             Assume.That(results.Count > elementId);
             var testCase = results[elementId].TestCase;
-            Assert.AreEqual(expected.ToUpper(), testCase.Iv.ToHex());
+            Assert.AreEqual(expected.ToUpper(), testCase.CipherText.ToHex());
         }
     }
 }

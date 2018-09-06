@@ -19,7 +19,7 @@ namespace NIST.CVP.Generation.TDES_OFB
                 {"permutation", KatData.GetPermutationData()},
                 {"inversepermutation", KatData.GetInversePermutationData()},
                 {"substitutiontable", KatData.GetSubstitutionTableData()},
-                {"variablekey", KatData.GetVariableKeyData()},
+                {"variablekey", KatData.GetVariableKeyDataOFB()},
                 {"variabletext", KatData.GetVariableTextData()}
             };
 
@@ -40,11 +40,9 @@ namespace NIST.CVP.Generation.TDES_OFB
             _kats = result.Value;
             _kats.ForEach(fe =>
             {
-                var oldPt = fe.PlainText.GetDeepCopy();
-                var oldIv = BitString.Zeroes(64);
 
-                fe.IV = oldPt;
-                fe.PlainText = oldIv;
+                fe.IV = fe.PlainText.GetDeepCopy();
+                fe.PlainText = BitString.Zeroes(64);
             });
         }
 
