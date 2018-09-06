@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Castle.Components.DictionaryAdapter;
+﻿using Castle.Components.DictionaryAdapter;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Generation.TDES_CBC.Tests
 {
@@ -13,24 +12,17 @@ namespace NIST.CVP.Generation.TDES_CBC.Tests
     public class TestCaseGeneratorKnownAnswerTests
     {
         [Test]
-        [TestCase(null, "Decrypt")]
-        [TestCase("", "Decrypt")]
-        [TestCase("permutation", "")]
-        [TestCase("SubstitutiontablE", null)]
-        [TestCase("fredo", "decrypt")]
-        [TestCase("Julie", "decrypt")]
-        [TestCase("permutation", "dodo")]
-        [TestCase("SubstitutiontablE", "dreamweaver")]
-        public void ShouldThrowIfInvalidTestTypeOrDirection(string testType, string direction)
+        [TestCase(null)]
+        [TestCase("")]
+        [TestCase("permutationn")]
+        [TestCase("SubstitutiontablEe")]
+        [TestCase("fredo")]
+        [TestCase("Julie")]
+        [TestCase("permutation2")]
+        [TestCase("SubbstitutiontablE")]
+        public void ShouldThrowIfInvalidTestType(string testType)
         {
-            TestGroup testGroup = new TestGroup()
-            {
-                TestType = testType,
-                Function = direction
-            };
-
-            Assert.Throws(typeof(ArgumentException), () => new TestCaseGeneratorKnownAnswer(testGroup));
-
+            Assert.Throws(typeof(ArgumentException), () => new TestCaseGeneratorKat(testType));
         }
 
         [Test]
@@ -49,7 +41,7 @@ namespace NIST.CVP.Generation.TDES_CBC.Tests
                 Function = direction
             };
 
-            var subject = new TestCaseGeneratorKnownAnswer(testGroup);
+            var subject = new TestCaseGeneratorKat(testType);
             var result = await subject.GenerateAsync(testGroup, false);
             Assert.IsNotNull(result);
             Assert.IsTrue(result.Success);
@@ -70,7 +62,7 @@ namespace NIST.CVP.Generation.TDES_CBC.Tests
                 Function = direction
             };
 
-            var subject = new TestCaseGeneratorKnownAnswer(testGroup);
+            var subject = new TestCaseGeneratorKat(testType);
             var results = new EditableList<TestCaseGenerateResponse<TestGroup, TestCase>>();
             for (int i = 0; i < subject.NumberOfTestCasesToGenerate; i++)
             {
@@ -98,7 +90,7 @@ namespace NIST.CVP.Generation.TDES_CBC.Tests
                 Function = direction
             };
 
-            var subject = new TestCaseGeneratorKnownAnswer(testGroup);
+            var subject = new TestCaseGeneratorKat(testType);
             var results = new List<TestCaseGenerateResponse<TestGroup, TestCase>>();
             for (int i = 0; i < subject.NumberOfTestCasesToGenerate; i++)
             {

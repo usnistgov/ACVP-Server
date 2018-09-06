@@ -3,11 +3,12 @@ using NIST.CVP.Crypto.Common.Symmetric.TDES;
 using NIST.CVP.Crypto.Common.Symmetric.TDES.KATs;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Async;
+using NIST.CVP.Math;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace NIST.CVP.Generation.TDES_ECB
+namespace NIST.CVP.Generation.TDES_OFB
 {
     public class TestCaseGeneratorKat : ITestCaseGeneratorAsync<TestGroup, TestCase>
     {
@@ -37,6 +38,14 @@ namespace NIST.CVP.Generation.TDES_ECB
             }
 
             _kats = result.Value;
+            _kats.ForEach(fe =>
+            {
+                var oldPt = fe.PlainText.GetDeepCopy();
+                var oldIv = BitString.Zeroes(64);
+
+                fe.IV = oldPt;
+                fe.PlainText = oldIv;
+            });
         }
 
         public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample)
@@ -53,7 +62,8 @@ namespace NIST.CVP.Generation.TDES_ECB
                 Key2 = currentKat.Key2,
                 Key3 = currentKat.Key3,
                 PlainText = currentKat.PlainText,
-                CipherText = currentKat.CipherText
+                CipherText = currentKat.CipherText,
+                Iv = currentKat.IV
             };
 
             return await Task.FromResult(new TestCaseGenerateResponse<TestGroup, TestCase>(testCase));

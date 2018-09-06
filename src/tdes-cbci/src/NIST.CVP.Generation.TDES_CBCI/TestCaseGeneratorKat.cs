@@ -7,19 +7,19 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace NIST.CVP.Generation.TDES_ECB
+namespace NIST.CVP.Generation.TDES_CBCI
 {
     public class TestCaseGeneratorKat : ITestCaseGeneratorAsync<TestGroup, TestCase>
     {
-        private readonly List<AlgoArrayResponse> _kats;
-        private readonly Dictionary<string, List<AlgoArrayResponse>> _katMapping =
-            new Dictionary<string, List<AlgoArrayResponse>>()
+        private readonly List<AlgoArrayResponseWithIvs> _kats;
+        private readonly Dictionary<string, List<AlgoArrayResponseWithIvs>> _katMapping =
+            new Dictionary<string, List<AlgoArrayResponseWithIvs>>()
             {
-                {"permutation", KatData.GetPermutationData()},
-                {"inversepermutation", KatData.GetInversePermutationData()},
-                {"substitutiontable", KatData.GetSubstitutionTableData()},
-                {"variablekey", KatData.GetVariableKeyData()},
-                {"variabletext", KatData.GetVariableTextData()}
+                {"permutation", KatData.GetPermutationDataCBCI()},
+                {"inversepermutation", KatData.GetInversePermutationDataCBCI()},
+                {"substitutiontable", KatData.GetSubstitutionTableDataCBCI()},
+                {"variablekey", KatData.GetVariableKeyDataCBCI()},
+                {"variabletext", KatData.GetVariableTextDataCBCI()}
             };
 
         private int _katsIndex;
@@ -53,7 +53,10 @@ namespace NIST.CVP.Generation.TDES_ECB
                 Key2 = currentKat.Key2,
                 Key3 = currentKat.Key3,
                 PlainText = currentKat.PlainText,
-                CipherText = currentKat.CipherText
+                CipherText = currentKat.CipherText,
+                IV1 = currentKat.IV1,
+                IV2 = currentKat.IV2,
+                IV3 = currentKat.IV3
             };
 
             return await Task.FromResult(new TestCaseGenerateResponse<TestGroup, TestCase>(testCase));

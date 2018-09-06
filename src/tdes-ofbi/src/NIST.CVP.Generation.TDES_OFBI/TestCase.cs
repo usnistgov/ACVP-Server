@@ -1,9 +1,9 @@
-﻿using NIST.CVP.Generation.Core;
+﻿using Newtonsoft.Json;
+using NIST.CVP.Crypto.Common.Symmetric.TDES;
+using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using System;
 using System.Collections.Generic;
-using Newtonsoft.Json;
-using NIST.CVP.Crypto.Common.Symmetric.TDES;
 
 namespace NIST.CVP.Generation.TDES_OFBI
 {
@@ -91,19 +91,6 @@ namespace NIST.CVP.Generation.TDES_OFBI
                 new BitString(128).ConcatenateBits(value) :
                 Keys.MSBSubstring(0, 128).ConcatenateBits(value);
         }
-
-        public TestCase(BitString keys, BitString iv1, BitString iv2, BitString iv3, BitString plainText, BitString cipherText)
-        {
-            Keys = keys;
-            IV1 = iv1;
-            IV2 = iv2;
-            IV3 = iv3;
-            PlainText = plainText;
-            CipherText = cipherText;
-        }
-
-        [JsonConstructor]
-        public TestCase() { }
 
         public bool SetString(string name, string value)
         {

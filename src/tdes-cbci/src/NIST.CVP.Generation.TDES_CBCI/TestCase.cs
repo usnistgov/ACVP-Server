@@ -1,12 +1,9 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json;
+using NIST.CVP.Crypto.Common.Symmetric.TDES;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.Core.ExtensionMethods;
 using NIST.CVP.Math;
 using System;
 using System.Collections.Generic;
-using System.Dynamic;
-using Newtonsoft.Json;
-using NIST.CVP.Crypto.Common.Symmetric.TDES;
 
 namespace NIST.CVP.Generation.TDES_CBCI
 {
@@ -97,20 +94,6 @@ namespace NIST.CVP.Generation.TDES_CBCI
         public BitString IV3 { get; set; }
         
         public List<AlgoArrayResponseWithIvs> ResultsArray { get; set; }
-
-        public TestCase() { }
-
-        public TestCase(BitString keys, BitString iv1, BitString iv2, BitString iv3, BitString plainText, BitString cipherText)
-        {
-            Keys = keys;
-
-            IV1 = iv1;
-            IV2 = iv2;
-            IV3 = iv3;
-
-            PlainText = plainText;
-            CipherText = cipherText;
-        }
 
         public bool SetString(string name, string value)
         {
