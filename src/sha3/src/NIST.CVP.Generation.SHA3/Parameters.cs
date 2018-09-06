@@ -9,6 +9,7 @@ namespace NIST.CVP.Generation.SHA3
         public string Algorithm { get; set; }
         public string Mode { get; set; }
         public bool IsSample { get; set; }
+        public string[] Conformances { get; set; } = { };
         
         // Was "digestSizes" but client only will send one at a time
         [JsonProperty(PropertyName = "digestSize")]

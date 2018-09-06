@@ -8,6 +8,7 @@ namespace NIST.CVP.Generation.KDF
         public string Algorithm { get; set; }
         public string Mode { get; set; }
         public bool IsSample { get; set; }
+        public string[] Conformances { get; set; } = { };
 
         public Capability[] Capabilities { get; set; }
     }

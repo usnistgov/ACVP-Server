@@ -5,7 +5,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen
 {
     public class TestGroupGeneratorFactory : ITestGroupGeneratorFactory<Parameters, TestGroup, TestCase>
     {
-        public IEnumerable<ITestGroupGenerator<Parameters, TestGroup, TestCase>> GetTestGroupGenerators()
+        public IEnumerable<ITestGroupGenerator<Parameters, TestGroup, TestCase>> GetTestGroupGenerators(Parameters parameters)
         {
             var list = new HashSet<ITestGroupGenerator<Parameters, TestGroup, TestCase>>
             {

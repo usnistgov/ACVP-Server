@@ -11,6 +11,7 @@ namespace NIST.CVP.Generation.SNMP
         public string Algorithm { get; set; }
         public string Mode { get; set; }
         public bool IsSample { get; set; }
+        public string[] Conformances { get; set; } = { };
 
         public string[] EngineId { get; set; }
         public MathDomain PasswordLength { get; set; }      // Must always be in bytes

@@ -26,7 +26,7 @@ namespace NIST.CVP.Generation.SHA3.Tests
         [TestCase(typeof(TestGroupGeneratorVariableOutput))]
         public void ReturnedResultShouldContainExpectedTypes(Type expectedType)
         {
-            var result = _subject.GetTestGroupGenerators();
+            var result = _subject.GetTestGroupGenerators(new Parameters());
 
             Assert.IsTrue(result.Count(w => w.GetType() == expectedType) == 1);
         }
@@ -34,7 +34,7 @@ namespace NIST.CVP.Generation.SHA3.Tests
         [Test]
         public void ReturnedResultShouldContainThreeGenerators()
         {
-            var result = _subject.GetTestGroupGenerators();
+            var result = _subject.GetTestGroupGenerators(new Parameters());
 
             Assert.IsTrue(result.Count() == 3);
         }
@@ -42,7 +42,7 @@ namespace NIST.CVP.Generation.SHA3.Tests
         [Test]
         public void ShouldReturnVectorSetWithProperTestGroupsForAllModes()
         {
-            var result = _subject.GetTestGroupGenerators();
+            var result = _subject.GetTestGroupGenerators(new Parameters());
 
             var minMax = new MathDomain();
             minMax.AddSegment(new RangeDomainSegment(null, 16, 65536));

@@ -16,7 +16,7 @@ namespace NIST.CVP.Generation.KeyWrap.Tests.AES
         {
             _subject = new TestGroupGeneratorFactory();
 
-            var result = _subject.GetTestGroupGenerators();
+            var result = _subject.GetTestGroupGenerators(new Parameters());
 
             Assert.IsTrue(result.Count(w => w.GetType() == expectedType) == 1);
         }
@@ -26,7 +26,7 @@ namespace NIST.CVP.Generation.KeyWrap.Tests.AES
         {
             _subject = new TestGroupGeneratorFactory();
 
-            var result = _subject.GetTestGroupGenerators();
+            var result = _subject.GetTestGroupGenerators(new Parameters());
 
             Assert.IsTrue(result.Count() == 1);
         }
