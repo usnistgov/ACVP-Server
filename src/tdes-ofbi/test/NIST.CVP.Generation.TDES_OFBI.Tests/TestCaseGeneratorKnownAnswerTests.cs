@@ -12,22 +12,16 @@ namespace NIST.CVP.Generation.TDES_OFBI.Tests
     public class TestCaseGeneratorKnownAnswerTests
     {
         [Test]
-        [TestCase(null, "Decrypt")]
-        [TestCase("", "Decrypt")]
-        [TestCase("permutation", "")]
-        [TestCase("SubstitutiontablE", null)]
-        [TestCase("fredo", "decrypt")]
-        [TestCase("Julie", "decrypt")]
-        [TestCase("permutation", "dodo")]
-        [TestCase("SubstitutiontablE", "dreamweaver")]
-        public void ShouldThrowIfInvalidTestTypeOrDirection(string testType, string direction)
+        [TestCase(null)]
+        [TestCase("")]
+        [TestCase("permutationn")]
+        [TestCase("SubstitutiontablEe")]
+        [TestCase("fredo")]
+        [TestCase("Julie")]
+        [TestCase("permutation2")]
+        [TestCase("SubbstitutiontablE")]
+        public void ShouldThrowIfInvalidTestType(string testType)
         {
-            var testGroup = new TestGroup
-            {
-                TestType = testType,
-                Function = direction
-            };
-
             Assert.Throws(typeof(ArgumentException), () => new TestCaseGeneratorKat(testType));
         }
 
