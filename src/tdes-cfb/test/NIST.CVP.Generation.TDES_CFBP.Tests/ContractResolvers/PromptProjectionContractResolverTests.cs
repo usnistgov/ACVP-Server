@@ -78,9 +78,7 @@ namespace NIST.CVP.Generation.TDES_CFBP.Tests.ContractResolvers
 
             Assert.AreEqual(tc.ParentGroup.TestGroupId, newTc.ParentGroup.TestGroupId, nameof(newTc.ParentGroup));
             Assert.AreEqual(tc.TestCaseId, newTc.TestCaseId, nameof(newTc.TestCaseId));
-            Assert.AreEqual(tc.IV1, newTc.IV1, nameof(newTc.IV1));
-            Assert.AreEqual(tc.IV2, newTc.IV2, nameof(newTc.IV2));
-            Assert.AreEqual(tc.IV3, newTc.IV3, nameof(newTc.IV3));
+            Assert.AreEqual(tc.IV, newTc.IV, nameof(newTc.IV));
             Assert.AreEqual(tc.Key1, newTc.Key1, nameof(newTc.Key1));
             Assert.AreEqual(tc.Key2, newTc.Key2, nameof(newTc.Key2));
             Assert.AreEqual(tc.Key3, newTc.Key3, nameof(newTc.Key3));
@@ -119,9 +117,7 @@ namespace NIST.CVP.Generation.TDES_CFBP.Tests.ContractResolvers
 
             Assert.AreEqual(tc.ParentGroup.TestGroupId, newTc.ParentGroup.TestGroupId, nameof(newTc.ParentGroup));
             Assert.AreEqual(tc.TestCaseId, newTc.TestCaseId, nameof(newTc.TestCaseId));
-            Assert.AreEqual(tc.IV1, newTc.IV1, nameof(newTc.IV1));
-            Assert.AreEqual(tc.IV2, newTc.IV2, nameof(newTc.IV2));
-            Assert.AreEqual(tc.IV3, newTc.IV3, nameof(newTc.IV3));
+            Assert.AreEqual(tc.IV, newTc.IV, nameof(newTc.IV));
             Assert.AreEqual(tc.Key1, newTc.Key1, nameof(newTc.Key1));
             Assert.AreEqual(tc.Key2, newTc.Key2, nameof(newTc.Key2));
             Assert.AreEqual(tc.Key3, newTc.Key3, nameof(newTc.Key3));

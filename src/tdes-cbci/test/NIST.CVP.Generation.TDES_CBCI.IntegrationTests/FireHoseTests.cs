@@ -129,8 +129,7 @@ namespace NIST.CVP.Generation.TDES_CBCI.IntegrationTests
                                 );
                                 var result = _algo.ProcessPayload(param);
 
-                                if (testCase.CipherText.ToString() == result.Result.ToString() &&
-                                    testCase.Iv.ToString() == result.IVs[0].ToString())
+                                if (testCase.CipherText.ToString() == result.Result.ToString())
                                 {
                                     passes++;
                                 }
@@ -153,8 +152,7 @@ namespace NIST.CVP.Generation.TDES_CBCI.IntegrationTests
                                 );
                                 var result = _algo.ProcessPayload(param);
 
-                                if (testCase.CipherText.ToString() == result.Result.ToString() && 
-                                    testCase.Iv.ToString() == result.IVs[0].ToString())
+                                if (testCase.CipherText.ToString() == result.Result.ToString())
                                 {
                                     passes++;
                                 }
@@ -179,8 +177,7 @@ namespace NIST.CVP.Generation.TDES_CBCI.IntegrationTests
                                 );
                                 var result = _algo.ProcessPayload(param);
 
-                                if (testCase.CipherText.ToString() == result.Result.ToString() &&
-                                    testCase.Iv.ToString() == result.IVs[0].ToString())
+                                if (testCase.CipherText.ToString() == result.Result.ToString())
                                 {
                                     passes++;
                                 }
@@ -211,8 +208,7 @@ namespace NIST.CVP.Generation.TDES_CBCI.IntegrationTests
                                 );
                                 var result = _algo.ProcessPayload(param);
 
-                                if (testCase.PlainText.ToString() == result.Result.ToString() &&
-                                    testCase.Iv.ToString() == result.IVs[0].ToString())
+                                if (testCase.PlainText.ToString() == result.Result.ToString())
                                 {
                                     passes++;
                                 }
@@ -235,8 +231,7 @@ namespace NIST.CVP.Generation.TDES_CBCI.IntegrationTests
                                 );
                                 var result = _algo.ProcessPayload(param);
 
-                                if (testCase.PlainText.ToString() == result.Result.ToString() &&
-                                    testCase.Iv.ToString() == result.IVs[0].ToString())
+                                if (testCase.PlainText.ToString() == result.Result.ToString())
                                 {
                                     passes++;
                                 }
@@ -261,8 +256,7 @@ namespace NIST.CVP.Generation.TDES_CBCI.IntegrationTests
                                 );
                                 var result = _algo.ProcessPayload(param);
 
-                                if (testCase.PlainText.ToString() == result.Result.ToString() &&
-                                    testCase.Iv.ToString() == result.IVs[0].ToString())
+                                if (testCase.PlainText.ToString() == result.Result.ToString())
                                 {
                                     passes++;
                                 }

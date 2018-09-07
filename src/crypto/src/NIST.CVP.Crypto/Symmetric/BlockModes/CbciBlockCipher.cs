@@ -10,7 +10,7 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.Symmetric.BlockModes
 {
-    public class CbciBlockCipher : ModeBlockCipherBase<SymmetricCipherWithIvResult>
+    public class CbciBlockCipher : ModeBlockCipherBase<SymmetricCipherResult>
     {
         private const int PARTITIONS = 3;
 
@@ -24,7 +24,7 @@ namespace NIST.CVP.Crypto.Symmetric.BlockModes
             }
         }
 
-        public override SymmetricCipherWithIvResult ProcessPayload(IModeBlockCipherParameters param)
+        public override SymmetricCipherResult ProcessPayload(IModeBlockCipherParameters param)
         {
             CheckPayloadRequirements(param.Payload);
             if (param.Payload.BitLength / _engine.BlockSizeBits < PARTITIONS)
@@ -50,9 +50,8 @@ namespace NIST.CVP.Crypto.Symmetric.BlockModes
                 Decrypt(param, payloads, ivs, outBuffer);
             }
 
-            return new SymmetricCipherWithIvResult(
-                new BitString(outBuffer).GetMostSignificantBits(param.Payload.BitLength),
-                ivs
+            return new SymmetricCipherResult(
+                new BitString(outBuffer).GetMostSignificantBits(param.Payload.BitLength)
             );
         }
         
