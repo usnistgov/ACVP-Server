@@ -42,28 +42,23 @@ namespace NIST.CVP.Generation.TDES_CBCI.Tests
                         Key1 = new BitString("9998ADCD9998ADCD"),
                         Key2 = new BitString("9998ADCD9998ADCD"),
                         Key3 = new BitString("9998ADCD9998ADCD"),
-                        IV1 = new BitString("CAFECAFE"),
-                        IV2 = new BitString("CAFECAFE"),
-                        IV3 = new BitString("CAFECAFE"),
+                        Iv = new BitString("CAFECAFE"),
                         TestCaseId = testId
                     };
                     tests.Add(tc);
 
                     if (testType.Equals("mct", StringComparison.OrdinalIgnoreCase))
                     {
-                        tc.ResultsArray = new List<AlgoArrayResponseWithIvs>
+                        tc.ResultsArray = new List<AlgoArrayResponse>
                         {
-                            new AlgoArrayResponseWithIvs
+                            new AlgoArrayResponse
                             {
                                 PlainText = new BitString("FF1AAADFFF"),
                                 CipherText = new BitString("FF7EADDC"),
                                 Key1 = new BitString("9998ADCD9998ADCD"),
                                 Key2 = new BitString("9998ADCD9998ADCD"),
                                 Key3 = new BitString("9998ADCD9998ADCD"),
-                                IV = new BitString("FFCAFECAFE"),
-                                IV1 = new BitString("FFCAFECAFE"),
-                                IV2 = new BitString("FFCAFECAFE"),
-                                IV3 = new BitString("FFCAFECAFE")
+                                IV = new BitString("FFCAFECAFE")
                             }
                         };
                     }

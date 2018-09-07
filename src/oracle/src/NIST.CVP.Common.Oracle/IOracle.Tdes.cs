@@ -9,9 +9,6 @@ namespace NIST.CVP.Common.Oracle
         Task<TdesResult> GetTdesCaseAsync(TdesParameters param);
         Task<MctResult<TdesResult>> GetTdesMctCaseAsync(TdesParameters param);
 
-        Task<TdesResultWithIvs> GetTdesWithIvsCaseAsync(TdesParameters param);
-        Task<MctResult<TdesResultWithIvs>> GetTdesMctWithIvsCaseAsync(TdesParameters param);
-
         Task<TdesResult> GetDeferredTdesCounterCaseAsync(CounterParameters<TdesParameters> param);
         Task<TdesResult> CompleteDeferredTdesCounterCaseAsync(CounterParameters<TdesParameters> param);
         Task<CounterResult> ExtractIvsAsync(TdesParameters param, TdesResult fullParam);

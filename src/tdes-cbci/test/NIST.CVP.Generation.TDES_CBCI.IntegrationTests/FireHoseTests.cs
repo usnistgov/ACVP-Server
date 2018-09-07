@@ -74,7 +74,7 @@ namespace NIST.CVP.Generation.TDES_CBCI.IntegrationTests
                         {
                             var param = new ModeBlockCipherParameters(
                                 BlockCipherDirections.Encrypt,
-                                testCase.ResultsArray.First().IV1,
+                                testCase.ResultsArray.First().IV,
                                 testCase.ResultsArray.First().Keys,
                                 testCase.ResultsArray.First().PlainText
                             );
@@ -94,7 +94,7 @@ namespace NIST.CVP.Generation.TDES_CBCI.IntegrationTests
                         {
                             var param = new ModeBlockCipherParameters(
                                 BlockCipherDirections.Decrypt,
-                                testCase.ResultsArray.First().IV1,
+                                testCase.ResultsArray.First().IV,
                                 testCase.ResultsArray.First().Keys,
                                 testCase.ResultsArray.First().CipherText
                             );
@@ -123,16 +123,14 @@ namespace NIST.CVP.Generation.TDES_CBCI.IntegrationTests
                             {
                                 var param = new ModeBlockCipherParameters(
                                     BlockCipherDirections.Encrypt,
-                                    testCase.IV1.GetDeepCopy(),
+                                    testCase.Iv.GetDeepCopy(),
                                     testCase.Keys.GetDeepCopy(),
                                     testCase.PlainText.GetDeepCopy()
                                 );
                                 var result = _algo.ProcessPayload(param);
 
                                 if (testCase.CipherText.ToString() == result.Result.ToString() &&
-                                    testCase.IV1.ToString() == result.IVs[0].ToString() &&
-                                    testCase.IV2.ToString() == result.IVs[1].ToString() &&
-                                    testCase.IV3.ToString() == result.IVs[2].ToString())
+                                    testCase.Iv.ToString() == result.IVs[0].ToString())
                                 {
                                     passes++;
                                 }
@@ -149,16 +147,14 @@ namespace NIST.CVP.Generation.TDES_CBCI.IntegrationTests
                             {
                                 var param = new ModeBlockCipherParameters(
                                     BlockCipherDirections.Encrypt,
-                                    testCase.IV1.GetDeepCopy(),
+                                    testCase.Iv.GetDeepCopy(),
                                     testCase.Keys.GetDeepCopy(),
                                     testCase.PlainText.GetDeepCopy()
                                 );
                                 var result = _algo.ProcessPayload(param);
 
                                 if (testCase.CipherText.ToString() == result.Result.ToString() && 
-                                    testCase.IV1.ToString() == result.IVs[0].ToString() &&
-                                    testCase.IV2.ToString() == result.IVs[1].ToString() &&
-                                    testCase.IV3.ToString() == result.IVs[2].ToString())
+                                    testCase.Iv.ToString() == result.IVs[0].ToString())
                                 {
                                     passes++;
                                 }
@@ -177,16 +173,14 @@ namespace NIST.CVP.Generation.TDES_CBCI.IntegrationTests
                             {
                                 var param = new ModeBlockCipherParameters(
                                     BlockCipherDirections.Encrypt,
-                                    testCase.IV1.GetDeepCopy(),
+                                    testCase.Iv.GetDeepCopy(),
                                     testCase.Keys.GetDeepCopy(),
                                     testCase.PlainText.GetDeepCopy()
                                 );
                                 var result = _algo.ProcessPayload(param);
 
                                 if (testCase.CipherText.ToString() == result.Result.ToString() &&
-                                    testCase.IV1.ToString() == result.IVs[0].ToString() &&
-                                    testCase.IV2.ToString() == result.IVs[1].ToString() &&
-                                    testCase.IV3.ToString() == result.IVs[2].ToString())
+                                    testCase.Iv.ToString() == result.IVs[0].ToString())
                                 {
                                     passes++;
                                 }
@@ -211,16 +205,14 @@ namespace NIST.CVP.Generation.TDES_CBCI.IntegrationTests
                             {
                                 var param = new ModeBlockCipherParameters(
                                     BlockCipherDirections.Decrypt,
-                                    testCase.IV1.GetDeepCopy(),
+                                    testCase.Iv.GetDeepCopy(),
                                     testCase.Keys.GetDeepCopy(),
                                     testCase.CipherText.GetDeepCopy()
                                 );
                                 var result = _algo.ProcessPayload(param);
 
                                 if (testCase.PlainText.ToString() == result.Result.ToString() &&
-                                    testCase.IV1.ToString() == result.IVs[0].ToString() &&
-                                    testCase.IV2.ToString() == result.IVs[1].ToString() &&
-                                    testCase.IV3.ToString() == result.IVs[2].ToString())
+                                    testCase.Iv.ToString() == result.IVs[0].ToString())
                                 {
                                     passes++;
                                 }
@@ -237,16 +229,14 @@ namespace NIST.CVP.Generation.TDES_CBCI.IntegrationTests
                             {
                                 var param = new ModeBlockCipherParameters(
                                     BlockCipherDirections.Decrypt,
-                                    testCase.IV1.GetDeepCopy(),
+                                    testCase.Iv.GetDeepCopy(),
                                     testCase.Keys.GetDeepCopy(),
                                     testCase.CipherText.GetDeepCopy()
                                 );
                                 var result = _algo.ProcessPayload(param);
 
                                 if (testCase.PlainText.ToString() == result.Result.ToString() &&
-                                    testCase.IV1.ToString() == result.IVs[0].ToString() &&
-                                    testCase.IV2.ToString() == result.IVs[1].ToString() &&
-                                    testCase.IV3.ToString() == result.IVs[2].ToString())
+                                    testCase.Iv.ToString() == result.IVs[0].ToString())
                                 {
                                     passes++;
                                 }
@@ -265,16 +255,14 @@ namespace NIST.CVP.Generation.TDES_CBCI.IntegrationTests
                             {
                                 var param = new ModeBlockCipherParameters(
                                     BlockCipherDirections.Decrypt,
-                                    testCase.IV1.GetDeepCopy(),
+                                    testCase.Iv.GetDeepCopy(),
                                     testCase.Keys.GetDeepCopy(),
                                     testCase.CipherText.GetDeepCopy()
                                 );
                                 var result = _algo.ProcessPayload(param);
 
                                 if (testCase.PlainText.ToString() == result.Result.ToString() &&
-                                    testCase.IV1.ToString() == result.IVs[0].ToString() &&
-                                    testCase.IV2.ToString() == result.IVs[1].ToString() &&
-                                    testCase.IV3.ToString() == result.IVs[2].ToString())
+                                    testCase.Iv.ToString() == result.IVs[0].ToString())
                                 {
                                     passes++;
                                 }

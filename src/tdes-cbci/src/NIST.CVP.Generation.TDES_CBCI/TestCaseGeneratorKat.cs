@@ -11,9 +11,9 @@ namespace NIST.CVP.Generation.TDES_CBCI
 {
     public class TestCaseGeneratorKat : ITestCaseGeneratorAsync<TestGroup, TestCase>
     {
-        private readonly List<AlgoArrayResponseWithIvs> _kats;
-        private readonly Dictionary<string, List<AlgoArrayResponseWithIvs>> _katMapping =
-            new Dictionary<string, List<AlgoArrayResponseWithIvs>>()
+        private readonly List<AlgoArrayResponse> _kats;
+        private readonly Dictionary<string, List<AlgoArrayResponse>> _katMapping =
+            new Dictionary<string, List<AlgoArrayResponse>>()
             {
                 {"permutation", KatData.GetPermutationDataCBCI()},
                 {"inversepermutation", KatData.GetInversePermutationDataCBCI()},
@@ -54,9 +54,7 @@ namespace NIST.CVP.Generation.TDES_CBCI
                 Key3 = currentKat.Key3,
                 PlainText = currentKat.PlainText,
                 CipherText = currentKat.CipherText,
-                IV1 = currentKat.IV1,
-                IV2 = currentKat.IV2,
-                IV3 = currentKat.IV3
+                Iv = currentKat.IV
             };
 
             return await Task.FromResult(new TestCaseGenerateResponse<TestGroup, TestCase>(testCase));
