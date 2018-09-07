@@ -7,6 +7,7 @@ using NIST.CVP.Crypto.Symmetric.Engines;
 using NIST.CVP.Math;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 
 namespace TdesKatGenerator
 {
@@ -23,10 +24,14 @@ namespace TdesKatGenerator
                 Key3 = new BitString("0303030303030303").ToOddParityBitString()
             };
 
+            var name = "variable-text";
+
             var kats = new List<AlgoArrayResponse>();
             var ecb = new EcbBlockCipher(new TdesEngine());
 
-            var writer = new StreamWriter(@"C:\Users\ctc\Documents\variable-text.csv");
+            var path = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+            path = Path.Combine(path, $@"..\..\..\{name}.csv");
+            var writer = new StreamWriter(path);
             var csv = new CsvWriter(writer);
             csv.Configuration.TypeConverterCache.AddConverter<BitString>(new BitStringConverter());
 
