@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using NIST.CVP.Common.ExtensionMethods;
+using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Generation.Core.JsonConverters;
@@ -58,6 +59,14 @@ namespace NIST.CVP.Pools
             }
 
             return new PoolResult<IResult> { PoolEmpty = true };
+        }
+
+        public List<IParameters> GetPoolInformation()
+        {
+            var list = new List<IParameters>();
+            Pools.ForEach(fe => list.Add(fe.Param));
+
+            return list;
         }
 
         public bool SavePools()

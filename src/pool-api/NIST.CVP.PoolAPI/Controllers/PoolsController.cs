@@ -19,7 +19,8 @@ namespace NIST.CVP.PoolAPI.Controllers
                 new BitstringConverter(),
                 new DomainConverter(),
                 new BigIntegerConverter()
-            }
+            },
+            Formatting = Formatting.Indented
         };
 
         [HttpPost]
@@ -29,6 +30,22 @@ namespace NIST.CVP.PoolAPI.Controllers
             try
             {
                 return JsonConvert.SerializeObject(Program.PoolManager.GetResultFromPool(parameterHolder), _jsonSettings);
+            }
+            catch (Exception ex)
+            {
+                LogManager.GetCurrentClassLogger().Error(ex);
+            }
+
+            return "";
+        }
+
+        [HttpGet]
+        // /api/pools
+        public string GetDataAboutPools()
+        {
+            try
+            {
+                return JsonConvert.SerializeObject(Program.PoolManager.GetPoolInformation(), _jsonSettings);
             }
             catch (Exception ex)
             {

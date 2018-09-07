@@ -4,8 +4,6 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <RuntimeIdentifier>win7-x64</RuntimeIdentifier>
     <StartupObject>NIST.CVP.PoolAPI.Program</StartupObject>
-    <ApplicationIcon />
-    <Win32Resource />
   </PropertyGroup>
 
   <ItemGroup>
@@ -14,7 +12,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="Microsoft.AspNetCore.Hosting.WindowsServices" Version="2.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Hosting.WindowsServices" Version="2.1.0" />
   </ItemGroup>
 
   <ItemGroup>
