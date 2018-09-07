@@ -80,6 +80,13 @@ namespace NIST.CVP.Crypto.Oracle
 
             return new MctResult<AesResult>
             {
+                Seed = new AesResult()
+                {
+                    PlainText = direction == BlockCipherDirections.Encrypt ? payload : null,
+                    CipherText = direction == BlockCipherDirections.Decrypt ? payload : null,
+                    Key = key,
+                    Iv = iv
+                },
                 Results = Array.ConvertAll(result.Response.ToArray(), element => new AesResult
                 {
                     Key = element.Key,

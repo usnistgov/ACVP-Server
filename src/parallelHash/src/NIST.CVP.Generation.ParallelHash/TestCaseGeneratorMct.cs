@@ -40,8 +40,7 @@ namespace NIST.CVP.Generation.ParallelHash
 
                 return new TestCaseGenerateResponse<TestGroup, TestCase>(new TestCase
                 {
-                    Message = oracleResult.Results[0].Message,
-                    Digest = oracleResult.Results[0].Digest,
+                    Message = oracleResult.Seed.Message,
                     ResultsArray = oracleResult.Results.ConvertAll(element => new AlgoArrayResponseWithCustomization { Message = element.Message, Digest = element.Digest, Customization = element.Customization })
                 });
             }
