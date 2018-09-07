@@ -9,7 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace NIST.CVP.Generation.TDES_CFBP
+namespace NIST.CVP.Generation.TDES_CFB
 {
     public class TestCaseGeneratorKat : ITestCaseGeneratorAsync<TestGroup, TestCase>
     {
@@ -46,7 +46,7 @@ namespace NIST.CVP.Generation.TDES_CFBP
 
                 if (mode == AlgoMode.TDES_CFB1 || mode == AlgoMode.TDES_CFBP1)
                 {
-                    fe.CipherText = fe.CipherText.GetMostSignificantBits(1);
+                   fe.CipherText = fe.CipherText.GetMostSignificantBits(1);
                 }
 
                 if (mode == AlgoMode.TDES_CFB8 || mode == AlgoMode.TDES_CFBP8)
@@ -85,7 +85,7 @@ namespace NIST.CVP.Generation.TDES_CFBP
                 Key3 = currentKat.Key3,
                 PlainText = currentKat.PlainText,
                 CipherText = currentKat.CipherText,
-                IV = currentKat.IV
+                Iv = currentKat.IV
             };
 
             return await Task.FromResult(new TestCaseGenerateResponse<TestGroup, TestCase>(testCase));

@@ -32,7 +32,6 @@ namespace NIST.CVP.Generation.TDES_CBC.Tests
         [TestCase("SubstitutiontablE", "encrypt")]
         [TestCase("VariableTExt", "ENcryPt")]
         [TestCase("VariableKey", "ENCRYPT")]
-
         public async Task ShouldReturnKat(string testType, string direction)
         {
             TestGroup testGroup = new TestGroup()
@@ -53,7 +52,6 @@ namespace NIST.CVP.Generation.TDES_CBC.Tests
         [TestCase("VariableKey", 56, "decrypt")]
         [TestCase("VariableText", 64, "encrypt")]
         [TestCase("SubstitutionTable", 19, "encrypt")]
-
         public async Task ShouldReturnExpectedListCount(string testType, int count, string direction)
         {
             TestGroup testGroup = new TestGroup()

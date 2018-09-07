@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
+using System;
+using System.Collections.Generic;
 using AlgoArrayResponse = NIST.CVP.Crypto.Common.Symmetric.TDES.AlgoArrayResponse;
 
 namespace NIST.CVP.Generation.TDES_CFBP
@@ -97,27 +97,6 @@ namespace NIST.CVP.Generation.TDES_CFBP
         #endregion only used on kats TODO remove
 
         public List<AlgoArrayResponse> ResultsArray { get; set; }
-
-        public TestCase(){ }
-
-        public TestCase(BitString keys, BitString iv, 
-            BitString plainText = null, BitString plainText1 = null, BitString plainText2 = null, BitString plainText3 = null,
-            BitString cipherText = null, BitString cipherText1 = null, BitString cipherText2 = null, BitString cipherText3 = null)
-        {
-            Keys = keys;
-
-            IV = iv;
-            
-            PlainText = plainText;
-            PlainText1 = plainText1;
-            PlainText2 = plainText2;
-            PlainText3 = plainText3;
-
-            CipherText = cipherText;
-            CipherText1 = cipherText1;
-            CipherText2 = cipherText2;
-            CipherText3 = cipherText3;
-        }
         
         public bool SetString(string name, string value)
         {

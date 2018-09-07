@@ -1,5 +1,4 @@
-﻿using Castle.Components.DictionaryAdapter;
-using NIST.CVP.Generation.Core;
+﻿using NIST.CVP.Generation.Core;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using System;
@@ -32,7 +31,6 @@ namespace NIST.CVP.Generation.TDES_CTR.Tests
         [TestCase("SubstitutiontablE", "encrypt")]
         [TestCase("VariableTExt", "ENcryPt")]
         [TestCase("VariableKey", "ENCRYPT")]
-
         public async Task ShouldReturnKat(string testType, string direction)
         {
             TestGroup testGroup = new TestGroup()
@@ -52,7 +50,6 @@ namespace NIST.CVP.Generation.TDES_CTR.Tests
         [TestCase("VariableKey", 64, "decrypt")]
         [TestCase("VariableText", 64, "encrypt")]
         [TestCase("SubstitutionTable", 19, "encrypt")]
-
         public async Task ShouldReturnExpectedListCount(string testType, int count, string direction)
         {
             TestGroup testGroup = new TestGroup()
@@ -61,7 +58,7 @@ namespace NIST.CVP.Generation.TDES_CTR.Tests
             };
 
             var subject = new TestCaseGeneratorKat(testType);
-            var results = new EditableList<TestCaseGenerateResponse<TestGroup, TestCase>>();
+            var results = new List<TestCaseGenerateResponse<TestGroup, TestCase>>();
             for (int i = 0; i < subject.NumberOfTestCasesToGenerate; i++)
             {
                 results.Add(await subject.GenerateAsync(testGroup, false));

@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using NIST.CVP.Common;
+﻿using NIST.CVP.Common;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Generation.TDES_CFB.Tests
 {
@@ -47,7 +47,7 @@ namespace NIST.CVP.Generation.TDES_CFB.Tests
                 Function = direction
             };
 
-            Assert.Throws(typeof(ArgumentException), () => new TestCaseGeneratorKnownAnswer(testGroup));
+            Assert.Throws(typeof(ArgumentException), () => new TestCaseGeneratorKat(testType, algoMode));
 
         }
 
@@ -81,7 +81,7 @@ namespace NIST.CVP.Generation.TDES_CFB.Tests
                 Function = direction
             };
 
-            var subject = new TestCaseGeneratorKnownAnswer(testGroup);
+            var subject = new TestCaseGeneratorKat(testType, algoMode);
             var result = await subject.GenerateAsync(testGroup, false);
             Assert.IsNotNull(result);
             Assert.IsTrue(result.Success);
@@ -114,7 +114,7 @@ namespace NIST.CVP.Generation.TDES_CFB.Tests
                 Function = direction
             };
 
-            var subject = new TestCaseGeneratorKnownAnswer(testGroup);
+            var subject = new TestCaseGeneratorKat(testType, algoMode);
             var results = new List<TestCaseGenerateResponse<TestGroup, TestCase>>();
             for (int i = 0; i < subject.NumberOfTestCasesToGenerate; i++)
             {
