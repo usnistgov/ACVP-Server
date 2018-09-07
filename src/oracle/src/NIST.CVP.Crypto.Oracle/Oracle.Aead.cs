@@ -60,8 +60,8 @@ namespace NIST.CVP.Crypto.Oracle
         {
             var flags = new BitString("59");
             var nonce = _rand.GetRandomBitString(13 * 8);
-            var aadLen = MsbLsbConversionHelpers.ReverseByteOrder(BitString.To16BitString((short) (param.AadLength - (14 * 8))).ToBytes());
-            var dataLen = MsbLsbConversionHelpers.ReverseByteOrder(BitString.To16BitString((short) (param.DataLength / 8)).ToBytes());
+            var aadLen = MsbLsbConversionHelpers.ReverseByteOrder(BitString.To16BitString((short) ((param.AadLength - (14 * 8)) / 8)).ToBytes());
+            var dataLen = BitString.To16BitString((short) (param.DataLength / 8)).ToBytes();
 
             var aad = new BitString("581C")
                 .ConcatenateBits(nonce.Substring(2 * 8, 2 * 8))
