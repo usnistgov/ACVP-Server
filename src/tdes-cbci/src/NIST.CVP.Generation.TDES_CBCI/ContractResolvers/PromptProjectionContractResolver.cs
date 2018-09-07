@@ -19,9 +19,7 @@ namespace NIST.CVP.Generation.TDES_CBCI.ContractResolvers
             var includeProperties = new[]
             {
                 nameof(TestCase.TestCaseId),
-                nameof(TestCase.IV1),
-                nameof(TestCase.IV2),
-                nameof(TestCase.IV3),
+                nameof(TestCase.Iv),
                 nameof(TestCase.Key1),
                 nameof(TestCase.Key2),
                 nameof(TestCase.Key3)

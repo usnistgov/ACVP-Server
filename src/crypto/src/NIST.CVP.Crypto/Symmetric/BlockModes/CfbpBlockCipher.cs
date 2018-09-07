@@ -9,7 +9,7 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.Symmetric.BlockModes
 {
-    public class CfbpBlockCipher : ModeBlockCipherBase<SymmetricCipherWithIvResult>
+    public class CfbpBlockCipher : ModeBlockCipherBase<SymmetricCipherResult>
     {
         private const int PARTITIONS = 3;
         private readonly IShiftRegisterStrategy _shiftRegisterStrategy;
@@ -26,7 +26,7 @@ namespace NIST.CVP.Crypto.Symmetric.BlockModes
             }
         }
 
-        public override SymmetricCipherWithIvResult ProcessPayload(IModeBlockCipherParameters param)
+        public override SymmetricCipherResult ProcessPayload(IModeBlockCipherParameters param)
         {
             if (param.Payload.BitLength % _shiftRegisterStrategy.ShiftSize != 0)
             {
@@ -56,9 +56,8 @@ namespace NIST.CVP.Crypto.Symmetric.BlockModes
                 Decrypt(param, numberOfSegments, ivs, outBuffer);
             }
 
-            return new SymmetricCipherWithIvResult(
-                new BitString(outBuffer).GetMostSignificantBits(actualBitsToProcess),
-                ivs
+            return new SymmetricCipherResult(
+                new BitString(outBuffer).GetMostSignificantBits(actualBitsToProcess)
             );
         }
 

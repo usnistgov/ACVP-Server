@@ -69,17 +69,9 @@ namespace NIST.CVP.Generation.TDES_CBCI
             {
                 errors.Add($"{nameof(suppliedResult.ResultsArray)} did not contain expected element {nameof(AlgoArrayResponse.CipherText)}");
             }
-            if (suppliedResult.ResultsArray.Any(a => a.IV1 == null))
+            if (suppliedResult.ResultsArray.Any(a => a.IV == null))
             {
-                errors.Add($"{nameof(suppliedResult.ResultsArray)} did not contain expected element {nameof(AlgoArrayResponseWithIvs.IV1)}");
-            }
-            if (suppliedResult.ResultsArray.Any(a => a.IV2 == null))
-            {
-                errors.Add($"{nameof(suppliedResult.ResultsArray)} did not contain expected element {nameof(AlgoArrayResponseWithIvs.IV2)}");
-            }
-            if (suppliedResult.ResultsArray.Any(a => a.IV3 == null))
-            {
-                errors.Add($"{nameof(suppliedResult.ResultsArray)} did not contain expected element {nameof(AlgoArrayResponseWithIvs.IV3)}");
+                errors.Add($"{nameof(suppliedResult.ResultsArray)} did not contain expected element {nameof(AlgoArrayResponse.IV)}");
             }
         }
 
@@ -111,23 +103,11 @@ namespace NIST.CVP.Generation.TDES_CBCI
                     expected.Add($"Plain Text {i}", _expectedResult.ResultsArray[i].PlainText.ToHex());
                     provided.Add($"Plain Text {i}", suppliedResult.ResultsArray[i].PlainText.ToHex());
                 }
-                if (!_expectedResult.ResultsArray[i].IV1.Equals(suppliedResult.ResultsArray[i].IV1))
+                if (!_expectedResult.ResultsArray[i].IV.Equals(suppliedResult.ResultsArray[i].IV))
                 {
-                    errors.Add($"IV1 does not match on iteration {i}");
-                    expected.Add($"IV1 {i}", _expectedResult.ResultsArray[i].IV1.ToHex());
-                    provided.Add($"IV1 {i}", suppliedResult.ResultsArray[i].IV1.ToHex());
-                }
-                if (!_expectedResult.ResultsArray[i].IV2.Equals(suppliedResult.ResultsArray[i].IV2))
-                {
-                    errors.Add($"IV2 does not match on iteration {i}");
-                    expected.Add($"IV2 {i}", _expectedResult.ResultsArray[i].IV2.ToHex());
-                    provided.Add($"IV2 {i}", suppliedResult.ResultsArray[i].IV2.ToHex());
-                }
-                if (!_expectedResult.ResultsArray[i].IV3.Equals(suppliedResult.ResultsArray[i].IV3))
-                {
-                    errors.Add($"IV3 does not match on iteration {i}");
-                    expected.Add($"IV3 {i}", _expectedResult.ResultsArray[i].IV3.ToHex());
-                    provided.Add($"IV3 {i}", suppliedResult.ResultsArray[i].IV3.ToHex());
+                    errors.Add($"IV does not match on iteration {i}");
+                    expected.Add($"IV {i}", _expectedResult.ResultsArray[i].IV.ToHex());
+                    provided.Add($"IV {i}", suppliedResult.ResultsArray[i].IV.ToHex());
                 }
             }
         }

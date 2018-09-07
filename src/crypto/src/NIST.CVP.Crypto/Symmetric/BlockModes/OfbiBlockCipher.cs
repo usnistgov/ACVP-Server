@@ -9,7 +9,7 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.Symmetric.BlockModes
 {
-    public class OfbiBlockCipher : ModeBlockCipherBase<SymmetricCipherWithIvResult>
+    public class OfbiBlockCipher : ModeBlockCipherBase<SymmetricCipherResult>
     {
         private const int PARTITIONS = 3;
 
@@ -23,7 +23,7 @@ namespace NIST.CVP.Crypto.Symmetric.BlockModes
             }
         }
 
-        public override SymmetricCipherWithIvResult ProcessPayload(IModeBlockCipherParameters param)
+        public override SymmetricCipherResult ProcessPayload(IModeBlockCipherParameters param)
         {
             CheckPayloadRequirements(param.Payload);
             var key = param.Key.ToBytes();
@@ -46,9 +46,8 @@ namespace NIST.CVP.Crypto.Symmetric.BlockModes
             var ivs = SetupIvs(param.Iv);
             ProcessPayload(param, ivs, numberOfBlocks, outBuffer);
 
-            return new SymmetricCipherWithIvResult(
-                new BitString(outBuffer).GetMostSignificantBits(actualBitsToProcess),
-                ivs
+            return new SymmetricCipherResult(
+                new BitString(outBuffer).GetMostSignificantBits(actualBitsToProcess)
             );
         }
 

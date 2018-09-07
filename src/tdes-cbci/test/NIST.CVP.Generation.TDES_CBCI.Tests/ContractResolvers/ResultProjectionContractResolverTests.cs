@@ -85,9 +85,7 @@ namespace NIST.CVP.Generation.TDES_CBCI.Tests.ContractResolvers
             {
                 for (var i = 0; i < tc.ResultsArray.Count; i++)
                 {
-                    Assert.AreEqual(tc.ResultsArray[i].IV1, newTc.ResultsArray[i].IV1, "mctIv1");
-                    Assert.AreEqual(tc.ResultsArray[i].IV2, newTc.ResultsArray[i].IV2, "mctIv2");
-                    Assert.AreEqual(tc.ResultsArray[i].IV3, newTc.ResultsArray[i].IV3, "mctIv3");
+                    Assert.AreEqual(tc.ResultsArray[i].IV, newTc.ResultsArray[i].IV, "mctIv");
                     Assert.AreEqual(tc.ResultsArray[i].Key1, newTc.ResultsArray[i].Key1, "mctKey1");
                     Assert.AreEqual(tc.ResultsArray[i].Key2, newTc.ResultsArray[i].Key2, "mctKey2");
                     Assert.AreEqual(tc.ResultsArray[i].Key3, newTc.ResultsArray[i].Key3, "mctKey3");
@@ -100,9 +98,7 @@ namespace NIST.CVP.Generation.TDES_CBCI.Tests.ContractResolvers
                 Assert.IsNull(newTc.ResultsArray, nameof(newTc.ResultsArray));
             }
 
-            Assert.AreNotEqual(tc.IV1, newTc.IV1, nameof(newTc.IV1));
-            Assert.AreNotEqual(tc.IV2, newTc.IV2, nameof(newTc.IV2));
-            Assert.AreNotEqual(tc.IV3, newTc.IV3, nameof(newTc.IV3));
+            Assert.AreNotEqual(tc.Iv, newTc.Iv, nameof(newTc.Iv));
             Assert.AreNotEqual(tc.Key1, newTc.Key1, nameof(newTc.Key1));
             Assert.AreNotEqual(tc.Key2, newTc.Key2, nameof(newTc.Key2));
             Assert.AreNotEqual(tc.Key3, newTc.Key3, nameof(newTc.Key3));
@@ -143,9 +139,7 @@ namespace NIST.CVP.Generation.TDES_CBCI.Tests.ContractResolvers
             {
                 for (var i = 0; i < tc.ResultsArray.Count; i++)
                 {
-                    Assert.AreEqual(tc.ResultsArray[i].IV1, newTc.ResultsArray[i].IV1, "mctIv1");
-                    Assert.AreEqual(tc.ResultsArray[i].IV2, newTc.ResultsArray[i].IV2, "mctIv2");
-                    Assert.AreEqual(tc.ResultsArray[i].IV3, newTc.ResultsArray[i].IV3, "mctIv3");
+                    Assert.AreEqual(tc.ResultsArray[i].IV, newTc.ResultsArray[i].IV, "mctIv");
                     Assert.AreEqual(tc.ResultsArray[i].Key1, newTc.ResultsArray[i].Key1, "mctKey1");
                     Assert.AreEqual(tc.ResultsArray[i].Key2, newTc.ResultsArray[i].Key2, "mctKey2");
                     Assert.AreEqual(tc.ResultsArray[i].Key3, newTc.ResultsArray[i].Key3, "mctKey3");
@@ -158,9 +152,7 @@ namespace NIST.CVP.Generation.TDES_CBCI.Tests.ContractResolvers
                 Assert.IsNull(newTc.ResultsArray, nameof(newTc.ResultsArray));
             }
 
-            Assert.AreNotEqual(tc.IV1, newTc.IV1, nameof(newTc.IV1));
-            Assert.AreNotEqual(tc.IV2, newTc.IV2, nameof(newTc.IV2));
-            Assert.AreNotEqual(tc.IV3, newTc.IV3, nameof(newTc.IV3));
+            Assert.AreNotEqual(tc.Iv, newTc.Iv, nameof(newTc.Iv));
             Assert.AreNotEqual(tc.Key1, newTc.Key1, nameof(newTc.Key1));
             Assert.AreNotEqual(tc.Key2, newTc.Key2, nameof(newTc.Key2));
             Assert.AreNotEqual(tc.Key3, newTc.Key3, nameof(newTc.Key3));

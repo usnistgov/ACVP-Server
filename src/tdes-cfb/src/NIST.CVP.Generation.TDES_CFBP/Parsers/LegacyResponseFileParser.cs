@@ -83,18 +83,7 @@ namespace NIST.CVP.Generation.TDES_CFBP.Parsers
         private List<TestCase> CreateTestCases(string input, bool isPtAndCtHex, bool isMCT)
         {
             var testCases = new List<TestCase>();
-            var resultsArray = new List<AlgoArrayResponseWithIvs>();
-
-            //var testCaseRegex = new Regex(@"COUNT = (?<count>\d*)(?:\n" +
-            //        @"(?:KEY1 = (?<key1>[0-9acbdefABCDEF]*)\n" +
-            //        @"KEY2 = (?<key2>[0-9acbdefABCDEF]*)\n" +
-            //        @"KEY3 = (?<key3>[0-9acbdefABCDEF]*))|\n" +
-            //        @"(?:KEYs = (?<keys>[0-9acbdefABCDEF]*)))\n" +
-            //        @"IV = (?<iv>[0-9acbdefABCDEF]*)(?:(?:\n" +
-            //        @"PLAINTEXT = (?<pt>[0-9acbdefABCDEF]*)\n" +
-            //        @"CIPHERTEXT = (?<ct>[0-9acbdefABCDEF]*))|(?:\n" +
-            //        @"CIPHERTEXT = (?<ct1>[0-9acbdefABCDEF]*)\n" +
-            //        @"PLAINTEXT = (?<pt1>[0-9acbdefABCDEF]*)))");
+            var resultsArray = new List<AlgoArrayResponse>();
 
             var regExTestCase = new Regex(@"(?:[A-Za-z0-9]* = [0-9a-f]*\n)*\n");
             var regExProperty = new Regex(@"(?<prop>[A-Za-z0-9]*) = (?<val>[0-9a-f]*)");
@@ -164,12 +153,10 @@ namespace NIST.CVP.Generation.TDES_CFBP.Parsers
                 }
                 if (isMCT)
                 {
-                    resultsArray.Add(new AlgoArrayResponseWithIvs()
+                    resultsArray.Add(new AlgoArrayResponse()
                     {
                         Keys = propertiesMap["KEYs"],
-                        IV1 = propertiesMap["IV1"],
-                        IV2 = propertiesMap["IV2"],
-                        IV3 = propertiesMap["IV3"],
+                        IV = propertiesMap["IV1"],
                         PlainText = propertiesMap["PLAINTEXT"],
                         CipherText = propertiesMap["CIPHERTEXT"],
                     });
@@ -179,9 +166,7 @@ namespace NIST.CVP.Generation.TDES_CFBP.Parsers
                     testCases.Add(new TestCase()
                     {
                         Keys = propertiesMap["KEYs"],
-                        IV1 = propertiesMap["IV1"],
-                        IV2 = propertiesMap["IV2"],
-                        IV3 = propertiesMap["IV3"],
+                        IV = propertiesMap["IV1"],
                         PlainText = propertiesMap["PLAINTEXT"],
                         PlainText1 = propertiesMap["PLAINTEXT1"],
                         PlainText2 = propertiesMap["PLAINTEXT2"],

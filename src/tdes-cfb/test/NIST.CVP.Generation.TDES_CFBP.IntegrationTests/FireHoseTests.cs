@@ -19,14 +19,14 @@ namespace NIST.CVP.Generation.TDES_CFBP.IntegrationTests
     public class FireHoseTests
     {
 
-        private TdesPartitionsMonteCarloFactory _mctFactory;
+        private TdesMonteCarloFactory _mctFactory;
         private readonly BlockCipherEngineFactory _engineFactory = new BlockCipherEngineFactory();
         private readonly ModeBlockCipherFactory _modeFactory = new ModeBlockCipherFactory();
 
         [OneTimeSetUp]
         public void OneTimeSetup()
         {
-            _mctFactory = new TdesPartitionsMonteCarloFactory(_engineFactory, _modeFactory);
+            _mctFactory = new TdesMonteCarloFactory(_engineFactory, _modeFactory);
         }
 
         [Test]
@@ -101,7 +101,7 @@ namespace NIST.CVP.Generation.TDES_CFBP.IntegrationTests
                         {
                             var param = new ModeBlockCipherParameters(
                                 BlockCipherDirections.Encrypt,
-                                firstResult.IV1.GetDeepCopy(),
+                                firstResult.IV.GetDeepCopy(),
                                 firstResult.Keys.GetDeepCopy(),
                                 firstResult.PlainText.GetDeepCopy()
                             );
@@ -111,7 +111,7 @@ namespace NIST.CVP.Generation.TDES_CFBP.IntegrationTests
                             Assert.IsTrue(testCase.ResultsArray.Count > 0, $"{nameof(testCase)} MCT encrypt count should be gt 0");
                             for (int i = 0; i < testCase.ResultsArray.Count; i++)
                             {
-                                Assert.AreEqual(testCase.ResultsArray[i].IV1.ToHex(), result.Response[i].IV1.ToHex(), $"IV mismatch on index {i}");
+                                Assert.AreEqual(testCase.ResultsArray[i].IV.ToHex(), result.Response[i].IV.ToHex(), $"IV mismatch on index {i}");
                                 Assert.AreEqual(testCase.ResultsArray[i].Keys.ToHex(), result.Response[i].Keys.ToHex(), $"Key mismatch on index {i}");
                                 Assert.AreEqual(testCase.ResultsArray[i].PlainText.ToHex(), result.Response[i].PlainText.ToHex(), $"PlainText mismatch on index {i}");
                                 Assert.AreEqual(testCase.ResultsArray[i].CipherText.ToHex(), result.Response[i].CipherText.ToHex(), $"CipherText mismatch on index {i}");
@@ -122,7 +122,7 @@ namespace NIST.CVP.Generation.TDES_CFBP.IntegrationTests
                         {
                             var param = new ModeBlockCipherParameters(
                                 BlockCipherDirections.Decrypt,
-                                firstResult.IV1.GetDeepCopy(),
+                                firstResult.IV.GetDeepCopy(),
                                 firstResult.Keys.GetDeepCopy(),
                                 firstResult.CipherText.GetDeepCopy()
                             );
@@ -133,7 +133,7 @@ namespace NIST.CVP.Generation.TDES_CFBP.IntegrationTests
                             Assert.IsTrue(testCase.ResultsArray.Count == result.Response.Count, "Result and response arrays must be of the same size.");
                             for (int i = 0; i < testCase.ResultsArray.Count; i++)
                             {
-                                Assert.AreEqual(testCase.ResultsArray[i].IV1.ToHex(), result.Response[i].IV1.ToHex(), $"IV mismatch on index {i}");
+                                Assert.AreEqual(testCase.ResultsArray[i].IV.ToHex(), result.Response[i].IV.ToHex(), $"IV mismatch on index {i}");
                                 Assert.AreEqual(testCase.ResultsArray[i].Keys.ToHex(), result.Response[i].Keys.ToHex(), $"Key mismatch on index {i}");
                                 Assert.AreEqual(testCase.ResultsArray[i].PlainText.ToHex(), result.Response[i].PlainText.ToHex(), $"PlainText mismatch on index {i}");
                                 Assert.AreEqual(testCase.ResultsArray[i].CipherText.ToHex(), result.Response[i].CipherText.ToHex(), $"CipherText mismatch on index {i}");
@@ -152,7 +152,7 @@ namespace NIST.CVP.Generation.TDES_CFBP.IntegrationTests
                             {
                                 var param = new ModeBlockCipherParameters(
                                     BlockCipherDirections.Encrypt,
-                                    testCase.IV1.GetDeepCopy(),
+                                    testCase.IV.GetDeepCopy(),
                                     testCase.Keys.GetDeepCopy(),
                                     testCase.PlainText1
                                         .ConcatenateBits(testCase.PlainText2)
@@ -180,7 +180,7 @@ namespace NIST.CVP.Generation.TDES_CFBP.IntegrationTests
                             {
                                 var param = new ModeBlockCipherParameters(
                                     BlockCipherDirections.Encrypt,
-                                    testCase.IV1.GetDeepCopy(),
+                                    testCase.IV.GetDeepCopy(),
                                     testCase.Keys.GetDeepCopy(),
                                     testCase.PlainText
                                 );
@@ -206,7 +206,7 @@ namespace NIST.CVP.Generation.TDES_CFBP.IntegrationTests
                             {
                                 var param = new ModeBlockCipherParameters(
                                     BlockCipherDirections.Encrypt,
-                                    testCase.IV1.GetDeepCopy(),
+                                    testCase.IV.GetDeepCopy(),
                                     testCase.Keys.GetDeepCopy(),
                                     testCase.PlainText
                                         // include "aux values" for these tests
@@ -242,7 +242,7 @@ namespace NIST.CVP.Generation.TDES_CFBP.IntegrationTests
                             {
                                 var param = new ModeBlockCipherParameters(
                                     BlockCipherDirections.Decrypt,
-                                    testCase.IV1.GetDeepCopy(),
+                                    testCase.IV.GetDeepCopy(),
                                     testCase.Keys.GetDeepCopy(),
                                     testCase.CipherText1
                                         .ConcatenateBits(testCase.CipherText2)
@@ -270,7 +270,7 @@ namespace NIST.CVP.Generation.TDES_CFBP.IntegrationTests
                             {
                                 var param = new ModeBlockCipherParameters(
                                     BlockCipherDirections.Decrypt,
-                                    testCase.IV1.GetDeepCopy(),
+                                    testCase.IV.GetDeepCopy(),
                                     testCase.Keys.GetDeepCopy(),
                                     testCase.CipherText
                                 );
@@ -296,7 +296,7 @@ namespace NIST.CVP.Generation.TDES_CFBP.IntegrationTests
                             {
                                 var param = new ModeBlockCipherParameters(
                                     BlockCipherDirections.Decrypt,
-                                    testCase.IV1.GetDeepCopy(),
+                                    testCase.IV.GetDeepCopy(),
                                     testCase.Keys.GetDeepCopy(),
                                     testCase.CipherText
                                         // include "aux values" for these tests

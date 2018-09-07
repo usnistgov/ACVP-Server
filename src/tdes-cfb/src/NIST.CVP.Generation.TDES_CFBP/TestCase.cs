@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
-using NIST.CVP.Crypto.Common.Symmetric.TDES;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
+using AlgoArrayResponse = NIST.CVP.Crypto.Common.Symmetric.TDES.AlgoArrayResponse;
 
 namespace NIST.CVP.Generation.TDES_CFBP
 {
@@ -85,29 +85,28 @@ namespace NIST.CVP.Generation.TDES_CFBP
         }
 
         public BitString CipherText { get; set; }
-        public BitString IV1 { get; set; }
-        public BitString IV2 { get; set; }
-        public BitString IV3 { get; set; }
+        public BitString IV { get; set; }
+        // TODO get rid of properties
+        #region only used on kats TODO remove
         public BitString PlainText1 { get; set; }
         public BitString PlainText2 { get; set; }
         public BitString PlainText3 { get; set; }
         public BitString CipherText1 { get; set; }
         public BitString CipherText2 { get; set; }
         public BitString CipherText3 { get; set; }
+        #endregion only used on kats TODO remove
 
-        public List<AlgoArrayResponseWithIvs> ResultsArray { get; set; }
+        public List<AlgoArrayResponse> ResultsArray { get; set; }
 
         public TestCase(){ }
 
-        public TestCase(BitString keys, BitString iv1, BitString iv2 = null, BitString iv3 = null,
+        public TestCase(BitString keys, BitString iv, 
             BitString plainText = null, BitString plainText1 = null, BitString plainText2 = null, BitString plainText3 = null,
             BitString cipherText = null, BitString cipherText1 = null, BitString cipherText2 = null, BitString cipherText3 = null)
         {
             Keys = keys;
 
-            IV1 = iv1;
-            IV2 = iv2;
-            IV3 = iv3;
+            IV = iv;
             
             PlainText = plainText;
             PlainText1 = plainText1;
@@ -175,13 +174,7 @@ namespace NIST.CVP.Generation.TDES_CFBP
                 case "initialization vector":
                 case "iv":
                 case "iv1":
-                    IV1 = new BitString(value);
-                    return true;
-                case "iv2":
-                    IV3 = new BitString(value);
-                    return true;
-                case "iv3":
-                    IV3 = new BitString(value);
+                    IV = new BitString(value);
                     return true;
             }
             return false;

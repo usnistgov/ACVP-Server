@@ -23,6 +23,14 @@ namespace NIST.CVP.Crypto.Common.Symmetric.TDES
             CipherText = new BitString(ciphertext);
         }
 
+        public AlgoArrayResponse(string key, string iv, string plaintext, string ciphertext)
+        {
+            Keys = new BitString(key);
+            IV = new BitString(iv);
+            PlainText = new BitString(plaintext);
+            CipherText = new BitString(ciphertext);
+        }
+
         public BitString Key1
         {
             get => Keys?.MSBSubstring(0, 64);
