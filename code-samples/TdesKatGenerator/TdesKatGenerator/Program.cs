@@ -18,10 +18,11 @@ namespace TdesKatGenerator
             var original = new AlgoArrayResponse
             {
                 PlainText = BitString.Zeroes(64),
+                CipherText = BitString.Zeroes(64),
                 IV = BitString.Zeroes(64),
-                Key1 = new BitString("0101010101010101").ToOddParityBitString(),
-                Key2 = new BitString("0202020202020202").ToOddParityBitString(),
-                Key3 = new BitString("0303030303030303").ToOddParityBitString()
+                Key1 = new BitString("0000000000000000").ToOddParityBitString(),
+                Key2 = new BitString("0707070707070707").ToOddParityBitString(),
+                Key3 = new BitString("FEFEFEFEFEFEFEFE").ToOddParityBitString()
             };
 
             var name = "variable-text";
