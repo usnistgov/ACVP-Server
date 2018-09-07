@@ -74,7 +74,7 @@ namespace NIST.CVP.Generation.TDES_OFBI.Parsers
         private List<TestCase> CreateTestCases(string input, bool isMCT, bool expandText)
         {
             var testCases = new List<TestCase>();
-            var resultsArray = new List<AlgoArrayResponseWithIvs>();
+            var resultsArray = new List<AlgoArrayResponse>();
 
             var regExTestCase = new Regex(@"(?:[A-Za-z0-9]* = [0-9a-f]*\n)*\n");
             var regExProperty = new Regex(@"(?<prop>[A-Za-z0-9]*) = (?<val>[0-9a-f]*)");
@@ -165,22 +165,12 @@ namespace NIST.CVP.Generation.TDES_OFBI.Parsers
                     }
                 }
 
-                //if (pt.BitLength % 192 != 0)
-                //{
-                //    throw new ArgumentException("Invalud plain text size");
-                //}
-                //if (ct.BitLength % 192 != 0)
-                //{
-                //    throw new ArgumentException("Invalud cipher text size");
-                //}
                 if (isMCT)
                 {
-                    resultsArray.Add(new AlgoArrayResponseWithIvs()
+                    resultsArray.Add(new AlgoArrayResponse()
                     {
                         Keys = propertiesMap["KEYs"],
-                        IV1 = propertiesMap["IV1"],
-                        IV2 = propertiesMap["IV2"],
-                        IV3 = propertiesMap["IV3"],
+                        IV = propertiesMap["IV1"],
                         PlainText = pt,
                         CipherText = ct
                     });
@@ -190,9 +180,7 @@ namespace NIST.CVP.Generation.TDES_OFBI.Parsers
                     testCases.Add(new TestCase()
                     {
                         Keys = propertiesMap["KEYs"],
-                        IV1 = propertiesMap["IV1"],
-                        IV2 = propertiesMap["IV2"],
-                        IV3 = propertiesMap["IV3"],
+                        IV = propertiesMap["IV1"],
                         PlainText =  pt,
                         CipherText = ct,
                     });

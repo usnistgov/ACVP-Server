@@ -16,11 +16,9 @@ namespace NIST.CVP.Generation.TDES_OFBI
         public BitString PlainText { get; set; }
         public BitString CipherText { get; set; }
 
-        public BitString IV1 { get; set; }
-        public BitString IV2 { get; set; }
-        public BitString IV3 { get; set; }
+        public BitString IV { get; set; }
         
-        public List<AlgoArrayResponseWithIvs> ResultsArray { get; set; }
+        public List<AlgoArrayResponse> ResultsArray { get; set; }
 
         private BitString _keys;
 
@@ -129,13 +127,7 @@ namespace NIST.CVP.Generation.TDES_OFBI
                 case "initialization vector":
                 case "iv":
                 case "iv1":
-                    IV1 = new BitString(value);
-                    return true;
-                case "iv2":
-                    IV3 = new BitString(value);
-                    return true;
-                case "iv3":
-                    IV3 = new BitString(value);
+                    IV = new BitString(value);
                     return true;
             }
             return false;

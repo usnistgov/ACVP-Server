@@ -53,22 +53,20 @@ namespace NIST.CVP.Generation.TDES_CFBP
 
             try
             {
-                var oracleResult = await _oracle.GetTdesMctWithIvsCaseAsync(param);
+                var oracleResult = await _oracle.GetTdesMctCaseAsync(param);
 
                 return new TestCaseGenerateResponse<TestGroup, TestCase>(new TestCase
                 {
                     PlainText = oracleResult.Seed.PlainText,
                     CipherText = oracleResult.Seed.CipherText,
-                    IV1 = oracleResult.Seed.Iv1,
+                    IV = oracleResult.Seed.Iv,
                     Keys = oracleResult.Seed.Key,
-                    ResultsArray = Array.ConvertAll(oracleResult.Results.ToArray(), element => new AlgoArrayResponseWithIvs
+                    ResultsArray = Array.ConvertAll(oracleResult.Results.ToArray(), element => new AlgoArrayResponse
                     {
                         PlainText = element.PlainText,
                         CipherText = element.CipherText,
                         Keys = element.Key,
-                        IV1 = element.Iv1,
-                        IV2 = element.Iv2,
-                        IV3 = element.Iv3,
+                        IV = element.Iv
                     }).ToList()
                 });
             }

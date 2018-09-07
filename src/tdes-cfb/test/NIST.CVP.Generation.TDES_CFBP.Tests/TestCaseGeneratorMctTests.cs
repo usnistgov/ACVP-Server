@@ -19,21 +19,18 @@ namespace NIST.CVP.Generation.TDES_CFBP.Tests
         [SetUp]
         public void Setup()
         {
-            var mctResult = Task.FromResult(new MctResult<TdesResultWithIvs>());
-            mctResult.Result.Results.Add(new TdesResultWithIvs()
+            var mctResult = Task.FromResult(new MctResult<TdesResult>());
+            mctResult.Result.Results.Add(new TdesResult()
             {
                 Key = new BitString(192),
                 Iv = new BitString(64),
-                Iv1 = new BitString(64),
-                Iv2 = new BitString(64),
-                Iv3 = new BitString(64),
                 PlainText = new BitString(64),
                 CipherText = new BitString(64)
             });
 
             _mockOracle = new Mock<IOracle>();
             _mockOracle
-                .Setup(s => s.GetTdesMctWithIvsCaseAsync(It.IsAny<TdesParameters>()))
+                .Setup(s => s.GetTdesMctCaseAsync(It.IsAny<TdesParameters>()))
                 .Returns(mctResult);
         }
 
@@ -51,7 +48,7 @@ namespace NIST.CVP.Generation.TDES_CFBP.Tests
             _subject = new TestCaseGeneratorMct(_mockOracle.Object, testGroup);
             await _subject.GenerateAsync(testGroup, false);
 
-            _mockOracle.Verify(v => v.GetTdesMctWithIvsCaseAsync(It.IsAny<TdesParameters>()));
+            _mockOracle.Verify(v => v.GetTdesMctCaseAsync(It.IsAny<TdesParameters>()));
         }
 
         [Test]
@@ -62,7 +59,7 @@ namespace NIST.CVP.Generation.TDES_CFBP.Tests
         {
             string errorMessage = "something bad happened! oh noes!";
             _mockOracle
-                .Setup(s => s.GetTdesMctWithIvsCaseAsync(It.IsAny<TdesParameters>()))
+                .Setup(s => s.GetTdesMctCaseAsync(It.IsAny<TdesParameters>()))
                 .Throws(new Exception(errorMessage));
 
             TestGroup testGroup = new TestGroup()

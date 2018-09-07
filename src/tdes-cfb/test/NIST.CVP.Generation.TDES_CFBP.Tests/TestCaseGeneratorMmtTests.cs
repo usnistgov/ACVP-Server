@@ -20,14 +20,11 @@ namespace NIST.CVP.Generation.TDES_CFBP.Tests
         {
             _oracle = new Mock<IOracle>();
             _oracle
-                .Setup(s => s.GetTdesWithIvsCaseAsync(It.IsAny<TdesParameters>()))
-                .Returns(Task.FromResult(new TdesResultWithIvs()
+                .Setup(s => s.GetTdesCaseAsync(It.IsAny<TdesParameters>()))
+                .Returns(Task.FromResult(new TdesResult()
                 {
                     Key = new BitString(192),
                     Iv = new BitString(64),
-                    Iv1 = new BitString(64),
-                    Iv2 = new BitString(64),
-                    Iv3 = new BitString(64),
                     PlainText = new BitString(64),
                     CipherText = new BitString(64)
                 }));
