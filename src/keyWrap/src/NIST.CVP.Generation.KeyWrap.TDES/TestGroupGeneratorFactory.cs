@@ -5,7 +5,7 @@ namespace NIST.CVP.Generation.KeyWrap.TDES
 {
     public class TestGroupGeneratorFactory : ITestGroupGeneratorFactory<Parameters, TestGroup, TestCase>
     {
-        public IEnumerable<ITestGroupGenerator<Parameters, TestGroup, TestCase>> GetTestGroupGenerators()
+        public IEnumerable<ITestGroupGenerator<Parameters, TestGroup, TestCase>> GetTestGroupGenerators(Parameters parameters)
         {
             var list = new HashSet<ITestGroupGenerator<Parameters, TestGroup, TestCase>>()
                 {

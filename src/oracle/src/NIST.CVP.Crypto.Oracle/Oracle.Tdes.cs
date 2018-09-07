@@ -77,6 +77,13 @@ namespace NIST.CVP.Crypto.Oracle
 
             return new MctResult<TdesResult>
             {
+                Seed = new TdesResult()
+                {
+                    PlainText = direction == BlockCipherDirections.Encrypt ? payload : null,
+                    CipherText = direction == BlockCipherDirections.Decrypt ? payload : null,
+                    Key = key,
+                    Iv = iv
+                },
                 Results = Array.ConvertAll(result.Response.ToArray(), element => new TdesResult
                 {
                     Key = element.Keys,
@@ -136,6 +143,7 @@ namespace NIST.CVP.Crypto.Oracle
             var payload = _rand.GetRandomBitString(param.DataLength);
             var key = TdesHelpers.GenerateTdesKey(param.KeyingOption);
             var iv = _rand.GetRandomBitString(64);
+            var ivs = TdesPartitionHelpers.SetupIvs(iv);
 
             var blockCipherParams = new ModeBlockCipherParameters(direction, iv, key, payload);
             var result = cipher.ProcessMonteCarloTest(blockCipherParams);
@@ -148,6 +156,15 @@ namespace NIST.CVP.Crypto.Oracle
 
             return new MctResult<TdesResultWithIvs>
             {
+                Seed = new TdesResultWithIvs()
+                {
+                    PlainText = direction == BlockCipherDirections.Encrypt ? payload : null,
+                    CipherText = direction == BlockCipherDirections.Decrypt ? payload : null,
+                    Key = key,
+                    Iv1 = ivs[0],
+                    Iv2 = ivs[1],
+                    Iv3 = ivs[2],
+                },
                 Results = Array.ConvertAll(result.Response.ToArray(), element => new TdesResultWithIvs
                 {
                     Key = element.Keys,

@@ -1,7 +1,7 @@
-﻿using System;
-using System.Linq;
-using NIST.CVP.Tests.Core.TestCategoryAttributes;
+﻿using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
+using System;
+using System.Linq;
 
 namespace NIST.CVP.Generation.AES_CCM.Tests
 {
@@ -15,8 +15,9 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
         public void ReturnedResultShouldContainExpectedTypes(Type expectedType)
         {
             _subject = new TestGroupGeneratorFactory();
+            var param = new Parameters();
 
-            var result = _subject.GetTestGroupGenerators();
+            var result = _subject.GetTestGroupGenerators(param);
 
             Assert.IsTrue(result.Count(w => w.GetType() == expectedType) == 1);
         }
@@ -25,8 +26,9 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
         public void ReturnedResultShouldContainThreeGenerators()
         {
             _subject = new TestGroupGeneratorFactory();
+            var param = new Parameters();
 
-            var result = _subject.GetTestGroupGenerators();
+            var result = _subject.GetTestGroupGenerators(param);
 
             Assert.IsTrue(result.Count() == 1);
         }

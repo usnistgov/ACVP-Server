@@ -13,7 +13,7 @@ namespace NIST.CVP.Generation.KDF
             _kdfFactory = kdfFactory;
         }
 
-        public IEnumerable<ITestGroupGenerator<Parameters, TestGroup, TestCase>> GetTestGroupGenerators()
+        public IEnumerable<ITestGroupGenerator<Parameters, TestGroup, TestCase>> GetTestGroupGenerators(Parameters parameters)
         {
             var list = new HashSet<ITestGroupGenerator<Parameters, TestGroup, TestCase>>
             {

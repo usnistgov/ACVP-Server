@@ -11,6 +11,7 @@ namespace NIST.CVP.Generation.IKEv2
         public string Algorithm { get; set; }
         public string Mode { get; set; }
         public bool IsSample { get; set; }
+        public string[] Conformances { get; set; } = { };
 
         public Capabilities[] Capabilities { get; set; }
     }

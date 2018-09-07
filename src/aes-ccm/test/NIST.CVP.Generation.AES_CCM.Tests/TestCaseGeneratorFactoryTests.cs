@@ -20,7 +20,8 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
         {
             TestGroup testGroup = new TestGroup()
             {
-                Function = direction
+                Function = direction,
+                TestType = "aft"
             };
 
             var subject = new TestCaseGeneratorFactory(null);
@@ -34,7 +35,8 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
         {
             TestGroup testGroup = new TestGroup()
             {
-                Function = string.Empty
+                Function = string.Empty,
+                TestType = "aft"
             };
 
             var subject = new TestCaseGeneratorFactory(null);

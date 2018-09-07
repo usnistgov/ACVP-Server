@@ -5,5 +5,6 @@
         public string Algorithm { get; set; } = "test";
         public string Mode { get; set; } = "test2";
         public bool IsSample { get; set; } = true;
+        public string[] Conformances { get; set; } = { };
     }
 }

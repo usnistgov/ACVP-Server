@@ -3,6 +3,8 @@ using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.Common.Symmetric.BlockModes.Aead;
 using NIST.CVP.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.Crypto.Symmetric.BlockModes.Aead;
+using NIST.CVP.Math;
+using NIST.CVP.Math.Helpers;
 using System;
 using System.Threading.Tasks;
 
@@ -42,7 +44,7 @@ namespace NIST.CVP.Crypto.Oracle
                 PlainText = _rand.GetRandomBitString(param.DataLength),
                 Key = _rand.GetRandomBitString(param.KeyLength),
                 Iv = _rand.GetRandomBitString(param.IvLength),
-                Aad = _rand.GetRandomBitString(param.AadLength),
+                Aad = _rand.GetRandomBitString(param.AadLength)
             };
 
             return DoSimpleAead(
@@ -52,6 +54,46 @@ namespace NIST.CVP.Crypto.Oracle
                 ), 
                 fullParams, param
             );
+        }
+
+        private AeadResult GetEcmaCase(AeadParameters param)
+        {
+            var flags = new BitString("59");
+            var nonce = _rand.GetRandomBitString(13 * 8);
+            var aadLen = MsbLsbConversionHelpers.ReverseByteOrder(BitString.To16BitString((short) (param.AadLength - (14 * 8))).ToBytes());
+            var dataLen = MsbLsbConversionHelpers.ReverseByteOrder(BitString.To16BitString((short) (param.DataLength / 8)).ToBytes());
+
+            var aad = new BitString("581C")
+                .ConcatenateBits(nonce.Substring(2 * 8, 2 * 8))
+                .ConcatenateBits(nonce.Substring(0, 2 * 8))
+                .ConcatenateBits(BitString.Zeroes(2 * 8))
+                .ConcatenateBits(BitString.Zeroes(2 * 8))
+                .ConcatenateBits(new BitString(aadLen))
+                .ConcatenateBits(BitString.Zeroes(2 * 8))
+                .ConcatenateBits(_rand.GetRandomBitString(param.AadLength - (14  * 8)));
+
+            var iv = flags
+                .ConcatenateBits(nonce)
+                .ConcatenateBits(new BitString(dataLen));
+
+            var fullParams = new AeadResult
+            {
+                PlainText = _rand.GetRandomBitString(param.DataLength),
+                Key = _rand.GetRandomBitString(param.KeyLength),
+                Iv = nonce,
+                Aad = aad
+            };
+
+            var returnResult = DoSimpleAead(
+                _aeadModeBlockCipherFactory.GetAeadCipher(
+                    _engineFactory.GetSymmetricCipherPrimitive(BlockCipherEngines.Aes),
+                    BlockCipherModesOfOperation.Ccm
+                ),
+                fullParams, param
+            );
+
+            returnResult.Iv = iv;
+            return returnResult;
         }
 
         private AeadResult GetAesGcmCase(AeadParameters param)
@@ -193,6 +235,11 @@ namespace NIST.CVP.Crypto.Oracle
         public async Task<AeadResult> GetAesCcmCaseAsync(AeadParameters param)
         {
             return await _taskFactory.StartNew(() => GetAesCcmCase(param));
+        }
+
+        public async Task<AeadResult> GetEcmaCaseAsync(AeadParameters param)
+        {
+            return await _taskFactory.StartNew(() => GetEcmaCase(param));
         }
 
         public async Task<AeadResult> GetAesGcmCaseAsync(AeadParameters param)

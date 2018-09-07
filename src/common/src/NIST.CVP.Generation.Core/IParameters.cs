@@ -18,5 +18,9 @@
         /// (Can impact number of tests generated and how they are generated)
         /// </summary>
         bool IsSample { get; }
+        /// <summary>
+        /// Is this implementation designed for further conformances with other specifications
+        /// </summary>
+        string[] Conformances { get; }
     }
 }

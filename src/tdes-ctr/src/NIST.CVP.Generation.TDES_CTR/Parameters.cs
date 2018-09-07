@@ -11,6 +11,7 @@ namespace NIST.CVP.Generation.TDES_CTR
         public string Algorithm { get; set; }
         public string Mode { get; set; }
         public bool IsSample { get; set; }
+        public string[] Conformances { get; set; } = { };
 
         /// <summary>
         /// Keying Option 1 - 3 independant key TDES

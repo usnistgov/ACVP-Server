@@ -38,10 +38,10 @@ namespace NIST.CVP.Generation.TDES_CBC
 
                 return new TestCaseGenerateResponse<TestGroup, TestCase>(new TestCase
                 {
-                    PlainText = oracleResult.Results[0].PlainText,
-                    CipherText = oracleResult.Results[0].CipherText,
-                    Key = oracleResult.Results[0].Key,
-                    Iv = oracleResult.Results[0].Iv,
+                    PlainText = oracleResult.Seed.PlainText,
+                    CipherText = oracleResult.Seed.CipherText,
+                    Iv = oracleResult.Seed.Iv,
+                    Key = oracleResult.Seed.Key,
                     ResultsArray = Array.ConvertAll(oracleResult.Results.ToArray(), element => new AlgoArrayResponse
                     {
                         PlainText = element.PlainText,

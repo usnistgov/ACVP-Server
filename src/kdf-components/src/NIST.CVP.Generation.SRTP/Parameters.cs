@@ -10,6 +10,7 @@ namespace NIST.CVP.Generation.SRTP
         public string Algorithm { get; set; }
         public string Mode { get; set; }
         public bool IsSample { get; set; }
+        public string[] Conformances { get; set; } = { };
 
         public int[] AesKeyLength { get; set; }
         public bool SupportsZeroKdr { get; set; }
