@@ -22,7 +22,7 @@ namespace NIST.CVP.Generation.TDES_OFBI.Tests
         [TestCase(typeof(TestGroupGeneratorMonteCarlo))]
         public void ReturnedResultShouldContainExpectedTypes(Type expectedType)
         {
-            var result = _subject.GetTestGroupGenerators();
+            var result = _subject.GetTestGroupGenerators(new Parameters());
 
             Assert.IsTrue(result.Count(w => w.GetType() == expectedType) == 1);
         }
@@ -30,7 +30,7 @@ namespace NIST.CVP.Generation.TDES_OFBI.Tests
         [Test]
         public void ReturnedResultShouldContainThreeGenerators()
         {
-            var result = _subject.GetTestGroupGenerators();
+            var result = _subject.GetTestGroupGenerators(new Parameters());
 
             Assert.IsTrue(result.Count() == 3);
         }

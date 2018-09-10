@@ -165,16 +165,14 @@ namespace NIST.CVP.Generation.TDES_OFBI.Tests
         {
             var testCase = new TestCase
             {
-                ResultsArray = new List<AlgoArrayResponseWithIvs>
+                ResultsArray = new List<AlgoArrayResponse>
                 {
-                    new AlgoArrayResponseWithIvs
+                    new AlgoArrayResponse
                     {
                         CipherText = new BitString("1234567890"),
                         Keys = new BitString("ABCDEF0ABCDEF0ABCDEF0ABCDEF0"),
                         PlainText = new BitString("FAF0FAF0FAF0FAF0FAF0"),
-                        IV1 = new BitString("1234567890"),
-                        IV2 = new BitString("1234567890"),
-                        IV3 = new BitString("1234567890")
+                        IV = new BitString("1234567890")
                     }
                 },
                 TestCaseId = 1

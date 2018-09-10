@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
+﻿using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
 using NIST.CVP.Crypto.Common.Symmetric.CTR;
 using NIST.CVP.Crypto.Common.Symmetric.CTR.Enums;
 using NIST.CVP.Crypto.Common.Symmetric.Enums;
@@ -9,6 +7,7 @@ using NIST.CVP.Crypto.Symmetric.Engines;
 using NIST.CVP.Generation.Core.Async;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
+using System.Collections.Generic;
 
 namespace NIST.CVP.Generation.TDES_CTR.IntegrationTests
 {
@@ -35,7 +34,7 @@ namespace NIST.CVP.Generation.TDES_CTR.IntegrationTests
                     Direction = _encryptLabel
                 };
 
-                _katTestCaseGenerator = new TestCaseGeneratorKnownAnswer(tg);
+                _katTestCaseGenerator = new TestCaseGeneratorKat(testType);
 
                 List<TestCase> tests = new List<TestCase>();
                 for (int i = 0; i < _katTestCaseGenerator.NumberOfTestCasesToGenerate; i++)
@@ -68,7 +67,7 @@ namespace NIST.CVP.Generation.TDES_CTR.IntegrationTests
                     Direction = _encryptLabel
                 };
 
-                _katTestCaseGenerator = new TestCaseGeneratorKnownAnswer(tg);
+                _katTestCaseGenerator = new TestCaseGeneratorKat(testType);
 
                 List<TestCase> tests = new List<TestCase>();
                 for (int i = 0; i < _katTestCaseGenerator.NumberOfTestCasesToGenerate; i++)

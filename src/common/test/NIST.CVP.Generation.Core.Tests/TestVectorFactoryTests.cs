@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using Moq;
+﻿using Moq;
 using NIST.CVP.Generation.Core.Tests.Fakes;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
+using System.Collections.Generic;
 using FakeParameters = NIST.CVP.Generation.Core.Tests.Fakes.FakeParameters;
 using FakeTestVectorSet = NIST.CVP.Generation.Core.Tests.Fakes.FakeTestVectorSet;
 
@@ -70,7 +70,7 @@ namespace NIST.CVP.Generation.Core.Tests
             }
 
             _testGroupGeneratorFactory
-                .Setup(s => s.GetTestGroupGenerators())
+                .Setup(s => s.GetTestGroupGenerators(It.IsAny<FakeParameters>()))
                 .Returns(gennies);
             _testGroupGenerator
                 .Setup(s => s.BuildTestGroups(It.IsAny<FakeParameters>()))
@@ -81,7 +81,7 @@ namespace NIST.CVP.Generation.Core.Tests
             FakeParameters p = new FakeParameters();
             _subject.BuildTestVectorSet(p);
 
-            _testGroupGeneratorFactory.Verify(v => v.GetTestGroupGenerators(), Times.Once, nameof(_subject.BuildTestVectorSet));
+            _testGroupGeneratorFactory.Verify(v => v.GetTestGroupGenerators(It.IsAny<FakeParameters>()), Times.Once, nameof(_subject.BuildTestVectorSet));
             _testGroupGenerator.Verify(v => v.BuildTestGroups(It.IsAny<FakeParameters>()), Times.Exactly(numberOfInvokes), nameof(_testGroupGenerator.Object.BuildTestGroups));
         }
 
@@ -99,7 +99,7 @@ namespace NIST.CVP.Generation.Core.Tests
             };
 
             _testGroupGeneratorFactory
-                .Setup(s => s.GetTestGroupGenerators())
+                .Setup(s => s.GetTestGroupGenerators(It.IsAny<FakeParameters>()))
                 .Returns(gennies);
             _testGroupGenerator
                 .Setup(s => s.BuildTestGroups(It.IsAny<FakeParameters>()))

@@ -25,7 +25,7 @@ namespace NIST.CVP.Generation.ParallelHash.Tests
         [TestCase(typeof(TestGroupGeneratorMonteCarlo))]
         public void ReturnedResultShouldContainExpectedTypes(Type expectedType)
         {
-            var result = _subject.GetTestGroupGenerators();
+            var result = _subject.GetTestGroupGenerators(new Parameters());
 
             Assert.IsTrue(result.Count(w => w.GetType() == expectedType) == 1);
         }
@@ -33,7 +33,7 @@ namespace NIST.CVP.Generation.ParallelHash.Tests
         [Test]
         public void ReturnedResultShouldContainTwoGenerators()
         {
-            var result = _subject.GetTestGroupGenerators();
+            var result = _subject.GetTestGroupGenerators(new Parameters());
 
             Assert.IsTrue(result.Count() == 2);
         }
@@ -43,7 +43,7 @@ namespace NIST.CVP.Generation.ParallelHash.Tests
         [TestCase(true, 8)]
         public void ShouldReturnVectorSetWithProperTestGroupsForXOFModes(bool xof, int expected)
         {
-            var result = _subject.GetTestGroupGenerators();
+            var result = _subject.GetTestGroupGenerators(new Parameters());
 
             var minMax = new MathDomain();
             minMax.AddSegment(new RangeDomainSegment(null, 16, 65536));

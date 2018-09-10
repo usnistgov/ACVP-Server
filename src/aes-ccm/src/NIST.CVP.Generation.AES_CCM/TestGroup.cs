@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using NIST.CVP.Generation.Core;
+using System.Collections.Generic;
 
 namespace NIST.CVP.Generation.AES_CCM
 {
@@ -23,24 +23,12 @@ namespace NIST.CVP.Generation.AES_CCM
         public List<TestCase> Tests { get; set; } = new List<TestCase>();
 
         [JsonIgnore]
+        public int[] AADLengths { get; set; }
+        [JsonIgnore]
         public bool GroupReusesKeyForTestCases { get; set; }
         [JsonIgnore]
         public bool GroupReusesNonceForTestCases { get; set; }
         
-        //public TestGroup(dynamic source)
-        //{
-        //    var expandoSource = (ExpandoObject) source;
-
-        //    TestGroupId = expandoSource.GetTypeFromProperty<int>("tgId");
-        //    AADLength = expandoSource.GetTypeFromProperty<int>("aadLen");;
-        //    PTLength = expandoSource.GetTypeFromProperty<int>("ptLen");;
-        //    IVLength = expandoSource.GetTypeFromProperty<int>("ivLen");;
-        //    TagLength = expandoSource.GetTypeFromProperty<int>("tagLen");;
-        //    KeyLength = expandoSource.GetTypeFromProperty<int>("keyLen");;
-        //    Function = expandoSource.GetTypeFromProperty<string>("direction");;
-        //    TestType = expandoSource.GetTypeFromProperty<string>("testType");;
-        //}
-
         public bool SetString(string name, string value)
         {
             if (string.IsNullOrEmpty(name))

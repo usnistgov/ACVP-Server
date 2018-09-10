@@ -12,6 +12,7 @@ namespace NIST.CVP.Generation.KAS
         public string Mode { get; set; }
         /// <inheritdoc />
         public bool IsSample { get; set; }
+        public string[] Conformances { get; set; } = { };
         /// <summary>
         /// KAS Assurances
         /// </summary>

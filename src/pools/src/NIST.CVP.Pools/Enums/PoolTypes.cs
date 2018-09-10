@@ -8,6 +8,9 @@ namespace NIST.CVP.Pools.Enums
         SHA = 1,
 
         [EnumMember(Value = "aes")]
-        AES = 2
+        AES = 2,
+
+        [EnumMember(Value = "sha-mct")]
+        SHA_MCT = 3
     }
 }

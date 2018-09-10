@@ -41,6 +41,7 @@ namespace NIST.CVP.Pools
             switch (typeId)
             {
                 case PoolTypes.SHA:
+                case PoolTypes.SHA_MCT:
                     return jo.ToObject<ShaParameters>(serializer);
                 case PoolTypes.AES:
                     return jo.ToObject<AesParameters>(serializer);
@@ -63,6 +64,8 @@ namespace NIST.CVP.Pools
                     return jo.ToObject<HashResult>(serializer);
                 case PoolTypes.AES:
                     return jo.ToObject<AesResult>(serializer);
+                case PoolTypes.SHA_MCT:
+                    return jo.ToObject<MctResult<HashResult>>(serializer);
 
                 default:
                     throw new Exception("Unable to parse result");

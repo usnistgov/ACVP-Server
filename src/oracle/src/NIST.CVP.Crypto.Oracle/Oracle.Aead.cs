@@ -1,5 +1,7 @@
 ﻿using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
+using NIST.CVP.Math;
+using NIST.CVP.Math.Helpers;
 using System;
 using System.Threading.Tasks;
 using NIST.CVP.Orleans.Grains.Interfaces;
@@ -13,6 +15,23 @@ namespace NIST.CVP.Crypto.Oracle
         public async Task<AeadResult> GetAesCcmCaseAsync(AeadParameters param)
         {
             var grain = _clusterClient.GetGrain<IOracleObserverAesCcmCaseGrain>(
+                Guid.NewGuid()
+            );
+
+            var observer = new OracleGrainObserver<AeadResult>();
+            var observerReference = 
+                await _clusterClient.CreateObjectReference<IGrainObserver<AeadResult>>(observer);
+            await grain.Subscribe(observerReference);
+            await grain.BeginWorkAsync(param);
+
+            var result = await ObservableHelpers.ObserveUntilResult(grain, observer, observerReference);
+
+            return result;
+        }
+
+        public async Task<AeadResult> GetEcmaCaseAsync(AeadParameters param)
+        {
+            var grain = _clusterClient.GetGrain<IOracleObserverAesCcmEcmaCaseGrain>(
                 Guid.NewGuid()
             );
 
@@ -60,7 +79,7 @@ namespace NIST.CVP.Crypto.Oracle
 
             return result;
         }
-
+        
         public async Task<AeadResult> GetDeferredAesGcmCaseAsync(AeadParameters param)
         {
             var grain = _clusterClient.GetGrain<IOracleObserverAesDeferredGcmCaseGrain>(

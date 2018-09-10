@@ -134,7 +134,6 @@ namespace NIST.CVP.Orleans.Grains
             svc.AddSingleton<IAeadModeBlockCipherFactory, AeadModeBlockCipherFactory>();
             svc.AddSingleton<IMonteCarloFactoryAes, AesMonteCarloFactory>();
             svc.AddSingleton<IMonteCarloFactoryTdes, TdesMonteCarloFactory>();
-            svc.AddSingleton<IMonteCarloFactoryTdesPartitions, TdesPartitionsMonteCarloFactory>();
             svc.AddSingleton<ICounterFactory, CounterFactory>();
 
             svc.AddSingleton<ICmacFactory, CmacFactory>();

@@ -7,6 +7,7 @@ namespace NIST.CVP.Generation.TDES_OFBI
         public string Algorithm { get; set; }
         public string Mode { get; set; }
         public bool IsSample { get; set; }
+        public string[] Conformances { get; set; } = { };
         public string[] Direction { get; set; }
         /// <summary>
         /// Keying Option 1 - 3 independant key TDES

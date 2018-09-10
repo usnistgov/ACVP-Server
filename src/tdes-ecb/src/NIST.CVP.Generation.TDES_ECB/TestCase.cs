@@ -1,11 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Dynamic;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.Core.ExtensionMethods;
-using NIST.CVP.Math;
+﻿using Newtonsoft.Json;
 using NIST.CVP.Crypto.Common.Symmetric.TDES;
+using NIST.CVP.Generation.Core;
+using NIST.CVP.Math;
+using System.Collections.Generic;
 
 namespace NIST.CVP.Generation.TDES_ECB
 {
@@ -57,15 +54,6 @@ namespace NIST.CVP.Generation.TDES_ECB
         }
         
         public List<AlgoArrayResponse> ResultsArray { get; set; }
-
-        public TestCase() { }
-
-        public TestCase(string key, string plainText, string cipherText)
-        {
-            Key = new BitString(key);
-            PlainText = new BitString(plainText);
-            CipherText = new BitString(cipherText);
-        }
 
         public bool SetResultsArrayString(int index, string name, string value)
         {

@@ -41,8 +41,7 @@ namespace NIST.CVP.Generation.TupleHash
 
                 return new TestCaseGenerateResponse<TestGroup, TestCase>(new TestCase
                 {
-                    Tuple = oracleResult.Results[0].Tuple,
-                    Digest = oracleResult.Results[0].Digest,
+                    Tuple = oracleResult.Seed.Tuple,
                     ResultsArray = oracleResult.Results.ConvertAll(element => new AlgoArrayResponse { Tuple = element.Tuple, Digest = element.Digest, Customization = element.Customization })
                 });
             }

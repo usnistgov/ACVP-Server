@@ -1,10 +1,9 @@
 ﻿using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
-using NIST.CVP.Crypto.SHA2;
 using NIST.CVP.Crypto.SHA3;
 using NIST.CVP.Crypto.TupleHash;
-using System;
 using NIST.CVP.Math;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using NIST.CVP.Orleans.Grains.Interfaces;
@@ -16,8 +15,6 @@ namespace NIST.CVP.Crypto.Oracle
 {
     public partial class Oracle
     {
-        private readonly SHA _sha = new SHA(new SHAFactory());
-        private SHA_MCT _shaMct;
         private readonly SHA3.SHA3 _sha3 = new SHA3.SHA3(new SHA3Factory());
         private SHA3_MCT _sha3Mct;
         private readonly TupleHash.TupleHash _tupleHash = new TupleHash.TupleHash(new TupleHashFactory());
@@ -57,6 +54,7 @@ namespace NIST.CVP.Crypto.Oracle
 
             return new MctResult<HashResult>
             {
+                Seed = new HashResult { Message = message },
                 Results = result.Response.ConvertAll(element =>
                     new HashResult { Message = element.Message, Digest = element.Digest })
             };
@@ -139,6 +137,7 @@ namespace NIST.CVP.Crypto.Oracle
 
             return new MctResult<TupleHashResult>
             {
+                Seed = new TupleHashResult { Tuple = tuple },
                 Results = result.Response.ConvertAll(element =>
                     new TupleHashResult { Tuple = element.Tuple, Digest = element.Digest, Customization = element.Customization })
             };

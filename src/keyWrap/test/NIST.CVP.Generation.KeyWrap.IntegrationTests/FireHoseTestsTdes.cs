@@ -7,7 +7,7 @@ using NUnit.Framework;
 
 namespace NIST.CVP.Generation.KeyWrap.IntegrationTests
 {
-    [TestFixture, FastIntegrationTest]
+    [TestFixture, LongRunningIntegrationTest]
     public class FireHoseTestsTdes : FireHoseTestsBase<TestVectorSet, TestGroup, TestCase>
     {
         [Test]

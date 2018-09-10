@@ -1,12 +1,9 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json;
+using NIST.CVP.Crypto.Common.Symmetric.TDES;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.Core.ExtensionMethods;
 using NIST.CVP.Math;
 using System;
 using System.Collections.Generic;
-using System.Dynamic;
-using Newtonsoft.Json;
-using NIST.CVP.Crypto.Common.Symmetric.TDES;
 
 namespace NIST.CVP.Generation.TDES_CBCI
 {
@@ -89,28 +86,10 @@ namespace NIST.CVP.Generation.TDES_CBCI
 
         public BitString CipherText { get; set; }
 
-        [JsonProperty(PropertyName = "iv1")]
-        public BitString IV1 { get; set; }
-        [JsonProperty(PropertyName = "iv2")]
-        public BitString IV2 { get; set; }
-        [JsonProperty(PropertyName = "iv3")]
-        public BitString IV3 { get; set; }
+        [JsonProperty(PropertyName = "iv")]
+        public BitString Iv { get; set; }
         
-        public List<AlgoArrayResponseWithIvs> ResultsArray { get; set; }
-
-        public TestCase() { }
-
-        public TestCase(BitString keys, BitString iv1, BitString iv2, BitString iv3, BitString plainText, BitString cipherText)
-        {
-            Keys = keys;
-
-            IV1 = iv1;
-            IV2 = iv2;
-            IV3 = iv3;
-
-            PlainText = plainText;
-            CipherText = cipherText;
-        }
+        public List<AlgoArrayResponse> ResultsArray { get; set; }
 
         public bool SetString(string name, string value)
         {
@@ -149,13 +128,7 @@ namespace NIST.CVP.Generation.TDES_CBCI
                 case "initialization vector":
                 case "iv":
                 case "iv1":
-                    IV1 = new BitString(value);
-                    return true;
-                case "iv2":
-                    IV3 = new BitString(value);
-                    return true;
-                case "iv3":
-                    IV3 = new BitString(value);
+                    Iv = new BitString(value);
                     return true;
             }
             return false;

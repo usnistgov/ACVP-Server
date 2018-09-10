@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using NIST.CVP.Crypto.Common.Symmetric;
+﻿using NIST.CVP.Crypto.Common.Symmetric;
 using NIST.CVP.Crypto.Common.Symmetric.AES;
 using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
 using NIST.CVP.Crypto.Common.Symmetric.BlockModes.Aead;
@@ -8,6 +6,8 @@ using NIST.CVP.Crypto.Common.Symmetric.CTR;
 using NIST.CVP.Crypto.Common.Symmetric.Engines;
 using NIST.CVP.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.Math;
+using System;
+using System.Linq;
 
 namespace NIST.CVP.Crypto.Symmetric.BlockModes.Aead
 {
@@ -44,7 +44,7 @@ namespace NIST.CVP.Crypto.Symmetric.BlockModes.Aead
 
         private SymmetricCipherAeadResult Encrypt(IAeadModeBlockCipherParameters param)
         {
-            byte[] b = null;
+            byte[] b = new byte[0];
             byte[] ctr = new byte[_engine.BlockSizeBytes];
             int r = 0;
 
@@ -131,16 +131,16 @@ namespace NIST.CVP.Crypto.Symmetric.BlockModes.Aead
                 param.Payload.ToBytes().Take(plen / BITS_IN_BYTE).ToArray()
             );
 
-            // tagPortion should be exactly 16 bytes, bitString should be ended on a block boundry
+            // tagPortion should be exactly 16 bytes, bitString should be ended on a block boundary
             byte[] ct = tagPortion
                 .ConcatenateBits(
-                    // add bits to hit the block byte boundry for tag
+                    // add bits to hit the block byte boundary for tag
                     new BitString(_engine.BlockSizeBits - tagPortion.BitLength) 
                 ) 
                 .ConcatenateBits(cipherTextPortion)
                 .ConcatenateBits(
                     new BitString(
-                        // Add bits to hit a block boundry
+                        // Add bits to hit a block boundary
                         (m * _engine.BlockSizeBits) - (_engine.BlockSizeBits + cipherTextPortion.BitLength)
                     )
                 ) 

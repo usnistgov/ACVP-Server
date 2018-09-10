@@ -23,7 +23,7 @@ namespace NIST.CVP.Generation.SHA2.Tests
         [TestCase(typeof(TestGroupGeneratorMonteCarloTest))]
         public void ReturnedResultShouldContainExpectedTypes(Type expectedType)
         {
-            var result = _subject.GetTestGroupGenerators();
+            var result = _subject.GetTestGroupGenerators(new Parameters());
 
             Assert.IsTrue(result.Count(w => w.GetType() == expectedType) == 1);
         }
@@ -31,7 +31,7 @@ namespace NIST.CVP.Generation.SHA2.Tests
         [Test]
         public void ReturnedResultShouldContainThreeGenerators()
         {
-            var result = _subject.GetTestGroupGenerators();
+            var result = _subject.GetTestGroupGenerators(new Parameters());
 
             Assert.IsTrue(result.Count() == 2);
         }
@@ -39,7 +39,7 @@ namespace NIST.CVP.Generation.SHA2.Tests
         [Test]
         public void ShouldReturnVectorSet()
         {
-            var result = _subject.GetTestGroupGenerators();
+            var result = _subject.GetTestGroupGenerators(new Parameters());
             Parameters p = new Parameters
             {
                 Algorithm = "SHA1",
@@ -60,7 +60,7 @@ namespace NIST.CVP.Generation.SHA2.Tests
         [Test]
         public void ShouldReturnVectorSetWithProperTestGroupsForAllModes()
         {
-            var result = _subject.GetTestGroupGenerators();
+            var result = _subject.GetTestGroupGenerators(new Parameters());
             Parameters p = new Parameters
             {
                 Algorithm = "SHA2",

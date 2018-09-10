@@ -39,8 +39,7 @@ namespace NIST.CVP.Generation.SHA3
 
                 return new TestCaseGenerateResponse<TestGroup, TestCase>(new TestCase
                 {
-                    Message = oracleResult.Results[0].Message,
-                    Digest = oracleResult.Results[0].Digest,
+                    Message = oracleResult.Seed.Message,
                     ResultsArray = oracleResult.Results.ConvertAll(element => new AlgoArrayResponse { Message = element.Message, Digest = element.Digest })
                 });
             }

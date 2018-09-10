@@ -58,10 +58,10 @@ namespace NIST.CVP.Generation.TDES_CFB
 
                 return new TestCaseGenerateResponse<TestGroup, TestCase>(new TestCase
                 {
-                    PlainText = oracleResult.Results[0].PlainText,
-                    CipherText = oracleResult.Results[0].CipherText,
-                    Keys = oracleResult.Results[0].Key,
-                    Iv = oracleResult.Results[0].Iv,
+                    PlainText = oracleResult.Seed.PlainText,
+                    CipherText = oracleResult.Seed.CipherText,
+                    Iv = oracleResult.Seed.Iv,
+                    Keys = oracleResult.Seed.Key,
                     ResultsArray = Array.ConvertAll(oracleResult.Results.ToArray(), element => new AlgoArrayResponse
                     {
                         PlainText = element.PlainText,

@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-using Autofac;
+﻿using Autofac;
 using NIST.CVP.Common;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
+using System.Collections.Generic;
 
 namespace NIST.CVP.Generation.SHA2.IntegrationTests
 {
@@ -72,7 +72,7 @@ namespace NIST.CVP.Generation.SHA2.IntegrationTests
                 DigestSizes = new[] { "224", "256", "384", "512", "512/224", "512/256" },
                 BitOriented = true,
                 IncludeNull = true,
-                IsSample = true
+                IsSample = false
             };
 
             return CreateRegistration(targetFolder, parameters);
@@ -83,7 +83,7 @@ namespace NIST.CVP.Generation.SHA2.IntegrationTests
         /// </summary>
         public class FakeTestGroupGeneratorFactory : ITestGroupGeneratorFactory<Parameters, TestGroup, TestCase>
         {
-            public IEnumerable<ITestGroupGenerator<Parameters, TestGroup, TestCase>> GetTestGroupGenerators()
+            public IEnumerable<ITestGroupGenerator<Parameters, TestGroup, TestCase>> GetTestGroupGenerators(Parameters parameters)
             {
                 return new List<ITestGroupGenerator<Parameters, TestGroup, TestCase>>()
                 {

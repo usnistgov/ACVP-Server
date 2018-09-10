@@ -2,6 +2,8 @@
 using Newtonsoft.Json;
 using NIST.CVP.Generation.Core.JsonConverters;
 using NIST.CVP.Pools;
+using NLog;
+using System;
 using System.Collections.Generic;
 
 namespace NIST.CVP.PoolAPI.Controllers
@@ -17,35 +19,101 @@ namespace NIST.CVP.PoolAPI.Controllers
                 new BitstringConverter(),
                 new DomainConverter(),
                 new BigIntegerConverter()
-            }
+            },
+            Formatting = Formatting.Indented
         };
 
         [HttpPost]
-        // https://localhost:5001/api/pools
+        // /api/pools
         public string GetDataFromPool(ParameterHolder parameterHolder)
         {
-            return JsonConvert.SerializeObject(Program.PoolManager.GetResultFromPool(parameterHolder), _jsonSettings);
+            try
+            {
+                return JsonConvert.SerializeObject(Program.PoolManager.GetResultFromPool(parameterHolder), _jsonSettings);
+            }
+            catch (Exception ex)
+            {
+                LogManager.GetCurrentClassLogger().Error(ex);
+            }
+
+            return "";
+        }
+
+        [HttpGet]
+        // /api/pools
+        public string GetDataAboutPools()
+        {
+            try
+            {
+                return JsonConvert.SerializeObject(Program.PoolManager.GetPoolInformation(), _jsonSettings);
+            }
+            catch (Exception ex)
+            {
+                LogManager.GetCurrentClassLogger().Error(ex);
+            }
+
+            return "";
+        }
+
+        [HttpPost]
+        [Route("spawn")]
+        // /api/pools/spawn
+        public bool SpawnJobForPool(ParameterHolder parameterHolder)
+        {
+            try
+            {
+                // Spawn job
+                
+                // parameterHolder.Result = result;
+                
+                // Add to pool
+                // return Program.PoolManager.AddResultToPool(parameterHolder);
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                LogManager.GetCurrentClassLogger().Error(ex);
+                return false;
+            }
         }
 
         [HttpPost]
         [Route("add")]
-        // https://localhost:5001/api/pools/add
+        // /api/pools/add
         public bool PostDataToPool(ParameterHolder parameterHolder)
         {
-            return Program.PoolManager.AddResultToPool(parameterHolder);
+            try
+            {
+                return Program.PoolManager.AddResultToPool(parameterHolder);
+            }
+            catch (Exception ex)
+            {
+                LogManager.GetCurrentClassLogger().Error(ex);
+                return false;
+            }
         }
 
         [HttpPost]
         [Route("status")]
-        // https://localhost:5001/api/pools/status
+        // /api/pools/status
         public string PoolStatus(ParameterHolder parameterHolder)
         {
-            return JsonConvert.SerializeObject(Program.PoolManager.GetPoolStatus(parameterHolder));
+            try
+            {
+                LogManager.GetCurrentClassLogger().Info("Request received");
+                return JsonConvert.SerializeObject(Program.PoolManager.GetPoolStatus(parameterHolder));
+            }
+            catch (Exception ex)
+            {
+                LogManager.GetCurrentClassLogger().Error(ex);
+                return "";
+            }
         }
 
         [HttpGet]
         [Route("save")]
-        // https://localhost:5001/api/pools/save
+        // /api/pools/save
         public bool SavePools()
         {
             return Program.PoolManager.SavePools();

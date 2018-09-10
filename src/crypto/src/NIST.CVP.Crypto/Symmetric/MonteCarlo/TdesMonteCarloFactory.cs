@@ -38,12 +38,18 @@ namespace NIST.CVP.Crypto.Symmetric.MonteCarlo
                         64, mode);
                 case BlockCipherModesOfOperation.Ofb:
                     return new MonteCarloTdesOfb(_engineFactory, _modeFactory, new TDES_OFB.MonteCarloKeyMaker());
+                
                 case BlockCipherModesOfOperation.Cbci:
+                    return new MonteCarloTdesCbci(_engineFactory, _modeFactory, new TDES_CBCI.MonteCarloKeyMaker());
                 case BlockCipherModesOfOperation.CfbpBit:
+                    return new MonteCarloTdesCfbp(_engineFactory, _modeFactory, new TDES_CFBP.MonteCarloKeyMaker(), mode);
                 case BlockCipherModesOfOperation.CfbpByte:
+                    return new MonteCarloTdesCfbp(_engineFactory, _modeFactory, new TDES_CFBP.MonteCarloKeyMaker(), mode);
                 case BlockCipherModesOfOperation.CfbpBlock:
+                    return new MonteCarloTdesCfbp(_engineFactory, _modeFactory, new TDES_CFBP.MonteCarloKeyMaker(), mode);
                 case BlockCipherModesOfOperation.Ofbi:
-                    throw new NotSupportedException(nameof(mode));
+                    return new MonteCarloTdesOfbi(_engineFactory, _modeFactory, new TDES_OFBI.MonteCarloKeyMaker());
+
                 case BlockCipherModesOfOperation.CbcMac:
                 case BlockCipherModesOfOperation.Ccm:
                 case BlockCipherModesOfOperation.Ctr:

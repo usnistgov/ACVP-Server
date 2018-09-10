@@ -52,7 +52,6 @@ namespace NIST.CVP.Crypto
             builder.RegisterType<BlockCipherEngineFactory>().AsImplementedInterfaces();
             builder.RegisterType<AesMonteCarloFactory>().AsImplementedInterfaces();
             builder.RegisterType<TdesMonteCarloFactory>().AsImplementedInterfaces();
-            builder.RegisterType<TdesPartitionsMonteCarloFactory>().AsImplementedInterfaces();
             builder.RegisterType<CounterFactory>().AsImplementedInterfaces();
 
             builder.RegisterType<CmacFactory>().AsImplementedInterfaces();

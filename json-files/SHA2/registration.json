@@ -1,6 +1,6 @@
 {
   "algorithm": "SHA2",
-  "isSample": true,
+  "isSample": false,
   "digestSize": [
     "224",
     "256",

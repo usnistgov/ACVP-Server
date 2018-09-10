@@ -9,7 +9,7 @@ using NIST.CVP.Generation.KeyWrap.Parsers;
 
 namespace NIST.CVP.Generation.KeyWrap.IntegrationTests
 {
-    [TestFixture, FastIntegrationTest]
+    [TestFixture, LongRunningIntegrationTest]
     public abstract class FireHoseTestsBase<TTestVectorSet, TTestGroup, TTestCase>
         where TTestVectorSet : TestVectorSetBase<TTestGroup, TTestCase>, new()
         where TTestGroup : TestGroupBase<TTestGroup, TTestCase>, new()

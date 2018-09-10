@@ -5,7 +5,7 @@ namespace NIST.CVP.Generation.AES_OFB
 {
     public class TestGroupGeneratorFactory : ITestGroupGeneratorFactory<Parameters, TestGroup, TestCase>
     {
-        public IEnumerable<ITestGroupGenerator<Parameters, TestGroup, TestCase>> GetTestGroupGenerators()
+        public IEnumerable<ITestGroupGenerator<Parameters, TestGroup, TestCase>> GetTestGroupGenerators(Parameters parameters)
         {
             HashSet<ITestGroupGenerator<Parameters, TestGroup, TestCase>> list =
                 new HashSet<ITestGroupGenerator<Parameters, TestGroup, TestCase>>()
