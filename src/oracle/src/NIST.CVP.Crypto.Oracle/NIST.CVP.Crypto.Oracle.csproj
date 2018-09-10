@@ -12,6 +12,7 @@
     <ProjectReference Include="..\..\..\common\src\NIST.CVP.Common\NIST.CVP.Common.csproj" />
     <ProjectReference Include="..\..\..\crypto\src\NIST.CVP.Crypto.Common\NIST.CVP.Crypto.Common.csproj" />
     <ProjectReference Include="..\..\..\crypto\src\NIST.CVP.Crypto\NIST.CVP.Crypto.csproj" />
+    <ProjectReference Include="..\..\..\pools\src\NIST.CVP.Pools\NIST.CVP.Pools.csproj" />
     <ProjectReference Include="..\NIST.CVP.Common.Oracle\NIST.CVP.Common.Oracle.csproj" />
   </ItemGroup>
   

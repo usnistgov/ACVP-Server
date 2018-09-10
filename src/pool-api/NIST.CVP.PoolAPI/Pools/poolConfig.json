@@ -10,7 +10,7 @@
         }
       }
     },
-    "filePath": "sha2-test1.json",
+    "filePath": "sha2-512.json",
     "maxCapacity": 100,
     "monitorFrequency": 30
   },
@@ -25,7 +25,7 @@
         }
       }
     },
-    "filePath": "sha2-test2.json",
+    "filePath": "sha2-256.json",
     "maxCapacity": 50,
     "monitorFrequency": 30
   },
@@ -40,7 +40,7 @@
         }
       }
     },
-    "filePath": "sha2-mct-test.json",
+    "filePath": "sha2-256-mct.json",
     "maxCapacity": 50,
     "monitorFrequency": 30
   },
@@ -54,7 +54,7 @@
         "direction": "encrypt"
       }
     },
-    "filePath": "aes-test1.json",
+    "filePath": "aes-ecb-128.json",
     "maxCapacity": 10,
     "monitorFrequency": 60
   }

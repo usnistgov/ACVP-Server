@@ -51,7 +51,6 @@ namespace NIST.CVP.Pools
                 }
             }
         }
-
         
         public PoolResult<IResult> GetNextUntyped()
         {
@@ -79,8 +78,6 @@ namespace NIST.CVP.Pools
             _water.Enqueue((TResult)value);
             return true;
         }
-
-
 
         private void LoadPoolFromFile(string filename)
         {
@@ -118,7 +115,8 @@ namespace NIST.CVP.Pools
                 _water,
                 new JsonSerializerSettings
                 {
-                    Converters = _jsonConverters
+                    Converters = _jsonConverters,
+                    Formatting = Formatting.Indented
                 }
             );
 

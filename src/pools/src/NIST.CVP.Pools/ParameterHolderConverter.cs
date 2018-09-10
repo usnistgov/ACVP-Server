@@ -33,7 +33,15 @@ namespace NIST.CVP.Pools
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            throw new NotImplementedException();
+            var holder = (ParameterHolder) value;
+
+            var jo = new JObject
+            {
+                { "type", EnumHelpers.GetEnumDescriptionFromEnum(holder.Type) },
+                { "parameters", JsonConvert.SerializeObject(holder.Parameters) }
+            };
+
+            serializer.Serialize(writer, jo);
         }
 
         private IParameters GetParameters(PoolTypes typeId, JToken jo, JsonSerializer serializer)
