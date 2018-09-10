@@ -12,7 +12,7 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.KeyWrap.IntegrationTests
 {
-    [TestFixture, FastIntegrationTest]
+    [TestFixture, LongRunningIntegrationTest]
     public class GenValTestsAes : GenValTestsSingleRunnerBase
     {
         // ParameterValidator expects the algorithm to be "AES-KW"

@@ -7,7 +7,7 @@ using NIST.CVP.Generation.KeyWrap.AES;
 
 namespace NIST.CVP.Generation.KeyWrap.IntegrationTests
 {
-    [TestFixture, FastIntegrationTest]
+    [TestFixture, LongRunningIntegrationTest]
     public class FireHoseTestsAesKwp : FireHoseTestsBase<TestVectorSet, TestGroup, TestCase>
     {
         [Test]
