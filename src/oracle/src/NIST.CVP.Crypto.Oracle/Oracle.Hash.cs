@@ -22,46 +22,7 @@ namespace NIST.CVP.Crypto.Oracle
         private SHA3_MCT _sha3Mct;
         private readonly TupleHash.TupleHash _tupleHash = new TupleHash.TupleHash(new TupleHashFactory());
         private TupleHash_MCT _tupleHashMct;
-
-        private HashResult GetShaCase(ShaParameters param)
-        {
-            var message = _rand.GetRandomBitString(param.MessageLength);
-
-            var result = _sha.HashMessage(param.HashFunction, message);
-
-            if (!result.Success)
-            {
-                throw new Exception();
-            }
-         
-            return new HashResult
-            {
-                Message = message,
-                Digest = result.Digest
-            };
-        }
-
-        private MctResult<HashResult> GetShaMctCase(ShaParameters param)
-        {
-            _shaMct = new SHA_MCT(_sha);
-
-            var message = _rand.GetRandomBitString(param.MessageLength);
-
-            // TODO isSample up in here?
-            var result = _shaMct.MCTHash(param.HashFunction, message);
-
-            if (!result.Success)
-            {
-                throw new Exception();
-            }
-
-            return new MctResult<HashResult>
-            {
-                Results = result.Response.ConvertAll(element =>
-                    new HashResult {Message = element.Message, Digest = element.Digest})
-            };
-        }
-
+        
         private HashResult GetSha3Case(Sha3Parameters param)
         {
             var message = _rand.GetRandomBitString(param.MessageLength);
@@ -198,7 +159,19 @@ namespace NIST.CVP.Crypto.Oracle
 
         public async Task<HashResult> GetShaCaseAsync(ShaParameters param)
         {
-            return await _taskFactory.StartNew(() => GetShaCase(param));
+            var grain = _clusterClient.GetGrain<IOracleObserverShaCaseGrain>(
+                Guid.NewGuid()
+            );
+
+            var observer = new OracleGrainObserver<HashResult>();
+            var observerReference = 
+                await _clusterClient.CreateObjectReference<IGrainObserver<HashResult>>(observer);
+            await grain.Subscribe(observerReference);
+            await grain.BeginWorkAsync(param);
+
+            var result = await ObservableHelpers.ObserveUntilResult(grain, observer, observerReference);
+
+            return result;
         }
 
         public async Task<HashResult> GetSha3CaseAsync(Sha3Parameters param)
@@ -247,7 +220,19 @@ namespace NIST.CVP.Crypto.Oracle
 
         public async Task<MctResult<HashResult>> GetShaMctCaseAsync(ShaParameters param)
         {
-            return await _taskFactory.StartNew(() => GetShaMctCase(param));
+            var grain = _clusterClient.GetGrain<IOracleObserverShaMctCaseGrain>(
+                Guid.NewGuid()
+            );
+
+            var observer = new OracleGrainObserver<MctResult<HashResult>>();
+            var observerReference = 
+                await _clusterClient.CreateObjectReference<IGrainObserver<MctResult<HashResult>>>(observer);
+            await grain.Subscribe(observerReference);
+            await grain.BeginWorkAsync(param);
+
+            var result = await ObservableHelpers.ObserveUntilResult(grain, observer, observerReference);
+
+            return result;
         }
 
         public async Task<MctResult<HashResult>> GetSha3MctCaseAsync(Sha3Parameters param)
