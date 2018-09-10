@@ -60,16 +60,14 @@ namespace NIST.CVP.Generation.TDES_CFBP
 
             try
             {
-                var oracleResult = await _oracle.GetTdesWithIvsCaseAsync(param);
+                var oracleResult = await _oracle.GetTdesCaseAsync(param);
 
                 return new TestCaseGenerateResponse<TestGroup, TestCase>(new TestCase
                 {
                     Keys = oracleResult.Key,
                     PlainText = oracleResult.PlainText,
                     CipherText = oracleResult.CipherText,
-                    IV1 = oracleResult.Iv1,
-                    IV2 = oracleResult.Iv2,
-                    IV3 = oracleResult.Iv3
+                    IV = oracleResult.Iv
                 });
             }
             catch (Exception ex)

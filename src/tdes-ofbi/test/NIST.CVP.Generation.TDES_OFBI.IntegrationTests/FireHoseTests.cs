@@ -73,7 +73,7 @@ namespace NIST.CVP.Generation.TDES_OFBI.IntegrationTests
                         {
                             var param = new ModeBlockCipherParameters(
                                 BlockCipherDirections.Encrypt,
-                                testCase.ResultsArray.First().IV1,
+                                testCase.ResultsArray.First().IV,
                                 testCase.ResultsArray.First().Keys,
                                 testCase.ResultsArray.First().PlainText
                             );
@@ -93,7 +93,7 @@ namespace NIST.CVP.Generation.TDES_OFBI.IntegrationTests
                         {
                             var param = new ModeBlockCipherParameters(
                                 BlockCipherDirections.Decrypt,
-                                testCase.ResultsArray.First().IV1,
+                                testCase.ResultsArray.First().IV,
                                 testCase.ResultsArray.First().Keys,
                                 testCase.ResultsArray.First().CipherText
                             );
@@ -120,7 +120,7 @@ namespace NIST.CVP.Generation.TDES_OFBI.IntegrationTests
                         {
                             var param = new ModeBlockCipherParameters(
                                 BlockCipherDirections.Encrypt,
-                                testCase.IV1.GetDeepCopy(),
+                                testCase.IV.GetDeepCopy(),
                                 testCase.Keys.GetDeepCopy(),
                                 testCase.PlainText.GetDeepCopy()
                             );
@@ -144,7 +144,7 @@ namespace NIST.CVP.Generation.TDES_OFBI.IntegrationTests
                         {
                             var param = new ModeBlockCipherParameters(
                                 BlockCipherDirections.Decrypt,
-                                testCase.IV1.GetDeepCopy(),
+                                testCase.IV.GetDeepCopy(),
                                 testCase.Keys.GetDeepCopy(),
                                 testCase.CipherText.GetDeepCopy()
                             );

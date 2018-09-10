@@ -16,7 +16,7 @@ namespace NIST.CVP.Crypto.DSA.Ed
         public BigInteger OrderN { get; }
         public BigInteger FieldSizeQ { get; }
 
-        // Cofactor is always 1 for a prime curve
+        // Cofactor is always 1 for a prime curve (TODO check for 25519 and Montgomery-448)
         public int CofactorH { get { return 1; } }
 
         // Coefficients used for EdDSA as specified in IETF RFC 8032

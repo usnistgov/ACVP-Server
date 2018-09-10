@@ -20,8 +20,8 @@ namespace NIST.CVP.Generation.TDES_OFBI.Tests
         {
             _oracle = new Mock<IOracle>();
             _oracle
-                .Setup(s => s.GetTdesWithIvsCaseAsync(It.IsAny<TdesParameters>()))
-                .Returns(() => Task.FromResult(new TdesResultWithIvs()));
+                .Setup(s => s.GetTdesCaseAsync(It.IsAny<TdesParameters>()))
+                .Returns(() => Task.FromResult(new TdesResult()));
             _subject = new TestCaseGeneratorMmt(
                 _oracle.Object
             );
@@ -45,7 +45,7 @@ namespace NIST.CVP.Generation.TDES_OFBI.Tests
         public async Task ShouldReturnAnErrorIfAnEncryptionFails()
         {
             _oracle
-                .Setup(s => s.GetTdesWithIvsCaseAsync(It.IsAny<TdesParameters>()))
+                .Setup(s => s.GetTdesCaseAsync(It.IsAny<TdesParameters>()))
                 .Throws(new Exception());
             var result = await _subject.GenerateAsync(new TestGroup { Function = "encrypt", KeyingOption = 1 }, false);
             Assert.IsFalse(result.Success);

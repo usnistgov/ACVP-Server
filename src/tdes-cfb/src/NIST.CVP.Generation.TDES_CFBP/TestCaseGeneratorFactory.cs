@@ -1,10 +1,5 @@
 ﻿using NIST.CVP.Common.Oracle;
-using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
-using NIST.CVP.Crypto.Common.Symmetric.Engines;
-using NIST.CVP.Crypto.Common.Symmetric.MonteCarlo;
-using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Async;
-using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.TDES_CFBP
 {
@@ -26,7 +21,7 @@ namespace NIST.CVP.Generation.TDES_CFBP
                 case "substitutiontable":
                 case "variablekey":
                 case "variabletext":
-                    return new TestCaseGeneratorKnownAnswer(group);
+                    return new TestCaseGeneratorKat(group.TestType, group.AlgoMode);
 
                 case "multiblockmessage":
                     return new TestCaseGeneratorMmt(_oracle, group);

@@ -9,10 +9,11 @@ using NIST.CVP.Crypto.Common.Symmetric.MonteCarlo;
 using NIST.CVP.Crypto.Common.Symmetric.TDES;
 using NIST.CVP.Crypto.Common.Symmetric.TDES.Helpers;
 using NIST.CVP.Math;
+using AlgoArrayResponse = NIST.CVP.Crypto.Common.Symmetric.TDES.AlgoArrayResponse;
 
 namespace NIST.CVP.Crypto.Symmetric.MonteCarlo
 {
-    public class MonteCarloTdesCfbp : IMonteCarloTester<Common.Symmetric.MCTResult<AlgoArrayResponseWithIvs>, AlgoArrayResponseWithIvs>
+    public class MonteCarloTdesCfbp : IMonteCarloTester<MCTResult<AlgoArrayResponse>, AlgoArrayResponse>
     {
         private readonly IModeBlockCipher<SymmetricCipherResult> _algo;
         private readonly IMonteCarloKeyMakerTdes _keyMaker;
@@ -47,7 +48,7 @@ namespace NIST.CVP.Crypto.Symmetric.MonteCarlo
         }
 
 
-        public Common.Symmetric.MCTResult<AlgoArrayResponseWithIvs> ProcessMonteCarloTest(IModeBlockCipherParameters param)
+        public MCTResult<AlgoArrayResponse> ProcessMonteCarloTest(IModeBlockCipherParameters param)
         {
             switch (param.Direction)
             {
@@ -60,161 +61,12 @@ namespace NIST.CVP.Crypto.Symmetric.MonteCarlo
             }
         }
 
-        //public Common.Symmetric.MCTResult<AlgoArrayResponseWithIvs> Encrypt(IModeBlockCipherParameters param)
-        //{
-        //    var ivs = TdesPartitionHelpers.SetupIvs(param.Iv);
-        //    var responses = new List<AlgoArrayResponseWithIvs>{
-        //        new AlgoArrayResponseWithIvs {
-        //            IV1 = ivs[0],
-        //            IV2 = ivs[1],
-        //            IV3 = ivs[2],
-        //            Keys = param.Key,
-        //            PlainText = param.Payload
-        //        }
-        //    };
-        //    var holdouts = new BitString[3];
-        //    var numberOfOutputsToSave = 192 / Shift;
-        //    var indexAtWhichToStartSaving = NUMBER_OF_ITERATIONS - numberOfOutputsToSave;
-
-        //    for (var i = 0; i < NumberOfCases; i++)
-        //    {
-        //        var keysForThisRound = responses[i].Keys;
-        //        BitString output = null;
-        //        var lastCipherTexts = new List<BitString>();
-        //        for (var j = 0; j < NUMBER_OF_ITERATIONS; j++)
-        //        {
-        //            switch (j)
-        //            {
-        //                case 0:
-        //                    param.Iv = responses[i].IV1;
-        //                    break;
-        //                case 1:
-        //                    param.Iv = responses[i].IV2;
-        //                    break;
-        //                case 2:
-        //                    param.Iv = responses[i].IV3;
-        //                    break;
-        //                default:
-        //                    param.Iv = param.Iv.MSBSubstring(Shift, 64 - Shift).ConcatenateBits(holdouts[2]);
-        //                    break;
-        //            }
-
-        //            output = _algo.ProcessPayload(new ModeBlockCipherParameters(
-        //                BlockCipherDirections.Encrypt, param.Iv, keysForThisRound, param.Payload)
-        //            ).Result;
-
-        //            holdouts[2] = holdouts[1];
-        //            holdouts[1] = holdouts[0];
-        //            holdouts[0] = output;
-
-        //            param.Payload = param.Iv.MSBSubstring(0, Shift);
-
-        //            if (j >= indexAtWhichToStartSaving)
-        //            {
-        //                lastCipherTexts.Insert(0, output.GetDeepCopy());
-        //            }
-
-        //        }
-        //        responses[i].CipherText = output;
-
-        //        var newIv = param.Iv.MSBSubstring(Shift, 64 - Shift).ConcatenateBits(output);
-        //        var newIvs = TdesPartitionHelpers.SetupIvs(newIv);
-        //        responses.Add(new AlgoArrayResponseWithIvs()
-        //        {
-        //            Keys = _keyMaker.MixKeys(new TDESKeys(responses[i].Keys.GetDeepCopy()), lastCipherTexts.ToList())
-        //                .ToOddParityBitString(),
-        //            PlainText = param.Payload,
-        //            IV1 = newIvs[0],
-        //            IV2 = newIvs[1],
-        //            IV3 = newIvs[2],
-        //        });
-        //    }
-        //    responses.RemoveAt(responses.Count - 1);
-        //    return new Common.Symmetric.MCTResult<AlgoArrayResponseWithIvs>(responses);
-        //}
-
-        //public Common.Symmetric.MCTResult<AlgoArrayResponseWithIvs> Decrypt(IModeBlockCipherParameters param)
-        //{
-        //    var ivs = TdesPartitionHelpers.SetupIvs(param.Iv);
-        //    var responses = new List<AlgoArrayResponseWithIvs>{
-        //        new AlgoArrayResponseWithIvs {
-        //            IV1 = ivs[0],
-        //            IV2 = ivs[1],
-        //            IV3 = ivs[2],
-        //            Keys = param.Key,
-        //            CipherText = param.Payload
-        //        }
-        //    };
-        //    var holdouts = new BitString[3];
-        //    var numberOfOutputsToSave = 192 / Shift;
-        //    var indexAtWhichToStartSaving = NUMBER_OF_ITERATIONS - numberOfOutputsToSave;
-
-        //    for (var i = 0; i < NumberOfCases; i++)
-        //    {
-        //        var keysForThisRound = responses[i].Keys;
-        //        BitString output = null;
-        //        var lastPlainTexts = new List<BitString>();
-        //        for (var j = 0; j < NUMBER_OF_ITERATIONS; j++)
-        //        {
-        //            switch (j)
-        //            {
-        //                case 0:
-        //                    param.Iv = responses[i].IV1;
-        //                    break;
-        //                case 1:
-        //                    param.Iv = responses[i].IV2;
-        //                    break;
-        //                case 2:
-        //                    param.Iv = responses[i].IV3;
-        //                    break;
-        //                default:
-        //                    param.Iv = param.Iv.MSBSubstring(Shift, 64 - Shift).ConcatenateBits(holdouts[2]);
-        //                    break;
-        //            }
-
-
-        //            output = _algo.ProcessPayload(new ModeBlockCipherParameters(
-        //                BlockCipherDirections.Decrypt, param.Iv, keysForThisRound, param.Payload)
-        //            ).Result;
-
-        //            holdouts[2] = holdouts[1];
-        //            holdouts[1] = holdouts[0];
-        //            holdouts[0] = param.Payload;
-
-        //            param.Payload = param.Payload.XOR(output);
-
-        //            if (j >= indexAtWhichToStartSaving)
-        //            {
-        //                lastPlainTexts.Insert(0, output.GetDeepCopy());
-        //            }
-
-        //        }
-        //        responses[i].PlainText = output;
-
-        //        var newIv = param.Iv.MSBSubstring(Shift, 64 - Shift).ConcatenateBits(param.Payload.XOR(output));
-        //        var newIvs = TdesPartitionHelpers.SetupIvs(newIv);
-        //        responses.Add(new AlgoArrayResponseWithIvs()
-        //        {
-        //            Keys = _keyMaker.MixKeys(new TDESKeys(responses[i].Keys.GetDeepCopy()), lastPlainTexts.ToList())
-        //                .ToOddParityBitString(),
-        //            CipherText = param.Payload,
-        //            IV1 = newIvs[0],
-        //            IV2 = newIvs[1],
-        //            IV3 = newIvs[2],
-        //        });
-        //    }
-        //    responses.RemoveAt(responses.Count - 1);
-        //    return new Common.Symmetric.MCTResult<AlgoArrayResponseWithIvs>(responses);
-        //}
-
-        public Common.Symmetric.MCTResult<AlgoArrayResponseWithIvs> Encrypt(IModeBlockCipherParameters param)
+        public MCTResult<AlgoArrayResponse> Encrypt(IModeBlockCipherParameters param)
         {
             var ivs = TdesPartitionHelpers.SetupIvs(param.Iv);
-            var responses = new List<AlgoArrayResponseWithIvs>{
-                new AlgoArrayResponseWithIvs {
-                    IV1 = ivs[0],
-                    IV2 = ivs[1],
-                    IV3 = ivs[2],
+            var responses = new List<AlgoArrayResponse>{
+                new AlgoArrayResponse {
+                    IV = ivs[0],
                     Keys = param.Key,
                     PlainText = param.Payload
                 }
@@ -224,9 +76,10 @@ namespace NIST.CVP.Crypto.Symmetric.MonteCarlo
 
             for (var i = 0; i < NumberOfCases; i++)
             {
+                ivs = TdesPartitionHelpers.SetupIvs(responses[i].IV.GetDeepCopy());
                 var tempText = responses[i].PlainText.GetDeepCopy();
                 BitString prevTempIv = null;
-                var tempIv = responses[i].IV1.GetDeepCopy();
+                var tempIv = responses[i].IV.GetDeepCopy();
                 var keysForThisRound = responses[i].Keys;
                 BitString output = null;
                 var holdouts = new BitString[3];
@@ -236,13 +89,13 @@ namespace NIST.CVP.Crypto.Symmetric.MonteCarlo
                     switch (j)
                     {
                         case 0:
-                            tempIv = responses[i].IV1.GetDeepCopy();
+                            tempIv = ivs[0].GetDeepCopy();
                             break;
                         case 1:
-                            tempIv = responses[i].IV2.GetDeepCopy();
+                            tempIv = ivs[1].GetDeepCopy();
                             break;
                         case 2:
-                            tempIv = responses[i].IV3.GetDeepCopy();
+                            tempIv = ivs[2].GetDeepCopy();
                             break;
                         default:
                             tempIv = prevTempIv.MSBSubstring(Shift, 64 - Shift).ConcatenateBits(holdouts[2]);
@@ -271,28 +124,24 @@ namespace NIST.CVP.Crypto.Symmetric.MonteCarlo
                 var newIv = prevTempIv.MSBSubstring(Shift, 64 - Shift).ConcatenateBits(output);
                 var newIvs = TdesPartitionHelpers.SetupIvs(newIv);
 
-                responses.Add(new AlgoArrayResponseWithIvs()
+                responses.Add(new AlgoArrayResponse()
                 {
                     Keys = _keyMaker.MixKeys(new TDESKeys(responses[i].Keys.GetDeepCopy()), lastCipherTexts.ToList())
                         .ToOddParityBitString(),
                     PlainText = prevTempIv.GetDeepCopy().MSBSubstring(0, Shift),
-                    IV1 = newIvs[0],
-                    IV2 = newIvs[1],
-                    IV3 = newIvs[2],
+                    IV = newIvs[0]
                 });
             }
             responses.RemoveAt(responses.Count - 1);
-            return new Common.Symmetric.MCTResult<AlgoArrayResponseWithIvs>(responses);
+            return new MCTResult<AlgoArrayResponse>(responses);
         }
 
-        public Common.Symmetric.MCTResult<AlgoArrayResponseWithIvs> Decrypt(IModeBlockCipherParameters param)
+        public MCTResult<AlgoArrayResponse> Decrypt(IModeBlockCipherParameters param)
         {
             var ivs = TdesPartitionHelpers.SetupIvs(param.Iv);
-            var responses = new List<AlgoArrayResponseWithIvs>{
-                new AlgoArrayResponseWithIvs {
-                    IV1 = ivs[0],
-                    IV2 = ivs[1],
-                    IV3 = ivs[2],
+            var responses = new List<AlgoArrayResponse>{
+                new AlgoArrayResponse {
+                    IV = ivs[0],
                     Keys = param.Key,
                     CipherText = param.Payload
                 }
@@ -304,9 +153,10 @@ namespace NIST.CVP.Crypto.Symmetric.MonteCarlo
 
             for (var i = 0; i < NumberOfCases; i++)
             {
+                ivs = TdesPartitionHelpers.SetupIvs(responses[i].IV.GetDeepCopy());
                 var tempText = responses[i].CipherText.GetDeepCopy();
                 BitString prevTempIv = null;
-                var tempIv = responses[i].IV1.GetDeepCopy();
+                var tempIv = responses[i].IV.GetDeepCopy();
                 var keysForThisRound = responses[i].Keys;
                 BitString output = null;
                 var lastPlainTexts = new List<BitString>();
@@ -315,13 +165,13 @@ namespace NIST.CVP.Crypto.Symmetric.MonteCarlo
                     switch (j)
                     {
                         case 0:
-                            tempIv = responses[i].IV1.GetDeepCopy();
+                            tempIv = ivs[0].GetDeepCopy();
                             break;
                         case 1:
-                            tempIv = responses[i].IV2.GetDeepCopy();
+                            tempIv = ivs[1].GetDeepCopy();
                             break;
                         case 2:
-                            tempIv = responses[i].IV3.GetDeepCopy();
+                            tempIv = ivs[2].GetDeepCopy();
                             break;
                         default:
                             tempIv = prevTempIv.MSBSubstring(Shift, 64 - Shift).ConcatenateBits(holdouts[2]);
@@ -349,18 +199,16 @@ namespace NIST.CVP.Crypto.Symmetric.MonteCarlo
 
                 var newIv = prevTempIv.MSBSubstring(Shift, 64 - Shift).ConcatenateBits(tempText.XOR(output));
                 var newIvs = TdesPartitionHelpers.SetupIvs(newIv);
-                responses.Add(new AlgoArrayResponseWithIvs()
+                responses.Add(new AlgoArrayResponse()
                 {
                     Keys = _keyMaker.MixKeys(new TDESKeys(responses[i].Keys.GetDeepCopy()), lastPlainTexts.ToList())
                         .ToOddParityBitString(),
                     CipherText = tempText,
-                    IV1 = newIvs[0],
-                    IV2 = newIvs[1],
-                    IV3 = newIvs[2],
+                    IV = newIvs[0]
                 });
             }
             responses.RemoveAt(responses.Count - 1);
-            return new Common.Symmetric.MCTResult<AlgoArrayResponseWithIvs>(responses);
+            return new MCTResult<AlgoArrayResponse>(responses);
         }
     }
 }

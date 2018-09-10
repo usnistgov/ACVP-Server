@@ -19,8 +19,8 @@ namespace NIST.CVP.Generation.TDES_CBCI.Tests
         {
             _oracle = new Mock<IOracle>();
             _oracle
-                .Setup(s => s.GetTdesMctWithIvsCaseAsync(It.IsAny<TdesParameters>()))
-                .Returns(() => Task.FromResult(new MctResult<TdesResultWithIvs>()));
+                .Setup(s => s.GetTdesMctCaseAsync(It.IsAny<TdesParameters>()))
+                .Returns(() => Task.FromResult(new MctResult<TdesResult>()));
             _subject = new TestCaseGeneratorMct(_oracle.Object);
         }
         
@@ -28,7 +28,7 @@ namespace NIST.CVP.Generation.TDES_CBCI.Tests
         public async Task ShouldReturnErrorMessageIfAlgoFailsWithException()
         {
             string errorMessage = "something bad happened! oh noes!";
-            _oracle.Setup(s => s.GetTdesMctWithIvsCaseAsync(It.IsAny<TdesParameters>()))
+            _oracle.Setup(s => s.GetTdesMctCaseAsync(It.IsAny<TdesParameters>()))
                 .Throws(new Exception(errorMessage));
 
             TestGroup testGroup = new TestGroup()

@@ -1,10 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Dynamic;
-using System.Linq;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.Core.ExtensionMethods;
+using System.Collections.Generic;
 
 namespace NIST.CVP.Generation.TDES_ECB
 {

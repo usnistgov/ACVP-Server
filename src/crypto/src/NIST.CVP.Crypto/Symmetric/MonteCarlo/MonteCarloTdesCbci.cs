@@ -9,10 +9,11 @@ using NIST.CVP.Crypto.Common.Symmetric.MonteCarlo;
 using NIST.CVP.Crypto.Common.Symmetric.TDES;
 using NIST.CVP.Crypto.Common.Symmetric.TDES.Helpers;
 using NIST.CVP.Math;
+using AlgoArrayResponse = NIST.CVP.Crypto.Common.Symmetric.TDES.AlgoArrayResponse;
 
 namespace NIST.CVP.Crypto.Symmetric.MonteCarlo
 {
-    public class MonteCarloTdesCbci : IMonteCarloTester<Common.Symmetric.MCTResult<AlgoArrayResponseWithIvs>, AlgoArrayResponseWithIvs>
+    public class MonteCarloTdesCbci : IMonteCarloTester<MCTResult<AlgoArrayResponse>, AlgoArrayResponse>
     {
         private readonly IModeBlockCipher<SymmetricCipherResult> _algo;
         private readonly IMonteCarloKeyMakerTdes _keyMaker;
@@ -33,7 +34,7 @@ namespace NIST.CVP.Crypto.Symmetric.MonteCarlo
             _keyMaker = keyMaker;
         }
 
-        public Common.Symmetric.MCTResult<AlgoArrayResponseWithIvs> ProcessMonteCarloTest(IModeBlockCipherParameters param)
+        public MCTResult<AlgoArrayResponse> ProcessMonteCarloTest(IModeBlockCipherParameters param)
         {
             switch (param.Direction)
             {
@@ -46,7 +47,7 @@ namespace NIST.CVP.Crypto.Symmetric.MonteCarlo
             }
         }
 
-        private Common.Symmetric.MCTResult<AlgoArrayResponseWithIvs> Encrypt(IModeBlockCipherParameters param)
+        private MCTResult<AlgoArrayResponse> Encrypt(IModeBlockCipherParameters param)
         {
             if (param.Payload.BitLength != 192)
             {
@@ -55,11 +56,9 @@ namespace NIST.CVP.Crypto.Symmetric.MonteCarlo
             var ivs = TdesPartitionHelpers.SetupIvs(param.Iv);
             var pts = TdesPartitionHelpers.TriPartitionBitString(param.Payload);
 
-            var responses = new List<AlgoArrayResponseWithIvs>{
-                new AlgoArrayResponseWithIvs {
-                    IV1 = ivs[0],
-                    IV2 = ivs[1],
-                    IV3 = ivs[2],
+            var responses = new List<AlgoArrayResponse>{
+                new AlgoArrayResponse {
+                    IV = ivs[0],
                     Keys = param.Key,
                     PlainText = param.Payload
                 }
@@ -88,20 +87,18 @@ namespace NIST.CVP.Crypto.Symmetric.MonteCarlo
 
                 responses.Last().CipherText = ivs[0].ConcatenateBits(ivs[1]).ConcatenateBits(ivs[2]);
 
-                responses.Add(new AlgoArrayResponseWithIvs
+                responses.Add(new AlgoArrayResponse
                 {
-                    IV1 = ivs[0],
-                    IV2 = ivs[1],
-                    IV3 = ivs[2],
+                    IV = ivs[0],
                     Keys = _keyMaker.MixKeys(new TDESKeys(responses[i].Keys.GetDeepCopy()), lastCipherTexts.ToList()).ToOddParityBitString(),
                     PlainText = pts[0].ConcatenateBits(pts[1].ConcatenateBits(pts[2]))
                 });
             }
             responses.RemoveAt(responses.Count() - 1);
-            return new Common.Symmetric.MCTResult<AlgoArrayResponseWithIvs>(responses);
+            return new MCTResult<AlgoArrayResponse>(responses);
         }
 
-        private Common.Symmetric.MCTResult<AlgoArrayResponseWithIvs> Decrypt(IModeBlockCipherParameters param)
+        private MCTResult<AlgoArrayResponse> Decrypt(IModeBlockCipherParameters param)
         {
             if (param.Payload.BitLength != 192)
             {
@@ -110,11 +107,9 @@ namespace NIST.CVP.Crypto.Symmetric.MonteCarlo
             var ivs = TdesPartitionHelpers.SetupIvs(param.Iv);
             var cts = TdesPartitionHelpers.TriPartitionBitString(param.Payload);
 
-            var responses = new List<AlgoArrayResponseWithIvs>{
-                new AlgoArrayResponseWithIvs {
-                    IV1 = ivs[0],
-                    IV2 = ivs[1],
-                    IV3 = ivs[2],
+            var responses = new List<AlgoArrayResponse>{
+                new AlgoArrayResponse {
+                    IV = ivs[0],
                     Keys = param.Key,
                     CipherText = param.Payload
                 }
@@ -143,17 +138,15 @@ namespace NIST.CVP.Crypto.Symmetric.MonteCarlo
 
                 responses.Last().PlainText = cts[0].ConcatenateBits(cts[1]).ConcatenateBits(cts[2]);
 
-                responses.Add(new AlgoArrayResponseWithIvs
+                responses.Add(new AlgoArrayResponse
                 {
-                    IV1 = ivs[0],
-                    IV2 = ivs[1],
-                    IV3 = ivs[2],
+                    IV = ivs[0],
                     Keys = _keyMaker.MixKeys(new TDESKeys(responses[i].Keys.GetDeepCopy()), lastPlainTexts.ToList()).ToOddParityBitString(),
                     CipherText = cts[0].ConcatenateBits(cts[1].ConcatenateBits(cts[2]))
                 });
             }
             responses.RemoveAt(responses.Count - 1);
-            return new Common.Symmetric.MCTResult<AlgoArrayResponseWithIvs>(responses);
+            return new MCTResult<AlgoArrayResponse>(responses);
         }
     }
 }

@@ -21,7 +21,7 @@ namespace NIST.CVP.Generation.TDES_CFB
                 case "substitutiontable":
                 case "variablekey":
                 case "variabletext":
-                    return new TestCaseGeneratorKnownAnswer(group);
+                    return new TestCaseGeneratorKat(group.TestType, group.AlgoMode);
 
                 case "multiblockmessage":
                     return new TestCaseGeneratorMmt(_oracle, group);

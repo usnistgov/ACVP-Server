@@ -1,12 +1,9 @@
-﻿using System;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json;
+using NIST.CVP.Crypto.Common.Symmetric.TDES;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
+using System;
 using System.Collections.Generic;
-using System.Dynamic;
-using Newtonsoft.Json;
-using NIST.CVP.Crypto.Common.Symmetric.TDES;
-using NIST.CVP.Generation.Core.ExtensionMethods;
 
 namespace NIST.CVP.Generation.TDES_CBC
 {
@@ -89,16 +86,6 @@ namespace NIST.CVP.Generation.TDES_CBC
                     throw new ArgumentException("Invalid key size");
                 }
             }
-        }
-
-        public TestCase() { }
-
-        public TestCase(string key, string plainText, string cipherText, string iv)
-        {
-            Iv = new BitString(iv);
-            Key = new BitString(key);
-            PlainText = new BitString(plainText);
-            CipherText = new BitString(cipherText);
         }
 
         public bool SetResultsArrayString(int index, string name, string value)

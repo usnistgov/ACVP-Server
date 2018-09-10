@@ -23,7 +23,7 @@ namespace NIST.CVP.Generation.TDES_CTR
                 case "substitutiontable":
                 case "variablekey":
                 case "variabletext":
-                    return new TestCaseGeneratorKnownAnswer(group);
+                    return new TestCaseGeneratorKat(testType);
 
                 case "singleblock":
                     return new TestCaseGeneratorSingleBlock(_oracle);
