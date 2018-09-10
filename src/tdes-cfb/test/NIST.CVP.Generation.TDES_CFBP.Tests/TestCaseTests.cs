@@ -77,7 +77,7 @@ namespace NIST.CVP.Generation.TDES_CFBP.Tests
             var subject = new TestCase();
             var result = subject.SetString(name, "00AA");
             Assert.IsTrue(result);
-            Assert.AreEqual("00AA", subject.IV1.ToHex());
+            Assert.AreEqual("00AA", subject.IV.ToHex());
         }
     }
 }

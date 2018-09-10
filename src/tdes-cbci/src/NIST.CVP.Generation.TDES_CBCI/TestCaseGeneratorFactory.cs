@@ -1,5 +1,4 @@
 ﻿using NIST.CVP.Common.Oracle;
-using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.TDES_CBCI
@@ -23,7 +22,7 @@ namespace NIST.CVP.Generation.TDES_CBCI
                 case "substitutiontable":
                 case "variablekey":
                 case "variabletext":
-                    return new TestCaseGeneratorKnownAnswer(group);
+                    return new TestCaseGeneratorKat(group.TestType);
 
                 case "multiblockmessage":
                     return new TestCaseGeneratorMmt(_oracle);

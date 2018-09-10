@@ -1,10 +1,8 @@
-﻿using NIST.CVP.Tests.Core.TestCategoryAttributes;
+﻿using Moq;
+using NIST.CVP.Common.Oracle;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using System;
-using System.Collections.Generic;
-using System.Text;
-using Moq;
-using NIST.CVP.Common.Oracle;
 
 namespace NIST.CVP.Generation.TDES_OFB.Tests
 {
@@ -12,26 +10,26 @@ namespace NIST.CVP.Generation.TDES_OFB.Tests
     public class TestCaseGeneratorFactoryTests
     {
         [Test]
-        [TestCase("encrypt", "InversePermutation", typeof(TestCaseGeneratorKnownAnswer))]
-        [TestCase("encrypt", "InversePermutation", typeof(TestCaseGeneratorKnownAnswer))]
-        [TestCase("encrypt", "Permutation", typeof(TestCaseGeneratorKnownAnswer))]
-        [TestCase("encrypt", "Permutation", typeof(TestCaseGeneratorKnownAnswer))]
-        [TestCase("encrypt", "VariableKey", typeof(TestCaseGeneratorKnownAnswer))]
-        [TestCase("encrypt", "VariableKey", typeof(TestCaseGeneratorKnownAnswer))]
-        [TestCase("encrypt", "VariableText", typeof(TestCaseGeneratorKnownAnswer))]
-        [TestCase("encrypt", "VariableText", typeof(TestCaseGeneratorKnownAnswer))]
-        [TestCase("encrypt", "SubstitutionTable", typeof(TestCaseGeneratorKnownAnswer))]
-        [TestCase("encrypt", "SubstitutionTable", typeof(TestCaseGeneratorKnownAnswer))]
-        [TestCase("decrypt", "InversePermutation", typeof(TestCaseGeneratorKnownAnswer))]
-        [TestCase("decrypt", "InversePermutation", typeof(TestCaseGeneratorKnownAnswer))]
-        [TestCase("decrypt", "Permutation", typeof(TestCaseGeneratorKnownAnswer))]
-        [TestCase("decrypt", "Permutation", typeof(TestCaseGeneratorKnownAnswer))]
-        [TestCase("decrypt", "VariableKey", typeof(TestCaseGeneratorKnownAnswer))]
-        [TestCase("decrypt", "VariableKey", typeof(TestCaseGeneratorKnownAnswer))]
-        [TestCase("decrypt", "VariableText", typeof(TestCaseGeneratorKnownAnswer))]
-        [TestCase("decrypt", "VariableText", typeof(TestCaseGeneratorKnownAnswer))]
-        [TestCase("decrypt", "SubstitutionTable", typeof(TestCaseGeneratorKnownAnswer))]
-        [TestCase("decrypt", "SubstitutionTable", typeof(TestCaseGeneratorKnownAnswer))]
+        [TestCase("encrypt", "InversePermutation", typeof(TestCaseGeneratorKat))]
+        [TestCase("encrypt", "InversePermutation", typeof(TestCaseGeneratorKat))]
+        [TestCase("encrypt", "Permutation", typeof(TestCaseGeneratorKat))]
+        [TestCase("encrypt", "Permutation", typeof(TestCaseGeneratorKat))]
+        [TestCase("encrypt", "VariableKey", typeof(TestCaseGeneratorKat))]
+        [TestCase("encrypt", "VariableKey", typeof(TestCaseGeneratorKat))]
+        [TestCase("encrypt", "VariableText", typeof(TestCaseGeneratorKat))]
+        [TestCase("encrypt", "VariableText", typeof(TestCaseGeneratorKat))]
+        [TestCase("encrypt", "SubstitutionTable", typeof(TestCaseGeneratorKat))]
+        [TestCase("encrypt", "SubstitutionTable", typeof(TestCaseGeneratorKat))]
+        [TestCase("decrypt", "InversePermutation", typeof(TestCaseGeneratorKat))]
+        [TestCase("decrypt", "InversePermutation", typeof(TestCaseGeneratorKat))]
+        [TestCase("decrypt", "Permutation", typeof(TestCaseGeneratorKat))]
+        [TestCase("decrypt", "Permutation", typeof(TestCaseGeneratorKat))]
+        [TestCase("decrypt", "VariableKey", typeof(TestCaseGeneratorKat))]
+        [TestCase("decrypt", "VariableKey", typeof(TestCaseGeneratorKat))]
+        [TestCase("decrypt", "VariableText", typeof(TestCaseGeneratorKat))]
+        [TestCase("decrypt", "VariableText", typeof(TestCaseGeneratorKat))]
+        [TestCase("decrypt", "SubstitutionTable", typeof(TestCaseGeneratorKat))]
+        [TestCase("decrypt", "SubstitutionTable", typeof(TestCaseGeneratorKat))]
         [TestCase("encrypt", "MultiBlockMessage", typeof(TestCaseGeneratorMmt))]
         [TestCase("Encrypt", "MultiBlockMessage", typeof(TestCaseGeneratorMmt))]
         [TestCase("ENcrypt", "MultiBlockMessage", typeof(TestCaseGeneratorMmt))]

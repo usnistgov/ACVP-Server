@@ -15,14 +15,14 @@ namespace NIST.CVP.Generation.TDES_CBC
         public ITestCaseGeneratorAsync<TestGroup, TestCase> GetCaseGenerator(TestGroup @group)
         {
 
-            switch (@group.TestType.ToLower())
+            switch (group.TestType.ToLower())
             {
                 case "permutation":
                 case "inversepermutation":
                 case "substitutiontable":
                 case "variablekey":
                 case "variabletext":
-                    return new TestCaseGeneratorKnownAnswer(group);
+                    return new TestCaseGeneratorKat(group.TestType);
 
                 case "multiblockmessage":
                     return new TestCaseGeneratorMmt(_oracle);

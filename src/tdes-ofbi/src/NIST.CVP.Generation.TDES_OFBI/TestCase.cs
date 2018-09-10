@@ -1,9 +1,9 @@
-﻿using NIST.CVP.Generation.Core;
+﻿using Newtonsoft.Json;
+using NIST.CVP.Crypto.Common.Symmetric.TDES;
+using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using System;
 using System.Collections.Generic;
-using Newtonsoft.Json;
-using NIST.CVP.Crypto.Common.Symmetric.TDES;
 
 namespace NIST.CVP.Generation.TDES_OFBI
 {
@@ -16,11 +16,9 @@ namespace NIST.CVP.Generation.TDES_OFBI
         public BitString PlainText { get; set; }
         public BitString CipherText { get; set; }
 
-        public BitString IV1 { get; set; }
-        public BitString IV2 { get; set; }
-        public BitString IV3 { get; set; }
+        public BitString IV { get; set; }
         
-        public List<AlgoArrayResponseWithIvs> ResultsArray { get; set; }
+        public List<AlgoArrayResponse> ResultsArray { get; set; }
 
         private BitString _keys;
 
@@ -92,19 +90,6 @@ namespace NIST.CVP.Generation.TDES_OFBI
                 Keys.MSBSubstring(0, 128).ConcatenateBits(value);
         }
 
-        public TestCase(BitString keys, BitString iv1, BitString iv2, BitString iv3, BitString plainText, BitString cipherText)
-        {
-            Keys = keys;
-            IV1 = iv1;
-            IV2 = iv2;
-            IV3 = iv3;
-            PlainText = plainText;
-            CipherText = cipherText;
-        }
-
-        [JsonConstructor]
-        public TestCase() { }
-
         public bool SetString(string name, string value)
         {
             if (string.IsNullOrEmpty(name))
@@ -142,13 +127,7 @@ namespace NIST.CVP.Generation.TDES_OFBI
                 case "initialization vector":
                 case "iv":
                 case "iv1":
-                    IV1 = new BitString(value);
-                    return true;
-                case "iv2":
-                    IV3 = new BitString(value);
-                    return true;
-                case "iv3":
-                    IV3 = new BitString(value);
+                    IV = new BitString(value);
                     return true;
             }
             return false;
