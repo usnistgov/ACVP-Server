@@ -1,11 +1,11 @@
-﻿using System.Text.RegularExpressions;
-using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC.Enums;
+﻿using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC.Enums;
 using NIST.CVP.Generation.Core.DeSerialization;
 using NIST.CVP.Generation.Core.Enums;
 using NIST.CVP.Generation.Core.JsonConverters;
 using NIST.CVP.Generation.DSA.FFC.PQGVer.ContractResolvers;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
+using System.Text.RegularExpressions;
 
 namespace NIST.CVP.Generation.DSA.FFC.PQGVer.Tests.ContractResolvers
 {
@@ -85,6 +85,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer.Tests.ContractResolvers
             if (pqGenMode != PrimeGenMode.None)
             {
                 Assert.AreEqual(tc.DomainSeed, newTc.DomainSeed, nameof(newTc.DomainSeed));
+                Assert.AreEqual(tg.N, newTc.DomainSeed.BitLength, "BitLength must be valid");
             }
 
             if (pqGenMode == PrimeGenMode.Provable)
@@ -93,6 +94,8 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer.Tests.ContractResolvers
                 Assert.AreEqual(tc.QCount, newTc.QCount, nameof(newTc.QCount));
                 Assert.AreEqual(tc.PSeed, newTc.PSeed, nameof(newTc.PSeed));
                 Assert.AreEqual(tc.QSeed, newTc.QSeed, nameof(newTc.QSeed));
+                Assert.AreEqual(tg.N, newTc.PSeed.BitLength, "BitLength must be valid");
+                Assert.AreEqual(tg.N, newTc.QSeed.BitLength, "BitLength must be valid");
             }
             else
             {
@@ -120,6 +123,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer.Tests.ContractResolvers
             {
                 Assert.AreEqual(tc.H, newTc.H, nameof(newTc.H));
                 Assert.AreEqual(tc.DomainSeed, newTc.DomainSeed, nameof(newTc.DomainSeed));
+                Assert.AreEqual(tg.N * 3, newTc.DomainSeed.BitLength, "BitLength must be valid");   // all 3 seeds are appended together
             }
             else
             {
