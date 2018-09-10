@@ -1,6 +1,7 @@
 ﻿using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.Common.Symmetric.Enums;
+using NIST.CVP.Crypto.Common.Symmetric.TDES;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
 
@@ -22,6 +23,28 @@ namespace NIST.CVP.Orleans.Grains.Ctr
             var key = entropyProvider.GetEntropy(param.Parameters.KeyLength);
 
             return new AesResult
+            {
+                Key = key,
+                Iv = iv,
+                PlainText = direction == BlockCipherDirections.Encrypt ? payload : null,
+                CipherText = direction == BlockCipherDirections.Decrypt ? payload : null
+            };
+        }
+
+        public static TdesResult GetDeferredCounterTest(CounterParameters<TdesParameters> param, IEntropyProvider entropyProvider)
+        {
+            var iv = GetStartingIv(param.Overflow, param.Incremental, entropyProvider);
+
+            var direction = BlockCipherDirections.Encrypt;
+            if (param.Parameters.Direction.ToLower() == "decrypt")
+            {
+                direction = BlockCipherDirections.Decrypt;
+            }
+
+            var payload = entropyProvider.GetEntropy(param.Parameters.DataLength);
+            var key = TdesHelpers.GenerateTdesKey(param.Parameters.KeyingOption);
+
+            return new TdesResult
             {
                 Key = key,
                 Iv = iv,
