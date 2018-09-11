@@ -11,6 +11,8 @@ using NIST.CVP.Crypto.DSA.FFC.PQGeneratorValidators;
 using NIST.CVP.Crypto.Math;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Math;
+using NIST.CVP.Pools;
+using NIST.CVP.Pools.Enums;
 using System;
 using System.Numerics;
 using System.Threading.Tasks;
@@ -25,6 +27,13 @@ namespace NIST.CVP.Crypto.Oracle
 
         private DsaDomainParametersResult GetDsaPQ(DsaDomainParametersParameters param)
         {
+            var poolBoy = new PoolBoy<DsaDomainParametersResult>();
+            var poolResult = poolBoy.GetObjectFromPool(param, PoolTypes.DSA_PQG);
+            if (poolResult != null)
+            {
+                return poolResult;
+            }
+
             var sha = _shaFactory.GetShaInstance(param.HashAlg);
             var pqGen = _pqGenFactory.GetGeneratorValidator(param.PQGenMode, sha);
 
@@ -121,6 +130,13 @@ namespace NIST.CVP.Crypto.Oracle
 
         private DsaDomainParametersResult GetDsaDomainParameters(DsaDomainParametersParameters param)
         {
+            var poolBoy = new PoolBoy<DsaDomainParametersResult>();
+            var poolResult = poolBoy.GetObjectFromPool(param, PoolTypes.DSA_PQG);
+            if (poolResult != null)
+            {
+                return poolResult;
+            }
+
             var pqResult = GetDsaPQ(param);
             var gResult = GetDsaG(param, pqResult);
 

@@ -3,7 +3,7 @@ using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 
 namespace NIST.CVP.Common.Oracle.ParameterTypes
 {
-    public class DsaDomainParametersParameters
+    public class DsaDomainParametersParameters : IParameters
     {
         public HashFunction HashAlg { get; set; }
         public PrimeGenMode PQGenMode { get; set; }

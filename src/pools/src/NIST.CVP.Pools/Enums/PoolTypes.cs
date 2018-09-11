@@ -9,6 +9,7 @@
         CSHAKE_MCT,
         PARALLEL_HASH_MCT,
         TUPLE_HASH_MCT,
-        AES_MCT
+        AES_MCT,
+        DSA_PQG
     }
 }
