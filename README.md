@@ -10,12 +10,14 @@ Console application build in dotnet core used to generate (depending on a crypto
 
 ### To Run
 
-* [Dotnet core runtime](https://www.microsoft.com/net/download/Windows/run), at least meeting netstandard2.1.
+* [Dotnet core runtime](https://www.microsoft.com/net/download/Windows/run), at least meeting netapp2.1.
+* `ASPNETCORE_ENVIRONMENT` environment variable set, likely to "Local".
 * That's it.
 
 ### To Develop
 
-* [Dotnet core SDK](https://www.microsoft.com/net/download/), at least meeting netstandard2.1.
+* [Dotnet core SDK](https://www.microsoft.com/net/download/), at least meeting netcoreapp2.1.
+* `ASPNETCORE_ENVIRONMENT` environment variable set, likely to "Local".
 * IDE such as [Visual Studio](https://www.visualstudio.com/), or [VSCode](https://code.visualstudio.com/?wt.mc_id=adw-brand&gclid=Cj0KCQjwibDXBRCyARIsAFHp4fojTxuEuNCbj-3iNK5DIGpPHUJeDkAzOkEkdCJjrZ42ijrzoi3sUxAaAu4rEALw_wcB)
 
 ## How it works
@@ -31,6 +33,14 @@ The console application works through communication of json files as input and o
     # Validate test vectors with AES CBC, using the previously generated internalProjection along with the IUT's responses.
     dotnet NIST.CVP.Generation.GenValApp.dll -a aes -m cbc -n internalProjection.json -r testResults.json
 ```
+
+## Supported `ASPNETCORE_ENVIRONMENT` values
+
+* Local
+* Dev
+* Test
+* Demo
+* Prod
 
 ## See also
 

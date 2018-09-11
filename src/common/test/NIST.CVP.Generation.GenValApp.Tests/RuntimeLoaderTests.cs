@@ -2,6 +2,8 @@
 using System.IO;
 using Autofac;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using NIST.CVP.Common;
 using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Common.Helpers;
@@ -25,30 +27,12 @@ namespace NIST.CVP.Generation.GenValApp.Tests
     [TestFixture, FastIntegrationTest]
     public class RuntimeLoaderTests
     {
-        private static readonly AlgorithmConfig Config;
+        private AlgorithmConfig _config;
 
-        static RuntimeLoaderTests()
+        [OneTimeSetUp]
+        public void OneTimeSetup()
         {
-            Utilities.ConfigureLogging("RuntimeLoaderTests");
-
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile(
-                    $"{Program.RootDirectory}{Program.SETTINGS_FILE}",
-                    optional: false,
-                    reloadOnChange: true
-                )
-                .AddEnvironmentVariables();
-
-            var configuration = builder.Build();
-
-            Config = new AlgorithmConfig();
-            configuration.Bind(Config);
-
-            if (Config == null || Config.Algorithms.Count == 0)
-            {
-                throw new Exception("Config was not successfully loaded.");
-            }
+            _config = GenValApp.Program.ServiceProvider.GetService<IOptions<AlgorithmConfig>>().Value;
         }
         
         [Test]
@@ -56,7 +40,7 @@ namespace NIST.CVP.Generation.GenValApp.Tests
         {
             try
             {
-                foreach (var algoInfo in Config.Algorithms)
+                foreach (var algoInfo in _config.Algorithms)
                 {
                     ResolveGenVal(algoInfo);
                 }
@@ -79,7 +63,7 @@ namespace NIST.CVP.Generation.GenValApp.Tests
                 foreach (AlgoMode algoMode in Enum.GetValues(typeof(AlgoMode)))
                 {
                     var enumDesc = EnumHelpers.GetEnumDescriptionFromEnum(algoMode);
-                    if (!Config.Algorithms.TryFirst(t =>
+                    if (!_config.Algorithms.TryFirst(t =>
                             // Check if {algo}-{mode} equals enumDesc
                             // or in cases of empty mode, just compare against the {algo}
                             $"{t.Algorithm}-{t.Mode}".Equals(enumDesc, StringComparison.OrdinalIgnoreCase) 
@@ -90,7 +74,7 @@ namespace NIST.CVP.Generation.GenValApp.Tests
                         out var algoInfo)
                     )
                     {
-                        Assert.Fail($"Unable to find {nameof(enumDesc)} {enumDesc} in {nameof(Config)}");
+                        Assert.Fail($"Unable to find {nameof(enumDesc)} {enumDesc} in {nameof(_config)}");
                     }
 
                     ResolveGenVal(algoInfo);
@@ -108,7 +92,7 @@ namespace NIST.CVP.Generation.GenValApp.Tests
 
         private void ResolveGenVal(AlgorithmDllDependencies algoInfo)
         {
-            AutofacConfig.IoCConfiguration(Config, algoInfo.Algorithm, algoInfo.Mode, Program.RootDirectory);
+            AutofacConfig.IoCConfiguration(Program.ServiceProvider, algoInfo.Algorithm, algoInfo.Mode, Program.RootDirectory);
             using (var scope = AutofacConfig.GetContainer().BeginLifetimeScope())
             {
                 var gen = scope.Resolve<IGenerator>();

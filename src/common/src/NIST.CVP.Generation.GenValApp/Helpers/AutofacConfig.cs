@@ -1,7 +1,10 @@
 ﻿using System;
 using Autofac;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using NIST.CVP.Generation.Core.Helpers;
 using NIST.CVP.Generation.GenValApp.Models;
+
 
 namespace NIST.CVP.Generation.GenValApp.Helpers
 {
@@ -16,21 +19,44 @@ namespace NIST.CVP.Generation.GenValApp.Helpers
             return _container;
         }
 
-        public static void IoCConfiguration(AlgorithmConfig algorithmConfig, string algorithm, string mode, string dllLocation)
+        public static void IoCConfiguration(IServiceProvider serviceProvider, string algorithm, string mode, string dllLocation)
         {
             var builder = new ContainerBuilder();
+            RegisterConfigurationInjections(serviceProvider, builder);
 
             var algoMode = AlgoModeLookupHelper.GetAlgoModeFromStrings(algorithm, mode);
 
-            var iocRegisterables = GenValResolver.ResolveIocInjectables(algorithmConfig, algorithm, mode, dllLocation);
+            // TODO this shouldn't be done here, fix with nuget maybe?
+            // Crypto and Oracle Registration
+            var crypto = new Crypto.RegisterInjections();
+            crypto.RegisterTypes(builder, algoMode);
+            var oracle = new Crypto.Oracle.RegisterInjections();
+            oracle.RegisterTypes(builder, algoMode);
+            
+            var iocRegisterables = GenValResolver.ResolveIocInjectables(
+                serviceProvider.GetService<IOptions<AlgorithmConfig>>().Value, 
+                algorithm, 
+                mode, 
+                dllLocation
+            );
             foreach (var iocRegisterable in iocRegisterables)
             {
                 iocRegisterable.RegisterTypes(builder, algoMode);
             }
-
+            
             OverrideRegistrations?.Invoke(builder);
 
             _container = builder.Build();
+        }
+
+        /// <summary>
+        /// Additional IOC injections proivded via configuration files.
+        /// </summary>
+        /// <param name="serviceProvider">The .net core IOC provider for the instance</param>
+        /// <param name="builder">The builder that will create the <see cref="IContainer"/></param>
+        private static void RegisterConfigurationInjections(IServiceProvider serviceProvider, ContainerBuilder builder)
+        {
+            builder.Register(context => serviceProvider.GetService<IOptions<AlgorithmConfig>>());
         }
     }
     
