@@ -1,36 +1,6 @@
 [
   {
     "poolType": {
-      "type": "sha",
-      "parameters": {
-        "messageLength": 512,
-        "hashFunction": {
-          "mode": 1,
-          "digestSize": 2
-        }
-      }
-    },
-    "filePath": "sha2-512.json",
-    "maxCapacity": 100,
-    "monitorFrequency": 30
-  },
-  {
-    "poolType": {
-      "type": "sha",
-      "parameters": {
-        "messageLength": 256,
-        "hashFunction": {
-          "mode": 1,
-          "digestSize": 2
-        }
-      }
-    },
-    "filePath": "sha2-256.json",
-    "maxCapacity": 50,
-    "monitorFrequency": 30
-  },
-  {
-    "poolType": {
       "type": "sha-mct",
       "parameters": {
         "messageLength": 256,

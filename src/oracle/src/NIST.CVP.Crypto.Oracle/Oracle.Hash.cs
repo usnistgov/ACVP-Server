@@ -6,6 +6,7 @@ using NIST.CVP.Crypto.SHA2;
 using NIST.CVP.Crypto.SHA3;
 using NIST.CVP.Crypto.TupleHash;
 using NIST.CVP.Math;
+using NIST.CVP.Pools;
 using NIST.CVP.Pools.Enums;
 using System;
 using System.Collections.Generic;
@@ -46,10 +47,11 @@ namespace NIST.CVP.Crypto.Oracle
 
         private MctResult<HashResult> GetShaMctCase(ShaParameters param)
         {
-            var poolResult = GetObjectFromPool(param, PoolTypes.SHA_MCT);
+            var poolBoy = new PoolBoy<MctResult<HashResult>>();
+            var poolResult = poolBoy.GetObjectFromPool(param, PoolTypes.SHA_MCT);
             if (poolResult != null)
             {
-                return (MctResult<HashResult>)poolResult;
+                return poolResult;
             }
 
             _shaMct = new SHA_MCT(_sha);
