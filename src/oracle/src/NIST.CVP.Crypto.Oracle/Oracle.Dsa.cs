@@ -27,7 +27,7 @@ namespace NIST.CVP.Crypto.Oracle
 
         private DsaDomainParametersResult GetDsaPQ(DsaDomainParametersParameters param)
         {
-            var poolBoy = new PoolBoy<DsaDomainParametersResult>();
+            var poolBoy = new PoolBoy<DsaDomainParametersResult>(_poolConfig);
             var poolResult = poolBoy.GetObjectFromPool(param, PoolTypes.DSA_PQG);
             if (poolResult != null)
             {
@@ -130,7 +130,7 @@ namespace NIST.CVP.Crypto.Oracle
 
         private DsaDomainParametersResult GetDsaDomainParameters(DsaDomainParametersParameters param)
         {
-            var poolBoy = new PoolBoy<DsaDomainParametersResult>();
+            var poolBoy = new PoolBoy<DsaDomainParametersResult>(_poolConfig);
             var poolResult = poolBoy.GetObjectFromPool(param, PoolTypes.DSA_PQG);
             if (poolResult != null)
             {

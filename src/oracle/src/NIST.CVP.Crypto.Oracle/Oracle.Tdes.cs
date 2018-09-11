@@ -55,7 +55,7 @@ namespace NIST.CVP.Crypto.Oracle
 
         private MctResult<TdesResult> GetTdesMctCase(TdesParameters param)
         {
-            var poolBoy = new PoolBoy<MctResult<TdesResult>>();
+            var poolBoy = new PoolBoy<MctResult<TdesResult>>(_poolConfig);
             var poolResult = poolBoy.GetObjectFromPool(param, PoolTypes.TDES_MCT);
             if (poolResult != null)
             {

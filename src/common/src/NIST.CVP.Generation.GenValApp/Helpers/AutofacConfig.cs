@@ -2,6 +2,7 @@
 using Autofac;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using NIST.CVP.Common.Config;
 using NIST.CVP.Generation.Core.Helpers;
 using NIST.CVP.Generation.GenValApp.Models;
 
@@ -57,6 +58,7 @@ namespace NIST.CVP.Generation.GenValApp.Helpers
         private static void RegisterConfigurationInjections(IServiceProvider serviceProvider, ContainerBuilder builder)
         {
             builder.Register(context => serviceProvider.GetService<IOptions<AlgorithmConfig>>());
+            builder.Register(context => serviceProvider.GetService<IOptions<PoolConfig>>());
         }
     }
     

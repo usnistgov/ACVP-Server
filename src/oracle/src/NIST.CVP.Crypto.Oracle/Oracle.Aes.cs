@@ -60,7 +60,7 @@ namespace NIST.CVP.Crypto.Oracle
 
         private MctResult<AesResult> GetAesMctCase(AesParameters param)
         {
-            var poolBoy = new PoolBoy<MctResult<AesResult>>();
+            var poolBoy = new PoolBoy<MctResult<AesResult>>(_poolConfig);
             var poolResult = poolBoy.GetObjectFromPool(param, PoolTypes.AES_MCT);
             if (poolResult != null)
             {

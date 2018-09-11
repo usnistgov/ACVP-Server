@@ -3,6 +3,7 @@ using System;
 using System.IO;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using NIST.CVP.Common.Config;
 using NIST.CVP.Common.Enums;
 using NIST.CVP.Generation.GenValApp.Helpers;
 using NIST.CVP.Generation.GenValApp.Models;
@@ -43,6 +44,7 @@ namespace NIST.CVP.Generation.GenValApp
             var serviceCollection = new ServiceCollection();
             serviceCollection.AddOptions();
             serviceCollection.Configure<AlgorithmConfig>(configuration.GetSection(nameof(AlgorithmConfig)));
+            serviceCollection.Configure<PoolConfig>(configuration.GetSection(nameof(PoolConfig)));
 
             ServiceProvider = serviceCollection.BuildServiceProvider();
         }

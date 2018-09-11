@@ -5,15 +5,24 @@ using NIST.CVP.Pools.Enums;
 using System;
 using System.IO;
 using System.Net;
+using NIST.CVP.Common.Config;
+using Microsoft.Extensions.Options;
 
 namespace NIST.CVP.Pools
 {
     public class PoolBoy<T>
         where T : IResult
     {
+        private readonly PoolConfig _poolConfig;
+
+        public PoolBoy(IOptions<PoolConfig> poolConfig)
+        {
+            _poolConfig = poolConfig.Value;
+        }
+
         public T GetObjectFromPool(IParameters param, PoolTypes type)
         {
-            var request = (HttpWebRequest)WebRequest.Create("http://admin.dev.acvts.nist.gov:5002/api/pools");
+            var request = (HttpWebRequest)WebRequest.Create($"{_poolConfig.RootUrl}:{_poolConfig.Port}/api/pools");
             //var request = (HttpWebRequest)WebRequest.Create("http://localhost:5001/api/pools");
             request.ContentType = "application/json";
             request.Method = "POST";

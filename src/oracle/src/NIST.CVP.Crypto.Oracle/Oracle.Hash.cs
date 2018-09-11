@@ -47,7 +47,7 @@ namespace NIST.CVP.Crypto.Oracle
 
         private MctResult<HashResult> GetShaMctCase(ShaParameters param)
         {
-            var poolBoy = new PoolBoy<MctResult<HashResult>>();
+            var poolBoy = new PoolBoy<MctResult<HashResult>>(_poolConfig);
             var poolResult = poolBoy.GetObjectFromPool(param, PoolTypes.SHA_MCT);
             if (poolResult != null)
             {
@@ -94,7 +94,7 @@ namespace NIST.CVP.Crypto.Oracle
 
         private MctResult<HashResult> GetSha3MctCase(Sha3Parameters param)
         {
-            var poolBoy = new PoolBoy<MctResult<HashResult>>();
+            var poolBoy = new PoolBoy<MctResult<HashResult>>(_poolConfig);
             var poolResult = poolBoy.GetObjectFromPool(param, PoolTypes.SHA3_MCT);
             if (poolResult != null)
             {
@@ -156,7 +156,7 @@ namespace NIST.CVP.Crypto.Oracle
 
         private MctResult<CShakeResult> GetCShakeMctCase(CShakeParameters param)
         {
-            var poolBoy = new PoolBoy<MctResult<CShakeResult>>();
+            var poolBoy = new PoolBoy<MctResult<CShakeResult>>(_poolConfig);
             var poolResult = poolBoy.GetObjectFromPool(param, PoolTypes.CSHAKE_MCT);
             if (poolResult != null)
             {
@@ -218,7 +218,7 @@ namespace NIST.CVP.Crypto.Oracle
 
         private MctResult<ParallelHashResult> GetParallelHashMctCase(ParallelHashParameters param)
         {
-            var poolBoy = new PoolBoy<MctResult<ParallelHashResult>>();
+            var poolBoy = new PoolBoy<MctResult<ParallelHashResult>>(_poolConfig);
             var poolResult = poolBoy.GetObjectFromPool(param, PoolTypes.PARALLEL_HASH_MCT);
             if (poolResult != null)
             {
@@ -308,7 +308,7 @@ namespace NIST.CVP.Crypto.Oracle
 
         private MctResult<TupleHashResult> GetTupleHashMctCase(TupleHashParameters param)
         {
-            var poolBoy = new PoolBoy<MctResult<TupleHashResult>>();
+            var poolBoy = new PoolBoy<MctResult<TupleHashResult>>(_poolConfig);
             var poolResult = poolBoy.GetObjectFromPool(param, PoolTypes.TUPLE_HASH_MCT);
             if (poolResult != null)
             {

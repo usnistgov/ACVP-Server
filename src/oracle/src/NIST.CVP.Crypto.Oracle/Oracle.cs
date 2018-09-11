@@ -1,6 +1,8 @@
 ﻿using NIST.CVP.Common.Oracle;
 using NIST.CVP.Math;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Options;
+using NIST.CVP.Common.Config;
 
 namespace NIST.CVP.Crypto.Oracle
 {
@@ -22,11 +24,19 @@ namespace NIST.CVP.Crypto.Oracle
         // you can potentially cap out memory usage w/o being able to complete tasks.
         private static readonly LimitedConcurrencyLevelTaskScheduler _scheduler;
         private static readonly TaskFactory _taskFactory;
+        private readonly IOptions<PoolConfig> _poolConfig;
 
         static Oracle()
         {
             _scheduler = new LimitedConcurrencyLevelTaskScheduler(3);
             _taskFactory = new TaskFactory(_scheduler);
+        }
+
+        public Oracle(
+            IOptions<PoolConfig> poolConfig
+        )
+        {
+            _poolConfig = poolConfig;
         }
     }
 }

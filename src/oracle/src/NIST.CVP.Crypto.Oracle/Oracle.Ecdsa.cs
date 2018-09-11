@@ -20,7 +20,7 @@ namespace NIST.CVP.Crypto.Oracle
 
         private EcdsaKeyResult GetEcdsaKey(EcdsaKeyParameters param)
         {
-            var poolBoy = new PoolBoy<EcdsaKeyResult>();
+            var poolBoy = new PoolBoy<EcdsaKeyResult>(_poolConfig);
             var poolResult = poolBoy.GetObjectFromPool(param, PoolTypes.ECDSA_KEY);
             if (poolResult != null)
             {
