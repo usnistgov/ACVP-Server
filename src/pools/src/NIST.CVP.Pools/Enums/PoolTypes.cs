@@ -11,6 +11,7 @@
         TUPLE_HASH_MCT,
         AES_MCT,
         DSA_PQG,
-        ECDSA_KEY
+        ECDSA_KEY,
+        TDES_MCT
     }
 }

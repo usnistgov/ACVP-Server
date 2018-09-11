@@ -1,15 +1,17 @@
 ﻿using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Common.Symmetric.CTR.Enums;
 using NIST.CVP.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.Crypto.Common.Symmetric.TDES;
 using NIST.CVP.Crypto.Symmetric.BlockModes;
 using NIST.CVP.Crypto.Symmetric.Engines;
 using NIST.CVP.Crypto.Symmetric.MonteCarlo;
+using NIST.CVP.Pools;
+using NIST.CVP.Pools.Enums;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using NIST.CVP.Crypto.Common.Symmetric.CTR.Enums;
 
 namespace NIST.CVP.Crypto.Oracle
 {
@@ -53,6 +55,13 @@ namespace NIST.CVP.Crypto.Oracle
 
         private MctResult<TdesResult> GetTdesMctCase(TdesParameters param)
         {
+            var poolBoy = new PoolBoy<MctResult<TdesResult>>();
+            var poolResult = poolBoy.GetObjectFromPool(param, PoolTypes.TDES_MCT);
+            if (poolResult != null)
+            {
+                return poolResult;
+            }
+
             var cipher = _tdesMctFactory.GetInstance(param.Mode);
             var direction = BlockCipherDirections.Encrypt;
             if (param.Direction.ToLower() == "decrypt")

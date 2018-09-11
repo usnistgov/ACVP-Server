@@ -2,7 +2,7 @@
 
 namespace NIST.CVP.Common.Oracle.ParameterTypes
 {
-    public class TdesParameters
+    public class TdesParameters : IParameters
     {
         public BlockCipherModesOfOperation Mode { get; set; }
         public int KeyingOption { get; set; }
