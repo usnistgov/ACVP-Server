@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using NIST.CVP.Common.ExtensionMethods;
-using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Generation.Core.JsonConverters;
@@ -23,7 +23,8 @@ namespace NIST.CVP.Pools
         {
             new BitstringConverter(),
             new DomainConverter(),
-            new BigIntegerConverter()
+            new BigIntegerConverter(),
+            new StringEnumConverter()
         };
 
         public PoolManager(string configFile, string poolDirectory)
@@ -61,10 +62,17 @@ namespace NIST.CVP.Pools
             return new PoolResult<IResult> { PoolEmpty = true };
         }
 
-        public List<IParameters> GetPoolInformation()
+        public List<ParameterHolder> GetPoolInformation()
         {
-            var list = new List<IParameters>();
-            Pools.ForEach(fe => list.Add(fe.Param));
+            var list = new List<ParameterHolder>();
+            Pools.ForEach(fe =>
+            {
+                list.Add(new ParameterHolder
+                {
+                    Parameters = fe.Param,
+                    Type = fe.DeclaredType
+                });
+            });
 
             return list;
         }

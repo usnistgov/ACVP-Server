@@ -3,6 +3,36 @@
     "poolType": {
       "type": "sha-mct",
       "parameters": {
+        "messageLength": 160,
+        "hashFunction": {
+          "mode": 0,
+          "digestSize": 0
+        }
+      }
+    },
+    "filePath": "sha1-mct.json",
+    "maxCapacity": 50,
+    "monitorFrequency": 30
+  },
+  {
+    "poolType": {
+      "type": "sha-mct",
+      "parameters": {
+        "messageLength": 224,
+        "hashFunction": {
+          "mode": 1,
+          "digestSize": 1
+        }
+      }
+    },
+    "filePath": "sha2-224-mct.json",
+    "maxCapacity": 50,
+    "monitorFrequency": 30
+  },
+  {
+    "poolType": {
+      "type": "sha-mct",
+      "parameters": {
         "messageLength": 256,
         "hashFunction": {
           "mode": 1,
@@ -11,6 +41,66 @@
       }
     },
     "filePath": "sha2-256-mct.json",
+    "maxCapacity": 50,
+    "monitorFrequency": 30
+  },
+  {
+    "poolType": {
+      "type": "sha-mct",
+      "parameters": {
+        "messageLength": 384,
+        "hashFunction": {
+          "mode": 1,
+          "digestSize": 3
+        }
+      }
+    },
+    "filePath": "sha2-384-mct.json",
+    "maxCapacity": 50,
+    "monitorFrequency": 30
+  },
+  {
+    "poolType": {
+      "type": "sha-mct",
+      "parameters": {
+        "messageLength": 512,
+        "hashFunction": {
+          "mode": 1,
+          "digestSize": 4
+        }
+      }
+    },
+    "filePath": "sha2-512-mct.json",
+    "maxCapacity": 50,
+    "monitorFrequency": 30
+  },
+  {
+    "poolType": {
+      "type": "sha-mct",
+      "parameters": {
+        "messageLength": 224,
+        "hashFunction": {
+          "mode": 1,
+          "digestSize": 5
+        }
+      }
+    },
+    "filePath": "sha2-512-224-mct.json",
+    "maxCapacity": 50,
+    "monitorFrequency": 30
+  },
+  {
+    "poolType": {
+      "type": "sha-mct",
+      "parameters": {
+        "messageLength": 256,
+        "hashFunction": {
+          "mode": 1,
+          "digestSize": 6
+        }
+      }
+    },
+    "filePath": "sha2-512-256-mct.json",
     "maxCapacity": 50,
     "monitorFrequency": 30
   },
