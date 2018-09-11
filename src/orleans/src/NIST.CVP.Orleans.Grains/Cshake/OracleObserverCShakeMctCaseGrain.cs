@@ -14,7 +14,6 @@ namespace NIST.CVP.Orleans.Grains.Cshake
         IOracleObserverCShakeMctCaseGrain
     {
         private readonly ICSHAKE_MCT _cshakeMct;
-        private readonly IEntropyProvider _entropyProvider;
         private readonly IRandom800_90 _rand;
 
         private CShakeParameters _param;
@@ -27,7 +26,6 @@ namespace NIST.CVP.Orleans.Grains.Cshake
         ) : base (nonOrleansScheduler)
         {
             _cshakeMct = cshakeMct;
-            _entropyProvider = entropyProviderFactory.GetEntropyProvider(EntropyProviderTypes.Random);
             _rand = rand;
         }
         
@@ -54,6 +52,10 @@ namespace NIST.CVP.Orleans.Grains.Cshake
             // Notify observers of result
             await Notify(new MctResult<CShakeResult>
             {
+                Seed = new CShakeResult()
+                {
+                    Message = message
+                },
                 Results = result.Response.ConvertAll(element =>
                     new CShakeResult { Message = element.Message, Digest = element.Digest, Customization = element.Customization })
             });

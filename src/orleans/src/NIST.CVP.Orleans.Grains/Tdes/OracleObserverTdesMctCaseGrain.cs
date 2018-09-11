@@ -64,6 +64,13 @@ namespace NIST.CVP.Orleans.Grains.Tdes
             // Notify observers of result
             await Notify(new MctResult<TdesResult>
             {
+                Seed = new TdesResult()
+                {
+                    Key = key,
+                    Iv = iv,
+                    PlainText = direction == BlockCipherDirections.Encrypt ? payload : null,
+                    CipherText = direction == BlockCipherDirections.Decrypt ? payload : null,
+                },
                 Results = Array.ConvertAll(result.Response.ToArray(), element => new TdesResult
                 {
                     Key = element.Keys,

@@ -49,6 +49,10 @@ namespace NIST.CVP.Orleans.Grains.Hash
 
             await Notify(new MctResult<HashResult>
             {
+                Seed = new HashResult()
+                {
+                    Message = message
+                },
                 Results = result.Response.ConvertAll(element =>
                     new HashResult {Message = element.Message, Digest = element.Digest})
             });

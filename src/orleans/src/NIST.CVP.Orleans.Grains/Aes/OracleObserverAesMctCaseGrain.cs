@@ -63,6 +63,13 @@ namespace NIST.CVP.Orleans.Grains.Aes
             // Notify observers of result
             await Notify(new MctResult<AesResult>
             {
+                Seed = new AesResult()
+                {
+                    Key = key,
+                    Iv = iv,
+                    PlainText = direction == BlockCipherDirections.Encrypt ? payload : null,
+                    CipherText = direction == BlockCipherDirections.Decrypt ? payload : null,
+                },
                 Results = Array.ConvertAll(result.Response.ToArray(), element => new AesResult
                 {
                     Key = element.Key,

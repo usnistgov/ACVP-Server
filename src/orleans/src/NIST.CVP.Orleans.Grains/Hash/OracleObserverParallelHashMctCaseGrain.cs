@@ -50,6 +50,10 @@ namespace NIST.CVP.Orleans.Grains.Hash
 
             await Notify(new MctResult<ParallelHashResult>
             {
+                Seed = new ParallelHashResult()
+                {
+                    Message = message
+                },
                 Results = result.Response.ConvertAll(element =>
                     new ParallelHashResult { Message = element.Message, Digest = element.Digest, Customization = element.Customization })
             });
