@@ -3,7 +3,7 @@ using NIST.CVP.Math.Domain;
 
 namespace NIST.CVP.Common.Oracle.ParameterTypes
 {
-    public class CShakeParameters
+    public class CShakeParameters : IParameters
     {
         public int MessageLength { get; set; }
         public int CustomizationLength { get; set; }

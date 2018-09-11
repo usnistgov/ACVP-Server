@@ -2,7 +2,7 @@
 
 namespace NIST.CVP.Common.Oracle.ParameterTypes
 {
-    public class Sha3Parameters
+    public class Sha3Parameters : IParameters
     {
         public int MessageLength { get; set; }
         public HashFunction HashFunction { get; set; }

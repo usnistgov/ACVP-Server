@@ -94,6 +94,13 @@ namespace NIST.CVP.Crypto.Oracle
 
         private MctResult<HashResult> GetSha3MctCase(Sha3Parameters param)
         {
+            var poolBoy = new PoolBoy<MctResult<HashResult>>();
+            var poolResult = poolBoy.GetObjectFromPool(param, PoolTypes.SHA3_MCT);
+            if (poolResult != null)
+            {
+                return poolResult;
+            }
+
             _sha3Mct = new SHA3_MCT(_sha3);
 
             var message = _rand.GetRandomBitString(param.MessageLength);
@@ -149,6 +156,13 @@ namespace NIST.CVP.Crypto.Oracle
 
         private MctResult<CShakeResult> GetCShakeMctCase(CShakeParameters param)
         {
+            var poolBoy = new PoolBoy<MctResult<CShakeResult>>();
+            var poolResult = poolBoy.GetObjectFromPool(param, PoolTypes.CSHAKE_MCT);
+            if (poolResult != null)
+            {
+                return poolResult;
+            }
+
             _cSHAKEMct = new CSHAKE_MCT(_cSHAKE);
 
             var message = _rand.GetRandomBitString(param.MessageLength);
@@ -204,6 +218,13 @@ namespace NIST.CVP.Crypto.Oracle
 
         private MctResult<ParallelHashResult> GetParallelHashMctCase(ParallelHashParameters param)
         {
+            var poolBoy = new PoolBoy<MctResult<ParallelHashResult>>();
+            var poolResult = poolBoy.GetObjectFromPool(param, PoolTypes.PARALLEL_HASH_MCT);
+            if (poolResult != null)
+            {
+                return poolResult;
+            }
+
             _parallelHashMct = new ParallelHash_MCT(_parallelHash);
 
             var message = _rand.GetRandomBitString(param.MessageLength);
@@ -287,6 +308,13 @@ namespace NIST.CVP.Crypto.Oracle
 
         private MctResult<TupleHashResult> GetTupleHashMctCase(TupleHashParameters param)
         {
+            var poolBoy = new PoolBoy<MctResult<TupleHashResult>>();
+            var poolResult = poolBoy.GetObjectFromPool(param, PoolTypes.TUPLE_HASH_MCT);
+            if (poolResult != null)
+            {
+                return poolResult;
+            }
+
             _tupleHashMct = new TupleHash_MCT(_tupleHash);
 
             var tuple = new List<BitString>() { _rand.GetRandomBitString(param.MessageLength) };

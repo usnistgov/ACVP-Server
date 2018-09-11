@@ -3,7 +3,7 @@ using NIST.CVP.Math.Domain;
 
 namespace NIST.CVP.Common.Oracle.ParameterTypes
 {
-    public class TupleHashParameters
+    public class TupleHashParameters : IParameters
     {
         public int MessageLength { get; set; }
         public int TupleSize { get; set; }
