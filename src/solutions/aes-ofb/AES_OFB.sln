@@ -39,6 +39,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.Oracle", ".
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Common.Oracle.Tests", "..\..\oracle\test\NIST.CVP.Oracle.Common.Tests\NIST.CVP.Common.Oracle.Tests.csproj", "{F83BF0BC-0203-46AD-BBDD-77B78797E751}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Pools", "..\..\pools\src\NIST.CVP.Pools\NIST.CVP.Pools.csproj", "{6E79C115-25ED-4A68-AD21-56863AA3426F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -241,6 +243,18 @@ Global
 		{F83BF0BC-0203-46AD-BBDD-77B78797E751}.Release|x64.Build.0 = Release|Any CPU
 		{F83BF0BC-0203-46AD-BBDD-77B78797E751}.Release|x86.ActiveCfg = Release|Any CPU
 		{F83BF0BC-0203-46AD-BBDD-77B78797E751}.Release|x86.Build.0 = Release|Any CPU
+		{6E79C115-25ED-4A68-AD21-56863AA3426F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6E79C115-25ED-4A68-AD21-56863AA3426F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6E79C115-25ED-4A68-AD21-56863AA3426F}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{6E79C115-25ED-4A68-AD21-56863AA3426F}.Debug|x64.Build.0 = Debug|Any CPU
+		{6E79C115-25ED-4A68-AD21-56863AA3426F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6E79C115-25ED-4A68-AD21-56863AA3426F}.Debug|x86.Build.0 = Debug|Any CPU
+		{6E79C115-25ED-4A68-AD21-56863AA3426F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6E79C115-25ED-4A68-AD21-56863AA3426F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6E79C115-25ED-4A68-AD21-56863AA3426F}.Release|x64.ActiveCfg = Release|Any CPU
+		{6E79C115-25ED-4A68-AD21-56863AA3426F}.Release|x64.Build.0 = Release|Any CPU
+		{6E79C115-25ED-4A68-AD21-56863AA3426F}.Release|x86.ActiveCfg = Release|Any CPU
+		{6E79C115-25ED-4A68-AD21-56863AA3426F}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
