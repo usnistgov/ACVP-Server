@@ -15,105 +15,6 @@ namespace NIST.CVP.Crypto.Oracle
 {
     public partial class Oracle
     {
-        private readonly TupleHash.TupleHash _tupleHash = new TupleHash.TupleHash(new TupleHashFactory());
-        private TupleHash_MCT _tupleHashMct;
-        
-        private TupleHashResult GetTupleHashCase(TupleHashParameters param)
-        {
-            var tuple = new List<BitString>();
-
-            if (param.SemiEmptyCase)
-            {
-                for (int i = 0; i < param.TupleSize; i++)
-                {
-                    if (_rand.GetRandomInt(0, 2) == 1)  // either 1 or 0
-                    {
-                        tuple.Add(_rand.GetRandomBitString(GetRandomValidLength(param.BitOrientedInput)));
-                    }
-                    else
-                    {
-                        tuple.Add(new BitString(""));
-                    }
-                }
-            }
-            else if (param.LongRandomCase)
-            {
-                for (int i = 0; i < param.TupleSize; i++)
-                {
-                    tuple.Add(_rand.GetRandomBitString(GetRandomValidLength(param.BitOrientedInput)));
-                }
-            }
-            else
-            {
-                for (int i = 0; i < param.TupleSize; i++)
-                {
-                    tuple.Add(_rand.GetRandomBitString(param.MessageLength));
-                }
-            }
-            
-            Common.Hash.HashResult result;
-            BitString customizationHex = null;
-            string customization = "";
-            if (param.HexCustomization)
-            {
-                customizationHex = _rand.GetRandomBitString(param.CustomizationLength);
-                result = _tupleHash.HashMessage(param.HashFunction, tuple, customizationHex);
-            }
-            else
-            {
-                customization = _rand.GetRandomString(param.CustomizationLength);
-                result = _tupleHash.HashMessage(param.HashFunction, tuple, customization);
-            }
-
-            if (!result.Success)
-            {
-                throw new Exception();
-            }
-
-            return new TupleHashResult
-            {
-                Tuple = tuple,
-                Digest = result.Digest,
-                Customization = customization,
-                CustomizationHex = customizationHex
-            };
-        }
-
-        private MctResult<TupleHashResult> GetTupleHashMctCase(TupleHashParameters param)
-        {
-            _tupleHashMct = new TupleHash_MCT(_tupleHash);
-
-            var tuple = new List<BitString>() { _rand.GetRandomBitString(param.MessageLength) };
-
-            // TODO isSample up in here?
-            var result = _tupleHashMct.MCTHash(param.HashFunction, tuple, param.OutLens, true); // currently always a sample
-
-            if (!result.Success)
-            {
-                throw new Exception();
-            }
-
-            return new MctResult<TupleHashResult>
-            {
-                Seed = new TupleHashResult { Tuple = tuple },
-                Results = result.Response.ConvertAll(element =>
-                    new TupleHashResult { Tuple = element.Tuple, Digest = element.Digest, Customization = element.Customization })
-            };
-        }
-
-        private int GetRandomValidLength(bool bitOriented)
-        {
-            var length = _rand.GetRandomInt(1, 513);
-            if (!bitOriented)
-            {
-                while (length % 8 != 0)
-                {
-                    length++;
-                }
-            }
-            return length;
-        }
-
         public async Task<HashResult> GetShaCaseAsync(ShaParameters param)
         {
             var grain = _clusterClient.GetGrain<IOracleObserverShaCaseGrain>(
@@ -184,7 +85,19 @@ namespace NIST.CVP.Crypto.Oracle
 
         public async Task<TupleHashResult> GetTupleHashCaseAsync(TupleHashParameters param)
         {
-            return await _taskFactory.StartNew(() => GetTupleHashCase(param));
+            var grain = _clusterClient.GetGrain<IOracleObserverTupleHashCaseGrain>(
+                Guid.NewGuid()
+            );
+
+            var observer = new OracleGrainObserver<TupleHashResult>();
+            var observerReference = 
+                await _clusterClient.CreateObjectReference<IGrainObserver<TupleHashResult>>(observer);
+            await grain.Subscribe(observerReference);
+            await grain.BeginWorkAsync(param);
+
+            var result = await ObservableHelpers.ObserveUntilResult(grain, observer, observerReference);
+
+            return result;
         }
 
         public async Task<MctResult<HashResult>> GetShaMctCaseAsync(ShaParameters param)
@@ -257,7 +170,19 @@ namespace NIST.CVP.Crypto.Oracle
 
         public async Task<MctResult<TupleHashResult>> GetTupleHashMctCaseAsync(TupleHashParameters param)
         {
-            return await _taskFactory.StartNew(() => GetTupleHashMctCase(param));
+            var grain = _clusterClient.GetGrain<IOracleObserverTupleHashMctCaseGrain>(
+                Guid.NewGuid()
+            );
+
+            var observer = new OracleGrainObserver<MctResult<TupleHashResult>>();
+            var observerReference = 
+                await _clusterClient.CreateObjectReference<IGrainObserver<MctResult<TupleHashResult>>>(observer);
+            await grain.Subscribe(observerReference);
+            await grain.BeginWorkAsync(param);
+
+            var result = await ObservableHelpers.ObserveUntilResult(grain, observer, observerReference);
+
+            return result;
         }
     }
 }
