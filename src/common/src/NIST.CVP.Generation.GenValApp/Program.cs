@@ -2,6 +2,7 @@
 using System;
 using System.IO;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using NIST.CVP.Common.Enums;
 using NIST.CVP.Generation.GenValApp.Helpers;
 using NIST.CVP.Generation.GenValApp.Models;
@@ -11,34 +12,39 @@ namespace NIST.CVP.Generation.GenValApp
 {
     public static class Program
     {
-        private static readonly AlgorithmConfig Config;
+        private const string SETTINGS_FILE = "appSettings";
+        private const string SETTINGS_EXTENSION = "json";
+        private static string FileDirectory;
 
-        public const string SETTINGS_FILE = "appSettings.json";
+        public static IServiceProvider ServiceProvider { get; }
         public static readonly string RootDirectory = AppDomain.CurrentDomain.BaseDirectory;
-        public static string FileDirectory;
 
-        /// <summary>
-        /// Static constructor - bootstraps and sets configuration
-        /// </summary>
         static Program()
         {
-            try
+            string env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+            if (string.IsNullOrWhiteSpace(env))
             {
-                var builder = new ConfigurationBuilder()
-                    .SetBasePath(Directory.GetCurrentDirectory())
-                    .AddJsonFile($"{RootDirectory}{SETTINGS_FILE}", optional: false, reloadOnChange: true)
-                    .AddEnvironmentVariables();
-
-                var configuration = builder.Build();
-
-                Config = new AlgorithmConfig();
-                configuration.Bind(Config);
+                /* TODO this could fall back to an environment,
+                 * when/if driver is updated to check for var
+                 */
+                throw new Exception("ASPNETCORE_ENVIRONMENT env variable not set.");
             }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-                Console.WriteLine(e.StackTrace);
-            }
+
+            Console.WriteLine($"Bootstrapping application using environment {env}");
+            
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile($"{RootDirectory}{SETTINGS_FILE}.{SETTINGS_EXTENSION}", optional: false, reloadOnChange: false)
+                .AddJsonFile($"{RootDirectory}{SETTINGS_FILE}.{env}.{SETTINGS_EXTENSION}", optional: false, reloadOnChange: false)
+                .AddEnvironmentVariables();
+
+            var configuration = builder.Build();
+            
+            var serviceCollection = new ServiceCollection();
+            serviceCollection.AddOptions();
+            serviceCollection.Configure<AlgorithmConfig>(configuration.GetSection(nameof(AlgorithmConfig)));
+
+            ServiceProvider = serviceCollection.BuildServiceProvider();
         }
 
         /// <summary>
@@ -57,7 +63,7 @@ namespace NIST.CVP.Generation.GenValApp
         public static int Main(string[] args)
         {
             var argumentParser = new ArgumentParsingHelper();
-
+            
             try
             {
                 var parsedParameters = argumentParser.Parse(args);
@@ -70,7 +76,7 @@ namespace NIST.CVP.Generation.GenValApp
                 }
 
                 // Get the IOC container for the algo
-                AutofacConfig.IoCConfiguration(Config, parsedParameters.Algorithm, parsedParameters.Mode, dllLocation);
+                AutofacConfig.IoCConfiguration(ServiceProvider, parsedParameters.Algorithm, parsedParameters.Mode, dllLocation);
                 using (var scope = AutofacConfig.GetContainer().BeginLifetimeScope())
                 {
                     var genValRunner = new GenValRunner(scope);

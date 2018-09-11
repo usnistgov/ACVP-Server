@@ -1,12 +1,9 @@
-﻿using System.Dynamic;
-using System.Numerics;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC.Enums;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.Core.ExtensionMethods;
 using NIST.CVP.Math;
+using System.Numerics;
 
 namespace NIST.CVP.Generation.DSA.FFC.PQGVer
 {
@@ -22,32 +19,57 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer
         public BigInteger Q { get; set; }
         public BigInteger G { get; set; }
         public BigInteger H { get; set; }
+
         [JsonIgnore] public DomainSeed Seed { get; set; } = new DomainSeed();
+
         [JsonProperty(PropertyName = "domainSeed")]
-        public BigInteger DomainSeed
+        public BitString DomainSeed
         {
             get
             {
                 if (ParentGroup?.GGenMode == GeneratorGenMode.Unverifiable)
                 {
-                    return Seed.GetFullSeed();
+                    return new BitString(Seed.GetFullSeed(), ParentGroup.N * 3, false);
                 }
 
-                return Seed.Seed;
+                if (Seed.Seed == 0)
+                {
+                    return null;
+                }
+
+                return new BitString(Seed.Seed, ParentGroup.N, false);
             }
-            set => Seed.Seed = value;
+            set => Seed.Seed = value.ToPositiveBigInteger();
         }
+
         [JsonProperty(PropertyName = "pSeed")]
-        public BigInteger PSeed
+        public BitString PSeed
         {
-            get => Seed.PSeed;
-            set => Seed.PSeed = value;
+            get
+            {
+                if (Seed.PSeed == 0)
+                {
+                    return null;
+                }
+
+                return new BitString(Seed.PSeed, ParentGroup.N, false);
+            }
+            set => Seed.PSeed = value.ToPositiveBigInteger();
         }
+
         [JsonProperty(PropertyName = "qSeed")]
-        public BigInteger QSeed
+        public BitString QSeed
         {
-            get => Seed.QSeed;
-            set => Seed.QSeed = value;
+            get
+            {
+                if (Seed.QSeed == 0)
+                {
+                    return null;
+                }
+
+                return new BitString(Seed.QSeed, ParentGroup.N, false);
+            }
+            set => Seed.QSeed = value.ToPositiveBigInteger();
         }
 
         [JsonIgnore] public Counter Counter { get; set; } = new Counter();
