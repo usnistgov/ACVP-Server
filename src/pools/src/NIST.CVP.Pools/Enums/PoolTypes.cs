@@ -10,6 +10,7 @@
         PARALLEL_HASH_MCT,
         TUPLE_HASH_MCT,
         AES_MCT,
-        DSA_PQG
+        DSA_PQG,
+        ECDSA_KEY
     }
 }
