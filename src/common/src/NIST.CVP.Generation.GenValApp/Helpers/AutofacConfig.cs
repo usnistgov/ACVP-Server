@@ -3,6 +3,7 @@ using Autofac;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using NIST.CVP.Common.Config;
+using NIST.CVP.Common.Helpers;
 using NIST.CVP.Generation.Core.Helpers;
 using NIST.CVP.Generation.GenValApp.Models;
 
@@ -23,7 +24,7 @@ namespace NIST.CVP.Generation.GenValApp.Helpers
         public static void IoCConfiguration(IServiceProvider serviceProvider, string algorithm, string mode, string dllLocation)
         {
             var builder = new ContainerBuilder();
-            RegisterConfigurationInjections(serviceProvider, builder);
+            EntryPointConfigHelper.RegisterConfigurationInjections(serviceProvider, builder);
 
             var algoMode = AlgoModeLookupHelper.GetAlgoModeFromStrings(algorithm, mode);
 
@@ -48,17 +49,6 @@ namespace NIST.CVP.Generation.GenValApp.Helpers
             OverrideRegistrations?.Invoke(builder);
 
             _container = builder.Build();
-        }
-
-        /// <summary>
-        /// Additional IOC injections proivded via configuration files.
-        /// </summary>
-        /// <param name="serviceProvider">The .net core IOC provider for the instance</param>
-        /// <param name="builder">The builder that will create the <see cref="IContainer"/></param>
-        private static void RegisterConfigurationInjections(IServiceProvider serviceProvider, ContainerBuilder builder)
-        {
-            builder.Register(context => serviceProvider.GetService<IOptions<AlgorithmConfig>>());
-            builder.Register(context => serviceProvider.GetService<IOptions<PoolConfig>>());
         }
     }
     

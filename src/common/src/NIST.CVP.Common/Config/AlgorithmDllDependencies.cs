@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace NIST.CVP.Generation.GenValApp.Models
+namespace NIST.CVP.Common.Config
 {
     /// <summary>
     /// DLL dependencies for a <see cref="AlgorithmMode"/>
