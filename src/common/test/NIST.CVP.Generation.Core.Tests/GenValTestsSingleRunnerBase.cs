@@ -45,6 +45,9 @@ namespace NIST.CVP.Generation.Core.Tests
         protected static Logger GenLogger => LogManager.GetLogger("Generator");
         protected static Logger ValLogger => LogManager.GetLogger("Validator");
 
+        protected static readonly string RootDirectory = AppDomain.CurrentDomain.BaseDirectory;
+        protected IServiceProvider ServiceProvider;
+
         [OneTimeSetUp]
         public virtual void OneTimeSetUp()
         {
@@ -54,6 +57,8 @@ namespace NIST.CVP.Generation.Core.Tests
             DllDropLocation =
                 Utilities.GetConsistentTestingStartPath(GetType(),
                     @"..\..\..\common\src\NIST.CVP.Generation.GenValApp\");
+
+            ServiceProvider = EntryPointConfigHelper.Bootstrap(RootDirectory);
         }
 
         [OneTimeTearDown]
@@ -230,6 +235,8 @@ namespace NIST.CVP.Generation.Core.Tests
         {
             var builder = new ContainerBuilder();
 
+            EntryPointConfigHelper.RegisterConfigurationInjections(ServiceProvider, builder);
+            
             RegistrationsOracle.RegisterTypes(builder, AlgoMode);
             RegistrationsCrypto.RegisterTypes(builder, AlgoMode);
             RegistrationsGenVal.RegisterTypes(builder, AlgoMode);

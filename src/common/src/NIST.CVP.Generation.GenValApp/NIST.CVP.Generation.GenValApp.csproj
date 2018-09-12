@@ -26,18 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="appsettings.json" CopyToOutputDirectory="Always" CopyToPublishDirectory="Always" />
-    <Content Include="appsettings.*.json" CopyToOutputDirectory="Always" CopyToPublishDirectory="Always" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Include=".\dlls\**\*.dll" CopyToOutputDirectory="Always" CopyToPublishDirectory="Always" />
   </ItemGroup>
   
-  <ItemGroup>
-    <None Update="appsettings.*.json">
-      <DependentUpon>appsettings.json</DependentUpon>
-    </None>
-  </ItemGroup>
-
 </Project>
