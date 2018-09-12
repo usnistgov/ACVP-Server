@@ -55,7 +55,7 @@ namespace NIST.CVP.Pools
                     return poolResult.Result;
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 // Fall back to normal procedure
                 return default(T);

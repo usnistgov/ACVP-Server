@@ -45,6 +45,7 @@ namespace NIST.CVP.Common.Helpers
             var serviceCollection = new ServiceCollection();
             serviceCollection.AddOptions();
             serviceCollection.Configure<AlgorithmConfig>(configuration.GetSection(nameof(AlgorithmConfig)));
+            serviceCollection.Configure<PoolConfig>(configuration.GetSection(nameof(PoolConfig)));
 
             return serviceCollection.BuildServiceProvider();
         }
@@ -63,6 +64,7 @@ namespace NIST.CVP.Common.Helpers
         public static void RegisterConfigurationInjections(IServiceProvider serviceProvider, ContainerBuilder builder)
         {
             builder.Register(context => serviceProvider.GetService<IOptions<AlgorithmConfig>>());
+            builder.Register(context => serviceProvider.GetService<IOptions<PoolConfig>>());
         }
     }
 }
