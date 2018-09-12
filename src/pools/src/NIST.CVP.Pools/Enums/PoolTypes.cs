@@ -12,6 +12,7 @@
         AES_MCT,
         DSA_PQG,
         ECDSA_KEY,
-        TDES_MCT
+        TDES_MCT,
+        RSA_KEY
     }
 }

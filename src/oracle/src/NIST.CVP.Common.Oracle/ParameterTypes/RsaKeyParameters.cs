@@ -4,7 +4,7 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Common.Oracle.ParameterTypes
 {
-    public class RsaKeyParameters
+    public class RsaKeyParameters : IParameters
     {
         public PrimeGenModes KeyMode { get; set; }
         public PublicExponentModes PublicExponentMode { get; set; }
