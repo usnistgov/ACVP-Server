@@ -24,14 +24,11 @@
     <ProjectReference Include="..\..\..\orleans\src\NIST.CVP.Orleans.Grains.Interfaces\NIST.CVP.Orleans.Grains.Interfaces.csproj" />
     <ProjectReference Include="..\NIST.CVP.Common\NIST.CVP.Common.csproj" />
     <ProjectReference Include="..\NIST.CVP.Generation.Core\NIST.CVP.Generation.Core.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="appSettings.json" CopyToOutputDirectory="Always" CopyToPublishDirectory="Always" />
+    <ProjectReference Include="..\NIST.CVP.Math\NIST.CVP.Math.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Include=".\dlls\**\*.dll" CopyToOutputDirectory="Always" CopyToPublishDirectory="Always" />
   </ItemGroup>
-
+  
 </Project>

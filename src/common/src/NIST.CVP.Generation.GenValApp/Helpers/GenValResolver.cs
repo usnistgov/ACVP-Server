@@ -5,8 +5,8 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.Loader;
 using NIST.CVP.Common;
+using NIST.CVP.Common.Config;
 using NIST.CVP.Common.ExtensionMethods;
-using NIST.CVP.Generation.GenValApp.Models;
 using NLog;
 
 namespace NIST.CVP.Generation.GenValApp.Helpers

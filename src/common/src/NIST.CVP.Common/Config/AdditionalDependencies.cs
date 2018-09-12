@@ -1,7 +1,4 @@
-﻿using NIST.CVP.Common;
-using NIST.CVP.Generation.Core;
-
-namespace NIST.CVP.Generation.GenValApp.Models
+﻿namespace NIST.CVP.Common.Config
 {
     /// <summary>
     /// Information on any additional dependencies required by the gen/val

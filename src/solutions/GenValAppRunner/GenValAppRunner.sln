@@ -37,6 +37,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Orleans.Grains.Int
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Orleans.ServerHost", "..\..\orleans\src\NIST.CVP.Orleans.ServerHost\NIST.CVP.Orleans.ServerHost.csproj", "{0EF20A45-CB84-48D3-A508-C3742561C3A2}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Pools", "..\..\pools\src\NIST.CVP.Pools\NIST.CVP.Pools.csproj", "{9920D72C-6B9D-414A-9A4A-5734F673E073}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -103,6 +105,10 @@ Global
 		{0EF20A45-CB84-48D3-A508-C3742561C3A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0EF20A45-CB84-48D3-A508-C3742561C3A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0EF20A45-CB84-48D3-A508-C3742561C3A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9920D72C-6B9D-414A-9A4A-5734F673E073}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9920D72C-6B9D-414A-9A4A-5734F673E073}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9920D72C-6B9D-414A-9A4A-5734F673E073}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9920D72C-6B9D-414A-9A4A-5734F673E073}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -122,6 +128,7 @@ Global
 		{EA376B58-2380-49C2-B4D6-A6C9867344A1} = {AD675197-3C4C-4730-A44C-A60EBBCC166E}
 		{3E5EA2DF-3C5E-41CD-816D-B69659A69416} = {AD675197-3C4C-4730-A44C-A60EBBCC166E}
 		{525280F5-9C3B-4772-BFBE-50B70EE081C0} = {AD675197-3C4C-4730-A44C-A60EBBCC166E}
+		{9920D72C-6B9D-414A-9A4A-5734F673E073} = {AD675197-3C4C-4730-A44C-A60EBBCC166E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {45B6E914-C005-4067-B620-082C9FBC0CE9}

@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
-using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
+﻿using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC.Enums;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
-using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
+using System.Collections.Generic;
 
 namespace NIST.CVP.Generation.DSA.FFC.PQGVer.Tests
 {
@@ -44,7 +43,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer.Tests
                         H = 4,
                         Reason = "none",
                         TestPassed = true,
-                        Seed = new DomainSeed(4, 15, 25),
+                        Seed = new DomainSeed(BitString.Ones(248).ToPositiveBigInteger(), BitString.Ones(248).ToPositiveBigInteger(), BitString.Ones(248).ToPositiveBigInteger()),
                         Counter = new Counter(5, 88),
                         Index = new BitString("ABCD"),
                         TestCaseId = testId,

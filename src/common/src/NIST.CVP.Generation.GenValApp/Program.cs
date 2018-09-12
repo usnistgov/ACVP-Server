@@ -2,7 +2,10 @@
 using System;
 using System.IO;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using NIST.CVP.Common.Config;
 using NIST.CVP.Common.Enums;
+using NIST.CVP.Common.Helpers;
 using NIST.CVP.Generation.GenValApp.Helpers;
 using NIST.CVP.Generation.GenValApp.Models;
 using NLog;
@@ -11,34 +14,14 @@ namespace NIST.CVP.Generation.GenValApp
 {
     public static class Program
     {
-        private static readonly AlgorithmConfig Config;
+        private static string FileDirectory;
 
-        public const string SETTINGS_FILE = "appSettings.json";
+        public static IServiceProvider ServiceProvider { get; }
         public static readonly string RootDirectory = AppDomain.CurrentDomain.BaseDirectory;
-        public static string FileDirectory;
 
-        /// <summary>
-        /// Static constructor - bootstraps and sets configuration
-        /// </summary>
         static Program()
         {
-            try
-            {
-                var builder = new ConfigurationBuilder()
-                    .SetBasePath(Directory.GetCurrentDirectory())
-                    .AddJsonFile($"{RootDirectory}{SETTINGS_FILE}", optional: false, reloadOnChange: true)
-                    .AddEnvironmentVariables();
-
-                var configuration = builder.Build();
-
-                Config = new AlgorithmConfig();
-                configuration.Bind(Config);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-                Console.WriteLine(e.StackTrace);
-            }
+            ServiceProvider = EntryPointConfigHelper.Bootstrap(RootDirectory);
         }
 
         /// <summary>
@@ -57,7 +40,7 @@ namespace NIST.CVP.Generation.GenValApp
         public static int Main(string[] args)
         {
             var argumentParser = new ArgumentParsingHelper();
-
+            
             try
             {
                 var parsedParameters = argumentParser.Parse(args);
@@ -70,7 +53,7 @@ namespace NIST.CVP.Generation.GenValApp
                 }
 
                 // Get the IOC container for the algo
-                AutofacConfig.IoCConfiguration(Config, parsedParameters.Algorithm, parsedParameters.Mode, dllLocation);
+                AutofacConfig.IoCConfiguration(ServiceProvider, parsedParameters.Algorithm, parsedParameters.Mode, dllLocation);
                 using (var scope = AutofacConfig.GetContainer().BeginLifetimeScope())
                 {
                     var genValRunner = new GenValRunner(scope);
