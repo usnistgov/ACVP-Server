@@ -15,11 +15,11 @@ namespace NIST.CVP.Generation.TDES_CBCI
         private readonly Dictionary<string, List<AlgoArrayResponse>> _katMapping =
             new Dictionary<string, List<AlgoArrayResponse>>()
             {
-                {"permutation", KatData.GetPermutationDataCBCI()},
-                {"inversepermutation", KatData.GetInversePermutationDataCBCI()},
-                {"substitutiontable", KatData.GetSubstitutionTableDataCBCI()},
-                {"variablekey", KatData.GetVariableKeyDataCBCI()},
-                {"variabletext", KatData.GetVariableTextDataCBCI()}
+                {"permutation", KatData.GetPermutationDataThreeBlock()},
+                {"inversepermutation", KatData.GetInversePermutationDataThreeBlock()},
+                {"substitutiontable", KatData.GetSubstitutionTableDataThreeBlock()},
+                {"variablekey", KatData.GetVariableKeyDataThreeBlock()},
+                {"variabletext", KatData.GetVariableTextDataThreeBlock()}
             };
 
         private int _katsIndex;
