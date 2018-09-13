@@ -85,7 +85,7 @@ namespace TdesKatGenerator
             kats.ForEach(fe =>
             {
                 var param = new ModeBlockCipherParameters(
-                    BlockCipherDirections.Decrypt,
+                    BlockCipherDirections.Encrypt,
                     fe.IV,
                     fe.Keys,
                     fe.PlainText
@@ -158,8 +158,8 @@ namespace TdesKatGenerator
             kats.ForEach(fe =>
             {
                 var param = new ModeBlockCipherParameters(
-                    BlockCipherDirections.Decrypt,
-                    fe.IV,
+                    BlockCipherDirections.Encrypt,
+                    fe.IV.GetDeepCopy(),
                     fe.Keys,
                     fe.PlainText
                 );
@@ -241,7 +241,7 @@ namespace TdesKatGenerator
             kats.ForEach(fe =>
             {
                 var param = new ModeBlockCipherParameters(
-                    BlockCipherDirections.Decrypt,
+                    BlockCipherDirections.Encrypt,
                     fe.IV,
                     fe.Keys,
                     fe.PlainText
@@ -324,8 +324,8 @@ namespace TdesKatGenerator
             kats.ForEach(fe =>
             {
                 var param = new ModeBlockCipherParameters(
-                    BlockCipherDirections.Decrypt,
-                    fe.IV,
+                    BlockCipherDirections.Encrypt,
+                    fe.IV.GetDeepCopy(),
                     fe.Keys,
                     fe.PlainText
                 );
@@ -360,7 +360,7 @@ namespace TdesKatGenerator
             flipped.ForEach(fe =>
             {
                 var param = new ModeBlockCipherParameters(
-                    BlockCipherDirections.Decrypt,
+                    BlockCipherDirections.Decrypt,          // Should be decrypt
                     original.IV,
                     original.Keys,
                     fe
@@ -402,8 +402,8 @@ namespace TdesKatGenerator
             flipped.ForEach(fe =>
             {
                 var param = new ModeBlockCipherParameters(
-                    BlockCipherDirections.Decrypt,
-                    original.IV,
+                    BlockCipherDirections.Decrypt,      // Should be decrypt
+                    original.IV.GetDeepCopy(),
                     original.Keys,
                     fe
                 );
@@ -487,7 +487,7 @@ namespace TdesKatGenerator
             {
                 var param = new ModeBlockCipherParameters(
                     BlockCipherDirections.Encrypt,
-                    original.IV,
+                    original.IV.GetDeepCopy(),
                     original.Keys,
                     fe
                 );
@@ -588,7 +588,7 @@ namespace TdesKatGenerator
 
                 var param = new ModeBlockCipherParameters(
                     BlockCipherDirections.Encrypt,
-                    original.IV,
+                    original.IV.GetDeepCopy(),
                     fe,
                     original.PlainText
                 );

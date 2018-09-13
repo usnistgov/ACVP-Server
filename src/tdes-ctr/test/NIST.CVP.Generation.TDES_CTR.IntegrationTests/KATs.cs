@@ -82,7 +82,7 @@ namespace NIST.CVP.Generation.TDES_CTR.IntegrationTests
                     var result = algo.ProcessPayload(new ModeBlockCipherParameters(
                         BlockCipherDirections.Decrypt, test.Key, test.CipherText
                     ));
-                    Assert.AreEqual(test.PlainText, result.Result, test.PlainText.ToHex());
+                    Assert.AreEqual(test.PlainText, result.Result, $"{testType} - {test.PlainText.ToHex()}");
                 }
             }
         }
