@@ -103,7 +103,14 @@ namespace NIST.CVP.Pools
             _poolDirectory = poolDirectory;
 
             var fullConfigFile = Path.Combine(_poolDirectory, configFile);
-            _properties = JsonConvert.DeserializeObject<PoolProperties[]>(File.ReadAllText(fullConfigFile));
+            _properties = JsonConvert.DeserializeObject<PoolProperties[]>
+            (
+                File.ReadAllText(fullConfigFile), 
+                new JsonSerializerSettings
+                {
+                    Converters = _jsonConverters
+                }
+            );
 
             foreach (var poolProperty in _properties)
             {

@@ -1,7 +1,7 @@
 [
   {
     "poolType": {
-      "type": "sha-mct",
+      "type": "sha_mct",
       "parameters": {
         "messageLength": 160,
         "hashFunction": {
@@ -16,7 +16,7 @@
   },
   {
     "poolType": {
-      "type": "sha-mct",
+      "type": "sha_mct",
       "parameters": {
         "messageLength": 224,
         "hashFunction": {
@@ -31,7 +31,7 @@
   },
   {
     "poolType": {
-      "type": "sha-mct",
+      "type": "sha_mct",
       "parameters": {
         "messageLength": 256,
         "hashFunction": {
@@ -46,7 +46,7 @@
   },
   {
     "poolType": {
-      "type": "sha-mct",
+      "type": "sha_mct",
       "parameters": {
         "messageLength": 384,
         "hashFunction": {
@@ -61,7 +61,7 @@
   },
   {
     "poolType": {
-      "type": "sha-mct",
+      "type": "sha_mct",
       "parameters": {
         "messageLength": 512,
         "hashFunction": {
@@ -76,7 +76,7 @@
   },
   {
     "poolType": {
-      "type": "sha-mct",
+      "type": "sha_mct",
       "parameters": {
         "messageLength": 224,
         "hashFunction": {
@@ -91,7 +91,7 @@
   },
   {
     "poolType": {
-      "type": "sha-mct",
+      "type": "sha_mct",
       "parameters": {
         "messageLength": 256,
         "hashFunction": {
