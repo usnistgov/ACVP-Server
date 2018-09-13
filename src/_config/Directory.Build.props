@@ -19,18 +19,19 @@
 
     <!-- NuGet package versions -->
     <PropertyGroup>
-        <NuGetVersionMicrosoftNETTestSdk>15.7.0</NuGetVersionMicrosoftNETTestSdk>
         <NuGetVersionMicrosoftAspNetCoreAll>2.1.0</NuGetVersionMicrosoftAspNetCoreAll>
+        <NuGetVersionMicrosoftExtensionsOptionsConfigurationExtensions>2.1.0</NuGetVersionMicrosoftExtensionsOptionsConfigurationExtensions>
+        <NuGetVersionMicrosoftExtensionsDependencyInjection>2.1.0</NuGetVersionMicrosoftExtensionsDependencyInjection>
+        <NuGetVersionMicrosoftNETTestSdk>15.7.0</NuGetVersionMicrosoftNETTestSdk>
         <NuGetVersiondotnettestnunit>3.4.0-beta-3</NuGetVersiondotnettestnunit>
         <NuGetVersionTeamCityVSTestTestAdapter>1.0.5</NuGetVersionTeamCityVSTestTestAdapter>
         <NuGetVersionMoq>4.8.2</NuGetVersionMoq>
-        <NuGetVersionNLog>4.5.2</NuGetVersionNLog>
+        <NuGetVersionNLog>5.0.0-beta11</NuGetVersionNLog>
         <NuGetVersionNUnit>3.8.1</NuGetVersionNUnit>
         <NuGetVersionNUnit3TestAdapter>3.10.0</NuGetVersionNUnit3TestAdapter>
         <NuGetVersionAutofac>4.8.0</NuGetVersionAutofac>
         <NuGetVersionNewtonsoftJson>11.0.2</NuGetVersionNewtonsoftJson>
         <NuGetVersionCommandLineArgumentsParser>3.0.18</NuGetVersionCommandLineArgumentsParser>
-        <NuGetVersionMicrosoftExtensionsOptionsConfigurationExtensions>2.1.0</NuGetVersionMicrosoftExtensionsOptionsConfigurationExtensions>
         <NuGetVersionSystemRuntimeLoader>4.3.0</NuGetVersionSystemRuntimeLoader>
         <NugetVersionMicrosoftOrleansServer>2.0.4</NugetVersionMicrosoftOrleansServer>
         <NugetVersionMicrosoftOrleansOrleansCodeGeneratorBuild>2.0.4</NugetVersionMicrosoftOrleansOrleansCodeGeneratorBuild>
