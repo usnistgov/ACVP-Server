@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\NIST.CVP.Common\NIST.CVP.Common.csproj" />
     <ProjectReference Include="..\..\src\NIST.CVP.Generation.GenValApp\NIST.CVP.Generation.GenValApp.csproj" />
     <ProjectReference Include="..\NIST.CVP.Tests.Core\NIST.CVP.Tests.Core.csproj" />
   </ItemGroup>
