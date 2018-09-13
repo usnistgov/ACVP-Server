@@ -33,7 +33,7 @@ namespace NIST.CVP.Common.Helpers
             }
 
             Console.WriteLine($"Bootstrapping application using environment {env}");
-            
+
             var builder = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile($"{configurationFileDirectory}{SETTINGS_FILE}.{SETTINGS_EXTENSION}", optional: false, reloadOnChange: false)
@@ -44,6 +44,7 @@ namespace NIST.CVP.Common.Helpers
             
             var serviceCollection = new ServiceCollection();
             serviceCollection.AddOptions();
+            serviceCollection.Configure<EnvironmentConfig>(configuration.GetSection(nameof(EnvironmentConfig)));
             serviceCollection.Configure<AlgorithmConfig>(configuration.GetSection(nameof(AlgorithmConfig)));
             serviceCollection.Configure<PoolConfig>(configuration.GetSection(nameof(PoolConfig)));
 
