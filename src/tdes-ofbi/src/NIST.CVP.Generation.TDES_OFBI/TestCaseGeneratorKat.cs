@@ -17,10 +17,10 @@ namespace NIST.CVP.Generation.TDES_OFBI
             new Dictionary<string, List<AlgoArrayResponse>>()
             {
                 {"permutation", KatData.GetPermutationDataThreeBlock()},
-                {"inversepermutation", KatData.GetInversePermutationDataThreeBlock()},
-                {"substitutiontable", KatData.GetSubstitutionTableDataThreeBlock()},
+                {"inversepermutation", KatData.GetInversePermutationDataThreeBlockOfbI()},
+                {"substitutiontable", KatData.GetSubstitutionTableDataThreeBlockOfbI()},
                 {"variablekey", KatData.GetVariableKeyDataThreeBlock()},
-                {"variabletext", KatData.GetVariableTextDataThreeBlock()}
+                {"variabletext", KatData.GetVariableTextDataThreeBlockOfbI()}
             };
 
         private int _katsIndex;
