@@ -31,6 +31,7 @@ namespace NIST.CVP.Crypto.Oracle
             var poolResult = poolBoy.GetObjectFromPool(param, PoolTypes.DSA_PQG);
             if (poolResult != null)
             {
+                // Will return a G (and some other properties) that are not necessary
                 return poolResult;
             }
 
@@ -86,6 +87,14 @@ namespace NIST.CVP.Crypto.Oracle
 
         private DsaDomainParametersResult GetDsaG(DsaDomainParametersParameters param, DsaDomainParametersResult pqParam)
         {
+            var poolBoy = new PoolBoy<DsaDomainParametersResult>(_poolConfig);
+            var poolResult = poolBoy.GetObjectFromPool(param, PoolTypes.DSA_PQG);
+            if (poolResult != null)
+            {
+                // Generates all three P, Q, G
+                return poolResult;
+            }
+
             // Make sure index is not "0000 0000"
             BitString index;
             do
@@ -138,7 +147,12 @@ namespace NIST.CVP.Crypto.Oracle
             }
 
             var pqResult = GetDsaPQ(param);
-            var gResult = GetDsaG(param, pqResult);
+            var gResult = pqResult;
+            if (pqResult.G != default(BigInteger))
+            {
+                // Only try to get a G if the previous call didn't access the pool
+                gResult = GetDsaG(param, pqResult);
+            }
 
             return new DsaDomainParametersResult
             {
