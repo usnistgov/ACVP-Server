@@ -20,9 +20,6 @@ namespace NIST.CVP.Common.Oracle.ParameterTypes
             return false;
         }
 
-        public override int GetHashCode()
-        {
-            return HashCode.Combine(Mode, KeyLength, DataLength, Direction);
-        }
+        public override int GetHashCode() => HashCode.Combine(Mode, KeyLength, DataLength, Direction);
     }
 }
