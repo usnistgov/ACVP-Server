@@ -5,20 +5,18 @@ using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.CMAC
 {
-    public class TestCaseValidatorGen<TTestGroup, TTestCase> : ITestCaseValidatorAsync<TTestGroup, TTestCase>
-        where TTestGroup : TestGroupBase<TTestGroup, TTestCase>
-        where TTestCase : TestCaseBase<TTestGroup, TTestCase>
+    public class TestCaseValidatorGen : ITestCaseValidatorAsync<TestGroup, TestCase>
     {
-        private readonly TTestCase _expectedResult;
+        private readonly TestCase _expectedResult;
 
-        public TestCaseValidatorGen(TTestCase expectedResult)
+        public TestCaseValidatorGen(TestCase expectedResult)
         {
             _expectedResult = expectedResult;
         }
 
         public int TestCaseId => _expectedResult.TestCaseId;
 
-        public Task<TestCaseValidation> ValidateAsync(TTestCase suppliedResult, bool showExpected = false)
+        public Task<TestCaseValidation> ValidateAsync(TestCase suppliedResult, bool showExpected = false)
         {
             var errors = new List<string>();
             var expected = new Dictionary<string, string>();
@@ -49,15 +47,15 @@ namespace NIST.CVP.Generation.CMAC
             });
         }
 
-        private void ValidateResultPresent(TTestCase suppliedResult, List<string> errors)
+        private void ValidateResultPresent(TestCase suppliedResult, List<string> errors)
         {
             if (suppliedResult.Mac == null)
             {
-                errors.Add($"{nameof(suppliedResult.Mac)} was not present in the {typeof(TTestCase)}");
+                errors.Add($"{nameof(suppliedResult.Mac)} was not present in the {typeof(TestCase)}");
             }
         }
 
-        private void CheckResults(TTestCase suppliedResult, List<string> errors, Dictionary<string, string> expected, Dictionary<string, string> provided)
+        private void CheckResults(TestCase suppliedResult, List<string> errors, Dictionary<string, string> expected, Dictionary<string, string> provided)
         {
             if (!_expectedResult.Mac.Equals(suppliedResult.Mac))
             {

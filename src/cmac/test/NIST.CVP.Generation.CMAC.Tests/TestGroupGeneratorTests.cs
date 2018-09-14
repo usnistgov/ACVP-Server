@@ -1,12 +1,10 @@
-﻿using System;
-using System.Linq;
-using NIST.CVP.Generation.CMAC.AES;
+﻿using System.Linq;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
-namespace NIST.CVP.Generation.CMAC_AES.Tests
+namespace NIST.CVP.Generation.CMAC.Tests
 {
     [TestFixture, UnitTest]
     public class TestGroupGeneratorTests
@@ -25,27 +23,33 @@ namespace NIST.CVP.Generation.CMAC_AES.Tests
             {
                 // 0
                 "test1 - 0",
-                new string[] { },
+                "AES-256",
+                string.Empty,
+                0,
                 new MathDomain().AddSegment(new ValueDomainSegment(8)),
                 new MathDomain().AddSegment(new ValueDomainSegment(8)),
-                new int[] { }
+                1
             },
             new object[]
             {
-                // 3 (2*1*1*1)
+                // 1 (1*1*1*1)
                 "test2 - 3",
-                new string[] {"gen", "ver"},
+                "AES-128",
+                "gen",
+                0,
                 new MathDomain().AddSegment(new ValueDomainSegment(8)),
                 new MathDomain().AddSegment(new ValueDomainSegment(8)),
-                new int[] { 128 }
+                1
             },
             new object[]
             {
                 "test3 - 1620",
-                new string[] {"gen", "ver"},
+                "TDES",
+                "var",
+                1,
                 new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 8, 1024, 8)),
                 new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 8, 1024, 8)),
-                new int[] { }
+                9 // 3 groups per domain segment, cartesian joined.
             }
         };
         
@@ -53,24 +57,32 @@ namespace NIST.CVP.Generation.CMAC_AES.Tests
         [TestCaseSource(nameof(testData))]
         public void ShouldReturnOneITestGroupForEveryMultiplicativeIterationOfParamters(
             string label,
-            string[] mode,
+            string mode,
+            string direction,
+            int keyingOption,
             MathDomain msgLen,
             MathDomain macLen,
-            int[] keyLen
+            int expectedResultCount
         )
         {
             Parameters p = new Parameters()
             {
-                Algorithm = "CMAC-AES",
-                Direction = mode,
-                MsgLen = msgLen,
-                MacLen = macLen,
-                KeyLen = keyLen
+                Algorithm = "CMAC",
+                Mode = string.Empty,
+                Capabilities = new[]
+                {
+                    new Capability()
+                    {
+                        Mode = mode,
+                        Direction = direction,
+                        KeyingOption = keyingOption,
+                        MsgLen = msgLen,
+                        MacLen = macLen
+                    }
+                }
             };
 
             var result = _subject.BuildTestGroups(p);
-
-            var expectedResultCount = mode.Length * _subject.MsgLens.Length * _subject.MacLens.Length * keyLen.Length;
 
             Assert.AreEqual(expectedResultCount, result.Count());
         }

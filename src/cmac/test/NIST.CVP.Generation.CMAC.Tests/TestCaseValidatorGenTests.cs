@@ -1,25 +1,23 @@
 ﻿using System.Threading.Tasks;
-using Microsoft.VisualStudio.TestPlatform.ObjectModel.Adapter;
 using NIST.CVP.Generation.CMAC;
-using NIST.CVP.Generation.CMAC.AES;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
-namespace NIST.CVP.Generation.CMAC_AES.Tests
+namespace NIST.CVP.Generation.CMAC.Tests
 {
     [TestFixture, UnitTest]
     public class TestCaseValidatorGenTests
     {
-        private TestCaseValidatorGen<TestGroup, TestCase> _subject;
+        private TestCaseValidatorGen _subject;
         
         [Test]
         public async Task ShouldValidateIfExpectedAndSuppliedResultsMatch()
         {
             var testCase = GetTestCase();
-            _subject = new TestCaseValidatorGen<TestGroup, TestCase>(testCase);
+            _subject = new TestCaseValidatorGen(testCase);
             var result = await _subject.ValidateAsync(testCase);
-            Assume.That(result != null);
+            Assume.That((bool) (result != null));
             Assert.AreEqual(Core.Enums.Disposition.Passed, result.Result);
         }
 
@@ -27,11 +25,11 @@ namespace NIST.CVP.Generation.CMAC_AES.Tests
         public async Task ShouldFailIfMacDoesNotMatch()
         {
             var testCase = GetTestCase();
-            _subject = new TestCaseValidatorGen<TestGroup, TestCase>(testCase);
+            _subject = new TestCaseValidatorGen(testCase);
             var suppliedResult = GetTestCase();
             suppliedResult.Mac = new BitString("D00000");
             var result = await _subject.ValidateAsync(suppliedResult);
-            Assume.That(result != null);
+            Assume.That((bool) (result != null));
             Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
         }
 
@@ -39,29 +37,29 @@ namespace NIST.CVP.Generation.CMAC_AES.Tests
         public async Task ShouldShowMacAsReasonIfItDoesNotMatch()
         {
             var testCase = GetTestCase();
-            _subject = new TestCaseValidatorGen<TestGroup, TestCase>(testCase);
+            _subject = new TestCaseValidatorGen(testCase);
             var suppliedResult = GetTestCase();
             suppliedResult.Mac = new BitString("D00000");
             var result = await _subject.ValidateAsync(suppliedResult);
-            Assume.That(result != null);
+            Assume.That((bool) (result != null));
             Assume.That(Core.Enums.Disposition.Failed == result.Result);
-            Assert.IsTrue(result.Reason.Contains("MAC"));
+            Assert.IsTrue((bool) result.Reason.Contains("MAC"));
         }
 
         [Test]
         public async Task ShouldFailIfCipherTextNotPresent()
         {
             var testCase = GetTestCase();
-            _subject = new TestCaseValidatorGen<TestGroup, TestCase>(testCase);
+            _subject = new TestCaseValidatorGen(testCase);
             var suppliedResult = GetTestCase();
 
             suppliedResult.Mac = null;
 
             var result = await _subject.ValidateAsync(suppliedResult);
-            Assume.That(result != null);
+            Assume.That((bool) (result != null));
             Assume.That(Core.Enums.Disposition.Failed == result.Result);
 
-            Assert.IsTrue(result.Reason.Contains($"{nameof(suppliedResult.Mac)} was not present in the {typeof(TestCase)}"));
+            Assert.IsTrue((bool) result.Reason.Contains($"{nameof(suppliedResult.Mac)} was not present in the {typeof(TestCase)}"));
         }
         
         private TestCase GetTestCase()

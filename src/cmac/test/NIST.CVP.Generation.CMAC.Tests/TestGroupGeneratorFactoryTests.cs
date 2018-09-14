@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Linq;
-using NIST.CVP.Generation.CMAC.AES;
 using NUnit.Framework;
 
-namespace NIST.CVP.Generation.CMAC_AES.Tests
+namespace NIST.CVP.Generation.CMAC.Tests
 {
     [TestFixture]
     public class TestGroupGeneratorFactoryTests
