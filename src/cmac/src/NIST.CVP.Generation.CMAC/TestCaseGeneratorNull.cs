@@ -4,16 +4,14 @@ using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.CMAC
 {
-    public class TestCaseGeneratorNull<TTestGroup, TTestCase> : ITestCaseGeneratorAsync<TTestGroup, TTestCase>
-        where TTestGroup : TestGroupBase<TTestGroup, TTestCase>
-        where TTestCase : TestCaseBase<TTestGroup, TTestCase>, new()
+    public class TestCaseGeneratorNull : ITestCaseGeneratorAsync<TestGroup, TestCase>
     {
         public int NumberOfTestCasesToGenerate => 0;
 
-        public Task<TestCaseGenerateResponse<TTestGroup, TTestCase>> GenerateAsync(TTestGroup @group, bool isSample)
+        public Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup @group, bool isSample)
         {
             return Task.FromResult(
-                new TestCaseGenerateResponse<TTestGroup, TTestCase>(
+                new TestCaseGenerateResponse<TestGroup, TestCase>(
                     "This is the null generator -- nothing is generated"));
         }
     }

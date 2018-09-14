@@ -1,12 +1,11 @@
-﻿using NIST.CVP.Generation.CMAC.TDES;
-using NIST.CVP.Generation.CMAC.TDES.Parsers;
+﻿using NIST.CVP.Generation.CMAC.Parsers;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.CMAC.IntegrationTests
 {
     [TestFixture, FastIntegrationTest]
-    public class FireHoseTestsTdes : FireHoseTestsBase<LegacyResponseFileParser, TestVectorSet, TestGroup, TestCase>
+    public class FireHoseTestsTdes : FireHoseTestsBase<LegacyResponseFileParserTdes>
     {
         [Test]
         public void ShouldRunThroughAllTestFilesAndValidateTdes()

@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using NIST.CVP.Math;
+﻿using NIST.CVP.Math;
 using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
-using NIST.CVP.Generation.CMAC.AES;
 
-namespace NIST.CVP.Generation.CMAC_AES.Tests
+namespace NIST.CVP.Generation.CMAC.Tests
 {
     [TestFixture, UnitTest]
     public class ParameterValidatorTests
@@ -31,16 +27,21 @@ namespace NIST.CVP.Generation.CMAC_AES.Tests
         }
 
         [Test]
-        [TestCase("CMAC", "AES", true)]
+        [TestCase("CMAC", "", true)]
+        [TestCase("CMAC", null, true)]
+        [TestCase("CMAC", "AES", false)]
         [TestCase("CMAC", "TDES", false)]
         [TestCase("badValue", "null", false)]
         [TestCase("badValue", null, false)]
         [TestCase(null, null, false)]
         public void ShouldReportFailureWithBadAlgorithm(string algo, string mode, bool success)
         {
+            var c = new CapabilityBuilder().Build();
+
             Parameters p = new ParameterBuilder()
                 .WithAlgorithm(algo)
                 .WithMode(mode)
+                .WithCapabilities(new[] {c})
                 .Build();
 
             var result = _subject.Validate(p);
@@ -56,8 +57,12 @@ namespace NIST.CVP.Generation.CMAC_AES.Tests
         [TestCase(null, false)]
         public void ShouldReportFailureWithBadDirection(string value, bool success)
         {
+            var c = new CapabilityBuilder()
+                .WithDirection(value)
+                .Build();
+
             Parameters p = new ParameterBuilder()
-                .WithDirection(new [] { value })
+                .WithCapabilities(new[] { c })
                 .Build();
 
             var result = _subject.Validate(p);
@@ -119,8 +124,12 @@ namespace NIST.CVP.Generation.CMAC_AES.Tests
         [TestCaseSource(nameof(msgLenDomains))]
         public void ShouldReportFailureWithBadMsgLenDomain(string label, MathDomain value, bool success)
         {
-            Parameters p = new ParameterBuilder()
+            var c = new CapabilityBuilder()
                 .WithMsgLen(value)
+                .Build();
+
+            Parameters p = new ParameterBuilder()
+                .WithCapabilities(new[] { c })
                 .Build();
             
             var result = _subject.Validate(p);
@@ -150,7 +159,7 @@ namespace NIST.CVP.Generation.CMAC_AES.Tests
                         new RangeDomainSegment(
                             new Random800_90(),
                             ParameterValidator.VALID_MAC_LENGTH_MIN,
-                            ParameterValidator.VALID_MAC_LENGTH_MAX,
+                            128,
                             1
                         )
                     ),
@@ -174,8 +183,12 @@ namespace NIST.CVP.Generation.CMAC_AES.Tests
         [TestCaseSource(nameof(macLenDomains))]
         public void ShouldReportFailureWithBadMacLenDomain(string label, MathDomain value, bool success)
         {
-            Parameters p = new ParameterBuilder()
+            var c = new CapabilityBuilder()
                 .WithMacLen(value)
+                .Build();
+
+            Parameters p = new ParameterBuilder()
+                .WithCapabilities(new[] { c })
                 .Build();
 
             var result = _subject.Validate(p);
@@ -184,14 +197,49 @@ namespace NIST.CVP.Generation.CMAC_AES.Tests
         }
 
         [Test]
-        [TestCase("All good", new int[] { 128, 192, 256 }, true)]
-        [TestCase("None", new int[] { }, false)]
-        [TestCase("Null", null, false)]
-        [TestCase("One bad", new int[] { 128, 64 }, false)]
-        public void ShouldReportFailureWithKeyLen(string label, int[] keyLen, bool success)
+        [TestCase("AES-128", 0, "gen", true)]
+        [TestCase("AES-192", 0, "gen", true)]
+        [TestCase("AES-256", 0, "gen", true)]
+        [TestCase("TDES", 1, "gen", true)]
+        [TestCase("TDES", 2, "gen", false)] // gen not valid for keying option 2
+
+        [TestCase("AES-128", 0, "ver", true)]
+        [TestCase("AES-192", 0, "ver", true)]
+        [TestCase("AES-256", 0, "ver", true)]
+        [TestCase("TDES", 1, "ver", true)]
+        [TestCase("TDES", 2, "ver", true)]
+
+        // keying options not valid for AES
+        [TestCase("AES-128", 1, "gen", false)]
+        [TestCase("AES-128", 2, "gen", false)]
+        [TestCase("AES-128", 1, "ver", false)]
+        [TestCase("AES-128", 2, "ver", false)]
+
+        // keying option 0 is not a thing for tdes
+        [TestCase("TDES", 0, "gen", false)]
+        [TestCase("TDES", 0, "ver", false)]
+
+        // misc invalid
+        [TestCase("invalid", 0, "gen", false)]
+        [TestCase("invalid", 0, "ver", false)]
+        [TestCase("invalid", 1, "gen", false)]
+        [TestCase("invalid", 1, "ver", false)]
+        [TestCase(null, 0, "gen", false)]
+        [TestCase(null, 0, "ver", false)]
+        [TestCase(null, 1, "gen", false)]
+        [TestCase(null, 1, "ver", false)]
+        [TestCase(null, 0, null, false)]
+        public void ShouldParseAesAndTdesProperly(string mode, int keyingOption, string direction, bool success)
         {
+            var c = new CapabilityBuilder()
+                .WithMode(mode)
+                .WithDirection(direction)
+                .WithKeyingOption(keyingOption)
+                .WithMacLen(new MathDomain().AddSegment(new ValueDomainSegment(mode?.ToLower() == "tdes" ? 64 : 128)))
+                .Build();
+
             Parameters p = new ParameterBuilder()
-                .WithKeyLen(keyLen)
+                .WithCapabilities(new[] { c })
                 .Build();
 
             var result = _subject.Validate(p);

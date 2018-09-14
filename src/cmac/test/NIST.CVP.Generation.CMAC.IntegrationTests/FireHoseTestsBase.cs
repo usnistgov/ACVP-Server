@@ -7,11 +7,8 @@ using NUnit.Framework;
 namespace NIST.CVP.Generation.CMAC.IntegrationTests
 {
     [TestFixture, FastIntegrationTest]
-    public abstract class FireHoseTestsBase<TLegacyResponseFileParser, TTestVectorSet, TTestGroup, TTestCase>
-        where TLegacyResponseFileParser : LegacyResponseFileParserBase<TTestVectorSet, TTestGroup, TTestCase>, new()
-        where TTestVectorSet : TestVectorSetBase<TTestGroup, TTestCase>, new()
-        where TTestGroup : TestGroupBase<TTestGroup, TTestCase>, new()
-        where TTestCase : TestCaseBase<TTestGroup, TTestCase>, new()
+    public abstract class FireHoseTestsBase<TLegacyResponseFileParser>
+        where TLegacyResponseFileParser : LegacyResponseFileParserBase, new()
     {
         string _testPath;
         protected abstract string FolderName { get; }
