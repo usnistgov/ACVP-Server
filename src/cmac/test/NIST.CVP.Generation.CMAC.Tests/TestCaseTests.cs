@@ -1,16 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Threading.Tasks;
-using Microsoft.CSharp.RuntimeBinder;
-using Newtonsoft.Json.Linq;
-using NIST.CVP.Generation.CMAC.AES;
-using NIST.CVP.Generation.Core;
-using NIST.CVP.Tests.Core.TestCategoryAttributes;
+﻿using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
-namespace NIST.CVP.Generation.CMAC_AES.Tests
+namespace NIST.CVP.Generation.CMAC.Tests
 {
     [TestFixture, UnitTest]
     public class TestCaseTests

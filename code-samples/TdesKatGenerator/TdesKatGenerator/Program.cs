@@ -17,14 +17,23 @@ namespace TdesKatGenerator
         {
             GenerateInversePermutation();
             GenerateInversePermutationThreeBlock();
+            GenerateInversePermutationThreeBlockOfbi();
+
             GenerateVariableKey();
             GenerateVariableKeyThreeBlock();
+            // CbcI and OfbI are the same here
+
             GenerateVariableText();
             GenerateVariableTextThreeBlock();
+            GenerateVariableTextThreeBlockOfbi();
+
             GeneratePermutation();
             GeneratePermutationThreeBlock();
+            // CbcI and OfbI are the same here
+
             GenerateSubstitution();
             GenerateSubstitutionThreeBlock();
+            GenerateSubstitutionThreeBlockOfbi();
         }
         
         private static void GeneratePermutation()
@@ -85,7 +94,7 @@ namespace TdesKatGenerator
             kats.ForEach(fe =>
             {
                 var param = new ModeBlockCipherParameters(
-                    BlockCipherDirections.Decrypt,
+                    BlockCipherDirections.Encrypt,
                     fe.IV,
                     fe.Keys,
                     fe.PlainText
@@ -158,8 +167,8 @@ namespace TdesKatGenerator
             kats.ForEach(fe =>
             {
                 var param = new ModeBlockCipherParameters(
-                    BlockCipherDirections.Decrypt,
-                    fe.IV,
+                    BlockCipherDirections.Encrypt,
+                    fe.IV.GetDeepCopy(),
                     fe.Keys,
                     fe.PlainText
                 );
@@ -241,7 +250,7 @@ namespace TdesKatGenerator
             kats.ForEach(fe =>
             {
                 var param = new ModeBlockCipherParameters(
-                    BlockCipherDirections.Decrypt,
+                    BlockCipherDirections.Encrypt,
                     fe.IV,
                     fe.Keys,
                     fe.PlainText
@@ -324,8 +333,91 @@ namespace TdesKatGenerator
             kats.ForEach(fe =>
             {
                 var param = new ModeBlockCipherParameters(
-                    BlockCipherDirections.Decrypt,
-                    fe.IV,
+                    BlockCipherDirections.Encrypt,
+                    fe.IV.GetDeepCopy(),
+                    fe.Keys,
+                    fe.PlainText
+                );
+
+                var result = tdes.ProcessPayload(param);
+
+                fe.CipherText = result.Result;
+            });
+
+            csv.WriteRecords(kats);
+            writer.Close();
+        }
+
+        private static void GenerateSubstitutionThreeBlockOfbi()
+        {
+            var kats = new List<AlgoArrayResponse>();
+            var tdes = new OfbiBlockCipher(new TdesEngine());
+
+            (var csv, var writer) = GetCSVWriter("substitution-three-block-ofbi");
+
+            var keys = new List<BitString>
+            {
+                new BitString("7ca110454a1a6e57"),
+                new BitString("0131d9619dc1376e"),
+                new BitString("07a1133e4a0b2686"),
+                new BitString("3849674c2602319e"),
+                new BitString("04b915ba43feb5b6"),
+                new BitString("0113b970fd34f2ce"),
+                new BitString("0170f175468fb5e6"),
+                new BitString("43297fad38e373fe"),
+                new BitString("07a7137045da2a16"),
+                new BitString("04689104c2fd3b2f"),
+                new BitString("37d06bb516cb7546"),
+                new BitString("1f08260d1ac2465e"),
+                new BitString("584023641aba6176"),
+                new BitString("025816164629b007"),
+                new BitString("49793ebc79b3258f"),
+                new BitString("4fb05e1515ab73a7"),
+                new BitString("49e95d6d4ca229bf"),
+                new BitString("018310dc409b26d6"),
+                new BitString("1c587f1c13924fef")
+            };
+
+            var plainTexts = new List<BitString>
+            {
+                new BitString("01a1d6d039776742"),
+                new BitString("5cd54ca83def57da"),
+                new BitString("0248d43806f67172"),
+                new BitString("51454b582ddf440a"),
+                new BitString("42fd443059577fa2"),
+                new BitString("059b5e0851cf143a"),
+                new BitString("0756d8e0774761d2"),
+                new BitString("762514b829bf486a"),
+                new BitString("3bdd119049372802"),
+                new BitString("26955f6835af609a"),
+                new BitString("164d5e404f275232"),
+                new BitString("6b056e18759f5cca"),
+                new BitString("004bd6ef09176062"),
+                new BitString("480d39006ee762f2"),
+                new BitString("437540c8698f3cfa"),
+                new BitString("072d43a077075292"),
+                new BitString("02fe55778117f12a"),
+                new BitString("1d9d5c5018f728c2"),
+                new BitString("305532286d6f295a")
+            };
+
+            for (var i = 0; i < keys.Count; i++)
+            {
+                kats.Add(new AlgoArrayResponse
+                {
+                    PlainText = plainTexts[i].ConcatenateBits(BitString.Zeroes(64 * 2)),
+                    Key1 = keys[i],
+                    Key2 = new BitString("0101010101010101").ToOddParityBitString(),
+                    Key3 = new BitString("0202020202020202").ToOddParityBitString(),
+                    IV = BitString.Zeroes(64)
+                });
+            }
+
+            kats.ForEach(fe =>
+            {
+                var param = new ModeBlockCipherParameters(
+                    BlockCipherDirections.Encrypt,
+                    fe.IV.GetDeepCopy(),
                     fe.Keys,
                     fe.PlainText
                 );
@@ -360,7 +452,7 @@ namespace TdesKatGenerator
             flipped.ForEach(fe =>
             {
                 var param = new ModeBlockCipherParameters(
-                    BlockCipherDirections.Decrypt,
+                    BlockCipherDirections.Decrypt,          // Should be decrypt
                     original.IV,
                     original.Keys,
                     fe
@@ -402,8 +494,50 @@ namespace TdesKatGenerator
             flipped.ForEach(fe =>
             {
                 var param = new ModeBlockCipherParameters(
-                    BlockCipherDirections.Decrypt,
-                    original.IV,
+                    BlockCipherDirections.Decrypt,      // Should be decrypt
+                    original.IV.GetDeepCopy(),
+                    original.Keys,
+                    fe
+                );
+
+                var result = tdes.ProcessPayload(param);
+
+                kats.Add(new AlgoArrayResponse
+                {
+                    Keys = original.Keys,
+                    PlainText = result.Result,
+                    IV = original.IV,
+                    CipherText = fe
+                });
+            });
+
+            csv.WriteRecords(kats);
+            writer.Close();
+        }
+
+        private static void GenerateInversePermutationThreeBlockOfbi()
+        {
+            var original = new AlgoArrayResponse
+            {
+                PlainText = BitString.Zeroes(64 * 3),
+                CipherText = BitString.Zeroes(64 * 3),
+                IV = BitString.Zeroes(64),
+                Key1 = new BitString("0000000000000000").ToOddParityBitString(),
+                Key2 = new BitString("0707070707070707").ToOddParityBitString(),
+                Key3 = new BitString("FEFEFEFEFEFEFEFE").ToOddParityBitString()
+            };
+
+            var kats = new List<AlgoArrayResponse>();
+            var tdes = new OfbiBlockCipher(new TdesEngine());
+
+            (var csv, var writer) = GetCSVWriter("inverse-permutation-three-block-ofbi");
+
+            var flipped = FlipEachBit(original.CipherText);
+            flipped.ForEach(fe =>
+            {
+                var param = new ModeBlockCipherParameters(
+                    BlockCipherDirections.Decrypt,      // Should be decrypt
+                    original.IV.GetDeepCopy(),
                     original.Keys,
                     fe
                 );
@@ -487,7 +621,49 @@ namespace TdesKatGenerator
             {
                 var param = new ModeBlockCipherParameters(
                     BlockCipherDirections.Encrypt,
-                    original.IV,
+                    original.IV.GetDeepCopy(),
+                    original.Keys,
+                    fe
+                );
+
+                var result = tdes.ProcessPayload(param);
+
+                kats.Add(new AlgoArrayResponse
+                {
+                    Keys = original.Keys,
+                    PlainText = fe,
+                    IV = original.IV,
+                    CipherText = result.Result
+                });
+            });
+
+            csv.WriteRecords(kats);
+            writer.Close();
+        }
+
+        private static void GenerateVariableTextThreeBlockOfbi()
+        {
+            var original = new AlgoArrayResponse
+            {
+                PlainText = BitString.Zeroes(64 * 3),
+                CipherText = BitString.Zeroes(64 * 3),
+                IV = BitString.Zeroes(64),
+                Key1 = new BitString("0000000000000000").ToOddParityBitString(),
+                Key2 = new BitString("0707070707070707").ToOddParityBitString(),
+                Key3 = new BitString("FEFEFEFEFEFEFEFE").ToOddParityBitString()
+            };
+
+            var kats = new List<AlgoArrayResponse>();
+            var tdes = new OfbiBlockCipher(new TdesEngine());
+
+            (var csv, var writer) = GetCSVWriter("variable-text-three-block-ofbi");
+
+            var flipped = FlipEachBit(original.PlainText);
+            flipped.ForEach(fe =>
+            {
+                var param = new ModeBlockCipherParameters(
+                    BlockCipherDirections.Encrypt,
+                    original.IV.GetDeepCopy(),
                     original.Keys,
                     fe
                 );
@@ -588,7 +764,7 @@ namespace TdesKatGenerator
 
                 var param = new ModeBlockCipherParameters(
                     BlockCipherDirections.Encrypt,
-                    original.IV,
+                    original.IV.GetDeepCopy(),
                     fe,
                     original.PlainText
                 );

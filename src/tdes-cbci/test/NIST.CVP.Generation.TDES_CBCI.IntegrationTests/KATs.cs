@@ -53,7 +53,7 @@ namespace NIST.CVP.Generation.TDES_CBCI.IntegrationTests
                     ));
 
                     Assert.IsTrue(result.Success, nameof(result.Success));
-                    Assert.AreEqual(expectedResult.ToHex(), result.Result.ToHex());
+                    Assert.AreEqual(expectedResult.ToHex(), result.Result.ToHex(), $"{testType} - {result.Result.ToHex()}");
                 }
             }
         }

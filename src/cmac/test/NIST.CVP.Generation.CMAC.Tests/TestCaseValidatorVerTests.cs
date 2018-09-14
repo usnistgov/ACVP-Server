@@ -1,24 +1,23 @@
 ﻿using System.Threading.Tasks;
 using NIST.CVP.Generation.CMAC;
-using NIST.CVP.Generation.CMAC.AES;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
-namespace NIST.CVP.Generation.CMAC_AES.Tests
+namespace NIST.CVP.Generation.CMAC.Tests
 {
     [TestFixture, UnitTest]
     public class TestCaseValidatorVerTests
     {
-        private TestCaseValidatorVer<TestGroup, TestCase> _subject;
+        private TestCaseValidatorVer _subject;
 
         [Test]
         public async Task ShouldValidateIfExpectedAndSuppliedResultsMatch()
         {
             var testCase = GetTestCase();
-            _subject = new TestCaseValidatorVer<TestGroup, TestCase>(testCase);
+            _subject = new TestCaseValidatorVer(testCase);
             var result = await _subject.ValidateAsync(testCase);
-            Assume.That(result != null);
+            Assume.That((bool) (result != null));
             Assert.AreEqual(Core.Enums.Disposition.Passed, result.Result);
         }
 
@@ -27,11 +26,11 @@ namespace NIST.CVP.Generation.CMAC_AES.Tests
         {
             var testCase = GetTestCase();
             testCase.TestPassed = true;
-            _subject = new TestCaseValidatorVer<TestGroup, TestCase>(testCase);
+            _subject = new TestCaseValidatorVer(testCase);
             var suppliedResult = GetTestCase();
             suppliedResult.TestPassed = false;
             var result = await _subject.ValidateAsync(suppliedResult);
-            Assume.That(result != null);
+            Assume.That((bool) (result != null));
             Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
         }
 
@@ -40,11 +39,11 @@ namespace NIST.CVP.Generation.CMAC_AES.Tests
         {
             var testCase = GetTestCase();
             testCase.TestPassed = true;
-            _subject = new TestCaseValidatorVer<TestGroup, TestCase>(testCase);
+            _subject = new TestCaseValidatorVer(testCase);
             var suppliedResult = GetTestCase();
             suppliedResult.TestPassed = null;
             var result = await _subject.ValidateAsync(suppliedResult);
-            Assume.That(result != null);
+            Assume.That((bool) (result != null));
             Assert.IsTrue(Core.Enums.Disposition.Failed == result.Result);
         }
         
@@ -53,11 +52,11 @@ namespace NIST.CVP.Generation.CMAC_AES.Tests
         {
             var testCase = GetTestCase();
             testCase.TestPassed = true;
-            _subject = new TestCaseValidatorVer<TestGroup, TestCase>(testCase);
+            _subject = new TestCaseValidatorVer(testCase);
             var suppliedResult = GetTestCase();
             suppliedResult.TestPassed = false;
             var result = await _subject.ValidateAsync(suppliedResult);
-            Assume.That(result != null);
+            Assume.That((bool) (result != null));
             Assert.IsTrue(Core.Enums.Disposition.Failed == result.Result);
         }
         
