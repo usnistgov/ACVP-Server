@@ -1,12 +1,12 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Pools.Enums;
 using System;
 using System.IO;
 using System.Net;
-using NIST.CVP.Common.Config;
-using Microsoft.Extensions.Options;
+using PoolConfig = NIST.CVP.Common.Config.PoolConfig;
 
 namespace NIST.CVP.Pools
 {
@@ -17,11 +17,19 @@ namespace NIST.CVP.Pools
 
         public PoolBoy(IOptions<PoolConfig> poolConfig)
         {
-            _poolConfig = poolConfig.Value;
+            if (poolConfig != null)
+            {
+                _poolConfig = poolConfig.Value;
+            }
         }
 
         public T GetObjectFromPool(IParameters param, PoolTypes type)
         {
+            if (_poolConfig == null)
+            {
+                return default(T);
+            }
+
             var request = (HttpWebRequest)WebRequest.Create($"{_poolConfig.RootUrl}:{_poolConfig.Port}/api/pools");
             //var request = (HttpWebRequest)WebRequest.Create("http://localhost:5001/api/pools");
             request.ContentType = "application/json";
