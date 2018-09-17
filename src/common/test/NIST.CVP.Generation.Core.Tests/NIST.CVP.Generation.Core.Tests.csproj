@@ -23,5 +23,15 @@
   <ItemGroup>
     <Service Include="{82a7f48d-3b50-4b1e-b82e-3ada8210c358}" />
   </ItemGroup>
+  
+  <!-- App settings linking -->
+  <ItemGroup>
+    <Content Include="..\..\..\_config\appsettings.json" Link="appsettings.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="..\..\..\_config\appsettings.local.json" Link="appsettings.local.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="..\..\..\_config\appsettings.dev.json" Link="appsettings.dev.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="..\..\..\_config\appsettings.test.json" Link="appsettings.test.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="..\..\..\_config\appsettings.demo.json" Link="appsettings.demo.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="..\..\..\_config\appsettings.prod.json" Link="appsettings.prod.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+  </ItemGroup>
 
 </Project>
