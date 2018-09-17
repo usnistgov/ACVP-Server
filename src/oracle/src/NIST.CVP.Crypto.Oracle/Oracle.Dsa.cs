@@ -148,7 +148,7 @@ namespace NIST.CVP.Crypto.Oracle
 
             var pqResult = GetDsaPQ(param);
             var gResult = pqResult;
-            if (pqResult.G != default(BigInteger))
+            if (pqResult.G == default(BigInteger))
             {
                 // Only try to get a G if the previous call didn't access the pool
                 gResult = GetDsaG(param, pqResult);
