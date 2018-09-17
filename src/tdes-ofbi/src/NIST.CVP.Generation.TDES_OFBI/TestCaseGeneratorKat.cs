@@ -3,6 +3,7 @@ using NIST.CVP.Crypto.Common.Symmetric.TDES;
 using NIST.CVP.Crypto.Common.Symmetric.TDES.KATs;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Async;
+using NIST.CVP.Math;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -15,11 +16,11 @@ namespace NIST.CVP.Generation.TDES_OFBI
         private readonly Dictionary<string, List<AlgoArrayResponse>> _katMapping =
             new Dictionary<string, List<AlgoArrayResponse>>()
             {
-                {"permutation", KatData.GetPermutationDataOFBI()},
-                {"inversepermutation", KatData.GetInversePermutationDataOFBI()},
-                {"substitutiontable", KatData.GetSubstitutionTableDataOFBI()},
-                {"variablekey", KatData.GetVariableKeyDataOFBI()},
-                {"variabletext", KatData.GetVariableTextDataOFBI()}
+                {"permutation", KatData.GetPermutationDataThreeBlock()},
+                {"inversepermutation", KatData.GetInversePermutationDataThreeBlockOfbI()},
+                {"substitutiontable", KatData.GetSubstitutionTableDataThreeBlockOfbI()},
+                {"variablekey", KatData.GetVariableKeyDataThreeBlock()},
+                {"variabletext", KatData.GetVariableTextDataThreeBlockOfbI()}
             };
 
         private int _katsIndex;
@@ -37,6 +38,7 @@ namespace NIST.CVP.Generation.TDES_OFBI
             }
 
             _kats = result.Value;
+            _kats.ForEach(fe => fe.IV = BitString.Zeroes(64));
         }
 
         public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample)

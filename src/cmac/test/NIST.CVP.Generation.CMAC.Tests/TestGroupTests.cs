@@ -1,12 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using NIST.CVP.Generation.CMAC.AES;
-using NIST.CVP.Generation.Core;
-using NIST.CVP.Math;
-using NIST.CVP.Tests.Core.TestCategoryAttributes;
+﻿using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
-namespace NIST.CVP.Generation.CMAC_AES.Tests
+namespace NIST.CVP.Generation.CMAC.Tests
 {
     [TestFixture, UnitTest]
     public class TestGroupTests

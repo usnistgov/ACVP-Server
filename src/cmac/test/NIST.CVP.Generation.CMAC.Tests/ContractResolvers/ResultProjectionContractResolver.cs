@@ -1,7 +1,5 @@
 ﻿using System.Text.RegularExpressions;
-using NIST.CVP.Generation.CMAC.AES;
-using NIST.CVP.Generation.CMAC.AES.ContractResolvers;
-using NIST.CVP.Generation.CMAC_AES.Tests;
+using NIST.CVP.Generation.CMAC.ContractResolvers;
 using NIST.CVP.Generation.Core.DeSerialization;
 using NIST.CVP.Generation.Core.Enums;
 using NIST.CVP.Generation.Core.JsonConverters;

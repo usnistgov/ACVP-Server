@@ -4,14 +4,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using Moq;
 using NIST.CVP.Generation.CMAC;
-using NIST.CVP.Generation.CMAC.AES;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Async;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
-namespace NIST.CVP.Generation.CMAC_AES.Tests
+namespace NIST.CVP.Generation.CMAC.Tests
 {
     [TestFixture, UnitTest]
     public class TestCaseValidatorFactoryTests
@@ -19,7 +18,7 @@ namespace NIST.CVP.Generation.CMAC_AES.Tests
 
         private Mock<ITestCaseGeneratorFactoryAsync<TestGroup, TestCase>> _mockTestCaseGeneratorFactory;
         private Mock<ITestCaseGeneratorAsync<TestGroup, TestCase>> _mockTestCaseGenerator;
-        private TestCaseValidatorFactory<TestVectorSet, TestGroup, TestCase> _subject;
+        private TestCaseValidatorFactory _subject;
 
         [SetUp]
         public void Setup()
@@ -34,14 +33,14 @@ namespace NIST.CVP.Generation.CMAC_AES.Tests
                 .Setup(s => s.GetCaseGenerator(It.IsAny<TestGroup>()))
                 .Returns(_mockTestCaseGenerator.Object);
 
-            _subject = new TestCaseValidatorFactory<TestVectorSet, TestGroup, TestCase>();
+            _subject = new TestCaseValidatorFactory();
         }
 
         [Test]
-        [TestCase("gen", typeof(TestCaseValidatorGen<TestGroup, TestCase>))]
-        [TestCase("GeN", typeof(TestCaseValidatorGen<TestGroup, TestCase>))]
-        [TestCase("ver", typeof(TestCaseValidatorVer<TestGroup, TestCase>))]
-        [TestCase("vEr", typeof(TestCaseValidatorVer<TestGroup, TestCase>))]
+        [TestCase("gen", typeof(TestCaseValidatorGen))]
+        [TestCase("GeN", typeof(TestCaseValidatorGen))]
+        [TestCase("ver", typeof(TestCaseValidatorVer))]
+        [TestCase("vEr", typeof(TestCaseValidatorVer))]
         public void ShouldReturnCorrectValidatorTypeDependantOnFunction(string function, Type expectedType)
         {
             TestVectorSet testVectorSet = null;

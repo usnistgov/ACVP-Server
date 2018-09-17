@@ -5,20 +5,18 @@ using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.CMAC
 {
-    public class TestCaseValidatorVer<TTestGroup, TTestCase> : ITestCaseValidatorAsync<TTestGroup, TTestCase>
-        where TTestGroup : TestGroupBase<TTestGroup, TTestCase>
-        where TTestCase : TestCaseBase<TTestGroup, TTestCase>
+    public class TestCaseValidatorVer : ITestCaseValidatorAsync<TestGroup, TestCase>
     {
-        private readonly TTestCase _expectedResult;
+        private readonly TestCase _expectedResult;
 
-        public TestCaseValidatorVer(TTestCase expectedResult)
+        public TestCaseValidatorVer(TestCase expectedResult)
         {
             _expectedResult = expectedResult;
         }
 
         public int TestCaseId => _expectedResult.TestCaseId;
 
-        public Task<TestCaseValidation> ValidateAsync(TTestCase suppliedResult, bool showExpected = false)
+        public Task<TestCaseValidation> ValidateAsync(TestCase suppliedResult, bool showExpected = false)
         {
             var errors = new List<string>();
             var expected = new Dictionary<string, string>();
@@ -49,15 +47,15 @@ namespace NIST.CVP.Generation.CMAC
             });
         }
 
-        private void ValidateResultPresent(TTestCase suppliedResult, List<string> errors)
+        private void ValidateResultPresent(TestCase suppliedResult, List<string> errors)
         {
             if (suppliedResult.TestPassed == null)
             {
-                errors.Add($"{nameof(suppliedResult.TestPassed)} was not present in the {nameof(TTestCase)}");
+                errors.Add($"{nameof(suppliedResult.TestPassed)} was not present in the {nameof(TestCase)}");
             }
         }
 
-        private void CheckResults(TTestCase suppliedResult, List<string> errors, Dictionary<string, string> expected, Dictionary<string, string> provided)
+        private void CheckResults(TestCase suppliedResult, List<string> errors, Dictionary<string, string> expected, Dictionary<string, string> provided)
         {
             if (!_expectedResult.TestPassed.Equals(suppliedResult.TestPassed))
             {

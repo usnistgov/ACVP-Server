@@ -8,9 +8,7 @@ using NLog;
 
 namespace NIST.CVP.Generation.CMAC
 {
-    public abstract class TestCaseGeneratorVerBase<TTestGroup, TTestCase> : ITestCaseGeneratorAsync<TTestGroup, TTestCase>
-        where TTestGroup : TestGroupBase<TTestGroup, TTestCase>
-        where TTestCase : TestCaseBase<TTestGroup, TTestCase>, new()
+    public abstract class TestCaseGeneratorVerBase : ITestCaseGeneratorAsync<TestGroup, TestCase>
     {
         private readonly IOracle _oracle;
 
@@ -21,7 +19,7 @@ namespace NIST.CVP.Generation.CMAC
             _oracle = oracle;
         }
 
-        public async Task<TestCaseGenerateResponse<TTestGroup, TTestCase>> GenerateAsync(TTestGroup @group, bool isSample)
+        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup @group, bool isSample)
         {
             var param = GetParam(group);
 
@@ -29,7 +27,7 @@ namespace NIST.CVP.Generation.CMAC
             {
                 var oracleResult = await _oracle.GetCmacCaseAsync(param);
 
-                return new TestCaseGenerateResponse<TTestGroup, TTestCase>(new TTestCase
+                return new TestCaseGenerateResponse<TestGroup, TestCase>(new TestCase
                 {
                     Key = oracleResult.Key,
                     Message = oracleResult.Message,
@@ -40,11 +38,11 @@ namespace NIST.CVP.Generation.CMAC
             catch (Exception ex)
             {
                 ThisLogger.Error(ex);
-                return new TestCaseGenerateResponse<TTestGroup, TTestCase>($"Failed to generate. {ex.Message}");
+                return new TestCaseGenerateResponse<TestGroup, TestCase>($"Failed to generate. {ex.Message}");
             }
         }
 
-        protected abstract CmacParameters GetParam(TTestGroup group);
+        protected abstract CmacParameters GetParam(TestGroup group);
         private static ILogger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }

@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
-using NIST.CVP.Generation.CMAC.AES;
 using NIST.CVP.Math;
 
-namespace NIST.CVP.Generation.CMAC_AES.Tests
+namespace NIST.CVP.Generation.CMAC.Tests
 {
     public static class TestDataMother
     {
