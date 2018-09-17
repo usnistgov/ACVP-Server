@@ -1,17 +1,4 @@
 <Project>
-    <!-- 
-        NOTE NOTE NOTE
-    
-            TC cannot check out specific files, so a copy of this file
-            is kept in ./src/_config so TC can get the same configuration
-            used per local CLI builds.
-
-            Ensure these two files are kept in sync.
-            TODO figure out a better way to do this...
-
-        NOTE NOTE NOTE
-    -->
-
 
     <PropertyGroup>
         <TargetFramework>netcoreapp2.1</TargetFramework>
