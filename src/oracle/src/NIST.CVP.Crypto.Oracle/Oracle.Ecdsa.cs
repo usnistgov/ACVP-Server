@@ -6,6 +6,8 @@ using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.DSA.ECC;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Math.Entropy;
+using NIST.CVP.Pools;
+using NIST.CVP.Pools.Enums;
 using System;
 using System.Threading.Tasks;
 
@@ -18,6 +20,13 @@ namespace NIST.CVP.Crypto.Oracle
 
         private EcdsaKeyResult GetEcdsaKey(EcdsaKeyParameters param)
         {
+            var poolBoy = new PoolBoy<EcdsaKeyResult>(_poolConfig);
+            var poolResult = poolBoy.GetObjectFromPool(param, PoolTypes.ECDSA_KEY);
+            if (poolResult != null)
+            {
+                return poolResult;
+            }
+
             var curve = _curveFactory.GetCurve(param.Curve);
             var domainParams = new EccDomainParameters(curve);
 

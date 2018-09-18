@@ -1,5 +1,4 @@
-﻿using System;
-using NIST.CVP.Crypto.Common.DRBG;
+﻿using NIST.CVP.Crypto.Common.DRBG;
 using NIST.CVP.Crypto.Common.DRBG.Enums;
 using NIST.CVP.Crypto.DRBG;
 using NIST.CVP.Math;
@@ -13,8 +12,8 @@ namespace NIST.CVP.Crypto.Oracle
     public partial class Oracle
     {
         private readonly DrbgFactory _drbgFactory = new DrbgFactory();
-        private const string DRBG_ITENDED_USE_GENERATE = "generate";
-        private const string DRBG_ITENDED_USE_reSeed = "reSeed";
+        private const string DRBG_INTENDED_USE_GENERATE = "generate";
+        private const string DRBG_INTENDED_USE_reSeed = "reSeed";
 
         private DrbgResult GetNoReseedCase(DrbgParameters param)
         {
@@ -22,13 +21,13 @@ namespace NIST.CVP.Crypto.Oracle
             {
                 new OtherInput
                 {
-                    IntendedUse = DRBG_ITENDED_USE_GENERATE,
+                    IntendedUse = DRBG_INTENDED_USE_GENERATE,
                     EntropyInput = param.PredResistanceEnabled ? _rand.GetRandomBitString(param.EntropyInputLen) : new BitString(0),
                     AdditionalInput = _rand.GetRandomBitString(param.AdditionalInputLen)
                 },
                 new OtherInput
                 {
-                    IntendedUse = DRBG_ITENDED_USE_GENERATE,
+                    IntendedUse = DRBG_INTENDED_USE_GENERATE,
                     EntropyInput = param.PredResistanceEnabled ? _rand.GetRandomBitString(param.EntropyInputLen) : new BitString(0),
                     AdditionalInput = _rand.GetRandomBitString(param.AdditionalInputLen)
                 }
@@ -75,19 +74,19 @@ namespace NIST.CVP.Crypto.Oracle
             {
                 new OtherInput
                 {
-                    IntendedUse = DRBG_ITENDED_USE_reSeed,
+                    IntendedUse = DRBG_INTENDED_USE_reSeed,
                     EntropyInput = _rand.GetRandomBitString(param.EntropyInputLen),
                     AdditionalInput = _rand.GetRandomBitString(param.AdditionalInputLen)
                 },
                 new OtherInput
                 {
-                    IntendedUse = DRBG_ITENDED_USE_GENERATE,
+                    IntendedUse = DRBG_INTENDED_USE_GENERATE,
                     EntropyInput = new BitString(0),
                     AdditionalInput = _rand.GetRandomBitString(param.AdditionalInputLen)
                 },
                 new OtherInput
                 {
-                    IntendedUse = DRBG_ITENDED_USE_GENERATE,
+                    IntendedUse = DRBG_INTENDED_USE_GENERATE,
                     EntropyInput = new BitString(0),
                     AdditionalInput = _rand.GetRandomBitString(param.AdditionalInputLen)
                 }
@@ -149,13 +148,13 @@ namespace NIST.CVP.Crypto.Oracle
             {
                 new OtherInput
                 {
-                    IntendedUse = DRBG_ITENDED_USE_GENERATE,
+                    IntendedUse = DRBG_INTENDED_USE_GENERATE,
                     EntropyInput = _rand.GetRandomBitString(param.EntropyInputLen),
                     AdditionalInput = _rand.GetRandomBitString(param.AdditionalInputLen)
                 },
                 new OtherInput
                 {
-                    IntendedUse = DRBG_ITENDED_USE_GENERATE,
+                    IntendedUse = DRBG_INTENDED_USE_GENERATE,
                     EntropyInput = _rand.GetRandomBitString(param.EntropyInputLen),
                     AdditionalInput = _rand.GetRandomBitString(param.AdditionalInputLen)
                 }

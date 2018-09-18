@@ -1,6 +1,8 @@
 ﻿using Newtonsoft.Json;
 using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ResultTypes;
+using NIST.CVP.Pools.Enums;
+using NLog;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -12,6 +14,7 @@ namespace NIST.CVP.Pools
         where TParam : IParameters
         where TResult : IResult
     {
+        public PoolTypes DeclaredType { get; }
         public TParam WaterType { get; }
         
         private readonly ConcurrentQueue<TResult> _water;
@@ -24,8 +27,9 @@ namespace NIST.CVP.Pools
 
         private readonly IList<JsonConverter> _jsonConverters;
 
-        protected PoolBase(TParam waterType, string filename, IList<JsonConverter> jsonConverters)
+        protected PoolBase(PoolTypes declaredType, TParam waterType, string filename, IList<JsonConverter> jsonConverters)
         {
+            DeclaredType = declaredType;
             WaterType = waterType;
             _jsonConverters = jsonConverters;
             _water = new ConcurrentQueue<TResult>();
@@ -51,7 +55,6 @@ namespace NIST.CVP.Pools
                 }
             }
         }
-
         
         public PoolResult<IResult> GetNextUntyped()
         {
@@ -80,8 +83,6 @@ namespace NIST.CVP.Pools
             return true;
         }
 
-
-
         private void LoadPoolFromFile(string filename)
         {
             if (File.Exists(filename))
@@ -108,7 +109,9 @@ namespace NIST.CVP.Pools
             }
             else
             {
-                throw new Exception($"Unable to find pool at {filename}");
+                // Create empty file
+                File.WriteAllText(filename, "[]");
+                LogManager.GetCurrentClassLogger().Debug($"{filename} created");
             }
         }
 
@@ -118,7 +121,8 @@ namespace NIST.CVP.Pools
                 _water,
                 new JsonSerializerSettings
                 {
-                    Converters = _jsonConverters
+                    Converters = _jsonConverters,
+                    Formatting = Formatting.Indented
                 }
             );
 

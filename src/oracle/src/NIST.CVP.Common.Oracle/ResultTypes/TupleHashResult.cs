@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using NIST.CVP.Math;
+﻿using NIST.CVP.Math;
+using System.Collections.Generic;
 
 namespace NIST.CVP.Common.Oracle.ResultTypes
 {
-    public class TupleHashResult
+    public class TupleHashResult : IResult
     {
         public List<BitString> Tuple { get; set; }
         public BitString Digest { get; set; }

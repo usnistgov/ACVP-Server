@@ -2,7 +2,7 @@
 
 namespace NIST.CVP.Common.Oracle.ResultTypes
 {
-    public class EcdsaKeyResult
+    public class EcdsaKeyResult : IResult
     {
         public EccKeyPair Key { get; set; }
     }

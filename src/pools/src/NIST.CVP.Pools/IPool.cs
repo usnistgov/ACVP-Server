@@ -1,6 +1,7 @@
-﻿using System;
-using NIST.CVP.Common.Oracle;
+﻿using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ResultTypes;
+using NIST.CVP.Pools.Enums;
+using System;
 
 namespace NIST.CVP.Pools
 {
@@ -20,6 +21,7 @@ namespace NIST.CVP.Pools
         int WaterLevel { get; }
         
         Type ParamType { get; }
+        PoolTypes DeclaredType { get; }
         IParameters Param { get; }
         Type ResultType { get; }
         bool AddWater(IResult value);
