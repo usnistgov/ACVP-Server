@@ -69,7 +69,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
 
                 foreach (var testCase in testGroup.Tests)
                 {
-                    var testCaseResolver = new DeferredTestCaseResolver(new Oracle());
+                    var testCaseResolver = new DeferredTestCaseResolver(new Oracle(null));
 
                     SwitchTestCaseIutServerInformation(testCase);
 
