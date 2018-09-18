@@ -17,10 +17,7 @@ namespace NIST.CVP.Generation.DRBG.IntegrationTests
     {
         string _testPath;
 
-        private readonly Oracle _subject = new Oracle();
-        //private readonly TestCaseGeneratorFactory _subject = new TestCaseGeneratorFactory(
-        //    new Oracle()
-        //);
+        private readonly Oracle _subject = new Oracle(null);
 
         [OneTimeSetUp]
         public void OneTimeSetup()
