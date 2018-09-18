@@ -40,14 +40,6 @@ namespace NIST.CVP.Crypto.Oracle
 
         public async Task<DsaDomainParametersResult> GetDsaGAsync(DsaDomainParametersParameters param, DsaDomainParametersResult pqParam)
         {
-            var poolBoy = new PoolBoy<DsaDomainParametersResult>(_poolConfig);
-            var poolResult = poolBoy.GetObjectFromPool(param, PoolTypes.DSA_PQG);
-            if (poolResult != null)
-            {
-                // Generates all three P, Q, G
-                return poolResult;
-            }
-
             var grain = _clusterClient.GetGrain<IOracleObserverDsaGCaseGrain>(
                 Guid.NewGuid()
             );
