@@ -30,10 +30,11 @@ namespace NIST.CVP.Generation.CMAC
                     foreach (var macLen in macLens)
                     {
                         if (!AlgorithmSpecificationMapping.Map
-                                .TryFirst(
-                                    w => w.algoSpecification.Equals(capability.Mode,
-                                             StringComparison.OrdinalIgnoreCase),
-                                    out var result))
+                            .TryFirst(
+                                w => w.algoSpecification.Equals(parameters.Mode, StringComparison.OrdinalIgnoreCase) ||
+                                     (w.algoSpecification.StartsWith(parameters.Mode, StringComparison.OrdinalIgnoreCase) && 
+                                      w.keySize == capability.KeyLen),
+                                out var result))
                         {
                             throw new ArgumentException("Invalid Algorithm provided.");
                         }

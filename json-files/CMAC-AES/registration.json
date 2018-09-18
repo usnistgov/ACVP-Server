@@ -2,27 +2,121 @@
   "algorithm": "CMAC",
   "mode": "AES",
   "isSample": false,
-  "direction": [
-    "gen",
-    "ver"
-  ],
-  "msgLen": [
+  "conformances": [],
+  "capabilities": [
     {
-      "min": 0,
-      "max": 65536,
-      "increment": 8
-    }
-  ],
-  "macLen": [
+      "direction": "gen",
+      "keyLen": 128,
+      "keyingOption": 0,
+      "msgLen": [
+        {
+          "min": 0,
+          "max": 65536,
+          "increment": 8
+        }
+      ],
+      "macLen": [
+        {
+          "min": 64,
+          "max": 128,
+          "increment": 8
+        }
+      ]
+    },
     {
-      "min": 64,
-      "max": 128,
-      "increment": 8
+      "direction": "ver",
+      "keyLen": 128,
+      "keyingOption": 0,
+      "msgLen": [
+        {
+          "min": 0,
+          "max": 65536,
+          "increment": 8
+        }
+      ],
+      "macLen": [
+        {
+          "min": 64,
+          "max": 128,
+          "increment": 8
+        }
+      ]
+    },
+    {
+      "direction": "gen",
+      "keyLen": 192,
+      "keyingOption": 0,
+      "msgLen": [
+        {
+          "min": 0,
+          "max": 65536,
+          "increment": 8
+        }
+      ],
+      "macLen": [
+        {
+          "min": 64,
+          "max": 128,
+          "increment": 8
+        }
+      ]
+    },
+    {
+      "direction": "ver",
+      "keyLen": 192,
+      "keyingOption": 0,
+      "msgLen": [
+        {
+          "min": 0,
+          "max": 65536,
+          "increment": 8
+        }
+      ],
+      "macLen": [
+        {
+          "min": 64,
+          "max": 128,
+          "increment": 8
+        }
+      ]
+    },
+    {
+      "direction": "gen",
+      "keyLen": 256,
+      "keyingOption": 0,
+      "msgLen": [
+        {
+          "min": 0,
+          "max": 65536,
+          "increment": 8
+        }
+      ],
+      "macLen": [
+        {
+          "min": 64,
+          "max": 128,
+          "increment": 8
+        }
+      ]
+    },
+    {
+      "direction": "ver",
+      "keyLen": 256,
+      "keyingOption": 0,
+      "msgLen": [
+        {
+          "min": 0,
+          "max": 65536,
+          "increment": 8
+        }
+      ],
+      "macLen": [
+        {
+          "min": 64,
+          "max": 128,
+          "increment": 8
+        }
+      ]
     }
-  ],
-  "keyLen": [
-    128,
-    192,
-    256
   ]
 }
