@@ -1,5 +1,7 @@
 ﻿using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
+using NIST.CVP.Pools;
+using NIST.CVP.Pools.Enums;
 using System;
 using System.Threading.Tasks;
 using NIST.CVP.Orleans.Grains.Interfaces;
@@ -12,6 +14,13 @@ namespace NIST.CVP.Crypto.Oracle
     {
         public async Task<EcdsaKeyResult> GetEcdsaKeyAsync(EcdsaKeyParameters param)
         {
+            var poolBoy = new PoolBoy<EcdsaKeyResult>(_poolConfig);
+            var poolResult = poolBoy.GetObjectFromPool(param, PoolTypes.ECDSA_KEY);
+            if (poolResult != null)
+            {
+                return poolResult;
+            }
+
             var grain = _clusterClient.GetGrain<IOracleObserverEcdsaKeyCaseGrain>(
                 Guid.NewGuid()
             );

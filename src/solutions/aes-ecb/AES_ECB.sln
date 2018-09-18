@@ -39,6 +39,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.Oracle", ".
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Common.Oracle.Tests", "..\..\oracle\test\NIST.CVP.Oracle.Common.Tests\NIST.CVP.Common.Oracle.Tests.csproj", "{0CD16833-274B-4E14-B1BB-0AA64CD9AFC2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Pools", "..\..\pools\src\NIST.CVP.Pools\NIST.CVP.Pools.csproj", "{3F2D630C-BB58-4142-82C6-C1C2A4585CF6}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Orleans.Grains", "..\..\orleans\src\NIST.CVP.Orleans.Grains\NIST.CVP.Orleans.Grains.csproj", "{FA703999-DC32-4E29-AB78-4C5739FC3D27}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Orleans.Grains.Interfaces", "..\..\orleans\src\NIST.CVP.Orleans.Grains.Interfaces\NIST.CVP.Orleans.Grains.Interfaces.csproj", "{97DF5C72-36DF-4B7B-B570-AB7C72971DB8}"
@@ -247,6 +249,18 @@ Global
 		{0CD16833-274B-4E14-B1BB-0AA64CD9AFC2}.Release|x64.Build.0 = Release|Any CPU
 		{0CD16833-274B-4E14-B1BB-0AA64CD9AFC2}.Release|x86.ActiveCfg = Release|Any CPU
 		{0CD16833-274B-4E14-B1BB-0AA64CD9AFC2}.Release|x86.Build.0 = Release|Any CPU
+		{3F2D630C-BB58-4142-82C6-C1C2A4585CF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F2D630C-BB58-4142-82C6-C1C2A4585CF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F2D630C-BB58-4142-82C6-C1C2A4585CF6}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{3F2D630C-BB58-4142-82C6-C1C2A4585CF6}.Debug|x64.Build.0 = Debug|Any CPU
+		{3F2D630C-BB58-4142-82C6-C1C2A4585CF6}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{3F2D630C-BB58-4142-82C6-C1C2A4585CF6}.Debug|x86.Build.0 = Debug|Any CPU
+		{3F2D630C-BB58-4142-82C6-C1C2A4585CF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F2D630C-BB58-4142-82C6-C1C2A4585CF6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3F2D630C-BB58-4142-82C6-C1C2A4585CF6}.Release|x64.ActiveCfg = Release|Any CPU
+		{3F2D630C-BB58-4142-82C6-C1C2A4585CF6}.Release|x64.Build.0 = Release|Any CPU
+		{3F2D630C-BB58-4142-82C6-C1C2A4585CF6}.Release|x86.ActiveCfg = Release|Any CPU
+		{3F2D630C-BB58-4142-82C6-C1C2A4585CF6}.Release|x86.Build.0 = Release|Any CPU
 		{FA703999-DC32-4E29-AB78-4C5739FC3D27}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FA703999-DC32-4E29-AB78-4C5739FC3D27}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FA703999-DC32-4E29-AB78-4C5739FC3D27}.Debug|x64.ActiveCfg = Debug|Any CPU

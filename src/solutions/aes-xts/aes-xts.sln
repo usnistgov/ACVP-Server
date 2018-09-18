@@ -39,6 +39,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.Oracle", ".
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Common.Oracle.Tests", "..\..\oracle\test\NIST.CVP.Oracle.Common.Tests\NIST.CVP.Common.Oracle.Tests.csproj", "{D98CF953-8883-4BBD-AF60-D0CAD969BBB0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Pools", "..\..\pools\src\NIST.CVP.Pools\NIST.CVP.Pools.csproj", "{2515221A-4B89-499F-ABDC-4D2DB86D386F}"
+EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Orleans.Grains", "..\..\orleans\src\NIST.CVP.Orleans.Grains\NIST.CVP.Orleans.Grains.csproj", "{17BFAA4D-71DF-4FE5-ABA4-CE0A3DDDA149}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Orleans.Grains.Interfaces", "..\..\orleans\src\NIST.CVP.Orleans.Grains.Interfaces\NIST.CVP.Orleans.Grains.Interfaces.csproj", "{937736B7-951D-4055-BFF0-2855830BF361}"
@@ -247,6 +249,18 @@ Global
 		{D98CF953-8883-4BBD-AF60-D0CAD969BBB0}.Release|x64.Build.0 = Release|Any CPU
 		{D98CF953-8883-4BBD-AF60-D0CAD969BBB0}.Release|x86.ActiveCfg = Release|Any CPU
 		{D98CF953-8883-4BBD-AF60-D0CAD969BBB0}.Release|x86.Build.0 = Release|Any CPU
+		{2515221A-4B89-499F-ABDC-4D2DB86D386F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2515221A-4B89-499F-ABDC-4D2DB86D386F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2515221A-4B89-499F-ABDC-4D2DB86D386F}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{2515221A-4B89-499F-ABDC-4D2DB86D386F}.Debug|x64.Build.0 = Debug|Any CPU
+		{2515221A-4B89-499F-ABDC-4D2DB86D386F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{2515221A-4B89-499F-ABDC-4D2DB86D386F}.Debug|x86.Build.0 = Debug|Any CPU
+		{2515221A-4B89-499F-ABDC-4D2DB86D386F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2515221A-4B89-499F-ABDC-4D2DB86D386F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2515221A-4B89-499F-ABDC-4D2DB86D386F}.Release|x64.ActiveCfg = Release|Any CPU
+		{2515221A-4B89-499F-ABDC-4D2DB86D386F}.Release|x64.Build.0 = Release|Any CPU
+		{2515221A-4B89-499F-ABDC-4D2DB86D386F}.Release|x86.ActiveCfg = Release|Any CPU
+		{2515221A-4B89-499F-ABDC-4D2DB86D386F}.Release|x86.Build.0 = Release|Any CPU
 		{17BFAA4D-71DF-4FE5-ABA4-CE0A3DDDA149}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{17BFAA4D-71DF-4FE5-ABA4-CE0A3DDDA149}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{17BFAA4D-71DF-4FE5-ABA4-CE0A3DDDA149}.Debug|x64.ActiveCfg = Debug|Any CPU

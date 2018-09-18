@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using NIST.CVP.Common.ExtensionMethods;
-using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Generation.Core.JsonConverters;
@@ -23,7 +23,8 @@ namespace NIST.CVP.Pools
         {
             new BitstringConverter(),
             new DomainConverter(),
-            new BigIntegerConverter()
+            new BigIntegerConverter(),
+            new StringEnumConverter()
         };
 
         public PoolManager(string configFile, string poolDirectory)
@@ -61,10 +62,17 @@ namespace NIST.CVP.Pools
             return new PoolResult<IResult> { PoolEmpty = true };
         }
 
-        public List<IParameters> GetPoolInformation()
+        public List<ParameterHolder> GetPoolInformation()
         {
-            var list = new List<IParameters>();
-            Pools.ForEach(fe => list.Add(fe.Param));
+            var list = new List<ParameterHolder>();
+            Pools.ForEach(fe =>
+            {
+                list.Add(new ParameterHolder
+                {
+                    Parameters = fe.Param,
+                    Type = fe.DeclaredType
+                });
+            });
 
             return list;
         }
@@ -95,33 +103,76 @@ namespace NIST.CVP.Pools
             _poolDirectory = poolDirectory;
 
             var fullConfigFile = Path.Combine(_poolDirectory, configFile);
-            _properties = JsonConvert.DeserializeObject<PoolProperties[]>(File.ReadAllText(fullConfigFile));
+            _properties = JsonConvert.DeserializeObject<PoolProperties[]>
+            (
+                File.ReadAllText(fullConfigFile), 
+                new JsonSerializerSettings
+                {
+                    Converters = _jsonConverters
+                }
+            );
 
             foreach (var poolProperty in _properties)
             {
                 var filePath = Path.Combine(_poolDirectory, poolProperty.FilePath);
                 var param = poolProperty.PoolType.Parameters;
 
+                IPool pool = null;
                 switch (poolProperty.PoolType.Type)
                 {
                     case PoolTypes.SHA:
-                        var shaPool = new ShaPool(param as ShaParameters, filePath, _jsonConverters);
-                        Pools.Add(shaPool);
+                        pool = new ShaPool(param as ShaParameters, filePath, _jsonConverters);
                         break;
 
                     case PoolTypes.AES:
-                        var aesPool = new AesPool(param as AesParameters, filePath, _jsonConverters);
-                        Pools.Add(aesPool);
+                        pool = new AesPool(param as AesParameters, filePath, _jsonConverters);
                         break;
 
                     case PoolTypes.SHA_MCT:
-                        var shaMctPool = new ShaMctPool(param as ShaParameters, filePath, _jsonConverters);
-                        Pools.Add(shaMctPool);
+                        pool = new ShaMctPool(param as ShaParameters, filePath, _jsonConverters);
+                        break;
+
+                    case PoolTypes.AES_MCT:
+                        pool = new AesMctPool(param as AesParameters, filePath, _jsonConverters);
+                        break;
+
+                    case PoolTypes.TDES_MCT:
+                        pool = new TdesMctPool(param as TdesParameters, filePath, _jsonConverters);
+                        break;
+
+                    case PoolTypes.SHA3_MCT:
+                        pool = new Sha3MctPool(param as Sha3Parameters, filePath, _jsonConverters);
+                        break;
+
+                    case PoolTypes.CSHAKE_MCT:
+                        pool = new CShakeMctPool(param as CShakeParameters, filePath, _jsonConverters);
+                        break;
+
+                    case PoolTypes.PARALLEL_HASH_MCT:
+                        pool = new ParallelHashMctPool(param as ParallelHashParameters, filePath, _jsonConverters);
+                        break;
+
+                    case PoolTypes.TUPLE_HASH_MCT:
+                        pool = new TupleHashMctPool(param as TupleHashParameters, filePath, _jsonConverters);
+                        break;
+
+                    case PoolTypes.DSA_PQG:
+                        pool = new DsaPqgPool(param as DsaDomainParametersParameters, filePath, _jsonConverters);
+                        break;
+
+                    case PoolTypes.ECDSA_KEY:
+                        pool = new EcdsaKeyPool(param as EcdsaKeyParameters, filePath, _jsonConverters);
+                        break;
+
+                    case PoolTypes.RSA_KEY:
+                        pool = new RsaKeyPool(param as RsaKeyParameters, filePath, _jsonConverters);
                         break;
 
                     default:
-                        throw new Exception("No pool found");
+                        throw new Exception("No pool model found");
                 }
+
+                Pools.Add(pool);
             }
         }
     }

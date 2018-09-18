@@ -1,6 +1,8 @@
 ﻿using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Math;
+using NIST.CVP.Pools;
+using NIST.CVP.Pools.Enums;
 using System;
 using System.Threading.Tasks;
 using NIST.CVP.Orleans.Grains.Interfaces;
@@ -30,6 +32,13 @@ namespace NIST.CVP.Crypto.Oracle
         
         public async Task<MctResult<AesResult>> GetAesMctCaseAsync(AesParameters param)
         {
+            var poolBoy = new PoolBoy<MctResult<AesResult>>(_poolConfig);
+            var poolResult = poolBoy.GetObjectFromPool(param, PoolTypes.AES_MCT);
+            if (poolResult != null)
+            {
+                return poolResult;
+            }
+
             var grain = _clusterClient.GetGrain<IOracleObserverAesMctCaseGrain>(
                 Guid.NewGuid()
             );

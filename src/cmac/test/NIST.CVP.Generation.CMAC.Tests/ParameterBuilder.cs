@@ -14,7 +14,7 @@ namespace NIST.CVP.Generation.CMAC.Tests
             var capabilityBuilder = new CapabilityBuilder();
 
             _algorithm = "CMAC";
-            _mode = "";
+            _mode = "AES";
             _capabilities = new List<Capability>()
             {
                 capabilityBuilder.Build()

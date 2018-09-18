@@ -1,8 +1,13 @@
 ﻿using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
+using NIST.CVP.Pools;
+using NIST.CVP.Pools.Enums;
 using System;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
+using NIST.CVP.Math.Entropy;
 using NIST.CVP.Orleans.Grains.Interfaces;
 using NIST.CVP.Orleans.Grains.Interfaces.Helpers;
 using NIST.CVP.Orleans.Grains.Interfaces.Rsa;
@@ -11,6 +16,46 @@ namespace NIST.CVP.Crypto.Oracle
 {
     public partial class Oracle
     {
+        //private RsaPrimeResult GeneratePrimes(RsaKeyParameters param, IEntropyProvider entropyProvider)
+        //{
+        //    // Only works with random public exponent
+        //    var poolBoy = new PoolBoy<RsaPrimeResult>(_poolConfig);
+        //    var poolResult = poolBoy.GetObjectFromPool(param, PoolTypes.RSA_KEY);
+        //    if (poolResult != null)
+        //    {
+        //        return poolResult;
+        //    }
+
+        //    // TODO Not every group has a hash alg... Can use a default value perhaps?
+        //    ISha sha = null;
+        //    if (param.HashAlg != null)
+        //    {
+        //        sha = _shaFactory.GetShaInstance(param.HashAlg);
+        //    }
+
+        //    var keyComposer = _keyComposerFactory.GetKeyComposer(param.KeyFormat);
+
+        //    // Configure Prime Generator
+        //    var keyResult = new KeyBuilder(new PrimeGeneratorFactory())
+        //        .WithBitlens(param.BitLens)
+        //        .WithEntropyProvider(entropyProvider)
+        //        .WithHashFunction(sha)
+        //        .WithNlen(param.Modulus)
+        //        .WithPrimeGenMode(param.KeyMode)
+        //        .WithPrimeTestMode(param.PrimeTest)
+        //        .WithPublicExponent(param.PublicExponent)
+        //        .WithKeyComposer(keyComposer)
+        //        .WithSeed(param.Seed)
+        //        .Build();
+
+        //    return new RsaPrimeResult
+        //    {
+        //        Aux = keyResult.AuxValues,
+        //        Key = keyResult.Key,
+        //        Success = keyResult.Success
+        //    };
+        //}
+
         public async Task<RsaKeyResult> GetRsaKeyAsync(RsaKeyParameters param)
         {
             var grain = _clusterClient.GetGrain<IOracleObserverRsaKeyCaseGrain>(

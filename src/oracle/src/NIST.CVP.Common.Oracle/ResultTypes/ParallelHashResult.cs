@@ -2,7 +2,7 @@
 
 namespace NIST.CVP.Common.Oracle.ResultTypes
 {
-    public class ParallelHashResult
+    public class ParallelHashResult : IResult
     {
         public BitString Message { get; set; }
         public BitString Digest { get; set; }

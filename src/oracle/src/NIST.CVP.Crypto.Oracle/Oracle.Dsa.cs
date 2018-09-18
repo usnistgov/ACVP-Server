@@ -1,6 +1,9 @@
 ﻿using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
+using NIST.CVP.Pools;
+using NIST.CVP.Pools.Enums;
 using System;
+using System.Numerics;
 using System.Threading.Tasks;
 using NIST.CVP.Orleans.Grains.Interfaces;
 using NIST.CVP.Orleans.Grains.Interfaces.Dsa;
@@ -12,6 +15,14 @@ namespace NIST.CVP.Crypto.Oracle
     {
         public async Task<DsaDomainParametersResult> GetDsaPQAsync(DsaDomainParametersParameters param)
         {
+            var poolBoy = new PoolBoy<DsaDomainParametersResult>(_poolConfig);
+            var poolResult = poolBoy.GetObjectFromPool(param, PoolTypes.DSA_PQG);
+            if (poolResult != null)
+            {
+                // Will return a G (and some other properties) that are not necessary
+                return poolResult;
+            }
+
             var grain = _clusterClient.GetGrain<IOracleObserverDsaPqCaseGrain>(
                 Guid.NewGuid()
             );
@@ -29,6 +40,14 @@ namespace NIST.CVP.Crypto.Oracle
 
         public async Task<DsaDomainParametersResult> GetDsaGAsync(DsaDomainParametersParameters param, DsaDomainParametersResult pqParam)
         {
+            var poolBoy = new PoolBoy<DsaDomainParametersResult>(_poolConfig);
+            var poolResult = poolBoy.GetObjectFromPool(param, PoolTypes.DSA_PQG);
+            if (poolResult != null)
+            {
+                // Generates all three P, Q, G
+                return poolResult;
+            }
+
             var grain = _clusterClient.GetGrain<IOracleObserverDsaGCaseGrain>(
                 Guid.NewGuid()
             );
@@ -46,8 +65,20 @@ namespace NIST.CVP.Crypto.Oracle
 
         public async Task<DsaDomainParametersResult> GetDsaDomainParametersAsync(DsaDomainParametersParameters param)
         {
+            var poolBoy = new PoolBoy<DsaDomainParametersResult>(_poolConfig);
+            var poolResult = poolBoy.GetObjectFromPool(param, PoolTypes.DSA_PQG);
+            if (poolResult != null)
+            {
+                return poolResult;
+            }
+
             var pqResult = await GetDsaPQAsync(param);
-            var gResult = await GetDsaGAsync(param, pqResult);
+            var gResult = pqResult;
+			if (pqResult.G == default(BigInteger))
+            {
+                // Only try to get a G if the previous call didn't access the pool
+                gResult = await GetDsaGAsync(param, pqResult);
+            }
 
             return new DsaDomainParametersResult
             {

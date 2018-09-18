@@ -9,6 +9,8 @@ using NIST.CVP.Orleans.Grains.Interfaces;
 using NIST.CVP.Orleans.Grains.Interfaces.Enums;
 using Orleans;
 using Orleans.Configuration;
+using Microsoft.Extensions.Options;
+using NIST.CVP.Common.Config;
 
 namespace NIST.CVP.Crypto.Oracle
 {
@@ -31,6 +33,7 @@ namespace NIST.CVP.Crypto.Oracle
         // you can potentially cap out memory usage w/o being able to complete tasks.
         private static readonly LimitedConcurrencyLevelTaskScheduler _scheduler;
         private static readonly TaskFactory _taskFactory;
+        private readonly IOptions<PoolConfig> _poolConfig;
         private static readonly IClusterClient _clusterClient;
         
         static Oracle()
@@ -39,6 +42,13 @@ namespace NIST.CVP.Crypto.Oracle
             _taskFactory = new TaskFactory(_scheduler);
 
             _clusterClient = InitializeClient().GetAwaiter().GetResult();
+        }
+
+        public Oracle(
+            IOptions<PoolConfig> poolConfig
+        )
+        {
+            _poolConfig = poolConfig;
         }
 
         private static async Task<IClusterClient> InitializeClient()
