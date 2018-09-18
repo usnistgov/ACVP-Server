@@ -13,30 +13,31 @@ namespace NIST.CVP.Orleans.Grains.Ecdsa
     public class OracleObserverEcdsaVerifySignatureCaseCaseGrain : ObservableOracleGrainBase<VerifyResult<EcdsaSignatureResult>>, 
         IOracleObserverEcdsaVerifySignatureCaseGrain
     {
-        private readonly IEcdsaKeyGenRunner _runner;
         private readonly IEccCurveFactory _curveFactory;
         private readonly IDsaEccFactory _dsaFactory;
         private readonly IRandom800_90 _rand;
 
         private EcdsaSignatureParameters _param;
+        private EcdsaKeyResult _key;
+        private EcdsaKeyResult _badKey;
 
         public OracleObserverEcdsaVerifySignatureCaseCaseGrain(
             LimitedConcurrencyLevelTaskScheduler nonOrleansScheduler,
-            IEcdsaKeyGenRunner runner,
             IEccCurveFactory curveFactory,
             IDsaEccFactory dsaFactory,
             IRandom800_90 rand
         ) : base (nonOrleansScheduler)
         {
-            _runner = runner;
             _curveFactory = curveFactory;
             _dsaFactory = dsaFactory;
             _rand = rand;
         }
         
-        public async Task<bool> BeginWorkAsync(EcdsaSignatureParameters param)
+        public async Task<bool> BeginWorkAsync(EcdsaSignatureParameters param, EcdsaKeyResult key, EcdsaKeyResult badKey)
         {
             _param = param;
+            _key = key;
+            _badKey = badKey;
             
             await BeginGrainWorkAsync();
             return await Task.FromResult(true);
@@ -44,18 +45,13 @@ namespace NIST.CVP.Orleans.Grains.Ecdsa
         
         protected override async Task DoWorkAsync()
         {
-            var keyParam = new EcdsaKeyParameters
-            {
-                Curve = _param.Curve
-            };
-            var key = _runner.GenerateKey(keyParam).Key;
             var curve = _curveFactory.GetCurve(_param.Curve);
             var domainParams = new EccDomainParameters(curve);
             var eccDsa = _dsaFactory.GetInstance(_param.HashAlg);
 
             var message = _rand.GetRandomBitString(1024);
 
-            var result = eccDsa.Sign(domainParams, key, message);
+            var result = eccDsa.Sign(domainParams, _key.Key, message);
             if (!result.Success)
             {
                 throw new Exception();
@@ -64,7 +60,7 @@ namespace NIST.CVP.Orleans.Grains.Ecdsa
             var sigResult = new EcdsaSignatureResult
             {
                 Message = message,
-                Key = key,
+                Key = _key.Key,
                 Signature = result.Signature
             };
 
@@ -76,8 +72,7 @@ namespace NIST.CVP.Orleans.Grains.Ecdsa
             else if (_param.Disposition == EcdsaSignatureDisposition.ModifyKey)
             {
                 // Generate a different key pair for the test case
-                var keyResult = _runner.GenerateKey(keyParam).Key;
-                sigResult.Key = keyResult;
+                sigResult.Key = _badKey.Key;
             }
             else if (_param.Disposition == EcdsaSignatureDisposition.ModifyR)
             {

@@ -1,7 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using NIST.CVP.Common;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Orleans.Grains.Interfaces.Ecdsa;
 
 namespace NIST.CVP.Orleans.Grains.Ecdsa
@@ -9,16 +12,19 @@ namespace NIST.CVP.Orleans.Grains.Ecdsa
     public class OracleObserverEcdsaKeyCaseCaseGrain : ObservableOracleGrainBase<EcdsaKeyResult>, 
         IOracleObserverEcdsaKeyCaseGrain
     {
-        private readonly IEcdsaKeyGenRunner _runner;
+        private readonly IEccCurveFactory _curveFactory;
+        private readonly IDsaEccFactory _dsaFactory;
 
         private EcdsaKeyParameters _param;
 
         public OracleObserverEcdsaKeyCaseCaseGrain(
             LimitedConcurrencyLevelTaskScheduler nonOrleansScheduler,
-            IEcdsaKeyGenRunner runner
+            IEccCurveFactory curveFactory, 
+            IDsaEccFactory dsaFactory
         ) : base (nonOrleansScheduler)
         {
-            _runner = runner;
+            _curveFactory = curveFactory;
+            _dsaFactory = dsaFactory;
         }
         
         public async Task<bool> BeginWorkAsync(EcdsaKeyParameters param)
@@ -31,8 +37,23 @@ namespace NIST.CVP.Orleans.Grains.Ecdsa
         
         protected override async Task DoWorkAsync()
         {
+            var curve = _curveFactory.GetCurve(_param.Curve);
+            var domainParams = new EccDomainParameters(curve);
+
+            // Hash function is not used, but the factory requires it
+            var eccDsa = _dsaFactory.GetInstance(new HashFunction(ModeValues.SHA2, DigestSizes.d256));
+
+            var result = eccDsa.GenerateKeyPair(domainParams);
+            if (!result.Success)
+            {
+                throw new Exception();
+            }
+
             // Notify observers of result
-            await Notify(_runner.GenerateKey(_param));
+            await Notify(new EcdsaKeyResult
+            {
+                Key = result.KeyPair
+            });
         }
     }
 }

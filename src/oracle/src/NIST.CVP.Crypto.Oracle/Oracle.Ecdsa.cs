@@ -55,6 +55,8 @@ namespace NIST.CVP.Crypto.Oracle
 
         public async Task<VerifyResult<EcdsaKeyResult>> GetEcdsaKeyVerifyAsync(EcdsaKeyParameters param)
         {
+            var key = await GetEcdsaKeyAsync(param);
+
             var grain = _clusterClient.GetGrain<IOracleObserverEcdsaVerifyKeyCaseGrain>(
                 Guid.NewGuid()
             );
@@ -63,7 +65,7 @@ namespace NIST.CVP.Crypto.Oracle
             var observerReference = 
                 await _clusterClient.CreateObjectReference<IGrainObserver<VerifyResult<EcdsaKeyResult>>>(observer);
             await grain.Subscribe(observerReference);
-            await grain.BeginWorkAsync(param);
+            await grain.BeginWorkAsync(param, key);
 
             var result = await ObservableHelpers.ObserveUntilResult(grain, observer, observerReference);
 
@@ -123,6 +125,15 @@ namespace NIST.CVP.Crypto.Oracle
 
         public async Task<VerifyResult<EcdsaSignatureResult>> GetEcdsaVerifyResultAsync(EcdsaSignatureParameters param)
         {
+            var keyParam = new EcdsaKeyParameters
+            {
+                Curve = param.Curve
+            };
+
+            var key = await GetEcdsaKeyAsync(keyParam);
+            // resigns with "bad key" under specific error condition to ensure IUT validates as failed verification.
+            var badKey = await GetEcdsaKeyAsync(keyParam);
+            
             var grain = _clusterClient.GetGrain<IOracleObserverEcdsaVerifySignatureCaseGrain>(
                 Guid.NewGuid()
             );
@@ -131,7 +142,7 @@ namespace NIST.CVP.Crypto.Oracle
             var observerReference = 
                 await _clusterClient.CreateObjectReference<IGrainObserver<VerifyResult<EcdsaSignatureResult>>>(observer);
             await grain.Subscribe(observerReference);
-            await grain.BeginWorkAsync(param);
+            await grain.BeginWorkAsync(param, key, badKey);
 
             var result = await ObservableHelpers.ObserveUntilResult(grain, observer, observerReference);
 

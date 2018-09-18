@@ -108,7 +108,6 @@ namespace NIST.CVP.Orleans.Grains
             #region Orleans Registrations
             svc.AddSingleton<IAeadRunner, AeadRunner>();
             
-            svc.AddSingleton<IEcdsaKeyGenRunner, EcdsaKeyGenRunner>();
             svc.AddSingleton<IEddsaKeyGenRunner, EddsaKeyGenRunner>();
 
             svc.AddSingleton<IKasAftTestGeneratorFactory<KasAftParametersEcc, KasAftResultEcc>,

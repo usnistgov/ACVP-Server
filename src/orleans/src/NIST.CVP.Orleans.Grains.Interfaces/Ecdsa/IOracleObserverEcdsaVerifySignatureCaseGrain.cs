@@ -7,6 +7,6 @@ namespace NIST.CVP.Orleans.Grains.Interfaces.Ecdsa
 {
     public interface IOracleObserverEcdsaVerifySignatureCaseGrain : IGrainWithGuidKey, IGrainObservable<VerifyResult<EcdsaSignatureResult>>
     {
-        Task<bool> BeginWorkAsync(EcdsaSignatureParameters param);
+        Task<bool> BeginWorkAsync(EcdsaSignatureParameters param, EcdsaKeyResult key, EcdsaKeyResult badKey);
     }
 }
