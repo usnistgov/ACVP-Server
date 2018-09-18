@@ -35,8 +35,10 @@ namespace NIST.CVP.Common
         AES_XPN,
         [EnumMember(Value = "AES-XTS")]
         AES_XTS,
-        [EnumMember(Value = "CMAC")]
-        CMAC,
+        [EnumMember(Value = "CMAC-AES")]
+        CMAC_AES,
+        [EnumMember(Value = "CMAC-TDES")]
+        CMAC_TDES,
         [EnumMember(Value = "CSHAKE")]
         CSHAKE,
         [EnumMember(Value = "ctrDRBG")]

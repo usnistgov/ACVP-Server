@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace NIST.CVP.Common.Oracle.ResultTypes
 {
-    public class DsaDomainParametersResult
+    public class DsaDomainParametersResult : IResult
     {
         public BigInteger P { get; set; }
         public BigInteger Q { get; set; }

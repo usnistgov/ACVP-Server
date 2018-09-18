@@ -14,8 +14,11 @@ namespace NIST.CVP.Generation.CMAC
 
     public class Capability
     {
-        public string Mode { get; set; }
         public string Direction { get; set; }
+        /// <summary>
+        /// AES only
+        /// </summary>
+        public int KeyLen { get; set; }
         /// <summary>
         /// TDES only
         /// </summary>

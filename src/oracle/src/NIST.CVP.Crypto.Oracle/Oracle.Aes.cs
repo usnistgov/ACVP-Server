@@ -9,6 +9,8 @@ using NIST.CVP.Crypto.Symmetric.BlockModes;
 using NIST.CVP.Crypto.Symmetric.Engines;
 using NIST.CVP.Crypto.Symmetric.MonteCarlo;
 using NIST.CVP.Math;
+using NIST.CVP.Pools;
+using NIST.CVP.Pools.Enums;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -58,6 +60,13 @@ namespace NIST.CVP.Crypto.Oracle
 
         private MctResult<AesResult> GetAesMctCase(AesParameters param)
         {
+            var poolBoy = new PoolBoy<MctResult<AesResult>>(_poolConfig);
+            var poolResult = poolBoy.GetObjectFromPool(param, PoolTypes.AES_MCT);
+            if (poolResult != null)
+            {
+                return poolResult;
+            }
+
             var cipher = _aesMctFactory.GetInstance(param.Mode);
             var direction = BlockCipherDirections.Encrypt;
             if (param.Direction.ToLower() == "decrypt")

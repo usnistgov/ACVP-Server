@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using NIST.CVP.Generation.Core.JsonConverters;
 using NIST.CVP.Pools;
 using NLog;
@@ -18,7 +19,8 @@ namespace NIST.CVP.PoolAPI.Controllers
             {
                 new BitstringConverter(),
                 new DomainConverter(),
-                new BigIntegerConverter()
+                new BigIntegerConverter(),
+                new StringEnumConverter()
             },
             Formatting = Formatting.Indented
         };
@@ -101,7 +103,6 @@ namespace NIST.CVP.PoolAPI.Controllers
         {
             try
             {
-                LogManager.GetCurrentClassLogger().Info("Request received");
                 return JsonConvert.SerializeObject(Program.PoolManager.GetPoolStatus(parameterHolder));
             }
             catch (Exception ex)

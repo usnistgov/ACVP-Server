@@ -1,37 +1,37 @@
 [
   {
     "poolType": {
-      "type": "sha",
+      "type": "sha_mct",
       "parameters": {
-        "messageLength": 512,
+        "messageLength": 160,
         "hashFunction": {
-          "mode": 1,
-          "digestSize": 2
+          "mode": 0,
+          "digestSize": 0
         }
       }
     },
-    "filePath": "sha2-test1.json",
-    "maxCapacity": 100,
-    "monitorFrequency": 30
-  },
-  {
-    "poolType": {
-      "type": "sha",
-      "parameters": {
-        "messageLength": 256,
-        "hashFunction": {
-          "mode": 1,
-          "digestSize": 2
-        }
-      }
-    },
-    "filePath": "sha2-test2.json",
+    "filePath": "sha1-mct.json",
     "maxCapacity": 50,
     "monitorFrequency": 30
   },
   {
     "poolType": {
-      "type": "sha-mct",
+      "type": "sha_mct",
+      "parameters": {
+        "messageLength": 224,
+        "hashFunction": {
+          "mode": 1,
+          "digestSize": 1
+        }
+      }
+    },
+    "filePath": "sha2-224-mct.json",
+    "maxCapacity": 50,
+    "monitorFrequency": 30
+  },
+  {
+    "poolType": {
+      "type": "sha_mct",
       "parameters": {
         "messageLength": 256,
         "hashFunction": {
@@ -40,7 +40,67 @@
         }
       }
     },
-    "filePath": "sha2-mct-test.json",
+    "filePath": "sha2-256-mct.json",
+    "maxCapacity": 50,
+    "monitorFrequency": 30
+  },
+  {
+    "poolType": {
+      "type": "sha_mct",
+      "parameters": {
+        "messageLength": 384,
+        "hashFunction": {
+          "mode": 1,
+          "digestSize": 3
+        }
+      }
+    },
+    "filePath": "sha2-384-mct.json",
+    "maxCapacity": 50,
+    "monitorFrequency": 30
+  },
+  {
+    "poolType": {
+      "type": "sha_mct",
+      "parameters": {
+        "messageLength": 512,
+        "hashFunction": {
+          "mode": 1,
+          "digestSize": 4
+        }
+      }
+    },
+    "filePath": "sha2-512-mct.json",
+    "maxCapacity": 50,
+    "monitorFrequency": 30
+  },
+  {
+    "poolType": {
+      "type": "sha_mct",
+      "parameters": {
+        "messageLength": 224,
+        "hashFunction": {
+          "mode": 1,
+          "digestSize": 5
+        }
+      }
+    },
+    "filePath": "sha2-512-224-mct.json",
+    "maxCapacity": 50,
+    "monitorFrequency": 30
+  },
+  {
+    "poolType": {
+      "type": "sha_mct",
+      "parameters": {
+        "messageLength": 256,
+        "hashFunction": {
+          "mode": 1,
+          "digestSize": 6
+        }
+      }
+    },
+    "filePath": "sha2-512-256-mct.json",
     "maxCapacity": 50,
     "monitorFrequency": 30
   },
@@ -54,7 +114,7 @@
         "direction": "encrypt"
       }
     },
-    "filePath": "aes-test1.json",
+    "filePath": "aes-ecb-128.json",
     "maxCapacity": 10,
     "monitorFrequency": 60
   }

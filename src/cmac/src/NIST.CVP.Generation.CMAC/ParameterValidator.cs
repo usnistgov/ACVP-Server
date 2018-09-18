@@ -10,7 +10,9 @@ namespace NIST.CVP.Generation.CMAC
     public class ParameterValidator : ParameterValidatorBase, IParameterValidator<Parameters>
     {
         public static string VALID_ALGORITHM = "CMAC";
+        //public static string[] VALID_MODES = new string[] { "AES", "TDES" };
         public static string[] VALID_DIRECTIONS = new string[] { "gen", "ver" };
+        public static int[] VALID_KEY_LENGTHS = new int[] { 128, 192, 256 };
         public static int[] VALID_KEYING_OPTIONS = new int[] { 1, 2 };
 
         public static int VALID_MESSAGE_LENGTH_MIN = 0;
@@ -21,7 +23,9 @@ namespace NIST.CVP.Generation.CMAC
         {
             var errorResults = new List<string>();
             ValidateAlgorithm(parameters, errorResults);
-            ValidateMode(parameters, errorResults);
+            var mode = ValidateAndGetMode(parameters.Mode, errorResults);
+            int maxMacLength = mode == CmacTypes.TDES ? 64 : 128;
+
             if (errorResults.Count > 0)
             {
                 return new ParameterValidateResponse(string.Join(";", errorResults));
@@ -29,12 +33,15 @@ namespace NIST.CVP.Generation.CMAC
 
             foreach (var capability in parameters.Capabilities)
             {
-                var mode = ValidateAndGetMode(capability.Mode, errorResults);
-                int maxMacLength = mode == CmacTypes.TDES ? 64 : 128;
 
                 ValidateDirection(capability, errorResults);
                 ValidateMessageLength(capability, errorResults);
                 ValidateMacLength(capability, maxMacLength, errorResults);
+
+                // AES checks
+                ValidateKeyLengths(capability, mode, errorResults);
+
+                // TDES checks
                 ValidateKeyingOption(capability, mode, errorResults);
                 ValidateKeyingOptionWithMode(capability, mode, errorResults);
             }
@@ -47,6 +54,12 @@ namespace NIST.CVP.Generation.CMAC
             return new ParameterValidateResponse();
         }
 
+        private void ValidateAlgorithm(Parameters parameters, List<string> errorResults)
+        {
+            var algoCheck = ValidateValue(parameters.Algorithm, new string[] {VALID_ALGORITHM}, "Algorithm");
+            errorResults.AddIfNotNullOrEmpty(algoCheck);
+        }
+        
         private CmacTypes ValidateAndGetMode(string mode, List<string> errorResults)
         {
             if (string.IsNullOrEmpty(mode))
@@ -57,7 +70,7 @@ namespace NIST.CVP.Generation.CMAC
 
             if (!AlgorithmSpecificationMapping.Map
                 .TryFirst(
-                    w => w.algoSpecification.Equals(mode, StringComparison.OrdinalIgnoreCase),
+                    w => w.algoSpecification.StartsWith(mode, StringComparison.OrdinalIgnoreCase),
                     out var result))
             {
                 errorResults.AddIfNotNullOrEmpty($"Invalid {nameof(mode)} provided {mode}");
@@ -65,20 +78,6 @@ namespace NIST.CVP.Generation.CMAC
             }
 
             return result.mappedCmacType;
-        }
-
-        private void ValidateAlgorithm(Parameters parameters, List<string> errorResults)
-        {
-            var algoCheck = ValidateValue(parameters.Algorithm, new string[] {VALID_ALGORITHM}, "Algorithm");
-            errorResults.AddIfNotNullOrEmpty(algoCheck);
-        }
-
-        private void ValidateMode(Parameters parameters, List<string> errorResults)
-        {
-            if (!string.IsNullOrEmpty(parameters.Mode))
-            {
-                errorResults.AddIfNotNullOrEmpty("Algorithm mode");
-            }
         }
 
         private void ValidateDirection(Capability capability, List<string> errorResults)
@@ -128,6 +127,24 @@ namespace NIST.CVP.Generation.CMAC
             errorResults.AddIfNotNullOrEmpty(rangeCheck);
         }
 
+        private void ValidateKeyLengths(Capability capability, CmacTypes mode, List<string> errorResults)
+        {
+            // Key length only valid for AES
+            if (mode == CmacTypes.TDES && capability.KeyLen != 0)
+            {
+                errorResults.AddIfNotNullOrEmpty("Unexpected keyingLen provided for CMAC TDES");
+                return;
+            }
+
+            if (mode == CmacTypes.TDES)
+            {
+                return;
+            }
+
+            var keyLenCheck = ValidateArray(new int[] { capability.KeyLen }, VALID_KEY_LENGTHS, "KeyLen");
+            errorResults.AddIfNotNullOrEmpty(keyLenCheck);
+        }
+        
         private void ValidateKeyingOption(Capability capability, CmacTypes mode, List<string> errorResults)
         {
             // Keying option only valid for TDES

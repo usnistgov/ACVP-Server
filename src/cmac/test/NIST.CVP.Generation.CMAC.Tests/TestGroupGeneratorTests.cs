@@ -23,8 +23,9 @@ namespace NIST.CVP.Generation.CMAC.Tests
             {
                 // 0
                 "test1 - 0",
-                "AES-256",
                 string.Empty,
+                "AES",
+                256,
                 0,
                 new MathDomain().AddSegment(new ValueDomainSegment(8)),
                 new MathDomain().AddSegment(new ValueDomainSegment(8)),
@@ -34,8 +35,9 @@ namespace NIST.CVP.Generation.CMAC.Tests
             {
                 // 1 (1*1*1*1)
                 "test2 - 3",
-                "AES-128",
                 "gen",
+                "AES",
+                128,
                 0,
                 new MathDomain().AddSegment(new ValueDomainSegment(8)),
                 new MathDomain().AddSegment(new ValueDomainSegment(8)),
@@ -44,8 +46,9 @@ namespace NIST.CVP.Generation.CMAC.Tests
             new object[]
             {
                 "test3 - 1620",
-                "TDES",
                 "var",
+                "TDES",
+                0,
                 1,
                 new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 8, 1024, 8)),
                 new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 8, 1024, 8)),
@@ -57,8 +60,9 @@ namespace NIST.CVP.Generation.CMAC.Tests
         [TestCaseSource(nameof(testData))]
         public void ShouldReturnOneITestGroupForEveryMultiplicativeIterationOfParamters(
             string label,
-            string mode,
             string direction,
+            string mode,
+            int keyLen,
             int keyingOption,
             MathDomain msgLen,
             MathDomain macLen,
@@ -68,13 +72,13 @@ namespace NIST.CVP.Generation.CMAC.Tests
             Parameters p = new Parameters()
             {
                 Algorithm = "CMAC",
-                Mode = string.Empty,
+                Mode = mode,
                 Capabilities = new[]
                 {
                     new Capability()
                     {
-                        Mode = mode,
                         Direction = direction,
+                        KeyLen = keyLen,
                         KeyingOption = keyingOption,
                         MsgLen = msgLen,
                         MacLen = macLen

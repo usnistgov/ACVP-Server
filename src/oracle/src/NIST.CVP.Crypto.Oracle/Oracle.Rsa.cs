@@ -12,6 +12,8 @@ using NIST.CVP.Crypto.RSA.Signatures;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
+using NIST.CVP.Pools;
+using NIST.CVP.Pools.Enums;
 using System;
 using System.Numerics;
 using System.Threading.Tasks;
@@ -83,8 +85,16 @@ namespace NIST.CVP.Crypto.Oracle
             };
         }
 
-        private (bool Success, KeyPair Key, AuxiliaryResult Aux) GeneratePrimes(RsaKeyParameters param, IEntropyProvider entropyProvider)
+        private RsaPrimeResult GeneratePrimes(RsaKeyParameters param, IEntropyProvider entropyProvider)
         {
+            // Only works with random public exponent
+            var poolBoy = new PoolBoy<RsaPrimeResult>(_poolConfig);
+            var poolResult = poolBoy.GetObjectFromPool(param, PoolTypes.RSA_KEY);
+            if (poolResult != null)
+            {
+                return poolResult;
+            }
+
             // TODO Not every group has a hash alg... Can use a default value perhaps?
             ISha sha = null;
             if (param.HashAlg != null)
@@ -107,15 +117,21 @@ namespace NIST.CVP.Crypto.Oracle
                 .WithSeed(param.Seed)
                 .Build();
 
-            return (keyResult.Success, keyResult.Key, keyResult.AuxValues);
+            return new RsaPrimeResult
+            {
+                Aux = keyResult.AuxValues,
+                Key = keyResult.Key,
+                Success = keyResult.Success
+            };
         }
         
         private RsaKeyResult GetRsaKey(RsaKeyParameters param)
         {
             var entropyProvider = new EntropyProvider(_rand);
-            (bool Success, KeyPair Key, AuxiliaryResult Aux) result;
+            RsaPrimeResult result;
             do
             {
+                // These will be overwritten if the value comes from the pool
                 param.Seed = GetSeed(param.Modulus);
                 param.PublicExponent = param.PublicExponentMode == PublicExponentModes.Fixed ? param.PublicExponent : GetEValue(RSA_PUBLIC_EXPONENT_BITS_MIN, RSA_PUBLIC_EXPONENT_BITS_MAX);
                 param.BitLens = GetBitlens(param.Modulus, param.KeyMode);
