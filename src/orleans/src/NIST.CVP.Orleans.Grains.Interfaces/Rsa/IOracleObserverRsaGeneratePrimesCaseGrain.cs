@@ -5,7 +5,7 @@ using Orleans;
 
 namespace NIST.CVP.Orleans.Grains.Interfaces.Rsa
 {
-    public interface IOracleObserverRsaKeyCaseGrain : IGrainWithGuidKey, IGrainObservable<RsaKeyResult>
+    public interface IOracleObserverRsaGeneratePrimesCaseGrain : IGrainWithGuidKey, IGrainObservable<RsaPrimeResult>
     {
         Task<bool> BeginWorkAsync(RsaKeyParameters param);
     }

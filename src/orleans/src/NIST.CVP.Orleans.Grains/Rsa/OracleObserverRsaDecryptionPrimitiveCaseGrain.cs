@@ -15,7 +15,7 @@ namespace NIST.CVP.Orleans.Grains.Rsa
     public class OracleObserverRsaDecryptionPrimitiveCaseGrain : ObservableOracleGrainBase<RsaDecryptionPrimitiveResult>, 
         IOracleObserverRsaDecryptionPrimitiveCaseGrain
     {
-        private readonly IRsaRunner _rsaRunner;
+        private readonly IKeyGenParameterHelper _keyGenHelper;
         private readonly IRsa _rsa;
         private readonly IKeyBuilder _keyBuilder;
         private readonly IKeyComposerFactory _keyComposerFactory;
@@ -26,7 +26,7 @@ namespace NIST.CVP.Orleans.Grains.Rsa
 
         public OracleObserverRsaDecryptionPrimitiveCaseGrain(
             LimitedConcurrencyLevelTaskScheduler nonOrleansScheduler,
-            IRsaRunner rsaRunner,
+            IKeyGenParameterHelper keyGenHelper,
             IRsa rsa,
             IKeyBuilder keyBuilder,
             IKeyComposerFactory keyComposerFactory,
@@ -34,7 +34,7 @@ namespace NIST.CVP.Orleans.Grains.Rsa
             IRandom800_90 rand
         ) : base (nonOrleansScheduler)
         {
-            _rsaRunner = rsaRunner;
+            _keyGenHelper = keyGenHelper;
             _rsa = rsa;
             _keyBuilder = keyBuilder;
             _keyComposerFactory = keyComposerFactory;
@@ -60,7 +60,7 @@ namespace NIST.CVP.Orleans.Grains.Rsa
                 KeyResult keyResult;
                 do
                 {
-                    var e = _rsaRunner.GetEValue(RsaRunner.RSA_PUBLIC_EXPONENT_BITS_MIN, RsaRunner.RSA_PUBLIC_EXPONENT_BITS_MAX);
+                    var e = _keyGenHelper.GetEValue(RsaRunner.RSA_PUBLIC_EXPONENT_BITS_MIN, RsaRunner.RSA_PUBLIC_EXPONENT_BITS_MAX);
                     keyResult = _keyBuilder
                         .WithPrimeGenMode(PrimeGenModes.B33)
                         .WithEntropyProvider(_entropyProvider)
@@ -90,7 +90,7 @@ namespace NIST.CVP.Orleans.Grains.Rsa
 
                 // Pick a random n that is 2048 bits and less than the ciphertext
                 var n = _rand.GetRandomBigInteger(NumberTheory.Pow2(_param.Modulo - 1), cipherText.ToPositiveBigInteger());
-                var e = _rsaRunner.GetEValue(RsaRunner.RSA_PUBLIC_EXPONENT_BITS_MIN, RsaRunner.RSA_PUBLIC_EXPONENT_BITS_MAX).ToPositiveBigInteger();
+                var e = _keyGenHelper.GetEValue(RsaRunner.RSA_PUBLIC_EXPONENT_BITS_MIN, RsaRunner.RSA_PUBLIC_EXPONENT_BITS_MAX).ToPositiveBigInteger();
 
                 result = new RsaDecryptionPrimitiveResult
                 {

@@ -5,8 +5,8 @@ using NIST.CVP.Pools;
 using NIST.CVP.Pools.Enums;
 using System;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys;
+using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
 using NIST.CVP.Orleans.Grains.Interfaces;
 using NIST.CVP.Orleans.Grains.Interfaces.Helpers;
@@ -16,61 +16,36 @@ namespace NIST.CVP.Crypto.Oracle
 {
     public partial class Oracle
     {
-        //private RsaPrimeResult GeneratePrimes(RsaKeyParameters param, IEntropyProvider entropyProvider)
-        //{
-        //    // Only works with random public exponent
-        //    var poolBoy = new PoolBoy<RsaPrimeResult>(_poolConfig);
-        //    var poolResult = poolBoy.GetObjectFromPool(param, PoolTypes.RSA_KEY);
-        //    if (poolResult != null)
-        //    {
-        //        return poolResult;
-        //    }
-
-        //    // TODO Not every group has a hash alg... Can use a default value perhaps?
-        //    ISha sha = null;
-        //    if (param.HashAlg != null)
-        //    {
-        //        sha = _shaFactory.GetShaInstance(param.HashAlg);
-        //    }
-
-        //    var keyComposer = _keyComposerFactory.GetKeyComposer(param.KeyFormat);
-
-        //    // Configure Prime Generator
-        //    var keyResult = new KeyBuilder(new PrimeGeneratorFactory())
-        //        .WithBitlens(param.BitLens)
-        //        .WithEntropyProvider(entropyProvider)
-        //        .WithHashFunction(sha)
-        //        .WithNlen(param.Modulus)
-        //        .WithPrimeGenMode(param.KeyMode)
-        //        .WithPrimeTestMode(param.PrimeTest)
-        //        .WithPublicExponent(param.PublicExponent)
-        //        .WithKeyComposer(keyComposer)
-        //        .WithSeed(param.Seed)
-        //        .Build();
-
-        //    return new RsaPrimeResult
-        //    {
-        //        Aux = keyResult.AuxValues,
-        //        Key = keyResult.Key,
-        //        Success = keyResult.Success
-        //    };
-        //}
+        private const int RSA_PUBLIC_EXPONENT_BITS_MIN = 32;
+        private const int RSA_PUBLIC_EXPONENT_BITS_MAX = 64;
 
         public async Task<RsaKeyResult> GetRsaKeyAsync(RsaKeyParameters param)
         {
-            var grain = _clusterClient.GetGrain<IOracleObserverRsaKeyCaseGrain>(
-                Guid.NewGuid()
-            );
+            IRandom800_90 rand = new Random800_90();
+            IEntropyProvider entropyProvider = new EntropyProvider(rand);
+            IKeyGenParameterHelper keyGenHelper = new KeyGenParameterHelper(rand);
 
-            var observer = new OracleGrainObserver<RsaKeyResult>();
-            var observerReference = 
-                await _clusterClient.CreateObjectReference<IGrainObserver<RsaKeyResult>>(observer);
-            await grain.Subscribe(observerReference);
-            await grain.BeginWorkAsync(param);
+            RsaPrimeResult result = null;
+            do
+            {
+                param.Seed = keyGenHelper.GetSeed(param.Modulus);
+                param.PublicExponent = param.PublicExponentMode == PublicExponentModes.Fixed ? 
+                    param.PublicExponent : 
+                    keyGenHelper.GetEValue(RSA_PUBLIC_EXPONENT_BITS_MIN, RSA_PUBLIC_EXPONENT_BITS_MAX);
+                param.BitLens = keyGenHelper.GetBitlens(param.Modulus, param.KeyMode);
+                
+                // Generate key until success
+                result = await GeneratePrimes(param, entropyProvider);
 
-            var result = await ObservableHelpers.ObserveUntilResult(grain, observer, observerReference);
+            } while (!result.Success);
 
-            return result;
+            return new RsaKeyResult
+            {
+                Key = result.Key,
+                AuxValues = result.Aux,
+                BitLens = param.BitLens,
+                Seed = param.Seed
+            };
         }
 
         public async Task<RsaKeyResult> CompleteKeyAsync(RsaKeyResult param, PrivateKeyModes keyMode)
@@ -126,6 +101,17 @@ namespace NIST.CVP.Crypto.Oracle
 
         public async Task<RsaSignaturePrimitiveResult> GetRsaSignaturePrimitiveAsync(RsaSignaturePrimitiveParameters param)
         {
+            var keyParam = new RsaKeyParameters
+            {
+                KeyFormat = param.KeyFormat,
+                Modulus = param.Modulo,
+                PrimeTest = PrimeTestModes.C2,
+                PublicExponentMode = PublicExponentModes.Random,
+                KeyMode = PrimeGenModes.B33
+            };
+
+            var key = await GetRsaKeyAsync(keyParam);
+
             var grain = _clusterClient.GetGrain<IOracleObserverRsaSignaturePrimitiveCaseGrain>(
                 Guid.NewGuid()
             );
@@ -134,7 +120,7 @@ namespace NIST.CVP.Crypto.Oracle
             var observerReference = 
                 await _clusterClient.CreateObjectReference<IGrainObserver<RsaSignaturePrimitiveResult>>(observer);
             await grain.Subscribe(observerReference);
-            await grain.BeginWorkAsync(param);
+            await grain.BeginWorkAsync(param, key);
 
             var result = await ObservableHelpers.ObserveUntilResult(grain, observer, observerReference);
 
@@ -253,6 +239,31 @@ namespace NIST.CVP.Crypto.Oracle
             var observer = new OracleGrainObserver<RsaDecryptionPrimitiveResult>();
             var observerReference = 
                 await _clusterClient.CreateObjectReference<IGrainObserver<RsaDecryptionPrimitiveResult>>(observer);
+            await grain.Subscribe(observerReference);
+            await grain.BeginWorkAsync(param);
+
+            var result = await ObservableHelpers.ObserveUntilResult(grain, observer, observerReference);
+
+            return result;
+        }
+
+        private async Task<RsaPrimeResult> GeneratePrimes(RsaKeyParameters param, IEntropyProvider entropyProvider)
+        {
+            // Only works with random public exponent
+            var poolBoy = new PoolBoy<RsaPrimeResult>(_poolConfig);
+            var poolResult = poolBoy.GetObjectFromPool(param, PoolTypes.RSA_KEY);
+            if (poolResult != null)
+            {
+                return poolResult;
+            }
+
+            var grain = _clusterClient.GetGrain<IOracleObserverRsaGeneratePrimesCaseGrain>(
+                Guid.NewGuid()
+            );
+
+            var observer = new OracleGrainObserver<RsaPrimeResult>();
+            var observerReference = 
+                await _clusterClient.CreateObjectReference<IGrainObserver<RsaPrimeResult>>(observer);
             await grain.Subscribe(observerReference);
             await grain.BeginWorkAsync(param);
 

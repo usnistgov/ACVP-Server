@@ -185,6 +185,7 @@ namespace NIST.CVP.Orleans.Grains
             svc.AddTransient<ISHA3_MCT, SHA3_MCT>();
             svc.AddTransient<ISHAKE_MCT, SHAKE_MCT>();
 
+            svc.AddSingleton<IKeyGenParameterHelper, KeyGenParameterHelper>();
             svc.AddSingleton<IKeyBuilder, KeyBuilder>();
             svc.AddSingleton<IKeyComposerFactory, KeyComposerFactory>();
             svc.AddSingleton<IPrimeGeneratorFactory, PrimeGeneratorFactory>();

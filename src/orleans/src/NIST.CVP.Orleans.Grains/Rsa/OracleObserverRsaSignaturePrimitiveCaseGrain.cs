@@ -18,6 +18,7 @@ namespace NIST.CVP.Orleans.Grains.Rsa
         private readonly IRandom800_90 _rand;
 
         private RsaSignaturePrimitiveParameters _param;
+        private RsaKeyResult _key;
 
         public OracleObserverRsaSignaturePrimitiveCaseGrain(
             LimitedConcurrencyLevelTaskScheduler nonOrleansScheduler,
@@ -31,9 +32,10 @@ namespace NIST.CVP.Orleans.Grains.Rsa
             _rand = rand;
         }
         
-        public async Task<bool> BeginWorkAsync(RsaSignaturePrimitiveParameters param)
+        public async Task<bool> BeginWorkAsync(RsaSignaturePrimitiveParameters param, RsaKeyResult key)
         {
             _param = param;
+            _key = key;
             
             await BeginGrainWorkAsync();
             return await Task.FromResult(true);
@@ -41,36 +43,25 @@ namespace NIST.CVP.Orleans.Grains.Rsa
         
         protected override async Task DoWorkAsync()
         {
-            var keyParam = new RsaKeyParameters
-            {
-                KeyFormat = _param.KeyFormat,
-                Modulus = _param.Modulo,
-                PrimeTest = PrimeTestModes.C2,
-                PublicExponentMode = PublicExponentModes.Random,
-                KeyMode = PrimeGenModes.B33
-            };
-
-            var key = _rsaRunner.GetRsaKey(keyParam).Key;
-
             var shouldPass = _rand.GetRandomInt(0, 2) == 0;
             BitString message;
             BitString signature = null;
             if (shouldPass)
             {
                 // No failure, get a random 2048-bit value less than N
-                message = new BitString(_rand.GetRandomBigInteger(key.PubKey.N), 2048);
-                signature = new BitString(_rsa.Decrypt(message.ToPositiveBigInteger(), key.PrivKey, key.PubKey).PlainText, 2048);
+                message = new BitString(_rand.GetRandomBigInteger(_key.Key.PubKey.N), 2048);
+                signature = new BitString(_rsa.Decrypt(message.ToPositiveBigInteger(), _key.Key.PrivKey, _key.Key.PubKey).PlainText, 2048);
             }
             else
             {
                 // Yes failure, get a random 2048-bit value greater than N
-                message = new BitString(_rand.GetRandomBigInteger(key.PubKey.N, NumberTheory.Pow2(2048)), 2048);
+                message = new BitString(_rand.GetRandomBigInteger(_key.Key.PubKey.N, NumberTheory.Pow2(2048)), 2048);
             }
 
             // Notify observers of result
             await Notify(new RsaSignaturePrimitiveResult
             {
-                Key = key,
+                Key = _key.Key,
                 Message = message,
                 Signature = signature,
                 ShouldPass = shouldPass

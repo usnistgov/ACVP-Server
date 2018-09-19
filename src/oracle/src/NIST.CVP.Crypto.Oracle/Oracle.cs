@@ -2,11 +2,9 @@
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
-using NIST.CVP.Common;
 using NIST.CVP.Common.Oracle;
 using NIST.CVP.Math;
 using NIST.CVP.Orleans.Grains.Interfaces;
-using NIST.CVP.Orleans.Grains.Interfaces.Enums;
 using Orleans;
 using Orleans.Configuration;
 using Microsoft.Extensions.Options;
@@ -19,28 +17,12 @@ namespace NIST.CVP.Crypto.Oracle
         private readonly Random800_90 _rand = new Random800_90();
 
         private const int TimeoutSeconds = 60;
-        private const double GCM_FAIL_RATIO = .25;
-        private const double XPN_FAIL_RATIO = .25;
-        private const double CMAC_FAIL_RATIO = .25;
-        private const double KEYWRAP_FAIL_RATIO = .2;
-        private const double KMAC_FAIL_RATIO = .5;
-        private const int RSA_PUBLIC_EXPONENT_BITS_MIN = 32;
-        private const int RSA_PUBLIC_EXPONENT_BITS_MAX = 64;
-
-        // TODO configurable concurrency through config file and/or GenValAppRunner parameter
-        // Task scheduler should be an interim step until orleans is implemented, at which
-        // point it will be managing tasks.  Currently, without limiting the tasks enqueued,
-        // you can potentially cap out memory usage w/o being able to complete tasks.
-        private static readonly LimitedConcurrencyLevelTaskScheduler _scheduler;
-        private static readonly TaskFactory _taskFactory;
+        
         private readonly IOptions<PoolConfig> _poolConfig;
         private static readonly IClusterClient _clusterClient;
         
         static Oracle()
         {
-            _scheduler = new LimitedConcurrencyLevelTaskScheduler(1);
-            _taskFactory = new TaskFactory(_scheduler);
-
             _clusterClient = InitializeClient().GetAwaiter().GetResult();
         }
 
