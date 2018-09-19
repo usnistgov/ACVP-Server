@@ -1,5 +1,6 @@
-﻿using System.Numerics;
+﻿using Newtonsoft.Json;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
+using System.Numerics;
 
 namespace NIST.CVP.Crypto.Common.Hash.ShaWrapper
 {
@@ -7,9 +8,17 @@ namespace NIST.CVP.Crypto.Common.Hash.ShaWrapper
     {
         public ModeValues Mode { get; }
         public DigestSizes DigestSize { get; }
+
+        [JsonIgnore]
         public int OutputLen { get; }
+
+        [JsonIgnore]
         public int BlockSize { get; }
+
+        [JsonIgnore]
         public BigInteger MaxMessageLen { get; }
+
+        [JsonIgnore]
         public string Name { get; }
         
         public HashFunction(ModeValues mode, DigestSizes digestSize)
