@@ -36,7 +36,7 @@ namespace NIST.CVP.Orleans.Grains.Rsa
             _rand = rand;
         }
 
-        public (bool Success, KeyPair Key, AuxiliaryResult Aux) GeneratePrimes(RsaKeyParameters param, IEntropyProvider entropyProvider)
+        public RsaPrimeResult GeneratePrimes(RsaKeyParameters param, IEntropyProvider entropyProvider)
         {
             // TODO Not every group has a hash alg... Can use a default value perhaps?
             ISha sha = null;
@@ -60,7 +60,12 @@ namespace NIST.CVP.Orleans.Grains.Rsa
                 .WithSeed(param.Seed)
                 .Build();
 
-            return (keyResult.Success, keyResult.Key, keyResult.AuxValues);
+            return new RsaPrimeResult()
+            {
+                Success = keyResult.Success,
+                Key = keyResult.Key,
+                Aux = keyResult.AuxValues
+            };
         }
 
         public RsaKeyResult CompleteKey(RsaKeyResult param, PrivateKeyModes keyMode)
@@ -107,7 +112,7 @@ namespace NIST.CVP.Orleans.Grains.Rsa
 
         public RsaKeyResult GetRsaKey(RsaKeyParameters param)
         {
-            (bool Success, KeyPair Key, AuxiliaryResult Aux) result;
+            RsaPrimeResult result = null;
             do
             {
                 param.Seed = GetSeed(param.Modulus);
