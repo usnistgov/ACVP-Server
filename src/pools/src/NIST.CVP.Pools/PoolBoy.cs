@@ -31,7 +31,6 @@ namespace NIST.CVP.Pools
             }
 
             var request = (HttpWebRequest)WebRequest.Create($"{_poolConfig.RootUrl}:{_poolConfig.Port}/api/pools");
-            //var request = (HttpWebRequest)WebRequest.Create("http://localhost:5001/api/pools");
             request.ContentType = "application/json";
             request.Method = "POST";
 
