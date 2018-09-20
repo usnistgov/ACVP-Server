@@ -1,23 +1,40 @@
 ﻿using System;
 using System.Net;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using Microsoft.Extensions.DependencyInjection;
+using NIST.CVP.Common.Config;
+using NIST.CVP.Common.Helpers;
 using NIST.CVP.Orleans.Grains;
 using NIST.CVP.Orleans.Grains.Interfaces;
 using Orleans;
 using Orleans.Configuration;
 using Orleans.Hosting;
 
+
 namespace NIST.CVP.Orleans.ServerHost
 {
-    public class Program
+    public static class Program
     {
+        private static IServiceProvider _serviceProvider { get; }
+        private static readonly string _rootDirectory = AppDomain.CurrentDomain.BaseDirectory;
+        private static readonly OrleansConfig _orleansConfig;
+
+        static Program()
+        {
+            _serviceProvider = EntryPointConfigHelper.Bootstrap(_rootDirectory);
+            _orleansConfig = _serviceProvider.GetService<IOptions<OrleansConfig>>().Value;
+        }
+        
         static void Main(string[] args)
         {
-            var primarySiloEndpoint = new IPEndPoint(IPAddress.Parse("10.0.0.2"), 8080);
+            var primarySiloEndpoint = new IPEndPoint(
+                IPAddress.Parse(_orleansConfig.OrleansServerIp), _orleansConfig.OrleansGatewayPort
+            );
             var builder = new SiloHostBuilder()
                 .Configure<ClusterOptions>(options =>
                 {
-                    options.ClusterId = Constants.ClusterId;
+                    options.ClusterId = _orleansConfig.ClusterId;
                     options.ServiceId = Constants.ServiceId;
                 })
                 // TODO need to make this properly configurable based on environment
@@ -35,7 +52,7 @@ namespace NIST.CVP.Orleans.ServerHost
                     parts.AddApplicationPart(typeof(IGrainMarker).Assembly).WithReferences();
                 }
                 )
-                .AddMemoryGrainStorage(Constants.StorageProviderName)
+                //.AddMemoryGrainStorage(Constants.StorageProviderName)
                 .ConfigureLogging(logging => logging.AddConsole());
             //need to configure a grain storage called "PubSubStore" for using streaming with ExplicitSubscribe pubsub type
             //.AddMemoryGrainStorage("PubSubStore")

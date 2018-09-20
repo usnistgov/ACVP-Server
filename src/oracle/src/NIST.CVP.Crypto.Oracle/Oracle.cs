@@ -19,34 +19,38 @@ namespace NIST.CVP.Crypto.Oracle
         private const int TimeoutSeconds = 60;
         
         private readonly IOptions<PoolConfig> _poolConfig;
-        private static readonly IClusterClient _clusterClient;
+        private readonly IOptions<OrleansConfig> _orleansConfig;
+        private readonly IClusterClient _clusterClient;
         
-        static Oracle()
-        {
-            _clusterClient = InitializeClient().GetAwaiter().GetResult();
-        }
-
         public Oracle(
-            IOptions<PoolConfig> poolConfig
+            IOptions<PoolConfig> poolConfig,
+            IOptions<OrleansConfig> orleansConfig
         )
         {
             _poolConfig = poolConfig;
+            _orleansConfig = orleansConfig;
+
+            _clusterClient = InitializeClient().GetAwaiter().GetResult();
         }
 
-        private static async Task<IClusterClient> InitializeClient()
+        private async Task<IClusterClient> InitializeClient()
         {
-            int initializeCounter = 0;
+            var orleansConfig = _orleansConfig.Value;
 
+            int initializeCounter = 0;
+            
             var initSucceed = false;
             while (!initSucceed)
             {
                 try
                 {
-                    var ipEndpoint = new IPEndPoint(IPAddress.Parse("10.0.0.2"), 30000);
+                    var ipEndpoint = new IPEndPoint(
+                        IPAddress.Parse(orleansConfig.OrleansServerIp), orleansConfig.OrleansGatewayPort
+                    );
                     var client = new ClientBuilder()
                         .Configure<ClusterOptions>(options =>
                         {
-                            options.ClusterId = Constants.ClusterId;
+                            options.ClusterId = orleansConfig.ClusterId;
                             options.ServiceId = Constants.ServiceId;
                         })
                         .Configure<ClientMessagingOptions>(opts =>
