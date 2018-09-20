@@ -1,6 +1,8 @@
 ﻿using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys;
 using NIST.CVP.Crypto.Oracle;
+using NIST.CVP.Common.Oracle;
+using NIST.CVP.Crypto.Oracle.Builders;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -41,7 +43,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
             var suppliedTestCase = GetTestCase(hexP, hexQ);
             var testGroup = GetTestGroup(mod, pt);
 
-            var subject = new DeferredTestCaseResolver(new Oracle(null));
+            var subject = new DeferredTestCaseResolver(new OracleBuilder().Build());
 
             var result = await subject.CompleteDeferredCryptoAsync(testGroup, serverTestCase, suppliedTestCase);
 
