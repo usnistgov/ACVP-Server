@@ -17,7 +17,7 @@ namespace NIST.CVP.Generation.DRBG.IntegrationTests
     {
         string _testPath;
 
-        private readonly Oracle _subject = new Oracle(null);
+        private readonly Oracle _subject = new Oracle(null, null, null);
 
         [OneTimeSetUp]
         public void OneTimeSetup()

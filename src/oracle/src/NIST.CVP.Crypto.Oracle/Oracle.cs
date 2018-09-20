@@ -9,6 +9,7 @@ using Orleans;
 using Orleans.Configuration;
 using Microsoft.Extensions.Options;
 using NIST.CVP.Common.Config;
+using NIST.CVP.Crypto.Oracle.ExtensionMethods;
 
 namespace NIST.CVP.Crypto.Oracle
 {
@@ -17,16 +18,19 @@ namespace NIST.CVP.Crypto.Oracle
         private readonly Random800_90 _rand = new Random800_90();
 
         private const int TimeoutSeconds = 60;
-        
+
+        private readonly IOptions<EnvironmentConfig> _environmentConfig;
         private readonly IOptions<PoolConfig> _poolConfig;
         private readonly IOptions<OrleansConfig> _orleansConfig;
         private readonly IClusterClient _clusterClient;
         
         public Oracle(
+            IOptions<EnvironmentConfig> environmentConfig,
             IOptions<PoolConfig> poolConfig,
             IOptions<OrleansConfig> orleansConfig
         )
         {
+            _environmentConfig = environmentConfig;
             _poolConfig = poolConfig;
             _orleansConfig = orleansConfig;
 
@@ -44,9 +48,6 @@ namespace NIST.CVP.Crypto.Oracle
             {
                 try
                 {
-                    var ipEndpoint = new IPEndPoint(
-                        IPAddress.Parse(orleansConfig.OrleansServerIp), orleansConfig.OrleansGatewayPort
-                    );
                     var client = new ClientBuilder()
                         .Configure<ClusterOptions>(options =>
                         {
@@ -57,17 +58,11 @@ namespace NIST.CVP.Crypto.Oracle
                         {
                             opts.ResponseTimeout = TimeSpan.FromSeconds(TimeoutSeconds);
                         })
-                        // TODO need to make this properly configurable based on environment
-                        .UseLocalhostClustering()
-                        //.UseStaticClustering(ipEndpoint)
                         .ConfigureApplicationParts(parts =>
                         {
                             parts.AddApplicationPart(typeof(IGrainInterfaceMarker).Assembly).WithReferences();
                         })
-                        //.ConfigureLogging(logging => logging.AddConsole())
-                        //Depends on your application requirements, you can configure your client with other stream providers, which can provide other features, 
-                        //such as persistence or recoverability. For more information, please see http://dotnet.github.io/orleans/Documentation/Orleans-Streams/Stream-Providers.html
-                        //.AddSimpleMessageStreamProvider(Constants.ChatRoomStreamProvider)
+                        .ConfigureClustering(_orleansConfig.Value, _environmentConfig.Value)
                         .Build();
                     await client.Connect();
                     initSucceed = client.IsInitialized;

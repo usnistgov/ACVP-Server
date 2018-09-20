@@ -137,7 +137,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
             };
 
             var count = 1;
-            var katGen = new TestCaseGeneratorKat(group, new Oracle(null));
+            var katGen = new TestCaseGeneratorKat(group, new Oracle(null, null, null));
             for (int i = 0; i < katGen.NumberOfTestCasesToGenerate; i++)
             {
                 var kat = await katGen.GenerateAsync(group, false);
