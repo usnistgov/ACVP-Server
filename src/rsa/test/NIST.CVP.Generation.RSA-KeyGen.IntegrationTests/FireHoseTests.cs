@@ -3,6 +3,8 @@ using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Oracle;
+using NIST.CVP.Common.Oracle;
+using NIST.CVP.Crypto.Oracle.Builders;
 using NIST.CVP.Crypto.RSA.Keys;
 using NIST.CVP.Crypto.RSA.PrimeGenerators;
 using NIST.CVP.Crypto.SHAWrapper;
@@ -137,7 +139,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
             };
 
             var count = 1;
-            var katGen = new TestCaseGeneratorKat(group, new Oracle(null, null, null));
+            var katGen = new TestCaseGeneratorKat(group, new OracleBuilder().Build());
             for (int i = 0; i < katGen.NumberOfTestCasesToGenerate; i++)
             {
                 var kat = await katGen.GenerateAsync(group, false);

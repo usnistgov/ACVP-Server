@@ -1,29 +1,13 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
-using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
-using NIST.CVP.Crypto.Common.KAS;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Crypto.Common.KAS.Helpers;
-using NIST.CVP.Crypto.DSA.ECC;
-using NIST.CVP.Crypto.KAS.Builders;
-using NIST.CVP.Crypto.KAS.Builders.Ecc;
-using NIST.CVP.Crypto.KAS.KC;
-using NIST.CVP.Crypto.KAS.KDF;
-using NIST.CVP.Crypto.KAS.NoKC;
-using NIST.CVP.Crypto.KES;
-using NIST.CVP.Crypto.Oracle;
-using NIST.CVP.Crypto.SHAWrapper;
-using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.KAS.ECC;
-using NIST.CVP.Math;
-using NIST.CVP.Math.Entropy;
+using NIST.CVP.Crypto.Oracle.Builders;
 using NIST.CVP.Tests.Core;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using NIST.CVP.Generation.KAS.ECC.Parsers;
-using NIST.CVP.Generation.KAS.FFC;
 using TestCase = NIST.CVP.Generation.KAS.ECC.TestCase;
 using TestGroup = NIST.CVP.Generation.KAS.ECC.TestGroup;
 
@@ -65,6 +49,8 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                 Assert.Fail("No TestGroups were parsed.");
             }
 
+            var oracle = new OracleBuilder().Build();
+
             try
             {
                 foreach (var testGroup in testVector.TestGroups)
@@ -73,7 +59,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
 
                     foreach (var testCase in testGroup.Tests)
                     {
-                        var testCaseResolver = new ECC.DeferredTestCaseResolver(new Oracle(null, null, null));
+                        var testCaseResolver = new ECC.DeferredTestCaseResolver(oracle);
 
                         SwitchTestCaseIutServerInformation(testCase);
 

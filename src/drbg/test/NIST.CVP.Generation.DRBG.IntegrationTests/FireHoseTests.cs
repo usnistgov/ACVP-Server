@@ -1,11 +1,10 @@
 ﻿using System;
 using System.IO;
-using NIST.CVP.Crypto.DRBG;
-using NIST.CVP.Crypto.Oracle;
+using NIST.CVP.Common.Oracle;
+using NIST.CVP.Crypto.Oracle.Builders;
 using NUnit.Framework;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.DRBG.Parsers;
-using NIST.CVP.Math.Entropy;
 using NIST.CVP.Tests.Core;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NLog;
@@ -17,7 +16,7 @@ namespace NIST.CVP.Generation.DRBG.IntegrationTests
     {
         string _testPath;
 
-        private readonly Oracle _subject = new Oracle(null, null, null);
+        private readonly IOracle _subject = new OracleBuilder().Build();
 
         [OneTimeSetUp]
         public void OneTimeSetup()
