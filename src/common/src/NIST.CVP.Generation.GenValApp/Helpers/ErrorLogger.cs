@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using NIST.CVP.Common.Enums;
 using NIST.CVP.Generation.GenValApp.Models;
+using System;
+using System.IO;
 
 namespace NIST.CVP.Generation.GenValApp.Helpers
 {
@@ -12,7 +10,12 @@ namespace NIST.CVP.Generation.GenValApp.Helpers
     {
         private static string SaveToFile(string fileRoot, string fileName, string json)
         {
-            var path = Path.Combine(fileRoot, fileName);
+            var path = fileName;
+            if (fileRoot != null)
+            {
+                path = Path.Combine(fileRoot, fileName);
+            }
+            
             try
             {
                 File.WriteAllText(path, json);
