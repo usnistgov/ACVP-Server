@@ -1,14 +1,11 @@
 ﻿using CommandLineParser.Exceptions;
-using System;
-using System.IO;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using NIST.CVP.Common.Config;
 using NIST.CVP.Common.Enums;
 using NIST.CVP.Common.Helpers;
 using NIST.CVP.Generation.GenValApp.Helpers;
 using NIST.CVP.Generation.GenValApp.Models;
 using NLog;
+using System;
+using System.IO;
 
 namespace NIST.CVP.Generation.GenValApp
 {
@@ -40,11 +37,16 @@ namespace NIST.CVP.Generation.GenValApp
         public static int Main(string[] args)
         {
             var argumentParser = new ArgumentParsingHelper();
-            
+
             try
             {
                 var parsedParameters = argumentParser.Parse(args);
                 FileDirectory = Path.GetPathRoot(parsedParameters.RegistrationFile.FullName);
+
+                if (FileDirectory == null)
+                {
+                    throw new FileNotFoundException();
+                }
 
                 var dllLocation = RootDirectory;
                 if (parsedParameters.DllLocation != null)
@@ -53,7 +55,8 @@ namespace NIST.CVP.Generation.GenValApp
                 }
 
                 // Get the IOC container for the algo
-                AutofacConfig.IoCConfiguration(ServiceProvider, parsedParameters.Algorithm, parsedParameters.Mode, dllLocation);
+                AutofacConfig.IoCConfiguration(ServiceProvider, parsedParameters.Algorithm, parsedParameters.Mode,
+                    dllLocation);
                 using (var scope = AutofacConfig.GetContainer().BeginLifetimeScope())
                 {
                     var genValRunner = new GenValRunner(scope);
@@ -72,6 +75,16 @@ namespace NIST.CVP.Generation.GenValApp
                 Logger.Error(errorMessage);
                 argumentParser.ShowUsage();
                 return (int) StatusCode.CommandLineError;
+            }
+            catch (FileNotFoundException ex)
+            {
+                var errorMessage = $"ERROR: Unable to find registration file";
+                ErrorLogger.LogError(StatusCode.FileReadError, "driver", errorMessage, "");
+                Console.WriteLine(errorMessage);
+                Console.WriteLine(ex.StackTrace);
+                Logger.Error($"Status Code: {StatusCode.FileReadError}");
+                Logger.Error(errorMessage);
+                return (int)StatusCode.FileReadError;
             }
             catch (Exception ex)
             {
