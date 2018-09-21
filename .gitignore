@@ -39,3 +39,4 @@ LoggingTests
 orleans-master
 src/pool-api/NIST.CVP.PoolAPI/Pools/
 !src/pool-api/NIST.CVP.PoolAPI/Pools/poolConfig.json
+*.nupkg
