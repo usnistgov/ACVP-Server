@@ -1,6 +1,5 @@
 ﻿using System;
 using NIST.CVP.Orleans.ServerHost.ExtensionMethods;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.DependencyInjection;
 using NIST.CVP.Common.Config;
@@ -10,7 +9,6 @@ using NIST.CVP.Orleans.Grains.Interfaces;
 using Orleans;
 using Orleans.Configuration;
 using Orleans.Hosting;
-
 
 namespace NIST.CVP.Orleans.ServerHost
 {
@@ -42,7 +40,7 @@ namespace NIST.CVP.Orleans.ServerHost
                     parts.AddApplicationPart(typeof(IGrainMarker).Assembly).WithReferences();
                 })
                 .ConfigureClustering(OrleansConfig, EnvironmentConfig)
-                .ConfigureLogging(logging => logging.AddConsole());
+                .ConfigureLogging(OrleansConfig, EnvironmentConfig);
 
             var silo = builder.Build();
             silo.StartAsync().Wait();
