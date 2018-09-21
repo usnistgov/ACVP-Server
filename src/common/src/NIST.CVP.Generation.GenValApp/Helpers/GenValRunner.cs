@@ -7,12 +7,14 @@ using NIST.CVP.Common.Enums;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Enums;
 using NIST.CVP.Generation.GenValApp.Models;
+using NLog;
 
 namespace NIST.CVP.Generation.GenValApp.Helpers
 {
     public class GenValRunner
     {
         public GenValMode GenValMode;
+        private static string FileDirectory;
         private readonly IComponentContext _scope;
 
         public GenValRunner(IComponentContext scope)
@@ -75,44 +77,65 @@ namespace NIST.CVP.Generation.GenValApp.Helpers
         public int Run(ArgumentParsingTarget parsedParameters)
         {
             string errorMessage;
-            if (GenValMode == GenValMode.Generate)
+            try
             {
-                var registrationFile = parsedParameters.RegistrationFile.FullName;
-                var result = RunGeneration(registrationFile);
+                switch (GenValMode)
+                {
+                    case GenValMode.Generate:
+                    {
+                        FileDirectory = Path.GetPathRoot(parsedParameters.RegistrationFile.FullName);
 
-                if (result.Success)
-                    return (int) result.StatusCode;
+                        var registrationFile = parsedParameters.RegistrationFile.FullName;
+                        var result = RunGeneration(registrationFile);
 
-                errorMessage = $"ERROR! Generating Test Vectors for {registrationFile}: {result.ErrorMessage}";
-                ErrorLogger.LogError(result.StatusCode, "generator", result.ErrorMessage, Path.GetPathRoot(parsedParameters.RegistrationFile.FullName));
-                Console.Error.WriteLine(errorMessage);
-                Program.Logger.Error($"Status Code: {result.StatusCode}");
-                Program.Logger.Error(errorMessage);
-                return (int) result.StatusCode;
+                        if (result.Success)
+                            return (int)result.StatusCode;
+
+                        errorMessage = $"ERROR! Generating Test Vectors for {registrationFile}: {result.ErrorMessage}";
+                        ErrorLogger.LogError(result.StatusCode, "generator", result.ErrorMessage, Path.GetPathRoot(parsedParameters.RegistrationFile.FullName));
+                        Console.Error.WriteLine(errorMessage);
+                        Program.Logger.Error($"Status Code: {result.StatusCode}");
+                        Program.Logger.Error(errorMessage);
+                        return (int)result.StatusCode;
+                    }
+
+                    case GenValMode.Validate:
+                    {
+                        FileDirectory = Path.GetPathRoot(parsedParameters.ResponseFile.FullName);
+
+                        var responseFile = parsedParameters.ResponseFile.FullName;
+                        var answerFile = parsedParameters.AnswerFile.FullName;
+                        var showExpected = parsedParameters.ShowExpected;
+                        var result = RunValidation(responseFile, answerFile, showExpected);
+
+                        if (result.Success)
+                            return (int)result.StatusCode;
+
+                        errorMessage = $"ERROR! Validating Test Vectors for {responseFile}: {result.ErrorMessage}";
+                        ErrorLogger.LogError(result.StatusCode, "validator", result.ErrorMessage, Path.GetPathRoot(parsedParameters.ResponseFile.FullName));
+                        Console.Error.WriteLine(errorMessage);
+                        Program.Logger.Error($"Status Code: {result.StatusCode}");
+                        Program.Logger.Error(errorMessage);
+                        return (int)result.StatusCode;
+                    }
+                    default:
+                        errorMessage = "ERROR! Unable to find running mode";
+                        Console.Error.WriteLine(errorMessage);
+                        Program.Logger.Error($"Status Code: {StatusCode.ModeError}");
+                        Program.Logger.Error(errorMessage);
+                        return (int) StatusCode.ModeError;
+                }
             }
-            else if (GenValMode == GenValMode.Validate)
+            catch (Exception ex)
             {
-                var responseFile = parsedParameters.ResponseFile.FullName;
-                var answerFile = parsedParameters.AnswerFile.FullName;
-                var showExpected = parsedParameters.ShowExpected;
-                var result = RunValidation(responseFile, answerFile, showExpected);
-
-                if (result.Success)
-                    return (int) result.StatusCode;
-
-                errorMessage = $"ERROR! Validating Test Vectors for {responseFile}: {result.ErrorMessage}";
-                ErrorLogger.LogError(result.StatusCode, "validator", result.ErrorMessage, Path.GetPathRoot(parsedParameters.ResponseFile.FullName));
-                Console.Error.WriteLine(errorMessage);
-                Program.Logger.Error($"Status Code: {result.StatusCode}");
-                Program.Logger.Error(errorMessage);
-                return (int) result.StatusCode;
+                errorMessage = $"ERROR: {ex.Message}";
+                ErrorLogger.LogError(StatusCode.Exception, "driver", ex.Message, FileDirectory);
+                Console.WriteLine(errorMessage);
+                Console.WriteLine(ex.StackTrace);
+                Logger.Error($"Status Code: {StatusCode.Exception}");
+                Logger.Error(errorMessage);
+                return (int) StatusCode.Exception;
             }
-
-            errorMessage = "ERROR! Unable to find running mode";
-            Console.Error.WriteLine(errorMessage);
-            Program.Logger.Error($"Status Code: {StatusCode.ModeError}");
-            Program.Logger.Error(errorMessage);
-            return (int) StatusCode.ModeError;
         }
 
         /// <summary>
@@ -135,5 +158,7 @@ namespace NIST.CVP.Generation.GenValApp.Helpers
             var result = val.Validate(responseFile, answerFile, showExpected);
             return result;
         }
+
+        public static ILogger Logger => LogManager.GetCurrentClassLogger();
     }
 }
