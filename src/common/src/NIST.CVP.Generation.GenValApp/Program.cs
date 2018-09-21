@@ -11,7 +11,7 @@ namespace NIST.CVP.Generation.GenValApp
 {
     public static class Program
     {
-        private static string FileDirectory;
+        
 
         public static IServiceProvider ServiceProvider { get; }
         public static readonly string RootDirectory = AppDomain.CurrentDomain.BaseDirectory;
@@ -41,12 +41,6 @@ namespace NIST.CVP.Generation.GenValApp
             try
             {
                 var parsedParameters = argumentParser.Parse(args);
-                FileDirectory = Path.GetPathRoot(parsedParameters.RegistrationFile.FullName);
-
-                if (FileDirectory == null)
-                {
-                    throw new FileNotFoundException();
-                }
 
                 var dllLocation = RootDirectory;
                 if (parsedParameters.DllLocation != null)
@@ -68,33 +62,12 @@ namespace NIST.CVP.Generation.GenValApp
             catch (CommandLineException ex)
             {
                 var errorMessage = $"ERROR: {ex.Message}";
-                ErrorLogger.LogError(StatusCode.CommandLineError, "driver", ex.Message, FileDirectory);
                 Console.WriteLine(errorMessage);
                 Console.WriteLine(ex.StackTrace);
                 Logger.Error($"Status Code: {StatusCode.CommandLineError}");
                 Logger.Error(errorMessage);
                 argumentParser.ShowUsage();
                 return (int) StatusCode.CommandLineError;
-            }
-            catch (FileNotFoundException ex)
-            {
-                var errorMessage = $"ERROR: Unable to find registration file";
-                ErrorLogger.LogError(StatusCode.FileReadError, "driver", errorMessage, "");
-                Console.WriteLine(errorMessage);
-                Console.WriteLine(ex.StackTrace);
-                Logger.Error($"Status Code: {StatusCode.FileReadError}");
-                Logger.Error(errorMessage);
-                return (int)StatusCode.FileReadError;
-            }
-            catch (Exception ex)
-            {
-                var errorMessage = $"ERROR: {ex.Message}";
-                ErrorLogger.LogError(StatusCode.Exception, "driver", ex.Message, FileDirectory);
-                Console.WriteLine(errorMessage);
-                Console.WriteLine(ex.StackTrace);
-                Logger.Error($"Status Code: {StatusCode.Exception}");
-                Logger.Error(errorMessage);
-                return (int) StatusCode.Exception;
             }
         }
     }

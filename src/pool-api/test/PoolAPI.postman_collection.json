@@ -1,0 +1,385 @@
+{
+	"info": {
+		"_postman_id": "73cbfb85-ea6c-4e37-8b7e-744098d02284",
+		"name": "Test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Test AES",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e5590e85-0896-4dd2-a337-584a07776b82",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"type\": \"aes\",\n\t\"parameters\": {\n\t\t\"keyLength\": 128,\n\t\t\"mode\": 0,\n\t\t\"direction\": \"encrypt\",\n\t\t\"dataLength\": 128\t\n\t}\n}"
+				},
+				"url": {
+					"raw": "http://{{server}}/api/pools",
+					"protocol": "http",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"pools"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Test SHA",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "4164c4bc-0c52-4962-9c52-49700ba8ed99",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"type\": \"sha_mct\",\n\t\"parameters\": {\n\t\t\"messageLength\": 256,\n\t\t\"hashFunction\": {\n\t\t\t\"mode\": 1,\n\t\t\t\"digestSize\": 2\n\t\t}\t\n\t}\n}"
+				},
+				"url": {
+					"raw": "http://{{server}}/api/pools",
+					"protocol": "http",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"pools"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Status SHA",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "fdb15d0f-e2ee-4175-b412-eef9869bf4b0",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"var schema = {",
+							"    \"type\": \"object\",",
+							"    \"properties\": {",
+							"        \"PoolExists\": { \"type\": \"boolean\" },",
+							"        \"FillLevel\": ",
+							"        { ",
+							"            \"type\": \"integer\",",
+							"            \"minimum\": 0",
+							"        }",
+							"    }",
+							"};",
+							"",
+							"pm.test(\"Response body is valid\", function() {",
+							"  var data = JSON.parse(responseBody);",
+							"  var valid = tv4.validate(data, schema, false, true);",
+							"  if (valid !== true) {",
+							"      console.log(tv4.error);",
+							"  }",
+							"  pm.expect(valid).to.be.true;",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"type\": \"sha_mct\",\n\t\"parameters\": {\n\t\t\"messageLength\": 256,\n\t\t\"hashFunction\": {\n\t\t\t\"mode\": \"SHA2\",\n\t\t\t\"digestSize\": \"d256\"\n\t\t}\t\n\t}\n}"
+				},
+				"url": {
+					"raw": "http://{{server}}/api/pools/status",
+					"protocol": "http",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"pools",
+						"status"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Status AES",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "36d17f96-0efa-49ef-809f-ed73d8ac21eb",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"var schema = {",
+							"    \"type\": \"object\",",
+							"    \"properties\": {",
+							"        \"PoolExists\": { \"type\": \"boolean\" },",
+							"        \"FillLevel\": ",
+							"        { ",
+							"            \"type\": \"integer\",",
+							"            \"minimum\": 0",
+							"        }",
+							"    }",
+							"};",
+							"",
+							"pm.test(\"Response body is valid\", function() {",
+							"  var data = JSON.parse(responseBody);",
+							"  var valid = tv4.validate(data, schema, false, true);",
+							"  if (valid !== true) {",
+							"      console.log(tv4.error);",
+							"  }",
+							"  pm.expect(valid).to.be.true;",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"type\": \"aes\",\n\t\"parameters\": {\n\t\t\"keyLength\": 128,\n\t\t\"mode\": 0,\n\t\t\"direction\": \"encrypt\",\n\t\t\"dataLength\": 128\t\n\t}\n}"
+				},
+				"url": {
+					"raw": "http://{{server}}/api/pools/status",
+					"protocol": "http",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"pools",
+						"status"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Save",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "10eefb5e-d65a-4fb9-bb92-2b0c3e97e1e8",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Body is true\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"true\");",
+							"});",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://{{server}}/api/pools/save",
+					"protocol": "http",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"pools",
+						"save"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add SHA",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "c0cccf16-cc9f-41c8-a8bf-5235d449089a",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Body is true\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"true\");",
+							"});",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"type\": \"sha_mct\",\n\t\"parameters\": {\n\t\t\"messageLength\": 256,\n\t\t\"hashFunction\": {\n\t\t\t\"mode\": 1,\n\t\t\t\"digestSize\": 2\n\t\t}\t\n\t},\n\t\"result\": \t{\n\t\t\"Seed\": {\n\t\t\t\"Message\": \"ABCDEF\",\n\t\t\t\"Digest\": \"123456\"\n\t\t},\n\t\t\"Results\": [\n\t\t\t{\n\t\t\t\t\"Message\": \"1234567890\",\n\t\t\t\t\"Digest\": \"BEEF1234\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"Message\": \"1234\",\n\t\t\t\t\"Digest\": \"BEEF\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"Message\": \"BEEFFACE\",\n\t\t\t\t\"Digest\": \"FACEDAD1\"\n\t\t\t}\n\t\t]\n\t}\n}"
+				},
+				"url": {
+					"raw": "http://{{server}}/api/pools/add",
+					"protocol": "http",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"pools",
+						"add"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Pool Information",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "c87c4f61-42e6-425c-904a-b1d9f940de93",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"var schema = {",
+							"    \"type\": \"array\"",
+							"};",
+							"",
+							"pm.test(\"Response body is valid\", function() {",
+							"  var valid = tv4.validate(jsonData, schema, false, true);",
+							"  if (valid !== true) {",
+							"      console.log(tv4.error);",
+							"  }",
+							"  pm.expect(valid).to.be.true;",
+							"});",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://{{server}}/api/pools",
+					"protocol": "http",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"pools"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
