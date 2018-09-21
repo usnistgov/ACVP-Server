@@ -43,7 +43,7 @@ namespace NIST.CVP.Orleans.ServerHost.ExtensionMethods
                 case Environments.Demo:
                 case Environments.Prod:
                     var primarySiloEndpoint = new IPEndPoint(
-                        IPAddress.Parse(orleansConfig.OrleansServerIp), orleansConfig.OrleansGatewayPort
+                        IPAddress.Parse(orleansConfig.OrleansServerIp), orleansConfig.OrleansSiloPort
                     );
                     builder.Configure<EndpointOptions>(options =>
                     {
