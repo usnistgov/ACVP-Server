@@ -17,7 +17,7 @@ namespace NIST.CVP.Crypto.Oracle
     public partial class Oracle
     {
         private readonly SHA _sha = new SHA(new SHAFactory());
-        private SHA_MCT _shaMct;
+        //private SHA_MCT _shaMct;
         private readonly SHA3.SHA3 _sha3 = new SHA3.SHA3(new SHA3Factory());
         private SHA3_MCT _sha3Mct;
         private readonly CSHAKE.CSHAKE _cSHAKE = new CSHAKE.CSHAKE(new CSHAKEFactory());
@@ -54,12 +54,12 @@ namespace NIST.CVP.Crypto.Oracle
                 return poolResult;
             }
 
-            _shaMct = new SHA_MCT(_sha);
+            var shaMct = new SHA_MCT(new SHA(new SHAFactory()));
 
             var message = _rand.GetRandomBitString(param.MessageLength);
 
             // TODO isSample up in here?
-            var result = _shaMct.MCTHash(param.HashFunction, message);
+            var result = shaMct.MCTHash(param.HashFunction, message);
 
             if (!result.Success)
             {
