@@ -24,6 +24,12 @@
 
     -->
 
+    <!-- NuGet package feeds config -->
+    <RestoreSources>
+      http://129.6.52.22:8383/guestAuth/app/nuget/feed/Acvp/default/v2/Packages;
+      https://api.nuget.org/v3/index.json;
+    </RestoreSources>
+
     <!-- NuGet package versions -->
     <PropertyGroup>
         <NuGetVersionMicrosoftAspNetCoreAll>2.1.0</NuGetVersionMicrosoftAspNetCoreAll>
