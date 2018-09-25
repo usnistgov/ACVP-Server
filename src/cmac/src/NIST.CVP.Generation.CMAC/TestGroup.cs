@@ -19,6 +19,7 @@ namespace NIST.CVP.Generation.CMAC
         public int MacLength { get; set; }
         public List<TestCase> Tests { get; set; } = new List<TestCase>();
 
+        [JsonIgnore]
         public CmacTypes CmacType { get; set; }
 
         #region Tdes only
