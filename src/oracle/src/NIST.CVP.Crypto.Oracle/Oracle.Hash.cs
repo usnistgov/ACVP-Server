@@ -16,22 +16,11 @@ namespace NIST.CVP.Crypto.Oracle
 {
     public partial class Oracle
     {
-        private readonly SHA _sha = new SHA(new SHAFactory());
-        private SHA_MCT _shaMct;
-        private readonly SHA3.SHA3 _sha3 = new SHA3.SHA3(new SHA3Factory());
-        private SHA3_MCT _sha3Mct;
-        private readonly CSHAKE.CSHAKE _cSHAKE = new CSHAKE.CSHAKE(new CSHAKEFactory());
-        private CSHAKE_MCT _cSHAKEMct;
-        private readonly ParallelHash.ParallelHash _parallelHash = new ParallelHash.ParallelHash(new ParallelHashFactory());
-        private ParallelHash_MCT _parallelHashMct;
-        private readonly TupleHash.TupleHash _tupleHash = new TupleHash.TupleHash(new TupleHashFactory());
-        private TupleHash_MCT _tupleHashMct;
-
         private HashResult GetShaCase(ShaParameters param)
         {
             var message = _rand.GetRandomBitString(param.MessageLength);
 
-            var result = _sha.HashMessage(param.HashFunction, message);
+            var result = new SHA(new SHAFactory()).HashMessage(param.HashFunction, message);
 
             if (!result.Success)
             {
@@ -54,12 +43,12 @@ namespace NIST.CVP.Crypto.Oracle
                 return poolResult;
             }
 
-            _shaMct = new SHA_MCT(_sha);
+            var shaMct = new SHA_MCT(new SHA(new SHAFactory()));
 
             var message = _rand.GetRandomBitString(param.MessageLength);
 
             // TODO isSample up in here?
-            var result = _shaMct.MCTHash(param.HashFunction, message);
+            var result = shaMct.MCTHash(param.HashFunction, message);
 
             if (!result.Success)
             {
@@ -78,7 +67,7 @@ namespace NIST.CVP.Crypto.Oracle
         {
             var message = _rand.GetRandomBitString(param.MessageLength);
 
-            var result = _sha3.HashMessage(param.HashFunction, message);
+            var result = new SHA3.SHA3(new SHA3Factory()).HashMessage(param.HashFunction, message);
 
             if (!result.Success)
             {
@@ -100,13 +89,11 @@ namespace NIST.CVP.Crypto.Oracle
             {
                 return poolResult;
             }
-
-            _sha3Mct = new SHA3_MCT(_sha3);
-
+            
             var message = _rand.GetRandomBitString(param.MessageLength);
 
             // TODO isSample up in here?
-            var result = _sha3Mct.MCTHash(param.HashFunction, message);
+            var result = new SHA3_MCT(new SHA3.SHA3()).MCTHash(param.HashFunction, message);
 
             if (!result.Success)
             {
@@ -128,15 +115,16 @@ namespace NIST.CVP.Crypto.Oracle
             Common.Hash.HashResult result;
             BitString customizationHex = null;
             string customization = "";
+            var cshake = new CSHAKE.CSHAKE(new CSHAKEFactory());
             if (param.HexCustomization)
             {
                 customizationHex = _rand.GetRandomBitString(param.CustomizationLength);
-                result = _cSHAKE.HashMessage(param.HashFunction, message, customizationHex, param.FunctionName);
+                result = cshake.HashMessage(param.HashFunction, message, customizationHex, param.FunctionName);
             }
             else
             {
                 customization = _rand.GetRandomString(param.CustomizationLength);
-                result = _cSHAKE.HashMessage(param.HashFunction, message, customization, param.FunctionName);
+                result = cshake.HashMessage(param.HashFunction, message, customization, param.FunctionName);
             }
 
             if (!result.Success)
@@ -162,13 +150,12 @@ namespace NIST.CVP.Crypto.Oracle
             {
                 return poolResult;
             }
-
-            _cSHAKEMct = new CSHAKE_MCT(_cSHAKE);
-
+            
             var message = _rand.GetRandomBitString(param.MessageLength);
 
             // TODO isSample up in here?
-            var result = _cSHAKEMct.MCTHash(param.HashFunction, message, param.OutLens, true); // currently always a sample
+            var result = new CSHAKE_MCT(new CSHAKE.CSHAKE())
+                .MCTHash(param.HashFunction, message, param.OutLens, true); // currently always a sample
 
             if (!result.Success)
             {
@@ -190,15 +177,16 @@ namespace NIST.CVP.Crypto.Oracle
             Common.Hash.HashResult result;
             BitString customizationHex = null;
             string customization = "";
+            var parallelHash = new ParallelHash.ParallelHash();
             if (param.HexCustomization)
             {
                 customizationHex = _rand.GetRandomBitString(param.CustomizationLength);
-                result = _parallelHash.HashMessage(param.HashFunction, message, param.BlockSize, customizationHex);
+                result = parallelHash.HashMessage(param.HashFunction, message, param.BlockSize, customizationHex);
             }
             else
             {
                 customization = _rand.GetRandomString(param.CustomizationLength);
-                result = _parallelHash.HashMessage(param.HashFunction, message, param.BlockSize, customization);
+                result = parallelHash.HashMessage(param.HashFunction, message, param.BlockSize, customization);
             }
 
             if (!result.Success)
@@ -225,12 +213,11 @@ namespace NIST.CVP.Crypto.Oracle
                 return poolResult;
             }
 
-            _parallelHashMct = new ParallelHash_MCT(_parallelHash);
-
             var message = _rand.GetRandomBitString(param.MessageLength);
 
             // TODO isSample up in here?
-            var result = _parallelHashMct.MCTHash(param.HashFunction, message, param.OutLens, true); // currently always a sample
+            var result = new ParallelHash_MCT(new ParallelHash.ParallelHash())
+                .MCTHash(param.HashFunction, message, param.OutLens, true); // currently always a sample
 
             if (!result.Success)
             {
@@ -281,15 +268,16 @@ namespace NIST.CVP.Crypto.Oracle
             Common.Hash.HashResult result;
             BitString customizationHex = null;
             string customization = "";
+            var tupleHash = new TupleHash.TupleHash();
             if (param.HexCustomization)
             {
                 customizationHex = _rand.GetRandomBitString(param.CustomizationLength);
-                result = _tupleHash.HashMessage(param.HashFunction, tuple, customizationHex);
+                result = tupleHash.HashMessage(param.HashFunction, tuple, customizationHex);
             }
             else
             {
                 customization = _rand.GetRandomString(param.CustomizationLength);
-                result = _tupleHash.HashMessage(param.HashFunction, tuple, customization);
+                result = tupleHash.HashMessage(param.HashFunction, tuple, customization);
             }
 
             if (!result.Success)
@@ -314,13 +302,12 @@ namespace NIST.CVP.Crypto.Oracle
             {
                 return poolResult;
             }
-
-            _tupleHashMct = new TupleHash_MCT(_tupleHash);
-
+            
             var tuple = new List<BitString>() { _rand.GetRandomBitString(param.MessageLength) };
 
             // TODO isSample up in here?
-            var result = _tupleHashMct.MCTHash(param.HashFunction, tuple, param.OutLens, true); // currently always a sample
+            var result = new TupleHash_MCT(new TupleHash.TupleHash())
+                .MCTHash(param.HashFunction, tuple, param.OutLens, true); // currently always a sample
 
             if (!result.Success)
             {
