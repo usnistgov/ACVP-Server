@@ -5,9 +5,9 @@ namespace NIST.CVP.Crypto.Common.Asymmetric.DSA.Ed.Enums
 {
     public enum Curve
     {
-        [EnumMember(Value = "ed-25519")]
+        [EnumMember(Value = "ED-25519")]
         Ed25519,
-        [EnumMember(Value = "ed-448")]
+        [EnumMember(Value = "ED-448")]
         Ed448
     }
 
