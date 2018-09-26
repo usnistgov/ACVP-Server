@@ -2,6 +2,7 @@
   "algorithm": "KAS-ECC",
   "mode": "CDH-Component",
   "isSample": true,
+  "conformances": [],
   "function": [
     "dpGen",
     "dpVal",
@@ -11,8 +12,8 @@
     "keyRegen"
   ],
   "curve": [
-    "p-192",
-    "k-163",
-    "b-163"
+    "P-192",
+    "K-163",
+    "B-163"
   ]
 }
