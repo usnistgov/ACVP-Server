@@ -21,30 +21,56 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyGen.Tests
         }
 
         #region CurveTestCases
+
         private static object[] curveCases =
         {
-            new string[]
+            new object[]
             {
-                "P-192"
+                "test 1",
+                new string[]
+                {
+                    "P-192"
+                },
+                false
             },
-            new string[]
+            new object[]
             {
-                "p-192", "v-163", "k-571"
+                "test 2",
+                new string[]
+                {
+                    "p-192", "v-163", "k-571"
+                },
+                false
             },
-            new string[] { },
-            new string[]
+            new object[]
             {
-                "p-233"
+                "test 3",
+                new string[] { },
+                false
             },
-            new string[]
+            new object[]
             {
-                "p-192", "b-163", "k-163"
+                "test 4",
+                new string[]
+                {
+                    "p-233"
+                },
+                false
+            },
+            new object[]
+            {
+                "test 5",
+                new string[]
+                {
+                    "p-192", "b-163", "k-163"
+                },
+                false
             }
         };
         #endregion CurveTestCases
         [Test]
         [TestCaseSource(nameof(curveCases))]
-        public void ShouldReturnErrorWithInvalidCurves(string[] curves)
+        public void ShouldReturnErrorWithInvalidCurves(string testLabel, string[] curves, bool shouldPass)
         {
             var subject = new ParameterValidator();
             var result = subject.Validate(
@@ -52,7 +78,7 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyGen.Tests
                     .WithCurves(curves)
                 .Build());
 
-            Assert.IsFalse(result.Success);
+            Assert.AreEqual(shouldPass, result.Success);
         }
 
         #region SecretGenerationTestCases

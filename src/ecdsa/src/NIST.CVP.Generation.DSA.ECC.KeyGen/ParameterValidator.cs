@@ -11,7 +11,7 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyGen
 {
     public class ParameterValidator : ParameterValidatorBase, IParameterValidator<Parameters>
     {
-        public static string[] VALID_CURVES = EnumHelpers.GetEnumDescriptions<Curve>().Except(new []{ "p-192", "b-163", "k-163" }).ToArray();
+        public static string[] VALID_CURVES = EnumHelpers.GetEnumDescriptions<Curve>().Except(new []{ "p-192", "b-163", "k-163" }, StringComparer.OrdinalIgnoreCase).ToArray();
         public static string[] VALID_SECRET_GENERATION_MODES = EnumHelpers.GetEnumDescriptions<SecretGenerationMode>().ToArray();
 
         public ParameterValidateResponse Validate(Parameters parameters)
