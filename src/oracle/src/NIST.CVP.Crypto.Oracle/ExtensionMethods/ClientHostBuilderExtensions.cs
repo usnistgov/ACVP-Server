@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using NIST.CVP.Common.Config;
 using NIST.CVP.Common.Enums;
@@ -23,10 +24,14 @@ namespace NIST.CVP.Crypto.Oracle.ExtensionMethods
                 case Environments.Test:
                 case Environments.Demo:
                 case Environments.Prod:
-                    var primarySiloEndpoint = new IPEndPoint(
-                        IPAddress.Parse(orleansConfig.OrleansServerIp), orleansConfig.OrleansGatewayPort
-                    );
-                    builder.UseStaticClustering(primarySiloEndpoint);
+                    List<IPEndPoint> endpoints = new List<IPEndPoint>();
+                    foreach (var endpoint in orleansConfig.OrleansNodeIps)
+                    {
+                        endpoints.Add(new IPEndPoint(
+                            IPAddress.Parse(endpoint), orleansConfig.OrleansGatewayPort
+                        ));
+                    }
+                    builder.UseStaticClustering(endpoints.ToArray());
                     break;
                 default:
                     throw new ArgumentException($"invalid {nameof(environmentConfig)}");

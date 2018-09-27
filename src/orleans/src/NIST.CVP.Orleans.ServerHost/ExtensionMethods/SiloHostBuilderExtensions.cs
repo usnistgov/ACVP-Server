@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Net;
 using Microsoft.Extensions.Logging;
 using NIST.CVP.Common.Config;
@@ -43,15 +44,13 @@ namespace NIST.CVP.Orleans.ServerHost.ExtensionMethods
                 case Environments.Demo:
                 case Environments.Prod:
                     var primarySiloEndpoint = new IPEndPoint(
-                        IPAddress.Parse(orleansConfig.OrleansServerIp), orleansConfig.OrleansSiloPort
+                        IPAddress.Parse(orleansConfig.OrleansNodeIps.First()), orleansConfig.OrleansSiloPort
                     );
-                    builder.Configure<EndpointOptions>(options =>
-                    {
-                        options.AdvertisedIPAddress = primarySiloEndpoint.Address;
-                        options.GatewayPort = orleansConfig.OrleansGatewayPort;
-                        options.SiloPort = orleansConfig.OrleansSiloPort;
-                    });
                     builder.UseDevelopmentClustering(primarySiloEndpoint);
+                    builder.ConfigureEndpoints(
+                        siloPort: orleansConfig.OrleansSiloPort, 
+                        gatewayPort: orleansConfig.OrleansGatewayPort
+                    );
                     break;
                 default:
                     throw new ArgumentException($"invalid {nameof(environmentConfig)}");
