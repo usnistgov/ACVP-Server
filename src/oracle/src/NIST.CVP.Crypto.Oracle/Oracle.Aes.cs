@@ -3,11 +3,9 @@ using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Math;
 using NIST.CVP.Pools;
 using NIST.CVP.Pools.Enums;
-using System;
 using System.Threading.Tasks;
-using NIST.CVP.Orleans.Grains.Interfaces;
+using NIST.CVP.Crypto.Oracle.ExtensionMethods;
 using NIST.CVP.Orleans.Grains.Interfaces.Aes;
-using NIST.CVP.Orleans.Grains.Interfaces.Helpers;
 
 namespace NIST.CVP.Crypto.Oracle
 {
@@ -15,19 +13,11 @@ namespace NIST.CVP.Crypto.Oracle
     {
         public async Task<AesResult> GetAesCaseAsync(AesParameters param)
         {
-            var grain = _clusterClient.GetGrain<IOracleObserverAesCaseGrain>(
-                Guid.NewGuid()
-            );
+            var observableGrain = 
+                await _clusterClient.GetObserverGrain<IOracleObserverAesCaseGrain, AesResult>();
+            await observableGrain.Grain.BeginWorkAsync(param);
 
-            var observer = new OracleGrainObserver<AesResult>();
-            var observerReference = 
-                await _clusterClient.CreateObjectReference<IGrainObserver<AesResult>>(observer);
-            await grain.Subscribe(observerReference);
-            await grain.BeginWorkAsync(param);
-
-            var result = await ObservableHelpers.ObserveUntilResult(grain, observer, observerReference);
-
-            return result;
+            return await observableGrain.ObserveUntilResult();
         }
         
         public async Task<MctResult<AesResult>> GetAesMctCaseAsync(AesParameters param)
@@ -39,87 +29,47 @@ namespace NIST.CVP.Crypto.Oracle
                 return poolResult;
             }
 
-            var grain = _clusterClient.GetGrain<IOracleObserverAesMctCaseGrain>(
-                Guid.NewGuid()
-            );
+            var observableGrain = 
+                await _clusterClient.GetObserverGrain<IOracleObserverAesMctCaseGrain, MctResult<AesResult>>();
+            await observableGrain.Grain.BeginWorkAsync(param);
 
-            var observer = new OracleGrainObserver<MctResult<AesResult>>();
-            var observerReference = 
-                await _clusterClient.CreateObjectReference<IGrainObserver<MctResult<AesResult>>>(observer);
-            await grain.Subscribe(observerReference);
-            await grain.BeginWorkAsync(param);
-
-            var result = await ObservableHelpers.ObserveUntilResult(grain, observer, observerReference);
-
-            return result;
+            return await observableGrain.ObserveUntilResult();
         }
 
         public async Task<AesXtsResult> GetAesXtsCaseAsync(AesXtsParameters param)
         {
-            var grain = _clusterClient.GetGrain<IOracleObserverAesXtsCaseGrain>(
-                Guid.NewGuid()
-            );
+            var observableGrain = 
+                await _clusterClient.GetObserverGrain<IOracleObserverAesXtsCaseGrain, AesXtsResult>();
+            await observableGrain.Grain.BeginWorkAsync(param);
 
-            var observer = new OracleGrainObserver<AesXtsResult>();
-            var observerReference = 
-                await _clusterClient.CreateObjectReference<IGrainObserver<AesXtsResult>>(observer);
-            await grain.Subscribe(observerReference);
-            await grain.BeginWorkAsync(param);
-
-            var result = await ObservableHelpers.ObserveUntilResult(grain, observer, observerReference);
-
-            return result;
+            return await observableGrain.ObserveUntilResult();
         }
 
         public async Task<AesResult> GetDeferredAesCounterCaseAsync(CounterParameters<AesParameters> param)
         {
-            var grain = _clusterClient.GetGrain<IOracleObserverAesDeferredCounterCaseGrain>(
-                Guid.NewGuid()
-            );
+            var observableGrain = 
+                await _clusterClient.GetObserverGrain<IOracleObserverAesDeferredCounterCaseGrain, AesResult>();
+            await observableGrain.Grain.BeginWorkAsync(param);
 
-            var observer = new OracleGrainObserver<AesResult>();
-            var observerReference = 
-                await _clusterClient.CreateObjectReference<IGrainObserver<AesResult>>(observer);
-            await grain.Subscribe(observerReference);
-            await grain.BeginWorkAsync(param);
-
-            var result = await ObservableHelpers.ObserveUntilResult(grain, observer, observerReference);
-
-            return result;
+            return await observableGrain.ObserveUntilResult();
         }
 
         public async Task<AesResult> CompleteDeferredAesCounterCaseAsync(CounterParameters<AesParameters> param)
         {
-            var grain = _clusterClient.GetGrain<IOracleObserverAesCompleteDeferredCounterCaseGrain>(
-                Guid.NewGuid()
-            );
+            var observableGrain = 
+                await _clusterClient.GetObserverGrain<IOracleObserverAesCompleteDeferredCounterCaseGrain, AesResult>();
+            await observableGrain.Grain.BeginWorkAsync(param);
 
-            var observer = new OracleGrainObserver<AesResult>();
-            var observerReference = 
-                await _clusterClient.CreateObjectReference<IGrainObserver<AesResult>>(observer);
-            await grain.Subscribe(observerReference);
-            await grain.BeginWorkAsync(param);
-
-            var result = await ObservableHelpers.ObserveUntilResult(grain, observer, observerReference);
-
-            return result;
+            return await observableGrain.ObserveUntilResult();
         }
 
         public async Task<CounterResult> ExtractIvsAsync(AesParameters param, AesResult fullParam)
         {
-            var grain = _clusterClient.GetGrain<IOracleObserverAesCounterExtractIvsCaseGrain>(
-                Guid.NewGuid()
-            );
+            var observableGrain = 
+                await _clusterClient.GetObserverGrain<IOracleObserverAesCounterExtractIvsCaseGrain, CounterResult>();
+            await observableGrain.Grain.BeginWorkAsync(param, fullParam);
 
-            var observer = new OracleGrainObserver<CounterResult>();
-            var observerReference = 
-                await _clusterClient.CreateObjectReference<IGrainObserver<CounterResult>>(observer);
-            await grain.Subscribe(observerReference);
-            await grain.BeginWorkAsync(param, fullParam);
-
-            var result = await ObservableHelpers.ObserveUntilResult(grain, observer, observerReference);
-
-            return result;
+            return await observableGrain.ObserveUntilResult();
         }
 
         private BitString GetStartingIv(bool overflow, bool incremental)

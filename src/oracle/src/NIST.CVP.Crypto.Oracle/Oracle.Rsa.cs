@@ -3,13 +3,11 @@ using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
 using NIST.CVP.Pools;
 using NIST.CVP.Pools.Enums;
-using System;
 using System.Threading.Tasks;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys;
+using NIST.CVP.Crypto.Oracle.ExtensionMethods;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
-using NIST.CVP.Orleans.Grains.Interfaces;
-using NIST.CVP.Orleans.Grains.Interfaces.Helpers;
 using NIST.CVP.Orleans.Grains.Interfaces.Rsa;
 
 namespace NIST.CVP.Crypto.Oracle
@@ -50,53 +48,29 @@ namespace NIST.CVP.Crypto.Oracle
 
         public async Task<RsaKeyResult> CompleteKeyAsync(RsaKeyResult param, PrivateKeyModes keyMode)
         {
-            var grain = _clusterClient.GetGrain<IOracleObserverRsaCompleteKeyCaseGrain>(
-                Guid.NewGuid()
-            );
+            var observableGrain = 
+                await _clusterClient.GetObserverGrain<IOracleObserverRsaCompleteKeyCaseGrain, RsaKeyResult>();
+            await observableGrain.Grain.BeginWorkAsync(param, keyMode);
 
-            var observer = new OracleGrainObserver<RsaKeyResult>();
-            var observerReference = 
-                await _clusterClient.CreateObjectReference<IGrainObserver<RsaKeyResult>>(observer);
-            await grain.Subscribe(observerReference);
-            await grain.BeginWorkAsync(param, keyMode);
-
-            var result = await ObservableHelpers.ObserveUntilResult(grain, observer, observerReference);
-
-            return result;
+            return await observableGrain.ObserveUntilResult();
         }
 
         public async Task<RsaKeyResult> CompleteDeferredRsaKeyCaseAsync(RsaKeyParameters param, RsaKeyResult fullParam)
         {
-            var grain = _clusterClient.GetGrain<IOracleObserverRsaCompleteDeferredKeyCaseGrain>(
-                Guid.NewGuid()
-            );
+            var observableGrain = 
+                await _clusterClient.GetObserverGrain<IOracleObserverRsaCompleteDeferredKeyCaseGrain, RsaKeyResult>();
+            await observableGrain.Grain.BeginWorkAsync(param, fullParam);
 
-            var observer = new OracleGrainObserver<RsaKeyResult>();
-            var observerReference = 
-                await _clusterClient.CreateObjectReference<IGrainObserver<RsaKeyResult>>(observer);
-            await grain.Subscribe(observerReference);
-            await grain.BeginWorkAsync(param, fullParam);
-
-            var result = await ObservableHelpers.ObserveUntilResult(grain, observer, observerReference);
-
-            return result;
+            return await observableGrain.ObserveUntilResult();
         }
 
         public async Task<VerifyResult<RsaKeyResult>> GetRsaKeyVerifyAsync(RsaKeyResult param)
         {
-            var grain = _clusterClient.GetGrain<IOracleObserverRsaVerifyKeyCaseGrain>(
-                Guid.NewGuid()
-            );
+            var observableGrain = 
+                await _clusterClient.GetObserverGrain<IOracleObserverRsaVerifyKeyCaseGrain, VerifyResult<RsaKeyResult>>();
+            await observableGrain.Grain.BeginWorkAsync(param);
 
-            var observer = new OracleGrainObserver<VerifyResult<RsaKeyResult>>();
-            var observerReference = 
-                await _clusterClient.CreateObjectReference<IGrainObserver<VerifyResult<RsaKeyResult>>>(observer);
-            await grain.Subscribe(observerReference);
-            await grain.BeginWorkAsync(param);
-
-            var result = await ObservableHelpers.ObserveUntilResult(grain, observer, observerReference);
-
-            return result;
+            return await observableGrain.ObserveUntilResult();
         }
 
         public async Task<RsaSignaturePrimitiveResult> GetRsaSignaturePrimitiveAsync(RsaSignaturePrimitiveParameters param)
@@ -112,139 +86,75 @@ namespace NIST.CVP.Crypto.Oracle
 
             var key = await GetRsaKeyAsync(keyParam);
 
-            var grain = _clusterClient.GetGrain<IOracleObserverRsaSignaturePrimitiveCaseGrain>(
-                Guid.NewGuid()
-            );
+            var observableGrain = 
+                await _clusterClient.GetObserverGrain<IOracleObserverRsaSignaturePrimitiveCaseGrain, RsaSignaturePrimitiveResult>();
+            await observableGrain.Grain.BeginWorkAsync(param, key);
 
-            var observer = new OracleGrainObserver<RsaSignaturePrimitiveResult>();
-            var observerReference = 
-                await _clusterClient.CreateObjectReference<IGrainObserver<RsaSignaturePrimitiveResult>>(observer);
-            await grain.Subscribe(observerReference);
-            await grain.BeginWorkAsync(param, key);
-
-            var result = await ObservableHelpers.ObserveUntilResult(grain, observer, observerReference);
-
-            return result;
+            return await observableGrain.ObserveUntilResult();
         }
 
         public async Task<RsaSignatureResult> GetDeferredRsaSignatureAsync(RsaSignatureParameters param)
         {
-            var grain = _clusterClient.GetGrain<IOracleObserverRsaDeferredSignatureCaseGrain>(
-                Guid.NewGuid()
-            );
+            var observableGrain = 
+                await _clusterClient.GetObserverGrain<IOracleObserverRsaDeferredSignatureCaseGrain, RsaSignatureResult>();
+            await observableGrain.Grain.BeginWorkAsync(param);
 
-            var observer = new OracleGrainObserver<RsaSignatureResult>();
-            var observerReference = 
-                await _clusterClient.CreateObjectReference<IGrainObserver<RsaSignatureResult>>(observer);
-            await grain.Subscribe(observerReference);
-            await grain.BeginWorkAsync(param);
-
-            var result = await ObservableHelpers.ObserveUntilResult(grain, observer, observerReference);
-
-            return result;
+            return await observableGrain.ObserveUntilResult();
         }
 
         public async Task<VerifyResult<RsaSignatureResult>> CompleteDeferredRsaSignatureAsync(RsaSignatureParameters param, RsaSignatureResult fullParam)
         {
-            var grain = _clusterClient.GetGrain<IOracleObserverRsaCompleteDeferredSignatureCaseGrain>(
-                Guid.NewGuid()
-            );
+            var observableGrain = 
+                await _clusterClient.GetObserverGrain<IOracleObserverRsaCompleteDeferredSignatureCaseGrain, VerifyResult<RsaSignatureResult>>();
+            await observableGrain.Grain.BeginWorkAsync(param, fullParam);
 
-            var observer = new OracleGrainObserver<VerifyResult<RsaSignatureResult>>();
-            var observerReference = 
-                await _clusterClient.CreateObjectReference<IGrainObserver<VerifyResult<RsaSignatureResult>>>(observer);
-            await grain.Subscribe(observerReference);
-            await grain.BeginWorkAsync(param, fullParam);
-
-            var result = await ObservableHelpers.ObserveUntilResult(grain, observer, observerReference);
-
-            return result;
+            return await observableGrain.ObserveUntilResult();
         }
 
         public async Task<RsaSignatureResult> GetRsaSignatureAsync(RsaSignatureParameters param)
         {
-            var grain = _clusterClient.GetGrain<IOracleObserverRsaSignatureCaseGrain>(
-                Guid.NewGuid()
-            );
+            var observableGrain = 
+                await _clusterClient.GetObserverGrain<IOracleObserverRsaSignatureCaseGrain, RsaSignatureResult>();
+            await observableGrain.Grain.BeginWorkAsync(param);
 
-            var observer = new OracleGrainObserver<RsaSignatureResult>();
-            var observerReference = 
-                await _clusterClient.CreateObjectReference<IGrainObserver<RsaSignatureResult>>(observer);
-            await grain.Subscribe(observerReference);
-            await grain.BeginWorkAsync(param);
-
-            var result = await ObservableHelpers.ObserveUntilResult(grain, observer, observerReference);
-
-            return result;
+            return await observableGrain.ObserveUntilResult();
         }
 
         public async Task<VerifyResult<RsaSignatureResult>> GetRsaVerifyAsync(RsaSignatureParameters param)
         {
-            var grain = _clusterClient.GetGrain<IOracleObserverRsaVerifySignatureCaseGrain>(
-                Guid.NewGuid()
-            );
+            var observableGrain = 
+                await _clusterClient.GetObserverGrain<IOracleObserverRsaVerifySignatureCaseGrain, VerifyResult<RsaSignatureResult>>();
+            await observableGrain.Grain.BeginWorkAsync(param);
 
-            var observer = new OracleGrainObserver<VerifyResult<RsaSignatureResult>>();
-            var observerReference = 
-                await _clusterClient.CreateObjectReference<IGrainObserver<VerifyResult<RsaSignatureResult>>>(observer);
-            await grain.Subscribe(observerReference);
-            await grain.BeginWorkAsync(param);
-
-            var result = await ObservableHelpers.ObserveUntilResult(grain, observer, observerReference);
-
-            return result;
+            return await observableGrain.ObserveUntilResult();
         }
 
         public async Task<RsaDecryptionPrimitiveResult> GetDeferredRsaDecryptionPrimitiveAsync(RsaDecryptionPrimitiveParameters param)
         {
-            var grain = _clusterClient.GetGrain<IOracleObserverRsaDeferredDecryptionPrimitiveCaseGrain>(
-                Guid.NewGuid()
-            );
+            var observableGrain = 
+                await _clusterClient.GetObserverGrain<IOracleObserverRsaDeferredDecryptionPrimitiveCaseGrain, RsaDecryptionPrimitiveResult>();
+            await observableGrain.Grain.BeginWorkAsync(param);
 
-            var observer = new OracleGrainObserver<RsaDecryptionPrimitiveResult>();
-            var observerReference = 
-                await _clusterClient.CreateObjectReference<IGrainObserver<RsaDecryptionPrimitiveResult>>(observer);
-            await grain.Subscribe(observerReference);
-            await grain.BeginWorkAsync(param);
-
-            var result = await ObservableHelpers.ObserveUntilResult(grain, observer, observerReference);
-
-            return result;
+            return await observableGrain.ObserveUntilResult();
         }
 
         public async Task<RsaDecryptionPrimitiveResult> CompleteDeferredRsaDecryptionPrimitiveAsync(RsaDecryptionPrimitiveParameters param,
             RsaDecryptionPrimitiveResult fullParam)
         {
-            var grain = _clusterClient.GetGrain<IOracleObserverRsaCompleteDeferredDecryptionPrimitiveCaseGrain>(
-                Guid.NewGuid()
-            );
+            var observableGrain = 
+                await _clusterClient.GetObserverGrain<IOracleObserverRsaCompleteDeferredDecryptionPrimitiveCaseGrain, RsaDecryptionPrimitiveResult>();
+            await observableGrain.Grain.BeginWorkAsync(param, fullParam);
 
-            var observer = new OracleGrainObserver<RsaDecryptionPrimitiveResult>();
-            var observerReference = 
-                await _clusterClient.CreateObjectReference<IGrainObserver<RsaDecryptionPrimitiveResult>>(observer);
-            await grain.Subscribe(observerReference);
-            await grain.BeginWorkAsync(param, fullParam);
-
-            var result = await ObservableHelpers.ObserveUntilResult(grain, observer, observerReference);
-
-            return result;
+            return await observableGrain.ObserveUntilResult();
         }
 
         public async Task<RsaDecryptionPrimitiveResult> GetRsaDecryptionPrimitiveAsync(RsaDecryptionPrimitiveParameters param)
         {
-            var grain = _clusterClient.GetGrain<IOracleObserverRsaDecryptionPrimitiveCaseGrain>(
-                Guid.NewGuid()
-            );
+            var observableGrain = 
+                await _clusterClient.GetObserverGrain<IOracleObserverRsaDecryptionPrimitiveCaseGrain, RsaDecryptionPrimitiveResult>();
+            await observableGrain.Grain.BeginWorkAsync(param);
 
-            var observer = new OracleGrainObserver<RsaDecryptionPrimitiveResult>();
-            var observerReference = 
-                await _clusterClient.CreateObjectReference<IGrainObserver<RsaDecryptionPrimitiveResult>>(observer);
-            await grain.Subscribe(observerReference);
-            await grain.BeginWorkAsync(param);
-
-            var result = await ObservableHelpers.ObserveUntilResult(grain, observer, observerReference);
-
-            return result;
+            return await observableGrain.ObserveUntilResult();
         }
 
         private async Task<RsaPrimeResult> GeneratePrimes(RsaKeyParameters param, IEntropyProvider entropyProvider)
@@ -257,19 +167,11 @@ namespace NIST.CVP.Crypto.Oracle
                 return poolResult;
             }
 
-            var grain = _clusterClient.GetGrain<IOracleObserverRsaGeneratePrimesCaseGrain>(
-                Guid.NewGuid()
-            );
+            var observableGrain = 
+                await _clusterClient.GetObserverGrain<IOracleObserverRsaGeneratePrimesCaseGrain, RsaPrimeResult>();
+            await observableGrain.Grain.BeginWorkAsync(param);
 
-            var observer = new OracleGrainObserver<RsaPrimeResult>();
-            var observerReference = 
-                await _clusterClient.CreateObjectReference<IGrainObserver<RsaPrimeResult>>(observer);
-            await grain.Subscribe(observerReference);
-            await grain.BeginWorkAsync(param);
-
-            var result = await ObservableHelpers.ObserveUntilResult(grain, observer, observerReference);
-
-            return result;
+            return await observableGrain.ObserveUntilResult();
         }
     }
 }

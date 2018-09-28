@@ -2,8 +2,8 @@
 using System.Threading.Tasks;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
+using NIST.CVP.Crypto.Oracle.ExtensionMethods;
 using NIST.CVP.Orleans.Grains.Interfaces;
-using NIST.CVP.Orleans.Grains.Interfaces.Helpers;
 using NIST.CVP.Orleans.Grains.Interfaces.Mac;
 
 namespace NIST.CVP.Crypto.Oracle
@@ -12,53 +12,29 @@ namespace NIST.CVP.Crypto.Oracle
     {
         public async Task<MacResult> GetCmacCaseAsync(CmacParameters param)
         {
-            var grain = _clusterClient.GetGrain<IOracleObserverCmacCaseGrain>(
-                Guid.NewGuid()
-            );
+            var observableGrain = 
+                await _clusterClient.GetObserverGrain<IOracleObserverCmacCaseGrain, MacResult>();
+            await observableGrain.Grain.BeginWorkAsync(param);
 
-            var observer = new OracleGrainObserver<MacResult>();
-            var observerReference = 
-                await _clusterClient.CreateObjectReference<IGrainObserver<MacResult>>(observer);
-            await grain.Subscribe(observerReference);
-            await grain.BeginWorkAsync(param);
-
-            var result = await ObservableHelpers.ObserveUntilResult(grain, observer, observerReference);
-
-            return result;
+            return await observableGrain.ObserveUntilResult();
         }
 
         public async Task<MacResult> GetHmacCaseAsync(HmacParameters param)
         {
-            var grain = _clusterClient.GetGrain<IOracleObserverHmacCaseGrain>(
-                Guid.NewGuid()
-            );
+            var observableGrain = 
+                await _clusterClient.GetObserverGrain<IOracleObserverHmacCaseGrain, MacResult>();
+            await observableGrain.Grain.BeginWorkAsync(param);
 
-            var observer = new OracleGrainObserver<MacResult>();
-            var observerReference = 
-                await _clusterClient.CreateObjectReference<IGrainObserver<MacResult>>(observer);
-            await grain.Subscribe(observerReference);
-            await grain.BeginWorkAsync(param);
-
-            var result = await ObservableHelpers.ObserveUntilResult(grain, observer, observerReference);
-
-            return result;
+            return await observableGrain.ObserveUntilResult();
         }
 
         public async Task<KmacResult> GetKmacCaseAsync(KmacParameters param)
         {
-            var grain = _clusterClient.GetGrain<IOracleObserverKmacCaseGrain>(
-                Guid.NewGuid()
-            );
+            var observableGrain = 
+                await _clusterClient.GetObserverGrain<IOracleObserverKmacCaseGrain, KmacResult>();
+            await observableGrain.Grain.BeginWorkAsync(param);
 
-            var observer = new OracleGrainObserver<KmacResult>();
-            var observerReference = 
-                await _clusterClient.CreateObjectReference<IGrainObserver<KmacResult>>(observer);
-            await grain.Subscribe(observerReference);
-            await grain.BeginWorkAsync(param);
-
-            var result = await ObservableHelpers.ObserveUntilResult(grain, observer, observerReference);
-
-            return result;
+            return await observableGrain.ObserveUntilResult();
         }
     }
 }

@@ -2,10 +2,8 @@
 using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Pools;
 using NIST.CVP.Pools.Enums;
-using System;
 using System.Threading.Tasks;
-using NIST.CVP.Orleans.Grains.Interfaces;
-using NIST.CVP.Orleans.Grains.Interfaces.Helpers;
+using NIST.CVP.Crypto.Oracle.ExtensionMethods;
 using NIST.CVP.Orleans.Grains.Interfaces.Tdes;
 
 namespace NIST.CVP.Crypto.Oracle
@@ -14,19 +12,11 @@ namespace NIST.CVP.Crypto.Oracle
     {
         public async Task<TdesResult> GetTdesCaseAsync(TdesParameters param)
         {
-            var grain = _clusterClient.GetGrain<IOracleObserverTdesCaseGrain>(
-                Guid.NewGuid()
-            );
+            var observableGrain = 
+                await _clusterClient.GetObserverGrain<IOracleObserverTdesCaseGrain, TdesResult>();
+            await observableGrain.Grain.BeginWorkAsync(param);
 
-            var observer = new OracleGrainObserver<TdesResult>();
-            var observerReference = 
-                await _clusterClient.CreateObjectReference<IGrainObserver<TdesResult>>(observer);
-            await grain.Subscribe(observerReference);
-            await grain.BeginWorkAsync(param);
-
-            var result = await ObservableHelpers.ObserveUntilResult(grain, observer, observerReference);
-
-            return result;
+            return await observableGrain.ObserveUntilResult();
         }
 
         public async Task<MctResult<TdesResult>> GetTdesMctCaseAsync(TdesParameters param)
@@ -38,70 +28,39 @@ namespace NIST.CVP.Crypto.Oracle
                 return poolResult;
             }
 
-            var grain = _clusterClient.GetGrain<IOracleObserverTdesMctCaseGrain>(
-                Guid.NewGuid()
-            );
+            var observableGrain = 
+                await _clusterClient.GetObserverGrain<IOracleObserverTdesMctCaseGrain, MctResult<TdesResult>>();
+            await observableGrain.Grain.BeginWorkAsync(param);
 
-            var observer = new OracleGrainObserver<MctResult<TdesResult>>();
-            var observerReference = 
-                await _clusterClient.CreateObjectReference<IGrainObserver<MctResult<TdesResult>>>(observer);
-            await grain.Subscribe(observerReference);
-            await grain.BeginWorkAsync(param);
+            return await observableGrain.ObserveUntilResult();
 
-            var result = await ObservableHelpers.ObserveUntilResult(grain, observer, observerReference);
-
-            return result;
         }
 
         public async Task<TdesResult> GetDeferredTdesCounterCaseAsync(CounterParameters<TdesParameters> param)
         {
-            var grain = _clusterClient.GetGrain<IOracleObserverTdesDeferredCounterCaseGrain>(
-                Guid.NewGuid()
-            );
+            var observableGrain = 
+                await _clusterClient.GetObserverGrain<IOracleObserverTdesDeferredCounterCaseGrain, TdesResult>();
+            await observableGrain.Grain.BeginWorkAsync(param);
 
-            var observer = new OracleGrainObserver<TdesResult>();
-            var observerReference = 
-                await _clusterClient.CreateObjectReference<IGrainObserver<TdesResult>>(observer);
-            await grain.Subscribe(observerReference);
-            await grain.BeginWorkAsync(param);
-
-            var result = await ObservableHelpers.ObserveUntilResult(grain, observer, observerReference);
-
-            return result;
+            return await observableGrain.ObserveUntilResult();
         }
 
         public async Task<TdesResult> CompleteDeferredTdesCounterCaseAsync(CounterParameters<TdesParameters> param)
         {
-            var grain = _clusterClient.GetGrain<IOracleObserverTdesCompleteDeferredCounterCaseGrain>(
-                Guid.NewGuid()
-            );
+            var observableGrain = 
+                await _clusterClient.GetObserverGrain<IOracleObserverTdesCompleteDeferredCounterCaseGrain, TdesResult>();
+            await observableGrain.Grain.BeginWorkAsync(param);
 
-            var observer = new OracleGrainObserver<TdesResult>();
-            var observerReference = 
-                await _clusterClient.CreateObjectReference<IGrainObserver<TdesResult>>(observer);
-            await grain.Subscribe(observerReference);
-            await grain.BeginWorkAsync(param);
-
-            var result = await ObservableHelpers.ObserveUntilResult(grain, observer, observerReference);
-
-            return result;
+            return await observableGrain.ObserveUntilResult();
         }
 
         public async Task<CounterResult> ExtractIvsAsync(TdesParameters param, TdesResult fullParam)
         {
-            var grain = _clusterClient.GetGrain<IOracleObserverTdesCounterExtractIvsCaseGrain>(
-                Guid.NewGuid()
-            );
+            var observableGrain = 
+                await _clusterClient.GetObserverGrain<IOracleObserverTdesCounterExtractIvsCaseGrain, CounterResult>();
+            await observableGrain.Grain.BeginWorkAsync(param, fullParam);
 
-            var observer = new OracleGrainObserver<CounterResult>();
-            var observerReference = 
-                await _clusterClient.CreateObjectReference<IGrainObserver<CounterResult>>(observer);
-            await grain.Subscribe(observerReference);
-            await grain.BeginWorkAsync(param, fullParam);
-
-            var result = await ObservableHelpers.ObserveUntilResult(grain, observer, observerReference);
-
-            return result;
+            return await observableGrain.ObserveUntilResult();
         }
     }
 }

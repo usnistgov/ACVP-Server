@@ -2,11 +2,9 @@
 using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Pools;
 using NIST.CVP.Pools.Enums;
-using System;
 using System.Threading.Tasks;
-using NIST.CVP.Orleans.Grains.Interfaces;
+using NIST.CVP.Crypto.Oracle.ExtensionMethods;
 using NIST.CVP.Orleans.Grains.Interfaces.Ecdsa;
-using NIST.CVP.Orleans.Grains.Interfaces.Helpers;
 
 namespace NIST.CVP.Crypto.Oracle
 {
@@ -21,106 +19,58 @@ namespace NIST.CVP.Crypto.Oracle
                 return poolResult;
             }
 
-            var grain = _clusterClient.GetGrain<IOracleObserverEcdsaKeyCaseGrain>(
-                Guid.NewGuid()
-            );
+            var observableGrain = 
+                await _clusterClient.GetObserverGrain<IOracleObserverEcdsaKeyCaseGrain, EcdsaKeyResult>();
+            await observableGrain.Grain.BeginWorkAsync(param);
 
-            var observer = new OracleGrainObserver<EcdsaKeyResult>();
-            var observerReference = 
-                await _clusterClient.CreateObjectReference<IGrainObserver<EcdsaKeyResult>>(observer);
-            await grain.Subscribe(observerReference);
-            await grain.BeginWorkAsync(param);
-
-            var result = await ObservableHelpers.ObserveUntilResult(grain, observer, observerReference);
-
-            return result;
+            return await observableGrain.ObserveUntilResult();
         }
 
         public async Task<EcdsaKeyResult> CompleteDeferredEcdsaKeyAsync(EcdsaKeyParameters param, EcdsaKeyResult fullParam)
         {
-            var grain = _clusterClient.GetGrain<IOracleObserverEcdsaCompleteDeferredKeyCaseGrain>(
-                Guid.NewGuid()
-            );
+            var observableGrain = 
+                await _clusterClient.GetObserverGrain<IOracleObserverEcdsaCompleteDeferredKeyCaseGrain, EcdsaKeyResult>();
+            await observableGrain.Grain.BeginWorkAsync(param, fullParam);
 
-            var observer = new OracleGrainObserver<EcdsaKeyResult>();
-            var observerReference = 
-                await _clusterClient.CreateObjectReference<IGrainObserver<EcdsaKeyResult>>(observer);
-            await grain.Subscribe(observerReference);
-            await grain.BeginWorkAsync(param, fullParam);
-
-            var result = await ObservableHelpers.ObserveUntilResult(grain, observer, observerReference);
-
-            return result;
+            return await observableGrain.ObserveUntilResult();
         }
 
         public async Task<VerifyResult<EcdsaKeyResult>> GetEcdsaKeyVerifyAsync(EcdsaKeyParameters param)
         {
             var key = await GetEcdsaKeyAsync(param);
 
-            var grain = _clusterClient.GetGrain<IOracleObserverEcdsaVerifyKeyCaseGrain>(
-                Guid.NewGuid()
-            );
+            var observableGrain = 
+                await _clusterClient.GetObserverGrain<IOracleObserverEcdsaVerifyKeyCaseGrain, VerifyResult<EcdsaKeyResult>>();
+            await observableGrain.Grain.BeginWorkAsync(param, key);
 
-            var observer = new OracleGrainObserver<VerifyResult<EcdsaKeyResult>>();
-            var observerReference = 
-                await _clusterClient.CreateObjectReference<IGrainObserver<VerifyResult<EcdsaKeyResult>>>(observer);
-            await grain.Subscribe(observerReference);
-            await grain.BeginWorkAsync(param, key);
-
-            var result = await ObservableHelpers.ObserveUntilResult(grain, observer, observerReference);
-
-            return result;
+            return await observableGrain.ObserveUntilResult();
         }
 
         public async Task<EcdsaSignatureResult> GetDeferredEcdsaSignatureAsync(EcdsaSignatureParameters param)
         {
-            var grain = _clusterClient.GetGrain<IOracleObserverEcdsaDeferredSignatureCaseGrain>(
-                Guid.NewGuid()
-            );
+            var observableGrain = 
+                await _clusterClient.GetObserverGrain<IOracleObserverEcdsaDeferredSignatureCaseGrain, EcdsaSignatureResult>();
+            await observableGrain.Grain.BeginWorkAsync(param);
 
-            var observer = new OracleGrainObserver<EcdsaSignatureResult>();
-            var observerReference = 
-                await _clusterClient.CreateObjectReference<IGrainObserver<EcdsaSignatureResult>>(observer);
-            await grain.Subscribe(observerReference);
-            await grain.BeginWorkAsync(param);
-
-            var result = await ObservableHelpers.ObserveUntilResult(grain, observer, observerReference);
-
-            return result;
+            return await observableGrain.ObserveUntilResult();
         }
 
         public async Task<VerifyResult<EcdsaSignatureResult>> CompleteDeferredEcdsaSignatureAsync(EcdsaSignatureParameters param, EcdsaSignatureResult fullParam)
         {
-            var grain = _clusterClient.GetGrain<IOracleObserverEcdsaCompleteDeferredSignatureCaseGrain>(
-                Guid.NewGuid()
-            );
+            var observableGrain = 
+                await _clusterClient.GetObserverGrain<IOracleObserverEcdsaCompleteDeferredSignatureCaseGrain, VerifyResult<EcdsaSignatureResult>>();
+            await observableGrain.Grain.BeginWorkAsync(param, fullParam);
 
-            var observer = new OracleGrainObserver<VerifyResult<EcdsaSignatureResult>>();
-            var observerReference = 
-                await _clusterClient.CreateObjectReference<IGrainObserver<VerifyResult<EcdsaSignatureResult>>>(observer);
-            await grain.Subscribe(observerReference);
-            await grain.BeginWorkAsync(param, fullParam);
-
-            var result = await ObservableHelpers.ObserveUntilResult(grain, observer, observerReference);
-
-            return result;
+            return await observableGrain.ObserveUntilResult();
         }
 
         public async Task<EcdsaSignatureResult> GetEcdsaSignatureAsync(EcdsaSignatureParameters param)
         {
-            var grain = _clusterClient.GetGrain<IOracleObserverEcdsaSignatureCaseGrain>(
-                Guid.NewGuid()
-            );
+            var observableGrain = 
+                await _clusterClient.GetObserverGrain<IOracleObserverEcdsaSignatureCaseGrain, EcdsaSignatureResult>();
+            await observableGrain.Grain.BeginWorkAsync(param);
 
-            var observer = new OracleGrainObserver<EcdsaSignatureResult>();
-            var observerReference = 
-                await _clusterClient.CreateObjectReference<IGrainObserver<EcdsaSignatureResult>>(observer);
-            await grain.Subscribe(observerReference);
-            await grain.BeginWorkAsync(param);
-
-            var result = await ObservableHelpers.ObserveUntilResult(grain, observer, observerReference);
-
-            return result;
+            return await observableGrain.ObserveUntilResult();
         }
 
         public async Task<VerifyResult<EcdsaSignatureResult>> GetEcdsaVerifyResultAsync(EcdsaSignatureParameters param)
@@ -131,22 +81,14 @@ namespace NIST.CVP.Crypto.Oracle
             };
 
             var key = await GetEcdsaKeyAsync(keyParam);
-            // resigns with "bad key" under specific error condition to ensure IUT validates as failed verification.
+            // re-signs with "bad key" under specific error condition to ensure IUT validates as failed verification.
             var badKey = await GetEcdsaKeyAsync(keyParam);
             
-            var grain = _clusterClient.GetGrain<IOracleObserverEcdsaVerifySignatureCaseGrain>(
-                Guid.NewGuid()
-            );
+            var observableGrain = 
+                await _clusterClient.GetObserverGrain<IOracleObserverEcdsaVerifySignatureCaseGrain, VerifyResult<EcdsaSignatureResult>>();
+            await observableGrain.Grain.BeginWorkAsync(param, key, badKey);
 
-            var observer = new OracleGrainObserver<VerifyResult<EcdsaSignatureResult>>();
-            var observerReference = 
-                await _clusterClient.CreateObjectReference<IGrainObserver<VerifyResult<EcdsaSignatureResult>>>(observer);
-            await grain.Subscribe(observerReference);
-            await grain.BeginWorkAsync(param, key, badKey);
-
-            var result = await ObservableHelpers.ObserveUntilResult(grain, observer, observerReference);
-
-            return result;
+            return await observableGrain.ObserveUntilResult();
         }
     }
 }

@@ -1,10 +1,8 @@
 ﻿using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
-using System;
 using System.Threading.Tasks;
-using NIST.CVP.Orleans.Grains.Interfaces;
 using NIST.CVP.Orleans.Grains.Interfaces.Aead;
-using NIST.CVP.Orleans.Grains.Interfaces.Helpers;
+using NIST.CVP.Crypto.Oracle.ExtensionMethods;
 
 namespace NIST.CVP.Crypto.Oracle
 {
@@ -12,138 +10,74 @@ namespace NIST.CVP.Crypto.Oracle
     {
         public async Task<AeadResult> GetAesCcmCaseAsync(AeadParameters param)
         {
-            var grain = _clusterClient.GetGrain<IOracleObserverAesCcmCaseGrain>(
-                Guid.NewGuid()
-            );
+            var observableGrain = 
+                await _clusterClient.GetObserverGrain<IOracleObserverAesCcmCaseGrain, AeadResult>();
+            await observableGrain.Grain.BeginWorkAsync(param);
 
-            var observer = new OracleGrainObserver<AeadResult>();
-            var observerReference = 
-                await _clusterClient.CreateObjectReference<IGrainObserver<AeadResult>>(observer);
-            await grain.Subscribe(observerReference);
-            await grain.BeginWorkAsync(param);
-
-            var result = await ObservableHelpers.ObserveUntilResult(grain, observer, observerReference);
-
-            return result;
+            return await observableGrain.ObserveUntilResult();
         }
-
+        
         public async Task<AeadResult> GetEcmaCaseAsync(AeadParameters param)
         {
-            var grain = _clusterClient.GetGrain<IOracleObserverAesCcmEcmaCaseGrain>(
-                Guid.NewGuid()
-            );
+            var observableGrain = 
+                await _clusterClient.GetObserverGrain<IOracleObserverAesCcmEcmaCaseGrain, AeadResult>();
+            await observableGrain.Grain.BeginWorkAsync(param);
 
-            var observer = new OracleGrainObserver<AeadResult>();
-            var observerReference = 
-                await _clusterClient.CreateObjectReference<IGrainObserver<AeadResult>>(observer);
-            await grain.Subscribe(observerReference);
-            await grain.BeginWorkAsync(param);
-
-            var result = await ObservableHelpers.ObserveUntilResult(grain, observer, observerReference);
-
-            return result;
+            return await observableGrain.ObserveUntilResult();
         }
 
         public async Task<AeadResult> GetAesGcmCaseAsync(AeadParameters param)
         {
-            var grain = _clusterClient.GetGrain<IOracleObserverAesGcmCaseGrain>(
-                Guid.NewGuid()
-            );
+            var observableGrain = 
+                await _clusterClient.GetObserverGrain<IOracleObserverAesGcmCaseGrain, AeadResult>();
+            await observableGrain.Grain.BeginWorkAsync(param);
 
-            var observer = new OracleGrainObserver<AeadResult>();
-            var observerReference = 
-                await _clusterClient.CreateObjectReference<IGrainObserver<AeadResult>>(observer);
-            await grain.Subscribe(observerReference);
-            await grain.BeginWorkAsync(param);
-
-            var result = await ObservableHelpers.ObserveUntilResult(grain, observer, observerReference);
-
-            return result;
+            return await observableGrain.ObserveUntilResult();
         }
 
         public async Task<AeadResult> GetAesXpnCaseAsync(AeadParameters param)
         {
-            var grain = _clusterClient.GetGrain<IOracleObserverAesXpnCaseGrain>(
-                Guid.NewGuid()
-            );
+            var observableGrain = 
+                await _clusterClient.GetObserverGrain<IOracleObserverAesXpnCaseGrain, AeadResult>();
+            await observableGrain.Grain.BeginWorkAsync(param);
 
-            var observer = new OracleGrainObserver<AeadResult>();
-            var observerReference = 
-                await _clusterClient.CreateObjectReference<IGrainObserver<AeadResult>>(observer);
-            await grain.Subscribe(observerReference);
-            await grain.BeginWorkAsync(param);
-
-            var result = await ObservableHelpers.ObserveUntilResult(grain, observer, observerReference);
-
-            return result;
+            return await observableGrain.ObserveUntilResult();
         }
         
         public async Task<AeadResult> GetDeferredAesGcmCaseAsync(AeadParameters param)
         {
-            var grain = _clusterClient.GetGrain<IOracleObserverAesDeferredGcmCaseGrain>(
-                Guid.NewGuid()
-            );
+            var observableGrain = 
+                await _clusterClient.GetObserverGrain<IOracleObserverAesDeferredGcmCaseGrain, AeadResult>();
+            await observableGrain.Grain.BeginWorkAsync(param);
 
-            var observer = new OracleGrainObserver<AeadResult>();
-            var observerReference = 
-                await _clusterClient.CreateObjectReference<IGrainObserver<AeadResult>>(observer);
-            await grain.Subscribe(observerReference);
-            await grain.BeginWorkAsync(param);
-
-            var result = await ObservableHelpers.ObserveUntilResult(grain, observer, observerReference);
-
-            return result;
+            return await observableGrain.ObserveUntilResult();
         }
 
         public async Task<AeadResult> CompleteDeferredAesGcmCaseAsync(AeadParameters param, AeadResult fullParam)
         {
-            var grain = _clusterClient.GetGrain<IOracleObserverAesCompleteDeferredGcmCaseGrain>(
-                Guid.NewGuid()
-            );
+            var observableGrain = 
+                await _clusterClient.GetObserverGrain<IOracleObserverAesCompleteDeferredGcmCaseGrain, AeadResult>();
+            await observableGrain.Grain.BeginWorkAsync(param, fullParam);
 
-            var observer = new OracleGrainObserver<AeadResult>();
-            var observerReference = 
-                await _clusterClient.CreateObjectReference<IGrainObserver<AeadResult>>(observer);
-            await grain.Subscribe(observerReference);
-            await grain.BeginWorkAsync(param, fullParam);
-
-            var result = await ObservableHelpers.ObserveUntilResult(grain, observer, observerReference);
-
-            return result;
+            return await observableGrain.ObserveUntilResult();
         }
 
         public async Task<AeadResult> GetDeferredAesXpnCaseAsync(AeadParameters param)
         {
-            var grain = _clusterClient.GetGrain<IOracleObserverAesDeferredXpnCaseGrain>(
-                Guid.NewGuid()
-            );
+            var observableGrain = 
+                await _clusterClient.GetObserverGrain<IOracleObserverAesDeferredXpnCaseGrain, AeadResult>();
+            await observableGrain.Grain.BeginWorkAsync(param);
 
-            var observer = new OracleGrainObserver<AeadResult>();
-            var observerReference = 
-                await _clusterClient.CreateObjectReference<IGrainObserver<AeadResult>>(observer);
-            await grain.Subscribe(observerReference);
-            await grain.BeginWorkAsync(param);
-
-            var result = await ObservableHelpers.ObserveUntilResult(grain, observer, observerReference);
-
-            return result;
+            return await observableGrain.ObserveUntilResult();
         }
 
         public async Task<AeadResult> CompleteDeferredAesXpnCaseAsync(AeadParameters param, AeadResult fullParam)
         {
-            var grain = _clusterClient.GetGrain<IOracleObserverAesCompleteDeferredXpnCaseGrain>(
-                Guid.NewGuid()
-            );
+            var observableGrain = 
+                await _clusterClient.GetObserverGrain<IOracleObserverAesCompleteDeferredXpnCaseGrain, AeadResult>();
+            await observableGrain.Grain.BeginWorkAsync(param, fullParam);
 
-            var observer = new OracleGrainObserver<AeadResult>();
-            var observerReference = 
-                await _clusterClient.CreateObjectReference<IGrainObserver<AeadResult>>(observer);
-            await grain.Subscribe(observerReference);
-            await grain.BeginWorkAsync(param, fullParam);
-
-            var result = await ObservableHelpers.ObserveUntilResult(grain, observer, observerReference);
-
-            return result;
+            return await observableGrain.ObserveUntilResult();
         }
     }
 }
