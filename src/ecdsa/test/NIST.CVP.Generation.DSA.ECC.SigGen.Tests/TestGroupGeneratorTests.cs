@@ -38,17 +38,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen.Tests
             },
             new object[]
             {
-                12 * 6,
-                new ParameterBuilder()
-                    .WithCapabilities(new []
-                        {
-                            ParameterBuilder.GetCapabilityWith(ParameterValidator.VALID_CURVES, ParameterValidator.VALID_HASH_ALGS),
-                        })
-                    .Build()
-            },
-            new object[]
-            {
-                12 * 6,
+                12 * 10,
                 new ParameterBuilder()
                     .WithCapabilities(new []
                         {

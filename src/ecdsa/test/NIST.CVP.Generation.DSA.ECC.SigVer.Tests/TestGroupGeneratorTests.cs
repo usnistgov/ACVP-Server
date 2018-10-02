@@ -32,17 +32,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer.Tests
             },
             new object[]
             {
-                15 * 7,
-                new ParameterBuilder()
-                    .WithCapabilities(new []
-                        {
-                            ParameterBuilder.GetCapabilityWith(ParameterValidator.VALID_CURVES, ParameterValidator.VALID_HASH_ALGS),
-                        })
-                    .Build()
-            },
-            new object[]
-            {
-                15 * 7,
+                15 * 11,
                 new ParameterBuilder()
                     .WithCapabilities(new []
                         {

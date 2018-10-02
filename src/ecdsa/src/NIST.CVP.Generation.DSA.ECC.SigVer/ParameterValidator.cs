@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using NIST.CVP.Common.ExtensionMethods;
+﻿using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Common.Helpers;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC.Enums;
 using NIST.CVP.Generation.Core;
+using System.Collections.Generic;
 
 namespace NIST.CVP.Generation.DSA.ECC.SigVer
 {
     public class ParameterValidator : ParameterValidatorBase, IParameterValidator<Parameters>
     {
-        public static string[] VALID_HASH_ALGS = { "sha-1", "sha2-224", "sha2-256", "sha2-384", "sha2-512", "sha2-512/224", "sha2-512/256" };
+        public static string[] VALID_HASH_ALGS = { "sha-1", "sha2-224", "sha2-256", "sha2-384", "sha2-512", "sha2-512/224", "sha2-512/256", "sha3-224", "sha3-256", "sha3-384", "sha3-512" };
         public static string[] VALID_CURVES = EnumHelpers.GetEnumDescriptions<Curve>().ToArray();
 
         public ParameterValidateResponse Validate(Parameters parameters)
