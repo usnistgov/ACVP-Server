@@ -40,10 +40,10 @@
         <NuGetVersionNewtonsoftJson>11.0.2</NuGetVersionNewtonsoftJson>
         <NuGetVersionCommandLineArgumentsParser>3.0.18</NuGetVersionCommandLineArgumentsParser>
         <NuGetVersionSystemRuntimeLoader>4.3.0</NuGetVersionSystemRuntimeLoader>
-        <NugetVersionMicrosoftOrleansServer>2.0.4</NugetVersionMicrosoftOrleansServer>
-        <NugetVersionMicrosoftOrleansOrleansCodeGeneratorBuild>2.0.4</NugetVersionMicrosoftOrleansOrleansCodeGeneratorBuild>
-        <NugetVersionMicrosoftOrleansClient>2.0.3</NugetVersionMicrosoftOrleansClient>
-        <NugetVersionMicrosoftOrleansCoreAbstractions>2.0.0</NugetVersionMicrosoftOrleansCoreAbstractions>
+        <NugetVersionMicrosoftOrleansServer>2.1.0</NugetVersionMicrosoftOrleansServer>
+        <NugetVersionMicrosoftOrleansOrleansCodeGeneratorBuild>2.1.0</NugetVersionMicrosoftOrleansOrleansCodeGeneratorBuild>
+        <NugetVersionMicrosoftOrleansClient>2.1.0</NugetVersionMicrosoftOrleansClient>
+        <NugetVersionMicrosoftOrleansCoreAbstractions>2.1.0</NugetVersionMicrosoftOrleansCoreAbstractions>
         <NugetVersionMicrosoftExtensionsLoggingConsole>2.1.0</NugetVersionMicrosoftExtensionsLoggingConsole>
     </PropertyGroup>
 
