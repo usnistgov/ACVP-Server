@@ -8,14 +8,19 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using NIST.CVP.Common.Oracle;
+using Microsoft.Extensions.Options;
+using Moq;
+using NIST.CVP.Common.Config;
 using NIST.CVP.Common.Oracle.ResultTypes;
+using NIST.CVP.Math;
 
 namespace NIST.CVP.Pools.Tests
 {
     [TestFixture]
     public class PoolTests
     {
+
+        private readonly Mock<IOptions<PoolConfig>> _poolConfig = new Mock<IOptions<PoolConfig>>();
         private string _testPath;
         private string _configFile = "aes-test1.json";
         private string _fullPath;
@@ -45,7 +50,7 @@ namespace NIST.CVP.Pools.Tests
                 KeyLength = 128
             };
 
-            var pool = new AesPool(param, _fullPath, _jsonConverters);
+            var pool = new AesPool(_poolConfig.Object, param, _fullPath, _jsonConverters);
 
             Assert.AreEqual(2, pool.WaterLevel);
         }
@@ -62,7 +67,7 @@ namespace NIST.CVP.Pools.Tests
                 KeyLength = 128
             };
 
-            var pool = new AesPool(param, _fullPath, _jsonConverters) as IPool;
+            var pool = new AesPool(_poolConfig.Object, param, _fullPath, _jsonConverters) as IPool;
 
             if (cleanWater)
             {
@@ -87,7 +92,7 @@ namespace NIST.CVP.Pools.Tests
                 KeyLength = 128
             };
 
-            var pool = new AesPool(param, _fullPath, _jsonConverters);
+            var pool = new AesPool(_poolConfig.Object, param, _fullPath, _jsonConverters);
 
             var result = pool.GetNext();
             
@@ -106,7 +111,7 @@ namespace NIST.CVP.Pools.Tests
                 KeyLength = 128
             };
 
-            var pool = new AesPool(param, _fullPath, _jsonConverters);
+            var pool = new AesPool(_poolConfig.Object, param, _fullPath, _jsonConverters);
 
             var result1 = pool.GetNext();
             var result2 = pool.GetNext();
@@ -129,7 +134,7 @@ namespace NIST.CVP.Pools.Tests
                 KeyLength = 128
             };
 
-            var pool = new AesPool(param, _fullPath, _jsonConverters);
+            var pool = new AesPool(_poolConfig.Object, param, _fullPath, _jsonConverters);
 
             var writePath = Path.Combine(_testPath, $"saveTest-{Guid.NewGuid().ToString().Substring(0, 8)}.json");
             pool.SavePoolToFile(writePath);
@@ -143,6 +148,43 @@ namespace NIST.CVP.Pools.Tests
             {
                 Assert.Fail();
             }
+        }
+
+        [Test]
+        [TestCase(true, 2)]
+        [TestCase(false, 1)]
+        public void ShouldRecycleValueWhenSpecified(bool shouldRecycle, int waterLevelPostValueGet)
+        {
+            var param = new AesParameters
+            {
+                Direction = "encrypt",
+                DataLength = 128,
+                Mode = BlockCipherModesOfOperation.Ecb,
+                KeyLength = 128
+            };
+
+            _poolConfig.Setup(s => s.Value)
+                .Returns(new PoolConfig() {ShouldRecyclePoolWater = shouldRecycle});
+
+            var pool = new AesPool(_poolConfig.Object, param, _fullPath, _jsonConverters);
+            var originalWaterLevel = pool.WaterLevel;
+            
+            pool.AddWater(new AesResult() {PlainText = new BitString("01")});
+            pool.AddWater(new AesResult() {PlainText = new BitString("02")});
+
+            Assert.AreEqual(
+                originalWaterLevel + 2, 
+                pool.WaterLevel, 
+                "Water level sanity check, post add"
+            );
+
+            pool.GetNextUntyped();
+
+            Assert.AreEqual(
+                originalWaterLevel + waterLevelPostValueGet, 
+                pool.WaterLevel, 
+                nameof(waterLevelPostValueGet)
+            );
         }
     }
 }

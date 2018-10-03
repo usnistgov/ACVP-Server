@@ -14,14 +14,14 @@
       "launchBrowser": true,
       "launchUrl": "api/pools/status",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "local"
       }
     },
     "NIST.CVP.PoolAPI": {
       "commandName": "Project",
       "commandLineArgs": "D:\\ACVP\\gen-val\\src\\pool-api\\NIST.CVP.PoolAPI\\Pools",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "local"
       },
       "applicationUrl": "http://localhost:5001"
     }

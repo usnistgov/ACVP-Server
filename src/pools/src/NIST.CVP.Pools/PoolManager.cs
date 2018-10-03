@@ -9,6 +9,8 @@ using NIST.CVP.Pools.PoolModels;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using Microsoft.Extensions.Options;
+using NIST.CVP.Common.Config;
 
 namespace NIST.CVP.Pools
 {
@@ -16,9 +18,10 @@ namespace NIST.CVP.Pools
     {
         public readonly List<IPool> Pools = new List<IPool>();
 
+        private readonly IOptions<PoolConfig> _poolConfig;
         private PoolProperties[] _properties;
         private string _poolDirectory;
-
+        
         private readonly IList<JsonConverter> _jsonConverters = new List<JsonConverter>
         {
             new BitstringConverter(),
@@ -27,8 +30,9 @@ namespace NIST.CVP.Pools
             new StringEnumConverter()
         };
 
-        public PoolManager(string configFile, string poolDirectory)
+        public PoolManager(IOptions<PoolConfig> poolConfig, string configFile, string poolDirectory)
         {
+            _poolConfig = poolConfig;
             LoadPools(configFile, poolDirectory);
         }
 
@@ -121,51 +125,51 @@ namespace NIST.CVP.Pools
                 switch (poolProperty.PoolType.Type)
                 {
                     case PoolTypes.SHA:
-                        pool = new ShaPool(param as ShaParameters, filePath, _jsonConverters);
+                        pool = new ShaPool(_poolConfig, param as ShaParameters, filePath, _jsonConverters);
                         break;
 
                     case PoolTypes.AES:
-                        pool = new AesPool(param as AesParameters, filePath, _jsonConverters);
+                        pool = new AesPool(_poolConfig, param as AesParameters, filePath, _jsonConverters);
                         break;
 
                     case PoolTypes.SHA_MCT:
-                        pool = new ShaMctPool(param as ShaParameters, filePath, _jsonConverters);
+                        pool = new ShaMctPool(_poolConfig, param as ShaParameters, filePath, _jsonConverters);
                         break;
 
                     case PoolTypes.AES_MCT:
-                        pool = new AesMctPool(param as AesParameters, filePath, _jsonConverters);
+                        pool = new AesMctPool(_poolConfig, param as AesParameters, filePath, _jsonConverters);
                         break;
 
                     case PoolTypes.TDES_MCT:
-                        pool = new TdesMctPool(param as TdesParameters, filePath, _jsonConverters);
+                        pool = new TdesMctPool(_poolConfig, param as TdesParameters, filePath, _jsonConverters);
                         break;
 
                     case PoolTypes.SHA3_MCT:
-                        pool = new Sha3MctPool(param as Sha3Parameters, filePath, _jsonConverters);
+                        pool = new Sha3MctPool(_poolConfig, param as Sha3Parameters, filePath, _jsonConverters);
                         break;
 
                     case PoolTypes.CSHAKE_MCT:
-                        pool = new CShakeMctPool(param as CShakeParameters, filePath, _jsonConverters);
+                        pool = new CShakeMctPool(_poolConfig, param as CShakeParameters, filePath, _jsonConverters);
                         break;
 
                     case PoolTypes.PARALLEL_HASH_MCT:
-                        pool = new ParallelHashMctPool(param as ParallelHashParameters, filePath, _jsonConverters);
+                        pool = new ParallelHashMctPool(_poolConfig, param as ParallelHashParameters, filePath, _jsonConverters);
                         break;
 
                     case PoolTypes.TUPLE_HASH_MCT:
-                        pool = new TupleHashMctPool(param as TupleHashParameters, filePath, _jsonConverters);
+                        pool = new TupleHashMctPool(_poolConfig, param as TupleHashParameters, filePath, _jsonConverters);
                         break;
 
                     case PoolTypes.DSA_PQG:
-                        pool = new DsaPqgPool(param as DsaDomainParametersParameters, filePath, _jsonConverters);
+                        pool = new DsaPqgPool(_poolConfig, param as DsaDomainParametersParameters, filePath, _jsonConverters);
                         break;
 
                     case PoolTypes.ECDSA_KEY:
-                        pool = new EcdsaKeyPool(param as EcdsaKeyParameters, filePath, _jsonConverters);
+                        pool = new EcdsaKeyPool(_poolConfig, param as EcdsaKeyParameters, filePath, _jsonConverters);
                         break;
 
                     case PoolTypes.RSA_KEY:
-                        pool = new RsaKeyPool(param as RsaKeyParameters, filePath, _jsonConverters);
+                        pool = new RsaKeyPool(_poolConfig, param as RsaKeyParameters, filePath, _jsonConverters);
                         break;
 
                     default:

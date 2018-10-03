@@ -7,6 +7,8 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
+using Microsoft.Extensions.Options;
+using NIST.CVP.Common.Config;
 
 namespace NIST.CVP.Pools
 {
@@ -17,7 +19,6 @@ namespace NIST.CVP.Pools
         public PoolTypes DeclaredType { get; }
         public TParam WaterType { get; }
         
-        private readonly ConcurrentQueue<TResult> _water;
         public int WaterLevel => _water.Count;
         public bool IsEmpty => WaterLevel == 0;
 
@@ -25,10 +26,15 @@ namespace NIST.CVP.Pools
         public IParameters Param => WaterType;
         public Type ResultType => typeof(TResult);
 
+        private readonly ConcurrentQueue<TResult> _water;
         private readonly IList<JsonConverter> _jsonConverters;
+        private readonly IOptions<PoolConfig> _poolConfig;
 
-        protected PoolBase(PoolTypes declaredType, TParam waterType, string filename, IList<JsonConverter> jsonConverters)
+        
+
+        protected PoolBase(IOptions<PoolConfig> poolConfig, PoolTypes declaredType, TParam waterType, string filename, IList<JsonConverter> jsonConverters)
         {
+            _poolConfig = poolConfig;
             DeclaredType = declaredType;
             WaterType = waterType;
             _jsonConverters = jsonConverters;
@@ -47,6 +53,8 @@ namespace NIST.CVP.Pools
                 var success = _water.TryDequeue(out var result);
                 if (success)
                 {
+                    RecycleValueWhenOptionsAllow(result);
+
                     return new PoolResult<TResult> { Result = result };
                 }
                 else
@@ -55,7 +63,7 @@ namespace NIST.CVP.Pools
                 }
             }
         }
-        
+
         public PoolResult<IResult> GetNextUntyped()
         {
             var result = GetNext();
@@ -134,6 +142,14 @@ namespace NIST.CVP.Pools
             catch (Exception)
             {
                 return false;
+            }
+        }
+
+        private void RecycleValueWhenOptionsAllow(TResult result)
+        {
+            if (_poolConfig.Value.ShouldRecyclePoolWater)
+            {
+                _water.Enqueue(result);
             }
         }
     }
