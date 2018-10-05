@@ -35,6 +35,12 @@ namespace NIST.CVP.Pools.Tests
         [SetUp]
         public void SetUp()
         {
+            var poolConfig = new PoolConfig()
+            {
+                ShouldRecyclePoolWater = false
+            };
+            _poolConfig.Setup(s => s.Value).Returns(poolConfig);
+
             _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\");
             _fullPath = Path.Combine(_testPath, _configFile);
         }
@@ -185,6 +191,24 @@ namespace NIST.CVP.Pools.Tests
                 pool.WaterLevel, 
                 nameof(waterLevelPostValueGet)
             );
+        }
+
+        public void ShouldCleanPool()
+        {
+            var param = new AesParameters
+            {
+                Direction = "encrypt",
+                DataLength = 128,
+                Mode = BlockCipherModesOfOperation.Ecb,
+                KeyLength = 128
+            };
+
+            var pool = new AesPool(_poolConfig.Object, param, _fullPath, _jsonConverters);
+            Assume.That(!pool.IsEmpty);
+
+            pool.CleanPool();
+
+            Assert.IsTrue(pool.IsEmpty);
         }
     }
 }
