@@ -211,5 +211,34 @@ namespace NIST.CVP.Pools.Tests
 
             Assert.IsTrue(pool.IsEmpty);
         }
+
+        [Test]
+        public void ShouldIncrementWaterUsageCount()
+        {
+            var param = new AesParameters
+            {
+                Direction = "encrypt",
+                DataLength = 128,
+                Mode = BlockCipherModesOfOperation.Ecb,
+                KeyLength = 128
+            };
+
+            _poolConfig.Setup(s => s.Value).Returns(new PoolConfig() {ShouldRecyclePoolWater = true});
+
+            var pool = new AesPool(_poolConfig.Object, param, _fullPath, _jsonConverters);
+
+            pool.CleanPool();
+            Assume.That(pool.IsEmpty);
+
+            pool.AddWater(new AesResult() {PlainText = new BitString("01")});
+
+            var result = pool.GetNextUntyped();
+            Assert.AreEqual(0, result.TimesValueUsed);
+            for (int i = 0; i < 5; i++)
+            {
+                result = pool.GetNextUntyped();
+                Assert.AreEqual(i + 1, result.TimesValueUsed);
+            }
+        }
     }
 }

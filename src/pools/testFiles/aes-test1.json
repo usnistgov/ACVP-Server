@@ -1,14 +1,24 @@
 [
   {
-    "PlainText": "ABCD",
-    "Key": "BEEF",
-    "Iv": "",
-    "CipherText": "5678"
+    "Result": {
+      "PlainText": "ABCD",
+      "Key": "BEEF",
+      "Iv": "",
+      "CipherText": "5678"
+    },
+    "TimesValueUsed": 0,
+    "ValueCreated": "2018-10-05T18:29:33.0755625Z",
+    "ValueUsed": null
   },
   {
-    "PlainText": "ABCD22",
-    "Key": "BEEF22",
-    "Iv": "",
-    "CipherText": "567822"
+    "Result": {
+      "PlainText": "ABCD22",
+      "Key": "BEEF22",
+      "Iv": "",
+      "CipherText": "567822"
+    },
+    "TimesValueUsed": 0,
+    "ValueCreated": "2018-10-05T18:29:33.0755632Z",
+    "ValueUsed": null
   }
 ]
