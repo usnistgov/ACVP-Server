@@ -193,6 +193,7 @@ namespace NIST.CVP.Pools.Tests
             );
         }
 
+        [Test]
         public void ShouldCleanPool()
         {
             var param = new AesParameters
