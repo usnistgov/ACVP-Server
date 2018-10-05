@@ -102,6 +102,16 @@ namespace NIST.CVP.Pools
             return true;
         }
 
+        public bool CleanPools()
+        {
+            foreach (var pool in Pools)
+            {
+                pool.CleanPool();
+            }
+
+            return true;
+        }
+
         private void LoadPools(string configFile, string poolDirectory)
         {
             _poolDirectory = poolDirectory;

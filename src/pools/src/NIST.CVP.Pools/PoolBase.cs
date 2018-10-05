@@ -145,6 +145,12 @@ namespace NIST.CVP.Pools
             }
         }
 
+        public bool CleanPool()
+        {
+            _water.Clear();
+            return true;
+        }
+
         private void RecycleValueWhenOptionsAllow(TResult result)
         {
             if (_poolConfig.Value.ShouldRecyclePoolWater)
@@ -152,5 +158,6 @@ namespace NIST.CVP.Pools
                 _water.Enqueue(result);
             }
         }
+
     }
 }

@@ -119,5 +119,14 @@ namespace NIST.CVP.PoolAPI.Controllers
         {
             return Program.PoolManager.SavePools();
         }
+
+        [HttpPost]
+        [Route("clean")]
+        // /api/pools/clean
+        public bool CleanPools()
+        {
+            // TODO should this clean THEN save? Or leave that up to the consumer?
+            return Program.PoolManager.CleanPools();
+        }
     }
 }
