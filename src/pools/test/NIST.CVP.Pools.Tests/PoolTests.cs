@@ -11,8 +11,11 @@ using System.IO;
 using Microsoft.Extensions.Options;
 using Moq;
 using NIST.CVP.Common.Config;
+using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Math;
+using NIST.CVP.Pools.Enums;
+using NIST.CVP.Pools.Models;
 
 namespace NIST.CVP.Pools.Tests
 {
@@ -56,7 +59,7 @@ namespace NIST.CVP.Pools.Tests
                 KeyLength = 128
             };
 
-            var pool = new AesPool(_poolConfig.Object, param, _fullPath, _jsonConverters);
+            var pool = new AesPool(GetConstructionParameters(param, PoolTypes.AES));
 
             Assert.AreEqual(2, pool.WaterLevel);
         }
@@ -73,7 +76,7 @@ namespace NIST.CVP.Pools.Tests
                 KeyLength = 128
             };
 
-            var pool = new AesPool(_poolConfig.Object, param, _fullPath, _jsonConverters) as IPool;
+            var pool = new AesPool(GetConstructionParameters(param, PoolTypes.AES));
 
             if (cleanWater)
             {
@@ -83,8 +86,6 @@ namespace NIST.CVP.Pools.Tests
             {
                 Assert.Throws(typeof(ArgumentException), () => pool.AddWater(new HashResult()));
             }
-
-
         }
 
         [Test]
@@ -98,7 +99,7 @@ namespace NIST.CVP.Pools.Tests
                 KeyLength = 128
             };
 
-            var pool = new AesPool(_poolConfig.Object, param, _fullPath, _jsonConverters);
+            var pool = new AesPool(GetConstructionParameters(param, PoolTypes.AES));
 
             var result = pool.GetNext();
             
@@ -117,7 +118,7 @@ namespace NIST.CVP.Pools.Tests
                 KeyLength = 128
             };
 
-            var pool = new AesPool(_poolConfig.Object, param, _fullPath, _jsonConverters);
+            var pool = new AesPool(GetConstructionParameters(param, PoolTypes.AES));
 
             var result1 = pool.GetNext();
             var result2 = pool.GetNext();
@@ -140,7 +141,7 @@ namespace NIST.CVP.Pools.Tests
                 KeyLength = 128
             };
 
-            var pool = new AesPool(_poolConfig.Object, param, _fullPath, _jsonConverters);
+            var pool = new AesPool(GetConstructionParameters(param, PoolTypes.AES));
 
             var writePath = Path.Combine(_testPath, $"saveTest-{Guid.NewGuid().ToString().Substring(0, 8)}.json");
             pool.SavePoolToFile(writePath);
@@ -172,7 +173,7 @@ namespace NIST.CVP.Pools.Tests
             _poolConfig.Setup(s => s.Value)
                 .Returns(new PoolConfig() {ShouldRecyclePoolWater = shouldRecycle});
 
-            var pool = new AesPool(_poolConfig.Object, param, _fullPath, _jsonConverters);
+            var pool = new AesPool(GetConstructionParameters(param, PoolTypes.AES));
             var originalWaterLevel = pool.WaterLevel;
             
             pool.AddWater(new AesResult() {PlainText = new BitString("01")});
@@ -204,7 +205,7 @@ namespace NIST.CVP.Pools.Tests
                 KeyLength = 128
             };
 
-            var pool = new AesPool(_poolConfig.Object, param, _fullPath, _jsonConverters);
+            var pool = new AesPool(GetConstructionParameters(param, PoolTypes.AES));
             Assume.That(!pool.IsEmpty);
 
             pool.CleanPool();
@@ -225,7 +226,7 @@ namespace NIST.CVP.Pools.Tests
 
             _poolConfig.Setup(s => s.Value).Returns(new PoolConfig() {ShouldRecyclePoolWater = true});
 
-            var pool = new AesPool(_poolConfig.Object, param, _fullPath, _jsonConverters);
+            var pool = new AesPool(GetConstructionParameters(param, PoolTypes.AES));
 
             pool.CleanPool();
             Assume.That(pool.IsEmpty);
@@ -239,6 +240,68 @@ namespace NIST.CVP.Pools.Tests
                 result = pool.GetNextUntyped();
                 Assert.AreEqual(i + 1, result.TimesValueUsed);
             }
+        }
+
+        [Test]
+        [TestCase(-1)]
+        [TestCase(0)]
+        [TestCase(1)]
+        [TestCase(5)]
+        public void ShouldReuseValueUntilReachingMaxReuseValue(int maxReuse)
+        {
+            var param = new AesParameters
+            {
+                Direction = "encrypt",
+                DataLength = 128,
+                Mode = BlockCipherModesOfOperation.Ecb,
+                KeyLength = 128
+            };
+
+            _poolConfig.Setup(s => s.Value).Returns(new PoolConfig() {ShouldRecyclePoolWater = true});
+
+            var constructionParameters = GetConstructionParameters(param, PoolTypes.AES);
+            constructionParameters.PoolProperties.MaxWaterReuse = maxReuse;
+            var pool = new AesPool(constructionParameters);
+
+            pool.CleanPool();
+            Assume.That(pool.IsEmpty);
+
+            pool.AddWater(new AesResult() {PlainText = new BitString("01")});
+
+            Assume.That(!pool.IsEmpty);
+
+            pool.GetNextUntyped();
+            for (int i = 0; i < maxReuse; i++)
+            {
+                Assert.IsFalse(pool.IsEmpty);
+                pool.GetNextUntyped();
+            }
+
+            Assert.IsTrue(pool.IsEmpty);
+        }
+
+        private PoolConstructionParameters<TParam> GetConstructionParameters<TParam>(TParam param, PoolTypes poolType)
+            where TParam : IParameters
+        {
+            return new PoolConstructionParameters<TParam>()
+            {
+                JsonConverters = _jsonConverters,
+                PoolConfig = _poolConfig.Object,
+                PoolProperties = new PoolProperties()
+                {
+                    FilePath = _fullPath,
+                    MaxCapacity = 100,
+                    MaxWaterReuse = 1000,
+                    MonitorFrequency = 30,
+                    PoolType = new ParameterHolder()
+                    {
+                        Parameters = param,
+                        Type = poolType
+                    }
+                },
+                WaterType = param,
+                FullPoolLocation = _fullPath
+            };
         }
     }
 }

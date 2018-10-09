@@ -30,17 +30,17 @@ namespace NIST.CVP.Pools
         private readonly ConcurrentQueue<ResultWrapper<TResult>> _water;
         private readonly IList<JsonConverter> _jsonConverters;
         private readonly IOptions<PoolConfig> _poolConfig;
-
+        private readonly int _maxWaterReuse;
         
-
-        protected PoolBase(IOptions<PoolConfig> poolConfig, PoolTypes declaredType, TParam waterType, string filename, IList<JsonConverter> jsonConverters)
+        public PoolBase(PoolConstructionParameters<TParam> param)
         {
-            _poolConfig = poolConfig;
-            DeclaredType = declaredType;
-            WaterType = waterType;
-            _jsonConverters = jsonConverters;
+            _poolConfig = param.PoolConfig;
+            DeclaredType = param.PoolProperties.PoolType.Type;
+            WaterType = param.WaterType;
+            _jsonConverters = param.JsonConverters;
+            _maxWaterReuse = param.PoolProperties.MaxWaterReuse;
             _water = new ConcurrentQueue<ResultWrapper<TResult>>();
-            LoadPoolFromFile(filename);
+            LoadPoolFromFile(param.FullPoolLocation);
         }
 
         public PoolResult<TResult> GetNext()
@@ -162,7 +162,8 @@ namespace NIST.CVP.Pools
 
         private void RecycleValueWhenOptionsAllow(ResultWrapper<TResult> result)
         {
-            if (_poolConfig.Value.ShouldRecyclePoolWater)
+            // Recycle the water when option is configured, and TimesValueReused is less than the max reuse
+            if (_poolConfig.Value.ShouldRecyclePoolWater && result.TimesValueUsed < _maxWaterReuse)
             {
                 var newResultToQueue = new ResultWrapper<TResult>()
                 {
