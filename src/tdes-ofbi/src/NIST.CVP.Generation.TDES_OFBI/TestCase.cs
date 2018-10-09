@@ -13,9 +13,14 @@ namespace NIST.CVP.Generation.TDES_OFBI
         public TestGroup ParentGroup { get; set; }
         public bool? TestPassed => true;
         public bool Deferred { get; set; }
+
+        [JsonProperty(PropertyName = "pt")]
         public BitString PlainText { get; set; }
+
+        [JsonProperty(PropertyName = "ct")]
         public BitString CipherText { get; set; }
 
+        [JsonProperty(PropertyName = "iv")]
         public BitString IV { get; set; }
         
         public List<AlgoArrayResponse> ResultsArray { get; set; }

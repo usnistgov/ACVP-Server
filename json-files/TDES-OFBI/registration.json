@@ -2,6 +2,7 @@
   "algorithm": "TDES",
   "mode": "OFBI",
   "isSample": false,
+  "conformances": [],
   "direction": [
     "encrypt",
     "decrypt"

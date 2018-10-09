@@ -13,7 +13,9 @@ namespace NIST.CVP.Generation.TDES_OFBI
         
         [JsonProperty(PropertyName = "testType")]
         public string TestType { get; set; } = "AFT";
-        
+
+        public string KatType { get; set; } = "";
+
         [JsonProperty(PropertyName = "keyingOption")]
         public int KeyingOption { get; set; }
 

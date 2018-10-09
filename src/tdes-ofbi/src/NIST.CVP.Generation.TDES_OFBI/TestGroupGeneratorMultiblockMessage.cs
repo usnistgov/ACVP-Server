@@ -5,7 +5,7 @@ namespace NIST.CVP.Generation.TDES_OFBI
 {
     public class TestGroupGeneratorMultiblockMessage : ITestGroupGenerator<Parameters, TestGroup, TestCase>
     {
-        private const string TEST_TYPE = "MultiBlockMessage";
+        private const string TEST_TYPE = "AFT";
 
         public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
         {
