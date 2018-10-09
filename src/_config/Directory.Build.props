@@ -26,8 +26,8 @@
 
     <!-- NuGet package versions -->
     <PropertyGroup>
-        <NuGetVersionMicrosoftAspNetCoreAll>2.1.0</NuGetVersionMicrosoftAspNetCoreAll>
-        <NuGetVersionMicrosoftExtensionsOptionsConfigurationExtensions>2.1.0</NuGetVersionMicrosoftExtensionsOptionsConfigurationExtensions>
+        <NuGetVersionMicrosoftAspNetCoreAll>2.1.1</NuGetVersionMicrosoftAspNetCoreAll>
+        <NuGetVersionMicrosoftExtensionsOptionsConfigurationExtensions>2.1.1</NuGetVersionMicrosoftExtensionsOptionsConfigurationExtensions>
         <NuGetVersionMicrosoftExtensionsDependencyInjection>2.1.0</NuGetVersionMicrosoftExtensionsDependencyInjection>
         <NuGetVersionMicrosoftNETTestSdk>15.7.0</NuGetVersionMicrosoftNETTestSdk>
         <NuGetVersiondotnettestnunit>3.4.0-beta-3</NuGetVersiondotnettestnunit>
@@ -44,7 +44,7 @@
         <NugetVersionMicrosoftOrleansOrleansCodeGeneratorBuild>2.1.0</NugetVersionMicrosoftOrleansOrleansCodeGeneratorBuild>
         <NugetVersionMicrosoftOrleansClient>2.1.0</NugetVersionMicrosoftOrleansClient>
         <NugetVersionMicrosoftOrleansCoreAbstractions>2.1.0</NugetVersionMicrosoftOrleansCoreAbstractions>
-        <NugetVersionMicrosoftExtensionsLoggingConsole>2.1.0</NugetVersionMicrosoftExtensionsLoggingConsole>
+        <NugetVersionMicrosoftExtensionsLoggingConsole>2.1.1</NugetVersionMicrosoftExtensionsLoggingConsole>
     </PropertyGroup>
 
 </Project>
