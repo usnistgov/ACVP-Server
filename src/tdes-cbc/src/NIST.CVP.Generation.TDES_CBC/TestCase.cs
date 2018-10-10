@@ -15,8 +15,10 @@ namespace NIST.CVP.Generation.TDES_CBC
         public bool? TestPassed { get; set; }
         [JsonIgnore]
         public bool Deferred { get; set; }
+        [JsonProperty(PropertyName = "pt")]
         public BitString PlainText { get; set; }
 
+        [JsonProperty(PropertyName = "key1")]
         public BitString Key1
         {
             get => Key?.MSBSubstring(0, 64);
@@ -25,6 +27,7 @@ namespace NIST.CVP.Generation.TDES_CBC
                 value.ConcatenateBits(Key.MSBSubstring(64, 128));
         }
 
+        [JsonProperty(PropertyName = "key2")]
         public BitString Key2
         {
             get
@@ -38,6 +41,7 @@ namespace NIST.CVP.Generation.TDES_CBC
                 Key.MSBSubstring(0, 64).ConcatenateBits(value).ConcatenateBits(Key.MSBSubstring(128, 64));
         }
 
+        [JsonProperty(PropertyName = "key3")]
         public BitString Key3
         {
             get
@@ -52,8 +56,11 @@ namespace NIST.CVP.Generation.TDES_CBC
                 Key.MSBSubstring(0, 128).ConcatenateBits(value);
         }
 
+        [JsonProperty(PropertyName = "ct")]
         public BitString CipherText { get; set; }
+        [JsonProperty(PropertyName = "iv")]
         public BitString Iv { get; set; }
+        [JsonProperty(PropertyName = "resultsArray")]
         public List<AlgoArrayResponse> ResultsArray { get; set; }
 
         private BitString _keys;
