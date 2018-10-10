@@ -11,6 +11,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer
     {
         public int TestCaseId { get; set; }
         public bool? TestPassed { get; set; }
+        [JsonIgnore]
         public bool Deferred { get; set; }
         public TestGroup ParentGroup { get; set; }
 

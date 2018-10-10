@@ -11,7 +11,9 @@ namespace NIST.CVP.Generation.TDES_CBC
     {
         public int TestCaseId { get; set; }
         public TestGroup ParentGroup { get; set; }
+        [JsonIgnore]
         public bool? TestPassed { get; set; }
+        [JsonIgnore]
         public bool Deferred { get; set; }
         public BitString PlainText { get; set; }
 

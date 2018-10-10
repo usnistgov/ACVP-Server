@@ -12,6 +12,7 @@ namespace NIST.CVP.Generation.AES_CFB1
         public int TestCaseId { get; set; }
         [JsonIgnore]
         public bool? TestPassed => true;
+        [JsonIgnore]
         public bool Deferred => false;
         public TestGroup ParentGroup { get; set; }
         public int DataLen { get; set; }

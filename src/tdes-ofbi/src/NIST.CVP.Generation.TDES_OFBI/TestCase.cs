@@ -11,7 +11,9 @@ namespace NIST.CVP.Generation.TDES_OFBI
     {
         public int TestCaseId { get; set; }
         public TestGroup ParentGroup { get; set; }
+        [JsonIgnore]
         public bool? TestPassed => true;
+        [JsonIgnore]
         public bool Deferred { get; set; }
 
         [JsonProperty(PropertyName = "pt")]

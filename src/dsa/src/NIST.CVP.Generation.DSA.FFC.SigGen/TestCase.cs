@@ -12,6 +12,7 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen
     public class TestCase : ITestCase<TestGroup, TestCase>
     {
         public int TestCaseId { get; set; }
+        [JsonIgnore]
         public bool? TestPassed { get; set; }
         public bool Deferred { get; set; }
         public TestGroup ParentGroup { get; set; }

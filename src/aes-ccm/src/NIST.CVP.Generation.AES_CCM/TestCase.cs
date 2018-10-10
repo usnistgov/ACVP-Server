@@ -10,6 +10,7 @@ namespace NIST.CVP.Generation.AES_CCM
     {
         public int TestCaseId { get; set; }
         public bool? TestPassed { get; set; }
+        [JsonIgnore]
         public bool Deferred { get; set; }
         [JsonProperty(PropertyName = "pt")]
         public BitString PlainText { get; set; }

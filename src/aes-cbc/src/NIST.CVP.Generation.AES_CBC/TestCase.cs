@@ -13,7 +13,10 @@ namespace NIST.CVP.Generation.AES_CBC
         
         public int TestCaseId { get; set; }
         public TestGroup ParentGroup { get; set; }
+        [JsonIgnore]
         public bool Deferred { get; set; }
+        [JsonIgnore]
+        public bool? TestPassed => true;
         [JsonProperty(PropertyName = "iv")]
         public BitString IV { get; set; } 
         [JsonProperty(PropertyName = "pt")]
@@ -24,8 +27,6 @@ namespace NIST.CVP.Generation.AES_CBC
         public BitString CipherText { get; set; }
         [JsonProperty(PropertyName = "resultsArray")]
         public List<AlgoArrayResponse> ResultsArray { get; set; }
-        [JsonIgnore]
-        public bool? TestPassed => true;
 
         public bool SetResultsArrayString(int index, string name, string value)
         {

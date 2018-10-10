@@ -11,6 +11,7 @@ namespace NIST.CVP.Generation.AES_CFB128
         public int TestCaseId { get; set; }
         [JsonIgnore]
         public bool? TestPassed => true;
+        [JsonIgnore]
         public bool Deferred { get; set; }
         public TestGroup ParentGroup { get; set; }
         [JsonProperty(PropertyName = "iv")]

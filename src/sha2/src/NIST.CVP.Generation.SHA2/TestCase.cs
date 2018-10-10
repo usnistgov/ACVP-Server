@@ -13,7 +13,9 @@ namespace NIST.CVP.Generation.SHA2
     {
         public int TestCaseId { get; set; }
         public TestGroup ParentGroup { get; set; }
+        [JsonIgnore]
         public bool? TestPassed { get; set; }
+        [JsonIgnore]
         public bool Deferred { get; set; }
 
         [JsonProperty(PropertyName = "msg")]

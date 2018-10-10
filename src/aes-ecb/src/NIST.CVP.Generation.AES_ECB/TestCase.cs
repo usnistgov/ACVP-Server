@@ -14,6 +14,7 @@ namespace NIST.CVP.Generation.AES_ECB
         public int TestCaseId { get; set; }
         [JsonIgnore]
         public bool? TestPassed { get; set; }
+        [JsonIgnore]
         public bool Deferred { get; set; }
         public TestGroup ParentGroup { get; set; }
         [JsonProperty(PropertyName = "pt")]

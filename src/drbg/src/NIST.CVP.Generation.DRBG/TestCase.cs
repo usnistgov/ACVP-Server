@@ -10,7 +10,9 @@ namespace NIST.CVP.Generation.DRBG
     public class TestCase : ITestCase<TestGroup, TestCase>
     {
         public int TestCaseId { get; set; }
+        [JsonIgnore]
         public bool? TestPassed => true;
+        [JsonIgnore]
         public bool Deferred => false;
         public TestGroup ParentGroup { get; set; }
         [JsonProperty(PropertyName = "entropyInput")]

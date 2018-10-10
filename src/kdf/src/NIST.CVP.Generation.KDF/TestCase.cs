@@ -13,6 +13,7 @@ namespace NIST.CVP.Generation.KDF
         public int L;
         
         public int TestCaseId { get; set; }
+        [JsonIgnore]
         public bool? TestPassed => true;
         public bool Deferred => true;
         public TestGroup ParentGroup { get; set; }

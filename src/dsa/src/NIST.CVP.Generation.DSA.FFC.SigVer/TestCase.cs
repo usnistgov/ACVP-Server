@@ -13,6 +13,7 @@ namespace NIST.CVP.Generation.DSA.FFC.SigVer
     {
         public int TestCaseId { get; set; }
         public bool? TestPassed { get; set; }
+        [JsonIgnore]
         public bool Deferred => false;
         public TestGroup ParentGroup { get; set; }
         

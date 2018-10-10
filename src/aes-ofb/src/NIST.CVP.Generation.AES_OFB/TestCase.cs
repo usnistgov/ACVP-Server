@@ -11,6 +11,7 @@ namespace NIST.CVP.Generation.AES_OFB
         public int TestCaseId { get; set; }
         [JsonIgnore]
         public bool? TestPassed { get; set; }
+        [JsonIgnore]
         public bool Deferred { get; set; }
         public TestGroup ParentGroup { get; set; }
         [JsonProperty(PropertyName = "iv")]

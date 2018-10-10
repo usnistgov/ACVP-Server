@@ -14,6 +14,7 @@ namespace NIST.CVP.Generation.AES_XTS
         public int TestCaseId { get; set; }
         [JsonIgnore]
         public bool? TestPassed => true;
+        [JsonIgnore]
         public bool Deferred { get; set; }
         public TestGroup ParentGroup { get; set; }
         [JsonIgnore] public XtsKey XtsKey { get; set; }
