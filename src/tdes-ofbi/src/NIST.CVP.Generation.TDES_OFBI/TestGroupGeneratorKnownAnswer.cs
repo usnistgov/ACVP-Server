@@ -26,7 +26,7 @@ namespace NIST.CVP.Generation.TDES_OFBI
                     {
                         Function = function,
                         KeyingOption = 3,
-                        KatType = katTest,
+                        InternalTestType = katTest,
                         TestType = TEST_TYPE
                     };
 

@@ -14,24 +14,28 @@ namespace NIST.CVP.Generation.TDES_CTR
 
         public ITestCaseGeneratorAsync<TestGroup, TestCase> GetCaseGenerator(TestGroup group)
         {
+            var internalTestType = group.InternalTestType.ToLower();
             var testType = group.TestType.ToLower();
 
-            switch (testType)
+            switch (internalTestType)
             {
                 case "permutation":
                 case "inversepermutation":
                 case "substitutiontable":
                 case "variablekey":
                 case "variabletext":
-                    return new TestCaseGeneratorKat(testType);
+                    return new TestCaseGeneratorKat(internalTestType);
 
                 case "singleblock":
                     return new TestCaseGeneratorSingleBlock(_oracle);
-                    
+
                 case "partialblock":
                     return new TestCaseGeneratorPartialBlock(_oracle);
-                    
-                case "counter":
+            }
+
+            switch (testType)
+            {
+                case "ctr":
                     return new TestCaseGeneratorCounter(_oracle);
             }
 

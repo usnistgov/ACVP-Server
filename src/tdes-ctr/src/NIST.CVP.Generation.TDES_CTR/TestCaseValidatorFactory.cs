@@ -1,18 +1,13 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using NIST.CVP.Common.Oracle;
-using NIST.CVP.Generation.Core;
+﻿using NIST.CVP.Common.Oracle;
 using NIST.CVP.Generation.Core.Async;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace NIST.CVP.Generation.TDES_CTR
 {
     public class TestCaseValidatorFactory : ITestCaseValidatorFactoryAsync<TestVectorSet, TestGroup, TestCase>
     {
         private readonly IOracle _oracle;
-        private readonly List<string> _katTestTypes = new List<string>
-        {
-            "permutation", "substitutiontable", "variablekey", "variabletext", "inversepermutation"
-        };
         
         public TestCaseValidatorFactory(IOracle oracle)
         {
@@ -30,7 +25,7 @@ namespace NIST.CVP.Generation.TDES_CTR
                     var testType = group.TestType.ToLower();
                     var direction = group.Direction.ToLower();
 
-                    if (testType == "singleblock" || testType == "partialblock" || _katTestTypes.Contains(testType))
+                    if (testType == "aft" || testType == "kat")
                     {
                         if (direction == "encrypt")
                         {
@@ -45,7 +40,7 @@ namespace NIST.CVP.Generation.TDES_CTR
                             list.Add(new TestCaseValidatorNull(test));
                         }
                     }
-                    else if (testType == "counter")
+                    else if (testType == "ctr")
                     {
                         if (direction == "encrypt")
                         {

@@ -57,21 +57,21 @@ namespace NIST.CVP.Generation.TDES_CTR.IntegrationTests
             var rand = new Random800_90();
 
             // If TC has a cipherText, change it
-            if (testCase.cipherText != null)
+            if (testCase.ct != null)
             {
-                var bs = new BitString(testCase.cipherText.ToString());
+                var bs = new BitString(testCase.ct.ToString());
                 bs = rand.GetDifferentBitStringOfSameSize(bs);
 
-                testCase.cipherText = bs.ToHex();
+                testCase.ct = bs.ToHex();
             }
 
             // If TC has a plainText, change it
-            if (testCase.plainText != null)
+            if (testCase.pt != null)
             {
-                var bs = new BitString(testCase.plainText.ToString());
+                var bs = new BitString(testCase.pt.ToString());
                 bs = rand.GetDifferentBitStringOfSameSize(bs);
 
-                testCase.plainText = bs.ToHex();
+                testCase.pt = bs.ToHex();
             }
         }
     }

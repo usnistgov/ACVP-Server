@@ -11,7 +11,7 @@ namespace NIST.CVP.Generation.TDES_OFBI.ContractResolvers
         {
             var excludeProperties = new[]
             {
-                nameof(TestGroup.KatType)
+                nameof(TestGroup.InternalTestType)
             };
 
             if (excludeProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))

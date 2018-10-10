@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using NIST.CVP.Crypto.Common.Symmetric.TDES;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
+using System;
 using System.Collections.Generic;
-using Newtonsoft.Json;
-using NIST.CVP.Crypto.Common.Symmetric.TDES;
 
 namespace NIST.CVP.Generation.TDES_CFB
 {
@@ -11,8 +11,10 @@ namespace NIST.CVP.Generation.TDES_CFB
     {
         public int TestCaseId { get; set; }
         public TestGroup ParentGroup { get; set; }
+
         [JsonIgnore]
         public bool? TestPassed { get; set; }
+
         [JsonIgnore]
         public bool Deferred { get; set; }
 
@@ -83,9 +85,13 @@ namespace NIST.CVP.Generation.TDES_CFB
                 Keys.MSBSubstring(0, 128).ConcatenateBits(value);
         }
 
+        [JsonProperty(PropertyName = "pt")]
         public BitString PlainText { get; set; }
+
+        [JsonProperty(PropertyName = "ct")]
         public BitString CipherText { get; set; }
 
+        [JsonProperty(PropertyName = "dataLen")]
         public int DataLen
         {
             get
@@ -105,6 +111,7 @@ namespace NIST.CVP.Generation.TDES_CFB
             }
         }
 
+        [JsonProperty(PropertyName = "iv")]
         public BitString Iv { get; set; }
         public List<AlgoArrayResponse> ResultsArray { get; set; }
 

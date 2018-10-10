@@ -1,20 +1,14 @@
-﻿using NIST.CVP.Generation.Core;
+﻿using NIST.CVP.Common.Helpers;
+using NIST.CVP.Crypto.Common.Symmetric.TDES.KATs;
+using NIST.CVP.Generation.Core;
 using System.Collections.Generic;
-using NIST.CVP.Common;
-using NIST.CVP.Common.Helpers;
 
 namespace NIST.CVP.Generation.TDES_CFB
 {
     public class TestGroupGeneratorKnownAnswer : ITestGroupGenerator<Parameters, TestGroup, TestCase>
     {
-        private readonly string[] _katTests = new string[]
-        {
-            "Permutation",
-            "InversePermutation",
-            "SubstitutionTable",
-            "VariableKey",
-            "VariableText"
-        };
+        private const string TEST_TYPE = "KAT";
+        private readonly string[] _katTests = KatData.GetLabels();
 
         public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
         {
@@ -29,7 +23,8 @@ namespace NIST.CVP.Generation.TDES_CFB
                         AlgoMode = algoMode,
                         Function = function,
                         KeyingOption = 1,
-                        TestType = katTest
+                        InternalTestType = katTest,
+                        TestType = TEST_TYPE
                     };
 
                     testGroups.Add(tg);

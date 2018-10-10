@@ -10,11 +10,17 @@ namespace NIST.CVP.Generation.TDES_ECB
     {
         public int TestCaseId { get; set; }
         public TestGroup ParentGroup { get; set; }
+
         [JsonIgnore]
         public bool? TestPassed { get; set; }
+
         [JsonIgnore]
         public bool Deferred { get; set; }
+
+        [JsonProperty(PropertyName = "pt")]
         public BitString PlainText { get; set; }
+
+        [JsonProperty(PropertyName = "ct")]
         public BitString CipherText { get; set; }
 
         [JsonIgnore]
