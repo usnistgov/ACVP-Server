@@ -10,7 +10,8 @@ namespace NIST.CVP.Generation.AES_CBC
     public class TestGroup : ITestGroup<TestGroup, TestCase>
     {
         public int TestGroupId { get; set; }
-        public string TestType { get; set; } = "KAT";
+        public string TestType { get; set; } = "AFT";
+        public string KatType { get; set; } = string.Empty;
         [JsonProperty(PropertyName = "direction")]
         public string Function { get; set; }
         [JsonProperty(PropertyName = "keyLen")]
