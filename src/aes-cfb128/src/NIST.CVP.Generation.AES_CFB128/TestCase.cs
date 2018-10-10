@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.Dynamic;
-using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 using NIST.CVP.Crypto.Common.Symmetric;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.Core.ExtensionMethods;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.AES_CFB128
@@ -11,13 +9,19 @@ namespace NIST.CVP.Generation.AES_CFB128
     public class TestCase : ITestCase<TestGroup, TestCase>
     {
         public int TestCaseId { get; set; }
+        [JsonIgnore]
         public bool? TestPassed => true;
         public bool Deferred { get; set; }
         public TestGroup ParentGroup { get; set; }
+        [JsonProperty(PropertyName = "iv")]
         public BitString IV { get; set; } 
+        [JsonProperty(PropertyName = "pt")]
         public BitString PlainText { get; set; }
+        [JsonProperty(PropertyName = "key")]
         public BitString Key { get; set; }
+        [JsonProperty(PropertyName = "ct")]
         public BitString CipherText { get; set; }
+        [JsonProperty(PropertyName = "resultsArray")]
         public List<AlgoArrayResponse> ResultsArray { get; set; }
         
         public bool SetResultsArrayString(int index, string name, string value)
