@@ -57,7 +57,7 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
                 {
                     new TestGroup
                     {
-                        TestType = testType,
+                        InternalTestType = testType,
                         Direction = direction,
                         Tests = new List<TestCase>
                         {
