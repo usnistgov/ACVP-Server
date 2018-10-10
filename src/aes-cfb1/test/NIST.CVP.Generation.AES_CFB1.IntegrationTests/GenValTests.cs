@@ -27,19 +27,19 @@ namespace NIST.CVP.Generation.AES_CFB1.IntegrationTests
             var rand = new Random800_90();
 
             // If TC has a cipherText, change it
-            if (testCase.cipherText != null)
+            if (testCase.ct != null)
             {
-                BitString bs = new BitString(testCase.cipherText.ToString());
+                BitString bs = new BitString(testCase.ct.ToString());
                 bs = bs.NOT();
-                testCase.cipherText = bs.ToHex();
+                testCase.ct = bs.ToHex();
             }
 
             // If TC has a plainText, change it
-            if (testCase.plainText != null)
+            if (testCase.pt != null)
             {
-                BitString bs = new BitString(testCase.plainText.ToString());
+                BitString bs = new BitString(testCase.pt.ToString());
                 bs = bs.NOT();
-                testCase.plainText = bs.ToHex();
+                testCase.pt = bs.ToHex();
             }
 
             // If TC has a resultsArray, change some of the elements

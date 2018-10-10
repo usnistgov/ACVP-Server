@@ -1,6 +1,7 @@
 {
   "algorithm": "AES-XPN",
   "isSample": false,
+  "conformances": [],
   "direction": [
     "encrypt",
     "decrypt"

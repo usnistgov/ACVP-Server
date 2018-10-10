@@ -33,10 +33,10 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
         [TestCase("ENCRYPT", "PARTIALBLOCK", typeof(TestCaseGeneratorPartialBlock))]
         [TestCase("deCRYPT", "partialBLOCK", typeof(TestCaseGeneratorPartialBlock))]
         [TestCase("Decrypt", "PaRtIaLbLoCk", typeof(TestCaseGeneratorPartialBlock))]
-        [TestCase("EncRypt", "counter", typeof(TestCaseGeneratorCounter))]
-        [TestCase("ENCRYPT", "COUNTER", typeof(TestCaseGeneratorCounter))]
-        [TestCase("decrypt", "Counter", typeof(TestCaseGeneratorCounter))]
-        [TestCase("Decrypt", "COUNTer", typeof(TestCaseGeneratorCounter))]
+        [TestCase("EncRypt", "ctr", typeof(TestCaseGeneratorCounter))]
+        [TestCase("ENCRYPT", "CTR", typeof(TestCaseGeneratorCounter))]
+        [TestCase("decrypt", "CtR", typeof(TestCaseGeneratorCounter))]
+        [TestCase("Decrypt", "cTr", typeof(TestCaseGeneratorCounter))]
         [TestCase("Junk", "Junk", typeof(TestCaseGeneratorNull))]
         [TestCase("", "", typeof(TestCaseGeneratorNull))]
         public void ShouldReturnProperGenerator(string direction, string testType, Type expectedType)
@@ -44,7 +44,7 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
             var testGroup = new TestGroup
             {
                 Direction = direction,
-                TestType = testType,
+                InternalTestType = testType,
                 KeyLength = 128
             };
 
@@ -60,7 +60,7 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
             var testGroup = new TestGroup
             {
                 Direction = string.Empty,
-                TestType = string.Empty
+                InternalTestType = string.Empty
             };
 
             _subject = new TestCaseGeneratorFactory(null);

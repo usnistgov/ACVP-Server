@@ -1,12 +1,15 @@
 ﻿using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
+using Newtonsoft.Json;
 
 namespace NIST.CVP.Generation.SNMP
 {
     public class TestCase : ITestCase<TestGroup, TestCase>
     {
         public int TestCaseId { get; set; }
+        [JsonIgnore]
         public bool? TestPassed => true;
+        [JsonIgnore]
         public bool Deferred => false;
         public TestGroup ParentGroup { get; set; }
 

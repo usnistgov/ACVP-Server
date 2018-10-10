@@ -1,6 +1,6 @@
 ﻿namespace NIST.CVP.Generation.AES_CCM
 {
-    public enum TestTypes
+    public enum InternalTestTypes
     {
         VariableAssociatedData,
         VariablePayload,

@@ -20,7 +20,7 @@ namespace NIST.CVP.Generation.AES_CCM
 
             PopulateLengths(parameters);
 
-            foreach (TestTypes testType in Enum.GetValues(typeof(TestTypes)))
+            foreach (InternalTestTypes testType in Enum.GetValues(typeof(InternalTestTypes)))
             {
                 CreateGroups(testType, groups);
             }
@@ -47,23 +47,23 @@ namespace NIST.CVP.Generation.AES_CCM
             Supports2pow16bytes = parameters.SupportsAad2Pow16;
         }
 
-        private void CreateGroups(TestTypes testType, List<TestGroup> groups)
+        private void CreateGroups(InternalTestTypes testType, List<TestGroup> groups)
         {
             switch (testType)
             {
-                case TestTypes.DecryptionVerification:
+                case InternalTestTypes.DecryptionVerification:
                     CreateDecryptionVerificationTestGroups(testType, groups);
                     break;
-                case TestTypes.VariableAssociatedData:
+                case InternalTestTypes.VariableAssociatedData:
                     CreateVariableAssociatedDataTestGroups(testType, groups);
                     break;
-                case TestTypes.VariableNonce:
+                case InternalTestTypes.VariableNonce:
                     CreateVariableNonceTestGroups(testType, groups);
                     break;
-                case TestTypes.VariablePayload:
+                case InternalTestTypes.VariablePayload:
                     CreateVariablePayloadTestGroups(testType, groups);
                     break;
-                case TestTypes.VariableTag:
+                case InternalTestTypes.VariableTag:
                     CreateVariableTagTestGroups(testType, groups);
                     break;
             }
@@ -82,7 +82,7 @@ namespace NIST.CVP.Generation.AES_CCM
         /// <param name="testType"></param>
         /// <param name="parameters"></param>
         /// <param name="groups"></param>
-        private void CreateDecryptionVerificationTestGroups(TestTypes testType, List<TestGroup> groups)
+        private void CreateDecryptionVerificationTestGroups(InternalTestTypes testType, List<TestGroup> groups)
         {
             foreach (var keyLen in KeyLens)
             {
@@ -99,7 +99,7 @@ namespace NIST.CVP.Generation.AES_CCM
                                 TestGroup group = new TestGroup()
                                 {
                                     Function = "decrypt",
-                                    TestType = testType.ToString(),
+                                    InternalTestType = testType.ToString(),
                                     KeyLength = keyLen,
                                     AADLength = aadLen,
                                     PTLength = ptLen,
@@ -133,7 +133,7 @@ namespace NIST.CVP.Generation.AES_CCM
         /// <param name="testType"></param>
         /// <param name="parameters"></param>
         /// <param name="groups"></param>
-        private void CreateVariableAssociatedDataTestGroups(TestTypes testType, List<TestGroup> groups)
+        private void CreateVariableAssociatedDataTestGroups(InternalTestTypes testType, List<TestGroup> groups)
         {
             var ptLen = PtLens.Max();
             var nonceLen = NonceLens.Max();
@@ -146,7 +146,7 @@ namespace NIST.CVP.Generation.AES_CCM
                     TestGroup group = new TestGroup()
                     {
                         Function = "encrypt",
-                        TestType = testType.ToString(),
+                        InternalTestType = testType.ToString(),
                         KeyLength = keyLen,
                         AADLength = aadLen,
                         PTLength = ptLen,
@@ -168,7 +168,7 @@ namespace NIST.CVP.Generation.AES_CCM
                     TestGroup group = new TestGroup()
                     {
                         Function = "encrypt",
-                        TestType = testType.ToString(),
+                        InternalTestType = testType.ToString(),
                         KeyLength = keyLen,
                         AADLength = 65536,
                         PTLength = ptLen,
@@ -200,7 +200,7 @@ namespace NIST.CVP.Generation.AES_CCM
         /// <param name="testType"></param>
         /// <param name="parameters"></param>
         /// <param name="groups"></param>
-        private void CreateVariableNonceTestGroups(TestTypes testType, List<TestGroup> groups)
+        private void CreateVariableNonceTestGroups(InternalTestTypes testType, List<TestGroup> groups)
         {
             var aadLen = AadLens.Max();
             var ptLen = PtLens.Max();
@@ -213,7 +213,7 @@ namespace NIST.CVP.Generation.AES_CCM
                     TestGroup group = new TestGroup()
                     {
                         Function = "encrypt",
-                        TestType = testType.ToString(),
+                        InternalTestType = testType.ToString(),
                         KeyLength = keyLen,
                         AADLength = aadLen,
                         PTLength = ptLen,
@@ -240,7 +240,7 @@ namespace NIST.CVP.Generation.AES_CCM
         /// <param name="testType"></param>
         /// <param name="parameters"></param>
         /// <param name="groups"></param>
-        private void CreateVariablePayloadTestGroups(TestTypes testType, List<TestGroup> groups)
+        private void CreateVariablePayloadTestGroups(InternalTestTypes testType, List<TestGroup> groups)
         {
             var aadLen = AadLens.Max();
             var nonceLen = NonceLens.Max();
@@ -253,7 +253,7 @@ namespace NIST.CVP.Generation.AES_CCM
                     TestGroup group = new TestGroup()
                     {
                         Function = "encrypt",
-                        TestType = testType.ToString(),
+                        InternalTestType = testType.ToString(),
                         KeyLength = keyLen,
                         AADLength = aadLen,
                         PTLength = ptLen,
@@ -285,7 +285,7 @@ namespace NIST.CVP.Generation.AES_CCM
         /// <param name="testType"></param>
         /// <param name="parameters"></param>
         /// <param name="groups"></param>
-        private void CreateVariableTagTestGroups(TestTypes testType, List<TestGroup> groups)
+        private void CreateVariableTagTestGroups(InternalTestTypes testType, List<TestGroup> groups)
         {
             var aadLen = AadLens.Max();
             var ptLen = PtLens.Max();
@@ -298,7 +298,7 @@ namespace NIST.CVP.Generation.AES_CCM
                     TestGroup @group = new TestGroup()
                     {
                         Function = "encrypt",
-                        TestType = testType.ToString(),
+                        InternalTestType = testType.ToString(),
                         KeyLength = keyLen,
                         AADLength = aadLen,
                         PTLength = ptLen,

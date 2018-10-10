@@ -15,17 +15,22 @@ namespace NIST.CVP.Generation.AES_CBC
         public ITestCaseGeneratorAsync<TestGroup, TestCase> GetCaseGenerator(TestGroup testGroup)
         {
             var testType = testGroup.TestType.ToLower();
+            var katType = testGroup.KatType.ToLower();
 
-            switch (testType)
+            switch (katType)
             {
                 case "gfsbox":
                 case "keysbox":
                 case "vartxt":
                 case "varkey":
-                    return new TestCaseGeneratorKnownAnswer(testGroup.KeyLength, testType);
+                    return new TestCaseGeneratorKnownAnswer(testGroup.KeyLength, katType);
+            }
+            
+            switch (testType)
+            {
                 case "mct":
                     return new TestCaseGeneratorMct(_oracle);
-                case "mmt":
+                case "aft":
                     return new TestCaseGeneratorMmt(_oracle);
             }
 

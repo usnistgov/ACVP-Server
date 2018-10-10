@@ -11,6 +11,7 @@ namespace NIST.CVP.Generation.RSA_SPComponent
         public int TestCaseId { get; set; }
         public TestGroup ParentGroup { get; set; }
         public bool? TestPassed { get; set; }
+        [JsonIgnore]
         public bool Deferred { get; set; }
 
         [JsonIgnore]

@@ -6,6 +6,7 @@ using Newtonsoft.Json.Linq;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.ExtensionMethods;
 using NIST.CVP.Math;
+using Newtonsoft.Json;
 
 namespace NIST.CVP.Generation.SRTP
 {
@@ -13,7 +14,9 @@ namespace NIST.CVP.Generation.SRTP
     {
         public int TestCaseId { get; set; }
         public TestGroup ParentGroup { get; set; }
+        [JsonIgnore]
         public bool? TestPassed { get; set; }
+        [JsonIgnore]
         public bool Deferred { get; set; }
 
         public BitString MasterKey { get; set; }

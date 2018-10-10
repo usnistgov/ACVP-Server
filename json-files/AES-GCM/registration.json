@@ -1,6 +1,7 @@
 {
   "algorithm": "AES-GCM",
   "isSample": false,
+  "conformances": [],
   "direction": [
     "encrypt",
     "decrypt"

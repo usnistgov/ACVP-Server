@@ -6,13 +6,16 @@ using Newtonsoft.Json.Linq;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.ExtensionMethods;
 using NIST.CVP.Math;
+using Newtonsoft.Json;
 
 namespace NIST.CVP.Generation.TLS
 {
     public class TestCase : ITestCase<TestGroup, TestCase>
     {
         public int TestCaseId { get; set; }
+        [JsonIgnore]
         public bool? TestPassed => true;
+        [JsonIgnore]
         public bool Deferred => false;
         public TestGroup ParentGroup { get; set; }
 

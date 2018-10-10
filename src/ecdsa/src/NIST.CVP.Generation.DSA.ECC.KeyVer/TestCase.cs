@@ -11,6 +11,7 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyVer
     {
         public int TestCaseId { get; set; }
         public bool? TestPassed { get; set; }
+        [JsonIgnore]
         public bool Deferred => false;
         public TestGroup ParentGroup { get; set; }
         public EcdsaKeyDisposition Reason { get; set; }

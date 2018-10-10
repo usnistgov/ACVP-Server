@@ -22,7 +22,7 @@ namespace NIST.CVP.Generation.AES_CFB1
                         AlgoMode = algoMode,
                         Function = function,
                         KeyLength = keyLength,
-                        TestType = MMT_TYPE_LABEL
+                        InternalTestType = MMT_TYPE_LABEL
                     };
                     testGroups.Add(testGroup);
                 }

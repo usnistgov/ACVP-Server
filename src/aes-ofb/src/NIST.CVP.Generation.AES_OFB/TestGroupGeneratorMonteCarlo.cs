@@ -19,6 +19,7 @@ namespace NIST.CVP.Generation.AES_OFB
                     {
                         Function = direction,
                         KeyLength = keyLength,
+                        InternalTestType = _MCT_TEST_TYPE_LABEL,
                         TestType = _MCT_TEST_TYPE_LABEL
                     };
                     testGroups.Add(testGroup);

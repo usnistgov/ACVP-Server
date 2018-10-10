@@ -10,6 +10,7 @@ namespace NIST.CVP.Generation.DSA.Ed.KeyVer
     {
         public int TestCaseId { get; set; }
         public bool? TestPassed { get; set; }
+        [JsonIgnore]
         public bool Deferred => false;
         public TestGroup ParentGroup { get; set; }
         public EddsaKeyDisposition Reason { get; set; }
