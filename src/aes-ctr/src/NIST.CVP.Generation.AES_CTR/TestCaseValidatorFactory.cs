@@ -24,7 +24,7 @@ namespace NIST.CVP.Generation.AES_CTR
             {
                 foreach (var test in group.Tests.Select(t => t))
                 {
-                    var testType = group.TestType.ToLower();
+                    var testType = group.InternalTestType.ToLower();
                     var direction = group.Direction.ToLower();
 
                     if (testType == "singleblock" || testType == "partialblock" || _katTestTypes.Contains(testType))

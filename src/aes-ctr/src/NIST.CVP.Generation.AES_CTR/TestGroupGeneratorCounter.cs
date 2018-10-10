@@ -25,7 +25,8 @@ namespace NIST.CVP.Generation.AES_CTR
                             KeyLength = keyLength,
                             IncrementalCounter = parameters.IncrementalCounter,
                             OverflowCounter = true,
-                            TestType = LABEL
+                            TestType = LABEL,
+                            InternalTestType = LABEL
                         };
 
                         testGroups.Add(overflowGroup);
@@ -37,7 +38,8 @@ namespace NIST.CVP.Generation.AES_CTR
                         KeyLength = keyLength,
                         IncrementalCounter = parameters.IncrementalCounter,
                         OverflowCounter = false,
-                        TestType = LABEL
+                        TestType = LABEL,
+                        InternalTestType = LABEL
                     };
 
                     testGroups.Add(testGroup);

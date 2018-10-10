@@ -15,7 +15,7 @@ namespace NIST.CVP.Generation.AES_CTR
 
         public ITestCaseGeneratorAsync<TestGroup, TestCase> GetCaseGenerator(TestGroup group)
         {
-            var testType = group.TestType.ToLower();
+            var testType = group.InternalTestType.ToLower();
 
             switch (testType)
             {

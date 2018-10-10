@@ -44,7 +44,7 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
             var testGroup = new TestGroup
             {
                 Direction = direction,
-                TestType = testType,
+                InternalTestType = testType,
                 KeyLength = 128
             };
 
@@ -60,7 +60,7 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
             var testGroup = new TestGroup
             {
                 Direction = string.Empty,
-                TestType = string.Empty
+                InternalTestType = string.Empty
             };
 
             _subject = new TestCaseGeneratorFactory(null);
