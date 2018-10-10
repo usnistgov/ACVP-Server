@@ -11,11 +11,11 @@ namespace NIST.CVP.Generation.AES_CTR
         public bool Deferred { get; set; }
         public TestGroup ParentGroup { get; set; }
 
-        [JsonProperty(PropertyName = "plainText")]
+        [JsonProperty(PropertyName = "pt")]
         public BitString PlainText { get; set; }
         [JsonProperty(PropertyName = "dataLen")]
         public int Length { get; set; }
-        [JsonProperty(PropertyName = "cipherText")]
+        [JsonProperty(PropertyName = "ct")]
         public BitString CipherText { get; set; }
         [JsonProperty(PropertyName = "iv")]
         public BitString IV { get; set; }

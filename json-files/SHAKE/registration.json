@@ -1,9 +1,9 @@
 {
   "algorithm": "SHAKE",
   "isSample": true,
+  "conformances": [],
   "digestSize": [
-    128,
-    256
+    128
   ],
   "inBit": true,
   "outBit": true,

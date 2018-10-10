@@ -10,6 +10,7 @@ namespace NIST.CVP.Generation.DSA.Ed.SigVer
     {
         public int TestCaseId { get; set; }
         public bool? TestPassed { get; set; }
+        [JsonIgnore]
         public bool Deferred { get; set; }
         public TestGroup ParentGroup { get; set; }
 

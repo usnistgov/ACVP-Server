@@ -19,7 +19,8 @@ namespace NIST.CVP.Generation.AES_ECB
                     {
                         Function = direction,
                         KeyLength = keyLength,
-                        TestType = _MCT_TEST_TYPE_LABEL
+                        TestType = _MCT_TEST_TYPE_LABEL,
+                        InternalTestType = _MCT_TEST_TYPE_LABEL
                     };
                     testGroups.Add(testGroup);
                 }

@@ -1,6 +1,7 @@
 ﻿using NIST.CVP.Crypto.Common.MAC.CMAC.Enums;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
+using Newtonsoft.Json;
 
 namespace NIST.CVP.Generation.CMAC
 {
@@ -8,6 +9,7 @@ namespace NIST.CVP.Generation.CMAC
     {
         public int TestCaseId { get; set; }
         public bool? TestPassed { get; set; }
+        [JsonIgnore]
         public bool Deferred => false;
         public TestGroup ParentGroup { get; set; }
         public BitString Key { get; set; }

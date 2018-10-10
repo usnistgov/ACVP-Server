@@ -14,7 +14,7 @@ namespace NIST.CVP.Generation.AES_CCM
 
         public ITestCaseGeneratorAsync<TestGroup, TestCase> GetCaseGenerator(TestGroup testGroup)
         {
-            switch (testGroup.TestType.ToLower())
+            switch (testGroup.InternalTestType.ToLower())
             {
                 case "ecma-aft":
                     return new TestCaseGeneratorEcma(_oracle);

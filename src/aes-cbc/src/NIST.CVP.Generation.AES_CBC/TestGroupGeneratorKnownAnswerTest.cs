@@ -5,6 +5,7 @@ namespace NIST.CVP.Generation.AES_CBC
 {
     public class TestGroupGeneratorKnownAnswerTests : ITestGroupGenerator<Parameters, TestGroup, TestCase>
     {
+        private const string TEST_TYPE = "AFT";
         private readonly string[] _katTests = new string[]
         {
             "GFSBox",
@@ -27,7 +28,9 @@ namespace NIST.CVP.Generation.AES_CBC
                         {
                             Function = direction,
                             KeyLength = keyLength,
-                            TestType = katTest
+                            TestType = TEST_TYPE,
+                            KatType = katTest
+                            
                         };
                         testGroups.Add(testGroup);
                     }

@@ -1,11 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Dynamic;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using NIST.CVP.Crypto.Common.Symmetric.TDES;
+﻿using Newtonsoft.Json;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.Core.ExtensionMethods;
 using NIST.CVP.Math.Domain;
+using System.Collections.Generic;
 
 namespace NIST.CVP.Generation.TDES_CTR
 {
@@ -23,6 +19,7 @@ namespace NIST.CVP.Generation.TDES_CTR
         public bool IncrementalCounter { get; set; }
         public bool OverflowCounter { get; set; }
 
+        public string InternalTestType { get; set; } = "";
         public string TestType { get; set; }
         public List<TestCase> Tests { get; set; } = new List<TestCase>();
 

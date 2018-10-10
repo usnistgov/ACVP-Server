@@ -14,7 +14,7 @@ namespace NIST.CVP.Generation.AES_XPN
         public bool? TestPassed { get; set; }
         public bool Deferred { get; set; }
         public TestGroup ParentGroup { get; set; }
-        [JsonProperty(PropertyName = "plainText")]
+        [JsonProperty(PropertyName = "pt")]
         public BitString PlainText { get; set; }
         [JsonProperty(PropertyName = "key")]
         public BitString Key { get; set; }
@@ -24,7 +24,7 @@ namespace NIST.CVP.Generation.AES_XPN
         public BitString IV { get; set; }
         [JsonProperty(PropertyName = "salt")]
         public BitString Salt { get; set; }
-        [JsonProperty(PropertyName = "cipherText")]
+        [JsonProperty(PropertyName = "ct")]
         public BitString CipherText { get; set; }
         [JsonProperty(PropertyName = "tag")]
         public BitString Tag { get; set; }

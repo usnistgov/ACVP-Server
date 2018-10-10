@@ -29,8 +29,7 @@ namespace NIST.CVP.Generation.AES_CTR
                         {
                             Direction = direction,
                             KeyLength = keyLength,
-
-                            TestType = katTest
+                            InternalTestType = katTest
                         };
 
                         testGroups.Add(testGroup);

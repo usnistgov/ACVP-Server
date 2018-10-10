@@ -5,7 +5,7 @@ namespace NIST.CVP.Generation.AES_CBC
 {
     public class TestGroupGeneratorMultiBlockMessage : ITestGroupGenerator<Parameters, TestGroup, TestCase>
     {
-        public const string MMT_TYPE_LABEL = "MMT";
+        public const string MMT_TYPE_LABEL = "AFT";
 
         public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
         {

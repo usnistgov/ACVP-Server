@@ -18,11 +18,11 @@ namespace NIST.CVP.Generation.TDES_ECB
 
         public ITestCaseGeneratorAsync<TestGroup, TestCase> GetCaseGenerator(TestGroup group)
         {
-            if (_katLabels.Contains(group.TestType, StringComparer.OrdinalIgnoreCase))
+            if (_katLabels.Contains(group.InternalTestType, StringComparer.OrdinalIgnoreCase))
             {
-                return new TestCaseGeneratorKat(group.TestType);
+                return new TestCaseGeneratorKat(group.InternalTestType);
             }
-            else if (group.TestType.Equals("multiblockmessage", StringComparison.OrdinalIgnoreCase))
+            else if (group.InternalTestType.Equals("multiblockmessage", StringComparison.OrdinalIgnoreCase))
             {
                 return new TestCaseGeneratorMmt(_oracle);
             }

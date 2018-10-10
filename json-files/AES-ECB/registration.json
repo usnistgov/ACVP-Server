@@ -1,6 +1,7 @@
 {
   "algorithm": "AES-ECB",
   "isSample": false,
+  "conformances": [],
   "direction": [
     "encrypt",
     "decrypt"

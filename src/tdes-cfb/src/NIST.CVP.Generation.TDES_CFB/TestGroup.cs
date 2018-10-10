@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using NIST.CVP.Common;
 using NIST.CVP.Generation.Core;
+using System.Collections.Generic;
 
 namespace NIST.CVP.Generation.TDES_CFB
 {
@@ -17,7 +17,9 @@ namespace NIST.CVP.Generation.TDES_CFB
         
         [JsonProperty(PropertyName = "testType")]
         public string TestType { get; set; } = "AFT";
-        
+
+        public string InternalTestType { get; set; } = "";
+
         [JsonProperty(PropertyName = "keyingOption")]
         public int KeyingOption { get; set; }
 

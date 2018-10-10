@@ -2,6 +2,7 @@
   "algorithm": "AES",
   "mode": "XTS",
   "isSample": true,
+  "conformances": [],
   "keyLen": [
     128,
     256

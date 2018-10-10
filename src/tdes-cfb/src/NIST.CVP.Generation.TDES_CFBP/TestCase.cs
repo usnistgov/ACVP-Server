@@ -13,8 +13,14 @@ namespace NIST.CVP.Generation.TDES_CFBP
 
         public int TestCaseId { get; set; }
         public TestGroup ParentGroup { get; set; }
+
+        [JsonIgnore]
         public bool? TestPassed { get; set; }
+
+        [JsonIgnore]
         public bool Deferred { get; set; }
+
+        [JsonProperty(PropertyName = "pt")]
         public BitString PlainText { get; set; }
 
         [JsonIgnore]
@@ -84,8 +90,12 @@ namespace NIST.CVP.Generation.TDES_CFBP
                 Keys.MSBSubstring(0, 128).ConcatenateBits(value);
         }
 
+        [JsonProperty(PropertyName = "ct")]
         public BitString CipherText { get; set; }
+
+        [JsonProperty(PropertyName = "iv")]
         public BitString IV { get; set; }
+        
         // TODO get rid of properties
         #region only used on kats TODO remove
         public BitString PlainText1 { get; set; }

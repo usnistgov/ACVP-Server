@@ -64,7 +64,7 @@ namespace NIST.CVP.Generation.AES_OFB.Tests
             {
                 Function = direction,
                 KeyLength = keySize,
-                TestType = testType
+                InternalTestType = testType
             };
 
             var subject = new TestCaseGeneratorFactory(null);

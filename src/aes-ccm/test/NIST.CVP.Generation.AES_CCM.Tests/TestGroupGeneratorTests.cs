@@ -88,9 +88,9 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
 
             var result = _subject.BuildTestGroups(p);
 
-            foreach (TestTypes testType in Enum.GetValues(typeof(TestTypes)))
+            foreach (InternalTestTypes testType in Enum.GetValues(typeof(InternalTestTypes)))
             {
-                Assert.IsTrue(result.Any(a => a.TestType == testType.ToString()));
+                Assert.IsTrue(result.Any(a => a.InternalTestType == testType.ToString()));
             }
         }
 
@@ -114,7 +114,7 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
             MathDomain tagLen
         )
         {
-            TestTypes testType = TestTypes.DecryptionVerification;
+            InternalTestTypes testType = InternalTestTypes.DecryptionVerification;
 
             Parameters p = new Parameters()
             {
@@ -134,7 +134,7 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
 
             int expectedResultCount = _subject.KeyLens.Length * aadLenMultiplier * ptLenMultiplier * _subject.NonceLens.Count() * _subject.TagLens.Count();
 
-            Assert.AreEqual(expectedResultCount, result.Count(c => c.TestType == testType.ToString()));
+            Assert.AreEqual(expectedResultCount, result.Count(c => c.InternalTestType == testType.ToString()));
         }
 
         /// <summary>
@@ -157,7 +157,7 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
             MathDomain tagLen
         )
         {
-            TestTypes testType = TestTypes.VariableAssociatedData;
+            InternalTestTypes testType = InternalTestTypes.VariableAssociatedData;
 
             Parameters p = new Parameters()
             {
@@ -178,7 +178,7 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
             // pt, tag, and nonce use the max value, will always be a multiplier of 1
             int expectedResultCount = keyLen.Length * aadLenRange * 1 * 1 * 1;
 
-            Assert.AreEqual(expectedResultCount, result.Count(c => c.TestType == testType.ToString()));
+            Assert.AreEqual(expectedResultCount, result.Count(c => c.InternalTestType == testType.ToString()));
         }
 
         /// <summary>
@@ -202,7 +202,7 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
             MathDomain tagLen
         )
         {
-            TestTypes testType = TestTypes.VariableNonce;
+            InternalTestTypes testType = InternalTestTypes.VariableNonce;
 
             Parameters p = new Parameters()
             {
@@ -219,7 +219,7 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
             // aad, pt, and tag use the max value, will always be a multiplier of 1
             int expectedResultCount = keyLen.Length * 1 * _subject.NonceLens.Count() * 1 * 1;
 
-            Assert.AreEqual(expectedResultCount, result.Count(c => c.TestType == testType.ToString()));
+            Assert.AreEqual(expectedResultCount, result.Count(c => c.InternalTestType == testType.ToString()));
         }
 
         /// <summary>
@@ -243,7 +243,7 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
             MathDomain tagLen
         )
         {
-            TestTypes testType = TestTypes.VariablePayload;
+            InternalTestTypes testType = InternalTestTypes.VariablePayload;
 
             Parameters p = new Parameters()
             {
@@ -263,7 +263,7 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
             // aad, nonce, and tag use the max value, will always be a multiplier of 1
             int expectedResultCount = keyLen.Length * 1 * payloadCount * 1 * 1;
 
-            Assert.AreEqual(expectedResultCount, result.Count(c => c.TestType == testType.ToString()));
+            Assert.AreEqual(expectedResultCount, result.Count(c => c.InternalTestType == testType.ToString()));
         }
 
         /// <summary>
@@ -287,7 +287,7 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
             MathDomain tagLen
         )
         {
-            TestTypes testType = TestTypes.VariableTag;
+            InternalTestTypes testType = InternalTestTypes.VariableTag;
 
             Parameters p = new Parameters()
             {
@@ -304,22 +304,22 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
             // aad, pt, and nonce use the max value, will always be a multiplier of 1
             int expectedResultCount = keyLen.Length * 1 * 1 * 1 * _subject.TagLens.Length;
 
-            Assert.AreEqual(expectedResultCount, result.Count(c => c.TestType == testType.ToString()));
+            Assert.AreEqual(expectedResultCount, result.Count(c => c.InternalTestType == testType.ToString()));
         }
 
         [Test]
-        [TestCase(TestTypes.DecryptionVerification, true, false)]
-        [TestCase(TestTypes.VariableAssociatedData, true, true)]
-        [TestCase(TestTypes.VariableNonce, true, false)]
-        [TestCase(TestTypes.VariablePayload, true, true)]
-        [TestCase(TestTypes.VariableTag, true, true)]
-        public void ShouldUseSharedParameterInGroup(TestTypes testType, bool useSharedKey, bool useSharedNonce)
+        [TestCase(InternalTestTypes.DecryptionVerification, true, false)]
+        [TestCase(InternalTestTypes.VariableAssociatedData, true, true)]
+        [TestCase(InternalTestTypes.VariableNonce, true, false)]
+        [TestCase(InternalTestTypes.VariablePayload, true, true)]
+        [TestCase(InternalTestTypes.VariableTag, true, true)]
+        public void ShouldUseSharedParameterInGroup(InternalTestTypes testType, bool useSharedKey, bool useSharedNonce)
         {
             Parameters p = new ParameterBuilder().Build();
 
             var result = _subject.BuildTestGroups(p);
 
-            var typeTests = result.Where(w => w.TestType == testType.ToString()).Select(s => (TestGroup)s);
+            var typeTests = result.Where(w => w.InternalTestType == testType.ToString()).Select(s => s);
             var correctShares =
                 typeTests.All(
                     a =>

@@ -25,7 +25,7 @@ namespace NIST.CVP.Generation.TDES_CBC
                     {
                         Function = function,
                         KeyingOption = 3,
-                        TestType = katTest
+                        InternalTestType = katTest
                     };
 
                     testGroups.Add(tg);

@@ -1,12 +1,13 @@
-﻿using System.Collections.Generic;
-using NIST.CVP.Crypto.Common.Symmetric.TDES;
+﻿using NIST.CVP.Crypto.Common.Symmetric.TDES;
 using NIST.CVP.Generation.Core;
+using System.Collections.Generic;
 
 namespace NIST.CVP.Generation.TDES_OFB
 {
     public class TestGroupGeneratorMultiblockMessage : ITestGroupGenerator<Parameters, TestGroup, TestCase>
     {
-        private const string TEST_TYPE = "MultiBlockMessage";
+        private const string TEST_TYPE = "AFT";
+        private const string INTERNAL_TEST_TYPE = "MultiBlockMessage";
 
         public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
         {
@@ -27,7 +28,8 @@ namespace NIST.CVP.Generation.TDES_OFB
                     {
                         Function = function,
                         NumberOfKeys = translatedKeyingOptionToNumberOfKeys,
-                        TestType = TEST_TYPE
+                        TestType = TEST_TYPE,
+                        InternalTestType = INTERNAL_TEST_TYPE
                     };
 
                     testGroups.Add(tg);

@@ -1,13 +1,9 @@
 {
   "algorithm": "SHA2",
   "isSample": false,
+  "conformances": [],
   "digestSize": [
-    "224",
-    "256",
-    "384",
-    "512",
-    "512/224",
-    "512/256"
+    "224"
   ],
   "inBit": true,
   "inEmpty": true

@@ -42,7 +42,7 @@ namespace NIST.CVP.Generation.TDES_CBC.Tests
             TestGroup testGroup = new TestGroup()
             {
                 Function = direction,
-                TestType = testType
+                InternalTestType = testType
             };
 
             var subject = GetSubject();
