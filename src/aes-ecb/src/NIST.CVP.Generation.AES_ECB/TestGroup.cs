@@ -14,7 +14,7 @@ namespace NIST.CVP.Generation.AES_ECB
         public string TestType { get; set; }
         [JsonProperty(PropertyName = "direction")]
         public string Function { get; set; }
-        [JsonProperty(PropertyName = "keylen")]
+        [JsonProperty(PropertyName = "keyLen")]
         public int KeyLength { get; set; }
         public List<TestCase> Tests { get; set; } = new List<TestCase>();
 

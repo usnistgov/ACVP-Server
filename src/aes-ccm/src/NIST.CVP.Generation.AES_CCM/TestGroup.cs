@@ -10,7 +10,7 @@ namespace NIST.CVP.Generation.AES_CCM
         public string TestType { get; set; }
         [JsonProperty(PropertyName = "direction")]
         public string Function { get; set; }
-        [JsonProperty(PropertyName = "keylen")]
+        [JsonProperty(PropertyName = "keyLen")]
         public int KeyLength { get; set; }
         [JsonProperty(PropertyName = "ivlen")]
         public int IVLength { get; set; }

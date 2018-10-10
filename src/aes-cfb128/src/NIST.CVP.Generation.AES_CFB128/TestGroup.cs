@@ -14,7 +14,7 @@ namespace NIST.CVP.Generation.AES_CFB128
         public List<TestCase> Tests { get; set; } = new List<TestCase>();
         [JsonProperty(PropertyName = "direction")]
         public string Function { get; set; }
-        [JsonProperty(PropertyName = "keylen")]
+        [JsonProperty(PropertyName = "keyLen")]
         public int KeyLength { get; set; }
         
         public bool SetString(string name, string value)
