@@ -11,7 +11,8 @@ namespace NIST.CVP.Generation.AES_ECB
     public class TestGroup : ITestGroup<TestGroup, TestCase>
     {
         public int TestGroupId { get; set; }
-        public string TestType { get; set; }
+        public string TestType { get; set; } = "AFT";
+        public string InternalTestType { get; set; } = string.Empty;
         [JsonProperty(PropertyName = "direction")]
         public string Function { get; set; }
         [JsonProperty(PropertyName = "keyLen")]
