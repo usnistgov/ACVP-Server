@@ -9,16 +9,17 @@ namespace NIST.CVP.Generation.AES_OFB
     public class TestCase : ITestCase<TestGroup, TestCase>
     {
         public int TestCaseId { get; set; }
+        [JsonIgnore]
         public bool? TestPassed { get; set; }
         public bool Deferred { get; set; }
         public TestGroup ParentGroup { get; set; }
         [JsonProperty(PropertyName = "iv")]
         public BitString IV { get; set; }
-        [JsonProperty(PropertyName = "plainText")]
+        [JsonProperty(PropertyName = "pt")]
         public BitString PlainText { get; set; }
         [JsonProperty(PropertyName = "key")]
         public BitString Key { get; set; }
-        [JsonProperty(PropertyName = "cipherText")]
+        [JsonProperty(PropertyName = "ct")]
         public BitString CipherText { get; set; }
         [JsonProperty(PropertyName = "resultsArray")]
         public List<AlgoArrayResponse> ResultsArray { get; set; }
