@@ -7,18 +7,19 @@ namespace NIST.CVP.Generation.AES_CCM
     public class TestGroup : ITestGroup<TestGroup, TestCase>
     {
         public int TestGroupId { get; set; }
-        public string TestType { get; set; }
+        public string TestType { get; set; } = "AFT";
+        public string InternalTestType { get; set; } = string.Empty;
         [JsonProperty(PropertyName = "direction")]
         public string Function { get; set; }
         [JsonProperty(PropertyName = "keyLen")]
         public int KeyLength { get; set; }
-        [JsonProperty(PropertyName = "ivlen")]
+        [JsonProperty(PropertyName = "ivLen")]
         public int IVLength { get; set; }
-        [JsonProperty(PropertyName = "ptlen")]
+        [JsonProperty(PropertyName = "ptLen")]
         public int PTLength { get; set; }
-        [JsonProperty(PropertyName = "aadlen")]
+        [JsonProperty(PropertyName = "aadLen")]
         public int AADLength { get; set; }
-        [JsonProperty(PropertyName = "taglen")]
+        [JsonProperty(PropertyName = "tagLen")]
         public int TagLength { get; set; }
         public List<TestCase> Tests { get; set; } = new List<TestCase>();
 
