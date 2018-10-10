@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
-using NIST.CVP.Generation.Core;
+﻿using NIST.CVP.Generation.Core;
+using System.Collections.Generic;
 
 namespace NIST.CVP.Generation.TDES_OFB
 {
     public class TestGroupGeneratorKnownAnswer : ITestGroupGenerator<Parameters, TestGroup, TestCase>
     {
+        private const string TEST_TYPE = "KAT";
+
         private readonly string[] _katTests = new string[]
         {
             "Permutation",
@@ -25,7 +27,8 @@ namespace NIST.CVP.Generation.TDES_OFB
                     {
                         Function = function,
                         NumberOfKeys = 1,
-                        TestType = katTest
+                        InternalTestType = katTest,
+                        TestType = TEST_TYPE
                     };
 
                     testGroups.Add(tg);

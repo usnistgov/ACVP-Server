@@ -1,9 +1,7 @@
 ﻿using Newtonsoft.Json.Serialization;
 using NIST.CVP.Generation.Core.ContractResolvers;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace NIST.CVP.Generation.TDES_ECB.ContractResolvers
 {
@@ -11,6 +9,16 @@ namespace NIST.CVP.Generation.TDES_ECB.ContractResolvers
     {
         protected override Predicate<object> TestGroupSerialization(JsonProperty jsonProperty)
         {
+            var excludeProperties = new[]
+            {
+                nameof(TestGroup.InternalTestType)
+            };
+
+            if (excludeProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
+            {
+                return jsonProperty.ShouldDeserialize = instance => false;
+            }
+
             return jsonProperty.ShouldDeserialize = instance => true;
         }
 

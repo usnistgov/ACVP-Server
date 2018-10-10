@@ -1,12 +1,12 @@
-﻿using System.Collections.Generic;
-using NIST.CVP.Crypto.Common.Symmetric.TDES;
+﻿using NIST.CVP.Crypto.Common.Symmetric.TDES;
 using NIST.CVP.Generation.Core;
+using System.Collections.Generic;
 
 namespace NIST.CVP.Generation.TDES_CTR
 {
     public class TestGroupGeneratorCounter : ITestGroupGenerator<Parameters, TestGroup, TestCase>
     {
-        public const string LABEL = "counter";
+        public const string TEST_TYPE = "CTR";
 
         public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
         {
@@ -30,7 +30,8 @@ namespace NIST.CVP.Generation.TDES_CTR
                             NumberOfKeys = TdesHelpers.GetNumberOfKeysFromKeyingOption(keyingOption),
                             IncrementalCounter = parameters.IncrementalCounter,
                             OverflowCounter = true,
-                            TestType = LABEL
+                            InternalTestType = $"overflow-{parameters.OverflowCounter.ToString()}, incremental-{parameters.IncrementalCounter.ToString()}",
+                            TestType = TEST_TYPE
                         };
 
                         testGroups.Add(overflowGroup);
@@ -42,7 +43,8 @@ namespace NIST.CVP.Generation.TDES_CTR
                         NumberOfKeys = TdesHelpers.GetNumberOfKeysFromKeyingOption(keyingOption),
                         IncrementalCounter = parameters.IncrementalCounter,
                         OverflowCounter = false,
-                        TestType = LABEL
+                        InternalTestType = $"overflow-{parameters.OverflowCounter.ToString()}, incremental-{parameters.IncrementalCounter.ToString()}",
+                        TestType = TEST_TYPE
                     };
 
                     testGroups.Add(testGroup);

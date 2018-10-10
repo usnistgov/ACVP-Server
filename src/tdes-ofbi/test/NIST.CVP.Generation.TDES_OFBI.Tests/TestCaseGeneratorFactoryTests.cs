@@ -43,7 +43,7 @@ namespace NIST.CVP.Generation.TDES_OFBI.Tests
             {
                 Function = direction,
                 TestType = testType,
-                KatType = katType
+                InternalTestType = katType
             };
 
             var subject = GetSubject();
@@ -56,7 +56,7 @@ namespace NIST.CVP.Generation.TDES_OFBI.Tests
         public void ShouldReturnAGenerator()
         {
             var subject = GetSubject();
-            var generator = subject.GetCaseGenerator(new TestGroup { Function = "", TestType = "", KatType = "" });
+            var generator = subject.GetCaseGenerator(new TestGroup { Function = "", TestType = "", InternalTestType = "" });
             Assert.IsNotNull(generator);
         }
 

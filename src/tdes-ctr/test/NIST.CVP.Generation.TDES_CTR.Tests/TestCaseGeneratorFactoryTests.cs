@@ -1,10 +1,8 @@
-﻿using System;
-using Moq;
+﻿using Moq;
 using NIST.CVP.Common.Oracle;
-using NIST.CVP.Crypto.Common.Symmetric.Engines;
-using NIST.CVP.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
+using System;
 
 namespace NIST.CVP.Generation.TDES_CTR.Tests
 {
@@ -23,44 +21,45 @@ namespace NIST.CVP.Generation.TDES_CTR.Tests
         }
 
         [Test]
-        [TestCase("encrypt", "InversePermutation", typeof(TestCaseGeneratorKat))]
-        [TestCase("encrypt", "InversePermutation", typeof(TestCaseGeneratorKat))]
-        [TestCase("encrypt", "Permutation", typeof(TestCaseGeneratorKat))]
-        [TestCase("encrypt", "Permutation", typeof(TestCaseGeneratorKat))]
-        [TestCase("encrypt", "VariableKey", typeof(TestCaseGeneratorKat))]
-        [TestCase("encrypt", "VariableKey", typeof(TestCaseGeneratorKat))]
-        [TestCase("encrypt", "VariableText", typeof(TestCaseGeneratorKat))]
-        [TestCase("encrypt", "VariableText", typeof(TestCaseGeneratorKat))]
-        [TestCase("encrypt", "SubstitutionTable", typeof(TestCaseGeneratorKat))]
-        [TestCase("encrypt", "SubstitutionTable", typeof(TestCaseGeneratorKat))]
-        [TestCase("decrypt", "InversePermutation", typeof(TestCaseGeneratorKat))]
-        [TestCase("decrypt", "InversePermutation", typeof(TestCaseGeneratorKat))]
-        [TestCase("decrypt", "Permutation", typeof(TestCaseGeneratorKat))]
-        [TestCase("decrypt", "Permutation", typeof(TestCaseGeneratorKat))]
-        [TestCase("decrypt", "VariableKey", typeof(TestCaseGeneratorKat))]
-        [TestCase("decrypt", "VariableKey", typeof(TestCaseGeneratorKat))]
-        [TestCase("decrypt", "VariableText", typeof(TestCaseGeneratorKat))]
-        [TestCase("decrypt", "VariableText", typeof(TestCaseGeneratorKat))]
-        [TestCase("encrypt", "singleblock", typeof(TestCaseGeneratorSingleBlock))]
-        [TestCase("Encrypt", "sInGlEbLoCk", typeof(TestCaseGeneratorSingleBlock))]
-        [TestCase("DEcrypt", "SINGLEBLOCK", typeof(TestCaseGeneratorSingleBlock))]
-        [TestCase("Decrypt", "SingleBlock", typeof(TestCaseGeneratorSingleBlock))]
-        [TestCase("encrypt", "PartialBlock", typeof(TestCaseGeneratorPartialBlock))]
-        [TestCase("ENCRYPT", "PARTIALBLOCK", typeof(TestCaseGeneratorPartialBlock))]
-        [TestCase("deCRYPT", "partialBLOCK", typeof(TestCaseGeneratorPartialBlock))]
-        [TestCase("Decrypt", "PaRtIaLbLoCk", typeof(TestCaseGeneratorPartialBlock))]
-        [TestCase("EncRypt", "counter", typeof(TestCaseGeneratorCounter))]
-        [TestCase("ENCRYPT", "COUNTER", typeof(TestCaseGeneratorCounter))]
-        [TestCase("decrypt", "Counter", typeof(TestCaseGeneratorCounter))]
-        [TestCase("Decrypt", "COUNTer", typeof(TestCaseGeneratorCounter))]
-        [TestCase("Junk", "Junk", typeof(TestCaseGeneratorNull))]
-        [TestCase("", "", typeof(TestCaseGeneratorNull))]
-        public void ShouldReturnProperGenerator(string direction, string testType, Type expectedType)
+        [TestCase("encrypt", "", "InversePermutation", typeof(TestCaseGeneratorKat))]
+        [TestCase("encrypt", "", "InversePermutation", typeof(TestCaseGeneratorKat))]
+        [TestCase("encrypt", "", "Permutation", typeof(TestCaseGeneratorKat))]
+        [TestCase("encrypt", "", "Permutation", typeof(TestCaseGeneratorKat))]
+        [TestCase("encrypt", "", "VariableKey", typeof(TestCaseGeneratorKat))]
+        [TestCase("encrypt", "", "VariableKey", typeof(TestCaseGeneratorKat))]
+        [TestCase("encrypt", "", "VariableText", typeof(TestCaseGeneratorKat))]
+        [TestCase("encrypt", "", "VariableText", typeof(TestCaseGeneratorKat))]
+        [TestCase("encrypt", "", "SubstitutionTable", typeof(TestCaseGeneratorKat))]
+        [TestCase("encrypt", "", "SubstitutionTable", typeof(TestCaseGeneratorKat))]
+        [TestCase("decrypt", "", "InversePermutation", typeof(TestCaseGeneratorKat))]
+        [TestCase("decrypt", "", "InversePermutation", typeof(TestCaseGeneratorKat))]
+        [TestCase("decrypt", "", "Permutation", typeof(TestCaseGeneratorKat))]
+        [TestCase("decrypt", "", "Permutation", typeof(TestCaseGeneratorKat))]
+        [TestCase("decrypt", "", "VariableKey", typeof(TestCaseGeneratorKat))]
+        [TestCase("decrypt", "", "VariableKey", typeof(TestCaseGeneratorKat))]
+        [TestCase("decrypt", "", "VariableText", typeof(TestCaseGeneratorKat))]
+        [TestCase("decrypt", "", "VariableText", typeof(TestCaseGeneratorKat))]
+        [TestCase("encrypt", "", "singleblock", typeof(TestCaseGeneratorSingleBlock))]
+        [TestCase("Encrypt", "", "sInGlEbLoCk", typeof(TestCaseGeneratorSingleBlock))]
+        [TestCase("DEcrypt", "", "SINGLEBLOCK", typeof(TestCaseGeneratorSingleBlock))]
+        [TestCase("Decrypt", "", "SingleBlock", typeof(TestCaseGeneratorSingleBlock))]
+        [TestCase("encrypt", "", "PartialBlock", typeof(TestCaseGeneratorPartialBlock))]
+        [TestCase("ENCRYPT", "", "PARTIALBLOCK", typeof(TestCaseGeneratorPartialBlock))]
+        [TestCase("deCRYPT", "", "partialBLOCK", typeof(TestCaseGeneratorPartialBlock))]
+        [TestCase("Decrypt", "", "PaRtIaLbLoCk", typeof(TestCaseGeneratorPartialBlock))]
+        [TestCase("EncRypt", "ctr", "", typeof(TestCaseGeneratorCounter))]
+        [TestCase("ENCRYPT", "CTR", "", typeof(TestCaseGeneratorCounter))]
+        [TestCase("decrypt", "Ctr", "", typeof(TestCaseGeneratorCounter))]
+        [TestCase("Decrypt", "CTr", "", typeof(TestCaseGeneratorCounter))]
+        [TestCase("Junk", "Junk", "", typeof(TestCaseGeneratorNull))]
+        [TestCase("", "", "", typeof(TestCaseGeneratorNull))]
+        public void ShouldReturnProperGenerator(string direction, string testType, string internalTestType, Type expectedType)
         {
             var testGroup = new TestGroup
             {
                 Direction = direction,
-                TestType = testType
+                TestType = testType,
+                InternalTestType = internalTestType
             };
 
             var generator = _subject.GetCaseGenerator(testGroup);

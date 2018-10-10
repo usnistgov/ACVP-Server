@@ -1,10 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Dynamic;
-using System.Linq;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.Core.ExtensionMethods;
+using System.Collections.Generic;
 
 namespace NIST.CVP.Generation.TDES_OFB
 {
@@ -17,7 +13,9 @@ namespace NIST.CVP.Generation.TDES_OFB
         
         [JsonProperty(PropertyName = "testType")]
         public string TestType { get; set; }
-        
+
+        public string InternalTestType { get; set; } = "";
+
         [JsonProperty(PropertyName = "numberOfKeys")]
         public int NumberOfKeys { get; set; }
 

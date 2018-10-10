@@ -6,6 +6,7 @@ namespace NIST.CVP.Generation.TDES_ECB
 {
     public class TestGroupGeneratorKnownAnswer : ITestGroupGenerator<Parameters, TestGroup, TestCase>
     {
+        private const string TEST_TYPE = "KAT";
         private readonly string[] _katTests = KatData.GetLabels();
 
         public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
@@ -18,7 +19,8 @@ namespace NIST.CVP.Generation.TDES_ECB
                     var tg = new TestGroup
                     {
                         Function = function,
-                        TestType = katTest
+                        InternalTestType = katTest,
+                        TestType = TEST_TYPE
                     };
 
                     testGroups.Add(tg);

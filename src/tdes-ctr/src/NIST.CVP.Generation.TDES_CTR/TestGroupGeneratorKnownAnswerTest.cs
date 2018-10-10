@@ -1,12 +1,12 @@
-﻿using System;
+﻿using NIST.CVP.Generation.Core;
 using System.Collections.Generic;
-using System.Text;
-using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.TDES_CTR
 {
     public class TestGroupGeneratorKnownAnswerTest : ITestGroupGenerator<Parameters, TestGroup, TestCase>
     {
+        private const string TEST_TYPE = "KAT";
+
         private readonly string[] _katTests =
         {
             "Permutation",
@@ -27,7 +27,8 @@ namespace NIST.CVP.Generation.TDES_CTR
                     {
                         Direction = function,
                         NumberOfKeys = 1,
-                        TestType = katTest,
+                        TestType = TEST_TYPE,
+                        InternalTestType = katTest
                     };
 
                     testGroups.Add(tg);

@@ -1,12 +1,13 @@
-﻿using System.Collections.Generic;
-using NIST.CVP.Crypto.Common.Symmetric.TDES;
+﻿using NIST.CVP.Crypto.Common.Symmetric.TDES;
 using NIST.CVP.Generation.Core;
+using System.Collections.Generic;
 
 namespace NIST.CVP.Generation.TDES_CTR
 {
     public class TestGroupGeneratorSingleBlockMessage : ITestGroupGenerator<Parameters, TestGroup, TestCase>
     {
-        public const string LABEL = "singleblock";
+        private const string TEST_TYPE = "AFT";
+        private const string INTERNAL_TEST_TYPE = "singleblock";
 
         public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
         {
@@ -26,7 +27,8 @@ namespace NIST.CVP.Generation.TDES_CTR
                     {
                         Direction = direction,
                         NumberOfKeys = TdesHelpers.GetNumberOfKeysFromKeyingOption(keyingOption),
-                        TestType = LABEL
+                        TestType = TEST_TYPE,
+                        InternalTestType = INTERNAL_TEST_TYPE
                     };
 
                     testGroups.Add(testGroup);

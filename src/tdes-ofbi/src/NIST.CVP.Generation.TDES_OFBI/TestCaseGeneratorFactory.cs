@@ -14,14 +14,14 @@ namespace NIST.CVP.Generation.TDES_OFBI
 
         public ITestCaseGeneratorAsync<TestGroup, TestCase> GetCaseGenerator(TestGroup group)
         {
-            switch (group.KatType.ToLower())
+            switch (group.InternalTestType.ToLower())
             {
                 case "permutation":
                 case "inversepermutation":
                 case "substitutiontable":
                 case "variablekey":
                 case "variabletext":
-                    return new TestCaseGeneratorKat(group.KatType);
+                    return new TestCaseGeneratorKat(group.InternalTestType);
             }
 
             switch (group.TestType.ToLower())
