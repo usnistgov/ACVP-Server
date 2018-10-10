@@ -12,6 +12,7 @@ namespace NIST.CVP.Generation.AES_XTS
     public class TestCase : ITestCase<TestGroup, TestCase>
     {
         public int TestCaseId { get; set; }
+        [JsonIgnore]
         public bool? TestPassed => true;
         public bool Deferred { get; set; }
         public TestGroup ParentGroup { get; set; }
@@ -23,9 +24,9 @@ namespace NIST.CVP.Generation.AES_XTS
             get => XtsKey?.Key;
             set => XtsKey = new XtsKey(value);
         }
-        [JsonProperty(PropertyName = "plainText")]
+        [JsonProperty(PropertyName = "pt")]
         public BitString PlainText { get; set; }
-        [JsonProperty(PropertyName = "cipherText")]
+        [JsonProperty(PropertyName = "ct")]
         public BitString CipherText { get; set; }
         [JsonProperty(PropertyName = "i")]
         public BitString I { get; set; }

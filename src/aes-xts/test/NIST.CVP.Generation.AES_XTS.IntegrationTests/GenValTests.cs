@@ -26,9 +26,9 @@ namespace NIST.CVP.Generation.AES_XTS.IntegrationTests
             var rand = new Random800_90();
             
             // If TC has a cipherText, change it
-            if (testCase.cipherText != null)
+            if (testCase.ct != null)
             {
-                BitString bs = new BitString(testCase.cipherText.ToString());
+                BitString bs = new BitString(testCase.ct.ToString());
                 bs = rand.GetDifferentBitStringOfSameSize(bs);
 
                 // Can't get something "different" of empty bitstring of the same length
@@ -37,13 +37,13 @@ namespace NIST.CVP.Generation.AES_XTS.IntegrationTests
                     bs = new BitString("01");
                 }
 
-                testCase.cipherText = bs.ToHex();
+                testCase.ct = bs.ToHex();
             }
 
             // If TC has a plainText, change it
-            if (testCase.plainText != null)
+            if (testCase.pt != null)
             {
-                BitString bs = new BitString(testCase.plainText.ToString());
+                BitString bs = new BitString(testCase.pt.ToString());
                 bs = rand.GetDifferentBitStringOfSameSize(bs);
 
                 // Can't get something "different" of empty bitstring of the same length
@@ -52,7 +52,7 @@ namespace NIST.CVP.Generation.AES_XTS.IntegrationTests
                     bs = new BitString("01");
                 }
 
-                testCase.plainText = bs.ToHex();
+                testCase.pt = bs.ToHex();
             }
         }
 
