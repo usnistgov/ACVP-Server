@@ -42,7 +42,7 @@ namespace NIST.CVP.Generation.AES_CTR
                             list.Add(new TestCaseValidatorNull(test));
                         }
                     }
-                    else if (testType == "counter")
+                    else if (testType == "ctr")
                     {
                         if (direction == "encrypt")
                         {

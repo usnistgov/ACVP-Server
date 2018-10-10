@@ -7,7 +7,7 @@ namespace NIST.CVP.Generation.AES_CTR
 {
     public class TestGroupGeneratorCounter : ITestGroupGenerator<Parameters, TestGroup, TestCase>
     {
-        public const string LABEL = "counter";
+        public const string LABEL = "CTR";
 
         public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
         {

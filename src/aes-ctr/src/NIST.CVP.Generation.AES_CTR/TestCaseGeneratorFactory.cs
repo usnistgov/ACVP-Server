@@ -28,7 +28,7 @@ namespace NIST.CVP.Generation.AES_CTR
                     return new TestCaseGeneratorSingleBlock(_oracle);
                 case "partialblock":
                     return new TestCaseGeneratorPartialBlock(_oracle);
-                case "counter":
+                case "ctr":
                     return new TestCaseGeneratorCounter(_oracle);
             }
 
