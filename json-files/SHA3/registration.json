@@ -2,11 +2,9 @@
   "algorithm": "SHA3",
   "mode": "",
   "isSample": true,
+  "conformances": [],
   "digestSize": [
-    224,
-    256,
-    384,
-    512
+    224
   ],
   "inBit": true,
   "outBit": false,
