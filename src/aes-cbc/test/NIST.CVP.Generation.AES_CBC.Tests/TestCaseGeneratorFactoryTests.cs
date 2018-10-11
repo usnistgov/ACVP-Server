@@ -65,7 +65,7 @@ namespace NIST.CVP.Generation.AES_CBC.Tests
                 Function = direction,
                 KeyLength = keySize,
                 TestType = testType,
-                KatType = katType
+                InternalTestType = katType
             };
 
             var subject = new TestCaseGeneratorFactory(null);

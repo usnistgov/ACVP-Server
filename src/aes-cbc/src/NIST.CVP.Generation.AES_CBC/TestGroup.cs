@@ -11,7 +11,7 @@ namespace NIST.CVP.Generation.AES_CBC
     {
         public int TestGroupId { get; set; }
         public string TestType { get; set; } = "AFT";
-        public string KatType { get; set; } = string.Empty;
+        public string InternalTestType { get; set; } = string.Empty;
         [JsonProperty(PropertyName = "direction")]
         public string Function { get; set; }
         [JsonProperty(PropertyName = "keyLen")]
