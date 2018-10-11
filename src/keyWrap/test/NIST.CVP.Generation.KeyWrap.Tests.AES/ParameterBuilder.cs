@@ -11,6 +11,7 @@ namespace NIST.CVP.Generation.KeyWrap.Tests.AES
         private KeyWrapType _keyWrapType;
 
         private string _algorithm;
+        private string _mode;
         private int[] _keyLen;
         private string[] _direction;
         private string[] _kwCipher;
@@ -42,13 +43,7 @@ namespace NIST.CVP.Generation.KeyWrap.Tests.AES
 
             SetMathRanges(keyWrapType);
         }
-
-        public ParameterBuilder WithAlgorithm(KeyWrapType value)
-        {
-            SetType(value);
-            return this;
-        }
-
+        
         public ParameterBuilder WithKeyLen(int[] value)
         {
             _keyLen = value;
@@ -78,7 +73,7 @@ namespace NIST.CVP.Generation.KeyWrap.Tests.AES
             return new Parameters()
             {
                 Algorithm = _algorithm,
-                
+                Mode = _mode,
                 Direction = _direction,
                 KwCipher = _kwCipher,
                 KeyLen = _keyLen,
@@ -93,11 +88,13 @@ namespace NIST.CVP.Generation.KeyWrap.Tests.AES
             switch (keyWrapType)
             {
                 case KeyWrapType.AES_KW:
-                    _algorithm = "AES-KW";
+                    _algorithm = "AES";
+                    _mode = "KW";
                     break;
 
                 case KeyWrapType.AES_KWP:
-                    _algorithm = "AES-KWP";
+                    _algorithm = "AES";
+                    _mode = "KWP";
                     break;
             }
         }

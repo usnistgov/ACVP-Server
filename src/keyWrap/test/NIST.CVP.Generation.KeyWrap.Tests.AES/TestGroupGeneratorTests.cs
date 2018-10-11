@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using NIST.CVP.Crypto.Common.Symmetric.KeyWrap.Enums;
 using NIST.CVP.Generation.KeyWrap.AES;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Domain;
@@ -29,7 +30,7 @@ namespace NIST.CVP.Generation.KeyWrap.Tests.AES
                 new object[]
                 {
                     "Minimal Inputs",
-                    "AES-KW", // 1
+                    KeyWrapType.AES_KW, // 1
                     new int[] { 128 }, // 1
                     new string[] { "encrypt" }, // 1
                     new string[] { "cipher" }, // 1
@@ -39,7 +40,7 @@ namespace NIST.CVP.Generation.KeyWrap.Tests.AES
                 new object[]
                 {
                     "Additional key w/ Minimal Inputs",
-                    "AES-KW", // 1
+                    KeyWrapType.AES_KW, // 1
                     new int[] { 128, 192 }, // 2
                     new string[] { "encrypt" }, // 1
                     new string[] { "cipher" }, // 1
@@ -49,7 +50,7 @@ namespace NIST.CVP.Generation.KeyWrap.Tests.AES
                 new object[]
                 {
                     "All inputs at maximum, except PtLen",
-                    "AES-KW", // 1
+                    KeyWrapType.AES_KW, // 1
                     new int[] { 128, 192, 256 }, // 3
                     new string[] { "encrypt", "decrypt" }, // 2
                     new string[] { "cipher", "inverse" }, // 2
@@ -59,7 +60,7 @@ namespace NIST.CVP.Generation.KeyWrap.Tests.AES
                 new object[]
                 {
                     "Testing math domain, 4 possible values in domain, 4 pulled",
-                    "AES-KW", // 1
+                    KeyWrapType.AES_KW, // 1
                     new int[] { 128 }, // 1
                     new string[] { "encrypt" }, // 1
                     new string[] { "cipher" }, // 1
@@ -72,7 +73,7 @@ namespace NIST.CVP.Generation.KeyWrap.Tests.AES
                 new object[]
                 {
                     "Testing math domain, large range of values, no mod 64 that isn't mod 128, 3 pulled",
-                    "AES-KW", // 1
+                    KeyWrapType.AES_KW, // 1
                     new int[] { 128 }, // 1
                     new string[] { "encrypt" }, // 1
                     new string[] { "cipher" }, // 1
@@ -84,7 +85,7 @@ namespace NIST.CVP.Generation.KeyWrap.Tests.AES
                 new object[]
                 {
                     "Testing math domain, large range of values, 5 pulled",
-                    "AES-KW", // 1
+                    KeyWrapType.AES_KW, // 1
                     new int[] { 128 }, // 1
                     new string[] { "encrypt" }, // 1
                     new string[] { "cipher" }, // 1
@@ -96,7 +97,7 @@ namespace NIST.CVP.Generation.KeyWrap.Tests.AES
                 new object[]
                 {
                     "Maximum number of groups for a test vector set",
-                    "AES-KW", // 1
+                    KeyWrapType.AES_KW, // 1
                     new int[] { 128, 192, 256 }, // 3
                     new string[] { "encrypt", "decrypt" }, // 2
                     new string[] { "cipher", "inverse" }, // 2
@@ -115,21 +116,19 @@ namespace NIST.CVP.Generation.KeyWrap.Tests.AES
         [TestCaseSource(nameof(GetParametersAndExpectedGroups))]
         public void ShouldCreateCorrectNumberOfGroups(
             string testLabel,
-            string algorithm,
+            KeyWrapType algorithm,
             int[] keyLen,
             string[] direction,
             string[] kwCipher,
             MathDomain ptLen,
             int expectedNumberOfGroups)
         {
-            Parameters parameters = new Parameters()
-            {
-                Direction = direction,
-                PtLen = ptLen,
-                KwCipher = kwCipher,
-                KeyLen = keyLen,
-                Algorithm = algorithm
-            };
+            var parameters = new ParameterBuilder(algorithm)
+                .WithDirection(direction)
+                .WithPtLens(ptLen)
+                .WithKwCipher(kwCipher)
+                .WithKeyLen(keyLen)
+                .Build();
 
             var result = _subject.BuildTestGroups(parameters);
 

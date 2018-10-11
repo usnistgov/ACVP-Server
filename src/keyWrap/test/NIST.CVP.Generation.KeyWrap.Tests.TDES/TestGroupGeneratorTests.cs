@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using NIST.CVP.Crypto.Common.Symmetric.KeyWrap.Enums;
 using NIST.CVP.Generation.KeyWrap.TDES;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Domain;
@@ -29,7 +30,7 @@ namespace NIST.CVP.Generation.KeyWrap.Tests.TDES
                 new object[]
                 {
                     "Minimal Inputs",
-                    "TDES-KW", // 1
+                    KeyWrapType.TDES_KW, // 1
                     new int[] { 128 }, // 1
                     new string[] { "encrypt" }, // 1
                     new string[] { "cipher" }, // 1
@@ -40,7 +41,7 @@ namespace NIST.CVP.Generation.KeyWrap.Tests.TDES
                 new object[]
                 {
                     "Testing math domain, large range of values, 2 pulled",
-                    "TDES-KW", // 1
+                    KeyWrapType.TDES_KW, // 1
                     new int[] { 128 }, // 1
                     new string[] { "encrypt" }, // 1
                     new string[] { "cipher" }, // 1
@@ -52,7 +53,7 @@ namespace NIST.CVP.Generation.KeyWrap.Tests.TDES
                 new object[]
                 {
                     "Maximum number of groups for a test vector set",
-                    "TDES-KW", // 1
+                    KeyWrapType.TDES_KW, // 1
                     new int[] { 128 }, // 1
                     new string[] { "encrypt", "decrypt" }, // 2
                     new string[] { "cipher", "inverse" }, // 2
@@ -72,22 +73,19 @@ namespace NIST.CVP.Generation.KeyWrap.Tests.TDES
         [TestCaseSource(nameof(GetParametersAndExpectedGroups))]
         public void ShouldCreateCorrectNumberOfGroups(
             string testLabel,
-            string algorithm,
+            KeyWrapType algorithm,
             int[] keyLen,
             string[] direction,
             string[] kwCipher,
             MathDomain ptLen,
             int expectedNumberOfGroups)
         {
-            Parameters parameters = new Parameters()
-            {
-                Algorithm = algorithm,
-                KeyingOption = new[] { 1, 2 },
-                KwCipher = kwCipher,
-                Direction = direction,
-                PtLen = ptLen,
-                //KeyLen = keyLen,
-            };
+            var parameters = new ParameterBuilder(algorithm)
+                .WithKeyingOption(new[] {1, 2})
+                .WithKwCipher(kwCipher)
+                .WithDirection(direction)
+                .WithPtLens(ptLen)
+                .Build();
 
             var result = _subject.BuildTestGroups(parameters);
 
