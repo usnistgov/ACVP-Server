@@ -20,7 +20,7 @@ namespace NIST.CVP.Generation.AES_CTR
                         Direction = direction,
                         KeyLength = keyLength,
 
-                        TestType = LABEL
+                        InternalTestType = LABEL
                     };
 
                     testGroups.Add(testGroup);

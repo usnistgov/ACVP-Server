@@ -68,7 +68,7 @@ namespace NIST.CVP.Generation.AES_ECB.Tests
             {
                 Function = direction,
                 KeyLength = keySize,
-                TestType = testType
+                InternalTestType = testType
             };
 
             var subject = new TestCaseGeneratorFactory(null);
@@ -84,7 +84,7 @@ namespace NIST.CVP.Generation.AES_ECB.Tests
             var generator = subject.GetCaseGenerator(new TestGroup()
             {
                 Function = string.Empty,
-                TestType = string.Empty
+                InternalTestType = string.Empty
             });
             Assert.IsNotNull(generator);
         }

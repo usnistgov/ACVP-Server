@@ -2,6 +2,7 @@
   "algorithm": "TDES",
   "mode": "CFBP1",
   "isSample": true,
+  "conformances": [],
   "direction": [
     "encrypt",
     "decrypt"

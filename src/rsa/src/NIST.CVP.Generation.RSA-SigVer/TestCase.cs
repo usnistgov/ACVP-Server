@@ -12,6 +12,7 @@ namespace NIST.CVP.Generation.RSA_SigVer
         public int TestCaseId { get; set; }
         public TestGroup ParentGroup { get; set; }
         public bool? TestPassed { get; set; }
+        [JsonIgnore]
         public bool Deferred { get; set; }
 
         public BitString Message { get; set; }

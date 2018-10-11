@@ -44,8 +44,6 @@ namespace NIST.CVP.Generation.KeyWrap.TDES
                 Key.MSBSubstring(0, 128).ConcatenateBits(value);
         }
 
-        public List<AlgoArrayResponse> ResultsArray { get; set; }
-
         public override bool SetString(string name, string value)
         {
             if (string.IsNullOrEmpty(name))
@@ -82,34 +80,6 @@ namespace NIST.CVP.Generation.KeyWrap.TDES
                 case "ct":
                 case "c":
                     CipherText = new BitString(value);
-                    return true;
-            }
-            return false;
-        }
-
-        public bool SetResultsArrayString(int index, string name, string value)
-        {
-            if (string.IsNullOrEmpty(name))
-            {
-                return false;
-            }
-
-            switch (name.ToLower())
-            {
-                case "key":
-                case "keys":
-                case "key1":
-                    ResultsArray[index].Keys = new BitString(value);
-                    return true;
-
-                case "plaintext":
-                case "pt":
-                    ResultsArray[index].PlainText = new BitString(value);
-                    return true;
-
-                case "ciphertext":
-                case "ct":
-                    ResultsArray[index].CipherText = new BitString(value);
                     return true;
             }
             return false;

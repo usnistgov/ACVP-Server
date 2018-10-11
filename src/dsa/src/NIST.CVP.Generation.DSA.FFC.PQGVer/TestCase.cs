@@ -11,6 +11,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer
     {
         public int TestCaseId { get; set; }
         public bool? TestPassed { get; set; }
+        [JsonIgnore]
         public bool Deferred { get; set; }
         public TestGroup ParentGroup { get; set; }
         public string Reason { get; set; }      // Needs to be a string because of PQFailureReasons type and GFailureReasons type

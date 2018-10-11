@@ -1,4 +1,5 @@
-﻿Microsoft Visual Studio Solution File, Format Version 12.00
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2036
 MinimumVisualStudioVersion = 10.0.40219.1
@@ -38,7 +39,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.Oracle", ".
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Common.Oracle.Tests", "..\..\oracle\test\NIST.CVP.Oracle.Common.Tests\NIST.CVP.Common.Oracle.Tests.csproj", "{54D32FDA-1D12-4812-AC53-5C4F2D7A4BD3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Pools", "..\..\pools\src\NIST.CVP.Pools\NIST.CVP.Pools.csproj", "{C2D8CD09-0CAF-4051-B5BC-BDA30FF92BAC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Pools", "..\..\pools\src\NIST.CVP.Pools\NIST.CVP.Pools.csproj", "{C2D8CD09-0CAF-4051-B5BC-BDA30FF92BAC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Orleans.Grains", "..\..\orleans\src\NIST.CVP.Orleans.Grains\NIST.CVP.Orleans.Grains.csproj", "{9C6A2E49-6FAC-4C2F-BDBB-F471214B9FA7}"
 EndProject
@@ -317,6 +318,7 @@ Global
 		{7ED79D88-B7DE-4FAE-9A66-FEC525D46C60} = {51CE63DD-7073-4E48-98D9-0EB913518D81}
 		{7C46CA6F-2875-43F6-9CDA-F3F44B5A5F73} = {51CE63DD-7073-4E48-98D9-0EB913518D81}
 		{54D32FDA-1D12-4812-AC53-5C4F2D7A4BD3} = {8E6EB033-8EE6-4DCE-BE4D-5075675C2573}
+		{C2D8CD09-0CAF-4051-B5BC-BDA30FF92BAC} = {51CE63DD-7073-4E48-98D9-0EB913518D81}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1FA4D1F0-BCAF-406F-AA66-AFA9DA470FC4}

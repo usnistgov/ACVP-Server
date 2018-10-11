@@ -27,7 +27,7 @@ namespace NIST.CVP.Generation.AES_OFB
                         {
                             Function = direction,
                             KeyLength = keyLength,
-                            TestType = katTest
+                            InternalTestType = katTest
                         };
                         testGroups.Add(testGroup);
                     }

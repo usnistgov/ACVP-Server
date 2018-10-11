@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Moq;
+﻿using Moq;
 using NIST.CVP.Common.Oracle;
-using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
-using NIST.CVP.Crypto.Common.Symmetric.Engines;
-using NIST.CVP.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace NIST.CVP.Generation.TDES_CTR.Tests
 {
@@ -26,29 +23,11 @@ namespace NIST.CVP.Generation.TDES_CTR.Tests
         }
 
         [Test]
-        [TestCase("encrypt", "singleblock", typeof(TestCaseValidatorEncrypt))]
-        [TestCase("decrypt", "SingleBlock", typeof(TestCaseValidatorDecrypt))]
-
-        [TestCase("encrypt", "partialblock", typeof(TestCaseValidatorEncrypt))]
-        [TestCase("decrypt", "PartialBlock", typeof(TestCaseValidatorDecrypt))]
-
-        [TestCase("encrypt", "PERMUTATIOn", typeof(TestCaseValidatorEncrypt))]
-        [TestCase("decrypt", "permutation", typeof(TestCaseValidatorDecrypt))]
-
-        [TestCase("encrypt", "substitutionTABLE", typeof(TestCaseValidatorEncrypt))]
-        [TestCase("decrypt", "SUBSTItutionTable", typeof(TestCaseValidatorDecrypt))]
-
-        [TestCase("encrypt", "VariableKey", typeof(TestCaseValidatorEncrypt))]
-        [TestCase("decrypt", "variablekey", typeof(TestCaseValidatorDecrypt))]
-
-        [TestCase("encrypt", "Variabletext", typeof(TestCaseValidatorEncrypt))]
-        [TestCase("decrypt", "variableTeXT", typeof(TestCaseValidatorDecrypt))]
-
-        [TestCase("encrypT", "inversepermutation", typeof(TestCaseValidatorEncrypt))]
-        [TestCase("DECRYPT", "INVERSEpermutation", typeof(TestCaseValidatorDecrypt))]
-
-        [TestCase("encrypT", "COUNTER", typeof(TestCaseValidatorCounterEncrypt))]
-        [TestCase("DECRYPT", "counter", typeof(TestCaseValidatorCounterDecrypt))]
+        [TestCase("encrypt", "aft", typeof(TestCaseValidatorEncrypt))]
+        [TestCase("decrypt", "AFT", typeof(TestCaseValidatorDecrypt))]
+       
+        [TestCase("encrypT", "CTR", typeof(TestCaseValidatorCounterEncrypt))]
+        [TestCase("DECRYPT", "ctr", typeof(TestCaseValidatorCounterDecrypt))]
 
         [TestCase("encrypt", "Junk", typeof(TestCaseValidatorNull))]
         [TestCase("", "", typeof(TestCaseValidatorNull))]

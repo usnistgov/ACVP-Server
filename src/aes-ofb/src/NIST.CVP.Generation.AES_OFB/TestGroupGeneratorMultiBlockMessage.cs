@@ -19,7 +19,7 @@ namespace NIST.CVP.Generation.AES_OFB
                     {
                         Function = function,
                         KeyLength = keyLength,
-                        TestType = MMT_TYPE_LABEL
+                        InternalTestType = MMT_TYPE_LABEL
                     };
                     testGroups.Add(testGroup);
                 }

@@ -12,6 +12,8 @@ namespace NIST.CVP.Generation.AES_OFB
         public int TestGroupId { get; set; }
         [JsonProperty(PropertyName = "testType")]
         public string TestType { get; set; } = "KAT";
+
+        public string InternalTestType { get; set; } = string.Empty;
         [JsonProperty(PropertyName = "direction")]
         public string Function { get; set; }
         [JsonProperty(PropertyName = "keyLen")]

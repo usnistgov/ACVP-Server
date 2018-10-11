@@ -22,7 +22,8 @@ namespace NIST.CVP.Generation.AES_CFB8
                         AlgoMode = algoMode,
                         Function = direction,
                         KeyLength = keyLength,
-                        TestType = _MCT_TEST_TYPE_LABEL
+                        TestType = _MCT_TEST_TYPE_LABEL,
+                        InternalTestType = _MCT_TEST_TYPE_LABEL
                     };
                     testGroups.Add(testGroup);
                 }

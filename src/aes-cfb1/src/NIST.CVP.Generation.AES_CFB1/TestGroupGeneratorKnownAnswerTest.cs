@@ -30,7 +30,7 @@ namespace NIST.CVP.Generation.AES_CFB1
                             AlgoMode = algoMode,
                             Function = direction,
                             KeyLength = keyLength,
-                            TestType = katTest
+                            InternalTestType = katTest
                         };
                         testGroups.Add(testGroup);
                     }

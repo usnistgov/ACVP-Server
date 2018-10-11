@@ -9,6 +9,7 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen
     public class TestCase : ITestCase<TestGroup, TestCase>
     {
         public int TestCaseId { get; set; }
+        [JsonIgnore]
         public bool? TestPassed => true;
         public bool Deferred { get; set; }
         public TestGroup ParentGroup { get; set; }

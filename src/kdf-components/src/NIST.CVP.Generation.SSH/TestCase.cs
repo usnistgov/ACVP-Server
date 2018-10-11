@@ -3,6 +3,7 @@ using Newtonsoft.Json.Linq;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.ExtensionMethods;
 using NIST.CVP.Math;
+using Newtonsoft.Json;
 
 namespace NIST.CVP.Generation.SSH
 {
@@ -10,7 +11,9 @@ namespace NIST.CVP.Generation.SSH
     {
         public int TestCaseId { get; set; }
         public TestGroup ParentGroup { get; set; }
+        [JsonIgnore]
         public bool? TestPassed { get; set; }
+        [JsonIgnore]
         public bool Deferred { get; set; }
 
         public BitString K { get; set; }

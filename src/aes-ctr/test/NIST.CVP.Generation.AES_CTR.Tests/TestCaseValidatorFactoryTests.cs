@@ -36,8 +36,8 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
         [TestCase("encrypt", "Vartxt", typeof(TestCaseValidatorEncrypt))]
         [TestCase("decrypt", "varTXT", typeof(TestCaseValidatorDecrypt))]
 
-        [TestCase("encrypT", "cOUNTER", typeof(TestCaseValidatorCounterEncrypt))]
-        [TestCase("DECRYPT", "coUNTER", typeof(TestCaseValidatorCounterDecrypt))]
+        [TestCase("encrypT", "ctr", typeof(TestCaseValidatorCounterEncrypt))]
+        [TestCase("DECRYPT", "CtR", typeof(TestCaseValidatorCounterDecrypt))]
         [TestCase("encrypt", "Junk", typeof(TestCaseValidatorNull))]
         [TestCase("", "", typeof (TestCaseValidatorNull))]
         public void ShouldReturnCorrectValidatorType(string direction, string testType, Type expectedType)
@@ -57,7 +57,7 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
                 {
                     new TestGroup
                     {
-                        TestType = testType,
+                        InternalTestType = testType,
                         Direction = direction,
                         Tests = new List<TestCase>
                         {

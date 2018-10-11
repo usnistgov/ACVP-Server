@@ -2,6 +2,7 @@
   "algorithm": "HMAC-SHA-1",
   "mode": "",
   "isSample": false,
+  "conformances": [],
   "keyLen": [
     {
       "min": 8,

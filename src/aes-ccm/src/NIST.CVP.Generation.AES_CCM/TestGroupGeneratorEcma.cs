@@ -35,7 +35,7 @@ namespace NIST.CVP.Generation.AES_CCM
                     KeyLength = KEY_LEN,
                     PTLength = PT_LEN,
                     TagLength = TAG_LEN,
-                    TestType = "ECMA-AFT",
+                    InternalTestType = "ECMA-AFT",
                     AADLength = AAD_MAX_LEN
                 };
 
@@ -47,7 +47,7 @@ namespace NIST.CVP.Generation.AES_CCM
                     KeyLength = KEY_LEN,
                     PTLength = PT_LEN,
                     TagLength = TAG_LEN,
-                    TestType = "ECMA-VADT",
+                    InternalTestType = "ECMA-VADT",
                     AADLengths = aadLens
                 };
 

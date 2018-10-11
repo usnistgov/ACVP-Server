@@ -2,6 +2,7 @@
   "algorithm": "AES",
   "mode": "CFB128",
   "isSample": false,
+  "conformances": [],
   "direction": [
     "encrypt",
     "decrypt"

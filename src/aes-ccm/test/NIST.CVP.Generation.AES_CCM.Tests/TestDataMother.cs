@@ -26,7 +26,7 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
                     KeyLength = 256 + groupIdx * 2,
                     PTLength = 256 + groupIdx * 2,
                     TagLength = 16 + groupIdx * 2,
-                    TestType = TestTypes.DecryptionVerification.ToString()
+                    TestType = InternalTestTypes.DecryptionVerification.ToString()
                 };
                 testGroups.Add(tg);
 

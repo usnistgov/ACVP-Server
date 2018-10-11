@@ -10,7 +10,7 @@ namespace NIST.CVP.Generation.AES_XTS
 {
     public class TestGroupGenerator : ITestGroupGenerator<Parameters, TestGroup, TestCase>
     {
-        private const string TEST_TYPE_LABEL = "aft";
+        private const string TEST_TYPE_LABEL = "AFT";
 
         public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
         {

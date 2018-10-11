@@ -11,7 +11,22 @@ namespace NIST.CVP.Generation.TDES_CBC.ContractResolvers
     {
         protected override Predicate<object> TestGroupSerialization(JsonProperty jsonProperty)
         {
-            return jsonProperty.ShouldDeserialize = instance => true;
+            var includeProperties = new[]
+            {
+                nameof(TestGroup.TestGroupId),
+                nameof(TestGroup.TestType),
+                nameof(TestGroup.Function),
+                nameof(TestGroup.KeyingOption),
+                nameof(TestGroup.Tests)
+            };
+
+            if (includeProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
+            {
+                return jsonProperty.ShouldSerialize =
+                    instance => true;
+            }
+
+            return jsonProperty.ShouldSerialize = instance => false;
         }
 
         protected override Predicate<object> TestCaseSerialization(JsonProperty jsonProperty)

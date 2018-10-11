@@ -11,11 +11,20 @@ namespace NIST.CVP.Generation.TDES_OFBI
     {
         public int TestCaseId { get; set; }
         public TestGroup ParentGroup { get; set; }
+
+        [JsonIgnore]
         public bool? TestPassed => true;
+
+        [JsonIgnore]
         public bool Deferred { get; set; }
+
+        [JsonProperty(PropertyName = "pt")]
         public BitString PlainText { get; set; }
+
+        [JsonProperty(PropertyName = "ct")]
         public BitString CipherText { get; set; }
 
+        [JsonProperty(PropertyName = "iv")]
         public BitString IV { get; set; }
         
         public List<AlgoArrayResponse> ResultsArray { get; set; }

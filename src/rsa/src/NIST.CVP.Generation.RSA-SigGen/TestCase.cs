@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Generation.Core;
+﻿using Newtonsoft.Json;
+using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.RSA_SigGen
@@ -7,6 +8,7 @@ namespace NIST.CVP.Generation.RSA_SigGen
     {
         public int TestCaseId { get; set; }
         public TestGroup ParentGroup { get; set; }
+        [JsonIgnore]
         public bool? TestPassed { get; set; }
         public bool Deferred { get; set; }
 

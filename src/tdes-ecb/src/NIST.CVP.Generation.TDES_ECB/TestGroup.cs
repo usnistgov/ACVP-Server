@@ -13,7 +13,9 @@ namespace NIST.CVP.Generation.TDES_ECB
         
         [JsonProperty(PropertyName = "testType")]
         public string TestType{ get; set; }
-        
+
+        public string InternalTestType { get; set; } = "";
+
         [JsonProperty(PropertyName = "keyingOption")]
         public int KeyingOption { get; set; }
         

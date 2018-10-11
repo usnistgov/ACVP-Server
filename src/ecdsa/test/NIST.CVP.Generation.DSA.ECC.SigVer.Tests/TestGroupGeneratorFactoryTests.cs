@@ -76,7 +76,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer.Tests
                 groups.AddRangeIfNotNullOrEmpty(genny.BuildTestGroups(p));
             }
 
-            Assert.AreEqual(15 * 7, groups.Count);
+            Assert.AreEqual(15 * 11, groups.Count);
         }
 
         private Capability[] GetCapabilities()

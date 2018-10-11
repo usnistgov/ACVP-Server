@@ -24,7 +24,7 @@ namespace NIST.CVP.Generation.AES_CTR
             {
                 foreach (var test in group.Tests.Select(t => t))
                 {
-                    var testType = group.TestType.ToLower();
+                    var testType = group.InternalTestType.ToLower();
                     var direction = group.Direction.ToLower();
 
                     if (testType == "singleblock" || testType == "partialblock" || _katTestTypes.Contains(testType))
@@ -42,7 +42,7 @@ namespace NIST.CVP.Generation.AES_CTR
                             list.Add(new TestCaseValidatorNull(test));
                         }
                     }
-                    else if (testType == "counter")
+                    else if (testType == "ctr")
                     {
                         if (direction == "encrypt")
                         {

@@ -14,7 +14,7 @@ namespace NIST.CVP.Generation.AES_CFB128
 
         public ITestCaseGeneratorAsync<TestGroup, TestCase> GetCaseGenerator(TestGroup testGroup)
         {
-            var testType = testGroup.TestType.ToLower();
+            var testType = testGroup.InternalTestType.ToLower();
 
             switch (testType)
             {

@@ -2,6 +2,7 @@
   "algorithm": "TDES",
   "mode": "CBC",
   "isSample": false,
+  "conformances": [],
   "direction": [
     "encrypt",
     "decrypt"
