@@ -57,6 +57,40 @@ namespace NIST.CVP.PoolAPI.Controllers
             return "";
         }
 
+        [HttpGet]
+        [Route("config")]
+        // /api/pools/config
+        public string GetPoolConfig()
+        {
+            try
+            {
+                return JsonConvert.SerializeObject(Program.PoolManager.GetPoolProperties(), _jsonSettings);
+            }
+            catch (Exception ex)
+            {
+                LogManager.GetCurrentClassLogger().Error(ex);
+            }
+
+            return "";
+        }
+
+        [HttpPost]
+        [Route("config")]
+        // /api/pools/config
+        public string PostPoolConfig(PoolProperties poolProps)
+        {
+            try
+            {
+                return JsonConvert.SerializeObject(Program.PoolManager.EditPoolProperties(poolProps), _jsonSettings);
+            }
+            catch (Exception ex)
+            {
+                LogManager.GetCurrentClassLogger().Error(ex);
+            }
+
+            return "";
+        }
+
         [HttpPost]
         [Route("spawn")]
         // /api/pools/spawn

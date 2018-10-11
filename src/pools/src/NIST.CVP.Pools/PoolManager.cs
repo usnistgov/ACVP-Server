@@ -1,18 +1,18 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using NIST.CVP.Common.Config;
 using NIST.CVP.Common.ExtensionMethods;
+using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Generation.Core.JsonConverters;
 using NIST.CVP.Pools.Enums;
+using NIST.CVP.Pools.Models;
 using NIST.CVP.Pools.PoolModels;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using Microsoft.Extensions.Options;
-using NIST.CVP.Common.Config;
-using NIST.CVP.Common.Oracle;
-using NIST.CVP.Pools.Models;
 
 namespace NIST.CVP.Pools
 {
@@ -82,6 +82,25 @@ namespace NIST.CVP.Pools
             });
 
             return list;
+        }
+
+        public bool EditPoolProperties(PoolProperties poolProps)
+        {
+            if (_properties.TryFirst(
+                properties => properties.FilePath.Equals(poolProps.FilePath, StringComparison.OrdinalIgnoreCase),
+                out var result))
+            {
+                result.MaxCapacity = poolProps.MaxCapacity;
+                result.MaxWaterReuse = poolProps.MaxWaterReuse;
+                result.MonitorFrequency = poolProps.MonitorFrequency;
+            }
+
+            return true;
+        }
+
+        public List<PoolProperties> GetPoolProperties()
+        {
+            return new List<PoolProperties>(_properties);
         }
 
         public bool SavePools()
