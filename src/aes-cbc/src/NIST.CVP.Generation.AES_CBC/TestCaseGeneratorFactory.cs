@@ -15,7 +15,7 @@ namespace NIST.CVP.Generation.AES_CBC
         public ITestCaseGeneratorAsync<TestGroup, TestCase> GetCaseGenerator(TestGroup testGroup)
         {
             var testType = testGroup.TestType.ToLower();
-            var katType = testGroup.KatType.ToLower();
+            var katType = testGroup.InternalTestType.ToLower();
 
             switch (katType)
             {

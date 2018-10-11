@@ -1,0 +1,28 @@
+{
+  "algorithm": "TDES",
+  "mode": "KW",
+  "isSample": false,
+  "conformances": [],
+  "keyLen": [
+    192
+  ],
+  "direction": [
+    "encrypt",
+    "decrypt"
+  ],
+  "kwCipher": [
+    "cipher",
+    "inverse"
+  ],
+  "ptLen": [
+    {
+      "min": 128,
+      "max": 4096,
+      "increment": 64
+    }
+  ],
+  "keyingOption": [
+    1,
+    2
+  ]
+}

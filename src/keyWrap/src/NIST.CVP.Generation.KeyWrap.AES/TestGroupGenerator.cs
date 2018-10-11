@@ -26,7 +26,9 @@ namespace NIST.CVP.Generation.KeyWrap.AES
             KeyWrapType keyWrapType;
 
             if (SpecificationToDomainMapping.Map
-                .TryFirst(w => w.algorithm == parameters.Algorithm, out var result))
+                .TryFirst(w => 
+                    w.algorithm == parameters.Algorithm &&
+                    w.mode == parameters.Mode, out var result))
             {
                 keyWrapType = result.keyWrapType;
             }

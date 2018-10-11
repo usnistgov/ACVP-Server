@@ -29,7 +29,7 @@ namespace NIST.CVP.Generation.AES_CBC
                             Function = direction,
                             KeyLength = keyLength,
                             TestType = TEST_TYPE,
-                            KatType = katTest
+                            InternalTestType = katTest
                             
                         };
                         testGroups.Add(testGroup);
