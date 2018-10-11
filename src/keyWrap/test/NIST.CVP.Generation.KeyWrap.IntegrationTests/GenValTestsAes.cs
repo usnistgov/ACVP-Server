@@ -15,9 +15,8 @@ namespace NIST.CVP.Generation.KeyWrap.IntegrationTests
     [TestFixture, LongRunningIntegrationTest]
     public class GenValTestsAes : GenValTestsSingleRunnerBase
     {
-        // ParameterValidator expects the algorithm to be "AES-KW"
-        public override string Algorithm { get; } = "AES-KW";
-        public override string Mode { get; } = "KeyWrap";
+        public override string Algorithm { get; } = "AES";
+        public override string Mode { get; } = "KW";
 
         public override AlgoMode AlgoMode => AlgoMode.AES_KW;
 

@@ -15,12 +15,12 @@ namespace NIST.CVP.Generation.KeyWrap
         /// <summary>
         /// Maps algorithms to a KeyWrapType
         /// </summary>
-        public static readonly List<(string algorithm, KeyWrapType keyWrapType)> Map =
-            new List<(string algorithm, KeyWrapType keyWrapType)>()
+        public static readonly List<(string algorithm, string mode, KeyWrapType keyWrapType)> Map =
+            new List<(string algorithm, string mode, KeyWrapType keyWrapType)>()
             {
-                ("AES-KW", KeyWrapType.AES_KW),
-                ("TDES-KW", KeyWrapType.TDES_KW),
-                ("AES-KWP", KeyWrapType.AES_KWP)
+                ("AES", "KW", KeyWrapType.AES_KW),
+                ("TDES", "KW", KeyWrapType.TDES_KW),
+                ("AES", "KWP", KeyWrapType.AES_KWP)
             };
     }
 }
