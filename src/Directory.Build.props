@@ -44,7 +44,9 @@
         <NugetVersionMicrosoftOrleansOrleansCodeGeneratorBuild>2.1.0</NugetVersionMicrosoftOrleansOrleansCodeGeneratorBuild>
         <NugetVersionMicrosoftOrleansClient>2.1.0</NugetVersionMicrosoftOrleansClient>
         <NugetVersionMicrosoftOrleansCoreAbstractions>2.1.0</NugetVersionMicrosoftOrleansCoreAbstractions>
+        <NuGetVersionOrleansDashboard>2.0.9</NuGetVersionOrleansDashboard>
         <NugetVersionMicrosoftExtensionsLoggingConsole>2.1.0</NugetVersionMicrosoftExtensionsLoggingConsole>
+        <NugetVersionMicrosoftAspNetCoreHostingWindowsServices>2.1.0</NugetVersionMicrosoftAspNetCoreHostingWindowsServices>
     </PropertyGroup>
 
 </Project>
