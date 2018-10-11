@@ -1,32 +1,35 @@
 ﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using NIST.CVP.Common.Config;
-using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Common.Helpers;
 using NIST.CVP.Orleans.Grains;
 using NIST.CVP.Orleans.Grains.Interfaces;
 using NIST.CVP.Orleans.ServerHost.ExtensionMethods;
+using NIST.CVP.Orleans.ServerHost.Models;
 using Orleans;
 using Orleans.Configuration;
 using Orleans.Hosting;
 
 namespace NIST.CVP.Orleans.ServerHost
 {
-    public class OrleansSiloHost
+    public class OrleansSiloHost : IHostedService
     {
         private readonly OrleansConfig _orleansConfig;
         private readonly EnvironmentConfig _environmentConfig;
         private ISiloHost _silo;
 
-        public OrleansSiloHost(string rootDirectory)
+        public OrleansSiloHost(DirectoryConfig rootDirectory)
         {
-            var serviceProvider = EntryPointConfigHelper.Bootstrap(rootDirectory);
+            var serviceProvider = EntryPointConfigHelper.Bootstrap(rootDirectory.RootDirectory);
             _orleansConfig = serviceProvider.GetService<IOptions<OrleansConfig>>().Value;
             _environmentConfig = serviceProvider.GetService<IOptions<EnvironmentConfig>>().Value;
         }
 
-        public void StartSilo()
+        public async Task StartAsync(CancellationToken cancellationToken)
         {
             var builder = new SiloHostBuilder()
                 .Configure<ClusterOptions>(options =>
@@ -41,15 +44,15 @@ namespace NIST.CVP.Orleans.ServerHost
                 })
                 .ConfigureClustering(_orleansConfig, _environmentConfig)
                 .ConfigureLogging(_orleansConfig, _environmentConfig)
-                .UseDashboard(options => { });
+                .UseDashboard(options => { }); // port 8080
 
             _silo = builder.Build();
-            _silo.StartAsync().FireAndForget();
+            await _silo.StartAsync(cancellationToken);
         }
-
-        public void StopSilo()
+        
+        public async Task StopAsync(CancellationToken cancellationToken)
         {
-            _silo.StopAsync().FireAndForget();
+            await _silo.StopAsync(cancellationToken);
         }
     }
 }

@@ -5,13 +5,15 @@
     <ServerGarbageCollection>true</ServerGarbageCollection>
     <RuntimeIdentifier>win7-x64</RuntimeIdentifier>
     <OutputType>Exe</OutputType>
+    <LangVersion>7.1</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.App" Version="$(NuGetVersionMicrosoftAspNetCoreAll)"/>
-    <PackageReference Include="Microsoft.AspNetCore.Hosting.WindowsServices" Version="$(NugetVersionMicrosoftAspNetCoreHostingWindowsServices)" />
+    <PackageReference Include="Microsoft.AspNetCore.App" Version="$(NuGetVersionMicrosoftAspNetCoreAll)" />
     <PackageReference Include="Microsoft.Orleans.Server" Version="$(NugetVersionMicrosoftOrleansServer)" />
     <PackageReference Include="OrleansDashboard" Version="$(NuGetVersionOrleansDashboard)" />
+    <PackageReference Include="System.ServiceProcess.ServiceController" Version="$(NuGetVersionSystemServiceProcessServiceController)" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="$(NuGetVersionMicrosoftExtensionsHosting)" />
   </ItemGroup>
 
   <ItemGroup>

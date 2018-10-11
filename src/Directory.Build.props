@@ -26,9 +26,9 @@
 
     <!-- NuGet package versions -->
     <PropertyGroup>
-        <NuGetVersionMicrosoftAspNetCoreAll>2.1.0</NuGetVersionMicrosoftAspNetCoreAll>
-        <NuGetVersionMicrosoftExtensionsOptionsConfigurationExtensions>2.1.0</NuGetVersionMicrosoftExtensionsOptionsConfigurationExtensions>
-        <NuGetVersionMicrosoftExtensionsDependencyInjection>2.1.0</NuGetVersionMicrosoftExtensionsDependencyInjection>
+        <NuGetVersionMicrosoftAspNetCoreAll>2.1.1</NuGetVersionMicrosoftAspNetCoreAll>
+        <NuGetVersionMicrosoftExtensionsOptionsConfigurationExtensions>2.1.1</NuGetVersionMicrosoftExtensionsOptionsConfigurationExtensions>
+        <NuGetVersionMicrosoftExtensionsDependencyInjection>2.1.1</NuGetVersionMicrosoftExtensionsDependencyInjection>
         <NuGetVersionMicrosoftNETTestSdk>15.7.0</NuGetVersionMicrosoftNETTestSdk>
         <NuGetVersiondotnettestnunit>3.4.0-beta-3</NuGetVersiondotnettestnunit>
         <NuGetVersionTeamCityVSTestTestAdapter>1.0.5</NuGetVersionTeamCityVSTestTestAdapter>
@@ -47,6 +47,8 @@
         <NuGetVersionOrleansDashboard>2.0.9</NuGetVersionOrleansDashboard>
         <NugetVersionMicrosoftExtensionsLoggingConsole>2.1.0</NugetVersionMicrosoftExtensionsLoggingConsole>
         <NugetVersionMicrosoftAspNetCoreHostingWindowsServices>2.1.0</NugetVersionMicrosoftAspNetCoreHostingWindowsServices>
+        <NuGetVersionMicrosoftExtensionsHosting>2.1.1</NuGetVersionMicrosoftExtensionsHosting>
+        <NuGetVersionSystemServiceProcessServiceController>4.5.0</NuGetVersionSystemServiceProcessServiceController>
     </PropertyGroup>
 
 </Project>
