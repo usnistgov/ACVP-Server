@@ -13,6 +13,7 @@ using NIST.CVP.Pools.PoolModels;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using NLog;
 
 namespace NIST.CVP.Pools
 {
@@ -21,7 +22,8 @@ namespace NIST.CVP.Pools
         public readonly List<IPool> Pools = new List<IPool>();
         private readonly IOptions<PoolConfig> _poolConfig;
         private readonly string _poolDirectory;
-        
+        private readonly string _poolConfigFile;
+
         private PoolProperties[] _properties;
         
         private readonly IList<JsonConverter> _jsonConverters = new List<JsonConverter>
@@ -32,11 +34,12 @@ namespace NIST.CVP.Pools
             new StringEnumConverter()
         };
 
-        public PoolManager(IOptions<PoolConfig> poolConfig, string configFile, string poolDirectory)
+        public PoolManager(IOptions<PoolConfig> poolConfig, string poolConfigFile, string poolDirectory)
         {
             _poolDirectory = poolDirectory;
+            _poolConfigFile = poolConfigFile;
             _poolConfig = poolConfig;
-            LoadPools(configFile);
+            LoadPools();
         }
 
         public PoolInformation GetPoolStatus(ParameterHolder paramHolder)
@@ -124,6 +127,24 @@ namespace NIST.CVP.Pools
             return true;
         }
 
+        public bool SavePoolConfigs()
+        {
+            var fullConfigFile = Path.Combine(_poolDirectory, _poolConfigFile);
+            var json = JsonConvert.SerializeObject
+            (
+                _properties, 
+                new JsonSerializerSettings
+                {
+                    Formatting = Formatting.Indented,
+                    Converters = _jsonConverters
+                }
+            );
+            
+            File.WriteAllText(fullConfigFile, json);
+            
+            return true;
+        }
+
         public bool CleanPools()
         {
             foreach (var pool in Pools)
@@ -134,9 +155,9 @@ namespace NIST.CVP.Pools
             return true;
         }
 
-        private void LoadPools(string configFile)
+        private void LoadPools()
         {
-            var fullConfigFile = Path.Combine(_poolDirectory, configFile);
+            var fullConfigFile = Path.Combine(_poolDirectory, _poolConfigFile);
             _properties = JsonConvert.DeserializeObject<PoolProperties[]>
             (
                 File.ReadAllText(fullConfigFile), 

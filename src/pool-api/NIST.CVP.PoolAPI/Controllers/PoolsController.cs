@@ -92,6 +92,16 @@ namespace NIST.CVP.PoolAPI.Controllers
         }
 
         [HttpPost]
+        [Route("config/save")]
+        // /api/pools/config/save
+        public bool SavePoolConfig()
+        {
+            Program.PoolManager.SavePoolConfigs();
+
+            return true;
+        }
+
+        [HttpPost]
         [Route("spawn")]
         // /api/pools/spawn
         public bool SpawnJobForPool(ParameterHolder parameterHolder)

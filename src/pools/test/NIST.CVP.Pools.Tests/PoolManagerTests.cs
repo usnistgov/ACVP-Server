@@ -237,5 +237,51 @@ namespace NIST.CVP.Pools.Tests
 
             Assert.AreEqual(newConfig.MaxWaterReuse, result.MaxWaterReuse);
         }
+
+        [Test]
+        public void ShouldProperlySaveConfigurationFile()
+        {
+            var fullPath = Path.Combine(_testPath, "saveChangesConfig.json");
+            
+            _subject = new PoolManager(_mockOptionsPoolConfig.Object, fullPath, _testPath);
+
+            // Change the pool configuration
+            var prechangeConfig = _subject.GetPoolProperties().First();
+            // copy of object as to not work with the original reference
+            var prechangeConfigCopy = new PoolProperties()
+            {
+                FilePath = prechangeConfig.FilePath,
+                MaxCapacity = prechangeConfig.MaxCapacity,
+                MaxWaterReuse = prechangeConfig.MaxWaterReuse,
+                MonitorFrequency = prechangeConfig.MonitorFrequency,
+                PoolType = prechangeConfig.PoolType
+            };
+            var newConfig = new PoolProperties()
+            {
+                FilePath = prechangeConfigCopy.FilePath,
+                MaxCapacity = prechangeConfigCopy.MaxCapacity,
+                MaxWaterReuse = prechangeConfigCopy.MaxWaterReuse + 42,
+                MonitorFrequency = prechangeConfigCopy.MonitorFrequency,
+                PoolType = prechangeConfigCopy.PoolType
+            };
+            _subject.EditPoolProperties(newConfig);
+            _subject.SavePoolConfigs();
+
+            // Reinitialize pools
+            _subject = new PoolManager(_mockOptionsPoolConfig.Object, fullPath, _testPath);
+            var postChangeConfig = _subject.GetPoolProperties().First();
+
+            Assert.AreEqual(newConfig.MaxWaterReuse, postChangeConfig.MaxWaterReuse, "config change");
+
+            // Change the value back
+            _subject.EditPoolProperties(prechangeConfigCopy);
+            _subject.SavePoolConfigs();
+
+            // Reinitialize pools
+            _subject = new PoolManager(_mockOptionsPoolConfig.Object, fullPath, _testPath);
+            var validateOriginalChangeConfig = _subject.GetPoolProperties().First();
+
+            Assert.AreEqual(prechangeConfigCopy.MaxWaterReuse, validateOriginalChangeConfig.MaxWaterReuse, "original file check");
+        }
     }
 }
