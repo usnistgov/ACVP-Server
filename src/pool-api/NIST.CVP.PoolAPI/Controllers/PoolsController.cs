@@ -57,6 +57,50 @@ namespace NIST.CVP.PoolAPI.Controllers
             return "";
         }
 
+        [HttpGet]
+        [Route("config")]
+        // /api/pools/config
+        public string GetPoolConfig()
+        {
+            try
+            {
+                return JsonConvert.SerializeObject(Program.PoolManager.GetPoolProperties(), _jsonSettings);
+            }
+            catch (Exception ex)
+            {
+                LogManager.GetCurrentClassLogger().Error(ex);
+            }
+
+            return "";
+        }
+
+        [HttpPost]
+        [Route("config")]
+        // /api/pools/config
+        public string PostPoolConfig(PoolProperties poolProps)
+        {
+            try
+            {
+                return JsonConvert.SerializeObject(Program.PoolManager.EditPoolProperties(poolProps), _jsonSettings);
+            }
+            catch (Exception ex)
+            {
+                LogManager.GetCurrentClassLogger().Error(ex);
+            }
+
+            return "";
+        }
+
+        [HttpPost]
+        [Route("config/save")]
+        // /api/pools/config/save
+        public bool SavePoolConfig()
+        {
+            Program.PoolManager.SavePoolConfigs();
+
+            return true;
+        }
+
         [HttpPost]
         [Route("spawn")]
         // /api/pools/spawn
@@ -118,6 +162,15 @@ namespace NIST.CVP.PoolAPI.Controllers
         public bool SavePools()
         {
             return Program.PoolManager.SavePools();
+        }
+
+        [HttpPost]
+        [Route("clean")]
+        // /api/pools/clean
+        public bool CleanPools()
+        {
+            // TODO should this clean THEN save? Or leave that up to the consumer?
+            return Program.PoolManager.CleanPools();
         }
     }
 }

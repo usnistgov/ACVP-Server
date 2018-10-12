@@ -1,24 +1,31 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using NIST.CVP.Common.Config;
 using NIST.CVP.Common.ExtensionMethods;
+using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Generation.Core.JsonConverters;
 using NIST.CVP.Pools.Enums;
+using NIST.CVP.Pools.Models;
 using NIST.CVP.Pools.PoolModels;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using NLog;
 
 namespace NIST.CVP.Pools
 {
     public class PoolManager
     {
         public readonly List<IPool> Pools = new List<IPool>();
+        private readonly IOptions<PoolConfig> _poolConfig;
+        private readonly string _poolDirectory;
+        private readonly string _poolConfigFile;
 
         private PoolProperties[] _properties;
-        private string _poolDirectory;
-
+        
         private readonly IList<JsonConverter> _jsonConverters = new List<JsonConverter>
         {
             new BitstringConverter(),
@@ -27,9 +34,12 @@ namespace NIST.CVP.Pools
             new StringEnumConverter()
         };
 
-        public PoolManager(string configFile, string poolDirectory)
+        public PoolManager(IOptions<PoolConfig> poolConfig, string poolConfigFile, string poolDirectory)
         {
-            LoadPools(configFile, poolDirectory);
+            _poolDirectory = poolDirectory;
+            _poolConfigFile = poolConfigFile;
+            _poolConfig = poolConfig;
+            LoadPools();
         }
 
         public PoolInformation GetPoolStatus(ParameterHolder paramHolder)
@@ -77,6 +87,25 @@ namespace NIST.CVP.Pools
             return list;
         }
 
+        public bool EditPoolProperties(PoolProperties poolProps)
+        {
+            if (_properties.TryFirst(
+                properties => properties.FilePath.Equals(poolProps.FilePath, StringComparison.OrdinalIgnoreCase),
+                out var result))
+            {
+                result.MaxCapacity = poolProps.MaxCapacity;
+                result.MaxWaterReuse = poolProps.MaxWaterReuse;
+                result.MonitorFrequency = poolProps.MonitorFrequency;
+            }
+
+            return true;
+        }
+
+        public List<PoolProperties> GetPoolProperties()
+        {
+            return new List<PoolProperties>(_properties);
+        }
+
         public bool SavePools()
         {
             foreach (var pool in Pools)
@@ -98,11 +127,37 @@ namespace NIST.CVP.Pools
             return true;
         }
 
-        private void LoadPools(string configFile, string poolDirectory)
+        public bool SavePoolConfigs()
         {
-            _poolDirectory = poolDirectory;
+            var fullConfigFile = Path.Combine(_poolDirectory, _poolConfigFile);
+            var json = JsonConvert.SerializeObject
+            (
+                _properties, 
+                new JsonSerializerSettings
+                {
+                    Formatting = Formatting.Indented,
+                    Converters = _jsonConverters
+                }
+            );
+            
+            File.WriteAllText(fullConfigFile, json);
+            
+            return true;
+        }
 
-            var fullConfigFile = Path.Combine(_poolDirectory, configFile);
+        public bool CleanPools()
+        {
+            foreach (var pool in Pools)
+            {
+                pool.CleanPool();
+            }
+
+            return true;
+        }
+
+        private void LoadPools()
+        {
+            var fullConfigFile = Path.Combine(_poolDirectory, _poolConfigFile);
             _properties = JsonConvert.DeserializeObject<PoolProperties[]>
             (
                 File.ReadAllText(fullConfigFile), 
@@ -114,58 +169,58 @@ namespace NIST.CVP.Pools
 
             foreach (var poolProperty in _properties)
             {
-                var filePath = Path.Combine(_poolDirectory, poolProperty.FilePath);
+                var fullPoolLocation = Path.Combine(_poolDirectory, poolProperty.FilePath);
                 var param = poolProperty.PoolType.Parameters;
 
                 IPool pool = null;
                 switch (poolProperty.PoolType.Type)
                 {
                     case PoolTypes.SHA:
-                        pool = new ShaPool(param as ShaParameters, filePath, _jsonConverters);
+                        pool = new ShaPool(GetConstructionParameters(param as ShaParameters, poolProperty, fullPoolLocation));
                         break;
 
                     case PoolTypes.AES:
-                        pool = new AesPool(param as AesParameters, filePath, _jsonConverters);
+                        pool = new AesPool(GetConstructionParameters(param as AesParameters, poolProperty, fullPoolLocation));
                         break;
 
                     case PoolTypes.SHA_MCT:
-                        pool = new ShaMctPool(param as ShaParameters, filePath, _jsonConverters);
+                        pool = new ShaMctPool(GetConstructionParameters(param as ShaParameters, poolProperty, fullPoolLocation));
                         break;
 
                     case PoolTypes.AES_MCT:
-                        pool = new AesMctPool(param as AesParameters, filePath, _jsonConverters);
+                        pool = new AesMctPool(GetConstructionParameters(param as AesParameters, poolProperty, fullPoolLocation));
                         break;
 
                     case PoolTypes.TDES_MCT:
-                        pool = new TdesMctPool(param as TdesParameters, filePath, _jsonConverters);
+                        pool = new TdesMctPool(GetConstructionParameters(param as TdesParameters, poolProperty, fullPoolLocation));
                         break;
 
                     case PoolTypes.SHA3_MCT:
-                        pool = new Sha3MctPool(param as Sha3Parameters, filePath, _jsonConverters);
+                        pool = new Sha3MctPool(GetConstructionParameters(param as Sha3Parameters, poolProperty, fullPoolLocation));
                         break;
 
                     case PoolTypes.CSHAKE_MCT:
-                        pool = new CShakeMctPool(param as CShakeParameters, filePath, _jsonConverters);
+                        pool = new CShakeMctPool(GetConstructionParameters(param as CShakeParameters, poolProperty, fullPoolLocation));
                         break;
 
                     case PoolTypes.PARALLEL_HASH_MCT:
-                        pool = new ParallelHashMctPool(param as ParallelHashParameters, filePath, _jsonConverters);
+                        pool = new ParallelHashMctPool(GetConstructionParameters(param as ParallelHashParameters, poolProperty, fullPoolLocation));
                         break;
 
                     case PoolTypes.TUPLE_HASH_MCT:
-                        pool = new TupleHashMctPool(param as TupleHashParameters, filePath, _jsonConverters);
+                        pool = new TupleHashMctPool(GetConstructionParameters(param as TupleHashParameters, poolProperty, fullPoolLocation));
                         break;
 
                     case PoolTypes.DSA_PQG:
-                        pool = new DsaPqgPool(param as DsaDomainParametersParameters, filePath, _jsonConverters);
+                        pool = new DsaPqgPool(GetConstructionParameters(param as DsaDomainParametersParameters, poolProperty, fullPoolLocation));
                         break;
 
                     case PoolTypes.ECDSA_KEY:
-                        pool = new EcdsaKeyPool(param as EcdsaKeyParameters, filePath, _jsonConverters);
+                        pool = new EcdsaKeyPool(GetConstructionParameters(param as EcdsaKeyParameters, poolProperty, fullPoolLocation));
                         break;
 
                     case PoolTypes.RSA_KEY:
-                        pool = new RsaKeyPool(param as RsaKeyParameters, filePath, _jsonConverters);
+                        pool = new RsaKeyPool(GetConstructionParameters(param as RsaKeyParameters, poolProperty, fullPoolLocation));
                         break;
 
                     default:
@@ -174,6 +229,19 @@ namespace NIST.CVP.Pools
 
                 Pools.Add(pool);
             }
+        }
+
+        private PoolConstructionParameters<TParam> GetConstructionParameters<TParam>(TParam param, PoolProperties poolProperties, string fullPoolLocation)
+            where TParam : IParameters
+        {
+            return new PoolConstructionParameters<TParam>()
+            {
+                JsonConverters = _jsonConverters,
+                PoolConfig = _poolConfig,
+                PoolProperties = poolProperties,
+                WaterType = param,
+                FullPoolLocation = fullPoolLocation
+            };
         }
     }
 }

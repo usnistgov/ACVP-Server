@@ -6,5 +6,6 @@
         public string FilePath { get; set; }
         public int MaxCapacity { get; set; }
         public int MonitorFrequency { get; set; }
+        public int MaxWaterReuse { get; set; }
     }
 }

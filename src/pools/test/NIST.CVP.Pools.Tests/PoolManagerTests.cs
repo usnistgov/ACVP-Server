@@ -8,50 +8,59 @@ using NIST.CVP.Tests.Core;
 using NUnit.Framework;
 using System.IO;
 using System.Linq;
+using Microsoft.Extensions.Options;
+using Moq;
+using NIST.CVP.Common.Config;
 
 namespace NIST.CVP.Pools.Tests
 {
     [TestFixture]
     public class PoolManagerTests
     {
+        private readonly Mock<IOptions<PoolConfig>> _mockOptionsPoolConfig = new Mock<IOptions<PoolConfig>>();
+        private readonly PoolConfig _poolConfig = new PoolConfig()
+        {
+            Port = 42,
+            RootUrl = "localhost",
+            ShouldRecyclePoolWater = false
+        };
         private string _testPath;
         private string _configFile = "testConfig.json";
         private string _fullPath;
+        private PoolManager _subject;
 
         [SetUp]
         public void SetUp()
         {
+            _mockOptionsPoolConfig.Setup(s => s.Value).Returns(_poolConfig);
             _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\");
             _fullPath = Path.Combine(_testPath, _configFile);
+            _subject = new PoolManager(_mockOptionsPoolConfig.Object, _fullPath, _testPath);
         }
 
         [Test]
         public void ShouldLoadConfigCorrectly()
         {
-            var poolManager = new PoolManager(_fullPath, _testPath);
-
             Assert.AreEqual(
                 2, 
-                poolManager.Pools.Count(w => w.ParamType == typeof(ShaParameters)),
+                _subject.Pools.Count(w => w.ParamType == typeof(ShaParameters)),
                 "Sha pool count"
             );
 
-            var shaPools = poolManager.Pools;
+            var shaPools = _subject.Pools;
             Assert.AreEqual(ModeValues.SHA2, ((ShaParameters)shaPools[0].Param).HashFunction.Mode);
             Assert.AreEqual(DigestSizes.d256, ((ShaParameters)shaPools[0].Param).HashFunction.DigestSize);
 
             Assert.AreEqual(
                 1, 
-                poolManager.Pools.Count(w => w.ParamType == typeof(AesParameters)),
+                _subject.Pools.Count(w => w.ParamType == typeof(AesParameters)),
                 "Aes pool count");
-            Assert.AreEqual("encrypt", ((AesParameters)poolManager.Pools[2].Param).Direction);
+            Assert.AreEqual("encrypt", ((AesParameters)_subject.Pools[2].Param).Direction);
         }
 
         [Test]
         public void ShouldAddToPoolsCorrectly()
         {
-            var poolManager = new PoolManager(_fullPath, _testPath);
-
             var paramHolder = new ParameterHolder
             {
                 Parameters = new AesParameters
@@ -71,7 +80,7 @@ namespace NIST.CVP.Pools.Tests
                 Type = PoolTypes.AES
             };
 
-            var result = poolManager.AddResultToPool(paramHolder);
+            var result = _subject.AddResultToPool(paramHolder);
 
             Assert.IsTrue(result);
         }
@@ -79,8 +88,6 @@ namespace NIST.CVP.Pools.Tests
         [Test]
         public void ShouldNotAddBadValuesToPool()
         {
-            var poolManager = new PoolManager(_fullPath, _testPath);
-
             var paramHolder = new ParameterHolder
             {
                 Parameters = new AesParameters
@@ -100,7 +107,7 @@ namespace NIST.CVP.Pools.Tests
                 Type = PoolTypes.AES
             };
 
-            var result = poolManager.AddResultToPool(paramHolder);
+            var result = _subject.AddResultToPool(paramHolder);
 
             Assert.IsFalse(result);
         }
@@ -108,8 +115,6 @@ namespace NIST.CVP.Pools.Tests
         [Test]
         public void ShouldGetResultFromPool()
         {
-            var poolManager = new PoolManager(_fullPath, _testPath);
-
             var paramHolder = new ParameterHolder
             {
                 Parameters = new AesParameters
@@ -122,7 +127,7 @@ namespace NIST.CVP.Pools.Tests
                 Type = PoolTypes.AES
             };
 
-            var result = poolManager.GetResultFromPool(paramHolder);
+            var result = _subject.GetResultFromPool(paramHolder);
 
             Assert.IsNotNull(result);
             Assert.IsNotNull(result.Result);
@@ -132,8 +137,6 @@ namespace NIST.CVP.Pools.Tests
         [Test]
         public void ShouldGetBadResultWhenPoolDoesNotExist()
         {
-            var poolManager = new PoolManager(_fullPath, _testPath);
-
             var paramHolder = new ParameterHolder
             {
                 Parameters = new AesParameters
@@ -146,7 +149,7 @@ namespace NIST.CVP.Pools.Tests
                 Type = PoolTypes.AES
             };
 
-            var result = poolManager.GetResultFromPool(paramHolder);
+            var result = _subject.GetResultFromPool(paramHolder);
 
             Assert.IsNotNull(result);
             Assert.IsNull(result.Result);
@@ -156,8 +159,6 @@ namespace NIST.CVP.Pools.Tests
         [Test]
         public void ShouldGetPoolStatus()
         {
-            var poolManager = new PoolManager(_fullPath, _testPath);
-
             var paramHolder = new ParameterHolder
             {
                 Parameters = new AesParameters
@@ -170,7 +171,7 @@ namespace NIST.CVP.Pools.Tests
                 Type = PoolTypes.AES
             };
 
-            var result = poolManager.GetPoolStatus(paramHolder);
+            var result = _subject.GetPoolStatus(paramHolder);
 
             Assert.IsNotNull(result);
             Assert.AreNotEqual(default(int), result.FillLevel);
@@ -180,8 +181,6 @@ namespace NIST.CVP.Pools.Tests
         [Test]
         public void ShouldReturnBadStatusWhenPoolDoesNotExist()
         {
-            var poolManager = new PoolManager(_fullPath, _testPath);
-
             var paramHolder = new ParameterHolder
             {
                 Parameters = new AesParameters
@@ -194,7 +193,7 @@ namespace NIST.CVP.Pools.Tests
                 Type = PoolTypes.AES
             };
 
-            var result = poolManager.GetPoolStatus(paramHolder);
+            var result = _subject.GetPoolStatus(paramHolder);
 
             Assert.IsNotNull(result);
             Assert.AreEqual(default(int), result.FillLevel);
@@ -204,11 +203,85 @@ namespace NIST.CVP.Pools.Tests
         [Test]
         public void ShouldSavePools()
         {
-            var poolManager = new PoolManager(_fullPath, _testPath);
-
-            var result = poolManager.SavePools();
+            var result = _subject.SavePools();
 
             Assert.IsTrue(result);
+        }
+
+        [Test]
+        public void ShouldGetPoolConfigInfo()
+        {
+            var individualPools = _subject.Pools.Count;
+
+            var result = _subject.GetPoolProperties();
+
+            Assert.AreEqual(individualPools, result.Count);
+        }
+
+        [Test]
+        public void ShouldSetNewPoolConfig()
+        {
+            var prechangeConfig = _subject.GetPoolProperties().First();
+            var newConfig = new PoolProperties()
+            {
+                FilePath = prechangeConfig.FilePath,
+                MaxCapacity = prechangeConfig.MaxCapacity,
+                MaxWaterReuse = prechangeConfig.MaxWaterReuse + 42,
+                MonitorFrequency = prechangeConfig.MonitorFrequency,
+                PoolType = prechangeConfig.PoolType
+            };
+
+            _subject.EditPoolProperties(newConfig);
+
+            var result = _subject.GetPoolProperties().First();
+
+            Assert.AreEqual(newConfig.MaxWaterReuse, result.MaxWaterReuse);
+        }
+
+        [Test]
+        public void ShouldProperlySaveConfigurationFile()
+        {
+            var fullPath = Path.Combine(_testPath, "saveChangesConfig.json");
+            
+            _subject = new PoolManager(_mockOptionsPoolConfig.Object, fullPath, _testPath);
+
+            // Change the pool configuration
+            var prechangeConfig = _subject.GetPoolProperties().First();
+            // copy of object as to not work with the original reference
+            var prechangeConfigCopy = new PoolProperties()
+            {
+                FilePath = prechangeConfig.FilePath,
+                MaxCapacity = prechangeConfig.MaxCapacity,
+                MaxWaterReuse = prechangeConfig.MaxWaterReuse,
+                MonitorFrequency = prechangeConfig.MonitorFrequency,
+                PoolType = prechangeConfig.PoolType
+            };
+            var newConfig = new PoolProperties()
+            {
+                FilePath = prechangeConfigCopy.FilePath,
+                MaxCapacity = prechangeConfigCopy.MaxCapacity,
+                MaxWaterReuse = prechangeConfigCopy.MaxWaterReuse + 42,
+                MonitorFrequency = prechangeConfigCopy.MonitorFrequency,
+                PoolType = prechangeConfigCopy.PoolType
+            };
+            _subject.EditPoolProperties(newConfig);
+            _subject.SavePoolConfigs();
+
+            // Reinitialize pools
+            _subject = new PoolManager(_mockOptionsPoolConfig.Object, fullPath, _testPath);
+            var postChangeConfig = _subject.GetPoolProperties().First();
+
+            Assert.AreEqual(newConfig.MaxWaterReuse, postChangeConfig.MaxWaterReuse, "config change");
+
+            // Change the value back
+            _subject.EditPoolProperties(prechangeConfigCopy);
+            _subject.SavePoolConfigs();
+
+            // Reinitialize pools
+            _subject = new PoolManager(_mockOptionsPoolConfig.Object, fullPath, _testPath);
+            var validateOriginalChangeConfig = _subject.GetPoolProperties().First();
+
+            Assert.AreEqual(prechangeConfigCopy.MaxWaterReuse, validateOriginalChangeConfig.MaxWaterReuse, "original file check");
         }
     }
 }
