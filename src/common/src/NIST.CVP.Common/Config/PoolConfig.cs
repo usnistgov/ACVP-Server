@@ -14,5 +14,10 @@
         /// The pool managers port
         /// </summary>
         public int Port { get; set; }
+
+        /// <summary>
+        /// Should the precomputed value be pushed back onto the queue once used?
+        /// </summary>
+        public bool ShouldRecyclePoolWater { get; set; }
     }
 }

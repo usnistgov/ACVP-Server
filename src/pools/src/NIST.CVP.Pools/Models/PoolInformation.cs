@@ -1,4 +1,4 @@
-﻿namespace NIST.CVP.Pools
+﻿namespace NIST.CVP.Pools.Models
 {
     public class PoolInformation
     {

@@ -7,6 +7,9 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
+using Microsoft.Extensions.Options;
+using NIST.CVP.Common.Config;
+using NIST.CVP.Pools.Models;
 
 namespace NIST.CVP.Pools
 {
@@ -17,7 +20,6 @@ namespace NIST.CVP.Pools
         public PoolTypes DeclaredType { get; }
         public TParam WaterType { get; }
         
-        private readonly ConcurrentQueue<TResult> _water;
         public int WaterLevel => _water.Count;
         public bool IsEmpty => WaterLevel == 0;
 
@@ -25,15 +27,20 @@ namespace NIST.CVP.Pools
         public IParameters Param => WaterType;
         public Type ResultType => typeof(TResult);
 
+        private readonly ConcurrentQueue<ResultWrapper<TResult>> _water;
         private readonly IList<JsonConverter> _jsonConverters;
-
-        protected PoolBase(PoolTypes declaredType, TParam waterType, string filename, IList<JsonConverter> jsonConverters)
+        private readonly IOptions<PoolConfig> _poolConfig;
+        private readonly int _maxWaterReuse;
+        
+        public PoolBase(PoolConstructionParameters<TParam> param)
         {
-            DeclaredType = declaredType;
-            WaterType = waterType;
-            _jsonConverters = jsonConverters;
-            _water = new ConcurrentQueue<TResult>();
-            LoadPoolFromFile(filename);
+            _poolConfig = param.PoolConfig;
+            DeclaredType = param.PoolProperties.PoolType.Type;
+            WaterType = param.WaterType;
+            _jsonConverters = param.JsonConverters;
+            _maxWaterReuse = param.PoolProperties.MaxWaterReuse;
+            _water = new ConcurrentQueue<ResultWrapper<TResult>>();
+            LoadPoolFromFile(param.FullPoolLocation);
         }
 
         public PoolResult<TResult> GetNext()
@@ -44,10 +51,16 @@ namespace NIST.CVP.Pools
             }
             else
             {
-                var success = _water.TryDequeue(out var result);
+                var success = _water.TryDequeue(out var wrappedResult);
                 if (success)
                 {
-                    return new PoolResult<TResult> { Result = result };
+                    RecycleValueWhenOptionsAllow(wrappedResult);
+
+                    return new PoolResult<TResult>
+                    {
+                        Result = wrappedResult.Result,
+                        TimesValueUsed = wrappedResult.TimesValueUsed
+                    };
                 }
                 else
                 {
@@ -55,21 +68,26 @@ namespace NIST.CVP.Pools
                 }
             }
         }
-        
+
         public PoolResult<IResult> GetNextUntyped()
         {
             var result = GetNext();
             return new PoolResult<IResult>()
             {
                 PoolEmpty = result.PoolEmpty,
-                Result = result.Result
+                Result = result.Result,
+                TimesValueUsed = result.TimesValueUsed
             };
         }
 
         public bool AddWater(TResult value)
         {
-            _water.Enqueue(value);
-            return true;
+            return AddWater(new ResultWrapper<TResult>()
+            {
+                Result = value,
+                TimesValueUsed = 0,
+                ValueCreated = DateTime.UtcNow
+            });
         }
 
         public bool AddWater(IResult value)
@@ -79,8 +97,7 @@ namespace NIST.CVP.Pools
                 throw new ArgumentException($"Expecting {nameof(value)} to be of type {typeof(TResult)}");
             }
 
-            _water.Enqueue((TResult)value);
-            return true;
+            return AddWater((TResult)value);
         }
 
         private void LoadPoolFromFile(string filename)
@@ -88,7 +105,7 @@ namespace NIST.CVP.Pools
             if (File.Exists(filename))
             {
                 // Load file
-                var poolContents = JsonConvert.DeserializeObject<TResult[]>(
+                var poolContents = JsonConvert.DeserializeObject<ResultWrapper<TResult>[]>(
                     File.ReadAllText(filename),
                     new JsonSerializerSettings
                     {
@@ -135,6 +152,35 @@ namespace NIST.CVP.Pools
             {
                 return false;
             }
+        }
+
+        public bool CleanPool()
+        {
+            _water.Clear();
+            return true;
+        }
+
+        private void RecycleValueWhenOptionsAllow(ResultWrapper<TResult> result)
+        {
+            // Recycle the water when option is configured, and TimesValueReused is less than the max reuse
+            if (_poolConfig.Value.ShouldRecyclePoolWater && result.TimesValueUsed < _maxWaterReuse)
+            {
+                var newResultToQueue = new ResultWrapper<TResult>()
+                {
+                    Result = result.Result,
+                    TimesValueUsed = result.TimesValueUsed + 1,
+                    ValueCreated = result.ValueCreated,
+                    ValueUsed = DateTime.UtcNow
+                };
+
+                AddWater(newResultToQueue);
+            }
+        }
+
+        private bool AddWater(ResultWrapper<TResult> result)
+        {
+            _water.Enqueue(result);
+            return true;
         }
     }
 }

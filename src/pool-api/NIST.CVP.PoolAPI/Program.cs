@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore;
+﻿using System;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using NIST.CVP.Pools;
 using NLog;
@@ -7,17 +8,27 @@ using NLog.Targets;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using Microsoft.Extensions.Options;
+using NIST.CVP.Common.Config;
+using NIST.CVP.Common.Helpers;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace NIST.CVP.PoolAPI
 {
     public static class Program
     {
         public static PoolManager PoolManager { get; set; }
+        private static IServiceProvider ServiceProvider { get; }
+
+        static Program()
+        {
+            ServiceProvider = EntryPointConfigHelper.Bootstrap(AppDomain.CurrentDomain.BaseDirectory);
+        }
 
         public static void Main(string[] args)
         {
-            var isService = !(Debugger.IsAttached || args.Contains("-c"));
-            var builder = CreateWebHostBuilder(args.Where(arg => arg != "-c").ToArray());
+            var isService = !(Debugger.IsAttached || args.Contains("--console"));
+            var builder = CreateWebHostBuilder(args.Where(arg => arg != "--console").ToArray());
 
             var logConfig = new LoggingConfiguration();
             var logFile = new FileTarget("poolLogs") { FileName = @"C:\Temp\poolLogs.log" };
@@ -35,10 +46,11 @@ namespace NIST.CVP.PoolAPI
             logger.Info($"PoolConfig: {poolConfigFile}");
             logger.Info($"PoolDirectory: {poolDirectory}");
             logger.Info("Loading pools from config file...");
-
-            PoolManager = new PoolManager(poolConfigFile, poolDirectory);
+            PoolManager = new PoolManager(
+                ServiceProvider.GetService<IOptions<PoolConfig>>(), poolConfigFile, poolDirectory
+            );
             logger.Info("Pools loaded.");
-
+            
             if (isService)
             {
                 var pathToExe = Process.GetCurrentProcess().MainModule.FileName;
@@ -49,7 +61,7 @@ namespace NIST.CVP.PoolAPI
             }
 
             var host = builder.Build();
-
+            
             if (isService)
             {
                 logger.Info("Running as service");
