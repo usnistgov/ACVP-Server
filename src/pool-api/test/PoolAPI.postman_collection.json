@@ -407,6 +407,61 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Get pool configuration",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://{{server}}/api/pools/config",
+					"protocol": "http",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"pools",
+						"config"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Save pool config",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"FilePath\": \"sha-1.json\",\r\n    \"MaxCapacity\": 50,\r\n    \"MonitorFrequency\": 30,\r\n    \"MaxWaterReuse\": 42\r\n  }"
+				},
+				"url": {
+					"raw": "http://{{server}}/api/pools/config",
+					"protocol": "http",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"pools",
+						"config"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }

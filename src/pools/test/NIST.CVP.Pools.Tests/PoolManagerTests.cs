@@ -207,5 +207,35 @@ namespace NIST.CVP.Pools.Tests
 
             Assert.IsTrue(result);
         }
+
+        [Test]
+        public void ShouldGetPoolConfigInfo()
+        {
+            var individualPools = _subject.Pools.Count;
+
+            var result = _subject.GetPoolProperties();
+
+            Assert.AreEqual(individualPools, result.Count);
+        }
+
+        [Test]
+        public void ShouldSetNewPoolConfig()
+        {
+            var prechangeConfig = _subject.GetPoolProperties().First();
+            var newConfig = new PoolProperties()
+            {
+                FilePath = prechangeConfig.FilePath,
+                MaxCapacity = prechangeConfig.MaxCapacity,
+                MaxWaterReuse = prechangeConfig.MaxWaterReuse + 42,
+                MonitorFrequency = prechangeConfig.MonitorFrequency,
+                PoolType = prechangeConfig.PoolType
+            };
+
+            _subject.EditPoolProperties(newConfig);
+
+            var result = _subject.GetPoolProperties().First();
+
+            Assert.AreEqual(newConfig.MaxWaterReuse, result.MaxWaterReuse);
+        }
     }
 }
