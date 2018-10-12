@@ -16,14 +16,14 @@ cd ..\GenValAppRunner
 dotnet clean
 
 cd ..\AllDeployable
-dotnet build -c Release
+dotnet build -c Release -r win-x64
 
 cd ..\GenValAppRunner
-dotnet build -c Release 
-dotnet publish -c Release
+dotnet build -c Release -r win-x64
+dotnet publish -c Release -r win-x64
 
-cd ..\..\common\src\NIST.CVP.Generation.GenValApp\bin\Release\netcoreapp2.1
+cd ..\..\common\src\NIST.CVP.Generation.GenValApp\bin\Release\netcoreapp2.1\win-x64\
 "%zip%" a -tzip publish.zip publish\
-mv publish.zip ..\..\..\..\..\..\..\gen-val-%branch%-%mydate%-%mytime%.zip
+mv publish.zip ..\..\..\..\..\..\..\..\gen-val-%branch%-%mydate%-%mytime%.zip
 
-cd ..\..\..\..\..\..\..\
+cd ..\..\..\..\..\..\..\..\
