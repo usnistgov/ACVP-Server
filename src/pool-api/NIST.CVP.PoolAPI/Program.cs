@@ -27,8 +27,8 @@ namespace NIST.CVP.PoolAPI
 
         public static void Main(string[] args)
         {
-            var isService = !(Debugger.IsAttached || args.Contains("-c"));
-            var builder = CreateWebHostBuilder(args.Where(arg => arg != "-c").ToArray());
+            var isService = !(Debugger.IsAttached || args.Contains("--console"));
+            var builder = CreateWebHostBuilder(args.Where(arg => arg != "--console").ToArray());
 
             var logConfig = new LoggingConfiguration();
             var logFile = new FileTarget("poolLogs") { FileName = @"C:\Temp\poolLogs.log" };
