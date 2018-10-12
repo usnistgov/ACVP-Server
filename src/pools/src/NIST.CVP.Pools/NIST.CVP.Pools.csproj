@@ -5,9 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.App" Version="$(NuGetVersionMicrosoftAspNetCoreAll)" />
     <PackageReference Include="Newtonsoft.Json" Version="$(NuGetVersionNewtonsoftJson)" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="$(NuGetVersionMicrosoftNETTestSdk)" />
-    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="$(NuGetVersionMicrosoftExtensionsOptionsConfigurationExtensions)" />
   </ItemGroup>  
 
   <ItemGroup>

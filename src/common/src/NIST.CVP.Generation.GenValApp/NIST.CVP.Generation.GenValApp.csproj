@@ -9,7 +9,6 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" Version="$(NuGetVersionMicrosoftAspNetCoreAll)" />
     <PackageReference Include="CommandLineArgumentsParser" Version="$(NuGetVersionCommandLineArgumentsParser)" />
-    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="$(NuGetVersionMicrosoftExtensionsOptionsConfigurationExtensions)" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="$(NuGetVersionMicrosoftNETTestSdk)" />
     <PackageReference Include="System.Runtime.Loader" Version="$(NuGetVersionSystemRuntimeLoader)" />
     <PackageReference Include="Autofac" Version="$(NuGetVersionAutofac)" />

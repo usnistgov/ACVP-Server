@@ -13,7 +13,6 @@
     <PackageReference Include="Microsoft.Orleans.Server" Version="$(NugetVersionMicrosoftOrleansServer)" />
     <PackageReference Include="OrleansDashboard" Version="$(NuGetVersionOrleansDashboard)" />
     <PackageReference Include="System.ServiceProcess.ServiceController" Version="$(NuGetVersionSystemServiceProcessServiceController)" />
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="$(NuGetVersionMicrosoftExtensionsHosting)" />
   </ItemGroup>
 
   <ItemGroup>
