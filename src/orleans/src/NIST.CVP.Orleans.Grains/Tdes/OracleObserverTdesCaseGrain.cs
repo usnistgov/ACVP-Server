@@ -57,7 +57,12 @@ namespace NIST.CVP.Orleans.Grains.Tdes
             var key = TdesHelpers.GenerateTdesKey(_param.KeyingOption);
             var iv = _entropyProvider.GetEntropy(64);
 
-            var blockCipherParams = new ModeBlockCipherParameters(direction, iv, key, payload);
+            var blockCipherParams = new ModeBlockCipherParameters(
+                direction, 
+                iv.GetDeepCopy(), 
+                key.GetDeepCopy(), 
+                payload.GetDeepCopy()
+            );
             var result = cipher.ProcessPayload(blockCipherParams);
 
             if (!result.Success)

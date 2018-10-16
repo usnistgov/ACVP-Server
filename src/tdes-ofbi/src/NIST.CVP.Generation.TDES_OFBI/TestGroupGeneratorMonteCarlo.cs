@@ -24,7 +24,8 @@ namespace NIST.CVP.Generation.TDES_OFBI
                     {
                         Function = function,
                         KeyingOption = keyingOption,
-                        TestType = TEST_TYPE
+                        TestType = TEST_TYPE,
+                        InternalTestType = TEST_TYPE
                     };
 
                     testGroups.Add(tg);

@@ -51,7 +51,12 @@ namespace NIST.CVP.Orleans.Grains.Aes
             var key = _entropyProvider.GetEntropy(_param.KeyLength);
             var iv = _entropyProvider.GetEntropy(128);
 
-            var blockCipherParams = new ModeBlockCipherParameters(direction, iv, key, payload);
+            var blockCipherParams = new ModeBlockCipherParameters(
+                direction, 
+                iv.GetDeepCopy(), 
+                key.GetDeepCopy(), 
+                payload.GetDeepCopy()
+            );
             var result = cipher.ProcessMonteCarloTest(blockCipherParams);
 
             if (!result.Success)

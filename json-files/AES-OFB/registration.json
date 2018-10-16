@@ -1,6 +1,6 @@
 {
-  "algorithm": "AES",
-  "mode": "OFB",
+  "algorithm": "AES-OFB",
+  "mode": "",
   "isSample": false,
   "conformances": [],
   "direction": [

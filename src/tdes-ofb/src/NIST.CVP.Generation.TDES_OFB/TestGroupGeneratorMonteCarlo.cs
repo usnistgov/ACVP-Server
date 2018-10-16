@@ -27,7 +27,8 @@ namespace NIST.CVP.Generation.TDES_OFB
                     {
                         Function = function,
                         NumberOfKeys = translatedKeyingOptionToNumberOfKeys,
-                        TestType = TEST_TYPE
+                        TestType = TEST_TYPE,
+                        InternalTestType = TEST_TYPE
                     };
                     
                     testGroups.Add(tg);

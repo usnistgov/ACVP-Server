@@ -14,8 +14,8 @@ namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
     [TestFixture, LongRunningIntegrationTest]
     public class GenValTests : GenValTestsSingleRunnerBase
     {
-        public override string Algorithm { get; } = "AES";
-        public override string Mode { get; } = "GCM";
+        public override string Algorithm { get; } = "AES-GCM";
+        public override string Mode { get; } = string.Empty;
 
         public override AlgoMode AlgoMode => AlgoMode.AES_GCM;
 

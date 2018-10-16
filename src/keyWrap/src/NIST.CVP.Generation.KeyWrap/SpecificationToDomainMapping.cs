@@ -18,9 +18,9 @@ namespace NIST.CVP.Generation.KeyWrap
         public static readonly List<(string algorithm, string mode, KeyWrapType keyWrapType)> Map =
             new List<(string algorithm, string mode, KeyWrapType keyWrapType)>()
             {
-                ("AES", "KW", KeyWrapType.AES_KW),
-                ("TDES", "KW", KeyWrapType.TDES_KW),
-                ("AES", "KWP", KeyWrapType.AES_KWP)
+                ("AES-KW", string.Empty, KeyWrapType.AES_KW),
+                ("TDES-KW", string.Empty, KeyWrapType.TDES_KW),
+                ("AES-KWP", string.Empty, KeyWrapType.AES_KWP)
             };
     }
 }

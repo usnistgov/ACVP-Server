@@ -1,6 +1,5 @@
 {
-  "algorithm": "TDES",
-  "mode": "CFB64",
+  "algorithm": "TDES-CFB64",
   "isSample": false,
   "conformances": [],
   "direction": [

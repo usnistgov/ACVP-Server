@@ -1,6 +1,5 @@
 {
-  "algorithm": "AES",
-  "mode": "CFB1",
+  "algorithm": "AES-CFB1",
   "isSample": false,
   "conformances": [],
   "direction": [

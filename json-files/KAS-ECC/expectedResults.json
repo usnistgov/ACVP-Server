@@ -1,6 +1,5 @@
 {
-  "algorithm": "KAS",
-  "mode": "ECC",
+  "algorithm": "KAS-ECC",
   "isSample": true,
   "testGroups": [
     {

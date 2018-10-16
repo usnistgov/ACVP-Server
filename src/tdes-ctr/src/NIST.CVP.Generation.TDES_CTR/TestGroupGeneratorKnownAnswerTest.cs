@@ -5,7 +5,7 @@ namespace NIST.CVP.Generation.TDES_CTR
 {
     public class TestGroupGeneratorKnownAnswerTest : ITestGroupGenerator<Parameters, TestGroup, TestCase>
     {
-        private const string TEST_TYPE = "KAT";
+        private const string TEST_TYPE = "AFT";
 
         private readonly string[] _katTests =
         {

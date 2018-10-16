@@ -9,7 +9,7 @@ namespace NIST.CVP.Generation.CMAC
 {
     public class ParameterValidator : ParameterValidatorBase, IParameterValidator<Parameters>
     {
-        public static string VALID_ALGORITHM = "CMAC";
+        public static string[] VALID_ALGORITHM = new string[] {"CMAC-AES", "CMAC-TDES"};
         //public static string[] VALID_MODES = new string[] { "AES", "TDES" };
         public static string[] VALID_DIRECTIONS = new string[] { "gen", "ver" };
         public static int[] VALID_KEY_LENGTHS = new int[] { 128, 192, 256 };
@@ -23,7 +23,7 @@ namespace NIST.CVP.Generation.CMAC
         {
             var errorResults = new List<string>();
             ValidateAlgorithm(parameters, errorResults);
-            var mode = ValidateAndGetMode(parameters.Mode, errorResults);
+            var mode = ValidateAndGetAlgorithm(parameters.Algorithm, errorResults);
             int maxMacLength = mode == CmacTypes.TDES ? 64 : 128;
 
             if (errorResults.Count > 0)
@@ -56,24 +56,24 @@ namespace NIST.CVP.Generation.CMAC
 
         private void ValidateAlgorithm(Parameters parameters, List<string> errorResults)
         {
-            var algoCheck = ValidateValue(parameters.Algorithm, new string[] {VALID_ALGORITHM}, "Algorithm");
+            var algoCheck = ValidateValue(parameters.Algorithm, VALID_ALGORITHM, "Algorithm");
             errorResults.AddIfNotNullOrEmpty(algoCheck);
         }
         
-        private CmacTypes ValidateAndGetMode(string mode, List<string> errorResults)
+        private CmacTypes ValidateAndGetAlgorithm(string algorithm, List<string> errorResults)
         {
-            if (string.IsNullOrEmpty(mode))
+            if (string.IsNullOrEmpty(algorithm))
             {
-                errorResults.AddIfNotNullOrEmpty($"Invalid {nameof(mode)} provided {mode}");
+                errorResults.AddIfNotNullOrEmpty($"Invalid {nameof(algorithm)} provided {algorithm}");
                 return default(CmacTypes);
             }
 
             if (!AlgorithmSpecificationMapping.Map
                 .TryFirst(
-                    w => w.algoSpecification.StartsWith(mode, StringComparison.OrdinalIgnoreCase),
+                    w => w.algoSpecification.StartsWith(algorithm, StringComparison.OrdinalIgnoreCase),
                     out var result))
             {
-                errorResults.AddIfNotNullOrEmpty($"Invalid {nameof(mode)} provided {mode}");
+                errorResults.AddIfNotNullOrEmpty($"Invalid {nameof(algorithm)} provided {algorithm}");
                 return default(CmacTypes);
             }
 

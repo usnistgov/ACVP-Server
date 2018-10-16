@@ -1,6 +1,5 @@
 {
-  "algorithm": "TDES",
-  "mode": "CFBP8",
+  "algorithm": "TDES-CFBP8",
   "isSample": true,
   "conformances": [],
   "direction": [

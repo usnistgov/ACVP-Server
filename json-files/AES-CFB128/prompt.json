@@ -1,6 +1,5 @@
 {
-  "algorithm": "AES",
-  "mode": "CFB128",
+  "algorithm": "AES-CFB128",
   "isSample": false,
   "testGroups": [
     {

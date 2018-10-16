@@ -14,8 +14,8 @@ namespace NIST.CVP.Generation.AES_ECB.IntegrationTests
     [TestFixture, FastIntegrationTest]
     public class GenValTests : GenValTestsSingleRunnerBase
     {
-        public override string Algorithm { get; } = "AES";
-        public override string Mode { get; } = "ECB";
+        public override string Algorithm { get; } = "AES-ECB";
+        public override string Mode { get; } = string.Empty;
 
         public override AlgoMode AlgoMode => AlgoMode.AES_ECB;
 

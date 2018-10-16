@@ -12,7 +12,7 @@ namespace NIST.CVP.Generation.TDES_OFB
         public string Function { get; set; }
         
         [JsonProperty(PropertyName = "testType")]
-        public string TestType { get; set; }
+        public string TestType { get; set; } = "AFT";
 
         public string InternalTestType { get; set; } = "";
 

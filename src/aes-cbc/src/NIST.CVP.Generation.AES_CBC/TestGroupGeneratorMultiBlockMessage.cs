@@ -19,7 +19,8 @@ namespace NIST.CVP.Generation.AES_CBC
                     {
                         Function = function,
                         KeyLength = keyLength,
-                        TestType = MMT_TYPE_LABEL
+                        TestType = MMT_TYPE_LABEL,
+                        InternalTestType = "MMT"
                     };
                     testGroups.Add(testGroup);
                 }
