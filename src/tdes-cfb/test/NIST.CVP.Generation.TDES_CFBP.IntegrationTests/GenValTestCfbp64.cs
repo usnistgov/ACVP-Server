@@ -9,8 +9,8 @@ namespace NIST.CVP.Generation.TDES_CFBP.IntegrationTests
 {
     public class GenValTestCfbp64 : GenValTestsCfbpBase
     {
-        public override string Algorithm { get; } = "TDES";
-        public override string Mode { get; } = "CFBP64";
+        public override string Algorithm { get; } = "TDES-CFBP64";
+        public override string Mode { get; } = string.Empty;
 
         public override AlgoMode AlgoMode => AlgoMode.TDES_CFBP64;
     }

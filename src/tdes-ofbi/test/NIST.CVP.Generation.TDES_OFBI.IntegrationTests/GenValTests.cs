@@ -12,8 +12,8 @@ namespace NIST.CVP.Generation.TDES_OFBI.IntegrationTests
     [TestFixture, LongRunningIntegrationTest]
     public class GenValTests : GenValTestsSingleRunnerBase
     {
-        public override string Algorithm { get; } = "TDES";
-        public override string Mode { get; } = "OFBI";
+        public override string Algorithm { get; } = "TDES-OFBI";
+        public override string Mode { get; } = string.Empty;
 
         public override AlgoMode AlgoMode => AlgoMode.TDES_OFBI;
 
