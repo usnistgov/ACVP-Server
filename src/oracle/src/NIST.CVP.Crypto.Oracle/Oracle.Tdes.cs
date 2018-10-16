@@ -35,7 +35,12 @@ namespace NIST.CVP.Crypto.Oracle
             var key = TdesHelpers.GenerateTdesKey(param.KeyingOption);
             var iv = _rand.GetRandomBitString(64);
 
-            var blockCipherParams = new ModeBlockCipherParameters(direction, iv, key, payload);
+            var blockCipherParams = new ModeBlockCipherParameters(
+                direction, 
+                iv.GetDeepCopy(), 
+                key.GetDeepCopy(), 
+                payload.GetDeepCopy()
+            );
             var result = cipher.ProcessPayload(blockCipherParams);
 
             if (!result.Success)
@@ -73,7 +78,12 @@ namespace NIST.CVP.Crypto.Oracle
             var key = TdesHelpers.GenerateTdesKey(param.KeyingOption);
             var iv = _rand.GetRandomBitString(64);
 
-            var blockCipherParams = new ModeBlockCipherParameters(direction, iv, key, payload);
+            var blockCipherParams = new ModeBlockCipherParameters(
+                direction, 
+                iv.GetDeepCopy(), 
+                key.GetDeepCopy(), 
+                payload.GetDeepCopy()
+            );
             var result = cipher.ProcessMonteCarloTest(blockCipherParams);
 
             if (!result.Success)
@@ -143,7 +153,11 @@ namespace NIST.CVP.Crypto.Oracle
                 counter
             );
 
-            var blockCipherParams = new CounterModeBlockCipherParameters(direction, fullParam.Iv, fullParam.Key, direction == BlockCipherDirections.Encrypt ? fullParam.PlainText : fullParam.CipherText, null);
+            var blockCipherParams = new CounterModeBlockCipherParameters(
+                direction, 
+                fullParam.Iv.GetDeepCopy(), 
+                fullParam.Key.GetDeepCopy(), 
+                direction == BlockCipherDirections.Encrypt ? fullParam.PlainText.GetDeepCopy() : fullParam.CipherText.GetDeepCopy(), null);
   
             var result = cipher.ProcessPayload(blockCipherParams);
 

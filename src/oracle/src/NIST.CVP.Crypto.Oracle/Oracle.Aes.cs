@@ -40,7 +40,12 @@ namespace NIST.CVP.Crypto.Oracle
             var key = _rand.GetRandomBitString(param.KeyLength);
             var iv = _rand.GetRandomBitString(128);
 
-            var blockCipherParams = new ModeBlockCipherParameters(direction, iv, key, payload);
+            var blockCipherParams = new ModeBlockCipherParameters(
+                direction, 
+                iv.GetDeepCopy(), 
+                key.GetDeepCopy(), 
+                payload.GetDeepCopy()
+            );
             var result = cipher.ProcessPayload(blockCipherParams);
 
             if (!result.Success)
@@ -78,7 +83,12 @@ namespace NIST.CVP.Crypto.Oracle
             var key = _rand.GetRandomBitString(param.KeyLength);
             var iv = _rand.GetRandomBitString(128);
 
-            var blockCipherParams = new ModeBlockCipherParameters(direction, iv, key, payload);
+            var blockCipherParams = new ModeBlockCipherParameters(
+                direction, 
+                iv.GetDeepCopy(), 
+                key.GetDeepCopy(), 
+                payload.GetDeepCopy()
+            );
             var result = cipher.ProcessMonteCarloTest(blockCipherParams);
 
             if (!result.Success)
@@ -219,7 +229,12 @@ namespace NIST.CVP.Crypto.Oracle
                 i = XtsHelper.GetIFromInteger(number);
             }
 
-            var blockCipherParams = new ModeBlockCipherParameters(direction, i, key, payload);
+            var blockCipherParams = new ModeBlockCipherParameters(
+                direction, 
+                i.GetDeepCopy(), 
+                key.GetDeepCopy(), 
+                payload.GetDeepCopy()
+            );
             var result = cipher.ProcessPayload(blockCipherParams);
 
             return new AesXtsResult

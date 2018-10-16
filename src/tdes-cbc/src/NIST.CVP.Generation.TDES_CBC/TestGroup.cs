@@ -17,7 +17,7 @@ namespace NIST.CVP.Generation.TDES_CBC
         public string Function { get; set; }
 
         [JsonProperty(PropertyName = "testType")]
-        public string TestType { get; set; } = "KAT";
+        public string TestType { get; set; } = "AFT";
 
         [JsonProperty(PropertyName = "keyingOption")]
         public int KeyingOption { get; set; }

@@ -1,5 +1,6 @@
 {
   "algorithm": "AES-CBC",
+  "mode": "",
   "isSample": false,
   "conformances": [],
   "direction": [
