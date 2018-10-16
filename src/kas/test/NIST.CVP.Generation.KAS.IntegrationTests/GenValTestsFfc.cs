@@ -15,8 +15,8 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
     [TestFixture, LongRunningIntegrationTest]
     public class GenValTestsFfc : GenValTestsSingleRunnerBase
     {
-        public override string Algorithm => "KAS";
-        public override string Mode => "FFC";
+        public override string Algorithm => "KAS-FFC";
+        public override string Mode => string.Empty;
         
         public override AlgoMode AlgoMode => AlgoMode.KAS_FFC;
 

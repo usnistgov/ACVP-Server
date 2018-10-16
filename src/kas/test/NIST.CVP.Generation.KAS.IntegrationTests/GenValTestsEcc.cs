@@ -15,13 +15,13 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
     [TestFixture, LongRunningIntegrationTest]
     public class GenValTestsEcc : GenValTestsSingleRunnerBase
     {
-        public override string Algorithm => "KAS";
-        public override string Mode => "ECC";
+        public override string Algorithm => "KAS-ECC";
+        public override string Mode => string.Empty;
         
         public override AlgoMode AlgoMode => AlgoMode.KAS_ECC;
 
         public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
-        public override IRegisterInjections RegistrationsGenVal => new ECC.RegisterInjections();
+        public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {
