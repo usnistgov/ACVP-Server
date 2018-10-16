@@ -24,21 +24,11 @@
 
     -->
 
-    <!-- NuGet package feeds config -->
-    <RestoreSources>
-      http://129.6.52.22:8383/guestAuth/app/nuget/feed/Acvp/default/v2/Packages;
-      https://api.nuget.org/v3/index.json;
-    </RestoreSources>
-
     <!-- NuGet package versions -->
     <PropertyGroup>
         <NuGetVersionMicrosoftAspNetCoreAll>2.1.0</NuGetVersionMicrosoftAspNetCoreAll>
         <NuGetVersionMicrosoftExtensionsOptionsConfigurationExtensions>2.1.0</NuGetVersionMicrosoftExtensionsOptionsConfigurationExtensions>
         <NuGetVersionMicrosoftExtensionsDependencyInjection>2.1.0</NuGetVersionMicrosoftExtensionsDependencyInjection>
-        <NuGetVersionMicrosoftExtensionsConfiguration>2.1.0</NuGetVersionMicrosoftExtensionsConfiguration>
-        <NuGetVersionMicrosoftExtensionsConfigurationFileExtensions>2.1.0</NuGetVersionMicrosoftExtensionsConfigurationFileExtensions>
-        <NuGetVersionMicrosoftExtensionsConfigurationJson>2.1.0</NuGetVersionMicrosoftExtensionsConfigurationJson>
-        <NuGetVersionMicrosoftExtensionsConfigurationEnvironmentVariables>2.1.0</NuGetVersionMicrosoftExtensionsConfigurationEnvironmentVariables>        
         <NuGetVersionMicrosoftNETTestSdk>15.7.0</NuGetVersionMicrosoftNETTestSdk>
         <NuGetVersiondotnettestnunit>3.4.0-beta-3</NuGetVersiondotnettestnunit>
         <NuGetVersionTeamCityVSTestTestAdapter>1.0.5</NuGetVersionTeamCityVSTestTestAdapter>
