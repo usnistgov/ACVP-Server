@@ -1,6 +1,5 @@
 {
-  "algorithm": "AES",
-  "mode": "XTS",
+  "algorithm": "AES-XTS",
   "isSample": true,
   "conformances": [],
   "keyLen": [

@@ -1,5 +1,5 @@
 {
-  "algorithm": "AES",
+  "algorithm": "AES-CBC",
   "isSample": false,
   "testGroups": [
     {

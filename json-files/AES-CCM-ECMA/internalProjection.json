@@ -1,6 +1,6 @@
 {
-  "algorithm": "AES",
-  "mode": "CCM-ECMA",
+  "algorithm": "AES-CCM",
+  "mode": "ECMA",
   "isSample": false,
   "testGroups": [
     {
