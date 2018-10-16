@@ -11,8 +11,8 @@ namespace NIST.CVP.Generation.CMAC.IntegrationTests
     [TestFixture, FastIntegrationTest]
     public class GenValTestsAes : GenValTestsSingleRunnerBase
     {
-        public override string Algorithm { get; } = "CMAC";
-        public override string Mode { get; } = "AES";
+        public override string Algorithm { get; } = "CMAC-AES";
+        public override string Mode { get; } = string.Empty;
 
         public override AlgoMode AlgoMode => AlgoMode.CMAC_AES;
 

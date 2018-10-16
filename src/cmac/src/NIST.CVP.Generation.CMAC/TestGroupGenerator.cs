@@ -31,8 +31,8 @@ namespace NIST.CVP.Generation.CMAC
                     {
                         if (!AlgorithmSpecificationMapping.Map
                             .TryFirst(
-                                w => w.algoSpecification.Equals(parameters.Mode, StringComparison.OrdinalIgnoreCase) ||
-                                     (w.algoSpecification.StartsWith(parameters.Mode, StringComparison.OrdinalIgnoreCase) && 
+                                w => w.algoSpecification.Equals(parameters.Algorithm, StringComparison.OrdinalIgnoreCase) ||
+                                     (w.algoSpecification.StartsWith(parameters.Algorithm, StringComparison.OrdinalIgnoreCase) && 
                                       w.keySize == capability.KeyLen),
                                 out var result))
                         {

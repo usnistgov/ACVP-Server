@@ -24,7 +24,7 @@ namespace NIST.CVP.Generation.CMAC.Tests
                 // 0
                 "test1 - 0",
                 string.Empty,
-                "AES",
+                "CMAC-AES",
                 256,
                 0,
                 new MathDomain().AddSegment(new ValueDomainSegment(8)),
@@ -36,7 +36,7 @@ namespace NIST.CVP.Generation.CMAC.Tests
                 // 1 (1*1*1*1)
                 "test2 - 3",
                 "gen",
-                "AES",
+                "CMAC-AES",
                 128,
                 0,
                 new MathDomain().AddSegment(new ValueDomainSegment(8)),
@@ -47,7 +47,7 @@ namespace NIST.CVP.Generation.CMAC.Tests
             {
                 "test3 - 1620",
                 "var",
-                "TDES",
+                "CMAC-TDES",
                 0,
                 1,
                 new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 8, 1024, 8)),
@@ -61,7 +61,7 @@ namespace NIST.CVP.Generation.CMAC.Tests
         public void ShouldReturnOneITestGroupForEveryMultiplicativeIterationOfParamters(
             string label,
             string direction,
-            string mode,
+            string algorithm,
             int keyLen,
             int keyingOption,
             MathDomain msgLen,
@@ -71,8 +71,7 @@ namespace NIST.CVP.Generation.CMAC.Tests
         {
             Parameters p = new Parameters()
             {
-                Algorithm = "CMAC",
-                Mode = mode,
+                Algorithm = algorithm,
                 Capabilities = new[]
                 {
                     new Capability()

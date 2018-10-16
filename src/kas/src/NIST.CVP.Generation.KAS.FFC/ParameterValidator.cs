@@ -7,8 +7,8 @@ namespace NIST.CVP.Generation.KAS.FFC
 {
     public class ParameterValidator : ParameterValidatorBase
     {
-        public override string Algorithm => "KAS";
-        public override string Mode => "FFC";
+        public override string Algorithm => "KAS-FFC";
+        public override string Mode => string.Empty;
 
         public override string[] ValidFunctions => new string[]
         {

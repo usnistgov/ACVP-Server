@@ -11,8 +11,8 @@ namespace NIST.CVP.Generation.CMAC.IntegrationTests
     [TestFixture, FastIntegrationTest]
     public class GenValTestsTdes : GenValTestsSingleRunnerBase
     {
-        public override string Algorithm { get; } = "CMAC";
-        public override string Mode { get; } = "TDES";
+        public override string Algorithm { get; } = "CMAC-TDES";
+        public override string Mode { get; } = string.Empty;
 
         public override AlgoMode AlgoMode => AlgoMode.CMAC_TDES;
 

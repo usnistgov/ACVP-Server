@@ -1,6 +1,6 @@
 {
-  "algorithm": "CMAC",
-  "mode": "TDES",
+  "algorithm": "CMAC-TDES",
+  "mode": "",
   "isSample": false,
   "conformances": [],
   "capabilities": [

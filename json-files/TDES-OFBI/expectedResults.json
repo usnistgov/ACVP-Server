@@ -1,5 +1,5 @@
 {
-  "algorithm": "TDES",
+  "algorithm": "TDES-OFBI",
   "isSample": false,
   "testGroups": [
     {

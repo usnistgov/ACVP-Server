@@ -1,6 +1,5 @@
 {
-  "algorithm": "AES",
-  "mode": "CFB8",
+  "algorithm": "AES-CFB8",
   "isSample": false,
   "testGroups": [
     {

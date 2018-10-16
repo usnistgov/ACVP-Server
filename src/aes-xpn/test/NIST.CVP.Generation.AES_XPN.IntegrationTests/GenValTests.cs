@@ -14,8 +14,8 @@ namespace NIST.CVP.Generation.AES_XPN.IntegrationTests
     [TestFixture, LongRunningIntegrationTest]
     public class GenValTests : GenValTestsSingleRunnerBase
     {
-        public override string Algorithm { get; } = "AES";
-        public override string Mode { get; } = "XPN";
+        public override string Algorithm { get; } = "AES-XPN";
+        public override string Mode { get; } = string.Empty;
 
         public override AlgoMode AlgoMode => AlgoMode.AES_XPN;
 

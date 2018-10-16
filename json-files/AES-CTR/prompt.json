@@ -1,6 +1,5 @@
 {
-  "algorithm": "AES",
-  "mode": "CTR",
+  "algorithm": "AES-CTR",
   "isSample": true,
   "testGroups": [
     {

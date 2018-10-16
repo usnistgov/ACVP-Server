@@ -15,8 +15,8 @@ namespace NIST.CVP.Generation.KeyWrap.IntegrationTests
     [TestFixture, LongRunningIntegrationTest]
     public class GenValTestsTdes : GenValTestsSingleRunnerBase
     {
-        public override string Algorithm { get; } = "TDES";
-        public override string Mode { get; } = "KW";
+        public override string Algorithm { get; } = "TDES-KW";
+        public override string Mode { get; } = string.Empty;
 
         public override AlgoMode AlgoMode => AlgoMode.TDES_KW;
 

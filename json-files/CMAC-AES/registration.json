@@ -1,6 +1,6 @@
 {
-  "algorithm": "CMAC",
-  "mode": "AES",
+  "algorithm": "CMAC-AES",
+  "mode": "",
   "isSample": false,
   "conformances": [],
   "capabilities": [

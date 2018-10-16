@@ -9,8 +9,8 @@
 
         public ParameterBuilder()
         {
-            _algorithm = "KAS";
-            _mode = "FFC";
+            _algorithm = "KAS-FFC";
+            _mode = string.Empty;
             _functions = new string[]
             {
                 "dpGen",
