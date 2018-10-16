@@ -30,16 +30,16 @@ namespace NIST.CVP.Generation.CMAC.Tests
         [Test]
         [TestCase("CMAC", "", false)]
         [TestCase("CMAC", null, false)]
-        [TestCase("CMAC", "AES", true)]
-        [TestCase("CMAC", "TDES", true)]
+        [TestCase("CMAC-AES", "", true)]
+        [TestCase("CMAC-TDES", "", true)]
         [TestCase("badValue", "null", false)]
         [TestCase("badValue", null, false)]
         [TestCase(null, null, false)]
         public void ShouldReportFailureWithBadAlgorithm(string algo, string mode, bool success)
         {
             var c = new CapabilityBuilder()
-                .WithKeyLen(mode?.ToLower() == "aes" ? 128 : 0)
-                .WithKeyingOption(mode?.ToLower() == "tdes" ? 1 : 0)
+                .WithKeyLen(algo?.ToLower() == "cmac-aes" ? 128 : 0)
+                .WithKeyingOption(algo?.ToLower() == "cmac-tdes" ? 1 : 0)
                 .Build();
             
             Parameters p = new ParameterBuilder()
@@ -201,35 +201,35 @@ namespace NIST.CVP.Generation.CMAC.Tests
         }
 
         [Test]
-        [TestCase("AES", 128, 0, "gen", true)]
-        [TestCase("AES", 192, 0, "gen", true)]
-        [TestCase("AES", 256, 0, "gen", true)]
-        [TestCase("TDES", 0, 1, "gen", true)]
-        [TestCase("TDES", 0, 2, "gen", false)] // gen not valid for keying option 2
+        [TestCase("CMAC-AES", 128, 0, "gen", true)]
+        [TestCase("CMAC-AES", 192, 0, "gen", true)]
+        [TestCase("CMAC-AES", 256, 0, "gen", true)]
+        [TestCase("CMAC-TDES", 0, 1, "gen", true)]
+        [TestCase("CMAC-TDES", 0, 2, "gen", false)] // gen not valid for keying option 2
 
-        [TestCase("AES", 128, 0, "ver", true)]
-        [TestCase("AES", 192, 0, "ver", true)]
-        [TestCase("AES", 256, 0, "ver", true)]
-        [TestCase("TDES", 0, 1, "ver", true)]
-        [TestCase("TDES", 0, 2, "ver", true)]
+        [TestCase("CMAC-AES", 128, 0, "ver", true)]
+        [TestCase("CMAC-AES", 192, 0, "ver", true)]
+        [TestCase("CMAC-AES", 256, 0, "ver", true)]
+        [TestCase("CMAC-TDES", 0, 1, "ver", true)]
+        [TestCase("CMAC-TDES", 0, 2, "ver", true)]
 
         // keying options not valid for AES
-        [TestCase("AES", 128, 1, "gen", false)]
-        [TestCase("AES", 128, 2, "gen", false)]
-        [TestCase("AES", 128, 1, "ver", false)]
-        [TestCase("AES", 128, 2, "ver", false)]
+        [TestCase("CMAC-AES", 128, 1, "gen", false)]
+        [TestCase("CMAC-AES", 128, 2, "gen", false)]
+        [TestCase("CMAC-AES", 128, 1, "ver", false)]
+        [TestCase("CMAC-AES", 128, 2, "ver", false)]
 
         // key length is not a thing for tdes
-        [TestCase("TDES", 128, 0, "gen", false)]
-        [TestCase("TDES", 128, 0, "ver", false)]
-        [TestCase("TDES", 192, 0, "gen", false)]
-        [TestCase("TDES", 192, 0, "ver", false)]
-        [TestCase("TDES", 256, 0, "gen", false)]
-        [TestCase("TDES", 256, 0, "ver", false)]
+        [TestCase("CMAC-TDES", 128, 0, "gen", false)]
+        [TestCase("CMAC-TDES", 128, 0, "ver", false)]
+        [TestCase("CMAC-TDES", 192, 0, "gen", false)]
+        [TestCase("CMAC-TDES", 192, 0, "ver", false)]
+        [TestCase("CMAC-TDES", 256, 0, "gen", false)]
+        [TestCase("CMAC-TDES", 256, 0, "ver", false)]
 
         // keying option 0 is not a thing for tdes
-        [TestCase("TDES", 0, 0, "gen", false)]
-        [TestCase("TDES", 0, 0, "ver", false)]
+        [TestCase("CMAC-TDES", 0, 0, "gen", false)]
+        [TestCase("CMAC-TDES", 0, 0, "ver", false)]
 
         // misc invalid
         [TestCase("invalid", 0, 0, "gen", false)]
@@ -241,17 +241,17 @@ namespace NIST.CVP.Generation.CMAC.Tests
         [TestCase(null, 1, 1, "gen", false)]
         [TestCase(null, 1, 1, "ver", false)]
         [TestCase(null, 1, 0, null, false)]
-        public void ShouldParseAesAndTdesProperly(string mode, int keyLen, int keyingOption, string direction, bool success)
+        public void ShouldParseAesAndTdesProperly(string algo, int keyLen, int keyingOption, string direction, bool success)
         {
             var c = new CapabilityBuilder()
                 .WithDirection(direction)
                 .WithKeyLen(keyLen)
                 .WithKeyingOption(keyingOption)
-                .WithMacLen(new MathDomain().AddSegment(new ValueDomainSegment(mode?.ToLower() == "tdes" ? 64 : 128)))
+                .WithMacLen(new MathDomain().AddSegment(new ValueDomainSegment(algo?.ToLower() == "cmac-tdes" ? 64 : 128)))
                 .Build();
 
             Parameters p = new ParameterBuilder()
-                .WithMode(mode)
+                .WithAlgorithm(algo)
                 .WithCapabilities(new[] { c })
                 .Build();
 
