@@ -40,7 +40,7 @@ namespace NIST.CVP.Crypto.Symmetric.BlockModes
 
         private void Encrypt(IModeBlockCipherParameters param, int numberOfBlocks, byte[] outBuffer)
         {
-            var payLoad = param.Payload.ToBytes();
+            var payLoad = param.Payload.GetDeepCopy().ToBytes();
             var iv = param.Iv.GetDeepCopy().ToBytes();
 
             // For each block
