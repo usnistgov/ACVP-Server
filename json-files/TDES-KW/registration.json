@@ -1,6 +1,6 @@
 {
-  "algorithm": "TDES",
-  "mode": "KW",
+  "algorithm": "TDES-KW",
+  "mode": "",
   "isSample": false,
   "conformances": [],
   "keyLen": [

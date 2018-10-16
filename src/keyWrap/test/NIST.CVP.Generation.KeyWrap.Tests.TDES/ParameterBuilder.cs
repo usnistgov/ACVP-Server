@@ -75,8 +75,8 @@ namespace NIST.CVP.Generation.KeyWrap.Tests.TDES
             switch (keyWrapType)
             {
                 case KeyWrapType.TDES_KW:
-                    _algorithm = "TDES";
-                    _mode = "KW";
+                    _algorithm = "TDES-KW";
+                    _mode = string.Empty;
                     break;
             }
         }

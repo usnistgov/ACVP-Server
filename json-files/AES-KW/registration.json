@@ -1,6 +1,6 @@
 {
-  "algorithm": "AES",
-  "mode": "KW",
+  "algorithm": "AES-KW",
+  "mode": "",
   "isSample": false,
   "conformances": [],
   "keyLen": [
