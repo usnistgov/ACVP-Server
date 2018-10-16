@@ -7,7 +7,6 @@ namespace NIST.CVP.Generation.TDES_CFB
 {
     public class TestGroupGeneratorKnownAnswer : ITestGroupGenerator<Parameters, TestGroup, TestCase>
     {
-        private const string TEST_TYPE = "KAT";
         private readonly string[] _katTests = KatData.GetLabels();
 
         public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
@@ -23,8 +22,7 @@ namespace NIST.CVP.Generation.TDES_CFB
                         AlgoMode = algoMode,
                         Function = function,
                         KeyingOption = 1,
-                        InternalTestType = katTest,
-                        TestType = TEST_TYPE
+                        InternalTestType = katTest
                     };
 
                     testGroups.Add(tg);

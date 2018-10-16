@@ -20,7 +20,7 @@ namespace NIST.CVP.Generation.TDES_CTR
         public bool OverflowCounter { get; set; }
 
         public string InternalTestType { get; set; } = "";
-        public string TestType { get; set; }
+        public string TestType { get; set; } = "AFT";
         public List<TestCase> Tests { get; set; } = new List<TestCase>();
 
         public bool SetString(string name, string value)

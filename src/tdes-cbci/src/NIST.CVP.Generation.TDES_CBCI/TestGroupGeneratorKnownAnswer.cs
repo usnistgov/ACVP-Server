@@ -20,8 +20,7 @@ namespace NIST.CVP.Generation.TDES_CBCI
                     {
                         Function = function,
                         KeyingOption = 3,
-                        InternalTestType = katTest,
-                        TestType = TEST_TYPE
+                        InternalTestType = katTest
                     };
 
                     testGroups.Add(tg);

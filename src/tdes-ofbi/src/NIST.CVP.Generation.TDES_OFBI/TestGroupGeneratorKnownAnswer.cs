@@ -5,7 +5,7 @@ namespace NIST.CVP.Generation.TDES_OFBI
 {
     public class TestGroupGeneratorKnownAnswer : ITestGroupGenerator<Parameters, TestGroup, TestCase>
     {
-        private const string TEST_TYPE = "KAT";
+        private const string TEST_TYPE = "AFT";
 
         private readonly string[] _katTests = {
             "Permutation",
