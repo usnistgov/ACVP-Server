@@ -90,6 +90,7 @@ using NIST.CVP.Orleans.Grains.Kas;
 using NIST.CVP.Orleans.Grains.Kas.Ecc;
 using NIST.CVP.Orleans.Grains.Kas.Ffc;
 using NIST.CVP.Orleans.Grains.Rsa;
+using NIST.CVP.Common.Config;
 
 namespace NIST.CVP.Orleans.Grains
 {
@@ -98,9 +99,11 @@ namespace NIST.CVP.Orleans.Grains
     /// </summary>
     public static class ConfigureServices
     {
-        public static void RegisterServices(IServiceCollection svc)
+        public static void RegisterServices(IServiceCollection svc, OrleansConfig orleansConfig)
         {
-            svc.AddSingleton(new LimitedConcurrencyLevelTaskScheduler(1));
+            svc.AddSingleton(new LimitedConcurrencyLevelTaskScheduler(
+                orleansConfig.NonOrleansSchedulerMaxConcurrency
+            ));
             svc.AddSingleton<IEntropyProviderFactory, EntropyProviderFactory>();
             svc.AddTransient<IRandom800_90, Random800_90>();
             svc.AddTransient<IEntropyProvider, EntropyProvider>();

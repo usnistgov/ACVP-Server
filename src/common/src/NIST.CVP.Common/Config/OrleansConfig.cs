@@ -22,6 +22,12 @@ namespace NIST.CVP.Common.Config
         /// Silo to client communication port.
         /// </summary>
         public int OrleansGatewayPort { get; set; }
+
+        /// <summary>
+        /// The max concurrency to use on the non Orlease task scheduler.
+        /// (The non Orleans task scheduler is what performs the long running work).
+        /// </summary>
+        public int NonOrleansSchedulerMaxConcurrency { get; set; }
         
         /// <summary>
         /// The name to use for the cluster
@@ -41,6 +47,6 @@ namespace NIST.CVP.Common.Config
         /// <summary>
         /// Should logs be written to a file?
         /// </summary>
-        public bool UseFileLogging { get; set;}
+        public bool UseFileLogging { get; set; }
     }
 }

@@ -37,7 +37,10 @@ namespace NIST.CVP.Orleans.ServerHost
                     options.ClusterId = _orleansConfig.ClusterId;
                     options.ServiceId = Constants.ServiceId;
                 })
-                .ConfigureServices(ConfigureServices.RegisterServices)
+                .ConfigureServices(svcCollection =>
+                {
+                    ConfigureServices.RegisterServices(svcCollection, _orleansConfig);
+                })
                 .ConfigureApplicationParts(parts =>
                 {
                     parts.AddApplicationPart(typeof(IGrainMarker).Assembly).WithReferences();
