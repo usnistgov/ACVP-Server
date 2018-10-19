@@ -8,12 +8,13 @@ namespace NIST.CVP.Crypto.Common.Symmetric.TDES
         [JsonIgnore]
         public BitString Keys { get; set; }
         
+        [JsonProperty(PropertyName = "iv")]
         public BitString IV { get; set; }
+        [JsonProperty(PropertyName = "pt")]
         public BitString PlainText { get; set; }
+        [JsonProperty(PropertyName = "ct")]
         public BitString CipherText { get; set; }
-        public int? CipherTextLength => CipherText?.BitLength;
-        public int? PlainTextLength => PlainText?.BitLength;
-
+        
         public AlgoArrayResponse() { }
 
         public AlgoArrayResponse(string key, string plaintext, string ciphertext)

@@ -1,5 +1,6 @@
 {
   "algorithm": "TDES-CFB1",
+  "mode": "",
   "isSample": false,
   "conformances": [],
   "direction": [

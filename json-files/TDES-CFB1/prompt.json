@@ -1,11 +1,12 @@
 {
   "algorithm": "TDES-CFB1",
+  "mode": "",
   "isSample": false,
   "testGroups": [
     {
       "tgId": 1,
       "direction": "encrypt",
-      "testType": "KAT",
+      "testType": "AFT",
       "keyingOption": 1,
       "tests": [
         {
@@ -157,7 +158,7 @@
     {
       "tgId": 2,
       "direction": "encrypt",
-      "testType": "KAT",
+      "testType": "AFT",
       "keyingOption": 1,
       "tests": [
         {
@@ -750,7 +751,7 @@
     {
       "tgId": 3,
       "direction": "encrypt",
-      "testType": "KAT",
+      "testType": "AFT",
       "keyingOption": 1,
       "tests": [
         {
@@ -929,7 +930,7 @@
     {
       "tgId": 4,
       "direction": "encrypt",
-      "testType": "KAT",
+      "testType": "AFT",
       "keyingOption": 1,
       "tests": [
         {
@@ -2458,7 +2459,7 @@
     {
       "tgId": 5,
       "direction": "encrypt",
-      "testType": "KAT",
+      "testType": "AFT",
       "keyingOption": 1,
       "tests": [
         {
@@ -3051,7 +3052,7 @@
     {
       "tgId": 6,
       "direction": "decrypt",
-      "testType": "KAT",
+      "testType": "AFT",
       "keyingOption": 1,
       "tests": [
         {
@@ -3203,7 +3204,7 @@
     {
       "tgId": 7,
       "direction": "decrypt",
-      "testType": "KAT",
+      "testType": "AFT",
       "keyingOption": 1,
       "tests": [
         {
@@ -3796,7 +3797,7 @@
     {
       "tgId": 8,
       "direction": "decrypt",
-      "testType": "KAT",
+      "testType": "AFT",
       "keyingOption": 1,
       "tests": [
         {
@@ -3975,7 +3976,7 @@
     {
       "tgId": 9,
       "direction": "decrypt",
-      "testType": "KAT",
+      "testType": "AFT",
       "keyingOption": 1,
       "tests": [
         {
@@ -5504,7 +5505,7 @@
     {
       "tgId": 10,
       "direction": "decrypt",
-      "testType": "KAT",
+      "testType": "AFT",
       "keyingOption": 1,
       "tests": [
         {
@@ -6102,93 +6103,93 @@
       "tests": [
         {
           "tcId": 669,
-          "key1": "4984C564B3C3C9B9",
-          "key2": "C61D583B7038CEE2",
-          "key3": "9673BCED6291F633",
-          "pt": "80",
+          "key1": "FC70A9C9847638C2",
+          "key2": "8ABAF39389A7EDAE",
+          "key3": "735DD57F6087F7CB",
+          "pt": "00",
           "dataLen": 1,
-          "iv": "5692764E5E36D84A"
+          "iv": "BED3BD656FCDACF2"
         },
         {
           "tcId": 670,
-          "key1": "FEB05E5D917C0E3E",
-          "key2": "364E0F29FE7A58FC",
-          "key3": "59DEF37B4B5141CF",
-          "pt": "80",
+          "key1": "448FF056D0BAEBA0",
+          "key2": "2ED37ECCD527592A",
+          "key3": "4BDAE254ADE7BE50",
+          "pt": "00",
           "dataLen": 2,
-          "iv": "BAB612B15EFB405A"
+          "iv": "30032AF55C0D03AE"
         },
         {
           "tcId": 671,
-          "key1": "FEB05E5D917C0E3E",
-          "key2": "364E0F29FE7A58FC",
-          "key3": "59DEF3427C51414A",
-          "pt": "C0",
+          "key1": "ED9B0E4A495D0EA1",
+          "key2": "BDA6A0EFDEE302DA",
+          "key3": "4CBDE5CB395E625D",
+          "pt": "00",
           "dataLen": 3,
-          "iv": "851FC030D76E9102"
+          "iv": "95DCD975C4030390"
         },
         {
           "tcId": 672,
-          "key1": "FCF9C7255832B2B7",
-          "key2": "84EBF24956742D55",
-          "key3": "239D1EDDE2743A1E",
-          "pt": "80",
+          "key1": "BE1FB0EDC0105923",
+          "key2": "1BFA4693482F6E10",
+          "key3": "B03FF59BCAFB3ABE",
+          "pt": "C0",
           "dataLen": 4,
-          "iv": "57CE58F600FD8F34"
+          "iv": "C95778B24B4B090B"
         },
         {
           "tcId": 673,
-          "key1": "4B53F76AAC175BA7",
-          "key2": "34D9572CAADA232F",
-          "key3": "57ECF89BFBA97D5F",
-          "pt": "90",
+          "key1": "BB7FA183F14F2A18",
+          "key2": "29FFDAFEF0251050",
+          "key3": "172A5D7080CE25E3",
+          "pt": "20",
           "dataLen": 5,
-          "iv": "DE2ABB7A241DC029"
+          "iv": "1B80F95F0BB57499"
         },
         {
           "tcId": 674,
-          "key1": "987BFB7E085ECD55",
-          "key2": "5E924CAFC9B10E14",
-          "key3": "C6584118262629DA",
+          "key1": "2EB1F3E9917B4268",
+          "key2": "6F3A2D61C3A75F19",
+          "key3": "E31D092182F873EE",
           "pt": "98",
           "dataLen": 6,
-          "iv": "7D398A974FC0E774"
+          "iv": "A48649215F73C91D"
         },
         {
           "tcId": 675,
-          "key1": "AE88A27460833F60",
-          "key2": "34CC4A989D56C06E",
-          "key3": "12840FA61D9641A8",
-          "pt": "8A",
+          "key1": "BA3FBE2675E6D13A",
+          "key2": "5CD2EE26408837FF",
+          "key3": "B5C83C329ED6F65E",
+          "pt": "F8",
           "dataLen": 7,
-          "iv": "D5B1280D7B8CFEE6"
+          "iv": "59E338CF18136B94"
         },
         {
           "tcId": 676,
-          "key1": "143FC6D271204BEB",
-          "key2": "71241A773EA79875",
-          "key3": "90C5F4F6EE5A0385",
-          "pt": "A3",
+          "key1": "5EF6A765FD915FEB",
+          "key2": "5B073C0D17579725",
+          "key3": "0048F9A529C3EC1F",
+          "pt": "B4",
           "dataLen": 8,
-          "iv": "B5999E86968D3B20"
+          "iv": "915092B58BFB7387"
         },
         {
           "tcId": 677,
-          "key1": "51203AAAD67EF15C",
-          "key2": "A8DB1681297471BA",
-          "key3": "8DBC8DA200284281",
-          "pt": "2D00",
+          "key1": "FDB07F322A249BA1",
+          "key2": "5755422DC78A3009",
+          "key3": "224FBA978E1B2941",
+          "pt": "C780",
           "dataLen": 9,
-          "iv": "0B229E5331EE9D8C"
+          "iv": "CCBFB259440AA385"
         },
         {
           "tcId": 678,
-          "key1": "F71C96B5A297241D",
-          "key2": "3A696847E0159086",
-          "key3": "6FF0FAA606845677",
-          "pt": "4E40",
+          "key1": "F1109E79457E7BEE",
+          "key2": "A62CCB83CA5C9016",
+          "key3": "DD2D40B1DC0D59E7",
+          "pt": "C640",
           "dataLen": 10,
-          "iv": "F1FE7F55ACA6B67D"
+          "iv": "915DC2FB0EC402E7"
         }
       ]
     },
@@ -6200,93 +6201,93 @@
       "tests": [
         {
           "tcId": 679,
-          "key1": "CFEDC4CBB46DB227",
-          "key2": "249C7DA386B8F135",
-          "key3": "1961FB01F1A37D54",
-          "ct": "80",
+          "key1": "E669BADD7BE86B97",
+          "key2": "6B846A00B63C014C",
+          "key3": "75D48BE69CB19820",
+          "ct": "00",
           "dataLen": 1,
-          "iv": "A0516B63564D7D3D"
+          "iv": "2BA8F84506277CA4"
         },
         {
           "tcId": 680,
-          "key1": "23E7B5094C89EED8",
-          "key2": "C12B6728027B2834",
-          "key3": "FA97E2AF56AA46A3",
-          "ct": "C0",
+          "key1": "AE7072AC3DA775FD",
+          "key2": "5B1394B60DAEA14D",
+          "key3": "7CA5758F817D7527",
+          "ct": "40",
           "dataLen": 2,
-          "iv": "39A9AA2FC2A29993"
+          "iv": "D91F0BBA900EE013"
         },
         {
           "tcId": 681,
-          "key1": "2C6DFE5728B15FBA",
-          "key2": "80C5A03BDDDB5450",
-          "key3": "EDFC99017A52950A",
-          "ct": "80",
+          "key1": "0CF7918E19BCA2D5",
+          "key2": "D9392B13687E7397",
+          "key3": "8BB476BC5E688E90",
+          "ct": "40",
           "dataLen": 3,
-          "iv": "ACCB90AA54453F7C"
+          "iv": "CDADC96C1066B927"
         },
         {
           "tcId": 682,
-          "key1": "F5690A50BB4DE152",
-          "key2": "35CBBE03A9928E56",
-          "key3": "02864D8CD4B14FBA",
-          "ct": "20",
+          "key1": "87E5520D70745684",
+          "key2": "BC2057B609682ACF",
+          "key3": "FB48AB164376A1AA",
+          "ct": "50",
           "dataLen": 4,
-          "iv": "C523A1D1FE7C0222"
+          "iv": "EB10BF34F38FEDAE"
         },
         {
           "tcId": 683,
-          "key1": "21F81C90194C2A80",
-          "key2": "46DBB2B076D6C463",
-          "key3": "4B7C1B0EAC86E5EA",
-          "ct": "60",
+          "key1": "5EC0470C01F1A33C",
+          "key2": "44FE861C379430EE",
+          "key3": "39232FC3E998F68D",
+          "ct": "F0",
           "dataLen": 5,
-          "iv": "FDD824EE9CC9650C"
+          "iv": "B92D87B04BC59C5D"
         },
         {
           "tcId": 684,
-          "key1": "046027E7B2C01CCA",
-          "key2": "3A654FBE253A4B5A",
-          "key3": "088455E83E467096",
-          "ct": "4C",
+          "key1": "D87471001AB4AC6D",
+          "key2": "887BE4616933780E",
+          "key3": "23A0E8C3861B0969",
+          "ct": "E4",
           "dataLen": 6,
-          "iv": "06941AC0676F3B53"
+          "iv": "363721EEB947579D"
         },
         {
           "tcId": 685,
-          "key1": "64F4DAC6A6EA6B73",
-          "key2": "3C3A455C734F00AE",
-          "key3": "9A87B677651BD163",
-          "ct": "A4",
+          "key1": "0C385F1320B531A3",
+          "key2": "7C5DA6926093B880",
+          "key3": "A8E39453A329BBBB",
+          "ct": "B0",
           "dataLen": 7,
-          "iv": "515D88D9D429AF52"
+          "iv": "FA7377585E10931A"
         },
         {
           "tcId": 686,
-          "key1": "74623DD59D164C80",
-          "key2": "803DBA3D7B3EB897",
-          "key3": "50DEF100BE77D656",
-          "ct": "0F",
+          "key1": "85759C13B97F0F7A",
+          "key2": "AFC553BBCF77900C",
+          "key3": "C3F51B51A9E92640",
+          "ct": "3D",
           "dataLen": 8,
-          "iv": "9DCE9E6D88452F0F"
+          "iv": "C10CCF7F4FAB2002"
         },
         {
           "tcId": 687,
-          "key1": "BD901F3A17DA0A36",
-          "key2": "708F56C37A264FE4",
-          "key3": "A9FEBF06A3DBDA9E",
-          "ct": "8180",
+          "key1": "0ED0FCBE08CA9FAC",
+          "key2": "E3F97EDF03A50D4E",
+          "key3": "67C08E2F01540D42",
+          "ct": "9E00",
           "dataLen": 9,
-          "iv": "59BE5AB78F00F703"
+          "iv": "751090B3E3DF08DB"
         },
         {
           "tcId": 688,
-          "key1": "8E9AC93EA10E9A93",
-          "key2": "783A4B63CA67C56E",
-          "key3": "00BCC394EE968127",
-          "ct": "1D40",
+          "key1": "5F5739AB2C627AF5",
+          "key2": "0FC66DD2740DBC19",
+          "key3": "C2CFC1ADAE8068C0",
+          "ct": "0F40",
           "dataLen": 10,
-          "iv": "A7D1A24012595475"
+          "iv": "EE57F6E6FEBB6DFE"
         }
       ]
     },
@@ -6298,12 +6299,12 @@
       "tests": [
         {
           "tcId": 689,
-          "key1": "77493A16251F0746",
-          "key2": "1B7EEF109F83310B",
-          "key3": "530DC4EEFE0B97B4",
-          "pt": "00",
+          "key1": "34B9120EC6414447",
+          "key2": "259813D2A5FEA0AA",
+          "key3": "1C75825A7095F028",
+          "pt": "80",
           "dataLen": 1,
-          "iv": "7F0AA2BEB120D12B"
+          "iv": "CF5A72E52DAC78D7"
         }
       ]
     },
@@ -6315,12 +6316,12 @@
       "tests": [
         {
           "tcId": 690,
-          "key1": "CF151028857B63A0",
-          "key2": "337875A9375A0DDE",
-          "key3": "38679BC731BEF07B",
-          "ct": "00",
+          "key1": "1D94F3C74366052D",
+          "key2": "1462A499441262DE",
+          "key3": "D510847023EA46B6",
+          "ct": "80",
           "dataLen": 1,
-          "iv": "51119C4D2864CE1E"
+          "iv": "8D982B49B6D84D44"
         }
       ]
     }

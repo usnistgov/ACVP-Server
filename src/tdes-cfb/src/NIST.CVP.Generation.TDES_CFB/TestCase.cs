@@ -4,6 +4,7 @@ using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using System;
 using System.Collections.Generic;
+using NIST.CVP.Common;
 
 namespace NIST.CVP.Generation.TDES_CFB
 {
@@ -91,11 +92,17 @@ namespace NIST.CVP.Generation.TDES_CFB
         [JsonProperty(PropertyName = "ct")]
         public BitString CipherText { get; set; }
 
-        [JsonProperty(PropertyName = "dataLen")]
+        [JsonProperty(PropertyName = "dataLen", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int DataLen
         {
             get
             {
+                // We only want to populate a dataLen if it matters (like in cfb1)
+                if (ParentGroup?.AlgoMode != AlgoMode.TDES_CFB1)
+                {
+                    return 0;
+                }
+
                 if (PlainText != null)
                 {
                     return PlainText.BitLength;
