@@ -1,5 +1,6 @@
 {
   "algorithm": "AES-CCM",
+  "mode": "",
   "isSample": false,
   "conformances": [],
   "keyLen": [
