@@ -3,6 +3,7 @@ using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using System;
 using System.Collections.Generic;
+using NIST.CVP.Common;
 using AlgoArrayResponse = NIST.CVP.Crypto.Common.Symmetric.TDES.AlgoArrayResponse;
 
 namespace NIST.CVP.Generation.TDES_CFBP
@@ -96,6 +97,32 @@ namespace NIST.CVP.Generation.TDES_CFBP
         [JsonProperty(PropertyName = "iv")]
         public BitString IV { get; set; }
         
+        [JsonProperty(PropertyName = "dataLen", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public int DataLen
+        {
+            get
+            {
+                // We only want to populate a dataLen if it matters (like in cfbp1)
+                if (ParentGroup?.AlgoMode != AlgoMode.TDES_CFBP1)
+                {
+                    return 0;
+                }
+
+                if (PlainText != null)
+                {
+                    return PlainText.BitLength;
+                }
+                else if (CipherText != null)
+                {
+                    return CipherText.BitLength;
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+        }
+
         // TODO get rid of properties
         #region only used on kats TODO remove
         public BitString PlainText1 { get; set; }
