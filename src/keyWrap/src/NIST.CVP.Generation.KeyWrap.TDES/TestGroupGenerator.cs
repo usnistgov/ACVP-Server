@@ -27,8 +27,7 @@ namespace NIST.CVP.Generation.KeyWrap.TDES
 
             if (SpecificationToDomainMapping.Map
                 .TryFirst(w => 
-                    w.algorithm == parameters.Algorithm &&
-                    w.mode == parameters.Mode, out var result))
+                    w.algorithm == parameters.Algorithm, out var result))
             {
                 keyWrapType = result.keyWrapType;
             }
