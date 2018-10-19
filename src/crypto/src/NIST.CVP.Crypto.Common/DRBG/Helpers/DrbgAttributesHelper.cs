@@ -222,7 +222,7 @@ namespace NIST.CVP.Crypto.Common.DRBG.Helpers
                     maxNonceLength: (long) 1 << 35
                 ),
                 #endregion Hash
-#region HMAC
+                #region HMAC
                 new DrbgAttributes(
                     mechanism: DrbgMechanism.HMAC,
                     mode: DrbgMode.SHA1,
