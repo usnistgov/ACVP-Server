@@ -47,13 +47,34 @@ namespace NIST.CVP.Crypto.Oracle
                 Aad = _rand.GetRandomBitString(param.AadLength)
             };
 
-            return DoSimpleAead(
+            var result = DoSimpleAead(
                 _aeadModeBlockCipherFactory.GetAeadCipher(
                     _engineFactory.GetSymmetricCipherPrimitive(BlockCipherEngines.Aes), 
                     BlockCipherModesOfOperation.Ccm
                 ), 
                 fullParams, param
             );
+
+            if (param.CouldFail)
+            {
+                // Should Fail at certain ratio, 25%
+                var upperBound = (int)(1.0 / GCM_FAIL_RATIO);
+                var shouldFail = _rand.GetRandomInt(0, upperBound) == 0;
+
+                if (shouldFail)
+                {
+                    var ctPortion = param.DataLength == 0
+                        ? new BitString(0)
+                        : result.CipherText.GetMostSignificantBits(result.CipherText.BitLength - param.TagLength);
+                    // Change the tag portion of the ciphertext
+                    var tagPortion = _rand.GetDifferentBitStringOfSameSize(result.CipherText.GetLeastSignificantBits(param.TagLength));
+
+                    result.CipherText = ctPortion.ConcatenateBits(tagPortion);
+                    result.TestPassed = false;
+                }
+            }
+
+            return result;
         }
 
         private AeadResult GetEcmaCase(AeadParameters param)

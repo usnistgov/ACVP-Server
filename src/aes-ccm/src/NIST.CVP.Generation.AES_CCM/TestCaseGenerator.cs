@@ -28,13 +28,16 @@ namespace NIST.CVP.Generation.AES_CCM
                 NumberOfTestCasesToGenerate = 1;
             }
 
+            var couldFail = group.Function.ToLower() == "decrypt";
+
             var param = new AeadParameters
             {
                 KeyLength = group.KeyLength,
                 AadLength = group.AADLength,
                 IvLength = group.IVLength,
                 DataLength = group.PTLength,
-                TagLength = group.TagLength
+                TagLength = group.TagLength,
+                CouldFail = couldFail
             };
 
             try
@@ -48,6 +51,7 @@ namespace NIST.CVP.Generation.AES_CCM
                     IV = oracleResult.Iv,
                     Key = oracleResult.Key,
                     PlainText = oracleResult.PlainText,
+                    TestPassed = oracleResult.TestPassed
                 });
             }
             catch (Exception ex)
