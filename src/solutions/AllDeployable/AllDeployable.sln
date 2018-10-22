@@ -221,8 +221,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.DSA.Ed.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.DSA.Ed.SigVer", "..\..\eddsa\src\NIST.CVP.Generation.DSA.Ed.SigVer\NIST.CVP.Generation.DSA.Ed.SigVer.csproj", "{2A919ADA-B309-46A5-8270-0CCBD7AB9E2C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.TPMv1.2", "..\..\kdf-components\src\NIST.CVP.Generation.TPMv1.2\NIST.CVP.Generation.TPMv1.2.csproj", "{06BAF12F-95BB-46FF-8E47-B607FA9B1002}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -513,10 +511,6 @@ Global
 		{2A919ADA-B309-46A5-8270-0CCBD7AB9E2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2A919ADA-B309-46A5-8270-0CCBD7AB9E2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2A919ADA-B309-46A5-8270-0CCBD7AB9E2C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{06BAF12F-95BB-46FF-8E47-B607FA9B1002}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{06BAF12F-95BB-46FF-8E47-B607FA9B1002}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{06BAF12F-95BB-46FF-8E47-B607FA9B1002}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{06BAF12F-95BB-46FF-8E47-B607FA9B1002}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -596,7 +590,6 @@ Global
 		{D214A5B3-2962-47E8-83E1-B208ED48798F} = {B6E24409-1B26-4075-BE44-2D096FA7C8D2}
 		{26642147-2E11-4FB3-B350-06DC9862DA82} = {B6E24409-1B26-4075-BE44-2D096FA7C8D2}
 		{2A919ADA-B309-46A5-8270-0CCBD7AB9E2C} = {B6E24409-1B26-4075-BE44-2D096FA7C8D2}
-		{06BAF12F-95BB-46FF-8E47-B607FA9B1002} = {B6E24409-1B26-4075-BE44-2D096FA7C8D2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2E2DADE3-F303-4723-868E-85619BA4A6A2}
