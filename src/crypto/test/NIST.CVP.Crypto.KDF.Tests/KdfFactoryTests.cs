@@ -4,6 +4,9 @@ using System.Text;
 using NIST.CVP.Crypto.CMAC;
 using NIST.CVP.Crypto.Common.KDF.Enums;
 using NIST.CVP.Crypto.HMAC;
+using NIST.CVP.Crypto.SHAWrapper;
+using NIST.CVP.Crypto.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Symmetric.Engines;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
@@ -17,7 +20,7 @@ namespace NIST.CVP.Crypto.KDF.Tests
         [SetUp]
         public void SetUp()
         {
-            _subject = new KdfFactory();
+            _subject = new KdfFactory(new CmacFactory(new BlockCipherEngineFactory(), new ModeBlockCipherFactory()), new HmacFactory(new ShaFactory()));
         }
 
         [Test]
