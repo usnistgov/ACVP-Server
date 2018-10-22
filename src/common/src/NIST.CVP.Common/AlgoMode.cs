@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
 
 namespace NIST.CVP.Common
 {
@@ -117,6 +116,8 @@ namespace NIST.CVP.Common
         KDFComponents_SSH,
         [EnumMember(Value = "KDF-Components-TLS")]
         KDFComponents_TLS,
+        [EnumMember(Value = "KDF-Components-TPM")]
+        KDFComponents_TPM,
         [EnumMember(Value = "KMAC")]
         KMAC,
         [EnumMember(Value = "ParallelHash")]

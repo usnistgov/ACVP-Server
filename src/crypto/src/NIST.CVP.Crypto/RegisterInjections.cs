@@ -39,6 +39,7 @@ using NIST.CVP.Crypto.Symmetric.BlockModes.Aead;
 using NIST.CVP.Crypto.Symmetric.Engines;
 using NIST.CVP.Crypto.Symmetric.MonteCarlo;
 using NIST.CVP.Crypto.TLS;
+using NIST.CVP.Crypto.TPM;
 using NIST.CVP.Crypto.TupleHash;
 
 namespace NIST.CVP.Crypto
@@ -133,6 +134,8 @@ namespace NIST.CVP.Crypto
             builder.RegisterType<DsaEdFactory>().AsImplementedInterfaces();
             builder.RegisterType<EdwardsCurveFactory>().AsImplementedInterfaces();
             builder.RegisterType<EdDsa>().AsImplementedInterfaces();
+
+            builder.RegisterType<TpmFactory>().AsImplementedInterfaces();
         }
     }
 }
