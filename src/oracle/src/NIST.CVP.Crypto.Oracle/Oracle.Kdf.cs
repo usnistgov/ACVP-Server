@@ -1,6 +1,7 @@
 ﻿using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.ANSIX963;
+using NIST.CVP.Crypto.CMAC;
 using NIST.CVP.Crypto.Common.KDF.Components.IKEv1.Enums;
 using NIST.CVP.Crypto.HMAC;
 using NIST.CVP.Crypto.IKEv1;
@@ -10,13 +11,13 @@ using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Crypto.SNMP;
 using NIST.CVP.Crypto.SRTP;
 using NIST.CVP.Crypto.SSH;
+using NIST.CVP.Crypto.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Symmetric.Engines;
 using NIST.CVP.Crypto.TLS;
+using NIST.CVP.Crypto.TPM;
 using NIST.CVP.Math;
 using System;
 using System.Threading.Tasks;
-using NIST.CVP.Crypto.CMAC;
-using NIST.CVP.Crypto.Symmetric.BlockModes;
-using NIST.CVP.Crypto.Symmetric.Engines;
 
 namespace NIST.CVP.Crypto.Oracle
 {
@@ -30,6 +31,7 @@ namespace NIST.CVP.Crypto.Oracle
         private readonly SrtpFactory _srtpFactory = new SrtpFactory();
         private readonly SshFactory _sshFactory = new SshFactory();
         private readonly TlsKdfFactory _tlsFactory = new TlsKdfFactory();
+        private readonly TpmFactory _tpmFactory = new TpmFactory(new HmacFactory(new ShaFactory()));
 
         private KdfResult GetDeferredKdfCase(KdfParameters param)
         {
@@ -257,6 +259,29 @@ namespace NIST.CVP.Crypto.Oracle
             };
         }
 
+        private TpmKdfResult GetTpmKdfCase()
+        {
+            var tpm = _tpmFactory.GetTpm();
+
+            var auth = _rand.GetRandomBitString(160);
+            var nonceEven = _rand.GetRandomBitString(160);
+            var nonceOdd = _rand.GetRandomBitString(160);
+
+            var result = tpm.DeriveKey(auth, nonceEven, nonceOdd);
+            if (!result.Success)
+            {
+                throw new Exception();
+            }
+
+            return new TpmKdfResult
+            {
+                Auth = auth,
+                NonceEven = nonceEven,
+                NonceOdd = nonceOdd,
+                SKey = result.SKey
+            };
+        }
+
         public async Task<KdfResult> GetDeferredKdfCaseAsync(KdfParameters param)
         {
             return await _taskFactory.StartNew(() => GetDeferredKdfCase(param));
@@ -300,6 +325,11 @@ namespace NIST.CVP.Crypto.Oracle
         public async Task<TlsKdfResult> GetTlsKdfCaseAsync(TlsKdfParameters param)
         {
             return await _taskFactory.StartNew(() => GetTlsKdfCase(param));
+        }
+
+        public async Task<TpmKdfResult> GetTpmKdfCaseAsync()
+        {
+            return await _taskFactory.StartNew(GetTpmKdfCase);
         }
     }
 }
