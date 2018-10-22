@@ -14,12 +14,15 @@ using NIST.CVP.Crypto.TLS;
 using NIST.CVP.Math;
 using System;
 using System.Threading.Tasks;
+using NIST.CVP.Crypto.CMAC;
+using NIST.CVP.Crypto.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Symmetric.Engines;
 
 namespace NIST.CVP.Crypto.Oracle
 {
     public partial class Oracle
     {
-        private readonly KdfFactory _kdfFactory = new KdfFactory();
+        private readonly KdfFactory _kdfFactory = new KdfFactory(new CmacFactory(new BlockCipherEngineFactory(), new ModeBlockCipherFactory()), new HmacFactory(new ShaFactory()));
         private readonly AnsiX963Factory _ansiFactory = new AnsiX963Factory(new ShaFactory());
         private readonly IkeV1Factory _ikeV1Factory = new IkeV1Factory();
         private readonly IkeV2Factory _ikeV2Factory = new IkeV2Factory(new HmacFactory(new ShaFactory()));

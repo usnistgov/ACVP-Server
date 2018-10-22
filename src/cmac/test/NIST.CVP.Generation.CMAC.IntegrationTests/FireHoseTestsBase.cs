@@ -1,4 +1,6 @@
 ﻿using NIST.CVP.Crypto.CMAC;
+using NIST.CVP.Crypto.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Symmetric.Engines;
 using NIST.CVP.Generation.CMAC.Parsers;
 using NIST.CVP.Tests.Core;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
@@ -13,7 +15,7 @@ namespace NIST.CVP.Generation.CMAC.IntegrationTests
         string _testPath;
         protected abstract string FolderName { get; }
 
-        protected readonly CmacFactory _subject = new CmacFactory();
+        protected readonly CmacFactory _subject = new CmacFactory(new BlockCipherEngineFactory(), new ModeBlockCipherFactory());
 
         [SetUp]
         public void Setup()

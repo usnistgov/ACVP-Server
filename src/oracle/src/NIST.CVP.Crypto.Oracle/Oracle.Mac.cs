@@ -8,13 +8,15 @@ using NIST.CVP.Crypto.CSHAKE;
 using NIST.CVP.Crypto.HMAC;
 using NIST.CVP.Crypto.KMAC;
 using NIST.CVP.Crypto.SHAWrapper;
+using NIST.CVP.Crypto.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Symmetric.Engines;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.Oracle
 {
     public partial class Oracle
     {
-        private readonly CmacFactory _cmacFactory = new CmacFactory();
+        private readonly CmacFactory _cmacFactory = new CmacFactory(new BlockCipherEngineFactory(), new ModeBlockCipherFactory());
         private readonly HmacFactory _hmacFactory = new HmacFactory(new ShaFactory());
         
         private MacResult GetCmacCase(CmacParameters param)

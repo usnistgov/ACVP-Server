@@ -2,6 +2,8 @@
 using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Crypto.Common.MAC.CMAC.Enums;
 using NIST.CVP.Crypto.KAS.KC;
+using NIST.CVP.Crypto.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Symmetric.Engines;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -12,7 +14,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.KC
     public class KeyConfirmationCmacTests
     {
         private KeyConfirmationCmac _subject;
-        private readonly CmacFactory _cmacFactory = new CmacFactory();
+        private readonly CmacFactory _cmacFactory = new CmacFactory(new BlockCipherEngineFactory(), new ModeBlockCipherFactory());
 
         private static object[] _tests = new object[]
         {

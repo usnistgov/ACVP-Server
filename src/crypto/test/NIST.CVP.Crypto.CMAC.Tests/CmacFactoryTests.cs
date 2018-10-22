@@ -1,5 +1,7 @@
 ﻿using System;
 using NIST.CVP.Crypto.Common.MAC.CMAC.Enums;
+using NIST.CVP.Crypto.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Symmetric.Engines;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
@@ -13,7 +15,7 @@ namespace NIST.CVP.Crypto.CMAC.Tests
         [SetUp]
         public void Setup()
         {
-            _subject = new CmacFactory();
+            _subject = new CmacFactory(new BlockCipherEngineFactory(), new ModeBlockCipherFactory());
         }
         
         [Test]
