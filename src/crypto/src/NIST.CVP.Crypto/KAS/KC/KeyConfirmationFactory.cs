@@ -6,7 +6,9 @@ using NIST.CVP.Crypto.CMAC;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Crypto.Common.KAS.KC;
+using NIST.CVP.Crypto.Common.MAC.CMAC;
 using NIST.CVP.Crypto.Common.MAC.CMAC.Enums;
+using NIST.CVP.Crypto.Common.MAC.HMAC;
 using NIST.CVP.Crypto.HMAC;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Crypto.Symmetric.BlockModes;
@@ -17,6 +19,15 @@ namespace NIST.CVP.Crypto.KAS.KC
 {
     public class KeyConfirmationFactory : IKeyConfirmationFactory
     {
+        private readonly ICmacFactory _cmacFactory;
+        private readonly IHmacFactory _hmacFactory;
+
+        public KeyConfirmationFactory(ICmacFactory cmacFactory, IHmacFactory hmacFactory)
+        {
+            _cmacFactory = cmacFactory;
+            _hmacFactory = hmacFactory;
+        }
+
         public IKeyConfirmation GetInstance(IKeyConfirmationParameters parameters)
         {
             switch (parameters.MacType)
@@ -26,20 +37,18 @@ namespace NIST.CVP.Crypto.KAS.KC
                     return new KeyConfirmationAesCcm(new CcmBlockCipher(new AesEngine(), new ModeBlockCipherFactory(), new AES_CCMInternals()), parameters);
                 case KeyAgreementMacType.CmacAes:
                     var cmacEnum = MapCmacEnum(parameters.KeyLength);
-                    CmacFactory cmacFactory = new CmacFactory();
 
                     return new KeyConfirmationCmac(
-                        cmacFactory.GetCmacInstance(cmacEnum), parameters
+                        _cmacFactory.GetCmacInstance(cmacEnum), parameters
                     );
                 case KeyAgreementMacType.HmacSha2D224:
                 case KeyAgreementMacType.HmacSha2D256:
                 case KeyAgreementMacType.HmacSha2D384:
                 case KeyAgreementMacType.HmacSha2D512:
                     var hashFunction = GetHashFunction(parameters.MacType);
-                    HmacFactory hmacFactory = new HmacFactory(new ShaFactory());
 
                     return new KeyConfirmationHmac(
-                        hmacFactory.GetHmacInstance(hashFunction), parameters
+                        _hmacFactory.GetHmacInstance(hashFunction), parameters
                     );
                 default:
                     throw new ArgumentException(nameof(parameters.MacType));

@@ -1,7 +1,12 @@
 ﻿using System;
+using NIST.CVP.Crypto.CMAC;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Crypto.Common.KAS.KC;
+using NIST.CVP.Crypto.HMAC;
 using NIST.CVP.Crypto.KAS.KC;
+using NIST.CVP.Crypto.SHAWrapper;
+using NIST.CVP.Crypto.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Symmetric.Engines;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -11,7 +16,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.KC
     [TestFixture,  FastCryptoTest]
     public class KeyConfirmationFactoryTests
     {
-        private readonly KeyConfirmationFactory _subject = new KeyConfirmationFactory();
+        private readonly KeyConfirmationFactory _subject = new KeyConfirmationFactory(new CmacFactory(new BlockCipherEngineFactory(), new ModeBlockCipherFactory()), new HmacFactory(new ShaFactory()));
 
         [Test]
         [TestCase(KeyAgreementMacType.AesCcm, 128, typeof(KeyConfirmationAesCcm))]

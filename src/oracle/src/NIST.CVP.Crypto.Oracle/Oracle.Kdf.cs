@@ -1,4 +1,4 @@
-﻿using NIST.CVP.Common.Oracle.ParameterTypes;
+using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
 using System;
 using System.Threading.Tasks;

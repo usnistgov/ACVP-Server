@@ -1,10 +1,12 @@
 ﻿using Moq;
+using NIST.CVP.Crypto.CMAC;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC.Enums;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Crypto.Common.KAS.Schema;
 using NIST.CVP.Crypto.DSA.ECC;
+using NIST.CVP.Crypto.HMAC;
 using NIST.CVP.Crypto.KAS.Builders;
 using NIST.CVP.Crypto.KAS.Builders.Ecc;
 using NIST.CVP.Crypto.KAS.KC;
@@ -13,6 +15,8 @@ using NIST.CVP.Crypto.KAS.NoKC;
 using NIST.CVP.Crypto.KAS.Scheme.Ecc;
 using NIST.CVP.Crypto.KES;
 using NIST.CVP.Crypto.SHAWrapper;
+using NIST.CVP.Crypto.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Symmetric.Engines;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
@@ -54,7 +58,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.Builders
                     new KdfFactory(
                         new ShaFactory()
                     ),
-                    new KeyConfirmationFactory(),
+                    new KeyConfirmationFactory(new CmacFactory(new BlockCipherEngineFactory(), new ModeBlockCipherFactory()), new HmacFactory(new ShaFactory())),
                     new NoKeyConfirmationFactory(),
                     new OtherInfoFactory(_entropyProviderOtherInfo),
                     _entropyProviderScheme,

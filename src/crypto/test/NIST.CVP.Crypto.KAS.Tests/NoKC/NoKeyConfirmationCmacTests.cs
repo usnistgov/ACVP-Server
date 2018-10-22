@@ -3,6 +3,8 @@ using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Crypto.Common.MAC.CMAC;
 using NIST.CVP.Crypto.Common.MAC.CMAC.Enums;
 using NIST.CVP.Crypto.KAS.NoKC;
+using NIST.CVP.Crypto.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Symmetric.Engines;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -13,7 +15,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.NoKC
     public class NoKeyConfirmationCmacTests
     {
         private NoKeyConfirmationCmac _subject;
-        private readonly ICmacFactory _algoFactory = new CmacFactory();
+        private readonly ICmacFactory _algoFactory = new CmacFactory(new BlockCipherEngineFactory(), new ModeBlockCipherFactory());
 
         private static object[] _testData = new object[]
         {

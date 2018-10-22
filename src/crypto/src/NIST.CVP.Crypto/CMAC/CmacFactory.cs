@@ -4,8 +4,6 @@ using NIST.CVP.Crypto.Common.MAC.CMAC;
 using NIST.CVP.Crypto.Common.MAC.CMAC.Enums;
 using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
 using NIST.CVP.Crypto.Common.Symmetric.Engines;
-using NIST.CVP.Crypto.Symmetric.BlockModes;
-using NIST.CVP.Crypto.Symmetric.Engines;
 
 namespace NIST.CVP.Crypto.CMAC
 {
@@ -14,10 +12,10 @@ namespace NIST.CVP.Crypto.CMAC
         private readonly IBlockCipherEngineFactory _engineFactory;
         private readonly IModeBlockCipherFactory _modeFactory;
 
-        public CmacFactory()
+        public CmacFactory(IBlockCipherEngineFactory engineFactory, IModeBlockCipherFactory modeFactory)
         {
-            _engineFactory = new BlockCipherEngineFactory();
-            _modeFactory = new ModeBlockCipherFactory();
+            _engineFactory = engineFactory;
+            _modeFactory = modeFactory;
         }
 
         public ICmac GetCmacInstance(CmacTypes cmacType)
