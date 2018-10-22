@@ -2,7 +2,12 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using NIST.CVP.Crypto.CMAC;
+using NIST.CVP.Crypto.HMAC;
 using NIST.CVP.Crypto.KDF;
+using NIST.CVP.Crypto.SHAWrapper;
+using NIST.CVP.Crypto.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Symmetric.Engines;
 using NIST.CVP.Generation.KDF.Parsers;
 using NIST.CVP.Tests.Core;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
@@ -32,7 +37,7 @@ namespace NIST.CVP.Generation.KDF.IntegrationTests
 
             var testDir = new DirectoryInfo(_testPath);
             var parser = new LegacyResponseFileParser();
-            var algoFactory = new KdfFactory();
+            var algoFactory = new KdfFactory(new CmacFactory(new BlockCipherEngineFactory(), new ModeBlockCipherFactory()), new HmacFactory(new ShaFactory()));
 
             var count = 0;
             foreach (var testFilePath in testDir.EnumerateFiles())
