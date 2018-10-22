@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
 
 namespace NIST.CVP.Crypto.Common.KDF.Enums
 {
@@ -13,15 +12,15 @@ namespace NIST.CVP.Crypto.Common.KDF.Enums
         CMAC_AES256,
         [EnumMember(Value = "CMAC-TDES")]
         CMAC_TDES,
-        [EnumMember(Value = "HMAC-SHA1")]
+        [EnumMember(Value = "HMAC-SHA-1")]
         HMAC_SHA1,
-        [EnumMember(Value = "HMAC-SHA224")]
+        [EnumMember(Value = "HMAC-SHA2-224")]
         HMAC_SHA224,
-        [EnumMember(Value = "HMAC-SHA256")]
+        [EnumMember(Value = "HMAC-SHA2-256")]
         HMAC_SHA256,
-        [EnumMember(Value = "HMAC-SHA384")]
+        [EnumMember(Value = "HMAC-SHA2-384")]
         HMAC_SHA384,
-        [EnumMember(Value = "HMAC-SHA512")]
+        [EnumMember(Value = "HMAC-SHA2-512")]
         HMAC_SHA512,
     }
 }

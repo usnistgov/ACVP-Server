@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using NIST.CVP.Math;
+﻿using NIST.CVP.Math;
 using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
+using System.Collections.Generic;
 
 namespace NIST.CVP.Generation.KDF.Tests
 {
@@ -43,7 +41,7 @@ namespace NIST.CVP.Generation.KDF.Tests
             new object[] { "null", null },
             new object[] { "empty", new string[] { } },
             new object[] { "Invalid value", new [] { "notValid" } },
-            new object[] { "Partially valid", new [] { "hmac-sha1", "notValid" } },
+            new object[] { "Partially valid", new [] { "hmac-sha-1", "notValid" } },
             new object[] { "Partially valid w/ null", new [] { "cmac-aes128", null } }
         };
         [Test]

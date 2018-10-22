@@ -1,11 +1,11 @@
-﻿using System.Linq;
-using NIST.CVP.Common;
+﻿using NIST.CVP.Common;
 using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Generation.KDF.Tests;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
+using System.Linq;
 
 namespace NIST.CVP.Generation.KDF.IntegrationTests
 {
@@ -39,7 +39,7 @@ namespace NIST.CVP.Generation.KDF.IntegrationTests
             {
                 new CapabilityBuilder()
                     .WithKdfMode("counter")
-                    .WithMacMode(new [] {"cmac-aes128", "hmac-sha384"})
+                    .WithMacMode(new [] {"cmac-aes128", "hmac-sha2-384"})
                     .WithCounterLength(new [] {24})
                     .WithFixedDataOrder(new [] {"after fixed data", "before fixed data"})
                     .WithSupportedLengths(new MathDomain().AddSegment(new ValueDomainSegment(128)))
@@ -47,7 +47,7 @@ namespace NIST.CVP.Generation.KDF.IntegrationTests
 
                 new CapabilityBuilder()
                     .WithKdfMode("feedback")
-                    .WithMacMode(new [] {"cmac-tdes", "hmac-sha512"})
+                    .WithMacMode(new [] {"cmac-tdes", "hmac-sha2-512"})
                     .WithCounterLength(new [] {0})
                     .WithFixedDataOrder(new [] {"none"})
                     .WithSupportedLengths(new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 8, 512, 8)))
