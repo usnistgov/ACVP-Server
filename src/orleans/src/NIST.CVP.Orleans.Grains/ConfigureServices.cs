@@ -113,17 +113,17 @@ namespace NIST.CVP.Orleans.Grains
             
             svc.AddSingleton<IEddsaKeyGenRunner, EddsaKeyGenRunner>();
 
-            svc.AddSingleton<IKasAftTestGeneratorFactory<KasAftParametersEcc, KasAftResultEcc>,
+            svc.AddTransient<IKasAftTestGeneratorFactory<KasAftParametersEcc, KasAftResultEcc>,
                 KasAftEccTestGeneratorFactory>();
-            svc.AddSingleton<IKasAftTestGeneratorFactory<KasAftParametersFfc, KasAftResultFfc>,
+            svc.AddTransient<IKasAftTestGeneratorFactory<KasAftParametersFfc, KasAftResultFfc>,
                 KasAftFfcTestGeneratorFactory>();
-            svc.AddSingleton<IKasAftDeferredTestResolverFactory<KasAftDeferredParametersEcc, KasAftDeferredResult>,
+            svc.AddTransient<IKasAftDeferredTestResolverFactory<KasAftDeferredParametersEcc, KasAftDeferredResult>,
                 KasAftEccDeferredTestResolverFactory>();
-            svc.AddSingleton<IKasAftDeferredTestResolverFactory<KasAftDeferredParametersFfc, KasAftDeferredResult>,
+            svc.AddTransient<IKasAftDeferredTestResolverFactory<KasAftDeferredParametersFfc, KasAftDeferredResult>,
                 KasAftFfcDeferredTestResolverFactory>();
-            svc.AddSingleton<IKasValTestGeneratorFactory<KasValParametersEcc, KasValResultEcc>,
+            svc.AddTransient<IKasValTestGeneratorFactory<KasValParametersEcc, KasValResultEcc>,
                 KasValEccTestGeneratorFactory>();
-            svc.AddSingleton<IKasValTestGeneratorFactory<KasValParametersFfc, KasValResultFfc>,
+            svc.AddTransient<IKasValTestGeneratorFactory<KasValParametersFfc, KasValResultFfc>,
                 KasValFfcTestGeneratorFactory>();
             
             svc.AddSingleton<IRsaRunner, RsaRunner>();
@@ -144,7 +144,7 @@ namespace NIST.CVP.Orleans.Grains
 
             svc.AddSingleton<IHmacFactory, HmacFactory>();
 
-            svc.AddSingleton<IMacParametersBuilder, MacParametersBuilder>();
+            svc.AddTransient<IMacParametersBuilder, MacParametersBuilder>();
             svc.AddSingleton<IKeyConfirmationFactory, KeyConfirmationFactory>();
             svc.AddSingleton<INoKeyConfirmationFactory, NoKeyConfirmationFactory>();
             svc.AddSingleton<IKdfFactory, KdfFactory>();
@@ -153,14 +153,14 @@ namespace NIST.CVP.Orleans.Grains
 
             svc.AddSingleton<IDiffieHellman<FfcDomainParameters, FfcKeyPair>, DiffieHellmanFfc>();
             svc.AddSingleton<IMqv<FfcDomainParameters, FfcKeyPair>, MqvFfc>();
-            svc.AddSingleton<ISchemeBuilder<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair>, SchemeBuilderFfc>();
-            svc.AddSingleton<IKasBuilder<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair>, KasBuilderFfc>();
+            svc.AddTransient<ISchemeBuilder<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair>, SchemeBuilderFfc>();
+            svc.AddTransient<IKasBuilder<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair>, KasBuilderFfc>();
             svc.AddSingleton<IDsaFfcFactory, DsaFfcFactory>();
 
             svc.AddSingleton<IDiffieHellman<EccDomainParameters, EccKeyPair>, DiffieHellmanEcc>();
             svc.AddSingleton<IMqv<EccDomainParameters, EccKeyPair>, MqvEcc>();
-            svc.AddSingleton<ISchemeBuilder<KasDsaAlgoAttributesEcc, OtherPartySharedInformation<EccDomainParameters, EccKeyPair>, EccDomainParameters, EccKeyPair>, SchemeBuilderEcc>();
-            svc.AddSingleton<IKasBuilder<KasDsaAlgoAttributesEcc, OtherPartySharedInformation<EccDomainParameters, EccKeyPair>, EccDomainParameters, EccKeyPair>, KasBuilderEcc>();
+            svc.AddTransient<ISchemeBuilder<KasDsaAlgoAttributesEcc, OtherPartySharedInformation<EccDomainParameters, EccKeyPair>, EccDomainParameters, EccKeyPair>, SchemeBuilderEcc>();
+            svc.AddTransient<IKasBuilder<KasDsaAlgoAttributesEcc, OtherPartySharedInformation<EccDomainParameters, EccKeyPair>, EccDomainParameters, EccKeyPair>, KasBuilderEcc>();
             svc.AddSingleton<IDsaEccFactory, DsaEccFactory>();
             svc.AddSingleton<IEccCurveFactory, EccCurveFactory>();
 
