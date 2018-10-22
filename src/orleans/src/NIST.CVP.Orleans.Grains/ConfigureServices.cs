@@ -189,13 +189,13 @@ namespace NIST.CVP.Orleans.Grains
             svc.AddTransient<ISHAKE_MCT, SHAKE_MCT>();
 
             svc.AddSingleton<IKeyGenParameterHelper, KeyGenParameterHelper>();
-            svc.AddSingleton<IKeyBuilder, KeyBuilder>();
+            svc.AddTransient<IKeyBuilder, KeyBuilder>();
             svc.AddSingleton<IKeyComposerFactory, KeyComposerFactory>();
             svc.AddSingleton<IPrimeGeneratorFactory, PrimeGeneratorFactory>();
             svc.AddTransient<IRsa, Crypto.RSA.Rsa>();
             svc.AddTransient<IRsaVisitor, RsaVisitor>();
             
-            svc.AddSingleton<ISignatureBuilder, SignatureBuilder>();
+            svc.AddTransient<ISignatureBuilder, SignatureBuilder>();
             svc.AddSingleton<IPaddingFactory, PaddingFactory>();
             svc.AddSingleton<IShaFactory, ShaFactory>();
 
