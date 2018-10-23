@@ -58,16 +58,16 @@ namespace NIST.CVP.Generation.RSA_DPComponent.IntegrationTests
                             var testInfo = testCase.ResultsArray[i];
 
                             // Can't run these, nothing to encrypt
-                            if (testInfo.FailureTest)
+                            if (!testInfo.TestPassed)
                             {
                                 continue;
                             }
 
                             // Can only run encryption with the information provided...
                             var result = rsa.Encrypt(testInfo.PlainText.ToPositiveBigInteger(), testInfo.Key.PubKey);
-                            if (result.Success == testInfo.FailureTest)
+                            if (result.Success != testInfo.TestPassed)
                             {
-                                Assert.Fail($"TestCase {i} was incorrect. Expected {testInfo.FailureTest}");
+                                Assert.Fail($"TestCase {i} was incorrect. Expected {testInfo.TestPassed}");
                             }
                             else
                             {

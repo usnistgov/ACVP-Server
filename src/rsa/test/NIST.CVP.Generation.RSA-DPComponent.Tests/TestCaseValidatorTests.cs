@@ -104,7 +104,7 @@ namespace NIST.CVP.Generation.RSA_DPComponent.Tests
                 {
                     CipherText = new BitString("ABCD"),
                     Key = new KeyPair {PubKey = new PublicKey{N = 10}},
-                    FailureTest = (i % failing == 0),
+                    TestPassed = (i % failing == 0),
                     PlainText =  (i % failing != 0) ? new BitString("BCAD") : null
                 });
             }
@@ -121,7 +121,7 @@ namespace NIST.CVP.Generation.RSA_DPComponent.Tests
                 {
                     CipherText = new BitString("4321"),
                     Key = new KeyPair {PubKey = new PublicKey{N = 10}},
-                    FailureTest = (i % failing == 0),
+                    TestPassed = (i % failing == 0),
                     PlainText =  (i % failing != 0) ? new BitString("BCAD") : null
                 });
             }
@@ -138,7 +138,7 @@ namespace NIST.CVP.Generation.RSA_DPComponent.Tests
                 {
                     CipherText = new BitString("4321"),
                     Key = new KeyPair {PubKey = new PublicKey{N = 10}},
-                    FailureTest = (i % failing != 0),
+                    TestPassed = (i % failing != 0),
                     PlainText =  (i % failing == 0) ? new BitString("BCAD") : null
                 });
             }

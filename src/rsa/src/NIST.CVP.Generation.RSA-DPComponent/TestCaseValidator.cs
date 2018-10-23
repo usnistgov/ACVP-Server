@@ -34,11 +34,11 @@ namespace NIST.CVP.Generation.RSA_DPComponent
             {
                 errors.Add("Improper number of replies received");
             }
-            else if (suppliedResult.ResultsArray.Count(ra => ra.FailureTest) != _group.TotalFailingCases)
+            else if (suppliedResult.ResultsArray.Count(ra => !ra.TestPassed) != _group.TotalFailingCases)
             {
                 errors.Add("Incorrect number of failures detected");
                 expected.Add(nameof(_group.TotalFailingCases), _group.TotalFailingCases.ToString());
-                provided.Add(nameof(_group.TotalFailingCases), suppliedResult.ResultsArray.Count(ra => ra.FailureTest).ToString());
+                provided.Add(nameof(_group.TotalFailingCases), suppliedResult.ResultsArray.Count(ra => !ra.TestPassed).ToString());
             }
             else
             {
@@ -50,18 +50,18 @@ namespace NIST.CVP.Generation.RSA_DPComponent
                     var iutResult = suppliedResult.ResultsArray[i];
                     var serverPrompt = _expectedResult.ResultsArray[i];
 
-                    if (computedResult.FailureTest)
+                    if (!computedResult.TestPassed)
                     {
                         // IUT Failure Test must equal computed Failure Test if it's a failure case
-                        if (iutResult.FailureTest)
+                        if (!iutResult.TestPassed)
                         {
                             // Good, Pass
                         }
                         else
                         {
                             errors.Add($"Test case should have failed, 1 < cipherText < n - 1 not satisfied on iteration {i}");
-                            expected.Add($"{nameof(serverPrompt.FailureTest)} {i}", serverPrompt.FailureTest.ToString());
-                            provided.Add($"{nameof(iutResult.FailureTest)} {i}", iutResult.FailureTest.ToString());
+                            expected.Add($"{nameof(serverPrompt.TestPassed)} {i}", serverPrompt.TestPassed.ToString());
+                            provided.Add($"{nameof(iutResult.TestPassed)} {i}", iutResult.TestPassed.ToString());
                         }
                     }
                     else
