@@ -48,7 +48,7 @@ namespace NIST.CVP.Generation.RSA_DPComponent
                         algoArrayResponse.Key = result.Key;
                         algoArrayResponse.CipherText = result.CipherText;
                         algoArrayResponse.PlainText = result.PlainText;
-                        algoArrayResponse.FailureTest = !param.TestPassed;
+                        algoArrayResponse.TestPassed = param.TestPassed;
                     }
                     catch (Exception ex)
                     {
@@ -66,7 +66,7 @@ namespace NIST.CVP.Generation.RSA_DPComponent
 
                     var result = await _oracle.GetDeferredRsaDecryptionPrimitiveAsync(param);
                     algoArrayResponse.CipherText = result.CipherText;
-                    algoArrayResponse.FailureTest = !param.TestPassed;
+                    algoArrayResponse.TestPassed = param.TestPassed;
                 }
 
                 testCase.ResultsArray.Add(algoArrayResponse);

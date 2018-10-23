@@ -31,16 +31,16 @@ namespace NIST.CVP.Generation.RSA_DPComponent
                 {
                     CipherText = serverCase.CipherText,
                     Key = iutCase.Key,
-                    FailureTest = iutCase.FailureTest,
+                    TestPassed = iutCase.TestPassed,
                     PlainText = iutCase.PlainText
                 };
 
-                if (!serverResponse.FailureTest)
+                if (serverResponse.TestPassed)
                 {
                     // Should have a PT
                     if (serverResponse.PlainText == null)
                     {
-                        serverResponse.FailureTest = true;
+                        serverResponse.TestPassed = false;
                     }
                     else
                     {
@@ -62,7 +62,7 @@ namespace NIST.CVP.Generation.RSA_DPComponent
                         }
                         else
                         {
-                            serverResponse.FailureTest = true;
+                            serverResponse.TestPassed = false;
                         }
                     }
                 }

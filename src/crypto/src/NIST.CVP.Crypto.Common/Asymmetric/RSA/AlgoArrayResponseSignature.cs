@@ -25,6 +25,6 @@ namespace NIST.CVP.Crypto.Common.Asymmetric.RSA
             set => Key.PubKey.N = value;
         }
 
-        public bool FailureTest { get; set; }
+        public bool TestPassed { get; set; }
     }
 }

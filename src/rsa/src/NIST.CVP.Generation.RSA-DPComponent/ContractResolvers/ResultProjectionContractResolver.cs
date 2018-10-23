@@ -47,7 +47,7 @@ namespace NIST.CVP.Generation.RSA_DPComponent.ContractResolvers
                 nameof(AlgoArrayResponseSignature.PlainText),
                 nameof(AlgoArrayResponseSignature.E),
                 nameof(AlgoArrayResponseSignature.N),
-                nameof(AlgoArrayResponseSignature.FailureTest)
+                nameof(AlgoArrayResponseSignature.TestPassed)
             };
 
             if (includeProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))

@@ -43,7 +43,7 @@ namespace NIST.CVP.Generation.RSA_DPComponent.Tests
                                 PlainText = new BitString("ABCD"),
                                 CipherText = new BitString("1234"),
                                 Key = new KeyPair() { PrivKey = new PrivateKey {D = 1, P = 2, Q = 3}, PubKey = new PublicKey {E = 4, N = 5}},
-                                FailureTest = true,
+                                TestPassed = true,
                             }
                         },
                         Deferred = true,

@@ -49,9 +49,9 @@ namespace NIST.CVP.Generation.RSA_DPComponent.IntegrationTests
             if (testCase.resultsArray != null)
             {
                 // If TC has a result, change it
-                if (testCase.resultsArray[0].failureTest != null)
+                if (testCase.resultsArray[0].testPassed != null)
                 {
-                    testCase.resultsArray[0].failureTest = !((bool)testCase.resultsArray[0].failureTest);
+                    testCase.resultsArray[0].testPassed = !((bool)testCase.resultsArray[0].testPassed);
                 }
 
                 // If TC has a pt, change it

@@ -50,7 +50,7 @@ namespace NIST.CVP.Generation.RSA_DPComponent
                     return true;
 
                 case "result":
-                    latest.FailureTest = (value == "fail");
+                    latest.TestPassed = value != "fail";
                     return true;
             }
 

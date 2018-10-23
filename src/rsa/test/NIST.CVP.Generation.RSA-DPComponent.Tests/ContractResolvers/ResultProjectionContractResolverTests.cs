@@ -82,7 +82,7 @@ namespace NIST.CVP.Generation.RSA_DPComponent.Tests.ContractResolvers
             for (var i = 0; i < tc.ResultsArray.Count; i++)
             {
                 Assert.AreEqual(tc.ResultsArray[i].PlainText, newTc.ResultsArray[i].PlainText, "arrayPlainText");
-                Assert.AreEqual(tc.ResultsArray[i].FailureTest, newTc.ResultsArray[i].FailureTest, "arrayFailureTest");
+                Assert.AreEqual(tc.ResultsArray[i].TestPassed, newTc.ResultsArray[i].TestPassed, "arrayFailureTest");
 
                 Assert.AreEqual(tc.ResultsArray[i].E, newTc.ResultsArray[i].E, "arrayE");
                 Assert.AreEqual(tc.ResultsArray[i].N, newTc.ResultsArray[i].N, "arrayN");
@@ -92,10 +92,6 @@ namespace NIST.CVP.Generation.RSA_DPComponent.Tests.ContractResolvers
             }
 
             Assert.AreNotEqual(tc.Deferred, newTc.Deferred, nameof(newTc.Deferred));
-
-            // TestPassed will have the default value when re-hydrated, check to make sure it isn't in the JSON
-            var regex = new Regex("testPassed", RegexOptions.IgnoreCase);
-            Assert.IsTrue(regex.Matches(json).Count == 0);
         }
     }
 }
