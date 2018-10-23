@@ -31,10 +31,13 @@ namespace NIST.CVP.Generation.SHA2
                 // Don't include a digest size for SHA1
                 if (firstTg.Function == ModeValues.SHA1)
                 {
-                    return firstTg.Function.ToString();
+                    return EnumHelpers.GetEnumDescriptionFromEnum(firstTg.Function);
                 }
 
-                return $"{firstTg.Function}-{EnumHelpers.GetEnumDescriptionFromEnum(firstTg.DigestSize)}";
+                var algo = EnumHelpers.GetEnumDescriptionFromEnum(firstTg.Function);
+                var digestSize = EnumHelpers.GetEnumDescriptionFromEnum(firstTg.DigestSize);
+
+                return $"{algo}-{digestSize}";
             }
             set => _algorithm = value;
         }
