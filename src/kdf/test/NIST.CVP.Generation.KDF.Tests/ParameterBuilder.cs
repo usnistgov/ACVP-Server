@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using NIST.CVP.Math.Domain;
+﻿using NIST.CVP.Math.Domain;
 
 namespace NIST.CVP.Generation.KDF.Tests
 {
@@ -59,7 +56,7 @@ namespace NIST.CVP.Generation.KDF.Tests
         public CapabilityBuilder()
         {
             _kdfMode = "counter";
-            _macMode = new [] {"cmac-aes256", "hmac-sha224"};
+            _macMode = new [] {"cmac-aes256", "hmac-sha2-224"};
             _supportedLengths = new MathDomain().AddSegment(new ValueDomainSegment(128));
             _fixedDataOrder = new[] {"middle fixed data"};
             _counterLength = new[] {8, 24};

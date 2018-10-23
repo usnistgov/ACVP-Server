@@ -91,6 +91,8 @@ using NIST.CVP.Orleans.Grains.Kas.Ecc;
 using NIST.CVP.Orleans.Grains.Kas.Ffc;
 using NIST.CVP.Orleans.Grains.Rsa;
 using NIST.CVP.Common.Config;
+using NIST.CVP.Crypto.Common.KDF.Components.TPM;
+using NIST.CVP.Crypto.TPM;
 
 namespace NIST.CVP.Orleans.Grains
 {
@@ -178,6 +180,7 @@ namespace NIST.CVP.Orleans.Grains
             svc.AddSingleton<ISrtpFactory, SrtpFactory>();
             svc.AddSingleton<ISshFactory, SshFactory>();
             svc.AddSingleton<ITlsKdfFactory, TlsKdfFactory>();
+            svc.AddSingleton<ITpmFactory, TpmFactory>();
 
             svc.AddSingleton<IKeyWrapFactory, KeyWrapFactory>();
 

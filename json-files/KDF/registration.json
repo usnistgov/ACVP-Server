@@ -2,6 +2,7 @@
   "algorithm": "KDF",
   "mode": "",
   "isSample": true,
+  "conformances": [],
   "capabilities": [
     {
       "kdfMode": "counter",
@@ -10,11 +11,11 @@
         "CMAC-AES192",
         "CMAC-AES256",
         "CMAC-TDES",
-        "HMAC-SHA1",
-        "HMAC-SHA224",
-        "HMAC-SHA256",
-        "HMAC-SHA384",
-        "HMAC-SHA512"
+        "HMAC-SHA-1",
+        "HMAC-SHA2-224",
+        "HMAC-SHA2-256",
+        "HMAC-SHA2-384",
+        "HMAC-SHA2-512"
       ],
       "supportedLengths": [
         {
@@ -43,11 +44,11 @@
         "CMAC-AES192",
         "CMAC-AES256",
         "CMAC-TDES",
-        "HMAC-SHA1",
-        "HMAC-SHA224",
-        "HMAC-SHA256",
-        "HMAC-SHA384",
-        "HMAC-SHA512"
+        "HMAC-SHA-1",
+        "HMAC-SHA2-224",
+        "HMAC-SHA2-256",
+        "HMAC-SHA2-384",
+        "HMAC-SHA2-512"
       ],
       "supportedLengths": [
         {
@@ -78,11 +79,11 @@
         "CMAC-AES192",
         "CMAC-AES256",
         "CMAC-TDES",
-        "HMAC-SHA1",
-        "HMAC-SHA224",
-        "HMAC-SHA256",
-        "HMAC-SHA384",
-        "HMAC-SHA512"
+        "HMAC-SHA-1",
+        "HMAC-SHA2-224",
+        "HMAC-SHA2-256",
+        "HMAC-SHA2-384",
+        "HMAC-SHA2-512"
       ],
       "supportedLengths": [
         {

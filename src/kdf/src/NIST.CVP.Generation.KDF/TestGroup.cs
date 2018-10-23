@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using NIST.CVP.Common.Helpers;
+﻿using NIST.CVP.Common.Helpers;
 using NIST.CVP.Crypto.Common.KDF.Enums;
 using NIST.CVP.Generation.Core;
+using System.Collections.Generic;
 
 namespace NIST.CVP.Generation.KDF
 {
@@ -34,7 +34,27 @@ namespace NIST.CVP.Generation.KDF
 
                 case "prf":
                     value = value.Replace("_", "-");
-                    MacMode = EnumHelpers.GetEnumFromEnumDescription<MacModes>(value);
+                    switch (value.ToLower())
+                    {
+                        case "hmac-sha1":
+                            MacMode = MacModes.HMAC_SHA1;
+                            break;
+                        case "hmac-sha224":
+                            MacMode = MacModes.HMAC_SHA224;
+                            break;
+                        case "hmac-sha256":
+                            MacMode = MacModes.HMAC_SHA256;
+                            break;
+                        case "hmac-sha384":
+                            MacMode = MacModes.HMAC_SHA384;
+                            break;
+                        case "hmac-sha512":
+                            MacMode = MacModes.HMAC_SHA512;
+                            break;
+                        default:
+                            MacMode = EnumHelpers.GetEnumFromEnumDescription<MacModes>(value);
+                            break;
+                    }
                     return true;
 
                 case "ctrlocation":

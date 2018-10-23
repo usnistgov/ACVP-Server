@@ -1,6 +1,6 @@
-﻿using System.Threading.Tasks;
-using NIST.CVP.Common.Oracle.ParameterTypes;
+﻿using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Common.Oracle
 {
@@ -16,5 +16,6 @@ namespace NIST.CVP.Common.Oracle
         Task<SrtpKdfResult> GetSrtpKdfCaseAsync(SrtpKdfParameters param);
         Task<SshKdfResult> GetSshKdfCaseAsync(SshKdfParameters param);
         Task<TlsKdfResult> GetTlsKdfCaseAsync(TlsKdfParameters param);
+        Task<TpmKdfResult> GetTpmKdfCaseAsync();
     }
 }

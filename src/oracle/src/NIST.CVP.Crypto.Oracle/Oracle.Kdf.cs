@@ -1,4 +1,4 @@
-using NIST.CVP.Common.Oracle.ParameterTypes;
+﻿using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
 using System;
 using System.Threading.Tasks;
@@ -87,6 +87,15 @@ namespace NIST.CVP.Crypto.Oracle
             var observableGrain = 
                 await _clusterClient.GetObserverGrain<IOracleObserverTlsKdfCaseGrain, TlsKdfResult>();
             await observableGrain.Grain.BeginWorkAsync(param);
+
+            return await observableGrain.ObserveUntilResult();
+        }
+
+        public async Task<TpmKdfResult> GetTpmKdfCaseAsync()
+        {
+            var observableGrain = 
+                await _clusterClient.GetObserverGrain<IOracleObserverTpmKdfCaseGrain, TpmKdfResult>();
+            await observableGrain.Grain.BeginWorkAsync();
 
             return await observableGrain.ObserveUntilResult();
         }
