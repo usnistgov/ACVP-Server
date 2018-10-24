@@ -15,8 +15,6 @@ namespace NIST.CVP.Crypto.Oracle
 {
     public partial class Oracle : IOracle
     {
-        private readonly Random800_90 _rand = new Random800_90();
-
         private const int TimeoutSeconds = 60;
 
         private readonly IOptions<EnvironmentConfig> _environmentConfig;

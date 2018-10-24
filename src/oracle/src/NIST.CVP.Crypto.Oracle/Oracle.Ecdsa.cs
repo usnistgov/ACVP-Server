@@ -4,6 +4,7 @@ using NIST.CVP.Pools;
 using NIST.CVP.Pools.Enums;
 using System.Threading.Tasks;
 using NIST.CVP.Crypto.Oracle.ExtensionMethods;
+using NIST.CVP.Math;
 using NIST.CVP.Orleans.Grains.Interfaces.Ecdsa;
 
 namespace NIST.CVP.Crypto.Oracle

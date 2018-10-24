@@ -88,6 +88,15 @@ namespace NIST.CVP.Crypto.Oracle
             return await observableGrain.ObserveUntilResult();
         }
 
+        public async Task<MctResult<HashResult>> GetShakeMctCaseAsync(ShakeParameters param)
+        {
+            var observableGrain = 
+                await _clusterClient.GetObserverGrain<IOracleObserverShakeMctCaseGrain, MctResult<HashResult>>();
+            await observableGrain.Grain.BeginWorkAsync(param);
+
+            return await observableGrain.ObserveUntilResult();
+        }
+
         public async Task<MctResult<CShakeResult>> GetCShakeMctCaseAsync(CShakeParameters param)
         {
             var poolBoy = new PoolBoy<MctResult<CShakeResult>>(_poolConfig);

@@ -5,14 +5,14 @@
   "digestSize": [
     128
   ],
-  "inBit": true,
-  "outBit": true,
-  "inEmpty": true,
+  "inBit": false,
+  "outBit": false,
+  "inEmpty": false,
   "outputLength": [
     {
-      "min": 256,
-      "max": 4096,
-      "increment": 1
+      "min": 128,
+      "max": 256,
+      "increment": 8
     }
   ]
 }

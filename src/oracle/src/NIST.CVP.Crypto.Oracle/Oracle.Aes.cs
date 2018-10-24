@@ -74,6 +74,7 @@ namespace NIST.CVP.Crypto.Oracle
 
         private BitString GetStartingIv(bool overflow, bool incremental)
         {
+            var rand = new Random800_90();
             BitString padding;
 
             // Arbitrary 'small' value so samples and normal registrations always hit boundary
@@ -89,7 +90,7 @@ namespace NIST.CVP.Crypto.Oracle
                 padding = BitString.Zeroes(128 - randomBits);
             }
 
-            return BitString.ConcatenateBits(padding, _rand.GetRandomBitString(randomBits));
+            return BitString.ConcatenateBits(padding, rand.GetRandomBitString(randomBits));
         }
     }
 }

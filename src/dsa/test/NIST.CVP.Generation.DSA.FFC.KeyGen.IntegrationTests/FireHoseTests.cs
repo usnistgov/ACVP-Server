@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
-using NIST.CVP.Crypto.DSA.FFC;
+﻿using NIST.CVP.Crypto.DSA.FFC;
 using NIST.CVP.Generation.DSA.FFC.KeyGen.Parsers;
 using NIST.CVP.Tests.Core;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
+using System.IO;
 
 namespace NIST.CVP.Generation.DSA.FFC.KeyGen.IntegrationTests
 {
-    [TestFixture, FastIntegrationTest]
+    [TestFixture, LongRunningIntegrationTest]
     public class FireHoseTests
     {
         string _testPath;
