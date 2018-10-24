@@ -7,7 +7,7 @@ using System.IO;
 
 namespace NIST.CVP.Generation.RSA_SPComponent.IntegrationTests
 {
-    [TestFixture, FastIntegrationTest]
+    [TestFixture, LongRunningIntegrationTest]
     public class FireHoseTests
     {
         private string _testPath;

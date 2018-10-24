@@ -1,15 +1,15 @@
-﻿using System.IO;
-using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
+﻿using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.DSA.FFC;
 using NIST.CVP.Crypto.SHAWrapper;
+using NIST.CVP.Generation.DSA.FFC.SigVer.Parsers;
 using NIST.CVP.Tests.Core;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
-using NIST.CVP.Generation.DSA.FFC.SigVer.Parsers;
 using NUnit.Framework;
+using System.IO;
 
 namespace NIST.CVP.Generation.DSA.FFC.SigVer.IntegrationTests
 {
-    [TestFixture, FastIntegrationTest]
+    [TestFixture, LongRunningIntegrationTest]
     public class FireHoseTests
     {
         string _testPath;
