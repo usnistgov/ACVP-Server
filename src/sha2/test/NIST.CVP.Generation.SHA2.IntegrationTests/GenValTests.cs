@@ -69,7 +69,7 @@ namespace NIST.CVP.Generation.SHA2.IntegrationTests
             var parameters = new Parameters
             {
                 Algorithm = Algorithm,
-                DigestSizes = new[] { "224", "256", "384", "512", "512/224", "512/256" },
+                DigestSizes = new[] { "224" },
                 BitOriented = true,
                 IncludeNull = true,
                 IsSample = false

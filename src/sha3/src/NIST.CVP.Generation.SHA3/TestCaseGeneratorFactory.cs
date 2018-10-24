@@ -1,5 +1,4 @@
 ﻿using NIST.CVP.Common.Oracle;
-using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.SHA3
@@ -21,7 +20,14 @@ namespace NIST.CVP.Generation.SHA3
             }
             else if (testGroup.TestType.ToLower() == "mct")
             {
-                return new TestCaseGeneratorMct(_oracle);
+                if (testGroup.Function.ToLower() == "shake")
+                {
+                    return new TestCaseGeneratorShakeMct(_oracle);
+                }
+                else
+                {
+                    return new TestCaseGeneratorMct(_oracle);
+                }
             }
             else if (testGroup.TestType.ToLower() == "vot")
             {

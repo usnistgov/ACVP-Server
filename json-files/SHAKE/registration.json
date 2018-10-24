@@ -3,14 +3,15 @@
   "isSample": true,
   "conformances": [],
   "digestSize": [
-    128
+    128,
+    256
   ],
   "inBit": true,
   "outBit": true,
   "inEmpty": true,
   "outputLength": [
     {
-      "min": 256,
+      "min": 128,
       "max": 4096,
       "increment": 1
     }

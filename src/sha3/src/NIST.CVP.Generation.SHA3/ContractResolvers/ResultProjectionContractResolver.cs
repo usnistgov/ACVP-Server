@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Newtonsoft.Json.Serialization;
+﻿using Newtonsoft.Json.Serialization;
+using NIST.CVP.Crypto.Common.Hash;
 using NIST.CVP.Generation.Core.ContractResolvers;
+using System;
+using System.Linq;
 
 namespace NIST.CVP.Generation.SHA3.ContractResolvers
 {
@@ -56,6 +55,61 @@ namespace NIST.CVP.Generation.SHA3.ContractResolvers
             }
 
             return jsonProperty.ShouldSerialize = instance => false;
+        }
+
+        private Predicate<object> AlgoArrayResponseSerialization(JsonProperty jsonProperty)
+        {
+            var includeProperties = new[]
+            {
+                nameof(AlgoArrayResponse.Message),
+                nameof(AlgoArrayResponse.Digest)
+            };
+
+            if (includeProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
+            {
+                return jsonProperty.ShouldSerialize =
+                    instance => true;
+            }
+
+            if (jsonProperty.UnderlyingName == nameof(AlgoArrayResponse.DigestLength))
+            {
+                return jsonProperty.ShouldSerialize = instance =>
+                {
+                    GetAlgoArrayResponseFromAlgoArrayResponseObject(instance, out var resp);
+
+                    return resp.ShouldPrintOutputLength;
+                };
+            }
+
+            return jsonProperty.ShouldSerialize = instance => false;
+        }
+
+        protected override Predicate<object> ShouldSerialize(JsonProperty jsonProperty)
+        {
+            var type = jsonProperty.DeclaringType;
+
+            if (typeof(TestGroup).IsAssignableFrom(type))
+            {
+                return TestGroupSerialization(jsonProperty);
+            }
+
+            if (typeof(TestCase).IsAssignableFrom(type))
+            {
+                return TestCaseSerialization(jsonProperty);
+            }
+
+            if (typeof(AlgoArrayResponse).IsAssignableFrom(type))
+            {
+                return AlgoArrayResponseSerialization(jsonProperty);
+            }
+
+            return jsonProperty.ShouldSerialize;
+        }
+
+        private void GetAlgoArrayResponseFromAlgoArrayResponseObject(object instance,
+            out AlgoArrayResponse algoArrayResponse)
+        {
+            algoArrayResponse = instance as AlgoArrayResponse;
         }
     }
 }

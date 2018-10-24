@@ -1,6 +1,6 @@
-﻿using System.Threading.Tasks;
-using NIST.CVP.Common.Oracle.ParameterTypes;
+﻿using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Common.Oracle
 {
@@ -14,6 +14,7 @@ namespace NIST.CVP.Common.Oracle
 
         Task<MctResult<HashResult>> GetShaMctCaseAsync(ShaParameters param);
         Task<MctResult<HashResult>> GetSha3MctCaseAsync(Sha3Parameters param);
+        Task<MctResult<HashResult>> GetShakeMctCaseAsync(ShakeParameters param);
         Task<MctResult<CShakeResult>> GetCShakeMctCaseAsync(CShakeParameters param);
         Task<MctResult<ParallelHashResult>> GetParallelHashMctCaseAsync(ParallelHashParameters param);
         Task<MctResult<TupleHashResult>> GetTupleHashMctCaseAsync(TupleHashParameters param);

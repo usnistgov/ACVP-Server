@@ -17,25 +17,26 @@ namespace NIST.CVP.Crypto.Oracle
 
         private DrbgResult GetNoReseedCase(DrbgParameters param)
         {
+            var rand = new Random800_90();
             var otherInput = new List<OtherInput>
             {
                 new OtherInput
                 {
                     IntendedUse = DRBG_INTENDED_USE_GENERATE,
-                    EntropyInput = param.PredResistanceEnabled ? _rand.GetRandomBitString(param.EntropyInputLen) : new BitString(0),
-                    AdditionalInput = _rand.GetRandomBitString(param.AdditionalInputLen)
+                    EntropyInput = param.PredResistanceEnabled ? rand.GetRandomBitString(param.EntropyInputLen) : new BitString(0),
+                    AdditionalInput = rand.GetRandomBitString(param.AdditionalInputLen)
                 },
                 new OtherInput
                 {
                     IntendedUse = DRBG_INTENDED_USE_GENERATE,
-                    EntropyInput = param.PredResistanceEnabled ? _rand.GetRandomBitString(param.EntropyInputLen) : new BitString(0),
-                    AdditionalInput = _rand.GetRandomBitString(param.AdditionalInputLen)
+                    EntropyInput = param.PredResistanceEnabled ? rand.GetRandomBitString(param.EntropyInputLen) : new BitString(0),
+                    AdditionalInput = rand.GetRandomBitString(param.AdditionalInputLen)
                 }
             };
 
-            var entropyInput = _rand.GetRandomBitString(param.EntropyInputLen);
-            var nonce = _rand.GetRandomBitString(param.NonceLen);
-            var persoString = _rand.GetRandomBitString(param.PersoStringLen);
+            var entropyInput = rand.GetRandomBitString(param.EntropyInputLen);
+            var nonce = rand.GetRandomBitString(param.NonceLen);
+            var persoString = rand.GetRandomBitString(param.PersoStringLen);
 
             var testableEntropy = new TestableEntropyProvider();
             testableEntropy.AddEntropy(entropyInput);
@@ -70,31 +71,32 @@ namespace NIST.CVP.Crypto.Oracle
 
         private DrbgResult GetReseedNoPredResistCase(DrbgParameters param)
         {
+            var rand = new Random800_90();
             var otherInput = new List<OtherInput>
             {
                 new OtherInput
                 {
                     IntendedUse = DRBG_INTENDED_USE_reSeed,
-                    EntropyInput = _rand.GetRandomBitString(param.EntropyInputLen),
-                    AdditionalInput = _rand.GetRandomBitString(param.AdditionalInputLen)
+                    EntropyInput = rand.GetRandomBitString(param.EntropyInputLen),
+                    AdditionalInput = rand.GetRandomBitString(param.AdditionalInputLen)
                 },
                 new OtherInput
                 {
                     IntendedUse = DRBG_INTENDED_USE_GENERATE,
                     EntropyInput = new BitString(0),
-                    AdditionalInput = _rand.GetRandomBitString(param.AdditionalInputLen)
+                    AdditionalInput = rand.GetRandomBitString(param.AdditionalInputLen)
                 },
                 new OtherInput
                 {
                     IntendedUse = DRBG_INTENDED_USE_GENERATE,
                     EntropyInput = new BitString(0),
-                    AdditionalInput = _rand.GetRandomBitString(param.AdditionalInputLen)
+                    AdditionalInput = rand.GetRandomBitString(param.AdditionalInputLen)
                 }
             };
 
-            var entropyInput = _rand.GetRandomBitString(param.EntropyInputLen);
-            var nonce = _rand.GetRandomBitString(param.NonceLen);
-            var persoString = _rand.GetRandomBitString(param.PersoStringLen);
+            var entropyInput = rand.GetRandomBitString(param.EntropyInputLen);
+            var nonce = rand.GetRandomBitString(param.NonceLen);
+            var persoString = rand.GetRandomBitString(param.PersoStringLen);
 
             var testableEntropy = new TestableEntropyProvider();
             testableEntropy.AddEntropy(entropyInput);
@@ -144,25 +146,26 @@ namespace NIST.CVP.Crypto.Oracle
 
         private DrbgResult GetReseedPredResistCase(DrbgParameters param)
         {
+            var rand = new Random800_90();
             var otherInput = new List<OtherInput>
             {
                 new OtherInput
                 {
                     IntendedUse = DRBG_INTENDED_USE_GENERATE,
-                    EntropyInput = _rand.GetRandomBitString(param.EntropyInputLen),
-                    AdditionalInput = _rand.GetRandomBitString(param.AdditionalInputLen)
+                    EntropyInput = rand.GetRandomBitString(param.EntropyInputLen),
+                    AdditionalInput = rand.GetRandomBitString(param.AdditionalInputLen)
                 },
                 new OtherInput
                 {
                     IntendedUse = DRBG_INTENDED_USE_GENERATE,
-                    EntropyInput = _rand.GetRandomBitString(param.EntropyInputLen),
-                    AdditionalInput = _rand.GetRandomBitString(param.AdditionalInputLen)
+                    EntropyInput = rand.GetRandomBitString(param.EntropyInputLen),
+                    AdditionalInput = rand.GetRandomBitString(param.AdditionalInputLen)
                 }
             };
 
-            var entropyInput = _rand.GetRandomBitString(param.EntropyInputLen);
-            var nonce = _rand.GetRandomBitString(param.NonceLen);
-            var persoString = _rand.GetRandomBitString(param.PersoStringLen);
+            var entropyInput = rand.GetRandomBitString(param.EntropyInputLen);
+            var nonce = rand.GetRandomBitString(param.NonceLen);
+            var persoString = rand.GetRandomBitString(param.PersoStringLen);
 
             var testableEntropy = new TestableEntropyProvider();
             testableEntropy.AddEntropy(entropyInput);

@@ -127,7 +127,8 @@ namespace NIST.CVP.Crypto.Oracle
         
         private RsaKeyResult GetRsaKey(RsaKeyParameters param)
         {
-            var entropyProvider = new EntropyProvider(_rand);
+            var rand = new Random800_90();
+            var entropyProvider = new EntropyProvider(rand);
             RsaPrimeResult result;
             do
             {
@@ -152,6 +153,7 @@ namespace NIST.CVP.Crypto.Oracle
 
         private RsaSignaturePrimitiveResult GetRsaSignaturePrimitive(RsaSignaturePrimitiveParameters param)
         {
+            var rand = new Random800_90();
             var keyParam = new RsaKeyParameters
             {
                 KeyFormat = param.KeyFormat,
@@ -163,19 +165,19 @@ namespace NIST.CVP.Crypto.Oracle
 
             var key = GetRsaKey(keyParam).Key;
 
-            var shouldPass = _rand.GetRandomInt(0, 2) == 0;
+            var shouldPass = rand.GetRandomInt(0, 2) == 0;
             BitString message;
             BitString signature = null;
             if (shouldPass)
             {
                 // No failure, get a random 2048-bit value less than N
-                message = new BitString(_rand.GetRandomBigInteger(key.PubKey.N), 2048);
+                message = new BitString(rand.GetRandomBigInteger(key.PubKey.N), 2048);
                 signature = new BitString(new Rsa(new RsaVisitor()).Decrypt(message.ToPositiveBigInteger(), key.PrivKey, key.PubKey).PlainText, 2048);
             }
             else
             {
                 // Yes failure, get a random 2048-bit value greater than N
-                message = new BitString(_rand.GetRandomBigInteger(key.PubKey.N, NumberTheory.Pow2(2048)), 2048);
+                message = new BitString(rand.GetRandomBigInteger(key.PubKey.N, NumberTheory.Pow2(2048)), 2048);
             }
 
             return new RsaSignaturePrimitiveResult
@@ -214,17 +216,19 @@ namespace NIST.CVP.Crypto.Oracle
 
         private RsaSignatureResult GetDeferredRsaSignature(RsaSignatureParameters param)
         {
+            var rand = new Random800_90();
             return new RsaSignatureResult
             {
-                Message = _rand.GetRandomBitString(param.Modulo / 2)
+                Message = rand.GetRandomBitString(param.Modulo / 2)
             };
         }
 
         private RsaSignatureResult GetRsaSignature(RsaSignatureParameters param)
         {
-            var message = _rand.GetRandomBitString(param.Modulo / 2);
+            var rand = new Random800_90();
+            var message = rand.GetRandomBitString(param.Modulo / 2);
             var sha = _shaFactory.GetShaInstance(param.HashAlg);
-            var salt = _rand.GetRandomBitString(param.SaltLength * 8);       // Comes in bytes, convert to bits
+            var salt = rand.GetRandomBitString(param.SaltLength * 8);       // Comes in bytes, convert to bits
             var entropyProvider = new TestableEntropyProvider();
             entropyProvider.AddEntropy(salt);
 
@@ -252,6 +256,7 @@ namespace NIST.CVP.Crypto.Oracle
 
         private VerifyResult<RsaSignatureResult> CompleteDeferredRsaSignature(RsaSignatureParameters param, RsaSignatureResult fullParam)
         {
+            var rand = new Random800_90();
             var sha = _shaFactory.GetShaInstance(param.HashAlg);
             var entropyProvider = new TestableEntropyProvider();
             entropyProvider.AddEntropy(fullParam.Salt);
@@ -275,9 +280,10 @@ namespace NIST.CVP.Crypto.Oracle
 
         private VerifyResult<RsaSignatureResult> GetRsaVerify(RsaSignatureParameters param)
         {
-            var message = _rand.GetRandomBitString(param.Modulo / 2);
+            var rand = new Random800_90();
+            var message = rand.GetRandomBitString(param.Modulo / 2);
             var sha = _shaFactory.GetShaInstance(param.HashAlg);
-            var salt = _rand.GetRandomBitString(param.SaltLength * 8);      // Comes in bytes, convert to bits
+            var salt = rand.GetRandomBitString(param.SaltLength * 8);      // Comes in bytes, convert to bits
             var entropyProvider = new TestableEntropyProvider();
             entropyProvider.AddEntropy(salt);
 
@@ -320,11 +326,12 @@ namespace NIST.CVP.Crypto.Oracle
 
         private RsaDecryptionPrimitiveResult GetDeferredRsaDecryptionPrimitive(RsaDecryptionPrimitiveParameters param)
         {
+            var rand = new Random800_90();
             return new RsaDecryptionPrimitiveResult
             {
                 CipherText = param.TestPassed
-                    ? _rand.GetRandomBitString(param.Modulo)
-                    : BitString.Ones(2).ConcatenateBits(_rand.GetRandomBitString(param.Modulo - 2))         // Try to force the failing case high
+                    ? rand.GetRandomBitString(param.Modulo)
+                    : BitString.Ones(2).ConcatenateBits(rand.GetRandomBitString(param.Modulo - 2))         // Try to force the failing case high
             };
         }
 
@@ -351,6 +358,7 @@ namespace NIST.CVP.Crypto.Oracle
 
         private RsaDecryptionPrimitiveResult GetRsaDecryptionPrimitive(RsaDecryptionPrimitiveParameters param)
         {
+            var rand = new Random800_90();
             if (param.TestPassed)
             {
                 // Correct tests
@@ -360,7 +368,7 @@ namespace NIST.CVP.Crypto.Oracle
                     var e = GetEValue(RSA_PUBLIC_EXPONENT_BITS_MIN, RSA_PUBLIC_EXPONENT_BITS_MAX);
                     keyResult = new KeyBuilder(new PrimeGeneratorFactory())
                         .WithPrimeGenMode(PrimeGenModes.B33)
-                        .WithEntropyProvider(new EntropyProvider(_rand))
+                        .WithEntropyProvider(new EntropyProvider(rand))
                         .WithNlen(param.Modulo)
                         .WithPublicExponent(e)
                         .WithPrimeTestMode(PrimeTestModes.C2)
@@ -368,7 +376,7 @@ namespace NIST.CVP.Crypto.Oracle
                         .Build();
                 } while (!keyResult.Success);
 
-                var cipherText = new BitString(_rand.GetRandomBigInteger(1, keyResult.Key.PubKey.N - 1));
+                var cipherText = new BitString(rand.GetRandomBigInteger(1, keyResult.Key.PubKey.N - 1));
                 var plainText = new Rsa(new RsaVisitor()).Decrypt(cipherText.ToPositiveBigInteger(), keyResult.Key.PrivKey, keyResult.Key.PubKey).PlainText;
 
                 return new RsaDecryptionPrimitiveResult
@@ -383,10 +391,10 @@ namespace NIST.CVP.Crypto.Oracle
                 // Failure tests - save some time and generate a dummy key
 
                 // Pick a random ciphertext and force a leading '1' (so that it MUST be 2048 bits)
-                var cipherText = BitString.One().ConcatenateBits(_rand.GetRandomBitString(param.Modulo - 1));
+                var cipherText = BitString.One().ConcatenateBits(rand.GetRandomBitString(param.Modulo - 1));
 
                 // Pick a random n that is 2048 bits and less than the ciphertext
-                var n = _rand.GetRandomBigInteger(NumberTheory.Pow2(param.Modulo - 1), cipherText.ToPositiveBigInteger());
+                var n = rand.GetRandomBigInteger(NumberTheory.Pow2(param.Modulo - 1), cipherText.ToPositiveBigInteger());
                 var e = GetEValue(RSA_PUBLIC_EXPONENT_BITS_MIN, RSA_PUBLIC_EXPONENT_BITS_MAX).ToPositiveBigInteger();
 
                 return new RsaDecryptionPrimitiveResult
@@ -460,6 +468,7 @@ namespace NIST.CVP.Crypto.Oracle
 
         private BitString GetEValue(int minLen, int maxLen)
         {
+            var rand = new Random800_90();
             BigInteger e;
             BitString e_bs;
             do
@@ -467,7 +476,7 @@ namespace NIST.CVP.Crypto.Oracle
                 var min = minLen / 2;
                 var max = maxLen / 2;
 
-                e = GetRandomBigIntegerOfBitLength(_rand.GetRandomInt(min, max) * 2);
+                e = GetRandomBigIntegerOfBitLength(rand.GetRandomInt(min, max) * 2);
                 if (e.IsEven)
                 {
                     e++;
@@ -481,12 +490,14 @@ namespace NIST.CVP.Crypto.Oracle
 
         private BigInteger GetRandomBigIntegerOfBitLength(int len)
         {
-            var bs = _rand.GetRandomBitString(len);
+            var rand = new Random800_90();
+            var bs = rand.GetRandomBitString(len);
             return bs.ToPositiveBigInteger();
         }
 
         private BitString GetSeed(int modulo)
         {
+            var rand = new Random800_90();
             var security_strength = 0;
             if(modulo == 1024)
             {
@@ -501,11 +512,12 @@ namespace NIST.CVP.Crypto.Oracle
                 security_strength = 128;
             }
 
-            return _rand.GetRandomBitString(2 * security_strength);
+            return rand.GetRandomBitString(2 * security_strength);
         }
 
         private int[] GetBitlens(int modulo, PrimeGenModes mode)
         {
+            var rand = new Random800_90();
             var bitlens = new int[4];
             var min_single = 0;
             var max_both = 0;
@@ -544,10 +556,10 @@ namespace NIST.CVP.Crypto.Oracle
                 }
             }
 
-            bitlens[0] = _rand.GetRandomInt(min_single, max_both - min_single);
-            bitlens[1] = _rand.GetRandomInt(min_single, max_both - bitlens[0]);
-            bitlens[2] = _rand.GetRandomInt(min_single, max_both - min_single);
-            bitlens[3] = _rand.GetRandomInt(min_single, max_both - bitlens[2]);
+            bitlens[0] = rand.GetRandomInt(min_single, max_both - min_single);
+            bitlens[1] = rand.GetRandomInt(min_single, max_both - bitlens[0]);
+            bitlens[2] = rand.GetRandomInt(min_single, max_both - min_single);
+            bitlens[3] = rand.GetRandomInt(min_single, max_both - bitlens[2]);
 
             return bitlens;
         }

@@ -26,6 +26,7 @@ namespace NIST.CVP.Crypto.Oracle
 
         private AesResult GetAesCase(AesParameters param)
         {
+            var rand = new Random800_90();
             var cipher = _modeFactory.GetStandardCipher(
                 _engineFactory.GetSymmetricCipherPrimitive(BlockCipherEngines.Aes), 
                 param.Mode
@@ -36,9 +37,9 @@ namespace NIST.CVP.Crypto.Oracle
                 direction = BlockCipherDirections.Decrypt;
             }
 
-            var payload = _rand.GetRandomBitString(param.DataLength);
-            var key = _rand.GetRandomBitString(param.KeyLength);
-            var iv = _rand.GetRandomBitString(128);
+            var payload = rand.GetRandomBitString(param.DataLength);
+            var key = rand.GetRandomBitString(param.KeyLength);
+            var iv = rand.GetRandomBitString(128);
 
             var blockCipherParams = new ModeBlockCipherParameters(
                 direction, 
@@ -72,6 +73,7 @@ namespace NIST.CVP.Crypto.Oracle
                 return poolResult;
             }
 
+            var rand = new Random800_90();
             var cipher = _aesMctFactory.GetInstance(param.Mode);
             var direction = BlockCipherDirections.Encrypt;
             if (param.Direction.ToLower() == "decrypt")
@@ -79,9 +81,9 @@ namespace NIST.CVP.Crypto.Oracle
                 direction = BlockCipherDirections.Decrypt;
             }
 
-            var payload = _rand.GetRandomBitString(param.DataLength);
-            var key = _rand.GetRandomBitString(param.KeyLength);
-            var iv = _rand.GetRandomBitString(128);
+            var payload = rand.GetRandomBitString(param.DataLength);
+            var key = rand.GetRandomBitString(param.KeyLength);
+            var iv = rand.GetRandomBitString(128);
 
             var blockCipherParams = new ModeBlockCipherParameters(
                 direction, 
@@ -118,6 +120,7 @@ namespace NIST.CVP.Crypto.Oracle
 
         private AesResult GetDeferredAesCounterCase(CounterParameters<AesParameters> param)
         {
+            var rand = new Random800_90();
             var iv = GetStartingIv(param.Overflow, param.Incremental);
 
             var direction = BlockCipherDirections.Encrypt;
@@ -126,8 +129,8 @@ namespace NIST.CVP.Crypto.Oracle
                 direction = BlockCipherDirections.Decrypt;
             }
 
-            var payload = _rand.GetRandomBitString(param.Parameters.DataLength);
-            var key = _rand.GetRandomBitString(param.Parameters.KeyLength);
+            var payload = rand.GetRandomBitString(param.Parameters.DataLength);
+            var key = rand.GetRandomBitString(param.Parameters.KeyLength);
 
             return new AesResult
             {
@@ -204,6 +207,7 @@ namespace NIST.CVP.Crypto.Oracle
 
         private AesXtsResult GetAesXtsCase(AesXtsParameters param)
         {
+            var rand = new Random800_90();
             var cipher = _modeFactory.GetStandardCipher(
                 _engineFactory.GetSymmetricCipherPrimitive(BlockCipherEngines.Aes), 
                 param.Mode
@@ -214,18 +218,18 @@ namespace NIST.CVP.Crypto.Oracle
                 direction = BlockCipherDirections.Decrypt;
             }
 
-            var payload = _rand.GetRandomBitString(param.DataLength);
-            var key = _rand.GetRandomBitString(param.KeyLength * 2);
+            var payload = rand.GetRandomBitString(param.DataLength);
+            var key = rand.GetRandomBitString(param.KeyLength * 2);
             var i = new BitString(0);
             var number = 0;
 
             if (param.TweakMode.Equals("hex", StringComparison.OrdinalIgnoreCase))
             {
-                i = _rand.GetRandomBitString(128);
+                i = rand.GetRandomBitString(128);
             }
             else if (param.TweakMode.Equals("number", StringComparison.OrdinalIgnoreCase))
             {
-                number = _rand.GetRandomInt(0, 256);
+                number = rand.GetRandomInt(0, 256);
                 i = XtsHelper.GetIFromInteger(number);
             }
 
@@ -280,6 +284,7 @@ namespace NIST.CVP.Crypto.Oracle
 
         private BitString GetStartingIv(bool overflow, bool incremental)
         {
+            var rand = new Random800_90();
             BitString padding;
 
             // Arbitrary 'small' value so samples and normal registrations always hit boundary
@@ -295,7 +300,7 @@ namespace NIST.CVP.Crypto.Oracle
                 padding = BitString.Zeroes(128 - randomBits);
             }
 
-            return BitString.ConcatenateBits(padding, _rand.GetRandomBitString(randomBits));
+            return BitString.ConcatenateBits(padding, rand.GetRandomBitString(randomBits));
         }
     }
 }
