@@ -30,7 +30,7 @@ namespace NIST.CVP.Generation.SHA3.Tests
         [Test]
         [TestCase("junk", typeof(TestCaseGeneratorNull))]
         [TestCase("aFt", typeof(TestCaseGeneratorAft))]
-        [TestCase("Mct", typeof(TestCaseGeneratorMct))]
+        [TestCase("Mct", typeof(TestCaseGeneratorShakeMct))]
         [TestCase("VOT", typeof(TestCaseGeneratorVot))]
         public void ShouldReturnProperSHAKEGenerator(string testType, Type expectedType)
         {

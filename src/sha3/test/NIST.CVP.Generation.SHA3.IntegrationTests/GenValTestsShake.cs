@@ -33,7 +33,7 @@ namespace NIST.CVP.Generation.SHA3.IntegrationTests
         protected override string GetTestFileLotsOfTestCases(string targetFolder)
         {
             var minMax = new MathDomain();
-            minMax.AddSegment(new RangeDomainSegment(null, 256, 4096, 1));
+            minMax.AddSegment(new RangeDomainSegment(null, 128, 4096, 1));
 
             var parameters = new Parameters
             {

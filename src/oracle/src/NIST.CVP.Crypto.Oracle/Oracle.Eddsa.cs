@@ -59,6 +59,7 @@ namespace NIST.CVP.Crypto.Oracle
 
         private VerifyResult<EddsaKeyResult> GetEddsaKeyVerify(EddsaKeyParameters param)
         {
+            var rand = new Random800_90();
             var key = GetEddsaKey(param).Key;
             var curve = _edCurveFactory.GetCurve(param.Curve);
             var edParam = new EdDomainParameters(curve, new ShaFactory());
@@ -81,7 +82,7 @@ namespace NIST.CVP.Crypto.Oracle
                 var modifiedPublicQ = curve.Decode(key.PublicQ);
 
                 // Get a random number 0, or 1
-                if (_rand.GetRandomInt(0, 2) == 0)
+                if (rand.GetRandomInt(0, 2) == 0)
                 {
                     modifiedPublicQ = new EdPoint(modifiedPublicQ.X + curve.FieldSizeQ, modifiedPublicQ.Y);
                 }
@@ -105,12 +106,13 @@ namespace NIST.CVP.Crypto.Oracle
 
         private EddsaSignatureResult GetEddsaSignature(EddsaSignatureParameters param)
         {
+            var rand = new Random800_90();
             var curve = _edCurveFactory.GetCurve(param.Curve);
             var noContext = param.Curve == Common.Asymmetric.DSA.Ed.Enums.Curve.Ed25519 && !param.PreHash;
             var domainParams = new EdDomainParameters(curve, new ShaFactory());
             var edDsa = _edFactory.GetInstance(null);
 
-            var message = _rand.GetRandomBitString(1024);
+            var message = rand.GetRandomBitString(1024);
 
             BitString context;
             if (noContext)
@@ -119,7 +121,7 @@ namespace NIST.CVP.Crypto.Oracle
             }
             else
             {
-                context = _rand.GetRandomBitString(_rand.GetRandomInt(0, 255) * 8);
+                context = rand.GetRandomBitString(rand.GetRandomInt(0, 255) * 8);
             }
 
             var result = edDsa.Sign(domainParams, param.Key, message, context, param.PreHash);
@@ -138,11 +140,12 @@ namespace NIST.CVP.Crypto.Oracle
 
         private EddsaSignatureResult GetDeferredEddsaSignature(EddsaSignatureParameters param)
         {
+            var rand = new Random800_90();
             var noContext = param.Curve == Common.Asymmetric.DSA.Ed.Enums.Curve.Ed25519 && !param.PreHash;
 
-            var message = _rand.GetRandomBitString(1024);
+            var message = rand.GetRandomBitString(1024);
 
-            var context = noContext ? new BitString("") : _rand.GetRandomBitString(_rand.GetRandomInt(0, 255) * 8);
+            var context = noContext ? new BitString("") : rand.GetRandomBitString(rand.GetRandomInt(0, 255) * 8);
 
             return new EddsaSignatureResult
             {
@@ -201,7 +204,8 @@ namespace NIST.CVP.Crypto.Oracle
         // Remove or do something... this is a little awkward how it is done
         private BitString GetEddsaMessageBitFlip(EddsaMessageParameters param)
         {
-            return _rand.GetRandomBitString(param.IsSample ? 32 : 1024);
+            var rand = new Random800_90();
+            return rand.GetRandomBitString(param.IsSample ? 32 : 1024);
         }
 
         private VerifyResult<EddsaSignatureResult> CompleteDeferredEddsaSignature(EddsaSignatureParameters param, EddsaSignatureResult fullParam)
@@ -220,6 +224,7 @@ namespace NIST.CVP.Crypto.Oracle
 
         private VerifyResult<EddsaSignatureResult> GetEddsaVerifyResult(EddsaSignatureParameters param)
         {
+            var rand = new Random800_90();
             var keyParam = new EddsaKeyParameters
             {
                 Curve = param.Curve
@@ -229,7 +234,7 @@ namespace NIST.CVP.Crypto.Oracle
             var domainParams = new EdDomainParameters(curve, new ShaFactory());
             var edDsa = _edFactory.GetInstance(null);
 
-            var message = _rand.GetRandomBitString(1024);
+            var message = rand.GetRandomBitString(1024);
 
             var result = edDsa.Sign(domainParams, key, message);
             if (!result.Success)
@@ -247,7 +252,7 @@ namespace NIST.CVP.Crypto.Oracle
             if (param.Disposition == EddsaSignatureDisposition.ModifyMessage)
             {
                 // Generate a different random message
-                sigResult.Message = _rand.GetDifferentBitStringOfSameSize(message);
+                sigResult.Message = rand.GetDifferentBitStringOfSameSize(message);
             }
             else if (param.Disposition == EddsaSignatureDisposition.ModifyKey)
             {

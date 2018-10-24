@@ -1,12 +1,11 @@
 ﻿using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
-using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.Common.Hash;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.Async;
 using NLog;
 using System;
 using System.Threading.Tasks;
-using NIST.CVP.Generation.Core.Async;
 using HashFunction = NIST.CVP.Crypto.Common.Hash.SHA3.HashFunction;
 
 namespace NIST.CVP.Generation.SHA3
@@ -29,7 +28,7 @@ namespace NIST.CVP.Generation.SHA3
             IsSample = isSample;
             var param = new Sha3Parameters
             {
-                HashFunction = new HashFunction(group.DigestSize, group.DigestSize * 2, group.Function.ToLower().Equals("shake", StringComparison.OrdinalIgnoreCase)),
+                HashFunction = new HashFunction(group.DigestSize, group.DigestSize * 2, false),
                 MessageLength = group.DigestSize
             };
 

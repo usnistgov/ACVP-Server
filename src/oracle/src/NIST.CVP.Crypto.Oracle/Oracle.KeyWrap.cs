@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.KeyWrap;
+using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.Oracle
 {
@@ -12,10 +13,11 @@ namespace NIST.CVP.Crypto.Oracle
 
         private KeyWrapResult GetKeyWrapCase(KeyWrapParameters param)
         {
+            var rand = new Random800_90();
             var keyWrap = _keyWrapFactory.GetKeyWrapInstance(param.KeyWrapType);
 
-            var key = _rand.GetRandomBitString(param.KeyLength);
-            var payload = _rand.GetRandomBitString(param.DataLength);
+            var key = rand.GetRandomBitString(param.KeyLength);
+            var payload = rand.GetRandomBitString(param.DataLength);
 
             var result = new KeyWrapResult()
             {
@@ -29,11 +31,11 @@ namespace NIST.CVP.Crypto.Oracle
             {
                 // Should Fail at certain ratio, 20%
                 var upperBound = (int)(1.0 / KEYWRAP_FAIL_RATIO);
-                var shouldFail = _rand.GetRandomInt(0, upperBound) == 0;
+                var shouldFail = rand.GetRandomInt(0, upperBound) == 0;
 
                 if (shouldFail)
                 {
-                    result.Ciphertext = _rand.GetDifferentBitStringOfSameSize(result.Ciphertext);
+                    result.Ciphertext = rand.GetDifferentBitStringOfSameSize(result.Ciphertext);
                     result.TestPassed = false;
                 }
             }

@@ -35,6 +35,7 @@ namespace NIST.CVP.Crypto.Oracle
                 return poolResult;
             }
 
+            var rand = new Random800_90();
             var sha = _shaFactory.GetShaInstance(param.HashAlg);
             var pqGen = _pqGenFactory.GetGeneratorValidator(param.PQGenMode, sha);
 
@@ -64,20 +65,20 @@ namespace NIST.CVP.Crypto.Oracle
                 // Make P not prime
                 do
                 {
-                    domainParams.P = _rand.GetRandomBitString(param.L).ToPositiveBigInteger();
+                    domainParams.P = rand.GetRandomBitString(param.L).ToPositiveBigInteger();
 
                 } while (NumberTheory.MillerRabin(domainParams.P, DSAHelper.GetMillerRabinIterations(param.L, param.N)));
             }
             else if (friendlyReason == DsaPQDisposition.ModifyQ)
             {
                 // Modify Q so that 0 != (P-1) mod Q
-                domainParams.Q = _rand.GetRandomBitString(param.N).ToPositiveBigInteger();
+                domainParams.Q = rand.GetRandomBitString(param.N).ToPositiveBigInteger();
             }
             else if (friendlyReason == DsaPQDisposition.ModifySeed)
             {
                 // Modify FirstSeed
                 var oldSeed = new BitString(domainParams.Seed.Seed);
-                var newSeed = _rand.GetRandomBitString(oldSeed.BitLength).ToPositiveBigInteger();
+                var newSeed = rand.GetRandomBitString(oldSeed.BitLength).ToPositiveBigInteger();
 
                 domainParams.Seed.ModifySeed(newSeed);
             }
@@ -95,11 +96,12 @@ namespace NIST.CVP.Crypto.Oracle
                 return poolResult;
             }
 
+            var rand = new Random800_90();
             // Make sure index is not "0000 0000"
             BitString index;
             do
             {
-                index = _rand.GetRandomBitString(8);
+                index = rand.GetRandomBitString(8);
             } while (index.Equals(BitString.Zeroes(8)));
 
             var sha = _shaFactory.GetShaInstance(param.HashAlg);
@@ -129,7 +131,7 @@ namespace NIST.CVP.Crypto.Oracle
             {
                 do
                 {
-                    domainParams.G = _rand.GetRandomBitString(param.L).ToPositiveBigInteger();
+                    domainParams.G = rand.GetRandomBitString(param.L).ToPositiveBigInteger();
 
                 } while (BigInteger.ModPow(domainParams.G, pqParam.Q, pqParam.P) == 1);
             }
@@ -227,9 +229,10 @@ namespace NIST.CVP.Crypto.Oracle
 
         private DsaSignatureResult GetDeferredDsaSignature(DsaSignatureParameters param)
         {
+            var rand = new Random800_90();
             return new DsaSignatureResult
             {
-                Message = _rand.GetRandomBitString(param.MessageLength)
+                Message = rand.GetRandomBitString(param.MessageLength)
             };
         }
 
@@ -247,7 +250,8 @@ namespace NIST.CVP.Crypto.Oracle
 
         private DsaSignatureResult GetDsaSignature(DsaSignatureParameters param)
         {
-            var message = _rand.GetRandomBitString(param.MessageLength);
+            var rand = new Random800_90();
+            var message = rand.GetRandomBitString(param.MessageLength);
 
             var ffcDsa = _dsaFactory.GetInstance(param.HashAlg);
             var sigResult = ffcDsa.Sign(param.DomainParameters, param.Key, message);
@@ -271,7 +275,7 @@ namespace NIST.CVP.Crypto.Oracle
             // Modify message
             if (param.Disposition == DsaSignatureDisposition.ModifyMessage)
             {
-                result.Message = _rand.GetDifferentBitStringOfSameSize(message);
+                result.Message = rand.GetDifferentBitStringOfSameSize(message);
             }
             // Modify public key
             else if (param.Disposition == DsaSignatureDisposition.ModifyKey)

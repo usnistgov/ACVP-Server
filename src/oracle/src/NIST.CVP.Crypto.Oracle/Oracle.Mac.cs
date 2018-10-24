@@ -21,20 +21,21 @@ namespace NIST.CVP.Crypto.Oracle
         
         private MacResult GetCmacCase(CmacParameters param)
         {
+            var rand = new Random800_90();
             var cmac = _cmacFactory.GetCmacInstance(param.CmacType);
 
             BitString key = null;
 
             if (param.KeyingOption is default(int))
             {
-                key = _rand.GetRandomBitString(param.KeyLength);
+                key = rand.GetRandomBitString(param.KeyLength);
             }
             else
             {
                 key = TdesHelpers.GenerateTdesKey(param.KeyingOption);
             }
             
-            var msg = _rand.GetRandomBitString(param.PayloadLength);
+            var msg = rand.GetRandomBitString(param.PayloadLength);
 
             var mac = cmac.Generate(key, msg, param.MacLength);
             var result = new MacResult()
@@ -49,11 +50,11 @@ namespace NIST.CVP.Crypto.Oracle
             {
                 // Should Fail at certain ratio, 25%
                 var upperBound = (int)(1.0 / CMAC_FAIL_RATIO);
-                var shouldFail = _rand.GetRandomInt(0, upperBound) == 0;
+                var shouldFail = rand.GetRandomInt(0, upperBound) == 0;
 
                 if (shouldFail)
                 {
-                    result.Tag = _rand.GetDifferentBitStringOfSameSize(result.Tag);
+                    result.Tag = rand.GetDifferentBitStringOfSameSize(result.Tag);
                     result.TestPassed = false;
                 }
             }
@@ -63,10 +64,11 @@ namespace NIST.CVP.Crypto.Oracle
 
         private MacResult GetHmacCase(HmacParameters param)
         {
+            var rand = new Random800_90();
             var hmac = _hmacFactory.GetHmacInstance(new HashFunction(param.ShaMode, param.ShaDigestSize));
 
-            var key = _rand.GetRandomBitString(param.KeyLength);
-            var msg = _rand.GetRandomBitString(param.MessageLength);
+            var key = rand.GetRandomBitString(param.KeyLength);
+            var msg = rand.GetRandomBitString(param.MessageLength);
 
             var mac = hmac.Generate(key, msg, param.MacLength);
             var result = new MacResult()
@@ -81,11 +83,12 @@ namespace NIST.CVP.Crypto.Oracle
 
         private KmacResult GetKmacCase(KmacParameters param)
         {
+            var rand = new Random800_90();
             var kmac = new KmacFactory(new CSHAKEWrapper())
                 .GetKmacInstance(param.DigestSize * 2, param.XOF);
 
-            var key = _rand.GetRandomBitString(param.KeyLength);
-            var msg = _rand.GetRandomBitString(param.MessageLength);
+            var key = rand.GetRandomBitString(param.KeyLength);
+            var msg = rand.GetRandomBitString(param.MessageLength);
 
             BitString customizationHex = new BitString(0);
             string customization = "";
@@ -93,22 +96,22 @@ namespace NIST.CVP.Crypto.Oracle
             {
                 if (param.CouldFail)
                 {
-                    customizationHex = _rand.GetRandomBitString(_rand.GetRandomInt(0, 11) * 8); // only for mvt
+                    customizationHex = rand.GetRandomBitString(rand.GetRandomInt(0, 11) * 8); // only for mvt
                 }
                 else
                 {
-                    customizationHex = _rand.GetRandomBitString(param.CustomizationLength);
+                    customizationHex = rand.GetRandomBitString(param.CustomizationLength);
                 }
             }
             else
             {
                 if (param.CouldFail)
                 {
-                    customization = _rand.GetRandomString(_rand.GetRandomInt(0, 11)); // only for mvt
+                    customization = rand.GetRandomString(rand.GetRandomInt(0, 11)); // only for mvt
                 }
                 else
                 {
-                    customization = _rand.GetRandomString(param.CustomizationLength);
+                    customization = rand.GetRandomString(param.CustomizationLength);
                 }
             }
 
@@ -127,11 +130,11 @@ namespace NIST.CVP.Crypto.Oracle
             {
                 // Should Fail at certain ratio, 50%
                 var upperBound = (int)(1.0 / KMAC_FAIL_RATIO);
-                var shouldFail = _rand.GetRandomInt(0, upperBound) == 0;
+                var shouldFail = rand.GetRandomInt(0, upperBound) == 0;
 
                 if (shouldFail)
                 {
-                    result.Tag = _rand.GetDifferentBitStringOfSameSize(result.Tag);
+                    result.Tag = rand.GetDifferentBitStringOfSameSize(result.Tag);
                     result.TestPassed = false;
                 }
             }

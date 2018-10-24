@@ -11,7 +11,21 @@ namespace NIST.CVP.Generation.SHA2.ContractResolvers
     {
         protected override Predicate<object> TestGroupSerialization(JsonProperty jsonProperty)
         {
-            return jsonProperty.ShouldSerialize = instance => true;
+            var includeProperties = new[]
+            {
+                nameof(TestGroup.TestGroupId),
+                nameof(TestGroup.TestType),
+                nameof(TestGroup.BitOriented),
+                nameof(TestGroup.IncludeNull),
+                nameof(TestGroup.Tests)
+            };
+
+            if (includeProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
+            {
+                return jsonProperty.ShouldSerialize = instance => true;
+            }
+
+            return jsonProperty.ShouldSerialize = instance => false;
         }
 
         protected override Predicate<object> TestCaseSerialization(JsonProperty jsonProperty)

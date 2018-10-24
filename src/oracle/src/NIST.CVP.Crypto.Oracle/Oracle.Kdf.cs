@@ -35,12 +35,13 @@ namespace NIST.CVP.Crypto.Oracle
 
         private KdfResult GetDeferredKdfCase(KdfParameters param)
         {
+            var rand = new Random800_90();
             return new KdfResult
             {
-                KeyIn = _rand.GetRandomBitString(128),
-                Iv = _rand.GetRandomBitString(param.ZeroLengthIv ? 0 : 128),
-                FixedData = _rand.GetRandomBitString(128),
-                BreakLocation = _rand.GetRandomInt(1, 128)
+                KeyIn = rand.GetRandomBitString(128),
+                Iv = rand.GetRandomBitString(param.ZeroLengthIv ? 0 : 128),
+                FixedData = rand.GetRandomBitString(128),
+                BreakLocation = rand.GetRandomInt(1, 128)
             };
         }
 
@@ -63,10 +64,11 @@ namespace NIST.CVP.Crypto.Oracle
 
         private AnsiX963KdfResult GetAnsiX963KdfCase(AnsiX963Parameters param)
         {
+            var rand = new Random800_90();
             var ansi = _ansiFactory.GetInstance(param.HashAlg);
 
-            var z = _rand.GetRandomBitString(param.FieldSize);
-            var sharedInfo = _rand.GetRandomBitString(param.SharedInfoLength);
+            var z = rand.GetRandomBitString(param.FieldSize);
+            var sharedInfo = rand.GetRandomBitString(param.SharedInfoLength);
 
             var result = ansi.DeriveKey(z, sharedInfo, param.KeyDataLength);
             if (!result.Success)
@@ -84,14 +86,15 @@ namespace NIST.CVP.Crypto.Oracle
 
         private IkeV1KdfResult GetIkeV1KdfCase(IkeV1KdfParameters param)
         {
+            var rand = new Random800_90();
             var ike = _ikeV1Factory.GetIkeV1Instance(param.AuthenticationMethod, param.HashAlg);
 
-            var nInit = _rand.GetRandomBitString(param.NInitLength);
-            var nResp = _rand.GetRandomBitString(param.NRespLength);
-            var ckyInit = _rand.GetRandomBitString(64);
-            var ckyResp = _rand.GetRandomBitString(64);
-            var gxy = _rand.GetRandomBitString(param.GxyLength);
-            var preSharedKey = param.AuthenticationMethod == AuthenticationMethods.Psk ? _rand.GetRandomBitString(param.PreSharedKeyLength) : null;
+            var nInit = rand.GetRandomBitString(param.NInitLength);
+            var nResp = rand.GetRandomBitString(param.NRespLength);
+            var ckyInit = rand.GetRandomBitString(64);
+            var ckyResp = rand.GetRandomBitString(64);
+            var gxy = rand.GetRandomBitString(param.GxyLength);
+            var preSharedKey = param.AuthenticationMethod == AuthenticationMethods.Psk ? rand.GetRandomBitString(param.PreSharedKeyLength) : null;
 
             var result = ike.GenerateIke(nInit, nResp, gxy, ckyInit, ckyResp, preSharedKey);
             if (!result.Success)
@@ -116,14 +119,15 @@ namespace NIST.CVP.Crypto.Oracle
 
         private IkeV2KdfResult GetIkeV2KdfCase(IkeV2KdfParameters param)
         {
+            var rand = new Random800_90();
             var ike = _ikeV2Factory.GetInstance(param.HashAlg);
 
-            var nInit = _rand.GetRandomBitString(param.NInitLength);
-            var nResp = _rand.GetRandomBitString(param.NRespLength);
-            var gir = _rand.GetRandomBitString(param.GirLength);
-            var girNew = _rand.GetRandomBitString(param.GirLength);
-            var spiInit = _rand.GetRandomBitString(64);
-            var spiResp = _rand.GetRandomBitString(64);
+            var nInit = rand.GetRandomBitString(param.NInitLength);
+            var nResp = rand.GetRandomBitString(param.NRespLength);
+            var gir = rand.GetRandomBitString(param.GirLength);
+            var girNew = rand.GetRandomBitString(param.GirLength);
+            var spiInit = rand.GetRandomBitString(64);
+            var spiResp = rand.GetRandomBitString(64);
 
             var result = ike.GenerateIke(nInit, nResp, gir, girNew, spiInit, spiResp, param.DerivedKeyingMaterialLength);
             if (!result.Success)
@@ -149,7 +153,8 @@ namespace NIST.CVP.Crypto.Oracle
 
         private SnmpKdfResult GetSnmpKdfCase(SnmpKdfParameters param)
         {
-            var password = _rand.GetRandomAlphaCharacters(param.PasswordLength);
+            var rand = new Random800_90();
+            var password = rand.GetRandomAlphaCharacters(param.PasswordLength);
 
             var result = _snmpFactory.GetInstance().KeyLocalizationFunction(param.EngineId, password);
             if (!result.Success)
@@ -166,10 +171,11 @@ namespace NIST.CVP.Crypto.Oracle
 
         private SrtpKdfResult GetSrtpKdfCase(SrtpKdfParameters param)
         {
-            var key = _rand.GetRandomBitString(param.AesKeyLength);
-            var salt = _rand.GetRandomBitString(112);
-            var index = _rand.GetRandomBitString(48);
-            var srtcpIndex = _rand.GetRandomBitString(32);
+            var rand = new Random800_90();
+            var key = rand.GetRandomBitString(param.AesKeyLength);
+            var salt = rand.GetRandomBitString(112);
+            var index = rand.GetRandomBitString(48);
+            var srtcpIndex = rand.GetRandomBitString(32);
 
             var result = _srtpFactory.GetInstance()
                 .DeriveKey(param.AesKeyLength, key, salt, param.KeyDerivationRate, index, srtcpIndex);
@@ -195,9 +201,10 @@ namespace NIST.CVP.Crypto.Oracle
 
         private SshKdfResult GetSshKdfCase(SshKdfParameters param)
         {
+            var rand = new Random800_90();
             var ssh = _sshFactory.GetSshInstance(param.HashAlg, param.Cipher);
 
-            var k = _rand.GetRandomBitString(2048);
+            var k = rand.GetRandomBitString(2048);
 
             // If the MSbit is a 1, append "00" to the front
             if (k.GetMostSignificantBits(1).Equals(BitString.One()))
@@ -208,8 +215,8 @@ namespace NIST.CVP.Crypto.Oracle
             // Append the length (32-bit) to the front (in bytes, so 256 or 257 bytes)
             var fullK = BitString.To32BitString(k.BitLength / 8).ConcatenateBits(k);
 
-            var h = _rand.GetRandomBitString(param.HashAlg.OutputLen);
-            var sessionId = _rand.GetRandomBitString(param.HashAlg.OutputLen);
+            var h = rand.GetRandomBitString(param.HashAlg.OutputLen);
+            var sessionId = rand.GetRandomBitString(param.HashAlg.OutputLen);
 
             var result = ssh.DeriveKey(fullK, h, sessionId);
             if (!result.Success)
@@ -233,13 +240,14 @@ namespace NIST.CVP.Crypto.Oracle
 
         private TlsKdfResult GetTlsKdfCase(TlsKdfParameters param)
         {
+            var rand = new Random800_90();
             var tls = _tlsFactory.GetTlsKdfInstance(param.TlsMode, param.HashAlg);
 
-            var preMasterSecret = _rand.GetRandomBitString(param.PreMasterSecretLength);
-            var clientHelloRandom = _rand.GetRandomBitString(256);
-            var serverHelloRandom = _rand.GetRandomBitString(256);
-            var clientRandom = _rand.GetRandomBitString(256);
-            var serverRandom = _rand.GetRandomBitString(256);
+            var preMasterSecret = rand.GetRandomBitString(param.PreMasterSecretLength);
+            var clientHelloRandom = rand.GetRandomBitString(256);
+            var serverHelloRandom = rand.GetRandomBitString(256);
+            var clientRandom = rand.GetRandomBitString(256);
+            var serverRandom = rand.GetRandomBitString(256);
 
             var result = tls.DeriveKey(preMasterSecret, clientHelloRandom, serverHelloRandom, clientRandom, serverRandom, param.KeyBlockLength);
             if (!result.Success)
@@ -261,11 +269,12 @@ namespace NIST.CVP.Crypto.Oracle
 
         private TpmKdfResult GetTpmKdfCase()
         {
+            var rand = new Random800_90();
             var tpm = _tpmFactory.GetTpm();
 
-            var auth = _rand.GetRandomBitString(160);
-            var nonceEven = _rand.GetRandomBitString(160);
-            var nonceOdd = _rand.GetRandomBitString(160);
+            var auth = rand.GetRandomBitString(160);
+            var nonceEven = rand.GetRandomBitString(160);
+            var nonceOdd = rand.GetRandomBitString(160);
 
             var result = tpm.DeriveKey(auth, nonceEven, nonceOdd);
             if (!result.Success)

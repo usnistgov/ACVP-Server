@@ -10,6 +10,7 @@ using NIST.CVP.Pools;
 using NIST.CVP.Pools.Enums;
 using System;
 using System.Threading.Tasks;
+using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.Oracle
 {
@@ -67,6 +68,7 @@ namespace NIST.CVP.Crypto.Oracle
 
         private VerifyResult<EcdsaKeyResult> GetEcdsaKeyVerify(EcdsaKeyParameters param)
         {
+            var rand = new Random800_90();
             var key = GetEcdsaKey(param).Key;
             var curve = _curveFactory.GetCurve(param.Curve);
 
@@ -88,7 +90,7 @@ namespace NIST.CVP.Crypto.Oracle
                 var modifiedPublicQ = key.PublicQ;
 
                 // Get a random number 0, or 1
-                if (_rand.GetRandomInt(0, 2) == 0)
+                if (rand.GetRandomInt(0, 2) == 0)
                 {
                     modifiedPublicQ = new EccPoint(modifiedPublicQ.X + curve.FieldSizeQ, modifiedPublicQ.Y);
                 }
@@ -112,11 +114,12 @@ namespace NIST.CVP.Crypto.Oracle
 
         private EcdsaSignatureResult GetEcdsaSignature(EcdsaSignatureParameters param)
         {
+            var rand = new Random800_90();
             var curve = _curveFactory.GetCurve(param.Curve);
             var domainParams = new EccDomainParameters(curve);
             var eccDsa = _eccFactory.GetInstance(param.HashAlg);
 
-            var message = _rand.GetRandomBitString(param.PreHashedMessage ? param.HashAlg.OutputLen : 1024);
+            var message = rand.GetRandomBitString(param.PreHashedMessage ? param.HashAlg.OutputLen : 1024);
 
             var result = eccDsa.Sign(domainParams, param.Key, message, param.PreHashedMessage);
             if (!result.Success)
@@ -133,7 +136,8 @@ namespace NIST.CVP.Crypto.Oracle
 
         private EcdsaSignatureResult GetDeferredEcdsaSignature(EcdsaSignatureParameters param)
         {
-            var message = _rand.GetRandomBitString(param.PreHashedMessage ? param.HashAlg.OutputLen : 1024);
+            var rand = new Random800_90();
+            var message = rand.GetRandomBitString(param.PreHashedMessage ? param.HashAlg.OutputLen : 1024);
 
             return new EcdsaSignatureResult
             {
@@ -157,6 +161,7 @@ namespace NIST.CVP.Crypto.Oracle
 
         private VerifyResult<EcdsaSignatureResult> GetEcdsaVerifyResult(EcdsaSignatureParameters param)
         {
+            var rand = new Random800_90();
             var keyParam = new EcdsaKeyParameters
             {
                 Curve = param.Curve
@@ -166,7 +171,7 @@ namespace NIST.CVP.Crypto.Oracle
             var domainParams = new EccDomainParameters(curve);
             var eccDsa = _eccFactory.GetInstance(param.HashAlg);
 
-            var message = _rand.GetRandomBitString(1024);
+            var message = rand.GetRandomBitString(1024);
 
             var result = eccDsa.Sign(domainParams, key, message);
             if (!result.Success)
@@ -184,7 +189,7 @@ namespace NIST.CVP.Crypto.Oracle
             if (param.Disposition == EcdsaSignatureDisposition.ModifyMessage)
             {
                 // Generate a different random message
-                sigResult.Message = _rand.GetDifferentBitStringOfSameSize(message);
+                sigResult.Message = rand.GetDifferentBitStringOfSameSize(message);
             }
             else if (param.Disposition == EcdsaSignatureDisposition.ModifyKey)
             {

@@ -12,6 +12,7 @@ using NIST.CVP.Pools.Enums;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.Oracle
 {
@@ -21,6 +22,7 @@ namespace NIST.CVP.Crypto.Oracle
         
         private TdesResult GetTdesCase(TdesParameters param)
         {
+            var rand = new Random800_90();
             var cipher = _modeFactory.GetStandardCipher(
                 _engineFactory.GetSymmetricCipherPrimitive(BlockCipherEngines.Tdes), 
                 param.Mode
@@ -31,9 +33,9 @@ namespace NIST.CVP.Crypto.Oracle
                 direction = BlockCipherDirections.Decrypt;
             }
 
-            var payload = _rand.GetRandomBitString(param.DataLength);
+            var payload = rand.GetRandomBitString(param.DataLength);
             var key = TdesHelpers.GenerateTdesKey(param.KeyingOption);
-            var iv = _rand.GetRandomBitString(64);
+            var iv = rand.GetRandomBitString(64);
 
             var blockCipherParams = new ModeBlockCipherParameters(
                 direction, 
@@ -67,6 +69,7 @@ namespace NIST.CVP.Crypto.Oracle
                 return poolResult;
             }
 
+            var rand = new Random800_90();
             var cipher = _tdesMctFactory.GetInstance(param.Mode);
             var direction = BlockCipherDirections.Encrypt;
             if (param.Direction.ToLower() == "decrypt")
@@ -74,9 +77,9 @@ namespace NIST.CVP.Crypto.Oracle
                 direction = BlockCipherDirections.Decrypt;
             }
 
-            var payload = _rand.GetRandomBitString(param.DataLength);
+            var payload = rand.GetRandomBitString(param.DataLength);
             var key = TdesHelpers.GenerateTdesKey(param.KeyingOption);
-            var iv = _rand.GetRandomBitString(64);
+            var iv = rand.GetRandomBitString(64);
 
             var blockCipherParams = new ModeBlockCipherParameters(
                 direction, 
@@ -113,6 +116,7 @@ namespace NIST.CVP.Crypto.Oracle
 
         private TdesResult GetDeferredTdesCounterCase(CounterParameters<TdesParameters> param)
         {
+            var rand = new Random800_90();
             var iv = GetStartingIv(param.Overflow, param.Incremental);
 
             var direction = BlockCipherDirections.Encrypt;
@@ -121,7 +125,7 @@ namespace NIST.CVP.Crypto.Oracle
                 direction = BlockCipherDirections.Decrypt;
             }
 
-            var payload = _rand.GetRandomBitString(param.Parameters.DataLength);
+            var payload = rand.GetRandomBitString(param.Parameters.DataLength);
             var key = TdesHelpers.GenerateTdesKey(param.Parameters.KeyingOption);
 
             return new TdesResult

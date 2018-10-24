@@ -39,12 +39,14 @@ namespace NIST.CVP.Crypto.Oracle
 
         private AeadResult GetAesCcmCase(AeadParameters param)
         {
+            var rand = new Random800_90();
+
             var fullParams = new AeadResult
             {
-                PlainText = _rand.GetRandomBitString(param.DataLength),
-                Key = _rand.GetRandomBitString(param.KeyLength),
-                Iv = _rand.GetRandomBitString(param.IvLength),
-                Aad = _rand.GetRandomBitString(param.AadLength)
+                PlainText = rand.GetRandomBitString(param.DataLength),
+                Key = rand.GetRandomBitString(param.KeyLength),
+                Iv = rand.GetRandomBitString(param.IvLength),
+                Aad = rand.GetRandomBitString(param.AadLength)
             };
 
             var result = DoSimpleAead(
@@ -59,7 +61,7 @@ namespace NIST.CVP.Crypto.Oracle
             {
                 // Should Fail at certain ratio, 25%
                 var upperBound = (int)(1.0 / GCM_FAIL_RATIO);
-                var shouldFail = _rand.GetRandomInt(0, upperBound) == 0;
+                var shouldFail = rand.GetRandomInt(0, upperBound) == 0;
 
                 if (shouldFail)
                 {
@@ -67,7 +69,7 @@ namespace NIST.CVP.Crypto.Oracle
                         ? new BitString(0)
                         : result.CipherText.GetMostSignificantBits(result.CipherText.BitLength - param.TagLength);
                     // Change the tag portion of the ciphertext
-                    var tagPortion = _rand.GetDifferentBitStringOfSameSize(result.CipherText.GetLeastSignificantBits(param.TagLength));
+                    var tagPortion = rand.GetDifferentBitStringOfSameSize(result.CipherText.GetLeastSignificantBits(param.TagLength));
 
                     result.CipherText = ctPortion.ConcatenateBits(tagPortion);
                     result.TestPassed = false;
@@ -79,8 +81,9 @@ namespace NIST.CVP.Crypto.Oracle
 
         private AeadResult GetEcmaCase(AeadParameters param)
         {
+            var rand = new Random800_90();
             var flags = new BitString("59");
-            var nonce = _rand.GetRandomBitString(13 * 8);
+            var nonce = rand.GetRandomBitString(13 * 8);
             var aadLen = MsbLsbConversionHelpers.ReverseByteOrder(BitString.To16BitString((short) ((param.AadLength - (14 * 8)) / 8)).ToBytes());
             var dataLen = BitString.To16BitString((short) (param.DataLength / 8)).ToBytes();
 
@@ -91,7 +94,7 @@ namespace NIST.CVP.Crypto.Oracle
                 .ConcatenateBits(BitString.Zeroes(2 * 8))
                 .ConcatenateBits(new BitString(aadLen))
                 .ConcatenateBits(BitString.Zeroes(2 * 8))
-                .ConcatenateBits(_rand.GetRandomBitString(param.AadLength - (14  * 8)));
+                .ConcatenateBits(rand.GetRandomBitString(param.AadLength - (14  * 8)));
 
             var iv = flags
                 .ConcatenateBits(nonce)
@@ -99,8 +102,8 @@ namespace NIST.CVP.Crypto.Oracle
 
             var fullParams = new AeadResult
             {
-                PlainText = _rand.GetRandomBitString(param.DataLength),
-                Key = _rand.GetRandomBitString(param.KeyLength),
+                PlainText = rand.GetRandomBitString(param.DataLength),
+                Key = rand.GetRandomBitString(param.KeyLength),
                 Iv = nonce,
                 Aad = aad
             };
@@ -119,12 +122,13 @@ namespace NIST.CVP.Crypto.Oracle
 
         private AeadResult GetAesGcmCase(AeadParameters param)
         {
+            var rand = new Random800_90();
             var fullParams = new AeadResult
             {
-                PlainText = _rand.GetRandomBitString(param.DataLength),
-                Key = _rand.GetRandomBitString(param.KeyLength),
-                Iv = _rand.GetRandomBitString(param.IvLength),
-                Aad = _rand.GetRandomBitString(param.AadLength)
+                PlainText = rand.GetRandomBitString(param.DataLength),
+                Key = rand.GetRandomBitString(param.KeyLength),
+                Iv = rand.GetRandomBitString(param.IvLength),
+                Aad = rand.GetRandomBitString(param.AadLength)
             };
 
             var result = DoSimpleAead(
@@ -140,11 +144,11 @@ namespace NIST.CVP.Crypto.Oracle
             {
                 // Should Fail at certain ratio, 25%
                 var upperBound = (int)(1.0 / GCM_FAIL_RATIO);
-                var shouldFail = _rand.GetRandomInt(0, upperBound) == 0;
+                var shouldFail = rand.GetRandomInt(0, upperBound) == 0;
 
                 if (shouldFail)
                 {
-                    result.Tag = _rand.GetDifferentBitStringOfSameSize(result.Tag);
+                    result.Tag = rand.GetDifferentBitStringOfSameSize(result.Tag);
                     result.TestPassed = false;
                 }
             }
@@ -154,13 +158,14 @@ namespace NIST.CVP.Crypto.Oracle
 
         private AeadResult GetAesXpnCase(AeadParameters param)
         {
+            var rand = new Random800_90();
             var fullParams = new AeadResult
             {
-                PlainText = _rand.GetRandomBitString(param.DataLength),
-                Key = _rand.GetRandomBitString(param.KeyLength),
-                Salt = _rand.GetRandomBitString(param.SaltLength),
-                Iv = _rand.GetRandomBitString(param.IvLength),
-                Aad = _rand.GetRandomBitString(param.AadLength)
+                PlainText = rand.GetRandomBitString(param.DataLength),
+                Key = rand.GetRandomBitString(param.KeyLength),
+                Salt = rand.GetRandomBitString(param.SaltLength),
+                Iv = rand.GetRandomBitString(param.IvLength),
+                Aad = rand.GetRandomBitString(param.AadLength)
             };
 
             var tempParams = new AeadResult
@@ -183,11 +188,11 @@ namespace NIST.CVP.Crypto.Oracle
 
             // Should Fail at certain ratio, 25%
             var upperBound = (int)(1.0 / XPN_FAIL_RATIO);
-            var shouldFail = _rand.GetRandomInt(0, upperBound) == 0;
+            var shouldFail = rand.GetRandomInt(0, upperBound) == 0;
 
             if (shouldFail)
             {
-                result.Tag = _rand.GetDifferentBitStringOfSameSize(result.Tag);
+                result.Tag = rand.GetDifferentBitStringOfSameSize(result.Tag);
                 result.TestPassed = false;
             }
 
@@ -199,11 +204,12 @@ namespace NIST.CVP.Crypto.Oracle
 
         private AeadResult GetDeferredAesGcmCase(AeadParameters param)
         {
+            var rand = new Random800_90();
             return new AeadResult
             {
-                Aad = _rand.GetRandomBitString(param.AadLength),
-                PlainText = _rand.GetRandomBitString(param.DataLength),
-                Key = _rand.GetRandomBitString(param.KeyLength)
+                Aad = rand.GetRandomBitString(param.AadLength),
+                PlainText = rand.GetRandomBitString(param.DataLength),
+                Key = rand.GetRandomBitString(param.KeyLength)
             };
         }
 
@@ -221,13 +227,14 @@ namespace NIST.CVP.Crypto.Oracle
 
         private AeadResult GetDeferredAesXpnCase(AeadParameters param)
         {
+            var rand = new Random800_90();
             return new AeadResult
             {
-                Aad = _rand.GetRandomBitString(param.AadLength),
-                PlainText = _rand.GetRandomBitString(param.DataLength),
-                Key = _rand.GetRandomBitString(param.KeyLength),
-                Salt = param.ExternalSalt ? _rand.GetRandomBitString(param.SaltLength) : null,
-                Iv = param.ExternalIv ? _rand.GetRandomBitString(param.IvLength) : null
+                Aad = rand.GetRandomBitString(param.AadLength),
+                PlainText = rand.GetRandomBitString(param.DataLength),
+                Key = rand.GetRandomBitString(param.KeyLength),
+                Salt = param.ExternalSalt ? rand.GetRandomBitString(param.SaltLength) : null,
+                Iv = param.ExternalIv ? rand.GetRandomBitString(param.IvLength) : null
             };
         }
 
