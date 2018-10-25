@@ -11,12 +11,12 @@ using System.Collections.Generic;
 namespace NIST.CVP.Generation.CSHAKE.IntegrationTests
 {
     [TestFixture, LongRunningIntegrationTest]
-    public class GenValTests : GenValTestsSingleRunnerBase
+    public class GenValTestsCshake256 : GenValTestsSingleRunnerBase
     {
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
         public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
 
-        public override string Algorithm { get; } = "CSHAKE";
+        public override string Algorithm { get; } = "CSHAKE-256";
         public override string Mode { get; } = string.Empty;
         public override AlgoMode AlgoMode => AlgoMode.CSHAKE;
 
@@ -76,9 +76,9 @@ namespace NIST.CVP.Generation.CSHAKE.IntegrationTests
 
             var parameters = new Parameters
             {
-                Algorithm = "cSHAKE",
+                Algorithm = "CSHAKE-256",
                 Mode = Mode,
-                DigestSizes = new[] { 128 },
+                DigestSizes = new[] { 256 },
                 OutputLength = minMax,
                 MessageLength = minMax,
                 IsSample = true
@@ -97,8 +97,8 @@ namespace NIST.CVP.Generation.CSHAKE.IntegrationTests
 
             var parameters = new Parameters
             {
-                Algorithm = "cSHAKE",
-                DigestSizes = new[] { 128, 256 },
+                Algorithm = "CSHAKE-256",
+                DigestSizes = new[] { 256 },
                 OutputLength = minMax,
                 MessageLength = minMaxMsg,
                 IsSample = false
