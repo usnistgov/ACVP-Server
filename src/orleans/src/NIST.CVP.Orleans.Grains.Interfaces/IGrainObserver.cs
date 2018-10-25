@@ -11,5 +11,6 @@ namespace NIST.CVP.Orleans.Grains.Interfaces
     public interface IGrainObserver<in TResult> : IGrainObserver
     {
         void ReceiveMessageFromCluster(TResult result);
+        void Throw(Exception exception);
     }
 }

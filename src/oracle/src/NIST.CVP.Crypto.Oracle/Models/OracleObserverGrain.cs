@@ -29,6 +29,12 @@ namespace NIST.CVP.Crypto.Oracle.Models
             {
                 await Task.Delay(TimeSpan.FromSeconds(Constants.TaskPollingSeconds));
                 await Grain.Subscribe(GrainObserverReference);
+
+                if (GrainObserver.IsFaulted)
+                {
+                    await Grain.Unsubscribe(GrainObserverReference);
+                    throw GrainObserver.GetException();
+                }
             }
 
             var result = GrainObserver.GetResult();

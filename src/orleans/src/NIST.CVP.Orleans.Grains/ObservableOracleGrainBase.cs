@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using NIST.CVP.Common;
 using NIST.CVP.Common.ExtensionMethods;
@@ -78,10 +79,28 @@ namespace NIST.CVP.Orleans.Grains
         {
             Task.Factory.StartNew(() =>
             {
-                DoWorkAsync().FireAndForget();
+                DoWorkAsyncWrapper().FireAndForget();
             }, CancellationToken.None, TaskCreationOptions.None, NonOrleansScheduler).FireAndForget();
 
             return Task.FromResult(true);
+        }
+
+        /// <summary>
+        /// Wraps the call to <see cref="DoWorkAsync"/> in a try/catch to handle exceptions.
+        /// Exceptions weren't being bubbled up if they would occur without this method -
+        /// unless handling in each individual grain.
+        /// </summary>
+        /// <returns></returns>
+        private async Task DoWorkAsyncWrapper()
+        {
+            try
+            {
+                await DoWorkAsync();
+            }
+            catch (Exception ex)
+            {
+                await Throw(ex);
+            }
         }
 
         /// <summary>
@@ -109,6 +128,23 @@ namespace NIST.CVP.Orleans.Grains
             await Task.Factory.StartNew(() =>
             {
                 _subsManager.Notify(observer => observer.ReceiveMessageFromCluster(result));
+            }, CancellationToken.None, TaskCreationOptions.None, OrleansScheduler);
+        }
+
+        /// <summary>
+        /// Sends notification to subscribed observers about exception.
+        /// This notification is scheduled on the <see cref="OrleansScheduler"/>
+        /// as per requirements.
+        ///
+        /// Caller should invoke within <see cref="DoWorkAsync"/>
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <returns></returns>
+        protected async Task Throw(Exception exception)
+        {
+            await Task.Factory.StartNew(() =>
+            {
+                _subsManager.Notify(observer => observer.Throw(exception));
             }, CancellationToken.None, TaskCreationOptions.None, OrleansScheduler);
         }
     }
