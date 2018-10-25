@@ -10,7 +10,15 @@ namespace NIST.CVP.Orleans.Grains.Interfaces
     /// <typeparam name="TResult">The type of value observed.</typeparam>
     public interface IGrainObserver<in TResult> : IGrainObserver
     {
+        /// <summary>
+        /// Push a <see cref="TResult"/> to its observers
+        /// </summary>
+        /// <param name="result"></param>
         void ReceiveMessageFromCluster(TResult result);
+        /// <summary>
+        /// Pushes an <see cref="exception"/> to its observers.  Grain is in a faulted state.
+        /// </summary>
+        /// <param name="exception"></param>
         void Throw(Exception exception);
     }
 }
