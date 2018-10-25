@@ -110,7 +110,6 @@ namespace NIST.CVP.Generation.CSHAKE.Tests
             var subject = new ParameterValidator();
             var result = subject.Validate(
                 new ParameterBuilder()
-                    .WithAlgorithm("cshake")
                     .WithDigestSizes(new int[] { 128 })
                     .WithOutputLength(outputLength)
                     .Build()
@@ -132,7 +131,6 @@ namespace NIST.CVP.Generation.CSHAKE.Tests
             var subject = new ParameterValidator();
             var result = subject.Validate(
                 new ParameterBuilder()
-                    .WithAlgorithm("cshake")
                     .WithDigestSizes(new int[] { 128 })
                     .WithMessageLength(messageLength)
                     .Build()
@@ -151,8 +149,8 @@ namespace NIST.CVP.Generation.CSHAKE.Tests
 
             public ParameterBuilder()
             {
-                _algorithm = "cSHAKE";
-                _digestSize = new int[] { 128, 256 };
+                _algorithm = "CSHAKE-128";
+                _digestSize = new int[] { 128 };
                 _hexCustomization = false;
                 _outputLength = new MathDomain();
                 _outputLength.AddSegment(new RangeDomainSegment(null, 16, 65536));
