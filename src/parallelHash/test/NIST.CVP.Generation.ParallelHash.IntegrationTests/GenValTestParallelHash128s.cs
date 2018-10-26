@@ -11,12 +11,12 @@ using System.Collections.Generic;
 namespace NIST.CVP.Generation.ParallelHash.IntegrationTests
 {
     [TestFixture, LongRunningIntegrationTest]
-    public class GenValTests : GenValTestsSingleRunnerBase
+    public class GenValTestParallelHash128s : GenValTestsSingleRunnerBase
     {
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
         public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
 
-        public override string Algorithm { get; } = "ParallelHash";
+        public override string Algorithm { get; } = "ParallelHash-128";
         public override string Mode { get; } = string.Empty;
         public override AlgoMode AlgoMode => AlgoMode.ParallelHash;
 
@@ -100,7 +100,7 @@ namespace NIST.CVP.Generation.ParallelHash.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
-                DigestSizes = new[] { 128, 256 },
+                DigestSizes = new[] { 128 },
                 MessageLength = minMaxMsg,
                 OutputLength = minMax,
                 XOF = true,

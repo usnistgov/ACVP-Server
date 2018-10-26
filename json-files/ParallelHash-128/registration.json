@@ -1,0 +1,26 @@
+{
+  "algorithm": "ParallelHash-128",
+  "mode": "",
+  "isSample": false,
+  "conformances": [],
+  "digestSize": [
+    128
+  ],
+  "nonxof": true,
+  "xof": true,
+  "hexCustomization": false,
+  "outputLength": [
+    {
+      "min": 256,
+      "max": 4096,
+      "increment": 1
+    }
+  ],
+  "msgLength": [
+    {
+      "min": 0,
+      "max": 65536,
+      "increment": 1
+    }
+  ]
+}
