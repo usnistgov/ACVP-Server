@@ -47,7 +47,6 @@ namespace NIST.CVP.Generation.ParallelHash.Tests
             var subject = new ParameterValidator();
             var result = subject.Validate(
                 new ParameterBuilder()
-                    .WithAlgorithm("parallelhash")
                     .WithOutputLength(outputLength)
                     .Build()
             );
@@ -69,7 +68,6 @@ namespace NIST.CVP.Generation.ParallelHash.Tests
             var subject = new ParameterValidator();
             var result = subject.Validate(
                 new ParameterBuilder()
-                    .WithAlgorithm("parallelhash")
                     .WithMessageLength(messageLength)
                     .Build()
             );
@@ -86,7 +84,6 @@ namespace NIST.CVP.Generation.ParallelHash.Tests
             var subject = new ParameterValidator();
             var result = subject.Validate(
                 new ParameterBuilder()
-                    .WithAlgorithm("parallelhash")
                     .WithDigestSizes(new int[]{ number })
                     .Build()
             );
@@ -107,7 +104,6 @@ namespace NIST.CVP.Generation.ParallelHash.Tests
             var subject = new ParameterValidator();
             var result = subject.Validate(
                 new ParameterBuilder()
-                    .WithAlgorithm("parallelhash")
                     .WithDigestSizes(new int[] { 128 })
                     .WithOutputLength(outputLength)
                     .Build()
@@ -129,7 +125,6 @@ namespace NIST.CVP.Generation.ParallelHash.Tests
             var subject = new ParameterValidator();
             var result = subject.Validate(
                 new ParameterBuilder()
-                    .WithAlgorithm("parallelhash")
                     .WithDigestSizes(new int[] { 128 })
                     .WithMessageLength(messageLength)
                     .Build()
@@ -148,7 +143,6 @@ namespace NIST.CVP.Generation.ParallelHash.Tests
             var subject = new ParameterValidator();
             var result = subject.Validate(
                 new ParameterBuilder()
-                    .WithAlgorithm("parallelhash")
                     .WithNonXOF(nonXOF)
                     .WithXOF(XOF)
                     .Build()
@@ -169,7 +163,7 @@ namespace NIST.CVP.Generation.ParallelHash.Tests
 
             public ParameterBuilder()
             {
-                _algorithm = "ParallelHash";
+                _algorithm = "ParallelHash-128";
                 _digestSize = new int[] { 128, 256 };
                 _messageLength = new MathDomain().AddSegment(new RangeDomainSegment(null, 16, 65536));
                 _outputLength = new MathDomain().AddSegment(new RangeDomainSegment(null, 16, 65536));

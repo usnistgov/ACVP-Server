@@ -12,7 +12,7 @@ namespace NIST.CVP.Generation.CSHAKE.Tests
         {
             var tvs = new TestVectorSet
             {
-                Algorithm = "cSHAKE",
+                Algorithm = "CSHAKE",
                 IsSample = true,
             };
 

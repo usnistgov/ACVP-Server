@@ -6,7 +6,7 @@ namespace NIST.CVP.Generation.CSHAKE
 {
     public class TestVectorSet : ITestVectorSet<TestGroup, TestCase>
     {
-        public string Algorithm { get; set; } = "CSHAKE";
+        public string Algorithm { get; set; }
         
         [JsonIgnore]
         public string Mode { get; set; } = string.Empty;

@@ -18,7 +18,7 @@ namespace NIST.CVP.Generation.KMAC.Tests
         /// </summary>
         public ParameterBuilder()
         {
-            _algorithm = "KMAC";
+            _algorithm = "KMAC-128";
             _msgLen = new MathDomain();
             _msgLen = _msgLen.AddSegment(new RangeDomainSegment(null, 0, 65536, 8));
             _keyLen = new MathDomain();

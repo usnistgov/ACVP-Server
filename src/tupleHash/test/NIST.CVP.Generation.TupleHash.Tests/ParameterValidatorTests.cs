@@ -47,7 +47,6 @@ namespace NIST.CVP.Generation.TupleHash.Tests
             var subject = new ParameterValidator();
             var result = subject.Validate(
                 new ParameterBuilder()
-                    .WithAlgorithm("tuplehash")
                     .WithOutputLength(outputLength)
                     .Build()
             );
@@ -69,7 +68,6 @@ namespace NIST.CVP.Generation.TupleHash.Tests
             var subject = new ParameterValidator();
             var result = subject.Validate(
                 new ParameterBuilder()
-                    .WithAlgorithm("tuplehash")
                     .WithMessageLength(messageLength)
                     .Build()
             );
@@ -86,7 +84,6 @@ namespace NIST.CVP.Generation.TupleHash.Tests
             var subject = new ParameterValidator();
             var result = subject.Validate(
                 new ParameterBuilder()
-                    .WithAlgorithm("tuplehash")
                     .WithDigestSizes(new int[]{ number })
                     .Build()
             );
@@ -107,7 +104,6 @@ namespace NIST.CVP.Generation.TupleHash.Tests
             var subject = new ParameterValidator();
             var result = subject.Validate(
                 new ParameterBuilder()
-                    .WithAlgorithm("tuplehash")
                     .WithDigestSizes(new int[] { 128 })
                     .WithOutputLength(outputLength)
                     .Build()
@@ -129,7 +125,6 @@ namespace NIST.CVP.Generation.TupleHash.Tests
             var subject = new ParameterValidator();
             var result = subject.Validate(
                 new ParameterBuilder()
-                    .WithAlgorithm("tuplehash")
                     .WithDigestSizes(new int[] { 128 })
                     .WithMessageLength(messageLength)
                     .Build()
@@ -150,7 +145,7 @@ namespace NIST.CVP.Generation.TupleHash.Tests
 
             public ParameterBuilder()
             {
-                _algorithm = "tuplehash";
+                _algorithm = "tuplehash-128";
                 _digestSize = new int[] { 128, 256 };
                 _outputLength = new MathDomain();
                 _outputLength.AddSegment(new RangeDomainSegment(null, 16, 65536));

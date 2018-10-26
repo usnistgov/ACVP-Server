@@ -66,6 +66,7 @@ namespace NIST.CVP.Generation.CSHAKE
 
                 return new TestCaseGenerateResponse<TestGroup, TestCase>(new TestCase
                 {
+                    FunctionName = oracleResult.FunctionName,
                     Message = oracleResult.Message,
                     Digest = oracleResult.Digest,
                     Customization = oracleResult.Customization,
@@ -197,7 +198,6 @@ namespace NIST.CVP.Generation.CSHAKE
                     {
                         customizationLength = _customizationLength++ * _currentLargeCase;
                     }
-                    functionName = VALID_FUNCTION_NAMES[_currentLargeCase % 4];
                 }
                 _currentLargeCase++;
             }
