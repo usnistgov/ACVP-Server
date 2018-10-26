@@ -11,12 +11,12 @@ using System.Collections.Generic;
 namespace NIST.CVP.Generation.TupleHash.IntegrationTests
 {
     [TestFixture, LongRunningIntegrationTest]
-    public class GenValTests : GenValTestsSingleRunnerBase
+    public class GenValTestsTupleHash256 : GenValTestsSingleRunnerBase
     {
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
         public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
 
-        public override string Algorithm { get; } = "TupleHash";
+        public override string Algorithm { get; } = "TupleHash-256";
         public override string Mode { get; } = string.Empty;
         public override AlgoMode AlgoMode => AlgoMode.TupleHash;
 
@@ -78,7 +78,7 @@ namespace NIST.CVP.Generation.TupleHash.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
-                DigestSizes = new[] { 128 },
+                DigestSizes = new[] { 256 },
                 OutputLength = minMax,
                 MessageLength = minMax,
                 XOF = false,
@@ -99,7 +99,7 @@ namespace NIST.CVP.Generation.TupleHash.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
-                DigestSizes = new[] { 128, 256 },
+                DigestSizes = new[] { 256 },
                 MessageLength = minMaxMsg,
                 OutputLength = minMax,
                 XOF = true,
