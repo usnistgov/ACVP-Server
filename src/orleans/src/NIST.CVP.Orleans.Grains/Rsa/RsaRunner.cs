@@ -1,11 +1,11 @@
-﻿using System.Numerics;
-using NIST.CVP.Common.Oracle.ParameterTypes;
+﻿using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.PrimeGenerators;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
-using NIST.CVP.Math;
+using NIST.CVP.Crypto.RSA.Keys;
+using NIST.CVP.Crypto.RSA.PrimeGenerators;
 using NIST.CVP.Math.Entropy;
 
 namespace NIST.CVP.Orleans.Grains.Rsa
@@ -48,7 +48,7 @@ namespace NIST.CVP.Orleans.Grains.Rsa
             var keyComposer = _keyComposerFactory.GetKeyComposer(param.KeyFormat);
 
             // Configure Prime Generator
-            var keyResult = _keyBuilder
+            var keyResult = new KeyBuilder(new PrimeGeneratorFactory())
                 .WithBitlens(param.BitLens)
                 .WithEntropyProvider(entropyProvider)
                 .WithHashFunction(sha)
