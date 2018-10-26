@@ -48,7 +48,7 @@ namespace NIST.CVP.Orleans.Grains.Rsa
             var keyComposer = _keyComposerFactory.GetKeyComposer(param.KeyFormat);
 
             // Configure Prime Generator
-            var keyResult = new KeyBuilder(new PrimeGeneratorFactory())
+            var keyResult = _keyBuilder
                 .WithBitlens(param.BitLens)
                 .WithEntropyProvider(entropyProvider)
                 .WithHashFunction(sha)

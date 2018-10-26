@@ -128,7 +128,7 @@ namespace NIST.CVP.Orleans.Grains
             svc.AddTransient<IKasValTestGeneratorFactory<KasValParametersFfc, KasValResultFfc>,
                 KasValFfcTestGeneratorFactory>();
             
-            svc.AddSingleton<IRsaRunner, RsaRunner>();
+            svc.AddTransient<IRsaRunner, RsaRunner>();
 
             #endregion Orleans Registrations
 
