@@ -11,12 +11,12 @@ using System.Collections.Generic;
 namespace NIST.CVP.Generation.KMAC.IntegrationTests
 {
     [TestFixture, LongRunningIntegrationTest]
-    public class GenValTests : GenValTestsSingleRunnerBase
+    public class GenValTestsKmac256 : GenValTestsSingleRunnerBase
     {
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
         public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
 
-        public override string Algorithm { get; } = "KMAC";
+        public override string Algorithm { get; } = "KMAC-256";
         public override string Mode { get; } = string.Empty;
         public override AlgoMode AlgoMode => AlgoMode.KMAC;
 
@@ -90,7 +90,7 @@ namespace NIST.CVP.Generation.KMAC.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
-                DigestSizes = new[] { 128, 256 },
+                DigestSizes = new[] { 256 },
                 MsgLen = minMaxMsg,
                 MacLen = minMax,
                 KeyLen = minMax,
