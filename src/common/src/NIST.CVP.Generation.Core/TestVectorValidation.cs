@@ -9,6 +9,9 @@ namespace NIST.CVP.Generation.Core
 {
     public class TestVectorValidation
     {
+        [JsonProperty(PropertyName = "vsId")]
+        public int VectorSetId { get; set; }
+
         public Disposition Disposition
         {
             get
