@@ -69,6 +69,7 @@ namespace NIST.CVP.Generation.AES_CBC.IntegrationTests
         {
             Parameters p = new Parameters()
             {
+                VectorSetId = 42,
                 Algorithm = Algorithm,
                 Mode = Mode,
                 Direction = new string[] { "encrypt" },
@@ -83,6 +84,7 @@ namespace NIST.CVP.Generation.AES_CBC.IntegrationTests
         {
             Parameters p = new Parameters()
             {
+                VectorSetId = 42,
                 Algorithm = Algorithm,
                 Mode = Mode,
                 Direction = ParameterValidator.VALID_DIRECTIONS,
