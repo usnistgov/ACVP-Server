@@ -74,6 +74,8 @@ namespace NIST.CVP.Generation.Core.Async
             var testCaseValidators = _testCaseValidatorFactory.GetValidators(answers);
             var response = _resultValidator.ValidateResults(testCaseValidators, results.TestGroups, showExpected);
 
+            response.VectorSetId = answers.VectorSetId;
+
             return response;
         }
         
