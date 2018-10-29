@@ -6,6 +6,7 @@ namespace NIST.CVP.Generation.KAS
 {
     public class Parameters : IParameters
     {
+        public int VectorSetId { get; set; }
         /// <inheritdoc />
         public string Algorithm { get; set; }
         /// <inheritdoc />

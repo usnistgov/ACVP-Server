@@ -5,6 +5,7 @@ namespace NIST.CVP.Generation.DRBG
 {
     public class Parameters : IParameters
     {
+        public int VectorSetId { get; set; }
         public string Algorithm { get; set; }       // "ctrDRBG/hashDRBG/hmacDRBG"
         public string Mode { get; set; } = "";      // empty
         public bool IsSample { get; set; }

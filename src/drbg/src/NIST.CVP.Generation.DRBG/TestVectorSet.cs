@@ -6,6 +6,7 @@ namespace NIST.CVP.Generation.DRBG
 {
     public class TestVectorSet : ITestVectorSet<TestGroup, TestCase>
     {
+        public int VectorSetId { get; set; }
         public string Algorithm { get; set; }
         [JsonIgnore]
         public string Mode { get; set; }

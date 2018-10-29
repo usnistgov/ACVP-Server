@@ -9,6 +9,7 @@ namespace NIST.CVP.Generation.SSH
 {
     public class TestVectorSet : ITestVectorSet<TestGroup, TestCase>
     {
+        public int VectorSetId { get; set; }
         public string Algorithm { get; set; } = "kdf-components";
         public string Mode { get; set; } = "ssh";
         public bool IsSample { get; set; }

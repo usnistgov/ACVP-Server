@@ -6,6 +6,8 @@ namespace NIST.CVP.Generation.SHA3
 {
     public class TestVectorSet : ITestVectorSet<TestGroup, TestCase>
     {
+        public int VectorSetId { get; set; }
+
         private string _algorithm = string.Empty; 
 
         /// <summary>

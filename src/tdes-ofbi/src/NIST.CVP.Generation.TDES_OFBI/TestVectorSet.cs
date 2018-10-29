@@ -6,6 +6,7 @@ namespace NIST.CVP.Generation.TDES_OFBI
 {
     public class TestVectorSet : ITestVectorSet<TestGroup, TestCase>
     {
+        public int VectorSetId { get; set; }
         public string Algorithm { get; set; } = "TDES-OFBI";
         
         [JsonIgnore]

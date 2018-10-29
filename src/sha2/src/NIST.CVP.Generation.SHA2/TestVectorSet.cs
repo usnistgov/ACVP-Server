@@ -7,6 +7,8 @@ namespace NIST.CVP.Generation.SHA2
 {
     public class TestVectorSet : ITestVectorSet<TestGroup, TestCase>
     {
+        public int VectorSetId { get; set; }
+
         private string _algorithm = string.Empty; 
 
         /// <summary>

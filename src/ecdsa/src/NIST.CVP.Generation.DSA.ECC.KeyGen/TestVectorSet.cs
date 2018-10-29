@@ -12,6 +12,7 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyGen
 {
     public class TestVectorSet : ITestVectorSet<TestGroup, TestCase>
     {
+        public int VectorSetId { get; set; }
         public string Algorithm { get; set; } = "ECDSA";
         public string Mode { get; set; } = "KeyGen";
         public bool IsSample { get; set; }

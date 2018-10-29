@@ -5,6 +5,7 @@ namespace NIST.CVP.Generation.RSA_SigGen
 {
     public class TestVectorSet : ITestVectorSet<TestGroup, TestCase>
     {
+        public int VectorSetId { get; set; }
         public string Algorithm { get; set; } = "RSA";
         public string Mode { get; set; } = "SigGen";
         public bool IsSample { get; set; }

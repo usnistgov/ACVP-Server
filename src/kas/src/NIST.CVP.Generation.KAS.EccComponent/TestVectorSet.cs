@@ -5,6 +5,7 @@ namespace NIST.CVP.Generation.KAS.EccComponent
 {
     public class TestVectorSet : ITestVectorSet<TestGroup, TestCase>
     {
+        public int VectorSetId { get; set; }
         public string Algorithm { get; set; } = "KAS-ECC";
         public string Mode { get; set; } = "CDH Component";
         public bool IsSample { get; set; }

@@ -5,6 +5,7 @@ namespace NIST.CVP.Generation.CMAC
 {
     public class TestVectorSet : ITestVectorSet<TestGroup, TestCase>
     {
+        public int VectorSetId { get; set; }
         public string Algorithm { get; set; }
         public string Mode { get; set; }
         public bool IsSample { get; set; }

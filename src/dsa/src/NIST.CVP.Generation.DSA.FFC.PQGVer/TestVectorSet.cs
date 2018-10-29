@@ -11,6 +11,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer
 {
     public class TestVectorSet : ITestVectorSet<TestGroup, TestCase>
     {
+        public int VectorSetId { get; set; }
         public string Algorithm { get; set; } = "DSA";
         public string Mode { get; set; } = "PQGVer";
         public bool IsSample { get; set; }

@@ -5,6 +5,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen
 {
     public class TestVectorSet : ITestVectorSet<TestGroup, TestCase>
     {
+        public int VectorSetId { get; set; }
         public string Algorithm { get; set; } = "RSA";
         public string Mode { get; set; } = "KeyGen";
         public bool IsSample { get; set; }

@@ -9,6 +9,7 @@ namespace NIST.CVP.Generation.DSA.Ed.SigGen
 {
     public class TestVectorSet : ITestVectorSet<TestGroup, TestCase>
     {
+        public int VectorSetId { get; set; }
         public string Algorithm { get; set; } = "EDDSA";
         public string Mode { get; set; } = "SigGen";
         public bool IsSample { get; set; }

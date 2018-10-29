@@ -5,6 +5,7 @@ namespace NIST.CVP.Generation.TDES_CTR
 {
     public class TestVectorSet : ITestVectorSet<TestGroup, TestCase>
     {
+        public int VectorSetId { get; set; }
         public string Algorithm { get; set; } = "TDES";
         public string Mode { get; set; } = "CTR";
         public bool IsSample { get; set; }
