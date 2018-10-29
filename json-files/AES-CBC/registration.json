@@ -1,4 +1,5 @@
 {
+  "vsId": 42,
   "algorithm": "AES-CBC",
   "mode": "",
   "isSample": false,

@@ -10,6 +10,8 @@ namespace NIST.CVP.Generation.Core
         where TTestGroup : ITestGroup<TTestGroup, TTestCase>
         where TTestCase : ITestCase<TTestGroup, TTestCase>
     {
+        [JsonProperty(PropertyName = "vsId")]
+        int VectorSetId { get; set; }
         /// <summary>
         /// The algorithm being tested
         /// </summary>

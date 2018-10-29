@@ -8,6 +8,7 @@ namespace NIST.CVP.Generation.KeyWrap
         where TTestGroup : ITestGroup<TTestGroup, TTestCase>
         where TTestCase : ITestCase<TTestGroup, TTestCase>
     {
+        public int VectorSetId { get; set; }
         public abstract string Algorithm { get; set; }
         [JsonIgnore]
         public abstract string Mode { get; set; }

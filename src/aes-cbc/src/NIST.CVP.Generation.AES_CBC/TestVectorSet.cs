@@ -9,6 +9,7 @@ namespace NIST.CVP.Generation.AES_CBC
 {
     public class TestVectorSet : ITestVectorSet<TestGroup, TestCase>
     {
+        public int VectorSetId { get; set; }
         public string Algorithm { get; set; } = "AES-CBC";
         [JsonIgnore]
         public string Mode { get; set; } = string.Empty;

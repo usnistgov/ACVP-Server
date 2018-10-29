@@ -8,6 +8,7 @@ namespace NIST.CVP.Generation.KMAC
 {
     public class TestVectorSet : ITestVectorSet<TestGroup, TestCase>
     {
+        public int VectorSetId { get; set; }
         public string Algorithm { get; set; }
 
         [JsonIgnore]

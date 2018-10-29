@@ -4,6 +4,7 @@ namespace NIST.CVP.Generation.Core.Tests.Fakes
 {
     public class FakeTestVectorSet : ITestVectorSet<FakeTestGroup, FakeTestCase>
     {
+        public int VectorSetId { get; set; } = 42;
         public string Algorithm { get; set; } = string.Empty;
         public string Mode { get; set; } = string.Empty;
         public bool IsSample { get; set; } = false;

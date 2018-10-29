@@ -39,6 +39,7 @@ namespace NIST.CVP.Generation.Core
 
             var testVector = new TTestVectorSet
             {
+                VectorSetId = parameters.VectorSetId,
                 TestGroups = groups,
                 IsSample = parameters.IsSample,
                 Algorithm = parameters.Algorithm,

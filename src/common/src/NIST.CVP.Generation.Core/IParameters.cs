@@ -1,10 +1,14 @@
-﻿namespace NIST.CVP.Generation.Core
+﻿using Newtonsoft.Json;
+
+namespace NIST.CVP.Generation.Core
 {
     /// <summary>
     /// Describes registration parameters
     /// </summary>
     public interface IParameters
     {
+        [JsonProperty(PropertyName = "vsId")]
+        int VectorSetId { get; }
         /// <summary>
         /// The algorithm to test
         /// </summary>

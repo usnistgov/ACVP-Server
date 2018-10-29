@@ -6,6 +6,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
 {
     public class TestVectorSet : ITestVectorSet<TestGroup, TestCase>
     {
+        public int VectorSetId { get; set; }
         public string Algorithm { get; set; } = "DSA";
         public string Mode { get; set; } = "PQGGen";
         public bool IsSample { get; set; }

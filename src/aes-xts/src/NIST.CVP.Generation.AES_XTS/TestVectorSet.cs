@@ -10,6 +10,7 @@ namespace NIST.CVP.Generation.AES_XTS
 {
     public class TestVectorSet : ITestVectorSet<TestGroup, TestCase>
     {
+        public int VectorSetId { get; set; }
         public string Algorithm { get; set; } = "AES";
         public string Mode { get; set; } = "XTS";
         public bool IsSample { get; set; }
