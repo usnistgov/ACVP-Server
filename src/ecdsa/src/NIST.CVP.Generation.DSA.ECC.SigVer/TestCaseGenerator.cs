@@ -27,16 +27,32 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer
                 NumberOfTestCasesToGenerate = 5;
             }
 
-            var param = new EcdsaSignatureParameters
+            var keyParam = new EcdsaKeyParameters
             {
-                Curve = group.Curve,
-                Disposition = group.TestCaseExpectationProvider.GetRandomReason().GetReason(),
-                HashAlg = group.HashAlg,
-                Key = group.KeyPair
+                Curve = group.Curve
             };
+
+            EcdsaKeyResult keyResult = null;
+            try
+            {
+                keyResult = await _oracle.GetEcdsaKeyAsync(keyParam);
+            }
+            catch (Exception ex)
+            {
+                ThisLogger.Error(ex);
+                return new TestCaseGenerateResponse<TestGroup, TestCase>("Unable to generate key");
+            }
 
             try
             {
+                var param = new EcdsaSignatureParameters
+                {
+                    Curve = group.Curve,
+                    Disposition = group.TestCaseExpectationProvider.GetRandomReason().GetReason(),
+                    HashAlg = group.HashAlg,
+                    Key = keyResult.Key
+                };
+
                 var result = await _oracle.GetEcdsaVerifyResultAsync(param);
 
                 var testCase = new TestCase
@@ -44,7 +60,9 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer
                     Message = result.VerifiedValue.Message,
                     KeyPair = result.VerifiedValue.Key,
                     Reason = param.Disposition,
-                    TestPassed = result.Result
+                    TestPassed = result.Result,
+                    R = result.VerifiedValue.Signature.R,
+                    S = result.VerifiedValue.Signature.S,
                 };
 
                 return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);

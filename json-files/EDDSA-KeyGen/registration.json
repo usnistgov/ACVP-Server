@@ -1,7 +1,9 @@
 {
+  "vsId": 0,
   "algorithm": "EDDSA",
   "mode": "KeyGen",
   "isSample": true,
+  "conformances": [],
   "curve": [
     "ed-25519",
     "ed-448"

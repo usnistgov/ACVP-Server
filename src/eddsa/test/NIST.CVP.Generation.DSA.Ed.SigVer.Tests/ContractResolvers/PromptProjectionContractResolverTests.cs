@@ -48,9 +48,6 @@ namespace NIST.CVP.Generation.DSA.Ed.SigVer.Tests.ContractResolvers
             Assert.AreEqual(tg.Tests.Count, newTg.Tests.Count, nameof(newTg.Tests));
             Assert.AreEqual(tg.PreHash, newTg.PreHash, nameof(newTg.PreHash));
             Assert.AreEqual(tg.Curve, newTg.Curve, nameof(newTg.Curve));
-            Assert.AreEqual(tg.Q, newTg.Q, nameof(newTg.Q));
-
-            Assert.AreNotEqual(tg.D, newTg.D, nameof(newTg.D));
         }
 
         [Test]
@@ -95,6 +92,10 @@ namespace NIST.CVP.Generation.DSA.Ed.SigVer.Tests.ContractResolvers
             {
                 Assert.AreEqual(tc.Context, newTc.Context, nameof(newTc.Context));
             }
+
+            Assert.AreEqual(tc.Q, newTc.Q, nameof(newTc.Q));
+
+            Assert.AreNotEqual(tc.D, newTc.D, nameof(newTc.D));
 
             // TestPassed will have the default value when re-hydrated, check to make sure it isn't in the JSON
             Regex regex = new Regex(nameof(TestCase.TestPassed), RegexOptions.IgnoreCase);

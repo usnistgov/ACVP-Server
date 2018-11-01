@@ -16,21 +16,6 @@ namespace NIST.CVP.Generation.DSA.Ed.SigVer
         [JsonProperty(PropertyName = "curve")]
         public Curve Curve { get; set; }
 
-        [JsonIgnore] public EdKeyPair KeyPair { get; set; } = new EdKeyPair();
-        [JsonProperty(PropertyName = "d")]
-        public BitString D
-        {
-            get => KeyPair.PrivateD;
-            set => KeyPair.PrivateD = value;
-        }
-
-        [JsonProperty(PropertyName = "q")]
-        public BitString Q
-        {
-            get => KeyPair.PublicQ;
-            set => KeyPair.PublicQ = value;
-        }
-
         [JsonProperty(PropertyName = "preHash")]
         public bool PreHash { get; set; }
 

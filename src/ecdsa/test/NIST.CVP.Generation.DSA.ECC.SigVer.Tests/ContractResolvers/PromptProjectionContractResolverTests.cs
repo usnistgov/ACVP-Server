@@ -48,10 +48,6 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer.Tests.ContractResolvers
             Assert.AreEqual(tg.Tests.Count, newTg.Tests.Count, nameof(newTg.Tests));
             Assert.AreEqual(tg.HashAlgName, newTg.HashAlgName, nameof(newTg.HashAlgName));
             Assert.AreEqual(tg.Curve, newTg.Curve, nameof(newTg.Curve));
-            Assert.AreEqual(tg.Qx, newTg.Qx, nameof(newTg.Qx));
-            Assert.AreEqual(tg.Qy, newTg.Qy, nameof(newTg.Qy));
-
-            Assert.AreNotEqual(tg.D, newTg.D, nameof(newTg.D));
         }
 
         [Test]
@@ -69,6 +65,11 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer.Tests.ContractResolvers
 
             Assert.AreEqual(tc.ParentGroup.TestGroupId, newTc.ParentGroup.TestGroupId, nameof(newTc.ParentGroup));
             Assert.AreEqual(tc.TestCaseId, newTc.TestCaseId, nameof(newTc.TestCaseId));
+
+            Assert.AreEqual(tc.Qx, newTc.Qx, nameof(newTc.Qx));
+            Assert.AreEqual(tc.Qy, newTc.Qy, nameof(newTc.Qy));
+
+            Assert.AreNotEqual(tc.D, newTc.D, nameof(newTc.D));
 
             Assert.AreEqual(tc.Message, newTc.Message, nameof(newTc.Message));
             Assert.AreEqual(tc.R, newTc.R, nameof(newTc.R));

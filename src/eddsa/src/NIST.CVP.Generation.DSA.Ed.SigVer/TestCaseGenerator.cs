@@ -5,6 +5,7 @@ using NIST.CVP.Generation.Core.Async;
 using NLog;
 using System;
 using System.Threading.Tasks;
+using NIST.CVP.Common.Oracle.ResultTypes;
 
 namespace NIST.CVP.Generation.DSA.Ed.SigVer
 {
@@ -26,12 +27,28 @@ namespace NIST.CVP.Generation.DSA.Ed.SigVer
                 NumberOfTestCasesToGenerate = 5;
             }
 
+            var keyParam = new EddsaKeyParameters
+            {
+                Curve = group.Curve
+            };
+
+            EddsaKeyResult keyResult = null;
+            try
+            {
+                keyResult = await _oracle.GetEddsaKeyAsync(keyParam);
+            }
+            catch (Exception ex)
+            {
+                ThisLogger.Error(ex);
+                return new TestCaseGenerateResponse<TestGroup, TestCase>("Unable to generate key");
+            }
+
             var param = new EddsaSignatureParameters
             {
                 Curve = group.Curve,
                 Disposition = group.TestCaseExpectationProvider.GetRandomReason().GetReason(),
                 PreHash = group.PreHash,
-                Key = group.KeyPair
+                Key = keyResult.Key
             };
 
             try

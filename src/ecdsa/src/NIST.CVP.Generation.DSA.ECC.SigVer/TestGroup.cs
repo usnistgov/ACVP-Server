@@ -26,28 +26,6 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer
             set => HashAlg = ShaAttributes.GetHashFunctionFromName(value);
         }
 
-        [JsonIgnore] public EccKeyPair KeyPair { get; set; } = new EccKeyPair();
-        [JsonProperty(PropertyName = "d", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public BigInteger D
-        {
-            get => KeyPair.PrivateD;
-            set => KeyPair.PrivateD = value;
-        }
-
-        [JsonProperty(PropertyName = "qx", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public BigInteger Qx
-        {
-            get => KeyPair.PublicQ.X;
-            set => KeyPair.PublicQ.X = value;
-        }
-
-        [JsonProperty(PropertyName = "qy", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public BigInteger Qy
-        {
-            get => KeyPair.PublicQ.Y;
-            set => KeyPair.PublicQ.Y = value;
-        }
-
         [JsonIgnore] public ITestCaseExpectationProvider<EcdsaSignatureDisposition> TestCaseExpectationProvider { get; set; }
         
         public List<TestCase> Tests { get; set; } = new List<TestCase>();

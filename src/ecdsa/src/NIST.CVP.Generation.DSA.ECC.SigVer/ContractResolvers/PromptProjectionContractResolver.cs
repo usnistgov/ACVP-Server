@@ -20,9 +20,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer.ContractResolvers
                 nameof(TestGroup.Tests),
                 nameof(TestGroup.TestType),
                 nameof(TestGroup.HashAlgName),
-                nameof(TestGroup.Curve),
-                nameof(TestGroup.Qx),
-                nameof(TestGroup.Qy),
+                nameof(TestGroup.Curve)
             };
 
             if (includeProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
@@ -44,6 +42,8 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer.ContractResolvers
             {
                 nameof(TestCase.TestCaseId),
                 nameof(TestCase.Message),
+                nameof(TestCase.Qx),
+                nameof(TestCase.Qy),
                 nameof(TestCase.R),
                 nameof(TestCase.S),
             };

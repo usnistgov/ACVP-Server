@@ -1,7 +1,9 @@
 {
+  "vsId": 0,
   "algorithm": "EDDSA",
   "mode": "SigGen",
   "isSample": true,
+  "conformances": [],
   "pure": true,
   "preHash": true,
   "curve": [
