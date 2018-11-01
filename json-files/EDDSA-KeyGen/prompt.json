@@ -1,4 +1,5 @@
 {
+  "vsId": 0,
   "algorithm": "EDDSA",
   "mode": "KeyGen",
   "isSample": true,
@@ -17,7 +18,7 @@
           "tcId": 3
         }
       ],
-      "curve": "ed-25519",
+      "curve": "ED-25519",
       "secretGenerationMode": "testing candidates"
     },
     {
@@ -34,7 +35,7 @@
           "tcId": 6
         }
       ],
-      "curve": "ed-25519",
+      "curve": "ED-25519",
       "secretGenerationMode": "extra bits"
     },
     {
@@ -51,7 +52,7 @@
           "tcId": 9
         }
       ],
-      "curve": "ed-448",
+      "curve": "ED-448",
       "secretGenerationMode": "testing candidates"
     },
     {
@@ -68,7 +69,7 @@
           "tcId": 12
         }
       ],
-      "curve": "ed-448",
+      "curve": "ED-448",
       "secretGenerationMode": "extra bits"
     }
   ]

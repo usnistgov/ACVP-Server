@@ -1,4 +1,5 @@
 {
+  "vsId": 0,
   "algorithm": "EDDSA",
   "mode": "KeyVer",
   "isSample": true,
@@ -8,11 +9,11 @@
       "tests": [
         {
           "tcId": 1,
-          "testPassed": true
+          "testPassed": false
         },
         {
           "tcId": 2,
-          "testPassed": false
+          "testPassed": true
         },
         {
           "tcId": 3,
@@ -25,7 +26,7 @@
       "tests": [
         {
           "tcId": 4,
-          "testPassed": false
+          "testPassed": true
         },
         {
           "tcId": 5,
@@ -33,7 +34,7 @@
         },
         {
           "tcId": 6,
-          "testPassed": true
+          "testPassed": false
         }
       ]
     }

@@ -22,6 +22,21 @@ namespace NIST.CVP.Generation.DSA.Ed.SigVer
         [JsonProperty(PropertyName = "context")]
         public BitString Context { get; set; }
 
+        [JsonIgnore] public EdKeyPair KeyPair { get; set; } = new EdKeyPair();
+        [JsonProperty(PropertyName = "d")]
+        public BitString D
+        {
+            get => KeyPair.PrivateD;
+            set => KeyPair.PrivateD = value;
+        }
+
+        [JsonProperty(PropertyName = "q")]
+        public BitString Q
+        {
+            get => KeyPair.PublicQ;
+            set => KeyPair.PublicQ = value;
+        }
+
         [JsonIgnore] public EdSignature Signature { get; set; } = new EdSignature();
         [JsonProperty(PropertyName = "signature")]
         public BitString Sig
@@ -29,6 +44,5 @@ namespace NIST.CVP.Generation.DSA.Ed.SigVer
             get => Signature.Sig;
             set => Signature.Sig = value;
         }
-        public EdKeyPair KeyPair = new EdKeyPair();
     }
 }
