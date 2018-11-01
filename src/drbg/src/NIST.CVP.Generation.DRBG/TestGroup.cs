@@ -40,10 +40,10 @@ namespace NIST.CVP.Generation.DRBG
         [JsonProperty(PropertyName = "derFunc")]
         public bool DerFunc { get; set; }
 
-        [JsonProperty(PropertyName = "predResistance")]
+        [JsonProperty(PropertyName = "reSeed")]
         public bool ReSeed { get; set; }
 
-        [JsonProperty(PropertyName = "reSeed")]
+        [JsonProperty(PropertyName = "predResistance")]
         public bool PredResistance { get; set; }
 
         [JsonProperty(PropertyName = "entropyInputLen")]
