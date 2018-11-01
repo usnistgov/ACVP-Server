@@ -60,6 +60,7 @@ namespace NIST.CVP.Generation.DSA.FFC.SigVer
 
                 var testCase = new TestCase
                 {
+                    Signature = result.Signature,
                     Message = result.Message,
                     Key = param.Key,
                     Reason = reason,

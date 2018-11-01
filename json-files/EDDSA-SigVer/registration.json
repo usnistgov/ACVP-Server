@@ -1,11 +1,13 @@
 {
+  "vsId": 0,
   "algorithm": "EDDSA",
   "mode": "SigVer",
   "isSample": true,
+  "conformances": [],
   "pure": true,
   "preHash": true,
   "curve": [
-    "ed-25519",
-    "ed-448"
+    "ED-25519",
+    "ED-448"
   ]
 }

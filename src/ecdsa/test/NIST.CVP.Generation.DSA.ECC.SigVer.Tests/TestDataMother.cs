@@ -24,8 +24,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer.Tests
                 var tg = new TestGroup
                 {
                     HashAlg = new HashFunction(ModeValues.SHA2, DigestSizes.d256),
-                    Curve = Curve.P192,
-                    KeyPair = new EccKeyPair(new EccPoint(1, 2), 3)
+                    Curve = Curve.P192
                 };
                 testGroups.Add(tg);
 
@@ -35,6 +34,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer.Tests
                 {
                     tests.Add(new TestCase
                     {
+                        KeyPair = new EccKeyPair(new EccPoint(1, 2), 3),
                         Message = new BitString("BEEFFACE"),
                         Signature = new EccSignature(1, 2),
                         TestPassed = true,

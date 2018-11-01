@@ -34,17 +34,14 @@ namespace NIST.CVP.Generation.DSA.Ed.SigVer
                     Curve = curve,
                     Disposition = EddsaKeyDisposition.None
                 };
-
-                var keyResult = _oracle.GetEddsaKeyAsync(keyParam).Result.Key;
-
+                
                 if (parameters.Pure)
                 {
                     var testGroup = new TestGroup
                     {
                         TestCaseExpectationProvider = new TestCaseExpectationProvider(parameters.IsSample),
                         Curve = curve,
-                        PreHash = false,
-                        KeyPair = keyResult
+                        PreHash = false
                     };
 
                     testGroups.Add(testGroup);
@@ -56,8 +53,7 @@ namespace NIST.CVP.Generation.DSA.Ed.SigVer
                     {
                         TestCaseExpectationProvider = new TestCaseExpectationProvider(parameters.IsSample),
                         Curve = curve,
-                        PreHash = true,
-                        KeyPair = keyResult
+                        PreHash = true
                     };
 
                     testGroups.Add(testGroup);

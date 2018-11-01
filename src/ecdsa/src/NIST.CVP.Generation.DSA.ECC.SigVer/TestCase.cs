@@ -20,6 +20,27 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer
         [JsonProperty(PropertyName = "message")]
         public BitString Message { get; set; }
 
+        [JsonIgnore] public EccKeyPair KeyPair { get; set; } = new EccKeyPair();
+        [JsonProperty(PropertyName = "d", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public BigInteger D
+        {
+            get => KeyPair.PrivateD;
+            set => KeyPair.PrivateD = value;
+        }
+
+        [JsonProperty(PropertyName = "qx", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public BigInteger Qx
+        {
+            get => KeyPair.PublicQ.X;
+            set => KeyPair.PublicQ.X = value;
+        }
+
+        [JsonProperty(PropertyName = "qy", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public BigInteger Qy
+        {
+            get => KeyPair.PublicQ.Y;
+            set => KeyPair.PublicQ.Y = value;
+        }
 
         [JsonIgnore] public EccSignature Signature { get; set; } = new EccSignature();
         [JsonProperty(PropertyName = "r", DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -34,9 +55,6 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer
             get => Signature.S;
             set => Signature.S = value;
         }
-
-        // For FireHoseTests
-        public EccKeyPair KeyPair = new EccKeyPair();
 
         public bool SetString(string name, string value)
         {

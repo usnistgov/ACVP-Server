@@ -13,6 +13,8 @@ namespace NIST.CVP.Generation.RSA_SigVer
     public class TestGroup : ITestGroup<TestGroup, TestCase>
     {
         public int TestGroupId { get; set; }
+
+        [JsonProperty(PropertyName = "sigType")]
         public SignatureSchemes Mode { get; set; }
         public int Modulo { get; set; }
 

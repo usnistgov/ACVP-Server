@@ -20,7 +20,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen
         public string FixedPubExp { get; set; } = "";
         public string KeyFormat { get; set; }
 
-        [JsonProperty(PropertyName = "algSpecs")]
+        [JsonProperty(PropertyName = "capabilities")]
         public AlgSpec[] AlgSpecs;
     }
 
@@ -29,7 +29,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen
         [JsonProperty(PropertyName = "randPQ")]
         public string RandPQ;
 
-        [JsonProperty(PropertyName = "capabilities")]
+        [JsonProperty(PropertyName = "properties")]
         public Capability[] Capabilities;
     }
 

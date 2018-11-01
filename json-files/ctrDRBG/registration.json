@@ -1,7 +1,9 @@
 {
+  "vsId": 0,
   "algorithm": "ctrDRBG",
   "mode": "",
   "isSample": false,
+  "conformances": [],
   "predResistanceEnabled": [
     true,
     false
