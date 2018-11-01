@@ -11,7 +11,7 @@ namespace NIST.CVP.Generation.RSA_SigVer
         public bool IsSample { get; set; }
         public string[] Conformances { get; set; } = { };
 
-        [JsonProperty(PropertyName = "algSpecs")]
+        [JsonProperty(PropertyName = "capabilities")]
         public AlgSpecs[] Capabilities { get; set; }
         public string PubExpMode { get; set; }
 
@@ -26,7 +26,7 @@ namespace NIST.CVP.Generation.RSA_SigVer
     {
         public string SigType { get; set; }
 
-        [JsonProperty(PropertyName = "sigTypeCapabilities")]
+        [JsonProperty(PropertyName = "properties")]
         public CapSigType[] ModuloCapabilities { get; set; }
     }
 
