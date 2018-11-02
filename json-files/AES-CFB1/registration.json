@@ -1,5 +1,7 @@
 {
+  "vsId": 0,
   "algorithm": "AES-CFB1",
+  "mode": "",
   "isSample": false,
   "conformances": [],
   "direction": [
