@@ -10,6 +10,7 @@ using Orleans.Configuration;
 using Microsoft.Extensions.Options;
 using NIST.CVP.Common.Config;
 using NIST.CVP.Crypto.Oracle.ExtensionMethods;
+using NIST.CVP.Crypto.Oracle.Exceptions;
 
 namespace NIST.CVP.Crypto.Oracle
 {
@@ -77,7 +78,7 @@ namespace NIST.CVP.Crypto.Oracle
 
                 if (initializeCounter++ > 10)
                 {
-                    return null;
+                    throw new OrleansInitializationException();
                 }
 
                 Thread.Sleep(TimeSpan.FromSeconds(5));

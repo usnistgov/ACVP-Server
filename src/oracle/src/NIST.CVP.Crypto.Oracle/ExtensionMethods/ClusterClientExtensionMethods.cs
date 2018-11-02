@@ -3,6 +3,7 @@ using NIST.CVP.Orleans.Grains.Interfaces;
 using Orleans;
 using System;
 using System.Threading.Tasks;
+using NIST.CVP.Crypto.Oracle.Exceptions;
 
 namespace NIST.CVP.Crypto.Oracle.ExtensionMethods
 {
@@ -12,6 +13,11 @@ namespace NIST.CVP.Crypto.Oracle.ExtensionMethods
             GetObserverGrain<TGrain, TGrainResultType>(this IClusterClient client)
             where TGrain : IGrainObservable<TGrainResultType>, IGrainWithGuidKey
         {
+            if (client == null)
+            {
+                throw new OrleansInitializationException();
+            }
+
             var grain = client.GetGrain<TGrain>(Guid.NewGuid());
             
             var observer = new OracleGrainObserver<TGrainResultType>();
