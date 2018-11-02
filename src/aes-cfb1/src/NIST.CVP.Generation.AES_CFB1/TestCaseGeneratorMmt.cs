@@ -14,8 +14,7 @@ namespace NIST.CVP.Generation.AES_CFB1
     {
         private readonly IOracle _oracle;
 
-        private const int LENGTH_MULTIPLIER = 16;
-        private const int BITS_IN_BYTE = 8;
+        private const int LENGTH_MULTIPLIER = 1;
 
         private int _lenGenIteration = 1;
 
@@ -28,10 +27,12 @@ namespace NIST.CVP.Generation.AES_CFB1
 
         public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample)
         {
+            var dataLength = _lenGenIteration++ * LENGTH_MULTIPLIER;
+
             var param = new AesParameters
             {
                 Mode = BlockCipherModesOfOperation.CfbBit,
-                DataLength = _lenGenIteration++ * LENGTH_MULTIPLIER * BITS_IN_BYTE,
+                DataLength = dataLength,
                 Direction = group.Function,
                 KeyLength = group.KeyLength
             };
@@ -42,6 +43,7 @@ namespace NIST.CVP.Generation.AES_CFB1
 
                 return new TestCaseGenerateResponse<TestGroup, TestCase>(new TestCase
                 {
+                    DataLen = dataLength,
                     Key = oracleResult.Key,
                     IV = oracleResult.Iv,
                     PlainText = oracleResult.PlainText,
