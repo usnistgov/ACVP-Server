@@ -122,6 +122,26 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer.ContractResolvers
                     };
             }
 
+            var includePQGenProbableProperties = new[]
+            {
+                nameof(TestCase.Count)
+            };
+            if (includePQGenProbableProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
+            {
+                return jsonProperty.ShouldSerialize =
+                    instance =>
+                    {
+                        GetTestCaseFromTestCaseObject(instance, out var testGroup, out var testCase);
+
+                        if (testGroup.PQGenMode == PrimeGenMode.Probable)
+                        {
+                            return true;
+                        }
+
+                        return false;
+                    };
+            }
+
             var includePQGenProvableProperties = new[]
             {
                 nameof(TestCase.PCount),
