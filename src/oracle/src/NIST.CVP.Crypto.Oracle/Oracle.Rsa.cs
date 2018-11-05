@@ -157,7 +157,7 @@ namespace NIST.CVP.Crypto.Oracle
             return await observableGrain.ObserveUntilResult();
         }
 
-        private async Task<RsaPrimeResult> GeneratePrimes(RsaKeyParameters param, IEntropyProvider entropyProvider)
+        protected virtual async Task<RsaPrimeResult> GeneratePrimes(RsaKeyParameters param, IEntropyProvider entropyProvider)
         {
             // Only works with random public exponent
             var poolBoy = new PoolBoy<RsaPrimeResult>(_poolConfig);

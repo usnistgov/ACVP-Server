@@ -56,7 +56,7 @@ namespace NIST.CVP.Crypto.Oracle
             return await observableGrain.ObserveUntilResult();
         }
 
-        public async Task<MctResult<HashResult>> GetShaMctCaseAsync(ShaParameters param)
+        public virtual async Task<MctResult<HashResult>> GetShaMctCaseAsync(ShaParameters param)
         {
             var poolBoy = new PoolBoy<MctResult<HashResult>>(_poolConfig);
             var poolResult = poolBoy.GetObjectFromPool(param, PoolTypes.SHA_MCT);
@@ -72,7 +72,7 @@ namespace NIST.CVP.Crypto.Oracle
             return await observableGrain.ObserveUntilResult();
         }
 
-        public async Task<MctResult<HashResult>> GetSha3MctCaseAsync(Sha3Parameters param)
+        public virtual async Task<MctResult<HashResult>> GetSha3MctCaseAsync(Sha3Parameters param)
         {
             var poolBoy = new PoolBoy<MctResult<HashResult>>(_poolConfig);
             var poolResult = poolBoy.GetObjectFromPool(param, PoolTypes.SHA3_MCT);
@@ -97,7 +97,7 @@ namespace NIST.CVP.Crypto.Oracle
             return await observableGrain.ObserveUntilResult();
         }
 
-        public async Task<MctResult<CShakeResult>> GetCShakeMctCaseAsync(CShakeParameters param)
+        public virtual async Task<MctResult<CShakeResult>> GetCShakeMctCaseAsync(CShakeParameters param)
         {
             var poolBoy = new PoolBoy<MctResult<CShakeResult>>(_poolConfig);
             var poolResult = poolBoy.GetObjectFromPool(param, PoolTypes.CSHAKE_MCT);
@@ -113,7 +113,7 @@ namespace NIST.CVP.Crypto.Oracle
             return await observableGrain.ObserveUntilResult();
         }
 
-        public async Task<MctResult<ParallelHashResult>> GetParallelHashMctCaseAsync(ParallelHashParameters param)
+        public virtual async Task<MctResult<ParallelHashResult>> GetParallelHashMctCaseAsync(ParallelHashParameters param)
         {
             var poolBoy = new PoolBoy<MctResult<ParallelHashResult>>(_poolConfig);
             var poolResult = poolBoy.GetObjectFromPool(param, PoolTypes.PARALLEL_HASH_MCT);
@@ -129,7 +129,7 @@ namespace NIST.CVP.Crypto.Oracle
             return await observableGrain.ObserveUntilResult();
         }
 
-        public async Task<MctResult<TupleHashResult>> GetTupleHashMctCaseAsync(TupleHashParameters param)
+        public virtual async Task<MctResult<TupleHashResult>> GetTupleHashMctCaseAsync(TupleHashParameters param)
         {
             var poolBoy = new PoolBoy<MctResult<TupleHashResult>>(_poolConfig);
             var poolResult = poolBoy.GetObjectFromPool(param, PoolTypes.TUPLE_HASH_MCT);

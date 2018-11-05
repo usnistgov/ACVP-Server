@@ -19,7 +19,7 @@ namespace NIST.CVP.Crypto.Oracle
             return await observableGrain.ObserveUntilResult();
         }
 
-        public async Task<MctResult<TdesResult>> GetTdesMctCaseAsync(TdesParameters param)
+        public virtual async Task<MctResult<TdesResult>> GetTdesMctCaseAsync(TdesParameters param)
         {
             var poolBoy = new PoolBoy<MctResult<TdesResult>>(_poolConfig);
             var poolResult = poolBoy.GetObjectFromPool(param, PoolTypes.TDES_MCT);

@@ -11,7 +11,7 @@ namespace NIST.CVP.Crypto.Oracle
 {
     public partial class Oracle
     {
-        public async Task<DsaDomainParametersResult> GetDsaPQAsync(DsaDomainParametersParameters param)
+        public virtual async Task<DsaDomainParametersResult> GetDsaPQAsync(DsaDomainParametersParameters param)
         {
             var poolBoy = new PoolBoy<DsaDomainParametersResult>(_poolConfig);
             var poolResult = poolBoy.GetObjectFromPool(param, PoolTypes.DSA_PQG);

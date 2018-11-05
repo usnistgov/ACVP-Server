@@ -20,7 +20,7 @@ namespace NIST.CVP.Crypto.Oracle
             return await observableGrain.ObserveUntilResult();
         }
         
-        public async Task<MctResult<AesResult>> GetAesMctCaseAsync(AesParameters param)
+        public virtual async Task<MctResult<AesResult>> GetAesMctCaseAsync(AesParameters param)
         {
             var poolBoy = new PoolBoy<MctResult<AesResult>>(_poolConfig);
             var poolResult = poolBoy.GetObjectFromPool(param, PoolTypes.AES_MCT);

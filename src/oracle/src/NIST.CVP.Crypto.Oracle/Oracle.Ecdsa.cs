@@ -11,7 +11,7 @@ namespace NIST.CVP.Crypto.Oracle
 {
     public partial class Oracle
     {
-        public async Task<EcdsaKeyResult> GetEcdsaKeyAsync(EcdsaKeyParameters param)
+        public virtual async Task<EcdsaKeyResult> GetEcdsaKeyAsync(EcdsaKeyParameters param)
         {
             var poolBoy = new PoolBoy<EcdsaKeyResult>(_poolConfig);
             var poolResult = poolBoy.GetObjectFromPool(param, PoolTypes.ECDSA_KEY);
