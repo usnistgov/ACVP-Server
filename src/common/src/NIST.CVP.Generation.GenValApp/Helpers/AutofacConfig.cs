@@ -1,5 +1,6 @@
 ﻿using System;
 using Autofac;
+using NIST.CVP.Crypto.Oracle;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using NIST.CVP.Common.Config;
@@ -41,6 +42,7 @@ namespace NIST.CVP.Generation.GenValApp.Helpers
                 mode, 
                 dllLocation
             );
+
             foreach (var iocRegisterable in iocRegisterables)
             {
                 iocRegisterable.RegisterTypes(builder, algoMode);

@@ -7,7 +7,7 @@ using NIST.CVP.Crypto.Common.MAC.HMAC;
 
 namespace NIST.CVP.Crypto.TPM
 {
-    public class TpmFactory
+    public class TpmFactory : ITpmFactory
     {
         private readonly IHmacFactory _hmacFactory;
 

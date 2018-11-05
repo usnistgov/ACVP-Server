@@ -15,7 +15,6 @@ namespace NIST.CVP.Generation.RSA_KeyGen
         public bool InfoGeneratedByServer { get; set; }
         public int Modulo { get; set; }
         public BitString FixedPubExp { get; set; }
-        public List<TestCase> Tests { get; set; } = new List<TestCase>();
         public string TestType { get; set; }
 
         public PrivateKeyModes KeyFormat { get; set; }
@@ -34,6 +33,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen
             get => HashAlg?.Name;
             set => HashAlg = ShaAttributes.GetHashFunctionFromName(value);
         }
+        public List<TestCase> Tests { get; set; } = new List<TestCase>();
 
         public bool SetString(string name, string value)
         {

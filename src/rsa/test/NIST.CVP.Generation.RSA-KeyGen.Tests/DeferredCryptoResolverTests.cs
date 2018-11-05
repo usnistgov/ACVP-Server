@@ -24,7 +24,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
             var suppliedTestCase = GetTestCase(hexP, hexQ);
             var testGroup = GetTestGroup(mod, pt);
 
-            var subject = new DeferredTestCaseResolver(new Oracle(null));
+            var subject = new DeferredTestCaseResolver(new Oracle(null, null, null));
 
             var result = await subject.CompleteDeferredCryptoAsync(testGroup, serverTestCase, suppliedTestCase);
 

@@ -16,6 +16,7 @@ namespace NIST.CVP.Crypto.Oracle.Builders
         private IOptions<EnvironmentConfig> _environmentConfig;
         private IOptions<AlgorithmConfig> _algorithmConfig;
         private IOptions<PoolConfig> _poolConfig;
+        private IOptions<OrleansConfig> _orleansConfig;
 
         public OracleBuilder()
         {
@@ -23,6 +24,7 @@ namespace NIST.CVP.Crypto.Oracle.Builders
             _environmentConfig = serviceProvider.GetService<IOptions<EnvironmentConfig>>();
             _algorithmConfig = serviceProvider.GetService<IOptions<AlgorithmConfig>>();
             _poolConfig = serviceProvider.GetService<IOptions<PoolConfig>>();
+            _orleansConfig = serviceProvider.GetService<IOptions<OrleansConfig>>();
         }
 
         public OracleBuilder WithEnvironmentConfig(IOptions<EnvironmentConfig> value)
@@ -43,10 +45,18 @@ namespace NIST.CVP.Crypto.Oracle.Builders
             return this;
         }
 
+        public OracleBuilder WithOrleansConfig(IOptions<OrleansConfig> value)
+        {
+            _orleansConfig = value;
+            return this;
+        }
+
         public IOracle Build()
         {
             return new Oracle(
-                _poolConfig
+                _environmentConfig,
+                _poolConfig,
+                _orleansConfig
             );
         }
     }

@@ -56,8 +56,9 @@ namespace NIST.CVP.Generation.GenValApp.Helpers
                 {
                     foreach (var additionalDependency in mappingResult.AdditionalDependencies)
                     {
+                        var assemblyToLoad = $@"{dllLocation}{additionalDependency.DependencyDll}";
                         var additionalAssembly = AssemblyLoadContext.Default.LoadFromAssemblyPath(
-                            $@"{dllLocation}{additionalDependency.DependencyDll}"
+                            assemblyToLoad
                         );
 
                         var additionalIocRegistrations =
@@ -67,7 +68,7 @@ namespace NIST.CVP.Generation.GenValApp.Helpers
                         if (additionalIocRegistrations != null)
                         {
                             iocRegistrations.Add(
-                                (IRegisterInjections)Activator.CreateInstance(additionalIocRegistrations)
+                                (IRegisterInjections) Activator.CreateInstance(additionalIocRegistrations)
                             );
                         }
                     }

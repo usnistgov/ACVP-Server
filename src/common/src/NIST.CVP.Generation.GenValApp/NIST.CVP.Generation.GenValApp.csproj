@@ -10,10 +10,10 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" Version="$(NuGetVersionMicrosoftAspNetCoreAll)" />
     <PackageReference Include="CommandLineArgumentsParser" Version="$(NuGetVersionCommandLineArgumentsParser)" />
-    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="$(NuGetVersionMicrosoftExtensionsOptionsConfigurationExtensions)" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="$(NuGetVersionMicrosoftNETTestSdk)" />
     <PackageReference Include="System.Runtime.Loader" Version="$(NuGetVersionSystemRuntimeLoader)" />
     <PackageReference Include="Autofac" Version="$(NuGetVersionAutofac)" />
+    <PackageReference Include="Microsoft.Orleans.Client" Version="$(NugetVersionMicrosoftOrleansClient)" />
   </ItemGroup>
 
   <ItemGroup>
@@ -21,6 +21,7 @@
     <ProjectReference Include="..\..\..\crypto\src\NIST.CVP.Crypto\NIST.CVP.Crypto.csproj" />
     <ProjectReference Include="..\..\..\oracle\src\NIST.CVP.Common.Oracle\NIST.CVP.Common.Oracle.csproj" />
     <ProjectReference Include="..\..\..\oracle\src\NIST.CVP.Crypto.Oracle\NIST.CVP.Crypto.Oracle.csproj" />
+    <ProjectReference Include="..\..\..\orleans\src\NIST.CVP.Orleans.Grains.Interfaces\NIST.CVP.Orleans.Grains.Interfaces.csproj" />
     <ProjectReference Include="..\NIST.CVP.Common\NIST.CVP.Common.csproj" />
     <ProjectReference Include="..\NIST.CVP.Generation.Core\NIST.CVP.Generation.Core.csproj" />
     <ProjectReference Include="..\NIST.CVP.Math\NIST.CVP.Math.csproj" />

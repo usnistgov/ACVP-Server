@@ -8,8 +8,6 @@
     <PackageReference Include="Microsoft.AspNetCore.App" Version="$(NuGetVersionMicrosoftAspNetCoreAll)" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="$(NuGetVersionMicrosoftNETTestSdk)" />
     <PackageReference Include="Autofac" Version="$(NuGetVersionAutofac)" />
-    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="$(NuGetVersionMicrosoftExtensionsOptionsConfigurationExtensions)" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="$(NuGetVersionMicrosoftExtensionsDependencyInjection)" />
   </ItemGroup>
   
 </Project>

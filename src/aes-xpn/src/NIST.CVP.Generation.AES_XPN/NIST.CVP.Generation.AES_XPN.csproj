@@ -18,7 +18,7 @@
   </ItemGroup>
   
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="SET dropLocation=dlls\aes-xpn\&#xD;&#xA;&#xD;&#xA;echo Copy Generation assembly to drop location %dropLocation%&#xD;&#xA;xcopy &quot;$(TargetPath)&quot; &quot;$(TargetDir)%dropLocation%&quot; /y /d&#xD;&#xA;&#xD;&#xA;echo Copy %dropLocation% assemblies to GenValApp runner&#xD;&#xA;xcopy &quot;$(TargetDir)%dropLocation%*.dll&quot; &quot;$(TargetDir)..\..\..\..\..\..\common\src\NIST.CVP.Generation.GenValApp\%dropLocation%&quot; /y /d /i" />
+    <Exec Command="SET dropLocation=dlls\aes-xpn\&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;echo Copy Generation assembly to drop location %dropLocation%&#xD;&#xA;xcopy &quot;$(TargetPath)&quot; &quot;$(TargetDir)%dropLocation%&quot; /y /d&#xD;&#xA;&#xD;&#xA;echo Copy %dropLocation% assemblies to GenValApp runner&#xD;&#xA;xcopy &quot;$(TargetDir)%dropLocation%*.dll&quot; &quot;$(TargetDir)..\..\..\..\..\..\common\src\NIST.CVP.Generation.GenValApp\%dropLocation%&quot; /y /d /i" />
   </Target>
 
 </Project>

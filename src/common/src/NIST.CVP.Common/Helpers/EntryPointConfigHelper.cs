@@ -44,9 +44,11 @@ namespace NIST.CVP.Common.Helpers
             
             var serviceCollection = new ServiceCollection();
             serviceCollection.AddOptions();
+            
             serviceCollection.Configure<EnvironmentConfig>(configuration.GetSection(nameof(EnvironmentConfig)));
             serviceCollection.Configure<AlgorithmConfig>(configuration.GetSection(nameof(AlgorithmConfig)));
             serviceCollection.Configure<PoolConfig>(configuration.GetSection(nameof(PoolConfig)));
+            serviceCollection.Configure<OrleansConfig>(configuration.GetSection(nameof(OrleansConfig)));
 
             return serviceCollection.BuildServiceProvider();
         }
@@ -64,8 +66,10 @@ namespace NIST.CVP.Common.Helpers
         /// <param name="builder">The builder that will create the <see cref="IContainer"/></param>
         public static void RegisterConfigurationInjections(IServiceProvider serviceProvider, ContainerBuilder builder)
         {
+            builder.Register(context => serviceProvider.GetService<IOptions<EnvironmentConfig>>());
             builder.Register(context => serviceProvider.GetService<IOptions<AlgorithmConfig>>());
             builder.Register(context => serviceProvider.GetService<IOptions<PoolConfig>>());
+            builder.Register(context => serviceProvider.GetService<IOptions<OrleansConfig>>());
         }
     }
 }

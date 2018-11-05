@@ -39,16 +39,18 @@ namespace NIST.CVP.Generation.GenValApp.Tests
         [Test]
         public void ShouldResolveGeneratorAndValidatorForEachAppSettingsEnumeration()
         {
+            AlgorithmDllDependencies current = null;
             try
             {
                 foreach (var algoInfo in _config.Algorithms)
                 {
+                    current = algoInfo;
                     ResolveGenVal(algoInfo);
                 }
             }
             catch (Exception ex)
             {
-                string message = $"{ex.Message}\n{ex.StackTrace}";
+                string message = $"{current?.Algorithm} - {ex.Message}\n{ex.StackTrace}";
                 ThisLogger.Error(message);
                 Assert.Fail(message);
             }
@@ -59,11 +61,12 @@ namespace NIST.CVP.Generation.GenValApp.Tests
         [Test]
         public void ShouldResolveGeneratorAndValidatorForEachAlgoModeEnumeration()
         {
+            string enumDesc = string.Empty;
             try
             {
                 foreach (AlgoMode algoMode in Enum.GetValues(typeof(AlgoMode)))
                 {
-                    var enumDesc = EnumHelpers.GetEnumDescriptionFromEnum(algoMode);
+                    enumDesc = EnumHelpers.GetEnumDescriptionFromEnum(algoMode);
                     if (!_config.Algorithms.TryFirst(t =>
                             // Check if {algo}-{mode} equals enumDesc
                             // or in cases of empty mode, just compare against the {algo}
@@ -83,7 +86,7 @@ namespace NIST.CVP.Generation.GenValApp.Tests
             }
             catch (Exception ex)
             {
-                string message = $"{ex.Message}\n{ex.StackTrace}";
+                string message = $"{enumDesc} - {ex.Message}\n{ex.StackTrace}";
                 ThisLogger.Error(message);
                 Assert.Fail(message);
             }

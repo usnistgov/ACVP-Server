@@ -1,0 +1,94 @@
+﻿using System;
+using NIST.CVP.Common.Oracle.ParameterTypes;
+using NIST.CVP.Common.Oracle.ResultTypes;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
+using NIST.CVP.Crypto.Common.KAS.Builders;
+using NIST.CVP.Crypto.Common.KAS.Enums;
+using NIST.CVP.Crypto.Common.KAS.KC;
+using NIST.CVP.Crypto.Common.KAS.KDF;
+using NIST.CVP.Crypto.Common.KAS.NoKC;
+using NIST.CVP.Crypto.Common.KAS.Schema;
+using NIST.CVP.Math.Entropy;
+
+namespace NIST.CVP.Orleans.Grains.Kas.Ecc
+{
+    public class KasValEccTestGeneratorFactory : IKasValTestGeneratorFactory<KasValParametersEcc, KasValResultEcc>
+    {
+        private readonly ISchemeBuilder<
+            KasDsaAlgoAttributesEcc, 
+            OtherPartySharedInformation<
+                EccDomainParameters, 
+                EccKeyPair
+            >, 
+            EccDomainParameters, 
+            EccKeyPair
+        > _schemeBuilder;
+        private readonly IKasBuilder<
+            KasDsaAlgoAttributesEcc,
+            OtherPartySharedInformation<
+                EccDomainParameters,
+                EccKeyPair
+            >,
+            EccDomainParameters,
+            EccKeyPair
+        > _kasBuilder;
+        private readonly IEntropyProviderFactory _entropyProviderFactory;
+        private readonly IMacParametersBuilder _macParametersBuilder;
+        private readonly IKdfFactory _kdfFactory;
+        private readonly INoKeyConfirmationFactory _noKeyConfirmationFactory;
+        private readonly IKeyConfirmationFactory _keyConfirmationFactory;
+        private readonly IEccCurveFactory _curveFactory;
+
+        public KasValEccTestGeneratorFactory(
+            ISchemeBuilder<
+                KasDsaAlgoAttributesEcc, 
+                OtherPartySharedInformation<
+                    EccDomainParameters, 
+                    EccKeyPair
+                >, 
+                EccDomainParameters, 
+                EccKeyPair
+            > schemeBuilder,
+            IKasBuilder<
+                KasDsaAlgoAttributesEcc,
+                OtherPartySharedInformation<
+                    EccDomainParameters,
+                    EccKeyPair
+                >,
+                EccDomainParameters,
+                EccKeyPair
+            > kasBuilder,
+            IEntropyProviderFactory entropyProviderFactory,
+            IMacParametersBuilder macParametersBuilder,
+            IKdfFactory kdfFactory,
+            INoKeyConfirmationFactory noKeyConfirmationFactory,
+            IKeyConfirmationFactory keyConfirmationFactory,
+            IEccCurveFactory curveFactory
+        )
+        {
+            _schemeBuilder = schemeBuilder;
+            _kasBuilder = kasBuilder;
+            _entropyProviderFactory = entropyProviderFactory;
+            _macParametersBuilder = macParametersBuilder;
+            _kdfFactory = kdfFactory;
+            _noKeyConfirmationFactory = noKeyConfirmationFactory;
+            _keyConfirmationFactory = keyConfirmationFactory;
+            _curveFactory = curveFactory;
+        }
+
+        public IKasValTestGenerator<KasValParametersEcc, KasValResultEcc> GetInstance(KasMode kasMode)
+        {
+            switch (kasMode)
+            {
+                case KasMode.NoKdfNoKc:
+                    return new KasValFfcTestGeneratorNoKdfNoKc(_kasBuilder, _schemeBuilder, _entropyProviderFactory, _macParametersBuilder, _kdfFactory, _noKeyConfirmationFactory, _keyConfirmationFactory, _curveFactory);
+                case KasMode.KdfNoKc:
+                    return new KasValEccTestGeneratorKdfNoKc(_kasBuilder, _schemeBuilder, _entropyProviderFactory, _macParametersBuilder, _kdfFactory, _noKeyConfirmationFactory, _keyConfirmationFactory, _curveFactory);
+                case KasMode.KdfKc:
+                    return new KasValEccTestGeneratorKdfKc(_kasBuilder, _schemeBuilder, _entropyProviderFactory, _macParametersBuilder, _kdfFactory, _noKeyConfirmationFactory, _keyConfirmationFactory, _curveFactory);
+                default:
+                    throw new ArgumentException(nameof(kasMode));
+            }
+        }
+    }
+}

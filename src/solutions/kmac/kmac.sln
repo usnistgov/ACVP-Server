@@ -43,6 +43,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.Oracle", ".
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Pools", "..\..\pools\src\NIST.CVP.Pools\NIST.CVP.Pools.csproj", "{39A285A2-1001-4814-9B57-71CFFFA581FD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Orleans.Grains", "..\..\orleans\src\NIST.CVP.Orleans.Grains\NIST.CVP.Orleans.Grains.csproj", "{6AB70693-F2F7-4E32-ACA0-F1C75D370F80}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Orleans.Grains.Interfaces", "..\..\orleans\src\NIST.CVP.Orleans.Grains.Interfaces\NIST.CVP.Orleans.Grains.Interfaces.csproj", "{BC9C29BD-1B3C-459C-A545-1867B9FE0BE6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Orleans.ServerHost", "..\..\orleans\src\NIST.CVP.Orleans.ServerHost\NIST.CVP.Orleans.ServerHost.csproj", "{16ACEF1E-FAF2-49B6-9AB9-D34877689DA2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -121,6 +127,18 @@ Global
 		{39A285A2-1001-4814-9B57-71CFFFA581FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{39A285A2-1001-4814-9B57-71CFFFA581FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{39A285A2-1001-4814-9B57-71CFFFA581FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6AB70693-F2F7-4E32-ACA0-F1C75D370F80}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6AB70693-F2F7-4E32-ACA0-F1C75D370F80}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6AB70693-F2F7-4E32-ACA0-F1C75D370F80}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6AB70693-F2F7-4E32-ACA0-F1C75D370F80}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC9C29BD-1B3C-459C-A545-1867B9FE0BE6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC9C29BD-1B3C-459C-A545-1867B9FE0BE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC9C29BD-1B3C-459C-A545-1867B9FE0BE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC9C29BD-1B3C-459C-A545-1867B9FE0BE6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{16ACEF1E-FAF2-49B6-9AB9-D34877689DA2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16ACEF1E-FAF2-49B6-9AB9-D34877689DA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16ACEF1E-FAF2-49B6-9AB9-D34877689DA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16ACEF1E-FAF2-49B6-9AB9-D34877689DA2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
