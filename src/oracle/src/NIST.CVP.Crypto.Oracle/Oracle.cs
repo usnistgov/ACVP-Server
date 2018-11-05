@@ -19,18 +19,15 @@ namespace NIST.CVP.Crypto.Oracle
         private const int TimeoutSeconds = 60;
 
         private readonly IOptions<EnvironmentConfig> _environmentConfig;
-        private readonly IOptions<PoolConfig> _poolConfig;
         private readonly IOptions<OrleansConfig> _orleansConfig;
         private readonly IClusterClient _clusterClient;
         
         public Oracle(
             IOptions<EnvironmentConfig> environmentConfig,
-            IOptions<PoolConfig> poolConfig,
             IOptions<OrleansConfig> orleansConfig
         )
         {
             _environmentConfig = environmentConfig;
-            _poolConfig = poolConfig;
             _orleansConfig = orleansConfig;
 
             _clusterClient = InitializeClient().GetAwaiter().GetResult();

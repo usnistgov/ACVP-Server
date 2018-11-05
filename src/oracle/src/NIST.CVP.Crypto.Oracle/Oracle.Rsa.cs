@@ -159,14 +159,6 @@ namespace NIST.CVP.Crypto.Oracle
 
         protected virtual async Task<RsaPrimeResult> GeneratePrimes(RsaKeyParameters param, IEntropyProvider entropyProvider)
         {
-            // Only works with random public exponent
-            var poolBoy = new PoolBoy<RsaPrimeResult>(_poolConfig);
-            var poolResult = poolBoy.GetObjectFromPool(param, PoolTypes.RSA_KEY);
-            if (poolResult != null)
-            {
-                return poolResult;
-            }
-
             var observableGrain = 
                 await _clusterClient.GetObserverGrain<IOracleObserverRsaGeneratePrimesCaseGrain, RsaPrimeResult>();
             await observableGrain.Grain.BeginWorkAsync(param);
