@@ -1,5 +1,4 @@
-﻿using System;
-using NIST.CVP.Math;
+﻿using NIST.CVP.Math;
 using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -214,10 +213,10 @@ namespace NIST.CVP.Generation.CMAC.Tests
         [TestCase("CMAC-TDES", 0, 2, "ver", true)]
 
         // keying options not valid for AES
-        [TestCase("CMAC-AES", 128, 1, "gen", false)]
-        [TestCase("CMAC-AES", 128, 2, "gen", false)]
-        [TestCase("CMAC-AES", 128, 1, "ver", false)]
-        [TestCase("CMAC-AES", 128, 2, "ver", false)]
+        [TestCase("CMAC-AES", 0, 1, "gen", false)]
+        [TestCase("CMAC-AES", 0, 2, "gen", false)]
+        [TestCase("CMAC-AES", 0, 1, "ver", false)]
+        [TestCase("CMAC-AES", 0, 2, "ver", false)]
 
         // key length is not a thing for tdes
         [TestCase("CMAC-TDES", 128, 0, "gen", false)]

@@ -1,8 +1,8 @@
-﻿using System.Linq;
-using NIST.CVP.Math;
+﻿using NIST.CVP.Math;
 using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
+using System.Linq;
 
 namespace NIST.CVP.Generation.CMAC.Tests
 {
@@ -17,7 +17,7 @@ namespace NIST.CVP.Generation.CMAC.Tests
             _subject = new TestGroupGenerator();
         }
 
-        private static object[] testData = new[]
+        private static object[] testData =
         {
             new object[]
             {
@@ -69,16 +69,16 @@ namespace NIST.CVP.Generation.CMAC.Tests
             int expectedResultCount
         )
         {
-            Parameters p = new Parameters()
+            var p = new Parameters
             {
                 Algorithm = algorithm,
                 Capabilities = new[]
                 {
-                    new Capability()
+                    new Capability
                     {
-                        Direction = direction,
-                        KeyLen = keyLen,
-                        KeyingOption = keyingOption,
+                        Direction = new [] {direction},
+                        KeyLen = new [] {keyLen},
+                        KeyingOption = new [] {keyingOption},
                         MsgLen = msgLen,
                         MacLen = macLen
                     }
