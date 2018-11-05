@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using NIST.CVP.Common.ExtensionMethods;
+﻿using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Crypto.Common.MAC.CMAC.Enums;
 using NIST.CVP.Generation.Core;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace NIST.CVP.Generation.CMAC
 {
@@ -82,7 +82,7 @@ namespace NIST.CVP.Generation.CMAC
 
         private void ValidateDirection(Capability capability, List<string> errorResults)
         {
-            var directionCheck = ValidateArray(new string[] { capability.Direction }, VALID_DIRECTIONS, "Direction");
+            var directionCheck = ValidateArray(capability.Direction, VALID_DIRECTIONS, "Direction");
             errorResults.AddIfNotNullOrEmpty(directionCheck);
         }
 
@@ -130,36 +130,24 @@ namespace NIST.CVP.Generation.CMAC
         private void ValidateKeyLengths(Capability capability, CmacTypes mode, List<string> errorResults)
         {
             // Key length only valid for AES
-            if (mode == CmacTypes.TDES && capability.KeyLen != 0)
-            {
-                errorResults.AddIfNotNullOrEmpty("Unexpected keyingLen provided for CMAC TDES");
-                return;
-            }
-
             if (mode == CmacTypes.TDES)
             {
                 return;
             }
 
-            var keyLenCheck = ValidateArray(new int[] { capability.KeyLen }, VALID_KEY_LENGTHS, "KeyLen");
+            var keyLenCheck = ValidateArray(capability.KeyLen, VALID_KEY_LENGTHS, "KeyLen");
             errorResults.AddIfNotNullOrEmpty(keyLenCheck);
         }
         
         private void ValidateKeyingOption(Capability capability, CmacTypes mode, List<string> errorResults)
         {
             // Keying option only valid for TDES
-            if (mode != CmacTypes.TDES && capability.KeyingOption != 0)
-            {
-                errorResults.AddIfNotNullOrEmpty("Unexpected keyingOption provided for CMAC AES");
-                return;
-            }
-
             if (mode != CmacTypes.TDES)
             {
                 return;
             }
 
-            var keyingOptionCheck = ValidateArray(new int[] { capability.KeyingOption }, VALID_KEYING_OPTIONS, "KeyingOption");
+            var keyingOptionCheck = ValidateArray(capability.KeyingOption, VALID_KEYING_OPTIONS, "KeyingOption");
             errorResults.AddIfNotNullOrEmpty(keyingOptionCheck);
         }
 
@@ -171,7 +159,7 @@ namespace NIST.CVP.Generation.CMAC
                 return;
             }
 
-            if (capability.KeyingOption == 2 && capability.Direction == "gen")
+            if (capability.KeyingOption.All(ko => ko == 2) && capability.Direction.All(dir => dir.Equals("gen", StringComparison.OrdinalIgnoreCase)))
             {
                 errorResults.AddIfNotNullOrEmpty(@"""gen"" mode is invalid with a keying option of 2");
             }

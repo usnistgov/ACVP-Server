@@ -51,11 +51,11 @@ namespace NIST.CVP.Generation.CMAC.Tests
 
         public Capability Build()
         {
-            return new Capability()
+            return new Capability
             {
-                Direction = _direction,
-                KeyLen = _keyLen,
-                KeyingOption = _keyingOption,
+                Direction = new [] {_direction},
+                KeyLen = new [] {_keyLen},
+                KeyingOption = new [] {_keyingOption},
                 MacLen = _macLen,
                 MsgLen = _msgLen
             };
