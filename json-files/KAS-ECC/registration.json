@@ -17,7 +17,66 @@
         "initiator",
         "responder"
       ],
+      "noKdfNoKc": {
+        "parameterSet": {
+          "eb": {
+            "hashAlg": [
+              "SHA2-224"
+            ],
+            "curve": "P-224"
+          }
+        }
+      },
       "kdfNoKc": {
+        "kdfOption": {
+          "asn1": "uPartyInfo||vPartyInfo||literal[cafecafe]"
+        },
+        "parameterSet": {
+          "eb": {
+            "hashAlg": [
+              "SHA2-224"
+            ],
+            "macOption": {
+              "aeS-CCM": {
+                "keyLen": [
+                  128
+                ],
+                "macLen": 128,
+                "nonceLen": 64
+              },
+              "cmac": {
+                "keyLen": [
+                  128
+                ],
+                "macLen": 128,
+                "nonceLen": 0
+              },
+              "hmaC-SHA2-224": {
+                "keyLen": [
+                  128
+                ],
+                "macLen": 128,
+                "nonceLen": 0
+              }
+            },
+            "curve": "P-224"
+          }
+        }
+      },
+      "kdfKc": {
+        "kcOption": {
+          "kcRole": [
+            "provider",
+            "recipient"
+          ],
+          "kcType": [
+            "unilateral",
+            "bilateral"
+          ],
+          "nonceType": [
+            "randomNonce"
+          ]
+        },
         "kdfOption": {
           "asn1": "uPartyInfo||vPartyInfo||literal[cafecafe]"
         },
