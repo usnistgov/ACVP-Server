@@ -4,6 +4,7 @@ using System.Linq;
 using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Common.Oracle.DispositionTypes;
 using NIST.CVP.Crypto.Common.KAS.Enums;
+using NIST.CVP.Crypto.Common.KAS.Helpers;
 using NIST.CVP.Crypto.Common.KAS.Schema;
 
 namespace NIST.CVP.Generation.KAS.Helpers
@@ -20,6 +21,8 @@ namespace NIST.CVP.Generation.KAS.Helpers
             List<KasValTestDisposition> validityTestCaseOptions = new List<KasValTestDisposition>();
             const int numberOfTestsForValidityGroups = 25;
             const int numberOfScenariosPerType = 2;
+
+            
 
             // Can introduce errors/conditions into Oi, Dkm, MacData
             if (testGroup.KasMode != KasMode.NoKdfNoKc)

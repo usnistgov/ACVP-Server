@@ -5,6 +5,7 @@ using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC.Enums;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
 using NIST.CVP.Crypto.Common.KAS.Enums;
+using NIST.CVP.Crypto.Common.KAS.Helpers;
 using NIST.CVP.Crypto.Common.KAS.Schema;
 using NIST.CVP.Generation.Core.ExtensionMethods;
 
@@ -19,6 +20,18 @@ namespace NIST.CVP.Generation.KAS.ECC
         public override KasDsaAlgoAttributesEcc KasDsaAlgoAttributes =>
             new KasDsaAlgoAttributesEcc(Scheme, ParmSet, Curve);
 
-        
+        public override SchemeKeyNonceGenRequirement KeyNonceGenRequirementsIut => 
+            KeyGenerationRequirementsHelper.GetKeyGenerationOptionsForSchemeAndRole(
+                KasDsaAlgoAttributes.Scheme, KasMode, KasRole, KcRole, KcType
+            );
+
+        public override SchemeKeyNonceGenRequirement KeyNonceGenRequirementsServer => 
+            KeyGenerationRequirementsHelper.GetKeyGenerationOptionsForSchemeAndRole(
+                KasDsaAlgoAttributes.Scheme, 
+                KasMode, 
+                KeyGenerationRequirementsHelper.GetOtherPartyKeyAgreementRole(KasRole), 
+                KeyGenerationRequirementsHelper.GetOtherPartyKeyConfirmationRole(KcRole), 
+                KcType
+            );
     }
 }

@@ -196,7 +196,7 @@ namespace NIST.CVP.Orleans.Grains.Kas
                 if (result.Z[0] >= 0x10)
                 {
                     // call generate again, until getting to a zero nibble MSB for Z
-                    GetTest(param);
+                    return GetTest(param);
                 }
             }
 
@@ -207,7 +207,7 @@ namespace NIST.CVP.Orleans.Grains.Kas
                 if (result.Dkm[0] >= 0x10)
                 {
                     // call generate again, until getting to a zero nibble MSB for Z
-                    GetTest(param);
+                    return GetTest(param);
                 }
             }
 

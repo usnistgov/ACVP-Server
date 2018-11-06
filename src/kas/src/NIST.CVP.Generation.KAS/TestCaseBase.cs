@@ -16,7 +16,7 @@ namespace NIST.CVP.Generation.KAS
         public bool Deferred { get; set; }
         public TTestGroup ParentGroup { get; set; }
 
-        [JsonIgnore] public KasValTestDisposition TestCaseDisposition { get; set; }
+        public KasValTestDisposition TestCaseDisposition { get; set; }
 
         [JsonProperty(PropertyName = "nonceDkmServer")]
         public BitString DkmNonceServer { get; set; }
