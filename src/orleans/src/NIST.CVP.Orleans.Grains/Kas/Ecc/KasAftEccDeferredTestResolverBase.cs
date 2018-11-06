@@ -47,7 +47,7 @@ namespace NIST.CVP.Orleans.Grains.Kas.Ecc
             );
         }
         
-        protected override SchemeKeyNonceGenRequirement<EccScheme> GetServerNonceKeyGenRequirements(KasAftDeferredParametersEcc param, KeyAgreementRole serverKeyAgreementRole, KeyConfirmationRole serverKeyConfirmationRole)
+        protected override SchemeKeyNonceGenRequirement GetServerNonceKeyGenRequirements(KasAftDeferredParametersEcc param, KeyAgreementRole serverKeyAgreementRole, KeyConfirmationRole serverKeyConfirmationRole)
         {
             return KeyGenerationRequirementsHelper.GetKeyGenerationOptionsForSchemeAndRole(
                 param.EccScheme,
@@ -58,7 +58,7 @@ namespace NIST.CVP.Orleans.Grains.Kas.Ecc
             );
         }
 
-        protected override void UpdateKasInstanceWithTestCaseInformation(IKas<KasDsaAlgoAttributesEcc, OtherPartySharedInformation<EccDomainParameters, EccKeyPair>, EccDomainParameters, EccKeyPair> serverKas, SchemeKeyNonceGenRequirement<EccScheme> serverKeyRequirements, KasAftDeferredParametersEcc param)
+        protected override void UpdateKasInstanceWithTestCaseInformation(IKas<KasDsaAlgoAttributesEcc, OtherPartySharedInformation<EccDomainParameters, EccKeyPair>, EccDomainParameters, EccKeyPair> serverKas, SchemeKeyNonceGenRequirement serverKeyRequirements, KasAftDeferredParametersEcc param)
         {
             if (serverKeyRequirements.GeneratesStaticKeyPair)
             {

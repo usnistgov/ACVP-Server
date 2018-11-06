@@ -43,7 +43,7 @@ namespace NIST.CVP.Orleans.Grains.Kas.Ffc
             );
         }
         
-        protected override SchemeKeyNonceGenRequirement<FfcScheme> GetServerNonceKeyGenRequirements(KasAftDeferredParametersFfc param, KeyAgreementRole serverKeyAgreementRole, KeyConfirmationRole serverKeyConfirmationRole)
+        protected override SchemeKeyNonceGenRequirement GetServerNonceKeyGenRequirements(KasAftDeferredParametersFfc param, KeyAgreementRole serverKeyAgreementRole, KeyConfirmationRole serverKeyConfirmationRole)
         {
             return KeyGenerationRequirementsHelper.GetKeyGenerationOptionsForSchemeAndRole(
                 param.FfcScheme,
@@ -54,7 +54,7 @@ namespace NIST.CVP.Orleans.Grains.Kas.Ffc
             );
         }
 
-        protected override void UpdateKasInstanceWithTestCaseInformation(IKas<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> serverKas, SchemeKeyNonceGenRequirement<FfcScheme> serverKeyRequirements, KasAftDeferredParametersFfc param)
+        protected override void UpdateKasInstanceWithTestCaseInformation(IKas<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> serverKas, SchemeKeyNonceGenRequirement serverKeyRequirements, KasAftDeferredParametersFfc param)
         {
             if (serverKeyRequirements.GeneratesStaticKeyPair)
             {

@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
 using NIST.CVP.Crypto.Common.KAS.Enums;
+using NIST.CVP.Crypto.Common.KAS.Helpers;
 using NIST.CVP.Crypto.Common.KAS.Schema;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
@@ -60,6 +61,12 @@ namespace NIST.CVP.Generation.KAS
 
         [JsonIgnore]
         public abstract TKasDsaAlgoAttributes KasDsaAlgoAttributes { get; }
+
+        [JsonIgnore]
+        public abstract SchemeKeyNonceGenRequirement KeyNonceGenRequirementsIut { get; }
+
+        [JsonIgnore]
+        public abstract SchemeKeyNonceGenRequirement KeyNonceGenRequirementsServer { get; }
 
         public List<TTestCase> Tests { get; set; } = new List<TTestCase>();
     }
