@@ -23,7 +23,7 @@ namespace NIST.CVP.Generation.TDES_OFB.Tests
                 var tg = new TestGroup
                 {
                     Function = direction,
-                    NumberOfKeys = groupIdx + 1,
+                    KeyingOption = groupIdx + 1,
                     TestType = testType
                 };
                 testGroups.Add(tg);

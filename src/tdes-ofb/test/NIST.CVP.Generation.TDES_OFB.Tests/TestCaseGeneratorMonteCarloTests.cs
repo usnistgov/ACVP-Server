@@ -33,7 +33,7 @@ namespace NIST.CVP.Generation.TDES_OFB.Tests
 
             TestGroup testGroup = new TestGroup()
             {
-                NumberOfKeys = 3
+                KeyingOption = 3
             };
             var result = await _subject.GenerateAsync(testGroup, true);
 

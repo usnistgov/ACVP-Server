@@ -29,7 +29,7 @@ namespace NIST.CVP.Generation.TDES_OFB
                 Mode = BlockCipherModesOfOperation.Ofb,
                 DataLength = 64,
                 Direction = group.Function,
-                KeyingOption = TdesHelpers.GetKeyingOptionFromNumberOfKeys(group.NumberOfKeys)
+                KeyingOption = group.KeyingOption
             };
 
             try

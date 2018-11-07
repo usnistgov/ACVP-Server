@@ -26,7 +26,7 @@ namespace NIST.CVP.Generation.TDES_OFB
                     var tg = new TestGroup
                     {
                         Function = function,
-                        NumberOfKeys = 1,
+                        KeyingOption = 3,
                         InternalTestType = katTest,
                         TestType = TEST_TYPE
                     };
