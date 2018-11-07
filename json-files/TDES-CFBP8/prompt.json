@@ -1,5 +1,7 @@
 {
+  "vsId": 0,
   "algorithm": "TDES-CFBP8",
+  "mode": "",
   "isSample": true,
   "testGroups": [
     {
@@ -5434,83 +5436,83 @@
       "tests": [
         {
           "tcId": 669,
-          "pt": "88",
-          "key1": "14B5FE7E8E144665",
-          "key2": "C042A814B17E14FB",
-          "key3": "DBB962FAA0E015F4",
-          "iv": "FA43017CE7377DD0"
+          "pt": "3C",
+          "key1": "6AB3493CEE63A73E",
+          "key2": "080813C0068F338F",
+          "key3": "AF6407D733A1FC45",
+          "iv": "FB695D732DB2646E"
         },
         {
           "tcId": 670,
-          "pt": "1177",
-          "key1": "D1073800FF7D0DCF",
-          "key2": "7A4E36EC718C813F",
-          "key3": "7974C0774A676796",
-          "iv": "0FE5BEE749E76F94"
+          "pt": "CD36",
+          "key1": "89CB8BB4A74EDF73",
+          "key2": "1E31F93FD6931446",
+          "key3": "FE7ECA52FA162FD2",
+          "iv": "17D52380C4478D73"
         },
         {
           "tcId": 671,
-          "pt": "A5F388",
-          "key1": "14B5FE7E8E144665",
-          "key2": "8742A814B1AFCDFB",
-          "key3": "AE65DBB962FAA0E0",
-          "iv": "2D010D2C86A41C7B"
+          "pt": "4E70F6",
+          "key1": "E82AEB982D40B978",
+          "key2": "106626B24916DACE",
+          "key3": "1C23AAFFE89C6306",
+          "iv": "D414A4D7CC10126D"
         },
         {
           "tcId": 672,
-          "pt": "C10DDF47",
-          "key1": "04980FCF7724A9F4",
-          "key2": "78CB40527824BA9A",
-          "key3": "DF25EE659D871F76",
-          "iv": "F2E495F4C8C565E2"
+          "pt": "31F84B07",
+          "key1": "BC1C22F506FC3E13",
+          "key2": "ED94019785AD12CD",
+          "key3": "A92A5842AAD0A4E4",
+          "iv": "E75B83400848A378"
         },
         {
           "tcId": 673,
-          "pt": "26C1E3CAD5",
-          "key1": "388D027ED3DF6256",
-          "key2": "9FFE84F00B09CF29",
-          "key3": "9FC27B63870E1018",
-          "iv": "D36851D7ED379C0F"
+          "pt": "784873266F",
+          "key1": "379B83EAEE729A0C",
+          "key2": "A4D285088376B343",
+          "key3": "1E56BEFDE538A708",
+          "iv": "007F883F6BF6C922"
         },
         {
           "tcId": 674,
-          "pt": "8A317B322F69",
-          "key1": "0649C8539AEB82D4",
-          "key2": "9785C52F6C204484",
-          "key3": "F287C037824FEB2D",
-          "iv": "10FB2575EBB6445B"
+          "pt": "89A0ECC78358",
+          "key1": "CDB07C6B742C9096",
+          "key2": "4BFD3B79FD212495",
+          "key3": "8007E3AFFF05DE3E",
+          "iv": "8175AF996925F140"
         },
         {
           "tcId": 675,
-          "pt": "DD68B65A49164A",
-          "key1": "DA7C9DDF5584E720",
-          "key2": "61E4F217FCFE409F",
-          "key3": "53709163AC870386",
-          "iv": "A6286E5908F5D3CE"
+          "pt": "91CE729E3B2B50",
+          "key1": "12689CC180A83D62",
+          "key2": "E5E60D8E0D6B5C95",
+          "key3": "0CB7297C08B41E62",
+          "iv": "20273B1F8E8CE987"
         },
         {
           "tcId": 676,
-          "pt": "B0F911B4F24F102E",
-          "key1": "14683F2C775A778A",
-          "key2": "E626F4436C79F9FB",
-          "key3": "3A7F89C6EFCD46C7",
-          "iv": "A0C036FD19A027B5"
+          "pt": "2D44466AD13D999F",
+          "key1": "4D1F3E7257DFF890",
+          "key2": "C7CB265659585344",
+          "key3": "CC2AD464E4EDA902",
+          "iv": "59E2E8453BAD99E2"
         },
         {
           "tcId": 677,
-          "pt": "2542CE7390E358D42D",
-          "key1": "8F8FDA3933FCEE06",
-          "key2": "60AE044368CA3177",
-          "key3": "921D78791E01EAD7",
-          "iv": "FFB7774FB65559AE"
+          "pt": "2E91E968AC5D7CB643",
+          "key1": "B36F57B91EA6ECAA",
+          "key2": "575A599C73E4AC89",
+          "key3": "17F4A3E326B9D304",
+          "iv": "85F2094CB042E65E"
         },
         {
           "tcId": 678,
-          "pt": "21D7D9B2962E37B2A457",
-          "key1": "008C81C41DE4A0DC",
-          "key2": "20DB34433D711FF7",
-          "key3": "C2A2BD2912F4EA6A",
-          "iv": "392C92950302916A"
+          "pt": "BDC3C51C280AF2C6625B",
+          "key1": "06E9031B91E0964E",
+          "key2": "66BD685A7A0A8EF8",
+          "key3": "02C0D5AB8AA52890",
+          "iv": "6C08CA1456023640"
         }
       ]
     },
@@ -5522,83 +5524,83 @@
       "tests": [
         {
           "tcId": 679,
-          "key1": "8DC16188DC176C97",
-          "key2": "F5CA71F698576AD1",
-          "key3": "A21D70932471C9A4",
-          "ct": "C6",
-          "iv": "B2226198106762D3"
+          "key1": "BBD54AD33E42CB3E",
+          "key2": "C9A08A425FB85314",
+          "key3": "7B931AF6088DA729",
+          "ct": "14",
+          "iv": "FB8DDD7459780AF8"
         },
         {
           "tcId": 680,
-          "key1": "1E680A838EB4E00F",
-          "key2": "9578B069578522FE",
-          "key3": "F82A42DDD86CE35D",
-          "ct": "466C",
-          "iv": "B80CFDF41A0A9222"
+          "key1": "230BB7470460DB87",
+          "key2": "7408BA2F6857C738",
+          "key3": "7F08513764893F55",
+          "ct": "FDFB",
+          "iv": "ABFBA2FAF21F0DE1"
         },
         {
           "tcId": 681,
-          "key1": "272F7E4C5F6DFF1F",
-          "key2": "C60932ADA7CD744F",
-          "key3": "F48B72ECD3993802",
-          "ct": "368C49",
-          "iv": "8A5914E9D43D2A36"
+          "key1": "79FDA0B21A1A6AE7",
+          "key2": "AE33AAC14F53DDD6",
+          "key3": "05245DB007664FB9",
+          "ct": "781FC7",
+          "iv": "C43FB5DF498A6496"
         },
         {
           "tcId": 682,
-          "key1": "CCC54403AFC6DC51",
-          "key2": "80D2089C846EBBB6",
-          "key3": "2AE7D0E3F5085EF2",
-          "ct": "102A9864",
-          "iv": "B515EB7E43BD102A"
+          "key1": "35CDBFD470B2F147",
+          "key2": "AD6F64686890E1D3",
+          "key3": "5B3531271B22CEFB",
+          "ct": "37B519B5",
+          "iv": "7FD3126C9424EC0F"
         },
         {
           "tcId": 683,
-          "key1": "AD0C56A8A4D6A6D9",
-          "key2": "0A237FB76F0E7973",
-          "key3": "F92985C4F2F000AF",
-          "ct": "66C4CB33CF",
-          "iv": "880AA7CEAE66C4CB"
+          "key1": "15D762A884FE69BF",
+          "key2": "C6FBC52D696256BC",
+          "key3": "A1D3AC051807E7B4",
+          "ct": "99F3D66EEC",
+          "iv": "21FC5229D32B50AE"
         },
         {
           "tcId": 684,
-          "key1": "8111966A8DE11966",
-          "key2": "6023206E5DD69BF5",
-          "key3": "73C862FA2311C1AF",
-          "ct": "D87BE87BFE90",
-          "iv": "B3639807D87BE87B"
+          "key1": "A92C0D3A08926A0D",
+          "key2": "86B55AD9C25F4F61",
+          "key3": "6DB5C9685D035D46",
+          "ct": "50C9F8CBE303",
+          "iv": "A8A19B55F005F235"
         },
         {
           "tcId": 685,
-          "key1": "5466F5DFE245FE3A",
-          "key2": "DC437E758F3DDD7C",
-          "key3": "8E9CC5A91C7A8C67",
-          "ct": "B8B0FAFB8E7D3C",
-          "iv": "32BF9FB8B0FAFB8E"
+          "key1": "44F3D72EC9D49B18",
+          "key2": "FE00A80FD14824B5",
+          "key3": "81584BF783054A78",
+          "ct": "C22F9E351E269C",
+          "iv": "1D0DD2973CC678FD"
         },
         {
           "tcId": 686,
-          "key1": "03FE067302428FDC",
-          "key2": "00A12F516B526D50",
-          "key3": "30EB94E291E18134",
-          "ct": "50343F7D688D8644",
-          "iv": "968650343F7D688D"
+          "key1": "F3CF04EE474B9B9B",
+          "key2": "F236D13086573598",
+          "key3": "0F1CC9D8916B2E4E",
+          "ct": "E33B45F0076015B2",
+          "iv": "8C9D05513733B163"
         },
         {
           "tcId": 687,
-          "key1": "75CAACE86DBB357E",
-          "key2": "75E163B25005B762",
-          "key3": "388BD72B073E39DE",
-          "ct": "1211E2D17FE87575A0",
-          "iv": "831211E2D17FE875"
+          "key1": "CDAA50A7BAA008E7",
+          "key2": "1882722EF1675342",
+          "key3": "6A70F33CB23B35BC",
+          "ct": "576B3386204CA6ED5E",
+          "iv": "6B7C8BA7ED9D7B06"
         },
         {
           "tcId": 688,
-          "key1": "48AB0AE427E77AEB",
-          "key2": "A41B914A3E8411A3",
-          "key3": "D04D50299A09DDA3",
-          "ct": "B22C084F59E52081730B",
-          "iv": "B22C084F59E52081"
+          "key1": "38045097D9202063",
+          "key2": "446BADFCB9999C86",
+          "key3": "F0B6F5A63ACA9EB2",
+          "ct": "F7166D8E58E32DCB1684",
+          "iv": "2FA95C56CA57A8B7"
         }
       ]
     },
@@ -5610,11 +5612,11 @@
       "tests": [
         {
           "tcId": 689,
-          "pt": "A5",
-          "key1": "9A0EF1CD4E63991E",
-          "key2": "BFF302587887172C",
-          "key3": "01E0AD0FC793DD0C",
-          "iv": "14DA67C8632E5D49"
+          "pt": "36",
+          "key1": "6DC435299EFFF6C9",
+          "key2": "814ABD04FB3E3069",
+          "key3": "E114E555C620A5CD",
+          "iv": "6CD90D9C424BB806"
         }
       ]
     },
@@ -5626,11 +5628,11 @@
       "tests": [
         {
           "tcId": 690,
-          "key1": "A605E455A9B26BA0",
-          "key2": "5790A2C46E8283AA",
-          "key3": "4D2BA3DFA1ACBD0B",
-          "ct": "7D",
-          "iv": "A3557BA47362A1F0"
+          "key1": "D117248A78ECD767",
+          "key2": "63CA3005F77D3C7F",
+          "key3": "91EE3A93001CE971",
+          "ct": "14",
+          "iv": "B9B5C6AC760A92A0"
         }
       ]
     }
