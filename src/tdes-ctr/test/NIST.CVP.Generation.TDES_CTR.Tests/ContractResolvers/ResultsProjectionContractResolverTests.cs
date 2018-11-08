@@ -53,7 +53,7 @@ namespace NIST.CVP.Generation.TDES_CTR.Tests.ContractResolvers
             Assert.AreEqual(tg.Tests.Count, newTg.Tests.Count, nameof(newTg.Tests));
 
             Assert.AreNotEqual(tg.Direction, newTg.Direction, nameof(newTg.Direction));
-            Assert.AreNotEqual(tg.NumberOfKeys, newTg.NumberOfKeys, nameof(newTg.NumberOfKeys));
+            Assert.AreNotEqual(tg.KeyingOption, newTg.KeyingOption, nameof(newTg.KeyingOption));
         }
 
         /// <summary>

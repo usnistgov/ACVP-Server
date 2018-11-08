@@ -26,7 +26,7 @@ namespace NIST.CVP.Generation.TDES_CTR
                     var testGroup = new TestGroup
                     {
                         Direction = direction,
-                        NumberOfKeys = TdesHelpers.GetNumberOfKeysFromKeyingOption(keyingOption),
+                        KeyingOption = keyingOption,
                         TestType = TEST_TYPE,
                         InternalTestType = INTERNAL_TEST_TYPE
                     };

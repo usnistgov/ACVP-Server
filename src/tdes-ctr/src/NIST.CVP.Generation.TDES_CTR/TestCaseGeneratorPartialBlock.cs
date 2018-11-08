@@ -61,7 +61,7 @@ namespace NIST.CVP.Generation.TDES_CTR
             var param = new TdesParameters
             {
                 DataLength = ctLen,
-                KeyingOption = TdesHelpers.GetKeyingOptionFromNumberOfKeys(group.NumberOfKeys),
+                KeyingOption = group.KeyingOption,
                 Direction = group.Direction,
                 Mode = BlockCipherModesOfOperation.Ofb
             };
