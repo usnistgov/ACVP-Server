@@ -1,108 +1,21 @@
 {
+  "vsId": 0,
   "algorithm": "CMAC-AES",
   "mode": "",
   "isSample": false,
   "conformances": [],
   "capabilities": [
     {
-      "direction": "gen",
-      "keyLen": 128,
-      "keyingOption": 0,
-      "msgLen": [
-        {
-          "min": 0,
-          "max": 65536,
-          "increment": 8
-        }
+      "direction": [
+        "gen",
+        "ver"
       ],
-      "macLen": [
-        {
-          "min": 64,
-          "max": 128,
-          "increment": 8
-        }
-      ]
-    },
-    {
-      "direction": "ver",
-      "keyLen": 128,
-      "keyingOption": 0,
-      "msgLen": [
-        {
-          "min": 0,
-          "max": 65536,
-          "increment": 8
-        }
+      "keyLen": [
+        128,
+        192,
+        256
       ],
-      "macLen": [
-        {
-          "min": 64,
-          "max": 128,
-          "increment": 8
-        }
-      ]
-    },
-    {
-      "direction": "gen",
-      "keyLen": 192,
-      "keyingOption": 0,
-      "msgLen": [
-        {
-          "min": 0,
-          "max": 65536,
-          "increment": 8
-        }
-      ],
-      "macLen": [
-        {
-          "min": 64,
-          "max": 128,
-          "increment": 8
-        }
-      ]
-    },
-    {
-      "direction": "ver",
-      "keyLen": 192,
-      "keyingOption": 0,
-      "msgLen": [
-        {
-          "min": 0,
-          "max": 65536,
-          "increment": 8
-        }
-      ],
-      "macLen": [
-        {
-          "min": 64,
-          "max": 128,
-          "increment": 8
-        }
-      ]
-    },
-    {
-      "direction": "gen",
-      "keyLen": 256,
-      "keyingOption": 0,
-      "msgLen": [
-        {
-          "min": 0,
-          "max": 65536,
-          "increment": 8
-        }
-      ],
-      "macLen": [
-        {
-          "min": 64,
-          "max": 128,
-          "increment": 8
-        }
-      ]
-    },
-    {
-      "direction": "ver",
-      "keyLen": 256,
-      "keyingOption": 0,
+      "keyingOption": [],
       "msgLen": [
         {
           "min": 0,

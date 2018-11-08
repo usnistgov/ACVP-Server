@@ -5,26 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="TestCaseGeneratorDecrypt.cs" />
-    <Compile Remove="TestCaseGeneratorEncrypt.cs" />
-    <Compile Remove="TestCaseGeneratorFactory.cs" />
-    <Compile Remove="TestCaseGeneratorFactoryFactory.cs" />
-    <Compile Remove="TestCaseGeneratorNull.cs" />
-    <Compile Remove="TestCaseValidatorDecrypt.cs" />
-    <Compile Remove="TestCaseValidatorEncrypt.cs" />
-    <Compile Remove="TestCaseValidatorFactory.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="TestReconstitutor.cs.OLD" />
-    <None Remove="TestVectorSet.cs.OLD" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="TestGroup.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\..\common\src\NIST.CVP.Common\NIST.CVP.Common.csproj" />
     <ProjectReference Include="..\..\..\common\src\NIST.CVP.Generation.Core\NIST.CVP.Generation.Core.csproj" />
     <ProjectReference Include="..\..\..\common\src\NIST.CVP.Math\NIST.CVP.Math.csproj" />

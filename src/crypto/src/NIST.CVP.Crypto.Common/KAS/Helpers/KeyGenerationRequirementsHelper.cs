@@ -1271,7 +1271,7 @@ namespace NIST.CVP.Crypto.Common.KAS.Helpers
                     #endregion StaticUnified
                 };
 
-        public static SchemeKeyNonceGenRequirement<FfcScheme> GetKeyGenerationOptionsForSchemeAndRole(
+        public static SchemeKeyNonceGenRequirement GetKeyGenerationOptionsForSchemeAndRole(
             FfcScheme scheme, 
             KasMode kasMode, 
             KeyAgreementRole thisPartyRole, 
@@ -1293,7 +1293,7 @@ namespace NIST.CVP.Crypto.Common.KAS.Helpers
             return result;
         }
 
-        public static SchemeKeyNonceGenRequirement<EccScheme> GetKeyGenerationOptionsForSchemeAndRole(
+        public static SchemeKeyNonceGenRequirement GetKeyGenerationOptionsForSchemeAndRole(
             EccScheme scheme,
             KasMode kasMode,
             KeyAgreementRole thisPartyRole,

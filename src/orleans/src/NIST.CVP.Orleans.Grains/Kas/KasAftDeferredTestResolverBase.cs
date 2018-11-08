@@ -126,7 +126,7 @@ namespace NIST.CVP.Orleans.Grains.Kas
         /// <param name="serverKeyAgreementRole">The server party's key agreement role.</param>
         /// <param name="serverKeyConfirmationRole">The server party's key confirmation role.</param>
         /// <returns></returns>
-        protected abstract SchemeKeyNonceGenRequirement<TScheme> GetServerNonceKeyGenRequirements(
+        protected abstract SchemeKeyNonceGenRequirement GetServerNonceKeyGenRequirements(
             TKasAftDeferredParameters param, 
             KeyAgreementRole serverKeyAgreementRole, 
             KeyConfirmationRole serverKeyConfirmationRole
@@ -165,7 +165,7 @@ namespace NIST.CVP.Orleans.Grains.Kas
         /// <returns></returns>
         protected abstract IKas<TKasDsaAlgoAttributes, OtherPartySharedInformation<TDomainParameters, TKeyPair>, TDomainParameters,TKeyPair
         > GetServerKas(
-            SchemeKeyNonceGenRequirement<TScheme> serverKeyRequirements, 
+            SchemeKeyNonceGenRequirement serverKeyRequirements, 
             KeyAgreementRole serverRole, 
             KeyConfirmationRole serverKcRole, 
             MacParameters macParameters,
@@ -188,7 +188,7 @@ namespace NIST.CVP.Orleans.Grains.Kas
                 TDomainParameters, 
                 TKeyPair
             > serverKas,
-            SchemeKeyNonceGenRequirement<TScheme> serverKeyRequirements, 
+            SchemeKeyNonceGenRequirement serverKeyRequirements, 
             TKasAftDeferredParameters param
         );
     }

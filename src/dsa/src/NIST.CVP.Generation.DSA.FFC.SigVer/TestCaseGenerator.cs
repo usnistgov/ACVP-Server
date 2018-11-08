@@ -62,7 +62,7 @@ namespace NIST.CVP.Generation.DSA.FFC.SigVer
                 {
                     Signature = result.Signature,
                     Message = result.Message,
-                    Key = param.Key,
+                    Key = result.Key,
                     Reason = reason,
                     TestPassed = reason.GetReason() == DsaSignatureDisposition.None
                 };

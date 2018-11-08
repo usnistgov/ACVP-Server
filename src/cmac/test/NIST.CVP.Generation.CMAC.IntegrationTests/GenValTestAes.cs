@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
-using NIST.CVP.Common;
+﻿using NIST.CVP.Common;
 using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
+using System.Collections.Generic;
 
 namespace NIST.CVP.Generation.CMAC.IntegrationTests
 {
@@ -54,30 +54,21 @@ namespace NIST.CVP.Generation.CMAC.IntegrationTests
 
         protected override string GetTestFileFewTestCases(string targetFolder)
         {
-            Parameters p = new Parameters()
+            var p = new Parameters
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
-                Capabilities = new List<Capability>()
+                Capabilities = new List<Capability>
                 {
-                    new Capability()
+                    new Capability
                     {
-                        KeyLen = 128,
-                        Direction = "gen",
+                        KeyLen = new [] {128},
+                        Direction = new [] {"gen", "ver"},
                         MsgLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
                         MacLen = new MathDomain()
                             .AddSegment(new ValueDomainSegment(128))
                             .AddSegment(new ValueDomainSegment(127)),
-                    },
-                    new Capability()
-                    {
-                        KeyLen = 128,
-                        Direction = "ver",
-                        MsgLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
-                        MacLen = new MathDomain()
-                            .AddSegment(new ValueDomainSegment(128))
-                            .AddSegment(new ValueDomainSegment(127)),
-                    },
+                    }
                 }.ToArray(),
                 IsSample = false
             };
@@ -87,9 +78,9 @@ namespace NIST.CVP.Generation.CMAC.IntegrationTests
 
         protected override string GetTestFileLotsOfTestCases(string targetFolder)
         {
-            Random800_90 random = new Random800_90();
+            var random = new Random800_90();
             
-            Parameters p = new Parameters()
+            var p = new Parameters()
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
@@ -97,46 +88,11 @@ namespace NIST.CVP.Generation.CMAC.IntegrationTests
                 {
                     new Capability()
                     {
-                        KeyLen = 128,
-                        Direction = "gen",
+                        KeyLen = new [] {128, 192, 256},
+                        Direction = new [] {"gen", "ver"},
                         MsgLen = new MathDomain().AddSegment(new RangeDomainSegment(random, 0, 65536, 8)),
                         MacLen = new MathDomain().AddSegment(new RangeDomainSegment(random, 64, 128, 8)),
-                    },
-                    new Capability()
-                    {
-                        KeyLen = 128,
-                        Direction = "ver",
-                        MsgLen = new MathDomain().AddSegment(new RangeDomainSegment(random, 0, 65536, 8)),
-                        MacLen = new MathDomain().AddSegment(new RangeDomainSegment(random, 64, 128, 8)),
-                    },
-                    new Capability()
-                    {
-                        KeyLen = 192,
-                        Direction = "gen",
-                        MsgLen = new MathDomain().AddSegment(new RangeDomainSegment(random, 0, 65536, 8)),
-                        MacLen = new MathDomain().AddSegment(new RangeDomainSegment(random, 64, 128, 8)),
-                    },
-                    new Capability()
-                    {
-                        KeyLen = 192,
-                        Direction = "ver",
-                        MsgLen = new MathDomain().AddSegment(new RangeDomainSegment(random, 0, 65536, 8)),
-                        MacLen = new MathDomain().AddSegment(new RangeDomainSegment(random, 64, 128, 8)),
-                    },
-                    new Capability()
-                    {
-                        KeyLen = 256,
-                        Direction = "gen",
-                        MsgLen = new MathDomain().AddSegment(new RangeDomainSegment(random, 0, 65536, 8)),
-                        MacLen = new MathDomain().AddSegment(new RangeDomainSegment(random, 64, 128, 8)),
-                    },
-                    new Capability()
-                    {
-                        KeyLen = 256,
-                        Direction = "ver",
-                        MsgLen = new MathDomain().AddSegment(new RangeDomainSegment(random, 0, 65536, 8)),
-                        MacLen = new MathDomain().AddSegment(new RangeDomainSegment(random, 64, 128, 8)),
-                    },
+                    }
                 }.ToArray(),
                 IsSample = false
             };
