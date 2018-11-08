@@ -20,7 +20,7 @@ namespace NIST.CVP.Generation.KeyWrap.TDES.ContractResolvers
                 nameof(TestGroup.KwCipher),
                 nameof(TestGroup.PtLen),
                 nameof(TestGroup.Direction),
-                nameof(TestGroup.NumberOfKeys)
+                nameof(TestGroup.KeyingOption)
             };
 
             if (includeProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))

@@ -21,7 +21,7 @@ namespace NIST.CVP.Generation.KeyWrap.Tests.TDES
                     KeyLength = 128,
                     KwCipher = "cipher",
                     TestType = "AFT",
-                    NumberOfKeys = 3
+                    KeyingOption = 3
                 };
 
                 for (var testId = 15 * groupIdx + 1; testId <= (groupIdx + 1) * 15; testId++)

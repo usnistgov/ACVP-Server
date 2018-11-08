@@ -53,7 +53,7 @@ namespace NIST.CVP.Generation.KeyWrap.Tests.TDES.ContractResolvers
             Assert.AreEqual(tg.KeyLength, newTg.KeyLength, nameof(newTg.KeyLength));
             Assert.AreEqual(tg.Direction, newTg.Direction, nameof(newTg.Direction));
             Assert.AreEqual(tg.PtLen, newTg.PtLen, nameof(newTg.PtLen));
-            Assert.AreEqual(tg.NumberOfKeys, newTg.NumberOfKeys, nameof(newTg.NumberOfKeys));
+            Assert.AreEqual(tg.KeyingOption, newTg.KeyingOption, nameof(newTg.KeyingOption));
         }
 
         [Test]
