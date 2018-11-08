@@ -41,7 +41,7 @@ namespace NIST.CVP.Orleans.Grains.Kas.Ffc
             return new FfcDomainParameters(param.P, param.Q, param.G);
         }
 
-        protected override SchemeKeyNonceGenRequirement<FfcScheme> GetPartyNonceKeyGenRequirements(KasAftParametersFfc param, KeyAgreementRole partyKeyAgreementRole, KeyConfirmationRole partyKeyConfirmationRole)
+        protected override SchemeKeyNonceGenRequirement GetPartyNonceKeyGenRequirements(KasAftParametersFfc param, KeyAgreementRole partyKeyAgreementRole, KeyConfirmationRole partyKeyConfirmationRole)
         {
             return KeyGenerationRequirementsHelper.GetKeyGenerationOptionsForSchemeAndRole(
                 param.FfcScheme,

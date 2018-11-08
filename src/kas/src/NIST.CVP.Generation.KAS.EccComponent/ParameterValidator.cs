@@ -57,6 +57,11 @@ namespace NIST.CVP.Generation.KAS.EccComponent
 
         private void ValidateFunctions(Parameters parameters, List<string> errorResults)
         {
+            if (ValidFunctions == null || ValidFunctions.Length == 0)
+            {
+                return;
+            }
+
             errorResults.AddIfNotNullOrEmpty(
                 ValidateArray(parameters.Function, ValidFunctions, "Functions")
             );

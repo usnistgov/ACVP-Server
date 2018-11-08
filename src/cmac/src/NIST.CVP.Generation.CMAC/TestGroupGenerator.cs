@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using NIST.CVP.Common.ExtensionMethods;
+﻿using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math.Domain;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace NIST.CVP.Generation.CMAC
 {
@@ -25,31 +25,76 @@ namespace NIST.CVP.Generation.CMAC
 
                 DetermineLengths(capability, ref msgLens, ref macLens);
 
-                foreach (var msgLen in msgLens)
+                foreach (var direction in capability.Direction)
                 {
-                    foreach (var macLen in macLens)
+                    if (parameters.Algorithm.Contains("aes", StringComparison.OrdinalIgnoreCase))
                     {
-                        if (!AlgorithmSpecificationMapping.Map
-                            .TryFirst(
-                                w => w.algoSpecification.Equals(parameters.Algorithm, StringComparison.OrdinalIgnoreCase) ||
-                                     (w.algoSpecification.StartsWith(parameters.Algorithm, StringComparison.OrdinalIgnoreCase) && 
-                                      w.keySize == capability.KeyLen),
-                                out var result))
+                        foreach (var keyLen in capability.KeyLen)
                         {
-                            throw new ArgumentException("Invalid Algorithm provided.");
+                            foreach (var msgLen in msgLens)
+                            {
+                                foreach (var macLen in macLens)
+                                {
+                                    if (!AlgorithmSpecificationMapping.Map
+                                        .TryFirst(
+                                            w => w.algoSpecification.Equals(parameters.Algorithm, StringComparison.OrdinalIgnoreCase) ||
+                                                 (w.algoSpecification.StartsWith(parameters.Algorithm, StringComparison.OrdinalIgnoreCase) &&
+                                                  w.keySize == keyLen),
+                                            out var result))
+                                    {
+                                        throw new ArgumentException("Invalid Algorithm provided.");
+                                    }
+
+                                    var tg = new TestGroup
+                                    {
+                                        CmacType = result.mappedCmacType,
+                                        Function = direction,
+                                        KeyLength = keyLen,
+                                        MessageLength = msgLen,
+                                        MacLength = macLen,
+                                    };
+
+                                    testGroups.Add(tg);
+                                }
+                            }
                         }
+                    }
 
-                        TestGroup tg = new TestGroup()
+                    if (parameters.Algorithm.Contains("tdes", StringComparison.OrdinalIgnoreCase))
+                    {
+                        foreach (var keyingOption in capability.KeyingOption)
                         {
-                            CmacType = result.mappedCmacType,
-                            Function = capability.Direction,
-                            KeyLength = result.keySize,
-                            KeyingOption = capability.KeyingOption,
-                            MessageLength = msgLen,
-                            MacLength = macLen,
-                        };
+                            foreach (var msgLen in msgLens)
+                            {
+                                foreach (var macLen in macLens)
+                                {
+                                    if (!AlgorithmSpecificationMapping.Map
+                                        .TryFirst(
+                                            w => w.algoSpecification.Equals(parameters.Algorithm, StringComparison.OrdinalIgnoreCase) ||
+                                                 w.algoSpecification.StartsWith(parameters.Algorithm, StringComparison.OrdinalIgnoreCase),
+                                            out var result))
+                                    {
+                                        throw new ArgumentException("Invalid Algorithm provided.");
+                                    }
 
-                        testGroups.Add(tg);
+                                    if (keyingOption == 2 && direction.Equals("gen", StringComparison.OrdinalIgnoreCase))
+                                    {
+                                        continue;
+                                    }
+
+                                    var tg = new TestGroup
+                                    {
+                                        CmacType = result.mappedCmacType,
+                                        Function = direction,
+                                        KeyingOption = keyingOption,
+                                        MessageLength = msgLen,
+                                        MacLength = macLen,
+                                    };
+
+                                    testGroups.Add(tg);
+                                }
+                            }
+                        }
                     }
                 }
             }

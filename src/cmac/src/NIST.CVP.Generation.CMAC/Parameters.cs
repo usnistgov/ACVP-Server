@@ -15,15 +15,17 @@ namespace NIST.CVP.Generation.CMAC
 
     public class Capability
     {
-        public string Direction { get; set; }
+        public string[] Direction { get; set; }
+
         /// <summary>
         /// AES only
         /// </summary>
-        public int KeyLen { get; set; }
+        public int[] KeyLen { get; set; } = { };
+
         /// <summary>
         /// TDES only
         /// </summary>
-        public int KeyingOption { get; set; }
+        public int[] KeyingOption { get; set; } = { };
         public MathDomain MsgLen { get; set; }
         public MathDomain MacLen { get; set; }
     }

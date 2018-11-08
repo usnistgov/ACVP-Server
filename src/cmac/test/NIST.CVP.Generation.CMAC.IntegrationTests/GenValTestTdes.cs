@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
-using NIST.CVP.Common;
+﻿using NIST.CVP.Common;
 using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
+using System.Collections.Generic;
 
 namespace NIST.CVP.Generation.CMAC.IntegrationTests
 {
@@ -54,28 +54,20 @@ namespace NIST.CVP.Generation.CMAC.IntegrationTests
 
         protected override string GetTestFileFewTestCases(string targetFolder)
         {
-            Parameters p = new Parameters()
+            var p = new Parameters
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
-                Capabilities = new List<Capability>()
+                Capabilities = new List<Capability>
                 {
-                    new Capability()
+                    new Capability
                     {
-                        Direction = "gen",
-                        KeyingOption = 1,
+                        Direction = new [] {"gen", "ver"},
+                        KeyingOption = new [] {1},
                         MsgLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
                         MacLen = new MathDomain()
                             .AddSegment(new ValueDomainSegment(64))
-                    },
-                    new Capability()
-                    {
-                        Direction = "ver",
-                        KeyingOption = 1,
-                        MsgLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
-                        MacLen = new MathDomain()
-                            .AddSegment(new ValueDomainSegment(64))
-                    },
+                    }
                 }.ToArray(),
                 IsSample = false
             };
@@ -85,32 +77,25 @@ namespace NIST.CVP.Generation.CMAC.IntegrationTests
 
         protected override string GetTestFileLotsOfTestCases(string targetFolder)
         {
-            Random800_90 random = new Random800_90();
+            var random = new Random800_90();
             
-            Parameters p = new Parameters()
+            var p = new Parameters
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
-                Capabilities = new List<Capability>()
+                Capabilities = new List<Capability>
                 {
-                    new Capability()
+                    new Capability
                     {
-                        Direction = "gen",
-                        KeyingOption = 1,
+                        Direction = new [] {"gen", "ver"},
+                        KeyingOption = new [] {1},
                         MsgLen = new MathDomain().AddSegment(new RangeDomainSegment(random, 0, 65536, 8)),
                         MacLen = new MathDomain().AddSegment(new RangeDomainSegment(random, 32, 64, 8)),
                     },
-                    new Capability()
+                    new Capability
                     {
-                        Direction = "ver",
-                        KeyingOption = 1,
-                        MsgLen = new MathDomain().AddSegment(new RangeDomainSegment(random, 0, 65536, 8)),
-                        MacLen = new MathDomain().AddSegment(new RangeDomainSegment(random, 32, 64, 8)),
-                    },
-                    new Capability()
-                    {
-                        Direction = "ver",
-                        KeyingOption = 2,
+                        Direction = new [] {"ver"},
+                        KeyingOption = new [] {2},
                         MsgLen = new MathDomain().AddSegment(new RangeDomainSegment(random, 0, 65536, 8)),
                         MacLen = new MathDomain().AddSegment(new RangeDomainSegment(random, 32, 64, 8)),
                     },
