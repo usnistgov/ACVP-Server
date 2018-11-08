@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using NIST.CVP.Generation.Core;
 using System.Collections.Generic;
+using NIST.CVP.Crypto.Common.Symmetric.TDES;
 
 namespace NIST.CVP.Generation.TDES_OFB
 {
@@ -16,8 +17,8 @@ namespace NIST.CVP.Generation.TDES_OFB
 
         public string InternalTestType { get; set; } = "";
 
-        [JsonProperty(PropertyName = "numberOfKeys")]
-        public int NumberOfKeys { get; set; }
+        [JsonProperty(PropertyName = "keyingOption")]
+        public int KeyingOption { get; set; }
 
         public List<TestCase> Tests { get; set; } = new List<TestCase>();
 
@@ -43,7 +44,7 @@ namespace NIST.CVP.Generation.TDES_OFB
             switch (name.ToLower())
             {
                 case "numberofkeys":
-                    NumberOfKeys = intVal;
+                    KeyingOption = TdesHelpers.GetKeyingOptionFromNumberOfKeys(intVal);
                     return true;
             }
 

@@ -38,7 +38,7 @@ namespace NIST.CVP.Generation.TDES_CTR
                     Mode = BlockCipherModesOfOperation.Ctr,
                     Direction = group.Direction,
                     DataLength = 64 * _numberOfBlocks,
-                    KeyingOption = TdesHelpers.GetKeyingOptionFromNumberOfKeys(group.NumberOfKeys)
+                    KeyingOption = group.KeyingOption
                 },
                 Overflow = group.OverflowCounter,
                 Incremental = group.IncrementalCounter

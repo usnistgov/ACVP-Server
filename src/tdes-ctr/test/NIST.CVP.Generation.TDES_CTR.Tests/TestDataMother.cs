@@ -24,7 +24,7 @@ namespace NIST.CVP.Generation.TDES_CTR.Tests
                 var tg = new TestGroup
                 {
                     Direction = direction,
-                    NumberOfKeys = groupIdx + 1,
+                    KeyingOption = groupIdx + 1,
                     TestType = testType,
                     IncrementalCounter = true,
                     OverflowCounter = false

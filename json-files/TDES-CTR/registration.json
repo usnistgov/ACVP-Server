@@ -1,5 +1,7 @@
 {
+  "vsId": 0,
   "algorithm": "TDES-CTR",
+  "mode": "",
   "isSample": true,
   "conformances": [],
   "keyingOption": [

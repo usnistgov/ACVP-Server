@@ -27,7 +27,7 @@ namespace NIST.CVP.Generation.TDES_CTR
                         var overflowGroup = new TestGroup
                         {
                             Direction = direction,
-                            NumberOfKeys = TdesHelpers.GetNumberOfKeysFromKeyingOption(keyingOption),
+                            KeyingOption = keyingOption,
                             IncrementalCounter = parameters.IncrementalCounter,
                             OverflowCounter = true,
                             InternalTestType = $"overflow-{parameters.OverflowCounter.ToString()}, incremental-{parameters.IncrementalCounter.ToString()}",
@@ -40,7 +40,7 @@ namespace NIST.CVP.Generation.TDES_CTR
                     var testGroup = new TestGroup
                     {
                         Direction = direction,
-                        NumberOfKeys = TdesHelpers.GetNumberOfKeysFromKeyingOption(keyingOption),
+                        KeyingOption = keyingOption,
                         IncrementalCounter = parameters.IncrementalCounter,
                         OverflowCounter = false,
                         InternalTestType = $"overflow-{parameters.OverflowCounter.ToString()}, incremental-{parameters.IncrementalCounter.ToString()}",

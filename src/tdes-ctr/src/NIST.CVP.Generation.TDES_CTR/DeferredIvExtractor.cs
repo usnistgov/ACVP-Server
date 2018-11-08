@@ -24,7 +24,7 @@ namespace NIST.CVP.Generation.TDES_CTR
             var param = new TdesParameters
             {
                 Direction = serverTestGroup.Direction,
-                KeyingOption = TdesHelpers.GetKeyingOptionFromNumberOfKeys(serverTestGroup.NumberOfKeys)
+                KeyingOption = serverTestGroup.KeyingOption
             };
 
             var fullParam = new TdesResult

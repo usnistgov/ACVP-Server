@@ -1,12 +1,13 @@
 {
+  "vsId": 0,
   "algorithm": "TDES-OFB",
   "isSample": false,
   "testGroups": [
     {
       "tgId": 1,
       "direction": "encrypt",
-      "testType": "KAT",
-      "numberOfKeys": 1,
+      "testType": "AFT",
+      "keyingOption": 3,
       "tests": [
         {
           "tcId": 1,
@@ -141,8 +142,8 @@
     {
       "tgId": 2,
       "direction": "encrypt",
-      "testType": "KAT",
-      "numberOfKeys": 1,
+      "testType": "AFT",
+      "keyingOption": 3,
       "tests": [
         {
           "tcId": 17,
@@ -669,8 +670,8 @@
     {
       "tgId": 3,
       "direction": "encrypt",
-      "testType": "KAT",
-      "numberOfKeys": 1,
+      "testType": "AFT",
+      "keyingOption": 3,
       "tests": [
         {
           "tcId": 82,
@@ -829,8 +830,8 @@
     {
       "tgId": 4,
       "direction": "encrypt",
-      "testType": "KAT",
-      "numberOfKeys": 1,
+      "testType": "AFT",
+      "keyingOption": 3,
       "tests": [
         {
           "tcId": 101,
@@ -1349,8 +1350,8 @@
     {
       "tgId": 5,
       "direction": "encrypt",
-      "testType": "KAT",
-      "numberOfKeys": 1,
+      "testType": "AFT",
+      "keyingOption": 3,
       "tests": [
         {
           "tcId": 165,
@@ -1877,8 +1878,8 @@
     {
       "tgId": 6,
       "direction": "decrypt",
-      "testType": "KAT",
-      "numberOfKeys": 1,
+      "testType": "AFT",
+      "keyingOption": 3,
       "tests": [
         {
           "tcId": 230,
@@ -2013,8 +2014,8 @@
     {
       "tgId": 7,
       "direction": "decrypt",
-      "testType": "KAT",
-      "numberOfKeys": 1,
+      "testType": "AFT",
+      "keyingOption": 3,
       "tests": [
         {
           "tcId": 246,
@@ -2541,8 +2542,8 @@
     {
       "tgId": 8,
       "direction": "decrypt",
-      "testType": "KAT",
-      "numberOfKeys": 1,
+      "testType": "AFT",
+      "keyingOption": 3,
       "tests": [
         {
           "tcId": 311,
@@ -2701,8 +2702,8 @@
     {
       "tgId": 9,
       "direction": "decrypt",
-      "testType": "KAT",
-      "numberOfKeys": 1,
+      "testType": "AFT",
+      "keyingOption": 3,
       "tests": [
         {
           "tcId": 330,
@@ -3221,8 +3222,8 @@
     {
       "tgId": 10,
       "direction": "decrypt",
-      "testType": "KAT",
-      "numberOfKeys": 1,
+      "testType": "AFT",
+      "keyingOption": 3,
       "tests": [
         {
           "tcId": 394,
@@ -3750,87 +3751,87 @@
       "tgId": 11,
       "direction": "encrypt",
       "testType": "AFT",
-      "numberOfKeys": 3,
+      "keyingOption": 1,
       "tests": [
         {
           "tcId": 459,
-          "pt": "5858B553687A3950",
-          "key1": "EAA6B04FC210323D",
-          "key2": "7BC6EDD13F0B3327",
-          "key3": "E62EA61FE75FF139",
-          "iv": "6E6C777E0298ABD4"
+          "pt": "F8B54854AC3766A2",
+          "key1": "6FC553D4AA2B7EB5",
+          "key2": "3790F8D333B25786",
+          "key3": "30833C384F3FD871",
+          "iv": "8C926725260B47BC"
         },
         {
           "tcId": 460,
-          "pt": "0997656B9D0F42CB4558B553687A1E50",
-          "key1": "23FC113EFB39FD38",
-          "key2": "7BC6EDD13F0B3327",
-          "key3": "E62EA61FE75FF107",
-          "iv": "0321F201C6F9B321"
+          "pt": "B48EA227432C147DAA8181F2A332950D",
+          "key1": "7989F98AD9D4E0E1",
+          "key2": "566ABF501ACBD8D0",
+          "key3": "D83A24A7AA5E1A46",
+          "iv": "6D3100C9ACF7C2D6"
         },
         {
           "tcId": 461,
-          "pt": "8563479F70F49CFDA035388F190F36268C33856CF621D80A",
-          "key1": "8B4B71519E9CB452",
-          "key2": "99EF3662376E3AFA",
-          "key3": "148B34E4D337BAC1",
-          "iv": "E74E84137F030CE9"
+          "pt": "19F29E22E7A92E0BEFC5B0B03345604A9CA382749BB61018",
+          "key1": "90ABC38A5425169C",
+          "key2": "F77B307513BA32AD",
+          "key3": "B9E3343C0623CE79",
+          "iv": "C932DDF73810026A"
         },
         {
           "tcId": 462,
-          "pt": "3CF4403966209B75C3602A1DE96C2F51B4BA72A166AF60D511F9757B3638CBAB",
-          "key1": "9133AC20DC45F944",
-          "key2": "B5D25D7589A852CF",
-          "key3": "D1198F7F974580E7",
-          "iv": "426BE631F249AF2B"
+          "pt": "A67302C5A22A15A64C8F5131A8F08F248DC0459E93920D562F193D7BB4D23DE0",
+          "key1": "BD01048884919FBD",
+          "key2": "0CEE35D3743CFCA6",
+          "key3": "15E157041E6C3A2C",
+          "iv": "8AB8B50F4A963271"
         },
         {
           "tcId": 463,
-          "pt": "53B4F604D75F726C95D89254E0C1746B8127447E69A1974B62E4FC973E9AE3A38824FE00C36EC907",
-          "key1": "1E025A6E6426C502",
-          "key2": "4E6B6E2C575A8729",
-          "key3": "6424658E1068DC06",
-          "iv": "C367C3D4DA607A50"
+          "pt": "2920B46BE45D9BB70A9580CCDFF36799B4FE2CF1363E00BE67F5C0666EBCAB8821AADF2C5E4BB155",
+          "key1": "689B3401D930669E",
+          "key2": "A8072732EB966B32",
+          "key3": "442307F4786DFD30",
+          "iv": "80D73A825A26FD4D"
         },
         {
           "tcId": 464,
-          "pt": "A9DA064E8A2F34B0C716289E16359CB4E1F63576962949494AF1ECFE995E4EE3545E0C9D25D2050B1133433D8C58EDA1",
-          "key1": "B595F3EF64EC82E8",
-          "key2": "7423CF855ADA74E0",
-          "key3": "78897B02ED608950",
-          "iv": "CF17F00E27C783D7"
+          "pt": "0FFAD42047B2BAB8A321A3D8AE6B796B41B36252ED304AA98BC9819C60C23DB46BC658D27FF90B57E5A8DA9C36AB032F",
+          "key1": "65B4C5C701D916DF",
+          "key2": "71BC28D321E57BBD",
+          "key3": "05D9039E6741D460",
+          "iv": "AEA868B668BF3BBA"
         },
         {
           "tcId": 465,
-          "pt": "94F7F93B9617031016D2D9955C7B5A9913AE22E5911A81D98FB4A777B038806E43FC67BDCAE99638BBB648D70071F10ED59A9C19F3420DFC",
-          "key1": "9C420926A390F714",
-          "key2": "352F9D6EEC7CC2A0",
-          "key3": "37C81094B777A5F1",
-          "iv": "55D4E48911E7E547"
+          "pt": "EEEF7DBE37F6509971FEB2947B3D8D142D61DBE1C6750E3FA4C4ED0F47E820882AC5EFE92D3927A2A0474DB37E701F358A114EBC70DED4DE",
+          "key1": "962169E907EDC333",
+          "key2": "6DA0995AEAF9EC42",
+          "key3": "08D5E541B72D31B7",
+          "iv": "477BCA659CE7B40E"
         },
         {
           "tcId": 466,
-          "pt": "D378F0A5A8CC478D1ED7E94942ECF05171A894C865AE012DEAE87CB2B31F14FCAFAF149DE5808589E0541E8F74A021AD94AE9FEB6230D5E815D6252D5527E13D",
-          "key1": "6C61360504BFF3B9",
-          "key2": "D68EF163F74F73F8",
-          "key3": "B2063752C3BA3E31",
-          "iv": "A5A2071BD5D599D8"
+          "pt": "2D9E086BA8CC785AB7EF268DEFE815422F505A9EA055D88A1175DB80A91F75A29E48C08AA233F421C4D2344BDE6521AE8500D3AA4FBA44ED28AA9E9CED3C2CEB",
+          "key1": "DCA5BCC62017FB40",
+          "key2": "547BADD803CED33C",
+          "key3": "C616D22EE7DE4E5A",
+          "iv": "D20557B334AD1BFC"
         },
         {
           "tcId": 467,
-          "pt": "F370D1636C9F3C1E0CC5CFB096050A6FF98077D47F9A521BBAABCB5D95CAD7309EAE49A29409BB0D56F0D12F473EDA883C4540B06A26003C13656C28AD930FDDF417EF708E46B539",
-          "key1": "04E4D1045DFC2A5A",
-          "key2": "69963D4932EA592E",
-          "key3": "00D2374EFAF30F60",
-          "iv": "26B1A1C274D9ECB5"
+          "pt": "D72690FB7CCA491D4A1E524042296FAD671DD30B0EF0569A159444348F365581C7789A694631F9843B5209173EF1094B64543F9E3B68BE718FD72C764E846F533591324B74D301A6",
+          "key1": "4DC422D56CB0D433",
+          "key2": "86D00151EEC6E5EE",
+          "key3": "09959CCB87AD1D46",
+          "iv": "072FC40849BAA046"
         },
         {
           "tcId": 468,
-          "pt": "0A9E030E2366C9E829BCC1B1FC6C648B945935438EF9E12DEF91BE38B6C5DA9A39AFD8AC533009BAADD5E8A32C67472BBF83A73C4C2DA7E24A573F2C2077BE1260ED184498240F3B96827036DC2B842E",
-          "key1": "82E404555585A017",
-          "key2": "2668043ADBAA0DED",
-          "key3": "F38D5B070AC94A8E",
-          "iv": "F5D2F93D4DB4A6C7"
+          "pt": "FE6E762A446F750BBBAF580A5189FA5E97FF8A39A581D379A8AFA15C380343EAC088012BA4754D09D8DCE4FA2A70D3B5CD63755C94A84F009A1BA092794EE89FA9837B253FC8C10D5C1FE2F4816D9449",
+          "key1": "6ED9ED06F25DD9B5",
+          "key2": "1907390BF1EC51E5",
+          "key3": "58038DE6F315800F",
+          "iv": "13712A7218AAE7C6"
         }
       ]
     },
@@ -3838,87 +3839,87 @@
       "tgId": 12,
       "direction": "decrypt",
       "testType": "AFT",
-      "numberOfKeys": 3,
+      "keyingOption": 1,
       "tests": [
         {
           "tcId": 469,
-          "key1": "22640B43436351A8",
-          "key2": "2AAE8E4B6345FB58",
-          "key3": "5C2EBA933B456874",
-          "ct": "846A47EFC2FF78B6",
-          "iv": "157467315B5CD7B6"
+          "key1": "39D648773853433B",
+          "key2": "AFA3E9E2E09D8885",
+          "key3": "2A3E2888FC381B96",
+          "ct": "D4DDFFF3C7B10350",
+          "iv": "BE24E7494BFEED30"
         },
         {
           "tcId": 470,
-          "key1": "BBF8C76E036BCCA6",
-          "key2": "E13EA1A104AD9212",
-          "key3": "00DB04BE3F8387A9",
-          "ct": "BFB2F7835096EF4329E06E586ECE9C1D",
-          "iv": "311BF1C75D893E57"
+          "key1": "97FB8F2411A0587D",
+          "key2": "0046D1C5FBB7A73F",
+          "key3": "0D7BDF140009580B",
+          "ct": "5E4F04E3673895AC3B37A5255F8DB40F",
+          "iv": "E2A75BD7404C3D26"
         },
         {
           "tcId": 471,
-          "key1": "ED6051169E959E9B",
-          "key2": "90B4609F779C0622",
-          "key3": "D389AAE1B9518A02",
-          "ct": "B8001AB1FF7FD597481418FE4544D96A459E563C7273E15F",
-          "iv": "5328A7EA7F046C89"
+          "key1": "2723A1874A779316",
+          "key2": "5549C74DAE7404D6",
+          "key3": "3D530B8164B25555",
+          "ct": "BCBABD158631C8C1ADAB3BC2C4F0A9B6843743E10605FEE8",
+          "iv": "A8A17E5740DDC070"
         },
         {
           "tcId": 472,
-          "key1": "A19DEF370B926329",
-          "key2": "C0A55932CF676BF1",
-          "key3": "4842C7049AE2C031",
-          "ct": "1AD931EC3387BBE145F03B7BECA1FDE9C4C06CB2AAE55051ECED6EFA760F2C61",
-          "iv": "78CC7311DADE839B"
+          "key1": "9E4403848DE71439",
+          "key2": "9D10B01890FB92DC",
+          "key3": "43B3985CC1258F83",
+          "ct": "035D2DFA26ED6D9E9F57AE78A5F123E4AFB704116C32E86EF40AC6E9B1EBFBF2",
+          "iv": "4DC1759C7081CD5B"
         },
         {
           "tcId": 473,
-          "key1": "F11E21B3343CF3D3",
-          "key2": "33B555BFB274C215",
-          "key3": "A95EE4F93385FB69",
-          "ct": "8A108F8CE80378AF4BBBEE8891E8CA772000B9E63F95C93C26A82AAE6E83A5487D06563460AE92E8",
-          "iv": "21D75F440AF73A7A"
+          "key1": "0B8C172CBFAAB30E",
+          "key2": "D3A395BA7211393F",
+          "key3": "A53DB9CCBAD2D6BF",
+          "ct": "011C5E5C00CBBC2710737E076E1B311284A4C71871F63C8F08591AD31A7826A33009EDA255D8884B",
+          "iv": "6377E583A208652A"
         },
         {
           "tcId": 474,
-          "key1": "62CFEEC8208890E4",
-          "key2": "D0EE68B344374921",
-          "key3": "DC01F2E46FBA754D",
-          "ct": "A1427B59CB18515E0C71BACEDC8A0AB8AD99BF2635BF37EA59F4746D69E98E912E420E083F95BD78966C6AAE46EB0AB4",
-          "iv": "9D1BFA06654D1FE3"
+          "key1": "A1E192E5F1E01545",
+          "key2": "C4728458D17EA360",
+          "key3": "EEE39D9FDE50F006",
+          "ct": "7BA30A0E35257BB6012F68457955E2AEC9E85EA74E5DBD3D911E37A075F3CDC8A0FE9547741CE50E6512C0F698AA31E2",
+          "iv": "AA4A5368C7907ABC"
         },
         {
           "tcId": 475,
-          "key1": "EF4F0E410930AE0A",
-          "key2": "2629FD9823509394",
-          "key3": "007F711D769112F3",
-          "ct": "88501E388D81ED90ECE4029BC8E27F75D01D44F571A75FE12661FB5D3CC64AEC11089A6851FE1DF46E00295C1B0BDD1CD75F6683FE86E723",
-          "iv": "D28A12756539B54C"
+          "key1": "5577F8C5860151EC",
+          "key2": "AD259A37167A0576",
+          "key3": "3B7AD21616126F58",
+          "ct": "B93A4894F587A71494F36E8681FAF93F16BC674F3970376BBFC6B544F8A3CB38ACFDE5CF0AF2170E6695FF358856473EC11A03964CB1969F",
+          "iv": "897C2260CA130598"
         },
         {
           "tcId": 476,
-          "key1": "F2C4EE2983E6B50D",
-          "key2": "1221C5BD1915AB8F",
-          "key3": "4F37CA1820AF47F9",
-          "ct": "1B7CF9FE62ED76F7A7A70976C6D326FE9FD066420B8DD174016BE7C8B64CC1055230E43380911E0FC3EDD47970ACD966EA7640B8E9DB2DFFB0798F81FC39E57B",
-          "iv": "755C4E2B789994EA"
+          "key1": "A7055E68DCB40D63",
+          "key2": "68DC5A909305F132",
+          "key3": "6C8D5B0A535A282C",
+          "ct": "696CD60249745EF26B61B183F16F4876718C81DA310BC6DAA131A0E6B55D1DEEAF7E39DEAE3A89483F3AF25EC1BB0535BC7C3503FEF702A34A843CD3BC9E2C5E",
+          "iv": "94D5C7D7E6104883"
         },
         {
           "tcId": 477,
-          "key1": "99BE8A60D27C934C",
-          "key2": "A6C5CC288CFC302F",
-          "key3": "2D680FE8EC945DCE",
-          "ct": "7525C7D4D4537FA86583CE004EDDE8AD920A70770C1344F51460FF0ECB5854053EACD882B90E71547B0208FA52BFA51AFBDB6A110C81F14EA880E246A8FBAB6E7E21C0F3F7E489FC",
-          "iv": "D30E38AD3F52A34A"
+          "key1": "1AD7CC8A3086A3CA",
+          "key2": "17ED9A44B822C6D7",
+          "key3": "FD1D919545E4D2FF",
+          "ct": "9365EDE97FD2635FA95E53C2EB71345F27D6A661C39C06164CCE7CD3875F412B708CF03B4ADF53CF4E063645C8C34435E64D0FB811FE1283A138C9D3A1B165E0A31C862FA61BAD37",
+          "iv": "B812C5B076E58E86"
         },
         {
           "tcId": 478,
-          "key1": "42E75FC1D57D7FF1",
-          "key2": "0491F1729636977D",
-          "key3": "2DEA94C98DEA7CED",
-          "ct": "9AB06362992FE0249471E71E3D126F8302C5E75339A06EFA187ACF2D56962F69B86E5FED1EEBD004E7798ABC586D6E7BB370CD715609C2FA9D814E6934C79E1E2D408BAC8E22F3D0363D5DFB9A0B7B67",
-          "iv": "68CA11DEF49647B1"
+          "key1": "07302777EDE9AA93",
+          "key2": "651CD5D8C511477F",
+          "key3": "92232337C9BCEA1A",
+          "ct": "9DEF74173E03D21D500AF99C69BC374B69D54F98C57D8B5E7008E0F4575F4DF8E547A1ACF5C138048F395B46D2DEF3B474B444A0EB6B1A3F9C69D877086156AB51CC7A5C71AC00AE763B04DFBC28C749",
+          "iv": "D4805DE452F285D2"
         }
       ]
     },
@@ -3926,15 +3927,15 @@
       "tgId": 13,
       "direction": "encrypt",
       "testType": "MCT",
-      "numberOfKeys": 3,
+      "keyingOption": 1,
       "tests": [
         {
           "tcId": 479,
-          "pt": "1D933FEA4D5E54F4",
-          "key1": "3D674A36BB510982",
-          "key2": "CFD8E90DE1E14E2A",
-          "key3": "DD332F95900EB949",
-          "iv": "97B6E19F4D3202BE"
+          "pt": "90BDD54A88BDB7D5",
+          "key1": "130926EB1C330C47",
+          "key2": "32642C1CF8822904",
+          "key3": "9EDB6F378B5A2DC3",
+          "iv": "599F7AA33943051A"
         }
       ]
     },
@@ -3942,15 +3943,15 @@
       "tgId": 14,
       "direction": "decrypt",
       "testType": "MCT",
-      "numberOfKeys": 3,
+      "keyingOption": 1,
       "tests": [
         {
           "tcId": 480,
-          "key1": "5C63DB256BFF90CC",
-          "key2": "330C2C0EB8534F95",
-          "key3": "03F6B010246BF930",
-          "ct": "829A314D7D9BE80A",
-          "iv": "69CC84FA02E605BE"
+          "key1": "79F1EEE8AF8B008A",
+          "key2": "6083A91FC763FAFB",
+          "key3": "451B9775AA2E9F4D",
+          "ct": "FA57FD636CEEA631",
+          "iv": "ACC7A5C8E7AAFFB8"
         }
       ]
     }

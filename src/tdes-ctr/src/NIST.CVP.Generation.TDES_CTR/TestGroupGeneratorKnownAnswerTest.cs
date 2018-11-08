@@ -26,7 +26,7 @@ namespace NIST.CVP.Generation.TDES_CTR
                     var tg = new TestGroup
                     {
                         Direction = function,
-                        NumberOfKeys = 1,
+                        KeyingOption = 1,
                         TestType = TEST_TYPE,
                         InternalTestType = katTest
                     };
