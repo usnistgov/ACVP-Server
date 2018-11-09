@@ -11,7 +11,7 @@ namespace NIST.CVP.Orleans.Grains.Ctr
     {
         public static AesResult GetDeferredCounterTest(CounterParameters<AesParameters> param, IEntropyProvider entropyProvider)
         {
-            var iv = GetStartingIv(param.Overflow, param.Incremental, entropyProvider);
+            var iv = GetStartingIv(param.Overflow, param.Incremental, entropyProvider, 128);
 
             var direction = BlockCipherDirections.Encrypt;
             if (param.Parameters.Direction.ToLower() == "decrypt")
@@ -33,7 +33,7 @@ namespace NIST.CVP.Orleans.Grains.Ctr
 
         public static TdesResult GetDeferredCounterTest(CounterParameters<TdesParameters> param, IEntropyProvider entropyProvider)
         {
-            var iv = GetStartingIv(param.Overflow, param.Incremental, entropyProvider);
+            var iv = GetStartingIv(param.Overflow, param.Incremental, entropyProvider, 64);
 
             var direction = BlockCipherDirections.Encrypt;
             if (param.Parameters.Direction.ToLower() == "decrypt")
@@ -53,7 +53,7 @@ namespace NIST.CVP.Orleans.Grains.Ctr
             };
         }
 
-        public static BitString GetStartingIv(bool overflow, bool incremental, IEntropyProvider entropyProvider)
+        public static BitString GetStartingIv(bool overflow, bool incremental, IEntropyProvider entropyProvider, int ivLength)
         {
             BitString padding;
 
@@ -63,11 +63,11 @@ namespace NIST.CVP.Orleans.Grains.Ctr
 
             if (overflow == incremental)
             {
-                padding = BitString.Ones(128 - randomBits);
+                padding = BitString.Ones(ivLength - randomBits);
             }
             else
             {
-                padding = BitString.Zeroes(128 - randomBits);
+                padding = BitString.Zeroes(ivLength - randomBits);
             }
 
             return BitString.ConcatenateBits(padding, entropyProvider.GetEntropy(randomBits));
