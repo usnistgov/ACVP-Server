@@ -27,7 +27,7 @@ namespace NIST.CVP.Generation.AES_CTR
             result = ValidateArray(parameters.KeyLen, VALID_KEY_SIZES, "Key Sizes");
             errorResults.AddIfNotNullOrEmpty(result);
 
-            ValidateDataLength(parameters.DataLength, errorResults);
+            ValidateDataLength(parameters.PayloadLen, errorResults);
 
             if (errorResults.Count > 0)
             {

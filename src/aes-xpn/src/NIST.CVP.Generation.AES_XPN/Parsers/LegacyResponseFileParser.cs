@@ -59,7 +59,7 @@ namespace NIST.CVP.Generation.AES_XPN.Parsers
                     if (currentGroup == null || inCases)
                     {
                         inCases = false;
-                        currentGroup = new TestGroup {Function = direction, IVGeneration = ivGeneration, SaltGen = saltGeneration};
+                        currentGroup = new TestGroup {Function = direction, IvGeneration = ivGeneration, SaltGen = saltGeneration};
                         groups.Add(currentGroup);
                     }
                     workingLine = workingLine.Replace("[", "").Replace("]", "");

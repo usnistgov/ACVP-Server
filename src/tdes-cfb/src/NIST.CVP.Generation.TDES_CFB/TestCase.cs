@@ -92,8 +92,8 @@ namespace NIST.CVP.Generation.TDES_CFB
         [JsonProperty(PropertyName = "ct")]
         public BitString CipherText { get; set; }
 
-        [JsonProperty(PropertyName = "dataLen", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public int DataLen
+        [JsonProperty(PropertyName = "payloadLen", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public int PayloadLen
         {
             get
             {

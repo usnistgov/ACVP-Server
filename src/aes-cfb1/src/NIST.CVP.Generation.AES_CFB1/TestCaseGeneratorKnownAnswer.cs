@@ -57,7 +57,7 @@ namespace NIST.CVP.Generation.AES_CFB1
             var currentKat = _kats[_katsIndex++];
             var testCase = new TestCase
             {
-                DataLen = 1,
+                PayloadLen = 1,
                 Key = currentKat.Key,
                 IV = currentKat.IV,
                 PlainText = currentKat.PlainText,

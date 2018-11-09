@@ -21,7 +21,7 @@ namespace NIST.CVP.Generation.AES_XTS.ContractResolvers
                 nameof(TestGroup.Direction),
                 nameof(TestGroup.KeyLen),
                 nameof(TestGroup.TweakMode),
-                nameof(TestGroup.PtLen),
+                nameof(TestGroup.PayloadLen),
                 nameof(TestGroup.Tests)
             };
 

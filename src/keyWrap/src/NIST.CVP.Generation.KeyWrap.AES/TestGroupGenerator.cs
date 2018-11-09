@@ -38,11 +38,11 @@ namespace NIST.CVP.Generation.KeyWrap.AES
 
             // We don't want to generate test groups that have a potential infinite upper bound,
             // set to a maximum value to generate.
-            parameters.PtLen.SetMaximumAllowedValue(_MAX_BIT_SIZE);
-            parameters.PtLen.SetRangeOptions(RangeDomainSegmentOptions.Random);
+            parameters.PayloadLen.SetMaximumAllowedValue(_MAX_BIT_SIZE);
+            parameters.PayloadLen.SetRangeOptions(RangeDomainSegmentOptions.Random);
 
-            var minMaxPtLen = parameters.PtLen.GetDomainMinMax();
-            var ptLensAvailableToTest = parameters.PtLen.GetValues(10).ToList();
+            var minMaxPtLen = parameters.PayloadLen.GetDomainMinMax();
+            var ptLensAvailableToTest = parameters.PayloadLen.GetValues(10).ToList();
 
             List<int> testPtLens = new List<int>();
             // Get 64 mod values
@@ -72,7 +72,7 @@ namespace NIST.CVP.Generation.KeyWrap.AES
                             {
                                 KeyWrapType = keyWrapType,
                                 Direction = direction,
-                                PtLen = ptLen,
+                                PayloadLen = ptLen,
                                 KwCipher = kwCipher,
                                 KeyLength = keyLen
                             };

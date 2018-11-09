@@ -52,7 +52,7 @@ namespace NIST.CVP.Orleans.Grains.Aead
         {
             var fullParams = new AeadResult
             {
-                PlainText = _entropyProvider.GetEntropy(_param.DataLength),
+                PlainText = _entropyProvider.GetEntropy(_param.PayloadLength),
                 Key = _entropyProvider.GetEntropy(_param.KeyLength),
                 Iv = _entropyProvider.GetEntropy(_param.IvLength),
                 Aad = _entropyProvider.GetEntropy(_param.AadLength),
@@ -74,7 +74,7 @@ namespace NIST.CVP.Orleans.Grains.Aead
 
                 if (shouldFail)
                 {
-                    var ctPortion = _param.DataLength == 0
+                    var ctPortion = _param.PayloadLength == 0
                         ? new BitString(0)
                         : result.CipherText.GetMostSignificantBits(result.CipherText.BitLength - _param.TagLength);
                     // Change the tag portion of the ciphertext

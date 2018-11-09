@@ -35,7 +35,7 @@ namespace NIST.CVP.Generation.AES_CCM
                 KeyLength = group.KeyLength,
                 AadLength = group.AADLength,
                 IvLength = group.IVLength,
-                DataLength = group.PTLength,
+                PayloadLength = group.PayloadLength,
                 TagLength = group.TagLength,
                 CouldFail = couldFail
             };

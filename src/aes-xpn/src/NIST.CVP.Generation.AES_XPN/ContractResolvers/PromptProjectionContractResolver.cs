@@ -20,13 +20,13 @@ namespace NIST.CVP.Generation.AES_XPN.ContractResolvers
                 nameof(TestGroup.TestType),
                 nameof(TestGroup.Function),
                 nameof(TestGroup.KeyLength),
-                nameof(TestGroup.IVLength),
-                nameof(TestGroup.IVGeneration),
-                nameof(TestGroup.IVGenerationMode),
+                nameof(TestGroup.IvLength),
+                nameof(TestGroup.IvGeneration),
+                nameof(TestGroup.IvGenerationMode),
                 nameof(TestGroup.SaltGen),
                 nameof(TestGroup.SaltLength),
-                nameof(TestGroup.PTLength),
-                nameof(TestGroup.AADLength),
+                nameof(TestGroup.PayloadLength),
+                nameof(TestGroup.AadLength),
                 nameof(TestGroup.TagLength),
                 nameof(TestGroup.Tests)
             };

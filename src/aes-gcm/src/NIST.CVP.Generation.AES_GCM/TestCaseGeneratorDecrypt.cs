@@ -24,11 +24,11 @@ namespace NIST.CVP.Generation.AES_GCM
         {
             var param = new AeadParameters
             {
-                DataLength = group.PTLength,
+                PayloadLength = group.PayloadLength,
                 KeyLength = group.KeyLength,
-                AadLength = group.AADLength,
+                AadLength = group.AadLength,
                 TagLength = group.TagLength,
-                IvLength = group.IVLength,
+                IvLength = group.IvLength,
                 CouldFail = true
             };
 

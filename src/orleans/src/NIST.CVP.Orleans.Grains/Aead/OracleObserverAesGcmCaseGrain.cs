@@ -48,7 +48,7 @@ namespace NIST.CVP.Orleans.Grains.Aead
         {
             var fullParams = new AeadResult
             {
-                PlainText = _rand.GetRandomBitString(_param.DataLength),
+                PlainText = _rand.GetRandomBitString(_param.PayloadLength),
                 Key = _rand.GetRandomBitString(_param.KeyLength),
                 Iv = _rand.GetRandomBitString(_param.IvLength),
                 Aad = _rand.GetRandomBitString(_param.AadLength)

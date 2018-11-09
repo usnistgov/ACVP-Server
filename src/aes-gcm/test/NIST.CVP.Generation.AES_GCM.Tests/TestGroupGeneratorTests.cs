@@ -52,14 +52,14 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
 
             Parameters p = new Parameters()
             {
-                aadLen = mdAad,
+                AadLen = mdAad,
                 Algorithm = "AES GCM",
-                ivGen = ivGen,
-                ivGenMode = ivGenMode,
-                ivLen = mdIv,
+                IvGen = ivGen,
+                IvGenMode = ivGenMode,
+                IvLen = mdIv,
                 KeyLen = keyLen,
                 Direction = mode,
-                PtLen = mdPt,
+                PayloadLen = mdPt,
                 TagLen = mdTag
             };
             int expectedResultCount = aadLen.Length * ivLen.Length * keyLen.Length * mode.Length * ptLen.Length * tagLen.Length;

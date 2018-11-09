@@ -315,14 +315,14 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
             {
                 return new Parameters()
                 {
-                    aadLen = _aadLen,
+                    AadLen = _aadLen,
                     Algorithm = _algorithm,
-                    ivGen = _ivGen,
-                    ivGenMode = _ivGenMode,
-                    ivLen = _ivLen,
+                    IvGen = _ivGen,
+                    IvGenMode = _ivGenMode,
+                    IvLen = _ivLen,
                     KeyLen = _keyLen,
                     Direction = _mode,
-                    PtLen = _ptLen,
+                    PayloadLen = _ptLen,
                     TagLen = _tagLen
                 };
             }

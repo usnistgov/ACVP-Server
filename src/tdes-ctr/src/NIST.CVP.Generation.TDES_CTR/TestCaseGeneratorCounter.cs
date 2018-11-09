@@ -65,7 +65,7 @@ namespace NIST.CVP.Generation.TDES_CTR
                     Iv = result.Iv,
                     Key = result.Key,
                     PlainText = result.PlainText,
-                    Length = result.PlainText?.BitLength ?? result.CipherText.BitLength
+                    PayloadLength = result.PlainText?.BitLength ?? result.CipherText.BitLength
                 });
             }
             catch (Exception ex)

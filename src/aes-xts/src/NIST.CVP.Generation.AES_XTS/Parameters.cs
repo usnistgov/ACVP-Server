@@ -17,7 +17,7 @@ namespace NIST.CVP.Generation.AES_XTS
 
         public int[] KeyLen { get; set; }
         public string[] Direction { get; set; }
-        public MathDomain PtLen { get; set; }
+        public MathDomain PayloadLen { get; set; }
         [JsonProperty("TweakMode")]
         public string[] TweakModes { get; set; }
     }

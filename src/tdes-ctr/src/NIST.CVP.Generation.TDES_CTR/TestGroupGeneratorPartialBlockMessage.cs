@@ -13,7 +13,7 @@ namespace NIST.CVP.Generation.TDES_CTR
         {
             var testGroups = new List<TestGroup>();
 
-            if (parameters.DataLength.ContainsValueOtherThan(128))
+            if (parameters.PayloadLength.ContainsValueOtherThan(128))
             {
                 foreach (var direction in parameters.Direction)
                 {
@@ -31,7 +31,7 @@ namespace NIST.CVP.Generation.TDES_CTR
                             KeyingOption = keyingOption,
 
                             // Only test case generator that cares about this information
-                            DataLength = parameters.DataLength,
+                            PayloadLength = parameters.PayloadLength,
 
                             TestType = TEST_TYPE,
                             InternalTestType = INTERNAL_TEST_TYPE

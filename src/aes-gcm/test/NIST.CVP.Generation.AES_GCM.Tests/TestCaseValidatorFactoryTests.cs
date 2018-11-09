@@ -46,13 +46,13 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
                     new TestGroup()
                     {
                         Function = function,
-                        AADLength = 128,
+                        AadLength = 128,
                         TestType = string.Empty,
-                        IVGeneration = string.Empty,
-                        IVGenerationMode = string.Empty,
-                        IVLength = 128,
+                        IvGeneration = string.Empty,
+                        IvGenerationMode = string.Empty,
+                        IvLength = 128,
                         KeyLength = 128,
-                        PTLength = 128,
+                        PayloadLength = 128,
                         TagLength = 128,
                         Tests = new List<TestCase>()
                         {

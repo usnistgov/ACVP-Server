@@ -1,4 +1,5 @@
 {
+  "vsId": 0,
   "algorithm": "AES-CCM",
   "mode": "",
   "isSample": false,
@@ -8,7 +9,7 @@
     192,
     256
   ],
-  "ptLen": [
+  "payloadLen": [
     {
       "min": 0,
       "max": 256,

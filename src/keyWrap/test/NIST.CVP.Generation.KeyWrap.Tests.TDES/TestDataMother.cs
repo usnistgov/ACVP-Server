@@ -17,7 +17,7 @@ namespace NIST.CVP.Generation.KeyWrap.Tests.TDES
                 var tg = new TestGroup
                 {
                     Direction = direction,
-                    PtLen = 128,
+                    PayloadLen = 128,
                     KeyLength = 128,
                     KwCipher = "cipher",
                     TestType = "AFT",

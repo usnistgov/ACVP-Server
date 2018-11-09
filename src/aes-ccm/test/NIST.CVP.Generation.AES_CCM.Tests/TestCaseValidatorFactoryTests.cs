@@ -67,7 +67,7 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
                         TestType = string.Empty,
                         IVLength = 128,
                         KeyLength = 128,
-                        PTLength = 128,
+                        PayloadLength = 128,
                         TagLength = 128,
                         Tests = new List<TestCase>()
                         {

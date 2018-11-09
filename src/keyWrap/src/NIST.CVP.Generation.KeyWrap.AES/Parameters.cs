@@ -13,7 +13,7 @@ namespace NIST.CVP.Generation.KeyWrap.AES
         public int[] KeyLen { get; set; }
         public string[] Direction { get; set; }
         public string[] KwCipher { get; set; }
-        public MathDomain PtLen { get; set; }
+        public MathDomain PayloadLen { get; set; }
         public int[] KeyingOption { get; set; } 
     }
 }

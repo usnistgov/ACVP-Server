@@ -301,14 +301,14 @@ namespace NIST.CVP.Generation.AES_XPN.Tests
             {
                 return new Parameters()
                 {
-                    aadLen = _aadLen,
+                    AadLen = _aadLen,
                     Algorithm = _algorithm,
-                    ivGen = _ivGen,
-                    ivGenMode = _ivGenMode,
+                    IvGen = _ivGen,
+                    IvGenMode = _ivGenMode,
                     SaltGen = _saltGen,
                     KeyLen = _keyLen,
                     Direction = _mode,
-                    PtLen = _ptLen,
+                    PayloadLen = _ptLen,
                     TagLen = _tagLen
                 };
             }

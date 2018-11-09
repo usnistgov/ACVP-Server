@@ -72,7 +72,7 @@ namespace NIST.CVP.Generation.AES_XPN
 
         private void ValidateResultPresent(TestCase suppliedResult, List<string> errors)
         {
-            if (_testGroup.IVGeneration.ToLower() == "internal")
+            if (_testGroup.IvGeneration.ToLower() == "internal")
             {
                 if (suppliedResult.IV == null)
                 {

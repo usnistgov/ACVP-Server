@@ -25,7 +25,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
             TestGroup testGroup = new TestGroup()
             {
                 Function = direction,
-                IVGeneration = ivGen
+                IvGeneration = ivGen
             };
 
             var subject = new TestCaseGeneratorFactory(null);
@@ -40,7 +40,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
             TestGroup testGroup = new TestGroup()
             {
                 Function = string.Empty,
-                IVGeneration = string.Empty
+                IvGeneration = string.Empty
             };
 
             var subject = new TestCaseGeneratorFactory(null);

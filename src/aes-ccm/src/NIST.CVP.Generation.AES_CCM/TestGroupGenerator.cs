@@ -33,7 +33,7 @@ namespace NIST.CVP.Generation.AES_CCM
             KeyLens = parameters.KeyLen;
 
             // (max PT len value / 8) + 1 gives all possible values 0-32.
-            PtLens = parameters.PtLen.GetValues(ParameterValidator.VALID_MAX_PT / 8 + 1).ToArray();
+            PtLens = parameters.PayloadLen.GetValues(ParameterValidator.VALID_MAX_PT / 8 + 1).ToArray();
 
             NonceLens = parameters.IvLen.GetValues(ParameterValidator.VALID_NONCE_LENGTHS.Length).ToArray();
 
@@ -102,7 +102,7 @@ namespace NIST.CVP.Generation.AES_CCM
                                     InternalTestType = testType.ToString(),
                                     KeyLength = keyLen,
                                     AADLength = aadLen,
-                                    PTLength = ptLen,
+                                    PayloadLength = ptLen,
                                     IVLength = nonceLen,
                                     TagLength = tagLen,
                                     GroupReusesKeyForTestCases = true
@@ -149,7 +149,7 @@ namespace NIST.CVP.Generation.AES_CCM
                         InternalTestType = testType.ToString(),
                         KeyLength = keyLen,
                         AADLength = aadLen,
-                        PTLength = ptLen,
+                        PayloadLength = ptLen,
                         IVLength = nonceLen,
                         TagLength = tagLen,
                         GroupReusesKeyForTestCases = true,
@@ -171,7 +171,7 @@ namespace NIST.CVP.Generation.AES_CCM
                         InternalTestType = testType.ToString(),
                         KeyLength = keyLen,
                         AADLength = 65536,
-                        PTLength = ptLen,
+                        PayloadLength = ptLen,
                         IVLength = nonceLen,
                         TagLength = tagLen,
                         GroupReusesKeyForTestCases = true,
@@ -216,7 +216,7 @@ namespace NIST.CVP.Generation.AES_CCM
                         InternalTestType = testType.ToString(),
                         KeyLength = keyLen,
                         AADLength = aadLen,
-                        PTLength = ptLen,
+                        PayloadLength = ptLen,
                         IVLength = nonceLen,
                         TagLength = tagLen,
                         GroupReusesKeyForTestCases = true
@@ -256,7 +256,7 @@ namespace NIST.CVP.Generation.AES_CCM
                         InternalTestType = testType.ToString(),
                         KeyLength = keyLen,
                         AADLength = aadLen,
-                        PTLength = ptLen,
+                        PayloadLength = ptLen,
                         IVLength = nonceLen,
                         TagLength = tagLen,
                         GroupReusesKeyForTestCases = true,
@@ -301,7 +301,7 @@ namespace NIST.CVP.Generation.AES_CCM
                         InternalTestType = testType.ToString(),
                         KeyLength = keyLen,
                         AADLength = aadLen,
-                        PTLength = ptLen,
+                        PayloadLength = ptLen,
                         IVLength = nonceLen,
                         TagLength = tagLen,
                         GroupReusesKeyForTestCases = true,

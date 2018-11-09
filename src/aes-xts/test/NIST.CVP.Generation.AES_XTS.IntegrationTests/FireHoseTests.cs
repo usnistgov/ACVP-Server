@@ -70,8 +70,8 @@ namespace NIST.CVP.Generation.AES_XTS.IntegrationTests
                         }
 
                         // Shorten plaintext and ciphertext to the length the group specifies
-                        testCase.PlainText = testCase.PlainText.MSBSubstring(0, testGroup.PtLen);
-                        testCase.CipherText = testCase.CipherText.MSBSubstring(0, testGroup.PtLen);
+                        testCase.PlainText = testCase.PlainText.MSBSubstring(0, testGroup.PayloadLen);
+                        testCase.CipherText = testCase.CipherText.MSBSubstring(0, testGroup.PayloadLen);
 
                         if (testGroup.Direction.ToLower() == "encrypt")
                         {

@@ -86,11 +86,11 @@ namespace NIST.CVP.Generation.AES_XPN.IntegrationTests
                 Mode = Mode,
                 Direction = ParameterValidator.VALID_DIRECTIONS,
                 KeyLen = new int[] { ParameterValidator.VALID_KEY_SIZES.First() },
-                PtLen = new MathDomain().AddSegment(new ValueDomainSegment(0)),
-                ivGen = ParameterValidator.VALID_IV_GEN[1],
-                ivGenMode = ParameterValidator.VALID_IV_GEN_MODE[1],
+                PayloadLen = new MathDomain().AddSegment(new ValueDomainSegment(0)),
+                IvGen = ParameterValidator.VALID_IV_GEN[1],
+                IvGenMode = ParameterValidator.VALID_IV_GEN_MODE[1],
                 SaltGen = ParameterValidator.VALID_SALT_GEN[1],
-                aadLen = new MathDomain().AddSegment(new ValueDomainSegment(0)),
+                AadLen = new MathDomain().AddSegment(new ValueDomainSegment(0)),
                 TagLen = new MathDomain().AddSegment(new ValueDomainSegment(64)),
                 IsSample = false
             };
@@ -105,13 +105,13 @@ namespace NIST.CVP.Generation.AES_XPN.IntegrationTests
                 Algorithm = "AES-XPN",
                 Direction = ParameterValidator.VALID_DIRECTIONS,
                 KeyLen = ParameterValidator.VALID_KEY_SIZES,
-                PtLen = new MathDomain()
+                PayloadLen = new MathDomain()
                     .AddSegment(new ValueDomainSegment(128))
                     .AddSegment(new ValueDomainSegment(256)),
-                ivGen = ParameterValidator.VALID_IV_GEN[1],
-                ivGenMode = ParameterValidator.VALID_IV_GEN_MODE[1],
+                IvGen = ParameterValidator.VALID_IV_GEN[1],
+                IvGenMode = ParameterValidator.VALID_IV_GEN_MODE[1],
                 SaltGen = ParameterValidator.VALID_SALT_GEN[1],
-                aadLen = new MathDomain()
+                AadLen = new MathDomain()
                     .AddSegment(new ValueDomainSegment(128))
                     .AddSegment(new ValueDomainSegment(120)),
                 TagLen = new MathDomain()

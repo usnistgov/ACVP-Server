@@ -47,7 +47,7 @@ namespace NIST.CVP.Generation.AES_CCM
                 case "payload":
                 case "plaintext":
                 case "pt":
-                    PlainText= new BitString(value);
+                    PlainText = new BitString(value);
                     return true;
                 case "ciphertext":
                 case "ct":

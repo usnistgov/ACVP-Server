@@ -92,7 +92,7 @@ namespace NIST.CVP.Generation.AES_XTS.Tests
                 KeyLen = keyLen,
                 Direction = direction,
                 TweakModes = tweakModes,
-                PtLen = ptLen
+                PayloadLen = ptLen
             };
 
             _subject = new TestGroupGenerator();
