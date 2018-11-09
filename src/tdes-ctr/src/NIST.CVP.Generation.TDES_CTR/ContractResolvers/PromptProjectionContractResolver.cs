@@ -71,7 +71,7 @@ namespace NIST.CVP.Generation.TDES_CTR.ContractResolvers
                     };
             }
 
-            if (jsonProperty.UnderlyingName == nameof(TestCase.PayloadLength))
+            if (jsonProperty.UnderlyingName == nameof(TestCase.PayloadLen))
             {
                 return jsonProperty.ShouldSerialize =
                     instance =>

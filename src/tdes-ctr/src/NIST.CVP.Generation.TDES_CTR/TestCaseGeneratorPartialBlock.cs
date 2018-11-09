@@ -71,7 +71,7 @@ namespace NIST.CVP.Generation.TDES_CTR
 
                 return new TestCaseGenerateResponse<TestGroup, TestCase>(new TestCase
                 {
-                    PayloadLength = payloadLen,
+                    PayloadLen = payloadLen,
                     Key = result.Key,
                     Iv = result.Iv,
                     PlainText = result.PlainText,

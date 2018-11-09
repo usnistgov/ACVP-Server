@@ -28,7 +28,7 @@ namespace NIST.CVP.Generation.TDES_CTR.IntegrationTests
                 KeyingOption = new[] { 1, 2 },
                 IncrementalCounter = false,
                 OverflowCounter = false,
-                PayloadLength = new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 8, 64, 8)),
+                PayloadLen = new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 8, 64, 8)),
                 IsSample = true
             };
 
@@ -45,7 +45,7 @@ namespace NIST.CVP.Generation.TDES_CTR.IntegrationTests
                 KeyingOption = new[] { 1, 2 },
                 IncrementalCounter = false,
                 OverflowCounter = true,
-                PayloadLength = new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 1, 64)),
+                PayloadLen = new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 1, 64)),
                 IsSample = true
             };
 

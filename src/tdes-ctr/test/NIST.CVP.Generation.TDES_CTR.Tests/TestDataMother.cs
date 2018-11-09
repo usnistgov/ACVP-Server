@@ -43,7 +43,7 @@ namespace NIST.CVP.Generation.TDES_CTR.Tests
                         CipherText = new BitString("7EADDC"),
                         Key = new BitString("9998ADCD9998ADCD9998ADCD9998ADCD9998ADCD9998ADCD"),
                         Iv = new BitString("12314143"),
-                        PayloadLength = 10,
+                        PayloadLen = 10,
                         TestCaseId = testId
                     };
                     tests.Add(tc);
