@@ -67,7 +67,7 @@ namespace NIST.CVP.Generation.AES_GCM.Parsers
                     if (currentGroup == null || inCases)
                     {
                         inCases = false;
-                        currentGroup = new TestGroup {Function = direction, IVGeneration = ivGeneration};
+                        currentGroup = new TestGroup {Function = direction, IvGeneration = ivGeneration};
                         groups.Add(currentGroup);
                     }
                     workingLine = workingLine.Replace("[", "").Replace("]", "");

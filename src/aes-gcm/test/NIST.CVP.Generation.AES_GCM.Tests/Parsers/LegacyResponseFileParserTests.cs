@@ -187,7 +187,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests.Parsers
             var result = subject.Parse(path);
             Assume.That(result != null);
             var vectorSet = result.ParsedObject;
-            Assert.IsTrue(vectorSet.TestGroups.All(g => ((TestGroup)g).IVGeneration == "internal"));
+            Assert.IsTrue(vectorSet.TestGroups.All(g => ((TestGroup)g).IvGeneration == "internal"));
         }
 
         [Test]
@@ -198,7 +198,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests.Parsers
             var result = subject.Parse(path);
             Assume.That(result != null);
             var vectorSet = result.ParsedObject;
-            Assert.IsTrue(vectorSet.TestGroups.All(g => ((TestGroup)g).IVGeneration == "external"));
+            Assert.IsTrue(vectorSet.TestGroups.All(g => ((TestGroup)g).IvGeneration == "external"));
         }
     }
 }

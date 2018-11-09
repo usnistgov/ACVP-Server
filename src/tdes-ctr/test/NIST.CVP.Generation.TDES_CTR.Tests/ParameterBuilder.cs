@@ -78,7 +78,7 @@ namespace NIST.CVP.Generation.TDES_CTR.Tests
                 Mode = _mode,
                 KeyingOption = _keyingOptions,
                 Direction = _direction,
-                DataLength = _dataLen,
+                PayloadLength = _dataLen,
                 IncrementalCounter = _incrementalCounter,
                 OverflowCounter = _overflowCounter
             };

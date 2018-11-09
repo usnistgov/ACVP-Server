@@ -39,7 +39,7 @@ namespace NIST.CVP.Generation.AES_CTR
             // Only do this once as a way to make sure nothing changes
             if (!_sizesSet)
             {
-                _validSizes = GetValidSizes(group.DataLength);
+                _validSizes = GetValidSizes(group.PayloadLength);
 
                 // Must be set here because it depends on group information
                 NumberOfTestCasesToGenerate = _casesPerSize * _validSizes.Count;
@@ -53,13 +53,13 @@ namespace NIST.CVP.Generation.AES_CTR
 
             _curCasePerSizeIndex++;
 
-            var ctLen = _validSizes[_curSizeIndex];
+            var payloadLen = _validSizes[_curSizeIndex];
 
             // This is a little hacky... but single block CTR is the same as OFB. So we can get past the awkward factory
             // TODO fix this up
             var param = new AesParameters
             {
-                DataLength = ctLen,
+                DataLength = payloadLen,
                 KeyLength = group.KeyLength,
                 Direction = group.Direction,
                 Mode = BlockCipherModesOfOperation.Ofb
@@ -71,6 +71,7 @@ namespace NIST.CVP.Generation.AES_CTR
 
                 return new TestCaseGenerateResponse<TestGroup, TestCase>(new TestCase
                 {
+                    PayloadLength = payloadLen,
                     Key = result.Key,
                     IV = result.Iv,
                     PlainText = result.PlainText,

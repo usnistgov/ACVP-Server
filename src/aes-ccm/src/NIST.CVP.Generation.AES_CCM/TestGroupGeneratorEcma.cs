@@ -33,7 +33,7 @@ namespace NIST.CVP.Generation.AES_CCM
                 {
                     Function = direction,
                     KeyLength = KEY_LEN,
-                    PTLength = PT_LEN,
+                    PayloadLength = PT_LEN,
                     TagLength = TAG_LEN,
                     InternalTestType = "ECMA-AFT",
                     AADLength = AAD_MAX_LEN
@@ -45,7 +45,7 @@ namespace NIST.CVP.Generation.AES_CCM
                 {
                     Function = direction,
                     KeyLength = KEY_LEN,
-                    PTLength = PT_LEN,
+                    PayloadLength = PT_LEN,
                     TagLength = TAG_LEN,
                     InternalTestType = "ECMA-VADT",
                     AADLengths = aadLens

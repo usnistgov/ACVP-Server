@@ -17,7 +17,7 @@ namespace NIST.CVP.Generation.AES_CTR
         public int[] KeyLen { get; set; }
         public string[] Direction { get; set; }
 
-        public MathDomain DataLength { get; set; }
+        public MathDomain PayloadLen { get; set; }
         public bool OverflowCounter { get; set; }
         public bool IncrementalCounter { get; set; }
     }

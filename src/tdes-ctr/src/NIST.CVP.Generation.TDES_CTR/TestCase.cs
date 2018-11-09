@@ -14,8 +14,8 @@ namespace NIST.CVP.Generation.TDES_CTR
 
         public bool Deferred { get; set; }
 
-        [JsonProperty(PropertyName = "dataLen")]
-        public int Length { get; set; }
+        [JsonProperty(PropertyName = "payloadLen")]
+        public int PayloadLength { get; set; }
 
         [JsonProperty(PropertyName = "pt")]
         public BitString PlainText { get; set; }

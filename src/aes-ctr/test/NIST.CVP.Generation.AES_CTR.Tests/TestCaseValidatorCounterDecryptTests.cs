@@ -88,7 +88,7 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
             var suppliedTestCase = new TestCase
             {
                 Key = new BitString(128),
-                Length = 256,
+                PayloadLength = 256,
                 PlainText = new BitString(256),
                 CipherText = new BitString(256)
             };
@@ -112,7 +112,7 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
             var suppliedTestCase = new TestCase
             {
                 Key = new BitString(128),
-                Length = 256,
+                PayloadLength = 256,
                 PlainText = new BitString(256),
                 CipherText = new BitString(256),
             };
@@ -146,7 +146,7 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
             var suppliedTestCase = new TestCase
             {
                 Key = new BitString(128),
-                Length = 256,
+                PayloadLength = 256,
                 PlainText = new BitString(256),
                 CipherText = new BitString(256),
             };
@@ -180,7 +180,7 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
             var suppliedTestCase = new TestCase
             {
                 Key = new BitString(128),
-                Length = 256,
+                PayloadLength = 256,
                 PlainText = new BitString(256),
                 CipherText = new BitString(256),
             };
@@ -214,7 +214,7 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
             var suppliedTestCase = new TestCase
             {
                 Key = new BitString(128),
-                Length = 128 * 4,
+                PayloadLength = 128 * 4,
                 PlainText = new BitString(128 * 4),
                 CipherText = new BitString(128 * 4)
             };
@@ -250,7 +250,7 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
             var suppliedTestCase = new TestCase
             {
                 Key = new BitString(128),
-                Length = 128 * 6,
+                PayloadLength = 128 * 6,
                 PlainText = new BitString(128 * 6),
                 CipherText = new BitString(128 * 6),
             };
@@ -307,7 +307,7 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
             {
                 PlainText = new BitString(128),
                 Key = new BitString(128),
-                Length = 128,
+                PayloadLength = 128,
                 CipherText = new BitString(128)
             };
         }

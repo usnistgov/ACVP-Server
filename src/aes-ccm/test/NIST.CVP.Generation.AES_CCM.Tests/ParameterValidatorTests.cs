@@ -122,7 +122,7 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
         public void ShouldReturnErrorWithInvalidModulusPtLen()
         {
             Parameters p = new ParameterBuilder().Build();
-            p.PtLen = new MathDomain().AddSegment(new ValueDomainSegment(7));
+            p.PayloadLen = new MathDomain().AddSegment(new ValueDomainSegment(7));
 
             ParameterValidator subject = new ParameterValidator();
             var result = subject.Validate(p);

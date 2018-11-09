@@ -83,7 +83,7 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
 
                 KeyLen = _keyLen,
                 IvLen = _nonceLen,
-                PtLen = _ptLen,
+                PayloadLen = _ptLen,
                 AadLen = _aadLen,
                 TagLen = _tagLen
             };

@@ -11,7 +11,7 @@ namespace NIST.CVP.Generation.AES_CCM
         public bool IsSample { get; set; }
         public string[] Conformances { get; set; } = { };
         public int[] KeyLen { get; set; }
-        public MathDomain PtLen { get; set; }
+        public MathDomain PayloadLen { get; set; }
         public MathDomain IvLen { get; set; }
         public MathDomain AadLen { get; set; }
         public MathDomain TagLen { get; set; }

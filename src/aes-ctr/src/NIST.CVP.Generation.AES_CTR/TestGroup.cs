@@ -19,7 +19,7 @@ namespace NIST.CVP.Generation.AES_CTR
 
         // Properties for specific groups
         [JsonIgnore]
-        public MathDomain DataLength { get; set; }
+        public MathDomain PayloadLength { get; set; }
 
         // This is a vectorset / IUT property but it needs to be defined somewhere other than Parameter.cs
         [JsonProperty(PropertyName = "incremental")]

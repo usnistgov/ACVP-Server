@@ -18,7 +18,7 @@ namespace NIST.CVP.Generation.KeyWrap.AES.ContractResolvers
                 nameof(TestGroup.TestType),
                 nameof(TestGroup.KeyLength),
                 nameof(TestGroup.KwCipher),
-                nameof(TestGroup.PtLen),
+                nameof(TestGroup.PayloadLen),
                 nameof(TestGroup.Direction),
             };
 

@@ -12,7 +12,7 @@
     "encrypt",
     "decrypt"
   ],
-  "ptLen": [
+  "payloadLen": [
     {
       "min": 128,
       "max": 65536,

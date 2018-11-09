@@ -49,7 +49,7 @@ namespace NIST.CVP.Orleans.Grains.Aead
             var flags = new BitString("59");
             var nonce = _entropyProvider.GetEntropy(13 * 8);
             var aadLen = MsbLsbConversionHelpers.ReverseByteOrder(BitString.To16BitString((short) ((_param.AadLength - (14 * 8)) / 8)).ToBytes());
-            var dataLen = BitString.To16BitString((short) (_param.DataLength / 8)).ToBytes();
+            var dataLen = BitString.To16BitString((short) (_param.PayloadLength / 8)).ToBytes();
 
             var aad = new BitString("581C")
                 .ConcatenateBits(nonce.Substring(2 * 8, 2 * 8))
@@ -66,7 +66,7 @@ namespace NIST.CVP.Orleans.Grains.Aead
 
             var fullParams = new AeadResult
             {
-                PlainText = _entropyProvider.GetEntropy(_param.DataLength),
+                PlainText = _entropyProvider.GetEntropy(_param.PayloadLength),
                 Key = _entropyProvider.GetEntropy(_param.KeyLength),
                 Iv = nonce,
                 Aad = aad

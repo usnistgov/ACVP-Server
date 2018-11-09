@@ -1,4 +1,5 @@
 {
+  "vsId": 0,
   "algorithm": "AES-CCM",
   "mode": "ECMA",
   "isSample": false,
@@ -8,7 +9,7 @@
   "keyLen": [
     128
   ],
-  "ptLen": [
+  "payloadLen": [
     {
       "min": 112,
       "max": 32760,

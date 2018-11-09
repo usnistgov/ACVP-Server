@@ -22,7 +22,7 @@ namespace NIST.CVP.Generation.TDES_CTR
         public int[] KeyingOption { get; set; }
         public string[] Direction { get; set; }
 
-        public MathDomain DataLength { get; set; }
+        public MathDomain PayloadLength { get; set; }
         public bool OverflowCounter { get; set; }
         public bool IncrementalCounter { get; set; }
     }

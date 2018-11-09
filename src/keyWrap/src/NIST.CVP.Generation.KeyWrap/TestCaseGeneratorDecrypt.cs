@@ -25,7 +25,7 @@ namespace NIST.CVP.Generation.KeyWrap
         {
             var param = new KeyWrapParameters
             {
-                DataLength = group.PtLen,
+                DataLength = group.PayloadLen,
                 Direction = group.Direction,
                 KeyLength = group.KeyLength,
                 KeyWrapType = group.KeyWrapType,

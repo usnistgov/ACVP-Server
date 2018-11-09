@@ -79,7 +79,7 @@ namespace NIST.CVP.Generation.AES_CCM.Parsers
                             TestType = file.Contains("MCT") ? "MCT" : string.Empty,
                             TagLength = tLen * 8,
                             AADLength = aLen * 8,
-                            PTLength = pLen * 8,
+                            PayloadLength = pLen * 8,
                             IVLength = nLen * 8
                         };
                         groups.Add(currentGroup);
@@ -146,7 +146,7 @@ namespace NIST.CVP.Generation.AES_CCM.Parsers
                     {
                         currentTestCase.AAD = new BitString(0);
                     }
-                    if (currentGroup.PTLength == 0)
+                    if (currentGroup.PayloadLength == 0)
                     {
                         currentTestCase.PlainText = new BitString(0);
                     }

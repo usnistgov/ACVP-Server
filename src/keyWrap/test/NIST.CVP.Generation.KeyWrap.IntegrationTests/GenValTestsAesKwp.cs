@@ -61,7 +61,7 @@ namespace NIST.CVP.Generation.KeyWrap.IntegrationTests
                 Direction = ParameterValidator.VALID_DIRECTIONS,
                 KwCipher = ParameterValidator.VALID_KWCIPHER,
                 KeyLen = new [] { 128 },
-                PtLen = new MathDomain()
+                PayloadLen = new MathDomain()
                     .AddSegment(new RangeDomainSegment(new Random800_90(), 8, 64, 8))
             };
 
@@ -77,7 +77,7 @@ namespace NIST.CVP.Generation.KeyWrap.IntegrationTests
                 Direction = ParameterValidator.VALID_DIRECTIONS,
                 KwCipher = ParameterValidator.VALID_KWCIPHER,
                 KeyLen = ParameterValidator.VALID_KEY_SIZES,
-                PtLen = new MathDomain()
+                PayloadLen = new MathDomain()
                     .AddSegment(new RangeDomainSegment(new Random800_90(), 8, 4096, 8))
             };
 

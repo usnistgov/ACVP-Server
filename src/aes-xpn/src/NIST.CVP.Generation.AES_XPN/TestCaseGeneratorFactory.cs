@@ -16,7 +16,7 @@ namespace NIST.CVP.Generation.AES_XPN
         public ITestCaseGeneratorAsync<TestGroup, TestCase> GetCaseGenerator(TestGroup testGroup)
         {
             var direction = testGroup.Function.ToLower();
-            var ivGen = testGroup.IVGeneration.ToLower();
+            var ivGen = testGroup.IvGeneration.ToLower();
             var saltGen = testGroup.SaltGen.ToLower();
             if (direction == "encrypt")
             {

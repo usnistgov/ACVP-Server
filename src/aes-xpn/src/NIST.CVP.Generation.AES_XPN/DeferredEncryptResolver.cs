@@ -19,7 +19,7 @@ namespace NIST.CVP.Generation.AES_XPN
         public async Task<AeadResult> CompleteDeferredCryptoAsync(TestGroup testGroup, TestCase serverTestCase, TestCase iutTestCase)
         {
             var iv = serverTestCase.IV.GetDeepCopy();
-            if (testGroup.IVGeneration.Equals("internal", StringComparison.OrdinalIgnoreCase))
+            if (testGroup.IvGeneration.Equals("internal", StringComparison.OrdinalIgnoreCase))
             {
                 iv = iutTestCase.IV.GetDeepCopy();
             }

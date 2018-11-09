@@ -40,7 +40,7 @@ namespace NIST.CVP.Generation.KeyWrap.AES
 
                 case "ptlen":
                 case "plaintext length":
-                    PtLen = intVal;
+                    PayloadLen = intVal;
                     return true;
             }
 

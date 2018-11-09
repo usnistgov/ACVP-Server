@@ -91,7 +91,7 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
             var subject = new TestGroup();
             var result = subject.SetString(name, "13");
             Assert.IsTrue(result);
-            Assert.AreEqual(13, subject.PTLength);
+            Assert.AreEqual(13, subject.PayloadLength);
         }
     }
 }

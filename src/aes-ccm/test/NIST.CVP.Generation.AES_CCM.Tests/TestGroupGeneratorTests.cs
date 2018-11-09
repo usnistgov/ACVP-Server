@@ -121,7 +121,7 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
                 Algorithm = "AES CCM",
                 KeyLen = keyLen,
                 AadLen = aadLen,
-                PtLen = ptLen,
+                PayloadLen = ptLen,
                 IvLen = ivLen,
                 TagLen = tagLen
             };
@@ -164,7 +164,7 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
                 Algorithm = "AES CCM",
                 KeyLen = keyLen,
                 AadLen = aadLen,
-                PtLen = ptLen,
+                PayloadLen = ptLen,
                 IvLen = ivLen,
                 TagLen = tagLen
             };
@@ -209,7 +209,7 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
                 Algorithm = "AES CCM",
                 KeyLen = keyLen,
                 AadLen = aadLen,
-                PtLen = ptLen,
+                PayloadLen = ptLen,
                 IvLen = ivLen,
                 TagLen = tagLen
             };
@@ -250,7 +250,7 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
                 Algorithm = "AES CCM",
                 KeyLen = keyLen,
                 AadLen = aadLen,
-                PtLen = ptLen,
+                PayloadLen = ptLen,
                 IvLen = ivLen,
                 TagLen = tagLen
             };
@@ -294,7 +294,7 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
                 Algorithm = "AES CCM",
                 KeyLen = keyLen,
                 AadLen = aadLen,
-                PtLen = ptLen,
+                PayloadLen = ptLen,
                 IvLen = ivLen,
                 TagLen = tagLen
             };

@@ -64,7 +64,7 @@ namespace NIST.CVP.Generation.AES_XTS.IntegrationTests
                 Mode = Mode,
                 KeyLen = new[] { 128 },
                 Direction = new[] { "encrypt", "decrypt" },
-                PtLen = new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 128, 512)),
+                PayloadLen = new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 128, 512)),
                 TweakModes = new[] { "hex", "number" },
                 IsSample = false
             };
@@ -80,7 +80,7 @@ namespace NIST.CVP.Generation.AES_XTS.IntegrationTests
                 Mode = Mode,
                 KeyLen = new[] { 128, 256 },
                 Direction = new[] { "encrypt", "decrypt" },
-                PtLen = new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 128, 65536)),
+                PayloadLen = new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 128, 65536)),
                 TweakModes = new[] { "hex", "number" },
                 IsSample = true
             };

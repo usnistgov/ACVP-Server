@@ -24,12 +24,12 @@ namespace NIST.CVP.Generation.AES_XPN
         {
             var param = new AeadParameters
             {
-                DataLength = group.PTLength,
+                PayloadLength = group.PayloadLength,
                 KeyLength = group.KeyLength,
-                AadLength = group.AADLength,
+                AadLength = group.AadLength,
                 SaltLength = group.SaltLength,
                 TagLength = group.TagLength,
-                IvLength = group.IVLength,
+                IvLength = group.IvLength,
                 CouldFail = true
             };
 

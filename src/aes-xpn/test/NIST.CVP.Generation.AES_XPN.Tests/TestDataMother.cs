@@ -21,12 +21,12 @@ namespace NIST.CVP.Generation.AES_XPN.Tests
             {
                 var tg = new TestGroup
                 {
-                    AADLength = 16 + groupIdx * 2,
+                    AadLength = 16 + groupIdx * 2,
                     Function = direction,
                     KeyLength = 256 + groupIdx * 2,
-                    PTLength = 256 + groupIdx * 2,
+                    PayloadLength = 256 + groupIdx * 2,
                     TagLength = 16 + groupIdx * 2,
-                    IVGeneration = ivGen,
+                    IvGeneration = ivGen,
                     SaltGen = saltGen,
                     TestType = "AFT"
                 };

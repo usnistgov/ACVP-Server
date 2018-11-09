@@ -36,7 +36,7 @@ namespace NIST.CVP.Orleans.Grains.Aead
             await Notify(new AeadResult
             {
                 Aad = _rand.GetRandomBitString(_param.AadLength),
-                PlainText = _rand.GetRandomBitString(_param.DataLength),
+                PlainText = _rand.GetRandomBitString(_param.PayloadLength),
                 Key = _rand.GetRandomBitString(_param.KeyLength),
                 Salt = _param.ExternalSalt ? _rand.GetRandomBitString(_param.SaltLength) : null,
                 Iv = _param.ExternalIv ? _rand.GetRandomBitString(_param.IvLength) : null

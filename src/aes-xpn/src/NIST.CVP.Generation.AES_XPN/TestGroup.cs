@@ -18,19 +18,19 @@ namespace NIST.CVP.Generation.AES_XPN
         [JsonProperty(PropertyName = "keyLen")]
         public int KeyLength { get; set; }
         [JsonProperty(PropertyName = "ivLen")]
-        public int IVLength => 96;
+        public int IvLength => 96;
         [JsonProperty(PropertyName = "ivGen")]
-        public string IVGeneration { get; set; }
+        public string IvGeneration { get; set; }
         [JsonProperty(PropertyName = "ivGenMode")]
-        public string IVGenerationMode { get; set; }
+        public string IvGenerationMode { get; set; }
         [JsonProperty(PropertyName = "saltLen")]
         public int SaltLength => 96;
         [JsonProperty(PropertyName = "saltGen")]
         public string SaltGen { get; set; }
-        [JsonProperty(PropertyName = "ptLen")]
-        public int PTLength { get; set; }
+        [JsonProperty(PropertyName = "payloadLen")]
+        public int PayloadLength { get; set; }
         [JsonProperty(PropertyName = "aadLen")]
-        public int AADLength { get; set; }
+        public int AadLength { get; set; }
         [JsonProperty(PropertyName = "tagLen")]
         public int TagLength { get; set; }
         public List<TestCase> Tests { get; set; } = new List<TestCase>();
@@ -54,13 +54,13 @@ namespace NIST.CVP.Generation.AES_XPN
                     KeyLength = intVal;
                     return true;
                 case "aadlen":
-                    AADLength = intVal;
+                    AadLength = intVal;
                     return true;
                 case "taglen":
                     TagLength = intVal;
                     return true;
                 case "ptlen":
-                    PTLength = intVal;
+                    PayloadLength = intVal;
                     return true;
             }
             return false;

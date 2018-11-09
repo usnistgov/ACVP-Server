@@ -21,7 +21,7 @@ namespace NIST.CVP.Generation.AES_CCM.ContractResolvers
                 nameof(TestGroup.Function),
                 nameof(TestGroup.KeyLength),
                 nameof(TestGroup.IVLength),
-                nameof(TestGroup.PTLength),
+                nameof(TestGroup.PayloadLength),
                 nameof(TestGroup.AADLength),
                 nameof(TestGroup.TagLength),
                 nameof(TestGroup.Tests)
