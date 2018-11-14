@@ -30,11 +30,13 @@ namespace NIST.CVP.Pools
         private readonly ConcurrentQueue<ResultWrapper<TResult>> _water;
         private readonly IList<JsonConverter> _jsonConverters;
         private readonly IOptions<PoolConfig> _poolConfig;
+        private readonly IOracle _oracle;
         private readonly int _maxWaterReuse;
         
-        public PoolBase(PoolConstructionParameters<TParam> param)
+        protected PoolBase(PoolConstructionParameters<TParam> param)
         {
             _poolConfig = param.PoolConfig;
+            _oracle = param.Oracle;
             DeclaredType = param.PoolProperties.PoolType.Type;
             WaterType = param.WaterType;
             _jsonConverters = param.JsonConverters;

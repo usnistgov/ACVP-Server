@@ -20,7 +20,7 @@ namespace NIST.CVP.Pools
         /// <param name="value"></param>
         /// <returns></returns>
         bool AddWater(TResult value);
-        
+
         /// <summary>
         /// Gets a value from the pool
         /// </summary>

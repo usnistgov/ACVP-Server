@@ -12,6 +12,7 @@ using Microsoft.Extensions.Options;
 using NIST.CVP.Common.Config;
 using NIST.CVP.Common.Helpers;
 using Microsoft.Extensions.DependencyInjection;
+using NIST.CVP.Crypto.Oracle.Builders;
 
 namespace NIST.CVP.PoolAPI
 {
@@ -47,7 +48,10 @@ namespace NIST.CVP.PoolAPI
             logger.Info($"PoolDirectory: {poolDirectory}");
             logger.Info("Loading pools from config file...");
             PoolManager = new PoolManager(
-                ServiceProvider.GetService<IOptions<PoolConfig>>(), poolConfigFile, poolDirectory
+                ServiceProvider.GetService<IOptions<PoolConfig>>(), 
+                new OracleBuilder().Build(), // TODO this is super not the way to do this, figure out the proper way to do DI with this "form factor" of webapi/service.
+                poolConfigFile, 
+                poolDirectory
             );
             logger.Info("Pools loaded.");
             

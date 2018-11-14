@@ -5,8 +5,8 @@
       "parameters": {
         "MessageLength": 512,
         "HashFunction": {
-          "Mode": "SHA2",
-          "DigestSize": "d256"
+          "Mode": "SHA",
+          "DigestSize": "256"
         }
       }
     },
@@ -21,8 +21,8 @@
       "parameters": {
         "MessageLength": 256,
         "HashFunction": {
-          "Mode": "SHA2",
-          "DigestSize": "d256"
+          "Mode": "SHA",
+          "DigestSize": "256"
         }
       }
     },

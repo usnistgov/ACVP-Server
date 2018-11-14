@@ -11,6 +11,7 @@ using System.Linq;
 using Microsoft.Extensions.Options;
 using Moq;
 using NIST.CVP.Common.Config;
+using NIST.CVP.Common.Oracle;
 
 namespace NIST.CVP.Pools.Tests
 {
@@ -18,6 +19,7 @@ namespace NIST.CVP.Pools.Tests
     public class PoolManagerTests
     {
         private readonly Mock<IOptions<PoolConfig>> _mockOptionsPoolConfig = new Mock<IOptions<PoolConfig>>();
+        private readonly Mock<IOracle> _mockOracle = new Mock<IOracle>();
         private readonly PoolConfig _poolConfig = new PoolConfig()
         {
             Port = 42,
@@ -35,7 +37,7 @@ namespace NIST.CVP.Pools.Tests
             _mockOptionsPoolConfig.Setup(s => s.Value).Returns(_poolConfig);
             _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\");
             _fullPath = Path.Combine(_testPath, _configFile);
-            _subject = new PoolManager(_mockOptionsPoolConfig.Object, _fullPath, _testPath);
+            _subject = new PoolManager(_mockOptionsPoolConfig.Object, _mockOracle.Object, _fullPath, _testPath);
         }
 
         [Test]
@@ -243,7 +245,7 @@ namespace NIST.CVP.Pools.Tests
         {
             var fullPath = Path.Combine(_testPath, "saveChangesConfig.json");
             
-            _subject = new PoolManager(_mockOptionsPoolConfig.Object, fullPath, _testPath);
+            _subject = new PoolManager(_mockOptionsPoolConfig.Object, _mockOracle.Object, fullPath, _testPath);
 
             // Change the pool configuration
             var prechangeConfig = _subject.GetPoolProperties().First();
@@ -268,7 +270,7 @@ namespace NIST.CVP.Pools.Tests
             _subject.SavePoolConfigs();
 
             // Reinitialize pools
-            _subject = new PoolManager(_mockOptionsPoolConfig.Object, fullPath, _testPath);
+            _subject = new PoolManager(_mockOptionsPoolConfig.Object, _mockOracle.Object, fullPath, _testPath);
             var postChangeConfig = _subject.GetPoolProperties().First();
 
             Assert.AreEqual(newConfig.MaxWaterReuse, postChangeConfig.MaxWaterReuse, "config change");
@@ -278,7 +280,7 @@ namespace NIST.CVP.Pools.Tests
             _subject.SavePoolConfigs();
 
             // Reinitialize pools
-            _subject = new PoolManager(_mockOptionsPoolConfig.Object, fullPath, _testPath);
+            _subject = new PoolManager(_mockOptionsPoolConfig.Object, _mockOracle.Object, fullPath, _testPath);
             var validateOriginalChangeConfig = _subject.GetPoolProperties().First();
 
             Assert.AreEqual(prechangeConfigCopy.MaxWaterReuse, validateOriginalChangeConfig.MaxWaterReuse, "original file check");
