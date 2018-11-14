@@ -70,6 +70,22 @@ namespace NIST.CVP.Generation.TDES_CTR.ContractResolvers
                         return false;
                     };
             }
+
+            if (jsonProperty.UnderlyingName == nameof(TestCase.PayloadLen))
+            {
+                return jsonProperty.ShouldSerialize =
+                    instance =>
+                    {
+                        GetTestCaseFromTestCaseObject(instance, out var testGroup, out var testCase);
+
+                        if (testGroup.InternalTestType.Equals("partialblock", StringComparison.OrdinalIgnoreCase))
+                        {
+                            return true;
+                        }
+
+                        return false;
+                    };
+            }
             #endregion Conditional Test Case properties
 
             return jsonProperty.ShouldSerialize = instance => false;

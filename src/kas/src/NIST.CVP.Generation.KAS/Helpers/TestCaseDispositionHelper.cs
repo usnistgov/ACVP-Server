@@ -20,7 +20,7 @@ namespace NIST.CVP.Generation.KAS.Helpers
             List<KasValTestDisposition> validityTestCaseOptions = new List<KasValTestDisposition>();
             const int numberOfTestsForValidityGroups = 25;
             const int numberOfScenariosPerType = 2;
-
+            
             // Can introduce errors/conditions into Oi, Dkm, MacData
             if (testGroup.KasMode != KasMode.NoKdfNoKc)
             {
@@ -36,24 +36,36 @@ namespace NIST.CVP.Generation.KAS.Helpers
             validityTestCaseOptions.Add(KasValTestDisposition.FailChangedTag, numberOfScenariosPerType);
 
             // Conditions based on assurances
-            if (testGroup.Function.HasFlag(KasAssurance.KeyPairGen) || testGroup.Function.HasFlag(KasAssurance.FullVal))
+            if ((testGroup.Function.HasFlag(KasAssurance.KeyPairGen) || testGroup.Function.HasFlag(KasAssurance.FullVal)) 
+                && testGroup.KeyNonceGenRequirementsIut.GeneratesStaticKeyPair)
             {
                 validityTestCaseOptions.Add(KasValTestDisposition.FailAssuranceIutStaticPublicKey, numberOfScenariosPerType);
             }
 
             if (testGroup.Function.HasFlag(KasAssurance.FullVal))
             {
-                validityTestCaseOptions.Add(KasValTestDisposition.FailAssuranceServerStaticPublicKey, numberOfScenariosPerType);
-                validityTestCaseOptions.Add(KasValTestDisposition.FailAssuranceServerEphemeralPublicKey, numberOfScenariosPerType);
+                if (testGroup.KeyNonceGenRequirementsServer.GeneratesStaticKeyPair)
+                {
+                    validityTestCaseOptions.Add(KasValTestDisposition.FailAssuranceServerStaticPublicKey,
+                        numberOfScenariosPerType);
+                }
+
+                if (testGroup.KeyNonceGenRequirementsServer.GeneratesEphemeralKeyPair)
+                {
+                    validityTestCaseOptions.Add(KasValTestDisposition.FailAssuranceServerEphemeralPublicKey,
+                        numberOfScenariosPerType);
+                }
             }
 
-            if (testGroup.Function.HasFlag(KasAssurance.PartialVal))
+            if (testGroup.Function.HasFlag(KasAssurance.PartialVal) 
+                && testGroup.KeyNonceGenRequirementsServer.GeneratesStaticKeyPair)
             {
                 validityTestCaseOptions.Add(KasValTestDisposition.FailAssuranceServerStaticPublicKey, numberOfScenariosPerType);
             }
 
-            if (testGroup.KasMode == KasMode.KdfKc || testGroup.Function.HasFlag(KasAssurance.KeyPairGen) ||
-                testGroup.Function.HasFlag(KasAssurance.KeyRegen))
+            if ((testGroup.KasMode == KasMode.KdfKc || testGroup.Function.HasFlag(KasAssurance.KeyPairGen)
+                || testGroup.Function.HasFlag(KasAssurance.KeyRegen)) 
+                && testGroup.KeyNonceGenRequirementsIut.GeneratesStaticKeyPair)
             {
                 validityTestCaseOptions.Add(KasValTestDisposition.FailAssuranceIutStaticPrivateKey, numberOfScenariosPerType);
             }

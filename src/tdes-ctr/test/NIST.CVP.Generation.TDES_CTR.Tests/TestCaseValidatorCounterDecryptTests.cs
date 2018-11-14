@@ -107,7 +107,7 @@ namespace NIST.CVP.Generation.TDES_CTR.Tests
             var suppliedTestCase = new TestCase
             {
                 Key = new BitString(64),
-                Length = 64 * 2,
+                PayloadLen = 64 * 2,
                 PlainText = new BitString(64 * 2),
                 CipherText = new BitString(64 * 2)
             };
@@ -135,7 +135,7 @@ namespace NIST.CVP.Generation.TDES_CTR.Tests
             var suppliedTestCase = new TestCase
             {
                 Key = new BitString(64),
-                Length = 64 * 2,
+                PayloadLen = 64 * 2,
                 PlainText = new BitString(64 * 2),
                 CipherText = new BitString(64 * 2)
             };
@@ -169,7 +169,7 @@ namespace NIST.CVP.Generation.TDES_CTR.Tests
             var suppliedTestCase = new TestCase
             {
                 Key = new BitString(64),
-                Length = 64 * 2,
+                PayloadLen = 64 * 2,
                 PlainText = new BitString(64 * 2),
                 CipherText = new BitString(64 * 2)
             };
@@ -203,7 +203,7 @@ namespace NIST.CVP.Generation.TDES_CTR.Tests
             var suppliedTestCase = new TestCase
             {
                 Key = new BitString(64),
-                Length = 64 * 2,
+                PayloadLen = 64 * 2,
                 PlainText = new BitString(64 * 2),
                 CipherText = new BitString(64 * 2)
             };
@@ -237,7 +237,7 @@ namespace NIST.CVP.Generation.TDES_CTR.Tests
             var suppliedTestCase = new TestCase
             {
                 Key = new BitString(64),
-                Length = 64 * 4,
+                PayloadLen = 64 * 4,
                 PlainText = new BitString(64 * 4),
                 CipherText = new BitString(64 * 4)
             };
@@ -273,7 +273,7 @@ namespace NIST.CVP.Generation.TDES_CTR.Tests
             var suppliedTestCase = new TestCase
             {
                 Key = new BitString(64),
-                Length = 64 * 6,
+                PayloadLen = 64 * 6,
                 PlainText = new BitString(64 * 6),
                 CipherText = new BitString(64 * 6)
             };
@@ -327,7 +327,7 @@ namespace NIST.CVP.Generation.TDES_CTR.Tests
             {
                 PlainText = new BitString(64),
                 Key = new BitString(64),
-                Length = 64,
+                PayloadLen = 64,
                 CipherText = new BitString(64)
             };
         }

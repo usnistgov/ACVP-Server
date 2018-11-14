@@ -28,7 +28,7 @@ namespace NIST.CVP.Generation.AES_CTR.IntegrationTests
                 Mode = Mode,
                 Direction = new[] { "encrypt" },
                 KeyLen = new[] { 128, 256 },
-                DataLength = new MathDomain().AddSegment(new RangeDomainSegment(null, 8, 128, 8)),
+                PayloadLen = new MathDomain().AddSegment(new RangeDomainSegment(null, 8, 128, 8)),
                 IsSample = true,
                 IncrementalCounter = false,
                 OverflowCounter = true
@@ -45,7 +45,7 @@ namespace NIST.CVP.Generation.AES_CTR.IntegrationTests
                 Mode = Mode,
                 Direction = ParameterValidator.VALID_DIRECTIONS,
                 KeyLen = ParameterValidator.VALID_KEY_SIZES,
-                DataLength = new MathDomain().AddSegment(new RangeDomainSegment(null, 1, 128)),
+                PayloadLen = new MathDomain().AddSegment(new RangeDomainSegment(null, 1, 128)),
                 IsSample = true,    // needs sample to complete deferred cases
                 IncrementalCounter = true,
                 OverflowCounter = true

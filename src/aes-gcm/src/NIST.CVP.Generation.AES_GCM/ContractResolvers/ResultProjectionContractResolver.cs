@@ -85,7 +85,7 @@ namespace NIST.CVP.Generation.AES_GCM.ContractResolvers
                         GetTestCaseFromTestCaseObject(instance, out var testGroup, out var testCase);
 
                         // if the test was internal IV, write out the IV in the result file
-                        if (testGroup.IVGeneration.ToLower() == "internal")
+                        if (testGroup.IvGeneration.ToLower() == "internal")
                         {
                             return true;
                         }

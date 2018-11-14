@@ -75,20 +75,20 @@ namespace NIST.CVP.Generation.KeyWrap.AES
 
         private void ValidatePtLen(Parameters parameters, List<string> errorResults)
         {
-            var segmentCheck = ValidateSegmentCountGreaterThanZero(parameters.PtLen, "PtLen Domain");
+            var segmentCheck = ValidateSegmentCountGreaterThanZero(parameters.PayloadLen, "PtLen Domain");
             errorResults.AddIfNotNullOrEmpty(segmentCheck);
             if (!string.IsNullOrEmpty(segmentCheck))
             {
                 return;
             }
 
-            var fullDomain = parameters.PtLen.GetDomainMinMax();
+            var fullDomain = parameters.PayloadLen.GetDomainMinMax();
             if (fullDomain.Minimum < MINIMUM_PT_LEN)
             {
                 errorResults.Add($"PtLen minimum must be at least {MINIMUM_PT_LEN}");
             }
 
-            var modCheck = ValidateMultipleOf(parameters.PtLen, PT_MODULUS, "PtLen Modulus");
+            var modCheck = ValidateMultipleOf(parameters.PayloadLen, PT_MODULUS, "PtLen Modulus");
             errorResults.AddIfNotNullOrEmpty(modCheck);
         }
     }

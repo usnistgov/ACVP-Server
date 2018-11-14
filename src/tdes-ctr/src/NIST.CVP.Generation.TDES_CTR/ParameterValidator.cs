@@ -24,7 +24,7 @@ namespace NIST.CVP.Generation.TDES_CTR
             result = ValidateArray(parameters.KeyingOption, VALID_KEYING_OPTIONS, "Key Sizes");
             errorResults.AddIfNotNullOrEmpty(result);
 
-            ValidateDataLength(parameters.DataLength, errorResults);
+            ValidateDataLength(parameters.PayloadLen, errorResults);
 
             if (errorResults.Count > 0)
             {

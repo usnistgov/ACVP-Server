@@ -50,13 +50,13 @@ namespace NIST.CVP.Generation.AES_XPN.Tests
 
             Parameters p = new Parameters()
             {
-                aadLen = mdAad,
+                AadLen = mdAad,
                 Algorithm = "AES-XPN",
-                ivGen = ivGen,
-                ivGenMode = ivGenMode,
+                IvGen = ivGen,
+                IvGenMode = ivGenMode,
                 KeyLen = keyLen,
                 Direction = mode,
-                PtLen = mdPt,
+                PayloadLen = mdPt,
                 TagLen = mdTag
             };
             int expectedResultCount = aadLen.Length * keyLen.Length * mode.Length * ptLen.Length * tagLen.Length;
@@ -73,7 +73,7 @@ namespace NIST.CVP.Generation.AES_XPN.Tests
             
             var result = _subject.BuildTestGroups(p).ToList();
 
-            Assert.AreEqual(p.aadLen.GetDomainMinMax().Minimum, ((TestGroup)result[0]).AADLength);
+            Assert.AreEqual(p.AadLen.GetDomainMinMax().Minimum, ((TestGroup)result[0]).AadLength);
         }
         
         [Test]
@@ -83,7 +83,7 @@ namespace NIST.CVP.Generation.AES_XPN.Tests
             
             var result = _subject.BuildTestGroups(p).ToList();
 
-            Assert.AreEqual(p.ivGen, ((TestGroup)result[0]).IVGeneration);
+            Assert.AreEqual(p.IvGen, ((TestGroup)result[0]).IvGeneration);
         }
 
         [Test]
@@ -93,7 +93,7 @@ namespace NIST.CVP.Generation.AES_XPN.Tests
             
             var result = _subject.BuildTestGroups(p).ToList();
 
-            Assert.AreEqual(p.ivGenMode, ((TestGroup)result[0]).IVGenerationMode);
+            Assert.AreEqual(p.IvGenMode, ((TestGroup)result[0]).IvGenerationMode);
         }
 
         [Test]
@@ -113,7 +113,7 @@ namespace NIST.CVP.Generation.AES_XPN.Tests
             
             var result = _subject.BuildTestGroups(p).ToList();
 
-            Assert.AreEqual(p.PtLen.GetDomainMinMax().Minimum, ((TestGroup)result[0]).PTLength);
+            Assert.AreEqual(p.PayloadLen.GetDomainMinMax().Minimum, ((TestGroup)result[0]).PayloadLength);
         }
 
         [Test]
@@ -140,13 +140,13 @@ namespace NIST.CVP.Generation.AES_XPN.Tests
         {
             return new Parameters()
             {
-                aadLen = new MathDomain().AddSegment(new ValueDomainSegment(1)),
+                AadLen = new MathDomain().AddSegment(new ValueDomainSegment(1)),
                 Algorithm = "test0",
-                ivGen = "test",
-                ivGenMode = "test2",
+                IvGen = "test",
+                IvGenMode = "test2",
                 KeyLen = new int[] { 2 },
                 Direction = new[] { "test3" },
-                PtLen = new MathDomain().AddSegment(new ValueDomainSegment(3)),
+                PayloadLen = new MathDomain().AddSegment(new ValueDomainSegment(3)),
                 TagLen = new MathDomain().AddSegment(new ValueDomainSegment(64)),
                 IsSample = false,
                 SaltGen = "test4"

@@ -24,9 +24,9 @@ namespace NIST.CVP.Generation.AES_GCM
         {
             var param = new AeadParameters
             {
-                AadLength = group.AADLength,
+                AadLength = group.AadLength,
                 KeyLength = group.KeyLength,
-                DataLength = group.PTLength,
+                PayloadLength = group.PayloadLength,
                 CouldFail = false
             };
 
@@ -38,7 +38,7 @@ namespace NIST.CVP.Generation.AES_GCM
                 {
                     // Get complete test case, we need all the information
                     param.TagLength = group.TagLength;
-                    param.IvLength = group.IVLength;
+                    param.IvLength = group.IvLength;
 
                     oracleResult = await _oracle.GetAesGcmCaseAsync(param);
                 }

@@ -20,10 +20,7 @@ namespace NIST.CVP.Crypto.Oracle.ExtensionMethods
                 case Environments.Local:
                     builder.UseLocalhostClustering();
                     break;
-                case Environments.Dev:
-                case Environments.Test:
-                case Environments.Demo:
-                case Environments.Prod:
+                default:
                     List<IPEndPoint> endpoints = new List<IPEndPoint>();
                     foreach (var endpoint in orleansConfig.OrleansNodeIps)
                     {
@@ -33,8 +30,6 @@ namespace NIST.CVP.Crypto.Oracle.ExtensionMethods
                     }
                     builder.UseStaticClustering(endpoints.ToArray());
                     break;
-                default:
-                    throw new ArgumentException($"invalid {nameof(environmentConfig)}");
             }
 
             return builder;

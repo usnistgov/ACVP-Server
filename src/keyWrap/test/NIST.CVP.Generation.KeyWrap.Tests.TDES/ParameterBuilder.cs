@@ -66,7 +66,7 @@ namespace NIST.CVP.Generation.KeyWrap.Tests.TDES
                 KeyingOption = _keyingOption,
                 Direction = _direction,
                 KwCipher = _kwCipher,
-                PtLen = _ptLen
+                PayloadLen = _ptLen
             };
         }
         

@@ -77,7 +77,7 @@ namespace NIST.CVP.Generation.KeyWrap.Tests.AES
                 Direction = _direction,
                 KwCipher = _kwCipher,
                 KeyLen = _keyLen,
-                PtLen = _ptLen
+                PayloadLen = _ptLen
             };
         }
         

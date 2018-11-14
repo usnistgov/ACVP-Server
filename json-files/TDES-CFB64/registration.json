@@ -1,4 +1,5 @@
 {
+  "vsId": 0,
   "algorithm": "TDES-CFB64",
   "mode": "",
   "isSample": false,

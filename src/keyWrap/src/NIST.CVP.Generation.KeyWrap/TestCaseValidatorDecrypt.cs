@@ -24,13 +24,13 @@ namespace NIST.CVP.Generation.KeyWrap
             var expected = new Dictionary<string, string>();
             var provided = new Dictionary<string, string>();
 
-            if (_expectedResult.TestPassed.Value)
+            if (!_expectedResult.TestPassed.Value)
             {
-                if (!suppliedResult.TestPassed.Value)
+                if (!suppliedResult.TestPassed.HasValue || suppliedResult.TestPassed.Value)
                 {
                     errors.Add("Expected tag validation failure");
-                    expected.Add(nameof(_expectedResult.TestPassed), _expectedResult.TestPassed.Value.ToString());
-                    provided.Add(nameof(suppliedResult.TestPassed), suppliedResult.TestPassed.Value.ToString());
+                    expected.Add(nameof(_expectedResult.TestPassed), false.ToString());
+                    provided.Add(nameof(suppliedResult.TestPassed), suppliedResult.TestPassed.HasValue ? true.ToString() : "null");
                 }
             }
             else

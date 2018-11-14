@@ -2,6 +2,7 @@
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Common.KAS;
 using NIST.CVP.Crypto.Common.KAS.Builders;
 using NIST.CVP.Crypto.Common.KAS.Enums;
@@ -34,6 +35,7 @@ namespace NIST.CVP.Orleans.Grains.Kas
         private readonly IKdfFactory _kdfFactory;
         private readonly INoKeyConfirmationFactory _noKeyConfirmationFactory;
         private readonly IKeyConfirmationFactory _keyConfirmationFactory;
+        private readonly IShaFactory _shaFactory;
 
         protected KasValTestGeneratorBase(
             IKasBuilder<TKasDsaAlgoAttributes, OtherPartySharedInformation<TDomainParameters, TKeyPair>, TDomainParameters, TKeyPair 
@@ -44,7 +46,8 @@ namespace NIST.CVP.Orleans.Grains.Kas
             IMacParametersBuilder macParametersBuilder,
             IKdfFactory kdfFactory,
             INoKeyConfirmationFactory noKeyConfirmationFactory,
-            IKeyConfirmationFactory keyConfirmationFactory
+            IKeyConfirmationFactory keyConfirmationFactory,
+            IShaFactory shaFactory
         )
         {
             KasBuilder = kasBuilder;
@@ -54,6 +57,7 @@ namespace NIST.CVP.Orleans.Grains.Kas
             _kdfFactory = kdfFactory;
             _noKeyConfirmationFactory = noKeyConfirmationFactory;
             _keyConfirmationFactory = keyConfirmationFactory;
+            _shaFactory = shaFactory;
         }
 
         public TKasValResult GetTest(TKasValParameters param)
@@ -169,6 +173,23 @@ namespace NIST.CVP.Orleans.Grains.Kas
 
             SetResultInformationFromKasProcessing(param, result, serverKas, iutKas, iutResult);
 
+            // Component only test with changed Z needs a rerun of the hash with a modified Z
+            if (param.KasMode == KasMode.NoKdfNoKc && param.KasValTestDisposition == KasValTestDisposition.FailChangedZ)
+            {
+                var newZ = result.Z.GetDeepCopy();
+                newZ[0] += 2;
+                var newTag = _shaFactory.GetShaInstance(param.HashFunction).HashMessage(newZ).Digest;
+
+                if (result.Tag != null)
+                {
+                    result.Tag = newTag;
+                }
+                if (result.HashZ != null)
+                {
+                    result.HashZ = newTag;
+                }
+            }
+
             // Change data for failures that do not require a rerun of functions
             if (param.KasValTestDisposition == KasValTestDisposition.FailChangedOi)
             {
@@ -196,7 +217,7 @@ namespace NIST.CVP.Orleans.Grains.Kas
                 if (result.Z[0] >= 0x10)
                 {
                     // call generate again, until getting to a zero nibble MSB for Z
-                    GetTest(param);
+                    return GetTest(param);
                 }
             }
 
@@ -207,7 +228,7 @@ namespace NIST.CVP.Orleans.Grains.Kas
                 if (result.Dkm[0] >= 0x10)
                 {
                     // call generate again, until getting to a zero nibble MSB for Z
-                    GetTest(param);
+                    return GetTest(param);
                 }
             }
 

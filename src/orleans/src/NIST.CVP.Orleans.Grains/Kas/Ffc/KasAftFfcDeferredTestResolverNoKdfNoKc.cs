@@ -22,7 +22,7 @@ namespace NIST.CVP.Orleans.Grains.Kas.Ffc
         {
         }
 
-        protected override IKas<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> GetServerKas(SchemeKeyNonceGenRequirement<FfcScheme> serverKeyRequirements, KeyAgreementRole serverRole, KeyConfirmationRole serverKcRole, MacParameters macParameters, KasAftDeferredParametersFfc param)
+        protected override IKas<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> GetServerKas(SchemeKeyNonceGenRequirement serverKeyRequirements, KeyAgreementRole serverRole, KeyConfirmationRole serverKcRole, MacParameters macParameters, KasAftDeferredParametersFfc param)
         {
             return _kasBuilder
                 .WithKeyAgreementRole(serverKeyRequirements.ThisPartyKasRole)

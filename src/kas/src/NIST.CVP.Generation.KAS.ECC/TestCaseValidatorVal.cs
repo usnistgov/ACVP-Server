@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using NIST.CVP.Common.Helpers;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Async;
 
@@ -60,7 +61,7 @@ namespace NIST.CVP.Generation.KAS.ECC
         {
             if (_expectedResult.TestPassed != suppliedResult.TestPassed)
             {
-                errors.Add($"Incorrect {nameof(suppliedResult.TestPassed)} result");
+                errors.Add($"Incorrect {nameof(suppliedResult.TestPassed)} result. Test expectation: \"{EnumHelpers.GetEnumDescriptionFromEnum(_expectedResult.TestCaseDisposition)}\"");
                 expected.Add(nameof(_expectedResult.TestPassed), _expectedResult.TestPassed.Value.ToString());
                 provided.Add(nameof(suppliedResult.TestPassed), suppliedResult.TestPassed.Value.ToString());
             }

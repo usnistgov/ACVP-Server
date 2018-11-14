@@ -40,22 +40,25 @@ namespace NIST.CVP.Generation.KeyWrap.AES.ContractResolvers
                     instance => true;
             }
 
-            if (jsonProperty.UnderlyingName.Equals("plaintext", StringComparison.OrdinalIgnoreCase))
+            #region Conditional properties
+            if (jsonProperty.UnderlyingName == nameof(TestCase.PlainText))
             {
-                return jsonProperty.ShouldSerialize = instance =>
-                {
-                    GetTestCaseFromTestCaseObject(instance, out var testGroup, out var testCase);
-
-                    if (testGroup.Direction.Equals("decrypt", StringComparison.OrdinalIgnoreCase))
+                return jsonProperty.ShouldSerialize =
+                    instance =>
                     {
-                        return true;
-                    }
+                        GetTestCaseFromTestCaseObject(instance, out var testGroup, out var testCase);
 
-                    return false;
-                };
+                        if ((testCase.TestPassed != null && testCase.TestPassed.Value) && 
+                            testGroup.Direction.Equals("decrypt", StringComparison.OrdinalIgnoreCase))
+                        {
+                            return true;
+                        }
+
+                        return false;
+                    };
             }
-
-            if (jsonProperty.UnderlyingName.Equals("ciphertext", StringComparison.OrdinalIgnoreCase))
+            
+            if (jsonProperty.UnderlyingName.Equals(nameof(TestCase.CipherText), StringComparison.OrdinalIgnoreCase))
             {
                 return jsonProperty.ShouldSerialize = instance =>
                 {
@@ -69,6 +72,7 @@ namespace NIST.CVP.Generation.KeyWrap.AES.ContractResolvers
                     return false;
                 };
             }
+            #endregion Conditional properties
 
             return jsonProperty.ShouldSerialize = instance => false;
         }

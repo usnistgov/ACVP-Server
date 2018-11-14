@@ -61,7 +61,7 @@ namespace NIST.CVP.Generation.AES_XTS.Tests
                 KeyLen = _keyLen,
                 Direction = _direction,
                 TweakModes = _tweakModes,
-                PtLen = _ptLen
+                PayloadLen = _ptLen
             };
         }
     }

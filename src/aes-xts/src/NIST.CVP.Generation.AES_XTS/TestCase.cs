@@ -1,11 +1,8 @@
-﻿using System;
-using System.Dynamic;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using NIST.CVP.Crypto.Common.Symmetric.AES;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
-using Newtonsoft.Json.Linq;
-using NIST.CVP.Crypto.Common.Symmetric.AES;
-using NIST.CVP.Generation.Core.ExtensionMethods;
+using System;
 
 namespace NIST.CVP.Generation.AES_XTS
 {
@@ -29,7 +26,7 @@ namespace NIST.CVP.Generation.AES_XTS
         public BitString PlainText { get; set; }
         [JsonProperty(PropertyName = "ct")]
         public BitString CipherText { get; set; }
-        [JsonProperty(PropertyName = "i")]
+        [JsonProperty(PropertyName = "tweakValue")]
         public BitString I { get; set; }
         [JsonProperty(PropertyName = "sequenceNumber")]
         public int SequenceNumber { get; set; }

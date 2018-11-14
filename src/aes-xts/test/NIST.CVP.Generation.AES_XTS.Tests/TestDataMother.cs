@@ -23,7 +23,7 @@ namespace NIST.CVP.Generation.AES_XTS.Tests
                 {
                     Direction = direction,
                     KeyLen = 52,
-                    PtLen = 128,
+                    PayloadLen = 128,
                     TweakMode = tweakMode,
                     TestType = "AFT"
                 };

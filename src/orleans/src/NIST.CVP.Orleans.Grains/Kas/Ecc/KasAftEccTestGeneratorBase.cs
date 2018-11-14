@@ -48,7 +48,7 @@ namespace NIST.CVP.Orleans.Grains.Kas.Ecc
             return new EccDomainParameters(_curveFactory.GetCurve(param.Curve));
         }
 
-        protected override SchemeKeyNonceGenRequirement<EccScheme> GetPartyNonceKeyGenRequirements(KasAftParametersEcc param, KeyAgreementRole partyKeyAgreementRole, KeyConfirmationRole partyKeyConfirmationRole)
+        protected override SchemeKeyNonceGenRequirement GetPartyNonceKeyGenRequirements(KasAftParametersEcc param, KeyAgreementRole partyKeyAgreementRole, KeyConfirmationRole partyKeyConfirmationRole)
         {
             return KeyGenerationRequirementsHelper.GetKeyGenerationOptionsForSchemeAndRole(
                 param.EccScheme,

@@ -29,7 +29,7 @@ namespace NIST.CVP.Generation.TDES_OFB.Tests
         [Test]
         public async Task ShouldSuccessfullyGenerate()
         {
-            var result = await _subject.GenerateAsync(new TestGroup { Function = "encrypt", NumberOfKeys = 3 }, false);
+            var result = await _subject.GenerateAsync(new TestGroup { Function = "encrypt", KeyingOption = 3 }, false);
             Assert.IsNotNull(result);
             Assert.IsTrue(result.Success);
         }
@@ -46,7 +46,7 @@ namespace NIST.CVP.Generation.TDES_OFB.Tests
             _oracle
                 .Setup(s => s.GetTdesCaseAsync(It.IsAny<TdesParameters>()))
                 .Throws(new Exception());
-            var result = await _subject.GenerateAsync(new TestGroup { Function = "encrypt", NumberOfKeys = 3 }, false);
+            var result = await _subject.GenerateAsync(new TestGroup { Function = "encrypt", KeyingOption = 3 }, false);
             Assert.IsFalse(result.Success);
         }
     }

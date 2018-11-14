@@ -50,8 +50,8 @@ namespace NIST.CVP.Generation.AES_GCM.Tests.ContractResolvers
             Assert.AreEqual(tg.Tests.Count, newTg.Tests.Count, nameof(newTg.Tests));
             Assert.AreEqual(tg.Function, newTg.Function, nameof(newTg.Function));
             Assert.AreEqual(tg.KeyLength, newTg.KeyLength, nameof(newTg.KeyLength));
-            Assert.AreEqual(tg.AADLength, newTg.AADLength, nameof(newTg.AADLength));
-            Assert.AreEqual(tg.IVLength, newTg.IVLength, nameof(newTg.IVLength));
+            Assert.AreEqual(tg.AadLength, newTg.AadLength, nameof(newTg.AadLength));
+            Assert.AreEqual(tg.IvLength, newTg.IvLength, nameof(newTg.IvLength));
             Assert.AreEqual(tg.TagLength, newTg.TagLength, nameof(newTg.TagLength));
             Assert.AreEqual(tg.TestType, newTg.TestType, nameof(newTg.TestType));
         }

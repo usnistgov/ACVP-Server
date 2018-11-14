@@ -3,6 +3,7 @@
     public enum Environments
     {
         Local,
+        Tc,
         Dev,
         Test,
         Demo,

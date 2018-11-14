@@ -33,7 +33,7 @@ namespace NIST.CVP.Generation.AES_XTS
             {
                 Mode = BlockCipherModesOfOperation.Xts,
                 Direction = group.Direction,
-                DataLength = group.PtLen,
+                DataLength = group.PayloadLen,
                 KeyLength = group.KeyLen,
                 TweakMode = group.TweakMode
             };

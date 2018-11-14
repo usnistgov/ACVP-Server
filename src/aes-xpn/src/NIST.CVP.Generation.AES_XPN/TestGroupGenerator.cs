@@ -13,21 +13,21 @@ namespace NIST.CVP.Generation.AES_XPN
         {
             var testGroups = new List<TestGroup>();
 
-            parameters.PtLen.SetRangeOptions(RangeDomainSegmentOptions.Random);
-            parameters.aadLen.SetRangeOptions(RangeDomainSegmentOptions.Random);
+            parameters.PayloadLen.SetRangeOptions(RangeDomainSegmentOptions.Random);
+            parameters.AadLen.SetRangeOptions(RangeDomainSegmentOptions.Random);
             
             var ptLengths = new List<int>();
-            ptLengths.AddRangeIfNotNullOrEmpty(parameters.PtLen.GetDomainMinMaxAsEnumerable());
+            ptLengths.AddRangeIfNotNullOrEmpty(parameters.PayloadLen.GetDomainMinMaxAsEnumerable());
             // Get block length values
             ptLengths.AddRangeIfNotNullOrEmpty(
-                parameters.PtLen
+                parameters.PayloadLen
                     .GetValues(g => g % 128 == 0 && !ptLengths.Contains(g), 2, true));
             // get non block length values
             ptLengths.AddRangeIfNotNullOrEmpty(
-                parameters.PtLen
+                parameters.PayloadLen
                     .GetValues(g => g % 8 == 0 && g % 128 != 0 && !ptLengths.Contains(g), 2, true));
 
-            var aadLengths = GetTestableValuesFromCapability(parameters.aadLen);
+            var aadLengths = GetTestableValuesFromCapability(parameters.AadLen);
 
             var tagLengths = new List<int>();
             foreach (var validTagLength in ParameterValidator.VALID_TAG_LENGTHS)
@@ -57,12 +57,12 @@ namespace NIST.CVP.Generation.AES_XPN
                                 var testGroup = new TestGroup
                                 {
                                     Function = function,
-                                    PTLength = ptLength,
+                                    PayloadLength = ptLength,
                                     KeyLength = keyLength,
-                                    AADLength = aadLength,
+                                    AadLength = aadLength,
                                     TagLength = tagLength,
-                                    IVGeneration = parameters.ivGen,
-                                    IVGenerationMode = parameters.ivGenMode,
+                                    IvGeneration = parameters.IvGen,
+                                    IvGenerationMode = parameters.IvGenMode,
                                     SaltGen = parameters.SaltGen
                                 };
                                 testGroups.Add(testGroup);

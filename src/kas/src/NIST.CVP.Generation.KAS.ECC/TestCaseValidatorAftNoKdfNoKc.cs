@@ -14,8 +14,6 @@ namespace NIST.CVP.Generation.KAS.ECC
         private readonly TestGroup _testGroup;
         private readonly IDeferredTestCaseResolverAsync<TestGroup, TestCase, KasResult> _deferredResolver;
 
-        private readonly SchemeKeyNonceGenRequirement<EccScheme> _iutKeyRequirements;
-
         public TestCaseValidatorAftNoKdfNoKc(
             TestCase workingResult, 
             TestGroup testGroup, 
@@ -24,15 +22,6 @@ namespace NIST.CVP.Generation.KAS.ECC
             _workingResult = workingResult;
             _testGroup = testGroup;
             _deferredResolver = deferredResolver;
-
-            _iutKeyRequirements =
-                KeyGenerationRequirementsHelper.GetKeyGenerationOptionsForSchemeAndRole(
-                    _testGroup.Scheme,
-                    _testGroup.KasMode,
-                    _testGroup.KasRole,
-                    _testGroup.KcRole,
-                    _testGroup.KcType
-                );
         }
 
         public int TestCaseId => _workingResult.TestCaseId;
@@ -65,7 +54,7 @@ namespace NIST.CVP.Generation.KAS.ECC
 
         private void ValidateResultPresent(TestCase suppliedResult, List<string> errors)
         {
-            if (_iutKeyRequirements.GeneratesStaticKeyPair)
+            if (_testGroup.KeyNonceGenRequirementsIut.GeneratesStaticKeyPair)
             {
                 if (suppliedResult.StaticPublicKeyIutX == 0)
                 {
@@ -77,7 +66,7 @@ namespace NIST.CVP.Generation.KAS.ECC
                 }
             }
 
-            if (_iutKeyRequirements.GeneratesEphemeralKeyPair)
+            if (_testGroup.KeyNonceGenRequirementsIut.GeneratesEphemeralKeyPair)
             {
                 if (suppliedResult.EphemeralPublicKeyIutX == 0)
                 {

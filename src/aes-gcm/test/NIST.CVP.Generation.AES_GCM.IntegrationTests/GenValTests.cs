@@ -70,11 +70,11 @@ namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
                 Algorithm = "AES-GCM",
                 Direction = ParameterValidator.VALID_DIRECTIONS,
                 KeyLen = new int[] { ParameterValidator.VALID_KEY_SIZES.First() },
-                PtLen = new MathDomain().AddSegment(new ValueDomainSegment(0)),
-                ivLen = new MathDomain().AddSegment(new ValueDomainSegment(96)),
-                ivGen = ParameterValidator.VALID_IV_GEN[0],
-                ivGenMode = ParameterValidator.VALID_IV_GEN_MODE[0],
-                aadLen = new MathDomain().AddSegment(new ValueDomainSegment(0)),
+                PayloadLen = new MathDomain().AddSegment(new ValueDomainSegment(0)),
+                IvLen = new MathDomain().AddSegment(new ValueDomainSegment(96)),
+                IvGen = ParameterValidator.VALID_IV_GEN[0],
+                IvGenMode = ParameterValidator.VALID_IV_GEN_MODE[0],
+                AadLen = new MathDomain().AddSegment(new ValueDomainSegment(0)),
                 TagLen = new MathDomain().AddSegment(new ValueDomainSegment(64)),
                 IsSample = true
             };
@@ -89,15 +89,15 @@ namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
                 Algorithm = "AES-GCM",
                 Direction = ParameterValidator.VALID_DIRECTIONS,
                 KeyLen = new int[] { ParameterValidator.VALID_KEY_SIZES.First() },
-                PtLen = new MathDomain()
+                PayloadLen = new MathDomain()
                     .AddSegment(new ValueDomainSegment(0))
                     .AddSegment(new ValueDomainSegment(120)),
-                ivLen = new MathDomain()
+                IvLen = new MathDomain()
                     .AddSegment(new ValueDomainSegment(96))
                     .AddSegment(new ValueDomainSegment(120)),
-                ivGen = ParameterValidator.VALID_IV_GEN[1],
-                ivGenMode = ParameterValidator.VALID_IV_GEN_MODE[1],
-                aadLen = new MathDomain()
+                IvGen = ParameterValidator.VALID_IV_GEN[1],
+                IvGenMode = ParameterValidator.VALID_IV_GEN_MODE[1],
+                AadLen = new MathDomain()
                     .AddSegment(new ValueDomainSegment(0))
                     .AddSegment(new ValueDomainSegment(120)),
                 TagLen = new MathDomain()

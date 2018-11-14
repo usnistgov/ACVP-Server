@@ -2,6 +2,7 @@
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Common.KAS;
 using NIST.CVP.Crypto.Common.KAS.Builders;
 using NIST.CVP.Crypto.Common.KAS.KC;
@@ -26,8 +27,9 @@ namespace NIST.CVP.Orleans.Grains.Kas.Ffc
             IMacParametersBuilder macParametersBuilder,
             IKdfFactory kdfFactory,
             INoKeyConfirmationFactory noKeyConfirmationFactory,
-            IKeyConfirmationFactory keyConfirmationFactory
-        ) : base(kasBuilder, schemeBuilder, entropyProviderFactory, macParametersBuilder, kdfFactory, noKeyConfirmationFactory, keyConfirmationFactory)
+            IKeyConfirmationFactory keyConfirmationFactory,
+            IShaFactory shaFactory
+        ) : base(kasBuilder, schemeBuilder, entropyProviderFactory, macParametersBuilder, kdfFactory, noKeyConfirmationFactory, keyConfirmationFactory, shaFactory)
         {
         }
 

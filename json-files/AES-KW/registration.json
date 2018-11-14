@@ -1,4 +1,5 @@
 {
+  "vsId": 0,
   "algorithm": "AES-KW",
   "mode": "",
   "isSample": false,
@@ -16,7 +17,7 @@
     "cipher",
     "inverse"
   ],
-  "ptLen": [
+  "payloadLen": [
     {
       "min": 128,
       "max": 4096,

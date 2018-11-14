@@ -24,7 +24,7 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
                     Function = direction,
                     IVLength = 96 + groupIdx * 2,
                     KeyLength = 256 + groupIdx * 2,
-                    PTLength = 256 + groupIdx * 2,
+                    PayloadLength = 256 + groupIdx * 2,
                     TagLength = 16 + groupIdx * 2,
                     TestType = InternalTestTypes.DecryptionVerification.ToString()
                 };

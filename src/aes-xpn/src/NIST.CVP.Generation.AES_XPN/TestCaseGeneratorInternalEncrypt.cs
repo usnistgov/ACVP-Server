@@ -24,11 +24,11 @@ namespace NIST.CVP.Generation.AES_XPN
         {
             var param = new AeadParameters
             {
-                ExternalIv = group.IVGeneration.ToLower() == "external",
+                ExternalIv = group.IvGeneration.ToLower() == "external",
                 ExternalSalt = group.SaltGen.ToLower() == "external",
-                AadLength = group.AADLength,
+                AadLength = group.AadLength,
                 KeyLength = group.KeyLength,
-                DataLength = group.PTLength,
+                PayloadLength = group.PayloadLength,
                 CouldFail = false
             };
 
@@ -40,7 +40,7 @@ namespace NIST.CVP.Generation.AES_XPN
                 {
                     // Get complete test case, we need all the information
                     param.TagLength = group.TagLength;
-                    param.IvLength = group.IVLength;
+                    param.IvLength = group.IvLength;
                     param.SaltLength = group.SaltLength;
 
                     oracleResult = await _oracle.GetAesXpnCaseAsync(param);

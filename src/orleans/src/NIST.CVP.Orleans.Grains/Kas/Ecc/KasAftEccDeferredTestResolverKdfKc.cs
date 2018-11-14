@@ -24,7 +24,7 @@ namespace NIST.CVP.Orleans.Grains.Kas.Ecc
         {
         }
 
-        protected override IKas<KasDsaAlgoAttributesEcc, OtherPartySharedInformation<EccDomainParameters, EccKeyPair>, EccDomainParameters, EccKeyPair> GetServerKas(SchemeKeyNonceGenRequirement<EccScheme> serverKeyRequirements, KeyAgreementRole serverRole, KeyConfirmationRole serverKcRole, MacParameters macParameters, KasAftDeferredParametersEcc param)
+        protected override IKas<KasDsaAlgoAttributesEcc, OtherPartySharedInformation<EccDomainParameters, EccKeyPair>, EccDomainParameters, EccKeyPair> GetServerKas(SchemeKeyNonceGenRequirement serverKeyRequirements, KeyAgreementRole serverRole, KeyConfirmationRole serverKcRole, MacParameters macParameters, KasAftDeferredParametersEcc param)
         {
             return _kasBuilder
                 .WithKeyAgreementRole(serverKeyRequirements.ThisPartyKasRole)

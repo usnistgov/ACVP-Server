@@ -22,12 +22,10 @@ namespace NIST.CVP.Generation.TDES_OFB
                         continue;
                     }
 
-                    var translatedKeyingOptionToNumberOfKeys = TdesHelpers.GetNumberOfKeysFromKeyingOption(keyingOption);
-
                     var tg = new TestGroup
                     {
                         Function = function,
-                        NumberOfKeys = translatedKeyingOptionToNumberOfKeys,
+                        KeyingOption = keyingOption,
                         TestType = TEST_TYPE,
                         InternalTestType = INTERNAL_TEST_TYPE
                     };

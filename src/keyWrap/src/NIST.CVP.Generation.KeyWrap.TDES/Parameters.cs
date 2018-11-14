@@ -15,7 +15,7 @@ namespace NIST.CVP.Generation.KeyWrap.TDES
         public int[] KeyLen { get; set; }
         public string[] Direction { get; set; }
         public string[] KwCipher { get; set; }
-        public MathDomain PtLen { get; set; }
+        public MathDomain PayloadLen { get; set; }
         /// <summary>
         /// Keying Option 1 - 3 independant key TDES
         /// Keying Option 2 - 2 Key TDES

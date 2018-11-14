@@ -22,8 +22,8 @@ namespace NIST.CVP.Generation.KeyWrap
         [JsonProperty(PropertyName = "kwCipher")]
         public string KwCipher { get; set; }
 
-        [JsonProperty(PropertyName = "ptLen")]
-        public int PtLen { get; set; }
+        [JsonProperty(PropertyName = "payloadLen")]
+        public int PayloadLen { get; set; }
 
         [JsonIgnore]
         public abstract KeyWrapType KeyWrapType { get; set; }

@@ -15,8 +15,8 @@ namespace NIST.CVP.Generation.AES_XTS
         public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
         {
             var testGroups = new List<TestGroup>();
-            parameters.PtLen.SetRangeOptions(RangeDomainSegmentOptions.Random);
-            var minMaxPtLen = parameters.PtLen.GetDomainMinMax();
+            parameters.PayloadLen.SetRangeOptions(RangeDomainSegmentOptions.Random);
+            var minMaxPtLen = parameters.PayloadLen.GetDomainMinMax();
 
             foreach (var function in parameters.Direction)
             {
@@ -26,8 +26,8 @@ namespace NIST.CVP.Generation.AES_XTS
                     {
                         var testPtLens = new List<int>();
 
-                        testPtLens.AddRange(parameters.PtLen.GetValues(w => w % 128 == 0 && w != minMaxPtLen.Maximum, 2, true));
-                        testPtLens.AddRange(parameters.PtLen.GetValues(w => w % 128 != 0 && w != minMaxPtLen.Maximum, 2, true));
+                        testPtLens.AddRange(parameters.PayloadLen.GetValues(w => w % 128 == 0 && w != minMaxPtLen.Maximum, 2, true));
+                        testPtLens.AddRange(parameters.PayloadLen.GetValues(w => w % 128 != 0 && w != minMaxPtLen.Maximum, 2, true));
                         testPtLens.Add(minMaxPtLen.Maximum);
 
                         foreach (var ptLen in testPtLens)
@@ -37,7 +37,7 @@ namespace NIST.CVP.Generation.AES_XTS
                                 Direction = function,
                                 KeyLen = keyLen,
                                 TweakMode = tweakMode,
-                                PtLen = ptLen,
+                                PayloadLen = ptLen,
                                 TestType = TEST_TYPE_LABEL
                             };
 

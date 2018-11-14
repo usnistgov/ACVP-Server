@@ -1,5 +1,7 @@
 {
+  "vsId": 0,
   "algorithm": "AES-XTS",
+  "mode": "",
   "isSample": true,
   "conformances": [],
   "keyLen": [
@@ -10,7 +12,7 @@
     "encrypt",
     "decrypt"
   ],
-  "ptLen": [
+  "payloadLen": [
     {
       "min": 128,
       "max": 65536,

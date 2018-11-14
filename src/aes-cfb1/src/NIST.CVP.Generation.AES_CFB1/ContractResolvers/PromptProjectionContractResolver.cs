@@ -37,7 +37,7 @@ namespace NIST.CVP.Generation.AES_CFB1.ContractResolvers
             var includeProperties = new[]
             {
                 nameof(TestCase.TestCaseId),
-                nameof(TestCase.DataLen),
+                nameof(TestCase.PayloadLen),
                 nameof(TestCase.IV),
                 nameof(TestCase.Key),
             };
