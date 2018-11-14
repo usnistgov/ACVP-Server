@@ -21,46 +21,6 @@
     {
       "tcId": 5,
       "result": "passed"
-    },
-    {
-      "tcId": 6,
-      "result": "passed"
-    },
-    {
-      "tcId": 7,
-      "result": "passed"
-    },
-    {
-      "tcId": 8,
-      "result": "passed"
-    },
-    {
-      "tcId": 9,
-      "result": "passed"
-    },
-    {
-      "tcId": 10,
-      "result": "passed"
-    },
-    {
-      "tcId": 11,
-      "result": "passed"
-    },
-    {
-      "tcId": 12,
-      "result": "passed"
-    },
-    {
-      "tcId": 13,
-      "result": "passed"
-    },
-    {
-      "tcId": 14,
-      "result": "passed"
-    },
-    {
-      "tcId": 15,
-      "result": "passed"
     }
   ]
 }

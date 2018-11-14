@@ -28,56 +28,6 @@
           "testPassed": false
         }
       ]
-    },
-    {
-      "tgId": 2,
-      "tests": [
-        {
-          "tcId": 6,
-          "testPassed": false
-        },
-        {
-          "tcId": 7,
-          "testPassed": true
-        },
-        {
-          "tcId": 8,
-          "testPassed": false
-        },
-        {
-          "tcId": 9,
-          "testPassed": false
-        },
-        {
-          "tcId": 10,
-          "testPassed": false
-        }
-      ]
-    },
-    {
-      "tgId": 3,
-      "tests": [
-        {
-          "tcId": 11,
-          "testPassed": false
-        },
-        {
-          "tcId": 12,
-          "testPassed": false
-        },
-        {
-          "tcId": 13,
-          "testPassed": true
-        },
-        {
-          "tcId": 14,
-          "testPassed": false
-        },
-        {
-          "tcId": 15,
-          "testPassed": false
-        }
-      ]
     }
   ]
 }
