@@ -23,21 +23,21 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen
         [JsonProperty(PropertyName = "p", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public BigInteger P
         {
-            get => DomainParams.P;
+            get => DomainParams?.P ?? 0;
             set => DomainParams.P = value;
         }
 
         [JsonProperty(PropertyName = "q", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public BigInteger Q
         {
-            get => DomainParams.Q;
+            get => DomainParams?.Q ?? 0;
             set => DomainParams.Q = value;
         }
 
         [JsonProperty(PropertyName = "g", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public BigInteger G
         {
-            get => DomainParams.G;
+            get => DomainParams?.G ?? 0;
             set => DomainParams.G = value;
         }
 

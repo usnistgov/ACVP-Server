@@ -29,21 +29,21 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen
         [JsonProperty(PropertyName = "d", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public BigInteger D
         {
-            get => KeyPair.PrivateD;
+            get => KeyPair?.PrivateD ?? 0;
             set => KeyPair.PrivateD = value;
         }
 
         [JsonProperty(PropertyName = "qx", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public BigInteger Qx
         {
-            get => KeyPair.PublicQ.X;
+            get => KeyPair?.PublicQ?.X ?? 0;
             set => KeyPair.PublicQ.X = value;
         }
 
         [JsonProperty(PropertyName = "qy", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public BigInteger Qy
         {
-            get => KeyPair.PublicQ.Y;
+            get => KeyPair?.PublicQ?.Y ?? 0;
             set => KeyPair.PublicQ.Y = value;
         }
 
