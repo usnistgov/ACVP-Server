@@ -2,6 +2,7 @@
 using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Pools.Enums;
 using System;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Pools
 {
@@ -20,6 +21,12 @@ namespace NIST.CVP.Pools
         /// <param name="value"></param>
         /// <returns></returns>
         bool AddWater(TResult value);
+
+        /// <summary>
+        /// Submit a request to fill the pool with water
+        /// </summary>
+        /// <returns></returns>
+        Task RequestWater();
 
         /// <summary>
         /// Gets a value from the pool

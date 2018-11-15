@@ -10,6 +10,7 @@ using System.IO;
 using Microsoft.Extensions.Options;
 using NIST.CVP.Common.Config;
 using NIST.CVP.Pools.Models;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Pools
 {
@@ -27,16 +28,17 @@ namespace NIST.CVP.Pools
         public IParameters Param => WaterType;
         public Type ResultType => typeof(TResult);
 
+        protected readonly IOracle Oracle;
+
         private readonly ConcurrentQueue<ResultWrapper<TResult>> _water;
         private readonly IList<JsonConverter> _jsonConverters;
         private readonly IOptions<PoolConfig> _poolConfig;
-        private readonly IOracle _oracle;
         private readonly int _maxWaterReuse;
         
         protected PoolBase(PoolConstructionParameters<TParam> param)
         {
             _poolConfig = param.PoolConfig;
-            _oracle = param.Oracle;
+            Oracle = param.Oracle;
             DeclaredType = param.PoolProperties.PoolType.Type;
             WaterType = param.WaterType;
             _jsonConverters = param.JsonConverters;
@@ -184,5 +186,7 @@ namespace NIST.CVP.Pools
             _water.Enqueue(result);
             return true;
         }
+
+        public abstract Task RequestWater();
     }
 }

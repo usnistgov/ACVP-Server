@@ -143,7 +143,7 @@ namespace NIST.CVP.Crypto.Oracle
             return await base.GetTdesMctCaseAsync(param);
         }
 
-        protected override async Task<RsaPrimeResult> GeneratePrimes(RsaKeyParameters param, IEntropyProvider entropyProvider)
+        public override async Task<RsaPrimeResult> GetRsaPrimes(RsaKeyParameters param)
         {
             // Only works with random public exponent
             var poolBoy = new PoolBoy<RsaPrimeResult>(_poolConfig);
@@ -153,7 +153,7 @@ namespace NIST.CVP.Crypto.Oracle
                 return poolResult;
             }
 
-            return await base.GeneratePrimes(param, entropyProvider);
+            return await base.GetRsaPrimes(param);
         }
     }
 }
