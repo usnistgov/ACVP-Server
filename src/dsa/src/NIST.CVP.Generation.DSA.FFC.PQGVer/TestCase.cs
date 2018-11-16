@@ -28,7 +28,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer
         {
             get
             {
-                if (ParentGroup?.GGenMode == GeneratorGenMode.Unverifiable)
+                if (ParentGroup?.GGenMode == GeneratorGenMode.Unverifiable || ParentGroup?.GGenMode == GeneratorGenMode.Canonical)
                 {
                     return new BitString(Seed.GetFullSeed(), ParentGroup.N * 3, false);
                 }

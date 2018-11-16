@@ -27,7 +27,8 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer.Tests
                     HashAlg = new HashFunction(ModeValues.SHA2, DigestSizes.d256),
                     L = 2048,
                     N = 256,
-                    TestType = "gdt"
+                    TestType = "gdt",
+                    TestGroupId = groupIdx,
                 };
                 testGroups.Add(tg);
 
