@@ -23,12 +23,6 @@ namespace NIST.CVP.Pools
         bool AddWater(TResult value);
 
         /// <summary>
-        /// Submit a request to fill the pool with water
-        /// </summary>
-        /// <returns></returns>
-        Task RequestWater();
-
-        /// <summary>
         /// Gets a value from the pool
         /// </summary>
         /// <returns></returns>
@@ -47,6 +41,11 @@ namespace NIST.CVP.Pools
         /// </summary>
         int WaterLevel { get; }
         
+        /// <summary>
+        /// The maximum amount of water allowed in a pool.
+        /// </summary>
+        int MaxWaterLevel { get; }
+
         /// <summary>
         /// The type of parameter class this pool supports
         /// </summary>
@@ -73,6 +72,12 @@ namespace NIST.CVP.Pools
         /// <param name="value"></param>
         /// <returns></returns>
         bool AddWater(IResult value);
+
+        /// <summary>
+        /// Submit a request to fill the pool with water
+        /// </summary>
+        /// <returns></returns>
+        Task RequestWater();
 
         /// <summary>
         /// Get a result from the pool

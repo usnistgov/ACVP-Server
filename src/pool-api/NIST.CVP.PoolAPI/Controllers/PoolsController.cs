@@ -6,6 +6,7 @@ using NIST.CVP.Pools;
 using NLog;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.PoolAPI.Controllers
 {
@@ -13,6 +14,8 @@ namespace NIST.CVP.PoolAPI.Controllers
     [ApiController]
     public class PoolsController : Controller
     {
+        private bool _isFillingPool = false;
+
         private readonly JsonSerializerSettings _jsonSettings = new JsonSerializerSettings
         {
             Converters = new List<JsonConverter>
@@ -104,16 +107,57 @@ namespace NIST.CVP.PoolAPI.Controllers
         [HttpPost]
         [Route("spawn")]
         // /api/pools/spawn
-        public bool SpawnJobForPool(ParameterHolder parameterHolder)
+        public async Task<bool> SpawnJobForPool([FromBody] int numberOfJobsPerPoolToQueue)
         {
+            // Already in process of filling pool
+            if (_isFillingPool)
+            {
+                return false;
+            }
+
             try
             {
-                // Spawn job
+                _isFillingPool = true;
+                List<Task> tasks = new List<Task>();
+                foreach (var pool in Program.PoolManager.Pools)
+                {
+                    // If the pool is looking a bit low
+                    if (pool.WaterLevel < pool.MaxWaterLevel)
+                    {
+                        // Don't queue more than the max allowed for the pool
+                        var potentialMaxJobs = pool.MaxWaterLevel - pool.WaterLevel;
+                        var jobsToQueue = numberOfJobsPerPoolToQueue < potentialMaxJobs
+                            ? numberOfJobsPerPoolToQueue
+                            : potentialMaxJobs;
+
+                        // Add jobs to a list of tasks
+                        if (jobsToQueue > 0)
+                        {
+                            var json = JsonConvert.SerializeObject(pool.Param, _jsonSettings);
+
+                            LogManager.GetCurrentClassLogger()
+                                .Log(LogLevel.Info, $"Filling pool: {Environment.NewLine} {json}");
+
+                            for (var i = 0; i < jobsToQueue; i++)
+                            {
+                                tasks.Add(pool.RequestWater());
+                            }
+                        }
+                    }
+                }
+
+                // If filling of pools occurred, wait for it to finish, then save the pools.
+                if (tasks.Count > 0)
+                {
+                    await Task.WhenAll(tasks);
+
+                    LogManager.GetCurrentClassLogger()
+                        .Log(LogLevel.Info, "Pools have been filled. Proceeding to save.");
+
+                    SavePools();
+                }
                 
-                // parameterHolder.Result = result;
-                
-                // Add to pool
-                // return Program.PoolManager.AddResultToPool(parameterHolder);
+                _isFillingPool = false;
 
                 return true;
             }

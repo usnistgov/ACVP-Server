@@ -22,11 +22,14 @@ namespace NIST.CVP.Pools
         public TParam WaterType { get; }
         
         public int WaterLevel => _water.Count;
+        public int MaxWaterLevel { get; }
         public bool IsEmpty => WaterLevel == 0;
 
         public Type ParamType => typeof(TParam);
         public IParameters Param => WaterType;
         public Type ResultType => typeof(TResult);
+
+        
 
         protected readonly IOracle Oracle;
 
@@ -40,6 +43,7 @@ namespace NIST.CVP.Pools
             _poolConfig = param.PoolConfig;
             Oracle = param.Oracle;
             DeclaredType = param.PoolProperties.PoolType.Type;
+            MaxWaterLevel = param.PoolProperties.MaxCapacity;
             WaterType = param.WaterType;
             _jsonConverters = param.JsonConverters;
             _maxWaterReuse = param.PoolProperties.MaxWaterReuse;
