@@ -1,10 +1,11 @@
 {
+  "vsId": 0,
   "algorithm": "SHA2",
   "isSample": false,
   "conformances": [],
   "digestSize": [
     "224"
   ],
-  "inBit": true,
-  "inEmpty": true
+  "inBit": false,
+  "inEmpty": false
 }
