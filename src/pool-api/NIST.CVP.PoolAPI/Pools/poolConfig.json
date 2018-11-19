@@ -224,7 +224,7 @@
         "Mode": "SHA1",
         "DigestSize": "d160"
       },
-      "PrimeTest": null,
+      "PrimeTest": "None",
       "Seed": null,
       "BitLens": null,
       "KeyFormat": "standard"
@@ -247,7 +247,7 @@
         "Mode": "SHA2",
         "DigestSize": "d224"
       },
-      "PrimeTest": null,
+      "PrimeTest": "None",
       "Seed": null,
       "BitLens": null,
       "KeyFormat": "standard"
@@ -270,7 +270,7 @@
         "Mode": "SHA2",
         "DigestSize": "d256"
       },
-      "PrimeTest": null,
+      "PrimeTest": "None",
       "Seed": null,
       "BitLens": null,
       "KeyFormat": "standard"
@@ -293,7 +293,7 @@
         "Mode": "SHA2",
         "DigestSize": "d384"
       },
-      "PrimeTest": null,
+      "PrimeTest": "None",
       "Seed": null,
       "BitLens": null,
       "KeyFormat": "standard"
@@ -316,7 +316,7 @@
         "Mode": "SHA2",
         "DigestSize": "d512"
       },
-      "PrimeTest": null,
+      "PrimeTest": "None",
       "Seed": null,
       "BitLens": null,
       "KeyFormat": "standard"
@@ -339,7 +339,7 @@
         "Mode": "SHA2",
         "DigestSize": "d512t224"
       },
-      "PrimeTest": null,
+      "PrimeTest": "None",
       "Seed": null,
       "BitLens": null,
       "KeyFormat": "standard"
@@ -362,7 +362,7 @@
         "Mode": "SHA2",
         "DigestSize": "d512t256"
       },
-      "PrimeTest": null,
+      "PrimeTest": "None",
       "Seed": null,
       "BitLens": null,
       "KeyFormat": "standard"
@@ -385,7 +385,7 @@
         "Mode": "SHA1",
         "DigestSize": "d160"
       },
-      "PrimeTest": null,
+      "PrimeTest": "None",
       "Seed": null,
       "BitLens": null,
       "KeyFormat": "standard"
@@ -408,7 +408,7 @@
         "Mode": "SHA2",
         "DigestSize": "d224"
       },
-      "PrimeTest": null,
+      "PrimeTest": "None",
       "Seed": null,
       "BitLens": null,
       "KeyFormat": "standard"
@@ -431,7 +431,7 @@
         "Mode": "SHA2",
         "DigestSize": "d256"
       },
-      "PrimeTest": null,
+      "PrimeTest": "None",
       "Seed": null,
       "BitLens": null,
       "KeyFormat": "standard"
@@ -454,7 +454,7 @@
         "Mode": "SHA2",
         "DigestSize": "d384"
       },
-      "PrimeTest": null,
+      "PrimeTest": "None",
       "Seed": null,
       "BitLens": null,
       "KeyFormat": "standard"
@@ -477,7 +477,7 @@
         "Mode": "SHA2",
         "DigestSize": "d512"
       },
-      "PrimeTest": null,
+      "PrimeTest": "None",
       "Seed": null,
       "BitLens": null,
       "KeyFormat": "standard"
@@ -500,7 +500,7 @@
         "Mode": "SHA2",
         "DigestSize": "d512t224"
       },
-      "PrimeTest": null,
+      "PrimeTest": "None",
       "Seed": null,
       "BitLens": null,
       "KeyFormat": "standard"
@@ -523,7 +523,7 @@
         "Mode": "SHA2",
         "DigestSize": "d512t256"
       },
-      "PrimeTest": null,
+      "PrimeTest": "None",
       "Seed": null,
       "BitLens": null,
       "KeyFormat": "standard"
@@ -546,7 +546,7 @@
         "Mode": "SHA1",
         "DigestSize": "d160"
       },
-      "PrimeTest": null,
+      "PrimeTest": "None",
       "Seed": null,
       "BitLens": null,
       "KeyFormat": "standard"
@@ -569,7 +569,7 @@
         "Mode": "SHA2",
         "DigestSize": "d224"
       },
-      "PrimeTest": null,
+      "PrimeTest": "None",
       "Seed": null,
       "BitLens": null,
       "KeyFormat": "standard"
@@ -592,7 +592,7 @@
         "Mode": "SHA2",
         "DigestSize": "d256"
       },
-      "PrimeTest": null,
+      "PrimeTest": "None",
       "Seed": null,
       "BitLens": null,
       "KeyFormat": "standard"
@@ -615,7 +615,7 @@
         "Mode": "SHA2",
         "DigestSize": "d384"
       },
-      "PrimeTest": null,
+      "PrimeTest": "None",
       "Seed": null,
       "BitLens": null,
       "KeyFormat": "standard"
@@ -638,7 +638,7 @@
         "Mode": "SHA2",
         "DigestSize": "d512"
       },
-      "PrimeTest": null,
+      "PrimeTest": "None",
       "Seed": null,
       "BitLens": null,
       "KeyFormat": "standard"
@@ -661,7 +661,7 @@
         "Mode": "SHA2",
         "DigestSize": "d512t224"
       },
-      "PrimeTest": null,
+      "PrimeTest": "None",
       "Seed": null,
       "BitLens": null,
       "KeyFormat": "standard"
@@ -684,7 +684,7 @@
         "Mode": "SHA2",
         "DigestSize": "d512t256"
       },
-      "PrimeTest": null,
+      "PrimeTest": "None",
       "Seed": null,
       "BitLens": null,
       "KeyFormat": "standard"
@@ -707,7 +707,7 @@
         "Mode": "SHA1",
         "DigestSize": "d160"
       },
-      "PrimeTest": null,
+      "PrimeTest": "None",
       "Seed": null,
       "BitLens": null,
       "KeyFormat": "standard"
@@ -730,7 +730,7 @@
         "Mode": "SHA2",
         "DigestSize": "d224"
       },
-      "PrimeTest": null,
+      "PrimeTest": "None",
       "Seed": null,
       "BitLens": null,
       "KeyFormat": "standard"
@@ -753,7 +753,7 @@
         "Mode": "SHA2",
         "DigestSize": "d256"
       },
-      "PrimeTest": null,
+      "PrimeTest": "None",
       "Seed": null,
       "BitLens": null,
       "KeyFormat": "standard"
@@ -776,7 +776,7 @@
         "Mode": "SHA2",
         "DigestSize": "d384"
       },
-      "PrimeTest": null,
+      "PrimeTest": "None",
       "Seed": null,
       "BitLens": null,
       "KeyFormat": "standard"
@@ -799,7 +799,7 @@
         "Mode": "SHA2",
         "DigestSize": "d512"
       },
-      "PrimeTest": null,
+      "PrimeTest": "None",
       "Seed": null,
       "BitLens": null,
       "KeyFormat": "standard"
@@ -822,7 +822,7 @@
         "Mode": "SHA2",
         "DigestSize": "d512t224"
       },
-      "PrimeTest": null,
+      "PrimeTest": "None",
       "Seed": null,
       "BitLens": null,
       "KeyFormat": "standard"
@@ -845,7 +845,7 @@
         "Mode": "SHA2",
         "DigestSize": "d512t256"
       },
-      "PrimeTest": null,
+      "PrimeTest": "None",
       "Seed": null,
       "BitLens": null,
       "KeyFormat": "standard"
