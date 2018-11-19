@@ -1,11 +1,11 @@
-﻿using System;
-using System.Threading.Tasks;
-using NIST.CVP.Common;
+﻿using NIST.CVP.Common;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.Common.KDF.Components.SSH;
 using NIST.CVP.Math;
 using NIST.CVP.Orleans.Grains.Interfaces.Kdf;
+using System;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Orleans.Grains.Kdf
 {
@@ -45,6 +45,11 @@ namespace NIST.CVP.Orleans.Grains.Kdf
             if (k.GetMostSignificantBits(1).Equals(BitString.One()))
             {
                 k = BitString.Zeroes(8).ConcatenateBits(k);
+            }
+            // Don't let k start with "00" if the previous condition was not met
+            else if (k.GetMostSignificantBits(8).Equals(BitString.Zeroes(8)))
+            {
+                k = BitString.Zeroes(7).ConcatenateBits(BitString.One()).ConcatenateBits(k.GetLeastSignificantBits(2040));
             }
 
             // Append the length (32-bit) to the front (in bytes, so 256 or 257 bytes)
