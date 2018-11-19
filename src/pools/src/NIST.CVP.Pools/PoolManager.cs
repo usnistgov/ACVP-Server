@@ -119,8 +119,7 @@ namespace NIST.CVP.Pools
             {
                 if (_properties.TryFirst(prop => pool.Param.Equals(prop.PoolType.Parameters), out var properties))
                 {
-                    var filePath = Path.Combine(_poolDirectory, properties.FilePath);
-                    if (!pool.SavePoolToFile(filePath))
+                    if (!pool.SavePoolToFile())
                     {
                         return false;
                     }

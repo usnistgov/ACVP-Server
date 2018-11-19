@@ -46,6 +46,8 @@ namespace NIST.CVP.Pools
         /// </summary>
         int MaxWaterLevel { get; }
 
+        decimal WaterFillPercent { get; }
+
         /// <summary>
         /// The type of parameter class this pool supports
         /// </summary>
@@ -88,9 +90,8 @@ namespace NIST.CVP.Pools
         /// <summary>
         /// Save the pool to a file
         /// </summary>
-        /// <param name="filename"></param>
         /// <returns></returns>
-        bool SavePoolToFile(string filename);
+        bool SavePoolToFile();
 
         /// <summary>
         /// Clears the pool of all values

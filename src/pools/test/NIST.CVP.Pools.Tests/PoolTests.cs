@@ -22,10 +22,8 @@ namespace NIST.CVP.Pools.Tests
     [TestFixture]
     public class PoolTests
     {
-
         private readonly Mock<IOptions<PoolConfig>> _poolConfig = new Mock<IOptions<PoolConfig>>();
         private string _testPath;
-        private string _configFile = "aes-test1.json";
         private string _fullPath;
 
         private readonly IList<JsonConverter> _jsonConverters = new List<JsonConverter>
@@ -45,7 +43,7 @@ namespace NIST.CVP.Pools.Tests
             _poolConfig.Setup(s => s.Value).Returns(poolConfig);
 
             _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\");
-            _fullPath = Path.Combine(_testPath, _configFile);
+            _fullPath = Path.Combine(_testPath, $"{Guid.NewGuid()}.json");
         }
 
         [Test]
@@ -60,6 +58,16 @@ namespace NIST.CVP.Pools.Tests
             };
 
             var pool = new AesPool(GetConstructionParameters(param, PoolTypes.AES));
+            
+            // Add two items to the pool
+            pool.AddWater(new AesResult()
+            {
+
+            });
+            pool.AddWater(new AesResult()
+            {
+
+            });
 
             Assert.AreEqual(2, pool.WaterLevel);
         }
@@ -100,6 +108,10 @@ namespace NIST.CVP.Pools.Tests
             };
 
             var pool = new AesPool(GetConstructionParameters(param, PoolTypes.AES));
+            pool.AddWater(new AesResult()
+            {
+                PlainText = new BitString("ABCD")
+            });
 
             var result = pool.GetNext();
             
@@ -119,6 +131,14 @@ namespace NIST.CVP.Pools.Tests
             };
 
             var pool = new AesPool(GetConstructionParameters(param, PoolTypes.AES));
+            pool.AddWater(new AesResult()
+            {
+
+            });
+            pool.AddWater(new AesResult()
+            {
+
+            });
 
             var result1 = pool.GetNext();
             var result2 = pool.GetNext();
@@ -143,12 +163,11 @@ namespace NIST.CVP.Pools.Tests
 
             var pool = new AesPool(GetConstructionParameters(param, PoolTypes.AES));
 
-            var writePath = Path.Combine(_testPath, $"saveTest-{Guid.NewGuid().ToString().Substring(0, 8)}.json");
-            pool.SavePoolToFile(writePath);
+            pool.SavePoolToFile();
 
-            if (File.Exists(writePath))
+            if (File.Exists(_fullPath))
             {
-                File.Delete(writePath);
+                File.Delete(_fullPath);
                 Assert.Pass();
             }
             else
@@ -206,6 +225,11 @@ namespace NIST.CVP.Pools.Tests
             };
 
             var pool = new AesPool(GetConstructionParameters(param, PoolTypes.AES));
+            pool.AddWater(new AesResult()
+            {
+
+            });
+            
             Assume.That(!pool.IsEmpty);
 
             pool.CleanPool();

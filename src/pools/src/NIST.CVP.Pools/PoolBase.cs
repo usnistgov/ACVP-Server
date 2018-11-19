@@ -23,13 +23,13 @@ namespace NIST.CVP.Pools
         
         public int WaterLevel => _water.Count;
         public int MaxWaterLevel { get; }
+        public decimal WaterFillPercent => (decimal)WaterLevel / MaxWaterLevel;
+
         public bool IsEmpty => WaterLevel == 0;
 
         public Type ParamType => typeof(TParam);
         public IParameters Param => WaterType;
         public Type ResultType => typeof(TResult);
-
-        
 
         protected readonly IOracle Oracle;
 
@@ -37,6 +37,7 @@ namespace NIST.CVP.Pools
         private readonly IList<JsonConverter> _jsonConverters;
         private readonly IOptions<PoolConfig> _poolConfig;
         private readonly int _maxWaterReuse;
+        private readonly string _fullPoolLocation;
         
         protected PoolBase(PoolConstructionParameters<TParam> param)
         {
@@ -48,7 +49,7 @@ namespace NIST.CVP.Pools
             _jsonConverters = param.JsonConverters;
             _maxWaterReuse = param.PoolProperties.MaxWaterReuse;
             _water = new ConcurrentQueue<ResultWrapper<TResult>>();
-            LoadPoolFromFile(param.FullPoolLocation);
+            _fullPoolLocation = param.FullPoolLocation;
         }
 
         public PoolResult<TResult> GetNext()
@@ -108,13 +109,13 @@ namespace NIST.CVP.Pools
             return AddWater((TResult)value);
         }
 
-        private void LoadPoolFromFile(string filename)
+        private void LoadPoolFromFile()
         {
-            if (File.Exists(filename))
+            if (File.Exists(_fullPoolLocation))
             {
                 // Load file
                 var poolContents = JsonConvert.DeserializeObject<ResultWrapper<TResult>[]>(
-                    File.ReadAllText(filename),
+                    File.ReadAllText(_fullPoolLocation),
                     new JsonSerializerSettings
                     {
                         Converters = _jsonConverters
@@ -135,12 +136,12 @@ namespace NIST.CVP.Pools
             else
             {
                 // Create empty file
-                File.WriteAllText(filename, "[]");
-                LogManager.GetCurrentClassLogger().Debug($"{filename} created");
+                File.WriteAllText(_fullPoolLocation, "[]");
+                LogManager.GetCurrentClassLogger().Debug($"{_fullPoolLocation} created");
             }
         }
 
-        public bool SavePoolToFile(string filename)
+        public bool SavePoolToFile()
         {
             var poolContents = JsonConvert.SerializeObject(
                 _water,
@@ -153,7 +154,7 @@ namespace NIST.CVP.Pools
 
             try
             {
-                File.WriteAllText(filename, poolContents);
+                File.WriteAllText(_fullPoolLocation, poolContents);
                 return true;
             }
             catch (Exception)

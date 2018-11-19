@@ -126,9 +126,17 @@ namespace NIST.CVP.Pools.Tests
                     KeyLength = 128,
                     Mode = BlockCipherModesOfOperation.Ecb
                 },
-                Type = PoolTypes.AES
+                Type = PoolTypes.AES,
+                Result = new AesResult()
+                {
+                    CipherText = new BitString("01"),
+                    Iv = new BitString("02"),
+                    Key = new BitString("03"),
+                    PlainText = new BitString("04")
+                }
             };
 
+            _subject.AddResultToPool(paramHolder);
             var result = _subject.GetResultFromPool(paramHolder);
 
             Assert.IsNotNull(result);
@@ -148,7 +156,14 @@ namespace NIST.CVP.Pools.Tests
                     KeyLength = 128,
                     Mode = BlockCipherModesOfOperation.Ecb
                 },
-                Type = PoolTypes.AES
+                Type = PoolTypes.AES,
+                Result = new AesResult()
+                {
+                    CipherText = new BitString("01"),
+                    Iv = new BitString("02"),
+                    Key = new BitString("03"),
+                    PlainText = new BitString("04")
+                }
             };
 
             var result = _subject.GetResultFromPool(paramHolder);
@@ -170,9 +185,17 @@ namespace NIST.CVP.Pools.Tests
                     KeyLength = 128,
                     Mode = BlockCipherModesOfOperation.Ecb
                 },
-                Type = PoolTypes.AES
+                Type = PoolTypes.AES,
+                Result = new AesResult()
+                {
+                    CipherText = new BitString("01"),
+                    Iv = new BitString("02"),
+                    Key = new BitString("03"),
+                    PlainText = new BitString("04")
+                }
             };
 
+            _subject.AddResultToPool(paramHolder);
             var result = _subject.GetPoolStatus(paramHolder);
 
             Assert.IsNotNull(result);
