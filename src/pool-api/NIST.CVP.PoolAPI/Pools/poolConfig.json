@@ -224,13 +224,13 @@
         "Mode": "SHA1",
         "DigestSize": "d160"
       },
-      "PrimeTest": "tblC2",
+      "PrimeTest": null,
       "Seed": null,
       "BitLens": null,
       "KeyFormat": "standard"
     }
   },
-  "FilePath": "rsa-b32-1024-tblc2-sha-1.json",
+  "FilePath": "rsa-b32-1024-sha-1.json",
   "MaxCapacity": 250,
   "MonitorFrequency": 30,
   "MaxWaterReuse": 1000
@@ -247,13 +247,13 @@
         "Mode": "SHA2",
         "DigestSize": "d224"
       },
-      "PrimeTest": "tblC2",
+      "PrimeTest": null,
       "Seed": null,
       "BitLens": null,
       "KeyFormat": "standard"
     }
   },
-  "FilePath": "rsa-b32-1024-tblc2-sha2-224.json",
+  "FilePath": "rsa-b32-1024-sha2-224.json",
   "MaxCapacity": 250,
   "MonitorFrequency": 30,
   "MaxWaterReuse": 1000
@@ -270,13 +270,13 @@
         "Mode": "SHA2",
         "DigestSize": "d256"
       },
-      "PrimeTest": "tblC2",
+      "PrimeTest": null,
       "Seed": null,
       "BitLens": null,
       "KeyFormat": "standard"
     }
   },
-  "FilePath": "rsa-b32-1024-tblc2-sha2-256.json",
+  "FilePath": "rsa-b32-1024-sha2-256.json",
   "MaxCapacity": 250,
   "MonitorFrequency": 30,
   "MaxWaterReuse": 1000
@@ -293,13 +293,13 @@
         "Mode": "SHA2",
         "DigestSize": "d384"
       },
-      "PrimeTest": "tblC2",
+      "PrimeTest": null,
       "Seed": null,
       "BitLens": null,
       "KeyFormat": "standard"
     }
   },
-  "FilePath": "rsa-b32-1024-tblc2-sha2-384.json",
+  "FilePath": "rsa-b32-1024-sha2-384.json",
   "MaxCapacity": 250,
   "MonitorFrequency": 30,
   "MaxWaterReuse": 1000
@@ -316,13 +316,13 @@
         "Mode": "SHA2",
         "DigestSize": "d512"
       },
-      "PrimeTest": "tblC2",
+      "PrimeTest": null,
       "Seed": null,
       "BitLens": null,
       "KeyFormat": "standard"
     }
   },
-  "FilePath": "rsa-b32-1024-tblc2-sha2-512.json",
+  "FilePath": "rsa-b32-1024-sha2-512.json",
   "MaxCapacity": 250,
   "MonitorFrequency": 30,
   "MaxWaterReuse": 1000
@@ -339,13 +339,13 @@
         "Mode": "SHA2",
         "DigestSize": "d512t224"
       },
-      "PrimeTest": "tblC2",
+      "PrimeTest": null,
       "Seed": null,
       "BitLens": null,
       "KeyFormat": "standard"
     }
   },
-  "FilePath": "rsa-b32-1024-tblc2-sha2-512224.json",
+  "FilePath": "rsa-b32-1024-sha2-512224.json",
   "MaxCapacity": 250,
   "MonitorFrequency": 30,
   "MaxWaterReuse": 1000
@@ -362,174 +362,13 @@
         "Mode": "SHA2",
         "DigestSize": "d512t256"
       },
-      "PrimeTest": "tblC2",
+      "PrimeTest": null,
       "Seed": null,
       "BitLens": null,
       "KeyFormat": "standard"
     }
   },
-  "FilePath": "rsa-b32-1024-tblc2-sha2-512256.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.2",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 1024,
-      "HashAlg": {
-        "Mode": "SHA1",
-        "DigestSize": "d160"
-      },
-      "PrimeTest": "tblC3",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b32-1024-tblc3-sha-1.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.2",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 1024,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d224"
-      },
-      "PrimeTest": "tblC3",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b32-1024-tblc3-sha2-224.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.2",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 1024,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d256"
-      },
-      "PrimeTest": "tblC3",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b32-1024-tblc3-sha2-256.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.2",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 1024,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d384"
-      },
-      "PrimeTest": "tblC3",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b32-1024-tblc3-sha2-384.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.2",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 1024,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d512"
-      },
-      "PrimeTest": "tblC3",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b32-1024-tblc3-sha2-512.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.2",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 1024,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d512t224"
-      },
-      "PrimeTest": "tblC3",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b32-1024-tblc3-sha2-512224.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.2",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 1024,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d512t256"
-      },
-      "PrimeTest": "tblC3",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b32-1024-tblc3-sha2-512256.json",
+  "FilePath": "rsa-b32-1024-sha2-512256.json",
   "MaxCapacity": 250,
   "MonitorFrequency": 30,
   "MaxWaterReuse": 1000
@@ -546,13 +385,13 @@
         "Mode": "SHA1",
         "DigestSize": "d160"
       },
-      "PrimeTest": "tblC2",
+      "PrimeTest": null,
       "Seed": null,
       "BitLens": null,
       "KeyFormat": "standard"
     }
   },
-  "FilePath": "rsa-b32-2048-tblc2-sha-1.json",
+  "FilePath": "rsa-b32-2048-sha-1.json",
   "MaxCapacity": 250,
   "MonitorFrequency": 30,
   "MaxWaterReuse": 1000
@@ -569,13 +408,13 @@
         "Mode": "SHA2",
         "DigestSize": "d224"
       },
-      "PrimeTest": "tblC2",
+      "PrimeTest": null,
       "Seed": null,
       "BitLens": null,
       "KeyFormat": "standard"
     }
   },
-  "FilePath": "rsa-b32-2048-tblc2-sha2-224.json",
+  "FilePath": "rsa-b32-2048-sha2-224.json",
   "MaxCapacity": 250,
   "MonitorFrequency": 30,
   "MaxWaterReuse": 1000
@@ -592,13 +431,13 @@
         "Mode": "SHA2",
         "DigestSize": "d256"
       },
-      "PrimeTest": "tblC2",
+      "PrimeTest": null,
       "Seed": null,
       "BitLens": null,
       "KeyFormat": "standard"
     }
   },
-  "FilePath": "rsa-b32-2048-tblc2-sha2-256.json",
+  "FilePath": "rsa-b32-2048-sha2-256.json",
   "MaxCapacity": 250,
   "MonitorFrequency": 30,
   "MaxWaterReuse": 1000
@@ -615,13 +454,13 @@
         "Mode": "SHA2",
         "DigestSize": "d384"
       },
-      "PrimeTest": "tblC2",
+      "PrimeTest": null,
       "Seed": null,
       "BitLens": null,
       "KeyFormat": "standard"
     }
   },
-  "FilePath": "rsa-b32-2048-tblc2-sha2-384.json",
+  "FilePath": "rsa-b32-2048-sha2-384.json",
   "MaxCapacity": 250,
   "MonitorFrequency": 30,
   "MaxWaterReuse": 1000
@@ -638,13 +477,13 @@
         "Mode": "SHA2",
         "DigestSize": "d512"
       },
-      "PrimeTest": "tblC2",
+      "PrimeTest": null,
       "Seed": null,
       "BitLens": null,
       "KeyFormat": "standard"
     }
   },
-  "FilePath": "rsa-b32-2048-tblc2-sha2-512.json",
+  "FilePath": "rsa-b32-2048-sha2-512.json",
   "MaxCapacity": 250,
   "MonitorFrequency": 30,
   "MaxWaterReuse": 1000
@@ -661,13 +500,13 @@
         "Mode": "SHA2",
         "DigestSize": "d512t224"
       },
-      "PrimeTest": "tblC2",
+      "PrimeTest": null,
       "Seed": null,
       "BitLens": null,
       "KeyFormat": "standard"
     }
   },
-  "FilePath": "rsa-b32-2048-tblc2-sha2-512224.json",
+  "FilePath": "rsa-b32-2048-sha2-512224.json",
   "MaxCapacity": 250,
   "MonitorFrequency": 30,
   "MaxWaterReuse": 1000
@@ -684,174 +523,13 @@
         "Mode": "SHA2",
         "DigestSize": "d512t256"
       },
-      "PrimeTest": "tblC2",
+      "PrimeTest": null,
       "Seed": null,
       "BitLens": null,
       "KeyFormat": "standard"
     }
   },
-  "FilePath": "rsa-b32-2048-tblc2-sha2-512256.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.2",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 2048,
-      "HashAlg": {
-        "Mode": "SHA1",
-        "DigestSize": "d160"
-      },
-      "PrimeTest": "tblC3",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b32-2048-tblc3-sha-1.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.2",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 2048,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d224"
-      },
-      "PrimeTest": "tblC3",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b32-2048-tblc3-sha2-224.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.2",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 2048,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d256"
-      },
-      "PrimeTest": "tblC3",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b32-2048-tblc3-sha2-256.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.2",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 2048,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d384"
-      },
-      "PrimeTest": "tblC3",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b32-2048-tblc3-sha2-384.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.2",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 2048,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d512"
-      },
-      "PrimeTest": "tblC3",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b32-2048-tblc3-sha2-512.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.2",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 2048,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d512t224"
-      },
-      "PrimeTest": "tblC3",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b32-2048-tblc3-sha2-512224.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.2",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 2048,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d512t256"
-      },
-      "PrimeTest": "tblC3",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b32-2048-tblc3-sha2-512256.json",
+  "FilePath": "rsa-b32-2048-sha2-512256.json",
   "MaxCapacity": 250,
   "MonitorFrequency": 30,
   "MaxWaterReuse": 1000
@@ -868,13 +546,13 @@
         "Mode": "SHA1",
         "DigestSize": "d160"
       },
-      "PrimeTest": "tblC2",
+      "PrimeTest": null,
       "Seed": null,
       "BitLens": null,
       "KeyFormat": "standard"
     }
   },
-  "FilePath": "rsa-b32-3072-tblc2-sha-1.json",
+  "FilePath": "rsa-b32-3072-sha-1.json",
   "MaxCapacity": 250,
   "MonitorFrequency": 30,
   "MaxWaterReuse": 1000
@@ -891,13 +569,13 @@
         "Mode": "SHA2",
         "DigestSize": "d224"
       },
-      "PrimeTest": "tblC2",
+      "PrimeTest": null,
       "Seed": null,
       "BitLens": null,
       "KeyFormat": "standard"
     }
   },
-  "FilePath": "rsa-b32-3072-tblc2-sha2-224.json",
+  "FilePath": "rsa-b32-3072-sha2-224.json",
   "MaxCapacity": 250,
   "MonitorFrequency": 30,
   "MaxWaterReuse": 1000
@@ -914,13 +592,13 @@
         "Mode": "SHA2",
         "DigestSize": "d256"
       },
-      "PrimeTest": "tblC2",
+      "PrimeTest": null,
       "Seed": null,
       "BitLens": null,
       "KeyFormat": "standard"
     }
   },
-  "FilePath": "rsa-b32-3072-tblc2-sha2-256.json",
+  "FilePath": "rsa-b32-3072-sha2-256.json",
   "MaxCapacity": 250,
   "MonitorFrequency": 30,
   "MaxWaterReuse": 1000
@@ -937,13 +615,13 @@
         "Mode": "SHA2",
         "DigestSize": "d384"
       },
-      "PrimeTest": "tblC2",
+      "PrimeTest": null,
       "Seed": null,
       "BitLens": null,
       "KeyFormat": "standard"
     }
   },
-  "FilePath": "rsa-b32-3072-tblc2-sha2-384.json",
+  "FilePath": "rsa-b32-3072-sha2-384.json",
   "MaxCapacity": 250,
   "MonitorFrequency": 30,
   "MaxWaterReuse": 1000
@@ -960,13 +638,13 @@
         "Mode": "SHA2",
         "DigestSize": "d512"
       },
-      "PrimeTest": "tblC2",
+      "PrimeTest": null,
       "Seed": null,
       "BitLens": null,
       "KeyFormat": "standard"
     }
   },
-  "FilePath": "rsa-b32-3072-tblc2-sha2-512.json",
+  "FilePath": "rsa-b32-3072-sha2-512.json",
   "MaxCapacity": 250,
   "MonitorFrequency": 30,
   "MaxWaterReuse": 1000
@@ -983,13 +661,13 @@
         "Mode": "SHA2",
         "DigestSize": "d512t224"
       },
-      "PrimeTest": "tblC2",
+      "PrimeTest": null,
       "Seed": null,
       "BitLens": null,
       "KeyFormat": "standard"
     }
   },
-  "FilePath": "rsa-b32-3072-tblc2-sha2-512224.json",
+  "FilePath": "rsa-b32-3072-sha2-512224.json",
   "MaxCapacity": 250,
   "MonitorFrequency": 30,
   "MaxWaterReuse": 1000
@@ -1006,174 +684,13 @@
         "Mode": "SHA2",
         "DigestSize": "d512t256"
       },
-      "PrimeTest": "tblC2",
+      "PrimeTest": null,
       "Seed": null,
       "BitLens": null,
       "KeyFormat": "standard"
     }
   },
-  "FilePath": "rsa-b32-3072-tblc2-sha2-512256.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.2",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 3072,
-      "HashAlg": {
-        "Mode": "SHA1",
-        "DigestSize": "d160"
-      },
-      "PrimeTest": "tblC3",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b32-3072-tblc3-sha-1.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.2",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 3072,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d224"
-      },
-      "PrimeTest": "tblC3",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b32-3072-tblc3-sha2-224.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.2",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 3072,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d256"
-      },
-      "PrimeTest": "tblC3",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b32-3072-tblc3-sha2-256.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.2",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 3072,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d384"
-      },
-      "PrimeTest": "tblC3",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b32-3072-tblc3-sha2-384.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.2",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 3072,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d512"
-      },
-      "PrimeTest": "tblC3",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b32-3072-tblc3-sha2-512.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.2",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 3072,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d512t224"
-      },
-      "PrimeTest": "tblC3",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b32-3072-tblc3-sha2-512224.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.2",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 3072,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d512t256"
-      },
-      "PrimeTest": "tblC3",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b32-3072-tblc3-sha2-512256.json",
+  "FilePath": "rsa-b32-3072-sha2-512256.json",
   "MaxCapacity": 250,
   "MonitorFrequency": 30,
   "MaxWaterReuse": 1000
@@ -1190,13 +707,13 @@
         "Mode": "SHA1",
         "DigestSize": "d160"
       },
-      "PrimeTest": "tblC2",
+      "PrimeTest": null,
       "Seed": null,
       "BitLens": null,
       "KeyFormat": "standard"
     }
   },
-  "FilePath": "rsa-b32-4096-tblc2-sha-1.json",
+  "FilePath": "rsa-b32-4096-sha-1.json",
   "MaxCapacity": 250,
   "MonitorFrequency": 30,
   "MaxWaterReuse": 1000
@@ -1213,13 +730,13 @@
         "Mode": "SHA2",
         "DigestSize": "d224"
       },
-      "PrimeTest": "tblC2",
+      "PrimeTest": null,
       "Seed": null,
       "BitLens": null,
       "KeyFormat": "standard"
     }
   },
-  "FilePath": "rsa-b32-4096-tblc2-sha2-224.json",
+  "FilePath": "rsa-b32-4096-sha2-224.json",
   "MaxCapacity": 250,
   "MonitorFrequency": 30,
   "MaxWaterReuse": 1000
@@ -1236,13 +753,13 @@
         "Mode": "SHA2",
         "DigestSize": "d256"
       },
-      "PrimeTest": "tblC2",
+      "PrimeTest": null,
       "Seed": null,
       "BitLens": null,
       "KeyFormat": "standard"
     }
   },
-  "FilePath": "rsa-b32-4096-tblc2-sha2-256.json",
+  "FilePath": "rsa-b32-4096-sha2-256.json",
   "MaxCapacity": 250,
   "MonitorFrequency": 30,
   "MaxWaterReuse": 1000
@@ -1259,13 +776,13 @@
         "Mode": "SHA2",
         "DigestSize": "d384"
       },
-      "PrimeTest": "tblC2",
+      "PrimeTest": null,
       "Seed": null,
       "BitLens": null,
       "KeyFormat": "standard"
     }
   },
-  "FilePath": "rsa-b32-4096-tblc2-sha2-384.json",
+  "FilePath": "rsa-b32-4096-sha2-384.json",
   "MaxCapacity": 250,
   "MonitorFrequency": 30,
   "MaxWaterReuse": 1000
@@ -1282,13 +799,13 @@
         "Mode": "SHA2",
         "DigestSize": "d512"
       },
-      "PrimeTest": "tblC2",
+      "PrimeTest": null,
       "Seed": null,
       "BitLens": null,
       "KeyFormat": "standard"
     }
   },
-  "FilePath": "rsa-b32-4096-tblc2-sha2-512.json",
+  "FilePath": "rsa-b32-4096-sha2-512.json",
   "MaxCapacity": 250,
   "MonitorFrequency": 30,
   "MaxWaterReuse": 1000
@@ -1305,13 +822,13 @@
         "Mode": "SHA2",
         "DigestSize": "d512t224"
       },
-      "PrimeTest": "tblC2",
+      "PrimeTest": null,
       "Seed": null,
       "BitLens": null,
       "KeyFormat": "standard"
     }
   },
-  "FilePath": "rsa-b32-4096-tblc2-sha2-512224.json",
+  "FilePath": "rsa-b32-4096-sha2-512224.json",
   "MaxCapacity": 250,
   "MonitorFrequency": 30,
   "MaxWaterReuse": 1000
@@ -1328,174 +845,13 @@
         "Mode": "SHA2",
         "DigestSize": "d512t256"
       },
-      "PrimeTest": "tblC2",
+      "PrimeTest": null,
       "Seed": null,
       "BitLens": null,
       "KeyFormat": "standard"
     }
   },
-  "FilePath": "rsa-b32-4096-tblc2-sha2-512256.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.2",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 4096,
-      "HashAlg": {
-        "Mode": "SHA1",
-        "DigestSize": "d160"
-      },
-      "PrimeTest": "tblC3",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b32-4096-tblc3-sha-1.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.2",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 4096,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d224"
-      },
-      "PrimeTest": "tblC3",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b32-4096-tblc3-sha2-224.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.2",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 4096,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d256"
-      },
-      "PrimeTest": "tblC3",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b32-4096-tblc3-sha2-256.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.2",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 4096,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d384"
-      },
-      "PrimeTest": "tblC3",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b32-4096-tblc3-sha2-384.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.2",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 4096,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d512"
-      },
-      "PrimeTest": "tblC3",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b32-4096-tblc3-sha2-512.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.2",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 4096,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d512t224"
-      },
-      "PrimeTest": "tblC3",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b32-4096-tblc3-sha2-512224.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.2",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 4096,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d512t256"
-      },
-      "PrimeTest": "tblC3",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b32-4096-tblc3-sha2-512256.json",
+  "FilePath": "rsa-b32-4096-sha2-512256.json",
   "MaxCapacity": 250,
   "MonitorFrequency": 30,
   "MaxWaterReuse": 1000
@@ -1508,17 +864,14 @@
       "PublicExponentMode": "random",
       "PublicExponent": null,
       "Modulus": 1024,
-      "HashAlg": {
-        "Mode": "SHA1",
-        "DigestSize": "d160"
-      },
+      "HashAlg": null,
       "PrimeTest": "tblC2",
       "Seed": null,
       "BitLens": null,
       "KeyFormat": "standard"
     }
   },
-  "FilePath": "rsa-b33-1024-tblc2-sha-1.json",
+  "FilePath": "rsa-b33-1024-tblc2.json",
   "MaxCapacity": 250,
   "MonitorFrequency": 30,
   "MaxWaterReuse": 1000
@@ -1531,293 +884,14 @@
       "PublicExponentMode": "random",
       "PublicExponent": null,
       "Modulus": 1024,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d224"
-      },
-      "PrimeTest": "tblC2",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b33-1024-tblc2-sha2-224.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.3",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 1024,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d256"
-      },
-      "PrimeTest": "tblC2",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b33-1024-tblc2-sha2-256.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.3",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 1024,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d384"
-      },
-      "PrimeTest": "tblC2",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b33-1024-tblc2-sha2-384.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.3",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 1024,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d512"
-      },
-      "PrimeTest": "tblC2",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b33-1024-tblc2-sha2-512.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.3",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 1024,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d512t224"
-      },
-      "PrimeTest": "tblC2",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b33-1024-tblc2-sha2-512224.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.3",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 1024,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d512t256"
-      },
-      "PrimeTest": "tblC2",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b33-1024-tblc2-sha2-512256.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.3",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 1024,
-      "HashAlg": {
-        "Mode": "SHA1",
-        "DigestSize": "d160"
-      },
+      "HashAlg": null,
       "PrimeTest": "tblC3",
       "Seed": null,
       "BitLens": null,
       "KeyFormat": "standard"
     }
   },
-  "FilePath": "rsa-b33-1024-tblc3-sha-1.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.3",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 1024,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d224"
-      },
-      "PrimeTest": "tblC3",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b33-1024-tblc3-sha2-224.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.3",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 1024,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d256"
-      },
-      "PrimeTest": "tblC3",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b33-1024-tblc3-sha2-256.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.3",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 1024,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d384"
-      },
-      "PrimeTest": "tblC3",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b33-1024-tblc3-sha2-384.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.3",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 1024,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d512"
-      },
-      "PrimeTest": "tblC3",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b33-1024-tblc3-sha2-512.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.3",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 1024,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d512t224"
-      },
-      "PrimeTest": "tblC3",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b33-1024-tblc3-sha2-512224.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.3",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 1024,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d512t256"
-      },
-      "PrimeTest": "tblC3",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b33-1024-tblc3-sha2-512256.json",
+  "FilePath": "rsa-b33-1024-tblc3.json",
   "MaxCapacity": 250,
   "MonitorFrequency": 30,
   "MaxWaterReuse": 1000
@@ -1830,17 +904,14 @@
       "PublicExponentMode": "random",
       "PublicExponent": null,
       "Modulus": 2048,
-      "HashAlg": {
-        "Mode": "SHA1",
-        "DigestSize": "d160"
-      },
+      "HashAlg": null,
       "PrimeTest": "tblC2",
       "Seed": null,
       "BitLens": null,
       "KeyFormat": "standard"
     }
   },
-  "FilePath": "rsa-b33-2048-tblc2-sha-1.json",
+  "FilePath": "rsa-b33-2048-tblc2.json",
   "MaxCapacity": 250,
   "MonitorFrequency": 30,
   "MaxWaterReuse": 1000
@@ -1853,293 +924,14 @@
       "PublicExponentMode": "random",
       "PublicExponent": null,
       "Modulus": 2048,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d224"
-      },
-      "PrimeTest": "tblC2",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b33-2048-tblc2-sha2-224.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.3",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 2048,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d256"
-      },
-      "PrimeTest": "tblC2",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b33-2048-tblc2-sha2-256.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.3",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 2048,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d384"
-      },
-      "PrimeTest": "tblC2",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b33-2048-tblc2-sha2-384.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.3",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 2048,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d512"
-      },
-      "PrimeTest": "tblC2",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b33-2048-tblc2-sha2-512.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.3",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 2048,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d512t224"
-      },
-      "PrimeTest": "tblC2",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b33-2048-tblc2-sha2-512224.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.3",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 2048,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d512t256"
-      },
-      "PrimeTest": "tblC2",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b33-2048-tblc2-sha2-512256.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.3",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 2048,
-      "HashAlg": {
-        "Mode": "SHA1",
-        "DigestSize": "d160"
-      },
+      "HashAlg": null,
       "PrimeTest": "tblC3",
       "Seed": null,
       "BitLens": null,
       "KeyFormat": "standard"
     }
   },
-  "FilePath": "rsa-b33-2048-tblc3-sha-1.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.3",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 2048,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d224"
-      },
-      "PrimeTest": "tblC3",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b33-2048-tblc3-sha2-224.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.3",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 2048,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d256"
-      },
-      "PrimeTest": "tblC3",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b33-2048-tblc3-sha2-256.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.3",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 2048,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d384"
-      },
-      "PrimeTest": "tblC3",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b33-2048-tblc3-sha2-384.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.3",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 2048,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d512"
-      },
-      "PrimeTest": "tblC3",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b33-2048-tblc3-sha2-512.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.3",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 2048,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d512t224"
-      },
-      "PrimeTest": "tblC3",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b33-2048-tblc3-sha2-512224.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.3",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 2048,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d512t256"
-      },
-      "PrimeTest": "tblC3",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b33-2048-tblc3-sha2-512256.json",
+  "FilePath": "rsa-b33-2048-tblc3.json",
   "MaxCapacity": 250,
   "MonitorFrequency": 30,
   "MaxWaterReuse": 1000
@@ -2152,17 +944,14 @@
       "PublicExponentMode": "random",
       "PublicExponent": null,
       "Modulus": 3072,
-      "HashAlg": {
-        "Mode": "SHA1",
-        "DigestSize": "d160"
-      },
+      "HashAlg": null,
       "PrimeTest": "tblC2",
       "Seed": null,
       "BitLens": null,
       "KeyFormat": "standard"
     }
   },
-  "FilePath": "rsa-b33-3072-tblc2-sha-1.json",
+  "FilePath": "rsa-b33-3072-tblc2.json",
   "MaxCapacity": 250,
   "MonitorFrequency": 30,
   "MaxWaterReuse": 1000
@@ -2175,293 +964,34 @@
       "PublicExponentMode": "random",
       "PublicExponent": null,
       "Modulus": 3072,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d224"
-      },
+      "HashAlg": null,
+      "PrimeTest": "tblC3",
+      "Seed": null,
+      "BitLens": null,
+      "KeyFormat": "standard"
+    }
+  },
+  "FilePath": "rsa-b33-3072-tblc3.json",
+  "MaxCapacity": 250,
+  "MonitorFrequency": 30,
+  "MaxWaterReuse": 1000
+},
+{
+  "PoolType": {
+    "type": "rsa_key",
+    "parameters": {
+      "KeyMode": "B.3.3",
+      "PublicExponentMode": "random",
+      "PublicExponent": null,
+      "Modulus": 4096,
+      "HashAlg": null,
       "PrimeTest": "tblC2",
       "Seed": null,
       "BitLens": null,
       "KeyFormat": "standard"
     }
   },
-  "FilePath": "rsa-b33-3072-tblc2-sha2-224.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.3",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 3072,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d256"
-      },
-      "PrimeTest": "tblC2",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b33-3072-tblc2-sha2-256.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.3",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 3072,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d384"
-      },
-      "PrimeTest": "tblC2",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b33-3072-tblc2-sha2-384.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.3",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 3072,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d512"
-      },
-      "PrimeTest": "tblC2",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b33-3072-tblc2-sha2-512.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.3",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 3072,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d512t224"
-      },
-      "PrimeTest": "tblC2",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b33-3072-tblc2-sha2-512224.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.3",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 3072,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d512t256"
-      },
-      "PrimeTest": "tblC2",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b33-3072-tblc2-sha2-512256.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.3",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 3072,
-      "HashAlg": {
-        "Mode": "SHA1",
-        "DigestSize": "d160"
-      },
-      "PrimeTest": "tblC3",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b33-3072-tblc3-sha-1.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.3",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 3072,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d224"
-      },
-      "PrimeTest": "tblC3",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b33-3072-tblc3-sha2-224.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.3",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 3072,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d256"
-      },
-      "PrimeTest": "tblC3",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b33-3072-tblc3-sha2-256.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.3",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 3072,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d384"
-      },
-      "PrimeTest": "tblC3",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b33-3072-tblc3-sha2-384.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.3",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 3072,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d512"
-      },
-      "PrimeTest": "tblC3",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b33-3072-tblc3-sha2-512.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.3",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 3072,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d512t224"
-      },
-      "PrimeTest": "tblC3",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b33-3072-tblc3-sha2-512224.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.3",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 3072,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d512t256"
-      },
-      "PrimeTest": "tblC3",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b33-3072-tblc3-sha2-512256.json",
+  "FilePath": "rsa-b33-4096-tblc2.json",
   "MaxCapacity": 250,
   "MonitorFrequency": 30,
   "MaxWaterReuse": 1000
@@ -2474,316 +1004,14 @@
       "PublicExponentMode": "random",
       "PublicExponent": null,
       "Modulus": 4096,
-      "HashAlg": {
-        "Mode": "SHA1",
-        "DigestSize": "d160"
-      },
-      "PrimeTest": "tblC2",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b33-4096-tblc2-sha-1.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.3",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 4096,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d224"
-      },
-      "PrimeTest": "tblC2",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b33-4096-tblc2-sha2-224.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.3",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 4096,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d256"
-      },
-      "PrimeTest": "tblC2",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b33-4096-tblc2-sha2-256.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.3",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 4096,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d384"
-      },
-      "PrimeTest": "tblC2",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b33-4096-tblc2-sha2-384.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.3",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 4096,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d512"
-      },
-      "PrimeTest": "tblC2",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b33-4096-tblc2-sha2-512.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.3",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 4096,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d512t224"
-      },
-      "PrimeTest": "tblC2",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b33-4096-tblc2-sha2-512224.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.3",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 4096,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d512t256"
-      },
-      "PrimeTest": "tblC2",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b33-4096-tblc2-sha2-512256.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.3",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 4096,
-      "HashAlg": {
-        "Mode": "SHA1",
-        "DigestSize": "d160"
-      },
+      "HashAlg": null,
       "PrimeTest": "tblC3",
       "Seed": null,
       "BitLens": null,
       "KeyFormat": "standard"
     }
   },
-  "FilePath": "rsa-b33-4096-tblc3-sha-1.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.3",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 4096,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d224"
-      },
-      "PrimeTest": "tblC3",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b33-4096-tblc3-sha2-224.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.3",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 4096,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d256"
-      },
-      "PrimeTest": "tblC3",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b33-4096-tblc3-sha2-256.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.3",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 4096,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d384"
-      },
-      "PrimeTest": "tblC3",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b33-4096-tblc3-sha2-384.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.3",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 4096,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d512"
-      },
-      "PrimeTest": "tblC3",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b33-4096-tblc3-sha2-512.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.3",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 4096,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d512t224"
-      },
-      "PrimeTest": "tblC3",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b33-4096-tblc3-sha2-512224.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.3",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 4096,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d512t256"
-      },
-      "PrimeTest": "tblC3",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b33-4096-tblc3-sha2-512256.json",
+  "FilePath": "rsa-b33-4096-tblc3.json",
   "MaxCapacity": 250,
   "MonitorFrequency": 30,
   "MaxWaterReuse": 1000
@@ -5372,17 +3600,14 @@
       "PublicExponentMode": "random",
       "PublicExponent": null,
       "Modulus": 1024,
-      "HashAlg": {
-        "Mode": "SHA1",
-        "DigestSize": "d160"
-      },
+      "HashAlg": null,
       "PrimeTest": "tblC2",
       "Seed": null,
       "BitLens": null,
       "KeyFormat": "standard"
     }
   },
-  "FilePath": "rsa-b36-1024-tblc2-sha-1.json",
+  "FilePath": "rsa-b36-1024-tblc2.json",
   "MaxCapacity": 250,
   "MonitorFrequency": 30,
   "MaxWaterReuse": 1000
@@ -5395,293 +3620,14 @@
       "PublicExponentMode": "random",
       "PublicExponent": null,
       "Modulus": 1024,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d224"
-      },
-      "PrimeTest": "tblC2",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b36-1024-tblc2-sha2-224.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.6",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 1024,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d256"
-      },
-      "PrimeTest": "tblC2",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b36-1024-tblc2-sha2-256.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.6",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 1024,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d384"
-      },
-      "PrimeTest": "tblC2",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b36-1024-tblc2-sha2-384.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.6",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 1024,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d512"
-      },
-      "PrimeTest": "tblC2",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b36-1024-tblc2-sha2-512.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.6",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 1024,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d512t224"
-      },
-      "PrimeTest": "tblC2",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b36-1024-tblc2-sha2-512224.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.6",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 1024,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d512t256"
-      },
-      "PrimeTest": "tblC2",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b36-1024-tblc2-sha2-512256.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.6",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 1024,
-      "HashAlg": {
-        "Mode": "SHA1",
-        "DigestSize": "d160"
-      },
+      "HashAlg": null,
       "PrimeTest": "tblC3",
       "Seed": null,
       "BitLens": null,
       "KeyFormat": "standard"
     }
   },
-  "FilePath": "rsa-b36-1024-tblc3-sha-1.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.6",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 1024,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d224"
-      },
-      "PrimeTest": "tblC3",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b36-1024-tblc3-sha2-224.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.6",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 1024,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d256"
-      },
-      "PrimeTest": "tblC3",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b36-1024-tblc3-sha2-256.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.6",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 1024,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d384"
-      },
-      "PrimeTest": "tblC3",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b36-1024-tblc3-sha2-384.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.6",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 1024,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d512"
-      },
-      "PrimeTest": "tblC3",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b36-1024-tblc3-sha2-512.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.6",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 1024,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d512t224"
-      },
-      "PrimeTest": "tblC3",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b36-1024-tblc3-sha2-512224.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.6",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 1024,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d512t256"
-      },
-      "PrimeTest": "tblC3",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b36-1024-tblc3-sha2-512256.json",
+  "FilePath": "rsa-b36-1024-tblc3.json",
   "MaxCapacity": 250,
   "MonitorFrequency": 30,
   "MaxWaterReuse": 1000
@@ -5694,17 +3640,14 @@
       "PublicExponentMode": "random",
       "PublicExponent": null,
       "Modulus": 2048,
-      "HashAlg": {
-        "Mode": "SHA1",
-        "DigestSize": "d160"
-      },
+      "HashAlg": null,
       "PrimeTest": "tblC2",
       "Seed": null,
       "BitLens": null,
       "KeyFormat": "standard"
     }
   },
-  "FilePath": "rsa-b36-2048-tblc2-sha-1.json",
+  "FilePath": "rsa-b36-2048-tblc2.json",
   "MaxCapacity": 250,
   "MonitorFrequency": 30,
   "MaxWaterReuse": 1000
@@ -5717,293 +3660,14 @@
       "PublicExponentMode": "random",
       "PublicExponent": null,
       "Modulus": 2048,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d224"
-      },
-      "PrimeTest": "tblC2",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b36-2048-tblc2-sha2-224.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.6",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 2048,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d256"
-      },
-      "PrimeTest": "tblC2",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b36-2048-tblc2-sha2-256.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.6",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 2048,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d384"
-      },
-      "PrimeTest": "tblC2",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b36-2048-tblc2-sha2-384.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.6",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 2048,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d512"
-      },
-      "PrimeTest": "tblC2",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b36-2048-tblc2-sha2-512.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.6",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 2048,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d512t224"
-      },
-      "PrimeTest": "tblC2",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b36-2048-tblc2-sha2-512224.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.6",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 2048,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d512t256"
-      },
-      "PrimeTest": "tblC2",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b36-2048-tblc2-sha2-512256.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.6",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 2048,
-      "HashAlg": {
-        "Mode": "SHA1",
-        "DigestSize": "d160"
-      },
+      "HashAlg": null,
       "PrimeTest": "tblC3",
       "Seed": null,
       "BitLens": null,
       "KeyFormat": "standard"
     }
   },
-  "FilePath": "rsa-b36-2048-tblc3-sha-1.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.6",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 2048,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d224"
-      },
-      "PrimeTest": "tblC3",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b36-2048-tblc3-sha2-224.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.6",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 2048,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d256"
-      },
-      "PrimeTest": "tblC3",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b36-2048-tblc3-sha2-256.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.6",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 2048,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d384"
-      },
-      "PrimeTest": "tblC3",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b36-2048-tblc3-sha2-384.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.6",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 2048,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d512"
-      },
-      "PrimeTest": "tblC3",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b36-2048-tblc3-sha2-512.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.6",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 2048,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d512t224"
-      },
-      "PrimeTest": "tblC3",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b36-2048-tblc3-sha2-512224.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.6",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 2048,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d512t256"
-      },
-      "PrimeTest": "tblC3",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b36-2048-tblc3-sha2-512256.json",
+  "FilePath": "rsa-b36-2048-tblc3.json",
   "MaxCapacity": 250,
   "MonitorFrequency": 30,
   "MaxWaterReuse": 1000
@@ -6016,17 +3680,14 @@
       "PublicExponentMode": "random",
       "PublicExponent": null,
       "Modulus": 3072,
-      "HashAlg": {
-        "Mode": "SHA1",
-        "DigestSize": "d160"
-      },
+      "HashAlg": null,
       "PrimeTest": "tblC2",
       "Seed": null,
       "BitLens": null,
       "KeyFormat": "standard"
     }
   },
-  "FilePath": "rsa-b36-3072-tblc2-sha-1.json",
+  "FilePath": "rsa-b36-3072-tblc2.json",
   "MaxCapacity": 250,
   "MonitorFrequency": 30,
   "MaxWaterReuse": 1000
@@ -6039,293 +3700,34 @@
       "PublicExponentMode": "random",
       "PublicExponent": null,
       "Modulus": 3072,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d224"
-      },
+      "HashAlg": null,
+      "PrimeTest": "tblC3",
+      "Seed": null,
+      "BitLens": null,
+      "KeyFormat": "standard"
+    }
+  },
+  "FilePath": "rsa-b36-3072-tblc3.json",
+  "MaxCapacity": 250,
+  "MonitorFrequency": 30,
+  "MaxWaterReuse": 1000
+},
+{
+  "PoolType": {
+    "type": "rsa_key",
+    "parameters": {
+      "KeyMode": "B.3.6",
+      "PublicExponentMode": "random",
+      "PublicExponent": null,
+      "Modulus": 4096,
+      "HashAlg": null,
       "PrimeTest": "tblC2",
       "Seed": null,
       "BitLens": null,
       "KeyFormat": "standard"
     }
   },
-  "FilePath": "rsa-b36-3072-tblc2-sha2-224.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.6",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 3072,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d256"
-      },
-      "PrimeTest": "tblC2",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b36-3072-tblc2-sha2-256.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.6",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 3072,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d384"
-      },
-      "PrimeTest": "tblC2",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b36-3072-tblc2-sha2-384.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.6",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 3072,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d512"
-      },
-      "PrimeTest": "tblC2",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b36-3072-tblc2-sha2-512.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.6",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 3072,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d512t224"
-      },
-      "PrimeTest": "tblC2",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b36-3072-tblc2-sha2-512224.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.6",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 3072,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d512t256"
-      },
-      "PrimeTest": "tblC2",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b36-3072-tblc2-sha2-512256.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.6",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 3072,
-      "HashAlg": {
-        "Mode": "SHA1",
-        "DigestSize": "d160"
-      },
-      "PrimeTest": "tblC3",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b36-3072-tblc3-sha-1.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.6",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 3072,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d224"
-      },
-      "PrimeTest": "tblC3",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b36-3072-tblc3-sha2-224.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.6",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 3072,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d256"
-      },
-      "PrimeTest": "tblC3",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b36-3072-tblc3-sha2-256.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.6",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 3072,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d384"
-      },
-      "PrimeTest": "tblC3",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b36-3072-tblc3-sha2-384.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.6",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 3072,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d512"
-      },
-      "PrimeTest": "tblC3",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b36-3072-tblc3-sha2-512.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.6",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 3072,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d512t224"
-      },
-      "PrimeTest": "tblC3",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b36-3072-tblc3-sha2-512224.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.6",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 3072,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d512t256"
-      },
-      "PrimeTest": "tblC3",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b36-3072-tblc3-sha2-512256.json",
+  "FilePath": "rsa-b36-4096-tblc2.json",
   "MaxCapacity": 250,
   "MonitorFrequency": 30,
   "MaxWaterReuse": 1000
@@ -6338,316 +3740,14 @@
       "PublicExponentMode": "random",
       "PublicExponent": null,
       "Modulus": 4096,
-      "HashAlg": {
-        "Mode": "SHA1",
-        "DigestSize": "d160"
-      },
-      "PrimeTest": "tblC2",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b36-4096-tblc2-sha-1.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.6",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 4096,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d224"
-      },
-      "PrimeTest": "tblC2",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b36-4096-tblc2-sha2-224.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.6",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 4096,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d256"
-      },
-      "PrimeTest": "tblC2",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b36-4096-tblc2-sha2-256.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.6",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 4096,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d384"
-      },
-      "PrimeTest": "tblC2",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b36-4096-tblc2-sha2-384.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.6",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 4096,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d512"
-      },
-      "PrimeTest": "tblC2",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b36-4096-tblc2-sha2-512.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.6",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 4096,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d512t224"
-      },
-      "PrimeTest": "tblC2",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b36-4096-tblc2-sha2-512224.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.6",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 4096,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d512t256"
-      },
-      "PrimeTest": "tblC2",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b36-4096-tblc2-sha2-512256.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.6",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 4096,
-      "HashAlg": {
-        "Mode": "SHA1",
-        "DigestSize": "d160"
-      },
+      "HashAlg": null,
       "PrimeTest": "tblC3",
       "Seed": null,
       "BitLens": null,
       "KeyFormat": "standard"
     }
   },
-  "FilePath": "rsa-b36-4096-tblc3-sha-1.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.6",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 4096,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d224"
-      },
-      "PrimeTest": "tblC3",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b36-4096-tblc3-sha2-224.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.6",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 4096,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d256"
-      },
-      "PrimeTest": "tblC3",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b36-4096-tblc3-sha2-256.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.6",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 4096,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d384"
-      },
-      "PrimeTest": "tblC3",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b36-4096-tblc3-sha2-384.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.6",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 4096,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d512"
-      },
-      "PrimeTest": "tblC3",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b36-4096-tblc3-sha2-512.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.6",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 4096,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d512t224"
-      },
-      "PrimeTest": "tblC3",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b36-4096-tblc3-sha2-512224.json",
-  "MaxCapacity": 250,
-  "MonitorFrequency": 30,
-  "MaxWaterReuse": 1000
-},
-{
-  "PoolType": {
-    "type": "rsa_key",
-    "parameters": {
-      "KeyMode": "B.3.6",
-      "PublicExponentMode": "random",
-      "PublicExponent": null,
-      "Modulus": 4096,
-      "HashAlg": {
-        "Mode": "SHA2",
-        "DigestSize": "d512t256"
-      },
-      "PrimeTest": "tblC3",
-      "Seed": null,
-      "BitLens": null,
-      "KeyFormat": "standard"
-    }
-  },
-  "FilePath": "rsa-b36-4096-tblc3-sha2-512256.json",
+  "FilePath": "rsa-b36-4096-tblc3.json",
   "MaxCapacity": 250,
   "MonitorFrequency": 30,
   "MaxWaterReuse": 1000
