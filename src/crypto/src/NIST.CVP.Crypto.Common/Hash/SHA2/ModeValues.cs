@@ -6,7 +6,7 @@ namespace NIST.CVP.Crypto.Common.Hash.SHA2
     {
         [EnumMember(Value = "SHA-1")]
         SHA1,
-        [EnumMember(Value = "SHA")]
+        [EnumMember(Value = "SHA2")]
         SHA2,
         NONE
     }
