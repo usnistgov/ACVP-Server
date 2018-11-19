@@ -1,15 +1,16 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
+using NIST.CVP.Common.Config;
 using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Pools.Enums;
+using NIST.CVP.Pools.Models;
 using NLog;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
-using Microsoft.Extensions.Options;
-using NIST.CVP.Common.Config;
-using NIST.CVP.Pools.Models;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace NIST.CVP.Pools
@@ -183,8 +184,16 @@ namespace NIST.CVP.Pools
                     ValueUsed = DateTime.UtcNow
                 };
 
+                Shuffle();
                 AddWater(newResultToQueue);
             }
+        }
+
+        private void Shuffle()
+        {
+            var shuffledList = _water.OrderBy(x => Guid.NewGuid()).ToList();
+            _water.Clear();
+            shuffledList.ForEach(fe => _water.Enqueue(fe));
         }
 
         private bool AddWater(ResultWrapper<TResult> result)
