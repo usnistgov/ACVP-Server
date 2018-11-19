@@ -1,11 +1,11 @@
 ﻿using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC.Enums;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.Async;
 using NLog;
 using System;
 using System.Threading.Tasks;
-using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC.Enums;
-using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.DSA.FFC.PQGGen
 {
@@ -57,13 +57,15 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
                 else
                 {
                     // Needs PQ
-                    var result = await _oracle.GetDsaPQAsync(param);
+                    var result = await _oracle.GetDsaDomainParametersAsync(param);
                     var testCase = new TestCase
                     {
                         Counter = result.Counter,
                         Seed = result.Seed,
                         P = result.P,
-                        Q = result.Q
+                        Q = result.Q,
+                        // Do not save G, client is responsible for generating it
+                        Index = result.Index
                     };
 
                     return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
