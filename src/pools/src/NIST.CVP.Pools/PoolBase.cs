@@ -50,6 +50,7 @@ namespace NIST.CVP.Pools
             _maxWaterReuse = param.PoolProperties.MaxWaterReuse;
             _water = new ConcurrentQueue<ResultWrapper<TResult>>();
             _fullPoolLocation = param.FullPoolLocation;
+            LoadPoolFromFile();
         }
 
         public PoolResult<TResult> GetNext()
