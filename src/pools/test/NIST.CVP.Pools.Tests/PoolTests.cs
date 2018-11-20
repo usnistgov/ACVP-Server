@@ -8,6 +8,7 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Microsoft.Extensions.Options;
 using Moq;
 using NIST.CVP.Common.Config;
@@ -42,8 +43,15 @@ namespace NIST.CVP.Pools.Tests
             };
             _poolConfig.Setup(s => s.Value).Returns(poolConfig);
 
-            _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\");
+            _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\poolTests\");
+            Directory.CreateDirectory(_testPath);
             _fullPath = Path.Combine(_testPath, $"{Guid.NewGuid()}.json");
+        }
+
+        [OneTimeTearDown]
+        public void Teardown()
+        {
+            Directory.Delete(_testPath, true);
         }
 
         [Test]
@@ -211,6 +219,73 @@ namespace NIST.CVP.Pools.Tests
                 pool.WaterLevel, 
                 nameof(waterLevelPostValueGet)
             );
+        }
+
+        private class ExposedWaterPool : AesPool
+        {
+            public ExposedWaterPool(PoolConstructionParameters<AesParameters> param) : base(param)
+            {
+            }
+
+            public ResultWrapper<AesResult>[] GetPoolWater()
+            {
+                return Water.ToArray();
+            }
+        }
+
+        [Test]
+        public void RecycledValuesShouldChangeQueueOrder()
+        {
+            var param = new AesParameters
+            {
+                Direction = "encrypt",
+                DataLength = 128,
+                Mode = BlockCipherModesOfOperation.Ecb,
+                KeyLength = 128
+            };
+
+            _poolConfig.Setup(s => s.Value)
+                .Returns(new PoolConfig() {ShouldRecyclePoolWater = true});
+
+            var pool = new ExposedWaterPool(GetConstructionParameters(param, PoolTypes.AES));
+
+            Assume.That(pool.IsEmpty);
+            
+            pool.AddWater(new AesResult() {PlainText = new BitString("01")});
+            pool.AddWater(new AesResult() {PlainText = new BitString("02")});
+            pool.AddWater(new AesResult() {PlainText = new BitString("03")});
+            pool.AddWater(new AesResult() {PlainText = new BitString("04")});
+            pool.AddWater(new AesResult() {PlainText = new BitString("05")});
+            pool.AddWater(new AesResult() {PlainText = new BitString("06")});
+            pool.AddWater(new AesResult() {PlainText = new BitString("07")});
+            pool.AddWater(new AesResult() {PlainText = new BitString("08")});
+            pool.AddWater(new AesResult() {PlainText = new BitString("09")});
+            pool.AddWater(new AesResult() {PlainText = new BitString("10")});
+
+            pool.GetNext();
+
+            var water = pool.GetPoolWater();
+
+            Assume.That(water.Count() == 10);
+
+            // The chances of this being shuffled back into the "correct, not shuffled" order is super small right?
+            if (water[0].Result.PlainText.Equals(new BitString("02")) &&
+                water[1].Result.PlainText.Equals(new BitString("03")) &&
+                water[2].Result.PlainText.Equals(new BitString("04")) &&
+                water[3].Result.PlainText.Equals(new BitString("05")) &&
+                water[3].Result.PlainText.Equals(new BitString("06")) &&
+                water[3].Result.PlainText.Equals(new BitString("07")) &&
+                water[3].Result.PlainText.Equals(new BitString("08")) &&
+                water[3].Result.PlainText.Equals(new BitString("09")) &&
+                water[3].Result.PlainText.Equals(new BitString("10")) &&
+                water[4].Result.PlainText.Equals(new BitString("01")))
+            {
+                Assert.Fail();
+            }
+            else
+            {
+                Assert.Pass();
+            }
         }
 
         [Test]

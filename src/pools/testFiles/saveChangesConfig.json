@@ -1,38 +1,6 @@
 [
   {
     "PoolType": {
-      "type": "sha",
-      "parameters": {
-        "MessageLength": 512,
-        "HashFunction": {
-          "Mode": "SHA",
-          "DigestSize": "256"
-        }
-      }
-    },
-    "FilePath": "sha2-test1.json",
-    "MaxCapacity": 100,
-    "MonitorFrequency": 30,
-    "MaxWaterReuse": 1000
-  },
-  {
-    "PoolType": {
-      "type": "sha",
-      "parameters": {
-        "MessageLength": 256,
-        "HashFunction": {
-          "Mode": "SHA",
-          "DigestSize": "256"
-        }
-      }
-    },
-    "FilePath": "sha2-test2.json",
-    "MaxCapacity": 50,
-    "MonitorFrequency": 30,
-    "MaxWaterReuse": 1000
-  },
-  {
-    "PoolType": {
       "type": "aes",
       "parameters": {
         "Mode": "ecb",

@@ -22,7 +22,7 @@ namespace NIST.CVP.Pools
         public PoolTypes DeclaredType { get; }
         public TParam WaterType { get; }
         
-        public int WaterLevel => _water.Count;
+        public int WaterLevel => Water.Count;
         public int MaxWaterLevel { get; }
         public decimal WaterFillPercent => (decimal)WaterLevel / MaxWaterLevel;
 
@@ -33,8 +33,8 @@ namespace NIST.CVP.Pools
         public Type ResultType => typeof(TResult);
 
         protected readonly IOracle Oracle;
-
-        private readonly ConcurrentQueue<ResultWrapper<TResult>> _water;
+        protected readonly ConcurrentQueue<ResultWrapper<TResult>> Water;
+        
         private readonly IList<JsonConverter> _jsonConverters;
         private readonly IOptions<PoolConfig> _poolConfig;
         private readonly int _maxWaterReuse;
@@ -49,7 +49,7 @@ namespace NIST.CVP.Pools
             WaterType = param.WaterType;
             _jsonConverters = param.JsonConverters;
             _maxWaterReuse = param.PoolProperties.MaxWaterReuse;
-            _water = new ConcurrentQueue<ResultWrapper<TResult>>();
+            Water = new ConcurrentQueue<ResultWrapper<TResult>>();
             _fullPoolLocation = param.FullPoolLocation;
             LoadPoolFromFile();
         }
@@ -62,7 +62,7 @@ namespace NIST.CVP.Pools
             }
             else
             {
-                var success = _water.TryDequeue(out var wrappedResult);
+                var success = Water.TryDequeue(out var wrappedResult);
                 if (success)
                 {
                     RecycleValueWhenOptionsAllow(wrappedResult);
@@ -146,7 +146,7 @@ namespace NIST.CVP.Pools
         public bool SavePoolToFile()
         {
             var poolContents = JsonConvert.SerializeObject(
-                _water,
+                Water,
                 new JsonSerializerSettings
                 {
                     Converters = _jsonConverters,
@@ -167,7 +167,7 @@ namespace NIST.CVP.Pools
 
         public bool CleanPool()
         {
-            _water.Clear();
+            Water.Clear();
             return true;
         }
 
@@ -191,14 +191,14 @@ namespace NIST.CVP.Pools
 
         private void Shuffle()
         {
-            var shuffledList = _water.OrderBy(x => Guid.NewGuid()).ToList();
-            _water.Clear();
-            shuffledList.ForEach(fe => _water.Enqueue(fe));
+            var shuffledList = Water.OrderBy(x => Guid.NewGuid()).ToList();
+            Water.Clear();
+            shuffledList.ForEach(fe => Water.Enqueue(fe));
         }
 
         private bool AddWater(ResultWrapper<TResult> result)
         {
-            _water.Enqueue(result);
+            Water.Enqueue(result);
             return true;
         }
 
