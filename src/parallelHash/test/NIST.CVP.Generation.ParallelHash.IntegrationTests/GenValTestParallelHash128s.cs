@@ -16,7 +16,7 @@ namespace NIST.CVP.Generation.ParallelHash.IntegrationTests
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
         public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
 
-        public override string Algorithm { get; } = "ParallelHash-128";
+        public override string Algorithm { get; } = "ParallelHash";
         public override string Mode { get; } = string.Empty;
         public override AlgoMode AlgoMode => AlgoMode.ParallelHash;
 

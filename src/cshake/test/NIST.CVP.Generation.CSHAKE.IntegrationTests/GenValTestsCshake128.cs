@@ -76,7 +76,7 @@ namespace NIST.CVP.Generation.CSHAKE.IntegrationTests
 
             var parameters = new Parameters
             {
-                Algorithm = "CSHAKE-128",
+                Algorithm = "CSHAKE",
                 Mode = Mode,
                 DigestSizes = new[] { 128 },
                 OutputLength = minMax,
@@ -97,7 +97,7 @@ namespace NIST.CVP.Generation.CSHAKE.IntegrationTests
 
             var parameters = new Parameters
             {
-                Algorithm = "CSHAKE-128",
+                Algorithm = "CSHAKE",
                 DigestSizes = new[] { 128 },
                 OutputLength = minMax,
                 MessageLength = minMaxMsg,
