@@ -42,19 +42,19 @@ namespace NIST.CVP.PoolAPI
             var logger = LogManager.GetCurrentClassLogger();
 
             var poolConfigFile = "poolConfig.json";
-            var poolDirectory = args.Last();
+            string poolDirectory = GetPoolDirectory(args, isService);
 
             logger.Info($"PoolConfig: {poolConfigFile}");
             logger.Info($"PoolDirectory: {poolDirectory}");
             logger.Info("Loading pools from config file...");
             PoolManager = new PoolManager(
-                ServiceProvider.GetService<IOptions<PoolConfig>>(), 
+                ServiceProvider.GetService<IOptions<PoolConfig>>(),
                 new OracleBuilder().Build(), // TODO this is super not the way to do this, figure out the proper way to do DI with this "form factor" of webapi/service.
-                poolConfigFile, 
+                poolConfigFile,
                 poolDirectory
             );
             logger.Info("Pools loaded.");
-            
+
             if (isService)
             {
                 var pathToExe = Process.GetCurrentProcess().MainModule.FileName;
@@ -65,7 +65,7 @@ namespace NIST.CVP.PoolAPI
             }
 
             var host = builder.Build();
-            
+
             if (isService)
             {
                 logger.Info("Running as service");
@@ -76,6 +76,24 @@ namespace NIST.CVP.PoolAPI
                 logger.Info("Running from console");
                 host.Run();
             }
+        }
+
+        /// <summary>
+        /// Pool directory is "./Pools/" when not running as service,
+        /// when running as service, the pool directory should be passed into the
+        /// service registration.
+        /// </summary>
+        /// <param name="args"></param>
+        /// <param name="isService"></param>
+        /// <returns></returns>
+        private static string GetPoolDirectory(string[] args, bool isService)
+        {
+            if (isService)
+            {
+                return args.Last();
+            }
+            
+            return Path.GetFullPath(AppDomain.CurrentDomain.BaseDirectory + @"..\..\..\..\Pools");
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args)
