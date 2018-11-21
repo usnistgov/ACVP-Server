@@ -33,7 +33,7 @@ namespace NIST.CVP.Crypto.Oracle
                 param.BitLens = keyGenHelper.GetBitlens(param.Modulus, param.KeyMode);
                 
                 // Generate key until success
-                result = await GeneratePrimes(param, entropyProvider);
+                result = await GetRsaPrimes(param);
 
             } while (!result.Success);
 
@@ -157,16 +157,8 @@ namespace NIST.CVP.Crypto.Oracle
             return await observableGrain.ObserveUntilResult();
         }
 
-        private async Task<RsaPrimeResult> GeneratePrimes(RsaKeyParameters param, IEntropyProvider entropyProvider)
+        public virtual async Task<RsaPrimeResult> GetRsaPrimes(RsaKeyParameters param)
         {
-            // Only works with random public exponent
-            var poolBoy = new PoolBoy<RsaPrimeResult>(_poolConfig);
-            var poolResult = poolBoy.GetObjectFromPool(param, PoolTypes.RSA_KEY);
-            if (poolResult != null)
-            {
-                return poolResult;
-            }
-
             var observableGrain = 
                 await _clusterClient.GetObserverGrain<IOracleObserverRsaGeneratePrimesCaseGrain, RsaPrimeResult>();
             await observableGrain.Grain.BeginWorkAsync(param);

@@ -21,6 +21,7 @@ namespace NIST.CVP.Pools
     {
         public readonly List<IPool> Pools = new List<IPool>();
         private readonly IOptions<PoolConfig> _poolConfig;
+        private readonly IOracle _oracle;
         private readonly string _poolDirectory;
         private readonly string _poolConfigFile;
 
@@ -34,11 +35,17 @@ namespace NIST.CVP.Pools
             new StringEnumConverter()
         };
 
-        public PoolManager(IOptions<PoolConfig> poolConfig, string poolConfigFile, string poolDirectory)
+        public PoolManager(
+            IOptions<PoolConfig> poolConfig, 
+            IOracle oracle,
+            string poolConfigFile, 
+            string poolDirectory
+        )
         {
+            _poolConfig = poolConfig;
+            _oracle = oracle;
             _poolDirectory = poolDirectory;
             _poolConfigFile = poolConfigFile;
-            _poolConfig = poolConfig;
             LoadPools();
         }
 
@@ -112,8 +119,7 @@ namespace NIST.CVP.Pools
             {
                 if (_properties.TryFirst(prop => pool.Param.Equals(prop.PoolType.Parameters), out var properties))
                 {
-                    var filePath = Path.Combine(_poolDirectory, properties.FilePath);
-                    if (!pool.SavePoolToFile(filePath))
+                    if (!pool.SavePoolToFile())
                     {
                         return false;
                     }
@@ -236,6 +242,7 @@ namespace NIST.CVP.Pools
         {
             return new PoolConstructionParameters<TParam>()
             {
+                Oracle = _oracle,
                 JsonConverters = _jsonConverters,
                 PoolConfig = _poolConfig,
                 PoolProperties = poolProperties,

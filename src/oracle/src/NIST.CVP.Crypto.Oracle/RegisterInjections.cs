@@ -7,7 +7,7 @@ namespace NIST.CVP.Crypto.Oracle
     {
         public void RegisterTypes(ContainerBuilder builder, AlgoMode algoMode)
         {
-            builder.RegisterType<Oracle>().AsImplementedInterfaces();
+            builder.RegisterType<OraclePools>().AsImplementedInterfaces();
         }
     }
 }

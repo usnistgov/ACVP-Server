@@ -4,6 +4,9 @@ namespace NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums
 {
     public enum PrimeTestModes
     {
+        [EnumMember(Value = "none")]
+        None,
+
         [EnumMember(Value = "tblC2")]
         C2,
 

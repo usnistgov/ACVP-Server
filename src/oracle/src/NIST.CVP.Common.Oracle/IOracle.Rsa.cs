@@ -2,6 +2,7 @@
 using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
 using System.Threading.Tasks;
+using NIST.CVP.Math.Entropy;
 
 namespace NIST.CVP.Common.Oracle
 {
@@ -22,5 +23,7 @@ namespace NIST.CVP.Common.Oracle
         Task<RsaDecryptionPrimitiveResult> GetDeferredRsaDecryptionPrimitiveAsync(RsaDecryptionPrimitiveParameters param);
         Task<RsaDecryptionPrimitiveResult> CompleteDeferredRsaDecryptionPrimitiveAsync(RsaDecryptionPrimitiveParameters param, RsaDecryptionPrimitiveResult fullParam);
         Task<RsaDecryptionPrimitiveResult> GetRsaDecryptionPrimitiveAsync(RsaDecryptionPrimitiveParameters param);
+
+        Task<RsaPrimeResult> GetRsaPrimes(RsaKeyParameters param);
     }
 }
