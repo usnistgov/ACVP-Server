@@ -48,6 +48,9 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen.Tests.ContractResolvers
             Assert.AreEqual(tg.Tests.Count, newTg.Tests.Count, nameof(newTg.Tests));
             Assert.AreEqual(tg.L, newTg.L, nameof(newTg.L));
             Assert.AreEqual(tg.N, newTg.N, nameof(newTg.N));
+            Assert.AreNotEqual(tg.X, newTg.X, nameof(newTg.X));
+            Assert.AreNotEqual(tg.Y, newTg.Y, nameof(newTg.Y));
+
 
             Assert.AreNotEqual(tg.P, newTg.P, nameof(newTg.P));
             Assert.AreNotEqual(tg.Q, newTg.Q, nameof(newTg.Q));
@@ -71,8 +74,6 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen.Tests.ContractResolvers
             Assert.AreEqual(tc.TestCaseId, newTc.TestCaseId, nameof(newTc.TestCaseId));
             Assert.AreEqual(tc.Message, newTc.Message, nameof(newTc.Message));
 
-            Assert.AreNotEqual(tc.X, newTc.X, nameof(newTc.X));
-            Assert.AreNotEqual(tc.Y, newTc.Y, nameof(newTc.Y));
             Assert.AreNotEqual(tc.R, newTc.R, nameof(newTc.R));
             Assert.AreNotEqual(tc.S, newTc.S, nameof(newTc.S));
 

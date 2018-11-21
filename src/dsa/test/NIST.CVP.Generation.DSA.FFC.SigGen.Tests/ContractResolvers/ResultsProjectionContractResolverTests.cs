@@ -49,6 +49,7 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen.Tests.ContractResolvers
             Assert.AreEqual(tg.P, newTg.P, nameof(newTg.P));
             Assert.AreEqual(tg.Q, newTg.Q, nameof(newTg.Q));
             Assert.AreEqual(tg.G, newTg.G, nameof(newTg.G));
+            Assert.AreEqual(tg.Y, newTg.Y, nameof(newTg.Y));
         }
 
         [Test]
@@ -66,8 +67,7 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen.Tests.ContractResolvers
 
             Assert.AreEqual(tc.ParentGroup.TestGroupId, newTc.ParentGroup.TestGroupId, nameof(newTc.ParentGroup));
             Assert.AreEqual(tc.TestCaseId, newTc.TestCaseId, nameof(newTc.TestCaseId));
-            Assert.AreEqual(tc.Y, newTc.Y, nameof(newTc.Y));
-
+            
             // TestPassed will have the default value when re-hydrated, check to make sure it isn't in the JSON
             Regex regex = new Regex(nameof(TestCase.TestPassed), RegexOptions.IgnoreCase);
             Assert.IsTrue(regex.Matches(json).Count == 0);
