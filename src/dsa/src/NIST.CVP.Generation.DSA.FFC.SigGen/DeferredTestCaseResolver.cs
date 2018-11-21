@@ -32,7 +32,7 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen
 
             var fullParam = new DsaSignatureResult
             {
-                Key = iutTestCase.Key,
+                Key = iutTestGroup.Key,
                 Message = serverTestCase.Message,
                 Signature = iutTestCase.Signature
             };

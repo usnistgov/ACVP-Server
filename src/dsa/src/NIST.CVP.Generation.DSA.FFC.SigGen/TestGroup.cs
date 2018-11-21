@@ -46,6 +46,26 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen
             set => HashAlg = ShaAttributes.GetHashFunctionFromName(value);
         }
 
+        /// <summary>
+        /// Ignoring for (De)Serialization as KeyPairs are flattened
+        /// </summary>
+        [JsonIgnore]
+        public FfcKeyPair Key { get; set; } = new FfcKeyPair();
+
+        [JsonProperty(PropertyName = "x", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public BigInteger X
+        {
+            get => Key?.PrivateKeyX ?? 0;
+            set => Key.PrivateKeyX = value;
+        }
+
+        [JsonProperty(PropertyName = "y", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public BigInteger Y
+        {
+            get => Key?.PublicKeyY ?? 0;
+            set => Key.PublicKeyY = value;
+        }
+
         public List<TestCase> Tests { get; set; } = new List<TestCase>();
         
         public bool SetString(string name, string value)

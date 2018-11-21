@@ -16,6 +16,7 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen.ContractResolvers
                 nameof(TestGroup.P),
                 nameof(TestGroup.Q),
                 nameof(TestGroup.G),
+                nameof(TestGroup.Y),
             };
 
             if (includeProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
@@ -33,7 +34,6 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen.ContractResolvers
             var includeProperties = new[]
             {
                 nameof(TestCase.TestCaseId),
-                nameof(TestCase.Y),
                 nameof(TestCase.R),
                 nameof(TestCase.S),
             };
