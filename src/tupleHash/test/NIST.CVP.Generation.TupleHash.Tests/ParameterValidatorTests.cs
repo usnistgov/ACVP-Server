@@ -145,7 +145,7 @@ namespace NIST.CVP.Generation.TupleHash.Tests
 
             public ParameterBuilder()
             {
-                _algorithm = "tuplehash-128";
+                _algorithm = "tuplehash";
                 _digestSize = new int[] { 128, 256 };
                 _outputLength = new MathDomain();
                 _outputLength.AddSegment(new RangeDomainSegment(null, 16, 65536));

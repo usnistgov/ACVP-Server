@@ -1,11 +1,14 @@
 {
   "vsId": 0,
-  "algorithm": "CSHAKE",
+  "algorithm": "ParallelHash",
+  "mode": "",
   "isSample": false,
   "conformances": [],
   "digestSize": [
-    128
+    256
   ],
+  "nonxof": true,
+  "xof": true,
   "hexCustomization": false,
   "outputLength": [
     {

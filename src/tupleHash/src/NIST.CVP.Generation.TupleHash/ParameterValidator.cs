@@ -7,7 +7,7 @@ namespace NIST.CVP.Generation.TupleHash
 {
     public class ParameterValidator : ParameterValidatorBase, IParameterValidator<Parameters>
     {
-        public static string[] VALID_ALGORITHMS = {"tuplehash-128", "tuplehash-256"};
+        public static string[] VALID_ALGORITHMS = {"tuplehash"};
         public static string[] VALID_MODES = {"128", "256"};
         public static int[] VALID_DIGEST_SIZES = {128, 256};
 
