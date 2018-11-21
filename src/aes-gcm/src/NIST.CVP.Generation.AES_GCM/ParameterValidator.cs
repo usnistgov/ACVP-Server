@@ -44,14 +44,14 @@ namespace NIST.CVP.Generation.AES_GCM
 
         private void ValidatePlainText(Parameters parameters,  List<string> errorResults)
         {
-            var segmentCheck = ValidateSegmentCountGreaterThanZero(parameters.PtLen, "PtLen Domain");
+            var segmentCheck = ValidateSegmentCountGreaterThanZero(parameters.PayloadLen, "PtLen Domain");
             errorResults.AddIfNotNullOrEmpty(segmentCheck);
             if (!string.IsNullOrEmpty(segmentCheck))
             {
                 return;
             }
 
-            var fullDomain = parameters.PtLen.GetDomainMinMax();
+            var fullDomain = parameters.PayloadLen.GetDomainMinMax();
             var rangeCheck = ValidateRange(
                 new long[] { fullDomain.Minimum, fullDomain.Maximum },
                 VALID_MIN_PT,
@@ -60,7 +60,7 @@ namespace NIST.CVP.Generation.AES_GCM
             );
             errorResults.AddIfNotNullOrEmpty(rangeCheck);
 
-            var modCheck = ValidateMultipleOf(parameters.PtLen, 8, "PtLen Modulus");
+            var modCheck = ValidateMultipleOf(parameters.PayloadLen, 8, "PtLen Modulus");
             errorResults.AddIfNotNullOrEmpty(modCheck);
         }
         
@@ -113,14 +113,14 @@ namespace NIST.CVP.Generation.AES_GCM
 
         private void ValidateAAD(Parameters parameters,  List<string> errorResults)
         {
-            var segmentCheck = ValidateSegmentCountGreaterThanZero(parameters.aadLen, "AadLen Domain");
+            var segmentCheck = ValidateSegmentCountGreaterThanZero(parameters.AadLen, "AadLen Domain");
             errorResults.AddIfNotNullOrEmpty(segmentCheck);
             if (!string.IsNullOrEmpty(segmentCheck))
             {
                 return;
             }
 
-            var fullDomain = parameters.aadLen.GetDomainMinMax();
+            var fullDomain = parameters.AadLen.GetDomainMinMax();
             var rangeCheck = ValidateRange(
                 new long[] { fullDomain.Minimum, fullDomain.Maximum },
                 VALID_MIN_AAD,
@@ -129,20 +129,20 @@ namespace NIST.CVP.Generation.AES_GCM
             );
             errorResults.AddIfNotNullOrEmpty(rangeCheck);
 
-            var modCheck = ValidateMultipleOf(parameters.aadLen, 8, "AadLen Modulus");
+            var modCheck = ValidateMultipleOf(parameters.AadLen, 8, "AadLen Modulus");
             errorResults.AddIfNotNullOrEmpty(modCheck);
         }
 
         private void ValidateIV(Parameters parameters,  List<string> errorResults)
         {
-            var segmentCheck = ValidateSegmentCountGreaterThanZero(parameters.ivLen, "ivLen Domain");
+            var segmentCheck = ValidateSegmentCountGreaterThanZero(parameters.IvLen, "ivLen Domain");
             errorResults.AddIfNotNullOrEmpty(segmentCheck);
             if (!string.IsNullOrEmpty(segmentCheck))
             {
                 return;
             }
 
-            var fullDomain = parameters.ivLen.GetDomainMinMax();
+            var fullDomain = parameters.IvLen.GetDomainMinMax();
             var rangeCheck = ValidateRange(
                 new long[] { fullDomain.Minimum, fullDomain.Maximum },
                 VALID_MIN_IV,
@@ -151,20 +151,20 @@ namespace NIST.CVP.Generation.AES_GCM
             );
             errorResults.AddIfNotNullOrEmpty(rangeCheck);
 
-            var modCheck = ValidateMultipleOf(parameters.ivLen, 8, "ivLen Modulus");
+            var modCheck = ValidateMultipleOf(parameters.IvLen, 8, "ivLen Modulus");
             errorResults.AddIfNotNullOrEmpty(modCheck);
 
 
-            var result = ValidateValue(parameters.ivGen, VALID_IV_GEN, "IV Generation");
+            var result = ValidateValue(parameters.IvGen, VALID_IV_GEN, "IV Generation");
             if (!string.IsNullOrEmpty(result))
             {
                 errorResults.Add(result);
             }
 
             // Only validate ivGenMode when ivGen is not null and is internal
-            if (!string.IsNullOrEmpty(parameters.ivGen) && parameters.ivGen.Equals("internal", StringComparison.CurrentCultureIgnoreCase))
+            if (!string.IsNullOrEmpty(parameters.IvGen) && parameters.IvGen.Equals("internal", StringComparison.CurrentCultureIgnoreCase))
             {
-                result = ValidateValue(parameters.ivGenMode, VALID_IV_GEN_MODE, "IV Generation Mode (Internal)");
+                result = ValidateValue(parameters.IvGenMode, VALID_IV_GEN_MODE, "IV Generation Mode (Internal)");
                 if (!string.IsNullOrEmpty(result))
                 {
                     errorResults.Add(result);

@@ -1,4 +1,5 @@
 {
+  "vsId": 0,
   "disposition": "passed",
   "tests": [
     {
@@ -39,86 +40,6 @@
     },
     {
       "tcId": 10,
-      "result": "passed"
-    },
-    {
-      "tcId": 11,
-      "result": "passed"
-    },
-    {
-      "tcId": 12,
-      "result": "passed"
-    },
-    {
-      "tcId": 13,
-      "result": "passed"
-    },
-    {
-      "tcId": 14,
-      "result": "passed"
-    },
-    {
-      "tcId": 15,
-      "result": "passed"
-    },
-    {
-      "tcId": 16,
-      "result": "passed"
-    },
-    {
-      "tcId": 17,
-      "result": "passed"
-    },
-    {
-      "tcId": 18,
-      "result": "passed"
-    },
-    {
-      "tcId": 19,
-      "result": "passed"
-    },
-    {
-      "tcId": 20,
-      "result": "passed"
-    },
-    {
-      "tcId": 21,
-      "result": "passed"
-    },
-    {
-      "tcId": 22,
-      "result": "passed"
-    },
-    {
-      "tcId": 23,
-      "result": "passed"
-    },
-    {
-      "tcId": 24,
-      "result": "passed"
-    },
-    {
-      "tcId": 25,
-      "result": "passed"
-    },
-    {
-      "tcId": 26,
-      "result": "passed"
-    },
-    {
-      "tcId": 27,
-      "result": "passed"
-    },
-    {
-      "tcId": 28,
-      "result": "passed"
-    },
-    {
-      "tcId": 29,
-      "result": "passed"
-    },
-    {
-      "tcId": 30,
       "result": "passed"
     }
   ]

@@ -4,7 +4,7 @@
     {
         public int KeyLength { get; set; }
         public int IvLength { get; set; }
-        public int DataLength { get; set; }
+        public int PayloadLength { get; set; }
         public int SaltLength { get; set; }
         public int AadLength { get; set; }
         public int TagLength { get; set; }

@@ -19,8 +19,8 @@ namespace NIST.CVP.Generation.AES_XTS
         public string Direction { get; set; }
         [JsonProperty(PropertyName = "keyLen")]
         public int KeyLen { get; set; }
-        [JsonProperty(PropertyName = "ptLen")]
-        public int PtLen { get; set; }
+        [JsonProperty(PropertyName = "payloadLen")]
+        public int PayloadLen { get; set; }
         [JsonProperty(PropertyName = "tweakMode")]
         public string TweakMode { get; set; }
         public List<TestCase> Tests { get; set; } = new List<TestCase>();
@@ -39,7 +39,7 @@ namespace NIST.CVP.Generation.AES_XTS
                     return true;
 
                 case "dataunitlen":
-                    PtLen = int.Parse(value);
+                    PayloadLen = int.Parse(value);
                     return true;
 
                 case "encrypt":

@@ -24,12 +24,12 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
             {
                 var tg = new TestGroup
                 {
-                    AADLength = 16 + groupIdx * 2,
+                    AadLength = 16 + groupIdx * 2,
                     Function = direction,
-                    IVGeneration = ivGen,
-                    IVLength = 96 + groupIdx * 2,
+                    IvGeneration = ivGen,
+                    IvLength = 96 + groupIdx * 2,
                     KeyLength = 256 + groupIdx * 2,
-                    PTLength = 256 + groupIdx * 2,
+                    PayloadLength = 256 + groupIdx * 2,
                     TagLength = 16 + groupIdx * 2,
                     TestType = "AFT"
                 };

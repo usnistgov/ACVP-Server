@@ -11,7 +11,7 @@ namespace NIST.CVP.Generation.AES_CTR
         {
             var testGroups = new List<TestGroup>();
 
-            if (parameters.DataLength.ContainsValueOtherThan(128))
+            if (parameters.PayloadLen.ContainsValueOtherThan(128))
             {
                 foreach (var direction in parameters.Direction)
                 {
@@ -23,7 +23,7 @@ namespace NIST.CVP.Generation.AES_CTR
                             KeyLength = keyLength,
 
                             // Only test case generator that cares about this information
-                            DataLength = parameters.DataLength,
+                            PayloadLength = parameters.PayloadLen,
 
                             InternalTestType = LABEL
                         };

@@ -51,7 +51,7 @@ namespace NIST.CVP.Generation.KeyWrap.Tests.AES
             var subject = new TestGroup();
             var result = subject.SetString(name, "13");
             Assert.IsTrue(result);
-            Assert.AreEqual(13, subject.PtLen);
+            Assert.AreEqual(13, subject.PayloadLen);
         }
 
         [Test]

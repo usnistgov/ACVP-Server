@@ -73,14 +73,14 @@ namespace NIST.CVP.Generation.AES_CCM
 
         private void ValidatePlainText(Parameters parameters, List<string> errorResults)
         {
-            var segmentCheck = ValidateSegmentCountGreaterThanZero(parameters.PtLen, "Plain Text Domain");
+            var segmentCheck = ValidateSegmentCountGreaterThanZero(parameters.PayloadLen, "Plain Text Domain");
             errorResults.AddIfNotNullOrEmpty(segmentCheck);
             if (!string.IsNullOrEmpty(segmentCheck))
             {
                 return;
             }
 
-            var domain = parameters.PtLen.GetDomainMinMax();
+            var domain = parameters.PayloadLen.GetDomainMinMax();
             var rangeCheck = ValidateRange(
                 new long[] { domain.Minimum, domain.Maximum },
                 VALID_MIN_PT,
@@ -89,7 +89,7 @@ namespace NIST.CVP.Generation.AES_CCM
             );
             errorResults.AddIfNotNullOrEmpty(rangeCheck);
 
-            var modCheck = ValidateMultipleOf(parameters.PtLen, 8, "Plain Text Modulus");
+            var modCheck = ValidateMultipleOf(parameters.PayloadLen, 8, "Plain Text Modulus");
             errorResults.AddIfNotNullOrEmpty(modCheck);
         }
 

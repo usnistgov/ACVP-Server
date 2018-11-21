@@ -13,8 +13,8 @@ namespace NIST.CVP.Generation.AES_CTR
 
         [JsonProperty(PropertyName = "pt")]
         public BitString PlainText { get; set; }
-        [JsonProperty(PropertyName = "dataLen")]
-        public int Length { get; set; }
+        [JsonProperty(PropertyName = "payloadLen")]
+        public int PayloadLength { get; set; }
         [JsonProperty(PropertyName = "ct")]
         public BitString CipherText { get; set; }
         [JsonProperty(PropertyName = "iv")]

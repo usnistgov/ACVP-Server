@@ -22,9 +22,9 @@ namespace NIST.CVP.Generation.TDES_OFB.Tests
         }
 
         [Test]
-        [TestCase("NumberOfKeys", "13")]
+        [TestCase("NumberOfKeys", "1")]
         [TestCase("testType", "Monte Carlo")]
-        [TestCase("NumberOfKEYs", "130")]
+        [TestCase("NumberOfKEYs", "2")]
         public void ShouldReturnSetStringName(string name, string value)
         {
             var subject = new TestGroup();

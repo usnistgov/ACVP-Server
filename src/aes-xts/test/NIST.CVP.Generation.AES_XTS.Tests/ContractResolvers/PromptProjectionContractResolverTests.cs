@@ -50,7 +50,7 @@ namespace NIST.CVP.Generation.AES_XTS.Tests.ContractResolvers
             Assert.AreEqual(tg.TestType, newTg.TestType, nameof(newTg.TestType));
             Assert.AreEqual(tg.Tests.Count, newTg.Tests.Count, nameof(newTg.Tests));
             Assert.AreEqual(tg.Direction, newTg.Direction, nameof(newTg.Direction));
-            Assert.AreEqual(tg.PtLen, newTg.PtLen, nameof(newTg.PtLen));
+            Assert.AreEqual(tg.PayloadLen, newTg.PayloadLen, nameof(newTg.PayloadLen));
             Assert.AreEqual(tg.TweakMode, newTg.TweakMode, nameof(newTg.TweakMode));
         }
 

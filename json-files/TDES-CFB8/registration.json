@@ -1,5 +1,7 @@
 {
+  "vsId": 0,
   "algorithm": "TDES-CFB8",
+  "mode": "",
   "isSample": false,
   "conformances": [],
   "direction": [

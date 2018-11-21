@@ -17,11 +17,11 @@ namespace NIST.CVP.Generation.KeyWrap.Tests.TDES
                 var tg = new TestGroup
                 {
                     Direction = direction,
-                    PtLen = 128,
+                    PayloadLen = 128,
                     KeyLength = 128,
                     KwCipher = "cipher",
                     TestType = "AFT",
-                    NumberOfKeys = 3
+                    KeyingOption = 3
                 };
 
                 for (var testId = 15 * groupIdx + 1; testId <= (groupIdx + 1) * 15; testId++)

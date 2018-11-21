@@ -15,8 +15,8 @@ namespace NIST.CVP.Generation.AES_CCM
         public int KeyLength { get; set; }
         [JsonProperty(PropertyName = "ivLen")]
         public int IVLength { get; set; }
-        [JsonProperty(PropertyName = "ptLen")]
-        public int PTLength { get; set; }
+        [JsonProperty(PropertyName = "payloadLen")]
+        public int PayloadLength { get; set; }
         [JsonProperty(PropertyName = "aadLen")]
         public int AADLength { get; set; }
         [JsonProperty(PropertyName = "tagLen")]
@@ -57,7 +57,7 @@ namespace NIST.CVP.Generation.AES_CCM
                     IVLength = intVal;
                     return true;
                 case "ptlen":
-                    PTLength = intVal;
+                    PayloadLength = intVal;
                     return true;
             }
             return false;

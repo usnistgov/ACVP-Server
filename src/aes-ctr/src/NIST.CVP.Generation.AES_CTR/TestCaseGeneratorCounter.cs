@@ -65,7 +65,7 @@ namespace NIST.CVP.Generation.AES_CTR
                     IV = result.Iv,
                     Key = result.Key,
                     PlainText = result.PlainText,
-                    Length = result.PlainText?.BitLength ?? result.CipherText.BitLength
+                    PayloadLength = result.PlainText?.BitLength ?? result.CipherText.BitLength
                 });
             }
             catch (Exception ex)

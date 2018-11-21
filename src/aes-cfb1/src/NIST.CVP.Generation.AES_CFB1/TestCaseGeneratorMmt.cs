@@ -43,7 +43,7 @@ namespace NIST.CVP.Generation.AES_CFB1
 
                 return new TestCaseGenerateResponse<TestGroup, TestCase>(new TestCase
                 {
-                    DataLen = dataLength,
+                    PayloadLen = dataLength,
                     Key = oracleResult.Key,
                     IV = oracleResult.Iv,
                     PlainText = oracleResult.PlainText,

@@ -1,14 +1,10 @@
 ﻿using System.Collections.Generic;
-using System.Dynamic;
-using System.Linq;
 using System.Numerics;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.Core.ExtensionMethods;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.DSA.FFC.SigGen
@@ -24,21 +20,21 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen
         [JsonProperty(PropertyName = "p", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public BigInteger P
         {
-            get => DomainParams.P;
+            get => DomainParams?.P ?? 0;
             set => DomainParams.P = value;
         }
 
         [JsonProperty(PropertyName = "q", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public BigInteger Q
         {
-            get => DomainParams.Q;
+            get => DomainParams?.Q ?? 0;
             set => DomainParams.Q = value;
         }
 
         [JsonProperty(PropertyName = "g", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public BigInteger G
         {
-            get => DomainParams.G;
+            get => DomainParams?.G ?? 0;
             set => DomainParams.G = value;
         }
 

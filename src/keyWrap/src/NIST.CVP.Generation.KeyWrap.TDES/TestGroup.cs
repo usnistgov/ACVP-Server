@@ -3,6 +3,7 @@ using System.Dynamic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NIST.CVP.Crypto.Common.Symmetric.KeyWrap.Enums;
+using NIST.CVP.Crypto.Common.Symmetric.TDES;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.ExtensionMethods;
 
@@ -24,12 +25,8 @@ namespace NIST.CVP.Generation.KeyWrap.TDES
             set { }
         }
 
-        [JsonProperty(PropertyName = "numberOfKeys")]
-        public int NumberOfKeys { get; set; }
-
-        [JsonIgnore]
         public int KeyingOption { get; set; }
-
+        
         public override bool SetString(string name, string value)
         {
             if (string.IsNullOrEmpty(name))
@@ -54,7 +51,7 @@ namespace NIST.CVP.Generation.KeyWrap.TDES
             switch (name)
             {
                 case "numberofkeys":
-                    NumberOfKeys = intVal;
+                    KeyingOption = TdesHelpers.GetKeyingOptionFromNumberOfKeys(intVal);
                     return true;
             }
             return false;

@@ -1,7 +1,9 @@
 {
+  "vsId": 0,
   "algorithm": "kdf-components",
   "mode": "ssh",
   "isSample": true,
+  "conformances": [],
   "hashAlg": [
     "sha-1",
     "sha2-224",
@@ -10,9 +12,9 @@
     "sha2-512"
   ],
   "cipher": [
-    "tdes",
-    "aes-128",
-    "aes-192",
-    "aes-256"
+    "TDES",
+    "AES-128",
+    "AES-192",
+    "AES-256"
   ]
 }

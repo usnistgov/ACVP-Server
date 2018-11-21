@@ -46,12 +46,12 @@ namespace NIST.CVP.Generation.AES_XPN.Tests
                     new TestGroup()
                     {
                         Function = function,
-                        AADLength = 128,
+                        AadLength = 128,
                         TestType = string.Empty,
-                        IVGeneration = string.Empty,
-                        IVGenerationMode = string.Empty,
+                        IvGeneration = string.Empty,
+                        IvGenerationMode = string.Empty,
                         KeyLength = 128,
-                        PTLength = 128,
+                        PayloadLength = 128,
                         TagLength = 128,
                         Tests = new List<TestCase>()
                         {

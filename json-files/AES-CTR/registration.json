@@ -1,5 +1,7 @@
 {
+  "vsId": 0,
   "algorithm": "AES-CTR",
+  "mode": "",
   "isSample": true,
   "conformances": [],
   "keyLen": [
@@ -11,7 +13,7 @@
     "encrypt",
     "decrypt"
   ],
-  "dataLength": [
+  "payloadLen": [
     {
       "min": 1,
       "max": 128,

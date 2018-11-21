@@ -39,10 +39,7 @@ namespace NIST.CVP.Orleans.ServerHost.ExtensionMethods
                     });
                     builder.UseLocalhostClustering();
                     break;
-                case Environments.Dev:
-                case Environments.Test:
-                case Environments.Demo:
-                case Environments.Prod:
+                default:
                     var primarySiloEndpoint = new IPEndPoint(
                         IPAddress.Parse(orleansConfig.OrleansNodeIps.First()), orleansConfig.OrleansSiloPort
                     );
@@ -52,8 +49,6 @@ namespace NIST.CVP.Orleans.ServerHost.ExtensionMethods
                         gatewayPort: orleansConfig.OrleansGatewayPort
                     );
                     break;
-                default:
-                    throw new ArgumentException($"invalid {nameof(environmentConfig)}");
             }
 
             return builder;

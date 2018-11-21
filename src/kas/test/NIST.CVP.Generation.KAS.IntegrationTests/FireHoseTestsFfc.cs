@@ -13,17 +13,15 @@ using NUnit.Framework;
 
 namespace NIST.CVP.Generation.KAS.IntegrationTests
 {
-    [TestFixture, FastIntegrationTest]
+    [TestFixture, LongRunningIntegrationTest]
     public class FireHoseTestsFfc
     {
         string _testPath;
-        private IShaFactory _shaFactory;
 
         [SetUp]
         public void Setup()
         {
             _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\LegacyParserFiles\");
-            _shaFactory = new ShaFactory();
         }
 
         [Test]

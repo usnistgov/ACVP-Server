@@ -16,10 +16,10 @@ cd ..\GenValAppRunner
 dotnet clean
 
 cd ..\AllDeployable
-dotnet build -c Release -r win-x64
+dotnet build -c Release
 
 cd ..\GenValAppRunner
-dotnet build -c Release -r win-x64
+dotnet build -c Release
 dotnet publish -c Release -r win-x64
 
 cd ..\..\common\src\NIST.CVP.Generation.GenValApp\bin\Release\netcoreapp2.1\win-x64\

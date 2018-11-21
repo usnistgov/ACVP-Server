@@ -17,11 +17,11 @@ namespace NIST.CVP.Generation.AES_GCM
         public string[] Conformances { get; set; } = { };
         public string[] Direction { get; set; }
         public int[] KeyLen { get; set; }
-        public MathDomain PtLen { get; set; }
-        public MathDomain ivLen { get; set; }
-        public string ivGen { get; set; }
-        public string ivGenMode { get; set; }
-        public MathDomain aadLen { get; set; }
+        public MathDomain PayloadLen { get; set; }
+        public MathDomain IvLen { get; set; }
+        public string IvGen { get; set; }
+        public string IvGenMode { get; set; }
+        public MathDomain AadLen { get; set; }
         public MathDomain TagLen { get; set; }
     }
 }

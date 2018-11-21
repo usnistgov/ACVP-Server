@@ -15,7 +15,7 @@
     "cipher",
     "inverse"
   ],
-  "ptLen": [
+  "payloadLen": [
     {
       "min": 128,
       "max": 4096,

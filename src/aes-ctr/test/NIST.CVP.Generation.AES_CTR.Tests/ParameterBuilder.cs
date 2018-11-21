@@ -78,7 +78,7 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
                 Mode = _mode,
                 KeyLen = _keyLen,
                 Direction = _direction,
-                DataLength = _dataLen,
+                PayloadLen = _dataLen,
                 IncrementalCounter = _incrementalCounter,
                 OverflowCounter = _overflowCounter
             };

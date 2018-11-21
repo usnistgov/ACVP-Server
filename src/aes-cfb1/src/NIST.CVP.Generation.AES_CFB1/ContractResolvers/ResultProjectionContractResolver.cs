@@ -31,7 +31,7 @@ namespace NIST.CVP.Generation.AES_CFB1.ContractResolvers
             {
                 nameof(TestCase.TestCaseId),
                 nameof(TestCase.ResultsArray),
-                nameof(TestCase.DataLen)
+                nameof(TestCase.PayloadLen)
             };
 
             if (includeProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))

@@ -83,10 +83,10 @@ namespace NIST.CVP.Generation.AES_XTS.Parsers
                 if (workingLine.StartsWith("DataUnitLen"))
                 {
                     string[] parts = workingLine.Split("=".ToCharArray());
-                    var prevDataLen = currentGroup.PtLen;
+                    var prevDataLen = currentGroup.PayloadLen;
                     currentGroup.SetString(parts[0].Trim(), parts[1].Trim());
 
-                    if (prevDataLen != currentGroup.PtLen)
+                    if (prevDataLen != currentGroup.PayloadLen)
                     {
                         inCases = false;
                         var prevDirection = currentGroup.Direction;

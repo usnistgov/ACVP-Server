@@ -5,16 +5,16 @@ namespace NIST.CVP.Crypto.Common.KDF.Components.SSH.Enums
 {
     public enum Cipher
     {
-        [EnumMember(Value = "tdes")]
+        [EnumMember(Value = "TDES")]
         TDES,
 
-        [EnumMember(Value = "aes-128")]
+        [EnumMember(Value = "AES-128")]
         AES128,
 
-        [EnumMember(Value = "aes-192")]
+        [EnumMember(Value = "AES-192")]
         AES192,
 
-        [EnumMember(Value = "aes-256")]
+        [EnumMember(Value = "AES-256")]
         AES256
     }
 }

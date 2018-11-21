@@ -28,7 +28,7 @@ namespace NIST.CVP.Generation.AES_XTS
             result = ValidateArray(parameters.KeyLen, VALID_KEY_SIZES, "Key Sizes");
             errorResults.AddIfNotNullOrEmpty(result);
 
-            ValidatePtLen(parameters.PtLen, errorResults);
+            ValidatePtLen(parameters.PayloadLen, errorResults);
 
             if (errorResults.Count > 0)
             {

@@ -27,7 +27,7 @@ namespace NIST.CVP.Generation.AES_XPN.Tests
             TestGroup testGroup = new TestGroup()
             {
                 Function = direction,
-                IVGeneration = ivGen,
+                IvGeneration = ivGen,
                 SaltGen = saltGen
             };
 
@@ -43,7 +43,7 @@ namespace NIST.CVP.Generation.AES_XPN.Tests
             TestGroup testGroup = new TestGroup()
             {
                 Function = string.Empty,
-                IVGeneration = string.Empty,
+                IvGeneration = string.Empty,
                 SaltGen = string.Empty
             };
 

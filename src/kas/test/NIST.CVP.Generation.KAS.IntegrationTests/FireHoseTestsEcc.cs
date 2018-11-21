@@ -13,7 +13,7 @@ using TestGroup = NIST.CVP.Generation.KAS.ECC.TestGroup;
 
 namespace NIST.CVP.Generation.KAS.IntegrationTests
 {
-    [TestFixture, FastIntegrationTest]
+    [TestFixture, LongRunningIntegrationTest]
     public class FireHoseTestsEcc
     {
         string _testPath;

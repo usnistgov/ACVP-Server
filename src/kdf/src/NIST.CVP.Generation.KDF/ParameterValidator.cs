@@ -94,7 +94,7 @@ namespace NIST.CVP.Generation.KDF
                     errors.Add("middle fixed data FixedDataOrder is not valid with non-Counter KDFs");
                 }
 
-                if (!(capability.FixedDataOrder.Contains("none") && capability.CounterLength.Contains(0)))
+                if (capability.FixedDataOrder.Contains("none") && !capability.CounterLength.Contains(0))
                 {
                     errors.Add("none FixedDataOrder must be paired with 0 counter length");
                 }

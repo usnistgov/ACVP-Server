@@ -19,14 +19,14 @@ namespace NIST.CVP.Generation.DSA.Ed.SigGen
         [JsonProperty(PropertyName = "d", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public BitString D
         {
-            get => KeyPair.PrivateD;
+            get => KeyPair?.PrivateD;
             set => KeyPair.PrivateD = value;
         }
 
         [JsonProperty(PropertyName = "q", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public BitString Q
         {
-            get => KeyPair.PublicQ;
+            get => KeyPair?.PublicQ;
             set => KeyPair.PublicQ = value;
         }
 

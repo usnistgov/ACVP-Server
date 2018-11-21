@@ -52,7 +52,7 @@ namespace NIST.CVP.Generation.KeyWrap.Tests.AES.ContractResolvers
             Assert.AreEqual(tg.Tests.Count, newTg.Tests.Count, nameof(newTg.Tests));
             Assert.AreEqual(tg.KeyLength, newTg.KeyLength, nameof(newTg.KeyLength));
             Assert.AreEqual(tg.Direction, newTg.Direction, nameof(newTg.Direction));
-            Assert.AreEqual(tg.PtLen, newTg.PtLen, nameof(newTg.PtLen));
+            Assert.AreEqual(tg.PayloadLen, newTg.PayloadLen, nameof(newTg.PayloadLen));
         }
 
         [Test]
