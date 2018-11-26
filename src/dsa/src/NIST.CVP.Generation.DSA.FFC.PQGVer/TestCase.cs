@@ -28,9 +28,9 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer
         {
             get
             {
-                if (ParentGroup?.GGenMode == GeneratorGenMode.Unverifiable || ParentGroup?.GGenMode == GeneratorGenMode.Canonical)
+                if (ParentGroup?.GGenMode == GeneratorGenMode.Canonical)
                 {
-                    return new BitString(Seed.GetFullSeed(), ParentGroup.N * 3, false);
+                    return new BitString(Seed.GetFullSeed(), ParentGroup.N * 3, true);
                 }
 
                 if (Seed.Seed == 0)
@@ -38,7 +38,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer
                     return null;
                 }
 
-                return new BitString(Seed.Seed, ParentGroup.N, false);
+                return new BitString(Seed.Seed, ParentGroup.N, true);
             }
             set => Seed.Seed = value.ToPositiveBigInteger();
         }
@@ -53,7 +53,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer
                     return null;
                 }
 
-                return new BitString(Seed.PSeed, ParentGroup.N, false);
+                return new BitString(Seed.PSeed, ParentGroup.N, true);
             }
             set => Seed.PSeed = value.ToPositiveBigInteger();
         }
@@ -68,7 +68,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer
                     return null;
                 }
 
-                return new BitString(Seed.QSeed, ParentGroup.N, false);
+                return new BitString(Seed.QSeed, ParentGroup.N, true);
             }
             set => Seed.QSeed = value.ToPositiveBigInteger();
         }
