@@ -3,7 +3,9 @@ using NIST.CVP.Common.Helpers;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Numerics;
 
 namespace NIST.CVP.Generation.RSA_KeyGen
@@ -14,7 +16,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen
         public static string[] VALID_HASH_ALGS = { "sha-1", "sha2-224", "sha2-256", "sha2-384", "sha2-512", "sha2-512/224", "sha2-512/256" };
         public static string[] VALID_KEY_GEN_MODES = EnumHelpers.GetEnumDescriptions<PrimeGenModes>().ToArray();
         public static string[] VALID_PUB_EXP_MODES = EnumHelpers.GetEnumDescriptions<PublicExponentModes>().ToArray();
-        public static string[] VALID_PRIME_TESTS = EnumHelpers.GetEnumDescriptions<PrimeTestModes>().ToArray();
+        public static string[] VALID_PRIME_TESTS = EnumHelpers.GetEnumDescriptions<PrimeTestModes>().Except(new []{"none"}, StringComparer.OrdinalIgnoreCase).ToArray();
         public static string[] VALID_KEY_FORMATS = EnumHelpers.GetEnumDescriptions<PrivateKeyModes>().ToArray();
 
         public ParameterValidateResponse Validate(Parameters parameters)
