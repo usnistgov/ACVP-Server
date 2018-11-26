@@ -1,5 +1,6 @@
 {
-  "algorithm": "CSHAKE-128",
+  "vsId": 0,
+  "algorithm": "CSHAKE",
   "isSample": false,
   "conformances": [],
   "digestSize": [

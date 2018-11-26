@@ -37,6 +37,7 @@ The console application works through communication of json files as input and o
 ## Supported `ASPNETCORE_ENVIRONMENT` values
 
 * Local
+* Tc
 * Dev
 * Test
 * Demo
@@ -49,12 +50,10 @@ The ACVP genvals are able (but not required) to make use of a "Pool" of precompu
 To host:
 
 * As a console application (local dev):
-  * From NIST.CVP.PoolApi run `dotnet run --console [poolConfigPath]`
-  * `[poolConfigPath]` should be the full path to folder where NIST.CVP.PoolApi/Pools/poolConfig.json is located.  As an example "C:\workspace\gitLab\gen-val\src\pool-api\NIST.CVP.PoolAPI\Pools"
+  * From NIST.CVP.PoolApi run `dotnet run --console`
 * As a windows service:
 
 ```cmd
-sc delete AcvpPoolApi
 sc create AcvpPoolApi binPath= "C:\workspace\gitLab\gen-val\src\pool-api\NIST.CVP.PoolAPI\bin\Release\netcoreapp2.1\win7-x64\NIST.CVP.PoolAPI.exe C:\workspace\gitLab\gen-val\src\pool-api\NIST.CVP.PoolAPI\Pools"
 sc start AcvpPoolApi
 ```

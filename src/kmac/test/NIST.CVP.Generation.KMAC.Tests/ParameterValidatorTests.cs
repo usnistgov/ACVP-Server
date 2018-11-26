@@ -16,8 +16,7 @@ namespace NIST.CVP.Generation.KMAC.Tests
         }
 
         [Test]
-        [TestCase("KMAC-128", 256, 256, 256)]
-        [TestCase("KMAC-256", 256, 256, 256)]
+        [TestCase("KMAC", 256, 256, 256)]
         public void ShouldValidateSuccessfully(string algorithm, int keyLen, int macLen, int msgLen)
         {
             Parameters parameters = new ParameterBuilder()
@@ -50,19 +49,12 @@ namespace NIST.CVP.Generation.KMAC.Tests
         }
 
         [Test]
-        [TestCase("test0 - valid", "KMAC-128", 64, 2048, true, false)]
-        [TestCase("test1 - valid", "KMAC-128", 128, 256, true, false)]
-        [TestCase("test2 - invalid", "KMAC-128", 31, 256, false, true)]
-        [TestCase("test3 - invalid", "KMAC-128", 256, 65537, false, true)]
-        [TestCase("test4 - invalid", "KMAC-128", 255, 2047, false, false)]
-        [TestCase("test5 - valid", "KMAC-128", 255, 2049, true, true)]
-
-        [TestCase("test6 - valid", "KMAC-256", 64, 2048, true, false)]
-        [TestCase("test7 - valid", "KMAC-256", 128, 256, true, false)]
-        [TestCase("test8 - invalid", "KMAC-256", 31, 256, false, true)]
-        [TestCase("test9 - invalid", "KMAC-256", 256, 65537, false, true)]
-        [TestCase("test10 - invalid", "KMAC-256", 255, 2047, false, false)]
-        [TestCase("test11 - valid", "KMAC-256", 255, 2049, true, true)]
+        [TestCase("test0 - valid", "KMAC", 64, 2048, true, false)]
+        [TestCase("test1 - valid", "KMAC", 128, 256, true, false)]
+        [TestCase("test2 - invalid", "KMAC", 31, 256, false, true)]
+        [TestCase("test3 - invalid", "KMAC", 256, 65537, false, true)]
+        [TestCase("test4 - invalid", "KMAC", 255, 2047, false, false)]
+        [TestCase("test5 - valid", "KMAC", 255, 2049, true, true)]
         public void ShouldSucceedOnValidMacLen(string label, string algorithm, int macLenMin, int macLenMax, bool isSuccessExpected, bool bitOriented)
         {
             Parameters parameters = new ParameterBuilder()
@@ -76,20 +68,13 @@ namespace NIST.CVP.Generation.KMAC.Tests
         }
 
         [Test]
-        [TestCase("test0 - valid", "KMAC-128", 64, 2048, true, false)]
-        [TestCase("test1 - valid", "KMAC-128", 128, 256, true, false)]
-        [TestCase("test2 - invalid", "KMAC-128", -1, 256, false, true)]
-        [TestCase("test3 - invalid", "KMAC-128", 256, 65537, false, true)]
-        [TestCase("test4 - invalid", "KMAC-128", 255, 2047, false, false)]
-        [TestCase("test5 - valid", "KMAC-128", 255, 2049, true, true)]
-
-        [TestCase("test6 - valid", "KMAC-256", 64, 2048, true, false)]
-        [TestCase("test7 - valid", "KMAC-256", 128, 256, true, false)]
-        [TestCase("test8 - invalid", "KMAC-256", -1, 256, false, true)]
-        [TestCase("test9 - invalid", "KMAC-256", 256, 65537, false, true)]
-        [TestCase("test10 - invalid", "KMAC-256", 255, 2047, false, false)]
-        [TestCase("test11 - valid", "KMAC-256", 255, 2049, true, true)]
-        public void ShouldSucceedOnValidMsgLen(string label, string algorithm, int msgLenMin, int msgLenMax, bool isSuccessExpected, bool bitOriented)
+        [TestCase("test0 - valid", "KMAC", 64, 2048, true, false)]
+        [TestCase("test1 - valid", "KMAC", 128, 256, true, false)]
+        [TestCase("test2 - invalid", "KMAC", -1, 256, false, true)]
+        [TestCase("test3 - invalid", "KMAC", 256, 65537, false, true)]
+        [TestCase("test4 - invalid", "KMAC", 255, 2047, false, false)]
+        [TestCase("test5 - valid", "KMAC", 255, 2049, true, true)]
+public void ShouldSucceedOnValidMsgLen(string label, string algorithm, int msgLenMin, int msgLenMax, bool isSuccessExpected, bool bitOriented)
         {
             Parameters parameters = new ParameterBuilder()
                 .WithAlgorithm(algorithm)
@@ -102,15 +87,10 @@ namespace NIST.CVP.Generation.KMAC.Tests
         }
 
         [Test]
-        [TestCase("test0 - valid", "KMAC-128", true, false, true)]
-        [TestCase("test1 - valid", "KMAC-128", false, true, true)]
-        [TestCase("test2 - valid", "KMAC-128", true, true, true)]
-        [TestCase("test3 - invalid", "KMAC-128", false, false, false)]
-
-        [TestCase("test4 - valid", "KMAC-256", true, false, true)]
-        [TestCase("test5 - valid", "KMAC-256", false, true, true)]
-        [TestCase("test6 - valid", "KMAC-256", true, true, true)]
-        [TestCase("test7 - invalid", "KMAC-256", false, false, false)]
+        [TestCase("test0 - valid", "KMAC", true, false, true)]
+        [TestCase("test1 - valid", "KMAC", false, true, true)]
+        [TestCase("test2 - valid", "KMAC", true, true, true)]
+        [TestCase("test3 - invalid", "KMAC", false, false, false)]
         public void ShouldSucceedOnValidXOFSettingsLen(string label, string algorithm, bool nonXOF, bool XOF, bool isSuccessExpected)
         {
             Parameters parameters = new ParameterBuilder()

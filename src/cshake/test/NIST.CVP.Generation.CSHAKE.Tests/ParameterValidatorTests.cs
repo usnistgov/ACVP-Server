@@ -149,7 +149,7 @@ namespace NIST.CVP.Generation.CSHAKE.Tests
 
             public ParameterBuilder()
             {
-                _algorithm = "CSHAKE-128";
+                _algorithm = "CSHAKE";
                 _digestSize = new int[] { 128 };
                 _hexCustomization = false;
                 _outputLength = new MathDomain();

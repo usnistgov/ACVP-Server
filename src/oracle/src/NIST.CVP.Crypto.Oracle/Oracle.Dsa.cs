@@ -11,16 +11,8 @@ namespace NIST.CVP.Crypto.Oracle
 {
     public partial class Oracle
     {
-        public async Task<DsaDomainParametersResult> GetDsaPQAsync(DsaDomainParametersParameters param)
+        public virtual async Task<DsaDomainParametersResult> GetDsaPQAsync(DsaDomainParametersParameters param)
         {
-            var poolBoy = new PoolBoy<DsaDomainParametersResult>(_poolConfig);
-            var poolResult = poolBoy.GetObjectFromPool(param, PoolTypes.DSA_PQG);
-            if (poolResult != null)
-            {
-                // Will return a G (and some other properties) that are not necessary
-                return poolResult;
-            }
-
             var observableGrain = 
                 await _clusterClient.GetObserverGrain<IOracleObserverDsaPqCaseGrain, DsaDomainParametersResult>();
             await observableGrain.Grain.BeginWorkAsync(param);
@@ -37,15 +29,8 @@ namespace NIST.CVP.Crypto.Oracle
             return await observableGrain.ObserveUntilResult();
         }
 
-        public async Task<DsaDomainParametersResult> GetDsaDomainParametersAsync(DsaDomainParametersParameters param)
+        public virtual async Task<DsaDomainParametersResult> GetDsaDomainParametersAsync(DsaDomainParametersParameters param)
         {
-            var poolBoy = new PoolBoy<DsaDomainParametersResult>(_poolConfig);
-            var poolResult = poolBoy.GetObjectFromPool(param, PoolTypes.DSA_PQG);
-            if (poolResult != null)
-            {
-                return poolResult;
-            }
-
             var pqResult = await GetDsaPQAsync(param);
             var gResult = pqResult;
 			if (pqResult.G == default(BigInteger))

@@ -9,6 +9,7 @@ namespace NIST.CVP.Pools.Models
     public class PoolConstructionParameters<TParam>
         where TParam : IParameters
     {
+        public IOracle Oracle { get; set; }
         public IOptions<PoolConfig> PoolConfig { get; set; }
         public TParam WaterType { get; set; }
         public IList<JsonConverter> JsonConverters { get; set; }

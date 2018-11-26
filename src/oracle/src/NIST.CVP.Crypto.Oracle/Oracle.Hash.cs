@@ -56,31 +56,17 @@ namespace NIST.CVP.Crypto.Oracle
             return await observableGrain.ObserveUntilResult();
         }
 
-        public async Task<MctResult<HashResult>> GetShaMctCaseAsync(ShaParameters param)
+        public virtual async Task<MctResult<HashResult>> GetShaMctCaseAsync(ShaParameters param)
         {
-            var poolBoy = new PoolBoy<MctResult<HashResult>>(_poolConfig);
-            var poolResult = poolBoy.GetObjectFromPool(param, PoolTypes.SHA_MCT);
-            if (poolResult != null)
-            {
-                return poolResult;
-            }
-
-			var observableGrain = 
+            var observableGrain = 
                 await _clusterClient.GetObserverGrain<IOracleObserverShaMctCaseGrain, MctResult<HashResult>>();
             await observableGrain.Grain.BeginWorkAsync(param);
 
             return await observableGrain.ObserveUntilResult();
         }
 
-        public async Task<MctResult<HashResult>> GetSha3MctCaseAsync(Sha3Parameters param)
+        public virtual async Task<MctResult<HashResult>> GetSha3MctCaseAsync(Sha3Parameters param)
         {
-            var poolBoy = new PoolBoy<MctResult<HashResult>>(_poolConfig);
-            var poolResult = poolBoy.GetObjectFromPool(param, PoolTypes.SHA3_MCT);
-            if (poolResult != null)
-            {
-                return poolResult;
-            }
-
             var observableGrain = 
                 await _clusterClient.GetObserverGrain<IOracleObserverSha3MctCaseGrain, MctResult<HashResult>>();
             await observableGrain.Grain.BeginWorkAsync(param);
@@ -97,15 +83,8 @@ namespace NIST.CVP.Crypto.Oracle
             return await observableGrain.ObserveUntilResult();
         }
 
-        public async Task<MctResult<CShakeResult>> GetCShakeMctCaseAsync(CShakeParameters param)
+        public virtual async Task<MctResult<CShakeResult>> GetCShakeMctCaseAsync(CShakeParameters param)
         {
-            var poolBoy = new PoolBoy<MctResult<CShakeResult>>(_poolConfig);
-            var poolResult = poolBoy.GetObjectFromPool(param, PoolTypes.CSHAKE_MCT);
-            if (poolResult != null)
-            {
-                return poolResult;
-            }
-
             var observableGrain = 
                 await _clusterClient.GetObserverGrain<IOracleObserverCShakeMctCaseGrain, MctResult<CShakeResult>>();
             await observableGrain.Grain.BeginWorkAsync(param);
@@ -113,15 +92,8 @@ namespace NIST.CVP.Crypto.Oracle
             return await observableGrain.ObserveUntilResult();
         }
 
-        public async Task<MctResult<ParallelHashResult>> GetParallelHashMctCaseAsync(ParallelHashParameters param)
+        public virtual async Task<MctResult<ParallelHashResult>> GetParallelHashMctCaseAsync(ParallelHashParameters param)
         {
-            var poolBoy = new PoolBoy<MctResult<ParallelHashResult>>(_poolConfig);
-            var poolResult = poolBoy.GetObjectFromPool(param, PoolTypes.PARALLEL_HASH_MCT);
-            if (poolResult != null)
-            {
-                return poolResult;
-            }
-
             var observableGrain = 
                 await _clusterClient.GetObserverGrain<IOracleObserverParallelHashMctCaseGrain, MctResult<ParallelHashResult>>();
             await observableGrain.Grain.BeginWorkAsync(param);
@@ -129,15 +101,8 @@ namespace NIST.CVP.Crypto.Oracle
             return await observableGrain.ObserveUntilResult();
         }
 
-        public async Task<MctResult<TupleHashResult>> GetTupleHashMctCaseAsync(TupleHashParameters param)
+        public virtual async Task<MctResult<TupleHashResult>> GetTupleHashMctCaseAsync(TupleHashParameters param)
         {
-            var poolBoy = new PoolBoy<MctResult<TupleHashResult>>(_poolConfig);
-            var poolResult = poolBoy.GetObjectFromPool(param, PoolTypes.TUPLE_HASH_MCT);
-            if (poolResult != null)
-            {
-                return poolResult;
-            }
-            
             var observableGrain = 
                 await _clusterClient.GetObserverGrain<IOracleObserverTupleHashMctCaseGrain, MctResult<TupleHashResult>>();
             await observableGrain.Grain.BeginWorkAsync(param);

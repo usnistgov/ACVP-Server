@@ -1,15 +1,17 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
+using NIST.CVP.Common.Config;
 using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Pools.Enums;
+using NIST.CVP.Pools.Models;
 using NLog;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
-using Microsoft.Extensions.Options;
-using NIST.CVP.Common.Config;
-using NIST.CVP.Pools.Models;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Pools
 {
@@ -20,27 +22,36 @@ namespace NIST.CVP.Pools
         public PoolTypes DeclaredType { get; }
         public TParam WaterType { get; }
         
-        public int WaterLevel => _water.Count;
+        public int WaterLevel => Water.Count;
+        public int MaxWaterLevel { get; }
+        public decimal WaterFillPercent => (decimal)WaterLevel / MaxWaterLevel;
+
         public bool IsEmpty => WaterLevel == 0;
 
         public Type ParamType => typeof(TParam);
         public IParameters Param => WaterType;
         public Type ResultType => typeof(TResult);
 
-        private readonly ConcurrentQueue<ResultWrapper<TResult>> _water;
+        protected readonly IOracle Oracle;
+        protected readonly ConcurrentQueue<ResultWrapper<TResult>> Water;
+        
         private readonly IList<JsonConverter> _jsonConverters;
         private readonly IOptions<PoolConfig> _poolConfig;
         private readonly int _maxWaterReuse;
+        private readonly string _fullPoolLocation;
         
-        public PoolBase(PoolConstructionParameters<TParam> param)
+        protected PoolBase(PoolConstructionParameters<TParam> param)
         {
             _poolConfig = param.PoolConfig;
+            Oracle = param.Oracle;
             DeclaredType = param.PoolProperties.PoolType.Type;
+            MaxWaterLevel = param.PoolProperties.MaxCapacity;
             WaterType = param.WaterType;
             _jsonConverters = param.JsonConverters;
             _maxWaterReuse = param.PoolProperties.MaxWaterReuse;
-            _water = new ConcurrentQueue<ResultWrapper<TResult>>();
-            LoadPoolFromFile(param.FullPoolLocation);
+            Water = new ConcurrentQueue<ResultWrapper<TResult>>();
+            _fullPoolLocation = param.FullPoolLocation;
+            LoadPoolFromFile();
         }
 
         public PoolResult<TResult> GetNext()
@@ -51,7 +62,7 @@ namespace NIST.CVP.Pools
             }
             else
             {
-                var success = _water.TryDequeue(out var wrappedResult);
+                var success = Water.TryDequeue(out var wrappedResult);
                 if (success)
                 {
                     RecycleValueWhenOptionsAllow(wrappedResult);
@@ -100,13 +111,13 @@ namespace NIST.CVP.Pools
             return AddWater((TResult)value);
         }
 
-        private void LoadPoolFromFile(string filename)
+        private void LoadPoolFromFile()
         {
-            if (File.Exists(filename))
+            if (File.Exists(_fullPoolLocation))
             {
                 // Load file
                 var poolContents = JsonConvert.DeserializeObject<ResultWrapper<TResult>[]>(
-                    File.ReadAllText(filename),
+                    File.ReadAllText(_fullPoolLocation),
                     new JsonSerializerSettings
                     {
                         Converters = _jsonConverters
@@ -127,15 +138,15 @@ namespace NIST.CVP.Pools
             else
             {
                 // Create empty file
-                File.WriteAllText(filename, "[]");
-                LogManager.GetCurrentClassLogger().Debug($"{filename} created");
+                File.WriteAllText(_fullPoolLocation, "[]");
+                LogManager.GetCurrentClassLogger().Debug($"{_fullPoolLocation} created");
             }
         }
 
-        public bool SavePoolToFile(string filename)
+        public bool SavePoolToFile()
         {
             var poolContents = JsonConvert.SerializeObject(
-                _water,
+                Water,
                 new JsonSerializerSettings
                 {
                     Converters = _jsonConverters,
@@ -145,7 +156,7 @@ namespace NIST.CVP.Pools
 
             try
             {
-                File.WriteAllText(filename, poolContents);
+                File.WriteAllText(_fullPoolLocation, poolContents);
                 return true;
             }
             catch (Exception)
@@ -156,7 +167,7 @@ namespace NIST.CVP.Pools
 
         public bool CleanPool()
         {
-            _water.Clear();
+            Water.Clear();
             return true;
         }
 
@@ -173,14 +184,24 @@ namespace NIST.CVP.Pools
                     ValueUsed = DateTime.UtcNow
                 };
 
+                Shuffle();
                 AddWater(newResultToQueue);
             }
         }
 
+        private void Shuffle()
+        {
+            var shuffledList = Water.OrderBy(x => Guid.NewGuid()).ToList();
+            Water.Clear();
+            shuffledList.ForEach(fe => Water.Enqueue(fe));
+        }
+
         private bool AddWater(ResultWrapper<TResult> result)
         {
-            _water.Enqueue(result);
+            Water.Enqueue(result);
             return true;
         }
+
+        public abstract Task RequestWater();
     }
 }

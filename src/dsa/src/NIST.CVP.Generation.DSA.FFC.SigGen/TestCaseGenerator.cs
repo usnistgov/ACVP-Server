@@ -34,22 +34,13 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen
 
                 if (isSample)
                 {
-                    // If we are a sample, the group MUST have domain parameters
-                    var keyParam = new DsaKeyParameters
-                    {
-                        DomainParameters = group.DomainParams
-                    };
-
-                    var keyResult = await _oracle.GetDsaKeyAsync(keyParam);
-
-                    param.Key = keyResult.Key;
-                    param.DomainParameters = keyParam.DomainParameters;
+                    param.Key = group.Key;
+                    param.DomainParameters = group.DomainParams;
 
                     result = await _oracle.GetDsaSignatureAsync(param);
                     var testCase = new TestCase
                     {
                         Message = result.Message,
-                        Key = param.Key,
                         Signature = result.Signature
                     };
 

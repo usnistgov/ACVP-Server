@@ -41,6 +41,7 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen
                     var hashFunction = ShaAttributes.GetHashFunctionFromName(hashAlg);
 
                     FfcDomainParameters domainParams = null;
+                    FfcKeyPair key = null;
                     if (parameters.IsSample)
                     {
                         var param = new DsaDomainParametersParameters
@@ -54,8 +55,15 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen
 
                         try
                         {
-                            var result = await _oracle.GetDsaDomainParametersAsync(param);
-                            domainParams = new FfcDomainParameters(result.P, result.Q, result.G);
+                            var domainParamResult = await _oracle.GetDsaDomainParametersAsync(param);
+                            domainParams = new FfcDomainParameters(domainParamResult.P, domainParamResult.Q, domainParamResult.G);
+
+                            var keyResult = await _oracle.GetDsaKeyAsync(
+                                new DsaKeyParameters()
+                                {
+                                    DomainParameters = domainParams
+                                });
+                            key = keyResult.Key;
                         }
                         catch (Exception ex)
                         {
@@ -69,7 +77,8 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen
                         L = l,
                         N = n,
                         HashAlg = hashFunction,
-                        DomainParams = domainParams
+                        DomainParams = domainParams,
+                        Key = key
                     };
 
                     testGroups.Add(testGroup);

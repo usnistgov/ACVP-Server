@@ -163,7 +163,7 @@ namespace NIST.CVP.Generation.ParallelHash.Tests
 
             public ParameterBuilder()
             {
-                _algorithm = "ParallelHash-128";
+                _algorithm = "ParallelHash";
                 _digestSize = new int[] { 128, 256 };
                 _messageLength = new MathDomain().AddSegment(new RangeDomainSegment(null, 16, 65536));
                 _outputLength = new MathDomain().AddSegment(new RangeDomainSegment(null, 16, 65536));

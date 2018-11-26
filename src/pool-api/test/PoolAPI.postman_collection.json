@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "22416809-e059-49b4-bff6-f61146d5b384",
+		"_postman_id": "bf5f52de-49d7-4545-ab4e-9650c2c4de3c",
 		"name": "Pools Test",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -392,7 +392,10 @@
 			"request": {
 				"method": "POST",
 				"header": [],
-				"body": {},
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"url": {
 					"raw": "http://{{server}}/api/pools/clean",
 					"protocol": "http",
@@ -458,6 +461,37 @@
 						"api",
 						"pools",
 						"config"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Queue pool water fill",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"numberOfJobsPerPoolToQueue\": 5\n}"
+				},
+				"url": {
+					"raw": "http://{{server}}/api/pools/spawn",
+					"protocol": "http",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"pools",
+						"spawn"
 					]
 				}
 			},

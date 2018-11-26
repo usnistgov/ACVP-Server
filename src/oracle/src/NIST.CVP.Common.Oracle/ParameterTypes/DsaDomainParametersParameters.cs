@@ -23,6 +23,10 @@ namespace NIST.CVP.Common.Oracle.ParameterTypes
             return false;
         }
 
-        public override int GetHashCode() => HashCode.Combine(HashAlg, PQGenMode, GGenMode, L, N, Disposition);
+        /// <summary>
+        /// Note, purposefully ignoring disposition for equal comparison, as that only matters after the fact.
+        /// </summary>
+        /// <returns></returns>
+        public override int GetHashCode() => HashCode.Combine(HashAlg, PQGenMode, GGenMode, L, N);
     }
 }
