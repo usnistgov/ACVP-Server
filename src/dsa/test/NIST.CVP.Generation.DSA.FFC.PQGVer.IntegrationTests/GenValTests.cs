@@ -67,8 +67,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer.IntegrationTests
 
         protected override string GetTestFileLotsOfTestCases(string targetFolder)
         {
-            //var caps = new Capability[4];
-            var caps = new Capability[1];
+            var caps = new Capability[4];
 
             caps[0] = new Capability
             {
@@ -76,42 +75,41 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer.IntegrationTests
                 GGen = new[] { "unverifiable", "canonical" },
                 L = 1024,
                 N = 160,
-                HashAlg = new[] { "sha-1" }
-                //HashAlg = new[] { "sha-1", "sha2-224", "sha2-256", "sha2-384", "sha2-512", "sha2-512/224", "sha2-512/256" }
+                HashAlg = new[] { "sha-1", "sha2-224", "sha2-256", "sha2-384", "sha2-512", "sha2-512/224", "sha2-512/256" }
             };
 
-            //caps[1] = new Capability
-            //{
-            //    PQGen = new[] { "probable", "provable" },
-            //    GGen = new[] { "unverifiable", "canonical" },
-            //    L = 2048,
-            //    N = 224,
-            //    HashAlg = new[] { "sha2-224", "sha2-256", "sha2-384", "sha2-512", "sha2-512/224", "sha2-512/256" }
-            //};
+            caps[1] = new Capability
+            {
+                PQGen = new[] { "probable", "provable" },
+                GGen = new[] { "unverifiable", "canonical" },
+                L = 2048,
+                N = 224,
+                HashAlg = new[] { "sha2-224", "sha2-256", "sha2-384", "sha2-512", "sha2-512/224", "sha2-512/256" }
+            };
 
-            //caps[2] = new Capability
-            //{
-            //    PQGen = new[] { "probable", "provable" },
-            //    GGen = new[] { "unverifiable", "canonical" },
-            //    L = 2048,
-            //    N = 256,
-            //    HashAlg = new[] { "sha2-256", "sha2-384", "sha2-512", "sha2-512/256" }
-            //};
+            caps[2] = new Capability
+            {
+                PQGen = new[] { "probable", "provable" },
+                GGen = new[] { "unverifiable", "canonical" },
+                L = 2048,
+                N = 256,
+                HashAlg = new[] { "sha2-256", "sha2-384", "sha2-512", "sha2-512/256" }
+            };
 
-            //caps[3] = new Capability
-            //{
-            //    PQGen = new[] { "probable", "provable" },
-            //    GGen = new[] { "unverifiable", "canonical" },
-            //    L = 3072,
-            //    N = 256,
-            //    HashAlg = new[] { "sha2-256", "sha2-384", "sha2-512", "sha2-512/256" }
-            //};
+            caps[3] = new Capability
+            {
+                PQGen = new[] { "probable", "provable" },
+                GGen = new[] { "unverifiable", "canonical" },
+                L = 3072,
+                N = 256,
+                HashAlg = new[] { "sha2-256", "sha2-384", "sha2-512", "sha2-512/256" }
+            };
 
             var p = new Parameters
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
-                IsSample = true,
+                IsSample = false,
                 Capabilities = caps,
             };
 

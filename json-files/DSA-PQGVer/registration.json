@@ -7,28 +7,15 @@
   "capabilities": [
     {
       "pqGen": [
-        "provable"
+        "probable"
       ],
       "gGen": [
         "canonical"
       ],
-      "l": 2048,
-      "n": 224,
+      "l": 1024,
+      "n": 160,
       "hashAlg": [
-        "sha2-224"
-      ]
-    },
-    {
-      "pqGen": [
-        "probable"
-      ],
-      "gGen": [
-        "unverifiable"
-      ],
-      "l": 2048,
-      "n": 256,
-      "hashAlg": [
-        "sha2-256"
+        "sha-1"
       ]
     }
   ]
