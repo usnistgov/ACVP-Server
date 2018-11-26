@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using Newtonsoft.Json;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
 using System.Numerics;
 
@@ -32,6 +33,18 @@ namespace NIST.CVP.Crypto.Common.Hash.ShaWrapper
             MaxMessageLen = attributes.maxMessageSize;
             Name = attributes.name;
         }
+
+        public override bool Equals(object other)
+        {
+            if (other is HashFunction obj)
+            {
+                return GetHashCode() == obj.GetHashCode();
+            }
+
+            return false;
+        }
+
+        public override int GetHashCode() => HashCode.Combine(Mode, DigestSize);
     }
 
     public enum ModeValues

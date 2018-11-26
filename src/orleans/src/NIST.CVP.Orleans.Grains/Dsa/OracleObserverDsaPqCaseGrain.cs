@@ -65,7 +65,7 @@ namespace NIST.CVP.Orleans.Grains.Dsa
             };
 
             // If there's no value here, just move on
-            if (_param.Disposition == default(string))
+            if (_param.Disposition == default(string) || _param.Disposition == "none")
             {
                 await Notify(domainParams);
                 return;
