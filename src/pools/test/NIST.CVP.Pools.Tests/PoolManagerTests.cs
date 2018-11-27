@@ -8,6 +8,7 @@ using NIST.CVP.Tests.Core;
 using NUnit.Framework;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using Moq;
 using NIST.CVP.Common.Config;
@@ -307,6 +308,81 @@ namespace NIST.CVP.Pools.Tests
             var validateOriginalChangeConfig = _subject.GetPoolProperties().First();
 
             Assert.AreEqual(prechangeConfigCopy.MaxWaterReuse, validateOriginalChangeConfig.MaxWaterReuse, "original file check");
+        }
+
+        [Test]
+        public async Task ShouldFillPoolWhenNotAtCapacity()
+        {
+            var fullPath = Path.Combine(_testPath, "fillPoolConfig.json");
+            
+            _subject = new PoolManager(_mockOptionsPoolConfig.Object, _mockOracle.Object, fullPath, _testPath);
+
+            var waterCount = _subject.Pools.Sum(s => s.WaterLevel);
+
+            Assert.IsTrue(waterCount == 0, "Expecting empty pools");
+
+            var result = await _subject.SpawnJobForMostShallowPool();
+            var newWaterCount = _subject.Pools.Sum(s => s.WaterLevel);
+
+            _subject.CleanPools();
+            _subject.SavePools();
+
+            Assert.IsTrue(result, nameof(result));
+            Assert.IsTrue(newWaterCount == waterCount + 1, nameof(newWaterCount));
+        }
+
+        [Test]
+        public async Task ShouldStopFillingPoolsWhenAtMaxCapacity()
+        {
+            var fullPath = Path.Combine(_testPath, "fillPoolConfig.json");
+            
+            _subject = new PoolManager(_mockOptionsPoolConfig.Object, _mockOracle.Object, fullPath, _testPath);
+
+            int waterCount = _subject.Pools.Sum(s => s.WaterLevel);
+
+            Assert.IsTrue(waterCount == 0, "Expecting empty pools");
+
+            var maxCapacityAllPools = _subject.Pools.Sum(s => s.MaxWaterLevel);
+            for (int i = 0; i < maxCapacityAllPools; i++)
+            {
+                var result = await _subject.SpawnJobForMostShallowPool();
+                Assert.IsTrue(result, $"{nameof(i)}: {i}");
+            }
+
+            var finalResult = await _subject.SpawnJobForMostShallowPool();
+            Assert.IsFalse(finalResult, nameof(finalResult));
+
+            var newWaterCount = _subject.Pools.Sum(s => s.WaterLevel);
+
+            _subject.CleanPools();
+            _subject.SavePools();
+
+            Assert.IsTrue(newWaterCount == maxCapacityAllPools, nameof(maxCapacityAllPools));
+        }
+
+        [Test]
+        public async Task ShouldAlternateFillingPools()
+        {
+            var fullPath = Path.Combine(_testPath, "fillPoolConfig.json");
+            
+            _subject = new PoolManager(_mockOptionsPoolConfig.Object, _mockOracle.Object, fullPath, _testPath);
+
+            // Should be a total of 2 pools at 0 water level
+            Assert.IsTrue(_subject.Pools.Count(c => c.WaterLevel == 0) == 2, "Expecting empty pools");
+
+            await _subject.SpawnJobForMostShallowPool();
+
+            // Should be 1 pool with 1 water level, and 1 pool with 0 water level
+            Assert.IsTrue(_subject.Pools.Count(c => c.WaterLevel == 1) == 1, "Single spawn, check 1 filled pool");
+            Assert.IsTrue(_subject.Pools.Count(c => c.WaterLevel == 0) == 1, "Single spawn, check 1 empty pool");
+
+            await _subject.SpawnJobForMostShallowPool();
+
+            // Should be 2 pool with 1 water level (assurring pools are being filled shallow first)
+            Assert.IsTrue(_subject.Pools.Count(c => c.WaterLevel == 1) == 2, "Double spawn, check 2 filled pool with 1 value");
+
+            _subject.CleanPools();
+            _subject.SavePools();
         }
     }
 }
