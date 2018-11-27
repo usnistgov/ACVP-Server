@@ -13,6 +13,8 @@ using NIST.CVP.Pools.PoolModels;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 using NLog;
 
 namespace NIST.CVP.Pools
@@ -161,6 +163,49 @@ namespace NIST.CVP.Pools
             return true;
         }
 
+        public async Task<bool> SpawnJobForMostShallowPool()
+        {
+            try
+            {
+                List<Task> tasks = new List<Task>();
+                IPool minPool = GetMinimallyFilledPool();
+
+                // If the pool is looking a bit low
+                if (minPool != null)
+                {
+                    RequestPoolWater(1, tasks, minPool);
+
+                    // If filling of pools occurred, wait for it to finish, then save the pools.
+                    if (tasks.Count > 0)
+                    {
+                        await Task.WhenAll(tasks);
+
+                        var json = JsonConvert.SerializeObject(
+                            minPool.Param, new JsonSerializerSettings()
+                            {
+                                Converters = _jsonConverters,
+                                Formatting = Formatting.Indented
+                            }
+                        );
+
+                        LogManager.GetCurrentClassLogger()
+                            .Log(LogLevel.Info, $"Pool was filled. Proceeding to save pool: \n\n {json}");
+
+                        minPool.SavePoolToFile();
+                        return true;
+                    }
+                }
+
+                // Nothing was queued
+                return false;
+            }
+            catch (Exception ex)
+            {
+                LogManager.GetCurrentClassLogger().Error(ex);
+                return false;
+            }
+        }
+        
         private void LoadPools()
         {
             var fullConfigFile = Path.Combine(_poolDirectory, _poolConfigFile);
@@ -249,6 +294,36 @@ namespace NIST.CVP.Pools
                 WaterType = param,
                 FullPoolLocation = fullPoolLocation
             };
+        }
+        
+        private IPool GetMinimallyFilledPool()
+        {
+            // Get a random pool with the minimum percentage
+            var minPercent = Pools
+                .Min(m => m.WaterFillPercent);
+            var minPool = Pools
+                .Where(w => w.WaterFillPercent == minPercent)
+                .ToList().Shuffle().FirstOrDefault();
+            return minPool;
+        }
+
+        private void RequestPoolWater(int numberOfJobsToQueue, List<Task> tasks, IPool pool)
+        {
+            // If the pool is looking a bit low
+            if (pool.WaterLevel < pool.MaxWaterLevel)
+            {
+                // Don't queue more than the max allowed for the pool
+                var potentialMaxJobs = pool.MaxWaterLevel - pool.WaterLevel;
+                var jobsToQueue = numberOfJobsToQueue < potentialMaxJobs
+                    ? numberOfJobsToQueue
+                    : potentialMaxJobs;
+
+                // Add jobs to a list of tasks
+                for (var i = 0; i < jobsToQueue; i++)
+                {
+                    tasks.Add(pool.RequestWater());
+                }
+            }
         }
     }
 }

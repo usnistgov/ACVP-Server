@@ -108,96 +108,9 @@ namespace NIST.CVP.PoolAPI.Controllers
 
         [HttpPost]
         [Route("spawn")]
-        public async Task<bool> SpawnJobForMostShallowPool([FromBody] int numberOfJobsToQueue)
+        public async Task<bool> SpawnJobForMostShallowPool()
         {
-            // Already in process of filling pool
-            if (_isFillingPool)
-            {
-                return false;
-            }
-
-            try
-            {
-                _isFillingPool = true;
-                List<Task> tasks = new List<Task>();
-
-                // Get a random pool with the minimum percentage
-                var minPercent = Program.PoolManager.Pools
-                    .Min(m => m.WaterFillPercent);
-                var minPool = Program.PoolManager.Pools
-                    .Where(w => w.WaterFillPercent == minPercent)
-                    .ToList().Shuffle().FirstOrDefault();
-
-                // If the pool is looking a bit low
-                if (minPool != null)
-                {
-                    RequestPoolWater(numberOfJobsToQueue, tasks, minPool);
-                    
-                    // If filling of pools occurred, wait for it to finish, then save the pools.
-                    if (tasks.Count > 0)
-                    {
-                        await Task.WhenAll(tasks);
-
-                        var json = JsonConvert.SerializeObject(minPool.Param, _jsonSettings);
-
-                        LogManager.GetCurrentClassLogger()
-                            .Log(LogLevel.Info, $"Pool was filled. Proceeding to save pool: \n\n {json}");
-                        
-                        minPool.SavePoolToFile();
-                    }
-                }
-
-                _isFillingPool = false;
-
-                return true;
-            }
-            catch (Exception ex)
-            {
-                LogManager.GetCurrentClassLogger().Error(ex);
-                return false;
-            }
-        }
-
-        [HttpPost]
-        [Route("spawn/all")]
-        // /api/pools/spawn
-        public async Task<bool> SpawnJobForPools([FromBody] int numberOfJobsPerPoolToQueue)
-        {
-            // Already in process of filling pool
-            if (_isFillingPool)
-            {
-                return false;
-            }
-
-            try
-            {
-                _isFillingPool = true;
-                List<Task> tasks = new List<Task>();
-                foreach (var pool in Program.PoolManager.Pools)
-                {
-                    RequestPoolWater(numberOfJobsPerPoolToQueue, tasks, pool);
-                }
-
-                // If filling of pools occurred, wait for it to finish, then save the pools.
-                if (tasks.Count > 0)
-                {
-                    await Task.WhenAll(tasks);
-
-                    LogManager.GetCurrentClassLogger()
-                        .Log(LogLevel.Info, "Pools have been filled. Proceeding to save.");
-
-                    SavePools();
-                }
-                
-                _isFillingPool = false;
-
-                return true;
-            }
-            catch (Exception ex)
-            {
-                LogManager.GetCurrentClassLogger().Error(ex);
-                return false;
-            }
+            return await Program.PoolManager.SpawnJobForMostShallowPool();
         }
 
         [HttpPost]
@@ -247,25 +160,6 @@ namespace NIST.CVP.PoolAPI.Controllers
         {
             // TODO should this clean THEN save? Or leave that up to the consumer?
             return Program.PoolManager.CleanPools();
-        }
-
-        private static void RequestPoolWater(int numberOfJobsToQueue, List<Task> tasks, IPool pool)
-        {
-            // If the pool is looking a bit low
-            if (pool.WaterLevel < pool.MaxWaterLevel)
-            {
-                // Don't queue more than the max allowed for the pool
-                var potentialMaxJobs = pool.MaxWaterLevel - pool.WaterLevel;
-                var jobsToQueue = numberOfJobsToQueue < potentialMaxJobs
-                    ? numberOfJobsToQueue
-                    : potentialMaxJobs;
-
-                // Add jobs to a list of tasks
-                for (var i = 0; i < jobsToQueue; i++)
-                {
-                    tasks.Add(pool.RequestWater());
-                }
-            }
         }
     }
 }
