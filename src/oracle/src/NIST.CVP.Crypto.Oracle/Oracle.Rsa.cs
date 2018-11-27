@@ -1,13 +1,10 @@
 ﻿using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
-using NIST.CVP.Pools;
-using NIST.CVP.Pools.Enums;
 using System.Threading.Tasks;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys;
 using NIST.CVP.Crypto.Oracle.ExtensionMethods;
 using NIST.CVP.Math;
-using NIST.CVP.Math.Entropy;
 using NIST.CVP.Orleans.Grains.Interfaces.Rsa;
 
 namespace NIST.CVP.Crypto.Oracle
@@ -20,9 +17,17 @@ namespace NIST.CVP.Crypto.Oracle
         public async Task<RsaKeyResult> GetRsaKeyAsync(RsaKeyParameters param)
         {
             IRandom800_90 rand = new Random800_90();
-            IEntropyProvider entropyProvider = new EntropyProvider(rand);
             IKeyGenParameterHelper keyGenHelper = new KeyGenParameterHelper(rand);
 
+            /* TODO this needs to be refactored so that the keygeneration is what actually
+               does the looping?
+               
+            The pool configuration file shouldn't have a concept of seed, pubexp, or bitlens(?).
+            
+            The seed, pubexp, bitlens(?) should be a part of the "randomness" that's actually stored in the pool
+            Not as a part of the pool configuration.
+
+            */
             RsaPrimeResult result = null;
             do
             {
