@@ -1,8 +1,8 @@
-﻿using System;
-using System.Linq;
-using Newtonsoft.Json.Serialization;
+﻿using Newtonsoft.Json.Serialization;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC.Enums;
 using NIST.CVP.Generation.Core.ContractResolvers;
+using System;
+using System.Linq;
 
 namespace NIST.CVP.Generation.DSA.FFC.PQGVer.ContractResolvers
 {
@@ -97,7 +97,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer.ContractResolvers
                     {
                         GetTestCaseFromTestCaseObject(instance, out var testGroup, out var testCase);
 
-                        if (testGroup.PQGenMode != PrimeGenMode.None || testGroup.GGenMode == GeneratorGenMode.Unverifiable)
+                        if (testGroup.PQGenMode != PrimeGenMode.None || testGroup.GGenMode != GeneratorGenMode.None)
                         {
                             return true;
                         }

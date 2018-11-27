@@ -123,7 +123,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer.Tests.ContractResolvers
             {
                 Assert.AreEqual(tc.H, newTc.H, nameof(newTc.H));
                 Assert.AreEqual(tc.DomainSeed, newTc.DomainSeed, nameof(newTc.DomainSeed));
-                Assert.AreEqual(tg.N * 3, newTc.DomainSeed.BitLength, "BitLength must be valid");   // all 3 seeds are appended together
+                Assert.AreEqual(tg.N, newTc.DomainSeed.BitLength, "BitLength must be valid");   // Uses a probable seed
             }
             else
             {

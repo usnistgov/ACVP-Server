@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
-using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC.Enums;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using System.Numerics;
@@ -28,17 +27,13 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer
         {
             get
             {
-                if (ParentGroup?.GGenMode == GeneratorGenMode.Unverifiable)
-                {
-                    return new BitString(Seed.GetFullSeed(), ParentGroup.N * 3, false);
-                }
-
+                // We assume the seed was generated using the probable pq approach, meaning Seed is a single N-len value (provable would mean the Seed is 3 N-len values)
                 if (Seed.Seed == 0)
                 {
                     return null;
                 }
 
-                return new BitString(Seed.Seed, ParentGroup.N, false);
+                return new BitString(Seed.Seed, ParentGroup.N, true);
             }
             set => Seed.Seed = value.ToPositiveBigInteger();
         }
@@ -53,7 +48,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer
                     return null;
                 }
 
-                return new BitString(Seed.PSeed, ParentGroup.N, false);
+                return new BitString(Seed.PSeed, ParentGroup.N, true);
             }
             set => Seed.PSeed = value.ToPositiveBigInteger();
         }
@@ -68,7 +63,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer
                     return null;
                 }
 
-                return new BitString(Seed.QSeed, ParentGroup.N, false);
+                return new BitString(Seed.QSeed, ParentGroup.N, true);
             }
             set => Seed.QSeed = value.ToPositiveBigInteger();
         }
