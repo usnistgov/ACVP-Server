@@ -2,20 +2,84 @@
   "vsId": 0,
   "algorithm": "DSA",
   "mode": "PQGVer",
-  "isSample": true,
+  "isSample": false,
   "conformances": [],
   "capabilities": [
     {
       "pqGen": [
-        "probable"
+        "probable",
+        "provable"
       ],
       "gGen": [
+        "unverifiable",
         "canonical"
       ],
       "l": 1024,
       "n": 160,
       "hashAlg": [
-        "sha-1"
+        "sha-1",
+        "sha2-224",
+        "sha2-256",
+        "sha2-384",
+        "sha2-512",
+        "sha2-512/224",
+        "sha2-512/256"
+      ]
+    },
+    {
+      "pqGen": [
+        "probable",
+        "provable"
+      ],
+      "gGen": [
+        "unverifiable",
+        "canonical"
+      ],
+      "l": 2048,
+      "n": 224,
+      "hashAlg": [
+        "sha2-224",
+        "sha2-256",
+        "sha2-384",
+        "sha2-512",
+        "sha2-512/224",
+        "sha2-512/256"
+      ]
+    },
+    {
+      "pqGen": [
+        "probable",
+        "provable"
+      ],
+      "gGen": [
+        "unverifiable",
+        "canonical"
+      ],
+      "l": 2048,
+      "n": 256,
+      "hashAlg": [
+        "sha2-256",
+        "sha2-384",
+        "sha2-512",
+        "sha2-512/256"
+      ]
+    },
+    {
+      "pqGen": [
+        "probable",
+        "provable"
+      ],
+      "gGen": [
+        "unverifiable",
+        "canonical"
+      ],
+      "l": 3072,
+      "n": 256,
+      "hashAlg": [
+        "sha2-256",
+        "sha2-384",
+        "sha2-512",
+        "sha2-512/256"
       ]
     }
   ]
