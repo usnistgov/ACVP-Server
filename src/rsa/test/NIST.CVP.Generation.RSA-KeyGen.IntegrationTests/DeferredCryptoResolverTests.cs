@@ -1,14 +1,12 @@
 ﻿using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys;
-using NIST.CVP.Crypto.Oracle;
-using NIST.CVP.Common.Oracle;
 using NIST.CVP.Crypto.Oracle.Builders;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using System.Threading.Tasks;
 
-namespace NIST.CVP.Generation.RSA_KeyGen.Tests
+namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
 {
     [TestFixture, UnitTest]
     public class DeferredCryptoResolverTests
