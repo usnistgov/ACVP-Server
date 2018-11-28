@@ -1,7 +1,7 @@
-﻿using System;
-using System.Linq;
-using Newtonsoft.Json.Serialization;
+﻿using Newtonsoft.Json.Serialization;
 using NIST.CVP.Generation.Core.ContractResolvers;
+using System;
+using System.Linq;
 
 namespace NIST.CVP.Generation.AES_CTR.ContractResolvers
 {
@@ -15,8 +15,6 @@ namespace NIST.CVP.Generation.AES_CTR.ContractResolvers
                 nameof(TestGroup.TestType),
                 nameof(TestGroup.Direction),
                 nameof(TestGroup.KeyLength),
-                nameof(TestGroup.IncrementalCounter),
-                nameof(TestGroup.OverflowCounter),
                 nameof(TestGroup.Tests)
             };
 
@@ -24,6 +22,28 @@ namespace NIST.CVP.Generation.AES_CTR.ContractResolvers
             {
                 return jsonProperty.ShouldSerialize =
                     instance => true;
+            }
+
+            var counterProperties = new[]
+            {
+                nameof(TestGroup.IncrementalCounter),
+                nameof(TestGroup.OverflowCounter)
+            };
+
+            if (counterProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
+            {
+                return jsonProperty.ShouldSerialize =
+                    instance =>
+                    {
+                        GetTestGroupFromTestGroupObject(instance, out var testGroup);
+
+                        if (testGroup.TestType.Equals("ctr", StringComparison.OrdinalIgnoreCase))
+                        {
+                            return true;
+                        }
+
+                        return false;
+                    };
             }
 
             return jsonProperty.ShouldSerialize = instance => false;
