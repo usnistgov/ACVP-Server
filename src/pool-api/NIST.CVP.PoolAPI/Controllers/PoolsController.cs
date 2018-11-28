@@ -16,8 +16,6 @@ namespace NIST.CVP.PoolAPI.Controllers
     [ApiController]
     public class PoolsController : Controller
     {
-        private bool _isFillingPool = false;
-
         private readonly JsonSerializerSettings _jsonSettings = new JsonSerializerSettings
         {
             Converters = new List<JsonConverter>

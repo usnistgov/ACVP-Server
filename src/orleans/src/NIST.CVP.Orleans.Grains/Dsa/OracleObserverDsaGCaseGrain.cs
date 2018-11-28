@@ -71,7 +71,7 @@ namespace NIST.CVP.Orleans.Grains.Dsa
                 Index = index
             };
 
-            if (_param.Disposition == default(string))
+            if (_param.Disposition == default(string) || _param.Disposition == "none")
             {
                 await Notify(domainParams);
                 return;

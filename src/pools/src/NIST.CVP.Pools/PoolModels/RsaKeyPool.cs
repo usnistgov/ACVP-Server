@@ -5,14 +5,14 @@ using NIST.CVP.Pools.Models;
 
 namespace NIST.CVP.Pools.PoolModels
 {
-    public class RsaKeyPool : PoolBase<RsaKeyParameters, RsaPrimeResult>
+    public class RsaKeyPool : PoolBase<RsaKeyParameters, RsaKeyResult>
     {
         public RsaKeyPool(PoolConstructionParameters<RsaKeyParameters> param)
             : base(param) { }
 
         public override async Task RequestWater()
         {
-            AddWater(await Oracle.GetRsaPrimes(WaterType));
+            AddWater(await Oracle.GetRsaKeyAsync(WaterType));
         }
     }
 }

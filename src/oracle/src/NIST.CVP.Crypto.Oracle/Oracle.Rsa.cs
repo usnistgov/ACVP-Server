@@ -1,13 +1,10 @@
 ﻿using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
-using NIST.CVP.Pools;
-using NIST.CVP.Pools.Enums;
 using System.Threading.Tasks;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys;
 using NIST.CVP.Crypto.Oracle.ExtensionMethods;
 using NIST.CVP.Math;
-using NIST.CVP.Math.Entropy;
 using NIST.CVP.Orleans.Grains.Interfaces.Rsa;
 
 namespace NIST.CVP.Crypto.Oracle
@@ -17,14 +14,14 @@ namespace NIST.CVP.Crypto.Oracle
         private const int RSA_PUBLIC_EXPONENT_BITS_MIN = 32;
         private const int RSA_PUBLIC_EXPONENT_BITS_MAX = 64;
 
-        public async Task<RsaKeyResult> GetRsaKeyAsync(RsaKeyParameters param)
+        public virtual async Task<RsaKeyResult> GetRsaKeyAsync(RsaKeyParameters param)
         {
             IRandom800_90 rand = new Random800_90();
-            IEntropyProvider entropyProvider = new EntropyProvider(rand);
             IKeyGenParameterHelper keyGenHelper = new KeyGenParameterHelper(rand);
 
             RsaPrimeResult result = null;
-            do
+            
+            while (true)
             {
                 param.Seed = keyGenHelper.GetSeed(param.Modulus);
                 param.PublicExponent = param.PublicExponentMode == PublicExponentModes.Fixed ? 
@@ -35,7 +32,11 @@ namespace NIST.CVP.Crypto.Oracle
                 // Generate key until success
                 result = await GetRsaPrimes(param);
 
-            } while (!result.Success);
+                if (result.Success)
+                {
+                    break;
+                }
+            }
 
             return new RsaKeyResult
             {
@@ -150,9 +151,24 @@ namespace NIST.CVP.Crypto.Oracle
 
         public async Task<RsaDecryptionPrimitiveResult> GetRsaDecryptionPrimitiveAsync(RsaDecryptionPrimitiveParameters param)
         {
+            KeyResult key = null;
+            if (param.TestPassed)
+            {
+                var keyParam = new RsaKeyParameters()
+                {
+                    KeyMode = PrimeGenModes.B33,
+                    Modulus = param.Modulo,
+                    PrimeTest = PrimeTestModes.C2,
+                    KeyFormat = PrivateKeyModes.Standard,
+                    PublicExponentMode = PublicExponentModes.Random
+                };
+                var keyResult = await GetRsaKeyAsync(keyParam);
+                key = new KeyResult(keyResult.Key, keyResult.AuxValues);
+            }
+
             var observableGrain = 
                 await _clusterClient.GetObserverGrain<IOracleObserverRsaDecryptionPrimitiveCaseGrain, RsaDecryptionPrimitiveResult>();
-            await observableGrain.Grain.BeginWorkAsync(param);
+            await observableGrain.Grain.BeginWorkAsync(param, key);
 
             return await observableGrain.ObserveUntilResult();
         }

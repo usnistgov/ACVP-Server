@@ -3,7 +3,6 @@ using Microsoft.Extensions.Options;
 using NIST.CVP.Common.Config;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
-using NIST.CVP.Math.Entropy;
 using NIST.CVP.Pools;
 using NIST.CVP.Pools.Enums;
 
@@ -143,17 +142,17 @@ namespace NIST.CVP.Crypto.Oracle
             return await base.GetTdesMctCaseAsync(param);
         }
 
-        public override async Task<RsaPrimeResult> GetRsaPrimes(RsaKeyParameters param)
+        public override async Task<RsaKeyResult> GetRsaKeyAsync(RsaKeyParameters param)
         {
             // Only works with random public exponent
-            var poolBoy = new PoolBoy<RsaPrimeResult>(_poolConfig);
+            var poolBoy = new PoolBoy<RsaKeyResult>(_poolConfig);
             var poolResult = poolBoy.GetObjectFromPool(param, PoolTypes.RSA_KEY);
             if (poolResult != null)
             {
                 return poolResult;
             }
 
-            return await base.GetRsaPrimes(param);
+            return await base.GetRsaKeyAsync(param);
         }
     }
 }
