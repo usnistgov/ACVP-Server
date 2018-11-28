@@ -47,7 +47,7 @@ namespace NIST.CVP.Orleans.ServerHost
                 })
                 .ConfigureClustering(_orleansConfig, _environmentConfig)
                 .ConfigureLogging(_orleansConfig, _environmentConfig)
-                .UseDashboard(options => { }); // port 8080
+                .UseDashboard(options => { options.Port = _orleansConfig.OrleansDashboardPort; });
 
             _silo = builder.Build();
             await _silo.StartAsync(cancellationToken);
