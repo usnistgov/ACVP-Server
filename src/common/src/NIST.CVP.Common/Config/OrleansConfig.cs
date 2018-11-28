@@ -48,5 +48,10 @@ namespace NIST.CVP.Common.Config
         /// Should logs be written to a file?
         /// </summary>
         public bool UseFileLogging { get; set; }
+
+        /// <summary>
+        /// The post to use for the orleans dashboard
+        /// </summary>
+        public int OrleansDashboardPort {get; set; }
     }
 }
