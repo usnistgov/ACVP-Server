@@ -151,9 +151,24 @@ namespace NIST.CVP.Crypto.Oracle
 
         public async Task<RsaDecryptionPrimitiveResult> GetRsaDecryptionPrimitiveAsync(RsaDecryptionPrimitiveParameters param)
         {
+            KeyResult key = null;
+            if (param.TestPassed)
+            {
+                var keyParam = new RsaKeyParameters()
+                {
+                    KeyMode = PrimeGenModes.B33,
+                    Modulus = param.Modulo,
+                    PrimeTest = PrimeTestModes.C2,
+                    KeyFormat = PrivateKeyModes.Standard,
+                    PublicExponentMode = PublicExponentModes.Random
+                };
+                var keyResult = await GetRsaKeyAsync(keyParam);
+                key = new KeyResult(keyResult.Key, keyResult.AuxValues);
+            }
+
             var observableGrain = 
                 await _clusterClient.GetObserverGrain<IOracleObserverRsaDecryptionPrimitiveCaseGrain, RsaDecryptionPrimitiveResult>();
-            await observableGrain.Grain.BeginWorkAsync(param);
+            await observableGrain.Grain.BeginWorkAsync(param, key);
 
             return await observableGrain.ObserveUntilResult();
         }
