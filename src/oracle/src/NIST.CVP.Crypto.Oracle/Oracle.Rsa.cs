@@ -14,22 +14,14 @@ namespace NIST.CVP.Crypto.Oracle
         private const int RSA_PUBLIC_EXPONENT_BITS_MIN = 32;
         private const int RSA_PUBLIC_EXPONENT_BITS_MAX = 64;
 
-        public async Task<RsaKeyResult> GetRsaKeyAsync(RsaKeyParameters param)
+        public virtual async Task<RsaKeyResult> GetRsaKeyAsync(RsaKeyParameters param)
         {
             IRandom800_90 rand = new Random800_90();
             IKeyGenParameterHelper keyGenHelper = new KeyGenParameterHelper(rand);
 
-            /* TODO this needs to be refactored so that the keygeneration is what actually
-               does the looping?
-               
-            The pool configuration file shouldn't have a concept of seed, pubexp, or bitlens(?).
-            
-            The seed, pubexp, bitlens(?) should be a part of the "randomness" that's actually stored in the pool
-            Not as a part of the pool configuration.
-
-            */
             RsaPrimeResult result = null;
-            do
+            
+            while (true)
             {
                 param.Seed = keyGenHelper.GetSeed(param.Modulus);
                 param.PublicExponent = param.PublicExponentMode == PublicExponentModes.Fixed ? 
@@ -40,7 +32,11 @@ namespace NIST.CVP.Crypto.Oracle
                 // Generate key until success
                 result = await GetRsaPrimes(param);
 
-            } while (!result.Success);
+                if (result.Success)
+                {
+                    break;
+                }
+            }
 
             return new RsaKeyResult
             {

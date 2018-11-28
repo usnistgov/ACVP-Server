@@ -2,7 +2,6 @@
 using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
 using System.Threading.Tasks;
-using NIST.CVP.Math.Entropy;
 
 namespace NIST.CVP.Common.Oracle
 {

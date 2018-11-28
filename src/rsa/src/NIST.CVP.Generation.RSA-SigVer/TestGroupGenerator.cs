@@ -57,6 +57,7 @@ namespace NIST.CVP.Generation.RSA_SigVer
                                 KeyMode = PrimeGenModes.B33,
                                 PublicExponentMode = pubExpMode,
                                 PublicExponent = new BitString(parameters.FixedPubExpValue),
+                                PrimeTest = PrimeTestModes.C2
                             };
 
                             try

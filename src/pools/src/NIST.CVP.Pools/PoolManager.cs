@@ -173,20 +173,20 @@ namespace NIST.CVP.Pools
                 // If the pool is looking a bit low
                 if (minPool != null)
                 {
-                    RequestPoolWater(1, tasks, minPool);
+                    var json = JsonConvert.SerializeObject(
+                        minPool.Param, new JsonSerializerSettings()
+                        {
+                            Converters = _jsonConverters,
+                            Formatting = Formatting.Indented
+                        }
+                    );
+
+                    RequestPoolWater(1, tasks, minPool, json);
 
                     // If filling of pools occurred, wait for it to finish, then save the pools.
                     if (tasks.Count > 0)
                     {
                         await Task.WhenAll(tasks);
-
-                        var json = JsonConvert.SerializeObject(
-                            minPool.Param, new JsonSerializerSettings()
-                            {
-                                Converters = _jsonConverters,
-                                Formatting = Formatting.Indented
-                            }
-                        );
 
                         LogManager.GetCurrentClassLogger()
                             .Log(LogLevel.Info, $"Pool was filled. Proceeding to save pool: \n\n {json}");
@@ -307,7 +307,7 @@ namespace NIST.CVP.Pools
             return minPool;
         }
 
-        private void RequestPoolWater(int numberOfJobsToQueue, List<Task> tasks, IPool pool)
+        private void RequestPoolWater(int numberOfJobsToQueue, List<Task> tasks, IPool pool, string json)
         {
             // If the pool is looking a bit low
             if (pool.WaterLevel < pool.MaxWaterLevel)
@@ -317,6 +317,12 @@ namespace NIST.CVP.Pools
                 var jobsToQueue = numberOfJobsToQueue < potentialMaxJobs
                     ? numberOfJobsToQueue
                     : potentialMaxJobs;
+
+                if (jobsToQueue > 0)
+                {
+                    LogManager.GetCurrentClassLogger()
+                        .Log(LogLevel.Info, $"Starting job to fill pool with parameters: \n\n {json}");
+                }
 
                 // Add jobs to a list of tasks
                 for (var i = 0; i < jobsToQueue; i++)

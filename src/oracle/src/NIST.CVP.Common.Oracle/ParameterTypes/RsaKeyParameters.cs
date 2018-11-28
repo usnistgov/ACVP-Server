@@ -28,6 +28,6 @@ namespace NIST.CVP.Common.Oracle.ParameterTypes
             return false;
         }
 
-        public override int GetHashCode() => HashCode.Combine(KeyMode, PublicExponentMode, Modulus, HashAlg, PrimeTest);
+        public override int GetHashCode() => HashCode.Combine(KeyMode, PublicExponentMode, Modulus, HashAlg?.DigestSize, HashAlg?.Mode, PrimeTest);
     }
 }

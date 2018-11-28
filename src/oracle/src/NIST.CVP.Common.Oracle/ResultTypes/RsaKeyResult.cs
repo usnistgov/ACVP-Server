@@ -4,7 +4,7 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Common.Oracle.ResultTypes
 {
-    public class RsaKeyResult
+    public class RsaKeyResult : IResult
     {
         public KeyPair Key { get; set; }
 

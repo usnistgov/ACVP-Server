@@ -54,6 +54,7 @@ namespace NIST.CVP.Orleans.Grains.Rsa
         {
             RsaDecryptionPrimitiveResult result;
 
+            // TODO use an additional parameter for this grain, passing in a key to be able to make use of pools.
             if (_param.TestPassed)
             {
                 // Correct tests

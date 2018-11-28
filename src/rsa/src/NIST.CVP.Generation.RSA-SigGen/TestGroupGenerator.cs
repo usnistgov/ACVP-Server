@@ -62,7 +62,8 @@ namespace NIST.CVP.Generation.RSA_SigGen
                                 KeyFormat = PrivateKeyModes.Standard,
                                 Modulus = modulo,
                                 KeyMode = PrimeGenModes.B33,
-                                PublicExponentMode = PublicExponentModes.Random
+                                PublicExponentMode = PublicExponentModes.Random,
+                                PrimeTest = PrimeTestModes.C2
                             };
 
                             try

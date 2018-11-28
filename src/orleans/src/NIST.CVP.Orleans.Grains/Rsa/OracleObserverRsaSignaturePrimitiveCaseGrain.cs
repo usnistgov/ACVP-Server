@@ -3,7 +3,6 @@ using NIST.CVP.Common;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
 using NIST.CVP.Crypto.Math;
 using NIST.CVP.Math;
 using NIST.CVP.Orleans.Grains.Interfaces.Rsa;
@@ -14,7 +13,6 @@ namespace NIST.CVP.Orleans.Grains.Rsa
         IOracleObserverRsaSignaturePrimitiveCaseGrain
     {
         private readonly IRsa _rsa;
-        private readonly IRsaRunner _rsaRunner;
         private readonly IRandom800_90 _rand;
 
         private RsaSignaturePrimitiveParameters _param;
@@ -23,12 +21,10 @@ namespace NIST.CVP.Orleans.Grains.Rsa
         public OracleObserverRsaSignaturePrimitiveCaseGrain(
             LimitedConcurrencyLevelTaskScheduler nonOrleansScheduler,
             IRsa rsa,
-            IRsaRunner rsaRunner,
             IRandom800_90 rand
         ) : base (nonOrleansScheduler)
         {
             _rsa = rsa;
-            _rsaRunner = rsaRunner;
             _rand = rand;
         }
         
