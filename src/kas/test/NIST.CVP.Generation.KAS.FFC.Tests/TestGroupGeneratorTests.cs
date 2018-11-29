@@ -24,7 +24,12 @@ namespace NIST.CVP.Generation.KAS.FFC.Tests
             _oracle = new Mock<IOracle>();
             _oracle
                 .Setup(s => s.GetDsaDomainParametersAsync(It.IsAny<DsaDomainParametersParameters>()))
-                .Returns(Task.FromResult(new DsaDomainParametersResult()));
+                .Returns(() => Task.FromResult(new DsaDomainParametersResult()
+                {
+                    P = 1,
+                    Q = 2,
+                    G = 3
+                }));
 
             _subject = new TestGroupGenerator(_oracle.Object);
         }
