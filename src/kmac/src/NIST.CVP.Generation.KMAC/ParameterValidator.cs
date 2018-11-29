@@ -59,6 +59,12 @@ namespace NIST.CVP.Generation.KMAC
 
         private void ValidateKeyLen(Parameters parameters, List<string> errorResults)
         {
+            if (parameters.KeyLen == null)
+            {
+                errorResults.AddIfNotNullOrEmpty($"{nameof(parameters.KeyLen)} must be provided");
+                return;
+            }
+
             string segmentCheck = "";
             if (parameters.KeyLen.DomainSegments.Count() != 1)
             {
@@ -91,6 +97,12 @@ namespace NIST.CVP.Generation.KMAC
 
         private void ValidateMacLen(Parameters parameters, List<string> errorResults)
         {
+            if (parameters.MacLen == null)
+            {
+                errorResults.AddIfNotNullOrEmpty($"{nameof(parameters.MacLen)} must be provided");
+                return;
+            }
+
             string segmentCheck = "";
             if (parameters.MacLen.DomainSegments.Count() != 1)
             {
@@ -123,6 +135,12 @@ namespace NIST.CVP.Generation.KMAC
 
         private void ValidateMsgLen(Parameters parameters, List<string> errorResults)
         {
+            if (parameters.MsgLen == null)
+            {
+                errorResults.AddIfNotNullOrEmpty($"{nameof(parameters.MsgLen)} must be provided");
+                return;
+            }
+
             string segmentCheck = "";
             if (parameters.MsgLen.DomainSegments.Count() != 1)
             {

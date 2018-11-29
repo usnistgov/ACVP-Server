@@ -38,7 +38,7 @@ namespace NIST.CVP.Generation.KMAC.ContractResolvers
             }
 
             #region Conditional Test Case properties
-            if (jsonProperty.UnderlyingName == nameof(TestCase.MacVerified))
+            if (jsonProperty.UnderlyingName == nameof(TestCase.TestPassed))
             {
                 return jsonProperty.ShouldSerialize = instance =>
                 {
