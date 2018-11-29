@@ -14,12 +14,34 @@ namespace NIST.CVP.Generation.TDES_CTR.ContractResolvers
                 nameof(TestGroup.InternalTestType)
             };
 
+            var counterProperties = new[]
+            {
+                nameof(TestGroup.IncrementalCounter),
+                nameof(TestGroup.OverflowCounter)
+            };
+
             if (excludeProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
             {
-                return jsonProperty.ShouldDeserialize = instance => false;
+                return jsonProperty.ShouldSerialize = instance => false;
             }
 
-            return jsonProperty.ShouldDeserialize = instance => true;
+            if (counterProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
+            {
+                return jsonProperty.ShouldSerialize =
+                    instance =>
+                    {
+                        GetTestGroupFromTestGroupObject(instance, out var testGroup);
+
+                        if (testGroup.TestType.Equals("ctr", StringComparison.OrdinalIgnoreCase))
+                        {
+                            return true;
+                        }
+
+                        return false;
+                    };
+            }
+
+            return jsonProperty.ShouldSerialize = instance => true;
         }
 
         protected override Predicate<object> TestCaseSerialization(JsonProperty jsonProperty)
