@@ -90,7 +90,7 @@ namespace NIST.CVP.Generation.KAS.FFC
                 var pqgTask = pqgTasks
                     .First(w => w.Key.l == parameterSetAttributes.pLength &&
                                 w.Key.n == parameterSetAttributes.qLength &&
-                                w.Key.hashFunc == group.HashAlg).Value;
+                                w.Key.hashFunc.Equals(group.HashAlg)).Value;
 
                 var pqg = await pqgTask;
 
