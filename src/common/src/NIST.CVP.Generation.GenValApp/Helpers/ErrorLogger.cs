@@ -39,10 +39,7 @@ namespace NIST.CVP.Generation.GenValApp.Helpers
             var errorJson = JsonConvert.SerializeObject(error, Formatting.Indented);
 
             var saveResult = SaveToFile(directory, "error.json", errorJson);
-            if (!string.IsNullOrEmpty(saveResult))
-            {
-                throw new Exception($"Error saving file: {saveResult}");
-            }
+            Console.WriteLine($"Error saving file: {saveResult}");
         }
     }
 }

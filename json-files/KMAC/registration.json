@@ -5,7 +5,7 @@
   "isSample": false,
   "conformances": [],
   "digestSize": [
-    256
+    128
   ],
   "nonxof": true,
   "xof": true,

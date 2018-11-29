@@ -45,7 +45,7 @@ namespace NIST.CVP.Generation.KMAC
                     Customization = oracleResult.Customization,
                     CustomizationHex = oracleResult.CustomizationHex,
                     MacLength = oracleResult.Tag.BitLength,
-                    MacVerified = oracleResult.TestPassed
+                    TestPassed = oracleResult.TestPassed
                 });
             }
             catch (Exception ex)

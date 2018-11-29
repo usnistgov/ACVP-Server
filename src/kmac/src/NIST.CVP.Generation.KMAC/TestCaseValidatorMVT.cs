@@ -51,19 +51,19 @@ namespace NIST.CVP.Generation.KMAC
 
         private void ValidateResultPresent(TestCase suppliedResult, List<string> errors)
         {
-            if (suppliedResult.MacVerified == null)
+            if (suppliedResult.TestPassed == null)
             {
-                errors.Add($"{nameof(suppliedResult.MacVerified)} was not present in the {nameof(TestCase)}");
+                errors.Add($"{nameof(suppliedResult.TestPassed)} was not present in the {nameof(TestCase)}");
             }
         }
 
         private void CheckResults(TestCase suppliedResult, List<string> errors, Dictionary<string, string> expected, Dictionary<string, string> provided)
         {
-            if (_expectedResult.MacVerified != suppliedResult.MacVerified)
+            if (_expectedResult.TestPassed != suppliedResult.TestPassed)
             {
                 errors.Add("MAC Verification does not match");
-                expected.Add(nameof(_expectedResult.MacVerified), _expectedResult.MacVerified.ToString());
-                provided.Add(nameof(suppliedResult.MacVerified), suppliedResult.MacVerified.ToString());
+                expected.Add(nameof(_expectedResult.TestPassed), _expectedResult.TestPassed.ToString());
+                provided.Add(nameof(suppliedResult.TestPassed), suppliedResult.TestPassed.ToString());
             }
         }
     }

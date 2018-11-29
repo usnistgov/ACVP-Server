@@ -32,7 +32,7 @@ namespace NIST.CVP.Generation.KMAC.Tests
 
             _subject = new TestCaseValidatorMvt(testCase, testGroup);
             var suppliedResult = GetTestCase();
-            suppliedResult.MacVerified = testMacVerified;
+            suppliedResult.TestPassed = testMacVerified;
             var result = await _subject.ValidateAsync(suppliedResult);
             Assume.That(result != null);
             Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
@@ -48,7 +48,7 @@ namespace NIST.CVP.Generation.KMAC.Tests
 
             _subject = new TestCaseValidatorMvt(testCase, testGroup);
             var suppliedResult = GetTestCase();
-            suppliedResult.MacVerified = testMacVerified;
+            suppliedResult.TestPassed = testMacVerified;
             var result = await _subject.ValidateAsync(suppliedResult);
             Assume.That(result != null);
             Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
@@ -63,13 +63,13 @@ namespace NIST.CVP.Generation.KMAC.Tests
             _subject = new TestCaseValidatorMvt(testCase, testGroup);
             var suppliedResult = GetTestCase();
 
-            suppliedResult.MacVerified = null;
+            suppliedResult.TestPassed = null;
 
             var result = await _subject.ValidateAsync(suppliedResult);
             Assume.That(result != null);
             Assume.That(Core.Enums.Disposition.Failed == result.Result);
 
-            Assert.IsTrue(result.Reason.Contains($"{nameof(suppliedResult.MacVerified)} was not present in the {nameof(TestCase)}"));
+            Assert.IsTrue(result.Reason.Contains($"{nameof(suppliedResult.TestPassed)} was not present in the {nameof(TestCase)}"));
         }
 
         private TestGroup GetTestGroup()
@@ -89,7 +89,7 @@ namespace NIST.CVP.Generation.KMAC.Tests
             {
                 Message = new BitString("AADAADAADAAD"),
                 Mac = new BitString("ABCDEF0123456789ABCDEF0123456789"),
-                MacVerified = true,
+                TestPassed = true,
                 TestCaseId = 1
             };
             return testCase;

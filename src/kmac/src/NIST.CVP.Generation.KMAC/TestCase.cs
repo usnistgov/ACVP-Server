@@ -7,8 +7,7 @@ namespace NIST.CVP.Generation.KMAC
     public class TestCase : ITestCase<TestGroup, TestCase>
     {
         public int TestCaseId { get; set; }
-        [JsonIgnore]
-        public bool? TestPassed => true;
+        public bool? TestPassed { get; set; }
         [JsonIgnore]
         public bool Deferred => false;
         public TestGroup ParentGroup { get; set; }
@@ -42,7 +41,6 @@ namespace NIST.CVP.Generation.KMAC
         public BitString Mac { get; set; }
         [JsonProperty(PropertyName = "macLen")]
         public int MacLength { get; set; }
-        public bool? MacVerified { get; set; }
 
         [JsonProperty(PropertyName = "customization")]
         public string Customization { get; set; }
