@@ -106,9 +106,9 @@ namespace NIST.CVP.PoolAPI.Controllers
 
         [HttpPost]
         [Route("spawn")]
-        public async Task<bool> SpawnJobForMostShallowPool()
+        public async Task<bool> SpawnJobForMostShallowPool([FromBody] int jobsToSpawn)
         {
-            return await Program.PoolManager.SpawnJobForMostShallowPool();
+            return await Program.PoolManager.SpawnJobForMostShallowPool(jobsToSpawn);
         }
 
         [HttpPost]

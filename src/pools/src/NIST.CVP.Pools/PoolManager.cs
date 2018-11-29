@@ -163,7 +163,7 @@ namespace NIST.CVP.Pools
             return true;
         }
 
-        public async Task<bool> SpawnJobForMostShallowPool()
+        public async Task<bool> SpawnJobForMostShallowPool(int jobsToSpawn)
         {
             try
             {
@@ -181,7 +181,7 @@ namespace NIST.CVP.Pools
                         }
                     );
 
-                    RequestPoolWater(1, tasks, minPool, json);
+                    RequestPoolWater(jobsToSpawn, tasks, minPool, json);
 
                     // If filling of pools occurred, wait for it to finish, then save the pools.
                     if (tasks.Count > 0)
