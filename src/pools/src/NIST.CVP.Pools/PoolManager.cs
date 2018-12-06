@@ -321,7 +321,7 @@ namespace NIST.CVP.Pools
                 if (jobsToQueue > 0)
                 {
                     LogManager.GetCurrentClassLogger()
-                        .Log(LogLevel.Info, $"Starting job to fill pool with parameters: \n\n {json}");
+                        .Log(LogLevel.Info, $"Starting job to fill pool with {numberOfJobsToQueue} precomputed values, using parameters: \n\n {json}");
                 }
 
                 // Add jobs to a list of tasks

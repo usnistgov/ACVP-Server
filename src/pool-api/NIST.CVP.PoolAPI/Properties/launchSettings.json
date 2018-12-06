@@ -11,7 +11,7 @@
   "profiles": {
     "IIS Express": {
       "commandName": "IISExpress",
-      "commandLineArgs": "--console \"C:\\workspace\\gitLab\\gen-val\\src\\pool-api\\NIST.CVP.PoolAPI\\Pools\"",
+      "commandLineArgs": "--console",
       "launchBrowser": true,
       "launchUrl": "api/pools/status",
       "environmentVariables": {
@@ -20,11 +20,11 @@
     },
     "NIST.CVP.PoolAPI": {
       "commandName": "Project",
-      "commandLineArgs": "--console \"D:\\ACVP\\gen-val\\src\\pool-api\\NIST.CVP.PoolAPI\\Pools\"",
+      "commandLineArgs": "--console",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "local"
       },
-      "applicationUrl": "http://localhost:5001"
+      "applicationUrl": "http://localhost:5002"
     }
   }
 }
