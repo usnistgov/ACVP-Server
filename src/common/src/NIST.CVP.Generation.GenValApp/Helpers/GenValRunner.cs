@@ -70,7 +70,7 @@ namespace NIST.CVP.Generation.GenValApp.Helpers
         }
 
         /// <summary>
-        /// Run Generation or Validation, dependant on determined run mode..
+        /// Run Generation or Validation, dependent on determined run mode..
         /// </summary>
         /// <param name="parsedParameters"></param>
         /// <returns></returns>
@@ -83,7 +83,7 @@ namespace NIST.CVP.Generation.GenValApp.Helpers
                 {
                     case GenValMode.Generate:
                     {
-                        FileDirectory = Path.GetPathRoot(parsedParameters.RegistrationFile.FullName);
+                        FileDirectory = Path.GetDirectoryName(parsedParameters.RegistrationFile.FullName);
 
                         var registrationFile = parsedParameters.RegistrationFile.FullName;
                         var result = RunGeneration(registrationFile);
@@ -101,7 +101,7 @@ namespace NIST.CVP.Generation.GenValApp.Helpers
 
                     case GenValMode.Validate:
                     {
-                        FileDirectory = Path.GetPathRoot(parsedParameters.ResponseFile.FullName);
+                        FileDirectory = Path.GetDirectoryName(parsedParameters.ResponseFile.FullName);
 
                         var responseFile = parsedParameters.ResponseFile.FullName;
                         var answerFile = parsedParameters.AnswerFile.FullName;
