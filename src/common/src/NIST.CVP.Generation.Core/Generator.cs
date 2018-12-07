@@ -47,24 +47,33 @@ namespace NIST.CVP.Generation.Core
 
         public virtual GenerateResponse Generate(string requestFilePath)
         {
-            var parameterResponse = _parameterParser.Parse(requestFilePath);
-            if (!parameterResponse.Success)
+            try
             {
-                return new GenerateResponse(parameterResponse.ErrorMessage, StatusCode.ParameterError);
+                var parameterResponse = _parameterParser.Parse(requestFilePath);
+                if (!parameterResponse.Success)
+                {
+                    return new GenerateResponse(parameterResponse.ErrorMessage, StatusCode.ParameterError);
+                }
+                var parameters = parameterResponse.ParsedObject;
+                var validateResponse = _parameterValidator.Validate(parameters);
+                if (!validateResponse.Success)
+                {
+                    return new GenerateResponse(validateResponse.ErrorMessage, StatusCode.ParameterValidationError);
+                }
+                var testVector = _testVectorFactory.BuildTestVectorSet(parameters);
+                var testCasesResult = _testCaseGeneratorFactoryFactory.BuildTestCases(testVector);
+                if (!testCasesResult.Success)
+                {
+                    return testCasesResult;
+                }
+
+                return SaveOutputs(requestFilePath, testVector);
             }
-            var parameters = parameterResponse.ParsedObject;
-            var validateResponse = _parameterValidator.Validate(parameters);
-            if (!validateResponse.Success)
+            catch (Exception ex)
             {
-                return new GenerateResponse(validateResponse.ErrorMessage, StatusCode.ParameterValidationError);
+                ThisLogger.Error(ex);
+                return new GenerateResponse("General exception. Contact service provider.", StatusCode.Exception);
             }
-            var testVector = _testVectorFactory.BuildTestVectorSet(parameters);
-            var testCasesResult = _testCaseGeneratorFactoryFactory.BuildTestCases(testVector);
-            if (!testCasesResult.Success)
-            {
-                return testCasesResult;
-            }
-            return SaveOutputs(requestFilePath, testVector);
         }
 
         protected GenerateResponse SaveOutputs(string requestFilePath, TTestVectorSet testVector)
