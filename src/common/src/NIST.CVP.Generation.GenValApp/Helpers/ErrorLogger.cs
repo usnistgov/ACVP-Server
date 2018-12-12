@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using NIST.CVP.Common.Enums;
 using NIST.CVP.Generation.GenValApp.Models;
+using NLog;
 using System;
 using System.IO;
 
@@ -16,6 +17,8 @@ namespace NIST.CVP.Generation.GenValApp.Helpers
                 path = Path.Combine(fileRoot, fileName);
             }
             
+            LogManager.GetCurrentClassLogger().Info($"path: {path}");
+
             try
             {
                 File.WriteAllText(path, json);
@@ -39,7 +42,6 @@ namespace NIST.CVP.Generation.GenValApp.Helpers
             var errorJson = JsonConvert.SerializeObject(error, Formatting.Indented);
 
             var saveResult = SaveToFile(directory, "error.json", errorJson);
-            Console.WriteLine($"Error saving file: {saveResult}");
         }
     }
 }
