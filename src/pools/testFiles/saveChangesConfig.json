@@ -11,7 +11,8 @@
     },
     "FilePath": "aes-test1.json",
     "MaxCapacity": 10,
+    "MinCapacity": 0,
     "MonitorFrequency": 60,
-    "MaxWaterReuse": 1000
+    "RecycleRatePerHundred": 0.0
   }
 ]

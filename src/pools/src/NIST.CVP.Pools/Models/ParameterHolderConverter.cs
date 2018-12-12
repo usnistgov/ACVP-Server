@@ -7,7 +7,7 @@ using NIST.CVP.Common.Oracle.ResultTypes;
 using System;
 using PoolTypes = NIST.CVP.Pools.Enums.PoolTypes;
 
-namespace NIST.CVP.Pools
+namespace NIST.CVP.Pools.Models
 {
     public class ParameterHolderConverter : JsonConverter
     {

@@ -1,15 +1,16 @@
 ﻿using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ResultTypes;
+using NIST.CVP.Generation.Core.JsonConverters;
 using NIST.CVP.Pools.Enums;
+using NIST.CVP.Pools.Models;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
-using Newtonsoft.Json.Converters;
-using NIST.CVP.Generation.Core.JsonConverters;
-using NLog;
 using PoolConfig = NIST.CVP.Common.Config.PoolConfig;
 
 namespace NIST.CVP.Pools
@@ -76,7 +77,7 @@ namespace NIST.CVP.Pools
                             Converters = _jsonConverters
                         }
                     );
-                    if (poolResult.PoolEmpty)
+                    if (poolResult.PoolTooEmpty)
                     {
                         return default(T);
                     }

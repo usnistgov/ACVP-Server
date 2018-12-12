@@ -1,13 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Generation.Core.JsonConverters;
 using NIST.CVP.Pools;
+using NIST.CVP.Pools.Models;
 using NLog;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace NIST.CVP.PoolAPI.Controllers
@@ -16,6 +15,8 @@ namespace NIST.CVP.PoolAPI.Controllers
     [ApiController]
     public class PoolsController : Controller
     {
+        private bool _isFillingPool = false;
+
         private readonly JsonSerializerSettings _jsonSettings = new JsonSerializerSettings
         {
             Converters = new List<JsonConverter>
@@ -110,6 +111,69 @@ namespace NIST.CVP.PoolAPI.Controllers
         {
             return await Program.PoolManager.SpawnJobForMostShallowPool(jobsToSpawn);
         }
+
+        [HttpPost]
+        [Route("spawn/all")]
+        // /api/pools/spawn
+        public async Task<bool> SpawnJobForPools([FromBody] int numberOfJobsPerPoolToQueue = 1)
+        {
+            // Already in process of filling pool
+            if (_isFillingPool)
+            {
+                return false;
+            }
+
+            try
+            {
+                _isFillingPool = true;
+                List<Task> tasks = new List<Task>();
+                foreach (var pool in Program.PoolManager.Pools)
+                {
+                    RequestPoolWater(numberOfJobsPerPoolToQueue, tasks, pool);
+                }
+
+                // If filling of pools occurred, wait for it to finish, then save the pools.
+                if (tasks.Count > 0)
+                {
+                    await Task.WhenAll(tasks);
+
+                    LogManager.GetCurrentClassLogger()
+                        .Log(LogLevel.Info, "Pools have been filled. Proceeding to save.");
+
+                    SavePools();
+                }
+
+                _isFillingPool = false;
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                LogManager.GetCurrentClassLogger().Error(ex);
+                return false;
+            }
+        }
+
+
+        private static void RequestPoolWater(int numberOfJobsToQueue, List<Task> tasks, IPool pool)
+        {
+            // If the pool is looking a bit low
+            if (pool.WaterLevel < pool.MaxWaterLevel)
+            {
+                // Don't queue more than the max allowed for the pool
+                var potentialMaxJobs = pool.MaxWaterLevel - pool.WaterLevel;
+                var jobsToQueue = numberOfJobsToQueue < potentialMaxJobs
+                    ? numberOfJobsToQueue
+                    : potentialMaxJobs;
+
+                // Add jobs to a list of tasks
+                for (var i = 0; i < jobsToQueue; i++)
+                {
+                    tasks.Add(pool.RequestWater());
+                }
+            }
+        }
+
 
         [HttpPost]
         [Route("add")]

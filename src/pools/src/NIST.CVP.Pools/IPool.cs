@@ -1,6 +1,7 @@
 ﻿using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Pools.Enums;
+using NIST.CVP.Pools.Models;
 using System;
 using System.Threading.Tasks;
 
@@ -45,6 +46,16 @@ namespace NIST.CVP.Pools
         /// The maximum amount of water allowed in a pool.
         /// </summary>
         int MaxWaterLevel { get; }
+
+        /// <summary>
+        /// The minimum amount of water allowed in a pool for the pool to be used
+        /// </summary>
+        int MinWaterLevel { get; }
+
+        /// <summary>
+        /// Probability a value will be reused
+        /// </summary>
+        decimal RecycleRate { get; }
 
         decimal WaterFillPercent { get; }
 

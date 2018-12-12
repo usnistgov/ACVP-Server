@@ -1,7 +1,15 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Extensions.Options;
+using Moq;
+using Newtonsoft.Json;
+using NIST.CVP.Common.Config;
+using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
+using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.Generation.Core.JsonConverters;
+using NIST.CVP.Math;
+using NIST.CVP.Pools.Enums;
+using NIST.CVP.Pools.Models;
 using NIST.CVP.Pools.PoolModels;
 using NIST.CVP.Tests.Core;
 using NUnit.Framework;
@@ -9,14 +17,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Microsoft.Extensions.Options;
-using Moq;
-using NIST.CVP.Common.Config;
-using NIST.CVP.Common.Oracle;
-using NIST.CVP.Common.Oracle.ResultTypes;
-using NIST.CVP.Math;
-using NIST.CVP.Pools.Enums;
-using NIST.CVP.Pools.Models;
 
 namespace NIST.CVP.Pools.Tests
 {
@@ -123,7 +123,7 @@ namespace NIST.CVP.Pools.Tests
 
             var result = pool.GetNext();
             
-            Assert.IsFalse(result.PoolEmpty);
+            Assert.IsFalse(result.PoolTooEmpty);
             Assert.AreEqual("ABCD", result.Result.PlainText.ToHex());
         }
 
@@ -152,10 +152,10 @@ namespace NIST.CVP.Pools.Tests
             var result2 = pool.GetNext();
             var result3 = pool.GetNext();
 
-            Assert.IsFalse(result1.PoolEmpty);
-            Assert.IsFalse(result2.PoolEmpty);
+            Assert.IsFalse(result1.PoolTooEmpty);
+            Assert.IsFalse(result2.PoolTooEmpty);
             Assert.IsTrue(pool.IsEmpty);
-            Assert.IsTrue(result3.PoolEmpty);
+            Assert.IsTrue(result3.PoolTooEmpty);
         }
 
         [Test]
@@ -198,25 +198,25 @@ namespace NIST.CVP.Pools.Tests
             };
 
             _poolConfig.Setup(s => s.Value)
-                .Returns(new PoolConfig() {ShouldRecyclePoolWater = shouldRecycle});
+                .Returns(new PoolConfig() { ShouldRecyclePoolWater = shouldRecycle });
 
             var pool = new AesPool(GetConstructionParameters(param, PoolTypes.AES));
             var originalWaterLevel = pool.WaterLevel;
-            
-            pool.AddWater(new AesResult() {PlainText = new BitString("01")});
-            pool.AddWater(new AesResult() {PlainText = new BitString("02")});
+
+            pool.AddWater(new AesResult() { PlainText = new BitString("01") });
+            pool.AddWater(new AesResult() { PlainText = new BitString("02") });
 
             Assert.AreEqual(
-                originalWaterLevel + 2, 
-                pool.WaterLevel, 
+                originalWaterLevel + 2,
+                pool.WaterLevel,
                 "Water level sanity check, post add"
             );
 
             pool.GetNextUntyped();
 
             Assert.AreEqual(
-                originalWaterLevel + waterLevelPostValueGet, 
-                pool.WaterLevel, 
+                originalWaterLevel + waterLevelPostValueGet,
+                pool.WaterLevel,
                 nameof(waterLevelPostValueGet)
             );
         }
@@ -227,7 +227,7 @@ namespace NIST.CVP.Pools.Tests
             {
             }
 
-            public ResultWrapper<AesResult>[] GetPoolWater()
+            public AesResult[] GetPoolWater()
             {
                 return Water.ToArray();
             }
@@ -269,16 +269,16 @@ namespace NIST.CVP.Pools.Tests
             Assume.That(water.Count() == 10);
 
             // The chances of this being shuffled back into the "correct, not shuffled" order is super small right?
-            if (water[0].Result.PlainText.Equals(new BitString("02")) &&
-                water[1].Result.PlainText.Equals(new BitString("03")) &&
-                water[2].Result.PlainText.Equals(new BitString("04")) &&
-                water[3].Result.PlainText.Equals(new BitString("05")) &&
-                water[3].Result.PlainText.Equals(new BitString("06")) &&
-                water[3].Result.PlainText.Equals(new BitString("07")) &&
-                water[3].Result.PlainText.Equals(new BitString("08")) &&
-                water[3].Result.PlainText.Equals(new BitString("09")) &&
-                water[3].Result.PlainText.Equals(new BitString("10")) &&
-                water[4].Result.PlainText.Equals(new BitString("01")))
+            if (water[0].PlainText.Equals(new BitString("02")) &&
+                water[1].PlainText.Equals(new BitString("03")) &&
+                water[2].PlainText.Equals(new BitString("04")) &&
+                water[3].PlainText.Equals(new BitString("05")) &&
+                water[3].PlainText.Equals(new BitString("06")) &&
+                water[3].PlainText.Equals(new BitString("07")) &&
+                water[3].PlainText.Equals(new BitString("08")) &&
+                water[3].PlainText.Equals(new BitString("09")) &&
+                water[3].PlainText.Equals(new BitString("10")) &&
+                water[4].PlainText.Equals(new BitString("01")))
             {
                 Assert.Fail();
             }
@@ -300,7 +300,7 @@ namespace NIST.CVP.Pools.Tests
             };
 
             var pool = new AesPool(GetConstructionParameters(param, PoolTypes.AES));
-            pool.AddWater(new AesResult()
+            pool.AddWater(new AesResult
             {
 
             });
@@ -312,87 +312,21 @@ namespace NIST.CVP.Pools.Tests
             Assert.IsTrue(pool.IsEmpty);
         }
 
-        [Test]
-        public void ShouldIncrementWaterUsageCount()
-        {
-            var param = new AesParameters
-            {
-                Direction = "encrypt",
-                DataLength = 128,
-                Mode = BlockCipherModesOfOperation.Ecb,
-                KeyLength = 128
-            };
-
-            _poolConfig.Setup(s => s.Value).Returns(new PoolConfig() {ShouldRecyclePoolWater = true});
-
-            var pool = new AesPool(GetConstructionParameters(param, PoolTypes.AES));
-
-            pool.CleanPool();
-            Assume.That(pool.IsEmpty);
-
-            pool.AddWater(new AesResult() {PlainText = new BitString("01")});
-
-            var result = pool.GetNextUntyped();
-            Assert.AreEqual(0, result.TimesValueUsed);
-            for (int i = 0; i < 5; i++)
-            {
-                result = pool.GetNextUntyped();
-                Assert.AreEqual(i + 1, result.TimesValueUsed);
-            }
-        }
-
-        [Test]
-        [TestCase(-1)]
-        [TestCase(0)]
-        [TestCase(1)]
-        [TestCase(5)]
-        public void ShouldReuseValueUntilReachingMaxReuseValue(int maxReuse)
-        {
-            var param = new AesParameters
-            {
-                Direction = "encrypt",
-                DataLength = 128,
-                Mode = BlockCipherModesOfOperation.Ecb,
-                KeyLength = 128
-            };
-
-            _poolConfig.Setup(s => s.Value).Returns(new PoolConfig() {ShouldRecyclePoolWater = true});
-
-            var constructionParameters = GetConstructionParameters(param, PoolTypes.AES);
-            constructionParameters.PoolProperties.MaxWaterReuse = maxReuse;
-            var pool = new AesPool(constructionParameters);
-
-            pool.CleanPool();
-            Assume.That(pool.IsEmpty);
-
-            pool.AddWater(new AesResult() {PlainText = new BitString("01")});
-
-            Assume.That(!pool.IsEmpty);
-
-            pool.GetNextUntyped();
-            for (int i = 0; i < maxReuse; i++)
-            {
-                Assert.IsFalse(pool.IsEmpty);
-                pool.GetNextUntyped();
-            }
-
-            Assert.IsTrue(pool.IsEmpty);
-        }
-
         private PoolConstructionParameters<TParam> GetConstructionParameters<TParam>(TParam param, PoolTypes poolType)
             where TParam : IParameters
         {
-            return new PoolConstructionParameters<TParam>()
+            return new PoolConstructionParameters<TParam>
             {
                 JsonConverters = _jsonConverters,
                 PoolConfig = _poolConfig.Object,
-                PoolProperties = new PoolProperties()
+                PoolProperties = new PoolProperties
                 {
                     FilePath = _fullPath,
                     MaxCapacity = 100,
-                    MaxWaterReuse = 1000,
+                    MinCapacity = 1,
+                    RecycleRatePerHundred = 100,
                     MonitorFrequency = 30,
-                    PoolType = new ParameterHolder()
+                    PoolType = new ParameterHolder
                     {
                         Parameters = param,
                         Type = poolType
