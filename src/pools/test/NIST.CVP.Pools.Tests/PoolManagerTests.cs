@@ -1,18 +1,19 @@
-﻿using NIST.CVP.Common.Oracle.ParameterTypes;
+﻿using Microsoft.Extensions.Options;
+using Moq;
+using NIST.CVP.Common.Config;
+using NIST.CVP.Common.Oracle;
+using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.Common.Hash.SHA2;
 using NIST.CVP.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.Math;
 using NIST.CVP.Pools.Enums;
+using NIST.CVP.Pools.Models;
 using NIST.CVP.Tests.Core;
 using NUnit.Framework;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Options;
-using Moq;
-using NIST.CVP.Common.Config;
-using NIST.CVP.Common.Oracle;
 
 namespace NIST.CVP.Pools.Tests
 {
@@ -142,7 +143,7 @@ namespace NIST.CVP.Pools.Tests
 
             Assert.IsNotNull(result);
             Assert.IsNotNull(result.Result);
-            Assert.IsFalse(result.PoolEmpty);
+            Assert.IsFalse(result.PoolTooEmpty);
         }
 
         [Test]
@@ -171,7 +172,7 @@ namespace NIST.CVP.Pools.Tests
 
             Assert.IsNotNull(result);
             Assert.IsNull(result.Result);
-            Assert.IsTrue(result.PoolEmpty);
+            Assert.IsTrue(result.PoolTooEmpty);
         }
 
         [Test]
@@ -252,7 +253,8 @@ namespace NIST.CVP.Pools.Tests
             {
                 FilePath = prechangeConfig.FilePath,
                 MaxCapacity = prechangeConfig.MaxCapacity,
-                MaxWaterReuse = prechangeConfig.MaxWaterReuse + 42,
+                MinCapacity = prechangeConfig.MinCapacity + 1,
+                RecycleRatePerHundred = prechangeConfig.RecycleRatePerHundred,
                 MonitorFrequency = prechangeConfig.MonitorFrequency,
                 PoolType = prechangeConfig.PoolType
             };
@@ -261,7 +263,7 @@ namespace NIST.CVP.Pools.Tests
 
             var result = _subject.GetPoolProperties().First();
 
-            Assert.AreEqual(newConfig.MaxWaterReuse, result.MaxWaterReuse);
+            Assert.AreEqual(newConfig.MinCapacity, result.MinCapacity);
         }
 
         [Test]
@@ -278,7 +280,8 @@ namespace NIST.CVP.Pools.Tests
             {
                 FilePath = prechangeConfig.FilePath,
                 MaxCapacity = prechangeConfig.MaxCapacity,
-                MaxWaterReuse = prechangeConfig.MaxWaterReuse,
+                MinCapacity = prechangeConfig.MinCapacity,
+                RecycleRatePerHundred = prechangeConfig.RecycleRatePerHundred,
                 MonitorFrequency = prechangeConfig.MonitorFrequency,
                 PoolType = prechangeConfig.PoolType
             };
@@ -286,7 +289,8 @@ namespace NIST.CVP.Pools.Tests
             {
                 FilePath = prechangeConfigCopy.FilePath,
                 MaxCapacity = prechangeConfigCopy.MaxCapacity,
-                MaxWaterReuse = prechangeConfigCopy.MaxWaterReuse + 42,
+                MinCapacity = prechangeConfigCopy.MinCapacity + 42,
+                RecycleRatePerHundred = prechangeConfigCopy.RecycleRatePerHundred,
                 MonitorFrequency = prechangeConfigCopy.MonitorFrequency,
                 PoolType = prechangeConfigCopy.PoolType
             };
@@ -297,7 +301,7 @@ namespace NIST.CVP.Pools.Tests
             _subject = new PoolManager(_mockOptionsPoolConfig.Object, _mockOracle.Object, fullPath, _testPath);
             var postChangeConfig = _subject.GetPoolProperties().First();
 
-            Assert.AreEqual(newConfig.MaxWaterReuse, postChangeConfig.MaxWaterReuse, "config change");
+            Assert.AreEqual(newConfig.MinCapacity, postChangeConfig.MinCapacity, "config change");
 
             // Change the value back
             _subject.EditPoolProperties(prechangeConfigCopy);
@@ -307,7 +311,7 @@ namespace NIST.CVP.Pools.Tests
             _subject = new PoolManager(_mockOptionsPoolConfig.Object, _mockOracle.Object, fullPath, _testPath);
             var validateOriginalChangeConfig = _subject.GetPoolProperties().First();
 
-            Assert.AreEqual(prechangeConfigCopy.MaxWaterReuse, validateOriginalChangeConfig.MaxWaterReuse, "original file check");
+            Assert.AreEqual(prechangeConfigCopy.MinCapacity, validateOriginalChangeConfig.MinCapacity, "original file check");
         }
 
         [Test]

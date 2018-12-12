@@ -10,12 +10,12 @@ using NIST.CVP.Generation.Core.JsonConverters;
 using NIST.CVP.Pools.Enums;
 using NIST.CVP.Pools.Models;
 using NIST.CVP.Pools.PoolModels;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using NLog;
 
 namespace NIST.CVP.Pools
 {
@@ -78,7 +78,7 @@ namespace NIST.CVP.Pools
                 return result.GetNextUntyped();
             }
 
-            return new PoolResult<IResult> { PoolEmpty = true };
+            return new PoolResult<IResult> { PoolTooEmpty = true };
         }
 
         public List<ParameterHolder> GetPoolInformation()
@@ -103,7 +103,8 @@ namespace NIST.CVP.Pools
                 out var result))
             {
                 result.MaxCapacity = poolProps.MaxCapacity;
-                result.MaxWaterReuse = poolProps.MaxWaterReuse;
+                result.MinCapacity = poolProps.MinCapacity;
+                result.RecycleRatePerHundred = poolProps.RecycleRatePerHundred;
                 result.MonitorFrequency = poolProps.MonitorFrequency;
             }
 
