@@ -13,7 +13,7 @@ namespace NIST.CVP.Generation.KeyWrap.TDES
         public static int[] VALID_KEYING_OPTIONS = { 1, 2 };
         public static int MINIMUM_PT_LEN = 64;
         public static int MAXIMUM_PT_LEN = 4096;
-        public static int PT_MODULUS = 64;
+        public static int PT_MODULUS = 32;
 
         public ParameterValidateResponse Validate(Parameters parameters)
         {
