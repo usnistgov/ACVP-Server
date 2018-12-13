@@ -255,7 +255,6 @@ namespace NIST.CVP.Pools.Tests
                 MaxCapacity = prechangeConfig.MaxCapacity,
                 MinCapacity = prechangeConfig.MinCapacity + 1,
                 RecycleRatePerHundred = prechangeConfig.RecycleRatePerHundred,
-                MonitorFrequency = prechangeConfig.MonitorFrequency,
                 PoolType = prechangeConfig.PoolType
             };
 
@@ -282,7 +281,6 @@ namespace NIST.CVP.Pools.Tests
                 MaxCapacity = prechangeConfig.MaxCapacity,
                 MinCapacity = prechangeConfig.MinCapacity,
                 RecycleRatePerHundred = prechangeConfig.RecycleRatePerHundred,
-                MonitorFrequency = prechangeConfig.MonitorFrequency,
                 PoolType = prechangeConfig.PoolType
             };
             var newConfig = new PoolProperties()
@@ -291,7 +289,6 @@ namespace NIST.CVP.Pools.Tests
                 MaxCapacity = prechangeConfigCopy.MaxCapacity,
                 MinCapacity = prechangeConfigCopy.MinCapacity + 42,
                 RecycleRatePerHundred = prechangeConfigCopy.RecycleRatePerHundred,
-                MonitorFrequency = prechangeConfigCopy.MonitorFrequency,
                 PoolType = prechangeConfigCopy.PoolType
             };
             _subject.EditPoolProperties(newConfig);

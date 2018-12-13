@@ -105,7 +105,6 @@ namespace NIST.CVP.Pools
                 result.MaxCapacity = poolProps.MaxCapacity;
                 result.MinCapacity = poolProps.MinCapacity;
                 result.RecycleRatePerHundred = poolProps.RecycleRatePerHundred;
-                result.MonitorFrequency = poolProps.MonitorFrequency;
             }
 
             return true;
@@ -227,10 +226,12 @@ namespace NIST.CVP.Pools
                 IPool pool = null;
                 switch (poolProperty.PoolType.Type)
                 {
+                    // Primarily for testing purposes
                     case PoolTypes.SHA:
                         pool = new ShaPool(GetConstructionParameters(param as ShaParameters, poolProperty, fullPoolLocation));
                         break;
 
+                    // Primarily for testing purposes
                     case PoolTypes.AES:
                         pool = new AesPool(GetConstructionParameters(param as AesParameters, poolProperty, fullPoolLocation));
                         break;

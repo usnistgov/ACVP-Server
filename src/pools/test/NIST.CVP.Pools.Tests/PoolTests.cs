@@ -325,7 +325,6 @@ namespace NIST.CVP.Pools.Tests
                     MaxCapacity = 100,
                     MinCapacity = 1,
                     RecycleRatePerHundred = 100,
-                    MonitorFrequency = 30,
                     PoolType = new ParameterHolder
                     {
                         Parameters = param,
