@@ -12,6 +12,7 @@ using Microsoft.Extensions.Options;
 using NIST.CVP.Common.Config;
 using NIST.CVP.Common.Helpers;
 using Microsoft.Extensions.DependencyInjection;
+using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Crypto.Oracle.Builders;
 
 namespace NIST.CVP.PoolAPI
@@ -53,6 +54,8 @@ namespace NIST.CVP.PoolAPI
                 poolConfigFile,
                 poolDirectory
             );
+            PoolManager.LoadPools().FireAndForget();
+
             logger.Info("Pools loaded.");
 
             if (isService)

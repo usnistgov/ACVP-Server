@@ -48,7 +48,6 @@ namespace NIST.CVP.Pools
             _oracle = oracle;
             _poolDirectory = poolDirectory;
             _poolConfigFile = poolConfigFile;
-            LoadPools();
         }
 
         public PoolInformation GetPoolStatus(ParameterHolder paramHolder)
@@ -206,12 +205,12 @@ namespace NIST.CVP.Pools
             }
         }
         
-        private void LoadPools()
+        public async Task LoadPools()
         {
             var fullConfigFile = Path.Combine(_poolDirectory, _poolConfigFile);
             _properties = JsonConvert.DeserializeObject<PoolProperties[]>
             (
-                File.ReadAllText(fullConfigFile), 
+                await File.ReadAllTextAsync(fullConfigFile), 
                 new JsonSerializerSettings
                 {
                     Converters = _jsonConverters
