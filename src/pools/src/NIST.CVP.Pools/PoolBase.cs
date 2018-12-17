@@ -63,7 +63,6 @@ namespace NIST.CVP.Pools
             Random = new Random800_90();
             Water = new ConcurrentQueue<TResult>();
             StagingWater = new ConcurrentQueue<TResult>();
-            LoadPoolFromFile();
         }
 
         public PoolResult<TResult> GetNext()
@@ -130,13 +129,13 @@ namespace NIST.CVP.Pools
             return true;
         }
 
-        private void LoadPoolFromFile()
+        public async Task LoadPoolFromFile()
         {
             if (File.Exists(_fullPoolLocation))
             {
                 // Load file
                 var poolContents = JsonConvert.DeserializeObject<TResult[]>(
-                    File.ReadAllText(_fullPoolLocation),
+                    await File.ReadAllTextAsync(_fullPoolLocation),
                     new JsonSerializerSettings
                     {
                         Converters = _jsonConverters
