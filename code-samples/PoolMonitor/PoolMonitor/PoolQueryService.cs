@@ -18,12 +18,12 @@ namespace PoolMonitor
     {
         private Timer _timer = new Timer();
 
-        private readonly int _intervalSeconds;
-        private readonly string _poolUrl;
-        private readonly string _outputFilePath;
-        private readonly List<ParameterHolder> _poolList;
-        private readonly HttpOperator _operator;
-        private readonly StreamWriter _writer;
+        private int _intervalSeconds;
+        private string _poolUrl;
+        private string _outputFilePath;
+        private List<ParameterHolder> _poolList;
+        private HttpOperator _operator;
+        private StreamWriter _writer;
 
         private readonly List<JsonConverter> _jsonConverters = new List<JsonConverter>
         {
@@ -32,48 +32,6 @@ namespace PoolMonitor
             new BigIntegerConverter(),
             new StringEnumConverter()
         };
-
-        public PoolQueryService()
-        {
-            _poolUrl = Program.PoolUrl;
-            _outputFilePath = Program.OutputFilePath;
-            _intervalSeconds = Program.IntervalSeconds;
-            _operator = new HttpOperator(Program.ErrorFilePath);
-
-            _writer = new StreamWriter(_outputFilePath);
-
-            // Hit pool information end point and store pool properties
-            var poolNamesJson = _operator.Get(_poolUrl + "config").Result;
-            var poolNames = JsonConvert.DeserializeObject<PoolProperties[]>
-            (
-                poolNamesJson,
-                new JsonSerializerSettings
-                {
-                    Converters = _jsonConverters
-                }
-            ).ToList();
-
-            foreach (var pool in poolNames)
-            {
-                var poolName = pool.FilePath;
-
-                _writer.Write($"{poolName},");
-            }
-
-            _writer.WriteLine();
-            _writer.Flush();
-
-            // Get handlers for pools to query counts
-            var poolList = _operator.Get(_poolUrl).Result;
-            _poolList = JsonConvert.DeserializeObject<ParameterHolder[]>
-            (
-                poolList,
-                new JsonSerializerSettings
-                {
-                    Converters = _jsonConverters
-                }
-            ).ToList();
-        }
 
         public void OnTimer(object sender, ElapsedEventArgs args)
         {
@@ -98,8 +56,43 @@ namespace PoolMonitor
             _writer.Flush();
         }
 
-        public Task StartAsync(CancellationToken cancellationToken)
+        public async Task StartAsync(CancellationToken cancellationToken)
         {
+            _poolUrl = Program.PoolUrl;
+            _outputFilePath = Program.OutputFilePath;
+            _intervalSeconds = Program.IntervalSeconds;
+            _operator = new HttpOperator(Program.ErrorFilePath);
+
+            _writer = new StreamWriter(_outputFilePath);
+
+            // Hit pool information end point and store pool properties
+            var poolNames = JsonConvert.DeserializeObject<PoolProperties[]>
+            (
+                await _operator.Get(_poolUrl + "config"),
+                new JsonSerializerSettings
+                {
+                    Converters = _jsonConverters
+                }
+            ).ToList();
+
+            foreach (var pool in poolNames)
+            {
+                _writer.Write($"{pool.FilePath},");
+            }
+
+            _writer.WriteLine();
+            _writer.Flush();
+
+            // Get handlers for pools to query counts
+            _poolList = JsonConvert.DeserializeObject<ParameterHolder[]>
+            (
+                await _operator.Get(_poolUrl),
+                new JsonSerializerSettings
+                {
+                    Converters = _jsonConverters
+                }
+            ).ToList();
+
             _timer = new Timer
             {
                 Interval = _intervalSeconds * 1000
@@ -107,8 +100,6 @@ namespace PoolMonitor
 
             _timer.Elapsed += OnTimer;
             _timer.Enabled = true;
-
-            return Task.CompletedTask;
         }
 
         public Task StopAsync(CancellationToken cancellationToken)
