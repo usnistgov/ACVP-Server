@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.168
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PoolMonitor", "PoolMonitor\PoolMonitor.csproj", "{71001A0D-27A2-4077-828C-83FF2CF5DE5E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PoolMonitor", "PoolMonitor\PoolMonitor.csproj", "{71001A0D-27A2-4077-828C-83FF2CF5DE5E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Pools", "..\..\src\pools\src\NIST.CVP.Pools\NIST.CVP.Pools.csproj", "{3392AE0D-01FA-457A-8240-400C42F27AC1}"
 EndProject

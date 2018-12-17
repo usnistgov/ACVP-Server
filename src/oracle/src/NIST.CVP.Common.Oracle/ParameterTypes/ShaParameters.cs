@@ -20,7 +20,7 @@ namespace NIST.CVP.Common.Oracle.ParameterTypes
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(MessageLength, HashFunction);
+            return HashCode.Combine(MessageLength, HashFunction.DigestSize, HashFunction.Mode);
         }		
     }
 }
