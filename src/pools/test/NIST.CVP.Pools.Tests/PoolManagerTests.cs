@@ -34,12 +34,13 @@ namespace NIST.CVP.Pools.Tests
         private PoolManager _subject;
 
         [SetUp]
-        public void SetUp()
+        public async Task SetUp()
         {
             _mockOptionsPoolConfig.Setup(s => s.Value).Returns(_poolConfig);
             _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\");
             _fullPath = Path.Combine(_testPath, _configFile);
             _subject = new PoolManager(_mockOptionsPoolConfig.Object, _mockOracle.Object, _fullPath, _testPath);
+            await _subject.LoadPools();
         }
 
         [Test]
@@ -266,11 +267,12 @@ namespace NIST.CVP.Pools.Tests
         }
 
         [Test]
-        public void ShouldProperlySaveConfigurationFile()
+        public async Task ShouldProperlySaveConfigurationFile()
         {
             var fullPath = Path.Combine(_testPath, "saveChangesConfig.json");
             
             _subject = new PoolManager(_mockOptionsPoolConfig.Object, _mockOracle.Object, fullPath, _testPath);
+            await _subject.LoadPools();
 
             // Change the pool configuration
             var prechangeConfig = _subject.GetPoolProperties().First();
@@ -296,6 +298,8 @@ namespace NIST.CVP.Pools.Tests
 
             // Reinitialize pools
             _subject = new PoolManager(_mockOptionsPoolConfig.Object, _mockOracle.Object, fullPath, _testPath);
+            await _subject.LoadPools();
+            
             var postChangeConfig = _subject.GetPoolProperties().First();
 
             Assert.AreEqual(newConfig.MinCapacity, postChangeConfig.MinCapacity, "config change");
@@ -306,6 +310,8 @@ namespace NIST.CVP.Pools.Tests
 
             // Reinitialize pools
             _subject = new PoolManager(_mockOptionsPoolConfig.Object, _mockOracle.Object, fullPath, _testPath);
+            await _subject.LoadPools();
+            
             var validateOriginalChangeConfig = _subject.GetPoolProperties().First();
 
             Assert.AreEqual(prechangeConfigCopy.MinCapacity, validateOriginalChangeConfig.MinCapacity, "original file check");
@@ -317,6 +323,7 @@ namespace NIST.CVP.Pools.Tests
             var fullPath = Path.Combine(_testPath, "fillPoolConfig.json");
             
             _subject = new PoolManager(_mockOptionsPoolConfig.Object, _mockOracle.Object, fullPath, _testPath);
+            await _subject.LoadPools();
 
             var waterCount = _subject.Pools.Sum(s => s.WaterLevel);
 
@@ -367,6 +374,7 @@ namespace NIST.CVP.Pools.Tests
             var fullPath = Path.Combine(_testPath, "fillPoolConfig.json");
             
             _subject = new PoolManager(_mockOptionsPoolConfig.Object, _mockOracle.Object, fullPath, _testPath);
+            await _subject.LoadPools();
 
             // Should be a total of 2 pools at 0 water level
             Assert.IsTrue(_subject.Pools.Count(c => c.WaterLevel == 0) == 2, "Expecting empty pools");
@@ -395,6 +403,7 @@ namespace NIST.CVP.Pools.Tests
             var fullPath = Path.Combine(_testPath, "fillPoolConfig.json");
             
             _subject = new PoolManager(_mockOptionsPoolConfig.Object, _mockOracle.Object, fullPath, _testPath);
+            await _subject.LoadPools();
 
             var waterCount = _subject.Pools.Sum(s => s.WaterLevel);
 
