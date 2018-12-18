@@ -104,6 +104,8 @@ namespace NIST.CVP.Pools
         /// <returns></returns>
         bool SavePoolToFile();
 
+        Task LoadPoolFromFile();
+
         /// <summary>
         /// Clears the pool of all values
         /// </summary>
