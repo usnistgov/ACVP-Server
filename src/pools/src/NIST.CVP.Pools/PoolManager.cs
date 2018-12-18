@@ -28,6 +28,7 @@ namespace NIST.CVP.Pools
         private readonly string _poolConfigFile;
 
         private PoolProperties[] _properties;
+        private bool _poolsLoaded;
         
         private readonly IList<JsonConverter> _jsonConverters = new List<JsonConverter>
         {
@@ -52,6 +53,14 @@ namespace NIST.CVP.Pools
 
         public PoolInformation GetPoolStatus(ParameterHolder paramHolder)
         {
+            if (!_poolsLoaded)
+            {
+                return new PoolInformation()
+                {
+                    PoolExists = false
+                };
+            }
+
             if (Pools.TryFirst(pool => pool.Param.Equals(paramHolder.Parameters), out var result))
             {
                 return new PoolInformation {FillLevel = result.WaterLevel};
@@ -62,6 +71,11 @@ namespace NIST.CVP.Pools
 
         public bool AddResultToPool(ParameterHolder paramHolder)
         {
+            if (!_poolsLoaded)
+            {
+                return false;
+            }
+
             if (Pools.TryFirst(pool => pool.Param.Equals(paramHolder.Parameters), out var result))
             {
                 return result.AddWater(paramHolder.Result);
@@ -72,6 +86,11 @@ namespace NIST.CVP.Pools
 
         public PoolResult<IResult> GetResultFromPool(ParameterHolder paramHolder)
         {
+            if (!_poolsLoaded)
+            {
+                return new PoolResult<IResult> { PoolTooEmpty = true };
+            }
+
             if (Pools.TryFirst(pool => pool.Param.Equals(paramHolder.Parameters), out var result))
             {
                 return result.GetNextUntyped();
@@ -83,6 +102,12 @@ namespace NIST.CVP.Pools
         public List<ParameterHolder> GetPoolInformation()
         {
             var list = new List<ParameterHolder>();
+
+            if (!_poolsLoaded)
+            {
+                return list;
+            }
+
             Pools.ForEach(fe =>
             {
                 list.Add(new ParameterHolder
@@ -97,6 +122,11 @@ namespace NIST.CVP.Pools
 
         public bool EditPoolProperties(PoolProperties poolProps)
         {
+            if (!_poolsLoaded)
+            {
+                return false;
+            }
+
             if (_properties.TryFirst(
                 properties => properties.FilePath.Equals(poolProps.FilePath, StringComparison.OrdinalIgnoreCase),
                 out var result))
@@ -111,11 +141,21 @@ namespace NIST.CVP.Pools
 
         public List<PoolProperties> GetPoolProperties()
         {
+            if (!_poolsLoaded)
+            {
+                return new List<PoolProperties>();
+            }
+
             return new List<PoolProperties>(_properties);
         }
 
         public bool SavePools()
         {
+            if (!_poolsLoaded)
+            {
+                return false;
+            }
+
             foreach (var pool in Pools)
             {
                 if (_properties.TryFirst(prop => pool.Param.Equals(prop.PoolType.Parameters), out var properties))
@@ -136,6 +176,11 @@ namespace NIST.CVP.Pools
 
         public bool SavePoolConfigs()
         {
+            if (!_poolsLoaded)
+            {
+                return false;
+            }
+
             var fullConfigFile = Path.Combine(_poolDirectory, _poolConfigFile);
             var json = JsonConvert.SerializeObject
             (
@@ -154,6 +199,11 @@ namespace NIST.CVP.Pools
 
         public bool CleanPools()
         {
+            if (!_poolsLoaded)
+            {
+                return false;
+            }
+
             foreach (var pool in Pools)
             {
                 pool.CleanPool();
@@ -164,6 +214,11 @@ namespace NIST.CVP.Pools
 
         public async Task<bool> SpawnJobForMostShallowPool(int jobsToSpawn)
         {
+            if (!_poolsLoaded)
+            {
+                return false;
+            }
+
             try
             {
                 List<Task> tasks = new List<Task>();
@@ -281,6 +336,8 @@ namespace NIST.CVP.Pools
 
                 Pools.Add(pool);
             }
+
+            _poolsLoaded = true;
         }
 
         private PoolConstructionParameters<TParam> GetConstructionParameters<TParam>(TParam param, PoolProperties poolProperties, string fullPoolLocation)
