@@ -334,6 +334,8 @@ namespace NIST.CVP.Pools
                         throw new Exception("No pool model found");
                 }
 
+                await pool.LoadPoolFromFile();
+
                 Pools.Add(pool);
             }
 
