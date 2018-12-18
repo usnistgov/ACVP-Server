@@ -33,7 +33,7 @@ namespace PoolMonitor
             new StringEnumConverter()
         };
 
-        public void OnTimer(object sender, ElapsedEventArgs args)
+        private void OnTimer(object sender, ElapsedEventArgs args)
         {
             foreach (var pool in _poolList)
             {
@@ -63,25 +63,30 @@ namespace PoolMonitor
             _intervalSeconds = Program.IntervalSeconds;
             _operator = new HttpOperator(Program.ErrorFilePath);
 
-            _writer = new StreamWriter(_outputFilePath);
+            bool fileExists = File.Exists(_outputFilePath);
 
-            // Hit pool information end point and store pool properties
-            var poolNames = JsonConvert.DeserializeObject<PoolProperties[]>
-            (
-                await _operator.Get(_poolUrl + "config"),
-                new JsonSerializerSettings
-                {
-                    Converters = _jsonConverters
-                }
-            ).ToList();
+            _writer = new StreamWriter(_outputFilePath, true);
 
-            foreach (var pool in poolNames)
+            if (!fileExists)
             {
-                _writer.Write($"{pool.FilePath},");
-            }
+                // Hit pool information end point and store pool properties
+                var poolNames = JsonConvert.DeserializeObject<PoolProperties[]>
+                (
+                    await _operator.Get(_poolUrl + "config"),
+                    new JsonSerializerSettings
+                    {
+                        Converters = _jsonConverters
+                    }
+                ).ToList();
 
-            _writer.WriteLine();
-            _writer.Flush();
+                foreach (var pool in poolNames)
+                {
+                    _writer.Write($"{pool.FilePath},");
+                }
+
+                _writer.WriteLine();
+                _writer.Flush();
+            }
 
             // Get handlers for pools to query counts
             _poolList = JsonConvert.DeserializeObject<ParameterHolder[]>
