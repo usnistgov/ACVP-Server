@@ -35,7 +35,7 @@ namespace NIST.CVP.Generation.KeyWrap.Tests.TDES
                     new string[] { "encrypt" }, // 1
                     new string[] { "cipher" }, // 1
                     new MathDomain().AddSegment(new ValueDomainSegment(128)), // 1
-                    2 // ! * 1 * 1 * 1 * 1
+                    1 // 1 * 1 * 1 * 1 * 1
                 },
 
                 new object[]
@@ -48,7 +48,7 @@ namespace NIST.CVP.Generation.KeyWrap.Tests.TDES
                     new MathDomain()
                         .AddSegment(new RangeDomainSegment(randy, 128, 128*200, 64)), // lots of possible values
                     // 2 values total from range
-                    4 // 1 * 1 * 1 * 1 * 5
+                    2 // 1 * 1 * 1 * 1 * 2
                 },
                 new object[]
                 {
@@ -60,7 +60,7 @@ namespace NIST.CVP.Generation.KeyWrap.Tests.TDES
                     new MathDomain()
                         .AddSegment(new RangeDomainSegment(randy, 128, 128*200, 64)), // lots of possible values
                     // 2 values total from range
-                    16 // 1 * 1 * 2 * 2 * 2
+                    8 // 1 * 1 * 2 * 2 * 2
                 }
 
             };
@@ -81,7 +81,6 @@ namespace NIST.CVP.Generation.KeyWrap.Tests.TDES
             int expectedNumberOfGroups)
         {
             var parameters = new ParameterBuilder(algorithm)
-                .WithKeyingOption(new[] {1, 2})
                 .WithKwCipher(kwCipher)
                 .WithDirection(direction)
                 .WithPtLens(ptLen)

@@ -21,9 +21,5 @@
       "max": 4096,
       "increment": 64
     }
-  ],
-  "keyingOption": [
-    1,
-    2
   ]
 }

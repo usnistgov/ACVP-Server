@@ -25,7 +25,8 @@ namespace NIST.CVP.Generation.KeyWrap.TDES
             set { }
         }
 
-        public int KeyingOption { get; set; }
+        [JsonIgnore]
+        public int KeyingOption => 1;
         
         public override bool SetString(string name, string value)
         {
@@ -43,17 +44,6 @@ namespace NIST.CVP.Generation.KeyWrap.TDES
                     return true;
             }
 
-            if (!int.TryParse(value, out var intVal))
-            {
-                return false;
-            }
-
-            switch (name)
-            {
-                case "numberofkeys":
-                    KeyingOption = TdesHelpers.GetKeyingOptionFromNumberOfKeys(intVal);
-                    return true;
-            }
             return false;
         }
     }
