@@ -66,20 +66,14 @@ namespace NIST.CVP.Generation.KeyWrap.TDES
                 {
                     foreach (var ptLen in testPtLens)
                     {
-                        foreach (var keyingOption in parameters.KeyingOption)
+                        TestGroup testGroup = new TestGroup()
                         {
+                            Direction = direction,
+                            PayloadLen = ptLen,
+                            KwCipher = kwCipher
+                        };
 
-                            TestGroup testGroup = new TestGroup()
-                            {
-                                //KeyWrapType = keyWrapType,
-                                Direction = direction,
-                                KeyingOption = keyingOption,
-                                PayloadLen = ptLen,
-                                KwCipher = kwCipher
-                            };
-
-                            groups.Add(testGroup);
-                        }
+                        groups.Add(testGroup);
                     }
                 }
             }
