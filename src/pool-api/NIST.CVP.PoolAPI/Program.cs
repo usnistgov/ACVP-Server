@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using NIST.CVP.Pools;
@@ -12,14 +13,20 @@ using Microsoft.Extensions.Options;
 using NIST.CVP.Common.Config;
 using NIST.CVP.Common.Helpers;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
 using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Crypto.Oracle.Builders;
+using NIST.CVP.Pools.Models;
 
 namespace NIST.CVP.PoolAPI
 {
     public static class Program
     {
+        public const string OrleansPoolLogLocation = @"C:\Temp\poolOrleansLogs.json";
+
         public static PoolManager PoolManager { get; set; }
+        public static List<PoolOrleansJob> PoolOrleansJobLog { get; private set; }
+
         private static IServiceProvider ServiceProvider { get; }
 
         static Program()
@@ -31,6 +38,8 @@ namespace NIST.CVP.PoolAPI
         {
             var isService = !(Debugger.IsAttached || args.Contains("--console"));
             var builder = CreateWebHostBuilder(args.Where(arg => arg != "--console").ToArray());
+
+            SetupPoolOrleansLog();
 
             var logConfig = new LoggingConfiguration();
             var logFile = new FileTarget("poolLogs") { FileName = @"C:\Temp\poolLogs.log" };
@@ -78,6 +87,18 @@ namespace NIST.CVP.PoolAPI
             {
                 logger.Info("Running from console");
                 host.Run();
+            }
+        }
+
+        private static void SetupPoolOrleansLog()
+        {
+            if (File.Exists(OrleansPoolLogLocation))
+            {
+                PoolOrleansJobLog = JsonConvert.DeserializeObject<List<PoolOrleansJob>>(File.ReadAllText(OrleansPoolLogLocation));
+            }
+            else
+            {
+                PoolOrleansJobLog = new List<PoolOrleansJob>();
             }
         }
 

@@ -109,7 +109,18 @@ namespace NIST.CVP.PoolAPI.Controllers
         [Route("spawn")]
         public async Task<bool> SpawnJobForMostShallowPool([FromBody] int jobsToSpawn)
         {
-            return await Program.PoolManager.SpawnJobForMostShallowPool(jobsToSpawn);
+            DateTime start = DateTime.Now;
+
+            var result = await Program.PoolManager.SpawnJobForMostShallowPool(jobsToSpawn);
+
+            DateTime end = DateTime.Now;
+
+            // TODO get pool name returned from spawn job method
+            Program.PoolOrleansJobLog.Add(new PoolOrleansJob(
+                start, end, "", jobsToSpawn
+            ));
+
+            return result;
         }
 
         [HttpPost]

@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using System.IO;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Hosting.WindowsServices;
+using Newtonsoft.Json;
 using NLog;
 
 namespace NIST.CVP.PoolAPI
@@ -41,6 +43,12 @@ namespace NIST.CVP.PoolAPI
             {
                 _logger.Error("Pools failed to save!");
             }
+
+            // Save OrleansPoolLog
+            File.WriteAllText(
+                Program.OrleansPoolLogLocation,
+                JsonConvert.SerializeObject(Program.PoolOrleansJobLog)
+            );
 
             base.OnStopping();
         }

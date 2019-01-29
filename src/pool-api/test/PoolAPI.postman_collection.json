@@ -480,7 +480,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "2"
+					"raw": "1"
 				},
 				"url": {
 					"raw": "http://{{server}}/api/pools/spawn",
@@ -524,6 +524,52 @@
 						"pools",
 						"spawn",
 						"all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Pool Log",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://{{server}}/api/orleansPoolLog",
+					"protocol": "http",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"orleansPoolLog"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Save Pool Log",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://{{server}}/api/orleansPoolLog",
+					"protocol": "http",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"orleansPoolLog"
 					]
 				}
 			},
