@@ -25,7 +25,13 @@ namespace NIST.CVP.PoolAPI.Controllers
         {
             System.IO.File.WriteAllText(
                 Program.OrleansPoolLogLocation,
-                JsonConvert.SerializeObject(Program.PoolOrleansJobLog)
+                JsonConvert.SerializeObject(
+                    Program.PoolOrleansJobLog,
+                    new JsonSerializerSettings()
+                    {
+                        TypeNameHandling = TypeNameHandling.All
+                    }
+                )
             );
         }
     }

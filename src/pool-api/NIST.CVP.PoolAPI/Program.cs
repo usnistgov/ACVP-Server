@@ -16,6 +16,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Crypto.Oracle.Builders;
+using NIST.CVP.Crypto.Oracle.Exceptions;
 using NIST.CVP.Pools.Models;
 
 namespace NIST.CVP.PoolAPI
@@ -57,13 +58,23 @@ namespace NIST.CVP.PoolAPI
             logger.Info($"PoolConfig: {poolConfigFile}");
             logger.Info($"PoolDirectory: {poolDirectory}");
             logger.Info("Loading pools from config file...");
-            PoolManager = new PoolManager(
-                ServiceProvider.GetService<IOptions<PoolConfig>>(),
-                new OracleBuilder().Build(), // TODO this is super not the way to do this, figure out the proper way to do DI with this "form factor" of webapi/service.
-                poolConfigFile,
-                poolDirectory
-            );
-            PoolManager.LoadPools().FireAndForget();
+
+            try
+            {
+                PoolManager = new PoolManager(
+                    ServiceProvider.GetService<IOptions<PoolConfig>>(),
+                    new OracleBuilder().Build(), // TODO this is super not the way to do this, figure out the proper way to do DI with this "form factor" of webapi/service.
+                    poolConfigFile,
+                    poolDirectory
+                );
+                logger.Info("Successfully connected to Orleans");
+                PoolManager.LoadPools().FireAndForget();
+            }
+            catch (OrleansInitializationException)
+            {
+                logger.Fatal("Failed connecting to Orleans, is the service available?");
+                return;
+            }
 
             logger.Info("Pools loaded.");
 
@@ -94,7 +105,14 @@ namespace NIST.CVP.PoolAPI
         {
             if (File.Exists(OrleansPoolLogLocation))
             {
-                PoolOrleansJobLog = JsonConvert.DeserializeObject<List<PoolOrleansJob>>(File.ReadAllText(OrleansPoolLogLocation));
+                PoolOrleansJobLog = JsonConvert.DeserializeObject<List<PoolOrleansJob>>(
+                    File.ReadAllText(OrleansPoolLogLocation), 
+                    new JsonSerializerSettings()
+                    {
+                        NullValueHandling = NullValueHandling.Ignore,
+                        TypeNameHandling = TypeNameHandling.All
+                    }
+                );
             }
             else
             {

@@ -47,7 +47,12 @@ namespace NIST.CVP.PoolAPI
             // Save OrleansPoolLog
             File.WriteAllText(
                 Program.OrleansPoolLogLocation,
-                JsonConvert.SerializeObject(Program.PoolOrleansJobLog)
+                JsonConvert.SerializeObject(Program.PoolOrleansJobLog, 
+                    new JsonSerializerSettings()
+                    {
+                        TypeNameHandling = TypeNameHandling.All
+                    }
+                )
             );
 
             base.OnStopping();
