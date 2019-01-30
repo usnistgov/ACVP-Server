@@ -335,7 +335,7 @@ namespace NIST.CVP.Pools.Tests
             _subject.CleanPools();
             _subject.SavePools();
 
-            Assert.IsTrue(result, nameof(result));
+            Assert.IsTrue(result.HasSpawnedJob, nameof(result));
             Assert.IsTrue(newWaterCount == waterCount + 1, nameof(newWaterCount));
         }
 
@@ -354,11 +354,11 @@ namespace NIST.CVP.Pools.Tests
             for (int i = 0; i < maxCapacityAllPools; i++)
             {
                 var result = await _subject.SpawnJobForMostShallowPool(1);
-                Assert.IsTrue(result, $"{nameof(i)}: {i}");
+                Assert.IsTrue(result.HasSpawnedJob, $"{nameof(i)}: {i}");
             }
 
             var finalResult = await _subject.SpawnJobForMostShallowPool(1);
-            Assert.IsFalse(finalResult, nameof(finalResult));
+            Assert.IsFalse(finalResult.HasSpawnedJob, nameof(finalResult));
 
             var newWaterCount = _subject.Pools.Sum(s => s.WaterLevel);
 
@@ -415,7 +415,7 @@ namespace NIST.CVP.Pools.Tests
             _subject.CleanPools();
             _subject.SavePools();
 
-            Assert.IsTrue(result, nameof(result));
+            Assert.IsTrue(result.HasSpawnedJob, nameof(result));
             Assert.IsTrue(newWaterCount == waterCount + jobsToSpawn, nameof(newWaterCount));
         }
     }

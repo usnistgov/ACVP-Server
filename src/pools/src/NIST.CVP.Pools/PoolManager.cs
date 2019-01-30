@@ -212,11 +212,11 @@ namespace NIST.CVP.Pools
             return true;
         }
 
-        public async Task<bool> SpawnJobForMostShallowPool(int jobsToSpawn)
+        public async Task<SpawnJobResponse> SpawnJobForMostShallowPool(int jobsToSpawn)
         {
             if (!_poolsLoaded)
             {
-                return false;
+                return new SpawnJobResponse();
             }
 
             try
@@ -246,17 +246,21 @@ namespace NIST.CVP.Pools
                             .Log(LogLevel.Info, $"Pool was filled. Proceeding to save pool: \n\n {json}");
 
                         minPool.SavePoolToFile();
-                        return true;
+                        return new SpawnJobResponse()
+                        {
+                            HasSpawnedJob = true,
+                            PoolParameter = minPool.Param
+                        };
                     }
                 }
 
                 // Nothing was queued
-                return false;
+                return new SpawnJobResponse();
             }
             catch (Exception ex)
             {
                 LogManager.GetCurrentClassLogger().Error(ex);
-                return false;
+                return new SpawnJobResponse();
             }
         }
         

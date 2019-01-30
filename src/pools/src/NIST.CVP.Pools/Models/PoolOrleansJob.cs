@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using NIST.CVP.Common.Oracle;
 
 namespace NIST.CVP.Pools.Models
 {
@@ -10,10 +11,10 @@ namespace NIST.CVP.Pools.Models
         public DateTime EndDate { get; }
         public TimeSpan Duration => EndDate - StartDate;
 
-        public string PoolQueued { get; }
+        public IParameters PoolQueued { get; }
         public int JobsQueued { get; }
 
-        public PoolOrleansJob(DateTime start, DateTime end, string poolQueued, int jobsQueued)
+        public PoolOrleansJob(DateTime start, DateTime end, IParameters poolQueued, int jobsQueued)
         {
             StartDate = start;
             EndDate = end;

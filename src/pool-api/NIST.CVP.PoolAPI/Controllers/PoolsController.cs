@@ -117,10 +117,10 @@ namespace NIST.CVP.PoolAPI.Controllers
 
             // TODO get pool name returned from spawn job method
             Program.PoolOrleansJobLog.Add(new PoolOrleansJob(
-                start, end, "", jobsToSpawn
+                start, end, result.PoolParameter, jobsToSpawn
             ));
 
-            return result;
+            return result.HasSpawnedJob;
         }
 
         [HttpPost]
