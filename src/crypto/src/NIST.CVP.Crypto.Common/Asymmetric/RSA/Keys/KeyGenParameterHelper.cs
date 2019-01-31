@@ -1,16 +1,25 @@
-﻿using System.Numerics;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
+﻿using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA.PrimeGenerators;
 using NIST.CVP.Math;
+using System.Numerics;
 
 namespace NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys
 {
     public class KeyGenParameterHelper : IKeyGenParameterHelper
     {
         private readonly IRandom800_90 _rand;
+        private readonly IRsaKeyComposer _keyComposer;
 
-        public KeyGenParameterHelper(IRandom800_90 rand)
+        public KeyGenParameterHelper(IRandom800_90 rand, IKeyComposerFactory keyComposer)
         {
             _rand = rand;
+            _keyComposer = keyComposer.GetKeyComposer(PrivateKeyModes.Crt);
+        }
+
+        public KeyPair ConvertStandardToCrt(KeyPair key)
+        {
+            var primes = new PrimePair {P = key.PrivKey.P, Q = key.PrivKey.Q};
+            return _keyComposer.ComposeKey(key.PubKey.E, primes);
         }
 
         public BitString GetEValue(int minLen, int maxLen)
