@@ -1,7 +1,7 @@
-﻿using System.Numerics;
-using NIST.CVP.Math;
+﻿using NIST.CVP.Math;
+using System.Numerics;
 
-namespace NIST.CVP.Crypto.Math
+namespace NIST.CVP.Crypto.Common.Math
 {
     public static class NumberTheory
     {
@@ -9,7 +9,7 @@ namespace NIST.CVP.Crypto.Math
         /// C.3.1 Probabilistic Primality Check, Miller-Rabin Algorithm
         /// </summary>
         /// <param name="n">Number</param>
-        /// <param name="k">Iteraions</param>
+        /// <param name="k">Iterations</param>
         /// <returns>True if probably prime. False if composite.</returns>
         public static bool MillerRabin(BigInteger n, int k)
         {

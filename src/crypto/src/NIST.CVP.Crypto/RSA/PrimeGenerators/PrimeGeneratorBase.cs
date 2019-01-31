@@ -1,6 +1,7 @@
 ﻿using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.PrimeGenerators;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
+using NIST.CVP.Crypto.Common.Math;
 using NIST.CVP.Crypto.Math;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;

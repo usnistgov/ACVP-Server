@@ -3,7 +3,6 @@ using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys;
 using NIST.CVP.Crypto.Oracle.ExtensionMethods;
-using NIST.CVP.Crypto.RSA.Keys;
 using NIST.CVP.Math;
 using NIST.CVP.Orleans.Grains.Interfaces.Rsa;
 using System.Threading.Tasks;
@@ -18,8 +17,7 @@ namespace NIST.CVP.Crypto.Oracle
         public virtual async Task<RsaKeyResult> GetRsaKeyAsync(RsaKeyParameters param)
         {
             IRandom800_90 rand = new Random800_90();
-            IKeyComposerFactory keyComposerFactory = new KeyComposerFactory();
-            IKeyGenParameterHelper keyGenHelper = new KeyGenParameterHelper(rand, keyComposerFactory);
+            IKeyGenParameterHelper keyGenHelper = new KeyGenParameterHelper(rand);
 
             RsaPrimeResult result = null;
             
@@ -38,11 +36,6 @@ namespace NIST.CVP.Crypto.Oracle
                 {
                     break;
                 }
-            }
-
-            if (param.KeyFormat == PrivateKeyModes.Crt)
-            {
-                result.Key = keyGenHelper.ConvertStandardToCrt(result.Key);
             }
 
             return new RsaKeyResult

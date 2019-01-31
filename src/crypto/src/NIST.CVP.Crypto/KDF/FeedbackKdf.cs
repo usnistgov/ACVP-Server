@@ -1,7 +1,7 @@
 ﻿using NIST.CVP.Crypto.Common.KDF;
 using NIST.CVP.Crypto.Common.KDF.Enums;
 using NIST.CVP.Crypto.Common.MAC;
-using NIST.CVP.Crypto.Math;
+using NIST.CVP.Crypto.Common.Math;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Helpers;
 
