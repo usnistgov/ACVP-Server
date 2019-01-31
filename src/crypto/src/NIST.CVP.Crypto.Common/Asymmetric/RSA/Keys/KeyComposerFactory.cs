@@ -1,8 +1,7 @@
 ﻿using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys;
 using System;
 
-namespace NIST.CVP.Crypto.RSA.Keys
+namespace NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys
 {
     public class KeyComposerFactory : IKeyComposerFactory
     {

@@ -1,10 +1,13 @@
-﻿using System.Threading.Tasks;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 using NIST.CVP.Common.Config;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA.PrimeGenerators;
 using NIST.CVP.Pools;
 using NIST.CVP.Pools.Enums;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Crypto.Oracle
 {
@@ -147,8 +150,21 @@ namespace NIST.CVP.Crypto.Oracle
             // Only works with random public exponent
             var poolBoy = new PoolBoy<RsaKeyResult>(_poolConfig);
             var poolResult = poolBoy.GetObjectFromPool(param, PoolTypes.RSA_KEY);
+
             if (poolResult != null)
             {
+                if (param.KeyFormat == PrivateKeyModes.Crt)
+                {
+                    var crtKeyComposer = new CrtKeyComposer();
+                    poolResult.Key = crtKeyComposer.ComposeKey(
+                        poolResult.Key.PubKey.E,
+                        new PrimePair
+                        {
+                            P = poolResult.Key.PrivKey.P,
+                            Q = poolResult.Key.PrivKey.Q
+                        });
+                }
+
                 return poolResult;
             }
 

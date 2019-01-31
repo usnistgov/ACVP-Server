@@ -103,7 +103,6 @@ namespace NIST.CVP.Crypto
             builder.RegisterType<SHAKE_MCT>().AsImplementedInterfaces();
 
             builder.RegisterType<KeyBuilder>().AsImplementedInterfaces();
-            builder.RegisterType<KeyComposerFactory>().AsImplementedInterfaces();
             builder.RegisterType<PrimeGeneratorFactory>().AsImplementedInterfaces();
             builder.RegisterType<Rsa>().AsImplementedInterfaces();
             builder.RegisterType<RsaVisitor>().AsImplementedInterfaces();
