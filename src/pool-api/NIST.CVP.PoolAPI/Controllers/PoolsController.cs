@@ -115,10 +115,14 @@ namespace NIST.CVP.PoolAPI.Controllers
 
             DateTime end = DateTime.Now;
 
-            // TODO get pool name returned from spawn job method
-            Program.PoolOrleansJobLog.Add(new PoolOrleansJob(
-                start, end, result.PoolParameter, jobsToSpawn
-            ));
+            // Log the entry if a pool is being filled.
+            if (result.HasSpawnedJob)
+            {
+                // TODO get pool name returned from spawn job method
+                Program.PoolOrleansJobLog.Add(new PoolOrleansJob(
+                    start, end, result.PoolParameter, jobsToSpawn
+                ));
+            }
 
             return result.HasSpawnedJob;
         }

@@ -76,8 +76,6 @@ namespace NIST.CVP.PoolAPI
                 return;
             }
 
-            logger.Info("Pools loaded.");
-
             if (isService)
             {
                 var pathToExe = Process.GetCurrentProcess().MainModule.FileName;

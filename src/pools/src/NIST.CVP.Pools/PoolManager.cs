@@ -343,6 +343,9 @@ namespace NIST.CVP.Pools
                 Pools.Add(pool);
             }
 
+            LogManager.GetCurrentClassLogger()
+                .Log(LogLevel.Info, "Pools loaded.");
+
             _poolsLoaded = true;
         }
 
