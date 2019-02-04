@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using NIST.CVP.Common.Config;
 using NIST.CVP.Generation.Core.JsonConverters;
 using NIST.CVP.Pools;
 using NIST.CVP.Pools.Models;
@@ -15,8 +17,9 @@ namespace NIST.CVP.PoolAPI.Controllers
     [ApiController]
     public class PoolsController : Controller
     {
+        private readonly PoolManager _poolManager;
         private bool _isFillingPool = false;
-
+        
         private readonly JsonSerializerSettings _jsonSettings = new JsonSerializerSettings
         {
             Converters = new List<JsonConverter>
@@ -29,13 +32,18 @@ namespace NIST.CVP.PoolAPI.Controllers
             Formatting = Formatting.Indented
         };
 
+        public PoolsController(PoolManager poolManager)
+        {
+            _poolManager = poolManager;
+        }
+
         [HttpPost]
         // /api/pools
         public string GetDataFromPool(ParameterHolder parameterHolder)
         {
             try
             {
-                return JsonConvert.SerializeObject(Program.PoolManager.GetResultFromPool(parameterHolder), _jsonSettings);
+                return JsonConvert.SerializeObject(_poolManager.GetResultFromPool(parameterHolder), _jsonSettings);
             }
             catch (Exception ex)
             {
@@ -51,7 +59,7 @@ namespace NIST.CVP.PoolAPI.Controllers
         {
             try
             {
-                return JsonConvert.SerializeObject(Program.PoolManager.GetPoolInformation(), _jsonSettings);
+                return JsonConvert.SerializeObject(_poolManager.GetPoolInformation(), _jsonSettings);
             }
             catch (Exception ex)
             {
@@ -68,7 +76,7 @@ namespace NIST.CVP.PoolAPI.Controllers
         {
             try
             {
-                return JsonConvert.SerializeObject(Program.PoolManager.GetPoolProperties(), _jsonSettings);
+                return JsonConvert.SerializeObject(_poolManager.GetPoolProperties(), _jsonSettings);
             }
             catch (Exception ex)
             {
@@ -85,7 +93,7 @@ namespace NIST.CVP.PoolAPI.Controllers
         {
             try
             {
-                return JsonConvert.SerializeObject(Program.PoolManager.EditPoolProperties(poolProps), _jsonSettings);
+                return JsonConvert.SerializeObject(_poolManager.EditPoolProperties(poolProps), _jsonSettings);
             }
             catch (Exception ex)
             {
@@ -100,7 +108,7 @@ namespace NIST.CVP.PoolAPI.Controllers
         // /api/pools/config/save
         public bool SavePoolConfig()
         {
-            Program.PoolManager.SavePoolConfigs();
+            _poolManager.SavePoolConfigs();
 
             return true;
         }
@@ -109,21 +117,8 @@ namespace NIST.CVP.PoolAPI.Controllers
         [Route("spawn")]
         public async Task<bool> SpawnJobForMostShallowPool([FromBody] int jobsToSpawn)
         {
-            DateTime start = DateTime.Now;
-
-            var result = await Program.PoolManager.SpawnJobForMostShallowPool(jobsToSpawn);
-
-            DateTime end = DateTime.Now;
-
-            // Log the entry if a pool is being filled.
-            if (result.HasSpawnedJob)
-            {
-                // TODO get pool name returned from spawn job method
-                Program.PoolOrleansJobLog.Add(new PoolOrleansJob(
-                    start, end, result.PoolParameter, jobsToSpawn
-                ));
-            }
-
+            var result = await _poolManager.SpawnJobForMostShallowPool(jobsToSpawn);
+            
             return result.HasSpawnedJob;
         }
 
@@ -142,7 +137,7 @@ namespace NIST.CVP.PoolAPI.Controllers
             {
                 _isFillingPool = true;
                 List<Task> tasks = new List<Task>();
-                foreach (var pool in Program.PoolManager.Pools)
+                foreach (var pool in _poolManager.Pools)
                 {
                     RequestPoolWater(numberOfJobsPerPoolToQueue, tasks, pool);
                 }
@@ -188,8 +183,7 @@ namespace NIST.CVP.PoolAPI.Controllers
                 }
             }
         }
-
-
+        
         [HttpPost]
         [Route("add")]
         // /api/pools/add
@@ -197,7 +191,7 @@ namespace NIST.CVP.PoolAPI.Controllers
         {
             try
             {
-                return Program.PoolManager.AddResultToPool(parameterHolder);
+                return _poolManager.AddResultToPool(parameterHolder);
             }
             catch (Exception ex)
             {
@@ -213,7 +207,7 @@ namespace NIST.CVP.PoolAPI.Controllers
         {
             try
             {
-                return JsonConvert.SerializeObject(Program.PoolManager.GetPoolStatus(parameterHolder));
+                return JsonConvert.SerializeObject(_poolManager.GetPoolStatus(parameterHolder));
             }
             catch (Exception ex)
             {
@@ -227,7 +221,7 @@ namespace NIST.CVP.PoolAPI.Controllers
         // /api/pools/save
         public bool SavePools()
         {
-            return Program.PoolManager.SavePools();
+            return _poolManager.SavePools();
         }
 
         [HttpPost]
@@ -236,7 +230,7 @@ namespace NIST.CVP.PoolAPI.Controllers
         public bool CleanPools()
         {
             // TODO should this clean THEN save? Or leave that up to the consumer?
-            return Program.PoolManager.CleanPools();
+            return _poolManager.CleanPools();
         }
     }
 }
