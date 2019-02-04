@@ -1,4 +1,5 @@
-﻿using MongoDB.Driver;
+﻿using MongoDB.Bson;
+using MongoDB.Driver;
 using System;
 
 namespace ConsoleApp1
@@ -17,14 +18,15 @@ namespace ConsoleApp1
 
             collection.InsertOne(new SomeObject()
             {
+                Id = ObjectId.GenerateNewId(),  // UUID for the db
                 ObjectCreation = DateTime.Now,
                 Message = input
             });
 
             Console.WriteLine($"Count: {collection.CountDocuments(c => !string.IsNullOrEmpty(c.Message))}");
 
-            var filter = new FilterDefinitionBuilder<SomeObject>().Empty;
-            var someObject = collection.FindOneAndDelete(filter);
+            var filter = new FilterDefinitionBuilder<SomeObject>().Empty;   // Finds anything
+            var someObject = collection.FindOneAndDelete(filter);           // Remove entry after finding it
             Console.WriteLine($"SomeObject: {someObject.Message}, {someObject.ObjectCreation}");
 
             Console.ReadLine();
