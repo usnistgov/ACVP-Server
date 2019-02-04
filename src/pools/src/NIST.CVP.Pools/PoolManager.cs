@@ -40,15 +40,15 @@ namespace NIST.CVP.Pools
 
         public PoolManager(
             IOptions<PoolConfig> poolConfig, 
-            IOracle oracle,
-            string poolConfigFile, 
-            string poolDirectory
+            IOracle oracle
         )
         {
             _poolConfig = poolConfig;
             _oracle = oracle;
-            _poolDirectory = poolDirectory;
-            _poolConfigFile = poolConfigFile;
+            _poolDirectory = _poolConfig.Value.PoolDirectory;
+            _poolConfigFile = _poolConfig.Value.PoolConfigFile;
+
+            LoadPoolsAsync().FireAndForget();
         }
 
         public PoolInformation GetPoolStatus(ParameterHolder paramHolder)
@@ -264,8 +264,11 @@ namespace NIST.CVP.Pools
             }
         }
         
-        public async Task LoadPools()
+        private async Task LoadPoolsAsync()
         {
+            LogManager.GetCurrentClassLogger()
+                .Log(LogLevel.Info, "Loading Pools.");
+
             var fullConfigFile = Path.Combine(_poolDirectory, _poolConfigFile);
             _properties = JsonConvert.DeserializeObject<PoolProperties[]>
             (

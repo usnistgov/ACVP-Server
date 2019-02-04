@@ -1,17 +1,19 @@
-﻿using System.IO;
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Hosting.WindowsServices;
-using Newtonsoft.Json;
+using NIST.CVP.Pools;
 using NLog;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace NIST.CVP.PoolAPI
 {
     public class PoolWebHostService : WebHostService
     {
         private readonly ILogger _logger;
+        private readonly PoolManager _poolManager;
 
         public PoolWebHostService(IWebHost host) : base(host)
         {
+            _poolManager = host.Services.GetService<PoolManager>();
             _logger = LogManager.GetCurrentClassLogger();
         }
 
@@ -34,7 +36,7 @@ namespace NIST.CVP.PoolAPI
             // Save Pool Data
             _logger.Info("Saving pool data...");
 
-            var saveSuccess = Program.PoolManager.SavePools();
+            var saveSuccess = _poolManager.SavePools();
             if (saveSuccess)
             {
                 _logger.Info("Pools saved successfully.");
@@ -43,18 +45,7 @@ namespace NIST.CVP.PoolAPI
             {
                 _logger.Error("Pools failed to save!");
             }
-
-            // Save OrleansPoolLog
-            File.WriteAllText(
-                Program.OrleansPoolLogLocation,
-                JsonConvert.SerializeObject(Program.PoolOrleansJobLog, 
-                    new JsonSerializerSettings()
-                    {
-                        TypeNameHandling = TypeNameHandling.All
-                    }
-                )
-            );
-
+            
             base.OnStopping();
         }
     }

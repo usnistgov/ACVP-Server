@@ -30,17 +30,16 @@ namespace NIST.CVP.Pools.Tests
         };
         private string _testPath;
         private string _configFile = "testConfig.json";
-        private string _fullPath;
         private PoolManager _subject;
 
         [SetUp]
-        public async Task SetUp()
+        public void SetUp()
         {
             _mockOptionsPoolConfig.Setup(s => s.Value).Returns(_poolConfig);
             _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\");
-            _fullPath = Path.Combine(_testPath, _configFile);
-            _subject = new PoolManager(_mockOptionsPoolConfig.Object, _mockOracle.Object, _fullPath, _testPath);
-            await _subject.LoadPools();
+            _poolConfig.PoolConfigFile = Path.Combine(_testPath, _configFile);
+            _poolConfig.PoolDirectory = _testPath;
+            _subject = new PoolManager(_mockOptionsPoolConfig.Object, _mockOracle.Object);
         }
 
         [Test]
@@ -267,13 +266,13 @@ namespace NIST.CVP.Pools.Tests
         }
 
         [Test]
-        public async Task ShouldProperlySaveConfigurationFile()
+        public void ShouldProperlySaveConfigurationFile()
         {
             var fullPath = Path.Combine(_testPath, "saveChangesConfig.json");
-            
-            _subject = new PoolManager(_mockOptionsPoolConfig.Object, _mockOracle.Object, fullPath, _testPath);
-            await _subject.LoadPools();
+            _poolConfig.PoolConfigFile = fullPath;
 
+            _subject = new PoolManager(_mockOptionsPoolConfig.Object, _mockOracle.Object);
+            
             // Change the pool configuration
             var prechangeConfig = _subject.GetPoolProperties().First();
             // copy of object as to not work with the original reference
@@ -297,8 +296,7 @@ namespace NIST.CVP.Pools.Tests
             _subject.SavePoolConfigs();
 
             // Reinitialize pools
-            _subject = new PoolManager(_mockOptionsPoolConfig.Object, _mockOracle.Object, fullPath, _testPath);
-            await _subject.LoadPools();
+            _subject = new PoolManager(_mockOptionsPoolConfig.Object, _mockOracle.Object);
             
             var postChangeConfig = _subject.GetPoolProperties().First();
 
@@ -309,8 +307,7 @@ namespace NIST.CVP.Pools.Tests
             _subject.SavePoolConfigs();
 
             // Reinitialize pools
-            _subject = new PoolManager(_mockOptionsPoolConfig.Object, _mockOracle.Object, fullPath, _testPath);
-            await _subject.LoadPools();
+            _subject = new PoolManager(_mockOptionsPoolConfig.Object, _mockOracle.Object);
             
             var validateOriginalChangeConfig = _subject.GetPoolProperties().First();
 
@@ -321,10 +318,10 @@ namespace NIST.CVP.Pools.Tests
         public async Task ShouldFillPoolWhenNotAtCapacity()
         {
             var fullPath = Path.Combine(_testPath, "fillPoolConfig.json");
-            
-            _subject = new PoolManager(_mockOptionsPoolConfig.Object, _mockOracle.Object, fullPath, _testPath);
-            await _subject.LoadPools();
+            _poolConfig.PoolConfigFile = fullPath;
 
+            _subject = new PoolManager(_mockOptionsPoolConfig.Object, _mockOracle.Object);
+            
             var waterCount = _subject.Pools.Sum(s => s.WaterLevel);
 
             Assert.IsTrue(waterCount == 0, "Expecting empty pools");
@@ -343,8 +340,9 @@ namespace NIST.CVP.Pools.Tests
         public async Task ShouldStopFillingPoolsWhenAtMaxCapacity()
         {
             var fullPath = Path.Combine(_testPath, "fillPoolConfig.json");
-            
-            _subject = new PoolManager(_mockOptionsPoolConfig.Object, _mockOracle.Object, fullPath, _testPath);
+            _poolConfig.PoolConfigFile = fullPath;
+
+            _subject = new PoolManager(_mockOptionsPoolConfig.Object, _mockOracle.Object);
 
             int waterCount = _subject.Pools.Sum(s => s.WaterLevel);
 
@@ -372,9 +370,9 @@ namespace NIST.CVP.Pools.Tests
         public async Task ShouldAlternateFillingPools()
         {
             var fullPath = Path.Combine(_testPath, "fillPoolConfig.json");
-            
-            _subject = new PoolManager(_mockOptionsPoolConfig.Object, _mockOracle.Object, fullPath, _testPath);
-            await _subject.LoadPools();
+            _poolConfig.PoolConfigFile = fullPath;
+
+            _subject = new PoolManager(_mockOptionsPoolConfig.Object, _mockOracle.Object);
 
             // Should be a total of 2 pools at 0 water level
             Assert.IsTrue(_subject.Pools.Count(c => c.WaterLevel == 0) == 2, "Expecting empty pools");
@@ -401,10 +399,10 @@ namespace NIST.CVP.Pools.Tests
         public async Task ShouldSpawnMultipleFillJobs(int jobsToSpawn)
         {
             var fullPath = Path.Combine(_testPath, "fillPoolConfig.json");
-            
-            _subject = new PoolManager(_mockOptionsPoolConfig.Object, _mockOracle.Object, fullPath, _testPath);
-            await _subject.LoadPools();
+            _poolConfig.PoolConfigFile = fullPath;
 
+            _subject = new PoolManager(_mockOptionsPoolConfig.Object, _mockOracle.Object);
+            
             var waterCount = _subject.Pools.Sum(s => s.WaterLevel);
 
             Assert.IsTrue(waterCount == 0, "Expecting empty pools");
