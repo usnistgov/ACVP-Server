@@ -40,6 +40,9 @@ namespace NIST.CVP.Pools.Services
 
         public long GetPoolCount(string poolName)
         {
+            // TODO REMOVE THIS - for debugging
+            MixStagingPoolIntoPool($"staging-{poolName}", poolName);
+
             var collection = GetDbConnection().GetCollection<MongoPoolObject<TResult>>(poolName);
             return collection.CountDocuments(new FilterDefinitionBuilder<MongoPoolObject<TResult>>().Empty);
         }
@@ -48,6 +51,9 @@ namespace NIST.CVP.Pools.Services
         {
             var collection = GetDbConnection().GetCollection<MongoPoolObject<TResult>>(poolName);
             var result = collection.FindOneAndDelete(new FilterDefinitionBuilder<MongoPoolObject<TResult>>().Empty);
+
+            // TODO REMOVE THIS - for debugging
+            MixStagingPoolIntoPool($"staging-{poolName}", poolName);
 
             if (result == null)
             {
@@ -73,8 +79,11 @@ namespace NIST.CVP.Pools.Services
                 .Shuffle();
             stagingCollection.DeleteMany(new FilterDefinitionBuilder<MongoPoolObject<TResult>>().Empty);
 
-            var collection = dbConnection.GetCollection<MongoPoolObject<TResult>>(poolName);
-            collection.InsertMany(stagingItems);
+            if (stagingItems.Count > 0)
+            {
+                var collection = dbConnection.GetCollection<MongoPoolObject<TResult>>(poolName);
+                collection.InsertMany(stagingItems);
+            }
         }
 
         private IMongoDatabase GetDbConnection()

@@ -11,7 +11,7 @@
 	},
 	"PoolName": "sha-1",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -27,7 +27,7 @@
 	},
 	"PoolName": "sha-224",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -43,7 +43,7 @@
 	},
 	"PoolName": "sha-256",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -59,7 +59,7 @@
 	},
 	"PoolName": "sha-384",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -75,7 +75,7 @@
 	},
 	"PoolName": "sha-512",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -91,7 +91,7 @@
 	},
 	"PoolName": "sha-512-224",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -107,7 +107,7 @@
 	},
 	"PoolName": "sha-512-256",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -124,7 +124,7 @@
 	},
 	"PoolName": "sha3-224",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -141,7 +141,7 @@
 	},
 	"PoolName": "sha3-256",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -158,7 +158,7 @@
 	},
 	"PoolName": "sha3-384",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -175,7 +175,7 @@
 	},
 	"PoolName": "sha3-512",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -192,7 +192,7 @@
 	},
 	"PoolName": "shake-128",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -209,7 +209,7 @@
 	},
 	"PoolName": "shake-256",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -232,7 +232,7 @@
 	},
 	"PoolName": "rsa-b32-2048-sha-1",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -255,7 +255,7 @@
 	},
 	"PoolName": "rsa-b32-2048-sha2-224",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -278,7 +278,7 @@
 	},
 	"PoolName": "rsa-b32-2048-sha2-256",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -301,7 +301,7 @@
 	},
 	"PoolName": "rsa-b32-2048-sha2-384",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -324,7 +324,7 @@
 	},
 	"PoolName": "rsa-b32-2048-sha2-512",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -347,7 +347,7 @@
 	},
 	"PoolName": "rsa-b32-2048-sha2-512224",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -370,7 +370,7 @@
 	},
 	"PoolName": "rsa-b32-2048-sha2-512256",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -393,7 +393,7 @@
 	},
 	"PoolName": "rsa-b32-3072-sha-1",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -416,7 +416,7 @@
 	},
 	"PoolName": "rsa-b32-3072-sha2-224",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -439,7 +439,7 @@
 	},
 	"PoolName": "rsa-b32-3072-sha2-256",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -462,7 +462,7 @@
 	},
 	"PoolName": "rsa-b32-3072-sha2-384",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -485,7 +485,7 @@
 	},
 	"PoolName": "rsa-b32-3072-sha2-512",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -508,7 +508,7 @@
 	},
 	"PoolName": "rsa-b32-3072-sha2-512224",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -531,7 +531,7 @@
 	},
 	"PoolName": "rsa-b32-3072-sha2-512256",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -551,7 +551,7 @@
 	},
 	"PoolName": "rsa-b33-1024-tblc2",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -571,7 +571,7 @@
 	},
 	"PoolName": "rsa-b33-1024-tblc3",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -591,7 +591,7 @@
 	},
 	"PoolName": "rsa-b33-2048-tblc2",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -611,7 +611,7 @@
 	},
 	"PoolName": "rsa-b33-2048-tblc3",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -631,7 +631,7 @@
 	},
 	"PoolName": "rsa-b33-3072-tblc2",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -651,7 +651,7 @@
 	},
 	"PoolName": "rsa-b33-3072-tblc3",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -671,7 +671,7 @@
 	},
 	"PoolName": "rsa-b33-4096-tblc2",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -691,7 +691,7 @@
 	},
 	"PoolName": "rsa-b33-4096-tblc3",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -711,7 +711,7 @@
 	},
 	"PoolName": "rsa-b34-2048-sha-1",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -731,7 +731,7 @@
 	},
 	"PoolName": "rsa-b34-2048-sha2-224",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -751,7 +751,7 @@
 	},
 	"PoolName": "rsa-b34-2048-sha2-256",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -771,7 +771,7 @@
 	},
 	"PoolName": "rsa-b34-2048-sha2-384",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -791,7 +791,7 @@
 	},
 	"PoolName": "rsa-b34-2048-sha2-512",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -811,7 +811,7 @@
 	},
 	"PoolName": "rsa-b34-2048-sha2-512224",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -831,7 +831,7 @@
 	},
 	"PoolName": "rsa-b34-2048-sha2-512256",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -851,7 +851,7 @@
 	},
 	"PoolName": "rsa-b34-3072-sha-1",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -871,7 +871,7 @@
 	},
 	"PoolName": "rsa-b34-3072-sha2-224",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -891,7 +891,7 @@
 	},
 	"PoolName": "rsa-b34-3072-sha2-256",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -911,7 +911,7 @@
 	},
 	"PoolName": "rsa-b34-3072-sha2-384",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -931,7 +931,7 @@
 	},
 	"PoolName": "rsa-b34-3072-sha2-512",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -951,7 +951,7 @@
 	},
 	"PoolName": "rsa-b34-3072-sha2-512224",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -971,7 +971,7 @@
 	},
 	"PoolName": "rsa-b34-3072-sha2-512256",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -994,7 +994,7 @@
 	},
 	"PoolName": "rsa-b35-2048-tblc2-sha-1",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -1017,7 +1017,7 @@
 	},
 	"PoolName": "rsa-b35-2048-tblc2-sha2-224",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -1040,7 +1040,7 @@
 	},
 	"PoolName": "rsa-b35-2048-tblc2-sha2-256",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -1063,7 +1063,7 @@
 	},
 	"PoolName": "rsa-b35-2048-tblc2-sha2-384",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -1086,7 +1086,7 @@
 	},
 	"PoolName": "rsa-b35-2048-tblc2-sha2-512",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -1109,7 +1109,7 @@
 	},
 	"PoolName": "rsa-b35-2048-tblc2-sha2-512224",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -1132,7 +1132,7 @@
 	},
 	"PoolName": "rsa-b35-2048-tblc2-sha2-512256",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -1155,7 +1155,7 @@
 	},
 	"PoolName": "rsa-b35-2048-tblc3-sha-1",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -1178,7 +1178,7 @@
 	},
 	"PoolName": "rsa-b35-2048-tblc3-sha2-224",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -1201,7 +1201,7 @@
 	},
 	"PoolName": "rsa-b35-2048-tblc3-sha2-256",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -1224,7 +1224,7 @@
 	},
 	"PoolName": "rsa-b35-2048-tblc3-sha2-384",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -1247,7 +1247,7 @@
 	},
 	"PoolName": "rsa-b35-2048-tblc3-sha2-512",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -1270,7 +1270,7 @@
 	},
 	"PoolName": "rsa-b35-2048-tblc3-sha2-512224",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -1293,7 +1293,7 @@
 	},
 	"PoolName": "rsa-b35-2048-tblc3-sha2-512256",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -1316,7 +1316,7 @@
 	},
 	"PoolName": "rsa-b35-3072-tblc2-sha-1",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -1339,7 +1339,7 @@
 	},
 	"PoolName": "rsa-b35-3072-tblc2-sha2-224",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -1362,7 +1362,7 @@
 	},
 	"PoolName": "rsa-b35-3072-tblc2-sha2-256",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -1385,7 +1385,7 @@
 	},
 	"PoolName": "rsa-b35-3072-tblc2-sha2-384",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -1408,7 +1408,7 @@
 	},
 	"PoolName": "rsa-b35-3072-tblc2-sha2-512",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -1431,7 +1431,7 @@
 	},
 	"PoolName": "rsa-b35-3072-tblc2-sha2-512224",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -1454,7 +1454,7 @@
 	},
 	"PoolName": "rsa-b35-3072-tblc2-sha2-512256",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -1477,7 +1477,7 @@
 	},
 	"PoolName": "rsa-b35-3072-tblc3-sha-1",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -1500,7 +1500,7 @@
 	},
 	"PoolName": "rsa-b35-3072-tblc3-sha2-224",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -1523,7 +1523,7 @@
 	},
 	"PoolName": "rsa-b35-3072-tblc3-sha2-256",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -1546,7 +1546,7 @@
 	},
 	"PoolName": "rsa-b35-3072-tblc3-sha2-384",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -1569,7 +1569,7 @@
 	},
 	"PoolName": "rsa-b35-3072-tblc3-sha2-512",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -1592,7 +1592,7 @@
 	},
 	"PoolName": "rsa-b35-3072-tblc3-sha2-512224",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -1615,7 +1615,7 @@
 	},
 	"PoolName": "rsa-b35-3072-tblc3-sha2-512256",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -1635,7 +1635,7 @@
 	},
 	"PoolName": "rsa-b36-2048-tblc2",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -1655,7 +1655,7 @@
 	},
 	"PoolName": "rsa-b36-2048-tblc3",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -1675,7 +1675,7 @@
 	},
 	"PoolName": "rsa-b36-3072-tblc2",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -1695,7 +1695,7 @@
 	},
 	"PoolName": "rsa-b36-3072-tblc3",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -1715,7 +1715,7 @@
 	},
 	"PoolName": "dsa-1024-160-probable-unverifiable-sha-1",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -1735,7 +1735,7 @@
 	},
 	"PoolName": "dsa-1024-160-probable-unverifiable-sha2-224",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -1755,7 +1755,7 @@
 	},
 	"PoolName": "dsa-1024-160-probable-unverifiable-sha2-256",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -1775,7 +1775,7 @@
 	},
 	"PoolName": "dsa-1024-160-probable-unverifiable-sha2-384",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -1795,7 +1795,7 @@
 	},
 	"PoolName": "dsa-1024-160-probable-unverifiable-sha2-512",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -1815,7 +1815,7 @@
 	},
 	"PoolName": "dsa-1024-160-probable-unverifiable-sha2-512-224",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -1835,7 +1835,7 @@
 	},
 	"PoolName": "dsa-1024-160-probable-unverifiable-sha2-512-256",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -1855,7 +1855,7 @@
 	},
 	"PoolName": "dsa-1024-160-probable-canonical-sha-1",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -1875,7 +1875,7 @@
 	},
 	"PoolName": "dsa-1024-160-probable-canonical-sha2-224",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -1895,7 +1895,7 @@
 	},
 	"PoolName": "dsa-1024-160-probable-canonical-sha2-256",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -1915,7 +1915,7 @@
 	},
 	"PoolName": "dsa-1024-160-probable-canonical-sha2-384",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -1935,7 +1935,7 @@
 	},
 	"PoolName": "dsa-1024-160-probable-canonical-sha2-512",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -1955,7 +1955,7 @@
 	},
 	"PoolName": "dsa-1024-160-probable-canonical-sha2-512-224",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -1975,7 +1975,7 @@
 	},
 	"PoolName": "dsa-1024-160-probable-canonical-sha2-512-256",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -1995,7 +1995,7 @@
 	},
 	"PoolName": "dsa-1024-160-provable-unverifiable-sha-1",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -2015,7 +2015,7 @@
 	},
 	"PoolName": "dsa-1024-160-provable-unverifiable-sha2-224",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -2035,7 +2035,7 @@
 	},
 	"PoolName": "dsa-1024-160-provable-unverifiable-sha2-256",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -2055,7 +2055,7 @@
 	},
 	"PoolName": "dsa-1024-160-provable-unverifiable-sha2-384",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -2075,7 +2075,7 @@
 	},
 	"PoolName": "dsa-1024-160-provable-unverifiable-sha2-512",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -2095,7 +2095,7 @@
 	},
 	"PoolName": "dsa-1024-160-provable-unverifiable-sha2-512-224",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -2115,7 +2115,7 @@
 	},
 	"PoolName": "dsa-1024-160-provable-unverifiable-sha2-512-256",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -2135,7 +2135,7 @@
 	},
 	"PoolName": "dsa-1024-160-provable-canonical-sha-1",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -2155,7 +2155,7 @@
 	},
 	"PoolName": "dsa-1024-160-provable-canonical-sha2-224",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -2175,7 +2175,7 @@
 	},
 	"PoolName": "dsa-1024-160-provable-canonical-sha2-256",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -2195,7 +2195,7 @@
 	},
 	"PoolName": "dsa-1024-160-provable-canonical-sha2-384",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -2215,7 +2215,7 @@
 	},
 	"PoolName": "dsa-1024-160-provable-canonical-sha2-512",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -2235,7 +2235,7 @@
 	},
 	"PoolName": "dsa-1024-160-provable-canonical-sha2-512-224",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -2255,7 +2255,7 @@
 	},
 	"PoolName": "dsa-1024-160-provable-canonical-sha2-512-256",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -2275,7 +2275,7 @@
 	},
 	"PoolName": "dsa-2048-224-probable-unverifiable-sha-1",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -2295,7 +2295,7 @@
 	},
 	"PoolName": "dsa-2048-224-probable-unverifiable-sha2-224",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -2315,7 +2315,7 @@
 	},
 	"PoolName": "dsa-2048-224-probable-unverifiable-sha2-256",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -2335,7 +2335,7 @@
 	},
 	"PoolName": "dsa-2048-224-probable-unverifiable-sha2-384",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -2355,7 +2355,7 @@
 	},
 	"PoolName": "dsa-2048-224-probable-unverifiable-sha2-512",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -2375,7 +2375,7 @@
 	},
 	"PoolName": "dsa-2048-224-probable-unverifiable-sha2-512-224",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -2395,7 +2395,7 @@
 	},
 	"PoolName": "dsa-2048-224-probable-unverifiable-sha2-512-256",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -2415,7 +2415,7 @@
 	},
 	"PoolName": "dsa-2048-224-probable-canonical-sha-1",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -2435,7 +2435,7 @@
 	},
 	"PoolName": "dsa-2048-224-probable-canonical-sha2-224",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -2455,7 +2455,7 @@
 	},
 	"PoolName": "dsa-2048-224-probable-canonical-sha2-256",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -2475,7 +2475,7 @@
 	},
 	"PoolName": "dsa-2048-224-probable-canonical-sha2-384",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -2495,7 +2495,7 @@
 	},
 	"PoolName": "dsa-2048-224-probable-canonical-sha2-512",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -2515,7 +2515,7 @@
 	},
 	"PoolName": "dsa-2048-224-probable-canonical-sha2-512-224",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -2535,7 +2535,7 @@
 	},
 	"PoolName": "dsa-2048-224-probable-canonical-sha2-512-256",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -2555,7 +2555,7 @@
 	},
 	"PoolName": "dsa-2048-224-provable-unverifiable-sha-1",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -2575,7 +2575,7 @@
 	},
 	"PoolName": "dsa-2048-224-provable-unverifiable-sha2-224",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -2595,7 +2595,7 @@
 	},
 	"PoolName": "dsa-2048-224-provable-unverifiable-sha2-256",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -2615,7 +2615,7 @@
 	},
 	"PoolName": "dsa-2048-224-provable-unverifiable-sha2-384",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -2635,7 +2635,7 @@
 	},
 	"PoolName": "dsa-2048-224-provable-unverifiable-sha2-512",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -2655,7 +2655,7 @@
 	},
 	"PoolName": "dsa-2048-224-provable-unverifiable-sha2-512-224",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -2675,7 +2675,7 @@
 	},
 	"PoolName": "dsa-2048-224-provable-unverifiable-sha2-512-256",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -2695,7 +2695,7 @@
 	},
 	"PoolName": "dsa-2048-224-provable-canonical-sha-1",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -2715,7 +2715,7 @@
 	},
 	"PoolName": "dsa-2048-224-provable-canonical-sha2-224",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -2735,7 +2735,7 @@
 	},
 	"PoolName": "dsa-2048-224-provable-canonical-sha2-256",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -2755,7 +2755,7 @@
 	},
 	"PoolName": "dsa-2048-224-provable-canonical-sha2-384",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -2775,7 +2775,7 @@
 	},
 	"PoolName": "dsa-2048-224-provable-canonical-sha2-512",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -2795,7 +2795,7 @@
 	},
 	"PoolName": "dsa-2048-224-provable-canonical-sha2-512-224",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -2815,7 +2815,7 @@
 	},
 	"PoolName": "dsa-2048-224-provable-canonical-sha2-512-256",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -2835,7 +2835,7 @@
 	},
 	"PoolName": "dsa-2048-256-probable-unverifiable-sha-1",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -2855,7 +2855,7 @@
 	},
 	"PoolName": "dsa-2048-256-probable-unverifiable-sha2-224",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -2875,7 +2875,7 @@
 	},
 	"PoolName": "dsa-2048-256-probable-unverifiable-sha2-256",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -2895,7 +2895,7 @@
 	},
 	"PoolName": "dsa-2048-256-probable-unverifiable-sha2-384",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -2915,7 +2915,7 @@
 	},
 	"PoolName": "dsa-2048-256-probable-unverifiable-sha2-512",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -2935,7 +2935,7 @@
 	},
 	"PoolName": "dsa-2048-256-probable-unverifiable-sha2-512-224",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -2955,7 +2955,7 @@
 	},
 	"PoolName": "dsa-2048-256-probable-unverifiable-sha2-512-256",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -2975,7 +2975,7 @@
 	},
 	"PoolName": "dsa-2048-256-probable-canonical-sha-1",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -2995,7 +2995,7 @@
 	},
 	"PoolName": "dsa-2048-256-probable-canonical-sha2-224",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -3015,7 +3015,7 @@
 	},
 	"PoolName": "dsa-2048-256-probable-canonical-sha2-256",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -3035,7 +3035,7 @@
 	},
 	"PoolName": "dsa-2048-256-probable-canonical-sha2-384",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -3055,7 +3055,7 @@
 	},
 	"PoolName": "dsa-2048-256-probable-canonical-sha2-512",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -3075,7 +3075,7 @@
 	},
 	"PoolName": "dsa-2048-256-probable-canonical-sha2-512-224",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -3095,7 +3095,7 @@
 	},
 	"PoolName": "dsa-2048-256-probable-canonical-sha2-512-256",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -3115,7 +3115,7 @@
 	},
 	"PoolName": "dsa-2048-256-provable-unverifiable-sha-1",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -3135,7 +3135,7 @@
 	},
 	"PoolName": "dsa-2048-256-provable-unverifiable-sha2-224",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -3155,7 +3155,7 @@
 	},
 	"PoolName": "dsa-2048-256-provable-unverifiable-sha2-256",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -3175,7 +3175,7 @@
 	},
 	"PoolName": "dsa-2048-256-provable-unverifiable-sha2-384",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -3195,7 +3195,7 @@
 	},
 	"PoolName": "dsa-2048-256-provable-unverifiable-sha2-512",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -3215,7 +3215,7 @@
 	},
 	"PoolName": "dsa-2048-256-provable-unverifiable-sha2-512-224",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -3235,7 +3235,7 @@
 	},
 	"PoolName": "dsa-2048-256-provable-unverifiable-sha2-512-256",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -3255,7 +3255,7 @@
 	},
 	"PoolName": "dsa-2048-256-provable-canonical-sha-1",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -3275,7 +3275,7 @@
 	},
 	"PoolName": "dsa-2048-256-provable-canonical-sha2-224",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -3295,7 +3295,7 @@
 	},
 	"PoolName": "dsa-2048-256-provable-canonical-sha2-256",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -3315,7 +3315,7 @@
 	},
 	"PoolName": "dsa-2048-256-provable-canonical-sha2-384",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -3335,7 +3335,7 @@
 	},
 	"PoolName": "dsa-2048-256-provable-canonical-sha2-512",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -3355,7 +3355,7 @@
 	},
 	"PoolName": "dsa-2048-256-provable-canonical-sha2-512-224",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -3375,7 +3375,7 @@
 	},
 	"PoolName": "dsa-2048-256-provable-canonical-sha2-512-256",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -3395,7 +3395,7 @@
 	},
 	"PoolName": "dsa-3072-256-probable-unverifiable-sha-1",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -3415,7 +3415,7 @@
 	},
 	"PoolName": "dsa-3072-256-probable-unverifiable-sha2-224",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -3435,7 +3435,7 @@
 	},
 	"PoolName": "dsa-3072-256-probable-unverifiable-sha2-256",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -3455,7 +3455,7 @@
 	},
 	"PoolName": "dsa-3072-256-probable-unverifiable-sha2-384",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -3475,7 +3475,7 @@
 	},
 	"PoolName": "dsa-3072-256-probable-unverifiable-sha2-512",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -3495,7 +3495,7 @@
 	},
 	"PoolName": "dsa-3072-256-probable-unverifiable-sha2-512-224",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -3515,7 +3515,7 @@
 	},
 	"PoolName": "dsa-3072-256-probable-unverifiable-sha2-512-256",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -3535,7 +3535,7 @@
 	},
 	"PoolName": "dsa-3072-256-probable-canonical-sha-1",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -3555,7 +3555,7 @@
 	},
 	"PoolName": "dsa-3072-256-probable-canonical-sha2-224",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -3575,7 +3575,7 @@
 	},
 	"PoolName": "dsa-3072-256-probable-canonical-sha2-256",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -3595,7 +3595,7 @@
 	},
 	"PoolName": "dsa-3072-256-probable-canonical-sha2-384",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -3615,7 +3615,7 @@
 	},
 	"PoolName": "dsa-3072-256-probable-canonical-sha2-512",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -3635,7 +3635,7 @@
 	},
 	"PoolName": "dsa-3072-256-probable-canonical-sha2-512-224",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -3655,7 +3655,7 @@
 	},
 	"PoolName": "dsa-3072-256-probable-canonical-sha2-512-256",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -3675,7 +3675,7 @@
 	},
 	"PoolName": "dsa-3072-256-provable-unverifiable-sha-1",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -3695,7 +3695,7 @@
 	},
 	"PoolName": "dsa-3072-256-provable-unverifiable-sha2-224",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -3715,7 +3715,7 @@
 	},
 	"PoolName": "dsa-3072-256-provable-unverifiable-sha2-256",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -3735,7 +3735,7 @@
 	},
 	"PoolName": "dsa-3072-256-provable-unverifiable-sha2-384",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -3755,7 +3755,7 @@
 	},
 	"PoolName": "dsa-3072-256-provable-unverifiable-sha2-512",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -3775,7 +3775,7 @@
 	},
 	"PoolName": "dsa-3072-256-provable-unverifiable-sha2-512-224",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -3795,7 +3795,7 @@
 	},
 	"PoolName": "dsa-3072-256-provable-unverifiable-sha2-512-256",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -3815,7 +3815,7 @@
 	},
 	"PoolName": "dsa-3072-256-provable-canonical-sha-1",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -3835,7 +3835,7 @@
 	},
 	"PoolName": "dsa-3072-256-provable-canonical-sha2-224",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -3855,7 +3855,7 @@
 	},
 	"PoolName": "dsa-3072-256-provable-canonical-sha2-256",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -3875,7 +3875,7 @@
 	},
 	"PoolName": "dsa-3072-256-provable-canonical-sha2-384",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -3895,7 +3895,7 @@
 	},
 	"PoolName": "dsa-3072-256-provable-canonical-sha2-512",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -3915,7 +3915,7 @@
 	},
 	"PoolName": "dsa-3072-256-provable-canonical-sha2-512-224",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -3935,7 +3935,7 @@
 	},
 	"PoolName": "dsa-3072-256-provable-canonical-sha2-512-256",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -3948,7 +3948,7 @@
 	},
 	"PoolName": "ecdsa-p-192",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -3961,7 +3961,7 @@
 	},
 	"PoolName": "ecdsa-p-224",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -3974,7 +3974,7 @@
 	},
 	"PoolName": "ecdsa-p-256",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -3987,7 +3987,7 @@
 	},
 	"PoolName": "ecdsa-p-384",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4000,7 +4000,7 @@
 	},
 	"PoolName": "ecdsa-p-521",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4013,7 +4013,7 @@
 	},
 	"PoolName": "ecdsa-k-163",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4026,7 +4026,7 @@
 	},
 	"PoolName": "ecdsa-k-233",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4039,7 +4039,7 @@
 	},
 	"PoolName": "ecdsa-k-283",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4052,7 +4052,7 @@
 	},
 	"PoolName": "ecdsa-k-409",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4065,7 +4065,7 @@
 	},
 	"PoolName": "ecdsa-k-571",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4078,7 +4078,7 @@
 	},
 	"PoolName": "ecdsa-b-163",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4091,7 +4091,7 @@
 	},
 	"PoolName": "ecdsa-b-233",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4104,7 +4104,7 @@
 	},
 	"PoolName": "ecdsa-b-283",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4117,7 +4117,7 @@
 	},
 	"PoolName": "ecdsa-b-409",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4130,7 +4130,7 @@
 	},
 	"PoolName": "ecdsa-b-571",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4145,7 +4145,7 @@
 	},
 	"PoolName": "aes-ecb-128-encrypt",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4160,7 +4160,7 @@
 	},
 	"PoolName": "aes-ecb-128-decrypt",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4175,7 +4175,7 @@
 	},
 	"PoolName": "aes-ecb-192-encrypt",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4190,7 +4190,7 @@
 	},
 	"PoolName": "aes-ecb-192-decrypt",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4205,7 +4205,7 @@
 	},
 	"PoolName": "aes-ecb-256-encrypt",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4220,7 +4220,7 @@
 	},
 	"PoolName": "aes-ecb-256-decrypt",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4235,7 +4235,7 @@
 	},
 	"PoolName": "aes-cbc-128-encrypt",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4250,7 +4250,7 @@
 	},
 	"PoolName": "aes-cbc-128-decrypt",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4265,7 +4265,7 @@
 	},
 	"PoolName": "aes-cbc-192-encrypt",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4280,7 +4280,7 @@
 	},
 	"PoolName": "aes-cbc-192-decrypt",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4295,7 +4295,7 @@
 	},
 	"PoolName": "aes-cbc-256-encrypt",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4310,7 +4310,7 @@
 	},
 	"PoolName": "aes-cbc-256-decrypt",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4325,7 +4325,7 @@
 	},
 	"PoolName": "aes-ofb-128-encrypt",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4340,7 +4340,7 @@
 	},
 	"PoolName": "aes-ofb-128-decrypt",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4355,7 +4355,7 @@
 	},
 	"PoolName": "aes-ofb-192-encrypt",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4370,7 +4370,7 @@
 	},
 	"PoolName": "aes-ofb-192-decrypt",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4385,7 +4385,7 @@
 	},
 	"PoolName": "aes-ofb-256-encrypt",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4400,7 +4400,7 @@
 	},
 	"PoolName": "aes-ofb-256-decrypt",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4415,7 +4415,7 @@
 	},
 	"PoolName": "aes-cfbbit-128-encrypt",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4430,7 +4430,7 @@
 	},
 	"PoolName": "aes-cfbbit-128-decrypt",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4445,7 +4445,7 @@
 	},
 	"PoolName": "aes-cfbbit-192-encrypt",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4460,7 +4460,7 @@
 	},
 	"PoolName": "aes-cfbbit-192-decrypt",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4475,7 +4475,7 @@
 	},
 	"PoolName": "aes-cfbbit-256-encrypt",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4490,7 +4490,7 @@
 	},
 	"PoolName": "aes-cfbbit-256-decrypt",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4505,7 +4505,7 @@
 	},
 	"PoolName": "aes-cfbbyte-128-encrypt",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4520,7 +4520,7 @@
 	},
 	"PoolName": "aes-cfbbyte-128-decrypt",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4535,7 +4535,7 @@
 	},
 	"PoolName": "aes-cfbbyte-192-encrypt",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4550,7 +4550,7 @@
 	},
 	"PoolName": "aes-cfbbyte-192-decrypt",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4565,7 +4565,7 @@
 	},
 	"PoolName": "aes-cfbbyte-256-encrypt",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4580,7 +4580,7 @@
 	},
 	"PoolName": "aes-cfbbyte-256-decrypt",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4595,7 +4595,7 @@
 	},
 	"PoolName": "aes-cfbblock-128-encrypt",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4610,7 +4610,7 @@
 	},
 	"PoolName": "aes-cfbblock-128-decrypt",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4625,7 +4625,7 @@
 	},
 	"PoolName": "aes-cfbblock-192-encrypt",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4640,7 +4640,7 @@
 	},
 	"PoolName": "aes-cfbblock-192-decrypt",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4655,7 +4655,7 @@
 	},
 	"PoolName": "aes-cfbblock-256-encrypt",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4670,7 +4670,7 @@
 	},
 	"PoolName": "aes-cfbblock-256-decrypt",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4685,7 +4685,7 @@
 	},
 	"PoolName": "tdes-ecb-encrypt-keyingoption-1",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4700,7 +4700,7 @@
 	},
 	"PoolName": "tdes-ecb-decrypt-keyingoption-1",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4715,7 +4715,7 @@
 	},
 	"PoolName": "tdes-ecb-encrypt-keyingoption-2",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4730,7 +4730,7 @@
 	},
 	"PoolName": "tdes-ecb-decrypt-keyingoption-2",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4745,7 +4745,7 @@
 	},
 	"PoolName": "tdes-cbc-encrypt-keyingoption-1",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4760,7 +4760,7 @@
 	},
 	"PoolName": "tdes-cbc-decrypt-keyingoption-1",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4775,7 +4775,7 @@
 	},
 	"PoolName": "tdes-cbc-encrypt-keyingoption-2",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4790,7 +4790,7 @@
 	},
 	"PoolName": "tdes-cbc-decrypt-keyingoption-2",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4805,7 +4805,7 @@
 	},
 	"PoolName": "tdes-cbci-encrypt-keyingoption-1",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4820,7 +4820,7 @@
 	},
 	"PoolName": "tdes-cbci-decrypt-keyingoption-1",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4835,7 +4835,7 @@
 	},
 	"PoolName": "tdes-cbci-encrypt-keyingoption-2",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4850,7 +4850,7 @@
 	},
 	"PoolName": "tdes-cbci-decrypt-keyingoption-2",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4865,7 +4865,7 @@
 	},
 	"PoolName": "tdes-ofbi-encrypt-keyingoption-1",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4880,7 +4880,7 @@
 	},
 	"PoolName": "tdes-ofbi-decrypt-keyingoption-1",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4895,7 +4895,7 @@
 	},
 	"PoolName": "tdes-ofbi-encrypt-keyingoption-2",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4910,7 +4910,7 @@
 	},
 	"PoolName": "tdes-ofbi-decrypt-keyingoption-2",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4925,7 +4925,7 @@
 	},
 	"PoolName": "tdes-cfbbit-encrypt-keyingoption-1",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4940,7 +4940,7 @@
 	},
 	"PoolName": "tdes-cfbbit-decrypt-keyingoption-1",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4955,7 +4955,7 @@
 	},
 	"PoolName": "tdes-cfbbit-encrypt-keyingoption-2",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4970,7 +4970,7 @@
 	},
 	"PoolName": "tdes-cfbbit-decrypt-keyingoption-2",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4985,7 +4985,7 @@
 	},
 	"PoolName": "tdes-cfbbyte-encrypt-keyingoption-1",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -5000,7 +5000,7 @@
 	},
 	"PoolName": "tdes-cfbbyte-decrypt-keyingoption-1",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -5015,7 +5015,7 @@
 	},
 	"PoolName": "tdes-cfbbyte-encrypt-keyingoption-2",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -5030,7 +5030,7 @@
 	},
 	"PoolName": "tdes-cfbbyte-decrypt-keyingoption-2",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -5045,7 +5045,7 @@
 	},
 	"PoolName": "tdes-cfbblock-encrypt-keyingoption-1",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -5060,7 +5060,7 @@
 	},
 	"PoolName": "tdes-cfbblock-decrypt-keyingoption-1",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -5075,7 +5075,7 @@
 	},
 	"PoolName": "tdes-cfbblock-encrypt-keyingoption-2",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -5090,7 +5090,7 @@
 	},
 	"PoolName": "tdes-cfbblock-decrypt-keyingoption-2",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -5105,7 +5105,7 @@
 	},
 	"PoolName": "tdes-cfbpbit-encrypt-keyingoption-1",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -5120,7 +5120,7 @@
 	},
 	"PoolName": "tdes-cfbpbit-decrypt-keyingoption-1",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -5135,7 +5135,7 @@
 	},
 	"PoolName": "tdes-cfbpbit-encrypt-keyingoption-2",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -5150,7 +5150,7 @@
 	},
 	"PoolName": "tdes-cfbpbit-decrypt-keyingoption-2",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -5165,7 +5165,7 @@
 	},
 	"PoolName": "tdes-cfbpbyte-encrypt-keyingoption-1",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -5180,7 +5180,7 @@
 	},
 	"PoolName": "tdes-cfbpbyte-decrypt-keyingoption-1",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -5195,7 +5195,7 @@
 	},
 	"PoolName": "tdes-cfbpbyte-encrypt-keyingoption-2",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -5210,7 +5210,7 @@
 	},
 	"PoolName": "tdes-cfbpbyte-decrypt-keyingoption-2",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -5225,7 +5225,7 @@
 	},
 	"PoolName": "tdes-cfbpblock-encrypt-keyingoption-1",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -5240,7 +5240,7 @@
 	},
 	"PoolName": "tdes-cfbpblock-decrypt-keyingoption-1",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -5255,7 +5255,7 @@
 	},
 	"PoolName": "tdes-cfbpblock-encrypt-keyingoption-2",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -5270,7 +5270,7 @@
 	},
 	"PoolName": "tdes-cfbpblock-decrypt-keyingoption-2",
 	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 }
 ]
