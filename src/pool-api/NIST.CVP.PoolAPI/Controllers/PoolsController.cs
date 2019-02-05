@@ -5,6 +5,7 @@ using Newtonsoft.Json.Converters;
 using NIST.CVP.Common.Config;
 using NIST.CVP.Generation.Core.JsonConverters;
 using NIST.CVP.Pools;
+using NIST.CVP.Pools.Interfaces;
 using NIST.CVP.Pools.Models;
 using NLog;
 using System;
@@ -148,9 +149,7 @@ namespace NIST.CVP.PoolAPI.Controllers
                     await Task.WhenAll(tasks);
 
                     LogManager.GetCurrentClassLogger()
-                        .Log(LogLevel.Info, "Pools have been filled. Proceeding to save.");
-
-                    SavePools();
+                        .Log(LogLevel.Info, "Pools have been filled.");
                 }
 
                 _isFillingPool = false;
@@ -215,15 +214,7 @@ namespace NIST.CVP.PoolAPI.Controllers
                 return "";
             }
         }
-
-        [HttpGet]
-        [Route("save")]
-        // /api/pools/save
-        public bool SavePools()
-        {
-            return _poolManager.SavePools();
-        }
-
+        
         [HttpPost]
         [Route("clean")]
         // /api/pools/clean

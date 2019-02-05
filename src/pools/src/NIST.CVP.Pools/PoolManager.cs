@@ -153,31 +153,6 @@ namespace NIST.CVP.Pools
             return new List<PoolProperties>(_properties);
         }
 
-        public bool SavePools()
-        {
-            if (!_poolsLoaded)
-            {
-                return false;
-            }
-
-            foreach (var pool in Pools)
-            {
-                if (_properties.TryFirst(prop => pool.Param.Equals(prop.PoolType.Parameters), out var properties))
-                {
-                    if (!pool.SavePoolToFile())
-                    {
-                        return false;
-                    }
-                }
-                else
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
         public bool SavePoolConfigs()
         {
             if (!_poolsLoaded)
@@ -247,9 +222,8 @@ namespace NIST.CVP.Pools
                         await Task.WhenAll(tasks);
 
                         LogManager.GetCurrentClassLogger()
-                            .Log(LogLevel.Info, $"Pool was filled. Proceeding to save pool: \n\n {json}");
+                            .Log(LogLevel.Info, $"Pool was filled: \n\n {json}");
 
-                        minPool.SavePoolToFile();
                         return new SpawnJobResponse()
                         {
                             HasSpawnedJob = true,
@@ -344,8 +318,6 @@ namespace NIST.CVP.Pools
                     default:
                         throw new Exception("No pool model found");
                 }
-
-                await pool.LoadPoolFromFile();
 
                 Pools.Add(pool);
             }

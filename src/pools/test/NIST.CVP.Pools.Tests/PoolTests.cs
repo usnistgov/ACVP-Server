@@ -157,33 +157,7 @@ namespace NIST.CVP.Pools.Tests
             Assert.IsTrue(pool.IsEmpty);
             Assert.IsTrue(result3.PoolTooEmpty);
         }
-
-        [Test]
-        public void ShouldWriteToFile()
-        {
-            var param = new AesParameters
-            {
-                Direction = "encrypt",
-                DataLength = 128,
-                Mode = BlockCipherModesOfOperation.Ecb,
-                KeyLength = 128
-            };
-
-            var pool = new AesPool(GetConstructionParameters(param, PoolTypes.AES));
-
-            pool.SavePoolToFile();
-
-            if (File.Exists(_fullPath))
-            {
-                File.Delete(_fullPath);
-                Assert.Pass();
-            }
-            else
-            {
-                Assert.Fail();
-            }
-        }
-
+        
         [Test]
         [TestCase(true, 2)]
         [TestCase(false, 1)]
@@ -219,73 +193,6 @@ namespace NIST.CVP.Pools.Tests
                 pool.WaterLevel,
                 nameof(waterLevelPostValueGet)
             );
-        }
-
-        private class ExposedWaterPool : AesPool
-        {
-            public ExposedWaterPool(PoolConstructionParameters<AesParameters> param) : base(param)
-            {
-            }
-
-            public AesResult[] GetPoolWater()
-            {
-                return Water.ToArray();
-            }
-        }
-
-        [Test]
-        public void RecycledValuesShouldChangeQueueOrder()
-        {
-            var param = new AesParameters
-            {
-                Direction = "encrypt",
-                DataLength = 128,
-                Mode = BlockCipherModesOfOperation.Ecb,
-                KeyLength = 128
-            };
-
-            _poolConfig.Setup(s => s.Value)
-                .Returns(new PoolConfig() {ShouldRecyclePoolWater = true});
-
-            var pool = new ExposedWaterPool(GetConstructionParameters(param, PoolTypes.AES));
-
-            Assume.That(pool.IsEmpty);
-            
-            pool.AddWater(new AesResult() {PlainText = new BitString("01")});
-            pool.AddWater(new AesResult() {PlainText = new BitString("02")});
-            pool.AddWater(new AesResult() {PlainText = new BitString("03")});
-            pool.AddWater(new AesResult() {PlainText = new BitString("04")});
-            pool.AddWater(new AesResult() {PlainText = new BitString("05")});
-            pool.AddWater(new AesResult() {PlainText = new BitString("06")});
-            pool.AddWater(new AesResult() {PlainText = new BitString("07")});
-            pool.AddWater(new AesResult() {PlainText = new BitString("08")});
-            pool.AddWater(new AesResult() {PlainText = new BitString("09")});
-            pool.AddWater(new AesResult() {PlainText = new BitString("10")});
-
-            pool.GetNext();
-
-            var water = pool.GetPoolWater();
-
-            Assume.That(water.Count() == 10);
-
-            // The chances of this being shuffled back into the "correct, not shuffled" order is super small right?
-            if (water[0].PlainText.Equals(new BitString("02")) &&
-                water[1].PlainText.Equals(new BitString("03")) &&
-                water[2].PlainText.Equals(new BitString("04")) &&
-                water[3].PlainText.Equals(new BitString("05")) &&
-                water[3].PlainText.Equals(new BitString("06")) &&
-                water[3].PlainText.Equals(new BitString("07")) &&
-                water[3].PlainText.Equals(new BitString("08")) &&
-                water[3].PlainText.Equals(new BitString("09")) &&
-                water[3].PlainText.Equals(new BitString("10")) &&
-                water[4].PlainText.Equals(new BitString("01")))
-            {
-                Assert.Fail();
-            }
-            else
-            {
-                Assert.Pass();
-            }
         }
 
         [Test]

@@ -81,7 +81,7 @@ namespace PoolMonitor
 
                 foreach (var pool in poolNames)
                 {
-                    _writer.Write($"{pool.FilePath},");
+                    _writer.Write($"{pool.PoolName},");
                 }
 
                 _writer.WriteLine();

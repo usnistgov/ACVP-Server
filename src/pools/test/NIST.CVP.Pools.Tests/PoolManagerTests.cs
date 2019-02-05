@@ -228,15 +228,7 @@ namespace NIST.CVP.Pools.Tests
             Assert.AreEqual(default(int), result.FillLevel);
             Assert.IsFalse(result.PoolExists);
         }
-
-        [Test]
-        public void ShouldSavePools()
-        {
-            var result = _subject.SavePools();
-
-            Assert.IsTrue(result);
-        }
-
+        
         [Test]
         public void ShouldGetPoolConfigInfo()
         {
@@ -332,7 +324,6 @@ namespace NIST.CVP.Pools.Tests
             var newWaterCount = _subject.Pools.Sum(s => s.WaterLevel);
 
             _subject.CleanPools();
-            _subject.SavePools();
 
             Assert.IsTrue(result.HasSpawnedJob, nameof(result));
             Assert.IsTrue(newWaterCount == waterCount + 1, nameof(newWaterCount));
@@ -346,7 +337,7 @@ namespace NIST.CVP.Pools.Tests
 
             _subject = new PoolManager(_mockOptionsPoolConfig.Object, _mockOracle.Object, _mockPoolRepositoryFactory.Object);
 
-            int waterCount = _subject.Pools.Sum(s => s.WaterLevel);
+            var waterCount = _subject.Pools.Sum(s => s.WaterLevel);
 
             Assert.IsTrue(waterCount == 0, "Expecting empty pools");
 
@@ -363,7 +354,6 @@ namespace NIST.CVP.Pools.Tests
             var newWaterCount = _subject.Pools.Sum(s => s.WaterLevel);
 
             _subject.CleanPools();
-            _subject.SavePools();
 
             Assert.IsTrue(newWaterCount == maxCapacityAllPools, nameof(maxCapacityAllPools));
         }
@@ -387,11 +377,10 @@ namespace NIST.CVP.Pools.Tests
 
             await _subject.SpawnJobForMostShallowPool(1);
 
-            // Should be 2 pool with 1 water level (assurring pools are being filled shallow first)
+            // Should be 2 pool with 1 water level (assuring pools are being filled shallow first)
             Assert.IsTrue(_subject.Pools.Count(c => c.WaterLevel == 1) == 2, "Double spawn, check 2 filled pool with 1 value");
 
             _subject.CleanPools();
-            _subject.SavePools();
         }
 
         [Test]
@@ -413,7 +402,6 @@ namespace NIST.CVP.Pools.Tests
             var newWaterCount = _subject.Pools.Sum(s => s.WaterLevel);
 
             _subject.CleanPools();
-            _subject.SavePools();
 
             Assert.IsTrue(result.HasSpawnedJob, nameof(result));
             Assert.IsTrue(newWaterCount == waterCount + jobsToSpawn, nameof(newWaterCount));

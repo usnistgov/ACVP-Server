@@ -32,6 +32,7 @@ namespace NIST.CVP.PoolAPI
             services.Configure<PoolConfig>(Configuration.GetSection(nameof(PoolConfig)));
             services.Configure<OrleansConfig>(Configuration.GetSection(nameof(OrleansConfig)));
 
+            services.AddSingleton<IMongoPoolObjectFactory, MongoPoolObjectFactory>();
             services.AddSingleton<IMongoDbFactory, MongoDbFactory>();
             services.AddSingleton<IPoolRepositoryFactory, PoolRepositoryFactory>();
             services.AddSingleton<IOracle, Oracle>();
