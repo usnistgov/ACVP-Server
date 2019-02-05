@@ -9,7 +9,7 @@
         /// The root location of the pool manager
         /// </summary>
         public string RootUrl { get; set; }
-        
+
         /// <summary>
         /// The pool managers port
         /// </summary>
@@ -29,5 +29,15 @@
         /// The directory where the pool water files are stored.
         /// </summary>
         public string PoolDirectory { get; set; }
+
+        /// <summary>
+        /// The Database connection string
+        /// </summary>
+        public string ConnectionString { get; set; }
+
+        /// <summary>
+        /// The database name to use
+        /// </summary>
+        public string DatabaseName { get; set; }
     }
 }

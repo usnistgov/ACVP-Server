@@ -321,7 +321,7 @@ namespace NIST.CVP.Pools.Tests
                 PoolConfig = _poolConfig.Object,
                 PoolProperties = new PoolProperties
                 {
-                    FilePath = _fullPath,
+                    PoolName = _fullPath,
                     MaxCapacity = 100,
                     MinCapacity = 1,
                     RecycleRatePerHundred = 100,
@@ -332,7 +332,7 @@ namespace NIST.CVP.Pools.Tests
                     }
                 },
                 WaterType = param,
-                FullPoolLocation = _fullPath
+                PoolName = _fullPath
             };
         }
     }

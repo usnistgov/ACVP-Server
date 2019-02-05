@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using NIST.CVP.Pools.Interfaces;
 
 namespace NIST.CVP.Pools
 {
@@ -26,6 +27,7 @@ namespace NIST.CVP.Pools
         private readonly IOracle _oracle;
         private readonly string _poolDirectory;
         private readonly string _poolConfigFile;
+        private readonly IPoolRepositoryFactory _poolRepositoryFactory;
 
         private PoolProperties[] _properties;
         private bool _poolsLoaded;
@@ -40,13 +42,15 @@ namespace NIST.CVP.Pools
 
         public PoolManager(
             IOptions<PoolConfig> poolConfig, 
-            IOracle oracle
+            IOracle oracle,
+            IPoolRepositoryFactory poolRepositoryFactory
         )
         {
             _poolConfig = poolConfig;
             _oracle = oracle;
             _poolDirectory = _poolConfig.Value.PoolDirectory;
             _poolConfigFile = _poolConfig.Value.PoolConfigFile;
+            _poolRepositoryFactory = poolRepositoryFactory;
 
             LoadPoolsAsync().FireAndForget();
         }
@@ -128,7 +132,7 @@ namespace NIST.CVP.Pools
             }
 
             if (_properties.TryFirst(
-                properties => properties.FilePath.Equals(poolProps.FilePath, StringComparison.OrdinalIgnoreCase),
+                properties => properties.PoolName.Equals(poolProps.PoolName, StringComparison.OrdinalIgnoreCase),
                 out var result))
             {
                 result.MaxCapacity = poolProps.MaxCapacity;
@@ -281,7 +285,7 @@ namespace NIST.CVP.Pools
 
             foreach (var poolProperty in _properties)
             {
-                var fullPoolLocation = Path.Combine(_poolDirectory, poolProperty.FilePath);
+                var poolName = poolProperty.PoolName;
                 var param = poolProperty.PoolType.Parameters;
 
                 IPool pool = null;
@@ -289,52 +293,52 @@ namespace NIST.CVP.Pools
                 {
                     // Primarily for testing purposes
                     case PoolTypes.SHA:
-                        pool = new ShaPool(GetConstructionParameters(param as ShaParameters, poolProperty, fullPoolLocation));
+                        pool = new ShaPool(GetConstructionParameters(param as ShaParameters, poolProperty, poolName));
                         break;
 
                     // Primarily for testing purposes
                     case PoolTypes.AES:
-                        pool = new AesPool(GetConstructionParameters(param as AesParameters, poolProperty, fullPoolLocation));
+                        pool = new AesPool(GetConstructionParameters(param as AesParameters, poolProperty, poolName));
                         break;
 
                     case PoolTypes.SHA_MCT:
-                        pool = new ShaMctPool(GetConstructionParameters(param as ShaParameters, poolProperty, fullPoolLocation));
+                        pool = new ShaMctPool(GetConstructionParameters(param as ShaParameters, poolProperty, poolName));
                         break;
 
                     case PoolTypes.AES_MCT:
-                        pool = new AesMctPool(GetConstructionParameters(param as AesParameters, poolProperty, fullPoolLocation));
+                        pool = new AesMctPool(GetConstructionParameters(param as AesParameters, poolProperty, poolName));
                         break;
 
                     case PoolTypes.TDES_MCT:
-                        pool = new TdesMctPool(GetConstructionParameters(param as TdesParameters, poolProperty, fullPoolLocation));
+                        pool = new TdesMctPool(GetConstructionParameters(param as TdesParameters, poolProperty, poolName));
                         break;
 
                     case PoolTypes.SHA3_MCT:
-                        pool = new Sha3MctPool(GetConstructionParameters(param as Sha3Parameters, poolProperty, fullPoolLocation));
+                        pool = new Sha3MctPool(GetConstructionParameters(param as Sha3Parameters, poolProperty, poolName));
                         break;
 
                     case PoolTypes.CSHAKE_MCT:
-                        pool = new CShakeMctPool(GetConstructionParameters(param as CShakeParameters, poolProperty, fullPoolLocation));
+                        pool = new CShakeMctPool(GetConstructionParameters(param as CShakeParameters, poolProperty, poolName));
                         break;
 
                     case PoolTypes.PARALLEL_HASH_MCT:
-                        pool = new ParallelHashMctPool(GetConstructionParameters(param as ParallelHashParameters, poolProperty, fullPoolLocation));
+                        pool = new ParallelHashMctPool(GetConstructionParameters(param as ParallelHashParameters, poolProperty, poolName));
                         break;
 
                     case PoolTypes.TUPLE_HASH_MCT:
-                        pool = new TupleHashMctPool(GetConstructionParameters(param as TupleHashParameters, poolProperty, fullPoolLocation));
+                        pool = new TupleHashMctPool(GetConstructionParameters(param as TupleHashParameters, poolProperty, poolName));
                         break;
 
                     case PoolTypes.DSA_PQG:
-                        pool = new DsaPqgPool(GetConstructionParameters(param as DsaDomainParametersParameters, poolProperty, fullPoolLocation));
+                        pool = new DsaPqgPool(GetConstructionParameters(param as DsaDomainParametersParameters, poolProperty, poolName));
                         break;
 
                     case PoolTypes.ECDSA_KEY:
-                        pool = new EcdsaKeyPool(GetConstructionParameters(param as EcdsaKeyParameters, poolProperty, fullPoolLocation));
+                        pool = new EcdsaKeyPool(GetConstructionParameters(param as EcdsaKeyParameters, poolProperty, poolName));
                         break;
 
                     case PoolTypes.RSA_KEY:
-                        pool = new RsaKeyPool(GetConstructionParameters(param as RsaKeyParameters, poolProperty, fullPoolLocation));
+                        pool = new RsaKeyPool(GetConstructionParameters(param as RsaKeyParameters, poolProperty, poolName));
                         break;
 
                     default:
@@ -352,17 +356,18 @@ namespace NIST.CVP.Pools
             _poolsLoaded = true;
         }
 
-        private PoolConstructionParameters<TParam> GetConstructionParameters<TParam>(TParam param, PoolProperties poolProperties, string fullPoolLocation)
+        private PoolConstructionParameters<TParam> GetConstructionParameters<TParam>(TParam param, PoolProperties poolProperties, string poolName)
             where TParam : IParameters
         {
             return new PoolConstructionParameters<TParam>()
             {
                 Oracle = _oracle,
+                PoolRepositoryFactory = _poolRepositoryFactory,
                 JsonConverters = _jsonConverters,
                 PoolConfig = _poolConfig,
                 PoolProperties = poolProperties,
                 WaterType = param,
-                FullPoolLocation = fullPoolLocation
+                PoolName = poolName
             };
         }
         

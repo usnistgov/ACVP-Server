@@ -9,7 +9,7 @@
 			}
 		}
 	},
-	"FilePath": "sha-1.json",
+	"PoolName": "sha-1",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -25,7 +25,7 @@
 			}
 		}
 	},
-	"FilePath": "sha-224.json",
+	"PoolName": "sha-224",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -41,7 +41,7 @@
 			}
 		}
 	},
-	"FilePath": "sha-256.json",
+	"PoolName": "sha-256",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -57,7 +57,7 @@
 			}
 		}
 	},
-	"FilePath": "sha-384.json",
+	"PoolName": "sha-384",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -73,7 +73,7 @@
 			}
 		}
 	},
-	"FilePath": "sha-512.json",
+	"PoolName": "sha-512",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -89,7 +89,7 @@
 			}
 		}
 	},
-	"FilePath": "sha-512-224.json",
+	"PoolName": "sha-512-224",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -105,7 +105,7 @@
 			}
 		}
 	},
-	"FilePath": "sha-512-256.json",
+	"PoolName": "sha-512-256",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -122,7 +122,7 @@
 			}
 		}
 	},
-	"FilePath": "sha3-224.json",
+	"PoolName": "sha3-224",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -139,7 +139,7 @@
 			}
 		}
 	},
-	"FilePath": "sha3-256.json",
+	"PoolName": "sha3-256",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -156,7 +156,7 @@
 			}
 		}
 	},
-	"FilePath": "sha3-384.json",
+	"PoolName": "sha3-384",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -173,7 +173,7 @@
 			}
 		}
 	},
-	"FilePath": "sha3-512.json",
+	"PoolName": "sha3-512",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -190,7 +190,7 @@
 			}
 		}
 	},
-	"FilePath": "shake-128.json",
+	"PoolName": "shake-128",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -207,7 +207,7 @@
 			}
 		}
 	},
-	"FilePath": "shake-256.json",
+	"PoolName": "shake-256",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -230,7 +230,7 @@
 			"KeyFormat": "standard"
 		}
 	},
-	"FilePath": "rsa-b32-2048-sha-1.json",
+	"PoolName": "rsa-b32-2048-sha-1",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -253,7 +253,7 @@
 			"KeyFormat": "standard"
 		}
 	},
-	"FilePath": "rsa-b32-2048-sha2-224.json",
+	"PoolName": "rsa-b32-2048-sha2-224",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -276,7 +276,7 @@
 			"KeyFormat": "standard"
 		}
 	},
-	"FilePath": "rsa-b32-2048-sha2-256.json",
+	"PoolName": "rsa-b32-2048-sha2-256",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -299,7 +299,7 @@
 			"KeyFormat": "standard"
 		}
 	},
-	"FilePath": "rsa-b32-2048-sha2-384.json",
+	"PoolName": "rsa-b32-2048-sha2-384",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -322,7 +322,7 @@
 			"KeyFormat": "standard"
 		}
 	},
-	"FilePath": "rsa-b32-2048-sha2-512.json",
+	"PoolName": "rsa-b32-2048-sha2-512",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -345,7 +345,7 @@
 			"KeyFormat": "standard"
 		}
 	},
-	"FilePath": "rsa-b32-2048-sha2-512224.json",
+	"PoolName": "rsa-b32-2048-sha2-512224",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -368,7 +368,7 @@
 			"KeyFormat": "standard"
 		}
 	},
-	"FilePath": "rsa-b32-2048-sha2-512256.json",
+	"PoolName": "rsa-b32-2048-sha2-512256",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -391,7 +391,7 @@
 			"KeyFormat": "standard"
 		}
 	},
-	"FilePath": "rsa-b32-3072-sha-1.json",
+	"PoolName": "rsa-b32-3072-sha-1",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -414,7 +414,7 @@
 			"KeyFormat": "standard"
 		}
 	},
-	"FilePath": "rsa-b32-3072-sha2-224.json",
+	"PoolName": "rsa-b32-3072-sha2-224",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -437,7 +437,7 @@
 			"KeyFormat": "standard"
 		}
 	},
-	"FilePath": "rsa-b32-3072-sha2-256.json",
+	"PoolName": "rsa-b32-3072-sha2-256",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -460,7 +460,7 @@
 			"KeyFormat": "standard"
 		}
 	},
-	"FilePath": "rsa-b32-3072-sha2-384.json",
+	"PoolName": "rsa-b32-3072-sha2-384",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -483,7 +483,7 @@
 			"KeyFormat": "standard"
 		}
 	},
-	"FilePath": "rsa-b32-3072-sha2-512.json",
+	"PoolName": "rsa-b32-3072-sha2-512",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -506,7 +506,7 @@
 			"KeyFormat": "standard"
 		}
 	},
-	"FilePath": "rsa-b32-3072-sha2-512224.json",
+	"PoolName": "rsa-b32-3072-sha2-512224",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -529,7 +529,7 @@
 			"KeyFormat": "standard"
 		}
 	},
-	"FilePath": "rsa-b32-3072-sha2-512256.json",
+	"PoolName": "rsa-b32-3072-sha2-512256",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -549,7 +549,7 @@
 			"KeyFormat": "standard"
 		}
 	},
-	"FilePath": "rsa-b33-1024-tblc2.json",
+	"PoolName": "rsa-b33-1024-tblc2",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -569,7 +569,7 @@
 			"KeyFormat": "standard"
 		}
 	},
-	"FilePath": "rsa-b33-1024-tblc3.json",
+	"PoolName": "rsa-b33-1024-tblc3",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -589,7 +589,7 @@
 			"KeyFormat": "standard"
 		}
 	},
-	"FilePath": "rsa-b33-2048-tblc2.json",
+	"PoolName": "rsa-b33-2048-tblc2",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -609,7 +609,7 @@
 			"KeyFormat": "standard"
 		}
 	},
-	"FilePath": "rsa-b33-2048-tblc3.json",
+	"PoolName": "rsa-b33-2048-tblc3",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -629,7 +629,7 @@
 			"KeyFormat": "standard"
 		}
 	},
-	"FilePath": "rsa-b33-3072-tblc2.json",
+	"PoolName": "rsa-b33-3072-tblc2",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -649,27 +649,7 @@
 			"KeyFormat": "standard"
 		}
 	},
-	"FilePath": "rsa-b33-3072-tblc3.json",
-	"MaxCapacity": 20000,
-	"MinCapacity": 1000,
-	"RecycleRatePerHundred": 90
-},
-{
-	"PoolType": {
-		"type": "rsa_key",
-		"parameters": {
-			"KeyMode": "B.3.3",
-			"PublicExponentMode": "random",
-
-			"Modulus": 4096,
-			"HashAlg": null,
-			"PrimeTest": "tblC2",
-
-
-			"KeyFormat": "standard"
-		}
-	},
-	"FilePath": "rsa-b33-4096-tblc2.json",
+	"PoolName": "rsa-b33-3072-tblc3",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -683,13 +663,33 @@
 
 			"Modulus": 4096,
 			"HashAlg": null,
+			"PrimeTest": "tblC2",
+
+
+			"KeyFormat": "standard"
+		}
+	},
+	"PoolName": "rsa-b33-4096-tblc2",
+	"MaxCapacity": 20000,
+	"MinCapacity": 1000,
+	"RecycleRatePerHundred": 90
+},
+{
+	"PoolType": {
+		"type": "rsa_key",
+		"parameters": {
+			"KeyMode": "B.3.3",
+			"PublicExponentMode": "random",
+
+			"Modulus": 4096,
+			"HashAlg": null,
 			"PrimeTest": "tblC3",
 
 
 			"KeyFormat": "standard"
 		}
 	},
-	"FilePath": "rsa-b33-4096-tblc3.json",
+	"PoolName": "rsa-b33-4096-tblc3",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -709,7 +709,7 @@
 			"KeyFormat": "standard"
 		}
 	},
-	"FilePath": "rsa-b34-2048-sha-1.json",
+	"PoolName": "rsa-b34-2048-sha-1",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -729,7 +729,7 @@
 			"KeyFormat": "standard"
 		}
 	},
-	"FilePath": "rsa-b34-2048-sha2-224.json",
+	"PoolName": "rsa-b34-2048-sha2-224",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -749,7 +749,7 @@
 			"KeyFormat": "standard"
 		}
 	},
-	"FilePath": "rsa-b34-2048-sha2-256.json",
+	"PoolName": "rsa-b34-2048-sha2-256",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -769,7 +769,7 @@
 			"KeyFormat": "standard"
 		}
 	},
-	"FilePath": "rsa-b34-2048-sha2-384.json",
+	"PoolName": "rsa-b34-2048-sha2-384",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -789,7 +789,7 @@
 			"KeyFormat": "standard"
 		}
 	},
-	"FilePath": "rsa-b34-2048-sha2-512.json",
+	"PoolName": "rsa-b34-2048-sha2-512",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -809,7 +809,7 @@
 			"KeyFormat": "standard"
 		}
 	},
-	"FilePath": "rsa-b34-2048-sha2-512224.json",
+	"PoolName": "rsa-b34-2048-sha2-512224",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -829,7 +829,7 @@
 			"KeyFormat": "standard"
 		}
 	},
-	"FilePath": "rsa-b34-2048-sha2-512256.json",
+	"PoolName": "rsa-b34-2048-sha2-512256",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -849,7 +849,7 @@
 			"KeyFormat": "standard"
 		}
 	},
-	"FilePath": "rsa-b34-3072-sha-1.json",
+	"PoolName": "rsa-b34-3072-sha-1",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -869,7 +869,7 @@
 			"KeyFormat": "standard"
 		}
 	},
-	"FilePath": "rsa-b34-3072-sha2-224.json",
+	"PoolName": "rsa-b34-3072-sha2-224",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -889,7 +889,7 @@
 			"KeyFormat": "standard"
 		}
 	},
-	"FilePath": "rsa-b34-3072-sha2-256.json",
+	"PoolName": "rsa-b34-3072-sha2-256",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -909,7 +909,7 @@
 			"KeyFormat": "standard"
 		}
 	},
-	"FilePath": "rsa-b34-3072-sha2-384.json",
+	"PoolName": "rsa-b34-3072-sha2-384",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -929,7 +929,7 @@
 			"KeyFormat": "standard"
 		}
 	},
-	"FilePath": "rsa-b34-3072-sha2-512.json",
+	"PoolName": "rsa-b34-3072-sha2-512",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -949,7 +949,7 @@
 			"KeyFormat": "standard"
 		}
 	},
-	"FilePath": "rsa-b34-3072-sha2-512224.json",
+	"PoolName": "rsa-b34-3072-sha2-512224",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -969,7 +969,7 @@
 			"KeyFormat": "standard"
 		}
 	},
-	"FilePath": "rsa-b34-3072-sha2-512256.json",
+	"PoolName": "rsa-b34-3072-sha2-512256",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -992,7 +992,7 @@
 			"KeyFormat": "standard"
 		}
 	},
-	"FilePath": "rsa-b35-2048-tblc2-sha-1.json",
+	"PoolName": "rsa-b35-2048-tblc2-sha-1",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -1015,7 +1015,7 @@
 			"KeyFormat": "standard"
 		}
 	},
-	"FilePath": "rsa-b35-2048-tblc2-sha2-224.json",
+	"PoolName": "rsa-b35-2048-tblc2-sha2-224",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -1038,7 +1038,7 @@
 			"KeyFormat": "standard"
 		}
 	},
-	"FilePath": "rsa-b35-2048-tblc2-sha2-256.json",
+	"PoolName": "rsa-b35-2048-tblc2-sha2-256",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -1061,7 +1061,7 @@
 			"KeyFormat": "standard"
 		}
 	},
-	"FilePath": "rsa-b35-2048-tblc2-sha2-384.json",
+	"PoolName": "rsa-b35-2048-tblc2-sha2-384",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -1084,7 +1084,7 @@
 			"KeyFormat": "standard"
 		}
 	},
-	"FilePath": "rsa-b35-2048-tblc2-sha2-512.json",
+	"PoolName": "rsa-b35-2048-tblc2-sha2-512",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -1107,7 +1107,7 @@
 			"KeyFormat": "standard"
 		}
 	},
-	"FilePath": "rsa-b35-2048-tblc2-sha2-512224.json",
+	"PoolName": "rsa-b35-2048-tblc2-sha2-512224",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -1130,7 +1130,7 @@
 			"KeyFormat": "standard"
 		}
 	},
-	"FilePath": "rsa-b35-2048-tblc2-sha2-512256.json",
+	"PoolName": "rsa-b35-2048-tblc2-sha2-512256",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -1153,7 +1153,7 @@
 			"KeyFormat": "standard"
 		}
 	},
-	"FilePath": "rsa-b35-2048-tblc3-sha-1.json",
+	"PoolName": "rsa-b35-2048-tblc3-sha-1",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -1176,7 +1176,7 @@
 			"KeyFormat": "standard"
 		}
 	},
-	"FilePath": "rsa-b35-2048-tblc3-sha2-224.json",
+	"PoolName": "rsa-b35-2048-tblc3-sha2-224",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -1199,7 +1199,7 @@
 			"KeyFormat": "standard"
 		}
 	},
-	"FilePath": "rsa-b35-2048-tblc3-sha2-256.json",
+	"PoolName": "rsa-b35-2048-tblc3-sha2-256",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -1222,7 +1222,7 @@
 			"KeyFormat": "standard"
 		}
 	},
-	"FilePath": "rsa-b35-2048-tblc3-sha2-384.json",
+	"PoolName": "rsa-b35-2048-tblc3-sha2-384",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -1245,7 +1245,7 @@
 			"KeyFormat": "standard"
 		}
 	},
-	"FilePath": "rsa-b35-2048-tblc3-sha2-512.json",
+	"PoolName": "rsa-b35-2048-tblc3-sha2-512",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -1268,7 +1268,7 @@
 			"KeyFormat": "standard"
 		}
 	},
-	"FilePath": "rsa-b35-2048-tblc3-sha2-512224.json",
+	"PoolName": "rsa-b35-2048-tblc3-sha2-512224",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -1291,7 +1291,7 @@
 			"KeyFormat": "standard"
 		}
 	},
-	"FilePath": "rsa-b35-2048-tblc3-sha2-512256.json",
+	"PoolName": "rsa-b35-2048-tblc3-sha2-512256",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -1314,7 +1314,7 @@
 			"KeyFormat": "standard"
 		}
 	},
-	"FilePath": "rsa-b35-3072-tblc2-sha-1.json",
+	"PoolName": "rsa-b35-3072-tblc2-sha-1",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -1337,7 +1337,7 @@
 			"KeyFormat": "standard"
 		}
 	},
-	"FilePath": "rsa-b35-3072-tblc2-sha2-224.json",
+	"PoolName": "rsa-b35-3072-tblc2-sha2-224",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -1360,7 +1360,7 @@
 			"KeyFormat": "standard"
 		}
 	},
-	"FilePath": "rsa-b35-3072-tblc2-sha2-256.json",
+	"PoolName": "rsa-b35-3072-tblc2-sha2-256",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -1383,7 +1383,7 @@
 			"KeyFormat": "standard"
 		}
 	},
-	"FilePath": "rsa-b35-3072-tblc2-sha2-384.json",
+	"PoolName": "rsa-b35-3072-tblc2-sha2-384",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -1406,7 +1406,7 @@
 			"KeyFormat": "standard"
 		}
 	},
-	"FilePath": "rsa-b35-3072-tblc2-sha2-512.json",
+	"PoolName": "rsa-b35-3072-tblc2-sha2-512",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -1429,7 +1429,7 @@
 			"KeyFormat": "standard"
 		}
 	},
-	"FilePath": "rsa-b35-3072-tblc2-sha2-512224.json",
+	"PoolName": "rsa-b35-3072-tblc2-sha2-512224",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -1452,7 +1452,7 @@
 			"KeyFormat": "standard"
 		}
 	},
-	"FilePath": "rsa-b35-3072-tblc2-sha2-512256.json",
+	"PoolName": "rsa-b35-3072-tblc2-sha2-512256",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -1475,7 +1475,7 @@
 			"KeyFormat": "standard"
 		}
 	},
-	"FilePath": "rsa-b35-3072-tblc3-sha-1.json",
+	"PoolName": "rsa-b35-3072-tblc3-sha-1",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -1498,7 +1498,7 @@
 			"KeyFormat": "standard"
 		}
 	},
-	"FilePath": "rsa-b35-3072-tblc3-sha2-224.json",
+	"PoolName": "rsa-b35-3072-tblc3-sha2-224",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -1521,7 +1521,7 @@
 			"KeyFormat": "standard"
 		}
 	},
-	"FilePath": "rsa-b35-3072-tblc3-sha2-256.json",
+	"PoolName": "rsa-b35-3072-tblc3-sha2-256",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -1544,7 +1544,7 @@
 			"KeyFormat": "standard"
 		}
 	},
-	"FilePath": "rsa-b35-3072-tblc3-sha2-384.json",
+	"PoolName": "rsa-b35-3072-tblc3-sha2-384",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -1567,7 +1567,7 @@
 			"KeyFormat": "standard"
 		}
 	},
-	"FilePath": "rsa-b35-3072-tblc3-sha2-512.json",
+	"PoolName": "rsa-b35-3072-tblc3-sha2-512",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -1590,7 +1590,7 @@
 			"KeyFormat": "standard"
 		}
 	},
-	"FilePath": "rsa-b35-3072-tblc3-sha2-512224.json",
+	"PoolName": "rsa-b35-3072-tblc3-sha2-512224",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -1613,7 +1613,7 @@
 			"KeyFormat": "standard"
 		}
 	},
-	"FilePath": "rsa-b35-3072-tblc3-sha2-512256.json",
+	"PoolName": "rsa-b35-3072-tblc3-sha2-512256",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -1633,7 +1633,7 @@
 			"KeyFormat": "standard"
 		}
 	},
-	"FilePath": "rsa-b36-2048-tblc2.json",
+	"PoolName": "rsa-b36-2048-tblc2",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -1653,7 +1653,7 @@
 			"KeyFormat": "standard"
 		}
 	},
-	"FilePath": "rsa-b36-2048-tblc3.json",
+	"PoolName": "rsa-b36-2048-tblc3",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -1673,7 +1673,7 @@
 			"KeyFormat": "standard"
 		}
 	},
-	"FilePath": "rsa-b36-3072-tblc2.json",
+	"PoolName": "rsa-b36-3072-tblc2",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -1693,7 +1693,7 @@
 			"KeyFormat": "standard"
 		}
 	},
-	"FilePath": "rsa-b36-3072-tblc3.json",
+	"PoolName": "rsa-b36-3072-tblc3",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -1713,7 +1713,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-1024-160-probable-unverifiable-sha-1.json",
+	"PoolName": "dsa-1024-160-probable-unverifiable-sha-1",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -1733,7 +1733,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-1024-160-probable-unverifiable-sha2-224.json",
+	"PoolName": "dsa-1024-160-probable-unverifiable-sha2-224",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -1753,7 +1753,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-1024-160-probable-unverifiable-sha2-256.json",
+	"PoolName": "dsa-1024-160-probable-unverifiable-sha2-256",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -1773,7 +1773,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-1024-160-probable-unverifiable-sha2-384.json",
+	"PoolName": "dsa-1024-160-probable-unverifiable-sha2-384",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -1793,7 +1793,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-1024-160-probable-unverifiable-sha2-512.json",
+	"PoolName": "dsa-1024-160-probable-unverifiable-sha2-512",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -1813,7 +1813,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-1024-160-probable-unverifiable-sha2-512-224.json",
+	"PoolName": "dsa-1024-160-probable-unverifiable-sha2-512-224",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -1833,7 +1833,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-1024-160-probable-unverifiable-sha2-512-256.json",
+	"PoolName": "dsa-1024-160-probable-unverifiable-sha2-512-256",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -1853,7 +1853,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-1024-160-probable-canonical-sha-1.json",
+	"PoolName": "dsa-1024-160-probable-canonical-sha-1",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -1873,7 +1873,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-1024-160-probable-canonical-sha2-224.json",
+	"PoolName": "dsa-1024-160-probable-canonical-sha2-224",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -1893,7 +1893,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-1024-160-probable-canonical-sha2-256.json",
+	"PoolName": "dsa-1024-160-probable-canonical-sha2-256",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -1913,7 +1913,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-1024-160-probable-canonical-sha2-384.json",
+	"PoolName": "dsa-1024-160-probable-canonical-sha2-384",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -1933,7 +1933,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-1024-160-probable-canonical-sha2-512.json",
+	"PoolName": "dsa-1024-160-probable-canonical-sha2-512",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -1953,7 +1953,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-1024-160-probable-canonical-sha2-512-224.json",
+	"PoolName": "dsa-1024-160-probable-canonical-sha2-512-224",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -1973,7 +1973,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-1024-160-probable-canonical-sha2-512-256.json",
+	"PoolName": "dsa-1024-160-probable-canonical-sha2-512-256",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -1993,7 +1993,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-1024-160-provable-unverifiable-sha-1.json",
+	"PoolName": "dsa-1024-160-provable-unverifiable-sha-1",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -2013,7 +2013,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-1024-160-provable-unverifiable-sha2-224.json",
+	"PoolName": "dsa-1024-160-provable-unverifiable-sha2-224",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -2033,7 +2033,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-1024-160-provable-unverifiable-sha2-256.json",
+	"PoolName": "dsa-1024-160-provable-unverifiable-sha2-256",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -2053,7 +2053,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-1024-160-provable-unverifiable-sha2-384.json",
+	"PoolName": "dsa-1024-160-provable-unverifiable-sha2-384",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -2073,7 +2073,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-1024-160-provable-unverifiable-sha2-512.json",
+	"PoolName": "dsa-1024-160-provable-unverifiable-sha2-512",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -2093,7 +2093,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-1024-160-provable-unverifiable-sha2-512-224.json",
+	"PoolName": "dsa-1024-160-provable-unverifiable-sha2-512-224",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -2113,7 +2113,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-1024-160-provable-unverifiable-sha2-512-256.json",
+	"PoolName": "dsa-1024-160-provable-unverifiable-sha2-512-256",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -2133,7 +2133,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-1024-160-provable-canonical-sha-1.json",
+	"PoolName": "dsa-1024-160-provable-canonical-sha-1",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -2153,7 +2153,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-1024-160-provable-canonical-sha2-224.json",
+	"PoolName": "dsa-1024-160-provable-canonical-sha2-224",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -2173,7 +2173,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-1024-160-provable-canonical-sha2-256.json",
+	"PoolName": "dsa-1024-160-provable-canonical-sha2-256",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -2193,7 +2193,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-1024-160-provable-canonical-sha2-384.json",
+	"PoolName": "dsa-1024-160-provable-canonical-sha2-384",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -2213,7 +2213,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-1024-160-provable-canonical-sha2-512.json",
+	"PoolName": "dsa-1024-160-provable-canonical-sha2-512",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -2233,7 +2233,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-1024-160-provable-canonical-sha2-512-224.json",
+	"PoolName": "dsa-1024-160-provable-canonical-sha2-512-224",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -2253,7 +2253,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-1024-160-provable-canonical-sha2-512-256.json",
+	"PoolName": "dsa-1024-160-provable-canonical-sha2-512-256",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -2273,7 +2273,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-2048-224-probable-unverifiable-sha-1.json",
+	"PoolName": "dsa-2048-224-probable-unverifiable-sha-1",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -2293,7 +2293,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-2048-224-probable-unverifiable-sha2-224.json",
+	"PoolName": "dsa-2048-224-probable-unverifiable-sha2-224",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -2313,7 +2313,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-2048-224-probable-unverifiable-sha2-256.json",
+	"PoolName": "dsa-2048-224-probable-unverifiable-sha2-256",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -2333,7 +2333,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-2048-224-probable-unverifiable-sha2-384.json",
+	"PoolName": "dsa-2048-224-probable-unverifiable-sha2-384",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -2353,7 +2353,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-2048-224-probable-unverifiable-sha2-512.json",
+	"PoolName": "dsa-2048-224-probable-unverifiable-sha2-512",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -2373,7 +2373,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-2048-224-probable-unverifiable-sha2-512-224.json",
+	"PoolName": "dsa-2048-224-probable-unverifiable-sha2-512-224",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -2393,7 +2393,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-2048-224-probable-unverifiable-sha2-512-256.json",
+	"PoolName": "dsa-2048-224-probable-unverifiable-sha2-512-256",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -2413,7 +2413,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-2048-224-probable-canonical-sha-1.json",
+	"PoolName": "dsa-2048-224-probable-canonical-sha-1",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -2433,7 +2433,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-2048-224-probable-canonical-sha2-224.json",
+	"PoolName": "dsa-2048-224-probable-canonical-sha2-224",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -2453,7 +2453,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-2048-224-probable-canonical-sha2-256.json",
+	"PoolName": "dsa-2048-224-probable-canonical-sha2-256",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -2473,7 +2473,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-2048-224-probable-canonical-sha2-384.json",
+	"PoolName": "dsa-2048-224-probable-canonical-sha2-384",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -2493,7 +2493,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-2048-224-probable-canonical-sha2-512.json",
+	"PoolName": "dsa-2048-224-probable-canonical-sha2-512",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -2513,7 +2513,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-2048-224-probable-canonical-sha2-512-224.json",
+	"PoolName": "dsa-2048-224-probable-canonical-sha2-512-224",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -2533,7 +2533,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-2048-224-probable-canonical-sha2-512-256.json",
+	"PoolName": "dsa-2048-224-probable-canonical-sha2-512-256",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -2553,7 +2553,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-2048-224-provable-unverifiable-sha-1.json",
+	"PoolName": "dsa-2048-224-provable-unverifiable-sha-1",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -2573,7 +2573,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-2048-224-provable-unverifiable-sha2-224.json",
+	"PoolName": "dsa-2048-224-provable-unverifiable-sha2-224",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -2593,7 +2593,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-2048-224-provable-unverifiable-sha2-256.json",
+	"PoolName": "dsa-2048-224-provable-unverifiable-sha2-256",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -2613,7 +2613,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-2048-224-provable-unverifiable-sha2-384.json",
+	"PoolName": "dsa-2048-224-provable-unverifiable-sha2-384",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -2633,7 +2633,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-2048-224-provable-unverifiable-sha2-512.json",
+	"PoolName": "dsa-2048-224-provable-unverifiable-sha2-512",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -2653,7 +2653,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-2048-224-provable-unverifiable-sha2-512-224.json",
+	"PoolName": "dsa-2048-224-provable-unverifiable-sha2-512-224",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -2673,7 +2673,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-2048-224-provable-unverifiable-sha2-512-256.json",
+	"PoolName": "dsa-2048-224-provable-unverifiable-sha2-512-256",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -2693,7 +2693,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-2048-224-provable-canonical-sha-1.json",
+	"PoolName": "dsa-2048-224-provable-canonical-sha-1",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -2713,7 +2713,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-2048-224-provable-canonical-sha2-224.json",
+	"PoolName": "dsa-2048-224-provable-canonical-sha2-224",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -2733,7 +2733,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-2048-224-provable-canonical-sha2-256.json",
+	"PoolName": "dsa-2048-224-provable-canonical-sha2-256",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -2753,7 +2753,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-2048-224-provable-canonical-sha2-384.json",
+	"PoolName": "dsa-2048-224-provable-canonical-sha2-384",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -2773,7 +2773,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-2048-224-provable-canonical-sha2-512.json",
+	"PoolName": "dsa-2048-224-provable-canonical-sha2-512",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -2793,7 +2793,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-2048-224-provable-canonical-sha2-512-224.json",
+	"PoolName": "dsa-2048-224-provable-canonical-sha2-512-224",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -2813,7 +2813,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-2048-224-provable-canonical-sha2-512-256.json",
+	"PoolName": "dsa-2048-224-provable-canonical-sha2-512-256",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -2833,7 +2833,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-2048-256-probable-unverifiable-sha-1.json",
+	"PoolName": "dsa-2048-256-probable-unverifiable-sha-1",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -2853,7 +2853,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-2048-256-probable-unverifiable-sha2-224.json",
+	"PoolName": "dsa-2048-256-probable-unverifiable-sha2-224",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -2873,7 +2873,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-2048-256-probable-unverifiable-sha2-256.json",
+	"PoolName": "dsa-2048-256-probable-unverifiable-sha2-256",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -2893,7 +2893,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-2048-256-probable-unverifiable-sha2-384.json",
+	"PoolName": "dsa-2048-256-probable-unverifiable-sha2-384",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -2913,7 +2913,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-2048-256-probable-unverifiable-sha2-512.json",
+	"PoolName": "dsa-2048-256-probable-unverifiable-sha2-512",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -2933,7 +2933,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-2048-256-probable-unverifiable-sha2-512-224.json",
+	"PoolName": "dsa-2048-256-probable-unverifiable-sha2-512-224",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -2953,7 +2953,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-2048-256-probable-unverifiable-sha2-512-256.json",
+	"PoolName": "dsa-2048-256-probable-unverifiable-sha2-512-256",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -2973,7 +2973,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-2048-256-probable-canonical-sha-1.json",
+	"PoolName": "dsa-2048-256-probable-canonical-sha-1",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -2993,7 +2993,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-2048-256-probable-canonical-sha2-224.json",
+	"PoolName": "dsa-2048-256-probable-canonical-sha2-224",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -3013,7 +3013,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-2048-256-probable-canonical-sha2-256.json",
+	"PoolName": "dsa-2048-256-probable-canonical-sha2-256",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -3033,7 +3033,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-2048-256-probable-canonical-sha2-384.json",
+	"PoolName": "dsa-2048-256-probable-canonical-sha2-384",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -3053,7 +3053,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-2048-256-probable-canonical-sha2-512.json",
+	"PoolName": "dsa-2048-256-probable-canonical-sha2-512",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -3073,7 +3073,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-2048-256-probable-canonical-sha2-512-224.json",
+	"PoolName": "dsa-2048-256-probable-canonical-sha2-512-224",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -3093,7 +3093,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-2048-256-probable-canonical-sha2-512-256.json",
+	"PoolName": "dsa-2048-256-probable-canonical-sha2-512-256",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -3113,7 +3113,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-2048-256-provable-unverifiable-sha-1.json",
+	"PoolName": "dsa-2048-256-provable-unverifiable-sha-1",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -3133,7 +3133,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-2048-256-provable-unverifiable-sha2-224.json",
+	"PoolName": "dsa-2048-256-provable-unverifiable-sha2-224",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -3153,7 +3153,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-2048-256-provable-unverifiable-sha2-256.json",
+	"PoolName": "dsa-2048-256-provable-unverifiable-sha2-256",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -3173,7 +3173,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-2048-256-provable-unverifiable-sha2-384.json",
+	"PoolName": "dsa-2048-256-provable-unverifiable-sha2-384",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -3193,7 +3193,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-2048-256-provable-unverifiable-sha2-512.json",
+	"PoolName": "dsa-2048-256-provable-unverifiable-sha2-512",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -3213,7 +3213,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-2048-256-provable-unverifiable-sha2-512-224.json",
+	"PoolName": "dsa-2048-256-provable-unverifiable-sha2-512-224",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -3233,7 +3233,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-2048-256-provable-unverifiable-sha2-512-256.json",
+	"PoolName": "dsa-2048-256-provable-unverifiable-sha2-512-256",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -3253,7 +3253,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-2048-256-provable-canonical-sha-1.json",
+	"PoolName": "dsa-2048-256-provable-canonical-sha-1",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -3273,7 +3273,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-2048-256-provable-canonical-sha2-224.json",
+	"PoolName": "dsa-2048-256-provable-canonical-sha2-224",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -3293,7 +3293,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-2048-256-provable-canonical-sha2-256.json",
+	"PoolName": "dsa-2048-256-provable-canonical-sha2-256",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -3313,7 +3313,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-2048-256-provable-canonical-sha2-384.json",
+	"PoolName": "dsa-2048-256-provable-canonical-sha2-384",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -3333,7 +3333,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-2048-256-provable-canonical-sha2-512.json",
+	"PoolName": "dsa-2048-256-provable-canonical-sha2-512",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -3353,7 +3353,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-2048-256-provable-canonical-sha2-512-224.json",
+	"PoolName": "dsa-2048-256-provable-canonical-sha2-512-224",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -3373,7 +3373,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-2048-256-provable-canonical-sha2-512-256.json",
+	"PoolName": "dsa-2048-256-provable-canonical-sha2-512-256",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -3393,7 +3393,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-3072-256-probable-unverifiable-sha-1.json",
+	"PoolName": "dsa-3072-256-probable-unverifiable-sha-1",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -3413,7 +3413,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-3072-256-probable-unverifiable-sha2-224.json",
+	"PoolName": "dsa-3072-256-probable-unverifiable-sha2-224",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -3433,7 +3433,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-3072-256-probable-unverifiable-sha2-256.json",
+	"PoolName": "dsa-3072-256-probable-unverifiable-sha2-256",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -3453,7 +3453,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-3072-256-probable-unverifiable-sha2-384.json",
+	"PoolName": "dsa-3072-256-probable-unverifiable-sha2-384",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -3473,7 +3473,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-3072-256-probable-unverifiable-sha2-512.json",
+	"PoolName": "dsa-3072-256-probable-unverifiable-sha2-512",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -3493,7 +3493,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-3072-256-probable-unverifiable-sha2-512-224.json",
+	"PoolName": "dsa-3072-256-probable-unverifiable-sha2-512-224",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -3513,7 +3513,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-3072-256-probable-unverifiable-sha2-512-256.json",
+	"PoolName": "dsa-3072-256-probable-unverifiable-sha2-512-256",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -3533,7 +3533,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-3072-256-probable-canonical-sha-1.json",
+	"PoolName": "dsa-3072-256-probable-canonical-sha-1",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -3553,7 +3553,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-3072-256-probable-canonical-sha2-224.json",
+	"PoolName": "dsa-3072-256-probable-canonical-sha2-224",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -3573,7 +3573,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-3072-256-probable-canonical-sha2-256.json",
+	"PoolName": "dsa-3072-256-probable-canonical-sha2-256",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -3593,7 +3593,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-3072-256-probable-canonical-sha2-384.json",
+	"PoolName": "dsa-3072-256-probable-canonical-sha2-384",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -3613,7 +3613,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-3072-256-probable-canonical-sha2-512.json",
+	"PoolName": "dsa-3072-256-probable-canonical-sha2-512",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -3633,7 +3633,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-3072-256-probable-canonical-sha2-512-224.json",
+	"PoolName": "dsa-3072-256-probable-canonical-sha2-512-224",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -3653,7 +3653,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-3072-256-probable-canonical-sha2-512-256.json",
+	"PoolName": "dsa-3072-256-probable-canonical-sha2-512-256",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -3673,7 +3673,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-3072-256-provable-unverifiable-sha-1.json",
+	"PoolName": "dsa-3072-256-provable-unverifiable-sha-1",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -3693,7 +3693,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-3072-256-provable-unverifiable-sha2-224.json",
+	"PoolName": "dsa-3072-256-provable-unverifiable-sha2-224",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -3713,7 +3713,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-3072-256-provable-unverifiable-sha2-256.json",
+	"PoolName": "dsa-3072-256-provable-unverifiable-sha2-256",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -3733,7 +3733,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-3072-256-provable-unverifiable-sha2-384.json",
+	"PoolName": "dsa-3072-256-provable-unverifiable-sha2-384",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -3753,7 +3753,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-3072-256-provable-unverifiable-sha2-512.json",
+	"PoolName": "dsa-3072-256-provable-unverifiable-sha2-512",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -3773,7 +3773,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-3072-256-provable-unverifiable-sha2-512-224.json",
+	"PoolName": "dsa-3072-256-provable-unverifiable-sha2-512-224",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -3793,7 +3793,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-3072-256-provable-unverifiable-sha2-512-256.json",
+	"PoolName": "dsa-3072-256-provable-unverifiable-sha2-512-256",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -3813,7 +3813,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-3072-256-provable-canonical-sha-1.json",
+	"PoolName": "dsa-3072-256-provable-canonical-sha-1",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -3833,7 +3833,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-3072-256-provable-canonical-sha2-224.json",
+	"PoolName": "dsa-3072-256-provable-canonical-sha2-224",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -3853,7 +3853,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-3072-256-provable-canonical-sha2-256.json",
+	"PoolName": "dsa-3072-256-provable-canonical-sha2-256",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -3873,7 +3873,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-3072-256-provable-canonical-sha2-384.json",
+	"PoolName": "dsa-3072-256-provable-canonical-sha2-384",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -3893,7 +3893,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-3072-256-provable-canonical-sha2-512.json",
+	"PoolName": "dsa-3072-256-provable-canonical-sha2-512",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -3913,7 +3913,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-3072-256-provable-canonical-sha2-512-224.json",
+	"PoolName": "dsa-3072-256-provable-canonical-sha2-512-224",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -3933,7 +3933,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "dsa-3072-256-provable-canonical-sha2-512-256.json",
+	"PoolName": "dsa-3072-256-provable-canonical-sha2-512-256",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -3946,7 +3946,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "ecdsa-p-192.json",
+	"PoolName": "ecdsa-p-192",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -3959,7 +3959,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "ecdsa-p-224.json",
+	"PoolName": "ecdsa-p-224",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -3972,7 +3972,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "ecdsa-p-256.json",
+	"PoolName": "ecdsa-p-256",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -3985,7 +3985,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "ecdsa-p-384.json",
+	"PoolName": "ecdsa-p-384",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -3998,7 +3998,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "ecdsa-p-521.json",
+	"PoolName": "ecdsa-p-521",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -4011,7 +4011,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "ecdsa-k-163.json",
+	"PoolName": "ecdsa-k-163",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -4024,7 +4024,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "ecdsa-k-233.json",
+	"PoolName": "ecdsa-k-233",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -4037,7 +4037,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "ecdsa-k-283.json",
+	"PoolName": "ecdsa-k-283",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -4050,7 +4050,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "ecdsa-k-409.json",
+	"PoolName": "ecdsa-k-409",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -4063,7 +4063,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "ecdsa-k-571.json",
+	"PoolName": "ecdsa-k-571",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -4076,7 +4076,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "ecdsa-b-163.json",
+	"PoolName": "ecdsa-b-163",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -4089,7 +4089,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "ecdsa-b-233.json",
+	"PoolName": "ecdsa-b-233",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -4102,7 +4102,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "ecdsa-b-283.json",
+	"PoolName": "ecdsa-b-283",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -4115,7 +4115,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "ecdsa-b-409.json",
+	"PoolName": "ecdsa-b-409",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -4128,7 +4128,7 @@
 			"Disposition": "none"
 		}
 	},
-	"FilePath": "ecdsa-b-571.json",
+	"PoolName": "ecdsa-b-571",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -4143,7 +4143,7 @@
 			"Direction": "encrypt"
 		}
 	},
-	"FilePath": "aes-ecb-128-encrypt.json",
+	"PoolName": "aes-ecb-128-encrypt",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -4158,7 +4158,7 @@
 			"Direction": "decrypt"
 		}
 	},
-	"FilePath": "aes-ecb-128-decrypt.json",
+	"PoolName": "aes-ecb-128-decrypt",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -4173,7 +4173,7 @@
 			"Direction": "encrypt"
 		}
 	},
-	"FilePath": "aes-ecb-192-encrypt.json",
+	"PoolName": "aes-ecb-192-encrypt",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -4188,7 +4188,7 @@
 			"Direction": "decrypt"
 		}
 	},
-	"FilePath": "aes-ecb-192-decrypt.json",
+	"PoolName": "aes-ecb-192-decrypt",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -4203,7 +4203,7 @@
 			"Direction": "encrypt"
 		}
 	},
-	"FilePath": "aes-ecb-256-encrypt.json",
+	"PoolName": "aes-ecb-256-encrypt",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -4218,7 +4218,7 @@
 			"Direction": "decrypt"
 		}
 	},
-	"FilePath": "aes-ecb-256-decrypt.json",
+	"PoolName": "aes-ecb-256-decrypt",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -4233,7 +4233,7 @@
 			"Direction": "encrypt"
 		}
 	},
-	"FilePath": "aes-cbc-128-encrypt.json",
+	"PoolName": "aes-cbc-128-encrypt",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -4248,7 +4248,7 @@
 			"Direction": "decrypt"
 		}
 	},
-	"FilePath": "aes-cbc-128-decrypt.json",
+	"PoolName": "aes-cbc-128-decrypt",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -4263,7 +4263,7 @@
 			"Direction": "encrypt"
 		}
 	},
-	"FilePath": "aes-cbc-192-encrypt.json",
+	"PoolName": "aes-cbc-192-encrypt",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -4278,7 +4278,7 @@
 			"Direction": "decrypt"
 		}
 	},
-	"FilePath": "aes-cbc-192-decrypt.json",
+	"PoolName": "aes-cbc-192-decrypt",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -4293,7 +4293,7 @@
 			"Direction": "encrypt"
 		}
 	},
-	"FilePath": "aes-cbc-256-encrypt.json",
+	"PoolName": "aes-cbc-256-encrypt",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -4308,7 +4308,7 @@
 			"Direction": "decrypt"
 		}
 	},
-	"FilePath": "aes-cbc-256-decrypt.json",
+	"PoolName": "aes-cbc-256-decrypt",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -4323,7 +4323,7 @@
 			"Direction": "encrypt"
 		}
 	},
-	"FilePath": "aes-ofb-128-encrypt.json",
+	"PoolName": "aes-ofb-128-encrypt",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -4338,7 +4338,7 @@
 			"Direction": "decrypt"
 		}
 	},
-	"FilePath": "aes-ofb-128-decrypt.json",
+	"PoolName": "aes-ofb-128-decrypt",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -4353,7 +4353,7 @@
 			"Direction": "encrypt"
 		}
 	},
-	"FilePath": "aes-ofb-192-encrypt.json",
+	"PoolName": "aes-ofb-192-encrypt",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -4368,7 +4368,7 @@
 			"Direction": "decrypt"
 		}
 	},
-	"FilePath": "aes-ofb-192-decrypt.json",
+	"PoolName": "aes-ofb-192-decrypt",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -4383,7 +4383,7 @@
 			"Direction": "encrypt"
 		}
 	},
-	"FilePath": "aes-ofb-256-encrypt.json",
+	"PoolName": "aes-ofb-256-encrypt",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -4398,7 +4398,7 @@
 			"Direction": "decrypt"
 		}
 	},
-	"FilePath": "aes-ofb-256-decrypt.json",
+	"PoolName": "aes-ofb-256-decrypt",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -4413,7 +4413,7 @@
 			"Direction": "encrypt"
 		}
 	},
-	"FilePath": "aes-cfbbit-128-encrypt.json",
+	"PoolName": "aes-cfbbit-128-encrypt",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -4428,7 +4428,7 @@
 			"Direction": "decrypt"
 		}
 	},
-	"FilePath": "aes-cfbbit-128-decrypt.json",
+	"PoolName": "aes-cfbbit-128-decrypt",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -4443,7 +4443,7 @@
 			"Direction": "encrypt"
 		}
 	},
-	"FilePath": "aes-cfbbit-192-encrypt.json",
+	"PoolName": "aes-cfbbit-192-encrypt",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -4458,7 +4458,7 @@
 			"Direction": "decrypt"
 		}
 	},
-	"FilePath": "aes-cfbbit-192-decrypt.json",
+	"PoolName": "aes-cfbbit-192-decrypt",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -4473,7 +4473,7 @@
 			"Direction": "encrypt"
 		}
 	},
-	"FilePath": "aes-cfbbit-256-encrypt.json",
+	"PoolName": "aes-cfbbit-256-encrypt",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -4488,7 +4488,7 @@
 			"Direction": "decrypt"
 		}
 	},
-	"FilePath": "aes-cfbbit-256-decrypt.json",
+	"PoolName": "aes-cfbbit-256-decrypt",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -4503,7 +4503,7 @@
 			"Direction": "encrypt"
 		}
 	},
-	"FilePath": "aes-cfbbyte-128-encrypt.json",
+	"PoolName": "aes-cfbbyte-128-encrypt",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -4518,7 +4518,7 @@
 			"Direction": "decrypt"
 		}
 	},
-	"FilePath": "aes-cfbbyte-128-decrypt.json",
+	"PoolName": "aes-cfbbyte-128-decrypt",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -4533,7 +4533,7 @@
 			"Direction": "encrypt"
 		}
 	},
-	"FilePath": "aes-cfbbyte-192-encrypt.json",
+	"PoolName": "aes-cfbbyte-192-encrypt",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -4548,7 +4548,7 @@
 			"Direction": "decrypt"
 		}
 	},
-	"FilePath": "aes-cfbbyte-192-decrypt.json",
+	"PoolName": "aes-cfbbyte-192-decrypt",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -4563,7 +4563,7 @@
 			"Direction": "encrypt"
 		}
 	},
-	"FilePath": "aes-cfbbyte-256-encrypt.json",
+	"PoolName": "aes-cfbbyte-256-encrypt",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -4578,7 +4578,7 @@
 			"Direction": "decrypt"
 		}
 	},
-	"FilePath": "aes-cfbbyte-256-decrypt.json",
+	"PoolName": "aes-cfbbyte-256-decrypt",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -4593,7 +4593,7 @@
 			"Direction": "encrypt"
 		}
 	},
-	"FilePath": "aes-cfbblock-128-encrypt.json",
+	"PoolName": "aes-cfbblock-128-encrypt",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -4608,7 +4608,7 @@
 			"Direction": "decrypt"
 		}
 	},
-	"FilePath": "aes-cfbblock-128-decrypt.json",
+	"PoolName": "aes-cfbblock-128-decrypt",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -4623,7 +4623,7 @@
 			"Direction": "encrypt"
 		}
 	},
-	"FilePath": "aes-cfbblock-192-encrypt.json",
+	"PoolName": "aes-cfbblock-192-encrypt",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -4638,7 +4638,7 @@
 			"Direction": "decrypt"
 		}
 	},
-	"FilePath": "aes-cfbblock-192-decrypt.json",
+	"PoolName": "aes-cfbblock-192-decrypt",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -4653,7 +4653,7 @@
 			"Direction": "encrypt"
 		}
 	},
-	"FilePath": "aes-cfbblock-256-encrypt.json",
+	"PoolName": "aes-cfbblock-256-encrypt",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -4668,7 +4668,7 @@
 			"Direction": "decrypt"
 		}
 	},
-	"FilePath": "aes-cfbblock-256-decrypt.json",
+	"PoolName": "aes-cfbblock-256-decrypt",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -4683,7 +4683,7 @@
 			"Direction": "encrypt"
 		}
 	},
-	"FilePath": "tdes-ecb-encrypt-keyingoption-1.json",
+	"PoolName": "tdes-ecb-encrypt-keyingoption-1",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -4698,7 +4698,7 @@
 			"Direction": "decrypt"
 		}
 	},
-	"FilePath": "tdes-ecb-decrypt-keyingoption-1.json",
+	"PoolName": "tdes-ecb-decrypt-keyingoption-1",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -4713,7 +4713,7 @@
 			"Direction": "encrypt"
 		}
 	},
-	"FilePath": "tdes-ecb-encrypt-keyingoption-2.json",
+	"PoolName": "tdes-ecb-encrypt-keyingoption-2",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -4728,7 +4728,7 @@
 			"Direction": "decrypt"
 		}
 	},
-	"FilePath": "tdes-ecb-decrypt-keyingoption-2.json",
+	"PoolName": "tdes-ecb-decrypt-keyingoption-2",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -4743,7 +4743,7 @@
 			"Direction": "encrypt"
 		}
 	},
-	"FilePath": "tdes-cbc-encrypt-keyingoption-1.json",
+	"PoolName": "tdes-cbc-encrypt-keyingoption-1",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -4758,7 +4758,7 @@
 			"Direction": "decrypt"
 		}
 	},
-	"FilePath": "tdes-cbc-decrypt-keyingoption-1.json",
+	"PoolName": "tdes-cbc-decrypt-keyingoption-1",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -4773,7 +4773,7 @@
 			"Direction": "encrypt"
 		}
 	},
-	"FilePath": "tdes-cbc-encrypt-keyingoption-2.json",
+	"PoolName": "tdes-cbc-encrypt-keyingoption-2",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -4788,7 +4788,7 @@
 			"Direction": "decrypt"
 		}
 	},
-	"FilePath": "tdes-cbc-decrypt-keyingoption-2.json",
+	"PoolName": "tdes-cbc-decrypt-keyingoption-2",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -4803,7 +4803,7 @@
 			"Direction": "encrypt"
 		}
 	},
-	"FilePath": "tdes-cbci-encrypt-keyingoption-1.json",
+	"PoolName": "tdes-cbci-encrypt-keyingoption-1",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -4818,7 +4818,7 @@
 			"Direction": "decrypt"
 		}
 	},
-	"FilePath": "tdes-cbci-decrypt-keyingoption-1.json",
+	"PoolName": "tdes-cbci-decrypt-keyingoption-1",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -4833,7 +4833,7 @@
 			"Direction": "encrypt"
 		}
 	},
-	"FilePath": "tdes-cbci-encrypt-keyingoption-2.json",
+	"PoolName": "tdes-cbci-encrypt-keyingoption-2",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -4848,7 +4848,7 @@
 			"Direction": "decrypt"
 		}
 	},
-	"FilePath": "tdes-cbci-decrypt-keyingoption-2.json",
+	"PoolName": "tdes-cbci-decrypt-keyingoption-2",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -4863,7 +4863,7 @@
 			"Direction": "encrypt"
 		}
 	},
-	"FilePath": "tdes-ofbi-encrypt-keyingoption-1.json",
+	"PoolName": "tdes-ofbi-encrypt-keyingoption-1",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -4878,7 +4878,7 @@
 			"Direction": "decrypt"
 		}
 	},
-	"FilePath": "tdes-ofbi-decrypt-keyingoption-1.json",
+	"PoolName": "tdes-ofbi-decrypt-keyingoption-1",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -4893,7 +4893,7 @@
 			"Direction": "encrypt"
 		}
 	},
-	"FilePath": "tdes-ofbi-encrypt-keyingoption-2.json",
+	"PoolName": "tdes-ofbi-encrypt-keyingoption-2",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -4908,7 +4908,7 @@
 			"Direction": "decrypt"
 		}
 	},
-	"FilePath": "tdes-ofbi-decrypt-keyingoption-2.json",
+	"PoolName": "tdes-ofbi-decrypt-keyingoption-2",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -4923,7 +4923,7 @@
 			"Direction": "encrypt"
 		}
 	},
-	"FilePath": "tdes-cfbbit-encrypt-keyingoption-1.json",
+	"PoolName": "tdes-cfbbit-encrypt-keyingoption-1",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -4938,7 +4938,7 @@
 			"Direction": "decrypt"
 		}
 	},
-	"FilePath": "tdes-cfbbit-decrypt-keyingoption-1.json",
+	"PoolName": "tdes-cfbbit-decrypt-keyingoption-1",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -4953,7 +4953,7 @@
 			"Direction": "encrypt"
 		}
 	},
-	"FilePath": "tdes-cfbbit-encrypt-keyingoption-2.json",
+	"PoolName": "tdes-cfbbit-encrypt-keyingoption-2",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -4968,7 +4968,7 @@
 			"Direction": "decrypt"
 		}
 	},
-	"FilePath": "tdes-cfbbit-decrypt-keyingoption-2.json",
+	"PoolName": "tdes-cfbbit-decrypt-keyingoption-2",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -4983,7 +4983,7 @@
 			"Direction": "encrypt"
 		}
 	},
-	"FilePath": "tdes-cfbbyte-encrypt-keyingoption-1.json",
+	"PoolName": "tdes-cfbbyte-encrypt-keyingoption-1",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -4998,7 +4998,7 @@
 			"Direction": "decrypt"
 		}
 	},
-	"FilePath": "tdes-cfbbyte-decrypt-keyingoption-1.json",
+	"PoolName": "tdes-cfbbyte-decrypt-keyingoption-1",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -5013,7 +5013,7 @@
 			"Direction": "encrypt"
 		}
 	},
-	"FilePath": "tdes-cfbbyte-encrypt-keyingoption-2.json",
+	"PoolName": "tdes-cfbbyte-encrypt-keyingoption-2",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -5028,7 +5028,7 @@
 			"Direction": "decrypt"
 		}
 	},
-	"FilePath": "tdes-cfbbyte-decrypt-keyingoption-2.json",
+	"PoolName": "tdes-cfbbyte-decrypt-keyingoption-2",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -5043,7 +5043,7 @@
 			"Direction": "encrypt"
 		}
 	},
-	"FilePath": "tdes-cfbblock-encrypt-keyingoption-1.json",
+	"PoolName": "tdes-cfbblock-encrypt-keyingoption-1",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -5058,7 +5058,7 @@
 			"Direction": "decrypt"
 		}
 	},
-	"FilePath": "tdes-cfbblock-decrypt-keyingoption-1.json",
+	"PoolName": "tdes-cfbblock-decrypt-keyingoption-1",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -5073,7 +5073,7 @@
 			"Direction": "encrypt"
 		}
 	},
-	"FilePath": "tdes-cfbblock-encrypt-keyingoption-2.json",
+	"PoolName": "tdes-cfbblock-encrypt-keyingoption-2",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -5088,7 +5088,7 @@
 			"Direction": "decrypt"
 		}
 	},
-	"FilePath": "tdes-cfbblock-decrypt-keyingoption-2.json",
+	"PoolName": "tdes-cfbblock-decrypt-keyingoption-2",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -5103,7 +5103,7 @@
 			"Direction": "encrypt"
 		}
 	},
-	"FilePath": "tdes-cfbpbit-encrypt-keyingoption-1.json",
+	"PoolName": "tdes-cfbpbit-encrypt-keyingoption-1",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -5118,7 +5118,7 @@
 			"Direction": "decrypt"
 		}
 	},
-	"FilePath": "tdes-cfbpbit-decrypt-keyingoption-1.json",
+	"PoolName": "tdes-cfbpbit-decrypt-keyingoption-1",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -5133,7 +5133,7 @@
 			"Direction": "encrypt"
 		}
 	},
-	"FilePath": "tdes-cfbpbit-encrypt-keyingoption-2.json",
+	"PoolName": "tdes-cfbpbit-encrypt-keyingoption-2",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -5148,7 +5148,7 @@
 			"Direction": "decrypt"
 		}
 	},
-	"FilePath": "tdes-cfbpbit-decrypt-keyingoption-2.json",
+	"PoolName": "tdes-cfbpbit-decrypt-keyingoption-2",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -5163,7 +5163,7 @@
 			"Direction": "encrypt"
 		}
 	},
-	"FilePath": "tdes-cfbpbyte-encrypt-keyingoption-1.json",
+	"PoolName": "tdes-cfbpbyte-encrypt-keyingoption-1",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -5178,7 +5178,7 @@
 			"Direction": "decrypt"
 		}
 	},
-	"FilePath": "tdes-cfbpbyte-decrypt-keyingoption-1.json",
+	"PoolName": "tdes-cfbpbyte-decrypt-keyingoption-1",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -5193,7 +5193,7 @@
 			"Direction": "encrypt"
 		}
 	},
-	"FilePath": "tdes-cfbpbyte-encrypt-keyingoption-2.json",
+	"PoolName": "tdes-cfbpbyte-encrypt-keyingoption-2",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -5208,7 +5208,7 @@
 			"Direction": "decrypt"
 		}
 	},
-	"FilePath": "tdes-cfbpbyte-decrypt-keyingoption-2.json",
+	"PoolName": "tdes-cfbpbyte-decrypt-keyingoption-2",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -5223,7 +5223,7 @@
 			"Direction": "encrypt"
 		}
 	},
-	"FilePath": "tdes-cfbpblock-encrypt-keyingoption-1.json",
+	"PoolName": "tdes-cfbpblock-encrypt-keyingoption-1",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -5238,7 +5238,7 @@
 			"Direction": "decrypt"
 		}
 	},
-	"FilePath": "tdes-cfbpblock-decrypt-keyingoption-1.json",
+	"PoolName": "tdes-cfbpblock-decrypt-keyingoption-1",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -5253,7 +5253,7 @@
 			"Direction": "encrypt"
 		}
 	},
-	"FilePath": "tdes-cfbpblock-encrypt-keyingoption-2.json",
+	"PoolName": "tdes-cfbpblock-encrypt-keyingoption-2",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90
@@ -5268,7 +5268,7 @@
 			"Direction": "decrypt"
 		}
 	},
-	"FilePath": "tdes-cfbpblock-decrypt-keyingoption-2.json",
+	"PoolName": "tdes-cfbpblock-decrypt-keyingoption-2",
 	"MaxCapacity": 20000,
 	"MinCapacity": 1000,
 	"RecycleRatePerHundred": 90

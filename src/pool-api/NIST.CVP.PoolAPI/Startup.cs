@@ -7,6 +7,8 @@ using NIST.CVP.Common.Config;
 using NIST.CVP.Common.Oracle;
 using NIST.CVP.Crypto.Oracle;
 using NIST.CVP.Pools;
+using NIST.CVP.Pools.Interfaces;
+using NIST.CVP.Pools.Services;
 using NLog;
 
 namespace NIST.CVP.PoolAPI
@@ -29,7 +31,9 @@ namespace NIST.CVP.PoolAPI
             services.Configure<AlgorithmConfig>(Configuration.GetSection(nameof(AlgorithmConfig)));
             services.Configure<PoolConfig>(Configuration.GetSection(nameof(PoolConfig)));
             services.Configure<OrleansConfig>(Configuration.GetSection(nameof(OrleansConfig)));
-            
+
+            services.AddSingleton<IMongoDbFactory, MongoDbFactory>();
+            services.AddSingleton<IPoolRepositoryFactory, PoolRepositoryFactory>();
             services.AddSingleton<IOracle, Oracle>();
             services.AddSingleton<PoolManager>();
         }

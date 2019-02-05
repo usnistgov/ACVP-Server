@@ -5,6 +5,7 @@ using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Math;
 using NIST.CVP.Pools.Enums;
+using NIST.CVP.Pools.Interfaces;
 using NIST.CVP.Pools.Models;
 using NLog;
 using System;
@@ -40,6 +41,7 @@ namespace NIST.CVP.Pools
         protected readonly IOracle Oracle;
         protected readonly ConcurrentQueue<TResult> Water;
         protected readonly ConcurrentQueue<TResult> StagingWater;
+        protected readonly IPoolRepository<TResult> PoolRepository;
         
         private readonly IList<JsonConverter> _jsonConverters;
         private readonly IOptions<PoolConfig> _poolConfig;
@@ -49,7 +51,8 @@ namespace NIST.CVP.Pools
         {
             _poolConfig = param.PoolConfig;
             _jsonConverters = param.JsonConverters;
-            _fullPoolLocation = param.FullPoolLocation;
+            _fullPoolLocation = param.PoolName;
+            PoolRepository = param.PoolRepositoryFactory.GetRepository<TResult>();
 
             DeclaredType = param.PoolProperties.PoolType.Type;
             MaxWaterLevel = param.PoolProperties.MaxCapacity;

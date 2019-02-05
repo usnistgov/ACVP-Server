@@ -8,6 +8,7 @@ using NIST.CVP.Crypto.Common.Hash.SHA2;
 using NIST.CVP.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.Math;
 using NIST.CVP.Pools.Enums;
+using NIST.CVP.Pools.Interfaces;
 using NIST.CVP.Pools.Models;
 using NIST.CVP.Tests.Core;
 using NUnit.Framework;
@@ -22,6 +23,7 @@ namespace NIST.CVP.Pools.Tests
     {
         private readonly Mock<IOptions<PoolConfig>> _mockOptionsPoolConfig = new Mock<IOptions<PoolConfig>>();
         private readonly Mock<IOracle> _mockOracle = new Mock<IOracle>();
+        private readonly Mock<IPoolRepositoryFactory> _mockPoolRepositoryFactory = new Mock<IPoolRepositoryFactory>();
         private readonly PoolConfig _poolConfig = new PoolConfig()
         {
             Port = 42,
@@ -39,7 +41,7 @@ namespace NIST.CVP.Pools.Tests
             _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\");
             _poolConfig.PoolConfigFile = Path.Combine(_testPath, _configFile);
             _poolConfig.PoolDirectory = _testPath;
-            _subject = new PoolManager(_mockOptionsPoolConfig.Object, _mockOracle.Object);
+            _subject = new PoolManager(_mockOptionsPoolConfig.Object, _mockOracle.Object, _mockPoolRepositoryFactory.Object);
         }
 
         [Test]
@@ -251,7 +253,7 @@ namespace NIST.CVP.Pools.Tests
             var prechangeConfig = _subject.GetPoolProperties().First();
             var newConfig = new PoolProperties()
             {
-                FilePath = prechangeConfig.FilePath,
+                PoolName = prechangeConfig.PoolName,
                 MaxCapacity = prechangeConfig.MaxCapacity,
                 MinCapacity = prechangeConfig.MinCapacity + 1,
                 RecycleRatePerHundred = prechangeConfig.RecycleRatePerHundred,
@@ -271,14 +273,14 @@ namespace NIST.CVP.Pools.Tests
             var fullPath = Path.Combine(_testPath, "saveChangesConfig.json");
             _poolConfig.PoolConfigFile = fullPath;
 
-            _subject = new PoolManager(_mockOptionsPoolConfig.Object, _mockOracle.Object);
+            _subject = new PoolManager(_mockOptionsPoolConfig.Object, _mockOracle.Object, _mockPoolRepositoryFactory.Object);
             
             // Change the pool configuration
             var prechangeConfig = _subject.GetPoolProperties().First();
             // copy of object as to not work with the original reference
             var prechangeConfigCopy = new PoolProperties()
             {
-                FilePath = prechangeConfig.FilePath,
+                PoolName = prechangeConfig.PoolName,
                 MaxCapacity = prechangeConfig.MaxCapacity,
                 MinCapacity = prechangeConfig.MinCapacity,
                 RecycleRatePerHundred = prechangeConfig.RecycleRatePerHundred,
@@ -286,7 +288,7 @@ namespace NIST.CVP.Pools.Tests
             };
             var newConfig = new PoolProperties()
             {
-                FilePath = prechangeConfigCopy.FilePath,
+                PoolName = prechangeConfigCopy.PoolName,
                 MaxCapacity = prechangeConfigCopy.MaxCapacity,
                 MinCapacity = prechangeConfigCopy.MinCapacity + 42,
                 RecycleRatePerHundred = prechangeConfigCopy.RecycleRatePerHundred,
@@ -296,7 +298,7 @@ namespace NIST.CVP.Pools.Tests
             _subject.SavePoolConfigs();
 
             // Reinitialize pools
-            _subject = new PoolManager(_mockOptionsPoolConfig.Object, _mockOracle.Object);
+            _subject = new PoolManager(_mockOptionsPoolConfig.Object, _mockOracle.Object, _mockPoolRepositoryFactory.Object);
             
             var postChangeConfig = _subject.GetPoolProperties().First();
 
@@ -307,7 +309,7 @@ namespace NIST.CVP.Pools.Tests
             _subject.SavePoolConfigs();
 
             // Reinitialize pools
-            _subject = new PoolManager(_mockOptionsPoolConfig.Object, _mockOracle.Object);
+            _subject = new PoolManager(_mockOptionsPoolConfig.Object, _mockOracle.Object, _mockPoolRepositoryFactory.Object);
             
             var validateOriginalChangeConfig = _subject.GetPoolProperties().First();
 
@@ -320,7 +322,7 @@ namespace NIST.CVP.Pools.Tests
             var fullPath = Path.Combine(_testPath, "fillPoolConfig.json");
             _poolConfig.PoolConfigFile = fullPath;
 
-            _subject = new PoolManager(_mockOptionsPoolConfig.Object, _mockOracle.Object);
+            _subject = new PoolManager(_mockOptionsPoolConfig.Object, _mockOracle.Object, _mockPoolRepositoryFactory.Object);
             
             var waterCount = _subject.Pools.Sum(s => s.WaterLevel);
 
@@ -342,7 +344,7 @@ namespace NIST.CVP.Pools.Tests
             var fullPath = Path.Combine(_testPath, "fillPoolConfig.json");
             _poolConfig.PoolConfigFile = fullPath;
 
-            _subject = new PoolManager(_mockOptionsPoolConfig.Object, _mockOracle.Object);
+            _subject = new PoolManager(_mockOptionsPoolConfig.Object, _mockOracle.Object, _mockPoolRepositoryFactory.Object);
 
             int waterCount = _subject.Pools.Sum(s => s.WaterLevel);
 
@@ -372,7 +374,7 @@ namespace NIST.CVP.Pools.Tests
             var fullPath = Path.Combine(_testPath, "fillPoolConfig.json");
             _poolConfig.PoolConfigFile = fullPath;
 
-            _subject = new PoolManager(_mockOptionsPoolConfig.Object, _mockOracle.Object);
+            _subject = new PoolManager(_mockOptionsPoolConfig.Object, _mockOracle.Object, _mockPoolRepositoryFactory.Object);
 
             // Should be a total of 2 pools at 0 water level
             Assert.IsTrue(_subject.Pools.Count(c => c.WaterLevel == 0) == 2, "Expecting empty pools");
@@ -401,7 +403,7 @@ namespace NIST.CVP.Pools.Tests
             var fullPath = Path.Combine(_testPath, "fillPoolConfig.json");
             _poolConfig.PoolConfigFile = fullPath;
 
-            _subject = new PoolManager(_mockOptionsPoolConfig.Object, _mockOracle.Object);
+            _subject = new PoolManager(_mockOptionsPoolConfig.Object, _mockOracle.Object, _mockPoolRepositoryFactory.Object);
             
             var waterCount = _subject.Pools.Sum(s => s.WaterLevel);
 
