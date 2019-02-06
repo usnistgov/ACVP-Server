@@ -14,6 +14,6 @@ namespace NIST.CVP.Pools.Interfaces
         /// <typeparam name="TResult"></typeparam>
         /// <param name="result"></param>
         /// <returns></returns>
-        MongoPoolObject<TResult> WrapResult<TResult>(TResult result) where TResult : IResult;
+        MongoPoolObject<TResult> WrapResult<TResult>(TResult result);
     }
 }

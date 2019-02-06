@@ -32,6 +32,8 @@ namespace NIST.CVP.PoolAPI
             services.Configure<PoolConfig>(Configuration.GetSection(nameof(PoolConfig)));
             services.Configure<OrleansConfig>(Configuration.GetSection(nameof(OrleansConfig)));
 
+            services.AddSingleton<IJsonConverterProvider, JsonConverterProvider>();
+            services.AddSingleton<IBsonConverter, BsonConverter>();
             services.AddSingleton<IMongoPoolObjectFactory, MongoPoolObjectFactory>();
             services.AddSingleton<IMongoDbFactory, MongoDbFactory>();
             services.AddSingleton<IPoolRepositoryFactory, PoolRepositoryFactory>();

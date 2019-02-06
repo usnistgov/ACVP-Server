@@ -6,7 +6,7 @@ namespace NIST.CVP.Pools.Services
 {
     public class MongoPoolObjectFactory : IMongoPoolObjectFactory
     {
-        public MongoPoolObject<TResult> WrapResult<TResult>(TResult result) where TResult : IResult
+        public MongoPoolObject<TResult> WrapResult<TResult>(TResult result)
         {
             return new MongoPoolObject<TResult>()
             {

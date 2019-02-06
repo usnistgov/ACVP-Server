@@ -32,18 +32,13 @@ namespace NIST.CVP.Pools
         private PoolProperties[] _properties;
         private bool _poolsLoaded;
         
-        private readonly IList<JsonConverter> _jsonConverters = new List<JsonConverter>
-        {
-            new BitstringConverter(),
-            new DomainConverter(),
-            new BigIntegerConverter(),
-            new StringEnumConverter()
-        };
+        private readonly IList<JsonConverter> _jsonConverters;
 
         public PoolManager(
             IOptions<PoolConfig> poolConfig, 
             IOracle oracle,
-            IPoolRepositoryFactory poolRepositoryFactory
+            IPoolRepositoryFactory poolRepositoryFactory,
+            IJsonConverterProvider jsonConverterProvider
         )
         {
             _poolConfig = poolConfig;
@@ -51,6 +46,7 @@ namespace NIST.CVP.Pools
             _poolDirectory = _poolConfig.Value.PoolDirectory;
             _poolConfigFile = _poolConfig.Value.PoolConfigFile;
             _poolRepositoryFactory = poolRepositoryFactory;
+            _jsonConverters = jsonConverterProvider.GetJsonConverters();
 
             LoadPoolsAsync().FireAndForget();
         }

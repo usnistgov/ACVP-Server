@@ -9,22 +9,30 @@ namespace NIST.CVP.Pools.Services
     {
         private readonly IMongoDbFactory _mongoDbFactory;
         private readonly IMongoPoolObjectFactory _mongoPoolObjectFactory;
+        private readonly IBsonConverter _bsonConverter;
         private readonly IOptions<PoolConfig> _poolConfig;
 
         public PoolRepositoryFactory(
             IMongoDbFactory mongoDbFactory, 
             IMongoPoolObjectFactory mongoPoolObjectFactory, 
+            IBsonConverter bsonConverter,
             IOptions<PoolConfig> poolConfig
         )
         {
             _mongoDbFactory = mongoDbFactory;
             _mongoPoolObjectFactory = mongoPoolObjectFactory;
+            _bsonConverter = bsonConverter;
             _poolConfig = poolConfig;
         }
 
         public IPoolRepository<TResult> GetRepository<TResult>() where TResult : IResult
         {
-            return new PoolRepository<TResult>(_mongoDbFactory, _mongoPoolObjectFactory, _poolConfig);
+            return new PoolRepository<TResult>(
+                _mongoDbFactory, 
+                _mongoPoolObjectFactory, 
+                _bsonConverter,
+                _poolConfig
+            );
         }
     }
 }

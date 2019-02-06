@@ -8,7 +8,6 @@ using MongoDB.Bson.Serialization.Attributes;
 namespace NIST.CVP.Pools.Models
 {
     public class MongoPoolObject<TResult>
-        where TResult : IResult
     {
         [BsonId]
         public ObjectId Id { get; set; } = ObjectId.GenerateNewId();
