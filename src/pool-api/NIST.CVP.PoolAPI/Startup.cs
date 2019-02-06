@@ -36,7 +36,7 @@ namespace NIST.CVP.PoolAPI
             services.AddSingleton<IBsonConverter, BsonConverter>();
             services.AddSingleton<IMongoPoolObjectFactory, MongoPoolObjectFactory>();
             services.AddSingleton<IMongoDbFactory, MongoDbFactory>();
-            services.AddSingleton<IPoolRepositoryFactory, PoolRepositoryFactory>();
+            services.AddSingleton<IPoolRepositoryFactory, PoolMongoRepositoryFactory>();
             services.AddSingleton<IOracle, Oracle>();
             services.AddSingleton<PoolManager>();
         }

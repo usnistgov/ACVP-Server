@@ -5,14 +5,14 @@ using NIST.CVP.Pools.Interfaces;
 
 namespace NIST.CVP.Pools.Services
 {
-    public class PoolRepositoryFactory : IPoolRepositoryFactory
+    public class PoolMongoRepositoryFactory : IPoolRepositoryFactory
     {
         private readonly IMongoDbFactory _mongoDbFactory;
         private readonly IMongoPoolObjectFactory _mongoPoolObjectFactory;
         private readonly IBsonConverter _bsonConverter;
         private readonly IOptions<PoolConfig> _poolConfig;
 
-        public PoolRepositoryFactory(
+        public PoolMongoRepositoryFactory(
             IMongoDbFactory mongoDbFactory, 
             IMongoPoolObjectFactory mongoPoolObjectFactory, 
             IBsonConverter bsonConverter,
@@ -27,7 +27,7 @@ namespace NIST.CVP.Pools.Services
 
         public IPoolRepository<TResult> GetRepository<TResult>() where TResult : IResult
         {
-            return new PoolRepository<TResult>(
+            return new PoolMongoRepository<TResult>(
                 _mongoDbFactory, 
                 _mongoPoolObjectFactory, 
                 _bsonConverter,

@@ -8,7 +8,7 @@ using NIST.CVP.Common.ExtensionMethods;
 
 namespace NIST.CVP.Pools.Services
 {
-    public class PoolRepository<TResult> : IPoolRepository<TResult>
+    public class PoolMongoRepository<TResult> : IPoolRepository<TResult>
         where TResult : IResult
     {
         private readonly IMongoDbFactory _mongoDbFactory;
@@ -16,7 +16,7 @@ namespace NIST.CVP.Pools.Services
         private readonly IBsonConverter _bsonConverter;
         private readonly IOptions<PoolConfig> _poolConfig;
 
-        public PoolRepository(
+        public PoolMongoRepository(
             IMongoDbFactory mongoDbFactory, 
             IMongoPoolObjectFactory mongoPoolObjectFactory, 
             IBsonConverter bsonConverter,
