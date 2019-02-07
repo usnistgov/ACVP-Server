@@ -12,7 +12,6 @@ namespace NIST.CVP.Pools.Interfaces
         /// </summary>
         /// <typeparam name="TResult">The type of result supported by the repository.</typeparam>
         /// <returns>A repository supporting the specified type.</returns>
-        IPoolRepository<TResult> GetRepository<TResult>()
-            where TResult : IResult;
+        IPoolRepository<TResult> GetRepository<TResult>() where TResult : IResult;
     }
 }

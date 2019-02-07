@@ -12,9 +12,9 @@ namespace NIST.CVP.Pools.Models
     {
         public IOracle Oracle { get; set; }
         public IPoolRepositoryFactory PoolRepositoryFactory { get; set; }
+        public IPoolObjectFactory PoolObjectFactory { get; set; }
         public IOptions<PoolConfig> PoolConfig { get; set; }
         public TParam WaterType { get; set; }
-        public IList<JsonConverter> JsonConverters { get; set; }
         public PoolProperties PoolProperties { get; set; }
         public string PoolName { get; set; }
     }

@@ -24,6 +24,7 @@ namespace NIST.CVP.Pools.Tests
         private readonly Mock<IOptions<PoolConfig>> _mockOptionsPoolConfig = new Mock<IOptions<PoolConfig>>();
         private readonly Mock<IOracle> _mockOracle = new Mock<IOracle>();
         private readonly Mock<IPoolRepositoryFactory> _mockPoolRepositoryFactory = new Mock<IPoolRepositoryFactory>();
+        private readonly Mock<IPoolObjectFactory> _mockPoolObjectFactory = new Mock<IPoolObjectFactory>();
         private readonly Mock<IJsonConverterProvider> _mockJsonConverterProvider = new Mock<IJsonConverterProvider>();
         private readonly PoolConfig _poolConfig = new PoolConfig()
         {
@@ -42,7 +43,7 @@ namespace NIST.CVP.Pools.Tests
             _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\");
             _poolConfig.PoolConfigFile = Path.Combine(_testPath, _configFile);
             _poolConfig.PoolDirectory = _testPath;
-            _subject = new PoolManager(_mockOptionsPoolConfig.Object, _mockOracle.Object, _mockPoolRepositoryFactory.Object, _mockJsonConverterProvider.Object);
+            _subject = new PoolManager(_mockOptionsPoolConfig.Object, _mockOracle.Object, _mockPoolRepositoryFactory.Object, _mockPoolObjectFactory.Object, _mockJsonConverterProvider.Object);
         }
 
         [Test]
@@ -266,7 +267,13 @@ namespace NIST.CVP.Pools.Tests
             var fullPath = Path.Combine(_testPath, "saveChangesConfig.json");
             _poolConfig.PoolConfigFile = fullPath;
 
-            _subject = new PoolManager(_mockOptionsPoolConfig.Object, _mockOracle.Object, _mockPoolRepositoryFactory.Object, _mockJsonConverterProvider.Object);
+            _subject = new PoolManager(
+                _mockOptionsPoolConfig.Object, 
+                _mockOracle.Object, 
+                _mockPoolRepositoryFactory.Object, 
+                _mockPoolObjectFactory.Object,
+                _mockJsonConverterProvider.Object
+            );
             
             // Change the pool configuration
             var prechangeConfig = _subject.GetPoolProperties().First();
@@ -291,7 +298,13 @@ namespace NIST.CVP.Pools.Tests
             _subject.SavePoolConfigs();
 
             // Reinitialize pools
-            _subject = new PoolManager(_mockOptionsPoolConfig.Object, _mockOracle.Object, _mockPoolRepositoryFactory.Object, _mockJsonConverterProvider.Object);
+            _subject = new PoolManager(
+                _mockOptionsPoolConfig.Object, 
+                _mockOracle.Object, 
+                _mockPoolRepositoryFactory.Object, 
+                _mockPoolObjectFactory.Object,
+                _mockJsonConverterProvider.Object
+            );
             
             var postChangeConfig = _subject.GetPoolProperties().First();
 
@@ -302,7 +315,13 @@ namespace NIST.CVP.Pools.Tests
             _subject.SavePoolConfigs();
 
             // Reinitialize pools
-            _subject = new PoolManager(_mockOptionsPoolConfig.Object, _mockOracle.Object, _mockPoolRepositoryFactory.Object, _mockJsonConverterProvider.Object);
+            _subject = new PoolManager(
+                _mockOptionsPoolConfig.Object, 
+                _mockOracle.Object, 
+                _mockPoolRepositoryFactory.Object, 
+                _mockPoolObjectFactory.Object,
+                _mockJsonConverterProvider.Object
+            );
             
             var validateOriginalChangeConfig = _subject.GetPoolProperties().First();
 
@@ -315,7 +334,13 @@ namespace NIST.CVP.Pools.Tests
             var fullPath = Path.Combine(_testPath, "fillPoolConfig.json");
             _poolConfig.PoolConfigFile = fullPath;
 
-            _subject = new PoolManager(_mockOptionsPoolConfig.Object, _mockOracle.Object, _mockPoolRepositoryFactory.Object, _mockJsonConverterProvider.Object);
+            _subject = new PoolManager(
+                _mockOptionsPoolConfig.Object, 
+                _mockOracle.Object, 
+                _mockPoolRepositoryFactory.Object, 
+                _mockPoolObjectFactory.Object,
+                _mockJsonConverterProvider.Object
+            );
             
             var waterCount = _subject.Pools.Sum(s => s.WaterLevel);
 
@@ -336,7 +361,13 @@ namespace NIST.CVP.Pools.Tests
             var fullPath = Path.Combine(_testPath, "fillPoolConfig.json");
             _poolConfig.PoolConfigFile = fullPath;
 
-            _subject = new PoolManager(_mockOptionsPoolConfig.Object, _mockOracle.Object, _mockPoolRepositoryFactory.Object, _mockJsonConverterProvider.Object);
+            _subject = new PoolManager(
+                _mockOptionsPoolConfig.Object, 
+                _mockOracle.Object, 
+                _mockPoolRepositoryFactory.Object, 
+                _mockPoolObjectFactory.Object,
+                _mockJsonConverterProvider.Object
+            );
 
             var waterCount = _subject.Pools.Sum(s => s.WaterLevel);
 
@@ -365,7 +396,13 @@ namespace NIST.CVP.Pools.Tests
             var fullPath = Path.Combine(_testPath, "fillPoolConfig.json");
             _poolConfig.PoolConfigFile = fullPath;
 
-            _subject = new PoolManager(_mockOptionsPoolConfig.Object, _mockOracle.Object, _mockPoolRepositoryFactory.Object, _mockJsonConverterProvider.Object);
+            _subject = new PoolManager(
+                _mockOptionsPoolConfig.Object, 
+                _mockOracle.Object, 
+                _mockPoolRepositoryFactory.Object, 
+                _mockPoolObjectFactory.Object,
+                _mockJsonConverterProvider.Object
+            );
 
             // Should be a total of 2 pools at 0 water level
             Assert.IsTrue(_subject.Pools.Count(c => c.WaterLevel == 0) == 2, "Expecting empty pools");
@@ -393,7 +430,13 @@ namespace NIST.CVP.Pools.Tests
             var fullPath = Path.Combine(_testPath, "fillPoolConfig.json");
             _poolConfig.PoolConfigFile = fullPath;
 
-            _subject = new PoolManager(_mockOptionsPoolConfig.Object, _mockOracle.Object, _mockPoolRepositoryFactory.Object, _mockJsonConverterProvider.Object);
+            _subject = new PoolManager(
+                _mockOptionsPoolConfig.Object, 
+                _mockOracle.Object, 
+                _mockPoolRepositoryFactory.Object, 
+                _mockPoolObjectFactory.Object,
+                _mockJsonConverterProvider.Object
+            );
             
             var waterCount = _subject.Pools.Sum(s => s.WaterLevel);
 

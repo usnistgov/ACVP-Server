@@ -1,12 +1,10 @@
 ﻿using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 using NIST.CVP.Common.Config;
 using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
-using NIST.CVP.Generation.Core.JsonConverters;
 using NIST.CVP.Pools.Enums;
 using NIST.CVP.Pools.Models;
 using NIST.CVP.Pools.PoolModels;
@@ -28,6 +26,7 @@ namespace NIST.CVP.Pools
         private readonly string _poolDirectory;
         private readonly string _poolConfigFile;
         private readonly IPoolRepositoryFactory _poolRepositoryFactory;
+        private readonly IPoolObjectFactory _poolObjectFactory;
 
         private PoolProperties[] _properties;
         private bool _poolsLoaded;
@@ -38,6 +37,7 @@ namespace NIST.CVP.Pools
             IOptions<PoolConfig> poolConfig, 
             IOracle oracle,
             IPoolRepositoryFactory poolRepositoryFactory,
+            IPoolObjectFactory poolObjectFactory,
             IJsonConverterProvider jsonConverterProvider
         )
         {
@@ -46,6 +46,7 @@ namespace NIST.CVP.Pools
             _poolDirectory = _poolConfig.Value.PoolDirectory;
             _poolConfigFile = _poolConfig.Value.PoolConfigFile;
             _poolRepositoryFactory = poolRepositoryFactory;
+            _poolObjectFactory = poolObjectFactory;
             _jsonConverters = jsonConverterProvider.GetJsonConverters();
 
             LoadPoolsAsync().FireAndForget();
@@ -331,7 +332,7 @@ namespace NIST.CVP.Pools
             {
                 Oracle = _oracle,
                 PoolRepositoryFactory = _poolRepositoryFactory,
-                JsonConverters = _jsonConverters,
+                PoolObjectFactory = _poolObjectFactory,
                 PoolConfig = _poolConfig,
                 PoolProperties = poolProperties,
                 WaterType = param,

@@ -27,16 +27,19 @@ namespace NIST.CVP.PoolAPI
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
+            services.AddSingleton(Configuration);
+
             services.Configure<EnvironmentConfig>(Configuration.GetSection(nameof(EnvironmentConfig)));
             services.Configure<AlgorithmConfig>(Configuration.GetSection(nameof(AlgorithmConfig)));
             services.Configure<PoolConfig>(Configuration.GetSection(nameof(PoolConfig)));
             services.Configure<OrleansConfig>(Configuration.GetSection(nameof(OrleansConfig)));
 
+            services.AddSingleton<IDbConnectionStringFactory, DbConnectionStringFactory>();
+            services.AddSingleton<IDbConnectionFactory, SqlDbConnectionFactory>();
+            
             services.AddSingleton<IJsonConverterProvider, JsonConverterProvider>();
-            services.AddSingleton<IBsonConverter, BsonConverter>();
-            services.AddSingleton<IMongoPoolObjectFactory, MongoPoolObjectFactory>();
-            services.AddSingleton<IMongoDbFactory, MongoDbFactory>();
-            services.AddSingleton<IPoolRepositoryFactory, PoolMongoRepositoryFactory>();
+            services.AddSingleton<IPoolObjectFactory, PoolObjectFactory>();
+            services.AddSingleton<IPoolRepositoryFactory, PoolSqlRepositoryFactory>();
             services.AddSingleton<IOracle, Oracle>();
             services.AddSingleton<PoolManager>();
         }

@@ -224,7 +224,6 @@ namespace NIST.CVP.Pools.Tests
         {
             return new PoolConstructionParameters<TParam>
             {
-                JsonConverters = _jsonConverters,
                 PoolConfig = _poolConfig.Object,
                 PoolProperties = new PoolProperties
                 {

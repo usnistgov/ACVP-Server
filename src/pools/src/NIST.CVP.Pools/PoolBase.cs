@@ -24,7 +24,7 @@ namespace NIST.CVP.Pools
         public PoolTypes DeclaredType { get; }
         public TParam WaterType { get; }
         
-        public long WaterLevel => _poolRepository.GetPoolCount(_poolName);
+        public long WaterLevel => _poolRepository.GetPoolCount(_poolName, false);
         public long MaxWaterLevel { get; }
         public long MinWaterLevel { get; }
         public long MaxStagingLevel { get; }
@@ -40,18 +40,17 @@ namespace NIST.CVP.Pools
         protected readonly IRandom800_90 Random;
         protected readonly IOracle Oracle;
         
-        private readonly IList<JsonConverter> _jsonConverters;
         private readonly IOptions<PoolConfig> _poolConfig;
         private readonly IPoolRepository<TResult> _poolRepository;
+        private readonly IPoolObjectFactory _poolObjectFactory;
         private readonly string _poolName;
-        private const string STAGING_TABLE_PREFIX = "staging-";
 
         protected PoolBase(PoolConstructionParameters<TParam> param)
         {
             _poolConfig = param.PoolConfig;
-            _jsonConverters = param.JsonConverters;
             _poolName = param.PoolName;
             _poolRepository = param.PoolRepositoryFactory.GetRepository<TResult>();
+            _poolObjectFactory = param.PoolObjectFactory;
 
             DeclaredType = param.PoolProperties.PoolType.Type;
             MaxWaterLevel = param.PoolProperties.MaxCapacity;
@@ -73,12 +72,16 @@ namespace NIST.CVP.Pools
             }
 
             var result = _poolRepository.GetResultFromPool(_poolName);
+
             if (result != null)
             {
+                result.DateLastUsed = DateTime.Now;
+                result.TimesUsed++;
+
                 RecycleValueWhenOptionsAllow(result);
                 return new PoolResult<TResult>
                 {
-                    Result = result
+                    Result = result.Value
                 };
             }
 
@@ -97,7 +100,11 @@ namespace NIST.CVP.Pools
 
         public bool AddWater(TResult value)
         {
-            _poolRepository.AddResultToPool(_poolName, value);
+            _poolRepository.AddResultToPool(
+                _poolName, 
+                false, 
+                _poolObjectFactory.WrapResult(value)
+            );
             return true;
         }
 
@@ -111,9 +118,9 @@ namespace NIST.CVP.Pools
             return AddWater((TResult)value);
         }
 
-        public bool AddWaterToStagingWater(TResult value)
+        public bool AddWaterToStagingWater(PoolObject<TResult> value)
         {
-            _poolRepository.AddResultToPool($"{STAGING_TABLE_PREFIX}{_poolName}", value);
+            _poolRepository.AddResultToPool(_poolName, true, value);
             return true;
         }
 
@@ -123,7 +130,7 @@ namespace NIST.CVP.Pools
             return true;
         }
 
-        private void RecycleValueWhenOptionsAllow(TResult result)
+        private void RecycleValueWhenOptionsAllow(PoolObject<TResult> result)
         {
             // Recycle the water when option is configured, and TimesValueReused is less than the max reuse
             if (_poolConfig.Value.ShouldRecyclePoolWater)
@@ -136,9 +143,9 @@ namespace NIST.CVP.Pools
                     AddWaterToStagingWater(result);
 
                     // Check if staged water needs to be mixed in
-                    if (_poolRepository.GetPoolCount($"{STAGING_TABLE_PREFIX}{_poolName}") > MaxStagingLevel)
+                    if (_poolRepository.GetPoolCount(_poolName, true) > MaxStagingLevel)
                     {
-                        _poolRepository.MixStagingPoolIntoPool($"{STAGING_TABLE_PREFIX}{_poolName}", _poolName);
+                        _poolRepository.MixStagingPoolIntoPool(_poolName);
                     }
                 }
             }
