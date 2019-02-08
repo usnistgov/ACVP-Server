@@ -14,7 +14,7 @@
     </RootPath>
     <RootNamespace>NIST.CVP.SQL.AcvpPools</RootNamespace>
     <AssemblyName>NIST.CVP.SQL.AcvpPools</AssemblyName>
-    <ModelCollation>1033, CI</ModelCollation>
+    <ModelCollation>1033,CI</ModelCollation>
     <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
     <DeployToDatabase>True</DeployToDatabase>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
@@ -23,6 +23,8 @@
     <SqlServerVerification>False</SqlServerVerification>
     <IncludeCompositeObjects>True</IncludeCompositeObjects>
     <TargetDatabaseSet>True</TargetDatabaseSet>
+    <DefaultCollation>SQL_Latin1_General_CP1_CI_AS</DefaultCollation>
+    <DefaultFilegroup>PRIMARY</DefaultFilegroup>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>bin\Release\</OutputPath>
@@ -57,5 +59,18 @@
   <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
   <ItemGroup>
     <Folder Include="Properties" />
+    <Folder Include="dbo\" />
+    <Folder Include="dbo\Tables\" />
+    <Folder Include="dbo\Stored Procedures\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="dbo\Tables\PoolInformation.sql" />
+    <Build Include="dbo\Tables\PoolValues.sql" />
+    <Build Include="dbo\Stored Procedures\GetPoolIdFromName.sql" />
+    <Build Include="dbo\Stored Procedures\GetPoolCount.sql" />
+    <Build Include="dbo\Stored Procedures\GetPoolValue.sql" />
+    <Build Include="dbo\Stored Procedures\AddValueToPool.sql" />
+    <Build Include="dbo\Stored Procedures\MixStagingValuesIntoPool.sql" />
+    <Build Include="dbo\Stored Procedures\ClearPool.sql" />
   </ItemGroup>
 </Project>

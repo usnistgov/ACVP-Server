@@ -24,13 +24,14 @@ namespace NIST.CVP.Pools.Tests
         private readonly Mock<IOptions<PoolConfig>> _mockOptionsPoolConfig = new Mock<IOptions<PoolConfig>>();
         private readonly Mock<IOracle> _mockOracle = new Mock<IOracle>();
         private readonly Mock<IPoolRepositoryFactory> _mockPoolRepositoryFactory = new Mock<IPoolRepositoryFactory>();
+        private readonly Mock<IPoolRepository<AesResult>> _mockPoolRepository = new Mock<IPoolRepository<AesResult>>();
         private readonly Mock<IPoolObjectFactory> _mockPoolObjectFactory = new Mock<IPoolObjectFactory>();
         private readonly Mock<IJsonConverterProvider> _mockJsonConverterProvider = new Mock<IJsonConverterProvider>();
         private readonly PoolConfig _poolConfig = new PoolConfig()
         {
             Port = 42,
             RootUrl = "localhost",
-            ShouldRecyclePoolWater = false
+            ShouldRecyclePoolWater = false,
         };
         private string _testPath;
         private string _configFile = "testConfig.json";
@@ -40,6 +41,11 @@ namespace NIST.CVP.Pools.Tests
         public void SetUp()
         {
             _mockOptionsPoolConfig.Setup(s => s.Value).Returns(_poolConfig);
+            _mockPoolRepositoryFactory
+                .Setup(s => s.GetRepository<AesResult>())
+                .Returns(() => _mockPoolRepository.Object);
+            _mockPoolRepository.Setup(s => s.GetPoolCount(It.IsAny<string>(), It.IsAny<bool>())).Returns(1);
+
             _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\");
             _poolConfig.PoolConfigFile = Path.Combine(_testPath, _configFile);
             _poolConfig.PoolDirectory = _testPath;
@@ -123,6 +129,8 @@ namespace NIST.CVP.Pools.Tests
         [Test]
         public void ShouldGetResultFromPool()
         {
+            
+
             var paramHolder = new ParameterHolder
             {
                 Parameters = new AesParameters
