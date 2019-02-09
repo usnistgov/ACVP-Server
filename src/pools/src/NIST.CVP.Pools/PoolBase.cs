@@ -24,7 +24,7 @@ namespace NIST.CVP.Pools
         public PoolTypes DeclaredType { get; }
         public TParam WaterType { get; }
         
-        public long WaterLevel => _poolRepository.GetPoolCount(_poolName, false);
+        public long WaterLevel { get; private set; }
         public long MaxWaterLevel { get; }
         public long MinWaterLevel { get; }
         public long MaxStagingLevel { get; }
@@ -62,6 +62,8 @@ namespace NIST.CVP.Pools
             Oracle = param.Oracle;
 
             Random = new Random800_90();
+
+            WaterLevel = _poolRepository.GetPoolCount(_poolName, false);
         }
 
         public PoolResult<TResult> GetNext()
@@ -77,6 +79,7 @@ namespace NIST.CVP.Pools
             {
                 result.DateLastUsed = DateTime.Now;
                 result.TimesUsed++;
+                WaterLevel--;
 
                 RecycleValueWhenOptionsAllow(result);
                 return new PoolResult<TResult>
@@ -105,6 +108,8 @@ namespace NIST.CVP.Pools
                 false, 
                 _poolObjectFactory.WrapResult(value)
             );
+            WaterLevel++;
+
             return true;
         }
 
@@ -127,6 +132,7 @@ namespace NIST.CVP.Pools
         public bool CleanPool()
         {
             _poolRepository.CleanPool(_poolName);
+            WaterLevel = 0;
             return true;
         }
 
@@ -146,6 +152,7 @@ namespace NIST.CVP.Pools
                     if (_poolRepository.GetPoolCount(_poolName, true) > MaxStagingLevel)
                     {
                         _poolRepository.MixStagingPoolIntoPool(_poolName);
+                        WaterLevel = _poolRepository.GetPoolCount(_poolName, false);
                     }
                 }
             }
