@@ -26,6 +26,7 @@ namespace NIST.CVP.Pools
         private readonly string _poolDirectory;
         private readonly string _poolConfigFile;
         private readonly IPoolRepositoryFactory _poolRepositoryFactory;
+        private readonly IPoolLogRepository _poolLogRepository;
         private readonly IPoolObjectFactory _poolObjectFactory;
 
         private PoolProperties[] _properties;
@@ -37,6 +38,7 @@ namespace NIST.CVP.Pools
             IOptions<PoolConfig> poolConfig, 
             IOracle oracle,
             IPoolRepositoryFactory poolRepositoryFactory,
+            IPoolLogRepository poolLogRepository,
             IPoolObjectFactory poolObjectFactory,
             IJsonConverterProvider jsonConverterProvider
         )
@@ -46,6 +48,7 @@ namespace NIST.CVP.Pools
             _poolDirectory = _poolConfig.Value.PoolDirectory;
             _poolConfigFile = _poolConfig.Value.PoolConfigFile;
             _poolRepositoryFactory = poolRepositoryFactory;
+            _poolLogRepository = poolLogRepository;
             _poolObjectFactory = poolObjectFactory;
             _jsonConverters = jsonConverterProvider.GetJsonConverters();
 
@@ -92,11 +95,19 @@ namespace NIST.CVP.Pools
                 return new PoolResult<IResult> { PoolTooEmpty = true };
             }
 
+            var startAction = DateTime.Now;
+
             if (Pools.TryFirst(pool => pool.Param.Equals(paramHolder.Parameters), out var result))
             {
                 return result.GetNextUntyped();
             }
 
+            _poolLogRepository.WriteLog(
+                LogTypes.NoPool, 
+                string.Empty, 
+                startAction, 
+                DateTime.Now, 
+                JsonConvert.SerializeObject(paramHolder.Parameters, new JsonSerializerSettings() { Converters = _jsonConverters }));
             return new PoolResult<IResult> { PoolTooEmpty = true };
         }
 
@@ -211,12 +222,16 @@ namespace NIST.CVP.Pools
                         }
                     );
 
+                    var startAction = DateTime.Now;
                     RequestPoolWater(jobsToSpawn, tasks, minPool, json);
 
                     // If filling of pools occurred, wait for it to finish, then save the pools.
                     if (tasks.Count > 0)
                     {
                         await Task.WhenAll(tasks);
+
+                        _poolLogRepository.WriteLog(LogTypes.QueueOrleansWorkToPool, minPool.PoolName, startAction,
+                            DateTime.Now, null);
 
                         LogManager.GetCurrentClassLogger()
                             .Log(LogLevel.Info, $"Pool was filled: \n\n {json}");
@@ -332,6 +347,7 @@ namespace NIST.CVP.Pools
             {
                 Oracle = _oracle,
                 PoolRepositoryFactory = _poolRepositoryFactory,
+                PoolLogRepository = _poolLogRepository,
                 PoolObjectFactory = _poolObjectFactory,
                 PoolConfig = _poolConfig,
                 PoolProperties = poolProperties,

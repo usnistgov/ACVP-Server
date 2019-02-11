@@ -24,6 +24,8 @@ namespace NIST.CVP.Pools
         public PoolTypes DeclaredType { get; }
         public TParam WaterType { get; }
         
+        public string PoolName { get; }
+
         public long WaterLevel { get; private set; }
         public long MaxWaterLevel { get; }
         public long MinWaterLevel { get; }
@@ -42,14 +44,14 @@ namespace NIST.CVP.Pools
         
         private readonly IOptions<PoolConfig> _poolConfig;
         private readonly IPoolRepository<TResult> _poolRepository;
+        private readonly IPoolLogRepository _poolLogRepository;
         private readonly IPoolObjectFactory _poolObjectFactory;
-        private readonly string _poolName;
-
         protected PoolBase(PoolConstructionParameters<TParam> param)
         {
             _poolConfig = param.PoolConfig;
-            _poolName = param.PoolName;
+            PoolName = param.PoolName;
             _poolRepository = param.PoolRepositoryFactory.GetRepository<TResult>();
+            _poolLogRepository = param.PoolLogRepository;
             _poolObjectFactory = param.PoolObjectFactory;
 
             DeclaredType = param.PoolProperties.PoolType.Type;
@@ -63,23 +65,28 @@ namespace NIST.CVP.Pools
 
             Random = new Random800_90();
 
-            WaterLevel = _poolRepository.GetPoolCount(_poolName, false);
+            WaterLevel = _poolRepository.GetPoolCount(PoolName, false);
         }
 
         public PoolResult<TResult> GetNext()
         {
+            var startAction = DateTime.Now;
+
             if (WaterLevel < MinWaterLevel)
             {
+                _poolLogRepository.WriteLog(LogTypes.PoolTooEmpty, PoolName, startAction, DateTime.Now, null);
                 return new PoolResult<TResult> { PoolTooEmpty = true };
             }
 
-            var result = _poolRepository.GetResultFromPool(_poolName);
+            var result = _poolRepository.GetResultFromPool(PoolName);
 
             if (result != null)
             {
-                result.DateLastUsed = DateTime.Now;
+                var endAction = DateTime.Now;
+                result.DateLastUsed = endAction;
                 result.TimesUsed++;
                 WaterLevel--;
+                _poolLogRepository.WriteLog(LogTypes.GetValueFromPool, PoolName, startAction, endAction, null);
 
                 RecycleValueWhenOptionsAllow(result);
                 return new PoolResult<TResult>
@@ -104,7 +111,7 @@ namespace NIST.CVP.Pools
         public bool AddWater(TResult value)
         {
             _poolRepository.AddResultToPool(
-                _poolName, 
+                PoolName, 
                 false, 
                 _poolObjectFactory.WrapResult(value)
             );
@@ -125,14 +132,16 @@ namespace NIST.CVP.Pools
 
         public bool AddWaterToStagingWater(PoolObject<TResult> value)
         {
-            _poolRepository.AddResultToPool(_poolName, true, value);
+            _poolRepository.AddResultToPool(PoolName, true, value);
             return true;
         }
 
         public bool CleanPool()
         {
-            _poolRepository.CleanPool(_poolName);
+            var startAction = DateTime.Now;
+            _poolRepository.CleanPool(PoolName);
             WaterLevel = 0;
+            _poolLogRepository.WriteLog(LogTypes.CleanPool, PoolName, startAction, DateTime.Now, null);
             return true;
         }
 
@@ -149,10 +158,12 @@ namespace NIST.CVP.Pools
                     AddWaterToStagingWater(result);
 
                     // Check if staged water needs to be mixed in
-                    if (_poolRepository.GetPoolCount(_poolName, true) > MaxStagingLevel)
+                    if (_poolRepository.GetPoolCount(PoolName, true) > MaxStagingLevel)
                     {
-                        _poolRepository.MixStagingPoolIntoPool(_poolName);
-                        WaterLevel = _poolRepository.GetPoolCount(_poolName, false);
+                        var startAction = DateTime.Now;
+                        _poolRepository.MixStagingPoolIntoPool(PoolName);
+                        WaterLevel = _poolRepository.GetPoolCount(PoolName, false);
+                        _poolLogRepository.WriteLog(LogTypes.MixStagingPool, PoolName, startAction, DateTime.Now, null);
                     }
                 }
             }

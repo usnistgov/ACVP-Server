@@ -24,6 +24,7 @@ namespace NIST.CVP.Pools.Tests
         private readonly Mock<IOptions<PoolConfig>> _mockOptionsPoolConfig = new Mock<IOptions<PoolConfig>>();
         private readonly Mock<IOracle> _mockOracle = new Mock<IOracle>();
         private readonly Mock<IPoolRepositoryFactory> _mockPoolRepositoryFactory = new Mock<IPoolRepositoryFactory>();
+        private readonly Mock<IPoolLogRepository> _mockPoolLogRepository = new Mock<IPoolLogRepository>();
         private readonly Mock<IPoolRepository<AesResult>> _mockPoolRepository = new Mock<IPoolRepository<AesResult>>();
         private readonly Mock<IPoolObjectFactory> _mockPoolObjectFactory = new Mock<IPoolObjectFactory>();
         private readonly Mock<IJsonConverterProvider> _mockJsonConverterProvider = new Mock<IJsonConverterProvider>();
@@ -49,7 +50,7 @@ namespace NIST.CVP.Pools.Tests
             _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\");
             _poolConfig.PoolConfigFile = Path.Combine(_testPath, _configFile);
             _poolConfig.PoolDirectory = _testPath;
-            _subject = new PoolManager(_mockOptionsPoolConfig.Object, _mockOracle.Object, _mockPoolRepositoryFactory.Object, _mockPoolObjectFactory.Object, _mockJsonConverterProvider.Object);
+            _subject = new PoolManager(_mockOptionsPoolConfig.Object, _mockOracle.Object, _mockPoolRepositoryFactory.Object, _mockPoolLogRepository.Object, _mockPoolObjectFactory.Object, _mockJsonConverterProvider.Object);
         }
 
         [Test]
@@ -279,6 +280,7 @@ namespace NIST.CVP.Pools.Tests
                 _mockOptionsPoolConfig.Object, 
                 _mockOracle.Object, 
                 _mockPoolRepositoryFactory.Object, 
+                _mockPoolLogRepository.Object,
                 _mockPoolObjectFactory.Object,
                 _mockJsonConverterProvider.Object
             );
@@ -310,6 +312,7 @@ namespace NIST.CVP.Pools.Tests
                 _mockOptionsPoolConfig.Object, 
                 _mockOracle.Object, 
                 _mockPoolRepositoryFactory.Object, 
+                _mockPoolLogRepository.Object,
                 _mockPoolObjectFactory.Object,
                 _mockJsonConverterProvider.Object
             );
@@ -327,6 +330,7 @@ namespace NIST.CVP.Pools.Tests
                 _mockOptionsPoolConfig.Object, 
                 _mockOracle.Object, 
                 _mockPoolRepositoryFactory.Object, 
+                _mockPoolLogRepository.Object,
                 _mockPoolObjectFactory.Object,
                 _mockJsonConverterProvider.Object
             );
@@ -346,6 +350,7 @@ namespace NIST.CVP.Pools.Tests
                 _mockOptionsPoolConfig.Object, 
                 _mockOracle.Object, 
                 _mockPoolRepositoryFactory.Object, 
+                _mockPoolLogRepository.Object,
                 _mockPoolObjectFactory.Object,
                 _mockJsonConverterProvider.Object
             );
@@ -373,6 +378,7 @@ namespace NIST.CVP.Pools.Tests
                 _mockOptionsPoolConfig.Object, 
                 _mockOracle.Object, 
                 _mockPoolRepositoryFactory.Object, 
+                _mockPoolLogRepository.Object,
                 _mockPoolObjectFactory.Object,
                 _mockJsonConverterProvider.Object
             );
@@ -408,6 +414,7 @@ namespace NIST.CVP.Pools.Tests
                 _mockOptionsPoolConfig.Object, 
                 _mockOracle.Object, 
                 _mockPoolRepositoryFactory.Object, 
+                _mockPoolLogRepository.Object,
                 _mockPoolObjectFactory.Object,
                 _mockJsonConverterProvider.Object
             );
@@ -442,6 +449,7 @@ namespace NIST.CVP.Pools.Tests
                 _mockOptionsPoolConfig.Object, 
                 _mockOracle.Object, 
                 _mockPoolRepositoryFactory.Object, 
+                _mockPoolLogRepository.Object,
                 _mockPoolObjectFactory.Object,
                 _mockJsonConverterProvider.Object
             );

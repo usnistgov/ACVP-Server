@@ -33,6 +33,11 @@ namespace NIST.CVP.Pools.Interfaces
     public interface IPool
     {
         /// <summary>
+        /// Unique name for the pool parameters/results instance
+        /// </summary>
+        string PoolName { get; }
+
+        /// <summary>
         /// Is the pool empty?
         /// </summary>
         bool IsEmpty { get; }

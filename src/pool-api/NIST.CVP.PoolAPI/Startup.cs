@@ -40,6 +40,7 @@ namespace NIST.CVP.PoolAPI
             services.AddSingleton<IJsonConverterProvider, JsonConverterProvider>();
             services.AddSingleton<IPoolObjectFactory, PoolObjectFactory>();
             services.AddSingleton<IPoolRepositoryFactory, PoolSqlRepositoryFactory>();
+            services.AddSingleton<IPoolLogRepository, PoolLogSqlRepository>();
             services.AddSingleton<IOracle, Oracle>();
             services.AddSingleton<PoolManager>();
         }
