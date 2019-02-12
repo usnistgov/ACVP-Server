@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
 using NIST.CVP.Common.Config;
 using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ResultTypes;
@@ -7,12 +6,7 @@ using NIST.CVP.Math;
 using NIST.CVP.Pools.Enums;
 using NIST.CVP.Pools.Interfaces;
 using NIST.CVP.Pools.Models;
-using NLog;
 using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace NIST.CVP.Pools
