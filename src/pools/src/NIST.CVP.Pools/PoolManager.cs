@@ -2,12 +2,9 @@
 using Newtonsoft.Json;
 using NIST.CVP.Common.Config;
 using NIST.CVP.Common.ExtensionMethods;
-using NIST.CVP.Common.Oracle;
-using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Pools.Enums;
 using NIST.CVP.Pools.Models;
-using NIST.CVP.Pools.PoolModels;
 using NLog;
 using System;
 using System.Collections.Generic;
@@ -26,9 +23,8 @@ namespace NIST.CVP.Pools
         private readonly string _poolConfigFile;
         private readonly IPoolLogRepository _poolLogRepository;
         private readonly IPoolFactory _poolFactory;
-
+        
         private PoolProperties[] _properties;
-        private bool _poolsLoaded;
         
         private readonly IList<JsonConverter> _jsonConverters;
 
@@ -46,19 +42,11 @@ namespace NIST.CVP.Pools
             _poolFactory = poolFactory;
             _jsonConverters = jsonConverterProvider.GetJsonConverters();
 
-            LoadPoolsAsync().FireAndForget();
+            LoadPools();
         }
 
         public PoolInformation GetPoolStatus(ParameterHolder paramHolder)
         {
-            if (!_poolsLoaded)
-            {
-                return new PoolInformation()
-                {
-                    PoolExists = false
-                };
-            }
-
             if (Pools.TryFirst(pool => pool.Param.Equals(paramHolder.Parameters), out var result))
             {
                 return new PoolInformation {FillLevel = result.WaterLevel};
@@ -69,11 +57,6 @@ namespace NIST.CVP.Pools
 
         public bool AddResultToPool(ParameterHolder paramHolder)
         {
-            if (!_poolsLoaded)
-            {
-                return false;
-            }
-
             if (Pools.TryFirst(pool => pool.Param.Equals(paramHolder.Parameters), out var result))
             {
                 return result.AddWater(paramHolder.Result);
@@ -84,11 +67,6 @@ namespace NIST.CVP.Pools
 
         public PoolResult<IResult> GetResultFromPool(ParameterHolder paramHolder)
         {
-            if (!_poolsLoaded)
-            {
-                return new PoolResult<IResult> { PoolTooEmpty = true };
-            }
-
             var startAction = DateTime.Now;
 
             if (Pools.TryFirst(pool => pool.Param.Equals(paramHolder.Parameters), out var result))
@@ -109,11 +87,6 @@ namespace NIST.CVP.Pools
         {
             var list = new List<ParameterHolder>();
 
-            if (!_poolsLoaded)
-            {
-                return list;
-            }
-
             Pools.ForEach(fe =>
             {
                 list.Add(new ParameterHolder
@@ -128,11 +101,6 @@ namespace NIST.CVP.Pools
 
         public bool EditPoolProperties(PoolProperties poolProps)
         {
-            if (!_poolsLoaded)
-            {
-                return false;
-            }
-
             if (_properties.TryFirst(
                 properties => properties.PoolName.Equals(poolProps.PoolName, StringComparison.OrdinalIgnoreCase),
                 out var result))
@@ -147,21 +115,11 @@ namespace NIST.CVP.Pools
 
         public List<PoolProperties> GetPoolProperties()
         {
-            if (!_poolsLoaded)
-            {
-                return new List<PoolProperties>();
-            }
-
             return new List<PoolProperties>(_properties);
         }
 
         public bool SavePoolConfigs()
         {
-            if (!_poolsLoaded)
-            {
-                return false;
-            }
-
             var fullConfigFile = Path.Combine(_poolDirectory, _poolConfigFile);
             var json = JsonConvert.SerializeObject
             (
@@ -180,11 +138,6 @@ namespace NIST.CVP.Pools
 
         public bool CleanPools()
         {
-            if (!_poolsLoaded)
-            {
-                return false;
-            }
-
             foreach (var pool in Pools)
             {
                 pool.CleanPool();
@@ -195,11 +148,6 @@ namespace NIST.CVP.Pools
 
         public async Task<SpawnJobResponse> SpawnJobForMostShallowPool(int jobsToSpawn)
         {
-            if (!_poolsLoaded)
-            {
-                return new SpawnJobResponse();
-            }
-
             try
             {
                 List<Task> tasks = new List<Task>();
@@ -248,7 +196,7 @@ namespace NIST.CVP.Pools
             }
         }
         
-        private async Task LoadPoolsAsync()
+        private void LoadPools()
         {
             LogManager.GetCurrentClassLogger()
                 .Log(LogLevel.Info, "Loading Pools.");
@@ -256,7 +204,7 @@ namespace NIST.CVP.Pools
             var fullConfigFile = Path.Combine(_poolDirectory, _poolConfigFile);
             _properties = JsonConvert.DeserializeObject<PoolProperties[]>
             (
-                await File.ReadAllTextAsync(fullConfigFile), 
+                File.ReadAllText(fullConfigFile), 
                 new JsonSerializerSettings
                 {
                     Converters = _jsonConverters
@@ -270,8 +218,6 @@ namespace NIST.CVP.Pools
 
             LogManager.GetCurrentClassLogger()
                 .Log(LogLevel.Info, "Pools loaded.");
-
-            _poolsLoaded = true;
         }
         
         private IPool GetMinimallyFilledPool()

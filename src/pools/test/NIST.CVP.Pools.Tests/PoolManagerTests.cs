@@ -15,20 +15,23 @@ using NUnit.Framework;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using NIST.CVP.Pools.PoolModels;
+using NIST.CVP.Pools.Services;
 
 namespace NIST.CVP.Pools.Tests
 {
     [TestFixture]
     public class PoolManagerTests
     {
-        private readonly Mock<IOptions<PoolConfig>> _mockOptionsPoolConfig = new Mock<IOptions<PoolConfig>>();
-        private readonly Mock<IOracle> _mockOracle = new Mock<IOracle>();
-        private readonly Mock<IPoolRepositoryFactory> _mockPoolRepositoryFactory = new Mock<IPoolRepositoryFactory>();
-        private readonly Mock<IPoolLogRepository> _mockPoolLogRepository = new Mock<IPoolLogRepository>();
-        private readonly Mock<IPoolRepository<AesResult>> _mockPoolRepository = new Mock<IPoolRepository<AesResult>>();
-        private readonly Mock<IPoolObjectFactory> _mockPoolObjectFactory = new Mock<IPoolObjectFactory>();
-        private readonly Mock<IPoolFactory> _mockPoolFactory = new Mock<IPoolFactory>();
-        private readonly Mock<IJsonConverterProvider> _mockJsonConverterProvider = new Mock<IJsonConverterProvider>();
+        private Mock<IOptions<PoolConfig>> _mockOptionsPoolConfig;
+        private Mock<IPoolRepositoryFactory> _mockPoolRepositoryFactory;
+        private Mock<IPoolLogRepository> _mockPoolLogRepository;
+        private Mock<IPoolRepository<AesResult>> _mockPoolAesRepository;
+        private Mock<IPoolRepository<HashResult>> _mockPoolShaRepository;
+        private Mock<IPoolFactory> _mockPoolFactory;
+        private IPoolFactory _poolFactory;
+        private Mock<IPool> _mockPool;
+        private Mock<IJsonConverterProvider> _mockJsonConverterProvider = new Mock<IJsonConverterProvider>();
         private readonly PoolConfig _poolConfig = new PoolConfig()
         {
             Port = 42,
@@ -42,11 +45,34 @@ namespace NIST.CVP.Pools.Tests
         [SetUp]
         public void SetUp()
         {
+            _mockOptionsPoolConfig = new Mock<IOptions<PoolConfig>>();
+            _mockPoolRepositoryFactory = new Mock<IPoolRepositoryFactory>();
+            _mockPoolLogRepository = new Mock<IPoolLogRepository>();
+            _mockPoolAesRepository = new Mock<IPoolRepository<AesResult>>();
+            _mockPoolShaRepository = new Mock<IPoolRepository<HashResult>>();
+            _mockPoolFactory = new Mock<IPoolFactory>();
+            _poolFactory = new PoolFactory(
+                _mockOptionsPoolConfig.Object, 
+                new Mock<IOracle>().Object,
+                _mockPoolRepositoryFactory.Object, 
+                _mockPoolLogRepository.Object,
+                new Mock<IPoolObjectFactory>().Object
+            );
+            _mockPool = new Mock<IPool>();
+            _mockJsonConverterProvider = new Mock<IJsonConverterProvider>();
+            
             _mockOptionsPoolConfig.Setup(s => s.Value).Returns(_poolConfig);
             _mockPoolRepositoryFactory
                 .Setup(s => s.GetRepository<AesResult>())
-                .Returns(() => _mockPoolRepository.Object);
-            _mockPoolRepository.Setup(s => s.GetPoolCount(It.IsAny<string>(), It.IsAny<bool>())).Returns(1);
+                .Returns(() => _mockPoolAesRepository.Object);
+            _mockPoolRepositoryFactory
+                .Setup(s => s.GetRepository<HashResult>())
+                .Returns(() => _mockPoolShaRepository.Object);
+            _mockPoolAesRepository.Setup(s => s.GetPoolCount(It.IsAny<string>(), It.IsAny<bool>())).Returns(0);
+            _mockPoolShaRepository.Setup(s => s.GetPoolCount(It.IsAny<string>(), It.IsAny<bool>())).Returns(0);
+            _mockPoolFactory.Setup(s => s.GetPool(It.IsAny<PoolProperties>())).Returns(_mockPool.Object);
+            _mockPool.Setup(s => s.Param).Returns(() => new AesParameters());
+            _mockPool.Setup(s => s.WaterLevel).Returns(0);
 
             _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\");
             _poolConfig.PoolConfigFile = Path.Combine(_testPath, _configFile);
@@ -54,29 +80,18 @@ namespace NIST.CVP.Pools.Tests
             _subject = new PoolManager(
                 _mockOptionsPoolConfig.Object, 
                 _mockPoolLogRepository.Object, 
-                _mockPoolFactory.Object, 
+                _poolFactory, 
                 _mockJsonConverterProvider.Object
             );
         }
 
         [Test]
-        public void ShouldLoadConfigCorrectly()
+        public void ShouldLoadConfig()
         {
             Assert.AreEqual(
-                2, 
-                _subject.Pools.Count(w => w.ParamType == typeof(ShaParameters)),
-                "Sha pool count"
-            );
-
-            var shaPools = _subject.Pools;
-            Assert.AreEqual(ModeValues.SHA2, ((ShaParameters)shaPools[0].Param).HashFunction.Mode);
-            Assert.AreEqual(DigestSizes.d256, ((ShaParameters)shaPools[0].Param).HashFunction.DigestSize);
-
-            Assert.AreEqual(
-                1, 
-                _subject.Pools.Count(w => w.ParamType == typeof(AesParameters)),
-                "Aes pool count");
-            Assert.AreEqual("encrypt", ((AesParameters)_subject.Pools[2].Param).Direction);
+                3, 
+                _subject.Pools.Count(),
+                "pool count");
         }
 
         [Test]
@@ -101,9 +116,13 @@ namespace NIST.CVP.Pools.Tests
                 Type = PoolTypes.AES
             };
 
-            var result = _subject.AddResultToPool(paramHolder);
+            _subject.AddResultToPool(paramHolder);
 
-            Assert.IsTrue(result);
+            _mockPoolAesRepository.Verify(
+                v => v.AddResultToPool(It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<PoolObject<AesResult>>()),
+                Times.Once,
+                nameof(_mockPoolAesRepository.Object.AddResultToPool)
+            );
         }
 
         [Test]
@@ -136,6 +155,14 @@ namespace NIST.CVP.Pools.Tests
         [Test]
         public void ShouldGetResultFromPool()
         {
+            var aesResult = new AesResult()
+            {
+                CipherText = new BitString("01"),
+                Iv = new BitString("02"),
+                Key = new BitString("03"),
+                PlainText = new BitString("04")
+            };
+
             var paramHolder = new ParameterHolder
             {
                 Parameters = new AesParameters
@@ -146,14 +173,15 @@ namespace NIST.CVP.Pools.Tests
                     Mode = BlockCipherModesOfOperation.Ecb
                 },
                 Type = PoolTypes.AES,
-                Result = new AesResult()
-                {
-                    CipherText = new BitString("01"),
-                    Iv = new BitString("02"),
-                    Key = new BitString("03"),
-                    PlainText = new BitString("04")
-                }
+                Result = aesResult
             };
+
+            _mockPoolAesRepository
+                .Setup(s => s.GetResultFromPool(It.IsAny<string>()))
+                .Returns(() => new PoolObject<AesResult>()
+                {
+                    Value = aesResult
+                });
 
             _subject.AddResultToPool(paramHolder);
             var result = _subject.GetResultFromPool(paramHolder);
@@ -347,7 +375,7 @@ namespace NIST.CVP.Pools.Tests
             _subject = new PoolManager(
                 _mockOptionsPoolConfig.Object, 
                 _mockPoolLogRepository.Object, 
-                _mockPoolFactory.Object, 
+                _poolFactory, 
                 _mockJsonConverterProvider.Object
             );
             
@@ -373,7 +401,7 @@ namespace NIST.CVP.Pools.Tests
             _subject = new PoolManager(
                 _mockOptionsPoolConfig.Object, 
                 _mockPoolLogRepository.Object, 
-                _mockPoolFactory.Object, 
+                _poolFactory, 
                 _mockJsonConverterProvider.Object
             );
 
@@ -396,65 +424,6 @@ namespace NIST.CVP.Pools.Tests
             _subject.CleanPools();
 
             Assert.IsTrue(newWaterCount == maxCapacityAllPools, nameof(maxCapacityAllPools));
-        }
-
-        [Test]
-        public async Task ShouldAlternateFillingPools()
-        {
-            var fullPath = Path.Combine(_testPath, "fillPoolConfig.json");
-            _poolConfig.PoolConfigFile = fullPath;
-
-            _subject = new PoolManager(
-                _mockOptionsPoolConfig.Object, 
-                _mockPoolLogRepository.Object, 
-                _mockPoolFactory.Object, 
-                _mockJsonConverterProvider.Object
-            );
-
-            // Should be a total of 2 pools at 0 water level
-            Assert.IsTrue(_subject.Pools.Count(c => c.WaterLevel == 0) == 2, "Expecting empty pools");
-
-            await _subject.SpawnJobForMostShallowPool(1);
-
-            // Should be 1 pool with 1 water level, and 1 pool with 0 water level
-            Assert.IsTrue(_subject.Pools.Count(c => c.WaterLevel == 1) == 1, "Single spawn, check 1 filled pool");
-            Assert.IsTrue(_subject.Pools.Count(c => c.WaterLevel == 0) == 1, "Single spawn, check 1 empty pool");
-
-            await _subject.SpawnJobForMostShallowPool(1);
-
-            // Should be 2 pool with 1 water level (assuring pools are being filled shallow first)
-            Assert.IsTrue(_subject.Pools.Count(c => c.WaterLevel == 1) == 2, "Double spawn, check 2 filled pool with 1 value");
-
-            _subject.CleanPools();
-        }
-
-        [Test]
-        [TestCase(1)]
-        [TestCase(2)]
-        [TestCase(5)]
-        public async Task ShouldSpawnMultipleFillJobs(int jobsToSpawn)
-        {
-            var fullPath = Path.Combine(_testPath, "fillPoolConfig.json");
-            _poolConfig.PoolConfigFile = fullPath;
-
-            _subject = new PoolManager(
-                _mockOptionsPoolConfig.Object, 
-                _mockPoolLogRepository.Object, 
-                _mockPoolFactory.Object, 
-                _mockJsonConverterProvider.Object
-            );
-            
-            var waterCount = _subject.Pools.Sum(s => s.WaterLevel);
-
-            Assert.IsTrue(waterCount == 0, "Expecting empty pools");
-
-            var result = await _subject.SpawnJobForMostShallowPool(jobsToSpawn);
-            var newWaterCount = _subject.Pools.Sum(s => s.WaterLevel);
-
-            _subject.CleanPools();
-
-            Assert.IsTrue(result.HasSpawnedJob, nameof(result));
-            Assert.IsTrue(newWaterCount == waterCount + jobsToSpawn, nameof(newWaterCount));
         }
     }
 }
