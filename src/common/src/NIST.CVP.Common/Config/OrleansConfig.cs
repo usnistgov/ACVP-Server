@@ -45,6 +45,12 @@ namespace NIST.CVP.Common.Config
         /// <summary>
         /// The post to use for the orleans dashboard
         /// </summary>
-        public int OrleansDashboardPort {get; set; }
+        public int OrleansDashboardPort { get; set; }
+
+        /// <summary>
+        /// A fall back value in case the node cannot be mapped to the configuration.
+        /// This value will be used by the task scheduler for a maximum level of concurrency.
+        /// </summary>
+        public int FallBackMinimumCores { get; set; }
     }
 }
