@@ -32,19 +32,6 @@ namespace NIST.CVP.PoolAPI
         protected override void OnStopping()
         {
             _logger.Info("PoolWebAPI service stopped...");
-
-            // Save Pool Data
-            _logger.Info("Saving pool data...");
-
-            var saveSuccess = _poolManager.SavePools();
-            if (saveSuccess)
-            {
-                _logger.Info("Pools saved successfully.");
-            }
-            else
-            {
-                _logger.Error("Pools failed to save!");
-            }
             
             base.OnStopping();
         }

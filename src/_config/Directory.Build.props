@@ -37,7 +37,7 @@
         <NuGetVersionNUnit>3.8.1</NuGetVersionNUnit>
         <NuGetVersionNUnit3TestAdapter>3.10.0</NuGetVersionNUnit3TestAdapter>
         <NuGetVersionAutofac>4.8.0</NuGetVersionAutofac>
-        <NuGetVersionNewtonsoftJson>11.0.2</NuGetVersionNewtonsoftJson>
+        <NuGetVersionNewtonsoftJson>12.0.1</NuGetVersionNewtonsoftJson>
         <NuGetVersionCommandLineArgumentsParser>3.0.18</NuGetVersionCommandLineArgumentsParser>
         <NuGetVersionSystemRuntimeLoader>4.3.0</NuGetVersionSystemRuntimeLoader>
         <NugetVersionMicrosoftOrleansServer>2.1.0</NugetVersionMicrosoftOrleansServer>

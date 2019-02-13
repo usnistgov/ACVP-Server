@@ -10,7 +10,7 @@
 				}
 			}
 		},
-		"filePath": "sha2-test1.json",
+		"poolName": "sha2-test1.json",
 		"maxCapacity": 5,
 		"monitorFrequency": 30
 	},
@@ -25,7 +25,7 @@
 				}
 			}
 		},
-		"filePath": "sha2-test2.json",
+		"poolName": "sha2-test2.json",
 		"maxCapacity": 5,
 		"monitorFrequency": 30
 	}

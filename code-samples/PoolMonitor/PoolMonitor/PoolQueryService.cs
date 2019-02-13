@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
@@ -35,6 +36,9 @@ namespace PoolMonitor
 
         private void OnTimer(object sender, ElapsedEventArgs args)
         {
+            var currentLine = new StringBuilder();
+            var shouldWriteLine = false;
+
             foreach (var pool in _poolList)
             {
                 var poolJson = JsonConvert.SerializeObject
@@ -49,11 +53,22 @@ namespace PoolMonitor
                 var poolCountJson = _operator.Post(_poolUrl + "status", poolJson).Result;
                 var poolCount = JsonConvert.DeserializeObject<PoolInformation>(poolCountJson);
 
-                _writer.Write($"{poolCount.FillLevel},");
+                var poolFill = poolCount.FillLevel;
+                currentLine.Append($"{poolFill},");
+
+                if (poolFill > 0)
+                {
+                    shouldWriteLine = true;
+                }
             }
 
-            _writer.WriteLine();
-            _writer.Flush();
+            // Only write the line to the CSV is at least one pool has a value gt 0
+            if (shouldWriteLine)
+            {
+                _writer.Write(currentLine.ToString());
+                _writer.WriteLine();
+                _writer.Flush();
+            }
         }
 
         public async Task StartAsync(CancellationToken cancellationToken)
@@ -81,7 +96,7 @@ namespace PoolMonitor
 
                 foreach (var pool in poolNames)
                 {
-                    _writer.Write($"{pool.FilePath},");
+                    _writer.Write($"{pool.PoolName},");
                 }
 
                 _writer.WriteLine();

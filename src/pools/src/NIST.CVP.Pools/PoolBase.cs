@@ -1,17 +1,12 @@
 ﻿using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
 using NIST.CVP.Common.Config;
 using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Math;
 using NIST.CVP.Pools.Enums;
+using NIST.CVP.Pools.Interfaces;
 using NIST.CVP.Pools.Models;
-using NLog;
 using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace NIST.CVP.Pools
@@ -23,10 +18,12 @@ namespace NIST.CVP.Pools
         public PoolTypes DeclaredType { get; }
         public TParam WaterType { get; }
         
-        public int WaterLevel => Water.Count;
-        public int MaxWaterLevel { get; }
-        public int MinWaterLevel { get; }
-        public int MaxStagingLevel { get; }
+        public string PoolName { get; }
+
+        public long WaterLevel { get; private set; }
+        public long MaxWaterLevel { get; }
+        public long MinWaterLevel { get; }
+        public long MaxStagingLevel { get; }
         public decimal RecycleRate { get; }
         public decimal WaterFillPercent => (decimal)WaterLevel / MaxWaterLevel;
 
@@ -38,18 +35,18 @@ namespace NIST.CVP.Pools
 
         protected readonly IRandom800_90 Random;
         protected readonly IOracle Oracle;
-        protected readonly ConcurrentQueue<TResult> Water;
-        protected readonly ConcurrentQueue<TResult> StagingWater;
         
-        private readonly IList<JsonConverter> _jsonConverters;
         private readonly IOptions<PoolConfig> _poolConfig;
-        private readonly string _fullPoolLocation;
-        
+        private readonly IPoolRepository<TResult> _poolRepository;
+        private readonly IPoolLogRepository _poolLogRepository;
+        private readonly IPoolObjectFactory _poolObjectFactory;
         protected PoolBase(PoolConstructionParameters<TParam> param)
         {
             _poolConfig = param.PoolConfig;
-            _jsonConverters = param.JsonConverters;
-            _fullPoolLocation = param.FullPoolLocation;
+            PoolName = param.PoolName;
+            _poolRepository = param.PoolRepositoryFactory.GetRepository<TResult>();
+            _poolLogRepository = param.PoolLogRepository;
+            _poolObjectFactory = param.PoolObjectFactory;
 
             DeclaredType = param.PoolProperties.PoolType.Type;
             MaxWaterLevel = param.PoolProperties.MaxCapacity;
@@ -61,24 +58,34 @@ namespace NIST.CVP.Pools
             Oracle = param.Oracle;
 
             Random = new Random800_90();
-            Water = new ConcurrentQueue<TResult>();
-            StagingWater = new ConcurrentQueue<TResult>();
+
+            WaterLevel = _poolRepository.GetPoolCount(PoolName, false);
         }
 
         public PoolResult<TResult> GetNext()
         {
+            var startAction = DateTime.Now;
+
             if (WaterLevel < MinWaterLevel)
             {
+                _poolLogRepository.WriteLog(LogTypes.PoolTooEmpty, PoolName, startAction, DateTime.Now, null);
                 return new PoolResult<TResult> { PoolTooEmpty = true };
             }
 
-            var success = Water.TryDequeue(out var result);
-            if (success)
+            var result = _poolRepository.GetResultFromPool(PoolName);
+
+            if (result != null)
             {
+                var endAction = DateTime.Now;
+                result.DateLastUsed = endAction;
+                result.TimesUsed++;
+                WaterLevel--;
+                _poolLogRepository.WriteLog(LogTypes.GetValueFromPool, PoolName, startAction, endAction, null);
+
                 RecycleValueWhenOptionsAllow(result);
                 return new PoolResult<TResult>
                 {
-                    Result = result
+                    Result = result.Value
                 };
             }
 
@@ -97,7 +104,13 @@ namespace NIST.CVP.Pools
 
         public bool AddWater(TResult value)
         {
-            Water.Enqueue(value);
+            _poolRepository.AddResultToPool(
+                PoolName, 
+                false, 
+                _poolObjectFactory.WrapResult(value)
+            );
+            WaterLevel++;
+
             return true;
         }
 
@@ -111,88 +124,22 @@ namespace NIST.CVP.Pools
             return AddWater((TResult)value);
         }
 
-        public bool AddWaterToStagingWater(TResult value)
+        public bool AddWaterToStagingWater(PoolObject<TResult> value)
         {
-            StagingWater.Enqueue(value);
+            _poolRepository.AddResultToPool(PoolName, true, value);
             return true;
-        }
-
-        public bool MixStagingIntoPool()
-        {
-            foreach (var value in StagingWater)
-            {
-                AddWater(value);
-            }
-
-            Shuffle();
-
-            return true;
-        }
-
-        public async Task LoadPoolFromFile()
-        {
-            if (File.Exists(_fullPoolLocation))
-            {
-                // Load file
-                var poolContents = JsonConvert.DeserializeObject<TResult[]>(
-                    await File.ReadAllTextAsync(_fullPoolLocation),
-                    new JsonSerializerSettings
-                    {
-                        Converters = _jsonConverters
-                    }
-                );
-
-                // Pool is empty
-                if (poolContents == null)
-                {
-                    return;
-                }
-
-                foreach (var result in poolContents)
-                {
-                    AddWater(result);
-                }
-            }
-            else
-            {
-                // Create empty file
-                File.WriteAllText(_fullPoolLocation, "[]");
-                LogManager.GetCurrentClassLogger().Debug($"{_fullPoolLocation} created");
-            }
-        }
-
-        public bool SavePoolToFile()
-        {
-            // Make sure we take all the content
-            MixStagingIntoPool();
-
-            var poolContents = JsonConvert.SerializeObject(
-                Water,
-                new JsonSerializerSettings
-                {
-                    Converters = _jsonConverters,
-                    Formatting = Formatting.Indented
-                }
-            );
-
-            try
-            {
-                File.WriteAllText(_fullPoolLocation, poolContents);
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
         }
 
         public bool CleanPool()
         {
-            Water.Clear();
+            var startAction = DateTime.Now;
+            _poolRepository.CleanPool(PoolName);
+            WaterLevel = 0;
+            _poolLogRepository.WriteLog(LogTypes.CleanPool, PoolName, startAction, DateTime.Now, null);
             return true;
         }
 
-        private void RecycleValueWhenOptionsAllow(TResult result)
+        private void RecycleValueWhenOptionsAllow(PoolObject<TResult> result)
         {
             // Recycle the water when option is configured, and TimesValueReused is less than the max reuse
             if (_poolConfig.Value.ShouldRecyclePoolWater)
@@ -204,21 +151,16 @@ namespace NIST.CVP.Pools
                     // Recycle value
                     AddWaterToStagingWater(result);
 
-                    // CHeck if staged water needs to be mixed in
-                    if (StagingWater.Count > MaxStagingLevel)
+                    // Check if staged water needs to be mixed in
+                    if (_poolRepository.GetPoolCount(PoolName, true) > MaxStagingLevel)
                     {
-                        MixStagingIntoPool();
-                        StagingWater.Clear();
+                        var startAction = DateTime.Now;
+                        _poolRepository.MixStagingPoolIntoPool(PoolName);
+                        WaterLevel = _poolRepository.GetPoolCount(PoolName, false);
+                        _poolLogRepository.WriteLog(LogTypes.MixStagingPool, PoolName, startAction, DateTime.Now, null);
                     }
                 }
             }
-        }
-
-        private void Shuffle()
-        {
-            var shuffledList = Water.OrderBy(x => Guid.NewGuid()).ToList();
-            Water.Clear();
-            shuffledList.ForEach(fe => Water.Enqueue(fe));
         }
 
         public abstract Task RequestWater();

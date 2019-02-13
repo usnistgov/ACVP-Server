@@ -5,7 +5,7 @@ using NIST.CVP.Pools.Models;
 using System;
 using System.Threading.Tasks;
 
-namespace NIST.CVP.Pools
+namespace NIST.CVP.Pools.Interfaces
 {
     public interface IPool<out TParam, TResult> : IPool
         where TParam : IParameters
@@ -33,6 +33,11 @@ namespace NIST.CVP.Pools
     public interface IPool
     {
         /// <summary>
+        /// Unique name for the pool parameters/results instance
+        /// </summary>
+        string PoolName { get; }
+
+        /// <summary>
         /// Is the pool empty?
         /// </summary>
         bool IsEmpty { get; }
@@ -40,17 +45,17 @@ namespace NIST.CVP.Pools
         /// <summary>
         /// The number of values within the pool
         /// </summary>
-        int WaterLevel { get; }
+        long WaterLevel { get; }
         
         /// <summary>
         /// The maximum amount of water allowed in a pool.
         /// </summary>
-        int MaxWaterLevel { get; }
+        long MaxWaterLevel { get; }
 
         /// <summary>
         /// The minimum amount of water allowed in a pool for the pool to be used
         /// </summary>
-        int MinWaterLevel { get; }
+        long MinWaterLevel { get; }
 
         /// <summary>
         /// Probability a value will be reused
@@ -97,15 +102,7 @@ namespace NIST.CVP.Pools
         /// </summary>
         /// <returns></returns>
         PoolResult<IResult> GetNextUntyped();
-
-        /// <summary>
-        /// Save the pool to a file
-        /// </summary>
-        /// <returns></returns>
-        bool SavePoolToFile();
-
-        Task LoadPoolFromFile();
-
+        
         /// <summary>
         /// Clears the pool of all values
         /// </summary>

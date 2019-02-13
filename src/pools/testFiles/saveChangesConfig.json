@@ -3,13 +3,13 @@
     "PoolType": {
       "type": "aes",
       "parameters": {
-        "Mode": "ecb",
+        "Mode": 0,
         "KeyLength": 128,
         "DataLength": 128,
         "Direction": "encrypt"
       }
     },
-    "FilePath": "aes-test1.json",
+    "PoolName": "aes-test1.json",
     "MaxCapacity": 10,
     "MinCapacity": 0,
     "RecycleRatePerHundred": 0.0

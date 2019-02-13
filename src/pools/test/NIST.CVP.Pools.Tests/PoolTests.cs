@@ -1,12 +1,10 @@
 ﻿using Microsoft.Extensions.Options;
 using Moq;
-using Newtonsoft.Json;
 using NIST.CVP.Common.Config;
 using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.Common.Symmetric.Enums;
-using NIST.CVP.Generation.Core.JsonConverters;
 using NIST.CVP.Math;
 using NIST.CVP.Pools.Enums;
 using NIST.CVP.Pools.Models;
@@ -14,29 +12,33 @@ using NIST.CVP.Pools.PoolModels;
 using NIST.CVP.Tests.Core;
 using NUnit.Framework;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
+using NIST.CVP.Pools.Interfaces;
 
 namespace NIST.CVP.Pools.Tests
 {
     [TestFixture]
     public class PoolTests
     {
-        private readonly Mock<IOptions<PoolConfig>> _poolConfig = new Mock<IOptions<PoolConfig>>();
+        private Mock<IOptions<PoolConfig>> _poolConfig;
+        private Mock<IOracle> _oracle;
+        private Mock<IPoolRepositoryFactory> _poolRepositoryFactory;
+        private Mock<IPoolRepository<AesResult>> _poolRepository;
+        private Mock<IPoolLogRepository> _poolLogRepository;
+        private Mock<IPoolObjectFactory> _poolObjectFactory;
         private string _testPath;
         private string _fullPath;
-
-        private readonly IList<JsonConverter> _jsonConverters = new List<JsonConverter>
-        {
-            new BitstringConverter(),
-            new DomainConverter(),
-            new BigIntegerConverter()
-        };
 
         [SetUp]
         public void SetUp()
         {
+            _poolConfig = new Mock<IOptions<PoolConfig>>();
+            _oracle = new Mock<IOracle>();
+            _poolRepositoryFactory = new Mock<IPoolRepositoryFactory>();
+            _poolRepository = new Mock<IPoolRepository<AesResult>>();
+            _poolLogRepository = new Mock<IPoolLogRepository>();
+            _poolObjectFactory = new Mock<IPoolObjectFactory>();
+
             var poolConfig = new PoolConfig()
             {
                 ShouldRecyclePoolWater = false
@@ -46,6 +48,12 @@ namespace NIST.CVP.Pools.Tests
             _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\poolTests\");
             Directory.CreateDirectory(_testPath);
             _fullPath = Path.Combine(_testPath, $"{Guid.NewGuid()}.json");
+
+            _poolRepositoryFactory.Setup(s => s.GetRepository<AesResult>()).Returns(_poolRepository.Object);
+            _poolRepository.Setup(s => s.GetPoolCount(It.IsAny<string>(), It.IsAny<bool>())).Returns(0);
+            _poolRepository
+                .Setup(s => s.GetResultFromPool(It.IsAny<string>()))
+                .Returns(() => new PoolObject<AesResult>());
         }
 
         [OneTimeTearDown]
@@ -115,11 +123,22 @@ namespace NIST.CVP.Pools.Tests
                 KeyLength = 128
             };
 
+            var myTestBitString = new BitString("ABCD");
             var pool = new AesPool(GetConstructionParameters(param, PoolTypes.AES));
             pool.AddWater(new AesResult()
             {
-                PlainText = new BitString("ABCD")
+                PlainText = myTestBitString
             });
+
+            _poolRepository
+                .Setup(s => s.GetResultFromPool(It.IsAny<string>()))
+                .Returns(() => new PoolObject<AesResult>()
+                {
+                    Value = new AesResult()
+                    {
+                        PlainText = myTestBitString
+                    }
+                });
 
             var result = pool.GetNext();
             
@@ -157,33 +176,7 @@ namespace NIST.CVP.Pools.Tests
             Assert.IsTrue(pool.IsEmpty);
             Assert.IsTrue(result3.PoolTooEmpty);
         }
-
-        [Test]
-        public void ShouldWriteToFile()
-        {
-            var param = new AesParameters
-            {
-                Direction = "encrypt",
-                DataLength = 128,
-                Mode = BlockCipherModesOfOperation.Ecb,
-                KeyLength = 128
-            };
-
-            var pool = new AesPool(GetConstructionParameters(param, PoolTypes.AES));
-
-            pool.SavePoolToFile();
-
-            if (File.Exists(_fullPath))
-            {
-                File.Delete(_fullPath);
-                Assert.Pass();
-            }
-            else
-            {
-                Assert.Fail();
-            }
-        }
-
+        
         [Test]
         [TestCase(true, 2)]
         [TestCase(false, 1)]
@@ -201,91 +194,19 @@ namespace NIST.CVP.Pools.Tests
                 .Returns(new PoolConfig() { ShouldRecyclePoolWater = shouldRecycle });
 
             var pool = new AesPool(GetConstructionParameters(param, PoolTypes.AES));
-            var originalWaterLevel = pool.WaterLevel;
-
+            
             pool.AddWater(new AesResult() { PlainText = new BitString("01") });
             pool.AddWater(new AesResult() { PlainText = new BitString("02") });
-
-            Assert.AreEqual(
-                originalWaterLevel + 2,
-                pool.WaterLevel,
-                "Water level sanity check, post add"
-            );
+            var addedWater = 2; // as per above water adds
 
             pool.GetNextUntyped();
 
-            Assert.AreEqual(
-                originalWaterLevel + waterLevelPostValueGet,
-                pool.WaterLevel,
-                nameof(waterLevelPostValueGet)
-            );
-        }
-
-        private class ExposedWaterPool : AesPool
-        {
-            public ExposedWaterPool(PoolConstructionParameters<AesParameters> param) : base(param)
-            {
-            }
-
-            public AesResult[] GetPoolWater()
-            {
-                return Water.ToArray();
-            }
-        }
-
-        [Test]
-        public void RecycledValuesShouldChangeQueueOrder()
-        {
-            var param = new AesParameters
-            {
-                Direction = "encrypt",
-                DataLength = 128,
-                Mode = BlockCipherModesOfOperation.Ecb,
-                KeyLength = 128
-            };
-
-            _poolConfig.Setup(s => s.Value)
-                .Returns(new PoolConfig() {ShouldRecyclePoolWater = true});
-
-            var pool = new ExposedWaterPool(GetConstructionParameters(param, PoolTypes.AES));
-
-            Assume.That(pool.IsEmpty);
-            
-            pool.AddWater(new AesResult() {PlainText = new BitString("01")});
-            pool.AddWater(new AesResult() {PlainText = new BitString("02")});
-            pool.AddWater(new AesResult() {PlainText = new BitString("03")});
-            pool.AddWater(new AesResult() {PlainText = new BitString("04")});
-            pool.AddWater(new AesResult() {PlainText = new BitString("05")});
-            pool.AddWater(new AesResult() {PlainText = new BitString("06")});
-            pool.AddWater(new AesResult() {PlainText = new BitString("07")});
-            pool.AddWater(new AesResult() {PlainText = new BitString("08")});
-            pool.AddWater(new AesResult() {PlainText = new BitString("09")});
-            pool.AddWater(new AesResult() {PlainText = new BitString("10")});
-
-            pool.GetNext();
-
-            var water = pool.GetPoolWater();
-
-            Assume.That(water.Count() == 10);
-
-            // The chances of this being shuffled back into the "correct, not shuffled" order is super small right?
-            if (water[0].PlainText.Equals(new BitString("02")) &&
-                water[1].PlainText.Equals(new BitString("03")) &&
-                water[2].PlainText.Equals(new BitString("04")) &&
-                water[3].PlainText.Equals(new BitString("05")) &&
-                water[3].PlainText.Equals(new BitString("06")) &&
-                water[3].PlainText.Equals(new BitString("07")) &&
-                water[3].PlainText.Equals(new BitString("08")) &&
-                water[3].PlainText.Equals(new BitString("09")) &&
-                water[3].PlainText.Equals(new BitString("10")) &&
-                water[4].PlainText.Equals(new BitString("01")))
-            {
-                Assert.Fail();
-            }
-            else
-            {
-                Assert.Pass();
-            }
+            _poolRepository
+                .Verify(
+                    v => v.AddResultToPool(It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<PoolObject<AesResult>>()),
+                    Times.Exactly(shouldRecycle ? addedWater + 1 : addedWater + 0),
+                    nameof(_poolRepository.Object.AddResultToPool)
+                );
         }
 
         [Test]
@@ -317,11 +238,10 @@ namespace NIST.CVP.Pools.Tests
         {
             return new PoolConstructionParameters<TParam>
             {
-                JsonConverters = _jsonConverters,
                 PoolConfig = _poolConfig.Object,
                 PoolProperties = new PoolProperties
                 {
-                    FilePath = _fullPath,
+                    PoolName = _fullPath,
                     MaxCapacity = 100,
                     MinCapacity = 1,
                     RecycleRatePerHundred = 100,
@@ -332,7 +252,11 @@ namespace NIST.CVP.Pools.Tests
                     }
                 },
                 WaterType = param,
-                FullPoolLocation = _fullPath
+                PoolName = _fullPath,
+                Oracle = _oracle.Object,
+                PoolLogRepository = _poolLogRepository.Object,
+                PoolObjectFactory = _poolObjectFactory.Object,
+                PoolRepositoryFactory = _poolRepositoryFactory.Object
             };
         }
     }
