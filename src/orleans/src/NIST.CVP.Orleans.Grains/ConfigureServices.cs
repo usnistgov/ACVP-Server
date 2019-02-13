@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using System.Net;
+using System.Net.Sockets;
+using Microsoft.Extensions.DependencyInjection;
 using NIST.CVP.Common;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
@@ -93,6 +95,9 @@ using NIST.CVP.Orleans.Grains.Rsa;
 using NIST.CVP.Common.Config;
 using NIST.CVP.Crypto.Common.KDF.Components.TPM;
 using NIST.CVP.Crypto.TPM;
+using System;
+using System.Linq;
+using NLog;
 
 namespace NIST.CVP.Orleans.Grains
 {
@@ -101,10 +106,12 @@ namespace NIST.CVP.Orleans.Grains
     /// </summary>
     public static class ConfigureServices
     {
+        private const int DefaultMaxConcurrency = 4;
+
         public static void RegisterServices(IServiceCollection svc, OrleansConfig orleansConfig)
         {
             svc.AddSingleton(new LimitedConcurrencyLevelTaskScheduler(
-                orleansConfig.NonOrleansSchedulerMaxConcurrency
+                GetOrleansNodeMaxConcurrency(orleansConfig)
             ));
             svc.AddSingleton<IEntropyProviderFactory, EntropyProviderFactory>();
             svc.AddTransient<IRandom800_90, Random800_90>();
@@ -220,6 +227,31 @@ namespace NIST.CVP.Orleans.Grains
             svc.AddTransient<IParallelHash, ParallelHash>();
             svc.AddTransient<IParallelHash_MCT, ParallelHash_MCT>();
             #endregion Crypto Registrations
+        }
+
+        private static int GetOrleansNodeMaxConcurrency(OrleansConfig orleansConfig)
+        {
+            var localIpAddress = GetLocalIpAddress();
+            
+            var nodeConfig = orleansConfig.OrleansNodeConfig.FirstOrDefault(f => f.HostName == localIpAddress);
+
+            if (nodeConfig == null)
+            {
+                LogManager.GetCurrentClassLogger().Warn($"Falling back to default max concurrency of {DefaultMaxConcurrency}");
+                return DefaultMaxConcurrency;
+            }
+
+            return nodeConfig.NumberOfCores * 2 - 2;
+        }
+
+        private static string GetLocalIpAddress()
+        {
+            using (Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, 0))
+            {
+                socket.Connect("8.8.8.8", 65530);
+                IPEndPoint endPoint = socket.LocalEndPoint as IPEndPoint;
+                return endPoint?.Address.ToString();
+            }
         }
     }
 }

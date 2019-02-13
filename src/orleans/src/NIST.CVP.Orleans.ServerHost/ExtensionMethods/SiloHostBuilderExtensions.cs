@@ -22,7 +22,7 @@ namespace NIST.CVP.Orleans.ServerHost.ExtensionMethods
         /// </summary>
         /// <param name="builder">The <see cref="ISiloHostBuilder"/></param>
         /// <param name="orleansConfig">The loaded Orleans configuration</param>
-        /// <param name="environmentConfig">The loaded environment configuraiton</param>
+        /// <param name="environmentConfig">The loaded environment configuration</param>
         /// <returns><see cref="ISiloHostBuilder"/> with updated configuration.</returns>
         public static ISiloHostBuilder ConfigureClustering(
             this ISiloHostBuilder builder, 
@@ -41,7 +41,7 @@ namespace NIST.CVP.Orleans.ServerHost.ExtensionMethods
                     break;
                 default:
                     var primarySiloEndpoint = new IPEndPoint(
-                        IPAddress.Parse(orleansConfig.OrleansNodeIps.First()), orleansConfig.OrleansSiloPort
+                        IPAddress.Parse(orleansConfig.OrleansNodeConfig.First().HostName), orleansConfig.OrleansSiloPort
                     );
                     builder.UseDevelopmentClustering(primarySiloEndpoint);
                     builder.ConfigureEndpoints(
@@ -59,7 +59,7 @@ namespace NIST.CVP.Orleans.ServerHost.ExtensionMethods
         /// </summary>
         /// <param name="builder">The <see cref="ISiloHostBuilder"/></param>
         /// <param name="orleansConfig">The loaded Orleans configuration</param>
-        /// <param name="environmentConfig">The loaded environment configuraiton</param>
+        /// <param name="environmentConfig">The loaded environment configuration</param>
         /// <returns><see cref="ISiloHostBuilder"/> with updated configuration.</returns>
         public static ISiloHostBuilder ConfigureLogging(this ISiloHostBuilder builder, OrleansConfig orleansConfig, EnvironmentConfig environmentConfig)
         {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using NIST.CVP.Common.Config;
 using NIST.CVP.Common.Enums;
@@ -22,7 +23,7 @@ namespace NIST.CVP.Crypto.Oracle.ExtensionMethods
                     break;
                 default:
                     List<IPEndPoint> endpoints = new List<IPEndPoint>();
-                    foreach (var endpoint in orleansConfig.OrleansNodeIps)
+                    foreach (var endpoint in orleansConfig.OrleansNodeConfig.Select(s => s.HostName))
                     {
                         endpoints.Add(new IPEndPoint(
                             IPAddress.Parse(endpoint), orleansConfig.OrleansGatewayPort
