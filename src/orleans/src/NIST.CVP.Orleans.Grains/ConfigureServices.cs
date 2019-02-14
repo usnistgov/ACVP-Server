@@ -106,8 +106,6 @@ namespace NIST.CVP.Orleans.Grains
     /// </summary>
     public static class ConfigureServices
     {
-        private const int DefaultMaxConcurrency = 4;
-
         public static void RegisterServices(IServiceCollection svc, OrleansConfig orleansConfig)
         {
             svc.AddSingleton(new LimitedConcurrencyLevelTaskScheduler(
@@ -233,12 +231,16 @@ namespace NIST.CVP.Orleans.Grains
         {
             var localIpAddress = GetLocalIpAddress();
             
-            var nodeConfig = orleansConfig.OrleansNodeConfig.FirstOrDefault(f => f.HostName == localIpAddress);
+            var nodeConfig = orleansConfig.OrleansNodeConfig
+                .FirstOrDefault(f => f.HostName.Equals(localIpAddress, StringComparison.OrdinalIgnoreCase) || 
+                                     f.HostName.Equals("localhost", StringComparison.OrdinalIgnoreCase));
 
             if (nodeConfig == null)
             {
-                LogManager.GetCurrentClassLogger().Warn($"Falling back to default max concurrency of {DefaultMaxConcurrency}");
-                return DefaultMaxConcurrency;
+                throw new Exception("Could not reconcile IP address of node.");
+
+                //LogManager.GetCurrentClassLogger().Warn($"Falling back to default max concurrency of {orleansConfig.FallBackMinimumCores}");
+                //return orleansConfig.FallBackMinimumCores;
             }
 
             return nodeConfig.NumberOfCores * 2 - 2;
