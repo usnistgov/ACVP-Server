@@ -237,7 +237,7 @@ namespace NIST.CVP.Orleans.Grains
 
             if (nodeConfig == null)
             {
-                throw new Exception("Could not reconcile IP address of node.");
+                throw new Exception("Could not reconcile IP address of node. Ensure this node's IP address is listed within appsettings.[env].json under 'OrleansNodeConfig'");
 
                 //LogManager.GetCurrentClassLogger().Warn($"Falling back to default max concurrency of {orleansConfig.FallBackMinimumCores}");
                 //return orleansConfig.FallBackMinimumCores;
