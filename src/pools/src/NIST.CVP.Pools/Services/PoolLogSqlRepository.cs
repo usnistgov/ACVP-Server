@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data;
 using Newtonsoft.Json;
+using NIST.CVP.Common.Interfaces;
 using NIST.CVP.Pools.Enums;
 using NIST.CVP.Pools.ExtensionMethods;
 using NIST.CVP.Pools.Interfaces;

@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" Version="$(NuGetVersionMicrosoftAspNetCoreAll)" />
+    <PackageReference Include="Microsoft.Orleans.Clustering.AdoNet" Version="$(NugetVersionMicrosoftOrleansClusteringAdoNet)" />
     <PackageReference Include="Microsoft.Orleans.Server" Version="$(NugetVersionMicrosoftOrleansServer)" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="$(NuGetVersionMicrosoftNETTestSdk)" />
     <PackageReference Include="OrleansDashboard" Version="$(NuGetVersionOrleansDashboard)" />

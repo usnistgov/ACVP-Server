@@ -8,6 +8,7 @@
     <PackageReference Include="Microsoft.AspNetCore.App" Version="$(NuGetVersionMicrosoftAspNetCoreAll)" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="$(NuGetVersionMicrosoftNETTestSdk)" />
     <PackageReference Include="Microsoft.Orleans.Client" Version="$(NugetVersionMicrosoftOrleansClient)" />
+    <PackageReference Include="Microsoft.Orleans.Clustering.AdoNet" Version="$(NugetVersionMicrosoftOrleansClusteringAdoNet)" />
   </ItemGroup>
 
   <ItemGroup>

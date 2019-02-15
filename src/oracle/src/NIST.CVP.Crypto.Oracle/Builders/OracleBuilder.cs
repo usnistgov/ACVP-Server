@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using NIST.CVP.Common.Config;
 using NIST.CVP.Common.Helpers;
 using NIST.CVP.Common.Oracle;
+using NIST.CVP.Common.Interfaces;
 
 namespace NIST.CVP.Crypto.Oracle.Builders
 {
@@ -13,6 +14,7 @@ namespace NIST.CVP.Crypto.Oracle.Builders
     /// </summary>
     public class OracleBuilder
     {
+        private IDbConnectionStringFactory _dbConnectionStringFactory;
         private IOptions<EnvironmentConfig> _environmentConfig;
         private IOptions<AlgorithmConfig> _algorithmConfig;
         private IOptions<OrleansConfig> _orleansConfig;
@@ -23,6 +25,12 @@ namespace NIST.CVP.Crypto.Oracle.Builders
             _environmentConfig = serviceProvider.GetService<IOptions<EnvironmentConfig>>();
             _algorithmConfig = serviceProvider.GetService<IOptions<AlgorithmConfig>>();
             _orleansConfig = serviceProvider.GetService<IOptions<OrleansConfig>>();
+        }
+
+        public OracleBuilder WithDbConnectionStringFactory(IDbConnectionStringFactory value)
+        {
+            _dbConnectionStringFactory = value;
+            return this;
         }
 
         public OracleBuilder WithEnvironmentConfig(IOptions<EnvironmentConfig> value)
@@ -46,6 +54,7 @@ namespace NIST.CVP.Crypto.Oracle.Builders
         public IOracle Build()
         {
             return new Oracle(
+                _dbConnectionStringFactory,
                 _environmentConfig,
                 _orleansConfig
             );

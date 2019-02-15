@@ -5,6 +5,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using NIST.CVP.Common.Config;
+using NIST.CVP.Common.Interfaces;
+using NIST.CVP.Common.Services;
 
 namespace NIST.CVP.Common.Helpers
 {
@@ -90,6 +92,12 @@ namespace NIST.CVP.Common.Helpers
             var serviceCollection = new ServiceCollection();
             serviceCollection.AddOptions();
 
+            serviceCollection.Configure<IConfiguration>(configurationRoot);
+            serviceCollection.AddSingleton<IConfiguration>(configurationRoot);
+
+            serviceCollection.AddSingleton<IDbConnectionStringFactory, DbConnectionStringFactory>();
+            serviceCollection.AddSingleton<IDbConnectionFactory, SqlDbConnectionFactory>();
+
             serviceCollection.Configure<EnvironmentConfig>(configurationRoot.GetSection(nameof(EnvironmentConfig)));
             serviceCollection.Configure<AlgorithmConfig>(configurationRoot.GetSection(nameof(AlgorithmConfig)));
             serviceCollection.Configure<PoolConfig>(configurationRoot.GetSection(nameof(PoolConfig)));
@@ -111,6 +119,9 @@ namespace NIST.CVP.Common.Helpers
         /// <param name="builder">The builder that will create the <see cref="IContainer"/></param>
         public static void RegisterConfigurationInjections(IServiceProvider serviceProvider, ContainerBuilder builder)
         {
+            builder.Register(context => serviceProvider.GetService<IConfiguration>());
+            builder.Register(context => serviceProvider.GetService<IDbConnectionStringFactory>());
+
             builder.Register(context => serviceProvider.GetService<IOptions<EnvironmentConfig>>());
             builder.Register(context => serviceProvider.GetService<IOptions<AlgorithmConfig>>());
             builder.Register(context => serviceProvider.GetService<IOptions<PoolConfig>>());
