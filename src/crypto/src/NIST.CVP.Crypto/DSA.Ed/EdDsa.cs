@@ -1,12 +1,12 @@
-﻿using System;
-using System.Numerics;
-using NIST.CVP.Crypto.Common.Asymmetric.DSA.Ed;
+﻿using NIST.CVP.Crypto.Common.Asymmetric.DSA.Ed;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.Ed.Enums;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
-using NIST.CVP.Crypto.Math;
+using NIST.CVP.Crypto.Common.Math;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
 using NIST.CVP.Math.Helpers;
+using System;
+using System.Numerics;
 
 namespace NIST.CVP.Crypto.DSA.Ed
 {

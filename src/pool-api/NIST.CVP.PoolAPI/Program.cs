@@ -1,33 +1,23 @@
 ﻿using System;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using NIST.CVP.Pools;
 using NLog;
 using NLog.Config;
 using NLog.Targets;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using Microsoft.Extensions.Options;
-using NIST.CVP.Common.Config;
 using NIST.CVP.Common.Helpers;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace NIST.CVP.PoolAPI
 {
     public static class Program
     {
-        public static PoolManager PoolManager { get; set; }
-        private static IServiceProvider ServiceProvider { get; }
-
-        static Program()
-        {
-            ServiceProvider = EntryPointConfigHelper.Bootstrap(AppDomain.CurrentDomain.BaseDirectory);
-        }
-
+        private static bool _isService;
+        
         public static void Main(string[] args)
         {
-            var isService = !(Debugger.IsAttached || args.Contains("--console"));
+            _isService = !(Debugger.IsAttached || args.Contains("--console"));
             var builder = CreateWebHostBuilder(args.Where(arg => arg != "--console").ToArray());
 
             var logConfig = new LoggingConfiguration();
@@ -40,18 +30,7 @@ namespace NIST.CVP.PoolAPI
             LogManager.Configuration = logConfig;
             var logger = LogManager.GetCurrentClassLogger();
 
-            var poolConfigFile = "poolConfig.json";
-            var poolDirectory = args.Last();
-
-            logger.Info($"PoolConfig: {poolConfigFile}");
-            logger.Info($"PoolDirectory: {poolDirectory}");
-            logger.Info("Loading pools from config file...");
-            PoolManager = new PoolManager(
-                ServiceProvider.GetService<IOptions<PoolConfig>>(), poolConfigFile, poolDirectory
-            );
-            logger.Info("Pools loaded.");
-            
-            if (isService)
+            if (_isService)
             {
                 var pathToExe = Process.GetCurrentProcess().MainModule.FileName;
                 var pathToContentRoot = Path.GetDirectoryName(pathToExe);
@@ -61,8 +40,8 @@ namespace NIST.CVP.PoolAPI
             }
 
             var host = builder.Build();
-            
-            if (isService)
+
+            if (_isService)
             {
                 logger.Info("Running as service");
                 host.RunAsCustomService();
@@ -73,11 +52,25 @@ namespace NIST.CVP.PoolAPI
                 host.Run();
             }
         }
-
+        
         public static IWebHostBuilder CreateWebHostBuilder(string[] args)
         {
+            Console.WriteLine(Directory.GetCurrentDirectory());
+
             return WebHost.CreateDefaultBuilder(args)
+                .UseContentRoot(GetRootDirectory())
                 .UseStartup<Startup>();
+        }
+
+        private static string GetRootDirectory()
+        {
+            if (_isService)
+            {
+                var pathToExe = Process.GetCurrentProcess().MainModule.FileName;
+                return Path.GetDirectoryName(pathToExe) + @"\";
+            }
+
+            return AppDomain.CurrentDomain.BaseDirectory;
         }
     }
 }

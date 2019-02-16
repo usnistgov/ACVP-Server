@@ -1,11 +1,10 @@
-﻿using NIST.CVP.Common.Oracle.ParameterTypes;
+﻿using Microsoft.Extensions.Logging;
+using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.PrimeGenerators;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
-using NIST.CVP.Crypto.RSA.Keys;
-using NIST.CVP.Crypto.RSA.PrimeGenerators;
 using NIST.CVP.Math.Entropy;
 
 namespace NIST.CVP.Orleans.Grains.Rsa
@@ -14,7 +13,7 @@ namespace NIST.CVP.Orleans.Grains.Rsa
     {
         public const int RSA_PUBLIC_EXPONENT_BITS_MIN = 32;
         public const int RSA_PUBLIC_EXPONENT_BITS_MAX = 64;
-
+        private readonly ILogger<RsaRunner> _logger;
         private readonly IShaFactory _shaFactory;
         private readonly IKeyComposerFactory _keyComposerFactory;
         private readonly IKeyBuilder _keyBuilder;
@@ -22,6 +21,7 @@ namespace NIST.CVP.Orleans.Grains.Rsa
         private readonly IKeyGenParameterHelper _keyGenHelper;
         
         public RsaRunner(
+            ILogger<RsaRunner> logger,
             IShaFactory shaFactory,
             IKeyComposerFactory keyComposerFactory,
             IKeyBuilder keyBuilder,
@@ -29,6 +29,7 @@ namespace NIST.CVP.Orleans.Grains.Rsa
             IKeyGenParameterHelper keyGenHelper
         )
         {
+            _logger = logger;
             _shaFactory = shaFactory;
             _keyComposerFactory = keyComposerFactory;
             _keyBuilder = keyBuilder;
@@ -59,6 +60,11 @@ namespace NIST.CVP.Orleans.Grains.Rsa
                 .WithKeyComposer(keyComposer)
                 .WithSeed(param.Seed)
                 .Build();
+
+            if (!keyResult.Success)
+            {
+                _logger.LogDebug(keyResult.ErrorMessage);
+            }
 
             return new RsaPrimeResult()
             {

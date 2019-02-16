@@ -8,10 +8,9 @@ namespace NIST.CVP.Common.Config
     public class OrleansConfig
     {
         /// <summary>
-        /// The ip addresses of nodes to use in the Orleans cluster.
-        /// The first node listed is considered the primary.
+        /// Orleans per node information.
         /// </summary>
-        public string[] OrleansNodeIps { get; set; }
+        public OrleansNodeConfig[] OrleansNodeConfig { get; set; }
         
         /// <summary>
         /// Intra-silo communication port.
@@ -23,12 +22,6 @@ namespace NIST.CVP.Common.Config
         /// </summary>
         public int OrleansGatewayPort { get; set; }
 
-        /// <summary>
-        /// The max concurrency to use on the non Orlease task scheduler.
-        /// (The non Orleans task scheduler is what performs the long running work).
-        /// </summary>
-        public int NonOrleansSchedulerMaxConcurrency { get; set; }
-        
         /// <summary>
         /// The name to use for the cluster
         /// </summary>
@@ -48,5 +41,16 @@ namespace NIST.CVP.Common.Config
         /// Should logs be written to a file?
         /// </summary>
         public bool UseFileLogging { get; set; }
+
+        /// <summary>
+        /// The post to use for the orleans dashboard
+        /// </summary>
+        public int OrleansDashboardPort { get; set; }
+
+        /// <summary>
+        /// A fall back value in case the node cannot be mapped to the configuration.
+        /// This value will be used by the task scheduler for a maximum level of concurrency.
+        /// </summary>
+        public int FallBackMinimumCores { get; set; }
     }
 }

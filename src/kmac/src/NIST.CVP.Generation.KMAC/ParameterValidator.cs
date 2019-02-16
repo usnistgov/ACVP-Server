@@ -9,7 +9,7 @@ namespace NIST.CVP.Generation.KMAC
     {
         public const int _MIN_KEY_LENGTH = 128;
         public const int _MAX_KEY_LENGTH = 524288;
-        public static string[] VALID_ALGORITHMS = {"KMAC-128", "KMAC-256"};
+        public static string[] VALID_ALGORITHMS = {"KMAC"};
         public static int[] VALID_DIGEST_SIZES = { 128, 256 };
 
         private int _minMacLength = 32;
@@ -59,6 +59,12 @@ namespace NIST.CVP.Generation.KMAC
 
         private void ValidateKeyLen(Parameters parameters, List<string> errorResults)
         {
+            if (parameters.KeyLen == null)
+            {
+                errorResults.AddIfNotNullOrEmpty($"{nameof(parameters.KeyLen)} must be provided");
+                return;
+            }
+
             string segmentCheck = "";
             if (parameters.KeyLen.DomainSegments.Count() != 1)
             {
@@ -91,6 +97,12 @@ namespace NIST.CVP.Generation.KMAC
 
         private void ValidateMacLen(Parameters parameters, List<string> errorResults)
         {
+            if (parameters.MacLen == null)
+            {
+                errorResults.AddIfNotNullOrEmpty($"{nameof(parameters.MacLen)} must be provided");
+                return;
+            }
+
             string segmentCheck = "";
             if (parameters.MacLen.DomainSegments.Count() != 1)
             {
@@ -123,6 +135,12 @@ namespace NIST.CVP.Generation.KMAC
 
         private void ValidateMsgLen(Parameters parameters, List<string> errorResults)
         {
+            if (parameters.MsgLen == null)
+            {
+                errorResults.AddIfNotNullOrEmpty($"{nameof(parameters.MsgLen)} must be provided");
+                return;
+            }
+
             string segmentCheck = "";
             if (parameters.MsgLen.DomainSegments.Count() != 1)
             {

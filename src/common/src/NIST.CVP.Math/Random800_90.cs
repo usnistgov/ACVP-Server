@@ -97,5 +97,10 @@ namespace NIST.CVP.Math
 
             return result;
         }
+
+        public decimal GetRandomDecimal()
+        {
+            return (decimal)_randy.NextDouble();
+        }
     }
 }

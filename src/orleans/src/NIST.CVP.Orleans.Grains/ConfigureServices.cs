@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using System.Net;
+using System.Net.Sockets;
+using Microsoft.Extensions.DependencyInjection;
 using NIST.CVP.Common;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
@@ -93,6 +95,9 @@ using NIST.CVP.Orleans.Grains.Rsa;
 using NIST.CVP.Common.Config;
 using NIST.CVP.Crypto.Common.KDF.Components.TPM;
 using NIST.CVP.Crypto.TPM;
+using System;
+using System.Linq;
+using NLog;
 
 namespace NIST.CVP.Orleans.Grains
 {
@@ -104,7 +109,7 @@ namespace NIST.CVP.Orleans.Grains
         public static void RegisterServices(IServiceCollection svc, OrleansConfig orleansConfig)
         {
             svc.AddSingleton(new LimitedConcurrencyLevelTaskScheduler(
-                orleansConfig.NonOrleansSchedulerMaxConcurrency
+                GetOrleansNodeMaxConcurrency(orleansConfig)
             ));
             svc.AddSingleton<IEntropyProviderFactory, EntropyProviderFactory>();
             svc.AddTransient<IRandom800_90, Random800_90>();
@@ -220,6 +225,35 @@ namespace NIST.CVP.Orleans.Grains
             svc.AddTransient<IParallelHash, ParallelHash>();
             svc.AddTransient<IParallelHash_MCT, ParallelHash_MCT>();
             #endregion Crypto Registrations
+        }
+
+        private static int GetOrleansNodeMaxConcurrency(OrleansConfig orleansConfig)
+        {
+            var localIpAddress = GetLocalIpAddress();
+            
+            var nodeConfig = orleansConfig.OrleansNodeConfig
+                .FirstOrDefault(f => f.HostName.Equals(localIpAddress, StringComparison.OrdinalIgnoreCase) || 
+                                     f.HostName.Equals("localhost", StringComparison.OrdinalIgnoreCase));
+
+            if (nodeConfig == null)
+            {
+                throw new Exception("Could not reconcile IP address of node. Ensure this node's IP address is listed within appsettings.[env].json under 'OrleansNodeConfig'");
+
+                //LogManager.GetCurrentClassLogger().Warn($"Falling back to default max concurrency of {orleansConfig.FallBackMinimumCores}");
+                //return orleansConfig.FallBackMinimumCores;
+            }
+
+            return nodeConfig.NumberOfCores * 2 - 2;
+        }
+
+        private static string GetLocalIpAddress()
+        {
+            using (Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, 0))
+            {
+                socket.Connect("8.8.8.8", 65530);
+                IPEndPoint endPoint = socket.LocalEndPoint as IPEndPoint;
+                return endPoint?.Address.ToString();
+            }
         }
     }
 }

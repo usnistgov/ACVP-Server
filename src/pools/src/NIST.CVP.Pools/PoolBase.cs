@@ -1,15 +1,13 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Extensions.Options;
+using NIST.CVP.Common.Config;
 using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ResultTypes;
+using NIST.CVP.Math;
 using NIST.CVP.Pools.Enums;
-using NLog;
-using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.IO;
-using Microsoft.Extensions.Options;
-using NIST.CVP.Common.Config;
+using NIST.CVP.Pools.Interfaces;
 using NIST.CVP.Pools.Models;
+using System;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Pools
 {
@@ -20,74 +18,100 @@ namespace NIST.CVP.Pools
         public PoolTypes DeclaredType { get; }
         public TParam WaterType { get; }
         
-        public int WaterLevel => _water.Count;
+        public string PoolName { get; }
+
+        public long WaterLevel { get; private set; }
+        public long MaxWaterLevel { get; }
+        public long MinWaterLevel { get; }
+        public long MaxStagingLevel { get; }
+        public decimal RecycleRate { get; }
+        public decimal WaterFillPercent => (decimal)WaterLevel / MaxWaterLevel;
+
         public bool IsEmpty => WaterLevel == 0;
 
         public Type ParamType => typeof(TParam);
         public IParameters Param => WaterType;
         public Type ResultType => typeof(TResult);
 
-        private readonly ConcurrentQueue<ResultWrapper<TResult>> _water;
-        private readonly IList<JsonConverter> _jsonConverters;
-        private readonly IOptions<PoolConfig> _poolConfig;
-        private readonly int _maxWaterReuse;
+        protected readonly IRandom800_90 Random;
+        protected readonly IOracle Oracle;
         
-        public PoolBase(PoolConstructionParameters<TParam> param)
+        private readonly IOptions<PoolConfig> _poolConfig;
+        private readonly IPoolRepository<TResult> _poolRepository;
+        private readonly IPoolLogRepository _poolLogRepository;
+        private readonly IPoolObjectFactory _poolObjectFactory;
+        protected PoolBase(PoolConstructionParameters<TParam> param)
         {
             _poolConfig = param.PoolConfig;
+            PoolName = param.PoolName;
+            _poolRepository = param.PoolRepositoryFactory.GetRepository<TResult>();
+            _poolLogRepository = param.PoolLogRepository;
+            _poolObjectFactory = param.PoolObjectFactory;
+
             DeclaredType = param.PoolProperties.PoolType.Type;
+            MaxWaterLevel = param.PoolProperties.MaxCapacity;
+            MinWaterLevel = param.PoolProperties.MinCapacity;
+            MaxStagingLevel = MinWaterLevel / 10;
+            RecycleRate = param.PoolProperties.RecycleRatePerHundred / 100;
             WaterType = param.WaterType;
-            _jsonConverters = param.JsonConverters;
-            _maxWaterReuse = param.PoolProperties.MaxWaterReuse;
-            _water = new ConcurrentQueue<ResultWrapper<TResult>>();
-            LoadPoolFromFile(param.FullPoolLocation);
+
+            Oracle = param.Oracle;
+
+            Random = new Random800_90();
+
+            WaterLevel = _poolRepository.GetPoolCount(PoolName, false);
         }
 
         public PoolResult<TResult> GetNext()
         {
-            if (IsEmpty)
-            {
-                return new PoolResult<TResult> { PoolEmpty = true };
-            }
-            else
-            {
-                var success = _water.TryDequeue(out var wrappedResult);
-                if (success)
-                {
-                    RecycleValueWhenOptionsAllow(wrappedResult);
+            var startAction = DateTime.Now;
 
-                    return new PoolResult<TResult>
-                    {
-                        Result = wrappedResult.Result,
-                        TimesValueUsed = wrappedResult.TimesValueUsed
-                    };
-                }
-                else
-                {
-                    throw new Exception("Unable to get next from queue");
-                }
+            if (WaterLevel < MinWaterLevel)
+            {
+                _poolLogRepository.WriteLog(LogTypes.PoolTooEmpty, PoolName, startAction, DateTime.Now, null);
+                return new PoolResult<TResult> { PoolTooEmpty = true };
             }
+
+            var result = _poolRepository.GetResultFromPool(PoolName);
+
+            if (result != null)
+            {
+                var endAction = DateTime.Now;
+                result.DateLastUsed = endAction;
+                result.TimesUsed++;
+                WaterLevel--;
+                _poolLogRepository.WriteLog(LogTypes.GetValueFromPool, PoolName, startAction, endAction, null);
+
+                RecycleValueWhenOptionsAllow(result);
+                return new PoolResult<TResult>
+                {
+                    Result = result.Value
+                };
+            }
+
+            throw new Exception("Unable to get next from queue");
         }
 
         public PoolResult<IResult> GetNextUntyped()
         {
             var result = GetNext();
-            return new PoolResult<IResult>()
+            return new PoolResult<IResult>
             {
-                PoolEmpty = result.PoolEmpty,
+                PoolTooEmpty = result.PoolTooEmpty,
                 Result = result.Result,
-                TimesValueUsed = result.TimesValueUsed
             };
         }
 
         public bool AddWater(TResult value)
         {
-            return AddWater(new ResultWrapper<TResult>()
-            {
-                Result = value,
-                TimesValueUsed = 0,
-                ValueCreated = DateTime.UtcNow
-            });
+            _poolRepository.AddResultToPool(
+                PoolName, 
+                false, 
+                _poolObjectFactory.WrapResult(value)
+            );
+            WaterLevel++;
+
+            return true;
         }
 
         public bool AddWater(IResult value)
@@ -100,87 +124,45 @@ namespace NIST.CVP.Pools
             return AddWater((TResult)value);
         }
 
-        private void LoadPoolFromFile(string filename)
+        public bool AddWaterToStagingWater(PoolObject<TResult> value)
         {
-            if (File.Exists(filename))
-            {
-                // Load file
-                var poolContents = JsonConvert.DeserializeObject<ResultWrapper<TResult>[]>(
-                    File.ReadAllText(filename),
-                    new JsonSerializerSettings
-                    {
-                        Converters = _jsonConverters
-                    }
-                );
-
-                // Pool is empty
-                if (poolContents == null)
-                {
-                    return;
-                }
-
-                foreach (var result in poolContents)
-                {
-                    AddWater(result);
-                }
-            }
-            else
-            {
-                // Create empty file
-                File.WriteAllText(filename, "[]");
-                LogManager.GetCurrentClassLogger().Debug($"{filename} created");
-            }
-        }
-
-        public bool SavePoolToFile(string filename)
-        {
-            var poolContents = JsonConvert.SerializeObject(
-                _water,
-                new JsonSerializerSettings
-                {
-                    Converters = _jsonConverters,
-                    Formatting = Formatting.Indented
-                }
-            );
-
-            try
-            {
-                File.WriteAllText(filename, poolContents);
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
+            _poolRepository.AddResultToPool(PoolName, true, value);
+            return true;
         }
 
         public bool CleanPool()
         {
-            _water.Clear();
+            var startAction = DateTime.Now;
+            _poolRepository.CleanPool(PoolName);
+            WaterLevel = 0;
+            _poolLogRepository.WriteLog(LogTypes.CleanPool, PoolName, startAction, DateTime.Now, null);
             return true;
         }
 
-        private void RecycleValueWhenOptionsAllow(ResultWrapper<TResult> result)
+        private void RecycleValueWhenOptionsAllow(PoolObject<TResult> result)
         {
             // Recycle the water when option is configured, and TimesValueReused is less than the max reuse
-            if (_poolConfig.Value.ShouldRecyclePoolWater && result.TimesValueUsed < _maxWaterReuse)
+            if (_poolConfig.Value.ShouldRecyclePoolWater)
             {
-                var newResultToQueue = new ResultWrapper<TResult>()
+                // Recycle rate is [0, 1)
+                var probToReuse = Random.GetRandomDecimal();
+                if (probToReuse < RecycleRate)
                 {
-                    Result = result.Result,
-                    TimesValueUsed = result.TimesValueUsed + 1,
-                    ValueCreated = result.ValueCreated,
-                    ValueUsed = DateTime.UtcNow
-                };
+                    // Recycle value
+                    AddWaterToStagingWater(result);
 
-                AddWater(newResultToQueue);
+                    // Check if staged water needs to be mixed in
+                    if (_poolRepository.GetPoolCount(PoolName, true) > MaxStagingLevel)
+                    {
+                        var startAction = DateTime.Now;
+                        _poolRepository.MixStagingPoolIntoPool(PoolName);
+                        WaterLevel = _poolRepository.GetPoolCount(PoolName, false);
+                        _poolLogRepository.WriteLog(LogTypes.MixStagingPool, PoolName, startAction, DateTime.Now, null);
+                    }
+                }
             }
         }
 
-        private bool AddWater(ResultWrapper<TResult> result)
-        {
-            _water.Enqueue(result);
-            return true;
-        }
+        public abstract Task RequestWater();
     }
 }

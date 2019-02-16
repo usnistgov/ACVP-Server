@@ -1,9 +1,14 @@
 ﻿using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ResultTypes;
+using NIST.CVP.Generation.Core.JsonConverters;
 using NIST.CVP.Pools.Enums;
+using NIST.CVP.Pools.Models;
+using NLog;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using PoolConfig = NIST.CVP.Common.Config.PoolConfig;
@@ -14,6 +19,13 @@ namespace NIST.CVP.Pools
         where T : IResult
     {
         private readonly PoolConfig _poolConfig;
+        private readonly IList<JsonConverter> _jsonConverters = new List<JsonConverter>
+        {
+            new BitstringConverter(),
+            new DomainConverter(),
+            new BigIntegerConverter(),
+            new StringEnumConverter()
+        };
 
         public PoolBoy(IOptions<PoolConfig> poolConfig)
         {
@@ -43,7 +55,13 @@ namespace NIST.CVP.Pools
             using (var streamWriter = new StreamWriter(request.GetRequestStream()))
             {
                 streamWriter.Write(
-                    JsonConvert.SerializeObject(paramHolder)
+                    JsonConvert.SerializeObject(
+                        paramHolder, 
+                        new JsonSerializerSettings()
+                        {
+                            Converters = _jsonConverters
+                        }
+                    )
                 );
             }
 
@@ -53,18 +71,24 @@ namespace NIST.CVP.Pools
                 using (var streamReader = new StreamReader(response.GetResponseStream()))
                 {
                     var json = streamReader.ReadToEnd();
-                    var poolResult = JsonConvert.DeserializeObject<PoolResult<T>>(json);
-                    if (poolResult.PoolEmpty)
+                    var poolResult = JsonConvert.DeserializeObject<PoolResult<T>>(
+                        json, new JsonSerializerSettings()
+                        {
+                            Converters = _jsonConverters
+                        }
+                    );
+                    if (poolResult.PoolTooEmpty)
                     {
-                        throw new Exception("Pool empty, defaulting to normal procedure");
+                        return default(T);
                     }
 
                     return poolResult.Result;
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 // Fall back to normal procedure
+                LogManager.GetCurrentClassLogger().Error(ex);
                 return default(T);
             }
         }

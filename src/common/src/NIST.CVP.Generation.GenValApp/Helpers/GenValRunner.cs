@@ -70,7 +70,7 @@ namespace NIST.CVP.Generation.GenValApp.Helpers
         }
 
         /// <summary>
-        /// Run Generation or Validation, dependant on determined run mode..
+        /// Run Generation or Validation, dependent on determined run mode..
         /// </summary>
         /// <param name="parsedParameters"></param>
         /// <returns></returns>
@@ -83,7 +83,7 @@ namespace NIST.CVP.Generation.GenValApp.Helpers
                 {
                     case GenValMode.Generate:
                     {
-                        FileDirectory = Path.GetPathRoot(parsedParameters.RegistrationFile.FullName);
+                        FileDirectory = Path.GetDirectoryName(parsedParameters.RegistrationFile.FullName);
 
                         var registrationFile = parsedParameters.RegistrationFile.FullName;
                         var result = RunGeneration(registrationFile);
@@ -92,16 +92,16 @@ namespace NIST.CVP.Generation.GenValApp.Helpers
                             return (int)result.StatusCode;
 
                         errorMessage = $"ERROR! Generating Test Vectors for {registrationFile}: {result.ErrorMessage}";
-                        ErrorLogger.LogError(result.StatusCode, "generator", result.ErrorMessage, Path.GetPathRoot(parsedParameters.RegistrationFile.FullName));
                         Console.Error.WriteLine(errorMessage);
                         Program.Logger.Error($"Status Code: {result.StatusCode}");
                         Program.Logger.Error(errorMessage);
+                        ErrorLogger.LogError(result.StatusCode, "generator", result.ErrorMessage, FileDirectory);
                         return (int)result.StatusCode;
                     }
 
                     case GenValMode.Validate:
                     {
-                        FileDirectory = Path.GetPathRoot(parsedParameters.ResponseFile.FullName);
+                        FileDirectory = Path.GetDirectoryName(parsedParameters.ResponseFile.FullName);
 
                         var responseFile = parsedParameters.ResponseFile.FullName;
                         var answerFile = parsedParameters.AnswerFile.FullName;
@@ -112,10 +112,10 @@ namespace NIST.CVP.Generation.GenValApp.Helpers
                             return (int)result.StatusCode;
 
                         errorMessage = $"ERROR! Validating Test Vectors for {responseFile}: {result.ErrorMessage}";
-                        ErrorLogger.LogError(result.StatusCode, "validator", result.ErrorMessage, Path.GetPathRoot(parsedParameters.ResponseFile.FullName));
                         Console.Error.WriteLine(errorMessage);
                         Program.Logger.Error($"Status Code: {result.StatusCode}");
                         Program.Logger.Error(errorMessage);
+                        ErrorLogger.LogError(result.StatusCode, "validator", result.ErrorMessage, FileDirectory);
                         return (int)result.StatusCode;
                     }
                     default:
@@ -129,11 +129,11 @@ namespace NIST.CVP.Generation.GenValApp.Helpers
             catch (Exception ex)
             {
                 errorMessage = $"ERROR: {ex.Message}";
-                ErrorLogger.LogError(StatusCode.Exception, "driver", ex.Message, FileDirectory);
                 Console.WriteLine(errorMessage);
                 Console.WriteLine(ex.StackTrace);
                 Logger.Error($"Status Code: {StatusCode.Exception}");
                 Logger.Error(errorMessage);
+                ErrorLogger.LogError(StatusCode.Exception, "driver", ex.Message, FileDirectory);
                 return (int) StatusCode.Exception;
             }
         }

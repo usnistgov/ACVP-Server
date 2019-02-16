@@ -1,19 +1,17 @@
 ﻿using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 using NIST.CVP.Common.Config;
 using NIST.CVP.Common.ExtensionMethods;
-using NIST.CVP.Common.Oracle;
-using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
-using NIST.CVP.Generation.Core.JsonConverters;
 using NIST.CVP.Pools.Enums;
 using NIST.CVP.Pools.Models;
-using NIST.CVP.Pools.PoolModels;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using NLog;
+using System.Linq;
+using System.Threading.Tasks;
+using NIST.CVP.Pools.Interfaces;
 
 namespace NIST.CVP.Pools
 {
@@ -23,22 +21,27 @@ namespace NIST.CVP.Pools
         private readonly IOptions<PoolConfig> _poolConfig;
         private readonly string _poolDirectory;
         private readonly string _poolConfigFile;
-
+        private readonly IPoolLogRepository _poolLogRepository;
+        private readonly IPoolFactory _poolFactory;
+        
         private PoolProperties[] _properties;
         
-        private readonly IList<JsonConverter> _jsonConverters = new List<JsonConverter>
-        {
-            new BitstringConverter(),
-            new DomainConverter(),
-            new BigIntegerConverter(),
-            new StringEnumConverter()
-        };
+        private readonly IList<JsonConverter> _jsonConverters;
 
-        public PoolManager(IOptions<PoolConfig> poolConfig, string poolConfigFile, string poolDirectory)
+        public PoolManager(
+            IOptions<PoolConfig> poolConfig, 
+            IPoolLogRepository poolLogRepository,
+            IPoolFactory poolFactory,
+            IJsonConverterProvider jsonConverterProvider
+        )
         {
-            _poolDirectory = poolDirectory;
-            _poolConfigFile = poolConfigFile;
             _poolConfig = poolConfig;
+            _poolDirectory = _poolConfig.Value.PoolDirectory;
+            _poolConfigFile = _poolConfig.Value.PoolConfigFile;
+            _poolLogRepository = poolLogRepository;
+            _poolFactory = poolFactory;
+            _jsonConverters = jsonConverterProvider.GetJsonConverters();
+
             LoadPools();
         }
 
@@ -64,17 +67,26 @@ namespace NIST.CVP.Pools
 
         public PoolResult<IResult> GetResultFromPool(ParameterHolder paramHolder)
         {
+            var startAction = DateTime.Now;
+
             if (Pools.TryFirst(pool => pool.Param.Equals(paramHolder.Parameters), out var result))
             {
                 return result.GetNextUntyped();
             }
 
-            return new PoolResult<IResult> { PoolEmpty = true };
+            _poolLogRepository.WriteLog(
+                LogTypes.NoPool, 
+                string.Empty, 
+                startAction, 
+                DateTime.Now, 
+                JsonConvert.SerializeObject(paramHolder.Parameters, new JsonSerializerSettings() { Converters = _jsonConverters }));
+            return new PoolResult<IResult> { PoolTooEmpty = true };
         }
 
         public List<ParameterHolder> GetPoolInformation()
         {
             var list = new List<ParameterHolder>();
+
             Pools.ForEach(fe =>
             {
                 list.Add(new ParameterHolder
@@ -90,12 +102,12 @@ namespace NIST.CVP.Pools
         public bool EditPoolProperties(PoolProperties poolProps)
         {
             if (_properties.TryFirst(
-                properties => properties.FilePath.Equals(poolProps.FilePath, StringComparison.OrdinalIgnoreCase),
+                properties => properties.PoolName.Equals(poolProps.PoolName, StringComparison.OrdinalIgnoreCase),
                 out var result))
             {
                 result.MaxCapacity = poolProps.MaxCapacity;
-                result.MaxWaterReuse = poolProps.MaxWaterReuse;
-                result.MonitorFrequency = poolProps.MonitorFrequency;
+                result.MinCapacity = poolProps.MinCapacity;
+                result.RecycleRatePerHundred = poolProps.RecycleRatePerHundred;
             }
 
             return true;
@@ -104,27 +116,6 @@ namespace NIST.CVP.Pools
         public List<PoolProperties> GetPoolProperties()
         {
             return new List<PoolProperties>(_properties);
-        }
-
-        public bool SavePools()
-        {
-            foreach (var pool in Pools)
-            {
-                if (_properties.TryFirst(prop => pool.Param.Equals(prop.PoolType.Parameters), out var properties))
-                {
-                    var filePath = Path.Combine(_poolDirectory, properties.FilePath);
-                    if (!pool.SavePoolToFile(filePath))
-                    {
-                        return false;
-                    }
-                }
-                else
-                {
-                    return false;
-                }
-            }
-
-            return true;
         }
 
         public bool SavePoolConfigs()
@@ -155,8 +146,61 @@ namespace NIST.CVP.Pools
             return true;
         }
 
+        public async Task<SpawnJobResponse> SpawnJobForMostShallowPool(int jobsToSpawn)
+        {
+            try
+            {
+                List<Task> tasks = new List<Task>();
+                IPool minPool = GetMinimallyFilledPool();
+
+                // If the pool is looking a bit low
+                if (minPool != null)
+                {
+                    var json = JsonConvert.SerializeObject(
+                        minPool.Param, new JsonSerializerSettings()
+                        {
+                            Converters = _jsonConverters,
+                            Formatting = Formatting.Indented
+                        }
+                    );
+
+                    var startAction = DateTime.Now;
+                    RequestPoolWater(jobsToSpawn, tasks, minPool, json);
+
+                    // If filling of pools occurred, wait for it to finish, then save the pools.
+                    if (tasks.Count > 0)
+                    {
+                        await Task.WhenAll(tasks);
+
+                        _poolLogRepository.WriteLog(LogTypes.QueueOrleansWorkToPool, minPool.PoolName, startAction,
+                            DateTime.Now, null);
+
+                        LogManager.GetCurrentClassLogger()
+                            .Log(LogLevel.Info, $"Pool was filled: \n\n {json}");
+
+                        return new SpawnJobResponse()
+                        {
+                            HasSpawnedJob = true,
+                            PoolParameter = minPool.Param
+                        };
+                    }
+                }
+
+                // Nothing was queued
+                return new SpawnJobResponse();
+            }
+            catch (Exception ex)
+            {
+                LogManager.GetCurrentClassLogger().Error(ex);
+                return new SpawnJobResponse();
+            }
+        }
+        
         private void LoadPools()
         {
+            LogManager.GetCurrentClassLogger()
+                .Log(LogLevel.Info, "Loading Pools.");
+
             var fullConfigFile = Path.Combine(_poolDirectory, _poolConfigFile);
             _properties = JsonConvert.DeserializeObject<PoolProperties[]>
             (
@@ -169,79 +213,47 @@ namespace NIST.CVP.Pools
 
             foreach (var poolProperty in _properties)
             {
-                var fullPoolLocation = Path.Combine(_poolDirectory, poolProperty.FilePath);
-                var param = poolProperty.PoolType.Parameters;
-
-                IPool pool = null;
-                switch (poolProperty.PoolType.Type)
-                {
-                    case PoolTypes.SHA:
-                        pool = new ShaPool(GetConstructionParameters(param as ShaParameters, poolProperty, fullPoolLocation));
-                        break;
-
-                    case PoolTypes.AES:
-                        pool = new AesPool(GetConstructionParameters(param as AesParameters, poolProperty, fullPoolLocation));
-                        break;
-
-                    case PoolTypes.SHA_MCT:
-                        pool = new ShaMctPool(GetConstructionParameters(param as ShaParameters, poolProperty, fullPoolLocation));
-                        break;
-
-                    case PoolTypes.AES_MCT:
-                        pool = new AesMctPool(GetConstructionParameters(param as AesParameters, poolProperty, fullPoolLocation));
-                        break;
-
-                    case PoolTypes.TDES_MCT:
-                        pool = new TdesMctPool(GetConstructionParameters(param as TdesParameters, poolProperty, fullPoolLocation));
-                        break;
-
-                    case PoolTypes.SHA3_MCT:
-                        pool = new Sha3MctPool(GetConstructionParameters(param as Sha3Parameters, poolProperty, fullPoolLocation));
-                        break;
-
-                    case PoolTypes.CSHAKE_MCT:
-                        pool = new CShakeMctPool(GetConstructionParameters(param as CShakeParameters, poolProperty, fullPoolLocation));
-                        break;
-
-                    case PoolTypes.PARALLEL_HASH_MCT:
-                        pool = new ParallelHashMctPool(GetConstructionParameters(param as ParallelHashParameters, poolProperty, fullPoolLocation));
-                        break;
-
-                    case PoolTypes.TUPLE_HASH_MCT:
-                        pool = new TupleHashMctPool(GetConstructionParameters(param as TupleHashParameters, poolProperty, fullPoolLocation));
-                        break;
-
-                    case PoolTypes.DSA_PQG:
-                        pool = new DsaPqgPool(GetConstructionParameters(param as DsaDomainParametersParameters, poolProperty, fullPoolLocation));
-                        break;
-
-                    case PoolTypes.ECDSA_KEY:
-                        pool = new EcdsaKeyPool(GetConstructionParameters(param as EcdsaKeyParameters, poolProperty, fullPoolLocation));
-                        break;
-
-                    case PoolTypes.RSA_KEY:
-                        pool = new RsaKeyPool(GetConstructionParameters(param as RsaKeyParameters, poolProperty, fullPoolLocation));
-                        break;
-
-                    default:
-                        throw new Exception("No pool model found");
-                }
-
-                Pools.Add(pool);
+                Pools.Add(_poolFactory.GetPool(poolProperty));
             }
+
+            LogManager.GetCurrentClassLogger()
+                .Log(LogLevel.Info, "Pools loaded.");
+        }
+        
+        private IPool GetMinimallyFilledPool()
+        {
+            // Get a random pool with the minimum percentage
+            var minPercent = Pools
+                .Min(m => m.WaterFillPercent);
+            var minPool = Pools
+                .Where(w => w.WaterFillPercent == minPercent)
+                .ToList().Shuffle().FirstOrDefault();
+            return minPool;
         }
 
-        private PoolConstructionParameters<TParam> GetConstructionParameters<TParam>(TParam param, PoolProperties poolProperties, string fullPoolLocation)
-            where TParam : IParameters
+        private void RequestPoolWater(int numberOfJobsToQueue, List<Task> tasks, IPool pool, string json)
         {
-            return new PoolConstructionParameters<TParam>()
+            // If the pool is looking a bit low
+            if (pool.WaterLevel < pool.MaxWaterLevel)
             {
-                JsonConverters = _jsonConverters,
-                PoolConfig = _poolConfig,
-                PoolProperties = poolProperties,
-                WaterType = param,
-                FullPoolLocation = fullPoolLocation
-            };
+                // Don't queue more than the max allowed for the pool
+                var potentialMaxJobs = pool.MaxWaterLevel - pool.WaterLevel;
+                var jobsToQueue = numberOfJobsToQueue < potentialMaxJobs
+                    ? numberOfJobsToQueue
+                    : potentialMaxJobs;
+
+                if (jobsToQueue > 0)
+                {
+                    LogManager.GetCurrentClassLogger()
+                        .Log(LogLevel.Info, $"Starting job to fill pool with {numberOfJobsToQueue} precomputed values, using parameters: \n\n {json}");
+                }
+
+                // Add jobs to a list of tasks
+                for (var i = 0; i < jobsToQueue; i++)
+                {
+                    tasks.Add(pool.RequestWater());
+                }
+            }
         }
     }
 }

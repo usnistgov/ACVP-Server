@@ -7,15 +7,12 @@ namespace NIST.CVP.Generation.KeyWrap.Tests.TDES
 {
     public class ParameterBuilder
     {
-
         private string _algorithm;
 
         private string _mode;
         private string[] _direction;
         private string[] _kwCipher;
         private MathDomain _ptLen;
-        private int[] _keyingOption;
-
 
         /// <summary>
         /// Provides a valid (as of construction) set of parameters
@@ -28,8 +25,7 @@ namespace NIST.CVP.Generation.KeyWrap.Tests.TDES
 
             _direction = ParameterValidator.VALID_DIRECTIONS;
             _kwCipher = ParameterValidator.VALID_KWCIPHER;
-            _keyingOption = ParameterValidator.VALID_KEYING_OPTIONS;
-
+            
             SetMathRanges(keyWrapType);
         }
 
@@ -51,19 +47,12 @@ namespace NIST.CVP.Generation.KeyWrap.Tests.TDES
             return this;
         }
 
-        public ParameterBuilder WithKeyingOption(int[] value)
-        {
-            _keyingOption = value;
-            return this;
-        }
-
         public Parameters Build()
         {
             return new Parameters()
             {
                 Algorithm = _algorithm,
                 Mode = _mode,
-                KeyingOption = _keyingOption,
                 Direction = _direction,
                 KwCipher = _kwCipher,
                 PayloadLen = _ptLen

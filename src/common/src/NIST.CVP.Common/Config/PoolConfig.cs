@@ -9,7 +9,7 @@
         /// The root location of the pool manager
         /// </summary>
         public string RootUrl { get; set; }
-        
+
         /// <summary>
         /// The pool managers port
         /// </summary>
@@ -19,5 +19,25 @@
         /// Should the precomputed value be pushed back onto the queue once used?
         /// </summary>
         public bool ShouldRecyclePoolWater { get; set; }
+
+        /// <summary>
+        /// The file to use for pool configuration.
+        /// </summary>
+        public string PoolConfigFile { get; set; }
+
+        /// <summary>
+        /// The directory where the pool water files are stored.
+        /// </summary>
+        public string PoolDirectory { get; set; }
+
+        /// <summary>
+        /// The Database connection string
+        /// </summary>
+        public string ConnectionString { get; set; }
+
+        /// <summary>
+        /// The database name to use
+        /// </summary>
+        public string DatabaseName { get; set; }
     }
 }

@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.168
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PoolMonitor", "PoolMonitor\PoolMonitor.csproj", "{71001A0D-27A2-4077-828C-83FF2CF5DE5E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Pools", "..\..\src\pools\src\NIST.CVP.Pools\NIST.CVP.Pools.csproj", "{3392AE0D-01FA-457A-8240-400C42F27AC1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Common.Oracle", "..\..\src\oracle\src\NIST.CVP.Common.Oracle\NIST.CVP.Common.Oracle.csproj", "{C1AA5C8E-523F-483E-97A7-8DC035184AF5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Common", "..\..\src\common\src\NIST.CVP.Common\NIST.CVP.Common.csproj", "{9E3FC2F5-7DB8-44D2-B012-45FFC440C71F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Math", "..\..\src\common\src\NIST.CVP.Math\NIST.CVP.Math.csproj", "{F2292F3B-024B-42F9-9177-B220B63303A9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.Common", "..\..\src\crypto\src\NIST.CVP.Crypto.Common\NIST.CVP.Crypto.Common.csproj", "{A814CC55-2AE0-436A-A2DA-FD0A366C38B3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{71001A0D-27A2-4077-828C-83FF2CF5DE5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{71001A0D-27A2-4077-828C-83FF2CF5DE5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{71001A0D-27A2-4077-828C-83FF2CF5DE5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{71001A0D-27A2-4077-828C-83FF2CF5DE5E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3392AE0D-01FA-457A-8240-400C42F27AC1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3392AE0D-01FA-457A-8240-400C42F27AC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3392AE0D-01FA-457A-8240-400C42F27AC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3392AE0D-01FA-457A-8240-400C42F27AC1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1AA5C8E-523F-483E-97A7-8DC035184AF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1AA5C8E-523F-483E-97A7-8DC035184AF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1AA5C8E-523F-483E-97A7-8DC035184AF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1AA5C8E-523F-483E-97A7-8DC035184AF5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E3FC2F5-7DB8-44D2-B012-45FFC440C71F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E3FC2F5-7DB8-44D2-B012-45FFC440C71F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E3FC2F5-7DB8-44D2-B012-45FFC440C71F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E3FC2F5-7DB8-44D2-B012-45FFC440C71F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F2292F3B-024B-42F9-9177-B220B63303A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F2292F3B-024B-42F9-9177-B220B63303A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F2292F3B-024B-42F9-9177-B220B63303A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F2292F3B-024B-42F9-9177-B220B63303A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A814CC55-2AE0-436A-A2DA-FD0A366C38B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A814CC55-2AE0-436A-A2DA-FD0A366C38B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A814CC55-2AE0-436A-A2DA-FD0A366C38B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A814CC55-2AE0-436A-A2DA-FD0A366C38B3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {74486AA7-38EE-4AC4-9A0C-126815300B56}
+	EndGlobalSection
+EndGlobal

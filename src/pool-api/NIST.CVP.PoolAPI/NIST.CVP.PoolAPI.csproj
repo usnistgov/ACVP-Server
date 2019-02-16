@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
-    <RuntimeIdentifier>win7-x64</RuntimeIdentifier>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
     <StartupObject>NIST.CVP.PoolAPI.Program</StartupObject>
   </PropertyGroup>
 
@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\oracle\src\NIST.CVP.Crypto.Oracle\NIST.CVP.Crypto.Oracle.csproj" />
     <ProjectReference Include="..\..\pools\src\NIST.CVP.Pools\NIST.CVP.Pools.csproj" />
   </ItemGroup>
   

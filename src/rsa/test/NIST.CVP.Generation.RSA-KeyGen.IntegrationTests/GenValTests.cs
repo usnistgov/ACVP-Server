@@ -1,7 +1,4 @@
-﻿using Autofac;
-using NIST.CVP.Crypto.Common;
-using NIST.CVP.Common;
-using NIST.CVP.Generation.Core;
+﻿using NIST.CVP.Common;
 using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
@@ -103,7 +100,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
                 IsSample = true,
                 PubExpMode = "fixed",
                 FixedPubExp = "010001",
-                KeyFormat = "standard",
+                KeyFormat = "crt",
                 AlgSpecs = algSpecs
             };
 

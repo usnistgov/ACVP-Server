@@ -1,14 +1,13 @@
-﻿using System.Threading.Tasks;
-using NIST.CVP.Common;
+﻿using NIST.CVP.Common;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys;
-using NIST.CVP.Crypto.Math;
+using NIST.CVP.Crypto.Common.Math;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
 using NIST.CVP.Orleans.Grains.Interfaces.Rsa;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Orleans.Grains.Rsa
 {
@@ -23,6 +22,7 @@ namespace NIST.CVP.Orleans.Grains.Rsa
         private readonly IRandom800_90 _rand;
 
         private RsaDecryptionPrimitiveParameters _param;
+        private KeyResult _passingKey;
 
         public OracleObserverRsaDecryptionPrimitiveCaseGrain(
             LimitedConcurrencyLevelTaskScheduler nonOrleansScheduler,
@@ -42,9 +42,10 @@ namespace NIST.CVP.Orleans.Grains.Rsa
             _rand = rand;
         }
         
-        public async Task<bool> BeginWorkAsync(RsaDecryptionPrimitiveParameters param)
+        public async Task<bool> BeginWorkAsync(RsaDecryptionPrimitiveParameters param, KeyResult passingKey)
         {
             _param = param;
+            _passingKey = passingKey;
             
             await BeginGrainWorkAsync();
             return await Task.FromResult(true);
@@ -54,30 +55,16 @@ namespace NIST.CVP.Orleans.Grains.Rsa
         {
             RsaDecryptionPrimitiveResult result;
 
+            // TODO use an additional parameter for this grain, passing in a key to be able to make use of pools.
             if (_param.TestPassed)
             {
-                // Correct tests
-                KeyResult keyResult;
-                do
-                {
-                    var e = _keyGenHelper.GetEValue(RsaRunner.RSA_PUBLIC_EXPONENT_BITS_MIN, RsaRunner.RSA_PUBLIC_EXPONENT_BITS_MAX);
-                    keyResult = _keyBuilder
-                        .WithPrimeGenMode(PrimeGenModes.B33)
-                        .WithEntropyProvider(_entropyProvider)
-                        .WithNlen(_param.Modulo)
-                        .WithPublicExponent(e)
-                        .WithPrimeTestMode(PrimeTestModes.C2)
-                        .WithKeyComposer(_keyComposerFactory.GetKeyComposer(PrivateKeyModes.Standard))
-                        .Build();
-                } while (!keyResult.Success);
-
-                var cipherText = new BitString(_rand.GetRandomBigInteger(1, keyResult.Key.PubKey.N - 1));
-                var plainText = _rsa.Decrypt(cipherText.ToPositiveBigInteger(), keyResult.Key.PrivKey, keyResult.Key.PubKey).PlainText;
+                var cipherText = new BitString(_rand.GetRandomBigInteger(1, _passingKey.Key.PubKey.N - 1));
+                var plainText = _rsa.Decrypt(cipherText.ToPositiveBigInteger(), _passingKey.Key.PrivKey, _passingKey.Key.PubKey).PlainText;
 
                 result = new RsaDecryptionPrimitiveResult
                 {
                     CipherText = cipherText,
-                    Key = keyResult.Key,
+                    Key = _passingKey.Key,
                     PlainText = new BitString(plainText, _param.Modulo, false)
                 };
             }

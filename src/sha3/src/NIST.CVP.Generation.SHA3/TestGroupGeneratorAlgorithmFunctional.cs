@@ -5,7 +5,7 @@ namespace NIST.CVP.Generation.SHA3
 {
     public class TestGroupGeneratorAlgorithmFunctional : ITestGroupGenerator<Parameters, TestGroup, TestCase>
     {
-        private const string TEST_TYPE = "aft";
+        private const string TEST_TYPE = "AFT";
 
         public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
         {

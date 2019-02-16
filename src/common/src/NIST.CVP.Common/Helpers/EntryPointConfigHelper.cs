@@ -21,7 +21,38 @@ namespace NIST.CVP.Common.Helpers
         private const string SETTINGS_FILE = "appsettings";
         private const string SETTINGS_EXTENSION = "json";
 
+        /// <summary>
+        /// Bootstraps application from configuration file directory.
+        ///
+        /// Returns a <see cref="IServiceProvider"/> that has registered many of the reused
+        /// components within the ACVP application.
+        /// </summary>
+        /// <param name="configurationFileDirectory">The directory configuration files are located.</param>
+        /// <returns></returns>
         public static IServiceProvider Bootstrap(string configurationFileDirectory)
+        {
+            IConfigurationRoot configuration = GetConfigurationRoot(configurationFileDirectory);
+
+            return GetBaseServiceCollection(configuration).BuildServiceProvider();
+        }
+
+        /// <summary>
+        /// Returns a service provider given the provided service collection
+        /// </summary>
+        /// <param name="serviceCollection">Collection of services to be registered with IOC container.</param>
+        /// <returns></returns>
+        public static IServiceProvider Bootstrap(IServiceCollection serviceCollection)
+        {
+            return serviceCollection.BuildServiceProvider();
+        }
+
+        /// <summary>
+        /// Gets a configuration root from the configuration file directory.
+        /// This <see cref="IConfigurationRoot"/> can be used for building a <see cref="IServiceCollection"/>.
+        /// </summary>
+        /// <param name="configurationFileDirectory">The location of the configuration json files</param>
+        /// <returns></returns>
+        public static IConfigurationRoot GetConfigurationRoot(string configurationFileDirectory)
         {
             string env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
             if (string.IsNullOrWhiteSpace(env))
@@ -41,20 +72,34 @@ namespace NIST.CVP.Common.Helpers
                 .AddEnvironmentVariables();
 
             var configuration = builder.Build();
-            
-            var serviceCollection = new ServiceCollection();
-            serviceCollection.AddOptions();
-            
-            serviceCollection.Configure<EnvironmentConfig>(configuration.GetSection(nameof(EnvironmentConfig)));
-            serviceCollection.Configure<AlgorithmConfig>(configuration.GetSection(nameof(AlgorithmConfig)));
-            serviceCollection.Configure<PoolConfig>(configuration.GetSection(nameof(PoolConfig)));
-            serviceCollection.Configure<OrleansConfig>(configuration.GetSection(nameof(OrleansConfig)));
-
-            return serviceCollection.BuildServiceProvider();
+            return configuration;
         }
 
         /// <summary>
-        /// Additional IOC injections proivded via configuration files.
+        /// Gets the initial <see cref="IServiceCollection"/> with environment configurations
+        /// based on the provided <see cref="IConfigurationRoot"/>.
+        ///
+        /// The returned <see cref="IServiceCollection"/> is additive, so the consumer can add
+        /// additional registrations prior to the <see cref="IServiceCollection"/> be built into a
+        /// <see cref="IServiceProvider"/>.
+        /// </summary>
+        /// <param name="configurationRoot">The configuration root <see cref="GetConfigurationRoot"/></param>
+        /// <returns>An additive <see cref="IServiceCollection"/>.</returns>
+        public static IServiceCollection GetBaseServiceCollection(IConfigurationRoot configurationRoot)
+        {
+            var serviceCollection = new ServiceCollection();
+            serviceCollection.AddOptions();
+
+            serviceCollection.Configure<EnvironmentConfig>(configurationRoot.GetSection(nameof(EnvironmentConfig)));
+            serviceCollection.Configure<AlgorithmConfig>(configurationRoot.GetSection(nameof(AlgorithmConfig)));
+            serviceCollection.Configure<PoolConfig>(configurationRoot.GetSection(nameof(PoolConfig)));
+            serviceCollection.Configure<OrleansConfig>(configurationRoot.GetSection(nameof(OrleansConfig)));
+
+            return serviceCollection;
+        }
+
+        /// <summary>
+        /// Additional IOC injections provided via configuration files.
         /// </summary>
         /// <remarks>
         /// This should be refactored at some point We're currently using two separate IOC containers when

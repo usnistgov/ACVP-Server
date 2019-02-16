@@ -18,7 +18,6 @@ namespace NIST.CVP.Common.Oracle.ParameterTypes
             return false;
         }
 
-        // TODO make sure this works as expected
         public override int GetHashCode() => HashCode.Combine(MessageLength, HashFunction);
     }
 }

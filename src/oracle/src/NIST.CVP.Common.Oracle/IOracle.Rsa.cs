@@ -22,5 +22,7 @@ namespace NIST.CVP.Common.Oracle
         Task<RsaDecryptionPrimitiveResult> GetDeferredRsaDecryptionPrimitiveAsync(RsaDecryptionPrimitiveParameters param);
         Task<RsaDecryptionPrimitiveResult> CompleteDeferredRsaDecryptionPrimitiveAsync(RsaDecryptionPrimitiveParameters param, RsaDecryptionPrimitiveResult fullParam);
         Task<RsaDecryptionPrimitiveResult> GetRsaDecryptionPrimitiveAsync(RsaDecryptionPrimitiveParameters param);
+
+        Task<RsaPrimeResult> GetRsaPrimes(RsaKeyParameters param);
     }
 }

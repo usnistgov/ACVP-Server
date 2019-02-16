@@ -1,0 +1,32 @@
+[
+	{
+		"poolType": {
+			"type": "sha",
+			"parameters": {
+				"messageLength": 512,
+				"hashFunction": {
+					"mode": 1,
+					"digestSize": 2
+				}
+			}
+		},
+		"poolName": "sha2-test1.json",
+		"maxCapacity": 5,
+		"monitorFrequency": 30
+	},
+	{
+		"poolType": {
+			"type": "sha",
+			"parameters": {
+				"messageLength": 256,
+				"hashFunction": {
+					"mode": 1,
+					"digestSize": 2
+				}
+			}
+		},
+		"poolName": "sha2-test2.json",
+		"maxCapacity": 5,
+		"monitorFrequency": 30
+	}
+]

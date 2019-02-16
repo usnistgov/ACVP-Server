@@ -2,7 +2,7 @@
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Signatures;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
-using NIST.CVP.Crypto.Math;
+using NIST.CVP.Crypto.Common.Math;
 using NIST.CVP.Math;
 using System.Numerics;
 

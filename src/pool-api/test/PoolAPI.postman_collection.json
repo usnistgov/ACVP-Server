@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "22416809-e059-49b4-bff6-f61146d5b384",
+		"_postman_id": "bf5f52de-49d7-4545-ab4e-9650c2c4de3c",
 		"name": "Pools Test",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -171,7 +171,6 @@
 					"listen": "test",
 					"script": {
 						"id": "36d17f96-0efa-49ef-809f-ed73d8ac21eb",
-						"type": "text/javascript",
 						"exec": [
 							"pm.test(\"Status code is 200\", function () {",
 							"    pm.response.to.have.status(200);",
@@ -197,7 +196,8 @@
 							"  }",
 							"  pm.expect(valid).to.be.true;",
 							"});"
-						]
+						],
+						"type": "text/javascript"
 					}
 				}
 			],
@@ -214,7 +214,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"type\": \"aes\",\n\t\"parameters\": {\n\t\t\"keyLength\": 128,\n\t\t\"mode\": 0,\n\t\t\"direction\": \"encrypt\",\n\t\t\"dataLength\": 128\t\n\t}\n}"
+					"raw": "{\n\t\"type\": \"aes_mct\",\n\t\"parameters\": {\n\t\t\"keyLength\": 128,\n\t\t\"mode\": 0,\n\t\t\"direction\": \"encrypt\",\n\t\t\"dataLength\": 128\t\n\t}\n}"
 				},
 				"url": {
 					"raw": "http://{{server}}/api/pools/status",
@@ -392,7 +392,10 @@
 			"request": {
 				"method": "POST",
 				"header": [],
-				"body": {},
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"url": {
 					"raw": "http://{{server}}/api/pools/clean",
 					"protocol": "http",
@@ -458,6 +461,115 @@
 						"api",
 						"pools",
 						"config"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Queue pool water fill",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "1"
+				},
+				"url": {
+					"raw": "http://{{server}}/api/pools/spawn",
+					"protocol": "http",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"pools",
+						"spawn"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Queue pool water fill ALL POOLS",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "1"
+				},
+				"url": {
+					"raw": "http://{{server}}/api/pools/spawn/all",
+					"protocol": "http",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"pools",
+						"spawn",
+						"all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Pool Log",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://{{server}}/api/orleansPoolLog",
+					"protocol": "http",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"orleansPoolLog"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Save Pool Log",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://{{server}}/api/orleansPoolLog",
+					"protocol": "http",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"orleansPoolLog"
 					]
 				}
 			},
