@@ -12,7 +12,7 @@ namespace NIST.CVP.Generation.SHA2
         public static string[] VALID_SHA1_SIZES = {"160"};
         public static string[] VALID_SHA2_SIZES = {"224", "256", "384", "512", "512/224", "512/256"};
         public static int MIN_MESSAGE_LENGTH = 0;
-        public static int MAX_MESSAGE_LENGTH = 65536;
+        public static int MAX_MESSAGE_LENGTH = 65535;
 
         public ParameterValidateResponse Validate(Parameters parameters)
         {

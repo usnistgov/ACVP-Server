@@ -18,7 +18,6 @@ namespace NIST.CVP.Generation.SHA2
         private int _currentSmallCaseSize = 0;
 
         private int _currentLargeCase = 0;
-        private int _currentLargeCaseSize = 1024;
         private int[] _largeCases;
 
         private int _currentSpecialCase = 0;
@@ -48,9 +47,7 @@ namespace NIST.CVP.Generation.SHA2
             // Small cases handle [0, blockSize] and we can hit all of them
             _maxSmallCases = blockSize + 1;
 
-            // Large cases handle [blockSize, 65536] and we can't hit all of them (blockSize is either 512 or 1024)
-            _currentLargeCaseSize = blockSize + 1;
-
+            // Large cases handle [blockSize, 65535] and we can't hit all of them (blockSize is either 512 or 1024)
             // If nothing above the blockSize is supported, skip the large tests
             _maxLargeCases = minMax.Maximum > blockSize ? blockSize : 0;
 
@@ -94,7 +91,7 @@ namespace NIST.CVP.Generation.SHA2
                     // Find the large case sizes by grabbing a whole bunch and picking as many as we need
                     if (_largeCases == null)
                     {
-                        _largeCases = messageLength.GetValues(x => (x > blockSize), 65536, true).Take(_maxLargeCases).ToArray();
+                        _largeCases = messageLength.GetValues(x => (x > blockSize), ParameterValidator.MAX_MESSAGE_LENGTH, true).Take(_maxLargeCases).ToArray();
                     }
 
                     // Adjust the length if needed
