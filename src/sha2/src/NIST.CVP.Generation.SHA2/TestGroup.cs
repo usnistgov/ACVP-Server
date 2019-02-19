@@ -1,11 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Dynamic;
-using System.Linq;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json;
 using NIST.CVP.Crypto.Common.Hash.SHA2;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.Core.ExtensionMethods;
+using NIST.CVP.Math.Domain;
+using System.Collections.Generic;
 
 namespace NIST.CVP.Generation.SHA2
 {
@@ -22,11 +19,8 @@ namespace NIST.CVP.Generation.SHA2
         [JsonProperty(PropertyName = "testType")]
         public string TestType { get; set; }
 
-        [JsonProperty(PropertyName = "inBit")]
-        public bool BitOriented { get; set; }
-
-        [JsonProperty(PropertyName = "inEmpty")]
-        public bool IncludeNull { get; set; }
+        [JsonIgnore]
+        public MathDomain MessageLength { get; set; }
 
         public List<TestCase> Tests { get; set; } = new List<TestCase>();
 

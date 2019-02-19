@@ -1,8 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using NIST.CVP.Crypto.Common.Hash;
+﻿using NIST.CVP.Crypto.Common.Hash;
 using NIST.CVP.Crypto.Common.Hash.SHA2;
 using NIST.CVP.Math;
+using NIST.CVP.Math.Domain;
+using System;
+using System.Collections.Generic;
 
 namespace NIST.CVP.Generation.SHA2.Tests
 {
@@ -24,8 +25,7 @@ namespace NIST.CVP.Generation.SHA2.Tests
                 {
                     Function = ModeValues.SHA2,
                     DigestSize = DigestSizes.d224,
-                    BitOriented = true,
-                    IncludeNull = true,
+                    MessageLength = new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 0, 65536, 8)),
                     TestType = testType
                 };
                 testGroups.Add(tg);

@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using NIST.CVP.Crypto.Common.Hash;
+﻿using NIST.CVP.Crypto.Common.Hash;
 using NIST.CVP.Crypto.Common.Hash.SHA2;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Math;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 namespace NIST.CVP.Generation.SHA2.Parsers
 {
@@ -84,8 +84,6 @@ namespace NIST.CVP.Generation.SHA2.Parsers
                         {
                             Function = mode,
                             DigestSize = digestSize,
-                            BitOriented = bitOriented,
-                            IncludeNull = includeNull,      // doesn't matter for validator
                             TestType = testType
                         };
                         groups.Add(currentGroup);

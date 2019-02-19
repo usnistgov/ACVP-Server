@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Text.RegularExpressions;
-using NIST.CVP.Generation.Core.DeSerialization;
+﻿using NIST.CVP.Generation.Core.DeSerialization;
 using NIST.CVP.Generation.Core.Enums;
 using NIST.CVP.Generation.Core.JsonConverters;
 using NIST.CVP.Generation.SHA2.ContractResolvers;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
+using System;
+using System.Text.RegularExpressions;
 
 namespace NIST.CVP.Generation.SHA2.Tests.ContractResolvers
 {
@@ -53,9 +51,7 @@ namespace NIST.CVP.Generation.SHA2.Tests.ContractResolvers
             Assert.AreEqual(tg.Tests.Count, newTg.Tests.Count, nameof(newTg.Tests));
 
             Assert.AreNotEqual(tg.Function, newTg.Function, nameof(newTg.Function));
-            Assert.AreNotEqual(tg.BitOriented, newTg.BitOriented, nameof(newTg.BitOriented));
             Assert.AreNotEqual(tg.DigestSize, newTg.DigestSize, nameof(newTg.DigestSize));
-            Assert.AreNotEqual(tg.IncludeNull, newTg.IncludeNull, nameof(newTg.IncludeNull));
         }
 
         /// <summary>

@@ -3,6 +3,7 @@ using NIST.CVP.Common;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Math;
+using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using System.Collections.Generic;
@@ -56,8 +57,7 @@ namespace NIST.CVP.Generation.SHA2.IntegrationTests
             {
                 Algorithm = Algorithm,
                 DigestSizes = new[] {"224"},
-                BitOriented = false,
-                IncludeNull = false,
+                MessageLength = new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 8, 65536, 8)),
                 IsSample = true
             };
 
@@ -70,8 +70,7 @@ namespace NIST.CVP.Generation.SHA2.IntegrationTests
             {
                 Algorithm = Algorithm,
                 DigestSizes = new[] { "224" },
-                BitOriented = true,
-                IncludeNull = true,
+                MessageLength = new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 0, 65535)),
                 IsSample = false
             };
 
