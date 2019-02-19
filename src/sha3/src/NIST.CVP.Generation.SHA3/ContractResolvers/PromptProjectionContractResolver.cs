@@ -45,6 +45,24 @@ namespace NIST.CVP.Generation.SHA3.ContractResolvers
                 return jsonProperty.ShouldSerialize = instance => true;
             }
 
+            #region Conditional Test Group properties
+            if (jsonProperty.UnderlyingName == nameof(TestCase.DigestLength))
+            {
+                return jsonProperty.ShouldSerialize = instance =>
+                {
+                    GetTestCaseFromTestCaseObject(instance, out var testGroup, out var testCase);
+
+                    if (testGroup.Function.Equals("shake", StringComparison.OrdinalIgnoreCase) &&
+                        testGroup.TestType.Equals("vot", StringComparison.OrdinalIgnoreCase))
+                    {
+                        return true;
+                    }
+
+                    return false;
+                };
+            }
+            #endregion Conditional Test Group properties
+
             return jsonProperty.ShouldSerialize = instance => false;
         }
     }
