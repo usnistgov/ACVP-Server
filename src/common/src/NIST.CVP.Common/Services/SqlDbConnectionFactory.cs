@@ -1,8 +1,8 @@
-﻿using NIST.CVP.Pools.Interfaces;
-using System.Data;
+﻿using System.Data;
 using System.Data.SqlClient;
+using NIST.CVP.Common.Interfaces;
 
-namespace NIST.CVP.Pools.Services
+namespace NIST.CVP.Common.Services
 {
     public class SqlDbConnectionFactory : IDbConnectionFactory
     {

@@ -8,6 +8,7 @@ using NIST.CVP.Crypto.Common.Asymmetric.RSA.PrimeGenerators;
 using NIST.CVP.Pools;
 using NIST.CVP.Pools.Enums;
 using System.Threading.Tasks;
+using NIST.CVP.Common.Interfaces;
 
 namespace NIST.CVP.Crypto.Oracle
 {
@@ -16,10 +17,11 @@ namespace NIST.CVP.Crypto.Oracle
         private readonly IOptions<PoolConfig> _poolConfig;
 
         public OraclePools(
+            IDbConnectionStringFactory dbConnectionStringFactory,
             IOptions<EnvironmentConfig> environmentConfig, 
             IOptions<OrleansConfig> orleansConfig,
             IOptions<PoolConfig> poolConfig
-        ) : base(environmentConfig, orleansConfig)
+        ) : base(dbConnectionStringFactory, environmentConfig, orleansConfig)
         {
             _poolConfig = poolConfig;
         }

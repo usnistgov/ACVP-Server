@@ -1,18 +1,24 @@
 ﻿using System;
+using System.Linq;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using NIST.CVP.Common.Config;
+using NIST.CVP.Common.Enums;
 using NIST.CVP.Common.Helpers;
+using NIST.CVP.Common.Interfaces;
 using NIST.CVP.Orleans.Grains;
 using NIST.CVP.Orleans.Grains.Interfaces;
-using NIST.CVP.Orleans.ServerHost.ExtensionMethods;
 using NIST.CVP.Orleans.ServerHost.Models;
 using Orleans;
 using Orleans.Configuration;
 using Orleans.Hosting;
+using Orleans.Logging;
 
 namespace NIST.CVP.Orleans.ServerHost
 {
@@ -20,13 +26,21 @@ namespace NIST.CVP.Orleans.ServerHost
     {
         private readonly OrleansConfig _orleansConfig;
         private readonly EnvironmentConfig _environmentConfig;
+        private readonly IConfigurationRoot _configurationRoot;
+        private readonly string _connectionString;
+
         private ISiloHost _silo;
 
         public OrleansSiloHost(DirectoryConfig rootDirectory)
         {
-            var serviceProvider = EntryPointConfigHelper.Bootstrap(rootDirectory.RootDirectory);
+            _configurationRoot = EntryPointConfigHelper.GetConfigurationRoot(rootDirectory.RootDirectory);
+            var serviceCollection = EntryPointConfigHelper.GetBaseServiceCollection(_configurationRoot);
+            var serviceProvider = EntryPointConfigHelper.Bootstrap(serviceCollection);
+
             _orleansConfig = serviceProvider.GetService<IOptions<OrleansConfig>>().Value;
             _environmentConfig = serviceProvider.GetService<IOptions<EnvironmentConfig>>().Value;
+            _connectionString = serviceProvider.GetService<IDbConnectionStringFactory>()
+                .GetConnectionString(Constants.OrleansConnectionString);
         }
 
         public async Task StartAsync(CancellationToken cancellationToken)
@@ -39,23 +53,79 @@ namespace NIST.CVP.Orleans.ServerHost
                 })
                 .ConfigureServices(svcCollection =>
                 {
-                    ConfigureServices.RegisterServices(svcCollection, _orleansConfig);
+                    ConfigureServices.RegisterServices(svcCollection, _configurationRoot, _orleansConfig);
                 })
                 .ConfigureApplicationParts(parts =>
                 {
                     parts.AddApplicationPart(typeof(IGrainMarker).Assembly).WithReferences();
                 })
-                .ConfigureClustering(_orleansConfig, _environmentConfig)
-                .ConfigureLogging(_orleansConfig, _environmentConfig)
+                .Configure<ProcessExitHandlingOptions>(options => options.FastKillOnProcessExit = false)
                 .UseDashboard(options => { options.Port = _orleansConfig.OrleansDashboardPort; });
+
+            ConfigureClustering(builder);
+            ConfigureLogging(builder);
 
             _silo = builder.Build();
             await _silo.StartAsync(cancellationToken);
         }
-        
+
         public async Task StopAsync(CancellationToken cancellationToken)
         {
             await _silo.StopAsync(cancellationToken);
+        }
+        
+        private void ConfigureLogging(ISiloHostBuilder builder)
+        {
+            builder.ConfigureLogging(logging =>
+            {
+                logging.SetMinimumLevel(_orleansConfig.MinimumLogLevel);
+                
+                if (_orleansConfig.UseConsoleLogging)
+                {
+                    logging.AddConsole();
+                }
+
+                if (_orleansConfig.UseFileLogging)
+                {
+                    logging.AddProvider(new FileLoggerProvider($"{DateTime.UtcNow:yyyy-MM-dd_Hmm}_{_environmentConfig.Name}.log"));
+                }
+            });
+        }
+
+        private void ConfigureClustering(ISiloHostBuilder builder)
+        {
+            switch (_environmentConfig.Name)
+            {
+                case Environments.Local:
+                    builder.Configure<EndpointOptions>(options =>
+                    {
+                        options.AdvertisedIPAddress = IPAddress.Loopback;
+                    });
+                    builder.UseLocalhostClustering();
+                    break;
+                case Environments.Tc:
+                    var primarySiloEndpoint = new IPEndPoint(
+                        IPAddress.Parse(_orleansConfig.OrleansNodeConfig.First().HostName),
+                        _orleansConfig.OrleansSiloPort
+                    );
+                    builder.UseDevelopmentClustering(primarySiloEndpoint);
+                    builder.ConfigureEndpoints(
+                        siloPort: _orleansConfig.OrleansSiloPort,
+                        gatewayPort: _orleansConfig.OrleansGatewayPort
+                    );
+                    break;
+                default:
+                    builder.UseAdoNetClustering(options =>
+                    {
+                        options.Invariant = "System.Data.SqlClient";
+                        options.ConnectionString = _connectionString;
+                    });
+                    builder.ConfigureEndpoints(
+                        siloPort: _orleansConfig.OrleansSiloPort, 
+                        gatewayPort: _orleansConfig.OrleansGatewayPort
+                    );
+                    break;
+            }
         }
     }
 }

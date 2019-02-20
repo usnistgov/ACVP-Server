@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
-using NIST.CVP.Pools.Interfaces;
+using NIST.CVP.Common.Interfaces;
 
-namespace NIST.CVP.Pools.Services
+namespace NIST.CVP.Common.Services
 {
     public class DbConnectionStringFactory : IDbConnectionStringFactory
     {

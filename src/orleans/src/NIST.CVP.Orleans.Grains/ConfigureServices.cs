@@ -97,6 +97,7 @@ using NIST.CVP.Crypto.Common.KDF.Components.TPM;
 using NIST.CVP.Crypto.TPM;
 using System;
 using System.Linq;
+using Microsoft.Extensions.Configuration;
 using NLog;
 
 namespace NIST.CVP.Orleans.Grains
@@ -106,8 +107,13 @@ namespace NIST.CVP.Orleans.Grains
     /// </summary>
     public static class ConfigureServices
     {
-        public static void RegisterServices(IServiceCollection svc, OrleansConfig orleansConfig)
+        public static void RegisterServices(
+            IServiceCollection svc, 
+            IConfiguration configuration, 
+            OrleansConfig orleansConfig
+        )
         {
+            svc.AddSingleton(configuration);
             svc.AddSingleton(new LimitedConcurrencyLevelTaskScheduler(
                 GetOrleansNodeMaxConcurrency(orleansConfig)
             ));
