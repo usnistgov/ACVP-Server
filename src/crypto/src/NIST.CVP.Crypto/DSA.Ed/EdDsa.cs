@@ -165,8 +165,7 @@ namespace NIST.CVP.Crypto.DSA.Ed
             var S = BitString.ReverseByteOrder(new BitString(Sint, domainParameters.CurveE.VariableB));
 
             // 5. Form the signature by concatenating R and S
-            var sig = BitString.ConcatenateBits(R, S);
-            return new EdSignatureResult(new EdSignature(sig));
+            return new EdSignatureResult(new EdSignature(R, S));
         }
 
         public EdVerificationResult Verify(EdDomainParameters domainParameters, EdKeyPair keyPair, BitString message, EdSignature signature, bool preHash = false)
