@@ -1,6 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-using NIST.CVP.Common;
+﻿using NIST.CVP.Common;
 using NIST.CVP.Common.Oracle.DispositionTypes;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
@@ -8,6 +6,8 @@ using NIST.CVP.Crypto.Common.Asymmetric.DSA.Ed;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Math;
 using NIST.CVP.Orleans.Grains.Interfaces.Eddsa;
+using System;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Orleans.Grains.Eddsa
 {
@@ -85,13 +85,13 @@ namespace NIST.CVP.Orleans.Grains.Eddsa
             }
             else if (_param.Disposition == EddsaSignatureDisposition.ModifyR)
             {
-                //var modifiedRSignature = new EdSignature(sigResult.Signature.Sig + 1, sigResult.Signature.S);
-                //sigResult.Signature = modifiedRSignature;
+                var modifiedRSignature = new EdSignature(sigResult.Signature.R.BitStringAddition(BitString.One()), sigResult.Signature.S);
+                sigResult.Signature = modifiedRSignature;
             }
             else if (_param.Disposition == EddsaSignatureDisposition.ModifyS)
             {
-                //var modifiedSSignature = new edSignature(sigResult.Signature.R, sigResult.Signature.S + 1);
-                //sigResult.Signature = modifiedSSignature;
+                var modifiedSSignature = new EdSignature(sigResult.Signature.R, sigResult.Signature.S.BitStringAddition(BitString.One()));
+                sigResult.Signature = modifiedSSignature;
             }
 
             // Notify observers of result
