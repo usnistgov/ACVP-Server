@@ -19,6 +19,8 @@ using Orleans;
 using Orleans.Configuration;
 using Orleans.Hosting;
 using Orleans.Logging;
+using Orleans.Statistics;
+using OrleansTelemetryConsumers.Counters;
 
 namespace NIST.CVP.Orleans.ServerHost
 {
@@ -59,10 +61,11 @@ namespace NIST.CVP.Orleans.ServerHost
                 {
                     parts.AddApplicationPart(typeof(IGrainMarker).Assembly).WithReferences();
                 })
-                .Configure<ProcessExitHandlingOptions>(options => options.FastKillOnProcessExit = false)
+                .UsePerfCounterEnvironmentStatistics()
                 .UseDashboard(options => { options.Port = _orleansConfig.OrleansDashboardPort; });
 
             ConfigureClustering(builder);
+            ConfigureLoadShedding(builder);
             ConfigureLogging(builder);
 
             _silo = builder.Build();
@@ -74,24 +77,6 @@ namespace NIST.CVP.Orleans.ServerHost
             await _silo.StopAsync(cancellationToken);
         }
         
-        private void ConfigureLogging(ISiloHostBuilder builder)
-        {
-            builder.ConfigureLogging(logging =>
-            {
-                logging.SetMinimumLevel(_orleansConfig.MinimumLogLevel);
-                
-                if (_orleansConfig.UseConsoleLogging)
-                {
-                    logging.AddConsole();
-                }
-
-                if (_orleansConfig.UseFileLogging)
-                {
-                    logging.AddProvider(new FileLoggerProvider($"{DateTime.UtcNow:yyyy-MM-dd_Hmm}_{_environmentConfig.Name}.log"));
-                }
-            });
-        }
-
         private void ConfigureClustering(ISiloHostBuilder builder)
         {
             switch (_environmentConfig.Name)
@@ -126,6 +111,36 @@ namespace NIST.CVP.Orleans.ServerHost
                     );
                     break;
             }
+        }
+
+        private void ConfigureLoadShedding(ISiloHostBuilder builder)
+        {
+            if (_orleansConfig.LoadSheddingCpuThreshold > 0)
+            {
+                builder.Configure<LoadSheddingOptions>(options =>
+                {
+                    options.LoadSheddingEnabled = true;
+                    options.LoadSheddingLimit = _orleansConfig.LoadSheddingCpuThreshold;
+                });
+            }
+        }
+
+        private void ConfigureLogging(ISiloHostBuilder builder)
+        {
+            builder.ConfigureLogging(logging =>
+            {
+                logging.SetMinimumLevel(_orleansConfig.MinimumLogLevel);
+                
+                if (_orleansConfig.UseConsoleLogging)
+                {
+                    logging.AddConsole();
+                }
+
+                if (_orleansConfig.UseFileLogging)
+                {
+                    logging.AddProvider(new FileLoggerProvider($"{DateTime.UtcNow:yyyy-MM-dd_Hmm}_{_environmentConfig.Name}.log"));
+                }
+            });
         }
     }
 }

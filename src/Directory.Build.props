@@ -46,6 +46,7 @@
         <NugetVersionMicrosoftOrleansCoreAbstractions>2.2.0</NugetVersionMicrosoftOrleansCoreAbstractions>
         <NugetVersionMicrosoftOrleansClusteringAdoNet>2.2.3</NugetVersionMicrosoftOrleansClusteringAdoNet>
         <NuGetVersionOrleansDashboard>2.2.0</NuGetVersionOrleansDashboard>
+        <NuGetVersionMicrosoftOrleansOrleansTelemetryConsumersCounters>2.2.0</NuGetVersionMicrosoftOrleansOrleansTelemetryConsumersCounters>
         <NugetVersionMicrosoftExtensionsLoggingConsole>2.1.0</NugetVersionMicrosoftExtensionsLoggingConsole>
         <NugetVersionMicrosoftAspNetCoreHostingWindowsServices>2.1.0</NugetVersionMicrosoftAspNetCoreHostingWindowsServices>
         <NuGetVersionMicrosoftExtensionsHosting>2.1.1</NuGetVersionMicrosoftExtensionsHosting>
