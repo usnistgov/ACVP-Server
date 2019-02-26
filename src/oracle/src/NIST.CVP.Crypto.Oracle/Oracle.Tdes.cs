@@ -1,9 +1,8 @@
 ﻿using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
-using NIST.CVP.Pools;
-using NIST.CVP.Pools.Enums;
 using System.Threading.Tasks;
 using NIST.CVP.Crypto.Oracle.ExtensionMethods;
+using NIST.CVP.Crypto.Oracle.Helpers;
 using NIST.CVP.Orleans.Grains.Interfaces.Tdes;
 
 namespace NIST.CVP.Crypto.Oracle
@@ -14,7 +13,7 @@ namespace NIST.CVP.Crypto.Oracle
         {
             var observableGrain = 
                 await _clusterClient.GetObserverGrain<IOracleObserverTdesCaseGrain, TdesResult>();
-            await observableGrain.Grain.BeginWorkAsync(param);
+            await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param);
 
             return await observableGrain.ObserveUntilResult();
         }
@@ -23,7 +22,7 @@ namespace NIST.CVP.Crypto.Oracle
         {
             var observableGrain = 
                 await _clusterClient.GetObserverGrain<IOracleObserverTdesMctCaseGrain, MctResult<TdesResult>>();
-            await observableGrain.Grain.BeginWorkAsync(param);
+            await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param);
 
             return await observableGrain.ObserveUntilResult();
         }
@@ -32,7 +31,7 @@ namespace NIST.CVP.Crypto.Oracle
         {
             var observableGrain = 
                 await _clusterClient.GetObserverGrain<IOracleObserverTdesDeferredCounterCaseGrain, TdesResult>();
-            await observableGrain.Grain.BeginWorkAsync(param);
+            await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param);
 
             return await observableGrain.ObserveUntilResult();
         }
@@ -41,7 +40,7 @@ namespace NIST.CVP.Crypto.Oracle
         {
             var observableGrain = 
                 await _clusterClient.GetObserverGrain<IOracleObserverTdesCompleteDeferredCounterCaseGrain, TdesResult>();
-            await observableGrain.Grain.BeginWorkAsync(param);
+            await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param);
 
             return await observableGrain.ObserveUntilResult();
         }
@@ -50,7 +49,7 @@ namespace NIST.CVP.Crypto.Oracle
         {
             var observableGrain = 
                 await _clusterClient.GetObserverGrain<IOracleObserverTdesCounterExtractIvsCaseGrain, CounterResult>();
-            await observableGrain.Grain.BeginWorkAsync(param, fullParam);
+            await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, fullParam);
 
             return await observableGrain.ObserveUntilResult();
         }
