@@ -1,10 +1,8 @@
 ﻿using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
-using NIST.CVP.Pools;
-using NIST.CVP.Pools.Enums;
 using System.Threading.Tasks;
 using NIST.CVP.Crypto.Oracle.ExtensionMethods;
-using NIST.CVP.Math;
+using NIST.CVP.Crypto.Oracle.Helpers;
 using NIST.CVP.Orleans.Grains.Interfaces.Ecdsa;
 
 namespace NIST.CVP.Crypto.Oracle
@@ -15,7 +13,7 @@ namespace NIST.CVP.Crypto.Oracle
         {
             var observableGrain = 
                 await _clusterClient.GetObserverGrain<IOracleObserverEcdsaKeyCaseGrain, EcdsaKeyResult>();
-            await observableGrain.Grain.BeginWorkAsync(param);
+            await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param);
 
             return await observableGrain.ObserveUntilResult();
         }
@@ -24,7 +22,7 @@ namespace NIST.CVP.Crypto.Oracle
         {
             var observableGrain = 
                 await _clusterClient.GetObserverGrain<IOracleObserverEcdsaCompleteDeferredKeyCaseGrain, EcdsaKeyResult>();
-            await observableGrain.Grain.BeginWorkAsync(param, fullParam);
+            await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, fullParam);
 
             return await observableGrain.ObserveUntilResult();
         }
@@ -35,7 +33,7 @@ namespace NIST.CVP.Crypto.Oracle
 
             var observableGrain = 
                 await _clusterClient.GetObserverGrain<IOracleObserverEcdsaVerifyKeyCaseGrain, VerifyResult<EcdsaKeyResult>>();
-            await observableGrain.Grain.BeginWorkAsync(param, key);
+            await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, key);
 
             return await observableGrain.ObserveUntilResult();
         }
@@ -44,7 +42,7 @@ namespace NIST.CVP.Crypto.Oracle
         {
             var observableGrain = 
                 await _clusterClient.GetObserverGrain<IOracleObserverEcdsaDeferredSignatureCaseGrain, EcdsaSignatureResult>();
-            await observableGrain.Grain.BeginWorkAsync(param);
+            await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param);
 
             return await observableGrain.ObserveUntilResult();
         }
@@ -53,7 +51,7 @@ namespace NIST.CVP.Crypto.Oracle
         {
             var observableGrain = 
                 await _clusterClient.GetObserverGrain<IOracleObserverEcdsaCompleteDeferredSignatureCaseGrain, VerifyResult<EcdsaSignatureResult>>();
-            await observableGrain.Grain.BeginWorkAsync(param, fullParam);
+            await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, fullParam);
 
             return await observableGrain.ObserveUntilResult();
         }
@@ -62,7 +60,7 @@ namespace NIST.CVP.Crypto.Oracle
         {
             var observableGrain = 
                 await _clusterClient.GetObserverGrain<IOracleObserverEcdsaSignatureCaseGrain, EcdsaSignatureResult>();
-            await observableGrain.Grain.BeginWorkAsync(param);
+            await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param);
 
             return await observableGrain.ObserveUntilResult();
         }
@@ -80,7 +78,7 @@ namespace NIST.CVP.Crypto.Oracle
             
             var observableGrain = 
                 await _clusterClient.GetObserverGrain<IOracleObserverEcdsaVerifySignatureCaseGrain, VerifyResult<EcdsaSignatureResult>>();
-            await observableGrain.Grain.BeginWorkAsync(param, key, badKey);
+            await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, key, badKey);
 
             return await observableGrain.ObserveUntilResult();
         }

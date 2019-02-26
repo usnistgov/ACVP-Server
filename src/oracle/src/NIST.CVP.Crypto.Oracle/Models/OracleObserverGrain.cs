@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using NIST.CVP.Crypto.Oracle.Helpers;
 using NIST.CVP.Orleans.Grains.Interfaces;
 using Orleans;
 
@@ -28,17 +29,17 @@ namespace NIST.CVP.Crypto.Oracle.Models
             while (!GrainObserver.HasResult)
             {
                 await Task.Delay(TimeSpan.FromSeconds(Constants.TaskPollingSeconds));
-                await Grain.Subscribe(GrainObserverReference);
+                await GrainInvokeRetryWrapper.WrapGrainCall(Grain.Subscribe, GrainObserverReference);
 
                 if (GrainObserver.IsFaulted)
                 {
-                    await Grain.Unsubscribe(GrainObserverReference);
+                    await GrainInvokeRetryWrapper.WrapGrainCall(Grain.Unsubscribe, GrainObserverReference);
                     throw GrainObserver.GetException();
                 }
             }
 
             var result = GrainObserver.GetResult();
-            await Grain.Unsubscribe(GrainObserverReference);
+            await GrainInvokeRetryWrapper.WrapGrainCall(Grain.Unsubscribe, GrainObserverReference);
             return result;
         }
     }
