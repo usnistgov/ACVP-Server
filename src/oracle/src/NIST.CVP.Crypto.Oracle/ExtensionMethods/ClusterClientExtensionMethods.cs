@@ -4,6 +4,7 @@ using Orleans;
 using System;
 using System.Threading.Tasks;
 using NIST.CVP.Crypto.Oracle.Exceptions;
+using NIST.CVP.Crypto.Oracle.Helpers;
 
 namespace NIST.CVP.Crypto.Oracle.ExtensionMethods
 {
@@ -22,8 +23,8 @@ namespace NIST.CVP.Crypto.Oracle.ExtensionMethods
             
             var observer = new OracleGrainObserver<TGrainResultType>();
             var observerReference = 
-                await client.CreateObjectReference<IGrainObserver<TGrainResultType>>(observer);
-            await grain.Subscribe(observerReference);
+                await GrainInvokeRetryWrapper.WrapGrainCall(client.CreateObjectReference<IGrainObserver<TGrainResultType>>, observer);
+            await GrainInvokeRetryWrapper.WrapGrainCall(grain.Subscribe, observerReference);
 
             return new OracleObserverGrain<TGrain, TGrainResultType>(grain, observer, observerReference);
         }
