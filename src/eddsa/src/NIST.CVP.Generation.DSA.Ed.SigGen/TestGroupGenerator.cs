@@ -11,7 +11,7 @@ namespace NIST.CVP.Generation.DSA.Ed.SigGen
 {
     public class TestGroupGenerator : ITestGroupGenerator<Parameters, TestGroup, TestCase>
     {
-        private const string TEST_TYPE = "aft";
+        private const string TEST_TYPE = "AFT";
 
         private readonly IOracle _oracle;
 

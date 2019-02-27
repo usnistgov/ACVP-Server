@@ -8,6 +8,7 @@ using NIST.CVP.Math;
 using NIST.CVP.Orleans.Grains.Interfaces.Eddsa;
 using System;
 using System.Threading.Tasks;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.Ed.Helpers;
 
 namespace NIST.CVP.Orleans.Grains.Eddsa
 {
@@ -85,12 +86,22 @@ namespace NIST.CVP.Orleans.Grains.Eddsa
             }
             else if (_param.Disposition == EddsaSignatureDisposition.ModifyR)
             {
-                var modifiedRSignature = new EdSignature(sigResult.Signature.R.BitStringAddition(BitString.One()), sigResult.Signature.S);
+                var decodedSig = SignatureDecoderHelper.DecodeSig(domainParams, sigResult.Signature);
+
+                var modifiedRSignature = new EdSignature(
+                    domainParams.CurveE.Encode(decodedSig.R).BitStringAddition(BitString.One()), 
+                    new BitString(decodedSig.s)
+                );
                 sigResult.Signature = modifiedRSignature;
             }
             else if (_param.Disposition == EddsaSignatureDisposition.ModifyS)
             {
-                var modifiedSSignature = new EdSignature(sigResult.Signature.R, sigResult.Signature.S.BitStringAddition(BitString.One()));
+                var decodedSig = SignatureDecoderHelper.DecodeSig(domainParams, sigResult.Signature);
+
+                var modifiedSSignature = new EdSignature(
+                    domainParams.CurveE.Encode(decodedSig.R), 
+                    new BitString(decodedSig.s).BitStringAddition(BitString.One())
+                );
                 sigResult.Signature = modifiedSSignature;
             }
 

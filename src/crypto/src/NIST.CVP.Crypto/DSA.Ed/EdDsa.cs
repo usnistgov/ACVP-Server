@@ -7,6 +7,7 @@ using NIST.CVP.Math.Entropy;
 using NIST.CVP.Math.Helpers;
 using System;
 using System.Numerics;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.Ed.Helpers;
 
 namespace NIST.CVP.Crypto.DSA.Ed
 {
@@ -189,7 +190,7 @@ namespace NIST.CVP.Crypto.DSA.Ed
             EdPoint Q;
             try
             {
-                var sigDecoded = DecodeSig(domainParameters, signature);
+                var sigDecoded = SignatureDecoderHelper.DecodeSig(domainParameters, signature);
                 R = sigDecoded.R;
                 s = sigDecoded.s;
                 Q = domainParameters.CurveE.Decode(keyPair.PublicQ);
@@ -328,17 +329,6 @@ namespace NIST.CVP.Crypto.DSA.Ed
             }
 
             return (buffer, hDigest2);
-        }
-
-        private (EdPoint R, BigInteger s) DecodeSig(EdDomainParameters domainParameters, EdSignature sig)
-        {
-            var rBits = sig.Sig.MSBSubstring(0, domainParameters.CurveE.VariableB);
-            var sBits = sig.Sig.Substring(0, domainParameters.CurveE.VariableB);
-
-            var R = domainParameters.CurveE.Decode(rBits);
-            var s = BitString.ReverseByteOrder(sBits).ToPositiveBigInteger();
-
-            return (R, s);
         }
     }
 }
