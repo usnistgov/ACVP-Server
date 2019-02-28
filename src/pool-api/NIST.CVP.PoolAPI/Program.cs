@@ -1,13 +1,12 @@
-﻿using System;
-using Microsoft.AspNetCore;
+﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using NLog;
 using NLog.Config;
 using NLog.Targets;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using NIST.CVP.Common.Helpers;
 
 namespace NIST.CVP.PoolAPI
 {
@@ -36,8 +35,9 @@ namespace NIST.CVP.PoolAPI
                 var pathToContentRoot = Path.GetDirectoryName(pathToExe);
                 builder.UseContentRoot(pathToContentRoot);
                 builder.UseStartup<Startup>();
-                builder.UseUrls("http://+:5002");
             }
+
+            builder.UseUrls("http://+:5002");
 
             var host = builder.Build();
 

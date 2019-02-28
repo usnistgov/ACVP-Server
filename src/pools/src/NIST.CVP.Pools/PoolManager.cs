@@ -4,6 +4,7 @@ using NIST.CVP.Common.Config;
 using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Pools.Enums;
+using NIST.CVP.Pools.Interfaces;
 using NIST.CVP.Pools.Models;
 using NLog;
 using System;
@@ -11,7 +12,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using NIST.CVP.Pools.Interfaces;
 
 namespace NIST.CVP.Pools
 {
@@ -211,9 +211,18 @@ namespace NIST.CVP.Pools
                 }
             );
 
+            LogManager.GetCurrentClassLogger()
+                .Log(LogLevel.Info, "Config loaded.");
+
             foreach (var poolProperty in _properties)
             {
+                LogManager.GetCurrentClassLogger()
+                    .Log(LogLevel.Info, $"Attempting to load {poolProperty.PoolName}");
+
                 Pools.Add(_poolFactory.GetPool(poolProperty));
+
+                LogManager.GetCurrentClassLogger()
+                    .Log(LogLevel.Info, $"{poolProperty.PoolName} loaded.");
             }
 
             LogManager.GetCurrentClassLogger()
