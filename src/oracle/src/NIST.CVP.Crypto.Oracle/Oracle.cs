@@ -101,6 +101,7 @@ namespace NIST.CVP.Crypto.Oracle
                     builder.UseLocalhostClustering();
                     break;
                 case Environments.Tc:
+                case Environments.Prod: // TODO Bad!
                     List<IPEndPoint> endpoints = new List<IPEndPoint>();
                     foreach (var endpoint in _orleansConfig.Value.OrleansNodeConfig.Select(s => s.HostName))
                     {
