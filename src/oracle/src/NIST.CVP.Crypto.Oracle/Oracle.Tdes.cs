@@ -12,7 +12,7 @@ namespace NIST.CVP.Crypto.Oracle
         {
             var observableGrain = 
                 await GetObserverGrain<IOracleObserverTdesCaseGrain, TdesResult>();
-            await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param);
+            await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, LoadSheddingRetries);
 
             return await observableGrain.ObserveUntilResult();
         }
@@ -21,7 +21,7 @@ namespace NIST.CVP.Crypto.Oracle
         {
             var observableGrain = 
                 await GetObserverGrain<IOracleObserverTdesMctCaseGrain, MctResult<TdesResult>>();
-            await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param);
+            await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, LoadSheddingRetries);
 
             return await observableGrain.ObserveUntilResult();
         }
@@ -30,7 +30,7 @@ namespace NIST.CVP.Crypto.Oracle
         {
             var observableGrain = 
                 await GetObserverGrain<IOracleObserverTdesDeferredCounterCaseGrain, TdesResult>();
-            await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param);
+            await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, LoadSheddingRetries);
 
             return await observableGrain.ObserveUntilResult();
         }
@@ -39,7 +39,7 @@ namespace NIST.CVP.Crypto.Oracle
         {
             var observableGrain = 
                 await GetObserverGrain<IOracleObserverTdesCompleteDeferredCounterCaseGrain, TdesResult>();
-            await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param);
+            await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, LoadSheddingRetries);
 
             return await observableGrain.ObserveUntilResult();
         }
@@ -48,7 +48,7 @@ namespace NIST.CVP.Crypto.Oracle
         {
             var observableGrain = 
                 await GetObserverGrain<IOracleObserverTdesCounterExtractIvsCaseGrain, CounterResult>();
-            await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, fullParam);
+            await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, fullParam, LoadSheddingRetries);
 
             return await observableGrain.ObserveUntilResult();
         }

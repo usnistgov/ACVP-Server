@@ -15,8 +15,6 @@ namespace NIST.CVP.Crypto.Oracle.Helpers
     /// </summary>
     public static class GrainInvokeRetryWrapper
     {
-        private const int DefaultTimesToRetry = 500;
-
         /// <summary>
         /// Wrap a grain call that returns a <see cref="Task"/> and takes a single parameter.
         /// </summary>
@@ -25,7 +23,7 @@ namespace NIST.CVP.Crypto.Oracle.Helpers
         /// <param name="param">The parameter to use with the function invoke.</param>
         /// <param name="timesToRetry">The number of times to retry the grain call's that failed due to LoadShedding</param>
         /// <returns>Task</returns>
-        public static async Task WrapGrainCall<T>(Func<T, Task> func, T param, int timesToRetry = DefaultTimesToRetry)
+        public static async Task WrapGrainCall<T>(Func<T, Task> func, T param, int timesToRetry)
         {
             if (timesToRetry < 0)
             {
@@ -53,7 +51,7 @@ namespace NIST.CVP.Crypto.Oracle.Helpers
         /// <param name="func">The function to invoke.</param>
         /// <param name="timesToRetry">The number of times to retry the grain call's that failed due to LoadShedding</param>
         /// <returns>Task wrapped TResult</returns>
-        public static async Task<TResult> WrapGrainCall<TResult>(Func<Task<TResult>> func, int timesToRetry = DefaultTimesToRetry)
+        public static async Task<TResult> WrapGrainCall<TResult>(Func<Task<TResult>> func, int timesToRetry)
         {
             if (timesToRetry < 0)
             {
@@ -83,7 +81,7 @@ namespace NIST.CVP.Crypto.Oracle.Helpers
         /// <param name="param">The parameter to use with the function invoke.</param>
         /// <param name="timesToRetry">The number of times to retry the grain call's that failed due to LoadShedding</param>
         /// <returns>Task wrapped TResult</returns>
-        public static async Task<TResult> WrapGrainCall<T, TResult>(Func<T, Task<TResult>> func, T param, int timesToRetry = DefaultTimesToRetry)
+        public static async Task<TResult> WrapGrainCall<T, TResult>(Func<T, Task<TResult>> func, T param, int timesToRetry)
         {
             if (timesToRetry < 0)
             {
@@ -115,7 +113,7 @@ namespace NIST.CVP.Crypto.Oracle.Helpers
         /// <param name="param2">The second parameter to use with the function invoke.</param>
         /// <param name="timesToRetry">The number of times to retry the grain call's that failed due to LoadShedding</param>
         /// <returns>Task wrapped TResult</returns>
-        public static async Task<TResult> WrapGrainCall<T1, T2, TResult>(Func<T1, T2, Task<TResult>> func, T1 param1, T2 param2, int timesToRetry = DefaultTimesToRetry)
+        public static async Task<TResult> WrapGrainCall<T1, T2, TResult>(Func<T1, T2, Task<TResult>> func, T1 param1, T2 param2, int timesToRetry)
         {
             if (timesToRetry < 0)
             {
@@ -149,7 +147,7 @@ namespace NIST.CVP.Crypto.Oracle.Helpers
         /// <param name="param3">The third parameter to use with the function invoke.</param>
         /// <param name="timesToRetry">The number of times to retry the grain call's that failed due to LoadShedding</param>
         /// <returns>Task wrapped TResult</returns>
-        public static async Task<TResult> WrapGrainCall<T1, T2, T3, TResult>(Func<T1, T2, T3, Task<TResult>> func, T1 param1, T2 param2, T3 param3, int timesToRetry = DefaultTimesToRetry)
+        public static async Task<TResult> WrapGrainCall<T1, T2, T3, TResult>(Func<T1, T2, T3, Task<TResult>> func, T1 param1, T2 param2, T3 param3, int timesToRetry)
         {
             if (timesToRetry < 0)
             {
