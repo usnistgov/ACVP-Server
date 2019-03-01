@@ -12,16 +12,19 @@ namespace NIST.CVP.Crypto.Oracle.Models
         public TGrain Grain { get; }
         public OracleGrainObserver<TGrainResultType> GrainObserver { get; }
         public IGrainObserver<TGrainResultType> GrainObserverReference { get; }
+        public int LoadSheddingRetries { get; }
 
         public OracleObserverGrain(
             TGrain grain, 
             OracleGrainObserver<TGrainResultType> grainObserver, 
-            IGrainObserver<TGrainResultType> grainObserverReference
+            IGrainObserver<TGrainResultType> grainObserverReference,
+            int loadSheddingRetries
         )
         {
             Grain = grain;
             GrainObserver = grainObserver;
             GrainObserverReference = grainObserverReference;
+            LoadSheddingRetries = loadSheddingRetries;
         }
 
         public async Task<TGrainResultType> ObserveUntilResult()
@@ -29,17 +32,17 @@ namespace NIST.CVP.Crypto.Oracle.Models
             while (!GrainObserver.HasResult)
             {
                 await Task.Delay(TimeSpan.FromSeconds(Constants.TaskPollingSeconds));
-                await GrainInvokeRetryWrapper.WrapGrainCall(Grain.Subscribe, GrainObserverReference);
+                await GrainInvokeRetryWrapper.WrapGrainCall(Grain.Subscribe, GrainObserverReference, LoadSheddingRetries);
 
                 if (GrainObserver.IsFaulted)
                 {
-                    await GrainInvokeRetryWrapper.WrapGrainCall(Grain.Unsubscribe, GrainObserverReference);
+                    await GrainInvokeRetryWrapper.WrapGrainCall(Grain.Unsubscribe, GrainObserverReference, LoadSheddingRetries);
                     throw GrainObserver.GetException();
                 }
             }
 
             var result = GrainObserver.GetResult();
-            await GrainInvokeRetryWrapper.WrapGrainCall(Grain.Unsubscribe, GrainObserverReference);
+            await GrainInvokeRetryWrapper.WrapGrainCall(Grain.Unsubscribe, GrainObserverReference, LoadSheddingRetries);
             return result;
         }
     }

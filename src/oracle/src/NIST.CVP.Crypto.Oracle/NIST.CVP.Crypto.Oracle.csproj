@@ -25,5 +25,9 @@
       <DependentUpon>Oracle.cs</DependentUpon>
     </Compile>
   </ItemGroup>
+  
+  <ItemGroup>
+    <Folder Include="ExtensionMethods\" />
+  </ItemGroup>
 
 </Project>
