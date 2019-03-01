@@ -44,7 +44,7 @@ namespace NIST.CVP.PoolAPI
             services.AddSingleton<IPoolObjectFactory, PoolObjectFactory>();
             services.AddSingleton<IPoolRepositoryFactory, PoolSqlRepositoryFactory>();
             services.AddSingleton<IPoolLogRepository, PoolLogSqlRepository>();
-            services.AddSingleton<IOracle, Oracle>();
+            services.AddSingleton<IOracle, OracleMinimalLoadSheddingRetries>();
             services.AddSingleton<PoolManager>();
         }
 

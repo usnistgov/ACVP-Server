@@ -2,7 +2,6 @@
 using NIST.CVP.Common.Oracle.ResultTypes;
 using System.Numerics;
 using System.Threading.Tasks;
-using NIST.CVP.Crypto.Oracle.ExtensionMethods;
 using NIST.CVP.Crypto.Oracle.Helpers;
 using NIST.CVP.Orleans.Grains.Interfaces.Dsa;
 
@@ -13,8 +12,8 @@ namespace NIST.CVP.Crypto.Oracle
         public virtual async Task<DsaDomainParametersResult> GetDsaPQAsync(DsaDomainParametersParameters param)
         {
             var observableGrain = 
-                await _clusterClient.GetObserverGrain<IOracleObserverDsaPqCaseGrain, DsaDomainParametersResult>();
-            await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param);
+                await GetObserverGrain<IOracleObserverDsaPqCaseGrain, DsaDomainParametersResult>();
+            await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, LoadSheddingRetries);
 
             return await observableGrain.ObserveUntilResult();
         }
@@ -22,8 +21,8 @@ namespace NIST.CVP.Crypto.Oracle
         public async Task<DsaDomainParametersResult> GetDsaGAsync(DsaDomainParametersParameters param, DsaDomainParametersResult pqParam)
         {
             var observableGrain = 
-                await _clusterClient.GetObserverGrain<IOracleObserverDsaGCaseGrain, DsaDomainParametersResult>();
-            await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, pqParam);
+                await GetObserverGrain<IOracleObserverDsaGCaseGrain, DsaDomainParametersResult>();
+            await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, pqParam, LoadSheddingRetries);
 
             return await observableGrain.ObserveUntilResult();
         }
@@ -53,8 +52,8 @@ namespace NIST.CVP.Crypto.Oracle
         public async Task<VerifyResult<DsaDomainParametersResult>> GetDsaPQVerifyAsync(DsaDomainParametersParameters param, DsaDomainParametersResult fullParam)
         {
             var observableGrain = 
-                await _clusterClient.GetObserverGrain<IOracleObserverDsaPqVerifyCaseGrain, VerifyResult<DsaDomainParametersResult>>();
-            await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, fullParam);
+                await GetObserverGrain<IOracleObserverDsaPqVerifyCaseGrain, VerifyResult<DsaDomainParametersResult>>();
+            await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, fullParam, LoadSheddingRetries);
 
             return await observableGrain.ObserveUntilResult();
         }
@@ -62,8 +61,8 @@ namespace NIST.CVP.Crypto.Oracle
         public async Task<VerifyResult<DsaDomainParametersResult>> GetDsaGVerifyAsync(DsaDomainParametersParameters param, DsaDomainParametersResult fullParam)
         {
             var observableGrain = 
-                await _clusterClient.GetObserverGrain<IOracleObserverDsaGVerifyCaseGrain, VerifyResult<DsaDomainParametersResult>>();
-            await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, fullParam);
+                await GetObserverGrain<IOracleObserverDsaGVerifyCaseGrain, VerifyResult<DsaDomainParametersResult>>();
+            await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, fullParam, LoadSheddingRetries);
 
             return await observableGrain.ObserveUntilResult();
         }
@@ -71,8 +70,8 @@ namespace NIST.CVP.Crypto.Oracle
         public async Task<DsaKeyResult> GetDsaKeyAsync(DsaKeyParameters param)
         {
             var observableGrain = 
-                await _clusterClient.GetObserverGrain<IOracleObserverDsaKeyCaseGrain, DsaKeyResult>();
-            await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param);
+                await GetObserverGrain<IOracleObserverDsaKeyCaseGrain, DsaKeyResult>();
+            await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, LoadSheddingRetries);
 
             return await observableGrain.ObserveUntilResult();
         }
@@ -80,8 +79,8 @@ namespace NIST.CVP.Crypto.Oracle
         public async Task<VerifyResult<DsaKeyResult>> CompleteDeferredDsaKeyAsync(DsaKeyParameters param, DsaKeyResult fullParam)
         {
             var observableGrain = 
-                await _clusterClient.GetObserverGrain<IOracleObserverDsaCompleteDeferredKeyCaseGrain, VerifyResult<DsaKeyResult>>();
-            await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, fullParam);
+                await GetObserverGrain<IOracleObserverDsaCompleteDeferredKeyCaseGrain, VerifyResult<DsaKeyResult>>();
+            await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, fullParam, LoadSheddingRetries);
 
             return await observableGrain.ObserveUntilResult();
         }
@@ -89,8 +88,8 @@ namespace NIST.CVP.Crypto.Oracle
         public async Task<DsaSignatureResult> GetDeferredDsaSignatureAsync(DsaSignatureParameters param)
         {
             var observableGrain = 
-                await _clusterClient.GetObserverGrain<IOracleObserverDsaDeferredSignatureCaseGrain, DsaSignatureResult>();
-            await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param);
+                await GetObserverGrain<IOracleObserverDsaDeferredSignatureCaseGrain, DsaSignatureResult>();
+            await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, LoadSheddingRetries);
 
             return await observableGrain.ObserveUntilResult();
         }
@@ -98,8 +97,8 @@ namespace NIST.CVP.Crypto.Oracle
         public async Task<VerifyResult<DsaSignatureResult>> CompleteDeferredDsaSignatureAsync(DsaSignatureParameters param, DsaSignatureResult fullParam)
         {
             var observableGrain = 
-                await _clusterClient.GetObserverGrain<IOracleObserverDsaCompleteDeferredSignatureCaseGrain, VerifyResult<DsaSignatureResult>>();
-            await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, fullParam);
+                await GetObserverGrain<IOracleObserverDsaCompleteDeferredSignatureCaseGrain, VerifyResult<DsaSignatureResult>>();
+            await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, fullParam, LoadSheddingRetries);
 
             return await observableGrain.ObserveUntilResult();
         }
@@ -107,8 +106,8 @@ namespace NIST.CVP.Crypto.Oracle
         public async Task<DsaSignatureResult> GetDsaSignatureAsync(DsaSignatureParameters param)
         {
             var observableGrain = 
-                await _clusterClient.GetObserverGrain<IOracleObserverDsaSignatureCaseGrain, DsaSignatureResult>();
-            await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param);
+                await GetObserverGrain<IOracleObserverDsaSignatureCaseGrain, DsaSignatureResult>();
+            await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, LoadSheddingRetries);
 
             return await observableGrain.ObserveUntilResult();
         }
