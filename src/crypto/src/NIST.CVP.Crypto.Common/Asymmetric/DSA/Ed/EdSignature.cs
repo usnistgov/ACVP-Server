@@ -8,7 +8,7 @@ namespace NIST.CVP.Crypto.Common.Asymmetric.DSA.Ed
 
         public EdSignature()
         {
-            
+            Sig = new BitString("");
         }
 
         public EdSignature(BitString sig)
