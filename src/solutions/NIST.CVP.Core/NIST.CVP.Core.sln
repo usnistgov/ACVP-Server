@@ -33,6 +33,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto", "..\..\cr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Pools", "..\..\pools\src\NIST.CVP.Pools\NIST.CVP.Pools.csproj", "{FC8ADDF8-15D0-473C-82B5-9848C6EFF074}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Orleans.Grains.Interfaces", "..\..\orleans\src\NIST.CVP.Orleans.Grains.Interfaces\NIST.CVP.Orleans.Grains.Interfaces.csproj", "{BD047699-D355-44C4-9E93-D6F0DBDB07F2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -91,6 +93,10 @@ Global
 		{FC8ADDF8-15D0-473C-82B5-9848C6EFF074}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FC8ADDF8-15D0-473C-82B5-9848C6EFF074}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FC8ADDF8-15D0-473C-82B5-9848C6EFF074}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD047699-D355-44C4-9E93-D6F0DBDB07F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD047699-D355-44C4-9E93-D6F0DBDB07F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD047699-D355-44C4-9E93-D6F0DBDB07F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD047699-D355-44C4-9E93-D6F0DBDB07F2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -109,6 +115,7 @@ Global
 		{608352EB-5704-485A-8785-CD7D6041FB43} = {D549AE61-2AE7-45AC-80CD-36AB799DDB1F}
 		{BCFCAF83-0E93-4AE4-8B4F-CEF860826F34} = {3676E839-3D27-4EE9-9459-E6B4B9A8D091}
 		{FC8ADDF8-15D0-473C-82B5-9848C6EFF074} = {3676E839-3D27-4EE9-9459-E6B4B9A8D091}
+		{BD047699-D355-44C4-9E93-D6F0DBDB07F2} = {3676E839-3D27-4EE9-9459-E6B4B9A8D091}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {38402417-A5EE-46C1-B2F2-72AEF7684347}
