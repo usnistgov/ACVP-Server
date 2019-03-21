@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="$(NuGetVersionMicrosoftNETTestSdk)" />
     <PackageReference Include="dotnet-test-nunit" Version="$(NuGetVersiondotnettestnunit)" />
     <PackageReference Include="TeamCity.VSTest.TestAdapter" Version="$(NuGetVersionTeamCityVSTestTestAdapter)" />
@@ -17,7 +18,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\common\test\NIST.CVP.Generation.Core.Tests\NIST.CVP.Generation.Core.Tests.csproj" />
-    
     <ProjectReference Include="..\..\..\crypto\src\NIST.CVP.Crypto\NIST.CVP.Crypto.csproj" />
     <ProjectReference Include="..\..\src\NIST.CVP.Generation.TDES_OFBI\NIST.CVP.Generation.TDES_OFBI.csproj" />
   </ItemGroup>
