@@ -221,7 +221,16 @@ namespace NIST.CVP.Pools
                 LogManager.GetCurrentClassLogger()
                     .Log(LogLevel.Info, $"Attempting to load {poolProperty.PoolName}");
 
-                Pools.Add(_poolFactory.GetPool(poolProperty));
+                try
+                {
+                    Pools.Add(_poolFactory.GetPool(poolProperty));
+                }
+                catch (Exception ex)
+                {
+                    LogManager.GetCurrentClassLogger()
+                        .Log(LogLevel.Error, ex);
+                    throw;
+                }
 
                 LogManager.GetCurrentClassLogger()
                     .Log(LogLevel.Info, $"{poolProperty.PoolName} loaded.");
