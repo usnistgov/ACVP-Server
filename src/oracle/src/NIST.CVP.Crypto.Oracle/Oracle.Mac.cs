@@ -1,9 +1,7 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
-using NIST.CVP.Crypto.Oracle.ExtensionMethods;
-using NIST.CVP.Orleans.Grains.Interfaces;
+using NIST.CVP.Crypto.Oracle.Helpers;
 using NIST.CVP.Orleans.Grains.Interfaces.Mac;
 
 namespace NIST.CVP.Crypto.Oracle
@@ -13,8 +11,8 @@ namespace NIST.CVP.Crypto.Oracle
         public async Task<MacResult> GetCmacCaseAsync(CmacParameters param)
         {
             var observableGrain = 
-                await _clusterClient.GetObserverGrain<IOracleObserverCmacCaseGrain, MacResult>();
-            await observableGrain.Grain.BeginWorkAsync(param);
+                await GetObserverGrain<IOracleObserverCmacCaseGrain, MacResult>();
+            await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, LoadSheddingRetries);
 
             return await observableGrain.ObserveUntilResult();
         }
@@ -22,8 +20,8 @@ namespace NIST.CVP.Crypto.Oracle
         public async Task<MacResult> GetHmacCaseAsync(HmacParameters param)
         {
             var observableGrain = 
-                await _clusterClient.GetObserverGrain<IOracleObserverHmacCaseGrain, MacResult>();
-            await observableGrain.Grain.BeginWorkAsync(param);
+                await GetObserverGrain<IOracleObserverHmacCaseGrain, MacResult>();
+            await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, LoadSheddingRetries);
 
             return await observableGrain.ObserveUntilResult();
         }
@@ -31,8 +29,8 @@ namespace NIST.CVP.Crypto.Oracle
         public async Task<KmacResult> GetKmacCaseAsync(KmacParameters param)
         {
             var observableGrain = 
-                await _clusterClient.GetObserverGrain<IOracleObserverKmacCaseGrain, KmacResult>();
-            await observableGrain.Grain.BeginWorkAsync(param);
+                await GetObserverGrain<IOracleObserverKmacCaseGrain, KmacResult>();
+            await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, LoadSheddingRetries);
 
             return await observableGrain.ObserveUntilResult();
         }

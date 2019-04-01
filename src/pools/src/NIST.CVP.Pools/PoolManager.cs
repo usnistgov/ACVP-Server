@@ -4,6 +4,7 @@ using NIST.CVP.Common.Config;
 using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Pools.Enums;
+using NIST.CVP.Pools.Interfaces;
 using NIST.CVP.Pools.Models;
 using NLog;
 using System;
@@ -11,7 +12,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using NIST.CVP.Pools.Interfaces;
 
 namespace NIST.CVP.Pools
 {
@@ -120,7 +120,6 @@ namespace NIST.CVP.Pools
 
         public bool SavePoolConfigs()
         {
-            var fullConfigFile = Path.Combine(_poolDirectory, _poolConfigFile);
             var json = JsonConvert.SerializeObject
             (
                 _properties, 
@@ -131,7 +130,7 @@ namespace NIST.CVP.Pools
                 }
             );
             
-            File.WriteAllText(fullConfigFile, json);
+            File.WriteAllText(_poolConfigFile, json);
             
             return true;
         }
@@ -201,19 +200,40 @@ namespace NIST.CVP.Pools
             LogManager.GetCurrentClassLogger()
                 .Log(LogLevel.Info, "Loading Pools.");
 
-            var fullConfigFile = Path.Combine(_poolDirectory, _poolConfigFile);
+            var configFileFound = File.Exists(_poolConfigFile);
+            LogManager.GetCurrentClassLogger()
+                .Log(LogLevel.Info, $"Loading Config file: {_poolConfigFile}. File found: {configFileFound}");
+
             _properties = JsonConvert.DeserializeObject<PoolProperties[]>
             (
-                File.ReadAllText(fullConfigFile), 
+                File.ReadAllText(_poolConfigFile), 
                 new JsonSerializerSettings
                 {
                     Converters = _jsonConverters
                 }
             );
 
+            LogManager.GetCurrentClassLogger()
+                .Log(LogLevel.Info, "Config loaded.");
+
             foreach (var poolProperty in _properties)
             {
-                Pools.Add(_poolFactory.GetPool(poolProperty));
+                LogManager.GetCurrentClassLogger()
+                    .Log(LogLevel.Info, $"Attempting to load {poolProperty.PoolName}");
+
+                try
+                {
+                    Pools.Add(_poolFactory.GetPool(poolProperty));
+                }
+                catch (Exception ex)
+                {
+                    LogManager.GetCurrentClassLogger()
+                        .Log(LogLevel.Error, ex);
+                    throw;
+                }
+
+                LogManager.GetCurrentClassLogger()
+                    .Log(LogLevel.Info, $"{poolProperty.PoolName} loaded.");
             }
 
             LogManager.GetCurrentClassLogger()

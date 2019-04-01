@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
+using NIST.CVP.Common.Interfaces;
 using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Pools.Interfaces;
 

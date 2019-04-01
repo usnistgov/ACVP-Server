@@ -14,6 +14,8 @@ using NIST.CVP.Generation.Core.JsonConverters;
 using NIST.CVP.Tests.Core;
 using NLog;
 using NIST.CVP.Crypto.Oracle;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace NIST.CVP.Generation.Core.Tests
 {
@@ -46,6 +48,7 @@ namespace NIST.CVP.Generation.Core.Tests
         protected static Logger ValLogger => LogManager.GetLogger("Validator");
 
         protected static readonly string RootDirectory = AppDomain.CurrentDomain.BaseDirectory;
+        protected IConfigurationRoot ConfigurationRoot;
         protected IServiceProvider ServiceProvider;
 
         [OneTimeSetUp]
@@ -58,7 +61,9 @@ namespace NIST.CVP.Generation.Core.Tests
                 Utilities.GetConsistentTestingStartPath(GetType(),
                     @"..\..\..\common\src\NIST.CVP.Generation.GenValApp\");
 
-            ServiceProvider = EntryPointConfigHelper.Bootstrap(RootDirectory);
+            ConfigurationRoot = EntryPointConfigHelper.GetConfigurationRoot(RootDirectory);
+            var serviceCollection = EntryPointConfigHelper.GetBaseServiceCollection(ConfigurationRoot);
+            ServiceProvider = serviceCollection.BuildServiceProvider();
         }
 
         [OneTimeTearDown]
@@ -236,7 +241,7 @@ namespace NIST.CVP.Generation.Core.Tests
             var builder = new ContainerBuilder();
 
             EntryPointConfigHelper.RegisterConfigurationInjections(ServiceProvider, builder);
-            
+
             RegistrationsOracle.RegisterTypes(builder, AlgoMode);
             RegistrationsCrypto.RegisterTypes(builder, AlgoMode);
             RegistrationsGenVal.RegisterTypes(builder, AlgoMode);

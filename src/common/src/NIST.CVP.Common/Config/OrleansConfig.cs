@@ -52,5 +52,11 @@ namespace NIST.CVP.Common.Config
         /// This value will be used by the task scheduler for a maximum level of concurrency.
         /// </summary>
         public int FallBackMinimumCores { get; set; }
+
+        /// <summary>
+        /// The CPU threshold in which the cluster will start rejecting additional requests.
+        /// The rejected requests throw an exception of TODO and should be resubmitted after a wait.
+        /// </summary>
+        public int LoadSheddingCpuThreshold { get; set; }
     }
 }

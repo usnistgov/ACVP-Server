@@ -1,4 +1,4 @@
-﻿namespace NIST.CVP.Pools.Interfaces
+﻿namespace NIST.CVP.Common.Interfaces
 {
     /// <summary>
     /// Gets a connection string from a collection of connection strings.

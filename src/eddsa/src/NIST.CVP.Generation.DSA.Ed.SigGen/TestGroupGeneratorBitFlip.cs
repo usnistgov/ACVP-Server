@@ -11,7 +11,7 @@ namespace NIST.CVP.Generation.DSA.Ed.SigGen
 {
     public class TestGroupGeneratorBitFlip : ITestGroupGenerator<Parameters, TestGroup, TestCase>
     {
-        private const string TEST_TYPE = "bft";
+        private const string TEST_TYPE = "BFT";
 
         private readonly IOracle _oracle;
 

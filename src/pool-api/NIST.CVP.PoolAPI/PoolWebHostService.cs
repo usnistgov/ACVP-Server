@@ -9,11 +9,9 @@ namespace NIST.CVP.PoolAPI
     public class PoolWebHostService : WebHostService
     {
         private readonly ILogger _logger;
-        private readonly PoolManager _poolManager;
 
         public PoolWebHostService(IWebHost host) : base(host)
         {
-            _poolManager = host.Services.GetService<PoolManager>();
             _logger = LogManager.GetCurrentClassLogger();
         }
 

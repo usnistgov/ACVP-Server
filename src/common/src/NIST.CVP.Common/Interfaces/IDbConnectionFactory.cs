@@ -1,6 +1,6 @@
 ﻿using System.Data;
 
-namespace NIST.CVP.Pools.Interfaces
+namespace NIST.CVP.Common.Interfaces
 {
     public interface IDbConnectionFactory
     {

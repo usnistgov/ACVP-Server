@@ -5,9 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.App" Version="$(NuGetVersionMicrosoftAspNetCoreAll)" />
+    <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="$(NuGetVersionMicrosoftNETTestSdk)" />
     <PackageReference Include="Microsoft.Orleans.Client" Version="$(NugetVersionMicrosoftOrleansClient)" />
+    <PackageReference Include="Microsoft.Orleans.Clustering.AdoNet" Version="$(NugetVersionMicrosoftOrleansClusteringAdoNet)" />
   </ItemGroup>
 
   <ItemGroup>
@@ -23,6 +24,10 @@
     <Compile Update="Oracle.*.cs">
       <DependentUpon>Oracle.cs</DependentUpon>
     </Compile>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Folder Include="ExtensionMethods\" />
   </ItemGroup>
 
 </Project>

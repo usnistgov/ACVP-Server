@@ -1,4 +1,5 @@
 ﻿using CommandLineParser.Exceptions;
+using Microsoft.Extensions.DependencyInjection;
 using NIST.CVP.Common.Enums;
 using NIST.CVP.Common.Helpers;
 using NIST.CVP.Generation.GenValApp.Helpers;
@@ -11,14 +12,14 @@ namespace NIST.CVP.Generation.GenValApp
 {
     public static class Program
     {
-        
-
         public static IServiceProvider ServiceProvider { get; }
         public static readonly string RootDirectory = AppDomain.CurrentDomain.BaseDirectory;
 
         static Program()
         {
-            ServiceProvider = EntryPointConfigHelper.Bootstrap(RootDirectory);
+            var configurationRoot = EntryPointConfigHelper.GetConfigurationRoot(RootDirectory);
+            var serviceCollection = EntryPointConfigHelper.GetBaseServiceCollection(configurationRoot);
+            ServiceProvider = serviceCollection.BuildServiceProvider();
         }
 
         /// <summary>

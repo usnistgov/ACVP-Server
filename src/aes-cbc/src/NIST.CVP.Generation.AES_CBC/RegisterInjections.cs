@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using NIST.CVP.Common;
+using NIST.CVP.Common.Services;
 using NIST.CVP.Generation.AES_CBC.ContractResolvers;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Async;

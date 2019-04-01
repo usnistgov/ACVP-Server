@@ -8,12 +8,17 @@ namespace NIST.CVP.Crypto.Common.Asymmetric.DSA.Ed
 
         public EdSignature()
         {
-            
+            Sig = new BitString("");
         }
 
         public EdSignature(BitString sig)
         {
-            Sig = sig;
+            Sig = sig.GetDeepCopy();
+        }
+
+        public EdSignature(BitString r, BitString s)
+        {
+            Sig = r.ConcatenateBits(s);
         }
     }
 }
