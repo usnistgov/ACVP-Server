@@ -6,6 +6,11 @@
   "digestSize": [
     "224"
   ],
-  "inBit": false,
-  "inEmpty": false
+  "messageLength": [
+    {
+      "min": 0,
+      "max": 65535,
+      "increment": 1
+    }
+  ]
 }

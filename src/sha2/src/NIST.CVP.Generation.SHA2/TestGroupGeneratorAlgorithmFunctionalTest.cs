@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using NIST.CVP.Crypto.Common.Hash.SHA2;
+﻿using NIST.CVP.Crypto.Common.Hash.SHA2;
 using NIST.CVP.Generation.Core;
+using System.Collections.Generic;
 
 namespace NIST.CVP.Generation.SHA2
 {
@@ -17,9 +17,8 @@ namespace NIST.CVP.Generation.SHA2
                 {
                     Function = SHAEnumHelpers.StringToMode(parameters.Algorithm),
                     DigestSize = SHAEnumHelpers.StringToDigest(digestSize),
-                    TestType = TEST_TYPE,
-                    IncludeNull = parameters.IncludeNull,
-                    BitOriented = parameters.BitOriented
+                    MessageLength = parameters.MessageLength,
+                    TestType = TEST_TYPE
                 };
                 testGroups.Add(testGroup);
             }

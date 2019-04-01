@@ -2,20 +2,33 @@
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Crypto.Common.Hash.SHA2;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.Async;
+using NIST.CVP.Math.Domain;
+using NIST.CVP.Math.Helpers;
 using NLog;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
-using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.SHA2
 {
     public class TestCaseGeneratorAFTHash : ITestCaseGeneratorAsync<TestGroup, TestCase>
     {
         private int _currentSmallCase = 0;
-        private int _currentLargeCase = 1;
+        private int _currentSmallCaseSize = 0;
+
+        private int _currentLargeCase = 0;
+        private int[] _largeCases;
+
+        private int _currentSpecialCase = 0;
 
         private readonly IOracle _oracle;
 
+        // Initial values don't matter here (just less than blockSize), just gotta make sure they are run
+        private int _maxSmallCases = 1;
+        private int _maxLargeCases = 1;
+
+        private int[] _specialCases = new int[2];
         public int NumberOfTestCasesToGenerate { get; private set; } = 512;
 
         public TestCaseGeneratorAFTHash(IOracle oracle)
@@ -25,10 +38,25 @@ namespace NIST.CVP.Generation.SHA2
 
         public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample)
         {
+            var minMax = group.MessageLength.GetDomainMinMax();
+            _specialCases[0] = minMax.Minimum;
+            _specialCases[1] = minMax.Maximum;
+
+            var blockSize = SHAEnumHelpers.DetermineBlockSize(group.DigestSize);
+
+            // Small cases handle [0, blockSize] and we can hit all of them
+            _maxSmallCases = blockSize + 1;
+
+            // Large cases handle [blockSize, 65535] and we can't hit all of them (blockSize is either 512 or 1024)
+            // If nothing above the blockSize is supported, skip the large tests
+            _maxLargeCases = minMax.Maximum > blockSize ? blockSize : 0;
+
+            NumberOfTestCasesToGenerate = _maxSmallCases + _maxLargeCases + _specialCases.Length;
+
             var param = new ShaParameters
             {
                 HashFunction = new HashFunction(group.Function, group.DigestSize),
-                MessageLength = DetermineMessageLength(group.BitOriented, group.IncludeNull, SHAEnumHelpers.DetermineBlockSize(group.DigestSize))
+                MessageLength = DetermineMessageLength(group.MessageLength, blockSize)
             };
 
             try
@@ -48,35 +76,63 @@ namespace NIST.CVP.Generation.SHA2
             }
         }
 
-        private int DetermineMessageLength(bool bitOriented, bool includeNull, int blockSize)
+        private int DetermineMessageLength(MathDomain messageLength, int blockSize)
         {
-            var unitSize = bitOriented ? 1 : 8;
-
-            var numSmallCases = blockSize / unitSize;
-            var numLargeCases = blockSize / unitSize;
-
-            if (includeNull)
+            if (_currentSmallCase < _maxSmallCases)
             {
-                if (_currentSmallCase == 0)
+                // Small cases
+                return DetermineSmallMessageLength(messageLength, blockSize);
+            }
+            else
+            {
+                if (_currentLargeCase < _maxLargeCases)
                 {
-                    _currentSmallCase = 1;
+                    // Large cases
+                    // Find the large case sizes by grabbing a whole bunch and picking as many as we need
+                    if (_largeCases == null)
+                    {
+                        _largeCases = messageLength.GetValues(x => (x > blockSize), ParameterValidator.MAX_MESSAGE_LENGTH, true).Take(_maxLargeCases).ToArray();
+                    }
+
+                    // Adjust the length if needed
+                    _maxLargeCases = _largeCases.Length;
+
+                    var current = _currentLargeCase;
+                    _currentLargeCase++;
+                    return _largeCases[current];
+                }
+                else
+                {
+                    // Special cases
+                    var current = _currentSpecialCase;
+                    _currentSpecialCase++;
+                    return _specialCases[current];
                 }
             }
-            else
+        }
+
+        private int DetermineSmallMessageLength(MathDomain messageLength, int blockSize)
+        {
+            // Keep trying sizes until we find one that works
+            while (_currentSmallCase <= _maxSmallCases)
             {
-                numSmallCases = blockSize / unitSize + 1;
+                // Found one that works
+                if (messageLength.IsWithinDomain(_currentSmallCaseSize))
+                {
+                    // Increment number of cases and increment the size
+                    var sizeSelected = _currentSmallCaseSize;
+                    _currentSmallCaseSize = _currentSmallCaseSize.IncrementOrReset(ParameterValidator.MIN_MESSAGE_LENGTH, blockSize);
+
+                    _currentSmallCase++;
+                    return sizeSelected;
+                }
+
+                // Increment, and if we exceed blockSize, reset to 0
+                _currentSmallCaseSize = _currentSmallCaseSize.IncrementOrReset(ParameterValidator.MIN_MESSAGE_LENGTH, blockSize);
             }
 
-            NumberOfTestCasesToGenerate = numSmallCases + numLargeCases;
-
-            if (_currentSmallCase <= numSmallCases)
-            {
-                return unitSize * _currentSmallCase++;
-            }
-            else
-            {
-                return blockSize + unitSize * 99 * _currentLargeCase++;
-            }
+            // Should never hit this point
+            throw new Exception("Should never get here. Too many small tests generated!");
         }
 
         private ILogger ThisLogger => LogManager.GetCurrentClassLogger();

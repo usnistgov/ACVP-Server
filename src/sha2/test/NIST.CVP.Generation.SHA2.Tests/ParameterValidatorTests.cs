@@ -1,7 +1,8 @@
-﻿using System.Linq;
-using Castle.Core.Internal;
+﻿using NIST.CVP.Math;
+using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
+using System.Linq;
 
 namespace NIST.CVP.Generation.SHA2.Tests
 {
@@ -84,28 +85,15 @@ namespace NIST.CVP.Generation.SHA2.Tests
         }
 
         [Test]
-        public void ShouldReturnSuccessWithNewIncludeNull()
+        public void ShouldReturnSuccessWithNewMessageLength()
         {
             var subject = new ParameterValidator();
             var result = subject.Validate(
                 new ParameterBuilder()
-                    .WithIncludeNull(false)
+                    .WithMessageLength(new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 8, 1024, 8)))
                     .Build()
             );
             
-            Assert.IsTrue(result.Success);
-        }
-
-        [Test]
-        public void ShouldReturnSuccessWithNewBitOriented()
-        {
-            var subject = new ParameterValidator();
-            var result = subject.Validate(
-                new ParameterBuilder()
-                    .WithBitOriented(false)
-                    .Build()
-            );
-
             Assert.IsTrue(result.Success);
         }
 
@@ -113,15 +101,13 @@ namespace NIST.CVP.Generation.SHA2.Tests
         {
             private string _algorithm;
             private string[] _digestSizes;
-            private bool _includeNull;
-            private bool _bitOriented;
+            private MathDomain _messageLength;
 
             public ParameterBuilder()
             {
                 _algorithm = "SHA2";
                 _digestSizes = new[] {"224", "256"};
-                _includeNull = true;
-                _bitOriented = true;
+                _messageLength = new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 0, 65536));
             }
 
             public ParameterBuilder WithAlgorithm(string value)
@@ -136,15 +122,9 @@ namespace NIST.CVP.Generation.SHA2.Tests
                 return this;
             }
 
-            public ParameterBuilder WithIncludeNull(bool value)
+            public ParameterBuilder WithMessageLength(MathDomain messageLength)
             {
-                _includeNull = value;
-                return this;
-            }
-
-            public ParameterBuilder WithBitOriented(bool value)
-            {
-                _bitOriented = value;
+                _messageLength = messageLength;
                 return this;
             }
 
@@ -154,8 +134,7 @@ namespace NIST.CVP.Generation.SHA2.Tests
                 {
                     Algorithm = _algorithm,
                     DigestSizes = _digestSizes,
-                    BitOriented = _bitOriented,
-                    IncludeNull = _includeNull
+                    MessageLength = _messageLength
                 };
             }
         }

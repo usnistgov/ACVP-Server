@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Tests.Core.TestCategoryAttributes;
+﻿using NIST.CVP.Math.Domain;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.SHA2.Tests
@@ -14,8 +15,7 @@ namespace NIST.CVP.Generation.SHA2.Tests
                 Algorithm = "SHA1",
                 DigestSizes = new [] {"160"},
                 IsSample = false,
-                BitOriented = false,
-                IncludeNull = false
+                MessageLength = new MathDomain()
             };
             Assert.IsNotNull(parameters);
         }
@@ -28,8 +28,7 @@ namespace NIST.CVP.Generation.SHA2.Tests
                 Algorithm = "SHA2",
                 DigestSizes = new [] {"224", "256", "384", "512", "512/224", "512/256"},
                 IsSample = false,
-                BitOriented = false,
-                IncludeNull = false
+                MessageLength = new MathDomain()
             };
             Assert.AreEqual("SHA2", parameters.Algorithm);
         }
