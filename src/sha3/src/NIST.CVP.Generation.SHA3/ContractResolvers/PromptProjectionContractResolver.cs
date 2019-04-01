@@ -53,7 +53,7 @@ namespace NIST.CVP.Generation.SHA3.ContractResolvers
                     GetTestCaseFromTestCaseObject(instance, out var testGroup, out var testCase);
 
                     if (testGroup.Function.Equals("shake", StringComparison.OrdinalIgnoreCase) &&
-                        testGroup.TestType.Equals("vot", StringComparison.OrdinalIgnoreCase))
+                        (testGroup.TestType.Equals("vot", StringComparison.OrdinalIgnoreCase) || testGroup.TestType.Equals("aft", StringComparison.OrdinalIgnoreCase)))
                     {
                         return true;
                     }
