@@ -10,14 +10,14 @@ namespace NIST.CVP.Generation.Core.Tests.Helpers
     public class AlgoModeLookupHelperTests
     {
         [Test]
-        [TestCase("aEs", "cBc", AlgoMode.AES_CBC)]
-        [TestCase("aes", "gcm", AlgoMode.AES_GCM)]
-        [TestCase("ctrDRBG", "", AlgoMode.DRBG_CTR)]
-        [TestCase("hashDRBG", "", AlgoMode.DRBG_Hash)]
-        [TestCase("KDF-Components", "ANSIX9.63", AlgoMode.KDFComponents_ANSIX963)]
-        public void ShouldGetCorrectAlgoModeFromStrings(string algo, string mode, AlgoMode expected)
+        [TestCase("aEs", "cBc", "1.0", AlgoMode.AES_CBC_v1_0)]
+        [TestCase("aes", "gcm", "1.0", AlgoMode.AES_GCM_v1_0)]
+        [TestCase("ctrDRBG", "", "1.0", AlgoMode.DRBG_CTR_v1_0)]
+        [TestCase("hashDRBG", "", "1.0", AlgoMode.DRBG_Hash_v1_0)]
+        [TestCase("KDF-Components", "ANSIX9.63", "1.0", AlgoMode.KDFComponents_ANSIX963_v1_0)]
+        public void ShouldGetCorrectAlgoModeFromStrings(string algo, string mode, string revision, AlgoMode expected)
         {
-            var result = AlgoModeLookupHelper.GetAlgoModeFromStrings(algo, mode);
+            var result = AlgoModeLookupHelper.GetAlgoModeFromStrings(algo, mode, revision);
 
             Assert.AreEqual(expected, result);
         }
@@ -26,21 +26,21 @@ namespace NIST.CVP.Generation.Core.Tests.Helpers
         public void ShouldThrowWhenAlgoNull()
         {
             Assert.Throws(typeof(ArgumentNullException), 
-                () => AlgoModeLookupHelper.GetAlgoModeFromStrings(null, ""));
+                () => AlgoModeLookupHelper.GetAlgoModeFromStrings(null, "", ""));
         }
 
         [Test]
         public void ShouldThrowWhenAlgoEmpty()
         {
             Assert.Throws(typeof(ArgumentNullException), 
-                () => AlgoModeLookupHelper.GetAlgoModeFromStrings(string.Empty, ""));
+                () => AlgoModeLookupHelper.GetAlgoModeFromStrings(string.Empty, "", ""));
         }
 
         [Test]
         public void ShouldThrowWhenAlgoModeCombinationInvalid()
         {
             Assert.Throws(typeof(InvalidOperationException),
-                () => AlgoModeLookupHelper.GetAlgoModeFromStrings("AES", "Invalid"));
+                () => AlgoModeLookupHelper.GetAlgoModeFromStrings("AES", "Invalid", ""));
         }
     }
 }

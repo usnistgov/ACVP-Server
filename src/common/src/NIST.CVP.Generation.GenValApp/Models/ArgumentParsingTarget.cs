@@ -16,6 +16,10 @@ namespace NIST.CVP.Generation.GenValApp.Models
             Description = "The algorithm mode in which to generate/validate test vectors (does not apply to all algorithms)")]
         public string Mode { get; set; }
 
+        [ValueArgument(typeof(string), 'v', "revision", Optional = false, DefaultValue = "",
+            Description = "The algorithm testing revision.")]
+        public string Revision { get; set; }
+
         [DirectoryArgument('d', "dllLocation", DirectoryMustExist = true, Optional = true,
             Description = "The location to find run time loaded DLLs.  When not provided, current working directory is used.")]
         public DirectoryInfo DllLocation { get; set; }

@@ -19,10 +19,11 @@ namespace NIST.CVP.Generation.Core.Helpers
         /// </summary>
         /// <exception cref="ArgumentNullException">When the algo is null or empty</exception>
         /// <exception cref="InvalidOperationException">When unable to map the algo and mode</exception>
-        /// <param name="algo">The algorithm</param>
-        /// <param name="mode">The mode of the algorithm</param>
+        /// <param name="algo">The algorithm.</param>
+        /// <param name="mode">The mode of the algorithm.</param>
+        /// <param name="revision">The testing revision for the algorithm.</param></para>
         /// <returns></returns>
-        public static AlgoMode GetAlgoModeFromStrings(string algo, string mode)
+        public static AlgoMode GetAlgoModeFromStrings(string algo, string mode, string revision)
         {
             const string concatenationSeparator = "-";
 
@@ -43,16 +44,22 @@ namespace NIST.CVP.Generation.Core.Helpers
                 sb.Append(mode);
             }
 
-            var concatenatedAlgoMode = sb.ToString();
+            if (!string.IsNullOrEmpty(revision))
+            {
+                sb.Append(concatenationSeparator);
+                sb.Append(revision);
+            }
+
+            var concatenatedAlgoModeRevision = sb.ToString();
 
             try
             {
-                return EnumHelpers.GetEnumFromEnumDescription<AlgoMode>(concatenatedAlgoMode);
+                return EnumHelpers.GetEnumFromEnumDescription<AlgoMode>(concatenatedAlgoModeRevision);
             }
             catch (InvalidOperationException)
             {
                 string errorMsg =
-                    $"Unable to map {nameof(algo)} ({algo}) and {nameof(mode)} ({mode}) to {nameof(AlgoMode)}";
+                    $"Unable to map {nameof(algo)} ({algo}), {nameof(mode)} ({mode}), and {nameof(revision)} ({revision}) to {nameof(AlgoMode)}";
                 Logger.Error(errorMsg);
                 throw new InvalidOperationException(errorMsg);
             }

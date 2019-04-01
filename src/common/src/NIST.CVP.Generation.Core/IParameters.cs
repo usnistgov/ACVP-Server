@@ -18,6 +18,10 @@ namespace NIST.CVP.Generation.Core
         /// </summary>
         string Mode { get; }
         /// <summary>
+        /// The testing revision for the algorithm.
+        /// </summary>
+        string Revision { get; }
+        /// <summary>
         /// Is the algorithm running in "sample" mode?  
         /// (Can impact number of tests generated and how they are generated)
         /// </summary>

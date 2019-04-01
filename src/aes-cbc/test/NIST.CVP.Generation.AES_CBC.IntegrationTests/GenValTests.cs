@@ -16,7 +16,7 @@ namespace NIST.CVP.Generation.AES_CBC.IntegrationTests
         public override string Algorithm { get; } = "AES-CBC";
         public override string Mode { get; } = string.Empty;
 
-        public override AlgoMode AlgoMode => AlgoMode.AES_CBC;
+        public override AlgoMode AlgoMode => AlgoMode.AES_CBC_v1_0;
 
         public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
 
@@ -72,6 +72,7 @@ namespace NIST.CVP.Generation.AES_CBC.IntegrationTests
                 VectorSetId = 42,
                 Algorithm = Algorithm,
                 Mode = Mode,
+                Revision = Revision,
                 Direction = new string[] { "encrypt" },
                 KeyLen = new int[] { ParameterValidator.VALID_KEY_SIZES.First() },
                 IsSample = true
@@ -87,6 +88,7 @@ namespace NIST.CVP.Generation.AES_CBC.IntegrationTests
                 VectorSetId = 42,
                 Algorithm = Algorithm,
                 Mode = Mode,
+                Revision = Revision,
                 Direction = ParameterValidator.VALID_DIRECTIONS,
                 KeyLen = ParameterValidator.VALID_KEY_SIZES,
                 IsSample = false

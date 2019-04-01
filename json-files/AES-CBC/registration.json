@@ -2,6 +2,7 @@
   "vsId": 42,
   "algorithm": "AES-CBC",
   "mode": "",
+  "revision": "1.0",
   "isSample": false,
   "conformances": [],
   "direction": [
