@@ -45,6 +45,7 @@ namespace NIST.CVP.Generation.CMAC.Tests
             {
                 Algorithm = _algorithm,
                 Mode = _mode,
+                Revision = "1.0",
                 Capabilities = _capabilities,
 
                 IsSample = false

@@ -14,7 +14,7 @@ namespace NIST.CVP.Generation.CMAC.IntegrationTests
         public override string Algorithm { get; } = "CMAC-TDES";
         public override string Mode { get; } = string.Empty;
 
-        public override AlgoMode AlgoMode => AlgoMode.CMAC_TDES;
+        public override AlgoMode AlgoMode => AlgoMode.CMAC_TDES_v1_0;
 
         public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
@@ -58,6 +58,7 @@ namespace NIST.CVP.Generation.CMAC.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
+                Revision = Revision,
                 Capabilities = new List<Capability>
                 {
                     new Capability
@@ -83,6 +84,7 @@ namespace NIST.CVP.Generation.CMAC.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
+                Revision = Revision,
                 Capabilities = new List<Capability>
                 {
                     new Capability
