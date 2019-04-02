@@ -1,7 +1,10 @@
 {
+  "vsId": 0,
   "algorithm": "hmacDRBG",
   "mode": "",
+  "revision": "1.0",
   "isSample": false,
+  "conformances": [],
   "predResistanceEnabled": [
     true,
     false
