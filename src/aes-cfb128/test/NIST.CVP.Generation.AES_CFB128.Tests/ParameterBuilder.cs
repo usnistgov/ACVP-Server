@@ -9,7 +9,7 @@
         public ParameterBuilder()
         {
             // Provides a valid (as of construction) set of parameters
-            _algorithm = "AES-ECB";
+            _algorithm = "AES-CFB128";
             _mode = ParameterValidator.VALID_DIRECTIONS;
             _keyLen = ParameterValidator.VALID_KEY_SIZES;
         }
@@ -37,7 +37,7 @@
             return new Parameters()
             {
                 Algorithm = _algorithm,
-
+                Revision = "1.0",
                 KeyLen = _keyLen,
                 Direction = _mode
             };
