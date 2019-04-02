@@ -17,7 +17,7 @@ namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
         public override string Algorithm { get; } = "AES-GCM";
         public override string Mode { get; } = string.Empty;
 
-        public override AlgoMode AlgoMode => AlgoMode.AES_GCM;
+        public override AlgoMode AlgoMode => AlgoMode.AES_GCM_v1_0;
 
         public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
@@ -68,6 +68,7 @@ namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
             Parameters p = new Parameters()
             {
                 Algorithm = "AES-GCM",
+                Revision = Revision,
                 Direction = ParameterValidator.VALID_DIRECTIONS,
                 KeyLen = new int[] { ParameterValidator.VALID_KEY_SIZES.First() },
                 PayloadLen = new MathDomain().AddSegment(new ValueDomainSegment(0)),
@@ -87,6 +88,7 @@ namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
             Parameters p = new Parameters()
             {
                 Algorithm = "AES-GCM",
+                Revision = Revision,
                 Direction = ParameterValidator.VALID_DIRECTIONS,
                 KeyLen = new int[] { ParameterValidator.VALID_KEY_SIZES.First() },
                 PayloadLen = new MathDomain()
