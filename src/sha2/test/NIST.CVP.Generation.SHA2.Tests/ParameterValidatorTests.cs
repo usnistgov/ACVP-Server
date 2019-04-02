@@ -107,7 +107,7 @@ namespace NIST.CVP.Generation.SHA2.Tests
             {
                 _algorithm = "SHA2";
                 _digestSizes = new[] {"224", "256"};
-                _messageLength = new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 0, 65536));
+                _messageLength = new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 0, 65535));
             }
 
             public ParameterBuilder WithAlgorithm(string value)
