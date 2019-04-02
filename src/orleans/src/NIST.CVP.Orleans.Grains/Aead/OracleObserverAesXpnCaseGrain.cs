@@ -73,14 +73,17 @@ namespace NIST.CVP.Orleans.Grains.Aead
                 _param
             );
 
-            // Should Fail at certain ratio, 25%
-            var upperBound = (int)(1.0 / FAIL_RATE);
-            var shouldFail = _rand.GetRandomInt(0, upperBound) == 0;
-
-            if (shouldFail)
+            if (_param.CouldFail)
             {
-                result.Tag = _rand.GetDifferentBitStringOfSameSize(result.Tag);
-                result.TestPassed = false;
+                // Should Fail at certain ratio, 25%
+                var upperBound = (int)(1.0 / FAIL_RATE);
+                var shouldFail = _rand.GetRandomInt(0, upperBound) == 0;
+
+                if (shouldFail)
+                {
+                    result.Tag = _rand.GetDifferentBitStringOfSameSize(result.Tag);
+                    result.TestPassed = false;
+                }
             }
 
             result.Iv = fullParams.Iv;
