@@ -12,6 +12,7 @@ namespace NIST.CVP.Generation.KeyWrap
         public abstract string Algorithm { get; set; }
         [JsonIgnore]
         public abstract string Mode { get; set; }
+        public string Revision { get; set; }
         public bool IsSample { get; set; }
         public List<TTestGroup> TestGroups { get; set; } = new List<TTestGroup>();
     }
