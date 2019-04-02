@@ -12,7 +12,7 @@ namespace NIST.CVP.Generation.DSA.Ed.KeyGen.IntegrationTests
         public override string Algorithm { get; } = "EDDSA";
         public override string Mode { get; } = "KeyGen";
         
-        public override AlgoMode AlgoMode => AlgoMode.EDDSA_KeyGen;
+        public override AlgoMode AlgoMode => AlgoMode.EDDSA_KeyGen_v1_0;
 
         public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
@@ -32,6 +32,7 @@ namespace NIST.CVP.Generation.DSA.Ed.KeyGen.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
+                Revision = Revision,
                 IsSample = true,
                 Curve = new string[] { "ed-25519" },
                 SecretGenerationMode = new string[] { "testing candidates" }
@@ -46,6 +47,7 @@ namespace NIST.CVP.Generation.DSA.Ed.KeyGen.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
+                Revision = Revision,
                 IsSample = true,
                 Curve = ParameterValidator.VALID_CURVES,
                 SecretGenerationMode = ParameterValidator.VALID_SECRET_GENERATION_MODES
