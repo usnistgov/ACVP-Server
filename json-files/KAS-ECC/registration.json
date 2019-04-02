@@ -2,6 +2,7 @@
   "vsId": 0,
   "algorithm": "KAS-ECC",
   "mode": "",
+  "revision": "1.0",
   "isSample": true,
   "conformances": [],
   "function": [

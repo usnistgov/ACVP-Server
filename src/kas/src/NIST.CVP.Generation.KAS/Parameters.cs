@@ -11,6 +11,7 @@ namespace NIST.CVP.Generation.KAS
         public string Algorithm { get; set; }
         /// <inheritdoc />
         public string Mode { get; set; }
+        public string Revision { get; set; }
         /// <inheritdoc />
         public bool IsSample { get; set; }
         public string[] Conformances { get; set; } = { };
