@@ -13,6 +13,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer
         public int VectorSetId { get; set; }
         public string Algorithm { get; set; } = "ECDSA";
         public string Mode { get; set; } = "SigVer";
+        public string Revision { get; set; }
         public bool IsSample { get; set; }
 
         public List<TestGroup> TestGroups { get; set; } = new List<TestGroup>();
