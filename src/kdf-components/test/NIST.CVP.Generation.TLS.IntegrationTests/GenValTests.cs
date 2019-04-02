@@ -16,7 +16,7 @@ namespace NIST.CVP.Generation.TLS.IntegrationTests
         public override string Algorithm => "kdf-components";
         public override string Mode => "tls";
 
-        public override AlgoMode AlgoMode => AlgoMode.KDFComponents_TLS;
+        public override AlgoMode AlgoMode => AlgoMode.KDFComponents_TLS_v1_0;
 
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
 		public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
@@ -40,6 +40,7 @@ namespace NIST.CVP.Generation.TLS.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
+                Revision = Revision,
                 TlsVersion = new[] {"v1.2"},
                 HashAlg = new [] {"sha2-256", "sha2-512"},
                 IsSample = true
@@ -54,6 +55,7 @@ namespace NIST.CVP.Generation.TLS.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
+                Revision = Revision,
                 TlsVersion = ParameterValidator.VALID_TLS_VERSIONS,
                 HashAlg = ParameterValidator.VALID_HASH_ALGS,
                 IsSample = true

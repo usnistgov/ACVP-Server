@@ -16,7 +16,7 @@ namespace NIST.CVP.Generation.ANSIX963.IntegrationTests
         public override string Algorithm => "kdf-components";
         public override string Mode => "ansix9.63";
 
-        public override AlgoMode AlgoMode => AlgoMode.KDFComponents_ANSIX963;
+        public override AlgoMode AlgoMode => AlgoMode.KDFComponents_ANSIX963_v1_0;
 
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
 		public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
@@ -40,6 +40,7 @@ namespace NIST.CVP.Generation.ANSIX963.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
+                Revision = Revision,
                 HashAlg = new [] {"sha2-224", "sha2-256", "sha2-384"},
                 KeyDataLength = new MathDomain().AddSegment(new ValueDomainSegment(256)).AddSegment(new ValueDomainSegment(1024)),
                 SharedInfoLength = new MathDomain().AddSegment(new ValueDomainSegment(0)).AddSegment(new ValueDomainSegment(1024)),
@@ -56,6 +57,7 @@ namespace NIST.CVP.Generation.ANSIX963.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
+                Revision = Revision,
                 HashAlg = ParameterValidator.VALID_HASH_ALGS,
                 KeyDataLength = new MathDomain().AddSegment(new ValueDomainSegment(256)).AddSegment(new ValueDomainSegment(1024)),
                 SharedInfoLength = new MathDomain().AddSegment(new ValueDomainSegment(0)).AddSegment(new ValueDomainSegment(1024)),

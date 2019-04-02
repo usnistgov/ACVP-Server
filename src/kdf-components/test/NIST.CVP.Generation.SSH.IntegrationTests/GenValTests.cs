@@ -16,7 +16,7 @@ namespace NIST.CVP.Generation.SSH.IntegrationTests
         public override string Algorithm => "kdf-components";
         public override string Mode => "ssh";
 
-        public override AlgoMode AlgoMode => AlgoMode.KDFComponents_SSH;
+        public override AlgoMode AlgoMode => AlgoMode.KDFComponents_SSH_v1_0;
 
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
 		public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
@@ -40,6 +40,7 @@ namespace NIST.CVP.Generation.SSH.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
+                Revision = Revision,
                 Cipher = new[] {"aes-128"},
                 HashAlg = new[] {"sha-1", "sha2-256", "sha2-512"},
                 IsSample = true
@@ -54,6 +55,7 @@ namespace NIST.CVP.Generation.SSH.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
+                Revision = Revision,
                 Cipher = ParameterValidator.VALID_CIPHERS,
                 HashAlg = ParameterValidator.VALID_HASH_ALGS,
                 IsSample = true

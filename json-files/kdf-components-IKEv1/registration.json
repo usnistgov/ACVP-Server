@@ -1,7 +1,10 @@
 {
+  "vsId": 0,
   "algorithm": "kdf-components",
   "mode": "IKEv1",
+  "revision": "1.0",
   "isSample": false,
+  "conformances": [],
   "capabilities": [
     {
       "authenticationMethod": "dsa",
