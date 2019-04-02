@@ -1,5 +1,8 @@
 {
+  "vsId": 0,
   "algorithm": "AES-CFB8",
+  "mode": "",
+  "revision": "1.0",
   "isSample": false,
   "conformances": [],
   "direction": [
