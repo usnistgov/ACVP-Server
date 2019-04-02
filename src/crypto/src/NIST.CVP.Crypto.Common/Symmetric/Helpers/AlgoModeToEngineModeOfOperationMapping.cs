@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using NIST.CVP.Common;
+﻿using NIST.CVP.Common;
 using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Crypto.Common.Symmetric.Enums;
+using System;
+using System.Collections.Generic;
 
 namespace NIST.CVP.Crypto.Common.Symmetric.Helpers
 {
@@ -21,6 +21,7 @@ namespace NIST.CVP.Crypto.Common.Symmetric.Helpers
                 (AlgoMode.AES_GCM, BlockCipherEngines.Aes, BlockCipherModesOfOperation.Gcm),
                 (AlgoMode.AES_OFB, BlockCipherEngines.Aes, BlockCipherModesOfOperation.Ofb),
                 (AlgoMode.AES_XPN, BlockCipherEngines.Aes, BlockCipherModesOfOperation.Gcm),
+                (AlgoMode.AES_GCM_SIV, BlockCipherEngines.Aes, BlockCipherModesOfOperation.GcmSiv),
                 
                 (AlgoMode.TDES_CBC, BlockCipherEngines.Tdes, BlockCipherModesOfOperation.Cbc),
                 (AlgoMode.TDES_CBCI, BlockCipherEngines.Tdes, BlockCipherModesOfOperation.Cbci),
