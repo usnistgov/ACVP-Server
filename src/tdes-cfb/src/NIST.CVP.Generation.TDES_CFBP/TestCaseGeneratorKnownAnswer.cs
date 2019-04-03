@@ -44,23 +44,23 @@ namespace NIST.CVP.Generation.TDES_CFBP
             {
                 fe.IV = fe.PlainText.GetDeepCopy();
 
-                if (mode == AlgoMode.TDES_CFB1 || mode == AlgoMode.TDES_CFBP1)
+                if (mode == AlgoMode.TDES_CFB1_v1_0 || mode == AlgoMode.TDES_CFBP1_v1_0)
                 {
                     fe.CipherText = fe.CipherText.GetMostSignificantBits(1);
                 }
 
-                if (mode == AlgoMode.TDES_CFB8 || mode == AlgoMode.TDES_CFBP8)
+                if (mode == AlgoMode.TDES_CFB8_v1_0 || mode == AlgoMode.TDES_CFBP8_v1_0)
                 {
                     fe.CipherText = fe.CipherText.GetMostSignificantBits(8);
                 }
 
                 var len = 64;
-                if (mode == AlgoMode.TDES_CFB1 || mode == AlgoMode.TDES_CFBP1)
+                if (mode == AlgoMode.TDES_CFB1_v1_0 || mode == AlgoMode.TDES_CFBP1_v1_0)
                 {
                     len = 1;
                 }
 
-                if (mode == AlgoMode.TDES_CFB8 || mode == AlgoMode.TDES_CFBP8)
+                if (mode == AlgoMode.TDES_CFB8_v1_0 || mode == AlgoMode.TDES_CFBP8_v1_0)
                 {
                     len = 8;
                 }

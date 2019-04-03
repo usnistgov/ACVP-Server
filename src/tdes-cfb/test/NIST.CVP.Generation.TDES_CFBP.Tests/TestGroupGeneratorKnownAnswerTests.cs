@@ -71,6 +71,7 @@ namespace NIST.CVP.Generation.TDES_CFBP.Tests
             Parameters p = new Parameters()
             {
                 Algorithm = "TDES-CFBP1",
+                Revision = "1.0",
                 Direction = mode,
                 KeyingOption = keyOption,
             };

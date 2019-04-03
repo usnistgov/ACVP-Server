@@ -42,7 +42,7 @@ namespace NIST.CVP.Generation.TDES_CFB.Tests
         {
             TestGroup testGroup = new TestGroup()
             {
-                AlgoMode = AlgoMode.TDES_CFB1,
+                AlgoMode = AlgoMode.TDES_CFB1_v1_0,
                 Function = direction,
                 TestType = testType,
                 InternalTestType = internalTestType

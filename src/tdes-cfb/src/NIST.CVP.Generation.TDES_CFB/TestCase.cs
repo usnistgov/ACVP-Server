@@ -98,7 +98,7 @@ namespace NIST.CVP.Generation.TDES_CFB
             get
             {
                 // We only want to populate a dataLen if it matters (like in cfb1)
-                if (ParentGroup?.AlgoMode != AlgoMode.TDES_CFB1)
+                if (ParentGroup?.AlgoMode != AlgoMode.TDES_CFB1_v1_0)
                 {
                     return 0;
                 }
