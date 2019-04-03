@@ -15,7 +15,7 @@ namespace NIST.CVP.Generation.TDES_ECB.IntegrationTests
         public override string Algorithm { get; } = "TDES-ECB";
         public override string Mode { get; } = string.Empty;
 
-        public override AlgoMode AlgoMode => AlgoMode.TDES_ECB;
+        public override AlgoMode AlgoMode => AlgoMode.TDES_ECB_v1_0;
 
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
 		public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
@@ -73,6 +73,7 @@ namespace NIST.CVP.Generation.TDES_ECB.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
+                Revision = Revision,
                 Direction = new string[] { "encrypt" },
                 IsSample = true,
                 KeyingOption = new[] { 1 }
@@ -87,6 +88,7 @@ namespace NIST.CVP.Generation.TDES_ECB.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
+                Revision = Revision,
                 Direction = ParameterValidator.VALID_DIRECTIONS,
                 IsSample = false,
                 KeyingOption = new[] { 1, 2 }
