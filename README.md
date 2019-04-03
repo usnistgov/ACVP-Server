@@ -61,7 +61,7 @@ To host:
 
 * As a console application (local dev):
   * From NIST.CVP.PoolApi run `dotnet run --console`
-  * From the compiled binary `dotnet NIST.CVP.PoolApi --console`
+  * From the compiled binary `dotnet NIST.CVP.PoolApi.dll --console`
 * As a windows service:
 
 ```cmd
