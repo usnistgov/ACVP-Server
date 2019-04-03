@@ -43,6 +43,7 @@ To host the Orleans Silo locally there are two options:
 
 * Run as a console application
   * From the NIST.CVP.Orleans.ServerHost directory (where the csproj is located) `dotnet run --console`
+  * From the compiled binary: `dotnet NIST.CVP.Orleans.ServerHost.dll --console`
 * Run as a service
   * After publishing with `dotnet publish -c Release` run from an elevated command prompt: 
 
@@ -60,6 +61,7 @@ To host:
 
 * As a console application (local dev):
   * From NIST.CVP.PoolApi run `dotnet run --console`
+  * From the compiled binary `dotnet NIST.CVP.PoolApi --console`
 * As a windows service:
 
 ```cmd
