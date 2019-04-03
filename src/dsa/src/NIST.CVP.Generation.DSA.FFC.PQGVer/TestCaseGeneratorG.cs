@@ -33,6 +33,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer
             var pqParam = new DsaDomainParametersParameters
             {
                 PQGenMode = PrimeGenMode.Probable,
+                GGenMode = GeneratorGenMode.Unverifiable, // need to provide a GGenMode in order to get a potential pool value
                 HashAlg = group.HashAlg,
                 L = group.L,
                 N = group.N
