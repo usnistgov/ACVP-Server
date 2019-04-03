@@ -18,6 +18,5 @@ namespace NIST.CVP.Generation.AES_GCM_SIV
         public int[] KeyLen { get; set; }
         public MathDomain PayloadLen { get; set; }
         public MathDomain AadLen { get; set; }
-        public MathDomain TagLen { get; set; }
     }
 }
