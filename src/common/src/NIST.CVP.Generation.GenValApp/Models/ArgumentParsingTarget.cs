@@ -16,7 +16,7 @@ namespace NIST.CVP.Generation.GenValApp.Models
             Description = "The algorithm mode in which to generate/validate test vectors (does not apply to all algorithms)")]
         public string Mode { get; set; }
 
-        [ValueArgument(typeof(string), 'v', "revision", Optional = false, DefaultValue = "",
+        [ValueArgument(typeof(string), 'R', "revision", Optional = false, DefaultValue = "",
             Description = "The algorithm testing revision.")]
         public string Revision { get; set; }
 
