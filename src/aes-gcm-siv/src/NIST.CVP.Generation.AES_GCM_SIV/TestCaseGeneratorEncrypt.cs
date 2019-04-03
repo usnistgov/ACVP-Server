@@ -17,20 +17,12 @@ namespace NIST.CVP.Generation.AES_GCM_SIV
 {
     public class TestCaseGeneratorEncrypt : ITestCaseGeneratorAsync<TestGroup, TestCase>
     {
-        //private readonly IOracle _oracle;
-        private readonly IRandom800_90 _rand;
-        private readonly IAeadModeBlockCipherFactory _aeadCipherFactory;
-        private readonly IBlockCipherEngineFactory _engineFactory;
-
+        private readonly IOracle _oracle;
         public int NumberOfTestCasesToGenerate => 15;
 
-        public TestCaseGeneratorEncrypt(IRandom800_90 rand, IAeadModeBlockCipherFactory aeadCipherFactory, IBlockCipherEngineFactory engineFactory)
+        public TestCaseGeneratorEncrypt(IOracle oracle)
         {
-            _rand = rand;
-            _aeadCipherFactory = aeadCipherFactory;
-            _engineFactory = engineFactory;
-
-            //_oracle = oracle;
+            _oracle = oracle;
         }
 
         public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample)
@@ -45,7 +37,7 @@ namespace NIST.CVP.Generation.AES_GCM_SIV
 
             try
             {
-                var oracleResult = GetAesGcmSivCaseAsync(param);
+                var oracleResult = await _oracle.GetAesGcmSivCaseAsync(param);
 
                 return new TestCaseGenerateResponse<TestGroup, TestCase>(new TestCase
                 {
@@ -62,31 +54,6 @@ namespace NIST.CVP.Generation.AES_GCM_SIV
                 ThisLogger.Error(ex);
                 return new TestCaseGenerateResponse<TestGroup, TestCase>($"Failed to generate. {ex.Message}");
             }
-        }
-
-        private AeadResult GetAesGcmSivCaseAsync(AeadParameters param)
-        {
-            var aes = _engineFactory.GetSymmetricCipherPrimitive(BlockCipherEngines.Aes);
-            var aead = _aeadCipherFactory.GetAeadCipher(aes, BlockCipherModesOfOperation.GcmSiv);
-
-            var plaintext = _rand.GetRandomBitString(param.PayloadLength);
-            var aad = _rand.GetRandomBitString(param.AadLength);
-            var key = _rand.GetRandomBitString(param.KeyLength);
-            var iv = _rand.GetRandomBitString(96);
-
-            var fullParam = new AeadModeBlockCipherParameters(BlockCipherDirections.Encrypt, iv, key, plaintext, aad, 0);
-
-            var result = aead.ProcessPayload(fullParam);
-
-            return new AeadResult
-            {
-                Aad = aad,
-                PlainText = plaintext,
-                Key = key,
-                Iv = iv,
-                CipherText = result.Result,
-                TestPassed = true
-            };
         }
 
         private static ILogger ThisLogger => LogManager.GetCurrentClassLogger();

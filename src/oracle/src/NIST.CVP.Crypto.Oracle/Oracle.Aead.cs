@@ -35,6 +35,15 @@ namespace NIST.CVP.Crypto.Oracle
             return await observableGrain.ObserveUntilResult();
         }
 
+        public async Task<AeadResult> GetAesGcmSivCaseAsync(AeadParameters param)
+        {
+            var observableGrain = 
+                await GetObserverGrain<IOracleObserverAesGcmSivCaseGrain, AeadResult>();
+            await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, LoadSheddingRetries);
+
+            return await observableGrain.ObserveUntilResult();
+        }
+
         public async Task<AeadResult> GetAesXpnCaseAsync(AeadParameters param)
         {
             var observableGrain = 

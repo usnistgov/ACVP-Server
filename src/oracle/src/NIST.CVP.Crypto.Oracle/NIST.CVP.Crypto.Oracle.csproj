@@ -5,6 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="ExtensionMethods\**" />
+    <EmbeddedResource Remove="ExtensionMethods\**" />
+    <None Remove="ExtensionMethods\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="$(NuGetVersionMicrosoftNETTestSdk)" />
     <PackageReference Include="Microsoft.Orleans.Client" Version="$(NugetVersionMicrosoftOrleansClient)" />
@@ -24,10 +30,6 @@
     <Compile Update="Oracle.*.cs">
       <DependentUpon>Oracle.cs</DependentUpon>
     </Compile>
-  </ItemGroup>
-  
-  <ItemGroup>
-    <Folder Include="ExtensionMethods\" />
   </ItemGroup>
 
 </Project>

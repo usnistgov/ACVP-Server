@@ -9,6 +9,7 @@ namespace NIST.CVP.Common.Oracle
         Task<AeadResult> GetAesCcmCaseAsync(AeadParameters param);
         Task<AeadResult> GetEcmaCaseAsync(AeadParameters param);
         Task<AeadResult> GetAesGcmCaseAsync(AeadParameters param);
+        Task<AeadResult> GetAesGcmSivCaseAsync(AeadParameters param);
         Task<AeadResult> GetAesXpnCaseAsync(AeadParameters param);
                        
         Task<AeadResult> GetDeferredAesGcmCaseAsync(AeadParameters param);
