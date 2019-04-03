@@ -24,16 +24,6 @@ Console application build in dotnet core used to generate (depending on a crypto
 
 The console application works through communication of json files as input and output. The application is invoked with parameters such as the algorithm to be tested, as well as the capabilities/registration json file that describe the "functions" being used in the algorithm.
 
-## Running the application
-
-```cmd
-    # Generate test vectors with AES CBC, using the registration.json as the implementations capabilities
-    dotnet NIST.CVP.Generation.GenValApp.dll -a aes -m cbc -g registration.json
-
-    # Validate test vectors with AES CBC, using the previously generated internalProjection along with the IUT's responses.
-    dotnet NIST.CVP.Generation.GenValApp.dll -a aes -m cbc -n internalProjection.json -r testResults.json
-```
-
 ## Supported `ASPNETCORE_ENVIRONMENT` values
 
 * Local
@@ -43,22 +33,9 @@ The console application works through communication of json files as input and o
 * Demo
 * Prod
 
-## Pools
+## Running the application
 
-The ACVP genvals are able (but not required) to make use of a "Pool" of precomputed values.  This Pool is served to the genvals through the use of a hosted webApi.  The webApi can be hosted either through a console app runner, or as a registered windows service.
-
-To host:
-
-* As a console application (local dev):
-  * From NIST.CVP.PoolApi run `dotnet run --console`
-* As a windows service:
-
-```cmd
-sc create AcvpPoolApi binPath= "C:\workspace\gitLab\gen-val\src\pool-api\NIST.CVP.PoolAPI\bin\Release\netcoreapp2.1\win7-x64\NIST.CVP.PoolAPI.exe C:\workspace\gitLab\gen-val\src\pool-api\NIST.CVP.PoolAPI\Pools"
-sc start AcvpPoolApi
-```
-
-## Using Orleans
+### Orleans
 
 The ACVP Project uses [Orleans](https://github.com/dotnet/orleans) to distribute crypto across a (potential) cluster of nodes.  The genvals rely on this cluster being available, and configuration is provided via `appsettings.[env].json` files.
 
@@ -75,7 +52,32 @@ To host the Orleans Silo locally there are two options:
   sc start AcvpOrleans
   ```
 
-  
+### Pools
+
+The ACVP genvals are able (but not required) to make use of a "Pool" of precomputed values.  This Pool is served to the genvals through the use of a hosted webApi.  The webApi can be hosted either through a console app runner, or as a registered windows service.
+
+To host:
+
+* As a console application (local dev):
+  * From NIST.CVP.PoolApi run `dotnet run --console`
+* As a windows service:
+
+```cmd
+sc create AcvpPoolApi binPath= "C:\workspace\gitLab\gen-val\src\pool-api\NIST.CVP.PoolAPI\bin\Release\netcoreapp2.1\win7-x64\NIST.CVP.PoolAPI.exe C:\workspace\gitLab\gen-val\src\pool-api\NIST.CVP.PoolAPI\Pools"
+sc start AcvpPoolApi
+```
+
+### GenVals console application
+
+```cmd
+    # Generate test vectors with AES CBC testing revision 1.0, using the registration.json as the implementations capabilities
+    dotnet NIST.CVP.Generation.GenValApp.dll -a aes -m cbc -R 1.0 -g registration.json
+
+    # Validate test vectors with AES CBC testing revision 1.0, using the previously generated internalProjection along with the IUT's responses.
+    dotnet NIST.CVP.Generation.GenValApp.dll -a aes -m cbc -R 1.0 -n internalProjection.json -r testResults.json
+```
+
+
 
 ## See also
 
