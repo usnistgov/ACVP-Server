@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using NIST.CVP.Common;
+﻿using NIST.CVP.Common;
 using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Crypto.Common.Symmetric.Enums;
+using System;
+using System.Collections.Generic;
 
 namespace NIST.CVP.Crypto.Common.Symmetric.Helpers
 {
