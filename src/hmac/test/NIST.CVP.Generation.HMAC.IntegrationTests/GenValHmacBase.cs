@@ -43,6 +43,7 @@ namespace NIST.CVP.Generation.HMAC.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
+                Revision = Revision,
                 KeyLen = new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 8, 32, 8)),
                 MacLen = new MathDomain().AddSegment(new ValueDomainSegment(64)),
                 IsSample = false
@@ -59,6 +60,7 @@ namespace NIST.CVP.Generation.HMAC.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
+                Revision = Revision,
                 KeyLen = new MathDomain().AddSegment(new RangeDomainSegment(random, 8, 2048, 8)),
                 MacLen = new MathDomain().AddSegment(new RangeDomainSegment(random, 80, 160, 8)),
                 IsSample = false

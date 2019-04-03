@@ -47,7 +47,8 @@ namespace NIST.CVP.Generation.AES_CFB1.Tests
         {
             Parameters p = new Parameters()
             {
-                Algorithm = "AES-ECB",
+                Algorithm = "AES-CCM",
+                Revision = "1.0",
                 KeyLen = keyLen,
                 Direction = mode,
             };

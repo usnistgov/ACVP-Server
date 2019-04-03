@@ -16,6 +16,10 @@ namespace NIST.CVP.Common.Config
         /// </summary>
         public string Mode { get; set; }
         /// <summary>
+        /// The algorithm testing revision.
+        /// </summary>
+        public string Revision { get; set; }
+        /// <summary>
         /// The assembly containing the gen/vals for the algorithm/mode
         /// </summary>
         public string EntryDll { get; set; }

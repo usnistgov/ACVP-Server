@@ -35,9 +35,9 @@ namespace NIST.CVP.Generation.TDES_CFBP.Tests
         }
 
         [Test]
-        [TestCase(AlgoMode.TDES_CFBP1)]
-        [TestCase(AlgoMode.TDES_CFBP8)]
-        [TestCase(AlgoMode.TDES_CFBP64)]
+        [TestCase(AlgoMode.TDES_CFBP1_v1_0)]
+        [TestCase(AlgoMode.TDES_CFBP8_v1_0)]
+        [TestCase(AlgoMode.TDES_CFBP64_v1_0)]
         public async Task ShouldCallAlgoFromIsSampleMethod(AlgoMode algoMode)
         {
             TestGroup testGroup = new TestGroup()
@@ -52,9 +52,9 @@ namespace NIST.CVP.Generation.TDES_CFBP.Tests
         }
 
         [Test]
-        [TestCase(AlgoMode.TDES_CFBP1)]
-        [TestCase(AlgoMode.TDES_CFBP8)]
-        [TestCase(AlgoMode.TDES_CFBP64)]
+        [TestCase(AlgoMode.TDES_CFBP1_v1_0)]
+        [TestCase(AlgoMode.TDES_CFBP8_v1_0)]
+        [TestCase(AlgoMode.TDES_CFBP64_v1_0)]
         public async Task ShouldReturnErrorMessageIfAlgoFailsWithException(AlgoMode algoMode)
         {
             string errorMessage = "something bad happened! oh noes!";

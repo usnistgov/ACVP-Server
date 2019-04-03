@@ -12,7 +12,7 @@ namespace NIST.CVP.Generation.DSA.Ed.SigGen.IntegrationTests
         public override string Algorithm { get; } = "EDDSA";
         public override string Mode { get; } = "SigGen";
 
-        public override AlgoMode AlgoMode => AlgoMode.EDDSA_SigGen;
+        public override AlgoMode AlgoMode => AlgoMode.EDDSA_SigGen_v1_0;
 
         public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
@@ -23,6 +23,7 @@ namespace NIST.CVP.Generation.DSA.Ed.SigGen.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
+                Revision = Revision,
                 IsSample = true,
                 Curve = new [] {"ed-25519"}
             };
@@ -36,6 +37,7 @@ namespace NIST.CVP.Generation.DSA.Ed.SigGen.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
+                Revision = Revision,
                 IsSample = true,
                 Curve = ParameterValidator.VALID_CURVES,
                 PreHash = true

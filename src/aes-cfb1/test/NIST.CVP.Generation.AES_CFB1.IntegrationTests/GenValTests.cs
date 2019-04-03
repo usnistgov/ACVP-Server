@@ -16,7 +16,7 @@ namespace NIST.CVP.Generation.AES_CFB1.IntegrationTests
         public override string Algorithm { get; } = "AES-CFB1";
         public override string Mode { get; } = string.Empty;
 
-        public override AlgoMode AlgoMode => AlgoMode.AES_CFB1;
+        public override AlgoMode AlgoMode => AlgoMode.AES_CFB1_v1_0;
 
         public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
 
@@ -61,6 +61,7 @@ namespace NIST.CVP.Generation.AES_CFB1.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
+                Revision = Revision,
                 Direction = new string[] { "encrypt", "decrypt" },
                 KeyLen = new int[] { ParameterValidator.VALID_KEY_SIZES.First() },
                 IsSample = true
@@ -75,6 +76,7 @@ namespace NIST.CVP.Generation.AES_CFB1.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
+                Revision = Revision,
                 Direction = ParameterValidator.VALID_DIRECTIONS,
                 KeyLen = ParameterValidator.VALID_KEY_SIZES,
                 IsSample = false

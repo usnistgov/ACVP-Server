@@ -12,7 +12,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen.IntegrationTests
         public override string Algorithm { get; } = "ECDSA";
         public override string Mode { get; } = "SigGen";
 
-        public override AlgoMode AlgoMode => AlgoMode.ECDSA_SigGen;
+        public override AlgoMode AlgoMode => AlgoMode.ECDSA_SigGen_v1_0;
 
         public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
@@ -37,6 +37,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
+                Revision = Revision,
                 IsSample = true,
                 Capabilities = caps,
                 ComponentTest = true
@@ -60,6 +61,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
+                Revision = Revision,
                 IsSample = true,
                 Capabilities = caps,
             };

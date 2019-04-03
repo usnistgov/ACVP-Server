@@ -16,7 +16,7 @@ namespace NIST.CVP.Generation.TDES_CBC.IntegrationTests
         public override string Algorithm { get; } = "TDES-CBC";
         public override string Mode { get; } = string.Empty;
 
-        public override AlgoMode AlgoMode => AlgoMode.TDES_CBCI;
+        public override AlgoMode AlgoMode => AlgoMode.TDES_CBC_v1_0;
 
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
 		public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
@@ -78,6 +78,7 @@ namespace NIST.CVP.Generation.TDES_CBC.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
+                Revision = Revision,
                 Direction = new [] { "encrypt" },
                 IsSample = true,
                 KeyingOption = new[] { 1 }
@@ -92,6 +93,7 @@ namespace NIST.CVP.Generation.TDES_CBC.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
+                Revision = Revision,
                 Direction = ParameterValidator.VALID_DIRECTIONS,
                 IsSample = false,
                 KeyingOption = new []{1}

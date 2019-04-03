@@ -39,6 +39,7 @@ namespace NIST.CVP.Generation.TupleHash
 
         [JsonIgnore]
         public string Mode { get; set; } = string.Empty;
+        public string Revision { get; set; }
         public bool IsSample { get; set; }
         public List<TestGroup> TestGroups { get; set; } = new List<TestGroup>();
     }

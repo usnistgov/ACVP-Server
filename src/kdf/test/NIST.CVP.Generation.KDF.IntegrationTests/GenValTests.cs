@@ -15,7 +15,7 @@ namespace NIST.CVP.Generation.KDF.IntegrationTests
         public override string Algorithm => "KDF";
         public override string Mode => "";
 
-        public override AlgoMode AlgoMode => AlgoMode.KDF;
+        public override AlgoMode AlgoMode => AlgoMode.KDF_v1_0;
 
         public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
@@ -58,6 +58,7 @@ namespace NIST.CVP.Generation.KDF.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
+                Revision = Revision,
                 IsSample = true,
                 Capabilities = capabilities
             };
@@ -99,6 +100,7 @@ namespace NIST.CVP.Generation.KDF.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
+                Revision = Revision,
                 IsSample = true,
                 Capabilities = capabilities
             };

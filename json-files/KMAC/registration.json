@@ -2,10 +2,11 @@
   "vsId": 0,
   "algorithm": "KMAC",
   "mode": "",
+  "revision": "1.0",
   "isSample": false,
   "conformances": [],
   "digestSize": [
-    128
+    256
   ],
   "nonxof": true,
   "xof": true,

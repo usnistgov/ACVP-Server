@@ -16,7 +16,7 @@ namespace NIST.CVP.Generation.SRTP.IntegrationTests
         public override string Algorithm => "kdf-components";
         public override string Mode => "srtp";
 
-        public override AlgoMode AlgoMode => AlgoMode.KDFComponents_SRTP;
+        public override AlgoMode AlgoMode => AlgoMode.KDFComponents_SRTP_v1_0;
 
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
 		public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
@@ -40,6 +40,7 @@ namespace NIST.CVP.Generation.SRTP.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
+                Revision = Revision,
                 AesKeyLength = new [] {128, 192},
                 KdrExponent = new [] {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12},
                 SupportsZeroKdr = true,
@@ -55,6 +56,7 @@ namespace NIST.CVP.Generation.SRTP.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
+                Revision = Revision,
                 AesKeyLength = ParameterValidator.VALID_AES_KEY_LENGTHS,
                 KdrExponent = ParameterValidator.VALID_KDR_EXPONENTS,
                 SupportsZeroKdr = true,

@@ -15,7 +15,7 @@ namespace NIST.CVP.Generation.AES_CTR.IntegrationTests
         public override string Algorithm => "AES-CTR";
         public override string Mode => string.Empty;
 
-        public override AlgoMode AlgoMode => AlgoMode.AES_CTR;
+        public override AlgoMode AlgoMode => AlgoMode.AES_CTR_v1_0;
 
         public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
@@ -26,6 +26,7 @@ namespace NIST.CVP.Generation.AES_CTR.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
+                Revision = Revision,
                 Direction = new[] { "encrypt" },
                 KeyLen = new[] { 128, 256 },
                 PayloadLen = new MathDomain().AddSegment(new RangeDomainSegment(null, 8, 128, 8)),
@@ -43,6 +44,7 @@ namespace NIST.CVP.Generation.AES_CTR.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
+                Revision = Revision,
                 Direction = ParameterValidator.VALID_DIRECTIONS,
                 KeyLen = ParameterValidator.VALID_KEY_SIZES,
                 PayloadLen = new MathDomain().AddSegment(new RangeDomainSegment(null, 1, 128)),

@@ -1,7 +1,10 @@
 {
+  "vsId": 0,
   "algorithm": "kdf-components",
   "mode": "snmp",
+  "revision": "1.0",
   "isSample": false,
+  "conformances": [],
   "engineId": [
     "12345678912345678900",
     "abcdef0123456789abcdef1234567890"

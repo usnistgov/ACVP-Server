@@ -17,7 +17,7 @@ namespace NIST.CVP.Generation.AES_XPN.IntegrationTests
         public override string Algorithm { get; } = "AES-XPN";
         public override string Mode { get; } = string.Empty;
 
-        public override AlgoMode AlgoMode => AlgoMode.AES_XPN;
+        public override AlgoMode AlgoMode => AlgoMode.AES_XPN_v1_0;
 
         public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
@@ -84,6 +84,7 @@ namespace NIST.CVP.Generation.AES_XPN.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
+                Revision = Revision,
                 Direction = ParameterValidator.VALID_DIRECTIONS,
                 KeyLen = new int[] { ParameterValidator.VALID_KEY_SIZES.First() },
                 PayloadLen = new MathDomain().AddSegment(new ValueDomainSegment(0)),
@@ -103,6 +104,7 @@ namespace NIST.CVP.Generation.AES_XPN.IntegrationTests
             Parameters p = new Parameters()
             {
                 Algorithm = "AES-XPN",
+                Revision = Revision,
                 Direction = ParameterValidator.VALID_DIRECTIONS,
                 KeyLen = ParameterValidator.VALID_KEY_SIZES,
                 PayloadLen = new MathDomain()

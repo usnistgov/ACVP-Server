@@ -72,6 +72,7 @@ namespace NIST.CVP.Generation.TDES_CFBP.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
+                Revision = Revision,
                 Direction = new[] { "encrypt" },
                 IsSample = true,
                 KeyingOption = new[] { 1 }
@@ -86,6 +87,7 @@ namespace NIST.CVP.Generation.TDES_CFBP.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
+                Revision = Revision,
                 Direction = ParameterValidator.VALID_DIRECTIONS,
                 IsSample = true,
                 KeyingOption = new[] { 1 }

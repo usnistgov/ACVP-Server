@@ -16,7 +16,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen.IntegrationTests
         public override string Algorithm { get; } = "DSA";
         public override string Mode { get; } = "PQGGen";
 
-        public override AlgoMode AlgoMode => AlgoMode.DSA_PQGGen;
+        public override AlgoMode AlgoMode => AlgoMode.DSA_PQGGen_v1_0;
 
         public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
@@ -65,6 +65,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
+                Revision = Revision,
                 IsSample = true,
                 Capabilities = caps,
             };
@@ -107,6 +108,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
+                Revision = Revision,
                 IsSample = true,
                 Capabilities = caps,
             };

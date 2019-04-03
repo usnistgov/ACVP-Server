@@ -18,7 +18,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
         public override string Algorithm => "KAS-ECC";
         public override string Mode => string.Empty;
         
-        public override AlgoMode AlgoMode => AlgoMode.KAS_ECC;
+        public override AlgoMode AlgoMode => AlgoMode.KAS_ECC_v1_0;
 
         public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
@@ -75,6 +75,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
+                Revision = Revision,
                 Function = new string[] { "dpGen" },
                 Scheme = new Schemes()
                 {
@@ -136,6 +137,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
+                Revision = Revision,
                 Function = new string[] { "dpGen", "dpVal", "keyPairGen", "partialVal", "keyRegen" },
                 Scheme = new Schemes()
                 {

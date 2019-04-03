@@ -8,6 +8,7 @@ namespace NIST.CVP.Generation.AES_CBC
         public int VectorSetId { get; set; }
         public string Algorithm { get; set; }
         public string Mode { get; set; }
+        public string Revision { get; set; } = "1.0";
         public bool IsSample { get; set; }
         public string[] Conformances { get; set; } = { };
         public string[] Direction { get; set; }

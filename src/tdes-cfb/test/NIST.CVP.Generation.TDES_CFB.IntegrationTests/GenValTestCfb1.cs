@@ -9,6 +9,6 @@ namespace NIST.CVP.Generation.TDES_CFB.IntegrationTests
         public override string Algorithm { get; } = "TDES-CFB1";
         public override string Mode { get; } = string.Empty;
 
-        public override AlgoMode AlgoMode => AlgoMode.TDES_CFB1;
+        public override AlgoMode AlgoMode => AlgoMode.TDES_CFB1_v1_0;
     }
 }

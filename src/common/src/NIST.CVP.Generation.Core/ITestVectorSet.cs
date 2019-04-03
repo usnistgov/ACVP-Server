@@ -23,6 +23,11 @@ namespace NIST.CVP.Generation.Core
         [JsonProperty(PropertyName = "mode")]
         string Mode { get; set; }
         /// <summary>
+        /// The algorithm testing revision
+        /// </summary>
+        [JsonProperty(PropertyName = "revision")]
+        string Revision { get; set; }
+        /// <summary>
         /// Is this a sample vector set?
         /// </summary>
         [JsonProperty(PropertyName = "isSample")]

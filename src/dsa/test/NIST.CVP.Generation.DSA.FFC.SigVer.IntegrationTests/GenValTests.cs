@@ -11,7 +11,7 @@ namespace NIST.CVP.Generation.DSA.FFC.SigVer.IntegrationTests
         public override string Algorithm { get; } = "DSA";
         public override string Mode { get; } = "SigVer";
 
-        public override AlgoMode AlgoMode => AlgoMode.DSA_SigVer;
+        public override AlgoMode AlgoMode => AlgoMode.DSA_SigVer_v1_0;
 
         public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
@@ -54,6 +54,7 @@ namespace NIST.CVP.Generation.DSA.FFC.SigVer.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
+                Revision = Revision,
                 IsSample = true,
                 Capabilities = caps,
             };
@@ -97,6 +98,7 @@ namespace NIST.CVP.Generation.DSA.FFC.SigVer.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
+                Revision = Revision,
                 IsSample = false,
                 Capabilities = caps,
             };

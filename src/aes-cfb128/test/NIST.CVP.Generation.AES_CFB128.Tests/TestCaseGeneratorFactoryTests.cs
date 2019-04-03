@@ -70,7 +70,7 @@ namespace NIST.CVP.Generation.AES_CFB128.Tests
         {
             TestGroup testGroup = new TestGroup()
             {
-                AlgoMode = Common.AlgoMode.AES_CFB128,
+                AlgoMode = Common.AlgoMode.AES_CFB128_v1_0,
                 Function = direction,
                 KeyLength = keySize,
                 InternalTestType = testType
@@ -86,7 +86,7 @@ namespace NIST.CVP.Generation.AES_CFB128.Tests
         {
             var generator = _subject.GetCaseGenerator(new TestGroup()
             {
-                AlgoMode = Common.AlgoMode.AES_CFB128,
+                AlgoMode = Common.AlgoMode.AES_CFB128_v1_0,
                 Function = string.Empty,
                 InternalTestType = string.Empty
             });

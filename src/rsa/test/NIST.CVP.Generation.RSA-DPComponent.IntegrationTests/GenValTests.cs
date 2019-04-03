@@ -19,7 +19,7 @@ namespace NIST.CVP.Generation.RSA_DPComponent.IntegrationTests
         public override string Algorithm => "RSA";
         public override string Mode => "DecryptionPrimitive";
 
-        public override AlgoMode AlgoMode => AlgoMode.RSA_DecryptionPrimitive;
+        public override AlgoMode AlgoMode => AlgoMode.RSA_DecryptionPrimitive_v1_0;
 
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
 		public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
@@ -30,6 +30,7 @@ namespace NIST.CVP.Generation.RSA_DPComponent.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
+                Revision = Revision,
                 IsSample = true,
             };
 

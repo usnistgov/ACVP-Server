@@ -17,7 +17,7 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyVer.IntegrationTests
         public override string Algorithm { get; } = "ECDSA";
         public override string Mode { get; } = "KeyVer";
 
-        public override AlgoMode AlgoMode => AlgoMode.ECDSA_KeyVer;
+        public override AlgoMode AlgoMode => AlgoMode.ECDSA_KeyVer_v1_0;
 
         public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
@@ -43,6 +43,7 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyVer.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
+                Revision = Revision,
                 IsSample = true,
                 Curve = new [] { "p-224", "b-233", "k-233" }
             };
@@ -56,6 +57,7 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyVer.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
+                Revision = Revision,
                 IsSample = true,
                 Curve = ParameterValidator.VALID_CURVES
             };

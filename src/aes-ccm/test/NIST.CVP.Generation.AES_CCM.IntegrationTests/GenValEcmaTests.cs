@@ -13,7 +13,7 @@ namespace NIST.CVP.Generation.AES_CCM.IntegrationTests
         public override string Algorithm { get; } = "AES-CCM";
         public override string Mode { get; } = "ECMA";
 
-        public override AlgoMode AlgoMode => AlgoMode.AES_CCM;
+        public override AlgoMode AlgoMode => AlgoMode.AES_CCM_v1_0;
 
         public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
 
@@ -72,6 +72,7 @@ namespace NIST.CVP.Generation.AES_CCM.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
+                Revision = Revision,
                 KeyLen = new [] { 128 },
                 PayloadLen = ptDomain,
                 AadLen = aadDomain,
@@ -104,6 +105,7 @@ namespace NIST.CVP.Generation.AES_CCM.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
+                Revision = Revision,
                 KeyLen = new [] { 128 },
                 PayloadLen = ptDomain,
                 AadLen = aadDomain,

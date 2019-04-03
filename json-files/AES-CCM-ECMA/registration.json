@@ -2,6 +2,7 @@
   "vsId": 0,
   "algorithm": "AES-CCM",
   "mode": "ECMA",
+  "revision": "1.0",
   "isSample": false,
   "conformances": [
     "ecma"

@@ -1,6 +1,8 @@
 {
+  "vsId": 0,
   "algorithm": "ECDSA",
   "mode": "KeyGen",
+  "revision": "1.0",
   "isSample": true,
   "testGroups": [
     {
@@ -17,7 +19,7 @@
           "tcId": 3
         }
       ],
-      "curve": "p-224",
+      "curve": "P-224",
       "secretGenerationMode": "testing candidates"
     },
     {
@@ -34,7 +36,7 @@
           "tcId": 6
         }
       ],
-      "curve": "p-224",
+      "curve": "P-224",
       "secretGenerationMode": "extra bits"
     },
     {
@@ -51,7 +53,7 @@
           "tcId": 9
         }
       ],
-      "curve": "p-256",
+      "curve": "P-256",
       "secretGenerationMode": "testing candidates"
     },
     {
@@ -68,7 +70,7 @@
           "tcId": 12
         }
       ],
-      "curve": "p-256",
+      "curve": "P-256",
       "secretGenerationMode": "extra bits"
     },
     {
@@ -85,7 +87,7 @@
           "tcId": 15
         }
       ],
-      "curve": "p-384",
+      "curve": "P-384",
       "secretGenerationMode": "testing candidates"
     },
     {
@@ -102,7 +104,7 @@
           "tcId": 18
         }
       ],
-      "curve": "p-384",
+      "curve": "P-384",
       "secretGenerationMode": "extra bits"
     },
     {
@@ -119,7 +121,7 @@
           "tcId": 21
         }
       ],
-      "curve": "p-521",
+      "curve": "P-521",
       "secretGenerationMode": "testing candidates"
     },
     {
@@ -136,7 +138,7 @@
           "tcId": 24
         }
       ],
-      "curve": "p-521",
+      "curve": "P-521",
       "secretGenerationMode": "extra bits"
     },
     {
@@ -153,7 +155,7 @@
           "tcId": 27
         }
       ],
-      "curve": "k-233",
+      "curve": "K-233",
       "secretGenerationMode": "testing candidates"
     },
     {
@@ -170,7 +172,7 @@
           "tcId": 30
         }
       ],
-      "curve": "k-233",
+      "curve": "K-233",
       "secretGenerationMode": "extra bits"
     },
     {
@@ -187,7 +189,7 @@
           "tcId": 33
         }
       ],
-      "curve": "k-283",
+      "curve": "K-283",
       "secretGenerationMode": "testing candidates"
     },
     {
@@ -204,7 +206,7 @@
           "tcId": 36
         }
       ],
-      "curve": "k-283",
+      "curve": "K-283",
       "secretGenerationMode": "extra bits"
     },
     {
@@ -221,7 +223,7 @@
           "tcId": 39
         }
       ],
-      "curve": "k-409",
+      "curve": "K-409",
       "secretGenerationMode": "testing candidates"
     },
     {
@@ -238,7 +240,7 @@
           "tcId": 42
         }
       ],
-      "curve": "k-409",
+      "curve": "K-409",
       "secretGenerationMode": "extra bits"
     },
     {
@@ -255,7 +257,7 @@
           "tcId": 45
         }
       ],
-      "curve": "k-571",
+      "curve": "K-571",
       "secretGenerationMode": "testing candidates"
     },
     {
@@ -272,7 +274,7 @@
           "tcId": 48
         }
       ],
-      "curve": "k-571",
+      "curve": "K-571",
       "secretGenerationMode": "extra bits"
     },
     {
@@ -289,7 +291,7 @@
           "tcId": 51
         }
       ],
-      "curve": "b-233",
+      "curve": "B-233",
       "secretGenerationMode": "testing candidates"
     },
     {
@@ -306,7 +308,7 @@
           "tcId": 54
         }
       ],
-      "curve": "b-233",
+      "curve": "B-233",
       "secretGenerationMode": "extra bits"
     },
     {
@@ -323,7 +325,7 @@
           "tcId": 57
         }
       ],
-      "curve": "b-283",
+      "curve": "B-283",
       "secretGenerationMode": "testing candidates"
     },
     {
@@ -340,7 +342,7 @@
           "tcId": 60
         }
       ],
-      "curve": "b-283",
+      "curve": "B-283",
       "secretGenerationMode": "extra bits"
     },
     {
@@ -357,7 +359,7 @@
           "tcId": 63
         }
       ],
-      "curve": "b-409",
+      "curve": "B-409",
       "secretGenerationMode": "testing candidates"
     },
     {
@@ -374,7 +376,7 @@
           "tcId": 66
         }
       ],
-      "curve": "b-409",
+      "curve": "B-409",
       "secretGenerationMode": "extra bits"
     },
     {
@@ -391,7 +393,7 @@
           "tcId": 69
         }
       ],
-      "curve": "b-571",
+      "curve": "B-571",
       "secretGenerationMode": "testing candidates"
     },
     {
@@ -408,7 +410,7 @@
           "tcId": 72
         }
       ],
-      "curve": "b-571",
+      "curve": "B-571",
       "secretGenerationMode": "extra bits"
     }
   ]

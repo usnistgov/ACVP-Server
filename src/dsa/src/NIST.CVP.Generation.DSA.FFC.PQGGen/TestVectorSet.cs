@@ -9,6 +9,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
         public int VectorSetId { get; set; }
         public string Algorithm { get; set; } = "DSA";
         public string Mode { get; set; } = "PQGGen";
+        public string Revision { get; set; }
         public bool IsSample { get; set; }
         public List<TestGroup> TestGroups { get; set; } = new List<TestGroup>();
     }

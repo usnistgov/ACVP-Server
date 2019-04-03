@@ -18,7 +18,7 @@ namespace NIST.CVP.Generation.CSHAKE.IntegrationTests
 
         public override string Algorithm { get; } = "CSHAKE";
         public override string Mode { get; } = string.Empty;
-        public override AlgoMode AlgoMode => AlgoMode.CSHAKE;
+        public override AlgoMode AlgoMode => AlgoMode.CSHAKE_v1_0;
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {
@@ -78,6 +78,7 @@ namespace NIST.CVP.Generation.CSHAKE.IntegrationTests
             {
                 Algorithm = "CSHAKE",
                 Mode = Mode,
+                Revision = Revision,
                 DigestSizes = new[] { 256 },
                 OutputLength = minMax,
                 MessageLength = minMax,
@@ -98,6 +99,7 @@ namespace NIST.CVP.Generation.CSHAKE.IntegrationTests
             var parameters = new Parameters
             {
                 Algorithm = "CSHAKE",
+                Revision = Revision,
                 DigestSizes = new[] { 256 },
                 OutputLength = minMax,
                 MessageLength = minMaxMsg,

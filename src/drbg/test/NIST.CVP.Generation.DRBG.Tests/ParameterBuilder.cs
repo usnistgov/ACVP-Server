@@ -104,7 +104,7 @@ namespace NIST.CVP.Generation.DRBG.Tests
             {
                 Algorithm = _algorithm,
                 Mode = _mode,
-
+                Revision = "1.0",
                 ReseedImplemented = _reseedImplemented,
                 PredResistanceEnabled = new []{_predResistEnabled},
 

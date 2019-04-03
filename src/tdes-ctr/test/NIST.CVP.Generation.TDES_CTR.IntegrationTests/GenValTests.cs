@@ -13,7 +13,7 @@ namespace NIST.CVP.Generation.TDES_CTR.IntegrationTests
         public override string Algorithm => "TDES-CTR";
         public override string Mode => string.Empty;
 
-        public override AlgoMode AlgoMode => AlgoMode.TDES_CTR;
+        public override AlgoMode AlgoMode => AlgoMode.TDES_CTR_v1_0;
 
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
 		public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
@@ -24,6 +24,7 @@ namespace NIST.CVP.Generation.TDES_CTR.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
+                Revision = Revision,
                 Direction = new[] { "encrypt", "decrypt" },
                 KeyingOption = new[] { 1, 2 },
                 IncrementalCounter = false,
@@ -41,6 +42,7 @@ namespace NIST.CVP.Generation.TDES_CTR.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
+                Revision = Revision,
                 Direction = new[] { "encrypt", "decrypt" },
                 KeyingOption = new[] { 1, 2 },
                 IncrementalCounter = false,

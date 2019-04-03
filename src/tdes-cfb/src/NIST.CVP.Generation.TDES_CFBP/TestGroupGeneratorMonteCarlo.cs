@@ -11,7 +11,7 @@ namespace NIST.CVP.Generation.TDES_CFBP
 
         public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
         {
-            var algoMode = AlgoModeHelpers.GetAlgoModeFromAlgoAndMode(parameters.Algorithm, parameters.Mode);
+            var algoMode = AlgoModeHelpers.GetAlgoModeFromAlgoAndMode(parameters.Algorithm, parameters.Mode, parameters.Revision);
             var testGroups = new List<TestGroup>();
             foreach (var function in parameters.Direction)
             {

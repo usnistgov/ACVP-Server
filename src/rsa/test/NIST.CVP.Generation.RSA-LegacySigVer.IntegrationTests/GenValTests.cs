@@ -21,7 +21,7 @@ namespace NIST.CVP.Generation.RSA_LegacySigVer.IntegrationTests
         public override string Algorithm { get; } = "RSA";
         public override string Mode { get; } = "LegacySigVer";
 
-        public override AlgoMode AlgoMode => AlgoMode.RSA_LegacySigVer;
+        public override AlgoMode AlgoMode => AlgoMode.RSA_LegacySigVer_v1_0;
 
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
 		public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
@@ -68,6 +68,7 @@ namespace NIST.CVP.Generation.RSA_LegacySigVer.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
+                Revision = Revision,
                 IsSample = false,
                 Capabilities = algSpecs,
                 PubExpMode = "fixed",
@@ -114,6 +115,7 @@ namespace NIST.CVP.Generation.RSA_LegacySigVer.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
+                Revision = Revision,
                 IsSample = false,
                 Capabilities = algSpecs,
                 PubExpMode = "random",

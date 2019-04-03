@@ -8,6 +8,7 @@ namespace NIST.CVP.Generation.DRBG
         public int VectorSetId { get; set; }
         public string Algorithm { get; set; }       // "ctrDRBG/hashDRBG/hmacDRBG"
         public string Mode { get; set; } = "";      // empty
+        public string Revision { get; set; }
         public bool IsSample { get; set; }
         public string[] Conformances { get; set; } = { };
         

@@ -31,9 +31,9 @@ namespace NIST.CVP.Generation.TDES_CFBP.Tests
         }
 
         [Test]
-        [TestCase(AlgoMode.TDES_CFBP1)]
-        [TestCase(AlgoMode.TDES_CFBP8)]
-        [TestCase(AlgoMode.TDES_CFBP64)]
+        [TestCase(AlgoMode.TDES_CFBP1_v1_0)]
+        [TestCase(AlgoMode.TDES_CFBP8_v1_0)]
+        [TestCase(AlgoMode.TDES_CFBP64_v1_0)]
         public async Task ShouldSuccessfullyGenerate(AlgoMode algo)
         {
             var group = new TestGroup { Function = "encrypt", KeyingOption = 1, AlgoMode = algo };
@@ -45,9 +45,9 @@ namespace NIST.CVP.Generation.TDES_CFBP.Tests
         }
 
         [Test]
-        [TestCase(AlgoMode.TDES_CFBP1)]
-        [TestCase(AlgoMode.TDES_CFBP8)]
-        [TestCase(AlgoMode.TDES_CFBP64)]
+        [TestCase(AlgoMode.TDES_CFBP1_v1_0)]
+        [TestCase(AlgoMode.TDES_CFBP8_v1_0)]
+        [TestCase(AlgoMode.TDES_CFBP64_v1_0)]
         public void ShouldHaveProperNumberOfTestCasesToGenerate(AlgoMode algo)
         {
             var group = new TestGroup { Function = "encrypt", KeyingOption = 1, AlgoMode = algo };

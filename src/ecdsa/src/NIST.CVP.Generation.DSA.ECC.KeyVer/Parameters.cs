@@ -10,6 +10,7 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyVer
         public int VectorSetId { get; set; }
         public string Algorithm { get; set; }
         public string Mode { get; set; }
+        public string Revision { get; set; }
         public bool IsSample { get; set; }
         public string[] Conformances { get; set; } = { };
 

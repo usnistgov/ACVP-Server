@@ -43,6 +43,7 @@ namespace NIST.CVP.Generation.DRBG.IntegrationTests
             var p = new Parameters
             {
                 Algorithm = Algorithm,
+                Revision = Revision,
                 ReseedImplemented = true,
                 PredResistanceEnabled = new []{true},
                 Capabilities = new []
@@ -98,6 +99,7 @@ namespace NIST.CVP.Generation.DRBG.IntegrationTests
             Parameters p = new Parameters
             {
                 Algorithm = Algorithm,
+                Revision = Revision,
                 ReseedImplemented = true,
                 PredResistanceEnabled = new []{true, false},
                 Capabilities = capabilities

@@ -18,7 +18,7 @@ namespace NIST.CVP.Generation.KeyWrap.IntegrationTests
         public override string Algorithm { get; } = "TDES-KW";
         public override string Mode { get; } = string.Empty;
 
-        public override AlgoMode AlgoMode => AlgoMode.TDES_KW;
+        public override AlgoMode AlgoMode => AlgoMode.TDES_KW_v1_0;
 
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
         public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
@@ -58,6 +58,7 @@ namespace NIST.CVP.Generation.KeyWrap.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
+                Revision = Revision,
                 Direction = ParameterValidator.VALID_DIRECTIONS,
                 KwCipher = ParameterValidator.VALID_KWCIPHER,
                 KeyLen = new[] { 192 },
@@ -74,6 +75,7 @@ namespace NIST.CVP.Generation.KeyWrap.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
+                Revision = Revision,
                 Direction = ParameterValidator.VALID_DIRECTIONS,
                 KwCipher = ParameterValidator.VALID_KWCIPHER,
                 KeyLen = new[] { 192 },

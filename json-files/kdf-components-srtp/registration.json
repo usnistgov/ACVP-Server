@@ -1,7 +1,10 @@
 {
+  "vsId": 0,
   "algorithm": "kdf-components",
   "mode": "srtp",
+  "revision": "1.0",
   "isSample": false,
+  "conformances": [],
   "aesKeyLength": [
     128,
     192,
