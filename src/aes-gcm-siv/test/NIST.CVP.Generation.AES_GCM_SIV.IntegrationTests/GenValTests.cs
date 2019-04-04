@@ -14,7 +14,7 @@ namespace NIST.CVP.Generation.AES_GCM_SIV.IntegrationTests
         public override string Algorithm { get; } = "AES-GCM-SIV";
         public override string Mode { get; } = string.Empty;
 
-        public override AlgoMode AlgoMode => AlgoMode.AES_GCM_SIV;
+        public override AlgoMode AlgoMode => AlgoMode.AES_GCM_SIV_v1_0;
 
         public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();

@@ -11,6 +11,7 @@ namespace NIST.CVP.Generation.AES_GCM_SIV
         public string Algorithm { get; set; } = "AES";
         public string Mode { get; set; } = "GCM-SIV";
         public bool IsSample { get; set; }
+        public string Revision { get; set; }
         public List<TestGroup> TestGroups { get; set; } = new List<TestGroup>();
     }
 }
