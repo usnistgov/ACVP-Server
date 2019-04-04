@@ -10,9 +10,9 @@ namespace NIST.CVP.Crypto.Core.Tests
     public class EnumExTests
     {
         [Test]
-        [TestCase(AlgoMode.TDES_CFB1_v1_0, "TDES-CFB1")]
-        [TestCase(AlgoMode.TDES_CFB8_v1_0, "TDES-CFB8")]
-        [TestCase(AlgoMode.TDES_CFB64_v1_0, "TDES-CFB64")]
+        [TestCase(AlgoMode.TDES_CFB1_v1_0, "TDES-CFB1-1.0")]
+        [TestCase(AlgoMode.TDES_CFB8_v1_0, "TDES-CFB8-1.0")]
+        [TestCase(AlgoMode.TDES_CFB64_v1_0, "TDES-CFB64-1.0")]
         public void CanCreateEnumFromDescription<T>(T value, string description) where T : struct
         {
             Assert.AreEqual(value, EnumHelpers.GetEnumFromEnumDescription<T>(description));

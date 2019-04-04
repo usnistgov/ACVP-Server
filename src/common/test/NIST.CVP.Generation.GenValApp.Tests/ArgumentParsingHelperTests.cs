@@ -25,7 +25,7 @@ namespace NIST.CVP.Generation.GenValApp.Tests
         public void ShouldParseGeneratorArgumentsCorrectly()
         {
             var registration = $"{_directory}\\registration.json";
-            var args = new[] {"-a", "algo", "-m", "mode", "-v", "1.0", "-d", _directory, "-g", registration};
+            var args = new[] {"-a", "algo", "-m", "mode", "-R", "1.0", "-d", _directory, "-g", registration};
             var result = _subject.Parse(args);
             
             Assert.AreEqual("algo", result.Algorithm, nameof(result.Algorithm));
@@ -40,7 +40,7 @@ namespace NIST.CVP.Generation.GenValApp.Tests
         {
             var answer = $"{_directory}\\answer.json";
             var response = $"{_directory}\\response.json";
-            var args = new[] {"-a", "algo", "-m", "mode", "-v", "1.0", "-d", _directory, "-n", answer, "-r", response};
+            var args = new[] {"-a", "algo", "-m", "mode", "-R", "1.0", "-d", _directory, "-n", answer, "-r", response};
             var result = _subject.Parse(args);
 
             Assert.AreEqual("algo", result.Algorithm, nameof(result.Algorithm));
@@ -57,7 +57,7 @@ namespace NIST.CVP.Generation.GenValApp.Tests
             var answer = $"{_directory}\\answer.json";
             var response = $"{_directory}\\response.json";
 
-            var args = new[] {"-a", "algo", "-m", "mode", "-v", "1.0", "-d", _directory, "-g", registration, "-n", answer, "-r", response};
+            var args = new[] {"-a", "algo", "-m", "mode", "-R", "1.0", "-d", _directory, "-g", registration, "-n", answer, "-r", response};
             Assert.Throws<ArgumentConflictException>(() => _subject.Parse(args));
         }
     }
