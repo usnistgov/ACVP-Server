@@ -45,6 +45,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.Oracle", ".
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Generation.AES_GCM_SIV.IntegrationTests", "..\..\aes-gcm-siv\test\NIST.CVP.Generation.AES_GCM_SIV.IntegrationTests\NIST.CVP.Generation.AES_GCM_SIV.IntegrationTests.csproj", "{4805D465-171B-448F-8D4A-95A9C3987E15}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.Core.Tests", "..\..\common\test\NIST.CVP.Generation.Core.Tests\NIST.CVP.Generation.Core.Tests.csproj", "{65D0C926-AFAB-439C-BA09-59F2021702F3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -127,6 +129,10 @@ Global
 		{4805D465-171B-448F-8D4A-95A9C3987E15}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4805D465-171B-448F-8D4A-95A9C3987E15}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4805D465-171B-448F-8D4A-95A9C3987E15}.Release|Any CPU.Build.0 = Release|Any CPU
+		{65D0C926-AFAB-439C-BA09-59F2021702F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65D0C926-AFAB-439C-BA09-59F2021702F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65D0C926-AFAB-439C-BA09-59F2021702F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{65D0C926-AFAB-439C-BA09-59F2021702F3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -151,6 +157,7 @@ Global
 		{8BD2B200-3E15-4D6D-8F20-92C702EACC76} = {7A5FF4CF-3608-4A52-8A0F-C6F96409120B}
 		{54E27982-808C-43B4-8ED2-7408C893DF2C} = {7A5FF4CF-3608-4A52-8A0F-C6F96409120B}
 		{4805D465-171B-448F-8D4A-95A9C3987E15} = {40F04B3E-3ABC-4D59-9959-754612254159}
+		{65D0C926-AFAB-439C-BA09-59F2021702F3} = {40F04B3E-3ABC-4D59-9959-754612254159}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0A05631E-D599-41FE-99DD-64FD1DE61894}

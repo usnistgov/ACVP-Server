@@ -24,6 +24,8 @@ namespace NIST.CVP.Common
         AES_ECB_v1_0,
         [EnumMember(Value = "AES-GCM-1.0")]
         AES_GCM_v1_0,
+        [EnumMember(Value = "AES-GCM-SIV-1.0")]
+        AES_GCM_SIV_v1_0,
         [EnumMember(Value = "AES-KW-1.0")]
         AES_KW_v1_0,
         [EnumMember(Value = "AES-KWP-1.0")]
