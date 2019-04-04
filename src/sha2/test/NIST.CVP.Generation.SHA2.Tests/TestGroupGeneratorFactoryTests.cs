@@ -1,9 +1,8 @@
-﻿using System;
+﻿using NIST.CVP.Common.ExtensionMethods;
+using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using NIST.CVP.Common.ExtensionMethods;
-using NIST.CVP.Generation.Core;
-using NUnit.Framework;
 
 namespace NIST.CVP.Generation.SHA2.Tests
 {
@@ -43,9 +42,7 @@ namespace NIST.CVP.Generation.SHA2.Tests
             Parameters p = new Parameters
             {
                 Algorithm = "SHA1",
-                DigestSizes = new[] {"160"},
-                BitOriented = true,
-                IncludeNull = true,
+                DigestSizes = new[] {"160"}
             };
             
             var groups = new List<TestGroup>();
@@ -64,9 +61,7 @@ namespace NIST.CVP.Generation.SHA2.Tests
             Parameters p = new Parameters
             {
                 Algorithm = "SHA2",
-                DigestSizes = new[] {"224", "256", "384", "512", "512/224", "512/256"},
-                BitOriented = true,
-                IncludeNull = true,
+                DigestSizes = new[] {"224", "256", "384", "512", "512/224", "512/256"}
             };
 
             var groups = new List<TestGroup>();

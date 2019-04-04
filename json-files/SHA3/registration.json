@@ -1,4 +1,5 @@
 {
+  "vsId": 0,
   "algorithm": "SHA3",
   "mode": "",
   "isSample": true,
@@ -6,7 +7,7 @@
   "digestSize": [
     224
   ],
-  "inBit": true,
+  "inBit": false,
   "outBit": false,
-  "inEmpty": true
+  "inEmpty": false
 }

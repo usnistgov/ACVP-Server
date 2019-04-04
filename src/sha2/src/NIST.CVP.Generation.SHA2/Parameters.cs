@@ -1,6 +1,6 @@
-﻿using System;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Math.Domain;
 
 namespace NIST.CVP.Generation.SHA2
 {
@@ -15,10 +15,13 @@ namespace NIST.CVP.Generation.SHA2
         [JsonProperty(PropertyName = "digestSize")]
         public string[] DigestSizes { get; set; }
         
-        [JsonProperty(PropertyName = "inBit")]
-        public bool BitOriented { get; set; } = false;
+        //[JsonProperty(PropertyName = "inBit")]
+        //public bool BitOriented { get; set; } = false;
 
-        [JsonProperty(PropertyName = "inEmpty")]
-        public bool IncludeNull { get; set; } = false;
+        //[JsonProperty(PropertyName = "inEmpty")]
+        //public bool IncludeNull { get; set; } = false;
+
+        [JsonProperty(PropertyName = "messageLength")]
+        public MathDomain MessageLength { get; set; }
     }
 }

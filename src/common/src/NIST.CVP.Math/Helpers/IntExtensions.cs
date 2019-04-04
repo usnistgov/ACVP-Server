@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace NIST.CVP.Math.Helpers
+﻿namespace NIST.CVP.Math.Helpers
 {
     public static class IntExtensions
     {
@@ -16,6 +12,17 @@ namespace NIST.CVP.Math.Helpers
             }
 
             return result;
+        }
+
+        public static int IncrementOrReset(this int a, int min, int max, int increment = 1)
+        {
+            a++;
+            if (a > max)
+            {
+                a -= max - min;
+            }
+
+            return a;
         }
     }
 }
