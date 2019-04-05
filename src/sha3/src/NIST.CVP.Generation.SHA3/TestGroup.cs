@@ -35,10 +35,10 @@ namespace NIST.CVP.Generation.SHA3
         [JsonIgnore]
         public MathDomain OutputLength { get; set; }
 
-        [JsonProperty(PropertyName = "maxOutputLength")]
+        [JsonProperty(PropertyName = "maxOutLen")]
         public int MaxOutputLength => OutputLength.GetDomainMinMax().Maximum;
 
-        [JsonProperty(PropertyName = "minOutputLength")]
+        [JsonProperty(PropertyName = "minOutLen")]
         public int MinOutputLength => OutputLength.GetDomainMinMax().Minimum;
 
         public bool SetString(string name, string value)
