@@ -9,7 +9,7 @@ rem set git-branch="git branch | find "* " "
 rem for /F "tokens=*" %%i in (' %git-branch% ') do set branch=%%i
 rem set branch=%branch:* =%
 rem echo %branch%
-set branch=develop
+set branch=%BranchName%
 
 rem set homedir="%gitrepo%\gen-val"
 set homedir="%env.homedir%"
