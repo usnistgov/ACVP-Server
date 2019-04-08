@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Runtime.Serialization;
 using System.Security.Cryptography;
 using System.Text;
+using NLog;
 
 namespace NIST.CVP.Common.Helpers
 {
@@ -64,6 +65,7 @@ namespace NIST.CVP.Common.Helpers
             {
                 if (shouldThrow)
                 {
+                    ThisLogger.Error($"Couldn't find an {nameof(AlgoMode)} matching {nameof(enumDescription)} of \"{enumDescription}\"");
                     throw;
                 }
 
@@ -96,5 +98,7 @@ namespace NIST.CVP.Common.Helpers
 
             return descriptions;
         }
+
+        private static Logger ThisLogger = LogManager.GetCurrentClassLogger();
     }
 }

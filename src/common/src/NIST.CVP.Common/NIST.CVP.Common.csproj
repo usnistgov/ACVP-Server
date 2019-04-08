@@ -9,6 +9,7 @@
     <PackageReference Include="Microsoft.AspNetCore.App" Version="$(NuGetVersionMicrosoftAspNetCore)" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="$(NuGetVersionMicrosoftNETTestSdk)" />
     <PackageReference Include="Autofac" Version="$(NuGetVersionAutofac)" />
+    <PackageReference Include="NLog" Version="$(NuGetVersionNLog)" />
   </ItemGroup>
   
 </Project>
