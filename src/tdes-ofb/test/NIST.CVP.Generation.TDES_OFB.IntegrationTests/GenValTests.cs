@@ -15,7 +15,7 @@ namespace NIST.CVP.Generation.TDES_OFB.IntegrationTests
         public override string Algorithm { get; } = "TDES-OFB";
         public override string Mode { get; } = string.Empty;
 
-        public override AlgoMode AlgoMode => AlgoMode.TDES_OFB;
+        public override AlgoMode AlgoMode => AlgoMode.TDES_OFB_v1_0;
 
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
 		public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
@@ -77,6 +77,7 @@ namespace NIST.CVP.Generation.TDES_OFB.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
+                Revision = Revision,
                 Direction = new string[] { "encrypt" },
                 IsSample = true,
                 KeyingOption = new[] { 1 }
@@ -91,6 +92,7 @@ namespace NIST.CVP.Generation.TDES_OFB.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
+                Revision = Revision,
                 Direction = ParameterValidator.VALID_DIRECTIONS,
                 IsSample = false,
                 KeyingOption = new[] { 1 }

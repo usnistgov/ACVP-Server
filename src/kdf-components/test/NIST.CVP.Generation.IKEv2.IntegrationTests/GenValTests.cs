@@ -18,7 +18,7 @@ namespace NIST.CVP.Generation.IKEv2.IntegrationTests
         public override string Algorithm => "kdf-components";
         public override string Mode => "IKEv2";
 
-        public override AlgoMode AlgoMode => AlgoMode.KDFComponents_IKEv2;
+        public override AlgoMode AlgoMode => AlgoMode.KDFComponents_IKEv2_v1_0;
 
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
 		public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
@@ -43,7 +43,7 @@ namespace NIST.CVP.Generation.IKEv2.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
-
+                Revision = Revision,
                 Capabilities = new []
                 {
                     new Capabilities
@@ -69,7 +69,7 @@ namespace NIST.CVP.Generation.IKEv2.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
-
+                Revision = Revision,
                 Capabilities = new []
                 {
                     new Capabilities

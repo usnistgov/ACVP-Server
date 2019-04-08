@@ -22,12 +22,12 @@ namespace NIST.CVP.Generation.GenValApp.Helpers
             return _container;
         }
 
-        public static void IoCConfiguration(IServiceProvider serviceProvider, string algorithm, string mode, string dllLocation)
+        public static void IoCConfiguration(IServiceProvider serviceProvider, string algorithm, string mode, string revision, string dllLocation)
         {
             var builder = new ContainerBuilder();
             EntryPointConfigHelper.RegisterConfigurationInjections(serviceProvider, builder);
 
-            var algoMode = AlgoModeLookupHelper.GetAlgoModeFromStrings(algorithm, mode);
+            var algoMode = AlgoModeLookupHelper.GetAlgoModeFromStrings(algorithm, mode, revision);
 
             // TODO this shouldn't be done here, fix with nuget maybe?
             // Crypto and Oracle Registration
@@ -40,6 +40,7 @@ namespace NIST.CVP.Generation.GenValApp.Helpers
                 serviceProvider.GetService<IOptions<AlgorithmConfig>>().Value, 
                 algorithm, 
                 mode, 
+                revision,
                 dllLocation
             );
 

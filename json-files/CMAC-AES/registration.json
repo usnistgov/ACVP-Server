@@ -2,6 +2,7 @@
   "vsId": 0,
   "algorithm": "CMAC-AES",
   "mode": "",
+  "revision": "1.0",
   "isSample": false,
   "conformances": [],
   "capabilities": [

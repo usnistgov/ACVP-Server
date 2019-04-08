@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using NIST.CVP.Common;
+﻿using NIST.CVP.Common;
 using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Crypto.Common.Symmetric.Enums;
+using System;
+using System.Collections.Generic;
 
 namespace NIST.CVP.Crypto.Common.Symmetric.Helpers
 {
@@ -11,29 +11,29 @@ namespace NIST.CVP.Crypto.Common.Symmetric.Helpers
         public static List<(AlgoMode algoMode, BlockCipherEngines engine, BlockCipherModesOfOperation mode)> Mappings =
             new List<(AlgoMode algoMode, BlockCipherEngines engine, BlockCipherModesOfOperation mode)>()
             {
-                (AlgoMode.AES_CBC, BlockCipherEngines.Aes, BlockCipherModesOfOperation.Cbc),
-                (AlgoMode.AES_CCM, BlockCipherEngines.Aes, BlockCipherModesOfOperation.Ccm),
-                (AlgoMode.AES_CFB1, BlockCipherEngines.Aes, BlockCipherModesOfOperation.CfbBit),
-                (AlgoMode.AES_CFB8, BlockCipherEngines.Aes, BlockCipherModesOfOperation.CfbByte),
-                (AlgoMode.AES_CFB128, BlockCipherEngines.Aes, BlockCipherModesOfOperation.CfbBlock),
-                (AlgoMode.AES_CTR, BlockCipherEngines.Aes, BlockCipherModesOfOperation.Ctr),
-                (AlgoMode.AES_ECB, BlockCipherEngines.Aes, BlockCipherModesOfOperation.Ecb),
-                (AlgoMode.AES_GCM, BlockCipherEngines.Aes, BlockCipherModesOfOperation.Gcm),
-                (AlgoMode.AES_OFB, BlockCipherEngines.Aes, BlockCipherModesOfOperation.Ofb),
-                (AlgoMode.AES_XPN, BlockCipherEngines.Aes, BlockCipherModesOfOperation.Gcm),
+                (AlgoMode.AES_CBC_v1_0, BlockCipherEngines.Aes, BlockCipherModesOfOperation.Cbc),
+                (AlgoMode.AES_CCM_v1_0, BlockCipherEngines.Aes, BlockCipherModesOfOperation.Ccm),
+                (AlgoMode.AES_CFB1_v1_0, BlockCipherEngines.Aes, BlockCipherModesOfOperation.CfbBit),
+                (AlgoMode.AES_CFB8_v1_0, BlockCipherEngines.Aes, BlockCipherModesOfOperation.CfbByte),
+                (AlgoMode.AES_CFB128_v1_0, BlockCipherEngines.Aes, BlockCipherModesOfOperation.CfbBlock),
+                (AlgoMode.AES_CTR_v1_0, BlockCipherEngines.Aes, BlockCipherModesOfOperation.Ctr),
+                (AlgoMode.AES_ECB_v1_0, BlockCipherEngines.Aes, BlockCipherModesOfOperation.Ecb),
+                (AlgoMode.AES_GCM_v1_0, BlockCipherEngines.Aes, BlockCipherModesOfOperation.Gcm),
+                (AlgoMode.AES_OFB_v1_0, BlockCipherEngines.Aes, BlockCipherModesOfOperation.Ofb),
+                (AlgoMode.AES_XPN_v1_0, BlockCipherEngines.Aes, BlockCipherModesOfOperation.Gcm),
                 
-                (AlgoMode.TDES_CBC, BlockCipherEngines.Tdes, BlockCipherModesOfOperation.Cbc),
-                (AlgoMode.TDES_CBCI, BlockCipherEngines.Tdes, BlockCipherModesOfOperation.Cbci),
-                (AlgoMode.TDES_CFB1, BlockCipherEngines.Tdes, BlockCipherModesOfOperation.CfbBit),
-                (AlgoMode.TDES_CFB8, BlockCipherEngines.Tdes, BlockCipherModesOfOperation.CfbByte),
-                (AlgoMode.TDES_CFB64, BlockCipherEngines.Tdes, BlockCipherModesOfOperation.CfbBlock),
-                (AlgoMode.TDES_CFBP1, BlockCipherEngines.Tdes, BlockCipherModesOfOperation.CfbpBit),
-                (AlgoMode.TDES_CFBP8, BlockCipherEngines.Tdes, BlockCipherModesOfOperation.CfbpByte),
-                (AlgoMode.TDES_CFBP64, BlockCipherEngines.Tdes, BlockCipherModesOfOperation.CfbpBlock),
-                (AlgoMode.TDES_CTR, BlockCipherEngines.Tdes, BlockCipherModesOfOperation.Ctr),
-                (AlgoMode.TDES_ECB, BlockCipherEngines.Tdes, BlockCipherModesOfOperation.Ecb),
-                (AlgoMode.TDES_OFB, BlockCipherEngines.Tdes, BlockCipherModesOfOperation.Ofb),
-                (AlgoMode.TDES_OFBI, BlockCipherEngines.Tdes, BlockCipherModesOfOperation.Ofbi)
+                (AlgoMode.TDES_CBC_v1_0, BlockCipherEngines.Tdes, BlockCipherModesOfOperation.Cbc),
+                (AlgoMode.TDES_CBCI_v1_0, BlockCipherEngines.Tdes, BlockCipherModesOfOperation.Cbci),
+                (AlgoMode.TDES_CFB1_v1_0, BlockCipherEngines.Tdes, BlockCipherModesOfOperation.CfbBit),
+                (AlgoMode.TDES_CFB8_v1_0, BlockCipherEngines.Tdes, BlockCipherModesOfOperation.CfbByte),
+                (AlgoMode.TDES_CFB64_v1_0, BlockCipherEngines.Tdes, BlockCipherModesOfOperation.CfbBlock),
+                (AlgoMode.TDES_CFBP1_v1_0, BlockCipherEngines.Tdes, BlockCipherModesOfOperation.CfbpBit),
+                (AlgoMode.TDES_CFBP8_v1_0, BlockCipherEngines.Tdes, BlockCipherModesOfOperation.CfbpByte),
+                (AlgoMode.TDES_CFBP64_v1_0, BlockCipherEngines.Tdes, BlockCipherModesOfOperation.CfbpBlock),
+                (AlgoMode.TDES_CTR_v1_0, BlockCipherEngines.Tdes, BlockCipherModesOfOperation.Ctr),
+                (AlgoMode.TDES_ECB_v1_0, BlockCipherEngines.Tdes, BlockCipherModesOfOperation.Ecb),
+                (AlgoMode.TDES_OFB_v1_0, BlockCipherEngines.Tdes, BlockCipherModesOfOperation.Ofb),
+                (AlgoMode.TDES_OFBI_v1_0, BlockCipherEngines.Tdes, BlockCipherModesOfOperation.Ofbi)
             };
 
         public static (BlockCipherEngines engine, BlockCipherModesOfOperation mode) GetMapping(AlgoMode algoMode)

@@ -15,7 +15,7 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen.IntegrationTests
         public override string Algorithm { get; } = "DSA";
         public override string Mode { get; } = "KeyGen";
 
-        public override AlgoMode AlgoMode => AlgoMode.DSA_KeyGen;
+        public override AlgoMode AlgoMode => AlgoMode.DSA_KeyGen_v1_0;
 
         public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();

@@ -16,7 +16,7 @@ namespace NIST.CVP.Generation.AES_XTS.IntegrationTests
         public override string Algorithm { get; } = "AES-XTS";
         public override string Mode { get; } = string.Empty;
 
-        public override AlgoMode AlgoMode => AlgoMode.AES_XTS;
+        public override AlgoMode AlgoMode => AlgoMode.AES_XTS_v1_0;
 
         public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
@@ -62,6 +62,7 @@ namespace NIST.CVP.Generation.AES_XTS.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
+                Revision = Revision,
                 KeyLen = new[] { 128 },
                 Direction = new[] { "encrypt", "decrypt" },
                 PayloadLen = new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 128, 512)),
@@ -78,6 +79,7 @@ namespace NIST.CVP.Generation.AES_XTS.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
+                Revision = Revision,
                 KeyLen = new[] { 128, 256 },
                 Direction = new[] { "encrypt", "decrypt" },
                 PayloadLen = new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 128, 65536)),

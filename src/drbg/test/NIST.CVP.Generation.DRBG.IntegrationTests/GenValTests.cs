@@ -26,7 +26,7 @@ namespace NIST.CVP.Generation.DRBG.IntegrationTests
             232
         };
 
-        public override AlgoMode AlgoMode => AlgoMode.DRBG_CTR;
+        public override AlgoMode AlgoMode => AlgoMode.DRBG_CTR_v1_0;
     }
 
     [TestFixture, FastIntegrationTest]
@@ -55,7 +55,7 @@ namespace NIST.CVP.Generation.DRBG.IntegrationTests
             256
         };
 
-        public override AlgoMode AlgoMode => AlgoMode.DRBG_Hash;
+        public override AlgoMode AlgoMode => AlgoMode.DRBG_Hash_v1_0;
     }
 
     [TestFixture, FastIntegrationTest]
@@ -85,6 +85,6 @@ namespace NIST.CVP.Generation.DRBG.IntegrationTests
             256
         };
 
-        public override AlgoMode AlgoMode => AlgoMode.DRBG_HMAC;
+        public override AlgoMode AlgoMode => AlgoMode.DRBG_HMAC_v1_0;
     }
 }

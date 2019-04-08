@@ -25,6 +25,7 @@ namespace NIST.CVP.Generation.Core.Tests
         public abstract AlgoMode AlgoMode { get; }
         public abstract string Algorithm { get; }
         public abstract string Mode { get; }
+        public virtual string Revision { get; set; } = "1.0";
 
         public string DllDropLocation { get; private set; }
 

@@ -14,7 +14,7 @@ namespace NIST.CVP.Generation.RSA_SPComponent.IntegrationTests
         public override string Algorithm => "RSA";
         public override string Mode => "SignaturePrimitive";
 
-        public override AlgoMode AlgoMode => AlgoMode.RSA_SignaturePrimitive;
+        public override AlgoMode AlgoMode => AlgoMode.RSA_SignaturePrimitive_v1_0;
 
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
 		public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
@@ -25,6 +25,7 @@ namespace NIST.CVP.Generation.RSA_SPComponent.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
+                Revision = Revision,
                 IsSample = true,
                 KeyFormat = "crt"
             };
@@ -38,6 +39,7 @@ namespace NIST.CVP.Generation.RSA_SPComponent.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
+                Revision = Revision,
                 IsSample = false,
                 KeyFormat = "standard"
             };

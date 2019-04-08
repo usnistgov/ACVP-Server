@@ -1,6 +1,8 @@
 {
+  "vsId": 0,
   "algorithm": "KAS-ECC",
   "mode": "CDH-Component",
+  "revision": "1.0",
   "isSample": true,
   "conformances": [],
   "function": [

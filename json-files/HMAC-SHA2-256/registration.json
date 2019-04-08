@@ -1,6 +1,8 @@
 {
+  "vsId": 0,
   "algorithm": "HMAC-SHA2-256",
   "mode": "",
+  "revision": "1.0",
   "isSample": false,
   "conformances": [],
   "keyLen": [

@@ -13,6 +13,7 @@ namespace NIST.CVP.Generation.AES_CBC
         public string Algorithm { get; set; } = "AES-CBC";
         [JsonIgnore]
         public string Mode { get; set; } = string.Empty;
+        public string Revision { get; set; } = "1.0";
         public bool IsSample { get; set; }
         public List<TestGroup> TestGroups { get; set; } = new List<TestGroup>();
     }

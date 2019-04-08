@@ -13,7 +13,7 @@ namespace NIST.CVP.Generation.TPM.IntegrationTests
         public override string Algorithm => "kdf-components";
         public override string Mode => "tpm";
 
-        public override AlgoMode AlgoMode => AlgoMode.KDFComponents_TPM;
+        public override AlgoMode AlgoMode => AlgoMode.KDFComponents_TPM_v1_0;
 
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
         public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
@@ -37,6 +37,7 @@ namespace NIST.CVP.Generation.TPM.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
+                Revision = Revision,
                 IsSample = true
             };
 
@@ -49,6 +50,7 @@ namespace NIST.CVP.Generation.TPM.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
+                Revision = Revision,
                 IsSample = false
             };
 

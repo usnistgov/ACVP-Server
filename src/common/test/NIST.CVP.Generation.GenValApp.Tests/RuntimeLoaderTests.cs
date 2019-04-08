@@ -68,11 +68,11 @@ namespace NIST.CVP.Generation.GenValApp.Tests
                 {
                     enumDesc = EnumHelpers.GetEnumDescriptionFromEnum(algoMode);
                     if (!_config.Algorithms.TryFirst(t =>
-                            // Check if {algo}-{mode} equals enumDesc
-                            // or in cases of empty mode, just compare against the {algo}
-                            $"{t.Algorithm}-{t.Mode}".Equals(enumDesc, StringComparison.OrdinalIgnoreCase) 
+                            // Check if {algo}-{mode}-{revision} equals enumDesc
+                            // or in cases of empty mode, just compare against the {algo} and {revision}
+                            $"{t.Algorithm}-{t.Mode}-{t.Revision}".Equals(enumDesc, StringComparison.OrdinalIgnoreCase) 
                             || (
-                                t.Algorithm.Equals(enumDesc, StringComparison.OrdinalIgnoreCase) 
+                                $"{t.Algorithm}-{t.Revision}".Equals(enumDesc, StringComparison.OrdinalIgnoreCase) 
                                 && string.IsNullOrEmpty(t.Mode)
                              ),
                         out var algoInfo)
@@ -96,7 +96,7 @@ namespace NIST.CVP.Generation.GenValApp.Tests
 
         private void ResolveGenVal(AlgorithmDllDependencies algoInfo)
         {
-            AutofacConfig.IoCConfiguration(Program.ServiceProvider, algoInfo.Algorithm, algoInfo.Mode, Program.RootDirectory);
+            AutofacConfig.IoCConfiguration(Program.ServiceProvider, algoInfo.Algorithm, algoInfo.Mode, algoInfo.Revision, Program.RootDirectory);
             using (var scope = AutofacConfig.GetContainer().BeginLifetimeScope())
             {
                 var gen = scope.Resolve<IGenerator>();

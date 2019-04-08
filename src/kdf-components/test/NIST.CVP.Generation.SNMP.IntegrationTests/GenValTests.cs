@@ -17,7 +17,7 @@ namespace NIST.CVP.Generation.SNMP.IntegrationTests
         public override string Algorithm => "kdf-components";
         public override string Mode => "snmp";
 
-        public override AlgoMode AlgoMode => AlgoMode.KDFComponents_SNMP;
+        public override AlgoMode AlgoMode => AlgoMode.KDFComponents_SNMP_v1_0;
 
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
 		public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
@@ -41,6 +41,7 @@ namespace NIST.CVP.Generation.SNMP.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
+                Revision = Revision,
                 EngineId = new [] {"12345678912345678900", "abcdef0123456789abcdef1234567890"},
                 PasswordLength = new MathDomain().AddSegment(new ValueDomainSegment(128)).AddSegment(new ValueDomainSegment(1024)),
                 IsSample = true
@@ -55,6 +56,7 @@ namespace NIST.CVP.Generation.SNMP.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
+                Revision = Revision,
                 EngineId = new [] {"12345678912345678900", "abcdef0123456789abcdef1234567890"},
                 PasswordLength = new MathDomain().AddSegment(new ValueDomainSegment(ParameterValidator.PASSWORD_MINIMUM_LENGTH)).AddSegment(new ValueDomainSegment(ParameterValidator.PASSWORD_MAXIMUM_LENGTH)),
                 IsSample = false

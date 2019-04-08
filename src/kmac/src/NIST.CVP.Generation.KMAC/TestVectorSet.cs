@@ -40,6 +40,7 @@ namespace NIST.CVP.Generation.KMAC
 
         [JsonIgnore]
         public string Mode { get; set; }
+        public string Revision { get; set; }
         public bool IsSample { get; set; }
 
         public List<TestGroup> TestGroups { get; set; } = new List<TestGroup>();

@@ -8,6 +8,7 @@ namespace NIST.CVP.Generation.KAS.EccComponent
         public int VectorSetId { get; set; }
         public string Algorithm { get; set; } = "KAS-ECC";
         public string Mode { get; set; } = "CDH Component";
+        public string Revision { get; set; }
         public bool IsSample { get; set; }
 
         public List<TestGroup> TestGroups { get; set; } = new List<TestGroup>();

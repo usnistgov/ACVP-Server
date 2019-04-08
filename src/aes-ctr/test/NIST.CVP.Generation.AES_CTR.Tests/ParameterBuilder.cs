@@ -76,6 +76,7 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
             {
                 Algorithm = _algorithm,
                 Mode = _mode,
+                Revision = "1.0",
                 KeyLen = _keyLen,
                 Direction = _direction,
                 PayloadLen = _dataLen,

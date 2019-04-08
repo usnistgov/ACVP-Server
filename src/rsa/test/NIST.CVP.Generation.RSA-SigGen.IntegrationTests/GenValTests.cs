@@ -16,7 +16,7 @@ namespace NIST.CVP.Generation.RSA_SigGen.IntegrationTests
         public override string Algorithm { get; } = "RSA";
         public override string Mode { get; } = "SigGen";
 
-        public override AlgoMode AlgoMode => AlgoMode.RSA_SigGen;
+        public override AlgoMode AlgoMode => AlgoMode.RSA_SigGen_v1_0;
 
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
 		public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
@@ -74,6 +74,7 @@ namespace NIST.CVP.Generation.RSA_SigGen.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
+                Revision = Revision,
                 Capabilities = algSpecs,
                 IsSample = true,
             };
@@ -117,6 +118,7 @@ namespace NIST.CVP.Generation.RSA_SigGen.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
+                Revision = Revision,
                 Capabilities = algSpecs,
                 IsSample = true,
             };

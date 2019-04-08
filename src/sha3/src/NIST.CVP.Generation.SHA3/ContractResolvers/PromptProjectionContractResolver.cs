@@ -26,9 +26,26 @@ namespace NIST.CVP.Generation.SHA3.ContractResolvers
                     return false;
                 };
             }
+
+            var outputLengths = new[] {nameof(TestGroup.MinOutputLength), nameof(TestGroup.MaxOutputLength)};
+            if (outputLengths.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
+            {
+                return jsonProperty.ShouldSerialize = instance =>
+                {
+                    GetTestGroupFromTestGroupObject(instance, out var testGroup);
+
+                    if (testGroup.Function.Equals("shake", StringComparison.OrdinalIgnoreCase) &&
+                        testGroup.TestType.Equals("mct", StringComparison.OrdinalIgnoreCase))
+                    {
+                        return true;
+                    }
+
+                    return false;
+                };
+            }
             #endregion Conditional Test Group properties
 
-            return jsonProperty.ShouldDeserialize = instance => true;
+            return jsonProperty.ShouldSerialize = instance => true;
         }
 
         protected override Predicate<object> TestCaseSerialization(JsonProperty jsonProperty)

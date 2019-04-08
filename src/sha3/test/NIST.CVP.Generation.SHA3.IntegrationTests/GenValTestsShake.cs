@@ -8,7 +8,7 @@ namespace NIST.CVP.Generation.SHA3.IntegrationTests
         public override string Algorithm { get; } = "SHAKE";
         public override string Mode { get; } = string.Empty;
 
-        public override AlgoMode AlgoMode => AlgoMode.SHAKE;
+        public override AlgoMode AlgoMode => AlgoMode.SHAKE_v1_0;
 
         protected override string GetTestFileFewTestCases(string targetFolder)
         {
@@ -19,6 +19,7 @@ namespace NIST.CVP.Generation.SHA3.IntegrationTests
             {
                 Algorithm = "SHAKE",
                 Mode = Mode,
+                Revision = Revision,
                 DigestSizes = new[] { 128 },
                 BitOrientedInput = false,
                 BitOrientedOutput = false,
@@ -38,6 +39,7 @@ namespace NIST.CVP.Generation.SHA3.IntegrationTests
             var parameters = new Parameters
             {
                 Algorithm = "SHAKE",
+                Revision = Revision,
                 DigestSizes = new[] { 128, 256 },
                 BitOrientedInput = true,
                 BitOrientedOutput = true,

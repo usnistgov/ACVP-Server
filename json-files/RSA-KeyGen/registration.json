@@ -1,8 +1,8 @@
 {
-  "algSpecs": [
+  "capabilities": [
     {
       "randPQ": "B.3.2",
-      "capabilities": [
+      "properties": [
         {
           "modulo": 2048,
           "hashAlg": [
@@ -27,7 +27,7 @@
     },
     {
       "randPQ": "B.3.3",
-      "capabilities": [
+      "properties": [
         {
           "modulo": 2048,
           "hashAlg": [
@@ -52,7 +52,7 @@
     },
     {
       "randPQ": "B.3.4",
-      "capabilities": [
+      "properties": [
         {
           "modulo": 2048,
           "hashAlg": [
@@ -77,7 +77,7 @@
     },
     {
       "randPQ": "B.3.5",
-      "capabilities": [
+      "properties": [
         {
           "modulo": 2048,
           "hashAlg": [
@@ -102,7 +102,7 @@
     },
     {
       "randPQ": "B.3.6",
-      "capabilities": [
+      "properties": [
         {
           "modulo": 2048,
           "hashAlg": [
@@ -126,9 +126,12 @@
       ]
     }
   ],
+  "vsId": 0,
   "algorithm": "RSA",
   "mode": "KeyGen",
+  "revision": "1.0",
   "isSample": true,
+  "conformances": [],
   "infoGeneratedByServer": true,
   "pubExpMode": "random",
   "fixedPubExp": "",

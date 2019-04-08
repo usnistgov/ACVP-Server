@@ -15,18 +15,19 @@ namespace NIST.CVP.Generation.GenValApp.Helpers
     {
         private static Logger Logger => LogManager.GetCurrentClassLogger();
 
-        public static List<IRegisterInjections> ResolveIocInjectables(AlgorithmConfig algorithmConfig, string algorithm, string mode, string dllLocation)
+        public static List<IRegisterInjections> ResolveIocInjectables(AlgorithmConfig algorithmConfig, string algorithm, string mode, string revision, string dllLocation)
         {
             var iTypeToDiscover = typeof(IRegisterInjections);
 
             if (!algorithmConfig.Algorithms.TryFirst(t => 
                 t.Algorithm.Equals(algorithm, StringComparison.OrdinalIgnoreCase) 
-                && t.Mode.Equals(mode, StringComparison.OrdinalIgnoreCase),
+                && t.Mode.Equals(mode, StringComparison.OrdinalIgnoreCase)
+                && t.Revision.Equals(revision, StringComparison.OrdinalIgnoreCase),
                 out var mappingResult)
             )
             {
                 string errorMsg =
-                    $"Unable to find dll mapping for {nameof(algorithm)} ({algorithm}) and {nameof(mode)} ({mode})";
+                    $"Unable to find dll mapping for {nameof(algorithm)} ({algorithm}), {nameof(mode)} ({mode}) and {nameof(revision)} ({revision})";
                 Logger.Error(errorMsg);
                 throw new ArgumentException(errorMsg);
             }

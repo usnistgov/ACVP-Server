@@ -4,13 +4,15 @@
     {
         private string _algorithm;
         private string[] _mode;
+        private string _revision;
         private int[] _keyLen;
 
         public ParameterBuilder()
         {
             // Provides a valid (as of construction) set of parameters
-            _algorithm = "AES-ECB";
+            _algorithm = "AES-CCM";
             _mode = ParameterValidator.VALID_DIRECTIONS;
+            _revision = "1.0";
             _keyLen = ParameterValidator.VALID_KEY_SIZES;
         }
 
@@ -26,6 +28,12 @@
             return this;
         }
 
+        public ParameterBuilder WithRevision(string value)
+        {
+            _revision = value;
+            return this;
+        }
+
         public ParameterBuilder WithKeyLen(int[] value)
         {
             _keyLen = value;
@@ -38,6 +46,7 @@
             {
                 Algorithm = _algorithm,
 
+                Revision = _revision,
                 KeyLen = _keyLen,
                 Direction = _mode
             };

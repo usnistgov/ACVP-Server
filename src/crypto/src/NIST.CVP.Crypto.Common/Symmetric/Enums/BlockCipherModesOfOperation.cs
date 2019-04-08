@@ -50,6 +50,9 @@ namespace NIST.CVP.Crypto.Common.Symmetric.Enums
         Ofbi,
 
         [EnumMember(Value = "xts")]
-        Xts
+        Xts,
+
+        [EnumMember(Value = "gcmsiv")]
+        GcmSiv
     }
 }

@@ -32,7 +32,7 @@ namespace NIST.CVP.Generation.TDES_CFBP.Parsers
 
             // these are the only algorithms this parse will support
 
-            if (!new[] { AlgoMode.TDES_CFBP1, AlgoMode.TDES_CFBP8, AlgoMode.TDES_CFBP64 }.Contains(algo))
+            if (!new[] { AlgoMode.TDES_CFBP1_v1_0, AlgoMode.TDES_CFBP8_v1_0, AlgoMode.TDES_CFBP64_v1_0 }.Contains(algo))
             {
                 throw new ArgumentException("Unsupported algorithm.");
             }
@@ -66,7 +66,7 @@ namespace NIST.CVP.Generation.TDES_CFBP.Parsers
                 foreach (Match match in encryptDecryptRegEx.Matches(fileContent))
                 {
                     var testGroup = GetTestGroupFromFileName(file);
-                    var tests = CreateTestCases(match.Groups["tests"].Value, algo != AlgoMode.TDES_CFBP1, testGroup.TestType == "MCT");
+                    var tests = CreateTestCases(match.Groups["tests"].Value, algo != AlgoMode.TDES_CFBP1_v1_0, testGroup.TestType == "MCT");
 
                     if (tests.Any())
                     {

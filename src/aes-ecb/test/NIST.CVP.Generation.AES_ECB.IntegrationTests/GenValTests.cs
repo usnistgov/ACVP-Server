@@ -17,7 +17,7 @@ namespace NIST.CVP.Generation.AES_ECB.IntegrationTests
         public override string Algorithm { get; } = "AES-ECB";
         public override string Mode { get; } = string.Empty;
 
-        public override AlgoMode AlgoMode => AlgoMode.AES_ECB;
+        public override AlgoMode AlgoMode => AlgoMode.AES_ECB_v1_0;
 
         public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
@@ -66,6 +66,7 @@ namespace NIST.CVP.Generation.AES_ECB.IntegrationTests
             Parameters p = new Parameters()
             {
                 Algorithm = "AES-ECB",
+                Revision = Revision,
                 Direction = new string[] { "encrypt" },
                 KeyLen = new int[] { ParameterValidator.VALID_KEY_SIZES.First() },
                 IsSample = true
@@ -79,6 +80,7 @@ namespace NIST.CVP.Generation.AES_ECB.IntegrationTests
             Parameters p = new Parameters()
             {
                 Algorithm = "AES-ECB",
+                Revision = Revision,
                 Direction = ParameterValidator.VALID_DIRECTIONS,
                 KeyLen = ParameterValidator.VALID_KEY_SIZES,
                 IsSample = false

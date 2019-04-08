@@ -18,7 +18,7 @@ namespace NIST.CVP.Generation.ParallelHash.IntegrationTests
 
         public override string Algorithm { get; } = "ParallelHash";
         public override string Mode { get; } = string.Empty;
-        public override AlgoMode AlgoMode => AlgoMode.ParallelHash;
+        public override AlgoMode AlgoMode => AlgoMode.ParallelHash_v1_0;
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {
@@ -78,6 +78,7 @@ namespace NIST.CVP.Generation.ParallelHash.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
+                Revision = Revision,
                 DigestSizes = new[] { 128 },
                 MessageLength = minMax,
                 OutputLength = minMax,
@@ -100,6 +101,7 @@ namespace NIST.CVP.Generation.ParallelHash.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
+                Revision = Revision,
                 DigestSizes = new[] { 128 },
                 MessageLength = minMaxMsg,
                 OutputLength = minMax,

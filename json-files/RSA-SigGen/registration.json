@@ -1,11 +1,14 @@
 {
+  "vsId": 0,
   "algorithm": "RSA",
   "mode": "SigGen",
+  "revision": "1.0",
   "isSample": true,
-  "algSpecs": [
+  "conformances": [],
+  "capabilities": [
     {
       "sigType": "ansx9.31",
-      "sigTypeCapabilities": [
+      "properties": [
         {
           "modulo": 2048,
           "hashPair": [
@@ -76,7 +79,7 @@
     },
     {
       "sigType": "pkcs1v1.5",
-      "sigTypeCapabilities": [
+      "properties": [
         {
           "modulo": 2048,
           "hashPair": [
@@ -147,7 +150,7 @@
     },
     {
       "sigType": "pss",
-      "sigTypeCapabilities": [
+      "properties": [
         {
           "modulo": 2048,
           "hashPair": [

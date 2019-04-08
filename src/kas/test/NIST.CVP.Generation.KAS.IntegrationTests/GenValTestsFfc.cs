@@ -18,7 +18,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
         public override string Algorithm => "KAS-FFC";
         public override string Mode => string.Empty;
         
-        public override AlgoMode AlgoMode => AlgoMode.KAS_FFC;
+        public override AlgoMode AlgoMode => AlgoMode.KAS_FFC_v1_0;
 
         public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjectables();
@@ -75,6 +75,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
+                Revision = Revision,
                 Function = new string[] { "dpGen" },
                 Scheme = new Schemes()
                 {
@@ -92,90 +93,90 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                             }
                         }
                     },
-                    FfcMqv2 = new FfcMqv2()
-                    {
-                        KasRole = new string[] { "initiator" },
-                        NoKdfNoKc = new NoKdfNoKc()
-                        {
-                            ParameterSet = new ParameterSets()
-                            {
-                                Fb = new Fb()
-                                {
-                                    HashAlg = new string[] { "SHA2-224" }
-                                }
-                            }
-                        }
-                    },
-                    FfcDhEphem = new FfcDhEphem()
-                    {
-                        KasRole = new string[] { "initiator" },
-                        NoKdfNoKc = new NoKdfNoKc()
-                        {
-                            ParameterSet = new ParameterSets()
-                            {
-                                Fb = new Fb()
-                                {
-                                    HashAlg = new string[] { "SHA2-224" }
-                                }
-                            }
-                        }
-                    },
-                    FfcDhHybridOneFlow = new FfcDhHybridOneFlow()
-                    {
-                        KasRole = new string[] { "initiator" },
-                        NoKdfNoKc = new NoKdfNoKc()
-                        {
-                            ParameterSet = new ParameterSets()
-                            {
-                                Fb = new Fb()
-                                {
-                                    HashAlg = new string[] { "SHA2-224" }
-                                }
-                            }
-                        }
-                    },
-                    FfcMqv1 = new FfcMqv1()
-                    {
-                        KasRole = new string[] { "initiator" },
-                        NoKdfNoKc = new NoKdfNoKc()
-                        {
-                            ParameterSet = new ParameterSets()
-                            {
-                                Fb = new Fb()
-                                {
-                                    HashAlg = new string[] { "SHA2-224" }
-                                }
-                            }
-                        }
-                    },
-                    FfcDhOneFlow = new FfcDhOneFlow()
-                    {
-                        KasRole = new string[] { "initiator" },
-                        NoKdfNoKc = new NoKdfNoKc()
-                        {
-                            ParameterSet = new ParameterSets()
-                            {
-                                Fb = new Fb()
-                                {
-                                    HashAlg = new string[] { "SHA2-224" }
-                                }
-                            }
-                        }
-                    },
-                    FfcDhStatic = new FfcDhStatic()
-                    {
-                        KasRole = new string[] { "initiator" },
-                        NoKdfNoKc = new NoKdfNoKc()
-                        {
-                            ParameterSet = new ParameterSets()
-                            {
-                                Fb = new Fb()
-                                {
-                                    HashAlg = new string[] { "SHA2-224" }
-                                }
-                            }
-                        }
-                    },
+                    //FfcMqv2 = new FfcMqv2()
+                    //{
+                    //    KasRole = new string[] { "initiator" },
+                    //    NoKdfNoKc = new NoKdfNoKc()
+                    //    {
+                    //        ParameterSet = new ParameterSets()
+                    //        {
+                    //            Fb = new Fb()
+                    //            {
+                    //                HashAlg = new string[] { "SHA2-224" }
+                    //            }
+                    //        }
+                    //    }
+                    //},
+                    //FfcDhEphem = new FfcDhEphem()
+                    //{
+                    //    KasRole = new string[] { "initiator" },
+                    //    NoKdfNoKc = new NoKdfNoKc()
+                    //    {
+                    //        ParameterSet = new ParameterSets()
+                    //        {
+                    //            Fb = new Fb()
+                    //            {
+                    //                HashAlg = new string[] { "SHA2-224" }
+                    //            }
+                    //        }
+                    //    }
+                    //},
+                    //FfcDhHybridOneFlow = new FfcDhHybridOneFlow()
+                    //{
+                    //    KasRole = new string[] { "initiator" },
+                    //    NoKdfNoKc = new NoKdfNoKc()
+                    //    {
+                    //        ParameterSet = new ParameterSets()
+                    //        {
+                    //            Fb = new Fb()
+                    //            {
+                    //                HashAlg = new string[] { "SHA2-224" }
+                    //            }
+                    //        }
+                    //    }
+                    //},
+                    //FfcMqv1 = new FfcMqv1()
+                    //{
+                    //    KasRole = new string[] { "initiator" },
+                    //    NoKdfNoKc = new NoKdfNoKc()
+                    //    {
+                    //        ParameterSet = new ParameterSets()
+                    //        {
+                    //            Fb = new Fb()
+                    //            {
+                    //                HashAlg = new string[] { "SHA2-224" }
+                    //            }
+                    //        }
+                    //    }
+                    //},
+                    //FfcDhOneFlow = new FfcDhOneFlow()
+                    //{
+                    //    KasRole = new string[] { "initiator" },
+                    //    NoKdfNoKc = new NoKdfNoKc()
+                    //    {
+                    //        ParameterSet = new ParameterSets()
+                    //        {
+                    //            Fb = new Fb()
+                    //            {
+                    //                HashAlg = new string[] { "SHA2-224" }
+                    //            }
+                    //        }
+                    //    }
+                    //},
+                    //FfcDhStatic = new FfcDhStatic()
+                    //{
+                    //    KasRole = new string[] { "initiator" },
+                    //    NoKdfNoKc = new NoKdfNoKc()
+                    //    {
+                    //        ParameterSet = new ParameterSets()
+                    //        {
+                    //            Fb = new Fb()
+                    //            {
+                    //                HashAlg = new string[] { "SHA2-224" }
+                    //            }
+                    //        }
+                    //    }
+                    //},
                 },
                 IsSample = true
             };
@@ -189,6 +190,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
+                Revision = Revision,
                 Function = new string[] { "dpGen", "dpVal", "keyPairGen", "fullVal", "keyRegen" },
                 Scheme = new Schemes()
                 {

@@ -12,7 +12,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
         public override string Algorithm { get; } = "RSA";
         public override string Mode { get; } = "KeyGen";
 
-        public override AlgoMode AlgoMode => AlgoMode.RSA_KeyGen;
+        public override AlgoMode AlgoMode => AlgoMode.RSA_KeyGen_v1_0;
 
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
 		public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
@@ -96,6 +96,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
+                Revision = Revision,
                 InfoGeneratedByServer = false,
                 IsSample = true,
                 PubExpMode = "fixed",
@@ -134,6 +135,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
+                Revision = Revision,
                 InfoGeneratedByServer = true,
                 IsSample = true,
                 PubExpMode = "random",

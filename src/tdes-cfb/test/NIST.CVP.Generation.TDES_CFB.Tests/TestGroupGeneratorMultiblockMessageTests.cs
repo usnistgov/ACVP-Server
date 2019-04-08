@@ -57,6 +57,7 @@ namespace NIST.CVP.Generation.TDES_CFB.Tests
             Parameters p = new Parameters()
             {
                 Algorithm = "TDES-CFB1",
+                Revision = "1.0",
                 Direction = mode,
                 KeyingOption = keyOption,
             };
@@ -72,6 +73,7 @@ namespace NIST.CVP.Generation.TDES_CFB.Tests
             Parameters p = new Parameters()
             {
                 Algorithm = "TDES-CFB1",
+                Revision = "1.0",
                 Direction = new[] { "encrypt", "decrypt" },
                 KeyingOption = new[] { 1, 2 },
             };

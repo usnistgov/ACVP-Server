@@ -50,7 +50,7 @@ namespace NIST.CVP.Generation.GenValApp
                 }
 
                 // Get the IOC container for the algo
-                AutofacConfig.IoCConfiguration(ServiceProvider, parsedParameters.Algorithm, parsedParameters.Mode,
+                AutofacConfig.IoCConfiguration(ServiceProvider, parsedParameters.Algorithm, parsedParameters.Mode, parsedParameters.Revision,
                     dllLocation);
                 using (var scope = AutofacConfig.GetContainer().BeginLifetimeScope())
                 {

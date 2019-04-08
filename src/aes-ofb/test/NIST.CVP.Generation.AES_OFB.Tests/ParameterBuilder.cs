@@ -37,7 +37,7 @@
             return new Parameters()
             {
                 Algorithm = _algorithm,
-
+                Revision = "1.0",
                 KeyLen = _keyLen,
                 Direction = _mode
             };

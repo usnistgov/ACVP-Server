@@ -2,6 +2,7 @@
   "vsId": 0,
   "algorithm": "EDDSA",
   "mode": "SigVer",
+  "revision": "1.0",
   "isSample": true,
   "testGroups": [
     {
@@ -21,11 +22,11 @@
         },
         {
           "tcId": 4,
-          "testPassed": false
+          "testPassed": true
         },
         {
           "tcId": 5,
-          "testPassed": true
+          "testPassed": false
         }
       ]
     },
@@ -59,7 +60,7 @@
       "tests": [
         {
           "tcId": 11,
-          "testPassed": true
+          "testPassed": false
         },
         {
           "tcId": 12,
@@ -67,7 +68,7 @@
         },
         {
           "tcId": 13,
-          "testPassed": false
+          "testPassed": true
         },
         {
           "tcId": 14,

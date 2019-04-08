@@ -17,7 +17,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer.IntegrationTests
         public override string Algorithm { get; } = "ECDSA";
         public override string Mode { get; } = "SigVer";
 
-        public override AlgoMode AlgoMode => AlgoMode.ECDSA_SigVer;
+        public override AlgoMode AlgoMode => AlgoMode.ECDSA_SigVer_v1_0;
 
         public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
@@ -42,6 +42,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
+                Revision = Revision,
                 IsSample = true,
                 Capabilities = caps,
             };
@@ -64,6 +65,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
+                Revision = Revision,
                 IsSample = true,
                 Capabilities = caps,
             };

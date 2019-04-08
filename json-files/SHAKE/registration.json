@@ -1,6 +1,7 @@
 {
   "vsId": 0,
   "algorithm": "SHAKE",
+  "revision": "1.0",
   "isSample": true,
   "conformances": [],
   "digestSize": [

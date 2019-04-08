@@ -23,12 +23,12 @@ namespace NIST.CVP.Generation.TDES_CFB.IntegrationTests
         private readonly string[] _katTypes = KatData.GetLabels();
 
         [Test]
-        [TestCase("encrypt", AlgoMode.TDES_CFB1)]
-        [TestCase("decrypt", AlgoMode.TDES_CFB1)]
-        [TestCase("encrypt", AlgoMode.TDES_CFB8)]
-        [TestCase("decrypt", AlgoMode.TDES_CFB8)]
-        [TestCase("encrypt", AlgoMode.TDES_CFB64)]
-        [TestCase("decrypt", AlgoMode.TDES_CFB64)]
+        [TestCase("encrypt", AlgoMode.TDES_CFB1_v1_0)]
+        [TestCase("decrypt", AlgoMode.TDES_CFB1_v1_0)]
+        [TestCase("encrypt", AlgoMode.TDES_CFB8_v1_0)]
+        [TestCase("decrypt", AlgoMode.TDES_CFB8_v1_0)]
+        [TestCase("encrypt", AlgoMode.TDES_CFB64_v1_0)]
+        [TestCase("decrypt", AlgoMode.TDES_CFB64_v1_0)]
         public void ShouldPerformAllKATsCorrectly(string direction, AlgoMode mode)
         {
             foreach (var testType in _katTypes)
@@ -68,11 +68,11 @@ namespace NIST.CVP.Generation.TDES_CFB.IntegrationTests
         {
             switch (mode)
             {
-                case AlgoMode.TDES_CFB1:
+                case AlgoMode.TDES_CFB1_v1_0:
                     return BlockCipherModesOfOperation.CfbBit;
-                case AlgoMode.TDES_CFB8:
+                case AlgoMode.TDES_CFB8_v1_0:
                     return BlockCipherModesOfOperation.CfbByte;
-                case AlgoMode.TDES_CFB64:
+                case AlgoMode.TDES_CFB64_v1_0:
                     return BlockCipherModesOfOperation.CfbBlock;
 
                 default:

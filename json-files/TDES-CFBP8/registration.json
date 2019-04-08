@@ -2,6 +2,7 @@
   "vsId": 0,
   "algorithm": "TDES-CFBP8",
   "mode": "",
+  "revision": "1.0",
   "isSample": true,
   "conformances": [],
   "direction": [

@@ -8,6 +8,7 @@ namespace NIST.CVP.Generation.ANSIX963
         public int VectorSetId { get; set; }
         public string Algorithm { get; set; } = "kdf-components";
         public string Mode { get; set; } = "ansix9.63";
+        public string Revision { get; set; }
         public bool IsSample { get; set; }
 
         public List<TestGroup> TestGroups { get; set; } = new List<TestGroup>();

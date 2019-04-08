@@ -18,7 +18,7 @@ namespace NIST.CVP.Generation.KMAC.IntegrationTests
 
         public override string Algorithm { get; } = "KMAC";
         public override string Mode { get; } = string.Empty;
-        public override AlgoMode AlgoMode => AlgoMode.KMAC;
+        public override AlgoMode AlgoMode => AlgoMode.KMAC_v1_0;
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {
@@ -67,6 +67,7 @@ namespace NIST.CVP.Generation.KMAC.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
+                Revision = Revision,
                 DigestSizes = new[] { 128 },
                 MsgLen = minMax,
                 MacLen = minMax,
@@ -90,6 +91,7 @@ namespace NIST.CVP.Generation.KMAC.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
+                Revision = Revision,
                 DigestSizes = new[] { 256 },
                 MsgLen = minMaxMsg,
                 MacLen = minMax,

@@ -8,6 +8,7 @@ namespace NIST.CVP.Generation.TDES_CTR
         public int VectorSetId { get; set; }
         public string Algorithm { get; set; } = "TDES";
         public string Mode { get; set; } = "CTR";
+        public string Revision { get; set; }
         public bool IsSample { get; set; }
         public List<TestGroup> TestGroups { get; set; } = new List<TestGroup>();
     }
