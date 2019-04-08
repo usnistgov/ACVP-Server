@@ -1,12 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
     <RootNamespace>NIST.CVP.Generation.RSA_SigVer.Tests</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.App" Version="$(NuGetVersionMicrosoftAspNetCore)" />
+    <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="$(NuGetVersionMicrosoftNETTestSdk)" />
     <PackageReference Include="Moq" Version="$(NuGetVersionMoq)" />
     <PackageReference Include="NUnit" Version="$(NuGetVersionNUnit)" />

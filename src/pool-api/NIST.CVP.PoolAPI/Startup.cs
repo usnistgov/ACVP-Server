@@ -29,7 +29,7 @@ namespace NIST.CVP.PoolAPI
         public void ConfigureServices(IServiceCollection services)
         {
             LogManager.GetCurrentClassLogger().Info("Configuring IOC container.");
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.AddSingleton(Configuration);
 
