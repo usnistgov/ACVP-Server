@@ -26,6 +26,7 @@
 
     <!-- NuGet package versions -->
     <PropertyGroup>
+    	<NuGetVersionMicrosoftAspNetCore>2.1.3</NuGetVersionMicrosoftAspNetCore>
         <NuGetVersionMicrosoftNETTestSdk>15.7.0</NuGetVersionMicrosoftNETTestSdk>
         <NuGetVersiondotnettestnunit>3.4.0-beta-3</NuGetVersiondotnettestnunit>
         <NuGetVersionTeamCityVSTestTestAdapter>1.0.5</NuGetVersionTeamCityVSTestTestAdapter>
