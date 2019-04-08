@@ -60,5 +60,7 @@ move publish.zip "%homedir%\%mydate%_%mytime%_PoolService.zip"
 
 cd %homedir%
 
+dir *.zip
+
 rem Move builds to Latest_Builds on elwood (drive already mapped as X:)
 move /Y *.zip X:\acvp\Latest_Builds\
