@@ -89,7 +89,6 @@ namespace NIST.CVP.Orleans.ServerHost
                     builder.UseLocalhostClustering();
                     break;
                 case Environments.Tc:
-                case Environments.Prod: // TODO Bad!
                     var primarySiloEndpoint = new IPEndPoint(
                         IPAddress.Parse(_orleansConfig.OrleansNodeConfig.First().HostName),
                         _orleansConfig.OrleansSiloPort
