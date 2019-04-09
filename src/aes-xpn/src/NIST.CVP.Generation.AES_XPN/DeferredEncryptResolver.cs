@@ -30,8 +30,6 @@ namespace NIST.CVP.Generation.AES_XPN
                 salt = iutTestCase.Salt.GetDeepCopy();
             }
 
-            var ivXorSalt = salt.XOR(iv);
-
             var param = new AeadParameters
             {
                 TagLength = testGroup.TagLength
@@ -39,7 +37,8 @@ namespace NIST.CVP.Generation.AES_XPN
 
             var fullParam = new AeadResult
             {
-                Iv = ivXorSalt,
+                Iv = iv,
+                Salt = salt,
                 Key = serverTestCase.Key,
                 PlainText = serverTestCase.PlainText,
                 Aad = serverTestCase.AAD

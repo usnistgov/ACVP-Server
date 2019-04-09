@@ -29,7 +29,7 @@ namespace NIST.CVP.Generation.SHA3
             var param = new ShakeParameters
             {
                 HashFunction = new HashFunction(group.DigestSize, group.DigestSize * 2, true),
-                MessageLength = group.DigestSize,
+                MessageLength = 128, // note 128 bit messages required for MCT as per https://csrc.nist.gov/CSRC/media/Projects/Cryptographic-Algorithm-Validation-Program/documents/sha3/sha3vs.pdf
                 OutputLengths = group.OutputLength
             };
 
