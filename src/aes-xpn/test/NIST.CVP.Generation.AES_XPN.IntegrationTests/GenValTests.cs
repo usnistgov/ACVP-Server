@@ -88,12 +88,12 @@ namespace NIST.CVP.Generation.AES_XPN.IntegrationTests
                 Direction = ParameterValidator.VALID_DIRECTIONS,
                 KeyLen = new int[] { ParameterValidator.VALID_KEY_SIZES.First() },
                 PayloadLen = new MathDomain().AddSegment(new ValueDomainSegment(0)),
-                IvGen = ParameterValidator.VALID_IV_GEN[1],
-                IvGenMode = ParameterValidator.VALID_IV_GEN_MODE[1],
+                IvGen = ParameterValidator.VALID_IV_GEN[0],
+                IvGenMode = ParameterValidator.VALID_IV_GEN_MODE[0],
                 SaltGen = ParameterValidator.VALID_SALT_GEN[1],
                 AadLen = new MathDomain().AddSegment(new ValueDomainSegment(0)),
                 TagLen = new MathDomain().AddSegment(new ValueDomainSegment(64)),
-                IsSample = false
+                IsSample = true
             };
 
             return CreateRegistration(targetFolder, p);

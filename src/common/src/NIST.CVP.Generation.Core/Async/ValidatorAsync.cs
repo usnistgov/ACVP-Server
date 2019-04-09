@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using Newtonsoft.Json;
 using NIST.CVP.Common.Enums;
 using NIST.CVP.Generation.Core.ContractResolvers;
@@ -33,6 +34,15 @@ namespace NIST.CVP.Generation.Core.Async
             var resultText = ReadFromFile(resultPath);
             var answerText = ReadFromFile(answerPath);
 
+            if (string.IsNullOrEmpty(resultText))
+            {
+                return new ValidateResponse("Unable to read result file.");
+            }
+            if (string.IsNullOrEmpty(answerText))
+            {
+                return new ValidateResponse("Unable to read internalProjection file.");
+            }
+
             TestVectorValidation response;
             try
             {
@@ -45,7 +55,7 @@ namespace NIST.CVP.Generation.Core.Async
             }
             catch (Exception ex)
             {
-                ThisLogger.Error($"ERROR in Validator: {ex.StackTrace}");
+                ThisLogger.Error(ex, "ERROR in Validator.");
                 return new ValidateResponse(ex.Message, StatusCode.TestCaseValidatorError);
             }
 
@@ -71,7 +81,23 @@ namespace NIST.CVP.Generation.Core.Async
             var results = _vectorSetDeserializer.Deserialize(testResultText);
             var answers = _vectorSetDeserializer.Deserialize(answerText);
 
+            if (results == null)
+            {
+                throw new Exception("Unable to parse results file.");
+            }
+
+            if (answers == null)
+            {
+                throw new Exception("Unable to parse internalProjection file.");
+            }
+
             var testCaseValidators = _testCaseValidatorFactory.GetValidators(answers);
+
+            if (testCaseValidators == null || !testCaseValidators.Any())
+            {
+                throw new Exception("Unable to initialize validators for provided vector set.");
+            }
+
             var response = _resultValidator.ValidateResults(testCaseValidators, results.TestGroups, showExpected);
 
             response.VectorSetId = answers.VectorSetId;
