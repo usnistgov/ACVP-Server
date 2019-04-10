@@ -39,41 +39,6 @@ namespace NIST.CVP.Generation.SHA3.Tests
 
             Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
             Assert.IsTrue(result.Reason.ToLower().Contains("digest"), "Reason does not contain the expected digest");
-            Assert.IsFalse(result.Reason.ToLower().Contains("message"), "Reason contains the unexpected value message");
-        }
-
-        [Test]
-        public async Task ShouldReturnReasonOnMismatchedMessage()
-        {
-            var rand = new Random800_90();
-            var expected = GetTestCase();
-            var supplied = GetTestCase();
-            supplied.ResultsArray[0].Message = rand.GetDifferentBitStringOfSameSize(supplied.ResultsArray[0].Message);
-
-            var subject = new TestCaseValidatorMCTHash(expected);
-
-            var result = await subject.ValidateAsync(supplied);
-
-            Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
-            Assert.IsFalse(result.Reason.ToLower().Contains("digest"), "Reason contains the unexpected value digest");
-            Assert.IsTrue(result.Reason.ToLower().Contains("message"), "Reason contains the unexpected value message");
-        }
-
-        [Test]
-        public async Task ShouldReturnReasonWithMultipleErrorReasons()
-        {
-            var rand = new Random800_90();
-            var expected = GetTestCase();
-            var supplied = GetTestCase();
-            supplied.ResultsArray[0].Digest = rand.GetDifferentBitStringOfSameSize(supplied.ResultsArray[0].Digest);
-            supplied.ResultsArray[0].Message = rand.GetDifferentBitStringOfSameSize(supplied.ResultsArray[0].Message);
-
-            var subject = new TestCaseValidatorMCTHash(expected);
-
-            var result = await subject.ValidateAsync(supplied);
-
-            Assert.IsTrue(result.Reason.ToLower().Contains("digest"), "Reason does not contain the expected value digest");
-            Assert.IsTrue(result.Reason.ToLower().Contains("message"), "Reason does not contain the expected value message");
         }
 
         [Test]
@@ -89,21 +54,6 @@ namespace NIST.CVP.Generation.SHA3.Tests
 
             Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
             Assert.IsTrue(result.Reason.Contains($"{nameof(suppliedResult.ResultsArray)} was not present in the {nameof(TestCase)}"));
-        }
-
-        [Test]
-        public async Task ShouldFailDueToMissingMessageInResultsArray()
-        {
-            var expected = GetTestCase();
-            var suppliedResult = GetTestCase();
-
-            suppliedResult.ResultsArray.ForEach(fe => fe.Message = null);
-
-            var subject = new TestCaseValidatorMCTHash(expected);
-            var result = await subject.ValidateAsync(suppliedResult);
-
-            Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
-            Assert.IsTrue(result.Reason.Contains($"{nameof(suppliedResult.ResultsArray)} did not contain expected element {nameof(AlgoArrayResponse.Message)}"));
         }
 
         [Test]
