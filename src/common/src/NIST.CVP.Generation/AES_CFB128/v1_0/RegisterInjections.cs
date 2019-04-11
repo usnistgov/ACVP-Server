@@ -1,6 +1,6 @@
 ﻿using Autofac;
 using NIST.CVP.Common;
-using NIST.CVP.Generation.AES_CFB128.ContractResolvers;
+using NIST.CVP.Generation.AES_CFB128.v1_0.ContractResolvers;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Async;
 using NIST.CVP.Generation.Core.DeSerialization;
@@ -8,7 +8,7 @@ using NIST.CVP.Generation.Core.JsonConverters;
 using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Math;
 
-namespace NIST.CVP.Generation.AES_CFB128
+namespace NIST.CVP.Generation.AES_CFB128.v1_0
 {
     public class RegisterInjections : IRegisterInjections
     {

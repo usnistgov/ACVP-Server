@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using NIST.CVP.Generation.Core;
 
-namespace NIST.CVP.Generation.AES_CFB128
+namespace NIST.CVP.Generation.AES_CFB128.v1_0
 {
     public class TestGroupGeneratorFactory : ITestGroupGeneratorFactory<Parameters, TestGroup, TestCase>
     {

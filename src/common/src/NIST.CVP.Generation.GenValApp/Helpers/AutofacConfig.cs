@@ -85,6 +85,9 @@ namespace NIST.CVP.Generation.GenValApp.Helpers
                 case AlgoMode.AES_CFB8_v1_0:
                     genVals = new AES_CFB8.v1_0.RegisterInjections();
                     break;
+                case AlgoMode.AES_CFB128_v1_0:
+                    genVals = new AES_CFB128.v1_0.RegisterInjections();
+                    break;
 
                 // ^^^ -- Russ Algos -- ^^^
 

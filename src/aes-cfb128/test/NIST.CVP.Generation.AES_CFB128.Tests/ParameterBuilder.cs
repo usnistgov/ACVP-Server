@@ -1,4 +1,6 @@
-﻿namespace NIST.CVP.Generation.AES_CFB128.Tests
+﻿using NIST.CVP.Generation.AES_CFB128.v1_0;
+
+namespace NIST.CVP.Generation.AES_CFB128.Tests
 {
     public class ParameterBuilder
     {
