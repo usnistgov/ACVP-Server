@@ -48,7 +48,6 @@ namespace NIST.CVP.Generation.SHA2.ContractResolvers
         {
             var includeProperties = new[]
             {
-                nameof(AlgoArrayResponse.Message),
                 nameof(AlgoArrayResponse.Digest)
             };
 

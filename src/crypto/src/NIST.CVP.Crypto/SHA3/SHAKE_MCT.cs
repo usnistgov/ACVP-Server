@@ -65,6 +65,10 @@ namespace NIST.CVP.Crypto.SHA3
             var range = (max - min) + 8;
             var innerMessage = message.GetDeepCopy();
 
+            // Might not have 128 bits to pull from so we pad with 0                        
+            innerMessage = BitString.ConcatenateBits(innerMessage, BitString.Zeroes(128));
+            innerMessage = BitString.MSBSubstring(innerMessage, 0, 128);
+
             try
             {
                 for (i = 0; i < NUM_OF_RESPONSES; i++)
@@ -75,9 +79,6 @@ namespace NIST.CVP.Crypto.SHA3
                     
                     for (j = 0; j < 1000; j++)
                     {
-                        // Might not have 128 bits to pull from so we pad with 0                        
-                        innerMessage = BitString.ConcatenateBits(innerMessage, BitString.Zeroes(128));
-                        innerMessage = BitString.MSBSubstring(innerMessage, 0, 128);
                         function.DigestSize = outputLen;
 
                         var innerResult = _iSHA3.HashMessage(function, innerMessage);
@@ -89,6 +90,10 @@ namespace NIST.CVP.Crypto.SHA3
                         outputLen = min + (8 * GetIntFromBits(rightmostBits)) % range;
 
                         innerMessage = innerDigest.GetDeepCopy();
+                        // Might not have 128 bits to pull from so we pad with 0                        
+                        innerMessage = BitString.ConcatenateBits(innerMessage, BitString.Zeroes(128));
+                        innerMessage = BitString.MSBSubstring(innerMessage, 0, 128);
+
                     }
 
                     iterationResponse.Digest = innerDigest.GetDeepCopy();
