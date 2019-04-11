@@ -23,6 +23,7 @@
     <ProjectReference Include="..\..\..\orleans\src\NIST.CVP.Orleans.Grains.Interfaces\NIST.CVP.Orleans.Grains.Interfaces.csproj" />
     <ProjectReference Include="..\NIST.CVP.Common\NIST.CVP.Common.csproj" />
     <ProjectReference Include="..\NIST.CVP.Generation.Core\NIST.CVP.Generation.Core.csproj" />
+    <ProjectReference Include="..\NIST.CVP.Generation\NIST.CVP.Generation.csproj" />
     <ProjectReference Include="..\NIST.CVP.Math\NIST.CVP.Math.csproj" />
   </ItemGroup>
 

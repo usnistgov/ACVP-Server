@@ -3,10 +3,12 @@ using Autofac;
 using NIST.CVP.Crypto.Oracle;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using NIST.CVP.Common;
 using NIST.CVP.Common.Config;
 using NIST.CVP.Common.Helpers;
 using NIST.CVP.Generation.Core.Helpers;
 using NIST.CVP.Generation.GenValApp.Models;
+using NLog;
 
 
 namespace NIST.CVP.Generation.GenValApp.Helpers
@@ -35,23 +37,55 @@ namespace NIST.CVP.Generation.GenValApp.Helpers
             crypto.RegisterTypes(builder, algoMode);
             var oracle = new Crypto.Oracle.RegisterInjections();
             oracle.RegisterTypes(builder, algoMode);
-            
-            var iocRegisterables = GenValResolver.ResolveIocInjectables(
-                serviceProvider.GetService<IOptions<AlgorithmConfig>>().Value, 
-                algorithm, 
-                mode, 
-                revision,
-                dllLocation
-            );
 
-            foreach (var iocRegisterable in iocRegisterables)
-            {
-                iocRegisterable.RegisterTypes(builder, algoMode);
+            if (!RegisterGenVals(builder, algoMode))
+            { 
+                // Fall through run time loading
+                var iocRegisterables = GenValResolver.ResolveIocInjectables(
+                    serviceProvider.GetService<IOptions<AlgorithmConfig>>().Value,
+                    algorithm,
+                    mode,
+                    revision,
+                    dllLocation
+                );
+
+                foreach (var iocRegisterable in iocRegisterables)
+                {
+                    iocRegisterable.RegisterTypes(builder, algoMode);
+                }
             }
-            
+
             OverrideRegistrations?.Invoke(builder);
 
             _container = builder.Build();
+        }
+
+        /// <summary>
+        /// Register the GenVals for the specified <see cref="AlgoMode"/>.
+        /// </summary>
+        /// <param name="builder">The IOC builder</param>
+        /// <param name="algoMode">The algoMode to register</param>
+        /// <returns></returns>
+        private static bool RegisterGenVals(ContainerBuilder builder, AlgoMode algoMode)
+        {
+            IRegisterInjections genVals = null;
+
+            // TODO fix this up so that we can hopefully set a IRegisterInjections to the AlgoMode definition itself, to avoid having to change this code whenever a new algorithm is added.
+            switch (algoMode)
+            {
+                case AlgoMode.AES_CBC_v1_0:
+                    genVals = new AES_CBC.v1_0.RegisterInjections();
+                    break;
+                case AlgoMode.AES_CCM_v1_0:
+                    genVals = new AES_CCM.v1_0.RegisterInjections();
+                    break;
+                default:
+                    LogManager.GetCurrentClassLogger().Warn($"{nameof(algoMode)} ({algoMode}) cannot be attributed to the Single GenVals assembly, falling back to runtime loading.");
+                    return false;
+            }
+
+            genVals.RegisterTypes(builder, algoMode);
+            return true;
         }
     }
     
