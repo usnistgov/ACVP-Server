@@ -1,4 +1,4 @@
-﻿using NIST.CVP.Generation.Core;
+﻿using NIST.CVP.Generation.TDES_CBCI.v1_0;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;

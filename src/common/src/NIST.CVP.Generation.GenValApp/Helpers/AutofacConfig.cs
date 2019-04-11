@@ -1,14 +1,12 @@
-﻿using System;
-using Autofac;
-using NIST.CVP.Crypto.Oracle;
+﻿using Autofac;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using NIST.CVP.Common;
 using NIST.CVP.Common.Config;
 using NIST.CVP.Common.Helpers;
 using NIST.CVP.Generation.Core.Helpers;
-using NIST.CVP.Generation.GenValApp.Models;
 using NLog;
+using System;
 
 
 namespace NIST.CVP.Generation.GenValApp.Helpers
@@ -93,10 +91,39 @@ namespace NIST.CVP.Generation.GenValApp.Helpers
 
 
                 // vvv -- Chris Algos -- vvv
-
-
-
+                case AlgoMode.TDES_CBC_v1_0:
+                    genVals = new TDES_CBC.v1_0.RegisterInjections();
+                    break;
+                case AlgoMode.TDES_CBCI_v1_0:
+                    genVals = new TDES_CBCI.v1_0.RegisterInjections();
+                    break;
+                case AlgoMode.TDES_CFB1_v1_0:
+                case AlgoMode.TDES_CFB8_v1_0:
+                case AlgoMode.TDES_CFB64_v1_0:
+                    genVals = new TDES_CFB.v1_0.RegisterInjections();
+                    break;
+                case AlgoMode.TDES_CFBP1_v1_0:
+                case AlgoMode.TDES_CFBP8_v1_0:
+                case AlgoMode.TDES_CFBP64_v1_0:
+                    genVals = new TDES_CFBP.v1_0.RegisterInjections();
+                    break;
+                case AlgoMode.TDES_CTR_v1_0:
+                    genVals = new TDES_CTR.v1_0.RegisterInjections();
+                    break;
+                case AlgoMode.TDES_ECB_v1_0:
+                    genVals = new TDES_ECB.v1_0.RegisterInjections();
+                    break;
+                case AlgoMode.TDES_OFB_v1_0:
+                    genVals = new TDES_OFB.v1_0.RegisterInjections();
+                    break;
+                case AlgoMode.TDES_OFBI_v1_0:
+                    genVals = new TDES_OFBI.v1_0.RegisterInjections();
+                    break;
+                case AlgoMode.TupleHash_v1_0:
+                    genVals = new TupleHash.v1_0.RegisterInjections();
+                    break;
                 // ^^^ -- Chris Algos -- ^^^
+
                 default:
                     LogManager.GetCurrentClassLogger().Warn($"{nameof(algoMode)} ({algoMode}) cannot be attributed to the Single GenVals assembly, falling back to runtime loading.");
                     return false;

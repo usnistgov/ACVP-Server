@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using NIST.CVP.Common;
-using NIST.CVP.Crypto.Common;
-using NUnit.Framework;
+﻿using NIST.CVP.Common;
 
 namespace NIST.CVP.Generation.TDES_CFBP.IntegrationTests
 {

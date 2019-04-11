@@ -1,10 +1,11 @@
 ﻿using Moq;
-using NUnit.Framework;
-using System;
-using System.Threading.Tasks;
 using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
+using NIST.CVP.Generation.TDES_CBCI.v1_0;
+using NUnit.Framework;
+using System;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Generation.TDES_CBCI.Tests
 {
