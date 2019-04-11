@@ -3,7 +3,7 @@ using System.Linq;
 using Newtonsoft.Json.Serialization;
 using NIST.CVP.Generation.Core.ContractResolvers;
 
-namespace NIST.CVP.Generation.AES_CFB1.ContractResolvers
+namespace NIST.CVP.Generation.AES_CFB1.v1_0.ContractResolvers
 {
     public class ResultProjectionContractResolver : ProjectionContractResolverBase<TestGroup, TestCase>
     {

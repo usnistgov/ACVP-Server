@@ -2,7 +2,7 @@
 using NIST.CVP.Common.Helpers;
 using NIST.CVP.Generation.Core;
 
-namespace NIST.CVP.Generation.AES_CFB1
+namespace NIST.CVP.Generation.AES_CFB1.v1_0
 {
     public class TestGroupGeneratorKnownAnswerTests : ITestGroupGenerator<Parameters, TestGroup, TestCase>
     {

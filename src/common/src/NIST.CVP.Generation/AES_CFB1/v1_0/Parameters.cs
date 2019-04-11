@@ -1,7 +1,6 @@
-﻿using Newtonsoft.Json;
-using NIST.CVP.Generation.Core;
+﻿using NIST.CVP.Generation.Core;
 
-namespace NIST.CVP.Generation.AES_CFB1
+namespace NIST.CVP.Generation.AES_CFB1.v1_0
 {
     public class Parameters : IParameters
     {

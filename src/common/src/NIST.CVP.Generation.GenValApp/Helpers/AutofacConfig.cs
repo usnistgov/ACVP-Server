@@ -79,6 +79,9 @@ namespace NIST.CVP.Generation.GenValApp.Helpers
                 case AlgoMode.AES_CCM_v1_0:
                     genVals = new AES_CCM.v1_0.RegisterInjections();
                     break;
+                case AlgoMode.AES_CFB128_v1_0:
+                    genVals = new AES_CFB1.v1_0.RegisterInjections();
+                    break;
                 default:
                     LogManager.GetCurrentClassLogger().Warn($"{nameof(algoMode)} ({algoMode}) cannot be attributed to the Single GenVals assembly, falling back to runtime loading.");
                     return false;

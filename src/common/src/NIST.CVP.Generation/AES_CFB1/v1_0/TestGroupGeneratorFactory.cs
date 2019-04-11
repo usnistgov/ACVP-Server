@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using NIST.CVP.Generation.Core;
 
-namespace NIST.CVP.Generation.AES_CFB1
+namespace NIST.CVP.Generation.AES_CFB1.v1_0
 {
     public class TestGroupGeneratorFactory : ITestGroupGeneratorFactory<Parameters, TestGroup, TestCase>
     {

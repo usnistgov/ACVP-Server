@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using NIST.CVP.Crypto.Common.Symmetric;
-using NIST.CVP.Crypto.Common.Symmetric.AES;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Parsers;
 
-namespace NIST.CVP.Generation.AES_CFB1.Parsers
+namespace NIST.CVP.Generation.AES_CFB1.v1_0.Parsers
 {
     public class LegacyResponseFileParser : ILegacyResponseFileParser<TestVectorSet, TestGroup, TestCase>
     {

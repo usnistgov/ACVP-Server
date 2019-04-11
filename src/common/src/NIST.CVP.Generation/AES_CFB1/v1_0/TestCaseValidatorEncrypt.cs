@@ -2,14 +2,15 @@
 using System.Threading.Tasks;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Async;
+using NIST.CVP.Generation.Core.Enums;
 
-namespace NIST.CVP.Generation.AES_CFB1
+namespace NIST.CVP.Generation.AES_CFB1.v1_0
 {
-    public class TestCaseValidatorDecrypt : ITestCaseValidatorAsync<TestGroup, TestCase>
+    public class TestCaseValidatorEncrypt : ITestCaseValidatorAsync<TestGroup, TestCase>
     {
         private readonly TestCase _expectedResult;
 
-        public TestCaseValidatorDecrypt(TestCase expectedResult)
+        public TestCaseValidatorEncrypt(TestCase expectedResult)
         {
             _expectedResult = expectedResult;
         }
@@ -27,13 +28,13 @@ namespace NIST.CVP.Generation.AES_CFB1
             {
                 CheckResults(suppliedResult, errors, expected, provided);
             }
-
+            
             if (errors.Count > 0)
             {
                 return await Task.FromResult(new TestCaseValidation
                 {
                     TestCaseId = suppliedResult.TestCaseId, 
-                    Result = Core.Enums.Disposition.Failed,
+                    Result = Disposition.Failed,
                     Reason = string.Join("; ", errors),
                     Expected = expected.Count != 0 && showExpected ? expected : null,
                     Provided = provided.Count != 0 && showExpected ? provided : null
@@ -43,26 +44,26 @@ namespace NIST.CVP.Generation.AES_CFB1
             return await Task.FromResult(new TestCaseValidation
             {
                 TestCaseId = suppliedResult.TestCaseId,
-                Result = Core.Enums.Disposition.Passed
+                Result = Disposition.Passed
             });
         }
 
         private void ValidateResultPresent(TestCase suppliedResult, List<string> errors)
         {
-            if (suppliedResult.PlainText == null)
+            if (suppliedResult.CipherText == null)
             {
-                errors.Add($"{nameof(suppliedResult.PlainText)} was not present in the {nameof(TestCase)}");
+                errors.Add($"{nameof(suppliedResult.CipherText)} was not present in the {nameof(TestCase)}");
                 return;
             }
         }
 
         private void CheckResults(TestCase suppliedResult, List<string> errors, Dictionary<string, string> expected, Dictionary<string, string> provided)
         {
-            if (!_expectedResult.PlainText.Equals(suppliedResult.PlainText))
+            if (!_expectedResult.CipherText.Equals(suppliedResult.CipherText))
             {
-                errors.Add("Plain Text does not match");
-                expected.Add(nameof(_expectedResult.PlainText), _expectedResult.PlainText.ToHex());
-                provided.Add(nameof(suppliedResult.PlainText), suppliedResult.PlainText.ToHex());
+                errors.Add("Cipher Text does not match");
+                expected.Add(nameof(_expectedResult.CipherText), _expectedResult.CipherText.ToHex());
+                provided.Add(nameof(suppliedResult.CipherText), suppliedResult.CipherText.ToHex());
             }
         }
     }

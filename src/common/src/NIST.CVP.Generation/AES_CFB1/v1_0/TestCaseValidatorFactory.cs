@@ -2,7 +2,7 @@
 using System.Linq;
 using NIST.CVP.Generation.Core.Async;
 
-namespace NIST.CVP.Generation.AES_CFB1
+namespace NIST.CVP.Generation.AES_CFB1.v1_0
 {
     public class TestCaseValidatorFactory : ITestCaseValidatorFactoryAsync<TestVectorSet, TestGroup, TestCase>
     {
