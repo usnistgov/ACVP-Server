@@ -4,6 +4,7 @@ using Microsoft.Extensions.Options;
 using NIST.CVP.Common;
 using NIST.CVP.Common.Config;
 using NIST.CVP.Common.Helpers;
+using NIST.CVP.Crypto.SHA3;
 using NIST.CVP.Generation.Core.Helpers;
 using NLog;
 using System;
@@ -94,6 +95,14 @@ namespace NIST.CVP.Generation.GenValApp.Helpers
 
 
                 // vvv -- Chris Algos -- vvv
+                case AlgoMode.SHA1_v1_0:
+                case AlgoMode.SHA2_v1_0:
+                    genVals = new SHA2.v1_0.RegisterInjections();
+                    break;
+                case AlgoMode.SHA3_v1_0:
+                case AlgoMode.SHAKE_v1_0:
+                    genVals = new SHA3.v1_0.RegisterInjections();
+                    break;
                 case AlgoMode.TDES_CBC_v1_0:
                     genVals = new TDES_CBC.v1_0.RegisterInjections();
                     break;
