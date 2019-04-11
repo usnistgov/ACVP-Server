@@ -57,10 +57,6 @@ namespace NIST.CVP.Generation.SHA2
                 return;
             }
 
-            if (suppliedResult.ResultsArray.Any(a => a.Message == null))
-            {
-                errors.Add($"{nameof(suppliedResult.ResultsArray)} did not contain expected element {nameof(AlgoArrayResponse.Message)}");
-            }
             if (suppliedResult.ResultsArray.Any(a => a.Digest == null))
             {
                 errors.Add($"{nameof(suppliedResult.ResultsArray)} did not contain expected element {nameof(AlgoArrayResponse.Digest)}");
@@ -71,12 +67,6 @@ namespace NIST.CVP.Generation.SHA2
         {
             for (var i = 0; i < _expectedResult.ResultsArray.Count; i++)
             {
-                if (!_expectedResult.ResultsArray[i].Message.Equals(suppliedResult.ResultsArray[i].Message))
-                {
-                    errors.Add($"Message does not match on iteration {i}");
-                    expected.Add($"Message {i}", _expectedResult.ResultsArray[i].Message.ToHex());
-                    provided.Add($"Message {i}", suppliedResult.ResultsArray[i].Message.ToHex());
-                }
                 if (!_expectedResult.ResultsArray[i].Digest.Equals(suppliedResult.ResultsArray[i].Digest))
                 {
                     errors.Add($"Digest does not match on iteration {i}");
