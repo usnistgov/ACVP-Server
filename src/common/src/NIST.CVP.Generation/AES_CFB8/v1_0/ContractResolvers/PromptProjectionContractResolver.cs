@@ -1,19 +1,25 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Newtonsoft.Json.Serialization;
 using NIST.CVP.Generation.Core.ContractResolvers;
 
-namespace NIST.CVP.Generation.AES_CFB8.ContractResolvers
+namespace NIST.CVP.Generation.AES_CFB8.v1_0.ContractResolvers
 {
-    public class ResultProjectionContractResolver : ProjectionContractResolverBase<TestGroup, TestCase>
+    public class PromptProjectionContractResolver : ProjectionContractResolverBase<TestGroup, TestCase>
     {
+        /// <summary>
+        /// Every group property included
+        /// </summary>
+        /// <param name="jsonProperty"></param>
+        /// <returns></returns>
         protected override Predicate<object> TestGroupSerialization(JsonProperty jsonProperty)
         {
             var includeProperties = new[]
             {
                 nameof(TestGroup.TestGroupId),
+                nameof(TestGroup.TestType),
+                nameof(TestGroup.Function),
+                nameof(TestGroup.KeyLength),
                 nameof(TestGroup.Tests)
             };
 
@@ -23,16 +29,17 @@ namespace NIST.CVP.Generation.AES_CFB8.ContractResolvers
                     instance => true;
             }
 
-            return jsonProperty.ShouldSerialize =
-                instance => false;
+            return jsonProperty.ShouldSerialize = instance => false;
         }
+
 
         protected override Predicate<object> TestCaseSerialization(JsonProperty jsonProperty)
         {
             var includeProperties = new[]
             {
                 nameof(TestCase.TestCaseId),
-                nameof(TestCase.ResultsArray)
+                nameof(TestCase.IV),
+                nameof(TestCase.Key),
             };
 
             if (includeProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
@@ -49,7 +56,7 @@ namespace NIST.CVP.Generation.AES_CFB8.ContractResolvers
                     {
                         GetTestCaseFromTestCaseObject(instance, out var testGroup, out var testCase);
 
-                        if (testGroup.Function.Equals("decrypt", StringComparison.OrdinalIgnoreCase))
+                        if (testGroup.Function.Equals("encrypt", StringComparison.OrdinalIgnoreCase))
                         {
                             return true;
                         }
@@ -65,7 +72,7 @@ namespace NIST.CVP.Generation.AES_CFB8.ContractResolvers
                     {
                         GetTestCaseFromTestCaseObject(instance, out var testGroup, out var testCase);
 
-                        if (testGroup.Function.Equals("encrypt", StringComparison.OrdinalIgnoreCase))
+                        if (testGroup.Function.Equals("decrypt", StringComparison.OrdinalIgnoreCase))
                         {
                             return true;
                         }

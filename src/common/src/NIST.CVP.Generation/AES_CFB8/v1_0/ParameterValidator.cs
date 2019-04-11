@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using NIST.CVP.Generation.Core;
 
-namespace NIST.CVP.Generation.AES_CFB8
+namespace NIST.CVP.Generation.AES_CFB8.v1_0
 {
     
 

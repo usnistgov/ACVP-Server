@@ -6,13 +6,13 @@ using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Async;
 using NIST.CVP.Generation.Core.Enums;
 
-namespace NIST.CVP.Generation.AES_CFB8
+namespace NIST.CVP.Generation.AES_CFB8.v1_0
 {
-    public class TestCaseValidatorMCTEncrypt : ITestCaseValidatorAsync<TestGroup, TestCase>
+    public class TestCaseValidatorMCTDecrypt : ITestCaseValidatorAsync<TestGroup, TestCase>
     {
         private readonly TestCase _expectedResult;
 
-        public TestCaseValidatorMCTEncrypt(TestCase expectedResult)
+        public TestCaseValidatorMCTDecrypt(TestCase expectedResult)
         {
             _expectedResult = expectedResult;
         }

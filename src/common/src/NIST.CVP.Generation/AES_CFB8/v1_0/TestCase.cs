@@ -1,13 +1,10 @@
 ﻿using System.Collections.Generic;
-using System.Dynamic;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using NIST.CVP.Crypto.Common.Symmetric;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.Core.ExtensionMethods;
 using NIST.CVP.Math;
 
-namespace NIST.CVP.Generation.AES_CFB8
+namespace NIST.CVP.Generation.AES_CFB8.v1_0
 {
     public class TestCase : ITestCase<TestGroup, TestCase>
     {

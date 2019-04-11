@@ -2,6 +2,7 @@
 using System.Linq;
 using Autofac;
 using NIST.CVP.Common;
+using NIST.CVP.Generation.AES_CFB8.v1_0;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Math;
