@@ -6,7 +6,7 @@ using NIST.CVP.Crypto.Common.Symmetric;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Parsers;
 
-namespace NIST.CVP.Generation.AES_CFB128.Parsers
+namespace NIST.CVP.Generation.AES_CFB128.v1_0.Parsers
 {
     public class LegacyResponseFileParser : ILegacyResponseFileParser<TestVectorSet, TestGroup, TestCase>
     {

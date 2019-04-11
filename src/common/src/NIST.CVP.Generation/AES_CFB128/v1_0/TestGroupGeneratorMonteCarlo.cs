@@ -2,7 +2,7 @@
 using NIST.CVP.Common.Helpers;
 using NIST.CVP.Generation.Core;
 
-namespace NIST.CVP.Generation.AES_CFB128
+namespace NIST.CVP.Generation.AES_CFB128.v1_0
 {
     public class TestGroupGeneratorMonteCarlo : ITestGroupGenerator<Parameters, TestGroup, TestCase>
     {
