@@ -4,7 +4,6 @@ using Microsoft.Extensions.Options;
 using NIST.CVP.Common;
 using NIST.CVP.Common.Config;
 using NIST.CVP.Common.Helpers;
-using NIST.CVP.Crypto.SHA3;
 using NIST.CVP.Generation.Core.Helpers;
 using NLog;
 using System;
@@ -215,6 +214,12 @@ namespace NIST.CVP.Generation.GenValApp.Helpers
                     break;
                 case AlgoMode.TDES_KW_v1_0:
                     genVals = new KeyWrap.v1_0.TDES.RegisterInjections();
+                    break;
+                case AlgoMode.KMAC_v1_0:
+                    genVals = new KMAC.v1_0.RegisterInjections();
+                    break;
+                case AlgoMode.ParallelHash_v1_0:
+                    genVals = new ParallelHash.v1_0.RegisterInjections();
                     break;
                 // ^^^ -- Russ Algos -- ^^^
 

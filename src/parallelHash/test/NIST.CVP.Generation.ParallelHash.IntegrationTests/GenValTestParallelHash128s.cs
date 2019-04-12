@@ -7,6 +7,7 @@ using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using System.Collections.Generic;
+using NIST.CVP.Generation.ParallelHash.v1_0;
 
 namespace NIST.CVP.Generation.ParallelHash.IntegrationTests
 {

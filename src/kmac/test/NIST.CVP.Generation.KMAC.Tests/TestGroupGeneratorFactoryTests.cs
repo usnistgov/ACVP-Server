@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using NIST.CVP.Generation.KMAC.v1_0;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.KMAC.Tests
