@@ -10,7 +10,7 @@ using NIST.CVP.Generation.Core.Async;
 using NIST.CVP.Math.Domain;
 using NLog;
 
-namespace NIST.CVP.Generation.AES_CTR
+namespace NIST.CVP.Generation.AES_CTR.v1_0
 {
     public class TestCaseGeneratorPartialBlock : ITestCaseGeneratorAsync<TestGroup, TestCase>
     {

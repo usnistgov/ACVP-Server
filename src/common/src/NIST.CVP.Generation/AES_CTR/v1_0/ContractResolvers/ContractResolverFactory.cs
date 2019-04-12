@@ -2,7 +2,7 @@
 using NIST.CVP.Generation.Core.ContractResolvers;
 using NIST.CVP.Generation.Core.Enums;
 
-namespace NIST.CVP.Generation.AES_CTR.ContractResolvers
+namespace NIST.CVP.Generation.AES_CTR.v1_0.ContractResolvers
 {
     public class ContractResolverFactory : IContractResolverFactory<TestGroup, TestCase>
     {

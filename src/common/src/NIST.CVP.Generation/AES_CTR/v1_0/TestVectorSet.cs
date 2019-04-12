@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Dynamic;
-using System.Linq;
-using Newtonsoft.Json;
+﻿using System.Collections.Generic;
 using NIST.CVP.Generation.Core;
 
-namespace NIST.CVP.Generation.AES_CTR
+namespace NIST.CVP.Generation.AES_CTR.v1_0
 {
     public class TestVectorSet : ITestVectorSet<TestGroup, TestCase>
     {

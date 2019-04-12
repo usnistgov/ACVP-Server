@@ -1,9 +1,9 @@
-﻿using Newtonsoft.Json.Serialization;
-using NIST.CVP.Generation.Core.ContractResolvers;
-using System;
+﻿using System;
 using System.Linq;
+using Newtonsoft.Json.Serialization;
+using NIST.CVP.Generation.Core.ContractResolvers;
 
-namespace NIST.CVP.Generation.AES_CTR.ContractResolvers
+namespace NIST.CVP.Generation.AES_CTR.v1_0.ContractResolvers
 {
     public class PromptProjectionContractResolver : ProjectionContractResolverBase<TestGroup, TestCase>
     {

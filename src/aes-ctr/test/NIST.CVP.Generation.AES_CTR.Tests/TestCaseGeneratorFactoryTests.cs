@@ -4,6 +4,7 @@ using System.Text;
 using Moq;
 using NIST.CVP.Crypto.Common.Symmetric.Engines;
 using NIST.CVP.Crypto.Common.Symmetric.Enums;
+using NIST.CVP.Generation.AES_CTR.v1_0;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 

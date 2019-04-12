@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using NIST.CVP.Generation.Core;
+﻿using NIST.CVP.Generation.Core;
 using NIST.CVP.Math.Domain;
 
-namespace NIST.CVP.Generation.AES_CTR
+namespace NIST.CVP.Generation.AES_CTR.v1_0
 {
     public class Parameters : IParameters
     {

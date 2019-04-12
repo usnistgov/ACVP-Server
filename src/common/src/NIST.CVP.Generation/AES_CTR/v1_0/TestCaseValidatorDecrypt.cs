@@ -4,7 +4,7 @@ using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Async;
 using NIST.CVP.Generation.Core.Enums;
 
-namespace NIST.CVP.Generation.AES_CTR
+namespace NIST.CVP.Generation.AES_CTR.v1_0
 {
     public class TestCaseValidatorDecrypt : ITestCaseValidatorAsync<TestGroup, TestCase>
     {

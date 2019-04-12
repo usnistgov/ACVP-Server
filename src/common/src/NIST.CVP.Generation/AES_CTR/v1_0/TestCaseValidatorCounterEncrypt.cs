@@ -7,9 +7,9 @@ using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Async;
 using NIST.CVP.Math;
 
-namespace NIST.CVP.Generation.AES_CTR
+namespace NIST.CVP.Generation.AES_CTR.v1_0
 {
-    public class TestCaseValidatorCounterDecrypt : ITestCaseValidatorAsync<TestGroup, TestCase>
+    public class TestCaseValidatorCounterEncrypt : ITestCaseValidatorAsync<TestGroup, TestCase>
     {
         private readonly IDeferredTestCaseResolverAsync<TestGroup, TestCase, SymmetricCounterResult> _deferredTestCaseResolver;
         private readonly TestCase _serverTestCase;
@@ -17,10 +17,11 @@ namespace NIST.CVP.Generation.AES_CTR
         private List<BitString> _ivs = new List<BitString>();
         public int TestCaseId => _serverTestCase.TestCaseId;
 
-        public TestCaseValidatorCounterDecrypt(
+        public TestCaseValidatorCounterEncrypt(
             TestGroup group, 
             TestCase testCase, 
-            IDeferredTestCaseResolverAsync<TestGroup, TestCase, SymmetricCounterResult> resolver)
+            IDeferredTestCaseResolverAsync<TestGroup, TestCase, SymmetricCounterResult> resolver
+        )
         {
             _serverTestCase = testCase;
             _deferredTestCaseResolver = resolver;
@@ -56,9 +57,9 @@ namespace NIST.CVP.Generation.AES_CTR
 
         private void ValidateResultPresent(TestCase suppliedResult, List<string> errors)
         {
-            if (suppliedResult.PlainText == null)
+            if (suppliedResult.CipherText == null)
             {
-                errors.Add($"{nameof(suppliedResult.PlainText)} was not present in the {nameof(TestCase)}");
+                errors.Add($"{nameof(suppliedResult.CipherText)} was not present in the {nameof(TestCase)}");
             }
         }
 
@@ -73,11 +74,11 @@ namespace NIST.CVP.Generation.AES_CTR
             }
 
             // only check first block
-            if (!serverResult.Result.GetMostSignificantBits(128).Equals(suppliedResult.PlainText.GetMostSignificantBits(128)))     // 128 is block size
+            if (!serverResult.Result.GetMostSignificantBits(128).Equals(suppliedResult.CipherText.GetMostSignificantBits(128)))     // 128 is block size
             {
-                errors.Add("Plain Text does not match");
+                errors.Add("Cipher Text does not match");
                 expected.Add(nameof(serverResult.Result), serverResult.Result.ToHex());
-                provided.Add(nameof(suppliedResult.PlainText), suppliedResult.PlainText.ToHex());
+                provided.Add(nameof(suppliedResult.CipherText), suppliedResult.CipherText.ToHex());
             }
 
             _ivs = serverResult.IVs;

@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math.Domain;
 
-namespace NIST.CVP.Generation.AES_CTR
+namespace NIST.CVP.Generation.AES_CTR.v1_0
 {
     public class TestGroup : ITestGroup<TestGroup, TestCase>
     {
