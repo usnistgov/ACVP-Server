@@ -3,13 +3,13 @@ using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
 using NIST.CVP.Crypto.RSA;
 using NIST.CVP.Crypto.RSA.Signatures;
 using NIST.CVP.Crypto.SHAWrapper;
-using NIST.CVP.Generation.RSA_LegacySigVer.Parsers;
-using NIST.CVP.Generation.RSA_SigVer;
 using NIST.CVP.Math.Entropy;
 using NIST.CVP.Tests.Core;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using System.IO;
+using NIST.CVP.Generation.RSA.v1_0.LegancySigVer.Parsers;
+using NIST.CVP.Generation.RSA.v1_0.SigVer;
 
 namespace NIST.CVP.Generation.RSA_LegacySigVer.IntegrationTests
 {

@@ -2,6 +2,7 @@
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys;
 using NIST.CVP.Math;
 using System.Collections.Generic;
+using NIST.CVP.Generation.RSA.v1_0.DpComponent;
 
 namespace NIST.CVP.Generation.RSA_DPComponent.Tests
 {

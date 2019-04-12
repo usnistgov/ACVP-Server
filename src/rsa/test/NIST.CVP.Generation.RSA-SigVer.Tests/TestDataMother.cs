@@ -1,9 +1,10 @@
 ﻿using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
-using NIST.CVP.Generation.RSA_SigVer.TestCaseExpectations;
 using NIST.CVP.Math;
 using System.Collections.Generic;
+using NIST.CVP.Generation.RSA.v1_0.SigVer;
+using NIST.CVP.Generation.RSA.v1_0.SigVer.TestCaseExpectations;
 
 namespace NIST.CVP.Generation.RSA_SigVer.Tests
 {

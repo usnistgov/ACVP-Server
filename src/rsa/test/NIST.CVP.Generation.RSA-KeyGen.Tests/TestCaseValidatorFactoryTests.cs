@@ -3,6 +3,7 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using NIST.CVP.Generation.RSA.v1_0.KeyGen;
 
 namespace NIST.CVP.Generation.RSA_KeyGen.Tests
 {

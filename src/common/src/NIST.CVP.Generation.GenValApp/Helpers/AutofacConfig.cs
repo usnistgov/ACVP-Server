@@ -80,8 +80,6 @@ namespace NIST.CVP.Generation.GenValApp.Helpers
                 case AlgoMode.AES_CFB1_v1_0:
                     genVals = new AES_CFB1.v1_0.RegisterInjections();
                     break;
-                // vvv -- Russ Algos -- vvv
-
                 case AlgoMode.AES_CFB8_v1_0:
                     genVals = new AES_CFB8.v1_0.RegisterInjections();
                     break;
@@ -221,11 +219,24 @@ namespace NIST.CVP.Generation.GenValApp.Helpers
                 case AlgoMode.ParallelHash_v1_0:
                     genVals = new ParallelHash.v1_0.RegisterInjections();
                     break;
-                // ^^^ -- Russ Algos -- ^^^
-
-
-
-                // vvv -- Chris Algos -- vvv
+                case AlgoMode.RSA_DecryptionPrimitive_v1_0:
+                    genVals = new RSA.v1_0.DpComponent.RegisterInjections();
+                    break;
+                case AlgoMode.RSA_KeyGen_v1_0:
+                    genVals = new RSA.v1_0.KeyGen.RegisterInjections();
+                    break;
+                case AlgoMode.RSA_LegacySigVer_v1_0:
+                    genVals = new RSA.v1_0.LegancySigVer.RegisterInjections();
+                    break;
+                case AlgoMode.RSA_SigGen_v1_0:
+                    genVals = new RSA.v1_0.SigGen.RegisterInjections();
+                    break;
+                case AlgoMode.RSA_SigVer_v1_0:
+                    genVals = new RSA.v1_0.SigVer.RegisterInjections();
+                    break;
+                case AlgoMode.RSA_SignaturePrimitive_v1_0:
+                    genVals = new RSA.v1_0.DpComponent.RegisterInjections();
+                    break;
                 case AlgoMode.SHA1_v1_0:
                 case AlgoMode.SHA2_v1_0:
                     genVals = new SHA2.v1_0.RegisterInjections();
@@ -265,7 +276,6 @@ namespace NIST.CVP.Generation.GenValApp.Helpers
                 case AlgoMode.TupleHash_v1_0:
                     genVals = new TupleHash.v1_0.RegisterInjections();
                     break;
-                // ^^^ -- Chris Algos -- ^^^
 
                 default:
                     LogManager.GetCurrentClassLogger().Warn($"{nameof(algoMode)} ({algoMode}) cannot be attributed to the Single GenVals assembly, falling back to runtime loading.");
