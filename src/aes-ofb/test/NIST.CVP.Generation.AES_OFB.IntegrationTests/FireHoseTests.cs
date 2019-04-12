@@ -5,7 +5,7 @@ using NIST.CVP.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.Crypto.Symmetric.BlockModes;
 using NIST.CVP.Crypto.Symmetric.Engines;
 using NIST.CVP.Crypto.Symmetric.MonteCarlo;
-using NIST.CVP.Generation.AES_OFB.Parsers;
+using NIST.CVP.Generation.AES_OFB.v1_0.Parsers;
 using NIST.CVP.Tests.Core;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;

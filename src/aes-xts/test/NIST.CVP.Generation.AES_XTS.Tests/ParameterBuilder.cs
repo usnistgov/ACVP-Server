@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using NIST.CVP.Math.Domain;
 using NIST.CVP.Generation.AES_XTS;
+using NIST.CVP.Generation.AES_XTS.v1_0;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.AES_XTS.Tests

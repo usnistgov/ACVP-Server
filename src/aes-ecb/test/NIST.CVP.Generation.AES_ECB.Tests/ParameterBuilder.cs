@@ -1,4 +1,6 @@
-﻿namespace NIST.CVP.Generation.AES_ECB.Tests
+﻿using NIST.CVP.Generation.AES_ECB.v1_0;
+
+namespace NIST.CVP.Generation.AES_ECB.Tests
 {
     public class ParameterBuilder
     {

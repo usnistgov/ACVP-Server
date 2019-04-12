@@ -92,6 +92,24 @@ namespace NIST.CVP.Generation.GenValApp.Helpers
                 case AlgoMode.AES_CTR_v1_0:
                     genVals = new AES_CTR.v1_0.RegisterInjections();
                     break;
+                case AlgoMode.AES_ECB_v1_0:
+                    genVals = new AES_ECB.v1_0.RegisterInjections();
+                    break;
+                case AlgoMode.AES_GCM_v1_0:
+                    genVals = new AES_GCM.v1_0.RegisterInjections();
+                    break;
+                case AlgoMode.AES_GCM_SIV_v1_0:
+                    genVals = new AES_GCM_SIV.v1_0.RegisterInjections();
+                    break;
+                case AlgoMode.AES_OFB_v1_0:
+                    genVals = new AES_OFB.v1_0.RegisterInjections();
+                    break;
+                case AlgoMode.AES_XPN_v1_0:
+                    genVals = new AES_XPN.v1_0.RegisterInjections();
+                    break;
+                case AlgoMode.AES_XTS_v1_0:
+                    genVals = new AES_XTS.v1_0.RegisterInjections();
+                    break;
 
                 // ^^^ -- Russ Algos -- ^^^
 

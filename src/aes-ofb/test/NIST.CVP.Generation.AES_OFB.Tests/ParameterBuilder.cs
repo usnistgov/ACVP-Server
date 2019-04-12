@@ -1,4 +1,6 @@
-﻿namespace NIST.CVP.Generation.AES_OFB.Tests
+﻿using NIST.CVP.Generation.AES_OFB.v1_0;
+
+namespace NIST.CVP.Generation.AES_OFB.Tests
 {
     public class ParameterBuilder
     {

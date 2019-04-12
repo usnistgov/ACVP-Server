@@ -48,7 +48,7 @@ namespace NIST.CVP.Generation.SHA2.v1_0.Parsers
                 int currentLength = 0;
 
                 bool bitOriented = false;
-                bool includeNull = true;
+                //bool includeNull = true;
                 ModeValues mode = ModeValues.SHA1;
                 DigestSizes digestSize = DigestSizes.d160;
                 string testType = "";

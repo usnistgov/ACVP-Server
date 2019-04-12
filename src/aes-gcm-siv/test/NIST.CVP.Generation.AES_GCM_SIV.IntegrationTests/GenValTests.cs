@@ -2,6 +2,7 @@
 using NUnit.Framework;
 using System.Linq;
 using NIST.CVP.Common;
+using NIST.CVP.Generation.AES_GCM_SIV.v1_0;
 using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NIST.CVP.Math.Domain;

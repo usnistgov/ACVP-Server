@@ -7,6 +7,7 @@ using NIST.CVP.Generation.Core.Tests.Fakes;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NIST.CVP.Math.Domain;
 using NIST.CVP.Crypto.Common;
+using NIST.CVP.Generation.AES_GCM.v1_0;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
