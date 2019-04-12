@@ -3,6 +3,7 @@ using NIST.CVP.Crypto.Common.Asymmetric.DSA.Ed;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.Ed.Enums;
 using NIST.CVP.Math;
 using System.Collections.Generic;
+using NIST.CVP.Generation.EDDSA.v1_0.SigVer;
 
 namespace NIST.CVP.Generation.DSA.Ed.SigVer.Tests
 {

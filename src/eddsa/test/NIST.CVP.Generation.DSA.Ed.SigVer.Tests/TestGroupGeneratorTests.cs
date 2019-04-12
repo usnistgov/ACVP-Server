@@ -8,6 +8,7 @@ using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using System.Linq;
 using System.Threading.Tasks;
+using NIST.CVP.Generation.EDDSA.v1_0.SigVer;
 
 namespace NIST.CVP.Generation.DSA.Ed.SigVer.Tests
 {

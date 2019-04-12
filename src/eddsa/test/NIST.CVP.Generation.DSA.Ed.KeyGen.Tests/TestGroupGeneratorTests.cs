@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using NIST.CVP.Generation.EDDSA.v1_0.KeyGen;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 

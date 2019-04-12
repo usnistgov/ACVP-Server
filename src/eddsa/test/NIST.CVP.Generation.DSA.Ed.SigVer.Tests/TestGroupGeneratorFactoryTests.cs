@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using NIST.CVP.Generation.EDDSA.v1_0.SigVer;
 
 namespace NIST.CVP.Generation.DSA.Ed.SigVer.Tests
 {
