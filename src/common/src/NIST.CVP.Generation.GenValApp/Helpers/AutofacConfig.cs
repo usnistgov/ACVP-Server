@@ -180,7 +180,33 @@ namespace NIST.CVP.Generation.GenValApp.Helpers
                 case AlgoMode.KAS_FFC_v1_0:
                     genVals = new KAS.v1_0.FFC.RegisterInjections();
                     break;
-
+                case AlgoMode.KDF_v1_0:
+                    genVals = new KDF.v1_0.RegisterInjections();
+                    break;
+                case AlgoMode.KDFComponents_ANSIX963_v1_0:
+                    genVals = new KDF_Components.v1_0.ANXIX963.RegisterInjections();
+                    break;
+                case AlgoMode.KDFComponents_IKEv1_v1_0:
+                    genVals = new KDF_Components.v1_0.IKEv1.RegisterInjections();
+                    break;
+                case AlgoMode.KDFComponents_IKEv2_v1_0:
+                    genVals = new KDF_Components.v1_0.IKEv2.RegisterInjections();
+                    break;
+                case AlgoMode.KDFComponents_SNMP_v1_0:
+                    genVals = new KDF_Components.v1_0.SNMP.RegisterInjections();
+                    break;
+                case AlgoMode.KDFComponents_SRTP_v1_0:
+                    genVals = new KDF_Components.v1_0.SRTP.RegisterInjections();
+                    break;
+                case AlgoMode.KDFComponents_SSH_v1_0:
+                    genVals = new KDF_Components.v1_0.SSH.RegisterInjections();
+                    break;
+                case AlgoMode.KDFComponents_TLS_v1_0:
+                    genVals = new KDF_Components.v1_0.TLS.RegisterInjections();
+                    break;
+                case AlgoMode.KDFComponents_TPM_v1_0:
+                    genVals = new KDF_Components.v1_0.TPMv1_2.RegisterInjections();
+                    break;
                 // ^^^ -- Russ Algos -- ^^^
 
 

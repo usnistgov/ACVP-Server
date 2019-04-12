@@ -7,6 +7,7 @@ using NUnit.Framework;
 using NIST.CVP.Common;
 using NIST.CVP.Crypto.Common;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.KDF_Components.v1_0.SRTP;
 
 namespace NIST.CVP.Generation.SRTP.IntegrationTests
 {

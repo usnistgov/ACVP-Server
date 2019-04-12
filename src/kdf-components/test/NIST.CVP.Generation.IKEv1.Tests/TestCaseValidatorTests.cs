@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Moq;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.KDF_Components.v1_0.IKEv1;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;

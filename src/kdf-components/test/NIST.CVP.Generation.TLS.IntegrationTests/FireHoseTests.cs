@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
 using System.IO;
 using NIST.CVP.Crypto.TLS;
-using NIST.CVP.Generation.TLS.Parsers;
+using NIST.CVP.Generation.KDF_Components.v1_0.TLS.Parsers;
 using NIST.CVP.Tests.Core;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 

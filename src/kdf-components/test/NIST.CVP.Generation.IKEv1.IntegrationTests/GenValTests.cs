@@ -1,5 +1,6 @@
 ﻿using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Common;
+using NIST.CVP.Generation.KDF_Components.v1_0.IKEv1;
 using NUnit.Framework;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NIST.CVP.Math;
