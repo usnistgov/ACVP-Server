@@ -134,6 +134,18 @@ namespace NIST.CVP.Generation.GenValApp.Helpers
                 case AlgoMode.DSA_SigVer_v1_0:
                     genVals = new DSA.v1_0.SigVer.RegisterInjections();
                     break;
+                case AlgoMode.ECDSA_KeyGen_v1_0:
+                    genVals = new ECDSA.v1_0.KeyGen.RegisterInjections();
+                    break;
+                case AlgoMode.ECDSA_KeyVer_v1_0:
+                    genVals = new ECDSA.v1_0.KeyVer.RegisterInjections();
+                    break;
+                case AlgoMode.ECDSA_SigGen_v1_0:
+                    genVals = new ECDSA.v1_0.SigGen.RegisterInjections();
+                    break;
+                case AlgoMode.ECDSA_SigVer_v1_0:
+                    genVals = new ECDSA.v1_0.SigVer.RegisterInjections();
+                    break;
 
                 // ^^^ -- Russ Algos -- ^^^
 

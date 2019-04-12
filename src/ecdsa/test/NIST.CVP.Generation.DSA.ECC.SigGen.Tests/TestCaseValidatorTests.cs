@@ -7,6 +7,7 @@ using NIST.CVP.Crypto.DSA.ECC;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Async;
 using NIST.CVP.Generation.Core.Enums;
+using NIST.CVP.Generation.ECDSA.v1_0.SigGen;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
