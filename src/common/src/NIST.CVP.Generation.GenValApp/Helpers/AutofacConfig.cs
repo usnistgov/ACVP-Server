@@ -110,6 +110,30 @@ namespace NIST.CVP.Generation.GenValApp.Helpers
                 case AlgoMode.AES_XTS_v1_0:
                     genVals = new AES_XTS.v1_0.RegisterInjections();
                     break;
+                case AlgoMode.CMAC_AES_v1_0:
+                case AlgoMode.CMAC_TDES_v1_0:
+                    genVals = new CMAC.v1_0.RegisterInjections();
+                    break;
+                case AlgoMode.DRBG_CTR_v1_0:
+                case AlgoMode.DRBG_Hash_v1_0:
+                case AlgoMode.DRBG_HMAC_v1_0:
+                    genVals = new CMAC.v1_0.RegisterInjections();
+                    break;
+                case AlgoMode.DSA_KeyGen_v1_0:
+                    genVals = new DSA.v1_0.KeyGen.RegisterInjections();
+                    break;
+                case AlgoMode.DSA_PQGGen_v1_0:
+                    genVals = new DSA.v1_0.PqgGen.RegisterInjections();
+                    break;
+                case AlgoMode.DSA_PQGVer_v1_0:
+                    genVals = new DSA.v1_0.PqgVer.RegisterInjections();
+                    break;
+                case AlgoMode.DSA_SigGen_v1_0:
+                    genVals = new DSA.v1_0.SigGen.RegisterInjections();
+                    break;
+                case AlgoMode.DSA_SigVer_v1_0:
+                    genVals = new DSA.v1_0.SigVer.RegisterInjections();
+                    break;
 
                 // ^^^ -- Russ Algos -- ^^^
 

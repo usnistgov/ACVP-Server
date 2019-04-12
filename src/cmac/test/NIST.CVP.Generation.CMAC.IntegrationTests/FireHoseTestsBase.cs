@@ -1,7 +1,7 @@
 ﻿using NIST.CVP.Crypto.CMAC;
 using NIST.CVP.Crypto.Symmetric.BlockModes;
 using NIST.CVP.Crypto.Symmetric.Engines;
-using NIST.CVP.Generation.CMAC.Parsers;
+using NIST.CVP.Generation.CMAC.v1_0.Parsers;
 using NIST.CVP.Tests.Core;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;

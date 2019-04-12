@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Math.Domain;
+﻿using NIST.CVP.Generation.CMAC.v1_0;
+using NIST.CVP.Math.Domain;
 
 namespace NIST.CVP.Generation.CMAC.Tests
 {

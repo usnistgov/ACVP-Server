@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using NIST.CVP.Crypto.Common.Hash;
+using NIST.CVP.Generation.CSHAKE.v1_0;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Domain;
 

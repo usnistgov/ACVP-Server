@@ -1,9 +1,10 @@
 ﻿using NIST.CVP.Common.Oracle.DispositionTypes;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
-using NIST.CVP.Generation.DSA.FFC.SigVer.TestCaseExpectations;
 using NIST.CVP.Math;
 using System.Collections.Generic;
+using NIST.CVP.Generation.DSA.v1_0.SigVer;
+using NIST.CVP.Generation.DSA.v1_0.SigVer.TestCaseExpectations;
 
 namespace NIST.CVP.Generation.DSA.FFC.SigVer.Tests
 {

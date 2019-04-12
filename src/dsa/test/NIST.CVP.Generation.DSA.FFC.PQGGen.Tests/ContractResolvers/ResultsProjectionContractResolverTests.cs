@@ -3,7 +3,8 @@ using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC.Enums;
 using NIST.CVP.Generation.Core.DeSerialization;
 using NIST.CVP.Generation.Core.Enums;
 using NIST.CVP.Generation.Core.JsonConverters;
-using NIST.CVP.Generation.DSA.FFC.PQGGen.ContractResolvers;
+using NIST.CVP.Generation.DSA.v1_0.PqgGen;
+using NIST.CVP.Generation.DSA.v1_0.PqgGen.ContractResolvers;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 

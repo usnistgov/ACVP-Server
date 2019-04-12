@@ -3,6 +3,7 @@ using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC.Enums;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Math;
 using System.Collections.Generic;
+using NIST.CVP.Generation.DSA.v1_0.PqgVer;
 
 namespace NIST.CVP.Generation.DSA.FFC.PQGVer.Tests
 {
