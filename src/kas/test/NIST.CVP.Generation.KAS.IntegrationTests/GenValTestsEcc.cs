@@ -7,7 +7,8 @@ using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Generation.Core.Tests.Fakes;
 using NIST.CVP.Crypto.Common;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.KAS.ECC;
+using NIST.CVP.Generation.KAS.v1_0;
+using NIST.CVP.Generation.KAS.v1_0.ECC;
 using NIST.CVP.Math.Domain;
 
 namespace NIST.CVP.Generation.KAS.IntegrationTests

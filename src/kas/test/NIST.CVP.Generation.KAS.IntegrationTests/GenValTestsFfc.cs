@@ -5,9 +5,10 @@ using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Generation.Core.Tests.Fakes;
-using NIST.CVP.Generation.KAS.FFC;
 using NIST.CVP.Crypto.Common;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.KAS.v1_0;
+using NIST.CVP.Generation.KAS.v1_0.FFC;
 using NIST.CVP.Math.Domain;
 
 namespace NIST.CVP.Generation.KAS.IntegrationTests
@@ -21,7 +22,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
         public override AlgoMode AlgoMode => AlgoMode.KAS_FFC_v1_0;
 
         public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
-        public override IRegisterInjections RegistrationsGenVal => new RegisterInjectables();
+        public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {

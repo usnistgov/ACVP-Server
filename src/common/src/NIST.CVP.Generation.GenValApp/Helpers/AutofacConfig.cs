@@ -158,6 +158,28 @@ namespace NIST.CVP.Generation.GenValApp.Helpers
                 case AlgoMode.EDDSA_SigVer_v1_0:
                     genVals = new EDDSA.v1_0.SigVer.RegisterInjections();
                     break;
+                case AlgoMode.HMAC_SHA1_v1_0:
+                case AlgoMode.HMAC_SHA2_224_v1_0:
+                case AlgoMode.HMAC_SHA2_256_v1_0:
+                case AlgoMode.HMAC_SHA2_384_v1_0:
+                case AlgoMode.HMAC_SHA2_512_v1_0:
+                case AlgoMode.HMAC_SHA2_512_224_v1_0:
+                case AlgoMode.HMAC_SHA2_512_256_v1_0:
+                case AlgoMode.HMAC_SHA3_224_v1_0:
+                case AlgoMode.HMAC_SHA3_256_v1_0:
+                case AlgoMode.HMAC_SHA3_384_v1_0:
+                case AlgoMode.HMAC_SHA3_512_v1_0:
+                    genVals = new HMAC.v1_0.RegisterInjections();
+                    break;
+                case AlgoMode.KAS_ECC_v1_0:
+                    genVals = new KAS.v1_0.ECC.RegisterInjections();
+                    break;
+                case AlgoMode.KAS_EccComponent_v1_0:
+                    genVals = new KAS.v1_0.ECC_Component.RegisterInjections();
+                    break;
+                case AlgoMode.KAS_FFC_v1_0:
+                    genVals = new KAS.v1_0.FFC.RegisterInjections();
+                    break;
 
                 // ^^^ -- Russ Algos -- ^^^
 

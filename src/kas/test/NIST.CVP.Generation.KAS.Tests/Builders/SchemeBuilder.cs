@@ -1,4 +1,5 @@
 ﻿using System;
+using NIST.CVP.Generation.KAS.v1_0;
 
 namespace NIST.CVP.Generation.KAS.Tests.Builders
 {

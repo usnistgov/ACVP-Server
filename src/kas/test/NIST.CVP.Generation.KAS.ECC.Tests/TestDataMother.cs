@@ -3,6 +3,7 @@ using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC.Enums;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.KAS.v1_0.ECC;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.KAS.ECC.Tests
