@@ -1,5 +1,4 @@
 ﻿using Autofac;
-using NIST.CVP.Generation.KeyWrap.TDES;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
@@ -9,6 +8,7 @@ using NIST.CVP.Generation.Core.Tests.Fakes;
 using NIST.CVP.Crypto.Common;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Common;
+using NIST.CVP.Generation.KeyWrap.v1_0.TDES;
 
 namespace NIST.CVP.Generation.KeyWrap.IntegrationTests
 {

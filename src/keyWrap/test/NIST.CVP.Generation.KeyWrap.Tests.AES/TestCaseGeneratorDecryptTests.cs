@@ -5,11 +5,12 @@ using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.KeyWrap.v1_0;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
-using TestCase = NIST.CVP.Generation.KeyWrap.AES.TestCase;
-using TestGroup = NIST.CVP.Generation.KeyWrap.AES.TestGroup;
+using TestCase = NIST.CVP.Generation.KeyWrap.v1_0.AES.TestCase;
+using TestGroup = NIST.CVP.Generation.KeyWrap.v1_0.AES.TestGroup;
 
 namespace NIST.CVP.Generation.KeyWrap.Tests.AES
 {

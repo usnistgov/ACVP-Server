@@ -1,8 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using NIST.CVP.Generation.KeyWrap.TDES;
-using NIST.CVP.Generation.KeyWrap.Parsers;
+using NIST.CVP.Generation.KeyWrap.v1_0.Parsers;
+using NIST.CVP.Generation.KeyWrap.v1_0.TDES;
 using NIST.CVP.Tests.Core;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;

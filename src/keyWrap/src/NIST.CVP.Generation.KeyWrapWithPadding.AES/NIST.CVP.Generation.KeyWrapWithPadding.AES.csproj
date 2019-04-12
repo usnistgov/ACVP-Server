@@ -11,7 +11,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\crypto\src\NIST.CVP.Crypto.Common\NIST.CVP.Crypto.Common.csproj" />
-    <ProjectReference Include="..\NIST.CVP.Generation.KeyWrap.AES\NIST.CVP.Generation.KeyWrap.AES.csproj" />
     <ProjectReference Include="..\NIST.CVP.Generation.KeyWrap\NIST.CVP.Generation.KeyWrap.csproj" />
   </ItemGroup>
 

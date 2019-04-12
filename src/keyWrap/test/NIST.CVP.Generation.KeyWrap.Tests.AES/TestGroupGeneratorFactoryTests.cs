@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using NIST.CVP.Generation.KeyWrap.AES;
+using NIST.CVP.Generation.KeyWrap.v1_0.AES;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.KeyWrap.Tests.AES

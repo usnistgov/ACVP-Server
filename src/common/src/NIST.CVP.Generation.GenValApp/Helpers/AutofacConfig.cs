@@ -207,6 +207,15 @@ namespace NIST.CVP.Generation.GenValApp.Helpers
                 case AlgoMode.KDFComponents_TPM_v1_0:
                     genVals = new KDF_Components.v1_0.TPMv1_2.RegisterInjections();
                     break;
+                case AlgoMode.AES_KW_v1_0:
+                    genVals = new KeyWrap.v1_0.AES.RegisterInjections();
+                    break;
+                case AlgoMode.AES_KWP_v1_0:
+                    genVals = new KeyWrap.v1_0.AESP.RegisterInjections();
+                    break;
+                case AlgoMode.TDES_KW_v1_0:
+                    genVals = new KeyWrap.v1_0.TDES.RegisterInjections();
+                    break;
                 // ^^^ -- Russ Algos -- ^^^
 
 

@@ -1,5 +1,5 @@
 ﻿using NIST.CVP.Crypto.Common.Symmetric.KeyWrap.Enums;
-using NIST.CVP.Generation.KeyWrap.AES;
+using NIST.CVP.Generation.KeyWrap.v1_0.AES;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Domain;
 
@@ -35,9 +35,9 @@ namespace NIST.CVP.Generation.KeyWrap.Tests.AES
             }
             else if (keyWrapType == KeyWrapType.AES_KWP)
             {
-                _keyLen = KeyWrapWithPadding.AES.ParameterValidator.VALID_KEY_SIZES;
-                _direction = KeyWrapWithPadding.AES.ParameterValidator.VALID_DIRECTIONS;
-                _kwCipher = KeyWrapWithPadding.AES.ParameterValidator.VALID_KWCIPHER;
+                _keyLen = v1_0.AESP.ParameterValidator.VALID_KEY_SIZES;
+                _direction = v1_0.AESP.ParameterValidator.VALID_DIRECTIONS;
+                _kwCipher = v1_0.AESP.ParameterValidator.VALID_KWCIPHER;
             }
 
 
@@ -120,9 +120,9 @@ namespace NIST.CVP.Generation.KeyWrap.Tests.AES
                         .AddSegment(
                             new RangeDomainSegment(
                                 new Random800_90(), 
-                                KeyWrapWithPadding.AES.ParameterValidator.MINIMUM_PT_LEN,
-                                KeyWrapWithPadding.AES.ParameterValidator.MAXIMUM_PT_LEN,
-                                KeyWrapWithPadding.AES.ParameterValidator.PT_MODULUS
+                                v1_0.AESP.ParameterValidator.MINIMUM_PT_LEN,
+                                v1_0.AESP.ParameterValidator.MAXIMUM_PT_LEN,
+                                v1_0.AESP.ParameterValidator.PT_MODULUS
                             )
                         );
                     break;

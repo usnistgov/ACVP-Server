@@ -5,10 +5,10 @@ using NIST.CVP.Math;
 using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
-using NIST.CVP.Generation.KeyWrap.AES;
 using NIST.CVP.Common;
 using NIST.CVP.Crypto.Common;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.KeyWrap.v1_0.AES;
 
 namespace NIST.CVP.Generation.KeyWrap.IntegrationTests
 {

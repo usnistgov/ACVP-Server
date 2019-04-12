@@ -2,10 +2,11 @@
 using NIST.CVP.Crypto.KeyWrap;
 using NUnit.Framework;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.KeyWrap.v1_0;
+using NIST.CVP.Generation.KeyWrap.v1_0.Parsers;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
-using NIST.CVP.Generation.KeyWrap.Parsers;
 
 namespace NIST.CVP.Generation.KeyWrap.IntegrationTests
 {
