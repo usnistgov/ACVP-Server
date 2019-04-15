@@ -1,5 +1,6 @@
 ﻿using System;
 using NIST.CVP.Common;
+using NIST.CVP.Generation.Core.Exceptions;
 using NIST.CVP.Generation.Core.Helpers;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -39,7 +40,7 @@ namespace NIST.CVP.Generation.Core.Tests.Helpers
         [Test]
         public void ShouldThrowWhenAlgoModeCombinationInvalid()
         {
-            Assert.Throws(typeof(InvalidOperationException),
+            Assert.Throws(typeof(AlgoModeRevisionException),
                 () => AlgoModeLookupHelper.GetAlgoModeFromStrings("AES", "Invalid", ""));
         }
     }

@@ -2,11 +2,16 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using NIST.CVP.Common;
-using NIST.CVP.Common.Config;
 using NIST.CVP.Common.Helpers;
 using NIST.CVP.Generation.Core.Helpers;
 using NLog;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using NIST.CVP.Common.ExtensionMethods;
+using NIST.CVP.Common.Interfaces;
+using Orleans;
 
 
 namespace NIST.CVP.Generation.GenValApp.Helpers
@@ -51,224 +56,34 @@ namespace NIST.CVP.Generation.GenValApp.Helpers
         /// <returns></returns>
         private static void RegisterGenVals(ContainerBuilder builder, AlgoMode algoMode)
         {
-            IRegisterInjections genVals = null;
+            var genVals = GetAlgoModeRevisionInjectables(algoMode);
+            genVals.RegisterTypes(builder, algoMode);
+        }
 
-            // TODO fix this up so that we can hopefully set a IRegisterInjections to the AlgoMode definition itself, to avoid having to change this code whenever a new algorithm is added.
-            switch (algoMode)
+        public static ISupportedAlgoModeRevisions GetAlgoModeRevisionInjectables(AlgoMode algoMode)
+        {
+            var candidateAlgoModeRevisions = GetSupportedAlgoModeRevisions();
+
+            return candidateAlgoModeRevisions.FirstOrDefault(w => w.SupportedAlgoModeRevisions.Contains(algoMode));
+        }
+
+        public static List<ISupportedAlgoModeRevisions> GetSupportedAlgoModeRevisions()
+        {
+            var types = new List<ISupportedAlgoModeRevisions>();
+
+            AppDomain app = AppDomain.CurrentDomain;
+            Assembly[] assembly = app.GetAssemblies();
+            var targetType = typeof(ISupportedAlgoModeRevisions);
+
+            foreach (var a in assembly)
             {
-                case AlgoMode.AES_CBC_v1_0:
-                    genVals = new AES_CBC.v1_0.RegisterInjections();
-                    break;
-                case AlgoMode.AES_CCM_v1_0:
-                    genVals = new AES_CCM.v1_0.RegisterInjections();
-                    break;
-                case AlgoMode.AES_CFB1_v1_0:
-                    genVals = new AES_CFB1.v1_0.RegisterInjections();
-                    break;
-                case AlgoMode.AES_CFB8_v1_0:
-                    genVals = new AES_CFB8.v1_0.RegisterInjections();
-                    break;
-                case AlgoMode.AES_CFB128_v1_0:
-                    genVals = new AES_CFB128.v1_0.RegisterInjections();
-                    break;
-                case AlgoMode.AES_CTR_v1_0:
-                    genVals = new AES_CTR.v1_0.RegisterInjections();
-                    break;
-                case AlgoMode.AES_ECB_v1_0:
-                    genVals = new AES_ECB.v1_0.RegisterInjections();
-                    break;
-                case AlgoMode.AES_GCM_v1_0:
-                    genVals = new AES_GCM.v1_0.RegisterInjections();
-                    break;
-                case AlgoMode.AES_GCM_SIV_v1_0:
-                    genVals = new AES_GCM_SIV.v1_0.RegisterInjections();
-                    break;
-                case AlgoMode.AES_OFB_v1_0:
-                    genVals = new AES_OFB.v1_0.RegisterInjections();
-                    break;
-                case AlgoMode.AES_XPN_v1_0:
-                    genVals = new AES_XPN.v1_0.RegisterInjections();
-                    break;
-                case AlgoMode.AES_XTS_v1_0:
-                    genVals = new AES_XTS.v1_0.RegisterInjections();
-                    break;
-                case AlgoMode.CMAC_AES_v1_0:
-                case AlgoMode.CMAC_TDES_v1_0:
-                    genVals = new CMAC.v1_0.RegisterInjections();
-                    break;
-                case AlgoMode.DRBG_CTR_v1_0:
-                case AlgoMode.DRBG_Hash_v1_0:
-                case AlgoMode.DRBG_HMAC_v1_0:
-                    genVals = new CMAC.v1_0.RegisterInjections();
-                    break;
-                case AlgoMode.DSA_KeyGen_v1_0:
-                    genVals = new DSA.v1_0.KeyGen.RegisterInjections();
-                    break;
-                case AlgoMode.DSA_PQGGen_v1_0:
-                    genVals = new DSA.v1_0.PqgGen.RegisterInjections();
-                    break;
-                case AlgoMode.DSA_PQGVer_v1_0:
-                    genVals = new DSA.v1_0.PqgVer.RegisterInjections();
-                    break;
-                case AlgoMode.DSA_SigGen_v1_0:
-                    genVals = new DSA.v1_0.SigGen.RegisterInjections();
-                    break;
-                case AlgoMode.DSA_SigVer_v1_0:
-                    genVals = new DSA.v1_0.SigVer.RegisterInjections();
-                    break;
-                case AlgoMode.ECDSA_KeyGen_v1_0:
-                    genVals = new ECDSA.v1_0.KeyGen.RegisterInjections();
-                    break;
-                case AlgoMode.ECDSA_KeyVer_v1_0:
-                    genVals = new ECDSA.v1_0.KeyVer.RegisterInjections();
-                    break;
-                case AlgoMode.ECDSA_SigGen_v1_0:
-                    genVals = new ECDSA.v1_0.SigGen.RegisterInjections();
-                    break;
-                case AlgoMode.ECDSA_SigVer_v1_0:
-                    genVals = new ECDSA.v1_0.SigVer.RegisterInjections();
-                    break;
-                case AlgoMode.EDDSA_KeyGen_v1_0:
-                    genVals = new EDDSA.v1_0.KeyGen.RegisterInjections();
-                    break;
-                case AlgoMode.EDDSA_KeyVer_v1_0:
-                    genVals = new EDDSA.v1_0.KeyVer.RegisterInjections();
-                    break;
-                case AlgoMode.EDDSA_SigGen_v1_0:
-                    genVals = new EDDSA.v1_0.SigGen.RegisterInjections();
-                    break;
-                case AlgoMode.EDDSA_SigVer_v1_0:
-                    genVals = new EDDSA.v1_0.SigVer.RegisterInjections();
-                    break;
-                case AlgoMode.HMAC_SHA1_v1_0:
-                case AlgoMode.HMAC_SHA2_224_v1_0:
-                case AlgoMode.HMAC_SHA2_256_v1_0:
-                case AlgoMode.HMAC_SHA2_384_v1_0:
-                case AlgoMode.HMAC_SHA2_512_v1_0:
-                case AlgoMode.HMAC_SHA2_512_224_v1_0:
-                case AlgoMode.HMAC_SHA2_512_256_v1_0:
-                case AlgoMode.HMAC_SHA3_224_v1_0:
-                case AlgoMode.HMAC_SHA3_256_v1_0:
-                case AlgoMode.HMAC_SHA3_384_v1_0:
-                case AlgoMode.HMAC_SHA3_512_v1_0:
-                    genVals = new HMAC.v1_0.RegisterInjections();
-                    break;
-                case AlgoMode.KAS_ECC_v1_0:
-                    genVals = new KAS.v1_0.ECC.RegisterInjections();
-                    break;
-                case AlgoMode.KAS_EccComponent_v1_0:
-                    genVals = new KAS.v1_0.ECC_Component.RegisterInjections();
-                    break;
-                case AlgoMode.KAS_FFC_v1_0:
-                    genVals = new KAS.v1_0.FFC.RegisterInjections();
-                    break;
-                case AlgoMode.KDF_v1_0:
-                    genVals = new KDF.v1_0.RegisterInjections();
-                    break;
-                case AlgoMode.KDFComponents_ANSIX963_v1_0:
-                    genVals = new KDF_Components.v1_0.ANXIX963.RegisterInjections();
-                    break;
-                case AlgoMode.KDFComponents_IKEv1_v1_0:
-                    genVals = new KDF_Components.v1_0.IKEv1.RegisterInjections();
-                    break;
-                case AlgoMode.KDFComponents_IKEv2_v1_0:
-                    genVals = new KDF_Components.v1_0.IKEv2.RegisterInjections();
-                    break;
-                case AlgoMode.KDFComponents_SNMP_v1_0:
-                    genVals = new KDF_Components.v1_0.SNMP.RegisterInjections();
-                    break;
-                case AlgoMode.KDFComponents_SRTP_v1_0:
-                    genVals = new KDF_Components.v1_0.SRTP.RegisterInjections();
-                    break;
-                case AlgoMode.KDFComponents_SSH_v1_0:
-                    genVals = new KDF_Components.v1_0.SSH.RegisterInjections();
-                    break;
-                case AlgoMode.KDFComponents_TLS_v1_0:
-                    genVals = new KDF_Components.v1_0.TLS.RegisterInjections();
-                    break;
-                case AlgoMode.KDFComponents_TPM_v1_0:
-                    genVals = new KDF_Components.v1_0.TPMv1_2.RegisterInjections();
-                    break;
-                case AlgoMode.AES_KW_v1_0:
-                    genVals = new KeyWrap.v1_0.AES.RegisterInjections();
-                    break;
-                case AlgoMode.AES_KWP_v1_0:
-                    genVals = new KeyWrap.v1_0.AESP.RegisterInjections();
-                    break;
-                case AlgoMode.TDES_KW_v1_0:
-                    genVals = new KeyWrap.v1_0.TDES.RegisterInjections();
-                    break;
-                case AlgoMode.KMAC_v1_0:
-                    genVals = new KMAC.v1_0.RegisterInjections();
-                    break;
-                case AlgoMode.ParallelHash_v1_0:
-                    genVals = new ParallelHash.v1_0.RegisterInjections();
-                    break;
-                case AlgoMode.RSA_DecryptionPrimitive_v1_0:
-                    genVals = new RSA.v1_0.DpComponent.RegisterInjections();
-                    break;
-                case AlgoMode.RSA_KeyGen_v1_0:
-                    genVals = new RSA.v1_0.KeyGen.RegisterInjections();
-                    break;
-                case AlgoMode.RSA_LegacySigVer_v1_0:
-                    genVals = new RSA.v1_0.LegancySigVer.RegisterInjections();
-                    break;
-                case AlgoMode.RSA_SigGen_v1_0:
-                    genVals = new RSA.v1_0.SigGen.RegisterInjections();
-                    break;
-                case AlgoMode.RSA_SigVer_v1_0:
-                    genVals = new RSA.v1_0.SigVer.RegisterInjections();
-                    break;
-                case AlgoMode.RSA_SignaturePrimitive_v1_0:
-                    genVals = new RSA.v1_0.DpComponent.RegisterInjections();
-                    break;
-                case AlgoMode.SHA1_v1_0:
-                case AlgoMode.SHA2_v1_0:
-                    genVals = new SHA2.v1_0.RegisterInjections();
-                    break;
-                case AlgoMode.SHA3_v1_0:
-                case AlgoMode.SHAKE_v1_0:
-                    genVals = new SHA3.v1_0.RegisterInjections();
-                    break;
-                case AlgoMode.TDES_CBC_v1_0:
-                    genVals = new TDES_CBC.v1_0.RegisterInjections();
-                    break;
-                case AlgoMode.TDES_CBCI_v1_0:
-                    genVals = new TDES_CBCI.v1_0.RegisterInjections();
-                    break;
-                case AlgoMode.TDES_CFB1_v1_0:
-                case AlgoMode.TDES_CFB8_v1_0:
-                case AlgoMode.TDES_CFB64_v1_0:
-                    genVals = new TDES_CFB.v1_0.RegisterInjections();
-                    break;
-                case AlgoMode.TDES_CFBP1_v1_0:
-                case AlgoMode.TDES_CFBP8_v1_0:
-                case AlgoMode.TDES_CFBP64_v1_0:
-                    genVals = new TDES_CFBP.v1_0.RegisterInjections();
-                    break;
-                case AlgoMode.TDES_CTR_v1_0:
-                    genVals = new TDES_CTR.v1_0.RegisterInjections();
-                    break;
-                case AlgoMode.TDES_ECB_v1_0:
-                    genVals = new TDES_ECB.v1_0.RegisterInjections();
-                    break;
-                case AlgoMode.TDES_OFB_v1_0:
-                    genVals = new TDES_OFB.v1_0.RegisterInjections();
-                    break;
-                case AlgoMode.TDES_OFBI_v1_0:
-                    genVals = new TDES_OFBI.v1_0.RegisterInjections();
-                    break;
-                case AlgoMode.TupleHash_v1_0:
-                    genVals = new TupleHash.v1_0.RegisterInjections();
-                    break;
-
-                default:
-                    var errorMsg = $"{nameof(algoMode)} ({algoMode}) cannot be attributed to a algorithm for generation/validation.";
-                    LogManager.GetCurrentClassLogger().Fatal(errorMsg);
-                    throw new ArgumentException(errorMsg);
+                a.GetTypes()
+                    .Where(w => targetType.IsAssignableFrom(w) && !w.IsInterface)
+                    .ToList()
+                    .ForEach(fe => types.Add((ISupportedAlgoModeRevisions)Activator.CreateInstance(fe)));
             }
 
-            genVals.RegisterTypes(builder, algoMode);
+            return types;
         }
     }
 }

@@ -1,5 +1,7 @@
-﻿using Autofac;
+﻿using System.Collections.Generic;
+using Autofac;
 using NIST.CVP.Common;
+using NIST.CVP.Common.Interfaces;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Async;
 using NIST.CVP.Generation.Core.DeSerialization;
@@ -11,8 +13,15 @@ using NIST.CVP.Math.Entropy;
 
 namespace NIST.CVP.Generation.DRBG.v1_0
 {
-    public class RegisterInjections : IRegisterInjections
+    public class RegisterInjections : ISupportedAlgoModeRevisions
     {
+        public IEnumerable<AlgoMode> SupportedAlgoModeRevisions => new List<AlgoMode>()
+        {
+            AlgoMode.DRBG_CTR_v1_0,
+            AlgoMode.DRBG_Hash_v1_0,
+            AlgoMode.DRBG_HMAC_v1_0
+        };
+
         public void RegisterTypes(ContainerBuilder builder, AlgoMode algoMode)
         {
             builder.RegisterType<Generator<Parameters, TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();

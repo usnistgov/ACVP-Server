@@ -1,5 +1,7 @@
-﻿using Autofac;
+﻿using System.Collections.Generic;
+using Autofac;
 using NIST.CVP.Common;
+using NIST.CVP.Common.Interfaces;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Async;
 using NIST.CVP.Generation.Core.DeSerialization;
@@ -10,8 +12,23 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.HMAC.v1_0
 {
-    public class RegisterInjections : IRegisterInjections
+    public class RegisterInjections : ISupportedAlgoModeRevisions
     {
+        public IEnumerable<AlgoMode> SupportedAlgoModeRevisions => new List<AlgoMode>()
+        {
+            AlgoMode.HMAC_SHA1_v1_0,
+            AlgoMode.HMAC_SHA2_224_v1_0,
+            AlgoMode.HMAC_SHA2_256_v1_0,
+            AlgoMode.HMAC_SHA2_384_v1_0,
+            AlgoMode.HMAC_SHA2_512_v1_0,
+            AlgoMode.HMAC_SHA2_512_224_v1_0,
+            AlgoMode.HMAC_SHA2_512_256_v1_0,
+            AlgoMode.HMAC_SHA3_224_v1_0,
+            AlgoMode.HMAC_SHA3_256_v1_0,
+            AlgoMode.HMAC_SHA3_384_v1_0,
+            AlgoMode.HMAC_SHA3_512_v1_0
+        };
+
         public void RegisterTypes(ContainerBuilder builder, AlgoMode algoMode)
         {
             builder.RegisterType<Generator<Parameters, TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();

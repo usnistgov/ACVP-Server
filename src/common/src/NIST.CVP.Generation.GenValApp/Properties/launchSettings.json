@@ -1,7 +1,8 @@
 {
   "profiles": {
     "NIST.CVP.Generation.GenValApp": {
-      "commandName": "Project"
+      "commandName": "Project",
+      "commandLineArgs": "-a AES -m CFB8 -R 1.0 -g \"C:\\workspace\\gitlab\\gen-val\\json-files\\AES-CFB8\\registration.json\""
     }
   }
 }

@@ -1,5 +1,7 @@
-﻿using Autofac;
+﻿using System.Collections.Generic;
+using Autofac;
 using NIST.CVP.Common;
+using NIST.CVP.Common.Interfaces;
 using NIST.CVP.Generation.CMAC.v1_0.ContractResolvers;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Async;
@@ -10,8 +12,14 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.CMAC.v1_0
 {
-    public class RegisterInjections : IRegisterInjections
+    public class RegisterInjections : ISupportedAlgoModeRevisions
     {
+        public IEnumerable<AlgoMode> SupportedAlgoModeRevisions => new List<AlgoMode>()
+        {
+            AlgoMode.CMAC_AES_v1_0,
+            AlgoMode.CMAC_TDES_v1_0
+        };
+
         public void RegisterTypes(ContainerBuilder builder, AlgoMode algoMode)
         {
             builder.RegisterType<Random800_90>().AsImplementedInterfaces();
