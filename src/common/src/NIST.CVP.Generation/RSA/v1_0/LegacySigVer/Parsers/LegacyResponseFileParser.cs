@@ -9,7 +9,7 @@ using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Generation.RSA.v1_0.SigVer;
 using NIST.CVP.Math;
 
-namespace NIST.CVP.Generation.RSA.v1_0.LegancySigVer.Parsers
+namespace NIST.CVP.Generation.RSA.v1_0.LegacySigVer.Parsers
 {
     public class LegacyResponseFileParser : ILegacyResponseFileParser<TestVectorSet, TestGroup, TestCase>
     {

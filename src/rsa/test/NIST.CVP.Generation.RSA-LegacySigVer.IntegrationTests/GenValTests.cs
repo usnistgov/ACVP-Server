@@ -12,8 +12,8 @@ using NIST.CVP.Generation.Core.Tests.Fakes;
 using NIST.CVP.Generation.RSA.v1_0.SigVer;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
-using ParameterValidator = NIST.CVP.Generation.RSA.v1_0.LegancySigVer.ParameterValidator;
-using RegisterInjections = NIST.CVP.Generation.RSA.v1_0.LegancySigVer.RegisterInjections;
+using ParameterValidator = NIST.CVP.Generation.RSA.v1_0.LegacySigVer.ParameterValidator;
+using RegisterInjections = NIST.CVP.Generation.RSA.v1_0.LegacySigVer.RegisterInjections;
 
 namespace NIST.CVP.Generation.RSA_LegacySigVer.IntegrationTests
 {

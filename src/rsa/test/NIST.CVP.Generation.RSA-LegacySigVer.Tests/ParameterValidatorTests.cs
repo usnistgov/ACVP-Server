@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NIST.CVP.Generation.RSA.v1_0.SigVer;
-using ParameterValidator = NIST.CVP.Generation.RSA.v1_0.LegancySigVer.ParameterValidator;
+using ParameterValidator = NIST.CVP.Generation.RSA.v1_0.LegacySigVer.ParameterValidator;
 
 namespace NIST.CVP.Generation.RSA_LegacySigVer.Tests
 {

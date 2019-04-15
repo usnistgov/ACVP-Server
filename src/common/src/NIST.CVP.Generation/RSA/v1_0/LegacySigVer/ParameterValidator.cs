@@ -7,7 +7,7 @@ using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.RSA.v1_0.SigVer;
 using NIST.CVP.Math;
 
-namespace NIST.CVP.Generation.RSA.v1_0.LegancySigVer
+namespace NIST.CVP.Generation.RSA.v1_0.LegacySigVer
 {
     public class ParameterValidator : ParameterValidatorBase, IParameterValidator<Parameters>
     {
