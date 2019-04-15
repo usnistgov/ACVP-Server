@@ -1,16 +1,14 @@
-﻿using NIST.CVP.Generation.TDES_CBCI.Parsers;
+﻿using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Common.Symmetric.Enums;
+using NIST.CVP.Crypto.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Symmetric.Engines;
+using NIST.CVP.Crypto.Symmetric.MonteCarlo;
+using NIST.CVP.Generation.TDES_CBCI.v1_0.Parsers;
 using NIST.CVP.Tests.Core;
 using NUnit.Framework;
 using System;
 using System.IO;
 using System.Linq;
-using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
-using NIST.CVP.Crypto.Common.Symmetric.Enums;
-using NIST.CVP.Crypto.Symmetric.BlockModes;
-using NIST.CVP.Crypto.Symmetric.Engines;
-using NIST.CVP.Crypto.Symmetric.MonteCarlo;
-using NIST.CVP.Crypto.TDES;
-using NIST.CVP.Crypto.TDES_CBC;
 using MonteCarloKeyMaker = NIST.CVP.Crypto.TDES_CBCI.MonteCarloKeyMaker;
 
 namespace NIST.CVP.Generation.TDES_CBCI.IntegrationTests

@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using NIST.CVP.Common.Oracle.DispositionTypes;
+using NIST.CVP.Generation.EDDSA.v1_0.SigVer;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 

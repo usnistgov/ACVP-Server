@@ -7,7 +7,9 @@ using System.Text;
 using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NIST.CVP.Crypto.SSH;
-using NIST.CVP.Generation.SSH.Parsers;
+using NIST.CVP.Generation.KDF_Components.v1_0.SSH;
+using NIST.CVP.Generation.KDF_Components.v1_0.SSH.Parsers;
+using TestCase = NIST.CVP.Generation.KDF_Components.v1_0.SSH.TestCase;
 
 namespace NIST.CVP.Generation.SSH.IntegrationTests
 {

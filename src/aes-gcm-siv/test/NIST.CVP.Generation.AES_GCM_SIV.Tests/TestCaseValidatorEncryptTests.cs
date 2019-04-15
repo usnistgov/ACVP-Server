@@ -3,6 +3,7 @@ using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using System.Threading.Tasks;
+using NIST.CVP.Generation.AES_GCM_SIV.v1_0;
 
 namespace NIST.CVP.Generation.AES_GCM_SIV.Tests
 {

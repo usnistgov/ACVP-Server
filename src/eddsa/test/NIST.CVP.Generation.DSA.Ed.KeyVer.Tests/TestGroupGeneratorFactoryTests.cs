@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using NIST.CVP.Common.ExtensionMethods;
+using NIST.CVP.Generation.EDDSA.v1_0.KeyVer;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 

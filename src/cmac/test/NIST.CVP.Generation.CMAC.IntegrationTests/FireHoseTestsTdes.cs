@@ -1,4 +1,4 @@
-﻿using NIST.CVP.Generation.CMAC.Parsers;
+﻿using NIST.CVP.Generation.CMAC.v1_0.Parsers;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 

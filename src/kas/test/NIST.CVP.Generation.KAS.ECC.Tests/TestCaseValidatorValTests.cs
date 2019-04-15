@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using NIST.CVP.Generation.KAS.v1_0.ECC;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 

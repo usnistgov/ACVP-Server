@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using NIST.CVP.Generation.Core.ContractResolvers;
+﻿using NIST.CVP.Generation.Core.ContractResolvers;
 using NIST.CVP.Generation.Core.Enums;
-using NIST.CVP.Generation.SHA3.ContractResolvers;
+using NIST.CVP.Generation.SHA3.v1_0;
+using NIST.CVP.Generation.SHA3.v1_0.ContractResolvers;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
+using System;
 
 namespace NIST.CVP.Generation.SHA3.Tests.ContractResolvers
 {

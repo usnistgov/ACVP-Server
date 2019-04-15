@@ -1,5 +1,6 @@
 ﻿using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Common.KDF.Components.IKEv1.Enums;
+using NIST.CVP.Generation.KDF_Components.v1_0.IKEv1;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 

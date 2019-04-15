@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.KAS.v1_0.FFC;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 

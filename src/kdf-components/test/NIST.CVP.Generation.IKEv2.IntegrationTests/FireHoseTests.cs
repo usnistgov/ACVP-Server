@@ -2,7 +2,8 @@
 using NIST.CVP.Crypto.HMAC;
 using NIST.CVP.Crypto.IKEv2;
 using NIST.CVP.Crypto.SHAWrapper;
-using NIST.CVP.Generation.IKEv2.Parsers;
+using NIST.CVP.Generation.KDF_Components.v1_0.IKEv2;
+using NIST.CVP.Generation.KDF_Components.v1_0.IKEv2.Parsers;
 using NIST.CVP.Tests.Core;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;

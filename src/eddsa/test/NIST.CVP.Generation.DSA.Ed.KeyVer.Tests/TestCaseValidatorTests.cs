@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using NIST.CVP.Generation.Core.Enums;
+using NIST.CVP.Generation.EDDSA.v1_0.KeyVer;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 

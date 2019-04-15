@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.CSharp.RuntimeBinder;
-using Newtonsoft.Json.Linq;
-using NIST.CVP.Generation.Core;
+﻿using NIST.CVP.Generation.TDES_OFBI.v1_0;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.TDES_OFBI.Tests

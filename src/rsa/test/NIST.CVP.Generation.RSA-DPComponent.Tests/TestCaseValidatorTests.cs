@@ -9,6 +9,7 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using NIST.CVP.Generation.Core.Async;
+using NIST.CVP.Generation.RSA.v1_0.DpComponent;
 
 namespace NIST.CVP.Generation.RSA_DPComponent.Tests
 {

@@ -6,6 +6,7 @@ using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using System.Linq;
+using NIST.CVP.Generation.KDF.v1_0;
 
 namespace NIST.CVP.Generation.KDF.IntegrationTests
 {

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC.Enums;
+using NIST.CVP.Generation.KAS.v1_0.ECC_Component;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.KAS.EccComponent.Tests

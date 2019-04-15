@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using NIST.CVP.Generation.Core.ContractResolvers;
 using NIST.CVP.Generation.Core.Enums;
-using NIST.CVP.Generation.KeyWrap.AES;
-using NIST.CVP.Generation.KeyWrap.AES.ContractResolvers;
+using NIST.CVP.Generation.KeyWrap.v1_0.AES;
+using NIST.CVP.Generation.KeyWrap.v1_0.AES.ContractResolvers;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 

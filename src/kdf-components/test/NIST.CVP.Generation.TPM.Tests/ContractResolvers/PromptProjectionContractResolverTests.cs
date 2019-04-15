@@ -1,11 +1,11 @@
 ﻿using NIST.CVP.Generation.Core.DeSerialization;
 using NIST.CVP.Generation.Core.Enums;
 using NIST.CVP.Generation.Core.JsonConverters;
-using NIST.CVP.Generation.TPMv1._2;
-using NIST.CVP.Generation.TPMv1._2.ContractResolvers;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using System.Text.RegularExpressions;
+using NIST.CVP.Generation.KDF_Components.v1_0.TPMv1_2;
+using NIST.CVP.Generation.KDF_Components.v1_0.TPMv1_2.ContractResolvers;
 
 namespace NIST.CVP.Generation.TPM.Tests.ContractResolvers
 {

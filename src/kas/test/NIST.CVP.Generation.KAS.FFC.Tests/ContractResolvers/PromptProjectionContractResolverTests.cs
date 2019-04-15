@@ -3,7 +3,8 @@ using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Generation.Core.DeSerialization;
 using NIST.CVP.Generation.Core.Enums;
 using NIST.CVP.Generation.Core.JsonConverters;
-using NIST.CVP.Generation.KAS.FFC.ContractResolvers;
+using NIST.CVP.Generation.KAS.v1_0.FFC;
+using NIST.CVP.Generation.KAS.v1_0.FFC.ContractResolvers;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 

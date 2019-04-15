@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using NIST.CVP.Generation.Core.Enums;
+using NIST.CVP.Generation.ECDSA.v1_0.KeyVer;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 

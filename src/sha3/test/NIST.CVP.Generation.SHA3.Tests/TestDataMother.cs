@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using NIST.CVP.Crypto.Common.Hash;
-using NIST.CVP.Crypto.Common.Hash.SHA3;
-using NIST.CVP.Crypto.SHA3;
-using NIST.CVP.Generation.Core;
+﻿using NIST.CVP.Crypto.Common.Hash;
+using NIST.CVP.Generation.SHA3.v1_0;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Domain;
+using System;
+using System.Collections.Generic;
 
 namespace NIST.CVP.Generation.SHA3.Tests
 {

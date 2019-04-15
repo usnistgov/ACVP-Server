@@ -2,6 +2,7 @@
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Common.KDF.Components.TLS.Enums;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.KDF_Components.v1_0.TLS;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.TLS.Tests

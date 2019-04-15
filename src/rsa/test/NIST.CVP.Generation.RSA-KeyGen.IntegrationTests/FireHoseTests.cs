@@ -8,7 +8,6 @@ using NIST.CVP.Crypto.Oracle.Builders;
 using NIST.CVP.Crypto.RSA.Keys;
 using NIST.CVP.Crypto.RSA.PrimeGenerators;
 using NIST.CVP.Crypto.SHAWrapper;
-using NIST.CVP.Generation.RSA_KeyGen.Parsers;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
 using NIST.CVP.Tests.Core;
@@ -16,6 +15,8 @@ using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using System.IO;
 using System.Threading.Tasks;
+using NIST.CVP.Generation.RSA.v1_0.KeyGen;
+using NIST.CVP.Generation.RSA.v1_0.KeyGen.Parsers;
 
 namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
 {

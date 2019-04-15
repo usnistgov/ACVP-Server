@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys;
+using NIST.CVP.Generation.RSA.v1_0.KeyGen;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 

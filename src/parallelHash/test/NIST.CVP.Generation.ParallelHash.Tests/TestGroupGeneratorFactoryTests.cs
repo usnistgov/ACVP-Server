@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.ParallelHash.v1_0;
 using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;

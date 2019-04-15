@@ -1,5 +1,6 @@
 ﻿using NIST.CVP.Math;
 using System.Collections.Generic;
+using NIST.CVP.Generation.AES_GCM_SIV.v1_0;
 
 namespace NIST.CVP.Generation.AES_GCM_SIV.Tests
 {

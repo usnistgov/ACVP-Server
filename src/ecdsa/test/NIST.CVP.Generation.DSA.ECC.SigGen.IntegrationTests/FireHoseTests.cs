@@ -2,12 +2,12 @@
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.DSA.ECC;
 using NIST.CVP.Crypto.SHAWrapper;
-using NIST.CVP.Generation.DSA.ECC.SigGen.Parsers;
 using NIST.CVP.Math.Entropy;
 using NIST.CVP.Tests.Core;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using System.IO;
+using NIST.CVP.Generation.ECDSA.v1_0.SigGen.Parsers;
 
 namespace NIST.CVP.Generation.DSA.ECC.SigGen.IntegrationTests
 {

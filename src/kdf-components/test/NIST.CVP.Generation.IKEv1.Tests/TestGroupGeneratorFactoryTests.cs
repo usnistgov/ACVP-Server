@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using NIST.CVP.Generation.KDF_Components.v1_0.IKEv1;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.IKEv1.Tests

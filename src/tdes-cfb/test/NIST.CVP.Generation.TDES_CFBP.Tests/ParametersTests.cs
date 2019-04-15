@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using NIST.CVP.Generation.TDES_CFBP.v1_0;
+using NUnit.Framework;
 
 namespace NIST.CVP.Generation.TDES_CFBP.Tests
 {

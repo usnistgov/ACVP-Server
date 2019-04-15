@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using NIST.CVP.Generation.AES_CTR.v1_0;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -24,10 +23,10 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
         [Test]
         [TestCase(null, 0)]
         [TestCase(new int[] { }, 0)]
-        [TestCase(new int[] { -1 }, 0)]
-        [TestCase(new int[] { 128, -1 }, 0)]
-        [TestCase(new int[] { 128, -1, -2 }, 1)]
-        [TestCase(new int[] { 128, -1, -2, -3 }, 2)]
+        [TestCase(new [] { -1 }, 0)]
+        [TestCase(new [] { 128, -1 }, 0)]
+        [TestCase(new [] { 128, -1, -2 }, 1)]
+        [TestCase(new [] { 128, -1, -2, -3 }, 2)]
         public void ShouldReturnErrorWithInvalidKeyLength(int[] keyLengths, int errorsExpected)
         {
             var subject = new ParameterValidator();
@@ -41,7 +40,7 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
             Assert.AreEqual(errorsExpected, result.ErrorMessage.Count(c => c == ','));
         }
 
-        static object[] directionTestCases = 
+        static object[] _directionTestCases = 
         {
             new object[] { "null", null },
             new object[] { "empty", new string[] { } },
@@ -50,7 +49,7 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
             new object[] { "Partially valid w/ null", new [] { "encrypt", null } }
         };
         [Test]
-        [TestCaseSource(nameof(directionTestCases))]
+        [TestCaseSource(nameof(_directionTestCases))]
         public void ShouldReturnErrorWithInvalidDirection(string testCaseLabel, string[] direction)
         {
             var subject = new ParameterValidator();

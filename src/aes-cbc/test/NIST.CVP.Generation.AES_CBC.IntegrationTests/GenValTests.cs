@@ -2,6 +2,7 @@
 using System.Linq;
 using Autofac;
 using NIST.CVP.Common;
+using NIST.CVP.Generation.AES_CBC.v1_0;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Math;
@@ -20,7 +21,7 @@ namespace NIST.CVP.Generation.AES_CBC.IntegrationTests
 
         public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
 
-        public override IRegisterInjections RegistrationsGenVal => new AES_CBC.RegisterInjections();
+        public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {

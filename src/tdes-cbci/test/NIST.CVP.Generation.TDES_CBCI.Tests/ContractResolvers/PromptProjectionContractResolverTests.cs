@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Text.RegularExpressions;
-using NIST.CVP.Generation.Core.DeSerialization;
+﻿using NIST.CVP.Generation.Core.DeSerialization;
 using NIST.CVP.Generation.Core.Enums;
 using NIST.CVP.Generation.Core.JsonConverters;
-using NIST.CVP.Generation.TDES_CBCI.ContractResolvers;
+using NIST.CVP.Generation.TDES_CBCI.v1_0;
+using NIST.CVP.Generation.TDES_CBCI.v1_0.ContractResolvers;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
+using System.Text.RegularExpressions;
 
 namespace NIST.CVP.Generation.TDES_CBCI.Tests.ContractResolvers
 {

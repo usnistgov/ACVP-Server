@@ -2,6 +2,7 @@
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
+using NIST.CVP.Generation.KDF.v1_0;
 
 namespace NIST.CVP.Generation.KDF.Tests
 {

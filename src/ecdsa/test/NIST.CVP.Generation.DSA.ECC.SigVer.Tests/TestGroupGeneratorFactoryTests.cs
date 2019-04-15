@@ -4,6 +4,7 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using NIST.CVP.Generation.ECDSA.v1_0.SigVer;
 
 namespace NIST.CVP.Generation.DSA.ECC.SigVer.Tests
 {

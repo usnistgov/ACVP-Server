@@ -6,6 +6,7 @@ using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.DSA.Ed;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.EDDSA.v1_0.SigGen;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.DSA.Ed.SigGen.Tests
