@@ -7,6 +7,7 @@ using NIST.CVP.Generation.GenValApp.Models;
 using NLog;
 using System;
 using System.IO;
+using NIST.CVP.Generation.Core.Exceptions;
 
 namespace NIST.CVP.Generation.GenValApp
 {
@@ -43,15 +44,9 @@ namespace NIST.CVP.Generation.GenValApp
             {
                 var parsedParameters = argumentParser.Parse(args);
 
-                var dllLocation = RootDirectory;
-                if (parsedParameters.DllLocation != null)
-                {
-                    dllLocation = parsedParameters.DllLocation.FullName;
-                }
-
                 // Get the IOC container for the algo
-                AutofacConfig.IoCConfiguration(ServiceProvider, parsedParameters.Algorithm, parsedParameters.Mode, parsedParameters.Revision,
-                    dllLocation);
+                AutofacConfig.IoCConfiguration(ServiceProvider, parsedParameters.Algorithm, parsedParameters.Mode, parsedParameters.Revision);
+
                 using (var scope = AutofacConfig.GetContainer().BeginLifetimeScope())
                 {
                     var genValRunner = new GenValRunner(scope);
@@ -69,6 +64,20 @@ namespace NIST.CVP.Generation.GenValApp
                 Logger.Error(errorMessage);
                 argumentParser.ShowUsage();
                 return (int) StatusCode.CommandLineError;
+            }
+            catch (AlgoModeRevisionException ex)
+            {
+                Console.WriteLine(ex.Message);
+                Console.WriteLine(ex.StackTrace);
+                Logger.Fatal(ex);
+                return (int) StatusCode.ModeError;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                Console.WriteLine(ex.StackTrace);
+                Logger.Fatal(ex);
+                return (int) StatusCode.Exception;
             }
         }
     }

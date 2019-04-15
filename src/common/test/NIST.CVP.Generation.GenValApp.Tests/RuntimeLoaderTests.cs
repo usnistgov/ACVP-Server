@@ -1,7 +1,5 @@
 ﻿using System;
-using System.IO;
 using Autofac;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using NIST.CVP.Common;
@@ -10,8 +8,6 @@ using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Common.Helpers;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.GenValApp.Helpers;
-using NIST.CVP.Generation.GenValApp.Models;
-using NIST.CVP.Tests.Core;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NLog;
 using NUnit.Framework;
@@ -96,7 +92,7 @@ namespace NIST.CVP.Generation.GenValApp.Tests
 
         private void ResolveGenVal(AlgorithmDllDependencies algoInfo)
         {
-            AutofacConfig.IoCConfiguration(Program.ServiceProvider, algoInfo.Algorithm, algoInfo.Mode, algoInfo.Revision, Program.RootDirectory);
+            AutofacConfig.IoCConfiguration(Program.ServiceProvider, algoInfo.Algorithm, algoInfo.Mode, algoInfo.Revision);
             using (var scope = AutofacConfig.GetContainer().BeginLifetimeScope())
             {
                 var gen = scope.Resolve<IGenerator>();

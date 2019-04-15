@@ -22,7 +22,7 @@ namespace NIST.CVP.Generation.GenValApp.Helpers
             return _container;
         }
 
-        public static void IoCConfiguration(IServiceProvider serviceProvider, string algorithm, string mode, string revision, string dllLocation)
+        public static void IoCConfiguration(IServiceProvider serviceProvider, string algorithm, string mode, string revision)
         {
             var builder = new ContainerBuilder();
             EntryPointConfigHelper.RegisterConfigurationInjections(serviceProvider, builder);
@@ -36,22 +36,7 @@ namespace NIST.CVP.Generation.GenValApp.Helpers
             var oracle = new Crypto.Oracle.RegisterInjections();
             oracle.RegisterTypes(builder, algoMode);
 
-            if (!RegisterGenVals(builder, algoMode))
-            { 
-                // Fall through run time loading
-                var iocRegisterables = GenValResolver.ResolveIocInjectables(
-                    serviceProvider.GetService<IOptions<AlgorithmConfig>>().Value,
-                    algorithm,
-                    mode,
-                    revision,
-                    dllLocation
-                );
-
-                foreach (var iocRegisterable in iocRegisterables)
-                {
-                    iocRegisterable.RegisterTypes(builder, algoMode);
-                }
-            }
+            RegisterGenVals(builder, algoMode);
 
             OverrideRegistrations?.Invoke(builder);
 
@@ -64,7 +49,7 @@ namespace NIST.CVP.Generation.GenValApp.Helpers
         /// <param name="builder">The IOC builder</param>
         /// <param name="algoMode">The algoMode to register</param>
         /// <returns></returns>
-        private static bool RegisterGenVals(ContainerBuilder builder, AlgoMode algoMode)
+        private static void RegisterGenVals(ContainerBuilder builder, AlgoMode algoMode)
         {
             IRegisterInjections genVals = null;
 
@@ -278,12 +263,12 @@ namespace NIST.CVP.Generation.GenValApp.Helpers
                     break;
 
                 default:
-                    LogManager.GetCurrentClassLogger().Warn($"{nameof(algoMode)} ({algoMode}) cannot be attributed to the Single GenVals assembly, falling back to runtime loading.");
-                    return false;
+                    var errorMsg = $"{nameof(algoMode)} ({algoMode}) cannot be attributed to a algorithm for generation/validation.";
+                    LogManager.GetCurrentClassLogger().Fatal(errorMsg);
+                    throw new ArgumentException(errorMsg);
             }
 
             genVals.RegisterTypes(builder, algoMode);
-            return true;
         }
     }
 }

@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <OutputType>Exe</OutputType>
     <StartupObject>NIST.CVP.PoolAPI.Program</StartupObject>
   </PropertyGroup>
 

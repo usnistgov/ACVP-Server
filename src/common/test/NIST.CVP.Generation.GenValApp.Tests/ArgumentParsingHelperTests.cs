@@ -31,7 +31,6 @@ namespace NIST.CVP.Generation.GenValApp.Tests
             Assert.AreEqual("algo", result.Algorithm, nameof(result.Algorithm));
             Assert.AreEqual("mode", result.Mode, nameof(result.Mode));
             Assert.AreEqual("1.0", result.Revision, nameof(result.Revision));
-            Assert.AreEqual(_directory, result.DllLocation.ToString(), nameof(result.DllLocation));
             Assert.AreEqual(registration, result.RegistrationFile.ToString(), nameof(result.RegistrationFile));
         }
 
@@ -45,7 +44,6 @@ namespace NIST.CVP.Generation.GenValApp.Tests
 
             Assert.AreEqual("algo", result.Algorithm, nameof(result.Algorithm));
             Assert.AreEqual("mode", result.Mode, nameof(result.Mode));
-            Assert.AreEqual(_directory, result.DllLocation.ToString(), nameof(result.DllLocation));
             Assert.AreEqual(answer, result.AnswerFile.ToString(), nameof(result.AnswerFile));
             Assert.AreEqual(response, result.ResponseFile.ToString(), nameof(result.ResponseFile));
         }
