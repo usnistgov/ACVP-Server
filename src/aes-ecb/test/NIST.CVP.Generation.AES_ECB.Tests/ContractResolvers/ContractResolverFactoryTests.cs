@@ -1,5 +1,6 @@
 ﻿using System;
-using NIST.CVP.Generation.AES_ECB.ContractResolvers;
+using NIST.CVP.Generation.AES_ECB.v1_0;
+using NIST.CVP.Generation.AES_ECB.v1_0.ContractResolvers;
 using NIST.CVP.Generation.Core.ContractResolvers;
 using NIST.CVP.Generation.Core.Enums;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;

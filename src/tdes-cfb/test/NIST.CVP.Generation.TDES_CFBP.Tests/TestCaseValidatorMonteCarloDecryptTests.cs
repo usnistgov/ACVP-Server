@@ -1,11 +1,10 @@
-﻿using NIST.CVP.Crypto.TDES;
+﻿using NIST.CVP.Crypto.Common.Symmetric.TDES;
+using NIST.CVP.Generation.Core.Enums;
+using NIST.CVP.Generation.TDES_CFBP.v1_0;
 using NIST.CVP.Math;
 using NUnit.Framework;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using NIST.CVP.Crypto.Common.Symmetric.TDES;
-using NIST.CVP.Generation.Core.Enums;
 
 namespace NIST.CVP.Generation.TDES_CFBP.Tests
 {

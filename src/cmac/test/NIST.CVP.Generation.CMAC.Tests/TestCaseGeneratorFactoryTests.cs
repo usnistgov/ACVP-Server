@@ -3,6 +3,7 @@ using Moq;
 using NIST.CVP.Common.Oracle;
 using NIST.CVP.Crypto.Common.MAC.CMAC.Enums;
 using NIST.CVP.Generation.CMAC;
+using NIST.CVP.Generation.CMAC.v1_0;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 

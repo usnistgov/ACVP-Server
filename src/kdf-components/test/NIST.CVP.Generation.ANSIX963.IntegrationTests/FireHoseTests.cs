@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using NIST.CVP.Crypto.ANSIX963;
 using NIST.CVP.Crypto.SHAWrapper;
-using NIST.CVP.Generation.ANSIX963.Parsers;
+using NIST.CVP.Generation.KDF_Components.v1_0.ANXIX963.Parsers;
 using NIST.CVP.Tests.Core;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;

@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Math.Domain;
+﻿using NIST.CVP.Generation.DRBG.v1_0;
+using NIST.CVP.Math.Domain;
 
 namespace NIST.CVP.Generation.DRBG.IntegrationTests
 {

@@ -1,4 +1,5 @@
 ﻿using System;
+using NIST.CVP.Generation.DRBG.v1_0;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 

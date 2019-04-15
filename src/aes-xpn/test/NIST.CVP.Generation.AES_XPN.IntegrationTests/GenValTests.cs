@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using NIST.CVP.Common;
 using NIST.CVP.Crypto.Common;
+using NIST.CVP.Generation.AES_XPN.v1_0;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Generation.Core.Tests.Fakes;

@@ -5,6 +5,7 @@ using NIST.CVP.Crypto.Common.Symmetric.TDES.KATs;
 using NIST.CVP.Crypto.Symmetric.BlockModes;
 using NIST.CVP.Crypto.Symmetric.Engines;
 using NIST.CVP.Generation.Core.Async;
+using NIST.CVP.Generation.TDES_CFB.v1_0;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using System;

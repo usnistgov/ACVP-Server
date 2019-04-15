@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using NIST.CVP.Generation.CSHAKE.v1_0;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 

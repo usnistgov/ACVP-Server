@@ -9,6 +9,8 @@ using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using NIST.CVP.Generation.KAS.Tests.Builders;
+using NIST.CVP.Generation.KAS.v1_0;
+using NIST.CVP.Generation.KAS.v1_0.FFC;
 
 namespace NIST.CVP.Generation.KAS.FFC.Tests
 {

@@ -6,6 +6,7 @@ using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using System.Threading.Tasks;
 using NIST.CVP.Generation.Core.Async;
+using NIST.CVP.Generation.KAS.v1_0.FFC;
 
 namespace NIST.CVP.Generation.KAS.FFC.Tests
 {

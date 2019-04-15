@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using NIST.CVP.Math;
-using NIST.CVP.Math.Domain;
+﻿using NIST.CVP.Generation.TDES_CTR.v1_0;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
+using System.Linq;
 
 namespace NIST.CVP.Generation.TDES_CTR.Tests
 {

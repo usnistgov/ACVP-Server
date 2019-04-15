@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.JsonConverters;
 using NIST.CVP.Generation.Core.Parsers;
+using NIST.CVP.Generation.KAS.v1_0;
 using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core;
 using NUnit.Framework;

@@ -1,8 +1,9 @@
 ﻿using System.Text.RegularExpressions;
-using NIST.CVP.Generation.ANSIX963.ContractResolvers;
 using NIST.CVP.Generation.Core.DeSerialization;
 using NIST.CVP.Generation.Core.Enums;
 using NIST.CVP.Generation.Core.JsonConverters;
+using NIST.CVP.Generation.KDF_Components.v1_0.ANXIX963;
+using NIST.CVP.Generation.KDF_Components.v1_0.ANXIX963.ContractResolvers;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 

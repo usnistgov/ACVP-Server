@@ -1,5 +1,4 @@
 ﻿using System.IO;
-using NIST.CVP.Crypto.AES;
 using NIST.CVP.Crypto.AES_CCM;
 using NIST.CVP.Crypto.Common.Symmetric.BlockModes.Aead;
 using NIST.CVP.Crypto.Common.Symmetric.Enums;
@@ -7,11 +6,11 @@ using NIST.CVP.Crypto.Symmetric.BlockModes;
 using NIST.CVP.Crypto.Symmetric.BlockModes.Aead;
 using NIST.CVP.Crypto.Symmetric.Engines;
 using NUnit.Framework;
-using NIST.CVP.Generation.AES_CCM.Parsers;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Tests.Core;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NLog;
+using NIST.CVP.Generation.AES_CCM.v1_0.Parsers;
 
 namespace NIST.CVP.Generation.AES_CCM.IntegrationTests
 {

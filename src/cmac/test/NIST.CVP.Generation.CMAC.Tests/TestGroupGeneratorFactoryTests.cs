@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using NIST.CVP.Generation.CMAC.v1_0;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.CMAC.Tests

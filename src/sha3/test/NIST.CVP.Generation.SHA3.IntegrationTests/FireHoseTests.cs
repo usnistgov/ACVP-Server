@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using NIST.CVP.Crypto.Common.Hash.SHA3;
+﻿using NIST.CVP.Crypto.Common.Hash.SHA3;
 using NIST.CVP.Crypto.SHA3;
-using NIST.CVP.Generation.SHA3.Parsers;
+using NIST.CVP.Generation.SHA3.v1_0.Parsers;
+using NIST.CVP.Generation.SHA3.v1_0;
 using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
+using System;
+using System.IO;
+using System.Linq;
 
 namespace NIST.CVP.Generation.SHA3.IntegrationTests
 {

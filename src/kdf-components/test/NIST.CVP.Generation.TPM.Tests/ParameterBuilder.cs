@@ -1,4 +1,4 @@
-﻿using NIST.CVP.Generation.TPMv1._2;
+﻿using NIST.CVP.Generation.KDF_Components.v1_0.TPMv1_2;
 
 namespace NIST.CVP.Generation.TPM.Tests
 {

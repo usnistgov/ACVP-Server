@@ -1,7 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using NIST.CVP.Crypto.Common.Symmetric;
+﻿using NIST.CVP.Crypto.Common.Symmetric;
 using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
 using NIST.CVP.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.Crypto.Common.Symmetric.MonteCarlo;
@@ -9,10 +6,14 @@ using NIST.CVP.Crypto.Symmetric.BlockModes;
 using NIST.CVP.Crypto.Symmetric.Engines;
 using NIST.CVP.Crypto.Symmetric.MonteCarlo;
 using NIST.CVP.Crypto.TDES_ECB;
-using NIST.CVP.Generation.TDES_ECB.Parsers;
+using NIST.CVP.Generation.TDES_ECB.v1_0;
+using NIST.CVP.Generation.TDES_ECB.v1_0.Parsers;
 using NIST.CVP.Tests.Core;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
+using System;
+using System.IO;
+using System.Linq;
 using AlgoArrayResponse = NIST.CVP.Crypto.Common.Symmetric.TDES.AlgoArrayResponse;
 
 namespace NIST.CVP.Generation.TDES_ECB.IntegrationTests

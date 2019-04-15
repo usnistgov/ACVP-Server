@@ -1,0 +1,7 @@
+{
+  "profiles": {
+    "NIST.CVP.Generation.GenValApp": {
+      "commandName": "Project"
+    }
+  }
+}

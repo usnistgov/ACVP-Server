@@ -16,7 +16,6 @@ namespace NIST.CVP.Crypto.Oracle.Builders
     {
         private IDbConnectionStringFactory _dbConnectionStringFactory;
         private IOptions<EnvironmentConfig> _environmentConfig;
-        private IOptions<AlgorithmConfig> _algorithmConfig;
         private IOptions<OrleansConfig> _orleansConfig;
 
         public OracleBuilder()
@@ -24,7 +23,6 @@ namespace NIST.CVP.Crypto.Oracle.Builders
             var serviceProvider = EntryPointConfigHelper.Bootstrap(AppDomain.CurrentDomain.BaseDirectory);
             _dbConnectionStringFactory = serviceProvider.GetService<IDbConnectionStringFactory>();
             _environmentConfig = serviceProvider.GetService<IOptions<EnvironmentConfig>>();
-            _algorithmConfig = serviceProvider.GetService<IOptions<AlgorithmConfig>>();
             _orleansConfig = serviceProvider.GetService<IOptions<OrleansConfig>>();
         }
 
@@ -40,12 +38,6 @@ namespace NIST.CVP.Crypto.Oracle.Builders
             return this;
         }
 
-        public OracleBuilder WithAlgorithmConfig(IOptions<AlgorithmConfig> value)
-        {
-            _algorithmConfig = value;
-            return this;
-        }
-        
         public OracleBuilder WithOrleansConfig(IOptions<OrleansConfig> value)
         {
             _orleansConfig = value;

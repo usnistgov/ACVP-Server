@@ -6,6 +6,7 @@ using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using System.Linq;
 using System.Threading.Tasks;
+using NIST.CVP.Generation.DSA.v1_0.SigGen;
 
 namespace NIST.CVP.Generation.DSA.FFC.SigGen.Tests
 {

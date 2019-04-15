@@ -1,10 +1,11 @@
-﻿using NIST.CVP.Generation.RSA_SigVer;
-using NIST.CVP.Tests.Core.TestCategoryAttributes;
+﻿using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using NIST.CVP.Generation.RSA.v1_0.SigVer;
+using ParameterValidator = NIST.CVP.Generation.RSA.v1_0.LegacySigVer.ParameterValidator;
 
 namespace NIST.CVP.Generation.RSA_LegacySigVer.Tests
 {

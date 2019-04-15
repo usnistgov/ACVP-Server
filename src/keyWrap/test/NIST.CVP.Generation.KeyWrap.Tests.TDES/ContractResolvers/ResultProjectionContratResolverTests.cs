@@ -4,8 +4,8 @@ using System.Text;
 using NIST.CVP.Generation.Core.DeSerialization;
 using NIST.CVP.Generation.Core.Enums;
 using NIST.CVP.Generation.Core.JsonConverters;
-using NIST.CVP.Generation.KeyWrap.TDES;
-using NIST.CVP.Generation.KeyWrap.TDES.ContractResolvers;
+using NIST.CVP.Generation.KeyWrap.v1_0.TDES;
+using NIST.CVP.Generation.KeyWrap.v1_0.TDES.ContractResolvers;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 

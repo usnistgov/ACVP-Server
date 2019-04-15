@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using NIST.CVP.Crypto.AES;
 using NIST.CVP.Crypto.Common.Symmetric;
+using NIST.CVP.Generation.AES_CFB128.v1_0;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 

@@ -5,6 +5,7 @@ using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using System.Collections.Generic;
+using NIST.CVP.Generation.CMAC.v1_0;
 
 namespace NIST.CVP.Generation.CMAC.IntegrationTests
 {

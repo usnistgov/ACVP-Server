@@ -1,6 +1,6 @@
 ﻿using System;
 using System.IO;
-using NIST.CVP.Generation.KAS.FFC.Parsers;
+using NIST.CVP.Generation.KAS.v1_0.FFC.Parsers;
 using NIST.CVP.Tests.Core;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;

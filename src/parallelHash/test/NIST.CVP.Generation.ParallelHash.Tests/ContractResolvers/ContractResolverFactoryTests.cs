@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using NIST.CVP.Generation.Core.ContractResolvers;
 using NIST.CVP.Generation.Core.Enums;
-using NIST.CVP.Generation.ParallelHash.ContractResolvers;
+using NIST.CVP.Generation.ParallelHash.v1_0;
+using NIST.CVP.Generation.ParallelHash.v1_0.ContractResolvers;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using NIST.CVP.Crypto.Common.Hash;
 using NIST.CVP.Crypto.CSHAKE;
+using NIST.CVP.Generation.CSHAKE.v1_0;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;

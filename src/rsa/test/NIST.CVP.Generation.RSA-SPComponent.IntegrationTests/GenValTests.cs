@@ -5,6 +5,7 @@ using NUnit.Framework;
 using NIST.CVP.Common;
 using NIST.CVP.Crypto.Common;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.RSA.v1_0.SpComponent;
 
 namespace NIST.CVP.Generation.RSA_SPComponent.IntegrationTests
 {
