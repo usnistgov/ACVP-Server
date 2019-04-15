@@ -31,7 +31,6 @@ namespace NIST.CVP.Generation.SHA3.IntegrationTests
 
         [Test]
         [TestCase("SHA3\\BitOriented")]
-        [TestCase("SHA3\\ByteOriented")]
         public void ShouldParseAndRunSHA3CAVSFiles(string folder)
         {
             var testPath = Path.Combine(_testPath, folder);
@@ -94,7 +93,6 @@ namespace NIST.CVP.Generation.SHA3.IntegrationTests
 
         [Test]
         [TestCase("SHAKE\\BitOriented")]
-        [TestCase("SHAKE\\ByteOriented")]
         public void ShouldParseAndRunSHAKECAVSFiles(string folder)
         {
             var testPath = Path.Combine(_testPath, folder);
