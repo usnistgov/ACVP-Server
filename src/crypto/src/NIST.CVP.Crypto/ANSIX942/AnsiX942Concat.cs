@@ -27,7 +27,8 @@ namespace NIST.CVP.Crypto.ANSIX942
             for (var i = 1; i <= d; i++)
             {
                 // H[i] = Hash(ZZ || counter || otherInfo)
-                h = h.ConcatenateBits(_sha.HashMessage(zz.ConcatenateBits(counter).ConcatenateBits(otherInfo)).Digest);
+                var hashInput = zz.ConcatenateBits(counter).ConcatenateBits(otherInfo);
+                h = h.ConcatenateBits(_sha.HashMessage(hashInput).Digest);
 
                 counter = counter.BitStringAddition(BitString.One());
             }
