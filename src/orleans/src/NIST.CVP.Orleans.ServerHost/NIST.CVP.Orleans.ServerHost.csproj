@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
-    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <RuntimeIdentifiers>win-x64;osx-x64</RuntimeIdentifiers>
     <OutputType>Exe</OutputType>
     <LangVersion>7.1</LangVersion>
     <ServerGarbageCollection>true</ServerGarbageCollection>
