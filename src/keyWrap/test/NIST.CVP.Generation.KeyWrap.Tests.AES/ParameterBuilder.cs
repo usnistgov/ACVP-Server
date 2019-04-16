@@ -88,12 +88,12 @@ namespace NIST.CVP.Generation.KeyWrap.Tests.AES
             switch (keyWrapType)
             {
                 case KeyWrapType.AES_KW:
-                    _algorithm = "AES-KW";
+                    _algorithm = "ACVP-AES-KW";
                     _mode = string.Empty;
                     break;
 
                 case KeyWrapType.AES_KWP:
-                    _algorithm = "AES-KWP";
+                    _algorithm = "ACVP-AES-KWP";
                     _mode = string.Empty;
                     break;
             }
