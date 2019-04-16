@@ -10,6 +10,8 @@ namespace NIST.CVP.Common
     {
         [EnumMember(Value = "AES-CBC-1.0")]
         AES_CBC_v1_0,
+        [EnumMember(Value = "AES-CBC-CTS-1.0")]
+        AES_CBC_CTS_v1_0,
         [EnumMember(Value = "AES-CCM-1.0")]
         AES_CCM_v1_0,
         [EnumMember(Value = "AES-CFB1-1.0")]
