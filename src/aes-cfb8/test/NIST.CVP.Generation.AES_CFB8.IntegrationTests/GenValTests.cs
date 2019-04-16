@@ -14,7 +14,7 @@ namespace NIST.CVP.Generation.AES_CFB8.IntegrationTests
     [TestFixture, LongRunningIntegrationTest]
     public class GenValTests : GenValTestsSingleRunnerBase
     {
-        public override string Algorithm { get; } = "AES-CFB8";
+        public override string Algorithm { get; } = "ACVP-AES-CFB8";
         public override string Mode { get; } = string.Empty;
 
         public override AlgoMode AlgoMode => AlgoMode.AES_CFB8_v1_0;

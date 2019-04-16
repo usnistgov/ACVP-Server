@@ -12,7 +12,7 @@ namespace NIST.CVP.Generation.AES_GCM_SIV.IntegrationTests
     [TestFixture, LongRunningIntegrationTest]
     public class GenValTests : GenValTestsSingleRunnerBase
     {
-        public override string Algorithm { get; } = "AES-GCM-SIV";
+        public override string Algorithm { get; } = "ACVP-AES-GCM-SIV";
         public override string Mode { get; } = string.Empty;
 
         public override AlgoMode AlgoMode => AlgoMode.AES_GCM_SIV_v1_0;
@@ -65,7 +65,7 @@ namespace NIST.CVP.Generation.AES_GCM_SIV.IntegrationTests
         {
             Parameters p = new Parameters()
             {
-                Algorithm = "AES-GCM-SIV",
+                Algorithm = Algorithm,
                 Direction = ParameterValidator.VALID_DIRECTIONS,
                 KeyLen = new int[] { ParameterValidator.VALID_KEY_SIZES.First() },
                 PayloadLen = new MathDomain().AddSegment(new ValueDomainSegment(0)),
@@ -80,7 +80,7 @@ namespace NIST.CVP.Generation.AES_GCM_SIV.IntegrationTests
         {
             Parameters p = new Parameters()
             {
-                Algorithm = "AES-GCM-SIV",
+                Algorithm = Algorithm,
                 Direction = ParameterValidator.VALID_DIRECTIONS,
                 KeyLen = new int[] { ParameterValidator.VALID_KEY_SIZES.First() },
                 PayloadLen = new MathDomain()

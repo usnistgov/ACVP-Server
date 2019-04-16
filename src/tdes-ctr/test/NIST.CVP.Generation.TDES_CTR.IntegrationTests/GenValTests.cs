@@ -11,7 +11,7 @@ namespace NIST.CVP.Generation.TDES_CTR.IntegrationTests
     [TestFixture, FastIntegrationTest]
     public class GenValTests : GenValTestsSingleRunnerBase
     {
-        public override string Algorithm => "TDES-CTR";
+        public override string Algorithm => "ACVP-TDES-CTR";
         public override string Mode => string.Empty;
 
         public override AlgoMode AlgoMode => AlgoMode.TDES_CTR_v1_0;
