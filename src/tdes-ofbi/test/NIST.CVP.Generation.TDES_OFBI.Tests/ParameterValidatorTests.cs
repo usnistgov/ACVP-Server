@@ -84,7 +84,7 @@ namespace NIST.CVP.Generation.TDES_OFBI.Tests
             public ParameterBuilder()
             {
                 // Provides a valid (as of construction) set of parameters
-                _algorithm = "TDES_OFBI";
+                _algorithm = "ACVP-TDES_OFBI";
                 _mode = ParameterValidator.VALID_DIRECTIONS;
                 _keyingOptions = ParameterValidator.VALID_KEYING_OPTIONS;
             }

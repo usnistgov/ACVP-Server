@@ -88,7 +88,7 @@ namespace NIST.CVP.Generation.TDES_CBC.Tests
             public ParameterBuilder()
             {
                 // Provides a valid (as of construction) set of parameters
-                _algorithm = "TDES_ECB";
+                _algorithm = "ACVP-TDES_ECB";
                 _mode = ParameterValidator.VALID_DIRECTIONS;
                 _keyingOptions = ParameterValidator.VALID_KEYING_OPTIONS;
             }

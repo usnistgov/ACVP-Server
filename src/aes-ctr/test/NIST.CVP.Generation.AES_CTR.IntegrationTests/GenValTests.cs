@@ -13,7 +13,7 @@ namespace NIST.CVP.Generation.AES_CTR.IntegrationTests
     [TestFixture, FastIntegrationTest]
     public class GenValTests : GenValTestsSingleRunnerBase
     {
-        public override string Algorithm => "AES-CTR";
+        public override string Algorithm => "ACVP-AES-CTR";
         public override string Mode => string.Empty;
 
         public override AlgoMode AlgoMode => AlgoMode.AES_CTR_v1_0;

@@ -11,7 +11,7 @@ namespace NIST.CVP.Generation.AES_CFB128.Tests
         public ParameterBuilder()
         {
             // Provides a valid (as of construction) set of parameters
-            _algorithm = "AES-CFB128";
+            _algorithm = "ACVP-AES-CFB128";
             _mode = ParameterValidator.VALID_DIRECTIONS;
             _keyLen = ParameterValidator.VALID_KEY_SIZES;
         }

@@ -14,7 +14,7 @@ namespace NIST.CVP.Generation.AES_CBC.IntegrationTests
     [TestFixture, FastIntegrationTest]
     public class GenValTests : GenValTestsSingleRunnerBase
     {
-        public override string Algorithm { get; } = "AES-CBC";
+        public override string Algorithm { get; } = "ACVP-AES-CBC";
         public override string Mode { get; } = string.Empty;
 
         public override AlgoMode AlgoMode => AlgoMode.AES_CBC_v1_0;

@@ -1,0 +1,15 @@
+{
+  "vsId": 0,
+  "algorithm": "ACVP-TDES-CFB8",
+  "mode": "",
+  "revision": "1.0",
+  "isSample": false,
+  "conformances": [],
+  "direction": [
+    "encrypt",
+    "decrypt"
+  ],
+  "keyingOption": [
+    1
+  ]
+}

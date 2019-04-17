@@ -13,7 +13,7 @@ namespace NIST.CVP.Generation.TDES_OFB.IntegrationTests
     [TestFixture, LongRunningIntegrationTest]
     public class GenValTests : GenValTestsSingleRunnerBase
     {
-        public override string Algorithm { get; } = "TDES-OFB";
+        public override string Algorithm { get; } = "ACVP-TDES-OFB";
         public override string Mode { get; } = string.Empty;
 
         public override AlgoMode AlgoMode => AlgoMode.TDES_OFB_v1_0;

@@ -16,7 +16,7 @@ namespace NIST.CVP.Generation.AES_OFB.IntegrationTests
     [TestFixture, LongRunningIntegrationTest]
     public class GenValTests : GenValTestsSingleRunnerBase
     {
-        public override string Algorithm { get; } = "AES-OFB";
+        public override string Algorithm { get; } = "ACVP-AES-OFB";
         public override string Mode { get; } = string.Empty;
 
         public override AlgoMode AlgoMode => AlgoMode.AES_OFB_v1_0;

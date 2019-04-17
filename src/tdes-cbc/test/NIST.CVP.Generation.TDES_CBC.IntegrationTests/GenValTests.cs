@@ -13,7 +13,7 @@ namespace NIST.CVP.Generation.TDES_CBC.IntegrationTests
     [TestFixture, LongRunningIntegrationTest]
     public class GenValTests : GenValTestsSingleRunnerBase
     {
-        public override string Algorithm { get; } = "TDES-CBC";
+        public override string Algorithm { get; } = "ACVP-TDES-CBC";
         public override string Mode { get; } = string.Empty;
 
         public override AlgoMode AlgoMode => AlgoMode.TDES_CBC_v1_0;

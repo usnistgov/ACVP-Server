@@ -14,7 +14,7 @@ namespace NIST.CVP.Generation.AES_XTS.IntegrationTests
     [TestFixture, LongRunningIntegrationTest]
     public class GenValTests : GenValTestsSingleRunnerBase
     {
-        public override string Algorithm { get; } = "AES-XTS";
+        public override string Algorithm { get; } = "ACVP-AES-XTS";
         public override string Mode { get; } = string.Empty;
 
         public override AlgoMode AlgoMode => AlgoMode.AES_XTS_v1_0;
