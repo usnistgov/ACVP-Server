@@ -11,7 +11,7 @@ namespace NIST.CVP.Generation.AES_CCM.IntegrationTests
     [TestFixture, FastIntegrationTest]
     public class GenValEcmaTests : GenValTestsSingleRunnerBase
     {
-        public override string Algorithm { get; } = "AES-CCM";
+        public override string Algorithm { get; } = "ACVP-AES-CCM";
         public override string Mode { get; } = "ECMA";
 
         public override AlgoMode AlgoMode => AlgoMode.AES_CCM_v1_0;

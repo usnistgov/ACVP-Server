@@ -17,7 +17,7 @@ namespace NIST.CVP.Generation.TDES_CTR.Tests
         public ParameterBuilder()
         {
             // Provides a valid (as of construction) set of parameters
-            _algorithm = "TDES";
+            _algorithm = "ACVP-TDES";
             _mode = "CTR";
             _direction = ParameterValidator.VALID_DIRECTIONS;
             _keyingOptions = ParameterValidator.VALID_KEYING_OPTIONS;

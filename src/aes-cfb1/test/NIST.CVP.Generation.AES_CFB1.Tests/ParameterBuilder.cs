@@ -12,7 +12,7 @@ namespace NIST.CVP.Generation.AES_CFB1.Tests
         public ParameterBuilder()
         {
             // Provides a valid (as of construction) set of parameters
-            _algorithm = "AES-CCM";
+            _algorithm = "ACVP-AES-CCM";
             _mode = ParameterValidator.VALID_DIRECTIONS;
             _revision = "1.0";
             _keyLen = ParameterValidator.VALID_KEY_SIZES;
