@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Text;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Common.KDF.Components.AnsiX942.Enums;
+using Newtonsoft.Json;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
 
 namespace NIST.CVP.Generation.KDF_Components.v1_0.ANSIX942
 {
@@ -13,7 +15,14 @@ namespace NIST.CVP.Generation.KDF_Components.v1_0.ANSIX942
         public string TestType { get; set; }
         public List<TestCase> Tests { get; set; }
 
-        public HashFunction HashAlg { get; set; }
+        [JsonIgnore] public HashFunction HashAlg { get; set; }
+        [JsonProperty(PropertyName = "hashAlg")]
+        public string HashAlgName
+        {
+            get => HashAlg?.Name;
+            set => HashAlg = ShaAttributes.GetHashFunctionFromName(value);
+        }
+
         public int KeyLen { get; set; }
         public AnsiX942Types KdfType { get; set; }
         public int OtherInfoLen { get; set; }
