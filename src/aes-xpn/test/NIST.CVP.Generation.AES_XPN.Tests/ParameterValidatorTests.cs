@@ -233,7 +233,7 @@ namespace NIST.CVP.Generation.AES_XPN.Tests
             public ParameterBuilder()
             {
                 // Provides a valid (as of construction) set of parameters
-                _algorithm = "AES-XPN";
+                _algorithm = "ACVP-AES-XPN";
                 _mode = ParameterValidator.VALID_DIRECTIONS;
                 _keyLen = ParameterValidator.VALID_KEY_SIZES;
                 _ptLen = new MathDomain().AddSegment(new ValueDomainSegment(128));

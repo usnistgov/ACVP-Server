@@ -11,7 +11,7 @@ namespace NIST.CVP.Generation.AES_CFB8.Tests
         public ParameterBuilder()
         {
             // Provides a valid (as of construction) set of parameters
-            _algorithm = "AES-ECB";
+            _algorithm = "ACVP-AES-ECB";
             _mode = ParameterValidator.VALID_DIRECTIONS;
             _keyLen = ParameterValidator.VALID_KEY_SIZES;
         }

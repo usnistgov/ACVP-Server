@@ -48,7 +48,7 @@ namespace NIST.CVP.Generation.AES_CFB8.Tests
         {
             Parameters p = new Parameters()
             {
-                Algorithm = "AES-CFB8",
+                Algorithm = "ACVP-AES-CFB8",
                 Revision = "1.0",
                 KeyLen = keyLen,
                 Direction = mode,

@@ -139,7 +139,7 @@ namespace NIST.CVP.Generation.AES_GCM_SIV.Tests
             public ParameterBuilder()
             {
                 // Provides a valid (as of construction) set of parameters
-                _algorithm = "AES-GCM-SIV";
+                _algorithm = "ACVP-AES-GCM-SIV";
                 _mode = ParameterValidator.VALID_DIRECTIONS;
                 _keyLen = ParameterValidator.VALID_KEY_SIZES;
                 _ptLen = new MathDomain().AddSegment(new ValueDomainSegment(128));

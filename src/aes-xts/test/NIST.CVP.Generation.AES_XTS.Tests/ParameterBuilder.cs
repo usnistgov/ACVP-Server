@@ -20,7 +20,7 @@ namespace NIST.CVP.Generation.AES_XTS.Tests
         public ParameterBuilder()
         {
             // Provides a valid (as of construction) set of parameters
-            _algorithm = "AES";
+            _algorithm = "ACVP-AES";
             _mode = "XTS";
             _direction = ParameterValidator.VALID_DIRECTIONS;
             _tweakModes = ParameterValidator.VALID_TWEAKS;
