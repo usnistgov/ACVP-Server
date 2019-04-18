@@ -1,4 +1,5 @@
 ﻿using NIST.CVP.Generation.Core;
+using NIST.CVP.Math.Domain;
 
 namespace NIST.CVP.Generation.AES_CBC_CTS.v1_0
 {
@@ -10,6 +11,7 @@ namespace NIST.CVP.Generation.AES_CBC_CTS.v1_0
         public string Revision { get; set; } = "1.0";
         public bool IsSample { get; set; }
         public string[] Conformances { get; set; } = { };
+        public MathDomain PayloadLen { get; set; }
         public string[] Direction { get; set; }
         public int[] KeyLen { get; set; }
     }

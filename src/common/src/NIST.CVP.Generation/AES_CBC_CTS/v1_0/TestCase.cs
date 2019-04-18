@@ -11,14 +11,14 @@ namespace NIST.CVP.Generation.AES_CBC_CTS.v1_0
         
         public int TestCaseId { get; set; }
         public TestGroup ParentGroup { get; set; }
-        [JsonIgnore]
-        public bool Deferred { get; set; }
-        [JsonIgnore]
-        public bool? TestPassed => true;
+        [JsonIgnore] public bool Deferred => false;
+        [JsonIgnore] public bool? TestPassed => true;
         [JsonProperty(PropertyName = "iv")]
         public BitString IV { get; set; } 
         [JsonProperty(PropertyName = "pt")]
         public BitString PlainText { get; set; }
+        [JsonProperty(PropertyName = "ptLen")]
+        public int PlaintextLen { get; set; }
         [JsonProperty(PropertyName = "key")]
         public BitString Key { get; set; }
         [JsonProperty(PropertyName = "ct")]
