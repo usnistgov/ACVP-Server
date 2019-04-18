@@ -1,4 +1,5 @@
-﻿using System.Runtime.Serialization;
+﻿using System;
+using System.Runtime.Serialization;
 
 namespace NIST.CVP.Crypto.Common.Symmetric.Enums
 {
@@ -12,6 +13,9 @@ namespace NIST.CVP.Crypto.Common.Symmetric.Enums
 
         [EnumMember(Value = "cbci")]
         Cbci,
+
+        [EnumMember(Value = "cbcCts")]
+        CbcCts,
 
         [EnumMember(Value = "cbcmac")]
         CbcMac,
