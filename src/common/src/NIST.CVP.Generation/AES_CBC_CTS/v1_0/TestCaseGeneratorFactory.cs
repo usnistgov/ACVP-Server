@@ -16,23 +16,52 @@ namespace NIST.CVP.Generation.AES_CBC_CTS.v1_0
         {
             var testType = testGroup.TestType.ToLower();
             var katType = testGroup.InternalTestType.ToLower();
+            var isPartialBlockGroup = testGroup.IsPartialBlockGroup;
 
-            switch (katType)
+            switch (isPartialBlockGroup)
             {
-                case "gfsbox":
-                case "keysbox":
-                case "vartxt":
-                case "varkey":
-                    return new TestCaseGeneratorKnownAnswer(testGroup.KeyLength, katType);
+                case false:
+                {
+                    switch (katType)
+                    {
+                        case "gfsbox":
+                        case "keysbox":
+                        case "vartxt":
+                        case "varkey":
+                            return new TestCaseGeneratorKnownAnswerSingleBlock(testGroup.KeyLength, katType);
+                    }
+
+                    switch (testType)
+                    {
+                        case "aft":
+                            return new TestCaseGeneratorMmtFullBlock(_oracle);
+                    }
+
+                    break;
+                }
+                case true:
+                {
+                    switch (katType)
+                    {
+                        case "gfsbox":
+                        case "keysbox":
+                        case "vartxt":
+                        case "varkey":
+                            return new TestCaseGeneratorKnownAnswerPartialBlock(testGroup.KeyLength, katType);
+                    }
+
+                    switch (testType)
+                    {
+                        case "mct":
+                            return new TestCaseGeneratorMct(_oracle);
+                        case "aft":
+                            return new TestCaseGeneratorMmtFullBlock(_oracle);
+                    }
+                }
+
+                    break;
             }
             
-            switch (testType)
-            {
-                case "mct":
-                    return new TestCaseGeneratorMct(_oracle);
-                case "aft":
-                    return new TestCaseGeneratorMmt(_oracle);
-            }
 
             return new TestCaseGeneratorNull();
         }

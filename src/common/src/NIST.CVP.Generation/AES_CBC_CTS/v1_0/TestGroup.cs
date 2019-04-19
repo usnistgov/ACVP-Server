@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Math.Domain;
 
 namespace NIST.CVP.Generation.AES_CBC_CTS.v1_0
 {
@@ -16,26 +17,7 @@ namespace NIST.CVP.Generation.AES_CBC_CTS.v1_0
 
         public List<TestCase> Tests { get; set; } = new List<TestCase>();
 
-        public bool SetString(string name, string value)
-        {
-            if (string.IsNullOrEmpty(name))
-            {
-                return false;
-            }
-
-            int intVal = 0;
-            if (!int.TryParse(value, out intVal))
-            {
-                return false;
-            }
-
-            switch (name.ToLower())
-            {
-                case "keylen":
-                    KeyLength = intVal;
-                    return true;
-            }
-            return false;
-        }
+        public bool IsPartialBlockGroup { get; set; }
+        public MathDomain PayloadLen { get; set; }
     }
 }

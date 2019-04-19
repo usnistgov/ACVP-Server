@@ -8,7 +8,6 @@ namespace NIST.CVP.Generation.AES_CBC_CTS.v1_0
 {
     public class TestCase : ITestCase<TestGroup, TestCase>
     {
-        
         public int TestCaseId { get; set; }
         public TestGroup ParentGroup { get; set; }
         [JsonIgnore] public bool Deferred => false;
@@ -25,65 +24,5 @@ namespace NIST.CVP.Generation.AES_CBC_CTS.v1_0
         public BitString CipherText { get; set; }
         [JsonProperty(PropertyName = "resultsArray")]
         public List<AlgoArrayResponse> ResultsArray { get; set; }
-
-        public bool SetResultsArrayString(int index, string name, string value)
-        {
-            if (string.IsNullOrEmpty(name))
-            {
-                return false;
-            }
-
-            switch (name.ToLower())
-            {
-                case "key":
-                    ResultsArray[index].Key = new BitString(value);
-                    return true;
-
-                case "iv":
-                    ResultsArray[index].IV = new BitString(value);
-                    return true;
-
-                case "plaintext":
-                case "pt":
-                    ResultsArray[index].PlainText = new BitString(value);
-                    return true;
-
-                case "ciphertext":
-                case "ct":
-                    ResultsArray[index].CipherText = new BitString(value);
-                    return true;
-            }
-            return false;
-        }
-
-        public bool SetString(string name, string value)
-        {
-            if (string.IsNullOrEmpty(name))
-            {
-                return false;
-            }
-      
-            switch (name.ToLower())
-            {
-                case "key":
-                    Key = new BitString(value);
-                    return true;
-
-                case "iv":
-                    IV = new BitString(value);
-                    return true;
-
-                case "plaintext":
-                case "pt":
-                    PlainText= new BitString(value);
-                    return true;
-
-                case "ciphertext":
-                case "ct":
-                    CipherText = new BitString(value);
-                    return true;
-            }
-            return false;
-        }
     }
 }

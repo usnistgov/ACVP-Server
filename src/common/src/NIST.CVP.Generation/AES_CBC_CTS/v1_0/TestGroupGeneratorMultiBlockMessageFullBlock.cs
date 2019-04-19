@@ -3,7 +3,7 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.AES_CBC_CTS.v1_0
 {
-    public class TestGroupGeneratorMultiBlockMessage : ITestGroupGenerator<Parameters, TestGroup, TestCase>
+    public class TestGroupGeneratorMultiBlockMessageFullBlock : ITestGroupGenerator<Parameters, TestGroup, TestCase>
     {
         public const string MMT_TYPE_LABEL = "AFT";
 
@@ -20,7 +20,9 @@ namespace NIST.CVP.Generation.AES_CBC_CTS.v1_0
                         Function = function,
                         KeyLength = keyLength,
                         TestType = MMT_TYPE_LABEL,
-                        InternalTestType = "MMT"
+                        InternalTestType = "MMT",
+                        IsPartialBlockGroup = false,
+                        PayloadLen = parameters.PayloadLen.GetDeepCopy()
                     };
                     testGroups.Add(testGroup);
                 }

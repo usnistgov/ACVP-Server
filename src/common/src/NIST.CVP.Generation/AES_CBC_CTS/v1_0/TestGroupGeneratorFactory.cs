@@ -10,10 +10,15 @@ namespace NIST.CVP.Generation.AES_CBC_CTS.v1_0
             HashSet<ITestGroupGenerator<Parameters, TestGroup, TestCase>> list =
                 new HashSet<ITestGroupGenerator<Parameters, TestGroup, TestCase>>()
                 {
-                    new TestGroupGeneratorKnownAnswerTests(),
-                    new TestGroupGeneratorMultiBlockMessage(),
+                    new TestGroupGeneratorKnownAnswerTestsPartialBlock(),
                     new TestGroupGeneratorMonteCarlo()
                 };
+
+            if (parameters.PayloadLen.IsWithinDomain(128))
+            {
+                list.Add(new TestGroupGeneratorKnownAnswerTestsSingleBlock());
+                list.Add(new TestGroupGeneratorMultiBlockMessageFullBlock());
+            }
 
             return list;
         }

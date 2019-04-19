@@ -3,10 +3,10 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.AES_CBC_CTS.v1_0
 {
-    public class TestGroupGeneratorKnownAnswerTests : ITestGroupGenerator<Parameters, TestGroup, TestCase>
+    public class TestGroupGeneratorKnownAnswerTestsSingleBlock : ITestGroupGenerator<Parameters, TestGroup, TestCase>
     {
         private const string TEST_TYPE = "AFT";
-        private readonly string[] _katTests = new string[]
+        private readonly string[] _katTests = 
         {
             "GFSBox",
             "KeySBox",
@@ -29,8 +29,9 @@ namespace NIST.CVP.Generation.AES_CBC_CTS.v1_0
                             Function = direction,
                             KeyLength = keyLength,
                             TestType = TEST_TYPE,
-                            InternalTestType = katTest
-                            
+                            InternalTestType = katTest,
+                            IsPartialBlockGroup = false,
+                            PayloadLen = parameters.PayloadLen.GetDeepCopy()
                         };
                         testGroups.Add(testGroup);
                     }

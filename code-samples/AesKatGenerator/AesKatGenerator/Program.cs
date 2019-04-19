@@ -132,7 +132,7 @@ namespace AesKatGenerator
             {
                 var param = new ModeBlockCipherParameters(
                     BlockCipherDirections.Encrypt,
-                    fe.IV,
+                    fe.IV.GetDeepCopy(),
                     fe.Key,
                     fe.PlainText
                 );

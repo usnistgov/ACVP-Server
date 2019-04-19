@@ -10,7 +10,7 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.AES_CBC_CTS.v1_0
 {
-    public class TestCaseGeneratorKnownAnswer : ITestCaseGeneratorAsync<TestGroup, TestCase>
+    public class TestCaseGeneratorKnownAnswerSingleBlock : ITestCaseGeneratorAsync<TestGroup, TestCase>
     {
         private readonly List<AlgoArrayResponse> _kats = new List<AlgoArrayResponse>();
         private readonly Dictionary<(int keyLength, string katType), List<AlgoArrayResponse>> _katMapping =
@@ -32,7 +32,7 @@ namespace NIST.CVP.Generation.AES_CBC_CTS.v1_0
 
         private int _katsIndex = 0;
 
-        public TestCaseGeneratorKnownAnswer(int keyLength, string katType)
+        public TestCaseGeneratorKnownAnswerSingleBlock(int keyLength, string katType)
         {
             if (!_katMapping
                 .TryFirst(w => w.Key.keyLength == keyLength &&
@@ -44,7 +44,6 @@ namespace NIST.CVP.Generation.AES_CBC_CTS.v1_0
             }
 
             _kats = result.Value;
-            _kats.ForEach(fe => fe.IV = new BitString(128));
         }
 
         public int NumberOfTestCasesToGenerate => _kats.Count;

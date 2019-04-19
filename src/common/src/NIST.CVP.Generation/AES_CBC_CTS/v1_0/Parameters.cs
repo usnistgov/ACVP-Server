@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Generation.Core;
+﻿using Newtonsoft.Json;
+using NIST.CVP.Generation.Core;
 using NIST.CVP.Math.Domain;
 
 namespace NIST.CVP.Generation.AES_CBC_CTS.v1_0

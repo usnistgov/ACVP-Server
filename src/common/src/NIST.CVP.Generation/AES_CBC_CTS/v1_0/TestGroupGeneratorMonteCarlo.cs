@@ -19,7 +19,9 @@ namespace NIST.CVP.Generation.AES_CBC_CTS.v1_0
                     {
                         Function = direction,
                         KeyLength = keyLength,
-                        TestType = _MCT_TEST_TYPE_LABEL
+                        TestType = _MCT_TEST_TYPE_LABEL,
+                        IsPartialBlockGroup = true,
+                        PayloadLen = parameters.PayloadLen.GetDeepCopy()
                     };
                     testGroups.Add(testGroup);
                 }

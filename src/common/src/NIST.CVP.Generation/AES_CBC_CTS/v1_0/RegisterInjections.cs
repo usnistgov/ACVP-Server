@@ -15,9 +15,9 @@ namespace NIST.CVP.Generation.AES_CBC_CTS.v1_0
     {
         public IEnumerable<AlgoMode> SupportedAlgoModeRevisions => new List<AlgoMode>()
         {
-            AlgoMode.AES_CS1_v1_0,
-            AlgoMode.AES_CS2_v1_0,
-            AlgoMode.AES_CS3_v1_0
+            AlgoMode.AES_CBC_CS1_v1_0,
+            AlgoMode.AES_CBC_CS2_v1_0,
+            AlgoMode.AES_CBC_CS3_v1_0
         };
 
         public void RegisterTypes(ContainerBuilder builder, AlgoMode algoMode)
