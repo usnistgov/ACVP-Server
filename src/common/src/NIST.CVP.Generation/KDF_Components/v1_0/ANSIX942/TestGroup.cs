@@ -13,7 +13,7 @@ namespace NIST.CVP.Generation.KDF_Components.v1_0.ANSIX942
     {
         public int TestGroupId { get; set; }
         public string TestType { get; set; }
-        public List<TestCase> Tests { get; set; }
+        public List<TestCase> Tests { get; set; } = new List<TestCase>();
 
         [JsonIgnore] public HashFunction HashAlg { get; set; }
         [JsonProperty(PropertyName = "hashAlg")]
