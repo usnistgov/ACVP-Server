@@ -24,9 +24,9 @@ namespace NIST.CVP.Generation.KDF_Components.v1_0.ANSIX942
                 {
                     var hash = ShaAttributes.GetHashFunctionFromName(hashAlg);
 
-                    var keyLen = GetMinMaxOtherValueForDomain(parameters.KeyLen);
-                    var otherInfoLen = GetMinMaxOtherValueForDomain(parameters.OtherInfoLen);
-                    var zzLen = GetMinMaxOtherValueForDomain(parameters.ZzLen);
+                    var keyLen = GetMinMaxOtherValueForDomain(parameters.KeyLen.GetDeepCopy());
+                    var otherInfoLen = GetMinMaxOtherValueForDomain(parameters.OtherInfoLen.GetDeepCopy());
+                    var zzLen = GetMinMaxOtherValueForDomain(parameters.ZzLen.GetDeepCopy());
                     
                     for (var i = 0; i < 3; i++)
                     {

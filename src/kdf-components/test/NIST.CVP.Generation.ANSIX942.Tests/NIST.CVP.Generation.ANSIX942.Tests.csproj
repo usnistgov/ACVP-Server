@@ -20,4 +20,7 @@
     <ProjectReference Include="..\..\..\crypto\src\NIST.CVP.Crypto\NIST.CVP.Crypto.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ContractResolvers\" />
+  </ItemGroup>
 </Project>

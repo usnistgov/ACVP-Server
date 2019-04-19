@@ -27,5 +27,20 @@ namespace NIST.CVP.Generation.KDF_Components.v1_0.ANSIX942
         public AnsiX942Types KdfType { get; set; }
         public int OtherInfoLen { get; set; }
         public int ZzLen { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is TestGroup group)
+            {
+                return GetHashCode() == group.GetHashCode();
+            }
+
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(TestGroupId, TestType, HashAlgName, KeyLen, KdfType, OtherInfoLen, ZzLen);
+        }
     }
 }
