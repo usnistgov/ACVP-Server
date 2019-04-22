@@ -13,6 +13,7 @@ set branch=%BranchName%
 
 rem set homedir="%gitrepo%\gen-val"
 set homedir="%env.homedir%"
+set netcoreappver="%env.netcorepath%"
 
 cd %homedir%
 
@@ -33,7 +34,7 @@ cd %homedir%
 cd src\common\src\NIST.CVP.Generation.GenValApp
 dotnet publish -c Release -r win-x64
 
-cd %homedir%\src\common\src\NIST.CVP.Generation.GenValApp\bin\Release\netcoreapp2.1\win-x64\
+cd %homedir%\src\common\src\NIST.CVP.Generation.GenValApp\bin\Release\netcoreappver\win-x64\
 "%zip%" a -tzip publish.zip publish\
 move publish.zip "%homedir%\%mydate%_%mytime%_GenValsOrleans.zip"
 
@@ -44,8 +45,8 @@ rem Orleans build
 cd src\orleans\src\NIST.CVP.Orleans.ServerHost
 dotnet publish -c Release -r win-x64
 
-rem cd ..\..\orleans\src\NIST.CVP.Orleans.ServerHost\bin\Release\netcoreapp2.1\win-x64\
-cd bin\Release\netcoreapp2.1\win-x64\
+rem cd ..\..\orleans\src\NIST.CVP.Orleans.ServerHost\bin\Release\netcoreappver\win-x64\
+cd bin\Release\netcoreappver\win-x64\
 "%zip%" a -tzip publish.zip publish\
 move publish.zip "%homedir%\%mydate%_%mytime%_OrleansServer.zip"
 
@@ -56,7 +57,7 @@ rem Pool API build
 cd src\pool-api\NIST.CVP.PoolAPI
 dotnet publish -c Release -r win-x64
 
-cd bin\Release\netcoreapp2.1\win-x64\
+cd bin\Release\netcoreappver\win-x64\
 "%zip%" a -tzip publish.zip publish\
 move publish.zip "%homedir%\%mydate%_%mytime%_PoolService.zip"
 
