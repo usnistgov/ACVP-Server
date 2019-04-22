@@ -2,6 +2,7 @@
 using System.Linq;
 using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Math.Domain;
 
 namespace NIST.CVP.Generation.AES_CBC_CTS.v1_0
 {
@@ -65,8 +66,8 @@ namespace NIST.CVP.Generation.AES_CBC_CTS.v1_0
             );
             errorResults.AddIfNotNullOrEmpty(rangeCheck);
 
-            var modCheck = ValidateMultipleOf(parameters.PayloadLen, 8, "PayloadLen Modulus");
-            errorResults.AddIfNotNullOrEmpty(modCheck);
+            //var modCheck = ValidateMultipleOf(parameters.PayloadLen, 8, "PayloadLen Modulus");
+            //errorResults.AddIfNotNullOrEmpty(modCheck);
 
             // In order to "steal cipher text" the domain must not contain ONLY block sized amounts
             if (parameters.PayloadLen.DomainSegments.All(a => a.RangeMinMax.Increment % 128 == 0) &&
@@ -74,6 +75,8 @@ namespace NIST.CVP.Generation.AES_CBC_CTS.v1_0
             {
                 errorResults.Add("PayloadLen domain must contain values that are not the AES block size.");
             }
+
+            parameters.PayloadLen.SetRangeOptions(RangeDomainSegmentOptions.Random);
         }
     }
 }

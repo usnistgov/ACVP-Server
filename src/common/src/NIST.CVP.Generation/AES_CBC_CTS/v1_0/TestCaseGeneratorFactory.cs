@@ -47,7 +47,7 @@ namespace NIST.CVP.Generation.AES_CBC_CTS.v1_0
                         case "keysbox":
                         case "vartxt":
                         case "varkey":
-                            return new TestCaseGeneratorKnownAnswerPartialBlock(testGroup.KeyLength, katType);
+                            return new TestCaseGeneratorKnownAnswerPartialBlock(_oracle, testGroup.KeyLength, katType);
                     }
 
                     switch (testType)
@@ -55,7 +55,7 @@ namespace NIST.CVP.Generation.AES_CBC_CTS.v1_0
                         case "mct":
                             return new TestCaseGeneratorMct(_oracle);
                         case "aft":
-                            return new TestCaseGeneratorMmtFullBlock(_oracle);
+                            return new TestCaseGeneratorMmtPartialBlock(_oracle);
                     }
                 }
 

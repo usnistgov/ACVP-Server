@@ -11,7 +11,9 @@ namespace NIST.CVP.Generation.AES_CBC_CTS.v1_0
                 new HashSet<ITestGroupGenerator<Parameters, TestGroup, TestCase>>()
                 {
                     new TestGroupGeneratorKnownAnswerTestsPartialBlock(),
-                    new TestGroupGeneratorMonteCarlo()
+                    new TestGroupGeneratorMultiBlockMessagePartialBlock(),
+                    // TODO implement MCT test
+                    //new TestGroupGeneratorMonteCarlo()
                 };
 
             if (parameters.PayloadLen.IsWithinDomain(128))

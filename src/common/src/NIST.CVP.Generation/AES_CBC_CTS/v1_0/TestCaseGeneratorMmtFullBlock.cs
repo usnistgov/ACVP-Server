@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Crypto.Common.Symmetric.Enums;
@@ -15,13 +16,10 @@ namespace NIST.CVP.Generation.AES_CBC_CTS.v1_0
     public class TestCaseGeneratorMmtFullBlock : ITestCaseGeneratorAsync<TestGroup, TestCase>
     {
         private readonly IOracle _oracle;
-
-        private const int LENGTH_MULTIPLIER = 16;
-        private const int BITS_IN_BYTE = 8;
-
-        private int _lenGenIteration = 1;
+        
         private bool _sizesSet = false;
         private List<int> _validSizes = new List<int>();
+        private int _currentIndex = 0;
 
         public int NumberOfTestCasesToGenerate => 10;
 
@@ -40,11 +38,12 @@ namespace NIST.CVP.Generation.AES_CBC_CTS.v1_0
             var param = new AesParameters
             {
                 Mode = BlockCipherModesOfOperation.CbcCts,
-                DataLength = _lenGenIteration++ * LENGTH_MULTIPLIER * BITS_IN_BYTE,
+                DataLength = GetDataLength(),
                 Direction = group.Function,
                 KeyLength = group.KeyLength
             };
 
+            
             try
             {
                 var oracleResult = await _oracle.GetAesCaseAsync(param);
@@ -64,11 +63,29 @@ namespace NIST.CVP.Generation.AES_CBC_CTS.v1_0
             }
         }
 
+        private int GetDataLength()
+        {
+            var valueToReturn = _validSizes[_currentIndex];
+            _currentIndex++;
+
+            if (_validSizes.Count == _currentIndex)
+            {
+                _currentIndex = 0;
+            }
+
+            return valueToReturn;
+        }
+
         private List<int> GetValidSizes(MathDomain dataLength)
         {
             _sizesSet = true;
 
-            return dataLength.GetValues(a => a % 128 == 0, NumberOfTestCasesToGenerate, true).ToList();
+            List<int> values = new List<int>();
+            // Use larger numbers only when the "smaller" values don't exist.
+            values.AddRangeIfNotNullOrEmpty(dataLength.GetValues(a => a > 128 && a < 1280 && a % 128 == 0, 128, true));
+            values.AddRangeIfNotNullOrEmpty(dataLength.GetValues(a => a % 128 == 0, 128, true));
+
+            return values.Take(NumberOfTestCasesToGenerate).ToList();
         }
 
         private static ILogger ThisLogger => LogManager.GetCurrentClassLogger();

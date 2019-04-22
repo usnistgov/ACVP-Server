@@ -11,6 +11,9 @@ using NLog;
 
 namespace NIST.CVP.Generation.AES_CBC_CTS.v1_0
 {
+    /// <summary>
+    /// TODO implement MCT test
+    /// </summary>
     public class TestCaseGeneratorMct : ITestCaseGeneratorAsync<TestGroup, TestCase>
     {
         private readonly IOracle _oracle;
@@ -26,7 +29,7 @@ namespace NIST.CVP.Generation.AES_CBC_CTS.v1_0
         {
             var param = new AesParameters
             {
-                Mode = BlockCipherModesOfOperation.Cbc,
+                Mode = BlockCipherModesOfOperation.CbcCts,
                 DataLength = 128,
                 Direction = group.Function,
                 KeyLength = group.KeyLength

@@ -17,7 +17,7 @@ namespace NIST.CVP.Generation.AES_CBC_CTS.v1_0
         [JsonProperty(PropertyName = "pt")]
         public BitString PlainText { get; set; }
         [JsonProperty(PropertyName = "ptLen")]
-        public int PlaintextLen { get; set; }
+        public int PlaintextLen => PlainText?.BitLength ?? 0;
         [JsonProperty(PropertyName = "key")]
         public BitString Key { get; set; }
         [JsonProperty(PropertyName = "ct")]
