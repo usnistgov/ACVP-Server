@@ -8,6 +8,7 @@ using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Generation.Core.Tests.Fakes;
 using NIST.CVP.Crypto.Common;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.ECDSA.v1_0.SigVer;
 
 namespace NIST.CVP.Generation.DSA.ECC.SigVer.IntegrationTests
 {

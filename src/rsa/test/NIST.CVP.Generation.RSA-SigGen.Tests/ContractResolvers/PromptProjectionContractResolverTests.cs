@@ -5,7 +5,8 @@ using System.Text.RegularExpressions;
 using NIST.CVP.Generation.Core.DeSerialization;
 using NIST.CVP.Generation.Core.Enums;
 using NIST.CVP.Generation.Core.JsonConverters;
-using NIST.CVP.Generation.RSA_SigGen.ContractResolvers;
+using NIST.CVP.Generation.RSA.v1_0.SigGen;
+using NIST.CVP.Generation.RSA.v1_0.SigGen.ContractResolvers;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 

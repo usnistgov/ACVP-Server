@@ -34,7 +34,6 @@ namespace NIST.CVP.PoolAPI
             services.AddSingleton(Configuration);
 
             services.Configure<EnvironmentConfig>(Configuration.GetSection(nameof(EnvironmentConfig)));
-            services.Configure<AlgorithmConfig>(Configuration.GetSection(nameof(AlgorithmConfig)));
             services.Configure<PoolConfig>(Configuration.GetSection(nameof(PoolConfig)));
             services.Configure<OrleansConfig>(Configuration.GetSection(nameof(OrleansConfig)));
 

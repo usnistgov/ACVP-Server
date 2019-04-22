@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.App" Version="$(NuGetVersionMicrosoftAspNetCore)" />
+    <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="$(NuGetVersionMicrosoftNETTestSdk)" />
     <PackageReference Include="Moq" Version="$(NuGetVersionMoq)" />
     <PackageReference Include="NUnit" Version="$(NuGetVersionNUnit)" />
@@ -15,12 +15,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\common\src\NIST.CVP.Generation.Core\NIST.CVP.Generation.Core.csproj" />
+    <ProjectReference Include="..\..\..\common\src\NIST.CVP.Generation\NIST.CVP.Generation.csproj" />
     <ProjectReference Include="..\..\..\common\src\NIST.CVP.Math\NIST.CVP.Math.csproj" />
     <ProjectReference Include="..\..\..\common\test\NIST.CVP.Generation.Core.Tests\NIST.CVP.Generation.Core.Tests.csproj" />
     <ProjectReference Include="..\..\..\common\test\NIST.CVP.Tests.Core\NIST.CVP.Tests.Core.csproj" />
     <ProjectReference Include="..\..\..\crypto\src\NIST.CVP.Crypto\NIST.CVP.Crypto.csproj" />
     <ProjectReference Include="..\..\..\crypto\src\NIST.CVP.Crypto.Common\NIST.CVP.Crypto.Common.csproj" />
-    <ProjectReference Include="..\..\src\NIST.CVP.Generation.RSA-SigVer\NIST.CVP.Generation.RSA-SigVer.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -4,7 +4,8 @@ using System.Linq;
 using System.Text;
 using NIST.CVP.Common.Oracle.DispositionTypes;
 using NIST.CVP.Crypto.Common.KAS.Enums;
-using NIST.CVP.Generation.KAS.Helpers;
+using NIST.CVP.Generation.KAS.v1_0.ECC;
+using NIST.CVP.Generation.KAS.v1_0.Helpers;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 

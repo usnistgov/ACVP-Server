@@ -1,5 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using NIST.CVP.Generation.TDES_CBCI.v1_0;
 using NUnit.Framework;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Generation.TDES_CBCI.Tests
 {

@@ -4,6 +4,7 @@ using NIST.CVP.Crypto.Common;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Generation.Core.Tests.Fakes;
+using NIST.CVP.Generation.DRBG.v1_0;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Domain;
 using NUnit.Framework;

@@ -1,5 +1,6 @@
 ﻿using NIST.CVP.Common;
 using NIST.CVP.Generation.Core.Tests;
+using NIST.CVP.Generation.TDES_CTR.v1_0;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
@@ -10,7 +11,7 @@ namespace NIST.CVP.Generation.TDES_CTR.IntegrationTests
     [TestFixture, FastIntegrationTest]
     public class GenValTests : GenValTestsSingleRunnerBase
     {
-        public override string Algorithm => "TDES-CTR";
+        public override string Algorithm => "ACVP-TDES-CTR";
         public override string Mode => string.Empty;
 
         public override AlgoMode AlgoMode => AlgoMode.TDES_CTR_v1_0;

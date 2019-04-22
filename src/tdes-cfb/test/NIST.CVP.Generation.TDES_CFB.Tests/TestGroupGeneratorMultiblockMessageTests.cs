@@ -1,9 +1,7 @@
-﻿using NIST.CVP.Tests.Core.TestCategoryAttributes;
+﻿using NIST.CVP.Generation.TDES_CFB.v1_0;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace NIST.CVP.Generation.TDES_CFB.Tests
 {
@@ -56,7 +54,7 @@ namespace NIST.CVP.Generation.TDES_CFB.Tests
         {
             Parameters p = new Parameters()
             {
-                Algorithm = "TDES-CFB1",
+                Algorithm = "ACVP-TDES-CFB1",
                 Revision = "1.0",
                 Direction = mode,
                 KeyingOption = keyOption,
@@ -72,7 +70,7 @@ namespace NIST.CVP.Generation.TDES_CFB.Tests
         {
             Parameters p = new Parameters()
             {
-                Algorithm = "TDES-CFB1",
+                Algorithm = "ACVP-TDES-CFB1",
                 Revision = "1.0",
                 Direction = new[] { "encrypt", "decrypt" },
                 KeyingOption = new[] { 1, 2 },

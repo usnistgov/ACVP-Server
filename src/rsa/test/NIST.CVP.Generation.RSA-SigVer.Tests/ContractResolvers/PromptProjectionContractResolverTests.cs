@@ -1,10 +1,11 @@
 ﻿using NIST.CVP.Generation.Core.DeSerialization;
 using NIST.CVP.Generation.Core.Enums;
 using NIST.CVP.Generation.Core.JsonConverters;
-using NIST.CVP.Generation.RSA_SigVer.ContractResolvers;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using System.Text.RegularExpressions;
+using NIST.CVP.Generation.RSA.v1_0.SigVer;
+using NIST.CVP.Generation.RSA.v1_0.SigVer.ContractResolvers;
 
 namespace NIST.CVP.Generation.RSA_SigVer.Tests.ContractResolvers
 {

@@ -3,6 +3,7 @@ using System.Text;
 using NIST.CVP.Common;
 using NIST.CVP.Common.Helpers;
 using NIST.CVP.Crypto.Common;
+using NIST.CVP.Generation.Core.Exceptions;
 using NLog;
 
 namespace NIST.CVP.Generation.Core.Helpers
@@ -61,7 +62,7 @@ namespace NIST.CVP.Generation.Core.Helpers
                 string errorMsg =
                     $"Unable to map {nameof(algo)} ({algo}), {nameof(mode)} ({mode}), and {nameof(revision)} ({revision}) to {nameof(AlgoMode)}";
                 Logger.Error(errorMsg);
-                throw new InvalidOperationException(errorMsg);
+                throw new AlgoModeRevisionException(errorMsg);
             }
         }
     }

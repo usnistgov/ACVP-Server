@@ -1,0 +1,16 @@
+{
+  "vsId": 0,
+  "algorithm": "ACVP-AES-ECB",
+  "revision": "1.0",
+  "isSample": false,
+  "conformances": [],
+  "direction": [
+    "encrypt",
+    "decrypt"
+  ],
+  "keyLen": [
+    128,
+    192,
+    256
+  ]
+}

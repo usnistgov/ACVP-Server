@@ -1,4 +1,6 @@
 ﻿using NIST.CVP.Common;
+using NIST.CVP.Generation.SHA3.v1_0;
+
 
 namespace NIST.CVP.Generation.SHA3.IntegrationTests
 {

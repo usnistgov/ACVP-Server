@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using NIST.CVP.Generation.CMAC.v1_0;
 
 namespace NIST.CVP.Generation.CMAC.Tests
 {

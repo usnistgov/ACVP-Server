@@ -4,12 +4,13 @@ using System.Threading.Tasks;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Crypto.Common.KAS.Helpers;
 using NIST.CVP.Crypto.Oracle.Builders;
+using NIST.CVP.Generation.KAS.v1_0.ECC;
+using NIST.CVP.Generation.KAS.v1_0.ECC.Parsers;
 using NIST.CVP.Tests.Core;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
-using NIST.CVP.Generation.KAS.ECC.Parsers;
-using TestCase = NIST.CVP.Generation.KAS.ECC.TestCase;
-using TestGroup = NIST.CVP.Generation.KAS.ECC.TestGroup;
+using TestCase = NIST.CVP.Generation.KAS.v1_0.ECC.TestCase;
+using TestGroup = NIST.CVP.Generation.KAS.v1_0.ECC.TestGroup;
 
 namespace NIST.CVP.Generation.KAS.IntegrationTests
 {
@@ -59,7 +60,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
 
                     foreach (var testCase in testGroup.Tests)
                     {
-                        var testCaseResolver = new ECC.DeferredTestCaseResolver(oracle);
+                        var testCaseResolver = new DeferredTestCaseResolver(oracle);
 
                         SwitchTestCaseIutServerInformation(testCase);
 

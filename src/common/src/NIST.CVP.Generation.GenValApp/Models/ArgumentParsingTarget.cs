@@ -20,10 +20,6 @@ namespace NIST.CVP.Generation.GenValApp.Models
             Description = "The algorithm testing revision.")]
         public string Revision { get; set; }
 
-        [DirectoryArgument('d', "dllLocation", DirectoryMustExist = true, Optional = true,
-            Description = "The location to find run time loaded DLLs.  When not provided, current working directory is used.")]
-        public DirectoryInfo DllLocation { get; set; }
-
         [FileArgument('g', "generationRequestFile", FileMustExist = true, Optional = true,
             Description = "The test vector generation registration file")]
         public FileInfo RegistrationFile { get; set; }

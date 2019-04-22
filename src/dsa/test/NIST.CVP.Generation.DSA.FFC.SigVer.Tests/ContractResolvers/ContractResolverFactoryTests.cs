@@ -1,7 +1,8 @@
 ﻿using System;
 using NIST.CVP.Generation.Core.ContractResolvers;
 using NIST.CVP.Generation.Core.Enums;
-using NIST.CVP.Generation.DSA.FFC.SigVer.ContractResolvers;
+using NIST.CVP.Generation.DSA.v1_0.SigVer;
+using NIST.CVP.Generation.DSA.v1_0.SigVer.ContractResolvers;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 

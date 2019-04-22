@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
+using NIST.CVP.Generation.AES_CFB128.v1_0;
 using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;

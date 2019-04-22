@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using NIST.CVP.Crypto.Common.Symmetric;
+using NIST.CVP.Generation.AES_CFB1.v1_0;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Helpers;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;

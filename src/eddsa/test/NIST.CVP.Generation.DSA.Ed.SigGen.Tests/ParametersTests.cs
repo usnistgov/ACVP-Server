@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Tests.Core.TestCategoryAttributes;
+﻿using NIST.CVP.Generation.EDDSA.v1_0.SigGen;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.DSA.Ed.SigGen.Tests

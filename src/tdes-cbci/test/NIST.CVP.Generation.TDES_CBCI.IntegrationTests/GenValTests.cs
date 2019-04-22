@@ -2,6 +2,7 @@
 using NIST.CVP.Common;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Tests;
+using NIST.CVP.Generation.TDES_CBCI.v1_0;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -12,7 +13,7 @@ namespace NIST.CVP.Generation.TDES_CBCI.IntegrationTests
     [TestFixture, LongRunningIntegrationTest]
     public class GenValTests : GenValTestsSingleRunnerBase
     {
-        public override string Algorithm { get; } = "TDES-CBCI";
+        public override string Algorithm { get; } = "ACVP-TDES-CBCI";
         public override string Mode { get; } = string.Empty;
 
         public override AlgoMode AlgoMode => AlgoMode.TDES_CBCI_v1_0;

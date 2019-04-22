@@ -5,6 +5,7 @@ using NIST.CVP.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.Crypto.Symmetric.BlockModes;
 using NIST.CVP.Crypto.Symmetric.Engines;
 using NIST.CVP.Generation.Core.Async;
+using NIST.CVP.Generation.TDES_CTR.v1_0;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using System.Collections.Generic;

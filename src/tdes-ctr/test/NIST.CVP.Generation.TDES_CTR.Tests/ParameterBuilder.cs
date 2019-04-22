@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using NIST.CVP.Generation.TDES_CTR.v1_0;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Domain;
 
@@ -19,7 +17,7 @@ namespace NIST.CVP.Generation.TDES_CTR.Tests
         public ParameterBuilder()
         {
             // Provides a valid (as of construction) set of parameters
-            _algorithm = "TDES";
+            _algorithm = "ACVP-TDES";
             _mode = "CTR";
             _direction = ParameterValidator.VALID_DIRECTIONS;
             _keyingOptions = ParameterValidator.VALID_KEYING_OPTIONS;

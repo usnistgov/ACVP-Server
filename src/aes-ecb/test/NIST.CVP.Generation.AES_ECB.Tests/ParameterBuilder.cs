@@ -1,4 +1,6 @@
-﻿namespace NIST.CVP.Generation.AES_ECB.Tests
+﻿using NIST.CVP.Generation.AES_ECB.v1_0;
+
+namespace NIST.CVP.Generation.AES_ECB.Tests
 {
     public class ParameterBuilder
     {
@@ -9,7 +11,7 @@
         public ParameterBuilder()
         {
             // Provides a valid (as of construction) set of parameters
-            _algorithm = "AES-ECB";
+            _algorithm = "ACVP-AES-ECB";
             _mode = ParameterValidator.VALID_DIRECTIONS;
             _keyLen = ParameterValidator.VALID_KEY_SIZES;
         }

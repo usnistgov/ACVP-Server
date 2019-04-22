@@ -1,19 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
+﻿using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
 using NIST.CVP.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.Crypto.Symmetric.BlockModes;
 using NIST.CVP.Crypto.Symmetric.Engines;
 using NIST.CVP.Crypto.Symmetric.MonteCarlo;
-using NIST.CVP.Crypto.TDES;
 using NIST.CVP.Crypto.TDES_CBC;
-using NIST.CVP.Generation.TDES_CBC.Parsers;
+using NIST.CVP.Generation.TDES_CBC.v1_0;
+using NIST.CVP.Generation.TDES_CBC.v1_0.Parsers;
 using NIST.CVP.Tests.Core;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
+using System;
+using System.IO;
+using System.Linq;
 
 namespace NIST.CVP.Generation.TDES_CBC.IntegrationTests
 {

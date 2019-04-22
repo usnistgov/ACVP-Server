@@ -1,8 +1,9 @@
-﻿using System;
-using System.Threading.Tasks;
-using NIST.CVP.Crypto.Common.Hash.SHA2;
+﻿using NIST.CVP.Crypto.Common.Hash.SHA2;
+using NIST.CVP.Generation.SHA2.v1_0;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
+using System;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Generation.SHA2.Tests
 {

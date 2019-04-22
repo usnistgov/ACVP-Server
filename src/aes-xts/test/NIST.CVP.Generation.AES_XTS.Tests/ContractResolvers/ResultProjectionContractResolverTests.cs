@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
-using NIST.CVP.Generation.AES_XTS.ContractResolvers;
+using NIST.CVP.Generation.AES_XTS.v1_0;
+using NIST.CVP.Generation.AES_XTS.v1_0.ContractResolvers;
 using NIST.CVP.Generation.Core.DeSerialization;
 using NIST.CVP.Generation.Core.Enums;
 using NIST.CVP.Generation.Core.JsonConverters;

@@ -1,0 +1,17 @@
+{
+  "vsId": 42,
+  "algorithm": "ACVP-AES-CBC",
+  "mode": "",
+  "revision": "1.0",
+  "isSample": false,
+  "conformances": [],
+  "direction": [
+    "encrypt",
+    "decrypt"
+  ],
+  "keyLen": [
+    128,
+    192,
+    256
+  ]
+}

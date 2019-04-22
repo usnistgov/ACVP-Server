@@ -4,7 +4,7 @@ using NIST.CVP.Common.Oracle;
 using NIST.CVP.Crypto.Oracle.Builders;
 using NUnit.Framework;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.DRBG.Parsers;
+using NIST.CVP.Generation.DRBG.v1_0.Parsers;
 using NIST.CVP.Tests.Core;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NLog;

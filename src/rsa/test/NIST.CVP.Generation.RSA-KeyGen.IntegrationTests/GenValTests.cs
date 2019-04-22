@@ -1,5 +1,6 @@
 ﻿using NIST.CVP.Common;
 using NIST.CVP.Generation.Core.Tests;
+using NIST.CVP.Generation.RSA.v1_0.KeyGen;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;

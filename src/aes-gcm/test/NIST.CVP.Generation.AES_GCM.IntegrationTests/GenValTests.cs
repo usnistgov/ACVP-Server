@@ -7,6 +7,7 @@ using NIST.CVP.Generation.Core.Tests.Fakes;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NIST.CVP.Math.Domain;
 using NIST.CVP.Crypto.Common;
+using NIST.CVP.Generation.AES_GCM.v1_0;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
@@ -14,7 +15,7 @@ namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
     [TestFixture, LongRunningIntegrationTest]
     public class GenValTests : GenValTestsSingleRunnerBase
     {
-        public override string Algorithm { get; } = "AES-GCM";
+        public override string Algorithm { get; } = "ACVP-AES-GCM";
         public override string Mode { get; } = string.Empty;
 
         public override AlgoMode AlgoMode => AlgoMode.AES_GCM_v1_0;
@@ -67,7 +68,7 @@ namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
         {
             Parameters p = new Parameters()
             {
-                Algorithm = "AES-GCM",
+                Algorithm = Algorithm,
                 Revision = Revision,
                 Direction = ParameterValidator.VALID_DIRECTIONS,
                 KeyLen = new int[] { ParameterValidator.VALID_KEY_SIZES.First() },
@@ -87,7 +88,7 @@ namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
         {
             Parameters p = new Parameters()
             {
-                Algorithm = "AES-GCM",
+                Algorithm = Algorithm,
                 Revision = Revision,
                 Direction = ParameterValidator.VALID_DIRECTIONS,
                 KeyLen = new int[] { ParameterValidator.VALID_KEY_SIZES.First() },

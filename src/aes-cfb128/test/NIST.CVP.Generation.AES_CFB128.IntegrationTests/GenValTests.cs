@@ -3,6 +3,7 @@ using System.Linq;
 using Autofac;
 using NIST.CVP.Common;
 using NIST.CVP.Crypto.Common;
+using NIST.CVP.Generation.AES_CFB128.v1_0;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Generation.Core.Tests.Fakes;
@@ -15,7 +16,7 @@ namespace NIST.CVP.Generation.AES_CFB128.IntegrationTests
     [TestFixture, LongRunningIntegrationTest]
     public class GenValTests : GenValTestsSingleRunnerBase
     {
-        public override string Algorithm { get; } = "AES-CFB128";
+        public override string Algorithm { get; } = "ACVP-AES-CFB128";
         public override string Mode { get; } = string.Empty;
 
         public override AlgoMode AlgoMode => AlgoMode.AES_CFB128_v1_0;

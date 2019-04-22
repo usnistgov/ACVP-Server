@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using NIST.CVP.Generation.AES_CFB8.v1_0;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.AES_CFB8.Tests

@@ -1,11 +1,11 @@
 ﻿using NIST.CVP.Crypto.HMAC;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Crypto.TPM;
-using NIST.CVP.Generation.TPMv1._2.Parsers;
 using NIST.CVP.Tests.Core;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using System.IO;
+using NIST.CVP.Generation.KDF_Components.v1_0.TPMv1_2.Parsers;
 
 namespace NIST.CVP.Generation.TPM.IntegrationTests
 {

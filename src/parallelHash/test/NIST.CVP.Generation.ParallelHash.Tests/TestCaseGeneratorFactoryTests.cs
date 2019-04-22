@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using NIST.CVP.Generation.ParallelHash.v1_0;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 

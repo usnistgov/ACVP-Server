@@ -5,22 +5,23 @@ using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Generation.Core.Tests.Fakes;
-using NIST.CVP.Generation.KeyWrap.AES;
 using NIST.CVP.Crypto.Common;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Common;
+using NIST.CVP.Generation.KeyWrap.v1_0.AES;
+using RegisterInjections = NIST.CVP.Generation.KeyWrap.v1_0.AESP.RegisterInjections;
 
 namespace NIST.CVP.Generation.KeyWrap.IntegrationTests
 {
     [TestFixture, LongRunningIntegrationTest]
     public class GenValTestsAesKwp : GenValTestsSingleRunnerBase
     {
-        public override string Algorithm { get; } = "AES-KWP";
+        public override string Algorithm { get; } = "ACVP-AES-KWP";
         public override string Mode { get; } = string.Empty;
 
         public override AlgoMode AlgoMode => AlgoMode.AES_KWP_v1_0;
 
-        public override IRegisterInjections RegistrationsGenVal => new KeyWrapWithPadding.AES.RegisterInjections();
+        public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
 		public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
 
         protected override void ModifyTestCaseToFail(dynamic testCase)

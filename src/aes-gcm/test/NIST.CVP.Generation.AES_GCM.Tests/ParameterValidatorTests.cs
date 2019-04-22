@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using NIST.CVP.Generation.AES_GCM.v1_0;
 using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 
@@ -246,7 +247,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
             public ParameterBuilder()
             {
                 // Provides a valid (as of construction) set of parameters
-                _algorithm = "AES-GCM";
+                _algorithm = "ACVP-AES-GCM";
                 _mode = ParameterValidator.VALID_DIRECTIONS;
                 _keyLen = ParameterValidator.VALID_KEY_SIZES;
                 _ptLen = new MathDomain().AddSegment(new ValueDomainSegment(128));

@@ -4,6 +4,7 @@ using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC.Enums;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Math;
 using System.Collections.Generic;
+using NIST.CVP.Generation.ECDSA.v1_0.SigVer;
 
 namespace NIST.CVP.Generation.DSA.ECC.SigVer.Tests
 {

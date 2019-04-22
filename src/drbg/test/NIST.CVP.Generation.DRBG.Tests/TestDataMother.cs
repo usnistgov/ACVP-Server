@@ -4,7 +4,9 @@ using NIST.CVP.Crypto.Common.DRBG;
 using NIST.CVP.Crypto.Common.DRBG.Enums;
 using NIST.CVP.Crypto.DRBG;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.DRBG.v1_0;
 using NIST.CVP.Math;
+using OtherInput = NIST.CVP.Generation.DRBG.v1_0.OtherInput;
 
 namespace NIST.CVP.Generation.DRBG.Tests
 {

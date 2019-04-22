@@ -1,4 +1,5 @@
 ﻿using NIST.CVP.Crypto.Common.KDF.Enums;
+using NIST.CVP.Generation.KDF.v1_0;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 

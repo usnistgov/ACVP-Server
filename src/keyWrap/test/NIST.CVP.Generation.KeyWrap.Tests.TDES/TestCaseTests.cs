@@ -4,7 +4,7 @@ using System.Reflection;
 using Microsoft.CSharp.RuntimeBinder;
 using Newtonsoft.Json.Linq;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.KeyWrap.TDES;
+using NIST.CVP.Generation.KeyWrap.v1_0.TDES;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 

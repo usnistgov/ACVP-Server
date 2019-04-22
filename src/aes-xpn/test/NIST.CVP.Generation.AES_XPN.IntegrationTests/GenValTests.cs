@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using NIST.CVP.Common;
 using NIST.CVP.Crypto.Common;
+using NIST.CVP.Generation.AES_XPN.v1_0;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Generation.Core.Tests.Fakes;
@@ -14,7 +15,7 @@ namespace NIST.CVP.Generation.AES_XPN.IntegrationTests
     [TestFixture, LongRunningIntegrationTest]
     public class GenValTests : GenValTestsSingleRunnerBase
     {
-        public override string Algorithm { get; } = "AES-XPN";
+        public override string Algorithm { get; } = "ACVP-AES-XPN";
         public override string Mode { get; } = string.Empty;
 
         public override AlgoMode AlgoMode => AlgoMode.AES_XPN_v1_0;
@@ -103,7 +104,7 @@ namespace NIST.CVP.Generation.AES_XPN.IntegrationTests
         {
             Parameters p = new Parameters()
             {
-                Algorithm = "AES-XPN",
+                Algorithm = Algorithm,
                 Revision = Revision,
                 Direction = ParameterValidator.VALID_DIRECTIONS,
                 KeyLen = ParameterValidator.VALID_KEY_SIZES,

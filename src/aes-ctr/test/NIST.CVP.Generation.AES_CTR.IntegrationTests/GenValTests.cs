@@ -5,6 +5,7 @@ using NUnit.Framework;
 using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Math;
 using NIST.CVP.Crypto.Common;
+using NIST.CVP.Generation.AES_CTR.v1_0;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.AES_CTR.IntegrationTests
@@ -12,7 +13,7 @@ namespace NIST.CVP.Generation.AES_CTR.IntegrationTests
     [TestFixture, FastIntegrationTest]
     public class GenValTests : GenValTestsSingleRunnerBase
     {
-        public override string Algorithm => "AES-CTR";
+        public override string Algorithm => "ACVP-AES-CTR";
         public override string Mode => string.Empty;
 
         public override AlgoMode AlgoMode => AlgoMode.AES_CTR_v1_0;

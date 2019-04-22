@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using NIST.CVP.Generation.TDES_CBCI.v1_0;
+using NUnit.Framework;
 
 namespace NIST.CVP.Generation.TDES_CBCI.Tests
 {
@@ -83,7 +84,7 @@ namespace NIST.CVP.Generation.TDES_CBCI.Tests
             public ParameterBuilder()
             {
                 // Provides a valid (as of construction) set of parameters
-                _algorithm = "TDES_CBCI";
+                _algorithm = "ACVP-TDES_CBCI";
                 _mode = ParameterValidator.VALID_DIRECTIONS;
                 _keyingOptions = ParameterValidator.VALID_KEYING_OPTIONS;
             }

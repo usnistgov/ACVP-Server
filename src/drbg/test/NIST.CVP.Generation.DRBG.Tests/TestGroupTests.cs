@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.DRBG.v1_0;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 

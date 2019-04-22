@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using NIST.CVP.Generation.KeyWrap.TDES;
+using NIST.CVP.Generation.KeyWrap.v1_0.TDES;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.KeyWrap.Tests.TDES

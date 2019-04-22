@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using NIST.CVP.Generation.AES_GCM.v1_0;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.AES_GCM.Tests

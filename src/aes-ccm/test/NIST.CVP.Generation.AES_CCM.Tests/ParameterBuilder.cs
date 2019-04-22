@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using NIST.CVP.Generation.AES_CCM.v1_0;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Domain;
@@ -17,7 +18,7 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
         public ParameterBuilder()
         {
             // Provides a valid (as of construction) set of parameters
-            _algorithm = "AES-CCM";
+            _algorithm = "ACVP-AES-CCM";
             _keyLen = ParameterValidator.VALID_KEY_SIZES;
 
             Random800_90 random = new Random800_90();

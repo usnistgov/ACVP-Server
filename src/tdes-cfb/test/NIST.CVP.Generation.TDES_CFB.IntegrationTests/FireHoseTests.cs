@@ -1,16 +1,14 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using NIST.CVP.Common;
-using NIST.CVP.Common.Helpers;
-using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
+﻿using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
 using NIST.CVP.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.Crypto.Symmetric.BlockModes;
 using NIST.CVP.Crypto.Symmetric.Engines;
 using NIST.CVP.Crypto.Symmetric.MonteCarlo;
-using NIST.CVP.Generation.TDES_CFB.Parsers;
+using NIST.CVP.Generation.TDES_CFB.v1_0.Parsers;
 using NIST.CVP.Tests.Core;
 using NUnit.Framework;
+using System;
+using System.IO;
+using System.Linq;
 
 namespace NIST.CVP.Generation.TDES_CFB.IntegrationTests
 {
@@ -42,19 +40,19 @@ namespace NIST.CVP.Generation.TDES_CFB.IntegrationTests
                 case BlockCipherModesOfOperation.CfbBit:
                     testPath = Utilities.GetConsistentTestingStartPath(
                         GetType(), 
-                        $@"..\..\TestFiles\LegacyParserFiles\tdes-cfb1"
+                        $@"..\..\TestFiles\LegacyParserFiles\acvp-tdes-cfb1-1.0"
                     );
                     break;
                 case BlockCipherModesOfOperation.CfbByte:
                     testPath = Utilities.GetConsistentTestingStartPath(
                         GetType(),
-                        $@"..\..\TestFiles\LegacyParserFiles\tdes-cfb8"
+                        $@"..\..\TestFiles\LegacyParserFiles\acvp-tdes-cfb8-1.0"
                     );
                     break;
                 case BlockCipherModesOfOperation.CfbBlock:
                     testPath = Utilities.GetConsistentTestingStartPath(
                         GetType(),
-                        $@"..\..\TestFiles\LegacyParserFiles\tdes-cfb64"
+                        $@"..\..\TestFiles\LegacyParserFiles\acvp-tdes-cfb64-1.0"
                     );
                     break;
                 default:

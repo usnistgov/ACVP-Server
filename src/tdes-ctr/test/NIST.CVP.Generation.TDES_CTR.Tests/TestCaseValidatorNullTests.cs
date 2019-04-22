@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using NIST.CVP.Generation.Core.Enums;
+﻿using NIST.CVP.Generation.Core.Enums;
+using NIST.CVP.Generation.TDES_CTR.v1_0;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Generation.TDES_CTR.Tests
 {

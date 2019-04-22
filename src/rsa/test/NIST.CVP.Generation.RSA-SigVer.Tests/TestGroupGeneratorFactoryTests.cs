@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using NIST.CVP.Generation.RSA.v1_0.SigVer;
 
 namespace NIST.CVP.Generation.RSA_SigVer.Tests
 {

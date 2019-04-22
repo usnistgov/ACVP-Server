@@ -1,5 +1,4 @@
 ﻿using Autofac;
-using NIST.CVP.Generation.KeyWrap.TDES;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
@@ -9,13 +8,14 @@ using NIST.CVP.Generation.Core.Tests.Fakes;
 using NIST.CVP.Crypto.Common;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Common;
+using NIST.CVP.Generation.KeyWrap.v1_0.TDES;
 
 namespace NIST.CVP.Generation.KeyWrap.IntegrationTests
 {
     [TestFixture, LongRunningIntegrationTest]
     public class GenValTestsTdes : GenValTestsSingleRunnerBase
     {
-        public override string Algorithm { get; } = "TDES-KW";
+        public override string Algorithm { get; } = "ACVP-TDES-KW";
         public override string Mode { get; } = string.Empty;
 
         public override AlgoMode AlgoMode => AlgoMode.TDES_KW_v1_0;

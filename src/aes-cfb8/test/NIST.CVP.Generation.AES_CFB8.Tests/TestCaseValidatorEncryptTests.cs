@@ -2,6 +2,7 @@
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using System.Threading.Tasks;
+using NIST.CVP.Generation.AES_CFB8.v1_0;
 
 namespace NIST.CVP.Generation.AES_CFB8.Tests
 {

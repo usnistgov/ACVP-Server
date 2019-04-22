@@ -2,8 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
-    <ServerGarbageCollection>true</ServerGarbageCollection>
-    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <RuntimeIdentifiers>win-x64;osx-x64</RuntimeIdentifiers>
     <OutputType>Exe</OutputType>
     <LangVersion>7.1</LangVersion>
     <ServerGarbageCollection>true</ServerGarbageCollection>
@@ -12,7 +11,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.App" Version="$(NuGetVersionMicrosoftAspNetCore)" />
+    <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.Orleans.Clustering.AdoNet" Version="$(NugetVersionMicrosoftOrleansClusteringAdoNet)" />
     <PackageReference Include="Microsoft.Orleans.OrleansTelemetryConsumers.Counters" Version="$(NuGetVersionMicrosoftOrleansOrleansTelemetryConsumersCounters)" />
     <PackageReference Include="Microsoft.Orleans.Server" Version="$(NugetVersionMicrosoftOrleansServer)" />

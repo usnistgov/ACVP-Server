@@ -1,7 +1,8 @@
 ﻿using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.HMAC;
 using NIST.CVP.Crypto.SHAWrapper;
-using NIST.CVP.Generation.HMAC.Parsers;
+using NIST.CVP.Generation.HMAC.v1_0;
+using NIST.CVP.Generation.HMAC.v1_0.Parsers;
 using NUnit.Framework;
 using NIST.CVP.Tests.Core;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;

@@ -1,19 +1,19 @@
-﻿using System.Collections.Generic;
-using Autofac;
-using NIST.CVP.Crypto.Common;
+﻿using Autofac;
+using NIST.CVP.Common;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Tests;
+using NIST.CVP.Generation.TDES_CBC.v1_0;
 using NIST.CVP.Math;
-using NIST.CVP.Common;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
+using System.Collections.Generic;
 
 namespace NIST.CVP.Generation.TDES_CBC.IntegrationTests
 {
     [TestFixture, LongRunningIntegrationTest]
     public class GenValTests : GenValTestsSingleRunnerBase
     {
-        public override string Algorithm { get; } = "TDES-CBC";
+        public override string Algorithm { get; } = "ACVP-TDES-CBC";
         public override string Mode { get; } = string.Empty;
 
         public override AlgoMode AlgoMode => AlgoMode.TDES_CBC_v1_0;

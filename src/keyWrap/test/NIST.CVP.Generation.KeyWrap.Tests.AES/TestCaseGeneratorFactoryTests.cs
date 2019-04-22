@@ -1,5 +1,6 @@
 ﻿using System;
-using NIST.CVP.Generation.KeyWrap.AES;
+using NIST.CVP.Generation.KeyWrap.v1_0;
+using NIST.CVP.Generation.KeyWrap.v1_0.AES;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
