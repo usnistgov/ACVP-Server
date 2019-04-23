@@ -59,6 +59,11 @@ namespace NIST.CVP.Generation.DSA.v1_0.KeyGen
                         ThisLogger.Error(ex);
                         throw;
                     }
+
+                    if (domainParams == null)
+                    {
+                        ThisLogger.Error($"ERROR: Domain Parameters are null for group with properties l={l}, n={n}");
+                    }
                 }
 
                 var testGroup = new TestGroup
