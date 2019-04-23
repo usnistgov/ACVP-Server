@@ -4,8 +4,8 @@ using CommandLineParser.Validation;
 
 namespace NIST.CVP.Generation.GenValApp.Models
 {
-    [DistinctGroupsCertification("g", "n,r", 
-        Description = "(g) - used to indicate generation, (n,r) - used to indicate validation")]
+    [DistinctGroupsCertification("g,p", "n,r", 
+        Description = "(g,p) - used to indicate generation, (n,r) - used to indicate validation")]
     public class ArgumentParsingTarget
     {
         [ValueArgument(typeof(string), 'a', "algorithm", Optional = false, 
@@ -23,6 +23,10 @@ namespace NIST.CVP.Generation.GenValApp.Models
         [FileArgument('g', "generationRequestFile", FileMustExist = true, Optional = true,
             Description = "The test vector generation registration file")]
         public FileInfo RegistrationFile { get; set; }
+
+        [FileArgument('p', "parameterRequestFile", FileMustExist = true, Optional = true,
+            Description = "The test vector generation registration file ONLY FOR CHECKING FILE IS VALID")]
+        public FileInfo ParameterFile { get; set; }
 
         [FileArgument('n', "answerFile", FileMustExist = true, Optional = true,
             Description = "The answers file to be used to validate a responses file against.")]
