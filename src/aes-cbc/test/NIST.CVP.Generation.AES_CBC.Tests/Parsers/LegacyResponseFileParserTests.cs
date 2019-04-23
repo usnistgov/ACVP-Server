@@ -12,11 +12,10 @@ namespace NIST.CVP.Generation.AES_CBC.Tests.Parsers
     [TestFixture, UnitTest]
     public class LegacyResponseFileParserTests
     {
-
         private string _unitTestPath;
         private int _expectedTotalGroups = 6;
         #region File
-        private string _testFIleContents = @"
+        private string _testFileContents = @"
 # CAVS 20.2
 # State : Encrypt and Decrypt
 # Key Length : 128
@@ -156,10 +155,10 @@ PLAINTEXT = 09424ff1ed3fb8ad593f82619a7e1794bbddc1fc1013ae78c3d3f34632215100ba95
                 Directory.Delete(_unitTestPath, true);
             }
             Directory.CreateDirectory(_unitTestPath);
-            File.WriteAllText($@"{_unitTestPath}\file1.rsp", _testFIleContents); // 2 groups, 18 tests 
-            File.WriteAllText($@"{_unitTestPath}\file2.rsp", _testFIleContents); // + 2 groups, 18 tests
-            File.WriteAllText($@"{_unitTestPath}\fileThatShouldntBeParsed.dat", _testFIleContents); // + 0 (shouldn't be included)
-            File.WriteAllText($@"{_unitTestPath}\MCT.rsp", _testFIleContents); // + 2 groups, 18 tests
+            File.WriteAllText(Path.Combine(_unitTestPath, "file1.rsp"), _testFileContents); // 2 groups, 18 tests 
+            File.WriteAllText(Path.Combine(_unitTestPath, "file2.rsp"), _testFileContents); // + 2 groups, 18 tests
+            File.WriteAllText(Path.Combine(_unitTestPath, "fileThatShouldntBeParsed.dat"), _testFileContents); // + 0 (shouldn't be included)
+            File.WriteAllText(Path.Combine(_unitTestPath, "MCT.rsp"), _testFileContents); // + 2 groups, 18 tests
             // Total groups = 6, total tests = 54
         }
 
@@ -173,7 +172,7 @@ PLAINTEXT = 09424ff1ed3fb8ad593f82619a7e1794bbddc1fc1013ae78c3d3f34632215100ba95
         public void ShouldReturnErrorForNonExistentPath()
         {
             var subject = new LegacyResponseFileParser();
-            var result = subject.Parse($@"{_unitTestPath}\{Guid.NewGuid()}.rsp");
+            var result = subject.Parse(Path.Combine(_unitTestPath, $"{Guid.NewGuid()}.rsp"));
             Assert.IsNotNull(result);
             Assert.IsFalse(result.Success);
         }

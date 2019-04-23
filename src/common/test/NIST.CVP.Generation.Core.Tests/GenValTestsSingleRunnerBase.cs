@@ -36,7 +36,7 @@ namespace NIST.CVP.Generation.Core.Tests
         public IRegisterInjections RegistrationsOracle => new RegisterInjections();
         public abstract IRegisterInjections RegistrationsGenVal { get; }
 
-        public string[] TestVectorFileNames = { @"\expectedResults.json", @"\internalProjection.json", @"\prompt.json"};
+        public string[] TestVectorFileNames = { "expectedResults.json", "internalProjection.json", "prompt.json"};
 
         protected abstract void ModifyTestCaseToFail(dynamic testCase);
         protected abstract string GetTestFileFewTestCases(string folderName);
@@ -92,7 +92,7 @@ namespace NIST.CVP.Generation.Core.Tests
 
             // Get object for the validation.json
             var dp = new DynamicParser();
-            var parsedValidation = dp.Parse($@"{targetFolder}\validation.json");
+            var parsedValidation = dp.Parse(Path.Combine(targetFolder, "validation.json"));
 
             // Validate result as pass
             Assert.AreEqual(EnumHelpers.GetEnumDescriptionFromEnum(Disposition.Passed), parsedValidation.ParsedObject.disposition.ToString());
@@ -109,7 +109,7 @@ namespace NIST.CVP.Generation.Core.Tests
 
             // Get object for the validation.json
             var dp = new DynamicParser();
-            var parsedValidation = dp.Parse($@"{targetFolder}\validation.json");
+            var parsedValidation = dp.Parse(Path.Combine(targetFolder, "validation.json"));
 
             // Validate result as pass
             Assert.AreEqual(EnumHelpers.GetEnumDescriptionFromEnum(Disposition.Passed), parsedValidation.ParsedObject.disposition.ToString());
@@ -144,7 +144,7 @@ namespace NIST.CVP.Generation.Core.Tests
 
             // Get object for the validation.json
             var dp = new DynamicParser();
-            var parsedValidation = dp.Parse($@"{targetFolder}\validation.json");
+            var parsedValidation = dp.Parse(Path.Combine(targetFolder, "validation.json"));
 
             // Validate result as fail
             Assert.AreEqual(EnumHelpers.GetEnumDescriptionFromEnum(Disposition.Failed), parsedValidation.ParsedObject.disposition.ToString(), "disposition");
@@ -215,9 +215,9 @@ namespace NIST.CVP.Generation.Core.Tests
                 Assert.IsTrue(result.Success, $"Generator failed to complete with status code: {result.StatusCode}, {EnumHelpers.GetEnumDescriptionFromEnum(result.StatusCode)}, {result.ErrorMessage}");
             }
 
-            Assert.IsTrue(File.Exists($"{targetFolder}{TestVectorFileNames[0]}"), $"{targetFolder}{TestVectorFileNames[0]}");
-            Assert.IsTrue(File.Exists($"{targetFolder}{TestVectorFileNames[1]}"), $"{targetFolder}{TestVectorFileNames[1]}");
-            Assert.IsTrue(File.Exists($"{targetFolder}{TestVectorFileNames[2]}"), $"{targetFolder}{TestVectorFileNames[2]}");
+            Assert.IsTrue(File.Exists(Path.Combine(targetFolder, TestVectorFileNames[0])), Path.Combine(targetFolder, TestVectorFileNames[0]));
+            Assert.IsTrue(File.Exists(Path.Combine(targetFolder, TestVectorFileNames[1])), Path.Combine(targetFolder, TestVectorFileNames[1]));
+            Assert.IsTrue(File.Exists(Path.Combine(targetFolder, TestVectorFileNames[2])), Path.Combine(targetFolder, TestVectorFileNames[2]));
         }
 
         protected void RunValidation(string targetFolder)
@@ -227,14 +227,14 @@ namespace NIST.CVP.Generation.Core.Tests
             {
                 var val = scope.Resolve<IValidator>();
                 var result = val.Validate(
-                    $@"{targetFolder}\{TestVectorFileNames[0]}",
-                    $@"{targetFolder}\{TestVectorFileNames[1]}",
+                    Path.Combine(targetFolder, TestVectorFileNames[0]),
+                    Path.Combine(targetFolder, TestVectorFileNames[1]),
                     showExpected: true
                 );
 
                 Assert.IsTrue(result.Success, $"Validator failed to complete with status code: {result.StatusCode}, {EnumHelpers.GetEnumDescriptionFromEnum(result.StatusCode)}, {result.ErrorMessage}");
             }
-            Assert.IsTrue(File.Exists($@"{targetFolder}\validation.json"), $"{targetFolder} validation");
+            Assert.IsTrue(File.Exists(Path.Combine(targetFolder, "validation.json")), $"{targetFolder} validation");
         }
 
         private IContainer GetContainer(bool overrideRegisteredDependencies = false)
@@ -309,7 +309,7 @@ namespace NIST.CVP.Generation.Core.Tests
                 NullValueHandling = NullValueHandling.Ignore,
                 ContractResolver = new CamelCasePropertyNamesContractResolver()
             });
-            var fileName = $@"{targetFolder}\registration.json";
+            var fileName = Path.Combine(targetFolder, "registration.json");
             File.WriteAllText(fileName, json);
 
             return fileName;
