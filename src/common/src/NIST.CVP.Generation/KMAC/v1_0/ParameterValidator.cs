@@ -68,6 +68,7 @@ namespace NIST.CVP.Generation.KMAC.v1_0
             string segmentCheck = "";
             if (parameters.KeyLen.DomainSegments.Count() != 1)
             {
+                // TODO why?
                 segmentCheck = "Must have exactly one segment in the domain";
             }
             errorResults.AddIfNotNullOrEmpty(segmentCheck);
@@ -106,6 +107,7 @@ namespace NIST.CVP.Generation.KMAC.v1_0
             string segmentCheck = "";
             if (parameters.MacLen.DomainSegments.Count() != 1)
             {
+                // TODO why?
                 segmentCheck = "Must have exactly one segment in the domain";
             }
             errorResults.AddIfNotNullOrEmpty(segmentCheck);
@@ -144,6 +146,7 @@ namespace NIST.CVP.Generation.KMAC.v1_0
             string segmentCheck = "";
             if (parameters.MsgLen.DomainSegments.Count() != 1)
             {
+                // TODO why?
                 segmentCheck = "Must have exactly one segment in the domain";
             }
             errorResults.AddIfNotNullOrEmpty(segmentCheck);
