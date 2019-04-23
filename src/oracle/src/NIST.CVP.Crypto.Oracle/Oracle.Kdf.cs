@@ -35,6 +35,15 @@ namespace NIST.CVP.Crypto.Oracle
             return await observableGrain.ObserveUntilResult();
         }
 
+        public async Task<AnsiX942KdfResult> GetAnsiX942KdfCaseAsync(AnsiX942Parameters param)
+        {
+            var observableGrain = 
+                await GetObserverGrain<IOracleObserverAnsiX942KdfCaseGrain, AnsiX942KdfResult>();
+            await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, LoadSheddingRetries);
+
+            return await observableGrain.ObserveUntilResult();
+        }
+
         public async Task<IkeV1KdfResult> GetIkeV1KdfCaseAsync(IkeV1KdfParameters param)
         {
             var observableGrain = 
