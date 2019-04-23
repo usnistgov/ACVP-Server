@@ -39,14 +39,17 @@ namespace NIST.CVP.Tests.Core
                 ).LocalPath;
 
             // drop the \bin\* from the directory
-            int binStartIndex = directory.LastIndexOf(@"\bin\", StringComparison.OrdinalIgnoreCase);
+            int binStartIndex = directory.LastIndexOf("bin", StringComparison.OrdinalIgnoreCase);
             if (binStartIndex != -1)
             {
-                directory = directory.Substring(0, binStartIndex + 1);
+                directory = directory.Substring(0, binStartIndex);
             }
 
             // combine the directory with the pathAdditions (mostly "../../" to get back to the test files.)
             directory = Path.GetFullPath(directory + pathAdditions);
+
+            // optionally replace the "\" with a "/" if the file system needs it
+            directory = directory.Replace('\\', Path.DirectorySeparatorChar);
 
             return directory;
         }
