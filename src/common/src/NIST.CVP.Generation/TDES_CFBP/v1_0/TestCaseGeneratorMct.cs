@@ -57,8 +57,8 @@ namespace NIST.CVP.Generation.TDES_CFBP.v1_0
 
                 return new TestCaseGenerateResponse<TestGroup, TestCase>(new TestCase
                 {
-                    PlainText = oracleResult.Seed.PlainText,
-                    CipherText = oracleResult.Seed.CipherText,
+                    PlainText = group.Function == "encrypt" ? oracleResult.Seed.PlainText.GetMostSignificantBits(_shift) : null,
+                    CipherText = group.Function == "decrypt" ? oracleResult.Seed.CipherText.GetMostSignificantBits(_shift) : null,
                     IV = oracleResult.Seed.Iv,
                     Keys = oracleResult.Seed.Key,
                     ResultsArray = Array.ConvertAll(oracleResult.Results.ToArray(), element => new AlgoArrayResponse
