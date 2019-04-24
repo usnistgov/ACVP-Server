@@ -128,7 +128,6 @@ namespace NIST.CVP.Crypto.AES_CBC_CTS.Tests
             var cs3Transformer = _csTransform.Get(CiphertextStealingMode.CS3);
             cs3Transformer.Transform(ctBytes, _engine, numberOfBlocks, pt.BitLength);
 
-            // apply a cs1 transform
             var cs1Transformer = _csTransform.Get(CiphertextStealingMode.CS1);
             cs1Transformer.Transform(ctBytes, _engine, numberOfBlocks, pt.BitLength);
             ct = new BitString(ctBytes).GetMostSignificantBits(pt.BitLength);
@@ -182,7 +181,7 @@ namespace NIST.CVP.Crypto.AES_CBC_CTS.Tests
             var cs3Transformer = _csTransform.Get(CiphertextStealingMode.CS3);
             cs3Transformer.Transform(ctBytes, _engine, numberOfBlocks, pt.BitLength);
 
-            // apply a cs1 transform
+            // apply a cs2 transform
             var cs2Transformer = _csTransform.Get(CiphertextStealingMode.CS2);
             cs2Transformer.Transform(ctBytes, _engine, numberOfBlocks, pt.BitLength);
             ct = new BitString(ctBytes).GetMostSignificantBits(pt.BitLength);
@@ -209,7 +208,7 @@ namespace NIST.CVP.Crypto.AES_CBC_CTS.Tests
             var cs3Transformer = _csTransform.Get(CiphertextStealingMode.CS3);
             cs3Transformer.Transform(ctBytes, _engine, numberOfBlocks, pt.BitLength);
 
-            // apply a cs1 transform
+            // apply a cs2 transform
             var cs2Transformer = _csTransform.Get(CiphertextStealingMode.CS2);
             cs2Transformer.Transform(ctBytes, _engine, numberOfBlocks, pt.BitLength);
             ct = new BitString(ctBytes).GetMostSignificantBits(pt.BitLength);
