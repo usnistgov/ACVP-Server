@@ -57,6 +57,7 @@ namespace NIST.CVP.Generation.GenValApp.Helpers
         private static void RegisterGenVals(ContainerBuilder builder, AlgoMode algoMode)
         {
             var genVals = GetAlgoModeRevisionInjectables(algoMode);
+
             genVals.RegisterTypes(builder, algoMode);
         }
 

@@ -1,12 +1,18 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Newtonsoft.Json;
 using NIST.CVP.Common.Enums;
 
 namespace NIST.CVP.Generation.Core
 {
     public class ParameterCheckResponse
     {
+        [JsonProperty(PropertyName = "status")]
         public StatusCode StatusCode { get; }
-        public string ErrorMessage { get; }
+
+        [JsonProperty(PropertyName = "errors")]
+        public List<string> ErrorMessage { get; } = new List<string>();
 
         public ParameterCheckResponse()
         {
@@ -15,10 +21,11 @@ namespace NIST.CVP.Generation.Core
 
         public ParameterCheckResponse(string errorMessage, StatusCode statusCode = StatusCode.ParameterValidationError)
         {
-            ErrorMessage = errorMessage;
+            ErrorMessage.Add(errorMessage);
             StatusCode = statusCode;
         }
 
-        public bool Success => string.IsNullOrEmpty(ErrorMessage);
+        [JsonIgnore]
+        public bool Success => !ErrorMessage.Any();
     }
 }

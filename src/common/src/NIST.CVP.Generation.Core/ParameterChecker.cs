@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using Newtonsoft.Json;
 using NIST.CVP.Common.Enums;
 using NIST.CVP.Generation.Core.ContractResolvers;
 using NIST.CVP.Generation.Core.Enums;
+using NIST.CVP.Generation.Core.JsonConverters;
 using NIST.CVP.Generation.Core.Parsers;
 using NLog;
 
@@ -14,6 +17,7 @@ namespace NIST.CVP.Generation.Core
     {
         private readonly IParameterParser<TParameters> _parameterParser;
         private readonly IParameterValidator<TParameters> _parameterValidator;
+        private readonly IList<JsonConverter> _jsonConverters = new JsonConverterProvider().GetJsonConverters().ToList();
 
         public ParameterChecker(IParameterParser<TParameters> parameterParser, IParameterValidator<TParameters> parameterValidator)
         {
@@ -28,17 +32,19 @@ namespace NIST.CVP.Generation.Core
                 var parameterResponse = _parameterParser.Parse(registrationFile);
                 if (!parameterResponse.Success)
                 {
-                    return new ParameterCheckResponse(parameterResponse.ErrorMessage, StatusCode.ParameterError);
+                    var response =  new ParameterCheckResponse(parameterResponse.ErrorMessage, StatusCode.ParameterError);
+                    return SaveOutputs(registrationFile, response);
                 }
 
                 var parameters = parameterResponse.ParsedObject;
                 var validateResponse = _parameterValidator.Validate(parameters);
                 if (!validateResponse.Success)
                 {
-                    return new ParameterCheckResponse(validateResponse.ErrorMessage, StatusCode.ParameterValidationError);
+                    var response = new ParameterCheckResponse(validateResponse.ErrorMessage, StatusCode.ParameterValidationError);
+                    return SaveOutputs(registrationFile, response);
                 }
 
-                return SaveOutputs(requestFilePath, testVector);
+                return SaveOutputs(registrationFile, new ParameterCheckResponse());
             }
             catch (Exception ex)
             {
@@ -47,23 +53,18 @@ namespace NIST.CVP.Generation.Core
             }
         }
 
-        protected ParameterCheckResponse SaveOutputs(string requestFilePath, TTestVectorSet testVector)
+        protected ParameterCheckResponse SaveOutputs(string requestFilePath, ParameterCheckResponse response)
         {
             var outputDirPath = Path.GetDirectoryName(requestFilePath);
-            var saveResult = SaveProjectionToFile(outputDirPath, testVector, jsonOutput);
+            var json = JsonConvert.SerializeObject(response, Formatting.Indented, new JsonSerializerSettings { Converters = _jsonConverters });
+
+            var saveResult = SaveToFile(outputDirPath, "parameterCheck.json", json);
             if (!string.IsNullOrEmpty(saveResult))
             {
                 return new ParameterCheckResponse(saveResult, StatusCode.FileSaveError);
             }
 
-            return new ParameterCheckResponse();
-        }
-
-        private string SaveProjectionToFile(string outputPath, TTestVectorSet testVectorSet, JsonOutputDetail jsonOutput)
-        {
-            var json = _vectorSetSerializer.Serialize(testVectorSet, jsonOutput.Projection);
-
-            return SaveToFile(outputPath, jsonOutput.FileName, json);
+            return response;
         }
 
         private string SaveToFile(string fileRoot, string fileName, string json)

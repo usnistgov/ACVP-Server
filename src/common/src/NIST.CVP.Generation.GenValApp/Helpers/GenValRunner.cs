@@ -140,7 +140,12 @@ namespace NIST.CVP.Generation.GenValApp.Helpers
                         Console.Error.WriteLine(errorMessage);
                         Program.Logger.Error($"Status Code: {result.StatusCode}");
                         Program.Logger.Error(errorMessage);
-                        ErrorLogger.LogError(result.StatusCode, "parameterChecker", result.ErrorMessage, FileDirectory);
+                            
+                        foreach (var error in result.ErrorMessage)
+                        {
+                            ErrorLogger.LogError(result.StatusCode, "parameterChecker", error, FileDirectory);
+                        }
+
                         return (int)result.StatusCode;
                     }
 
