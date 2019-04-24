@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using NIST.CVP.Common.Helpers;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.AES_CBC_CTS.v1_0
@@ -33,7 +34,8 @@ namespace NIST.CVP.Generation.AES_CBC_CTS.v1_0
                             TestType = TEST_TYPE,
                             InternalTestType = katTest,
                             IsPartialBlockGroup = true,
-                            PayloadLen = parameters.PayloadLen.GetDeepCopy()
+                            PayloadLen = parameters.PayloadLen.GetDeepCopy(),
+                            AlgoMode = AlgoModeHelpers.GetAlgoModeFromAlgoAndMode(parameters.Algorithm, parameters.Mode, parameters.Revision)
                         };
                         testGroups.Add(testGroup);
                     }

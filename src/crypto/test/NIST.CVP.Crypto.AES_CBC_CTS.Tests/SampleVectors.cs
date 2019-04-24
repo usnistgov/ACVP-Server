@@ -1,18 +1,25 @@
-﻿using System.Collections.Generic;
-using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
+﻿using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Common.Symmetric.CTS;
 using NIST.CVP.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.Crypto.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Symmetric.CTS;
 using NIST.CVP.Crypto.Symmetric.Engines;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
+using System.Collections.Generic;
 
 namespace NIST.CVP.Crypto.AES_CBC_CTS.Tests
 {
     [TestFixture, FastCryptoTest]
     public class SampleVectors
     {
-        private readonly CbcCtsBlockCipher _subject = new CbcCtsBlockCipher(new AesEngine());
+        private readonly ICiphertextStealingTransformFactory _csTransform = new CiphertextStealingTransformFactory();
+
+        private readonly AesEngine _engine = new AesEngine();
+        private readonly CbcCtsBlockCipher _subjectCs1 = new CbcCtsBlockCipher(new AesEngine(), new CiphertextStealingMode1());
+        private readonly CbcCtsBlockCipher _subjectCs2 = new CbcCtsBlockCipher(new AesEngine(), new CiphertextStealingMode2());
+        private readonly CbcCtsBlockCipher _subjectCs3 = new CbcCtsBlockCipher(new AesEngine(), new CiphertextStealingMode3());
 
         /// <summary>
         /// Sample vectors from https://www.ietf.org/rfc/rfc3962.txt
@@ -21,6 +28,8 @@ namespace NIST.CVP.Crypto.AES_CBC_CTS.Tests
         {
             new object[]
             {
+                // label
+                "test1",
                 // key
                 new BitString("63 68 69 63 6b 65 6e 20 74 65 72 69 79 61 6b 69"), 
                 // iv
@@ -34,6 +43,8 @@ namespace NIST.CVP.Crypto.AES_CBC_CTS.Tests
             },
             new object[]
             {
+                // label
+                "test2",
                 // key
                 new BitString("63 68 69 63 6b 65 6e 20 74 65 72 69 79 61 6b 69"), 
                 // iv
@@ -47,6 +58,8 @@ namespace NIST.CVP.Crypto.AES_CBC_CTS.Tests
             },
             new object[]
             {
+                // label
+                "test3",
                 // key
                 new BitString("63 68 69 63 6b 65 6e 20 74 65 72 69 79 61 6b 69"), 
                 // iv
@@ -60,6 +73,8 @@ namespace NIST.CVP.Crypto.AES_CBC_CTS.Tests
             },
             new object[]
             {
+                // label
+                "test4",
                 // key
                 new BitString("63 68 69 63 6b 65 6e 20 74 65 72 69 79 61 6b 69"), 
                 // iv
@@ -73,6 +88,8 @@ namespace NIST.CVP.Crypto.AES_CBC_CTS.Tests
             },
             new object[]
             {
+                // label
+                "test5",
                 // key
                 new BitString("63 68 69 63 6b 65 6e 20 74 65 72 69 79 61 6b 69"), 
                 // iv
@@ -86,6 +103,8 @@ namespace NIST.CVP.Crypto.AES_CBC_CTS.Tests
             },
             new object[]
             {
+                // label
+                "test6",
                 // key
                 new BitString("63 68 69 63 6b 65 6e 20 74 65 72 69 79 61 6b 69"), 
                 // iv
@@ -101,15 +120,26 @@ namespace NIST.CVP.Crypto.AES_CBC_CTS.Tests
 
         [Test]
         [TestCaseSource(nameof(_testData))]
-        public void EncryptTests(BitString key, BitString iv, BitString pt, BitString ct, BitString nextIv)
+        public void EncryptTestsCs1(string label, BitString key, BitString iv, BitString pt, BitString ct, BitString nextIv)
         {
+            // transform the cs3 ct to cs3 again (to cancel the sample vector CS3)
+            var ctBytes = BitString.PadToModulus(ct, _engine.BlockSizeBits).ToBytes();
+            var numberOfBlocks = GetNumberOfBlocks(pt.BitLength);
+            var cs3Transformer = _csTransform.Get(CiphertextStealingMode.CS3);
+            cs3Transformer.Transform(ctBytes, _engine, numberOfBlocks, pt.BitLength);
+
+            // apply a cs1 transform
+            var cs1Transformer = _csTransform.Get(CiphertextStealingMode.CS1);
+            cs1Transformer.Transform(ctBytes, _engine, numberOfBlocks, pt.BitLength);
+            ct = new BitString(ctBytes).GetMostSignificantBits(pt.BitLength);
+
             var param = new ModeBlockCipherParameters(
                 BlockCipherDirections.Encrypt,
                 iv,
                 key,
                 pt
             );
-            var result = _subject.ProcessPayload(param);
+            var result = _subjectCs1.ProcessPayload(param);
 
             Assert.AreEqual(ct.ToHex(), result.Result.ToHex(), nameof(ct));
             Assert.AreEqual(nextIv.ToHex(), param.Iv.ToHex(), nameof(nextIv));
@@ -117,7 +147,104 @@ namespace NIST.CVP.Crypto.AES_CBC_CTS.Tests
 
         [Test]
         [TestCaseSource(nameof(_testData))]
-        public void DecryptTests(BitString key, BitString iv, BitString pt, BitString ct, BitString nextIv)
+        public void DecryptTestsCs1(string label, BitString key, BitString iv, BitString pt, BitString ct, BitString nextIv)
+        {
+            // transform the cs3 ct to cs3 again (to cancel the sample vector CS3)
+            var ctBytes = BitString.PadToModulus(ct, _engine.BlockSizeBits).ToBytes();
+            var numberOfBlocks = GetNumberOfBlocks(pt.BitLength);
+            var cs3Transformer = _csTransform.Get(CiphertextStealingMode.CS3);
+            cs3Transformer.Transform(ctBytes, _engine, numberOfBlocks, pt.BitLength);
+
+            // apply a cs1 transform
+            var cs1Transformer = _csTransform.Get(CiphertextStealingMode.CS1);
+            cs1Transformer.Transform(ctBytes, _engine, numberOfBlocks, pt.BitLength);
+            ct = new BitString(ctBytes).GetMostSignificantBits(pt.BitLength);
+
+            var param = new ModeBlockCipherParameters(
+                BlockCipherDirections.Decrypt,
+                iv,
+                key,
+                ct
+            );
+            var result = _subjectCs1.ProcessPayload(param);
+
+            Assert.AreEqual(pt.ToHex(), result.Result.ToHex(), nameof(pt));
+            Assert.AreEqual(nextIv.ToHex(), param.Iv.ToHex(), nameof(nextIv));
+        }
+
+        [Test]
+        [TestCaseSource(nameof(_testData))]
+        public void EncryptTestsCs2(string label, BitString key, BitString iv, BitString pt, BitString ct, BitString nextIv)
+        {
+            // transform the cs3 ct to cs3 again (to cancel the sample vector CS3)
+            var ctBytes = BitString.PadToModulus(ct, _engine.BlockSizeBits).ToBytes();
+            var numberOfBlocks = GetNumberOfBlocks(pt.BitLength);
+            var cs3Transformer = _csTransform.Get(CiphertextStealingMode.CS3);
+            cs3Transformer.Transform(ctBytes, _engine, numberOfBlocks, pt.BitLength);
+
+            // apply a cs1 transform
+            var cs2Transformer = _csTransform.Get(CiphertextStealingMode.CS2);
+            cs2Transformer.Transform(ctBytes, _engine, numberOfBlocks, pt.BitLength);
+            ct = new BitString(ctBytes).GetMostSignificantBits(pt.BitLength);
+
+            var param = new ModeBlockCipherParameters(
+                BlockCipherDirections.Encrypt,
+                iv,
+                key,
+                pt
+            );
+            var result = _subjectCs2.ProcessPayload(param);
+
+            Assert.AreEqual(ct.ToHex(), result.Result.ToHex(), nameof(ct));
+            Assert.AreEqual(nextIv.ToHex(), param.Iv.ToHex(), nameof(nextIv));
+        }
+
+        [Test]
+        [TestCaseSource(nameof(_testData))]
+        public void DecryptTestsCs2(string label, BitString key, BitString iv, BitString pt, BitString ct, BitString nextIv)
+        {
+            // transform the cs3 ct to cs3 again (to cancel the sample vector CS3)
+            var ctBytes = BitString.PadToModulus(ct, _engine.BlockSizeBits).ToBytes();
+            var numberOfBlocks = GetNumberOfBlocks(pt.BitLength);
+            var cs3Transformer = _csTransform.Get(CiphertextStealingMode.CS3);
+            cs3Transformer.Transform(ctBytes, _engine, numberOfBlocks, pt.BitLength);
+
+            // apply a cs1 transform
+            var cs2Transformer = _csTransform.Get(CiphertextStealingMode.CS2);
+            cs2Transformer.Transform(ctBytes, _engine, numberOfBlocks, pt.BitLength);
+            ct = new BitString(ctBytes).GetMostSignificantBits(pt.BitLength);
+
+            var param = new ModeBlockCipherParameters(
+                BlockCipherDirections.Decrypt,
+                iv,
+                key,
+                ct
+            );
+            var result = _subjectCs2.ProcessPayload(param);
+
+            Assert.AreEqual(pt.ToHex(), result.Result.ToHex(), nameof(pt));
+            Assert.AreEqual(nextIv.ToHex(), param.Iv.ToHex(), nameof(nextIv));
+        }
+
+        [Test]
+        [TestCaseSource(nameof(_testData))]
+        public void EncryptTestsCs3(string label, BitString key, BitString iv, BitString pt, BitString ct, BitString nextIv)
+        {
+            var param = new ModeBlockCipherParameters(
+                BlockCipherDirections.Encrypt,
+                iv,
+                key,
+                pt
+            );
+            var result = _subjectCs3.ProcessPayload(param);
+
+            Assert.AreEqual(ct.ToHex(), result.Result.ToHex(), nameof(ct));
+            Assert.AreEqual(nextIv.ToHex(), param.Iv.ToHex(), nameof(nextIv));
+        }
+
+        [Test]
+        [TestCaseSource(nameof(_testData))]
+        public void DecryptTestsCs3(string label, BitString key, BitString iv, BitString pt, BitString ct, BitString nextIv)
         {
             var param = new ModeBlockCipherParameters(
                 BlockCipherDirections.Decrypt,
@@ -125,10 +252,23 @@ namespace NIST.CVP.Crypto.AES_CBC_CTS.Tests
                 key,
                 ct
             );
-            var result = _subject.ProcessPayload(param);
+            var result = _subjectCs3.ProcessPayload(param);
 
             Assert.AreEqual(pt.ToHex(), result.Result.ToHex(), nameof(pt));
             Assert.AreEqual(nextIv.ToHex(), param.Iv.ToHex(), nameof(nextIv));
+        }
+
+        protected int GetNumberOfBlocks(int outputLengthBits)
+        {
+            var numberOfBlocks = outputLengthBits / 128;
+
+            // In cases of partial block, add an additional block for processing.
+            if (outputLengthBits % 128 != 0)
+            {
+                numberOfBlocks++;
+            }
+
+            return numberOfBlocks;
         }
     }
 }

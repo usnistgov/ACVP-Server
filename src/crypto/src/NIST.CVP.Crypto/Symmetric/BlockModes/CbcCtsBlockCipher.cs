@@ -1,17 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using NIST.CVP.Crypto.Common.Symmetric;
+﻿using NIST.CVP.Crypto.Common.Symmetric;
 using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Common.Symmetric.CTS;
 using NIST.CVP.Crypto.Common.Symmetric.Engines;
 using NIST.CVP.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.Math;
+using System;
 
 namespace NIST.CVP.Crypto.Symmetric.BlockModes
 {
     public class CbcCtsBlockCipher : ModeBlockCipherBase<SymmetricCipherResult>
     {
-        public CbcCtsBlockCipher(IBlockCipherEngine engine) : base(engine) { }
+        private readonly ICiphertextStealingTransform _ciphertextStealingTransform;
+
+        public CbcCtsBlockCipher(IBlockCipherEngine engine, ICiphertextStealingTransform ciphertextStealingTransform) :
+            base(engine)
+        {
+            _ciphertextStealingTransform = ciphertextStealingTransform;
+        }
 
         public override bool IsPartialBlockAllowed => true;
 
@@ -47,7 +52,6 @@ namespace NIST.CVP.Crypto.Symmetric.BlockModes
             // Pad the last partial plaintext block with 0.
             var paddedPayload = BitString.PadToModulus(param.Payload, _engine.BlockSizeBits).ToBytes();
 
-
             // Encrypt the whole padded plaintext using the standard CBC mode.
             // For each block
             for (int i = 0; i < numberOfBlocks; i++)
@@ -70,17 +74,7 @@ namespace NIST.CVP.Crypto.Symmetric.BlockModes
                 param.Iv[i] = iv[i];
             }
 
-            // Swap the last two ciphertext blocks.
-            if (numberOfBlocks > 1)
-            {
-                for (int i = 0; i < _engine.BlockSizeBytes; i++)
-                {
-                    var secondToLastBlockIndex = (numberOfBlocks - 2) * _engine.BlockSizeBytes + i;
-                    var lastBlockIndex = (numberOfBlocks - 1) * _engine.BlockSizeBytes + i;
-
-                    SwapBytes(outBuffer, secondToLastBlockIndex, lastBlockIndex);
-                }
-            }
+            _ciphertextStealingTransform.Transform(outBuffer, _engine, numberOfBlocks, param.Payload.BitLength);
         }
 
         private void Decrypt(IModeBlockCipherParameters param, int numberOfBlocks, byte[] outBuffer)
@@ -111,15 +105,8 @@ namespace NIST.CVP.Crypto.Symmetric.BlockModes
                     payload = payload.ConcatenateBits(BitString.Substring(decryptedBlock, 0, amountToPad));
                 }
 
-                // Swap the last two ciphertext blocks.
                 payloadBytes = payload.ToBytes();
-                for (int i = 0; i < _engine.BlockSizeBytes; i++)
-                {
-                    var secondToLastBlockIndex = (numberOfBlocks - 2) * _engine.BlockSizeBytes + i;
-                    var lastBlockIndex = (numberOfBlocks - 1) * _engine.BlockSizeBytes + i;
-
-                    SwapBytes(payloadBytes, secondToLastBlockIndex, lastBlockIndex);
-                }
+                _ciphertextStealingTransform.Transform(payloadBytes, _engine, numberOfBlocks, param.Payload.BitLength);
 
                 payload = new BitString(payloadBytes);
                 payloadBytes = payload.ToBytes();

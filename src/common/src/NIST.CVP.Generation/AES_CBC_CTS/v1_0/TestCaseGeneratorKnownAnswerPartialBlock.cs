@@ -88,7 +88,7 @@ namespace NIST.CVP.Generation.AES_CBC_CTS.v1_0
             // Always invoke the engine in encrypt mode
             var param = new AesWithPayloadParameters
             {
-                Mode = BlockCipherModesOfOperation.CbcCts,
+                Mode = group.BlockCipherModeOfOperation,
                 Payload = testCase.PlainText,
                 Direction = "encrypt",
                 KeyLength = group.KeyLength

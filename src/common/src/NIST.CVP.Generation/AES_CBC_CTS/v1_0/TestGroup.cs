@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using NIST.CVP.Common;
+using NIST.CVP.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math.Domain;
+using System.Collections.Generic;
 
 namespace NIST.CVP.Generation.AES_CBC_CTS.v1_0
 {
@@ -18,6 +20,11 @@ namespace NIST.CVP.Generation.AES_CBC_CTS.v1_0
         public List<TestCase> Tests { get; set; } = new List<TestCase>();
 
         public bool IsPartialBlockGroup { get; set; }
-        public MathDomain PayloadLen { get; set; }
+        [JsonIgnore] public MathDomain PayloadLen { get; set; }
+        [JsonIgnore] public AlgoMode AlgoMode { get; set; }
+
+        [JsonIgnore]
+        public BlockCipherModesOfOperation BlockCipherModeOfOperation =>
+            SpecificationToDomainMapping.GetModeOfOperationFromAlgoMode(AlgoMode);
     }
 }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Autofac;
+﻿using Autofac;
 using NIST.CVP.Common;
 using NIST.CVP.Generation.AES_CBC_CTS.v1_0;
 using NIST.CVP.Generation.Core;
@@ -11,16 +7,15 @@ using NIST.CVP.Math;
 using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace NIST.CVP.Generation.AES_CBC_CTS.IntegrationTests
 {
     [TestFixture, FastIntegrationTest]
-    public class GenValTests : GenValTestsSingleRunnerBase
+    public abstract class GenValTestsCtsBase : GenValTestsSingleRunnerBase
     {
-        public override string Algorithm { get; } = "ACVP-AES-CBC-CS3";
         public override string Mode { get; } = string.Empty;
-
-        public override AlgoMode AlgoMode => AlgoMode.AES_CBC_CS3_v1_0;
 
         public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
 

@@ -38,7 +38,7 @@ namespace NIST.CVP.Generation.AES_CBC_CTS.v1_0
 
             var param = new AesParameters
             {
-                Mode = BlockCipherModesOfOperation.CbcCts,
+                Mode = group.BlockCipherModeOfOperation,
                 DataLength = GetDataLength(),
                 Direction = group.Function,
                 KeyLength = group.KeyLength

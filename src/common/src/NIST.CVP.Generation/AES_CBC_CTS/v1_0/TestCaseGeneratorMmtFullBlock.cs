@@ -1,22 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using NIST.CVP.Common.ExtensionMethods;
+﻿using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
-using NIST.CVP.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Async;
 using NIST.CVP.Math.Domain;
 using NLog;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Generation.AES_CBC_CTS.v1_0
 {
     public class TestCaseGeneratorMmtFullBlock : ITestCaseGeneratorAsync<TestGroup, TestCase>
     {
         private readonly IOracle _oracle;
-        
+
         private bool _sizesSet = false;
         private List<int> _validSizes = new List<int>();
         private int _currentIndex = 0;
@@ -37,13 +36,13 @@ namespace NIST.CVP.Generation.AES_CBC_CTS.v1_0
 
             var param = new AesParameters
             {
-                Mode = BlockCipherModesOfOperation.CbcCts,
+                Mode = group.BlockCipherModeOfOperation,
                 DataLength = GetDataLength(),
                 Direction = group.Function,
                 KeyLength = group.KeyLength
             };
 
-            
+
             try
             {
                 var oracleResult = await _oracle.GetAesCaseAsync(param);
