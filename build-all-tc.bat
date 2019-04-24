@@ -1,4 +1,5 @@
 @echo on
+rem version 0.9.1
 set "zip=c:\Program Files\7-Zip\7z.exe"
 
 For /f "tokens=2-4 delims=/ " %%a in ('date /t') do (set mydate=%%c%%a%%b)
