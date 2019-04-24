@@ -56,7 +56,15 @@ namespace NIST.CVP.Generation.Core
         protected ParameterCheckResponse SaveOutputs(string requestFilePath, ParameterCheckResponse response)
         {
             var outputDirPath = Path.GetDirectoryName(requestFilePath);
-            var json = JsonConvert.SerializeObject(response, Formatting.Indented, new JsonSerializerSettings { Converters = _jsonConverters });
+            var json = JsonConvert.SerializeObject(
+                response,
+                new JsonSerializerSettings
+                {
+                    Formatting = Formatting.Indented,
+                    NullValueHandling = NullValueHandling.Ignore,
+                    Converters = _jsonConverters,
+                }
+            );
 
             var saveResult = SaveToFile(outputDirPath, "parameterCheck.json", json);
             if (!string.IsNullOrEmpty(saveResult))
