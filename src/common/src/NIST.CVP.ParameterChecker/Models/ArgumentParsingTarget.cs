@@ -18,7 +18,7 @@ namespace NIST.CVP.ParameterChecker.Models
             Description = "The algorithm testing revision.")]
         public string Revision { get; set; }
 
-        [FileArgument('r', "requestFile", FileMustExist = true, Optional = true,
+        [FileArgument('r', "requestFile", FileMustExist = true, Optional = false,
             Description = "The test vector generation registration file")]
         public FileInfo ParameterFile { get; set; }
     }

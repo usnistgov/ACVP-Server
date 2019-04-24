@@ -37,10 +37,6 @@ namespace NIST.CVP.Generation.GenValApp.Helpers
             {
                 GenValMode = GenValMode.Validate;
             }
-            else if (parsedParameters.ParameterFile != null)
-            {
-                GenValMode = GenValMode.ParameterCheck;
-            }
             else
             {
                 GenValMode = GenValMode.Unset;
@@ -59,9 +55,6 @@ namespace NIST.CVP.Generation.GenValApp.Helpers
             {
                 case GenValMode.Generate:
                     filePath = parsedParameters.RegistrationFile.FullName;
-                    break;
-                case GenValMode.ParameterCheck:
-                    filePath = parsedParameters.ParameterFile.FullName;
                     break;
                 case GenValMode.Validate:
                     filePath = parsedParameters.AnswerFile.FullName;
@@ -126,29 +119,6 @@ namespace NIST.CVP.Generation.GenValApp.Helpers
                         return (int)result.StatusCode;
                     }
 
-                    case GenValMode.ParameterCheck:
-                    {
-                        FileDirectory = Path.GetDirectoryName(parsedParameters.ParameterFile.FullName);
-
-                        var parameterFile = parsedParameters.ParameterFile.FullName;
-                        var result = RunParameterChecker(parameterFile);
-
-                        if (result.Success)
-                            return (int)result.StatusCode;
-
-                        errorMessage = $"ERROR! Checking Registration Parameters for {parameterFile}: {result.ErrorMessage}";
-                        Console.Error.WriteLine(errorMessage);
-                        Program.Logger.Error($"Status Code: {result.StatusCode}");
-                        Program.Logger.Error(errorMessage);
-                            
-                        foreach (var error in result.ErrorMessage)
-                        {
-                            ErrorLogger.LogError(result.StatusCode, "parameterChecker", error, FileDirectory);
-                        }
-
-                        return (int)result.StatusCode;
-                    }
-
                     default:
                         errorMessage = "ERROR! Unable to find running mode";
                         Console.Error.WriteLine(errorMessage);
@@ -187,13 +157,6 @@ namespace NIST.CVP.Generation.GenValApp.Helpers
         {
             var val = _scope.Resolve<IValidator>();
             var result = val.Validate(responseFile, answerFile, showExpected);
-            return result;
-        }
-
-        public ParameterCheckResponse RunParameterChecker(string registrationFile)
-        {
-            var paramChecker = _scope.Resolve<IParameterChecker>();
-            var result = paramChecker.CheckParameters(registrationFile);
             return result;
         }
 

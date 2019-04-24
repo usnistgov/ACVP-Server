@@ -4,7 +4,6 @@
     {
         Unset,
         Generate,
-        Validate,
-        ParameterCheck
+        Validate
     }
 }
