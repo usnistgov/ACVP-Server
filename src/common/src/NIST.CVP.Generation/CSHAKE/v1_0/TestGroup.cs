@@ -15,10 +15,10 @@ namespace NIST.CVP.Generation.CSHAKE.v1_0
         [JsonIgnore]
         public string Function { get; set; }
 
-        [JsonProperty(PropertyName = "digestSize")]
+        [JsonIgnore]
         public int DigestSize { get; set; }
 
-        [JsonIgnore]
+        [JsonProperty(PropertyName = "hexCustomization")]
         public bool HexCustomization { get; set; } = false;
 
         [JsonIgnore]

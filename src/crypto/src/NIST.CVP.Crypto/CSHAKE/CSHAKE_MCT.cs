@@ -120,7 +120,7 @@ namespace NIST.CVP.Crypto.CSHAKE
             return new MCTResult<AlgoArrayResponseWithCustomization>(responses);
         }
 
-        private Logger ThisLogger { get { return LogManager.GetCurrentClassLogger(); } }
+        private Logger ThisLogger => LogManager.GetCurrentClassLogger();
 
         private int GetIntFromBits(BitArray bits)
         {
