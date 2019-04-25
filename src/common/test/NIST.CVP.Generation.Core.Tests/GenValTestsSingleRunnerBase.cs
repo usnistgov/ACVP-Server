@@ -13,7 +13,6 @@ using NIST.CVP.Common.Helpers;
 using NIST.CVP.Generation.Core.JsonConverters;
 using NIST.CVP.Tests.Core;
 using NLog;
-using NIST.CVP.Crypto.Oracle;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -33,7 +32,7 @@ namespace NIST.CVP.Generation.Core.Tests
         public string JsonSavePath { get; private set; }
 
         public abstract IRegisterInjections RegistrationsCrypto { get; }
-        public IRegisterInjections RegistrationsOracle => new RegisterInjections();
+        // public IRegisterInjections RegistrationsOracle => new RegisterInjections();
         public abstract IRegisterInjections RegistrationsGenVal { get; }
 
         public string[] TestVectorFileNames = { "expectedResults.json", "internalProjection.json", "prompt.json"};
@@ -243,7 +242,7 @@ namespace NIST.CVP.Generation.Core.Tests
 
             EntryPointConfigHelper.RegisterConfigurationInjections(ServiceProvider, builder);
 
-            RegistrationsOracle.RegisterTypes(builder, AlgoMode);
+            // RegistrationsOracle.RegisterTypes(builder, AlgoMode);
             RegistrationsCrypto.RegisterTypes(builder, AlgoMode);
             RegistrationsGenVal.RegisterTypes(builder, AlgoMode);
 

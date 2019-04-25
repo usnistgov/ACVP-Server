@@ -101,7 +101,7 @@ namespace NIST.CVP.Generation.Core.Tests
         [Test]
         public void GenerateShouldReturnErrorResponseWhenParametersNotValidatedSuccessfully()
         {
-            string errorMessage = "Invalid Parameter Validation";
+            List<string> errorMessage = new List<string>() { "Invalid Parameter Validation" };
             _mockIParameterValidator
                 .Setup(s => s.Validate(It.IsAny<FakeParameters>()))
                 .Returns(() => new ParameterValidateResponse(errorMessage));
@@ -136,14 +136,12 @@ namespace NIST.CVP.Generation.Core.Tests
 
             try
             {
-                result = _subject.Generate($"{_testPath}\\{fileNameRoot.ToString()}.json");
+                result = _subject.Generate(Path.Combine(_testPath, $"{fileNameRoot.ToString()}.json"));
             }
             finally
             {
                 // Find and delete files as a result of the test
-                List<string> files = new List<string>();
-                files = Directory.GetFiles(_testPath, $"{fileNameRoot}*").ToList();
-
+                List<string> files = Directory.GetFiles(_testPath, $"{fileNameRoot}*").ToList();
                 if (files.Count <= 4)
                 {
                     foreach(var file in files)
