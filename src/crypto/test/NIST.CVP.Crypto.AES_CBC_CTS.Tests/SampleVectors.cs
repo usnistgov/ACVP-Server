@@ -17,7 +17,7 @@ namespace NIST.CVP.Crypto.AES_CBC_CTS.Tests
         private readonly ICiphertextStealingTransformFactory _csTransform = new CiphertextStealingTransformFactory();
 
         private readonly AesEngine _engine = new AesEngine();
-        private readonly CbcCtsBlockCipher _subjectCs1 = new CbcCtsBlockCipher(new AesEngine(), new CiphertextStealingMode1());
+        private readonly CbcCtsBlockCipherCs1 _subjectCs1 = new CbcCtsBlockCipherCs1(new AesEngine(), new CiphertextStealingMode1());
         private readonly CbcCtsBlockCipher _subjectCs2 = new CbcCtsBlockCipher(new AesEngine(), new CiphertextStealingMode2());
         private readonly CbcCtsBlockCipher _subjectCs3 = new CbcCtsBlockCipher(new AesEngine(), new CiphertextStealingMode3());
 

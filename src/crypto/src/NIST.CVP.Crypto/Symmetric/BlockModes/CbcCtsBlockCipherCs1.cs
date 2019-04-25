@@ -8,11 +8,11 @@ using System;
 
 namespace NIST.CVP.Crypto.Symmetric.BlockModes
 {
-    public class CbcCtsBlockCipher : ModeBlockCipherBase<SymmetricCipherResult>
+    public class CbcCtsBlockCipherCs1 : ModeBlockCipherBase<SymmetricCipherResult>
     {
         private readonly ICiphertextStealingTransform _ciphertextStealingTransform;
 
-        public CbcCtsBlockCipher(IBlockCipherEngine engine, ICiphertextStealingTransform ciphertextStealingTransform) :
+        public CbcCtsBlockCipherCs1(IBlockCipherEngine engine, ICiphertextStealingTransform ciphertextStealingTransform) :
             base(engine)
         {
             _ciphertextStealingTransform = ciphertextStealingTransform;
@@ -86,33 +86,29 @@ namespace NIST.CVP.Crypto.Symmetric.BlockModes
             // CS1 needs to decrypt the final full block then inject the last padded bits of the plaintext into the ciphertext starting at the end of the penultimate block
             // CS2/3 need to decrypt the second to the last block and append that amount to pad onto the payload
 
-            // Decrypt the second to last block using ecb mode
-            if (numberOfBlocks > 1)
+            // Decrypt the second to last block using ecb mode (only when there's a penultimate block)
+            if (numberOfBlocks > 1 && payload.BitLength % _engine.BlockSizeBits != 0)
             {
-                var originalPayload = param.Payload.ToBytes();
+                var finalBlock = param.Payload.GetLeastSignificantBits(_engine.BlockSizeBits).ToBytes();
+                var finalBlockBuffer = new byte[_engine.BlockSizeBytes];
 
-                var secondToLastBlock = new byte[_engine.BlockSizeBytes];
-                var secondToLastBlockStartIndex = (numberOfBlocks - 2) * _engine.BlockSizeBytes;
-                Array.Copy(originalPayload, secondToLastBlockStartIndex, secondToLastBlock, 0, _engine.BlockSizeBytes);
+                _engine.ProcessSingleBlock(finalBlock, finalBlockBuffer, 0);
 
-                var decryptedSecondToLastBlockBuffer = new byte[_engine.BlockSizeBytes];
+                var decryptedBlock = new BitString(finalBlockBuffer);
 
-                _engine.ProcessSingleBlock(secondToLastBlock, decryptedSecondToLastBlockBuffer, 0);
-
-                var decryptedBlock = new BitString(decryptedSecondToLastBlockBuffer);
-
-                // Pad the ciphertext to the nearest multiple of the block size using the last B−M bits of block cipher decryption of the second-to-last ciphertext block.
+                // Pad the ciphertext to the nearest multiple of the block size using the last B−M bits of the decrypted final block.
+                // These bits should be inserted after the penultimate block.
                 var amountToPad = (_engine.BlockSizeBits - param.Payload.BitLength % _engine.BlockSizeBits);
                 if (amountToPad > 0)
                 {
-                    payload = payload.ConcatenateBits(BitString.Substring(decryptedBlock, 0, amountToPad));
+                    //payload = payload.ConcatenateBits(BitString.Substring(decryptedBlock, 0, amountToPad));
+                    payload = payload.GetMostSignificantBits(payload.BitLength - _engine.BlockSizeBits)
+                        .ConcatenateBits(decryptedBlock.GetLeastSignificantBits(amountToPad))
+                        .ConcatenateBits(new BitString(finalBlock));
                 }
 
                 payloadBytes = payload.ToBytes();
-                _ciphertextStealingTransform.Transform(payloadBytes, _engine, numberOfBlocks, param.Payload.BitLength);
-
-                payload = new BitString(payloadBytes);
-                payloadBytes = payload.ToBytes();
+                //_ciphertextStealingTransform.Transform(payloadBytes, _engine, numberOfBlocks, param.Payload.BitLength);
             }
 
             // Decrypt the (modified) ciphertext using the standard CBC mode.
@@ -136,23 +132,6 @@ namespace NIST.CVP.Crypto.Symmetric.BlockModes
             {
                 param.Iv[i] = iv[i];
             }
-        }
-
-        /// <summary>
-        /// Swap two bytes within a byte array
-        /// </summary>
-        /// <param name="payload"></param>
-        /// <param name="byteA"></param>
-        /// <param name="byteB"></param>
-        private void SwapBytes(byte[] payload, int byteA, int byteB)
-        {
-            // x = x ^ y
-            // y = x ^ y
-            // x = x ^ y
-
-            payload[byteA] = (byte)(payload[byteA] ^ payload[byteB]);
-            payload[byteB] = (byte)(payload[byteA] ^ payload[byteB]);
-            payload[byteA] = (byte)(payload[byteA] ^ payload[byteB]);
         }
     }
 }

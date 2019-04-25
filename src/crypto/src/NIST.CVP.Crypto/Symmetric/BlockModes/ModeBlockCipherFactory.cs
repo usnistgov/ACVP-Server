@@ -27,7 +27,7 @@ namespace NIST.CVP.Crypto.Symmetric.BlockModes
                 case BlockCipherModesOfOperation.Cbci:
                     return new CbciBlockCipher(engine);
                 case BlockCipherModesOfOperation.CbcCs1:
-                    return new CbcCtsBlockCipher(engine, new CiphertextStealingMode1());
+                    return new CbcCtsBlockCipherCs1(engine, new CiphertextStealingMode1());
                 case BlockCipherModesOfOperation.CbcCs2:
                     return new CbcCtsBlockCipher(engine, new CiphertextStealingMode2());
                 case BlockCipherModesOfOperation.CbcCs3:
