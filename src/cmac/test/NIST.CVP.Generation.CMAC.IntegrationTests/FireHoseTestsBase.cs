@@ -22,13 +22,13 @@ namespace NIST.CVP.Generation.CMAC.IntegrationTests
         {
             _testPath = Utilities.GetConsistentTestingStartPath(GetType(), $@"..\..\TestFiles\LegacyParserFiles\{FolderName}");
         }
- 
+
         [Test]
-        protected void ShouldRunThroughAllTestFilesAndValidate()
+        public void ShouldRunThroughAllTestFilesAndValidate()
         {
             var parser = new TLegacyResponseFileParser();
             var parsedFiles = parser.Parse(_testPath);
-            
+
             if (!parsedFiles.Success)
             {
                 Assert.Fail("Failed parsing test files");
@@ -39,13 +39,13 @@ namespace NIST.CVP.Generation.CMAC.IntegrationTests
                 Assert.Fail("No TestGroups were parsed.");
             }
             var testVector = parsedFiles.ParsedObject;
-            
+
 
             int count = 0;
             int passes = 0;
             int fails = 0;
             int failureTests = 0;
-            
+
             if (testVector.TestGroups.Count == 0)
             {
                 Assert.Fail("No TestGroups were parsed.");
@@ -125,6 +125,6 @@ namespace NIST.CVP.Generation.CMAC.IntegrationTests
 
             //Assert.Fail($"Passes {passes}, fails {fails}, count {count}.  Failure tests {failureTests}");
         }
-       
+
     }
 }
