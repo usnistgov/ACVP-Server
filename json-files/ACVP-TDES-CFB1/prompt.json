@@ -6105,93 +6105,93 @@
       "tests": [
         {
           "tcId": 669,
-          "key1": "0B929DC4777FDFA0",
-          "key2": "8DEC0AFEF15A32DF",
-          "key3": "B8809E1F7F1D68D8",
+          "key1": "85E9003551B37AE0",
+          "key2": "0C16E21FFE08746D",
+          "key3": "71DEDAD1BDF1A3A8",
           "pt": "00",
           "payloadLen": 1,
-          "iv": "62535E3D4D18F0C0"
+          "iv": "41DF0B22E8BDB910"
         },
         {
           "tcId": 670,
-          "key1": "0167FA673AC70812",
-          "key2": "21AA756FC518C75F",
-          "key3": "9268CD9C32155F48",
-          "pt": "00",
+          "key1": "D08582D21C6E71E3",
+          "key2": "A8C986E12ECCE78B",
+          "key3": "8C6B1AF7A978E45D",
+          "pt": "40",
           "payloadLen": 2,
-          "iv": "709B2D3BDEB5A0D2"
+          "iv": "3B3B9B5E3D96ACCC"
         },
         {
           "tcId": 671,
-          "key1": "30ED0AB07DA00D76",
-          "key2": "E092AFF6580ACC67",
-          "key3": "6A9F2C2E5DBF6D64",
-          "pt": "60",
+          "key1": "9F5F0FEF914E2097",
+          "key2": "F56C5A28684AEF76",
+          "key3": "8EC554F9A9E1F4FA",
+          "pt": "40",
           "payloadLen": 3,
-          "iv": "AD10CFC753A697D9"
+          "iv": "67CB415BCEC35252"
         },
         {
           "tcId": 672,
-          "key1": "FAEABE601D2EFE5E",
-          "key2": "0FF146241E6ECBDB",
-          "key3": "61972DCB75EEA1DF",
-          "pt": "70",
+          "key1": "18AF26C7DA6E1B78",
+          "key2": "5F6A2E6ECBA24BAB",
+          "key3": "5D7C54F0F844C375",
+          "pt": "80",
           "payloadLen": 4,
-          "iv": "F147E19EEF046FA9"
+          "iv": "85499B3DC29CE5AA"
         },
         {
           "tcId": 673,
-          "key1": "44C564176B2CCDF7",
-          "key2": "5451E9595AC335A0",
-          "key3": "982A526AA35EE7D9",
-          "pt": "B8",
+          "key1": "0F5F6FCC9B0BB63C",
+          "key2": "69E76484F3649555",
+          "key3": "40C6D61D35BDA74C",
+          "pt": "70",
           "payloadLen": 5,
-          "iv": "78F1C37F785C4160"
+          "iv": "1F6FE81E8F104364"
         },
         {
           "tcId": 674,
-          "key1": "95AC6A9AA49C5BCE",
-          "key2": "717C1C87A21353AD",
-          "key3": "706B36E24A3FE136",
-          "pt": "B8",
+          "key1": "28D46878C8701470",
+          "key2": "0592151F612BDE94",
+          "key3": "16B0377BAABB49F8",
+          "pt": "28",
           "payloadLen": 6,
-          "iv": "22E87CF7FC5D1530"
+          "iv": "A52B1CE7DBB30110"
         },
         {
           "tcId": 675,
-          "key1": "47E77B3329F5B848",
-          "key2": "8B694D08FF346215",
-          "key3": "6EA9808313DE697A",
-          "pt": "38",
+          "key1": "8AA551058A0780C9",
+          "key2": "98BF37FF928AC6DA",
+          "key3": "18AFB0CF5B373E78",
+          "pt": "CE",
           "payloadLen": 7,
-          "iv": "9770F2FAD474BA2A"
+          "iv": "81469CDF50A4D412"
         },
         {
           "tcId": 676,
-          "key1": "A5FFFCCD46836B1B",
-          "key2": "94369697E39E93A2",
-          "key3": "58766E6323EC79D2",
-          "pt": "9D",
+          "key1": "482AC2E3F18182C6",
+          "key2": "8B13C63FAF4B5B98",
+          "key3": "BC8B6DECF7BB19B6",
+          "pt": "AB",
           "payloadLen": 8,
-          "iv": "BDDC36172929D56E"
+          "iv": "B9A374BCE0D017CD"
         },
         {
           "tcId": 677,
-          "key1": "4A630B0D2ECD34CD",
-          "key2": "021981DDE286366D",
-          "key3": "7A8738EBC0B8C507",
-          "pt": "5100",
+          "key1": "43471CF5293AC73B",
+          "key2": "36EAD27E9454C05B",
+          "key3": "2DD4C0555E78E436",
+          "pt": "B880",
           "payloadLen": 9,
-          "iv": "3D2B75A5E9B1A3DB"
+          "iv": "F74698C548FAC9AD"
         },
         {
           "tcId": 678,
-          "key1": "4197DD89C3A7E6E8",
-          "key2": "6515CF1E1619B649",
-          "key3": "18FE55EA64678328",
-          "pt": "2080",
+          "key1": "DFB3DFC5D8C542FB",
+          "key2": "D6BC0E69506C5C46",
+          "key3": "1CF56F5170767B7F",
+          "pt": "9600",
           "payloadLen": 10,
-          "iv": "A09F6D2888DA48B9"
+          "iv": "E086A62FF5BF81CA"
         }
       ]
     },
@@ -6203,93 +6203,93 @@
       "tests": [
         {
           "tcId": 679,
-          "key1": "AC17634B72EE238E",
-          "key2": "380B5A6071782AF4",
-          "key3": "B50D9383443509E7",
+          "key1": "23E903A95E561ED5",
+          "key2": "B3D22A352FCB9686",
+          "key3": "BC2530C47ED53A93",
           "ct": "80",
           "payloadLen": 1,
-          "iv": "8211B6D2C8EE7BE4"
+          "iv": "98FB590CFFCDBE0C"
         },
         {
           "tcId": 680,
-          "key1": "FAED2700D96207D6",
-          "key2": "C77D9575D1753916",
-          "key3": "ACBD94443481E0B5",
-          "ct": "00",
+          "key1": "C866D3DC0B9B9CF9",
+          "key2": "D035841F29CFE206",
+          "key3": "BD08D119D24EDAF9",
+          "ct": "80",
           "payloadLen": 2,
-          "iv": "226C01C0CF18A6F6"
+          "iv": "88E3B046962F2F3E"
         },
         {
           "tcId": 681,
-          "key1": "98752C2F81ED7AFC",
-          "key2": "4A493A7B76162BF0",
-          "key3": "DB110AA45CAE663B",
+          "key1": "12FBF74C6B8182C6",
+          "key2": "4E8B13C63F4B5B98",
+          "key3": "6D25F7BB19B633D7",
           "ct": "80",
           "payloadLen": 3,
-          "iv": "FA6B3DFE2693E5AA"
+          "iv": "8F4DF8F3F4321B7E"
         },
         {
           "tcId": 682,
-          "key1": "F211B0E51D08EAC0",
-          "key2": "C8979CC928AB1169",
-          "key3": "A5D578C442601B3E",
-          "ct": "90",
+          "key1": "7A9BE306355E46DA",
+          "key2": "2B6C12A95A540DF3",
+          "key3": "A731FE80DE79954B",
+          "ct": "30",
           "payloadLen": 4,
-          "iv": "079415BED2C50F39"
+          "iv": "4FD7B574C1171C7A"
         },
         {
           "tcId": 683,
-          "key1": "92BB7110411AFA06",
-          "key2": "CE0E6EE8D07B8FE8",
-          "key3": "DA5D169BBC01D1CE",
-          "ct": "18",
+          "key1": "49B3746F95DAA473",
+          "key2": "37B83FD18F590FD3",
+          "key3": "702A163AF7F9D703",
+          "ct": "68",
           "payloadLen": 5,
-          "iv": "841F6327A592F6EF"
+          "iv": "CF73DD26CF5A56C3"
         },
         {
           "tcId": 684,
-          "key1": "8109E3FEF9145D99",
-          "key2": "2048E3A66724DD38",
-          "key3": "6B1C037E229B33B2",
+          "key1": "F2EEBB9A0163A84D",
+          "key2": "FD04A0A0F86C0FDF",
+          "key3": "EE3BC7A26AE4A6F5",
           "ct": "E4",
           "payloadLen": 6,
-          "iv": "37BD0B2D9DFD5BD6"
+          "iv": "C29170817C6ACDB2"
         },
         {
           "tcId": 685,
-          "key1": "F0D3ED7FB1440F5B",
-          "key2": "FC1B3B8733273F9D",
-          "key3": "286DD54A61C1B3F9",
-          "ct": "BC",
+          "key1": "66B83FB48C915B3D",
+          "key2": "451FCD20AC04CAF0",
+          "key3": "F1417E19957DC536",
+          "ct": "1C",
           "payloadLen": 7,
-          "iv": "9DB9B89638AFA151"
+          "iv": "A1F640EB823C9705"
         },
         {
           "tcId": 686,
-          "key1": "C795EB7780E9DC1A",
-          "key2": "A437A6613823860E",
-          "key3": "0CA398D17917A1A7",
-          "ct": "AC",
+          "key1": "06EB4ADF752942C4",
+          "key2": "050C219021E0429C",
+          "key3": "93ECB4B7416ADF9F",
+          "ct": "36",
           "payloadLen": 8,
-          "iv": "B43E73ECE7A03AE0"
+          "iv": "D6BC166ADBE12CD7"
         },
         {
           "tcId": 687,
-          "key1": "86C142D71E801A85",
-          "key2": "BAF1D9D822181BA2",
-          "key3": "1556B316A9FBA536",
-          "ct": "A580",
+          "key1": "39F5331E87C5EB11",
+          "key2": "49485E3F36035A64",
+          "key3": "D6757134DDC425F2",
+          "ct": "6100",
           "payloadLen": 9,
-          "iv": "E5A8611178CD7047"
+          "iv": "39D888FCC4B3545E"
         },
         {
           "tcId": 688,
-          "key1": "95A94B3A17AEA06A",
-          "key2": "F6AAEA63E474A940",
-          "key3": "D94726CB8AC59D1C",
-          "ct": "DB80",
+          "key1": "BF7430D634739BD4",
+          "key2": "D3718F04EC519F1A",
+          "key3": "63C78B795F50C083",
+          "ct": "4E80",
           "payloadLen": 10,
-          "iv": "A68F41985EE9E330"
+          "iv": "51E2D77A65790CD8"
         }
       ]
     },
@@ -6301,12 +6301,12 @@
       "tests": [
         {
           "tcId": 689,
-          "key1": "D155730833B52651",
-          "key2": "564CA99336B36AC4",
-          "key3": "05FA4B560C652FE1",
-          "pt": "80",
+          "key1": "6AB62D073C30EB9E",
+          "key2": "2C9C3B7920B14C67",
+          "key3": "A195E54D7E0477FD",
+          "pt": "00",
           "payloadLen": 1,
-          "iv": "692D96172B882347"
+          "iv": "4A627A6B50F34E2E"
         }
       ]
     },
@@ -6318,12 +6318,12 @@
       "tests": [
         {
           "tcId": 690,
-          "key1": "1E3EC90CD9EBE042",
-          "key2": "82720B1291E49548",
-          "key3": "49CBEE788D0E5060",
-          "ct": "80",
+          "key1": "6B2C1D05FC85E652",
+          "key2": "3A6BBB2891DBFFD9",
+          "key3": "EDDA27EDA5A684FC",
+          "ct": "00",
           "payloadLen": 1,
-          "iv": "6123909AA268AA16"
+          "iv": "2BF2F58ECFE08ED9"
         }
       ]
     }

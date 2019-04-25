@@ -1,0 +1,15 @@
+{
+  "vsId": 0,
+  "algorithm": "ACVP-TDES-CFBP1",
+  "mode": "",
+  "revision": "1.0",
+  "isSample": true,
+  "conformances": [],
+  "direction": [
+    "encrypt",
+    "decrypt"
+  ],
+  "keyingOption": [
+    1
+  ]
+}

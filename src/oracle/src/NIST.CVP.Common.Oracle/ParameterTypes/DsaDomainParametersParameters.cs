@@ -11,7 +11,7 @@ namespace NIST.CVP.Common.Oracle.ParameterTypes
         public GeneratorGenMode GGenMode { get; set; }
         public int L { get; set; }
         public int N { get; set; }
-        public string Disposition { get; set; }
+        public string Disposition { get; set; } = "none";
 
         public override bool Equals(object other)
         {
@@ -23,10 +23,6 @@ namespace NIST.CVP.Common.Oracle.ParameterTypes
             return false;
         }
 
-        /// <summary>
-        /// Note, purposefully ignoring disposition for equal comparison, as that only matters after the fact.
-        /// </summary>
-        /// <returns></returns>
-        public override int GetHashCode() => HashCode.Combine(HashAlg, PQGenMode, GGenMode, L, N);
+        public override int GetHashCode() => HashCode.Combine(HashAlg, PQGenMode, GGenMode, L, N, Disposition);
     }
 }

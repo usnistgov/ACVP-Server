@@ -126,6 +126,8 @@ namespace NIST.CVP.Common
         KDFComponents_TLS_v1_0,
         [EnumMember(Value = "KDF-Components-TPM-1.0")]
         KDFComponents_TPM_v1_0,
+        [EnumMember(Value = "KDF-Components-ANSIX9.42-1.0")]
+        KDFComponents_ANSIX942_v1_0,
         [EnumMember(Value = "KMAC-1.0")]
         KMAC_v1_0,
         [EnumMember(Value = "ParallelHash-1.0")]
