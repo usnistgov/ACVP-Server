@@ -14,7 +14,7 @@ namespace NIST.CVP.Crypto.AES_CBC_CTS.Tests
     [TestFixture, FastCryptoTest]
     public class KatsSingleBlock
     {
-        private readonly CbcCtsBlockCipherCs1 _subjectCs1 = new CbcCtsBlockCipherCs1(new AesEngine(), new CiphertextStealingMode1());
+        private readonly CbcCtsBlockCipher _subjectCs1 = new CbcCtsBlockCipher(new AesEngine(), new CiphertextStealingMode1());
         private readonly CbcCtsBlockCipher _subjectCs2 = new CbcCtsBlockCipher(new AesEngine(), new CiphertextStealingMode2());
         private readonly CbcCtsBlockCipher _subjectCs3 = new CbcCtsBlockCipher(new AesEngine(), new CiphertextStealingMode3());
 

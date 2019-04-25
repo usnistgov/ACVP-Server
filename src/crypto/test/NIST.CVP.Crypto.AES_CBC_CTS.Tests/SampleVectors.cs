@@ -17,7 +17,7 @@ namespace NIST.CVP.Crypto.AES_CBC_CTS.Tests
         private readonly ICiphertextStealingTransformFactory _csTransform = new CiphertextStealingTransformFactory();
 
         private readonly AesEngine _engine = new AesEngine();
-        private readonly CbcCtsBlockCipherCs1 _subjectCs1 = new CbcCtsBlockCipherCs1(new AesEngine(), new CiphertextStealingMode1());
+        private readonly CbcCtsBlockCipher _subjectCs1 = new CbcCtsBlockCipher(new AesEngine(), new CiphertextStealingMode1());
         private readonly CbcCtsBlockCipher _subjectCs2 = new CbcCtsBlockCipher(new AesEngine(), new CiphertextStealingMode2());
         private readonly CbcCtsBlockCipher _subjectCs3 = new CbcCtsBlockCipher(new AesEngine(), new CiphertextStealingMode3());
 
@@ -126,10 +126,10 @@ namespace NIST.CVP.Crypto.AES_CBC_CTS.Tests
             var ctBytes = BitString.PadToModulus(ct, _engine.BlockSizeBits).ToBytes();
             var numberOfBlocks = GetNumberOfBlocks(pt.BitLength);
             var cs3Transformer = _csTransform.Get(CiphertextStealingMode.CS3);
-            cs3Transformer.Transform(ctBytes, _engine, numberOfBlocks, pt.BitLength);
+            cs3Transformer.TransformCiphertext(ctBytes, _engine, numberOfBlocks, pt.BitLength);
 
             var cs1Transformer = _csTransform.Get(CiphertextStealingMode.CS1);
-            cs1Transformer.Transform(ctBytes, _engine, numberOfBlocks, pt.BitLength);
+            cs1Transformer.TransformCiphertext(ctBytes, _engine, numberOfBlocks, pt.BitLength);
             ct = new BitString(ctBytes).GetMostSignificantBits(pt.BitLength);
 
             var param = new ModeBlockCipherParameters(
@@ -152,11 +152,11 @@ namespace NIST.CVP.Crypto.AES_CBC_CTS.Tests
             var ctBytes = BitString.PadToModulus(ct, _engine.BlockSizeBits).ToBytes();
             var numberOfBlocks = GetNumberOfBlocks(pt.BitLength);
             var cs3Transformer = _csTransform.Get(CiphertextStealingMode.CS3);
-            cs3Transformer.Transform(ctBytes, _engine, numberOfBlocks, pt.BitLength);
+            cs3Transformer.TransformCiphertext(ctBytes, _engine, numberOfBlocks, pt.BitLength);
 
             // apply a cs1 transform
             var cs1Transformer = _csTransform.Get(CiphertextStealingMode.CS1);
-            cs1Transformer.Transform(ctBytes, _engine, numberOfBlocks, pt.BitLength);
+            cs1Transformer.TransformCiphertext(ctBytes, _engine, numberOfBlocks, pt.BitLength);
             ct = new BitString(ctBytes).GetMostSignificantBits(pt.BitLength);
 
             var param = new ModeBlockCipherParameters(
@@ -179,11 +179,11 @@ namespace NIST.CVP.Crypto.AES_CBC_CTS.Tests
             var ctBytes = BitString.PadToModulus(ct, _engine.BlockSizeBits).ToBytes();
             var numberOfBlocks = GetNumberOfBlocks(pt.BitLength);
             var cs3Transformer = _csTransform.Get(CiphertextStealingMode.CS3);
-            cs3Transformer.Transform(ctBytes, _engine, numberOfBlocks, pt.BitLength);
+            cs3Transformer.TransformCiphertext(ctBytes, _engine, numberOfBlocks, pt.BitLength);
 
             // apply a cs2 transform
             var cs2Transformer = _csTransform.Get(CiphertextStealingMode.CS2);
-            cs2Transformer.Transform(ctBytes, _engine, numberOfBlocks, pt.BitLength);
+            cs2Transformer.TransformCiphertext(ctBytes, _engine, numberOfBlocks, pt.BitLength);
             ct = new BitString(ctBytes).GetMostSignificantBits(pt.BitLength);
 
             var param = new ModeBlockCipherParameters(
@@ -206,11 +206,11 @@ namespace NIST.CVP.Crypto.AES_CBC_CTS.Tests
             var ctBytes = BitString.PadToModulus(ct, _engine.BlockSizeBits).ToBytes();
             var numberOfBlocks = GetNumberOfBlocks(pt.BitLength);
             var cs3Transformer = _csTransform.Get(CiphertextStealingMode.CS3);
-            cs3Transformer.Transform(ctBytes, _engine, numberOfBlocks, pt.BitLength);
+            cs3Transformer.TransformCiphertext(ctBytes, _engine, numberOfBlocks, pt.BitLength);
 
             // apply a cs2 transform
             var cs2Transformer = _csTransform.Get(CiphertextStealingMode.CS2);
-            cs2Transformer.Transform(ctBytes, _engine, numberOfBlocks, pt.BitLength);
+            cs2Transformer.TransformCiphertext(ctBytes, _engine, numberOfBlocks, pt.BitLength);
             ct = new BitString(ctBytes).GetMostSignificantBits(pt.BitLength);
 
             var param = new ModeBlockCipherParameters(
