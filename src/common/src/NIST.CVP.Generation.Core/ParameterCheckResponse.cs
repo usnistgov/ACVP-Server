@@ -19,9 +19,15 @@ namespace NIST.CVP.Generation.Core
             StatusCode = StatusCode.Success;
         }
 
-        public ParameterCheckResponse(string errorMessage, StatusCode statusCode = StatusCode.ParameterValidationError)
+        public ParameterCheckResponse(string errorMessage, StatusCode statusCode = StatusCode.ParameterError)
         {
             ErrorMessage.Add(errorMessage);
+            StatusCode = statusCode;
+        }
+
+        public ParameterCheckResponse(List<string> errorMessage, StatusCode statusCode = StatusCode.ParameterValidationError)
+        {
+            ErrorMessage = errorMessage;
             StatusCode = statusCode;
         }
 

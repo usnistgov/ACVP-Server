@@ -27,12 +27,7 @@ namespace NIST.CVP.Generation.SHA3.v1_0
                 ValidateOutputLength(parameters, errorResults);
             }
 
-            if (errorResults.Count > 0)
-            {
-                return new ParameterValidateResponse(string.Join(";", errorResults));
-            }
-
-            return new ParameterValidateResponse();    
+            return new ParameterValidateResponse(errorResults);    
         }
 
         private void ValidateFunctions(Parameters parameters, List<string> errorResults)

@@ -22,17 +22,10 @@ namespace NIST.CVP.Generation.CSHAKE.v1_0
             var errorResults = new List<string>();
 
             ValidateFunctions(parameters, errorResults);
-
             ValidateOutputLength(parameters, errorResults);
-
             ValidateMessageLength(parameters, errorResults);
-            
-            if (errorResults.Count > 0)
-            {
-                return new ParameterValidateResponse(string.Join(";", errorResults));
-            }
 
-            return new ParameterValidateResponse();    
+            return new ParameterValidateResponse(errorResults);    
         }
 
         private void ValidateFunctions(Parameters parameters, List<string> errorResults)

@@ -27,6 +27,8 @@ namespace NIST.CVP.Generation.RSA.v1_0.DpComponent
             builder.RegisterType<VectorSetDeserializer<TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
 
             builder.RegisterType<Generator<Parameters, TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
+            builder.RegisterType<ParameterChecker<Parameters>>().AsImplementedInterfaces();
+
             builder.RegisterType<TestCaseGeneratorFactoryFactoryAsync<TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseGeneratorFactory>().AsImplementedInterfaces();
             builder.RegisterType<TestVectorFactory<Parameters, TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();

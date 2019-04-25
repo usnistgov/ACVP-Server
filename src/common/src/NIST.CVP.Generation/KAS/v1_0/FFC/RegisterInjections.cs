@@ -27,6 +27,7 @@ namespace NIST.CVP.Generation.KAS.v1_0.FFC
             builder.RegisterType<EntropyProvider>().AsImplementedInterfaces();
             
             builder.RegisterType<Generator<Parameters, TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
+            builder.RegisterType<ParameterChecker<Parameters>>().AsImplementedInterfaces();
             builder.RegisterType<ValidatorAsync<TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
 
             builder.RegisterType<ParameterValidator>().AsImplementedInterfaces();

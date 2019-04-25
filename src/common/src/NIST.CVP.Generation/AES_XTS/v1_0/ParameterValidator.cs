@@ -30,12 +30,7 @@ namespace NIST.CVP.Generation.AES_XTS.v1_0
 
             ValidatePtLen(parameters.PayloadLen, errorResults);
 
-            if (errorResults.Count > 0)
-            {
-                return new ParameterValidateResponse(string.Join(";", errorResults));
-            }
-
-            return new ParameterValidateResponse();
+            return new ParameterValidateResponse(errorResults);
         }
 
         private void ValidatePtLen(MathDomain ptLen, List<string> errorResults)

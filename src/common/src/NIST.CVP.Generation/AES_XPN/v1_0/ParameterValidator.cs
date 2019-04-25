@@ -31,12 +31,7 @@ namespace NIST.CVP.Generation.AES_XPN.v1_0
             ValidateIV(parameters, errorResults);
             ValidateSalt(parameters, errorResults);
 
-            if (errorResults.Count > 0)
-            {
-                return new ParameterValidateResponse(string.Join(";", errorResults));
-            }
-
-            return new ParameterValidateResponse();
+            return new ParameterValidateResponse(errorResults);
         }
 
         private void ValidatePlainText(Parameters parameters,  List<string> errorResults)

@@ -1,22 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace NIST.CVP.Generation.Core
 {
     public class ParameterValidateResponse
     {
-        
-        public ParameterValidateResponse() { }
+        public List<string> Errors { get; }
 
-        public ParameterValidateResponse(string errorMessage)
+        public string ErrorMessage
         {
-            ErrorMessage = errorMessage;
+            get
+            {
+                if (Errors == null)
+                {
+                    return null;
+                }
+
+                if (!Errors.Any())
+                {
+                    return null;
+                }
+
+                return string.Join(";", Errors);
+            }
         }
 
-        public string ErrorMessage { get; }
+        public ParameterValidateResponse() { }
 
-        public bool Success => string.IsNullOrEmpty(ErrorMessage);
+        public ParameterValidateResponse(List<string> errors)
+        {
+            Errors = errors;
+        }
+
+        public bool Success => !Errors.Any();
     }
 }

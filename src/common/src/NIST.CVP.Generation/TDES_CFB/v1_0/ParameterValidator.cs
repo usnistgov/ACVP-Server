@@ -15,12 +15,7 @@ namespace NIST.CVP.Generation.TDES_CFB.v1_0
             ValidateDirection(parameters, errorResults);
             ValidateKeyingOption(parameters, errorResults);
 
-            if (errorResults.Count > 0)
-            {
-                return new ParameterValidateResponse(string.Join(";", errorResults));
-            }
-
-            return new ParameterValidateResponse();
+            return new ParameterValidateResponse(errorResults);
         }
 
         private void ValidateDirection(Parameters parameters, List<string> errorResults)

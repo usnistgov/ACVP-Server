@@ -17,12 +17,7 @@ namespace NIST.CVP.Generation.RSA.v1_0.SpComponent
             var result = ValidateValue(parameters.KeyFormat, VALID_KEY_FORMATS, "Private key format");
             errors.AddIfNotNullOrEmpty(result);
 
-            if (errors.Count != 0)
-            {
-                return new ParameterValidateResponse(string.Join(";", errors));
-            }
-
-            return new ParameterValidateResponse();
+            return new ParameterValidateResponse(errors);
         }
     }
 }

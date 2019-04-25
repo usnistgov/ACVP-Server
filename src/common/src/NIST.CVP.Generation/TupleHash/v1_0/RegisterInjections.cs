@@ -27,6 +27,7 @@ namespace NIST.CVP.Generation.TupleHash.v1_0
             builder.RegisterType<VectorSetDeserializer<TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
 
             builder.RegisterType<Generator<Parameters, TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
+            builder.RegisterType<ParameterChecker<Parameters>>().AsImplementedInterfaces();
 
             builder.RegisterType<TestCaseGeneratorFactory>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseGeneratorFactoryFactoryAsync<TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();

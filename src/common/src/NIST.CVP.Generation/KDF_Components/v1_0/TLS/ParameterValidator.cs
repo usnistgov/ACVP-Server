@@ -37,12 +37,7 @@ namespace NIST.CVP.Generation.KDF_Components.v1_0.TLS
                 errors.AddIfNotNullOrEmpty(result);
             }
 
-            if (errors.Count > 0)
-            {
-                return new ParameterValidateResponse(string.Join(";", errors));
-            }
-
-            return new ParameterValidateResponse();
+            return new ParameterValidateResponse(errors);
         }
     }
 }

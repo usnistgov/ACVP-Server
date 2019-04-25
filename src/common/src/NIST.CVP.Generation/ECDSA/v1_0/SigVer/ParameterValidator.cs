@@ -30,12 +30,7 @@ namespace NIST.CVP.Generation.ECDSA.v1_0.SigVer
                 errors.AddIfNotNullOrEmpty(result);
             }
 
-            if (errors.Count > 0)
-            {
-                return new ParameterValidateResponse(string.Join(";", errors));
-            }
-
-            return new ParameterValidateResponse();
+            return new ParameterValidateResponse(errors);
         }
     }
 }

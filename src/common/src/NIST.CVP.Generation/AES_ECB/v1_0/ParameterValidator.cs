@@ -17,13 +17,8 @@ namespace NIST.CVP.Generation.AES_ECB.v1_0
             var errorResults = new List<string>();
             ValidateKeySizes(parameters, errorResults);
             ValidateDirection(parameters, errorResults);
-            
-            if (errorResults.Count > 0)
-            {
-                return new ParameterValidateResponse(string.Join(";", errorResults));
-            }
 
-            return new ParameterValidateResponse();
+            return new ParameterValidateResponse(errorResults);
         }
         
         private void ValidateKeySizes(Parameters parameters,  List<string> errorResults)

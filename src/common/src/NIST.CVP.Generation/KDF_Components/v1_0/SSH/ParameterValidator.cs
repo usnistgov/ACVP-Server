@@ -33,12 +33,7 @@ namespace NIST.CVP.Generation.KDF_Components.v1_0.SSH
             result = ValidateArray(parameters.HashAlg, VALID_HASH_ALGS, "Hash Algs");
             errors.AddIfNotNullOrEmpty(result);
 
-            if (errors.Count > 0)
-            {
-                return new ParameterValidateResponse(string.Join(";", errors));
-            }
-
-            return new ParameterValidateResponse();
+            return new ParameterValidateResponse(errors);
         }
     }
 }
