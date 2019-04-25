@@ -11,7 +11,7 @@
 	},
 	"PoolName": "sha-1",
 	"MaxCapacity": 10000,
-	"MinCapacity": 5000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -27,7 +27,7 @@
 	},
 	"PoolName": "sha-224",
 	"MaxCapacity": 10000,
-	"MinCapacity": 5000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -43,7 +43,7 @@
 	},
 	"PoolName": "sha-256",
 	"MaxCapacity": 10000,
-	"MinCapacity": 5000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -59,7 +59,7 @@
 	},
 	"PoolName": "sha-384",
 	"MaxCapacity": 10000,
-	"MinCapacity": 5000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -75,7 +75,7 @@
 	},
 	"PoolName": "sha-512",
 	"MaxCapacity": 10000,
-	"MinCapacity": 5000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -91,7 +91,7 @@
 	},
 	"PoolName": "sha-512-224",
 	"MaxCapacity": 10000,
-	"MinCapacity": 5000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -107,7 +107,7 @@
 	},
 	"PoolName": "sha-512-256",
 	"MaxCapacity": 10000,
-	"MinCapacity": 5000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -124,7 +124,7 @@
 	},
 	"PoolName": "sha3-224",
 	"MaxCapacity": 10000,
-	"MinCapacity": 5000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -141,7 +141,7 @@
 	},
 	"PoolName": "sha3-256",
 	"MaxCapacity": 10000,
-	"MinCapacity": 5000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -158,7 +158,7 @@
 	},
 	"PoolName": "sha3-384",
 	"MaxCapacity": 10000,
-	"MinCapacity": 5000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -175,7 +175,7 @@
 	},
 	"PoolName": "sha3-512",
 	"MaxCapacity": 10000,
-	"MinCapacity": 5000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -192,7 +192,7 @@
 	},
 	"PoolName": "shake-128",
 	"MaxCapacity": 10000,
-	"MinCapacity": 5000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -209,7 +209,7 @@
 	},
 	"PoolName": "shake-256",
 	"MaxCapacity": 10000,
-	"MinCapacity": 5000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4145,7 +4145,7 @@
 	},
 	"PoolName": "aes-ecb-128-encrypt",
 	"MaxCapacity": 10000,
-	"MinCapacity": 5000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4160,7 +4160,7 @@
 	},
 	"PoolName": "aes-ecb-128-decrypt",
 	"MaxCapacity": 10000,
-	"MinCapacity": 5000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4175,7 +4175,7 @@
 	},
 	"PoolName": "aes-ecb-192-encrypt",
 	"MaxCapacity": 10000,
-	"MinCapacity": 5000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4190,7 +4190,7 @@
 	},
 	"PoolName": "aes-ecb-192-decrypt",
 	"MaxCapacity": 10000,
-	"MinCapacity": 5000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4205,7 +4205,7 @@
 	},
 	"PoolName": "aes-ecb-256-encrypt",
 	"MaxCapacity": 10000,
-	"MinCapacity": 5000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4220,7 +4220,7 @@
 	},
 	"PoolName": "aes-ecb-256-decrypt",
 	"MaxCapacity": 10000,
-	"MinCapacity": 5000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4235,7 +4235,7 @@
 	},
 	"PoolName": "aes-cbc-128-encrypt",
 	"MaxCapacity": 10000,
-	"MinCapacity": 5000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4250,7 +4250,7 @@
 	},
 	"PoolName": "aes-cbc-128-decrypt",
 	"MaxCapacity": 10000,
-	"MinCapacity": 5000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4265,7 +4265,7 @@
 	},
 	"PoolName": "aes-cbc-192-encrypt",
 	"MaxCapacity": 10000,
-	"MinCapacity": 5000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4280,7 +4280,7 @@
 	},
 	"PoolName": "aes-cbc-192-decrypt",
 	"MaxCapacity": 10000,
-	"MinCapacity": 5000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4295,7 +4295,7 @@
 	},
 	"PoolName": "aes-cbc-256-encrypt",
 	"MaxCapacity": 10000,
-	"MinCapacity": 5000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4310,7 +4310,7 @@
 	},
 	"PoolName": "aes-cbc-256-decrypt",
 	"MaxCapacity": 10000,
-	"MinCapacity": 5000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4325,7 +4325,7 @@
 	},
 	"PoolName": "aes-ofb-128-encrypt",
 	"MaxCapacity": 10000,
-	"MinCapacity": 5000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4340,7 +4340,7 @@
 	},
 	"PoolName": "aes-ofb-128-decrypt",
 	"MaxCapacity": 10000,
-	"MinCapacity": 5000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4355,7 +4355,7 @@
 	},
 	"PoolName": "aes-ofb-192-encrypt",
 	"MaxCapacity": 10000,
-	"MinCapacity": 5000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4370,7 +4370,7 @@
 	},
 	"PoolName": "aes-ofb-192-decrypt",
 	"MaxCapacity": 10000,
-	"MinCapacity": 5000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4385,7 +4385,7 @@
 	},
 	"PoolName": "aes-ofb-256-encrypt",
 	"MaxCapacity": 10000,
-	"MinCapacity": 5000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4400,7 +4400,7 @@
 	},
 	"PoolName": "aes-ofb-256-decrypt",
 	"MaxCapacity": 10000,
-	"MinCapacity": 5000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4415,7 +4415,7 @@
 	},
 	"PoolName": "aes-cfbbit-128-encrypt",
 	"MaxCapacity": 10000,
-	"MinCapacity": 5000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4430,7 +4430,7 @@
 	},
 	"PoolName": "aes-cfbbit-128-decrypt",
 	"MaxCapacity": 10000,
-	"MinCapacity": 5000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4445,7 +4445,7 @@
 	},
 	"PoolName": "aes-cfbbit-192-encrypt",
 	"MaxCapacity": 10000,
-	"MinCapacity": 5000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4460,7 +4460,7 @@
 	},
 	"PoolName": "aes-cfbbit-192-decrypt",
 	"MaxCapacity": 10000,
-	"MinCapacity": 5000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4475,7 +4475,7 @@
 	},
 	"PoolName": "aes-cfbbit-256-encrypt",
 	"MaxCapacity": 10000,
-	"MinCapacity": 5000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4490,7 +4490,7 @@
 	},
 	"PoolName": "aes-cfbbit-256-decrypt",
 	"MaxCapacity": 10000,
-	"MinCapacity": 5000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4505,7 +4505,7 @@
 	},
 	"PoolName": "aes-cfbbyte-128-encrypt",
 	"MaxCapacity": 10000,
-	"MinCapacity": 5000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4520,7 +4520,7 @@
 	},
 	"PoolName": "aes-cfbbyte-128-decrypt",
 	"MaxCapacity": 10000,
-	"MinCapacity": 5000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4535,7 +4535,7 @@
 	},
 	"PoolName": "aes-cfbbyte-192-encrypt",
 	"MaxCapacity": 10000,
-	"MinCapacity": 5000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4550,7 +4550,7 @@
 	},
 	"PoolName": "aes-cfbbyte-192-decrypt",
 	"MaxCapacity": 10000,
-	"MinCapacity": 5000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4565,7 +4565,7 @@
 	},
 	"PoolName": "aes-cfbbyte-256-encrypt",
 	"MaxCapacity": 10000,
-	"MinCapacity": 5000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4580,7 +4580,7 @@
 	},
 	"PoolName": "aes-cfbbyte-256-decrypt",
 	"MaxCapacity": 10000,
-	"MinCapacity": 5000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4595,7 +4595,7 @@
 	},
 	"PoolName": "aes-cfbblock-128-encrypt",
 	"MaxCapacity": 10000,
-	"MinCapacity": 5000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4610,7 +4610,7 @@
 	},
 	"PoolName": "aes-cfbblock-128-decrypt",
 	"MaxCapacity": 10000,
-	"MinCapacity": 5000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4625,7 +4625,7 @@
 	},
 	"PoolName": "aes-cfbblock-192-encrypt",
 	"MaxCapacity": 10000,
-	"MinCapacity": 5000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4640,7 +4640,7 @@
 	},
 	"PoolName": "aes-cfbblock-192-decrypt",
 	"MaxCapacity": 10000,
-	"MinCapacity": 5000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4655,7 +4655,7 @@
 	},
 	"PoolName": "aes-cfbblock-256-encrypt",
 	"MaxCapacity": 10000,
-	"MinCapacity": 5000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4670,7 +4670,7 @@
 	},
 	"PoolName": "aes-cfbblock-256-decrypt",
 	"MaxCapacity": 10000,
-	"MinCapacity": 5000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4685,7 +4685,7 @@
 	},
 	"PoolName": "tdes-ecb-encrypt-keyingoption-1",
 	"MaxCapacity": 10000,
-	"MinCapacity": 5000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4700,7 +4700,7 @@
 	},
 	"PoolName": "tdes-ecb-decrypt-keyingoption-1",
 	"MaxCapacity": 10000,
-	"MinCapacity": 5000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4715,7 +4715,7 @@
 	},
 	"PoolName": "tdes-ecb-encrypt-keyingoption-2",
 	"MaxCapacity": 10000,
-	"MinCapacity": 5000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4730,7 +4730,7 @@
 	},
 	"PoolName": "tdes-ecb-decrypt-keyingoption-2",
 	"MaxCapacity": 10000,
-	"MinCapacity": 5000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4745,7 +4745,7 @@
 	},
 	"PoolName": "tdes-cbc-encrypt-keyingoption-1",
 	"MaxCapacity": 10000,
-	"MinCapacity": 5000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4760,7 +4760,7 @@
 	},
 	"PoolName": "tdes-cbc-decrypt-keyingoption-1",
 	"MaxCapacity": 10000,
-	"MinCapacity": 5000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4775,7 +4775,7 @@
 	},
 	"PoolName": "tdes-cbc-encrypt-keyingoption-2",
 	"MaxCapacity": 10000,
-	"MinCapacity": 5000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4790,7 +4790,7 @@
 	},
 	"PoolName": "tdes-cbc-decrypt-keyingoption-2",
 	"MaxCapacity": 10000,
-	"MinCapacity": 5000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4805,7 +4805,7 @@
 	},
 	"PoolName": "tdes-cbci-encrypt-keyingoption-1",
 	"MaxCapacity": 10000,
-	"MinCapacity": 5000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4820,7 +4820,7 @@
 	},
 	"PoolName": "tdes-cbci-decrypt-keyingoption-1",
 	"MaxCapacity": 10000,
-	"MinCapacity": 5000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4835,7 +4835,7 @@
 	},
 	"PoolName": "tdes-cbci-encrypt-keyingoption-2",
 	"MaxCapacity": 10000,
-	"MinCapacity": 5000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4850,7 +4850,7 @@
 	},
 	"PoolName": "tdes-cbci-decrypt-keyingoption-2",
 	"MaxCapacity": 10000,
-	"MinCapacity": 5000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4865,7 +4865,7 @@
 	},
 	"PoolName": "tdes-ofbi-encrypt-keyingoption-1",
 	"MaxCapacity": 10000,
-	"MinCapacity": 5000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4880,7 +4880,7 @@
 	},
 	"PoolName": "tdes-ofbi-decrypt-keyingoption-1",
 	"MaxCapacity": 10000,
-	"MinCapacity": 5000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4895,7 +4895,7 @@
 	},
 	"PoolName": "tdes-ofbi-encrypt-keyingoption-2",
 	"MaxCapacity": 10000,
-	"MinCapacity": 5000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4910,7 +4910,7 @@
 	},
 	"PoolName": "tdes-ofbi-decrypt-keyingoption-2",
 	"MaxCapacity": 10000,
-	"MinCapacity": 5000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4925,7 +4925,7 @@
 	},
 	"PoolName": "tdes-cfbbit-encrypt-keyingoption-1",
 	"MaxCapacity": 10000,
-	"MinCapacity": 5000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4940,7 +4940,7 @@
 	},
 	"PoolName": "tdes-cfbbit-decrypt-keyingoption-1",
 	"MaxCapacity": 10000,
-	"MinCapacity": 5000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4955,7 +4955,7 @@
 	},
 	"PoolName": "tdes-cfbbit-encrypt-keyingoption-2",
 	"MaxCapacity": 10000,
-	"MinCapacity": 5000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4970,7 +4970,7 @@
 	},
 	"PoolName": "tdes-cfbbit-decrypt-keyingoption-2",
 	"MaxCapacity": 10000,
-	"MinCapacity": 5000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -4985,7 +4985,7 @@
 	},
 	"PoolName": "tdes-cfbbyte-encrypt-keyingoption-1",
 	"MaxCapacity": 10000,
-	"MinCapacity": 5000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -5000,7 +5000,7 @@
 	},
 	"PoolName": "tdes-cfbbyte-decrypt-keyingoption-1",
 	"MaxCapacity": 10000,
-	"MinCapacity": 5000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -5015,7 +5015,7 @@
 	},
 	"PoolName": "tdes-cfbbyte-encrypt-keyingoption-2",
 	"MaxCapacity": 10000,
-	"MinCapacity": 5000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -5030,7 +5030,7 @@
 	},
 	"PoolName": "tdes-cfbbyte-decrypt-keyingoption-2",
 	"MaxCapacity": 10000,
-	"MinCapacity": 5000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -5045,7 +5045,7 @@
 	},
 	"PoolName": "tdes-cfbblock-encrypt-keyingoption-1",
 	"MaxCapacity": 10000,
-	"MinCapacity": 5000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -5060,7 +5060,7 @@
 	},
 	"PoolName": "tdes-cfbblock-decrypt-keyingoption-1",
 	"MaxCapacity": 10000,
-	"MinCapacity": 5000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -5075,7 +5075,7 @@
 	},
 	"PoolName": "tdes-cfbblock-encrypt-keyingoption-2",
 	"MaxCapacity": 10000,
-	"MinCapacity": 5000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -5090,7 +5090,7 @@
 	},
 	"PoolName": "tdes-cfbblock-decrypt-keyingoption-2",
 	"MaxCapacity": 10000,
-	"MinCapacity": 5000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -5105,7 +5105,7 @@
 	},
 	"PoolName": "tdes-cfbpbit-encrypt-keyingoption-1",
 	"MaxCapacity": 10000,
-	"MinCapacity": 5000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -5120,7 +5120,7 @@
 	},
 	"PoolName": "tdes-cfbpbit-decrypt-keyingoption-1",
 	"MaxCapacity": 10000,
-	"MinCapacity": 5000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -5135,7 +5135,7 @@
 	},
 	"PoolName": "tdes-cfbpbit-encrypt-keyingoption-2",
 	"MaxCapacity": 10000,
-	"MinCapacity": 5000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -5150,7 +5150,7 @@
 	},
 	"PoolName": "tdes-cfbpbit-decrypt-keyingoption-2",
 	"MaxCapacity": 10000,
-	"MinCapacity": 5000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -5165,7 +5165,7 @@
 	},
 	"PoolName": "tdes-cfbpbyte-encrypt-keyingoption-1",
 	"MaxCapacity": 10000,
-	"MinCapacity": 5000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -5180,7 +5180,7 @@
 	},
 	"PoolName": "tdes-cfbpbyte-decrypt-keyingoption-1",
 	"MaxCapacity": 10000,
-	"MinCapacity": 5000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -5195,7 +5195,7 @@
 	},
 	"PoolName": "tdes-cfbpbyte-encrypt-keyingoption-2",
 	"MaxCapacity": 10000,
-	"MinCapacity": 5000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -5210,7 +5210,7 @@
 	},
 	"PoolName": "tdes-cfbpbyte-decrypt-keyingoption-2",
 	"MaxCapacity": 10000,
-	"MinCapacity": 5000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -5225,7 +5225,7 @@
 	},
 	"PoolName": "tdes-cfbpblock-encrypt-keyingoption-1",
 	"MaxCapacity": 10000,
-	"MinCapacity": 5000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -5240,7 +5240,7 @@
 	},
 	"PoolName": "tdes-cfbpblock-decrypt-keyingoption-1",
 	"MaxCapacity": 10000,
-	"MinCapacity": 5000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -5255,7 +5255,7 @@
 	},
 	"PoolName": "tdes-cfbpblock-encrypt-keyingoption-2",
 	"MaxCapacity": 10000,
-	"MinCapacity": 5000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 },
 {
@@ -5270,7 +5270,7 @@
 	},
 	"PoolName": "tdes-cfbpblock-decrypt-keyingoption-2",
 	"MaxCapacity": 10000,
-	"MinCapacity": 5000,
+	"MinCapacity": 1,
 	"RecycleRatePerHundred": 90
 }
 ]

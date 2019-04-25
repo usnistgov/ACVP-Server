@@ -15,11 +15,11 @@ namespace NIST.CVP.Crypto.Symmetric.MonteCarlo
         private readonly IModeBlockCipher<SymmetricCipherResult> _algo;
         private readonly IMonteCarloKeyMakerAes _keyMaker;
 
-        public MonteCarloAesCbcCts(IBlockCipherEngineFactory engineFactory, IModeBlockCipherFactory modeFactory, IMonteCarloKeyMakerAes keyMaker)
+        public MonteCarloAesCbcCts(IBlockCipherEngineFactory engineFactory, IModeBlockCipherFactory modeFactory, IMonteCarloKeyMakerAes keyMaker, BlockCipherModesOfOperation mode)
         {
             _algo = modeFactory.GetStandardCipher(
                 engineFactory.GetSymmetricCipherPrimitive(BlockCipherEngines.Aes),
-                BlockCipherModesOfOperation.Cbc
+                mode
             );
             _keyMaker = keyMaker;
         }
@@ -36,7 +36,7 @@ namespace NIST.CVP.Crypto.Symmetric.MonteCarlo
             For j = 0 to 999
                 If ( j=0 )
                     CT[j] = AES(Key[i], IV[i], PT[j])
-                    PT[j+1] = IV[i]
+                    PT[j+1] = IV[i] || MSB(CT, SEED.length - IV.length)
                 Else
                     CT[j] = AES(Key[i], PT[j])
                     PT[j+1] = CT[j-1]
@@ -47,7 +47,7 @@ namespace NIST.CVP.Crypto.Symmetric.MonteCarlo
                 Key[i+1] = Key[i] xor (last 64-bits of CT[j-1] || CT[j])
             If ( keylen = 256 )
                 Key[i+1] = Key[i] xor (CT[j-1] || CT[j])
-            IV[i+1] = CT[j]
+            IV[i+1] = MSB(CT[j], IV.length)
             PT[0] = CT[j-1]
         */
         #endregion MonteCarloAlgorithm Pseudocode
@@ -94,7 +94,7 @@ namespace NIST.CVP.Crypto.Symmetric.MonteCarlo
 
                         if (j == 0)
                         {
-                            previousCipherText = iIterationResponse.IV;
+                            previousCipherText = iIterationResponse.IV.ConcatenateBits(jCipherText.GetMostSignificantBits(param.Payload.BitLength - param.Iv.BitLength));
                         }
 
                         param.Payload = previousCipherText;
@@ -106,7 +106,7 @@ namespace NIST.CVP.Crypto.Symmetric.MonteCarlo
                     responses.Add(iIterationResponse);
 
                     param.Key = _keyMaker.MixKeys(param.Key, previousCipherText, copyPreviousCipherText);
-                    param.Iv = previousCipherText;
+                    param.Iv = previousCipherText.GetMostSignificantBits(param.Iv.BitLength);
                 }
             }
             catch (Exception ex)
@@ -148,7 +148,7 @@ namespace NIST.CVP.Crypto.Symmetric.MonteCarlo
 
                         if (j == 0)
                         {
-                            previousPlainText = iIterationResponse.IV;
+                            previousPlainText = iIterationResponse.IV.ConcatenateBits(jPlainText.GetMostSignificantBits(param.Payload.BitLength - param.Iv.BitLength));
                         }
 
                         param.Payload = previousPlainText;
@@ -160,7 +160,7 @@ namespace NIST.CVP.Crypto.Symmetric.MonteCarlo
                     responses.Add(iIterationResponse);
 
                     param.Key = _keyMaker.MixKeys(param.Key, previousPlainText, copyPreviousPlainText);
-                    param.Iv = previousPlainText;
+                    param.Iv = previousPlainText.GetMostSignificantBits(param.Iv.BitLength);
                 }
             }
             catch (Exception ex)

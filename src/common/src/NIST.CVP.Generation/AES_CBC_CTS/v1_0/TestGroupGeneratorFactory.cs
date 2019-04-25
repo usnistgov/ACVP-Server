@@ -12,8 +12,7 @@ namespace NIST.CVP.Generation.AES_CBC_CTS.v1_0
                 {
                     new TestGroupGeneratorKnownAnswerTestsPartialBlock(),
                     new TestGroupGeneratorMultiBlockMessagePartialBlock(),
-                    // TODO implement MCT test
-                    //new TestGroupGeneratorMonteCarlo()
+                    new TestGroupGeneratorMonteCarlo()
                 };
 
             // Original CBC known answer tests

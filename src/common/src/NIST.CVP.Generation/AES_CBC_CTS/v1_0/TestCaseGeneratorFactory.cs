@@ -54,6 +54,8 @@ namespace NIST.CVP.Generation.AES_CBC_CTS.v1_0
                         {
                             case "aft":
                                 return new TestCaseGeneratorMmtPartialBlock(_oracle);
+                            case "mct":
+                                return new TestCaseGeneratorMct(_oracle);
                         }
                     }
 
