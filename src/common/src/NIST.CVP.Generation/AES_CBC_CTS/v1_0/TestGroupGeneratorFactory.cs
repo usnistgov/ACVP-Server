@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using NIST.CVP.Generation.Core;
+﻿using NIST.CVP.Generation.Core;
+using System.Collections.Generic;
 
 namespace NIST.CVP.Generation.AES_CBC_CTS.v1_0
 {
@@ -16,6 +16,7 @@ namespace NIST.CVP.Generation.AES_CBC_CTS.v1_0
                     //new TestGroupGeneratorMonteCarlo()
                 };
 
+            // Original CBC known answer tests
             if (parameters.PayloadLen.IsWithinDomain(128))
             {
                 list.Add(new TestGroupGeneratorKnownAnswerTestsSingleBlock());

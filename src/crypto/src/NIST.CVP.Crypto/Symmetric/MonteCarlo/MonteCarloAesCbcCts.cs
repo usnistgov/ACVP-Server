@@ -10,12 +10,12 @@ using System.Collections.Generic;
 
 namespace NIST.CVP.Crypto.Symmetric.MonteCarlo
 {
-    public class MonteCarloAesCbc : IMonteCarloTester<MCTResult<AlgoArrayResponse>, AlgoArrayResponse>
+    public class MonteCarloAesCbcCts : IMonteCarloTester<MCTResult<AlgoArrayResponse>, AlgoArrayResponse>
     {
         private readonly IModeBlockCipher<SymmetricCipherResult> _algo;
         private readonly IMonteCarloKeyMakerAes _keyMaker;
 
-        public MonteCarloAesCbc(IBlockCipherEngineFactory engineFactory, IModeBlockCipherFactory modeFactory, IMonteCarloKeyMakerAes keyMaker)
+        public MonteCarloAesCbcCts(IBlockCipherEngineFactory engineFactory, IModeBlockCipherFactory modeFactory, IMonteCarloKeyMakerAes keyMaker)
         {
             _algo = modeFactory.GetStandardCipher(
                 engineFactory.GetSymmetricCipherPrimitive(BlockCipherEngines.Aes),

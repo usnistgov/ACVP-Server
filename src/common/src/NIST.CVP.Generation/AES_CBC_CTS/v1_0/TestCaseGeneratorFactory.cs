@@ -21,47 +21,45 @@ namespace NIST.CVP.Generation.AES_CBC_CTS.v1_0
             switch (isPartialBlockGroup)
             {
                 case false:
-                {
-                    switch (katType)
                     {
-                        case "gfsbox":
-                        case "keysbox":
-                        case "vartxt":
-                        case "varkey":
-                            return new TestCaseGeneratorKnownAnswerSingleBlock(testGroup.KeyLength, katType);
-                    }
+                        switch (katType)
+                        {
+                            case "gfsbox":
+                            case "keysbox":
+                            case "vartxt":
+                            case "varkey":
+                                return new TestCaseGeneratorKnownAnswerSingleBlock(testGroup.KeyLength, katType);
+                        }
 
-                    switch (testType)
-                    {
-                        case "aft":
-                            return new TestCaseGeneratorMmtFullBlock(_oracle);
-                    }
+                        switch (testType)
+                        {
+                            case "aft":
+                                return new TestCaseGeneratorMmtFullBlock(_oracle);
+                        }
 
-                    break;
-                }
+                        break;
+                    }
                 case true:
-                {
-                    switch (katType)
                     {
-                        case "gfsbox":
-                        case "keysbox":
-                        case "vartxt":
-                        case "varkey":
-                            return new TestCaseGeneratorKnownAnswerPartialBlock(_oracle, testGroup.KeyLength, katType);
-                    }
+                        switch (katType)
+                        {
+                            case "gfsbox":
+                            case "keysbox":
+                            case "vartxt":
+                            case "varkey":
+                                return new TestCaseGeneratorKnownAnswerPartialBlock(_oracle, testGroup.KeyLength, katType);
+                        }
 
-                    switch (testType)
-                    {
-                        case "mct":
-                            return new TestCaseGeneratorMct(_oracle);
-                        case "aft":
-                            return new TestCaseGeneratorMmtPartialBlock(_oracle);
+                        switch (testType)
+                        {
+                            case "aft":
+                                return new TestCaseGeneratorMmtPartialBlock(_oracle);
+                        }
                     }
-                }
 
                     break;
             }
-            
+
 
             return new TestCaseGeneratorNull();
         }
