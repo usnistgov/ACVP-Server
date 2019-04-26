@@ -114,7 +114,7 @@ namespace NIST.CVP.Generation.CSHAKE.v1_0
             var smallValues = smallMessageDomain.GetValues(225).OrderBy(o => Guid.NewGuid()).Take(225);
             var largeValues = largeMessageDomain.GetValues(25).OrderBy(o => Guid.NewGuid()).Take(25);
 
-            if (values.Count() == 0)
+            if (!values.Any())
             {
                 repetitions = 249;
             }

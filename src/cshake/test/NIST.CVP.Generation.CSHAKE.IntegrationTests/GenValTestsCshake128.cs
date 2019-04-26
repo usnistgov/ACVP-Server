@@ -104,7 +104,7 @@ namespace NIST.CVP.Generation.CSHAKE.IntegrationTests
                 DigestSizes = new[] { 128 },
                 OutputLength = minMax,
                 MessageLength = minMaxMsg,
-                IsSample = false
+                IsSample = true
             };
 
             return CreateRegistration(targetFolder, parameters);
