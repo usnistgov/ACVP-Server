@@ -48,7 +48,7 @@ namespace NIST.CVP.Generation.KMAC.Tests.ContractResolvers
             Assert.AreEqual(tg.Tests.Count, newTg.Tests.Count, nameof(newTg.Tests));
             Assert.AreEqual(tg.TestType, newTg.TestType, nameof(newTg.TestType));
             Assert.AreEqual(tg.XOF, newTg.XOF, nameof(newTg.XOF));
-            Assert.AreEqual(tg.DigestSize, newTg.DigestSize, nameof(newTg.DigestSize));
+            Assert.AreEqual(tg.HexCustomization, newTg.HexCustomization, nameof(newTg.HexCustomization));
         }
 
         [Test]

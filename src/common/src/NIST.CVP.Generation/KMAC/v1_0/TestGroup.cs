@@ -16,7 +16,7 @@ namespace NIST.CVP.Generation.KMAC.v1_0
         [JsonProperty(PropertyName = "xof")]
         public bool XOF { get; set; }
 
-        [JsonProperty(PropertyName = "digestSize")]
+        [JsonIgnore]
         public int DigestSize { get; set; }
 
         [JsonProperty(PropertyName = "msgLen")]
@@ -28,9 +28,9 @@ namespace NIST.CVP.Generation.KMAC.v1_0
         [JsonProperty(PropertyName = "macLen")]
         public MathDomain MacLengths { get; set; }
 
-        public List<TestCase> Tests { get; set; } = new List<TestCase>();
-
-        [JsonIgnore]
+        [JsonProperty(PropertyName = "hexCustomization")]
         public bool HexCustomization { get; set; } = false;
+        
+        public List<TestCase> Tests { get; set; } = new List<TestCase>();
     }
 }
