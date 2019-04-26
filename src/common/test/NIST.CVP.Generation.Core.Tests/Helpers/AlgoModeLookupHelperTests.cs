@@ -11,8 +11,8 @@ namespace NIST.CVP.Generation.Core.Tests.Helpers
     public class AlgoModeLookupHelperTests
     {
         [Test]
-        [TestCase("aEs", "cBc", "1.0", AlgoMode.AES_CBC_v1_0)]
-        [TestCase("aes", "gcm", "1.0", AlgoMode.AES_GCM_v1_0)]
+        [TestCase("acvp-aEs", "cBc", "1.0", AlgoMode.AES_CBC_v1_0)]
+        [TestCase("acvp-aes", "gcm", "1.0", AlgoMode.AES_GCM_v1_0)]
         [TestCase("ctrDRBG", "", "1.0", AlgoMode.DRBG_CTR_v1_0)]
         [TestCase("hashDRBG", "", "1.0", AlgoMode.DRBG_Hash_v1_0)]
         [TestCase("KDF-Components", "ANSIX9.63", "1.0", AlgoMode.KDFComponents_ANSIX963_v1_0)]

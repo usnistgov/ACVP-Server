@@ -103,18 +103,16 @@ namespace NIST.CVP.Generation.TDES_CFB.v1_0
                     return 0;
                 }
 
-                if (PlainText != null)
+                if (PlainText != null && PlainText.BitLength != 0)
                 {
                     return PlainText.BitLength;
                 }
-                else if (CipherText != null)
+                if (CipherText != null && CipherText.BitLength != 0)
                 {
                     return CipherText.BitLength;
                 }
-                else
-                {
-                    return 0;
-                }
+
+                return 0;
             }
         }
 

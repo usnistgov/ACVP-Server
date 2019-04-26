@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using NIST.CVP.Common;
+using NIST.CVP.Crypto.ANSIX942;
 using NIST.CVP.Crypto.ANSIX963;
 using NIST.CVP.Crypto.CMAC;
 using NIST.CVP.Crypto.Common.Symmetric.CTR;
@@ -85,6 +86,7 @@ namespace NIST.CVP.Crypto
 
             builder.RegisterType<KDF.KdfFactory>().AsImplementedInterfaces();
 
+            builder.RegisterType<AnsiX942Factory>().AsImplementedInterfaces();
             builder.RegisterType<AnsiX963Factory>().AsImplementedInterfaces();
             builder.RegisterType<IkeV1Factory>().AsImplementedInterfaces();
             builder.RegisterType<IkeV2Factory>().AsImplementedInterfaces();

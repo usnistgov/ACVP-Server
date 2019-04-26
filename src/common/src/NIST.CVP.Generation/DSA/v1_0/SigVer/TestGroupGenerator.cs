@@ -60,6 +60,11 @@ namespace NIST.CVP.Generation.DSA.v1_0.SigVer
                         ThisLogger.Error(ex);
                         throw;
                     }
+
+                    if (domainParams == null)
+                    {
+                        ThisLogger.Error($"ERROR: Domain Parameters are null for group with properties l={l}, n={n}, hash={hashFunction.Name}");
+                    }
                     
                     var testGroup = new TestGroup
                     {

@@ -1,0 +1,36 @@
+{
+  "vsId": 0,
+  "algorithm": "kdf-components",
+  "mode": "ansix9.42",
+  "revision": "1.0",
+  "isSample": false,
+  "kdfType": [
+    "DER",
+    "concatenation"
+  ],
+  "keyLen": [
+    256,
+    1024
+  ],
+  "otherInfoLen": [
+    0,
+    1024
+  ],
+  "zzLen": [
+    8,
+    1024
+  ],
+  "hashAlg": [
+    "sha-1",
+    "sha2-224",
+    "sha2-256",
+    "sha2-384",
+    "sha2-512",
+    "sha2-512/224",
+    "sha2-512/256",
+    "sha3-224",
+    "sha3-256",
+    "sha3-384",
+    "sha3-512"
+  ]
+}

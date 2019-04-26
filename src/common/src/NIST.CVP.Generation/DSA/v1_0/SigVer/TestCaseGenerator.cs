@@ -37,6 +37,9 @@ namespace NIST.CVP.Generation.DSA.v1_0.SigVer
             try
             {
                 keyResult = await _oracle.GetDsaKeyAsync(keyParam);
+
+                if (keyResult == null) throw new Exception("KeyResult is null");
+                if (keyResult.Key == null) throw new Exception("Key is null");
             }
             catch (Exception ex)
             {
