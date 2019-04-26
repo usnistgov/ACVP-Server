@@ -84,7 +84,7 @@ namespace NIST.CVP.Generation.ParallelHash.IntegrationTests
                 MessageLength = minMax,
                 OutputLength = minMax,
                 IsSample = true,
-                XOF = false
+                XOF = new []{false}
             };
 
             return CreateRegistration(targetFolder, parameters);
@@ -106,9 +106,8 @@ namespace NIST.CVP.Generation.ParallelHash.IntegrationTests
                 DigestSizes = new[] { 256 },
                 MessageLength = minMaxMsg,
                 OutputLength = minMax,
-                XOF = true,
-                NonXOF = true,
-                IsSample = false
+                XOF = new[] {true, false},
+                IsSample = true
             };
 
             return CreateRegistration(targetFolder, parameters);

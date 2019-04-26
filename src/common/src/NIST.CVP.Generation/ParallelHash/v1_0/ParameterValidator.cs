@@ -22,9 +22,7 @@ namespace NIST.CVP.Generation.ParallelHash.v1_0
             var errorResults = new List<string>();
 
             ValidateFunctions(parameters, errorResults);
-
             ValidateOutputLength(parameters, errorResults);
-
             ValidateMessageLength(parameters, errorResults);
             
             if (errorResults.Count > 0)
@@ -49,10 +47,9 @@ namespace NIST.CVP.Generation.ParallelHash.v1_0
                 errorResults.Add(result);
             }
 
-            result = ValidateValue((parameters.NonXOF || parameters.XOF).ToString(), new string[] { (true).ToString() }, "XOF Settings");
-            if (!string.IsNullOrEmpty(result))
+            if ((parameters.XOF.Length != 1 && parameters.XOF.Length != 2) || parameters.XOF.ToHashSet().Count != parameters.XOF.Length)
             {
-                errorResults.Add(result);
+                errorResults.Add("XOF must contain only a single true, a single false, or both");
             }
         }
 

@@ -11,12 +11,13 @@ namespace NIST.CVP.Crypto.ParallelHash
 {
     public class ParallelHash_MCT : IParallelHash_MCT
     {
-        private readonly IParallelHash _iCSHAKE;
+        private readonly IParallelHash _iParallelHash;
+        private bool _hexCustomization;
         private int NUM_OF_RESPONSES = 100;
 
-        public ParallelHash_MCT(IParallelHash iCSHAKE)
+        public ParallelHash_MCT(IParallelHash iParallelHash)
         {
-            _iCSHAKE = iCSHAKE;
+            _iParallelHash = iParallelHash;
         }
 
         #region MonteCarloAlgorithm Pseudocode
@@ -57,8 +58,9 @@ namespace NIST.CVP.Crypto.ParallelHash
          */
         #endregion MonteCarloAlgorithm Pseudocode
 
-        public MCTResult<AlgoArrayResponseWithCustomization> MCTHash(HashFunction function, BitString message, MathDomain domain, bool isSample)
+        public MCTResult<AlgoArrayResponseWithCustomization> MCTHash(HashFunction function, BitString message, MathDomain domain, bool hexCustomization, bool isSample)
         {
+            _hexCustomization = hexCustomization;
             if (isSample)
             {
                 NUM_OF_RESPONSES = 3;
@@ -69,8 +71,6 @@ namespace NIST.CVP.Crypto.ParallelHash
             var j = 0;
             var min = domain.GetDomainMinMax().Minimum;
             var max = domain.GetDomainMinMax().Maximum;
-            var minBytes = min / 8;
-            var maxBytes = max / 8;
 
             var outputLen = (int)System.Math.Floor((double)max / 8) * 8;
             var blockSize = 8;
@@ -94,7 +94,7 @@ namespace NIST.CVP.Crypto.ParallelHash
                         innerMessage = BitString.MSBSubstring(innerMessage, 0, 128);
                         function.DigestLength = outputLen;
 
-                        var innerResult = _iCSHAKE.HashMessage(function, innerMessage, blockSize, customization);
+                        var innerResult = _iParallelHash.HashMessage(function, innerMessage, blockSize, customization);
                         innerDigest = innerResult.Digest.GetDeepCopy();
 
                         // Will always have 16 bits to pull from
@@ -123,7 +123,7 @@ namespace NIST.CVP.Crypto.ParallelHash
             return new MCTResult<AlgoArrayResponseWithCustomization>(responses);
         }
 
-        private Logger ThisLogger { get { return LogManager.GetCurrentClassLogger(); } }
+        private Logger ThisLogger => LogManager.GetCurrentClassLogger();
 
         private int GetIntFromBits(BitArray bits)
         {
@@ -142,10 +142,18 @@ namespace NIST.CVP.Crypto.ParallelHash
         private string GetStringFromBytes(byte[] bytes)
         {
             var result = "";
-            foreach (var num in bytes)
+            if (_hexCustomization)
             {
-                result += System.Text.Encoding.ASCII.GetString(new byte[] { (byte)((num % 26) + 65) });
+                result = new BitString(bytes).ToHex();
             }
+            else
+            {
+                foreach (var num in bytes)
+                {
+                    result += System.Text.Encoding.ASCII.GetString(new byte[] { (byte)((num % 26) + 65) });                    
+                }    
+            }
+            
             return result;
         }
     }

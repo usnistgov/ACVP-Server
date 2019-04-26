@@ -14,8 +14,6 @@ namespace NIST.CVP.Generation.ParallelHash.v1_0
     {
         private readonly IOracle _oracle;
 
-        public bool IsSample { get; set; } = false;
-
         public int NumberOfTestCasesToGenerate => 1;
 
         public TestCaseGeneratorMct(IOracle oracle)
@@ -25,12 +23,12 @@ namespace NIST.CVP.Generation.ParallelHash.v1_0
 
         public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample)
         {
-            IsSample = isSample;
             var param = new ParallelHashParameters
             {
                 HashFunction = new HashFunction(group.DigestSize, group.DigestSize * 2, group.XOF),
                 MessageLength = group.DigestSize,
-                OutLens = group.OutputLength.GetDeepCopy()
+                OutLens = group.OutputLength.GetDeepCopy(),
+                IsSample = isSample
             };
 
             try
@@ -40,6 +38,8 @@ namespace NIST.CVP.Generation.ParallelHash.v1_0
                 return new TestCaseGenerateResponse<TestGroup, TestCase>(new TestCase
                 {
                     Message = oracleResult.Seed.Message,
+                    Customization = oracleResult.Seed.Customization,
+                    FunctionName = oracleResult.Seed.FunctionName,
                     ResultsArray = oracleResult.Results.ConvertAll(element => new AlgoArrayResponseWithCustomization { Message = element.Message, Digest = element.Digest, Customization = element.Customization })
                 });
             }

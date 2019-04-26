@@ -5,7 +5,7 @@ namespace NIST.CVP.Crypto.Common.Hash
 {
     public class AlgoArrayResponse
     {
-        [JsonProperty(PropertyName = "msg")]
+        [JsonIgnore]
         public BitString Message { get; set; }
         [JsonProperty(PropertyName = "md")]
         public BitString Digest { get; set; }

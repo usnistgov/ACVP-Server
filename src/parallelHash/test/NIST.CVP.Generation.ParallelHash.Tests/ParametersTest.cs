@@ -18,8 +18,7 @@ namespace NIST.CVP.Generation.ParallelHash.Tests
             var parameters = new Parameters
             {
                 Algorithm = "ParallelHash",
-                NonXOF = true,
-                XOF = false,
+                XOF = new[]{true, false},
                 DigestSizes = new int[5],
                 HexCustomization = false,
                 MessageLength = new MathDomain(),
@@ -39,8 +38,7 @@ namespace NIST.CVP.Generation.ParallelHash.Tests
             {
                 Algorithm = "ParallelHash",
                 MessageLength = minMax,
-                NonXOF = true,
-                XOF = false,
+                XOF = new[]{true, false},
                 DigestSizes = new int[5],
                 HexCustomization = false,
                 OutputLength = minMax,

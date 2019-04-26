@@ -12,7 +12,6 @@ namespace NIST.CVP.Generation.ParallelHash.v1_0
         [JsonProperty(PropertyName = "testType")]
         public string TestType { get; set; }
 
-        [JsonIgnore]
         public string Function { get; set; }
 
         [JsonProperty(PropertyName = "digestSize")]
@@ -20,8 +19,7 @@ namespace NIST.CVP.Generation.ParallelHash.v1_0
         
         [JsonProperty(PropertyName = "XOF")]
         public bool XOF { get; set; }
-
-        [JsonIgnore]
+        
         public bool HexCustomization { get; set; } = false;
 
         [JsonIgnore]

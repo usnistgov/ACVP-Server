@@ -104,7 +104,6 @@ namespace NIST.CVP.Crypto.CSHAKE
 
                         outputLen = min + (8 * GetIntFromBits(rightmostBits)) % range;
                         customization = GetStringFromBytes(BitString.ConcatenateBits(innerMessage, rightmostBitString).ToBytes());
-                        functionName = GetStringFromBytes(BitString.ConcatenateBits(innerDigest, rightmostBitString).ToBytes());
                         
                         innerMessage = innerDigest.GetDeepCopy();
                     }
@@ -142,17 +141,19 @@ namespace NIST.CVP.Crypto.CSHAKE
         private string GetStringFromBytes(byte[] bytes)
         {
             var result = "";
-            foreach (var num in bytes)
+            
+            if (_customizationHex)
             {
-                if (_customizationHex)
-                {
-                    result += new BitString(bytes).ToHex();
-                }
-                else
+                result += new BitString(bytes).ToHex();
+            }
+            else
+            {
+                foreach (var num in bytes)
                 {
                     result += System.Text.Encoding.ASCII.GetString(new byte[] { (byte)((num % 26) + 65) });                    
-                }
+                }    
             }
+            
             return result;
         }
     }
