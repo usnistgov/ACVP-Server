@@ -89,7 +89,6 @@ namespace NIST.CVP.Generation.ParallelHash.Tests.ContractResolvers
                 {
                     Assert.AreEqual(tc.ResultsArray[i].Digest, newTc.ResultsArray[i].Digest, "mctDigest");
                     Assert.AreEqual(tc.ResultsArray[i].DigestLength, newTc.ResultsArray[i].DigestLength, "mctDigestLength");
-                    Assert.AreEqual(tc.ResultsArray[i].Message, newTc.ResultsArray[i].Message, "mctMessage");
                 }
             }
             else

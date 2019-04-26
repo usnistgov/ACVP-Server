@@ -18,7 +18,7 @@ namespace NIST.CVP.Generation.ParallelHash.IntegrationTests
         public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
 
         public override string Algorithm { get; } = "ParallelHash";
-        public override string Mode { get; } = string.Empty;
+        public override string Mode { get; } = "256";
         public override AlgoMode AlgoMode => AlgoMode.ParallelHash_v1_0;
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
@@ -83,8 +83,8 @@ namespace NIST.CVP.Generation.ParallelHash.IntegrationTests
                 DigestSizes = new[] { 256 },
                 MessageLength = minMax,
                 OutputLength = minMax,
-                IsSample = true,
-                XOF = new []{false}
+                XOF = new []{false},
+                IsSample = true
             };
 
             return CreateRegistration(targetFolder, parameters);

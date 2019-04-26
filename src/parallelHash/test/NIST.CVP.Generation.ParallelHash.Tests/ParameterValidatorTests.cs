@@ -156,6 +156,7 @@ namespace NIST.CVP.Generation.ParallelHash.Tests
         public class ParameterBuilder
         {
             private string _algorithm;
+            private string _mode;
             private int[] _digestSize;
             private MathDomain _outputLength;
             private MathDomain _messageLength;
@@ -165,6 +166,7 @@ namespace NIST.CVP.Generation.ParallelHash.Tests
             public ParameterBuilder()
             {
                 _algorithm = "ParallelHash";
+                _mode = "128";
                 _digestSize = new int[] { 128, 256 };
                 _messageLength = new MathDomain().AddSegment(new RangeDomainSegment(null, 16, 65536));
                 _outputLength = new MathDomain().AddSegment(new RangeDomainSegment(null, 16, 65536));
@@ -213,6 +215,7 @@ namespace NIST.CVP.Generation.ParallelHash.Tests
                 return new Parameters
                 {
                     Algorithm = _algorithm,
+                    Mode = _mode,
                     DigestSizes = _digestSize,
                     MessageLength = _messageLength,
                     OutputLength = _outputLength,

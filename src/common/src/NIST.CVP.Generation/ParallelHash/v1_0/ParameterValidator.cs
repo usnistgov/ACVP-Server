@@ -7,7 +7,7 @@ namespace NIST.CVP.Generation.ParallelHash.v1_0
 {
     public class ParameterValidator : ParameterValidatorBase, IParameterValidator<Parameters>
     {
-        public static string[] VALID_ALGORITHMS = {"PARALLELHASH"};
+        public static string[] VALID_ALGORITHMS = {"PARALLELHASH", "PARALLELHASH"};
         public static string[] VALID_MODES = {"128", "256"};
         public static int[] VALID_DIGEST_SIZES = {128, 256};
 
@@ -36,6 +36,12 @@ namespace NIST.CVP.Generation.ParallelHash.v1_0
         private void ValidateFunctions(Parameters parameters, List<string> errorResults)
         {
             string result = ValidateValue(parameters.Algorithm.ToLower(), VALID_ALGORITHMS, "ParallelHash Function");
+            if (!string.IsNullOrEmpty(result))
+            {
+                errorResults.Add(result);
+            }
+
+            result = ValidateValue(parameters.Mode.ToLower(), VALID_MODES, "ParallelHash Mode");
             if (!string.IsNullOrEmpty(result))
             {
                 errorResults.Add(result);

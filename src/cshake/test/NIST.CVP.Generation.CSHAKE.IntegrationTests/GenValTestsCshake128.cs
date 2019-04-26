@@ -17,8 +17,8 @@ namespace NIST.CVP.Generation.CSHAKE.IntegrationTests
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
         public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
 
-        public override string Algorithm { get; } = "CSHAKE-128";
-        public override string Mode { get; } = string.Empty;
+        public override string Algorithm { get; } = "CSHAKE";
+        public override string Mode { get; } = "128";
         public override AlgoMode AlgoMode => AlgoMode.CSHAKE_v1_0;
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
