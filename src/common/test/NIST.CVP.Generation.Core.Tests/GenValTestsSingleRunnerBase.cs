@@ -15,6 +15,7 @@ using NIST.CVP.Tests.Core;
 using NLog;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using NIST.CVP.Crypto.Oracle;
 
 namespace NIST.CVP.Generation.Core.Tests
 {

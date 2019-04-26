@@ -5,7 +5,7 @@ namespace NIST.CVP.Generation.Core
 {
     public class ParameterValidateResponse
     {
-        public List<string> Errors { get; }
+        public List<string> Errors { get; } = new List<string>();
 
         public string ErrorMessage
         {

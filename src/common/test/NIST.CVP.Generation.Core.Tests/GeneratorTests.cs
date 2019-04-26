@@ -20,7 +20,7 @@ namespace NIST.CVP.Generation.Core.Tests
     public class GeneratorTests
     {
         private string _testPath;
-
+        
         private Mock<ITestVectorFactory<FakeParameters, FakeTestVectorSet, FakeTestGroup, FakeTestCase>> _mockITestVectorFactory;
         private Mock<ITestCaseGeneratorFactoryFactory<FakeTestVectorSet, FakeTestGroup, FakeTestCase>> _mockITestCaseGeneratorFactoryFactory;
         private Mock<IParameterParser<FakeParameters>> _mockIParameterParser;
@@ -73,7 +73,7 @@ namespace NIST.CVP.Generation.Core.Tests
         [OneTimeSetUp]
         public void OneTimeSetUp()
         {
-            _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\GeneratorTests\");
+            _testPath = Utilities.GetConsistentTestingStartPath(GetType(), "../../TestFiles/GeneratorTests/");
             Directory.CreateDirectory(_testPath);
         }
 
@@ -101,7 +101,7 @@ namespace NIST.CVP.Generation.Core.Tests
         [Test]
         public void GenerateShouldReturnErrorResponseWhenParametersNotValidatedSuccessfully()
         {
-            List<string> errorMessage = new List<string>() { "Invalid Parameter Validation" };
+            var errorMessage = new List<string>() { "Invalid Parameter Validation" };
             _mockIParameterValidator
                 .Setup(s => s.Validate(It.IsAny<FakeParameters>()))
                 .Returns(() => new ParameterValidateResponse(errorMessage));
@@ -109,7 +109,7 @@ namespace NIST.CVP.Generation.Core.Tests
             var result = _subject.Generate(string.Empty);
 
             Assert.IsFalse(result.Success);
-            Assert.AreEqual(errorMessage, result.ErrorMessage);
+            Assert.AreEqual(errorMessage.First(), result.ErrorMessage);
             Assert.AreEqual(StatusCode.ParameterValidationError, result.StatusCode);
         }
 
@@ -132,7 +132,7 @@ namespace NIST.CVP.Generation.Core.Tests
         public void GenerateShouldReturnSuccessWithValidCalls()
         {
             GenerateResponse result = null;
-            Guid fileNameRoot = Guid.NewGuid();
+            var fileNameRoot = Guid.NewGuid();
 
             try
             {
@@ -141,17 +141,17 @@ namespace NIST.CVP.Generation.Core.Tests
             finally
             {
                 // Find and delete files as a result of the test
-                List<string> files = Directory.GetFiles(_testPath, $"{fileNameRoot}*").ToList();
+                var files = Directory.GetFiles(_testPath, $"{fileNameRoot}*").ToList();
                 if (files.Count <= 4)
                 {
-                    foreach(var file in files)
+                    foreach (var file in files)
                     {
                         File.Delete(file);
                     }
                 }
             }
 
-            Assert.IsTrue(result.Success);
+            Assert.IsTrue(result.Success, result.ErrorMessage);
             Assert.AreEqual(StatusCode.Success, result.StatusCode);
         }
 
