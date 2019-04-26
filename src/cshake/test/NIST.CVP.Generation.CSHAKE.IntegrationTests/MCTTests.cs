@@ -21,7 +21,7 @@ namespace NIST.CVP.Generation.CSHAKE.IntegrationTests
             var hashFunction = new HashFunction(digestSize, digestSize * 2);
 
             var domain = new MathDomain();
-            domain.AddSegment(new RangeDomainSegment(null, 16, 65536));
+            domain.AddSegment(new RangeDomainSegment(null, 256, 4096));    // This is how they were generated
             var result = subject.MCTHash(hashFunction, messageBitString, domain, false, true);
 
             Assert.IsNotNull(result, "null check");
