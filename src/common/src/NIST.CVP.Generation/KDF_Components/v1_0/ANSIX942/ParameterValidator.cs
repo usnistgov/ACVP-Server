@@ -50,12 +50,7 @@ namespace NIST.CVP.Generation.KDF_Components.v1_0.ANSIX942
             ValidateDomain(parameters.OtherInfoLen, errors, "OtherInfoLen", MIN_OTHER_INFO_LEN, MAX_OTHER_INFO_LEN);
             ValidateDomain(parameters.KeyLen, errors, "KeyLen", MIN_KEY_LEN, MAX_KEY_LEN);
 
-            if (errors.Count > 0)
-            {
-                return new ParameterValidateResponse(string.Join(";", errors));
-            }
-
-            return new ParameterValidateResponse();
+            return new ParameterValidateResponse(errors);
         }
 
         private void ValidateDomain(MathDomain domain, List<string> errors, string errorTag, int min, int max)

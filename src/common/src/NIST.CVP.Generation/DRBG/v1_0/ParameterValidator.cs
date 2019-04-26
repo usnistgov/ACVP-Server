@@ -32,7 +32,7 @@ namespace NIST.CVP.Generation.DRBG.v1_0
                 // Cannot validate the rest of the parameters as they are dependant on the successful validation of the mechanism and mode.
                 if (errorResults.Count > 0)
                 {
-                    return new ParameterValidateResponse(string.Join(";", errorResults));
+                    return new ParameterValidateResponse(errorResults);
                 }
 
                 ValidateEntropy(capability, attributes, errorResults);
@@ -54,12 +54,7 @@ namespace NIST.CVP.Generation.DRBG.v1_0
                 ValidateOutputBitLength(capability, errorResults, baseOutputLength);
             }
 
-            if (errorResults.Count > 0)
-            {
-                return new ParameterValidateResponse(string.Join(";", errorResults));
-            }
-
-            return new ParameterValidateResponse();
+            return new ParameterValidateResponse(errorResults);
         }
         
         private void ValidateAndGetOptions(Parameters parameters, Capability capability, List<string> errorResults, ref DrbgAttributes attributes)

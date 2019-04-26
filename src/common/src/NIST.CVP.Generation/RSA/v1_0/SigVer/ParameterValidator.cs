@@ -103,12 +103,7 @@ namespace NIST.CVP.Generation.RSA.v1_0.SigVer
                 }
             }
 
-            if (errorResults.Count > 0)
-            {
-                return new ParameterValidateResponse(string.Join(";", errorResults));
-            }
-
-            return new ParameterValidateResponse();
+            return new ParameterValidateResponse(errorResults);
         }
 
         private string ValidateSaltLen(int saltLen, string hashAlg, int modulo)

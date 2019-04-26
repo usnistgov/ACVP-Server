@@ -1,18 +1,11 @@
 ﻿using Autofac;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 using NIST.CVP.Common;
 using NIST.CVP.Common.Helpers;
 using NIST.CVP.Generation.Core.Helpers;
-using NLog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using NIST.CVP.Common.ExtensionMethods;
-using NIST.CVP.Common.Interfaces;
-using Orleans;
-
 
 namespace NIST.CVP.Generation.GenValApp.Helpers
 {
@@ -57,6 +50,7 @@ namespace NIST.CVP.Generation.GenValApp.Helpers
         private static void RegisterGenVals(ContainerBuilder builder, AlgoMode algoMode)
         {
             var genVals = GetAlgoModeRevisionInjectables(algoMode);
+
             genVals.RegisterTypes(builder, algoMode);
         }
 

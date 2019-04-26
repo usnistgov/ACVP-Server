@@ -24,17 +24,12 @@ namespace NIST.CVP.Generation.SHA2.v1_0
             // Duplicated to here to avoid NRE when checking that DigestSizes contains a value
             if (errorResults.Count > 0)
             {
-                return new ParameterValidateResponse(string.Join(";", errorResults));
+                return new ParameterValidateResponse(errorResults);
             }
 
             ValidateMessageLength(parameters, errorResults);
 
-            if (errorResults.Count > 0)
-            {
-                return new ParameterValidateResponse(string.Join(";", errorResults));
-            }
-
-            return new ParameterValidateResponse();
+            return new ParameterValidateResponse(errorResults);
         }
 
         private void ValidateFunctions(Parameters parameters, List<string> errorResults)

@@ -25,7 +25,7 @@ namespace NIST.CVP.Generation.KeyWrap.v1_0.AES
             // Cannot validate the rest of the parameters as they are dependant on the successful validation of the algorithm.
             if (errorResults.Count > 0)
             {
-                return new ParameterValidateResponse(string.Join(";", errorResults));
+                return new ParameterValidateResponse(errorResults);
             }
 
             ValidateDirection(parameters, errorResults);
@@ -33,12 +33,7 @@ namespace NIST.CVP.Generation.KeyWrap.v1_0.AES
             ValidateKeySize(parameters, errorResults);
             ValidatePtLen(parameters, errorResults);
 
-            if (errorResults.Count > 0)
-            {
-                return new ParameterValidateResponse(string.Join(";", errorResults));
-            }
-
-            return new ParameterValidateResponse();
+            return new ParameterValidateResponse(errorResults);
         }
 
         private void ValidateAndGetOptions(Parameters parameters, List<string> errorResults, ref KeyWrapType keyWrapType)

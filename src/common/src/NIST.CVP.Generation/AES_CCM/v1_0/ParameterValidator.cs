@@ -28,13 +28,8 @@ namespace NIST.CVP.Generation.AES_CCM.v1_0
             ValidateNonce(parameters, errorResults);
             ValidateAAD(parameters, errorResults);
             ValidateTagSizes(parameters, errorResults);
-            
-            if (errorResults.Count > 0)
-            {
-                return new ParameterValidateResponse(string.Join(";", errorResults));
-            }
 
-            return new ParameterValidateResponse();
+            return new ParameterValidateResponse(errorResults);
         }
 
         private void ValidateConformances(Parameters parameters, List<string> errorResults)

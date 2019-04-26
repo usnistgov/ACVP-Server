@@ -24,6 +24,7 @@ namespace NIST.CVP.Generation.AES_ECB.v1_0
             builder.RegisterType<Random800_90>().AsImplementedInterfaces();
             
             builder.RegisterType<Generator<Parameters, TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
+            builder.RegisterType<ParameterChecker<Parameters>>().AsImplementedInterfaces();
             builder.RegisterType<ValidatorAsync<TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
 
             builder.RegisterType<ParameterParser<Parameters>>().AsImplementedInterfaces();

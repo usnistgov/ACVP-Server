@@ -13,9 +13,9 @@ using NIST.CVP.Common.Helpers;
 using NIST.CVP.Generation.Core.JsonConverters;
 using NIST.CVP.Tests.Core;
 using NLog;
-using NIST.CVP.Crypto.Oracle;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using NIST.CVP.Crypto.Oracle;
 
 namespace NIST.CVP.Generation.Core.Tests
 {
