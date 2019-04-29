@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.DispositionTypes;
@@ -48,15 +49,37 @@ namespace NIST.CVP.Generation.DSA.v1_0.SigVer
             }
 
             var reason = group.TestCaseExpectationProvider.GetRandomReason();
-            var param = new DsaSignatureParameters
+            
+            DsaSignatureParameters param = null;
+            try
             {
-                HashAlg = group.HashAlg,
-                DomainParameters = group.DomainParams,
-                MessageLength = group.N,
-                Key = keyResult.Key,
-                Disposition = reason.GetReason()
-            };
+                param = new DsaSignatureParameters();
+                param.HashAlg = group.HashAlg;
+                param.DomainParameters = group.DomainParams;
+                param.MessageLength = group.N;
+                param.Key = keyResult.Key;
+                param.Disposition = reason.GetReason();
+            }
+            catch (NullReferenceException nre)
+            {
+                if (group.HashAlg == null)
+                {
+                    ThisLogger.Error("HashAlg is null");
+                }
 
+                if (group.DomainParams == null)
+                {
+                    ThisLogger.Error("DomainParam is null");
+                }
+
+                if (reason == null)
+                {
+                    ThisLogger.Error("Disposition selected is null");
+                }
+                
+                ThisLogger.Error(nre);
+            }
+            
             try
             {
                 var result = await _oracle.GetDsaSignatureAsync(param);
