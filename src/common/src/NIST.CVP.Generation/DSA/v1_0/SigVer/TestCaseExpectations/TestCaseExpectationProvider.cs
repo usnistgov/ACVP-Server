@@ -32,7 +32,7 @@ namespace NIST.CVP.Generation.DSA.v1_0.SigVer.TestCaseExpectations
                 _expectationReasons.Add(new TestCaseExpectationReason(DsaSignatureDisposition.ModifyS), 2);
             }
 
-            _expectationReasons = _expectationReasons.Shuffle();
+            _expectationReasons = _expectationReasons.OrderBy(a => Guid.NewGuid()).ToList();
         }
 
         public ITestCaseExpectationReason<DsaSignatureDisposition> GetRandomReason()

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
@@ -24,8 +25,8 @@ namespace NIST.CVP.Generation.DSA.v1_0.SigVer
         public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
         {
             var groups = BuildTestGroupsAsync(parameters);
-            groups.Wait();
-            return groups.Result;
+            //groups.Wait();
+            return groups.Result.ToArray();
         }
 
         private async Task<IEnumerable<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
