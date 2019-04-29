@@ -198,6 +198,7 @@ namespace NIST.CVP.Generation.TupleHash.Tests
                 return new Parameters
                 {
                     Algorithm = _algorithm,
+                    Mode = _mode,
                     DigestSizes = _digestSize,
                     OutputLength = _outputLength,
                     MessageLength = _messageLength,

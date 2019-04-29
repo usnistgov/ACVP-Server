@@ -15,6 +15,8 @@ namespace NIST.CVP.Common.Oracle.ParameterTypes
         public bool LongRandomCase { get; set; }
         public MathDomain OutLens { get; set; }
         public HashFunction HashFunction { get; set; }
+        public string FunctionName { get; set; }
+        public bool IsSample { get; set; }
 
         public override bool Equals(object other)
         {
@@ -27,6 +29,6 @@ namespace NIST.CVP.Common.Oracle.ParameterTypes
         }
 
         // TODO make sure this works as expected
-        public override int GetHashCode() => HashCode.Combine(MessageLength, TupleSize, CustomizationLength, HexCustomization, BitOrientedInput, SemiEmptyCase, LongRandomCase);
+        public override int GetHashCode() => HashCode.Combine(MessageLength, TupleSize, CustomizationLength, HexCustomization, BitOrientedInput, SemiEmptyCase, LongRandomCase, IsSample);
     }
 }

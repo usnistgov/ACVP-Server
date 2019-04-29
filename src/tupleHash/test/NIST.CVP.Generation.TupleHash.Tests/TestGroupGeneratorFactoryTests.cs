@@ -40,7 +40,7 @@ namespace NIST.CVP.Generation.TupleHash.Tests
 
         [Test]
         [TestCase(false, 4)]
-        [TestCase(true, 8)]
+        [TestCase(true, 4)]
         public void ShouldReturnVectorSetWithProperTestGroupsForXOFModes(bool xof, int expected)
         {
             var result = _subject.GetTestGroupGenerators(new Parameters());
