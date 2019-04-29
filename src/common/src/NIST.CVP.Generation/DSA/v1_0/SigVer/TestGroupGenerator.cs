@@ -24,14 +24,15 @@ namespace NIST.CVP.Generation.DSA.v1_0.SigVer
 
         public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
         {
-            var groups = BuildTestGroupsAsync(parameters);
-            return groups.Result.ToArray();
+            var groups = new List<TestGroup>();
+            var groupTasks = BuildTestGroupsAsync(parameters, groups);
+            groupTasks.Wait();
+            
+            return groups;
         }
 
-        private async Task<IEnumerable<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
+        private async Task BuildTestGroupsAsync(Parameters parameters, List<TestGroup> groups)
         {
-            var testGroups = new List<TestGroup>();
-
             foreach (var capability in parameters.Capabilities)
             {
                 var n = capability.N;
@@ -70,11 +71,9 @@ namespace NIST.CVP.Generation.DSA.v1_0.SigVer
                         TestCaseExpectationProvider = new TestCaseExpectationProvider(parameters.IsSample)
                     };
 
-                    testGroups.Add(testGroup);
+                    groups.Add(testGroup);
                 }
             }
-
-            return testGroups;
         }
 
         private static ILogger ThisLogger => LogManager.GetCurrentClassLogger();
