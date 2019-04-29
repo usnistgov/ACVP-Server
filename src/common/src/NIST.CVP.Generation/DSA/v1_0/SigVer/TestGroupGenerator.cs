@@ -28,7 +28,7 @@ namespace NIST.CVP.Generation.DSA.v1_0.SigVer
             return groups.Result;
         }
 
-        public async Task<IEnumerable<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
+        private async Task<IEnumerable<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             var testGroups = new List<TestGroup>();
 

@@ -38,9 +38,6 @@ namespace NIST.CVP.Generation.DSA.v1_0.SigVer
             try
             {
                 keyResult = await _oracle.GetDsaKeyAsync(keyParam);
-
-                if (keyResult == null) throw new Exception("KeyResult is null");
-                if (keyResult.Key == null) throw new Exception("Key is null");
             }
             catch (Exception ex)
             {
@@ -48,37 +45,17 @@ namespace NIST.CVP.Generation.DSA.v1_0.SigVer
                 return new TestCaseGenerateResponse<TestGroup, TestCase>("Unable to generate key");
             }
 
+            // Error is here
             var reason = group.TestCaseExpectationProvider.GetRandomReason();
             
-            DsaSignatureParameters param = null;
-            try
+            var param = new DsaSignatureParameters
             {
-                param = new DsaSignatureParameters();
-                param.HashAlg = group.HashAlg;
-                param.DomainParameters = group.DomainParams;
-                param.MessageLength = group.N;
-                param.Key = keyResult.Key;
-                param.Disposition = reason.GetReason();
-            }
-            catch (NullReferenceException nre)
-            {
-                if (group.HashAlg == null)
-                {
-                    ThisLogger.Error("HashAlg is null");
-                }
-
-                if (group.DomainParams == null)
-                {
-                    ThisLogger.Error("DomainParam is null");
-                }
-
-                if (reason == null)
-                {
-                    ThisLogger.Error("Disposition selected is null");
-                }
-                
-                ThisLogger.Error(nre);
-            }
+                HashAlg = group.HashAlg,
+                DomainParameters = group.DomainParams,
+                MessageLength = group.N,
+                Key = keyResult.Key,
+                Disposition = reason.GetReason()
+            };
             
             try
             {

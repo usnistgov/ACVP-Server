@@ -9,7 +9,7 @@ namespace NIST.CVP.Generation.DSA.v1_0.SigVer.TestCaseExpectations
 {
     public class TestCaseExpectationProvider : ITestCaseExpectationProvider<DsaSignatureDisposition>
     {
-        private List<TestCaseExpectationReason> _expectationReasons;
+        private readonly List<TestCaseExpectationReason> _expectationReasons;
 
         public TestCaseExpectationProvider(bool isSample = false)
         {
@@ -32,11 +32,16 @@ namespace NIST.CVP.Generation.DSA.v1_0.SigVer.TestCaseExpectations
                 _expectationReasons.Add(new TestCaseExpectationReason(DsaSignatureDisposition.ModifyS), 2);
             }
 
-            _expectationReasons = _expectationReasons.OrderBy(a => Guid.NewGuid()).ToList();
+            _expectationReasons = _expectationReasons.Shuffle();
         }
 
         public ITestCaseExpectationReason<DsaSignatureDisposition> GetRandomReason()
         {
+            if (_expectationReasons == null)
+            {
+                throw new Exception("ExpectationReasons is null");
+            }
+            
             if (_expectationReasons.Count == 0)
             {
                 throw new IndexOutOfRangeException($"No {nameof(TestCaseExpectationReason)} remaining to pull");
