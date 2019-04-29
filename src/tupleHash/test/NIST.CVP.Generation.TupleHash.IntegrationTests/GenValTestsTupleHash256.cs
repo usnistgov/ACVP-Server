@@ -18,7 +18,7 @@ namespace NIST.CVP.Generation.TupleHash.IntegrationTests
         public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
 
         public override string Algorithm { get; } = "TupleHash";
-        public override string Mode { get; } = string.Empty;
+        public override string Mode { get; } = "256";
         public override AlgoMode AlgoMode => AlgoMode.TupleHash_v1_0;
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
@@ -31,20 +31,9 @@ namespace NIST.CVP.Generation.TupleHash.IntegrationTests
                 bs = rand.GetDifferentBitStringOfSameSize(bs);
                 testCase.md = bs.ToHex();
             }
-
-            if (testCase.msg != null)
-            {
-                var bs = new BitString(testCase.msg.ToString());
-                bs = rand.GetDifferentBitStringOfSameSize(bs);
-                testCase.msg = bs.ToHex();
-            }
-
+            
             if (testCase.resultsArray != null)
             {
-                var bsMessage = new BitString(testCase.resultsArray[0].msg.ToString());
-                bsMessage = rand.GetDifferentBitStringOfSameSize(bsMessage);
-                testCase.resultsArray[0].msg = bsMessage.ToHex();
-
                 var bsDigest = new BitString(testCase.resultsArray[0].md.ToString());
                 bsDigest = rand.GetDifferentBitStringOfSameSize(bsDigest);
                 testCase.resultsArray[0].md = bsDigest.ToHex();
@@ -83,7 +72,7 @@ namespace NIST.CVP.Generation.TupleHash.IntegrationTests
                 DigestSizes = new[] { 256 },
                 OutputLength = minMax,
                 MessageLength = minMax,
-                XOF = false,
+                XOF = new[] {false},
                 IsSample = true
             };
 
@@ -105,7 +94,7 @@ namespace NIST.CVP.Generation.TupleHash.IntegrationTests
                 DigestSizes = new[] { 256 },
                 MessageLength = minMaxMsg,
                 OutputLength = minMax,
-                XOF = true,
+                XOF = new[] {true, false},
                 IsSample = false
             };
 

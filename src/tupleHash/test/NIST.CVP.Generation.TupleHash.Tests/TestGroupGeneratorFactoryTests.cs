@@ -57,7 +57,7 @@ namespace NIST.CVP.Generation.TupleHash.Tests
                 MessageLength = minMaxMsg,
                 IsSample = false,
                 OutputLength = minMax,
-                XOF = xof
+                XOF = new [] {xof}
             };
 
             var groups = new List<TestGroup>();

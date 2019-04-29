@@ -56,9 +56,7 @@ namespace NIST.CVP.Generation.TupleHash.v1_0
             _digestLength = OutputLengths[_currentTestCase++ % OutputLengths.Count];
 
             var includeNull = group.MessageLength.GetDomainMinMax().Minimum == 0;
-
             var bitOriented = group.MessageLength.DomainSegments.ElementAt(0).RangeMinMax.Increment == 1;
-
             var param = DetermineParameters(bitOriented, includeNull, group.DigestSize, group.HexCustomization, group.XOF);
 
             try
@@ -117,7 +115,7 @@ namespace NIST.CVP.Generation.TupleHash.v1_0
             var smallValues = smallMessageDomain.GetValues(125).OrderBy(o => Guid.NewGuid()).Take(125);
             var largeValues = largeMessageDomain.GetValues(25).OrderBy(o => Guid.NewGuid()).Take(25);
 
-            if (values.Count() == 0)
+            if (!values.Any())
             {
                 repetitions = 149;
             }
