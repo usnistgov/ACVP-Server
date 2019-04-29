@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using NIST.CVP.Common.Helpers;
 using NIST.CVP.Common.Oracle;
@@ -23,11 +24,10 @@ namespace NIST.CVP.Generation.EDDSA.v1_0.SigGen
         public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
         {
             var groups = BuildTestGroupsAsync(parameters);
-            groups.Wait();
-            return groups.Result;
+            return groups.Result.ToArray();
         }
 
-        public async Task<IEnumerable<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
+        private async Task<IEnumerable<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             // Use a hash set because the registration allows for duplicate pairings to occur
             // Equality of groups is done via name of the curve and name of the hash function.

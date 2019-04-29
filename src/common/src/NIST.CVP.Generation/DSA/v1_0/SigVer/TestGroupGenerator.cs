@@ -25,7 +25,6 @@ namespace NIST.CVP.Generation.DSA.v1_0.SigVer
         public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
         {
             var groups = BuildTestGroupsAsync(parameters);
-            //groups.Wait();
             return groups.Result.ToArray();
         }
 
