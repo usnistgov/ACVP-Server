@@ -236,7 +236,6 @@ namespace NIST.CVP.Generation.TupleHash.v1_0
                         customizationLen = _customizationLength++ * _currentLargeCase;
                     }
                 }
-                customizationLen = 0;
                 messageLen = MessageLengths[_currentMessageLengthCounter++ % MessageLengths.Count];
                 tupleSize = 1;
                 _currentLargeCase++;
