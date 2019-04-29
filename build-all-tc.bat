@@ -51,6 +51,8 @@ rem ParameterChecker build
 cd src\solutions\ParameterChecker
 dotnet restore
 dotnet build -c Release
+cd %homedir%
+cd src\common\src\NIST.CVP.ParameterChecker\
 dotnet publish -c Release -r win-x64
 
 cd %homedir%
