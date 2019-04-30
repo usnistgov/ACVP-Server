@@ -1,13 +1,13 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using NIST.CVP.Common.Helpers;
+﻿using NIST.CVP.Common.Helpers;
 using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
-using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
+using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC.Enums;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
 using NIST.CVP.Generation.Core;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Generation.ECDSA.v1_0.SigGen
 {
@@ -33,6 +33,35 @@ namespace NIST.CVP.Generation.ECDSA.v1_0.SigGen
             // HashSet eliminates any duplicates that may be registered
             var testGroups = new HashSet<TestGroup>();
 
+            if (!parameters.IsSample)
+            {
+                foreach (var capability in parameters.Capabilities)
+                {
+                    foreach (var curveName in capability.Curve)
+                    {
+                        foreach (var hashAlg in capability.HashAlg)
+                        {
+                            var sha = ShaAttributes.GetHashFunctionFromName(hashAlg);
+                            var curve = EnumHelpers.GetEnumFromEnumDescription<Curve>(curveName);
+
+                            var testGroup = new TestGroup
+                            {
+                                Curve = curve,
+                                HashAlg = sha,
+                                ComponentTest = parameters.ComponentTest
+                            };
+
+                            testGroups.Add(testGroup);
+                        }
+                    }
+                }
+
+                return testGroups;
+            }
+
+            // For samples, we need to generate keys up front
+            Dictionary<TestGroup, Task<EcdsaKeyResult>> map = new Dictionary<TestGroup, Task<EcdsaKeyResult>>();
+
             foreach (var capability in parameters.Capabilities)
             {
                 foreach (var curveName in capability.Curve)
@@ -42,29 +71,32 @@ namespace NIST.CVP.Generation.ECDSA.v1_0.SigGen
                         var sha = ShaAttributes.GetHashFunctionFromName(hashAlg);
                         var curve = EnumHelpers.GetEnumFromEnumDescription<Curve>(curveName);
 
-                        EccKeyPair key = null;
                         var param = new EcdsaKeyParameters
                         {
                             Curve = curve
                         };
 
-                        if (parameters.IsSample)
-                        {
-                            var keyResult = await _oracle.GetEcdsaKeyAsync(param);
-                            key = keyResult.Key;
-                        }
-
                         var testGroup = new TestGroup
                         {
                             Curve = curve,
                             HashAlg = sha,
-                            ComponentTest = parameters.ComponentTest,
-                            KeyPair = key
+                            ComponentTest = parameters.ComponentTest
                         };
 
-                        testGroups.Add(testGroup);
+                        map.Add(testGroup, _oracle.GetEcdsaKeyAsync(param));
                     }
                 }
+            }
+
+            await Task.WhenAll(map.Values);
+
+            foreach (var keyValuePair in map)
+            {
+                var group = keyValuePair.Key;
+                var keyPair = keyValuePair.Value.Result;
+                group.KeyPair = keyPair.Key;
+
+                testGroups.Add(group);
             }
 
             return testGroups;
