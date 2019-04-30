@@ -19,7 +19,7 @@ namespace NIST.CVP.Generation.AES_CBC_CTS.v1_0
 
         public List<TestCase> Tests { get; set; } = new List<TestCase>();
 
-        public bool IsPartialBlockGroup { get; set; }
+        [JsonIgnore] public bool IsPartialBlockGroup { get; set; }
         [JsonIgnore] public MathDomain PayloadLen { get; set; }
         [JsonIgnore] public AlgoMode AlgoMode { get; set; }
 

@@ -1,12 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using NIST.CVP.Common.ExtensionMethods;
+﻿using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math.Domain;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace NIST.CVP.Generation.AES_CBC_CTS.v1_0
 {
-    
+
 
     public class ParameterValidator : ParameterValidatorBase, IParameterValidator<Parameters>
     {
@@ -24,13 +24,13 @@ namespace NIST.CVP.Generation.AES_CBC_CTS.v1_0
 
             if (errorResults.Count > 0)
             {
-                return new ParameterValidateResponse(string.Join(";", errorResults));
+                return new ParameterValidateResponse(errorResults);
             }
 
             return new ParameterValidateResponse();
         }
 
-        private void ValidateKeySizes(Parameters parameters,  List<string> errorResults)
+        private void ValidateKeySizes(Parameters parameters, List<string> errorResults)
         {
             var result = ValidateArray(parameters.KeyLen, ValidKeySizes, "Key Sizes");
             if (!string.IsNullOrEmpty(result))
@@ -39,7 +39,7 @@ namespace NIST.CVP.Generation.AES_CBC_CTS.v1_0
             }
         }
 
-        private void ValidateDirection(Parameters parameters,  List<string> errorResults)
+        private void ValidateDirection(Parameters parameters, List<string> errorResults)
         {
             string result = ValidateArray(parameters.Direction, ValidDirections, "Direction");
             if (!string.IsNullOrEmpty(result))
