@@ -81,7 +81,6 @@ namespace NIST.CVP.Generation.CSHAKE.Tests.ContractResolvers
             Assert.AreEqual(tc.ParentGroup.TestGroupId, newTc.ParentGroup.TestGroupId, nameof(newTc.ParentGroup));
             Assert.AreEqual(tc.TestCaseId, newTc.TestCaseId, nameof(newTc.TestCaseId));
             Assert.AreEqual(tc.Digest, newTc.Digest, nameof(newTc.Digest));
-            Assert.AreEqual(tc.DigestLength, newTc.DigestLength, nameof(newTc.DigestLength));
 
             if (tg.TestType.Equals("mct", StringComparison.OrdinalIgnoreCase))
             {
@@ -94,6 +93,7 @@ namespace NIST.CVP.Generation.CSHAKE.Tests.ContractResolvers
             }
             else
             {
+                Assert.AreEqual(tc.DigestLength, newTc.DigestLength, nameof(newTc.DigestLength));
                 Assert.IsNull(newTc.ResultsArray, nameof(newTc.ResultsArray));
             }
 

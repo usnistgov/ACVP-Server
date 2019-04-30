@@ -13,6 +13,7 @@ namespace NIST.CVP.Crypto.CSHAKE
     {
         private readonly ICSHAKE _iCSHAKE;
         private int NUM_OF_RESPONSES = 100;
+        private bool _customizationHex;
 
         public CSHAKE_MCT(ICSHAKE iCSHAKE)
         {
@@ -57,8 +58,10 @@ namespace NIST.CVP.Crypto.CSHAKE
          */
         #endregion MonteCarloAlgorithm Pseudocode
 
-        public MCTResult<AlgoArrayResponseWithCustomization> MCTHash(HashFunction function, BitString message, MathDomain domain, bool isSample)
+        public MCTResult<AlgoArrayResponseWithCustomization> MCTHash(HashFunction function, BitString message, MathDomain domain, bool customizationHex, bool isSample)
         {
+            _customizationHex = customizationHex;
+            
             if (isSample)
             {
                 NUM_OF_RESPONSES = 3;
@@ -69,11 +72,10 @@ namespace NIST.CVP.Crypto.CSHAKE
             var j = 0;
             var min = domain.GetDomainMinMax().Minimum;
             var max = domain.GetDomainMinMax().Maximum;
-            var minBytes = min / 8;
-            var maxBytes = max / 8;
 
             var outputLen = (int)System.Math.Floor((double)max / 8) * 8;
             var customization = "";
+            var functionName = "";
             var range = (max - min) + 8;
             var innerMessage = message.GetDeepCopy();
 
@@ -93,7 +95,7 @@ namespace NIST.CVP.Crypto.CSHAKE
                         innerMessage = BitString.MSBSubstring(innerMessage, 0, 128);
                         function.DigestLength = outputLen;
 
-                        var innerResult = _iCSHAKE.HashMessage(function, innerMessage, customization);
+                        var innerResult = _iCSHAKE.HashMessage(function, innerMessage, customization, functionName);
                         innerDigest = innerResult.Digest.GetDeepCopy();
 
                         // Will always have 16 bits to pull from
@@ -102,7 +104,7 @@ namespace NIST.CVP.Crypto.CSHAKE
 
                         outputLen = min + (8 * GetIntFromBits(rightmostBits)) % range;
                         customization = GetStringFromBytes(BitString.ConcatenateBits(innerMessage, rightmostBitString).ToBytes());
-
+                        
                         innerMessage = innerDigest.GetDeepCopy();
                     }
 
@@ -120,7 +122,7 @@ namespace NIST.CVP.Crypto.CSHAKE
             return new MCTResult<AlgoArrayResponseWithCustomization>(responses);
         }
 
-        private Logger ThisLogger { get { return LogManager.GetCurrentClassLogger(); } }
+        private Logger ThisLogger => LogManager.GetCurrentClassLogger();
 
         private int GetIntFromBits(BitArray bits)
         {
@@ -139,10 +141,19 @@ namespace NIST.CVP.Crypto.CSHAKE
         private string GetStringFromBytes(byte[] bytes)
         {
             var result = "";
-            foreach (var num in bytes)
+            
+            if (_customizationHex)
             {
-                result += System.Text.Encoding.ASCII.GetString(new byte[] { (byte)((num % 26) + 65) });
+                result += new BitString(bytes).ToHex();
             }
+            else
+            {
+                foreach (var num in bytes)
+                {
+                    result += System.Text.Encoding.ASCII.GetString(new byte[] { (byte)((num % 26) + 65) });                    
+                }    
+            }
+            
             return result;
         }
     }

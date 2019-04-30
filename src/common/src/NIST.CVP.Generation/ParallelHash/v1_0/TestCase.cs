@@ -41,6 +41,9 @@ namespace NIST.CVP.Generation.ParallelHash.v1_0
 
         [JsonProperty(PropertyName = "outLen")]
         public int DigestLength { get; set; }
+        
+        [JsonProperty(PropertyName = "functionName")]
+        public string FunctionName { get; set; }
 
         public List<AlgoArrayResponseWithCustomization> ResultsArray { get; set; }
     }

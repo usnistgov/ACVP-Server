@@ -41,8 +41,7 @@ namespace NIST.CVP.Orleans.Grains.Cshake
         {
             var message = _rand.GetRandomBitString(_param.MessageLength);
 
-            // TODO isSample up in here?
-            var result = _cshakeMct.MCTHash(_param.HashFunction, message, _param.OutLens, true); // currently always a sample
+            var result = _cshakeMct.MCTHash(_param.HashFunction, message, _param.OutLens, _param.HexCustomization, _param.IsSample); 
 
             if (!result.Success)
             {
@@ -54,10 +53,18 @@ namespace NIST.CVP.Orleans.Grains.Cshake
             {
                 Seed = new CShakeResult()
                 {
-                    Message = message
+                    Message = message,
+                    Customization = "",        // These values start out empty
+                    FunctionName = ""
                 },
                 Results = result.Response.ConvertAll(element =>
-                    new CShakeResult { Message = element.Message, Digest = element.Digest, Customization = element.Customization })
+                    new CShakeResult
+                    {
+                        Message = element.Message, 
+                        Digest = element.Digest, 
+                        Customization = element.Customization,
+                        FunctionName = element.FunctionName
+                    })
             });
         }
     }

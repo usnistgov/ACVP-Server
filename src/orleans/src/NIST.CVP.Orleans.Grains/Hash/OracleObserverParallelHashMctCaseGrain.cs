@@ -39,9 +39,7 @@ namespace NIST.CVP.Orleans.Grains.Hash
         protected override async Task DoWorkAsync()
         {
             var message = _rand.GetRandomBitString(_param.MessageLength);
-
-            // TODO isSample up in here?
-            var result = _hash.MCTHash(_param.HashFunction, message, _param.OutLens, true); // currently always a sample
+            var result = _hash.MCTHash(_param.HashFunction, message, _param.OutLens, _param.HexCustomization, _param.IsSample);
 
             if (!result.Success)
             {
@@ -52,10 +50,17 @@ namespace NIST.CVP.Orleans.Grains.Hash
             {
                 Seed = new ParallelHashResult()
                 {
-                    Message = message
+                    Message = message,
+                    Customization = "",    // Statically set in the Crypto MCT for ParallelHash
+                    FunctionName = _param.FunctionName
                 },
                 Results = result.Response.ConvertAll(element =>
-                    new ParallelHashResult { Message = element.Message, Digest = element.Digest, Customization = element.Customization })
+                    new ParallelHashResult
+                    {
+                        Message = element.Message, 
+                        Digest = element.Digest, 
+                        Customization = element.Customization
+                    })
             });
         }
     }

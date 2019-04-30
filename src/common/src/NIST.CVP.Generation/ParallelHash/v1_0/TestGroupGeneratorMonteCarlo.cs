@@ -13,7 +13,7 @@ namespace NIST.CVP.Generation.ParallelHash.v1_0
 
             foreach (var digSize in parameters.DigestSizes)
             {
-                if (parameters.NonXOF)
+                foreach (var xof in parameters.XOF)
                 {
                     var testGroup = new TestGroup
                     {
@@ -21,24 +21,10 @@ namespace NIST.CVP.Generation.ParallelHash.v1_0
                         DigestSize = digSize,
                         OutputLength = parameters.OutputLength,
                         TestType = TEST_TYPE,
-                        XOF = false
+                        XOF = xof
                     };
 
                     testGroups.Add(testGroup);
-                }
-
-                if (parameters.XOF)
-                {
-                    var testGroupXOF = new TestGroup
-                    {
-                        Function = parameters.Algorithm,
-                        DigestSize = digSize,
-                        OutputLength = parameters.OutputLength,
-                        TestType = TEST_TYPE,
-                        XOF = true
-                    };
-
-                    testGroups.Add(testGroupXOF);
                 }
             }
 

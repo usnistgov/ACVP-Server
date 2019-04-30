@@ -8,7 +8,6 @@ namespace NIST.CVP.Generation.TupleHash.v1_0
     public class TestGroup : ITestGroup<TestGroup, TestCase>
     {
         public int TestGroupId { get; set; }
-        public List<TestCase> Tests { get; set; } = new List<TestCase>();
 
         [JsonProperty(PropertyName = "testType")]
         public string TestType { get; set; }
@@ -30,5 +29,7 @@ namespace NIST.CVP.Generation.TupleHash.v1_0
 
         [JsonIgnore]
         public MathDomain MessageLength { get; set; }
+
+        public List<TestCase> Tests { get; set; } = new List<TestCase>();
     }
 }

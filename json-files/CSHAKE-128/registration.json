@@ -2,20 +2,20 @@
   "vsId": 0,
   "algorithm": "CSHAKE",
   "revision": "1.0",
-  "isSample": false,
+  "isSample": true,
   "conformances": [],
   "digestSize": [
     128
   ],
   "hexCustomization": false,
-  "outputLength": [
+  "outputLen": [
     {
       "min": 256,
       "max": 4096,
       "increment": 1
     }
   ],
-  "msgLength": [
+  "msgLen": [
     {
       "min": 0,
       "max": 65536,

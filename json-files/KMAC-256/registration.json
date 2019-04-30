@@ -1,7 +1,7 @@
 {
   "vsId": 0,
   "algorithm": "KMAC",
-  "mode": "",
+  "mode": "256",
   "revision": "1.0",
   "isSample": false,
   "conformances": [],

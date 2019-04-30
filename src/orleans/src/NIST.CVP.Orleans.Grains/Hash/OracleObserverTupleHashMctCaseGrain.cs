@@ -1,8 +1,6 @@
 ﻿using NIST.CVP.Common;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
-using NIST.CVP.Crypto.Common.Hash.SHA2;
-using NIST.CVP.Math.Entropy;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -42,8 +40,7 @@ namespace NIST.CVP.Orleans.Grains.Hash
         {
             var tuple = new List<BitString>() { _rand.GetRandomBitString(_param.MessageLength) };
 
-            // TODO isSample up in here?
-            var result = _hash.MCTHash(_param.HashFunction, tuple, _param.OutLens, true); // currently always a sample
+            var result = _hash.MCTHash(_param.HashFunction, tuple, _param.OutLens, _param.IsSample);
 
             if (!result.Success)
             {
@@ -52,23 +49,10 @@ namespace NIST.CVP.Orleans.Grains.Hash
 
             await Notify(new MctResult<TupleHashResult>
             {
-                Seed = new TupleHashResult { Tuple = tuple },
+                Seed = new TupleHashResult { Tuple = tuple, Customization = "", FunctionName = _param.FunctionName },
                 Results = result.Response.ConvertAll(element =>
                     new TupleHashResult { Tuple = element.Tuple, Digest = element.Digest, Customization = element.Customization })
             });
-        }
-
-        private int GetRandomValidLength(bool bitOriented)
-        {
-            var length = _rand.GetRandomInt(1, 513);
-            if (!bitOriented)
-            {
-                while (length % 8 != 0)
-                {
-                    length++;
-                }
-            }
-            return length;
         }
     }
 }
