@@ -6,7 +6,6 @@ using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC.Enums;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
 using NIST.CVP.Generation.Core;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace NIST.CVP.Generation.ECDSA.v1_0.SigGen
@@ -23,7 +22,9 @@ namespace NIST.CVP.Generation.ECDSA.v1_0.SigGen
         public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
         {
             var groups = BuildTestGroupsAsync(parameters);
-            return groups.Result.ToArray();
+            groups.Wait();
+
+            return groups.Result;
         }
 
         private async Task<IEnumerable<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
