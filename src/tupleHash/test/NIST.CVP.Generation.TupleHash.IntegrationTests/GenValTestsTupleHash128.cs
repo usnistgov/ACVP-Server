@@ -82,9 +82,9 @@ namespace NIST.CVP.Generation.TupleHash.IntegrationTests
         protected override string GetTestFileLotsOfTestCases(string targetFolder)
         {
             var minMax = new MathDomain();
-            minMax.AddSegment(new RangeDomainSegment(null, 256, 4096, 1));
+            minMax.AddSegment(new RangeDomainSegment(null, 256, 512, 8));
             var minMaxMsg = new MathDomain();
-            minMaxMsg.AddSegment(new RangeDomainSegment(null, 0, 4096, 1));
+            minMaxMsg.AddSegment(new RangeDomainSegment(null, 0, 1024, 8));
 
             var parameters = new Parameters
             {

@@ -1,12 +1,12 @@
 {
   "vsId": 0,
   "algorithm": "TupleHash",
-  "mode": "128",
+  "mode": "256",
   "revision": "1.0",
   "isSample": true,
   "conformances": [],
   "digestSize": [
-    128
+    256
   ],
   "xof": [
     true,
