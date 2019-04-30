@@ -29,18 +29,13 @@ namespace NIST.CVP.Generation.HMAC.v1_0
             // Cannot validate the rest of the parameters as they are dependant on the successful validation of the mechanism and mode.
             if (errorResults.Count > 0)
             {
-                return new ParameterValidateResponse(string.Join(";", errorResults));
+                return new ParameterValidateResponse(errorResults);
             }
 
             ValidateKeyLen(parameters, errorResults);
             ValidateMacLen(parameters, errorResults);
 
-            if (errorResults.Count > 0)
-            {
-                return new ParameterValidateResponse(string.Join(";", errorResults));
-            }
-
-            return new ParameterValidateResponse();
+            return new ParameterValidateResponse(errorResults);
         }
 
         private void ValidateAlgorithm(Parameters parameters, List<string> errorResults)

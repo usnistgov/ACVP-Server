@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.DispositionTypes;
@@ -37,9 +38,6 @@ namespace NIST.CVP.Generation.DSA.v1_0.SigVer
             try
             {
                 keyResult = await _oracle.GetDsaKeyAsync(keyParam);
-
-                if (keyResult == null) throw new Exception("KeyResult is null");
-                if (keyResult.Key == null) throw new Exception("Key is null");
             }
             catch (Exception ex)
             {
@@ -47,7 +45,9 @@ namespace NIST.CVP.Generation.DSA.v1_0.SigVer
                 return new TestCaseGenerateResponse<TestGroup, TestCase>("Unable to generate key");
             }
 
+            // Error is here
             var reason = group.TestCaseExpectationProvider.GetRandomReason();
+            
             var param = new DsaSignatureParameters
             {
                 HashAlg = group.HashAlg,
@@ -56,7 +56,7 @@ namespace NIST.CVP.Generation.DSA.v1_0.SigVer
                 Key = keyResult.Key,
                 Disposition = reason.GetReason()
             };
-
+            
             try
             {
                 var result = await _oracle.GetDsaSignatureAsync(param);

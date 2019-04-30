@@ -26,12 +26,7 @@ namespace NIST.CVP.Generation.EDDSA.v1_0.SigGen
                 errors.Add("No valid mode chosen");
             }
 
-            if (errors.Count > 0)
-            {
-                return new ParameterValidateResponse(string.Join(";", errors));
-            }
-
-            return new ParameterValidateResponse();
+            return new ParameterValidateResponse(errors);
         }
     }
 }

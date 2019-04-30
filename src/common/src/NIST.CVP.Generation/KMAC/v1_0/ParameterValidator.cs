@@ -28,12 +28,7 @@ namespace NIST.CVP.Generation.KMAC.v1_0
             ValidateKeyLen(parameters, errorResults);
             ValidateMacLen(parameters, errorResults);
 
-            if (errorResults.Count > 0)
-            {
-                return new ParameterValidateResponse(string.Join(";", errorResults));
-            }
-
-            return new ParameterValidateResponse();
+            return new ParameterValidateResponse(errorResults);
         }
 
         private void ValidateFunctions(Parameters parameters, List<string> errorResults)

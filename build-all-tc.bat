@@ -24,14 +24,16 @@ cd src\solutions\AllDeployable
 dotnet clean
 dotnet restore
 
+rem GenVals build
+
 cd ..\GenValAppRunner
 dotnet restore
 
 cd ..\AllDeployable
 dotnet build -c Release
 
-rem GenVal Build
 cd ..\GenValAppRunner
+dotnet build -c Release
 
 cd %homedir%
 cd src\common\src\NIST.CVP.Generation.GenValApp
@@ -41,6 +43,22 @@ cd %homedir%
 cd src\common\src\NIST.CVP.Generation.GenValApp\bin\Release\%netcoreappver%\win-x64\
 "%zip%" a -tzip publish.zip publish\
 move publish.zip "%homedir%\%mydate%_%mytime%_GenValsOrleans.zip"
+
+cd %homedir%
+
+rem ParameterChecker build
+
+cd src\solutions\ParameterChecker
+dotnet restore
+dotnet build -c Release
+cd %homedir%
+cd src\common\src\NIST.CVP.ParameterChecker\
+dotnet publish -c Release -r win-x64
+
+cd %homedir%
+cd src\common\src\NIST.CVP.ParameterChecker\bin\Release\%netcoreappver%\win-x64\
+"%zip%" a -tzip publish.zip publish\
+move publish.zip "%homedir%\%mydate%_%mytime%_ParameterChecker.zip"
 
 cd %homedir%
 

@@ -118,6 +118,7 @@ namespace NIST.CVP.Generation.GenValApp.Helpers
                         ErrorLogger.LogError(result.StatusCode, "validator", result.ErrorMessage, FileDirectory);
                         return (int)result.StatusCode;
                     }
+
                     default:
                         errorMessage = "ERROR! Unable to find running mode";
                         Console.Error.WriteLine(errorMessage);

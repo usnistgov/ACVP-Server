@@ -31,12 +31,7 @@ namespace NIST.CVP.Generation.AES_GCM.v1_0
             ValidateAAD(parameters, errorResults);
             ValidateIV(parameters, errorResults);
 
-            if (errorResults.Count > 0)
-            {
-                return new ParameterValidateResponse(string.Join(";", errorResults));
-            }
-
-            return new ParameterValidateResponse();
+            return new ParameterValidateResponse(errorResults);
         }
 
         private void ValidatePlainText(Parameters parameters,  List<string> errorResults)

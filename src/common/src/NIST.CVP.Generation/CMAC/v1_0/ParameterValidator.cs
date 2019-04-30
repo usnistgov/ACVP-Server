@@ -28,7 +28,7 @@ namespace NIST.CVP.Generation.CMAC.v1_0
 
             if (errorResults.Count > 0)
             {
-                return new ParameterValidateResponse(string.Join(";", errorResults));
+                return new ParameterValidateResponse(errorResults);
             }
 
             foreach (var capability in parameters.Capabilities)
@@ -45,13 +45,8 @@ namespace NIST.CVP.Generation.CMAC.v1_0
                 ValidateKeyingOption(capability, mode, errorResults);
                 ValidateKeyingOptionWithMode(capability, mode, errorResults);
             }
-            
-            if (errorResults.Count > 0)
-            {
-                return new ParameterValidateResponse(string.Join(";", errorResults));
-            }
 
-            return new ParameterValidateResponse();
+            return new ParameterValidateResponse(errorResults);
         }
 
         private void ValidateAlgorithm(Parameters parameters, List<string> errorResults)

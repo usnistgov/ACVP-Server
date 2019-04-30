@@ -18,12 +18,7 @@ namespace NIST.CVP.Generation.ECDSA.v1_0.KeyVer
             result = ValidateArray(parameters.Curve, VALID_CURVES, "Curves");
             errors.AddIfNotNullOrEmpty(result);
 
-            if (errors.Count > 0)
-            {
-                return new ParameterValidateResponse(string.Join(";", errors));
-            }
-
-            return new ParameterValidateResponse();
+            return new ParameterValidateResponse(errors);
         }
     }
 }

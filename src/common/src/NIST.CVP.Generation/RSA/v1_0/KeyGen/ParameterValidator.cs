@@ -32,7 +32,7 @@ namespace NIST.CVP.Generation.RSA.v1_0.KeyGen
 
             if (errorResults.Count > 0)
             {
-                return new ParameterValidateResponse(string.Join(";", errorResults));
+                return new ParameterValidateResponse(errorResults);
             }
 
             // Gracefully check if the public exponent is valid
@@ -91,12 +91,7 @@ namespace NIST.CVP.Generation.RSA.v1_0.KeyGen
                 }
             }
 
-            if (errorResults.Count > 0)
-            {
-                return new ParameterValidateResponse(string.Join(";", errorResults));
-            }
-
-            return new ParameterValidateResponse();
+            return new ParameterValidateResponse(errorResults);
         }
     }
 }

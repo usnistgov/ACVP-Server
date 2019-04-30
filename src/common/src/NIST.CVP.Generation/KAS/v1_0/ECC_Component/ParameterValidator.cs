@@ -28,12 +28,7 @@ namespace NIST.CVP.Generation.KAS.v1_0.ECC_Component
             ValidateFunctions(parameters, errorResults);
             ValidateCurves(parameters, errorResults);
 
-            if (errorResults.Count > 0)
-            {
-                return new ParameterValidateResponse(string.Join(";", errorResults));
-            }
-
-            return new ParameterValidateResponse();
+            return new ParameterValidateResponse(errorResults);
         }
 
         private void ValidateAlgorithm(Parameters parameters, List<string> errorResults)

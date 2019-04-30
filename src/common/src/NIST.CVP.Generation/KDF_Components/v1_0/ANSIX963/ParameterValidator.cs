@@ -44,7 +44,7 @@ namespace NIST.CVP.Generation.KDF_Components.v1_0.ANXIX963
 
             if (errors.Count > 0)
             {
-                return new ParameterValidateResponse(string.Join(";", errors));
+                return new ParameterValidateResponse(errors);
             }
 
             ValidateGroups(parameters.FieldSize, parameters.HashAlg, errors);
@@ -52,12 +52,7 @@ namespace NIST.CVP.Generation.KDF_Components.v1_0.ANXIX963
             ValidateDomain(parameters.KeyDataLength, errors, "KeyDataLength", KEY_LENGTH_MINIMUM, KEY_LENGTH_MAXIMUM);
             ValidateDomain(parameters.SharedInfoLength, errors, "SharedInfo", SHARED_INFO_MINIMUM, SHARED_INFO_MAXIMUM);
 
-            if (errors.Count > 0)
-            {
-                return new ParameterValidateResponse(string.Join(";", errors));
-            }
-
-            return new ParameterValidateResponse();
+            return new ParameterValidateResponse(errors);
         }
 
         private void ValidateDomain(MathDomain domain, List<string> errors, string errorTag, int min, int max)

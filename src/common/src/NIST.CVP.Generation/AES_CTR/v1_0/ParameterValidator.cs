@@ -26,12 +26,7 @@ namespace NIST.CVP.Generation.AES_CTR.v1_0
 
             ValidateDataLength(parameters.PayloadLen, errorResults);
 
-            if (errorResults.Count > 0)
-            {
-                return new ParameterValidateResponse(string.Join(";", errorResults));
-            }
-
-            return new ParameterValidateResponse();
+            return new ParameterValidateResponse(errorResults);
         }
 
         private void ValidateDataLength(MathDomain dataLen, List<string> errorResults)
