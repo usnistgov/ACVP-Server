@@ -30,7 +30,8 @@ namespace NIST.CVP.Generation.CSHAKE.v1_0
             {
                 HashFunction = new HashFunction(group.DigestSize, group.DigestSize * 2),
                 MessageLength = group.DigestSize,
-                OutLens = group.OutputLength.GetDeepCopy()
+                OutLens = group.OutputLength.GetDeepCopy(),
+                IsSample = isSample
             };
 
             try
@@ -40,7 +41,15 @@ namespace NIST.CVP.Generation.CSHAKE.v1_0
                 return new TestCaseGenerateResponse<TestGroup, TestCase>(new TestCase
                 {
                     Message = oracleResult.Seed.Message,
-                    ResultsArray = oracleResult.Results.ConvertAll(element => new AlgoArrayResponseWithCustomization { Message = element.Message, Digest = element.Digest, Customization = element.Customization })
+                    Customization = oracleResult.Seed.Customization,
+                    FunctionName = oracleResult.Seed.FunctionName,
+                    ResultsArray = oracleResult.Results.ConvertAll(element => new AlgoArrayResponseWithCustomization
+                    {
+                        Message = element.Message, 
+                        Digest = element.Digest, 
+                        Customization = element.Customization,
+                        FunctionName = element.FunctionName
+                    })
                 });
             }
             catch (Exception ex)

@@ -135,16 +135,17 @@ namespace NIST.CVP.Generation.ParallelHash.Tests
         }
 
         [Test]
-        [TestCase(true, false, true)]
-        [TestCase(false, true, true)]
-        [TestCase(true, true, true)]
-        [TestCase(false, false, false)]
-        public void ShouldSucceedOnValidXOFSettingsLen(bool nonXOF, bool XOF, bool isSuccessExpected)
+        [TestCase(new [] {true}, true)]
+        [TestCase(new [] {false}, true)]
+        [TestCase(new [] {true, false}, true)]
+        [TestCase(new [] {false, true}, true)]
+        [TestCase(new [] {true, true}, false)]
+        [TestCase(new [] {false, false}, false)]
+        public void ShouldSucceedOnValidXOFSettingsLen(bool[] XOF, bool isSuccessExpected)
         {
             var subject = new ParameterValidator();
             var result = subject.Validate(
                 new ParameterBuilder()
-                    .WithNonXOF(nonXOF)
                     .WithXOF(XOF)
                     .Build()
             );
@@ -155,21 +156,21 @@ namespace NIST.CVP.Generation.ParallelHash.Tests
         public class ParameterBuilder
         {
             private string _algorithm;
+            private string _mode;
             private int[] _digestSize;
             private MathDomain _outputLength;
             private MathDomain _messageLength;
-            private bool _nonxof;
-            private bool _xof;
+            private bool[] _xof;
             private bool _hexCustomization;
 
             public ParameterBuilder()
             {
                 _algorithm = "ParallelHash";
+                _mode = "128";
                 _digestSize = new int[] { 128, 256 };
                 _messageLength = new MathDomain().AddSegment(new RangeDomainSegment(null, 16, 65536));
                 _outputLength = new MathDomain().AddSegment(new RangeDomainSegment(null, 16, 65536));
-                _xof = true;
-                _nonxof = true;
+                _xof = new[] {true};
                 _hexCustomization = false;
             }
 
@@ -197,13 +198,7 @@ namespace NIST.CVP.Generation.ParallelHash.Tests
                 return this;
             }
 
-            public ParameterBuilder WithNonXOF(bool value)
-            {
-                _nonxof = value;
-                return this;
-            }
-
-            public ParameterBuilder WithXOF(bool value)
+            public ParameterBuilder WithXOF(bool[] value)
             {
                 _xof = value;
                 return this;
@@ -220,11 +215,11 @@ namespace NIST.CVP.Generation.ParallelHash.Tests
                 return new Parameters
                 {
                     Algorithm = _algorithm,
+                    Mode = _mode,
                     DigestSizes = _digestSize,
                     MessageLength = _messageLength,
                     OutputLength = _outputLength,
                     XOF = _xof,
-                    NonXOF = _nonxof,
                     HexCustomization = _hexCustomization
                 };
             }

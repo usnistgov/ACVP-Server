@@ -12,13 +12,13 @@ using NIST.CVP.Generation.ParallelHash.v1_0;
 namespace NIST.CVP.Generation.ParallelHash.IntegrationTests
 {
     [TestFixture, LongRunningIntegrationTest]
-    public class GenValTestParallelHash128s : GenValTestsSingleRunnerBase
+    public class GenValTestParallelHash128 : GenValTestsSingleRunnerBase
     {
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
         public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
 
         public override string Algorithm { get; } = "ParallelHash";
-        public override string Mode { get; } = string.Empty;
+        public override string Mode { get; } = "128";
         public override AlgoMode AlgoMode => AlgoMode.ParallelHash_v1_0;
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
@@ -80,11 +80,11 @@ namespace NIST.CVP.Generation.ParallelHash.IntegrationTests
                 Algorithm = Algorithm,
                 Mode = Mode,
                 Revision = Revision,
-                DigestSizes = new[] { 128 },
+                DigestSizes = new[] {128},
                 MessageLength = minMax,
                 OutputLength = minMax,
-                IsSample = true,
-                XOF = false
+                XOF = new[] {false},
+                IsSample = true
             };
 
             return CreateRegistration(targetFolder, parameters);
@@ -103,12 +103,11 @@ namespace NIST.CVP.Generation.ParallelHash.IntegrationTests
                 Algorithm = Algorithm,
                 Mode = Mode,
                 Revision = Revision,
-                DigestSizes = new[] { 128 },
+                DigestSizes = new[] {128},
                 MessageLength = minMaxMsg,
                 OutputLength = minMax,
-                XOF = true,
-                NonXOF = true,
-                IsSample = false
+                XOF = new[] {true, false},
+                IsSample = true
             };
 
             return CreateRegistration(targetFolder, parameters);

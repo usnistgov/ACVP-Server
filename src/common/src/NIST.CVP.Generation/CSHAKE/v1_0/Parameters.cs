@@ -21,11 +21,11 @@ namespace NIST.CVP.Generation.CSHAKE.v1_0
         public bool HexCustomization { get; set; } = false;
 
         // Hard assumption that this is just a single RangeSegment inside of a Domain
-        [JsonProperty(PropertyName = "outputLength")]
+        [JsonProperty(PropertyName = "outputLen")]
         public MathDomain OutputLength { get; set; }
 
         // Hard assumption that this is just a single RangeSegment inside of a Domain
-        [JsonProperty(PropertyName = "msgLength")]
+        [JsonProperty(PropertyName = "msgLen")]
         public MathDomain MessageLength { get; set; }
     }
 }

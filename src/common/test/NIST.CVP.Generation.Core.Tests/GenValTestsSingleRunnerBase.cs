@@ -170,6 +170,8 @@ namespace NIST.CVP.Generation.Core.Tests
                     Assert.IsNull(provided, "provided must be null");
                 }
             }
+
+            Assert.True(true);
         }
 
         private string[] GetFileNamesWithPath(string directory, string[] fileNames)

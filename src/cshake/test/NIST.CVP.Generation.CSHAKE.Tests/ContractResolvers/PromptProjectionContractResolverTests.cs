@@ -52,7 +52,7 @@ namespace NIST.CVP.Generation.CSHAKE.Tests.ContractResolvers
 
             Assert.AreEqual(tg.TestGroupId, newTg.TestGroupId, nameof(newTg.TestGroupId));
             Assert.AreEqual(tg.Tests.Count, newTg.Tests.Count, nameof(newTg.Tests));
-            Assert.AreEqual(tg.DigestSize, newTg.DigestSize, nameof(newTg.DigestSize));
+            Assert.AreEqual(tg.HexCustomization, newTg.HexCustomization, nameof(newTg.HexCustomization));
         }
 
         /// <summary>
@@ -88,26 +88,24 @@ namespace NIST.CVP.Generation.CSHAKE.Tests.ContractResolvers
             Assert.AreNotEqual(tc.Digest, newTc.Digest, nameof(newTc.Digest));
             Assert.AreNotEqual(tc.Deferred, newTc.Deferred, nameof(newTc.Deferred));
 
-            if (testType == "aft")
+            Assert.AreEqual(tc.FunctionName, newTc.FunctionName, nameof(newTc.FunctionName));
+            if (hexCustomization)
             {
-                Assert.AreEqual(tc.FunctionName, newTc.FunctionName, nameof(newTc.FunctionName));
-                Assert.AreEqual(tc.DigestLength, newTc.DigestLength, nameof(newTc.DigestLength));
-                if (hexCustomization)
-                {
-                    Assert.AreEqual(tc.CustomizationHex, newTc.CustomizationHex, nameof(newTc.CustomizationHex));
-                    Assert.AreNotEqual(tc.Customization, newTc.Customization, nameof(newTc.Customization));
-                }
-                else
-                {
-                    Assert.AreNotEqual(tc.CustomizationHex, newTc.CustomizationHex, nameof(newTc.CustomizationHex));
-                    Assert.AreEqual(tc.Customization, newTc.Customization, nameof(newTc.Customization));
-                }
+                Assert.AreEqual(tc.CustomizationHex, newTc.CustomizationHex, nameof(newTc.CustomizationHex));
+                Assert.AreNotEqual(tc.Customization, newTc.Customization, nameof(newTc.Customization));
             }
             else
             {
-                Assert.AreNotEqual(tc.FunctionName, newTc.FunctionName, nameof(newTc.FunctionName));
                 Assert.AreNotEqual(tc.CustomizationHex, newTc.CustomizationHex, nameof(newTc.CustomizationHex));
-                Assert.AreNotEqual(tc.Customization, newTc.Customization, nameof(newTc.Customization));
+                Assert.AreEqual(tc.Customization, newTc.Customization, nameof(newTc.Customization));
+            }
+
+            if (testType == "aft")
+            {
+                Assert.AreEqual(tc.DigestLength, newTc.DigestLength, nameof(newTc.DigestLength));                
+            }
+            else
+            {
                 Assert.AreNotEqual(tc.DigestLength, newTc.DigestLength, nameof(newTc.DigestLength));
             }
 

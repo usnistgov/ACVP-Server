@@ -17,21 +17,18 @@ namespace NIST.CVP.Generation.TupleHash.v1_0
         [JsonProperty(PropertyName = "digestSize")]
         public int[] DigestSizes { get; set; }
 
-        [JsonProperty(PropertyName = "nonxof")]
-        public bool NonXOF { get; set; } = true;
-
         [JsonProperty(PropertyName = "xof")]
-        public bool XOF { get; set; }
+        public bool[] XOF { get; set; }
 
         [JsonProperty(PropertyName = "hexCustomization")]
         public bool HexCustomization { get; set; } = false;
 
         // Hard assumption that this is just a single RangeSegment inside of a Domain
-        [JsonProperty(PropertyName = "outputLength")]
+        [JsonProperty(PropertyName = "outputLen")]
         public MathDomain OutputLength { get; set; }
 
         // Hard assumption that this is just a single RangeSegment inside of a Domain
-        [JsonProperty(PropertyName = "msgLength")]
+        [JsonProperty(PropertyName = "msgLen")]
         public MathDomain MessageLength { get; set; }
     }
 }

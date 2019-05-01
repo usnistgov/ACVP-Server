@@ -36,16 +36,21 @@ namespace NIST.CVP.Generation.ParallelHash.v1_0
                 errorResults.Add(result);
             }
 
+            result = ValidateValue(parameters.Mode.ToLower(), VALID_MODES, "ParallelHash Mode");
+            if (!string.IsNullOrEmpty(result))
+            {
+                errorResults.Add(result);
+            }
+
             result = ValidateArray(parameters.DigestSizes, VALID_DIGEST_SIZES, "Digest Size");
             if (!string.IsNullOrEmpty(result))
             {
                 errorResults.Add(result);
             }
 
-            result = ValidateValue((parameters.NonXOF || parameters.XOF).ToString(), new string[] { (true).ToString() }, "XOF Settings");
-            if (!string.IsNullOrEmpty(result))
+            if ((parameters.XOF.Length != 1 && parameters.XOF.Length != 2) || parameters.XOF.ToHashSet().Count != parameters.XOF.Length)
             {
-                errorResults.Add(result);
+                errorResults.Add("XOF must contain only a single true, a single false, or both");
             }
         }
 

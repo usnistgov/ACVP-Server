@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Newtonsoft.Json.Serialization;
+using NIST.CVP.Crypto.Common.Hash.TupleHash;
 using NIST.CVP.Generation.Core.ContractResolvers;
 
 namespace NIST.CVP.Generation.TupleHash.v1_0.ContractResolvers
@@ -12,7 +13,6 @@ namespace NIST.CVP.Generation.TupleHash.v1_0.ContractResolvers
             var includeProperties = new[]
             {
                 nameof(TestGroup.TestGroupId),
-                nameof(TestGroup.XOF),
                 nameof(TestGroup.Tests)
             };
 
@@ -30,9 +30,17 @@ namespace NIST.CVP.Generation.TupleHash.v1_0.ContractResolvers
             {
                 nameof(TestCase.TestCaseId),
                 nameof(TestCase.Digest),
-                nameof(TestCase.ResultsArray),
-                nameof(TestCase.DigestLength)
+                nameof(TestCase.ResultsArray)
             };
+            
+            if (jsonProperty.UnderlyingName.Equals(nameof(TestCase.DigestLength)))
+            {
+                return jsonProperty.ShouldSerialize = instance =>
+                {
+                    GetTestCaseFromTestCaseObject(instance, out var testGroup, out var testCase);
+                    return (testGroup.TestType.ToLower() == "aft");
+                };
+            }
 
             if (includeProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
             {

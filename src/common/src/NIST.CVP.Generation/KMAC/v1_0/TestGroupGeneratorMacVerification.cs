@@ -5,7 +5,7 @@ namespace NIST.CVP.Generation.KMAC.v1_0
 {
     public class TestGroupGeneratorMacVerification : ITestGroupGenerator<Parameters, TestGroup, TestCase>
     {
-        private const string TEST_TYPE = "mvt";
+        private const string TEST_TYPE = "MVT";
 
         public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
         {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Newtonsoft.Json.Serialization;
+using NIST.CVP.Crypto.Common.Hash;
 using NIST.CVP.Generation.Core.ContractResolvers;
 
 namespace NIST.CVP.Generation.CSHAKE.v1_0.ContractResolvers
@@ -29,14 +30,26 @@ namespace NIST.CVP.Generation.CSHAKE.v1_0.ContractResolvers
             {
                 nameof(TestCase.TestCaseId),
                 nameof(TestCase.Digest),
-                nameof(TestCase.ResultsArray),
-                nameof(TestCase.DigestLength)
+                nameof(TestCase.ResultsArray)
             };
 
             if (includeProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
             {
-                return jsonProperty.ShouldSerialize =
-                    instance => true;
+                return jsonProperty.ShouldSerialize = instance => true;
+            }
+
+            if (jsonProperty.UnderlyingName.Equals(nameof(TestCase.DigestLength)))
+            {
+                return jsonProperty.ShouldSerialize = instance =>
+                {
+                    GetTestCaseFromTestCaseObject(instance, out var testGroup, out var testCase);
+                    return (testGroup.TestType.ToLower() == "aft");
+                };
+            }
+
+            if (jsonProperty.UnderlyingName.Equals(nameof(AlgoArrayResponseWithCustomization.Digest)))
+            {
+                return jsonProperty.ShouldSerialize = instance => true;
             }
 
             return jsonProperty.ShouldSerialize = instance => false;
