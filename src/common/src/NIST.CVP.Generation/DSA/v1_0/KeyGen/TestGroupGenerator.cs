@@ -7,7 +7,6 @@ using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Generation.Core;
 using NLog;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace NIST.CVP.Generation.DSA.v1_0.KeyGen
@@ -24,10 +23,12 @@ namespace NIST.CVP.Generation.DSA.v1_0.KeyGen
         public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
         {
             var groups = BuildTestGroupsAsync(parameters);
-            return groups.Result.ToArray();
+            groups.Wait();
+
+            return groups.Result;
         }
 
-        private async Task<IEnumerable<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
+        private async Task<List<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             var testGroups = new List<TestGroup>();
 
