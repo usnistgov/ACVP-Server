@@ -40,6 +40,7 @@ namespace NIST.CVP.Generation.AES_CBC_CTS.v1_0
 
                 return new TestCaseGenerateResponse<TestGroup, TestCase>(new TestCase
                 {
+                    PlaintextLen = param.DataLength,
                     PlainText = oracleResult.Seed.PlainText,
                     CipherText = oracleResult.Seed.CipherText,
                     IV = oracleResult.Seed.Iv,
@@ -63,6 +64,22 @@ namespace NIST.CVP.Generation.AES_CBC_CTS.v1_0
         private int ChoosePayloadLen(MathDomain groupPayloadLen)
         {
             List<int> values = new List<int>();
+
+            // We're using specific values for pool generation, just due to the large range of possible values.
+            // If any if those values are within the domain, use those as the data len, as the results are precomputed.
+            if (groupPayloadLen.IsWithinDomain(521))
+            {
+                return 521;
+            }
+            if (groupPayloadLen.IsWithinDomain(1337))
+            {
+                return 1337;
+            }
+            if (groupPayloadLen.IsWithinDomain(320))
+            {
+                return 320;
+            }
+
             // Use larger numbers only when the "smaller" values don't exist.
             values.AddRangeIfNotNullOrEmpty(groupPayloadLen.GetValues(a => a > 128 && a < 1280 && a % 128 != 0, 128, true));
             values.AddRangeIfNotNullOrEmpty(groupPayloadLen.GetValues(a => a % 128 != 0, 128, true));

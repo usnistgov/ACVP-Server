@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using NIST.CVP.Crypto.Common.Symmetric;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
+using System.Collections.Generic;
 
 namespace NIST.CVP.Generation.AES_CBC_CTS.v1_0
 {
@@ -13,11 +13,11 @@ namespace NIST.CVP.Generation.AES_CBC_CTS.v1_0
         [JsonIgnore] public bool Deferred => false;
         [JsonIgnore] public bool? TestPassed => true;
         [JsonProperty(PropertyName = "iv")]
-        public BitString IV { get; set; } 
+        public BitString IV { get; set; }
         [JsonProperty(PropertyName = "pt")]
         public BitString PlainText { get; set; }
         [JsonProperty(PropertyName = "ptLen")]
-        public int PlaintextLen => PlainText?.BitLength ?? 0;
+        public int PlaintextLen { get; set; }
         [JsonProperty(PropertyName = "key")]
         public BitString Key { get; set; }
         [JsonProperty(PropertyName = "ct")]
