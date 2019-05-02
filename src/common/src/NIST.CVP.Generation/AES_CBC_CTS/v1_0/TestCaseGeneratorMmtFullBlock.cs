@@ -52,7 +52,8 @@ namespace NIST.CVP.Generation.AES_CBC_CTS.v1_0
                     Key = oracleResult.Key,
                     IV = oracleResult.Iv,
                     PlainText = oracleResult.PlainText,
-                    CipherText = oracleResult.CipherText
+                    CipherText = oracleResult.CipherText,
+                    PayloadLen = param.DataLength
                 });
             }
             catch (Exception ex)

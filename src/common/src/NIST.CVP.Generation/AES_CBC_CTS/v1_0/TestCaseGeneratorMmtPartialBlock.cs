@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NIST.CVP.Common.ExtensionMethods;
+﻿using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
-using NIST.CVP.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Async;
 using NIST.CVP.Math.Domain;
 using NLog;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Generation.AES_CBC_CTS.v1_0
 {
@@ -54,7 +52,8 @@ namespace NIST.CVP.Generation.AES_CBC_CTS.v1_0
                     Key = oracleResult.Key,
                     IV = oracleResult.Iv,
                     PlainText = oracleResult.PlainText,
-                    CipherText = oracleResult.CipherText
+                    CipherText = oracleResult.CipherText,
+                    PayloadLen = param.DataLength
                 });
             }
             catch (Exception ex)

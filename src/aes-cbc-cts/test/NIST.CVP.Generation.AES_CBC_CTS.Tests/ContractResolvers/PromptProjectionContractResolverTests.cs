@@ -80,7 +80,7 @@ namespace NIST.CVP.Generation.AES_CBC_CTS.Tests.ContractResolvers
             Assert.AreEqual(tc.IV, newTc.IV, nameof(newTc.IV));
             Assert.AreEqual(tc.Key, newTc.Key, nameof(newTc.Key));
             Assert.AreEqual(tc.PlainText, newTc.PlainText, nameof(newTc.PlainText));
-            Assert.AreEqual(tc.PlaintextLen, newTc.PlaintextLen, nameof(newTc.PlaintextLen));
+            Assert.AreEqual(tc.PayloadLen, newTc.PayloadLen, nameof(newTc.PayloadLen));
 
             Assert.IsNull(newTc.ResultsArray, nameof(newTc.ResultsArray));
 

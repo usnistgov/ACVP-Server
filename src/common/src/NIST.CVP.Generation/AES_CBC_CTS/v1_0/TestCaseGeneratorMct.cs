@@ -40,7 +40,7 @@ namespace NIST.CVP.Generation.AES_CBC_CTS.v1_0
 
                 return new TestCaseGenerateResponse<TestGroup, TestCase>(new TestCase
                 {
-                    PlaintextLen = param.DataLength,
+                    PayloadLen = param.DataLength,
                     PlainText = oracleResult.Seed.PlainText,
                     CipherText = oracleResult.Seed.CipherText,
                     IV = oracleResult.Seed.Iv,

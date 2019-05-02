@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using NIST.CVP.Common.ExtensionMethods;
+﻿using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Crypto.Common.Symmetric;
 using NIST.CVP.Crypto.Common.Symmetric.AES.KATs;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Async;
-using NIST.CVP.Math;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Generation.AES_CBC_CTS.v1_0
 {
@@ -61,7 +60,8 @@ namespace NIST.CVP.Generation.AES_CBC_CTS.v1_0
                 Key = currentKat.Key,
                 IV = currentKat.IV,
                 PlainText = currentKat.PlainText,
-                CipherText = currentKat.CipherText
+                CipherText = currentKat.CipherText,
+                PayloadLen = currentKat.PlainText.BitLength
             };
 
             return await Task.FromResult(new TestCaseGenerateResponse<TestGroup, TestCase>(testCase));

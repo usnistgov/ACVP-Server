@@ -40,7 +40,7 @@ namespace NIST.CVP.Generation.AES_CBC_CTS.v1_0.ContractResolvers
                 nameof(TestCase.TestCaseId),
                 nameof(TestCase.IV),
                 nameof(TestCase.Key),
-                nameof(TestCase.PlaintextLen)
+                nameof(TestCase.PayloadLen)
             };
 
             if (includeProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))

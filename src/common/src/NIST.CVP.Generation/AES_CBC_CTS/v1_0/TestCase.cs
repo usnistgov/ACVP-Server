@@ -16,8 +16,8 @@ namespace NIST.CVP.Generation.AES_CBC_CTS.v1_0
         public BitString IV { get; set; }
         [JsonProperty(PropertyName = "pt")]
         public BitString PlainText { get; set; }
-        [JsonProperty(PropertyName = "ptLen")]
-        public int PlaintextLen { get; set; }
+        [JsonProperty(PropertyName = "payloadLen")]
+        public int PayloadLen { get; set; }
         [JsonProperty(PropertyName = "key")]
         public BitString Key { get; set; }
         [JsonProperty(PropertyName = "ct")]
