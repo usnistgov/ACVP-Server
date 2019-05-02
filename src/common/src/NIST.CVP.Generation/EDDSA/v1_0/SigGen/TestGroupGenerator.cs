@@ -64,6 +64,8 @@ namespace NIST.CVP.Generation.EDDSA.v1_0.SigGen
                         testGroups.Add(testGroup);
                     }
                 }
+
+                return testGroups;
             }
 
             // Generate keys upfront for sample
