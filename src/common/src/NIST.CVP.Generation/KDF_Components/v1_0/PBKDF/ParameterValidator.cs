@@ -49,6 +49,13 @@ namespace NIST.CVP.Generation.KDF_Components.v1_0.PBKDF
 
         private void ValidateDomain(MathDomain domain, int min, int max, List<string> errors, string friendlyName)
         {
+            // Check there are segments
+            if (!domain.DomainSegments.Any())
+            {
+                errors.Add($"No segments found within {friendlyName}");
+                return;
+            }
+            
             // Check min and max
             var minMax = domain.GetDomainMinMax();
 
