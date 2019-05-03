@@ -4,6 +4,7 @@ using NIST.CVP.Crypto.Common.KDF;
 using NIST.CVP.Crypto.Common.KDF.Components.PBKDF;
 using NIST.CVP.Crypto.Common.MAC.HMAC;
 using NIST.CVP.Math;
+using NIST.CVP.Math.Helpers;
 
 namespace NIST.CVP.Crypto.PBKDF
 {
@@ -28,7 +29,7 @@ namespace NIST.CVP.Crypto.PBKDF
 
             var hmac = _hmacFactory.GetHmacInstance(_sha.HashFunction);
             var passwordBits = new BitString(Encoding.ASCII.GetBytes(password));
-            var len = (int)System.Math.Ceiling(keyLen / (decimal)_sha.HashFunction.OutputLen);
+            var len = keyLen.CeilingDivide(_sha.HashFunction.OutputLen);
             var t = new BitString(0);
             
             for (var i = 1; i <= len; i++)
@@ -40,8 +41,9 @@ namespace NIST.CVP.Crypto.PBKDF
                 {
                     u = hmac.Generate(passwordBits, u).Mac;
                     t_i = t_i.XOR(u);
-                    t = t.ConcatenateBits(t_i);
                 }
+                
+                t = t.ConcatenateBits(t_i);
             }
 
             return new KdfResult(t.GetMostSignificantBits(keyLen));

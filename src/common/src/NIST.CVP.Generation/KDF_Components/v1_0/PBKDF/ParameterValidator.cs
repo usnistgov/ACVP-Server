@@ -13,14 +13,14 @@ namespace NIST.CVP.Generation.KDF_Components.v1_0.PBKDF
     public class ParameterValidator : ParameterValidatorBase, IParameterValidator<Parameters>
     {
         public static string[] VALID_HASH_ALGS = ShaAttributes.GetShaNames().Except(new [] {"SHAKE-128", "SHAKE-256"}).ToArray();
-        public static int MIN_KEY_LEN = 0;
-        public static int MAX_KEY_LEN = 0;
-        public static int MIN_PASS_LEN = 0;
-        public static int MAX_PASS_LEN = 0;
-        public static int MIN_SALT_LEN = 0;
-        public static int MAX_SALT_LEN = 0;
-        public static int MIN_ITR_COUNT = 0;
-        public static int MAX_ITR_COUNT = 0;
+        public static int MIN_KEY_LEN = 112;
+        public static int MAX_KEY_LEN = 65536;
+        public static int MIN_PASS_LEN = 8;
+        public static int MAX_PASS_LEN = 128;
+        public static int MIN_SALT_LEN = 128;
+        public static int MAX_SALT_LEN = 4096;
+        public static int MIN_ITR_COUNT = 10;
+        public static int MAX_ITR_COUNT = 1000;
         
         public ParameterValidateResponse Validate(Parameters parameters)
         {

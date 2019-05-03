@@ -1,0 +1,42 @@
+{
+  "vsId": 0,
+  "algorithm": "kdf-components",
+  "mode": "PBKDF",
+  "revision": "1.0",
+  "isSample": false,
+  "iterationCount": [
+    {
+      "min": 10,
+      "max": 1000,
+      "increment": 1
+    }
+  ],
+  "passwordLength": [
+    {
+      "min": 8,
+      "max": 16,
+      "increment": 1
+    }
+  ],
+  "saltLength": [
+    {
+      "min": 128,
+      "max": 256,
+      "increment": 1
+    }
+  ],
+  "keyLength": [
+    {
+      "min": 112,
+      "max": 256,
+      "increment": 1
+    }
+  ],
+  "hashAlg": [
+    "SHA2-224",
+    "SHA3-256",
+    "SHA-1",
+    "SHA2-512",
+    "SHA3-512"
+  ]
+}

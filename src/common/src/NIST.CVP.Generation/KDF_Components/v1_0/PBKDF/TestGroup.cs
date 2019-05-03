@@ -10,8 +10,7 @@ namespace NIST.CVP.Generation.KDF_Components.v1_0.PBKDF
     {
         public int TestGroupId { get; set; }
         public string TestType { get; set; }
-        public List<TestCase> Tests { get; set; } = new List<TestCase>();
-        
+
         [JsonIgnore]
         public MathDomain KeyLength { get; set; }
         
@@ -29,5 +28,7 @@ namespace NIST.CVP.Generation.KDF_Components.v1_0.PBKDF
 
         [JsonProperty("hashAlg")]
         public string HashAlgName => HashAlg.Name;
+        
+        public List<TestCase> Tests { get; set; } = new List<TestCase>();
     }
 }
