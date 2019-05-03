@@ -72,7 +72,7 @@ namespace NIST.CVP.Generation.AES_CBC_CTS.IntegrationTests
                 Algorithm = Algorithm,
                 Mode = Mode,
                 Revision = Revision,
-                PayloadLen = new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 128, 65536)),
+                PayloadLen = new MathDomain().AddSegment(new ValueDomainSegment(129)),
                 Direction = new string[] { "encrypt" },
                 KeyLen = new int[] { ParameterValidator.ValidKeySizes.First() },
                 IsSample = true
@@ -115,7 +115,7 @@ namespace NIST.CVP.Generation.AES_CBC_CTS.IntegrationTests
 
         protected override void OverrideRegisteredDependencies(ContainerBuilder builder)
         {
-            builder.RegisterType<FakeTestGroupGeneratorFactory>().AsImplementedInterfaces();
+            //builder.RegisterType<FakeTestGroupGeneratorFactory>().AsImplementedInterfaces();
         }
     }
 }
