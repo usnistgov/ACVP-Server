@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using NIST.CVP.Crypto.Common.Symmetric;
+﻿using NIST.CVP.Crypto.Common.Symmetric;
 using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
 using NIST.CVP.Crypto.Common.Symmetric.Engines;
 using NIST.CVP.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.Crypto.Common.Symmetric.MonteCarlo;
 using NIST.CVP.Math;
 using NLog;
+using System;
+using System.Collections.Generic;
 
 namespace NIST.CVP.Crypto.Symmetric.MonteCarlo
 {
@@ -68,7 +68,7 @@ namespace NIST.CVP.Crypto.Symmetric.MonteCarlo
         private MCTResult<AlgoArrayResponse> Encrypt(IModeBlockCipherParameters param)
         {
             List<AlgoArrayResponse> responses = new List<AlgoArrayResponse>();
-            
+
             int i = 0;
             int j = 0;
             try
@@ -159,27 +159,7 @@ namespace NIST.CVP.Crypto.Symmetric.MonteCarlo
                     iIterationResponse.PlainText = jPlainText;
                     responses.Add(iIterationResponse);
 
-                    if (param.Key.BitLength == 128)
-                    {
-                        param.Key = param.Key.XOR(previousPlainText);
-                    }
-                    if (param.Key.BitLength == 192)
-                    {
-                        var mostSignificant16KeyBitStringXor =
-                            param.Key.GetMostSignificantBits(64).XOR( // XOR 64 most significant key bits w/
-                                copyPreviousPlainText.Substring(0, 64) // the 64 least significant bits of the previous plain text
-                            );
-                        var leastSignificant128KeyBitStringXor = param.Key.GetLeastSignificantBits(16 * 8).XOR(previousPlainText);
-
-                        param.Key = mostSignificant16KeyBitStringXor.ConcatenateBits(leastSignificant128KeyBitStringXor);
-                    }
-                    if (param.Key.BitLength == 256)
-                    {
-                        var mostSignificantFirst16BitStringXor = param.Key.GetMostSignificantBits(16 * 8).XOR(copyPreviousPlainText);
-                        var leastSignificant16BitStringXor = param.Key.GetLeastSignificantBits(16 * 8).XOR(previousPlainText);
-                        param.Key = mostSignificantFirst16BitStringXor.ConcatenateBits(leastSignificant16BitStringXor);
-                    }
-
+                    param.Key = _keyMaker.MixKeys(param.Key, previousPlainText, copyPreviousPlainText);
                     param.Iv = previousPlainText;
                 }
             }
@@ -193,7 +173,7 @@ namespace NIST.CVP.Crypto.Symmetric.MonteCarlo
             return new MCTResult<AlgoArrayResponse>(responses);
         }
 
-        
+
 
         private Logger ThisLogger
         {
