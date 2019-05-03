@@ -82,7 +82,7 @@ namespace NIST.CVP.Generation.KDF_Components.v1_0.PBKDF
             var minMax = domain.GetDomainMinMax();
 
             var valuesSelected = new List<int> {minMax.Minimum, minMax.Maximum};
-
+            
             var valuesPulled = domain.GetValues(v => v != minMax.Minimum && v != minMax.Maximum, NumberOfTestCasesToGenerate - 2, true);
             valuesSelected.AddRange(valuesPulled);
 

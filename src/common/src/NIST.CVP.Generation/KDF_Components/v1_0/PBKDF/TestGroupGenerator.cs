@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Math.Domain;
 
 namespace NIST.CVP.Generation.KDF_Components.v1_0.PBKDF
 {
@@ -9,6 +10,11 @@ namespace NIST.CVP.Generation.KDF_Components.v1_0.PBKDF
     {
         public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
         {
+            parameters.IterationCount.SetRangeOptions(RangeDomainSegmentOptions.Random);
+            parameters.KeyLength.SetRangeOptions(RangeDomainSegmentOptions.Random);
+            parameters.PasswordLength.SetRangeOptions(RangeDomainSegmentOptions.Random);
+            parameters.SaltLength.SetRangeOptions(RangeDomainSegmentOptions.Random);
+            
             return parameters.HashAlg.Select(hashAlg => new TestGroup
                 {
                     IterationCount = parameters.IterationCount,
