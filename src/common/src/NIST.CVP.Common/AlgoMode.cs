@@ -110,6 +110,8 @@ namespace NIST.CVP.Common
         KDFComponents_IKEv1_v1_0,
         [EnumMember(Value = "KDF-Components-IKEv2-1.0")]
         KDFComponents_IKEv2_v1_0,
+        [EnumMember(Value = "KDF-Components-PBKDF-1.0")]
+        KDFComponents_PBKDF_v1_0,
         [EnumMember(Value = "KDF-Components-SNMP-1.0")]
         KDFComponents_SNMP_v1_0,
         [EnumMember(Value = "KDF-Components-SRTP-1.0")]

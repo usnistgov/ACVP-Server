@@ -1,7 +1,7 @@
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math.Domain;
 
-namespace NIST.CVP.Generation.PBKDF.v1_0
+namespace NIST.CVP.Generation.KDF_Components.v1_0.PBKDF
 {
     public class Parameters : IParameters
     {
@@ -16,5 +16,6 @@ namespace NIST.CVP.Generation.PBKDF.v1_0
         public MathDomain PasswordLength { get; set; }
         public MathDomain SaltLength { get; set; }
         public MathDomain KeyLength { get; set; }
+        public string[] HashAlg { get; set; }
     }
 }
