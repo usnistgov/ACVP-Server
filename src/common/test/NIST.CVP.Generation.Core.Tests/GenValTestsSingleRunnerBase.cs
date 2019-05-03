@@ -104,7 +104,12 @@ namespace NIST.CVP.Generation.Core.Tests
             var targetFolder = GetTestFolder("Lots");
             var fileName = GetTestFileLotsOfTestCases(targetFolder);
 
+            LoggingHelper.ConfigureLogging(fileName, "generator");
+            GenLogger.Info($"{Algorithm}-{Mode} Test Vectors");
             RunGeneration(targetFolder, fileName, false);
+            
+            LoggingHelper.ConfigureLogging(fileName, "validator");
+            ValLogger.Info($"{Algorithm}-{Mode} Test Vectors");
             RunValidation(targetFolder);
 
             // Get object for the validation.json

@@ -100,6 +100,8 @@ using System.Linq;
 using Microsoft.Extensions.Configuration;
 using NIST.CVP.Crypto.ANSIX942;
 using NIST.CVP.Crypto.Common.KDF.Components.AnsiX942;
+using NIST.CVP.Crypto.Common.KDF.Components.PBKDF;
+using NIST.CVP.Crypto.PBKDF;
 using NLog;
 
 namespace NIST.CVP.Orleans.Grains
@@ -190,6 +192,7 @@ namespace NIST.CVP.Orleans.Grains
             svc.AddSingleton<IAnsiX963Factory, AnsiX963Factory>();
             svc.AddSingleton<IIkeV1Factory, IkeV1Factory>();
             svc.AddSingleton<IIkeV2Factory, IkeV2Factory>();
+            svc.AddSingleton<IPbKdfFactory, PbKdfFactory>();
             svc.AddSingleton<ISnmpFactory, SnmpFactory>();
             svc.AddSingleton<ISrtpFactory, SrtpFactory>();
             svc.AddSingleton<ISshFactory, SshFactory>();
