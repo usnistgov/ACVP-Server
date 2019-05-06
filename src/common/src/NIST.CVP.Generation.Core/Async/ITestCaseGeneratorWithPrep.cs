@@ -6,6 +6,6 @@ namespace NIST.CVP.Generation.Core.Async
         where TTestGroup : ITestGroup<TTestGroup, TTestCase>
         where TTestCase : ITestCase<TTestGroup, TTestCase>
     {
-        TestCaseGenerateResponse<TTestGroup, TTestCase> PrepareGenerator(TTestGroup group, bool isSample);
+        GenerateResponse PrepareGenerator(TTestGroup group, bool isSample);
     }
 }
