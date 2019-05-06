@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
@@ -8,7 +7,6 @@ using NIST.CVP.Crypto.Common.Hash.SHA2;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Async;
 using NIST.CVP.Math.Domain;
-using NIST.CVP.Math.Helpers;
 using NLog;
 
 namespace NIST.CVP.Generation.SHA2.v1_0
@@ -17,7 +15,7 @@ namespace NIST.CVP.Generation.SHA2.v1_0
     {
         private readonly IOracle _oracle;
         private List<int> _caseSizes = new List<int>();
-        public int NumberOfTestCasesToGenerate { get; private set; } = 1;
+        public int NumberOfTestCasesToGenerate => _caseSizes.Count;
 
         public TestCaseGeneratorAFTHash(IOracle oracle)
         {
@@ -28,7 +26,6 @@ namespace NIST.CVP.Generation.SHA2.v1_0
         {
             var blockSize = SHAEnumHelpers.DetermineBlockSize(group.DigestSize);
             _caseSizes = DetermineMessageLength(group.MessageLength, blockSize);
-            NumberOfTestCasesToGenerate = _caseSizes.Count;
 
             return new GenerateResponse();
         }

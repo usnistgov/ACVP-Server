@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
@@ -9,26 +10,34 @@ using NLog;
 
 namespace NIST.CVP.Generation.SHA3.v1_0
 {
-    public class TestCaseGeneratorAft : ITestCaseGeneratorAsync<TestGroup, TestCase>
+    public class TestCaseGeneratorAft : ITestCaseGeneratorWithPrep<TestGroup, TestCase>
     {
-        private int _currentSmallCase = 0;
-        private int _currentLargeCase = 1;
-
         private readonly IOracle _oracle;
-
-        public int NumberOfTestCasesToGenerate { get; private set; } = 1;
+        private List<int> _caseSizes = new List<int>();
+        public int NumberOfTestCasesToGenerate => _caseSizes.Count;
 
         public TestCaseGeneratorAft(IOracle oracle)
         {
             _oracle = oracle;
         }
 
+        public GenerateResponse PrepareGenerator(TestGroup group, bool isSample)
+        {
+            if (group.IncludeNull)
+            {
+                _caseSizes.Add(0);
+            }
+            
+            _caseSizes = DetermineMessageLength(group.BitOrientedInput, group.DigestSize);
+            return new GenerateResponse();
+        }
+        
         public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample, int caseNo = 0)
         {
             var param = new Sha3Parameters
             {
                 HashFunction = new HashFunction(group.DigestSize, group.DigestSize * 2, group.Function.ToLower().Equals("shake", StringComparison.OrdinalIgnoreCase)),
-                MessageLength = DetermineMessageLength(group.BitOrientedInput, group.IncludeNull, group.DigestSize)
+                MessageLength = _caseSizes[caseNo]
             };
 
             try
@@ -48,39 +57,25 @@ namespace NIST.CVP.Generation.SHA3.v1_0
             }
         }
 
-        private int DetermineMessageLength(bool bitOriented, bool includeNull, int digestSize)
+        private List<int> DetermineMessageLength(bool bitOriented, int digestSize)
         {
+            var list = new List<int>();
             var unitSize = bitOriented ? 1 : 8;
             var rate = 1600 - digestSize * 2;
 
-            var numSmallCases = rate / unitSize;
-            var numLargeCases = 100;
-
-            if (!includeNull)
+            for (var i = 0; i < rate / unitSize; i++)
             {
-                if (_currentSmallCase == 0)
-                {
-                    _currentSmallCase = 1;
-                }
-            }
-            else
-            {
-                numSmallCases = rate / unitSize + 1;
+                list.Add(unitSize * i);
             }
 
-            NumberOfTestCasesToGenerate = numSmallCases + numLargeCases;
-
-            var messageLength = 0;
-            if (_currentSmallCase <= numSmallCases)
+            var largeMessageSize = rate;
+            do
             {
-                messageLength = unitSize * _currentSmallCase++;
-            }
-            else
-            {
-                messageLength = rate + _currentLargeCase++ * (rate + unitSize);
-            }
+                largeMessageSize += (rate + unitSize);
+                list.Add(largeMessageSize);
+            } while (largeMessageSize <= 65536);
 
-            return messageLength;
+            return list;
         }
 
         private static ILogger ThisLogger => LogManager.GetCurrentClassLogger();
