@@ -19,7 +19,7 @@ namespace NIST.CVP.Generation.AES_CCM.v1_0
             _oracle = oracle;
         }
 
-        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample)
+        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample, int caseNo = 0)
         {
             // In instances like 2^16 aadLength, we only want to do a single test case.
             if (group.AADLength > 32 * 8)

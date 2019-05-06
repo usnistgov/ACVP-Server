@@ -9,7 +9,7 @@ namespace NIST.CVP.Generation.AES_CFB128.v1_0
 
         public int NumberOfTestCasesToGenerate => 1;
 
-        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup @group, bool isSample)
+        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample, int caseNo = 0)
         {
             return await Task.FromResult(new TestCaseGenerateResponse<TestGroup, TestCase>(
                 "This is the null generator -- nothing is generated"

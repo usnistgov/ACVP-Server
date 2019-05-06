@@ -36,7 +36,7 @@ namespace NIST.CVP.Generation.SHA2.v1_0
             _oracle = oracle;
         }
 
-        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample)
+        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample, int caseNo = 0)
         {
             var minMax = group.MessageLength.GetDomainMinMax();
             _specialCases[0] = minMax.Minimum;

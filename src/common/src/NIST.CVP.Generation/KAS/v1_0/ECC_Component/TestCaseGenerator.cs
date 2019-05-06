@@ -19,7 +19,7 @@ namespace NIST.CVP.Generation.KAS.v1_0.ECC_Component
 
         public int NumberOfTestCasesToGenerate => 25;
 
-        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample)
+        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample, int caseNo = 0)
         {
             try
             {

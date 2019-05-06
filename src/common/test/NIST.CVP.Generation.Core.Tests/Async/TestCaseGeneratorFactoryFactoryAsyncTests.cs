@@ -24,7 +24,7 @@ namespace NIST.CVP.Generation.Core.Tests.Async
                 .SetupGet(s => s.NumberOfTestCasesToGenerate)
                 .Returns(1);
             _testCaseGenerator
-                .Setup(s => s.GenerateAsync(It.IsAny<FakeTestGroup>(), It.IsAny<bool>()))
+                .Setup(s => s.GenerateAsync(It.IsAny<FakeTestGroup>(), It.IsAny<bool>(), It.IsAny<int>()))
                 .Returns(Task.FromResult(new TestCaseGenerateResponse<FakeTestGroup, FakeTestCase>(new FakeTestCase())));
 
             _testCaseGeneratorFactory = new Mock<ITestCaseGeneratorFactoryAsync<FakeTestGroup, FakeTestCase>>();
@@ -49,7 +49,7 @@ namespace NIST.CVP.Generation.Core.Tests.Async
         public void ShouldReturnErrorMessageWithinGenerateResponseWhenFails()
         {
             _testCaseGenerator
-                .Setup(s => s.GenerateAsync(It.IsAny<FakeTestGroup>(), It.IsAny<bool>()))
+                .Setup(s => s.GenerateAsync(It.IsAny<FakeTestGroup>(), It.IsAny<bool>(), It.IsAny<int>()))
                 .Returns(Task.FromResult(new TestCaseGenerateResponse<FakeTestGroup, FakeTestCase>("fail")));
 
             var result = _subject.BuildTestCases(_testVectorSet);
@@ -116,7 +116,8 @@ namespace NIST.CVP.Generation.Core.Tests.Async
                 .Verify(
                     v => v.GenerateAsync(
                         It.IsAny<FakeTestGroup>(), 
-                        It.IsAny<bool>()
+                        It.IsAny<bool>(),
+                        It.IsAny<int>()
                     ), 
                     Times.Exactly(numberOfTestCasesToGenerate),
                     nameof(_testCaseGenerator.Object.GenerateAsync)

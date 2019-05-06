@@ -28,7 +28,7 @@ namespace NIST.CVP.Generation.KDF_Components.v1_0.PBKDF
             _oracle = oracle;
         }
         
-        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample)
+        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample, int caseNo = 0)
         {
             // Set up lists of values
             if (_currentTestCase == 0)

@@ -38,7 +38,7 @@ namespace NIST.CVP.Generation.CSHAKE.v1_0
             _oracle = oracle;
         }
 
-        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample)
+        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample, int caseNo = 0)
         {
             // Only do this logic once
             if (_capacity == 0)

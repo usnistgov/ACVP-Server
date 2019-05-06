@@ -8,7 +8,7 @@ namespace NIST.CVP.Generation.TDES_OFBI.v1_0
     {
         public int NumberOfTestCasesToGenerate { get; set; }
 
-        public Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample)
+        public Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample, int caseNo = 0)
         {
             return Task.FromResult(new TestCaseGenerateResponse<TestGroup, TestCase>("This is the null generator -- nothing is generated"));
         }
