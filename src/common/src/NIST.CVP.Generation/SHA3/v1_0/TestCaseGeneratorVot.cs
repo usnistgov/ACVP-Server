@@ -12,38 +12,33 @@ using NLog;
 
 namespace NIST.CVP.Generation.SHA3.v1_0
 {
-    public class TestCaseGeneratorVot : ITestCaseGeneratorAsync<TestGroup, TestCase>
+    public class TestCaseGeneratorVot : ITestCaseGeneratorWithPrep<TestGroup, TestCase>
     {
         private int _capacity = 0;
         private int _currentCase = 0;
-        private int _digestSize = 0;
         private readonly IOracle _oracle;
 
         public int NumberOfTestCasesToGenerate => TestCaseSizes.Count;
-        public List<int> TestCaseSizes { get; } = new List<int>();                 // Primarily for testing purposes
+        public List<int> TestCaseSizes { get; } = new List<int>();                 // Public for testing purposes
 
         public TestCaseGeneratorVot(IOracle oracle)
         {
             _oracle = oracle;
-            TestCaseSizes.Add(-1);
+        }
+        
+        public GenerateResponse PrepareGenerator(TestGroup @group, bool isSample)
+        {
+            DetermineLengths(group.OutputLength);
+            _capacity = 2 * group.DigestSize;
+            
+            return new GenerateResponse();
         }
 
         public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample, int caseNo = 0)
         {
-            // Only do this logic once
-            if (_capacity == 0)
-            {
-                TestCaseSizes.Clear();
-                DetermineLengths(group.OutputLength);
-                _capacity = 2 * group.DigestSize;
-            }
-
-            _digestSize = TestCaseSizes[_currentCase];
-            _currentCase++;
-
             var param = new Sha3Parameters
             {
-                HashFunction = new HashFunction(_digestSize, _capacity, true),
+                HashFunction = new HashFunction(TestCaseSizes[caseNo], _capacity, true),
                 MessageLength = _capacity / 2
             };
 
@@ -69,20 +64,16 @@ namespace NIST.CVP.Generation.SHA3.v1_0
             domain.SetRangeOptions(RangeDomainSegmentOptions.Random);
             var minMax = domain.GetDomainMinMax();
 
-            var values = domain.GetValues(1000).OrderBy(o => Guid.NewGuid()).Take(1000);
+            var values = domain.GetValues(1000).OrderBy(o => Guid.NewGuid()).Take(1000).ToList();
             int repetitions;
-
-            if (!values.Any())
-            {
-                repetitions = 999;
-            }
-            else if(values.Count() > 999)
+            
+            if(values.Count > 999)
             {
                 repetitions = 1;
             }
             else
             {
-                repetitions = 1000 / values.Count() + (1000 % values.Count() > 0 ? 1 : 0);
+                repetitions = 1000 / values.Count + (1000 % values.Count > 0 ? 1 : 0);
             }
 
             foreach(var value in values)
