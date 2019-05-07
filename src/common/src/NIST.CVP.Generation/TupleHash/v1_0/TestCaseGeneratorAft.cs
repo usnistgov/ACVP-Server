@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Crypto.Common.Hash.TupleHash;
@@ -13,7 +14,7 @@ using NLog;
 
 namespace NIST.CVP.Generation.TupleHash.v1_0
 {
-    public class TestCaseGeneratorAft : ITestCaseGeneratorAsync<TestGroup, TestCase>
+    public class TestCaseGeneratorAft : ITestCaseGeneratorWithPrep<TestGroup, TestCase>
     {
         private int _testCasesToGenerate = 512;
         private int _numberOfSmallCases = 0;
@@ -30,41 +31,105 @@ namespace NIST.CVP.Generation.TupleHash.v1_0
         private int _currentMessageLengthCounter = 0;
 
         private readonly IOracle _oracle;
-
-        public int NumberOfTestCasesToGenerate => _testCasesToGenerate;
-        public List<int> OutputLengths { get; } = new List<int>() { 0 };                 // Primarily for testing purposes
+        private readonly IRandom800_90 _rand;
+        private List<(int[] messageLengths, int outputLengths, int customizationLengths)> _lengths = new List<(int[], int, int)>();
+        
+        public int NumberOfTestCasesToGenerate => 1000;
+        public List<int> OutputLengths { get; } = new List<int>();                 // Primarily for testing purposes
         public List<int> MessageLengths { get; } = new List<int>();                        // Primarily for testing purposes
 
-        public TestCaseGeneratorAft(IOracle oracle)
+        public TestCaseGeneratorAft(IOracle oracle, IRandom800_90 rand)
         {
             _oracle = oracle;
+            _rand = rand;
+        }
+        
+        public GenerateResponse PrepareGenerator(TestGroup group, bool isSample)
+        {
+            _capacity = 2 * group.DigestSize;
+            var inputAllowed = group.MessageLength.GetDeepCopy();
+            var minMax = inputAllowed.GetDomainMinMax();
+
+            var messageLengths = new List<int[]>
+            {
+                new [] { minMax.Minimum, minMax.Maximum },
+                new [] { minMax.Maximum, minMax.Minimum, minMax.Minimum }
+            };
+
+            inputAllowed.SetRangeOptions(RangeDomainSegmentOptions.Random);
+
+            // Pick 1-10 tuples of random lengths mixing large and small
+            // Large vs small doesn't matter for TupleHash as the messages are appended together for hashing,
+            // but this helps us make sure we don't explode with super-sized messages
+            do
+            {
+                var tupleCount = _rand.GetRandomInt(1, 11);    // [1, 10]
+                var smallTuples = _rand.GetRandomInt(1, tupleCount+1);    // [1, tupleCount]
+                var largeTuples = tupleCount - smallTuples;
+                var tuple = new List<int>();
+                
+                // Small message lengths (add all less than or equal to capacity)
+                tuple.AddRange(inputAllowed.GetValues(x => x <= _capacity, smallTuples, false));
+
+                // Large message lengths (add a random selection greater than capacity)
+                tuple.AddRange(inputAllowed.GetValues(x => x > _capacity, largeTuples, false));
+
+                messageLengths.Add(tuple.Shuffle().ToArray());
+
+            } while (messageLengths.Count < NumberOfTestCasesToGenerate);
+            
+            // For every input length, just pick a random output length (min/max always included)
+            var outputAllowed = group.OutputLength.GetDeepCopy();
+            var outputMinMax = outputAllowed.GetDomainMinMax();
+            var outputLengths = new List<int>
+            {
+                outputMinMax.Minimum,
+                outputMinMax.Maximum
+            };
+
+            // Keep pulling output lengths until we have enough
+            do
+            {
+                outputLengths.AddRange(outputAllowed.GetValues(x => true, 1, false));
+
+            } while (outputLengths.Count < messageLengths.Count);
+            
+            // Shuffle inputs and outputs
+            messageLengths = messageLengths.Shuffle();
+            outputLengths = outputLengths.Shuffle();
+            
+            // Pair up input and output
+            if (messageLengths.Count != outputLengths.Count)
+            {
+                return new GenerateResponse("Unable to pair up input and output lengths");
+            }
+            
+            for (var i = 0; i < messageLengths.Count; i++)
+            {
+                // Customization length will be bits if for hex, or bytes if for ascii
+                _lengths.Add((messageLengths[i], outputLengths[i], _rand.GetRandomInt(0, 129)));
+            }
+            
+            return new GenerateResponse();
         }
 
         public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample, int caseNo = 0)
         {
-            // Only do this logic once
-            if (_capacity == 0)
-            {
-                OutputLengths.Clear();
-                MessageLengths.Clear();
-                var smallMessageLengths = DetermineSmallMessageDomain(group.MessageLength, group);
-                var largeMessageLengths = DetermineLargeMessageDomain(group.MessageLength, group);
-                DetermineLengths(group.OutputLength, smallMessageLengths, largeMessageLengths);
-                _capacity = 2 * group.DigestSize;
-            }
-
-            _digestLength = OutputLengths[_currentTestCase++ % OutputLengths.Count];
-
-            var includeNull = group.MessageLength.GetDomainMinMax().Minimum == 0;
-            var bitOriented = group.MessageLength.DomainSegments.ElementAt(0).RangeMinMax.Increment == 1;
-            var param = DetermineParameters(bitOriented, includeNull, group.DigestSize, group.HexCustomization, group.XOF);
-
+            _digestLength = OutputLengths[caseNo];
+            
             try
             {
                 // local variable before await
                 var digestLength = _digestLength;
 
-                var oracleResult = await _oracle.GetTupleHashCaseAsync(param);
+                var oracleResult = await _oracle.GetTupleHashCaseAsync(new TupleHashParameters
+                {
+                    MessageLength = _lengths[caseNo].messageLengths,
+                    CustomizationLength = _lengths[caseNo].customizationLengths,
+                    HashFunction = new HashFunction(_lengths[caseNo].outputLengths, _capacity, group.XOF),
+                    HexCustomization = group.HexCustomization,
+                    FunctionName = group.Function
+                });
 
                 return new TestCaseGenerateResponse<TestGroup, TestCase>(new TestCase
                 {
@@ -81,177 +146,6 @@ namespace NIST.CVP.Generation.TupleHash.v1_0
                 ThisLogger.Error(ex);
                 return new TestCaseGenerateResponse<TestGroup, TestCase>($"Failed to generate. {ex.Message}");
             }
-        }
-
-        private MathDomain DetermineSmallMessageDomain(MathDomain msgLengths, TestGroup group)
-        {
-            if (msgLengths.DomainSegments.ElementAt(0).RangeMinMax.Maximum - msgLengths.DomainSegments.ElementAt(0).RangeMinMax.Minimum < (group.DigestSize == 128 ? 1344 : 1088))
-            {
-                return msgLengths.GetDeepCopy();
-            }
-            return new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), msgLengths.DomainSegments.ElementAt(0).RangeMinMax.Minimum, msgLengths.DomainSegments.ElementAt(0).RangeMinMax.Minimum + (group.DigestSize == 128 ? 1344 : 1088), msgLengths.DomainSegments.ElementAt(0).RangeMinMax.Increment));
-        }
-
-        private MathDomain DetermineLargeMessageDomain(MathDomain msgLengths, TestGroup group)
-        {
-            if (msgLengths.DomainSegments.ElementAt(0).RangeMinMax.Maximum < (group.DigestSize == 128 ? 1344 : 1088))
-            {
-                return msgLengths.GetDeepCopy();
-            }
-            return new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), group.DigestSize == 128 ? 1344 : 1088, msgLengths.DomainSegments.ElementAt(0).RangeMinMax.Maximum, msgLengths.DomainSegments.ElementAt(0).RangeMinMax.Increment));
-        }
-
-        private void DetermineLengths(MathDomain outputDomain, MathDomain smallMessageDomain, MathDomain largeMessageDomain)
-        {
-            outputDomain.SetRangeOptions(RangeDomainSegmentOptions.Random);
-            var minMax = outputDomain.GetDomainMinMax();
-            smallMessageDomain.SetRangeOptions(RangeDomainSegmentOptions.Random);
-            var smallMinMax = smallMessageDomain.GetDomainMinMax();
-            largeMessageDomain.SetRangeOptions(RangeDomainSegmentOptions.Random);
-            var largeMinMax = largeMessageDomain.GetDomainMinMax();
-
-            var values = outputDomain.GetValues(150).OrderBy(o => Guid.NewGuid()).Take(150);
-            int repetitions;
-            var smallValues = smallMessageDomain.GetValues(125).OrderBy(o => Guid.NewGuid()).Take(125);
-            var largeValues = largeMessageDomain.GetValues(25).OrderBy(o => Guid.NewGuid()).Take(25);
-
-            if (!values.Any())
-            {
-                repetitions = 149;
-            }
-            else if (values.Count() > 149)
-            {
-                repetitions = 1;
-            }
-            else
-            {
-                repetitions = 150 / values.Count() + (150 % values.Count() > 0 ? 1 : 0);
-            }
-
-            foreach (var value in values)
-            {
-                for (var i = 0; i < repetitions; i++)
-                {
-                    OutputLengths.Add(value);
-                }
-            }
-
-            foreach (var value in smallValues)
-            {
-                MessageLengths.Add(value);
-                _numberOfSmallCases++;
-            }
-
-            foreach (var value in largeValues)
-            {
-                MessageLengths.Add(value);
-                _numberOfLargeCases++;
-            }
-
-            while (_numberOfLargeCases < 25)
-            {
-                MessageLengths.Add(largeMessageDomain.GetDomainMinMax().Maximum);
-                _numberOfLargeCases++;
-            }
-
-            // Make sure min and max appear in the list
-            OutputLengths.Add(minMax.Minimum);
-            OutputLengths.Add(minMax.Maximum);
-            MessageLengths.Add(smallMinMax.Minimum);
-            MessageLengths.Add(smallMinMax.Maximum);
-            MessageLengths.Add(largeMinMax.Minimum);
-            MessageLengths.Add(largeMinMax.Maximum);
-
-            OutputLengths.Sort();
-            MessageLengths.Sort();
-        }
-
-        private TupleHashParameters DetermineParameters(bool bitOriented, bool includeNull, int digestSize, bool hexCustomization, bool xof)
-        {
-            var numSmallCases = _numberOfSmallCases;
-            var numLargeCases = _numberOfLargeCases;
-            var numEmptyCases = includeNull ? 10 : 0;
-            var numSemiEmptyCases = includeNull ? 30 : 0;
-            var numLongTupleCases = 25;
-
-            _testCasesToGenerate = numSmallCases + numLargeCases + numEmptyCases + numSemiEmptyCases;
-
-            var customizationLen = 0;
-            var tupleSize = 0;
-            var messageLen = 0;
-            var semiEmpty = false;
-            var longRandom = false;
-            if (_currentEmptyCase <= numEmptyCases)
-            {
-                tupleSize = _currentEmptyCase - 1;
-                messageLen = 0;
-                customizationLen = 0;
-                _currentEmptyCase++;
-            }
-            else if (_currentSemiEmptyCase <= numSemiEmptyCases)
-            {
-                tupleSize = ((_currentSemiEmptyCase - 1) + 6) / 3;
-                semiEmpty = true;
-                customizationLen = 0;
-                _currentSemiEmptyCase++;
-            }
-            else if (_currentSmallCase <= numSmallCases)
-            {
-                tupleSize = (_currentSmallCase % 3) + 1;
-                messageLen = MessageLengths[_currentMessageLengthCounter++ % MessageLengths.Count];
-                if (hexCustomization)
-                {
-                    customizationLen = _customizationLength * 8;  // always byte oriented... for now?
-                }
-                else
-                {
-                    customizationLen = _customizationLength;
-                }
-                _customizationLength = (_customizationLength + 1) % 100;
-                _currentSmallCase++;
-            }
-            else if (_currentLongTupleCase <= numLongTupleCases)
-            {
-                if (_currentLongTupleCase <= 20)
-                {
-                    tupleSize = _currentLongTupleCase;
-                }
-                else
-                {
-                    tupleSize = _currentLongTupleCase * 5;
-                }
-                longRandom = true;
-                _currentLongTupleCase++;
-            }
-            else
-            {
-                if (_customizationLength * _currentLargeCase < 2000)
-                {
-                    if (hexCustomization)
-                    {
-                        customizationLen = _customizationLength++ * _currentLargeCase * 8;  // always byte oriented... for now?
-                    }
-                    else
-                    {
-                        customizationLen = _customizationLength++ * _currentLargeCase;
-                    }
-                }
-                messageLen = MessageLengths[_currentMessageLengthCounter++ % MessageLengths.Count];
-                tupleSize = 1;
-                _currentLargeCase++;
-            }
-
-            return new TupleHashParameters
-            {
-                HashFunction = new HashFunction(_digestLength, _capacity, xof),
-                BitOrientedInput = bitOriented,
-                CustomizationLength = customizationLen,
-                HexCustomization = hexCustomization,
-                LongRandomCase = longRandom,
-                SemiEmptyCase = semiEmpty,
-                MessageLength = messageLen,
-                TupleSize = tupleSize
-            };
         }
 
         private static ILogger ThisLogger => LogManager.GetCurrentClassLogger();

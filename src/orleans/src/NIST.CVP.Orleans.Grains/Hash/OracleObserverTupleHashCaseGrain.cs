@@ -1,10 +1,9 @@
 ﻿using NIST.CVP.Common;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
-using NIST.CVP.Crypto.Common.Hash.SHA2;
-using NIST.CVP.Math.Entropy;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using NIST.CVP.Crypto.Common.Hash.TupleHash;
 using NIST.CVP.Math;
@@ -33,47 +32,18 @@ namespace NIST.CVP.Orleans.Grains.Hash
         public async Task<bool> BeginWorkAsync(TupleHashParameters param)
         {
             _param = param;
-
             await BeginGrainWorkAsync();
             return await Task.FromResult(true);
         }
 
         protected override async Task DoWorkAsync()
         {
-            var tuple = new List<BitString>();
+            var tuple = _param.MessageLength.Select(msgLen => _rand.GetRandomBitString(msgLen)).ToList();
 
-            if (_param.SemiEmptyCase)
-            {
-                for (int i = 0; i < _param.TupleSize; i++)
-                {
-                    if (_rand.GetRandomInt(0, 2) == 1)  // either 1 or 0
-                    {
-                        tuple.Add(_rand.GetRandomBitString(GetRandomValidLength(_param.BitOrientedInput)));
-                    }
-                    else
-                    {
-                        tuple.Add(new BitString(""));
-                    }
-                }
-            }
-            else if (_param.LongRandomCase)
-            {
-                for (int i = 0; i < _param.TupleSize; i++)
-                {
-                    tuple.Add(_rand.GetRandomBitString(GetRandomValidLength(_param.BitOrientedInput)));
-                }
-            }
-            else
-            {
-                for (int i = 0; i < _param.TupleSize; i++)
-                {
-                    tuple.Add(_rand.GetRandomBitString(_param.MessageLength));
-                }
-            }
-            
             Crypto.Common.Hash.HashResult result;
             BitString customizationHex = null;
-            string customization = "";
+            var customization = "";
+            
             if (_param.HexCustomization)
             {
                 customizationHex = _rand.GetRandomBitString(_param.CustomizationLength);
@@ -87,7 +57,7 @@ namespace NIST.CVP.Orleans.Grains.Hash
 
             if (!result.Success)
             {
-                throw new Exception();
+                throw new Exception(result.ErrorMessage);
             }
             
             await Notify(new TupleHashResult
@@ -97,19 +67,6 @@ namespace NIST.CVP.Orleans.Grains.Hash
                 Customization = customization,
                 CustomizationHex = customizationHex
             });
-        }
-
-        private int GetRandomValidLength(bool bitOriented)
-        {
-            var length = _rand.GetRandomInt(1, 513);
-            if (!bitOriented)
-            {
-                while (length % 8 != 0)
-                {
-                    length++;
-                }
-            }
-            return length;
         }
     }
 }
