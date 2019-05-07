@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Common.Oracle;
@@ -16,27 +15,13 @@ namespace NIST.CVP.Generation.TupleHash.v1_0
 {
     public class TestCaseGeneratorAft : ITestCaseGeneratorWithPrep<TestGroup, TestCase>
     {
-        private int _testCasesToGenerate = 512;
-        private int _numberOfSmallCases = 0;
-        private int _numberOfLargeCases = 0;
-        private int _currentSmallCase = 0;
-        private int _currentLargeCase = 1;
-        private int _currentEmptyCase = 1;
-        private int _currentSemiEmptyCase = 1;
-        private int _currentLongTupleCase = 1;
-        private int _currentTestCase = 0;
-        private int _customizationLength = 0;
-        private int _digestLength = 0;
-        private int _capacity = 0;
-        private int _currentMessageLengthCounter = 0;
+        private int _capacity;
 
         private readonly IOracle _oracle;
         private readonly IRandom800_90 _rand;
-        private List<(int[] messageLengths, int outputLengths, int customizationLengths)> _lengths = new List<(int[], int, int)>();
+        private readonly List<(int[] messageLengths, int outputLengths, int customizationLengths)> _lengths = new List<(int[], int, int)>();
         
-        public int NumberOfTestCasesToGenerate => 1000;
-        public List<int> OutputLengths { get; } = new List<int>();                 // Primarily for testing purposes
-        public List<int> MessageLengths { get; } = new List<int>();                        // Primarily for testing purposes
+        public int NumberOfTestCasesToGenerate => 512;
 
         public TestCaseGeneratorAft(IOracle oracle, IRandom800_90 rand)
         {
@@ -114,14 +99,9 @@ namespace NIST.CVP.Generation.TupleHash.v1_0
         }
 
         public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample, int caseNo = 0)
-        {
-            _digestLength = OutputLengths[caseNo];
-            
+        { 
             try
             {
-                // local variable before await
-                var digestLength = _digestLength;
-
                 var oracleResult = await _oracle.GetTupleHashCaseAsync(new TupleHashParameters
                 {
                     MessageLength = _lengths[caseNo].messageLengths,
@@ -136,9 +116,7 @@ namespace NIST.CVP.Generation.TupleHash.v1_0
                     Tuple = oracleResult.Tuple,
                     Digest = oracleResult.Digest,
                     Customization = oracleResult.Customization,
-                    CustomizationHex = oracleResult.CustomizationHex,
-                    Deferred = false,
-                    DigestLength = digestLength
+                    CustomizationHex = oracleResult.CustomizationHex
                 });
             }
             catch (Exception ex)
