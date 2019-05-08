@@ -1,5 +1,4 @@
 ﻿using NIST.CVP.Crypto.Common;
-using NIST.CVP.Crypto.Common.Asymmetric;
 using NIST.CVP.Math.Entropy;
 
 namespace NIST.CVP.Crypto
@@ -21,7 +20,7 @@ namespace NIST.CVP.Crypto
 
         public IPreSigVerMessageRandomizer Build()
         {
-            throw new System.NotImplementedException();
+            return new PreSigVerMessageRandomizer(_entropyProvider);
         }
     }
 }

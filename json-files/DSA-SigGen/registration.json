@@ -2,8 +2,11 @@
   "vsId": 0,
   "algorithm": "DSA",
   "mode": "SigGen",
+  "revision": "1.0",
   "isSample": true,
-  "conformances": [],
+  "conformances": [
+    "SP800-106"
+  ],
   "capabilities": [
     {
       "n": 224,
