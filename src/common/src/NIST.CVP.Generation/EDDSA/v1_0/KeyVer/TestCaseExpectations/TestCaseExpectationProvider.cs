@@ -30,10 +30,13 @@ namespace NIST.CVP.Generation.EDDSA.v1_0.KeyVer.TestCaseExpectations
                 throw new IndexOutOfRangeException($"No {nameof(TestCaseExpectationReason)} remaining to pull");
             }
 
-            var reason = _expectationReasons[0];
-            _expectationReasons.RemoveAt(0);
+            lock (_expectationReasons)
+            {
+                var reason = _expectationReasons[0];
+                _expectationReasons.RemoveAt(0);
 
-            return reason;
+                return reason;
+            }
         }
     }
 }
