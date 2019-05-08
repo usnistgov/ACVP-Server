@@ -1,11 +1,11 @@
-﻿using System.Numerics;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using NIST.CVP.Common.Helpers;
 using NIST.CVP.Common.Oracle.DispositionTypes;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.DSA.v1_0.SigVer.TestCaseExpectations;
 using NIST.CVP.Math;
+using System.Numerics;
 
 namespace NIST.CVP.Generation.DSA.v1_0.SigVer
 {
@@ -16,12 +16,12 @@ namespace NIST.CVP.Generation.DSA.v1_0.SigVer
         [JsonIgnore]
         public bool Deferred => false;
         public TestGroup ParentGroup { get; set; }
-        
-        [JsonIgnore] 
+
+        [JsonIgnore]
         public ITestCaseExpectationReason<DsaSignatureDisposition> Reason { get; set; }
 
         [JsonProperty(PropertyName = "reason")]
-        public string ReasonVal 
+        public string ReasonVal
         {
             get => Reason?.GetName();
 
@@ -50,6 +50,12 @@ namespace NIST.CVP.Generation.DSA.v1_0.SigVer
         }
 
         public BitString Message { get; set; }
+
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public BitString RandomValue { get; set; }
+
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public int RandomValueLen { get; set; }
 
         [JsonIgnore] public FfcSignature Signature { get; set; } = new FfcSignature();
         [JsonProperty(PropertyName = "r", DefaultValueHandling = DefaultValueHandling.Ignore)]

@@ -2,11 +2,11 @@
 using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
+using NIST.CVP.Generation.DSA.v1_0.SigGen;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using System.Linq;
 using System.Threading.Tasks;
-using NIST.CVP.Generation.DSA.v1_0.SigGen;
 
 namespace NIST.CVP.Generation.DSA.FFC.SigGen.Tests
 {

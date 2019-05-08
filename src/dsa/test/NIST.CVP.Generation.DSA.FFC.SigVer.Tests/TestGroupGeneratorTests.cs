@@ -2,11 +2,11 @@
 using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
+using NIST.CVP.Generation.DSA.v1_0.SigVer;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using System.Linq;
 using System.Threading.Tasks;
-using NIST.CVP.Generation.DSA.v1_0.SigVer;
 
 namespace NIST.CVP.Generation.DSA.FFC.SigVer.Tests
 {
@@ -60,7 +60,7 @@ namespace NIST.CVP.Generation.DSA.FFC.SigVer.Tests
                 .Setup(s => s.GetDsaDomainParametersAsync(It.IsAny<DsaDomainParametersParameters>()))
                 .Returns(Task.FromResult(new DsaDomainParametersResult()));
 
-            var subject = new TestGroupGenerator(oracleMock.Object);
+            var subject = new TestGroupGenerator(oracleMock.Object, false);
             var result = subject.BuildTestGroups(parameters);
             Assert.AreEqual(expectedGroups, result.Count());
         }
