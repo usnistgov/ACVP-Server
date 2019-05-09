@@ -140,8 +140,8 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen.Tests.ContractResolvers
             Assert.AreNotEqual(tc.R, newTc.R, nameof(newTc.R));
             Assert.AreNotEqual(tc.S, newTc.S, nameof(newTc.S));
 
-            Assert.IsNotNull(newTc.RandomValue, nameof(newTc.RandomValue));
-            Assert.IsTrue(newTc.RandomValueLen != 0, nameof(newTc.RandomValueLen));
+            Assert.IsNull(newTc.RandomValue, nameof(newTc.RandomValue));
+            Assert.IsTrue(newTc.RandomValueLen == 0, nameof(newTc.RandomValueLen));
 
             // TestPassed will have the default value when re-hydrated, check to make sure it isn't in the JSON
             Regex regex = new Regex(nameof(TestCase.TestPassed), RegexOptions.IgnoreCase);

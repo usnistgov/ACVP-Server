@@ -64,30 +64,6 @@ namespace NIST.CVP.Generation.ECDSA.v1_0.SigGen.ContractResolvers
                     instance => true;
             }
 
-            #region Conditional Test Case properties
-            if (jsonProperty.UnderlyingName == nameof(TestCase.RandomValue))
-            {
-                return jsonProperty.ShouldSerialize =
-                    instance =>
-                    {
-                        GetTestCaseFromTestCaseObject(instance, out var testGroup, out var testCase);
-
-                        return testGroup.IsMessageRandomized;
-                    };
-            }
-
-            if (jsonProperty.UnderlyingName == nameof(TestCase.RandomValueLen))
-            {
-                return jsonProperty.ShouldSerialize =
-                    instance =>
-                    {
-                        GetTestCaseFromTestCaseObject(instance, out var testGroup, out var testCase);
-
-                        return testGroup.IsMessageRandomized;
-                    };
-            }
-            #endregion Conditional Test Case properties
-
             return jsonProperty.ShouldSerialize = instance => false;
         }
     }
