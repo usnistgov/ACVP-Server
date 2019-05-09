@@ -1,14 +1,14 @@
-﻿using System;
+﻿using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
+using NIST.CVP.Generation.Core;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
-using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.RSA.v1_0.SigVer.TestCaseExpectations
 {
     public class TestCaseExpectationProvider : ITestCaseExpectationProvider<SignatureModifications>
     {
-        private List<TestCaseExpectationReason> _expectationReasons;
+        private readonly List<TestCaseExpectationReason> _expectationReasons;
 
         public TestCaseExpectationProvider(bool isSample = false)
         {
@@ -30,10 +30,13 @@ namespace NIST.CVP.Generation.RSA.v1_0.SigVer.TestCaseExpectations
                 throw new IndexOutOfRangeException($"no {nameof(TestCaseExpectationReason)} remaining to pull");
             }
 
-            var reason = _expectationReasons[0];
-            _expectationReasons.RemoveAt(0);
+            lock (_expectationReasons)
+            {
+                var reason = _expectationReasons[0];
+                _expectationReasons.RemoveAt(0);
 
-            return reason;
+                return reason;
+            }
         }
     }
 }

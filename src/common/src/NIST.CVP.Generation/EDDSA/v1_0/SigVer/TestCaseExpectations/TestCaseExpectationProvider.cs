@@ -8,7 +8,7 @@ namespace NIST.CVP.Generation.EDDSA.v1_0.SigVer.TestCaseExpectations
 {
     public class TestCaseExpectationProvider : ITestCaseExpectationProvider<EddsaSignatureDisposition>
     {
-        private List<TestCaseExpectationReason> _expectationReasons;
+        private readonly List<TestCaseExpectationReason> _expectationReasons;
 
         public TestCaseExpectationProvider(bool isSample = false)
         {
@@ -41,10 +41,13 @@ namespace NIST.CVP.Generation.EDDSA.v1_0.SigVer.TestCaseExpectations
                 throw new IndexOutOfRangeException($"No {nameof(TestCaseExpectationReason)} remaining to pull");
             }
 
-            var reason = _expectationReasons[0];
-            _expectationReasons.RemoveAt(0);
+            lock (_expectationReasons)
+            {
+                var reason = _expectationReasons[0];
+                _expectationReasons.RemoveAt(0);
 
-            return reason;
+                return reason;
+            }
         }
     }
 }

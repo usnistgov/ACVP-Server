@@ -2,11 +2,11 @@
 using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
+using NIST.CVP.Generation.RSA.v1_0.SigVer;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using System.Linq;
 using System.Threading.Tasks;
-using NIST.CVP.Generation.RSA.v1_0.SigVer;
 
 namespace NIST.CVP.Generation.RSA_SigVer.Tests
 {
@@ -62,7 +62,7 @@ namespace NIST.CVP.Generation.RSA_SigVer.Tests
                 .Setup(s => s.GetRsaKeyAsync(It.IsAny<RsaKeyParameters>()))
                 .Returns(Task.FromResult(new RsaKeyResult()));
 
-            var subject = new TestGroupGenerator(oracleMock.Object);
+            var subject = new TestGroupGenerator(oracleMock.Object, false);
             var result = subject.BuildTestGroups(parameters);
             Assert.AreEqual(expectedGroups * 3, result.Count());
         }

@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
-using NIST.CVP.Common.Oracle;
+﻿using NIST.CVP.Common.Oracle;
 using NIST.CVP.Generation.Core;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace NIST.CVP.Generation.ECDSA.v1_0.SigGen
 {
@@ -17,8 +19,13 @@ namespace NIST.CVP.Generation.ECDSA.v1_0.SigGen
         {
             var list = new HashSet<ITestGroupGenerator<Parameters, TestGroup, TestCase>>
             {
-                new TestGroupGenerator(_oracle)
+                new TestGroupGenerator(_oracle, false)
             };
+
+            if (parameters.Conformances.Contains("SP800-106", StringComparer.OrdinalIgnoreCase))
+            {
+                list.Add(new TestGroupGenerator(_oracle, true));
+            }
 
             return list;
         }

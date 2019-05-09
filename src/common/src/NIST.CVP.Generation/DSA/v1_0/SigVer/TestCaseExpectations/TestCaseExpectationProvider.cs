@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using NIST.CVP.Common.ExtensionMethods;
+﻿using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Common.Oracle.DispositionTypes;
 using NIST.CVP.Generation.Core;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace NIST.CVP.Generation.DSA.v1_0.SigVer.TestCaseExpectations
 {
@@ -41,16 +41,19 @@ namespace NIST.CVP.Generation.DSA.v1_0.SigVer.TestCaseExpectations
             {
                 throw new Exception("ExpectationReasons is null");
             }
-            
+
             if (_expectationReasons.Count == 0)
             {
                 throw new IndexOutOfRangeException($"No {nameof(TestCaseExpectationReason)} remaining to pull");
             }
 
-            var reason = _expectationReasons[0];
-            _expectationReasons.RemoveAt(0);
+            lock (_expectationReasons)
+            {
+                var reason = _expectationReasons[0];
+                _expectationReasons.RemoveAt(0);
 
-            return reason;
+                return reason;
+            }
         }
     }
 }

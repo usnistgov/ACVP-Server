@@ -58,6 +58,7 @@ namespace NIST.CVP.Generation.DSA.FFC.SigVer.IntegrationTests
                 Revision = Revision,
                 IsSample = true,
                 Capabilities = caps,
+                Conformances = new[] { "SP800-106" }
             };
 
             return CreateRegistration(targetFolder, p);
@@ -102,6 +103,7 @@ namespace NIST.CVP.Generation.DSA.FFC.SigVer.IntegrationTests
                 Revision = Revision,
                 IsSample = false,
                 Capabilities = caps,
+                Conformances = new[] { "SP800-106" }
             };
 
             return CreateRegistration(targetFolder, p);

@@ -4,7 +4,9 @@
   "mode": "SigGen",
   "revision": "1.0",
   "isSample": true,
-  "conformances": [],
+  "conformances": [
+    "SP800-106"
+  ],
   "capabilities": [
     {
       "sigType": "ansx9.31",
@@ -13,65 +15,12 @@
           "modulo": 2048,
           "hashPair": [
             {
-              "hashAlg": "sha-1",
-              "saltLen": 8
-            },
-            {
-              "hashAlg": "sha2-224",
-              "saltLen": 9
-            },
-            {
               "hashAlg": "sha2-256",
-              "saltLen": 10
+              "saltLen": 1
             },
             {
               "hashAlg": "sha2-384",
-              "saltLen": 11
-            },
-            {
-              "hashAlg": "sha2-512",
-              "saltLen": 12
-            },
-            {
-              "hashAlg": "sha2-512/224",
-              "saltLen": 13
-            },
-            {
-              "hashAlg": "sha2-512/256",
-              "saltLen": 14
-            }
-          ]
-        },
-        {
-          "modulo": 3072,
-          "hashPair": [
-            {
-              "hashAlg": "sha-1",
-              "saltLen": 8
-            },
-            {
-              "hashAlg": "sha2-224",
-              "saltLen": 9
-            },
-            {
-              "hashAlg": "sha2-256",
-              "saltLen": 10
-            },
-            {
-              "hashAlg": "sha2-384",
-              "saltLen": 11
-            },
-            {
-              "hashAlg": "sha2-512",
-              "saltLen": 12
-            },
-            {
-              "hashAlg": "sha2-512/224",
-              "saltLen": 13
-            },
-            {
-              "hashAlg": "sha2-512/256",
-              "saltLen": 14
+              "saltLen": 2
             }
           ]
         }
@@ -84,65 +33,12 @@
           "modulo": 2048,
           "hashPair": [
             {
-              "hashAlg": "sha-1",
-              "saltLen": 8
-            },
-            {
-              "hashAlg": "sha2-224",
-              "saltLen": 9
-            },
-            {
               "hashAlg": "sha2-256",
-              "saltLen": 10
+              "saltLen": 1
             },
             {
               "hashAlg": "sha2-384",
-              "saltLen": 11
-            },
-            {
-              "hashAlg": "sha2-512",
-              "saltLen": 12
-            },
-            {
-              "hashAlg": "sha2-512/224",
-              "saltLen": 13
-            },
-            {
-              "hashAlg": "sha2-512/256",
-              "saltLen": 14
-            }
-          ]
-        },
-        {
-          "modulo": 3072,
-          "hashPair": [
-            {
-              "hashAlg": "sha-1",
-              "saltLen": 8
-            },
-            {
-              "hashAlg": "sha2-224",
-              "saltLen": 9
-            },
-            {
-              "hashAlg": "sha2-256",
-              "saltLen": 10
-            },
-            {
-              "hashAlg": "sha2-384",
-              "saltLen": 11
-            },
-            {
-              "hashAlg": "sha2-512",
-              "saltLen": 12
-            },
-            {
-              "hashAlg": "sha2-512/224",
-              "saltLen": 13
-            },
-            {
-              "hashAlg": "sha2-512/256",
-              "saltLen": 14
+              "saltLen": 2
             }
           ]
         }
@@ -155,65 +51,12 @@
           "modulo": 2048,
           "hashPair": [
             {
-              "hashAlg": "sha-1",
-              "saltLen": 8
-            },
-            {
-              "hashAlg": "sha2-224",
-              "saltLen": 9
-            },
-            {
               "hashAlg": "sha2-256",
-              "saltLen": 10
+              "saltLen": 1
             },
             {
               "hashAlg": "sha2-384",
-              "saltLen": 11
-            },
-            {
-              "hashAlg": "sha2-512",
-              "saltLen": 12
-            },
-            {
-              "hashAlg": "sha2-512/224",
-              "saltLen": 13
-            },
-            {
-              "hashAlg": "sha2-512/256",
-              "saltLen": 14
-            }
-          ]
-        },
-        {
-          "modulo": 3072,
-          "hashPair": [
-            {
-              "hashAlg": "sha-1",
-              "saltLen": 8
-            },
-            {
-              "hashAlg": "sha2-224",
-              "saltLen": 9
-            },
-            {
-              "hashAlg": "sha2-256",
-              "saltLen": 10
-            },
-            {
-              "hashAlg": "sha2-384",
-              "saltLen": 11
-            },
-            {
-              "hashAlg": "sha2-512",
-              "saltLen": 12
-            },
-            {
-              "hashAlg": "sha2-512/224",
-              "saltLen": 13
-            },
-            {
-              "hashAlg": "sha2-512/256",
-              "saltLen": 14
+              "saltLen": 2
             }
           ]
         }

@@ -1,11 +1,11 @@
-﻿using System;
-using System.Threading.Tasks;
-using NIST.CVP.Common.Oracle;
+﻿using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Async;
 using NLog;
+using System;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Generation.ECDSA.v1_0.SigGen
 {
@@ -27,7 +27,8 @@ namespace NIST.CVP.Generation.ECDSA.v1_0.SigGen
                 Curve = group.Curve,
                 HashAlg = group.HashAlg,
                 PreHashedMessage = group.ComponentTest,
-                Key = group.KeyPair
+                Key = group.KeyPair,
+                IsMessageRandomized = group.IsMessageRandomized
             };
 
             try
@@ -40,6 +41,8 @@ namespace NIST.CVP.Generation.ECDSA.v1_0.SigGen
                     testCase = new TestCase
                     {
                         Message = result.Message,
+                        RandomValue = result.RandomValue,
+                        RandomValueLen = result.RandomValue?.BitLength ?? 0,
                         Signature = result.Signature
                     };
 
@@ -61,7 +64,7 @@ namespace NIST.CVP.Generation.ECDSA.v1_0.SigGen
                 return new TestCaseGenerateResponse<TestGroup, TestCase>($"Error generating case: {ex.Message}");
             }
         }
-        
+
         private static ILogger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }

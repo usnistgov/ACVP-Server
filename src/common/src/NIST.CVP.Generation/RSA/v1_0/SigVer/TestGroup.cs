@@ -1,12 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Numerics;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
+using System.Collections.Generic;
+using System.Numerics;
 
 namespace NIST.CVP.Generation.RSA.v1_0.SigVer
 {
@@ -28,10 +28,12 @@ namespace NIST.CVP.Generation.RSA.v1_0.SigVer
             set => HashAlg = ShaAttributes.GetHashFunctionFromName(value);
         }
 
+        public bool IsMessageRandomized { get; set; } = false;
+
         public int SaltLen { get; set; }
 
         [JsonIgnore]
-        public KeyPair Key { get; set; } = new KeyPair {PubKey = new PublicKey()};
+        public KeyPair Key { get; set; } = new KeyPair { PubKey = new PublicKey() };
 
         public BigInteger N
         {
@@ -65,7 +67,7 @@ namespace NIST.CVP.Generation.RSA.v1_0.SigVer
                     return true;
 
                 case "n":
-                    if (Key == null) { Key = new KeyPair {PubKey = new PublicKey()}; }
+                    if (Key == null) { Key = new KeyPair { PubKey = new PublicKey() }; }
                     Key.PubKey.N = new BitString(value).ToPositiveBigInteger();
                     return true;
 

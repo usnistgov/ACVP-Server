@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA.Signatures;
+﻿using NIST.CVP.Crypto.Common.Asymmetric.RSA.Signatures;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Async;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Generation.RSA.v1_0.SigGen
 {
@@ -15,8 +15,8 @@ namespace NIST.CVP.Generation.RSA.v1_0.SigGen
         public int TestCaseId => _expectedResult.TestCaseId;
 
         public TestCaseValidator(
-            TestCase expectedResult, 
-            TestGroup serverGroup, 
+            TestCase expectedResult,
+            TestGroup serverGroup,
             IDeferredTestCaseResolverAsync<TestGroup, TestCase, VerifyResult> resolver)
         {
             _serverGroup = serverGroup;
@@ -27,37 +27,55 @@ namespace NIST.CVP.Generation.RSA.v1_0.SigGen
         public async Task<TestCaseValidation> ValidateAsync(TestCase suppliedResult, bool showExpected = false)
         {
             var errors = new List<string>();
-            var expected = new Dictionary<string, string>();
-            var provided = new Dictionary<string, string>();
+            Dictionary<string, string> expected = new Dictionary<string, string>(); ;
+            Dictionary<string, string> provided = new Dictionary<string, string>(); ;
 
-            if(_expectedResult.Message == null || suppliedResult.Signature == null)
+            ValidateResultPresent(suppliedResult, errors);
+            if (errors.Count == 0)
             {
-                errors.Add("Could not find message or signature");
-            }
-            else
-            {
-                var result = await _deferredTestCaseResolver.CompleteDeferredCryptoAsync(_serverGroup, _expectedResult, suppliedResult);
-                if (!result.Success)
-                {
-                    errors.Add($"Could not verify signature: {result.ErrorMessage}");
-                    expected.Add(nameof(result.Success), (!result.Success).ToString());
-                    provided.Add(nameof(result.Success), result.Success.ToString());
-                }
+                await CheckResults(suppliedResult, errors, expected, provided);
             }
 
             if (errors.Count > 0)
             {
                 return new TestCaseValidation
                 {
-                    TestCaseId = suppliedResult.TestCaseId, 
-                    Result = Core.Enums.Disposition.Failed, 
+                    TestCaseId = suppliedResult.TestCaseId,
+                    Result = Core.Enums.Disposition.Failed,
                     Reason = string.Join(";", errors),
-                    Expected = expected.Count != 0 && showExpected ? expected : null,
-                    Provided = provided.Count != 0 && showExpected ? provided : null
+                    Expected = showExpected ? expected : null,
+                    Provided = showExpected ? provided : null
                 };
             }
 
             return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = Core.Enums.Disposition.Passed };
+        }
+
+        private void ValidateResultPresent(TestCase suppliedResult, List<string> errors)
+        {
+            if (suppliedResult.Signature == null)
+            {
+                errors.Add("Could not find r or s");
+            }
+
+            if (_serverGroup.IsMessageRandomized && suppliedResult.RandomValue == null)
+            {
+                errors.Add($"{nameof(suppliedResult.RandomValue)} was not supplied.");
+            }
+
+            if (_serverGroup.IsMessageRandomized && suppliedResult.RandomValueLen == 0)
+            {
+                errors.Add($"{nameof(suppliedResult.RandomValueLen)} was not supplied.");
+            }
+        }
+
+        private async Task CheckResults(TestCase suppliedResult, List<string> errors, Dictionary<string, string> expected, Dictionary<string, string> provided)
+        {
+            var verifyResult = await _deferredTestCaseResolver.CompleteDeferredCryptoAsync(_serverGroup, _expectedResult, suppliedResult);
+            if (!verifyResult.Success)
+            {
+                errors.Add($"Validation failed: {verifyResult.ErrorMessage}");
+            }
         }
     }
 }

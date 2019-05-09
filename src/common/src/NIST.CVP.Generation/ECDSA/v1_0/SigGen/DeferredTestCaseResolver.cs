@@ -1,9 +1,9 @@
-﻿using System.Threading.Tasks;
-using NIST.CVP.Common.Oracle;
+﻿using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
 using NIST.CVP.Generation.Core.Async;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Generation.ECDSA.v1_0.SigGen
 {
@@ -29,12 +29,14 @@ namespace NIST.CVP.Generation.ECDSA.v1_0.SigGen
                 Curve = serverTestGroup.Curve,
                 HashAlg = serverTestGroup.HashAlg,
                 PreHashedMessage = serverTestGroup.ComponentTest,
-                Key = iutTestGroup.KeyPair
+                Key = iutTestGroup.KeyPair,
+                IsMessageRandomized = serverTestGroup.IsMessageRandomized
             };
 
             var fullParam = new EcdsaSignatureResult
             {
                 Message = serverTestCase.Message,
+                RandomValue = iutTestCase.RandomValue?.GetMostSignificantBits(iutTestCase.RandomValueLen),
                 Signature = iutTestCase.Signature
             };
 

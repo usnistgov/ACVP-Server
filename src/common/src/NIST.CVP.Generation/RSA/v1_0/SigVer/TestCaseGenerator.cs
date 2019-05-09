@@ -1,11 +1,11 @@
-﻿using System;
-using System.Threading.Tasks;
-using NIST.CVP.Common.Oracle;
+﻿using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Async;
 using NIST.CVP.Generation.RSA.v1_0.SigVer.TestCaseExpectations;
 using NLog;
+using System;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Generation.RSA.v1_0.SigVer
 {
@@ -29,7 +29,8 @@ namespace NIST.CVP.Generation.RSA.v1_0.SigVer
                 PaddingScheme = group.Mode,
                 Reason = group.TestCaseExpectationProvider.GetRandomReason().GetReason(),
                 SaltLength = group.SaltLen,
-                Key = group.Key
+                Key = group.Key,
+                IsMessageRandomized = group.IsMessageRandomized
             };
 
             try
@@ -39,6 +40,8 @@ namespace NIST.CVP.Generation.RSA.v1_0.SigVer
                 var testCase = new TestCase
                 {
                     Message = result.VerifiedValue.Message,
+                    RandomValue = result.VerifiedValue.RandomValue,
+                    RandomValueLen = result.VerifiedValue.RandomValue?.BitLength ?? 0,
                     Reason = new TestCaseExpectationReason(param.Reason),
                     TestPassed = result.Result,
                     Salt = result.VerifiedValue.Salt,

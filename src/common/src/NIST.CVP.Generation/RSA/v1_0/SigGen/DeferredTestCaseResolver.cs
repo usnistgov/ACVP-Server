@@ -1,9 +1,9 @@
-﻿using System.Threading.Tasks;
-using NIST.CVP.Common.Oracle;
+﻿using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Signatures;
 using NIST.CVP.Generation.Core.Async;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Generation.RSA.v1_0.SigGen
 {
@@ -26,12 +26,14 @@ namespace NIST.CVP.Generation.RSA.v1_0.SigGen
                 Key = iutTestGroup.Key,
                 Modulo = serverTestGroup.Modulo,
                 PaddingScheme = serverTestGroup.Mode,
-                SaltLength = serverTestGroup.SaltLen
+                SaltLength = serverTestGroup.SaltLen,
+                IsMessageRandomized = iutTestGroup.IsMessageRandomized
             };
 
             var fullParam = new RsaSignatureResult
             {
                 Message = serverTestCase.Message,
+                RandomValue = iutTestCase.RandomValue?.GetMostSignificantBits(iutTestCase.RandomValueLen),
                 Salt = serverTestCase.Salt,
                 Signature = iutTestCase.Signature
             };

@@ -1,9 +1,5 @@
-﻿using Autofac;
-using NIST.CVP.Common;
-using NIST.CVP.Crypto.Common;
-using NIST.CVP.Generation.Core;
+﻿using NIST.CVP.Common;
 using NIST.CVP.Generation.Core.Tests;
-using NIST.CVP.Generation.Core.Tests.Fakes;
 using NIST.CVP.Generation.DSA.v1_0.SigGen;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
@@ -37,7 +33,7 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen.IntegrationTests
                 testCase.s = rand.GetDifferentBitStringOfSameSize(new BitString((string)testCase.s)).ToHex();
             }
         }
-        
+
         protected override string GetTestFileFewTestCases(string targetFolder)
         {
             var caps = new Capability[2];
@@ -63,6 +59,7 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen.IntegrationTests
                 Revision = Revision,
                 IsSample = true,
                 Capabilities = caps,
+                Conformances = new[] { "SP800-106" }
             };
 
             return CreateRegistration(targetFolder, p);
@@ -100,6 +97,7 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen.IntegrationTests
                 Revision = Revision,
                 IsSample = true,
                 Capabilities = caps,
+                Conformances = new[] { "SP800-106" }
             };
 
             return CreateRegistration(targetFolder, p);
