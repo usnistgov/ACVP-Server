@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Numerics;
-using NIST.CVP.Common.Helpers;
+﻿using NIST.CVP.Common.Helpers;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
+using System.Collections.Generic;
+using System.Numerics;
 
 namespace NIST.CVP.Generation.RSA.v1_0.SigVer
 {
@@ -14,12 +14,13 @@ namespace NIST.CVP.Generation.RSA.v1_0.SigVer
         public static string[] VALID_HASH_ALGS = { "sha-1", "sha2-224", "sha2-256", "sha2-384", "sha2-512", "sha2-512/224", "sha2-512/256" };
         public static string[] VALID_SIG_VER_MODES = EnumHelpers.GetEnumDescriptions<SignatureSchemes>().ToArray();
         public static string[] VALID_PUB_EXP_MODES = EnumHelpers.GetEnumDescriptions<PublicExponentModes>().ToArray();
+        public static string[] VALID_CONFORMANCES = { "SP800-106" };
 
         public ParameterValidateResponse Validate(Parameters parameters)
         {
             var errorResults = new List<string>();
             var result = "";
-            
+
             if (parameters.Capabilities.Length == 0)
             {
                 errorResults.Add("Nothing registered");
@@ -95,7 +96,7 @@ namespace NIST.CVP.Generation.RSA.v1_0.SigVer
                     {
                         // Check range for E value
                         var eValue = new BitString(parameters.FixedPubExpValue).ToPositiveBigInteger();
-                        if (eValue < (BigInteger) 2 << 15 || eValue > (BigInteger) 2 << 255 || eValue.IsEven)
+                        if (eValue < (BigInteger)2 << 15 || eValue > (BigInteger)2 << 255 || eValue.IsEven)
                         {
                             errorResults.Add("Improper E value provided");
                         }
@@ -103,12 +104,14 @@ namespace NIST.CVP.Generation.RSA.v1_0.SigVer
                 }
             }
 
+            ValidateConformances(parameters, errorResults);
+
             return new ParameterValidateResponse(errorResults);
         }
 
         private string ValidateSaltLen(int saltLen, string hashAlg, int modulo)
         {
-            if(saltLen < 0)
+            if (saltLen < 0)
             {
                 return "Salt Length must be positive value";
             }
@@ -118,17 +121,29 @@ namespace NIST.CVP.Generation.RSA.v1_0.SigVer
             var maxSaltLen = digestSize / 8;
 
             // Special case for SHA-512 and 1024-bit RSA
-            if(modulo == 1024 && maxSaltLen == 64)
+            if (modulo == 1024 && maxSaltLen == 64)
             {
                 maxSaltLen = 62;
             }
 
-            if(saltLen > maxSaltLen)
+            if (saltLen > maxSaltLen)
             {
                 return $"Salt Length must be below max value of {maxSaltLen} for given parameters";
             }
 
             return "";
+        }
+
+        private void ValidateConformances(Parameters parameters, List<string> errors)
+        {
+            if (parameters.Conformances != null && parameters.Conformances.Length != 0)
+            {
+                var result = ValidateArray(parameters.Conformances, VALID_CONFORMANCES, "Conformances");
+                if (!string.IsNullOrEmpty(result))
+                {
+                    errors.Add(result);
+                }
+            }
         }
     }
 }

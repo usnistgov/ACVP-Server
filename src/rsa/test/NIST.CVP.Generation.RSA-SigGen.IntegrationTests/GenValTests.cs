@@ -1,9 +1,5 @@
-﻿using Autofac;
-using NIST.CVP.Crypto.Common;
-using NIST.CVP.Common;
-using NIST.CVP.Generation.Core;
+﻿using NIST.CVP.Common;
 using NIST.CVP.Generation.Core.Tests;
-using NIST.CVP.Generation.Core.Tests.Fakes;
 using NIST.CVP.Generation.RSA.v1_0.SigGen;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
@@ -20,7 +16,7 @@ namespace NIST.CVP.Generation.RSA_SigGen.IntegrationTests
         public override AlgoMode AlgoMode => AlgoMode.RSA_SigGen_v1_0;
 
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
-		public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
+        public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {
@@ -78,6 +74,7 @@ namespace NIST.CVP.Generation.RSA_SigGen.IntegrationTests
                 Revision = Revision,
                 Capabilities = algSpecs,
                 IsSample = true,
+                Conformances = new[] { "SP800-106" }
             };
 
             return CreateRegistration(targetFolder, p);
@@ -122,6 +119,7 @@ namespace NIST.CVP.Generation.RSA_SigGen.IntegrationTests
                 Revision = Revision,
                 Capabilities = algSpecs,
                 IsSample = true,
+                Conformances = new[] { "SP800-106" }
             };
 
             return CreateRegistration(targetFolder, p);

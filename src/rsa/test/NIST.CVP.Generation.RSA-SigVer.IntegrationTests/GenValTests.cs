@@ -1,12 +1,8 @@
-﻿using Autofac;
+﻿using NIST.CVP.Common;
+using NIST.CVP.Generation.Core.Tests;
+using NIST.CVP.Generation.RSA.v1_0.SigVer;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
-using NIST.CVP.Generation.Core.Tests;
-using NIST.CVP.Generation.Core.Tests.Fakes;
-using NIST.CVP.Common;
-using NIST.CVP.Crypto.Common;
-using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.RSA.v1_0.SigVer;
 
 namespace NIST.CVP.Generation.RSA_SigVer.IntegrationTests
 {
@@ -19,17 +15,17 @@ namespace NIST.CVP.Generation.RSA_SigVer.IntegrationTests
         public override AlgoMode AlgoMode => AlgoMode.RSA_SigVer_v1_0;
 
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
-		public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
+        public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {
             // If TC has a result, change it
             if (testCase.testPassed != null)
             {
-                testCase.testPassed = !(bool) testCase.testPassed;
+                testCase.testPassed = !(bool)testCase.testPassed;
             }
         }
-        
+
         protected override string GetTestFileFewTestCases(string targetFolder)
         {
             var hashPairs = new HashPair[2];
@@ -68,7 +64,8 @@ namespace NIST.CVP.Generation.RSA_SigVer.IntegrationTests
                 Capabilities = algSpecs,
                 PubExpMode = "fixed",
                 FixedPubExpValue = "010001",
-                KeyFormat = "standard"
+                KeyFormat = "standard",
+                Conformances = new[] { "SP800-106" }
             };
 
             return CreateRegistration(targetFolder, p);
@@ -114,7 +111,8 @@ namespace NIST.CVP.Generation.RSA_SigVer.IntegrationTests
                 IsSample = false,
                 Capabilities = algSpecs,
                 PubExpMode = "random",
-                KeyFormat = "crt"
+                KeyFormat = "crt",
+                Conformances = new[] { "SP800-106" }
             };
 
             return CreateRegistration(targetFolder, p);

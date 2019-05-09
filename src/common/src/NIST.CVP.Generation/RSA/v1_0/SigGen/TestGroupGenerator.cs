@@ -14,10 +14,12 @@ namespace NIST.CVP.Generation.RSA.v1_0.SigGen
     public class TestGroupGenerator : ITestGroupGenerator<Parameters, TestGroup, TestCase>
     {
         private readonly IOracle _oracle;
+        private readonly bool _randomizeMessagePriorToSign;
 
-        public TestGroupGenerator(IOracle oracle)
+        public TestGroupGenerator(IOracle oracle, bool randomizeMessagePriorToSign)
         {
             _oracle = oracle;
+            _randomizeMessagePriorToSign = randomizeMessagePriorToSign;
         }
 
         public const string TEST_TYPE = "GDT";
@@ -52,6 +54,7 @@ namespace NIST.CVP.Generation.RSA.v1_0.SigGen
                                 Modulo = modulo,
                                 HashAlg = ShaAttributes.GetHashFunctionFromName(hashPair.HashAlg),
                                 SaltLen = hashPair.SaltLen,
+                                IsMessageRandomized = _randomizeMessagePriorToSign,
 
                                 TestType = TEST_TYPE
                             };
@@ -82,6 +85,7 @@ namespace NIST.CVP.Generation.RSA.v1_0.SigGen
                             Modulo = modulo,
                             HashAlg = ShaAttributes.GetHashFunctionFromName(hashPair.HashAlg),
                             SaltLen = hashPair.SaltLen,
+                            IsMessageRandomized = _randomizeMessagePriorToSign,
 
                             TestType = TEST_TYPE
                         };

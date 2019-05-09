@@ -6,6 +6,7 @@ namespace NIST.CVP.Common.Oracle.ResultTypes
     public class RsaSignatureResult
     {
         public BitString Message { get; set; }
+        public BitString RandomValue { get; set; }
         public KeyPair Key { get; set; }
         public BitString Salt { get; set; }
 
