@@ -13,10 +13,12 @@ namespace NIST.CVP.Generation.ECDSA.v1_0.SigGen
     public class TestGroupGenerator : ITestGroupGenerator<Parameters, TestGroup, TestCase>
     {
         private readonly IOracle _oracle;
+        private readonly bool _randomizeMessagePriorToSign;
 
-        public TestGroupGenerator(IOracle oracle)
+        public TestGroupGenerator(IOracle oracle, bool randomizeMessagePriorToSign)
         {
             _oracle = oracle;
+            _randomizeMessagePriorToSign = randomizeMessagePriorToSign;
         }
 
         public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
@@ -49,7 +51,8 @@ namespace NIST.CVP.Generation.ECDSA.v1_0.SigGen
                             {
                                 Curve = curve,
                                 HashAlg = sha,
-                                ComponentTest = parameters.ComponentTest
+                                ComponentTest = parameters.ComponentTest,
+                                IsMessageRandomized = _randomizeMessagePriorToSign
                             };
 
                             testGroups.Add(testGroup);
@@ -81,7 +84,8 @@ namespace NIST.CVP.Generation.ECDSA.v1_0.SigGen
                         {
                             Curve = curve,
                             HashAlg = sha,
-                            ComponentTest = parameters.ComponentTest
+                            ComponentTest = parameters.ComponentTest,
+                            IsMessageRandomized = _randomizeMessagePriorToSign
                         };
 
                         map.Add(testGroup, _oracle.GetEcdsaKeyAsync(param));

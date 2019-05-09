@@ -17,7 +17,7 @@ namespace NIST.CVP.Crypto
         public BitString RandomizeMessage(BitString message, int randomizationSecurityStrength)
         {
             var rv = _entropyProvider.GetEntropy(randomizationSecurityStrength);
-            BitString padding = BitString.One(); ;
+            BitString padding = BitString.One();
 
             // from https://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-106.pdf
             /*

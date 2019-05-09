@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
-using NIST.CVP.Generation.Core;
+﻿using NIST.CVP.Generation.Core;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace NIST.CVP.Generation.ECDSA.v1_0.SigVer
 {
@@ -9,8 +11,13 @@ namespace NIST.CVP.Generation.ECDSA.v1_0.SigVer
         {
             var list = new HashSet<ITestGroupGenerator<Parameters, TestGroup, TestCase>>
             {
-                new TestGroupGenerator()
+                new TestGroupGenerator(false)
             };
+
+            if (parameters.Conformances.Contains("SP800-106", StringComparer.OrdinalIgnoreCase))
+            {
+                list.Add(new TestGroupGenerator(true));
+            }
 
             return list;
         }

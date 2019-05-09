@@ -1,12 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Numerics;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using NIST.CVP.Common.Helpers;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC.Enums;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
 using NIST.CVP.Generation.Core;
+using System.Collections.Generic;
+using System.Numerics;
 
 namespace NIST.CVP.Generation.ECDSA.v1_0.SigGen
 {
@@ -24,6 +24,8 @@ namespace NIST.CVP.Generation.ECDSA.v1_0.SigGen
             get => HashAlg?.Name;
             set => HashAlg = ShaAttributes.GetHashFunctionFromName(value);
         }
+
+        public bool IsMessageRandomized { get; set; } = false;
 
         [JsonIgnore] public EccKeyPair KeyPair { get; set; } = new EccKeyPair();
         [JsonProperty(PropertyName = "d", DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -50,7 +52,7 @@ namespace NIST.CVP.Generation.ECDSA.v1_0.SigGen
         [JsonProperty(PropertyName = "componentTest")]
         public bool ComponentTest { get; set; }
 
-        
+
         public List<TestCase> Tests { get; set; } = new List<TestCase>();
 
         public bool SetString(string name, string value)
@@ -76,7 +78,7 @@ namespace NIST.CVP.Generation.ECDSA.v1_0.SigGen
 
         public override int GetHashCode()
         {
-            return $"{EnumHelpers.GetEnumDescriptionFromEnum(Curve)}{HashAlg.Name}".GetHashCode();
+            return $"{EnumHelpers.GetEnumDescriptionFromEnum(Curve)}{HashAlg.Name}{IsMessageRandomized}".GetHashCode();
         }
 
         public override bool Equals(object obj)
@@ -85,7 +87,7 @@ namespace NIST.CVP.Generation.ECDSA.v1_0.SigGen
             {
                 return GetHashCode() == otherGroup.GetHashCode();
             }
-            
+
             return false;
         }
     }

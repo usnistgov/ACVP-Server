@@ -1,11 +1,11 @@
-﻿using System;
-using System.Threading.Tasks;
-using NIST.CVP.Common.Oracle;
+﻿using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Async;
 using NLog;
+using System;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Generation.ECDSA.v1_0.SigVer
 {
@@ -50,7 +50,8 @@ namespace NIST.CVP.Generation.ECDSA.v1_0.SigVer
                     Curve = group.Curve,
                     Disposition = group.TestCaseExpectationProvider.GetRandomReason().GetReason(),
                     HashAlg = group.HashAlg,
-                    Key = keyResult.Key
+                    Key = keyResult.Key,
+                    IsMessageRandomized = group.IsMessageRandomized
                 };
 
                 var result = await _oracle.GetEcdsaVerifyResultAsync(param);
@@ -58,6 +59,8 @@ namespace NIST.CVP.Generation.ECDSA.v1_0.SigVer
                 var testCase = new TestCase
                 {
                     Message = result.VerifiedValue.Message,
+                    RandomValue = result.VerifiedValue.RandomValue,
+                    RandomValueLen = result.VerifiedValue.RandomValue?.BitLength ?? 0,
                     KeyPair = result.VerifiedValue.Key,
                     Reason = param.Disposition,
                     TestPassed = result.Result,

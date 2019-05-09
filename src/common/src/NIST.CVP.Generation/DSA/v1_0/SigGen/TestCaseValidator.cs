@@ -78,7 +78,5 @@ namespace NIST.CVP.Generation.DSA.v1_0.SigGen
                 errors.Add($"Validation failed: {verifyResult.ErrorMessage}");
             }
         }
-
-
     }
 }
