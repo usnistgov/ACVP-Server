@@ -19,24 +19,22 @@ namespace NIST.CVP.Pools
     {
         public readonly List<IPool> Pools = new List<IPool>();
         private readonly IOptions<PoolConfig> _poolConfig;
-        private readonly string _poolDirectory;
         private readonly string _poolConfigFile;
         private readonly IPoolLogRepository _poolLogRepository;
         private readonly IPoolFactory _poolFactory;
-        
+
         private PoolProperties[] _properties;
-        
+
         private readonly IList<JsonConverter> _jsonConverters;
 
         public PoolManager(
-            IOptions<PoolConfig> poolConfig, 
+            IOptions<PoolConfig> poolConfig,
             IPoolLogRepository poolLogRepository,
             IPoolFactory poolFactory,
             IJsonConverterProvider jsonConverterProvider
         )
         {
             _poolConfig = poolConfig;
-            _poolDirectory = _poolConfig.Value.PoolDirectory;
             _poolConfigFile = _poolConfig.Value.PoolConfigFile;
             _poolLogRepository = poolLogRepository;
             _poolFactory = poolFactory;
@@ -49,10 +47,10 @@ namespace NIST.CVP.Pools
         {
             if (Pools.TryFirst(pool => pool.Param.Equals(paramHolder.Parameters), out var result))
             {
-                return new PoolInformation {FillLevel = result.WaterLevel};
+                return new PoolInformation { FillLevel = result.WaterLevel };
             }
 
-            return new PoolInformation {PoolExists = false};
+            return new PoolInformation { PoolExists = false };
         }
 
         public bool AddResultToPool(ParameterHolder paramHolder)
@@ -75,10 +73,10 @@ namespace NIST.CVP.Pools
             }
 
             _poolLogRepository.WriteLog(
-                LogTypes.NoPool, 
-                string.Empty, 
-                startAction, 
-                DateTime.Now, 
+                LogTypes.NoPool,
+                string.Empty,
+                startAction,
+                DateTime.Now,
                 JsonConvert.SerializeObject(paramHolder.Parameters, new JsonSerializerSettings() { Converters = _jsonConverters }));
             return new PoolResult<IResult> { PoolTooEmpty = true };
         }
@@ -122,16 +120,16 @@ namespace NIST.CVP.Pools
         {
             var json = JsonConvert.SerializeObject
             (
-                _properties, 
+                _properties,
                 new JsonSerializerSettings
                 {
                     Formatting = Formatting.Indented,
                     Converters = _jsonConverters
                 }
             );
-            
+
             File.WriteAllText(_poolConfigFile, json);
-            
+
             return true;
         }
 
@@ -194,7 +192,7 @@ namespace NIST.CVP.Pools
                 return new SpawnJobResponse();
             }
         }
-        
+
         private void LoadPools()
         {
             LogManager.GetCurrentClassLogger()
@@ -206,7 +204,7 @@ namespace NIST.CVP.Pools
 
             _properties = JsonConvert.DeserializeObject<PoolProperties[]>
             (
-                File.ReadAllText(_poolConfigFile), 
+                File.ReadAllText(_poolConfigFile),
                 new JsonSerializerSettings
                 {
                     Converters = _jsonConverters
@@ -239,7 +237,7 @@ namespace NIST.CVP.Pools
             LogManager.GetCurrentClassLogger()
                 .Log(LogLevel.Info, "Pools loaded.");
         }
-        
+
         private IPool GetMinimallyFilledPool()
         {
             // Get a random pool with the minimum percentage
