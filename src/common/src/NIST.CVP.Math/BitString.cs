@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-using NIST.CVP.Generation.Core.JsonConverters;
-using NIST.CVP.Math.Helpers;
+﻿using NIST.CVP.Math.Helpers;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -19,7 +17,6 @@ namespace NIST.CVP.Math
     ///     Everything else (bytes, hex, etc):
     ///         MSB to LSB - most significant Byte first (index 0), least significant Byte last (last index)
     /// </summary>
-    [JsonConverter(typeof(BitstringConverter))]
     public class BitString
     {
         public const int BYTESPERDIGIT = 4;
@@ -111,7 +108,7 @@ namespace NIST.CVP.Math
                 bytesInMSB[i / 2] = Convert.ToByte(hexMSB.Substring(i, 2), 16);
             }
 
-            if(bitLength < 0)
+            if (bitLength < 0)
             {
                 _bits = Helper.MostSignificantByteArrayToLeastSignificantBitArray(bytesInMSB);
             }
@@ -187,7 +184,7 @@ namespace NIST.CVP.Math
             {
                 return new byte[0];
             }
-            
+
             byte[] bytes = new byte[(Bits.Length - 1) / BITSINBYTE + 1];
             //_bits.CopyTo(bytes, 0); This would be nice, but it is not supported in .Net Core 1.0.1
 
