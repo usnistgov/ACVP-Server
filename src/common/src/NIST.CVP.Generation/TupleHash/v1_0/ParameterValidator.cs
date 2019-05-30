@@ -7,7 +7,7 @@ namespace NIST.CVP.Generation.TupleHash.v1_0
 {
     public class ParameterValidator : ParameterValidatorBase, IParameterValidator<Parameters>
     {
-        public static string[] VALID_ALGORITHMS = {"tuplehash"};
+        public static string[] VALID_ALGORITHMS = {"TUPLEHASH"};
         public static string[] VALID_MODES = {"128", "256"};
         public static int[] VALID_DIGEST_SIZES = {128, 256};
 
@@ -22,17 +22,10 @@ namespace NIST.CVP.Generation.TupleHash.v1_0
             var errorResults = new List<string>();
 
             ValidateFunctions(parameters, errorResults);
-
             ValidateOutputLength(parameters, errorResults);
-
             ValidateMessageLength(parameters, errorResults);
-            
-            if (errorResults.Count > 0)
-            {
-                return new ParameterValidateResponse(string.Join(";", errorResults));
-            }
 
-            return new ParameterValidateResponse();    
+            return new ParameterValidateResponse(errorResults);    
         }
 
         private void ValidateFunctions(Parameters parameters, List<string> errorResults)
@@ -43,16 +36,21 @@ namespace NIST.CVP.Generation.TupleHash.v1_0
                 errorResults.Add(result);
             }
 
+            result = ValidateValue(parameters.Mode.ToLower(), VALID_MODES, "ParallelHash Mode");
+            if (!string.IsNullOrEmpty(result))
+            {
+                errorResults.Add(result);
+            }
+            
             result = ValidateArray(parameters.DigestSizes, VALID_DIGEST_SIZES, "Digest Size");
             if (!string.IsNullOrEmpty(result))
             {
                 errorResults.Add(result);
             }
 
-            result = ValidateValue((parameters.NonXOF || parameters.XOF).ToString(), new string[] { (true).ToString() }, "XOF Settings");
-            if (!string.IsNullOrEmpty(result))
+            if ((parameters.XOF.Length != 1 && parameters.XOF.Length != 2) || parameters.XOF.ToHashSet().Count != parameters.XOF.Length)
             {
-                errorResults.Add(result);
+                errorResults.Add("XOF must contain only a single true, a single false, or both");
             }
         }
 

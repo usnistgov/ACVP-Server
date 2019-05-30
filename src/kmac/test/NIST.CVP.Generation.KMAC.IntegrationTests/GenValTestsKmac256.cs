@@ -18,7 +18,7 @@ namespace NIST.CVP.Generation.KMAC.IntegrationTests
         public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
 
         public override string Algorithm { get; } = "KMAC";
-        public override string Mode { get; } = string.Empty;
+        public override string Mode { get; } = "256";
         public override AlgoMode AlgoMode => AlgoMode.KMAC_v1_0;
 
         protected override void ModifyTestCaseToFail(dynamic testCase)

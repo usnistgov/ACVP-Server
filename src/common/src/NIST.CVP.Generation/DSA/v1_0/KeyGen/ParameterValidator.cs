@@ -28,12 +28,7 @@ namespace NIST.CVP.Generation.DSA.v1_0.KeyGen
                 }
             }
 
-            if (errors.Count > 0)
-            {
-                return new ParameterValidateResponse(string.Join(";", errors));
-            }
-
-            return new ParameterValidateResponse();
+            return new ParameterValidateResponse(errors);
         }
 
         private bool VerifyLenPair(int L, int N)

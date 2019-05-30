@@ -56,9 +56,7 @@ namespace NIST.CVP.Generation.CSHAKE.Tests
                         {
                             new AlgoArrayResponseWithCustomization
                             {
-                                Message = new BitString("123456"),
                                 Digest = new BitString("987654"),
-                                Customization = "custom"
                             }
                         };
                     }

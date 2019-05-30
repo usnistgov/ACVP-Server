@@ -74,12 +74,7 @@ namespace NIST.CVP.Generation.DSA.v1_0.PqgVer
                 }
             }
 
-            if (errors.Count > 0)
-            {
-                return new ParameterValidateResponse(string.Join(";", errors));
-            }
-
-            return new ParameterValidateResponse();
+            return new ParameterValidateResponse(errors);
         }
 
         private bool VerifyHash(int N, string hash)

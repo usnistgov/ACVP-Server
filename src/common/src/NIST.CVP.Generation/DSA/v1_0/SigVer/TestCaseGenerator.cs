@@ -1,12 +1,12 @@
-﻿using System;
-using System.Threading.Tasks;
-using NIST.CVP.Common.Oracle;
+﻿using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.DispositionTypes;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Async;
 using NLog;
+using System;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Generation.DSA.v1_0.SigVer
 {
@@ -37,9 +37,6 @@ namespace NIST.CVP.Generation.DSA.v1_0.SigVer
             try
             {
                 keyResult = await _oracle.GetDsaKeyAsync(keyParam);
-
-                if (keyResult == null) throw new Exception("KeyResult is null");
-                if (keyResult.Key == null) throw new Exception("Key is null");
             }
             catch (Exception ex)
             {
@@ -47,14 +44,16 @@ namespace NIST.CVP.Generation.DSA.v1_0.SigVer
                 return new TestCaseGenerateResponse<TestGroup, TestCase>("Unable to generate key");
             }
 
-            var reason = group.TestCaseExpectationProvider.GetRandomReason();
+            ITestCaseExpectationReason<DsaSignatureDisposition> reason = group.TestCaseExpectationProvider.GetRandomReason();
+
             var param = new DsaSignatureParameters
             {
                 HashAlg = group.HashAlg,
                 DomainParameters = group.DomainParams,
                 MessageLength = group.N,
                 Key = keyResult.Key,
-                Disposition = reason.GetReason()
+                Disposition = reason.GetReason(),
+                IsMessageRandomized = group.IsMessageRandomized
             };
 
             try
@@ -65,6 +64,8 @@ namespace NIST.CVP.Generation.DSA.v1_0.SigVer
                 {
                     Signature = result.Signature,
                     Message = result.Message,
+                    RandomValue = result.RandomValue,
+                    RandomValueLen = result.RandomValue?.BitLength ?? 0,
                     Key = result.Key,
                     Reason = reason,
                     TestPassed = reason.GetReason() == DsaSignatureDisposition.None
@@ -78,7 +79,7 @@ namespace NIST.CVP.Generation.DSA.v1_0.SigVer
                 return new TestCaseGenerateResponse<TestGroup, TestCase>("Unable to generate signature");
             }
         }
-        
+
         private ILogger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }

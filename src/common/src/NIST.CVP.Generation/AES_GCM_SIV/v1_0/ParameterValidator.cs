@@ -21,12 +21,7 @@ namespace NIST.CVP.Generation.AES_GCM_SIV.v1_0
             ValidatePlaintextSizes(parameters, errorResults);
             ValidateAADSizes(parameters, errorResults);
 
-            if (errorResults.Count > 0)
-            {
-                return new ParameterValidateResponse(string.Join(";", errorResults));
-            }
-
-            return new ParameterValidateResponse();
+            return new ParameterValidateResponse(errorResults);
         }
 
         private void ValidatePlaintextSizes(Parameters parameters, List<string> errorResults)

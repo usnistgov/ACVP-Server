@@ -1,21 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using Autofac;
+﻿using Autofac;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using NIST.CVP.Common;
-using NIST.CVP.Generation.Core.Enums;
-using NUnit.Framework;
-using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Common.Helpers;
+using NIST.CVP.Crypto.Oracle;
+using NIST.CVP.Generation.Core.Enums;
 using NIST.CVP.Generation.Core.JsonConverters;
+using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Tests.Core;
 using NLog;
-using NIST.CVP.Crypto.Oracle;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+using NUnit.Framework;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 namespace NIST.CVP.Generation.Core.Tests
 {
@@ -36,7 +36,7 @@ namespace NIST.CVP.Generation.Core.Tests
         public IRegisterInjections RegistrationsOracle => new RegisterInjections();
         public abstract IRegisterInjections RegistrationsGenVal { get; }
 
-        public string[] TestVectorFileNames = { "expectedResults.json", "internalProjection.json", "prompt.json"};
+        public string[] TestVectorFileNames = { "expectedResults.json", "internalProjection.json", "prompt.json" };
 
         protected abstract void ModifyTestCaseToFail(dynamic testCase);
         protected abstract string GetTestFileFewTestCases(string folderName);
@@ -104,7 +104,12 @@ namespace NIST.CVP.Generation.Core.Tests
             var targetFolder = GetTestFolder("Lots");
             var fileName = GetTestFileLotsOfTestCases(targetFolder);
 
+            LoggingHelper.ConfigureLogging(fileName, "generator");
+            GenLogger.Info($"{Algorithm}-{Mode} Test Vectors");
             RunGeneration(targetFolder, fileName, false);
+            
+            LoggingHelper.ConfigureLogging(fileName, "validator");
+            ValLogger.Info($"{Algorithm}-{Mode} Test Vectors");
             RunValidation(targetFolder);
 
             // Get object for the validation.json
@@ -170,6 +175,8 @@ namespace NIST.CVP.Generation.Core.Tests
                     Assert.IsNull(provided, "provided must be null");
                 }
             }
+
+            Assert.True(true);
         }
 
         private string[] GetFileNamesWithPath(string directory, string[] fileNames)
@@ -179,7 +186,7 @@ namespace NIST.CVP.Generation.Core.Tests
 
             for (var i = 0; i < numOfFiles; i++)
             {
-                fileNamesWithPaths[i] = $"{directory}{fileNames[i]}";
+                fileNamesWithPaths[i] = Path.Combine(directory, fileNames[i]);
             }
 
             return fileNamesWithPaths;

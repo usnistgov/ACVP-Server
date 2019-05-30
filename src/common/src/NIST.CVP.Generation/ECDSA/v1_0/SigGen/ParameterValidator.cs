@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using NIST.CVP.Common.ExtensionMethods;
+﻿using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Generation.Core;
+using System.Collections.Generic;
 
 namespace NIST.CVP.Generation.ECDSA.v1_0.SigGen
 {
@@ -8,6 +8,7 @@ namespace NIST.CVP.Generation.ECDSA.v1_0.SigGen
     {
         public static string[] VALID_HASH_ALGS = { "sha2-224", "sha2-256", "sha2-384", "sha2-512", "sha2-512/224", "sha2-512/256", "sha3-224", "sha3-256", "sha3-384", "sha3-512" };
         public static string[] VALID_CURVES = { "p-224", "p-256", "p-384", "p-521", "b-233", "b-283", "b-409", "b-571", "k-233", "k-283", "k-409", "k-571" };
+        public static string[] VALID_CONFORMANCES = { "SP800-106" };
 
         public ParameterValidateResponse Validate(Parameters parameters)
         {
@@ -28,12 +29,21 @@ namespace NIST.CVP.Generation.ECDSA.v1_0.SigGen
                 errors.AddIfNotNullOrEmpty(result);
             }
 
-            if (errors.Count > 0)
-            {
-                return new ParameterValidateResponse(string.Join(";", errors));
-            }
+            ValidateConformances(parameters, errors);
 
-            return new ParameterValidateResponse();
+            return new ParameterValidateResponse(errors);
+        }
+
+        private void ValidateConformances(Parameters parameters, List<string> errors)
+        {
+            if (parameters.Conformances != null && parameters.Conformances.Length != 0)
+            {
+                var result = ValidateArray(parameters.Conformances, VALID_CONFORMANCES, "Conformances");
+                if (!string.IsNullOrEmpty(result))
+                {
+                    errors.Add(result);
+                }
+            }
         }
     }
 }

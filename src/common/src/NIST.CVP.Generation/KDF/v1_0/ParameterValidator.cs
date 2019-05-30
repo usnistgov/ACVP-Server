@@ -52,12 +52,7 @@ namespace NIST.CVP.Generation.KDF.v1_0
                 }
             }
 
-            if (errors.Count > 0)
-            {
-                return new ParameterValidateResponse(string.Join(";", errors));
-            }
-
-            return new ParameterValidateResponse();
+            return new ParameterValidateResponse(errors);
         }
 
         private void ValidateFixedDataOrder(Capability capability, List<string> errors)

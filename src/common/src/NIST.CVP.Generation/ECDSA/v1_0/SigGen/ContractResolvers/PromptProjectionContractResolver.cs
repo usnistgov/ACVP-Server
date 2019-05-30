@@ -1,7 +1,7 @@
-﻿using System;
-using System.Linq;
-using Newtonsoft.Json.Serialization;
+﻿using Newtonsoft.Json.Serialization;
 using NIST.CVP.Generation.Core.ContractResolvers;
+using System;
+using System.Linq;
 
 namespace NIST.CVP.Generation.ECDSA.v1_0.SigGen.ContractResolvers
 {
@@ -30,9 +30,21 @@ namespace NIST.CVP.Generation.ECDSA.v1_0.SigGen.ContractResolvers
                     instance => true;
             }
 
+            #region Conditional group properties
+            if (jsonProperty.UnderlyingName == nameof(TestGroup.IsMessageRandomized))
+            {
+                return jsonProperty.ShouldSerialize =
+                    instance =>
+                    {
+                        GetTestGroupFromTestGroupObject(instance, out var testGroup);
+                        return testGroup.IsMessageRandomized;
+                    };
+            }
+            #endregion Conditional group properties
+
             return jsonProperty.ShouldSerialize = instance => false;
         }
-        
+
         /// <summary>
         /// Include tcId, message
         /// </summary>

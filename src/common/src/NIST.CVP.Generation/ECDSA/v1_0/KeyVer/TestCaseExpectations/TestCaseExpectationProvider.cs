@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using NIST.CVP.Common.ExtensionMethods;
+﻿using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Common.Oracle.DispositionTypes;
 using NIST.CVP.Generation.Core;
+using System;
+using System.Collections.Generic;
 
 namespace NIST.CVP.Generation.ECDSA.v1_0.KeyVer.TestCaseExpectations
 {
@@ -30,10 +30,13 @@ namespace NIST.CVP.Generation.ECDSA.v1_0.KeyVer.TestCaseExpectations
                 throw new IndexOutOfRangeException($"No {nameof(TestCaseExpectationReason)} remaining to pull");
             }
 
-            var reason = _expectationReasons[0];
-            _expectationReasons.RemoveAt(0);
+            lock (_expectationReasons)
+            {
+                var reason = _expectationReasons[0];
+                _expectationReasons.RemoveAt(0);
 
-            return reason;
+                return reason;
+            }
         }
     }
 }

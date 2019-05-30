@@ -64,6 +64,15 @@ namespace NIST.CVP.Crypto.Oracle
             return await observableGrain.ObserveUntilResult();
         }
 
+        public async Task<AesResult> GetAesCaseAsync(AesWithPayloadParameters param)
+        {
+            var observableGrain =
+                await GetObserverGrain<IOracleObserverAesWithPayloadCaseGrain, AesResult>();
+            await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, LoadSheddingRetries);
+
+            return await observableGrain.ObserveUntilResult();
+        }
+
         private BitString GetStartingIv(bool overflow, bool incremental)
         {
             var rand = new Random800_90();

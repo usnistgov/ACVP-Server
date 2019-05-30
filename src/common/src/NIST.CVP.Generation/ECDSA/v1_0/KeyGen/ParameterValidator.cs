@@ -24,12 +24,7 @@ namespace NIST.CVP.Generation.ECDSA.v1_0.KeyGen
             result = ValidateArray(parameters.SecretGenerationMode, VALID_SECRET_GENERATION_MODES, "Secret Generation Modes");
             errors.AddIfNotNullOrEmpty(result);
 
-            if (errors.Count > 0)
-            {
-                return new ParameterValidateResponse(string.Join(";", errors));
-            }
-
-            return new ParameterValidateResponse();
+            return new ParameterValidateResponse(errors);
         }
     }
 }

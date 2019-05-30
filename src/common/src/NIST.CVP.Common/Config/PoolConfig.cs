@@ -31,13 +31,8 @@
         public string PoolDirectory { get; set; }
 
         /// <summary>
-        /// The Database connection string
+        /// Can be used to override the minimum pool level for *all* pools.  Mostly useful for development/debugging purposes.
         /// </summary>
-        public string ConnectionString { get; set; }
-
-        /// <summary>
-        /// The database name to use
-        /// </summary>
-        public string DatabaseName { get; set; }
+        public int OverrideMinimumPoolLevel { get; set; }
     }
 }

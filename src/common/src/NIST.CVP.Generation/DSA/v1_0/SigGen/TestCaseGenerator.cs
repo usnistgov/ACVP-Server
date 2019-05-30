@@ -1,11 +1,11 @@
-﻿using System;
-using System.Threading.Tasks;
-using NIST.CVP.Common.Oracle;
+﻿using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Async;
 using NLog;
+using System;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Generation.DSA.v1_0.SigGen
 {
@@ -36,11 +36,14 @@ namespace NIST.CVP.Generation.DSA.v1_0.SigGen
                 {
                     param.Key = group.Key;
                     param.DomainParameters = group.DomainParams;
+                    param.IsMessageRandomized = group.IsMessageRandomized;
 
                     result = await _oracle.GetDsaSignatureAsync(param);
                     var testCase = new TestCase
                     {
                         Message = result.Message,
+                        RandomValue = result.RandomValue,
+                        RandomValueLen = result.RandomValue?.BitLength ?? 0,
                         Signature = result.Signature
                     };
 

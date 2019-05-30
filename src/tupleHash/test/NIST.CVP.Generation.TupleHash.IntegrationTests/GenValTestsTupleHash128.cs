@@ -18,7 +18,7 @@ namespace NIST.CVP.Generation.TupleHash.IntegrationTests
         public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
 
         public override string Algorithm { get; } = "TupleHash";
-        public override string Mode { get; } = string.Empty;
+        public override string Mode { get; } = "128";
         public override AlgoMode AlgoMode => AlgoMode.TupleHash_v1_0;
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
@@ -32,19 +32,8 @@ namespace NIST.CVP.Generation.TupleHash.IntegrationTests
                 testCase.md = bs.ToHex();
             }
 
-            if (testCase.msg != null)
-            {
-                var bs = new BitString(testCase.msg.ToString());
-                bs = rand.GetDifferentBitStringOfSameSize(bs);
-                testCase.msg = bs.ToHex();
-            }
-
             if (testCase.resultsArray != null)
             {
-                var bsMessage = new BitString(testCase.resultsArray[0].msg.ToString());
-                bsMessage = rand.GetDifferentBitStringOfSameSize(bsMessage);
-                testCase.resultsArray[0].msg = bsMessage.ToHex();
-
                 var bsDigest = new BitString(testCase.resultsArray[0].md.ToString());
                 bsDigest = rand.GetDifferentBitStringOfSameSize(bsDigest);
                 testCase.resultsArray[0].md = bsDigest.ToHex();
@@ -83,7 +72,7 @@ namespace NIST.CVP.Generation.TupleHash.IntegrationTests
                 DigestSizes = new[] { 128 },
                 OutputLength = minMax,
                 MessageLength = minMax,
-                XOF = false,
+                XOF = new[] {true, false},
                 IsSample = true
             };
 
@@ -93,9 +82,9 @@ namespace NIST.CVP.Generation.TupleHash.IntegrationTests
         protected override string GetTestFileLotsOfTestCases(string targetFolder)
         {
             var minMax = new MathDomain();
-            minMax.AddSegment(new RangeDomainSegment(null, 256, 4096, 1));
+            minMax.AddSegment(new RangeDomainSegment(null, 256, 512, 8));
             var minMaxMsg = new MathDomain();
-            minMaxMsg.AddSegment(new RangeDomainSegment(null, 0, 65536, 1));
+            minMaxMsg.AddSegment(new RangeDomainSegment(null, 0, 1024, 8));
 
             var parameters = new Parameters
             {
@@ -105,8 +94,8 @@ namespace NIST.CVP.Generation.TupleHash.IntegrationTests
                 DigestSizes = new[] { 128 },
                 MessageLength = minMaxMsg,
                 OutputLength = minMax,
-                XOF = true,
-                IsSample = false
+                XOF = new[] {true, false},
+                IsSample = true
             };
 
             return CreateRegistration(targetFolder, parameters);

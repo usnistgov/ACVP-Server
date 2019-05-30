@@ -42,4 +42,4 @@ src/pool-api/NIST.CVP.PoolAPI/Pools/
 gen-val-*.zip
 *.jfm
 *.sql
-
+*.idea

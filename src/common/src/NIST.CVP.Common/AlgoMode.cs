@@ -10,6 +10,12 @@ namespace NIST.CVP.Common
     {
         [EnumMember(Value = "ACVP-AES-CBC-1.0")]
         AES_CBC_v1_0,
+        [EnumMember(Value = "ACVP-AES-CBC-CS1-1.0")]
+        AES_CBC_CS1_v1_0,
+        [EnumMember(Value = "ACVP-AES-CBC-CS2-1.0")]
+        AES_CBC_CS2_v1_0,
+        [EnumMember(Value = "ACVP-AES-CBC-CS3-1.0")]
+        AES_CBC_CS3_v1_0,
         [EnumMember(Value = "ACVP-AES-CCM-1.0")]
         AES_CCM_v1_0,
         [EnumMember(Value = "ACVP-AES-CFB1-1.0")]
@@ -89,11 +95,11 @@ namespace NIST.CVP.Common
         [EnumMember(Value = "HMAC-SHA2-512/256-1.0")]
         HMAC_SHA2_512_256_v1_0,
         [EnumMember(Value = "HMAC-SHA3-224-1.0")]
-        HMAC_SHA3_224_v1_0,        
+        HMAC_SHA3_224_v1_0,
         [EnumMember(Value = "HMAC-SHA3-256-1.0")]
-        HMAC_SHA3_256_v1_0,        
+        HMAC_SHA3_256_v1_0,
         [EnumMember(Value = "HMAC-SHA3-384-1.0")]
-        HMAC_SHA3_384_v1_0,        
+        HMAC_SHA3_384_v1_0,
         [EnumMember(Value = "HMAC-SHA3-512-1.0")]
         HMAC_SHA3_512_v1_0,
         [EnumMember(Value = "KAS-ECC-1.0")]
@@ -110,6 +116,8 @@ namespace NIST.CVP.Common
         KDFComponents_IKEv1_v1_0,
         [EnumMember(Value = "KDF-Components-IKEv2-1.0")]
         KDFComponents_IKEv2_v1_0,
+        [EnumMember(Value = "KDF-Components-PBKDF-1.0")]
+        KDFComponents_PBKDF_v1_0,
         [EnumMember(Value = "KDF-Components-SNMP-1.0")]
         KDFComponents_SNMP_v1_0,
         [EnumMember(Value = "KDF-Components-SRTP-1.0")]

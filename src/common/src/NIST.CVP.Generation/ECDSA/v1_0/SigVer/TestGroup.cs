@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using NIST.CVP.Common.Helpers;
 using NIST.CVP.Common.Oracle.DispositionTypes;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC.Enums;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
 using NIST.CVP.Generation.Core;
+using System.Collections.Generic;
 
 namespace NIST.CVP.Generation.ECDSA.v1_0.SigVer
 {
@@ -16,6 +16,8 @@ namespace NIST.CVP.Generation.ECDSA.v1_0.SigVer
         [JsonProperty(PropertyName = "curve")]
         public Curve Curve { get; set; }
 
+        public bool IsMessageRandomized { get; set; } = false;
+
         [JsonIgnore] public HashFunction HashAlg { get; set; }
         [JsonProperty(PropertyName = "hashAlg")]
         public string HashAlgName
@@ -25,7 +27,7 @@ namespace NIST.CVP.Generation.ECDSA.v1_0.SigVer
         }
 
         [JsonIgnore] public ITestCaseExpectationProvider<EcdsaSignatureDisposition> TestCaseExpectationProvider { get; set; }
-        
+
         public List<TestCase> Tests { get; set; } = new List<TestCase>();
 
         public bool SetString(string name, string value)
@@ -51,7 +53,7 @@ namespace NIST.CVP.Generation.ECDSA.v1_0.SigVer
 
         public override int GetHashCode()
         {
-            return $"{EnumHelpers.GetEnumDescriptionFromEnum(Curve)}{HashAlg.Name}".GetHashCode();
+            return $"{EnumHelpers.GetEnumDescriptionFromEnum(Curve)}{HashAlg.Name}{IsMessageRandomized}".GetHashCode();
         }
 
         public override bool Equals(object obj)

@@ -46,7 +46,7 @@ namespace NIST.CVP.Generation.KDF_Components.v1_0.IKEv2
 
                 if (errors.Count > 0)
                 {
-                    return new ParameterValidateResponse(string.Join(";", errors));
+                    return new ParameterValidateResponse(errors);
                 }
 
                 ValidateDomain(capability.InitiatorNonceLength, errors, "NInit", MIN_NONCE, MAX_NONCE);
@@ -56,13 +56,7 @@ namespace NIST.CVP.Generation.KDF_Components.v1_0.IKEv2
                 ValidateDKM(capability.DerivedKeyingMaterialLength, capability.HashAlg, errors, "DKM");
             }
 
-
-            if (errors.Count > 0)
-            {
-                return new ParameterValidateResponse(string.Join(";", errors));
-            }
-
-            return new ParameterValidateResponse();
+            return new ParameterValidateResponse(errors);
         }
 
         private void ValidateDomain(MathDomain domain, List<string> errors, string errorTag, int min, int max)

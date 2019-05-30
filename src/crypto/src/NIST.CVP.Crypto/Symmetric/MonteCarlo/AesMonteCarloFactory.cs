@@ -1,9 +1,9 @@
-﻿using System;
-using NIST.CVP.Crypto.Common.Symmetric;
+﻿using NIST.CVP.Crypto.Common.Symmetric;
 using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
 using NIST.CVP.Crypto.Common.Symmetric.Engines;
 using NIST.CVP.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.Crypto.Common.Symmetric.MonteCarlo;
+using System;
 
 namespace NIST.CVP.Crypto.Symmetric.MonteCarlo
 {
@@ -30,6 +30,10 @@ namespace NIST.CVP.Crypto.Symmetric.MonteCarlo
                     return new MonteCarloAesEcb(_engineFactory, _modeFactory, keyMaker);
                 case BlockCipherModesOfOperation.Cbc:
                     return new MonteCarloAesCbc(_engineFactory, _modeFactory, keyMaker);
+                case BlockCipherModesOfOperation.CbcCs1:
+                case BlockCipherModesOfOperation.CbcCs2:
+                case BlockCipherModesOfOperation.CbcCs3:
+                    return new MonteCarloAesCbcCts(_engineFactory, _modeFactory, keyMaker, mode);
                 case BlockCipherModesOfOperation.CfbBit:
                     return new MonteCarloAesCfb(_engineFactory, _modeFactory, keyMaker, 1, BlockCipherModesOfOperation.CfbBit);
                 case BlockCipherModesOfOperation.CfbByte:

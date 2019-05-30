@@ -12,6 +12,7 @@ namespace NIST.CVP.Common.Oracle.ParameterTypes
         public bool HexCustomization { get; set; }
         public MathDomain OutLens { get; set; }
         public HashFunction HashFunction { get; set; }
+        public bool IsSample { get; set; } = false;
 
         public override bool Equals(object other)
         {
@@ -24,6 +25,6 @@ namespace NIST.CVP.Common.Oracle.ParameterTypes
         }
 
         // TODO make sure this works as expected with MathDomain and HashFunction
-        public override int GetHashCode() => HashCode.Combine(MessageLength, CustomizationLength, FunctionName, HexCustomization, OutLens, HashFunction);
+        public override int GetHashCode() => HashCode.Combine(MessageLength, CustomizationLength, FunctionName, HexCustomization, OutLens, HashFunction, IsSample);
     }
 }

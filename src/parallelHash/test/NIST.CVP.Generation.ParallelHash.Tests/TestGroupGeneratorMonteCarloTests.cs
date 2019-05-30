@@ -16,8 +16,43 @@ namespace NIST.CVP.Generation.ParallelHash.Tests
                 new ParameterValidatorTests.ParameterBuilder()
                     .WithDigestSizes(new int[] { }) // 0
                     .WithAlgorithm("ParallelHash")  // 1
-                    .WithXOF(true)
-                    .WithNonXOF(true)
+                    .WithXOF(new []{true})
+                    .Build()
+            },
+            new object[]
+            {
+                1, // 1 * 1 * 1
+                new ParameterValidatorTests.ParameterBuilder()
+                    .WithDigestSizes(new int[] { 128 }) // 1
+                    .WithAlgorithm("ParallelHash")  // 1
+                    .WithXOF(new []{true})
+                    .Build()
+            },
+            new object[]
+            {
+                2, // 1 * 2 * 1
+                new ParameterValidatorTests.ParameterBuilder()
+                    .WithDigestSizes(new int[] { 128, 256 }) // 2
+                    .WithAlgorithm("ParallelHash")  // 1
+                    .WithXOF(new []{true})
+                    .Build()
+            },
+            new object[]
+            {
+                1, // 1 * 1 * 1
+                new ParameterValidatorTests.ParameterBuilder()
+                    .WithDigestSizes(new int[] { 128 }) // 1
+                    .WithAlgorithm("ParallelHash")  // 1
+                    .WithXOF(new []{true})
+                    .Build()
+            },
+            new object[]
+            {
+                2, // 1 * 2 * 1
+                new ParameterValidatorTests.ParameterBuilder()
+                    .WithDigestSizes(new int[] { 128, 256 }) // 2
+                    .WithAlgorithm("ParallelHash")  // 1
+                    .WithXOF(new []{true})
                     .Build()
             },
             new object[]
@@ -26,8 +61,7 @@ namespace NIST.CVP.Generation.ParallelHash.Tests
                 new ParameterValidatorTests.ParameterBuilder()
                     .WithDigestSizes(new int[] { 128 }) // 1
                     .WithAlgorithm("ParallelHash")  // 1
-                    .WithXOF(true)
-                    .WithNonXOF(true)
+                    .WithXOF(new [] {true, false})
                     .Build()
             },
             new object[]
@@ -36,48 +70,7 @@ namespace NIST.CVP.Generation.ParallelHash.Tests
                 new ParameterValidatorTests.ParameterBuilder()
                     .WithDigestSizes(new int[] { 128, 256 }) // 2
                     .WithAlgorithm("ParallelHash")  // 1
-                    .WithXOF(true)
-                    .WithNonXOF(true)
-                    .Build()
-            },
-            new object[]
-            {
-                1, // 1 * 1 * 1
-                new ParameterValidatorTests.ParameterBuilder()
-                    .WithDigestSizes(new int[] { 128 }) // 1
-                    .WithAlgorithm("ParallelHash")  // 1
-                    .WithXOF(true)
-                    .WithNonXOF(false)
-                    .Build()
-            },
-            new object[]
-            {
-                2, // 1 * 2 * 1
-                new ParameterValidatorTests.ParameterBuilder()
-                    .WithDigestSizes(new int[] { 128, 256 }) // 2
-                    .WithAlgorithm("ParallelHash")  // 1
-                    .WithXOF(true)
-                    .WithNonXOF(false)
-                    .Build()
-            },
-            new object[]
-            {
-                1, // 1 * 1 * 1
-                new ParameterValidatorTests.ParameterBuilder()
-                    .WithDigestSizes(new int[] { 128 }) // 1
-                    .WithAlgorithm("ParallelHash")  // 1
-                    .WithXOF(false)
-                    .WithNonXOF(true)
-                    .Build()
-            },
-            new object[]
-            {
-                2, // 1 * 2 * 1
-                new ParameterValidatorTests.ParameterBuilder()
-                    .WithDigestSizes(new int[] { 128, 256 }) // 2
-                    .WithAlgorithm("ParallelHash")  // 1
-                    .WithXOF(false)
-                    .WithNonXOF(true)
+                    .WithXOF(new [] {true, false})
                     .Build()
             }
         };

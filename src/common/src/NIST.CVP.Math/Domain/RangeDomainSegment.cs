@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Threading;
 
 namespace NIST.CVP.Math.Domain
 {
@@ -104,7 +102,7 @@ namespace NIST.CVP.Math.Domain
             // We don't want to generate extremely large values for testing.
             _min = min > _MAXIMUM_ALLOWED_NUMBER_TO_RANDOMLY_GENERATE ? _MAXIMUM_ALLOWED_NUMBER_TO_RANDOMLY_GENERATE : (int)min;
             _max = max > _MAXIMUM_ALLOWED_NUMBER_TO_RANDOMLY_GENERATE ? _MAXIMUM_ALLOWED_NUMBER_TO_RANDOMLY_GENERATE : (int)max;
-            
+
             _increment = increment;
             _random = random;
 
@@ -122,7 +120,10 @@ namespace NIST.CVP.Math.Domain
         /// <returns></returns>
         public IDomainSegment GetDeepCopy()
         {
-            return new RangeDomainSegment(_random, _min, _max, _increment);
+            var newDomainSegment = new RangeDomainSegment(_random, _min, _max, _increment);
+            newDomainSegment.SegmentValueOptions = SegmentValueOptions;
+
+            return newDomainSegment;
         }
 
         /// <summary>
@@ -249,7 +250,7 @@ namespace NIST.CVP.Math.Domain
             int value;
 
             value = _min + (numberOfValuesGenerated * _increment);
-            
+
             _returnedValues.Add(value);
             return value;
         }

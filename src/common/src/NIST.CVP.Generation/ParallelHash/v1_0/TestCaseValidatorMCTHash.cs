@@ -53,17 +53,9 @@ namespace NIST.CVP.Generation.ParallelHash.v1_0
                 return;
             }
 
-            if (suppliedResult.ResultsArray.Any(a => a.Message == null))
-            {
-                errors.Add($"{nameof(suppliedResult.ResultsArray)} did not contain expected element {nameof(AlgoArrayResponseWithCustomization.Message)}");
-            }
             if (suppliedResult.ResultsArray.Any(a => a.Digest == null))
             {
                 errors.Add($"{nameof(suppliedResult.ResultsArray)} did not contain expected element {nameof(AlgoArrayResponseWithCustomization.Digest)}");
-            }
-            if (suppliedResult.ResultsArray.Any(a => a.Customization == null))
-            {
-                errors.Add($"{nameof(suppliedResult.ResultsArray)} did not contain expected element {nameof(AlgoArrayResponseWithCustomization.Customization)}");
             }
         }
 
@@ -71,23 +63,11 @@ namespace NIST.CVP.Generation.ParallelHash.v1_0
         {
             for (var i = 0; i < _expectedResult.ResultsArray.Count; i++)
             {
-                if (!_expectedResult.ResultsArray[i].Message.Equals(suppliedResult.ResultsArray[i].Message))
-                {
-                    errors.Add($"Message does not match on iteration {i}");
-                    expected.Add($"Message {i}", _expectedResult.ResultsArray[i].Message.ToHex());
-                    provided.Add($"Message {i}", suppliedResult.ResultsArray[i].Message.ToHex());
-                }
                 if (!_expectedResult.ResultsArray[i].Digest.Equals(suppliedResult.ResultsArray[i].Digest))
                 {
                     errors.Add($"Digest does not match on iteration {i}");
                     expected.Add($"Digest {i}", _expectedResult.ResultsArray[i].Digest.ToHex());
                     provided.Add($"Digest {i}", suppliedResult.ResultsArray[i].Digest.ToHex());
-                }
-                if (!_expectedResult.ResultsArray[i].Customization.Equals(suppliedResult.ResultsArray[i].Customization))
-                {
-                    errors.Add($"Customization does not match on iteration {i}");
-                    expected.Add($"Customization {i}", _expectedResult.ResultsArray[i].Customization);
-                    provided.Add($"Customization {i}", suppliedResult.ResultsArray[i].Customization);
                 }
             }
         }

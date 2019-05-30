@@ -1,6 +1,7 @@
 ﻿using NIST.CVP.Common.ExtensionMethods;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Numerics;
 using NIST.CVP.Math;
 
@@ -34,6 +35,12 @@ namespace NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers
             return shaAttributes;
         }
 
+        public static List<string> GetShaNames()
+        {
+            return shaAttributes
+                .Select<(ModeValues, DigestSizes, int, int, BigInteger, string name), string>(s => s.name).ToList();
+        }
+        
         public static (ModeValues mode, DigestSizes digestSize, int outputLen, int blockSize, BigInteger maxMessageSize, string name) GetShaAttributes(ModeValues mode, DigestSizes digestSize)
         {
             if (!GetShaAttributes()

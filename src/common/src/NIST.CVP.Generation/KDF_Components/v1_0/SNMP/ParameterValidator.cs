@@ -31,7 +31,7 @@ namespace NIST.CVP.Generation.KDF_Components.v1_0.SNMP
             if (parameters.EngineId == null)
             {
                 errors.Add("Must contain engineId");
-                return new ParameterValidateResponse(string.Join(";", errors));
+                return new ParameterValidateResponse(errors);
             }
 
             if (parameters.EngineId.Length != 1 && parameters.EngineId.Length != 2)
@@ -69,13 +69,8 @@ namespace NIST.CVP.Generation.KDF_Components.v1_0.SNMP
             {
                 errors.Add("Password length must be at most 1024 bytes");
             }
-            
-            if (errors.Count > 0)
-            {
-                return new ParameterValidateResponse(string.Join(";", errors));
-            }
 
-            return new ParameterValidateResponse();
+            return new ParameterValidateResponse(errors);
         }
     }
 }

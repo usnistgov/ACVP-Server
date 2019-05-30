@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Options;
-using NIST.CVP.Common.Config;
+﻿using NIST.CVP.Common.Config;
 using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Math;
@@ -17,7 +16,7 @@ namespace NIST.CVP.Pools
     {
         public PoolTypes DeclaredType { get; }
         public TParam WaterType { get; }
-        
+
         public string PoolName { get; }
 
         public long WaterLevel { get; private set; }
@@ -35,14 +34,14 @@ namespace NIST.CVP.Pools
 
         protected readonly IRandom800_90 Random;
         protected readonly IOracle Oracle;
-        
-        private readonly IOptions<PoolConfig> _poolConfig;
+
+        private readonly PoolConfig _poolConfig;
         private readonly IPoolRepository<TResult> _poolRepository;
         private readonly IPoolLogRepository _poolLogRepository;
         private readonly IPoolObjectFactory _poolObjectFactory;
         protected PoolBase(PoolConstructionParameters<TParam> param)
         {
-            _poolConfig = param.PoolConfig;
+            _poolConfig = param.PoolConfig.Value;
             PoolName = param.PoolName;
             _poolRepository = param.PoolRepositoryFactory.GetRepository<TResult>();
             _poolLogRepository = param.PoolLogRepository;
@@ -66,8 +65,16 @@ namespace NIST.CVP.Pools
         {
             var startAction = DateTime.Now;
 
-            if (WaterLevel < MinWaterLevel)
+            var minWaterLevel = MinWaterLevel;
+            if (_poolConfig.OverrideMinimumPoolLevel > 0)
             {
+                minWaterLevel = _poolConfig.OverrideMinimumPoolLevel;
+            }
+
+            if (WaterLevel < minWaterLevel)
+            {
+                Console.WriteLine("Pool too empty.");
+
                 _poolLogRepository.WriteLog(LogTypes.PoolTooEmpty, PoolName, startAction, DateTime.Now, null);
                 return new PoolResult<TResult> { PoolTooEmpty = true };
             }
@@ -105,8 +112,8 @@ namespace NIST.CVP.Pools
         public bool AddWater(TResult value)
         {
             _poolRepository.AddResultToPool(
-                PoolName, 
-                false, 
+                PoolName,
+                false,
                 _poolObjectFactory.WrapResult(value)
             );
             WaterLevel++;
@@ -142,7 +149,7 @@ namespace NIST.CVP.Pools
         private void RecycleValueWhenOptionsAllow(PoolObject<TResult> result)
         {
             // Recycle the water when option is configured, and TimesValueReused is less than the max reuse
-            if (_poolConfig.Value.ShouldRecyclePoolWater)
+            if (_poolConfig.ShouldRecyclePoolWater)
             {
                 // Recycle rate is [0, 1)
                 var probToReuse = Random.GetRandomDecimal();

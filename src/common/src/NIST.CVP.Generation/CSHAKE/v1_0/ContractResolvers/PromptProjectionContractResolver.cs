@@ -18,7 +18,8 @@ namespace NIST.CVP.Generation.CSHAKE.v1_0.ContractResolvers
             {
                 nameof(TestCase.TestCaseId),
                 nameof(TestCase.Message),
-                nameof(TestCase.MessageLength)
+                nameof(TestCase.MessageLength),
+                nameof(TestCase.FunctionName)
             };
 
             if (includeProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
@@ -26,74 +27,29 @@ namespace NIST.CVP.Generation.CSHAKE.v1_0.ContractResolvers
                 return jsonProperty.ShouldSerialize = instance => true;
             }
 
-            #region Conditional Test Case properties
-            if (jsonProperty.UnderlyingName == nameof(TestCase.Customization))
+            switch (jsonProperty.UnderlyingName)
             {
-                return jsonProperty.ShouldSerialize = instance =>
-                {
-                    GetTestCaseFromTestCaseObject(instance, out var testGroup, out var testCase);
-
-                    if (testGroup.TestType.Equals("aft", StringComparison.OrdinalIgnoreCase))
+                case nameof(TestCase.Customization):
+                    return jsonProperty.ShouldSerialize = instance =>
                     {
-                        if (testGroup.HexCustomization)
-                        {
-                            return false;
-                        }
-
-                        return true;
-                    }
-                    return false;
-                };
-            }
-
-            if (jsonProperty.UnderlyingName == nameof(TestCase.CustomizationHex))
-            {
-                return jsonProperty.ShouldSerialize = instance =>
-                {
-                    GetTestCaseFromTestCaseObject(instance, out var testGroup, out var testCase);
-
-                    if (testGroup.TestType.Equals("aft", StringComparison.OrdinalIgnoreCase))
+                        GetTestCaseFromTestCaseObject(instance, out var testGroup, out var testCase);
+                        return !testGroup.HexCustomization;
+                    };
+                case nameof(TestCase.CustomizationHex):
+                    return jsonProperty.ShouldSerialize = instance =>
                     {
-                        if (testGroup.HexCustomization)
-                        {
-                            return true;
-                        }
-                        return false;
-                    }
-                    return false;
-                };
-            }
-
-            if (jsonProperty.UnderlyingName == nameof(TestCase.FunctionName))
-            {
-                return jsonProperty.ShouldSerialize = instance =>
-                {
-                    GetTestCaseFromTestCaseObject(instance, out var testGroup, out var testCase);
-
-                    if (testGroup.TestType.Equals("aft", StringComparison.OrdinalIgnoreCase))
+                        GetTestCaseFromTestCaseObject(instance, out var testGroup, out var testCase);
+                        return testGroup.HexCustomization;
+                    };
+                case nameof(TestCase.DigestLength):
+                    return jsonProperty.ShouldSerialize = instance =>
                     {
-                        return true;
-                    }
-                    return false;
-                };
+                        GetTestCaseFromTestCaseObject(instance, out var testGroup, out var testCase);
+                        return testGroup.TestType.Equals("aft", StringComparison.OrdinalIgnoreCase);
+                    };
+                default:
+                    return jsonProperty.ShouldSerialize = instance => false;
             }
-
-            if (jsonProperty.UnderlyingName == nameof(TestCase.DigestLength))
-            {
-                return jsonProperty.ShouldSerialize = instance =>
-                {
-                    GetTestCaseFromTestCaseObject(instance, out var testGroup, out var testCase);
-
-                    if (testGroup.TestType.Equals("aft", StringComparison.OrdinalIgnoreCase))
-                    {
-                        return true;
-                    }
-                    return false;
-                };
-            }
-            #endregion Conditional Test Case properties
-
-            return jsonProperty.ShouldSerialize = instance => false;
         }
     }
 }

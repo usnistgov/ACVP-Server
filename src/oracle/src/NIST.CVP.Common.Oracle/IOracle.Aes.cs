@@ -13,5 +13,7 @@ namespace NIST.CVP.Common.Oracle
         Task<AesResult> GetDeferredAesCounterCaseAsync(CounterParameters<AesParameters> param);
         Task<AesResult> CompleteDeferredAesCounterCaseAsync(CounterParameters<AesParameters> param);
         Task<CounterResult> ExtractIvsAsync(AesParameters param, AesResult fullParam);
+
+        Task<AesResult> GetAesCaseAsync(AesWithPayloadParameters param);
     }
 }

@@ -5,7 +5,7 @@ namespace NIST.CVP.Generation.TupleHash.v1_0
 {
     public class TestGroupGeneratorAlgorithmFunctional : ITestGroupGenerator<Parameters, TestGroup, TestCase>
     {
-        private const string TEST_TYPE = "aft";
+        private const string TEST_TYPE = "AFT";
 
         public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
         {
@@ -13,7 +13,7 @@ namespace NIST.CVP.Generation.TupleHash.v1_0
 
             foreach (var digestSize in parameters.DigestSizes)
             {
-                if (parameters.NonXOF)
+                foreach (var xof in parameters.XOF)
                 {
                     var testGroup = new TestGroup
                     {
@@ -22,27 +22,11 @@ namespace NIST.CVP.Generation.TupleHash.v1_0
                         TestType = TEST_TYPE,
                         OutputLength = parameters.OutputLength.GetDeepCopy(),
                         MessageLength = parameters.MessageLength.GetDeepCopy(),
-                        XOF = false,
+                        XOF = xof,
                         HexCustomization = parameters.HexCustomization
                     };
 
                     testGroups.Add(testGroup);
-                }
-
-                if (parameters.XOF)
-                {
-                    var testGroupXOF = new TestGroup
-                    {
-                        Function = parameters.Algorithm,
-                        DigestSize = digestSize,
-                        TestType = TEST_TYPE,
-                        OutputLength = parameters.OutputLength.GetDeepCopy(),
-                        MessageLength = parameters.MessageLength.GetDeepCopy(),
-                        XOF = true,
-                        HexCustomization = parameters.HexCustomization
-                    };
-
-                    testGroups.Add(testGroupXOF);
                 }
             }
 
