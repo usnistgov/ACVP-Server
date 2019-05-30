@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Microsoft.Extensions.DependencyInjection;
+using NIST.CVP.Common.Helpers;
+using PoolBitStringConverter.Services;
+using System;
 
 namespace PoolBitStringConverter
 {
@@ -16,9 +19,25 @@ namespace PoolBitStringConverter
     /// </summary>
     class Program
     {
+        public static IServiceProvider ServiceProvider { get; }
+        public static readonly string RootDirectory = AppDomain.CurrentDomain.BaseDirectory;
+
+        static Program()
+        {
+            var configurationRoot = EntryPointConfigHelper.GetConfigurationRoot(RootDirectory);
+            var serviceCollection = EntryPointConfigHelper.GetBaseServiceCollection(configurationRoot);
+            ServiceProvider = serviceCollection.BuildServiceProvider();
+        }
+
         static void Main(string[] args)
         {
             Console.WriteLine("Hello World!");
+
+            var poolReserializer = new ReserializeBitStringPoolValueService(ServiceProvider);
+            poolReserializer.Execute();
         }
+
+
+
     }
 }
