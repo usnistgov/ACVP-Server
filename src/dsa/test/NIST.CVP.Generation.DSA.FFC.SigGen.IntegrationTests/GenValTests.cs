@@ -15,7 +15,7 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen.IntegrationTests
 
         public override AlgoMode AlgoMode => AlgoMode.DSA_SigGen_v1_0;
 
-        public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
+
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
 
         protected override void ModifyTestCaseToFail(dynamic testCase)

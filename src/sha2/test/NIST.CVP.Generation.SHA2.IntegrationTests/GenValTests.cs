@@ -20,7 +20,7 @@ namespace NIST.CVP.Generation.SHA2.IntegrationTests
         public override AlgoMode AlgoMode => AlgoMode.SHA2_v1_0;
 
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
-		public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
+
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {

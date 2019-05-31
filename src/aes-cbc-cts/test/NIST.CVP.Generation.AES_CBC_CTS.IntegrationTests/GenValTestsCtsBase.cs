@@ -17,7 +17,7 @@ namespace NIST.CVP.Generation.AES_CBC_CTS.IntegrationTests
     {
         public override string Mode { get; } = string.Empty;
 
-        public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
+
 
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
 

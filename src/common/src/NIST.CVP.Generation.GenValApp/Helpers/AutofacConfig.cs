@@ -28,9 +28,7 @@ namespace NIST.CVP.Generation.GenValApp.Helpers
             var algoMode = AlgoModeLookupHelper.GetAlgoModeFromStrings(algorithm, mode, revision);
 
             // TODO this shouldn't be done here, fix with nuget maybe?
-            // Crypto and Oracle Registration
-            var crypto = new Crypto.RegisterInjections();
-            crypto.RegisterTypes(builder, algoMode);
+            // Oracle Registration
             var oracle = new Crypto.Oracle.RegisterInjections();
             oracle.RegisterTypes(builder, algoMode);
 

@@ -17,7 +17,7 @@ namespace NIST.CVP.Generation.IKEv1.IntegrationTests
         public override AlgoMode AlgoMode => AlgoMode.KDFComponents_IKEv1_v1_0;
 
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
-		public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
+
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {

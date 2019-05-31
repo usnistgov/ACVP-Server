@@ -23,7 +23,7 @@ namespace NIST.CVP.Generation.RSA_DPComponent.IntegrationTests
         public override AlgoMode AlgoMode => AlgoMode.RSA_DecryptionPrimitive_v1_0;
 
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
-		public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
+
 
         protected override string GetTestFileFewTestCases(string folderName)
         {
