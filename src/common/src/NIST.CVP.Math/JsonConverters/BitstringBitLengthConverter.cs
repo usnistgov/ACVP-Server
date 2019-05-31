@@ -27,14 +27,25 @@ namespace NIST.CVP.Math.JsonConverters
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            var jObject = JObject.Load(reader);
+            if (reader.TokenType != JsonToken.Null)
+            {
+                // Handles old style BitStrings
+                if (reader.TokenType == JsonToken.String)
+                {
+                    return new BitString((string)reader.Value);
+                }
 
-            var model = JsonConvert.DeserializeObject<BitStringModel>(
-                jObject.ToString(),
-                new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore }
-            );
+                var jObject = JObject.Load(reader);
 
-            return new BitString(model.Value, model.BitLength);
+                var model = JsonConvert.DeserializeObject<BitStringModel>(
+                    jObject.ToString(),
+                    new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore }
+                );
+
+                return new BitString(model.Value, model.BitLength);
+            }
+
+            return null;
         }
 
         public override bool CanConvert(Type objectType)
