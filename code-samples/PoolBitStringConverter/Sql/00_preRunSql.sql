@@ -16,7 +16,7 @@ IF NOT EXISTS (
 
 BEGIN
 	ALTER TABLE [dbo].[poolValues]
-	ADD hasNewlySerializedBitStrings BIT
+	ADD hasNewlySerializedBitStrings BIT NOT NULL CONSTRAINT DF_PoolValues_hasNewlySerializedBitStrings DEFAULT(0)
 END 
 
 GO

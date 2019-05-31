@@ -1,8 +1,10 @@
-﻿namespace PoolBitStringConverter.Models
+﻿using System.Collections.Generic;
+
+namespace PoolBitStringConverter.Models
 {
     internal class PoolValues
     {
-        public long Id { get; set; }
-        public string Value { get; set; }
+        public bool HasAdditionalValues { get; set; }
+        public List<PoolValue> Values { get; set; } = new List<PoolValue>();
     }
 }

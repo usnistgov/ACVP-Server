@@ -23,6 +23,7 @@ IF EXISTS (
 )
 
 BEGIN
+	ALTER TABLE [dbo].[PoolValues] DROP CONSTRAINT [DF_PoolValues_hasNewlySerializedBitStrings]
 	ALTER TABLE [dbo].[PoolValues] DROP COLUMN [hasNewlySerializedBitStrings]
 END 
 
