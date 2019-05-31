@@ -15,7 +15,7 @@ namespace NIST.CVP.Generation.CSHAKE.IntegrationTests
     public class GenValTestsCshake256 : GenValTestsSingleRunnerBase
     {
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
-        public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
+
 
         public override string Algorithm { get; } = "CSHAKE";
         public override string Mode { get; } = "256";

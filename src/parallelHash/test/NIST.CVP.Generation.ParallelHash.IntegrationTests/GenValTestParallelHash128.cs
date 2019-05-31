@@ -15,7 +15,7 @@ namespace NIST.CVP.Generation.ParallelHash.IntegrationTests
     public class GenValTestParallelHash128 : GenValTestsSingleRunnerBase
     {
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
-        public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
+
 
         public override string Algorithm { get; } = "ParallelHash";
         public override string Mode { get; } = "128";

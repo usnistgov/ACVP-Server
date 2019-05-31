@@ -15,7 +15,7 @@ namespace NIST.CVP.Generation.KMAC.IntegrationTests
     public class GenValTestsKmac256 : GenValTestsSingleRunnerBase
     {
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
-        public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
+
 
         public override string Algorithm { get; } = "KMAC";
         public override string Mode { get; } = "256";

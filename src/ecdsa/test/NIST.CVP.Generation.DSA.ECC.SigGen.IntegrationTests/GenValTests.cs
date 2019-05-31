@@ -15,7 +15,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen.IntegrationTests
 
         public override AlgoMode AlgoMode => AlgoMode.ECDSA_SigGen_v1_0;
 
-        public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
+
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
 
         protected override string GetTestFileFewTestCases(string targetFolder)

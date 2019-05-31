@@ -18,7 +18,7 @@ namespace NIST.CVP.Generation.KDF.IntegrationTests
 
         public override AlgoMode AlgoMode => AlgoMode.KDF_v1_0;
 
-        public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
+
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
 
         protected override void ModifyTestCaseToFail(dynamic testCase)

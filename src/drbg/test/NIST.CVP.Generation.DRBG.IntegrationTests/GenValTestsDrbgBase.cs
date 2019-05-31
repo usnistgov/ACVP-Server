@@ -19,7 +19,7 @@ namespace NIST.CVP.Generation.DRBG.IntegrationTests
         public abstract string[] Modes { get; }
         public abstract int[] SeedLength { get; }
 
-        public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
+
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
 
         protected override void ModifyTestCaseToFail(dynamic testCase)

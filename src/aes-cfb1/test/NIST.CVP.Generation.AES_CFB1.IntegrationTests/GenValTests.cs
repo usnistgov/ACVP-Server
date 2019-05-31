@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Autofac;
+﻿using Autofac;
 using NIST.CVP.Common;
 using NIST.CVP.Generation.AES_CFB1.v1_0;
 using NIST.CVP.Generation.Core;
@@ -8,6 +6,8 @@ using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace NIST.CVP.Generation.AES_CFB1.IntegrationTests
 {
@@ -18,8 +18,6 @@ namespace NIST.CVP.Generation.AES_CFB1.IntegrationTests
         public override string Mode { get; } = string.Empty;
 
         public override AlgoMode AlgoMode => AlgoMode.AES_CFB1_v1_0;
-
-        public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
 
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
 
@@ -55,7 +53,7 @@ namespace NIST.CVP.Generation.AES_CFB1.IntegrationTests
                 testCase.resultsArray[0].key = bsKey.ToHex();
             }
         }
-        
+
         protected override string GetTestFileFewTestCases(string targetFolder)
         {
             Parameters p = new Parameters()

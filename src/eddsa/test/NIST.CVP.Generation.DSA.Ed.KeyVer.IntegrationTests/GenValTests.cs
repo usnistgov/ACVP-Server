@@ -14,7 +14,7 @@ namespace NIST.CVP.Generation.DSA.Ed.KeyVer.IntegrationTests
 
         public override AlgoMode AlgoMode => AlgoMode.EDDSA_KeyVer_v1_0;
 
-        public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
+
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
