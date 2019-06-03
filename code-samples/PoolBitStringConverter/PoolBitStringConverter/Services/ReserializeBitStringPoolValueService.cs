@@ -64,6 +64,9 @@ namespace PoolBitStringConverter.Services
             _poolValueRepo = new PoolValueSqlRepository(_dbConnectionStringFactory, _dbConnectionFactory);
         }
 
+        /// <summary>
+        /// Perform the conversion process
+        /// </summary>
         public void Execute()
         {
             try
@@ -124,7 +127,7 @@ namespace PoolBitStringConverter.Services
         /// <summary>
         /// Update an individual poolType's values
         /// </summary>
-        /// <param name="poolType"></param>
+        /// <param name="poolType">The pool type of the underlying pool values.</param>
         private void UpdatePoolValues(PoolType poolType)
         {
             while (true)
@@ -141,6 +144,11 @@ namespace PoolBitStringConverter.Services
             }
         }
 
+        /// <summary>
+        /// Get the values from the pool (up to the chunk size) that have yet to be processed.
+        /// </summary>
+        /// <param name="poolType">The pool type of the underlying pool values.</param>
+        /// <returns></returns>
         private PoolValues GetValuesForPool(PoolType poolType)
         {
             return _poolValueRepo.GetPoolValues(poolType.Id, ChunkSize);
@@ -149,15 +157,21 @@ namespace PoolBitStringConverter.Services
         private void SaveValuesForPool(PoolType poolType, List<PoolValue> poolValues)
         {
             // Deserialize the values to the appropriate type
-            var deserializedValues = GetPoolContents(poolType.PoolName, poolValues);
+            var transformedValues = TransformPoolContents(poolType.PoolName, poolValues);
 
-            // Serialize the values using the new converter, note specific pool types require a differing from default BitLength
-            var serializedValues = ReserializeValuesUnderNewConverter(poolType.PoolName, deserializedValues);
+            // Serialize the values using the new converter
+            var serializedValues = ReserializeValuesUnderNewConverter(transformedValues);
 
             PersistNewlySerializedValues(serializedValues);
         }
 
-        private Dictionary<PoolValue, IResult> GetPoolContents(string poolName, List<PoolValue> poolValues)
+        /// <summary>
+        /// Turns the json representation of the <see cref="PoolValue"/> into an <see cref="IResult"/>.
+        /// </summary>
+        /// <param name="poolName">The name of the pool that is being transformed.</param>
+        /// <param name="poolValues">The pool values to transform.</param>
+        /// <returns></returns>
+        private Dictionary<PoolValue, IResult> TransformPoolContents(string poolName, List<PoolValue> poolValues)
         {
             Dictionary<PoolValue, IResult> list = new Dictionary<PoolValue, IResult>();
 
@@ -179,6 +193,14 @@ namespace PoolBitStringConverter.Services
             return list;
         }
 
+        /// <summary>
+        /// Based on the <see cref="PoolTypes"/>, deserialize <see cref="json"/> into appropriate <see cref="IResult"/>.
+        /// Dependent on the <see cref="poolName"/>, apply special processing for bitlengths.
+        /// </summary>
+        /// <param name="poolName">The name of the pool being transformed.</param>
+        /// <param name="poolType">The type of pool data.</param>
+        /// <param name="json">The JSON to convert into an <see cref="IResult"/>.</param>
+        /// <returns></returns>
         private IResult DeserializeJsonIntoAppropriateType(string poolName, PoolTypes poolType, string json)
         {
             JsonSerializerSettings jsonSerializerSettings = new JsonSerializerSettings()
@@ -267,7 +289,7 @@ namespace PoolBitStringConverter.Services
                         case "aes-cbc-cs1-256-decrypt-len1337":
                         case "aes-cbc-cs2-256-decrypt-len1337":
                         case "aes-cbc-cs3-256-decrypt-len1337":
-                            newBitLen = 521;
+                            newBitLen = 1337;
 
                             potentialAesSpecialCase.Seed.PlainText = GetRelevantBitsFromBitString(potentialAesSpecialCase.Seed.PlainText, newBitLen);
                             potentialAesSpecialCase.Seed.CipherText = GetRelevantBitsFromBitString(potentialAesSpecialCase.Seed.CipherText, newBitLen);
@@ -297,6 +319,8 @@ namespace PoolBitStringConverter.Services
                         case "tdes-cfbpbit-decrypt-keyingoption-1":
                         case "tdes-cfbpbit-encrypt-keyingoption-2":
                         case "tdes-cfbpbit-decrypt-keyingoption-2":
+                            newBitLen = 1;
+
                             potentialTdesSpecialCase.Seed.PlainText = GetRelevantBitsFromBitString(potentialTdesSpecialCase.Seed.PlainText, 1);
                             potentialTdesSpecialCase.Seed.CipherText = GetRelevantBitsFromBitString(potentialTdesSpecialCase.Seed.CipherText, 1);
                             potentialTdesSpecialCase.Results.ForEach(fe =>
@@ -356,6 +380,12 @@ namespace PoolBitStringConverter.Services
             }
         }
 
+        /// <summary>
+        /// Helper method for getting the transformed BitString.
+        /// </summary>
+        /// <param name="bitString">The BitString to transform.</param>
+        /// <param name="numberOfBits">The number of bits to pull into the new BitString.</param>
+        /// <returns></returns>
         private BitString GetRelevantBitsFromBitString(BitString bitString, int numberOfBits)
         {
             if (bitString == null)
@@ -371,7 +401,12 @@ namespace PoolBitStringConverter.Services
             return bitString.GetMostSignificantBits(numberOfBits);
         }
 
-        private List<PoolValue> ReserializeValuesUnderNewConverter(string poolName, Dictionary<PoolValue, IResult> deserializedValues)
+        /// <summary>
+        /// Serialize transformed <see cref="PoolValue"/> back into JSON.
+        /// </summary>
+        /// <param name="deserializedValues">The objects to Serialize.</param>
+        /// <returns></returns>
+        private List<PoolValue> ReserializeValuesUnderNewConverter(Dictionary<PoolValue, IResult> deserializedValues)
         {
             List<PoolValue> list = new List<PoolValue>();
 
@@ -392,6 +427,10 @@ namespace PoolBitStringConverter.Services
             return list;
         }
 
+        /// <summary>
+        /// Save the objects (json) to the pool repository.
+        /// </summary>
+        /// <param name="serializedValues">The objects to save.</param>
         private void PersistNewlySerializedValues(List<PoolValue> serializedValues)
         {
             _poolValueRepo.SavePoolValues(serializedValues);
