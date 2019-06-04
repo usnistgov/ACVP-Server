@@ -5,6 +5,7 @@ using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC.Enums;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
 using NIST.CVP.Generation.Core;
+using System;
 using System.Collections.Generic;
 using System.Numerics;
 
@@ -25,7 +26,10 @@ namespace NIST.CVP.Generation.ECDSA.v1_0.SigGen
             set => HashAlg = ShaAttributes.GetHashFunctionFromName(value);
         }
 
-        public bool IsMessageRandomized { get; set; } = false;
+        [JsonIgnore]
+        public bool IsMessageRandomized => "SP800-106".Equals(Conformance, StringComparison.OrdinalIgnoreCase);
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public string Conformance { get; set; } = string.Empty;
 
         [JsonIgnore] public EccKeyPair KeyPair { get; set; } = new EccKeyPair();
         [JsonProperty(PropertyName = "d", DefaultValueHandling = DefaultValueHandling.Ignore)]

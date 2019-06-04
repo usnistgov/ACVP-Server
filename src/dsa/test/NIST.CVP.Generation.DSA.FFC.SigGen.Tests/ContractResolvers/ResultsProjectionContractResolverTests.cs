@@ -39,7 +39,6 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen.Tests.ContractResolvers
         {
             var tvs = TestDataMother.GetTestGroups();
             var tg = tvs.TestGroups[0];
-            tg.IsMessageRandomized = false;
 
             var json = _serializer.Serialize(tvs, _projection);
             var newTvs = _deserializer.Deserialize(json);
@@ -62,7 +61,6 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen.Tests.ContractResolvers
         {
             var tvs = TestDataMother.GetTestGroups();
             var tg = tvs.TestGroups[0];
-            tg.IsMessageRandomized = false;
             var tc = tg.Tests[0];
             tc.RandomValue = new BitString(128);
             tc.RandomValueLen = tc.RandomValue.BitLength;
@@ -89,7 +87,7 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen.Tests.ContractResolvers
         {
             var tvs = TestDataMother.GetTestGroups();
             var tg = tvs.TestGroups[0];
-            tg.IsMessageRandomized = true;
+            tg.Conformance = "SP800-106";
 
             var json = _serializer.Serialize(tvs, _projection);
             var newTvs = _deserializer.Deserialize(json);
@@ -112,7 +110,7 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen.Tests.ContractResolvers
         {
             var tvs = TestDataMother.GetTestGroups();
             var tg = tvs.TestGroups[0];
-            tg.IsMessageRandomized = true;
+            tg.Conformance = "SP800-106";
             var tc = tg.Tests[0];
             tc.RandomValue = new BitString(128);
             tc.RandomValueLen = tc.RandomValue.BitLength;
