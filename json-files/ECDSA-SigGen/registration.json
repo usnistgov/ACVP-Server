@@ -10,19 +10,10 @@
   "capabilities": [
     {
       "curve": [
-        "p-224",
-        "b-233"
+        "p-224"
       ],
       "hashAlg": [
         "sha2-224"
-      ]
-    },
-    {
-      "curve": [
-        "k-283"
-      ],
-      "hashAlg": [
-        "sha2-512"
       ]
     }
   ],

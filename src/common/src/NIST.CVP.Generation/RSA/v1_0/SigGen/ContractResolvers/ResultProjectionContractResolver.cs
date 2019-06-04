@@ -23,7 +23,7 @@ namespace NIST.CVP.Generation.RSA.v1_0.SigGen.ContractResolvers
             }
 
             #region Conditional group properties
-            if (jsonProperty.UnderlyingName == nameof(TestGroup.IsMessageRandomized))
+            if (jsonProperty.UnderlyingName == nameof(TestGroup.Conformance))
             {
                 return jsonProperty.ShouldSerialize =
                     instance =>
