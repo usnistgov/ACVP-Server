@@ -321,12 +321,12 @@ namespace PoolBitStringConverter.Services
                         case "tdes-cfbpbit-decrypt-keyingoption-2":
                             newBitLen = 1;
 
-                            potentialTdesSpecialCase.Seed.PlainText = GetRelevantBitsFromBitString(potentialTdesSpecialCase.Seed.PlainText, 1);
-                            potentialTdesSpecialCase.Seed.CipherText = GetRelevantBitsFromBitString(potentialTdesSpecialCase.Seed.CipherText, 1);
+                            potentialTdesSpecialCase.Seed.PlainText = GetRelevantBitsFromBitString(potentialTdesSpecialCase.Seed.PlainText, newBitLen);
+                            potentialTdesSpecialCase.Seed.CipherText = GetRelevantBitsFromBitString(potentialTdesSpecialCase.Seed.CipherText, newBitLen);
                             potentialTdesSpecialCase.Results.ForEach(fe =>
                             {
-                                fe.PlainText = GetRelevantBitsFromBitString(fe.PlainText, 1);
-                                fe.CipherText = GetRelevantBitsFromBitString(fe.CipherText, 1);
+                                fe.PlainText = GetRelevantBitsFromBitString(fe.PlainText, newBitLen);
+                                fe.CipherText = GetRelevantBitsFromBitString(fe.CipherText, newBitLen);
                             });
                             break;
                     }
