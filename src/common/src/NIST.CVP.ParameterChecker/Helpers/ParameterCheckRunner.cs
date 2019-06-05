@@ -1,16 +1,14 @@
-﻿using System;
-using System.IO;
-using Autofac;
+﻿using Autofac;
 using NIST.CVP.Common.Enums;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.ParameterChecker.Models;
 using NLog;
+using System;
 
 namespace NIST.CVP.ParameterChecker.Helpers
 {
     public class ParameterCheckRunner
     {
-        private static string FileDirectory;
         private readonly IComponentContext _scope;
 
         public ParameterCheckRunner(IComponentContext scope)
@@ -24,11 +22,12 @@ namespace NIST.CVP.ParameterChecker.Helpers
         /// <param name="parsedParameters">The parsed arguments into the app</param>
         public void ConfigureLogging(ArgumentParsingTarget parsedParameters)
         {
+            const string logName = "ParameterChecker";
+
             var filePath = parsedParameters.ParameterFile.FullName;
-            var logName = $"{parsedParameters.Algorithm}-{parsedParameters.Mode}";
 
             LoggingHelper.ConfigureLogging(filePath, logName);
-            Program.Logger.Info($"ParameterChecker");
+            Program.Logger.Info(logName);
         }
 
         /// <summary>
@@ -41,8 +40,6 @@ namespace NIST.CVP.ParameterChecker.Helpers
             string errorMessage;
             try
             {
-                FileDirectory = Path.GetDirectoryName(parsedParameters.ParameterFile.FullName);
-
                 var parameterFile = parsedParameters.ParameterFile.FullName;
                 var result = RunParameterChecker(parameterFile);
 
@@ -63,7 +60,7 @@ namespace NIST.CVP.ParameterChecker.Helpers
                 Console.WriteLine(ex.StackTrace);
                 Logger.Error($"Status Code: {StatusCode.Exception}");
                 Logger.Error(errorMessage);
-                return (int) StatusCode.Exception;
+                return (int)StatusCode.Exception;
             }
         }
 

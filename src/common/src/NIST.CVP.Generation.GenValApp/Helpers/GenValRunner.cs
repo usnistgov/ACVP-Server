@@ -1,19 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
-using Autofac;
+﻿using Autofac;
 using NIST.CVP.Common.Enums;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Enums;
 using NIST.CVP.Generation.GenValApp.Models;
 using NLog;
+using System;
+using System.IO;
 
 namespace NIST.CVP.Generation.GenValApp.Helpers
 {
     public class GenValRunner
     {
-        public GenValMode GenValMode;
         private static string FileDirectory;
         private readonly IComponentContext _scope;
 
@@ -23,108 +20,61 @@ namespace NIST.CVP.Generation.GenValApp.Helpers
         }
 
         /// <summary>
-        /// Determines if the runner is running for generation or validation, 
-        /// determined via parsed command arguments.
-        /// </summary>
-        /// <param name="parsedParameters"></param>
-        public void SetRunningMode(ArgumentParsingTarget parsedParameters)
-        {
-            if (parsedParameters.RegistrationFile != null)
-            {
-                GenValMode = GenValMode.Generate;
-            }
-            else if (parsedParameters.AnswerFile != null && parsedParameters.ResponseFile != null)
-            {
-                GenValMode = GenValMode.Validate;
-            }
-            else
-            {
-                GenValMode = GenValMode.Unset;
-            }
-        }
-
-        /// <summary>
-        /// Configure logging for the app run.
-        /// </summary>
-        /// <param name="parsedParameters">The parsed arguments into the app</param>
-        public void ConfigureLogging(ArgumentParsingTarget parsedParameters)
-        {
-            string filePath;
-
-            switch (GenValMode)
-            {
-                case GenValMode.Generate:
-                    filePath = parsedParameters.RegistrationFile.FullName;
-                    break;
-                case GenValMode.Validate:
-                    filePath = parsedParameters.AnswerFile.FullName;
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException($"Invalid {nameof(GenValMode)}");
-            }
-
-            var logName = $"{parsedParameters.Algorithm}-{parsedParameters.Mode}_{GenValMode}";
-
-            LoggingHelper.ConfigureLogging(filePath, logName);
-            Program.Logger.Info($"{GenValMode} Test Vectors");
-        }
-
-        /// <summary>
         /// Run Generation or Validation, dependent on determined run mode..
         /// </summary>
         /// <param name="parsedParameters"></param>
         /// <returns></returns>
-        public int Run(ArgumentParsingTarget parsedParameters)
+        public int Run(ArgumentParsingTarget parsedParameters, GenValMode genValMode)
         {
             string errorMessage;
             try
             {
-                switch (GenValMode)
+                switch (genValMode)
                 {
                     case GenValMode.Generate:
-                    {
-                        FileDirectory = Path.GetDirectoryName(parsedParameters.RegistrationFile.FullName);
+                        {
+                            FileDirectory = Path.GetDirectoryName(parsedParameters.RegistrationFile.FullName);
 
-                        var registrationFile = parsedParameters.RegistrationFile.FullName;
-                        var result = RunGeneration(registrationFile);
+                            var registrationFile = parsedParameters.RegistrationFile.FullName;
+                            var result = RunGeneration(registrationFile);
 
-                        if (result.Success)
+                            if (result.Success)
+                                return (int)result.StatusCode;
+
+                            errorMessage = $"ERROR! Generating Test Vectors for {registrationFile}: {result.ErrorMessage}";
+                            Console.Error.WriteLine(errorMessage);
+                            Program.Logger.Error($"Status Code: {result.StatusCode}");
+                            Program.Logger.Error(errorMessage);
+                            ErrorLogger.LogError(result.StatusCode, "generator", result.ErrorMessage, FileDirectory);
                             return (int)result.StatusCode;
-
-                        errorMessage = $"ERROR! Generating Test Vectors for {registrationFile}: {result.ErrorMessage}";
-                        Console.Error.WriteLine(errorMessage);
-                        Program.Logger.Error($"Status Code: {result.StatusCode}");
-                        Program.Logger.Error(errorMessage);
-                        ErrorLogger.LogError(result.StatusCode, "generator", result.ErrorMessage, FileDirectory);
-                        return (int)result.StatusCode;
-                    }
+                        }
 
                     case GenValMode.Validate:
-                    {
-                        FileDirectory = Path.GetDirectoryName(parsedParameters.ResponseFile.FullName);
+                        {
+                            FileDirectory = Path.GetDirectoryName(parsedParameters.ResponseFile.FullName);
 
-                        var responseFile = parsedParameters.ResponseFile.FullName;
-                        var answerFile = parsedParameters.AnswerFile.FullName;
-                        var showExpected = parsedParameters.ShowExpected;
-                        var result = RunValidation(responseFile, answerFile, showExpected);
+                            var responseFile = parsedParameters.ResponseFile.FullName;
+                            var answerFile = parsedParameters.AnswerFile.FullName;
+                            var showExpected = parsedParameters.ShowExpected;
+                            var result = RunValidation(responseFile, answerFile, showExpected);
 
-                        if (result.Success)
+                            if (result.Success)
+                                return (int)result.StatusCode;
+
+                            errorMessage = $"ERROR! Validating Test Vectors for {responseFile}: {result.ErrorMessage}";
+                            Console.Error.WriteLine(errorMessage);
+                            Program.Logger.Error($"Status Code: {result.StatusCode}");
+                            Program.Logger.Error(errorMessage);
+                            ErrorLogger.LogError(result.StatusCode, "validator", result.ErrorMessage, FileDirectory);
                             return (int)result.StatusCode;
-
-                        errorMessage = $"ERROR! Validating Test Vectors for {responseFile}: {result.ErrorMessage}";
-                        Console.Error.WriteLine(errorMessage);
-                        Program.Logger.Error($"Status Code: {result.StatusCode}");
-                        Program.Logger.Error(errorMessage);
-                        ErrorLogger.LogError(result.StatusCode, "validator", result.ErrorMessage, FileDirectory);
-                        return (int)result.StatusCode;
-                    }
+                        }
 
                     default:
                         errorMessage = "ERROR! Unable to find running mode";
                         Console.Error.WriteLine(errorMessage);
                         Program.Logger.Error($"Status Code: {StatusCode.ModeError}");
                         Program.Logger.Error(errorMessage);
-                        return (int) StatusCode.ModeError;
+                        return (int)StatusCode.ModeError;
                 }
             }
             catch (Exception ex)
@@ -135,7 +85,7 @@ namespace NIST.CVP.Generation.GenValApp.Helpers
                 Logger.Error($"Status Code: {StatusCode.Exception}");
                 Logger.Error(errorMessage);
                 ErrorLogger.LogError(StatusCode.Exception, "driver", ex.Message, FileDirectory);
-                return (int) StatusCode.Exception;
+                return (int)StatusCode.Exception;
             }
         }
 

@@ -1,10 +1,9 @@
-﻿using System;
-using System.IO;
-using CommandLineParser.Exceptions;
+﻿using CommandLineParser.Exceptions;
 using NIST.CVP.ParameterChecker.Helpers;
 using NIST.CVP.Tests.Core;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
+using System.IO;
 
 namespace NIST.CVP.ParameterChecker.Tests
 {
@@ -25,12 +24,9 @@ namespace NIST.CVP.ParameterChecker.Tests
         public void ShouldParseGeneratorArgumentsCorrectly()
         {
             var registration = Path.Combine(_directory, "registration.json");
-            var args = new[] {"-a", "algo", "-m", "mode", "-R", "1.0", "-r", registration};
+            var args = new[] { "-r", registration };
             var result = _subject.Parse(args);
 
-            Assert.AreEqual("algo", result.Algorithm, nameof(result.Algorithm));
-            Assert.AreEqual("mode", result.Mode, nameof(result.Mode));
-            Assert.AreEqual("1.0", result.Revision, nameof(result.Revision));
             Assert.AreEqual(registration, result.ParameterFile.ToString(), nameof(result.ParameterFile));
         }
 
@@ -41,7 +37,7 @@ namespace NIST.CVP.ParameterChecker.Tests
             var answer = Path.Combine(_directory, "answer.json");
             var response = Path.Combine(_directory, "response.json");
 
-            var args = new[] {"-a", "algo", "-m", "mode", "-R", "1.0", "-r", registration, "-n", answer, "-r", response};
+            var args = new[] { "-r", registration, "-n", answer, "-r", response };
             Assert.Throws<UnknownArgumentException>(() => _subject.Parse(args));
         }
     }
