@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
-using NIST.CVP.Common.Enums;
+﻿using NIST.CVP.Common.Enums;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Enums;
 using NIST.CVP.Generation.GenValApp.Helpers;
@@ -10,6 +6,7 @@ using NIST.CVP.Generation.GenValApp.Models;
 using NIST.CVP.Generation.GenValApp.Tests.Fakes;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
+using System.IO;
 
 namespace NIST.CVP.Generation.GenValApp.Tests
 {
@@ -20,37 +17,12 @@ namespace NIST.CVP.Generation.GenValApp.Tests
         private readonly FakeAutofacConfig _fakeAutofac = new FakeAutofacConfig();
 
         [Test]
-        [TestCase(GenValMode.Generate)]
-        [TestCase(GenValMode.Validate)]
-        public void ShouldCorrectlySetRunningMode(GenValMode genValMode)
+        public void ShouldNotRunWithoutSettingRunningMode()
         {
-            var parameters = new ArgumentParsingTarget
-            {
-                RegistrationFile = genValMode == GenValMode.Generate ? new FileInfo("registration.json") : null,
-                ResponseFile = genValMode == GenValMode.Validate ? new FileInfo("response.json") : null,
-                AnswerFile = genValMode == GenValMode.Validate ? new FileInfo("answer.json") : null
-            };
+            var parameters = new ArgumentParsingTarget();
 
             _subject = new GenValRunner(_fakeAutofac.GetContainer().BeginLifetimeScope());
-            _subject.SetRunningMode(parameters);
-
-            Assert.AreEqual(genValMode, _subject.GenValMode);
-        }
-
-        [Test]
-        [TestCase(GenValMode.Generate)]
-        [TestCase(GenValMode.Validate)]
-        public void ShouldNotRunWithoutSettingRunningMode(GenValMode genValMode)
-        {
-            var parameters = new ArgumentParsingTarget
-            {
-                RegistrationFile = genValMode == GenValMode.Generate ? new FileInfo("registration.json") : null,
-                ResponseFile = genValMode == GenValMode.Validate ? new FileInfo("response.json") : null,
-                AnswerFile = genValMode == GenValMode.Validate ? new FileInfo("answer.json") : null
-            };
-
-            _subject = new GenValRunner(_fakeAutofac.GetContainer().BeginLifetimeScope());
-            var result = _subject.Run(parameters);
+            var result = _subject.Run(parameters, GenValMode.Unset);
 
             Assert.AreNotEqual(0, result);
         }
@@ -91,8 +63,7 @@ namespace NIST.CVP.Generation.GenValApp.Tests
             };
 
             _subject = new GenValRunner(_fakeAutofac.GetContainer().BeginLifetimeScope());
-            _subject.SetRunningMode(parameters);
-            var result = _subject.Run(parameters);
+            var result = _subject.Run(parameters, genValMode);
 
             Assert.AreEqual(returnCode, result);
         }

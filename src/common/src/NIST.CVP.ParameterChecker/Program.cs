@@ -1,9 +1,13 @@
-﻿using System;
-using CommandLineParser.Exceptions;
+﻿using CommandLineParser.Exceptions;
+using Newtonsoft.Json;
 using NIST.CVP.Common.Enums;
+using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Exceptions;
+using NIST.CVP.Generation.Core.Helpers;
 using NIST.CVP.ParameterChecker.Helpers;
 using NLog;
+using System;
+using System.IO;
 
 namespace NIST.CVP.ParameterChecker
 {
@@ -19,8 +23,11 @@ namespace NIST.CVP.ParameterChecker
             {
                 var parsedParameters = argumentParser.Parse(args);
 
+                var parameters = JsonConvert.DeserializeObject<IParameters>(File.ReadAllText(parsedParameters.ParameterFile.FullName));
+                var algoMode = AlgoModeLookupHelper.GetAlgoModeFromStrings(parameters.Algorithm, parameters.Mode, parameters.Revision);
+
                 // Get the IOC container for the algo
-                AutofacConfig.IoCConfiguration(parsedParameters.Algorithm, parsedParameters.Mode, parsedParameters.Revision);
+                AutofacConfig.IoCConfiguration(algoMode);
 
                 using (var scope = AutofacConfig.GetContainer().BeginLifetimeScope())
                 {

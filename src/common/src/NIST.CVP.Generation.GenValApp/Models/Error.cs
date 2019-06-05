@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using NIST.CVP.Common.Enums;
+﻿using NIST.CVP.Common.Enums;
 using NIST.CVP.Common.Helpers;
 
 namespace NIST.CVP.Generation.GenValApp.Models
