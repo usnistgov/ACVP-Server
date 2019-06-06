@@ -46,8 +46,10 @@ namespace NIST.CVP.Common
         CMAC_AES_v1_0,
         [EnumMember(Value = "CMAC-TDES-1.0")]
         CMAC_TDES_v1_0,
-        [EnumMember(Value = "CSHAKE-1.0")]
-        CSHAKE_v1_0,
+        [EnumMember(Value = "CSHAKE-128-1.0")]
+        CSHAKE_128_v1_0,
+        [EnumMember(Value = "CSHAKE-256-1.0")]
+        CSHAKE_256_v1_0,
         [EnumMember(Value = "ctrDRBG-1.0")]
         DRBG_CTR_v1_0,
         [EnumMember(Value = "hashDRBG-1.0")]
@@ -130,10 +132,14 @@ namespace NIST.CVP.Common
         KDFComponents_TPM_v1_0,
         [EnumMember(Value = "KDF-Components-ANSIX9.42-1.0")]
         KDFComponents_ANSIX942_v1_0,
-        [EnumMember(Value = "KMAC-1.0")]
-        KMAC_v1_0,
-        [EnumMember(Value = "ParallelHash-1.0")]
-        ParallelHash_v1_0,
+        [EnumMember(Value = "KMAC-128-1.0")]
+        KMAC_128_v1_0,
+        [EnumMember(Value = "KMAC-256-1.0")]
+        KMAC_256_v1_0,
+        [EnumMember(Value = "ParallelHash-128-1.0")]
+        ParallelHash_128_v1_0,
+        [EnumMember(Value = "ParallelHash-256-1.0")]
+        ParallelHash_256_v1_0,
         [EnumMember(Value = "RSA-DecryptionPrimitive-1.0")]
         RSA_DecryptionPrimitive_v1_0,
         [EnumMember(Value = "RSA-KeyGen-1.0")]
@@ -152,8 +158,10 @@ namespace NIST.CVP.Common
         SHA2_v1_0,
         [EnumMember(Value = "SHA3-1.0")]
         SHA3_v1_0,
-        [EnumMember(Value = "SHAKE-1.0")]
-        SHAKE_v1_0,
+        [EnumMember(Value = "SHAKE-128-1.0")]
+        SHAKE_128_v1_0,
+        [EnumMember(Value = "SHAKE-256-1.0")]
+        SHAKE_256_v1_0,
         [EnumMember(Value = "ACVP-TDES-CBC-1.0")]
         TDES_CBC_v1_0,
         [EnumMember(Value = "ACVP-TDES-CBCI-1.0")]
@@ -180,7 +188,9 @@ namespace NIST.CVP.Common
         TDES_OFB_v1_0,
         [EnumMember(Value = "ACVP-TDES-OFBI-1.0")]
         TDES_OFBI_v1_0,
-        [EnumMember(Value = "TupleHash-1.0")]
-        TupleHash_v1_0
+        [EnumMember(Value = "TupleHash-128-1.0")]
+        TupleHash_128_v1_0,
+        [EnumMember(Value = "TupleHash-256-1.0")]
+        TupleHash_256_v1_0
     }
 }

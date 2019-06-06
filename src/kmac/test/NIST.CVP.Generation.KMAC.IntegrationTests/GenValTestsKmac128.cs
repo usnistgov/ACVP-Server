@@ -2,12 +2,12 @@
 using NIST.CVP.Common;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Tests;
+using NIST.CVP.Generation.KMAC.v1_0;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using System.Collections.Generic;
-using NIST.CVP.Generation.KMAC.v1_0;
 
 namespace NIST.CVP.Generation.KMAC.IntegrationTests
 {
@@ -19,7 +19,7 @@ namespace NIST.CVP.Generation.KMAC.IntegrationTests
 
         public override string Algorithm { get; } = "KMAC";
         public override string Mode { get; } = "128";
-        public override AlgoMode AlgoMode => AlgoMode.KMAC_v1_0;
+        public override AlgoMode AlgoMode => AlgoMode.KMAC_128_v1_0;
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {

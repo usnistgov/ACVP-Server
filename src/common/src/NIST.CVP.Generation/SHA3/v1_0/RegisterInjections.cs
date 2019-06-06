@@ -1,7 +1,5 @@
-﻿using System.Collections.Generic;
-using Autofac;
+﻿using Autofac;
 using NIST.CVP.Common;
-using NIST.CVP.Common.Interfaces;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Async;
 using NIST.CVP.Generation.Core.DeSerialization;
@@ -9,6 +7,7 @@ using NIST.CVP.Generation.Core.JsonConverters;
 using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Generation.SHA3.v1_0.ContractResolvers;
 using NIST.CVP.Math;
+using System.Collections.Generic;
 
 namespace NIST.CVP.Generation.SHA3.v1_0
 {
@@ -17,7 +16,8 @@ namespace NIST.CVP.Generation.SHA3.v1_0
         public IEnumerable<AlgoMode> SupportedAlgoModeRevisions => new List<AlgoMode>()
         {
             AlgoMode.SHA3_v1_0,
-            AlgoMode.SHAKE_v1_0
+            AlgoMode.SHAKE_128_v1_0,
+            AlgoMode.SHAKE_256_v1_0
         };
 
         public void RegisterTypes(ContainerBuilder builder, AlgoMode algoMode)
