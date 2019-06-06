@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using NIST.CVP.Generation.Core;
+﻿using NIST.CVP.Generation.Core;
+using System.Collections.Generic;
 
 namespace NIST.CVP.Generation.SHA3.v1_0
 {
@@ -15,14 +15,14 @@ namespace NIST.CVP.Generation.SHA3.v1_0
             {
                 var testGroup = new TestGroup
                 {
-                    Function = parameters.Algorithm,
+                    Function = parameters.Algorithm.ToLower().Contains("shake") ? "shake" : parameters.Algorithm,
                     DigestSize = digestSize,
                     IncludeNull = parameters.IncludeNull,
                     BitOrientedInput = parameters.BitOrientedInput,
                     BitOrientedOutput = parameters.BitOrientedOutput,
                     TestType = TEST_TYPE
                 };
-                    
+
                 testGroups.Add(testGroup);
             }
 

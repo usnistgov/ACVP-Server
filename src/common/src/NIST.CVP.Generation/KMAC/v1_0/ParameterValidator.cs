@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using NIST.CVP.Common.ExtensionMethods;
+﻿using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Generation.Core;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace NIST.CVP.Generation.KMAC.v1_0
 {
@@ -9,7 +9,7 @@ namespace NIST.CVP.Generation.KMAC.v1_0
     {
         public const int _MIN_KEY_LENGTH = 128;
         public const int _MAX_KEY_LENGTH = 524288;
-        public static string[] VALID_ALGORITHMS = {"KMAC"};
+        public static string[] VALID_ALGORITHMS = { "KMAC-128", "KMAC-256" };
         public static int[] VALID_DIGEST_SIZES = { 128, 256 };
 
         private int _minMacLength = 32;

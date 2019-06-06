@@ -1,15 +1,15 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using NIST.CVP.Common.ExtensionMethods;
+﻿using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Generation.Core;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace NIST.CVP.Generation.CSHAKE.v1_0
 {
     public class ParameterValidator : ParameterValidatorBase, IParameterValidator<Parameters>
     {
-        public static string[] VALID_ALGORITHMS = {"CSHAKE", "CSHAKE"};
-        public static string[] VALID_MODES = {"128", "256"};
-        public static int[] VALID_DIGEST_SIZES = {128, 256};
+        public static string[] VALID_ALGORITHMS = { "CSHAKE-128", "CSHAKE-256" };
+        public static string[] VALID_MODES = { "128", "256" };
+        public static int[] VALID_DIGEST_SIZES = { 128, 256 };
 
         public static int VALID_MIN_OUTPUT_SIZE = 16;
         public static int VALID_MAX_OUTPUT_SIZE = 65536;
@@ -25,7 +25,7 @@ namespace NIST.CVP.Generation.CSHAKE.v1_0
             ValidateOutputLength(parameters, errorResults);
             ValidateMessageLength(parameters, errorResults);
 
-            return new ParameterValidateResponse(errorResults);    
+            return new ParameterValidateResponse(errorResults);
         }
 
         private void ValidateFunctions(Parameters parameters, List<string> errorResults)

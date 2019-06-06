@@ -1,14 +1,14 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using NIST.CVP.Common.ExtensionMethods;
+﻿using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Generation.Core;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace NIST.CVP.Generation.SHA3.v1_0
 {
     public class ParameterValidator : ParameterValidatorBase, IParameterValidator<Parameters>
     {
-        public static string[] VALID_MODES = {"sha3", "shake"};
-        public static int[] VALID_DIGEST_SIZES = {128, 224, 256, 384, 512};
+        public static string[] VALID_MODES = { "sha3", "shake" };
+        public static int[] VALID_DIGEST_SIZES = { 128, 224, 256, 384, 512 };
         public static int[] VALID_SHA3_DIGEST_SIZES = { 224, 256, 384, 512 };
         public static int[] VALID_SHAKE_DIGEST_SIZES = { 128, 256 };
 
@@ -22,12 +22,12 @@ namespace NIST.CVP.Generation.SHA3.v1_0
             ValidateFunctions(parameters, errorResults);
             ValidateMatching(parameters, errorResults);
 
-            if (parameters.Algorithm.ToLower() == "shake")
+            if (parameters.Algorithm.ToLower().Contains("shake"))
             {
                 ValidateOutputLength(parameters, errorResults);
             }
 
-            return new ParameterValidateResponse(errorResults);    
+            return new ParameterValidateResponse(errorResults);
         }
 
         private void ValidateFunctions(Parameters parameters, List<string> errorResults)
@@ -55,7 +55,7 @@ namespace NIST.CVP.Generation.SHA3.v1_0
                     errorResults.Add(result);
                 }
             }
-            else if (parameters.Algorithm.ToLower() == "shake")
+            else if (parameters.Algorithm.ToLower().Contains("shake"))
             {
                 string result = ValidateArray(parameters.DigestSizes, VALID_SHAKE_DIGEST_SIZES, "SHAKE digest size");
                 if (!string.IsNullOrEmpty(result))
