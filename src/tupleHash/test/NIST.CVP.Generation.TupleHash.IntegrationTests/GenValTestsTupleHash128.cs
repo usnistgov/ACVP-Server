@@ -19,7 +19,7 @@ namespace NIST.CVP.Generation.TupleHash.IntegrationTests
 
         public override string Algorithm { get; } = "TupleHash";
         public override string Mode { get; } = "128";
-        public override AlgoMode AlgoMode => AlgoMode.TupleHash_v1_0;
+        public override AlgoMode AlgoMode => AlgoMode.TupleHash_128_v1_0;
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {
@@ -72,7 +72,7 @@ namespace NIST.CVP.Generation.TupleHash.IntegrationTests
                 DigestSizes = new[] { 128 },
                 OutputLength = minMax,
                 MessageLength = minMax,
-                XOF = new[] {true, false},
+                XOF = new[] { true, false },
                 IsSample = true
             };
 
@@ -94,7 +94,7 @@ namespace NIST.CVP.Generation.TupleHash.IntegrationTests
                 DigestSizes = new[] { 128 },
                 MessageLength = minMaxMsg,
                 OutputLength = minMax,
-                XOF = new[] {true, false},
+                XOF = new[] { true, false },
                 IsSample = true
             };
 

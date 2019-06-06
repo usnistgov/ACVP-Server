@@ -2,12 +2,12 @@
 using NIST.CVP.Common;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Tests;
+using NIST.CVP.Generation.ParallelHash.v1_0;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using System.Collections.Generic;
-using NIST.CVP.Generation.ParallelHash.v1_0;
 
 namespace NIST.CVP.Generation.ParallelHash.IntegrationTests
 {
@@ -19,7 +19,7 @@ namespace NIST.CVP.Generation.ParallelHash.IntegrationTests
 
         public override string Algorithm { get; } = "ParallelHash";
         public override string Mode { get; } = "128";
-        public override AlgoMode AlgoMode => AlgoMode.ParallelHash_v1_0;
+        public override AlgoMode AlgoMode => AlgoMode.ParallelHash_128_v1_0;
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {
@@ -80,10 +80,10 @@ namespace NIST.CVP.Generation.ParallelHash.IntegrationTests
                 Algorithm = Algorithm,
                 Mode = Mode,
                 Revision = Revision,
-                DigestSizes = new[] {128},
+                DigestSizes = new[] { 128 },
                 MessageLength = minMax,
                 OutputLength = minMax,
-                XOF = new[] {false},
+                XOF = new[] { false },
                 IsSample = true
             };
 
@@ -103,10 +103,10 @@ namespace NIST.CVP.Generation.ParallelHash.IntegrationTests
                 Algorithm = Algorithm,
                 Mode = Mode,
                 Revision = Revision,
-                DigestSizes = new[] {128},
+                DigestSizes = new[] { 128 },
                 MessageLength = minMaxMsg,
                 OutputLength = minMax,
-                XOF = new[] {true, false},
+                XOF = new[] { true, false },
                 IsSample = true
             };
 
