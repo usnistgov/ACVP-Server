@@ -1,22 +1,20 @@
-﻿using Moq;
+﻿using Microsoft.Extensions.Options;
+using Moq;
 using NIST.CVP.Common.Config;
 using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
-using NIST.CVP.Crypto.Common.Hash.SHA2;
 using NIST.CVP.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.Math;
 using NIST.CVP.Pools.Enums;
 using NIST.CVP.Pools.Interfaces;
 using NIST.CVP.Pools.Models;
+using NIST.CVP.Pools.Services;
 using NIST.CVP.Tests.Core;
 using NUnit.Framework;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Options;
-using NIST.CVP.Pools.PoolModels;
-using NIST.CVP.Pools.Services;
 
 namespace NIST.CVP.Pools.Tests
 {
@@ -52,15 +50,15 @@ namespace NIST.CVP.Pools.Tests
             _mockPoolShaRepository = new Mock<IPoolRepository<HashResult>>();
             _mockPoolFactory = new Mock<IPoolFactory>();
             _poolFactory = new PoolFactory(
-                _mockOptionsPoolConfig.Object, 
+                _mockOptionsPoolConfig.Object,
                 new Mock<IOracle>().Object,
-                _mockPoolRepositoryFactory.Object, 
+                _mockPoolRepositoryFactory.Object,
                 _mockPoolLogRepository.Object,
                 new Mock<IPoolObjectFactory>().Object
             );
             _mockPool = new Mock<IPool>();
             _mockJsonConverterProvider = new Mock<IJsonConverterProvider>();
-            
+
             _mockOptionsPoolConfig.Setup(s => s.Value).Returns(_poolConfig);
             _mockPoolRepositoryFactory
                 .Setup(s => s.GetRepository<AesResult>())
@@ -76,11 +74,10 @@ namespace NIST.CVP.Pools.Tests
 
             _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\");
             _poolConfig.PoolConfigFile = Path.Combine(_testPath, _configFile);
-            _poolConfig.PoolDirectory = _testPath;
             _subject = new PoolManager(
-                _mockOptionsPoolConfig.Object, 
-                _mockPoolLogRepository.Object, 
-                _poolFactory, 
+                _mockOptionsPoolConfig.Object,
+                _mockPoolLogRepository.Object,
+                _poolFactory,
                 _mockJsonConverterProvider.Object
             );
         }
@@ -89,7 +86,7 @@ namespace NIST.CVP.Pools.Tests
         public void ShouldLoadConfig()
         {
             Assert.AreEqual(
-                3, 
+                3,
                 _subject.Pools.Count(),
                 "pool count");
         }
@@ -271,7 +268,7 @@ namespace NIST.CVP.Pools.Tests
             Assert.AreEqual(default(int), result.FillLevel);
             Assert.IsFalse(result.PoolExists);
         }
-        
+
         [Test]
         public void ShouldGetPoolConfigInfo()
         {
@@ -309,12 +306,12 @@ namespace NIST.CVP.Pools.Tests
             _poolConfig.PoolConfigFile = fullPath;
 
             _subject = new PoolManager(
-                _mockOptionsPoolConfig.Object, 
-                _mockPoolLogRepository.Object, 
-                _mockPoolFactory.Object, 
+                _mockOptionsPoolConfig.Object,
+                _mockPoolLogRepository.Object,
+                _mockPoolFactory.Object,
                 _mockJsonConverterProvider.Object
             );
-            
+
             // Change the pool configuration
             var prechangeConfig = _subject.GetPoolProperties().First();
             // copy of object as to not work with the original reference
@@ -339,12 +336,12 @@ namespace NIST.CVP.Pools.Tests
 
             // Reinitialize pools
             _subject = new PoolManager(
-                _mockOptionsPoolConfig.Object, 
-                _mockPoolLogRepository.Object, 
-                _mockPoolFactory.Object, 
+                _mockOptionsPoolConfig.Object,
+                _mockPoolLogRepository.Object,
+                _mockPoolFactory.Object,
                 _mockJsonConverterProvider.Object
             );
-            
+
             var postChangeConfig = _subject.GetPoolProperties().First();
 
             Assert.AreEqual(newConfig.MinCapacity, postChangeConfig.MinCapacity, "config change");
@@ -355,12 +352,12 @@ namespace NIST.CVP.Pools.Tests
 
             // Reinitialize pools
             _subject = new PoolManager(
-                _mockOptionsPoolConfig.Object, 
-                _mockPoolLogRepository.Object, 
-                _mockPoolFactory.Object, 
+                _mockOptionsPoolConfig.Object,
+                _mockPoolLogRepository.Object,
+                _mockPoolFactory.Object,
                 _mockJsonConverterProvider.Object
             );
-            
+
             var validateOriginalChangeConfig = _subject.GetPoolProperties().First();
 
             Assert.AreEqual(prechangeConfigCopy.MinCapacity, validateOriginalChangeConfig.MinCapacity, "original file check");
@@ -373,12 +370,12 @@ namespace NIST.CVP.Pools.Tests
             _poolConfig.PoolConfigFile = fullPath;
 
             _subject = new PoolManager(
-                _mockOptionsPoolConfig.Object, 
-                _mockPoolLogRepository.Object, 
-                _poolFactory, 
+                _mockOptionsPoolConfig.Object,
+                _mockPoolLogRepository.Object,
+                _poolFactory,
                 _mockJsonConverterProvider.Object
             );
-            
+
             var waterCount = _subject.Pools.Sum(s => s.WaterLevel);
 
             Assert.IsTrue(waterCount == 0, "Expecting empty pools");
@@ -399,9 +396,9 @@ namespace NIST.CVP.Pools.Tests
             _poolConfig.PoolConfigFile = fullPath;
 
             _subject = new PoolManager(
-                _mockOptionsPoolConfig.Object, 
-                _mockPoolLogRepository.Object, 
-                _poolFactory, 
+                _mockOptionsPoolConfig.Object,
+                _mockPoolLogRepository.Object,
+                _poolFactory,
                 _mockJsonConverterProvider.Object
             );
 

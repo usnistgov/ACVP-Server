@@ -56,7 +56,7 @@ namespace NIST.CVP.Pools
             {
                 streamWriter.Write(
                     JsonConvert.SerializeObject(
-                        paramHolder, 
+                        paramHolder,
                         new JsonSerializerSettings()
                         {
                             Converters = _jsonConverters
@@ -80,6 +80,12 @@ namespace NIST.CVP.Pools
                     if (poolResult.PoolTooEmpty)
                     {
                         return default(T);
+                    }
+
+                    if (_poolConfig.ShouldLogPoolValueUse)
+                    {
+                        LogManager.GetCurrentClassLogger()
+                            .Info($"Using pool value: {(_poolConfig.PoolResultLogLength == 0 ? json : json.Substring(0, _poolConfig.PoolResultLogLength))}");
                     }
 
                     return poolResult.Result;
