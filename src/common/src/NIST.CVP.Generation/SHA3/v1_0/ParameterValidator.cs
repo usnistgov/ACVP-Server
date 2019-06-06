@@ -7,7 +7,7 @@ namespace NIST.CVP.Generation.SHA3.v1_0
 {
     public class ParameterValidator : ParameterValidatorBase, IParameterValidator<Parameters>
     {
-        public static string[] VALID_MODES = { "sha3", "shake" };
+        public static string[] VALID_MODES = { "sha3-224", "sha3-256", "sha3-384", "sha3-512", "shake" };
         public static int[] VALID_DIGEST_SIZES = { 128, 224, 256, 384, 512 };
         public static int[] VALID_SHA3_DIGEST_SIZES = { 224, 256, 384, 512 };
         public static int[] VALID_SHAKE_DIGEST_SIZES = { 128, 256 };
@@ -47,7 +47,7 @@ namespace NIST.CVP.Generation.SHA3.v1_0
 
         private void ValidateMatching(Parameters parameters, List<string> errorResults)
         {
-            if (parameters.Algorithm.ToLower() == "sha3")
+            if (parameters.Algorithm.ToLower().Contains("sha3"))
             {
                 string result = ValidateArray(parameters.DigestSizes, VALID_SHA3_DIGEST_SIZES, "SHA3 digest size");
                 if (!string.IsNullOrEmpty(result))

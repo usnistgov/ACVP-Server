@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using NIST.CVP.Common.ExtensionMethods;
+﻿using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Common.Helpers;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC.Enums;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC.Helpers;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Crypto.Common.KAS.Helpers;
+using System;
+using System.Collections.Generic;
 
 namespace NIST.CVP.Generation.KAS.v1_0.ECC
 {
@@ -51,13 +51,13 @@ namespace NIST.CVP.Generation.KAS.v1_0.ECC
                 return;
             }
 
-            if (kasMode.ParameterSet.Eb == null 
-                && kasMode.ParameterSet.Ec == null 
-                && kasMode.ParameterSet.Ed == null 
+            if (kasMode.ParameterSet.Eb == null
+                && kasMode.ParameterSet.Ec == null
+                && kasMode.ParameterSet.Ed == null
                 && kasMode.ParameterSet.Ee == null
             )
             {
-                errorResults.Add("At least one paramter set must be provided.");
+                errorResults.Add("At least one parameter set must be provided.");
             }
         }
 

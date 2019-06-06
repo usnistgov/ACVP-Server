@@ -15,7 +15,10 @@ namespace NIST.CVP.Generation.SHA3.v1_0
     {
         public IEnumerable<AlgoMode> SupportedAlgoModeRevisions => new List<AlgoMode>()
         {
-            AlgoMode.SHA3_v1_0,
+            AlgoMode.SHA3_224_v1_0,
+            AlgoMode.SHA3_256_v1_0,
+            AlgoMode.SHA3_384_v1_0,
+            AlgoMode.SHA3_512_v1_0,
             AlgoMode.SHAKE_128_v1_0,
             AlgoMode.SHAKE_256_v1_0
         };

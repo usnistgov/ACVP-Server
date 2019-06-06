@@ -166,8 +166,8 @@ namespace NIST.CVP.Generation.SHA3.Tests
 
             public ParameterBuilder()
             {
-                _algorithm = "SHA3";
-                _digestSizes = new [] { 224 };
+                _algorithm = "SHA3-224";
+                _digestSizes = new[] { 224 };
                 _includeNull = true;
                 _bitOrientedInput = true;
                 _bitOrientedOutput = true;

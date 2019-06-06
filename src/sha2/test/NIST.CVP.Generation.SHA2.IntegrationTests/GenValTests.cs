@@ -2,8 +2,8 @@
 using NIST.CVP.Common;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Tests;
-using NIST.CVP.Math;
 using NIST.CVP.Generation.SHA2.v1_0;
+using NIST.CVP.Math;
 using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -14,10 +14,10 @@ namespace NIST.CVP.Generation.SHA2.IntegrationTests
     [TestFixture, LongRunningIntegrationTest]
     public class GenValTests : GenValTestsSingleRunnerBase
     {
-        public override string Algorithm { get; } = "SHA2";
+        public override string Algorithm { get; } = "SHA2-224";
         public override string Mode { get; } = string.Empty;
 
-        public override AlgoMode AlgoMode => AlgoMode.SHA2_v1_0;
+        public override AlgoMode AlgoMode => AlgoMode.SHA2_224_v1_0;
 
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
 
@@ -58,7 +58,7 @@ namespace NIST.CVP.Generation.SHA2.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Revision = Revision,
-                DigestSizes = new[] {"224"},
+                DigestSizes = new[] { "224" },
                 MessageLength = new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 8, 65528, 8)),
                 IsSample = true
             };

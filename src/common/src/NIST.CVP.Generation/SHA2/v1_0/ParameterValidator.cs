@@ -1,16 +1,16 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using NIST.CVP.Crypto.Common.Hash.SHA2;
+﻿using NIST.CVP.Crypto.Common.Hash.SHA2;
 using NIST.CVP.Generation.Core;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace NIST.CVP.Generation.SHA2.v1_0
 {
     public class ParameterValidator : ParameterValidatorBase, IParameterValidator<Parameters>
     {
-        public static string[] VALID_MODES = {"sha1", "sha2"};
-        public static string[] VALID_DIGEST_SIZES = {"160", "224", "256", "384", "512", "512/224", "512/256"};
-        public static string[] VALID_SHA1_SIZES = {"160"};
-        public static string[] VALID_SHA2_SIZES = {"224", "256", "384", "512", "512/224", "512/256"};
+        public static string[] VALID_MODES = { "sha1", "sha2-224", "sha2-256", "sha2-384", "sha2-512", "sha2-512/224", "sha2-512/256" };
+        public static string[] VALID_DIGEST_SIZES = { "160", "224", "256", "384", "512", "512/224", "512/256" };
+        public static string[] VALID_SHA1_SIZES = { "160" };
+        public static string[] VALID_SHA2_SIZES = { "224", "256", "384", "512", "512/224", "512/256" };
         public static int MIN_MESSAGE_LENGTH = 0;
         public static int MAX_MESSAGE_LENGTH = 65536;
 
