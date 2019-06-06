@@ -10,7 +10,7 @@ namespace NIST.CVP.Generation.SHA3.IntegrationTests
         public override string Algorithm { get; } = "SHAKE";
         public override string Mode { get; } = string.Empty;
 
-        public override AlgoMode AlgoMode => AlgoMode.SHAKE_v1_0;
+        public override AlgoMode AlgoMode => AlgoMode.SHAKE_128_v1_0;
 
         protected override string GetTestFileFewTestCases(string targetFolder)
         {
