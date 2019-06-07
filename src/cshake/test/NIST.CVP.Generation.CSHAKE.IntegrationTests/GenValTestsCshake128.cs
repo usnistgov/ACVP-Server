@@ -17,8 +17,8 @@ namespace NIST.CVP.Generation.CSHAKE.IntegrationTests
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
 
 
-        public override string Algorithm { get; } = "CSHAKE";
-        public override string Mode { get; } = "128";
+        public override string Algorithm { get; } = "CSHAKE-128";
+        public override string Mode { get; } = string.Empty;
         public override AlgoMode AlgoMode => AlgoMode.CSHAKE_128_v1_0;
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
@@ -77,7 +77,7 @@ namespace NIST.CVP.Generation.CSHAKE.IntegrationTests
 
             var parameters = new Parameters
             {
-                Algorithm = "CSHAKE",
+                Algorithm = Algorithm,
                 Mode = Mode,
                 Revision = Revision,
                 DigestSizes = new[] { 128 },
@@ -99,7 +99,7 @@ namespace NIST.CVP.Generation.CSHAKE.IntegrationTests
 
             var parameters = new Parameters
             {
-                Algorithm = "CSHAKE",
+                Algorithm = Algorithm,
                 Revision = Revision,
                 DigestSizes = new[] { 128 },
                 OutputLength = minMax,

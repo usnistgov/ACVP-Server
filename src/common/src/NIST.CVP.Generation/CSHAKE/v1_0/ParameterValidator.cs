@@ -8,7 +8,6 @@ namespace NIST.CVP.Generation.CSHAKE.v1_0
     public class ParameterValidator : ParameterValidatorBase, IParameterValidator<Parameters>
     {
         public static string[] VALID_ALGORITHMS = { "CSHAKE-128", "CSHAKE-256" };
-        public static string[] VALID_MODES = { "128", "256" };
         public static int[] VALID_DIGEST_SIZES = { 128, 256 };
 
         public static int VALID_MIN_OUTPUT_SIZE = 16;

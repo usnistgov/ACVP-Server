@@ -145,7 +145,7 @@ namespace NIST.CVP.Generation.SHA3.Tests
             var subject = new ParameterValidator();
             var result = subject.Validate(
                 new ParameterBuilder()
-                    .WithAlgorithm("shake")
+                    .WithAlgorithm("shake-128")
                     .WithDigestSizes(new int[] { 128 })
                     .WithOutputLength(outputLength)
                     .WithBitOrientedOutput(bitOriented)
