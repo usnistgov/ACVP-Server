@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math.Domain;
 
@@ -13,8 +14,14 @@ namespace NIST.CVP.Generation.KDF_Components.v1_0.PBKDF
         public string[] Conformances { get; set; }
         
         public MathDomain IterationCount { get; set; }
+        
+        [JsonProperty(PropertyName = "passwordLen")]
         public MathDomain PasswordLength { get; set; }
+        
+        [JsonProperty(PropertyName = "saltLen")]
         public MathDomain SaltLength { get; set; }
+        
+        [JsonProperty(PropertyName = "keyLen")]
         public MathDomain KeyLength { get; set; }
         public string[] HashAlg { get; set; }
     }
