@@ -158,6 +158,8 @@ namespace NIST.CVP.Common
         RSA_SignaturePrimitive_v1_0,
         [EnumMember(Value = "SHA1-1.0")]
         SHA1_v1_0,
+        [EnumMember(Value = "SHA-1-1.0")]
+        SHA_1_v1_0,
         [EnumMember(Value = "SHA2-224-1.0")]
         SHA2_224_v1_0,
         [EnumMember(Value = "SHA2-256-1.0")]

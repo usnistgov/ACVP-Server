@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using NIST.CVP.Crypto.Common.Hash.SHA2;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math.Domain;
+using System.Collections.Generic;
 
 namespace NIST.CVP.Generation.SHA2.v1_0
 {

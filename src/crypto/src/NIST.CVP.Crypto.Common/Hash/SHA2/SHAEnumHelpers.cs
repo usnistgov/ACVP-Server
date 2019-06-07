@@ -23,6 +23,7 @@ namespace NIST.CVP.Crypto.Common.Hash.SHA2
             switch (mode.ToLower())
             {
                 case "sha1":
+                case "sha-1":
                     return ModeValues.SHA1;
                 case "sha2":
                 case "sha2-224":
