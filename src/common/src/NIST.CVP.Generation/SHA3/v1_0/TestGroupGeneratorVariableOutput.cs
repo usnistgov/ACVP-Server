@@ -21,7 +21,7 @@ namespace NIST.CVP.Generation.SHA3.v1_0
             {
                 var testGroup = new TestGroup
                 {
-                    Function = "shake",
+                    Function = "SHAKE",
                     DigestSize = digestSize,
                     IncludeNull = parameters.IncludeNull,
                     BitOrientedInput = parameters.BitOrientedInput,

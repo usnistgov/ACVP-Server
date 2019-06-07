@@ -23,7 +23,7 @@ namespace NIST.CVP.Generation.SHA3.v1_0
 
                 var testGroup = new TestGroup
                 {
-                    Function = parameters.Algorithm.ToLower().Contains("shake") ? "shake" : "sha3",
+                    Function = parameters.Algorithm.ToLower().Contains("shake") ? "SHAKE" : "SHA3",
                     DigestSize = digSize,
                     BitOrientedInput = parameters.BitOrientedInput,
                     BitOrientedOutput = parameters.BitOrientedOutput,
