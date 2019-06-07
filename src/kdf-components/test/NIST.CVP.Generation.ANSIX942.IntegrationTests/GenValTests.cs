@@ -26,12 +26,12 @@ namespace NIST.CVP.Generation.ANSIX942.IntegrationTests
         {
             var rand = new Random800_90();
 
-            if (testCase.keyData != null)
+            if (testCase.derivedKey != null)
             {
                 var bs = new BitString(testCase.derivedKey.ToString());
                 bs = rand.GetDifferentBitStringOfSameSize(bs);
 
-                testCase.keyData = bs.ToHex();
+                testCase.derivedKey = bs.ToHex();
             }
         }
 
