@@ -17,8 +17,8 @@ namespace NIST.CVP.Generation.KMAC.IntegrationTests
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
 
 
-        public override string Algorithm { get; } = "KMAC";
-        public override string Mode { get; } = "128";
+        public override string Algorithm { get; } = "KMAC-128";
+        public override string Mode { get; } = string.Empty;
         public override AlgoMode AlgoMode => AlgoMode.KMAC_128_v1_0;
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
@@ -73,7 +73,7 @@ namespace NIST.CVP.Generation.KMAC.IntegrationTests
                 MsgLen = minMax,
                 MacLen = minMax,
                 KeyLen = minMax,
-                XOF = false,
+                XOF = new[] { true, false },
                 IsSample = true
             };
 
@@ -97,7 +97,7 @@ namespace NIST.CVP.Generation.KMAC.IntegrationTests
                 MsgLen = minMaxMsg,
                 MacLen = minMax,
                 KeyLen = minMax,
-                XOF = true,
+                XOF = new[] { true, false },
                 IsSample = false,
             };
 

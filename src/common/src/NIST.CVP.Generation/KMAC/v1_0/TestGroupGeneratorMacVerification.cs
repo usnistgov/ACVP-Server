@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using NIST.CVP.Generation.Core;
+﻿using NIST.CVP.Generation.Core;
+using System.Collections.Generic;
 
 namespace NIST.CVP.Generation.KMAC.v1_0
 {
@@ -13,7 +13,7 @@ namespace NIST.CVP.Generation.KMAC.v1_0
 
             foreach (var digestSize in parameters.DigestSizes)
             {
-                if (parameters.NonXOF)
+                foreach (var xof in parameters.XOF)
                 {
                     var testGroup = new TestGroup
                     {
@@ -23,26 +23,10 @@ namespace NIST.CVP.Generation.KMAC.v1_0
                         MacLengths = parameters.MacLen.GetDeepCopy(),
                         MessageLength = digestSize,
                         HexCustomization = parameters.HexCustomization,
-                        XOF = false
+                        XOF = xof
                     };
 
                     testGroups.Add(testGroup);
-                }
-
-                if (parameters.XOF)
-                {
-                    var testGroupXOF = new TestGroup
-                    {
-                        DigestSize = digestSize,
-                        TestType = TEST_TYPE,
-                        KeyLengths = parameters.KeyLen.GetDeepCopy(),
-                        MacLengths = parameters.MacLen.GetDeepCopy(),
-                        MessageLength = digestSize,
-                        HexCustomization = parameters.HexCustomization,
-                        XOF = true
-                    };
-
-                    testGroups.Add(testGroupXOF);
                 }
             }
 

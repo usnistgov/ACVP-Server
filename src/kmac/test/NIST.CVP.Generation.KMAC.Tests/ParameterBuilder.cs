@@ -9,8 +9,7 @@ namespace NIST.CVP.Generation.KMAC.Tests
         private MathDomain _keyLen;
         private MathDomain _macLen;
         private MathDomain _msgLen;
-        private bool _xof;
-        private bool _nonxof;
+        private bool[] _xof;
         private int[] _digestSizes;
         private bool _hexCustomization;
 
@@ -19,15 +18,14 @@ namespace NIST.CVP.Generation.KMAC.Tests
         /// </summary>
         public ParameterBuilder()
         {
-            _algorithm = "KMAC";
+            _algorithm = "KMAC-128";
             _msgLen = new MathDomain();
             _msgLen = _msgLen.AddSegment(new RangeDomainSegment(null, 0, 65536, 8));
             _keyLen = new MathDomain();
             _keyLen = _keyLen.AddSegment(new RangeDomainSegment(null, ParameterValidator._MIN_KEY_LENGTH, ParameterValidator._MAX_KEY_LENGTH, 8));
             _macLen = new MathDomain();
             _macLen = _macLen.AddSegment(new RangeDomainSegment(null, 32, 65536, 8));
-            _xof = false;
-            _nonxof = true;
+            _xof = new[] { true, false };
             _digestSizes = new int[] { 128, 256 };
             _hexCustomization = false;
         }
@@ -56,15 +54,9 @@ namespace NIST.CVP.Generation.KMAC.Tests
             return this;
         }
 
-        public ParameterBuilder WithXOF(bool value)
+        public ParameterBuilder WithXOF(bool[] value)
         {
             _xof = value;
-            return this;
-        }
-
-        public ParameterBuilder WithNonXOF(bool value)
-        {
-            _nonxof = value;
             return this;
         }
 
@@ -90,7 +82,6 @@ namespace NIST.CVP.Generation.KMAC.Tests
                 MacLen = _macLen,
                 DigestSizes = _digestSizes,
                 XOF = _xof,
-                NonXOF = _nonxof,
                 HexCustomization = _hexCustomization
             };
         }

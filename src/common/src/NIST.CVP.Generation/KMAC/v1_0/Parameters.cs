@@ -16,12 +16,9 @@ namespace NIST.CVP.Generation.KMAC.v1_0
         [JsonProperty(PropertyName = "digestSize")]
         public int[] DigestSizes { get; set; }
 
-        [JsonProperty(PropertyName = "nonxof")]
-        public bool NonXOF { get; set; } = true;
-
         [JsonProperty(PropertyName = "xof")]
-        public bool XOF { get; set; }
-        
+        public bool[] XOF { get; set; }
+
         [JsonProperty(PropertyName = "hexCustomization")]
         public bool HexCustomization { get; set; } = false;
 
