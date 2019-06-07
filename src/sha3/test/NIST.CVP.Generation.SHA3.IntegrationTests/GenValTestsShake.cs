@@ -7,7 +7,7 @@ namespace NIST.CVP.Generation.SHA3.IntegrationTests
 {
     public class GenValTestsShake : GenValTestsSha3Base
     {
-        public override string Algorithm { get; } = "SHAKE-125";
+        public override string Algorithm { get; } = "SHAKE-128";
         public override string Mode { get; } = string.Empty;
 
         public override AlgoMode AlgoMode => AlgoMode.SHAKE_128_v1_0;
