@@ -1,20 +1,24 @@
-﻿using System;
-using System.Threading.Tasks;
-using NIST.CVP.Common;
+﻿using NIST.CVP.Common;
 using NIST.CVP.Common.Oracle.DispositionTypes;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
+using NIST.CVP.Crypto.Common;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
 using NIST.CVP.Math;
+using NIST.CVP.Math.Entropy;
 using NIST.CVP.Orleans.Grains.Interfaces.Dsa;
+using System;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Orleans.Grains.Dsa
 {
-    public class OracleObserverDsaSignatureCaseGrain : ObservableOracleGrainBase<DsaSignatureResult>, 
+    public class OracleObserverDsaSignatureCaseGrain : ObservableOracleGrainBase<DsaSignatureResult>,
         IOracleObserverDsaSignatureCaseGrain
     {
 
         private readonly IDsaFfcFactory _dsaFfcFactory;
+        private readonly IPreSigVerMessageRandomizerBuilder _messageRandomizer;
+        private readonly IEntropyProviderFactory _entropyProviderFactory;
         private readonly IRandom800_90 _rand;
 
         private DsaSignatureParameters _param;
@@ -22,27 +26,42 @@ namespace NIST.CVP.Orleans.Grains.Dsa
         public OracleObserverDsaSignatureCaseGrain(
             LimitedConcurrencyLevelTaskScheduler nonOrleansScheduler,
             IDsaFfcFactory dsaFfcFactory,
+            IPreSigVerMessageRandomizerBuilder messageRandomizer,
+            IEntropyProviderFactory entropyProviderFactory,
             IRandom800_90 rand
-        ) : base (nonOrleansScheduler)
+        ) : base(nonOrleansScheduler)
         {
             _dsaFfcFactory = dsaFfcFactory;
+            _messageRandomizer = messageRandomizer;
+            _entropyProviderFactory = entropyProviderFactory;
             _rand = rand;
         }
-        
+
         public async Task<bool> BeginWorkAsync(DsaSignatureParameters param)
         {
             _param = param;
-            
+
             await BeginGrainWorkAsync();
             return await Task.FromResult(true);
         }
-        
+
         protected override async Task DoWorkAsync()
         {
             var message = _rand.GetRandomBitString(_param.MessageLength);
+            var messageCopy = message.GetDeepCopy();
+
+            BitString randomValue = null;
+            if (_param.IsMessageRandomized)
+            {
+                randomValue = _rand.GetRandomBitString(_param.HashAlg.OutputLen);
+                var entropyProvider = _entropyProviderFactory.GetEntropyProvider(EntropyProviderTypes.Testable);
+                entropyProvider.AddEntropy(randomValue);
+                messageCopy = _messageRandomizer.WithEntropyProvider(entropyProvider).Build()
+                    .RandomizeMessage(messageCopy, _param.HashAlg.OutputLen);
+            }
 
             var ffcDsa = _dsaFfcFactory.GetInstance(_param.HashAlg);
-            var sigResult = ffcDsa.Sign(_param.DomainParameters, _param.Key, message);
+            var sigResult = ffcDsa.Sign(_param.DomainParameters, _param.Key, messageCopy);
             if (!sigResult.Success)
             {
                 throw new Exception();
@@ -51,6 +70,7 @@ namespace NIST.CVP.Orleans.Grains.Dsa
             var result = new DsaSignatureResult
             {
                 Message = message,
+                RandomValue = randomValue,
                 Signature = sigResult.Signature,
                 Key = _param.Key
             };

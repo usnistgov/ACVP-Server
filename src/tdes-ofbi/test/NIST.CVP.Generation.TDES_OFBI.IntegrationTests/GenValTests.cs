@@ -19,7 +19,7 @@ namespace NIST.CVP.Generation.TDES_OFBI.IntegrationTests
         public override AlgoMode AlgoMode => AlgoMode.TDES_OFBI_v1_0;
 
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
-        public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
+
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {

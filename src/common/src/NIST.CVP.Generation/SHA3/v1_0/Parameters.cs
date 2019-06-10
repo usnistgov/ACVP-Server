@@ -12,7 +12,7 @@ namespace NIST.CVP.Generation.SHA3.v1_0
         public string Revision { get; set; }
         public bool IsSample { get; set; }
         public string[] Conformances { get; set; } = { };
-        
+
         // Was "digestSizes" but client only will send one at a time
         [JsonProperty(PropertyName = "digestSize")]
         public int[] DigestSizes { get; set; }
@@ -27,7 +27,7 @@ namespace NIST.CVP.Generation.SHA3.v1_0
         public bool IncludeNull { get; set; } = false;
 
         // Hard assumption that this is just a single RangeSegment inside of a Domain
-        [JsonProperty(PropertyName = "outputLength")]
+        [JsonProperty(PropertyName = "outputLen")]
         public MathDomain OutputLength { get; set; }
     }
 }

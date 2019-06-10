@@ -1,8 +1,8 @@
-﻿using System.Numerics;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
+using System.Numerics;
 
 namespace NIST.CVP.Generation.ECDSA.v1_0.SigGen
 {
@@ -16,6 +16,12 @@ namespace NIST.CVP.Generation.ECDSA.v1_0.SigGen
 
         [JsonProperty(PropertyName = "message")]
         public BitString Message { get; set; }
+
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public BitString RandomValue { get; set; }
+
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public int RandomValueLen { get; set; }
 
         [JsonIgnore] public EccSignature Signature { get; set; } = new EccSignature();
         [JsonProperty(PropertyName = "r", DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -34,7 +40,7 @@ namespace NIST.CVP.Generation.ECDSA.v1_0.SigGen
         // Needed for FireHoseTests
         public EccKeyPair KeyPair;
         public BigInteger K;
-        
+
         public bool SetString(string name, string value)
         {
             if (string.IsNullOrEmpty(name))

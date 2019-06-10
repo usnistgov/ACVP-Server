@@ -1,15 +1,17 @@
 {
   "vsId": 0,
-  "algorithm": "KMAC",
-  "mode": "128",
+  "algorithm": "KMAC-128",
+  "mode": "",
   "revision": "1.0",
   "isSample": false,
   "conformances": [],
   "digestSize": [
     128
   ],
-  "nonxof": true,
-  "xof": true,
+  "xof": [
+    true,
+    false
+  ],
   "hexCustomization": false,
   "msgLen": [
     {

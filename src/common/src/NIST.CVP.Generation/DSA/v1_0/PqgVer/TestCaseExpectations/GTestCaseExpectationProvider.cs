@@ -1,15 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using NIST.CVP.Common.ExtensionMethods;
+﻿using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Common.Oracle.DispositionTypes;
 using NIST.CVP.Generation.Core;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace NIST.CVP.Generation.DSA.v1_0.PqgVer.TestCaseExpectations
 {
     public class GTestCaseExpectationProvider : ITestCaseExpectationProvider<DsaGDisposition>
     {
-        private List<GTestCaseExpectationReason> _expectationReasons;
+        private readonly List<GTestCaseExpectationReason> _expectationReasons;
 
         public GTestCaseExpectationProvider(bool isSample = false)
         {
@@ -38,10 +38,13 @@ namespace NIST.CVP.Generation.DSA.v1_0.PqgVer.TestCaseExpectations
                 throw new IndexOutOfRangeException($"No {nameof(GTestCaseExpectationReason)} remaining to pull");
             }
 
-            var reason = _expectationReasons[0];
-            _expectationReasons.RemoveAt(0);
+            lock (_expectationReasons)
+            {
+                var reason = _expectationReasons[0];
+                _expectationReasons.RemoveAt(0);
 
-            return reason;
+                return reason;
+            }
         }
     }
 }

@@ -2,12 +2,12 @@
 using NIST.CVP.Common;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Tests;
+using NIST.CVP.Generation.CSHAKE.v1_0;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using System.Collections.Generic;
-using NIST.CVP.Generation.CSHAKE.v1_0;
 
 namespace NIST.CVP.Generation.CSHAKE.IntegrationTests
 {
@@ -15,11 +15,11 @@ namespace NIST.CVP.Generation.CSHAKE.IntegrationTests
     public class GenValTestsCshake128 : GenValTestsSingleRunnerBase
     {
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
-        public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
 
-        public override string Algorithm { get; } = "CSHAKE";
-        public override string Mode { get; } = "128";
-        public override AlgoMode AlgoMode => AlgoMode.CSHAKE_v1_0;
+
+        public override string Algorithm { get; } = "CSHAKE-128";
+        public override string Mode { get; } = string.Empty;
+        public override AlgoMode AlgoMode => AlgoMode.CSHAKE_128_v1_0;
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {
@@ -77,7 +77,7 @@ namespace NIST.CVP.Generation.CSHAKE.IntegrationTests
 
             var parameters = new Parameters
             {
-                Algorithm = "CSHAKE",
+                Algorithm = Algorithm,
                 Mode = Mode,
                 Revision = Revision,
                 DigestSizes = new[] { 128 },
@@ -99,7 +99,7 @@ namespace NIST.CVP.Generation.CSHAKE.IntegrationTests
 
             var parameters = new Parameters
             {
-                Algorithm = "CSHAKE",
+                Algorithm = Algorithm,
                 Revision = Revision,
                 DigestSizes = new[] { 128 },
                 OutputLength = minMax,

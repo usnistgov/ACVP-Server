@@ -14,10 +14,12 @@ namespace NIST.CVP.Generation.DSA.v1_0.SigGen
     public class TestGroupGenerator : ITestGroupGenerator<Parameters, TestGroup, TestCase>
     {
         private readonly IOracle _oracle;
+        private readonly bool _randomizeMessagePriorToSign;
 
-        public TestGroupGenerator(IOracle oracle)
+        public TestGroupGenerator(IOracle oracle, bool randomizeMessagePriorToSign)
         {
             _oracle = oracle;
+            _randomizeMessagePriorToSign = randomizeMessagePriorToSign;
         }
 
         public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
@@ -47,7 +49,8 @@ namespace NIST.CVP.Generation.DSA.v1_0.SigGen
                         {
                             L = l,
                             N = n,
-                            HashAlg = hashFunction
+                            HashAlg = hashFunction,
+                            Conformance = _randomizeMessagePriorToSign ? "SP800-106" : null
                         };
 
                         testGroups.Add(testGroup);
@@ -74,7 +77,8 @@ namespace NIST.CVP.Generation.DSA.v1_0.SigGen
                     {
                         L = l,
                         N = n,
-                        HashAlg = hashFunction
+                        HashAlg = hashFunction,
+                        Conformance = _randomizeMessagePriorToSign ? "SP800-106" : null
                     };
 
                     var param = new DsaDomainParametersParameters

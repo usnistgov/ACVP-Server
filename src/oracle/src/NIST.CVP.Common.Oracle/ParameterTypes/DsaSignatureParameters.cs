@@ -11,5 +11,6 @@ namespace NIST.CVP.Common.Oracle.ParameterTypes
         public int MessageLength { get; set; }
         public FfcKeyPair Key { get; set; }
         public DsaSignatureDisposition Disposition { get; set; }
+        public bool IsMessageRandomized { get; set; }
     }
 }

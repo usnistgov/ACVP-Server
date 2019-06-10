@@ -1,14 +1,21 @@
-﻿using System.Collections.Generic;
-using NIST.CVP.Common.Helpers;
+﻿using NIST.CVP.Common.Helpers;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC.Enums;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.ECDSA.v1_0.SigVer.TestCaseExpectations;
+using System.Collections.Generic;
 
 namespace NIST.CVP.Generation.ECDSA.v1_0.SigVer
 {
     public class TestGroupGenerator : ITestGroupGenerator<Parameters, TestGroup, TestCase>
     {
+        private readonly bool _randomizeMessagePriorToSign;
+
+        public TestGroupGenerator(bool randomizeMessagePriorToSign)
+        {
+            _randomizeMessagePriorToSign = randomizeMessagePriorToSign;
+        }
+
         public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
         {
             // Use a hash set because the registration allows for duplicate pairings to occur
@@ -29,7 +36,8 @@ namespace NIST.CVP.Generation.ECDSA.v1_0.SigVer
                         {
                             TestCaseExpectationProvider = new TestCaseExpectationProvider(parameters.IsSample),
                             Curve = curve,
-                            HashAlg = sha
+                            HashAlg = sha,
+                            Conformance = _randomizeMessagePriorToSign ? "SP800-106" : null
                         };
 
                         testGroups.Add(testGroup);

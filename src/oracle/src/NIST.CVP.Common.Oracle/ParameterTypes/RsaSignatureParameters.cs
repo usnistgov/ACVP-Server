@@ -12,5 +12,6 @@ namespace NIST.CVP.Common.Oracle.ParameterTypes
         public int SaltLength { get; set; }
         public SignatureSchemes PaddingScheme { get; set; }
         public KeyPair Key { get; set; }
+        public bool IsMessageRandomized { get; set; }
     }
 }

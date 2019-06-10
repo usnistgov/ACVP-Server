@@ -2,24 +2,18 @@
   "vsId": 0,
   "algorithm": "ECDSA",
   "mode": "SigVer",
+  "revision": "1.0",
   "isSample": true,
-  "conformances": [],
+  "conformances": [
+    "SP800-106"
+  ],
   "capabilities": [
     {
       "curve": [
-        "p-224",
-        "b-233"
+        "P-192"
       ],
       "hashAlg": [
-        "sha2-224"
-      ]
-    },
-    {
-      "curve": [
-        "k-283"
-      ],
-      "hashAlg": [
-        "sha2-512"
+        "sha-1"
       ]
     }
   ]

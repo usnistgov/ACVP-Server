@@ -15,10 +15,12 @@ namespace NIST.CVP.Generation.DSA.v1_0.SigVer
     public class TestGroupGenerator : ITestGroupGenerator<Parameters, TestGroup, TestCase>
     {
         private readonly IOracle _oracle;
+        private readonly bool _randomizeMessagePriorToSign;
 
-        public TestGroupGenerator(IOracle oracle)
+        public TestGroupGenerator(IOracle oracle, bool randomizeMessagePriorToSign)
         {
             _oracle = oracle;
+            _randomizeMessagePriorToSign = randomizeMessagePriorToSign;
         }
 
         public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
@@ -29,7 +31,7 @@ namespace NIST.CVP.Generation.DSA.v1_0.SigVer
             return groups.Result;
         }
 
-        private async Task<List<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
+        private async Task<HashSet<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             Dictionary<TestGroup, Task<DsaDomainParametersResult>> map = new Dictionary<TestGroup, Task<DsaDomainParametersResult>>();
 
@@ -55,7 +57,8 @@ namespace NIST.CVP.Generation.DSA.v1_0.SigVer
                         L = l,
                         N = n,
                         HashAlg = hashFunction,
-                        TestCaseExpectationProvider = new TestCaseExpectationProvider(parameters.IsSample)
+                        TestCaseExpectationProvider = new TestCaseExpectationProvider(parameters.IsSample),
+                        Conformance = _randomizeMessagePriorToSign ? "SP800-106" : null
                     };
 
                     map.Add(testGroup, _oracle.GetDsaDomainParametersAsync(param));
@@ -64,7 +67,7 @@ namespace NIST.CVP.Generation.DSA.v1_0.SigVer
 
             await Task.WhenAll(map.Values);
 
-            List<TestGroup> groups = new List<TestGroup>();
+            HashSet<TestGroup> groups = new HashSet<TestGroup>();
             foreach (var keyValuePair in map)
             {
                 var group = keyValuePair.Key;

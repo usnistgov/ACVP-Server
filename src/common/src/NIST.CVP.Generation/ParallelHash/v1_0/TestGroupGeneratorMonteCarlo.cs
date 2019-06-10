@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using NIST.CVP.Generation.Core;
+﻿using NIST.CVP.Generation.Core;
+using System.Collections.Generic;
 
 namespace NIST.CVP.Generation.ParallelHash.v1_0
 {
@@ -17,7 +17,7 @@ namespace NIST.CVP.Generation.ParallelHash.v1_0
                 {
                     var testGroup = new TestGroup
                     {
-                        Function = parameters.Algorithm,
+                        Function = "ParallelHash",
                         DigestSize = digSize,
                         OutputLength = parameters.OutputLength,
                         TestType = TEST_TYPE,

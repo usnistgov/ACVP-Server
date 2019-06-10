@@ -13,6 +13,13 @@ namespace NIST.CVP.Generation.RSA.v1_0.SigGen
         public bool Deferred { get; set; }
 
         public BitString Message { get; set; }
+
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public BitString RandomValue { get; set; }
+
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public int RandomValueLen { get; set; }
+
         public BitString Signature { get; set; }
         public BitString Salt { get; set; }
 
@@ -23,7 +30,8 @@ namespace NIST.CVP.Generation.RSA.v1_0.SigGen
                 return false;
             }
 
-            switch (name.ToLower()){
+            switch (name.ToLower())
+            {
                 case "msg":
                     Message = new BitString(value);
                     return true;

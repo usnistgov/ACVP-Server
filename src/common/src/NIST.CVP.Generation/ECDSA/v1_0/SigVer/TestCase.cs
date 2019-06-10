@@ -1,9 +1,9 @@
-﻿using System.Numerics;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using NIST.CVP.Common.Oracle.DispositionTypes;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
+using System.Numerics;
 
 namespace NIST.CVP.Generation.ECDSA.v1_0.SigVer
 {
@@ -19,6 +19,12 @@ namespace NIST.CVP.Generation.ECDSA.v1_0.SigVer
         public EcdsaSignatureDisposition Reason { get; set; }
         [JsonProperty(PropertyName = "message")]
         public BitString Message { get; set; }
+
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public BitString RandomValue { get; set; }
+
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public int RandomValueLen { get; set; }
 
         [JsonIgnore] public EccKeyPair KeyPair { get; set; } = new EccKeyPair();
         [JsonProperty(PropertyName = "d", DefaultValueHandling = DefaultValueHandling.Ignore)]

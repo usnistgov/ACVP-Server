@@ -21,7 +21,7 @@ namespace NIST.CVP.Generation.SNMP.IntegrationTests
         public override AlgoMode AlgoMode => AlgoMode.KDFComponents_SNMP_v1_0;
 
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
-		public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
+
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {

@@ -18,10 +18,12 @@ namespace NIST.CVP.Generation.RSA.v1_0.SigVer
         public const string TEST_TYPE = "GDT";
 
         private readonly IOracle _oracle;
+        private readonly bool _randomizeMessagePriorToSign;
 
-        public TestGroupGenerator(IOracle oracle)
+        public TestGroupGenerator(IOracle oracle, bool randomizeMessagePriorToSign)
         {
             _oracle = oracle;
+            _randomizeMessagePriorToSign = randomizeMessagePriorToSign;
         }
 
         public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
@@ -68,6 +70,7 @@ namespace NIST.CVP.Generation.RSA.v1_0.SigVer
                                 HashAlg = ShaAttributes.GetHashFunctionFromName(hashPair.HashAlg),
                                 SaltLen = hashPair.SaltLen,
                                 TestCaseExpectationProvider = new TestCaseExpectationProvider(parameters.IsSample),
+                                Conformance = _randomizeMessagePriorToSign ? "SP800-106" : null,
 
                                 TestType = TEST_TYPE
                             };

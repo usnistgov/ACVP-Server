@@ -41,26 +41,6 @@
     {
       "tcId": 10,
       "result": "passed"
-    },
-    {
-      "tcId": 11,
-      "result": "passed"
-    },
-    {
-      "tcId": 12,
-      "result": "passed"
-    },
-    {
-      "tcId": 13,
-      "result": "passed"
-    },
-    {
-      "tcId": 14,
-      "result": "passed"
-    },
-    {
-      "tcId": 15,
-      "result": "passed"
     }
   ]
 }

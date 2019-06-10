@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Numerics;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
+using System;
+using System.Collections.Generic;
+using System.Numerics;
 
 namespace NIST.CVP.Generation.DSA.v1_0.SigGen
 {
@@ -15,6 +16,12 @@ namespace NIST.CVP.Generation.DSA.v1_0.SigGen
         public string TestType { get; set; }
         public int L { get; set; }
         public int N { get; set; }
+
+        [JsonIgnore]
+        public bool IsMessageRandomized => "SP800-106".Equals(Conformance, StringComparison.OrdinalIgnoreCase);
+
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public string Conformance { get; set; } = string.Empty;
         [JsonIgnore] public FfcDomainParameters DomainParams { get; set; } = new FfcDomainParameters();
 
         [JsonProperty(PropertyName = "p", DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -67,7 +74,7 @@ namespace NIST.CVP.Generation.DSA.v1_0.SigGen
         }
 
         public List<TestCase> Tests { get; set; } = new List<TestCase>();
-        
+
         public bool SetString(string name, string value)
         {
             if (string.IsNullOrEmpty(name))

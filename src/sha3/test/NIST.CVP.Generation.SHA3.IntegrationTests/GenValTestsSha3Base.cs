@@ -14,7 +14,7 @@ namespace NIST.CVP.Generation.SHA3.IntegrationTests
     public abstract class GenValTestsSha3Base : GenValTestsSingleRunnerBase
     {
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
-        public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
+
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {

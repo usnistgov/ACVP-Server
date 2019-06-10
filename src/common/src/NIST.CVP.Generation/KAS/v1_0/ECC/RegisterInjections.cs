@@ -1,7 +1,5 @@
-﻿using System.Collections.Generic;
-using Autofac;
+﻿using Autofac;
 using NIST.CVP.Common;
-using NIST.CVP.Common.Interfaces;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Async;
 using NIST.CVP.Generation.Core.DeSerialization;
@@ -10,6 +8,7 @@ using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Generation.KAS.v1_0.ECC.ContractResolvers;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
+using System.Collections.Generic;
 
 namespace NIST.CVP.Generation.KAS.v1_0.ECC
 {
@@ -17,7 +16,8 @@ namespace NIST.CVP.Generation.KAS.v1_0.ECC
     {
         public IEnumerable<AlgoMode> SupportedAlgoModeRevisions => new List<AlgoMode>()
         {
-            AlgoMode.KAS_ECC_v1_0
+            AlgoMode.KAS_ECC_v1_0,
+            AlgoMode.KAS_ECC_Component_v1_0
         };
 
         public void RegisterTypes(ContainerBuilder builder, AlgoMode algoMode)
@@ -25,7 +25,7 @@ namespace NIST.CVP.Generation.KAS.v1_0.ECC
             builder.RegisterType<Random800_90>().AsImplementedInterfaces();
             builder.RegisterType<EntropyProviderFactory>().AsImplementedInterfaces();
             builder.RegisterType<EntropyProvider>().AsImplementedInterfaces();
-            
+
             builder.RegisterType<Generator<Parameters, TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
             builder.RegisterType<ParameterChecker<Parameters>>().AsImplementedInterfaces();
             builder.RegisterType<ValidatorAsync<TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();

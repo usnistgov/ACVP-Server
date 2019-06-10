@@ -1,8 +1,8 @@
-﻿using System.Numerics;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
+using System.Numerics;
 
 namespace NIST.CVP.Generation.DSA.v1_0.SigGen
 {
@@ -22,6 +22,12 @@ namespace NIST.CVP.Generation.DSA.v1_0.SigGen
 
         public BitString Message { get; set; }
 
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public BitString RandomValue { get; set; }
+
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public int RandomValueLen { get; set; }
+
         [JsonIgnore] public FfcSignature Signature { get; set; } = new FfcSignature();
         [JsonProperty(PropertyName = "r", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public BigInteger R
@@ -38,7 +44,7 @@ namespace NIST.CVP.Generation.DSA.v1_0.SigGen
 
         // Needed for FireHoseTests
         public BigInteger K;
-        
+
         public bool SetString(string name, string value)
         {
             if (string.IsNullOrEmpty(name))

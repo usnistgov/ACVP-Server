@@ -26,18 +26,19 @@
         public string PoolConfigFile { get; set; }
 
         /// <summary>
-        /// The directory where the pool water files are stored.
+        /// Can be used to override the minimum pool level for *all* pools.  Mostly useful for development/debugging purposes.
         /// </summary>
-        public string PoolDirectory { get; set; }
+        public int OverrideMinimumPoolLevel { get; set; }
 
         /// <summary>
-        /// The Database connection string
+        /// When a pool value is used, should it be logged?
         /// </summary>
-        public string ConnectionString { get; set; }
+        public bool ShouldLogPoolValueUse { get; set; }
 
         /// <summary>
-        /// The database name to use
+        /// Logs up to string length of the used pool value when <see cref="ShouldLogPoolValueUse"/> is true.
+        /// <remarks>Use 0 to log the entirety of the pool value (this will get big for things like MCT pool values).</remarks>
         /// </summary>
-        public string DatabaseName { get; set; }
+        public int PoolResultLogLength { get; set; }
     }
 }

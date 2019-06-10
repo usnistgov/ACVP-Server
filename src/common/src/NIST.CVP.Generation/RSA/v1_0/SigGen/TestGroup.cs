@@ -1,12 +1,13 @@
-﻿using System.Collections.Generic;
-using System.Numerics;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
+using System;
+using System.Collections.Generic;
+using System.Numerics;
 
 namespace NIST.CVP.Generation.RSA.v1_0.SigGen
 {
@@ -28,10 +29,15 @@ namespace NIST.CVP.Generation.RSA.v1_0.SigGen
             set => HashAlg = ShaAttributes.GetHashFunctionFromName(value);
         }
 
+        [JsonIgnore]
+        public bool IsMessageRandomized => "SP800-106".Equals(Conformance, StringComparison.OrdinalIgnoreCase);
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public string Conformance { get; set; } = string.Empty;
+
         public int SaltLen { get; set; }
 
         [JsonIgnore]
-        public KeyPair Key { get; set; } = new KeyPair {PubKey = new PublicKey()};
+        public KeyPair Key { get; set; } = new KeyPair { PubKey = new PublicKey() };
 
         public BigInteger N
         {
@@ -62,7 +68,7 @@ namespace NIST.CVP.Generation.RSA.v1_0.SigGen
                     return true;
 
                 case "n":
-                    if (Key == null) { Key = new KeyPair {PubKey = new PublicKey()}; }
+                    if (Key == null) { Key = new KeyPair { PubKey = new PublicKey() }; }
                     Key.PubKey.N = new BitString(value).ToPositiveBigInteger();
                     return true;
 
@@ -72,7 +78,7 @@ namespace NIST.CVP.Generation.RSA.v1_0.SigGen
 
                 case "d":
                     var d = new BitString(value).ToPositiveBigInteger();
-                    Key.PrivKey = new PrivateKey {D = d};
+                    Key.PrivKey = new PrivateKey { D = d };
                     return true;
 
                 case "hash":

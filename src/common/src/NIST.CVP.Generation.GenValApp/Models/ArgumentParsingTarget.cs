@@ -1,22 +1,26 @@
-﻿using System.IO;
-using CommandLineParser.Arguments;
+﻿using CommandLineParser.Arguments;
 using CommandLineParser.Validation;
+using System;
+using System.IO;
 
 namespace NIST.CVP.Generation.GenValApp.Models
 {
-    [DistinctGroupsCertification("g", "n,r", 
+    [DistinctGroupsCertification("g", "n,r",
         Description = "(g) - used to indicate generation, (n,r) - used to indicate validation")]
     public class ArgumentParsingTarget
     {
-        [ValueArgument(typeof(string), 'a', "algorithm", Optional = false, 
+        [Obsolete("Can be removed once driver no longer passes in flag")]
+        [ValueArgument(typeof(string), 'a', "algorithm", Optional = true,
             Description = "The algorithm to in which to generate/validate test vectors")]
         public string Algorithm { get; set; }
 
+        [Obsolete("Can be removed once driver no longer passes in flag")]
         [ValueArgument(typeof(string), 'm', "mode", Optional = true, DefaultValue = "",
             Description = "The algorithm mode in which to generate/validate test vectors (does not apply to all algorithms)")]
         public string Mode { get; set; }
 
-        [ValueArgument(typeof(string), 'R', "revision", Optional = false, DefaultValue = "",
+        [Obsolete("Can be removed once driver no longer passes in flag")]
+        [ValueArgument(typeof(string), 'R', "revision", Optional = true, DefaultValue = "",
             Description = "The algorithm testing revision.")]
         public string Revision { get; set; }
 

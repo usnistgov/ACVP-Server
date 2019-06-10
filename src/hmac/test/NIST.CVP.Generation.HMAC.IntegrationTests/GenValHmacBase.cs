@@ -15,7 +15,7 @@ namespace NIST.CVP.Generation.HMAC.IntegrationTests
         public abstract override string Algorithm { get; }
         public override string Mode { get; } = "";
 
-        public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
+
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
 
         protected override void ModifyTestCaseToFail(dynamic testCase)

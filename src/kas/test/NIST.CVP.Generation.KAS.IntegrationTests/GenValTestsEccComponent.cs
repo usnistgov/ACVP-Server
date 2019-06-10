@@ -22,7 +22,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
 
         public override AlgoMode AlgoMode => AlgoMode.KAS_EccComponent_v1_0;
 
-        public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
+
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
 
         protected override string GetTestFileFewTestCases(string folderName)

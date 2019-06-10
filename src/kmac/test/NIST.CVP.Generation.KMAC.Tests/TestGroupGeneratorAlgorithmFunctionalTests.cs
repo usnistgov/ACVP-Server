@@ -1,10 +1,8 @@
-﻿using System;
-using System.Linq;
-using NIST.CVP.Generation.KMAC.v1_0;
-using NIST.CVP.Math;
+﻿using NIST.CVP.Generation.KMAC.v1_0;
 using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
+using System.Linq;
 
 namespace NIST.CVP.Generation.KMAC.Tests
 {
@@ -43,7 +41,7 @@ namespace NIST.CVP.Generation.KMAC.Tests
                 2
             }
         };
-        
+
         [Test]
         [TestCaseSource(nameof(testData))]
         public void ShouldReturnOneITestGroupForEveryDigestSize(
@@ -58,7 +56,7 @@ namespace NIST.CVP.Generation.KMAC.Tests
                 MsgLen = new MathDomain().AddSegment(new RangeDomainSegment(null, 256, 1024, 8)),
                 KeyLen = new MathDomain().AddSegment(new RangeDomainSegment(null, 256, 1024, 8)),
                 MacLen = new MathDomain().AddSegment(new RangeDomainSegment(null, 256, 1024, 8)),
-                XOF = false,
+                XOF = new[] { false },
                 DigestSizes = digestSizes,
                 IsSample = true
             };
@@ -82,7 +80,7 @@ namespace NIST.CVP.Generation.KMAC.Tests
                 MsgLen = new MathDomain().AddSegment(new RangeDomainSegment(null, 256, 1024, 8)),
                 KeyLen = new MathDomain().AddSegment(new RangeDomainSegment(null, 256, 1024, 8)),
                 MacLen = new MathDomain().AddSegment(new RangeDomainSegment(null, 256, 1024, 8)),
-                XOF = true,
+                XOF = new[] { true, false },
                 DigestSizes = digestSizes,
                 IsSample = true
             };
@@ -106,8 +104,7 @@ namespace NIST.CVP.Generation.KMAC.Tests
                 MsgLen = new MathDomain().AddSegment(new RangeDomainSegment(null, 256, 1024, 8)),
                 KeyLen = new MathDomain().AddSegment(new RangeDomainSegment(null, 256, 1024, 8)),
                 MacLen = new MathDomain().AddSegment(new RangeDomainSegment(null, 256, 1024, 8)),
-                XOF = true,
-                NonXOF = false,
+                XOF = new[] { true },
                 DigestSizes = digestSizes,
                 IsSample = true
             };

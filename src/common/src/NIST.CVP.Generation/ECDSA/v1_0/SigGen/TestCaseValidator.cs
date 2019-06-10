@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
+﻿using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Async;
-using NIST.CVP.Generation.Core.Enums;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Generation.ECDSA.v1_0.SigGen
 {
@@ -16,7 +15,7 @@ namespace NIST.CVP.Generation.ECDSA.v1_0.SigGen
         public int TestCaseId => _expectedResult.TestCaseId;
 
         public TestCaseValidator(
-            TestCase expectedResult, 
+            TestCase expectedResult,
             TestGroup group, IDeferredTestCaseResolverAsync<TestGroup, TestCase, EccVerificationResult> deferredResolver
         )
         {
@@ -28,33 +27,55 @@ namespace NIST.CVP.Generation.ECDSA.v1_0.SigGen
         public async Task<TestCaseValidation> ValidateAsync(TestCase suppliedResult, bool showExpected = false)
         {
             var errors = new List<string>();
+            Dictionary<string, string> expected = new Dictionary<string, string>(); ;
+            Dictionary<string, string> provided = new Dictionary<string, string>(); ;
 
-            if (suppliedResult.Signature == null)
+            ValidateResultPresent(suppliedResult, errors);
+            if (errors.Count == 0)
             {
-                errors.Add("Could not find r or s");
-            }
-            else
-            {
-                var verifyResult = await _deferredResolver.CompleteDeferredCryptoAsync(_group, _expectedResult, suppliedResult);
-                if (!verifyResult.Success)
-                {
-                    errors.Add($"Validation failed: {verifyResult.ErrorMessage}");
-                }
+                await CheckResults(suppliedResult, errors, expected, provided);
             }
 
             if (errors.Count > 0)
             {
                 return new TestCaseValidation
                 {
-                    TestCaseId = suppliedResult.TestCaseId, 
-                    Result = Disposition.Failed, 
+                    TestCaseId = suppliedResult.TestCaseId,
+                    Result = Core.Enums.Disposition.Failed,
                     Reason = string.Join(";", errors),
-                    Expected = new Dictionary<string, string>(),
-                    Provided = new Dictionary<string, string>()
+                    Expected = showExpected ? expected : null,
+                    Provided = showExpected ? provided : null
                 };
             }
 
-            return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = Disposition.Passed };
+            return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = Core.Enums.Disposition.Passed };
+        }
+
+        private void ValidateResultPresent(TestCase suppliedResult, List<string> errors)
+        {
+            if (suppliedResult.Signature == null)
+            {
+                errors.Add("Could not find r or s");
+            }
+
+            if (_group.IsMessageRandomized && suppliedResult.RandomValue == null)
+            {
+                errors.Add($"{nameof(suppliedResult.RandomValue)} was not supplied.");
+            }
+
+            if (_group.IsMessageRandomized && suppliedResult.RandomValueLen == 0)
+            {
+                errors.Add($"{nameof(suppliedResult.RandomValueLen)} was not supplied.");
+            }
+        }
+
+        private async Task CheckResults(TestCase suppliedResult, List<string> errors, Dictionary<string, string> expected, Dictionary<string, string> provided)
+        {
+            var verifyResult = await _deferredResolver.CompleteDeferredCryptoAsync(_group, _expectedResult, suppliedResult);
+            if (!verifyResult.Success)
+            {
+                errors.Add($"Validation failed: {verifyResult.ErrorMessage}");
+            }
         }
     }
 }

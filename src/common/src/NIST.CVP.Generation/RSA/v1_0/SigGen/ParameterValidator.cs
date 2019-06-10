@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using NIST.CVP.Common.Helpers;
+﻿using NIST.CVP.Common.Helpers;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
 using NIST.CVP.Generation.Core;
+using System.Collections.Generic;
 
 namespace NIST.CVP.Generation.RSA.v1_0.SigGen
 {
@@ -11,6 +11,7 @@ namespace NIST.CVP.Generation.RSA.v1_0.SigGen
         public static int[] VALID_MODULI = { 2048, 3072 };
         public static string[] VALID_HASH_ALGS = { "sha-1", "sha2-224", "sha2-256", "sha2-384", "sha2-512", "sha2-512/224", "sha2-512/256" };
         public static string[] VALID_SIG_GEN_MODES = EnumHelpers.GetEnumDescriptions<SignatureSchemes>().ToArray();
+        public static string[] VALID_CONFORMANCES = { "SP800-106" };
 
         public ParameterValidateResponse Validate(Parameters parameters)
         {
@@ -74,6 +75,8 @@ namespace NIST.CVP.Generation.RSA.v1_0.SigGen
                 }
             }
 
+            ValidateConformances(parameters, errorResults);
+
             return new ParameterValidateResponse(errorResults);
         }
 
@@ -94,6 +97,18 @@ namespace NIST.CVP.Generation.RSA.v1_0.SigGen
             }
 
             return "";
+        }
+
+        private void ValidateConformances(Parameters parameters, List<string> errors)
+        {
+            if (parameters.Conformances != null && parameters.Conformances.Length != 0)
+            {
+                var result = ValidateArray(parameters.Conformances, VALID_CONFORMANCES, "Conformances");
+                if (!string.IsNullOrEmpty(result))
+                {
+                    errors.Add(result);
+                }
+            }
         }
     }
 }

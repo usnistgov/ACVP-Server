@@ -15,12 +15,12 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen.IntegrationTests
 
         public override AlgoMode AlgoMode => AlgoMode.ECDSA_SigGen_v1_0;
 
-        public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
+
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
 
         protected override string GetTestFileFewTestCases(string targetFolder)
         {
-            var caps = new []
+            var caps = new[]
             {
                 new Capability
                 {
@@ -49,7 +49,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen.IntegrationTests
 
         protected override string GetTestFileLotsOfTestCases(string targetFolder)
         {
-            var caps = new []
+            var caps = new[]
             {
                 new Capability
                 {
@@ -64,6 +64,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen.IntegrationTests
                 Mode = Mode,
                 Revision = Revision,
                 IsSample = true,
+                Conformances = new[] { "SP800-106" },
                 Capabilities = caps,
             };
 

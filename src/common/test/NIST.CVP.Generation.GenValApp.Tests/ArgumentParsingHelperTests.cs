@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
-using CommandLineParser.Exceptions;
-using CommandLineParser.Validation;
+﻿using CommandLineParser.Validation;
 using NIST.CVP.Generation.GenValApp.Helpers;
 using NIST.CVP.Tests.Core;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
+using System.IO;
 
 namespace NIST.CVP.Generation.GenValApp.Tests
 {
@@ -28,12 +24,9 @@ namespace NIST.CVP.Generation.GenValApp.Tests
         public void ShouldParseGeneratorArgumentsCorrectly()
         {
             var registration = Path.Combine(_directory, "registration.json");
-            var args = new[] {"-a", "algo", "-m", "mode", "-R", "1.0", "-g", registration};
+            var args = new[] { "-g", registration };
             var result = _subject.Parse(args);
-            
-            Assert.AreEqual("algo", result.Algorithm, nameof(result.Algorithm));
-            Assert.AreEqual("mode", result.Mode, nameof(result.Mode));
-            Assert.AreEqual("1.0", result.Revision, nameof(result.Revision));
+
             Assert.AreEqual(registration, result.RegistrationFile.ToString(), nameof(result.RegistrationFile));
         }
 
@@ -42,11 +35,9 @@ namespace NIST.CVP.Generation.GenValApp.Tests
         {
             var answer = Path.Combine(_directory, "answer.json");
             var response = Path.Combine(_directory, "response.json");
-            var args = new[] {"-a", "algo", "-m", "mode", "-R", "1.0", "-n", answer, "-r", response};
+            var args = new[] { "-n", answer, "-r", response };
             var result = _subject.Parse(args);
 
-            Assert.AreEqual("algo", result.Algorithm, nameof(result.Algorithm));
-            Assert.AreEqual("mode", result.Mode, nameof(result.Mode));
             Assert.AreEqual(answer, result.AnswerFile.ToString(), nameof(result.AnswerFile));
             Assert.AreEqual(response, result.ResponseFile.ToString(), nameof(result.ResponseFile));
         }
@@ -58,7 +49,7 @@ namespace NIST.CVP.Generation.GenValApp.Tests
             var answer = Path.Combine(_directory, "answer.json");
             var response = Path.Combine(_directory, "response.json");
 
-            var args = new[] {"-a", "algo", "-m", "mode", "-R", "1.0", "-g", registration, "-n", answer, "-r", response};
+            var args = new[] { "-g", registration, "-n", answer, "-r", response };
             Assert.Throws<ArgumentConflictException>(() => _subject.Parse(args));
         }
     }

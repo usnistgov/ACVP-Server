@@ -15,11 +15,11 @@ namespace NIST.CVP.Generation.TupleHash.IntegrationTests
     public class GenValTestsTupleHash256 : GenValTestsSingleRunnerBase
     {
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
-        public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
 
-        public override string Algorithm { get; } = "TupleHash";
-        public override string Mode { get; } = "256";
-        public override AlgoMode AlgoMode => AlgoMode.TupleHash_v1_0;
+
+        public override string Algorithm { get; } = "TupleHash-256";
+        public override string Mode { get; } = string.Empty;
+        public override AlgoMode AlgoMode => AlgoMode.TupleHash_256_v1_0;
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {
@@ -31,7 +31,7 @@ namespace NIST.CVP.Generation.TupleHash.IntegrationTests
                 bs = rand.GetDifferentBitStringOfSameSize(bs);
                 testCase.md = bs.ToHex();
             }
-            
+
             if (testCase.resultsArray != null)
             {
                 var bsDigest = new BitString(testCase.resultsArray[0].md.ToString());
@@ -72,7 +72,7 @@ namespace NIST.CVP.Generation.TupleHash.IntegrationTests
                 DigestSizes = new[] { 256 },
                 OutputLength = minMax,
                 MessageLength = minMax,
-                XOF = new[] {false},
+                XOF = new[] { false },
                 IsSample = true
             };
 
@@ -94,7 +94,7 @@ namespace NIST.CVP.Generation.TupleHash.IntegrationTests
                 DigestSizes = new[] { 256 },
                 MessageLength = minMaxMsg,
                 OutputLength = minMax,
-                XOF = new[] {true, false},
+                XOF = new[] { true, false },
                 IsSample = true
             };
 
