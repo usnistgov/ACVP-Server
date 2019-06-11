@@ -3,13 +3,18 @@ using NIST.CVP.Math.Helpers;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using System.Numerics;
+using Moq;
+using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Common.Symmetric.Engines;
 
 namespace NIST.CVP.Crypto.AES_FF.Tests
 {
     [TestFixture, FastCryptoTest]
     public class AesFfInternalsTests
     {
-        private readonly AesFfInternals _subject = new AesFfInternals();
+        private readonly AesFfInternals _subject = new AesFfInternals(
+            new Mock<IBlockCipherEngineFactory>().Object, 
+            new Mock<IModeBlockCipherFactory>().Object);
 
         [Test]
         [TestCase(5, "00011010", 755)]
@@ -41,7 +46,7 @@ namespace NIST.CVP.Crypto.AES_FF.Tests
 
             for (var i = 0; i <= m - 1; i++)
             {
-                Assert.AreEqual(BitString.To32BitString(expected[i]), result.Substring(i * 32, 32), $"i: {i}");
+                Assert.AreEqual(expected[i], result.Numbers[i]);
             }
         }
 
@@ -49,7 +54,15 @@ namespace NIST.CVP.Crypto.AES_FF.Tests
         [TestCase(new int[] {1,3,5,7,9}, new int[] {9,7,5,3,1})]
         public void ShouldRevCorrectly(int[] x, int[] expected)
         {
-             Assert.Fail();
+            var result = _subject.Rev(new NumeralString(x));
+
+            Assert.Multiple(() =>
+            {
+                for (var i = 0; i <= expected.Length - 1; i++)
+                {
+                    Assert.AreEqual(expected[i], result.Numbers[i]);
+                }
+            });
         }
 
         [Test]

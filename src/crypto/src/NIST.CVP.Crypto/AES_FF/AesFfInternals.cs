@@ -1,6 +1,10 @@
 using NIST.CVP.Crypto.Common.Symmetric.AES;
 using NIST.CVP.Math;
 using System.Numerics;
+using NIST.CVP.Crypto.Common.Symmetric;
+using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Common.Symmetric.Engines;
+using NIST.CVP.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.Math.Helpers;
 
 namespace NIST.CVP.Crypto.AES_FF
@@ -16,6 +20,15 @@ namespace NIST.CVP.Crypto.AES_FF
     /// </summary>
     public class AesFfInternals : IAesFfInternals
     {
+        private readonly IBlockCipherEngineFactory _engineFactory;
+        private readonly IModeBlockCipherFactory _modeFactory;
+        
+        public AesFfInternals(IBlockCipherEngineFactory engineFactory, IModeBlockCipherFactory modeFactory)
+        {
+            _engineFactory = engineFactory;
+            _modeFactory = modeFactory;
+        }
+        
         public BigInteger Num(int radix, BitString x)
         {
             // 1. Let x = 0.
@@ -46,36 +59,34 @@ namespace NIST.CVP.Crypto.AES_FF
             return result;
         }
 
-        public BitString Str(int radix, int m, int x)
+        public NumeralString Str(int radix, int m, int x)
         {
-            var resultArray = new BitString[m];
-            var result = new BitString(0);
-
+            var resultArray = new int[m];
+           
             // 1. For i from 1 to m:
             for (var i = 0; i <= m - 1; i++)
             {
                 // i. X[m+1–i] = x mod radix;
-                //resultArray[m - 1 - i] = BitString.To32BitString(x % radix);
-                result = result.ConcatenateBits(BitString.To32BitString(x % radix));
+                resultArray[m - 1 - i] = x % radix;
 
                 // ii. x = Floor(x/radix).
                 x = (int)System.Math.Floor((double)x / radix);
             }
 
-            //foreach (var bs in resultArray)
-            //{
-            //    result = result.ConcatenateBits(bs);
-            //}
-
             // 2. Return X.
-            return result;
+            return new NumeralString(resultArray);
         }
 
-        public BitString Rev(BitString x)
+        public NumeralString Rev(NumeralString x)
         {
             // 1. For i from 1 to LEN(X), let Y[i] = X[LEN(X)+1–i].
+            var result = new int[x.Numbers.Length];
+            for (var i = 0; i <= x.Numbers.Length - 1; i++)
+            {
+                result[i] = x.Numbers[x.Numbers.Length - 1 - i];
+            }
             // 2. Return Y[1..LEN(X)].
-            return new BitString(MsbLsbConversionHelpers.ReverseBitArrayBits(x.Bits));
+            return new NumeralString(result);
         }
 
         public BitString RevB(BitString x)
@@ -87,7 +98,18 @@ namespace NIST.CVP.Crypto.AES_FF
 
         public BitString Prf(BitString x, BitString key)
         {
-            throw new System.NotImplementedException();
+            // This method runs cbc mac on the full block string against the key
+            var engine = _engineFactory.GetSymmetricCipherPrimitive(BlockCipherEngines.Aes);
+            var mode = _modeFactory.GetStandardCipher(engine, BlockCipherModesOfOperation.CbcMac);
+
+            var param = new ModeBlockCipherParameters(
+                BlockCipherDirections.Encrypt,
+                new BitString(engine.BlockSizeBits), 
+                key, 
+                x
+            );
+            
+            return mode.ProcessPayload(param).Result;
         }
     }
 }

@@ -39,14 +39,13 @@ namespace NIST.CVP.Crypto.Common.Symmetric.AES
         /// Given a nonnegative integer x less than radixm, the representation of x as a
         /// string of m numerals in base radix, in decreasing order of significance. For
         /// example, STR4 12 (559) is the string of four numerals in base 12 that represents
-        /// 559, namely, 0 3 10 7. An algorithm for computing STR m
-        ///             radix (x) is given in Sec. 4.5.
+        /// 559, namely, 0 3 10 7. An algorithm for computing STR m radix (x) is given in Sec. 4.5.
         /// </summary>
         /// <param name="radix">The base.</param>
         /// <param name="m">the number of numerals.</param>
         /// <param name="x">The integer X, such that 0 &lt;= x &lt; radix^m  </param>
         /// <returns></returns>
-        BitString Str(int radix, int m, int x);
+        NumeralString Str(int radix, int m, int x);
 
         /// <summary>
         /// Given a numeral string, X, the numeral string that consists of the numerals
@@ -54,7 +53,7 @@ namespace NIST.CVP.Crypto.Common.Symmetric.AES
         /// </summary>
         /// <param name="x"></param>
         /// <returns></returns>
-        BitString Rev(BitString x);
+        NumeralString Rev(NumeralString x);
 
         /// <summary>
         /// Given a byte string, X, the byte string that consists of the bytes of X in
