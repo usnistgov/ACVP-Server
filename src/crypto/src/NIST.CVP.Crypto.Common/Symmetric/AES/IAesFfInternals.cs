@@ -1,4 +1,3 @@
-using System.Numerics;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.Common.Symmetric.AES
@@ -20,7 +19,7 @@ namespace NIST.CVP.Crypto.Common.Symmetric.AES
         /// <param name="radix">The base.</param>
         /// <param name="x">The numeral string X.</param>
         /// <returns></returns>
-        BigInteger Num(int radix, BitString x);
+        short Num(short radix, NumeralString x);
 
         /// <summary>
         /// Algorithm 2 - Num
@@ -31,8 +30,8 @@ namespace NIST.CVP.Crypto.Common.Symmetric.AES
         /// </summary>
         /// <param name="x">The byte string X.</param>
         /// <returns></returns>
-        BigInteger Num(BitString x);
-        
+        short Num(BitString x);
+
         /// <summary>
         /// Algorithm 3 - Str_m_radix
         ///
@@ -45,7 +44,7 @@ namespace NIST.CVP.Crypto.Common.Symmetric.AES
         /// <param name="m">the number of numerals.</param>
         /// <param name="x">The integer X, such that 0 &lt;= x &lt; radix^m  </param>
         /// <returns></returns>
-        NumeralString Str(int radix, int m, int x);
+        NumeralString Str(short radix, short m, short x);
 
         /// <summary>
         /// Given a numeral string, X, the numeral string that consists of the numerals

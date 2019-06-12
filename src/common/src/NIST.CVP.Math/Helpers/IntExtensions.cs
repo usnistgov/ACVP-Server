@@ -24,5 +24,16 @@
 
             return a;
         }
+        
+        /// <summary>
+        /// Takes the modulo of a value (or <see cref="int"/> expression) and ensures it is between [0, <paramref name="modulo"/> - 1]
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="modulo"></param>
+        /// <returns></returns>
+        public static int PosMod(this int value, int modulo)
+        {
+            return (value % modulo + modulo) % modulo;
+        }
     }
 }

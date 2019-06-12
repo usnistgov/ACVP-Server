@@ -3,51 +3,49 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.645
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Common", "..\..\common\src\NIST.CVP.Common\NIST.CVP.Common.csproj", "{4510E4D7-1BDD-4321-B347-C6746520E501}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Common", "..\..\common\src\NIST.CVP.Common\NIST.CVP.Common.csproj", "{4510E4D7-1BDD-4321-B347-C6746520E501}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Generation", "..\..\common\src\NIST.CVP.Generation\NIST.CVP.Generation.csproj", "{0BACAECB-5F83-49FE-B2B2-9407608C6DC9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation", "..\..\common\src\NIST.CVP.Generation\NIST.CVP.Generation.csproj", "{0BACAECB-5F83-49FE-B2B2-9407608C6DC9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Generation.Core", "..\..\common\src\NIST.CVP.Generation.Core\NIST.CVP.Generation.Core.csproj", "{8917239B-B966-4DC0-A72E-F5EF06F4A477}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.Core", "..\..\common\src\NIST.CVP.Generation.Core\NIST.CVP.Generation.Core.csproj", "{8917239B-B966-4DC0-A72E-F5EF06F4A477}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Math", "..\..\common\src\NIST.CVP.Math\NIST.CVP.Math.csproj", "{FE0B9350-2578-4FA2-B004-F16C09653081}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Math", "..\..\common\src\NIST.CVP.Math\NIST.CVP.Math.csproj", "{FE0B9350-2578-4FA2-B004-F16C09653081}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Common.Tests", "..\..\common\test\NIST.CVP.Common.Tests\NIST.CVP.Common.Tests.csproj", "{AE2BEFF3-3A21-4DFC-ACD3-95DC0D44BE07}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Common.Tests", "..\..\common\test\NIST.CVP.Common.Tests\NIST.CVP.Common.Tests.csproj", "{AE2BEFF3-3A21-4DFC-ACD3-95DC0D44BE07}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Generation.Core.Tests", "..\..\common\test\NIST.CVP.Generation.Core.Tests\NIST.CVP.Generation.Core.Tests.csproj", "{ED1FCE67-5ABB-4C8D-B97D-645310C6683C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.Core.Tests", "..\..\common\test\NIST.CVP.Generation.Core.Tests\NIST.CVP.Generation.Core.Tests.csproj", "{ED1FCE67-5ABB-4C8D-B97D-645310C6683C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Math.Tests", "..\..\common\test\NIST.CVP.Math.Tests\NIST.CVP.Math.Tests.csproj", "{B566D4D5-B021-4F1E-B041-3A59BCF9EFCA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Math.Tests", "..\..\common\test\NIST.CVP.Math.Tests\NIST.CVP.Math.Tests.csproj", "{B566D4D5-B021-4F1E-B041-3A59BCF9EFCA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Tests.Core", "..\..\common\test\NIST.CVP.Tests.Core\NIST.CVP.Tests.Core.csproj", "{E3F34E96-CCC1-4F38-B277-E4A6BF3EAB0E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Tests.Core", "..\..\common\test\NIST.CVP.Tests.Core\NIST.CVP.Tests.Core.csproj", "{E3F34E96-CCC1-4F38-B277-E4A6BF3EAB0E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Crypto", "..\..\crypto\src\NIST.CVP.Crypto\NIST.CVP.Crypto.csproj", "{C28ABC0B-CF2A-4607-AC8E-2C56F4FE2104}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto", "..\..\crypto\src\NIST.CVP.Crypto\NIST.CVP.Crypto.csproj", "{C28ABC0B-CF2A-4607-AC8E-2C56F4FE2104}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Crypto.Common", "..\..\crypto\src\NIST.CVP.Crypto.Common\NIST.CVP.Crypto.Common.csproj", "{8C3BE8BA-41CC-4AE3-82D9-5BCE67B43B0F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.Common", "..\..\crypto\src\NIST.CVP.Crypto.Common\NIST.CVP.Crypto.Common.csproj", "{8C3BE8BA-41CC-4AE3-82D9-5BCE67B43B0F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Common.Oracle", "..\..\oracle\src\NIST.CVP.Common.Oracle\NIST.CVP.Common.Oracle.csproj", "{9ABA448F-A51D-49E1-97C2-01B860B42064}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Common.Oracle", "..\..\oracle\src\NIST.CVP.Common.Oracle\NIST.CVP.Common.Oracle.csproj", "{9ABA448F-A51D-49E1-97C2-01B860B42064}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Crypto.Oracle", "..\..\oracle\src\NIST.CVP.Crypto.Oracle\NIST.CVP.Crypto.Oracle.csproj", "{FBEC1C74-3105-48ED-B69C-9F2928C65B1C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.Oracle", "..\..\oracle\src\NIST.CVP.Crypto.Oracle\NIST.CVP.Crypto.Oracle.csproj", "{FBEC1C74-3105-48ED-B69C-9F2928C65B1C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Orleans.Grains", "..\..\orleans\src\NIST.CVP.Orleans.Grains\NIST.CVP.Orleans.Grains.csproj", "{0EF20D1D-B7FF-477C-BB54-8AA0B38BC607}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Orleans.Grains", "..\..\orleans\src\NIST.CVP.Orleans.Grains\NIST.CVP.Orleans.Grains.csproj", "{0EF20D1D-B7FF-477C-BB54-8AA0B38BC607}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Orleans.Grains.Interfaces", "..\..\orleans\src\NIST.CVP.Orleans.Grains.Interfaces\NIST.CVP.Orleans.Grains.Interfaces.csproj", "{76DA73D3-FE3F-4E0B-8056-2DC786B62AF5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Orleans.Grains.Interfaces", "..\..\orleans\src\NIST.CVP.Orleans.Grains.Interfaces\NIST.CVP.Orleans.Grains.Interfaces.csproj", "{76DA73D3-FE3F-4E0B-8056-2DC786B62AF5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Orleans.ServerHost", "..\..\orleans\src\NIST.CVP.Orleans.ServerHost\NIST.CVP.Orleans.ServerHost.csproj", "{26C0988F-7964-46E9-9496-835CAAA15152}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Orleans.ServerHost", "..\..\orleans\src\NIST.CVP.Orleans.ServerHost\NIST.CVP.Orleans.ServerHost.csproj", "{26C0988F-7964-46E9-9496-835CAAA15152}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Pools", "..\..\pools\src\NIST.CVP.Pools\NIST.CVP.Pools.csproj", "{2CA1390A-0F6A-469E-9172-5E69792BD007}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Pools", "..\..\pools\src\NIST.CVP.Pools\NIST.CVP.Pools.csproj", "{2CA1390A-0F6A-469E-9172-5E69792BD007}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Crypto.AES_FF.Tests", "..\..\crypto\test\NIST.CVP.Crypto.AES_FF.Tests\NIST.CVP.Crypto.AES_FF.Tests.csproj", "{8E8961F9-BC13-449D-9BDA-3C8EFED222A6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.AES_FF.Tests", "..\..\crypto\test\NIST.CVP.Crypto.AES_FF.Tests\NIST.CVP.Crypto.AES_FF.Tests.csproj", "{8E8961F9-BC13-449D-9BDA-3C8EFED222A6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Generation.AES_FF.Tests", "..\..\aes-ff\test\NIST.CVP.Generation.AES_FF.Tests\NIST.CVP.Generation.AES_FF.Tests.csproj", "{6E35E47E-DFE7-464B-A40E-7D3E0C536B9D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.AES_FF.Tests", "..\..\aes-ff\test\NIST.CVP.Generation.AES_FF.Tests\NIST.CVP.Generation.AES_FF.Tests.csproj", "{6E35E47E-DFE7-464B-A40E-7D3E0C536B9D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Generation.AES_FF.IntegrationTests", "..\..\aes-ff\test\NIST.CVP.Generation.AES_FF.IntegrationTests\NIST.CVP.Generation.AES_FF.IntegrationTests.csproj", "{D8ACB5A2-46EE-4A4E-A9C2-43A3780E09AB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.AES_FF.IntegrationTests", "..\..\aes-ff\test\NIST.CVP.Generation.AES_FF.IntegrationTests\NIST.CVP.Generation.AES_FF.IntegrationTests.csproj", "{D8ACB5A2-46EE-4A4E-A9C2-43A3780E09AB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{E15C0D4A-A852-41FA-8423-ED1ACFBACC93}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{5927ADFA-0C6F-428B-B41E-2076BE485E04}"
 EndProject
 Global
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {52FAE4D6-E19A-4F0F-8FEA-B8CFAA599B08}
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|x64 = Debug|x64
@@ -285,5 +283,32 @@ Global
 		{D8ACB5A2-46EE-4A4E-A9C2-43A3780E09AB}.Release|x64.Build.0 = Release|Any CPU
 		{D8ACB5A2-46EE-4A4E-A9C2-43A3780E09AB}.Release|x86.ActiveCfg = Release|Any CPU
 		{D8ACB5A2-46EE-4A4E-A9C2-43A3780E09AB}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{4510E4D7-1BDD-4321-B347-C6746520E501} = {E15C0D4A-A852-41FA-8423-ED1ACFBACC93}
+		{0BACAECB-5F83-49FE-B2B2-9407608C6DC9} = {E15C0D4A-A852-41FA-8423-ED1ACFBACC93}
+		{8917239B-B966-4DC0-A72E-F5EF06F4A477} = {E15C0D4A-A852-41FA-8423-ED1ACFBACC93}
+		{FE0B9350-2578-4FA2-B004-F16C09653081} = {E15C0D4A-A852-41FA-8423-ED1ACFBACC93}
+		{AE2BEFF3-3A21-4DFC-ACD3-95DC0D44BE07} = {5927ADFA-0C6F-428B-B41E-2076BE485E04}
+		{ED1FCE67-5ABB-4C8D-B97D-645310C6683C} = {5927ADFA-0C6F-428B-B41E-2076BE485E04}
+		{B566D4D5-B021-4F1E-B041-3A59BCF9EFCA} = {5927ADFA-0C6F-428B-B41E-2076BE485E04}
+		{E3F34E96-CCC1-4F38-B277-E4A6BF3EAB0E} = {5927ADFA-0C6F-428B-B41E-2076BE485E04}
+		{C28ABC0B-CF2A-4607-AC8E-2C56F4FE2104} = {E15C0D4A-A852-41FA-8423-ED1ACFBACC93}
+		{8C3BE8BA-41CC-4AE3-82D9-5BCE67B43B0F} = {E15C0D4A-A852-41FA-8423-ED1ACFBACC93}
+		{9ABA448F-A51D-49E1-97C2-01B860B42064} = {E15C0D4A-A852-41FA-8423-ED1ACFBACC93}
+		{FBEC1C74-3105-48ED-B69C-9F2928C65B1C} = {E15C0D4A-A852-41FA-8423-ED1ACFBACC93}
+		{0EF20D1D-B7FF-477C-BB54-8AA0B38BC607} = {E15C0D4A-A852-41FA-8423-ED1ACFBACC93}
+		{76DA73D3-FE3F-4E0B-8056-2DC786B62AF5} = {E15C0D4A-A852-41FA-8423-ED1ACFBACC93}
+		{26C0988F-7964-46E9-9496-835CAAA15152} = {E15C0D4A-A852-41FA-8423-ED1ACFBACC93}
+		{2CA1390A-0F6A-469E-9172-5E69792BD007} = {E15C0D4A-A852-41FA-8423-ED1ACFBACC93}
+		{8E8961F9-BC13-449D-9BDA-3C8EFED222A6} = {5927ADFA-0C6F-428B-B41E-2076BE485E04}
+		{6E35E47E-DFE7-464B-A40E-7D3E0C536B9D} = {5927ADFA-0C6F-428B-B41E-2076BE485E04}
+		{D8ACB5A2-46EE-4A4E-A9C2-43A3780E09AB} = {5927ADFA-0C6F-428B-B41E-2076BE485E04}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {52FAE4D6-E19A-4F0F-8FEA-B8CFAA599B08}
 	EndGlobalSection
 EndGlobal
