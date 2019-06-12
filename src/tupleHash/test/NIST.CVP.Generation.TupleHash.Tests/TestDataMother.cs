@@ -45,8 +45,7 @@ namespace NIST.CVP.Generation.TupleHash.Tests
                         Customization = "custom",
                         CustomizationHex = new BitString(8),
                         Deferred = true,
-                        TestCaseId = testId,
-                        DigestLength = 128
+                        TestCaseId = testId
                     };
                     tests.Add(tc);
 
