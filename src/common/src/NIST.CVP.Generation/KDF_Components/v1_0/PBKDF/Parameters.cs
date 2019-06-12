@@ -23,6 +23,8 @@ namespace NIST.CVP.Generation.KDF_Components.v1_0.PBKDF
         
         [JsonProperty(PropertyName = "keyLen")]
         public MathDomain KeyLength { get; set; }
+        
+        [JsonProperty(PropertyName = "hmacAlg")]
         public string[] HashAlg { get; set; }
     }
 }

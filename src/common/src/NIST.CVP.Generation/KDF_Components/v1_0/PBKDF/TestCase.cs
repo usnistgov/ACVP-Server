@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 
@@ -11,6 +12,8 @@ namespace NIST.CVP.Generation.KDF_Components.v1_0.PBKDF
         public bool Deferred { get; set; }
         
         public BitString DerivedKey { get; set; }
+        
+        [JsonProperty(PropertyName = "keyLen")]
         public int KeyLength { get; set; }
         public BitString Salt { get; set; }
         public string Password { get; set; }

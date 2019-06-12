@@ -19,8 +19,8 @@ namespace NIST.CVP.Generation.KDF_Components.v1_0.PBKDF
         public static int MAX_PASS_LEN = 128;
         public static int MIN_SALT_LEN = 128;
         public static int MAX_SALT_LEN = 4096;
-        public static int MIN_ITR_COUNT = 10;
-        public static int MAX_ITR_COUNT = 1000;
+        public static int MIN_ITR_COUNT = 1;
+        public static int MAX_ITR_COUNT = 10000000;
         
         public ParameterValidateResponse Validate(Parameters parameters)
         {

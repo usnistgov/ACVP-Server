@@ -26,7 +26,7 @@ namespace NIST.CVP.Generation.KDF_Components.v1_0.PBKDF
         [JsonIgnore]
         public HashFunction HashAlg { get; set; }
 
-        [JsonProperty("hashAlg")]
+        [JsonProperty("hmacAlg")]
         public string HashAlgName => HashAlg.Name;
         
         public List<TestCase> Tests { get; set; } = new List<TestCase>();

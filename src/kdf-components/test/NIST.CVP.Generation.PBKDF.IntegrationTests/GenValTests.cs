@@ -58,7 +58,7 @@ namespace NIST.CVP.Generation.PBKDF.IntegrationTests
                 Mode = Mode,
                 Revision = Revision,
                 HashAlg = new []{"SHA2-224", "SHA3-256", "SHA-1", "SHA2-512", "SHA3-512"},
-                IterationCount = new MathDomain().AddSegment(new RangeDomainSegment(null, 10, 1000)),
+                IterationCount = new MathDomain().AddSegment(new RangeDomainSegment(null, 10, 1000000)),
                 KeyLength = new MathDomain().AddSegment(new RangeDomainSegment(null, 112, 256)),
                 PasswordLength = new MathDomain().AddSegment(new RangeDomainSegment(null, 8, 16)),
                 SaltLength = new MathDomain().AddSegment(new RangeDomainSegment(null, 128, 256))
