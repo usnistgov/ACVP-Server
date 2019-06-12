@@ -27,7 +27,7 @@ namespace NIST.CVP.Generation.KMAC.Tests
             _mockTestCaseGenerator = new Mock<ITestCaseGeneratorAsync<TestGroup, TestCase>>();
 
             _mockTestCaseGenerator
-                .Setup(s => s.GenerateAsync(It.IsAny<TestGroup>(), true))
+                .Setup(s => s.GenerateAsync(It.IsAny<TestGroup>(), true, It.IsAny<int>()))
                 .Returns(Task.FromResult(new TestCaseGenerateResponse<TestGroup, TestCase>(new TestCase())));
             _mockTestCaseGeneratorFactory
                 .Setup(s => s.GetCaseGenerator(It.IsAny<TestGroup>()))

@@ -20,7 +20,7 @@ namespace NIST.CVP.Generation.TupleHash.v1_0
         private readonly IOracle _oracle;
         private readonly IRandom800_90 _rand;
         private readonly List<(int[] messageLengths, int outputLengths, int customizationLengths)> _lengths = new List<(int[], int, int)>();
-        
+
         public int NumberOfTestCasesToGenerate => 512;
 
         public TestCaseGeneratorAft(IOracle oracle, IRandom800_90 rand)
