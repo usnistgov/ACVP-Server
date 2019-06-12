@@ -15,7 +15,6 @@ namespace NIST.CVP.Generation.SHA3.v1_0
     public class TestCaseGeneratorVot : ITestCaseGeneratorWithPrep<TestGroup, TestCase>
     {
         private int _capacity = 0;
-        private int _currentCase = 0;
         private readonly IOracle _oracle;
 
         public int NumberOfTestCasesToGenerate => TestCaseSizes.Count;
