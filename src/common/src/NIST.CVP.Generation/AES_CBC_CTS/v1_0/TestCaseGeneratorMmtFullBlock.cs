@@ -12,37 +12,41 @@ using System.Threading.Tasks;
 
 namespace NIST.CVP.Generation.AES_CBC_CTS.v1_0
 {
-    public class TestCaseGeneratorMmtFullBlock : ITestCaseGeneratorAsync<TestGroup, TestCase>
+    public class TestCaseGeneratorMmtFullBlock : ITestCaseGeneratorWithPrep<TestGroup, TestCase>
     {
         private readonly IOracle _oracle;
-
-        private bool _sizesSet = false;
         private List<int> _validSizes = new List<int>();
-        private int _currentIndex = 0;
 
-        public int NumberOfTestCasesToGenerate => 10;
+        public int NumberOfTestCasesToGenerate => 25;
 
         public TestCaseGeneratorMmtFullBlock(IOracle oracle)
         {
             _oracle = oracle;
         }
 
+        public GenerateResponse PrepareGenerator(TestGroup group, bool isSample)
+        {
+            var dataLength = group.PayloadLen.GetDeepCopy();
+
+            // Use larger numbers only when the "smaller" values don't exist.
+            _validSizes.AddRangeIfNotNullOrEmpty(dataLength.GetValues(a => a > 128 && a < 1280 && a % 128 == 0, 128, true));
+            _validSizes.AddRangeIfNotNullOrEmpty(dataLength.GetValues(a => a % 128 == 0, 128, true));
+
+            _validSizes = _validSizes.Take(NumberOfTestCasesToGenerate).ToList().Shuffle();
+            
+            return new GenerateResponse();
+        }
+
         public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample, int caseNo = 0)
         {
-            if (!_sizesSet)
-            {
-                _validSizes = GetValidSizes(group.PayloadLen);
-            }
-
             var param = new AesParameters
             {
                 Mode = group.BlockCipherModeOfOperation,
-                DataLength = GetDataLength(),
+                DataLength = _validSizes[caseNo % _validSizes.Count],
                 Direction = group.Function,
                 KeyLength = group.KeyLength
             };
-
-
+            
             try
             {
                 var oracleResult = await _oracle.GetAesCaseAsync(param);
@@ -61,31 +65,6 @@ namespace NIST.CVP.Generation.AES_CBC_CTS.v1_0
                 ThisLogger.Error(ex);
                 return new TestCaseGenerateResponse<TestGroup, TestCase>($"Failed to generate. {ex.Message}");
             }
-        }
-
-        private int GetDataLength()
-        {
-            var valueToReturn = _validSizes[_currentIndex];
-            _currentIndex++;
-
-            if (_validSizes.Count == _currentIndex)
-            {
-                _currentIndex = 0;
-            }
-
-            return valueToReturn;
-        }
-
-        private List<int> GetValidSizes(MathDomain dataLength)
-        {
-            _sizesSet = true;
-
-            List<int> values = new List<int>();
-            // Use larger numbers only when the "smaller" values don't exist.
-            values.AddRangeIfNotNullOrEmpty(dataLength.GetValues(a => a > 128 && a < 1280 && a % 128 == 0, 128, true));
-            values.AddRangeIfNotNullOrEmpty(dataLength.GetValues(a => a % 128 == 0, 128, true));
-
-            return values.Take(NumberOfTestCasesToGenerate).ToList();
         }
 
         private static ILogger ThisLogger => LogManager.GetCurrentClassLogger();
