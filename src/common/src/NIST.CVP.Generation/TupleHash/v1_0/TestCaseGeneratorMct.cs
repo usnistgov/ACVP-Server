@@ -12,11 +12,6 @@ namespace NIST.CVP.Generation.TupleHash.v1_0
     public class TestCaseGeneratorMct : ITestCaseGeneratorAsync<TestGroup, TestCase>
     {
         private readonly IOracle _oracle;
-
-        private const int INITIAL_MESSAGE_LEN = 288;
-
-        public bool IsSample { get; set; } = false;
-
         public int NumberOfTestCasesToGenerate => 1;
 
         public TestCaseGeneratorMct(IOracle oracle)
@@ -24,14 +19,14 @@ namespace NIST.CVP.Generation.TupleHash.v1_0
             _oracle = oracle;
         }
 
-        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample)
+        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample, int caseNo = 0)
         {
-            IsSample = isSample;
             var param = new TupleHashParameters
             {
                 HashFunction = new HashFunction(group.DigestSize, group.DigestSize * 2, group.XOF),
-                MessageLength = INITIAL_MESSAGE_LEN,
-                OutLens = group.OutputLength.GetDeepCopy()
+                InputLengths = group.MessageLength.GetDeepCopy(),
+                OutputLengths = group.OutputLength.GetDeepCopy(),
+                IsSample = isSample
             };
 
             try

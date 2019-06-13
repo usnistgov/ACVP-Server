@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Crypto.Common.Hash.ParallelHash;
@@ -13,56 +14,95 @@ using NLog;
 
 namespace NIST.CVP.Generation.ParallelHash.v1_0
 {
-    public class TestCaseGeneratorAft : ITestCaseGeneratorAsync<TestGroup, TestCase>
+    public class TestCaseGeneratorAft : ITestCaseGeneratorWithPrep<TestGroup, TestCase>
     {
-        private int _testCasesToGenerate = 512;
-        private int _numberOfSmallCases = 0;
-        private int _numberOfLargeCases = 0;
-        private int _currentSmallCase = 0;
-        private int _currentLargeCase = 1;
-        private int _currentTestCase = 0;
-        private int _customizationLength = 0;
-        private int _digestLength = 0;
         private int _capacity = 0;
-        private int _blockSize = 8;
 
         private readonly IOracle _oracle;
+        private readonly IRandom800_90 _rand;
+        
+        public int NumberOfTestCasesToGenerate => 512;
 
-        public int NumberOfTestCasesToGenerate => _testCasesToGenerate;
-        public List<int> OutputLengths { get; } = new List<int>() { 0 };                 // Primarily for testing purposes
-        public List<int> MessageLengths { get; } = new List<int>();                        // Primarily for testing purposes
-
-        public TestCaseGeneratorAft(IOracle oracle)
+        private IList<(int outputLength, int messageLength, int customizationLength, int blockSize)> _lengths = new List<(int, int, int, int)>();
+        
+        public TestCaseGeneratorAft(IOracle oracle, IRandom800_90 rand)
         {
             _oracle = oracle;
+            _rand = rand;
         }
 
-        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample)
+        public GenerateResponse PrepareGenerator(TestGroup group, bool isSample)
         {
-            // Only do this logic once
-            if (_capacity == 0)
+            _capacity = 2 * group.DigestSize;
+            var inputAllowed = group.MessageLength.GetDeepCopy();
+            var minMax = inputAllowed.GetDomainMinMax();
+
+            var messageLengths = new List<int>
             {
-                OutputLengths.Clear();
-                MessageLengths.Clear();
-                var smallMessageLengths = DetermineSmallMessageDomain(group.MessageLength, group);
-                var largeMessageLengths = DetermineLargeMessageDomain(group.MessageLength, group);
-                DetermineLengths(group.OutputLength, smallMessageLengths, largeMessageLengths);
-                _capacity = 2 * group.DigestSize;
+                minMax.Minimum,
+                minMax.Maximum
+            };
+
+            inputAllowed.SetRangeOptions(RangeDomainSegmentOptions.Random);
+            
+            do
+            {
+                // Small message lengths (add all less than or equal to capacity)
+                messageLengths.AddRange(inputAllowed.GetValues(x => x <= _capacity, _capacity, false));
+
+                // Large message lengths (add a random selection greater than capacity)
+                messageLengths.AddRange(inputAllowed.GetValues(x => x > _capacity, _capacity, false));
+                
+            } while (messageLengths.Count < NumberOfTestCasesToGenerate);
+            
+            // For every input length, just pick a random output length (min/max always included)
+            var outputAllowed = group.OutputLength.GetDeepCopy();
+            var outputMinMax = outputAllowed.GetDomainMinMax();
+            var outputLengths = new List<int>
+            {
+                outputMinMax.Minimum,
+                outputMinMax.Maximum
+            };
+
+            // Keep pulling output lengths until we have enough
+            do
+            {
+                outputLengths.AddRange(outputAllowed.GetValues(x => true, 1, false));
+
+            } while (outputLengths.Count < messageLengths.Count);
+            
+            // Shuffle inputs and outputs
+            messageLengths = messageLengths.Shuffle();
+            outputLengths = outputLengths.Shuffle();
+            
+            // Pair up input and output
+            if (messageLengths.Count != outputLengths.Count)
+            {
+                return new GenerateResponse("Unable to pair up input and output lengths");
             }
+            
+            for (var i = 0; i < messageLengths.Count; i++)
+            {
+                // Customization length will be bits if for hex, or bytes if for ascii
+                _lengths.Add((messageLengths[i], outputLengths[i], _rand.GetRandomInt(0, 129), _rand.GetRandomInt(1, 128) * 8));
+            }
+            
+            return new GenerateResponse();
+        }
 
-            _digestLength = OutputLengths[_currentTestCase % OutputLengths.Count];
-
-            var param = DetermineParameters(group.DigestSize, group.HexCustomization, group.XOF);
-
-            _currentTestCase++;
-
+        
+        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample, int caseNo = 0)
+        {
             try
             {
-                // local variable before await
-                var digestLength = _digestLength;
-                var blockSize = _blockSize;
-
-                var oracleResult = await _oracle.GetParallelHashCaseAsync(param);
+                var oracleResult = await _oracle.GetParallelHashCaseAsync(new ParallelHashParameters
+                {
+                    CustomizationLength = _lengths[caseNo].customizationLength,
+                    HexCustomization = group.HexCustomization,
+                    MessageLength = _lengths[caseNo].messageLength,
+                    HashFunction = new HashFunction(_lengths[caseNo].outputLength, _capacity, group.XOF),
+                    BlockSize = _lengths[caseNo].blockSize
+                });
 
                 return new TestCaseGenerateResponse<TestGroup, TestCase>(new TestCase
                 {
@@ -70,9 +110,9 @@ namespace NIST.CVP.Generation.ParallelHash.v1_0
                     Digest = oracleResult.Digest,
                     Customization = oracleResult.Customization,
                     CustomizationHex = oracleResult.CustomizationHex,
-                    BlockSize = blockSize,
+                    BlockSize = _lengths[caseNo].blockSize,
                     Deferred = false,
-                    DigestLength = digestLength
+                    DigestLength = _lengths[caseNo].outputLength
                 });
             }
             catch (Exception ex)
@@ -80,145 +120,6 @@ namespace NIST.CVP.Generation.ParallelHash.v1_0
                 ThisLogger.Error(ex);
                 return new TestCaseGenerateResponse<TestGroup, TestCase>($"Failed to generate. {ex.Message}");
             }
-        }
-
-        private MathDomain DetermineSmallMessageDomain(MathDomain msgLengths, TestGroup group)
-        {
-            if (msgLengths.DomainSegments.ElementAt(0).RangeMinMax.Maximum - msgLengths.DomainSegments.ElementAt(0).RangeMinMax.Minimum < (group.DigestSize == 128 ? 1344 : 1088))
-            {
-                return msgLengths.GetDeepCopy();
-            }
-            return new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), msgLengths.DomainSegments.ElementAt(0).RangeMinMax.Minimum, msgLengths.DomainSegments.ElementAt(0).RangeMinMax.Minimum + (group.DigestSize == 128 ? 1344 : 1088), msgLengths.DomainSegments.ElementAt(0).RangeMinMax.Increment));
-        }
-
-        private MathDomain DetermineLargeMessageDomain(MathDomain msgLengths, TestGroup group)
-        {
-            if (msgLengths.DomainSegments.ElementAt(0).RangeMinMax.Maximum < (group.DigestSize == 128 ? 1344 : 1088))
-            {
-                return msgLengths.GetDeepCopy();
-            }
-            return new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), group.DigestSize == 128 ? 1344 : 1088, msgLengths.DomainSegments.ElementAt(0).RangeMinMax.Maximum, msgLengths.DomainSegments.ElementAt(0).RangeMinMax.Increment));
-        }
-
-        private void DetermineLengths(MathDomain outputDomain, MathDomain smallMessageDomain, MathDomain largeMessageDomain)
-        {
-            outputDomain.SetRangeOptions(RangeDomainSegmentOptions.Random);
-            var minMax = outputDomain.GetDomainMinMax();
-            smallMessageDomain.SetRangeOptions(RangeDomainSegmentOptions.Random);
-            var smallMinMax = smallMessageDomain.GetDomainMinMax();
-            largeMessageDomain.SetRangeOptions(RangeDomainSegmentOptions.Random);
-            var largeMinMax = largeMessageDomain.GetDomainMinMax();
-
-            var values = outputDomain.GetValues(250).OrderBy(o => Guid.NewGuid()).Take(250);
-            int repetitions;
-            var smallValues = smallMessageDomain.GetValues(150).OrderBy(o => Guid.NewGuid()).Take(150);
-            var largeValues = largeMessageDomain.GetValues(100).OrderBy(o => Guid.NewGuid()).Take(100);
-
-            if (values.Count() == 0)
-            {
-                repetitions = 249;
-            }
-            else if (values.Count() > 249)
-            {
-                repetitions = 1;
-            }
-            else
-            {
-                repetitions = 250 / values.Count() + (250 % values.Count() > 0 ? 1 : 0);
-            }
-
-            foreach (var value in values)
-            {
-                for (var i = 0; i < repetitions; i++)
-                {
-                    OutputLengths.Add(value);
-                }
-            }
-
-            foreach (var value in smallValues)
-            {
-                MessageLengths.Add(value);
-                _numberOfSmallCases++;
-            }
-
-            foreach (var value in largeValues)
-            {
-                MessageLengths.Add(value);
-                _numberOfLargeCases++;
-            }
-
-            while (_numberOfLargeCases < 100)
-            {
-                MessageLengths.Add(largeMessageDomain.GetDomainMinMax().Maximum);
-                _numberOfLargeCases++;
-            }
-
-            // Make sure min and max appear in the list
-            OutputLengths.Add(minMax.Minimum);
-            OutputLengths.Add(minMax.Maximum);
-            MessageLengths.Add(smallMinMax.Minimum);
-            MessageLengths.Add(smallMinMax.Maximum);
-            MessageLengths.Add(largeMinMax.Minimum);
-            MessageLengths.Add(largeMinMax.Maximum);
-
-            OutputLengths.Sort();
-            MessageLengths.Sort();
-        }
-
-        private ParallelHashParameters DetermineParameters(int digestSize, bool hexCustomization, bool xof)
-        {
-            _testCasesToGenerate = _numberOfSmallCases + _numberOfLargeCases;
-
-            var messageLength = MessageLengths[_currentTestCase % MessageLengths.Count];
-
-            var customizationLength = 0;
-
-            if (_currentSmallCase <= _numberOfSmallCases)
-            {
-                if (hexCustomization)
-                {
-                    customizationLength = _customizationLength * 8;  // always byte oriented... for now?
-                }
-                else
-                {
-                    customizationLength = _customizationLength;
-                }
-                _customizationLength = (_customizationLength + 1) % 100;
-                _blockSize = 64;
-                _currentSmallCase++;
-            }
-            else
-            {
-                if (_customizationLength * _currentLargeCase < 2000)
-                {
-                    if (hexCustomization)
-                    {
-                        customizationLength = _customizationLength++ * _currentLargeCase * 8;  // always byte oriented... for now?
-                    }
-                    else
-                    {
-                        customizationLength = _customizationLength++ * _currentLargeCase;
-                    }
-                }
-                if (_currentLargeCase < 33)
-                {
-                    _blockSize = _currentLargeCase * 8;
-                }
-                else
-                {
-                    _blockSize = _currentLargeCase < 56 ? 512 : (_currentLargeCase < 79 ? 1024 : 2048);    // 33 to 55 is 64, 56 to 78 is 128, 79 to 100 is 256
-                }
-                _currentLargeCase++;
-            }
-
-            return new ParallelHashParameters
-            {
-                HashFunction = new HashFunction(_digestLength, digestSize * 2, xof),
-                CustomizationLength = customizationLength,
-                HexCustomization = hexCustomization,
-                BlockSize = _blockSize / 8,         // needs to be in bytes for algo
-                MessageLength = messageLength
-            };
         }
 
         private static ILogger ThisLogger => LogManager.GetCurrentClassLogger();

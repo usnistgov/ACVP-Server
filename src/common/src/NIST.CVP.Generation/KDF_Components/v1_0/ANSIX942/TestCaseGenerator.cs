@@ -20,7 +20,7 @@ namespace NIST.CVP.Generation.KDF_Components.v1_0.ANSIX942
             _oracle = oracle;
         }
 
-        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample)
+        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample, int caseNo = 0)
         {
             var param = new AnsiX942Parameters
             {

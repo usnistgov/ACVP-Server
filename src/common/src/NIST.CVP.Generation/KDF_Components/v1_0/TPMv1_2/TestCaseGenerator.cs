@@ -18,7 +18,7 @@ namespace NIST.CVP.Generation.KDF_Components.v1_0.TPMv1_2
             _oracle = oracle;
         }
 
-        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample)
+        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample, int caseNo = 0)
         {
             if (isSample)
             {

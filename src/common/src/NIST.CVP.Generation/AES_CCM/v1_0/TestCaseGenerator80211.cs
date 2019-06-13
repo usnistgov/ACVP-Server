@@ -8,7 +8,7 @@ namespace NIST.CVP.Generation.AES_CCM.v1_0
     {
         public int NumberOfTestCasesToGenerate => throw new System.NotImplementedException();
 
-        public Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample)
+        public Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample, int caseNo = 0)
         {
             throw new System.NotImplementedException();
         }

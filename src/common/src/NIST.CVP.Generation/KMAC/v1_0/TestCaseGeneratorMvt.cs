@@ -5,37 +5,36 @@ using System.Threading.Tasks;
 using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
-using NIST.CVP.Crypto.Common.Hash.CSHAKE;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Async;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Domain;
 using NLog;
 
-namespace NIST.CVP.Generation.CSHAKE.v1_0
+namespace NIST.CVP.Generation.KMAC.v1_0
 {
-    public class TestCaseGeneratorAft : ITestCaseGeneratorWithPrep<TestGroup, TestCase>
+    public class TestCaseGeneratorMvt : ITestCaseGeneratorWithPrep<TestGroup, TestCase>
     {
-        private int _capacity;
-
-        private readonly string[] _validFunctionNames = { "KMAC", "TupleHash", "ParallelHash", "" };
-
         private readonly IOracle _oracle;
         private readonly IRandom800_90 _rand;
-        private readonly IList<(int inputLength, int outputLength, string functionName, int customizationLength)> _lengths = new List<(int, int, string, int)>();
         
+        private int _capacity = 0;
+        private IList<(int macSize, int keySize, int messageSize, int customizationLength)> _lengths = new List<(int, int, int, int)>();
+
         public int NumberOfTestCasesToGenerate => 512;
 
-        public TestCaseGeneratorAft(IOracle oracle, IRandom800_90 rand)
+        public TestCaseGeneratorMvt(IOracle oracle, IRandom800_90 rand)
         {
             _oracle = oracle;
             _rand = rand;
         }
-        
+
         public GenerateResponse PrepareGenerator(TestGroup group, bool isSample)
         {
-            _capacity = 2 * group.DigestSize;
-            var inputAllowed = group.MessageLength.GetDeepCopy();
+            _capacity = group.DigestSize * 2;
+            
+            #region MessageLengths
+            var inputAllowed = group.MsgLengths.GetDeepCopy();
             var minMax = inputAllowed.GetDomainMinMax();
 
             var messageLengths = new List<int>
@@ -55,29 +54,51 @@ namespace NIST.CVP.Generation.CSHAKE.v1_0
                 messageLengths.AddRange(inputAllowed.GetValues(x => x > _capacity, _capacity, false));
                 
             } while (messageLengths.Count < NumberOfTestCasesToGenerate);
+            #endregion MessageLengths
             
+            #region MacLengths
             // For every input length, just pick a random output length (min/max always included)
-            var outputAllowed = group.OutputLength.GetDeepCopy();
-            var outputMinMax = outputAllowed.GetDomainMinMax();
-            var outputLengths = new List<int>
+            var macAllowed = group.MacLengths.GetDeepCopy();
+            var macMinMax = macAllowed.GetDomainMinMax();
+            var macLengths = new List<int>
             {
-                outputMinMax.Minimum,
-                outputMinMax.Maximum
+                macMinMax.Minimum,
+                macMinMax.Maximum
             };
 
             // Keep pulling output lengths until we have enough
             do
             {
-                outputLengths.AddRange(outputAllowed.GetValues(x => true, 1, false));
+                macLengths.AddRange(macAllowed.GetValues(x => true, 1, false));
 
-            } while (outputLengths.Count < messageLengths.Count);
+            } while (macLengths.Count < messageLengths.Count);
+            #endregion MacLengths
+            
+            #region KeyLengths
+            // For every input length, just pick a random key length (min/max always included)
+            var keyAllowed = group.KeyLengths.GetDeepCopy();
+            var keyMinMax = keyAllowed.GetDomainMinMax();
+            var keyLengths = new List<int>
+            {
+                keyMinMax.Minimum,
+                keyMinMax.Maximum
+            };
+
+            // Keep pulling output lengths until we have enough
+            do
+            {
+                keyLengths.AddRange(keyAllowed.GetValues(x => true, 1, false));
+
+            } while (keyLengths.Count < messageLengths.Count);
+            #endregion KeyLengths
             
             // Shuffle inputs and outputs
             messageLengths = messageLengths.Shuffle();
-            outputLengths = outputLengths.Shuffle();
+            macLengths = macLengths.Shuffle();
+            keyLengths = keyLengths.Shuffle();
             
             // Pair up input and output
-            if (messageLengths.Count != outputLengths.Count)
+            if (messageLengths.Count != macLengths.Count)
             {
                 return new GenerateResponse("Unable to pair up input and output lengths");
             }
@@ -85,32 +106,37 @@ namespace NIST.CVP.Generation.CSHAKE.v1_0
             for (var i = 0; i < messageLengths.Count; i++)
             {
                 // Customization length will be bits if for hex, or bytes if for ascii
-                _lengths.Add((messageLengths[i], outputLengths[i], _validFunctionNames[_rand.GetRandomInt(0, 5)], _rand.GetRandomInt(0, 129)));
+                _lengths.Add((macLengths[i], keyLengths[i], messageLengths[i], _rand.GetRandomInt(0, 129)));
             }
             
             return new GenerateResponse();
         }
-
+        
         public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample, int caseNo = 0)
         {
             try
             {
-                var oracleResult = await _oracle.GetCShakeCaseAsync(new CShakeParameters
+                var oracleResult = await _oracle.GetKmacCaseAsync(new KmacParameters()
                 {
-                    HashFunction = new HashFunction(_lengths[caseNo].outputLength, _capacity),
+                    CouldFail = true,
+                    DigestSize = _capacity / 2,
                     CustomizationLength = _lengths[caseNo].customizationLength,
                     HexCustomization = group.HexCustomization,
-                    FunctionName = _lengths[caseNo].functionName,
-                    MessageLength = _lengths[caseNo].inputLength
+                    KeyLength = _lengths[caseNo].keySize,
+                    MacLength = _lengths[caseNo].macSize,
+                    MessageLength = _lengths[caseNo].messageSize,
+                    XOF = group.XOF
                 });
 
                 return new TestCaseGenerateResponse<TestGroup, TestCase>(new TestCase
                 {
-                    FunctionName = oracleResult.FunctionName,
+                    Key = oracleResult.Key,
                     Message = oracleResult.Message,
-                    Digest = oracleResult.Digest,
+                    Mac = oracleResult.Tag,
                     Customization = oracleResult.Customization,
-                    CustomizationHex = oracleResult.CustomizationHex
+                    CustomizationHex = oracleResult.CustomizationHex,
+                    MacLength = oracleResult.Tag.BitLength,
+                    TestPassed = oracleResult.TestPassed
                 });
             }
             catch (Exception ex)

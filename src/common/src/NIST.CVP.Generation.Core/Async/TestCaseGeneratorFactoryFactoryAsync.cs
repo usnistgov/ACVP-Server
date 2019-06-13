@@ -32,15 +32,25 @@ namespace NIST.CVP.Generation.Core.Async
             >();
 
             // for every test group, get a generator,
-            // and start tasks attibuted to the group for creating test cases
+            // and start tasks attributed to the group for creating test cases
             foreach (var group in testVector.TestGroups.Select(g => g))
             {
                 var generator = _testCaseGeneratorFactory.GetCaseGenerator(group);
+                if (generator is ITestCaseGeneratorWithPrep<TTestGroup, TTestCase> genWithPrep)
+                {
+                    var response = genWithPrep.PrepareGenerator(group, testVector.IsSample);
+                    if (!response.Success)
+                    {
+                        return new GenerateResponse(response.ErrorMessage, StatusCode.TestCaseGeneratorError);
+                    }
+                }
+                
                 var groupTasks = new List<Task<TestCaseGenerateResponse<TTestGroup, TTestCase>>>();
                 tasks.Add(group, groupTasks);
-                for (int caseNo = 0; caseNo < generator.NumberOfTestCasesToGenerate; ++caseNo)
+                
+                for (var caseNo = 0; caseNo < generator.NumberOfTestCasesToGenerate; ++caseNo)
                 {
-                    groupTasks.Add(generator.GenerateAsync(group, testVector.IsSample));
+                    groupTasks.Add(generator.GenerateAsync(group, testVector.IsSample, caseNo));
                 }
             }
 
