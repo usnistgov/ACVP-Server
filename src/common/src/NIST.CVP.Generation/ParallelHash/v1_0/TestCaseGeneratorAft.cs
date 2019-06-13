@@ -23,7 +23,7 @@ namespace NIST.CVP.Generation.ParallelHash.v1_0
         
         public int NumberOfTestCasesToGenerate => 512;
 
-        private IList<(int outputLength, int messageLength, int customizationLength)> _lengths = new List<(int, int, int)>();
+        private IList<(int outputLength, int messageLength, int customizationLength, int blockSize)> _lengths = new List<(int, int, int, int)>();
         
         public TestCaseGeneratorAft(IOracle oracle, IRandom800_90 rand)
         {
@@ -84,7 +84,7 @@ namespace NIST.CVP.Generation.ParallelHash.v1_0
             for (var i = 0; i < messageLengths.Count; i++)
             {
                 // Customization length will be bits if for hex, or bytes if for ascii
-                _lengths.Add((messageLengths[i], outputLengths[i], _rand.GetRandomInt(0, 129)));
+                _lengths.Add((messageLengths[i], outputLengths[i], _rand.GetRandomInt(0, 129), _rand.GetRandomInt(1, 128) * 8));
             }
             
             return new GenerateResponse();
@@ -95,16 +95,13 @@ namespace NIST.CVP.Generation.ParallelHash.v1_0
         {
             try
             {
-                // TODO
-                var blockSize = DetermineBlockSize(_lengths[caseNo].messageLength);
-
                 var oracleResult = await _oracle.GetParallelHashCaseAsync(new ParallelHashParameters
                 {
                     CustomizationLength = _lengths[caseNo].customizationLength,
                     HexCustomization = group.HexCustomization,
                     MessageLength = _lengths[caseNo].messageLength,
                     HashFunction = new HashFunction(_lengths[caseNo].outputLength, _capacity, group.XOF),
-                    BlockSize = blockSize
+                    BlockSize = _lengths[caseNo].blockSize
                 });
 
                 return new TestCaseGenerateResponse<TestGroup, TestCase>(new TestCase
@@ -113,7 +110,7 @@ namespace NIST.CVP.Generation.ParallelHash.v1_0
                     Digest = oracleResult.Digest,
                     Customization = oracleResult.Customization,
                     CustomizationHex = oracleResult.CustomizationHex,
-                    BlockSize = blockSize,
+                    BlockSize = _lengths[caseNo].blockSize,
                     Deferred = false,
                     DigestLength = _lengths[caseNo].outputLength
                 });
@@ -123,11 +120,6 @@ namespace NIST.CVP.Generation.ParallelHash.v1_0
                 ThisLogger.Error(ex);
                 return new TestCaseGenerateResponse<TestGroup, TestCase>($"Failed to generate. {ex.Message}");
             }
-        }
-
-        private int DetermineBlockSize(int messageLength)
-        {
-            return 64;
         }
 
         private static ILogger ThisLogger => LogManager.GetCurrentClassLogger();
