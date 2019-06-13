@@ -168,7 +168,7 @@ namespace NIST.CVP.Crypto.AES_FF.Tests
 
         [Test]
         [TestCaseSource(nameof(_testData))]
-        public void ShouldEncryptCorrectly(string testLabel, NumeralString payload, BitString tweak, BitString key, int radix, NumeralString expectedResult)
+        public void ShouldEncryptCorrectly(string testLabel, NumeralString payload, BitString tweak, BitString key, int radix, NumeralString cipherText)
         {
             var result = _subject.ProcessPayload(new FfxModeBlockCipherParameters()
             {
@@ -179,7 +179,23 @@ namespace NIST.CVP.Crypto.AES_FF.Tests
                 Radix = (short)radix
             });
 
-            Assert.AreEqual(expectedResult.ToString(), NumeralString.ToNumeralString(result.Result).ToString());
+            Assert.AreEqual(cipherText.ToString(), NumeralString.ToNumeralString(result.Result).ToString());
+        }
+
+        [Test]
+        [TestCaseSource(nameof(_testData))]
+        public void ShouldDecryptCorrectly(string testLabel, NumeralString payload, BitString tweak, BitString key, int radix, NumeralString cipherText)
+        {
+            var result = _subject.ProcessPayload(new FfxModeBlockCipherParameters()
+            {
+                Direction = BlockCipherDirections.Decrypt,
+                Iv = tweak,
+                Key = key,
+                Payload = NumeralString.ToBitString(cipherText),
+                Radix = (short)radix
+            });
+
+            Assert.AreEqual(payload.ToString(), NumeralString.ToNumeralString(result.Result).ToString());
         }
     }
 }
