@@ -5,6 +5,7 @@ using NIST.CVP.Math;
 using NIST.CVP.Math.Helpers;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
+using System.Numerics;
 
 namespace NIST.CVP.Crypto.AES_FF.Tests
 {
@@ -17,27 +18,27 @@ namespace NIST.CVP.Crypto.AES_FF.Tests
 
         [Test]
         [TestCase(5, "0 0 0 1 1 0 1 0", 755)]
-        public void ShouldNumRadixCorrectly(short radix, string xStr, short expected)
+        public void ShouldNumRadixCorrectly(short radix, string xStr, int expected)
         {
             var result = _subject.Num(radix, new NumeralString(xStr));
 
-            Assert.AreEqual(expected, result);
+            Assert.AreEqual((BigInteger)expected, result);
         }
 
         [Test]
         [TestCase("10000000", 128)]
-        public void ShouldNumCorrectly(string xStr, short expected)
+        public void ShouldNumCorrectly(string xStr, int expected)
         {
-            var x = new BitString(MsbLsbConversionHelpers.GetBitArrayFromStringOf1sAnd0s(xStr));
+            var x = new BitString(MsbLsbConversionHelpers.GetBitArrayFromStringOf1sAnd0s(xStr).Reverse());
 
             var result = _subject.Num(x);
 
-            Assert.AreEqual(expected, result);
+            Assert.AreEqual((BigInteger)expected, result);
         }
 
         [Test]
-        [TestCase(4, 12, 559, new short[] { 0, 3, 10, 7 })]
-        public void ShouldStrCorrectly(short m, short radix, short x, short[] expected)
+        [TestCase(4, 12, 559, new int[] { 0, 3, 10, 7 })]
+        public void ShouldStrCorrectly(short m, short radix, short x, int[] expected)
         {
             var result = _subject.Str(radix, m, x);
 
@@ -48,8 +49,8 @@ namespace NIST.CVP.Crypto.AES_FF.Tests
         }
 
         [Test]
-        [TestCase(new short[] { 1, 3, 5, 7, 9 }, new short[] { 9, 7, 5, 3, 1 })]
-        public void ShouldRevCorrectly(short[] x, short[] expected)
+        [TestCase(new int[] { 1, 3, 5, 7, 9 }, new int[] { 9, 7, 5, 3, 1 })]
+        public void ShouldRevCorrectly(int[] x, int[] expected)
         {
             var result = _subject.Rev(new NumeralString(x));
 

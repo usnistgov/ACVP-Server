@@ -4,6 +4,7 @@ using NIST.CVP.Crypto.Common.Symmetric.Engines;
 using NIST.CVP.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Helpers;
+using System.Numerics;
 
 namespace NIST.CVP.Crypto.AES_FF
 {
@@ -27,50 +28,50 @@ namespace NIST.CVP.Crypto.AES_FF
             _modeFactory = modeFactory;
         }
 
-        public short Num(short radix, NumeralString x)
+        public BigInteger Num(int radix, NumeralString x)
         {
             // 1. Let x = 0.
-            int testResult = 0;
-            short result = 0;
+            BigInteger result = 0;
 
             // 2. For i from 1 to LEN(X), let x = x*radix + X[i].
             for (var i = 0; i <= x.Numbers.Length - 1; i++)
             {
-                testResult = (testResult * radix + x.Numbers[i]);
-                result = (short)(result * radix + x.Numbers[i]);
+                result = (result * radix + x.Numbers[i]);
             }
 
             // 3. Return x.
             return result;
         }
 
-        public short Num(BitString x)
+        public BigInteger Num(BitString x)
         {
             // 1. Let x = 0.
-            short result = 0;
+            BigInteger result = 0;
+
+            x = new BitString(x.Bits.Reverse());
 
             // 2. For i from 1 to LEN(X), let x = 2x + X[i].
             for (var i = 0; i <= x.BitLength - 1; i++)
             {
-                result = (short)(2 * result + (x.Bits[i] ? 1 : 0));
+                result = 2 * result + (x.Bits[i] ? 1 : 0);
             }
 
             // 3. Return x.
             return result;
         }
 
-        public NumeralString Str(short radix, short m, short x)
+        public NumeralString Str(int radix, int m, BigInteger x)
         {
-            var resultArray = new short[m];
+            var resultArray = new int[m];
 
             // 1. For i from 1 to m:
             for (var i = 0; i <= m - 1; i++)
             {
                 // i. X[m+1–i] = x mod radix;
-                resultArray[m - 1 - i] = (short)(x % radix);
+                resultArray[m - 1 - i] = (int)x.PosMod(radix);
 
                 // ii. x = Floor(x/radix).
-                x = (short)System.Math.Floor((double)x / radix);
+                x = (BigInteger)System.Math.Floor((double)x / radix);
             }
 
             // 2. Return X.
@@ -80,7 +81,7 @@ namespace NIST.CVP.Crypto.AES_FF
         public NumeralString Rev(NumeralString x)
         {
             // 1. For i from 1 to LEN(X), let Y[i] = X[LEN(X)+1–i].
-            var result = new short[x.Numbers.Length];
+            var result = new int[x.Numbers.Length];
             for (var i = 0; i <= x.Numbers.Length - 1; i++)
             {
                 result[i] = x.Numbers[x.Numbers.Length - 1 - i];

@@ -10,9 +10,9 @@ namespace NIST.CVP.Math.Tests
         private NumeralString _subject;
 
         [Test]
-        [TestCase(new short[] { 1, 2, 3 })]
-        [TestCase(new short[] { 1, 2, 3, 4, 5 })]
-        public void ShouldConstructWithShortsProperly(short[] values)
+        [TestCase(new int[] { 1, 2, 3 })]
+        [TestCase(new int[] { 1, 2, 3, 4, 5 })]
+        public void ShouldConstructWithShortsProperly(int[] values)
         {
             _subject = new NumeralString(values);
 
@@ -26,8 +26,8 @@ namespace NIST.CVP.Math.Tests
         }
 
         [Test]
-        [TestCase("1 2 3 4 5", new short[] { 1, 2, 3, 4, 5 })]
-        public void ShouldConstructWithStringProperly(string value, short[] expectedValues)
+        [TestCase("1 2 3 4 5", new int[] { 1, 2, 3, 4, 5 })]
+        public void ShouldConstructWithStringProperly(string value, int[] expectedValues)
         {
             _subject = new NumeralString(value);
 
@@ -52,20 +52,20 @@ namespace NIST.CVP.Math.Tests
         }
 
         [Test]
-        [TestCase("65537")]
-        [TestCase("1 2 3 100000000")]
-        [TestCase("100000000 1 2 3 ")]
+        [TestCase("65537000000000000")]
+        [TestCase("1 2 3 10000000000000")]
+        [TestCase("10000000000000000 1 2 3 ")]
         public void ShouldArgumentOutOfRangeExceptionWithNumbersGtShort(string value)
         {
             Assert.Throws<ArgumentOutOfRangeException>(() => _subject = new NumeralString(value));
         }
 
         [Test]
-        [TestCase(new short[] { 1 }, "0001")]
-        [TestCase(new short[] { 1, 2 }, "00010002")]
-        [TestCase(new short[] { 1, 2, 15 }, "00010002000F")]
-        [TestCase(new short[] { 1, 2, 255 }, "0001000200FF")]
-        public void ShouldConvertToBitStringFromNumeralString(short[] values, string expectedHex)
+        [TestCase(new int[] { 1 }, "01")]
+        [TestCase(new int[] { 1, 2 }, "0102")]
+        [TestCase(new int[] { 1, 2, 15 }, "01020F")]
+        [TestCase(new int[] { 1, 2, 255 }, "0102FF")]
+        public void ShouldConvertToBitStringFromNumeralString(int[] values, string expectedHex)
         {
             _subject = new NumeralString(values);
 
@@ -75,11 +75,11 @@ namespace NIST.CVP.Math.Tests
         }
 
         [Test]
-        [TestCase("0001", new short[] { 1 })]
-        [TestCase("00010002", new short[] { 1, 2 })]
-        [TestCase("00010002000F", new short[] { 1, 2, 15 })]
-        [TestCase("0001000200FF", new short[] { 1, 2, 255 })]
-        public void ShouldConvertToNumeralStringFromBitString(string hex, short[] expectedValues)
+        [TestCase("01", new int[] { 1 })]
+        [TestCase("0102", new int[] { 1, 2 })]
+        [TestCase("01020F", new int[] { 1, 2, 15 })]
+        [TestCase("0102FF", new int[] { 1, 2, 255 })]
+        public void ShouldConvertToNumeralStringFromBitString(string hex, int[] expectedValues)
         {
             var bs = new BitString(hex);
 

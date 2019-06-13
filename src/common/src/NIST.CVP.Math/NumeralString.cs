@@ -15,7 +15,7 @@ namespace NIST.CVP.Math
     /// </summary>
     public class NumeralString
     {
-        public short[] Numbers { get; }
+        public int[] Numbers { get; }
 
         public override string ToString()
         {
@@ -37,7 +37,7 @@ namespace NIST.CVP.Math
         /// Constructs a <see cref="NumeralString"/> using a provided array of short.
         /// </summary>
         /// <param name="numbers">The numbers to make up the <see cref="NumeralString"/>.</param>
-        public NumeralString(short[] numbers)
+        public NumeralString(int[] numbers)
         {
             Numbers = numbers;
         }
@@ -59,16 +59,16 @@ namespace NIST.CVP.Math
 
             var numberCandidates = baseTenNumbersSeparatedBySpace.Split(" ", StringSplitOptions.RemoveEmptyEntries);
 
-            var numbers = new List<short>();
+            var numbers = new List<int>();
             foreach (var numberCandidate in numberCandidates)
             {
-                if (Int16.TryParse(numberCandidate, out var result))
+                if (int.TryParse(numberCandidate, out var result))
                 {
                     numbers.Add(result);
                     continue;
                 }
 
-                throw new ArgumentOutOfRangeException($"{nameof(numberCandidate)} of {numberCandidate} could not be parsed into a {typeof(short)}.");
+                throw new ArgumentOutOfRangeException($"{nameof(numberCandidate)} of {numberCandidate} could not be parsed into a {typeof(int)}.");
             }
 
             Numbers = numbers.ToArray();
@@ -88,7 +88,7 @@ namespace NIST.CVP.Math
 
             foreach (var number in numeralString.Numbers)
             {
-                bs = bs.ConcatenateBits(BitString.To16BitString(number));
+                bs = bs.ConcatenateBits(BitString.To32BitString(number).GetLeastSignificantBits(8));
             }
 
             return bs;
@@ -105,19 +105,19 @@ namespace NIST.CVP.Math
         /// <exception cref="ArgumentException">Thrown when the <see cref="BitString"/>'s BitLength is not a modulus of 16.</exception>
         public static NumeralString ToNumeralString(BitString bitString)
         {
-            const int requiredMod = 16;
+            const int requiredMod = 8;
 
             if (bitString.BitLength % requiredMod != 0)
             {
                 throw new ArgumentException($"Invalid modulus for {nameof(bitString)}");
             }
 
-            var numbers = new List<short>();
+            var numbers = new List<int>();
 
             for (var i = 0; i < bitString.BitLength / requiredMod; i++)
             {
                 var subString = bitString.Substring(bitString.BitLength - ((i + 1) * requiredMod), requiredMod).ToHex();
-                numbers.Add(Convert.ToInt16(subString, requiredMod));
+                numbers.Add(Convert.ToInt32($"0x{subString}", 16));
             }
 
             return new NumeralString(numbers.ToArray());
