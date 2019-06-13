@@ -13,10 +13,10 @@ namespace NIST.CVP.Crypto.Symmetric.BlockModes.Ffx
 {
     public class Ff1BlockCipher : FfxBlockCipherBase
     {
-        protected override short NumberOfRounds => 10;
-
         public Ff1BlockCipher(IBlockCipherEngine engine, IModeBlockCipherFactory factory, IAesFfInternals ffInternals)
             : base(engine, factory, ffInternals) { }
+
+        protected override short NumberOfRounds => 10;
 
         protected override BitString Encrypt(IFfxModeBlockCipherParameters param)
         {
