@@ -5,14 +5,6 @@ using System.Text.RegularExpressions;
 
 namespace NIST.CVP.Math
 {
-    /// <summary>
-    /// Represents a series of short numbers.
-    ///
-    /// This class is used within AES-FFX.  The reason the "short" data type was chosen,
-    /// and 16 bit numbers utilized is due to the fact that FFX works with the idea of an alphabet and radix,
-    /// which cannot exceed a maximum set of 65536.  This means there are a maximum total of 65536 values that can be represented
-    /// in any alphabet, or 2^16, allowing the max number to completely fill up a 16 bit block.
-    /// </summary>
     public class NumeralString
     {
         public int[] Numbers { get; }
@@ -34,7 +26,7 @@ namespace NIST.CVP.Math
         }
 
         /// <summary>
-        /// Constructs a <see cref="NumeralString"/> using a provided array of short.
+        /// Constructs a <see cref="NumeralString"/> using a provided array of int.
         /// </summary>
         /// <param name="numbers">The numbers to make up the <see cref="NumeralString"/>.</param>
         public NumeralString(int[] numbers)
@@ -47,7 +39,7 @@ namespace NIST.CVP.Math
         /// </summary>
         /// <param name="baseTenNumbersSeparatedBySpace">The numbers that are to make up the numeral string.  Should be in base 10 and separated by a space.</param>
         /// <exception cref="ArgumentException">Thrown when provided string contains invalid characters.</exception>
-        /// <exception cref="ArgumentOutOfRangeException">Thrown when a number within the string is unable to be parsed into a short.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when a number within the string is unable to be parsed into a int.</exception>
         public NumeralString(string baseTenNumbersSeparatedBySpace)
         {
             Regex regex = new Regex(@"^[\d ]*$");
@@ -77,7 +69,7 @@ namespace NIST.CVP.Math
         /// <summary>
         /// Converts a provided <see cref="NumeralString"/> to a <see cref="BitString"/>.
         ///
-        /// Numerals within the <see cref="NumeralString"/> are short (16 bits) and are converted
+        /// Numerals within the <see cref="NumeralString"/> are int (16 bits) and are converted
         /// to bits and concatenated onto a <see cref="BitString"/> then returned.
         /// </summary>
         /// <param name="numeralString">The <see cref="NumeralString"/> to convert.</param>
@@ -97,12 +89,11 @@ namespace NIST.CVP.Math
         /// <summary>
         /// Converts a <see cref="BitString"/> to a <see cref="NumeralString"/>.
         ///
-        /// <see cref="BitString"/> is expected to be a modulus of 16, as the individual
-        /// numerals within the <see cref="BitString"/> are expected to be <see cref="short"/>.
+        /// <see cref="BitString"/> is expected to be a modulus of 8.
         /// </summary>
         /// <param name="bitString">The <see cref="BitString"/> to convert.</param>
         /// <returns><see cref="NumeralString"/> conversion of provided <see cref="BitString"/>.</returns>
-        /// <exception cref="ArgumentException">Thrown when the <see cref="BitString"/>'s BitLength is not a modulus of 16.</exception>
+        /// <exception cref="ArgumentException">Thrown when the <see cref="BitString"/>'s BitLength is not a modulus of 8.</exception>
         public static NumeralString ToNumeralString(BitString bitString)
         {
             const int requiredMod = 8;
