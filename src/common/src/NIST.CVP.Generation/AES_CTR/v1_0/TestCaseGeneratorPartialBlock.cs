@@ -8,52 +8,40 @@ using NIST.CVP.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Async;
 using NIST.CVP.Math.Domain;
+using NIST.CVP.Common.ExtensionMethods;
 using NLog;
 
 namespace NIST.CVP.Generation.AES_CTR.v1_0
 {
-    public class TestCaseGeneratorPartialBlock : ITestCaseGeneratorAsync<TestGroup, TestCase>
+    public class TestCaseGeneratorPartialBlock : ITestCaseGeneratorWithPrep<TestGroup, TestCase>
     {
         private readonly IOracle _oracle;
 
-        private int _casesPerSize = 5;
-        private bool _sizesSet = false;
-        private List<int> _validSizes = new List<int>();
-        private int _curCasePerSizeIndex;
-        private int _curSizeIndex;
+        private const int _casesPerSize = 5;
+        private readonly List<int> _validSizes = new List<int>();
 
-        public int NumberOfTestCasesToGenerate { get; private set; } = 1;
+        public int NumberOfTestCasesToGenerate { get; private set; }
 
         public TestCaseGeneratorPartialBlock(IOracle oracle)
         {
             _oracle = oracle;
         }
 
+        public GenerateResponse PrepareGenerator(TestGroup group, bool isSample)
+        {
+            var tempSizes = group.PayloadLength.GetValues(ParameterValidator.MAXIMUM_DATA_LEN).ToList();
+            foreach (var size in tempSizes)
+            {
+                _validSizes.Add(size, _casesPerSize);
+            }
+            
+            NumberOfTestCasesToGenerate = _validSizes.Count;
+            return new GenerateResponse();
+        }
+
         public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample, int caseNo = 0)
         {
-            if (isSample)
-            {
-                _casesPerSize = 1;
-            }
-
-            // Only do this once as a way to make sure nothing changes
-            if (!_sizesSet)
-            {
-                _validSizes = GetValidSizes(group.PayloadLength);
-
-                // Must be set here because it depends on group information
-                NumberOfTestCasesToGenerate = _casesPerSize * _validSizes.Count;
-            }
-
-            if (_curCasePerSizeIndex >= _casesPerSize)
-            {
-                _curCasePerSizeIndex = 0;
-                _curSizeIndex++;
-            }
-
-            _curCasePerSizeIndex++;
-
-            var payloadLen = _validSizes[_curSizeIndex];
+            var payloadLen = _validSizes[caseNo];
 
             // This is a little hacky... but single block CTR is the same as OFB. So we can get past the awkward factory
             // TODO fix this up
@@ -86,13 +74,5 @@ namespace NIST.CVP.Generation.AES_CTR.v1_0
         }
         
         private static ILogger ThisLogger => LogManager.GetCurrentClassLogger();
-
-        private List<int> GetValidSizes(MathDomain dataLength)
-        {
-            _sizesSet = true;
-
-            // Can ask for 128 values because the valid domain only has this many elements
-            return dataLength.GetValues(ParameterValidator.MAXIMUM_DATA_LEN).ToList();
-        }
     }
 }
