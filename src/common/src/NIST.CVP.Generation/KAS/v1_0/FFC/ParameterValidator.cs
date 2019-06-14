@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using NIST.CVP.Common.ExtensionMethods;
+﻿using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Crypto.Common.KAS.Helpers;
+using System.Collections.Generic;
 
 namespace NIST.CVP.Generation.KAS.v1_0.FFC
 {
@@ -48,7 +48,7 @@ namespace NIST.CVP.Generation.KAS.v1_0.FFC
 
             if (kasMode.ParameterSet.Fb == null && kasMode.ParameterSet.Fc == null)
             {
-                errorResults.Add("At least one paramter set must be provided.");
+                errorResults.Add("At least one parameter set must be provided.");
             }
         }
 
@@ -60,7 +60,7 @@ namespace NIST.CVP.Generation.KAS.v1_0.FFC
 
         private void ValidateAtLeastOneSchemePresent(Schemes parametersScheme, List<string> errorResults)
         {
-            if (parametersScheme.FfcDhEphem == null && 
+            if (parametersScheme.FfcDhEphem == null &&
                 parametersScheme.FfcMqv1 == null &&
                 parametersScheme.FfcDhHybrid1 == null &&
                 parametersScheme.FfcDhHybridOneFlow == null &&
@@ -131,7 +131,7 @@ namespace NIST.CVP.Generation.KAS.v1_0.FFC
 
             var parameterSetDetails = ParameterSetDetails.GetDetailsForFfcParameterSet(parameterSetType);
 
-            ValidateHashFunctions(parameterSet.HashAlg, parameterSetType.ToString(), 
+            ValidateHashFunctions(parameterSet.HashAlg, parameterSetType.ToString(),
                 parameterSetDetails.minHashLength, errorResults);
             ValidateMacOptions(parameterSet.MacOption, macRequired, parameterSetDetails.minMacLength,
                 parameterSetDetails.minMacKeyLength, errorResults);

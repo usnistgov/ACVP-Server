@@ -15,11 +15,11 @@ namespace NIST.CVP.Generation.TupleHash.IntegrationTests
     public class GenValTestsTupleHash128 : GenValTestsSingleRunnerBase
     {
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
-        public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
 
-        public override string Algorithm { get; } = "TupleHash";
-        public override string Mode { get; } = "128";
-        public override AlgoMode AlgoMode => AlgoMode.TupleHash_v1_0;
+
+        public override string Algorithm { get; } = "TupleHash-128";
+        public override string Mode { get; } = string.Empty;
+        public override AlgoMode AlgoMode => AlgoMode.TupleHash_128_v1_0;
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {
@@ -72,7 +72,7 @@ namespace NIST.CVP.Generation.TupleHash.IntegrationTests
                 DigestSizes = new[] { 128 },
                 OutputLength = minMax,
                 MessageLength = minMax,
-                XOF = new[] {true, false},
+                XOF = new[] { true, false },
                 IsSample = true
             };
 
@@ -94,7 +94,7 @@ namespace NIST.CVP.Generation.TupleHash.IntegrationTests
                 DigestSizes = new[] { 128 },
                 MessageLength = minMaxMsg,
                 OutputLength = minMax,
-                XOF = new[] {true, false},
+                XOF = new[] { true, false },
                 IsSample = true
             };
 

@@ -70,7 +70,7 @@ namespace NIST.CVP.Generation.RSA.v1_0.SigVer
                                 HashAlg = ShaAttributes.GetHashFunctionFromName(hashPair.HashAlg),
                                 SaltLen = hashPair.SaltLen,
                                 TestCaseExpectationProvider = new TestCaseExpectationProvider(parameters.IsSample),
-                                IsMessageRandomized = _randomizeMessagePriorToSign,
+                                Conformance = _randomizeMessagePriorToSign ? "SP800-106" : null,
 
                                 TestType = TEST_TYPE
                             };

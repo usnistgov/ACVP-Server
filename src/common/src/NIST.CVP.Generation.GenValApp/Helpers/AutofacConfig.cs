@@ -1,7 +1,6 @@
 ﻿using Autofac;
 using NIST.CVP.Common;
 using NIST.CVP.Common.Helpers;
-using NIST.CVP.Generation.Core.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,17 +19,11 @@ namespace NIST.CVP.Generation.GenValApp.Helpers
             return _container;
         }
 
-        public static void IoCConfiguration(IServiceProvider serviceProvider, string algorithm, string mode, string revision)
+        public static void IoCConfiguration(IServiceProvider serviceProvider, AlgoMode algoMode)
         {
             var builder = new ContainerBuilder();
             EntryPointConfigHelper.RegisterConfigurationInjections(serviceProvider, builder);
 
-            var algoMode = AlgoModeLookupHelper.GetAlgoModeFromStrings(algorithm, mode, revision);
-
-            // TODO this shouldn't be done here, fix with nuget maybe?
-            // Crypto and Oracle Registration
-            var crypto = new Crypto.RegisterInjections();
-            crypto.RegisterTypes(builder, algoMode);
             var oracle = new Crypto.Oracle.RegisterInjections();
             oracle.RegisterTypes(builder, algoMode);
 

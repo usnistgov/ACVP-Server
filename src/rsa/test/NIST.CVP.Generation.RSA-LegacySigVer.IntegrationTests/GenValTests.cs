@@ -26,7 +26,7 @@ namespace NIST.CVP.Generation.RSA_LegacySigVer.IntegrationTests
         public override AlgoMode AlgoMode => AlgoMode.RSA_LegacySigVer_v1_0;
 
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
-		public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
+
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {

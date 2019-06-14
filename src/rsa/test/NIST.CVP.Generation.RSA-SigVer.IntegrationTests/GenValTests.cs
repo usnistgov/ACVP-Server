@@ -15,7 +15,7 @@ namespace NIST.CVP.Generation.RSA_SigVer.IntegrationTests
         public override AlgoMode AlgoMode => AlgoMode.RSA_SigVer_v1_0;
 
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
-        public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
+
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {

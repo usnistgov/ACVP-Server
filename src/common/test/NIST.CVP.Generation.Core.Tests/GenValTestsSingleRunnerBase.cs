@@ -32,7 +32,6 @@ namespace NIST.CVP.Generation.Core.Tests
         public string TestPath { get; private set; }
         public string JsonSavePath { get; private set; }
 
-        public abstract IRegisterInjections RegistrationsCrypto { get; }
         public IRegisterInjections RegistrationsOracle => new RegisterInjections();
         public abstract IRegisterInjections RegistrationsGenVal { get; }
 
@@ -107,7 +106,7 @@ namespace NIST.CVP.Generation.Core.Tests
             LoggingHelper.ConfigureLogging(fileName, "generator");
             GenLogger.Info($"{Algorithm}-{Mode} Test Vectors");
             RunGeneration(targetFolder, fileName, false);
-            
+
             LoggingHelper.ConfigureLogging(fileName, "validator");
             ValLogger.Info($"{Algorithm}-{Mode} Test Vectors");
             RunValidation(targetFolder);
@@ -251,7 +250,6 @@ namespace NIST.CVP.Generation.Core.Tests
             EntryPointConfigHelper.RegisterConfigurationInjections(ServiceProvider, builder);
 
             RegistrationsOracle.RegisterTypes(builder, AlgoMode);
-            RegistrationsCrypto.RegisterTypes(builder, AlgoMode);
             RegistrationsGenVal.RegisterTypes(builder, AlgoMode);
 
             if (overrideRegisteredDependencies)

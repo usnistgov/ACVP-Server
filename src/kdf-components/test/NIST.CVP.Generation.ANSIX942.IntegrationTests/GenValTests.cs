@@ -20,18 +20,18 @@ namespace NIST.CVP.Generation.ANSIX942.IntegrationTests
         public override AlgoMode AlgoMode => AlgoMode.KDFComponents_ANSIX942_v1_0;
 
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
-		public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
+
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {
             var rand = new Random800_90();
 
-            if (testCase.keyData != null)
+            if (testCase.derivedKey != null)
             {
                 var bs = new BitString(testCase.derivedKey.ToString());
                 bs = rand.GetDifferentBitStringOfSameSize(bs);
 
-                testCase.keyData = bs.ToHex();
+                testCase.derivedKey = bs.ToHex();
             }
         }
 

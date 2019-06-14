@@ -17,7 +17,7 @@ namespace NIST.CVP.Generation.TDES_CTR.IntegrationTests
         public override AlgoMode AlgoMode => AlgoMode.TDES_CTR_v1_0;
 
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
-		public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
+
 
         protected override string GetTestFileFewTestCases(string folderName)
         {

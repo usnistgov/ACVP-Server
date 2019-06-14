@@ -85,7 +85,7 @@ namespace NIST.CVP.Generation.ParallelHash.Tests
             var subject = new ParameterValidator();
             var result = subject.Validate(
                 new ParameterBuilder()
-                    .WithDigestSizes(new int[]{ number })
+                    .WithDigestSizes(new int[] { number })
                     .Build()
             );
 
@@ -135,12 +135,12 @@ namespace NIST.CVP.Generation.ParallelHash.Tests
         }
 
         [Test]
-        [TestCase(new [] {true}, true)]
-        [TestCase(new [] {false}, true)]
-        [TestCase(new [] {true, false}, true)]
-        [TestCase(new [] {false, true}, true)]
-        [TestCase(new [] {true, true}, false)]
-        [TestCase(new [] {false, false}, false)]
+        [TestCase(new[] { true }, true)]
+        [TestCase(new[] { false }, true)]
+        [TestCase(new[] { true, false }, true)]
+        [TestCase(new[] { false, true }, true)]
+        [TestCase(new[] { true, true }, false)]
+        [TestCase(new[] { false, false }, false)]
         public void ShouldSucceedOnValidXOFSettingsLen(bool[] XOF, bool isSuccessExpected)
         {
             var subject = new ParameterValidator();
@@ -156,7 +156,6 @@ namespace NIST.CVP.Generation.ParallelHash.Tests
         public class ParameterBuilder
         {
             private string _algorithm;
-            private string _mode;
             private int[] _digestSize;
             private MathDomain _outputLength;
             private MathDomain _messageLength;
@@ -165,12 +164,11 @@ namespace NIST.CVP.Generation.ParallelHash.Tests
 
             public ParameterBuilder()
             {
-                _algorithm = "ParallelHash";
-                _mode = "128";
+                _algorithm = "ParallelHash-128";
                 _digestSize = new int[] { 128, 256 };
                 _messageLength = new MathDomain().AddSegment(new RangeDomainSegment(null, 16, 65536));
                 _outputLength = new MathDomain().AddSegment(new RangeDomainSegment(null, 16, 65536));
-                _xof = new[] {true};
+                _xof = new[] { true };
                 _hexCustomization = false;
             }
 
@@ -215,7 +213,6 @@ namespace NIST.CVP.Generation.ParallelHash.Tests
                 return new Parameters
                 {
                     Algorithm = _algorithm,
-                    Mode = _mode,
                     DigestSizes = _digestSize,
                     MessageLength = _messageLength,
                     OutputLength = _outputLength,

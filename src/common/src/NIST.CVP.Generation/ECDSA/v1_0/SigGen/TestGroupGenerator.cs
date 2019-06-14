@@ -52,7 +52,7 @@ namespace NIST.CVP.Generation.ECDSA.v1_0.SigGen
                                 Curve = curve,
                                 HashAlg = sha,
                                 ComponentTest = parameters.ComponentTest,
-                                IsMessageRandomized = _randomizeMessagePriorToSign
+                                Conformance = _randomizeMessagePriorToSign ? "SP800-106" : null
                             };
 
                             testGroups.Add(testGroup);
@@ -85,7 +85,7 @@ namespace NIST.CVP.Generation.ECDSA.v1_0.SigGen
                             Curve = curve,
                             HashAlg = sha,
                             ComponentTest = parameters.ComponentTest,
-                            IsMessageRandomized = _randomizeMessagePriorToSign
+                            Conformance = _randomizeMessagePriorToSign ? "SP800-106" : null
                         };
 
                         map.Add(testGroup, _oracle.GetEcdsaKeyAsync(param));

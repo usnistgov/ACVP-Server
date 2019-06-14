@@ -5,6 +5,7 @@ using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC.Enums;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
 using NIST.CVP.Generation.Core;
+using System;
 using System.Collections.Generic;
 
 namespace NIST.CVP.Generation.ECDSA.v1_0.SigVer
@@ -16,7 +17,10 @@ namespace NIST.CVP.Generation.ECDSA.v1_0.SigVer
         [JsonProperty(PropertyName = "curve")]
         public Curve Curve { get; set; }
 
-        public bool IsMessageRandomized { get; set; } = false;
+        [JsonIgnore]
+        public bool IsMessageRandomized => "SP800-106".Equals(Conformance, StringComparison.OrdinalIgnoreCase);
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public string Conformance { get; set; } = string.Empty;
 
         [JsonIgnore] public HashFunction HashAlg { get; set; }
         [JsonProperty(PropertyName = "hashAlg")]

@@ -7,10 +7,10 @@ namespace NIST.CVP.Generation.SHA3.IntegrationTests
 {
     public class GenValTestsShake : GenValTestsSha3Base
     {
-        public override string Algorithm { get; } = "SHAKE";
+        public override string Algorithm { get; } = "SHAKE-128";
         public override string Mode { get; } = string.Empty;
 
-        public override AlgoMode AlgoMode => AlgoMode.SHAKE_v1_0;
+        public override AlgoMode AlgoMode => AlgoMode.SHAKE_128_v1_0;
 
         protected override string GetTestFileFewTestCases(string targetFolder)
         {
@@ -19,7 +19,7 @@ namespace NIST.CVP.Generation.SHA3.IntegrationTests
 
             var parameters = new Parameters
             {
-                Algorithm = "SHAKE",
+                Algorithm = Algorithm,
                 Mode = Mode,
                 Revision = Revision,
                 DigestSizes = new[] { 128 },
@@ -40,7 +40,7 @@ namespace NIST.CVP.Generation.SHA3.IntegrationTests
 
             var parameters = new Parameters
             {
-                Algorithm = "SHAKE",
+                Algorithm = Algorithm,
                 Revision = Revision,
                 DigestSizes = new[] { 128, 256 },
                 BitOrientedInput = true,

@@ -14,7 +14,7 @@ namespace NIST.CVP.Generation.TDES_CFBP.IntegrationTests
     public abstract class GenValTestsCfbpBase : GenValTestsSingleRunnerBase
     {
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
-		public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
+
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {

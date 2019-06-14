@@ -54,7 +54,7 @@ namespace NIST.CVP.Generation.RSA.v1_0.SigGen
                                 Modulo = modulo,
                                 HashAlg = ShaAttributes.GetHashFunctionFromName(hashPair.HashAlg),
                                 SaltLen = hashPair.SaltLen,
-                                IsMessageRandomized = _randomizeMessagePriorToSign,
+                                Conformance = _randomizeMessagePriorToSign ? "SP800-106" : null,
 
                                 TestType = TEST_TYPE
                             };
@@ -85,7 +85,7 @@ namespace NIST.CVP.Generation.RSA.v1_0.SigGen
                             Modulo = modulo,
                             HashAlg = ShaAttributes.GetHashFunctionFromName(hashPair.HashAlg),
                             SaltLen = hashPair.SaltLen,
-                            IsMessageRandomized = _randomizeMessagePriorToSign,
+                            Conformance = _randomizeMessagePriorToSign ? "SP800-106" : null,
 
                             TestType = TEST_TYPE
                         };

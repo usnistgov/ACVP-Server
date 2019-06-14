@@ -37,7 +37,7 @@ namespace NIST.CVP.Generation.ECDSA.v1_0.SigVer
                             TestCaseExpectationProvider = new TestCaseExpectationProvider(parameters.IsSample),
                             Curve = curve,
                             HashAlg = sha,
-                            IsMessageRandomized = _randomizeMessagePriorToSign
+                            Conformance = _randomizeMessagePriorToSign ? "SP800-106" : null
                         };
 
                         testGroups.Add(testGroup);

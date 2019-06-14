@@ -58,7 +58,7 @@ namespace NIST.CVP.Generation.DSA.v1_0.SigVer
                         N = n,
                         HashAlg = hashFunction,
                         TestCaseExpectationProvider = new TestCaseExpectationProvider(parameters.IsSample),
-                        IsMessageRandomized = _randomizeMessagePriorToSign
+                        Conformance = _randomizeMessagePriorToSign ? "SP800-106" : null
                     };
 
                     map.Add(testGroup, _oracle.GetDsaDomainParametersAsync(param));

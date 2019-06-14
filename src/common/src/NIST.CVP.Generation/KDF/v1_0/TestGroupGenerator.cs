@@ -1,22 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using NIST.CVP.Common.Helpers;
-using NIST.CVP.Crypto.Common.KDF;
+﻿using NIST.CVP.Common.Helpers;
 using NIST.CVP.Crypto.Common.KDF.Enums;
+using NIST.CVP.Crypto.Common.KDF.Helpers;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math.Domain;
+using System;
+using System.Collections.Generic;
 
 namespace NIST.CVP.Generation.KDF.v1_0
 {
     public class TestGroupGenerator : ITestGroupGenerator<Parameters, TestGroup, TestCase>
     {
-        private readonly IKdfFactory _kdfFactory;
-
-        public TestGroupGenerator(IKdfFactory kdfFactory)
-        {
-            _kdfFactory = kdfFactory;
-        }
-
         public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
         {
             var testGroups = new List<TestGroup>();
@@ -29,7 +22,7 @@ namespace NIST.CVP.Generation.KDF.v1_0
                 foreach (var mac in capability.MacMode)
                 {
                     var macMode = EnumHelpers.GetEnumFromEnumDescription<MacModes>(mac);
-                    var macOutputLength = _kdfFactory.GetMacInstance(macMode).OutputLength;
+                    var macOutputLength = MacHelper.GetMacOutputLength(macMode);
 
                     foreach (var counterLength in capability.CounterLength)
                     {
