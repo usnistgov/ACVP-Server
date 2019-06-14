@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace NIST.CVP.Generation.AES_CBC_CTS.v1_0
 {
-    public class TestCaseGeneratorMmtPartialBlock : ITestCaseGeneratorAsync<TestGroup, TestCase>
+    public class TestCaseGeneratorMmtPartialBlock : ITestCaseGeneratorWithPrep<TestGroup, TestCase>
     {
         private readonly IOracle _oracle;
         private List<int> _validSizes = new List<int>();
@@ -27,12 +27,15 @@ namespace NIST.CVP.Generation.AES_CBC_CTS.v1_0
         public GenerateResponse PrepareGenerator(TestGroup group, bool isSample)
         {
             var dataLength = group.PayloadLen.GetDeepCopy();
-
+            var minMax = dataLength.GetDomainMinMax();
+            
             // Use larger numbers only when the "smaller" values don't exist.
+            _validSizes.Add(minMax.Minimum);
             _validSizes.AddRangeIfNotNullOrEmpty(dataLength.GetValues(a => a > 128 && a < 1280 && a % 128 != 0, 128, true));
             _validSizes.AddRangeIfNotNullOrEmpty(dataLength.GetValues(a => a % 128 != 0, 128, true));
-
-            _validSizes = _validSizes.Take(NumberOfTestCasesToGenerate).ToList().Shuffle();
+            _validSizes.Add(minMax.Maximum);
+            
+            _validSizes = _validSizes.Shuffle().Take(NumberOfTestCasesToGenerate).ToList();
             
             return new GenerateResponse();
         }
