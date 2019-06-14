@@ -61,10 +61,10 @@ namespace NIST.CVP.Math.Tests
         }
 
         [Test]
-        [TestCase(new int[] { 1 }, "01")]
-        [TestCase(new int[] { 1, 2 }, "0102")]
-        [TestCase(new int[] { 1, 2, 15 }, "01020F")]
-        [TestCase(new int[] { 1, 2, 255 }, "0102FF")]
+        [TestCase(new int[] { 1 }, "0001")]
+        [TestCase(new int[] { 1, 2 }, "00010002")]
+        [TestCase(new int[] { 1, 2, 15 }, "00010002000F")]
+        [TestCase(new int[] { 1, 2, 255 }, "0001000200FF")]
         public void ShouldConvertToBitStringFromNumeralString(int[] values, string expectedHex)
         {
             _subject = new NumeralString(values);
@@ -75,10 +75,10 @@ namespace NIST.CVP.Math.Tests
         }
 
         [Test]
-        [TestCase("01", new int[] { 1 })]
-        [TestCase("0102", new int[] { 1, 2 })]
-        [TestCase("01020F", new int[] { 1, 2, 15 })]
-        [TestCase("0102FF", new int[] { 1, 2, 255 })]
+        [TestCase("0001", new int[] { 1 })]
+        [TestCase("00010002", new int[] { 1, 2 })]
+        [TestCase("00010002000F", new int[] { 1, 2, 15 })]
+        [TestCase("0001000200FF", new int[] { 1, 2, 255 })]
         public void ShouldConvertToNumeralStringFromBitString(string hex, int[] expectedValues)
         {
             var bs = new BitString(hex);

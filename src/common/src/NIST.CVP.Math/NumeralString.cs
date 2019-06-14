@@ -43,6 +43,7 @@ namespace NIST.CVP.Math
         public NumeralString(string baseTenNumbersSeparatedBySpace)
         {
             Regex regex = new Regex(@"^[\d ]*$");
+            const int maxValue = 65535;
 
             if (!regex.IsMatch(baseTenNumbersSeparatedBySpace))
             {
@@ -56,6 +57,11 @@ namespace NIST.CVP.Math
             {
                 if (int.TryParse(numberCandidate, out var result))
                 {
+                    if (result > maxValue)
+                    {
+                        throw new ArgumentOutOfRangeException($"Provided {nameof(numberCandidate)} of {numberCandidate} exceeds maximum allowed value of {maxValue}.");
+                    }
+
                     numbers.Add(result);
                     continue;
                 }
@@ -80,7 +86,7 @@ namespace NIST.CVP.Math
 
             foreach (var number in numeralString.Numbers)
             {
-                bs = bs.ConcatenateBits(BitString.To32BitString(number).GetLeastSignificantBits(8));
+                bs = bs.ConcatenateBits(BitString.To32BitString(number).GetLeastSignificantBits(16));
             }
 
             return bs;
@@ -96,7 +102,7 @@ namespace NIST.CVP.Math
         /// <exception cref="ArgumentException">Thrown when the <see cref="BitString"/>'s BitLength is not a modulus of 8.</exception>
         public static NumeralString ToNumeralString(BitString bitString)
         {
-            const int requiredMod = 8;
+            const int requiredMod = 16;
 
             if (bitString.BitLength % requiredMod != 0)
             {
