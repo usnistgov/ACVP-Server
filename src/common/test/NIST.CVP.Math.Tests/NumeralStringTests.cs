@@ -12,7 +12,7 @@ namespace NIST.CVP.Math.Tests
         [Test]
         [TestCase(new int[] { 1, 2, 3 })]
         [TestCase(new int[] { 1, 2, 3, 4, 5 })]
-        public void ShouldConstructWithShortsProperly(int[] values)
+        public void ShouldConstructWithIntssProperly(int[] values)
         {
             _subject = new NumeralString(values);
 
@@ -26,7 +26,7 @@ namespace NIST.CVP.Math.Tests
         }
 
         [Test]
-        [TestCase("1 2 3 4 5", new int[] { 1, 2, 3, 4, 5 })]
+        [TestCase("1 2 3 4 5 65535", new int[] { 1, 2, 3, 4, 5 })]
         public void ShouldConstructWithStringProperly(string value, int[] expectedValues)
         {
             _subject = new NumeralString(value);
@@ -52,10 +52,10 @@ namespace NIST.CVP.Math.Tests
         }
 
         [Test]
-        [TestCase("65537000000000000")]
-        [TestCase("1 2 3 10000000000000")]
-        [TestCase("10000000000000000 1 2 3 ")]
-        public void ShouldArgumentOutOfRangeExceptionWithNumbersGtShort(string value)
+        [TestCase("65537")]
+        [TestCase("1 2 3 65536")]
+        [TestCase("65537 1 2 3 ")]
+        public void ShouldArgumentOutOfRangeExceptionWithNumbersGtTwoPow16(string value)
         {
             Assert.Throws<ArgumentOutOfRangeException>(() => _subject = new NumeralString(value));
         }
