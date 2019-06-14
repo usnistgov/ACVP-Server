@@ -30,10 +30,10 @@ namespace NIST.CVP.Generation.AES_CBC_CTS.v1_0
             var minMax = dataLength.GetDomainMinMax();
             
             // Use larger numbers only when the "smaller" values don't exist.
-            _validSizes.Add(minMax.Minimum);
+            //_validSizes.Add(minMax.Minimum);
             _validSizes.AddRangeIfNotNullOrEmpty(dataLength.GetValues(a => a > 128 && a < 1280 && a % 128 != 0, 128, true));
             _validSizes.AddRangeIfNotNullOrEmpty(dataLength.GetValues(a => a % 128 != 0, 128, true));
-            _validSizes.Add(minMax.Maximum);
+            //_validSizes.Add(minMax.Maximum);
             
             _validSizes = _validSizes.Shuffle().Take(NumberOfTestCasesToGenerate).ToList();
             
