@@ -85,7 +85,7 @@ namespace NIST.CVP.Generation.CSHAKE.v1_0
             for (var i = 0; i < messageLengths.Count; i++)
             {
                 // Customization length will be bits if for hex, or bytes if for ascii
-                _lengths.Add((messageLengths[i], outputLengths[i], _validFunctionNames[_rand.GetRandomInt(0, 5)], _rand.GetRandomInt(0, 129)));
+                _lengths.Add((messageLengths[i], outputLengths[i], _validFunctionNames[_rand.GetRandomInt(0, 4)], _rand.GetRandomInt(0, 129)));
             }
             
             return new GenerateResponse();

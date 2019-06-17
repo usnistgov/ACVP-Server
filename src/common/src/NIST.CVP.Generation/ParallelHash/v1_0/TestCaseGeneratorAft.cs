@@ -84,25 +84,26 @@ namespace NIST.CVP.Generation.ParallelHash.v1_0
             for (var i = 0; i < messageLengths.Count; i++)
             {
                 // Customization length will be bits if for hex, or bytes if for ascii
-                _lengths.Add((messageLengths[i], outputLengths[i], _rand.GetRandomInt(0, 129), _rand.GetRandomInt(1, 128) * 8));
+                _lengths.Add((outputLengths[i], messageLengths[i], _rand.GetRandomInt(0, 129), _rand.GetRandomInt(1, 129)));
             }
             
             return new GenerateResponse();
         }
 
-        
         public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample, int caseNo = 0)
         {
+            var param = new ParallelHashParameters
+            {
+                CustomizationLength = _lengths[caseNo].customizationLength,
+                HexCustomization = group.HexCustomization,
+                MessageLength = _lengths[caseNo].messageLength,
+                HashFunction = new HashFunction(_lengths[caseNo].outputLength, _capacity, group.XOF),
+                BlockSize = _lengths[caseNo].blockSize
+            };
+            
             try
             {
-                var oracleResult = await _oracle.GetParallelHashCaseAsync(new ParallelHashParameters
-                {
-                    CustomizationLength = _lengths[caseNo].customizationLength,
-                    HexCustomization = group.HexCustomization,
-                    MessageLength = _lengths[caseNo].messageLength,
-                    HashFunction = new HashFunction(_lengths[caseNo].outputLength, _capacity, group.XOF),
-                    BlockSize = _lengths[caseNo].blockSize
-                });
+                var oracleResult = await _oracle.GetParallelHashCaseAsync(param);
 
                 return new TestCaseGenerateResponse<TestGroup, TestCase>(new TestCase
                 {
