@@ -49,7 +49,7 @@ namespace NIST.CVP.Generation.TupleHash.v1_0
         public BitString Digest { get; set; }
 
         [JsonProperty(PropertyName = "outLen")]
-        public int DigestLength => Digest.BitLength;
+        public int DigestLength { get; set; }
 
         public List<AlgoArrayResponse> ResultsArray { get; set; }
     }

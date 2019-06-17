@@ -109,6 +109,7 @@ namespace NIST.CVP.Generation.CSHAKE.v1_0
                     FunctionName = oracleResult.FunctionName,
                     Message = oracleResult.Message,
                     Digest = oracleResult.Digest,
+                    DigestLength = oracleResult.Digest.BitLength,
                     Customization = oracleResult.Customization,
                     CustomizationHex = oracleResult.CustomizationHex
                 });
