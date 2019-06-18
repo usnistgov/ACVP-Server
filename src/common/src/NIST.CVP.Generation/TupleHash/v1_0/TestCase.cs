@@ -11,8 +11,10 @@ namespace NIST.CVP.Generation.TupleHash.v1_0
     {
         public int TestCaseId { get; set; }
         public TestGroup ParentGroup { get; set; }
+        
         [JsonIgnore]
         public bool? TestPassed { get; set; }
+        
         [JsonIgnore]
         public bool Deferred { get; set; }
 
@@ -35,13 +37,7 @@ namespace NIST.CVP.Generation.TupleHash.v1_0
         }
 
         [JsonProperty(PropertyName = "tupleLen")]
-        public int TupleLength {
-            get
-            {
-                if (Tuple == null) return 0;
-                return Tuple.Count;
-            }
-        }
+        public int TupleLength => Tuple?.Count ?? 0;
 
         [JsonProperty(PropertyName = "customization")]
         public string Customization { get; set; } = "";

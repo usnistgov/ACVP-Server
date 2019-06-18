@@ -24,7 +24,7 @@ namespace NIST.CVP.Generation.KAS.v1_0.FFC
             _dispositionList = dispositionList;
         }
 
-        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample)
+        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample, int caseNo = 0)
         {
             var testCaseDisposition = TestCaseDispositionHelper.GetTestCaseIntention(_dispositionList);
 

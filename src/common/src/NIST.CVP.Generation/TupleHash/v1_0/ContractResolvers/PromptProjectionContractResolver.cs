@@ -44,7 +44,7 @@ namespace NIST.CVP.Generation.TupleHash.v1_0.ContractResolvers
             }
 
             #region Conditional Test Case properties
-            if (jsonProperty.UnderlyingName == nameof(TestCase.Customization))
+            if (jsonProperty.UnderlyingName.Equals(nameof(TestCase.Customization)))
             {
                 return jsonProperty.ShouldSerialize = instance =>
                 {
@@ -63,7 +63,7 @@ namespace NIST.CVP.Generation.TupleHash.v1_0.ContractResolvers
                 };
             }
 
-            if (jsonProperty.UnderlyingName == nameof(TestCase.CustomizationHex))
+            if (jsonProperty.UnderlyingName.Equals(nameof(TestCase.CustomizationHex)))
             {
                 return jsonProperty.ShouldSerialize = instance =>
                 {
@@ -81,7 +81,7 @@ namespace NIST.CVP.Generation.TupleHash.v1_0.ContractResolvers
                 };
             }
 
-            if (jsonProperty.UnderlyingName == nameof(TestCase.DigestLength))
+            if (jsonProperty.UnderlyingName.Equals(nameof(TestCase.DigestLength)))
             {
                 return jsonProperty.ShouldSerialize = instance =>
                 {
@@ -91,6 +91,7 @@ namespace NIST.CVP.Generation.TupleHash.v1_0.ContractResolvers
                     {
                         return true;
                     }
+                    
                     return false;
                 };
             }

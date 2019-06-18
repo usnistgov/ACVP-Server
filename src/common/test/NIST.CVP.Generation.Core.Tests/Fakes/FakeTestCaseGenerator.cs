@@ -8,7 +8,7 @@ namespace NIST.CVP.Generation.Core.Tests.Fakes
         where TTestCase : ITestCase<TTestGroup, TTestCase>, new()
     {
         public int NumberOfTestCasesToGenerate => 1;
-        public Task<TestCaseGenerateResponse<TTestGroup, TTestCase>> GenerateAsync(TTestGroup @group, bool isSample)
+        public Task<TestCaseGenerateResponse<TTestGroup, TTestCase>> GenerateAsync(TTestGroup @group, bool isSample, int caseNo = 0)
         {
             var testCase = new TTestCase();
             return Task.FromResult(new TestCaseGenerateResponse<TTestGroup, TTestCase>(testCase));

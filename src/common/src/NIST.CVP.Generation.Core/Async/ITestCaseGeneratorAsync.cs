@@ -15,12 +15,13 @@ namespace NIST.CVP.Generation.Core.Async
         /// The number of test cases to generate for this test type and group.
         /// </summary>
         int NumberOfTestCasesToGenerate { get; }
+        
         /// <summary>
         /// Generates a <see cref="TTestCase"/>.
         /// </summary>
         /// <param name="group">The test group information</param>
         /// <param name="isSample">Is this a sample test?</param>
         /// <returns></returns>
-        Task<TestCaseGenerateResponse<TTestGroup, TTestCase>> GenerateAsync(TTestGroup @group, bool isSample);
+        Task<TestCaseGenerateResponse<TTestGroup, TTestCase>> GenerateAsync(TTestGroup @group, bool isSample, int caseNo = -1);
     }
 }

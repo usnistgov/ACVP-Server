@@ -32,13 +32,18 @@ namespace NIST.CVP.Generation.TupleHash.v1_0.ContractResolvers
                 nameof(TestCase.Digest),
                 nameof(TestCase.ResultsArray)
             };
-            
+
             if (jsonProperty.UnderlyingName.Equals(nameof(TestCase.DigestLength)))
             {
                 return jsonProperty.ShouldSerialize = instance =>
                 {
                     GetTestCaseFromTestCaseObject(instance, out var testGroup, out var testCase);
-                    return (testGroup.TestType.ToLower() == "aft");
+                    if (testGroup.TestType.Equals("aft", StringComparison.OrdinalIgnoreCase))
+                    {
+                        return true;
+                    }
+                    
+                    return false;
                 };
             }
 
