@@ -28,6 +28,10 @@ namespace NIST.CVP.Common
         AES_CTR_v1_0,
         [EnumMember(Value = "ACVP-AES-ECB-1.0")]
         AES_ECB_v1_0,
+        [EnumMember(Value = "ACVP-AES-FF1-1.0")]
+        AES_FF1_v1_0,
+        [EnumMember(Value = "ACVP-AES-FF3-1-1.0")]
+        AES_FF3_1_v1_0,
         [EnumMember(Value = "ACVP-AES-GCM-1.0")]
         AES_GCM_v1_0,
         [EnumMember(Value = "ACVP-AES-GCM-SIV-1.0")]

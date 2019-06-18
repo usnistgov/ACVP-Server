@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -118,6 +119,83 @@ namespace NIST.CVP.Math
             }
 
             return new NumeralString(numbers.ToArray());
+        }
+
+        /// <summary>
+        /// Converts the provided <see cref="NumeralString"/> into its alphabet representation.
+        /// </summary>
+        /// <param name="alphabet">The alphabet to use for the conversion process.</param>
+        /// <param name="radix">The base.</param>
+        /// <param name="numeralStringToConvert">The <see cref="NumeralString"/> to convert to its alphabet representation.</param>
+        /// <returns>The string that represents the <see cref="NumeralString"/> converted to it's alphabet.</returns>
+        public static string ToAlphabetString(string alphabet, int radix, NumeralString numeralStringToConvert)
+        {
+            if (!IsNumeralStringValidWithAlphabet(alphabet, numeralStringToConvert))
+            {
+                return null;
+            }
+
+            if (alphabet.Length != radix)
+            {
+                return null;
+            }
+            
+            var sb = new StringBuilder();
+            foreach (var number in numeralStringToConvert.Numbers)
+            {
+                sb.Append(alphabet[number]);
+            }
+            
+            return sb.ToString();
+        }
+        
+        /// <summary>
+        /// Determines if a provided alphabet is valid.
+        /// </summary>
+        /// <param name="alphabet"></param>
+        /// <returns></returns>
+        public static bool IsAlphabetValid(string alphabet)
+        {
+            if (string.IsNullOrEmpty(alphabet))
+            {
+                return false;
+            }
+            
+            if (alphabet.Length < 2)
+            {
+                return false;
+            }
+
+            if (alphabet.Length >= 65536)
+            {
+                return false;
+            }
+
+            // ensure that all values within the alphabet are unique
+            return alphabet.GroupBy(x => x).All(g => g.Count() == 1);
+        }
+
+        /// <summary>
+        /// Given a <see cref="NumeralString"/> and alphabet, ensure the values within the <see cref="NumeralString"/> are valid given the alphabet.
+        /// </summary>
+        /// <param name="alphabet"></param>
+        /// <param name="numeralString"></param>
+        /// <returns></returns>
+        public static bool IsNumeralStringValidWithAlphabet(string alphabet, NumeralString numeralString)
+        {
+            if (!IsAlphabetValid(alphabet))
+            {
+                return false;
+            }
+
+            var maxValueFromNumeralString = numeralString.Numbers.Max();
+
+            if (maxValueFromNumeralString > alphabet.Length)
+            {
+                return false;
+            }
+            
+            return true;
         }
     }
 }

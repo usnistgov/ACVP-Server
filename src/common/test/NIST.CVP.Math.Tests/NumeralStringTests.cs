@@ -90,5 +90,38 @@ namespace NIST.CVP.Math.Tests
                 Assert.AreEqual(expectedValues[i], result.Numbers[i], $"{nameof(i)}: {i}");
             }
         }
+
+        [Test]
+        [TestCase("", false)]
+        [TestCase("a", false)]
+        [TestCase("aA", true)]
+        [TestCase("0123456789", true)]
+        [TestCase("01234567890", false)]
+        public void ShouldDetermineIfAlphabetValid(string alphabet, bool expectedOutcome)
+        {
+            Assert.AreEqual(expectedOutcome, NumeralString.IsAlphabetValid(alphabet));
+        }
+
+        [Test]
+        [TestCase("aB", new[] {0, 1, 0, 0}, true)]
+        [TestCase("a", new[] {0, 0, 0}, false)]
+        [TestCase("0123456789", new[] {0, 0, 0}, true)]
+        [TestCase("0123456789", new[] {0, 0, 9, 10}, true)]
+        [TestCase("0123456789", new[] {0, 0, 11}, false)]
+        public void ShouldDetermineIfNumeralStringValidToAlphabet(string alphabet, int[] numbers, bool expectedOutcome)
+        {
+            var numeralString = new NumeralString(numbers);
+            
+            Assert.AreEqual(expectedOutcome, NumeralString.IsNumeralStringValidWithAlphabet(alphabet, numeralString));
+        }
+
+        [Test]
+        [TestCase("012345", new[] {0, 1, 2, 2, 3, 3, 3}, "0122333")]
+        [TestCase("54321", new[] {0, 1, 2, 2, 3, 3, 3}, "5433222")]
+        [TestCase("abcdefghijklmnopqrstuvwxyz", new[] {7, 4, 11, 11, 14}, "hello")]
+        public void ShouldToAlphabetString(string alphabet, int[] numbers, string expectation)
+        {
+            Assert.AreEqual(expectation, NumeralString.ToAlphabetString(alphabet, alphabet.Length, new NumeralString(numbers)));
+        }
     }
 }

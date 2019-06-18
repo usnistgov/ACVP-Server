@@ -103,6 +103,10 @@ using System;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using NIST.CVP.Crypto.AES_FF;
+using NIST.CVP.Crypto.Common.Symmetric.AES;
+using NIST.CVP.Crypto.Common.Symmetric.BlockModes.Ffx;
+using NIST.CVP.Crypto.Symmetric.BlockModes.Ffx;
 
 namespace NIST.CVP.Orleans.Grains
 {
@@ -154,6 +158,8 @@ namespace NIST.CVP.Orleans.Grains
             svc.AddSingleton<IMonteCarloFactoryAes, AesMonteCarloFactory>();
             svc.AddSingleton<IMonteCarloFactoryTdes, TdesMonteCarloFactory>();
             svc.AddSingleton<ICounterFactory, CounterFactory>();
+            svc.AddTransient<IAesFfInternals, AesFfInternals>();
+            svc.AddSingleton<IFfxModeBlockCipherFactory, FfxModeBlockCipherFactory>();
 
             svc.AddSingleton<ICmacFactory, CmacFactory>();
 
