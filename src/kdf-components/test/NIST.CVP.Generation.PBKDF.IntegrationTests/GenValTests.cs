@@ -40,11 +40,26 @@ namespace NIST.CVP.Generation.PBKDF.IntegrationTests
                 Algorithm = Algorithm,
                 Mode = Mode,
                 Revision = Revision,
-                HashAlg = new []{"SHA2-224", "SHA3-256"},
-                IterationCount = new MathDomain().AddSegment(new ValueDomainSegment(10)),
-                KeyLength = new MathDomain().AddSegment(new ValueDomainSegment(1024)),
-                PasswordLength = new MathDomain().AddSegment(new ValueDomainSegment(32)),
-                SaltLength = new MathDomain().AddSegment(new ValueDomainSegment(128))
+                IsSample = true,
+                Capabilities = new []
+                {
+                    new Capability
+                    {
+                        HashAlg = new []{"SHA2-224", "SHA3-256"},
+                        IterationCount = new MathDomain().AddSegment(new ValueDomainSegment(10)),
+                        KeyLength = new MathDomain().AddSegment(new ValueDomainSegment(1024)),
+                        PasswordLength = new MathDomain().AddSegment(new ValueDomainSegment(32)),
+                        SaltLength = new MathDomain().AddSegment(new ValueDomainSegment(128))
+                    },
+                    new Capability
+                    {
+                        HashAlg = new []{"SHA-1"},
+                        IterationCount = new MathDomain().AddSegment(new ValueDomainSegment(1000000)),
+                        KeyLength = new MathDomain().AddSegment(new ValueDomainSegment(512)),
+                        PasswordLength = new MathDomain().AddSegment(new ValueDomainSegment(16)),
+                        SaltLength = new MathDomain().AddSegment(new ValueDomainSegment(256))
+                    }
+                }
             };
 
             return CreateRegistration(folderName, p);
@@ -57,11 +72,26 @@ namespace NIST.CVP.Generation.PBKDF.IntegrationTests
                 Algorithm = Algorithm,
                 Mode = Mode,
                 Revision = Revision,
-                HashAlg = new []{"SHA2-224", "SHA3-256", "SHA-1", "SHA2-512", "SHA3-512"},
-                IterationCount = new MathDomain().AddSegment(new RangeDomainSegment(null, 10, 10000)),
-                KeyLength = new MathDomain().AddSegment(new RangeDomainSegment(null, 112, 256)),
-                PasswordLength = new MathDomain().AddSegment(new RangeDomainSegment(null, 8, 16)),
-                SaltLength = new MathDomain().AddSegment(new RangeDomainSegment(null, 128, 256))
+                IsSample = true,
+                Capabilities = new []
+                {
+                    new Capability
+                    {
+                        HashAlg = new []{"SHA2-224", "SHA3-256", "SHA3-512"},
+                        IterationCount = new MathDomain().AddSegment(new RangeDomainSegment(null, 10, 10000)),
+                        KeyLength = new MathDomain().AddSegment(new RangeDomainSegment(null, 112, 256)),
+                        PasswordLength = new MathDomain().AddSegment(new RangeDomainSegment(null, 8, 16)),
+                        SaltLength = new MathDomain().AddSegment(new RangeDomainSegment(null, 128, 256))
+                    },
+                    new Capability
+                    {
+                        HashAlg = new []{"SHA-1", "SHA2-512"},
+                        IterationCount = new MathDomain().AddSegment(new RangeDomainSegment(null, 1, 10000000)),
+                        KeyLength = new MathDomain().AddSegment(new RangeDomainSegment(null, 112, 256)),
+                        PasswordLength = new MathDomain().AddSegment(new RangeDomainSegment(null, 8, 16)),
+                        SaltLength = new MathDomain().AddSegment(new RangeDomainSegment(null, 128, 256))
+                    }
+                }
             };
 
             return CreateRegistration(folderName, p);
