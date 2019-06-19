@@ -18,7 +18,7 @@ namespace NIST.CVP.Crypto.AES_FF.Tests
 
         [Test]
         [TestCase(5, "0 0 0 1 1 0 1 0", 755)]
-        public void ShouldNumRadixCorrectly(short radix, string xStr, int expected)
+        public void ShouldNumRadixCorrectly(int radix, string xStr, int expected)
         {
             var result = _subject.Num(radix, new NumeralString(xStr));
 
@@ -38,7 +38,7 @@ namespace NIST.CVP.Crypto.AES_FF.Tests
 
         [Test]
         [TestCase(4, 12, 559, new int[] { 0, 3, 10, 7 })]
-        public void ShouldStrCorrectly(short m, short radix, short x, int[] expected)
+        public void ShouldStrCorrectly(int m, int radix, int x, int[] expected)
         {
             var result = _subject.Str(radix, m, x);
 

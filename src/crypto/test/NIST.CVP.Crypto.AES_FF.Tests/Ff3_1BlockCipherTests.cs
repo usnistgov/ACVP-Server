@@ -61,7 +61,7 @@ namespace NIST.CVP.Crypto.AES_FF.Tests
                 Iv = tweak,
                 Key = key,
                 Payload = NumeralString.ToBitString(payload),
-                Radix = (short)radix
+                Radix = radix
             });
 
             Assert.IsNotNull(result.Result);
@@ -78,7 +78,7 @@ namespace NIST.CVP.Crypto.AES_FF.Tests
                 Iv = tweak,
                 Key = key,
                 Payload = NumeralString.ToBitString(cipherText),
-                Radix = (short)radix
+                Radix = radix
             });
 
             Assert.IsNotNull(result.Result);

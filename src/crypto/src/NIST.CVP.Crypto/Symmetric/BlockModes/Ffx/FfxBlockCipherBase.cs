@@ -17,7 +17,7 @@ namespace NIST.CVP.Crypto.Symmetric.BlockModes.Ffx
         protected readonly IModeBlockCipherFactory _factory;
         protected readonly IAesFfInternals _ffInternals;
 
-        protected abstract short NumberOfRounds { get; }
+        protected abstract int NumberOfRounds { get; }
 
         public bool IsPartialBlockAllowed => true;
 

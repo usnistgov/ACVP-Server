@@ -16,7 +16,7 @@ namespace NIST.CVP.Crypto.Symmetric.BlockModes.Ffx
         public Ff1BlockCipher(IBlockCipherEngine engine, IModeBlockCipherFactory factory, IAesFfInternals ffInternals)
             : base(engine, factory, ffInternals) { }
 
-        protected override short NumberOfRounds => 10;
+        protected override int NumberOfRounds => 10;
 
         protected override BitString Encrypt(IFfxModeBlockCipherParameters param)
         {
@@ -30,7 +30,7 @@ namespace NIST.CVP.Crypto.Symmetric.BlockModes.Ffx
             var t = param.Iv.BitLength / BitsInByte;
 
             // 1. Let u = Floor(n/2); v = n – u.
-            var u = (short)System.Math.Floor((double)n / 2);
+            var u = (int)System.Math.Floor((double)n / 2);
             var v = n - u;
 
             // 2. Let A = X[1..u]; B = X[u + 1..n].
@@ -136,7 +136,7 @@ namespace NIST.CVP.Crypto.Symmetric.BlockModes.Ffx
             var t = param.Iv.BitLength / BitsInByte;
 
             // 1. Let u = Floor(n/2); v = n – u.
-            var u = (short)System.Math.Floor((double)n / 2);
+            var u = (int)System.Math.Floor((double)n / 2);
             var v = n - u;
 
             // 2. Let A = X[1..u]; B = X[u+1..n].

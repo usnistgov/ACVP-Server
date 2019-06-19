@@ -176,7 +176,7 @@ namespace NIST.CVP.Crypto.AES_FF.Tests
                 Iv = tweak,
                 Key = key,
                 Payload = NumeralString.ToBitString(payload),
-                Radix = (short)radix
+                Radix = radix
             });
 
             Assert.AreEqual(cipherText.ToString(), NumeralString.ToNumeralString(result.Result).ToString());
@@ -192,7 +192,7 @@ namespace NIST.CVP.Crypto.AES_FF.Tests
                 Iv = tweak,
                 Key = key,
                 Payload = NumeralString.ToBitString(cipherText),
-                Radix = (short)radix
+                Radix = radix
             });
 
             Assert.AreEqual(payload.ToString(), NumeralString.ToNumeralString(result.Result).ToString());
