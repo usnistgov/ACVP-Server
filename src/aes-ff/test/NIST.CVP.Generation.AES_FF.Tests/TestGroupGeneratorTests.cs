@@ -173,9 +173,6 @@ namespace NIST.CVP.Generation.AES_FF.Tests
         };
 
         [Test]
-        [TestCase(
-
-        )]
         [TestCaseSource(nameof(_testData))]
         public void ShouldReturnCorrectNumberOfTestGroups(
             string label,
