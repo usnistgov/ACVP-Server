@@ -7,10 +7,10 @@ namespace NIST.CVP.Common.Oracle.ParameterTypes
     {
         public AlgoMode AlgoMode { get; set; }
         public int KeyLength { get; set; }
-        public int MinDataLength { get; set; }
-        public int MaxDataLength { get; set; }
+        public int DataLength { get; set; }
         public BlockCipherDirections Direction { get; set; }
         public int TweakLength { get; set; }
+        public int Radix { get; set; }
 
         public override bool Equals(object other)
         {
@@ -22,6 +22,6 @@ namespace NIST.CVP.Common.Oracle.ParameterTypes
             return false;
         }
 
-        public override int GetHashCode() => HashCode.Combine(AlgoMode, KeyLength, MinDataLength, MaxDataLength, Direction, TweakLength);
+        public override int GetHashCode() => HashCode.Combine(AlgoMode, KeyLength, DataLength, Direction, TweakLength, Radix);
     }
 }

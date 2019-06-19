@@ -14,7 +14,8 @@ namespace NIST.CVP.Generation.AES_FFX.v1_0.Base
         [JsonIgnore] public bool Deferred => false;
         [JsonIgnore] public bool? TestPassed => true;
         [JsonProperty(PropertyName = "tweak")]
-        public BitString IV { get; set; } 
+        public BitString Tweak { get; set; }
+        public int TweakLen => Tweak?.BitLength ?? 0;
         [JsonProperty(PropertyName = "pt")]
         public string PlainText { get; set; }
         [JsonProperty(PropertyName = "key")]

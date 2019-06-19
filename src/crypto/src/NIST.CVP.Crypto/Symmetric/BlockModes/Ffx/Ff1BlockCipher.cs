@@ -52,7 +52,7 @@ namespace NIST.CVP.Crypto.Symmetric.BlockModes.Ffx
             P[2] = 0x01;
             // 3 bytes for radix, but radix is capped at 16 bits (2^16), so add a 0 byte
             P[3] = 0x00;
-            Array.Copy(BitString.To16BitString(param.Radix).ToBytes(), 0, P, 4, 2);
+            Array.Copy(BitString.To32BitString(param.Radix).GetLeastSignificantBits(16).ToBytes(), 0, P, 4, 2);
             P[6] = 0x0a;
             P[7] = (byte)(u % 256);
             Array.Copy(BitString.To32BitString(n).ToBytes(), 0, P, 8, 4);
@@ -158,7 +158,7 @@ namespace NIST.CVP.Crypto.Symmetric.BlockModes.Ffx
             P[2] = 0x01;
             // 3 bytes for radix, but radix is capped at 16 bits (2^16), so add a 0 byte
             P[3] = 0x00;
-            Array.Copy(BitString.To16BitString(param.Radix).ToBytes(), 0, P, 4, 2);
+            Array.Copy(BitString.To32BitString(param.Radix).GetLeastSignificantBits(16).ToBytes(), 0, P, 4, 2);
             P[6] = 0x0a;
             P[7] = (byte)(u % 256);
             Array.Copy(BitString.To32BitString(n).ToBytes(), 0, P, 8, 4);

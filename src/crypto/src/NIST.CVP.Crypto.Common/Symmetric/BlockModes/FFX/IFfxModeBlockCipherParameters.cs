@@ -5,6 +5,6 @@ namespace NIST.CVP.Crypto.Common.Symmetric.BlockModes.Ffx
         /// <summary>
         /// The number base.
         /// </summary>
-        short Radix { get; }
+        int Radix { get; }
     }
 }

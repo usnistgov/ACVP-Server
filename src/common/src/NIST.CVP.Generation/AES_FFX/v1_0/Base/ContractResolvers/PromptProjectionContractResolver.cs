@@ -18,6 +18,8 @@ namespace NIST.CVP.Generation.AES_FFX.v1_0.Base.ContractResolvers
             var includeProperties = new[]
             {
                 nameof(TestGroup.TestGroupId),
+                nameof(TestGroup.Alphabet),
+                nameof(TestGroup.Radix),
                 nameof(TestGroup.TestType),
                 nameof(TestGroup.Function),
                 nameof(TestGroup.KeyLength),
@@ -39,7 +41,8 @@ namespace NIST.CVP.Generation.AES_FFX.v1_0.Base.ContractResolvers
             var includeProperties = new[]
             {
                 nameof(TestCase.TestCaseId),
-                nameof(TestCase.IV),
+                nameof(TestCase.Tweak),
+                nameof(TestCase.TweakLen),
                 nameof(TestCase.Key),
             };
 

@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using NIST.CVP.Common;
 using NIST.CVP.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Math.Domain;
 
 namespace NIST.CVP.Generation.AES_FFX.v1_0.Base
 {
@@ -17,10 +18,11 @@ namespace NIST.CVP.Generation.AES_FFX.v1_0.Base
 
         public string Alphabet => Capability?.Alphabet;
         public int Radix => Capability?.Radix ?? 0;
+        public MathDomain TweakLen { get; set; }
         
         [JsonIgnore] public AlgoMode AlgoMode { get; set; }
         [JsonIgnore] public Capability Capability { get; set; }
-
+        
         public List<TestCase> Tests { get; set; } = new List<TestCase>();
 
     }

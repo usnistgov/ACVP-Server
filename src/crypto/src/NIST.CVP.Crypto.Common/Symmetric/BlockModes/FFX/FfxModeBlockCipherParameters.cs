@@ -10,6 +10,6 @@ namespace NIST.CVP.Crypto.Common.Symmetric.BlockModes.Ffx
         public BitString Key { get; set; }
         public BitString Payload { get; set; }
         public bool UseInverseCipherMode => false;
-        public short Radix { get; set; }
+        public int Radix { get; set; }
     }
 }

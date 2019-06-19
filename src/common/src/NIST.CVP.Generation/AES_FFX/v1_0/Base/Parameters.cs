@@ -13,6 +13,7 @@ namespace NIST.CVP.Generation.AES_FFX.v1_0.Base
         public string[] Conformances { get; set; } = { };
         public string[] Direction { get; set; }
         public int[] KeyLen { get; set; }
+        public MathDomain TweakLen { get; set; }
         public Capability[] Capabilities { get; set; }
     }
 
