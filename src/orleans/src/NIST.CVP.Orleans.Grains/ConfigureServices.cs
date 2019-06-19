@@ -160,6 +160,7 @@ namespace NIST.CVP.Orleans.Grains
             svc.AddSingleton<IDrbgFactory, DrbgFactory>();
 
             svc.AddSingleton<IHmacFactory, HmacFactory>();
+            svc.AddSingleton<IFastHmacFactory, FastHmacFactory>();
 
             svc.AddTransient<IMacParametersBuilder, MacParametersBuilder>();
             svc.AddSingleton<IKeyConfirmationFactory, KeyConfirmationFactory>();
