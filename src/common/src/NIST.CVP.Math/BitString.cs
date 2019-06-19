@@ -111,7 +111,7 @@ namespace NIST.CVP.Math
                 bytesInMSB[i / 2] = Convert.ToByte(hexMSB.Substring(i, 2), 16);
             }
 
-            if(bitLength < 0)
+            if (bitLength < 0)
             {
                 _bits = Helper.MostSignificantByteArrayToLeastSignificantBitArray(bytesInMSB);
             }
@@ -187,7 +187,7 @@ namespace NIST.CVP.Math
             {
                 return new byte[0];
             }
-            
+
             byte[] bytes = new byte[(Bits.Length - 1) / BITSINBYTE + 1];
             //_bits.CopyTo(bytes, 0); This would be nice, but it is not supported in .Net Core 1.0.1
 
@@ -734,6 +734,19 @@ namespace NIST.CVP.Math
         public BitString ConcatenateBits(BitString bitsToAppend)
         {
             return BitString.ConcatenateBits(this, bitsToAppend);
+        }
+
+        public BitString ConcatenateBits(BitString bitsToAppend, int numberOfTimesToAppend)
+        {
+            var bs = this;
+
+            while (numberOfTimesToAppend != 0)
+            {
+                bs = bs.ConcatenateBits(bitsToAppend);
+                numberOfTimesToAppend--;
+            }
+
+            return bs;
         }
 
         /// <summary>
