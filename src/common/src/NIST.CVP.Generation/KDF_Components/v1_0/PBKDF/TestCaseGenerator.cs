@@ -37,7 +37,7 @@ namespace NIST.CVP.Generation.KDF_Components.v1_0.PBKDF
             _keyLens = GetValuesFromDomain(group.KeyLength);
             _passwordLens = GetValuesFromDomain(group.PasswordLength);
             _saltLens = GetValuesFromDomain(group.SaltLength);
-            _iterationCounts = GetValuesFromDomain(group.IterationCount);
+            _iterationCounts = GetVariedValuesFromDomain(group.IterationCount);
             
             return new GenerateResponse();
         }
@@ -80,13 +80,26 @@ namespace NIST.CVP.Generation.KDF_Components.v1_0.PBKDF
             }
         }
 
+        private List<int> GetVariedValuesFromDomain(MathDomain domain)
+        {
+            var minMax = domain.GetDomainMinMax();
+
+            var valuesSelected = new List<int> {minMax.Minimum, minMax.Maximum};
+            var smallValuesPulled = domain.GetValues(v => v != minMax.Minimum && v != minMax.Maximum && v < 100000,
+                NumberOfTestCasesToGenerate - 4, true);            
+            var largeValuesPulled = domain.GetValues(v => v != minMax.Minimum && v != minMax.Maximum && v >= 100000, 2, true);
+            valuesSelected.AddRange(smallValuesPulled);
+            valuesSelected.AddRange(largeValuesPulled);
+
+            return valuesSelected.Shuffle();
+        }
+        
         private List<int> GetValuesFromDomain(MathDomain domain)
         {
             var minMax = domain.GetDomainMinMax();
 
             var valuesSelected = new List<int> {minMax.Minimum, minMax.Maximum};
-            
-            var valuesPulled = domain.GetValues(v => v != minMax.Minimum && v != minMax.Maximum, NumberOfTestCasesToGenerate - 2, true);
+            var valuesPulled = domain.GetValues(v => v != minMax.Minimum && v != minMax.Maximum, NumberOfTestCasesToGenerate - 2, true);            
             valuesSelected.AddRange(valuesPulled);
 
             return valuesSelected.Shuffle();

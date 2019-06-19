@@ -13,6 +13,7 @@ namespace NIST.CVP.Generation.KDF_Components.v1_0.PBKDF
     public class ParameterValidator : ParameterValidatorBase, IParameterValidator<Parameters>
     {
         public static string[] VALID_HASH_ALGS = ShaAttributes.GetShaNames().Except(new [] {"SHAKE-128", "SHAKE-256"}).ToArray();
+        public static string[] FAST_HASH_ALGS = {"SHA-1", "SHA2-256", "SHA2-384", "SHA2-512"};
         public static int MIN_KEY_LEN = 112;
         public static int MAX_KEY_LEN = 65536;
         public static int MIN_PASS_LEN = 8;
@@ -20,7 +21,8 @@ namespace NIST.CVP.Generation.KDF_Components.v1_0.PBKDF
         public static int MIN_SALT_LEN = 128;
         public static int MAX_SALT_LEN = 4096;
         public static int MIN_ITR_COUNT = 1;
-        public static int MAX_ITR_COUNT = 10000000;
+        public static int MAX_ITR_COUNT = 10000;
+        public static int MAX_ITR_COUNT_FAST = 10000000;
         
         public ParameterValidateResponse Validate(Parameters parameters)
         {
@@ -36,14 +38,32 @@ namespace NIST.CVP.Generation.KDF_Components.v1_0.PBKDF
                 errors.Add("Incorrect mode");
             }
 
-            var results = ValidateArray(parameters.HashAlg, VALID_HASH_ALGS, "Hash Algs");
-            errors.AddIfNotNullOrEmpty(results);
+            if (!parameters.Capabilities.Any())
+            {
+                errors.Add("Must have capabilities");
+                return new ParameterValidateResponse(errors);
+            }
 
-            ValidateDomain(parameters.KeyLength, MIN_KEY_LEN, MAX_KEY_LEN, errors, "Key Len");
-            ValidateDomain(parameters.SaltLength, MIN_SALT_LEN, MAX_SALT_LEN, errors, "Salt Len");
-            ValidateDomain(parameters.PasswordLength, MIN_PASS_LEN, MAX_PASS_LEN, errors, "Password Len");
-            ValidateDomain(parameters.IterationCount, MIN_ITR_COUNT, MAX_ITR_COUNT, errors, "Iteration Count");
-            
+            foreach (var capability in parameters.Capabilities)
+            {
+                var results = ValidateArray(capability.HashAlg, VALID_HASH_ALGS, "Hash Algs");
+                errors.AddIfNotNullOrEmpty(results);
+
+                ValidateDomain(capability.KeyLength, MIN_KEY_LEN, MAX_KEY_LEN, errors, "Key Len");
+                ValidateDomain(capability.SaltLength, MIN_SALT_LEN, MAX_SALT_LEN, errors, "Salt Len");
+                ValidateDomain(capability.PasswordLength, MIN_PASS_LEN, MAX_PASS_LEN, errors, "Password Len");
+
+                // If the intersection of the FAST and the selected is equal to the selected
+                //     then there are only FAST hash algs present
+                var maxItrCount =
+                    capability.HashAlg.Intersect(FAST_HASH_ALGS, StringComparer.OrdinalIgnoreCase).Count() ==
+                    capability.HashAlg.Count()
+                        ? MAX_ITR_COUNT_FAST
+                        : MAX_ITR_COUNT; 
+                
+                ValidateDomain(capability.IterationCount, MIN_ITR_COUNT, maxItrCount, errors, "Iteration Count");
+            }
+
             return new ParameterValidateResponse(errors);
         }
 

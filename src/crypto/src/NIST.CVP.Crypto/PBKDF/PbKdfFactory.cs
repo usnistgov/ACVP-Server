@@ -7,9 +7,9 @@ namespace NIST.CVP.Crypto.PBKDF
     public class PbKdfFactory : IPbKdfFactory
     {
         private readonly IShaFactory _shaFactory;
-        private readonly IHmacFactory _hmacFactory;
+        private readonly IFastHmacFactory _hmacFactory;
 
-        public PbKdfFactory(IShaFactory shaFactory, IHmacFactory hmacFactory)
+        public PbKdfFactory(IShaFactory shaFactory, IFastHmacFactory hmacFactory)
         {
             _shaFactory = shaFactory;
             _hmacFactory = hmacFactory;
