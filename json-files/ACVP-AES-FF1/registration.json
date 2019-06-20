@@ -25,20 +25,20 @@
     {
       "alphabet": "0123456789",
       "radix": 10,
-      "minLength": 10,
-      "maxLength": 56
+      "minLen": 10,
+      "maxLen": 56
     },
     {
       "alphabet": "abcdefghijklmnopqrstuvwxyz",
       "radix": 26,
-      "minLength": 10,
-      "maxLength": 40
+      "minLen": 10,
+      "maxLen": 40
     },
     {
-      "alphabet": "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz`~-=!@#$%^&*()_+[]{}|?<>,.§º¿",
-      "radix": 91,
-      "minLength": 10,
-      "maxLength": 28
+      "alphabet": "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+      "radix": 62,
+      "minLen": 10,
+      "maxLen": 28
     }
   ]
 }

@@ -59,15 +59,15 @@ namespace NIST.CVP.Generation.AES_FF.IntegrationTests
                     {
                         Alphabet = "0123456789",
                         Radix = 10,
-                        MinLength = 10,
-                        MaxLength = 56
+                        MinLen = 10,
+                        MaxLen = 56
                     },
                     new Capability()
                     {
                         Alphabet = "abcdefghijklmnopqrstuvwxyz",
                         Radix = 26,
-                        MinLength = 26,
-                        MaxLength = 40
+                        MinLen = 26,
+                        MaxLen = 40
                     },
                 }.ToArray()
             };
@@ -93,22 +93,22 @@ namespace NIST.CVP.Generation.AES_FF.IntegrationTests
                     {
                         Alphabet = "0123456789",
                         Radix = 10,
-                        MinLength = 10,
-                        MaxLength = 56
+                        MinLen = 10,
+                        MaxLen = 56
                     },
                     new Capability()
                     {
                         Alphabet = "abcdefghijklmnopqrstuvwxyz",
                         Radix = 26,
-                        MinLength = 10,
-                        MaxLength = 40
+                        MinLen = 10,
+                        MaxLen = 40
                     },
                     new Capability()
                     {
-                        Alphabet = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz`~-=!@#$%^&*()_+[]{}|?<>,.§º¿",
-                        Radix = 91,
-                        MinLength = 10,
-                        MaxLength = 28
+                        Alphabet = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+                        Radix = 62,
+                        MinLen = 10,
+                        MaxLen = 28
                     }
                 }.ToArray()
             };

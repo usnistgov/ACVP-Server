@@ -52,8 +52,8 @@ namespace NIST.CVP.Generation.AES_FF.Tests
                     {
                         Alphabet = "0123456789",
                         Radix = 10,
-                        MinLength = 20,
-                        MaxLength = 26
+                        MinLen = 20,
+                        MaxLen = 26
                     }
                 }.ToArray(),
                 // expected
@@ -78,8 +78,8 @@ namespace NIST.CVP.Generation.AES_FF.Tests
                     {
                         Alphabet = "0123456789",
                         Radix = 10,
-                        MinLength = 20,
-                        MaxLength = 26
+                        MinLen = 20,
+                        MaxLen = 26
                     }
                 }.ToArray(),
                 // expected
@@ -104,8 +104,8 @@ namespace NIST.CVP.Generation.AES_FF.Tests
                         {
                             Alphabet = "0123456789",
                             Radix = 10,
-                            MinLength = 20,
-                            MaxLength = 26
+                            MinLen = 20,
+                            MaxLen = 26
                         }
                     }.ToArray(),
                 // expected
@@ -130,8 +130,8 @@ namespace NIST.CVP.Generation.AES_FF.Tests
                     {
                         Alphabet = "0123456789",
                         Radix = 10,
-                        MinLength = 20,
-                        MaxLength = 26
+                        MinLen = 20,
+                        MaxLen = 26
                     }
                 }.ToArray(),
                 // expected
@@ -156,15 +156,15 @@ namespace NIST.CVP.Generation.AES_FF.Tests
                     {
                         Alphabet = "0123456789",
                         Radix = 10,
-                        MinLength = 20,
-                        MaxLength = 26
+                        MinLen = 20,
+                        MaxLen = 26
                     },
                     new Capability()
                     {
                         Alphabet = "abcde",
                         Radix = 5,
-                        MinLength = 20,
-                        MaxLength = 26
+                        MinLen = 20,
+                        MaxLen = 26
                     },
                 }.ToArray(),
                 // expected

@@ -33,8 +33,8 @@ namespace NIST.CVP.Generation.AES_FF.Tests
                     {
                         Radix = 10,
                         Alphabet = "0123456789",
-                        MinLength = 10,
-                        MaxLength = 26
+                        MinLen = 10,
+                        MaxLen = 26
                     }
                 };
                 testGroups.Add(tg);

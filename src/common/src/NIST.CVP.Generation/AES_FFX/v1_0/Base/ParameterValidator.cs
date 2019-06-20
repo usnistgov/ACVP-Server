@@ -18,6 +18,8 @@ namespace NIST.CVP.Generation.AES_FFX.v1_0.Base
         public static string[] VALID_DIRECTIONS = new string[] { "encrypt", "decrypt" };
         public static int VALID_MIN_TWEAK = 0;
         public static int VALID_MAX_TWEAK = 128;
+        public static int VALID_MIN_RADIX = 2;
+        public static int VALID_MAX_RADIX = 62;
         private AlgoMode _algoMode;
 
         public ParameterValidateResponse Validate(Parameters parameters)
@@ -61,12 +63,17 @@ namespace NIST.CVP.Generation.AES_FFX.v1_0.Base
 
             foreach (var capability in parameters.Capabilities)
             {
+                if (capability.Radix < VALID_MIN_RADIX || capability.Radix > VALID_MAX_RADIX)
+                {
+                    errorResults.Add("Radix must be at least 2 and at most 62.");
+                }
+
                 if (!NumeralString.IsAlphabetValid(capability.Alphabet))
                 {
                     errorResults.Add($"Provided {nameof(capability.Alphabet)} is invalid. Ensure alphabet is made up of between 2 and 2^16 unique characters. ");
                 }
 
-                IsRadixValidWithPayload(capability.Radix, capability.MinLength, capability.MaxLength, errorResults);
+                IsRadixValidWithPayload(capability.Radix, capability.MinLen, capability.MaxLen, errorResults);
             }
         }
 

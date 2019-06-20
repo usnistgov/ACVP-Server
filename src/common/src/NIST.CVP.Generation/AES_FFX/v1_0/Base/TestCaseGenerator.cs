@@ -30,13 +30,13 @@ namespace NIST.CVP.Generation.AES_FFX.v1_0.Base
         public GenerateResponse PrepareGenerator(TestGroup @group, bool isSample)
         {
             MathDomain dataLengthDomain = null;
-            if (group.Capability.MinLength != group.Capability.MaxLength)
+            if (group.Capability.MinLen != group.Capability.MaxLen)
             {
-                dataLengthDomain = new MathDomain().AddSegment(new RangeDomainSegment(_random, group.Capability.MinLength, group.Capability.MaxLength));
+                dataLengthDomain = new MathDomain().AddSegment(new RangeDomainSegment(_random, group.Capability.MinLen, group.Capability.MaxLen));
             }
             else
             {
-                dataLengthDomain = new MathDomain().AddSegment(new ValueDomainSegment(group.Capability.MinLength));
+                dataLengthDomain = new MathDomain().AddSegment(new ValueDomainSegment(group.Capability.MinLen));
             }
 
             dataLengthDomain.SetRangeOptions(RangeDomainSegmentOptions.Random);

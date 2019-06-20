@@ -31,10 +31,10 @@ namespace NIST.CVP.Generation.AES_FFX.v1_0.Base
         /// <summary>
         /// The minimum length of messages to encrypt with the provided alphabet.
         /// </summary>
-        public int MinLength { get; set; }
+        public int MinLen { get; set; }
         /// <summary>
         /// THe maximum length of messages to encrypt with the provided alphabet.
         /// </summary>
-        public int MaxLength { get; set; }
+        public int MaxLen { get; set; }
     }
 }
