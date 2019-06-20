@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Autofac;
+﻿using Autofac;
 using NIST.CVP.Common;
 using NIST.CVP.Generation.AES_FFX.v1_0.Base.ContractResolvers;
 using NIST.CVP.Generation.Core;
@@ -8,6 +7,7 @@ using NIST.CVP.Generation.Core.DeSerialization;
 using NIST.CVP.Generation.Core.JsonConverters;
 using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Math;
+using System.Collections.Generic;
 
 namespace NIST.CVP.Generation.AES_FFX.v1_0.Base
 {
@@ -15,13 +15,14 @@ namespace NIST.CVP.Generation.AES_FFX.v1_0.Base
     {
         public IEnumerable<AlgoMode> SupportedAlgoModeRevisions => new List<AlgoMode>()
         {
-            AlgoMode.AES_CBC_v1_0
+            AlgoMode.AES_FF1_v1_0,
+            AlgoMode.AES_FF3_1_v1_0,
         };
 
         public void RegisterTypes(ContainerBuilder builder, AlgoMode algoMode)
         {
             builder.RegisterType<Random800_90>().AsImplementedInterfaces();
-            
+
             builder.RegisterType<Generator<Parameters, TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
             builder.RegisterType<ValidatorAsync<TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
             builder.RegisterType<ParameterChecker<Parameters>>().AsImplementedInterfaces();
