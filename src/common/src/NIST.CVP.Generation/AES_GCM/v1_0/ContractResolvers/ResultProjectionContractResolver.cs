@@ -1,7 +1,8 @@
-﻿using System;
-using System.Linq;
-using Newtonsoft.Json.Serialization;
+﻿using Newtonsoft.Json.Serialization;
+using NIST.CVP.Common;
 using NIST.CVP.Generation.Core.ContractResolvers;
+using System;
+using System.Linq;
 
 namespace NIST.CVP.Generation.AES_GCM.v1_0.ContractResolvers
 {
@@ -46,8 +47,9 @@ namespace NIST.CVP.Generation.AES_GCM.v1_0.ContractResolvers
                     {
                         GetTestCaseFromTestCaseObject(instance, out var testGroup, out var testCase);
 
-                        if ((testCase.TestPassed != null && testCase.TestPassed.Value) && 
-                            testGroup.Function.Equals("decrypt", StringComparison.OrdinalIgnoreCase))
+                        if ((testCase.TestPassed != null && testCase.TestPassed.Value) &&
+                            testGroup.Function.Equals("decrypt", StringComparison.OrdinalIgnoreCase) &&
+                            testGroup.AlgoMode == AlgoMode.AES_GCM_v1_0)
                         {
                             return true;
                         }
@@ -56,12 +58,7 @@ namespace NIST.CVP.Generation.AES_GCM.v1_0.ContractResolvers
                     };
             }
 
-            var includePropertiesEncrypt = new[]
-            {
-                nameof(TestCase.CipherText),
-                nameof(TestCase.Tag)
-            };
-            if (includePropertiesEncrypt.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
+            if (jsonProperty.UnderlyingName == nameof(TestCase.Tag))
             {
                 return jsonProperty.ShouldSerialize =
                     instance =>
@@ -69,6 +66,23 @@ namespace NIST.CVP.Generation.AES_GCM.v1_0.ContractResolvers
                         GetTestCaseFromTestCaseObject(instance, out var testGroup, out var testCase);
 
                         if (testGroup.Function.Equals("encrypt", StringComparison.OrdinalIgnoreCase))
+                        {
+                            return true;
+                        }
+
+                        return false;
+                    };
+            }
+
+            if (jsonProperty.UnderlyingName == nameof(TestCase.CipherText))
+            {
+                return jsonProperty.ShouldSerialize =
+                    instance =>
+                    {
+                        GetTestCaseFromTestCaseObject(instance, out var testGroup, out var testCase);
+
+                        if (testGroup.Function.Equals("encrypt", StringComparison.OrdinalIgnoreCase) &&
+                            testGroup.AlgoMode == AlgoMode.AES_GCM_v1_0)
                         {
                             return true;
                         }
@@ -102,7 +116,9 @@ namespace NIST.CVP.Generation.AES_GCM.v1_0.ContractResolvers
                         GetTestCaseFromTestCaseObject(instance, out var testGroup, out var testCase);
 
                         // only write the "testPassed: false" when the test case is a failure test.
-                        if (testCase.TestPassed != null && !testCase.TestPassed.Value)
+                        if (testGroup.Function.Equals("decrypt", StringComparison.OrdinalIgnoreCase)
+                            && ((testCase.TestPassed != null && !testCase.TestPassed.Value) ||
+                            testGroup.AlgoMode == AlgoMode.AES_GMAC_v1_0))
                         {
                             return true;
                         }

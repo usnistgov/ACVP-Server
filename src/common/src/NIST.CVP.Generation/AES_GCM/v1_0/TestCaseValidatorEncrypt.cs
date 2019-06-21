@@ -1,17 +1,20 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using NIST.CVP.Common;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Async;
 using NIST.CVP.Generation.Core.Enums;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Generation.AES_GCM.v1_0
 {
     public class TestCaseValidatorEncrypt : ITestCaseValidatorAsync<TestGroup, TestCase>
     {
+        private readonly TestGroup _testGroup;
         private readonly TestCase _expectedResult;
 
-        public TestCaseValidatorEncrypt(TestCase expectedResult)
+        public TestCaseValidatorEncrypt(TestGroup testGroup, TestCase expectedResult)
         {
+            _testGroup = testGroup;
             _expectedResult = expectedResult;
         }
 
@@ -28,12 +31,12 @@ namespace NIST.CVP.Generation.AES_GCM.v1_0
             {
                 CheckResults(suppliedResult, errors, expected, provided);
             }
-            
+
             if (errors.Count > 0)
             {
                 return Task.FromResult(new TestCaseValidation
                 {
-                    TestCaseId = suppliedResult.TestCaseId, 
+                    TestCaseId = suppliedResult.TestCaseId,
                     Result = Disposition.Failed,
                     Reason = string.Join("; ", errors),
                     Expected = expected.Count != 0 && showExpected ? expected : null,
@@ -50,7 +53,7 @@ namespace NIST.CVP.Generation.AES_GCM.v1_0
 
         private void ValidateResultPresent(TestCase suppliedResult, List<string> errors)
         {
-            if (suppliedResult.CipherText == null)
+            if (_testGroup.AlgoMode == AlgoMode.AES_GCM_v1_0 && suppliedResult.CipherText == null)
             {
                 errors.Add($"{nameof(suppliedResult.CipherText)} was not present in the {nameof(TestCase)}");
             }
@@ -62,7 +65,7 @@ namespace NIST.CVP.Generation.AES_GCM.v1_0
 
         private void CheckResults(TestCase suppliedResult, List<string> errors, Dictionary<string, string> expected, Dictionary<string, string> provided)
         {
-            if (!_expectedResult.CipherText.Equals(suppliedResult.CipherText))
+            if (_testGroup.AlgoMode == AlgoMode.AES_GCM_v1_0 && !_expectedResult.CipherText.Equals(suppliedResult.CipherText))
             {
                 errors.Add("Cipher Text does not match");
                 expected.Add(nameof(_expectedResult.CipherText), _expectedResult.CipherText.ToHex());

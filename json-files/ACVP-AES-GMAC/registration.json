@@ -1,0 +1,32 @@
+{
+  "vsId": 0,
+  "algorithm": "ACVP-AES-GMAC",
+  "revision": "1.0",
+  "isSample": false,
+  "conformances": [],
+  "direction": [
+    "encrypt",
+    "decrypt"
+  ],
+  "keyLen": [
+    128
+  ],
+  "payloadLen": [
+    0,
+    120
+  ],
+  "ivLen": [
+    96,
+    120
+  ],
+  "ivGen": "external",
+  "ivGenMode": "8.2.2",
+  "aadLen": [
+    0,
+    120
+  ],
+  "tagLen": [
+    32,
+    128
+  ]
+}

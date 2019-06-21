@@ -1,25 +1,18 @@
-﻿using NIST.CVP.Math;
+﻿using NIST.CVP.Common;
+using NIST.CVP.Generation.AES_GCM.v1_0;
+using NIST.CVP.Generation.Core.Tests;
+using NIST.CVP.Math;
+using NIST.CVP.Math.Domain;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using System.Linq;
-using NIST.CVP.Common;
-using NIST.CVP.Generation.Core.Tests;
-using NIST.CVP.Generation.Core.Tests.Fakes;
-using NIST.CVP.Tests.Core.TestCategoryAttributes;
-using NIST.CVP.Math.Domain;
-using NIST.CVP.Crypto.Common;
-using NIST.CVP.Generation.AES_GCM.v1_0;
-using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
 {
     [TestFixture, LongRunningIntegrationTest]
-    public class GenValTests : GenValTestsSingleRunnerBase
+    public abstract class GenValTestsBase : GenValTestsSingleRunnerBase
     {
-        public override string Algorithm { get; } = "ACVP-AES-GCM";
         public override string Mode { get; } = string.Empty;
-
-        public override AlgoMode AlgoMode => AlgoMode.AES_GCM_v1_0;
-
 
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
 
@@ -30,7 +23,7 @@ namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
             // If TC is intended to be a failure test, change it
             if (testCase.testPassed != null)
             {
-                testCase.testPassed = true;
+                testCase.testPassed = !(bool)testCase.testPassed;
             }
 
             // If TC has a cipherText, change it
@@ -46,6 +39,21 @@ namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
                 }
 
                 testCase.ct = bs.ToHex();
+            }
+
+            // If TC has a tag, change it
+            if (testCase.tag != null)
+            {
+                BitString bs = new BitString(testCase.tag.ToString());
+                bs = rand.GetDifferentBitStringOfSameSize(bs);
+
+                // Can't get something "different" of empty bitstring of the same length
+                if (bs == null)
+                {
+                    bs = new BitString("01");
+                }
+
+                testCase.tag = bs.ToHex();
             }
 
             // If TC has a plainText, change it

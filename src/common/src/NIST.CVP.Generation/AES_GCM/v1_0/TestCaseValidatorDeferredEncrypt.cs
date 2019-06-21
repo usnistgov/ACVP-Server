@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using NIST.CVP.Common;
 using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Async;
 using NIST.CVP.Generation.Core.Enums;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Generation.AES_GCM.v1_0
 {
@@ -14,8 +15,8 @@ namespace NIST.CVP.Generation.AES_GCM.v1_0
         private readonly IDeferredTestCaseResolverAsync<TestGroup, TestCase, AeadResult> _testCaseResolver;
 
         public TestCaseValidatorDeferredEncrypt(
-            TestGroup testGroup, 
-            TestCase serverTestCase, 
+            TestGroup testGroup,
+            TestCase serverTestCase,
             IDeferredTestCaseResolverAsync<TestGroup, TestCase, AeadResult> deferredTestCaseResolver)
         {
             _testGroup = testGroup;
@@ -41,7 +42,7 @@ namespace NIST.CVP.Generation.AES_GCM.v1_0
             {
                 return new TestCaseValidation
                 {
-                    TestCaseId = suppliedResult.TestCaseId, 
+                    TestCaseId = suppliedResult.TestCaseId,
                     Result = Disposition.Failed,
                     Reason = string.Join("; ", errors),
                     Expected = expected.Count != 0 && showExpected ? expected : null,
@@ -53,7 +54,7 @@ namespace NIST.CVP.Generation.AES_GCM.v1_0
 
         private void ValidateResultPresent(TestCase suppliedResult, List<string> errors)
         {
-            if (suppliedResult.CipherText == null)
+            if (_testGroup.AlgoMode == AlgoMode.AES_GCM_v1_0 && suppliedResult.CipherText == null)
             {
                 errors.Add($"{nameof(suppliedResult.CipherText)} was not present in the {nameof(TestCase)}");
             }
@@ -67,7 +68,7 @@ namespace NIST.CVP.Generation.AES_GCM.v1_0
         {
             var serverResult = await _testCaseResolver.CompleteDeferredCryptoAsync(_testGroup, _serverTestCase, suppliedResult);
 
-            if (!serverResult.CipherText.Equals(suppliedResult.CipherText))
+            if (_testGroup.AlgoMode == AlgoMode.AES_GCM_v1_0 && !serverResult.CipherText.Equals(suppliedResult.CipherText))
             {
                 errors.Add("Cipher Text does not match");
                 expected.Add(nameof(serverResult.CipherText), serverResult.CipherText.ToHex());

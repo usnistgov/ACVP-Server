@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using NIST.CVP.Common;
 using NIST.CVP.Generation.Core;
+using System.Collections.Generic;
 
 namespace NIST.CVP.Generation.AES_GCM.v1_0
 {
@@ -25,6 +26,8 @@ namespace NIST.CVP.Generation.AES_GCM.v1_0
         public int AadLength { get; set; }
         [JsonProperty(PropertyName = "tagLen")]
         public int TagLength { get; set; }
+
+        public AlgoMode AlgoMode { get; set; }
         public List<TestCase> Tests { get; set; } = new List<TestCase>();
 
         public bool SetString(string name, string value)
