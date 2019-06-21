@@ -105,8 +105,8 @@ namespace NIST.CVP.Generation.AES_FF.IntegrationTests
                     },
                     new Capability()
                     {
-                        Alphabet = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
-                        Radix = 62,
+                        Alphabet = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz+/",
+                        Radix = 64,
                         MinLen = 10,
                         MaxLen = 28
                     }

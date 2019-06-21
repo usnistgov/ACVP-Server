@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using Newtonsoft.Json;
-using NIST.CVP.Crypto.Common.Symmetric;
+﻿using Newtonsoft.Json;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 
@@ -8,7 +6,7 @@ namespace NIST.CVP.Generation.AES_FFX.v1_0.Base
 {
     public class TestCase : ITestCase<TestGroup, TestCase>
     {
-        
+
         public int TestCaseId { get; set; }
         public TestGroup ParentGroup { get; set; }
         [JsonIgnore] public bool Deferred => false;

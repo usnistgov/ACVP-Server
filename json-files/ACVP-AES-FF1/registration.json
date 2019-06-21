@@ -35,8 +35,8 @@
       "maxLen": 40
     },
     {
-      "alphabet": "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
-      "radix": 62,
+      "alphabet": "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz+/",
+      "radix": 64,
       "minLen": 10,
       "maxLen": 28
     }

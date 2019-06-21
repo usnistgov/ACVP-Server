@@ -1,9 +1,7 @@
-﻿using System.Collections.Generic;
-using NIST.CVP.Common;
-using NIST.CVP.Common.Helpers;
+﻿using NIST.CVP.Common.Helpers;
 using NIST.CVP.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Math.Domain;
+using System.Collections.Generic;
 
 namespace NIST.CVP.Generation.AES_FFX.v1_0.Base
 {
@@ -31,7 +29,7 @@ namespace NIST.CVP.Generation.AES_FFX.v1_0.Base
                             TweakLen = parameters.TweakLen,
                             TestType = AFT_TYPE_LABEL
                         };
-                        testGroups.Add(testGroup);                        
+                        testGroups.Add(testGroup);
                     }
                 }
             }
