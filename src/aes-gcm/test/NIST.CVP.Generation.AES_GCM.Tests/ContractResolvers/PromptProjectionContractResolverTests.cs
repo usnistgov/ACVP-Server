@@ -1,4 +1,4 @@
-﻿using System.Text.RegularExpressions;
+﻿using NIST.CVP.Common;
 using NIST.CVP.Generation.AES_GCM.v1_0;
 using NIST.CVP.Generation.AES_GCM.v1_0.ContractResolvers;
 using NIST.CVP.Generation.Core.DeSerialization;
@@ -6,6 +6,7 @@ using NIST.CVP.Generation.Core.Enums;
 using NIST.CVP.Generation.Core.JsonConverters;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
+using System.Text.RegularExpressions;
 
 namespace NIST.CVP.Generation.AES_GCM.Tests.ContractResolvers
 {
@@ -72,7 +73,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests.ContractResolvers
             var tvs = TestDataMother.GetTestGroups(1, function, ivGen, deferred, true);
             var tg = tvs.TestGroups[0];
             var tc = tg.Tests[0];
-            
+
             var json = _serializer.Serialize(tvs, _projection);
             var newTvs = _deserializer.Deserialize(json);
 
@@ -84,7 +85,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests.ContractResolvers
             Assert.AreEqual(tc.Key, newTc.Key, nameof(newTc.Key));
             Assert.AreEqual(tc.AAD, newTc.AAD, nameof(newTc.AAD));
             Assert.AreEqual(tc.PlainText, newTc.PlainText, nameof(newTc.PlainText));
-            
+
             // Should never send in prompt file for encrypt CT or tag
             Assert.IsNull(newTc.CipherText, nameof(newTc.CipherText));
             Assert.IsNull(newTc.Tag, nameof(newTc.Tag));
@@ -105,7 +106,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests.ContractResolvers
 
                 Assert.AreEqual(tc.IV, newTc.IV, nameof(newTc.IV));
             }
-            
+
             Regex regexDeferred = new Regex(nameof(TestCase.Deferred), RegexOptions.IgnoreCase);
             Assert.IsTrue(regexDeferred.Matches(json).Count == 0);
 
@@ -143,6 +144,108 @@ namespace NIST.CVP.Generation.AES_GCM.Tests.ContractResolvers
             Assert.AreEqual(tc.CipherText, newTc.CipherText, nameof(newTc.CipherText));
 
             Assert.AreNotEqual(tc.PlainText, newTc.PlainText, nameof(newTc.PlainText));
+
+            // TestPassed will have the default value when re-hydrated, check to make sure it isn't in the JSON
+            Regex regex = new Regex("testPassed", RegexOptions.IgnoreCase);
+            Assert.IsTrue(regex.Matches(json).Count == 0);
+        }
+
+
+        [Test]
+        public void ShouldSerializeGroupPropertiesGmac()
+        {
+            var tvs = TestDataMother.GetTestGroups(1, "encrypt", "external", true, true);
+            var tg = tvs.TestGroups[0];
+            tg.AlgoMode = AlgoMode.AES_GMAC_v1_0;
+
+            var json = _serializer.Serialize(tvs, _projection);
+            var newTvs = _deserializer.Deserialize(json);
+
+            var newTg = newTvs.TestGroups[0];
+
+            Assert.AreEqual(tg.TestGroupId, newTg.TestGroupId, nameof(newTg.TestGroupId));
+            Assert.AreEqual(tg.Tests.Count, newTg.Tests.Count, nameof(newTg.Tests));
+            Assert.AreEqual(tg.Function, newTg.Function, nameof(newTg.Function));
+            Assert.AreEqual(tg.KeyLength, newTg.KeyLength, nameof(newTg.KeyLength));
+            Assert.AreEqual(tg.AadLength, newTg.AadLength, nameof(newTg.AadLength));
+            Assert.AreEqual(tg.IvLength, newTg.IvLength, nameof(newTg.IvLength));
+            Assert.AreEqual(tg.TagLength, newTg.TagLength, nameof(newTg.TagLength));
+            Assert.AreEqual(tg.TestType, newTg.TestType, nameof(newTg.TestType));
+        }
+
+        [Test]
+        [TestCase("encrypt", "external", false)]
+        [TestCase("encrypt", "internal", true)]
+        public void ShouldSerializeEncryptCasePropertiesGmac(string function, string ivGen, bool deferred)
+        {
+            var tvs = TestDataMother.GetTestGroups(1, function, ivGen, deferred, true);
+            var tg = tvs.TestGroups[0];
+            tg.AlgoMode = AlgoMode.AES_GMAC_v1_0;
+            var tc = tg.Tests[0];
+
+            var json = _serializer.Serialize(tvs, _projection);
+            var newTvs = _deserializer.Deserialize(json);
+
+            var newTg = newTvs.TestGroups[0];
+            var newTc = newTg.Tests[0];
+
+            Assert.AreEqual(tc.ParentGroup.TestGroupId, newTc.ParentGroup.TestGroupId, nameof(newTc.ParentGroup));
+            Assert.AreEqual(tc.TestCaseId, newTc.TestCaseId, nameof(newTc.TestCaseId));
+            Assert.AreEqual(tc.Key, newTc.Key, nameof(newTc.Key));
+            Assert.AreEqual(tc.AAD, newTc.AAD, nameof(newTc.AAD));
+
+            // Should never send in prompt file for encrypt PT, CT, or tag
+            Assert.IsNull(newTc.PlainText, nameof(newTc.PlainText));
+            Assert.IsNull(newTc.CipherText, nameof(newTc.CipherText));
+            Assert.IsNull(newTc.Tag, nameof(newTc.Tag));
+
+            // If deferred, newTc.CT/Tag
+            if (deferred)
+            {
+                Assert.IsNull(newTc.Tag, nameof(newTc.Tag));
+            }
+            // when not deferred, TC should contain Tag/IV, but only include the IV in the newCt
+            else
+            {
+                Assert.IsNotNull(tc.Tag, nameof(tc.Tag));
+                Assert.IsNotNull(tc.IV, nameof(tc.IV));
+                Assert.IsNotNull(newTc.IV, nameof(newTc.IV));
+
+                Assert.AreEqual(tc.IV, newTc.IV, nameof(newTc.IV));
+            }
+
+            Regex regexDeferred = new Regex(nameof(TestCase.Deferred), RegexOptions.IgnoreCase);
+            Assert.IsTrue(regexDeferred.Matches(json).Count == 0);
+
+            // TestPassed will have the default value when re-hydrated, check to make sure it isn't in the JSON
+            Regex regexTestPassed = new Regex(nameof(TestCase.TestPassed), RegexOptions.IgnoreCase);
+            Assert.IsTrue(regexTestPassed.Matches(json).Count == 0);
+        }
+
+        [Test]
+        [TestCase("decrypt", true)]
+        [TestCase("decrypt", false)]
+        public void ShouldSerializeDecryptCasePropertiesGmac(string function, bool testPassed)
+        {
+            var tvs = TestDataMother.GetTestGroups(1, function, "external", false, testPassed);
+            var tg = tvs.TestGroups[0];
+            tg.AlgoMode = AlgoMode.AES_GMAC_v1_0;
+            var tc = tg.Tests[0];
+
+            var json = _serializer.Serialize(tvs, _projection);
+            var newTvs = _deserializer.Deserialize(json);
+
+            var newTg = newTvs.TestGroups[0];
+            var newTc = newTg.Tests[0];
+
+            Assert.AreEqual(tc.ParentGroup.TestGroupId, newTc.ParentGroup.TestGroupId, nameof(newTc.ParentGroup));
+            Assert.AreEqual(tc.TestCaseId, newTc.TestCaseId, nameof(newTc.TestCaseId));
+            Assert.AreEqual(tc.IV, newTc.IV, nameof(newTc.IV));
+            Assert.AreEqual(tc.Key, newTc.Key, nameof(newTc.Key));
+            Assert.AreEqual(tc.AAD, newTc.AAD, nameof(newTc.AAD));
+            Assert.IsNull(newTc.CipherText, nameof(newTc.CipherText));
+
+            Assert.IsNull(newTc.PlainText, nameof(newTc.PlainText));
 
             // TestPassed will have the default value when re-hydrated, check to make sure it isn't in the JSON
             Regex regex = new Regex("testPassed", RegexOptions.IgnoreCase);

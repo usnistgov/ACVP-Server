@@ -35,11 +35,11 @@ namespace NIST.CVP.Generation.AES_GCM.v1_0
                     }
                     else if (group.Function == "encrypt")
                     {
-                        list.Add(new TestCaseValidatorEncrypt(workingTest));
+                        list.Add(new TestCaseValidatorEncrypt(group, workingTest));
                     }
                     else
                     {
-                        list.Add(new TestCaseValidatorDecrypt(workingTest));
+                        list.Add(new TestCaseValidatorDecrypt(group, workingTest));
                     }
 
                 }

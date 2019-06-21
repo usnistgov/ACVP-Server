@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Moq;
-using NIST.CVP.Generation.AES_GCM.v1_0;
-using NIST.CVP.Generation.Core;
+﻿using NIST.CVP.Generation.AES_GCM.v1_0;
 using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
+using System.Linq;
 
 namespace NIST.CVP.Generation.AES_GCM.Tests
 {
@@ -54,7 +49,8 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
             Parameters p = new Parameters()
             {
                 AadLen = mdAad,
-                Algorithm = "AES GCM",
+                Algorithm = "ACVP-AES-GCM",
+                Revision = "1.0",
                 IvGen = ivGen,
                 IvGenMode = ivGenMode,
                 IvLen = mdIv,
