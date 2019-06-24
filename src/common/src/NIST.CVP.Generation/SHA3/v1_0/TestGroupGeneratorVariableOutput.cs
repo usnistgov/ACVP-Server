@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using NIST.CVP.Generation.Core;
+﻿using NIST.CVP.Generation.Core;
+using System.Collections.Generic;
 
 namespace NIST.CVP.Generation.SHA3.v1_0
 {
@@ -12,7 +12,7 @@ namespace NIST.CVP.Generation.SHA3.v1_0
             var testGroups = new List<TestGroup>();
 
             // VOT tests are only valid for shake
-            if (parameters.Algorithm.ToLower() != "shake")
+            if (!parameters.Algorithm.ToLower().Contains("shake"))
             {
                 return testGroups;
             }
@@ -21,7 +21,7 @@ namespace NIST.CVP.Generation.SHA3.v1_0
             {
                 var testGroup = new TestGroup
                 {
-                    Function = parameters.Algorithm,
+                    Function = "SHAKE",
                     DigestSize = digestSize,
                     IncludeNull = parameters.IncludeNull,
                     BitOrientedInput = parameters.BitOrientedInput,

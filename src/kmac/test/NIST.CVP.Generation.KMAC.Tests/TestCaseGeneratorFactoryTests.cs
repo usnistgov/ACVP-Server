@@ -13,7 +13,7 @@ namespace NIST.CVP.Generation.KMAC.Tests
         [SetUp]
         public void Setup()
         {
-            _subject = new TestCaseGeneratorFactory(null);
+            _subject = new TestCaseGeneratorFactory(null, null);
         }
 
         [Test]

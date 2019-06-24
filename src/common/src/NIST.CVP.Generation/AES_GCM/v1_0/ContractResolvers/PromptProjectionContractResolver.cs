@@ -1,7 +1,8 @@
-﻿using System;
-using System.Linq;
-using Newtonsoft.Json.Serialization;
+﻿using Newtonsoft.Json.Serialization;
+using NIST.CVP.Common;
 using NIST.CVP.Generation.Core.ContractResolvers;
+using System;
+using System.Linq;
 
 namespace NIST.CVP.Generation.AES_GCM.v1_0.ContractResolvers
 {
@@ -35,6 +36,22 @@ namespace NIST.CVP.Generation.AES_GCM.v1_0.ContractResolvers
                     instance => true;
             }
 
+            if (jsonProperty.UnderlyingName == nameof(TestGroup.PayloadLength))
+            {
+                return jsonProperty.ShouldSerialize =
+                    instance =>
+                    {
+                        GetTestGroupFromTestGroupObject(instance, out var testGroup);
+
+                        if (testGroup.AlgoMode == AlgoMode.AES_GCM_v1_0)
+                        {
+                            return true;
+                        }
+
+                        return false;
+                    };
+            }
+
             return jsonProperty.ShouldSerialize = instance => false;
         }
 
@@ -62,7 +79,7 @@ namespace NIST.CVP.Generation.AES_GCM.v1_0.ContractResolvers
                     {
                         GetTestCaseFromTestCaseObject(instance, out var testGroup, out var testCase);
 
-                        if (testGroup.Function.Equals("encrypt", StringComparison.OrdinalIgnoreCase))
+                        if (testGroup.AlgoMode == AlgoMode.AES_GCM_v1_0 && testGroup.Function.Equals("encrypt", StringComparison.OrdinalIgnoreCase))
                         {
                             return true;
                         }
@@ -71,12 +88,7 @@ namespace NIST.CVP.Generation.AES_GCM.v1_0.ContractResolvers
                     };
             }
 
-            var includePropertiesDecrypt = new[]
-            {
-                nameof(TestCase.CipherText),
-                nameof(TestCase.Tag)
-            };
-            if (includePropertiesDecrypt.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
+            if (jsonProperty.UnderlyingName == nameof(TestCase.Tag))
             {
                 return jsonProperty.ShouldSerialize =
                     instance =>
@@ -84,6 +96,22 @@ namespace NIST.CVP.Generation.AES_GCM.v1_0.ContractResolvers
                         GetTestCaseFromTestCaseObject(instance, out var testGroup, out var testCase);
 
                         if (testGroup.Function.Equals("decrypt", StringComparison.OrdinalIgnoreCase))
+                        {
+                            return true;
+                        }
+
+                        return false;
+                    };
+            }
+
+            if (jsonProperty.UnderlyingName == nameof(TestCase.CipherText))
+            {
+                return jsonProperty.ShouldSerialize =
+                    instance =>
+                    {
+                        GetTestCaseFromTestCaseObject(instance, out var testGroup, out var testCase);
+
+                        if (testGroup.AlgoMode == AlgoMode.AES_GCM_v1_0 && testGroup.Function.Equals("decrypt", StringComparison.OrdinalIgnoreCase))
                         {
                             return true;
                         }

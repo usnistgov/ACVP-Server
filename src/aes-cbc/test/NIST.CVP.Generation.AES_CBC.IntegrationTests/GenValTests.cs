@@ -19,7 +19,7 @@ namespace NIST.CVP.Generation.AES_CBC.IntegrationTests
 
         public override AlgoMode AlgoMode => AlgoMode.AES_CBC_v1_0;
 
-        public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
+
 
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
 

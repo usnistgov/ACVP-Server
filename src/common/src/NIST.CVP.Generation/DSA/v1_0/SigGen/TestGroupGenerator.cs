@@ -50,7 +50,7 @@ namespace NIST.CVP.Generation.DSA.v1_0.SigGen
                             L = l,
                             N = n,
                             HashAlg = hashFunction,
-                            IsMessageRandomized = _randomizeMessagePriorToSign
+                            Conformance = _randomizeMessagePriorToSign ? "SP800-106" : null
                         };
 
                         testGroups.Add(testGroup);
@@ -78,7 +78,7 @@ namespace NIST.CVP.Generation.DSA.v1_0.SigGen
                         L = l,
                         N = n,
                         HashAlg = hashFunction,
-                        IsMessageRandomized = _randomizeMessagePriorToSign
+                        Conformance = _randomizeMessagePriorToSign ? "SP800-106" : null
                     };
 
                     var param = new DsaDomainParametersParameters

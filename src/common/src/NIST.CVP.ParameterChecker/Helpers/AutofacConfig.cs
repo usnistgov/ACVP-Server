@@ -1,11 +1,10 @@
 ﻿using Autofac;
 using NIST.CVP.Common;
-using NIST.CVP.Generation.Core.Helpers;
+using NIST.CVP.Generation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using NIST.CVP.Generation;
 
 namespace NIST.CVP.ParameterChecker.Helpers
 {
@@ -20,10 +19,9 @@ namespace NIST.CVP.ParameterChecker.Helpers
             return _container;
         }
 
-        public static void IoCConfiguration(string algorithm, string mode, string revision)
+        public static void IoCConfiguration(AlgoMode algoMode)
         {
             var builder = new ContainerBuilder();
-            var algoMode = AlgoModeLookupHelper.GetAlgoModeFromStrings(algorithm, mode, revision);
 
             RegisterGenVals(builder, algoMode);
 

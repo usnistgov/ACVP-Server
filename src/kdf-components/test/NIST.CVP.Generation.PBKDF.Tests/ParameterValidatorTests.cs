@@ -21,7 +21,6 @@ namespace NIST.CVP.Generation.PBKDF.Tests
 
         static object[] hashAlgTestCases = 
         {
-            new object[] { "null", null },
             new object[] { "empty", new string[] { } },
             new object[] { "Invalid value", new string[] { "notValid" } },
             new object[] { "Partially valid", new string[] { "sha-1", "notValid" } },
@@ -39,6 +38,20 @@ namespace NIST.CVP.Generation.PBKDF.Tests
             );
 
             Assert.IsFalse(result.Success, testCaseLabel);
+        }
+
+        [Test]
+        public void ShouldRejectSlowShaWithLargeIterationCount()
+        {
+            var subject = new ParameterValidator();
+            var result = subject.Validate(
+                new ParameterBuilder()
+                    .WithHashAlg(new[] {"SHA3-224"})
+                    .WithIterationCount(new MathDomain().AddSegment(new ValueDomainSegment(10000000)))
+                    .Build()
+            );
+            
+            Assert.IsFalse(result.Success);
         }
 
         #region GetInvalidKeyLengths

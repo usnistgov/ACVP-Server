@@ -1,0 +1,44 @@
+{
+  "vsId": 42,
+  "algorithm": "ACVP-AES-FF1",
+  "mode": "",
+  "revision": "1.0",
+  "isSample": false,
+  "conformances": [],
+  "direction": [
+    "encrypt",
+    "decrypt"
+  ],
+  "keyLen": [
+    128,
+    192,
+    256
+  ],
+  "tweakLen": [
+    {
+      "min": 0,
+      "max": 128,
+      "increment": 8
+    }
+  ],
+  "capabilities": [
+    {
+      "alphabet": "0123456789",
+      "radix": 10,
+      "minLen": 10,
+      "maxLen": 56
+    },
+    {
+      "alphabet": "abcdefghijklmnopqrstuvwxyz",
+      "radix": 26,
+      "minLen": 10,
+      "maxLen": 40
+    },
+    {
+      "alphabet": "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz+/",
+      "radix": 64,
+      "minLen": 10,
+      "maxLen": 28
+    }
+  ]
+}

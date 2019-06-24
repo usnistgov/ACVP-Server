@@ -72,11 +72,17 @@ namespace NIST.CVP.Generation.PBKDF.Tests
             {
                 Algorithm = _algorithm,
                 Mode = _mode,
-                HashAlg = _hashAlgs,
-                KeyLength = _keyLen,
-                PasswordLength = _passLen,
-                SaltLength = _saltLen,
-                IterationCount = _itrCount
+                Capabilities = new []
+                {
+                    new Capability
+                    {
+                        HashAlg = _hashAlgs,
+                        KeyLength = _keyLen,
+                        PasswordLength = _passLen,
+                        SaltLength = _saltLen,
+                        IterationCount = _itrCount
+                    }
+                }
             };
         }
     }

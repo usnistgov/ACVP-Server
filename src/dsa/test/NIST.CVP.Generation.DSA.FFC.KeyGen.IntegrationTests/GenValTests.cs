@@ -18,7 +18,7 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen.IntegrationTests
 
         public override AlgoMode AlgoMode => AlgoMode.DSA_KeyGen_v1_0;
 
-        public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
+
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
 
         protected override void ModifyTestCaseToFail(dynamic testCase)

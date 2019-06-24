@@ -47,7 +47,7 @@ namespace NIST.CVP.Generation.AES_OFB.v1_0
 
         public int NumberOfTestCasesToGenerate => _kats.Count;
 
-        public Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample)
+        public Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample, int caseNo = 0)
         {
             if (_katsIndex + 1 > _kats.Count)
             {

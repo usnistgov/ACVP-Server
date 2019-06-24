@@ -733,6 +733,19 @@ namespace NIST.CVP.Math
             return BitString.ConcatenateBits(this, bitsToAppend);
         }
 
+        public BitString ConcatenateBits(BitString bitsToAppend, int numberOfTimesToAppend)
+        {
+            var bs = this;
+
+            while (numberOfTimesToAppend != 0)
+            {
+                bs = bs.ConcatenateBits(bitsToAppend);
+                numberOfTimesToAppend--;
+            }
+
+            return bs;
+        }
+
         /// <summary>
         /// Concatenates two <see cref="BitString"/>.
         /// </summary>

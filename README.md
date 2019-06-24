@@ -73,10 +73,10 @@ sc start AcvpPoolApi
 
 ```cmd
     # Generate test vectors with AES CBC testing revision 1.0, using the registration.json as the implementations capabilities
-    dotnet NIST.CVP.Generation.GenValApp.dll -a aes -m cbc -R 1.0 -g registration.json
+    dotnet NIST.CVP.Generation.GenValApp.dll -g registration.json
 
     # Validate test vectors with AES CBC testing revision 1.0, using the previously generated internalProjection along with the IUT's responses.
-    dotnet NIST.CVP.Generation.GenValApp.dll -a aes -m cbc -R 1.0 -n internalProjection.json -r testResults.json
+    dotnet NIST.CVP.Generation.GenValApp.dll -n internalProjection.json -r testResults.json
 ```
 
 

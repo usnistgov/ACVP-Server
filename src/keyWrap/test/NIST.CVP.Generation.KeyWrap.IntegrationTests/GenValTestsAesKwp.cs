@@ -22,7 +22,7 @@ namespace NIST.CVP.Generation.KeyWrap.IntegrationTests
         public override AlgoMode AlgoMode => AlgoMode.AES_KWP_v1_0;
 
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
-		public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
+
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {

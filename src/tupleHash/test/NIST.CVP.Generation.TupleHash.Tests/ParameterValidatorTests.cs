@@ -85,7 +85,7 @@ namespace NIST.CVP.Generation.TupleHash.Tests
             var subject = new ParameterValidator();
             var result = subject.Validate(
                 new ParameterBuilder()
-                    .WithDigestSizes(new int[]{ number })
+                    .WithDigestSizes(new int[] { number })
                     .Build()
             );
 
@@ -137,7 +137,6 @@ namespace NIST.CVP.Generation.TupleHash.Tests
         public class ParameterBuilder
         {
             private string _algorithm;
-            private string _mode;
             private int[] _digestSize;
             private MathDomain _outputLength;
             private MathDomain _messageLength;
@@ -146,14 +145,13 @@ namespace NIST.CVP.Generation.TupleHash.Tests
 
             public ParameterBuilder()
             {
-                _algorithm = "tuplehash";
-                _mode = "128";
+                _algorithm = "tuplehash-128";
                 _digestSize = new[] { 128 };
                 _outputLength = new MathDomain();
                 _outputLength.AddSegment(new RangeDomainSegment(null, 16, 65536));
                 _messageLength = new MathDomain();
                 _messageLength.AddSegment(new RangeDomainSegment(null, 16, 65536));
-                _xof = new[] {true};
+                _xof = new[] { true };
                 _hexCustomization = false;
             }
 
@@ -198,7 +196,6 @@ namespace NIST.CVP.Generation.TupleHash.Tests
                 return new Parameters
                 {
                     Algorithm = _algorithm,
-                    Mode = _mode,
                     DigestSizes = _digestSize,
                     OutputLength = _outputLength,
                     MessageLength = _messageLength,

@@ -83,6 +83,12 @@ namespace NIST.CVP.Pools
                         return default(T);
                     }
 
+                    if (_poolConfig.ShouldLogPoolValueUse)
+                    {
+                        LogManager.GetCurrentClassLogger()
+                            .Info($"Using pool value: {(_poolConfig.PoolResultLogLength == 0 ? json : json.Substring(0, _poolConfig.PoolResultLogLength))}");
+                    }
+
                     return poolResult.Result;
                 }
             }
