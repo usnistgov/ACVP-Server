@@ -15,13 +15,13 @@ namespace NIST.CVP.Generation.KAS.v1_0.FFC
 
 
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public BigInteger P { get; set; }
+        public BitString P { get; set; }
 
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public BigInteger Q { get; set; }
+        public BitString Q { get; set; }
 
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public BigInteger G { get; set; }
+        public BitString G { get; set; }
 
         public override KasDsaAlgoAttributesFfc KasDsaAlgoAttributes => 
             new KasDsaAlgoAttributesFfc(Scheme, ParmSet);
@@ -50,13 +50,13 @@ namespace NIST.CVP.Generation.KAS.v1_0.FFC
             switch (name.ToLower())
             {
                 case "p":
-                    P = new BitString(value).ToPositiveBigInteger();
+                    P = new BitString(value);
                     return true;
                 case "q":
-                    Q = new BitString(value).ToPositiveBigInteger();
+                    Q = new BitString(value);
                     return true;
                 case "g":
-                    G = new BitString(value).ToPositiveBigInteger();
+                    G = new BitString(value);
                     return true;
             }
             return false;

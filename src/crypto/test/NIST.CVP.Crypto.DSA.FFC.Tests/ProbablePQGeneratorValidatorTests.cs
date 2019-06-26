@@ -71,8 +71,8 @@ namespace NIST.CVP.Crypto.DSA.FFC.Tests
             var result = subject.Generate(L, N, seedLen);
 
             Assert.IsTrue(result.Success, result.ErrorMessage);
-            Assert.AreEqual(p, result.P, "p");
-            Assert.AreEqual(q, result.Q, "q");
+            Assert.AreEqual(p, result.P.ToPositiveBigInteger(), "p");
+            Assert.AreEqual(q, result.Q.ToPositiveBigInteger(), "q");
             Assert.AreEqual(counter, result.Count.Count, "count");
 
             Console.Write($"Hash functions run: {fakeSha.Count}");
@@ -129,9 +129,9 @@ namespace NIST.CVP.Crypto.DSA.FFC.Tests
         public void ShouldVerifyPQProperly(string hash, int counter, string pHex, string qHex, string seedHex, bool success, string testName)
         {
             var sha = GetSha(hash);
-            var firstSeed = new BitString(seedHex).ToPositiveBigInteger();
-            var p = new BitString(pHex).ToPositiveBigInteger();
-            var q = new BitString(qHex).ToPositiveBigInteger();
+            var firstSeed = new BitString(seedHex);
+            var p = new BitString(pHex);
+            var q = new BitString(qHex);
 
             var seed = new DomainSeed(firstSeed);
             var count = new Counter(counter);

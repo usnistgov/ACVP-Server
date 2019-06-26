@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Numerics;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
+using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.Common.KAS.Helpers
 {
@@ -28,6 +29,12 @@ namespace NIST.CVP.Crypto.Common.KAS.Helpers
             }
 
             return false;
+        }
+        
+        public static bool PerformFfcPublicKeyValidation(BitString P, BitString Q, BitString y, bool shouldThrow = false)
+        {
+            return PerformFfcPublicKeyValidation(P.ToPositiveBigInteger(), Q.ToPositiveBigInteger(),
+                y.ToPositiveBigInteger(), shouldThrow);
         }
 
         public static bool PerformEccPublicKeyValidation(IEccCurve curve, EccPoint publicKey, bool shouldThrow = false)

@@ -1,5 +1,6 @@
 ﻿using System.Numerics;
 using NIST.CVP.Crypto.Common.KAS.Enums;
+using NIST.CVP.Math;
 
 namespace NIST.CVP.Common.Oracle.ParameterTypes
 {
@@ -10,24 +11,24 @@ namespace NIST.CVP.Common.Oracle.ParameterTypes
         public FfcParameterSet FfcParameterSet { get; set; }
 
 
-        public BigInteger P { get; set; }
+        public BitString P { get; set; }
 
-        public BigInteger Q { get; set; }
+        public BitString Q { get; set; }
 
-        public BigInteger G { get; set; }
+        public BitString G { get; set; }
 
 
-        public BigInteger StaticPrivateKeyServer { get; set; }
+        public BitString StaticPrivateKeyServer { get; set; }
 
-        public BigInteger StaticPublicKeyServer { get; set; }
+        public BitString StaticPublicKeyServer { get; set; }
 
-        public BigInteger EphemeralPrivateKeyServer { get; set; }
+        public BitString EphemeralPrivateKeyServer { get; set; }
 
-        public BigInteger EphemeralPublicKeyServer { get; set; }
+        public BitString EphemeralPublicKeyServer { get; set; }
         
 
-        public BigInteger StaticPublicKeyIut { get; set; }
+        public BitString StaticPublicKeyIut { get; set; }
 
-        public BigInteger EphemeralPublicKeyIut { get; set; }
+        public BitString EphemeralPublicKeyIut { get; set; }
     }
 }

@@ -21,10 +21,13 @@ namespace NIST.CVP.Crypto.DSA.FFC.GGeneratorValidators
         /// <param name="seed">Not needed</param>
         /// <param name="index">Not Needed</param>
         /// <returns></returns>
-        public GGenerateResult Generate(BigInteger p, BigInteger q, DomainSeed seed = null, BitString index = null)
+        public GGenerateResult Generate(BitString p, BitString q, DomainSeed seed = null, BitString index = null)
         {
+            var pInt = p.ToPositiveBigInteger();
+            var qInt = q.ToPositiveBigInteger();
+            
             // 1 (always an integer)
-            var e = (p - 1) / q;
+            var e = (pInt - 1) / qInt;
 
             BigInteger h = 1;
             BigInteger g;
@@ -32,19 +35,19 @@ namespace NIST.CVP.Crypto.DSA.FFC.GGeneratorValidators
             {
                 // 2
                 h++;
-                if (h >= p - 1)
+                if (h >= pInt - 1)
                 {
                     // You couldn't feasibly reach this anyways... 
                     return new GGenerateResult("Too many h iterations");
                 }
 
                 // 3
-                g = BigInteger.ModPow(h, e, p);
+                g = BigInteger.ModPow(h, e, pInt);
 
             // 4
             } while (g == 1);
 
-            return new GGenerateResult(g, h);
+            return new GGenerateResult(new BitString(g).PadToModulusMsb(32), new BitString(h));
         }
 
         /// <summary>
@@ -56,16 +59,20 @@ namespace NIST.CVP.Crypto.DSA.FFC.GGeneratorValidators
         /// <param name="seed">Not needed</param>
         /// <param name="index">Not needed</param>
         /// <returns></returns>
-        public GValidateResult Validate(BigInteger p, BigInteger q, BigInteger g, DomainSeed seed = null, BitString index = null)
+        public GValidateResult Validate(BitString p, BitString q, BitString g, DomainSeed seed = null, BitString index = null)
         {
+            var pInt = p.ToPositiveBigInteger();
+            var qInt = q.ToPositiveBigInteger();
+            var gInt = g.ToPositiveBigInteger();
+            
             // 1
-            if (2 > g || g > p - 1)
+            if (2 > gInt || gInt > pInt - 1)
             {
                 return new GValidateResult("g not in required range");
             }
 
             // 2
-            if (BigInteger.ModPow(g, q, p) != 1)
+            if (BigInteger.ModPow(gInt, qInt, pInt) != 1)
             {
                 return new GValidateResult("g ^ q mod p != 1, invalid generator");
             }

@@ -22,9 +22,9 @@ namespace NIST.CVP.Crypto.KES
 
             var z = new BitString(
                 BigInteger.ModPow(
-                    yPublicKeyPartyB.PublicKeyY,
-                    xPrivateKeyPartyA.PrivateKeyX,
-                    domainParameters.P
+                    yPublicKeyPartyB.PublicKeyY.ToPositiveBigInteger(),
+                    xPrivateKeyPartyA.PrivateKeyX.ToPositiveBigInteger(),
+                    domainParameters.P.ToPositiveBigInteger()
                 )
             );
 

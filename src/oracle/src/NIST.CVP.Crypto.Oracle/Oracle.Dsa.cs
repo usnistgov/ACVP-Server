@@ -31,7 +31,7 @@ namespace NIST.CVP.Crypto.Oracle
         {
             var pqResult = await GetDsaPQAsync(param);
             var gResult = pqResult;
-			if (pqResult.G == default(BigInteger))
+			if (pqResult.G == null)
             {
                 // Only try to get a G if the previous call didn't access the pool
                 gResult = await GetDsaGAsync(param, pqResult);

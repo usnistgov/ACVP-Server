@@ -67,7 +67,7 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen.IntegrationTests
                         algo.AddEntropy(testCase.K);
 
                         var result = algo.Sign(testGroup.DomainParams, testCase.Key, testCase.Message);
-                        if (result.Signature.R != testCase.Signature.R || result.Signature.S != testCase.Signature.S)
+                        if (!result.Signature.R.Equals(testCase.Signature.R) || !result.Signature.S.Equals(testCase.Signature.S))
                         {
                             Assert.Fail($"Could not validate TestCase: {testCase.TestCaseId}");
                         }

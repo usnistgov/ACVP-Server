@@ -71,7 +71,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme.Ffc
             {
                 try
                 {
-                    DkmNonce = EntropyProvider.GetEntropy(new BitString(DomainParameters.Q).BitLength / 2);
+                    DkmNonce = EntropyProvider.GetEntropy(DomainParameters.Q.BitLength / 2);
                 }
                 catch (Exception e)
                 {
@@ -94,7 +94,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme.Ffc
                     )
                 )
                 {
-                    EphemeralNonce = EntropyProvider.GetEntropy(new BitString(DomainParameters.P).BitLength);
+                    EphemeralNonce = EntropyProvider.GetEntropy(DomainParameters.P.BitLength);
                 }
             }
 

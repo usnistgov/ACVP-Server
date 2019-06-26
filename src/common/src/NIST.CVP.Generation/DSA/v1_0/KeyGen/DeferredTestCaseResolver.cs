@@ -19,7 +19,7 @@ namespace NIST.CVP.Generation.DSA.v1_0.KeyGen
         public async Task<FfcKeyPairValidateResult> CompleteDeferredCryptoAsync(TestGroup serverTestGroup, TestCase serverTestCase, TestCase iutTestCase)
         {
             var iutTestGroup = iutTestCase.ParentGroup;
-            if (iutTestGroup.DomainParams.P == 0 || iutTestGroup.DomainParams.Q == 0 || iutTestGroup.DomainParams.G == 0)
+            if (iutTestGroup.DomainParams.P == null || iutTestGroup.DomainParams.Q == null || iutTestGroup.DomainParams.G == null)
             {
                 return new FfcKeyPairValidateResult("Could not find p, q, or g");
             }

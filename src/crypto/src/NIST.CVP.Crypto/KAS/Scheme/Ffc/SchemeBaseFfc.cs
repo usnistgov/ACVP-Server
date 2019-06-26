@@ -164,9 +164,9 @@ namespace NIST.CVP.Crypto.KAS.Scheme.Ffc
         /// <inheritdoc />
         protected override BitString GetEphemeralKeyOrNonce(FfcKeyPair ephemeralPublicKey, BitString ephemeralNonce, BitString dkmNonce)
         {
-            if (ephemeralPublicKey != null && ephemeralPublicKey?.PublicKeyY != 0)
+            if (ephemeralPublicKey?.PublicKeyY != null)
             {
-                var ephemKey = new BitString(ephemeralPublicKey.PublicKeyY);
+                var ephemKey = ephemeralPublicKey.PublicKeyY;
 
                 // Ensure mod 32
                 if (ephemKey.BitLength % 32 != 0)

@@ -90,22 +90,22 @@ namespace NIST.CVP.Orleans.Grains.Dsa
             else if (_param.Disposition == DsaSignatureDisposition.ModifyKey)
             {
                 var x = result.Key.PrivateKeyX;
-                var y = result.Key.PublicKeyY + 2;
-                result.Key = new FfcKeyPair(x, y);
+                var y = result.Key.PublicKeyY.ToPositiveBigInteger() + 2;
+                result.Key = new FfcKeyPair(x, new BitString(y));
             }
             // Modify r
             else if (_param.Disposition == DsaSignatureDisposition.ModifyR)
             {
                 var s = result.Signature.S;
-                var r = result.Signature.R + 2;
-                result.Signature = new FfcSignature(s, r);
+                var r = result.Signature.R.ToPositiveBigInteger() + 2;
+                result.Signature = new FfcSignature(s, new BitString(r));
             }
             // Modify s
             else if (_param.Disposition == DsaSignatureDisposition.ModifyS)
             {
-                var s = result.Signature.S + 2;
+                var s = result.Signature.S.ToPositiveBigInteger() + 2;
                 var r = result.Signature.R;
-                result.Signature = new FfcSignature(s, r);
+                result.Signature = new FfcSignature(new BitString(s), r);
             }
 
             // Notify observers of result

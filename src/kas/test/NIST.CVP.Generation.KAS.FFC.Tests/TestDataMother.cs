@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
-using Castle.Components.DictionaryAdapter;
+﻿using Castle.Components.DictionaryAdapter;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Common.KAS.Enums;
-using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.KAS.v1_0.FFC;
 using NIST.CVP.Math;
+using NIST.CVP.Math.Helpers;
+using System.Collections.Generic;
 
 namespace NIST.CVP.Generation.KAS.FFC.Tests
 {
@@ -38,9 +38,9 @@ namespace NIST.CVP.Generation.KAS.FFC.Tests
                     AesCcmNonceLen = 56,
                     MacLen = 128,
                     Function = KasAssurance.FullVal | KasAssurance.DpGen,
-                    P = 1,
-                    Q = 2,
-                    G = 3,
+                    P = 1.ToBitString(),
+                    Q = 2.ToBitString(),
+                    G = 3.ToBitString(),
                     OiPattern = "uPartyInfo||vPartyInfo",
                     IdIut = new BitString("AA"),
                     KdfType = "concatenation",
@@ -61,16 +61,16 @@ namespace NIST.CVP.Generation.KAS.FFC.Tests
                         Tag = new BitString("0111"),
                         Z = new BitString("0122"),
                         IdIut = new BitString("0133"),
-                        StaticPrivateKeyServer = 1,
-                        StaticPublicKeyServer = 2,
-                        EphemeralPrivateKeyServer = 3,
-                        EphemeralPublicKeyServer = 4,
+                        StaticPrivateKeyServer = 1.ToBitString(),
+                        StaticPublicKeyServer = 2.ToBitString(),
+                        EphemeralPrivateKeyServer = 3.ToBitString(),
+                        EphemeralPublicKeyServer = 4.ToBitString(),
                         DkmNonceServer = new BitString("0144"),
                         EphemeralNonceServer = new BitString("0155"),
-                        StaticPrivateKeyIut = 5,
-                        StaticPublicKeyIut = 6,
-                        EphemeralPrivateKeyIut = 7,
-                        EphemeralPublicKeyIut = 8,
+                        StaticPrivateKeyIut = 5.ToBitString(),
+                        StaticPublicKeyIut = 6.ToBitString(),
+                        EphemeralPrivateKeyIut = 7.ToBitString(),
+                        EphemeralPublicKeyIut = 8.ToBitString(),
                         DkmNonceIut = new BitString("0166"),
                         EphemeralNonceIut = new BitString("0177"),
                         NonceAesCcm = new BitString("0188"),

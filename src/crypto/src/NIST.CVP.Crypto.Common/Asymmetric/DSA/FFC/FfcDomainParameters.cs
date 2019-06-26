@@ -1,4 +1,5 @@
 ﻿using System.Numerics;
+using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC
 {
@@ -10,24 +11,24 @@ namespace NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC
         /// <summary>
         /// P / L bit length prime
         /// </summary>
-        public BigInteger P { get; set; }
+        public BitString P { get; set; }
         
         /// <summary>
         /// Q / N bit length prime, such that <see cref="P"/> - 1 % q
         /// </summary>
-        public BigInteger Q { get; set; }
+        public BitString Q { get; set; }
         
         /// <summary>
         /// A number whose multiplicative order mod <see cref="P"/> is <see cref="Q"/>
         /// </summary>
-        public BigInteger G { get; set; }
+        public BitString G { get; set; }
 
         public FfcDomainParameters()
         {
             
         }
 
-        public FfcDomainParameters(BigInteger p, BigInteger q, BigInteger g)
+        public FfcDomainParameters(BitString p, BitString q, BitString g)
         {
             P = p;
             Q = q;

@@ -31,7 +31,7 @@ namespace NIST.CVP.Generation.DSA.v1_0.PqgGen
             var expected = new Dictionary<string, string>();
             var provided = new Dictionary<string, string>();
 
-            if (suppliedResult.P == 0 || suppliedResult.Q == 0)
+            if (suppliedResult.P == null || suppliedResult.Q == null)
             {
                 errors.Add("Could not find p or q");
             }

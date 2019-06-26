@@ -25,23 +25,23 @@ namespace NIST.CVP.Generation.DSA.v1_0.SigGen
         [JsonIgnore] public FfcDomainParameters DomainParams { get; set; } = new FfcDomainParameters();
 
         [JsonProperty(PropertyName = "p", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public BigInteger P
+        public BitString P
         {
-            get => DomainParams?.P ?? 0;
+            get => DomainParams?.P;
             set => DomainParams.P = value;
         }
 
         [JsonProperty(PropertyName = "q", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public BigInteger Q
+        public BitString Q
         {
-            get => DomainParams?.Q ?? 0;
+            get => DomainParams?.Q;
             set => DomainParams.Q = value;
         }
 
         [JsonProperty(PropertyName = "g", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public BigInteger G
+        public BitString G
         {
-            get => DomainParams?.G ?? 0;
+            get => DomainParams?.G;
             set => DomainParams.G = value;
         }
 
@@ -60,16 +60,16 @@ namespace NIST.CVP.Generation.DSA.v1_0.SigGen
         public FfcKeyPair Key { get; set; } = new FfcKeyPair();
 
         [JsonProperty(PropertyName = "x", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public BigInteger X
+        public BitString X
         {
-            get => Key?.PrivateKeyX ?? 0;
+            get => Key?.PrivateKeyX;
             set => Key.PrivateKeyX = value;
         }
 
         [JsonProperty(PropertyName = "y", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public BigInteger Y
+        public BitString Y
         {
-            get => Key?.PublicKeyY ?? 0;
+            get => Key?.PublicKeyY;
             set => Key.PublicKeyY = value;
         }
 
@@ -85,15 +85,15 @@ namespace NIST.CVP.Generation.DSA.v1_0.SigGen
             switch (name.ToLower())
             {
                 case "p":
-                    DomainParams.P = new BitString(value).ToPositiveBigInteger();
+                    DomainParams.P = new BitString(value);
                     return true;
 
                 case "q":
-                    DomainParams.Q = new BitString(value).ToPositiveBigInteger();
+                    DomainParams.Q = new BitString(value);
                     return true;
 
                 case "g":
-                    DomainParams.G = new BitString(value).ToPositiveBigInteger();
+                    DomainParams.G = new BitString(value);
                     return true;
 
                 case "l":

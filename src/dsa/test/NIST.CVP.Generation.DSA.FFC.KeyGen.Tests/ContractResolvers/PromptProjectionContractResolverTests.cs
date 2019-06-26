@@ -52,9 +52,19 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen.Tests.ContractResolvers
             Assert.AreEqual(tg.L, newTg.L, nameof(newTg.L));
             Assert.AreEqual(tg.N, newTg.N, nameof(newTg.N));
 
-            Assert.AreNotEqual(tg.P, newTg.P, nameof(newTg.P));
-            Assert.AreNotEqual(tg.Q, newTg.Q, nameof(newTg.Q));
-            Assert.AreNotEqual(tg.G, newTg.G, nameof(newTg.G));
+            if (isSample)
+            {
+                Assert.AreNotEqual(tg.P, newTg.P, nameof(newTg.P));
+                Assert.AreNotEqual(tg.Q, newTg.Q, nameof(newTg.Q));
+                Assert.AreNotEqual(tg.G, newTg.G, nameof(newTg.G));
+            }
+            else
+            {
+                Assert.IsNull(newTg.P, nameof(newTg.P));
+                Assert.IsNull(newTg.Q, nameof(newTg.Q));
+                Assert.IsNull(newTg.G, nameof(newTg.G));
+            }
+            
         }
 
         [Test]

@@ -83,9 +83,9 @@ namespace NIST.CVP.Orleans.Grains.Dsa
             {
                 do
                 {
-                    domainParams.G = _entropyProvider.GetEntropy(_param.L).ToPositiveBigInteger();
+                    domainParams.G = _entropyProvider.GetEntropy(_param.L);
 
-                } while (BigInteger.ModPow(domainParams.G, _pqParam.Q, _pqParam.P) == 1);
+                } while (BigInteger.ModPow(domainParams.G.ToPositiveBigInteger(), _pqParam.Q.ToPositiveBigInteger(), _pqParam.P.ToPositiveBigInteger()) == 1);
             }
 
             // Notify observers of result

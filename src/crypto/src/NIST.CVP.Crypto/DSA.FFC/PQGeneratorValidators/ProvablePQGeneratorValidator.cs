@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
+﻿using System;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC.Enums;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC.Helpers;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC.PQGeneratorValidators;
@@ -35,16 +36,16 @@ namespace NIST.CVP.Crypto.DSA.FFC.PQGeneratorValidators
         /// <param name="N"></param>
         /// <param name="seedLen"></param>
         /// <returns></returns>
-        private BigInteger GetFirstSeed(int L, int N, int seedLen)
+        private BitString GetFirstSeed(int L, int N, int seedLen)
         {
             if (!DSAHelper.VerifyLenPair(L, N))
             {
-                return 0;
+                throw new ArgumentException($"Invalid {nameof(L)}/{nameof(N)} pair.");
             }
 
             if (seedLen < N)
             {
-                return 0;
+                throw new ArgumentException($"{nameof(seedLen)} cannot be less than {nameof(N)}");
             }
 
             BitString firstSeed;
@@ -53,7 +54,7 @@ namespace NIST.CVP.Crypto.DSA.FFC.PQGeneratorValidators
                 firstSeed = _entropy.GetEntropy(seedLen);
             } while (firstSeed.ToPositiveBigInteger() < NumberTheory.Pow2(N - 1));
 
-            return firstSeed.ToPositiveBigInteger();
+            return firstSeed.PadToModulus(seedLen);
         }
 
         /// <summary>
@@ -75,7 +76,7 @@ namespace NIST.CVP.Crypto.DSA.FFC.PQGeneratorValidators
         /// <param name="N"></param>
         /// <param name="firstSeed"></param>
         /// <returns></returns>
-        private PQGenerateResult Generate(int L, int N, BigInteger firstSeed)
+        private PQGenerateResult Generate(int L, int N, BitString firstSeed)
         {
             // 1
             if (!DSAHelper.VerifyLenPair(L, N))
@@ -84,7 +85,7 @@ namespace NIST.CVP.Crypto.DSA.FFC.PQGeneratorValidators
             }
 
             // 2
-            var qResult = PrimeGen186_4.ShaweTaylorRandomPrime(N, firstSeed, _sha);
+            var qResult = PrimeGen186_4.ShaweTaylorRandomPrime(N, firstSeed.ToPositiveBigInteger(), _sha);
             if (!qResult.Success)
             {
                 return new PQGenerateResult("Failed to generate q from ShaweTaylor");
@@ -156,7 +157,10 @@ namespace NIST.CVP.Crypto.DSA.FFC.PQGeneratorValidators
                 // 19
                 if (1 == NumberTheory.GCD(z - 1, p) && 1 == BigInteger.ModPow(z, p0, p))
                 {
-                    return new PQGenerateResult(p, q, new DomainSeed(firstSeed, pSeed, qSeed), new Counter(pCounter, qCounter));
+                    return new PQGenerateResult(
+                        new BitString(p).PadToModulusMsb(32), 
+                        new BitString(q).PadToModulusMsb(32), 
+                        new DomainSeed(firstSeed, new BitString(pSeed), new BitString(qSeed)), new Counter(pCounter, qCounter));
                 }
 
                 // 20
@@ -180,8 +184,11 @@ namespace NIST.CVP.Crypto.DSA.FFC.PQGeneratorValidators
         /// <param name="seed"></param>
         /// <param name="count"></param>
         /// <returns></returns>
-        public PQValidateResult Validate(BigInteger p, BigInteger q, DomainSeed seed, Counter count)
+        public PQValidateResult Validate(BitString p, BitString q, DomainSeed seed, Counter count)
         {
+            var pInt = p.ToPositiveBigInteger();
+            var qInt = q.ToPositiveBigInteger();
+            
             // 0, domain type check
             if (seed.Mode != PrimeGenMode.Provable && count.Mode != PrimeGenMode.Provable)
             {
@@ -189,8 +196,8 @@ namespace NIST.CVP.Crypto.DSA.FFC.PQGeneratorValidators
             }
 
             // 1, 2
-            var L = new BitString(p).BitLength;
-            var N = new BitString(q).BitLength;
+            var L = p.BitLength;
+            var N = q.BitLength;
 
             // 3
             if (!DSAHelper.VerifyLenPair(L, N))
@@ -199,25 +206,25 @@ namespace NIST.CVP.Crypto.DSA.FFC.PQGeneratorValidators
             }
 
             // 4
-            if (seed.Seed < NumberTheory.Pow2(N - 1))
+            if (seed.Seed.ToPositiveBigInteger() < NumberTheory.Pow2(N - 1))
             {
                 return new PQValidateResult("Bad first seed");
             }
 
             // 5
-            if (NumberTheory.Pow2(N) <= q)
+            if (NumberTheory.Pow2(N) <= qInt)
             {
                 return new PQValidateResult("Bad q, too small");
             }
 
             // 6
-            if (NumberTheory.Pow2(L) <= p)
+            if (NumberTheory.Pow2(L) <= pInt)
             {
                 return new PQValidateResult("Bad p, too large");
             }
 
             // 7
-            if ((p - 1) % q != 0)
+            if ((pInt - 1) % qInt != 0)
             {
                 return new PQValidateResult("p - 1 % q != 0, bad values");
             }
@@ -229,12 +236,12 @@ namespace NIST.CVP.Crypto.DSA.FFC.PQGeneratorValidators
                 return new PQValidateResult("Failed to generate p and q");
             }
 
-            if (q != computed_result.Q || seed.QSeed != computed_result.Seed.QSeed || count.QCount != computed_result.Count.QCount)
+            if (!q.Equals(computed_result.Q) || !seed.QSeed.Equals(computed_result.Seed.QSeed) || count.QCount != computed_result.Count.QCount)
             {
                 return new PQValidateResult("Failed to generate given q");
             }
 
-            if (p != computed_result.P || seed.PSeed != computed_result.Seed.PSeed || count.PCount != computed_result.Count.PCount)
+            if (!p.Equals(computed_result.P) || !seed.PSeed.Equals(computed_result.Seed.PSeed) || count.PCount != computed_result.Count.PCount)
             {
                 return new PQValidateResult("Failed to generate given p");
             }

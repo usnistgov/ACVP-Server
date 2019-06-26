@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Numerics;
+using System.Threading.Tasks;
 using Moq;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
@@ -46,8 +47,8 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen.Tests
             return new TestCase
             {
                 TestCaseId = 1,
-                Key = new FfcKeyPair(1, 2),
-                Signature = new FfcSignature(3, 4),
+                Key = new FfcKeyPair(new BitString((BigInteger)1), new BitString((BigInteger)2)),
+                Signature = new FfcSignature(new BitString((BigInteger)3), new BitString((BigInteger)4)),
             };
         }
 
@@ -58,7 +59,7 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen.Tests
                 L = 2048,
                 N = 224,
                 HashAlg = new HashFunction(ModeValues.SHA2, DigestSizes.d256),
-                DomainParams = new FfcDomainParameters(1, 2, 3)
+                DomainParams = new FfcDomainParameters(new BitString((BigInteger)1), new BitString((BigInteger)2), new BitString((BigInteger)3))
             };
         }
 

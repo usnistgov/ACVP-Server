@@ -37,13 +37,13 @@ namespace NIST.CVP.Generation.DSA.v1_0.SigVer
         /// </summary>
         [JsonIgnore] public FfcKeyPair Key { get; set; } = new FfcKeyPair();
         [JsonProperty(PropertyName = "x", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public BigInteger X
+        public BitString X
         {
             get => Key.PrivateKeyX;
             set => Key.PrivateKeyX = value;
         }
         [JsonProperty(PropertyName = "y", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public BigInteger Y
+        public BitString Y
         {
             get => Key.PublicKeyY;
             set => Key.PublicKeyY = value;
@@ -59,13 +59,13 @@ namespace NIST.CVP.Generation.DSA.v1_0.SigVer
 
         [JsonIgnore] public FfcSignature Signature { get; set; } = new FfcSignature();
         [JsonProperty(PropertyName = "r", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public BigInteger R
+        public BitString R
         {
             get => Signature.R;
             set => Signature.R = value;
         }
         [JsonProperty(PropertyName = "s", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public BigInteger S
+        public BitString S
         {
             get => Signature.S;
             set => Signature.S = value;
@@ -81,7 +81,7 @@ namespace NIST.CVP.Generation.DSA.v1_0.SigVer
             switch (name.ToLower())
             {
                 case "y":
-                    Key = new FfcKeyPair(new BitString(value).ToPositiveBigInteger());
+                    Key = new FfcKeyPair(new BitString(value));
                     return true;
 
                 case "msg":
@@ -89,11 +89,11 @@ namespace NIST.CVP.Generation.DSA.v1_0.SigVer
                     return true;
 
                 case "r":
-                    Signature.R = new BitString(value).ToPositiveBigInteger();
+                    Signature.R = new BitString(value);
                     return true;
 
                 case "s":
-                    Signature.S = new BitString(value).ToPositiveBigInteger();
+                    Signature.S = new BitString(value);
                     return true;
 
                 case "result":

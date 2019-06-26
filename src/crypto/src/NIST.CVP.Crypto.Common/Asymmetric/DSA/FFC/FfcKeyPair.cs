@@ -1,4 +1,5 @@
 ﻿using System.Numerics;
+using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC
 {
@@ -10,20 +11,20 @@ namespace NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC
         /// <summary>
         /// Private Key X. Range [1, <see cref="FfcDomainParameters.Q"/> – 1]
         /// </summary>
-        public BigInteger PrivateKeyX { get; set; }
+        public BitString PrivateKeyX { get; set; }
         
         /// <summary>
         /// Public Key Y.  Range [1, <see cref="FfcDomainParameters.P"/> - 1]
         /// </summary>
-        public BigInteger PublicKeyY { get; set; }
+        public BitString PublicKeyY { get; set; }
 
-        public FfcKeyPair(BigInteger privateKeyX, BigInteger publicKeyY)
+        public FfcKeyPair(BitString privateKeyX, BitString publicKeyY)
         {
             PrivateKeyX = privateKeyX;
             PublicKeyY = publicKeyY;
         }
 
-        public FfcKeyPair(BigInteger publicKeyY)
+        public FfcKeyPair(BitString publicKeyY)
         {
             PublicKeyY = publicKeyY;
         }

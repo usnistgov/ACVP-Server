@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Numerics;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
 using NIST.CVP.Generation.DSA.v1_0.KeyGen;
+using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.DSA.FFC.KeyGen.Tests
 {
@@ -27,15 +29,9 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen.Tests
 
                 if (isSample)
                 {
-                    tg.P = 42;
-                    tg.Q = 55;
-                    tg.G = 67;
-                }
-                else
-                {
-                    tg.P = -1;
-                    tg.Q = -2;
-                    tg.G = -3;
+                    tg.P = new BitString((BigInteger) 42);
+                    tg.Q = new BitString((BigInteger) 55);
+                    tg.G = new BitString((BigInteger) 67);
                 }
 
                 var tests = new List<TestCase>();
@@ -51,13 +47,8 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen.Tests
 
                     if (isSample)
                     {
-                        tc.X = 77;
-                        tc.Y = 100;
-                    }
-                    else
-                    {
-                        tc.X = -4;
-                        tc.Y = -5;
+                        tc.X = new BitString((BigInteger)77);
+                        tc.Y = new BitString((BigInteger)100);
                     }
                 }
             }

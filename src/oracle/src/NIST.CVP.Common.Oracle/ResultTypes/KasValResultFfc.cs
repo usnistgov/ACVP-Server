@@ -1,27 +1,28 @@
 ﻿using System.Numerics;
+using NIST.CVP.Math;
 
 namespace NIST.CVP.Common.Oracle.ResultTypes
 {
     public class KasValResultFfc : KasValResultBase
     {
-        public BigInteger StaticPrivateKeyServer { get; set; }
+        public BitString StaticPrivateKeyServer { get; set; }
 
-        public BigInteger StaticPublicKeyServer { get; set; }
+        public BitString StaticPublicKeyServer { get; set; }
 
 
-        public BigInteger EphemeralPrivateKeyServer { get; set; }
+        public BitString EphemeralPrivateKeyServer { get; set; }
 
-        public BigInteger EphemeralPublicKeyServer { get; set; }
+        public BitString EphemeralPublicKeyServer { get; set; }
 
         
 
-        public BigInteger StaticPrivateKeyIut { get; set; }
+        public BitString StaticPrivateKeyIut { get; set; }
 
-        public BigInteger StaticPublicKeyIut { get; set; }
+        public BitString StaticPublicKeyIut { get; set; }
 
 
-        public BigInteger EphemeralPrivateKeyIut { get; set; }
+        public BitString EphemeralPrivateKeyIut { get; set; }
 
-        public BigInteger EphemeralPublicKeyIut { get; set; }
+        public BitString EphemeralPublicKeyIut { get; set; }
     }
 }

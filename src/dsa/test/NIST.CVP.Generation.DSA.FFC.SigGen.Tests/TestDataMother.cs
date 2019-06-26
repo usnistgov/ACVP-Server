@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Numerics;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Generation.Core;
@@ -27,8 +28,8 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen.Tests
                     L = 2048 + groupIdx,
                     N = 224,
                     HashAlg = new HashFunction(ModeValues.SHA2, DigestSizes.d256),
-                    DomainParams = new FfcDomainParameters(3, 4, 5),
-                    Key = new FfcKeyPair(6, 7),
+                    DomainParams = new FfcDomainParameters(new BitString((BigInteger)3), new BitString((BigInteger)4), new BitString((BigInteger)5)),
+                    Key = new FfcKeyPair(new BitString((BigInteger)6), new BitString((BigInteger)7)),
                 };
 
                 testGroups.Add(tg);
@@ -40,7 +41,7 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen.Tests
                     tests.Add(new TestCase
                     {
                         Message = new BitString("BEEFFACE"),
-                        Signature = new FfcSignature(1, 2),
+                        Signature = new FfcSignature(new BitString((BigInteger)1), new BitString((BigInteger)2)),
                         TestCaseId = testId,
                         ParentGroup = tg
                     });

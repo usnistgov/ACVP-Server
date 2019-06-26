@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using NIST.CVP.Crypto.Common.KAS;
+﻿using NIST.CVP.Crypto.Common.KAS;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Async;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Generation.KAS.v1_0.FFC
 {
@@ -14,8 +14,8 @@ namespace NIST.CVP.Generation.KAS.v1_0.FFC
         private readonly IDeferredTestCaseResolverAsync<TestGroup, TestCase, KasResult> _deferredResolver;
 
         public TestCaseValidatorAftKdfKc(
-            TestCase workingTest, 
-            TestGroup testGroup, 
+            TestCase workingTest,
+            TestGroup testGroup,
             IDeferredTestCaseResolverAsync<TestGroup, TestCase, KasResult> deferredResolver
         )
         {
@@ -56,7 +56,7 @@ namespace NIST.CVP.Generation.KAS.v1_0.FFC
         {
             if (_testGroup.KeyNonceGenRequirementsIut.GeneratesStaticKeyPair)
             {
-                if (suppliedResult.StaticPublicKeyIut == 0)
+                if (suppliedResult.StaticPublicKeyIut == null)
                 {
                     errors.Add($"Expected {nameof(suppliedResult.StaticPublicKeyIut)} but was not supplied");
                 }
@@ -64,7 +64,7 @@ namespace NIST.CVP.Generation.KAS.v1_0.FFC
 
             if (_testGroup.KeyNonceGenRequirementsIut.GeneratesEphemeralKeyPair)
             {
-                if (suppliedResult.EphemeralPublicKeyIut == 0)
+                if (suppliedResult.EphemeralPublicKeyIut == null)
                 {
                     errors.Add($"Expected {nameof(suppliedResult.EphemeralPublicKeyIut)} but was not supplied");
                 }

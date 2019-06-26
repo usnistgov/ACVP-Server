@@ -77,21 +77,21 @@ namespace NIST.CVP.Orleans.Grains.Dsa
                 // Make P not prime
                 do
                 {
-                    domainParams.P = _entropyProvider.GetEntropy(_param.L).ToPositiveBigInteger();
+                    domainParams.P = _entropyProvider.GetEntropy(_param.L);
 
-                } while (NumberTheory.MillerRabin(domainParams.P,
+                } while (NumberTheory.MillerRabin(domainParams.P.ToPositiveBigInteger(),
                     DSAHelper.GetMillerRabinIterations(_param.L, _param.N)));
             }
             else if (friendlyReason == DsaPQDisposition.ModifyQ)
             {
                 // Modify Q so that 0 != (P-1) mod Q
-                domainParams.Q = _entropyProvider.GetEntropy(_param.N).ToPositiveBigInteger();
+                domainParams.Q = _entropyProvider.GetEntropy(_param.N);
             }
             else if (friendlyReason == DsaPQDisposition.ModifySeed)
             {
                 // Modify FirstSeed
-                var oldSeed = new BitString(domainParams.Seed.Seed);
-                var newSeed = _entropyProvider.GetEntropy(oldSeed.BitLength).ToPositiveBigInteger();
+                var oldSeed = domainParams.Seed.Seed;
+                var newSeed = _entropyProvider.GetEntropy(oldSeed.BitLength);
 
                 domainParams.Seed.ModifySeed(newSeed);
             }

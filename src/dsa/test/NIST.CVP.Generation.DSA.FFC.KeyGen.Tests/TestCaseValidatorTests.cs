@@ -8,6 +8,7 @@ using NIST.CVP.Crypto.DSA.FFC;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Async;
 using NIST.CVP.Generation.DSA.v1_0.KeyGen;
+using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
@@ -55,7 +56,7 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen.Tests
             return new TestCase
             {
                 TestCaseId = 1,
-                Key = new FfcKeyPair(1, 2)
+                Key = new FfcKeyPair(new BitString(1), new BitString(2))
             };
         }
 

@@ -11,6 +11,7 @@ using NUnit.Framework;
 using NIST.CVP.Generation.KAS.Tests.Builders;
 using NIST.CVP.Generation.KAS.v1_0;
 using NIST.CVP.Generation.KAS.v1_0.FFC;
+using NIST.CVP.Math.Helpers;
 
 namespace NIST.CVP.Generation.KAS.FFC.Tests
 {
@@ -28,9 +29,9 @@ namespace NIST.CVP.Generation.KAS.FFC.Tests
                 .Setup(s => s.GetDsaDomainParametersAsync(It.IsAny<DsaDomainParametersParameters>()))
                 .Returns(() => Task.FromResult(new DsaDomainParametersResult()
                 {
-                    P = 1,
-                    Q = 2,
-                    G = 3
+                    P = 1.ToBitString(),
+                    Q = 2.ToBitString(),
+                    G = 3.ToBitString()
                 }));
 
             _subject = new TestGroupGenerator(_oracle.Object);

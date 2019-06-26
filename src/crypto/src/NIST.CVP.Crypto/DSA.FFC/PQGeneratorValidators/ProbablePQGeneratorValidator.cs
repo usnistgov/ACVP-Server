@@ -101,7 +101,10 @@ namespace NIST.CVP.Crypto.DSA.FFC.PQGeneratorValidators
                         // Check if p is prime, if so return
                         if (NumberTheory.MillerRabin(p, DSAHelper.GetMillerRabinIterations(L, N)))
                         {
-                            return new PQGenerateResult(p, q, new DomainSeed(seed), new Counter(ctr));
+                            return new PQGenerateResult(
+                                new BitString(p).PadToModulusMsb(32), 
+                                new BitString(q).PadToModulusMsb(32), 
+                                new DomainSeed(new BitString(seed).PadToModulusMsb(seedLen)), new Counter(ctr));
                         }
                     }
 
@@ -121,16 +124,19 @@ namespace NIST.CVP.Crypto.DSA.FFC.PQGeneratorValidators
         /// <param name="seed"></param>
         /// <param name="count"></param>
         /// <returns></returns>
-        public PQValidateResult Validate(BigInteger p, BigInteger q, DomainSeed seed, Counter count)
+        public PQValidateResult Validate(BitString p, BitString q, DomainSeed seed, Counter count)
         {
+            var seedInt = seed.Seed.ToPositiveBigInteger();
+            var qInt = q.ToPositiveBigInteger();
+            
             if (seed.Mode != PrimeGenMode.Probable && count.Mode != PrimeGenMode.Probable)
             {
                 return new PQValidateResult("Invalid DomainSeed and Counter");
             }
 
             // 1, 2
-            var L = new BitString(p).BitLength;
-            var N = new BitString(q).BitLength;
+            var L = p.BitLength;
+            var N = q.BitLength;
 
             // 3
             if (!DSAHelper.VerifyLenPair(L, N))
@@ -145,31 +151,19 @@ namespace NIST.CVP.Crypto.DSA.FFC.PQGeneratorValidators
             }
 
             // 5, 6
-            // TODO is there a better way to do this?
-            /*
-                Appending 0s to the bitstring representation of the seed as to make it mod 32 (if it isn't already), as this is the mod of the original seed that is hashed.
-                In instances (as an example) when the chosen seed starts with eight zero bits in a row, the biginteger representation of said bitstring is 1 byte smaller than it should be,
-                thus failing the check that it is at least the length of N
-            */
-            var seedBitString = new BitString(seed.Seed);
-            if (seedBitString.BitLength % 32 != 0)
-            {
-                seedBitString = BitString.ConcatenateBits(BitString.Zeroes(32 - seedBitString.BitLength % 32), seedBitString);
-            }
-            var seedLen = seedBitString.BitLength;
-            if (seedLen < N)
+            if (seed.Seed.BitLength < N)
             {
                 return new PQValidateResult("Invalid seed");
             }
-
+            
             // 7
-            var U = _sha.HashNumber(seed.Seed).ToBigInteger() % NumberTheory.Pow2(N - 1);
+            var U = _sha.HashNumber(seed.Seed.ToPositiveBigInteger()).ToBigInteger() % NumberTheory.Pow2(N - 1);
 
             // 8
             var computed_q = NumberTheory.Pow2(N - 1) + U + 1 - (U % 2);
 
             // 9
-            if (!NumberTheory.MillerRabin(computed_q, DSAHelper.GetMillerRabinIterations(L, N)) || computed_q != q)
+            if (!NumberTheory.MillerRabin(computed_q, DSAHelper.GetMillerRabinIterations(L, N)) || computed_q != q.ToPositiveBigInteger())
             {
                 return new PQValidateResult("Q not prime, or doesn't match expected value");
             }
@@ -186,18 +180,18 @@ namespace NIST.CVP.Crypto.DSA.FFC.PQGeneratorValidators
             for (i = 0; i <= count.Count; i++)
             {
                 // 13.1, 13.2
-                var W = _sha.HashNumber(seed.Seed + offset).ToBigInteger();
+                var W = _sha.HashNumber(seedInt + offset).ToBigInteger();
                 for (var j = 1; j < n; j++)
                 {
-                    W += (_sha.HashNumber(seed.Seed + offset + j).ToBigInteger()) * NumberTheory.Pow2(j * outLen);
+                    W += (_sha.HashNumber(seedInt + offset + j).ToBigInteger()) * NumberTheory.Pow2(j * outLen);
                 }
-                W += ((_sha.HashNumber(seed.Seed + offset + n).ToBigInteger()) % NumberTheory.Pow2(b)) * NumberTheory.Pow2(n * outLen);
+                W += ((_sha.HashNumber(seedInt + offset + n).ToBigInteger()) % NumberTheory.Pow2(b)) * NumberTheory.Pow2(n * outLen);
 
                 // 13.3
                 var X = W + NumberTheory.Pow2(L - 1);
 
                 // 13.4
-                var c = X % (2 * q);
+                var c = X % (2 * qInt);
 
                 // 13.5
                 computed_p = X - (c - 1);
@@ -217,7 +211,7 @@ namespace NIST.CVP.Crypto.DSA.FFC.PQGeneratorValidators
             }
 
             // 14
-            if (i != count.Count || computed_p != p || !NumberTheory.MillerRabin(computed_p, DSAHelper.GetMillerRabinIterations(L, N)))
+            if (i != count.Count || computed_p != p.ToPositiveBigInteger() || !NumberTheory.MillerRabin(computed_p, DSAHelper.GetMillerRabinIterations(L, N)))
             {
                 return new PQValidateResult($"Invalid p value or counter. computed_p = {new BitString(computed_p).ToHex()}");
             }

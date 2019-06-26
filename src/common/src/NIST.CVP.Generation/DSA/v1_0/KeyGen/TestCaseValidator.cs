@@ -30,7 +30,7 @@ namespace NIST.CVP.Generation.DSA.v1_0.KeyGen
             Dictionary<string, string> expected = null;
             Dictionary<string, string> provided = null;
 
-            if (suppliedResult.Key.PrivateKeyX == 0 || suppliedResult.Key.PublicKeyY == 0)
+            if (suppliedResult.Key.PrivateKeyX == null || suppliedResult.Key.PublicKeyY == null)
             {
                 errors.Add("Could not find x or y");
             }
