@@ -84,8 +84,17 @@ namespace NIST.CVP.Pools
 
                     if (_poolConfig.ShouldLogPoolValueUse)
                     {
-                        LogManager.GetCurrentClassLogger()
-                            .Info($"Using pool value: {(_poolConfig.PoolResultLogLength == 0 ? json : json.Substring(0, _poolConfig.PoolResultLogLength))}");
+                        if (_poolConfig.PoolResultLogLength == 0 || json.Length <= _poolConfig.PoolResultLogLength)
+                        {
+                            LogManager.GetCurrentClassLogger()
+                                .Info($"Using pool value: {json}");
+                        }
+                        else
+                        {
+                            LogManager.GetCurrentClassLogger()
+                                .Info($"Using pool value: {json.Substring(0, _poolConfig.PoolResultLogLength)}");
+                        }
+
                     }
 
                     return poolResult.Result;
