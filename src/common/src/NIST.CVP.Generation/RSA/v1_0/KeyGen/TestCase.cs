@@ -29,10 +29,10 @@ namespace NIST.CVP.Generation.RSA.v1_0.KeyGen
         public KeyPair Key { get; set; } = new KeyPair { PubKey = new PublicKey() };
 
         #region Key Value Getters and Setters
-        public BigInteger N
+        public BitString N
         {
-            get => Key.PubKey.N;
-            set => Key.PubKey.N = value;
+            get => Key.PubKey.N != 0 ? new BitString(Key.PubKey.N, ParentGroup?.Modulo ?? 0) : null;
+            set => Key.PubKey.N = value.ToPositiveBigInteger();
         }
 
         public BigInteger E

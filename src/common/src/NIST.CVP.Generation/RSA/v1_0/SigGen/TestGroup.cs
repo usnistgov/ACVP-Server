@@ -39,10 +39,10 @@ namespace NIST.CVP.Generation.RSA.v1_0.SigGen
         [JsonIgnore]
         public KeyPair Key { get; set; } = new KeyPair { PubKey = new PublicKey() };
 
-        public BigInteger N
+        public BitString N
         {
-            get => Key.PubKey.N;
-            set => Key.PubKey.N = value;
+            get => new BitString(Key.PubKey.N, Modulo);
+            set => Key.PubKey.N = value.ToPositiveBigInteger();
         }
 
         public BigInteger E

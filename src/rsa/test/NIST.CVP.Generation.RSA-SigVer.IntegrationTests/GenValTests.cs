@@ -62,8 +62,7 @@ namespace NIST.CVP.Generation.RSA_SigVer.IntegrationTests
                 Revision = Revision,
                 IsSample = false,
                 Capabilities = algSpecs,
-                PubExpMode = "fixed",
-                FixedPubExpValue = "010001",
+                PubExpMode = "random",
                 KeyFormat = "standard",
                 Conformances = new[] { "SP800-106" }
             };

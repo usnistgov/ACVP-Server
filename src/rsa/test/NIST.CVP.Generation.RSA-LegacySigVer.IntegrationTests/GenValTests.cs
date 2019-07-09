@@ -73,8 +73,7 @@ namespace NIST.CVP.Generation.RSA_LegacySigVer.IntegrationTests
                 Revision = Revision,
                 IsSample = false,
                 Capabilities = algSpecs,
-                PubExpMode = "fixed",
-                FixedPubExpValue = "11",
+                PubExpMode = "random",
                 KeyFormat = "standard"
             };
 

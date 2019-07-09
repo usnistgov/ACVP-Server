@@ -59,7 +59,7 @@ namespace NIST.CVP.Generation.RSA.v1_0.SigVer
                                 Modulus = modulo,
                                 KeyMode = PrimeGenModes.B33,
                                 PublicExponentMode = pubExpMode,
-                                PublicExponent = new BitString(parameters.FixedPubExpValue),
+                                PublicExponent = !string.IsNullOrEmpty(parameters.FixedPubExpValue) ? new BitString(parameters.FixedPubExpValue) : null,
                                 PrimeTest = PrimeTestModes.C2
                             };
 

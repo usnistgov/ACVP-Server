@@ -73,7 +73,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests.ContractResolvers
             Assert.AreEqual(tc.ParentGroup.TestGroupId, newTc.ParentGroup.TestGroupId, nameof(newTc.ParentGroup));
             Assert.AreEqual(tc.TestCaseId, newTc.TestCaseId, nameof(newTc.TestCaseId));
             Assert.AreEqual(tc.E, newTc.E, nameof(newTc.E));
-            Assert.AreEqual(tc.N, newTc.N, nameof(newTc.N));
+            Assert.AreEqual(tc.N.ToPositiveBigInteger(), newTc.N.ToPositiveBigInteger(), nameof(newTc.N));
             Assert.AreEqual(tc.P, newTc.P, nameof(newTc.P));
             Assert.AreEqual(tc.Q, newTc.Q, nameof(newTc.Q));
             Assert.AreEqual(tc.Iqmp, newTc.Iqmp, nameof(newTc.Iqmp));
