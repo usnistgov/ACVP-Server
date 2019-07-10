@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using NIST.CVP.Common.Oracle.DispositionTypes;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC.Helpers;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 
@@ -16,26 +17,28 @@ namespace NIST.CVP.Generation.ECDSA.v1_0.KeyVer
         public TestGroup ParentGroup { get; set; }
         public EcdsaKeyDisposition Reason { get; set; }
 
+        private int OrderN => ParentGroup == null ? 0 : CurveAttributesHelper.GetCurveAttribute(ParentGroup.Curve).LengthN;
+
         [JsonIgnore] public EccKeyPair KeyPair { get; set; } = new EccKeyPair();
         [JsonProperty(PropertyName = "d", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public BigInteger D
+        public BitString D
         {
-            get => KeyPair.PrivateD;
-            set => KeyPair.PrivateD = value;
+            get => KeyPair.PrivateD != 0 ? new BitString(KeyPair.PrivateD, OrderN).PadToModulusMsb(BitString.BITSINBYTE) : null;
+            set => KeyPair.PrivateD = value.ToPositiveBigInteger();
         }
 
         [JsonProperty(PropertyName = "qx", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public BigInteger Qx
+        public BitString Qx
         {
-            get => KeyPair.PublicQ.X;
-            set => KeyPair.PublicQ.X = value;
+            get => KeyPair.PublicQ.X != 0 ? new BitString(KeyPair.PublicQ.X, OrderN).PadToModulusMsb(BitString.BITSINBYTE) : null;
+            set => KeyPair.PublicQ.X = value.ToPositiveBigInteger();
         }
 
         [JsonProperty(PropertyName = "qy", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public BigInteger Qy
+        public BitString Qy
         {
-            get => KeyPair.PublicQ.Y;
-            set => KeyPair.PublicQ.Y = value;
+            get => KeyPair.PublicQ.Y != 0 ? new BitString(KeyPair.PublicQ.Y, OrderN).PadToModulusMsb(BitString.BITSINBYTE) : null;
+            set => KeyPair.PublicQ.Y = value.ToPositiveBigInteger();
         }
 
         public bool SetString(string name, string value)

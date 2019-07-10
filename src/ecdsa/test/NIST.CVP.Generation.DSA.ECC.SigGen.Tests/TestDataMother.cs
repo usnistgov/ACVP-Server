@@ -33,7 +33,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen.Tests
 
                 if (!isSample)
                 {
-                    tg.KeyPair = new EccKeyPair(new EccPoint(-1, -2), -3);
+                    tg.KeyPair = new EccKeyPair(new EccPoint(0, 0), 0);
                 }
 
                 var tests = new List<TestCase>();
@@ -51,7 +51,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen.Tests
 
                     if (!isSample)
                     {
-                        tc.Signature = new EccSignature(-1, -2);
+                        tc.Signature = new EccSignature(0, 0);
                     }
                 }
             }
