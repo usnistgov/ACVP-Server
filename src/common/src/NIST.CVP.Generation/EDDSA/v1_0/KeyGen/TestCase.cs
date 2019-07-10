@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.Ed;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.Ed.Helpers;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 
@@ -17,14 +18,14 @@ namespace NIST.CVP.Generation.EDDSA.v1_0.KeyGen
         [JsonProperty(PropertyName = "d", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public BitString D
         {
-            get => KeyPair.PrivateD;
+            get => KeyPair?.PrivateD?.PadToModulusMsb(BitString.BITSINBYTE);
             set => KeyPair.PrivateD = value;
         }
 
         [JsonProperty(PropertyName = "q", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public BitString Q
         {
-            get => KeyPair.PublicQ;
+            get => KeyPair?.PublicQ?.PadToModulusMsb(BitString.BITSINBYTE);
             set => KeyPair.PublicQ = value;
         }
     }

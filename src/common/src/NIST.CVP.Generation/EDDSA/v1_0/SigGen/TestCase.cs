@@ -24,7 +24,7 @@ namespace NIST.CVP.Generation.EDDSA.v1_0.SigGen
         [JsonProperty(PropertyName = "signature", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public BitString Sig
         {
-            get => Signature?.Sig;
+            get => Signature?.Sig?.PadToModulusMsb(BitString.BITSINBYTE);
             set => Signature.Sig = value;
         }
     }
