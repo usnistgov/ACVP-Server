@@ -21,14 +21,14 @@ namespace NIST.CVP.Generation.DSA.v1_0.KeyGen
         public FfcKeyPair Key { get; set; } = new FfcKeyPair();
 
         [JsonProperty(PropertyName = "x", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public BitString X
+        public BigInteger X
         {
             get => Key.PrivateKeyX;
             set => Key.PrivateKeyX = value;
         }
 
         [JsonProperty(PropertyName = "y", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public BitString Y
+        public BigInteger Y
         {
             get => Key.PublicKeyY;
             set => Key.PublicKeyY = value;
@@ -44,11 +44,11 @@ namespace NIST.CVP.Generation.DSA.v1_0.KeyGen
             switch (name.ToLower())
             {
                 case "x":
-                    X = new BitString(value);
+                    X = new BitString(value).ToPositiveBigInteger();
                     return true;
 
                 case "y":
-                    Y = new BitString(value);
+                    Y = new BitString(value).ToPositiveBigInteger();
                     return true;
             }
 

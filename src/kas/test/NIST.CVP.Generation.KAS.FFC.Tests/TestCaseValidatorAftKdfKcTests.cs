@@ -1,13 +1,12 @@
 ﻿using Moq;
 using NIST.CVP.Crypto.Common.KAS;
 using NIST.CVP.Crypto.Common.KAS.Enums;
-using NIST.CVP.Generation.Core.Async;
-using NIST.CVP.Generation.KAS.v1_0.FFC;
 using NIST.CVP.Math;
-using NIST.CVP.Math.Helpers;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using System.Threading.Tasks;
+using NIST.CVP.Generation.Core.Async;
+using NIST.CVP.Generation.KAS.v1_0.FFC;
 
 namespace NIST.CVP.Generation.KAS.FFC.Tests
 {
@@ -22,10 +21,6 @@ namespace NIST.CVP.Generation.KAS.FFC.Tests
         public void Setup()
         {
             _deferredResolver = new Mock<IDeferredTestCaseResolverAsync<TestGroup, TestCase, KasResult>>();
-            _deferredResolver
-                .Setup(s => s.CompleteDeferredCryptoAsync(It.IsAny<TestGroup>(), It.IsAny<TestCase>(),
-                    It.IsAny<TestCase>()))
-                .Returns(() => Task.FromResult(new KasResult(0.ToBitString(), 1.ToBitString())));
         }
 
         [Test]
@@ -65,7 +60,7 @@ namespace NIST.CVP.Generation.KAS.FFC.Tests
         [TestCase(FfcScheme.DhHybridOneFlow, KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Provider, KeyConfirmationDirection.Bilateral)]
         [TestCase(FfcScheme.DhHybridOneFlow, KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Unilateral)]
         [TestCase(FfcScheme.DhHybridOneFlow, KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Bilateral)]
-
+        
         [TestCase(FfcScheme.Mqv1, KeyAgreementRole.InitiatorPartyU, KeyConfirmationRole.Provider, KeyConfirmationDirection.Unilateral)]
         [TestCase(FfcScheme.Mqv1, KeyAgreementRole.InitiatorPartyU, KeyConfirmationRole.Provider, KeyConfirmationDirection.Bilateral)]
         [TestCase(FfcScheme.Mqv1, KeyAgreementRole.InitiatorPartyU, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Unilateral)]
@@ -186,7 +181,7 @@ namespace NIST.CVP.Generation.KAS.FFC.Tests
             var testGroup = GetData(scheme, kasRole, kcRole, kcType);
             var testCase = testGroup.Tests[0];
 
-            testCase.EphemeralPublicKeyIut = 0.ToBitString();
+            testCase.EphemeralPublicKeyIut = 0;
 
             _subject = new TestCaseValidatorAftKdfKc(testCase, testGroup, _deferredResolver.Object);
 
@@ -265,7 +260,7 @@ namespace NIST.CVP.Generation.KAS.FFC.Tests
             var testGroup = GetData(scheme, kasRole, kcRole, kcType);
             var testCase = testGroup.Tests[0];
 
-            testCase.StaticPublicKeyIut = 0.ToBitString();
+            testCase.StaticPublicKeyIut = 0;
 
             _subject = new TestCaseValidatorAftKdfKc(testCase, testGroup, _deferredResolver.Object);
 
@@ -606,8 +601,6 @@ namespace NIST.CVP.Generation.KAS.FFC.Tests
 
             testGroup.Tests[0].EphemeralNonceIut = new BitString("01");
             testGroup.Tests[0].EphemeralNonceServer = new BitString("02");
-
-            testGroup.Tests[0].Tag = new BitString("FF");
 
             return testGroup;
         }

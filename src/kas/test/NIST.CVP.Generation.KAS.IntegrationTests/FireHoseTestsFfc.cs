@@ -1,14 +1,15 @@
-﻿using NIST.CVP.Crypto.Common.KAS;
+﻿using System.Diagnostics;
+using System.Threading.Tasks;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Crypto.Common.KAS.Helpers;
 using NIST.CVP.Crypto.Oracle.Builders;
+using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Generation.KAS.v1_0.FFC;
 using NIST.CVP.Generation.KAS.v1_0.FFC.Parsers;
 using NIST.CVP.Tests.Core;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace NIST.CVP.Generation.KAS.IntegrationTests
 {
@@ -39,7 +40,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                 Assert.Fail("No TestGroups were parsed.");
             }
             var testVector = parsedFiles.ParsedObject;
-
+            
             int passes = 0;
             int expectedFails = 0;
 
@@ -49,8 +50,6 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
             }
 
             var oracle = new OracleBuilder().Build();
-
-            var tasks = new Dictionary<Task<KasResult>, (TestGroup testGroup, TestCase testCase)>();
 
             foreach (var testGroup in testVector.TestGroups)
             {
@@ -62,34 +61,26 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
 
                     SwitchTestCaseIutServerInformation(testCase);
 
-                    tasks.Add(testCaseResolver.CompleteDeferredCryptoAsync(testGroup, testCase, testCase), (testGroup, testCase));
-                }
-            }
+                    var result = await testCaseResolver.CompleteDeferredCryptoAsync(testGroup, testCase, testCase);
 
-            await Task.WhenAll(tasks.Keys);
-
-            foreach (var keyValuePair in tasks)
-            {
-                var testGroup = keyValuePair.Value.testGroup;
-                var testCase = keyValuePair.Value.testCase;
-                var result = keyValuePair.Key.Result;
-
-                if (testCase.TestPassed.Value)
-                {
-                    Assert.AreEqual(
-                        testGroup.KasMode == KasMode.NoKdfNoKc ? testCase.HashZ.ToHex() : testCase.Tag.ToHex(),
-                        result.Tag.ToHex()
-                    );
-                    passes++;
-                }
-                else
-                {
-                    Assert.AreNotEqual(
-                        testGroup.KasMode == KasMode.NoKdfNoKc ? testCase.HashZ.ToHex() : testCase.Tag.ToHex(),
-                        result.Tag.ToHex()
-                    );
-                    passes++;
-                    expectedFails++;
+                    Debug.Assert(testCase.TestPassed != null, "testCase.TestPassed != null");
+                    if (testCase.TestPassed.Value)
+                    {
+                        Assert.AreEqual(
+                            testGroup.KasMode == KasMode.NoKdfNoKc ? testCase.HashZ.ToHex() : testCase.Tag.ToHex(),
+                            result.Tag.ToHex()
+                        );
+                        passes++;
+                    }
+                    else
+                    {
+                        Assert.AreNotEqual(
+                            testGroup.KasMode == KasMode.NoKdfNoKc ? testCase.HashZ.ToHex() : testCase.Tag.ToHex(),
+                            result.Tag.ToHex()
+                        );
+                        passes++;
+                        expectedFails++;
+                    }
                 }
             }
 

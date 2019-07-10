@@ -15,10 +15,10 @@ namespace NIST.CVP.Generation.DSA.v1_0.PqgVer
         public TestGroup ParentGroup { get; set; }
         public string Reason { get; set; }      // Needs to be a string because of PQFailureReasons type and GFailureReasons type
 
-        public BitString P { get; set; }
-        public BitString Q { get; set; }
-        public BitString G { get; set; }
-        public BitString H { get; set; }
+        public BigInteger P { get; set; }
+        public BigInteger Q { get; set; }
+        public BigInteger G { get; set; }
+        public BigInteger H { get; set; }
 
         [JsonIgnore] public DomainSeed Seed { get; set; } = new DomainSeed();
 
@@ -28,14 +28,14 @@ namespace NIST.CVP.Generation.DSA.v1_0.PqgVer
             get
             {
                 // We assume the seed was generated using the probable pq approach, meaning Seed is a single N-len value (provable would mean the Seed is 3 N-len values)
-                if (Seed.Seed == null)
+                if (Seed.Seed == 0)
                 {
                     return null;
                 }
 
-                return new BitString(Seed.Seed.ToPositiveBigInteger(), ParentGroup.N, true);
+                return new BitString(Seed.Seed, ParentGroup.N, true);
             }
-            set => Seed.Seed = value;
+            set => Seed.Seed = value.ToPositiveBigInteger();
         }
 
         [JsonProperty(PropertyName = "pSeed")]
@@ -43,14 +43,14 @@ namespace NIST.CVP.Generation.DSA.v1_0.PqgVer
         {
             get
             {
-                if (Seed.PSeed == null)
+                if (Seed.PSeed == 0)
                 {
                     return null;
                 }
 
-                return new BitString(Seed.PSeed.ToPositiveBigInteger(), ParentGroup.N, true);
+                return new BitString(Seed.PSeed, ParentGroup.N, true);
             }
-            set => Seed.PSeed = value;
+            set => Seed.PSeed = value.ToPositiveBigInteger();
         }
 
         [JsonProperty(PropertyName = "qSeed")]
@@ -58,14 +58,14 @@ namespace NIST.CVP.Generation.DSA.v1_0.PqgVer
         {
             get
             {
-                if (Seed.QSeed == null)
+                if (Seed.QSeed == 0)
                 {
                     return null;
                 }
 
-                return new BitString(Seed.QSeed.ToPositiveBigInteger(), ParentGroup.N, true);
+                return new BitString(Seed.QSeed, ParentGroup.N, true);
             }
-            set => Seed.QSeed = value;
+            set => Seed.QSeed = value.ToPositiveBigInteger();
         }
 
         [JsonIgnore] public Counter Counter { get; set; } = new Counter();
@@ -101,19 +101,19 @@ namespace NIST.CVP.Generation.DSA.v1_0.PqgVer
             switch (name.ToLower())
             {
                 case "p":
-                    P = new BitString(value);
+                    P = new BitString(value).ToPositiveBigInteger();
                     return true;
 
                 case "q":
-                    Q = new BitString(value);
+                    Q = new BitString(value).ToPositiveBigInteger();
                     return true;
 
                 case "g":
-                    G = new BitString(value);
+                    G = new BitString(value).ToPositiveBigInteger();
                     return true;
 
                 case "h":
-                    H = new BitString(value);
+                    H = new BitString(value).ToPositiveBigInteger();
                     return true;
 
                 case "index":
@@ -122,7 +122,7 @@ namespace NIST.CVP.Generation.DSA.v1_0.PqgVer
 
                 case "seed":
                 case "domain_parameter_seed":
-                    Seed = new DomainSeed(new BitString(value));
+                    Seed = new DomainSeed(new BitString(value).ToPositiveBigInteger());
                     return true;
 
                 case "c":
@@ -130,15 +130,15 @@ namespace NIST.CVP.Generation.DSA.v1_0.PqgVer
                     return true;
 
                 case "firstseed":
-                    Seed.Seed = new BitString(value);
+                    Seed.Seed = new BitString(value).ToPositiveBigInteger();
                     return true;
 
                 case "pseed":
-                    Seed.PSeed = new BitString(value);
+                    Seed.PSeed = new BitString(value).ToPositiveBigInteger();
                     return true;
 
                 case "qseed":
-                    Seed.QSeed = new BitString(value);
+                    Seed.QSeed = new BitString(value).ToPositiveBigInteger();
                     return true;
 
                 case "pgen_counter":

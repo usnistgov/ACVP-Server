@@ -1041,19 +1041,18 @@ namespace NIST.CVP.Math.Tests
 
         #region PadToModulus
         [Test]
-        [TestCase(8, "FF", 4, true, "F0", 8)]
-        [TestCase(8, "FF", 8, true, "FF", 8)]
-        [TestCase(8, "FF", 7, true, "FE", 8)]
-        [TestCase(16, "FF", 4, true, "F000", 16)]
-        [TestCase(16, "FF", 8, true, "FF00", 16)]
-        [TestCase(16, "FF", 7, true, "FE00", 16)]
-        [TestCase(16, "FF", 8, false, "00FF", 16)]
-        public void ShouldPadToModulusBoundryOrReturnOriginalIfAtModulusBoundry(int modulus, string hex, int length, bool padLsb, string expectedHex, int expectedLength)
+        [TestCase(8, "FF", 4, "F0", 8)]
+        [TestCase(8, "FF", 8, "FF", 8)]
+        [TestCase(8, "FF", 7, "FE", 8)]
+        [TestCase(16, "FF", 4, "F000", 16)]
+        [TestCase(16, "FF", 8, "FF00", 16)]
+        [TestCase(16, "FF", 7, "FE00", 16)]
+        public void ShouldPadToModulusBoundryOrReturnOriginalIfAtModulusBoundry(int modulus, string hex, int length, string expectedHex, int expectedLength)
         {
             var hexBs = new BitString(hex, length);
             var expectedBs = new BitString(expectedHex);
 
-            var result = BitString.PadToModulus(hexBs, modulus, padLsb);
+            var result = BitString.PadToModulus(hexBs, modulus);
 
             Assert.AreEqual(expectedLength, result.BitLength, nameof(expectedLength));
             Assert.AreEqual(expectedBs, result, nameof(expectedHex));
@@ -1745,15 +1744,6 @@ namespace NIST.CVP.Math.Tests
 
             Assert.GreaterOrEqual(result, (BigInteger)0);       // Verify result > 0
             Assert.AreEqual(expectedBigInt, result);
-        }
-
-        [Test]
-        [TestCase("FF", "FF")]
-        [TestCase("00FF", "FF")]
-        public void ToPositiveBigIntegerFromHexReturnsCorrectValue(string hex, string expectedHex)
-        {
-            var bigInt = new BitString(hex).ToPositiveBigInteger();
-            Assert.AreEqual(new BitString(bigInt), new BitString(expectedHex));
         }
         #endregion ToPositiveBigInteger
 

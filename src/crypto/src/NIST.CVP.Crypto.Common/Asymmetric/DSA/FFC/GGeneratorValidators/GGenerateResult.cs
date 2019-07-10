@@ -1,21 +1,20 @@
 ﻿using System.Numerics;
-using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC.GGeneratorValidators
 {
     public class GGenerateResult
     {
-        public BitString G { get; }
-        public BitString H { get; }
+        public BigInteger G { get; }
+        public BigInteger H { get; }
         public string ErrorMessage { get; }
 
-        public GGenerateResult(BitString g, BitString h)
+        public GGenerateResult(BigInteger g, BigInteger h)
         {
             G = g;
             H = h;
         }
 
-        public GGenerateResult(BitString g)
+        public GGenerateResult(BigInteger g)
         {
             G = g;
         }

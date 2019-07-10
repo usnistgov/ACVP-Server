@@ -30,13 +30,13 @@ namespace NIST.CVP.Generation.DSA.v1_0.SigGen
 
         [JsonIgnore] public FfcSignature Signature { get; set; } = new FfcSignature();
         [JsonProperty(PropertyName = "r", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public BitString R
+        public BigInteger R
         {
             get => Signature.R;
             set => Signature.R = value;
         }
         [JsonProperty(PropertyName = "s", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public BitString S
+        public BigInteger S
         {
             get => Signature.S;
             set => Signature.S = value;
@@ -55,11 +55,11 @@ namespace NIST.CVP.Generation.DSA.v1_0.SigGen
             switch (name.ToLower())
             {
                 case "x":
-                    Key.PrivateKeyX = new BitString(value);
+                    Key.PrivateKeyX = new BitString(value).ToPositiveBigInteger();
                     return true;
 
                 case "y":
-                    Key.PublicKeyY = new BitString(value);
+                    Key.PublicKeyY = new BitString(value).ToPositiveBigInteger();
                     return true;
 
                 case "msg":
@@ -67,11 +67,11 @@ namespace NIST.CVP.Generation.DSA.v1_0.SigGen
                     return true;
 
                 case "r":
-                    Signature.R = new BitString(value);
+                    Signature.R = new BitString(value).ToPositiveBigInteger();
                     return true;
 
                 case "s":
-                    Signature.S = new BitString(value);
+                    Signature.S = new BitString(value).ToPositiveBigInteger();
                     return true;
 
                 case "k":

@@ -57,9 +57,9 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen.Tests.ContractResolvers
             }
             else
             {
-                Assert.IsNull(newTg.P, nameof(newTg.P));
-                Assert.IsNull(newTg.Q, nameof(newTg.Q));
-                Assert.IsNull(newTg.G, nameof(newTg.G));
+                Assert.AreNotEqual(tg.P, newTg.P, nameof(newTg.P));
+                Assert.AreNotEqual(tg.Q, newTg.Q, nameof(newTg.Q));
+                Assert.AreNotEqual(tg.G, newTg.G, nameof(newTg.G));
             }
         }
 
@@ -88,8 +88,8 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen.Tests.ContractResolvers
             }
             else
             {
-                Assert.IsNull(newTc.X, nameof(newTc.X));
-                Assert.IsNull(newTc.Y, nameof(newTc.Y));
+                Assert.AreNotEqual(tc.X, newTc.X, nameof(newTc.X));
+                Assert.AreNotEqual(tc.Y, newTc.Y, nameof(newTc.Y));
             }
 
             // TestPassed will have the default value when re-hydrated, check to make sure it isn't in the JSON

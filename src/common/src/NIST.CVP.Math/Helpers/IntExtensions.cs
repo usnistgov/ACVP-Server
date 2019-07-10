@@ -1,6 +1,4 @@
-﻿using System.Numerics;
-
-namespace NIST.CVP.Math.Helpers
+﻿namespace NIST.CVP.Math.Helpers
 {
     public static class IntExtensions
     {
@@ -26,7 +24,7 @@ namespace NIST.CVP.Math.Helpers
 
             return a;
         }
-
+        
         /// <summary>
         /// Takes the modulo of a value (or <see cref="int"/> expression) and ensures it is between [0, <paramref name="modulo"/> - 1]
         /// </summary>
@@ -36,16 +34,6 @@ namespace NIST.CVP.Math.Helpers
         public static int PosMod(this int value, int modulo)
         {
             return (value % modulo + modulo) % modulo;
-        }
-
-        /// <summary>
-        /// Returns a BitString representation of an integer, as 32 bits.
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public static BitString ToBitString(this int value)
-        {
-            return new BitString((BigInteger)value).PadToModulusMsb(32);
         }
     }
 }

@@ -7,7 +7,6 @@ using NIST.CVP.Crypto.Common.KAS;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Crypto.Common.KAS.Helpers;
 using NIST.CVP.Crypto.Common.KAS.Schema;
-using NIST.CVP.Math;
 
 namespace NIST.CVP.Orleans.Grains.Kas.Ffc.Helpers
 {
@@ -88,8 +87,7 @@ namespace NIST.CVP.Orleans.Grains.Kas.Ffc.Helpers
                 // modify the static public key until no longer valid
                 while (true)
                 {
-                    var mod = serverKas.Scheme.StaticKeyPair.PublicKeyY.ToPositiveBigInteger() + 2;
-                    serverKas.Scheme.StaticKeyPair.PublicKeyY = new BitString(mod);
+                    serverKas.Scheme.StaticKeyPair.PublicKeyY += 2;
                     if (!KeyValidationHelper.PerformFfcPublicKeyValidation(
                         serverKas.Scheme.DomainParameters.P,
                         serverKas.Scheme.DomainParameters.Q,
@@ -114,8 +112,7 @@ namespace NIST.CVP.Orleans.Grains.Kas.Ffc.Helpers
                 // modify the ephemeral public key until no longer valid
                 while (true)
                 {
-                    var mod = serverKas.Scheme.EphemeralKeyPair.PublicKeyY.ToPositiveBigInteger() + 2;
-                    serverKas.Scheme.EphemeralKeyPair.PublicKeyY = new BitString(mod);
+                    serverKas.Scheme.EphemeralKeyPair.PublicKeyY += 2;
                     if (!KeyValidationHelper.PerformFfcPublicKeyValidation(
                         serverKas.Scheme.DomainParameters.P,
                         serverKas.Scheme.DomainParameters.Q,
@@ -138,8 +135,7 @@ namespace NIST.CVP.Orleans.Grains.Kas.Ffc.Helpers
             {
                 result.TestPassed = false;
                 // modify the static private key to make it invalid
-                var mod = iutKas.Scheme.StaticKeyPair.PrivateKeyX.ToPositiveBigInteger() + 2; 
-                iutKas.Scheme.StaticKeyPair.PrivateKeyX = new BitString(mod);;
+                iutKas.Scheme.StaticKeyPair.PrivateKeyX += 2;
             }
         }
 
@@ -156,8 +152,7 @@ namespace NIST.CVP.Orleans.Grains.Kas.Ffc.Helpers
                 // modify the static public key until no longer valid
                 while (true)
                 {
-                    var mod = iutKas.Scheme.StaticKeyPair.PublicKeyY.ToPositiveBigInteger() + 2;
-                    iutKas.Scheme.StaticKeyPair.PublicKeyY = new BitString(mod);
+                    iutKas.Scheme.StaticKeyPair.PublicKeyY += 2;
                     if (!KeyValidationHelper.PerformFfcPublicKeyValidation(
                         iutKas.Scheme.DomainParameters.P,
                         iutKas.Scheme.DomainParameters.Q,
@@ -181,17 +176,17 @@ namespace NIST.CVP.Orleans.Grains.Kas.Ffc.Helpers
             KasResult iutResult
         )
         {
-            result.StaticPrivateKeyServer = serverKas.Scheme.StaticKeyPair?.PrivateKeyX;
-            result.StaticPublicKeyServer = serverKas.Scheme.StaticKeyPair?.PublicKeyY;
-            result.EphemeralPrivateKeyServer = serverKas.Scheme.EphemeralKeyPair?.PrivateKeyX;
-            result.EphemeralPublicKeyServer = serverKas.Scheme.EphemeralKeyPair?.PublicKeyY;
+            result.StaticPrivateKeyServer = serverKas.Scheme.StaticKeyPair?.PrivateKeyX ?? 0;
+            result.StaticPublicKeyServer = serverKas.Scheme.StaticKeyPair?.PublicKeyY ?? 0;
+            result.EphemeralPrivateKeyServer = serverKas.Scheme.EphemeralKeyPair?.PrivateKeyX ?? 0;
+            result.EphemeralPublicKeyServer = serverKas.Scheme.EphemeralKeyPair?.PublicKeyY ?? 0;
             result.DkmNonceServer = serverKas.Scheme.DkmNonce;
             result.EphemeralNonceServer = serverKas.Scheme.EphemeralNonce;
 
-            result.StaticPrivateKeyIut = iutKas?.Scheme?.StaticKeyPair?.PrivateKeyX;
-            result.StaticPublicKeyIut = iutKas?.Scheme?.StaticKeyPair?.PublicKeyY;
-            result.EphemeralPrivateKeyIut = iutKas?.Scheme?.EphemeralKeyPair?.PrivateKeyX;
-            result.EphemeralPublicKeyIut = iutKas?.Scheme?.EphemeralKeyPair?.PublicKeyY;
+            result.StaticPrivateKeyIut = iutKas?.Scheme?.StaticKeyPair?.PrivateKeyX ?? 0;
+            result.StaticPublicKeyIut = iutKas?.Scheme?.StaticKeyPair?.PublicKeyY ?? 0;
+            result.EphemeralPrivateKeyIut = iutKas?.Scheme?.EphemeralKeyPair?.PrivateKeyX ?? 0;
+            result.EphemeralPublicKeyIut = iutKas?.Scheme?.EphemeralKeyPair?.PublicKeyY ?? 0;
             result.DkmNonceIut = iutKas?.Scheme?.DkmNonce;
             result.EphemeralNonceIut = iutKas?.Scheme?.EphemeralNonce;
 
@@ -218,17 +213,17 @@ namespace NIST.CVP.Orleans.Grains.Kas.Ffc.Helpers
             KasResult iutResult
         )
         {
-            result.StaticPrivateKeyServer = serverKas.Scheme.StaticKeyPair?.PrivateKeyX;
-            result.StaticPublicKeyServer = serverKas.Scheme.StaticKeyPair?.PublicKeyY;
-            result.EphemeralPrivateKeyServer = serverKas.Scheme.EphemeralKeyPair?.PrivateKeyX;
-            result.EphemeralPublicKeyServer = serverKas.Scheme.EphemeralKeyPair?.PublicKeyY;
+            result.StaticPrivateKeyServer = serverKas.Scheme.StaticKeyPair?.PrivateKeyX ?? 0;
+            result.StaticPublicKeyServer = serverKas.Scheme.StaticKeyPair?.PublicKeyY ?? 0;
+            result.EphemeralPrivateKeyServer = serverKas.Scheme.EphemeralKeyPair?.PrivateKeyX ?? 0;
+            result.EphemeralPublicKeyServer = serverKas.Scheme.EphemeralKeyPair?.PublicKeyY ?? 0;
             result.DkmNonceServer = serverKas.Scheme.DkmNonce;
             result.EphemeralNonceServer = serverKas.Scheme.EphemeralNonce;
 
-            result.StaticPrivateKeyIut = iutKas?.Scheme?.StaticKeyPair?.PrivateKeyX;
-            result.StaticPublicKeyIut = iutKas?.Scheme?.StaticKeyPair?.PublicKeyY;
-            result.EphemeralPrivateKeyIut = iutKas?.Scheme?.EphemeralKeyPair?.PrivateKeyX;
-            result.EphemeralPublicKeyIut = iutKas?.Scheme?.EphemeralKeyPair?.PublicKeyY;
+            result.StaticPrivateKeyIut = iutKas?.Scheme?.StaticKeyPair?.PrivateKeyX ?? 0;
+            result.StaticPublicKeyIut = iutKas?.Scheme?.StaticKeyPair?.PublicKeyY ?? 0;
+            result.EphemeralPrivateKeyIut = iutKas?.Scheme?.EphemeralKeyPair?.PrivateKeyX ?? 0;
+            result.EphemeralPublicKeyIut = iutKas?.Scheme?.EphemeralKeyPair?.PublicKeyY ?? 0;
             result.DkmNonceIut = iutKas?.Scheme?.DkmNonce;
             result.EphemeralNonceIut = iutKas?.Scheme?.EphemeralNonce;
 

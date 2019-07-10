@@ -15,11 +15,11 @@ namespace NIST.CVP.Crypto.DSA.FFC
     {
         public ISha Sha { get; }
 
-        private readonly IEntropyProviderFactory _entropyFactory = new EntropyProviderFactory();
-        private readonly IEntropyProvider _entropyProvider;
+        private IEntropyProviderFactory _entropyFactory = new EntropyProviderFactory();
+        private IEntropyProvider _entropyProvider;
 
-        private readonly PQGeneratorValidatorFactory _pqGeneratorFactory = new PQGeneratorValidatorFactory();
-        private readonly GGeneratorValidatorFactory _gGeneratorFactory = new GGeneratorValidatorFactory();
+        private PQGeneratorValidatorFactory _pqGeneratorFactory = new PQGeneratorValidatorFactory();
+        private GGeneratorValidatorFactory _gGeneratorFactory = new GGeneratorValidatorFactory();
 
         public FfcDsa(ISha sha, EntropyProviderTypes entropyType = EntropyProviderTypes.Random)
         {
@@ -83,8 +83,8 @@ namespace NIST.CVP.Crypto.DSA.FFC
         /// <returns></returns>
         public FfcKeyPairGenerateResult GenerateKeyPair(FfcDomainParameters domainParameters)
         {
-            var L = domainParameters.P.BitLength;
-            var N = domainParameters.Q.BitLength;
+            var L = new BitString(domainParameters.P).BitLength;
+            var N = new BitString(domainParameters.Q).BitLength;
 
             // Shouldn't really be necessary but just in case
             if (!DSAHelper.VerifyLenPair(L, N))
@@ -95,90 +95,74 @@ namespace NIST.CVP.Crypto.DSA.FFC
             var rand = new Random800_90();
             var c = rand.GetRandomBitString(N + 64).ToPositiveBigInteger();
 
-            var x = (c % (domainParameters.Q.ToPositiveBigInteger() - 1)) + 1;
-            var y = BigInteger.ModPow(domainParameters.G.ToPositiveBigInteger(), x, domainParameters.P.ToPositiveBigInteger());
+            var x = (c % (domainParameters.Q - 1)) + 1;
+            var y = BigInteger.ModPow(domainParameters.G, x, domainParameters.P);
 
-            return new FfcKeyPairGenerateResult(new FfcKeyPair(new BitString(x), new BitString(y)));
+            return new FfcKeyPairGenerateResult(new FfcKeyPair(x, y));
         }
 
         public FfcKeyPairValidateResult ValidateKeyPair(FfcDomainParameters domainParameters, FfcKeyPair keyPair)
         {
-            var x = keyPair.PrivateKeyX.ToPositiveBigInteger();
-            var y = keyPair.PublicKeyY.ToPositiveBigInteger();
-            var p = domainParameters.P.ToPositiveBigInteger();
-            var q = domainParameters.Q.ToPositiveBigInteger();
-            var g = domainParameters.G.ToPositiveBigInteger();
-            
-            if (x <= 0 || x >= q)
+            if (keyPair.PrivateKeyX <= 0 || keyPair.PrivateKeyX >= domainParameters.Q)
             {
                 return new FfcKeyPairValidateResult("Invalid key pair, x must satisfy 0 < x < q");
             }
 
-            if (y == BigInteger.ModPow(g, x, p))
+            if (keyPair.PublicKeyY == BigInteger.ModPow(domainParameters.G, keyPair.PrivateKeyX, domainParameters.P))
             {
                 return new FfcKeyPairValidateResult();
             }
-
-            return new FfcKeyPairValidateResult("Invalid key pair, y != g^x mod p");
+            else
+            {
+                return new FfcKeyPairValidateResult("Invalid key pair, y != g^x mod p");
+            }
         }
 
         public FfcSignatureResult Sign(FfcDomainParameters domainParameters, FfcKeyPair keyPair, BitString message, bool skipHash = false)
         {
-            var x = keyPair.PrivateKeyX.ToPositiveBigInteger();
-            var p = domainParameters.P.ToPositiveBigInteger();
-            var q = domainParameters.Q.ToPositiveBigInteger();
-            var g = domainParameters.G.ToPositiveBigInteger();
-            
             BigInteger r, s;
             do
             {
-                var k = _entropyProvider.GetEntropy(1, q - 1);
-                var kInv = k.ModularInverse(q);
+                var k = _entropyProvider.GetEntropy(1, domainParameters.Q - 1);
+                var kInv = k.ModularInverse(domainParameters.Q);
 
-                r = BigInteger.ModPow(g, k, p) % q;
+                r = BigInteger.ModPow(domainParameters.G, k, domainParameters.P) % domainParameters.Q;
 
-                var zLen = System.Math.Min(Sha.HashFunction.OutputLen, domainParameters.Q.BitLength);
+                var zLen = System.Math.Min(Sha.HashFunction.OutputLen, new BitString(domainParameters.Q).BitLength);
                 var z = BitString.MSBSubstring(Sha.HashMessage(message).Digest, 0, zLen).ToPositiveBigInteger();
 
-                s = (kInv * (z + x * r)) % q;
+                s = (kInv * (z + keyPair.PrivateKeyX * r)) % domainParameters.Q;
 
             } while (r == 0 || s == 0);
 
-            return new FfcSignatureResult(new FfcSignature(new BitString(r), new BitString(s)));
+            return new FfcSignatureResult(new FfcSignature(r, s));
         }
 
         public FfcVerificationResult Verify(FfcDomainParameters domainParameters, FfcKeyPair keyPair, BitString message, FfcSignature signature, bool skipHash = false)
         {
-            var y = keyPair.PublicKeyY.ToPositiveBigInteger();
-            var p = domainParameters.P.ToPositiveBigInteger();
-            var q = domainParameters.Q.ToPositiveBigInteger();
-            var g = domainParameters.G.ToPositiveBigInteger();
-            var r = signature.R.ToPositiveBigInteger();
-            var s = signature.S.ToPositiveBigInteger();
-            
             // 1
-            if(r < 0 || r > q)
+            if(signature.R < 0 || signature.R > domainParameters.Q)
             {
                 return new FfcVerificationResult("Invalid r provided");
             }
 
-            if(s < 0 || s > q)
+            if(signature.S < 0 || signature.S > domainParameters.Q)
             {
                 return new FfcVerificationResult("Invalid s provided");
             }
 
             // 2
-            var w = s.ModularInverse(q);
-            var zLen = System.Math.Min(Sha.HashFunction.OutputLen, new BitString(q).BitLength);
+            var w = signature.S.ModularInverse(domainParameters.Q);
+            var zLen = System.Math.Min(Sha.HashFunction.OutputLen, new BitString(domainParameters.Q).BitLength);
             var z = BitString.MSBSubstring(Sha.HashMessage(message).Digest, 0, zLen).ToPositiveBigInteger();
-            var u1 = (z * w) % q;
-            var u2 = (r * w) % q;
+            var u1 = (z * w) % domainParameters.Q;
+            var u2 = (signature.R * w) % domainParameters.Q;
 
             // (g^u1 * y^u2) mod p == [(g^u1 mod p) * (y^u2 mod p)] mod p
-            var v = ((BigInteger.ModPow(g, u1, p) * BigInteger.ModPow(y, u2, p)) % p) % q;
+            var v = ((BigInteger.ModPow(domainParameters.G, u1, domainParameters.P) * BigInteger.ModPow(keyPair.PublicKeyY, u2, domainParameters.P)) % domainParameters.P) % domainParameters.Q;
 
             // 3
-            if(v != r)
+            if(v != signature.R)
             {
                 return new FfcVerificationResult("Invalid v, does not match provided r");
             }

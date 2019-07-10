@@ -6,12 +6,12 @@ namespace NIST.CVP.Common.Oracle.ResultTypes
 {
     public class DsaDomainParametersResult : IResult
     {
-        public BitString P { get; set; }
-        public BitString Q { get; set; }
+        public BigInteger P { get; set; }
+        public BigInteger Q { get; set; }
         public DomainSeed Seed { get; set; }
         public Counter Counter { get; set; }
-        public BitString G { get; set; }
-        public BitString H { get; set; }
+        public BigInteger G { get; set; }
+        public BigInteger H { get; set; }
         public BitString Index { get; set; }
     }
 }

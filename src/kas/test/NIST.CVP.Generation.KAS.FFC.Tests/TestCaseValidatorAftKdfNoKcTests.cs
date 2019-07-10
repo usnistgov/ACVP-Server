@@ -1,13 +1,12 @@
-﻿using Moq;
+﻿using System.Threading.Tasks;
+using Moq;
 using NIST.CVP.Crypto.Common.KAS;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Generation.Core.Async;
 using NIST.CVP.Generation.KAS.v1_0.FFC;
 using NIST.CVP.Math;
-using NIST.CVP.Math.Helpers;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
-using System.Threading.Tasks;
 
 namespace NIST.CVP.Generation.KAS.FFC.Tests
 {
@@ -22,10 +21,6 @@ namespace NIST.CVP.Generation.KAS.FFC.Tests
         public void Setup()
         {
             _deferredResolver = new Mock<IDeferredTestCaseResolverAsync<TestGroup, TestCase, KasResult>>();
-            _deferredResolver
-                .Setup(s => s.CompleteDeferredCryptoAsync(It.IsAny<TestGroup>(), It.IsAny<TestCase>(),
-                    It.IsAny<TestCase>()))
-                .Returns(() => Task.FromResult(new KasResult(0.ToBitString(), 1.ToBitString())));
         }
 
         [Test]
@@ -54,7 +49,7 @@ namespace NIST.CVP.Generation.KAS.FFC.Tests
         {
             var testGroup = GetData(scheme, kasRole);
             var testCase = testGroup.Tests[0];
-
+            
             _subject = new TestCaseValidatorAftKdfNoKc(testCase, testGroup, _deferredResolver.Object);
 
             _deferredResolver
@@ -98,8 +93,8 @@ namespace NIST.CVP.Generation.KAS.FFC.Tests
             var testGroup = GetData(scheme, kasRole);
             var testCase = testGroup.Tests[0];
 
-            testCase.EphemeralPublicKeyIut = 0.ToBitString();
-
+            testCase.EphemeralPublicKeyIut = 0;
+            
             _subject = new TestCaseValidatorAftKdfNoKc(testCase, testGroup, _deferredResolver.Object);
 
             var result = await _subject.ValidateAsync(testCase);
@@ -134,7 +129,7 @@ namespace NIST.CVP.Generation.KAS.FFC.Tests
             var testGroup = GetData(scheme, kasRole);
             var testCase = testGroup.Tests[0];
 
-            testCase.StaticPublicKeyIut = 0.ToBitString();
+            testCase.StaticPublicKeyIut = 0;
 
             _subject = new TestCaseValidatorAftKdfNoKc(testCase, testGroup, _deferredResolver.Object);
 
@@ -213,7 +208,7 @@ namespace NIST.CVP.Generation.KAS.FFC.Tests
 
             Assert.IsTrue(result.Result == Core.Enums.Disposition.Failed);
         }
-
+        
         [Test]
         [TestCase(FfcScheme.DhHybrid1, KeyAgreementRole.InitiatorPartyU)]
         [TestCase(FfcScheme.DhHybrid1, KeyAgreementRole.ResponderPartyV)]

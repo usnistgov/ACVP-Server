@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Numerics;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC.Enums;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
@@ -41,10 +40,10 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen.Tests
                 {
                     var tc = new TestCase
                     {
-                        P = new BitString((BigInteger)1),
-                        Q = new BitString((BigInteger)2),
-                        G = new BitString((BigInteger)3),
-                        Seed = new DomainSeed(new BitString((BigInteger)4), new BitString((BigInteger)1000), new BitString((BigInteger)2000)),
+                        P = 1,
+                        Q = 2,
+                        G = 3,
+                        Seed = new DomainSeed(4, 1000, 2000),
                         Counter = new Counter(5, 77)
                         {
                             Count = 89

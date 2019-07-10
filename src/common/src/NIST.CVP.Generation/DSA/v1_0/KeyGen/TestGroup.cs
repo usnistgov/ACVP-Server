@@ -21,23 +21,23 @@ namespace NIST.CVP.Generation.DSA.v1_0.KeyGen
         [JsonIgnore] public FfcDomainParameters DomainParams { get; set; } = new FfcDomainParameters();
 
         [JsonProperty(PropertyName = "p", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public BitString P
+        public BigInteger P
         {
-            get => DomainParams?.P;
+            get => DomainParams?.P ?? 0;
             set => DomainParams.P = value;
         }
 
         [JsonProperty(PropertyName = "q", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public BitString Q
+        public BigInteger Q
         {
-            get => DomainParams?.Q;
+            get => DomainParams?.Q ?? 0;
             set => DomainParams.Q = value;
         }
 
         [JsonProperty(PropertyName = "g", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public BitString G
+        public BigInteger G
         {
-            get => DomainParams?.G;
+            get => DomainParams?.G ?? 0;
             set => DomainParams.G = value;
         }
 
@@ -51,15 +51,15 @@ namespace NIST.CVP.Generation.DSA.v1_0.KeyGen
             switch (name.ToLower())
             {
                 case "p":
-                    P = new BitString(value);
+                    P = new BitString(value).ToPositiveBigInteger();
                     return true;
 
                 case "q":
-                    Q = new BitString(value);
+                    Q = new BitString(value).ToPositiveBigInteger();
                     return true;
 
                 case "g":
-                    G = new BitString(value);
+                    G = new BitString(value).ToPositiveBigInteger();
                     return true;
 
                 case "l":

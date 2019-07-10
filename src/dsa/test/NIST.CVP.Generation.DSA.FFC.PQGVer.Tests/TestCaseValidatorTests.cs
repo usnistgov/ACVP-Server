@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using NIST.CVP.Generation.DSA.v1_0.PqgVer;
-using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
@@ -40,8 +38,8 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer.Tests
             return new TestCase
             {
                 TestCaseId = 1,
-                P = new BitString((BigInteger)2),
-                Q = new BitString((BigInteger)3),
+                P = 2,
+                Q = 3,
                 TestPassed = shouldPass   // Says the test Core.Enums.Disposition.Passed
             };
         }

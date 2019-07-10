@@ -1,14 +1,18 @@
-﻿using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Text;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.DSA.FFC.GGeneratorValidators;
 using NIST.CVP.Crypto.DSA.FFC.PQGeneratorValidators;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Generation.DSA.v1_0.PqgGen;
 using NIST.CVP.Generation.DSA.v1_0.PqgGen.Parsers;
+using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
 using NIST.CVP.Tests.Core;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
-using System.IO;
 
 namespace NIST.CVP.Generation.DSA.FFC.PQGGen.IntegrationTests
 {
@@ -70,7 +74,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen.IntegrationTests
                         var algo = gFactory.GetGeneratorValidator(testGroup.GGenMode, sha);
 
                         var result = algo.Generate(testCase.P, testCase.Q, testCase.Seed, testCase.Index);
-                        if (!result.G.Equals(testCase.G))
+                        if (result.G != testCase.G)
                         {
                             Assert.Fail($"Could not generate TestCase: {testCase.TestCaseId}");
                         }
@@ -123,11 +127,11 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen.IntegrationTests
                         var sha = _shaFactory.GetShaInstance(testGroup.HashAlg);
 
                         var algo = pqFactory.GetGeneratorValidator(testGroup.PQGenMode, sha, EntropyProviderTypes.Testable);
-                        var seed = testCase.Seed.Seed;
+                        var seed = new BitString(testCase.Seed.Seed);
                         algo.AddEntropy(seed);
-
+                        
                         var result = algo.Generate(testGroup.L, testGroup.N, seed.BitLength);
-                        if (!result.P.Equals(testCase.P) || !result.Q.Equals(testCase.Q) || !result.Seed.GetFullSeed().Equals(testCase.Seed.GetFullSeed()))
+                        if (result.P != testCase.P || result.Q != testCase.Q || result.Seed.GetFullSeed() != testCase.Seed.GetFullSeed())
                         {
                             Assert.Fail($"Could not generate TestCase: {testCase.TestCaseId}");
                         }

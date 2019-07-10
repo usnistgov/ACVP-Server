@@ -1,19 +1,20 @@
-﻿using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC.Enums;
+﻿using System.Numerics;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC.Enums;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC
 {
     public class DomainSeed
     {
-        public BitString Seed { get; set; }
-        public BitString PSeed { get; set; }
-        public BitString QSeed { get; set; }
+        public BigInteger Seed { get; set; }
+        public BigInteger PSeed { get; set; }
+        public BigInteger QSeed { get; set; }
 
         public PrimeGenMode Mode
         {
             get
             {
-                if (PSeed != null && QSeed != null)
+                if (PSeed != BigInteger.Zero && QSeed != BigInteger.Zero)
                 {
                     return PrimeGenMode.Provable;
                 }
@@ -27,29 +28,28 @@ namespace NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC
             
         }
 
-        public DomainSeed(BitString seed)
+        public DomainSeed(BigInteger seed)
         {
             Seed = seed;
         }
 
-        public DomainSeed(BitString firstSeed, BitString pSeed, BitString qSeed)
+        public DomainSeed(BigInteger firstSeed, BigInteger pSeed, BigInteger qSeed)
         {
             Seed = firstSeed;
             PSeed = pSeed;
             QSeed = qSeed;
         }
 
-        public BitString GetFullSeed()
+        public BigInteger GetFullSeed()
         {
-            var emptyBitString = new BitString(0);
-            
-            return new BitString(0)
-                .ConcatenateBits(Seed ?? emptyBitString)
-                .ConcatenateBits(PSeed ?? emptyBitString)
-                .ConcatenateBits(QSeed ?? emptyBitString);
+            var seedBS = new BitString(Seed);
+            var pSeedBS = new BitString(PSeed);
+            var qSeedBS = new BitString(QSeed);
+
+            return BitString.ConcatenateBits(seedBS, BitString.ConcatenateBits(pSeedBS, qSeedBS)).ToPositiveBigInteger();
         }
 
-        public void ModifySeed(BitString newSeed)
+        public void ModifySeed(BigInteger newSeed)
         {
             Seed = newSeed;
         }

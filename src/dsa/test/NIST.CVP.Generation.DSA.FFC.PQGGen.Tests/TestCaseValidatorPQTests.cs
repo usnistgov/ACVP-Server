@@ -1,11 +1,9 @@
-﻿using System.Numerics;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Moq;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC.PQGeneratorValidators;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Async;
 using NIST.CVP.Generation.DSA.v1_0.PqgGen;
-using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
@@ -53,8 +51,8 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen.Tests
             return new TestCase
             {
                 TestCaseId = 1,
-                P = new BitString((BigInteger)2),
-                Q = new BitString((BigInteger)3)
+                P = 2,
+                Q = 3
             };
         }
 
