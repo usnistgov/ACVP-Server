@@ -2,6 +2,7 @@
   "vsId": 0,
   "algorithm": "DSA",
   "mode": "PQGGen",
+  "revision": "1.0",
   "isSample": true,
   "conformances": [],
   "capabilities": [

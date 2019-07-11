@@ -23,17 +23,15 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen.Tests
         [Test]
         public void KeyPropertiesReturnZeroWhenUnderlyingPropertyIsNull()
         {
-            var checkValue = new BigInteger(0);
+            _subject.DomainParams = new FfcDomainParameters(0, 0, 0);
+            _subject.Key = new FfcKeyPair(0, 0);
 
-            _subject.DomainParams = null;
-            _subject.Key = null;
-
-            Assert.AreEqual(checkValue, _subject.P, nameof(_subject.P));
-            Assert.AreEqual(checkValue, _subject.Q, nameof(_subject.Q));
-            Assert.AreEqual(checkValue, _subject.G, nameof(_subject.G));
+            Assert.IsNull(_subject.P, nameof(_subject.P));
+            Assert.IsNull(_subject.Q, nameof(_subject.Q));
+            Assert.IsNull(_subject.G, nameof(_subject.G));
             
-            Assert.AreEqual(checkValue, _subject.X, nameof(_subject.X));
-            Assert.AreEqual(checkValue, _subject.Y, nameof(_subject.Y));
+            Assert.IsNull(_subject.X, nameof(_subject.X));
+            Assert.IsNull(_subject.Y, nameof(_subject.Y));
         }
 
         [Test]
@@ -49,12 +47,12 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen.Tests
             _subject.DomainParams = new FfcDomainParameters(p, q, g);
             _subject.Key = new FfcKeyPair(x, y);
 
-            Assert.AreEqual(p, _subject.P, nameof(_subject.P));
-            Assert.AreEqual(q, _subject.Q, nameof(_subject.Q));
-            Assert.AreEqual(g, _subject.G, nameof(_subject.G));
+            Assert.AreEqual(p, _subject.P.ToPositiveBigInteger(), nameof(_subject.P));
+            Assert.AreEqual(q, _subject.Q.ToPositiveBigInteger(), nameof(_subject.Q));
+            Assert.AreEqual(g, _subject.G.ToPositiveBigInteger(), nameof(_subject.G));
 
-            Assert.AreEqual(x, _subject.X, nameof(_subject.X));
-            Assert.AreEqual(y, _subject.Y, nameof(_subject.Y));
+            Assert.AreEqual(x, _subject.X.ToPositiveBigInteger(), nameof(_subject.X));
+            Assert.AreEqual(y, _subject.Y.ToPositiveBigInteger(), nameof(_subject.Y));
         }
     }
 }

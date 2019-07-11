@@ -15,9 +15,9 @@ namespace NIST.CVP.Generation.DSA.v1_0.PqgVer
         public TestGroup ParentGroup { get; set; }
         public string Reason { get; set; }      // Needs to be a string because of PQFailureReasons type and GFailureReasons type
 
-        public BigInteger P { get; set; }
-        public BigInteger Q { get; set; }
-        public BigInteger G { get; set; }
+        public BitString P { get; set; }
+        public BitString Q { get; set; }
+        public BitString G { get; set; }
         public BigInteger H { get; set; }
 
         [JsonIgnore] public DomainSeed Seed { get; set; } = new DomainSeed();
@@ -101,15 +101,15 @@ namespace NIST.CVP.Generation.DSA.v1_0.PqgVer
             switch (name.ToLower())
             {
                 case "p":
-                    P = new BitString(value).ToPositiveBigInteger();
+                    P = new BitString(value).PadToModulusMsb(32);
                     return true;
 
                 case "q":
-                    Q = new BitString(value).ToPositiveBigInteger();
+                    Q = new BitString(value).PadToModulusMsb(32);
                     return true;
 
                 case "g":
-                    G = new BitString(value).ToPositiveBigInteger();
+                    G = new BitString(value).PadToModulusMsb(32);
                     return true;
 
                 case "h":
