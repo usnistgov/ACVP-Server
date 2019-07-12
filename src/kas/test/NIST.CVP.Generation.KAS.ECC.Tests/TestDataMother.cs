@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC.Enums;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Common.KAS.Enums;
@@ -62,20 +63,12 @@ namespace NIST.CVP.Generation.KAS.ECC.Tests
                         Tag = new BitString("01"),
                         Z = new BitString("01"),
                         IdIut = new BitString("01"),
-                        StaticPrivateKeyServer = 1,
-                        StaticPublicKeyServerX = 2,
-                        StaticPublicKeyServerY = 3,
-                        EphemeralPrivateKeyServer = 4,
-                        EphemeralPublicKeyServerX = 5,
-                        EphemeralPublicKeyServerY = 6,
+                        StaticKeyServer = new EccKeyPair(new EccPoint(1, 2), 3),
+                        EphemeralKeyServer = new EccKeyPair(new EccPoint(4, 5), 6),
+                        StaticKeyIut = new EccKeyPair(new EccPoint(1, 2), 3),
+                        EphemeralKeyIut = new EccKeyPair(new EccPoint(4, 5), 6),
                         DkmNonceServer = new BitString("01"),
                         EphemeralNonceServer = new BitString("01"),
-                        StaticPrivateKeyIut = 7,
-                        StaticPublicKeyIutX = 8,
-                        StaticPublicKeyIutY = 9,
-                        EphemeralPrivateKeyIut = 10,
-                        EphemeralPublicKeyIutX = 11,
-                        EphemeralPublicKeyIutY = 12,
                         DkmNonceIut = new BitString("0155"),
                         EphemeralNonceIut = new BitString("0144"),
                         NonceAesCcm = new BitString("0166"),

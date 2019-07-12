@@ -63,11 +63,11 @@ namespace NIST.CVP.Generation.KAS.EccComponent.Tests.ContractResolvers
             var newTc = newTg.Tests[0];
 
             Assert.AreEqual(tc.TestCaseId, newTc.TestCaseId, nameof(newTc.TestCaseId));
-            Assert.AreEqual(tc.PublicKeyIutX, newTc.PublicKeyIutX, nameof(newTc.PublicKeyIutX));
-            Assert.AreEqual(tc.PublicKeyIutY, newTc.PublicKeyIutY, nameof(newTc.PublicKeyIutY));
+            Assert.AreEqual(tc.PublicKeyIutX.ToPositiveBigInteger(), newTc.PublicKeyIutX.ToPositiveBigInteger(), nameof(newTc.PublicKeyIutX));
+            Assert.AreEqual(tc.PublicKeyIutY.ToPositiveBigInteger(), newTc.PublicKeyIutY.ToPositiveBigInteger(), nameof(newTc.PublicKeyIutY));
 
-            Assert.AreNotEqual(tc.PublicKeyServerX, newTc.PublicKeyServerX, nameof(newTc.PublicKeyServerX));
-            Assert.AreNotEqual(tc.PublicKeyServerY, newTc.PublicKeyServerY, nameof(newTc.PublicKeyServerY));
+            Assert.IsNull(newTc.PublicKeyServerX, nameof(newTc.PublicKeyServerX));
+            Assert.IsNull(newTc.PublicKeyServerY, nameof(newTc.PublicKeyServerY));
 
             
         }

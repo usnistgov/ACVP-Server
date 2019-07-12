@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Async;
 using NLog;
@@ -53,12 +54,18 @@ namespace NIST.CVP.Generation.KAS.v1_0.ECC
                     DkmNonceServer = result.DkmNonceServer,
                     EphemeralNonceIut = result.EphemeralNonceIut,
                     EphemeralNonceServer = result.EphemeralNonceServer,
-                    EphemeralPrivateKeyIut = result.EphemeralPrivateKeyIut,
-                    EphemeralPrivateKeyServer = result.EphemeralPrivateKeyServer,
-                    EphemeralPublicKeyIutX = result.EphemeralPublicKeyIutX,
-                    EphemeralPublicKeyIutY = result.EphemeralPublicKeyIutY,
-                    EphemeralPublicKeyServerX = result.EphemeralPublicKeyServerX,
-                    EphemeralPublicKeyServerY = result.EphemeralPublicKeyServerY,
+                    EphemeralKeyIut = new EccKeyPair(
+                        new EccPoint(result.EphemeralPublicKeyIutX, result.EphemeralPublicKeyIutY), 
+                        result.EphemeralPrivateKeyIut), 
+                    StaticKeyIut = new EccKeyPair(
+                        new EccPoint(result.StaticPublicKeyIutX, result.StaticPublicKeyIutY), 
+                        result.StaticPrivateKeyIut),
+                    EphemeralKeyServer = new EccKeyPair(
+                        new EccPoint(result.EphemeralPublicKeyServerX, result.EphemeralPublicKeyServerY), 
+                        result.EphemeralPrivateKeyServer), 
+                    StaticKeyServer = new EccKeyPair(
+                        new EccPoint(result.StaticPublicKeyServerX, result.StaticPublicKeyServerY), 
+                        result.StaticPrivateKeyServer),
                     HashZ = result.HashZ,
                     IdIut = result.IdIut,
                     IdIutLen = result.IdIut?.BitLength ?? 0,
@@ -67,12 +74,6 @@ namespace NIST.CVP.Generation.KAS.v1_0.ECC
                     NonceNoKc = result.NonceNoKc,
                     OiLen = result.OiLen,
                     OtherInfo = result.OtherInfo,
-                    StaticPrivateKeyIut = result.StaticPrivateKeyIut,
-                    StaticPrivateKeyServer = result.StaticPrivateKeyServer,
-                    StaticPublicKeyIutX = result.StaticPublicKeyIutX,
-                    StaticPublicKeyIutY = result.StaticPublicKeyIutY,
-                    StaticPublicKeyServerX = result.StaticPublicKeyServerX,
-                    StaticPublicKeyServerY = result.StaticPublicKeyServerY,
                     Tag = result.Tag,
                     Z = result.Z
                 };

@@ -26,12 +26,12 @@ namespace NIST.CVP.Generation.KAS.v1_0.ECC_Component
                     {
                         Curve = testGroup.Curve,
 
-                        PrivateKeyServer = serverTestCase.PrivateKeyServer,
-                        PublicKeyServerX = serverTestCase.PublicKeyIutX,
-                        PublicKeyServerY = serverTestCase.PublicKeyIutY,
+                        PrivateKeyServer = serverTestCase.KeyPairPartyServer.PrivateD,
+                        PublicKeyServerX = serverTestCase.KeyPairPartyServer.PublicQ.X,
+                        PublicKeyServerY = serverTestCase.KeyPairPartyServer.PublicQ.Y,
 
-                        PublicKeyIutX = iutTestCase.PublicKeyIutX,
-                        PublicKeyIutY = iutTestCase.PublicKeyIutY,
+                        PublicKeyIutX = iutTestCase.KeyPairPartyIut.PublicQ.X,
+                        PublicKeyIutY = iutTestCase.KeyPairPartyIut.PublicQ.Y,
                     }
                 );
 

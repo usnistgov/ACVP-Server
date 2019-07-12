@@ -30,11 +30,11 @@ namespace NIST.CVP.Generation.KAS.v1_0.ECC
                         EccScheme = serverTestGroup.Scheme,
                         EphemeralNonceIut = iutTestCase.EphemeralNonceIut,
                         EphemeralNonceServer = serverTestCase.EphemeralNonceServer,
-                        EphemeralPrivateKeyServer = serverTestCase.EphemeralPrivateKeyServer,
-                        EphemeralPublicKeyIutX = iutTestCase.EphemeralPublicKeyIutX,
-                        EphemeralPublicKeyIutY = iutTestCase.EphemeralPublicKeyIutY,
-                        EphemeralPublicKeyServerX = serverTestCase.EphemeralPublicKeyServerX,
-                        EphemeralPublicKeyServerY = serverTestCase.EphemeralPublicKeyServerY,
+                        EphemeralPrivateKeyServer = serverTestCase.EphemeralKeyServer.PrivateD,
+                        EphemeralPublicKeyIutX = iutTestCase.EphemeralKeyIut.PublicQ.X,
+                        EphemeralPublicKeyIutY = iutTestCase.EphemeralKeyIut.PublicQ.Y,
+                        EphemeralPublicKeyServerX = serverTestCase.EphemeralKeyServer.PublicQ.X,
+                        EphemeralPublicKeyServerY = serverTestCase.EphemeralKeyServer.PublicQ.Y,
                         HashFunction = serverTestGroup.HashAlg,
                         IdIut = iutTestCase.IdIut ?? serverTestGroup.IdIut,
                         IdServer = serverTestGroup.IdServer,
@@ -50,11 +50,11 @@ namespace NIST.CVP.Generation.KAS.v1_0.ECC
                         OiLen = iutTestCase.OiLen,
                         OiPattern = serverTestGroup.OiPattern,
                         OtherInfo = iutTestCase.OtherInfo,
-                        StaticPrivateKeyServer = serverTestCase.StaticPrivateKeyServer,
-                        StaticPublicKeyIutX = iutTestCase.StaticPublicKeyIutX,
-                        StaticPublicKeyIutY = iutTestCase.StaticPublicKeyIutY,
-                        StaticPublicKeyServerX = serverTestCase.StaticPublicKeyServerX,
-                        StaticPublicKeyServerY = serverTestCase.StaticPublicKeyServerY
+                        StaticPrivateKeyServer = serverTestCase.StaticKeyServer.PrivateD,
+                        StaticPublicKeyIutX = iutTestCase.StaticKeyIut.PublicQ.X,
+                        StaticPublicKeyIutY = iutTestCase.StaticKeyIut.PublicQ.Y,
+                        StaticPublicKeyServerX = serverTestCase.StaticKeyServer.PublicQ.X,
+                        StaticPublicKeyServerY = serverTestCase.StaticKeyServer.PublicQ.Y
                     }
                 );
 
