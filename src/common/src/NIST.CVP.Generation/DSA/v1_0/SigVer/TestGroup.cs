@@ -26,24 +26,24 @@ namespace NIST.CVP.Generation.DSA.v1_0.SigVer
         [JsonIgnore] public FfcDomainParameters DomainParams { get; set; } = new FfcDomainParameters();
 
         [JsonProperty(PropertyName = "p", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public BigInteger P
+        public BitString P
         {
-            get => DomainParams.P;
-            set => DomainParams.P = value;
+            get => DomainParams?.P != 0 ? new BitString(DomainParams.P, L) : null;
+            set => DomainParams.P = value.ToPositiveBigInteger();
         }
 
         [JsonProperty(PropertyName = "q", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public BigInteger Q
+        public BitString Q
         {
-            get => DomainParams.Q;
-            set => DomainParams.Q = value;
+            get => DomainParams?.Q != 0 ? new BitString(DomainParams.Q, N) : null;
+            set => DomainParams.Q = value.ToPositiveBigInteger();
         }
 
         [JsonProperty(PropertyName = "g", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public BigInteger G
+        public BitString G
         {
-            get => DomainParams.G;
-            set => DomainParams.G = value;
+            get => DomainParams?.G != 0 ? new BitString(DomainParams.G, L) : null;
+            set => DomainParams.G = value.ToPositiveBigInteger();
         }
 
         [JsonIgnore] public HashFunction HashAlg { get; set; }

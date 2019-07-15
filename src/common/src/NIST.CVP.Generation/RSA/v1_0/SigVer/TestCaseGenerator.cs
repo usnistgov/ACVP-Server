@@ -45,7 +45,7 @@ namespace NIST.CVP.Generation.RSA.v1_0.SigVer
                     Reason = new TestCaseExpectationReason(param.Reason),
                     TestPassed = result.Result,
                     Salt = result.VerifiedValue.Salt,
-                    Signature = result.VerifiedValue.Signature
+                    Signature = result.VerifiedValue.Signature?.PadToModulusMsb(group.Modulo)
                 };
 
                 return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);

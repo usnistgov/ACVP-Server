@@ -26,14 +26,14 @@ namespace NIST.CVP.Generation.EDDSA.v1_0.SigVer
         [JsonProperty(PropertyName = "d")]
         public BitString D
         {
-            get => KeyPair.PrivateD;
+            get => KeyPair?.PrivateD?.PadToModulusMsb(BitString.BITSINBYTE);
             set => KeyPair.PrivateD = value;
         }
 
         [JsonProperty(PropertyName = "q")]
         public BitString Q
         {
-            get => KeyPair.PublicQ;
+            get => KeyPair?.PublicQ?.PadToModulusMsb(BitString.BITSINBYTE);
             set => KeyPair.PublicQ = value;
         }
 
@@ -41,7 +41,7 @@ namespace NIST.CVP.Generation.EDDSA.v1_0.SigVer
         [JsonProperty(PropertyName = "signature")]
         public BitString Sig
         {
-            get => Signature.Sig;
+            get => Signature?.Sig?.PadToModulusMsb(BitString.BITSINBYTE);
             set => Signature.Sig = value;
         }
     }

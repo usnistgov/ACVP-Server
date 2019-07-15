@@ -39,9 +39,9 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer.Tests
                 {
                     tests.Add(new TestCase
                     {
-                        P = 1,
-                        Q = 2,
-                        G = 3,
+                        P = BitString.To32BitString(1),
+                        Q = BitString.To32BitString(2),
+                        G = BitString.To32BitString(3),
                         H = 4,
                         Reason = "none",
                         TestPassed = true,

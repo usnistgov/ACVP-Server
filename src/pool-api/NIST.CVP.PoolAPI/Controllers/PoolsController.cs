@@ -1,9 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using NIST.CVP.Common.Config;
-using NIST.CVP.Generation.Core.JsonConverters;
 using NIST.CVP.Pools;
 using NIST.CVP.Pools.Interfaces;
 using NIST.CVP.Pools.Models;
@@ -20,22 +16,18 @@ namespace NIST.CVP.PoolAPI.Controllers
     {
         private readonly PoolManager _poolManager;
         private bool _isFillingPool = false;
-        
-        private readonly JsonSerializerSettings _jsonSettings = new JsonSerializerSettings
-        {
-            Converters = new List<JsonConverter>
-            {
-                new BitstringConverter(),
-                new DomainConverter(),
-                new BigIntegerConverter(),
-                new StringEnumConverter()
-            },
-            Formatting = Formatting.Indented
-        };
 
-        public PoolsController(PoolManager poolManager)
+        private readonly JsonSerializerSettings _jsonSettings;
+
+        public PoolsController(PoolManager poolManager, IJsonConverterProvider jsonConverterProvider)
         {
             _poolManager = poolManager;
+            _jsonSettings = new JsonSerializerSettings
+            {
+                Converters = jsonConverterProvider.GetJsonConverters(),
+                Formatting = Formatting.Indented
+            };
+
         }
 
         [HttpPost]
@@ -119,7 +111,7 @@ namespace NIST.CVP.PoolAPI.Controllers
         public async Task<bool> SpawnJobForMostShallowPool([FromBody] int jobsToSpawn)
         {
             var result = await _poolManager.SpawnJobForMostShallowPool(jobsToSpawn);
-            
+
             return result.HasSpawnedJob;
         }
 
@@ -182,7 +174,7 @@ namespace NIST.CVP.PoolAPI.Controllers
                 }
             }
         }
-        
+
         [HttpPost]
         [Route("add")]
         // /api/pools/add
@@ -214,7 +206,7 @@ namespace NIST.CVP.PoolAPI.Controllers
                 return "";
             }
         }
-        
+
         [HttpPost]
         [Route("clean")]
         // /api/pools/clean

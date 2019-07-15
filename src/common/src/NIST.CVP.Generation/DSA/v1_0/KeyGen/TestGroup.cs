@@ -21,24 +21,24 @@ namespace NIST.CVP.Generation.DSA.v1_0.KeyGen
         [JsonIgnore] public FfcDomainParameters DomainParams { get; set; } = new FfcDomainParameters();
 
         [JsonProperty(PropertyName = "p", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public BigInteger P
+        public BitString P
         {
-            get => DomainParams?.P ?? 0;
-            set => DomainParams.P = value;
+            get => DomainParams?.P != 0 ? new BitString(DomainParams.P, L) : null;
+            set => DomainParams.P = value.ToPositiveBigInteger();
         }
 
         [JsonProperty(PropertyName = "q", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public BigInteger Q
+        public BitString Q
         {
-            get => DomainParams?.Q ?? 0;
-            set => DomainParams.Q = value;
+            get => DomainParams?.Q != 0 ? new BitString(DomainParams.Q, N) : null;
+            set => DomainParams.Q = value.ToPositiveBigInteger();
         }
 
         [JsonProperty(PropertyName = "g", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public BigInteger G
+        public BitString G
         {
-            get => DomainParams?.G ?? 0;
-            set => DomainParams.G = value;
+            get => DomainParams?.G != 0 ? new BitString(DomainParams.G, L) : null;
+            set => DomainParams.G = value.ToPositiveBigInteger();
         }
 
         public bool SetString(string name, string value)
@@ -51,15 +51,15 @@ namespace NIST.CVP.Generation.DSA.v1_0.KeyGen
             switch (name.ToLower())
             {
                 case "p":
-                    P = new BitString(value).ToPositiveBigInteger();
+                    P = new BitString(value).PadToModulusMsb(32);
                     return true;
 
                 case "q":
-                    Q = new BitString(value).ToPositiveBigInteger();
+                    Q = new BitString(value).PadToModulusMsb(32);
                     return true;
 
                 case "g":
-                    G = new BitString(value).ToPositiveBigInteger();
+                    G = new BitString(value).PadToModulusMsb(32);
                     return true;
 
                 case "l":

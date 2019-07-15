@@ -51,15 +51,15 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen.Tests.ContractResolvers
 
             if (isSample)
             {
-                Assert.AreEqual(tg.P, newTg.P, nameof(newTg.P));
-                Assert.AreEqual(tg.Q, newTg.Q, nameof(newTg.Q));
-                Assert.AreEqual(tg.G, newTg.G, nameof(newTg.G));
+                Assert.AreEqual(tg.P.ToPositiveBigInteger(), newTg.P.ToPositiveBigInteger(), nameof(newTg.P));
+                Assert.AreEqual(tg.Q.ToPositiveBigInteger(), newTg.Q.ToPositiveBigInteger(), nameof(newTg.Q));
+                Assert.AreEqual(tg.G.ToPositiveBigInteger(), newTg.G.ToPositiveBigInteger(), nameof(newTg.G));
             }
             else
             {
-                Assert.AreNotEqual(tg.P, newTg.P, nameof(newTg.P));
-                Assert.AreNotEqual(tg.Q, newTg.Q, nameof(newTg.Q));
-                Assert.AreNotEqual(tg.G, newTg.G, nameof(newTg.G));
+                Assert.IsNull(newTg.P, nameof(newTg.P));
+                Assert.IsNull(newTg.Q, nameof(newTg.Q));
+                Assert.IsNull(newTg.G, nameof(newTg.G));
             }
         }
 
@@ -83,13 +83,13 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen.Tests.ContractResolvers
 
             if (isSample)
             {
-                Assert.AreEqual(tc.X, newTc.X, nameof(newTc.X));
-                Assert.AreEqual(tc.Y, newTc.Y, nameof(newTc.Y));
+                Assert.AreEqual(tc.X.ToPositiveBigInteger(), newTc.X.ToPositiveBigInteger(), nameof(newTc.X));
+                Assert.AreEqual(tc.Y.ToPositiveBigInteger(), newTc.Y.ToPositiveBigInteger(), nameof(newTc.Y));
             }
             else
             {
-                Assert.AreNotEqual(tc.X, newTc.X, nameof(newTc.X));
-                Assert.AreNotEqual(tc.Y, newTc.Y, nameof(newTc.Y));
+                Assert.IsNull(newTc.X, nameof(newTc.X));
+                Assert.IsNull(newTc.Y, nameof(newTc.Y));
             }
 
             // TestPassed will have the default value when re-hydrated, check to make sure it isn't in the JSON

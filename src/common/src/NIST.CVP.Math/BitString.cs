@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-using NIST.CVP.Generation.Core.JsonConverters;
-using NIST.CVP.Math.Helpers;
+﻿using NIST.CVP.Math.Helpers;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -19,7 +17,6 @@ namespace NIST.CVP.Math
     ///     Everything else (bytes, hex, etc):
     ///         MSB to LSB - most significant Byte first (index 0), least significant Byte last (last index)
     /// </summary>
-    [JsonConverter(typeof(BitstringConverter))]
     public class BitString
     {
         public const int BYTESPERDIGIT = 4;
@@ -805,7 +802,7 @@ namespace NIST.CVP.Math
 
             return new BitString(new BitArray(newBits));
         }
-
+        
         /// <summary>
         /// Takes a BitString and adds LSbs to make the BitString hit a byte boundry.  
         /// Returns the original BitString if already at a byte boundry.
@@ -818,12 +815,13 @@ namespace NIST.CVP.Math
         }
 
         /// <summary>
-        /// Takes a BitString and adds LSBs to make the BitString hit (BitString % modulus = 0)
+        /// Takes a BitString and adds LSBs (or MSBs when <see cref="padOntoLsb"/> is false) to make the BitString hit (BitString % modulus = 0)
         /// </summary>
         /// <param name="bs">The BitString to pad</param>
         /// <param name="modulus">The modulus to pad the bitstring such that BitString % modulusToHit = 0</param>
+        /// <param name="padOntoLsb">When true bits are added on the least significant end, the most significant end otherwise.</param>
         /// <returns>The padded BitString</returns>
-        public static BitString PadToModulus(BitString bs, int modulus)
+        public static BitString PadToModulus(BitString bs, int modulus, bool padOntoLsb = true)
         {
             if (bs.BitLength % modulus == 0)
             {
@@ -832,13 +830,31 @@ namespace NIST.CVP.Math
 
             var bitsToAdd = (modulus - bs.BitLength % modulus);
 
-            return bs.ConcatenateBits(new BitString(bitsToAdd));
+            return padOntoLsb ? 
+                bs.ConcatenateBits(new BitString(bitsToAdd)) : 
+                new BitString(bitsToAdd).ConcatenateBits(bs);
+        }
+        
+        public static BitString PadToModulusMsb(BitString bs, int modulus)
+        {
+            return PadToModulus(bs, modulus, false);
+        }
+        
+        public BitString PadToModulus(int modulus, bool padOntoLsb = true)
+        {
+            return PadToModulus(this, modulus, padOntoLsb);
+        }
+        
+        public BitString PadToModulusMsb(int modulus)
+        {
+            return PadToModulusMsb(this, modulus);
         }
 
         public BitString Substring(int startIndex, int numberOfBits)
         {
             return Substring(this, startIndex, numberOfBits);
         }
+
 
         /// <summary>
         /// Gets a substring of bits from the MSB direction. 

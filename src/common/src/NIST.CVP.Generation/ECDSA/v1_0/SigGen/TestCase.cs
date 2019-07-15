@@ -3,6 +3,7 @@ using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using System.Numerics;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC.Helpers;
 
 namespace NIST.CVP.Generation.ECDSA.v1_0.SigGen
 {
@@ -23,18 +24,20 @@ namespace NIST.CVP.Generation.ECDSA.v1_0.SigGen
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int RandomValueLen { get; set; }
 
+        private int OrderN => ParentGroup == null ? 0 : CurveAttributesHelper.GetCurveAttribute(ParentGroup.Curve).LengthN;
+        
         [JsonIgnore] public EccSignature Signature { get; set; } = new EccSignature();
         [JsonProperty(PropertyName = "r", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public BigInteger R
+        public BitString R
         {
-            get => Signature.R;
-            set => Signature.R = value;
+            get => Signature.R != 0 ? new BitString(Signature.R, OrderN).PadToModulusMsb(BitString.BITSINBYTE) : null;
+            set => Signature.R = value.ToPositiveBigInteger();
         }
         [JsonProperty(PropertyName = "s", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public BigInteger S
+        public BitString S
         {
-            get => Signature.S;
-            set => Signature.S = value;
+            get => Signature.S != 0 ? new BitString(Signature.S, OrderN).PadToModulusMsb(BitString.BITSINBYTE) : null;
+            set => Signature.S = value.ToPositiveBigInteger();
         }
 
         // Needed for FireHoseTests

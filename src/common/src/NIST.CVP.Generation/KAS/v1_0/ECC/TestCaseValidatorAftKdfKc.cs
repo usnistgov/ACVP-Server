@@ -56,11 +56,11 @@ namespace NIST.CVP.Generation.KAS.v1_0.ECC
         {
             if (_testGroup.KeyNonceGenRequirementsIut.GeneratesStaticKeyPair)
             {
-                if (suppliedResult.StaticPublicKeyIutX == 0)
+                if (suppliedResult.StaticPublicKeyIutX == null)
                 {
                     errors.Add($"Expected {nameof(suppliedResult.StaticPublicKeyIutX)} but was not supplied");
                 }
-                if (suppliedResult.StaticPublicKeyIutY == 0)
+                if (suppliedResult.StaticPublicKeyIutY == null)
                 {
                     errors.Add($"Expected {nameof(suppliedResult.StaticPublicKeyIutY)} but was not supplied");
                 }
@@ -68,11 +68,11 @@ namespace NIST.CVP.Generation.KAS.v1_0.ECC
 
             if (_testGroup.KeyNonceGenRequirementsIut.GeneratesEphemeralKeyPair)
             {
-                if (suppliedResult.EphemeralPublicKeyIutX == 0)
+                if (suppliedResult.EphemeralPublicKeyIutX == null)
                 {
                     errors.Add($"Expected {nameof(suppliedResult.EphemeralPublicKeyIutX)} but was not supplied");
                 }
-                if (suppliedResult.EphemeralPublicKeyIutY == 0)
+                if (suppliedResult.EphemeralPublicKeyIutY == null)
                 {
                     errors.Add($"Expected {nameof(suppliedResult.EphemeralPublicKeyIutY)} but was not supplied");
                 }

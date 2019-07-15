@@ -45,6 +45,7 @@ namespace NIST.CVP.Generation.RSA.v1_0.DpComponent
                     try
                     {
                         var result = await _oracle.GetRsaDecryptionPrimitiveAsync(param);
+                        algoArrayResponse.Modulo = group.Modulo;
                         algoArrayResponse.Key = result.Key;
                         algoArrayResponse.CipherText = result.CipherText;
                         algoArrayResponse.PlainText = result.PlainText;

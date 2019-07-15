@@ -24,28 +24,28 @@ namespace NIST.CVP.Generation.DSA.v1_0.PqgGen
         /// </summary>
         [JsonIgnore] public DomainSeed Seed { get; set; } = new DomainSeed();
         [JsonProperty(PropertyName = "domainSeed")]
-        public BigInteger DomainSeed
+        public BitString DomainSeed
         {
-            get => Seed.Seed;
-            set => Seed.Seed = value;
+            get => Seed.Seed != 0 ? new BitString(Seed.Seed).PadToModulusMsb(32) : null;
+            set => Seed.Seed = value.ToPositiveBigInteger();
         }
         [JsonProperty(PropertyName = "pSeed")]
-        public BigInteger PSeed
+        public BitString PSeed
         {
-            get => Seed.PSeed;
-            set => Seed.PSeed = value;
+            get => Seed.PSeed != 0 ? new BitString(Seed.PSeed).PadToModulusMsb(32) : null;
+            set => Seed.PSeed = value.ToPositiveBigInteger();
         }
         [JsonProperty(PropertyName = "qSeed")]
-        public BigInteger QSeed
+        public BitString QSeed
         {
-            get => Seed.QSeed;
-            set => Seed.QSeed = value;
+            get => Seed.QSeed != 0 ? new BitString(Seed.QSeed).PadToModulusMsb(32) : null;
+            set => Seed.QSeed = value.ToPositiveBigInteger();
         }
         [JsonProperty(PropertyName = "fullSeed")]
-        public BigInteger FullSeed
+        public BitString FullSeed
         {
-            get => Seed.GetFullSeed();
-            set => Seed.Seed = value;
+            get => Seed.GetFullSeed() != 0 ? new BitString(Seed.GetFullSeed()).PadToModulusMsb(32) : null;
+            set => Seed.Seed = value.ToPositiveBigInteger();
         }
 
         [JsonIgnore] public Counter Counter { get; set; } = new Counter();

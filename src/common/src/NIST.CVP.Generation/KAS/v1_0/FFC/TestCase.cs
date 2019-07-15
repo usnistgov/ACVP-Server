@@ -1,5 +1,6 @@
 ﻿using System.Numerics;
 using Newtonsoft.Json;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
 using NIST.CVP.Crypto.Common.KAS.Schema;
 using NIST.CVP.Math;
 
@@ -7,30 +8,75 @@ namespace NIST.CVP.Generation.KAS.v1_0.FFC
 {
     public class TestCase : TestCaseBase<TestGroup, TestCase, KasDsaAlgoAttributesFfc>
     {
+        [JsonIgnore] public FfcKeyPair StaticKeyServer = new FfcKeyPair();
+
+        private int l => ParentGroup?.L ?? 0;
+        private int n => ParentGroup?.N ?? 0;
+        
         [JsonProperty(PropertyName = "staticPrivateServer", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public BigInteger StaticPrivateKeyServer { get; set; }
+        public BitString StaticPrivateKeyServer
+        {
+            get => StaticKeyServer.PrivateKeyX != 0 ? new BitString(StaticKeyServer.PrivateKeyX, n) : null;
+            set => StaticKeyServer.PrivateKeyX = value.ToPositiveBigInteger();
+        }
 
         [JsonProperty(PropertyName = "staticPublicServer", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public BigInteger StaticPublicKeyServer { get; set; }
+        public BitString StaticPublicKeyServer
+        {
+            get => StaticKeyServer.PublicKeyY != 0 ? new BitString(StaticKeyServer.PublicKeyY, l) : null;
+            set => StaticKeyServer.PublicKeyY = value.ToPositiveBigInteger();
+        }
 
+        
+        [JsonIgnore] public FfcKeyPair EphemeralKeyServer = new FfcKeyPair();
+        
         [JsonProperty(PropertyName = "ephemeralPrivateServer", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public BigInteger EphemeralPrivateKeyServer { get; set; }
+        public BitString EphemeralPrivateKeyServer
+        {
+            get => EphemeralKeyServer.PrivateKeyX != 0 ? new BitString(EphemeralKeyServer.PrivateKeyX, n) : null;
+            set => EphemeralKeyServer.PrivateKeyX = value.ToPositiveBigInteger();
+        }
 
         [JsonProperty(PropertyName = "ephemeralPublicServer", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public BigInteger EphemeralPublicKeyServer { get; set; }
+        public BitString EphemeralPublicKeyServer
+        {
+            get => EphemeralKeyServer.PublicKeyY != 0 ? new BitString(EphemeralKeyServer.PublicKeyY, l) : null;
+            set => EphemeralKeyServer.PublicKeyY = value.ToPositiveBigInteger();
+        }
 
+        
+        [JsonIgnore] public FfcKeyPair StaticKeyIut = new FfcKeyPair();
 
         [JsonProperty(PropertyName = "staticPrivateIut", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public BigInteger StaticPrivateKeyIut { get; set; }
+        public BitString StaticPrivateKeyIut
+        {
+            get => StaticKeyIut.PrivateKeyX != 0 ? new BitString(StaticKeyIut.PrivateKeyX, n) : null;
+            set => StaticKeyIut.PrivateKeyX = value.ToPositiveBigInteger();
+        }
 
         [JsonProperty(PropertyName = "staticPublicIut", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public BigInteger StaticPublicKeyIut { get; set; }
+        public BitString StaticPublicKeyIut
+        {
+            get => StaticKeyIut.PublicKeyY != 0 ? new BitString(StaticKeyIut.PublicKeyY, l) : null;
+            set => StaticKeyIut.PublicKeyY = value.ToPositiveBigInteger();
+        }
 
+        
+        [JsonIgnore] public FfcKeyPair EphemeralKeyIut = new FfcKeyPair();
+        
         [JsonProperty(PropertyName = "ephemeralPrivateIut", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public BigInteger EphemeralPrivateKeyIut { get; set; }
+        public BitString EphemeralPrivateKeyIut
+        {
+            get => EphemeralKeyIut.PrivateKeyX != 0 ? new BitString(EphemeralKeyIut.PrivateKeyX, n) : null;
+            set => EphemeralKeyIut.PrivateKeyX = value.ToPositiveBigInteger();
+        }
 
         [JsonProperty(PropertyName = "ephemeralPublicIut", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public BigInteger EphemeralPublicKeyIut { get; set; }
+        public BitString EphemeralPublicKeyIut
+        {
+            get => EphemeralKeyIut.PublicKeyY != 0 ? new BitString(EphemeralKeyIut.PublicKeyY, l) : null;
+            set => EphemeralKeyIut.PublicKeyY = value.ToPositiveBigInteger();
+        }
 
         
         public bool SetString(string name, string value)
@@ -47,16 +93,16 @@ namespace NIST.CVP.Generation.KAS.v1_0.FFC
                     TestCaseId = result;
                     return true;
                 case "xstatcavs":
-                    StaticPrivateKeyServer = new BitString(value).ToPositiveBigInteger();
+                    StaticPrivateKeyServer = new BitString(value);
                     return true;
                 case "ystatcavs":
-                    StaticPublicKeyServer = new BitString(value).ToPositiveBigInteger();
+                    StaticPublicKeyServer = new BitString(value);
                     return true;
                 case "xephemcavs":
-                    EphemeralPrivateKeyServer = new BitString(value).ToPositiveBigInteger();
+                    EphemeralPrivateKeyServer = new BitString(value);
                     return true;
                 case "yephemcavs":
-                    EphemeralPublicKeyServer = new BitString(value).ToPositiveBigInteger();
+                    EphemeralPublicKeyServer = new BitString(value);
                     return true;
                 case "noncedkmcavs":
                     DkmNonceServer = new BitString(value);
@@ -65,16 +111,16 @@ namespace NIST.CVP.Generation.KAS.v1_0.FFC
                     EphemeralNonceServer = new BitString(value);
                     break;
                 case "xstatiut":
-                    StaticPrivateKeyIut = new BitString(value).ToPositiveBigInteger();
+                    StaticPrivateKeyIut = new BitString(value);
                     return true;
                 case "ystatiut":
-                    StaticPublicKeyIut = new BitString(value).ToPositiveBigInteger();
+                    StaticPublicKeyIut = new BitString(value);
                     return true;
                 case "xephemiut":
-                    EphemeralPrivateKeyIut = new BitString(value).ToPositiveBigInteger();
+                    EphemeralPrivateKeyIut = new BitString(value);
                     return true;
                 case "yephemiut":
-                    EphemeralPublicKeyIut = new BitString(value).ToPositiveBigInteger();
+                    EphemeralPublicKeyIut = new BitString(value);
                     return true;
                 case "noncedkmiut":
                     DkmNonceIut = new BitString(value);

@@ -57,9 +57,9 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen.Tests.ContractResolvers
             }
             else
             {
-                Assert.AreNotEqual(tg.D, newTg.D, nameof(newTg.D));
-                Assert.AreNotEqual(tg.Qx, newTg.Qx, nameof(newTg.Qx));
-                Assert.AreNotEqual(tg.Qy, newTg.Qy, nameof(newTg.Qy));
+                Assert.IsNull(tg.D, nameof(newTg.D));
+                Assert.IsNull(tg.Qx, nameof(newTg.Qx));
+                Assert.IsNull(tg.Qy, nameof(newTg.Qy));
             }
 
             Assert.IsFalse(newTg.IsMessageRandomized, nameof(newTg.IsMessageRandomized));
@@ -92,8 +92,8 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen.Tests.ContractResolvers
             }
             else
             {
-                Assert.AreNotEqual(tc.R, newTc.R, nameof(newTc.R));
-                Assert.AreNotEqual(tc.S, newTc.S, nameof(newTc.S));
+                Assert.IsNull(tc.R, nameof(newTc.R));
+                Assert.IsNull(tc.S, nameof(newTc.S));
             }
 
             Assert.IsNull(newTc.RandomValue, nameof(newTc.RandomValue));
@@ -128,9 +128,9 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen.Tests.ContractResolvers
             }
             else
             {
-                Assert.AreNotEqual(tg.D, newTg.D, nameof(newTg.D));
-                Assert.AreNotEqual(tg.Qx, newTg.Qx, nameof(newTg.Qx));
-                Assert.AreNotEqual(tg.Qy, newTg.Qy, nameof(newTg.Qy));
+                Assert.IsNull(tg.D, nameof(newTg.D));
+                Assert.IsNull(tg.Qx, nameof(newTg.Qx));
+                Assert.IsNull(tg.Qy, nameof(newTg.Qy));
             }
 
             Assert.IsTrue(newTg.IsMessageRandomized, nameof(newTg.IsMessageRandomized));
@@ -164,8 +164,8 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen.Tests.ContractResolvers
             }
             else
             {
-                Assert.AreNotEqual(tc.R, newTc.R, nameof(newTc.R));
-                Assert.AreNotEqual(tc.S, newTc.S, nameof(newTc.S));
+                Assert.IsNull(tc.R, nameof(newTc.R));
+                Assert.IsNull(tc.S, nameof(newTc.S));
             }
 
             Assert.IsNotNull(newTc.RandomValue, nameof(newTc.RandomValue));

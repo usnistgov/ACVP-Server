@@ -1,5 +1,6 @@
 ﻿using System.Numerics;
 using Newtonsoft.Json;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Crypto.Common.KAS.Helpers;
 using NIST.CVP.Crypto.Common.KAS.Schema;
@@ -13,15 +14,30 @@ namespace NIST.CVP.Generation.KAS.v1_0.FFC
 
         public FfcParameterSet ParmSet { get; set; }
 
+        public int L { get; set; }
+        public int N { get; set; }
+        [JsonIgnore] public FfcDomainParameters DomainParams { get; set; } = new FfcDomainParameters();
 
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public BigInteger P { get; set; }
+        public BitString P
+        {
+            get => DomainParams?.P != 0 ? new BitString(DomainParams.P, L) : null;
+            set => DomainParams.P = value.ToPositiveBigInteger();
+        }
 
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public BigInteger Q { get; set; }
+        public BitString Q
+        {
+            get => DomainParams?.Q != 0 ? new BitString(DomainParams.Q, N) : null;
+            set => DomainParams.Q = value.ToPositiveBigInteger();
+        }
 
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public BigInteger G { get; set; }
+        public BitString G
+        {
+            get => DomainParams?.G != 0 ? new BitString(DomainParams.G, L) : null;
+            set => DomainParams.G = value.ToPositiveBigInteger();
+        }
 
         public override KasDsaAlgoAttributesFfc KasDsaAlgoAttributes => 
             new KasDsaAlgoAttributesFfc(Scheme, ParmSet);
@@ -50,13 +66,13 @@ namespace NIST.CVP.Generation.KAS.v1_0.FFC
             switch (name.ToLower())
             {
                 case "p":
-                    P = new BitString(value).ToPositiveBigInteger();
+                    P = new BitString(value);
                     return true;
                 case "q":
-                    Q = new BitString(value).ToPositiveBigInteger();
+                    Q = new BitString(value);
                     return true;
                 case "g":
-                    G = new BitString(value).ToPositiveBigInteger();
+                    G = new BitString(value);
                     return true;
             }
             return false;

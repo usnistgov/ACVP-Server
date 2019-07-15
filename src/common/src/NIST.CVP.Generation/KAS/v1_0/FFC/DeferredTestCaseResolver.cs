@@ -23,18 +23,18 @@ namespace NIST.CVP.Generation.KAS.v1_0.FFC
             {
                 var result = await _oracle.CompleteDeferredKasTestAsync(new KasAftDeferredParametersFfc()
                     {
-                        P = serverTestGroup.P,
-                        Q = serverTestGroup.Q,
-                        G = serverTestGroup.G,
+                        P = serverTestGroup.DomainParams.P,
+                        Q = serverTestGroup.DomainParams.Q,
+                        G = serverTestGroup.DomainParams.G,
                         DkmNonceIut = iutTestCase.DkmNonceIut,
                         DkmNonceServer = serverTestCase.DkmNonceServer,
                         FfcParameterSet = serverTestGroup.ParmSet,
                         FfcScheme = serverTestGroup.Scheme,
                         EphemeralNonceIut = iutTestCase.EphemeralNonceIut,
                         EphemeralNonceServer = serverTestCase.EphemeralNonceServer,
-                        EphemeralPrivateKeyServer = serverTestCase.EphemeralPrivateKeyServer,
-                        EphemeralPublicKeyIut = iutTestCase.EphemeralPublicKeyIut,
-                        EphemeralPublicKeyServer = serverTestCase.EphemeralPublicKeyServer,
+                        EphemeralPrivateKeyServer = serverTestCase.EphemeralKeyServer.PrivateKeyX,
+                        EphemeralPublicKeyIut = iutTestCase.EphemeralKeyIut.PublicKeyY,
+                        EphemeralPublicKeyServer = serverTestCase.EphemeralKeyServer.PublicKeyY,
                         HashFunction = serverTestGroup.HashAlg,
                         IdIut = iutTestCase.IdIut ?? serverTestGroup.IdIut,
                         IdServer = serverTestGroup.IdServer,
@@ -50,9 +50,9 @@ namespace NIST.CVP.Generation.KAS.v1_0.FFC
                         OiLen = iutTestCase.OiLen,
                         OiPattern = serverTestGroup.OiPattern,
                         OtherInfo = iutTestCase.OtherInfo,
-                        StaticPrivateKeyServer = serverTestCase.StaticPrivateKeyServer,
-                        StaticPublicKeyIut = iutTestCase.StaticPublicKeyIut,
-                        StaticPublicKeyServer = serverTestCase.StaticPublicKeyServer
+                        StaticPrivateKeyServer = serverTestCase.StaticKeyServer.PrivateKeyX,
+                        StaticPublicKeyIut = iutTestCase.StaticKeyIut.PublicKeyY,
+                        StaticPublicKeyServer = serverTestCase.StaticKeyServer.PublicKeyY
                     }
                 );
 
