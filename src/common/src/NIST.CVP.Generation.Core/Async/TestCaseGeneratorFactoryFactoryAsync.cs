@@ -1,7 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Options;
+using NIST.CVP.Common.Config;
 using NIST.CVP.Common.Enums;
+using NIST.CVP.Common.ExtensionMethods;
+using NLog;
 
 namespace NIST.CVP.Generation.Core.Async
 {
@@ -10,11 +15,21 @@ namespace NIST.CVP.Generation.Core.Async
         where TTestGroup : ITestGroup<TTestGroup, TTestCase>
         where TTestCase : ITestCase<TTestGroup, TTestCase>
     {
-        private readonly ITestCaseGeneratorFactoryAsync<TTestGroup, TTestCase> _testCaseGeneratorFactory;
+        private const int ThrottleDelayInMilliseconds = 1000;
 
-        public TestCaseGeneratorFactoryFactoryAsync(ITestCaseGeneratorFactoryAsync<TTestGroup, TTestCase> iTestCaseGeneratorFactory)
+        private readonly ITestCaseGeneratorFactoryAsync<TTestGroup, TTestCase> _testCaseGeneratorFactory;
+        private readonly int _maximumWorkToQueue;
+        private readonly object _lockCounter = new object();
+
+        private int _queuedWorkCounter;
+        private int _totalWorkQueued;
+        
+        public TestCaseGeneratorFactoryFactoryAsync(
+            ITestCaseGeneratorFactoryAsync<TTestGroup, TTestCase> iTestCaseGeneratorFactory,
+            IOptions<OrleansConfig> orleansConfig)
         {
             _testCaseGeneratorFactory = iTestCaseGeneratorFactory;
+            _maximumWorkToQueue = orleansConfig.Value.MaxWorkItemsToQueuePerGenValInstance;
         }
 
         public GenerateResponse BuildTestCases(TTestVectorSet testVector)
@@ -30,7 +45,7 @@ namespace NIST.CVP.Generation.Core.Async
             var tasks = new Dictionary<
                 TTestGroup, List<Task<TestCaseGenerateResponse<TTestGroup, TTestCase>>>
             >();
-
+            
             // for every test group, get a generator,
             // and start tasks attributed to the group for creating test cases
             foreach (var group in testVector.TestGroups.Select(g => g))
@@ -50,10 +65,15 @@ namespace NIST.CVP.Generation.Core.Async
                 
                 for (var caseNo = 0; caseNo < generator.NumberOfTestCasesToGenerate; ++caseNo)
                 {
-                    groupTasks.Add(generator.GenerateAsync(group, testVector.IsSample, caseNo));
+                    QueueWork(testVector, groupTasks, generator, @group, caseNo).FireAndForget();
+                }
+                
+                while (groupTasks.Count != generator.NumberOfTestCasesToGenerate)
+                {
+                    await Task.Delay(ThrottleDelayInMilliseconds);
                 }
             }
-
+            
             int testId = 1;
             // for each group
             foreach (var keyValuePair in tasks)
@@ -76,5 +96,48 @@ namespace NIST.CVP.Generation.Core.Async
 
             return new GenerateResponse();
         }
+
+        private async Task QueueWork(TTestVectorSet testVector, List<Task<TestCaseGenerateResponse<TTestGroup, TTestCase>>> groupTasks, ITestCaseGeneratorAsync<TTestGroup, TTestCase> generator,
+            TTestGroup @group, int caseNo)
+        {
+            while (true)
+            {
+                if (TryLock())
+                {
+                    var task = generator.GenerateAsync(@group, testVector.IsSample, caseNo);
+                    groupTasks.Add(task);
+
+                    await task;
+
+                    lock (_lockCounter)
+                    {
+                        _queuedWorkCounter--;
+                        _logger.Debug($"Task has completed.  Currently {_queuedWorkCounter} of {_maximumWorkToQueue} tasks are queued.");
+                        return;
+                    }
+                }
+                
+                _logger.Debug($"No additional work can be queued, trying again.");
+            }
+        }
+        
+        private bool TryLock()
+        {
+            lock (_lockCounter)
+            {
+                if (_queuedWorkCounter < _maximumWorkToQueue)
+                {
+                    _queuedWorkCounter++;
+                    _totalWorkQueued++;
+                    _logger.Debug($"Enqueueing task {_totalWorkQueued}.  Currently {_queuedWorkCounter} of {_maximumWorkToQueue} tasks are queued.");
+
+                    return true;
+                }
+
+                return false;
+            }
+        }
+        
+        private static ILogger _logger = LogManager.GetCurrentClassLogger();
     }
 }
