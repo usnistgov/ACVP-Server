@@ -1,5 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.Extensions.Options;
+using Moq;
+using NIST.CVP.Common.Config;
 using NIST.CVP.Generation.Core.Async;
 using NIST.CVP.Generation.Core.Enums;
 using NIST.CVP.Generation.Core.Tests.Fakes;
@@ -11,12 +15,27 @@ namespace NIST.CVP.Generation.Core.Tests.Async
     [TestFixture, UnitTest]
     public class ResultValidatorAsyncTests
     {
+        private Mock<IOptions<OrleansConfig>> _orleansConfig;
+        private ResultValidatorAsync<FakeTestGroup, FakeTestCase> _subject;
+
+        [SetUp]
+        public void Setup()
+        {
+            var orleansConfig = new OrleansConfig()
+            {
+                MaxWorkItemsToQueuePerGenValInstance = 1000
+            };
+            _orleansConfig = new Mock<IOptions<OrleansConfig>>();
+            _orleansConfig.Setup(s => s.Value).Returns(orleansConfig);
+
+            _subject = new ResultValidatorAsync<FakeTestGroup, FakeTestCase>(_orleansConfig.Object);
+        }
+        
         [Test]
         public void ShouldReturnValidation()
         {
-            var subject = new ResultValidatorAsync<FakeTestGroup, FakeTestCase>();
-            var valdiation = subject.ValidateResults(new List<ITestCaseValidatorAsync<FakeTestGroup, FakeTestCase>>(), new List<FakeTestGroup>(), false);
-            Assert.IsNotNull(valdiation);
+            var validation = _subject.ValidateResults(new List<ITestCaseValidatorAsync<FakeTestGroup, FakeTestCase>>(), new List<FakeTestGroup>(), false);
+            Assert.IsNotNull(validation);
         }
 
         [Test]
@@ -30,8 +49,7 @@ namespace NIST.CVP.Generation.Core.Tests.Async
                 validators.Add(new FakeTestCaseValidator<FakeTestGroup, FakeTestCase>(Disposition.Passed) {TestCaseId = idx+1});
             }
 
-            var subject = new ResultValidatorAsync<FakeTestGroup, FakeTestCase>();
-            var validation = subject.ValidateResults(validators, new List<FakeTestGroup>(), false);
+            var validation = _subject.ValidateResults(validators, new List<FakeTestGroup>(), false);
 
             Assume.That(validation != null);
             Assert.AreEqual(count, validation.Validations.Count);
@@ -40,9 +58,8 @@ namespace NIST.CVP.Generation.Core.Tests.Async
         [Test]
         public void ShouldMarkMissingIfNoMatchingResultPresent()
         {
-            var subject = new ResultValidatorAsync<FakeTestGroup, FakeTestCase>();
             var validation =
-                subject.ValidateResults(
+                _subject.ValidateResults(
                     new List<ITestCaseValidatorAsync<FakeTestGroup, FakeTestCase>>
                     {
                         new FakeTestCaseValidator<FakeTestGroup, FakeTestCase>(Disposition.Passed) {TestCaseId = 1}
@@ -63,9 +80,8 @@ namespace NIST.CVP.Generation.Core.Tests.Async
         [Test]
         public void ShouldMarkPassedForValidResult()
         {
-            var subject = new ResultValidatorAsync<FakeTestGroup, FakeTestCase>();
             var validation =
-                subject.ValidateResults(
+                _subject.ValidateResults(
                     new List<ITestCaseValidatorAsync<FakeTestGroup, FakeTestCase>>
                     {
                         new FakeTestCaseValidator<FakeTestGroup, FakeTestCase>(Disposition.Passed) {TestCaseId = 1}
@@ -86,9 +102,8 @@ namespace NIST.CVP.Generation.Core.Tests.Async
         [Test]
         public void ShouldMarkFailedForInvalidResult()
         {
-            var subject = new ResultValidatorAsync<FakeTestGroup, FakeTestCase>();
             var validation =
-                subject.ValidateResults(
+                _subject.ValidateResults(
                     new List<ITestCaseValidatorAsync<FakeTestGroup, FakeTestCase>>
                     {
                         new FakeTestCaseValidator<FakeTestGroup, FakeTestCase>(Disposition.Failed) {TestCaseId = 1}
@@ -109,9 +124,8 @@ namespace NIST.CVP.Generation.Core.Tests.Async
         [Test]
         public void ShouldMarkAllResultsProperly()
         {
-            var subject = new ResultValidatorAsync<FakeTestGroup, FakeTestCase>();
             var validation =
-                subject.ValidateResults(
+                _subject.ValidateResults(
                     new List<ITestCaseValidatorAsync<FakeTestGroup, FakeTestCase>>
                     {
                         new FakeTestCaseValidator<FakeTestGroup, FakeTestCase>(Disposition.Failed) {TestCaseId = 1},
@@ -137,6 +151,51 @@ namespace NIST.CVP.Generation.Core.Tests.Async
             
             var thirdResultValidation = validation.Validations.FirstOrDefault(v => v.TestCaseId == 3);
             Assert.AreEqual(Disposition.Missing, thirdResultValidation.Result);
+        }
+        
+        [Test]
+        [TestCase(5, 10)] // less than max
+        [TestCase(15, 5)] // 3x max (will need to wait a few times)
+        [TestCase(500, 100)] // 5x max, larger max, will need to wait a few times
+        [TestCase(499, 102)] // maxQueue and number to queue aren't evenly divisible
+        public void ShouldEnqueueWorkUpToMaxAmount(int numberToQueue, int maxQueue)
+        {
+            var orleansConfig = new OrleansConfig()
+            {
+                MaxWorkItemsToQueuePerGenValInstance = maxQueue
+            };
+            _orleansConfig.Setup(s => s.Value).Returns(orleansConfig);
+            var validation = new Mock<ITestCaseValidatorAsync<FakeTestGroup, FakeTestCase>>();
+            validation
+                .Setup(s => s.ValidateAsync(It.IsAny<FakeTestCase>(), It.IsAny<bool>()))
+                .Returns(async () =>
+                {
+                    await Task.Delay(1000);
+                    return new TestCaseValidation();
+                });
+            
+            _subject = new ResultValidatorAsync<FakeTestGroup, FakeTestCase>(_orleansConfig.Object);
+
+            var validators = new List<ITestCaseValidatorAsync<FakeTestGroup, FakeTestCase>>();
+            var testGroup = new FakeTestGroup()
+            {
+                Tests = new List<FakeTestCase>() 
+            };
+            for (var i = 0; i < numberToQueue; i++)
+            {
+                validators.Add(new FakeTestCaseValidator<FakeTestGroup, FakeTestCase>(Disposition.Passed)
+                {
+                    TestCaseId = i
+                });
+                testGroup.Tests.Add(new FakeTestCase()
+                {
+                    TestCaseId = i
+                });
+            }
+            
+            var result = _subject.ValidateResults(validators, new [] { testGroup }, false);
+            
+            Assert.AreEqual(numberToQueue, result.Validations.Count());
         }
     }
 }
