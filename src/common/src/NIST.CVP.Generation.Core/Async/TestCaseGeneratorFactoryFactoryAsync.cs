@@ -112,7 +112,7 @@ namespace NIST.CVP.Generation.Core.Async
                     lock (_lockCounter)
                     {
                         _queuedWorkCounter--;
-                        _logger.Debug($"Task has completed.  Currently {_queuedWorkCounter} of {_maximumWorkToQueue} tasks are queued.");
+                        _logger.Debug($"Generation Task has completed.  Currently {_queuedWorkCounter} of {_maximumWorkToQueue} tasks are queued.");
                         return;
                     }
                 }
@@ -129,7 +129,7 @@ namespace NIST.CVP.Generation.Core.Async
                 {
                     _queuedWorkCounter++;
                     _totalWorkQueued++;
-                    _logger.Debug($"Enqueueing task {_totalWorkQueued}.  Currently {_queuedWorkCounter} of {_maximumWorkToQueue} tasks are queued.");
+                    _logger.Debug($"Enqueueing generation task {_totalWorkQueued}.  Currently {_queuedWorkCounter} of {_maximumWorkToQueue} tasks are queued.");
 
                     return true;
                 }
