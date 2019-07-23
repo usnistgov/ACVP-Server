@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Common.KAS.Enums;
-using NIST.CVP.Crypto.Common.KAS.Fakes;
+using NIST.CVP.Crypto.KAS.Fakes;
 using NIST.CVP.Crypto.KAS.KDF;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Math;

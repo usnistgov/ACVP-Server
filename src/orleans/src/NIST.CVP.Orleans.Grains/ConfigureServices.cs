@@ -168,6 +168,9 @@ namespace NIST.CVP.Orleans.Grains
             svc.AddSingleton<IHmacFactory, HmacFactory>();
             svc.AddSingleton<IFastHmacFactory, FastHmacFactory>();
 
+            svc.AddSingleton<INoKeyConfirmationMacDataCreator, NoKeyConfirmationMacDataCreator>();
+            svc.AddSingleton<IKeyConfirmationMacDataCreator, KeyConfirmationMacDataCreator>();
+            
             svc.AddTransient<IMacParametersBuilder, MacParametersBuilder>();
             svc.AddSingleton<IKeyConfirmationFactory, KeyConfirmationFactory>();
             svc.AddSingleton<INoKeyConfirmationFactory, NoKeyConfirmationFactory>();

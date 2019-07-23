@@ -11,7 +11,12 @@ namespace NIST.CVP.Crypto.KAS.KC
     {
         private readonly IAeadModeBlockCipher _ccm;
 
-        public KeyConfirmationAesCcm(IAeadModeBlockCipher ccm, IKeyConfirmationParameters keyConfirmationParameters)
+        public KeyConfirmationAesCcm(
+            IKeyConfirmationMacDataCreator macDataCreator, 
+            IKeyConfirmationParameters keyConfirmationParameters,
+            IAeadModeBlockCipher ccm 
+            )
+            : base(macDataCreator, keyConfirmationParameters)
         {
             _ccm = ccm;
             _keyConfirmationParameters = keyConfirmationParameters;

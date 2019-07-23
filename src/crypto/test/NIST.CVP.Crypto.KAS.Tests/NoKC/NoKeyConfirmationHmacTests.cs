@@ -134,7 +134,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.NoKC
 
             NoKeyConfirmationParameters p =
                 new NoKeyConfirmationParameters(keyAgreementMacType, macLength, dkm, nonce);
-            _subject = new NoKeyConfirmationHmac(p, _algoFactory.GetHmacInstance(new HashFunction(modeValue, digestSize)));
+            _subject = new NoKeyConfirmationHmac(new NoKeyConfirmationMacDataCreator(), p, _algoFactory.GetHmacInstance(new HashFunction(modeValue, digestSize)));
 
             var result = _subject.ComputeMac();
 

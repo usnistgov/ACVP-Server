@@ -3,9 +3,9 @@ using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
 using NIST.CVP.Crypto.Common.KAS;
 using NIST.CVP.Crypto.Common.KAS.Builders;
 using NIST.CVP.Crypto.Common.KAS.Enums;
-using NIST.CVP.Crypto.Common.KAS.Fakes;
 using NIST.CVP.Crypto.Common.KAS.Helpers;
 using NIST.CVP.Crypto.Common.KAS.Schema;
+using NIST.CVP.Crypto.KAS.Fakes;
 using NIST.CVP.Math.Entropy;
 
 namespace NIST.CVP.Orleans.Grains.Kas.Ecc

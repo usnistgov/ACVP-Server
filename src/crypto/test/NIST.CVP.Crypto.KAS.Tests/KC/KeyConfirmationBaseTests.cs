@@ -13,9 +13,15 @@ namespace NIST.CVP.Crypto.KAS.Tests.KC
     {
         private class FakeKeyConfirmationBase : KeyConfirmationBase
         {
-            public BitString GetMacData(IKeyConfirmationParameters keyConfirmationParameters)
+            public FakeKeyConfirmationBase(IKeyConfirmationMacDataCreator macDataCreator, IKeyConfirmationParameters keyConfirmationParameters)
+                : base(macDataCreator, keyConfirmationParameters)
             {
-                return GenerateMacData(keyConfirmationParameters);
+                
+            }
+            
+            public BitString GetMacData()
+            {
+                return _macDataCreator.GetMacData(_keyConfirmationParameters);
             }
 
             protected override BitString Mac(BitString macData)
@@ -25,12 +31,6 @@ namespace NIST.CVP.Crypto.KAS.Tests.KC
         }
 
         private FakeKeyConfirmationBase _subject;
-
-        [SetUp]
-        public void Setup()
-        {
-            _subject = new FakeKeyConfirmationBase();
-        }
 
         private static object[] _macTestData = new object[]
         {
@@ -403,7 +403,8 @@ namespace NIST.CVP.Crypto.KAS.Tests.KC
                 new BitString(0)
             );
 
-            var result = _subject.GetMacData(p);
+            _subject = new FakeKeyConfirmationBase(new KeyConfirmationMacDataCreator(), p);
+            var result = _subject.GetMacData();
 
             Assert.AreEqual(expectedMacData.ToHex(), result.ToHex());
         }
