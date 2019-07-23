@@ -6,11 +6,11 @@ using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Common.KAS;
 using NIST.CVP.Crypto.Common.KAS.Builders;
 using NIST.CVP.Crypto.Common.KAS.Enums;
-using NIST.CVP.Crypto.Common.KAS.Fakes;
 using NIST.CVP.Crypto.Common.KAS.KC;
 using NIST.CVP.Crypto.Common.KAS.KDF;
 using NIST.CVP.Crypto.Common.KAS.NoKC;
 using NIST.CVP.Crypto.Common.KAS.Schema;
+using NIST.CVP.Crypto.KAS.Fakes;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
 
@@ -98,13 +98,13 @@ namespace NIST.CVP.Orleans.Grains.Kas
             if (param.KasValTestDisposition == KasValTestDisposition.FailChangedMacData)
             {
                 result.TestPassed = false;
-                noKeyConfirmationFactory = new FakeNoKeyConfirmationFactory_BadMacData(noKeyConfirmationFactory);
+                noKeyConfirmationFactory = new FakeNoKeyConfirmationFactory_BadMacData();
             }
             IKeyConfirmationFactory keyConfirmationFactory = _keyConfirmationFactory;
             if (param.KasValTestDisposition == KasValTestDisposition.FailChangedMacData)
             {
                 result.TestPassed = false;
-                keyConfirmationFactory = new FakeKeyConfirmationFactory_BadMacData(keyConfirmationFactory);
+                keyConfirmationFactory = new FakeKeyConfirmationFactory_BadMacData();
             }
 
             var uParty = GetKasInstance(

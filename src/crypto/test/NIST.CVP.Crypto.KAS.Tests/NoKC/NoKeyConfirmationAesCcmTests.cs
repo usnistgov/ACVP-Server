@@ -121,7 +121,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.NoKC
         {
             NoKeyConfirmationParameters p =
                 new NoKeyConfirmationParameters(KeyAgreementMacType.AesCcm, macLength, dkm, nonce, ccmNonce);
-            _subject = new NoKeyConfirmationAesCcm(p, _algo);
+            _subject = new NoKeyConfirmationAesCcm(new NoKeyConfirmationMacDataCreator(), p, _algo);
 
             var result = _subject.ComputeMac();
 

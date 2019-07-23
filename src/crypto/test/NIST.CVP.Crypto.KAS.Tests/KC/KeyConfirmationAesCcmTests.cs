@@ -116,7 +116,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.KC
                 nonce
             );
 
-            _subject = new KeyConfirmationAesCcm(ccm, p);
+            _subject = new KeyConfirmationAesCcm(new KeyConfirmationMacDataCreator(), p, ccm);
 
             var result = _subject.ComputeMac();
 

@@ -9,8 +9,11 @@ namespace NIST.CVP.Crypto.KAS.NoKC
     {
         private readonly ICmac Algo;
 
-        public NoKeyConfirmationCmac(INoKeyConfirmationParameters noKeyConfirmationParameters, ICmac algo) 
-            : base(noKeyConfirmationParameters)
+        public NoKeyConfirmationCmac(
+            INoKeyConfirmationMacDataCreator macDataCreator, 
+            INoKeyConfirmationParameters noKeyConfirmationParameters, 
+            ICmac algo) 
+            : base(macDataCreator, noKeyConfirmationParameters)
         {
             Algo = algo;
         }
