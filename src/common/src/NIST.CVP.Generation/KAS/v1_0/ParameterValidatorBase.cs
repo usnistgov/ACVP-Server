@@ -200,18 +200,28 @@ namespace NIST.CVP.Generation.KAS.v1_0
 
                 if (macOption.AesCcm == null && macOption.Cmac == null && macOption.HmacSha2_D224 == null &&
                     macOption.HmacSha2_D256 == null && macOption.HmacSha2_D384 == null &&
-                    macOption.HmacSha2_D512 == null)
+                    macOption.HmacSha2_D512 == null && macOption.HmacSha2_D512_T224 == null && macOption.HmacSha2_D512_T256 == null &&
+                    macOption.HmacSha3_D224 == null && macOption.HmacSha3_D256 == null && macOption.HmacSha3_D384 == null && macOption.HmacSha3_D512 == null)
                 {
                     errorResults.Add($"At least one valid {nameof(macOption)} is required");
                     return;
                 }
 
                 ValidateMacOptions(macOption.AesCcm, minMacLength, minMacKeyLength, errorResults);
+                
                 ValidateMacOptions(macOption.Cmac, minMacLength, minMacKeyLength, errorResults);
+                
                 ValidateMacOptions(macOption.HmacSha2_D224, minMacLength, minMacKeyLength, errorResults);
                 ValidateMacOptions(macOption.HmacSha2_D256, minMacLength, minMacKeyLength, errorResults);
                 ValidateMacOptions(macOption.HmacSha2_D384, minMacLength, minMacKeyLength, errorResults);
                 ValidateMacOptions(macOption.HmacSha2_D512, minMacLength, minMacKeyLength, errorResults);
+                ValidateMacOptions(macOption.HmacSha2_D512_T224, minMacLength, minMacKeyLength, errorResults);
+                ValidateMacOptions(macOption.HmacSha2_D512_T256, minMacLength, minMacKeyLength, errorResults);
+                
+                ValidateMacOptions(macOption.HmacSha3_D224, minMacLength, minMacKeyLength, errorResults);
+                ValidateMacOptions(macOption.HmacSha3_D256, minMacLength, minMacKeyLength, errorResults);
+                ValidateMacOptions(macOption.HmacSha3_D384, minMacLength, minMacKeyLength, errorResults);
+                ValidateMacOptions(macOption.HmacSha3_D512, minMacLength, minMacKeyLength, errorResults);
             }
             else
             {

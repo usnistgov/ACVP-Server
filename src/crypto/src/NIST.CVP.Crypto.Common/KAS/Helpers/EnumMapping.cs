@@ -14,25 +14,50 @@ namespace NIST.CVP.Crypto.Common.KAS.Helpers
         /// <param name="digestSize">The equivalent digest size</param>
         public static void GetHashFunctionOptions(KeyAgreementMacType keyAgreementMacType, ref ModeValues modeValue, ref DigestSizes digestSize)
         {
-            // Always the case (at least for now)
-            modeValue = ModeValues.SHA2;
-
             switch (keyAgreementMacType)
             {
                 case KeyAgreementMacType.HmacSha2D224:
+                    modeValue = ModeValues.SHA2;
                     digestSize = DigestSizes.d224;
                     break;
                 case KeyAgreementMacType.HmacSha2D256:
+                    modeValue = ModeValues.SHA2;
                     digestSize = DigestSizes.d256;
                     break;
                 case KeyAgreementMacType.HmacSha2D384:
+                    modeValue = ModeValues.SHA2;
                     digestSize = DigestSizes.d384;
                     break;
                 case KeyAgreementMacType.HmacSha2D512:
+                    modeValue = ModeValues.SHA2;
+                    digestSize = DigestSizes.d512;
+                    break;
+                case KeyAgreementMacType.HmacSha2D512_T224:
+                    modeValue = ModeValues.SHA2;
+                    digestSize = DigestSizes.d512t224;
+                    break;
+                case KeyAgreementMacType.HmacSha2D512_T256:
+                    modeValue = ModeValues.SHA2;
+                    digestSize = DigestSizes.d512t256;
+                    break;
+                case KeyAgreementMacType.HmacSha3D224:
+                    modeValue = ModeValues.SHA3;
+                    digestSize = DigestSizes.d224;
+                    break;
+                case KeyAgreementMacType.HmacSha3D256:
+                    modeValue = ModeValues.SHA3;
+                    digestSize = DigestSizes.d256;
+                    break;
+                case KeyAgreementMacType.HmacSha3D384:
+                    modeValue = ModeValues.SHA3;
+                    digestSize = DigestSizes.d384;
+                    break;
+                case KeyAgreementMacType.HmacSha3D512:
+                    modeValue = ModeValues.SHA3;
                     digestSize = DigestSizes.d512;
                     break;
                 default:
-                    throw new ArgumentException(nameof(keyAgreementMacType));
+                    throw new ArgumentException($"{typeof(EnumMapping)}, {nameof(keyAgreementMacType)}");
             }
         }
     }

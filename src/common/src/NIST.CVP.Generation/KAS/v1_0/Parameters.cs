@@ -361,6 +361,18 @@ namespace NIST.CVP.Generation.KAS.v1_0
         public MacOptionHmacSha2_d384 HmacSha2_D384 { get; set; }
         [JsonProperty(PropertyName = "HMAC-SHA2-512")]
         public MacOptionHmacSha2_d512 HmacSha2_D512 { get; set; }
+        [JsonProperty(PropertyName = "HMAC-SHA2-512/224")]
+        public MacOptionHmacSha2_d512_t224 HmacSha2_D512_T224 { get; set; }
+        [JsonProperty(PropertyName = "HMAC-SHA2-512/256")]
+        public MacOptionHmacSha2_d512_t256 HmacSha2_D512_T256 { get; set; }
+        [JsonProperty(PropertyName = "HMAC-SHA3-224")]
+        public MacOptionHmacSha3_d224 HmacSha3_D224 { get; set; }
+        [JsonProperty(PropertyName = "HMAC-SHA3-256")]
+        public MacOptionHmacSha3_d256 HmacSha3_D256 { get; set; }
+        [JsonProperty(PropertyName = "HMAC-SHA3-384")]
+        public MacOptionHmacSha3_d384 HmacSha3_D384 { get; set; }
+        [JsonProperty(PropertyName = "HMAC-SHA3-512")]
+        public MacOptionHmacSha3_d512 HmacSha3_D512 { get; set; }
     }
 
     /// <summary>
@@ -403,6 +415,36 @@ namespace NIST.CVP.Generation.KAS.v1_0
     /// Hmac Sha2 512
     /// </summary>
     public class MacOptionHmacSha2_d512 : MacOptionsBase { }
+    /// <inheritdoc />
+    /// <summary>
+    /// Hmac Sha2 512/224
+    /// </summary>
+    public class MacOptionHmacSha2_d512_t224 : MacOptionsBase { }
+    /// <inheritdoc />
+    /// <summary>
+    /// Hmac Sha2 512/256
+    /// </summary>
+    public class MacOptionHmacSha2_d512_t256 : MacOptionsBase { }
+    /// <inheritdoc />
+    /// <summary>
+    /// Hmac Sha3-224
+    /// </summary>
+    public class MacOptionHmacSha3_d224 : MacOptionsBase { }
+    /// <inheritdoc />
+    /// <summary>
+    /// Hmac Sha3-256
+    /// </summary>
+    public class MacOptionHmacSha3_d256 : MacOptionsBase { }
+    /// <inheritdoc />
+    /// <summary>
+    /// Hmac Sha3-384
+    /// </summary>
+    public class MacOptionHmacSha3_d384 : MacOptionsBase { }
+    /// <inheritdoc />
+    /// <summary>
+    /// Hmac Sha3 512
+    /// </summary>
+    public class MacOptionHmacSha3_d512 : MacOptionsBase { }
 
     /// <summary>
     /// The key confirmation options
