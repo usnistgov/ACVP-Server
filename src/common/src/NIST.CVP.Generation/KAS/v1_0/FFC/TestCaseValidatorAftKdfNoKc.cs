@@ -56,7 +56,7 @@ namespace NIST.CVP.Generation.KAS.v1_0.FFC
         {
             if (_testGroup.KeyNonceGenRequirementsIut.GeneratesStaticKeyPair)
             {
-                if (suppliedResult.StaticPublicKeyIut == 0)
+                if (suppliedResult.StaticPublicKeyIut == null)
                 {
                     errors.Add($"Expected {nameof(suppliedResult.StaticPublicKeyIut)} but was not supplied");
                 }
@@ -64,7 +64,7 @@ namespace NIST.CVP.Generation.KAS.v1_0.FFC
 
             if (_testGroup.KeyNonceGenRequirementsIut.GeneratesEphemeralKeyPair)
             {
-                if (suppliedResult.EphemeralPublicKeyIut == 0)
+                if (suppliedResult.EphemeralPublicKeyIut == null)
                 {
                     errors.Add($"Expected {nameof(suppliedResult.EphemeralPublicKeyIut)} but was not supplied");
                 }

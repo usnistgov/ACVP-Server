@@ -1,10 +1,10 @@
-﻿using System;
+﻿using NIST.CVP.Math.Helpers;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
+using NUnit.Framework;
+using System;
 using System.Collections;
 using System.Linq;
-using NUnit.Framework;
 using System.Numerics;
-using NIST.CVP.Math.Helpers;
-using NIST.CVP.Tests.Core.TestCategoryAttributes;
 
 namespace NIST.CVP.Math.Tests
 {
@@ -160,7 +160,7 @@ namespace NIST.CVP.Math.Tests
             var bigint = BigInteger.Parse(bigIntDec);
 
             // Act
-            var bs = new BitString(bigint, bitLength % 8 == 0 ? bitLength :  bitLength + 8 - bitLength % 8, false);
+            var bs = new BitString(bigint, bitLength % 8 == 0 ? bitLength : bitLength + 8 - bitLength % 8, false);
 
             // Assert
             Assert.AreEqual(bigint, bs.ToPositiveBigInteger());
@@ -330,7 +330,7 @@ namespace NIST.CVP.Math.Tests
         public void ShouldSetLeastSignificantByteAtLastIndex()
         {
             BitString subject = new BitString(128);
-            subject[subject.BitLength/8-1] = 255;
+            subject[subject.BitLength / 8 - 1] = 255;
 
             var results = subject.ToBytes();
             Assert.AreEqual(255, results.Last(), "last index");
@@ -563,7 +563,7 @@ namespace NIST.CVP.Math.Tests
         {
             // Arrange
             BitString bs = new BitString(0);
-            
+
             // Act
             var subject = bs.ToBytes();
 
@@ -792,6 +792,16 @@ namespace NIST.CVP.Math.Tests
             {
                 Assert.AreEqual(expectedResult[i], results.Bits[i]);
             }
+        }
+
+        [Test]
+        public void ShouldConcatenateBitsNumberOfTimes()
+        {
+            var baseBs = new BitString(8);
+            var bitsToAppend = new BitString(new byte[] { 0x01 });
+            var resultBs = baseBs.ConcatenateBits(bitsToAppend, 4);
+
+            Assert.AreEqual("0001010101", resultBs.ToHex());
         }
         #endregion ConcatenateBits
 
@@ -1031,22 +1041,24 @@ namespace NIST.CVP.Math.Tests
 
         #region PadToModulus
         [Test]
-        [TestCase(8, "FF", 4, "F0", 8)]
-        [TestCase(8, "FF", 8, "FF", 8)]
-        [TestCase(8, "FF", 7, "FE", 8)]
-        [TestCase(16, "FF", 4, "F000", 16)]
-        [TestCase(16, "FF", 8, "FF00", 16)]
-        [TestCase(16, "FF", 7, "FE00", 16)]
-        public void ShouldPadToModulusBoundryOrReturnOriginalIfAtModulusBoundry(int modulus, string hex, int length, string expectedHex, int expectedLength)
+        [TestCase(8, "FF", 4, true, "F0", 8)]
+        [TestCase(8, "FF", 8, true, "FF", 8)]
+        [TestCase(8, "FF", 7, true, "FE", 8)]
+        [TestCase(16, "FF", 4, true, "F000", 16)]
+        [TestCase(16, "FF", 8, true, "FF00", 16)]
+        [TestCase(16, "FF", 7, true, "FE00", 16)]
+        [TestCase(16, "FF", 8, false, "00FF", 16)]
+        public void ShouldPadToModulusBoundryOrReturnOriginalIfAtModulusBoundry(int modulus, string hex, int length, bool padLsb, string expectedHex, int expectedLength)
         {
             var hexBs = new BitString(hex, length);
             var expectedBs = new BitString(expectedHex);
 
-            var result = BitString.PadToModulus(hexBs, modulus);
+            var result = BitString.PadToModulus(hexBs, modulus, padLsb);
 
             Assert.AreEqual(expectedLength, result.BitLength, nameof(expectedLength));
             Assert.AreEqual(expectedBs, result, nameof(expectedHex));
         }
+
         #endregion PadToModulus
 
         #region XOR
@@ -1146,12 +1158,12 @@ namespace NIST.CVP.Math.Tests
         [TestCase(
             "1234",
             "ABCD",
-            "B9F9"    
+            "B9F9"
         )]
         [TestCase(
             "1234567890",
             "ABCDEABCDE",
-            "B9F9BCC44E"    
+            "B9F9BCC44E"
         )]
         [TestCase(
             "0001",
@@ -1513,9 +1525,9 @@ namespace NIST.CVP.Math.Tests
             new bool[] { true, false, false, false, true, false }
         )]
         [TestCase(
-            new bool[] { true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
+            new bool[] { true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false },
             3,
-            new bool[] { false, false, false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false}    
+            new bool[] { false, false, false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false }
         )]
         public void MSBRotateShouldShiftBitsAndReturnNewBitString(bool[] bits, int distance, bool[] expectedBits)
         {
@@ -1734,6 +1746,15 @@ namespace NIST.CVP.Math.Tests
 
             Assert.GreaterOrEqual(result, (BigInteger)0);       // Verify result > 0
             Assert.AreEqual(expectedBigInt, result);
+        }
+        
+        [Test]
+        [TestCase("FF", "FF")]
+        [TestCase("00FF", "FF")]
+        public void ToPositiveBigIntegerFromHexReturnsCorrectValue(string hex, string expectedHex)
+        {
+            var bigInt = new BitString(hex).ToPositiveBigInteger();
+            Assert.AreEqual(new BitString(bigInt), new BitString(expectedHex));
         }
         #endregion ToPositiveBigInteger
 
@@ -1999,7 +2020,7 @@ namespace NIST.CVP.Math.Tests
             new object[]
             {
                 new BitString("CAFECAFE"),
-                new BitString("CAFECAFE"), 
+                new BitString("CAFECAFE"),
             },
         };
 

@@ -19,10 +19,10 @@ namespace NIST.CVP.Generation.RSA.v1_0.SpComponent
         public BitString Message { get; set; }
         public BitString Signature { get; set; }
 
-        public BigInteger N
+        public BitString N
         {
-            get => Key.PubKey.N;
-            set => Key.PubKey.N = value;
+            get => new BitString(Key.PubKey.N, ParentGroup?.Modulo ?? 0);
+            set => Key.PubKey.N = value.ToPositiveBigInteger();
         }
 
         public BigInteger E

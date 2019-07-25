@@ -21,7 +21,7 @@ namespace NIST.CVP.Generation.KMAC.v1_0
                         TestType = TEST_TYPE,
                         KeyLengths = parameters.KeyLen.GetDeepCopy(),
                         MacLengths = parameters.MacLen.GetDeepCopy(),
-                        MessageLength = digestSize,
+                        MsgLengths = parameters.MsgLen.GetDeepCopy(),
                         HexCustomization = parameters.HexCustomization,
                         XOF = xof
                     };

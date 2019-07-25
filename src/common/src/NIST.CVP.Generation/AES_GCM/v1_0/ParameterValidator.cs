@@ -1,14 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using NIST.CVP.Common;
 using NIST.CVP.Common.ExtensionMethods;
+using NIST.CVP.Common.Helpers;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Math.Domain;
+using System;
+using System.Collections.Generic;
 
 namespace NIST.CVP.Generation.AES_GCM.v1_0
 {
     public class ParameterValidator : ParameterValidatorBase, IParameterValidator<Parameters>
     {
         // @@@ better way to do this without having to redefine valid values in tests?
-   
+
         public static int[] VALID_KEY_SIZES = new int[] { 128, 192, 256 };
         public static int[] VALID_TAG_LENGTHS = new int[] { 32, 64, 96, 104, 112, 120, 128 };
         public static string[] VALID_DIRECTIONS = new string[] { "encrypt", "decrypt" };
@@ -20,10 +23,13 @@ namespace NIST.CVP.Generation.AES_GCM.v1_0
         public static int VALID_MAX_AAD = 65536;
         public static int VALID_MIN_IV = 8;
         public static int VALID_MAX_IV = 1024;
+        private AlgoMode _algoMode;
 
         public ParameterValidateResponse Validate(Parameters parameters)
         {
             var errorResults = new List<string>();
+            _algoMode = AlgoModeHelpers.GetAlgoModeFromAlgoAndMode(parameters.Algorithm, parameters.Mode, parameters.Revision);
+
             ValidateKeySizes(parameters, errorResults);
             ValidateDirection(parameters, errorResults);
             ValidateTagSizes(parameters, errorResults);
@@ -34,8 +40,15 @@ namespace NIST.CVP.Generation.AES_GCM.v1_0
             return new ParameterValidateResponse(errorResults);
         }
 
-        private void ValidatePlainText(Parameters parameters,  List<string> errorResults)
+        private void ValidatePlainText(Parameters parameters, List<string> errorResults)
         {
+            // GMAC is equivalent to GCM, but always uses a 0 length payload.
+            if (_algoMode == AlgoMode.AES_GMAC_v1_0)
+            {
+                parameters.PayloadLen = new MathDomain().AddSegment(new ValueDomainSegment(0));
+                return;
+            }
+
             var segmentCheck = ValidateSegmentCountGreaterThanZero(parameters.PayloadLen, "PtLen Domain");
             errorResults.AddIfNotNullOrEmpty(segmentCheck);
             if (!string.IsNullOrEmpty(segmentCheck))
@@ -55,8 +68,8 @@ namespace NIST.CVP.Generation.AES_GCM.v1_0
             var modCheck = ValidateMultipleOf(parameters.PayloadLen, 8, "PtLen Modulus");
             errorResults.AddIfNotNullOrEmpty(modCheck);
         }
-        
-        private void ValidateKeySizes(Parameters parameters,  List<string> errorResults)
+
+        private void ValidateKeySizes(Parameters parameters, List<string> errorResults)
         {
             var result = ValidateArray(parameters.KeyLen, VALID_KEY_SIZES, "Key Sizes");
             if (!string.IsNullOrEmpty(result))
@@ -65,7 +78,7 @@ namespace NIST.CVP.Generation.AES_GCM.v1_0
             }
         }
 
-        private void ValidateDirection(Parameters parameters,  List<string> errorResults)
+        private void ValidateDirection(Parameters parameters, List<string> errorResults)
         {
             string result = ValidateArray(parameters.Direction, VALID_DIRECTIONS, "Direction");
             if (!string.IsNullOrEmpty(result))
@@ -74,7 +87,7 @@ namespace NIST.CVP.Generation.AES_GCM.v1_0
             }
         }
 
-        private void ValidateTagSizes(Parameters parameters,  List<string> errorResults)
+        private void ValidateTagSizes(Parameters parameters, List<string> errorResults)
         {
             var segmentCheck = ValidateSegmentCountGreaterThanZero(parameters.TagLen, "TagLen Domain");
             errorResults.AddIfNotNullOrEmpty(segmentCheck);
@@ -103,7 +116,7 @@ namespace NIST.CVP.Generation.AES_GCM.v1_0
             errorResults.AddIfNotNullOrEmpty(modCheck);
         }
 
-        private void ValidateAAD(Parameters parameters,  List<string> errorResults)
+        private void ValidateAAD(Parameters parameters, List<string> errorResults)
         {
             var segmentCheck = ValidateSegmentCountGreaterThanZero(parameters.AadLen, "AadLen Domain");
             errorResults.AddIfNotNullOrEmpty(segmentCheck);
@@ -125,7 +138,7 @@ namespace NIST.CVP.Generation.AES_GCM.v1_0
             errorResults.AddIfNotNullOrEmpty(modCheck);
         }
 
-        private void ValidateIV(Parameters parameters,  List<string> errorResults)
+        private void ValidateIV(Parameters parameters, List<string> errorResults)
         {
             var segmentCheck = ValidateSegmentCountGreaterThanZero(parameters.IvLen, "ivLen Domain");
             errorResults.AddIfNotNullOrEmpty(segmentCheck);

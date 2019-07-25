@@ -70,15 +70,15 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyGen.Tests.ContractResolvers
 
             if (isSample)
             {
-                Assert.AreEqual(tc.D, newTc.D, nameof(newTc.D));
-                Assert.AreEqual(tc.Qx, newTc.Qx, nameof(newTc.Qx));
-                Assert.AreEqual(tc.Qy, newTc.Qy, nameof(newTc.Qy));
+                Assert.AreEqual(tc.D.ToPositiveBigInteger(), newTc.D.ToPositiveBigInteger(), nameof(newTc.D));
+                Assert.AreEqual(tc.Qx.ToPositiveBigInteger(), newTc.Qx.ToPositiveBigInteger(), nameof(newTc.Qx));
+                Assert.AreEqual(tc.Qy.ToPositiveBigInteger(), newTc.Qy.ToPositiveBigInteger(), nameof(newTc.Qy));
             }
             else
             {
-                Assert.AreNotEqual(tc.D, newTc.D, nameof(newTc.D));
-                Assert.AreNotEqual(tc.Qx, newTc.Qx, nameof(newTc.Qx));
-                Assert.AreNotEqual(tc.Qy, newTc.Qy, nameof(newTc.Qy));
+                Assert.IsNull(tc.D, nameof(newTc.D));
+                Assert.IsNull(tc.Qx, nameof(newTc.Qx));
+                Assert.IsNull(tc.Qy, nameof(newTc.Qy));
             }
 
             // TestPassed will have the default value when re-hydrated, check to make sure it isn't in the JSON

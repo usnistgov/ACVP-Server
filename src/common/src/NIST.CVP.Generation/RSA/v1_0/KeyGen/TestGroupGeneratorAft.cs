@@ -21,7 +21,7 @@ namespace NIST.CVP.Generation.RSA.v1_0.KeyGen
                 var pubExpMode = EnumHelpers.GetEnumFromEnumDescription<PublicExponentModes>(parameters.PubExpMode);
                 var keyFormat = EnumHelpers.GetEnumFromEnumDescription<PrivateKeyModes>(parameters.KeyFormat);
 
-                var pubExpVal = new BitString(0);
+                BitString pubExpVal = null;
                 if (pubExpMode == PublicExponentModes.Fixed)
                 {
                     pubExpVal = new BitString(parameters.FixedPubExp);

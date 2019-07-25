@@ -48,10 +48,10 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen.Tests.ContractResolvers
             Assert.AreEqual(tg.TestGroupId, newTg.TestGroupId, nameof(newTg.TestGroupId));
             Assert.AreEqual(tg.Tests.Count, newTg.Tests.Count, nameof(newTg.Tests));
 
-            Assert.AreEqual(tg.P, newTg.P, nameof(newTg.P));
-            Assert.AreEqual(tg.Q, newTg.Q, nameof(newTg.Q));
-            Assert.AreEqual(tg.G, newTg.G, nameof(newTg.G));
-            Assert.AreEqual(tg.Y, newTg.Y, nameof(newTg.Y));
+            Assert.AreEqual(tg.P.ToPositiveBigInteger(), newTg.P.ToPositiveBigInteger(), nameof(newTg.P));
+            Assert.AreEqual(tg.Q.ToPositiveBigInteger(), newTg.Q.ToPositiveBigInteger(), nameof(newTg.Q));
+            Assert.AreEqual(tg.G.ToPositiveBigInteger(), newTg.G.ToPositiveBigInteger(), nameof(newTg.G));
+            Assert.AreEqual(tg.Y.ToPositiveBigInteger(), newTg.Y.ToPositiveBigInteger(), nameof(newTg.Y));
 
             Assert.IsFalse(newTg.IsMessageRandomized, nameof(newTg.IsMessageRandomized));
         }
@@ -97,10 +97,10 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen.Tests.ContractResolvers
             Assert.AreEqual(tg.TestGroupId, newTg.TestGroupId, nameof(newTg.TestGroupId));
             Assert.AreEqual(tg.Tests.Count, newTg.Tests.Count, nameof(newTg.Tests));
 
-            Assert.AreEqual(tg.P, newTg.P, nameof(newTg.P));
-            Assert.AreEqual(tg.Q, newTg.Q, nameof(newTg.Q));
-            Assert.AreEqual(tg.G, newTg.G, nameof(newTg.G));
-            Assert.AreEqual(tg.Y, newTg.Y, nameof(newTg.Y));
+            Assert.AreEqual(tg.P.ToPositiveBigInteger(), newTg.P.ToPositiveBigInteger(), nameof(newTg.P));
+            Assert.AreEqual(tg.Q.ToPositiveBigInteger(), newTg.Q.ToPositiveBigInteger(), nameof(newTg.Q));
+            Assert.AreEqual(tg.G.ToPositiveBigInteger(), newTg.G.ToPositiveBigInteger(), nameof(newTg.G));
+            Assert.AreEqual(tg.Y.ToPositiveBigInteger(), newTg.Y.ToPositiveBigInteger(), nameof(newTg.Y));
 
             Assert.IsTrue(newTg.IsMessageRandomized, nameof(newTg.IsMessageRandomized));
         }

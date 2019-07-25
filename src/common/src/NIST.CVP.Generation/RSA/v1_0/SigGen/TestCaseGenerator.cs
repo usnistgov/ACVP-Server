@@ -6,6 +6,7 @@ using NIST.CVP.Generation.Core.Async;
 using NLog;
 using System;
 using System.Threading.Tasks;
+using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.RSA.v1_0.SigGen
 {
@@ -20,7 +21,7 @@ namespace NIST.CVP.Generation.RSA.v1_0.SigGen
             _oracle = oracle;
         }
 
-        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample)
+        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample, int caseNo = 0)
         {
             if (isSample)
             {
@@ -54,7 +55,7 @@ namespace NIST.CVP.Generation.RSA.v1_0.SigGen
                     Message = result.Message,
                     RandomValue = result.RandomValue,
                     RandomValueLen = result.RandomValue?.BitLength ?? 0,
-                    Signature = result.Signature,
+                    Signature = result.Signature?.PadToModulusMsb(@group.Modulo),
                     Salt = result.Salt
                 };
 

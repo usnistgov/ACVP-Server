@@ -20,7 +20,7 @@ namespace NIST.CVP.Generation.AES_CTR.v1_0
             _oracle = oracle;
         }
 
-        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample)
+        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample, int caseNo = 0)
         {
             // This is a little hacky... but single block CTR is the same as OFB. So we can get past the awkward factory
             // TODO fix this up

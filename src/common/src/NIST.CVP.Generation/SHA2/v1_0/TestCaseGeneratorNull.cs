@@ -6,7 +6,7 @@ namespace NIST.CVP.Generation.SHA2.v1_0
 {
     public class TestCaseGeneratorNull : ITestCaseGeneratorAsync<TestGroup, TestCase>
     {
-        public Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup @group, bool isSample)
+        public Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample, int caseNo = 0)
         {
             return Task.FromResult(
                 new TestCaseGenerateResponse<TestGroup, TestCase>(

@@ -53,11 +53,11 @@ namespace NIST.CVP.Generation.KAS.v1_0.ECC_Component
 
         private void ValidateResultPresent(TestCase suppliedResult, List<string> errors)
         {
-            if (suppliedResult.PublicKeyIutX == 0)
+            if (suppliedResult.PublicKeyIutX == null)
             {
                 errors.Add($"Expected {nameof(suppliedResult.PublicKeyIutX)} but was not supplied");
             }
-            if (suppliedResult.PublicKeyIutY == 0)
+            if (suppliedResult.PublicKeyIutY == null)
             {
                 errors.Add($"Expected {nameof(suppliedResult.PublicKeyIutY)} but was not supplied");
             }

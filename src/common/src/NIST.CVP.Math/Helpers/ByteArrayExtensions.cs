@@ -1,15 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Numerics;
 using System.Threading.Tasks;
 
 namespace NIST.CVP.Math.Helpers
 {
-    //bigInteger is little endian when dealing with byte-arrays, CAVS code thinks about byte array representations as big endian
-    //The BigInteger structure expects the individual bytes in a byte array to appear in little-endian order 
-    //(that is, the lower-order bytes of the value precede the higher-order bytes)
-    //also always want to return an array of the size of bArrayA, which means we might need to pad
+    /// <summary>
+    /// bigInteger is little endian when dealing with byte-arrays, CAVS code thinks about byte array representations as big endian
+    /// The BigInteger structure expects the individual bytes in a byte array to appear in little-endian order 
+    /// (that is, the lower-order bytes of the value precede the higher-order bytes)
+    /// also always want to return an array of the size of bArrayA, which means we might need to pad 
+    /// </summary>
     public static class ByteArrayExtensions
     {
         public const byte MSBIT = 0x80;
@@ -99,14 +102,33 @@ namespace NIST.CVP.Math.Helpers
             return true;
         }
 
-        
-        //1-based
-        //1-bit (bNum == 0) always returns 0
+        /// <summary>
+        /// 1-based
+        /// 1-bit (bNum == 0) always returns 0 
+        /// </summary>
+        /// <param name="bArrayA"></param>
+        /// <param name="bnum"></param>
+        /// <returns></returns>
         public static byte GetKeyBit(this byte[] bArrayA, int bnum)
         {
             byte b = bArrayA[bnum/8];
             int shift = (byte)(0x08 - (bnum % 0x08));
             return (byte)(0x01 & ((int)b >> shift));
+        }
+
+        /// <summary>
+        /// Set each byte in the provided array to the value of byteValue
+        /// </summary>
+        /// <param name="byteArray">The byteArray to set values on.</param>
+        /// <param name="byteValue">The value to set within the byte array.</param>
+        public static byte[] SetEachByteToValue(this byte[] byteArray, byte byteValue)
+        {
+            for (var i = 0; i < byteArray.Length; i++)
+            {
+                byteArray[i] = byteValue;
+            }
+
+            return byteArray;
         }
     }
 }

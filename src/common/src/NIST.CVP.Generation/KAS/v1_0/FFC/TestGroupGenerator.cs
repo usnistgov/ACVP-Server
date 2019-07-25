@@ -7,6 +7,7 @@ using NIST.CVP.Common.Helpers;
 using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC.Enums;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
@@ -94,9 +95,10 @@ namespace NIST.CVP.Generation.KAS.v1_0.FFC
 
                 var pqg = await pqgTask;
 
-                group.P = pqg.P;
-                group.Q = pqg.Q;
-                group.G = pqg.G;
+                group.L = parameterSetAttributes.pLength;
+                group.N = parameterSetAttributes.qLength;
+
+                group.DomainParams = new FfcDomainParameters(pqg.P, pqg.Q, pqg.G);
             }
         }
 

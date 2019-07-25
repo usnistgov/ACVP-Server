@@ -1,9 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using NIST.CVP.Common.ExtensionMethods;
+﻿using NIST.CVP.Common.ExtensionMethods;
+using NIST.CVP.Common.Helpers;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math.Domain;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace NIST.CVP.Generation.AES_GCM.v1_0
 {
@@ -12,6 +13,8 @@ namespace NIST.CVP.Generation.AES_GCM.v1_0
         public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
         {
             var testGroups = new List<TestGroup>();
+
+            var algoMode = AlgoModeHelpers.GetAlgoModeFromAlgoAndMode(parameters.Algorithm, parameters.Mode, parameters.Revision);
 
             parameters.IvLen.SetRangeOptions(RangeDomainSegmentOptions.Random);
             parameters.PayloadLen.SetRangeOptions(RangeDomainSegmentOptions.Random);
@@ -78,6 +81,7 @@ namespace NIST.CVP.Generation.AES_GCM.v1_0
                                 {
                                     var testGroup = new TestGroup
                                     {
+                                        AlgoMode = algoMode,
                                         Function = function,
                                         IvLength = ivLength,
                                         PayloadLength = ptLength,

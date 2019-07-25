@@ -1,6 +1,6 @@
-﻿using System;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using NIST.CVP.Math;
+using System;
 
 namespace NIST.CVP.Generation.Core.JsonConverters
 {
@@ -8,7 +8,7 @@ namespace NIST.CVP.Generation.Core.JsonConverters
     {
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-           BitString bs = (BitString)value;
+            var bs = (BitString)value;
 
             writer.WriteValue(bs.ToHex());
         }

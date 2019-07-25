@@ -45,7 +45,7 @@ namespace NIST.CVP.Generation.ParallelHash.Tests
 
         private TestCaseGeneratorFactory GetSubject()
         {
-            return new TestCaseGeneratorFactory(null);
+            return new TestCaseGeneratorFactory(null, null);
         }
     }
 }

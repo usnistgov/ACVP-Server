@@ -11,40 +11,43 @@ using NLog;
 
 namespace NIST.CVP.Generation.KDF_Components.v1_0.PBKDF
 {
-    public class TestCaseGenerator : ITestCaseGeneratorAsync<TestGroup, TestCase>
+    public class TestCaseGenerator : ITestCaseGeneratorWithPrep<TestGroup, TestCase>
     {
         private readonly IOracle _oracle;
 
-        private int _currentTestCase = 0;
         private List<int> _keyLens;
         private List<int> _passwordLens;
         private List<int> _saltLens;
         private List<int> _iterationCounts;
-        
-        public int NumberOfTestCasesToGenerate => 50;
+
+        public int NumberOfTestCasesToGenerate { get; private set; } = 50;
 
         public TestCaseGenerator(IOracle oracle)
         {
             _oracle = oracle;
         }
         
-        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample)
+        public GenerateResponse PrepareGenerator(TestGroup group, bool isSample)
         {
-            // Set up lists of values
-            if (_currentTestCase == 0)
+            if (isSample)
             {
-                _keyLens = GetValuesFromDomain(group.KeyLength);
-                _passwordLens = GetValuesFromDomain(group.PasswordLength);
-                _saltLens = GetValuesFromDomain(group.SaltLength);
-                _iterationCounts = GetValuesFromDomain(group.IterationCount);
+                NumberOfTestCasesToGenerate = 15;
             }
             
-            var keyLen = _keyLens[_currentTestCase % _keyLens.Count];
-            var passLen = _passwordLens[_currentTestCase % _passwordLens.Count];
-            var saltLen = _saltLens[_currentTestCase % _saltLens.Count];
-            var itrCount = _iterationCounts[_currentTestCase % _iterationCounts.Count];
-
-            _currentTestCase++;
+            _keyLens = GetValuesFromDomain(group.KeyLength);
+            _passwordLens = GetValuesFromDomain(group.PasswordLength);
+            _saltLens = GetValuesFromDomain(group.SaltLength);
+            _iterationCounts = GetVariedValuesFromDomain(group.IterationCount);
+            
+            return new GenerateResponse();
+        }
+        
+        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample, int caseNo = 0)
+        {
+            var keyLen = _keyLens[caseNo % _keyLens.Count];
+            var passLen = _passwordLens[caseNo % _passwordLens.Count];
+            var saltLen = _saltLens[caseNo % _saltLens.Count];
+            var itrCount = _iterationCounts[caseNo % _iterationCounts.Count];
             
             var param = new PbKdfParameters
             {
@@ -77,18 +80,31 @@ namespace NIST.CVP.Generation.KDF_Components.v1_0.PBKDF
             }
         }
 
+        private List<int> GetVariedValuesFromDomain(MathDomain domain)
+        {
+            var minMax = domain.GetDomainMinMax();
+
+            var valuesSelected = new List<int> {minMax.Minimum, minMax.Maximum};
+            var smallValuesPulled = domain.GetValues(v => v != minMax.Minimum && v != minMax.Maximum && v < 100000,
+                NumberOfTestCasesToGenerate - 4, true);            
+            var largeValuesPulled = domain.GetValues(v => v != minMax.Minimum && v != minMax.Maximum && v >= 100000, 2, true);
+            valuesSelected.AddRange(smallValuesPulled);
+            valuesSelected.AddRange(largeValuesPulled);
+
+            return valuesSelected.Shuffle();
+        }
+        
         private List<int> GetValuesFromDomain(MathDomain domain)
         {
             var minMax = domain.GetDomainMinMax();
 
             var valuesSelected = new List<int> {minMax.Minimum, minMax.Maximum};
-            
-            var valuesPulled = domain.GetValues(v => v != minMax.Minimum && v != minMax.Maximum, NumberOfTestCasesToGenerate - 2, true);
+            var valuesPulled = domain.GetValues(v => v != minMax.Minimum && v != minMax.Maximum, NumberOfTestCasesToGenerate - 2, true);            
             valuesSelected.AddRange(valuesPulled);
 
             return valuesSelected.Shuffle();
         }
-        
+
         private ILogger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }

@@ -87,7 +87,7 @@ namespace NIST.CVP.Generation.TupleHash.Tests.ContractResolvers
 
             if (testType == "aft")
             {
-                Assert.AreEqual(tc.DigestLength, newTc.DigestLength, nameof(newTc.DigestLength));
+                Assert.IsNull(newTc.Digest, nameof(newTc.Digest));
                 if (hexCustomization)
                 {
                     Assert.AreEqual(tc.CustomizationHex, newTc.CustomizationHex, nameof(newTc.CustomizationHex));
@@ -101,7 +101,7 @@ namespace NIST.CVP.Generation.TupleHash.Tests.ContractResolvers
             }
             else
             {
-                Assert.AreNotEqual(tc.DigestLength, newTc.DigestLength, nameof(newTc.DigestLength));
+                Assert.IsNull(newTc.Digest, nameof(newTc.Digest));
                 Assert.AreNotEqual(tc.CustomizationHex, newTc.CustomizationHex, nameof(newTc.CustomizationHex));
                 Assert.AreNotEqual(tc.Customization, newTc.Customization, nameof(newTc.Customization));
             }

@@ -15,7 +15,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.NoKC
         [SetUp]
         public void Setup()
         {
-            _subject = new NoKeyConfirmationFactory();
+            _subject = new NoKeyConfirmationFactory(new NoKeyConfirmationMacDataCreator());
         }
 
         [Test]

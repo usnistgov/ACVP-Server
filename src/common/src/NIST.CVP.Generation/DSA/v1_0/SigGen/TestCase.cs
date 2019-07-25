@@ -14,6 +14,8 @@ namespace NIST.CVP.Generation.DSA.v1_0.SigGen
         public bool Deferred { get; set; }
         public TestGroup ParentGroup { get; set; }
 
+        private int n => ParentGroup?.N ?? 0;
+        
         /// <summary>
         /// Note key is used only for firehose tests, key is a group level property for current testing
         /// </summary>
@@ -30,16 +32,16 @@ namespace NIST.CVP.Generation.DSA.v1_0.SigGen
 
         [JsonIgnore] public FfcSignature Signature { get; set; } = new FfcSignature();
         [JsonProperty(PropertyName = "r", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public BigInteger R
+        public BitString R
         {
-            get => Signature.R;
-            set => Signature.R = value;
+            get => Signature.R != 0 ? new BitString(Signature.R, n) : null;
+            set => Signature.R = value.ToPositiveBigInteger();
         }
         [JsonProperty(PropertyName = "s", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public BigInteger S
+        public BitString S
         {
-            get => Signature.S;
-            set => Signature.S = value;
+            get => Signature.S != 0 ? new BitString(Signature.S, n) : null;
+            set => Signature.S = value.ToPositiveBigInteger();
         }
 
         // Needed for FireHoseTests

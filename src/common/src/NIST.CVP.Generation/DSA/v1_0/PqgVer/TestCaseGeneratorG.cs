@@ -7,6 +7,7 @@ using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC.Enums;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Async;
+using NIST.CVP.Math;
 using NLog;
 
 namespace NIST.CVP.Generation.DSA.v1_0.PqgVer
@@ -22,7 +23,7 @@ namespace NIST.CVP.Generation.DSA.v1_0.PqgVer
             _oracle = oracle;
         }
 
-        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample)
+        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample, int caseNo = 0)
         {
             if (isSample)
             {
@@ -68,14 +69,14 @@ namespace NIST.CVP.Generation.DSA.v1_0.PqgVer
                 // Assign values of the TestCase
                 var testCase = new TestCase
                 {
-                    P = pqResult.P,
-                    Q = pqResult.Q,
+                    P = pqResult.P != 0 ? new BitString(pqResult.P, group.L) : null,
+                    Q = pqResult.Q != 0 ? new BitString(pqResult.Q, group.N) : null,
                     Seed = pqResult.Seed,
                     Counter = pqResult.Counter,
                     Index = gResult.Index,
                     Reason = reason.GetName(),
                     TestPassed = reason.GetReason() == DsaGDisposition.None,
-                    G = gResult.G,
+                    G = gResult.G != 0 ? new BitString(gResult.G, group.L) : null,
                     H = gResult.H
                 };
 

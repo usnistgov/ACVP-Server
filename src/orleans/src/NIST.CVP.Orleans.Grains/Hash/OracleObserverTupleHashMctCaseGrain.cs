@@ -3,7 +3,9 @@ using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Crypto.Common.Hash.TupleHash;
 using NIST.CVP.Math;
 using NIST.CVP.Orleans.Grains.Interfaces.Hash;
@@ -38,9 +40,10 @@ namespace NIST.CVP.Orleans.Grains.Hash
 
         protected override async Task DoWorkAsync()
         {
-            var tuple = new List<BitString>() { _rand.GetRandomBitString(_param.MessageLength) };
+            var initialLength = _param.InputLengths.GetValues(0, 65536, 3).ToList().Shuffle().First();
+            var tuple = new List<BitString>() { _rand.GetRandomBitString(initialLength) };
 
-            var result = _hash.MCTHash(_param.HashFunction, tuple, _param.OutLens, _param.IsSample);
+            var result = _hash.MCTHash(_param.HashFunction, tuple, _param.OutputLengths, _param.IsSample);
 
             if (!result.Success)
             {

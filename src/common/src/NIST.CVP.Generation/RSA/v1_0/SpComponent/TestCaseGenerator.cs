@@ -19,7 +19,7 @@ namespace NIST.CVP.Generation.RSA.v1_0.SpComponent
             _oracle = oracle;
         }
 
-        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample)
+        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample, int caseNo = 0)
         {
             if (isSample)
             {
@@ -38,7 +38,7 @@ namespace NIST.CVP.Generation.RSA.v1_0.SpComponent
 
                 var testCase = new TestCase
                 {
-                    Signature = result.Signature,
+                    Signature = result.Signature?.PadToModulusMsb(group.Modulo),
                     Key = result.Key,
                     Message = result.Message,
                     TestPassed = result.ShouldPass     // Failure test if m > N, meaning it can't be signed

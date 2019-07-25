@@ -19,7 +19,8 @@ namespace NIST.CVP.Generation.TupleHash.v1_0
                     {
                         Function = "TupleHash",
                         DigestSize = digSize,
-                        OutputLength = parameters.OutputLength,
+                        OutputLength = parameters.OutputLength.GetDeepCopy(),
+                        MessageLength = parameters.MessageLength.GetDeepCopy(),
                         TestType = TEST_TYPE,
                         XOF = xof
                     };

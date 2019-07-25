@@ -4,6 +4,7 @@ using Newtonsoft.Json.Converters;
 using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Generation.Core.JsonConverters;
+using NIST.CVP.Math.JsonConverters;
 using NIST.CVP.Pools.Enums;
 using NIST.CVP.Pools.Models;
 using NLog;
@@ -21,7 +22,7 @@ namespace NIST.CVP.Pools
         private readonly PoolConfig _poolConfig;
         private readonly IList<JsonConverter> _jsonConverters = new List<JsonConverter>
         {
-            new BitstringConverter(),
+            new BitstringBitLengthConverter(),
             new DomainConverter(),
             new BigIntegerConverter(),
             new StringEnumConverter()
@@ -84,8 +85,17 @@ namespace NIST.CVP.Pools
 
                     if (_poolConfig.ShouldLogPoolValueUse)
                     {
-                        LogManager.GetCurrentClassLogger()
-                            .Info($"Using pool value: {(_poolConfig.PoolResultLogLength == 0 ? json : json.Substring(0, _poolConfig.PoolResultLogLength))}");
+                        if (_poolConfig.PoolResultLogLength == 0 || json.Length <= _poolConfig.PoolResultLogLength)
+                        {
+                            LogManager.GetCurrentClassLogger()
+                                .Info($"Using pool value: {json}");
+                        }
+                        else
+                        {
+                            LogManager.GetCurrentClassLogger()
+                                .Info($"Using pool value: {json.Substring(0, _poolConfig.PoolResultLogLength)}");
+                        }
+
                     }
 
                     return poolResult.Result;

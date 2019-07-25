@@ -2,8 +2,10 @@
 using System.Threading.Tasks;
 using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Async;
+using NIST.CVP.Math;
 using NLog;
 
 namespace NIST.CVP.Generation.KAS.v1_0.ECC_Component
@@ -19,7 +21,7 @@ namespace NIST.CVP.Generation.KAS.v1_0.ECC_Component
 
         public int NumberOfTestCasesToGenerate => 25;
 
-        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample)
+        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample, int caseNo = 0)
         {
             try
             {
@@ -33,15 +35,11 @@ namespace NIST.CVP.Generation.KAS.v1_0.ECC_Component
 
                 var testCase = new TestCase()
                 {
-                    PrivateKeyServer = result.PrivateKeyServer,
-                    PublicKeyServerX = result.PublicKeyServerX,
-                    PublicKeyServerY = result.PublicKeyServerY,
-
+                    KeyPairPartyServer = new EccKeyPair(new EccPoint(result.PublicKeyServerX, result.PublicKeyServerY), result.PrivateKeyServer),
+                    
                     // These have values only when sample
                     Deferred = !isSample,
-                    PrivateKeyIut = result.PrivateKeyIut,
-                    PublicKeyIutX = result.PublicKeyIutX,
-                    PublicKeyIutY = result.PublicKeyIutY,
+                    KeyPairPartyIut = new EccKeyPair(new EccPoint(result.PublicKeyIutX, result.PublicKeyIutY), result.PrivateKeyIut),
                     Z = result.Z
                 };
 

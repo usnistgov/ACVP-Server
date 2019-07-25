@@ -16,7 +16,8 @@ namespace NIST.CVP.Generation.AES_GCM.v1_0
     {
         public IEnumerable<AlgoMode> SupportedAlgoModeRevisions => new List<AlgoMode>()
         {
-            AlgoMode.AES_GCM_v1_0
+            AlgoMode.AES_GCM_v1_0,
+            AlgoMode.AES_GMAC_v1_0
         };
 
         public void RegisterTypes(ContainerBuilder builder, AlgoMode algoMode)

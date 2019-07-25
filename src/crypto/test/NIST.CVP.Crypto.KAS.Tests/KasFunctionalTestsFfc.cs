@@ -58,8 +58,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                     new KdfFactory(
                         new ShaFactory()
                     ),
-                    new KeyConfirmationFactory(new CmacFactory(new BlockCipherEngineFactory(), new ModeBlockCipherFactory()), new HmacFactory(new ShaFactory())),
-                    new NoKeyConfirmationFactory(),
+                    new KeyConfirmationFactory(new KeyConfirmationMacDataCreator()),
+                    new NoKeyConfirmationFactory(new NoKeyConfirmationMacDataCreator()),
                     new OtherInfoFactory(_entropyProviderOtherInfo),
                     _entropyProviderScheme,
                     new DiffieHellmanFfc(),

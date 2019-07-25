@@ -1,17 +1,20 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using NIST.CVP.Common;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Async;
 using NIST.CVP.Generation.Core.Enums;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Generation.AES_GCM.v1_0
 {
     public class TestCaseValidatorDecrypt : ITestCaseValidatorAsync<TestGroup, TestCase>
     {
+        private readonly TestGroup _testGroup;
         private readonly TestCase _expectedResult;
 
-        public TestCaseValidatorDecrypt(TestCase expectedResult)
+        public TestCaseValidatorDecrypt(TestGroup testGroup, TestCase expectedResult)
         {
+            _testGroup = testGroup;
             _expectedResult = expectedResult;
         }
 
@@ -23,7 +26,7 @@ namespace NIST.CVP.Generation.AES_GCM.v1_0
             var expected = new Dictionary<string, string>();
             var provided = new Dictionary<string, string>();
 
-            if (_expectedResult.TestPassed != null && !_expectedResult.TestPassed.Value)
+            if (_testGroup.AlgoMode == AlgoMode.AES_GCM_v1_0 && _expectedResult.TestPassed != null && !_expectedResult.TestPassed.Value)
             {
                 if (!suppliedResult.TestPassed.HasValue ||
                     (suppliedResult.TestPassed != null && suppliedResult.TestPassed.Value))
@@ -47,7 +50,7 @@ namespace NIST.CVP.Generation.AES_GCM.v1_0
             {
                 return Task.FromResult(new TestCaseValidation
                 {
-                    TestCaseId = suppliedResult.TestCaseId, 
+                    TestCaseId = suppliedResult.TestCaseId,
                     Result = Disposition.Failed,
                     Reason = string.Join("; ", errors),
                     Expected = expected.Count != 0 && showExpected ? expected : null,
@@ -64,20 +67,32 @@ namespace NIST.CVP.Generation.AES_GCM.v1_0
 
         private void ValidateResultPresent(TestCase suppliedResult, List<string> errors)
         {
-            if (suppliedResult.PlainText == null)
+            if (_testGroup.AlgoMode == AlgoMode.AES_GCM_v1_0 && suppliedResult.PlainText == null)
             {
                 errors.Add($"{nameof(suppliedResult.PlainText)} was not present in the {nameof(TestCase)}");
                 return;
+            }
+
+            if (_testGroup.AlgoMode == AlgoMode.AES_GMAC_v1_0 && suppliedResult.TestPassed == null)
+            {
+                errors.Add($"{nameof(suppliedResult.TestPassed)} was not present in the {nameof(TestCase)}");
             }
         }
 
         private void CheckResults(TestCase suppliedResult, List<string> errors, Dictionary<string, string> expected, Dictionary<string, string> provided)
         {
-            if (!_expectedResult.PlainText.Equals(suppliedResult.PlainText))
+            if (_testGroup.AlgoMode == AlgoMode.AES_GCM_v1_0 && !_expectedResult.PlainText.Equals(suppliedResult.PlainText))
             {
                 errors.Add("Plain Text does not match");
                 expected.Add(nameof(_expectedResult.PlainText), _expectedResult.PlainText.ToHex());
                 provided.Add(nameof(suppliedResult.PlainText), suppliedResult.PlainText.ToHex());
+            }
+
+            if (_testGroup.AlgoMode == AlgoMode.AES_GMAC_v1_0 && !_expectedResult.TestPassed.Equals(suppliedResult.TestPassed))
+            {
+                errors.Add("TestPassed does not match");
+                expected.Add(nameof(_expectedResult.TestPassed), _expectedResult.TestPassed.ToString());
+                provided.Add(nameof(suppliedResult.TestPassed), suppliedResult.TestPassed.ToString());
             }
         }
     }

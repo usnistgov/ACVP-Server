@@ -10,8 +10,10 @@ namespace NIST.CVP.Crypto.KAS.NoKC
     {
         private readonly IAeadModeBlockCipher _algo;
 
-        public NoKeyConfirmationAesCcm(INoKeyConfirmationParameters noKeyConfirmationParameters, IAeadModeBlockCipher algo) 
-            : base(noKeyConfirmationParameters)
+        public NoKeyConfirmationAesCcm(INoKeyConfirmationMacDataCreator macDataCreator, 
+            INoKeyConfirmationParameters noKeyConfirmationParameters, 
+            IAeadModeBlockCipher algo) 
+            : base(macDataCreator, noKeyConfirmationParameters)
         {
             _algo = algo;
 

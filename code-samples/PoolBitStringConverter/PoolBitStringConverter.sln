@@ -1,0 +1,103 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.572
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PoolBitStringConverter", "PoolBitStringConverter\PoolBitStringConverter.csproj", "{EA12D340-0FA5-471F-9EA7-8964FFE1C64D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Common", "..\..\src\common\src\NIST.CVP.Common\NIST.CVP.Common.csproj", "{57949818-5430-4990-A215-328FF3BE230B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.Core", "..\..\src\common\src\NIST.CVP.Generation.Core\NIST.CVP.Generation.Core.csproj", "{3C248710-31EA-4514-BD51-F06DBE558D55}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Math", "..\..\src\common\src\NIST.CVP.Math\NIST.CVP.Math.csproj", "{76950BB6-DE88-46EC-A7BD-F0F5B9C80534}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.Common", "..\..\src\crypto\src\NIST.CVP.Crypto.Common\NIST.CVP.Crypto.Common.csproj", "{2B5ABA34-B5DB-4DFE-AE5E-20CEB856BFD7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Pools", "..\..\src\pools\src\NIST.CVP.Pools\NIST.CVP.Pools.csproj", "{E77E7056-D3EF-499D-B04A-052ED3D83075}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Common.Oracle", "..\..\src\oracle\src\NIST.CVP.Common.Oracle\NIST.CVP.Common.Oracle.csproj", "{AA1C7927-5A17-4CB9-B772-EBD569D27512}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Math.Tests", "..\..\src\common\test\NIST.CVP.Math.Tests\NIST.CVP.Math.Tests.csproj", "{C9CEF6B2-CFA5-4A02-AFE1-D8D6A86B4232}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Tests.Core", "..\..\src\common\test\NIST.CVP.Tests.Core\NIST.CVP.Tests.Core.csproj", "{B9D7797D-D25F-4761-95CC-784DE999A030}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.PoolAPI", "..\..\src\pool-api\NIST.CVP.PoolAPI\NIST.CVP.PoolAPI.csproj", "{9B9A63C2-6BC4-4426-AB9B-1A0BE8F84B44}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.Oracle", "..\..\src\oracle\src\NIST.CVP.Crypto.Oracle\NIST.CVP.Crypto.Oracle.csproj", "{318B0331-CF4B-4BBA-8E78-84802629570E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto", "..\..\src\crypto\src\NIST.CVP.Crypto\NIST.CVP.Crypto.csproj", "{8E304B06-5968-4849-A9A6-861A05F582C2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Orleans.Grains", "..\..\src\orleans\src\NIST.CVP.Orleans.Grains\NIST.CVP.Orleans.Grains.csproj", "{5A4EFBFF-FE22-4C4F-8AA9-39E461441B7E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Orleans.Grains.Interfaces", "..\..\src\orleans\src\NIST.CVP.Orleans.Grains.Interfaces\NIST.CVP.Orleans.Grains.Interfaces.csproj", "{67A82418-C3B0-4469-895F-FD50B32368FB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EA12D340-0FA5-471F-9EA7-8964FFE1C64D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA12D340-0FA5-471F-9EA7-8964FFE1C64D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA12D340-0FA5-471F-9EA7-8964FFE1C64D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA12D340-0FA5-471F-9EA7-8964FFE1C64D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57949818-5430-4990-A215-328FF3BE230B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57949818-5430-4990-A215-328FF3BE230B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57949818-5430-4990-A215-328FF3BE230B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57949818-5430-4990-A215-328FF3BE230B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3C248710-31EA-4514-BD51-F06DBE558D55}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C248710-31EA-4514-BD51-F06DBE558D55}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C248710-31EA-4514-BD51-F06DBE558D55}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C248710-31EA-4514-BD51-F06DBE558D55}.Release|Any CPU.Build.0 = Release|Any CPU
+		{76950BB6-DE88-46EC-A7BD-F0F5B9C80534}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76950BB6-DE88-46EC-A7BD-F0F5B9C80534}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76950BB6-DE88-46EC-A7BD-F0F5B9C80534}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{76950BB6-DE88-46EC-A7BD-F0F5B9C80534}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B5ABA34-B5DB-4DFE-AE5E-20CEB856BFD7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B5ABA34-B5DB-4DFE-AE5E-20CEB856BFD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B5ABA34-B5DB-4DFE-AE5E-20CEB856BFD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B5ABA34-B5DB-4DFE-AE5E-20CEB856BFD7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E77E7056-D3EF-499D-B04A-052ED3D83075}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E77E7056-D3EF-499D-B04A-052ED3D83075}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E77E7056-D3EF-499D-B04A-052ED3D83075}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E77E7056-D3EF-499D-B04A-052ED3D83075}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AA1C7927-5A17-4CB9-B772-EBD569D27512}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA1C7927-5A17-4CB9-B772-EBD569D27512}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA1C7927-5A17-4CB9-B772-EBD569D27512}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA1C7927-5A17-4CB9-B772-EBD569D27512}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C9CEF6B2-CFA5-4A02-AFE1-D8D6A86B4232}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9CEF6B2-CFA5-4A02-AFE1-D8D6A86B4232}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9CEF6B2-CFA5-4A02-AFE1-D8D6A86B4232}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9CEF6B2-CFA5-4A02-AFE1-D8D6A86B4232}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B9D7797D-D25F-4761-95CC-784DE999A030}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9D7797D-D25F-4761-95CC-784DE999A030}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9D7797D-D25F-4761-95CC-784DE999A030}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9D7797D-D25F-4761-95CC-784DE999A030}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B9A63C2-6BC4-4426-AB9B-1A0BE8F84B44}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B9A63C2-6BC4-4426-AB9B-1A0BE8F84B44}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B9A63C2-6BC4-4426-AB9B-1A0BE8F84B44}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B9A63C2-6BC4-4426-AB9B-1A0BE8F84B44}.Release|Any CPU.Build.0 = Release|Any CPU
+		{318B0331-CF4B-4BBA-8E78-84802629570E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{318B0331-CF4B-4BBA-8E78-84802629570E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{318B0331-CF4B-4BBA-8E78-84802629570E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{318B0331-CF4B-4BBA-8E78-84802629570E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8E304B06-5968-4849-A9A6-861A05F582C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E304B06-5968-4849-A9A6-861A05F582C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E304B06-5968-4849-A9A6-861A05F582C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E304B06-5968-4849-A9A6-861A05F582C2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A4EFBFF-FE22-4C4F-8AA9-39E461441B7E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A4EFBFF-FE22-4C4F-8AA9-39E461441B7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A4EFBFF-FE22-4C4F-8AA9-39E461441B7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A4EFBFF-FE22-4C4F-8AA9-39E461441B7E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{67A82418-C3B0-4469-895F-FD50B32368FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{67A82418-C3B0-4469-895F-FD50B32368FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{67A82418-C3B0-4469-895F-FD50B32368FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{67A82418-C3B0-4469-895F-FD50B32368FB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FC91DA22-207A-4B4D-9237-01BF0AAD49DB}
+	EndGlobalSection
+EndGlobal

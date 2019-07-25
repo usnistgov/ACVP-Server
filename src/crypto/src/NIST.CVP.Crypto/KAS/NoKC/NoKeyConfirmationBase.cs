@@ -8,13 +8,16 @@ namespace NIST.CVP.Crypto.KAS.NoKC
 {
     public abstract class NoKeyConfirmationBase : INoKeyConfirmation
     {
-        public const string STANDARD_MESSAGE = "Standard Test Message";
         protected readonly INoKeyConfirmationParameters NoKeyConfirmationParameters;
+        private readonly INoKeyConfirmationMacDataCreator _macDataCreator;
 
-        protected NoKeyConfirmationBase(INoKeyConfirmationParameters noKeyConfirmationParameters)
+        protected NoKeyConfirmationBase(
+            INoKeyConfirmationMacDataCreator macDataCreator, 
+            INoKeyConfirmationParameters noKeyConfirmationParameters)
         {
+            _macDataCreator = macDataCreator;
             NoKeyConfirmationParameters = noKeyConfirmationParameters;
-
+            
             if (BitString.IsZeroLengthOrNull(NoKeyConfirmationParameters.DerivedKeyingMaterial))
             {
                 throw new ArgumentException(nameof(NoKeyConfirmationParameters.DerivedKeyingMaterial));
@@ -27,11 +30,7 @@ namespace NIST.CVP.Crypto.KAS.NoKC
 
         public ComputeKeyMacResult ComputeMac()
         {
-            var macData =
-                new BitString(
-                    Encoding.ASCII.GetBytes(STANDARD_MESSAGE)
-                )
-                .ConcatenateBits(NoKeyConfirmationParameters.Nonce);
+            var macData = _macDataCreator.GetMacData(NoKeyConfirmationParameters);
 
             return new ComputeKeyMacResult(macData, Mac(macData));
         }

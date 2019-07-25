@@ -15,7 +15,7 @@ namespace NIST.CVP.Generation.Core
         {
             if (minLevel == null)
             {
-                minLevel = LogLevel.Debug;
+                minLevel = LogLevel.Info;
             }
            
             var config = new LoggingConfiguration();

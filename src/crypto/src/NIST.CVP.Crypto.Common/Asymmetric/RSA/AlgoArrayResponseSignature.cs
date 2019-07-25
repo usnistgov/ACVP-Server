@@ -10,6 +10,13 @@ namespace NIST.CVP.Crypto.Common.Asymmetric.RSA
         public BitString PlainText { get; set; }
         public BitString CipherText { get; set; }
         
+        /// <summary>
+        /// This is used for serialization purposes within a sample of DP component in case of N values that when
+        /// represented as a <see cref="BigInteger"/> are smaller than the modulo length.
+        /// </summary>
+        [JsonIgnore]
+        public int Modulo { get; set; }
+        
         [JsonIgnore]
         public KeyPair Key { get; set; } = new KeyPair() { PubKey = new PublicKey() };
 
@@ -19,10 +26,10 @@ namespace NIST.CVP.Crypto.Common.Asymmetric.RSA
             set => Key.PubKey.E = value;
         }
 
-        public BigInteger N
+        public BitString N
         {
-            get => Key.PubKey.N;
-            set => Key.PubKey.N = value;
+            get => new BitString(Key.PubKey.N, Modulo);
+            set => Key.PubKey.N = value.ToPositiveBigInteger();
         }
 
         public bool TestPassed { get; set; }

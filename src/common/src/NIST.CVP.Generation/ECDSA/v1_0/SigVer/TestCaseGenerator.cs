@@ -20,7 +20,7 @@ namespace NIST.CVP.Generation.ECDSA.v1_0.SigVer
             _oracle = oracle;
         }
 
-        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample)
+        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample, int caseNo = 0)
         {
             if (isSample)
             {
@@ -64,8 +64,7 @@ namespace NIST.CVP.Generation.ECDSA.v1_0.SigVer
                     KeyPair = result.VerifiedValue.Key,
                     Reason = param.Disposition,
                     TestPassed = result.Result,
-                    R = result.VerifiedValue.Signature.R,
-                    S = result.VerifiedValue.Signature.S,
+                    Signature = result.VerifiedValue.Signature
                 };
 
                 return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);

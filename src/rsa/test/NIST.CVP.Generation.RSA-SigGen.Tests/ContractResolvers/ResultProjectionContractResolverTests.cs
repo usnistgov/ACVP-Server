@@ -50,7 +50,7 @@ namespace NIST.CVP.Generation.RSA_SigGen.Tests.ContractResolvers
             Assert.AreEqual(tg.TestGroupId, newTg.TestGroupId, nameof(newTg.TestGroupId));
             Assert.AreEqual(tg.Tests.Count, newTg.Tests.Count, nameof(newTg.Tests));
             Assert.AreEqual(tg.E, newTg.E, nameof(newTg.E));
-            Assert.AreEqual(tg.N, newTg.N, nameof(newTg.N));
+            Assert.AreEqual(tg.N.ToPositiveBigInteger(), newTg.N.ToPositiveBigInteger(), nameof(newTg.N));
 
             Assert.IsFalse(newTg.IsMessageRandomized, nameof(newTg.IsMessageRandomized));
         }
@@ -100,7 +100,7 @@ namespace NIST.CVP.Generation.RSA_SigGen.Tests.ContractResolvers
             Assert.AreEqual(tg.TestGroupId, newTg.TestGroupId, nameof(newTg.TestGroupId));
             Assert.AreEqual(tg.Tests.Count, newTg.Tests.Count, nameof(newTg.Tests));
             Assert.AreEqual(tg.E, newTg.E, nameof(newTg.E));
-            Assert.AreEqual(tg.N, newTg.N, nameof(newTg.N));
+            Assert.AreEqual(tg.N.ToPositiveBigInteger(), newTg.N.ToPositiveBigInteger(), nameof(newTg.N));
 
             Assert.IsTrue(newTg.IsMessageRandomized, nameof(newTg.IsMessageRandomized));
         }

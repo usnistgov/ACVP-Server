@@ -14,6 +14,9 @@ namespace NIST.CVP.Generation.DSA.v1_0.KeyGen
         public bool Deferred { get; set; }
         public TestGroup ParentGroup { get; set; }
 
+        private int l => ParentGroup?.L ?? 0;
+        private int n => ParentGroup?.N ?? 0;
+        
         /// <summary>
         /// Ignoring for (De)Serialization as KeyPairs are flattened
         /// </summary>
@@ -21,17 +24,17 @@ namespace NIST.CVP.Generation.DSA.v1_0.KeyGen
         public FfcKeyPair Key { get; set; } = new FfcKeyPair();
 
         [JsonProperty(PropertyName = "x", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public BigInteger X
+        public BitString X
         {
-            get => Key.PrivateKeyX;
-            set => Key.PrivateKeyX = value;
+            get => Key.PrivateKeyX != 0 ? new BitString(Key.PrivateKeyX, n) : null;
+            set => Key.PrivateKeyX = value.ToPositiveBigInteger();
         }
 
         [JsonProperty(PropertyName = "y", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public BigInteger Y
+        public BitString Y
         {
-            get => Key.PublicKeyY;
-            set => Key.PublicKeyY = value;
+            get => Key.PublicKeyY != 0 ? new BitString(Key.PublicKeyY, l) : null;
+            set => Key.PublicKeyY = value.ToPositiveBigInteger();
         }
 
         public bool SetString(string name, string value)
@@ -44,11 +47,11 @@ namespace NIST.CVP.Generation.DSA.v1_0.KeyGen
             switch (name.ToLower())
             {
                 case "x":
-                    X = new BitString(value).ToPositiveBigInteger();
+                    X = new BitString(value).PadToModulusMsb(32);
                     return true;
 
                 case "y":
-                    Y = new BitString(value).ToPositiveBigInteger();
+                    Y = new BitString(value).PadToModulusMsb(32);
                     return true;
             }
 

@@ -16,7 +16,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.KC
     [TestFixture,  FastCryptoTest]
     public class KeyConfirmationFactoryTests
     {
-        private readonly KeyConfirmationFactory _subject = new KeyConfirmationFactory(new CmacFactory(new BlockCipherEngineFactory(), new ModeBlockCipherFactory()), new HmacFactory(new ShaFactory()));
+        private readonly KeyConfirmationFactory _subject = new KeyConfirmationFactory(new KeyConfirmationMacDataCreator());
 
         [Test]
         [TestCase(KeyAgreementMacType.AesCcm, 128, typeof(KeyConfirmationAesCcm))]

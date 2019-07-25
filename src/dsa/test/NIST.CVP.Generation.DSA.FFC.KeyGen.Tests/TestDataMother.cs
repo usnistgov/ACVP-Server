@@ -27,15 +27,15 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen.Tests
 
                 if (isSample)
                 {
-                    tg.P = 42;
-                    tg.Q = 55;
-                    tg.G = 67;
+                    tg.DomainParams.P = 42;
+                    tg.DomainParams.Q = 55;
+                    tg.DomainParams.G = 67;
                 }
                 else
                 {
-                    tg.P = -1;
-                    tg.Q = -2;
-                    tg.G = -3;
+                    tg.DomainParams.P = 0;
+                    tg.DomainParams.Q = 0;
+                    tg.DomainParams.G = 0;
                 }
 
                 var tests = new List<TestCase>();
@@ -51,13 +51,13 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen.Tests
 
                     if (isSample)
                     {
-                        tc.X = 77;
-                        tc.Y = 100;
+                        tc.Key.PrivateKeyX = 77;
+                        tc.Key.PublicKeyY = 100;
                     }
                     else
                     {
-                        tc.X = -4;
-                        tc.Y = -5;
+                        tc.Key.PrivateKeyX = 0;
+                        tc.Key.PublicKeyY = 0;
                     }
                 }
             }

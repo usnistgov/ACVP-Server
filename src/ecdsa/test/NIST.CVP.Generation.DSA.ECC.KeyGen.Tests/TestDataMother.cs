@@ -42,7 +42,7 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyGen.Tests
 
                     if (!isSample)
                     {
-                        tc.KeyPair = new EccKeyPair(new EccPoint(-1, -2), -3);
+                        tc.KeyPair = new EccKeyPair(new EccPoint(0, 0), 0);
                     }
 
                 }

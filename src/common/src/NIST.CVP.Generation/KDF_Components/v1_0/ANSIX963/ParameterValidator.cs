@@ -13,7 +13,7 @@ namespace NIST.CVP.Generation.KDF_Components.v1_0.ANXIX963
         public static int SHARED_INFO_MAXIMUM = 1024;
         public static int SHARED_INFO_MINIMUM = 0;
         public static string[] VALID_HASH_ALGS = {"sha2-224", "sha2-256", "sha2-384", "sha2-512"};
-        public static int KEY_LENGTH_MINIMUM = 128;
+        public static int KEY_LENGTH_MINIMUM = 112;
         public static int KEY_LENGTH_MAXIMUM = 4096;
 
         public ParameterValidateResponse Validate(Parameters parameters)

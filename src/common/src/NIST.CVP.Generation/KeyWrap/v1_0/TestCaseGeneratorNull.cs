@@ -10,7 +10,7 @@ namespace NIST.CVP.Generation.KeyWrap.v1_0
     {
         public int NumberOfTestCasesToGenerate => 1;
 
-        public Task<TestCaseGenerateResponse<TTestGroup, TTestCase>> GenerateAsync(TTestGroup group, bool isSample)
+        public Task<TestCaseGenerateResponse<TTestGroup, TTestCase>> GenerateAsync(TTestGroup group, bool isSample, int caseNo = 0)
         {
             return Task.FromResult(new TestCaseGenerateResponse<TTestGroup, TTestCase>("Null generator"));
         }

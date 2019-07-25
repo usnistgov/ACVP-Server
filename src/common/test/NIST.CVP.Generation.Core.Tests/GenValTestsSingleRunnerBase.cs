@@ -81,11 +81,11 @@ namespace NIST.CVP.Generation.Core.Tests
             var targetFolder = GetTestFolder("Few");
             var fileName = GetTestFileFewTestCases(targetFolder);
 
-            LoggingHelper.ConfigureLogging(fileName, "generator");
+            LoggingHelper.ConfigureLogging(fileName, "generator", LogLevel.Debug);
             GenLogger.Info($"{Algorithm}-{Mode} Test Vectors");
             RunGeneration(targetFolder, fileName, true);
 
-            LoggingHelper.ConfigureLogging(fileName, "validator");
+            LoggingHelper.ConfigureLogging(fileName, "validator", LogLevel.Debug);
             ValLogger.Info($"{Algorithm}-{Mode} Test Vectors");
             RunValidation(targetFolder);
 
@@ -103,11 +103,11 @@ namespace NIST.CVP.Generation.Core.Tests
             var targetFolder = GetTestFolder("Lots");
             var fileName = GetTestFileLotsOfTestCases(targetFolder);
 
-            LoggingHelper.ConfigureLogging(fileName, "generator");
+            LoggingHelper.ConfigureLogging(fileName, "generator", LogLevel.Debug);
             GenLogger.Info($"{Algorithm}-{Mode} Test Vectors");
             RunGeneration(targetFolder, fileName, false);
 
-            LoggingHelper.ConfigureLogging(fileName, "validator");
+            LoggingHelper.ConfigureLogging(fileName, "validator", LogLevel.Debug);
             ValLogger.Info($"{Algorithm}-{Mode} Test Vectors");
             RunValidation(targetFolder);
 

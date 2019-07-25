@@ -84,7 +84,6 @@ namespace NIST.CVP.Generation.SHA2.v1_0
             }
 
             // Check for digest size within domain
-            // Hard assumption that there is 1 value in array (and only 1)
             var digestSize = SHAEnumHelpers.DigestSizeToInt(SHAEnumHelpers.StringToDigest(parameters.DigestSizes.First()));
             if (!messageLengths.IsWithinDomain(digestSize))
             {

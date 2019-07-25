@@ -21,7 +21,7 @@ namespace NIST.CVP.Generation.KeyWrap.v1_0
 
         public int NumberOfTestCasesToGenerate => 100;
 
-        public async Task<TestCaseGenerateResponse<TTestGroup, TTestCase>> GenerateAsync(TTestGroup group, bool isSample)
+        public async Task<TestCaseGenerateResponse<TTestGroup, TTestCase>> GenerateAsync(TTestGroup group, bool isSample, int caseNo = 0)
         {
             var param = new KeyWrapParameters
             {

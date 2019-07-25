@@ -22,7 +22,7 @@ namespace NIST.CVP.Generation.RSA.v1_0.DpComponent
             _oracle = oracle;
         }
 
-        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample)
+        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample, int caseNo = 0)
         {
             var failureTestIndexes = GetFailureIndexes(group.TotalTestCases, group.TotalFailingCases);
             var testCase = new TestCase
@@ -45,6 +45,7 @@ namespace NIST.CVP.Generation.RSA.v1_0.DpComponent
                     try
                     {
                         var result = await _oracle.GetRsaDecryptionPrimitiveAsync(param);
+                        algoArrayResponse.Modulo = group.Modulo;
                         algoArrayResponse.Key = result.Key;
                         algoArrayResponse.CipherText = result.CipherText;
                         algoArrayResponse.PlainText = result.PlainText;

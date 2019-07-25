@@ -73,8 +73,6 @@ namespace NIST.CVP.Pools
 
             if (WaterLevel < minWaterLevel)
             {
-                Console.WriteLine("Pool too empty.");
-
                 _poolLogRepository.WriteLog(LogTypes.PoolTooEmpty, PoolName, startAction, DateTime.Now, null);
                 return new PoolResult<TResult> { PoolTooEmpty = true };
             }

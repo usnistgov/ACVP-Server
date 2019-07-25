@@ -86,7 +86,7 @@ namespace NIST.CVP.Generation.KAS.ECC.Tests
         {
             var testGroup = GetData(scheme, kasRole);
             var testCase = testGroup.Tests[0];
-            testCase.EphemeralPublicKeyIutX = 0;
+            testCase.EphemeralKeyIut.PublicQ.X = 0;
 
             _subject = new TestCaseValidatorAftNoKdfNoKc(testCase, testGroup, _deferredResolver.Object);
 
@@ -120,7 +120,7 @@ namespace NIST.CVP.Generation.KAS.ECC.Tests
         {
             var testGroup = GetData(scheme, kasRole);
             var testCase = testGroup.Tests[0];
-            testCase.StaticPublicKeyIutX = 0;
+            testCase.StaticKeyIut.PublicQ.X = 0;
 
             _subject = new TestCaseValidatorAftNoKdfNoKc(testCase, testGroup, _deferredResolver.Object);
 

@@ -19,13 +19,15 @@ namespace NIST.CVP.Crypto.KAS.KC
 {
     public class KeyConfirmationFactory : IKeyConfirmationFactory
     {
+        private readonly IKeyConfirmationMacDataCreator _macDataCreator;
         private readonly ICmacFactory _cmacFactory;
         private readonly IHmacFactory _hmacFactory;
-
-        public KeyConfirmationFactory(ICmacFactory cmacFactory, IHmacFactory hmacFactory)
+        
+        public KeyConfirmationFactory(IKeyConfirmationMacDataCreator macDataCreator)
         {
-            _cmacFactory = cmacFactory;
-            _hmacFactory = hmacFactory;
+            _macDataCreator = macDataCreator;
+            _cmacFactory = new CmacFactory(new BlockCipherEngineFactory(), new ModeBlockCipherFactory());
+            _hmacFactory = new HmacFactory(new ShaFactory());
         }
 
         public IKeyConfirmation GetInstance(IKeyConfirmationParameters parameters)
@@ -34,13 +36,15 @@ namespace NIST.CVP.Crypto.KAS.KC
             {
                 case KeyAgreementMacType.AesCcm:
                     ConfirmKeyLengthAesCcm(parameters.KeyLength);
-                    return new KeyConfirmationAesCcm(new CcmBlockCipher(new AesEngine(), new ModeBlockCipherFactory(), new AES_CCMInternals()), parameters);
+                    return new KeyConfirmationAesCcm(
+                        _macDataCreator, 
+                        parameters,
+                        new CcmBlockCipher(new AesEngine(), new ModeBlockCipherFactory(), new AES_CCMInternals()));
                 case KeyAgreementMacType.CmacAes:
                     var cmacEnum = MapCmacEnum(parameters.KeyLength);
 
                     return new KeyConfirmationCmac(
-                        _cmacFactory.GetCmacInstance(cmacEnum), parameters
-                    );
+                        _macDataCreator, parameters, _cmacFactory.GetCmacInstance(cmacEnum));
                 case KeyAgreementMacType.HmacSha2D224:
                 case KeyAgreementMacType.HmacSha2D256:
                 case KeyAgreementMacType.HmacSha2D384:
@@ -48,8 +52,7 @@ namespace NIST.CVP.Crypto.KAS.KC
                     var hashFunction = GetHashFunction(parameters.MacType);
 
                     return new KeyConfirmationHmac(
-                        _hmacFactory.GetHmacInstance(hashFunction), parameters
-                    );
+                        _macDataCreator, parameters, _hmacFactory.GetHmacInstance(hashFunction));
                 default:
                     throw new ArgumentException(nameof(parameters.MacType));
             }

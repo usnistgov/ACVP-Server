@@ -25,24 +25,24 @@ namespace NIST.CVP.Generation.DSA.v1_0.SigGen
         [JsonIgnore] public FfcDomainParameters DomainParams { get; set; } = new FfcDomainParameters();
 
         [JsonProperty(PropertyName = "p", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public BigInteger P
+        public BitString P
         {
-            get => DomainParams?.P ?? 0;
-            set => DomainParams.P = value;
+            get => DomainParams?.P != 0 ? new BitString(DomainParams.P, L) : null;
+            set => DomainParams.P = value.ToPositiveBigInteger();
         }
 
         [JsonProperty(PropertyName = "q", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public BigInteger Q
+        public BitString Q
         {
-            get => DomainParams?.Q ?? 0;
-            set => DomainParams.Q = value;
+            get => DomainParams?.Q != 0 ? new BitString(DomainParams.Q, N) : null;
+            set => DomainParams.Q = value.ToPositiveBigInteger();
         }
 
         [JsonProperty(PropertyName = "g", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public BigInteger G
+        public BitString G
         {
-            get => DomainParams?.G ?? 0;
-            set => DomainParams.G = value;
+            get => DomainParams?.G != 0 ? new BitString(DomainParams.G, L) : null;
+            set => DomainParams.G = value.ToPositiveBigInteger();
         }
 
         [JsonIgnore] public HashFunction HashAlg { get; set; }
@@ -60,17 +60,17 @@ namespace NIST.CVP.Generation.DSA.v1_0.SigGen
         public FfcKeyPair Key { get; set; } = new FfcKeyPair();
 
         [JsonProperty(PropertyName = "x", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public BigInteger X
+        public BitString X
         {
-            get => Key?.PrivateKeyX ?? 0;
-            set => Key.PrivateKeyX = value;
+            get => Key?.PrivateKeyX != 0 ? new BitString(Key.PrivateKeyX, N) : null;
+            set => Key.PrivateKeyX = value.ToPositiveBigInteger();
         }
 
         [JsonProperty(PropertyName = "y", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public BigInteger Y
+        public BitString Y
         {
-            get => Key?.PublicKeyY ?? 0;
-            set => Key.PublicKeyY = value;
+            get => Key?.PublicKeyY != 0 ? new BitString(Key.PublicKeyY, L) : null;
+            set => Key.PublicKeyY = value.ToPositiveBigInteger();
         }
 
         public List<TestCase> Tests { get; set; } = new List<TestCase>();
