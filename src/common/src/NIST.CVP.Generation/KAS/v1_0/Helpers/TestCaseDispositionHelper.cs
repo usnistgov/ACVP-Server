@@ -13,7 +13,7 @@ namespace NIST.CVP.Generation.KAS.v1_0.Helpers
         public static List<KasValTestDisposition> PopulateValidityTestCaseOptions<TTestGroup, TTestCase, TKasDsaAlgoAttributes>(
             TestGroupBase<TTestGroup, TTestCase, TKasDsaAlgoAttributes> testGroup
         )
-            where TKasDsaAlgoAttributes : IKasDsaAlgoAttributes
+            where TKasDsaAlgoAttributes : IKasAlgoAttributes
             where TTestGroup : TestGroupBase<TTestGroup, TTestCase, TKasDsaAlgoAttributes>
             where TTestCase : TestCaseBase<TTestGroup, TTestCase, TKasDsaAlgoAttributes>
         {

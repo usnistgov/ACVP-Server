@@ -122,7 +122,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme.Ecc
         {
             DomainParameters = new EccDomainParameters(
                 EccCurveFactory.GetCurve(
-                    SchemeParameters.KasDsaAlgoAttributes.CurveName
+                    SchemeParameters.KasAlgoAttributes.CurveName
                 )
             );
         }

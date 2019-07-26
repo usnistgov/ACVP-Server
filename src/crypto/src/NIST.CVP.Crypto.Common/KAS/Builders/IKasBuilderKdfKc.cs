@@ -5,7 +5,7 @@ using NIST.CVP.Crypto.Common.KAS.Schema;
 namespace NIST.CVP.Crypto.Common.KAS.Builders
 {
     public interface IKasBuilderKdfKc<TKasDsaAlgoAttributes, TOtherPartySharedInfo, TDomainParameters, TKeyPair>
-        where TKasDsaAlgoAttributes : IKasDsaAlgoAttributes
+        where TKasDsaAlgoAttributes : IKasAlgoAttributes
         where TOtherPartySharedInfo : ISharedInformation<TDomainParameters, TKeyPair>
         where TDomainParameters : IDsaDomainParameters
         where TKeyPair : IDsaKeyPair

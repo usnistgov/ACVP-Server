@@ -41,9 +41,9 @@ namespace NIST.CVP.Crypto.KAS.Scheme.Ffc
         {
             _mqv = mqv;
 
-            if (SchemeParameters.KasDsaAlgoAttributes.Scheme != FfcScheme.Mqv2)
+            if (SchemeParameters.KasAlgoAttributes.Scheme != FfcScheme.Mqv2)
             {
-                throw new ArgumentException(nameof(SchemeParameters.KasDsaAlgoAttributes.Scheme));
+                throw new ArgumentException(nameof(SchemeParameters.KasAlgoAttributes.Scheme));
             }
         }
 

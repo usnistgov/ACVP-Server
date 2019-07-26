@@ -8,7 +8,7 @@ namespace NIST.CVP.Crypto.KAS.Builders
 {
     public abstract class KasBuilderBase<TKasDsaAlgoAttributes, TOtherPartySharedInfo, TDomainParameters, TKeyPair> 
         : IKasBuilder<TKasDsaAlgoAttributes, TOtherPartySharedInfo, TDomainParameters, TKeyPair>
-        where TKasDsaAlgoAttributes : IKasDsaAlgoAttributes
+        where TKasDsaAlgoAttributes : IKasAlgoAttributes
         where TOtherPartySharedInfo : ISharedInformation<TDomainParameters, TKeyPair>
         where TDomainParameters : IDsaDomainParameters
         where TKeyPair : IDsaKeyPair

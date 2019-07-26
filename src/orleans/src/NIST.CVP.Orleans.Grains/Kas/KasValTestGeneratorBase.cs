@@ -22,7 +22,7 @@ namespace NIST.CVP.Orleans.Grains.Kas
         IKasValTestGenerator<TKasValParameters, TKasValResult>
         where TKasValParameters : KasValParametersBase
         where TKasValResult : KasValResultBase, new()
-        where TKasDsaAlgoAttributes : IKasDsaAlgoAttributes
+        where TKasDsaAlgoAttributes : IKasAlgoAttributes
         where TDomainParameters : IDsaDomainParameters
         where TKeyPair : IDsaKeyPair
     {

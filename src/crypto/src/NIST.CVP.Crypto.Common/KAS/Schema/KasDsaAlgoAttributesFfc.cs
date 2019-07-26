@@ -2,7 +2,7 @@
 
 namespace NIST.CVP.Crypto.Common.KAS.Schema
 {
-    public class KasDsaAlgoAttributesFfc : IKasDsaAlgoAttributes
+    public class KasDsaAlgoAttributesFfc : IKasAlgoAttributes
     {
         public KasDsaAlgoAttributesFfc(FfcScheme scheme, FfcParameterSet parameterSet)
         {

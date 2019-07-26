@@ -75,7 +75,7 @@ namespace NIST.CVP.Crypto.KAS.Builders.Ffc
 
             var dsa = _dsaFfcFactory.GetInstance(_withHashFunction);
 
-            switch (schemeParameters.KasDsaAlgoAttributes.Scheme)
+            switch (schemeParameters.KasAlgoAttributes.Scheme)
             {
                 case FfcScheme.DhHybrid1:
                     scheme = new SchemeFfcDhHybrid1(dsa, _withKdfFactory,
@@ -113,7 +113,7 @@ namespace NIST.CVP.Crypto.KAS.Builders.Ffc
                         _withEntropyProvider, schemeParameters, kdfParameters, macParameters, _withDiffieHellman);
                     break;
                 default:
-                    throw new ArgumentException(nameof(schemeParameters.KasDsaAlgoAttributes.Scheme));
+                    throw new ArgumentException(nameof(schemeParameters.KasAlgoAttributes.Scheme));
             }
 
             if (backToOriginalState)

@@ -43,9 +43,9 @@ namespace NIST.CVP.Crypto.KAS.Scheme.Ecc
         {
             _diffieHellman = diffieHellman;
 
-            if (SchemeParameters.KasDsaAlgoAttributes.Scheme != EccScheme.FullUnified)
+            if (SchemeParameters.KasAlgoAttributes.Scheme != EccScheme.FullUnified)
             {
-                throw new ArgumentException(nameof(SchemeParameters.KasDsaAlgoAttributes.Scheme));
+                throw new ArgumentException(nameof(SchemeParameters.KasAlgoAttributes.Scheme));
             }
         }
 

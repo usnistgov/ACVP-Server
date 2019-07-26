@@ -12,7 +12,7 @@ namespace NIST.CVP.Crypto.KAS.Builders
 {
     public abstract class SchemeBuilderBase<TKasDsaAlgoAttributes, TSharedInformation, TDomainParameters, TKeyPair> 
         : ISchemeBuilder<TKasDsaAlgoAttributes, TSharedInformation, TDomainParameters, TKeyPair>
-        where TKasDsaAlgoAttributes : IKasDsaAlgoAttributes
+        where TKasDsaAlgoAttributes : IKasAlgoAttributes
         where TSharedInformation : ISharedInformation<TDomainParameters, TKeyPair>
         where TDomainParameters : IDsaDomainParameters
         where TKeyPair : IDsaKeyPair

@@ -41,9 +41,9 @@ namespace NIST.CVP.Crypto.KAS.Scheme.Ffc
         {
             _diffieHellman = diffieHellman;
 
-            if (SchemeParameters.KasDsaAlgoAttributes.Scheme != FfcScheme.DhHybrid1)
+            if (SchemeParameters.KasAlgoAttributes.Scheme != FfcScheme.DhHybrid1)
             {
-                throw new ArgumentException(nameof(SchemeParameters.KasDsaAlgoAttributes.Scheme));
+                throw new ArgumentException(nameof(SchemeParameters.KasAlgoAttributes.Scheme));
             }
         }
 

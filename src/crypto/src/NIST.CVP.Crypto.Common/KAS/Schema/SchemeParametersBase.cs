@@ -5,7 +5,7 @@ using NIST.CVP.Math;
 namespace NIST.CVP.Crypto.Common.KAS.Schema
 {
     public abstract class SchemeParametersBase<TKasDsaAlgoAttributes> : ISchemeParameters<TKasDsaAlgoAttributes>
-        where TKasDsaAlgoAttributes : IKasDsaAlgoAttributes
+        where TKasDsaAlgoAttributes : IKasAlgoAttributes
     {
         /// <summary>
         /// Constructs Kas parameter information
@@ -40,7 +40,7 @@ namespace NIST.CVP.Crypto.Common.KAS.Schema
                         $"{nameof(KasMode.KdfKc)} requires a valid (not None) value for both {nameof(keyConfirmationRole)} and {nameof(keyConfirmationDirection)}");
                 }
             }
-            KasDsaAlgoAttributes = kasDsaAlgoAttributes;
+            KasAlgoAttributes = kasDsaAlgoAttributes;
             KeyAgreementRole = keyAgreementRole;
             KasMode = kasMode;
             KeyConfirmationRole = keyConfirmationRole;
@@ -49,7 +49,7 @@ namespace NIST.CVP.Crypto.Common.KAS.Schema
             ThisPartyId = thisPartyId;
         }
         /// <inheritdoc />
-        public TKasDsaAlgoAttributes KasDsaAlgoAttributes { get; }
+        public TKasDsaAlgoAttributes KasAlgoAttributes { get; }
         /// <inheritdoc />
         public KeyAgreementRole KeyAgreementRole { get; }
         /// <inheritdoc />

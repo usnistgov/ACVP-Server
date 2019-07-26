@@ -28,14 +28,14 @@ namespace NIST.CVP.Orleans.Grains.Kas.Ecc.Helpers
         )
         {
             var serverKeyExpectations = KeyGenerationRequirementsHelper.GetKeyGenerationOptionsForSchemeAndRole(
-                serverKas.Scheme.SchemeParameters.KasDsaAlgoAttributes.Scheme,
+                serverKas.Scheme.SchemeParameters.KasAlgoAttributes.Scheme,
                 serverKas.Scheme.SchemeParameters.KasMode,
                 serverKas.Scheme.SchemeParameters.KeyAgreementRole,
                 serverKas.Scheme.SchemeParameters.KeyConfirmationRole,
                 serverKas.Scheme.SchemeParameters.KeyConfirmationDirection
             );
             var iutKeyExpectations = KeyGenerationRequirementsHelper.GetKeyGenerationOptionsForSchemeAndRole(
-                iutKas.Scheme.SchemeParameters.KasDsaAlgoAttributes.Scheme,
+                iutKas.Scheme.SchemeParameters.KasAlgoAttributes.Scheme,
                 serverKas.Scheme.SchemeParameters.KasMode,
                 iutKas.Scheme.SchemeParameters.KeyAgreementRole,
                 iutKas.Scheme.SchemeParameters.KeyConfirmationRole,

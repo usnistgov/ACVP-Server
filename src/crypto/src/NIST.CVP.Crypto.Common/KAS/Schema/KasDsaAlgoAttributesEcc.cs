@@ -3,7 +3,7 @@ using NIST.CVP.Crypto.Common.KAS.Enums;
 
 namespace NIST.CVP.Crypto.Common.KAS.Schema
 {
-    public class KasDsaAlgoAttributesEcc : IKasDsaAlgoAttributes
+    public class KasDsaAlgoAttributesEcc : IKasAlgoAttributes
     {
         public KasDsaAlgoAttributesEcc(EccScheme scheme, EccParameterSet parameterSet, Curve curveName)
         {

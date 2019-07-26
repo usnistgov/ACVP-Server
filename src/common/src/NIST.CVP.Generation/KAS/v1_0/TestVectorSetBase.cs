@@ -4,10 +4,10 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.KAS.v1_0
 {
-    public abstract class TestVectorSetBase<TTestGroup, TTestCase, TKasDsaAlgoAttributes> : ITestVectorSet<TTestGroup, TTestCase>
-        where TTestGroup : TestGroupBase<TTestGroup, TTestCase, TKasDsaAlgoAttributes>, new()
-        where TTestCase : TestCaseBase<TTestGroup, TTestCase, TKasDsaAlgoAttributes>, new()
-        where TKasDsaAlgoAttributes : IKasDsaAlgoAttributes
+    public abstract class TestVectorSetBase<TTestGroup, TTestCase, TKasAlgoAttributes> : ITestVectorSet<TTestGroup, TTestCase>
+        where TTestGroup : TestGroupBase<TTestGroup, TTestCase, TKasAlgoAttributes>, new()
+        where TTestCase : TestCaseBase<TTestGroup, TTestCase, TKasAlgoAttributes>, new()
+        where TKasAlgoAttributes : IKasAlgoAttributes
     {
         public int VectorSetId { get; set; }
         public string Algorithm { get; set; }

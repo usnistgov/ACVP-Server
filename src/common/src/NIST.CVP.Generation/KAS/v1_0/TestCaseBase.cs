@@ -6,10 +6,10 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.KAS.v1_0
 {
-    public abstract class TestCaseBase<TTestGroup, TTestCase, TKasDsaAlgoAttributes> : ITestCase<TTestGroup, TTestCase>
-        where TKasDsaAlgoAttributes : IKasDsaAlgoAttributes
-        where TTestGroup : TestGroupBase<TTestGroup, TTestCase, TKasDsaAlgoAttributes>
-        where TTestCase : TestCaseBase<TTestGroup, TTestCase, TKasDsaAlgoAttributes>
+    public abstract class TestCaseBase<TTestGroup, TTestCase, TKasAlgoAttributes> : ITestCase<TTestGroup, TTestCase>
+        where TKasAlgoAttributes : IKasAlgoAttributes
+        where TTestGroup : TestGroupBase<TTestGroup, TTestCase, TKasAlgoAttributes>
+        where TTestCase : TestCaseBase<TTestGroup, TTestCase, TKasAlgoAttributes>
     {
         public int TestCaseId { get; set; }
         public bool? TestPassed { get; set; }

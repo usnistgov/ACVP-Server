@@ -79,7 +79,7 @@ namespace NIST.CVP.Crypto.KAS.Builders.Ecc
 
             var dsa = _dsaEccFactory.GetInstance(_withHashFunction);
 
-            switch (schemeParameters.KasDsaAlgoAttributes.Scheme)
+            switch (schemeParameters.KasAlgoAttributes.Scheme)
             {
                 case EccScheme.FullUnified:
                     scheme = new SchemeEccFullUnified(dsa, _eccCurveFactory, _withKdfFactory,
@@ -117,7 +117,7 @@ namespace NIST.CVP.Crypto.KAS.Builders.Ecc
                         _withEntropyProvider, schemeParameters, kdfParameters, macParameters, _withDiffieHellman);
                     break;
                 default:
-                    throw new ArgumentException(nameof(schemeParameters.KasDsaAlgoAttributes.Scheme));
+                    throw new ArgumentException(nameof(schemeParameters.KasAlgoAttributes.Scheme));
             }
 
             if (backToOriginalState)

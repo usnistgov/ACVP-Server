@@ -39,17 +39,17 @@ namespace NIST.CVP.Generation.KAS.v1_0.FFC
             set => DomainParams.G = value.ToPositiveBigInteger();
         }
 
-        public override KasDsaAlgoAttributesFfc KasDsaAlgoAttributes => 
+        public override KasDsaAlgoAttributesFfc KasAlgoAttributes => 
             new KasDsaAlgoAttributesFfc(Scheme, ParmSet);
         
         public override SchemeKeyNonceGenRequirement KeyNonceGenRequirementsIut => 
             KeyGenerationRequirementsHelper.GetKeyGenerationOptionsForSchemeAndRole(
-                KasDsaAlgoAttributes.Scheme, KasMode, KasRole, KcRole, KcType
+                KasAlgoAttributes.Scheme, KasMode, KasRole, KcRole, KcType
             );
 
         public override SchemeKeyNonceGenRequirement KeyNonceGenRequirementsServer => 
             KeyGenerationRequirementsHelper.GetKeyGenerationOptionsForSchemeAndRole(
-                KasDsaAlgoAttributes.Scheme, 
+                KasAlgoAttributes.Scheme, 
                 KasMode, 
                 KeyGenerationRequirementsHelper.GetOtherPartyKeyAgreementRole(KasRole), 
                 KeyGenerationRequirementsHelper.GetOtherPartyKeyConfirmationRole(KcRole), 

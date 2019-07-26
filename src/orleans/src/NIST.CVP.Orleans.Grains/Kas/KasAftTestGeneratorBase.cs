@@ -18,7 +18,7 @@ namespace NIST.CVP.Orleans.Grains.Kas
         IKasAftTestGenerator<TKasAftParameters, TKasAftResult>
         where TKasAftParameters : KasAftParametersBase
         where TKasAftResult : KasAftResultBase, new()
-        where TKasDsaAlgoAttributes : IKasDsaAlgoAttributes
+        where TKasDsaAlgoAttributes : IKasAlgoAttributes
         where TDomainParameters : IDsaDomainParameters
         where TKeyPair : IDsaKeyPair
         where TScheme : struct, IComparable

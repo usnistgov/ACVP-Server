@@ -31,14 +31,14 @@ namespace NIST.CVP.Crypto.KAS.Scheme.Ffc
         {
             _diffieHellman = dh;
 
-            if (SchemeParameters.KasDsaAlgoAttributes.Scheme != FfcScheme.DhEphem)
+            if (SchemeParameters.KasAlgoAttributes.Scheme != FfcScheme.DhEphem)
             {
-                throw new ArgumentException(nameof(SchemeParameters.KasDsaAlgoAttributes.Scheme));
+                throw new ArgumentException(nameof(SchemeParameters.KasAlgoAttributes.Scheme));
             }
 
             if (SchemeParameters.KasMode == KasMode.KdfKc)
             {
-                throw new ArgumentException($"{SchemeParameters.KasMode} not possible with {SchemeParameters.KasDsaAlgoAttributes.Scheme}");
+                throw new ArgumentException($"{SchemeParameters.KasMode} not possible with {SchemeParameters.KasAlgoAttributes.Scheme}");
             }
         }
 

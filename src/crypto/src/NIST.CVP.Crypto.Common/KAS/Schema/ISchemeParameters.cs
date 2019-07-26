@@ -6,14 +6,14 @@ namespace NIST.CVP.Crypto.Common.KAS.Schema
     /// <summary>
     /// Describes the parameters needed for a KAS scheme
     /// </summary>
-    /// <typeparam name="TKasDsaAlgoAttributes"></typeparam>
-    public interface ISchemeParameters<out TKasDsaAlgoAttributes>
-        where TKasDsaAlgoAttributes : IKasDsaAlgoAttributes
+    /// <typeparam name="TKasAlgoAttributes"></typeparam>
+    public interface ISchemeParameters<out TKasAlgoAttributes>
+        where TKasAlgoAttributes : IKasAlgoAttributes
     {
         /// <summary>
-        /// The attributes specific to either the FFC or ECC scheme
+        /// The attributes specific to the KAS scheme
         /// </summary>
-        TKasDsaAlgoAttributes KasDsaAlgoAttributes { get; }
+        TKasAlgoAttributes KasAlgoAttributes { get; }
         /// <summary>
         /// The Assurances that are implemented by the KAS instance.
         /// </summary>

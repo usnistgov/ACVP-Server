@@ -41,9 +41,9 @@ namespace NIST.CVP.Crypto.KAS.Scheme.Ffc
         {
             _diffieHellman = diffieHellman;
 
-            if (SchemeParameters.KasDsaAlgoAttributes.Scheme != FfcScheme.DhOneFlow)
+            if (SchemeParameters.KasAlgoAttributes.Scheme != FfcScheme.DhOneFlow)
             {
-                throw new ArgumentException(nameof(SchemeParameters.KasDsaAlgoAttributes.Scheme));
+                throw new ArgumentException(nameof(SchemeParameters.KasAlgoAttributes.Scheme));
             }
 
             if (SchemeParameters.KeyConfirmationDirection == KeyConfirmationDirection.Bilateral ||

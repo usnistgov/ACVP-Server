@@ -5,7 +5,7 @@ namespace NIST.CVP.Crypto.Common.KAS.Schema
 {
     public interface IScheme<out TSchemeParameters, TKasDsaAlgoAttributes, TOtherPartySharedInfo, TDomainParameters, TKeyPair>
         where TSchemeParameters : ISchemeParameters<TKasDsaAlgoAttributes>
-        where TKasDsaAlgoAttributes : IKasDsaAlgoAttributes
+        where TKasDsaAlgoAttributes : IKasAlgoAttributes
         where TOtherPartySharedInfo : ISharedInformation<TDomainParameters, TKeyPair>
         where TDomainParameters : IDsaDomainParameters
         where TKeyPair : IDsaKeyPair

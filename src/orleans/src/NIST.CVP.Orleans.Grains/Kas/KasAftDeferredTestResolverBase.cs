@@ -17,7 +17,7 @@ namespace NIST.CVP.Orleans.Grains.Kas
         : IKasAftDeferredTestResolver<TKasAftDeferredParameters, TKasAftDeferredResult>
         where TKasAftDeferredParameters : KasAftDeferredParametersBase
         where TKasAftDeferredResult : KasAftDeferredResult, new()
-        where TKasDsaAlgoAttributes : IKasDsaAlgoAttributes
+        where TKasDsaAlgoAttributes : IKasAlgoAttributes
         where TDomainParameters : IDsaDomainParameters
         where TKeyPair : IDsaKeyPair
         where TScheme : struct, IComparable

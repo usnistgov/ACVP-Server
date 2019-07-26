@@ -43,9 +43,9 @@ namespace NIST.CVP.Crypto.KAS.Scheme.Ecc
         {
             _mqv = mqv;
 
-            if (SchemeParameters.KasDsaAlgoAttributes.Scheme != EccScheme.FullMqv)
+            if (SchemeParameters.KasAlgoAttributes.Scheme != EccScheme.FullMqv)
             {
-                throw new ArgumentException(nameof(SchemeParameters.KasDsaAlgoAttributes.Scheme));
+                throw new ArgumentException(nameof(SchemeParameters.KasAlgoAttributes.Scheme));
             }
         }
 
