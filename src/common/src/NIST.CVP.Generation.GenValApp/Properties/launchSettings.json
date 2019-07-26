@@ -2,6 +2,14 @@
   "profiles": {
     "NIST.CVP.Generation.GenValApp": {
       "commandName": "Project"
+    },
+    "Generate": {
+      "commandName": "Project",
+      "commandLineArgs": "-g \"registration.json\""
+    },
+    "Validate": {
+      "commandName": "Project",
+      "commandLineArgs": "-n \"internalProjection.json\" -r \"testResults.json\""
     }
   }
 }
