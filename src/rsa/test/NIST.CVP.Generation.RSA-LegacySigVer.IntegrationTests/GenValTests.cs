@@ -9,9 +9,11 @@ using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Enums;
 using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Generation.Core.Tests.Fakes;
-using NIST.CVP.Generation.RSA_SigVer;
+using NIST.CVP.Generation.RSA.v1_0.SigVer;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
+using ParameterValidator = NIST.CVP.Generation.RSA.v1_0.LegacySigVer.ParameterValidator;
+using RegisterInjections = NIST.CVP.Generation.RSA.v1_0.LegacySigVer.RegisterInjections;
 
 namespace NIST.CVP.Generation.RSA_LegacySigVer.IntegrationTests
 {
@@ -24,7 +26,7 @@ namespace NIST.CVP.Generation.RSA_LegacySigVer.IntegrationTests
         public override AlgoMode AlgoMode => AlgoMode.RSA_LegacySigVer_v1_0;
 
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
-		public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
+
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {
@@ -71,8 +73,7 @@ namespace NIST.CVP.Generation.RSA_LegacySigVer.IntegrationTests
                 Revision = Revision,
                 IsSample = false,
                 Capabilities = algSpecs,
-                PubExpMode = "fixed",
-                FixedPubExpValue = "11",
+                PubExpMode = "random",
                 KeyFormat = "standard"
             };
 

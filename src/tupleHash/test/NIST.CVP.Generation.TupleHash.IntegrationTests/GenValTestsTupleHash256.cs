@@ -2,6 +2,7 @@
 using NIST.CVP.Common;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Tests;
+using NIST.CVP.Generation.TupleHash.v1_0;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
@@ -14,11 +15,11 @@ namespace NIST.CVP.Generation.TupleHash.IntegrationTests
     public class GenValTestsTupleHash256 : GenValTestsSingleRunnerBase
     {
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
-        public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
 
-        public override string Algorithm { get; } = "TupleHash";
+
+        public override string Algorithm { get; } = "TupleHash-256";
         public override string Mode { get; } = string.Empty;
-        public override AlgoMode AlgoMode => AlgoMode.TupleHash_v1_0;
+        public override AlgoMode AlgoMode => AlgoMode.TupleHash_256_v1_0;
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {
@@ -31,19 +32,8 @@ namespace NIST.CVP.Generation.TupleHash.IntegrationTests
                 testCase.md = bs.ToHex();
             }
 
-            if (testCase.msg != null)
-            {
-                var bs = new BitString(testCase.msg.ToString());
-                bs = rand.GetDifferentBitStringOfSameSize(bs);
-                testCase.msg = bs.ToHex();
-            }
-
             if (testCase.resultsArray != null)
             {
-                var bsMessage = new BitString(testCase.resultsArray[0].msg.ToString());
-                bsMessage = rand.GetDifferentBitStringOfSameSize(bsMessage);
-                testCase.resultsArray[0].msg = bsMessage.ToHex();
-
                 var bsDigest = new BitString(testCase.resultsArray[0].md.ToString());
                 bsDigest = rand.GetDifferentBitStringOfSameSize(bsDigest);
                 testCase.resultsArray[0].md = bsDigest.ToHex();
@@ -82,7 +72,7 @@ namespace NIST.CVP.Generation.TupleHash.IntegrationTests
                 DigestSizes = new[] { 256 },
                 OutputLength = minMax,
                 MessageLength = minMax,
-                XOF = false,
+                XOF = new[] { false },
                 IsSample = true
             };
 
@@ -92,9 +82,9 @@ namespace NIST.CVP.Generation.TupleHash.IntegrationTests
         protected override string GetTestFileLotsOfTestCases(string targetFolder)
         {
             var minMax = new MathDomain();
-            minMax.AddSegment(new RangeDomainSegment(null, 256, 4096, 1));
+            minMax.AddSegment(new RangeDomainSegment(null, 256, 512, 8));
             var minMaxMsg = new MathDomain();
-            minMaxMsg.AddSegment(new RangeDomainSegment(null, 0, 65536, 1));
+            minMaxMsg.AddSegment(new RangeDomainSegment(null, 0, 1024, 8));
 
             var parameters = new Parameters
             {
@@ -104,8 +94,8 @@ namespace NIST.CVP.Generation.TupleHash.IntegrationTests
                 DigestSizes = new[] { 256 },
                 MessageLength = minMaxMsg,
                 OutputLength = minMax,
-                XOF = true,
-                IsSample = false
+                XOF = new[] { true, false },
+                IsSample = true
             };
 
             return CreateRegistration(targetFolder, parameters);

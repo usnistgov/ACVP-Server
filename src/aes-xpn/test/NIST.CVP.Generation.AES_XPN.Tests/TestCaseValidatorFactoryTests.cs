@@ -4,6 +4,7 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using NIST.CVP.Generation.AES_XPN.v1_0;
 
 namespace NIST.CVP.Generation.AES_XPN.Tests
 {

@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Text.RegularExpressions;
-using NIST.CVP.Generation.Core.DeSerialization;
+﻿using NIST.CVP.Generation.Core.DeSerialization;
 using NIST.CVP.Generation.Core.Enums;
 using NIST.CVP.Generation.Core.JsonConverters;
-using NIST.CVP.Generation.TupleHash.ContractResolvers;
+using NIST.CVP.Generation.TupleHash.v1_0;
+using NIST.CVP.Generation.TupleHash.v1_0.ContractResolvers;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
+using System.Text.RegularExpressions;
 
 namespace NIST.CVP.Generation.TupleHash.Tests.ContractResolvers
 {
@@ -89,7 +87,7 @@ namespace NIST.CVP.Generation.TupleHash.Tests.ContractResolvers
 
             if (testType == "aft")
             {
-                Assert.AreEqual(tc.DigestLength, newTc.DigestLength, nameof(newTc.DigestLength));
+                Assert.IsNull(newTc.Digest, nameof(newTc.Digest));
                 if (hexCustomization)
                 {
                     Assert.AreEqual(tc.CustomizationHex, newTc.CustomizationHex, nameof(newTc.CustomizationHex));
@@ -103,7 +101,7 @@ namespace NIST.CVP.Generation.TupleHash.Tests.ContractResolvers
             }
             else
             {
-                Assert.AreNotEqual(tc.DigestLength, newTc.DigestLength, nameof(newTc.DigestLength));
+                Assert.IsNull(newTc.Digest, nameof(newTc.Digest));
                 Assert.AreNotEqual(tc.CustomizationHex, newTc.CustomizationHex, nameof(newTc.CustomizationHex));
                 Assert.AreNotEqual(tc.Customization, newTc.Customization, nameof(newTc.Customization));
             }

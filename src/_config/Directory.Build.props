@@ -26,25 +26,25 @@
 
     <!-- NuGet package versions -->
     <PropertyGroup>
-    	<NuGetVersionMicrosoftAspNetCore>2.1.3</NuGetVersionMicrosoftAspNetCore>
-        <NuGetVersionMicrosoftNETTestSdk>15.7.0</NuGetVersionMicrosoftNETTestSdk>
+    	<NuGetVersionMicrosoftAspNetCore>2.1.10</NuGetVersionMicrosoftAspNetCore>
+        <NuGetVersionMicrosoftNETTestSdk>16.0.1</NuGetVersionMicrosoftNETTestSdk>
         <NuGetVersiondotnettestnunit>3.4.0-beta-3</NuGetVersiondotnettestnunit>
-        <NuGetVersionTeamCityVSTestTestAdapter>1.0.5</NuGetVersionTeamCityVSTestTestAdapter>
-        <NuGetVersionMoq>4.8.2</NuGetVersionMoq>
-        <NuGetVersionNLog>4.5.2</NuGetVersionNLog>
-        <NuGetVersionNUnit>3.8.1</NuGetVersionNUnit>
-        <NuGetVersionNUnit3TestAdapter>3.10.0</NuGetVersionNUnit3TestAdapter>
-        <NuGetVersionAutofac>4.8.0</NuGetVersionAutofac>
+        <NuGetVersionTeamCityVSTestTestAdapter>1.0.15</NuGetVersionTeamCityVSTestTestAdapter>
+        <NuGetVersionMoq>4.10.1</NuGetVersionMoq>
+        <NuGetVersionNLog>4.6.2</NuGetVersionNLog>
+        <NuGetVersionNUnit>3.11.0</NuGetVersionNUnit>
+        <NuGetVersionNUnit3TestAdapter>3.13.0</NuGetVersionNUnit3TestAdapter>
+        <NuGetVersionAutofac>4.9.2</NuGetVersionAutofac>
         <NuGetVersionNewtonsoftJson>12.0.1</NuGetVersionNewtonsoftJson>
-        <NuGetVersionCommandLineArgumentsParser>3.0.18</NuGetVersionCommandLineArgumentsParser>
+        <NuGetVersionCommandLineArgumentsParser>3.0.19</NuGetVersionCommandLineArgumentsParser>
         <NuGetVersionSystemRuntimeLoader>4.3.0</NuGetVersionSystemRuntimeLoader>
-        <NugetVersionMicrosoftOrleansServer>2.2.3</NugetVersionMicrosoftOrleansServer>
-        <NugetVersionMicrosoftOrleansOrleansCodeGeneratorBuild>2.2.3</NugetVersionMicrosoftOrleansOrleansCodeGeneratorBuild>
-        <NugetVersionMicrosoftOrleansClient>2.2.0</NugetVersionMicrosoftOrleansClient>
-        <NugetVersionMicrosoftOrleansCoreAbstractions>2.2.0</NugetVersionMicrosoftOrleansCoreAbstractions>
-        <NugetVersionMicrosoftOrleansClusteringAdoNet>2.2.3</NugetVersionMicrosoftOrleansClusteringAdoNet>
-        <NuGetVersionOrleansDashboard>2.2.0</NuGetVersionOrleansDashboard>
-        <NuGetVersionMicrosoftOrleansOrleansTelemetryConsumersCounters>2.2.0</NuGetVersionMicrosoftOrleansOrleansTelemetryConsumersCounters>
+        <NugetVersionMicrosoftOrleansServer>2.3.0</NugetVersionMicrosoftOrleansServer>
+        <NugetVersionMicrosoftOrleansOrleansCodeGeneratorBuild>2.3.0</NugetVersionMicrosoftOrleansOrleansCodeGeneratorBuild>
+        <NugetVersionMicrosoftOrleansClient>2.3.0</NugetVersionMicrosoftOrleansClient>
+        <NugetVersionMicrosoftOrleansCoreAbstractions>2.3.0</NugetVersionMicrosoftOrleansCoreAbstractions>
+        <NugetVersionMicrosoftOrleansClusteringAdoNet>2.3.0</NugetVersionMicrosoftOrleansClusteringAdoNet>
+        <NuGetVersionOrleansDashboard>2.3.1</NuGetVersionOrleansDashboard>
+        <NuGetVersionMicrosoftOrleansOrleansTelemetryConsumersCounters>2.3.0</NuGetVersionMicrosoftOrleansOrleansTelemetryConsumersCounters>
         <NugetVersionMicrosoftAspNetCoreHostingWindowsServices>2.1.0</NugetVersionMicrosoftAspNetCoreHostingWindowsServices>
         <NuGetVersionSystemServiceProcessServiceController>4.5.0</NuGetVersionSystemServiceProcessServiceController>
     </PropertyGroup>

@@ -9,7 +9,11 @@ namespace NIST.CVP.Crypto.KAS.KC
     {
         private readonly ICmac _iCmac;
 
-        public KeyConfirmationCmac(ICmac iCmac, IKeyConfirmationParameters keyConfirmationParameters)
+        public KeyConfirmationCmac(
+            IKeyConfirmationMacDataCreator macDataCreator,
+            IKeyConfirmationParameters keyConfirmationParameters,
+            ICmac iCmac)
+            : base(macDataCreator, keyConfirmationParameters)
         {
             _iCmac = iCmac;
             _keyConfirmationParameters = keyConfirmationParameters;

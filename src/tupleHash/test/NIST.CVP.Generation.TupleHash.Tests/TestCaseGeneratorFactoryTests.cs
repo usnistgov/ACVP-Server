@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Moq;
-using NIST.CVP.Crypto.Common.Hash.TupleHash;
-using NIST.CVP.Crypto.CSHAKE;
-using NIST.CVP.Math;
+﻿using NIST.CVP.Generation.TupleHash.v1_0;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
+using System;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Generation.TupleHash.Tests
 {
@@ -34,32 +29,6 @@ namespace NIST.CVP.Generation.TupleHash.Tests
         }
 
         [Test]
-        [TestCase(true)]
-        [TestCase(false)]
-        public async Task ShouldReturnSampleMonteCarloGeneratorIfRequested(bool isSample)
-        {
-            var testGroup = new TestGroup
-            {
-                Function = "TupleHash",
-                DigestSize = 128,
-                TestType = "MCT",
-                XOF = false,
-                OutputLength = new Math.Domain.MathDomain().AddSegment(new Math.Domain.RangeDomainSegment(new Math.Random800_90(), 16, 32))
-            };
-
-            var subject = GetSubject();
-            var generator = subject.GetCaseGenerator(testGroup);
-            Assume.That(generator != null);
-
-            var typedGen = generator as TestCaseGeneratorMct;
-            Assume.That(typedGen != null);
-
-            await typedGen.GenerateAsync(testGroup, isSample);
-
-            Assert.AreEqual(isSample, typedGen.IsSample);
-        }
-
-        [Test]
         public void ShouldReturnAGenerator()
         {
             var subject = GetSubject();
@@ -76,7 +45,7 @@ namespace NIST.CVP.Generation.TupleHash.Tests
 
         private TestCaseGeneratorFactory GetSubject()
         {
-            return new TestCaseGeneratorFactory(null);
+            return new TestCaseGeneratorFactory(null, null);
         }
     }
 }

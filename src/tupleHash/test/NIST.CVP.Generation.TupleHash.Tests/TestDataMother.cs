@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using NIST.CVP.Crypto.Common.Hash.TupleHash;
-using NIST.CVP.Crypto.TupleHash;
-using NIST.CVP.Generation.Core;
+﻿using NIST.CVP.Crypto.Common.Hash.TupleHash;
+using NIST.CVP.Generation.TupleHash.v1_0;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Domain;
+using System;
+using System.Collections.Generic;
 
 namespace NIST.CVP.Generation.TupleHash.Tests
 {
@@ -48,8 +45,7 @@ namespace NIST.CVP.Generation.TupleHash.Tests
                         Customization = "custom",
                         CustomizationHex = new BitString(8),
                         Deferred = true,
-                        TestCaseId = testId,
-                        DigestLength = 128
+                        TestCaseId = testId
                     };
                     tests.Add(tc);
 

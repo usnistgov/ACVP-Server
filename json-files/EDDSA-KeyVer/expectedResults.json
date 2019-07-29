@@ -10,11 +10,11 @@
       "tests": [
         {
           "tcId": 1,
-          "testPassed": true
+          "testPassed": false
         },
         {
           "tcId": 2,
-          "testPassed": false
+          "testPassed": true
         },
         {
           "tcId": 3,

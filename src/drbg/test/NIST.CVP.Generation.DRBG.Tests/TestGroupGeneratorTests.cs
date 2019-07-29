@@ -9,6 +9,7 @@ using NUnit.Framework;
 using NIST.CVP.Math.Domain;
 using NIST.CVP.Math;
 using NIST.CVP.Crypto.Common.DRBG.Enums;
+using NIST.CVP.Generation.DRBG.v1_0;
 
 namespace NIST.CVP.Generation.DRBG.Tests
 {

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using NIST.CVP.Common;
+using NIST.CVP.Generation.AES_GCM.v1_0;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 
@@ -24,6 +26,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
             {
                 var tg = new TestGroup
                 {
+                    AlgoMode = AlgoMode.AES_GCM_v1_0,
                     AadLength = 16 + groupIdx * 2,
                     Function = direction,
                     IvGeneration = ivGen,

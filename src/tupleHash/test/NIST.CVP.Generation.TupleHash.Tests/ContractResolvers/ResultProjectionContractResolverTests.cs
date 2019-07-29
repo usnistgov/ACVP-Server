@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Text.RegularExpressions;
-using NIST.CVP.Generation.Core.DeSerialization;
+﻿using NIST.CVP.Generation.Core.DeSerialization;
 using NIST.CVP.Generation.Core.Enums;
 using NIST.CVP.Generation.Core.JsonConverters;
-using NIST.CVP.Generation.TupleHash.ContractResolvers;
+using NIST.CVP.Generation.TupleHash.v1_0;
+using NIST.CVP.Generation.TupleHash.v1_0.ContractResolvers;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
+using System;
+using System.Text.RegularExpressions;
 
 namespace NIST.CVP.Generation.TupleHash.Tests.ContractResolvers
 {
@@ -80,7 +79,6 @@ namespace NIST.CVP.Generation.TupleHash.Tests.ContractResolvers
             Assert.AreEqual(tc.ParentGroup.TestGroupId, newTc.ParentGroup.TestGroupId, nameof(newTc.ParentGroup));
             Assert.AreEqual(tc.TestCaseId, newTc.TestCaseId, nameof(newTc.TestCaseId));
             Assert.AreEqual(tc.Digest, newTc.Digest, nameof(newTc.Digest));
-            Assert.AreEqual(tc.DigestLength, newTc.DigestLength, nameof(newTc.DigestLength));
 
             if (tg.TestType.Equals("mct", StringComparison.OrdinalIgnoreCase))
             {
@@ -93,6 +91,7 @@ namespace NIST.CVP.Generation.TupleHash.Tests.ContractResolvers
             }
             else
             {
+                Assert.AreEqual(tc.DigestLength, newTc.DigestLength, nameof(newTc.DigestLength));
                 Assert.IsNull(newTc.ResultsArray, nameof(newTc.ResultsArray));
             }
 

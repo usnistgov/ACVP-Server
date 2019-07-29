@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using NIST.CVP.Generation.DSA.v1_0.SigGen;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace NIST.CVP.Generation.DSA.FFC.SigGen.Tests
 {
@@ -15,6 +14,18 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen.Tests
         {
             var subject = new ParameterValidator();
             var parameterBuilder = new ParameterBuilder();
+            var result = subject.Validate(parameterBuilder.Build());
+
+            Assert.IsNull(result.ErrorMessage);
+            Assert.IsTrue(result.Success);
+        }
+
+        [Test]
+        public void ShouldReturnNoErrorsWithValidParametersIncludingConformances()
+        {
+            var subject = new ParameterValidator();
+            var parameterBuilder = new ParameterBuilder()
+                .WithConformances(new[] { "SP800-106" });
             var result = subject.Validate(parameterBuilder.Build());
 
             Assert.IsNull(result.ErrorMessage);
@@ -63,6 +74,31 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen.Tests
             Assert.IsFalse(result.Success);
         }
 
+        private static IEnumerable<object> _badConformances = new List<object>()
+        {
+            new object[]
+            {
+                new[] {"invalid"}
+            },
+            new object[]
+            {
+                new[] {"SP800-106", "invalid"}
+            }
+        };
+
+        [Test]
+        [TestCaseSource(nameof(_badConformances))]
+        public void ShouldReturnErrorWithInvalidConformances(string[] conformances)
+        {
+            var subject = new ParameterValidator();
+            var result = subject.Validate(
+                new ParameterBuilder()
+                    .WithConformances(conformances)
+                    .Build());
+
+            Assert.IsFalse(result.Success, result.ErrorMessage);
+        }
+
         [Test]
         [TestCase(2048, 224)]
         [TestCase(2048, 256)]
@@ -87,12 +123,13 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen.Tests
         private string _algorithm;
         private string _mode;
         private Capability[] _capabilities;
+        private string[] _conformances;
 
         public ParameterBuilder()
         {
             _algorithm = "DSA";
             _mode = "SigGen";
-            _capabilities = new[] 
+            _capabilities = new[]
             {
                 GetCapabilityWith(2048, 224, ParameterValidator.VALID_HASH_ALGS),
                 GetCapabilityWith(2048, 256, ParameterValidator.VALID_HASH_ALGS),
@@ -118,6 +155,12 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen.Tests
             return this;
         }
 
+        public ParameterBuilder WithConformances(string[] value)
+        {
+            _conformances = value;
+            return this;
+        }
+
         public static Capability GetCapabilityWith(int l, int n, string[] hashAlgs)
         {
             return new Capability
@@ -134,7 +177,8 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen.Tests
             {
                 Algorithm = _algorithm,
                 Mode = _mode,
-                Capabilities = _capabilities
+                Capabilities = _capabilities,
+                Conformances = _conformances
             };
         }
     }

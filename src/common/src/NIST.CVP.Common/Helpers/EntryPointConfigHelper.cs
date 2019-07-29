@@ -99,7 +99,6 @@ namespace NIST.CVP.Common.Helpers
             serviceCollection.AddSingleton<IDbConnectionFactory, SqlDbConnectionFactory>();
 
             serviceCollection.Configure<EnvironmentConfig>(configurationRoot.GetSection(nameof(EnvironmentConfig)));
-            serviceCollection.Configure<AlgorithmConfig>(configurationRoot.GetSection(nameof(AlgorithmConfig)));
             serviceCollection.Configure<PoolConfig>(configurationRoot.GetSection(nameof(PoolConfig)));
             serviceCollection.Configure<OrleansConfig>(configurationRoot.GetSection(nameof(OrleansConfig)));
 
@@ -123,7 +122,6 @@ namespace NIST.CVP.Common.Helpers
             builder.Register(context => serviceProvider.GetService<IDbConnectionStringFactory>());
 
             builder.Register(context => serviceProvider.GetService<IOptions<EnvironmentConfig>>());
-            builder.Register(context => serviceProvider.GetService<IOptions<AlgorithmConfig>>());
             builder.Register(context => serviceProvider.GetService<IOptions<PoolConfig>>());
             builder.Register(context => serviceProvider.GetService<IOptions<OrleansConfig>>());
         }

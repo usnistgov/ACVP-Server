@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Math;
+﻿using NIST.CVP.Generation.SHA2.v1_0;
+using NIST.CVP.Math;
 using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -15,7 +16,7 @@ namespace NIST.CVP.Generation.SHA2.Tests
             var subject = new ParameterValidator();
             var parameterBuilder = new ParameterBuilder();
             var result = subject.Validate(parameterBuilder.Build());
-            
+
             Assert.IsNull(result.ErrorMessage);
             Assert.IsTrue(result.Success);
         }
@@ -44,7 +45,7 @@ namespace NIST.CVP.Generation.SHA2.Tests
         public void ShouldReturnErrorWithInvalidDigestSize(string label, object[] digestSize)
         {
             var strDigs = digestSize.Select(v => (string)v).ToArray();
-            
+
             var subject = new ParameterValidator();
             var result = subject.Validate(
                 new ParameterBuilder()
@@ -63,7 +64,7 @@ namespace NIST.CVP.Generation.SHA2.Tests
             var result = subject.Validate(
                 new ParameterBuilder()
                     .WithAlgorithm("SHA1")
-                    .WithDigestSizes(new [] {"256"})
+                    .WithDigestSizes(new[] { "256" })
                     .Build()
             );
 
@@ -77,7 +78,7 @@ namespace NIST.CVP.Generation.SHA2.Tests
             var result = subject.Validate(
                 new ParameterBuilder()
                     .WithAlgorithm("SHA2")
-                    .WithDigestSizes(new [] {"160"})
+                    .WithDigestSizes(new[] { "160" })
                     .Build()
             );
 
@@ -93,7 +94,7 @@ namespace NIST.CVP.Generation.SHA2.Tests
                     .WithMessageLength(new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 8, 1024, 8)))
                     .Build()
             );
-            
+
             Assert.IsTrue(result.Success);
         }
 
@@ -105,8 +106,8 @@ namespace NIST.CVP.Generation.SHA2.Tests
 
             public ParameterBuilder()
             {
-                _algorithm = "SHA2";
-                _digestSizes = new[] {"224", "256"};
+                _algorithm = "SHA2-224";
+                _digestSizes = new[] { "224", "256" };
                 _messageLength = new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 0, 65535));
             }
 

@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using NIST.CVP.Generation.Core;
-using NIST.CVP.Math;
+﻿using NIST.CVP.Generation.TDES_OFB.v1_0;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.TDES_OFB.Tests

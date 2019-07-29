@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using NIST.CVP.Generation.Core.ContractResolvers;
 using NIST.CVP.Generation.Core.Enums;
-using NIST.CVP.Generation.RSA_SigGen.ContractResolvers;
+using NIST.CVP.Generation.RSA.v1_0.SigGen;
+using NIST.CVP.Generation.RSA.v1_0.SigGen.ContractResolvers;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 

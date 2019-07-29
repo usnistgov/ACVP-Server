@@ -113,5 +113,19 @@ namespace NIST.CVP.Math.Tests.Helpers
             var result = subject.GetKeyBit(bitNum);
             Assert.AreEqual(expected, result);
         }
+
+        [Test]
+        [TestCase(1, 0x01)]
+        [TestCase(16, 0xFF)]
+        public void ShouldSetEachByteToValue(int byteArrayLength, byte valueToSet)
+        {
+            var data = new byte[byteArrayLength];
+            var result = data.SetEachByteToValue(valueToSet);
+
+            for (var i = 0; i < data.Length; i++)
+            {
+                Assert.AreEqual(valueToSet, result[i], $"{nameof(i)}: {i}");
+            }
+        }
     }
 }

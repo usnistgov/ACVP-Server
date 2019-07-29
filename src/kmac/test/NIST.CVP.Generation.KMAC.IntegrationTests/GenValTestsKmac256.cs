@@ -2,6 +2,7 @@
 using NIST.CVP.Common;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Tests;
+using NIST.CVP.Generation.KMAC.v1_0;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
@@ -14,11 +15,11 @@ namespace NIST.CVP.Generation.KMAC.IntegrationTests
     public class GenValTestsKmac256 : GenValTestsSingleRunnerBase
     {
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
-        public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
 
-        public override string Algorithm { get; } = "KMAC";
+
+        public override string Algorithm { get; } = "KMAC-256";
         public override string Mode { get; } = string.Empty;
-        public override AlgoMode AlgoMode => AlgoMode.KMAC_v1_0;
+        public override AlgoMode AlgoMode => AlgoMode.KMAC_256_v1_0;
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {
@@ -72,7 +73,7 @@ namespace NIST.CVP.Generation.KMAC.IntegrationTests
                 MsgLen = minMax,
                 MacLen = minMax,
                 KeyLen = minMax,
-                XOF = false,
+                XOF = new[] { true, false },
                 IsSample = true
             };
 
@@ -96,7 +97,7 @@ namespace NIST.CVP.Generation.KMAC.IntegrationTests
                 MsgLen = minMaxMsg,
                 MacLen = minMax,
                 KeyLen = minMax,
-                XOF = true,
+                XOF = new[] { true, false },
                 IsSample = false,
             };
 

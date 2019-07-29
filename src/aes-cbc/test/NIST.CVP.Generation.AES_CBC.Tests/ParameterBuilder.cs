@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using NIST.CVP.Generation.AES_CBC.v1_0;
 
 namespace NIST.CVP.Generation.AES_CBC.Tests
 {
@@ -14,7 +15,7 @@ namespace NIST.CVP.Generation.AES_CBC.Tests
         public ParameterBuilder()
         {
             // Provides a valid (as of construction) set of parameters
-            _algorithm = "AES-ECB";
+            _algorithm = "ACVP-AES-ECB";
             _mode = ParameterValidator.VALID_DIRECTIONS;
             _keyLen = ParameterValidator.VALID_KEY_SIZES;
         }

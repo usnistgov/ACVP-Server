@@ -1,6 +1,7 @@
-﻿using System.Linq;
+﻿using NIST.CVP.Generation.TupleHash.v1_0;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
+using System.Linq;
 
 namespace NIST.CVP.Generation.TupleHash.Tests
 {
@@ -15,8 +16,7 @@ namespace NIST.CVP.Generation.TupleHash.Tests
                 new ParameterValidatorTests.ParameterBuilder()
                     .WithDigestSizes(new int[] { }) // 0
                     .WithAlgorithm("ParallelHash")  // 1
-                    .WithXOF(true)
-                    .WithNonXOF(true)
+                    .WithXOF(new [] {true, false})
                     .Build()
             },
             new object[]
@@ -25,8 +25,7 @@ namespace NIST.CVP.Generation.TupleHash.Tests
                 new ParameterValidatorTests.ParameterBuilder()
                     .WithDigestSizes(new int[] { 128 }) // 1
                     .WithAlgorithm("ParallelHash")  // 1
-                    .WithXOF(true)
-                    .WithNonXOF(true)
+                    .WithXOF(new [] {true, false})
                     .Build()
             },
             new object[]
@@ -35,8 +34,7 @@ namespace NIST.CVP.Generation.TupleHash.Tests
                 new ParameterValidatorTests.ParameterBuilder()
                     .WithDigestSizes(new int[] { 128, 256 }) // 2
                     .WithAlgorithm("ParallelHash")  // 1
-                    .WithXOF(true)
-                    .WithNonXOF(true)
+                    .WithXOF(new [] {true, false})
                     .Build()
             },
             new object[]
@@ -45,8 +43,7 @@ namespace NIST.CVP.Generation.TupleHash.Tests
                 new ParameterValidatorTests.ParameterBuilder()
                     .WithDigestSizes(new int[] { 128 }) // 1
                     .WithAlgorithm("ParallelHash")  // 1
-                    .WithXOF(true)
-                    .WithNonXOF(false)
+                    .WithXOF(new [] {true})
                     .Build()
             },
             new object[]
@@ -55,8 +52,7 @@ namespace NIST.CVP.Generation.TupleHash.Tests
                 new ParameterValidatorTests.ParameterBuilder()
                     .WithDigestSizes(new int[] { 128, 256 }) // 2
                     .WithAlgorithm("ParallelHash")  // 1
-                    .WithXOF(true)
-                    .WithNonXOF(false)
+                    .WithXOF(new [] {true})
                     .Build()
             },
             new object[]
@@ -65,8 +61,7 @@ namespace NIST.CVP.Generation.TupleHash.Tests
                 new ParameterValidatorTests.ParameterBuilder()
                     .WithDigestSizes(new int[] { 128 }) // 1
                     .WithAlgorithm("ParallelHash")  // 1
-                    .WithXOF(false)
-                    .WithNonXOF(true)
+                    .WithXOF(new [] {false})
                     .Build()
             },
             new object[]
@@ -75,8 +70,7 @@ namespace NIST.CVP.Generation.TupleHash.Tests
                 new ParameterValidatorTests.ParameterBuilder()
                     .WithDigestSizes(new int[] { 128, 256 }) // 2
                     .WithAlgorithm("ParallelHash")  // 1
-                    .WithXOF(false)
-                    .WithNonXOF(true)
+                    .WithXOF(new [] {false})  
                     .Build()
             }
         };

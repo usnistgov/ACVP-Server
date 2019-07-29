@@ -3,6 +3,7 @@ using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC.Enums;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Math;
 using System.Collections.Generic;
+using NIST.CVP.Generation.DSA.v1_0.PqgVer;
 
 namespace NIST.CVP.Generation.DSA.FFC.PQGVer.Tests
 {
@@ -38,9 +39,9 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer.Tests
                 {
                     tests.Add(new TestCase
                     {
-                        P = 1,
-                        Q = 2,
-                        G = 3,
+                        P = BitString.To32BitString(1),
+                        Q = BitString.To32BitString(2),
+                        G = BitString.To32BitString(3),
                         H = 4,
                         Reason = "none",
                         TestPassed = true,

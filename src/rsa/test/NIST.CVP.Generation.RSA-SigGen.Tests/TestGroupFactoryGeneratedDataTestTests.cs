@@ -3,6 +3,7 @@ using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys;
+using NIST.CVP.Generation.RSA.v1_0.SigGen;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using System.Linq;
@@ -23,7 +24,7 @@ namespace NIST.CVP.Generation.RSA_SigGen.Tests
                 .Setup(s => s.GetRsaKeyAsync(It.IsAny<RsaKeyParameters>()))
                 .Returns(Task.FromResult(new RsaKeyResult { Key = new KeyPair() }));
 
-            _subject = new TestGroupGenerator(oracle.Object);
+            _subject = new TestGroupGenerator(oracle.Object, false);
         }
 
         private static object[] parameters =

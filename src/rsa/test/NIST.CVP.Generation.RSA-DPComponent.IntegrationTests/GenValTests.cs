@@ -7,6 +7,7 @@ using NIST.CVP.Crypto.Common;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Generation.Core.Tests.Fakes;
+using NIST.CVP.Generation.RSA.v1_0.DpComponent;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -22,7 +23,7 @@ namespace NIST.CVP.Generation.RSA_DPComponent.IntegrationTests
         public override AlgoMode AlgoMode => AlgoMode.RSA_DecryptionPrimitive_v1_0;
 
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
-		public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
+
 
         protected override string GetTestFileFewTestCases(string folderName)
         {

@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using NIST.CVP.Common.ExtensionMethods;
-using NIST.CVP.Generation.Core;
+﻿using NIST.CVP.Common.ExtensionMethods;
+using NIST.CVP.Generation.TupleHash.v1_0;
 using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace NIST.CVP.Generation.TupleHash.Tests
 {
@@ -40,7 +40,7 @@ namespace NIST.CVP.Generation.TupleHash.Tests
 
         [Test]
         [TestCase(false, 4)]
-        [TestCase(true, 8)]
+        [TestCase(true, 4)]
         public void ShouldReturnVectorSetWithProperTestGroupsForXOFModes(bool xof, int expected)
         {
             var result = _subject.GetTestGroupGenerators(new Parameters());
@@ -57,7 +57,7 @@ namespace NIST.CVP.Generation.TupleHash.Tests
                 MessageLength = minMaxMsg,
                 IsSample = false,
                 OutputLength = minMax,
-                XOF = xof
+                XOF = new [] {xof}
             };
 
             var groups = new List<TestGroup>();

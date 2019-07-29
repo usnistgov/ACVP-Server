@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC.Enums;
+using NIST.CVP.Generation.ECDSA.v1_0.KeyGen;
 
 namespace NIST.CVP.Generation.DSA.ECC.KeyGen.Tests
 {
@@ -41,7 +42,7 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyGen.Tests
 
                     if (!isSample)
                     {
-                        tc.KeyPair = new EccKeyPair(new EccPoint(-1, -2), -3);
+                        tc.KeyPair = new EccKeyPair(new EccPoint(0, 0), 0);
                     }
 
                 }

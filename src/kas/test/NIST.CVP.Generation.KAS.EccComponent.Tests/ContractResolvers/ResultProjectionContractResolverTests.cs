@@ -1,7 +1,8 @@
 ﻿using NIST.CVP.Generation.Core.DeSerialization;
 using NIST.CVP.Generation.Core.Enums;
 using NIST.CVP.Generation.Core.JsonConverters;
-using NIST.CVP.Generation.KAS.EccComponent.ContractResolvers;
+using NIST.CVP.Generation.KAS.v1_0.ECC_Component;
+using NIST.CVP.Generation.KAS.v1_0.ECC_Component.ContractResolvers;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
@@ -62,11 +63,11 @@ namespace NIST.CVP.Generation.KAS.EccComponent.Tests.ContractResolvers
             var newTc = newTg.Tests[0];
 
             Assert.AreEqual(tc.TestCaseId, newTc.TestCaseId, nameof(newTc.TestCaseId));
-            Assert.AreEqual(tc.PublicKeyIutX, newTc.PublicKeyIutX, nameof(newTc.PublicKeyIutX));
-            Assert.AreEqual(tc.PublicKeyIutY, newTc.PublicKeyIutY, nameof(newTc.PublicKeyIutY));
+            Assert.AreEqual(tc.PublicKeyIutX.ToPositiveBigInteger(), newTc.PublicKeyIutX.ToPositiveBigInteger(), nameof(newTc.PublicKeyIutX));
+            Assert.AreEqual(tc.PublicKeyIutY.ToPositiveBigInteger(), newTc.PublicKeyIutY.ToPositiveBigInteger(), nameof(newTc.PublicKeyIutY));
 
-            Assert.AreNotEqual(tc.PublicKeyServerX, newTc.PublicKeyServerX, nameof(newTc.PublicKeyServerX));
-            Assert.AreNotEqual(tc.PublicKeyServerY, newTc.PublicKeyServerY, nameof(newTc.PublicKeyServerY));
+            Assert.IsNull(newTc.PublicKeyServerX, nameof(newTc.PublicKeyServerX));
+            Assert.IsNull(newTc.PublicKeyServerY, nameof(newTc.PublicKeyServerY));
 
             
         }

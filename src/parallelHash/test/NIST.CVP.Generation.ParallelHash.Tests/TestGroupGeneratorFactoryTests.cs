@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.ParallelHash.v1_0;
 using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -39,9 +40,10 @@ namespace NIST.CVP.Generation.ParallelHash.Tests
         }
 
         [Test]
-        [TestCase(false, 4)]
-        [TestCase(true, 8)]
-        public void ShouldReturnVectorSetWithProperTestGroupsForXOFModes(bool xof, int expected)
+        [TestCase(new [] {false}, 4)]
+        [TestCase(new [] {true}, 4)]
+        [TestCase(new [] {true, false}, 8)]
+        public void ShouldReturnVectorSetWithProperTestGroupsForXOFModes(bool[] xof, int expected)
         {
             var result = _subject.GetTestGroupGenerators(new Parameters());
 
@@ -50,7 +52,7 @@ namespace NIST.CVP.Generation.ParallelHash.Tests
 
             Parameters p = new Parameters
             {
-                Algorithm = "TupleHash",
+                Algorithm = "ParallelHash",
                 DigestSizes = new[] { 128, 256 },
                 MessageLength = minMax,
                 IsSample = false,

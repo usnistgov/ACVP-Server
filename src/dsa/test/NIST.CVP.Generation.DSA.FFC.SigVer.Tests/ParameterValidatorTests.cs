@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using NIST.CVP.Generation.DSA.v1_0.SigVer;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
+using System.Linq;
 
 namespace NIST.CVP.Generation.DSA.FFC.SigVer.Tests
 {
@@ -15,6 +13,18 @@ namespace NIST.CVP.Generation.DSA.FFC.SigVer.Tests
         {
             var subject = new ParameterValidator();
             var parameterBuilder = new ParameterBuilder();
+            var result = subject.Validate(parameterBuilder.Build());
+
+            Assert.IsNull(result.ErrorMessage);
+            Assert.IsTrue(result.Success);
+        }
+
+        [Test]
+        public void ShouldReturnNoErrorsWithValidParametersIncludingConformances()
+        {
+            var subject = new ParameterValidator();
+            var parameterBuilder = new ParameterBuilder()
+                .WithConformances(new[] { "SP800-106" });
             var result = subject.Validate(parameterBuilder.Build());
 
             Assert.IsNull(result.ErrorMessage);
@@ -87,6 +97,7 @@ namespace NIST.CVP.Generation.DSA.FFC.SigVer.Tests
         private string _algorithm;
         private string _mode;
         private Capability[] _capabilities;
+        private string[] _conformances;
 
         public ParameterBuilder()
         {
@@ -119,6 +130,12 @@ namespace NIST.CVP.Generation.DSA.FFC.SigVer.Tests
             return this;
         }
 
+        public ParameterBuilder WithConformances(string[] value)
+        {
+            _conformances = value;
+            return this;
+        }
+
         public static Capability GetCapabilityWith(int l, int n, string[] hashAlgs)
         {
             return new Capability
@@ -135,7 +152,8 @@ namespace NIST.CVP.Generation.DSA.FFC.SigVer.Tests
             {
                 Algorithm = _algorithm,
                 Mode = _mode,
-                Capabilities = _capabilities
+                Capabilities = _capabilities,
+                Conformances = _conformances
             };
         }
     }

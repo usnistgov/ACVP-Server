@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using NIST.CVP.Generation.SHA3.v1_0;
 using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
+using System.Linq;
 
 namespace NIST.CVP.Generation.SHA3.Tests
 {
@@ -147,7 +145,7 @@ namespace NIST.CVP.Generation.SHA3.Tests
             var subject = new ParameterValidator();
             var result = subject.Validate(
                 new ParameterBuilder()
-                    .WithAlgorithm("shake")
+                    .WithAlgorithm("shake-128")
                     .WithDigestSizes(new int[] { 128 })
                     .WithOutputLength(outputLength)
                     .WithBitOrientedOutput(bitOriented)
@@ -168,8 +166,8 @@ namespace NIST.CVP.Generation.SHA3.Tests
 
             public ParameterBuilder()
             {
-                _algorithm = "SHA3";
-                _digestSizes = new [] { 224 };
+                _algorithm = "SHA3-224";
+                _digestSizes = new[] { 224 };
                 _includeNull = true;
                 _bitOrientedInput = true;
                 _bitOrientedOutput = true;

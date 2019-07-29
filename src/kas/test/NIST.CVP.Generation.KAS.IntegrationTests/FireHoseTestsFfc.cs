@@ -1,12 +1,14 @@
-﻿using System.Diagnostics;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
+using NIST.CVP.Crypto.Common.KAS;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Crypto.Common.KAS.Helpers;
 using NIST.CVP.Crypto.Oracle.Builders;
 using NIST.CVP.Crypto.SHAWrapper;
-using NIST.CVP.Generation.KAS.FFC;
-using NIST.CVP.Generation.KAS.FFC.Parsers;
+using NIST.CVP.Generation.KAS.v1_0.FFC;
+using NIST.CVP.Generation.KAS.v1_0.FFC.Parsers;
 using NIST.CVP.Tests.Core;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -50,6 +52,8 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
             }
 
             var oracle = new OracleBuilder().Build();
+            
+            var tasks = new Dictionary<Task<KasResult>, (TestGroup testGroup, TestCase testCase)>();
 
             foreach (var testGroup in testVector.TestGroups)
             {
@@ -61,26 +65,34 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
 
                     SwitchTestCaseIutServerInformation(testCase);
 
-                    var result = await testCaseResolver.CompleteDeferredCryptoAsync(testGroup, testCase, testCase);
+                    tasks.Add(testCaseResolver.CompleteDeferredCryptoAsync(testGroup, testCase, testCase), (testGroup, testCase));
+                }
+            }
 
-                    Debug.Assert(testCase.TestPassed != null, "testCase.TestPassed != null");
-                    if (testCase.TestPassed.Value)
-                    {
-                        Assert.AreEqual(
-                            testGroup.KasMode == KasMode.NoKdfNoKc ? testCase.HashZ.ToHex() : testCase.Tag.ToHex(),
-                            result.Tag.ToHex()
-                        );
-                        passes++;
-                    }
-                    else
-                    {
-                        Assert.AreNotEqual(
-                            testGroup.KasMode == KasMode.NoKdfNoKc ? testCase.HashZ.ToHex() : testCase.Tag.ToHex(),
-                            result.Tag.ToHex()
-                        );
-                        passes++;
-                        expectedFails++;
-                    }
+            await Task.WhenAll(tasks.Keys);
+
+            foreach (var keyValuePair in tasks)
+            {
+                var testGroup = keyValuePair.Value.testGroup;
+                var testCase = keyValuePair.Value.testCase;
+                var result = keyValuePair.Key.Result;
+
+                if (testCase.TestPassed.Value)
+                {
+                    Assert.AreEqual(
+                        testGroup.KasMode == KasMode.NoKdfNoKc ? testCase.HashZ.ToHex() : testCase.Tag.ToHex(),
+                        result.Tag.ToHex()
+                    );
+                    passes++;
+                }
+                else
+                {
+                    Assert.AreNotEqual(
+                        testGroup.KasMode == KasMode.NoKdfNoKc ? testCase.HashZ.ToHex() : testCase.Tag.ToHex(),
+                        result.Tag.ToHex()
+                    );
+                    passes++;
+                    expectedFails++;
                 }
             }
 
@@ -131,21 +143,13 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
             testCase.DkmNonceIut = testCase.DkmNonceServer?.GetDeepCopy();
             testCase.DkmNonceServer = holdDkmNonceIut?.GetDeepCopy();
 
-            var holdEphemeralPrivateKeyIut = testCase.EphemeralPrivateKeyIut;
-            testCase.EphemeralPrivateKeyIut = testCase.EphemeralPrivateKeyServer;
-            testCase.EphemeralPrivateKeyServer = holdEphemeralPrivateKeyIut;
-
-            var holdEphemeralPublicKeyIut = testCase.EphemeralPublicKeyIut;
-            testCase.EphemeralPublicKeyIut = testCase.EphemeralPublicKeyServer;
-            testCase.EphemeralPublicKeyServer = holdEphemeralPublicKeyIut;
-
-            var holdStaticPrivateKeyIut = testCase.StaticPrivateKeyIut;
-            testCase.StaticPrivateKeyIut = testCase.StaticPrivateKeyServer;
-            testCase.StaticPrivateKeyServer = holdStaticPrivateKeyIut;
-
-            var holdStaticPublicKeyIut = testCase.StaticPublicKeyIut;
-            testCase.StaticPublicKeyIut = testCase.StaticPublicKeyServer;
-            testCase.StaticPublicKeyServer = holdStaticPublicKeyIut;
+            var holdEphemeralIut = testCase.EphemeralKeyIut;
+            testCase.EphemeralKeyIut = testCase.EphemeralKeyServer;
+            testCase.EphemeralKeyServer = holdEphemeralIut;
+            
+            var holdStaticIut = testCase.StaticKeyIut;
+            testCase.StaticKeyIut = testCase.StaticKeyServer;
+            testCase.StaticKeyServer = holdStaticIut;
         }
     }
 }

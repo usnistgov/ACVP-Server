@@ -1,7 +1,12 @@
 {
+  "vsId": 0,
   "algorithm": "ECDSA",
   "mode": "SigGen",
+  "revision": "1.0",
   "isSample": true,
+  "conformances": [
+    "SP800-106"
+  ],
   "capabilities": [
     {
       "curve": [
@@ -24,7 +29,11 @@
         "sha2-384",
         "sha2-512",
         "sha2-512/224",
-        "sha2-512/256"
+        "sha2-512/256",
+        "sha3-224",
+        "sha3-256",
+        "sha3-384",
+        "sha3-512"
       ]
     }
   ],

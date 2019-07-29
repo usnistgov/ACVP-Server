@@ -8,6 +8,7 @@ using NIST.CVP.Crypto.Common.KAS;
 using NIST.CVP.Crypto.Common.KES;
 using NIST.CVP.Crypto.KAS;
 using NIST.CVP.Crypto.KES;
+using NIST.CVP.Generation.KAS.v1_0.ECC_Component;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;

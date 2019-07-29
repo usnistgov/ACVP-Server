@@ -2,10 +2,11 @@
 using NIST.CVP.Generation.Core.DeSerialization;
 using NIST.CVP.Generation.Core.Enums;
 using NIST.CVP.Generation.Core.JsonConverters;
-using NIST.CVP.Generation.DSA.FFC.PQGVer.ContractResolvers;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using System.Text.RegularExpressions;
+using NIST.CVP.Generation.DSA.v1_0.PqgVer;
+using NIST.CVP.Generation.DSA.v1_0.PqgVer.ContractResolvers;
 
 namespace NIST.CVP.Generation.DSA.FFC.PQGVer.Tests.ContractResolvers
 {

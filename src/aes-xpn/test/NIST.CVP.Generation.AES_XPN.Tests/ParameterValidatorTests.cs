@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using NIST.CVP.Generation.AES_XPN.v1_0;
 using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -232,7 +233,7 @@ namespace NIST.CVP.Generation.AES_XPN.Tests
             public ParameterBuilder()
             {
                 // Provides a valid (as of construction) set of parameters
-                _algorithm = "AES-XPN";
+                _algorithm = "ACVP-AES-XPN";
                 _mode = ParameterValidator.VALID_DIRECTIONS;
                 _keyLen = ParameterValidator.VALID_KEY_SIZES;
                 _ptLen = new MathDomain().AddSegment(new ValueDomainSegment(128));

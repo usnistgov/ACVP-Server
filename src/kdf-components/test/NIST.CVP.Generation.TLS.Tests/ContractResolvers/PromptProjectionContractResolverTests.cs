@@ -2,7 +2,8 @@
 using NIST.CVP.Generation.Core.DeSerialization;
 using NIST.CVP.Generation.Core.Enums;
 using NIST.CVP.Generation.Core.JsonConverters;
-using NIST.CVP.Generation.TLS.ContractResolvers;
+using NIST.CVP.Generation.KDF_Components.v1_0.TLS;
+using NIST.CVP.Generation.KDF_Components.v1_0.TLS.ContractResolvers;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 

@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Math.Domain;
+﻿using NIST.CVP.Generation.TupleHash.v1_0;
+using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
@@ -84,7 +85,7 @@ namespace NIST.CVP.Generation.TupleHash.Tests
             var subject = new ParameterValidator();
             var result = subject.Validate(
                 new ParameterBuilder()
-                    .WithDigestSizes(new int[]{ number })
+                    .WithDigestSizes(new int[] { number })
                     .Build()
             );
 
@@ -139,20 +140,18 @@ namespace NIST.CVP.Generation.TupleHash.Tests
             private int[] _digestSize;
             private MathDomain _outputLength;
             private MathDomain _messageLength;
-            private bool _nonxof;
-            private bool _xof;
+            private bool[] _xof;
             private bool _hexCustomization;
 
             public ParameterBuilder()
             {
-                _algorithm = "tuplehash";
-                _digestSize = new int[] { 128, 256 };
+                _algorithm = "tuplehash-128";
+                _digestSize = new[] { 128 };
                 _outputLength = new MathDomain();
                 _outputLength.AddSegment(new RangeDomainSegment(null, 16, 65536));
                 _messageLength = new MathDomain();
                 _messageLength.AddSegment(new RangeDomainSegment(null, 16, 65536));
-                _nonxof = true;
-                _xof = true;
+                _xof = new[] { true };
                 _hexCustomization = false;
             }
 
@@ -168,15 +167,9 @@ namespace NIST.CVP.Generation.TupleHash.Tests
                 return this;
             }
 
-            public ParameterBuilder WithXOF(bool value)
+            public ParameterBuilder WithXOF(bool[] value)
             {
                 _xof = value;
-                return this;
-            }
-
-            public ParameterBuilder WithNonXOF(bool value)
-            {
-                _nonxof = value;
                 return this;
             }
 
@@ -206,7 +199,6 @@ namespace NIST.CVP.Generation.TupleHash.Tests
                     DigestSizes = _digestSize,
                     OutputLength = _outputLength,
                     MessageLength = _messageLength,
-                    NonXOF = _nonxof,
                     XOF = _xof,
                     HexCustomization = _hexCustomization
                 };

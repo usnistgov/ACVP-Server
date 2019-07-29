@@ -1,14 +1,12 @@
-﻿using System;
-using System.Threading.Tasks;
-using Moq;
+﻿using Moq;
 using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
-using NIST.CVP.Crypto.Common.Symmetric;
-using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
-using NIST.CVP.Math;
+using NIST.CVP.Generation.TDES_ECB.v1_0;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
+using System;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Generation.TDES_ECB.Tests
 {

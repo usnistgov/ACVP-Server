@@ -1,7 +1,5 @@
-﻿using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using NIST.CVP.Generation.TDES_CFBP.v1_0;
+using NUnit.Framework;
 
 namespace NIST.CVP.Generation.TDES_CFBP.Tests
 {
@@ -89,7 +87,7 @@ namespace NIST.CVP.Generation.TDES_CFBP.Tests
             public ParameterBuilder()
             {
                 // Provides a valid (as of construction) set of parameters
-                _algorithm = "TDES_CFBP";
+                _algorithm = "ACVP-TDES_CFBP";
                 _mode = ParameterValidator.VALID_DIRECTIONS;
                 _keyingOptions = ParameterValidator.VALID_KEYING_OPTIONS;
             }

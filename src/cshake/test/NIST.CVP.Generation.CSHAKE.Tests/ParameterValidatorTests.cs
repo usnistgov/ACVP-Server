@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using NIST.CVP.Generation.CSHAKE.v1_0;
 using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -90,7 +88,7 @@ namespace NIST.CVP.Generation.CSHAKE.Tests
             var result = subject.Validate(
                 new ParameterBuilder()
                     .WithAlgorithm("cshake")
-                    .WithDigestSizes(new int[]{ number })
+                    .WithDigestSizes(new int[] { number })
                     .Build()
             );
 
@@ -149,7 +147,7 @@ namespace NIST.CVP.Generation.CSHAKE.Tests
 
             public ParameterBuilder()
             {
-                _algorithm = "CSHAKE";
+                _algorithm = "CSHAKE-128";
                 _digestSize = new int[] { 128 };
                 _hexCustomization = false;
                 _outputLength = new MathDomain();

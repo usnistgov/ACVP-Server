@@ -5,6 +5,7 @@ using NIST.CVP.Crypto.Common.KAS;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Async;
+using NIST.CVP.Generation.KAS.v1_0.ECC;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -181,7 +182,7 @@ namespace NIST.CVP.Generation.KAS.ECC.Tests
             var testGroup = GetData(scheme, kasRole, kcRole, kcType);
             var testCase = testGroup.Tests[0];
 
-            testCase.EphemeralPublicKeyIutX = 0;
+            testCase.EphemeralKeyIut.PublicQ.X = 0;
 
             _subject = new TestCaseValidatorAftKdfKc(testCase, testGroup, _deferredResolver.Object);
 
@@ -259,7 +260,7 @@ namespace NIST.CVP.Generation.KAS.ECC.Tests
             var testGroup = GetData(scheme, kasRole, kcRole, kcType);
             var testCase = testGroup.Tests[0];
 
-            testCase.StaticPublicKeyIutX = 0;
+            testCase.StaticKeyIut.PublicQ.X = 0;
 
             _subject = new TestCaseValidatorAftKdfKc(testCase, testGroup, _deferredResolver.Object);
 

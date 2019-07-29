@@ -3,6 +3,7 @@ using System.Linq;
 using Autofac;
 using NIST.CVP.Common;
 using NIST.CVP.Crypto.Common;
+using NIST.CVP.Generation.AES_ECB.v1_0;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Math;
@@ -14,12 +15,12 @@ namespace NIST.CVP.Generation.AES_ECB.IntegrationTests
     [TestFixture, FastIntegrationTest]
     public class GenValTests : GenValTestsSingleRunnerBase
     {
-        public override string Algorithm { get; } = "AES-ECB";
+        public override string Algorithm { get; } = "ACVP-AES-ECB";
         public override string Mode { get; } = string.Empty;
 
         public override AlgoMode AlgoMode => AlgoMode.AES_ECB_v1_0;
 
-        public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
+
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
@@ -65,7 +66,7 @@ namespace NIST.CVP.Generation.AES_ECB.IntegrationTests
         {
             Parameters p = new Parameters()
             {
-                Algorithm = "AES-ECB",
+                Algorithm = Algorithm,
                 Revision = Revision,
                 Direction = new string[] { "encrypt" },
                 KeyLen = new int[] { ParameterValidator.VALID_KEY_SIZES.First() },
@@ -79,7 +80,7 @@ namespace NIST.CVP.Generation.AES_ECB.IntegrationTests
         {
             Parameters p = new Parameters()
             {
-                Algorithm = "AES-ECB",
+                Algorithm = Algorithm,
                 Revision = Revision,
                 Direction = ParameterValidator.VALID_DIRECTIONS,
                 KeyLen = ParameterValidator.VALID_KEY_SIZES,

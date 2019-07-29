@@ -1,13 +1,8 @@
-﻿using Autofac;
-using NIST.CVP.Common;
-using NIST.CVP.Common.Helpers;
+﻿using NIST.CVP.Common;
+using NIST.CVP.Generation.Core.Tests;
+using NIST.CVP.Generation.ECDSA.v1_0.SigVer;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
-using NIST.CVP.Generation.Core.Enums;
-using NIST.CVP.Generation.Core.Tests;
-using NIST.CVP.Generation.Core.Tests.Fakes;
-using NIST.CVP.Crypto.Common;
-using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.DSA.ECC.SigVer.IntegrationTests
 {
@@ -19,12 +14,12 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer.IntegrationTests
 
         public override AlgoMode AlgoMode => AlgoMode.ECDSA_SigVer_v1_0;
 
-        public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
+
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
 
         protected override string GetTestFileFewTestCases(string targetFolder)
         {
-            var caps = new []
+            var caps = new[]
             {
                 new Capability
                 {
@@ -45,6 +40,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer.IntegrationTests
                 Revision = Revision,
                 IsSample = true,
                 Capabilities = caps,
+                Conformances = new[] { "SP800-106" }
             };
 
             return CreateRegistration(targetFolder, p);
@@ -52,7 +48,9 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer.IntegrationTests
 
         protected override string GetTestFileLotsOfTestCases(string targetFolder)
         {
-            var caps = new []
+            return GetTestFileFewTestCases(targetFolder);
+
+            var caps = new[]
             {
                 new Capability
                 {
@@ -68,6 +66,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer.IntegrationTests
                 Revision = Revision,
                 IsSample = true,
                 Capabilities = caps,
+                Conformances = new[] { "SP800-106" }
             };
 
             return CreateRegistration(targetFolder, p);

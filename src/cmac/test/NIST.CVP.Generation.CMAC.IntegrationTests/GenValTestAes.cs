@@ -5,6 +5,7 @@ using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using System.Collections.Generic;
+using NIST.CVP.Generation.CMAC.v1_0;
 
 namespace NIST.CVP.Generation.CMAC.IntegrationTests
 {
@@ -16,7 +17,7 @@ namespace NIST.CVP.Generation.CMAC.IntegrationTests
 
         public override AlgoMode AlgoMode => AlgoMode.CMAC_AES_v1_0;
 
-        public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
+
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
 
         protected override void ModifyTestCaseToFail(dynamic testCase)

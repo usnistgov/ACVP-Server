@@ -8,40 +8,54 @@ namespace NIST.CVP.Common
     /// </summary>
     public enum AlgoMode
     {
-        [EnumMember(Value = "AES-CBC-1.0")]
+        [EnumMember(Value = "ACVP-AES-CBC-1.0")]
         AES_CBC_v1_0,
-        [EnumMember(Value = "AES-CCM-1.0")]
+        [EnumMember(Value = "ACVP-AES-CBC-CS1-1.0")]
+        AES_CBC_CS1_v1_0,
+        [EnumMember(Value = "ACVP-AES-CBC-CS2-1.0")]
+        AES_CBC_CS2_v1_0,
+        [EnumMember(Value = "ACVP-AES-CBC-CS3-1.0")]
+        AES_CBC_CS3_v1_0,
+        [EnumMember(Value = "ACVP-AES-CCM-1.0")]
         AES_CCM_v1_0,
-        [EnumMember(Value = "AES-CFB1-1.0")]
+        [EnumMember(Value = "ACVP-AES-CFB1-1.0")]
         AES_CFB1_v1_0,
-        [EnumMember(Value = "AES-CFB8-1.0")]
+        [EnumMember(Value = "ACVP-AES-CFB8-1.0")]
         AES_CFB8_v1_0,
-        [EnumMember(Value = "AES-CFB128-1.0")]
+        [EnumMember(Value = "ACVP-AES-CFB128-1.0")]
         AES_CFB128_v1_0,
-        [EnumMember(Value = "AES-CTR-1.0")]
+        [EnumMember(Value = "ACVP-AES-CTR-1.0")]
         AES_CTR_v1_0,
-        [EnumMember(Value = "AES-ECB-1.0")]
+        [EnumMember(Value = "ACVP-AES-ECB-1.0")]
         AES_ECB_v1_0,
-        [EnumMember(Value = "AES-GCM-1.0")]
+        [EnumMember(Value = "ACVP-AES-FF1-1.0")]
+        AES_FF1_v1_0,
+        [EnumMember(Value = "ACVP-AES-FF3-1-1.0")]
+        AES_FF3_1_v1_0,
+        [EnumMember(Value = "ACVP-AES-GCM-1.0")]
         AES_GCM_v1_0,
-        [EnumMember(Value = "AES-GCM-SIV-1.0")]
+        [EnumMember(Value = "ACVP-AES-GMAC-1.0")]
+        AES_GMAC_v1_0,
+        [EnumMember(Value = "ACVP-AES-GCM-SIV-1.0")]
         AES_GCM_SIV_v1_0,
-        [EnumMember(Value = "AES-KW-1.0")]
+        [EnumMember(Value = "ACVP-AES-KW-1.0")]
         AES_KW_v1_0,
-        [EnumMember(Value = "AES-KWP-1.0")]
+        [EnumMember(Value = "ACVP-AES-KWP-1.0")]
         AES_KWP_v1_0,
-        [EnumMember(Value = "AES-OFB-1.0")]
+        [EnumMember(Value = "ACVP-AES-OFB-1.0")]
         AES_OFB_v1_0,
-        [EnumMember(Value = "AES-XPN-1.0")]
+        [EnumMember(Value = "ACVP-AES-XPN-1.0")]
         AES_XPN_v1_0,
-        [EnumMember(Value = "AES-XTS-1.0")]
+        [EnumMember(Value = "ACVP-AES-XTS-1.0")]
         AES_XTS_v1_0,
         [EnumMember(Value = "CMAC-AES-1.0")]
         CMAC_AES_v1_0,
         [EnumMember(Value = "CMAC-TDES-1.0")]
         CMAC_TDES_v1_0,
-        [EnumMember(Value = "CSHAKE-1.0")]
-        CSHAKE_v1_0,
+        [EnumMember(Value = "CSHAKE-128-1.0")]
+        CSHAKE_128_v1_0,
+        [EnumMember(Value = "CSHAKE-256-1.0")]
+        CSHAKE_256_v1_0,
         [EnumMember(Value = "ctrDRBG-1.0")]
         DRBG_CTR_v1_0,
         [EnumMember(Value = "hashDRBG-1.0")]
@@ -89,19 +103,23 @@ namespace NIST.CVP.Common
         [EnumMember(Value = "HMAC-SHA2-512/256-1.0")]
         HMAC_SHA2_512_256_v1_0,
         [EnumMember(Value = "HMAC-SHA3-224-1.0")]
-        HMAC_SHA3_224_v1_0,        
+        HMAC_SHA3_224_v1_0,
         [EnumMember(Value = "HMAC-SHA3-256-1.0")]
-        HMAC_SHA3_256_v1_0,        
+        HMAC_SHA3_256_v1_0,
         [EnumMember(Value = "HMAC-SHA3-384-1.0")]
-        HMAC_SHA3_384_v1_0,        
+        HMAC_SHA3_384_v1_0,
         [EnumMember(Value = "HMAC-SHA3-512-1.0")]
         HMAC_SHA3_512_v1_0,
         [EnumMember(Value = "KAS-ECC-1.0")]
         KAS_ECC_v1_0,
-        [EnumMember(Value = "KAS-EccCDH-Component-1.0")]
+        [EnumMember(Value = "KAS-ECC-Component-1.0")]
+        KAS_ECC_Component_v1_0,
+        [EnumMember(Value = "KAS-Ecc-CDH-Component-1.0")]
         KAS_EccComponent_v1_0,
         [EnumMember(Value = "KAS-FFC-1.0")]
         KAS_FFC_v1_0,
+        [EnumMember(Value = "KAS-FFC-Component-1.0")]
+        KAS_FFC_Component_v1_0,
         [EnumMember(Value = "KDF-1.0")]
         KDF_v1_0,
         [EnumMember(Value = "KDF-Components-ANSIX9.63-1.0")]
@@ -110,6 +128,8 @@ namespace NIST.CVP.Common
         KDFComponents_IKEv1_v1_0,
         [EnumMember(Value = "KDF-Components-IKEv2-1.0")]
         KDFComponents_IKEv2_v1_0,
+        [EnumMember(Value = "KDF-Components-PBKDF-1.0")]
+        KDFComponents_PBKDF_v1_0,
         [EnumMember(Value = "KDF-Components-SNMP-1.0")]
         KDFComponents_SNMP_v1_0,
         [EnumMember(Value = "KDF-Components-SRTP-1.0")]
@@ -120,10 +140,16 @@ namespace NIST.CVP.Common
         KDFComponents_TLS_v1_0,
         [EnumMember(Value = "KDF-Components-TPM-1.0")]
         KDFComponents_TPM_v1_0,
-        [EnumMember(Value = "KMAC-1.0")]
-        KMAC_v1_0,
-        [EnumMember(Value = "ParallelHash-1.0")]
-        ParallelHash_v1_0,
+        [EnumMember(Value = "KDF-Components-ANSIX9.42-1.0")]
+        KDFComponents_ANSIX942_v1_0,
+        [EnumMember(Value = "KMAC-128-1.0")]
+        KMAC_128_v1_0,
+        [EnumMember(Value = "KMAC-256-1.0")]
+        KMAC_256_v1_0,
+        [EnumMember(Value = "ParallelHash-128-1.0")]
+        ParallelHash_128_v1_0,
+        [EnumMember(Value = "ParallelHash-256-1.0")]
+        ParallelHash_256_v1_0,
         [EnumMember(Value = "RSA-DecryptionPrimitive-1.0")]
         RSA_DecryptionPrimitive_v1_0,
         [EnumMember(Value = "RSA-KeyGen-1.0")]
@@ -138,39 +164,61 @@ namespace NIST.CVP.Common
         RSA_SignaturePrimitive_v1_0,
         [EnumMember(Value = "SHA1-1.0")]
         SHA1_v1_0,
-        [EnumMember(Value = "SHA2-1.0")]
-        SHA2_v1_0,
-        [EnumMember(Value = "SHA3-1.0")]
-        SHA3_v1_0,
-        [EnumMember(Value = "SHAKE-1.0")]
-        SHAKE_v1_0,
-        [EnumMember(Value = "TDES-CBC-1.0")]
+        [EnumMember(Value = "SHA-1-1.0")]
+        SHA_1_v1_0,
+        [EnumMember(Value = "SHA2-224-1.0")]
+        SHA2_224_v1_0,
+        [EnumMember(Value = "SHA2-256-1.0")]
+        SHA2_256_v1_0,
+        [EnumMember(Value = "SHA2-384-1.0")]
+        SHA2_384_v1_0,
+        [EnumMember(Value = "SHA2-512-1.0")]
+        SHA2_512_v1_0,
+        [EnumMember(Value = "SHA2-512/224-1.0")]
+        SHA2_512_224_v1_0,
+        [EnumMember(Value = "SHA2-512/256-1.0")]
+        SHA2_512_256_v1_0,
+        [EnumMember(Value = "SHA3-224-1.0")]
+        SHA3_224_v1_0,
+        [EnumMember(Value = "SHA3-256-1.0")]
+        SHA3_256_v1_0,
+        [EnumMember(Value = "SHA3-384-1.0")]
+        SHA3_384_v1_0,
+        [EnumMember(Value = "SHA3-512-1.0")]
+        SHA3_512_v1_0,
+        [EnumMember(Value = "SHAKE-128-1.0")]
+        SHAKE_128_v1_0,
+        [EnumMember(Value = "SHAKE-256-1.0")]
+        SHAKE_256_v1_0,
+        [EnumMember(Value = "ACVP-TDES-CBC-1.0")]
         TDES_CBC_v1_0,
-        [EnumMember(Value = "TDES-CBCI-1.0")]
+        [EnumMember(Value = "ACVP-TDES-CBCI-1.0")]
         TDES_CBCI_v1_0,
-        [EnumMember(Value = "TDES-CFB1-1.0")]
+        [EnumMember(Value = "ACVP-TDES-CFB1-1.0")]
         TDES_CFB1_v1_0,
-        [EnumMember(Value = "TDES-CFB8-1.0")]
+        [EnumMember(Value = "ACVP-TDES-CFB8-1.0")]
         TDES_CFB8_v1_0,
-        [EnumMember(Value = "TDES-CFB64-1.0")]
+        [EnumMember(Value = "ACVP-TDES-CFB64-1.0")]
         TDES_CFB64_v1_0,
-        [EnumMember(Value = "TDES-CFBP1-1.0")]
+        [EnumMember(Value = "ACVP-TDES-CFBP1-1.0")]
         TDES_CFBP1_v1_0,
-        [EnumMember(Value = "TDES-CFBP8-1.0")]
+        [EnumMember(Value = "ACVP-TDES-CFBP8-1.0")]
         TDES_CFBP8_v1_0,
-        [EnumMember(Value = "TDES-CFBP64-1.0")]
+        [EnumMember(Value = "ACVP-TDES-CFBP64-1.0")]
         TDES_CFBP64_v1_0,
-        [EnumMember(Value = "TDES-CTR-1.0")]
+        [EnumMember(Value = "ACVP-TDES-CTR-1.0")]
         TDES_CTR_v1_0,
-        [EnumMember(Value = "TDES-ECB-1.0")]
+        [EnumMember(Value = "ACVP-TDES-ECB-1.0")]
         TDES_ECB_v1_0,
-        [EnumMember(Value = "TDES-KW-1.0")]
+        [EnumMember(Value = "ACVP-TDES-KW-1.0")]
         TDES_KW_v1_0,
-        [EnumMember(Value = "TDES-OFB-1.0")]
+        [EnumMember(Value = "ACVP-TDES-OFB-1.0")]
         TDES_OFB_v1_0,
-        [EnumMember(Value = "TDES-OFBI-1.0")]
+        [EnumMember(Value = "ACVP-TDES-OFBI-1.0")]
         TDES_OFBI_v1_0,
-        [EnumMember(Value = "TupleHash-1.0")]
-        TupleHash_v1_0
+        [EnumMember(Value = "TupleHash-128-1.0")]
+        TupleHash_128_v1_0,
+        [EnumMember(Value = "TupleHash-256-1.0")]
+        TupleHash_256_v1_0
     }
 }

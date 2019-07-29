@@ -4,7 +4,9 @@
   "mode": "SigVer",
   "revision": "1.0",
   "isSample": false,
-  "conformances": [],
+  "conformances": [
+    "SP800-106"
+  ],
   "capabilities": [
     {
       "sigType": "ansx9.31",

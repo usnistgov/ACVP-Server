@@ -39,8 +39,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto", "..\..\cr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.Oracle", "..\..\oracle\src\NIST.CVP.Crypto.Oracle\NIST.CVP.Crypto.Oracle.csproj", "{F95FE1A6-27A6-4635-9656-D953BC8F3731}"
 EndProject
-Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "NIST.CVP.SQL.AcvpPools", "..\..\common\src\NIST.CVP.SQL.AcvpPools\NIST.CVP.SQL.AcvpPools.sqlproj", "{A8C90414-2D5B-48F9-94F8-36B8A0668659}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -111,12 +109,6 @@ Global
 		{F95FE1A6-27A6-4635-9656-D953BC8F3731}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F95FE1A6-27A6-4635-9656-D953BC8F3731}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F95FE1A6-27A6-4635-9656-D953BC8F3731}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A8C90414-2D5B-48F9-94F8-36B8A0668659}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A8C90414-2D5B-48F9-94F8-36B8A0668659}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A8C90414-2D5B-48F9-94F8-36B8A0668659}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{A8C90414-2D5B-48F9-94F8-36B8A0668659}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A8C90414-2D5B-48F9-94F8-36B8A0668659}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A8C90414-2D5B-48F9-94F8-36B8A0668659}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -138,7 +130,6 @@ Global
 		{E7665A0C-CE2B-4262-9910-73AEBC3915EE} = {5F332581-5654-4012-B718-45E17F299362}
 		{B254ABEE-624C-4AAD-BC93-9C1A710D4C45} = {5F332581-5654-4012-B718-45E17F299362}
 		{F95FE1A6-27A6-4635-9656-D953BC8F3731} = {5F332581-5654-4012-B718-45E17F299362}
-		{A8C90414-2D5B-48F9-94F8-36B8A0668659} = {5F332581-5654-4012-B718-45E17F299362}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {877A0126-FA83-410B-B574-6BA1DFD368DE}

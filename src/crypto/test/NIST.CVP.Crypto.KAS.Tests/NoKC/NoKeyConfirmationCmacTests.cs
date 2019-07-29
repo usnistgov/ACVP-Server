@@ -117,7 +117,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.NoKC
         {
             NoKeyConfirmationParameters p =
                 new NoKeyConfirmationParameters(KeyAgreementMacType.CmacAes, macLength, dkm, nonce);
-            _subject = new NoKeyConfirmationCmac(p, _algoFactory.GetCmacInstance(CmacTypes.AES128));
+            _subject = new NoKeyConfirmationCmac(new NoKeyConfirmationMacDataCreator(), p, _algoFactory.GetCmacInstance(CmacTypes.AES128));
             var result = _subject.ComputeMac();
 
             Assume.That(result.Success, nameof(result.Success));

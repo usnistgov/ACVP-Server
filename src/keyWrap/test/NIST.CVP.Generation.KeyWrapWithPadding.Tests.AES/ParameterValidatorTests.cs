@@ -4,11 +4,11 @@ using System.Text;
 using NIST.CVP.Crypto.Common.Symmetric.KeyWrap.Enums;
 using NUnit.Framework;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
-using NIST.CVP.Generation.KeyWrap.AES;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Domain;
 using NIST.CVP.Generation.KeyWrap.Tests.AES;
-using ParameterValidator = NIST.CVP.Generation.KeyWrapWithPadding.AES.ParameterValidator;
+using NIST.CVP.Generation.KeyWrap.v1_0.AES;
+using ParameterValidator = NIST.CVP.Generation.KeyWrap.v1_0.AESP.ParameterValidator;
 
 namespace NIST.CVP.Generation.KeyWrapWithPadding.Tests.AES
 {

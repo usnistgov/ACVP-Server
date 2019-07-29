@@ -6,7 +6,8 @@ using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.DSA.FFC.GGeneratorValidators;
 using NIST.CVP.Crypto.DSA.FFC.PQGeneratorValidators;
 using NIST.CVP.Crypto.SHAWrapper;
-using NIST.CVP.Generation.DSA.FFC.PQGVer.Parsers;
+using NIST.CVP.Generation.DSA.v1_0.PqgVer;
+using NIST.CVP.Generation.DSA.v1_0.PqgVer.Parsers;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
@@ -71,7 +72,13 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer.IntegrationTests
                         var sha = _shaFactory.GetShaInstance(testGroup.HashAlg);
                         var algo = gFactory.GetGeneratorValidator(testGroup.GGenMode, sha);
 
-                        var result = algo.Validate(testCase.P, testCase.Q, testCase.G, testCase.Seed, testCase.Index);
+                        var result = algo.Validate(
+                            testCase.P.ToPositiveBigInteger(), 
+                            testCase.Q.ToPositiveBigInteger(), 
+                            testCase.G.ToPositiveBigInteger(), 
+                            testCase.Seed, 
+                            testCase.Index
+                            );
                         if (result.Success != testCase.TestPassed)
                         {
                             Assert.Fail($"Could not generate TestCase: {testCase.TestCaseId}");
@@ -125,7 +132,11 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer.IntegrationTests
 
                         var algo = pqFactory.GetGeneratorValidator(testGroup.PQGenMode, sha);
 
-                        var result = algo.Validate(testCase.P, testCase.Q, testCase.Seed, testCase.Counter);
+                        var result = algo.Validate(
+                            testCase.P.ToPositiveBigInteger(), 
+                            testCase.Q.ToPositiveBigInteger(), 
+                            testCase.Seed, 
+                            testCase.Counter);
                         if (result.Success != testCase.TestPassed)
                         {
                             Assert.Fail($"Could not generate TestCase: {testCase.TestCaseId}");

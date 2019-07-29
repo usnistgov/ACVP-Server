@@ -2,6 +2,7 @@
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC.Enums;
 using System.Collections.Generic;
+using NIST.CVP.Generation.ECDSA.v1_0.KeyVer;
 
 namespace NIST.CVP.Generation.DSA.ECC.KeyVer.Tests
 {

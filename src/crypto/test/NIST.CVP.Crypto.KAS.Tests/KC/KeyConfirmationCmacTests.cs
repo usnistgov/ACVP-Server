@@ -108,7 +108,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.KC
                 derivedKeyingMaterial
             );
 
-            _subject = new KeyConfirmationCmac(cmac, p);
+            _subject = new KeyConfirmationCmac(new KeyConfirmationMacDataCreator(), p, cmac);
 
             var result = _subject.ComputeMac();
 

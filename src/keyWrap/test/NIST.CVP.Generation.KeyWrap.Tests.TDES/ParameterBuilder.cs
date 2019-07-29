@@ -1,5 +1,5 @@
 ﻿using NIST.CVP.Crypto.Common.Symmetric.KeyWrap.Enums;
-using NIST.CVP.Generation.KeyWrap.TDES;
+using NIST.CVP.Generation.KeyWrap.v1_0.TDES;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Domain;
 
@@ -64,7 +64,7 @@ namespace NIST.CVP.Generation.KeyWrap.Tests.TDES
             switch (keyWrapType)
             {
                 case KeyWrapType.TDES_KW:
-                    _algorithm = "TDES-KW";
+                    _algorithm = "ACVP-TDES-KW";
                     _mode = string.Empty;
                     break;
             }

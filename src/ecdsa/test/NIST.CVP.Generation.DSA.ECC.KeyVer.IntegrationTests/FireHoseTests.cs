@@ -4,7 +4,7 @@ using System.IO;
 using System.Text;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
 using NIST.CVP.Crypto.DSA.ECC;
-using NIST.CVP.Generation.DSA.ECC.KeyVer.Parsers;
+using NIST.CVP.Generation.ECDSA.v1_0.KeyVer.Parsers;
 using NIST.CVP.Tests.Core;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;

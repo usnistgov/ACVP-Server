@@ -1,5 +1,5 @@
-﻿using System;
-using NIST.CVP.Math;
+﻿using NIST.CVP.Math;
+using System;
 
 namespace NIST.CVP.Crypto.Common.Hash.SHA2
 {
@@ -23,8 +23,15 @@ namespace NIST.CVP.Crypto.Common.Hash.SHA2
             switch (mode.ToLower())
             {
                 case "sha1":
+                case "sha-1":
                     return ModeValues.SHA1;
                 case "sha2":
+                case "sha2-224":
+                case "sha2-256":
+                case "sha2-384":
+                case "sha2-512":
+                case "sha2-512/224":
+                case "sha2-512/256":
                     return ModeValues.SHA2;
 
                 default:

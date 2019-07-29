@@ -37,6 +37,15 @@ namespace NIST.CVP.Crypto.Oracle
             return await observableGrain.ObserveUntilResult();
         }
 
+        public async Task<AesResult> GetAesFfCaseAsync(AesFfParameters param)
+        {
+            var observableGrain = 
+                await GetObserverGrain<IOracleObserverAesFfCaseGrain, AesResult>();
+            await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, LoadSheddingRetries);
+
+            return await observableGrain.ObserveUntilResult();
+        }
+
         public async Task<AesResult> GetDeferredAesCounterCaseAsync(CounterParameters<AesParameters> param)
         {
             var observableGrain = 
@@ -60,6 +69,15 @@ namespace NIST.CVP.Crypto.Oracle
             var observableGrain = 
                 await GetObserverGrain<IOracleObserverAesCounterExtractIvsCaseGrain, CounterResult>();
             await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, fullParam, LoadSheddingRetries);
+
+            return await observableGrain.ObserveUntilResult();
+        }
+
+        public async Task<AesResult> GetAesCaseAsync(AesWithPayloadParameters param)
+        {
+            var observableGrain =
+                await GetObserverGrain<IOracleObserverAesWithPayloadCaseGrain, AesResult>();
+            await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, LoadSheddingRetries);
 
             return await observableGrain.ObserveUntilResult();
         }

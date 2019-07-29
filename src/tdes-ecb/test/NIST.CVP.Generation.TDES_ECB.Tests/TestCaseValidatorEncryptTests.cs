@@ -1,7 +1,8 @@
-﻿using System.Threading.Tasks;
+﻿using NIST.CVP.Generation.TDES_ECB.v1_0;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Generation.TDES_ECB.Tests
 {

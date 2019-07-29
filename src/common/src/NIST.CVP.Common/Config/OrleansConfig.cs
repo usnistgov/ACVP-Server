@@ -43,7 +43,7 @@ namespace NIST.CVP.Common.Config
         public bool UseFileLogging { get; set; }
 
         /// <summary>
-        /// The post to use for the orleans dashboard
+        /// The port to use for the orleans dashboard
         /// </summary>
         public int OrleansDashboardPort { get; set; }
 
@@ -58,5 +58,10 @@ namespace NIST.CVP.Common.Config
         /// The rejected requests throw an exception of TODO and should be resubmitted after a wait.
         /// </summary>
         public int LoadSheddingCpuThreshold { get; set; }
+        
+        /// <summary>
+        /// The maximum number of concurrent work enqueued to Orleans work per GenVal instance.
+        /// </summary>
+        public int MaxWorkItemsToQueuePerGenValInstance { get; set; }
     }
 }

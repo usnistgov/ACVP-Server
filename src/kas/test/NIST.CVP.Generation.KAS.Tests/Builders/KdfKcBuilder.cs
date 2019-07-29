@@ -1,4 +1,6 @@
-﻿namespace NIST.CVP.Generation.KAS.Tests.Builders
+﻿using NIST.CVP.Generation.KAS.v1_0;
+
+namespace NIST.CVP.Generation.KAS.Tests.Builders
 {
     public class KdfKcBuilder
     {

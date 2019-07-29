@@ -2,7 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
-    <TargetLatestRuntimePatch>false</TargetLatestRuntimePatch>
+    <OutputType>Exe</OutputType>
+    <RuntimeIdentifiers>win-x64;osx-x64</RuntimeIdentifiers>
+    <TargetLatestRuntimePatch>true</TargetLatestRuntimePatch>
   </PropertyGroup>
 
   <ItemGroup>

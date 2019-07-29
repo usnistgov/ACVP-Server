@@ -1,6 +1,7 @@
 ﻿using Moq;
 using NIST.CVP.Common;
 using NIST.CVP.Common.Oracle;
+using NIST.CVP.Generation.TDES_CFBP.v1_0;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using System;

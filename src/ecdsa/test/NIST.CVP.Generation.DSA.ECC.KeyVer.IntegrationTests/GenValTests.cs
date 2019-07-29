@@ -6,6 +6,7 @@ using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Enums;
 using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Generation.Core.Tests.Fakes;
+using NIST.CVP.Generation.ECDSA.v1_0.KeyVer;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
@@ -19,7 +20,7 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyVer.IntegrationTests
 
         public override AlgoMode AlgoMode => AlgoMode.ECDSA_KeyVer_v1_0;
 
-        public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
+
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
 
         protected override void ModifyTestCaseToFail(dynamic testCase)

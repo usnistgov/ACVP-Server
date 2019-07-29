@@ -1,0 +1,37 @@
+{
+  "vsId": 0,
+  "algorithm": "KMAC-256",
+  "mode": "",
+  "revision": "1.0",
+  "isSample": false,
+  "conformances": [],
+  "digestSize": [
+    256
+  ],
+  "xof": [
+    true,
+    false
+  ],
+  "hexCustomization": false,
+  "msgLen": [
+    {
+      "min": 0,
+      "max": 65536,
+      "increment": 1
+    }
+  ],
+  "keyLen": [
+    {
+      "min": 256,
+      "max": 4096,
+      "increment": 1
+    }
+  ],
+  "macLen": [
+    {
+      "min": 256,
+      "max": 4096,
+      "increment": 1
+    }
+  ]
+}

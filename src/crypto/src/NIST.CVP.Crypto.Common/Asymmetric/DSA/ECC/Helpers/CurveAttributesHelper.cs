@@ -6,7 +6,7 @@ namespace NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC.Helpers
 {
     public static class CurveAttributesHelper
     {
-        public static Dictionary<Curve, CurveAttributes> CurveAttributes = new Dictionary<Curve, CurveAttributes>()
+        public readonly static Dictionary<Curve, CurveAttributes> CurveAttributes = new Dictionary<Curve, CurveAttributes>()
         {
             {Curve.P192, new CurveAttributes(Curve.P192, CurveType.Prime, 192)},
             {Curve.P224, new CurveAttributes(Curve.P224, CurveType.Prime, 224)},
@@ -25,9 +25,7 @@ namespace NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC.Helpers
             {Curve.B571, new CurveAttributes(Curve.B571, CurveType.Binary, 571)}
         };
 
-        public static CurveAttributes GetCurveAttribute(Curve curve)
-        {
-            return CurveAttributes.First(w => w.Key == curve).Value;
-        }
+        public static CurveAttributes GetCurveAttribute(Curve curve) => 
+            CurveAttributes.First(w => w.Key == curve).Value;
     }
 }

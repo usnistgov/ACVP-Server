@@ -1,11 +1,11 @@
 ﻿using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.DSA.FFC;
 using NIST.CVP.Crypto.SHAWrapper;
-using NIST.CVP.Generation.DSA.FFC.SigVer.Parsers;
 using NIST.CVP.Tests.Core;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using System.IO;
+using NIST.CVP.Generation.DSA.v1_0.SigVer.Parsers;
 
 namespace NIST.CVP.Generation.DSA.FFC.SigVer.IntegrationTests
 {

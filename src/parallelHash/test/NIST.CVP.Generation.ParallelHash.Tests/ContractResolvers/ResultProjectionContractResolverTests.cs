@@ -5,7 +5,8 @@ using System.Text.RegularExpressions;
 using NIST.CVP.Generation.Core.DeSerialization;
 using NIST.CVP.Generation.Core.Enums;
 using NIST.CVP.Generation.Core.JsonConverters;
-using NIST.CVP.Generation.ParallelHash.ContractResolvers;
+using NIST.CVP.Generation.ParallelHash.v1_0;
+using NIST.CVP.Generation.ParallelHash.v1_0.ContractResolvers;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
@@ -80,7 +81,6 @@ namespace NIST.CVP.Generation.ParallelHash.Tests.ContractResolvers
             Assert.AreEqual(tc.ParentGroup.TestGroupId, newTc.ParentGroup.TestGroupId, nameof(newTc.ParentGroup));
             Assert.AreEqual(tc.TestCaseId, newTc.TestCaseId, nameof(newTc.TestCaseId));
             Assert.AreEqual(tc.Digest, newTc.Digest, nameof(newTc.Digest));
-            Assert.AreEqual(tc.DigestLength, newTc.DigestLength, nameof(newTc.DigestLength));
 
             if (tg.TestType.Equals("mct", StringComparison.OrdinalIgnoreCase))
             {
@@ -88,11 +88,11 @@ namespace NIST.CVP.Generation.ParallelHash.Tests.ContractResolvers
                 {
                     Assert.AreEqual(tc.ResultsArray[i].Digest, newTc.ResultsArray[i].Digest, "mctDigest");
                     Assert.AreEqual(tc.ResultsArray[i].DigestLength, newTc.ResultsArray[i].DigestLength, "mctDigestLength");
-                    Assert.AreEqual(tc.ResultsArray[i].Message, newTc.ResultsArray[i].Message, "mctMessage");
                 }
             }
             else
             {
+                Assert.AreEqual(tc.DigestLength, newTc.DigestLength, nameof(newTc.DigestLength));
                 Assert.IsNull(newTc.ResultsArray, nameof(newTc.ResultsArray));
             }
 

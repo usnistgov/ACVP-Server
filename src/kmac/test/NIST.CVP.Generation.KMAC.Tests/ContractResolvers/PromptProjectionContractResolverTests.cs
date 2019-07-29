@@ -2,7 +2,8 @@
 using NIST.CVP.Generation.Core.DeSerialization;
 using NIST.CVP.Generation.Core.Enums;
 using NIST.CVP.Generation.Core.JsonConverters;
-using NIST.CVP.Generation.KMAC.ContractResolvers;
+using NIST.CVP.Generation.KMAC.v1_0;
+using NIST.CVP.Generation.KMAC.v1_0.ContractResolvers;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
@@ -47,7 +48,7 @@ namespace NIST.CVP.Generation.KMAC.Tests.ContractResolvers
             Assert.AreEqual(tg.Tests.Count, newTg.Tests.Count, nameof(newTg.Tests));
             Assert.AreEqual(tg.TestType, newTg.TestType, nameof(newTg.TestType));
             Assert.AreEqual(tg.XOF, newTg.XOF, nameof(newTg.XOF));
-            Assert.AreEqual(tg.DigestSize, newTg.DigestSize, nameof(newTg.DigestSize));
+            Assert.AreEqual(tg.HexCustomization, newTg.HexCustomization, nameof(newTg.HexCustomization));
         }
 
         [Test]

@@ -1,6 +1,6 @@
 ﻿using NIST.CVP.Common;
 using NIST.CVP.Generation.Core.Tests;
-using NIST.CVP.Generation.TPMv1._2;
+using NIST.CVP.Generation.KDF_Components.v1_0.TPMv1_2;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -16,7 +16,7 @@ namespace NIST.CVP.Generation.TPM.IntegrationTests
         public override AlgoMode AlgoMode => AlgoMode.KDFComponents_TPM_v1_0;
 
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
-        public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
+
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {

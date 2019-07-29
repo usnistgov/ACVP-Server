@@ -2,6 +2,7 @@
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using System;
+using NIST.CVP.Generation.RSA.v1_0.KeyGen;
 
 namespace NIST.CVP.Generation.RSA_KeyGen.Tests
 {

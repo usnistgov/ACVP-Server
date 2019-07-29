@@ -1,21 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using Autofac;
+﻿using Autofac;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using NIST.CVP.Common;
-using NIST.CVP.Generation.Core.Enums;
-using NUnit.Framework;
-using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Common.Helpers;
+using NIST.CVP.Crypto.Oracle;
+using NIST.CVP.Generation.Core.Enums;
 using NIST.CVP.Generation.Core.JsonConverters;
+using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Tests.Core;
 using NLog;
-using NIST.CVP.Crypto.Oracle;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+using NUnit.Framework;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 namespace NIST.CVP.Generation.Core.Tests
 {
@@ -32,11 +32,10 @@ namespace NIST.CVP.Generation.Core.Tests
         public string TestPath { get; private set; }
         public string JsonSavePath { get; private set; }
 
-        public abstract IRegisterInjections RegistrationsCrypto { get; }
         public IRegisterInjections RegistrationsOracle => new RegisterInjections();
         public abstract IRegisterInjections RegistrationsGenVal { get; }
 
-        public string[] TestVectorFileNames = { @"\expectedResults.json", @"\internalProjection.json", @"\prompt.json"};
+        public string[] TestVectorFileNames = { "expectedResults.json", "internalProjection.json", "prompt.json" };
 
         protected abstract void ModifyTestCaseToFail(dynamic testCase);
         protected abstract string GetTestFileFewTestCases(string folderName);
@@ -82,17 +81,17 @@ namespace NIST.CVP.Generation.Core.Tests
             var targetFolder = GetTestFolder("Few");
             var fileName = GetTestFileFewTestCases(targetFolder);
 
-            LoggingHelper.ConfigureLogging(fileName, "generator");
+            LoggingHelper.ConfigureLogging(fileName, "generator", LogLevel.Debug);
             GenLogger.Info($"{Algorithm}-{Mode} Test Vectors");
             RunGeneration(targetFolder, fileName, true);
 
-            LoggingHelper.ConfigureLogging(fileName, "validator");
+            LoggingHelper.ConfigureLogging(fileName, "validator", LogLevel.Debug);
             ValLogger.Info($"{Algorithm}-{Mode} Test Vectors");
             RunValidation(targetFolder);
 
             // Get object for the validation.json
             var dp = new DynamicParser();
-            var parsedValidation = dp.Parse($@"{targetFolder}\validation.json");
+            var parsedValidation = dp.Parse(Path.Combine(targetFolder, "validation.json"));
 
             // Validate result as pass
             Assert.AreEqual(EnumHelpers.GetEnumDescriptionFromEnum(Disposition.Passed), parsedValidation.ParsedObject.disposition.ToString());
@@ -104,12 +103,17 @@ namespace NIST.CVP.Generation.Core.Tests
             var targetFolder = GetTestFolder("Lots");
             var fileName = GetTestFileLotsOfTestCases(targetFolder);
 
+            LoggingHelper.ConfigureLogging(fileName, "generator", LogLevel.Debug);
+            GenLogger.Info($"{Algorithm}-{Mode} Test Vectors");
             RunGeneration(targetFolder, fileName, false);
+
+            LoggingHelper.ConfigureLogging(fileName, "validator", LogLevel.Debug);
+            ValLogger.Info($"{Algorithm}-{Mode} Test Vectors");
             RunValidation(targetFolder);
 
             // Get object for the validation.json
             var dp = new DynamicParser();
-            var parsedValidation = dp.Parse($@"{targetFolder}\validation.json");
+            var parsedValidation = dp.Parse(Path.Combine(targetFolder, "validation.json"));
 
             // Validate result as pass
             Assert.AreEqual(EnumHelpers.GetEnumDescriptionFromEnum(Disposition.Passed), parsedValidation.ParsedObject.disposition.ToString());
@@ -144,7 +148,7 @@ namespace NIST.CVP.Generation.Core.Tests
 
             // Get object for the validation.json
             var dp = new DynamicParser();
-            var parsedValidation = dp.Parse($@"{targetFolder}\validation.json");
+            var parsedValidation = dp.Parse(Path.Combine(targetFolder, "validation.json"));
 
             // Validate result as fail
             Assert.AreEqual(EnumHelpers.GetEnumDescriptionFromEnum(Disposition.Failed), parsedValidation.ParsedObject.disposition.ToString(), "disposition");
@@ -170,6 +174,8 @@ namespace NIST.CVP.Generation.Core.Tests
                     Assert.IsNull(provided, "provided must be null");
                 }
             }
+
+            Assert.True(true);
         }
 
         private string[] GetFileNamesWithPath(string directory, string[] fileNames)
@@ -179,7 +185,7 @@ namespace NIST.CVP.Generation.Core.Tests
 
             for (var i = 0; i < numOfFiles; i++)
             {
-                fileNamesWithPaths[i] = $"{directory}{fileNames[i]}";
+                fileNamesWithPaths[i] = Path.Combine(directory, fileNames[i]);
             }
 
             return fileNamesWithPaths;
@@ -215,9 +221,9 @@ namespace NIST.CVP.Generation.Core.Tests
                 Assert.IsTrue(result.Success, $"Generator failed to complete with status code: {result.StatusCode}, {EnumHelpers.GetEnumDescriptionFromEnum(result.StatusCode)}, {result.ErrorMessage}");
             }
 
-            Assert.IsTrue(File.Exists($"{targetFolder}{TestVectorFileNames[0]}"), $"{targetFolder}{TestVectorFileNames[0]}");
-            Assert.IsTrue(File.Exists($"{targetFolder}{TestVectorFileNames[1]}"), $"{targetFolder}{TestVectorFileNames[1]}");
-            Assert.IsTrue(File.Exists($"{targetFolder}{TestVectorFileNames[2]}"), $"{targetFolder}{TestVectorFileNames[2]}");
+            Assert.IsTrue(File.Exists(Path.Combine(targetFolder, TestVectorFileNames[0])), Path.Combine(targetFolder, TestVectorFileNames[0]));
+            Assert.IsTrue(File.Exists(Path.Combine(targetFolder, TestVectorFileNames[1])), Path.Combine(targetFolder, TestVectorFileNames[1]));
+            Assert.IsTrue(File.Exists(Path.Combine(targetFolder, TestVectorFileNames[2])), Path.Combine(targetFolder, TestVectorFileNames[2]));
         }
 
         protected void RunValidation(string targetFolder)
@@ -227,14 +233,14 @@ namespace NIST.CVP.Generation.Core.Tests
             {
                 var val = scope.Resolve<IValidator>();
                 var result = val.Validate(
-                    $@"{targetFolder}\{TestVectorFileNames[0]}",
-                    $@"{targetFolder}\{TestVectorFileNames[1]}",
+                    Path.Combine(targetFolder, TestVectorFileNames[0]),
+                    Path.Combine(targetFolder, TestVectorFileNames[1]),
                     showExpected: true
                 );
 
                 Assert.IsTrue(result.Success, $"Validator failed to complete with status code: {result.StatusCode}, {EnumHelpers.GetEnumDescriptionFromEnum(result.StatusCode)}, {result.ErrorMessage}");
             }
-            Assert.IsTrue(File.Exists($@"{targetFolder}\validation.json"), $"{targetFolder} validation");
+            Assert.IsTrue(File.Exists(Path.Combine(targetFolder, "validation.json")), $"{targetFolder} validation");
         }
 
         private IContainer GetContainer(bool overrideRegisteredDependencies = false)
@@ -244,7 +250,6 @@ namespace NIST.CVP.Generation.Core.Tests
             EntryPointConfigHelper.RegisterConfigurationInjections(ServiceProvider, builder);
 
             RegistrationsOracle.RegisterTypes(builder, AlgoMode);
-            RegistrationsCrypto.RegisterTypes(builder, AlgoMode);
             RegistrationsGenVal.RegisterTypes(builder, AlgoMode);
 
             if (overrideRegisteredDependencies)
@@ -309,7 +314,7 @@ namespace NIST.CVP.Generation.Core.Tests
                 NullValueHandling = NullValueHandling.Ignore,
                 ContractResolver = new CamelCasePropertyNamesContractResolver()
             });
-            var fileName = $@"{targetFolder}\registration.json";
+            var fileName = Path.Combine(targetFolder, "registration.json");
             File.WriteAllText(fileName, json);
 
             return fileName;

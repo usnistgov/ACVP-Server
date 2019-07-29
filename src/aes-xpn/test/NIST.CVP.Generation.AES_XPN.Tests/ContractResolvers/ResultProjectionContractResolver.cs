@@ -1,5 +1,6 @@
 ﻿using System.Text.RegularExpressions;
-using NIST.CVP.Generation.AES_XPN.ContractResolvers;
+using NIST.CVP.Generation.AES_XPN.v1_0;
+using NIST.CVP.Generation.AES_XPN.v1_0.ContractResolvers;
 using NIST.CVP.Generation.Core.DeSerialization;
 using NIST.CVP.Generation.Core.Enums;
 using NIST.CVP.Generation.Core.JsonConverters;

@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using NIST.CVP.Common;
+using NIST.CVP.Generation.AES_CCM.v1_0;
 using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Domain;
@@ -11,12 +12,12 @@ namespace NIST.CVP.Generation.AES_CCM.IntegrationTests
     [TestFixture, FastIntegrationTest]
     public class GenValTests : GenValTestsSingleRunnerBase
     {
-        public override string Algorithm { get; } = "AES-CCM";
+        public override string Algorithm { get; } = "ACVP-AES-CCM";
         public override string Mode { get; } = string.Empty;
 
         public override AlgoMode AlgoMode => AlgoMode.AES_CCM_v1_0;
 
-        public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
+
 
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
 

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Moq;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Async;
+using NIST.CVP.Generation.HMAC.v1_0;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -25,7 +26,7 @@ namespace NIST.CVP.Generation.HMAC.Tests
             _mockTestCaseGenerator = new Mock<ITestCaseGeneratorAsync<TestGroup, TestCase>>();
 
             _mockTestCaseGenerator
-                .Setup(s => s.GenerateAsync(It.IsAny<TestGroup>(), true))
+                .Setup(s => s.GenerateAsync(It.IsAny<TestGroup>(), true, It.IsAny<int>()))
                 .Returns(Task.FromResult(new TestCaseGenerateResponse<TestGroup, TestCase>(new TestCase())));
             _mockTestCaseGeneratorFactory
                 .Setup(s => s.GetCaseGenerator(It.IsAny<TestGroup>()))

@@ -1,6 +1,6 @@
 ﻿using System.IO;
 using NIST.CVP.Crypto.IKEv1;
-using NIST.CVP.Generation.IKEv1.Parsers;
+using NIST.CVP.Generation.KDF_Components.v1_0.IKEv1.Parsers;
 using NIST.CVP.Tests.Core;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;

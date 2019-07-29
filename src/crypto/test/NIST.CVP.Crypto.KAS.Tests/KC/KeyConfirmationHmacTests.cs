@@ -144,7 +144,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.KC
                 derivedKeyingMaterial
             );
 
-            _subject = new KeyConfirmationHmac(hmac, p);
+            _subject = new KeyConfirmationHmac(new KeyConfirmationMacDataCreator(), p, hmac);
 
             var result = _subject.ComputeMac();
 

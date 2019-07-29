@@ -1,20 +1,24 @@
-﻿using System;
-using System.Threading.Tasks;
-using NIST.CVP.Common;
+﻿using NIST.CVP.Common;
 using NIST.CVP.Common.Oracle.DispositionTypes;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
+using NIST.CVP.Crypto.Common;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
 using NIST.CVP.Math;
+using NIST.CVP.Math.Entropy;
 using NIST.CVP.Orleans.Grains.Interfaces.Ecdsa;
+using System;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Orleans.Grains.Ecdsa
 {
-    public class OracleObserverEcdsaVerifySignatureCaseCaseGrain : ObservableOracleGrainBase<VerifyResult<EcdsaSignatureResult>>, 
+    public class OracleObserverEcdsaVerifySignatureCaseCaseGrain : ObservableOracleGrainBase<VerifyResult<EcdsaSignatureResult>>,
         IOracleObserverEcdsaVerifySignatureCaseGrain
     {
         private readonly IEccCurveFactory _curveFactory;
         private readonly IDsaEccFactory _dsaFactory;
+        private readonly IPreSigVerMessageRandomizerBuilder _messageRandomizer;
+        private readonly IEntropyProviderFactory _entropyProviderFactory;
         private readonly IRandom800_90 _rand;
 
         private EcdsaSignatureParameters _param;
@@ -25,24 +29,28 @@ namespace NIST.CVP.Orleans.Grains.Ecdsa
             LimitedConcurrencyLevelTaskScheduler nonOrleansScheduler,
             IEccCurveFactory curveFactory,
             IDsaEccFactory dsaFactory,
+            IPreSigVerMessageRandomizerBuilder messageRandomizer,
+            IEntropyProviderFactory entropyProviderFactory,
             IRandom800_90 rand
-        ) : base (nonOrleansScheduler)
+        ) : base(nonOrleansScheduler)
         {
             _curveFactory = curveFactory;
             _dsaFactory = dsaFactory;
+            _messageRandomizer = messageRandomizer;
+            _entropyProviderFactory = entropyProviderFactory;
             _rand = rand;
         }
-        
+
         public async Task<bool> BeginWorkAsync(EcdsaSignatureParameters param, EcdsaKeyResult key, EcdsaKeyResult badKey)
         {
             _param = param;
             _key = key;
             _badKey = badKey;
-            
+
             await BeginGrainWorkAsync();
             return await Task.FromResult(true);
         }
-        
+
         protected override async Task DoWorkAsync()
         {
             var curve = _curveFactory.GetCurve(_param.Curve);
@@ -50,8 +58,19 @@ namespace NIST.CVP.Orleans.Grains.Ecdsa
             var eccDsa = _dsaFactory.GetInstance(_param.HashAlg);
 
             var message = _rand.GetRandomBitString(1024);
+            var messageCopy = message.GetDeepCopy();
 
-            var result = eccDsa.Sign(domainParams, _key.Key, message);
+            BitString randomValue = null;
+            if (_param.IsMessageRandomized)
+            {
+                randomValue = _rand.GetRandomBitString(_param.HashAlg.OutputLen);
+                var entropyProvider = _entropyProviderFactory.GetEntropyProvider(EntropyProviderTypes.Testable);
+                entropyProvider.AddEntropy(randomValue);
+                messageCopy = _messageRandomizer.WithEntropyProvider(entropyProvider).Build()
+                    .RandomizeMessage(messageCopy, _param.HashAlg.OutputLen);
+            }
+
+            var result = eccDsa.Sign(domainParams, _key.Key, messageCopy);
             if (!result.Success)
             {
                 throw new Exception();
@@ -60,6 +79,7 @@ namespace NIST.CVP.Orleans.Grains.Ecdsa
             var sigResult = new EcdsaSignatureResult
             {
                 Message = message,
+                RandomValue = randomValue,
                 Key = _key.Key,
                 Signature = result.Signature
             };

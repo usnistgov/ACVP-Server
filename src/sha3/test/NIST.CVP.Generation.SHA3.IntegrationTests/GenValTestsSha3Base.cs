@@ -1,12 +1,12 @@
-﻿using System.Collections.Generic;
-using Autofac;
+﻿using Autofac;
 using NIST.CVP.Common;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Tests;
+using NIST.CVP.Generation.SHA3.v1_0;
 using NIST.CVP.Math;
-using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
+using System.Collections.Generic;
 
 namespace NIST.CVP.Generation.SHA3.IntegrationTests
 {
@@ -14,7 +14,7 @@ namespace NIST.CVP.Generation.SHA3.IntegrationTests
     public abstract class GenValTestsSha3Base : GenValTestsSingleRunnerBase
     {
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
-        public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
+
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {

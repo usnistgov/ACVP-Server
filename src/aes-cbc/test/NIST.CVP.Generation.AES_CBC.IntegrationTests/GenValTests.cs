@@ -2,6 +2,7 @@
 using System.Linq;
 using Autofac;
 using NIST.CVP.Common;
+using NIST.CVP.Generation.AES_CBC.v1_0;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Math;
@@ -13,14 +14,14 @@ namespace NIST.CVP.Generation.AES_CBC.IntegrationTests
     [TestFixture, FastIntegrationTest]
     public class GenValTests : GenValTestsSingleRunnerBase
     {
-        public override string Algorithm { get; } = "AES-CBC";
+        public override string Algorithm { get; } = "ACVP-AES-CBC";
         public override string Mode { get; } = string.Empty;
 
         public override AlgoMode AlgoMode => AlgoMode.AES_CBC_v1_0;
 
-        public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
 
-        public override IRegisterInjections RegistrationsGenVal => new AES_CBC.RegisterInjections();
+
+        public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {

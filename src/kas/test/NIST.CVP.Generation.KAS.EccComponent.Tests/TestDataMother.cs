@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC.Enums;
+using NIST.CVP.Generation.KAS.v1_0.ECC_Component;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.KAS.EccComponent.Tests
@@ -26,12 +28,8 @@ namespace NIST.CVP.Generation.KAS.EccComponent.Tests
             {
                 TestCaseId = 5,
                 ParentGroup = tg,
-                PrivateKeyIut = 1,
-                PrivateKeyServer = 2,
-                PublicKeyIutX = 3,
-                PublicKeyIutY = 4,
-                PublicKeyServerX = 5,
-                PublicKeyServerY = 6,
+                KeyPairPartyServer = new EccKeyPair(new EccPoint(1, 2), 3),
+                KeyPairPartyIut = new EccKeyPair(new EccPoint(4, 5), 6),
                 Z = new BitString("07")
             };
             tg.Tests.Add(tc);

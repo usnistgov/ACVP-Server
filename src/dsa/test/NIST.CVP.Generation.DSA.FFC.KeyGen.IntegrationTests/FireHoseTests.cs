@@ -1,9 +1,9 @@
 ﻿using NIST.CVP.Crypto.DSA.FFC;
-using NIST.CVP.Generation.DSA.FFC.KeyGen.Parsers;
 using NIST.CVP.Tests.Core;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using System.IO;
+using NIST.CVP.Generation.DSA.v1_0.KeyGen.Parsers;
 
 namespace NIST.CVP.Generation.DSA.FFC.KeyGen.IntegrationTests
 {

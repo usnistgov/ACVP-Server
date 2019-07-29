@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using NIST.CVP.Generation.ECDSA.v1_0.SigGen;
 
 namespace NIST.CVP.Generation.DSA.ECC.SigGen.Tests
 {

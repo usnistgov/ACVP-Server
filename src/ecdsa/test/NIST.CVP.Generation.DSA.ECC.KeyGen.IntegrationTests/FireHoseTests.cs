@@ -4,11 +4,11 @@ using System.IO;
 using System.Text;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
 using NIST.CVP.Crypto.DSA.ECC;
+using NIST.CVP.Generation.ECDSA.v1_0.KeyGen.Parsers;
 using NIST.CVP.Math.Entropy;
 using NIST.CVP.Tests.Core;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
-using NIST.CVP.Generation.DSA.ECC.KeyGen.Parsers;
 
 namespace NIST.CVP.Generation.DSA.ECC.KeyGen.IntegrationTests
 {

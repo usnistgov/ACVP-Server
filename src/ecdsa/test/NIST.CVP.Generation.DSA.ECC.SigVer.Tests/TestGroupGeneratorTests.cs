@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Tests.Core.TestCategoryAttributes;
+﻿using NIST.CVP.Generation.ECDSA.v1_0.SigVer;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using System.Linq;
 
@@ -60,7 +61,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer.Tests
         [TestCaseSource(nameof(parameters))]
         public void ShouldCreate1TestGroupForEachCombinationOfCurveHashAlg(int expectedGroups, Parameters parameters)
         {
-            var subject = new TestGroupGenerator();
+            var subject = new TestGroupGenerator(false);
             var result = subject.BuildTestGroups(parameters);
             Assert.AreEqual(expectedGroups, result.Count());
         }

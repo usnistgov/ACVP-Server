@@ -1,5 +1,6 @@
-﻿using NIST.CVP.Generation.KAS.FFC;
-using NIST.CVP.Generation.KAS.Tests.Builders;
+﻿using NIST.CVP.Generation.KAS.Tests.Builders;
+using NIST.CVP.Generation.KAS.v1_0;
+using NIST.CVP.Generation.KAS.v1_0.FFC;
 using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;

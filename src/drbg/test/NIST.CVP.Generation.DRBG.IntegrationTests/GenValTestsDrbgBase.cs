@@ -4,6 +4,7 @@ using NIST.CVP.Crypto.Common;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Generation.Core.Tests.Fakes;
+using NIST.CVP.Generation.DRBG.v1_0;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Domain;
 using NUnit.Framework;
@@ -18,7 +19,7 @@ namespace NIST.CVP.Generation.DRBG.IntegrationTests
         public abstract string[] Modes { get; }
         public abstract int[] SeedLength { get; }
 
-        public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
+
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
 
         protected override void ModifyTestCaseToFail(dynamic testCase)

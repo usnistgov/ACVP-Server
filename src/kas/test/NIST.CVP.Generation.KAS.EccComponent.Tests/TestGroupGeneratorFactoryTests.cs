@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using NIST.CVP.Generation.KAS.v1_0.ECC_Component;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 

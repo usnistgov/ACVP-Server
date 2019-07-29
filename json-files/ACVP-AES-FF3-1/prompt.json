@@ -1,0 +1,3338 @@
+{
+  "vsId": 42,
+  "algorithm": "ACVP-AES-FF3-1",
+  "revision": "1.0",
+  "isSample": false,
+  "testGroups": [
+    {
+      "tgId": 1,
+      "testType": "AFT",
+      "direction": "Encrypt",
+      "keyLen": 128,
+      "alphabet": "0123456789",
+      "radix": 10,
+      "tests": [
+        {
+          "tcId": 1,
+          "tweak": "9F6B7D43B3A552",
+          "tweakLen": 56,
+          "pt": "4312962667",
+          "key": "0D517EBC71852CBA6C7013C9DB9104D8"
+        },
+        {
+          "tcId": 2,
+          "tweak": "7ECCD5D62C8AA9",
+          "tweakLen": 56,
+          "pt": "42592972841413437983428634710481338922521696022233194252",
+          "key": "9BA74F3763BD93F8B59200D122F1C621"
+        },
+        {
+          "tcId": 3,
+          "tweak": "9647BC416E49E2",
+          "tweakLen": 56,
+          "pt": "34501135183479175238251677762386037207241231014221055",
+          "key": "3C5CB02215BCB3E724421A9190BBEF34"
+        },
+        {
+          "tcId": 4,
+          "tweak": "304C9266CE442A",
+          "tweakLen": 56,
+          "pt": "4129441992754",
+          "key": "235BBCC01C7831CC6B09DEBDD2FA3276"
+        },
+        {
+          "tcId": 5,
+          "tweak": "76AB98B34A2583",
+          "tweakLen": 56,
+          "pt": "543062805878036172925887925153723464422244494",
+          "key": "35B1422A42BE512C9F174D05024EAAB2"
+        },
+        {
+          "tcId": 6,
+          "tweak": "B7D363555BAE55",
+          "tweakLen": 56,
+          "pt": "4803941071014484700469678",
+          "key": "590C0E46ECF89BB1361F72D464A074C5"
+        },
+        {
+          "tcId": 7,
+          "tweak": "8FA6147D3913FA",
+          "tweakLen": 56,
+          "pt": "040233503742364376385555399710150439488263",
+          "key": "C62EA0F8FB899568F3BEA4C2D3699F9F"
+        },
+        {
+          "tcId": 8,
+          "tweak": "CDA81DA6D62803",
+          "tweakLen": 56,
+          "pt": "746181318813803602224297967753",
+          "key": "E5ABE492682CB3A5EA79D3BB16FFF6DE"
+        },
+        {
+          "tcId": 9,
+          "tweak": "486EF72C0BDA92",
+          "tweakLen": 56,
+          "pt": "9715507500145700958322368013908916379",
+          "key": "3E4C5959C9E0308477634C5C4A48CD20"
+        },
+        {
+          "tcId": 10,
+          "tweak": "EF1D357B8FB64E",
+          "tweakLen": 56,
+          "pt": "67085248427",
+          "key": "54D29C6A393CC0124866951AB5334ECC"
+        },
+        {
+          "tcId": 11,
+          "tweak": "FE5C1B3CF68B2B",
+          "tweakLen": 56,
+          "pt": "708680994738126359276",
+          "key": "9BFB12BA115C5A2A72368DEE49BEAE32"
+        },
+        {
+          "tcId": 12,
+          "tweak": "285629977F9519",
+          "tweakLen": 56,
+          "pt": "6510430067575196484193670862",
+          "key": "41C8F06B40E7DE0989BEE7D2B3FBC5F2"
+        },
+        {
+          "tcId": 13,
+          "tweak": "B502E934B2DF32",
+          "tweakLen": 56,
+          "pt": "6751240478352735559949180915131023623006010966853847",
+          "key": "46E479F4FA4D01868AE9C182377A68EC"
+        },
+        {
+          "tcId": 14,
+          "tweak": "36B62716F2E0BC",
+          "tweakLen": 56,
+          "pt": "2357472861593985931659312994176782293442915498",
+          "key": "6DF6317D29958CC55C423203578CBA31"
+        },
+        {
+          "tcId": 15,
+          "tweak": "EC45D2B6A80DAF",
+          "tweakLen": 56,
+          "pt": "318129188180410",
+          "key": "D190E38F2AD0DECEC35A81D9E549D6A7"
+        },
+        {
+          "tcId": 16,
+          "tweak": "80FD6F61F80EE3",
+          "tweakLen": 56,
+          "pt": "017912710975117654453296717011475561704264754005258",
+          "key": "6836A4008C16DE6CA82A71FFEF69F02F"
+        },
+        {
+          "tcId": 17,
+          "tweak": "0A19C05C95A361",
+          "tweakLen": 56,
+          "pt": "7486406704141235208653",
+          "key": "619EAC86FA065AEAA8E7D8BCB6B0BF12"
+        },
+        {
+          "tcId": 18,
+          "tweak": "FB19CB31534300",
+          "tweakLen": 56,
+          "pt": "56094537548212058194",
+          "key": "954BD678B62CD828FCF077F174314E54"
+        },
+        {
+          "tcId": 19,
+          "tweak": "390E80EE52C8BC",
+          "tweakLen": 56,
+          "pt": "3918504251503430385319084119922366450740651299172664136",
+          "key": "1DC7A80D725617DBCC784592109058FE"
+        },
+        {
+          "tcId": 20,
+          "tweak": "B02AFFFB24A2C5",
+          "tweakLen": 56,
+          "pt": "48782201527870311372393506624129797",
+          "key": "7826B0E3DC983ECF6065747D1A49553B"
+        },
+        {
+          "tcId": 21,
+          "tweak": "A894CBE124A025",
+          "tweakLen": 56,
+          "pt": "21899013895606403859247",
+          "key": "9DE44E29F9B8F9D2B546CD664D1A2461"
+        },
+        {
+          "tcId": 22,
+          "tweak": "574FD528AB6813",
+          "tweakLen": 56,
+          "pt": "4898160112577622804",
+          "key": "F641243FED0EDE88E5EFBB14620A3530"
+        },
+        {
+          "tcId": 23,
+          "tweak": "93E08D36388BF2",
+          "tweakLen": 56,
+          "pt": "146438869299",
+          "key": "50B910A928894D6B2390BA948CE7B245"
+        },
+        {
+          "tcId": 24,
+          "tweak": "001DD9C5A57B03",
+          "tweakLen": 56,
+          "pt": "518248430805197840085128366465076461654946477430",
+          "key": "72BA4B4FA91E874C9CD863F32C691389"
+        },
+        {
+          "tcId": 25,
+          "tweak": "C20F4368E77F92",
+          "tweakLen": 56,
+          "pt": "120728656928129653261167538667964534120188687978905020",
+          "key": "33C063A87F6A5AE51BA5B24DD0E6A4DF"
+        }
+      ]
+    },
+    {
+      "tgId": 2,
+      "testType": "AFT",
+      "direction": "Encrypt",
+      "keyLen": 128,
+      "alphabet": "abcdefghijklmnopqrstuvwxyz",
+      "radix": 26,
+      "tests": [
+        {
+          "tcId": 26,
+          "tweak": "EEA92CC80713DE",
+          "tweakLen": 56,
+          "pt": "fjjyqnxljw",
+          "key": "7E480D584613B86C7357638513BB9396"
+        },
+        {
+          "tcId": 27,
+          "tweak": "EDDC7D3D86FE41",
+          "tweakLen": 56,
+          "pt": "fydnjcjblfxydfyrmccqgiycfzudjizqoxwalmmo",
+          "key": "4AFFD8F374C1A0F2BBEC0F6BC94F27BE"
+        },
+        {
+          "tcId": 28,
+          "tweak": "EF24FF70C2BB1B",
+          "tweakLen": 56,
+          "pt": "ubqzhcxtnbmzshlntpqhzrxzxddi",
+          "key": "56C8332A490BCD55A4BA3A5BE48479B5"
+        },
+        {
+          "tcId": 29,
+          "tweak": "1F70134717551A",
+          "tweakLen": 56,
+          "pt": "vjhfmrxdbyqgjbhf",
+          "key": "9827DF913ABDD5E1D0187B69D72CFFDF"
+        },
+        {
+          "tcId": 30,
+          "tweak": "318499E32E69FF",
+          "tweakLen": 56,
+          "pt": "nulaobzfwtgtujqxnpb",
+          "key": "E4004D1CE8BBF007C0C82ED87C76833C"
+        },
+        {
+          "tcId": 31,
+          "tweak": "0A0DD79E3D5027",
+          "tweakLen": 56,
+          "pt": "fsufrlxayvwsdbzflseequhwyhpnyhbi",
+          "key": "6C2AD5ED82DDA2D59253F0F570F42E6B"
+        },
+        {
+          "tcId": 32,
+          "tweak": "2BA50DE570A42C",
+          "tweakLen": 56,
+          "pt": "nqdgeajoxckvxanzvgyaetqg",
+          "key": "F2765AB374CD08EAB668BF30F0781559"
+        },
+        {
+          "tcId": 33,
+          "tweak": "E096955000E507",
+          "tweakLen": 56,
+          "pt": "xctpbtqyiledhhmdmqozxtejccyggvnoslpvobn",
+          "key": "BB3E1F7DDA8A1CFB2633E342DF68D983"
+        },
+        {
+          "tcId": 34,
+          "tweak": "0CC7696D468615",
+          "tweakLen": 56,
+          "pt": "etscdwhiiljnqdpxjuiznczpbpzlzmookntbo",
+          "key": "F2AEDCD8CB4B5BBB6C67727A0A13E342"
+        },
+        {
+          "tcId": 35,
+          "tweak": "D20F3ED215AF54",
+          "tweakLen": 56,
+          "pt": "xmpzfcidll",
+          "key": "5A97B44E91D13F6CA5064701D6C117F0"
+        },
+        {
+          "tcId": 36,
+          "tweak": "3F891284FB5CE8",
+          "tweakLen": 56,
+          "pt": "ohfmugquxekqrjogcdytyr",
+          "key": "E0E25C649B92DC0E3ABF8ADE1C97EB2A"
+        },
+        {
+          "tcId": 37,
+          "tweak": "903D7BFA29473B",
+          "tweakLen": 56,
+          "pt": "gflqryiiptjcvrmmbcekkcxdkzawfi",
+          "key": "D698A71E9B4BF9401AA54A785D3D71B6"
+        },
+        {
+          "tcId": 38,
+          "tweak": "696CAFDBC57109",
+          "tweakLen": 56,
+          "pt": "svdjnoctriiveggngxezwkcskjlpojmcrral",
+          "key": "32BC64239A15786A5B1EAC688DB6850E"
+        },
+        {
+          "tcId": 39,
+          "tweak": "F11B3880CDBC40",
+          "tweakLen": 56,
+          "pt": "yankqqtfyxgtkifmwuafwmpsfassptykjostmm",
+          "key": "477933EAB07156D58D3A152356E52D77"
+        },
+        {
+          "tcId": 40,
+          "tweak": "9A267A25CE50D0",
+          "tweakLen": 56,
+          "pt": "spiswcroqlypbdzlkhszrhhsrl",
+          "key": "EAAB28EF71E38A03E33E603B0AB05A7C"
+        },
+        {
+          "tcId": 41,
+          "tweak": "45202B8C3F55F1",
+          "tweakLen": 56,
+          "pt": "srxuitvycvctq",
+          "key": "60AE99EF370915CC39127F7D0F752A85"
+        },
+        {
+          "tcId": 42,
+          "tweak": "1EBBC1FB5BFB8F",
+          "tweakLen": 56,
+          "pt": "umonnxizmxpncykbnyjacrunz",
+          "key": "388CE0978495A24B9D02F91E20A464BB"
+        },
+        {
+          "tcId": 43,
+          "tweak": "723869A5C9AFAB",
+          "tweakLen": 56,
+          "pt": "cmwsqgazyktfzfchxmguqjg",
+          "key": "12E8537E0862C1316ED37E96C0A36263"
+        },
+        {
+          "tcId": 44,
+          "tweak": "0DAC1644AF3A2F",
+          "tweakLen": 56,
+          "pt": "ybkjchbcjlyfuwk",
+          "key": "41AED491BE286E895D2FCC8E88E44CF5"
+        },
+        {
+          "tcId": 45,
+          "tweak": "02BBB7D8CD0969",
+          "tweakLen": 56,
+          "pt": "nhwooiiytjbdgtmgtfwuwcmwuasliturpg",
+          "key": "269DA707CDEFA4011ECAB37EE88C44CC"
+        },
+        {
+          "tcId": 46,
+          "tweak": "0C01F4CD9FC442",
+          "tweakLen": 56,
+          "pt": "tjywnmabzvayiereruoujygqrypiw",
+          "key": "2F8AD77C9F2BB45002B31B879D338055"
+        },
+        {
+          "tcId": 47,
+          "tweak": "0BDE69AABC6CE2",
+          "tweakLen": 56,
+          "pt": "irvmypkebghifmclixyy",
+          "key": "B836F441EA5227034F683557D934B12C"
+        },
+        {
+          "tcId": 48,
+          "tweak": "3BABBE0FEDF606",
+          "tweakLen": 56,
+          "pt": "nibnootrfokkxp",
+          "key": "10A613330ED5D6971236D943D4F48439"
+        },
+        {
+          "tcId": 49,
+          "tweak": "C509DF4505C44B",
+          "tweakLen": 56,
+          "pt": "pgueozfnrsctyytlwcmmhhqrkeydjzzxlvm",
+          "key": "8025A1D5967CF1A7E48EB35BAF70058E"
+        },
+        {
+          "tcId": 50,
+          "tweak": "B4C28C1852DC8D",
+          "tweakLen": 56,
+          "pt": "dpecaxyndraoyryyamtfdgwjtqy",
+          "key": "980CAA662E5EAE50CD09BB750D3F7FBD"
+        }
+      ]
+    },
+    {
+      "tgId": 3,
+      "testType": "AFT",
+      "direction": "Encrypt",
+      "keyLen": 128,
+      "alphabet": "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz+/",
+      "radix": 64,
+      "tests": [
+        {
+          "tcId": 51,
+          "tweak": "40089C77E0F70E",
+          "tweakLen": 56,
+          "pt": "EYxaG2CfEz",
+          "key": "A1A4C9E37BFE1DF76EDF09DAD0D6DE48"
+        },
+        {
+          "tcId": 52,
+          "tweak": "6788954192715F",
+          "tweakLen": 56,
+          "pt": "Aa5Hw3fj7AbFlyv/f1sSa4Cq3EJv",
+          "key": "6536F338420AA348999FBB0F9C053A12"
+        },
+        {
+          "tcId": 53,
+          "tweak": "A5D518F5D67CF3",
+          "tweakLen": 56,
+          "pt": "/8VqqB02iPNMuA",
+          "key": "3C3087ED5C4F663E27796E736A333DD1"
+        },
+        {
+          "tcId": 54,
+          "tweak": "2C4A55796D82A0",
+          "tweakLen": 56,
+          "pt": "N7dt8T3zTQSPldvW01yWQGbcv",
+          "key": "1362A3B9AB2CB6DB146E062D3041BD8F"
+        },
+        {
+          "tcId": 55,
+          "tweak": "674C3B79C8C17B",
+          "tweakLen": 56,
+          "pt": "E/MdRlVnvDe",
+          "key": "030CCA5F3F3E73F27E5D9FBF1A6B9C7C"
+        },
+        {
+          "tcId": 56,
+          "tweak": "038812988490DB",
+          "tweakLen": 56,
+          "pt": "BCKsfnkRutEDetrxRYfCZy",
+          "key": "ADB7617EBE7523A9A2DCA5FCA2C53EB0"
+        },
+        {
+          "tcId": 57,
+          "tweak": "B072DEF8DEB997",
+          "tweakLen": 56,
+          "pt": "CClQmpJtcpeC0WeQG",
+          "key": "CC6EF8AE97D53B0633219DE5D8F60F77"
+        },
+        {
+          "tcId": 58,
+          "tweak": "C80115C8B89075",
+          "tweakLen": 56,
+          "pt": "0HeEbiG7RtpM3clzmA9J",
+          "key": "6D7AFEB15173320E9004BBFAD4A40CA7"
+        },
+        {
+          "tcId": 59,
+          "tweak": "98F71F1835AE39",
+          "tweakLen": 56,
+          "pt": "LXj5QKK7RwqoZC3v5apx6yck",
+          "key": "E712CC47E8AB1A8F99137B625DFBCF00"
+        },
+        {
+          "tcId": 60,
+          "tweak": "EEA49AEFB24AB7",
+          "tweakLen": 56,
+          "pt": "sVm3F9xvZ95Pc",
+          "key": "C01F3989BC056C0E87B553D506857138"
+        },
+        {
+          "tcId": 61,
+          "tweak": "7473B83EECDE90",
+          "tweakLen": 56,
+          "pt": "e9d0vp3oMP/SFG7",
+          "key": "3FE1E7FC5A392D92F01E854A64EF9248"
+        },
+        {
+          "tcId": 62,
+          "tweak": "C5F962F62A7DC0",
+          "tweakLen": 56,
+          "pt": "0Ng9pTI/FK4n",
+          "key": "F280BDE7C3FEBD06032042623A6BF7A3"
+        },
+        {
+          "tcId": 63,
+          "tweak": "CECA1898048EFD",
+          "tweakLen": 56,
+          "pt": "tAMSgsmZZfF2CYzR/P",
+          "key": "3FCCF70309B1B5EBACD46ACEF1AFF2EA"
+        },
+        {
+          "tcId": 64,
+          "tweak": "FEDA10D0A356CE",
+          "tweakLen": 56,
+          "pt": "co9/bznVPy4dfqUu6ZkrC",
+          "key": "6AD0BCFB911206B0A36B84CB9259DF38"
+        },
+        {
+          "tcId": 65,
+          "tweak": "4ED566A65C9922",
+          "tweakLen": 56,
+          "pt": "Y1S14K5Q7l",
+          "key": "A372C347A9B36588D462EA641901AF1C"
+        },
+        {
+          "tcId": 66,
+          "tweak": "05A36C81D65078",
+          "tweakLen": 56,
+          "pt": "ZXuAi9ui7R7eieAbtol",
+          "key": "11A3A047710A29DB053065A69A768369"
+        },
+        {
+          "tcId": 67,
+          "tweak": "4B2BD1A82458B3",
+          "tweakLen": 56,
+          "pt": "8h3LEa0fXWHuoHpt+w0FXYn9ZLu",
+          "key": "4CA4BE130F6C13BB80941390A10DFB9A"
+        },
+        {
+          "tcId": 68,
+          "tweak": "89ED526E5F28FE",
+          "tweakLen": 56,
+          "pt": "uaNhiuMnhR71Dhi7SZvSa8R2hOGf",
+          "key": "7124C9883688A451AC9B6704DC0AFFE0"
+        },
+        {
+          "tcId": 69,
+          "tweak": "CCE88CCF3C411A",
+          "tweakLen": 56,
+          "pt": "MyjyxM6OKBaQzedt",
+          "key": "2A6B0AB82B8E8892BB80B0B425782978"
+        },
+        {
+          "tcId": 70,
+          "tweak": "DFCCB4A921C1BF",
+          "tweakLen": 56,
+          "pt": "RuVAx5JtDl99WA8zpWaVQcO5Ao",
+          "key": "7BE8EC76E59D84EA6768C347CB2BE034"
+        },
+        {
+          "tcId": 71,
+          "tweak": "44B1A80D34827D",
+          "tweakLen": 56,
+          "pt": "9ecKWa8DDVhR1mo6aI/5+FF",
+          "key": "5F7586DC954496CEB68FA1535162C8DC"
+        },
+        {
+          "tcId": 72,
+          "tweak": "CD558516BDCA26",
+          "tweakLen": 56,
+          "pt": "NAKa3bbGFJlcpvP45+i",
+          "key": "A7BC7F17C44933D417C3EAD8B4AE73F7"
+        },
+        {
+          "tcId": 73,
+          "tweak": "0EC111CCF63916",
+          "tweakLen": 56,
+          "pt": "J8tZRcYPpiZx",
+          "key": "F59A1C464BEF0FAD4CF4687834B7D3C6"
+        },
+        {
+          "tcId": 74,
+          "tweak": "A37F9425572756",
+          "tweakLen": 56,
+          "pt": "NO8kPVcvVbnmhbrw",
+          "key": "976D37A40F38FA2F3992DD1E5F49E713"
+        },
+        {
+          "tcId": 75,
+          "tweak": "3620F8D9A9FC35",
+          "tweakLen": 56,
+          "pt": "icM1+ug4itsw9Y8FCRpXmkT",
+          "key": "90DCC35DB8F92D0DFBB1781D39F6C2E6"
+        }
+      ]
+    },
+    {
+      "tgId": 4,
+      "testType": "AFT",
+      "direction": "Encrypt",
+      "keyLen": 192,
+      "alphabet": "0123456789",
+      "radix": 10,
+      "tests": [
+        {
+          "tcId": 76,
+          "tweak": "7C85FEF8D9CB1C",
+          "tweakLen": 56,
+          "pt": "9046943383",
+          "key": "C5D8D5E9F776FD5BB593BE19F056524DB8B50637DF2B4466"
+        },
+        {
+          "tcId": 77,
+          "tweak": "96071E952D36CE",
+          "tweakLen": 56,
+          "pt": "38447312855004760638226814270391213566223894248135640351",
+          "key": "17BB5FA7D66ED19800DAE0953812955C849A3653D24D28C9"
+        },
+        {
+          "tcId": 78,
+          "tweak": "4D642387B087C8",
+          "tweakLen": 56,
+          "pt": "28391753541462562262393809303543729614914781857",
+          "key": "126C2C882ECC33092CD8633C8655DA9E3C827F8DFB3F2308"
+        },
+        {
+          "tcId": 79,
+          "tweak": "77F5825522E2FC",
+          "tweakLen": 56,
+          "pt": "0395058966256637441476132897272",
+          "key": "CE4E7F6DAF9D0031708B73E50BC713F8E719BD8CDF61DB63"
+        },
+        {
+          "tcId": 80,
+          "tweak": "EDAB4257F517A4",
+          "tweakLen": 56,
+          "pt": "12262077238140313",
+          "key": "D0E817A31BEBC443B15A35573919543E199481228106746B"
+        },
+        {
+          "tcId": 81,
+          "tweak": "EFBD03A7802811",
+          "tweakLen": 56,
+          "pt": "9653111519725744808100293364115971428971815833653",
+          "key": "65EC215A5A5EA3013F4D0AEBA7518EC88602614EA88F3401"
+        },
+        {
+          "tcId": 82,
+          "tweak": "80F7DEC0ED4290",
+          "tweakLen": 56,
+          "pt": "895640189861180616122",
+          "key": "51E1C39AB1663C129D28D6A34303967D23D875F6810AEC7F"
+        },
+        {
+          "tcId": 83,
+          "tweak": "76D688E5278E07",
+          "tweakLen": 56,
+          "pt": "93686375274006",
+          "key": "2F2A0F74F550F1B1C18C4148FFBF7DAEA656D22E265DFBA4"
+        },
+        {
+          "tcId": 84,
+          "tweak": "82E96B7D46FA5B",
+          "tweakLen": 56,
+          "pt": "2242427439246720728",
+          "key": "E6546BEC8FC02228807EAB2D2082C0C6034F5C513462016C"
+        },
+        {
+          "tcId": 85,
+          "tweak": "517C7EB503719E",
+          "tweakLen": 56,
+          "pt": "67808387145846760023537891475435682985018345184796",
+          "key": "E6E67F919B8CF93F8A5BC751184A6BDBCA725A15798DAEC3"
+        },
+        {
+          "tcId": 86,
+          "tweak": "1C9E2EA5576C38",
+          "tweakLen": 56,
+          "pt": "8533004483524967857348",
+          "key": "73A4EFC215F5A26250AC94454B24CB8D178EDE92CEEDB0EC"
+        },
+        {
+          "tcId": 87,
+          "tweak": "3B10506F05EBD9",
+          "tweakLen": 56,
+          "pt": "460878163177674811344105039532652620868163864",
+          "key": "990AC2D0518860DEB34B1E52E7F8CC8985FF295473C6B665"
+        },
+        {
+          "tcId": 88,
+          "tweak": "9C81B4444ADF7B",
+          "tweakLen": 56,
+          "pt": "546204853749257866862159864780723013529194367293574013",
+          "key": "5583DEBDF009D7E960A840B2850C62EDCD1166D58DFF98DB"
+        },
+        {
+          "tcId": 89,
+          "tweak": "540E13B112097D",
+          "tweakLen": 56,
+          "pt": "46508079568",
+          "key": "013C487D2E4BF720233BB987523961E2C3EAE0DFA0638455"
+        },
+        {
+          "tcId": 90,
+          "tweak": "32F674B5D105BC",
+          "tweakLen": 56,
+          "pt": "03252989404490032703328237327677982110449104230302138",
+          "key": "B61DD9D39A2C56415723DD5BA7A78AD6B0ACE5F6715512EF"
+        },
+        {
+          "tcId": 91,
+          "tweak": "BD6D97252B8CCF",
+          "tweakLen": 56,
+          "pt": "540001515372020046769263961005721265105619372210804",
+          "key": "8A13CC1C4A4725BB16B1626843A022414C42507F0D1F312B"
+        },
+        {
+          "tcId": 92,
+          "tweak": "B747013C011363",
+          "tweakLen": 56,
+          "pt": "376882199623445293200174397279713",
+          "key": "CF9902F9646FD89C28DAE424740A1320C9C0BE18537FFE52"
+        },
+        {
+          "tcId": 93,
+          "tweak": "27715935AC98B9",
+          "tweakLen": 56,
+          "pt": "2157626036118099",
+          "key": "85664591F0ACBE8EA880846B7B1C360CF84859FB31441024"
+        },
+        {
+          "tcId": 94,
+          "tweak": "3D10D2BE618306",
+          "tweakLen": 56,
+          "pt": "1907514999512149314162428099984174737442",
+          "key": "826249B2B6800A66D7AF7EB9D9DCD18077C219FA5814FFB6"
+        },
+        {
+          "tcId": 95,
+          "tweak": "F101DAA6CFC5E0",
+          "tweakLen": 56,
+          "pt": "749740046022334219",
+          "key": "D7624937541DCA6FD7E8260A3BBA94B6E79BDEB46F37D8AC"
+        },
+        {
+          "tcId": 96,
+          "tweak": "781ABAC3B60505",
+          "tweakLen": 56,
+          "pt": "3462618806889601831730309103873548075",
+          "key": "6129FFD3BCADB5FC185BFAB17E10FD1369B0F2DB65C69EF8"
+        },
+        {
+          "tcId": 97,
+          "tweak": "F77CC034A45F53",
+          "tweakLen": 56,
+          "pt": "52012046717214674849395056458762277",
+          "key": "B558DBDC96DE6D424F966D32D3D9ACB60051664D62E6D400"
+        },
+        {
+          "tcId": 98,
+          "tweak": "B43AB89F04EC2E",
+          "tweakLen": 56,
+          "pt": "59207153862548060648239767830709",
+          "key": "57806D53CA52B9777D489D900B15332322D312E1AAD492F1"
+        },
+        {
+          "tcId": 99,
+          "tweak": "5E0C6410B4633A",
+          "tweakLen": 56,
+          "pt": "8413157857598989525266344674555300992120373529",
+          "key": "139F664B17A92D7E9400193EDE536F6DC75059B128462A79"
+        },
+        {
+          "tcId": 100,
+          "tweak": "F716BA08924DC9",
+          "tweakLen": 56,
+          "pt": "0710585831058497034239719309",
+          "key": "F9886C884EAA6EE3CB7F20CFEEF91F07467A27742A80A674"
+        }
+      ]
+    },
+    {
+      "tgId": 5,
+      "testType": "AFT",
+      "direction": "Encrypt",
+      "keyLen": 192,
+      "alphabet": "abcdefghijklmnopqrstuvwxyz",
+      "radix": 26,
+      "tests": [
+        {
+          "tcId": 101,
+          "tweak": "2821416A5E1729",
+          "tweakLen": 56,
+          "pt": "osficzxwfv",
+          "key": "8345CD7F0A90D415640028BD962F7FB35354666D1D72D131"
+        },
+        {
+          "tcId": 102,
+          "tweak": "A0A12928087313",
+          "tweakLen": 56,
+          "pt": "imioyqjhudqyybbdizyuqgpyxsuxqkhweqbjyqeg",
+          "key": "4DB44768C5F963B3BFEB23D5C1254E30CA13AB79DE9EEBA2"
+        },
+        {
+          "tcId": 103,
+          "tweak": "771507E23B07F6",
+          "tweakLen": 56,
+          "pt": "yctpgyjupfujjyylazvjwtlzmyhmwsidptshp",
+          "key": "C1BBB19BC0CDC10B5DB4841A8FCE2EF715453A201FD97017"
+        },
+        {
+          "tcId": 104,
+          "tweak": "C2A78971D90261",
+          "tweakLen": 56,
+          "pt": "aktwhnyyitfqcqlclnstvpngw",
+          "key": "AAAD2788A44C5E757D6C216E6AA2B7718D579B0FDE8AD1F4"
+        },
+        {
+          "tcId": 105,
+          "tweak": "3888E56FD2705A",
+          "tweakLen": 56,
+          "pt": "seysfnqnuggvwvjubcwttr",
+          "key": "C9AFC57490F561C55D33AC915E88BDF1E89B0A11C1B8D3D4"
+        },
+        {
+          "tcId": 106,
+          "tweak": "B7952A791262C4",
+          "tweakLen": 56,
+          "pt": "wtixvuivxoxiluerpbdxkee",
+          "key": "BDAF54DAB3A46956CEB35DE66136E299DA825BEB8D8C058D"
+        },
+        {
+          "tcId": 107,
+          "tweak": "A513BDC68CD1C1",
+          "tweakLen": 56,
+          "pt": "ibwvwvhjlxutufrdwr",
+          "key": "0E8C035AF77A43F6A484F9A58DA303F10E68A4FB73DA9907"
+        },
+        {
+          "tcId": 108,
+          "tweak": "88B26D9B7542D3",
+          "tweakLen": 56,
+          "pt": "angeexcobpbdxhpdmrbjlukcoprothgy",
+          "key": "16C1F347BDDCEEEF1A7D9647C37B60490603497670B835C9"
+        },
+        {
+          "tcId": 109,
+          "tweak": "B83D6592301901",
+          "tweakLen": 56,
+          "pt": "pliakkmewfbtipgjtbcdtetnehkcfmzszg",
+          "key": "B89F9A6347B3A70E8A7EEA767EB3D012470ADD8F4B19BBD0"
+        },
+        {
+          "tcId": 110,
+          "tweak": "3ED5291D0379FE",
+          "tweakLen": 56,
+          "pt": "qlylsgttlhahdwjfcglizidxorxgq",
+          "key": "7564A1FB908BD3B594F56E343D4CF88CDCB677D2B446555C"
+        },
+        {
+          "tcId": 111,
+          "tweak": "74CA8AD6711A09",
+          "tweakLen": 56,
+          "pt": "dkqoqcafirrgvr",
+          "key": "C656AC84356F8AE479C4E6813979C2E39A9051E4D7AAE4AC"
+        },
+        {
+          "tcId": 112,
+          "tweak": "31FBAC5C31D9D1",
+          "tweakLen": 56,
+          "pt": "klwdctcdhjheghqnkenodmblanq",
+          "key": "95C7E4C749DFC40495F5BEE0380A34E6100DCC3297479252"
+        },
+        {
+          "tcId": 113,
+          "tweak": "6D3177F7E4A90C",
+          "tweakLen": 56,
+          "pt": "dffuqibebonkc",
+          "key": "A45DC064C52DEBA1A4F337E8A53A80C603341D2FB54B006D"
+        },
+        {
+          "tcId": 114,
+          "tweak": "4441FC43209A7B",
+          "tweakLen": 56,
+          "pt": "hfzjcbaroj",
+          "key": "FF7E9A56EE716904C4EB0B7CF5E58DA3CCA51A41F7B03016"
+        },
+        {
+          "tcId": 115,
+          "tweak": "DB914D87FF52F6",
+          "tweakLen": 56,
+          "pt": "hrisccqwztlgfbkdhtwzcaih",
+          "key": "37EC73DD8AF5B73D7F7D222AD33B0DB5CC224F091310CA08"
+        },
+        {
+          "tcId": 116,
+          "tweak": "17A91A94AA9F93",
+          "tweakLen": 56,
+          "pt": "xsuopwskdyuacmibzprjotpozpae",
+          "key": "08A5CCFE8C48BB92D06EE51CB2B9CCB161A58EC660F82A21"
+        },
+        {
+          "tcId": 117,
+          "tweak": "E0BE12F0BF3B87",
+          "tweakLen": 56,
+          "pt": "wlcuxgfvcwoxlbjbltmagfdzbq",
+          "key": "B7361C2A448FE9D3E10DE7FAE2CBD64B47A92DBE7A1BF71C"
+        },
+        {
+          "tcId": 118,
+          "tweak": "30B5F311C9199A",
+          "tweakLen": 56,
+          "pt": "ovkqwtnpuwwydfyzdkxmfvbvansdac",
+          "key": "BF5DF7EB30BE525E8AC9E3E3295CDB9E730DDC7BA902AEB0"
+        },
+        {
+          "tcId": 119,
+          "tweak": "99F34637E1B2D0",
+          "tweakLen": 56,
+          "pt": "pibuxutiund",
+          "key": "766956721D18D88B3A385EBD126D1AD204B195229CFCB14A"
+        },
+        {
+          "tcId": 120,
+          "tweak": "C721C7C450E5FD",
+          "tweakLen": 56,
+          "pt": "iskuhbazndbocrm",
+          "key": "69955A156268245EE3380D2F919C176DE586D3E66270D670"
+        },
+        {
+          "tcId": 121,
+          "tweak": "B884AB1EA095E6",
+          "tweakLen": 56,
+          "pt": "kjfvforsqimrckvlrzefcduwqpoufladqsxs",
+          "key": "E509F8BD4DEE07877CA8648A826978434C83B09880D64EB7"
+        },
+        {
+          "tcId": 122,
+          "tweak": "36360DD189DE23",
+          "tweakLen": 56,
+          "pt": "fgseilmcssfhjwhiytla",
+          "key": "25900A93DA78FD34BA33D4FBDBB5CD7508E4C2ABF9A45A9E"
+        },
+        {
+          "tcId": 123,
+          "tweak": "4BC1BCB79EA0B4",
+          "tweakLen": 56,
+          "pt": "hutcdratufyaxbxtwse",
+          "key": "B5821551FD86D27C200C6CF7AF5DA8BB1AD0EABA9ACA1F32"
+        },
+        {
+          "tcId": 124,
+          "tweak": "50F5B0F8F902F5",
+          "tweakLen": 56,
+          "pt": "rltcbofpuimyqcfaahbosreuwrmmlvecmbbhvik",
+          "key": "E05836B6F1B772E768079033FCCE789EF3503EBC6FE5EE60"
+        },
+        {
+          "tcId": 125,
+          "tweak": "52C88727909E50",
+          "tweakLen": 56,
+          "pt": "uhugpzqtqhdqfrszhznjfqfeucqvastrmmc",
+          "key": "45C72A4FF69D36208101D57CA9D36DF31912B4183DDD2ADF"
+        }
+      ]
+    },
+    {
+      "tgId": 6,
+      "testType": "AFT",
+      "direction": "Encrypt",
+      "keyLen": 192,
+      "alphabet": "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz+/",
+      "radix": 64,
+      "tests": [
+        {
+          "tcId": 126,
+          "tweak": "5B478BE7CEDE60",
+          "tweakLen": 56,
+          "pt": "7U2pGK5BX9",
+          "key": "356A248349F4B9C3BDEAD84AC501B0197F47247C774163F6"
+        },
+        {
+          "tcId": 127,
+          "tweak": "7ADE1402ED97DB",
+          "tweakLen": 56,
+          "pt": "gPUQpV9jSZMfbcSrebpT5D0EHyQ1",
+          "key": "F547EC413DA6F1EBCA688192CA81E795B9BA40B9820F9BB7"
+        },
+        {
+          "tcId": 128,
+          "tweak": "6D68EB71A7C6B3",
+          "tweakLen": 56,
+          "pt": "C4stJTO59OmVA8ZEMuLD",
+          "key": "42D72B3E8B068E14703606D7743DAF8AEC7DF5009A3F5253"
+        },
+        {
+          "tcId": 129,
+          "tweak": "450F583ECBFA98",
+          "tweakLen": 56,
+          "pt": "Jec/TB6+4AtIqYrzBkNeBvrxWt",
+          "key": "E7FD8F522D0BF336FBB1550482DB6A69BD0049ED10566E91"
+        },
+        {
+          "tcId": 130,
+          "tweak": "81EBA5A4CCD3FA",
+          "tweakLen": 56,
+          "pt": "h7SJlgjjZyq29OGaj6qyLy1F",
+          "key": "07431713D4DA55058985611C09080E35619883B240959914"
+        },
+        {
+          "tcId": 131,
+          "tweak": "FA18D2ADEBDE3E",
+          "tweakLen": 56,
+          "pt": "tHOf3mTuNG6qS",
+          "key": "C67520F23E53DC046F76000C7249B1FED57150B41C2E898F"
+        },
+        {
+          "tcId": 132,
+          "tweak": "588B87C51F55E6",
+          "tweakLen": 56,
+          "pt": "HifBl1D1zL9iyjRmKh/MLXS",
+          "key": "05F59D059A85807134CC1778962FDAB88D676A0679515827"
+        },
+        {
+          "tcId": 133,
+          "tweak": "0704F3059FE335",
+          "tweakLen": 56,
+          "pt": "o9TVBaNLwuQ63wHM4P3NzFTkeqd",
+          "key": "9B1FAFBD390A4EFB61182B01288AB9E1CA49D9BB1AB5FADE"
+        },
+        {
+          "tcId": 134,
+          "tweak": "05C46FE8EDFF54",
+          "tweakLen": 56,
+          "pt": "+5EzUJrZth",
+          "key": "0708B8060CD946A7245885381315CC1607E9BBB2CD9A5C0F"
+        },
+        {
+          "tcId": 135,
+          "tweak": "BEF616085C74A9",
+          "tweakLen": 56,
+          "pt": "3FTN9R5kXD6y4+trKJ",
+          "key": "DC6C616C2375FD64735693A0811E1394C7B46A9F358A0846"
+        },
+        {
+          "tcId": 136,
+          "tweak": "87CA865348F9EB",
+          "tweakLen": 56,
+          "pt": "FN47IzX+dK9bwAFp1UvVlI5H9Agc",
+          "key": "D496195F1309E7F3D5814826D1ADDDCE0E9BDC3AB02CAAF5"
+        },
+        {
+          "tcId": 137,
+          "tweak": "59FBD32415236B",
+          "tweakLen": 56,
+          "pt": "Y7b6lDhJKu5Jj1",
+          "key": "4EFF679B5F4ECBFE0E1D5C562FFEDF73FD4A68EFEFFFA855"
+        },
+        {
+          "tcId": 138,
+          "tweak": "582147F6687F1C",
+          "tweakLen": 56,
+          "pt": "tetqbLnvQ84DHKmf3lH",
+          "key": "582B925213E658671164B567FADD6438EEA94C8EB57E4DA1"
+        },
+        {
+          "tcId": 139,
+          "tweak": "7361C0D6325F3E",
+          "tweakLen": 56,
+          "pt": "fu/HI6ZIFTmVo+g",
+          "key": "780C3063363188D32AC17F5B6B2F131EDA8514CDFFE3B85B"
+        },
+        {
+          "tcId": 140,
+          "tweak": "95E29AA8335D89",
+          "tweakLen": 56,
+          "pt": "PG8Lnl20EFD",
+          "key": "962F8368ECE66F21BAAE1702229ACEDAF6B9319805D50D44"
+        },
+        {
+          "tcId": 141,
+          "tweak": "0556C008B97152",
+          "tweakLen": 56,
+          "pt": "rSQb+B5Gqu2JpGb/l",
+          "key": "8E3F72588B83E8C111DEEDB3CA63DF9004E8C45756AE20EE"
+        },
+        {
+          "tcId": 142,
+          "tweak": "02E308CB6DEB4F",
+          "tweakLen": 56,
+          "pt": "F4n7ruxSwqA8OXFwjDYQOaGys",
+          "key": "8685EBBFDBA0D7F4B38B85398889CA42D360A09905D0525F"
+        },
+        {
+          "tcId": 143,
+          "tweak": "C0FD1A3E552B1F",
+          "tweakLen": 56,
+          "pt": "2bz3E9eZFCdzII+gA4n+i",
+          "key": "BB04F326F490F2EAD5B243BCB14D78B5F38D10CC73DCEA4F"
+        },
+        {
+          "tcId": 144,
+          "tweak": "5997D43530C6C4",
+          "tweakLen": 56,
+          "pt": "jqrEanzeMCrI",
+          "key": "B44200AC009802F0677A428C4224FB4DAE9FB87961C3CE7A"
+        },
+        {
+          "tcId": 145,
+          "tweak": "A33A7D67E405A0",
+          "tweakLen": 56,
+          "pt": "y/bPyV0TNrUKB24dOErhMr",
+          "key": "63C8603D3192304A230E170BD48F3D0C16A1DF94B710B5B0"
+        },
+        {
+          "tcId": 146,
+          "tweak": "21C0F3CA86CDA4",
+          "tweakLen": 56,
+          "pt": "JGV54fyuLMdpo6mV",
+          "key": "A2C941B6206DFEA0F3007F467AB835D65D46DAA38AD4691C"
+        },
+        {
+          "tcId": 147,
+          "tweak": "FBCBDF994431AC",
+          "tweakLen": 56,
+          "pt": "sOVYdev4THfqT6fRS",
+          "key": "103E49EE9112CDD7CDEB47B2E97D0B871951E5D003845DCE"
+        },
+        {
+          "tcId": 148,
+          "tweak": "0630671EF18B1F",
+          "tweakLen": 56,
+          "pt": "dGVD8GdwYhq61JvsRXAbbb8Xy",
+          "key": "2D26684BF216225A04FB5D99F6FDF1034468445D87DE32B6"
+        },
+        {
+          "tcId": 149,
+          "tweak": "9E89F2CF423B38",
+          "tweakLen": 56,
+          "pt": "vVAYmn9mEb",
+          "key": "C9A899745EC3D2CC4D4BBB3696D7D4A289615CC971000A68"
+        },
+        {
+          "tcId": 150,
+          "tweak": "A89EA310D8812C",
+          "tweakLen": 56,
+          "pt": "kq2FYmdmMor",
+          "key": "CFACE6FA82F7625EE5D85C75E4B219A73092107E87D67103"
+        }
+      ]
+    },
+    {
+      "tgId": 7,
+      "testType": "AFT",
+      "direction": "Encrypt",
+      "keyLen": 256,
+      "alphabet": "0123456789",
+      "radix": 10,
+      "tests": [
+        {
+          "tcId": 151,
+          "tweak": "91616A9F915E8E",
+          "tweakLen": 56,
+          "pt": "5104581862",
+          "key": "61859D22DD9ED31565592C27D4117CEEACAB435A982F546C4B1E461BDF0A4B56"
+        },
+        {
+          "tcId": 152,
+          "tweak": "A5A3162EABD05A",
+          "tweakLen": 56,
+          "pt": "53286576325168661686637725328356078283269621982311156362",
+          "key": "D1D5E6CC81EB1D2122C28CD771EBEF172B3FFD2DEA2C79E031B526233E8D343B"
+        },
+        {
+          "tcId": 153,
+          "tweak": "99B5379EE573B6",
+          "tweakLen": 56,
+          "pt": "8035491678842502945068",
+          "key": "63D945C4618BCB5D1A272591D0DDA996DA40CB87A681BADBD769D72C4376398B"
+        },
+        {
+          "tcId": 154,
+          "tweak": "1085C3394D1E9C",
+          "tweakLen": 56,
+          "pt": "728573258692610308436429952475978622650666732459",
+          "key": "E45ECA5225B458810D28EDB20201782FA7DAFE4F0082347E51460D7486385584"
+        },
+        {
+          "tcId": 155,
+          "tweak": "D0D8E9EF699D3A",
+          "tweakLen": 56,
+          "pt": "9137450935",
+          "key": "C98471C31927B00299D872D8A5F7F91B872D6F9F4677B8E71358288607AF5210"
+        },
+        {
+          "tcId": 156,
+          "tweak": "51AFE9ACC33BA3",
+          "tweakLen": 56,
+          "pt": "3541950295014543555174522543659754168455576059374554",
+          "key": "202DAAA9ABF7D671584F0AA2ACEAB03024F9D75549ADD1797F5E9A6F71BC44FD"
+        },
+        {
+          "tcId": 157,
+          "tweak": "7E5D9F25F68500",
+          "tweakLen": 56,
+          "pt": "36098079972120115441286414220166392477247253988390",
+          "key": "642158328E70D1A4AEC804AFD5233DDD1AC406B00AB897B3D21E090A9229C66B"
+        },
+        {
+          "tcId": 158,
+          "tweak": "0242A51C9068D1",
+          "tweakLen": 56,
+          "pt": "749229455283610489263383",
+          "key": "E6DD954429DB76A7AE7A7AE912F77953021F451C86CC283CD92611BF0E04DBED"
+        },
+        {
+          "tcId": 159,
+          "tweak": "F022B78823AF2D",
+          "tweakLen": 56,
+          "pt": "3184392199200081611618369443",
+          "key": "A47432F4CF169A728EC0233E34167FCB67432560FBE3055DD3CC803D773188B1"
+        },
+        {
+          "tcId": 160,
+          "tweak": "A4749109A488A2",
+          "tweakLen": 56,
+          "pt": "51454878603001424702680646630016827510374196",
+          "key": "5535A0C723AD2D44638F3BD786935B5162875B7C22392EA2834A08A458B02391"
+        },
+        {
+          "tcId": 161,
+          "tweak": "65C680A2EABFFF",
+          "tweakLen": 56,
+          "pt": "964032007185373741321248554105437751648468",
+          "key": "DDE92BBBF5F1B61A70952B5FDE45A7E55A5FBEE664094360F8BD5BCD846DD3AA"
+        },
+        {
+          "tcId": 162,
+          "tweak": "F7BB613ADCB987",
+          "tweakLen": 56,
+          "pt": "083435648373778231119989719667678",
+          "key": "84C4DF92A91D8B1DA73947433036C8FCF4C503BC9643A6846884A72B26580C28"
+        },
+        {
+          "tcId": 163,
+          "tweak": "C87BAB3763C001",
+          "tweakLen": 56,
+          "pt": "2007927174794672144573940487801816119272773212185993897",
+          "key": "1932BF79C7562C08C834841408BC20DC044A582F3B97914563F1063A24A9D862"
+        },
+        {
+          "tcId": 164,
+          "tweak": "4DA2AC63A5D857",
+          "tweakLen": 56,
+          "pt": "535202175341969297561716751",
+          "key": "9F6F0AEADB017276ABF6B6BF4EB642F3CD398A4BEE762040A35743261E062F0C"
+        },
+        {
+          "tcId": 165,
+          "tweak": "EFC96479A75593",
+          "tweakLen": 56,
+          "pt": "2893859457502838693",
+          "key": "C59DCAA08F6358BA7B91DDF36657D4B9A3E9B4F9977559F73CB9F22C5FF017BD"
+        },
+        {
+          "tcId": 166,
+          "tweak": "BD6BB6D02583C7",
+          "tweakLen": 56,
+          "pt": "368129526601568577410",
+          "key": "9601EF2B58824C648E5BCC6BC490374CAFC064718EBCF5E0B68D381CDC9CF3DC"
+        },
+        {
+          "tcId": 167,
+          "tweak": "188B3DD38ABCB2",
+          "tweakLen": 56,
+          "pt": "049947140944729196539182722293116218463181488",
+          "key": "D41B01C17A853608C1725FC384494AA3E101B91CB44349D30C34ECBEA7CA5813"
+        },
+        {
+          "tcId": 168,
+          "tweak": "AC6AE0C479975F",
+          "tweakLen": 56,
+          "pt": "552297237979072597724999892154867475079684692914723486",
+          "key": "1635D781498BFABBDADBE33DD28D7A8D1E46D23EE8684DC39823728F31A59170"
+        },
+        {
+          "tcId": 169,
+          "tweak": "64340912FB9AD8",
+          "tweakLen": 56,
+          "pt": "22162860391709360400051330294624",
+          "key": "288FF49DE62B06498BF0B9819BCF9C70571802BFFC6759B8F886D3C3AC1AA7BA"
+        },
+        {
+          "tcId": 170,
+          "tweak": "4DC065AA2E961D",
+          "tweakLen": 56,
+          "pt": "3012111236356476",
+          "key": "309C1A30478CD753B9A300A9AD0B3321E3C111CFB17F31BEF532A7DAF07009E4"
+        },
+        {
+          "tcId": 171,
+          "tweak": "EE1133112F7369",
+          "tweakLen": 56,
+          "pt": "02867471305260830219087436",
+          "key": "AB505FC2B5F422465C176572D064666BF7B9BB43A16FEDFD08D138369374E229"
+        },
+        {
+          "tcId": 172,
+          "tweak": "BE27E5DA6EC7EF",
+          "tweakLen": 56,
+          "pt": "17759591697845539553419414854385987218080420129774314",
+          "key": "5C29EE582D2EEFB2B01151EC543B7CBA8ABB23E4D8912CE2DECB59BD040C4964"
+        },
+        {
+          "tcId": 173,
+          "tweak": "F5195F056FC75B",
+          "tweakLen": 56,
+          "pt": "2975271000254852819969490",
+          "key": "E4D480140735BC6CBB54D1A826801CAEF5C4C92332006A1467F5399C827B0B94"
+        },
+        {
+          "tcId": 174,
+          "tweak": "A14051A50F25B9",
+          "tweakLen": 56,
+          "pt": "9988326100711058479568733565846419",
+          "key": "C2020427DAC94414E706160063677A1F9441CFE6126BFC87E9AF90A0F0ABEFAB"
+        },
+        {
+          "tcId": 175,
+          "tweak": "4E1D0F7485D15B",
+          "tweakLen": 56,
+          "pt": "6517312525366067838282920769059808333035974547",
+          "key": "2C0DA87DDE61022C11671DF7334F3124E5FF4557EA1E3E62FA55F1D2B9FFD944"
+        }
+      ]
+    },
+    {
+      "tgId": 8,
+      "testType": "AFT",
+      "direction": "Encrypt",
+      "keyLen": 256,
+      "alphabet": "abcdefghijklmnopqrstuvwxyz",
+      "radix": 26,
+      "tests": [
+        {
+          "tcId": 176,
+          "tweak": "55AE38B033BF8B",
+          "tweakLen": 56,
+          "pt": "mdpbfogjvl",
+          "key": "B238A5A59225F6E240EAFEACFD2A70A890D017C763873819AFF74C366D2AAA59"
+        },
+        {
+          "tcId": 177,
+          "tweak": "1BBEE878539C94",
+          "tweakLen": 56,
+          "pt": "igxcrtkinnptzdfesvpmmxjjmkibcjjkumoaruij",
+          "key": "85BBAE6E85F4CCDEE0A8D2173C315624C12446585623FDFC7526E6C01639A381"
+        },
+        {
+          "tcId": 178,
+          "tweak": "CB6C81DA90091A",
+          "tweakLen": 56,
+          "pt": "wntivmnspsqo",
+          "key": "DBA18782EDC05E268A32BA695C69D196230924D4C0614E4DE4ED8B596A2051EC"
+        },
+        {
+          "tcId": 179,
+          "tweak": "DB0EEE16147A70",
+          "tweakLen": 56,
+          "pt": "dgryidkosvkqllzskcscgsminfvtqwq",
+          "key": "0E30574473906CCBC8D6F28A9E73C24E66ACC4C539706829C2A372AE983C1261"
+        },
+        {
+          "tcId": 180,
+          "tweak": "0A24CBE73B1704",
+          "tweakLen": 56,
+          "pt": "mgnqccaskrzrnnxzq",
+          "key": "1B70A05E02471254DA9A7E63DB539CDC7882EED55E1DF893D9877F0DA0347D65"
+        },
+        {
+          "tcId": 181,
+          "tweak": "D33086272055F9",
+          "tweakLen": 56,
+          "pt": "lpqslrizua",
+          "key": "0BADCA014A09E217BC0FA16741CF69CE5262642F282ED02B6E4B692EE4EA57E8"
+        },
+        {
+          "tcId": 182,
+          "tweak": "354321E0E46B22",
+          "tweakLen": 56,
+          "pt": "dunpsgmnpzhczlgiwscfjrqgzilpndizzggyz",
+          "key": "EEF7A3D5E42CB1829C9328CBD95900EB09E31D0C3E35CA0D3457646C54EFF8CE"
+        },
+        {
+          "tcId": 183,
+          "tweak": "383652415A3A44",
+          "tweakLen": 56,
+          "pt": "ipcxkggvqlvoioflyeugueaubqpmx",
+          "key": "D85648660A2F996DE218282F403CAD7BDDB522E1A2FAC2393EB7B0D69F79B0A3"
+        },
+        {
+          "tcId": 184,
+          "tweak": "DC4AD5923222EA",
+          "tweakLen": 56,
+          "pt": "lkoumuenekwoutfoauybmh",
+          "key": "1923CA594A0608FC6A6431C1E78DB4DD85659B138CD07B577A587C1C5C349344"
+        },
+        {
+          "tcId": 185,
+          "tweak": "E24F76E5F16900",
+          "tweakLen": 56,
+          "pt": "oeiekllrqxiqmcczup",
+          "key": "5B36EF0576B42C9233BBE6B69C90ECBC27DBC3D15A834CBE88FB278728A62CFA"
+        },
+        {
+          "tcId": 186,
+          "tweak": "2A0FB89AE2C96D",
+          "tweakLen": 56,
+          "pt": "hhjocbtgyzsqwqkmfxyzddirssgpaloff",
+          "key": "6FA71FF0D35429DDCAC6DB2A9A50F91A087D4F224AE84E7AA9C8CB6E27E968CB"
+        },
+        {
+          "tcId": 187,
+          "tweak": "8644140C06CBBA",
+          "tweakLen": 56,
+          "pt": "gngzbyaqzpp",
+          "key": "6256124B575F55AAE02B5BE0423A049D094772B70A121129391D24985A2A4249"
+        },
+        {
+          "tcId": 188,
+          "tweak": "982C4EA7960A3D",
+          "tweakLen": 56,
+          "pt": "hxvrzuxyxouowcpazoqzttvdlfklcbfsfh",
+          "key": "7E5B966B8B2BD7F127C1EC85E408BA6C36D7F74381A4EA479DEE7415BD1B04E8"
+        },
+        {
+          "tcId": 189,
+          "tweak": "F0B7568FFD10B6",
+          "tweakLen": 56,
+          "pt": "zzyrekwdzrcqbyyjcfhdslhp",
+          "key": "05E50027F5288D46FA1785EBE92C0534990FE4133349E79E385EE6DA7D57BD37"
+        },
+        {
+          "tcId": 190,
+          "tweak": "19578D107231AD",
+          "tweakLen": 56,
+          "pt": "mwhcrbpncjlwfqkpwwbhfzuwoljlrjihnsw",
+          "key": "4BF55B3F15C6E1765FB4208869B8C2E50DB7B72217DA2CC87B80F29284591F3F"
+        },
+        {
+          "tcId": 191,
+          "tweak": "CBEB9AFB066DEF",
+          "tweakLen": 56,
+          "pt": "wbqalpctwaugop",
+          "key": "C02CA6707DEF20A97BF1AF07135284CE1316C9F1CB64098144796603244E1608"
+        },
+        {
+          "tcId": 192,
+          "tweak": "658C265D14B013",
+          "tweakLen": 56,
+          "pt": "nhxgwolnlfsscqq",
+          "key": "74DEA04DB384D7D6CEF326F8369C49FEBA2E5A586FEE727EB63E342331744C64"
+        },
+        {
+          "tcId": 193,
+          "tweak": "89568A0CF0BEC0",
+          "tweakLen": 56,
+          "pt": "ygrvzzeptqghboyhvptiahqhlbnpnd",
+          "key": "F34438593C3623A7BD55516F7E8676F69AC69F87B8EE936452B9E20542602875"
+        },
+        {
+          "tcId": 194,
+          "tweak": "2D19CFB6CBDD87",
+          "tweakLen": 56,
+          "pt": "htsklquiasppodsgzvrlyxkdstqlhedmimce",
+          "key": "867EB5C468202E8FF77EAF664CC15F73F4AC4D7A539ABC0A1D0F3F555FC14C58"
+        },
+        {
+          "tcId": 195,
+          "tweak": "86CF178DBC8D6B",
+          "tweakLen": 56,
+          "pt": "plbjbeuwnsmzctbfjfxktvu",
+          "key": "8D5E41A8BE9FACDF508E96C4725E884CEBE65A0429734F9F4CAF4810F1066047"
+        },
+        {
+          "tcId": 196,
+          "tweak": "17F1DF4F6F9CA2",
+          "tweakLen": 56,
+          "pt": "flpjugenoiexw",
+          "key": "09650262D8EA41400CB41F31BE0B45479C251CCD15B17F3CFB05385902922AFD"
+        },
+        {
+          "tcId": 197,
+          "tweak": "2A214EDBB5D82E",
+          "tweakLen": 56,
+          "pt": "ibisiwsuqsmykshhhgpgctptwlrc",
+          "key": "DF8DA2AAEA18ABB28F83F30CE3228001B9BE33E08C535C864E9811606B703705"
+        },
+        {
+          "tcId": 198,
+          "tweak": "84839E3856FE03",
+          "tweakLen": 56,
+          "pt": "istndjgytnhtbnavkbmypxsrp",
+          "key": "2D53C2FFA8A0B7888BB12E3ADA583CD2AF2D34DC04ECA2FD7CB817A127525941"
+        },
+        {
+          "tcId": 199,
+          "tweak": "6E2C83A8F143CF",
+          "tweakLen": 56,
+          "pt": "vqjebcvijybtxrbnbzgqemncygayhtpnfcjtaeq",
+          "key": "AC94D2C6CE7ADC78CF6F3A9ED3EB981727A47F0B55A080A0BF7665876572AF62"
+        },
+        {
+          "tcId": 200,
+          "tweak": "EBACCCF7A898E5",
+          "tweakLen": 56,
+          "pt": "tqlybesvpimvjwsqusukdquijug",
+          "key": "6227950877117F58D148C562DEF94A6F5125BE014F431591506D5CA73B73A435"
+        }
+      ]
+    },
+    {
+      "tgId": 9,
+      "testType": "AFT",
+      "direction": "Encrypt",
+      "keyLen": 256,
+      "alphabet": "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz+/",
+      "radix": 64,
+      "tests": [
+        {
+          "tcId": 201,
+          "tweak": "59B6CF91E1586B",
+          "tweakLen": 56,
+          "pt": "Fc3moKuUrM",
+          "key": "2E9BAE8B8C0EAA76BD47219290CE10EAF3F5A6A6AB64EB6CFEE06FE6CF6BE2AC"
+        },
+        {
+          "tcId": 202,
+          "tweak": "0440B599EA177A",
+          "tweakLen": 56,
+          "pt": "APihrgPk9BxEZ/JuBJ+HE0n09cbH",
+          "key": "7613C0C7078EE4BAEB388920B77A5DD4B126A553E652BCB87EDDA77E1FFA0BF3"
+        },
+        {
+          "tcId": 203,
+          "tweak": "19DBAC0D3B81B7",
+          "tweakLen": 56,
+          "pt": "LwR4kqaNgi0iw1GO9SziMHM+jW",
+          "key": "20F53FB160721F13DCA62D874F1EA40A3CF55F7660D3EA22421C640E686ED997"
+        },
+        {
+          "tcId": 204,
+          "tweak": "5D4DFA66A190CB",
+          "tweakLen": 56,
+          "pt": "t/0rNUunISt4O",
+          "key": "E5A2F5A26BB94845D9027F2C94B66510DE259B0C6E1AD5C8C78AFCB52730533A"
+        },
+        {
+          "tcId": 205,
+          "tweak": "66DFE8D57B404F",
+          "tweakLen": 56,
+          "pt": "Won1V0/p/n3LzdRe+SJ",
+          "key": "124021A6385507E23A8FB3D76EE91C6261764EA3C1B69634259A6B098482338B"
+        },
+        {
+          "tcId": 206,
+          "tweak": "2E5A0550410D4E",
+          "tweakLen": 56,
+          "pt": "1ZhEOtqI/n0pzChn",
+          "key": "65C5EDF959A0AA8DD730516D2EF3E36C2A8FB3BD9767B6F3ABD25872447839E4"
+        },
+        {
+          "tcId": 207,
+          "tweak": "E842AB1521D8FB",
+          "tweakLen": 56,
+          "pt": "M2UehoYoUG/W8W9JAe",
+          "key": "A527D84AA4C9BA7B8E6DE5E13C53959D10C80DF8063492780F1D48F920DB4B51"
+        },
+        {
+          "tcId": 208,
+          "tweak": "7FEB4B8296747C",
+          "tweakLen": 56,
+          "pt": "k3SX0vWFGXr4NH9aU",
+          "key": "D50FF8F6494E561E6D46E67CA40C1A87C658499AB8CE491F5F18A4B48C84D306"
+        },
+        {
+          "tcId": 209,
+          "tweak": "642D98D4FD996D",
+          "tweakLen": 56,
+          "pt": "ngaFVaVzg2j+JIP6zQLR9",
+          "key": "D0DB6DBC55047E648747D5A613F49C06A7EECF3CCBECD66317123BEB7CEB2A96"
+        },
+        {
+          "tcId": 210,
+          "tweak": "D288DDD808D1A1",
+          "tweakLen": 56,
+          "pt": "TUcNCVmRv8hN",
+          "key": "417A99FF60371A9CD05D73307831B2103E3A193A3C22A5AC47F6DBC9D6186344"
+        },
+        {
+          "tcId": 211,
+          "tweak": "37E89BB90A3C5A",
+          "tweakLen": 56,
+          "pt": "cSPok/fdiDKcjL6FEJkE",
+          "key": "60E32EDA56EEF13A4A96F54345DF54E98CB39855207D00A320DE694DB0662731"
+        },
+        {
+          "tcId": 212,
+          "tweak": "62FAA098E39627",
+          "tweakLen": 56,
+          "pt": "csbS2BhTFKt5ZU7b5JUFC8IW",
+          "key": "23F52791B21FF0863B64DA74F73A2A8F6DB0244396D4D848829808B4B507D398"
+        },
+        {
+          "tcId": 213,
+          "tweak": "30BB104B424F1F",
+          "tweakLen": 56,
+          "pt": "jAW9l9XkXgXccQ1",
+          "key": "4FD7D8C4B8D58442D5338EEAB4E76CBE84B816C16DC40F3F3487134E30B0E720"
+        },
+        {
+          "tcId": 214,
+          "tweak": "D1CF1CD7811E88",
+          "tweakLen": 56,
+          "pt": "kxw44dMA+0",
+          "key": "83A24165EBC260C79CB2D3D38EC58DA454D2D488947DE173DFB20BA974B04E86"
+        },
+        {
+          "tcId": 215,
+          "tweak": "B7FC71393AE508",
+          "tweakLen": 56,
+          "pt": "7bltAGJyAIOXuWxaGwXIP5",
+          "key": "9D95557A33CB52EB4F6EAE0B6600154273D498A2B76B72CFE1DA5C348DC16E5A"
+        },
+        {
+          "tcId": 216,
+          "tweak": "69D24A5A0C2564",
+          "tweakLen": 56,
+          "pt": "uEXzWIQErYOqP0U/PWUrur5sKYF",
+          "key": "ED8F69B3A2A7DF2381E148E23651D5B1DD6F084903DEBFB01E2CF85FDBB9843D"
+        },
+        {
+          "tcId": 217,
+          "tweak": "AF0F9761B86889",
+          "tweakLen": 56,
+          "pt": "24RZj6m+TsO6B3",
+          "key": "773EBBE71A44E10956005B170CC61891A859B0D168C2D98187DEDDB59750E8EF"
+        },
+        {
+          "tcId": 218,
+          "tweak": "EC007A23BD910B",
+          "tweakLen": 56,
+          "pt": "vASbfUxc+30",
+          "key": "42ED070909C058153276BC3AF9C1A41600FBBEF66CE483F381ADA3A4BF46415E"
+        },
+        {
+          "tcId": 219,
+          "tweak": "6A954BB534807D",
+          "tweakLen": 56,
+          "pt": "YmJdw3rge743SxkkE/Qft+s",
+          "key": "F3F5261A3CEC9408D924848D211A6A63263112BE1B318A4F817793168445A3D4"
+        },
+        {
+          "tcId": 220,
+          "tweak": "BE6257EBA7E926",
+          "tweakLen": 56,
+          "pt": "/rLhZXcJEo81tifQNQRYiqA7u3Gu",
+          "key": "F760E3172699AAEDC6CBF78C20862EC9D0D5FBA5C179131C15BCA1B421A43879"
+        },
+        {
+          "tcId": 221,
+          "tweak": "9C02BC37B7655B",
+          "tweakLen": 56,
+          "pt": "+a25LEMzC4SQfIyjgXvs4r01R",
+          "key": "25F878CEE16DDA82BE195075930E52355BE4C9CB8A8886ED22223C9ED93BE581"
+        },
+        {
+          "tcId": 222,
+          "tweak": "B8370FBAB98A46",
+          "tweakLen": 56,
+          "pt": "NSe+vy+vUeR9djb6qoGJ",
+          "key": "149DCEC3FCF292756ABF1F88486148E3ABDDEDFDDF4E8B5AD21D799916770345"
+        },
+        {
+          "tcId": 223,
+          "tweak": "ABF1C964845379",
+          "tweakLen": 56,
+          "pt": "EbL0zpPQ8XHdv6mTqS",
+          "key": "D071E6F96098AE66A5D1BEA7809E38AD91CD2FAB6667D6F3D114405772592EB6"
+        },
+        {
+          "tcId": 224,
+          "tweak": "8DF87569B433E0",
+          "tweakLen": 56,
+          "pt": "+OV5do8zPX",
+          "key": "C6C9003D0816DADA36E47C1988CE121E3284852212F0F04111991C11D310A9A9"
+        },
+        {
+          "tcId": 225,
+          "tweak": "76390B27E3BAA2",
+          "tweakLen": 56,
+          "pt": "jqID+DShipfCj",
+          "key": "2CB68C110E256DA34E4AFA70B3E4CCB31FD3FF99D83E9933C034CC4FBDA3A5BC"
+        }
+      ]
+    },
+    {
+      "tgId": 10,
+      "testType": "AFT",
+      "direction": "Decrypt",
+      "keyLen": 128,
+      "alphabet": "0123456789",
+      "radix": 10,
+      "tests": [
+        {
+          "tcId": 226,
+          "tweak": "9DB421F53D27B2",
+          "tweakLen": 56,
+          "key": "34B264AF31709CF64C1566E8C9F0EBE2",
+          "ct": "5842213366"
+        },
+        {
+          "tcId": 227,
+          "tweak": "55B0195DC875D1",
+          "tweakLen": 56,
+          "key": "669941886816C5CE0580BAC49B17E4B6",
+          "ct": "00679710228455138624692248632346857531485993012920829710"
+        },
+        {
+          "tcId": 228,
+          "tweak": "996955794CD376",
+          "tweakLen": 56,
+          "key": "4C4E3525D3260305C0ADE006F406E105",
+          "ct": "94575664819127285563224782656514942938004678900156"
+        },
+        {
+          "tcId": 229,
+          "tweak": "06EB4AFDF5D49A",
+          "tweakLen": 56,
+          "key": "6767EE557421632AE84FC78303BB1F4B",
+          "ct": "981168864649727034833614432273931"
+        },
+        {
+          "tcId": 230,
+          "tweak": "BF3CF2A13C8163",
+          "tweakLen": 56,
+          "key": "DA0F18328F5BBE4918A6C79497073D57",
+          "ct": "4378548840144124860770439541"
+        },
+        {
+          "tcId": 231,
+          "tweak": "142741CDF57912",
+          "tweakLen": 56,
+          "key": "763F933849B2F741A5F96914462F961E",
+          "ct": "79264043461589404"
+        },
+        {
+          "tcId": 232,
+          "tweak": "A1B64A172A4197",
+          "tweakLen": 56,
+          "key": "DC22694E6763EBC2383A574968AC9B35",
+          "ct": "3961726517376796076031748130561344694387"
+        },
+        {
+          "tcId": 233,
+          "tweak": "7F888DF93BEA7D",
+          "tweakLen": 56,
+          "key": "6019D52A8A8574B6596EBA4B774DAAE5",
+          "ct": "0545626898713519508"
+        },
+        {
+          "tcId": 234,
+          "tweak": "AD0EFF9FAD072A",
+          "tweakLen": 56,
+          "key": "52AD860AF5E0E1446C26C6FE229A9934",
+          "ct": "865702992750"
+        },
+        {
+          "tcId": 235,
+          "tweak": "59BF3BDDD9D122",
+          "tweakLen": 56,
+          "key": "2802ACA2198A678BA1921C96219F39D7",
+          "ct": "71245992759761904503230275151030920984271"
+        },
+        {
+          "tcId": 236,
+          "tweak": "14AD710B6B722C",
+          "tweakLen": 56,
+          "key": "6AE5DFA2FD050B9589D5CF11F0543DFE",
+          "ct": "7185400698"
+        },
+        {
+          "tcId": 237,
+          "tweak": "1CB1D7A162FE2E",
+          "tweakLen": 56,
+          "key": "89D8D45B60430906A9F35DFB992E5E17",
+          "ct": "505414986199395226967505"
+        },
+        {
+          "tcId": 238,
+          "tweak": "718FAD5B328F1E",
+          "tweakLen": 56,
+          "key": "05E45179E6905E97FA3D9AD4B5C1F644",
+          "ct": "1038864432346205885496"
+        },
+        {
+          "tcId": 239,
+          "tweak": "444EA7266C1421",
+          "tweakLen": 56,
+          "key": "6B6E568691F0F0C1D861F9710B52557D",
+          "ct": "231258330852772482641296437432640526110472384"
+        },
+        {
+          "tcId": 240,
+          "tweak": "52F66561181B4C",
+          "tweakLen": 56,
+          "key": "EDFEDF042A8FC93B50C0CD7DC3A9FB5B",
+          "ct": "0047991225112516779645506721635931685525935390228"
+        },
+        {
+          "tcId": 241,
+          "tweak": "B40F0DCD42C776",
+          "tweakLen": 56,
+          "key": "776DFDF628FCD588FE25666F1D1C044A",
+          "ct": "96024059105644964427568"
+        },
+        {
+          "tcId": 242,
+          "tweak": "1ED46EF289B7CD",
+          "tweakLen": 56,
+          "key": "4B6107AF16ED2303362C02624B8D2849",
+          "ct": "0305847941066763094791853949052847037855608"
+        },
+        {
+          "tcId": 243,
+          "tweak": "F4EBBC0D3761DC",
+          "tweakLen": 56,
+          "key": "936F3C524507144971716932722E2322",
+          "ct": "007948249503267228089"
+        },
+        {
+          "tcId": 244,
+          "tweak": "BC4DE737F4A28D",
+          "tweakLen": 56,
+          "key": "8572388CE32B9FDEB15966E868247B94",
+          "ct": "896712206408349416351112064482552518"
+        },
+        {
+          "tcId": 245,
+          "tweak": "E2BD117F56786F",
+          "tweakLen": 56,
+          "key": "3C2EAE9FE5E5262F5C894ABE2280AF15",
+          "ct": "78171854612222119765503030"
+        },
+        {
+          "tcId": 246,
+          "tweak": "47195141C8B6AE",
+          "tweakLen": 56,
+          "key": "D23334D3475B942319966A60EE480CE6",
+          "ct": "7647298343042291298045589179647956967"
+        },
+        {
+          "tcId": 247,
+          "tweak": "11DBD24F0508EA",
+          "tweakLen": 56,
+          "key": "74394EE0ACA4826E62AD68CB31F03150",
+          "ct": "9213028864139321912650501"
+        },
+        {
+          "tcId": 248,
+          "tweak": "ECC8EED734AC3D",
+          "tweakLen": 56,
+          "key": "415E8124F850FEC9D64CA13B7A3E47D4",
+          "ct": "6365645820675366"
+        },
+        {
+          "tcId": 249,
+          "tweak": "171F516C9A586D",
+          "tweakLen": 56,
+          "key": "1212B818FEEA744F5C10B78546B45842",
+          "ct": "933162549310922246300271221"
+        },
+        {
+          "tcId": 250,
+          "tweak": "D851135B0D4A1B",
+          "tweakLen": 56,
+          "key": "284145732F4A7F008B5C3D26876FD370",
+          "ct": "21718762796590"
+        }
+      ]
+    },
+    {
+      "tgId": 11,
+      "testType": "AFT",
+      "direction": "Decrypt",
+      "keyLen": 128,
+      "alphabet": "abcdefghijklmnopqrstuvwxyz",
+      "radix": 26,
+      "tests": [
+        {
+          "tcId": 251,
+          "tweak": "9398722495148A",
+          "tweakLen": 56,
+          "key": "B835E1B06938D2755A0BA5C81420C9D3",
+          "ct": "vkgggstiwn"
+        },
+        {
+          "tcId": 252,
+          "tweak": "8987A6A9E7BDE9",
+          "tweakLen": 56,
+          "key": "3FC4AAE964BBDA2D32136D187214B523",
+          "ct": "dimveueprpnnixiicylscmenytvjxijckmgbwefs"
+        },
+        {
+          "tcId": 253,
+          "tweak": "264B5295BEB425",
+          "tweakLen": 56,
+          "key": "69F80FC7728AAADD3CB2B68B63B8A34E",
+          "ct": "qdyackmfcyljgmwagbiceaucixaiocqr"
+        },
+        {
+          "tcId": 254,
+          "tweak": "8012E95C719661",
+          "tweakLen": 56,
+          "key": "658BBF3CD5ABCA00F39FA469C130AD44",
+          "ct": "ghagghufdshkplwwxhmcsnnokidxlsqndkxkonty"
+        },
+        {
+          "tcId": 255,
+          "tweak": "D6240F284B0422",
+          "tweakLen": 56,
+          "key": "C8E2231187539630264D8EF38AF6953A",
+          "ct": "hvycptskcdwdwfasnskofnt"
+        },
+        {
+          "tcId": 256,
+          "tweak": "21B89B3657CD35",
+          "tweakLen": 56,
+          "key": "EB8C5FF69F7A28C899B13FB1B095D9CA",
+          "ct": "emqmeylqzxypypqiwjeotjdnqsatloopxnh"
+        },
+        {
+          "tcId": 257,
+          "tweak": "6B41857F2FE58A",
+          "tweakLen": 56,
+          "key": "23C53BA009CE52098B8B185A510434BF",
+          "ct": "hnomehwwckwcaqfsigrajtrgbvkap"
+        },
+        {
+          "tcId": 258,
+          "tweak": "6468D2FC28FD93",
+          "tweakLen": 56,
+          "key": "96892EC9B94F498C8233998711AA5312",
+          "ct": "cizsydmlhlpuhejo"
+        },
+        {
+          "tcId": 259,
+          "tweak": "109A3526F70D50",
+          "tweakLen": 56,
+          "key": "50C99CA3F687DC41BA8B574066173631",
+          "ct": "uluaffoazpioeljcxx"
+        },
+        {
+          "tcId": 260,
+          "tweak": "9F54A8C55C9423",
+          "tweakLen": 56,
+          "key": "4B8EBF600A660D30CC0E53B5AC25B1B2",
+          "ct": "ndwosroyhyazpzhlqzex"
+        },
+        {
+          "tcId": 261,
+          "tweak": "EF0B1ED48250FC",
+          "tweakLen": 56,
+          "key": "CB5C700EC81E05881AD077E525E83496",
+          "ct": "gwzvwkkqihyifisekywga"
+        },
+        {
+          "tcId": 262,
+          "tweak": "0C3BDA65991DD4",
+          "tweakLen": 56,
+          "key": "1E701E94B431D3DC9B2E17B7EEA723B5",
+          "ct": "udmyynxcabuaawuqgmdlxpivdgyiovgwkqst"
+        },
+        {
+          "tcId": 263,
+          "tweak": "FCE28A5B113661",
+          "tweakLen": 56,
+          "key": "AA39BF6E63E984130662A4888BAE30DA",
+          "ct": "jzolyaeqegskagm"
+        },
+        {
+          "tcId": 264,
+          "tweak": "2A5127A1B12B02",
+          "tweakLen": 56,
+          "key": "C383B6DE4A9151A7CBB773E0310BB79A",
+          "ct": "ghlxwzajnsictvkgfvstvofmetqqhmczsyhjogv"
+        },
+        {
+          "tcId": 265,
+          "tweak": "5118934F8D8BCD",
+          "tweakLen": 56,
+          "key": "6FC684C067C09E7BAF7F2BEBFA541EA3",
+          "ct": "yqelcqpdpvl"
+        },
+        {
+          "tcId": 266,
+          "tweak": "905115552B0697",
+          "tweakLen": 56,
+          "key": "6D0D7147F167BAF766ECA93DC0EEED78",
+          "ct": "gsmujoijnzoxgk"
+        },
+        {
+          "tcId": 267,
+          "tweak": "63862E053EC4BA",
+          "tweakLen": 56,
+          "key": "EFF14623D0AA25D1806708B88F606E8B",
+          "ct": "nwxdywcmbqoszfmgzgjjbfgm"
+        },
+        {
+          "tcId": 268,
+          "tweak": "7DDEFEFFC2D8DE",
+          "tweakLen": 56,
+          "key": "0C7041951915ACCDE94C86332A3F4E66",
+          "ct": "bzrhidimyplvpoxujxoufgbdl"
+        },
+        {
+          "tcId": 269,
+          "tweak": "FC2A9F50900047",
+          "tweakLen": 56,
+          "key": "3F840CDD32CFFB7CBDA7FB0CEDFE4B18",
+          "ct": "dzaapkxxmhrikaeracimay"
+        },
+        {
+          "tcId": 270,
+          "tweak": "8FEFFC7219A0A8",
+          "tweakLen": 56,
+          "key": "4DE01BE30C0E4E65EEAB8B6622599CBC",
+          "ct": "rngrtnyarbnjvaqjbhmkkkxnjovs"
+        },
+        {
+          "tcId": 271,
+          "tweak": "B4F9D3DDF20EE6",
+          "tweakLen": 56,
+          "key": "E789D6ECC392038F45CA8E572F00351F",
+          "ct": "hvuxwaykshpyfomsjiudntadxgmxnn"
+        },
+        {
+          "tcId": 272,
+          "tweak": "652CF85B79BA0F",
+          "tweakLen": 56,
+          "key": "C8DDC1F7DB73BC848CF6BDBE96FC4435",
+          "ct": "vwmpjgosdlaymngyjwketemskxewmaw"
+        },
+        {
+          "tcId": 273,
+          "tweak": "55A02AA370E079",
+          "tweakLen": 56,
+          "key": "13A1EBAAB10A0EE4243561F439272E96",
+          "ct": "yoinmerjukszecpnnekffeoapqckwseezk"
+        },
+        {
+          "tcId": 274,
+          "tweak": "2343B487597645",
+          "tweakLen": 56,
+          "key": "874A3FCFE6070771C00C406ECA53896F",
+          "ct": "dfzwlniexgcjcowhucidvnafmjumdnzbv"
+        },
+        {
+          "tcId": 275,
+          "tweak": "E8AFA8ADF9263F",
+          "tweakLen": 56,
+          "key": "103436B7B03FFF892E30222D6D27D5F7",
+          "ct": "eusdpegbmohygyxzmmjhzfaecjzdomvsykxan"
+        }
+      ]
+    },
+    {
+      "tgId": 12,
+      "testType": "AFT",
+      "direction": "Decrypt",
+      "keyLen": 128,
+      "alphabet": "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz+/",
+      "radix": 64,
+      "tests": [
+        {
+          "tcId": 276,
+          "tweak": "2CB90B2AB4ECEA",
+          "tweakLen": 56,
+          "key": "1258BF62B8C0F74D4B27553CAE6502CF",
+          "ct": "AMVDSALOV0"
+        },
+        {
+          "tcId": 277,
+          "tweak": "BE1AA973A42694",
+          "tweakLen": 56,
+          "key": "0DAA57D4941BB79D365766506466663D",
+          "ct": "iqTdovvo4+YVhOTzj9WfURMkyU4I"
+        },
+        {
+          "tcId": 278,
+          "tweak": "A15660E1CABACE",
+          "tweakLen": 56,
+          "key": "EEE37FAEFE06A86F4E28BB707F3BF90B",
+          "ct": "5QAyYoRghWQgYHuu6TWtJF"
+        },
+        {
+          "tcId": 279,
+          "tweak": "3D11C3A39CDB98",
+          "tweakLen": 56,
+          "key": "6D369277EF375C03FB5F7E4FB2B3AE6F",
+          "ct": "mC9KALrkdMMICPjtA9WRk"
+        },
+        {
+          "tcId": 280,
+          "tweak": "E83C6BF00CE54C",
+          "tweakLen": 56,
+          "key": "BF0EE2CD97E691E0C362FD8173E144B8",
+          "ct": "LAcCTsCBnA25Q8fADe"
+        },
+        {
+          "tcId": 281,
+          "tweak": "C191FFA2776706",
+          "tweakLen": 56,
+          "key": "070CCB1F96D94FD9083DEFA14D23C3E4",
+          "ct": "afJFaVbdse/36fja3"
+        },
+        {
+          "tcId": 282,
+          "tweak": "ED03085E5AC939",
+          "tweakLen": 56,
+          "key": "0A49E6F77A8C233DC89E9084DA5A0BBD",
+          "ct": "iBsRLTQqU492Z3EWeEEO/+BUkP"
+        },
+        {
+          "tcId": 283,
+          "tweak": "D6A7BAE358BB07",
+          "tweakLen": 56,
+          "key": "093603214D6AA8662345EE4E1387941A",
+          "ct": "nFKaSS5F4ZijQrCwWuPl9saP"
+        },
+        {
+          "tcId": 284,
+          "tweak": "9BBA36CD86D2AB",
+          "tweakLen": 56,
+          "key": "086952C1D81945ABBDC85E1553C543F0",
+          "ct": "2L00oUuZdrd9f"
+        },
+        {
+          "tcId": 285,
+          "tweak": "0537E6C31EA163",
+          "tweakLen": 56,
+          "key": "562311AC50DC2CA127F8E5F574B8AB8F",
+          "ct": "rpcdBKiojwBXOCFD2ny"
+        },
+        {
+          "tcId": 286,
+          "tweak": "49B2BB6F509090",
+          "tweakLen": 56,
+          "key": "7C03214544890FEDEA530BF063F5218F",
+          "ct": "MEOTv7t6o+F1v/49skfWTdl"
+        },
+        {
+          "tcId": 287,
+          "tweak": "AC8C4BE490FE20",
+          "tweakLen": 56,
+          "key": "6C58D704C92EDE725A57C570B6AEF57D",
+          "ct": "2JTkutdCpWec92TXchEHhprXGVW"
+        },
+        {
+          "tcId": 288,
+          "tweak": "BA22653F60DE87",
+          "tweakLen": 56,
+          "key": "96528EEA07A28585E370B282F1E6489F",
+          "ct": "/h+TDbcNfdHZ/0Pm/t0syedxkukm"
+        },
+        {
+          "tcId": 289,
+          "tweak": "F5A451CBC577CA",
+          "tweakLen": 56,
+          "key": "1AC074FF4C7D3C44691E892D675FD203",
+          "ct": "RJpNxYfrAihBfXXN3VtEyYql9"
+        },
+        {
+          "tcId": 290,
+          "tweak": "4E22C1206EBDF5",
+          "tweakLen": 56,
+          "key": "094C76CF8A89E476D7B71263E7D30E92",
+          "ct": "McZqHLWNDp/EUVRODiWR"
+        },
+        {
+          "tcId": 291,
+          "tweak": "EB96FFDC5FB22C",
+          "tweakLen": 56,
+          "key": "A291F59E9D580C40E742555177FC2EE5",
+          "ct": "50yIR1ioBckC"
+        },
+        {
+          "tcId": 292,
+          "tweak": "5D499F63460377",
+          "tweakLen": 56,
+          "key": "197303811F54A2843F4894852941BF11",
+          "ct": "+u86I3oZto"
+        },
+        {
+          "tcId": 293,
+          "tweak": "BF39CCACA61541",
+          "tweakLen": 56,
+          "key": "00CDE4FAA2023AE71A3B7F657C33BFA8",
+          "ct": "gohoEXjLKtGGoK"
+        },
+        {
+          "tcId": 294,
+          "tweak": "A6992AC509503E",
+          "tweakLen": 56,
+          "key": "3427BF843F8D40E5B72B61F28191B344",
+          "ct": "7iLq+Kq5aMS"
+        },
+        {
+          "tcId": 295,
+          "tweak": "B25B32F2457A0D",
+          "tweakLen": 56,
+          "key": "0960FD683E1F2D9308BE4A80A2018FD5",
+          "ct": "dEhmGUEi9eO2cXn"
+        },
+        {
+          "tcId": 296,
+          "tweak": "85730734CF6B92",
+          "tweakLen": 56,
+          "key": "D865A4A67377E95CAF9C20EDF3D6B813",
+          "ct": "FJ9Jaqcb4vMqhnBH"
+        },
+        {
+          "tcId": 297,
+          "tweak": "BB7C243A767A96",
+          "tweakLen": 56,
+          "key": "829D33A14DFD3A7CC39E70D617F28CD0",
+          "ct": "9UVfTP5FAT2VvQ3uqFHvg9oiq"
+        },
+        {
+          "tcId": 298,
+          "tweak": "6D6F9EFFDE05F3",
+          "tweakLen": 56,
+          "key": "150709AF5B7A51FB8FE0F864A94A4E00",
+          "ct": "BIZsUwsd55V6wv2yXghAGNQsm/"
+        },
+        {
+          "tcId": 299,
+          "tweak": "D4F5011C9B77EF",
+          "tweakLen": 56,
+          "key": "561BDC9FBC382AEF756DBC68B4E0D474",
+          "ct": "t2G3bc00OB79yeJe5Avg"
+        },
+        {
+          "tcId": 300,
+          "tweak": "DA6183D45B7787",
+          "tweakLen": 56,
+          "key": "C3854AAA087B016EBDFE5F37E2C31AC7",
+          "ct": "VgasinKc+b3zX6TkbA2xl2AolvO"
+        }
+      ]
+    },
+    {
+      "tgId": 13,
+      "testType": "AFT",
+      "direction": "Decrypt",
+      "keyLen": 192,
+      "alphabet": "0123456789",
+      "radix": 10,
+      "tests": [
+        {
+          "tcId": 301,
+          "tweak": "059655DF6888A9",
+          "tweakLen": 56,
+          "key": "94798AD8CE45C96A23325F6EDF10DD26E51F269C8379F9EE",
+          "ct": "7661229329"
+        },
+        {
+          "tcId": 302,
+          "tweak": "F59843D7503170",
+          "tweakLen": 56,
+          "key": "C355193043A4EB2CF90BFF214C86D3288BF0F1DD08BEFC6B",
+          "ct": "15277947670298319531655664628549185958705549039450206595"
+        },
+        {
+          "tcId": 303,
+          "tweak": "50BE45344486E0",
+          "tweakLen": 56,
+          "key": "00D445668E11E075870A4A2C52C450EF5667CF8DC78A9BA5",
+          "ct": "253042416178378977917"
+        },
+        {
+          "tcId": 304,
+          "tweak": "504A709589A97D",
+          "tweakLen": 56,
+          "key": "87969CEB14F88F3F9F6E400A301592AD6F74E7059B29ECEB",
+          "ct": "640558955544182"
+        },
+        {
+          "tcId": 305,
+          "tweak": "9CC0488AAB0D05",
+          "tweakLen": 56,
+          "key": "4B1FE99E3792CF46F8AC2AE8024EC54552180C634DDA6491",
+          "ct": "277517352529149722000852019160621888773869913817764"
+        },
+        {
+          "tcId": 306,
+          "tweak": "45E972914C3377",
+          "tweakLen": 56,
+          "key": "95C174867156B8457FADBE9A46B7F9A5B6F970A145D98767",
+          "ct": "863814521046648579614219057703561373773"
+        },
+        {
+          "tcId": 307,
+          "tweak": "B32C207220F113",
+          "tweakLen": 56,
+          "key": "D9120782CB5DE8E69A5D324BD9E1068A389918F35FE778E6",
+          "ct": "3840751232017"
+        },
+        {
+          "tcId": 308,
+          "tweak": "8F59B814AB5881",
+          "tweakLen": 56,
+          "key": "BA154B3EA70CE231F3BE1C632203A9E75BEEBCA40B7930D5",
+          "ct": "956664989428142558"
+        },
+        {
+          "tcId": 309,
+          "tweak": "08B28D9CF5805B",
+          "tweakLen": 56,
+          "key": "3F6CE0ADFA02DF864A29F52379006E7565EF6B23DAE0F318",
+          "ct": "70427997582599044267955044795288004452"
+        },
+        {
+          "tcId": 310,
+          "tweak": "82383E10B5E0D0",
+          "tweakLen": 56,
+          "key": "28115613D77E2C00600427EB043EE94FED32AA72CA9F5664",
+          "ct": "469111854083895856422725538053749728684394339598479064"
+        },
+        {
+          "tcId": 311,
+          "tweak": "3B10DA9475B35C",
+          "tweakLen": 56,
+          "key": "CBE0B6E2757956A95550601D5E0E05EFB841DA5A1364C116",
+          "ct": "42410092279336892287949111394959289734053"
+        },
+        {
+          "tcId": 312,
+          "tweak": "14EE2E88EC8FF2",
+          "tweakLen": 56,
+          "key": "47CA87AEBE9662E80CE865FF902A3B1270FD322E7860F0BF",
+          "ct": "29934599951746393358529553218666507"
+        },
+        {
+          "tcId": 313,
+          "tweak": "5388E693080287",
+          "tweakLen": 56,
+          "key": "045A9A61C34BC9F82EC88176401F6BE66190AB242CF1BDCC",
+          "ct": "6624495363"
+        },
+        {
+          "tcId": 314,
+          "tweak": "B585B815B60EDC",
+          "tweakLen": 56,
+          "key": "9E3DCBB285DD8EEE966AFBD7498483754D0E0159C081D55B",
+          "ct": "2594446322094553"
+        },
+        {
+          "tcId": 315,
+          "tweak": "65A2876DD1649F",
+          "tweakLen": 56,
+          "key": "B4A04549FD74D98C4C43E1FC1CDC0A8216EC61F228E4EF94",
+          "ct": "3100980970934669121590477044739"
+        },
+        {
+          "tcId": 316,
+          "tweak": "2E07BC0F40C79D",
+          "tweakLen": 56,
+          "key": "406A6D208565179A152301D39721256D76713C761F41E0DB",
+          "ct": "3857651856647979752643097690326030902146210496"
+        },
+        {
+          "tcId": 317,
+          "tweak": "AAB6EEFD8743AA",
+          "tweakLen": 56,
+          "key": "4835799F09813E01C53B9EEE6006F06A499554D11AABFC6D",
+          "ct": "813135345155566417996871882"
+        },
+        {
+          "tcId": 318,
+          "tweak": "331F2D0265E729",
+          "tweakLen": 56,
+          "key": "D5E7A6A224F5F1F2DB1B0F48BA3075E028495D6399D7ACF5",
+          "ct": "99356484782970600480562761131540979198284454811564371613"
+        },
+        {
+          "tcId": 319,
+          "tweak": "C8045BE9005825",
+          "tweakLen": 56,
+          "key": "E01F8F82D93ADCF731E19732FF3321EB6A1A6F81A0D7BD6C",
+          "ct": "82250655172447717880302"
+        },
+        {
+          "tcId": 320,
+          "tweak": "AEBDF283C285FE",
+          "tweakLen": 56,
+          "key": "5FB4648B216BD111F856DF864887A36AFAE46BC49F4DC04A",
+          "ct": "4456603494329991679310173736393424"
+        },
+        {
+          "tcId": 321,
+          "tweak": "CA64160B79A54B",
+          "tweakLen": 56,
+          "key": "4FC64C0890BC29DD26BB32C9EB5E997517E0B1A5C356C591",
+          "ct": "2480278974661082875124646"
+        },
+        {
+          "tcId": 322,
+          "tweak": "1B98C7001DCF89",
+          "tweakLen": 56,
+          "key": "A60A1A9BCBCE8DFD4D3DD701D92A0E8E9FBD0A0213AB5B73",
+          "ct": "3865833342400720786023436173585892732636282563383053"
+        },
+        {
+          "tcId": 323,
+          "tweak": "7D4C197A59DCA0",
+          "tweakLen": 56,
+          "key": "48E592303111DEAC5D817EFBA2AB998BCA35670A05E3FB46",
+          "ct": "9102119702063165107532513856067209985348428604692"
+        },
+        {
+          "tcId": 324,
+          "tweak": "B7ABF82EFF2932",
+          "tweakLen": 56,
+          "key": "6DE197DF20FCA86232763C8B9BED51948A142E76DF361052",
+          "ct": "471486008741289284255951306606"
+        },
+        {
+          "tcId": 325,
+          "tweak": "893FB7B70E377E",
+          "tweakLen": 56,
+          "key": "1BBC6A06D89DDDD0D7E44115077055F1FA22C45372866F6C",
+          "ct": "69497959979260"
+        }
+      ]
+    },
+    {
+      "tgId": 14,
+      "testType": "AFT",
+      "direction": "Decrypt",
+      "keyLen": 192,
+      "alphabet": "abcdefghijklmnopqrstuvwxyz",
+      "radix": 26,
+      "tests": [
+        {
+          "tcId": 326,
+          "tweak": "25AB9F0A6BA386",
+          "tweakLen": 56,
+          "key": "9F51E29261A24402630200E16C9FBBF68F04BF5E3C0154C0",
+          "ct": "lwcjfnqciz"
+        },
+        {
+          "tcId": 327,
+          "tweak": "56FAF875F520C6",
+          "tweakLen": 56,
+          "key": "F943C088927E706A5FEFC189AFF140B0C6D49743722680DF",
+          "ct": "bqmifsemmvfhiwpasrrojzepewhpzgdxrbiqwddl"
+        },
+        {
+          "tcId": 328,
+          "tweak": "8F0DB415DBB85D",
+          "tweakLen": 56,
+          "key": "1C6C1EC45A02AD952BFBA78B80AF0FC01677DD951567E524",
+          "ct": "uirstbpjjdlxtjyqsjhpmllo"
+        },
+        {
+          "tcId": 329,
+          "tweak": "46C37747D509BA",
+          "tweakLen": 56,
+          "key": "930F61CF18A4448CF9E0EA8F156FA8EDD7856621254893F2",
+          "ct": "hzvhzhbvephkdpgbpfztbzbnjfmrra"
+        },
+        {
+          "tcId": 330,
+          "tweak": "40C9E60B8E50FE",
+          "tweakLen": 56,
+          "key": "4CE1E50765ACEE05AF1D76AF7590281D9FBE61646BB42841",
+          "ct": "lspotiekmyippxlvsdruxq"
+        },
+        {
+          "tcId": 331,
+          "tweak": "A55437C9747F72",
+          "tweakLen": 56,
+          "key": "F8771237D0B8FAAF76B38BBCFCF5E719478053F5E1710AFA",
+          "ct": "mpylijccrutvketcnvgaqgzuzqxkmxoblpc"
+        },
+        {
+          "tcId": 332,
+          "tweak": "77131918EBA5F4",
+          "tweakLen": 56,
+          "key": "47DA530DC4FB3CD7A137AFC16022F8105E3FACE653196BBD",
+          "ct": "zimgzlwlijzliucselwwtqfqgoxcamobo"
+        },
+        {
+          "tcId": 333,
+          "tweak": "25CB90697441A9",
+          "tweakLen": 56,
+          "key": "AF89E62809D4EE33AFACD436BE4D94AD637A04299EC5CF2E",
+          "ct": "hbbkhbqsbdftwzqhvscggsvijafjdhp"
+        },
+        {
+          "tcId": 334,
+          "tweak": "24366F42B0A260",
+          "tweakLen": 56,
+          "key": "9E67FC8CF1FA6D1F05E00826176EA8EAD9F96A3C031E3480",
+          "ct": "cvzpxosqjhf"
+        },
+        {
+          "tcId": 335,
+          "tweak": "92A50730B4E93E",
+          "tweakLen": 56,
+          "key": "81BBE8CF6789B42FFA441E3F1E2A8ADAD958069D8A6040AD",
+          "ct": "bzxfwegorqpry"
+        },
+        {
+          "tcId": 336,
+          "tweak": "82DEAC8577DC67",
+          "tweakLen": 56,
+          "key": "8D2A1E875C0E0FDAD33DA100E9FD4B6C265DD2DF8A4CA241",
+          "ct": "lgdzgiqymy"
+        },
+        {
+          "tcId": 337,
+          "tweak": "049335E929988A",
+          "tweakLen": 56,
+          "key": "9EA745ADE94776D8DECCEA73A8FBE8B2227C032A9D8A68A4",
+          "ct": "ndskzbqzrkvbiyhqvvhciezefvyedebxtrgsqt"
+        },
+        {
+          "tcId": 338,
+          "tweak": "5F862329836D55",
+          "tweakLen": 56,
+          "key": "81B25AC3B416303FA539234C76185EC521F151C90EF5B850",
+          "ct": "huyeaemxyrssbkfkgfwwyiwcqm"
+        },
+        {
+          "tcId": 339,
+          "tweak": "659329932831E5",
+          "tweakLen": 56,
+          "key": "F3A6FA826F580B6CFACFD70A04BE6A5DC088740D0F3A1E75",
+          "ct": "koatrtialbdycflb"
+        },
+        {
+          "tcId": 340,
+          "tweak": "1ACAC04AA47D5E",
+          "tweakLen": 56,
+          "key": "52D0FA4A823435B0BB958C27D9BD0A8271D66059086A2990",
+          "ct": "sxnvpnixmnftfyrzjokr"
+        },
+        {
+          "tcId": 341,
+          "tweak": "20A78367114639",
+          "tweakLen": 56,
+          "key": "9BDB384525EF2CFA89915AEB2213FB92F86A0D9371D07239",
+          "ct": "pyztupezlpcnqkqwgiqnscihvlajxfbidwdspvi"
+        },
+        {
+          "tcId": 342,
+          "tweak": "96D0F221F3FBC2",
+          "tweakLen": 56,
+          "key": "D386A95A4D629F9B2C2C4D782BB56C105A11DE791761EBCF",
+          "ct": "vedrsvzsfomslax"
+        },
+        {
+          "tcId": 343,
+          "tweak": "66765F2334C16F",
+          "tweakLen": 56,
+          "key": "120DBF950F6D08F37B8C6CDBBF7F486D216C2F467188BBB8",
+          "ct": "lnqeeaiujwyq"
+        },
+        {
+          "tcId": 344,
+          "tweak": "9A408C083ED4D2",
+          "tweakLen": 56,
+          "key": "8243CA23F2FF072B73A592AD62B92AE871B7B7A0E5004C7C",
+          "ct": "lpkedwmlhqjcgxnpbgwizhudrmjhvemdgz"
+        },
+        {
+          "tcId": 345,
+          "tweak": "5B0DACEFF49CF1",
+          "tweakLen": 56,
+          "key": "133367EE3F7BE401891745BCF7E22F00E115CC57337EF491",
+          "ct": "bdctsluoiusjvrjcgybqpxf"
+        },
+        {
+          "tcId": 346,
+          "tweak": "FD798260ED1A27",
+          "tweakLen": 56,
+          "key": "7F510AAC7A7B5878A28E40546A6C667FEDC4D20FECD4432C",
+          "ct": "niauydvnjjyllgtobn"
+        },
+        {
+          "tcId": 347,
+          "tweak": "6DB93B718A276C",
+          "tweakLen": 56,
+          "key": "14739168C5B60BC2156C0066661F89A6E1567FCC897DFAAA",
+          "ct": "msmgqictokpxwokjmfhvpjzyefxi"
+        },
+        {
+          "tcId": 348,
+          "tweak": "C3FA04F836DB26",
+          "tweakLen": 56,
+          "key": "24FCD29EF669D670E35354BFE63C974E4197FBDE28F182EC",
+          "ct": "bpfzgabqvhqeliojpzimpntqzslvc"
+        },
+        {
+          "tcId": 349,
+          "tweak": "2D739CB7D877CE",
+          "tweakLen": 56,
+          "key": "DFDB96E87CEB5E56E6141EDFA9975571455F8840A34C94D5",
+          "ct": "fomwmnbtovicfoxvvgrymdeudllhajch"
+        },
+        {
+          "tcId": 350,
+          "tweak": "9B33EBB301B44D",
+          "tweakLen": 56,
+          "key": "CE91B22F8EB2272218F38DB88CAF808DBA78B3D0E6525A0C",
+          "ct": "ormobomlfidklj"
+        }
+      ]
+    },
+    {
+      "tgId": 15,
+      "testType": "AFT",
+      "direction": "Decrypt",
+      "keyLen": 192,
+      "alphabet": "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz+/",
+      "radix": 64,
+      "tests": [
+        {
+          "tcId": 351,
+          "tweak": "B88280CBD06490",
+          "tweakLen": 56,
+          "key": "AA83FC3E192A4CEB03A7AFCA0810DC01AAF420703B8A46C4",
+          "ct": "R7BLh0sEpo"
+        },
+        {
+          "tcId": 352,
+          "tweak": "0D964CE931125D",
+          "tweakLen": 56,
+          "key": "143AF4A5EB01786A7F900BF63DDC399C081A57786126BE6D",
+          "ct": "4z0f/vaBRJhCItbV19KGcZK4yuy0"
+        },
+        {
+          "tcId": 353,
+          "tweak": "1FB52F5B88493D",
+          "tweakLen": 56,
+          "key": "1B0DB9BE41C70C136C09120D536360188C2DB08B182203C9",
+          "ct": "w7bi+CPtavG4Yo"
+        },
+        {
+          "tcId": 354,
+          "tweak": "02F8F77D7F2303",
+          "tweakLen": 56,
+          "key": "64F6C05E8321E3CDF5D566E774F537B87B6495311BBB3DA2",
+          "ct": "zLWFqiyL3ffUcWhG1Z"
+        },
+        {
+          "tcId": 355,
+          "tweak": "BBC1846A27FEC0",
+          "tweakLen": 56,
+          "key": "25ACDEBBAD574EF2B9C1277C66B6A63CFFDE26309D3F9744",
+          "ct": "e30bpp5ZQ4"
+        },
+        {
+          "tcId": 356,
+          "tweak": "AB5140DC96EF00",
+          "tweakLen": 56,
+          "key": "12894EA83278DE957A2CB8ED309D314AFE4826E913C212D0",
+          "ct": "EENmKdabXtJnVbtobiS0cncQ1"
+        },
+        {
+          "tcId": 357,
+          "tweak": "231465B4861FD9",
+          "tweakLen": 56,
+          "key": "9796A00B6CFE799853BF16A9B99F7B361761CC10A18EBE8C",
+          "ct": "g0GkojlWtItFuJR"
+        },
+        {
+          "tcId": 358,
+          "tweak": "C6E037037ED7AC",
+          "tweakLen": 56,
+          "key": "BB46960E6EF978853F20500BE6B5C3EA1348F8F1F1BB1FD0",
+          "ct": "Np3xzNNDoQaXuWIGygj"
+        },
+        {
+          "tcId": 359,
+          "tweak": "EA1E20C94D2FAC",
+          "tweakLen": 56,
+          "key": "0983C6D498CCAF6B16771DA0EDCFA10FA5D275D23CBFB2FD",
+          "ct": "Jw4btScl0i/X4SIy"
+        },
+        {
+          "tcId": 360,
+          "tweak": "8652716AC78CCE",
+          "tweakLen": 56,
+          "key": "D0AB7D46BB89A28781EB00488FD0C13EFB3B843CEA0A872D",
+          "ct": "ruO/KTS8z0Na"
+        },
+        {
+          "tcId": 361,
+          "tweak": "3528A906F7759D",
+          "tweakLen": 56,
+          "key": "C886B5AC6F3533260AA4A88975F1FB2AF53A252EAA0DDCBC",
+          "ct": "qHzxjJcxWQE/Gxg8/iNERSzoMfhg"
+        },
+        {
+          "tcId": 362,
+          "tweak": "D7415319CBF101",
+          "tweakLen": 56,
+          "key": "45BA94B968A283467CA68B4C6124908AFE9CA5DB23E96C99",
+          "ct": "tX/lHcQ3uDe"
+        },
+        {
+          "tcId": 363,
+          "tweak": "5BC17B05CC9E48",
+          "tweakLen": 56,
+          "key": "CD4140F02C3DC1D6CD67C83E47BC52A9D3CBF0B0B3DA6BA4",
+          "ct": "zSUmZDYn3ER7I/Uhk84E"
+        },
+        {
+          "tcId": 364,
+          "tweak": "A1EAFF5DF2728D",
+          "tweakLen": 56,
+          "key": "27522E6D79292F2F22A7D07F1AB3EEF9F8D95A25FB08C3F2",
+          "ct": "cBP8nnrDKpFVyxWBhpgnfh/p9cV"
+        },
+        {
+          "tcId": 365,
+          "tweak": "E78C864DC0758C",
+          "tweakLen": 56,
+          "key": "4D80523145A35AE0B91BEF107324188466755C9C0F52DF5C",
+          "ct": "ASdwQHXdU5dBJOP7x68f1VJW"
+        },
+        {
+          "tcId": 366,
+          "tweak": "62E59807091809",
+          "tweakLen": 56,
+          "key": "5C7AE469E5ECECF31E9896578A64BC1B18FDDF7A901972E4",
+          "ct": "Y0s+7FzDw+Zn9cezA"
+        },
+        {
+          "tcId": 367,
+          "tweak": "99C3B0D83C2877",
+          "tweakLen": 56,
+          "key": "6776EC65ABEF08BEDAB427B046750ED2538CACFCCBDCED60",
+          "ct": "XloF3NfNjcyHjMwstCwuDM"
+        },
+        {
+          "tcId": 368,
+          "tweak": "183BE859EC2FAB",
+          "tweakLen": 56,
+          "key": "E892930C8785F1E7AEDB77E22E5A68D79E697A250BA56C1B",
+          "ct": "5+PzcKCDl14S+"
+        },
+        {
+          "tcId": 369,
+          "tweak": "956AEF2E2197BE",
+          "tweakLen": 56,
+          "key": "1156B3D1CCAEBC442462F994135ADE28394A0F9B8D205B87",
+          "ct": "Tu27Y8BJZLnUCR4XreTjnQ+fsH"
+        },
+        {
+          "tcId": 370,
+          "tweak": "65C1EE6450AC06",
+          "tweakLen": 56,
+          "key": "82D57715027F02DB2647601307DC110DF35B127E81261A5C",
+          "ct": "08/Jnn42Hhjr1k/ktoENndZ"
+        },
+        {
+          "tcId": 371,
+          "tweak": "D7C78853CBCD4E",
+          "tweakLen": 56,
+          "key": "109B2FE61628A40D93906C6A1624AE9A9B35161B349B33A5",
+          "ct": "VSEym4O39PXxhqOBB67Up"
+        },
+        {
+          "tcId": 372,
+          "tweak": "6D59D7253C8C8B",
+          "tweakLen": 56,
+          "key": "F8F6548063B7ADC0559B9CA750FE3974A1EAB83FEF8BBB80",
+          "ct": "O9eADPkFXpm6JuoSx3ZAe"
+        },
+        {
+          "tcId": 373,
+          "tweak": "D39582ED640D39",
+          "tweakLen": 56,
+          "key": "68D014E5409D3F5212C7D9777135327796871B9FD8BECB1A",
+          "ct": "ldcSG9Nmn6xeWfEyvzMJ9i8"
+        },
+        {
+          "tcId": 374,
+          "tweak": "7D271493FCD493",
+          "tweakLen": 56,
+          "key": "0F0C1C95AB7CC6A93249695BAECBF1B47E2D800BE4556C52",
+          "ct": "rJb06vVfyvVEPkGwy0M6"
+        },
+        {
+          "tcId": 375,
+          "tweak": "4737A364A9D462",
+          "tweakLen": 56,
+          "key": "50E16CA71833CDEF503032B671318C809FDBD4B0F48F6DEF",
+          "ct": "uqEcStqijhm1sf6xl"
+        }
+      ]
+    },
+    {
+      "tgId": 16,
+      "testType": "AFT",
+      "direction": "Decrypt",
+      "keyLen": 256,
+      "alphabet": "0123456789",
+      "radix": 10,
+      "tests": [
+        {
+          "tcId": 376,
+          "tweak": "625469EE74818F",
+          "tweakLen": 56,
+          "key": "1689E81C0BD4C6A053A5F8A83A7571A43958D47FE7C0B75772110B93D95601F3",
+          "ct": "4184689804"
+        },
+        {
+          "tcId": 377,
+          "tweak": "722891C320CB20",
+          "tweakLen": 56,
+          "key": "952302E837AA50C7269DD7AA7C1D8D220EDF2BBFB61F8DEC1F0E1613FC5202BC",
+          "ct": "67306891436570276471804284621970383575157776297760596476"
+        },
+        {
+          "tcId": 378,
+          "tweak": "47FA93B66AFD04",
+          "tweakLen": 56,
+          "key": "6BE35F84B8A41D29AC4A98FF6BF10DF81A23E8CEBDA38F69538DA68D284E87B3",
+          "ct": "48152294549430029536609295905549427892288720965469886803"
+        },
+        {
+          "tcId": 379,
+          "tweak": "9FBD1DBB1B523F",
+          "tweakLen": 56,
+          "key": "A3CA243E136F1836BA1D98920C8956D493D0C915955C229CA9F725C651C90F46",
+          "ct": "00963183910889827096150361656110474"
+        },
+        {
+          "tcId": 380,
+          "tweak": "F95E23D3FDB2F4",
+          "tweakLen": 56,
+          "key": "2A1C39347001B5DC77776B19DE9DF2044542E16F1856A6278936C33BAE8EBC91",
+          "ct": "432287911188"
+        },
+        {
+          "tcId": 381,
+          "tweak": "A809627C986BE5",
+          "tweakLen": 56,
+          "key": "27120CC873036552677503326BA4CFAD74BA6C4400636654162C133B6AB77EE6",
+          "ct": "96428717368463451753832403065596959620982439"
+        },
+        {
+          "tcId": 382,
+          "tweak": "673C5C0C4EA21C",
+          "tweakLen": 56,
+          "key": "CCA536199262B5DF1EA0AB38950F3C64855ADDF8E012C58D9A2B5A120BD9A2AB",
+          "ct": "6570937270930660487889496221"
+        },
+        {
+          "tcId": 383,
+          "tweak": "31BBAB76E88319",
+          "tweakLen": 56,
+          "key": "C4B1CF53878B675BCFE2982883CD16344753CD26B215AA74F8466E7A62018FDE",
+          "ct": "02967385105074265484470246199720139446759"
+        },
+        {
+          "tcId": 384,
+          "tweak": "6343061E0069A0",
+          "tweakLen": 56,
+          "key": "8B2D0385EE06B9BB72C34F9C6F1BB5B5D5F071C364587D8CB451A5E040AD786E",
+          "ct": "63585686098558405602258"
+        },
+        {
+          "tcId": 385,
+          "tweak": "0CC4B47F6BB280",
+          "tweakLen": 56,
+          "key": "61CC63623D8D7A536F88D65C88AB239DBCD97F568279E67FCC66B0AC61063C57",
+          "ct": "336274192124924873121977147837719551749170741"
+        },
+        {
+          "tcId": 386,
+          "tweak": "0893CA3C0F58EA",
+          "tweakLen": 56,
+          "key": "198666F3168075668A3D86078C983D0B2D7E3643D2D5A18E5BA4F5B3B85F2173",
+          "ct": "5354705208"
+        },
+        {
+          "tcId": 387,
+          "tweak": "90E864B531AEE9",
+          "tweakLen": 56,
+          "key": "413B1B45B3B60800627AB01D45A1A3F1892AABAADD4BFF303114027723479A57",
+          "ct": "527150352499417368551586034408181913020121"
+        },
+        {
+          "tcId": 388,
+          "tweak": "DA9B0654A5EB46",
+          "tweakLen": 56,
+          "key": "D2C8FC5CC816DC990BE876852A2A082494C6C852D7E1DC13A8C1BBE0E99ED6EE",
+          "ct": "03668960243226419062955081246985585536652680925882491"
+        },
+        {
+          "tcId": 389,
+          "tweak": "F6E8D8AF79607B",
+          "tweakLen": 56,
+          "key": "A629C413C59D5EA684C32DF668FC8BF2EF2CB9F66D7BCBF9C776DA894D15D8BF",
+          "ct": "1113176524538110041293358784810"
+        },
+        {
+          "tcId": 390,
+          "tweak": "19C7E76705E162",
+          "tweakLen": 56,
+          "key": "1B2F7637068FC643EDBEBFCCCB771F2C884A5EFBDC50AF2AAC6D39563295B28D",
+          "ct": "2985074791812366304112"
+        },
+        {
+          "tcId": 391,
+          "tweak": "79FA664D1326B9",
+          "tweakLen": 56,
+          "key": "F71E04C29DE3739F723273972D94894BA775B2EA460D46F78898BAC58D415A41",
+          "ct": "7651608879774407999574050414291637601136754667"
+        },
+        {
+          "tcId": 392,
+          "tweak": "64EDDABE702D57",
+          "tweakLen": 56,
+          "key": "549C96C2659EFE4581569B11E27E314198589EAEA82D7ECBF1CE1A9159D8BC05",
+          "ct": "1520694137307350069"
+        },
+        {
+          "tcId": 393,
+          "tweak": "49BBEA16251104",
+          "tweakLen": 56,
+          "key": "C5736EF944BE04ACEB104AABE3A64229EDDE6D684B0DA7FDD8B52C2D4A8FA567",
+          "ct": "576435951788164459744345044042364716025367219132317"
+        },
+        {
+          "tcId": 394,
+          "tweak": "1F75F2790600C9",
+          "tweakLen": 56,
+          "key": "3A5E8D239D6E41486D5BC4900043513B8BE7AB87A4361F75A5A350AD17D00E13",
+          "ct": "761723091358537411"
+        },
+        {
+          "tcId": 395,
+          "tweak": "76608E4FBF3B11",
+          "tweakLen": 56,
+          "key": "0A19AC3BDB2903F7D5A671B24B3397EA944E2B04BB6D95B5F34BDE7E2862A5AA",
+          "ct": "6396720104952898"
+        },
+        {
+          "tcId": 396,
+          "tweak": "DDE4915AB476E0",
+          "tweakLen": 56,
+          "key": "EFF500267B01F696B489A0C37B4752DDDF02C3BAE720BA14BF6163C7E7C9DB6D",
+          "ct": "97486460770"
+        },
+        {
+          "tcId": 397,
+          "tweak": "1A0904523742DF",
+          "tweakLen": 56,
+          "key": "565BE8B3146BA386874B7A604EF5F31C8D490B8E331C51ACEE4F6C9851AE171C",
+          "ct": "4012463767210765771273973901851574052005"
+        },
+        {
+          "tcId": 398,
+          "tweak": "29EC5902C13115",
+          "tweakLen": 56,
+          "key": "FAA4CD2391DAC7397F67A78F138DBFD76C8DD5D01CE45D5B12F522A5E5A0D32F",
+          "ct": "5799129692991410688936920297723183562437621539904"
+        },
+        {
+          "tcId": 399,
+          "tweak": "D3A9E8A6828F69",
+          "tweakLen": 56,
+          "key": "F8ECD34DE4F1D704783919660FF44D2222A64239ACEB5563864DE73E83916855",
+          "ct": "21317792271318677468087390230"
+        },
+        {
+          "tcId": 400,
+          "tweak": "00A6391EDE2DC0",
+          "tweakLen": 56,
+          "key": "BBF55E01B36043DBDE4B60BD9D0E7EBF67B316C602B96461B7DD45AA2F947CD7",
+          "ct": "8645644785427374381098582887064793488854424031348090341"
+        }
+      ]
+    },
+    {
+      "tgId": 17,
+      "testType": "AFT",
+      "direction": "Decrypt",
+      "keyLen": 256,
+      "alphabet": "abcdefghijklmnopqrstuvwxyz",
+      "radix": 26,
+      "tests": [
+        {
+          "tcId": 401,
+          "tweak": "E85F4B17B261E9",
+          "tweakLen": 56,
+          "key": "A62B5BFC06EA3EE909DA3CBC588301A3924F84E703AFF54BBB4608AE04CC542B",
+          "ct": "ovxqeuukok"
+        },
+        {
+          "tcId": 402,
+          "tweak": "05655974D7A113",
+          "tweakLen": 56,
+          "key": "76D37E72378FA80E9969CDBC890C43F9A12F7CB7E8B8355A4B4B41FFC967B16D",
+          "ct": "omupkdgsvouibwppezvbbqdbtwjwhwozrpsohdxu"
+        },
+        {
+          "tcId": 403,
+          "tweak": "5E852124E88435",
+          "tweakLen": 56,
+          "key": "20CD332BA5EFD7431130BFE5D39F2E60314BBF6795C9CB0C87D0C9EE7233AF88",
+          "ct": "ubeztbvimpmfonumif"
+        },
+        {
+          "tcId": 404,
+          "tweak": "FF691B3D6C498A",
+          "tweakLen": 56,
+          "key": "F1AD6B4319DE82650D1EB3FC6EAB035033F8D344BE4E3212B013A21DA403D398",
+          "ct": "ottlnzxeiusguihloltc"
+        },
+        {
+          "tcId": 405,
+          "tweak": "2D6585ADD64DE9",
+          "tweakLen": 56,
+          "key": "28E21CBAA5B0D885F01589FE1B5F55C1E5C0540C10B2A094AE57E41686AEDA4F",
+          "ct": "hqoxkooknpfpwbzehoqkuxuvquexnxkzwtmjtby"
+        },
+        {
+          "tcId": 406,
+          "tweak": "36D891DA96EC05",
+          "tweakLen": 56,
+          "key": "CC11E2A5B1160309422E19E49E85D512EA5490C751371B02F7E03CA302007F1B",
+          "ct": "jrnbjehlarswrt"
+        },
+        {
+          "tcId": 407,
+          "tweak": "9AE9F67E7FED5B",
+          "tweakLen": 56,
+          "key": "E990F36EF5032E94C5314A3CC1F7C573398A9CA8F0B6BDBEB6CA7FB99A49D847",
+          "ct": "dgflodbzufrnssrovifrdqkje"
+        },
+        {
+          "tcId": 408,
+          "tweak": "02B4553F529997",
+          "tweakLen": 56,
+          "key": "FFBFF633F93E8DB86945007E0C541C8CE4A27F76592B2C6A72ED3AFA1668D4A1",
+          "ct": "zuopjjyhkqnebenxthqzafjzuowlylzco"
+        },
+        {
+          "tcId": 409,
+          "tweak": "2101A13BB2AFE0",
+          "tweakLen": 56,
+          "key": "2757C9BA211569872036B45FD44C4B2F0E4E4464BE249DABD0708299881376F1",
+          "ct": "fhtymbumyigzjudpmyrchgkhzofj"
+        },
+        {
+          "tcId": 410,
+          "tweak": "98F408409498A4",
+          "tweakLen": 56,
+          "key": "0CAA74B699BFE91F1CE04ABF92470BC7872A7C24A09A1F62F1C63A6DF134D8ED",
+          "ct": "bcarrcaalfslyeuajnaxcdcybpftovtw"
+        },
+        {
+          "tcId": 411,
+          "tweak": "7A1CC901D4948A",
+          "tweakLen": 56,
+          "key": "E641789C8F348DC8DAFBBCFE3C19D6801AAB6B7AEE1FE09CEA8CAAFB0A790256",
+          "ct": "eucsdrsvupzf"
+        },
+        {
+          "tcId": 412,
+          "tweak": "9F24EC9B1B99E6",
+          "tweakLen": 56,
+          "key": "111BD21F04663F41B5835178CCFFB53A21FB90AE3E3A6DD8C2DAD4776432E705",
+          "ct": "tjojqrxtpolafcnn"
+        },
+        {
+          "tcId": 413,
+          "tweak": "150D0E9078A96B",
+          "tweakLen": 56,
+          "key": "01B735C08D0518632088049477B9B3BF4279C5143EC8FFA1296471A75E154ECB",
+          "ct": "eofgnobaeqcvmxwtysufpgbzarqchxjcfieb"
+        },
+        {
+          "tcId": 414,
+          "tweak": "D0D5BE555DBE49",
+          "tweakLen": 56,
+          "key": "9F6EE52744DC5D38267566B59F2B99BDE8A8EC33C25D9107C556237F3EFC6704",
+          "ct": "hbocpvwplhcvhlhcirqzek"
+        },
+        {
+          "tcId": 415,
+          "tweak": "5454D865E07BFF",
+          "tweakLen": 56,
+          "key": "A3F9E49A383006883C1358D9989935B2ACACFC6DA9F969E619A0F5B87E4B3665",
+          "ct": "kmkbmxgpuxupacsedquqpndgahcuag"
+        },
+        {
+          "tcId": 416,
+          "tweak": "2E6514CD6A3D50",
+          "tweakLen": 56,
+          "key": "A1E13E48109EE1B2BCF1001192F81FCE4166759BEBE25A1337B8F4628EED5096",
+          "ct": "zxcbthekcj"
+        },
+        {
+          "tcId": 417,
+          "tweak": "136D72869DAA0D",
+          "tweakLen": 56,
+          "key": "583F7468DAEE4BBC60173AD9633D361935123067FDB862DED6BF14C8DB655447",
+          "ct": "aafuviomdxsyl"
+        },
+        {
+          "tcId": 418,
+          "tweak": "62B3E5F8F994A6",
+          "tweakLen": 56,
+          "key": "BC52C99DCBBF7F84F57B1159849D67AF3D900503D92A92997833E2A3997D702A",
+          "ct": "nhcncyoickumtdnczvgvlovfqyremphonqw"
+        },
+        {
+          "tcId": 419,
+          "tweak": "07090CD8172C2C",
+          "tweakLen": 56,
+          "key": "5900B83D49EC5C79A2DFA31976F8ACCB0472229A9A86D840CBE39C087BDCEB68",
+          "ct": "mntinkeiehfpxxsgitbjttrj"
+        },
+        {
+          "tcId": 420,
+          "tweak": "D7B5C046C63141",
+          "tweakLen": 56,
+          "key": "9DD12C5673E85625BCB8F889F76BA1F5A8A68ED014A5BDB0DC4D80E89B1338F2",
+          "ct": "rviddnworddavsxurfpkwmgyjvyjkgmajsvlkkbe"
+        },
+        {
+          "tcId": 421,
+          "tweak": "35679B968052DE",
+          "tweakLen": 56,
+          "key": "4D81BBF7CCD09B29024B5C6E1874CA002A49597D380E0BD37D15078DBC661265",
+          "ct": "xrvkfukuviucvwpjftlpjhuflh"
+        },
+        {
+          "tcId": 422,
+          "tweak": "EE99114A739B9C",
+          "tweakLen": 56,
+          "key": "2548B35144F2654804625533BC526DC270C0A66A96A399F0EF88EC9D30CEC779",
+          "ct": "iumxcqdkigq"
+        },
+        {
+          "tcId": 423,
+          "tweak": "35CB9D487A641F",
+          "tweakLen": 56,
+          "key": "328F7B23B8B698683CC14496685BEE95D9B5B8C7E2F47BC54A5E5BB3849AAE0D",
+          "ct": "zehyszmayrhtskyxpyzqt"
+        },
+        {
+          "tcId": 424,
+          "tweak": "CB521AAB0EA014",
+          "tweakLen": 56,
+          "key": "38F6838BF91028DC666724B33419E26F829E31A3B920559003F68BE271F27B26",
+          "ct": "ixsggipmuvkbofsahpy"
+        },
+        {
+          "tcId": 425,
+          "tweak": "9E1EC98F0F225D",
+          "tweakLen": 56,
+          "key": "C16C40AB347C694C020EB5636D82243B61F13C5CEC1E7DCF1BE839710EB0F7F1",
+          "ct": "ehawdkplxjhrmxvpuzuzoqp"
+        }
+      ]
+    },
+    {
+      "tgId": 18,
+      "testType": "AFT",
+      "direction": "Decrypt",
+      "keyLen": 256,
+      "alphabet": "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz+/",
+      "radix": 64,
+      "tests": [
+        {
+          "tcId": 426,
+          "tweak": "2789E613AACA3E",
+          "tweakLen": 56,
+          "key": "CBC094922CFDD26155DBF47B41AF88173957DD79F69D8D69C0A16624D6182C45",
+          "ct": "3QLDzP/NzC"
+        },
+        {
+          "tcId": 427,
+          "tweak": "055BD6576CE542",
+          "tweakLen": 56,
+          "key": "BDDB295AAD229D098503668776B513B5E57DDE7ECA6E40B26E38BD191C78B4AF",
+          "ct": "mmkrA/4fTw0rah/xk23TeFqU8YQj"
+        },
+        {
+          "tcId": 428,
+          "tweak": "80336F1854E78C",
+          "tweakLen": 56,
+          "key": "31280D20351F04D580BC9C427D5FA3FBACF66972D44FEEEFBE5552C9B6EBB4A0",
+          "ct": "yqXYhEoNevkBEL7vKR"
+        },
+        {
+          "tcId": 429,
+          "tweak": "553149BC2EE9A9",
+          "tweakLen": 56,
+          "key": "B6E642AF1C42B1BE98CC3554ACCA2085BC07F0D73AB027D446925EBF12969B5C",
+          "ct": "Z8kN4esLIJEEPGK7PKz8Y"
+        },
+        {
+          "tcId": 430,
+          "tweak": "62F0573F55A2A4",
+          "tweakLen": 56,
+          "key": "79478FC3E23365054543CAC0FA724D9B4A9BDF180E4E0E9566D466D3461CD728",
+          "ct": "bUsIauOYvUymVNdcnk0hA9ty"
+        },
+        {
+          "tcId": 431,
+          "tweak": "70B543E6796DF4",
+          "tweakLen": 56,
+          "key": "BC17ADC4F87639C32549E6637A4E9B92119648F8E95C788C7D97D0DFC771AC93",
+          "ct": "bFSQKyD5S6"
+        },
+        {
+          "tcId": 432,
+          "tweak": "50A2FF513E8F54",
+          "tweakLen": 56,
+          "key": "A89F82E562AB03FD075720049C9B6245D829349E8A522A3BE632DB2D7A9D7C94",
+          "ct": "cFLQ7Z5kexr/xJuW6"
+        },
+        {
+          "tcId": 433,
+          "tweak": "812D4594B1771E",
+          "tweakLen": 56,
+          "key": "9DA1D3E019296C874C6366F0404C06DBD9662104415BB9CC10265AE8123301FD",
+          "ct": "197fNwdDl/pgpe"
+        },
+        {
+          "tcId": 434,
+          "tweak": "C078AFA04CA28B",
+          "tweakLen": 56,
+          "key": "8875D4B5B5A1239F6526C407978A9721DF2F09A50682C121372A91EDBD77E51A",
+          "ct": "dSk9E0MJ1i6RbpbBZm8QBs94R"
+        },
+        {
+          "tcId": 435,
+          "tweak": "E9C53DBE398A02",
+          "tweakLen": 56,
+          "key": "0F69EA12C7B14037C0D04753BD37E3364EE2FFDF7BB280782DF6EA4B5A35D508",
+          "ct": "6NFwBsqeOTfhOusKmhbVyZwOuU"
+        },
+        {
+          "tcId": 436,
+          "tweak": "F105A5569702A9",
+          "tweakLen": 56,
+          "key": "C7F5CE123A4046DB667113F42D18B53B5F08B5DBEC463DDEFC265CEA9A07B9A3",
+          "ct": "xY9kl8SoFCgckmH"
+        },
+        {
+          "tcId": 437,
+          "tweak": "809B24F3C3B1D9",
+          "tweakLen": 56,
+          "key": "404C50F451D1643CDAEC051BE152CFB684CE2BE65554867E670FD8AC94E6CD76",
+          "ct": "oXrphT81ZLoltAhjgQcd9bKbBl6"
+        },
+        {
+          "tcId": 438,
+          "tweak": "A04115117064BD",
+          "tweakLen": 56,
+          "key": "BF85BF4E14ECCABEF204DD9A01E995B74F395120E4AD29F78FC59970367918DF",
+          "ct": "VPTLgL6x5mG"
+        },
+        {
+          "tcId": 439,
+          "tweak": "CB453603D92EEC",
+          "tweakLen": 56,
+          "key": "D5F6052B260F1342BDCA21D13B11F1D67964397E9E487AD4A0F77D0279CA0011",
+          "ct": "QeLosI1Cc3Bh69sq"
+        },
+        {
+          "tcId": 440,
+          "tweak": "BE90FD8F4782E3",
+          "tweakLen": 56,
+          "key": "D9308A09D2AE8682400164A776F4D5092A54F59A9417DFC8AEF6FC7E23C83266",
+          "ct": "USaSy9b4CQDcd4kou4kkJr"
+        },
+        {
+          "tcId": 441,
+          "tweak": "2BB36C279AE6B2",
+          "tweakLen": 56,
+          "key": "E3A8DF746995399C0E8CE4A3B07A3CE9F4EC3D9CFC9571AA670FF05875DB60CE",
+          "ct": "/juMEnv4ossU"
+        },
+        {
+          "tcId": 442,
+          "tweak": "4F69132EA4855D",
+          "tweakLen": 56,
+          "key": "4100FA9C7DD8335EED720642FC530A01AC8BF941AFBE42A16B7655491093C34C",
+          "ct": "fgzh+TF0e4poUBSeY97vG3f"
+        },
+        {
+          "tcId": 443,
+          "tweak": "1C0CA3CE8E930B",
+          "tweakLen": 56,
+          "key": "C4C8539B30F1488A8ECA66369BE67498F14990EB1F4681F750C3AED0C6D5D09C",
+          "ct": "tI+dGS1MqekqZg1urwkMLtthpPf9"
+        },
+        {
+          "tcId": 444,
+          "tweak": "F7961B7997788A",
+          "tweakLen": 56,
+          "key": "9DA78E1B227D008876A91A90899133BBD0F52B990812790CE10C5221C8EB733E",
+          "ct": "duoWdvpClpeKzsgsCKAV"
+        },
+        {
+          "tcId": 445,
+          "tweak": "0C531133C3AA13",
+          "tweakLen": 56,
+          "key": "8A519D963DE117A53F171C9EE61F388B8901A273301FB930FF372341C3D255D3",
+          "ct": "Ir+ZNGrmBWR5M"
+        },
+        {
+          "tcId": 446,
+          "tweak": "3C64F8B9700E0D",
+          "tweakLen": 56,
+          "key": "8B3BF7842D634CB67D40D3C33B28608536CF7B12CAF74EB88DCE340D28A300FD",
+          "ct": "fav3hzijcnG+PbpZ6Au"
+        },
+        {
+          "tcId": 447,
+          "tweak": "D433A411E37B79",
+          "tweakLen": 56,
+          "key": "709EB666C3D266472E4D103CB4C0A0E3C6299AF4DBC71E3649D82195FE83C04A",
+          "ct": "GasbZgsTQQy85qh27MYTU"
+        },
+        {
+          "tcId": 448,
+          "tweak": "93591A9007ADD8",
+          "tweakLen": 56,
+          "key": "84B201EC48CE05EC8FA5BBAA405D3B8628049397D8FC86966D0E3FF403FF00DA",
+          "ct": "0093Lwfg7VLzV3u"
+        },
+        {
+          "tcId": 449,
+          "tweak": "4648F55201D6DB",
+          "tweakLen": 56,
+          "key": "C4AC6B681C8F15AEA0E06552555C29D65E8C7361A20610BC51ED34E8E774E782",
+          "ct": "NkCCEGKdgNii"
+        },
+        {
+          "tcId": 450,
+          "tweak": "66EAA3A056C3A9",
+          "tweakLen": 56,
+          "key": "253E7499D932A5A870B799279997A3FB9227CCC8441429E49ECE2A9A5E5DD31F",
+          "ct": "Jb90hPbnEK/"
+        }
+      ]
+    }
+  ]
+}

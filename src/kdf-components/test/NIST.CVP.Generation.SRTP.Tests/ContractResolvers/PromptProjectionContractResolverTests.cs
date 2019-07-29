@@ -5,7 +5,8 @@ using System.Text.RegularExpressions;
 using NIST.CVP.Generation.Core.DeSerialization;
 using NIST.CVP.Generation.Core.Enums;
 using NIST.CVP.Generation.Core.JsonConverters;
-using NIST.CVP.Generation.SRTP.ContractResolvers;
+using NIST.CVP.Generation.KDF_Components.v1_0.SRTP;
+using NIST.CVP.Generation.KDF_Components.v1_0.SRTP.ContractResolvers;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 

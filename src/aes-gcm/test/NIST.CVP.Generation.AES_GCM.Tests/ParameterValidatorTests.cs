@@ -1,10 +1,8 @@
-﻿using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using NIST.CVP.Generation.AES_GCM.v1_0;
 using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
+using NUnit.Framework;
+using System.Linq;
 
 namespace NIST.CVP.Generation.AES_GCM.Tests
 {
@@ -117,7 +115,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
         [TestCase("1", new int[] { -128 })]
         [TestCase("2", new int[] { 128, -128 })]
         [TestCase("3", new int[] { 128, -128, -256 })]
-        [TestCase("4", new int[] { 128, -128, -256, -384 })] 
+        [TestCase("4", new int[] { 128, -128, -256, -384 })]
         // invalid multiple
         [TestCase("5", new int[] { 128, 1, 2 })]
         [TestCase("6", new int[] { 128, 1, 2, 3 })]
@@ -246,7 +244,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
             public ParameterBuilder()
             {
                 // Provides a valid (as of construction) set of parameters
-                _algorithm = "AES-GCM";
+                _algorithm = "ACVP-AES-GCM";
                 _mode = ParameterValidator.VALID_DIRECTIONS;
                 _keyLen = ParameterValidator.VALID_KEY_SIZES;
                 _ptLen = new MathDomain().AddSegment(new ValueDomainSegment(128));
@@ -317,6 +315,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
                 {
                     AadLen = _aadLen,
                     Algorithm = _algorithm,
+                    Revision = "1.0",
                     IvGen = _ivGen,
                     IvGenMode = _ivGenMode,
                     IvLen = _ivLen,

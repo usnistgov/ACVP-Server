@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using NIST.CVP.Generation.KMAC.v1_0;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;

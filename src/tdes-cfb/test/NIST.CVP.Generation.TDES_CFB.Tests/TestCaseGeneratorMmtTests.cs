@@ -3,6 +3,7 @@ using NIST.CVP.Common;
 using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
+using NIST.CVP.Generation.TDES_CFB.v1_0;
 using NIST.CVP.Math;
 using NUnit.Framework;
 using System.Threading.Tasks;

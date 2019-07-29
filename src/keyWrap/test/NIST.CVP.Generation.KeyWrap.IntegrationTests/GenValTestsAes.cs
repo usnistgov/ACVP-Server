@@ -5,23 +5,23 @@ using NIST.CVP.Math;
 using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
-using NIST.CVP.Generation.KeyWrap.AES;
 using NIST.CVP.Common;
 using NIST.CVP.Crypto.Common;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.KeyWrap.v1_0.AES;
 
 namespace NIST.CVP.Generation.KeyWrap.IntegrationTests
 {
     [TestFixture, LongRunningIntegrationTest]
     public class GenValTestsAes : GenValTestsSingleRunnerBase
     {
-        public override string Algorithm { get; } = "AES-KW";
+        public override string Algorithm { get; } = "ACVP-AES-KW";
         public override string Mode { get; } = string.Empty;
 
         public override AlgoMode AlgoMode => AlgoMode.AES_KW_v1_0;
 
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
-		public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
+
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {

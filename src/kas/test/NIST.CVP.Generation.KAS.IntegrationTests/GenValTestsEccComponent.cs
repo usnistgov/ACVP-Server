@@ -4,7 +4,7 @@ using NIST.CVP.Crypto.Common;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Generation.Core.Tests.Fakes;
-using NIST.CVP.Generation.KAS.EccComponent;
+using NIST.CVP.Generation.KAS.v1_0.ECC_Component;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -22,12 +22,12 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
 
         public override AlgoMode AlgoMode => AlgoMode.KAS_EccComponent_v1_0;
 
-        public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
-        public override IRegisterInjections RegistrationsGenVal => new EccComponent.RegisterInjections();
+
+        public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
 
         protected override string GetTestFileFewTestCases(string folderName)
         {
-            EccComponent.Parameters p = new EccComponent.Parameters()
+            Parameters p = new Parameters()
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
@@ -42,7 +42,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
 
         protected override string GetTestFileLotsOfTestCases(string folderName)
         {
-            EccComponent.Parameters p = new EccComponent.Parameters()
+            Parameters p = new Parameters()
             {
                 Algorithm = Algorithm,
                 Mode = Mode,

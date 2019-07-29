@@ -9,5 +9,6 @@ namespace NIST.CVP.Common.Oracle.ResultTypes
         public string Customization { get; set; }
         public int BlockSize { get; set; }
         public BitString CustomizationHex { get; set; }
+        public string FunctionName { get; set; }
     }
 }

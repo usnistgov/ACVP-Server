@@ -2,7 +2,8 @@
 using NIST.CVP.Generation.Core.DeSerialization;
 using NIST.CVP.Generation.Core.Enums;
 using NIST.CVP.Generation.Core.JsonConverters;
-using NIST.CVP.Generation.DSA.FFC.KeyGen.ContractResolvers;
+using NIST.CVP.Generation.DSA.v1_0.KeyGen;
+using NIST.CVP.Generation.DSA.v1_0.KeyGen.ContractResolvers;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
@@ -51,9 +52,9 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen.Tests.ContractResolvers
             Assert.AreEqual(tg.L, newTg.L, nameof(newTg.L));
             Assert.AreEqual(tg.N, newTg.N, nameof(newTg.N));
 
-            Assert.AreNotEqual(tg.P, newTg.P, nameof(newTg.P));
-            Assert.AreNotEqual(tg.Q, newTg.Q, nameof(newTg.Q));
-            Assert.AreNotEqual(tg.G, newTg.G, nameof(newTg.G));
+            Assert.IsNull(newTg.P, nameof(newTg.P));
+            Assert.IsNull(newTg.Q, nameof(newTg.Q));
+            Assert.IsNull(newTg.G, nameof(newTg.G));
         }
 
         [Test]

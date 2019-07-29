@@ -1,0 +1,78 @@
+{
+  "vsId": 0,
+  "algorithm": "kdf-components",
+  "mode": "PBKDF",
+  "revision": "1.0",
+  "isSample": true,
+  "capabilities": [
+    {
+      "iterationCount": [
+        {
+          "min": 10,
+          "max": 10000,
+          "increment": 1
+        }
+      ],
+      "passwordLen": [
+        {
+          "min": 8,
+          "max": 16,
+          "increment": 1
+        }
+      ],
+      "saltLen": [
+        {
+          "min": 128,
+          "max": 256,
+          "increment": 1
+        }
+      ],
+      "keyLen": [
+        {
+          "min": 112,
+          "max": 256,
+          "increment": 1
+        }
+      ],
+      "hmacAlg": [
+        "SHA2-224",
+        "SHA3-256",
+        "SHA3-512"
+      ]
+    },
+    {
+      "iterationCount": [
+        {
+          "min": 1,
+          "max": 524288,
+          "increment": 1
+        }
+      ],
+      "passwordLen": [
+        {
+          "min": 8,
+          "max": 16,
+          "increment": 1
+        }
+      ],
+      "saltLen": [
+        {
+          "min": 128,
+          "max": 256,
+          "increment": 1
+        }
+      ],
+      "keyLen": [
+        {
+          "min": 112,
+          "max": 256,
+          "increment": 1
+        }
+      ],
+      "hmacAlg": [
+        "SHA-1",
+        "SHA2-512"
+      ]
+    }
+  ]
+}

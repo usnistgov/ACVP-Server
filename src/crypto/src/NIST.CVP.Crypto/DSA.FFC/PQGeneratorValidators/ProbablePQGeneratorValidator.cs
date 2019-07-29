@@ -70,7 +70,7 @@ namespace NIST.CVP.Crypto.DSA.FFC.PQGeneratorValidators
                     // 7. Compute q
                     q = NumberTheory.Pow2(N - 1) + U + 1 - (U % 2);
 
-                // Check if q is prime, if not go back to 5, assume highest security strength
+                    // Check if q is prime, if not go back to 5, assume highest security strength
                 } while (!NumberTheory.MillerRabin(q, DSAHelper.GetMillerRabinIterations(L, N)));
 
                 // 10, 11 Compute p
@@ -109,7 +109,7 @@ namespace NIST.CVP.Crypto.DSA.FFC.PQGeneratorValidators
                     offset += n + 1;
                 }
 
-            // 12
+                // 12
             } while (true);
         }
 
@@ -145,7 +145,18 @@ namespace NIST.CVP.Crypto.DSA.FFC.PQGeneratorValidators
             }
 
             // 5, 6
-            var seedLen = new BitString(seed.Seed).BitLength;
+            // TODO is there a better way to do this?
+            /*
+                Appending 0s to the bitstring representation of the seed as to make it mod 32 (if it isn't already), as this is the mod of the original seed that is hashed.
+                In instances (as an example) when the chosen seed starts with eight zero bits in a row, the biginteger representation of said bitstring is 1 byte smaller than it should be,
+                thus failing the check that it is at least the length of N
+            */
+            var seedBitString = new BitString(seed.Seed);
+            if (seedBitString.BitLength % 32 != 0)
+            {
+                seedBitString = BitString.ConcatenateBits(BitString.Zeroes(32 - seedBitString.BitLength % 32), seedBitString);
+            }
+            var seedLen = seedBitString.BitLength;
             if (seedLen < N)
             {
                 return new PQValidateResult("Invalid seed");

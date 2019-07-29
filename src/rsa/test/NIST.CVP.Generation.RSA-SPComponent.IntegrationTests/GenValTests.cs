@@ -5,6 +5,7 @@ using NUnit.Framework;
 using NIST.CVP.Common;
 using NIST.CVP.Crypto.Common;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.RSA.v1_0.SpComponent;
 
 namespace NIST.CVP.Generation.RSA_SPComponent.IntegrationTests
 {
@@ -17,7 +18,7 @@ namespace NIST.CVP.Generation.RSA_SPComponent.IntegrationTests
         public override AlgoMode AlgoMode => AlgoMode.RSA_SignaturePrimitive_v1_0;
 
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
-		public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
+
 
         protected override string GetTestFileFewTestCases(string folderName)
         {

@@ -6,6 +6,7 @@ using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Generation.Core.Tests.Fakes;
 using NIST.CVP.Math.Domain;
 using NIST.CVP.Crypto.Common;
+using NIST.CVP.Generation.AES_XTS.v1_0;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.AES_XTS.IntegrationTests
@@ -13,12 +14,12 @@ namespace NIST.CVP.Generation.AES_XTS.IntegrationTests
     [TestFixture, LongRunningIntegrationTest]
     public class GenValTests : GenValTestsSingleRunnerBase
     {
-        public override string Algorithm { get; } = "AES-XTS";
+        public override string Algorithm { get; } = "ACVP-AES-XTS";
         public override string Mode { get; } = string.Empty;
 
         public override AlgoMode AlgoMode => AlgoMode.AES_XTS_v1_0;
 
-        public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
+
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
 
         protected override void ModifyTestCaseToFail(dynamic testCase)

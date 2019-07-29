@@ -3,6 +3,7 @@ using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
+using NIST.CVP.Generation.ECDSA.v1_0.SigGen;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using System.Linq;
@@ -13,8 +14,8 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen.Tests
     [TestFixture, UnitTest]
     public class TestGroupGeneratorTests
     {
-       private static object[] parameters =
-       {
+        private static object[] parameters =
+        {
             new object[]
             {
                 1,
@@ -71,7 +72,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen.Tests
                 .Setup(s => s.GetEcdsaKeyAsync(It.IsAny<EcdsaKeyParameters>()))
                 .Returns(Task.FromResult(new EcdsaKeyResult { Key = new EccKeyPair(new EccPoint(1, 2), 3) }));
 
-            var subject = new TestGroupGenerator(oracleMock.Object);
+            var subject = new TestGroupGenerator(oracleMock.Object, false);
             var result = subject.BuildTestGroups(parameters);
             Assert.AreEqual(expectedGroups, result.Count());
         }

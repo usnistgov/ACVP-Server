@@ -6,6 +6,7 @@ using NIST.CVP.Generation.Core.Tests.Fakes;
 using NIST.CVP.Math;
 using NIST.CVP.Crypto.Common;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.DSA.v1_0.KeyGen;
 
 namespace NIST.CVP.Generation.DSA.FFC.KeyGen.IntegrationTests
 {
@@ -17,7 +18,7 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen.IntegrationTests
 
         public override AlgoMode AlgoMode => AlgoMode.DSA_KeyGen_v1_0;
 
-        public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
+
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
 
         protected override void ModifyTestCaseToFail(dynamic testCase)

@@ -2,6 +2,7 @@
 using NIST.CVP.Common;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Tests;
+using NIST.CVP.Generation.ParallelHash.v1_0;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
@@ -14,11 +15,11 @@ namespace NIST.CVP.Generation.ParallelHash.IntegrationTests
     public class GenValTestsParallelHash256 : GenValTestsSingleRunnerBase
     {
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
-        public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
 
-        public override string Algorithm { get; } = "ParallelHash";
+
+        public override string Algorithm { get; } = "ParallelHash-256";
         public override string Mode { get; } = string.Empty;
-        public override AlgoMode AlgoMode => AlgoMode.ParallelHash_v1_0;
+        public override AlgoMode AlgoMode => AlgoMode.ParallelHash_256_v1_0;
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {
@@ -82,8 +83,8 @@ namespace NIST.CVP.Generation.ParallelHash.IntegrationTests
                 DigestSizes = new[] { 256 },
                 MessageLength = minMax,
                 OutputLength = minMax,
-                IsSample = true,
-                XOF = false
+                XOF = new[] { false },
+                IsSample = true
             };
 
             return CreateRegistration(targetFolder, parameters);
@@ -105,9 +106,8 @@ namespace NIST.CVP.Generation.ParallelHash.IntegrationTests
                 DigestSizes = new[] { 256 },
                 MessageLength = minMaxMsg,
                 OutputLength = minMax,
-                XOF = true,
-                NonXOF = true,
-                IsSample = false
+                XOF = new[] { true, false },
+                IsSample = true
             };
 
             return CreateRegistration(targetFolder, parameters);

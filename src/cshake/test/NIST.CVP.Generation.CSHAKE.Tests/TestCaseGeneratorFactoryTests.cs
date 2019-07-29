@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using NIST.CVP.Generation.CSHAKE.v1_0;
 using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -71,7 +72,7 @@ namespace NIST.CVP.Generation.CSHAKE.Tests
 
         private TestCaseGeneratorFactory GetSubject()
         {
-            return new TestCaseGeneratorFactory(null);
+            return new TestCaseGeneratorFactory(null, null);
         }
     }
 }

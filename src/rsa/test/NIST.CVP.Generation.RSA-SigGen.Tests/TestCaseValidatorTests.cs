@@ -5,6 +5,7 @@ using NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Signatures;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Async;
+using NIST.CVP.Generation.RSA.v1_0.SigGen;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;

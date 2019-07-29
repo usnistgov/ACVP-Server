@@ -1,4 +1,5 @@
 ﻿using System;
+using NIST.CVP.Generation.KMAC.v1_0;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
@@ -12,7 +13,7 @@ namespace NIST.CVP.Generation.KMAC.Tests
         [SetUp]
         public void Setup()
         {
-            _subject = new TestCaseGeneratorFactory(null);
+            _subject = new TestCaseGeneratorFactory(null, null);
         }
 
         [Test]

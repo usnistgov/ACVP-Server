@@ -2,6 +2,7 @@
 using System.Numerics;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
+using NIST.CVP.Generation.DSA.v1_0.KeyGen;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 
 namespace NIST.CVP.Generation.DSA.FFC.KeyGen.Tests
@@ -20,13 +21,11 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen.Tests
         [Test]
         public void KeyPropertiesReturnZeroWhenUnderlyingPropertyIsNull()
         {
-            var checkValue = new BigInteger(0);
+            _subject.DomainParams = new FfcDomainParameters(0, 0, 0);
 
-            _subject.DomainParams = null;
-
-            Assert.AreEqual(checkValue, _subject.P, nameof(_subject.P));
-            Assert.AreEqual(checkValue, _subject.Q, nameof(_subject.Q));
-            Assert.AreEqual(checkValue, _subject.G, nameof(_subject.G));
+            Assert.IsNull(_subject.P, nameof(_subject.P));
+            Assert.IsNull(_subject.Q, nameof(_subject.Q));
+            Assert.IsNull(_subject.G, nameof(_subject.G));
         }
 
         [Test]
@@ -37,9 +36,9 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen.Tests
             var g = new BigInteger(3);
             _subject.DomainParams = new FfcDomainParameters(p, q, g);
 
-            Assert.AreEqual(p, _subject.P, nameof(_subject.P));
-            Assert.AreEqual(q, _subject.Q, nameof(_subject.Q));
-            Assert.AreEqual(g, _subject.G, nameof(_subject.G));
+            Assert.AreEqual(p, _subject.P.ToPositiveBigInteger(), nameof(_subject.P));
+            Assert.AreEqual(q, _subject.Q.ToPositiveBigInteger(), nameof(_subject.Q));
+            Assert.AreEqual(g, _subject.G.ToPositiveBigInteger(), nameof(_subject.G));
         }
     }
 }

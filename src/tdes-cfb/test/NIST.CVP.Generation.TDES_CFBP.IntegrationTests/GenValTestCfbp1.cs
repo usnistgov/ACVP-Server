@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using NIST.CVP.Common;
-using NIST.CVP.Crypto.Common;
-using NUnit.Framework;
+﻿using NIST.CVP.Common;
 
 namespace NIST.CVP.Generation.TDES_CFBP.IntegrationTests
 {
     public class GenValTestCfbp1 : GenValTestsCfbpBase
     {
-        public override string Algorithm { get; } = "TDES-CFBP1";
+        public override string Algorithm { get; } = "ACVP-TDES-CFBP1";
         public override string Mode { get; } = string.Empty;
 
         public override AlgoMode AlgoMode => AlgoMode.TDES_CFBP1_v1_0;

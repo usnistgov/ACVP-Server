@@ -1,11 +1,11 @@
-﻿using System.IO;
-using NIST.CVP.Crypto.Common.Hash.SHA2;
+﻿using NIST.CVP.Crypto.Common.Hash.SHA2;
 using NIST.CVP.Crypto.SHA2;
-using NIST.CVP.Generation.SHA2.Parsers;
-using NIST.CVP.Math;
+using NIST.CVP.Generation.SHA2.v1_0;
+using NIST.CVP.Generation.SHA2.v1_0.Parsers;
 using NIST.CVP.Tests.Core;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
+using System.IO;
 
 namespace NIST.CVP.Generation.SHA2.IntegrationTests
 {

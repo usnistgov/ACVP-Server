@@ -1,5 +1,6 @@
 ﻿using NIST.CVP.Common;
 using NIST.CVP.Generation.Core.Tests;
+using NIST.CVP.Generation.RSA.v1_0.KeyGen;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -15,7 +16,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
         public override AlgoMode AlgoMode => AlgoMode.RSA_KeyGen_v1_0;
 
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
-		public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
+
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {

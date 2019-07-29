@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using NIST.CVP.Math.Domain;
 using NIST.CVP.Generation.AES_XTS;
+using NIST.CVP.Generation.AES_XTS.v1_0;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.AES_XTS.Tests
@@ -19,7 +20,7 @@ namespace NIST.CVP.Generation.AES_XTS.Tests
         public ParameterBuilder()
         {
             // Provides a valid (as of construction) set of parameters
-            _algorithm = "AES";
+            _algorithm = "ACVP-AES";
             _mode = "XTS";
             _direction = ParameterValidator.VALID_DIRECTIONS;
             _tweakModes = ParameterValidator.VALID_TWEAKS;

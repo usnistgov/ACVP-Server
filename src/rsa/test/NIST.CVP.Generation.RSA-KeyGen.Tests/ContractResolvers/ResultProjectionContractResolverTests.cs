@@ -4,7 +4,8 @@ using System.Text;
 using NIST.CVP.Generation.Core.DeSerialization;
 using NIST.CVP.Generation.Core.Enums;
 using NIST.CVP.Generation.Core.JsonConverters;
-using NIST.CVP.Generation.RSA_KeyGen.ContractResolvers;
+using NIST.CVP.Generation.RSA.v1_0.KeyGen;
+using NIST.CVP.Generation.RSA.v1_0.KeyGen.ContractResolvers;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
@@ -72,7 +73,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests.ContractResolvers
             Assert.AreEqual(tc.ParentGroup.TestGroupId, newTc.ParentGroup.TestGroupId, nameof(newTc.ParentGroup));
             Assert.AreEqual(tc.TestCaseId, newTc.TestCaseId, nameof(newTc.TestCaseId));
             Assert.AreEqual(tc.E, newTc.E, nameof(newTc.E));
-            Assert.AreEqual(tc.N, newTc.N, nameof(newTc.N));
+            Assert.AreEqual(tc.N.ToPositiveBigInteger(), newTc.N.ToPositiveBigInteger(), nameof(newTc.N));
             Assert.AreEqual(tc.P, newTc.P, nameof(newTc.P));
             Assert.AreEqual(tc.Q, newTc.Q, nameof(newTc.Q));
             Assert.AreEqual(tc.Iqmp, newTc.Iqmp, nameof(newTc.Iqmp));

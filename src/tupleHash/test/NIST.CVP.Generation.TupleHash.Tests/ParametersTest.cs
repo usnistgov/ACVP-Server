@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
+﻿using NIST.CVP.Generation.TupleHash.v1_0;
 using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -17,7 +14,7 @@ namespace NIST.CVP.Generation.TupleHash.Tests
             var parameters = new Parameters
             {
                 Algorithm = "TupleHash",
-                XOF = true,
+                XOF = new[] {true, false},
                 DigestSizes = new int[5],
                 OutputLength = new MathDomain(),
                 MessageLength = new MathDomain(),
@@ -38,7 +35,7 @@ namespace NIST.CVP.Generation.TupleHash.Tests
                 MessageLength = minMax,
                 OutputLength = minMax,
                 IsSample = false,
-                XOF = true
+                XOF = new[] {true, false}
             };
 
             Assume.That(parameters != null);

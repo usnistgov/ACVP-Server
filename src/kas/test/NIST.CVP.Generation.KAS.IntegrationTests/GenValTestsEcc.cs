@@ -7,7 +7,8 @@ using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Generation.Core.Tests.Fakes;
 using NIST.CVP.Crypto.Common;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.KAS.ECC;
+using NIST.CVP.Generation.KAS.v1_0;
+using NIST.CVP.Generation.KAS.v1_0.ECC;
 using NIST.CVP.Math.Domain;
 
 namespace NIST.CVP.Generation.KAS.IntegrationTests
@@ -20,7 +21,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
         
         public override AlgoMode AlgoMode => AlgoMode.KAS_ECC_v1_0;
 
-        public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
+
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
@@ -230,502 +231,502 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                             }
                         },
                     },
-                    //EccFullMqv = new EccFullMqv()
-                    //{
-                    //    KasRole = new string[] { "initiator", "responder" },
-                    //    NoKdfNoKc = new NoKdfNoKc()
-                    //    {
-                    //        ParameterSet = new ParameterSets()
-                    //        {
-                    //            Eb = new Eb()
-                    //            {
-                    //                HashAlg = new string[] { "SHA2-224" },
-                    //                Curve = "P-224"
-                    //            }
-                    //        }
-                    //    },
-                    //    KdfNoKc = new KdfNoKc()
-                    //    {
-                    //        KdfOption = new KdfOptions()
-                    //        {
-                    //            Asn1 = "uPartyInfo||vPartyInfo||literal[cafecafe]"
-                    //        },
-                    //        ParameterSet = new ParameterSets()
-                    //        {
-                    //            Eb = new Eb()
-                    //            {
-                    //                HashAlg = new string[] { "SHA2-224" },
-                    //                MacOption = new MacOptions()
-                    //                {
-                    //                    AesCcm = new MacOptionAesCcm()
-                    //                    {
-                    //                        KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
-                    //                        MacLen = 128,
-                    //                        NonceLen = 64
-                    //                    },
-                    //                    Cmac = new MacOptionCmac()
-                    //                    {
-                    //                        KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
-                    //                        MacLen = 128
-                    //                    },
-                    //                    HmacSha2_D224 = new MacOptionHmacSha2_d224()
-                    //                    {
-                    //                        KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
-                    //                        MacLen = 128
-                    //                    }
-                    //                },
-                    //                Curve = "P-224"
-                    //            }
-                    //        }
-                    //    },
-                    //    KdfKc = new KdfKc()
-                    //    {
-                    //        KcOption = new KcOptions()
-                    //        {
-                    //            KcRole = new string[] { "provider", "recipient" },
-                    //            KcType = new string[] { "unilateral", "bilateral" },
-                    //            NonceType = new string[] { "randomNonce" }
-                    //        },
-                    //        KdfOption = new KdfOptions()
-                    //        {
-                    //            Asn1 = "uPartyInfo||vPartyInfo||literal[cafecafe]"
-                    //        },
-                    //        ParameterSet = new ParameterSets()
-                    //        {
-                    //            Eb = new Eb()
-                    //            {
-                    //                HashAlg = new string[] { "SHA2-224" },
-                    //                MacOption = new MacOptions()
-                    //                {
-                    //                    AesCcm = new MacOptionAesCcm()
-                    //                    {
-                    //                        KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
-                    //                        MacLen = 128,
-                    //                        NonceLen = 64
-                    //                    },
-                    //                    Cmac = new MacOptionCmac()
-                    //                    {
-                    //                        KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
-                    //                        MacLen = 128
-                    //                    },
-                    //                    HmacSha2_D224 = new MacOptionHmacSha2_d224()
-                    //                    {
-                    //                        KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
-                    //                        MacLen = 128
-                    //                    }
-                    //                },
-                    //                Curve = "P-224"
-                    //            }
-                    //        }
-                    //    },
-                    //},
-                    //EccEphemeralUnified = new EccEphemeralUnified()
-                    //{
-                    //    KasRole = new string[] { "initiator", "responder" },
-                    //    NoKdfNoKc = new NoKdfNoKc()
-                    //    {
-                    //        ParameterSet = new ParameterSets()
-                    //        {
-                    //            Eb = new Eb()
-                    //            {
-                    //                HashAlg = new string[] { "SHA2-224" },
-                    //                Curve = "P-224"
-                    //            }
-                    //        }
-                    //    },
-                    //    KdfNoKc = new KdfNoKc()
-                    //    {
-                    //        KdfOption = new KdfOptions()
-                    //        {
-                    //            Asn1 = "uPartyInfo||vPartyInfo||literal[cafecafe]"
-                    //        },
-                    //        ParameterSet = new ParameterSets()
-                    //        {
-                    //            Eb = new Eb()
-                    //            {
-                    //                HashAlg = new string[] { "SHA2-224" },
-                    //                MacOption = new MacOptions()
-                    //                {
-                    //                    AesCcm = new MacOptionAesCcm()
-                    //                    {
-                    //                        KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
-                    //                        MacLen = 128,
-                    //                        NonceLen = 64
-                    //                    },
-                    //                    Cmac = new MacOptionCmac()
-                    //                    {
-                    //                        KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
-                    //                        MacLen = 128
-                    //                    },
-                    //                    HmacSha2_D224 = new MacOptionHmacSha2_d224()
-                    //                    {
-                    //                        KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
-                    //                        MacLen = 128
-                    //                    }
-                    //                },
-                    //                Curve = "P-224"
-                    //            }
-                    //        }
-                    //    }
-                    //},
-                    //EccOnePassUnified = new EccOnePassUnified()
-                    //{
-                    //    KasRole = new string[] { "initiator", "responder" },
-                    //    NoKdfNoKc = new NoKdfNoKc()
-                    //    {
-                    //        ParameterSet = new ParameterSets()
-                    //        {
-                    //            Eb = new Eb()
-                    //            {
-                    //                HashAlg = new string[] { "SHA2-224" },
-                    //                Curve = "P-224"
-                    //            }
-                    //        }
-                    //    },
-                    //    KdfNoKc = new KdfNoKc()
-                    //    {
-                    //        KdfOption = new KdfOptions()
-                    //        {
-                    //            Asn1 = "uPartyInfo||vPartyInfo||literal[cafecafe]"
-                    //        },
-                    //        ParameterSet = new ParameterSets()
-                    //        {
-                    //            Eb = new Eb()
-                    //            {
-                    //                HashAlg = new string[] { "SHA2-224" },
-                    //                MacOption = new MacOptions()
-                    //                {
-                    //                    AesCcm = new MacOptionAesCcm()
-                    //                    {
-                    //                        KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
-                    //                        MacLen = 128,
-                    //                        NonceLen = 64
-                    //                    },
-                    //                    Cmac = new MacOptionCmac()
-                    //                    {
-                    //                        KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
-                    //                        MacLen = 128
-                    //                    },
-                    //                    HmacSha2_D224 = new MacOptionHmacSha2_d224()
-                    //                    {
-                    //                        KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
-                    //                        MacLen = 128
-                    //                    }
-                    //                },
-                    //                Curve = "P-224"
-                    //            }
-                    //        }
-                    //    },
-                    //    KdfKc = new KdfKc()
-                    //    {
-                    //        KcOption = new KcOptions()
-                    //        {
-                    //            KcRole = new string[] { "provider", "recipient" },
-                    //            KcType = new string[] { "unilateral", "bilateral" },
-                    //            NonceType = new string[] { "randomNonce" }
-                    //        },
-                    //        KdfOption = new KdfOptions()
-                    //        {
-                    //            Asn1 = "uPartyInfo||vPartyInfo||literal[cafecafe]"
-                    //        },
-                    //        ParameterSet = new ParameterSets()
-                    //        {
-                    //            Eb = new Eb()
-                    //            {
-                    //                HashAlg = new string[] { "SHA2-224" },
-                    //                MacOption = new MacOptions()
-                    //                {
-                    //                    AesCcm = new MacOptionAesCcm()
-                    //                    {
-                    //                        KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
-                    //                        MacLen = 128,
-                    //                        NonceLen = 64
-                    //                    },
-                    //                    Cmac = new MacOptionCmac()
-                    //                    {
-                    //                        KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
-                    //                        MacLen = 128
-                    //                    },
-                    //                    HmacSha2_D224 = new MacOptionHmacSha2_d224()
-                    //                    {
-                    //                        KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
-                    //                        MacLen = 128
-                    //                    }
-                    //                },
-                    //                Curve = "P-224"
-                    //            }
-                    //        }
-                    //    },
-                    //},
-                    //EccOnePassMqv = new EccOnePassMqv()
-                    //{
-                    //    KasRole = new string[] { "initiator", "responder" },
-                    //    NoKdfNoKc = new NoKdfNoKc()
-                    //    {
-                    //        ParameterSet = new ParameterSets()
-                    //        {
-                    //            Eb = new Eb()
-                    //            {
-                    //                HashAlg = new string[] { "SHA2-224" },
-                    //                Curve = "P-224"
-                    //            }
-                    //        }
-                    //    },
-                    //    KdfNoKc = new KdfNoKc()
-                    //    {
-                    //        KdfOption = new KdfOptions()
-                    //        {
-                    //            Asn1 = "uPartyInfo||vPartyInfo||literal[cafecafe]"
-                    //        },
-                    //        ParameterSet = new ParameterSets()
-                    //        {
-                    //            Eb = new Eb()
-                    //            {
-                    //                HashAlg = new string[] { "SHA2-224" },
-                    //                MacOption = new MacOptions()
-                    //                {
-                    //                    AesCcm = new MacOptionAesCcm()
-                    //                    {
-                    //                        KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
-                    //                        MacLen = 128,
-                    //                        NonceLen = 64
-                    //                    },
-                    //                    Cmac = new MacOptionCmac()
-                    //                    {
-                    //                        KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
-                    //                        MacLen = 128
-                    //                    },
-                    //                    HmacSha2_D224 = new MacOptionHmacSha2_d224()
-                    //                    {
-                    //                        KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
-                    //                        MacLen = 128
-                    //                    }
-                    //                },
-                    //                Curve = "P-224"
-                    //            }
-                    //        }
-                    //    },
-                    //    KdfKc = new KdfKc()
-                    //    {
-                    //        KcOption = new KcOptions()
-                    //        {
-                    //            KcRole = new string[] { "provider", "recipient" },
-                    //            KcType = new string[] { "unilateral", "bilateral" },
-                    //            NonceType = new string[] { "randomNonce" }
-                    //        },
-                    //        KdfOption = new KdfOptions()
-                    //        {
-                    //            Asn1 = "uPartyInfo||vPartyInfo||literal[cafecafe]"
-                    //        },
-                    //        ParameterSet = new ParameterSets()
-                    //        {
-                    //            Eb = new Eb()
-                    //            {
-                    //                HashAlg = new string[] { "SHA2-224" },
-                    //                MacOption = new MacOptions()
-                    //                {
-                    //                    AesCcm = new MacOptionAesCcm()
-                    //                    {
-                    //                        KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
-                    //                        MacLen = 128,
-                    //                        NonceLen = 64
-                    //                    },
-                    //                    Cmac = new MacOptionCmac()
-                    //                    {
-                    //                        KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
-                    //                        MacLen = 128
-                    //                    },
-                    //                    HmacSha2_D224 = new MacOptionHmacSha2_d224()
-                    //                    {
-                    //                        KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
-                    //                        MacLen = 128
-                    //                    }
-                    //                },
-                    //                Curve = "P-224"
-                    //            }
-                    //        }
-                    //    },
-                    //},
-                    //EccOnePassDh = new EccOnePassDh()
-                    //{
-                    //    KasRole = new string[] { "initiator", "responder" },
-                    //    NoKdfNoKc = new NoKdfNoKc()
-                    //    {
-                    //        ParameterSet = new ParameterSets()
-                    //        {
-                    //            Eb = new Eb()
-                    //            {
-                    //                HashAlg = new string[] { "SHA2-224" },
-                    //                Curve = "P-224"
-                    //            }
-                    //        }
-                    //    },
-                    //    KdfNoKc = new KdfNoKc()
-                    //    {
-                    //        KdfOption = new KdfOptions()
-                    //        {
-                    //            Asn1 = "uPartyInfo||vPartyInfo||literal[cafecafe]"
-                    //        },
-                    //        ParameterSet = new ParameterSets()
-                    //        {
-                    //            Eb = new Eb()
-                    //            {
-                    //                HashAlg = new string[] { "SHA2-224" },
-                    //                MacOption = new MacOptions()
-                    //                {
-                    //                    AesCcm = new MacOptionAesCcm()
-                    //                    {
-                    //                        KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
-                    //                        MacLen = 128,
-                    //                        NonceLen = 64
-                    //                    },
-                    //                    Cmac = new MacOptionCmac()
-                    //                    {
-                    //                        KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
-                    //                        MacLen = 128
-                    //                    },
-                    //                    HmacSha2_D224 = new MacOptionHmacSha2_d224()
-                    //                    {
-                    //                        KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
-                    //                        MacLen = 128
-                    //                    }
-                    //                },
-                    //                Curve = "P-224"
-                    //            }
-                    //        }
-                    //    },
-                    //    KdfKc = new KdfKc()
-                    //    {
-                    //        KcOption = new KcOptions()
-                    //        {
-                    //            KcRole = new string[] { "provider", "recipient" },
-                    //            KcType = new string[] { "unilateral", "bilateral" },
-                    //            NonceType = new string[] { "randomNonce" }
-                    //        },
-                    //        KdfOption = new KdfOptions()
-                    //        {
-                    //            Asn1 = "uPartyInfo||vPartyInfo||literal[cafecafe]"
-                    //        },
-                    //        ParameterSet = new ParameterSets()
-                    //        {
-                    //            Eb = new Eb()
-                    //            {
-                    //                HashAlg = new string[] { "SHA2-224" },
-                    //                MacOption = new MacOptions()
-                    //                {
-                    //                    AesCcm = new MacOptionAesCcm()
-                    //                    {
-                    //                        KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
-                    //                        MacLen = 128,
-                    //                        NonceLen = 64
-                    //                    },
-                    //                    Cmac = new MacOptionCmac()
-                    //                    {
-                    //                        KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
-                    //                        MacLen = 128
-                    //                    },
-                    //                    HmacSha2_D224 = new MacOptionHmacSha2_d224()
-                    //                    {
-                    //                        KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
-                    //                        MacLen = 128
-                    //                    }
-                    //                },
-                    //                Curve = "P-224"
-                    //            }
-                    //        }
-                    //    },
-                    //},
-                    //EccStaticUnified = new EccStaticUnified()
-                    //{
-                    //    KasRole = new string[] { "initiator", "responder" },
-                    //    NoKdfNoKc = new NoKdfNoKc()
-                    //    {
-                    //        ParameterSet = new ParameterSets()
-                    //        {
-                    //            Eb = new Eb()
-                    //            {
-                    //                HashAlg = new string[] { "SHA2-224" },
-                    //                Curve = "P-224"
-                    //            }
-                    //        }
-                    //    },
-                    //    KdfNoKc = new KdfNoKc()
-                    //    {
-                    //        DkmNonceTypes = new string[] { "randomNonce" },
-                    //        KdfOption = new KdfOptions()
-                    //        {
-                    //            Asn1 = "uPartyInfo||vPartyInfo||literal[cafecafe]"
-                    //        },
-                    //        ParameterSet = new ParameterSets()
-                    //        {
-                    //            Eb = new Eb()
-                    //            {
-                    //                HashAlg = new string[] { "SHA2-224" },
-                    //                MacOption = new MacOptions()
-                    //                {
-                    //                    AesCcm = new MacOptionAesCcm()
-                    //                    {
-                    //                        KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
-                    //                        MacLen = 128,
-                    //                        NonceLen = 64
-                    //                    },
-                    //                    Cmac = new MacOptionCmac()
-                    //                    {
-                    //                        KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
-                    //                        MacLen = 128
-                    //                    },
-                    //                    HmacSha2_D224 = new MacOptionHmacSha2_d224()
-                    //                    {
-                    //                        KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
-                    //                        MacLen = 128
-                    //                    }
-                    //                },
-                    //                Curve = "P-224"
-                    //            }
-                    //        }
-                    //    },
-                    //    KdfKc = new KdfKc()
-                    //    {
-                    //        DkmNonceTypes = new string[] { "randomNonce" },
-                    //        KcOption = new KcOptions()
-                    //        {
-                    //            KcRole = new string[] { "provider", "recipient" },
-                    //            KcType = new string[] { "unilateral", "bilateral" },
-                    //            NonceType = new string[] { "randomNonce" }
-                    //        },
-                    //        KdfOption = new KdfOptions()
-                    //        {
-                    //            Asn1 = "uPartyInfo||vPartyInfo||literal[cafecafe]"
-                    //        },
-                    //        ParameterSet = new ParameterSets()
-                    //        {
-                    //            Eb = new Eb()
-                    //            {
-                    //                HashAlg = new string[] { "SHA2-224" },
-                    //                MacOption = new MacOptions()
-                    //                {
-                    //                    AesCcm = new MacOptionAesCcm()
-                    //                    {
-                    //                        KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
-                    //                        MacLen = 128,
-                    //                        NonceLen = 64
-                    //                    },
-                    //                    Cmac = new MacOptionCmac()
-                    //                    {
-                    //                        KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
-                    //                        MacLen = 128
-                    //                    },
-                    //                    HmacSha2_D224 = new MacOptionHmacSha2_d224()
-                    //                    {
-                    //                        KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
-                    //                        MacLen = 128
-                    //                    }
-                    //                },
-                    //                Curve = "P-224"
-                    //            }
-                    //        }
-                    //    },
-                    //},
+                    EccFullMqv = new EccFullMqv()
+                    {
+                       KasRole = new string[] { "initiator", "responder" },
+                       NoKdfNoKc = new NoKdfNoKc()
+                       {
+                           ParameterSet = new ParameterSets()
+                           {
+                               Eb = new Eb()
+                               {
+                                   HashAlg = new string[] { "SHA2-224" },
+                                   Curve = "P-224"
+                               }
+                           }
+                       },
+                       KdfNoKc = new KdfNoKc()
+                       {
+                           KdfOption = new KdfOptions()
+                           {
+                               Asn1 = "uPartyInfo||vPartyInfo||literal[cafecafe]"
+                           },
+                           ParameterSet = new ParameterSets()
+                           {
+                               Eb = new Eb()
+                               {
+                                   HashAlg = new string[] { "SHA2-224" },
+                                   MacOption = new MacOptions()
+                                   {
+                                       AesCcm = new MacOptionAesCcm()
+                                       {
+                                           KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
+                                           MacLen = 128,
+                                           NonceLen = 64
+                                       },
+                                       Cmac = new MacOptionCmac()
+                                       {
+                                           KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
+                                           MacLen = 128
+                                       },
+                                       HmacSha2_D224 = new MacOptionHmacSha2_d224()
+                                       {
+                                           KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
+                                           MacLen = 128
+                                       }
+                                   },
+                                   Curve = "P-224"
+                               }
+                           }
+                       },
+                       KdfKc = new KdfKc()
+                       {
+                           KcOption = new KcOptions()
+                           {
+                               KcRole = new string[] { "provider", "recipient" },
+                               KcType = new string[] { "unilateral", "bilateral" },
+                               NonceType = new string[] { "randomNonce" }
+                           },
+                           KdfOption = new KdfOptions()
+                           {
+                               Asn1 = "uPartyInfo||vPartyInfo||literal[cafecafe]"
+                           },
+                           ParameterSet = new ParameterSets()
+                           {
+                               Eb = new Eb()
+                               {
+                                   HashAlg = new string[] { "SHA2-224" },
+                                   MacOption = new MacOptions()
+                                   {
+                                       AesCcm = new MacOptionAesCcm()
+                                       {
+                                           KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
+                                           MacLen = 128,
+                                           NonceLen = 64
+                                       },
+                                       Cmac = new MacOptionCmac()
+                                       {
+                                           KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
+                                           MacLen = 128
+                                       },
+                                       HmacSha2_D224 = new MacOptionHmacSha2_d224()
+                                       {
+                                           KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
+                                           MacLen = 128
+                                       }
+                                   },
+                                   Curve = "P-224"
+                               }
+                           }
+                       },
+                    },
+                    EccEphemeralUnified = new EccEphemeralUnified()
+                    {
+                       KasRole = new string[] { "initiator", "responder" },
+                       NoKdfNoKc = new NoKdfNoKc()
+                       {
+                           ParameterSet = new ParameterSets()
+                           {
+                               Eb = new Eb()
+                               {
+                                   HashAlg = new string[] { "SHA2-224" },
+                                   Curve = "P-224"
+                               }
+                           }
+                       },
+                       KdfNoKc = new KdfNoKc()
+                       {
+                           KdfOption = new KdfOptions()
+                           {
+                               Asn1 = "uPartyInfo||vPartyInfo||literal[cafecafe]"
+                           },
+                           ParameterSet = new ParameterSets()
+                           {
+                               Eb = new Eb()
+                               {
+                                   HashAlg = new string[] { "SHA2-224" },
+                                   MacOption = new MacOptions()
+                                   {
+                                       AesCcm = new MacOptionAesCcm()
+                                       {
+                                           KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
+                                           MacLen = 128,
+                                           NonceLen = 64
+                                       },
+                                       Cmac = new MacOptionCmac()
+                                       {
+                                           KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
+                                           MacLen = 128
+                                       },
+                                       HmacSha2_D224 = new MacOptionHmacSha2_d224()
+                                       {
+                                           KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
+                                           MacLen = 128
+                                       }
+                                   },
+                                   Curve = "P-224"
+                               }
+                           }
+                       }
+                    },
+                    EccOnePassUnified = new EccOnePassUnified()
+                    {
+                       KasRole = new string[] { "initiator", "responder" },
+                       NoKdfNoKc = new NoKdfNoKc()
+                       {
+                           ParameterSet = new ParameterSets()
+                           {
+                               Eb = new Eb()
+                               {
+                                   HashAlg = new string[] { "SHA2-224" },
+                                   Curve = "P-224"
+                               }
+                           }
+                       },
+                       KdfNoKc = new KdfNoKc()
+                       {
+                           KdfOption = new KdfOptions()
+                           {
+                               Asn1 = "uPartyInfo||vPartyInfo||literal[cafecafe]"
+                           },
+                           ParameterSet = new ParameterSets()
+                           {
+                               Eb = new Eb()
+                               {
+                                   HashAlg = new string[] { "SHA2-224" },
+                                   MacOption = new MacOptions()
+                                   {
+                                       AesCcm = new MacOptionAesCcm()
+                                       {
+                                           KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
+                                           MacLen = 128,
+                                           NonceLen = 64
+                                       },
+                                       Cmac = new MacOptionCmac()
+                                       {
+                                           KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
+                                           MacLen = 128
+                                       },
+                                       HmacSha2_D224 = new MacOptionHmacSha2_d224()
+                                       {
+                                           KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
+                                           MacLen = 128
+                                       }
+                                   },
+                                   Curve = "P-224"
+                               }
+                           }
+                       },
+                       KdfKc = new KdfKc()
+                       {
+                           KcOption = new KcOptions()
+                           {
+                               KcRole = new string[] { "provider", "recipient" },
+                               KcType = new string[] { "unilateral", "bilateral" },
+                               NonceType = new string[] { "randomNonce" }
+                           },
+                           KdfOption = new KdfOptions()
+                           {
+                               Asn1 = "uPartyInfo||vPartyInfo||literal[cafecafe]"
+                           },
+                           ParameterSet = new ParameterSets()
+                           {
+                               Eb = new Eb()
+                               {
+                                   HashAlg = new string[] { "SHA2-224" },
+                                   MacOption = new MacOptions()
+                                   {
+                                       AesCcm = new MacOptionAesCcm()
+                                       {
+                                           KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
+                                           MacLen = 128,
+                                           NonceLen = 64
+                                       },
+                                       Cmac = new MacOptionCmac()
+                                       {
+                                           KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
+                                           MacLen = 128
+                                       },
+                                       HmacSha2_D224 = new MacOptionHmacSha2_d224()
+                                       {
+                                           KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
+                                           MacLen = 128
+                                       }
+                                   },
+                                   Curve = "P-224"
+                               }
+                           }
+                       },
+                    },
+                    EccOnePassMqv = new EccOnePassMqv()
+                    {
+                       KasRole = new string[] { "initiator", "responder" },
+                       NoKdfNoKc = new NoKdfNoKc()
+                       {
+                           ParameterSet = new ParameterSets()
+                           {
+                               Eb = new Eb()
+                               {
+                                   HashAlg = new string[] { "SHA2-224" },
+                                   Curve = "P-224"
+                               }
+                           }
+                       },
+                       KdfNoKc = new KdfNoKc()
+                       {
+                           KdfOption = new KdfOptions()
+                           {
+                               Asn1 = "uPartyInfo||vPartyInfo||literal[cafecafe]"
+                           },
+                           ParameterSet = new ParameterSets()
+                           {
+                               Eb = new Eb()
+                               {
+                                   HashAlg = new string[] { "SHA2-224" },
+                                   MacOption = new MacOptions()
+                                   {
+                                       AesCcm = new MacOptionAesCcm()
+                                       {
+                                           KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
+                                           MacLen = 128,
+                                           NonceLen = 64
+                                       },
+                                       Cmac = new MacOptionCmac()
+                                       {
+                                           KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
+                                           MacLen = 128
+                                       },
+                                       HmacSha2_D224 = new MacOptionHmacSha2_d224()
+                                       {
+                                           KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
+                                           MacLen = 128
+                                       }
+                                   },
+                                   Curve = "P-224"
+                               }
+                           }
+                       },
+                       KdfKc = new KdfKc()
+                       {
+                           KcOption = new KcOptions()
+                           {
+                               KcRole = new string[] { "provider", "recipient" },
+                               KcType = new string[] { "unilateral", "bilateral" },
+                               NonceType = new string[] { "randomNonce" }
+                           },
+                           KdfOption = new KdfOptions()
+                           {
+                               Asn1 = "uPartyInfo||vPartyInfo||literal[cafecafe]"
+                           },
+                           ParameterSet = new ParameterSets()
+                           {
+                               Eb = new Eb()
+                               {
+                                   HashAlg = new string[] { "SHA2-224" },
+                                   MacOption = new MacOptions()
+                                   {
+                                       AesCcm = new MacOptionAesCcm()
+                                       {
+                                           KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
+                                           MacLen = 128,
+                                           NonceLen = 64
+                                       },
+                                       Cmac = new MacOptionCmac()
+                                       {
+                                           KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
+                                           MacLen = 128
+                                       },
+                                       HmacSha2_D224 = new MacOptionHmacSha2_d224()
+                                       {
+                                           KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
+                                           MacLen = 128
+                                       }
+                                   },
+                                   Curve = "P-224"
+                               }
+                           }
+                       },
+                    },
+                    EccOnePassDh = new EccOnePassDh()
+                    {
+                       KasRole = new string[] { "initiator", "responder" },
+                       NoKdfNoKc = new NoKdfNoKc()
+                       {
+                           ParameterSet = new ParameterSets()
+                           {
+                               Eb = new Eb()
+                               {
+                                   HashAlg = new string[] { "SHA2-224" },
+                                   Curve = "P-224"
+                               }
+                           }
+                       },
+                       KdfNoKc = new KdfNoKc()
+                       {
+                           KdfOption = new KdfOptions()
+                           {
+                               Asn1 = "uPartyInfo||vPartyInfo||literal[cafecafe]"
+                           },
+                           ParameterSet = new ParameterSets()
+                           {
+                               Eb = new Eb()
+                               {
+                                   HashAlg = new string[] { "SHA2-224" },
+                                   MacOption = new MacOptions()
+                                   {
+                                       AesCcm = new MacOptionAesCcm()
+                                       {
+                                           KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
+                                           MacLen = 128,
+                                           NonceLen = 64
+                                       },
+                                       Cmac = new MacOptionCmac()
+                                       {
+                                           KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
+                                           MacLen = 128
+                                       },
+                                       HmacSha2_D224 = new MacOptionHmacSha2_d224()
+                                       {
+                                           KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
+                                           MacLen = 128
+                                       }
+                                   },
+                                   Curve = "P-224"
+                               }
+                           }
+                       },
+                       KdfKc = new KdfKc()
+                       {
+                           KcOption = new KcOptions()
+                           {
+                               KcRole = new string[] { "provider", "recipient" },
+                               KcType = new string[] { "unilateral", "bilateral" },
+                               NonceType = new string[] { "randomNonce" }
+                           },
+                           KdfOption = new KdfOptions()
+                           {
+                               Asn1 = "uPartyInfo||vPartyInfo||literal[cafecafe]"
+                           },
+                           ParameterSet = new ParameterSets()
+                           {
+                               Eb = new Eb()
+                               {
+                                   HashAlg = new string[] { "SHA2-224" },
+                                   MacOption = new MacOptions()
+                                   {
+                                       AesCcm = new MacOptionAesCcm()
+                                       {
+                                           KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
+                                           MacLen = 128,
+                                           NonceLen = 64
+                                       },
+                                       Cmac = new MacOptionCmac()
+                                       {
+                                           KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
+                                           MacLen = 128
+                                       },
+                                       HmacSha2_D224 = new MacOptionHmacSha2_d224()
+                                       {
+                                           KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
+                                           MacLen = 128
+                                       }
+                                   },
+                                   Curve = "P-224"
+                               }
+                           }
+                       },
+                    },
+                    EccStaticUnified = new EccStaticUnified()
+                    {
+                       KasRole = new string[] { "initiator", "responder" },
+                       NoKdfNoKc = new NoKdfNoKc()
+                       {
+                           ParameterSet = new ParameterSets()
+                           {
+                               Eb = new Eb()
+                               {
+                                   HashAlg = new string[] { "SHA2-224" },
+                                   Curve = "P-224"
+                               }
+                           }
+                       },
+                       KdfNoKc = new KdfNoKc()
+                       {
+                           DkmNonceTypes = new string[] { "randomNonce" },
+                           KdfOption = new KdfOptions()
+                           {
+                               Asn1 = "uPartyInfo||vPartyInfo||literal[cafecafe]"
+                           },
+                           ParameterSet = new ParameterSets()
+                           {
+                               Eb = new Eb()
+                               {
+                                   HashAlg = new string[] { "SHA2-224" },
+                                   MacOption = new MacOptions()
+                                   {
+                                       AesCcm = new MacOptionAesCcm()
+                                       {
+                                           KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
+                                           MacLen = 128,
+                                           NonceLen = 64
+                                       },
+                                       Cmac = new MacOptionCmac()
+                                       {
+                                           KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
+                                           MacLen = 128
+                                       },
+                                       HmacSha2_D224 = new MacOptionHmacSha2_d224()
+                                       {
+                                           KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
+                                           MacLen = 128
+                                       }
+                                   },
+                                   Curve = "P-224"
+                               }
+                           }
+                       },
+                       KdfKc = new KdfKc()
+                       {
+                           DkmNonceTypes = new string[] { "randomNonce" },
+                           KcOption = new KcOptions()
+                           {
+                               KcRole = new string[] { "provider", "recipient" },
+                               KcType = new string[] { "unilateral", "bilateral" },
+                               NonceType = new string[] { "randomNonce" }
+                           },
+                           KdfOption = new KdfOptions()
+                           {
+                               Asn1 = "uPartyInfo||vPartyInfo||literal[cafecafe]"
+                           },
+                           ParameterSet = new ParameterSets()
+                           {
+                               Eb = new Eb()
+                               {
+                                   HashAlg = new string[] { "SHA2-224" },
+                                   MacOption = new MacOptions()
+                                   {
+                                       AesCcm = new MacOptionAesCcm()
+                                       {
+                                           KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
+                                           MacLen = 128,
+                                           NonceLen = 64
+                                       },
+                                       Cmac = new MacOptionCmac()
+                                       {
+                                           KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
+                                           MacLen = 128
+                                       },
+                                       HmacSha2_D224 = new MacOptionHmacSha2_d224()
+                                       {
+                                           KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
+                                           MacLen = 128
+                                       }
+                                   },
+                                   Curve = "P-224"
+                               }
+                           }
+                       },
+                    },
                 },
                 IsSample = true
             };

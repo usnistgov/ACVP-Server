@@ -2,7 +2,8 @@
 using NIST.CVP.Generation.Core.DeSerialization;
 using NIST.CVP.Generation.Core.Enums;
 using NIST.CVP.Generation.Core.JsonConverters;
-using NIST.CVP.Generation.DSA.ECC.KeyGen.ContractResolvers;
+using NIST.CVP.Generation.ECDSA.v1_0.KeyGen;
+using NIST.CVP.Generation.ECDSA.v1_0.KeyGen.ContractResolvers;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
@@ -66,9 +67,9 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyGen.Tests.ContractResolvers
             Assert.AreEqual(tc.ParentGroup.TestGroupId, newTc.ParentGroup.TestGroupId, nameof(newTc.ParentGroup));
             Assert.AreEqual(tc.TestCaseId, newTc.TestCaseId, nameof(newTc.TestCaseId));
 
-            Assert.AreNotEqual(tc.D, newTc.D, nameof(newTc.D));
-            Assert.AreNotEqual(tc.Qx, newTc.Qx, nameof(newTc.Qx));
-            Assert.AreNotEqual(tc.Qy, newTc.Qy, nameof(newTc.Qy));
+            Assert.IsNull(tc.D,  nameof(newTc.D));
+            Assert.IsNull(tc.Qx, nameof(newTc.Qx));
+            Assert.IsNull(tc.Qy, nameof(newTc.Qy));
 
             // TestPassed will have the default value when re-hydrated, check to make sure it isn't in the JSON
             Regex regex = new Regex(nameof(TestCase.TestPassed), RegexOptions.IgnoreCase);

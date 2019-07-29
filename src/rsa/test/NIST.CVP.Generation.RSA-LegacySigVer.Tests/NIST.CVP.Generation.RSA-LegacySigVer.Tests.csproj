@@ -13,9 +13,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\common\src\NIST.CVP.Generation.Core\NIST.CVP.Generation.Core.csproj" />
+    <ProjectReference Include="..\..\..\common\src\NIST.CVP.Generation\NIST.CVP.Generation.csproj" />
     <ProjectReference Include="..\..\..\common\test\NIST.CVP.Tests.Core\NIST.CVP.Tests.Core.csproj" />
-    <ProjectReference Include="..\..\src\NIST.CVP.Generation.RSA-LegacySigVer\NIST.CVP.Generation.RSA-LegacySigVer.csproj" />
-    <ProjectReference Include="..\..\src\NIST.CVP.Generation.RSA-SigVer\NIST.CVP.Generation.RSA-SigVer.csproj" />
   </ItemGroup>
 
 </Project>

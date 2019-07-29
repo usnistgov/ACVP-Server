@@ -2,11 +2,15 @@
 using Microsoft.Extensions.DependencyInjection;
 using NIST.CVP.Common.Enums;
 using NIST.CVP.Common.Helpers;
+using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.Enums;
+using NIST.CVP.Generation.Core.Exceptions;
 using NIST.CVP.Generation.GenValApp.Helpers;
 using NIST.CVP.Generation.GenValApp.Models;
 using NLog;
 using System;
-using System.IO;
+using NIST.CVP.Generation.Core.Helpers;
+using RunningOptionsHelper = NIST.CVP.Generation.GenValApp.Helpers.RunningOptionsHelper;
 
 namespace NIST.CVP.Generation.GenValApp
 {
@@ -42,22 +46,18 @@ namespace NIST.CVP.Generation.GenValApp
             try
             {
                 var parsedParameters = argumentParser.Parse(args);
+                var runningOptions = RunningOptionsHelper.GetRunningOptions(parsedParameters);
+                ConfigureLogging(parsedParameters, runningOptions);
 
-                var dllLocation = RootDirectory;
-                if (parsedParameters.DllLocation != null)
-                {
-                    dllLocation = parsedParameters.DllLocation.FullName;
-                }
+                Logger.Info($"Running in {runningOptions.GenValMode} mode for {EnumHelpers.GetEnumDescriptionFromEnum(runningOptions.AlgoMode)}");
 
                 // Get the IOC container for the algo
-                AutofacConfig.IoCConfiguration(ServiceProvider, parsedParameters.Algorithm, parsedParameters.Mode, parsedParameters.Revision,
-                    dllLocation);
+                AutofacConfig.IoCConfiguration(ServiceProvider, runningOptions.AlgoMode);
+
                 using (var scope = AutofacConfig.GetContainer().BeginLifetimeScope())
                 {
                     var genValRunner = new GenValRunner(scope);
-                    genValRunner.SetRunningMode(parsedParameters);
-                    genValRunner.ConfigureLogging(parsedParameters);
-                    return genValRunner.Run(parsedParameters);
+                    return genValRunner.Run(parsedParameters, runningOptions.GenValMode);
                 }
             }
             catch (CommandLineException ex)
@@ -68,8 +68,48 @@ namespace NIST.CVP.Generation.GenValApp
                 Logger.Error($"Status Code: {StatusCode.CommandLineError}");
                 Logger.Error(errorMessage);
                 argumentParser.ShowUsage();
-                return (int) StatusCode.CommandLineError;
+                return (int)StatusCode.CommandLineError;
             }
+            catch (AlgoModeRevisionException ex)
+            {
+                Console.WriteLine(ex.Message);
+                Console.WriteLine(ex.StackTrace);
+                Logger.Fatal(ex);
+                return (int)StatusCode.ModeError;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                Console.WriteLine(ex.StackTrace);
+                Logger.Fatal(ex);
+                return (int)StatusCode.Exception;
+            }
+        }
+
+        /// <summary>
+        /// Configure logging for the app run.
+        /// </summary>
+        /// <param name="parsedParameters">The parsed arguments into the app</param>
+        /// <param name="runningOptions">The algorithm and running mode.</param>
+        private static void ConfigureLogging(ArgumentParsingTarget parsedParameters, GenValRunningOptions runningOptions)
+        {
+            string filePath;
+
+            switch (runningOptions.GenValMode)
+            {
+                case GenValMode.Generate:
+                    filePath = parsedParameters.RegistrationFile.FullName;
+                    break;
+                case GenValMode.Validate:
+                    filePath = parsedParameters.AnswerFile.FullName;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException($"Invalid {nameof(GenValMode)}");
+            }
+
+            var logName = $"{runningOptions.GenValMode}";
+
+            LoggingHelper.ConfigureLogging(filePath, logName);
         }
     }
 }

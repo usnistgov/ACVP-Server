@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Moq;
 using NIST.CVP.Crypto.Common.Symmetric;
+using NIST.CVP.Generation.AES_CTR.v1_0;
 using NIST.CVP.Generation.Core.Async;
 using NIST.CVP.Generation.Core.Enums;
 using NIST.CVP.Math;

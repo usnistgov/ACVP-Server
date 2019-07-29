@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using NIST.CVP.Common;
+using NIST.CVP.Generation.AES_GCM.v1_0;
 using NIST.CVP.Generation.Core.Enums;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
@@ -16,7 +18,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
         public async Task ShouldValidateIfExpectedAndSuppliedResultsMatch()
         {
             var testCase = GetTestCase();
-            var subject = new TestCaseValidatorEncrypt(testCase);
+            var subject = new TestCaseValidatorEncrypt(GetTestGroup(), testCase);
             var result = await subject.ValidateAsync(testCase);
             Assume.That(result != null);
             Assert.AreEqual(Disposition.Passed, result.Result);
@@ -26,7 +28,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
         public async Task ShouldFailIfCipherTextDoesNotMatch()
         {
             var testCase = GetTestCase();
-            var subject = new TestCaseValidatorEncrypt(testCase);
+            var subject = new TestCaseValidatorEncrypt(GetTestGroup(), testCase);
             var suppliedResult = GetTestCase();
             suppliedResult.CipherText = new BitString("D00000");
             var result = await subject.ValidateAsync(suppliedResult);
@@ -38,7 +40,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
         public async Task ShouldShowCipherTextAsReasonIfItDoesNotMatch()
         {
             var testCase = GetTestCase();
-            var subject = new TestCaseValidatorEncrypt(testCase);
+            var subject = new TestCaseValidatorEncrypt(GetTestGroup(), testCase);
             var suppliedResult = GetTestCase();
             suppliedResult.CipherText = new BitString("D00000");
             var result = await subject.ValidateAsync(suppliedResult);
@@ -51,7 +53,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
         public async Task ShouldFailIfTagDoesNotMatch()
         {
             var testCase = GetTestCase();
-            var subject = new TestCaseValidatorEncrypt(testCase);
+            var subject = new TestCaseValidatorEncrypt(GetTestGroup(), testCase);
             var suppliedResult = GetTestCase();
             suppliedResult.Tag = new BitString("D00000");
             var result = await subject.ValidateAsync(suppliedResult);
@@ -63,7 +65,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
         public async Task ShouldShowTagAsReasonIfItDoesNotMatch()
         {
             var testCase = GetTestCase();
-            var subject = new TestCaseValidatorEncrypt(testCase);
+            var subject = new TestCaseValidatorEncrypt(GetTestGroup(), testCase);
             var suppliedResult = GetTestCase();
             suppliedResult.Tag = new BitString("D00000");
             var result = await subject.ValidateAsync(suppliedResult);
@@ -76,7 +78,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
         public async Task ShouldFailIfCipherTextNotPresent()
         {
             var testCase = GetTestCase();
-            var subject = new TestCaseValidatorEncrypt(testCase);
+            var subject = new TestCaseValidatorEncrypt(GetTestGroup(), testCase);
             var suppliedResult = GetTestCase();
 
             suppliedResult.CipherText = null;
@@ -92,7 +94,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
         public async Task ShouldFailIfTagNotPresent()
         {
             var testCase = GetTestCase();
-            var subject = new TestCaseValidatorEncrypt(testCase);
+            var subject = new TestCaseValidatorEncrypt(GetTestGroup(), testCase);
             var suppliedResult = GetTestCase();
 
             suppliedResult.Tag = null;
@@ -113,6 +115,14 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
                 TestCaseId = 1
             };
             return testCase;
+        }
+        
+        private TestGroup GetTestGroup(AlgoMode algoMode = AlgoMode.AES_GCM_v1_0)
+        {
+            return new TestGroup()
+            {
+                AlgoMode = algoMode
+            };
         }
     }
 }

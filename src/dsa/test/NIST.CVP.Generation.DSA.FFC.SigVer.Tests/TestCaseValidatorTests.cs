@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using NIST.CVP.Common.Oracle.DispositionTypes;
-using NIST.CVP.Generation.DSA.FFC.SigVer.TestCaseExpectations;
+using NIST.CVP.Generation.DSA.v1_0.SigVer;
+using NIST.CVP.Generation.DSA.v1_0.SigVer.TestCaseExpectations;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 

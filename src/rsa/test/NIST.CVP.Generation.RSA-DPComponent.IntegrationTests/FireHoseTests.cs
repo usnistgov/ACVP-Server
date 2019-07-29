@@ -1,9 +1,9 @@
 ﻿using NIST.CVP.Crypto.RSA;
-using NIST.CVP.Generation.RSA_DPComponent.Parsers;
 using NIST.CVP.Tests.Core;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using System.IO;
+using NIST.CVP.Generation.RSA.v1_0.DpComponent.Parsers;
 
 namespace NIST.CVP.Generation.RSA_DPComponent.IntegrationTests
 {

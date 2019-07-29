@@ -6,6 +6,7 @@ using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using System.Threading.Tasks;
 using NIST.CVP.Generation.Core.Async;
+using NIST.CVP.Generation.KAS.v1_0.FFC;
 
 namespace NIST.CVP.Generation.KAS.FFC.Tests
 {
@@ -180,7 +181,7 @@ namespace NIST.CVP.Generation.KAS.FFC.Tests
             var testGroup = GetData(scheme, kasRole, kcRole, kcType);
             var testCase = testGroup.Tests[0];
 
-            testCase.EphemeralPublicKeyIut = 0;
+            testCase.EphemeralKeyIut.PublicKeyY = 0;
 
             _subject = new TestCaseValidatorAftKdfKc(testCase, testGroup, _deferredResolver.Object);
 
@@ -259,7 +260,7 @@ namespace NIST.CVP.Generation.KAS.FFC.Tests
             var testGroup = GetData(scheme, kasRole, kcRole, kcType);
             var testCase = testGroup.Tests[0];
 
-            testCase.StaticPublicKeyIut = 0;
+            testCase.StaticKeyIut.PublicKeyY = 0;
 
             _subject = new TestCaseValidatorAftKdfKc(testCase, testGroup, _deferredResolver.Object);
 

@@ -1,5 +1,6 @@
 ﻿using NIST.CVP.Common;
 using NIST.CVP.Generation.Core.Tests;
+using NIST.CVP.Generation.EDDSA.v1_0.SigVer;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
@@ -13,7 +14,7 @@ namespace NIST.CVP.Generation.DSA.Ed.SigVer.IntegrationTests
 
         public override AlgoMode AlgoMode => AlgoMode.EDDSA_SigVer_v1_0;
 
-        public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
+
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
 
         protected override string GetTestFileFewTestCases(string targetFolder)

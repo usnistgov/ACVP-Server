@@ -1,5 +1,6 @@
 ﻿using NIST.CVP.Common;
 using NIST.CVP.Generation.Core.Tests;
+using NIST.CVP.Generation.DSA.v1_0.SigVer;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
@@ -13,7 +14,7 @@ namespace NIST.CVP.Generation.DSA.FFC.SigVer.IntegrationTests
 
         public override AlgoMode AlgoMode => AlgoMode.DSA_SigVer_v1_0;
 
-        public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
+
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
@@ -57,6 +58,7 @@ namespace NIST.CVP.Generation.DSA.FFC.SigVer.IntegrationTests
                 Revision = Revision,
                 IsSample = true,
                 Capabilities = caps,
+                Conformances = new[] { "SP800-106" }
             };
 
             return CreateRegistration(targetFolder, p);
@@ -101,6 +103,7 @@ namespace NIST.CVP.Generation.DSA.FFC.SigVer.IntegrationTests
                 Revision = Revision,
                 IsSample = false,
                 Capabilities = caps,
+                Conformances = new[] { "SP800-106" }
             };
 
             return CreateRegistration(targetFolder, p);

@@ -1,6 +1,7 @@
 ﻿using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using System;
+using NIST.CVP.Generation.AES_GCM.v1_0;
 
 namespace NIST.CVP.Generation.AES_GCM.Tests
 {
