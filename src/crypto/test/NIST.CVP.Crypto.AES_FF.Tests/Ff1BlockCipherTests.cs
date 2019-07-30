@@ -27,6 +27,9 @@ namespace NIST.CVP.Crypto.AES_FF.Tests
                 new AesFfInternals(engineFactory, modeFactory));
         }
 
+        /// <summary>
+        /// Sample vectors from https://csrc.nist.gov/CSRC/media/Projects/Cryptographic-Standards-and-Guidelines/documents/examples/FF1samples.pdf
+        /// </summary>
         private static IEnumerable<object> _testData = new List<object>()
         {
             new object[]
@@ -196,6 +199,247 @@ namespace NIST.CVP.Crypto.AES_FF.Tests
             });
 
             Assert.AreEqual(payload.ToString(), NumeralString.ToNumeralString(result.Result).ToString());
+        }
+
+        public static IEnumerable<object> _alphabetStringTests = new List<object>()
+        {
+            new object[]
+            {
+                // label
+                "test 1 passed from vector",
+                // alphabet
+                "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ",
+                // word / payload
+                "ClfDsp",
+                // tweak
+                new BitString(0), 
+                // key
+                new BitString("8C1701774CD7D9F7AC7BE4B2B80708F7"), 
+                // expectedWord
+                "T9bDA3"
+            },
+            new object[]
+            {
+                // label
+                "test 2 passed from vector",
+                // alphabet
+                "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ",
+                // word / payload
+                "c51URQxHgLk",
+                // tweak
+                new BitString("AC6648B625F503EB839466"), 
+                // key
+                new BitString("97737455BFAFF6B0AD7A02A31EE2A310"), 
+                // expectedWord
+                "cSbCk1y7Ybl"
+            },
+//            new object[]
+//            {
+//                // label
+//                "test 3 failed from IUT (server generated)",
+//                // alphabet
+//                "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ",
+//                // word / payload
+//                "lUnLs5KrrKXwJu6axnE2obK6",
+//                // tweak
+//                new BitString("C82E75AE4361F965648FE5BF5B83C195"), 
+//                // key
+//                new BitString("01B6932FF610BC056CCF223F5BB10C92"), 
+//                // expectedWord
+//                "g3DLKPGfpQaEUZnMeOdDEYgx"
+//            },
+            new object[]
+            {
+                // label
+                "test 4 failed from IUT (iut response)",
+                // alphabet
+                "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ",
+                // word / payload
+                "lUnLs5KrrKXwJu6axnE2obK6",
+                // tweak
+                new BitString("C82E75AE4361F965648FE5BF5B83C195"), 
+                // key
+                new BitString("01B6932FF610BC056CCF223F5BB10C92"), 
+                // expectedWord
+                "KcUieP79r1eST1IKw8hXvTVw"
+            },
+            new object[]
+            {
+                // label
+                "test 5 failed from IUT (iut response)",
+                // alphabet
+                "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ",
+                // word / payload
+                "8Wf66i9Lp3Myou0TD5l",
+                // tweak
+                new BitString("54ED6D2E352BAEDE4A"), 
+                // key
+                new BitString("B2DB54A3FA7FC511EEF9A1465F831778"), 
+                // expectedWord
+                "l6nIKrv6nZJgrDllIxl"
+            },
+            new object[]
+            {
+                // label
+                "test 6 failed from IUT (iut response)",
+                // alphabet
+                "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ",
+                // word / payload
+                "FFGD792nGSwlhOjSWcbgBzpO",
+                // tweak
+                new BitString("FF"), 
+                // key
+                new BitString("E8E60A416DEEC6D967E63F8064A31A21"), 
+                // expectedWord
+                "KQJfwUTmxAHaty5zRtec1y1c"
+            },
+            new object[]
+            {
+                // label
+                "test 7 failed from IUT (iut response)",
+                // alphabet
+                "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ",
+                // word / payload
+                "7bRI29eKqeAdMgLd1Zz2w",
+                // tweak
+                new BitString("AF7D4D"), 
+                // key
+                new BitString("F21D9982E0914B846A41D8431C5ACB33"), 
+                // expectedWord
+                "LMbiZoYW5uyVp2XQubqn1"
+            },
+            new object[]
+            {
+                // label
+                "test 8 failed from IUT (iut response)",
+                // alphabet
+                "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ",
+                // word / payload
+                "0HqqLZATFzUZcubspLq68mg",
+                // tweak
+                new BitString("3DB701CB02774433C16BACC4"), 
+                // key
+                new BitString("FADC7F8F89F20E82127C9B0F5D8207FF"), 
+                // expectedWord
+                "3nTjNZI6jPXqMa4ah6n0DAu"
+            },
+        };
+        
+        [Test]
+        [TestCaseSource(nameof(_alphabetStringTests))]
+        public void ShouldEncryptAlphabetStringsCorrectly(string label, string alphabet, string word, BitString tweak, BitString key, string expectedResult)
+        {
+            var wordNumeralString = NumeralString.ToNumeralString(word, alphabet);
+            var expectedResultNumeralString = NumeralString.ToNumeralString(expectedResult, alphabet);
+            
+            var result = _subject.ProcessPayload(new FfxModeBlockCipherParameters()
+            {
+                Direction = BlockCipherDirections.Encrypt,
+                Iv = tweak,
+                Key = key,
+                Payload = NumeralString.ToBitString(wordNumeralString),
+                Radix = alphabet.Length
+            });
+
+            Assert.AreEqual(
+                NumeralString.ToAlphabetString(alphabet, alphabet.Length, expectedResultNumeralString), 
+                NumeralString.ToAlphabetString(alphabet, alphabet.Length, NumeralString.ToNumeralString(result.Result))
+            );
+        }
+        
+        [Test]
+        [TestCaseSource(nameof(_alphabetStringTests))]
+        public void ShouldDecryptAlphabetStringsCorrectly(string label, string alphabet, string word, BitString tweak, BitString key, string expectedResult)
+        {
+            var wordNumeralString = NumeralString.ToNumeralString(word, alphabet);
+            var expectedResultNumeralString = NumeralString.ToNumeralString(expectedResult, alphabet);
+            
+            var result = _subject.ProcessPayload(new FfxModeBlockCipherParameters()
+            {
+                Direction = BlockCipherDirections.Decrypt,
+                Iv = tweak,
+                Key = key,
+                Payload = NumeralString.ToBitString(expectedResultNumeralString),
+                Radix = alphabet.Length
+            });
+
+            Assert.AreEqual(
+                NumeralString.ToAlphabetString(alphabet, alphabet.Length, wordNumeralString), 
+                NumeralString.ToAlphabetString(alphabet, alphabet.Length, NumeralString.ToNumeralString(result.Result))
+                );
+        }
+
+        public static IEnumerable<object> _encryptDecryptTest = new List<object>()
+        {
+            new object[]
+            {
+                // label
+                "test 1 passed from vector",
+                // alphabet
+                "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ",
+                // word / payload
+                "ClfDsp",
+                // tweak
+                new BitString(0), 
+                // key
+                new BitString("8C1701774CD7D9F7AC7BE4B2B80708F7"), 
+            },
+            new object[]
+            {
+                // label
+                "test 2 failed from IUT (server generated)",
+                // alphabet
+                "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ",
+                // word / payload
+                "lUnLs5KrrKXwJu6axnE2obK6",
+                // tweak
+                new BitString("C82E75AE4361F965648FE5BF5B83C195"), 
+                // key
+                new BitString("01B6932FF610BC056CCF223F5BB10C92"), 
+            },
+            new object[]
+            {
+                // label
+                "test 3 failed from IUT (server generated)",
+                // alphabet
+                "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ",
+                // word / payload
+                "abbcccddddeeeeeffffffggggggg123456789123456789123456789123456789123456789123456789123456789123456789123456789123456789",
+                // tweak
+                new BitString(0), 
+                // key
+                new BitString("01B6932FF610BC056CCF223F5BB10C92"), 
+            },
+        };
+        
+        [Test]
+        [TestCaseSource(nameof(_encryptDecryptTest))]
+        public void ShouldEncryptDecryptBackToSameValue(string label, string alphabet, string word, BitString tweak, BitString key)
+        {
+            var wordNumeralString = NumeralString.ToNumeralString(word, alphabet);
+            
+            var encryptResult = _subject.ProcessPayload(new FfxModeBlockCipherParameters()
+            {
+                Direction = BlockCipherDirections.Encrypt,
+                Iv = tweak,
+                Key = key,
+                Payload = NumeralString.ToBitString(wordNumeralString),
+                Radix = alphabet.Length
+            });
+
+            var decryptResult = _subject.ProcessPayload(new FfxModeBlockCipherParameters()
+            {
+                Direction = BlockCipherDirections.Decrypt,
+                Iv = tweak,
+                Key = key,
+                Payload = encryptResult.Result,
+                Radix = alphabet.Length
+            });
+            
+            Assert.AreEqual(
+                NumeralString.ToAlphabetString(alphabet, alphabet.Length, wordNumeralString), 
+                NumeralString.ToAlphabetString(alphabet, alphabet.Length, NumeralString.ToNumeralString(decryptResult.Result))
+            );
         }
     }
 }

@@ -27,6 +27,9 @@ namespace NIST.CVP.Crypto.AES_FF.Tests
                 new AesFfInternals(engineFactory, modeFactory));
         }
 
+        /// <summary>
+        /// Samples from https://csrc.nist.gov/CSRC/media/Projects/Cryptographic-Standards-and-Guidelines/documents/examples/FF3samples.pdf
+        /// </summary>
         private static IEnumerable<object> _testData = new List<object>()
         {
             new object[]
@@ -211,6 +214,53 @@ namespace NIST.CVP.Crypto.AES_FF.Tests
             });
 
             Assert.AreEqual(payload.ToString(), NumeralString.ToNumeralString(result.Result).ToString());
+        }
+        
+        public static IEnumerable<object> _encryptDecryptTest = new List<object>()
+        {
+            new object[]
+            {
+                // label
+                "test 1",
+                // alphabet
+                "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ",
+                // word / payload
+                "lUnLs5KrrKXwJu6axnE2obK6",
+                // tweak
+                new BitString("C82E75AE46F6648FE5BF5B83C195"), 
+                // key
+                new BitString("01B6932FF610BC056CCF223F5BB10C92"), 
+            }
+        };
+        
+        [Test]
+        [TestCaseSource(nameof(_encryptDecryptTest))]
+        public void ShouldEncryptDecryptBackToSameValue(string label, string alphabet, string word, BitString tweak, BitString key)
+        {
+            var wordNumeralString = NumeralString.ToNumeralString(word, alphabet);
+            
+            var encryptResult = _subject.ProcessPayload(new FfxModeBlockCipherParameters()
+            {
+                Direction = BlockCipherDirections.Encrypt,
+                Iv = tweak,
+                Key = key,
+                Payload = NumeralString.ToBitString(wordNumeralString),
+                Radix = alphabet.Length
+            });
+
+            var decryptResult = _subject.ProcessPayload(new FfxModeBlockCipherParameters()
+            {
+                Direction = BlockCipherDirections.Decrypt,
+                Iv = tweak,
+                Key = key,
+                Payload = encryptResult.Result,
+                Radix = alphabet.Length
+            });
+            
+            Assert.AreEqual(
+                NumeralString.ToAlphabetString(alphabet, alphabet.Length, wordNumeralString), 
+                NumeralString.ToAlphabetString(alphabet, alphabet.Length, NumeralString.ToNumeralString(decryptResult.Result))
+            );
         }
     }
 }
