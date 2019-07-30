@@ -71,6 +71,7 @@ namespace NIST.CVP.Crypto.AES_FF
                 resultArray[m - 1 - i] = (int)x.PosMod(radix);
 
                 // ii. x = Floor(x/radix).
+                // when working with integer division "toward zero" is the default truncation, so effectively a floor with positive numbers.
                 x /= radix;
             }
 
