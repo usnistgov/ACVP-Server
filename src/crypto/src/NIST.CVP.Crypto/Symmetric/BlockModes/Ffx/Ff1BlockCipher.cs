@@ -32,16 +32,16 @@ namespace NIST.CVP.Crypto.Symmetric.BlockModes.Ffx
 
             // 2. Let A = X[1..u]; B = X[u + 1..n].
             var A = new NumeralString(X.Numbers.Take(u).ToArray());
-            var B = new NumeralString(X.Numbers.Skip(u).Take(n).ToArray());
+            var B = new NumeralString(X.Numbers.Skip(u).Take(v).ToArray());
 
             // 3. Let b = Ceiling(Ceiling(v×LOG(radix))/8).
             var b = (int)System.Math.Ceiling(System.Math.Ceiling(v * System.Math.Log(param.Radix, 2)) / 8);
 
             // 4. Let d = 4*Ceiling(b/4) + 4.
-            var d = (int)(4 * System.Math.Ceiling((double)b / 4) + 4);
+            var d = 4 * b.CeilingDivide(4) + 4;
 
             // the number times to iterate through the concatenation of cipher iterator blocks
-            var jCount = (int) System.Math.Ceiling((double) d / 16);
+            var jCount = d.CeilingDivide(16);
             
             // 5. Let P = [1] 1 || [2] 1 || [1] 1 || [radix] 3 || [10] 1 || [u mod 256] 1 || [n] 4 || [t] 4.
             var pBytes = new byte[_engine.BlockSizeBytes];
@@ -52,7 +52,7 @@ namespace NIST.CVP.Crypto.Symmetric.BlockModes.Ffx
             pBytes[3] = 0x00;
             Array.Copy(BitString.To32BitString(param.Radix).GetLeastSignificantBits(16).ToBytes(), 0, pBytes, 4, 2);
             pBytes[6] = 0x0a;
-            pBytes[7] = (byte)(u.PosMod(256));
+            pBytes[7] = (byte)(u % 256);
             Array.Copy(BitString.To32BitString(n).ToBytes(), 0, pBytes, 8, 4);
             Array.Copy(BitString.To32BitString(t).ToBytes(), 0, pBytes, 12, 4);
             var P = new BitString(pBytes);
@@ -71,7 +71,7 @@ namespace NIST.CVP.Crypto.Symmetric.BlockModes.Ffx
                 var Q = new BitString(0)
                     .ConcatenateBits(param.Iv)
                     .ConcatenateBits(new BitString((-t - b - 1).PosMod(16) * BitsInByte))
-                    .ConcatenateBits(new BitString(new[] { (byte)i }))
+                    .ConcatenateBits(((byte)i).ToBitString())
                     .ConcatenateBits(numB.GetMostSignificantBits(b * BitsInByte));
 
                 //     ii. Let R = PRF(P || Q).
@@ -83,7 +83,7 @@ namespace NIST.CVP.Crypto.Symmetric.BlockModes.Ffx
                 for (var j = 1; j < jCount; j++)
                 {
                     var pad = new BitString(new byte[15])
-                        .ConcatenateBits(new BitString(new byte[] {(byte) j}));
+                        .ConcatenateBits(((byte)j).ToBitString());
                     S = S.ConcatenateBits(
                         mode.ProcessPayload(
                             new ModeBlockCipherParameters(
@@ -92,12 +92,13 @@ namespace NIST.CVP.Crypto.Symmetric.BlockModes.Ffx
                                 R.XOR(pad))).Result
                     );
                 }
-
+                S = S.GetMostSignificantBits(d * BitsInByte);
+                
                 //     iv. Let y = NUM(S).
-                var y = _ffInternals.Num(S.GetMostSignificantBits(d * BitsInByte));
+                var y = _ffInternals.Num(S);
 
                 //     v. If i is even, let m = u; else, let m = v.
-                var m = i.PosMod(2) == 0 ? u : v;
+                var m = i % 2 == 0 ? u : v;
 
                 //     vi. Let c = (NUMradix (A)+y) mod radix m .
                 var c = (_ffInternals.Num(param.Radix, A) + y).PosMod((BigInteger)System.Math.Pow(param.Radix, m));
@@ -130,16 +131,16 @@ namespace NIST.CVP.Crypto.Symmetric.BlockModes.Ffx
 
             // 2. Let A = X[1..u]; B = X[u+1..n].
             var A = new NumeralString(X.Numbers.Take(u).ToArray());
-            var B = new NumeralString(X.Numbers.Skip(u).Take(n).ToArray());
+            var B = new NumeralString(X.Numbers.Skip(u).Take(v).ToArray());
 
             // 3. Let b = Ceiling(Ceiling(v×LOG(radix))/8).
             var b = (int)System.Math.Ceiling(System.Math.Ceiling(v * System.Math.Log(param.Radix, 2)) / 8);
 
             // 4. Let d = 4 Ceiling(b/4)+4
-            var d = (int)(4 * System.Math.Ceiling((double)b / 4) + 4);
+            var d = (4 * b.CeilingDivide(4) + 4);
 
             // the number times to iterate through the concatenation of cipher iterator blocks
-            var jCount = (int) System.Math.Ceiling((double) d / 16);
+            var jCount = d.CeilingDivide(16);
             
             // 5. Let P = [1] 1 || [2] 1 || [1] 1 || [radix] 3 || [10] 1 ||[u mod 256] 1 || [n] 4 || [t] 4 .
             var pBytes = new byte[_engine.BlockSizeBytes];
@@ -150,7 +151,7 @@ namespace NIST.CVP.Crypto.Symmetric.BlockModes.Ffx
             pBytes[3] = 0x00;
             Array.Copy(BitString.To32BitString(param.Radix).GetLeastSignificantBits(16).ToBytes(), 0, pBytes, 4, 2);
             pBytes[6] = 0x0a;
-            pBytes[7] = (byte)(u.PosMod(256));
+            pBytes[7] = (byte)(u % 256);
             Array.Copy(BitString.To32BitString(n).ToBytes(), 0, pBytes, 8, 4);
             Array.Copy(BitString.To32BitString(t).ToBytes(), 0, pBytes, 12, 4);
             var P = new BitString(pBytes);
@@ -170,7 +171,7 @@ namespace NIST.CVP.Crypto.Symmetric.BlockModes.Ffx
                 var Q = new BitString(0)
                     .ConcatenateBits(param.Iv)
                     .ConcatenateBits(new BitString((-t - b - 1).PosMod(16) * BitsInByte))
-                    .ConcatenateBits(new BitString(new[] { (byte)i }))
+                    .ConcatenateBits(((byte)i).ToBitString())
                     .ConcatenateBits(numA.GetMostSignificantBits(b * BitsInByte));
 
                 //     ii. Let R = PRF(P || Q).
@@ -182,7 +183,7 @@ namespace NIST.CVP.Crypto.Symmetric.BlockModes.Ffx
                 for (var j = 1; j < jCount; j++)
                 {
                     var pad = new BitString(new byte[15])
-                        .ConcatenateBits(new BitString(new byte[] {(byte) j}));
+                        .ConcatenateBits(((byte)j).ToBitString());
                     S = S.ConcatenateBits(
                         mode.ProcessPayload(
                             new ModeBlockCipherParameters(
@@ -192,11 +193,13 @@ namespace NIST.CVP.Crypto.Symmetric.BlockModes.Ffx
                     );
                 }
 
+                S = S.GetMostSignificantBits(d * BitsInByte);
+
                 //     iv. Let y = NUM(S).
-                var y = _ffInternals.Num(S.GetMostSignificantBits(d * BitsInByte));
+                var y = _ffInternals.Num(S);
 
                 //     v. If i is even, let m = u; else, let m = v.
-                var m = i.PosMod(2) == 0 ? u : v;
+                var m = i % 2 == 0 ? u : v;
 
                 //     vi. Let c = (NUMradix (B)-y) mod radix m .
                 // This step differs from Encrypt, using B instead of A, also uses modular subtraction rather than addition

@@ -242,6 +242,11 @@ namespace NIST.CVP.Math
             return new BitString(bitArrayInLsb);
         }
 
+        public static BitString To8BitString(byte value)
+        {
+            return new BitString(new byte[] { value });
+        }
+        
         public static BitString To16BitString(short value)
         {
             var bytesInLSB = BitConverter.GetBytes(value);

@@ -68,7 +68,7 @@ namespace NIST.CVP.Crypto.AES_FF
             for (var i = 0; i <= m - 1; i++)
             {
                 // i. X[m+1–i] = x mod radix;
-                resultArray[m - 1 - i] = (int)x.PosMod(radix);
+                resultArray[m - 1 - i] = (int)(x % radix);
 
                 // ii. x = Floor(x/radix).
                 // when working with integer division "toward zero" is the default truncation, so effectively a floor with positive numbers.
