@@ -1,4 +1,4 @@
-﻿namespace NIST.CVP.Crypto.Common.KAS.Schema
+﻿namespace NIST.CVP.Crypto.Common.KAS.Scheme
 {
     /// <summary>
     /// The attributes such as scheme and parameter set for a kas scheme.

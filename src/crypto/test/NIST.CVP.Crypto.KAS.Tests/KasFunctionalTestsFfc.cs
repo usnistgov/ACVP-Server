@@ -8,7 +8,7 @@ using NIST.CVP.Crypto.CMAC;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Common.KAS.Enums;
-using NIST.CVP.Crypto.Common.KAS.Schema;
+using NIST.CVP.Crypto.Common.KAS.Scheme;
 using NIST.CVP.Crypto.DSA.FFC;
 using NIST.CVP.Crypto.HMAC;
 using NIST.CVP.Crypto.KAS.Builders;

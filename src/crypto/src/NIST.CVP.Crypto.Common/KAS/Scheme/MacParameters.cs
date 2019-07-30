@@ -2,7 +2,7 @@
 using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Math;
 
-namespace NIST.CVP.Crypto.Common.KAS.Schema
+namespace NIST.CVP.Crypto.Common.KAS.Scheme
 {
     public class MacParameters
     {

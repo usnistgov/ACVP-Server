@@ -1,7 +1,7 @@
 ﻿using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Math;
 
-namespace NIST.CVP.Crypto.Common.KAS.Schema
+namespace NIST.CVP.Crypto.Common.KAS.Scheme
 {
     /// <summary>
     /// Describes the parameters needed for a KAS scheme

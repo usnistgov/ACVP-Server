@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 using NIST.CVP.Common.Oracle.DispositionTypes;
-using NIST.CVP.Crypto.Common.KAS.Schema;
+using NIST.CVP.Crypto.Common.KAS.Scheme;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 

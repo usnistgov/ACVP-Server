@@ -1,6 +1,6 @@
 ﻿using NIST.CVP.Crypto.Common.KAS.Enums;
 
-namespace NIST.CVP.Crypto.Common.KAS.Schema
+namespace NIST.CVP.Crypto.Common.KAS.Scheme
 {
     public class KasDsaAlgoAttributesFfc : IKasAlgoAttributes
     {

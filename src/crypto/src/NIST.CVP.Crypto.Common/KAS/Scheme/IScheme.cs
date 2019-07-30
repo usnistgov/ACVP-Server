@@ -1,7 +1,7 @@
 ﻿using NIST.CVP.Crypto.Common.Asymmetric.DSA;
 using NIST.CVP.Math;
 
-namespace NIST.CVP.Crypto.Common.KAS.Schema
+namespace NIST.CVP.Crypto.Common.KAS.Scheme
 {
     public interface IScheme<out TSchemeParameters, TKasDsaAlgoAttributes, TOtherPartySharedInfo, TDomainParameters, TKeyPair>
         where TSchemeParameters : ISchemeParameters<TKasDsaAlgoAttributes>

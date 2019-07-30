@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC.Helpers;
-using NIST.CVP.Crypto.Common.KAS.Schema;
+using NIST.CVP.Crypto.Common.KAS.Scheme;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.KAS.v1_0.ECC

@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using NIST.CVP.Crypto.Common.KAS.Schema;
+using NIST.CVP.Crypto.Common.KAS.Scheme;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.KAS.v1_0

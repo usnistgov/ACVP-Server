@@ -8,7 +8,7 @@ using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Crypto.Common.KAS.KC;
 using NIST.CVP.Crypto.Common.KAS.KDF;
 using NIST.CVP.Crypto.Common.KAS.NoKC;
-using NIST.CVP.Crypto.Common.KAS.Schema;
+using NIST.CVP.Crypto.Common.KAS.Scheme;
 using NIST.CVP.Crypto.Common.KES;
 using NIST.CVP.Crypto.DSA.ECC;
 using NIST.CVP.Crypto.KAS.Builders.Ecc;
