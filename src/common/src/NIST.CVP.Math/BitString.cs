@@ -106,7 +106,7 @@ namespace NIST.CVP.Math
 
             if (numberChars % 2 != 0)
             {
-                throw new InvalidBitStringLengthException($"{nameof(BitString)} hex length expected to be an even for hex \"{hexMSB}\"");
+                throw new InvalidBitStringLengthException($"{nameof(BitString)}s are expected to have an even number of hex characters. Value was \"{hexMSB}\".");
             }
             
             byte[] bytesInMSB = new byte[numberChars / 2];

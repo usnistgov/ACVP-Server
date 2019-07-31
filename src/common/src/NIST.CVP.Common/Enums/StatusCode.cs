@@ -43,7 +43,7 @@ namespace NIST.CVP.Common.Enums
         [EnumMember(Value = "File read error, unable to read internal projection or results file. Contact service provider.")]
         FileReadError = 11,
         
-        [EnumMember(Value = "BitString parse error, unable to read one of more BitStrings.  Contact service provider.")]
+        [EnumMember(Value = "BitString parse error, unable to read one or more BitStrings.  Contact service provider.")]
         BitStringParseError = 12
     }
 }
