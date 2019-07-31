@@ -6,6 +6,7 @@ using NIST.CVP.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.Math;
 using System.Linq;
 using System.Numerics;
+using NIST.CVP.Math.Helpers;
 
 namespace NIST.CVP.Crypto.Symmetric.BlockModes.Ffx
 {
@@ -23,12 +24,12 @@ namespace NIST.CVP.Crypto.Symmetric.BlockModes.Ffx
             var n = X.Numbers.Length;
 
             // 1. Let u = ⌈n / 2⌉; v = n – u.
-            var u = (int)System.Math.Ceiling((double)n / 2);
+            var u = n.CeilingDivide(2);
             var v = n - u;
 
             // 2. Let A = X[1..u]; B = X[u + 1..n].
             var A = new NumeralString(X.Numbers.Take(u).ToArray());
-            var B = new NumeralString(X.Numbers.Skip(u).Take(n).ToArray());
+            var B = new NumeralString(X.Numbers.Skip(u).Take(v).ToArray());
 
             // TODO Let TL = T[0..27] || 04 and TR = T[32..55] || T[28..31] || 04 .
             // NOTE this step is the difference between FF3 and FF3-1.
@@ -54,7 +55,7 @@ namespace NIST.CVP.Crypto.Symmetric.BlockModes.Ffx
                     numB = bitsToPrepend.ConcatenateBits(numB);
                 }
 
-                var P = W.XOR(new BitString(new byte[3]).ConcatenateBits(new BitString(new[] { (byte)i })))
+                var P = W.XOR(new BitString(new byte[3]).ConcatenateBits(((byte)i).ToBitString()))
                     .ConcatenateBits(numB);
 
                 // iii. Let S = REVB(CIPHREVB(K) REVB(P)).
@@ -68,7 +69,7 @@ namespace NIST.CVP.Crypto.Symmetric.BlockModes.Ffx
                 var y = _ffInternals.Num(S);
 
                 // v. Let c = (NUMradix (REV(A)) + y) mod radix m .
-                var c = (_ffInternals.Num(param.Radix, _ffInternals.Rev(A)) + y) % (BigInteger)System.Math.Pow(param.Radix, m);
+                var c = (_ffInternals.Num(param.Radix, _ffInternals.Rev(A)) + y).PosMod(BigInteger.Pow(param.Radix, m));
 
                 // vi. Let C = REV(STRm radix(c)).
                 var C = _ffInternals.Rev(_ffInternals.Str(param.Radix, m, c));
@@ -93,12 +94,12 @@ namespace NIST.CVP.Crypto.Symmetric.BlockModes.Ffx
             var n = X.Numbers.Length;
 
             // 1. Let u = ⌈n / 2⌉; v = n – u.
-            var u = (int)System.Math.Ceiling((double)n / 2);
+            var u = n.CeilingDivide(2);
             var v = n - u;
 
             // 2. Let A = X[1..u]; B = X[u + 1..n].
             var A = new NumeralString(X.Numbers.Take(u).ToArray());
-            var B = new NumeralString(X.Numbers.Skip(u).Take(n).ToArray());
+            var B = new NumeralString(X.Numbers.Skip(u).Take(v).ToArray());
 
             // TODO Let TL = T[0..27] || 04 and TR = T[32..55] || T[28..31] || 04 .
             // NOTE this step is the difference between FF3 and FF3-1.
@@ -124,7 +125,7 @@ namespace NIST.CVP.Crypto.Symmetric.BlockModes.Ffx
                     numA = bitsToPrepend.ConcatenateBits(numA);
                 }
 
-                var P = W.XOR(new BitString(new byte[3]).ConcatenateBits(new BitString(new[] { (byte)i })))
+                var P = W.XOR(new BitString(new byte[3]).ConcatenateBits(((byte)i).ToBitString()))
                     .ConcatenateBits(numA);
 
                 // iii. Let S = REVB(CIPHREVB(K) REVB(P)).
@@ -138,7 +139,7 @@ namespace NIST.CVP.Crypto.Symmetric.BlockModes.Ffx
                 var y = _ffInternals.Num(S);
 
                 // v. Let c = (NUMradix (REV(B)) - y) mod radix m .
-                var c = (_ffInternals.Num(param.Radix, _ffInternals.Rev(B)) - y) % (BigInteger)System.Math.Pow(param.Radix, m);
+                var c = (_ffInternals.Num(param.Radix, _ffInternals.Rev(B)) - y).PosMod(BigInteger.Pow(param.Radix, m));
 
                 // vi. Let C = REV(STRm radix(c)).
                 var C = _ffInternals.Rev(_ffInternals.Str(param.Radix, m, c));

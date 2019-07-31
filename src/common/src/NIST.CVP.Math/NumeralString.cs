@@ -96,11 +96,11 @@ namespace NIST.CVP.Math
         /// <summary>
         /// Converts a <see cref="BitString"/> to a <see cref="NumeralString"/>.
         ///
-        /// <see cref="BitString"/> is expected to be a modulus of 8.
+        /// <see cref="BitString"/> is expected to be a modulus of 16.
         /// </summary>
         /// <param name="bitString">The <see cref="BitString"/> to convert.</param>
         /// <returns><see cref="NumeralString"/> conversion of provided <see cref="BitString"/>.</returns>
-        /// <exception cref="ArgumentException">Thrown when the <see cref="BitString"/>'s BitLength is not a modulus of 8.</exception>
+        /// <exception cref="ArgumentException">Thrown when the <see cref="BitString"/>'s BitLength is not a modulus of 16.</exception>
         public static NumeralString ToNumeralString(BitString bitString)
         {
             const int requiredMod = 16;
@@ -115,10 +115,28 @@ namespace NIST.CVP.Math
             for (var i = 0; i < bitString.BitLength / requiredMod; i++)
             {
                 var subString = bitString.Substring(bitString.BitLength - ((i + 1) * requiredMod), requiredMod).ToHex();
-                numbers.Add(Convert.ToInt32($"0x{subString}", 16));
+                numbers.Add(Convert.ToInt32($"0x{subString}", requiredMod));
             }
 
             return new NumeralString(numbers.ToArray());
+        }
+
+        /// <summary>
+        /// Converts a <see cref="word"/> (a string of characters bound to an <see cref="alphabet"/>) to a <see cref="NumeralString"/>.
+        /// </summary>
+        /// <param name="word">The word to convert.</param>
+        /// <param name="alphabet">The alphabet used for converting a word to an alphabet.</param>
+        /// <returns>The converted word to a <see cref="NumeralString"/></returns>
+        /// <exception cref="ArgumentException">Thrown when the word contains characters that are not a part of the alphabet.</exception>
+        public static NumeralString ToNumeralString(string word, string alphabet)
+        {
+            if (word.Except(alphabet).Any())
+            {
+                throw new ArgumentException("Word contains characters not contained within the alphabet.");
+            }
+
+            // For every character in word, determine which integer value it represents based on the index of the alphabet.
+            return new NumeralString(word.Select(c => alphabet.IndexOf(c)).ToArray());
         }
 
         /// <summary>
