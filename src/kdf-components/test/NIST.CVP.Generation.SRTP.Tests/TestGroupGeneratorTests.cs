@@ -33,7 +33,7 @@ namespace NIST.CVP.Generation.SRTP.Tests
             },
             new object[]
             {
-                75,
+                78,
                 new ParameterBuilder()
                     .WithKeyLength(ParameterValidator.VALID_AES_KEY_LENGTHS)
                     .WithKdr(ParameterValidator.VALID_KDR_EXPONENTS)

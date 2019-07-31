@@ -22,17 +22,21 @@ namespace NIST.CVP.Generation.KDF_Components.v1_0.SRTP
                     });
                 }
 
-                foreach (var kdrExponent in parameters.KdrExponent)
+                // KdrExponent is optional
+                if (parameters.KdrExponent != null)
                 {
-                    var kdr = new BitString(BigInteger.One << (kdrExponent - 1));
-                    
-                    //kdr.Set(kdrExponent - 1, true);
-
-                    list.Add(new TestGroup
+                    foreach (var kdrExponent in parameters.KdrExponent)
                     {
-                        AesKeyLength = aesKeyLength,
-                        Kdr = kdr
-                    });
+                        var kdr = new BitString(BigInteger.One << (kdrExponent - 1));
+                        
+                        //kdr.Set(kdrExponent - 1, true);
+
+                        list.Add(new TestGroup
+                        {
+                            AesKeyLength = aesKeyLength,
+                            Kdr = kdr
+                        });
+                    }
                 }
             }
 
