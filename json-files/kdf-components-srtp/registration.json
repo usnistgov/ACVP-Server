@@ -12,6 +12,7 @@
   ],
   "supportsZeroKdr": true,
   "kdrExponent": [
+    0,
     1,
     2,
     3,
