@@ -65,7 +65,7 @@ namespace NIST.CVP.Crypto.Symmetric.BlockModes.Ffx
                 var y = _ffInternals.Num(S);
 
                 // v. Let c = (NUMradix (REV(A)) + y) mod radix m .
-                var c = (_ffInternals.Num(param.Radix, _ffInternals.Rev(A)) + y).PosMod((BigInteger)System.Math.Pow(param.Radix, m));
+                var c = (_ffInternals.Num(param.Radix, _ffInternals.Rev(A)) + y).PosMod(BigInteger.Pow(param.Radix, m));
 
                 // vi. Let C = REV(STRm radix(c)).
                 var C = _ffInternals.Rev(_ffInternals.Str(param.Radix, m, c));
@@ -131,7 +131,7 @@ namespace NIST.CVP.Crypto.Symmetric.BlockModes.Ffx
                 var y = _ffInternals.Num(S);
 
                 // v. Let c = (NUMradix (REV(B)) - y) mod radix m .
-                var c = (_ffInternals.Num(param.Radix, _ffInternals.Rev(B)) - y).PosMod((BigInteger)System.Math.Pow(param.Radix, m));
+                var c = (_ffInternals.Num(param.Radix, _ffInternals.Rev(B)) - y).PosMod(BigInteger.Pow(param.Radix, m));
 
                 // vi. Let C = REV(STRm radix(c)).
                 var C = _ffInternals.Rev(_ffInternals.Str(param.Radix, m, c));

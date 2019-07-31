@@ -101,7 +101,7 @@ namespace NIST.CVP.Crypto.Symmetric.BlockModes.Ffx
                 var m = i % 2 == 0 ? u : v;
 
                 //     vi. Let c = (NUMradix (A)+y) mod radix m .
-                var c = (_ffInternals.Num(param.Radix, A) + y).PosMod((BigInteger)System.Math.Pow(param.Radix, m));
+                var c = (_ffInternals.Num(param.Radix, A) + y).PosMod(BigInteger.Pow(param.Radix, m));
 
                 //     vii. Let C = STR m radix (c).
                 var C = _ffInternals.Str(param.Radix, m, c);
@@ -203,7 +203,7 @@ namespace NIST.CVP.Crypto.Symmetric.BlockModes.Ffx
 
                 //     vi. Let c = (NUMradix (B)-y) mod radix m .
                 // This step differs from Encrypt, using B instead of A, also uses modular subtraction rather than addition
-                var c = (_ffInternals.Num(param.Radix, B) - y).PosMod((BigInteger)System.Math.Pow(param.Radix, m));
+                var c = (_ffInternals.Num(param.Radix, B) - y).PosMod(BigInteger.Pow(param.Radix, m));
 
                 //     vii. Let C = STR m radix (c).
                 var C = _ffInternals.Str(param.Radix, m, c);
