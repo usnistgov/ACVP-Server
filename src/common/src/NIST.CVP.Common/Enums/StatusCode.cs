@@ -41,6 +41,9 @@ namespace NIST.CVP.Common.Enums
         TestCaseValidatorError = 10,
 
         [EnumMember(Value = "File read error, unable to read internal projection or results file. Contact service provider.")]
-        FileReadError = 11
+        FileReadError = 11,
+        
+        [EnumMember(Value = "BitString parse error, unable to read one or more BitStrings.  Contact service provider.")]
+        BitStringParseError = 12
     }
 }
