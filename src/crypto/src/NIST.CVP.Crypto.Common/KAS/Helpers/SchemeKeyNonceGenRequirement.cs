@@ -17,7 +17,21 @@ namespace NIST.CVP.Crypto.Common.KAS.Helpers
             bool generatesEphemeralNonce, 
             bool generatesDkmNonce
         ) : base (
-            kasMode, thisPartyKasRole, thisPartyKeyConfirmationRole, keyConfirmationDirection,generatesStaticKeyPair, generatesEphemeralKeyPair, generatesEphemeralNonce, generatesDkmNonce)
+            kasMode, thisPartyKasRole, thisPartyKeyConfirmationRole, keyConfirmationDirection, generatesStaticKeyPair, generatesEphemeralKeyPair, generatesEphemeralNonce, generatesDkmNonce)
+        {
+            Scheme = scheme;
+        }
+        
+        public SchemeKeyNonceGenRequirement(
+            TScheme scheme, 
+            KasMode kasMode, 
+            KeyAgreementRole thisPartyKasRole, 
+            KeyConfirmationRole thisPartyKeyConfirmationRole, 
+            KeyConfirmationDirection keyConfirmationDirection, 
+            bool generatesKeyPair, 
+            bool generatesEphemeralNonce
+        ) : base (
+            kasMode, thisPartyKasRole, thisPartyKeyConfirmationRole, keyConfirmationDirection, generatesKeyPair, generatesEphemeralNonce)
         {
             Scheme = scheme;
         }
@@ -27,7 +41,7 @@ namespace NIST.CVP.Crypto.Common.KAS.Helpers
 
     public class SchemeKeyNonceGenRequirement
     {
-        public SchemeKeyNonceGenRequirement(
+        protected SchemeKeyNonceGenRequirement(
             KasMode kasMode, 
             KeyAgreementRole thisPartyKasRole, 
             KeyConfirmationRole thisPartyKeyConfirmationRole, 
@@ -46,6 +60,23 @@ namespace NIST.CVP.Crypto.Common.KAS.Helpers
             GeneratesEphemeralKeyPair = generatesEphemeralKeyPair;
             GeneratesEphemeralNonce = generatesEphemeralNonce;
             GeneratesDkmNonce = generatesDkmNonce;
+        }
+
+        protected SchemeKeyNonceGenRequirement(
+            KasMode kasMode, 
+            KeyAgreementRole thisPartyKasRole, 
+            KeyConfirmationRole thisPartyKeyConfirmationRole, 
+            KeyConfirmationDirection keyConfirmationDirection, 
+            bool generatesKeyPair, 
+            bool generatesEphemeralNonce)
+        {
+            KasMode = kasMode;
+            ThisPartyKasRole = thisPartyKasRole;
+            ThisPartyKeyConfirmationRole = thisPartyKeyConfirmationRole;
+            KeyConfirmationDirection = keyConfirmationDirection;
+            GeneratesStaticKeyPair = generatesKeyPair;
+            GeneratesEphemeralKeyPair = generatesKeyPair;
+            GeneratesEphemeralNonce = generatesEphemeralNonce;
         }
 
         public KasMode KasMode { get; }

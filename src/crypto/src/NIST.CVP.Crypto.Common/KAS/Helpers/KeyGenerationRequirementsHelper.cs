@@ -1271,6 +1271,120 @@ namespace NIST.CVP.Crypto.Common.KAS.Helpers
                     #endregion StaticUnified
                 };
 
+        public static
+            List<SchemeKeyNonceGenRequirement<IfcScheme>> IfcSchemeKeyGenerationRequirements =
+                new List<SchemeKeyNonceGenRequirement<IfcScheme>>()
+                {
+                    new SchemeKeyNonceGenRequirement<IfcScheme>(
+                        IfcScheme.Kas1_basic, KasMode.KdfNoKc, 
+                        KeyAgreementRole.InitiatorPartyU, KeyConfirmationRole.None, KeyConfirmationDirection.None, 
+                        false, 
+                        false
+                        ),
+                    new SchemeKeyNonceGenRequirement<IfcScheme>(
+                        IfcScheme.Kas1_basic, KasMode.KdfNoKc, 
+                        KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.None, KeyConfirmationDirection.None, 
+                        true, 
+                        true
+                    ),
+                    new SchemeKeyNonceGenRequirement<IfcScheme>(
+                        IfcScheme.Kas1_partyV_keyConfirmation, KasMode.KdfKc, 
+                        KeyAgreementRole.InitiatorPartyU, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Unilateral, 
+                        false, 
+                        false
+                    ),
+                    new SchemeKeyNonceGenRequirement<IfcScheme>(
+                        IfcScheme.Kas1_partyV_keyConfirmation, KasMode.KdfKc, 
+                        KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Provider, KeyConfirmationDirection.Unilateral, 
+                        true, 
+                        true
+                    ),
+                    new SchemeKeyNonceGenRequirement<IfcScheme>(
+                        IfcScheme.Kas2_basic, KasMode.KdfNoKc, 
+                        KeyAgreementRole.InitiatorPartyU, KeyConfirmationRole.None, KeyConfirmationDirection.None, 
+                        true, 
+                        true
+                    ),
+                    new SchemeKeyNonceGenRequirement<IfcScheme>(
+                        IfcScheme.Kas2_basic, KasMode.KdfNoKc, 
+                        KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.None, KeyConfirmationDirection.None, 
+                        true, 
+                        true
+                    ),
+                    new SchemeKeyNonceGenRequirement<IfcScheme>(
+                        IfcScheme.Kas2_partyU_keyConfirmation, KasMode.KdfKc, 
+                        KeyAgreementRole.InitiatorPartyU, KeyConfirmationRole.Provider, KeyConfirmationDirection.Unilateral, 
+                        true, 
+                        true
+                    ),
+                    new SchemeKeyNonceGenRequirement<IfcScheme>(
+                        IfcScheme.Kas2_partyU_keyConfirmation, KasMode.KdfNoKc, 
+                        KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Unilateral, 
+                        true, 
+                        true
+                    ),
+                    new SchemeKeyNonceGenRequirement<IfcScheme>(
+                        IfcScheme.Kas2_partyV_keyConfirmation, KasMode.KdfKc, 
+                        KeyAgreementRole.InitiatorPartyU, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Unilateral, 
+                        true, 
+                        true
+                    ),
+                    new SchemeKeyNonceGenRequirement<IfcScheme>(
+                        IfcScheme.Kas2_partyV_keyConfirmation, KasMode.KdfNoKc, 
+                        KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Provider, KeyConfirmationDirection.Unilateral, 
+                        true, 
+                        true
+                    ),
+                    new SchemeKeyNonceGenRequirement<IfcScheme>(
+                        IfcScheme.Kas2_bilateral_keyConfirmation, KasMode.KdfKc, 
+                        KeyAgreementRole.InitiatorPartyU, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Bilateral, 
+                        true, 
+                        true
+                    ),
+                    new SchemeKeyNonceGenRequirement<IfcScheme>(
+                        IfcScheme.Kas2_bilateral_keyConfirmation, KasMode.KdfNoKc, 
+                        KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Provider, KeyConfirmationDirection.Bilateral, 
+                        true, 
+                        true
+                    ),
+                    new SchemeKeyNonceGenRequirement<IfcScheme>(
+                        IfcScheme.Kas2_bilateral_keyConfirmation, KasMode.KdfKc, 
+                        KeyAgreementRole.InitiatorPartyU, KeyConfirmationRole.Provider, KeyConfirmationDirection.Bilateral, 
+                        true, 
+                        true
+                    ),
+                    new SchemeKeyNonceGenRequirement<IfcScheme>(
+                        IfcScheme.Kas2_bilateral_keyConfirmation, KasMode.KdfNoKc, 
+                        KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Bilateral, 
+                        true, 
+                        true
+                    ),
+                    new SchemeKeyNonceGenRequirement<IfcScheme>(
+                        IfcScheme.Kts_oaep_basic, KasMode.KdfNoKc, 
+                        KeyAgreementRole.InitiatorPartyU, KeyConfirmationRole.None, KeyConfirmationDirection.None, 
+                        false, 
+                        false
+                    ),
+                    new SchemeKeyNonceGenRequirement<IfcScheme>(
+                        IfcScheme.Kts_oaep_basic, KasMode.KdfNoKc, 
+                        KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.None, KeyConfirmationDirection.None, 
+                        true, 
+                        true
+                    ),
+                    new SchemeKeyNonceGenRequirement<IfcScheme>(
+                        IfcScheme.Kts_oaep_partyV_keyConfirmation, KasMode.KdfKc, 
+                        KeyAgreementRole.InitiatorPartyU, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Unilateral, 
+                        false, 
+                        false
+                    ),
+                    new SchemeKeyNonceGenRequirement<IfcScheme>(
+                        IfcScheme.Kts_oaep_partyV_keyConfirmation, KasMode.KdfNoKc, 
+                        KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Provider, KeyConfirmationDirection.Unilateral, 
+                        true, 
+                        true
+                    ),
+                };
+        
         public static SchemeKeyNonceGenRequirement GetKeyGenerationOptionsForSchemeAndRole(
             FfcScheme scheme, 
             KasMode kasMode, 
@@ -1302,6 +1416,28 @@ namespace NIST.CVP.Crypto.Common.KAS.Helpers
         )
         {
             if (!EccSchemeKeyGenerationRequirements
+                .TryFirst(w =>
+                    w.Scheme == scheme &&
+                    w.KasMode == kasMode &&
+                    w.ThisPartyKasRole == thisPartyRole &&
+                    w.ThisPartyKeyConfirmationRole == thisPartyKeyConfirmationRole &&
+                    w.KeyConfirmationDirection == keyConfirmationDirection, out var result))
+            {
+                throw new ArgumentException("Invalid scheme/mode/key agreement role combination");
+            }
+
+            return result;
+        }
+        
+        public static SchemeKeyNonceGenRequirement GetKeyGenerationOptionsForSchemeAndRole(
+            IfcScheme scheme,
+            KasMode kasMode,
+            KeyAgreementRole thisPartyRole,
+            KeyConfirmationRole thisPartyKeyConfirmationRole,
+            KeyConfirmationDirection keyConfirmationDirection
+        )
+        {
+            if (!IfcSchemeKeyGenerationRequirements
                 .TryFirst(w =>
                     w.Scheme == scheme &&
                     w.KasMode == kasMode &&

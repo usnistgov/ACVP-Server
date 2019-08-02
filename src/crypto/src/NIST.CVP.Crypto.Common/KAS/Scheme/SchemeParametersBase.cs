@@ -4,8 +4,8 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.Common.KAS.Scheme
 {
-    public abstract class SchemeParametersBase<TKasDsaAlgoAttributes> : ISchemeParameters<TKasDsaAlgoAttributes>
-        where TKasDsaAlgoAttributes : IKasAlgoAttributes
+    public abstract class SchemeParametersBase<TKasAlgoAttributes> : ISchemeParameters<TKasAlgoAttributes>
+        where TKasAlgoAttributes : IKasAlgoAttributes
     {
         /// <summary>
         /// Constructs Kas parameter information
@@ -17,7 +17,7 @@ namespace NIST.CVP.Crypto.Common.KAS.Scheme
         /// <param name="kasAssurances">The assuances associated with the KAS</param>
         /// <param name="thisPartyId">The ID associated with this party</param>
         protected SchemeParametersBase(
-            TKasDsaAlgoAttributes kasDsaAlgoAttributes,
+            TKasAlgoAttributes kasAlgoAttributes,
             KeyAgreementRole keyAgreementRole, 
             KasMode kasMode,
             KeyConfirmationRole keyConfirmationRole, 
@@ -40,7 +40,7 @@ namespace NIST.CVP.Crypto.Common.KAS.Scheme
                         $"{nameof(KasMode.KdfKc)} requires a valid (not None) value for both {nameof(keyConfirmationRole)} and {nameof(keyConfirmationDirection)}");
                 }
             }
-            KasAlgoAttributes = kasDsaAlgoAttributes;
+            KasAlgoAttributes = kasAlgoAttributes;
             KeyAgreementRole = keyAgreementRole;
             KasMode = kasMode;
             KeyConfirmationRole = keyConfirmationRole;
@@ -49,7 +49,7 @@ namespace NIST.CVP.Crypto.Common.KAS.Scheme
             ThisPartyId = thisPartyId;
         }
         /// <inheritdoc />
-        public TKasDsaAlgoAttributes KasAlgoAttributes { get; }
+        public TKasAlgoAttributes KasAlgoAttributes { get; }
         /// <inheritdoc />
         public KeyAgreementRole KeyAgreementRole { get; }
         /// <inheritdoc />
