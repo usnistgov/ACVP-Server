@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using System.Text;
+using NIST.CVP.Math.Exceptions;
 using Helper = NIST.CVP.Math.Helpers.MsbLsbConversionHelpers;
 
 namespace NIST.CVP.Math
@@ -102,6 +103,12 @@ namespace NIST.CVP.Math
 
             hexMSB = hexMSB.Replace(" ", "");
             int numberChars = hexMSB.Length;
+
+            if (numberChars % 2 != 0)
+            {
+                throw new InvalidBitStringLengthException($"{nameof(BitString)}s are expected to have an even number of hex characters. Value was \"{hexMSB}\".");
+            }
+            
             byte[] bytesInMSB = new byte[numberChars / 2];
             for (int i = 0; i < numberChars; i += 2)
             {
@@ -242,6 +249,11 @@ namespace NIST.CVP.Math
             return new BitString(bitArrayInLsb);
         }
 
+        public static BitString To8BitString(byte value)
+        {
+            return new BitString(new byte[] { value });
+        }
+        
         public static BitString To16BitString(short value)
         {
             var bytesInLSB = BitConverter.GetBytes(value);

@@ -5,6 +5,7 @@ using System;
 using System.Collections;
 using System.Linq;
 using System.Numerics;
+using NIST.CVP.Math.Exceptions;
 
 namespace NIST.CVP.Math.Tests
 {
@@ -291,6 +292,23 @@ namespace NIST.CVP.Math.Tests
             var result = new BitString(hex, length, false);
 
             Assert.AreEqual(expectedResult, result);
+        }
+
+        [Test]
+        [TestCase("00", false)]
+        [TestCase("0", true)]
+        [TestCase("FFFF", false)]
+        [TestCase("FFF", true)]
+        public void ShouldThrowWhenBitStringInvalidLength(string hex, bool shouldThrow)
+        {
+            if (shouldThrow)
+            {
+                Assert.Throws<InvalidBitStringLengthException>(() => new BitString(hex));
+            }
+            else
+            {
+                Assert.DoesNotThrow(() => new BitString(hex));
+            }
         }
         #endregion ctor
 

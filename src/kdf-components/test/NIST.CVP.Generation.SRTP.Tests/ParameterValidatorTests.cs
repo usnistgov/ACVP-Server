@@ -42,7 +42,7 @@ namespace NIST.CVP.Generation.SRTP.Tests
 
         static object[] kdrTestCases =
         {
-            new object[] {"empty", new int[] { }},
+            //new object[] {"empty", new int[] { }},
             new object[] {"Invalid value", new [] {-1}},
             new object[] {"Partially valid", new [] {5, 25}},
         };
@@ -59,6 +59,70 @@ namespace NIST.CVP.Generation.SRTP.Tests
             );
 
             Assert.IsFalse(result.Success, testCaseLabel);
+        }
+
+        static IEnumerable<object> atLeastOneTests = new List<object>()
+        {
+            new object[]
+            {
+                new ParameterBuilder()
+                    .WithKdr(new int[] { 1 })
+                    .WithZeroKdr(true)
+                    .Build(),
+                true
+            },
+            new object[]
+            {
+                new ParameterBuilder()
+                    .WithKdr(new int[] { 1 })
+                    .WithZeroKdr(false)
+                    .Build(),
+                true
+            },
+            new object[]
+            {
+                new ParameterBuilder()
+                    .WithKdr(new int[] {})
+                    .WithZeroKdr(true)
+                    .Build(),
+                true
+            },
+            new object[]
+            {
+                new ParameterBuilder()
+                    .WithKdr(null)
+                    .WithZeroKdr(true)
+                    .Build(),
+                true
+            },
+            new object[]
+            {
+                new ParameterBuilder()
+                    .WithKdr(null)
+                    .WithZeroKdr(false)
+                    .Build(),
+                false
+            },
+            new object[]
+            {
+                new ParameterBuilder()
+                    .WithKdr(new int[] {})
+                    .WithZeroKdr(false)
+                    .Build(),
+                false
+            },
+        };
+
+        [Test]
+        [TestCaseSource(nameof(atLeastOneTests))]
+        public void ShouldValidateKdrOptions(Parameters param, bool shouldValidate)
+        {
+            var subject = new ParameterValidator();
+            var result = subject.Validate(
+                param
+            );
+
+            Assert.AreEqual(shouldValidate, result.Success);
         }
     }
 }

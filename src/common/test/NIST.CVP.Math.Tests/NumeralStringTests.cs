@@ -123,5 +123,32 @@ namespace NIST.CVP.Math.Tests
         {
             Assert.AreEqual(expectation, NumeralString.ToAlphabetString(alphabet, alphabet.Length, new NumeralString(numbers)));
         }
+
+        [Test]
+        [TestCase("abcde", "abcdefghijklmnopqrstuvwxyz", false)]
+        [TestCase("Abcde", "abcdefghijklmnopqrstuvwxyz", true)]
+        [TestCase("abCde", "abcdefghijklmnopqrstuvwxyz", true)]
+        [TestCase("ab0de", "abcdefghijklmnopqrstuvwxyz", true)]
+        public void ShouldThrowWhenWordContainsCharactersNotWithinAlphabet(string word, string alphabet, bool shouldThrow)
+        {
+            if (shouldThrow)
+            {
+                Assert.Throws<ArgumentException>(() => NumeralString.ToNumeralString(word, alphabet));
+            }
+            else
+            {
+                Assert.DoesNotThrow(() => NumeralString.ToNumeralString(word, alphabet));
+            }
+        }
+        
+        [Test]
+        [TestCase("abcd", "abcdefghijklmnopqrstuvwxyz", "0 1 2 3")]
+        [TestCase("aacc", "abcdefghijklmnopqrstuvwxyz", "0 0 2 2")]
+        [TestCase("aacc", "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", "0 0 2 2")]
+        [TestCase("aaCC", "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", "0 0 28 28")]
+        public void ShouldToNumeralStringFromWord(string word, string alphabet, string expectedBaseToNumbersSeparatedBySpace)
+        {
+            Assert.AreEqual(expectedBaseToNumbersSeparatedBySpace, NumeralString.ToNumeralString(word, alphabet).ToString());
+        }
     }
 }
