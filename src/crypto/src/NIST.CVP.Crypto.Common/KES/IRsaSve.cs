@@ -10,17 +10,18 @@ namespace NIST.CVP.Crypto.Common.KES
     public interface IRsaSve
     {
         /// <summary>
-        /// Generate an encrypted <see cref="SharedSecretResponse"/> whose value was encrypted using the provided <see cref="rsaPublicKey"/>.
+        /// Generate an encrypted <see cref="SharedSecretWithEncryptedValueResponse"/> whose value was encrypted using the provided <see cref="rsaPublicKey"/>.
         /// </summary>
-        /// <param name="rsaPublicKey">The <see cref="PublicKey"/> to utilize for encrypting and generating the <see cref="SharedSecretResponse"/></param>
-        /// <returns>The encrypted secret keying material.</returns>
-        SharedSecretResponse Generate(PublicKey rsaPublicKey);
+        /// <param name="rsaPublicKey">The <see cref="PublicKey"/> to utilize for encrypting and generating the <see cref="SharedSecretWithEncryptedValueResponse"/>.</param>
+        /// <returns>The encrypted and unencrypted secret keying material.</returns>
+        SharedSecretWithEncryptedValueResponse Generate(PublicKey rsaPublicKey);
+
         /// <summary>
-        /// Recover the secret keying material from <see cref="ciphertext"/> using the provided <see cref="rsaPrivateKey"/>.
+        /// Recover the secret keying material from <see cref="ciphertext"/> using the provided <see cref="rsaKeyPair"/>.
         /// </summary>
-        /// <param name="rsaPrivateKey">The <see cref="PrivateKeyBase"/> for recovering the <see cref="ciphertext"/>.</param>
+        /// <param name="rsaKeyPair">The keypair to use for performing the decryption.</param>
         /// <param name="ciphertext">The ciphertext to decrypt, arriving at the secret keying material.</param>
         /// <returns>The decrypted secret keying material.</returns>
-        SharedSecretResponse Recover(PrivateKeyBase rsaPrivateKey, BitString ciphertext);
+        SharedSecretResponse Recover(KeyPair rsaKeyPair, BitString ciphertext);
     }
 }
