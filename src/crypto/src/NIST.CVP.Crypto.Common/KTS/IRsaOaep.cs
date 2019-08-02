@@ -1,7 +1,8 @@
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys;
+using NIST.CVP.Crypto.Common.KES;
 using NIST.CVP.Math;
 
-namespace NIST.CVP.Crypto.Common.KES
+namespace NIST.CVP.Crypto.Common.KTS
 {
     /// <summary>
     /// Interface for RSA Optimal Asymmetric Encryption Padding (RSA-OAEP) as described in:
@@ -16,15 +17,15 @@ namespace NIST.CVP.Crypto.Common.KES
         /// <param name="rsaPublicKey">The other parties public key to use in the encryption of the padded, masked keying material.</param>
         /// <param name="keyingMaterial">(K) The keying material the will be encoded and encrypted.</param>
         /// <param name="additionalInput">(A) Context specific information to apply to the masking function.</param>
-        /// <returns>An encrypted, masked ciphertext wrapped in a <see cref="SharedSecretResponse"/></returns>
+        /// <returns>An encrypted, masked ciphertext (containing a key) wrapped in a <see cref="SharedSecretResponse"/></returns>
         SharedSecretResponse Encrypt(PublicKey rsaPublicKey, BitString keyingMaterial, BitString additionalInput);
         /// <summary>
-        /// Decrypt the encrypted, encoded <see cref="ciphertext"/> using the <see cref="rsaPrivateKey"/> and <see cref="additionalInput"/>. 
+        /// Decrypt the encrypted, encoded <see cref="ciphertext"/> using the <see cref="rsaKeyPair"/> and <see cref="additionalInput"/>. 
         /// </summary>
-        /// <param name="rsaPrivateKey">The <see cref="PrivateKeyBase"/> to use in the decryption operation.</param>
-        /// <param name="cipherText">(C) The encoded encrypted ciphertext.</param>
+        /// <param name="rsaKeyPair">The <see cref="KeyPair"/> to use in the decryption operation.</param>
+        /// <param name="ciphertext">(C) The encoded encrypted ciphertext.</param>
         /// <param name="additionalInput">(A) The context specific information the went into the encryption operation.</param>
-        /// <returns></returns>
-        SharedSecretResponse Decrypt(PrivateKeyBase rsaPrivateKey, BitString cipherText, BitString additionalInput);
+        /// <returns>The decrypted key.</returns>
+        SharedSecretResponse Decrypt(KeyPair rsaKeyPair, BitString ciphertext, BitString additionalInput);
     }
 }

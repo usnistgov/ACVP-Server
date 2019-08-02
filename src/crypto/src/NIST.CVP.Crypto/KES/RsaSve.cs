@@ -23,7 +23,7 @@ namespace NIST.CVP.Crypto.KES
         public SharedSecretWithEncryptedValueResponse Generate(PublicKey rsaPublicKey)
         {
             //1. Compute the value of nLen = len(n)/8 , the byte length of the modulus n
-            var nLen = rsaPublicKey.N.ExactBitString().BitLength;
+            var nLen = rsaPublicKey.N.ExactBitLength();
 
             BigInteger z;
             BitString Z;
