@@ -43,8 +43,8 @@ namespace NIST.CVP.Crypto.KTS
             
             // b. If KLen > nLen – 2HLen – 2, then output an indication that the keying material is
             // too long, and exit without further processing.
-            if (KLen > nLen - 2 * (_sha.HashFunction.OutputLen.CeilingDivide(BitString.BITSINBYTE) -
-                                   2 * BitString.BITSINBYTE))
+            var HLen = _sha.HashFunction.OutputLen.CeilingDivide(BitString.BITSINBYTE);
+            if (KLen > nLen - 2 * HLen - 2 * BitString.BITSINBYTE)
             {
                 throw new ArgumentException($"{nameof(KLen)} length too large.");
             }
@@ -52,7 +52,6 @@ namespace NIST.CVP.Crypto.KTS
             // 3. OAEP encoding:
             // a. Apply the selected hash function to compute: HA = H(A).
             var HA = _sha.HashMessage(additionalInput).Digest;
-            var HLen = _sha.HashFunction.OutputLen.CeilingDivide(BitString.BITSINBYTE);
             
             // b. Construct a byte string PS consisting of nLen – KLen – 2HLen – 2 zero bytes. The
             // length of PS may be zero.
@@ -162,9 +161,9 @@ namespace NIST.CVP.Crypto.KTS
             // maskedMGFSeed′ of HLen bytes, and a byte string maskedDB′ of nLen – HLen – 1
             // bytes as follows:
             // EM = Y || maskedMGFSeed′ || maskedDB′.
-            var Y = EM.Substring(0, BitString.BITSINBYTE);
-            var maskedMGFSeed = EM.Substring(BitString.BITSINBYTE, hLenBits);
-            var maskedDB = EM.Substring(BitString.BITSINBYTE + hLenBits, (nLen - HLen - 1) * BitString.BITSINBYTE);
+            var Y = EM.MSBSubstring(0, BitString.BITSINBYTE);
+            var maskedMGFSeed = EM.MSBSubstring(BitString.BITSINBYTE, hLenBits);
+            var maskedDB = EM.MSBSubstring(BitString.BITSINBYTE + hLenBits, (nLen - HLen - 1) * BitString.BITSINBYTE);
             
             // c. Apply the mask-generation function specified in Section 7.2.2.2 to compute:
             // mgfSeedMask′ = MGF(maskedDB′, HLen).
@@ -183,8 +182,8 @@ namespace NIST.CVP.Crypto.KTS
             // g. Separate DB′ into a byte string HA′ of HLen bytes and a byte string X of nLen –
             // 2HLen – 1 bytes as follows:
             // DB′ = HA′ || X.
-            var HA2 = DB.Substring(0, hLenBits);
-            var X = DB.Substring(hLenBits, (nLen - 2 * HLen - 1) * BitString.BITSINBYTE);
+            var HA2 = DB.MSBSubstring(0, hLenBits);
+            var X = DB.MSBSubstring(hLenBits, (nLen - 2 * HLen - 1) * BitString.BITSINBYTE);
             
             // 5. Check for RSA-OAEP decryption errors:
             // a. DecryptErrorFlag = False.
@@ -211,14 +210,14 @@ namespace NIST.CVP.Crypto.KTS
                 }
                 if (X[i] == 0x01)
                 {
-                    kStartByte = i++;
+                    kStartByte = i + 1;
                     break;
                 }
                 
                 throw new Exception(errorFlagMessage);
             }
 
-            var K = X.Substring(kStartByte * BitString.BITSINBYTE, X.BitLength - kStartByte * BitString.BITSINBYTE);
+            var K = X.MSBSubstring(kStartByte * BitString.BITSINBYTE, X.BitLength - kStartByte * BitString.BITSINBYTE);
             
             return new SharedSecretResponse(K);
         }

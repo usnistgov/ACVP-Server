@@ -17,7 +17,6 @@ namespace NIST.CVP.Crypto.KES.Tests
     {
         private readonly ShaFactory _shaFactory = new ShaFactory();
         private readonly EntropyProviderFactory _entropyProviderFactory = new EntropyProviderFactory();
-        private IMgf _mgf;
 
         private RsaOaep _subject;
 
