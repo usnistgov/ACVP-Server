@@ -7,6 +7,7 @@ def die(message):
 
 import optparse
 import json
+import requests
 from getpass import getpass
 try:
     from restkit import Resource, BasicAuth
@@ -39,9 +40,20 @@ def fetcher_factory(url, auth):
 
 def poster_factory(url, auth):
     def post_issue(issue):
-        print('Posting ' + issue['id'])
+        print('Posting ' + issue['title'])
 
-        resource = Resource(url + (''))
+        json_blob = json.dumps(issue)
+        post_url = url + ('/api/v4/projects/testingticketstime/issues')
+        headers = {'Private-Token': 'bBy4DXgtjbR_HjWBWF7o', 'Content-Type': 'application/json'}
+
+        response = requests.post(url, data=json_blob, headers=headers)
+
+        if response.status_code == requests.codes.ok:
+            print('Success posting issue')
+        else:
+            print(response)
+
+    return post_issue
 
 def parse_args():
     parser = optparse.OptionParser()
@@ -49,6 +61,7 @@ def parse_args():
     parser.add_option('-p', '--password', dest='password', help='Password to access JIRA')
     parser.add_option('-j', '--jira', dest='jira_url', default='http://jira.example.com', help='JIRA Base URL')
     parser.add_option('-g', '--gitlab', dest='gitlab_url', default='http://gitlab.example.com', help='GitLab Base URL')
+    parser.add_option('-s', '--slug', dest='project_slug', help='JIRA Project slug')
 
     return parser.parse_args()
 
@@ -64,14 +77,24 @@ if __name__ == '__main__':
     issue_poster = poster_factory(options.gitlab_url, auth)
 
     issues = []
-    for x in xrange(1,10):
-        key = "ACVP-" + str(x)
+
+    for x in xrange(1,2):
+        key = options.project_slug + "-" + str(x)
         issue = issue_fetcher(key)
         if issue is not None:
             issues.append(issue)
 
+    print
     print(str(len(issues)) + " issues collected from JIRA")
+    print
 
-    #for x in xrange(1, 10):
+    for issue in issues:
+        mapped_issue = {}
+        mapped_issue['title'] = issue['fields']['summary']
+        mapped_issue['description'] = issue['fields']['description']
+        mapped_issue['labels'] = [issue['fields']['issuetype']['name']]
+        mapped_issue['created_at'] = issue['fields']['created']
+        mapped_issue['updated_at'] = issue['fields']['updated']
+        mapped_issue['done'] = (issue['fields']['status']['statusCategory']['name'] == 'Done')
 
-    print(issues[0]['fields']['description'])
+        issue_poster(mapped_issue)
