@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Crypto.Common.KAS.Enums;
+using NIST.CVP.Crypto.Common.KAS.KC;
 
 namespace NIST.CVP.Crypto.Common.KAS.Helpers
 {
@@ -1360,25 +1361,25 @@ namespace NIST.CVP.Crypto.Common.KAS.Helpers
                         true
                     ),
                     new SchemeKeyNonceGenRequirement<IfcScheme>(
-                        IfcScheme.Kts_oaep_basic, KasMode.KdfNoKc, 
+                        IfcScheme.Kts_oaep_basic, KasMode.NoKdfNoKc, 
                         KeyAgreementRole.InitiatorPartyU, KeyConfirmationRole.None, KeyConfirmationDirection.None, 
                         false, 
                         false
                     ),
                     new SchemeKeyNonceGenRequirement<IfcScheme>(
-                        IfcScheme.Kts_oaep_basic, KasMode.KdfNoKc, 
+                        IfcScheme.Kts_oaep_basic, KasMode.NoKdfNoKc, 
                         KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.None, KeyConfirmationDirection.None, 
                         true, 
                         true
                     ),
                     new SchemeKeyNonceGenRequirement<IfcScheme>(
-                        IfcScheme.Kts_oaep_partyV_keyConfirmation, KasMode.KdfKc, 
+                        IfcScheme.Kts_oaep_partyV_keyConfirmation, KasMode.NoKdfKc, 
                         KeyAgreementRole.InitiatorPartyU, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Unilateral, 
                         false, 
                         false
                     ),
                     new SchemeKeyNonceGenRequirement<IfcScheme>(
-                        IfcScheme.Kts_oaep_partyV_keyConfirmation, KasMode.KdfNoKc, 
+                        IfcScheme.Kts_oaep_partyV_keyConfirmation, KasMode.NoKdfKc, 
                         KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Provider, KeyConfirmationDirection.Unilateral, 
                         true, 
                         true
@@ -1451,6 +1452,33 @@ namespace NIST.CVP.Crypto.Common.KAS.Helpers
             return result;
         }
 
+        public static
+            List<KeyConfirmationMacDetail> KeyConfirmationMacDetails =
+                new List<KeyConfirmationMacDetail>()
+                {
+                    new KeyConfirmationMacDetail(KeyAgreementMacType.CmacAes, 128, 128, 256),
+                    new KeyConfirmationMacDetail(KeyAgreementMacType.HmacSha2D224, 224, 112, 512),
+                    new KeyConfirmationMacDetail(KeyAgreementMacType.HmacSha2D256, 256, 112, 512),
+                    new KeyConfirmationMacDetail(KeyAgreementMacType.HmacSha2D384, 384, 112, 512),
+                    new KeyConfirmationMacDetail(KeyAgreementMacType.HmacSha2D512, 512, 112, 512),
+                    new KeyConfirmationMacDetail(KeyAgreementMacType.HmacSha2D512_T224, 224, 112, 512),
+                    new KeyConfirmationMacDetail(KeyAgreementMacType.HmacSha2D512_T256, 256, 112, 512),
+                    new KeyConfirmationMacDetail(KeyAgreementMacType.HmacSha3D224, 224, 112, 512),
+                    new KeyConfirmationMacDetail(KeyAgreementMacType.HmacSha3D256, 256, 112, 512),
+                    new KeyConfirmationMacDetail(KeyAgreementMacType.HmacSha3D384, 384, 112, 512),
+                    new KeyConfirmationMacDetail(KeyAgreementMacType.HmacSha3D512, 512, 112, 512),
+                };
+
+        public static KeyConfirmationMacDetail GetKeyConfirmationMacDetails(KeyAgreementMacType macType)
+        {
+            if (!KeyConfirmationMacDetails.TryFirst(f => f.MacType == macType, out var result))
+            {
+                throw new ArgumentException($"Could not map {macType}");
+            }
+            
+            return result;
+        }
+        
         /// <summary>
         /// Gets the party B <see cref="KeyAgreementRole"/> from the <see cref="aPartyRole"/>
         /// </summary>

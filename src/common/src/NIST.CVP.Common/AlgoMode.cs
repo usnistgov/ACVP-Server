@@ -120,6 +120,10 @@ namespace NIST.CVP.Common
         KAS_FFC_v1_0,
         [EnumMember(Value = "KAS-FFC-Component-1.0")]
         KAS_FFC_Component_v1_0,
+        [EnumMember(Value = "KAS-IFC-1.0")]
+        KAS_IFC_v1_0,
+        [EnumMember(Value = "KTS-IFC-1.0")]
+        KTS_IFC_v1_0,
         [EnumMember(Value = "KDF-1.0")]
         KDF_v1_0,
         [EnumMember(Value = "KDF-Components-ANSIX9.63-1.0")]

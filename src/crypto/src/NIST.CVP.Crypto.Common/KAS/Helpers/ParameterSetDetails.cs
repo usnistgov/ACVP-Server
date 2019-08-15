@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 
 namespace NIST.CVP.Crypto.Common.KAS.Helpers
@@ -37,6 +39,27 @@ namespace NIST.CVP.Crypto.Common.KAS.Helpers
             GetDetailsForEccParameterSet(EccParameterSet parameterSet)
         {
             return EccDetails.First(w => w.Key == parameterSet).Value;
+        }
+        
+        public static readonly 
+            Dictionary<int, int>
+                RsaModulusDetails = new Dictionary<int, int>()
+                {
+                    {2048, 112},
+                    {3072, 128},
+                    {4096, 152},
+                    {6144, 176},
+                    {8192, 200}
+                };
+
+        public static int GetDetailsForModulus(int modulus)
+        {
+            if (RsaModulusDetails.TryFirst(t => t.Key == modulus, out var result))
+            {
+                return result.Value;
+            }
+
+            throw new ArgumentException($"Invalid {nameof(modulus)}");
         }
     }
 }
