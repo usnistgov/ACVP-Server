@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using NIST.CVP.Common.Enums;
 using NIST.CVP.Generation.Core.ContractResolvers;
 using NIST.CVP.Generation.Core.DeSerialization;
+using NIST.CVP.Math.Exceptions;
 using NLog;
 
 namespace NIST.CVP.Generation.Core.Async
@@ -52,6 +53,11 @@ namespace NIST.CVP.Generation.Core.Async
             {
                 ThisLogger.Error($"ERROR in Validator. Unable to find file. {ex.StackTrace}");
                 return new ValidateResponse(ex.Message, StatusCode.FileReadError);
+            }
+            catch (InvalidBitStringLengthException ex)
+            {
+                ThisLogger.Error($"ERROR in Validator. Failed parsing");
+                return new ValidateResponse(ex.Message, StatusCode.BitStringParseError);
             }
             catch (Exception ex)
             {

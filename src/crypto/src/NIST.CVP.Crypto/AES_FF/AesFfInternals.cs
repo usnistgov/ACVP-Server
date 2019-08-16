@@ -36,7 +36,7 @@ namespace NIST.CVP.Crypto.AES_FF
             // 2. For i from 1 to LEN(X), let x = x*radix + X[i].
             for (var i = 0; i <= x.Numbers.Length - 1; i++)
             {
-                result = (result * radix + x.Numbers[i]);
+                result = result * radix + x.Numbers[i];
             }
 
             // 3. Return x.
@@ -63,15 +63,16 @@ namespace NIST.CVP.Crypto.AES_FF
         public NumeralString Str(int radix, int m, BigInteger x)
         {
             var resultArray = new int[m];
-
+            
             // 1. For i from 1 to m:
             for (var i = 0; i <= m - 1; i++)
             {
                 // i. X[m+1–i] = x mod radix;
-                resultArray[m - 1 - i] = (int)x.PosMod(radix);
+                resultArray[m - 1 - i] = (int)(x % radix);
 
                 // ii. x = Floor(x/radix).
-                x = (BigInteger)System.Math.Floor((double)x / radix);
+                // when working with integer division "toward zero" is the default truncation, so effectively a floor with positive numbers.
+                x /= radix;
             }
 
             // 2. Return X.
