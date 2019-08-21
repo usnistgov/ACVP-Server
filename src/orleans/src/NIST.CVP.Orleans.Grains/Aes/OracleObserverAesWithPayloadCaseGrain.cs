@@ -46,21 +46,12 @@ namespace NIST.CVP.Orleans.Grains.Aes
                 _engineFactory.GetSymmetricCipherPrimitive(BlockCipherEngines.Aes), 
                 _param.Mode
             );
-            var direction = BlockCipherDirections.Encrypt;
-            if (_param.Direction.ToLower() == "decrypt")
-            {
-                direction = BlockCipherDirections.Decrypt;
-            }
-
-            var payload = _param.Payload;
-            var key = _entropyProvider.GetEntropy(_param.KeyLength);
-            var iv = _entropyProvider.GetEntropy(128);
 
             var blockCipherParams = new ModeBlockCipherParameters(
-                direction, 
-                iv.GetDeepCopy(), 
-                key.GetDeepCopy(), 
-                payload.GetDeepCopy()
+                _param.Direction, 
+                _param.Iv.GetDeepCopy(), 
+                _param.Key.GetDeepCopy(), 
+                _param.Payload.GetDeepCopy()
             );
             var result = cipher.ProcessPayload(blockCipherParams);
 
@@ -73,10 +64,10 @@ namespace NIST.CVP.Orleans.Grains.Aes
             // Notify observers of result
             await Notify(new AesResult
             {
-                PlainText = direction == BlockCipherDirections.Encrypt ? payload : result.Result,
-                CipherText = direction == BlockCipherDirections.Decrypt ? payload : result.Result,
-                Key = key,
-                Iv = iv
+                PlainText = _param.Direction == BlockCipherDirections.Encrypt ? _param.Payload : result.Result,
+                CipherText = _param.Direction == BlockCipherDirections.Decrypt ? _param.Payload : result.Result,
+                Key = _param.Key,
+                Iv = _param.Iv
             });
         }
     }
