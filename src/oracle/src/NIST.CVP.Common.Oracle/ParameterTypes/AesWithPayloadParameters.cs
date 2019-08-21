@@ -9,14 +9,14 @@ namespace NIST.CVP.Common.Oracle.ParameterTypes
     public class AesWithPayloadParameters : IParameters
     {
         public BlockCipherModesOfOperation Mode { get; set; }
-        public int KeyLength { get; set; }
-        public int DataLength { get; set; }
-        public string Direction { get; set; }
+        public BlockCipherDirections Direction { get; set; }
         public BitString Payload { get; set; }
+        public BitString Key { get; set; }
+        public BitString Iv { get; set; }
 
         public override bool Equals(object other)
         {
-            if (other is AesParameters p)
+            if (other is AesWithPayloadParameters p)
             {
                 return GetHashCode() == p.GetHashCode();
             }
@@ -24,6 +24,6 @@ namespace NIST.CVP.Common.Oracle.ParameterTypes
             return false;
         }
 
-        public override int GetHashCode() => HashCode.Combine(Payload, Mode, KeyLength, Direction);
+        public override int GetHashCode() => HashCode.Combine(Mode, Direction, Payload, Key, Iv);
     }
 }
