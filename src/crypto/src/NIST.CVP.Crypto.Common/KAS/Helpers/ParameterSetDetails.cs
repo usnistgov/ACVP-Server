@@ -43,7 +43,7 @@ namespace NIST.CVP.Crypto.Common.KAS.Helpers
         
         public static readonly 
             Dictionary<int, int>
-                RsaModulusDetails = new Dictionary<int, int>()
+                RsaModuloDetails = new Dictionary<int, int>()
                 {
                     {2048, 112},
                     {3072, 128},
@@ -52,14 +52,14 @@ namespace NIST.CVP.Crypto.Common.KAS.Helpers
                     {8192, 200}
                 };
 
-        public static int GetDetailsForModulus(int modulus)
+        public static int GetDetailsForModulo(int modulo)
         {
-            if (RsaModulusDetails.TryFirst(t => t.Key == modulus, out var result))
+            if (RsaModuloDetails.TryFirst(t => t.Key == modulo, out var result))
             {
                 return result.Value;
             }
 
-            throw new ArgumentException($"Invalid {nameof(modulus)}");
+            throw new ArgumentException($"Invalid {nameof(modulo)}");
         }
     }
 }

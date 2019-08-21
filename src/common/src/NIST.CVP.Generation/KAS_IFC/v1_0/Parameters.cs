@@ -45,26 +45,26 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
         [JsonProperty(PropertyName = "KTS-OAEP-Party_V-confirmation")]
         public Kts_oaep_partyV_confirmation Kts_oaep_partyV_confirmation { get; set; }
         
-        public IEnumerable<IfcScheme> GetRegisteredSchemes()
+        public IEnumerable<SchemeBase> GetRegisteredSchemes()
         {
-            var list = new List<IfcScheme>();
+            var list = new List<SchemeBase>();
 
             if (Kas1_basic != null)
-                list.Add(IfcScheme.Kas1_basic);
+                list.Add(Kas1_basic);
             if (Kas1_partyV_confirmation != null)
-                list.Add(IfcScheme.Kas1_partyV_keyConfirmation);
+                list.Add(Kas1_partyV_confirmation);
             if (Kas2_basic != null)
-                list.Add(IfcScheme.Kas2_basic);
+                list.Add(Kas2_basic);
             if (Kas2_bilateral_confirmation != null)
-                list.Add(IfcScheme.Kas2_bilateral_keyConfirmation);
+                list.Add(Kas2_bilateral_confirmation);
             if (Kas2_partyU_confirmation != null)
-                list.Add(IfcScheme.Kas2_partyU_keyConfirmation);
+                list.Add(Kas2_partyU_confirmation);
             if (Kas2_partyV_confirmation != null)
-                list.Add(IfcScheme.Kas2_partyV_keyConfirmation);
+                list.Add(Kas2_partyV_confirmation);
             if (Kts_oaep_basic != null)
-                list.Add(IfcScheme.Kts_oaep_basic);
+                list.Add(Kts_oaep_basic);
             if (Kts_oaep_partyV_confirmation != null)
-                list.Add(IfcScheme.Kts_oaep_partyV_keyConfirmation);
+                list.Add(Kts_oaep_partyV_confirmation);
             
             return list;
         }
@@ -72,6 +72,9 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
 
     public abstract class SchemeBase
     {
+        /// <summary>
+        /// The enum scheme type
+        /// </summary>
         public abstract IfcScheme Scheme { get; }
         /// <summary>
         /// The Key Agreement Role (initiator or responder)
@@ -88,7 +91,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
         /// <summary>
         /// The KTS capabilities used (KTS schemes only)
         /// </summary>
-        public KtsMethods KtsMethods { get; set; }
+        public KtsMethod KtsMethod { get; set; }
         /// <summary>
         /// The MAC used for schemes utilizing KeyConfirmation
         /// </summary>
@@ -155,22 +158,22 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
         [JsonProperty(PropertyName = "rsakpg2-crt")]
         public RsaKpg2_crt RsaKpg2_crt { get; set; }
         
-        public IEnumerable<IfcKeyGenerationMethod> GetRegisteredKeyGenerationMethods()
+        public IEnumerable<KeyGenerationMethodBase> GetRegisteredKeyGenerationMethods()
         {
-            var list = new List<IfcKeyGenerationMethod>();
+            var list = new List<KeyGenerationMethodBase>();
 
             if (RsaKpg1_basic != null)
-                list.Add(IfcKeyGenerationMethod.RsaKpg1_basic);
+                list.Add(RsaKpg1_basic);
             if (RsaKpg1_primeFactor != null)
-                list.Add(IfcKeyGenerationMethod.RsaKpg1_primeFactor);
+                list.Add(RsaKpg1_primeFactor);
             if (RsaKpg1_crt != null)
-                list.Add(IfcKeyGenerationMethod.RsaKpg1_crt);
+                list.Add(RsaKpg1_crt);
             if (RsaKpg2_basic != null)
-                list.Add(IfcKeyGenerationMethod.RsaKpg2_basic);
+                list.Add(RsaKpg2_basic);
             if (RsaKpg2_primeFactor != null)
-                list.Add(IfcKeyGenerationMethod.RsaKpg2_primeFactor);
+                list.Add(RsaKpg2_primeFactor);
             if (RsaKpg2_crt != null)
-                list.Add(IfcKeyGenerationMethod.RsaKpg2_crt);
+                list.Add(RsaKpg2_crt);
             
             return list;
         }
@@ -179,27 +182,54 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
     public abstract class KeyGenerationMethodBase
     {
         /// <summary>
-        /// The modulus lengths supported
+        /// The enum KeyGeneration method
         /// </summary>
-        public int[] Modulus { get; set; }
+        public abstract IfcKeyGenerationMethod KeyGenerationMethod { get; }
+        /// <summary>
+        /// The modulo lengths supported
+        /// </summary>
+        public int[] Modulo { get; set; }
         /// <summary>
         /// The fixed public exponent (only applicable for rsakpg1*)
         /// </summary>
         public BitString FixedPublicExponent { get; set; }
     }
-    
-    public class RsaKpg1_basic : KeyGenerationMethodBase {}
-    public class RsaKpg1_primeFactor : KeyGenerationMethodBase {}
-    public class RsaKpg1_crt : KeyGenerationMethodBase {}
-    public class RsaKpg2_basic : KeyGenerationMethodBase {}
-    public class RsaKpg2_primeFactor : KeyGenerationMethodBase {}
-    public class RsaKpg2_crt : KeyGenerationMethodBase {}
+
+    public class RsaKpg1_basic : KeyGenerationMethodBase
+    {
+        public override IfcKeyGenerationMethod KeyGenerationMethod => IfcKeyGenerationMethod.RsaKpg1_basic;
+    }
+
+    public class RsaKpg1_primeFactor : KeyGenerationMethodBase
+    {
+        public override IfcKeyGenerationMethod KeyGenerationMethod => IfcKeyGenerationMethod.RsaKpg1_primeFactor;
+    }
+
+    public class RsaKpg1_crt : KeyGenerationMethodBase
+    {
+        public override IfcKeyGenerationMethod KeyGenerationMethod => IfcKeyGenerationMethod.RsaKpg1_crt;
+    }
+
+    public class RsaKpg2_basic : KeyGenerationMethodBase
+    {
+        public override IfcKeyGenerationMethod KeyGenerationMethod => IfcKeyGenerationMethod.RsaKpg2_basic;
+    }
+
+    public class RsaKpg2_primeFactor : KeyGenerationMethodBase
+    {
+        public override IfcKeyGenerationMethod KeyGenerationMethod => IfcKeyGenerationMethod.RsaKpg2_primeFactor;
+    }
+
+    public class RsaKpg2_crt : KeyGenerationMethodBase
+    {
+        public override IfcKeyGenerationMethod KeyGenerationMethod => IfcKeyGenerationMethod.RsaKpg2_crt;
+    }
 
     public class KdfMethods
     {
         public OneStepKdf OneStepKdf { get; set; }
         
-        public IEnumerable<KasKdf> GetRegisteredKeyGenerationMethods()
+        public IEnumerable<KasKdf> GetRegisteredKdfMethods()
         {
             var list = new List<KasKdf>();
 
@@ -212,26 +242,31 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
 
     public abstract class KdfMethodBase
     {
+        /// <summary>
+        /// The enum type for the KDF
+        /// </summary>
+        public abstract KasKdf KdfType { get; }
     }
 
     public class OneStepKdf : KdfMethodBase
     {
+        public override KasKdf KdfType => KasKdf.OneStep;
         /// <summary>
         /// The Hash or MAC functions utilized for the KDF
         /// </summary>
         public AuxFunction[] AuxFunctions { get; set; }
         /// <summary>
-        /// The encoding type of the fixedInput (used in One step KDF)
+        /// The encoding type of the fixedInput
         /// </summary>
-        public string[] Encoding { get; set; }
+        public KasKdfOneStepEncoding[] Encoding { get; set; }
     }
     
-    public abstract class AuxFunction
+    public class AuxFunction
     {
         /// <summary>
         /// The Hash or Mac function name
         /// </summary>
-        public string FunctionName { get; set; }
+        public KasKdfOneStepAuxFunction AuxFunctionName { get; set; }
         /// <summary>
         /// SaltLen applies to MAC based aux functions.
         /// </summary>
@@ -246,12 +281,12 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
         public string FixedInputPattern { get; set; }
     }
     
-    public class KtsMethods
+    public class KtsMethod
     {
         /// <summary>
         /// The hash algorithms supported for KTS.
         /// </summary>
-        public string[] HashAlgs { get; set; }
+        public KasHashAlg[] HashAlgs { get; set; }
         /// <summary>
         /// Can the KTS scheme run w/o associated data?
         /// </summary>
@@ -290,32 +325,32 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
         [JsonProperty(PropertyName = "HMAC-SHA3-512")]
         public MacOptionHmacSha3_d512 HmacSha3_D512 { get; set; }
         
-        public IEnumerable<KeyAgreementMacType> GetRegisteredMacMethods()
+        public IEnumerable<MacOptionsBase> GetRegisteredMacMethods()
         {
-            var list = new List<KeyAgreementMacType>();
+            var list = new List<MacOptionsBase>();
 
             if (Cmac != null)
-                list.Add(Cmac.MacType);
+                list.Add(Cmac);
             if (HmacSha2_D224 != null)
-                list.Add(HmacSha2_D224.MacType);
+                list.Add(HmacSha2_D224);
             if (HmacSha2_D256 != null)
-                list.Add(HmacSha2_D256.MacType);
+                list.Add(HmacSha2_D256);
             if (HmacSha2_D384 != null)
-                list.Add(HmacSha2_D384.MacType);
+                list.Add(HmacSha2_D384);
             if (HmacSha2_D512 != null)
-                list.Add(HmacSha2_D512.MacType);
+                list.Add(HmacSha2_D512);
             if (HmacSha2_D512_T224 != null)
-                list.Add(HmacSha2_D512_T224.MacType);
+                list.Add(HmacSha2_D512_T224);
             if (HmacSha2_D512_T256 != null)
-                list.Add(HmacSha2_D512_T256.MacType);
+                list.Add(HmacSha2_D512_T256);
             if (HmacSha3_D224 != null)
-                list.Add(HmacSha3_D224.MacType);
+                list.Add(HmacSha3_D224);
             if (HmacSha3_D256 != null)
-                list.Add(HmacSha3_D256.MacType);
+                list.Add(HmacSha3_D256);
             if (HmacSha3_D384 != null)
-                list.Add(HmacSha3_D384.MacType);
+                list.Add(HmacSha3_D384);
             if (HmacSha3_D512 != null)
-                list.Add(HmacSha3_D512.MacType);
+                list.Add(HmacSha3_D512);
             
             return list;
         }
@@ -326,8 +361,17 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
     /// </summary>
     public abstract class MacOptionsBase
     {
+        /// <summary>
+        /// The enum MacType
+        /// </summary>
         public abstract KeyAgreementMacType MacType { get; }
+        /// <summary>
+        /// The length of key to be passed into the MAC algorithm.
+        /// </summary>
         public int KeyLen { get; set; }
+        /// <summary>
+        /// The length of the MAC tag to generate.
+        /// </summary>
         public int MacLen { get; set; }
     }
 
