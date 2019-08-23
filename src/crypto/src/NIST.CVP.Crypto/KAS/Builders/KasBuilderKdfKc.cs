@@ -45,7 +45,7 @@ namespace NIST.CVP.Crypto.KAS.Builders
         }
 
         /// <summary>
-        /// Sets the keyLength for the <see cref="IKdf"/> options in the <see cref="IKas{TKasDsaAlgoAttributes,TOtherPartySharedInfo,TDomainParameters,TKeyPair}"/>
+        /// Sets the keyLength for the <see cref="IKdfOneStep"/> options in the <see cref="IKas{TKasDsaAlgoAttributes,TOtherPartySharedInfo,TDomainParameters,TKeyPair}"/>
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
@@ -61,7 +61,7 @@ namespace NIST.CVP.Crypto.KAS.Builders
         }
 
         /// <summary>
-        /// Sets the otherInfoPattern for the <see cref="IKdf"/> options in the <see cref="IKas"/>
+        /// Sets the otherInfoPattern for the <see cref="IKdfOneStep"/> options in the <see cref="IKas"/>
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>

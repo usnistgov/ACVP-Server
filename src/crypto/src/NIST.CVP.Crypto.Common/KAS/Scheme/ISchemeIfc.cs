@@ -3,10 +3,6 @@ namespace NIST.CVP.Crypto.Common.KAS.Scheme
     public interface ISchemeIfc
     {
         /// <summary>
-        /// The length of the other input going into a kdf
-        /// </summary>
-        int OtherInputLength { get; }
-        /// <summary>
         /// The options for the scheme, such as this party's role in the KAS, whether key confirmation occurs, etc.
         /// </summary>
         SchemeParametersIfc SchemeParameters { get; }

@@ -174,7 +174,7 @@ namespace NIST.CVP.Orleans.Grains
             svc.AddTransient<IMacParametersBuilder, MacParametersBuilder>();
             svc.AddSingleton<IKeyConfirmationFactory, KeyConfirmationFactory>();
             svc.AddSingleton<INoKeyConfirmationFactory, NoKeyConfirmationFactory>();
-            svc.AddSingleton<IKdfFactory, KdfFactory>();
+            svc.AddSingleton<IKdfOneStepFactory, KdfFactory>();
 
             svc.AddSingleton<IOtherInfoFactory, OtherInfoFactory>();
 

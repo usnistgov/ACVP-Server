@@ -22,7 +22,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme
         where TKeyPair : IDsaKeyPair
     {
 
-        protected IKdfFactory KdfFactory;
+        protected IKdfOneStepFactory KdfFactory;
         protected IKeyConfirmationFactory KeyConfirmationFactory;
         protected INoKeyConfirmationFactory NoKeyConfirmationFactory;
         protected IOtherInfoFactory OtherInfoFactory;
@@ -31,7 +31,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme
         protected MacParameters MacParameters;
 
         protected SchemeBase(
-            IKdfFactory kdfFactory, 
+            IKdfOneStepFactory kdfFactory, 
             IKeyConfirmationFactory keyConfirmationFactory, 
             INoKeyConfirmationFactory noKeyConfirmationFactory,
             IOtherInfoFactory otherInfoFactory,

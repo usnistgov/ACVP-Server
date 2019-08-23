@@ -6,7 +6,7 @@ using NIST.CVP.Math.Helpers;
 
 namespace NIST.CVP.Crypto.KAS.KDF
 {
-    public abstract class KdfBase : IKdf
+    public abstract class KdfBase : IKdfOneStep
     {
         protected abstract int OutputLength { get; }
         protected abstract BigInteger MaxInputLength { get; }

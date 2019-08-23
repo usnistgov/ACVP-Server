@@ -17,7 +17,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme.Ffc
 
         public SchemeFfcDhStatic(
             IDsaFfc dsa, 
-            IKdfFactory kdfFactory, 
+            IKdfOneStepFactory kdfFactory, 
             IKeyConfirmationFactory keyConfirmationFactory, 
             INoKeyConfirmationFactory noKeyConfirmationFactory, 
             IOtherInfoFactory otherInfoFactory, 

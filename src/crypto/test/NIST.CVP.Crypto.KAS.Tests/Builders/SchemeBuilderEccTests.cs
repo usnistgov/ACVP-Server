@@ -32,7 +32,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.Builders
         private Mock<IShaFactory> _shaFactory;
         private Mock<IDsaEcc> _dsa;
         private Mock<IDsaEccFactory> _dsaFactory;
-        private Mock<IKdfFactory> _kdfFactory;
+        private Mock<IKdfOneStepFactory> _kdfFactory;
         private Mock<IKeyConfirmationFactory> _keyConfirmationFactory;
         private Mock<INoKeyConfirmationFactory> _noKeyConfirmationFactory;
         private Mock<IOtherInfoFactory> _otherInfoFactory;
@@ -49,7 +49,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.Builders
             _shaFactory = new Mock<IShaFactory>();
             _dsa = new Mock<IDsaEcc>();
             _dsaFactory = new Mock<IDsaEccFactory>();
-            _kdfFactory = new Mock<IKdfFactory>();
+            _kdfFactory = new Mock<IKdfOneStepFactory>();
             _keyConfirmationFactory = new Mock<IKeyConfirmationFactory>();
             _noKeyConfirmationFactory = new Mock<INoKeyConfirmationFactory>();
             _otherInfoFactory = new Mock<IOtherInfoFactory>();

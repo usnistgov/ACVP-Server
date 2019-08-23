@@ -24,7 +24,7 @@ namespace NIST.CVP.Orleans.Grains.Kas.Ecc
             > schemeBuilder,
             IEntropyProviderFactory entropyProviderFactory,
             IMacParametersBuilder macParametersBuilder,
-            IKdfFactory kdfFactory,
+            IKdfOneStepFactory kdfFactory,
             INoKeyConfirmationFactory noKeyConfirmationFactory,
             IKeyConfirmationFactory keyConfirmationFactory,
             IEccCurveFactory curveFactory,
@@ -34,7 +34,7 @@ namespace NIST.CVP.Orleans.Grains.Kas.Ecc
         }
 
         protected override IKas<KasDsaAlgoAttributesEcc, OtherPartySharedInformation<EccDomainParameters, EccKeyPair>, EccDomainParameters, EccKeyPair> 
-            GetKasInstance(KeyAgreementRole partyRole, KeyConfirmationRole partyKcRole, MacParameters macParameters, KasValParametersEcc param, KasValResultEcc result, BitString partyId, IKdfFactory kdfFactory, INoKeyConfirmationFactory noKeyConfirmationFactory, IKeyConfirmationFactory keyConfirmationFactory)
+            GetKasInstance(KeyAgreementRole partyRole, KeyConfirmationRole partyKcRole, MacParameters macParameters, KasValParametersEcc param, KasValResultEcc result, BitString partyId, IKdfOneStepFactory kdfFactory, INoKeyConfirmationFactory noKeyConfirmationFactory, IKeyConfirmationFactory keyConfirmationFactory)
         {
             return new KasBuilderEcc(SchemeBuilder)
                 .WithPartyId(partyId)

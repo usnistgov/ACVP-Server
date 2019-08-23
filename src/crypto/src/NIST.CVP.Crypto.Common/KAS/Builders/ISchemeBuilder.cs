@@ -31,7 +31,7 @@ namespace NIST.CVP.Crypto.Common.KAS.Builders
             WithHashFunction(HashFunction hashFunction);
         
         /// <summary>
-        /// Sets the <see cref="IKdfFactory"/> used in the scheme.
+        /// Sets the <see cref="IKdfOneStepFactory"/> used in the scheme.
         /// </summary>
         /// <param name="kdfFactory">The kdf factory to use</param>
         /// <returns></returns>
@@ -41,7 +41,7 @@ namespace NIST.CVP.Crypto.Common.KAS.Builders
             TDomainParameters,
             TKeyPair
         > 
-            WithKdfFactory(IKdfFactory kdfFactory);
+            WithKdfFactory(IKdfOneStepFactory kdfFactory);
 
 
         /// <summary>

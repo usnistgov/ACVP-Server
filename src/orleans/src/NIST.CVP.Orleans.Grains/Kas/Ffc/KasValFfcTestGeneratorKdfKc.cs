@@ -24,7 +24,7 @@ namespace NIST.CVP.Orleans.Grains.Kas.Ffc
             > schemeBuilder,
             IEntropyProviderFactory entropyProviderFactory,
             IMacParametersBuilder macParametersBuilder,
-            IKdfFactory kdfFactory,
+            IKdfOneStepFactory kdfFactory,
             INoKeyConfirmationFactory noKeyConfirmationFactory,
             IKeyConfirmationFactory keyConfirmationFactory,
             IShaFactory shaFactory
@@ -33,7 +33,7 @@ namespace NIST.CVP.Orleans.Grains.Kas.Ffc
         }
 
         protected override IKas<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> 
-            GetKasInstance(KeyAgreementRole partyRole, KeyConfirmationRole partyKcRole, MacParameters macParameters, KasValParametersFfc param, KasValResultFfc result, BitString partyId, IKdfFactory kdfFactory, INoKeyConfirmationFactory noKeyConfirmationFactory, IKeyConfirmationFactory keyConfirmationFactory)
+            GetKasInstance(KeyAgreementRole partyRole, KeyConfirmationRole partyKcRole, MacParameters macParameters, KasValParametersFfc param, KasValResultFfc result, BitString partyId, IKdfOneStepFactory kdfFactory, INoKeyConfirmationFactory noKeyConfirmationFactory, IKeyConfirmationFactory keyConfirmationFactory)
         {
             return new KasBuilderFfc(SchemeBuilder)
                 .WithPartyId(partyId)

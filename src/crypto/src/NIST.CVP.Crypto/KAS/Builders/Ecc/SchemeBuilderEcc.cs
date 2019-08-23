@@ -28,7 +28,7 @@ namespace NIST.CVP.Crypto.KAS.Builders.Ecc
         public SchemeBuilderEcc(
             IDsaEccFactory dsaEccFactory,
             IEccCurveFactory eccCurveFactory,
-            IKdfFactory kdfFactory,
+            IKdfOneStepFactory kdfFactory,
             IKeyConfirmationFactory keyConfirmationFactory,
             INoKeyConfirmationFactory noKeyConfirmationFactory,
             IOtherInfoFactory otherInfoFactory,

@@ -25,7 +25,7 @@ namespace NIST.CVP.Orleans.Grains.Kas.Ffc
             > schemeBuilder,
             IEntropyProviderFactory entropyProviderFactory,
             IMacParametersBuilder macParametersBuilder,
-            IKdfFactory kdfFactory,
+            IKdfOneStepFactory kdfFactory,
             INoKeyConfirmationFactory noKeyConfirmationFactory,
             IKeyConfirmationFactory keyConfirmationFactory,
             IShaFactory shaFactory

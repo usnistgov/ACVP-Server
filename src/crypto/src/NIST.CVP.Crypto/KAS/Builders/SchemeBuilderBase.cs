@@ -17,7 +17,7 @@ namespace NIST.CVP.Crypto.KAS.Builders
         where TDomainParameters : IDsaDomainParameters
         where TKeyPair : IDsaKeyPair
     {
-        private readonly IKdfFactory _originalKdfFactory;
+        private readonly IKdfOneStepFactory _originalKdfFactory;
         private readonly IKeyConfirmationFactory _originalKeyConfirmationFactory;
         private readonly INoKeyConfirmationFactory _originalNoKeyConfirmationFactory;
         private readonly IOtherInfoFactory _originalOtherInfoFactory;
@@ -26,7 +26,7 @@ namespace NIST.CVP.Crypto.KAS.Builders
         private readonly IMqv<TDomainParameters, TKeyPair> _originalMqv;
 
         protected HashFunction _withHashFunction;
-        protected IKdfFactory _withKdfFactory;
+        protected IKdfOneStepFactory _withKdfFactory;
         protected IKeyConfirmationFactory _withKeyConfirmationFactory;
         protected INoKeyConfirmationFactory _withNoKeyConfirmationFactory;
         protected IOtherInfoFactory _withOtherInfoFactory;
@@ -35,7 +35,7 @@ namespace NIST.CVP.Crypto.KAS.Builders
         protected IMqv<TDomainParameters, TKeyPair> _withMqv;
 
         protected SchemeBuilderBase(
-            IKdfFactory kdfFactory,
+            IKdfOneStepFactory kdfFactory,
             IKeyConfirmationFactory keyConfirmationFactory,
             INoKeyConfirmationFactory noKeyConfirmationFactory,
             IOtherInfoFactory otherInfoFactory,
@@ -73,7 +73,7 @@ namespace NIST.CVP.Crypto.KAS.Builders
             TDomainParameters,
             TKeyPair
         > 
-            WithKdfFactory(IKdfFactory kdfFactory)
+            WithKdfFactory(IKdfOneStepFactory kdfFactory)
         {
             _withKdfFactory = kdfFactory;
             return this;

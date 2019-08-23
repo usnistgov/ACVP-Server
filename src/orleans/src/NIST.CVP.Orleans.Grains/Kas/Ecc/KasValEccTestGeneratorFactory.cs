@@ -35,7 +35,7 @@ namespace NIST.CVP.Orleans.Grains.Kas.Ecc
         > _kasBuilder;
         private readonly IEntropyProviderFactory _entropyProviderFactory;
         private readonly IMacParametersBuilder _macParametersBuilder;
-        private readonly IKdfFactory _kdfFactory;
+        private readonly IKdfOneStepFactory _kdfFactory;
         private readonly INoKeyConfirmationFactory _noKeyConfirmationFactory;
         private readonly IKeyConfirmationFactory _keyConfirmationFactory;
         private readonly IEccCurveFactory _curveFactory;
@@ -62,7 +62,7 @@ namespace NIST.CVP.Orleans.Grains.Kas.Ecc
             > kasBuilder,
             IEntropyProviderFactory entropyProviderFactory,
             IMacParametersBuilder macParametersBuilder,
-            IKdfFactory kdfFactory,
+            IKdfOneStepFactory kdfFactory,
             INoKeyConfirmationFactory noKeyConfirmationFactory,
             IKeyConfirmationFactory keyConfirmationFactory,
             IEccCurveFactory curveFactory,

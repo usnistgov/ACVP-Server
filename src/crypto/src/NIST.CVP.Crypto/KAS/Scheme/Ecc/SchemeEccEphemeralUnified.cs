@@ -18,7 +18,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme.Ecc
         public SchemeEccEphemeralUnified(
             IDsaEcc dsa, 
             IEccCurveFactory eccCurveFactory, 
-            IKdfFactory kdfFactory, 
+            IKdfOneStepFactory kdfFactory, 
             IKeyConfirmationFactory keyConfirmationFactory, 
             INoKeyConfirmationFactory noKeyConfirmationFactory, 
             IOtherInfoFactory otherInfoFactory, 

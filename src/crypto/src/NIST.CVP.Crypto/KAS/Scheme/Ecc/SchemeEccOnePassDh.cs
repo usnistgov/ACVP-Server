@@ -18,7 +18,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme.Ecc
         public SchemeEccOnePassDh(
             IDsaEcc dsa,
             IEccCurveFactory curveFactory,
-            IKdfFactory kdfFactory,
+            IKdfOneStepFactory kdfFactory,
             IKeyConfirmationFactory keyConfirmationFactory,
             INoKeyConfirmationFactory noKeyConfirmationFactory,
             IOtherInfoFactory otherInfoFactory,

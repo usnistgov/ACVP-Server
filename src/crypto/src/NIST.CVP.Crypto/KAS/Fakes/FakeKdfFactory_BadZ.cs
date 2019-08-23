@@ -2,20 +2,21 @@
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Crypto.Common.KAS.KDF;
+using NIST.CVP.Crypto.Common.KAS.KDF.KdfOneStep;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.KAS.Fakes
 {
-    public class FakeKdfFactory_BadZ : IKdfFactory
+    public class FakeKdfFactory_BadZ : IKdfOneStepFactory
     {
-        private readonly IKdfFactory _kdfFactory;
+        private readonly IKdfOneStepFactory _kdfFactory;
 
-        public FakeKdfFactory_BadZ(IKdfFactory kdfFactory)
+        public FakeKdfFactory_BadZ(IKdfOneStepFactory kdfFactory)
         {
             _kdfFactory = kdfFactory;
         }
 
-        public IKdf GetInstance(KdfHashMode kdfHashMode, HashFunction hashFunction)
+        public IKdfOneStep GetInstance(KdfHashMode kdfHashMode, HashFunction hashFunction)
         {
             var kdf = _kdfFactory.GetInstance(kdfHashMode, hashFunction);
 
@@ -27,13 +28,18 @@ namespace NIST.CVP.Crypto.KAS.Fakes
                     throw new ArgumentException(nameof(kdfHashMode));
             }
         }
+
+        public IKdfOneStep GetInstance(OneStepConfiguration config)
+        {
+            throw new NotImplementedException();
+        }
     }
 
-    internal class FakeKdfSha_BadZ : IKdf
+    internal class FakeKdfSha_BadZ : IKdfOneStep
     {
-        private readonly IKdf _kdf;
+        private readonly IKdfOneStep _kdf;
 
-        public FakeKdfSha_BadZ(IKdf kdf)
+        public FakeKdfSha_BadZ(IKdfOneStep kdf)
         {
             _kdf = kdf;
         }

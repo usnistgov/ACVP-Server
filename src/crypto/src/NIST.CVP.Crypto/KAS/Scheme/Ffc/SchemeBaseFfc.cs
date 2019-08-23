@@ -29,7 +29,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme.Ffc
         
         protected SchemeBaseFfc(
             IDsaFfc dsa, 
-            IKdfFactory kdfFactory, 
+            IKdfOneStepFactory kdfFactory, 
             IKeyConfirmationFactory keyConfirmationFactory,
             INoKeyConfirmationFactory noKeyConfirmationFactory,
             IOtherInfoFactory otherInfoFactory,

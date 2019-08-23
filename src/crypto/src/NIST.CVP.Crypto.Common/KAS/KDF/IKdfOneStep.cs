@@ -5,7 +5,7 @@ namespace NIST.CVP.Crypto.Common.KAS.KDF
     /// <summary>
     /// Describes methods for invoking KDFs
     /// </summary>
-    public interface IKdf
+    public interface IKdfOneStep
     {
         /// <summary>
         /// Used to Derive a key for use in KAS

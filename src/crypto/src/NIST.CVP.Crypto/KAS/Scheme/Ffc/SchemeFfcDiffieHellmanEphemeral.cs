@@ -17,7 +17,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme.Ffc
 
         public SchemeFfcDiffieHellmanEphemeral(
             IDsaFfc dsa, 
-            IKdfFactory kdfFactory, 
+            IKdfOneStepFactory kdfFactory, 
             IKeyConfirmationFactory keyConfirmationFactory,
             INoKeyConfirmationFactory noKeyConfirmationFactory,
             IOtherInfoFactory otherInfoFactory,

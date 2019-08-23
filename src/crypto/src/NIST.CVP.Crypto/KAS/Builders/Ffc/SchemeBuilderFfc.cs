@@ -26,7 +26,7 @@ namespace NIST.CVP.Crypto.KAS.Builders.Ffc
 
         public SchemeBuilderFfc(
             IDsaFfcFactory dsaFfcFactory, 
-            IKdfFactory kdfFactory, 
+            IKdfOneStepFactory kdfFactory, 
             IKeyConfirmationFactory keyConfirmationFactory, 
             INoKeyConfirmationFactory noKeyConfirmationFactory, 
             IOtherInfoFactory otherInfoFactory, 

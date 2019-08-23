@@ -48,7 +48,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.Builders
                 new SchemeBuilderFfc(
                     _dsaFactory.Object,
                     new KdfFactory(
-                        new ShaFactory()
+                        new ShaFactory(), new HmacFactory(new ShaFactory())
                     ),
                     new KeyConfirmationFactory(new KeyConfirmationMacDataCreator()),
                     new NoKeyConfirmationFactory(new NoKeyConfirmationMacDataCreator()),

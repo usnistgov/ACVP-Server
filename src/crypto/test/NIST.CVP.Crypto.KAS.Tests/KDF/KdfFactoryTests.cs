@@ -2,6 +2,8 @@
 using Moq;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Common.KAS.Enums;
+using NIST.CVP.Crypto.Common.MAC.HMAC;
+using NIST.CVP.Crypto.HMAC;
 using NIST.CVP.Crypto.KAS.KDF;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -13,19 +15,27 @@ namespace NIST.CVP.Crypto.KAS.Tests.KDF
     {
         private KdfFactory _subject;
         private Mock<IShaFactory> _shaFactory;
+        private Mock<IHmacFactory> _hmacFactory;
         private Mock<ISha> _sha;
+        private Mock<Hmac> _hmac;
 
         [SetUp]
         public void Setup()
         {
             _sha = new Mock<ISha>();
+            _hmac = new Mock<Hmac>();
 
             _shaFactory = new Mock<IShaFactory>();
             _shaFactory
                 .Setup(s => s.GetShaInstance(It.IsAny<HashFunction>()))
                 .Returns(_sha.Object);
+            
+            _hmacFactory = new Mock<IHmacFactory>();
+            _hmacFactory
+                .Setup(s => s.GetHmacInstance(It.IsAny<HashFunction>()))
+                .Returns(_hmac.Object);
 
-            _subject = new KdfFactory(_shaFactory.Object);
+            _subject = new KdfFactory(_shaFactory.Object, _hmacFactory.Object);
         }
 
         [Test]

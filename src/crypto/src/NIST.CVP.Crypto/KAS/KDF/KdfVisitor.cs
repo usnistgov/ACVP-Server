@@ -1,0 +1,20 @@
+using System;
+using NIST.CVP.Crypto.Common.KAS.KDF;
+
+namespace NIST.CVP.Crypto.KAS.KDF
+{
+    public class KdfVisitor : IKdfVisitor
+    {
+        private readonly IKdfOneStepFactory _kdfOneStepFactory;
+
+        public KdfVisitor(IKdfOneStepFactory kdfOneStepFactory)
+        {
+            _kdfOneStepFactory = kdfOneStepFactory;
+        }
+        
+        public KdfResult Kdf(KdfParameterOneStep param)
+        {
+            throw new NotImplementedException();
+        }
+    }
+}
