@@ -32,7 +32,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.KDF
                 new HashFunction(ModeValues.SHA2, DigestSizes.d224)
             );
 
-            badKdf.DeriveKey(originalZ, 256, new BitString(256));
+            badKdf.DeriveKey(originalZ, 256, new BitString(256), null);
 
             Assert.AreNotEqual(copyZ, originalZ, nameof(copyZ));
         }

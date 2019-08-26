@@ -15,7 +15,7 @@ namespace NIST.CVP.Crypto.KAS.KDF
 
         protected override int OutputLength => _sha.HashFunction.OutputLen;
         protected override BigInteger MaxInputLength => _sha.HashFunction.MaxMessageLen;
-        protected override BitString H(BitString message)
+        protected override BitString H(BitString message, BitString salt)
         {
             return _sha.HashMessage(message).Digest;
         }

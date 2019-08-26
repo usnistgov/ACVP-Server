@@ -92,7 +92,8 @@ namespace NIST.CVP.Crypto.KAS.Tests.KDF
             var result = _subject.DeriveKey(
                 new BitString(z), 
                 kdfSize,
-                otherInfo
+                otherInfo,
+                null
             );
 
             Assume.That(result.Success);

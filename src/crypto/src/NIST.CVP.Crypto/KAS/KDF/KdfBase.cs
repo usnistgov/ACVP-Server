@@ -10,9 +10,9 @@ namespace NIST.CVP.Crypto.KAS.KDF
     {
         protected abstract int OutputLength { get; }
         protected abstract BigInteger MaxInputLength { get; }
-        protected abstract BitString H(BitString message);
+        protected abstract BitString H(BitString message, BitString salt);
 
-        public virtual KdfResult DeriveKey(BitString z, int keyDataLength, BitString otherInfo)
+        public virtual KdfResult DeriveKey(BitString z, int keyDataLength, BitString otherInfo, BitString salt)
         {
             // 1. reps =  keydatalen / hashlen.
             var reps = keyDataLength.CeilingDivide(OutputLength);
@@ -41,7 +41,7 @@ namespace NIST.CVP.Crypto.KAS.KDF
             for (int i = 0; i < reps - 1; i++)
             {
                 // 5.1 Compute K(i) = H(counter || Z || OtherInfo).
-                k = k.ConcatenateBits(H(messageToH));
+                k = k.ConcatenateBits(H(messageToH, salt));
 
                 // 5.2 Increment counter(modulo 23^2), treating it as an unsigned 32 - bit integer.
                 counter = counter.BitStringAddition(BitString.One());
@@ -54,12 +54,12 @@ namespace NIST.CVP.Crypto.KAS.KDF
             // be set to the(keydatalen mod hashlen) leftmost bits of K(reps)
             if (keyDataLength % OutputLength == 0)
             {
-                k = k.ConcatenateBits(H(messageToH));
+                k = k.ConcatenateBits(H(messageToH, salt));
             }
             else
             {
                 k = k.ConcatenateBits(
-                    H(messageToH).GetMostSignificantBits(keyDataLength % OutputLength)
+                    H(messageToH, salt).GetMostSignificantBits(keyDataLength % OutputLength)
                 );
             }
 

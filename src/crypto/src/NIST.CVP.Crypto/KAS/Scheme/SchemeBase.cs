@@ -1,9 +1,11 @@
-﻿using NIST.CVP.Crypto.Common.Asymmetric.DSA;
+﻿using System;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Common.KAS;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Crypto.Common.KAS.KC;
 using NIST.CVP.Crypto.Common.KAS.KDF;
+using NIST.CVP.Crypto.Common.KAS.KDF.KdfOneStep;
 using NIST.CVP.Crypto.Common.KAS.NoKC;
 using NIST.CVP.Crypto.Common.KAS.Scheme;
 using NIST.CVP.Crypto.KAS.KC;
@@ -136,14 +138,62 @@ namespace NIST.CVP.Crypto.KAS.Scheme
             var oi = GenerateOtherInformation(otherPartyInformation).GetOtherInfo();
 
             // Get keying material
-            var kdf = KdfFactory.GetInstance(KdfHashMode.Sha, sha.HashFunction);
-            var dkm = kdf.DeriveKey(z, KdfParameters.KeyLength, oi);
+            var kdfConfiguration = GetKdfOneStepConfiguration(sha.HashFunction);
+            
+            var kdf = KdfFactory.GetInstance(kdfConfiguration);
+            var dkm = kdf.DeriveKey(z, KdfParameters.KeyLength, oi, null);
 
             // Perform no/key confirmation
             var computedKeyMac = ComputeMac(otherPartyInformation, dkm.DerivedKey);
 
             return new KasResult(z, oi, dkm.DerivedKey, computedKeyMac.MacData, computedKeyMac.Mac);
         }
+
+        private OneStepConfiguration GetKdfOneStepConfiguration(HashFunction shaHashFunction)
+        {
+            /*
+             * TODO update old flavors of KAS-FFC/ECC to utilize the new KDFs,
+             * this will have a fair amount of changes needed, so for the moment
+             * continue only supporting hash KDF with a (bad) form of OI construction that was used in CAVS.
+             */
+            KasKdfOneStepAuxFunction auxFunction = KasKdfOneStepAuxFunction.None;
+
+            if (shaHashFunction.Mode == ModeValues.SHA2 && shaHashFunction.DigestSize == DigestSizes.d224)
+                auxFunction = KasKdfOneStepAuxFunction.SHA2_D224;
+            else if (shaHashFunction.Mode == ModeValues.SHA2 && shaHashFunction.DigestSize == DigestSizes.d256)
+                auxFunction = KasKdfOneStepAuxFunction.SHA2_D256;
+            else if (shaHashFunction.Mode == ModeValues.SHA2 && shaHashFunction.DigestSize == DigestSizes.d384)
+                auxFunction = KasKdfOneStepAuxFunction.SHA2_D384;
+            else if (shaHashFunction.Mode == ModeValues.SHA2 && shaHashFunction.DigestSize == DigestSizes.d512)
+                auxFunction = KasKdfOneStepAuxFunction.SHA2_D512;
+            else if (shaHashFunction.Mode == ModeValues.SHA2 && shaHashFunction.DigestSize == DigestSizes.d512t224)
+                auxFunction = KasKdfOneStepAuxFunction.SHA2_D512_T224;
+            else if (shaHashFunction.Mode == ModeValues.SHA2 && shaHashFunction.DigestSize == DigestSizes.d512t224)
+                auxFunction = KasKdfOneStepAuxFunction.SHA2_D512_T224;
+            else if (shaHashFunction.Mode == ModeValues.SHA3 && shaHashFunction.DigestSize == DigestSizes.d224)
+                auxFunction = KasKdfOneStepAuxFunction.SHA3_D224;
+            else if (shaHashFunction.Mode == ModeValues.SHA3 && shaHashFunction.DigestSize == DigestSizes.d256)
+                auxFunction = KasKdfOneStepAuxFunction.SHA3_D256;
+            else if (shaHashFunction.Mode == ModeValues.SHA3 && shaHashFunction.DigestSize == DigestSizes.d384)
+                auxFunction = KasKdfOneStepAuxFunction.SHA3_D384;
+            else if (shaHashFunction.Mode == ModeValues.SHA3 && shaHashFunction.DigestSize == DigestSizes.d512)
+                auxFunction = KasKdfOneStepAuxFunction.SHA3_D512;
+            else
+                throw new ArgumentException($"Unexpected {nameof(shaHashFunction)} for retrieving a KDF.");
+            
+            return new OneStepConfiguration()
+            {
+                Encoding = KasKdfOneStepEncoding.None,
+                AuxFunction = new AuxFunction()
+                {
+                    AuxFunctionName = auxFunction,
+                    SaltLen = 0,
+                    FixedInputPattern = string.Empty,
+                    MacSaltMethod = MacSaltMethod.None
+                }
+            };
+        }
+
         #endregion interface implementation methods
 
         #region protected implemented methods

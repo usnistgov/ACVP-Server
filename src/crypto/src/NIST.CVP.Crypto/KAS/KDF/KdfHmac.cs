@@ -12,9 +12,7 @@ namespace NIST.CVP.Crypto.KAS.KDF
     {
         private readonly IHmac _hmac;
         private readonly ISha _sha;
-        private readonly OneStepConfiguration _config;
-        private readonly BitString _salt;
-
+        
         public KdfHmac(IHmacFactory hmacFactory, IShaFactory shaFactory, OneStepConfiguration config)
         {
             HashFunction hashFunction = null;
@@ -56,19 +54,18 @@ namespace NIST.CVP.Crypto.KAS.KDF
 
             _hmac = hmacFactory.GetHmacInstance(hashFunction);
             _sha = shaFactory.GetShaInstance(hashFunction);
-            _config = config;
-            
-            if (_salt == null || _salt.BitLength == 0)
-            {
-                _salt = new BitString(config.AuxFunction.SaltLen);
-            }
         }
         
         protected override int OutputLength => _sha.HashFunction.OutputLen;
         protected override BigInteger MaxInputLength => _sha.HashFunction.MaxMessageLen;
-        protected override BitString H(BitString message)
+        protected override BitString H(BitString message, BitString salt)
         {
-            return _hmac.Generate(_salt, message, OutputLength).Mac;
+            if (salt == null || salt.BitLength == 0)
+            {
+                throw new ArgumentNullException(nameof(salt));
+            }
+            
+            return _hmac.Generate(salt, message, OutputLength).Mac;
         }
     }
 }

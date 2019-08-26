@@ -44,9 +44,9 @@ namespace NIST.CVP.Crypto.KAS.Fakes
             _kdf = kdf;
         }
 
-        public KdfResult DeriveKey(BitString z, int keyDataLength, BitString otherInfo)
+        public KdfResult DeriveKey(BitString z, int keyDataLength, BitString otherInfo, BitString salt)
         {
-            var dkmResult = _kdf.DeriveKey(z, keyDataLength, otherInfo);
+            var dkmResult = _kdf.DeriveKey(z, keyDataLength, otherInfo, salt);
 
             // Change the DKM prior to returning
             dkmResult.DerivedKey[0] += 2;

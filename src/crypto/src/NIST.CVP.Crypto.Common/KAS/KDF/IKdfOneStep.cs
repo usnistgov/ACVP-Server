@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Math;
+﻿using System;
+using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.Common.KAS.KDF
 {
@@ -13,7 +14,8 @@ namespace NIST.CVP.Crypto.Common.KAS.KDF
         /// <param name="z">The shared secret Z</param>
         /// <param name="keyDataLength">The output length of the keying material</param>
         /// <param name="otherInfo">The other information to be used in the KDF</param>
+        /// <param name="salt">The salt used for mac based KDFs.</param>
         /// <returns></returns>
-        KdfResult DeriveKey(BitString z, int keyDataLength, BitString otherInfo);
+        KdfResult DeriveKey(BitString z, int keyDataLength, BitString otherInfo, BitString salt);
     }
 }

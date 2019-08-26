@@ -44,12 +44,12 @@ namespace NIST.CVP.Crypto.KAS.Fakes
             _kdf = kdf;
         }
 
-        public KdfResult DeriveKey(BitString z, int keyDataLength, BitString otherInfo)
+        public KdfResult DeriveKey(BitString z, int keyDataLength, BitString otherInfo, BitString salt)
         {
             // change the z prior to passing to the KDF
             z[0] += 2;
 
-            return _kdf.DeriveKey(z, keyDataLength, otherInfo);
+            return _kdf.DeriveKey(z, keyDataLength, otherInfo, salt);
         }
     }
 }
