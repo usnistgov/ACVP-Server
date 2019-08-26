@@ -13,10 +13,10 @@ namespace NIST.CVP.Crypto.KAS.KDF
         private readonly IHmac _hmac;
         private readonly ISha _sha;
         
-        public KdfHmac(IHmacFactory hmacFactory, IShaFactory shaFactory, OneStepConfiguration config)
+        public KdfHmac(IHmacFactory hmacFactory, IShaFactory shaFactory, KasKdfOneStepAuxFunction auxFunction)
         {
             HashFunction hashFunction = null;
-            switch (config.AuxFunction.AuxFunctionName)
+            switch (auxFunction)
             {
                 case KasKdfOneStepAuxFunction.HMAC_SHA2_D224:
                     hashFunction = new HashFunction(ModeValues.SHA2, DigestSizes.d224);
@@ -49,7 +49,7 @@ namespace NIST.CVP.Crypto.KAS.KDF
                     hashFunction = new HashFunction(ModeValues.SHA3, DigestSizes.d512);
                     break;
                 default:
-                    throw new ArgumentException(nameof(config.AuxFunction.AuxFunctionName));
+                    throw new ArgumentException(nameof(auxFunction));
             }
 
             _hmac = hmacFactory.GetHmacInstance(hashFunction);

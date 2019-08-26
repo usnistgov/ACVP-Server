@@ -1,7 +1,4 @@
-﻿using System;
-using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
-using NIST.CVP.Crypto.Common.KAS.Enums;
-using NIST.CVP.Crypto.Common.KAS.KDF.KdfOneStep;
+﻿using NIST.CVP.Crypto.Common.KAS.Enums;
 
 namespace NIST.CVP.Crypto.Common.KAS.KDF
 {
@@ -13,17 +10,8 @@ namespace NIST.CVP.Crypto.Common.KAS.KDF
         /// <summary>
         /// Returns an instance of <see cref="IKdfOneStep"/> based on the specified parameters.
         /// </summary>
-        /// <param name="kdfHashMode">The type of KDF</param>
-        /// <param name="hashFunction">The hash function options</param>
+        /// <param name="auxFunction">The hash/mac function used in the KDF.</param>
         /// <returns></returns>
-        [Obsolete]
-        IKdfOneStep GetInstance(KdfHashMode kdfHashMode, HashFunction hashFunction);
-
-        /// <summary>
-        /// Returns an instance of <see cref="IKdfOneStep"/> based on the specified parameters.
-        /// </summary>
-        /// <param name="config">The KDF configuration.</param>
-        /// <returns></returns>
-        IKdfOneStep GetInstance(OneStepConfiguration config);
+        IKdfOneStep GetInstance(KasKdfOneStepAuxFunction auxFunction);
     }
 }

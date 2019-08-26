@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Common.KAS.Enums;
+using NIST.CVP.Crypto.Common.KAS.KDF.KdfOneStep;
 using NIST.CVP.Crypto.HMAC;
 using NIST.CVP.Crypto.KAS.Fakes;
 using NIST.CVP.Crypto.KAS.KDF;
@@ -27,10 +28,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.KDF
 
             Assert.AreEqual(copyZ, originalZ, "sanity check");
 
-            var badKdf = fakeKdfFactory.GetInstance(
-                KdfHashMode.Sha, 
-                new HashFunction(ModeValues.SHA2, DigestSizes.d224)
-            );
+            var badKdf = fakeKdfFactory.GetInstance(KasKdfOneStepAuxFunction.SHA2_D256);
 
             badKdf.DeriveKey(originalZ, 256, new BitString(256), null);
 

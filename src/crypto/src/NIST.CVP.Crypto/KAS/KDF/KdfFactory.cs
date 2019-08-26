@@ -18,22 +18,9 @@ namespace NIST.CVP.Crypto.KAS.KDF
             _hmacFactory = hmacFactory;
         }
 
-        public IKdfOneStep GetInstance(KdfHashMode kdfHashMode, HashFunction hashFunction)
+        public IKdfOneStep GetInstance(KasKdfOneStepAuxFunction auxFunction)
         {
-            var sha = _shaFactory.GetShaInstance(hashFunction);
-
-            switch (kdfHashMode)
-            {
-                    case KdfHashMode.Sha:
-                        return new KdfSha(sha);
-                    default:
-                    throw new ArgumentException(nameof(kdfHashMode));
-            }
-        }
-
-        public IKdfOneStep GetInstance(OneStepConfiguration config)
-        {
-            switch (config.AuxFunction.AuxFunctionName)
+            switch (auxFunction)
             {
                 case KasKdfOneStepAuxFunction.SHA2_D224:
                     return new KdfSha(_shaFactory.GetShaInstance(new HashFunction(ModeValues.SHA2, DigestSizes.d224)));
@@ -65,9 +52,9 @@ namespace NIST.CVP.Crypto.KAS.KDF
                 case KasKdfOneStepAuxFunction.HMAC_SHA3_D256:
                 case KasKdfOneStepAuxFunction.HMAC_SHA3_D384:
                 case KasKdfOneStepAuxFunction.HMAC_SHA3_D512:
-                    return new KdfHmac(_hmacFactory, _shaFactory, config);
+                    return new KdfHmac(_hmacFactory, _shaFactory, auxFunction);
                 default:
-                    throw new ArgumentException(nameof(config.AuxFunction.AuxFunctionName));
+                    throw new ArgumentException(nameof(auxFunction));
             }
         }
     }

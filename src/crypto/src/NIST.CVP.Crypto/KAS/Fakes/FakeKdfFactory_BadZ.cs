@@ -16,30 +16,19 @@ namespace NIST.CVP.Crypto.KAS.Fakes
             _kdfFactory = kdfFactory;
         }
 
-        public IKdfOneStep GetInstance(KdfHashMode kdfHashMode, HashFunction hashFunction)
+        public IKdfOneStep GetInstance(KasKdfOneStepAuxFunction auxFunction)
         {
-            var kdf = _kdfFactory.GetInstance(kdfHashMode, hashFunction);
-
-            switch (kdfHashMode)
-            {
-                case KdfHashMode.Sha:
-                    return new FakeKdfSha_BadZ(kdf);
-                default:
-                    throw new ArgumentException(nameof(kdfHashMode));
-            }
-        }
-
-        public IKdfOneStep GetInstance(OneStepConfiguration config)
-        {
-            throw new NotImplementedException();
+            var kdf = _kdfFactory.GetInstance(auxFunction);
+            
+            return new FakeKdf_BadZ(kdf);
         }
     }
 
-    internal class FakeKdfSha_BadZ : IKdfOneStep
+    internal class FakeKdf_BadZ : IKdfOneStep
     {
         private readonly IKdfOneStep _kdf;
 
-        public FakeKdfSha_BadZ(IKdfOneStep kdf)
+        public FakeKdf_BadZ(IKdfOneStep kdf)
         {
             _kdf = kdf;
         }

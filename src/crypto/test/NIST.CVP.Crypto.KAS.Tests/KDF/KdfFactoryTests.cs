@@ -2,6 +2,7 @@
 using Moq;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Common.KAS.Enums;
+using NIST.CVP.Crypto.Common.KAS.KDF.KdfOneStep;
 using NIST.CVP.Crypto.Common.MAC.HMAC;
 using NIST.CVP.Crypto.HMAC;
 using NIST.CVP.Crypto.KAS.KDF;
@@ -10,20 +11,20 @@ using NUnit.Framework;
 
 namespace NIST.CVP.Crypto.KAS.Tests.KDF
 {
-    [TestFixture,  FastCryptoTest]
+    [TestFixture, FastCryptoTest]
     public class KdfFactoryTests
     {
         private KdfFactory _subject;
         private Mock<IShaFactory> _shaFactory;
         private Mock<IHmacFactory> _hmacFactory;
         private Mock<ISha> _sha;
-        private Mock<Hmac> _hmac;
+        private Mock<IHmac> _hmac;
 
         [SetUp]
         public void Setup()
         {
             _sha = new Mock<ISha>();
-            _hmac = new Mock<Hmac>();
+            _hmac = new Mock<IHmac>();
 
             _shaFactory = new Mock<IShaFactory>();
             _shaFactory
@@ -39,10 +40,11 @@ namespace NIST.CVP.Crypto.KAS.Tests.KDF
         }
 
         [Test]
-        [TestCase(KdfHashMode.Sha, typeof(KdfSha))]
-        public void ShouldReturnCorrectImplementation(KdfHashMode kdfHashMode, Type expectedType)
+        [TestCase(KasKdfOneStepAuxFunction.SHA2_D224, typeof(KdfSha))]
+        [TestCase(KasKdfOneStepAuxFunction.HMAC_SHA2_D224, typeof(KdfHmac))]
+        public void ShouldReturnCorrectImplementation(KasKdfOneStepAuxFunction auxFunction, Type expectedType)
         {
-            var result = _subject.GetInstance(kdfHashMode, new HashFunction(ModeValues.SHA1, DigestSizes.d160));
+            var result = _subject.GetInstance(auxFunction);
 
             Assert.IsInstanceOf(expectedType, result);
         }
@@ -51,9 +53,9 @@ namespace NIST.CVP.Crypto.KAS.Tests.KDF
         public void ShouldReturnArgumentExceptionWhenInvalidEnum()
         {
             int i = -1;
-            var badType = (KdfHashMode)i;
-
-            Assert.Throws(typeof(ArgumentException), () => _subject.GetInstance(badType, new HashFunction(ModeValues.SHA1, DigestSizes.d160)));
+            var badType = (KasKdfOneStepAuxFunction)i;
+            
+            Assert.Throws(typeof(ArgumentException), () => _subject.GetInstance(badType));
         }
     }
 }

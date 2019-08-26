@@ -14,7 +14,9 @@ namespace NIST.CVP.Crypto.KAS.KDF
         
         public KdfResult Kdf(KdfParameterOneStep param)
         {
-            throw new NotImplementedException();
+            var kdf = _kdfOneStepFactory.GetInstance(param.AuxFunction.AuxFunctionName);
+
+            return kdf.DeriveKey(param.Z, param.L, param.FixedInfo, param.Salt);
         }
     }
 }

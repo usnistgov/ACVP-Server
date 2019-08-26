@@ -138,7 +138,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme
             var oi = GenerateOtherInformation(otherPartyInformation).GetOtherInfo();
 
             // Get keying material
-            var kdfConfiguration = GetKdfOneStepConfiguration(sha.HashFunction);
+            var kdfConfiguration = GetKdfAuxFunction(sha.HashFunction);
             
             var kdf = KdfFactory.GetInstance(kdfConfiguration);
             var dkm = kdf.DeriveKey(z, KdfParameters.KeyLength, oi, null);
@@ -149,49 +149,35 @@ namespace NIST.CVP.Crypto.KAS.Scheme
             return new KasResult(z, oi, dkm.DerivedKey, computedKeyMac.MacData, computedKeyMac.Mac);
         }
 
-        private OneStepConfiguration GetKdfOneStepConfiguration(HashFunction shaHashFunction)
+        private KasKdfOneStepAuxFunction GetKdfAuxFunction(HashFunction shaHashFunction)
         {
             /*
              * TODO update old flavors of KAS-FFC/ECC to utilize the new KDFs,
              * this will have a fair amount of changes needed, so for the moment
              * continue only supporting hash KDF with a (bad) form of OI construction that was used in CAVS.
              */
-            KasKdfOneStepAuxFunction auxFunction = KasKdfOneStepAuxFunction.None;
-
             if (shaHashFunction.Mode == ModeValues.SHA2 && shaHashFunction.DigestSize == DigestSizes.d224)
-                auxFunction = KasKdfOneStepAuxFunction.SHA2_D224;
-            else if (shaHashFunction.Mode == ModeValues.SHA2 && shaHashFunction.DigestSize == DigestSizes.d256)
-                auxFunction = KasKdfOneStepAuxFunction.SHA2_D256;
-            else if (shaHashFunction.Mode == ModeValues.SHA2 && shaHashFunction.DigestSize == DigestSizes.d384)
-                auxFunction = KasKdfOneStepAuxFunction.SHA2_D384;
-            else if (shaHashFunction.Mode == ModeValues.SHA2 && shaHashFunction.DigestSize == DigestSizes.d512)
-                auxFunction = KasKdfOneStepAuxFunction.SHA2_D512;
-            else if (shaHashFunction.Mode == ModeValues.SHA2 && shaHashFunction.DigestSize == DigestSizes.d512t224)
-                auxFunction = KasKdfOneStepAuxFunction.SHA2_D512_T224;
-            else if (shaHashFunction.Mode == ModeValues.SHA2 && shaHashFunction.DigestSize == DigestSizes.d512t224)
-                auxFunction = KasKdfOneStepAuxFunction.SHA2_D512_T224;
-            else if (shaHashFunction.Mode == ModeValues.SHA3 && shaHashFunction.DigestSize == DigestSizes.d224)
-                auxFunction = KasKdfOneStepAuxFunction.SHA3_D224;
-            else if (shaHashFunction.Mode == ModeValues.SHA3 && shaHashFunction.DigestSize == DigestSizes.d256)
-                auxFunction = KasKdfOneStepAuxFunction.SHA3_D256;
-            else if (shaHashFunction.Mode == ModeValues.SHA3 && shaHashFunction.DigestSize == DigestSizes.d384)
-                auxFunction = KasKdfOneStepAuxFunction.SHA3_D384;
-            else if (shaHashFunction.Mode == ModeValues.SHA3 && shaHashFunction.DigestSize == DigestSizes.d512)
-                auxFunction = KasKdfOneStepAuxFunction.SHA3_D512;
-            else
-                throw new ArgumentException($"Unexpected {nameof(shaHashFunction)} for retrieving a KDF.");
-            
-            return new OneStepConfiguration()
-            {
-                Encoding = KasKdfOneStepEncoding.None,
-                AuxFunction = new AuxFunction()
-                {
-                    AuxFunctionName = auxFunction,
-                    SaltLen = 0,
-                    FixedInputPattern = string.Empty,
-                    MacSaltMethod = MacSaltMethod.None
-                }
-            };
+                return KasKdfOneStepAuxFunction.SHA2_D224;
+            if (shaHashFunction.Mode == ModeValues.SHA2 && shaHashFunction.DigestSize == DigestSizes.d256)
+                return KasKdfOneStepAuxFunction.SHA2_D256;
+            if (shaHashFunction.Mode == ModeValues.SHA2 && shaHashFunction.DigestSize == DigestSizes.d384)
+                return KasKdfOneStepAuxFunction.SHA2_D384;
+            if (shaHashFunction.Mode == ModeValues.SHA2 && shaHashFunction.DigestSize == DigestSizes.d512)
+                return KasKdfOneStepAuxFunction.SHA2_D512;
+            if (shaHashFunction.Mode == ModeValues.SHA2 && shaHashFunction.DigestSize == DigestSizes.d512t224)
+                return KasKdfOneStepAuxFunction.SHA2_D512_T224;
+            if (shaHashFunction.Mode == ModeValues.SHA2 && shaHashFunction.DigestSize == DigestSizes.d512t224)
+                return KasKdfOneStepAuxFunction.SHA2_D512_T224;
+            if (shaHashFunction.Mode == ModeValues.SHA3 && shaHashFunction.DigestSize == DigestSizes.d224)
+                return KasKdfOneStepAuxFunction.SHA3_D224;
+            if (shaHashFunction.Mode == ModeValues.SHA3 && shaHashFunction.DigestSize == DigestSizes.d256)
+                return KasKdfOneStepAuxFunction.SHA3_D256;
+            if (shaHashFunction.Mode == ModeValues.SHA3 && shaHashFunction.DigestSize == DigestSizes.d384)
+                return KasKdfOneStepAuxFunction.SHA3_D384;
+            if (shaHashFunction.Mode == ModeValues.SHA3 && shaHashFunction.DigestSize == DigestSizes.d512)
+                return KasKdfOneStepAuxFunction.SHA3_D512;
+
+            throw new ArgumentException($"Unexpected {nameof(shaHashFunction)} for retrieving a KDF.");
         }
 
         #endregion interface implementation methods
