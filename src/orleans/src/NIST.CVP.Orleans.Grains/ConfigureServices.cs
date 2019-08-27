@@ -103,6 +103,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using NIST.CVP.Crypto.AES_FF;
+using NIST.CVP.Crypto.Common.KAS.KDF.KdfOneStep;
 using NIST.CVP.Crypto.Common.KAS.Scheme;
 using NIST.CVP.Crypto.Common.Symmetric.AES;
 using NIST.CVP.Crypto.Common.Symmetric.BlockModes.Ffx;

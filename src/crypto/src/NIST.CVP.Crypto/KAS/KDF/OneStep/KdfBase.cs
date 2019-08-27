@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Numerics;
 using NIST.CVP.Crypto.Common.KAS.KDF;
+using NIST.CVP.Crypto.Common.KAS.KDF.KdfOneStep;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Helpers;
 

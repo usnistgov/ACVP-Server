@@ -1,6 +1,6 @@
 ﻿using NIST.CVP.Crypto.Common.KAS.Enums;
 
-namespace NIST.CVP.Crypto.Common.KAS.KDF
+namespace NIST.CVP.Crypto.Common.KAS.KDF.KdfOneStep
 {
     /// <summary>
     /// Describes retrieving a <see cref="IKdfOneStep"/> instance

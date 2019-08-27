@@ -1,7 +1,6 @@
-﻿using System;
-using NIST.CVP.Math;
+﻿using NIST.CVP.Math;
 
-namespace NIST.CVP.Crypto.Common.KAS.KDF
+namespace NIST.CVP.Crypto.Common.KAS.KDF.KdfOneStep
 {
     /// <summary>
     /// Describes methods for invoking KDFs
