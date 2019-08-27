@@ -4,7 +4,7 @@ using NIST.CVP.Crypto.Common.KAS.KDF;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Helpers;
 
-namespace NIST.CVP.Crypto.KAS.KDF
+namespace NIST.CVP.Crypto.KAS.KDF.OneStep
 {
     public abstract class KdfBase : IKdfOneStep
     {

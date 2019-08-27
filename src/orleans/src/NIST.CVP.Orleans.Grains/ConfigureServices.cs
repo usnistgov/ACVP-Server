@@ -106,6 +106,7 @@ using NIST.CVP.Crypto.AES_FF;
 using NIST.CVP.Crypto.Common.KAS.Scheme;
 using NIST.CVP.Crypto.Common.Symmetric.AES;
 using NIST.CVP.Crypto.Common.Symmetric.BlockModes.Ffx;
+using NIST.CVP.Crypto.KAS.KDF.OneStep;
 using NIST.CVP.Crypto.Symmetric.BlockModes.Ffx;
 
 namespace NIST.CVP.Orleans.Grains
@@ -174,7 +175,7 @@ namespace NIST.CVP.Orleans.Grains
             svc.AddTransient<IMacParametersBuilder, MacParametersBuilder>();
             svc.AddSingleton<IKeyConfirmationFactory, KeyConfirmationFactory>();
             svc.AddSingleton<INoKeyConfirmationFactory, NoKeyConfirmationFactory>();
-            svc.AddSingleton<IKdfOneStepFactory, KdfFactory>();
+            svc.AddSingleton<IKdfOneStepFactory, KdfOneStepFactory>();
 
             svc.AddSingleton<IOtherInfoFactory, OtherInfoFactory>();
 

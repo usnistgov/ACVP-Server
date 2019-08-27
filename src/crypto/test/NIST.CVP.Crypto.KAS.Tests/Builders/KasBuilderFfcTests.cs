@@ -9,6 +9,7 @@ using NIST.CVP.Crypto.KAS.Builders;
 using NIST.CVP.Crypto.KAS.Builders.Ffc;
 using NIST.CVP.Crypto.KAS.KC;
 using NIST.CVP.Crypto.KAS.KDF;
+using NIST.CVP.Crypto.KAS.KDF.OneStep;
 using NIST.CVP.Crypto.KAS.NoKC;
 using NIST.CVP.Crypto.KAS.Scheme.Ffc;
 using NIST.CVP.Crypto.KES;
@@ -47,7 +48,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.Builders
             _subject = new KasBuilderFfc(
                 new SchemeBuilderFfc(
                     _dsaFactory.Object,
-                    new KdfFactory(
+                    new KdfOneStepFactory(
                         new ShaFactory(), new HmacFactory(new ShaFactory())
                     ),
                     new KeyConfirmationFactory(new KeyConfirmationMacDataCreator()),

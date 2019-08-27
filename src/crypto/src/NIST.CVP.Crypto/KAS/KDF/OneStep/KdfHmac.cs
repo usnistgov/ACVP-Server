@@ -2,11 +2,10 @@ using System;
 using System.Numerics;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Common.KAS.Enums;
-using NIST.CVP.Crypto.Common.KAS.KDF.KdfOneStep;
 using NIST.CVP.Crypto.Common.MAC.HMAC;
 using NIST.CVP.Math;
 
-namespace NIST.CVP.Crypto.KAS.KDF
+namespace NIST.CVP.Crypto.KAS.KDF.OneStep
 {
     public class KdfHmac : KdfBase
     {

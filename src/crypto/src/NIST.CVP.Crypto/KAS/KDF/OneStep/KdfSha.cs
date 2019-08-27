@@ -2,7 +2,7 @@
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Math;
 
-namespace NIST.CVP.Crypto.KAS.KDF
+namespace NIST.CVP.Crypto.KAS.KDF.OneStep
 {
     public class KdfSha : KdfBase
     {

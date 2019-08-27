@@ -19,6 +19,7 @@ using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Crypto.Common.KAS.Scheme;
 using NIST.CVP.Crypto.HMAC;
+using NIST.CVP.Crypto.KAS.KDF.OneStep;
 using NIST.CVP.Crypto.KAS.Scheme.Ecc;
 using NIST.CVP.Crypto.Symmetric.BlockModes;
 using NIST.CVP.Crypto.Symmetric.Engines;
@@ -53,7 +54,7 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new SchemeBuilderEcc(
                     _dsaFactory.Object,
                     _curveFactory,
-                    new KdfFactory(
+                    new KdfOneStepFactory(
                         new ShaFactory(), new HmacFactory(new ShaFactory())
                     ),
                     new KeyConfirmationFactory(new KeyConfirmationMacDataCreator()),

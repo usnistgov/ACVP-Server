@@ -5,7 +5,6 @@ namespace NIST.CVP.Crypto.Common.KAS.KDF.KdfOneStep
     public class OneStepConfiguration : IKasKdfConfiguration
     {
         public KasKdf KdfType => KasKdf.OneStep;
-        
         /// <summary>
         /// The Hash or MAC functions utilized for the KDF
         /// </summary>

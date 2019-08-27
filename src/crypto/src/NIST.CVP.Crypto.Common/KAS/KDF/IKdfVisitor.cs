@@ -1,3 +1,5 @@
+using NIST.CVP.Crypto.Common.KAS.KDF.KdfOneStep;
+
 namespace NIST.CVP.Crypto.Common.KAS.KDF
 {
     /// <summary>
@@ -6,7 +8,7 @@ namespace NIST.CVP.Crypto.Common.KAS.KDF
     public interface IKdfVisitor
     {
         /// <summary>
-        /// Kas KDF - OneStep.
+        /// Derive a key for Kas OneStep.
         /// </summary>
         /// <param name="param">The parameters required for invoking a OneStepKdf.</param>
         /// <returns>The derived key.</returns>

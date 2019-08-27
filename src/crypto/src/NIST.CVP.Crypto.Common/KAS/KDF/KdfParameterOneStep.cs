@@ -37,7 +37,7 @@ namespace NIST.CVP.Crypto.Common.KAS.KDF
         /// <param name="l"></param>
         /// <param name="fixedInfo"></param>
         /// /// <param name="salt"></param>
-        public KdfParameterOneStep(AuxFunction auxFunction, BitString z, int l, BitString fixedInfo, BitString salt )
+        public KdfParameterOneStep(AuxFunction auxFunction, BitString z, int l, BitString fixedInfo, BitString salt)
             : this (auxFunction, z, l, fixedInfo)
         {
             Salt = salt;
