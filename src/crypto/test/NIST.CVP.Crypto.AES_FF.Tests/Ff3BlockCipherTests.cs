@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Crypto.Common.Symmetric.BlockModes.Ffx;
+﻿using System;
+using NIST.CVP.Crypto.Common.Symmetric.BlockModes.Ffx;
 using NIST.CVP.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.Crypto.Symmetric.BlockModes;
 using NIST.CVP.Crypto.Symmetric.BlockModes.Ffx;
@@ -181,6 +182,51 @@ namespace NIST.CVP.Crypto.AES_FF.Tests
                 26,
                 // expectedResult
                 new NumeralString("18 0 18 17 14 2 19 15 19 7 10 9 24 25 15 9 25 8 8")
+            },
+            new object[]
+            {
+                // label
+                "test10",
+                // payload
+                new NumeralString("0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18"), 
+                // tweak
+                new BitString("00 00 00 00 00 00 00 00"),
+                // key
+                new BitString("2B 7E 15 16 28 AE D2 A6 AB F7 15 88 09 CF 4F 3C EF 43 59 D8 D5 80 AA 4F 7F 03 6D 6F 04 FC 6A 94"),
+                // radix
+                36,
+                // expectedResult
+                new NumeralString("8 27 24 31 21 27 35 25 12 19 26 23 10 8 24 2 0 33 9")
+            },
+            new object[]
+            {
+                // label
+                "test11 - should be compatible with ff3-1",
+                // payload
+                new NumeralString("0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18"), 
+                // tweak
+                new BitString("FF FF FF F0 00 00 00 00"),
+                // key
+                new BitString("2B 7E 15 16 28 AE D2 A6 AB F7 15 88 09 CF 4F 3C EF 43 59 D8 D5 80 AA 4F 7F 03 6D 6F 04 FC 6A 94"),
+                // radix
+                36,
+                // expectedResult
+                new NumeralString("9 31 11 25 5 29 28 16 1 0 19 7 14 4 27 13 6 17 14")
+            },
+            new object[]
+            {
+                // label
+                "test12 - should be compatible with ff3-1",
+                // payload
+                new NumeralString("0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 0 0 0 0 1 5 8 2 10 1 1 1 1 1"), 
+                // tweak
+                new BitString("FA F5 7F A0 00 00 00 00"),
+                // key
+                new BitString("2B 7E 15 16 28 AE D2 A6 AB F7 15 88 09 CF 4F 3C EF 43 59 D8 D5 80 AA 4F 7F 03 6D 6F 04 FC 6A 94"),
+                // radix
+                36,
+                // expectedResult
+                new NumeralString("5 16 25 5 13 12 9 13 28 10 11 14 23 6 12 16 10 2 13 9 3 1 30 29 17 28 30 15 33 11 2 32 31")
             }
         };
 
@@ -196,7 +242,7 @@ namespace NIST.CVP.Crypto.AES_FF.Tests
                 Payload = NumeralString.ToBitString(payload),
                 Radix = radix
             });
-
+            
             Assert.AreEqual(cipherText.ToString(), NumeralString.ToNumeralString(result.Result).ToString());
         }
 

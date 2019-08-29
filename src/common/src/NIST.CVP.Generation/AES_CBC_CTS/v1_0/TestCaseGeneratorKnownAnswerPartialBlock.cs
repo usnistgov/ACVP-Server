@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using NIST.CVP.Crypto.Common.Symmetric.Enums;
 
 namespace NIST.CVP.Generation.AES_CBC_CTS.v1_0
 {
@@ -76,7 +77,7 @@ namespace NIST.CVP.Generation.AES_CBC_CTS.v1_0
             TestCase testCase = new TestCase
             {
                 Key = currentKat.Key,
-                IV = currentKat.IV,
+                IV = currentKat.IV.GetDeepCopy(),
                 PlainText = currentKat.PlainText,
                 PayloadLen = _chosenPayloadLen
             };
@@ -89,8 +90,9 @@ namespace NIST.CVP.Generation.AES_CBC_CTS.v1_0
             {
                 Mode = group.BlockCipherModeOfOperation,
                 Payload = testCase.PlainText,
-                Direction = "encrypt",
-                KeyLength = group.KeyLength
+                Key = testCase.Key,
+                Iv = testCase.IV.GetDeepCopy(),
+                Direction = BlockCipherDirections.Encrypt
             };
 
             try

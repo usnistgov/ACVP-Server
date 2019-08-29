@@ -256,6 +256,48 @@ namespace NIST.CVP.Crypto.AES_CBC_CTS.Tests
             Assert.AreEqual(pt.ToHex(), result.Result.ToHex(), nameof(pt));
             Assert.AreEqual(nextIv.ToHex(), param.Iv.ToHex(), nameof(nextIv));
         }
+        
+        [Test]
+        [TestCaseSource(nameof(_testData))]
+        public void EncryptDecryptToSameResultTestsCs1(string label, BitString key, BitString iv, BitString pt, BitString ct, BitString nextIv)
+        {
+            var encryptResult =
+                _subjectCs1.ProcessPayload(new ModeBlockCipherParameters(BlockCipherDirections.Encrypt, iv.GetDeepCopy(), key, pt));
+            
+            var decryptResult =
+                _subjectCs1.ProcessPayload(new ModeBlockCipherParameters(BlockCipherDirections.Decrypt, iv, key,
+                    encryptResult.Result));
+            
+            Assert.AreEqual(pt.ToHex(), decryptResult.Result.ToHex());
+        }
+        
+        [Test]
+        [TestCaseSource(nameof(_testData))]
+        public void EncryptDecryptToSameResultTestsCs2(string label, BitString key, BitString iv, BitString pt, BitString ct, BitString nextIv)
+        {
+            var encryptResult =
+                _subjectCs2.ProcessPayload(new ModeBlockCipherParameters(BlockCipherDirections.Encrypt, iv.GetDeepCopy(), key, pt));
+            
+            var decryptResult =
+                _subjectCs2.ProcessPayload(new ModeBlockCipherParameters(BlockCipherDirections.Decrypt, iv, key,
+                    encryptResult.Result));
+            
+            Assert.AreEqual(pt.ToHex(), decryptResult.Result.ToHex());
+        }
+        
+        [Test]
+        [TestCaseSource(nameof(_testData))]
+        public void EncryptDecryptToSameResultTestsCs3(string label, BitString key, BitString iv, BitString pt, BitString ct, BitString nextIv)
+        {
+            var encryptResult =
+                _subjectCs3.ProcessPayload(new ModeBlockCipherParameters(BlockCipherDirections.Encrypt, iv.GetDeepCopy(), key, pt));
+            
+            var decryptResult =
+                _subjectCs3.ProcessPayload(new ModeBlockCipherParameters(BlockCipherDirections.Decrypt, iv, key,
+                    encryptResult.Result));
+            
+            Assert.AreEqual(pt.ToHex(), decryptResult.Result.ToHex());
+        }
 
         protected int GetNumberOfBlocks(int outputLengthBits)
         {

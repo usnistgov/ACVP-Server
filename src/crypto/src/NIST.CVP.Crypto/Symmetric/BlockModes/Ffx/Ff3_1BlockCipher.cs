@@ -34,9 +34,9 @@ namespace NIST.CVP.Crypto.Symmetric.BlockModes.Ffx
             // TODO Let TL = T[0..27] || 04 and TR = T[32..55] || T[28..31] || 04 .
             // NOTE this step is the difference between FF3 and FF3-1.
             var zeroPad = new BitString(4);
-            var TL = param.Iv.Substring(28, 28).ConcatenateBits(zeroPad);
-            var TR = param.Iv.Substring(4, 24)
-                .ConcatenateBits(param.Iv.Substring(0, 4)
+            var TL = param.Iv.MSBSubstring(0, 28).ConcatenateBits(zeroPad);
+            var TR = param.Iv.MSBSubstring(32, 24)
+                .ConcatenateBits(param.Iv.MSBSubstring(28, 4)
                     .ConcatenateBits(zeroPad));
 
             // 4. For i from 0 to 7:
@@ -104,9 +104,9 @@ namespace NIST.CVP.Crypto.Symmetric.BlockModes.Ffx
             // TODO Let TL = T[0..27] || 04 and TR = T[32..55] || T[28..31] || 04 .
             // NOTE this step is the difference between FF3 and FF3-1.
             var zeroPad = new BitString(4);
-            var TL = param.Iv.Substring(28, 28).ConcatenateBits(zeroPad);
-            var TR = param.Iv.Substring(4, 24)
-                .ConcatenateBits(param.Iv.Substring(0, 4)
+            var TL = param.Iv.MSBSubstring(0, 28).ConcatenateBits(zeroPad);
+            var TR = param.Iv.MSBSubstring(32, 24)
+                .ConcatenateBits(param.Iv.MSBSubstring(28, 4)
                     .ConcatenateBits(zeroPad));
 
             // 4. For i from 0 to 7:
