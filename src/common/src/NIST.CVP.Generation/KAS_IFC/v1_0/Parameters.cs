@@ -13,6 +13,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
         public string Mode { get; set; }
         public string Revision { get; set; }
         public bool IsSample { get; set; }
+        public BitString IutId { get; set; }
         public string[] Conformances { get; set; }
         
         /// <summary>

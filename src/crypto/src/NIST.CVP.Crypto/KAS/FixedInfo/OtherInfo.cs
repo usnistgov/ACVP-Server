@@ -4,7 +4,7 @@ using NIST.CVP.Crypto.Common.KAS.KDF;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
 
-namespace NIST.CVP.Crypto.KAS.KDF
+namespace NIST.CVP.Crypto.KAS.FixedInfo
 {
     public class OtherInfo : IOtherInfo
     {

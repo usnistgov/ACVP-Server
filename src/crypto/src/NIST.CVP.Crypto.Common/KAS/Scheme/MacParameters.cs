@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Math;
 
@@ -11,6 +12,11 @@ namespace NIST.CVP.Crypto.Common.KAS.Scheme
         /// </summary>
         public KeyAgreementMacType MacType { get; }
         /// <summary>
+        /// The length of the key to plug into a MAC
+        /// </summary>
+        /// <remarks>This is a new field, and is not (at the time of writing this) being used for old KAS testing.</remarks>
+        public int KeyLength { get; }
+        /// <summary>
         /// The length of the output mac
         /// </summary>
         public int MacLength { get; }
@@ -19,7 +25,7 @@ namespace NIST.CVP.Crypto.Common.KAS.Scheme
         /// </summary>
         public BitString CcmNonce { get; }
 
-        public MacParameters(KeyAgreementMacType macType, int macLength)
+        public MacParameters(KeyAgreementMacType macType, int keyLength, int macLength)
         {
             if (macType == KeyAgreementMacType.AesCcm)
             {
@@ -27,10 +33,11 @@ namespace NIST.CVP.Crypto.Common.KAS.Scheme
             }
 
             MacType = macType;
+            KeyLength = keyLength;
             MacLength = macLength;
         }
 
-        public MacParameters(KeyAgreementMacType macType, int macLength, BitString ccmNonce)
+        public MacParameters(KeyAgreementMacType macType, int keyLength, int macLength, BitString ccmNonce)
         {
             if (macType != KeyAgreementMacType.AesCcm)
             {
@@ -38,6 +45,7 @@ namespace NIST.CVP.Crypto.Common.KAS.Scheme
             }
 
             MacType = macType;
+            KeyLength = keyLength;
             MacLength = macLength;
             CcmNonce = ccmNonce;
         }

@@ -5,10 +5,16 @@ namespace NIST.CVP.Crypto.KAS
 {
     public class KasIfc : IKasIfc
     {
+        public KasIfc(ISchemeIfc scheme)
+        {
+            Scheme = scheme;
+        }
+
         public ISchemeIfc Scheme { get; }
+
         public KasResult ComputeResult(IIfcSecretKeyingMaterial otherPartyKeyingMaterial)
         {
-            throw new System.NotImplementedException();
+            return Scheme.ComputeResult(otherPartyKeyingMaterial);
         }
     }
 }

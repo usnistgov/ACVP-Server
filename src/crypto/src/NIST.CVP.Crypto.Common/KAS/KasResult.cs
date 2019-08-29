@@ -34,6 +34,21 @@ namespace NIST.CVP.Crypto.Common.KAS
         }
 
         /// <summary>
+        /// Constructor used to create result for (at the time of writing) KAS-IFC.
+        /// </summary>
+        /// <param name="dkm">The derived keying material minus any bits used for the macKey</param>
+        /// <param name="macKey">The macKey that is used for keyConfirmation, taken from most significant bits of the derivedKey.</param>
+        /// <param name="macData"></param>
+        /// <param name="tag"></param>
+        public KasResult(BitString dkm, BitString macKey, BitString macData, BitString tag)
+        {
+            Dkm = dkm;
+            MacKey = macKey;
+            MacData = macData;
+            Tag = tag;
+        }
+
+        /// <summary>
         /// Kas error constructor
         /// </summary>
         /// <param name="errorMessage">Error information</param>
@@ -55,9 +70,13 @@ namespace NIST.CVP.Crypto.Common.KAS
         /// </summary>
         public BitString Oi { get; }
         /// <summary>
-        /// The derived keying material portion of the mac function H(dkm, macData)
+        /// The negotiated key H(dkm, macData)
         /// </summary>
         public BitString Dkm { get; }
+        /// <summary>
+        /// The Key that is plugged into a MAC algorithm (taken from DKM) H(macKey, macData).
+        /// </summary>
+        public BitString MacKey { get; }
         /// <summary>
         /// The data portion of the mac function H(dkm, macData)
         /// </summary>

@@ -28,6 +28,9 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
         
         public int L { get; set; }
         
+        public BitString IutId { get; set; }
+        public BitString ServerId { get; set; }
+        
         public IKasKdfConfiguration KdfConfiguration { get; set; }
         public KtsConfiguration KtsConfiguration { get; set; }
         public MacConfiguration MacConfiguration { get; set; }

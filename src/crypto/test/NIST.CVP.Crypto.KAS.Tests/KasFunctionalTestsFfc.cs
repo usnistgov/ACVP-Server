@@ -13,6 +13,7 @@ using NIST.CVP.Crypto.DSA.FFC;
 using NIST.CVP.Crypto.HMAC;
 using NIST.CVP.Crypto.KAS.Builders;
 using NIST.CVP.Crypto.KAS.Builders.Ffc;
+using NIST.CVP.Crypto.KAS.FixedInfo;
 using NIST.CVP.Crypto.KAS.KC;
 using NIST.CVP.Crypto.KAS.KDF;
 using NIST.CVP.Crypto.KAS.KDF.OneStep;
