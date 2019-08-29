@@ -1,6 +1,6 @@
 ﻿using NIST.CVP.Math;
 
-namespace NIST.CVP.Crypto.Common.KAS.KDF
+namespace NIST.CVP.Crypto.Common.KAS.FixedInfo
 {
     /// <summary>
     /// Represents the information contributed to other info for a single party

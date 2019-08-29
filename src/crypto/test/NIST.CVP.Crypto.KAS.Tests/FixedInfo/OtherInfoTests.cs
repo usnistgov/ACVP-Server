@@ -1,5 +1,6 @@
 ﻿using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
 using NIST.CVP.Crypto.Common.KAS.Enums;
+using NIST.CVP.Crypto.Common.KAS.FixedInfo;
 using NIST.CVP.Crypto.Common.KAS.KDF;
 using NIST.CVP.Crypto.Common.KAS.Scheme;
 using NIST.CVP.Crypto.KAS.FixedInfo;
