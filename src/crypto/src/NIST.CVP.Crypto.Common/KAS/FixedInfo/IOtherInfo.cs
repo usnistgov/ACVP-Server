@@ -1,6 +1,6 @@
 ﻿using NIST.CVP.Math;
 
-namespace NIST.CVP.Crypto.Common.KAS.KDF
+namespace NIST.CVP.Crypto.Common.KAS.FixedInfo
 {
     /// <summary>
     /// Note this class is not exactly obsolete, but should be removed once the 1.0 testing revision of KAS is retired.

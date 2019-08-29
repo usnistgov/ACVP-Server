@@ -1,6 +1,7 @@
 ﻿using NIST.CVP.Crypto.Common.KAS.Enums;
+using NIST.CVP.Crypto.Common.KAS.KDF;
 
-namespace NIST.CVP.Crypto.Common.KAS.KDF
+namespace NIST.CVP.Crypto.Common.KAS.FixedInfo
 {
     /// <summary>
     /// Returns an instance of <see cref="IOtherInfo"/>
