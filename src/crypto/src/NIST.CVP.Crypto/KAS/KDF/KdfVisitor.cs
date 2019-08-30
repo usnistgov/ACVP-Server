@@ -1,6 +1,7 @@
 using System;
 using NIST.CVP.Crypto.Common.KAS.KDF;
 using NIST.CVP.Crypto.Common.KAS.KDF.KdfOneStep;
+using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.KAS.KDF
 {
@@ -13,11 +14,11 @@ namespace NIST.CVP.Crypto.KAS.KDF
             _kdfOneStepFactory = kdfOneStepFactory;
         }
 
-        public KdfResult Kdf(KdfParameterOneStep param)
+        public KdfResult Kdf(KdfParameterOneStep param, BitString fixedInfo)
         {
             var kdf = _kdfOneStepFactory.GetInstance(param.AuxFunction.AuxFunctionName);
 
-            return kdf.DeriveKey(param.Z, param.L, param.FixedInfo, param.Salt);
+            return kdf.DeriveKey(param.Z, param.L, fixedInfo, param.Salt);
         }
     }
 }

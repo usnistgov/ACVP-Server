@@ -1,6 +1,6 @@
 namespace NIST.CVP.Crypto.Common.KAS.Enums
 {
-    public enum KasKdfOneStepEncoding
+    public enum KasKdfFixedInfoEncoding
     {
         None,
         Concatenation,

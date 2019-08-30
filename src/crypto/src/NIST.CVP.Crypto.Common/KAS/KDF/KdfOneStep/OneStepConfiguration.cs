@@ -12,6 +12,6 @@ namespace NIST.CVP.Crypto.Common.KAS.KDF.KdfOneStep
         /// <summary>
         /// The encoding type of the fixedInput (used in One step KDF)
         /// </summary>
-        public KasKdfOneStepEncoding Encoding { get; set; }
+        public KasKdfFixedInfoEncoding Encoding { get; set; }
     }
 }

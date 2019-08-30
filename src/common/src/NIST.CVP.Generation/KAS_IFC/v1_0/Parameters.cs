@@ -259,7 +259,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
         /// <summary>
         /// The encoding type of the fixedInput
         /// </summary>
-        public KasKdfOneStepEncoding[] Encoding { get; set; }
+        public KasKdfFixedInfoEncoding[] Encoding { get; set; }
     }
     
     public class AuxFunction

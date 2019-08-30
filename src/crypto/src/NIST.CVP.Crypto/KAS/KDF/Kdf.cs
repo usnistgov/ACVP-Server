@@ -1,6 +1,7 @@
 using System;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Crypto.Common.KAS.KDF;
+using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.KAS.KDF
 {
@@ -14,7 +15,7 @@ namespace NIST.CVP.Crypto.KAS.KDF
         }
         
         public KasKdf KdfType { get; private set; }
-        public KdfResult DeriveKey(IKdfParameter param)
+        public KdfResult DeriveKey(IKdfParameter param, BitString fixedInfo)
         {
             if (param == null)
             {
@@ -23,7 +24,7 @@ namespace NIST.CVP.Crypto.KAS.KDF
 
             KdfType = param.KdfType;
             
-            return param.AcceptKdf(_visitor);
+            return param.AcceptKdf(_visitor, fixedInfo);
         }
     }
 }

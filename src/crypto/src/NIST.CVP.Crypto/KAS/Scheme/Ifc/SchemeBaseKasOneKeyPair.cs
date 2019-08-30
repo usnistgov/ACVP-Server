@@ -16,14 +16,15 @@ namespace NIST.CVP.Crypto.KAS.Scheme.Ifc
             IIfcSecretKeyingMaterial thisPartyKeyingMaterial,
             IKeyConfirmationFactory keyConfirmationFactory,
             MacParameters macParameters,
-            IKdfFactory kdfFactory,
+            IKdfVisitor kdfVisitor,
+            IKdfParameter kdfParameter,
             IRsaSve rsaSve
             ) 
-            : base(schemeParameters, thisPartyKeyingMaterial, keyConfirmationFactory, macParameters, kdfFactory, rsaSve)
+            : base(schemeParameters, thisPartyKeyingMaterial, keyConfirmationFactory, macParameters, kdfVisitor, kdfParameter, rsaSve)
         {
         }
 
-        protected override BitString GetKeyToTransport(IIfcSecretKeyingMaterial otherPartyKeyingMaterial)
+        protected override BitString GetKeyingMaterial(IIfcSecretKeyingMaterial otherPartyKeyingMaterial)
         {
             if (SchemeParameters.KeyAgreementRole == KeyAgreementRole.InitiatorPartyU)
             {
@@ -51,7 +52,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme.Ifc
             return secretKeyingMaterial.DkmNonce;
         }
 
-        protected override KdfResult GetKeyFromPartyContributions()
+        protected override KdfResult Kdf(IIfcSecretKeyingMaterial otherPartySecretKeyingMaterial)
         {
             throw new System.NotImplementedException();
         }

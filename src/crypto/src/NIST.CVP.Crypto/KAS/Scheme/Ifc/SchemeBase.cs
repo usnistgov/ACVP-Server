@@ -31,7 +31,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme.Ifc
         public IIfcSecretKeyingMaterial ThisPartyKeyingMaterial { get; }
         public KasResult ComputeResult(IIfcSecretKeyingMaterial otherPartyKeyingMaterial)
         {
-            var keyToTransport = GetKeyToTransport(otherPartyKeyingMaterial);
+            var keyToTransport = GetKeyingMaterial(otherPartyKeyingMaterial);
 
             if (_keyConfirmationFactory == null)
             {
@@ -51,7 +51,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme.Ifc
         /// </summary>
         /// <param name="otherPartyKeyingMaterial"></param>
         /// <returns></returns>
-        protected abstract BitString GetKeyToTransport(IIfcSecretKeyingMaterial otherPartyKeyingMaterial);
+        protected abstract BitString GetKeyingMaterial(IIfcSecretKeyingMaterial otherPartyKeyingMaterial);
 
         /// <summary>
         /// Performs key confirmation using both parties contributions to the key establishment. 

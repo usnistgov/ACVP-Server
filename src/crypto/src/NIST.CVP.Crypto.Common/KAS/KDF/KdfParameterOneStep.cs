@@ -1,4 +1,5 @@
 using NIST.CVP.Crypto.Common.KAS.Enums;
+using NIST.CVP.Crypto.Common.KAS.FixedInfo;
 using NIST.CVP.Crypto.Common.KAS.KDF.KdfOneStep;
 using NIST.CVP.Math;
 
@@ -25,9 +26,9 @@ namespace NIST.CVP.Crypto.Common.KAS.KDF
         /// </summary>
         public int L { get; }
         /// <summary>
-        /// The context binding information for the derived key.
+        /// The pattern to use when constructing fixed info.
         /// </summary>
-        public BitString FixedInfo { get; }
+        public string FixedInfoPattern { get; }
 
         /// <summary>
         /// Construct a KDF Parameter utilizing an AuxFunction of MAC
@@ -35,10 +36,10 @@ namespace NIST.CVP.Crypto.Common.KAS.KDF
         /// <param name="auxFunction"></param>
         /// <param name="z"></param>
         /// <param name="l"></param>
-        /// <param name="fixedInfo"></param>
+        /// <param name="fixedInfoPattern"></param>
         /// /// <param name="salt"></param>
-        public KdfParameterOneStep(AuxFunction auxFunction, BitString z, int l, BitString fixedInfo, BitString salt)
-            : this (auxFunction, z, l, fixedInfo)
+        public KdfParameterOneStep(AuxFunction auxFunction, BitString z, int l, string fixedInfoPattern, BitString salt)
+            : this (auxFunction, z, l, fixedInfoPattern)
         {
             Salt = salt;
         }
@@ -49,18 +50,18 @@ namespace NIST.CVP.Crypto.Common.KAS.KDF
         /// <param name="auxFunction"></param>
         /// <param name="z"></param>
         /// <param name="l"></param>
-        /// <param name="fixedInfo"></param>
-        public KdfParameterOneStep(AuxFunction auxFunction, BitString z, int l, BitString fixedInfo)
+        /// <param name="fixedInfoPattern"></param>
+        public KdfParameterOneStep(AuxFunction auxFunction, BitString z, int l, string fixedInfoPattern)
         {
             AuxFunction = auxFunction;
             Z = z;
             L = l;
-            FixedInfo = fixedInfo;
+            FixedInfoPattern = fixedInfoPattern;
         }
 
-        public KdfResult AcceptKdf(IKdfVisitor visitor)
+        public KdfResult AcceptKdf(IKdfVisitor visitor, BitString fixedInfo)
         {
-            return visitor.Kdf(this);
+            return visitor.Kdf(this, fixedInfo);
         }
     }
 }

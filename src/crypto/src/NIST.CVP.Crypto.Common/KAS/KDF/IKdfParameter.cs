@@ -1,4 +1,6 @@
 using NIST.CVP.Crypto.Common.KAS.Enums;
+using NIST.CVP.Crypto.Common.KAS.FixedInfo;
+using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.Common.KAS.KDF
 {
@@ -15,7 +17,8 @@ namespace NIST.CVP.Crypto.Common.KAS.KDF
         /// Accepts a <see cref="IKdfVisitor"/> this will in turn dispatch a call to a supported KDF.
         /// </summary>
         /// <param name="visitor">Describes how to invoke a KDF for implementors.</param>
+        /// <param name="fixedInfo">The contextual fixed information to be plugged into a kdf.</param>
         /// <returns>A derived key.</returns>
-        KdfResult AcceptKdf(IKdfVisitor visitor);
+        KdfResult AcceptKdf(IKdfVisitor visitor, BitString fixedInfo);
     }
 }

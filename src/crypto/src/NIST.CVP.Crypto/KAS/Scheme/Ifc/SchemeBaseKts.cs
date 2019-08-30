@@ -28,7 +28,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme.Ifc
             _ktsParameter = ktsParameter;
         }
 
-        protected override BitString GetKeyToTransport(IIfcSecretKeyingMaterial otherPartyKeyingMaterial)
+        protected override BitString GetKeyingMaterial(IIfcSecretKeyingMaterial otherPartyKeyingMaterial)
         {
             var kts = _ktsFactory.Get(_ktsParameter.KtsHashAlg);
             var associatedData = _ktsParameter.AssociatedData;

@@ -348,9 +348,9 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
             }
         }
 
-        private void ValidateEncoding(KasKdfOneStepEncoding[] encoding, List<string> errorResults)
+        private void ValidateEncoding(KasKdfFixedInfoEncoding[] encoding, List<string> errorResults)
         {
-            var validEncodingTypes = new[] { KasKdfOneStepEncoding.Concatenation, KasKdfOneStepEncoding.ASN_1 };
+            var validEncodingTypes = new[] { KasKdfFixedInfoEncoding.Concatenation, KasKdfFixedInfoEncoding.ASN_1 };
 
             errorResults.AddIfNotNullOrEmpty(ValidateArray(encoding, validEncodingTypes, "One Step KDF encoding type"));
         }

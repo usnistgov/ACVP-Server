@@ -1,4 +1,5 @@
 using NIST.CVP.Crypto.Common.KAS.Enums;
+using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.Common.KAS.KDF
 {
@@ -15,7 +16,8 @@ namespace NIST.CVP.Crypto.Common.KAS.KDF
         /// Using the provided parameters, derive a key. 
         /// </summary>
         /// <param name="param">The parameters to use for deriving a key.</param>
+        /// <param name="fixedInfo">The contextual fixed info that goes into the kdf.</param>
         /// <returns>The derived key.</returns>
-        KdfResult DeriveKey(IKdfParameter param);
+        KdfResult DeriveKey(IKdfParameter param, BitString fixedInfo);
     }
 }
