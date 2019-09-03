@@ -1,6 +1,6 @@
-using System;
 using NIST.CVP.Crypto.Common.KAS;
 using NIST.CVP.Crypto.Common.KAS.Enums;
+using NIST.CVP.Crypto.Common.KAS.FixedInfo;
 using NIST.CVP.Crypto.Common.KAS.Helpers;
 using NIST.CVP.Crypto.Common.KAS.KC;
 using NIST.CVP.Crypto.Common.KAS.Scheme;
@@ -12,15 +12,21 @@ namespace NIST.CVP.Crypto.KAS.Scheme.Ifc
     public abstract class SchemeBase : ISchemeIfc
     {
         private readonly IKeyConfirmationFactory _keyConfirmationFactory;
+        private readonly IFixedInfoFactory _fixedInfoFactory;
+        private readonly FixedInfoParameter _fixedInfoParameter;
         private readonly MacParameters _macParameters;
-
+        
         protected SchemeBase(
             SchemeParametersIfc schemeParameters, 
+            IFixedInfoFactory fixedInfoFactory,
+            FixedInfoParameter fixedInfoParameter,
             IIfcSecretKeyingMaterial thisPartyKeyingMaterial,
             IKeyConfirmationFactory keyConfirmationFactory,
             MacParameters macParameters)
         {
             SchemeParameters = schemeParameters;
+            _fixedInfoFactory = fixedInfoFactory;
+            _fixedInfoParameter = fixedInfoParameter;
             ThisPartyKeyingMaterial = thisPartyKeyingMaterial;
             _keyConfirmationFactory = keyConfirmationFactory;
             _macParameters = macParameters;
@@ -29,13 +35,21 @@ namespace NIST.CVP.Crypto.KAS.Scheme.Ifc
         public SchemeParametersIfc SchemeParameters { get; }
 
         public IIfcSecretKeyingMaterial ThisPartyKeyingMaterial { get; }
-        public KasResult ComputeResult(IIfcSecretKeyingMaterial otherPartyKeyingMaterial)
+        public KasIfcResult ComputeResult(IIfcSecretKeyingMaterial otherPartyKeyingMaterial)
         {
             var keyToTransport = GetKeyingMaterial(otherPartyKeyingMaterial);
 
+            var keyingMaterialPartyU = SchemeParameters.KeyAgreementRole == KeyAgreementRole.InitiatorPartyU
+                ? ThisPartyKeyingMaterial
+                : otherPartyKeyingMaterial;
+            var keyingMaterialPartyV = SchemeParameters.KeyAgreementRole == KeyAgreementRole.ResponderPartyV
+                ? ThisPartyKeyingMaterial
+                : otherPartyKeyingMaterial;
+            
+            // No key confirmation, return the whole key
             if (_keyConfirmationFactory == null)
             {
-                return new KasResult(keyToTransport, null);
+                return new KasIfcResult(keyingMaterialPartyU, keyingMaterialPartyV, keyToTransport);
             }
 
             var keyConfirmationKey = keyToTransport.GetMostSignificantBits(_macParameters.KeyLength);
@@ -43,15 +57,10 @@ namespace NIST.CVP.Crypto.KAS.Scheme.Ifc
                 _macParameters.KeyLength - 1,keyToTransport.BitLength - _macParameters.KeyLength);
             var keyConfirmationResult = KeyConfirmation(otherPartyKeyingMaterial, keyConfirmationKey);
             
-            return new KasResult(newKeyToTransport, keyConfirmationKey, keyConfirmationResult.MacData, keyConfirmationResult.Mac);
+            return new KasIfcResult(
+                keyingMaterialPartyU, keyingMaterialPartyV, 
+                newKeyToTransport, keyConfirmationKey, keyConfirmationResult.MacData, keyConfirmationResult.Mac);
         }
-
-        /// <summary>
-        /// Creates/Gets/Recovers a key for a KAS/KTS scheme.
-        /// </summary>
-        /// <param name="otherPartyKeyingMaterial"></param>
-        /// <returns></returns>
-        protected abstract BitString GetKeyingMaterial(IIfcSecretKeyingMaterial otherPartyKeyingMaterial);
 
         /// <summary>
         /// Performs key confirmation using both parties contributions to the key establishment. 
@@ -91,6 +100,49 @@ namespace NIST.CVP.Crypto.KAS.Scheme.Ifc
         }
 
         /// <summary>
+        /// Get the FixedInfo BitString for use in KDFs and KTS.
+        /// </summary>
+        /// <param name="otherPartyKeyingMaterial"></param>
+        /// <returns></returns>
+        protected BitString GetFixedInfo(IIfcSecretKeyingMaterial otherPartyKeyingMaterial)
+        {
+            var fixedInfo = _fixedInfoFactory.Get();
+
+            var thisPartyFixedInfo = GetPartyFixedInfo(ThisPartyKeyingMaterial, SchemeParameters.KeyAgreementRole);
+            var otherPartyRole =
+                KeyGenerationRequirementsHelper.GetOtherPartyKeyAgreementRole(SchemeParameters.KeyAgreementRole);
+            var otherPartyFixedInfo = GetPartyFixedInfo(otherPartyKeyingMaterial, otherPartyRole);
+
+            _fixedInfoParameter.FixedInfoPartyU = SchemeParameters.KeyAgreementRole == KeyAgreementRole.InitiatorPartyU
+                ? thisPartyFixedInfo
+                : otherPartyFixedInfo;
+            _fixedInfoParameter.FixedInfoPartyV = SchemeParameters.KeyAgreementRole == KeyAgreementRole.ResponderPartyV
+                ? thisPartyFixedInfo
+                : otherPartyFixedInfo;
+            
+            return fixedInfo.Get(_fixedInfoParameter);
+        }
+
+        /// <summary>
+        /// Get the <see cref="PartyFixedInfo"/> as it pertains to the provided <see cref="IIfcSecretKeyingMaterial"/>
+        /// for the specified <see cref="KeyAgreementRole"/>.
+        /// </summary>
+        /// <param name="secretKeyingMaterial">The secret keying material for the party.</param>
+        /// <param name="keyAgreementRole">The parties key agreement role.</param>
+        /// <returns></returns>
+        private PartyFixedInfo GetPartyFixedInfo(IIfcSecretKeyingMaterial secretKeyingMaterial, KeyAgreementRole keyAgreementRole)
+        {
+            return new PartyFixedInfo(secretKeyingMaterial.PartyId, GetEphemeralDataFromKeyContribution(secretKeyingMaterial, keyAgreementRole));
+        }
+       
+        /// <summary>
+        /// Creates/Gets/Recovers a key for a KAS/KTS scheme.
+        /// </summary>
+        /// <param name="otherPartyKeyingMaterial"></param>
+        /// <returns></returns>
+        protected abstract BitString GetKeyingMaterial(IIfcSecretKeyingMaterial otherPartyKeyingMaterial);        
+        
+        /// <summary>
         /// The ephemeral data can be composed of any of C, CU, CV, NV, depending on the party, and scheme
         ///
         /// Scheme      Party          Ephemeral Data
@@ -105,5 +157,6 @@ namespace NIST.CVP.Crypto.KAS.Scheme.Ifc
         /// <param name="keyAgreementRole">a party's key agreement role</param>
         /// <returns></returns>
         protected abstract BitString GetEphemeralDataFromKeyContribution(IIfcSecretKeyingMaterial secretKeyingMaterial, KeyAgreementRole keyAgreementRole);
+
     }
 }

@@ -12,7 +12,7 @@ namespace NIST.CVP.Crypto.KAS
 
         public ISchemeIfc Scheme { get; }
 
-        public KasResult ComputeResult(IIfcSecretKeyingMaterial otherPartyKeyingMaterial)
+        public KasIfcResult ComputeResult(IIfcSecretKeyingMaterial otherPartyKeyingMaterial)
         {
             return Scheme.ComputeResult(otherPartyKeyingMaterial);
         }

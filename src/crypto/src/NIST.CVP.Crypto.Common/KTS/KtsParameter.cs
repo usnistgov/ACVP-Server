@@ -6,6 +6,5 @@ namespace NIST.CVP.Crypto.Common.KTS
     public class KtsParameter
     {
         public KasHashAlg KtsHashAlg { get; set; }
-        public BitString AssociatedData { get; set; }
     }
 }

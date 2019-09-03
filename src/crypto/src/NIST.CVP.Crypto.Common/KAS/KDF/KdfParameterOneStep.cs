@@ -20,44 +20,15 @@ namespace NIST.CVP.Crypto.Common.KAS.KDF
         /// <summary>
         /// The shared secret for use in deriving a key.
         /// </summary>
-        public BitString Z { get; }
+        public BitString Z { get; set; }
         /// <summary>
         /// The length of the key to derive.
         /// </summary>
-        public int L { get; }
+        public int L { get; set; }
         /// <summary>
         /// The pattern to use when constructing fixed info.
         /// </summary>
-        public string FixedInfoPattern { get; }
-
-        /// <summary>
-        /// Construct a KDF Parameter utilizing an AuxFunction of MAC
-        /// </summary>
-        /// <param name="auxFunction"></param>
-        /// <param name="z"></param>
-        /// <param name="l"></param>
-        /// <param name="fixedInfoPattern"></param>
-        /// /// <param name="salt"></param>
-        public KdfParameterOneStep(AuxFunction auxFunction, BitString z, int l, string fixedInfoPattern, BitString salt)
-            : this (auxFunction, z, l, fixedInfoPattern)
-        {
-            Salt = salt;
-        }
-        
-        /// <summary>
-        /// Construct a KDF Parameter utilizing an AuxFunction of Hash
-        /// </summary>
-        /// <param name="auxFunction"></param>
-        /// <param name="z"></param>
-        /// <param name="l"></param>
-        /// <param name="fixedInfoPattern"></param>
-        public KdfParameterOneStep(AuxFunction auxFunction, BitString z, int l, string fixedInfoPattern)
-        {
-            AuxFunction = auxFunction;
-            Z = z;
-            L = l;
-            FixedInfoPattern = fixedInfoPattern;
-        }
+        public string FixedInfoPattern { get; set; }
 
         public KdfResult AcceptKdf(IKdfVisitor visitor, BitString fixedInfo)
         {

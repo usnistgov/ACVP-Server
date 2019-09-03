@@ -14,6 +14,18 @@ namespace NIST.CVP.Crypto.Common.KAS.KDF
         /// </summary>
         KasKdf KdfType { get; }
         /// <summary>
+        /// The shared secret for use in deriving a key.
+        /// </summary>
+        BitString Z { get; set; }
+        /// <summary>
+        /// The length of the key to derive.
+        /// </summary>
+        int L { get; set; }
+        /// <summary>
+        /// The pattern to use when constructing fixed info.
+        /// </summary>
+        string FixedInfoPattern { get; set; }
+        /// <summary>
         /// Accepts a <see cref="IKdfVisitor"/> this will in turn dispatch a call to a supported KDF.
         /// </summary>
         /// <param name="visitor">Describes how to invoke a KDF for implementors.</param>

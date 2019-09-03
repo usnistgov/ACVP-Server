@@ -1,5 +1,6 @@
 using NIST.CVP.Crypto.Common.KAS;
 using NIST.CVP.Crypto.Common.KAS.Enums;
+using NIST.CVP.Crypto.Common.KAS.FixedInfo;
 using NIST.CVP.Crypto.Common.KAS.KC;
 using NIST.CVP.Crypto.Common.KAS.Scheme;
 using NIST.CVP.Crypto.Common.KTS;
@@ -16,13 +17,15 @@ namespace NIST.CVP.Crypto.KAS.Scheme.Ifc
         protected SchemeBaseKts
         (
             SchemeParametersIfc schemeParameters, 
+            IFixedInfoFactory fixedInfoFactory,
+            FixedInfoParameter fixedInfoParameter,
             IIfcSecretKeyingMaterial thisPartyKeyingMaterial,
             IKeyConfirmationFactory keyConfirmationFactory,
             MacParameters macParameters,
             IKtsFactory ktsFactory,
             KtsParameter ktsParameter
             ) 
-            : base(schemeParameters, thisPartyKeyingMaterial, keyConfirmationFactory, macParameters)
+            : base(schemeParameters, fixedInfoFactory, fixedInfoParameter, thisPartyKeyingMaterial, keyConfirmationFactory, macParameters)
         {
             _ktsFactory = ktsFactory;
             _ktsParameter = ktsParameter;
@@ -31,7 +34,8 @@ namespace NIST.CVP.Crypto.KAS.Scheme.Ifc
         protected override BitString GetKeyingMaterial(IIfcSecretKeyingMaterial otherPartyKeyingMaterial)
         {
             var kts = _ktsFactory.Get(_ktsParameter.KtsHashAlg);
-            var associatedData = _ktsParameter.AssociatedData;
+
+            var fixedInfo = GetFixedInfo(otherPartyKeyingMaterial);
             
             // Party U has the key, encrypts it with Party V's public key
             if (SchemeParameters.KeyAgreementRole == KeyAgreementRole.InitiatorPartyU)
@@ -40,7 +44,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme.Ifc
 
                 var keyToEncodeEncrypt = ThisPartyKeyingMaterial.K;
 
-                var C = kts.Encrypt(otherPartyPublicKey, keyToEncodeEncrypt, associatedData).SharedSecretZ;
+                var C = kts.Encrypt(otherPartyPublicKey, keyToEncodeEncrypt, fixedInfo).SharedSecretZ;
                 ThisPartyKeyingMaterial.C = C.GetDeepCopy();
                 
                 return C;
@@ -50,7 +54,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme.Ifc
             var thisPartyKey = ThisPartyKeyingMaterial.Key;
             var otherPartyCiphertext = otherPartyKeyingMaterial.C;
 
-            return kts.Decrypt(thisPartyKey, otherPartyCiphertext, associatedData).SharedSecretZ;
+            return kts.Decrypt(thisPartyKey, otherPartyCiphertext, fixedInfo).SharedSecretZ;
         }
 
         protected override BitString GetEphemeralDataFromKeyContribution(IIfcSecretKeyingMaterial secretKeyingMaterial, KeyAgreementRole keyAgreementRole)

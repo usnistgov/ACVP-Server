@@ -18,6 +18,6 @@ namespace NIST.CVP.Crypto.Common.KAS
         /// </summary>
         /// <param name="otherPartyKeyingMaterial">The other parties keying material that contributes to the key.</param>
         /// <returns>A <see cref="KasResult"/> that contains the result of the KAS attempt.</returns>
-        KasResult ComputeResult(IIfcSecretKeyingMaterial otherPartyKeyingMaterial);
+        KasIfcResult ComputeResult(IIfcSecretKeyingMaterial otherPartyKeyingMaterial);
     }
 }
