@@ -97,6 +97,11 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
             IfcKeyGenerationMethod.RsaKpg2_crt,
         };
 
+        private static readonly KasKdfFixedInfoEncoding[] ValidEncodingTypes = new[]
+        {
+            KasKdfFixedInfoEncoding.Concatenation, KasKdfFixedInfoEncoding.ConcatenationWithLengths
+        };
+        
         private static readonly int[] ValidModulo = ParameterSetDetails.RsaModuloDetails.Keys.ToArray();
 
         private static readonly int[] ValidAesKeyLengths = new[] {128, 192, 256};
@@ -347,13 +352,6 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
                 }
             }
         }
-
-        private void ValidateEncoding(KasKdfFixedInfoEncoding[] encoding, List<string> errorResults)
-        {
-            var validEncodingTypes = new[] { KasKdfFixedInfoEncoding.Concatenation, KasKdfFixedInfoEncoding.ASN_1 };
-
-            errorResults.AddIfNotNullOrEmpty(ValidateArray(encoding, validEncodingTypes, "One Step KDF encoding type"));
-        }
         #endregion OneStepKdf
         #endregion kdfValidation
         
@@ -442,5 +440,10 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
             }
         }
         #endregion macValidation
+        
+        private void ValidateEncoding(KasKdfFixedInfoEncoding[] encoding, List<string> errorResults)
+        {
+            errorResults.AddIfNotNullOrEmpty(ValidateArray(encoding, ValidEncodingTypes, "One Step KDF encoding type"));
+        }
     }
 }

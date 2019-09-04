@@ -9,6 +9,11 @@ namespace NIST.CVP.Crypto.Common.KAS.FixedInfo
     public class FixedInfoParameter
     {
         /// <summary>
+        /// The pattern and order to write the fixed info
+        /// </summary>
+        public string FixedInfoPattern { get; set; }
+        
+        /// <summary>
         /// The length of the key that is to be derived or transported.
         /// </summary>
         public int L { get; set; }
