@@ -90,7 +90,7 @@ namespace NIST.CVP.Crypto.RSA.Keys
         {
             if (_keyComposer == null || _e == 0 || _nlen == 0)
             {
-                return new KeyResult("Invalid parameters provided");
+                return new KeyResult($"Invalid parameters provided. Check e, n-len, key composer.");
             }
 
             var primeGen = _primeFactory.GetPrimeGenerator(_primeGenMode, _sha, _entropyProvider, _primeTestMode);
