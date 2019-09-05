@@ -10,8 +10,12 @@ namespace NIST.CVP.Crypto.Common.KAS.KDF.KdfOneStep
         /// </summary>
         public AuxFunction AuxFunction { get; set; }
         /// <summary>
+        /// The pattern used for FixedInputConstruction.
+        /// </summary>
+        public string FixedInputPattern { get; set; }
+        /// <summary>
         /// The encoding type of the fixedInput (used in One step KDF)
         /// </summary>
-        public KasKdfFixedInfoEncoding Encoding { get; set; }
+        public FixedInfoEncoding Encoding { get; set; }
     }
 }

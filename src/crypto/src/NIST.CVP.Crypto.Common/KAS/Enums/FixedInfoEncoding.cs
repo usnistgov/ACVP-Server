@@ -1,6 +1,6 @@
 namespace NIST.CVP.Crypto.Common.KAS.Enums
 {
-    public enum KasKdfFixedInfoEncoding
+    public enum FixedInfoEncoding
     {
         None,
         /// <summary>

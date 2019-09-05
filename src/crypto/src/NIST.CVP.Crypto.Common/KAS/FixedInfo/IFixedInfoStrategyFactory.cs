@@ -4,6 +4,6 @@ namespace NIST.CVP.Crypto.Common.KAS.FixedInfo
 {
     public interface IFixedInfoStrategyFactory
     {
-        IFixedInfoStrategy Get(KasKdfFixedInfoEncoding encoding);
+        IFixedInfoStrategy Get(FixedInfoEncoding encoding);
     }
 }

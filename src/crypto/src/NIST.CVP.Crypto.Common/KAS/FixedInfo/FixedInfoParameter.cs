@@ -31,7 +31,7 @@ namespace NIST.CVP.Crypto.Common.KAS.FixedInfo
         /// <summary>
         /// The encoding type to use on the fixed info data.
         /// </summary>
-        public KasKdfFixedInfoEncoding Encoding { get; set; }
+        public FixedInfoEncoding Encoding { get; set; }
         
         /// <summary>
         /// Party U's fixed info contribution.

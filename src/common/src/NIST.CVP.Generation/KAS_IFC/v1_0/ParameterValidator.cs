@@ -97,9 +97,9 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
             IfcKeyGenerationMethod.RsaKpg2_crt,
         };
 
-        private static readonly KasKdfFixedInfoEncoding[] ValidEncodingTypes = new[]
+        private static readonly FixedInfoEncoding[] ValidEncodingTypes = new[]
         {
-            KasKdfFixedInfoEncoding.Concatenation, KasKdfFixedInfoEncoding.ConcatenationWithLengths
+            FixedInfoEncoding.Concatenation, FixedInfoEncoding.ConcatenationWithLengths
         };
         
         private static readonly int[] ValidModulo = ParameterSetDetails.RsaModuloDetails.Keys.ToArray();
@@ -289,6 +289,8 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
             }
 
             ValidateAuxFunction(oneStepKdf.AuxFunctions, errorResults);
+            // perhaps do in a "base" kdf validator?
+            ValidateFixedInputPattern(oneStepKdf.FixedInputPattern, errorResults);
             ValidateEncoding(oneStepKdf.Encoding, errorResults);
         }
 
@@ -333,14 +335,12 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
 
                     errorResults.AddIfNotNullOrEmpty(ValidateArray(auxFunction.MacSaltMethods, new MacSaltMethod[] { MacSaltMethod.None }, nameof(MacSaltMethod)));
                 }
-                
-                ValidateFixedInputPattern(auxFunction.FixedInputPattern, errorResults);
             }
         }
 
         private void ValidateFixedInputPattern(string auxFunctionFixedInputPattern, List<string> errorResults)
         {
-            const string fiRegex = @"^((?!(salt|uPartyInfo|vPartyInfo|counter|literal\[[0-9a-fA-F]+\])).)+$";
+            const string fiRegex = @"^((?!(l|iv|salt|uPartyInfo|vPartyInfo|counter|literal\[[0-9a-fA-F]+\])).)+$";
 
             var fiPieces = auxFunctionFixedInputPattern.Split("||".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
             foreach (var fiPiece in fiPieces)
@@ -366,6 +366,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
             
             errorResults.AddIfNotNullOrEmpty(ValidateArray(schemeKtsCapabilities.HashAlgs, ValidHashAlgs, "KTS HashAlgs"));
             ValidateAssociatedDataPattern(schemeKtsCapabilities.AssociatedDataPattern, errorResults);
+            ValidateEncoding(schemeKtsCapabilities.Encoding, errorResults);
         }
 
         private void ValidateAssociatedDataPattern(string associatedDataPattern, List<string> errorResults)
@@ -441,7 +442,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
         }
         #endregion macValidation
         
-        private void ValidateEncoding(KasKdfFixedInfoEncoding[] encoding, List<string> errorResults)
+        private void ValidateEncoding(FixedInfoEncoding[] encoding, List<string> errorResults)
         {
             errorResults.AddIfNotNullOrEmpty(ValidateArray(encoding, ValidEncodingTypes, "One Step KDF encoding type"));
         }

@@ -247,6 +247,14 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
         /// The enum type for the KDF
         /// </summary>
         public abstract KasKdf KdfType { get; }
+        /// <summary>
+        /// The pattern used for FixedInputConstruction.
+        /// </summary>
+        public string FixedInputPattern { get; set; }
+        /// <summary>
+        /// The encoding type of the fixedInput
+        /// </summary>
+        public FixedInfoEncoding[] Encoding { get; set; }
     }
 
     public class OneStepKdf : KdfMethodBase
@@ -256,10 +264,6 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
         /// The Hash or MAC functions utilized for the KDF
         /// </summary>
         public AuxFunction[] AuxFunctions { get; set; }
-        /// <summary>
-        /// The encoding type of the fixedInput
-        /// </summary>
-        public KasKdfFixedInfoEncoding[] Encoding { get; set; }
     }
     
     public class AuxFunction
@@ -276,10 +280,6 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
         /// The salting methods used for the KDF (hashes do not require salts, MACs do)
         /// </summary>
         public MacSaltMethod[] MacSaltMethods { get; set; }
-        /// <summary>
-        /// The pattern used for FixedInputConstruction.
-        /// </summary>
-        public string FixedInputPattern { get; set; }
     }
     
     public class KtsMethod
@@ -296,6 +296,10 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
         /// The pattern for construction of associated data.
         /// </summary>
         public string AssociatedDataPattern { get; set; }
+        /// <summary>
+        /// The encoding type of the fixedInput
+        /// </summary>
+        public FixedInfoEncoding[] Encoding { get; set; }
     }
     
     /// <summary>

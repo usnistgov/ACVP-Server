@@ -16,9 +16,5 @@ namespace NIST.CVP.Crypto.Common.KAS.KDF.KdfOneStep
         /// The salting methods used for the KDF (hashes do not require salts, MACs do)
         /// </summary>
         public MacSaltMethod MacSaltMethod { get; set; }
-        /// <summary>
-        /// The pattern used for FixedInputConstruction.
-        /// </summary>
-        public string FixedInputPattern { get; set; }
     }
 }

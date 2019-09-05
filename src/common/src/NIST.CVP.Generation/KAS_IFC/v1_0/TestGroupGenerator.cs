@@ -177,11 +177,11 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
                         list.Add(new OneStepConfiguration()
                         {
                             Encoding = encoding,
+                            FixedInputPattern = kdfMethodsOneStepKdf.FixedInputPattern,
                             AuxFunction = new Crypto.Common.KAS.KDF.KdfOneStep.AuxFunction()
                             {
                                 SaltLen = auxFunction.SaltLen,
                                 AuxFunctionName = auxFunction.AuxFunctionName,
-                                FixedInputPattern = auxFunction.FixedInputPattern,
                                 MacSaltMethod = saltMethod
                             }
                         });
