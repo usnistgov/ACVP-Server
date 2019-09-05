@@ -42,9 +42,9 @@ namespace NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC
 
         public BigInteger GetFullSeed()
         {
-            var seedBS = new BitString(Seed);
-            var pSeedBS = new BitString(PSeed);
-            var qSeedBS = new BitString(QSeed);
+            var seedBS = new BitString(Seed).PadToModulusMsb(32);
+            var pSeedBS = new BitString(PSeed).PadToModulusMsb(32);
+            var qSeedBS = new BitString(QSeed).PadToModulusMsb(32);
 
             return BitString.ConcatenateBits(seedBS, BitString.ConcatenateBits(pSeedBS, qSeedBS)).ToPositiveBigInteger();
         }
