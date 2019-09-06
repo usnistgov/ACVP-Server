@@ -75,13 +75,15 @@ namespace NIST.CVP.Orleans.Grains.Rsa
                 entropyProvider.AddEntropy(new BitString(_fullParam.AuxValues.XP2).GetLeastSignificantBits(_fullParam.BitLens[1]));
                 entropyProvider.AddEntropy(new BitString(_fullParam.AuxValues.XQ1).GetLeastSignificantBits(_fullParam.BitLens[2]));
                 entropyProvider.AddEntropy(new BitString(_fullParam.AuxValues.XQ2).GetLeastSignificantBits(_fullParam.BitLens[3]));
+
+                // RsaRunner needs these values from the fullParam set
+                _param.BitLens = _fullParam.BitLens;
             }
 
             // Notify observers of result
-            await Notify(new RsaKeyResult
-            {
-                Key = _rsaRunner.GeneratePrimes(_param, entropyProvider).Key
-            });
+            var result = _rsaRunner.GeneratePrimes(_param, entropyProvider);
+
+            await Notify(new RsaKeyResult{ Key = result.Key});
         }
     }
 }
