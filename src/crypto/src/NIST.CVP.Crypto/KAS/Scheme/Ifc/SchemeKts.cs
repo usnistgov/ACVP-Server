@@ -9,12 +9,12 @@ using Remotion.Linq.Parsing.Structure.IntermediateModel;
 
 namespace NIST.CVP.Crypto.KAS.Scheme.Ifc
 {
-    public class SchemeBaseKts : SchemeBase
+    internal class SchemeKts : SchemeBase
     {
         private readonly IKtsFactory _ktsFactory;
         private readonly KtsParameter _ktsParameter;
 
-        protected SchemeBaseKts
+        public SchemeKts
         (
             SchemeParametersIfc schemeParameters, 
             IFixedInfoFactory fixedInfoFactory,

@@ -64,29 +64,6 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
             AlgoMode.KTS_IFC_v1_0
         };
 
-        private static readonly IfcScheme[] ValidKasSchemes = new[]
-        {
-            IfcScheme.Kas1_basic,
-            IfcScheme.Kas1_partyV_keyConfirmation,
-            IfcScheme.Kas2_basic,
-            IfcScheme.Kas2_bilateral_keyConfirmation,
-            IfcScheme.Kas2_partyU_keyConfirmation,
-            IfcScheme.Kas2_partyV_keyConfirmation
-        };
-        private static readonly IfcScheme[] ValidKtsSchemes = new[]
-        {
-            IfcScheme.Kts_oaep_basic,
-            IfcScheme.Kts_oaep_partyV_keyConfirmation,
-        };
-        private static readonly IfcScheme[] SchemesRequiringKeyConfirmation = new[]
-        {
-            IfcScheme.Kas1_partyV_keyConfirmation,
-            IfcScheme.Kas2_bilateral_keyConfirmation,
-            IfcScheme.Kas2_partyU_keyConfirmation,
-            IfcScheme.Kas2_partyV_keyConfirmation,
-            IfcScheme.Kts_oaep_partyV_keyConfirmation
-        };
-
         private static readonly IfcKeyGenerationMethod[] ValidKeyGenerationMethods = new[]
         {
             IfcKeyGenerationMethod.RsaKpg1_basic,
@@ -179,13 +156,13 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
             switch (_algoMode)
             {
                 case AlgoMode.KAS_IFC_v1_0:
-                    if (registeredSchemes.Select(s => s.Scheme).Intersect(ValidKtsSchemes).Any())
+                    if (registeredSchemes.Select(s => s.Scheme).Intersect(KeyGenerationRequirementsHelper.IfcKtsSchemes).Any())
                     {
                         errorResults.Add(invalidSchemeMessage);
                     }
                     break;
                 case AlgoMode.KTS_IFC_v1_0:
-                    if (registeredSchemes.Select(s => s.Scheme).Intersect(ValidKasSchemes).Any())
+                    if (registeredSchemes.Select(s => s.Scheme).Intersect(KeyGenerationRequirementsHelper.IfcKdfSchemes).Any())
                     {
                         errorResults.Add(invalidSchemeMessage);
                     }
@@ -388,7 +365,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
         #region macValidation
         private void ValidateMacMethods(IfcScheme scheme, MacMethods macOptions, int l, List<string> errorResults)
         {
-            var schemeRequiresMac = SchemesRequiringKeyConfirmation.Contains(scheme);
+            var schemeRequiresMac = KeyGenerationRequirementsHelper.IfcKcSchemes.Contains(scheme);
 
             if (!schemeRequiresMac)
             {

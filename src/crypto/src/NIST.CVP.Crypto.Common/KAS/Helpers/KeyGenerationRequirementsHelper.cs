@@ -1452,6 +1452,31 @@ namespace NIST.CVP.Crypto.Common.KAS.Helpers
             return result;
         }
 
+        public static readonly IfcScheme[] IfcKtsSchemes = 
+        {
+            IfcScheme.Kts_oaep_basic,
+            IfcScheme.Kts_oaep_partyV_keyConfirmation
+        };
+
+        public static readonly IfcScheme[] IfcKdfSchemes =
+        {
+            IfcScheme.Kas1_basic,
+            IfcScheme.Kas1_partyV_keyConfirmation,
+            IfcScheme.Kas2_basic,
+            IfcScheme.Kas2_bilateral_keyConfirmation,
+            IfcScheme.Kas2_partyU_keyConfirmation,
+            IfcScheme.Kas2_partyV_keyConfirmation
+        };
+
+        public static readonly IfcScheme[] IfcKcSchemes =
+        {
+            IfcScheme.Kas1_partyV_keyConfirmation,
+            IfcScheme.Kas2_bilateral_keyConfirmation,
+            IfcScheme.Kas2_partyU_keyConfirmation,
+            IfcScheme.Kas2_partyV_keyConfirmation,
+            IfcScheme.Kts_oaep_partyV_keyConfirmation
+        };
+        
         public static
             List<KeyConfirmationMacDetail> KeyConfirmationMacDetails =
                 new List<KeyConfirmationMacDetail>()

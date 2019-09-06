@@ -1,3 +1,4 @@
+using NIST.CVP.Crypto.Common.KAS.FixedInfo;
 using NIST.CVP.Crypto.Common.KAS.KC;
 using NIST.CVP.Crypto.Common.KAS.KDF;
 using NIST.CVP.Crypto.Common.KAS.KDF.KdfOneStep;
@@ -18,29 +19,39 @@ namespace NIST.CVP.Crypto.Common.KAS.Builders
         /// <returns>this builder.</returns>
         ISchemeIfcBuilder WithSchemeParameters(SchemeParametersIfc value);
         /// <summary>
-        /// The other party's key contributions for the KAS operation.
+        /// This party's contribution to the secret keying material.
         /// </summary>
         /// <param name="value">The other party's secreting keying material.</param>
         /// <returns>this builder.</returns>
-        ISchemeIfcBuilder WithOtherPartyKeyingMaterial(IIfcSecretKeyingMaterial value);
+        ISchemeIfcBuilder WithThisPartyKeyingMaterial(IIfcSecretKeyingMaterial value);
         /// <summary>
-        /// Provides an instance of a KdfFactory to the builder. 
+        /// Provides a FixedInfo factory and parameter for constructing FixedInfo for use in a KDF or KTS scheme. 
         /// </summary>
-        /// <param name="value">The KDF factory to utilize.</param>
+        /// <param name="factory">The fixed info factory.</param>
+        /// <param name="parameter">The fixed info parameters.</param>
         /// <returns>this builder.</returns>
-        ISchemeIfcBuilder WithKdfFactory(IKdfOneStepFactory value);
+        ISchemeIfcBuilder WithFixedInfo(IFixedInfoFactory factory, FixedInfoParameter parameter);
         /// <summary>
-        /// Provides an instance of a KtsFactory to the builder.
+        /// Provides a KDF factory and parameter for deriving a key from a secret.
         /// </summary>
-        /// <param name="value">The KTS factory to utilize.</param>
+        /// <param name="factory">The KDF factory.</param>
+        /// <param name="parameter">The KDF parameters.</param>
         /// <returns>this builder.</returns>
-        ISchemeIfcBuilder WithKtsFactory(IKtsFactory value);
+        ISchemeIfcBuilder WithKdf(IKdfFactory factory, IKdfParameter parameter);
         /// <summary>
-        /// Provides an instance of a KeyConfirmation factory to utilize.
+        /// Provides a KTS factory and parameter for wrapping/unwrapping a key.
         /// </summary>
-        /// <param name="value">The KeyConfirmation factory to utilize.</param>
+        /// <param name="factory">The KTS factory.</param>
+        /// <param name="parameter">The KTS parameters.</param>
         /// <returns>this builder.</returns>
-        ISchemeIfcBuilder WithKeyConfirmationFactory(IKeyConfirmationFactory value);
+        ISchemeIfcBuilder WithKts(IKtsFactory factory, KtsParameter parameter);
+        /// <summary>
+        /// Provides a Key Confirmation factory and parameter for performing key confirmation..
+        /// </summary>
+        /// <param name="factory">The KC factory.</param>
+        /// <param name="parameter">The KC parameters.</param>
+        /// <returns>this builder.</returns>
+        ISchemeIfcBuilder WithKeyConfirmation(IKeyConfirmationFactory factory, MacParameters parameter);
         /// <summary>
         /// Build the Kas Ifc Scheme with the specified parameters.
         /// </summary>

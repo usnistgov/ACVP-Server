@@ -9,7 +9,7 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.KAS.Scheme.Ifc
 {
-    public abstract class SchemeBase : ISchemeIfc
+    internal abstract class SchemeBase : ISchemeIfc
     {
         private readonly IKeyConfirmationFactory _keyConfirmationFactory;
         private readonly IFixedInfoFactory _fixedInfoFactory;

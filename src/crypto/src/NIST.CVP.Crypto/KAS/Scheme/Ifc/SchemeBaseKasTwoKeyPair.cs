@@ -10,7 +10,7 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.KAS.Scheme.Ifc
 {
-    public class SchemeBaseKasTwoKeyPair : SchemeBaseKas
+    internal class SchemeBaseKasTwoKeyPair : SchemeBaseKas
     {
         public SchemeBaseKasTwoKeyPair
         (

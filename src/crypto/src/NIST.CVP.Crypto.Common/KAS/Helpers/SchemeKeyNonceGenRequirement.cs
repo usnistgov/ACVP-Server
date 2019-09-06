@@ -6,6 +6,18 @@ namespace NIST.CVP.Crypto.Common.KAS.Helpers
     public class SchemeKeyNonceGenRequirement<TScheme> : SchemeKeyNonceGenRequirement
         where TScheme : struct, IComparable
     {
+        /// <summary>
+        /// Constructor for FFC/ECC schemes.
+        /// </summary>
+        /// <param name="scheme"></param>
+        /// <param name="kasMode"></param>
+        /// <param name="thisPartyKasRole"></param>
+        /// <param name="thisPartyKeyConfirmationRole"></param>
+        /// <param name="keyConfirmationDirection"></param>
+        /// <param name="generatesStaticKeyPair"></param>
+        /// <param name="generatesEphemeralKeyPair"></param>
+        /// <param name="generatesEphemeralNonce"></param>
+        /// <param name="generatesDkmNonce"></param>
         public SchemeKeyNonceGenRequirement(
             TScheme scheme, 
             KasMode kasMode, 
@@ -22,6 +34,16 @@ namespace NIST.CVP.Crypto.Common.KAS.Helpers
             Scheme = scheme;
         }
         
+        /// <summary>
+        /// Constructor for IFC schemes.
+        /// </summary>
+        /// <param name="scheme"></param>
+        /// <param name="kasMode"></param>
+        /// <param name="thisPartyKasRole"></param>
+        /// <param name="thisPartyKeyConfirmationRole"></param>
+        /// <param name="keyConfirmationDirection"></param>
+        /// <param name="generatesKeyPair"></param>
+        /// <param name="generatesEphemeralNonce"></param>
         public SchemeKeyNonceGenRequirement(
             TScheme scheme, 
             KasMode kasMode, 
@@ -39,8 +61,20 @@ namespace NIST.CVP.Crypto.Common.KAS.Helpers
         public TScheme Scheme { get; }
     }
 
+    
     public class SchemeKeyNonceGenRequirement
     {
+        /// <summary>
+        /// Constructor for FFC/ECC schemes.
+        /// </summary>
+        /// <param name="kasMode"></param>
+        /// <param name="thisPartyKasRole"></param>
+        /// <param name="thisPartyKeyConfirmationRole"></param>
+        /// <param name="keyConfirmationDirection"></param>
+        /// <param name="generatesStaticKeyPair"></param>
+        /// <param name="generatesEphemeralKeyPair"></param>
+        /// <param name="generatesEphemeralNonce"></param>
+        /// <param name="generatesDkmNonce"></param>
         protected SchemeKeyNonceGenRequirement(
             KasMode kasMode, 
             KeyAgreementRole thisPartyKasRole, 
@@ -62,6 +96,15 @@ namespace NIST.CVP.Crypto.Common.KAS.Helpers
             GeneratesDkmNonce = generatesDkmNonce;
         }
 
+        /// <summary>
+        /// Constructor for IFC schemes. 
+        /// </summary>
+        /// <param name="kasMode"></param>
+        /// <param name="thisPartyKasRole"></param>
+        /// <param name="thisPartyKeyConfirmationRole"></param>
+        /// <param name="keyConfirmationDirection"></param>
+        /// <param name="generatesKeyPair"></param>
+        /// <param name="generatesEphemeralNonce"></param>
         protected SchemeKeyNonceGenRequirement(
             KasMode kasMode, 
             KeyAgreementRole thisPartyKasRole, 

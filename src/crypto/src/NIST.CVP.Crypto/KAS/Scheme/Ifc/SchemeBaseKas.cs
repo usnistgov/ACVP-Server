@@ -8,7 +8,7 @@ using NIST.CVP.Crypto.Common.KES;
 
 namespace NIST.CVP.Crypto.KAS.Scheme.Ifc
 {
-    public abstract class SchemeBaseKas : SchemeBase
+    internal abstract class SchemeBaseKas : SchemeBase
     {
         protected IKdfVisitor _kdfVisitor;
         protected IKdfParameter _kdfParameter;
