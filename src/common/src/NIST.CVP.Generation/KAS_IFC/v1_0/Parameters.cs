@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using System.Numerics;
 using Newtonsoft.Json;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
@@ -14,6 +16,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
         public string Revision { get; set; }
         public bool IsSample { get; set; }
         public BitString IutId { get; set; }
+        public PublicKey[] PublicKeys { get; set; }
         public string[] Conformances { get; set; }
         
         /// <summary>
@@ -193,7 +196,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
         /// <summary>
         /// The fixed public exponent (only applicable for rsakpg1*)
         /// </summary>
-        public BitString FixedPublicExponent { get; set; }
+        public BigInteger FixedPublicExponent { get; set; }
     }
 
     public class RsaKpg1_basic : KeyGenerationMethodBase

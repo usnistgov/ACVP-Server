@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Crypto.Common.Asymmetric.RSA.PrimeGenerators;
+﻿using NIST.CVP.Crypto.Common.Asymmetric.RSA.Helpers;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA.PrimeGenerators;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Common.Math;
 using NIST.CVP.Crypto.Math;
@@ -30,9 +31,9 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
 
             // 1 -- redundant by (3)
             // 2
-            if (e <= NumberTheory.Pow2(16) || e >= NumberTheory.Pow2(256) || e.IsEven)
+            if (!RsaKeyHelper.IsValidExponent(e))
             {
-                return new PrimeGeneratorResult("Incorrect e, must be greater than 2^16, less than 2^256, odd");
+                return new PrimeGeneratorResult(RsaKeyHelper.InvalidExponentMessage);
             }
 
             // 3

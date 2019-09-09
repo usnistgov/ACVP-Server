@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys;
 using NIST.CVP.Crypto.Common.KAS.KC;
 using NIST.CVP.Crypto.Common.KAS.KDF;
 using NIST.CVP.Crypto.Common.KAS.KDF.KdfOneStep;
@@ -17,20 +19,20 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
         {
             List<TestGroup> groups = new List<TestGroup>();
 
-            GenerateGroups(parameters.Scheme, groups);
+            GenerateGroups(parameters.Scheme, parameters.PublicKeys, groups);
 
             return groups;
         }
 
-        private void GenerateGroups(Schemes parametersScheme, List<TestGroup> groups)
+        private void GenerateGroups(Schemes parametersScheme, PublicKey[] publicKeys, List<TestGroup> groups)
         {
             foreach (var scheme in parametersScheme.GetRegisteredSchemes())
             {
-                CreateGroupsPerScheme(scheme, groups);
+                CreateGroupsPerScheme(scheme, publicKeys, groups);
             }
         }
 
-        private void CreateGroupsPerScheme(SchemeBase schemeBase, List<TestGroup> groups)
+        private void CreateGroupsPerScheme(SchemeBase schemeBase, PublicKey[] publicKeys,List<TestGroup> groups)
         {
             if (schemeBase == null)
             {
@@ -45,6 +47,8 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
 
             foreach (var testType in TestTypes)
             {
+                var iutPublicKeys = testType.Equals("AFT", StringComparison.OrdinalIgnoreCase) ? publicKeys : null;
+                
                 foreach (var role in schemeBase.KasRole)
                 {
                     foreach (var keyGenerationMethod in keyGenMethods)
@@ -68,6 +72,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
                                             MacConfiguration = macMethod,
                                             TestType = testType,
                                             KeyGenerationMethod = keyGenerationMethod.KeyGenerationMethod,
+                                            IutPublicKeys = iutPublicKeys
                                         });
                                     }
                                 }
@@ -84,6 +89,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
                                         MacConfiguration = null,
                                         TestType = testType,
                                         KeyGenerationMethod = keyGenerationMethod.KeyGenerationMethod,
+                                        IutPublicKeys = iutPublicKeys
                                     });
                                 }
                             }
@@ -105,6 +111,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
                                             MacConfiguration = macMethod,
                                             TestType = testType,
                                             KeyGenerationMethod = keyGenerationMethod.KeyGenerationMethod,
+                                            IutPublicKeys = iutPublicKeys
                                         });
                                     }
                                 }
@@ -121,6 +128,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
                                         MacConfiguration = null,
                                         TestType = testType,
                                         KeyGenerationMethod = keyGenerationMethod.KeyGenerationMethod,
+                                        IutPublicKeys = iutPublicKeys
                                     });
                                 }
                             }

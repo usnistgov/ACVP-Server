@@ -5,9 +5,11 @@ using System.Text.RegularExpressions;
 using NIST.CVP.Common;
 using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Common.Helpers;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA.Helpers;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Crypto.Common.KAS.Helpers;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Math.Helpers;
 
 namespace NIST.CVP.Generation.KAS_IFC.v1_0
 {
@@ -112,6 +114,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
             }
 
             ValidateSchemes(parameters, errorResults);
+            ValidateKeys(parameters, errorResults);
             
             return new ParameterValidateResponse(errorResults);
         }
@@ -221,12 +224,12 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
         {
             errorResults.AddIfNotNullOrEmpty(ValidateArray(keyGenBase.Modulo, ValidModulo, "Modulus"));
 
-            if (requiresFixedPublicKey && keyGenBase.FixedPublicExponent?.BitLength == 0)
+            if (requiresFixedPublicKey && RsaKeyHelper.IsValidExponent(keyGenBase.FixedPublicExponent))
             {
-                errorResults.Add("Fixed public exponent required for this method of key generation");
+                errorResults.Add("Valid fixed public exponent required for this method of key generation");
             }
 
-            if (!requiresFixedPublicKey && keyGenBase.FixedPublicExponent?.BitLength != 0)
+            if (!requiresFixedPublicKey && keyGenBase.FixedPublicExponent != 0)
             {
                 errorResults.Add("Unexpected fixed public exponent");
             }
@@ -422,6 +425,36 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
         private void ValidateEncoding(FixedInfoEncoding[] encoding, List<string> errorResults)
         {
             errorResults.AddIfNotNullOrEmpty(ValidateArray(encoding, ValidEncodingTypes, "One Step KDF encoding type"));
+        }
+        
+        private void ValidateKeys(Parameters parameters, List<string> errorResults)
+        {
+            if (parameters.PublicKeys == null || !parameters.PublicKeys.Any())
+            {
+                errorResults.Add(nameof(parameters.PublicKeys));
+                return;
+            }
+            
+            // Check for valid E values
+            foreach (var key in parameters.PublicKeys)
+            {
+                if (!RsaKeyHelper.IsValidExponent(key.E))
+                {
+                    errorResults.Add($"invalid {nameof(key.E)} value of {key.E.ExactBitString()}");
+                }
+            }
+            
+            // Check that each exponent included as fixed exponents (if any) contain keys with that exponent.
+            foreach (var exponent in parameters
+                .Scheme.GetRegisteredSchemes()
+                .SelectMany(s => s.KeyGenerationMethods.GetRegisteredKeyGenerationMethods()
+                    .Select(s2 => s2.FixedPublicExponent).Where(w => w != 0)))
+            {
+                if (!parameters.PublicKeys.Select(s => s.E).Contains(exponent))
+                {
+                    errorResults.Add($"{nameof(exponent)} ({exponent.ExactBitString()}) does not have a corresponding public key provided.");
+                }
+            }
         }
     }
 }
