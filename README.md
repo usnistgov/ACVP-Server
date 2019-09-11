@@ -49,7 +49,7 @@ To host the Orleans Silo locally there are two options:
 
   ```cmd
   sc delete AcvpOrleans # if exists
-  sc create AcvpOrleans binPath= "C:\workspace\gitLab\gen-val\src\orleans\src\NIST.CVP.Orleans.ServerHost\bin\Release\netcoreapp2.1\win7-x64\publish\NIST.CVP.Orleans.ServerHost.exe" # Note the above exe is a sample, should be replaced with the location of your built exe
+  sc create AcvpOrleans binPath= "C:\workspace\gitLab\gen-val\src\orleans\src\NIST.CVP.Orleans.ServerHost\bin\Release\netcoreapp2.1\win-x64\publish\NIST.CVP.Orleans.ServerHost.exe" # Note the above exe is a sample, should be replaced with the location of your built exe
   sc start AcvpOrleans
   ```
 
@@ -65,7 +65,7 @@ To host:
 * As a windows service:
 
 ```cmd
-sc create AcvpPoolApi binPath= "C:\workspace\gitLab\gen-val\src\pool-api\NIST.CVP.PoolAPI\bin\Release\netcoreapp2.1\win7-x64\NIST.CVP.PoolAPI.exe C:\workspace\gitLab\gen-val\src\pool-api\NIST.CVP.PoolAPI\Pools"
+sc create AcvpPoolApi binPath= "C:\workspace\gitLab\gen-val\src\pool-api\NIST.CVP.PoolAPI\bin\Release\netcoreapp2.1\win-x64\NIST.CVP.PoolAPI.exe C:\workspace\gitLab\gen-val\src\pool-api\NIST.CVP.PoolAPI\Pools"
 sc start AcvpPoolApi
 ```
 
