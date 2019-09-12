@@ -1,10 +1,13 @@
+using System;
 using NIST.CVP.Crypto.Common.KAS;
+using NIST.CVP.Crypto.Common.KAS.Builders;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Crypto.Common.KAS.FixedInfo;
 using NIST.CVP.Crypto.Common.KAS.KC;
 using NIST.CVP.Crypto.Common.KAS.Scheme;
 using NIST.CVP.Crypto.Common.KTS;
 using NIST.CVP.Math;
+using NIST.CVP.Math.Entropy;
 using Remotion.Linq.Parsing.Structure.IntermediateModel;
 
 namespace NIST.CVP.Crypto.KAS.Scheme.Ifc
@@ -14,43 +17,66 @@ namespace NIST.CVP.Crypto.KAS.Scheme.Ifc
         private readonly IKtsFactory _ktsFactory;
         private readonly KtsParameter _ktsParameter;
 
-        public SchemeKts
-        (
+        public SchemeKts(
+            IEntropyProvider entropyProvider,
             SchemeParametersIfc schemeParameters, 
             IFixedInfoFactory fixedInfoFactory,
             FixedInfoParameter fixedInfoParameter,
-            IIfcSecretKeyingMaterial thisPartyKeyingMaterial,
+            IIfcSecretKeyingMaterialBuilder thisPartyKeyingMaterialBuilder,
             IKeyConfirmationFactory keyConfirmationFactory,
             MacParameters macParameters,
             IKtsFactory ktsFactory,
             KtsParameter ktsParameter
             ) 
-            : base(schemeParameters, fixedInfoFactory, fixedInfoParameter, thisPartyKeyingMaterial, keyConfirmationFactory, macParameters)
+            : base
+            (
+                entropyProvider, 
+                schemeParameters, 
+                fixedInfoFactory, 
+                fixedInfoParameter, 
+                thisPartyKeyingMaterialBuilder, 
+                keyConfirmationFactory, 
+                macParameters)
         {
             _ktsFactory = ktsFactory;
             _ktsParameter = ktsParameter;
+        }
+
+        protected override void BuildKeyingMaterialThisParty(IIfcSecretKeyingMaterialBuilder thisPartyKeyingMaterialBuilder,
+            IIfcSecretKeyingMaterial otherPartyKeyingMaterial)
+        {
+            switch (SchemeParameters.KeyAgreementRole)
+            {
+                case KeyAgreementRole.InitiatorPartyU:
+                    // Create a key of L length, wrap it with the other parties public key.
+                    var keyToEncodeEncrypt = EntropyProvider.GetEntropy(SchemeParameters.KasAlgoAttributes.L);
+                    var kts = _ktsFactory.Get(_ktsParameter.KtsHashAlg);
+                    var fixedInfo = GetFixedInfo(otherPartyKeyingMaterial);
+                    var c = kts.Encrypt(otherPartyKeyingMaterial.Key.PubKey, keyToEncodeEncrypt, fixedInfo).SharedSecretZ;
+                    
+                    thisPartyKeyingMaterialBuilder.WithK(keyToEncodeEncrypt);
+                    thisPartyKeyingMaterialBuilder.WithC(c);
+                    break;
+                case KeyAgreementRole.ResponderPartyV:
+                    // Key should have been set outside the scope of the kas instance
+                    break;
+                default:
+                    throw new ArgumentException($"Invalid {nameof(SchemeParameters.KeyAgreementRole)}");
+            }
         }
 
         protected override BitString GetKeyingMaterial(IIfcSecretKeyingMaterial otherPartyKeyingMaterial)
         {
             var kts = _ktsFactory.Get(_ktsParameter.KtsHashAlg);
 
-            var fixedInfo = GetFixedInfo(otherPartyKeyingMaterial);
-            
             // Party U has the key, encrypts it with Party V's public key
             if (SchemeParameters.KeyAgreementRole == KeyAgreementRole.InitiatorPartyU)
             {
-                var otherPartyPublicKey = otherPartyKeyingMaterial.Key.PubKey;
-
-                var keyToEncodeEncrypt = ThisPartyKeyingMaterial.K;
-
-                var C = kts.Encrypt(otherPartyPublicKey, keyToEncodeEncrypt, fixedInfo).SharedSecretZ;
-                ThisPartyKeyingMaterial.C = C.GetDeepCopy();
-                
-                return C;
+                return ThisPartyKeyingMaterial.C;
             }
 
             // Party V has the private key that is used to decrypt the key from party U.
+            var fixedInfo = GetFixedInfo(otherPartyKeyingMaterial);
             var thisPartyKey = ThisPartyKeyingMaterial.Key;
             var otherPartyCiphertext = otherPartyKeyingMaterial.C;
 

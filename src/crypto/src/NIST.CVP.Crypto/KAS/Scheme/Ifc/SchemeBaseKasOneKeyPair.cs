@@ -1,5 +1,6 @@
 using System;
 using NIST.CVP.Crypto.Common.KAS;
+using NIST.CVP.Crypto.Common.KAS.Builders;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Crypto.Common.KAS.FixedInfo;
 using NIST.CVP.Crypto.Common.KAS.KC;
@@ -8,25 +9,57 @@ using NIST.CVP.Crypto.Common.KAS.Scheme;
 using NIST.CVP.Crypto.Common.KES;
 using NIST.CVP.Crypto.KES;
 using NIST.CVP.Math;
+using NIST.CVP.Math.Entropy;
 
 namespace NIST.CVP.Crypto.KAS.Scheme.Ifc
 {
     internal class SchemeBaseKasOneKeyPair : SchemeBaseKas
     {
-        public SchemeBaseKasOneKeyPair
-        (
+        public SchemeBaseKasOneKeyPair(
+            IEntropyProvider entropyProvider,
             SchemeParametersIfc schemeParameters, 
             IFixedInfoFactory fixedInfoFactory,
             FixedInfoParameter fixedInfoParameter,
-            IIfcSecretKeyingMaterial thisPartyKeyingMaterial,
+            IIfcSecretKeyingMaterialBuilder thisPartyKeyingMaterialBuilder,
             IKeyConfirmationFactory keyConfirmationFactory,
             MacParameters macParameters,
             IKdfVisitor kdfVisitor,
             IKdfParameter kdfParameter,
-            IRsaSve rsaSve
-            ) 
-            : base(schemeParameters, fixedInfoFactory, fixedInfoParameter, thisPartyKeyingMaterial, keyConfirmationFactory, macParameters, kdfVisitor, kdfParameter, rsaSve)
+            IRsaSve rsaSve) 
+            : base(
+                entropyProvider, 
+                schemeParameters, 
+                fixedInfoFactory, 
+                fixedInfoParameter, 
+                thisPartyKeyingMaterialBuilder, 
+                keyConfirmationFactory, 
+                macParameters, 
+                kdfVisitor, 
+                kdfParameter, 
+                rsaSve)
         {
+        }
+
+        protected override void BuildKeyingMaterialThisParty(IIfcSecretKeyingMaterialBuilder thisPartyKeyingMaterialBuilder,
+            IIfcSecretKeyingMaterial otherPartyKeyingMaterial)
+        {
+            // Note party ID should have been set on the builder outside of the scope of kas.
+            switch (SchemeParameters.KeyAgreementRole)
+            {
+                case KeyAgreementRole.InitiatorPartyU:
+                    // Create random Z, encrypt with IUT public key to arrive at C
+                    var rsaSveResult = _rsaSve.Generate(otherPartyKeyingMaterial.Key.PubKey);
+                    thisPartyKeyingMaterialBuilder.WithZ(rsaSveResult.SharedSecretZ);
+                    thisPartyKeyingMaterialBuilder.WithC(rsaSveResult.Ciphertext);
+                    break;
+                case KeyAgreementRole.ResponderPartyV:
+                    // Provides public key and nonce.  Public key should have been set on the builder outside the scope of the kas instance.
+                    thisPartyKeyingMaterialBuilder.WithDkmNonce(
+                        EntropyProvider.GetEntropy(SchemeParameters.KasAlgoAttributes.Modulo));
+                    break;
+                default:
+                    throw new ArgumentException($"Invalid {nameof(SchemeParameters.KeyAgreementRole)} for building keying material.");
+            }
         }
 
         protected override BitString GetKeyingMaterial(IIfcSecretKeyingMaterial otherPartyKeyingMaterial)
@@ -34,15 +67,6 @@ namespace NIST.CVP.Crypto.KAS.Scheme.Ifc
             switch (SchemeParameters.KeyAgreementRole)
             {
                 case KeyAgreementRole.InitiatorPartyU:
-                    // In this instance, party U creates a random Z and encrypts it using party V's public key.
-                    // The keying material is derived partially via party U (the chosen random value Z) and party V via a nonce
-                    // contributed via their otherPartyPublicInfo.
-                    var otherPartyPublicKey = otherPartyKeyingMaterial.Key.PubKey;
-
-                    var generateResult = _rsaSve.Generate(otherPartyPublicKey);
-
-                    ThisPartyKeyingMaterial.C = generateResult.Ciphertext;
-                    ThisPartyKeyingMaterial.Z = generateResult.SharedSecretZ;
                     _kdfParameter.Z = ThisPartyKeyingMaterial.Z;
                     break;
                 case KeyAgreementRole.ResponderPartyV:

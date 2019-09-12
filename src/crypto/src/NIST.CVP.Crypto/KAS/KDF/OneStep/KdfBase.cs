@@ -13,7 +13,7 @@ namespace NIST.CVP.Crypto.KAS.KDF.OneStep
         protected abstract BigInteger MaxInputLength { get; }
         protected abstract BitString H(BitString message, BitString salt);
 
-        public virtual KdfResult DeriveKey(BitString z, int keyDataLength, BitString otherInfo, BitString salt)
+        public virtual KdfResult DeriveKey(BitString z, int keyDataLength, BitString fixedInfo, BitString salt)
         {
             // 1. reps =  keydatalen / hashlen.
             var reps = keyDataLength.CeilingDivide(OutputLength);
@@ -27,9 +27,9 @@ namespace NIST.CVP.Crypto.KAS.KDF.OneStep
             // 3. Initialize a 32-bit, big-endian bit string counter as 1 (i.e. 0x00000001).
             var counter = new BitString(32).BitStringAddition(BitString.One());
 
-            var messageToH = counter.ConcatenateBits(z).ConcatenateBits(otherInfo);
+            var messageToH = counter.ConcatenateBits(z).ConcatenateBits(fixedInfo);
 
-            // 4. If counter || Z || OtherInfo is more than max_H_inputlen bits long,
+            // 4. If counter || Z || FixedInfo is more than max_H_inputlen bits long,
             // then return an error indicator without performing the remaining actions
             if (messageToH.BitLength > MaxInputLength)
             {
@@ -48,7 +48,7 @@ namespace NIST.CVP.Crypto.KAS.KDF.OneStep
                 counter = counter.BitStringAddition(BitString.One());
 
                 // Update the message to H with the current counter
-                messageToH = counter.ConcatenateBits(z).ConcatenateBits(otherInfo);
+                messageToH = counter.ConcatenateBits(z).ConcatenateBits(fixedInfo);
             }
 
             // 6. Let K_Last be set to K(reps) if (keydatalen / hashlen) is an integer; otherwise, let K_Last

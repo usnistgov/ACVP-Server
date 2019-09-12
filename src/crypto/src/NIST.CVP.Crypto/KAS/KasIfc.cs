@@ -12,6 +12,11 @@ namespace NIST.CVP.Crypto.KAS
 
         public ISchemeIfc Scheme { get; }
 
+        public void InitializeThisPartyKeyingMaterial(IIfcSecretKeyingMaterial otherPartyKeyingMaterial)
+        {
+            Scheme.InitializeThisPartyKeyingMaterial(otherPartyKeyingMaterial);
+        }
+
         public KasIfcResult ComputeResult(IIfcSecretKeyingMaterial otherPartyKeyingMaterial)
         {
             return Scheme.ComputeResult(otherPartyKeyingMaterial);

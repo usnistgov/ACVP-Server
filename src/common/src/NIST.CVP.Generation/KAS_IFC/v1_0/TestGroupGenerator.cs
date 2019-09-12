@@ -1,38 +1,52 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
+using System.Threading.Tasks;
+using NIST.CVP.Common.Oracle;
+using NIST.CVP.Common.Oracle.ParameterTypes;
+using NIST.CVP.Common.Oracle.ResultTypes;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys;
+using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Crypto.Common.KAS.KC;
 using NIST.CVP.Crypto.Common.KAS.KDF;
 using NIST.CVP.Crypto.Common.KAS.KDF.KdfOneStep;
 using NIST.CVP.Crypto.Common.KTS;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.KAS_IFC.v1_0
 {
     public class TestGroupGenerator : ITestGroupGenerator<Parameters, TestGroup, TestCase>
     {
         private static readonly string[] TestTypes = {"AFT", "VAL"};
+        private static readonly BigInteger DefaultExponent = new BigInteger(65537);
+        private readonly IOracle _oracle;
+
+        public TestGroupGenerator(IOracle oracle)
+        {
+            _oracle = oracle;
+        }
         
         public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
         {
             List<TestGroup> groups = new List<TestGroup>();
 
-            GenerateGroups(parameters.Scheme, parameters.PublicKeys, groups);
+            GenerateGroups(parameters.Scheme, parameters, groups);
 
             return groups;
         }
 
-        private void GenerateGroups(Schemes parametersScheme, PublicKey[] publicKeys, List<TestGroup> groups)
+        private void GenerateGroups(Schemes parametersScheme, Parameters param, List<TestGroup> groups)
         {
             foreach (var scheme in parametersScheme.GetRegisteredSchemes())
             {
-                CreateGroupsPerScheme(scheme, publicKeys, groups);
+                CreateGroupsPerScheme(scheme, param, groups);
             }
         }
 
-        private void CreateGroupsPerScheme(SchemeBase schemeBase, PublicKey[] publicKeys,List<TestGroup> groups)
+        private void CreateGroupsPerScheme(SchemeBase schemeBase, Parameters param, List<TestGroup> groups)
         {
             if (schemeBase == null)
             {
@@ -47,12 +61,18 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
 
             foreach (var testType in TestTypes)
             {
-                var iutPublicKeys = testType.Equals("AFT", StringComparison.OrdinalIgnoreCase) ? publicKeys : null;
+                var iutKeys = testType.Equals("AFT", StringComparison.OrdinalIgnoreCase) ? GetKeys(param) : null;
                 
                 foreach (var role in schemeBase.KasRole)
                 {
+                    var keyConfInfo = GetKeyConfirmationInfo(schemeBase.Scheme, role);
+                    
                     foreach (var keyGenerationMethod in keyGenMethods)
                     {
+                        var exponent = keyGenerationMethod.FixedPublicExponent == 0
+                            ? DefaultExponent
+                            : keyGenerationMethod.FixedPublicExponent;
+                        
                         foreach (var modulo in keyGenerationMethod.Modulo)
                         {
                             foreach (var kdfConfig in kdfMethods)
@@ -65,14 +85,19 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
                                         {
                                             L = schemeBase.L,
                                             Modulo = modulo,
+                                            PublicExponent = exponent,
                                             Scheme = schemeBase.Scheme,
+                                            KasMode = schemeBase.KasMode,
                                             KasRole = role,
                                             KdfConfiguration = kdfConfig,
                                             KtsConfiguration = null,
                                             MacConfiguration = macMethod,
                                             TestType = testType,
                                             KeyGenerationMethod = keyGenerationMethod.KeyGenerationMethod,
-                                            IutPublicKeys = iutPublicKeys
+                                            IutKeys = iutKeys,
+                                            IutId = param.IutId,
+                                            KeyConfirmationDirection = keyConfInfo.kcDir,
+                                            KeyConfirmationRole = keyConfInfo.kcRole,
                                         });
                                     }
                                 }
@@ -82,14 +107,19 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
                                     {
                                         L = schemeBase.L,
                                         Modulo = modulo,
+                                        PublicExponent = exponent,
                                         Scheme = schemeBase.Scheme,
+                                        KasMode = schemeBase.KasMode,
                                         KasRole = role,
                                         KdfConfiguration = kdfConfig,
                                         KtsConfiguration = null,
                                         MacConfiguration = null,
                                         TestType = testType,
                                         KeyGenerationMethod = keyGenerationMethod.KeyGenerationMethod,
-                                        IutPublicKeys = iutPublicKeys
+                                        IutKeys = iutKeys,
+                                        IutId = param.IutId,
+                                        KeyConfirmationDirection = keyConfInfo.kcDir,
+                                        KeyConfirmationRole = keyConfInfo.kcRole,
                                     });
                                 }
                             }
@@ -104,14 +134,19 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
                                         {
                                             L = schemeBase.L,
                                             Modulo = modulo,
+                                            PublicExponent = exponent,
                                             Scheme = schemeBase.Scheme,
+                                            KasMode = schemeBase.KasMode,
                                             KasRole = role,
                                             KdfConfiguration = null,
                                             KtsConfiguration = ktsConfig,
                                             MacConfiguration = macMethod,
                                             TestType = testType,
                                             KeyGenerationMethod = keyGenerationMethod.KeyGenerationMethod,
-                                            IutPublicKeys = iutPublicKeys
+                                            IutKeys = iutKeys,
+                                            IutId = param.IutId,
+                                            KeyConfirmationDirection = keyConfInfo.kcDir,
+                                            KeyConfirmationRole = keyConfInfo.kcRole,
                                         });
                                     }
                                 }
@@ -121,20 +156,109 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
                                     {
                                         L = schemeBase.L,
                                         Modulo = modulo,
+                                        PublicExponent = exponent,
                                         Scheme = schemeBase.Scheme,
+                                        KasMode = schemeBase.KasMode,
                                         KasRole = role,
                                         KdfConfiguration = null,
                                         KtsConfiguration = ktsConfig,
                                         MacConfiguration = null,
                                         TestType = testType,
                                         KeyGenerationMethod = keyGenerationMethod.KeyGenerationMethod,
-                                        IutPublicKeys = iutPublicKeys
+                                        IutKeys = iutKeys,
+                                        IutId = param.IutId,
+                                        KeyConfirmationDirection = keyConfInfo.kcDir,
+                                        KeyConfirmationRole = keyConfInfo.kcRole,
                                     });
                                 }
                             }
                         }
                     }
                 }                
+            }
+        }
+
+        private KeyPair[] GetKeys(Parameters parameters)
+        {
+            // When not sample, the IUT public keys are provided
+            if (!parameters.IsSample)
+            {
+                var keys = new KeyPair[parameters.PublicKeys.Length];
+                var count = 0;
+                foreach (var key in parameters.PublicKeys)
+                {
+                    keys[count] = new KeyPair()
+                    {
+                        PubKey = key
+                    };
+                    count++;
+                }
+
+                return keys;
+            }
+            
+            // When sample, we need to Generate key pairs up front to use on behalf of the IUT.
+            var modulos = parameters.Scheme.GetRegisteredSchemes().SelectMany(s =>
+                s.KeyGenerationMethods.GetRegisteredKeyGenerationMethods().SelectMany(s2 => s2.Modulo)).ToList();
+            var fixedExponents = parameters
+                .Scheme.GetRegisteredSchemes()
+                .SelectMany(s => s.KeyGenerationMethods.GetRegisteredKeyGenerationMethods()
+                    .Select(s2 => s2.FixedPublicExponent).Where(w => w != 0)).ToList();
+            
+            
+            if (!fixedExponents.Contains(DefaultExponent))
+            {
+                fixedExponents.Add(DefaultExponent);
+            }
+
+            var keyAttributes = (
+                from modulo in modulos 
+                from fixedExponent in fixedExponents 
+                select (modulo, fixedExponent)).ToList();
+
+            var tasks = new List<Task<RsaKeyResult>>();
+            foreach (var keyAttribute in keyAttributes)
+            {
+                tasks.Add(_oracle.GetRsaKeyAsync(new RsaKeyParameters
+                {
+                    KeyFormat = PrivateKeyModes.Crt,
+                    Modulus = keyAttribute.modulo,
+                    KeyMode = PrimeGenModes.B33,
+                    PublicExponentMode = PublicExponentModes.Fixed,
+                    PublicExponent = new BitString(keyAttribute.fixedExponent),
+                    PrimeTest = PrimeTestModes.C2
+                }));
+            }
+
+            Task.WhenAll(tasks);
+
+            return tasks.Select(task => task.Result.Key).ToArray();
+        }
+
+        private (KeyConfirmationDirection kcDir, KeyConfirmationRole kcRole) GetKeyConfirmationInfo(IfcScheme scheme, KeyAgreementRole role)
+        {
+            switch (scheme)
+            {
+                case IfcScheme.Kas1_basic:
+                case IfcScheme.Kas2_basic:
+                case IfcScheme.Kts_oaep_basic:
+                    return (KeyConfirmationDirection.None, KeyConfirmationRole.None);
+                case IfcScheme.Kas2_bilateral_keyConfirmation:
+                    return role == KeyAgreementRole.InitiatorPartyU ? 
+                        (KeyConfirmationDirection.Bilateral, KeyConfirmationRole.Provider) : 
+                        (KeyConfirmationDirection.Bilateral, KeyConfirmationRole.Recipient);
+                case IfcScheme.Kas2_partyU_keyConfirmation:
+                    return role == KeyAgreementRole.InitiatorPartyU ?
+                        (KeyConfirmationDirection.Unilateral, KeyConfirmationRole.Provider) : 
+                        (KeyConfirmationDirection.Unilateral, KeyConfirmationRole.Recipient);
+                case IfcScheme.Kas1_partyV_keyConfirmation:
+                case IfcScheme.Kas2_partyV_keyConfirmation:
+                case IfcScheme.Kts_oaep_partyV_keyConfirmation:
+                    return role == KeyAgreementRole.InitiatorPartyU ?
+                        (KeyConfirmationDirection.Unilateral, KeyConfirmationRole.Recipient) : 
+                        (KeyConfirmationDirection.Unilateral, KeyConfirmationRole.Provider);
+                default:
+                    throw new ArgumentException($"{nameof(scheme)} {nameof(role)}");
             }
         }
 

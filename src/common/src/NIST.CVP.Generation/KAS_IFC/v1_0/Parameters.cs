@@ -81,6 +81,10 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
         /// </summary>
         public abstract IfcScheme Scheme { get; }
         /// <summary>
+        /// Additional operations the scheme supports.
+        /// </summary>
+        public abstract KasMode KasMode { get; }
+        /// <summary>
         /// The Key Agreement Role (initiator or responder)
         /// </summary>
         public KeyAgreementRole[] KasRole { get; set; }
@@ -110,41 +114,49 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
     public class Kas1_basic : SchemeBase
     {
         public override IfcScheme Scheme => IfcScheme.Kas1_basic;
+        public override KasMode KasMode => KasMode.KdfNoKc;
     }
 
     public class Kas1_partyV_confirmation : SchemeBase
     {
         public override IfcScheme Scheme => IfcScheme.Kas1_partyV_keyConfirmation;
+        public override KasMode KasMode => KasMode.KdfKc;
     }
 
     public class Kas2_basic : SchemeBase
     {
         public override IfcScheme Scheme => IfcScheme.Kas2_basic;
+        public override KasMode KasMode => KasMode.KdfNoKc;
     }
 
     public class Kas2_bilateral_confirmation : SchemeBase
     {
         public override IfcScheme Scheme => IfcScheme.Kas2_bilateral_keyConfirmation;
+        public override KasMode KasMode => KasMode.KdfKc;
     }
 
     public class Kas2_partyU_confirmation : SchemeBase
     {
         public override IfcScheme Scheme => IfcScheme.Kas2_partyU_keyConfirmation;
+        public override KasMode KasMode => KasMode.KdfKc;
     }
 
     public class Kas2_partyV_confirmation : SchemeBase
     {
         public override IfcScheme Scheme => IfcScheme.Kas2_partyV_keyConfirmation;
+        public override KasMode KasMode => KasMode.KdfKc;
     }
 
     public class Kts_oaep_basic : SchemeBase
     {
         public override IfcScheme Scheme => IfcScheme.Kts_oaep_basic;
+        public override KasMode KasMode => KasMode.NoKdfNoKc;
     }
 
     public class Kts_oaep_partyV_confirmation : SchemeBase
     {
         public override IfcScheme Scheme => IfcScheme.Kts_oaep_partyV_keyConfirmation;
+        public override KasMode KasMode => KasMode.NoKdfKc;
     }
 
     public class KeyGenerationMethods

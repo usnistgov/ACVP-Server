@@ -21,5 +21,22 @@ namespace NIST.CVP.Math.Tests.Helpers
         {
             Assert.AreEqual(expectedResult, numerator.CeilingDivide(denominator));
         }
+
+        [Test]
+        [TestCase(1, 2, 2)]
+        [TestCase(3, 2, 4)]
+        [TestCase(4, 4, 4)]
+        [TestCase(4, 10, 10)]
+        [TestCase(1, 1024, 1024)]
+        [TestCase(1024, 32, 1024)]
+        [TestCase(1018, 32, 1024)]
+        [TestCase(1024, 1024, 1024)]
+        [TestCase(1025, 1024, 2048)]
+        public void ShouldValueToModCorrectly(int value, int modulo, int expectedValue)
+        {
+            var result = value.ValueToMod(modulo);
+            
+            Assert.AreEqual(expectedValue, result);
+        }
     }
 }

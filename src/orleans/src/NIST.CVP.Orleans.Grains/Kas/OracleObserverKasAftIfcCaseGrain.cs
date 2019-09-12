@@ -1,0 +1,111 @@
+using System;
+using System.Threading.Tasks;
+using NIST.CVP.Common;
+using NIST.CVP.Common.Oracle.ParameterTypes;
+using NIST.CVP.Common.Oracle.ResultTypes;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys;
+using NIST.CVP.Crypto.Common.KAS.Builders;
+using NIST.CVP.Crypto.Common.KAS.Enums;
+using NIST.CVP.Crypto.Common.KAS.Scheme;
+using NIST.CVP.Orleans.Grains.Interfaces.Kas;
+
+namespace NIST.CVP.Orleans.Grains.Kas
+{
+    public class OracleObserverKasAftIfcCaseGrain : ObservableOracleGrainBase<KasAftResultIfc>, IOracleObserverKasAftIfcCaseGrain
+    {
+        private readonly IKasIfcBuilder _kasBuilder;
+        private readonly ISchemeIfcBuilder _schemeBuilder;
+        private readonly IIfcSecretKeyingMaterialBuilder _serverSecretKeyingMaterialBuilder;
+        private readonly IIfcSecretKeyingMaterialBuilder _iutSecretKeyingMaterialBuilder;
+        
+        private KasAftParametersIfc _param;
+        private KeyPair _serverKeyPair;
+        
+        public OracleObserverKasAftIfcCaseGrain(
+            LimitedConcurrencyLevelTaskScheduler nonOrleansScheduler,
+            IKasIfcBuilder kasBuilder,
+            ISchemeIfcBuilder schemeBuilder,
+            IIfcSecretKeyingMaterialBuilder serverSecretKeyingMaterialBuilder,
+            IIfcSecretKeyingMaterialBuilder iutSecretKeyingMaterialBuilder) 
+            : base(nonOrleansScheduler)
+        {
+            _kasBuilder = kasBuilder;
+            _schemeBuilder = schemeBuilder;
+            _serverSecretKeyingMaterialBuilder = serverSecretKeyingMaterialBuilder;
+            _iutSecretKeyingMaterialBuilder = iutSecretKeyingMaterialBuilder;
+        }
+
+        public async Task<bool> BeginWorkAsync(KasAftParametersIfc param, KeyPair serverKeyPair)
+        {
+            _param = param;
+            _serverKeyPair = serverKeyPair;
+
+            await BeginGrainWorkAsync();
+            return await Task.FromResult(true);
+        }
+        
+        protected override async Task DoWorkAsync()
+        {
+            _serverSecretKeyingMaterialBuilder
+                .WithPartyId(_param.ServerPartyId)
+                .WithKey(_serverKeyPair);
+
+            var iutSecretKeyingMaterial = _iutSecretKeyingMaterialBuilder
+                .WithPartyId(_param.IutPartyId)
+                .WithKey(_param.IutKey)
+                .Build(
+                    _param.Scheme, 
+                    _param.KasMode, 
+                    _param.IutKeyAgreementRole, 
+                    _param.IutKeyConfirmationRole,
+                    _param.KeyConfirmationDirection);
+            
+            // Create the server contributions
+            /*
+             * Party U
+             * Kas1-basic, Kas2-basic, kas1-KC, kas2-KC
+             * generate random value z of nlen bytes, encrypted with IUT public key
+             * generate salt for kdf, if kdf uses a mac
+             *
+             * KTS-basic, KTS-KC
+             * wrap random key of L bits, using IUT public key
+             *
+             * Party V
+             * Kas1-basic, Kas2-basic, kas1-KC, kas2-KC
+             * provide public key
+             * generate salt for kdf, if kdf uses a mac
+             *
+             * kas1-basic, kas1-kc
+             * provide nonce
+             *
+             * KTS-basic, KTS-KC
+             * provide public key
+             */
+            _schemeBuilder
+                .WithSchemeParameters(
+                    new SchemeParametersIfc(
+                        new KasAlgoAttributesIfc(_param.Scheme, _param.Modulo, _param.L), 
+                        _param.ServerKeyAgreementRole, 
+                        _param.KasMode, 
+                        _param.ServerKeyConfirmationRole, 
+                        _param.KeyConfirmationDirection, 
+                        KasAssurance.None, 
+                        _param.ServerPartyId))
+                .WithThisPartyKeyingMaterialBuilder(_serverSecretKeyingMaterialBuilder);
+                
+            var serverKas = _kasBuilder.WithSchemeBuilder(_schemeBuilder).Build();
+            serverKas.InitializeThisPartyKeyingMaterial(iutSecretKeyingMaterial);
+            var serverContribution = serverKas.Scheme.ThisPartyKeyingMaterial;
+
+            await Notify(new KasAftResultIfc()
+            {
+                ServerC = serverContribution.C,
+                ServerK = serverContribution.K,
+                ServerNonce = serverContribution.DkmNonce,
+                ServerZ = serverContribution.Z,
+                IutKeyPair = _param.IutKey,
+                ServerKeyPair = _serverKeyPair
+            });
+        }
+    }
+}

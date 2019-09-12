@@ -1,6 +1,10 @@
 using System.Numerics;
 using Newtonsoft.Json;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys;
+using NIST.CVP.Crypto.Common.KAS.Enums;
+using NIST.CVP.Crypto.Common.KAS.KDF;
+using NIST.CVP.Crypto.Common.KAS.Scheme;
+using NIST.CVP.Crypto.Common.KTS;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 
@@ -13,9 +17,9 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
         public bool? TestPassed { get; }
         public bool Deferred { get; }
         
-        public BitString ServerId { get; set; }
-        public BitString IutId { get; set; }
-        
+        /// <summary>
+        /// Key pair used by the server in the KAS/KTS scheme
+        /// </summary>
         [JsonIgnore]
         public KeyPair ServerKey { get; set; } = new KeyPair { PubKey = new PublicKey() };
 
@@ -163,6 +167,9 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
         }
         #endregion Server Key Value Getters and Setters
         
+        /// <summary>
+        /// Key pair used by the IUT in the KAS/KTS scheme
+        /// </summary>
         [JsonIgnore]
         public KeyPair IutKey { get; set; } = new KeyPair { PubKey = new PublicKey() };
 
@@ -310,12 +317,47 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
         }
         #endregion Iut Key Value Getters and Setters
         
-        public BitString KdfNonce { get; set; }
+        /// <summary>
+        /// The server nonce used for establishing a key using a KDF.
+        /// </summary>
+        public BitString ServerNonce { get; set; }
         
-        public BitString FixedInfo { get; set; }
+        /// <summary>
+        /// The iut nonce used for establishing a key using a KDF.
+        /// </summary>
+        public BitString IutNonce { get; set; }
         
+        /// <summary>
+        /// The KDF parameters used in the KDF function.
+        /// </summary>
+        public IKdfParameter KdfParameter { get; set; }
+        
+        /// <summary>
+        /// The encrypted C value created by the IUT.
+        /// The C value is comprised of a random value Z encrypted with the server's public key
+        /// </summary>
+        public BitString IutC { get; set; }
+        
+        /// <summary>
+        /// The encrypted C value created by the Server.
+        /// The C value is comprised of a random value Z encrypted with the IUT's public key
+        /// </summary>
+
+        public BitString ServerC { get; set; }
+        
+        /// <summary>
+        /// The shared secret value
+        /// </summary>
+        /// <remarks>Should *not* be transmitted in prompt file.</remarks>
         public BitString Z { get; set; }
+        /// <summary>
+        /// The key chosen for wrapping in a KTS scheme
+        /// </summary>
+        /// <remarks>Should *not* be transmitted in prompt file.</remarks>
         public BitString Key { get; set; }
+        /// <summary>
+        /// The tag as a result of key confirmation.
+        /// </summary>
         public BitString Tag { get; set; }
     }
 }

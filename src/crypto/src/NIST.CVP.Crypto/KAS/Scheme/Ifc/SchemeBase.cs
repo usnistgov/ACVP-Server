@@ -1,4 +1,6 @@
+using System;
 using NIST.CVP.Crypto.Common.KAS;
+using NIST.CVP.Crypto.Common.KAS.Builders;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Crypto.Common.KAS.FixedInfo;
 using NIST.CVP.Crypto.Common.KAS.Helpers;
@@ -6,6 +8,7 @@ using NIST.CVP.Crypto.Common.KAS.KC;
 using NIST.CVP.Crypto.Common.KAS.Scheme;
 using NIST.CVP.Crypto.KAS.KC;
 using NIST.CVP.Math;
+using NIST.CVP.Math.Entropy;
 
 namespace NIST.CVP.Crypto.KAS.Scheme.Ifc
 {
@@ -14,29 +17,78 @@ namespace NIST.CVP.Crypto.KAS.Scheme.Ifc
         private readonly IKeyConfirmationFactory _keyConfirmationFactory;
         private readonly IFixedInfoFactory _fixedInfoFactory;
         private readonly FixedInfoParameter _fixedInfoParameter;
+        private readonly IIfcSecretKeyingMaterialBuilder _thisPartyKeyingMaterialBuilder;
         private readonly MacParameters _macParameters;
         
+        private IIfcSecretKeyingMaterial _thisPartyKeyingMaterial;
+        private bool _isThisPartyKeyingMaterialInitialized;
+
+        protected readonly IEntropyProvider EntropyProvider;
+        
         protected SchemeBase(
-            SchemeParametersIfc schemeParameters, 
+            IEntropyProvider entropyProvider,
+            SchemeParametersIfc schemeParameters,
             IFixedInfoFactory fixedInfoFactory,
             FixedInfoParameter fixedInfoParameter,
-            IIfcSecretKeyingMaterial thisPartyKeyingMaterial,
+            IIfcSecretKeyingMaterialBuilder thisPartyKeyingMaterialBuilder,
             IKeyConfirmationFactory keyConfirmationFactory,
             MacParameters macParameters)
         {
+            EntropyProvider = entropyProvider;
             SchemeParameters = schemeParameters;
             _fixedInfoFactory = fixedInfoFactory;
             _fixedInfoParameter = fixedInfoParameter;
-            ThisPartyKeyingMaterial = thisPartyKeyingMaterial;
+            _thisPartyKeyingMaterialBuilder = thisPartyKeyingMaterialBuilder;
             _keyConfirmationFactory = keyConfirmationFactory;
             _macParameters = macParameters;
         }
 
         public SchemeParametersIfc SchemeParameters { get; }
 
-        public IIfcSecretKeyingMaterial ThisPartyKeyingMaterial { get; }
+        public IIfcSecretKeyingMaterial ThisPartyKeyingMaterial
+        {
+            get
+            {
+                if (_isThisPartyKeyingMaterialInitialized)
+                {
+                    return _thisPartyKeyingMaterial;
+                }
+                
+                throw new NotSupportedException("This party keying material not yet initialized.");
+            }
+        }
+
+        public void InitializeThisPartyKeyingMaterial(IIfcSecretKeyingMaterial otherPartyKeyingMaterial)
+        {
+            if (_isThisPartyKeyingMaterialInitialized)
+            {
+                return;
+            }
+            
+            _isThisPartyKeyingMaterialInitialized = true;
+
+            BuildKeyingMaterialThisParty(_thisPartyKeyingMaterialBuilder, otherPartyKeyingMaterial);
+            
+            _thisPartyKeyingMaterial = _thisPartyKeyingMaterialBuilder.Build(
+                SchemeParameters.KasAlgoAttributes.Scheme, 
+                SchemeParameters.KasMode,
+                SchemeParameters.KeyAgreementRole,
+                SchemeParameters.KeyConfirmationRole,
+                SchemeParameters.KeyConfirmationDirection
+                );
+        }
+
+        protected abstract void BuildKeyingMaterialThisParty(
+            IIfcSecretKeyingMaterialBuilder thisPartyKeyingMaterialBuilder,
+            IIfcSecretKeyingMaterial otherPartyKeyingMaterial);
+
         public KasIfcResult ComputeResult(IIfcSecretKeyingMaterial otherPartyKeyingMaterial)
         {
+            if (!_isThisPartyKeyingMaterialInitialized)
+            {
+                InitializeThisPartyKeyingMaterial(otherPartyKeyingMaterial);
+            }
+            
             var keyToTransport = GetKeyingMaterial(otherPartyKeyingMaterial);
 
             var keyingMaterialPartyU = SchemeParameters.KeyAgreementRole == KeyAgreementRole.InitiatorPartyU

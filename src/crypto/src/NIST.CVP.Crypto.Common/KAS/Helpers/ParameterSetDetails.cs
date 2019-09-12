@@ -47,9 +47,12 @@ namespace NIST.CVP.Crypto.Common.KAS.Helpers
                 {
                     {2048, 112},
                     {3072, 128},
+                    // TODO The below are not yet tested against our RSA impl
+                    /*
                     {4096, 152},
                     {6144, 176},
                     {8192, 200}
+                    */
                 };
 
         public static int GetDetailsForModulo(int modulo)

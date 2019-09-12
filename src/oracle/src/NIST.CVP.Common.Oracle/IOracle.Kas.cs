@@ -13,6 +13,9 @@ namespace NIST.CVP.Common.Oracle
         Task<KasValResultFfc> GetKasValTestFfcAsync(KasValParametersFfc param);
         Task<KasAftResultFfc> GetKasAftTestFfcAsync(KasAftParametersFfc param);
         Task<KasAftDeferredResult> CompleteDeferredKasTestAsync(KasAftDeferredParametersFfc param);
+
+        Task<KasAftResultIfc> GetKasAftTestIfcAsync(KasAftParametersIfc param);
+        Task<KasAftDeferredResult> CompleteDeferredKasTestAsync(KasAftDeferredParametersIfc param);
         
         Task<KasEccComponentResult> GetKasEccComponentTestAsync(KasEccComponentParameters param);
         Task<KasEccComponentDeferredResult> CompleteDeferredKasComponentTestAsync(KasEccComponentDeferredParameters param);

@@ -16,7 +16,7 @@ namespace NIST.CVP.Crypto.Common.KAS.KDF
         /// <summary>
         /// A salt value for use when the AuxFunction used is a MAC algorithm.
         /// </summary>
-        public BitString Salt { get; }
+        public BitString Salt { get; set; }
         /// <summary>
         /// The shared secret for use in deriving a key.
         /// </summary>

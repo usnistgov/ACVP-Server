@@ -12,9 +12,9 @@ namespace NIST.CVP.Crypto.Common.KAS.KDF.KdfOneStep
         /// </summary>
         /// <param name="z">The shared secret Z</param>
         /// <param name="keyDataLength">The output length of the keying material</param>
-        /// <param name="otherInfo">The other information to be used in the KDF</param>
+        /// <param name="fixedInfo">The fixed information to be used in the KDF</param>
         /// <param name="salt">The salt used for mac based KDFs.</param>
         /// <returns></returns>
-        KdfResult DeriveKey(BitString z, int keyDataLength, BitString otherInfo, BitString salt);
+        KdfResult DeriveKey(BitString z, int keyDataLength, BitString fixedInfo, BitString salt);
     }
 }

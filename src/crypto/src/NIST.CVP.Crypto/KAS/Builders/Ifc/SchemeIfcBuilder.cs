@@ -11,13 +11,14 @@ using NIST.CVP.Crypto.Common.KAS.Scheme;
 using NIST.CVP.Crypto.Common.KES;
 using NIST.CVP.Crypto.Common.KTS;
 using NIST.CVP.Crypto.KAS.Scheme.Ifc;
+using NIST.CVP.Math.Entropy;
 
 namespace NIST.CVP.Crypto.KAS.Builders.Ifc
 {
     public class SchemeIfcBuilder : ISchemeIfcBuilder
     {
         private SchemeParametersIfc _schemeParameters;
-        private IIfcSecretKeyingMaterial _thisPartyKeyingMaterial;
+        private IIfcSecretKeyingMaterialBuilder _thisPartyKeyingMaterialBuilder;
         private IFixedInfoFactory _fixedInfoFactory;
         private FixedInfoParameter _fixedInfoParameter;
         private IKdfFactory _kdfFactory;
@@ -30,6 +31,12 @@ namespace NIST.CVP.Crypto.KAS.Builders.Ifc
         private readonly IKdfVisitor _kdfVisitor;
         private readonly IRsaSve _rsaSve;
         
+        private readonly IEntropyProvider _entropyProvider;
+
+        public SchemeIfcBuilder(IEntropyProvider entropyProvider)
+        {
+            _entropyProvider = entropyProvider;
+        }
 
         public SchemeIfcBuilder(IKdfVisitor kdfVisitor, IRsaSve rsaSve)
         {
@@ -43,9 +50,9 @@ namespace NIST.CVP.Crypto.KAS.Builders.Ifc
             return this;
         }
 
-        public ISchemeIfcBuilder WithThisPartyKeyingMaterial(IIfcSecretKeyingMaterial value)
+        public ISchemeIfcBuilder WithThisPartyKeyingMaterialBuilder(IIfcSecretKeyingMaterialBuilder value)
         {
-            _thisPartyKeyingMaterial = value;
+            _thisPartyKeyingMaterialBuilder = value;
             return this;
         }
 
@@ -91,10 +98,11 @@ namespace NIST.CVP.Crypto.KAS.Builders.Ifc
                 case IfcScheme.Kas1_basic:
                 case IfcScheme.Kas1_partyV_keyConfirmation:
                     return new SchemeBaseKasOneKeyPair(
+                        _entropyProvider,
                         _schemeParameters, 
                         _fixedInfoFactory, 
                         _fixedInfoParameter, 
-                        _thisPartyKeyingMaterial, 
+                        _thisPartyKeyingMaterialBuilder, 
                         _keyConfirmationFactory, 
                         _macParameters, 
                         _kdfVisitor, 
@@ -105,10 +113,11 @@ namespace NIST.CVP.Crypto.KAS.Builders.Ifc
                 case IfcScheme.Kas2_partyU_keyConfirmation:
                 case IfcScheme.Kas2_partyV_keyConfirmation:
                     return new SchemeBaseKasTwoKeyPair(
+                        _entropyProvider,
                         _schemeParameters, 
                         _fixedInfoFactory, 
                         _fixedInfoParameter, 
-                        _thisPartyKeyingMaterial, 
+                        _thisPartyKeyingMaterialBuilder, 
                         _keyConfirmationFactory, 
                         _macParameters, 
                         _kdfVisitor, 
@@ -116,7 +125,16 @@ namespace NIST.CVP.Crypto.KAS.Builders.Ifc
                         _rsaSve);
                 case IfcScheme.Kts_oaep_basic:
                 case IfcScheme.Kts_oaep_partyV_keyConfirmation:
-                    return new SchemeKts(_schemeParameters, _fixedInfoFactory, _fixedInfoParameter, _thisPartyKeyingMaterial, _keyConfirmationFactory, _macParameters, _ktsFactory, _ktsParameters);
+                    return new SchemeKts(
+                        _entropyProvider, 
+                        _schemeParameters, 
+                        _fixedInfoFactory, 
+                        _fixedInfoParameter, 
+                        _thisPartyKeyingMaterialBuilder, 
+                        _keyConfirmationFactory, 
+                        _macParameters, 
+                        _ktsFactory, 
+                        _ktsParameters);
                 default:
                     throw new ArgumentException(nameof(_schemeParameters.KasAlgoAttributes.Scheme));
             }
@@ -132,9 +150,9 @@ namespace NIST.CVP.Crypto.KAS.Builders.Ifc
         
         private void ValidateSecretKeyingContribution()
         {
-            if (_thisPartyKeyingMaterial == null)
+            if (_thisPartyKeyingMaterialBuilder == null)
             {
-                throw new ArgumentNullException(nameof(_thisPartyKeyingMaterial));
+                throw new ArgumentNullException(nameof(_thisPartyKeyingMaterialBuilder));
             }
         }
         

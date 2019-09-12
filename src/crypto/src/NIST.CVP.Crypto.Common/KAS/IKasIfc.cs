@@ -14,6 +14,11 @@ namespace NIST.CVP.Crypto.Common.KAS
         /// </summary>
         ISchemeIfc Scheme { get; }
         /// <summary>
+        /// Initialize this party's secret keying material, based on another party's keying material (in some instances).
+        /// </summary>
+        /// <param name="otherPartyKeyingMaterial">The other parties contribution to the KAS/KTS scheme.</param>
+        void InitializeThisPartyKeyingMaterial(IIfcSecretKeyingMaterial otherPartyKeyingMaterial);
+        /// <summary>
         /// Establish a key between this party and the other party.
         /// </summary>
         /// <param name="otherPartyKeyingMaterial">The other parties keying material that contributes to the key.</param>

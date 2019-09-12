@@ -1,7 +1,11 @@
 ﻿using System.Threading.Tasks;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys;
+using NIST.CVP.Crypto.Common.KAS.Helpers;
 using NIST.CVP.Crypto.Oracle.Helpers;
+using NIST.CVP.Math;
 using NIST.CVP.Orleans.Grains.Interfaces.Kas;
 
 namespace NIST.CVP.Crypto.Oracle
@@ -60,6 +64,40 @@ namespace NIST.CVP.Crypto.Oracle
             await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, LoadSheddingRetries);
 
             return await observableGrain.ObserveUntilResult();
+        }
+
+        public async Task<KasAftResultIfc> GetKasAftTestIfcAsync(KasAftParametersIfc param)
+        {
+            // Get an RSA key on behalf of the server party when needed
+            var serverRequirements = KeyGenerationRequirementsHelper.GetKeyGenerationOptionsForSchemeAndRole(
+                param.Scheme, param.KasMode, param.ServerKeyAgreementRole, param.ServerKeyConfirmationRole,
+                param.KeyConfirmationDirection);
+
+            KeyPair serverKey = null;
+            if (serverRequirements.GeneratesEphemeralKeyPair)
+            {
+                var task = await GetRsaKeyAsync(new RsaKeyParameters()
+                {
+                    Modulus = param.Modulo,
+                    KeyFormat = PrivateKeyModes.Standard,
+                    KeyMode = PrimeGenModes.B33,
+                    PrimeTest = PrimeTestModes.C2,
+                    PublicExponentMode = PublicExponentModes.Random,
+                });
+                serverKey = task.Key;
+            }
+            
+            var observableGrain = 
+                await GetObserverGrain<IOracleObserverKasAftIfcCaseGrain, KasAftResultIfc>();
+            await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, serverKey, LoadSheddingRetries);
+
+            return await observableGrain.ObserveUntilResult();
+        }
+
+        public Task<KasAftDeferredResult> CompleteDeferredKasTestAsync(KasAftDeferredParametersIfc param)
+        {
+            
+            throw new System.NotImplementedException();
         }
 
         public async Task<KasEccComponentResult> GetKasEccComponentTestAsync(KasEccComponentParameters param)

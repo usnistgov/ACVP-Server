@@ -19,11 +19,11 @@ namespace NIST.CVP.Crypto.Common.KAS.Builders
         /// <returns>this builder.</returns>
         ISchemeIfcBuilder WithSchemeParameters(SchemeParametersIfc value);
         /// <summary>
-        /// This party's contribution to the secret keying material.
+        /// A builder used to construct this party's contribution to the secret keying material.
         /// </summary>
-        /// <param name="value">The other party's secreting keying material.</param>
+        /// <param name="value">Builder for constructing this party's secret keying material.</param>
         /// <returns>this builder.</returns>
-        ISchemeIfcBuilder WithThisPartyKeyingMaterial(IIfcSecretKeyingMaterial value);
+        ISchemeIfcBuilder WithThisPartyKeyingMaterialBuilder(IIfcSecretKeyingMaterialBuilder value);
         /// <summary>
         /// Provides a FixedInfo factory and parameter for constructing FixedInfo for use in a KDF or KTS scheme. 
         /// </summary>
