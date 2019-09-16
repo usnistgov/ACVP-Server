@@ -40,7 +40,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
         /// </summary>
         public KeyPair[] IutKeys { get; set; }
         
-        public IKasKdfConfiguration KdfConfiguration { get; set; }
+        public IKdfConfiguration KdfConfiguration { get; set; }
         public KtsConfiguration KtsConfiguration { get; set; }
         public MacConfiguration MacConfiguration { get; set; }
         public KeyConfirmationDirection KeyConfirmationDirection { get; set; }

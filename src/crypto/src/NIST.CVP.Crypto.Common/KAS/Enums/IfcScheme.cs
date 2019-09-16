@@ -10,11 +10,11 @@ namespace NIST.CVP.Crypto.Common.KAS.Enums
         Kas1_partyV_keyConfirmation,
         [EnumMember(Value = "KAS2-basic")]
         Kas2_basic,
-        [EnumMember(Value = "KAS1-bilateral-confirmation")]
+        [EnumMember(Value = "KAS2-bilateral-confirmation")]
         Kas2_bilateral_keyConfirmation,
-        [EnumMember(Value = "KAS1-Party_V-confirmation")]
+        [EnumMember(Value = "KAS2-Party_V-confirmation")]
         Kas2_partyV_keyConfirmation,
-        [EnumMember(Value = "KAS1-Party_U-confirmation")]
+        [EnumMember(Value = "KAS2-Party_U-confirmation")]
         Kas2_partyU_keyConfirmation,
         [EnumMember(Value = "KTS-OAEP-basic")]
         Kts_oaep_basic,

@@ -1,4 +1,3 @@
-using System;
 using System.Threading.Tasks;
 using NIST.CVP.Common;
 using NIST.CVP.Common.Oracle.ParameterTypes;
@@ -6,6 +5,7 @@ using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys;
 using NIST.CVP.Crypto.Common.KAS.Builders;
 using NIST.CVP.Crypto.Common.KAS.Enums;
+using NIST.CVP.Crypto.Common.KAS.KDF;
 using NIST.CVP.Crypto.Common.KAS.Scheme;
 using NIST.CVP.Orleans.Grains.Interfaces.Kas;
 
@@ -17,6 +17,7 @@ namespace NIST.CVP.Orleans.Grains.Kas
         private readonly ISchemeIfcBuilder _schemeBuilder;
         private readonly IIfcSecretKeyingMaterialBuilder _serverSecretKeyingMaterialBuilder;
         private readonly IIfcSecretKeyingMaterialBuilder _iutSecretKeyingMaterialBuilder;
+        private readonly IKdfParameterVisitor _kdfParameterVisitor;
         
         private KasAftParametersIfc _param;
         private KeyPair _serverKeyPair;
@@ -26,13 +27,15 @@ namespace NIST.CVP.Orleans.Grains.Kas
             IKasIfcBuilder kasBuilder,
             ISchemeIfcBuilder schemeBuilder,
             IIfcSecretKeyingMaterialBuilder serverSecretKeyingMaterialBuilder,
-            IIfcSecretKeyingMaterialBuilder iutSecretKeyingMaterialBuilder) 
+            IIfcSecretKeyingMaterialBuilder iutSecretKeyingMaterialBuilder,
+            IKdfParameterVisitor kdfParameterVisitor) 
             : base(nonOrleansScheduler)
         {
             _kasBuilder = kasBuilder;
             _schemeBuilder = schemeBuilder;
             _serverSecretKeyingMaterialBuilder = serverSecretKeyingMaterialBuilder;
             _iutSecretKeyingMaterialBuilder = iutSecretKeyingMaterialBuilder;
+            _kdfParameterVisitor = kdfParameterVisitor;
         }
 
         public async Task<bool> BeginWorkAsync(KasAftParametersIfc param, KeyPair serverKeyPair)
@@ -97,6 +100,12 @@ namespace NIST.CVP.Orleans.Grains.Kas
             serverKas.InitializeThisPartyKeyingMaterial(iutSecretKeyingMaterial);
             var serverContribution = serverKas.Scheme.ThisPartyKeyingMaterial;
 
+            IKdfParameter kdfParam = null;
+            if (_param.KdfConfiguration != null)
+            {
+                kdfParam = _param.KdfConfiguration.GetKdfParameter(_kdfParameterVisitor);
+            }
+            
             await Notify(new KasAftResultIfc()
             {
                 ServerC = serverContribution.C,
@@ -104,7 +113,8 @@ namespace NIST.CVP.Orleans.Grains.Kas
                 ServerNonce = serverContribution.DkmNonce,
                 ServerZ = serverContribution.Z,
                 IutKeyPair = _param.IutKey,
-                ServerKeyPair = _serverKeyPair
+                ServerKeyPair = _serverKeyPair,
+                KdfParameter = kdfParam
             });
         }
     }

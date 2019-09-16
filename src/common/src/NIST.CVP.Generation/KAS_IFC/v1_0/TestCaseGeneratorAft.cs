@@ -62,11 +62,13 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
             
             return new TestCaseGenerateResponse<TestGroup, TestCase>(new TestCase()
             {
+                Deferred = true,
+                TestPassed = true,
                 ServerC = result.ServerC,
-                Key = result.ServerK,
+                K = result.ServerK,
                 ServerNonce = result.ServerNonce,
-                ServerKey = result.ServerKeyPair,
-                IutKey = iutKey,
+                ServerKey = result.ServerKeyPair ?? new KeyPair() { PubKey = new PublicKey() },
+                IutKey = result.IutKeyPair ?? new KeyPair() { PubKey = new PublicKey() },
             });
         }
     }

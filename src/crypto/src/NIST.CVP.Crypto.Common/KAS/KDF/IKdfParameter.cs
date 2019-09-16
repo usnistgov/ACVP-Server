@@ -14,6 +14,10 @@ namespace NIST.CVP.Crypto.Common.KAS.KDF
         /// </summary>
         KasKdf KdfType { get; }
         /// <summary>
+        /// The Salt used with MAC based KDFs.
+        /// </summary>
+        BitString Salt { get; set; }
+        /// <summary>
         /// The shared secret for use in deriving a key.
         /// </summary>
         BitString Z { get; set; }
@@ -25,6 +29,10 @@ namespace NIST.CVP.Crypto.Common.KAS.KDF
         /// The pattern to use when constructing fixed info.
         /// </summary>
         string FixedInfoPattern { get; set; }
+        /// <summary>
+        /// The encoding type of the fixedInput
+        /// </summary>
+        FixedInfoEncoding FixedInputEncoding { get; set; }
         /// <summary>
         /// Accepts a <see cref="IKdfVisitor"/> this will in turn dispatch a call to a supported KDF.
         /// </summary>

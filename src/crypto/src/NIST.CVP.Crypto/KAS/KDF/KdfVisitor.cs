@@ -16,7 +16,7 @@ namespace NIST.CVP.Crypto.KAS.KDF
 
         public KdfResult Kdf(KdfParameterOneStep param, BitString fixedInfo)
         {
-            var kdf = _kdfOneStepFactory.GetInstance(param.AuxFunction.AuxFunctionName);
+            var kdf = _kdfOneStepFactory.GetInstance(param.AuxFunction);
 
             return kdf.DeriveKey(param.Z, param.L, fixedInfo, param.Salt);
         }

@@ -94,10 +94,13 @@ namespace NIST.CVP.Crypto.Oracle
             return await observableGrain.ObserveUntilResult();
         }
 
-        public Task<KasAftDeferredResult> CompleteDeferredKasTestAsync(KasAftDeferredParametersIfc param)
+        public async Task<KasAftDeferredResult> CompleteDeferredKasTestAsync(KasAftDeferredParametersIfc param)
         {
-            
-            throw new System.NotImplementedException();
+            var observableGrain = 
+                await GetObserverGrain<IOracleObserverKasCompleteDeferredAftIfcCaseGrain, KasAftDeferredResult>();
+            await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, LoadSheddingRetries);
+
+            return await observableGrain.ObserveUntilResult();
         }
 
         public async Task<KasEccComponentResult> GetKasEccComponentTestAsync(KasEccComponentParameters param)

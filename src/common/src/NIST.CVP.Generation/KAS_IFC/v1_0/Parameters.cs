@@ -38,11 +38,11 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
         public Kas1_partyV_confirmation Kas1_partyV_confirmation { get; set; }
         [JsonProperty(PropertyName = "KAS2-basic")]
         public Kas2_basic Kas2_basic { get; set; }
-        [JsonProperty(PropertyName = "KAS1-bilateral-confirmation")]
+        [JsonProperty(PropertyName = "KAS2-bilateral-confirmation")]
         public Kas2_bilateral_confirmation Kas2_bilateral_confirmation { get; set; }
-        [JsonProperty(PropertyName = "KAS1-Party_U-confirmation")]
+        [JsonProperty(PropertyName = "KAS2-Party_U-confirmation")]
         public Kas2_partyU_confirmation Kas2_partyU_confirmation { get; set; }
-        [JsonProperty(PropertyName = "KAS1-Party_V-confirmation")]
+        [JsonProperty(PropertyName = "KAS2-Party_V-confirmation")]
         public Kas2_partyV_confirmation Kas2_partyV_confirmation { get; set; }
         [JsonProperty(PropertyName = "KTS-OAEP-basic")]
         public Kts_oaep_basic Kts_oaep_basic { get; set; }

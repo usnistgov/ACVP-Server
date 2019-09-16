@@ -55,7 +55,7 @@ namespace NIST.CVP.Common.Oracle.ParameterTypes
         
         public KeyPair IutKey { get; set; }
         
-        public IKasKdfConfiguration KdfConfiguration { get; set; }
+        public IKdfConfiguration KdfConfiguration { get; set; }
         public KtsConfiguration KtsConfiguration { get; set; }
         public MacConfiguration MacConfiguration { get; set; }
     }

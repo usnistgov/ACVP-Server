@@ -14,8 +14,8 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
     {
         public int TestCaseId { get; set; }
         public TestGroup ParentGroup { get; set; }
-        public bool? TestPassed { get; }
-        public bool Deferred { get; }
+        public bool? TestPassed { get; set; }
+        public bool Deferred { get; set; }
         
         /// <summary>
         /// Key pair used by the server in the KAS/KTS scheme
@@ -24,30 +24,35 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
         public KeyPair ServerKey { get; set; } = new KeyPair { PubKey = new PublicKey() };
 
         #region Server Key Value Getters and Setters
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public BitString ServerN
         {
-            get => ServerKey.PubKey.N != 0 ? new BitString(ServerKey.PubKey.N, ParentGroup?.Modulo ?? 0) : null;
+            get => ServerKey?.PubKey?.N != 0 ? new BitString(ServerKey.PubKey.N, ParentGroup?.Modulo ?? 0) : null;
             set => ServerKey.PubKey.N = value.ToPositiveBigInteger();
         }
 
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public BigInteger ServerE
         {
             get => ServerKey.PubKey.E;
             set => ServerKey.PubKey.E = value;
         }
 
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public BigInteger ServerP
         {
             get => ServerKey.PrivKey.P;
             set => ServerKey.PrivKey.P = value;
         }
 
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public BigInteger ServerQ
         {
             get => ServerKey.PrivKey.Q;
             set => ServerKey.PrivKey.Q = value;
         }
 
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         private BigInteger _serverD;
         public BigInteger ServerD
         {
@@ -77,6 +82,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
         }
 
         private BigInteger _serverDmp1;
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public BigInteger ServerDmp1
         {
             get
@@ -107,6 +113,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
         }
 
         private BigInteger _serverDmq1;
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public BigInteger ServerDmq1
         {
             get
@@ -137,6 +144,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
         }
 
         private BigInteger _serverIqmp;
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public BigInteger ServerIqmp
         {
             get
@@ -174,24 +182,28 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
         public KeyPair IutKey { get; set; } = new KeyPair { PubKey = new PublicKey() };
 
         #region Iut Key Value Getters and Setters
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public BitString IutN
         {
-            get => IutKey.PubKey.N != 0 ? new BitString(IutKey.PubKey.N, ParentGroup?.Modulo ?? 0) : null;
+            get => IutKey?.PubKey?.N != 0 ? new BitString(IutKey.PubKey.N, ParentGroup?.Modulo ?? 0) : null;
             set => IutKey.PubKey.N = value.ToPositiveBigInteger();
         }
 
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public BigInteger IutE
         {
             get => IutKey.PubKey.E;
             set => IutKey.PubKey.E = value;
         }
 
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public BigInteger IutP
         {
             get => IutKey.PrivKey.P;
             set => IutKey.PrivKey.P = value;
         }
 
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public BigInteger IutQ
         {
             get => IutKey.PrivKey.Q;
@@ -199,6 +211,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
         }
 
         private BigInteger _iutD;
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public BigInteger IutD
         {
             get
@@ -227,6 +240,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
         }
 
         private BigInteger _iutDmp1;
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public BigInteger IutDmp1
         {
             get
@@ -257,6 +271,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
         }
 
         private BigInteger _iutDmq1;
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public BigInteger IutDmq1
         {
             get
@@ -287,6 +302,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
         }
 
         private BigInteger _iutIqmp;
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public BigInteger IutIqmp
         {
             get
@@ -351,10 +367,14 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
         /// <remarks>Should *not* be transmitted in prompt file.</remarks>
         public BitString Z { get; set; }
         /// <summary>
-        /// The key chosen for wrapping in a KTS scheme
+        /// The key chosen for wrapping in a KTS scheme 
         /// </summary>
         /// <remarks>Should *not* be transmitted in prompt file.</remarks>
-        public BitString Key { get; set; }
+        public BitString K { get; set; }
+        /// <summary>
+        /// The derived keying material - minus any bits that were used for key confirmation.
+        /// </summary>
+        public BitString Dkm { get; set; }
         /// <summary>
         /// The tag as a result of key confirmation.
         /// </summary>

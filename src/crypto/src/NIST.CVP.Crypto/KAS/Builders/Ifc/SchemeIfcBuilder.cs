@@ -33,15 +33,11 @@ namespace NIST.CVP.Crypto.KAS.Builders.Ifc
         
         private readonly IEntropyProvider _entropyProvider;
 
-        public SchemeIfcBuilder(IEntropyProvider entropyProvider)
-        {
-            _entropyProvider = entropyProvider;
-        }
-
-        public SchemeIfcBuilder(IKdfVisitor kdfVisitor, IRsaSve rsaSve)
+        public SchemeIfcBuilder(IKdfVisitor kdfVisitor, IRsaSve rsaSve, IEntropyProvider entropyProvider)
         {
             _kdfVisitor = kdfVisitor;
             _rsaSve = rsaSve;
+            _entropyProvider = entropyProvider;
         }
         
         public ISchemeIfcBuilder WithSchemeParameters(SchemeParametersIfc value)
@@ -88,10 +84,13 @@ namespace NIST.CVP.Crypto.KAS.Builders.Ifc
         {
             ValidateSchemeParameters();
             ValidateSecretKeyingContribution();
-            ValidateFixedInfo();
-            ValidateKdfFactory();
-            ValidateKtsFactory();
-            ValidateKcFactory();
+            // TODO This is being used in a slightly different manner than I initially considered.
+            // Not using the below validators for the moment due to kas having two public methods now.
+            // One of which does not yet have enough information in the negotiation to provide the required parameters.
+//            ValidateFixedInfo();
+//            ValidateKdfFactory();
+//            ValidateKtsFactory();
+//            ValidateKcFactory();
             
             switch (_schemeParameters.KasAlgoAttributes.Scheme)
             {

@@ -19,13 +19,14 @@ namespace NIST.CVP.Common.Oracle.ResultTypes
         
         
         public KeyPair IutKeyPair { get; set; }
+
+        public IKdfParameter KdfParameter { get; set; }
         
 //        #region Sample only properties
 //        public BitString IutNonce { get; set; }
 //        public BitString IutC { get; set; }
 //        public BitString IutZ { get; set; }
 //        
-//        public IKdfParameter KdfParameter { get; set; }
 //        public Crypto.Common.KAS.KDF.KdfResult KdfResult { get; set; }
 //        
 //        public KtsParameter KtsParameter { get; set; }

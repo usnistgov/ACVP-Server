@@ -2,20 +2,23 @@ using NIST.CVP.Crypto.Common.KAS.Enums;
 
 namespace NIST.CVP.Crypto.Common.KAS.KDF.KdfOneStep
 {
-    public class OneStepConfiguration : IKasKdfConfiguration
+    public class OneStepConfiguration : IKdfConfiguration
     {
         public KasKdf KdfType => KasKdf.OneStep;
+        public int L { get; set; }
+        public int SaltLen { get; set; }
+        public MacSaltMethod SaltMethod { get; set; }
+        public string FixedInputPattern { get; set; }
+        public FixedInfoEncoding FixedInputEncoding { get; set; }
+        public IKdfParameter GetKdfParameter(IKdfParameterVisitor visitor)
+        {
+            return visitor.CreateParameter(this);
+        }
+
         /// <summary>
         /// The Hash or MAC functions utilized for the KDF
         /// </summary>
-        public AuxFunction AuxFunction { get; set; }
-        /// <summary>
-        /// The pattern used for FixedInputConstruction.
-        /// </summary>
-        public string FixedInputPattern { get; set; }
-        /// <summary>
-        /// The encoding type of the fixedInput (used in One step KDF)
-        /// </summary>
-        public FixedInfoEncoding Encoding { get; set; }
+        public KasKdfOneStepAuxFunction AuxFunction { get; set; }
+
     }
 }

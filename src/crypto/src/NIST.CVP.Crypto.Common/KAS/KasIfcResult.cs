@@ -56,7 +56,7 @@ namespace NIST.CVP.Crypto.Common.KAS
         /// </summary>
         public BitString Tag { get; }
         /// <summary>
-        /// The negotiated key H(dkm, macData)
+        /// The negotiated key minus any bits that were used for a macKey in keyConfirmation
         /// </summary>
         public BitString Dkm { get; }
         /// <summary>

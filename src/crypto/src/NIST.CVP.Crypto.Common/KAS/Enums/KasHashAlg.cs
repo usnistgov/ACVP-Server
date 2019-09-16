@@ -1,3 +1,4 @@
+using System;
 using System.Runtime.Serialization;
 
 namespace NIST.CVP.Crypto.Common.KAS.Enums

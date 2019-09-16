@@ -21,6 +21,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
         {
             // TODO should a SAMPLE aft test just use the val generator? they seemingly need the same properties.
             // The val generator when running in such a mode would need to omit failure tests however.
+            // val generator can take in a bool flag for "shouldGenerateFailureCases"
             
             if (testGroup.TestType.Equals(aftTest, StringComparison.OrdinalIgnoreCase))
             {

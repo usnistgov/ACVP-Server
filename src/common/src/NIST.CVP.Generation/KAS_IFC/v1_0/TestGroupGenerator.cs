@@ -20,7 +20,11 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
 {
     public class TestGroupGenerator : ITestGroupGenerator<Parameters, TestGroup, TestCase>
     {
-        private static readonly string[] TestTypes = {"AFT", "VAL"};
+        private static readonly string[] TestTypes =
+        {
+            "AFT", 
+            //TODO "VAL"
+        };
         private static readonly BigInteger DefaultExponent = new BigInteger(65537);
         private readonly IOracle _oracle;
 
@@ -57,7 +61,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
             var macMethods = GetMacConfigurations(schemeBase.MacMethods);
             var isMacScheme = macMethods.Count() != 0;
             var ktsMethod = GetKtsConfigurations(schemeBase.KtsMethod);
-            var kdfMethods = GetKdfConfigurations(schemeBase.KdfMethods);
+            var kdfMethods = GetKdfConfigurations(schemeBase.KdfMethods, schemeBase.L);
 
             foreach (var testType in TestTypes)
             {
@@ -284,16 +288,16 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
             return list;
         }
 
-        private List<IKasKdfConfiguration> GetKdfConfigurations(KdfMethods kdfMethods)
+        private List<IKdfConfiguration> GetKdfConfigurations(KdfMethods kdfMethods, int l)
         {
-            var list = new List<IKasKdfConfiguration>();
+            var list = new List<IKdfConfiguration>();
 
-            GetKdfConfiguration(kdfMethods.OneStepKdf, list);
+            GetKdfConfiguration(kdfMethods.OneStepKdf, l, list);
             
             return list;
         }
 
-        private void GetKdfConfiguration(OneStepKdf kdfMethodsOneStepKdf, List<IKasKdfConfiguration> list)
+        private void GetKdfConfiguration(OneStepKdf kdfMethodsOneStepKdf, int l, List<IKdfConfiguration> list)
         {
             if (kdfMethodsOneStepKdf == null)
             {
@@ -308,14 +312,12 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
                     {
                         list.Add(new OneStepConfiguration()
                         {
-                            Encoding = encoding,
+                            L = l,
+                            FixedInputEncoding = encoding,
                             FixedInputPattern = kdfMethodsOneStepKdf.FixedInputPattern,
-                            AuxFunction = new Crypto.Common.KAS.KDF.KdfOneStep.AuxFunction()
-                            {
-                                SaltLen = auxFunction.SaltLen,
-                                AuxFunctionName = auxFunction.AuxFunctionName,
-                                MacSaltMethod = saltMethod
-                            }
+                            AuxFunction = auxFunction.AuxFunctionName,
+                            SaltMethod = saltMethod,
+                            SaltLen = auxFunction.SaltLen
                         });
                     }
                 }
@@ -335,11 +337,15 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
             {
                 if (!string.IsNullOrEmpty(schemeBaseKtsMethod.AssociatedDataPattern))
                 {
-                    list.Add(new KtsConfiguration()
+                    foreach (var encoding in schemeBaseKtsMethod.Encoding)
                     {
-                        AssociatedDataPattern = schemeBaseKtsMethod.AssociatedDataPattern,
-                        KtsHashAlg = hashAlg
-                    });                    
+                        list.Add(new KtsConfiguration()
+                        {
+                            AssociatedDataPattern = schemeBaseKtsMethod.AssociatedDataPattern,
+                            KtsHashAlg = hashAlg,
+                            Encoding = encoding
+                        });                    
+                    }
                 }
 
                 if (schemeBaseKtsMethod.SupportsNullAssociatedData)

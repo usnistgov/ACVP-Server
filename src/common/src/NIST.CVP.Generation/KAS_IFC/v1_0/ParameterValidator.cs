@@ -222,9 +222,14 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
 
         private void ValidateKeyGenerationMethod(KeyGenerationMethodBase keyGenBase, List<string> errorResults, bool requiresFixedPublicKey)
         {
+            if (keyGenBase == null)
+            {
+                return;
+            }
+            
             errorResults.AddIfNotNullOrEmpty(ValidateArray(keyGenBase.Modulo, ValidModulo, "Modulus"));
 
-            if (requiresFixedPublicKey && RsaKeyHelper.IsValidExponent(keyGenBase.FixedPublicExponent))
+            if (requiresFixedPublicKey && !RsaKeyHelper.IsValidExponent(keyGenBase.FixedPublicExponent))
             {
                 errorResults.Add("Valid fixed public exponent required for this method of key generation");
             }

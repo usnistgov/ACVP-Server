@@ -19,7 +19,7 @@ namespace NIST.CVP.Crypto.Common.KAS.FixedInfo
         public int L { get; set; }
         
         /// <summary>
-        /// The Salt value used for a MAC operation.
+        /// The Salt value used for a MAC operation for KDF.
         /// </summary>
         public BitString Salt { get; set; }
         

@@ -106,10 +106,13 @@ using NIST.CVP.Crypto.AES_FF;
 using NIST.CVP.Crypto.Common.KAS.FixedInfo;
 using NIST.CVP.Crypto.Common.KAS.KDF.KdfOneStep;
 using NIST.CVP.Crypto.Common.KAS.Scheme;
+using NIST.CVP.Crypto.Common.KTS;
 using NIST.CVP.Crypto.Common.Symmetric.AES;
 using NIST.CVP.Crypto.Common.Symmetric.BlockModes.Ffx;
+using NIST.CVP.Crypto.KAS.Builders.Ifc;
 using NIST.CVP.Crypto.KAS.FixedInfo;
 using NIST.CVP.Crypto.KAS.KDF.OneStep;
+using NIST.CVP.Crypto.KTS;
 using NIST.CVP.Crypto.Symmetric.BlockModes.Ffx;
 
 namespace NIST.CVP.Orleans.Grains
@@ -199,6 +202,18 @@ namespace NIST.CVP.Orleans.Grains
 
             svc.AddSingleton<IEccDhComponent, EccDhComponent>();
 
+            svc.AddSingleton<IKdfFactory, KdfFactory>();
+            svc.AddSingleton<IKdfParameterVisitor, KdfParameterVisitor>();
+            svc.AddSingleton<IKdfVisitor, KdfVisitor>();
+            svc.AddSingleton<IFixedInfoStrategyFactory, FixedInfoStrategyFactory>();
+            svc.AddSingleton<IFixedInfoFactory, FixedInfoFactory>();
+            svc.AddTransient<IRsaSve, RsaSve>();
+            svc.AddSingleton<IKtsFactory, KtsFactory>();
+            
+            svc.AddTransient<IIfcSecretKeyingMaterialBuilder, IfcSecretKeyingMaterialBuilder>();
+            svc.AddTransient<IKasIfcBuilder, KasIfcBuilder>();
+            svc.AddTransient<ISchemeIfcBuilder, SchemeIfcBuilder>();
+            
             svc.AddSingleton<IEdwardsCurveFactory, EdwardsCurveFactory>();
             svc.AddSingleton<IDsaEdFactory, DsaEdFactory>();
 
