@@ -19,7 +19,8 @@ namespace NIST.CVP.Generation.TDES_CTR.v1_0
                 {"permutation", KatData.GetPermutationData()},
                 {"inversepermutation", KatData.GetInversePermutationData()},
                 {"substitutiontable", KatData.GetSubstitutionTableData()},
-                {"variablekey", KatData.GetVariableKeyDataOFB()},
+                //{"variablekey", KatData.GetVariableKeyDataOFB()},        // See comment in OFB
+                {"variablekey", KatData.GetVariableKeyData()},
                 {"variabletext", KatData.GetVariableTextData()}
             };
 
