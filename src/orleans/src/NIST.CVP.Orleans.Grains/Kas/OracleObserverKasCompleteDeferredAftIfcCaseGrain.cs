@@ -64,73 +64,88 @@ namespace NIST.CVP.Orleans.Grains.Kas
         
         protected override async Task DoWorkAsync()
         {
-            _serverSecretKeyingMaterialBuilder
-                .WithPartyId(_param.ServerPartyId)
-                .WithKey(_param.ServerKey)
-                .WithC(_param.ServerC)
-                .WithDkmNonce(_param.ServerNonce);
+            try
+            {
+                _serverSecretKeyingMaterialBuilder
+                    .WithPartyId(_param.ServerPartyId)
+                    .WithKey(_param.ServerKey)
+                    .WithC(_param.ServerC)
+                    .WithDkmNonce(_param.ServerNonce);
 
-            var iutSecretKeyingMaterial = _iutSecretKeyingMaterialBuilder
-                .WithPartyId(_param.IutPartyId)
-                .WithKey(_param.IutKey)
-                .WithC(_param.IutC)
-                .WithDkmNonce(_param.IutNonce)
-                .Build(
-                    _param.Scheme, 
-                    _param.KasMode, 
-                    _param.IutKeyAgreementRole, 
-                    _param.IutKeyConfirmationRole,
-                    _param.KeyConfirmationDirection);
-            
-            
-            var fixedInfoParameter = new FixedInfoParameter()
-            {
-                L = _param.L,
-                // vvv These are set internally to the kas instance vvv
-                FixedInfoPartyU = null,
-                FixedInfoPartyV = null
-                // ^^^ These are set internally to the kas instance ^^^
-            };
-            
-            // KDF fixed info construction
-            if (KeyGenerationRequirementsHelper.IfcKdfSchemes.Contains(_param.Scheme))
-            {
-                fixedInfoParameter.Encoding = _param.KdfParameter.FixedInputEncoding;
-                fixedInfoParameter.FixedInfoPattern = _param.KdfParameter.FixedInfoPattern;
-            }
-            
-            // KTS fixed info construction
-            if (KeyGenerationRequirementsHelper.IfcKtsSchemes.Contains(_param.Scheme))
-            {
-                fixedInfoParameter.Encoding = _param.KtsParameter.Encoding;
-                fixedInfoParameter.FixedInfoPattern = _param.KtsParameter.AssociatedDataPattern;
-            }
-
-            _schemeBuilder
-                .WithSchemeParameters(
-                    new SchemeParametersIfc(
-                        new KasAlgoAttributesIfc(_param.Scheme, _param.Modulo, _param.L), 
-                        _param.ServerKeyAgreementRole, 
+                var iutSecretKeyingMaterial = _iutSecretKeyingMaterialBuilder
+                    .WithPartyId(_param.IutPartyId)
+                    .WithKey(_param.IutKey)
+                    .WithC(_param.IutC)
+                    .WithDkmNonce(_param.IutNonce)
+                    .Build(
+                        _param.Scheme, 
                         _param.KasMode, 
-                        _param.ServerKeyConfirmationRole, 
-                        _param.KeyConfirmationDirection, 
-                        KasAssurance.None, 
-                        _param.ServerPartyId))
-                .WithThisPartyKeyingMaterialBuilder(_serverSecretKeyingMaterialBuilder)
-                .WithFixedInfo(_fixedInfoFactory, fixedInfoParameter)
-                .WithKdf(_kdfFactory, _param.KdfParameter)
-                .WithKts(_ktsFactory, _param.KtsParameter)
-                .WithKeyConfirmation(_keyConfirmationFactory, _param.MacParameter);
+                        _param.IutKeyAgreementRole, 
+                        _param.IutKeyConfirmationRole,
+                        _param.KeyConfirmationDirection);
                 
-            var serverKas = _kasBuilder.WithSchemeBuilder(_schemeBuilder).Build();
-            serverKas.InitializeThisPartyKeyingMaterial(iutSecretKeyingMaterial);
+                var fixedInfoParameter = new FixedInfoParameter()
+                {
+                    L = _param.L,
+                    // vvv These are set internally to the kas instance vvv
+                    FixedInfoPartyU = null,
+                    FixedInfoPartyV = null
+                    // ^^^ These are set internally to the kas instance ^^^
+                };
+                
+                // KDF fixed info construction
+                if (KeyGenerationRequirementsHelper.IfcKdfSchemes.Contains(_param.Scheme))
+                {
+                    fixedInfoParameter.Encoding = _param.KdfParameter.FixedInputEncoding;
+                    fixedInfoParameter.FixedInfoPattern = _param.KdfParameter.FixedInfoPattern;
+                }
+                
+                // KTS fixed info construction
+                if (KeyGenerationRequirementsHelper.IfcKtsSchemes.Contains(_param.Scheme))
+                {
+                    fixedInfoParameter.Encoding = _param.KtsParameter.Encoding;
+                    fixedInfoParameter.FixedInfoPattern = _param.KtsParameter.AssociatedDataPattern;
+                }
 
-            var result = serverKas.ComputeResult(iutSecretKeyingMaterial);
-            
-            await Notify(new KasAftDeferredResult()
+                MacParameters macParam = null;
+                IKeyConfirmationFactory kcFactory = null;
+                if (KeyGenerationRequirementsHelper.IfcKcSchemes.Contains(_param.Scheme))
+                {
+                    macParam = _param.MacParameter;
+                    kcFactory = _keyConfirmationFactory;
+                }
+                
+                _schemeBuilder
+                    .WithSchemeParameters(
+                        new SchemeParametersIfc(
+                            new KasAlgoAttributesIfc(_param.Scheme, _param.Modulo, _param.L), 
+                            _param.ServerKeyAgreementRole, 
+                            _param.KasMode, 
+                            _param.ServerKeyConfirmationRole, 
+                            _param.KeyConfirmationDirection, 
+                            KasAssurance.None, 
+                            _param.ServerPartyId))
+                    .WithThisPartyKeyingMaterialBuilder(_serverSecretKeyingMaterialBuilder)
+                    .WithFixedInfo(_fixedInfoFactory, fixedInfoParameter)
+                    .WithKdf(_kdfFactory, _param.KdfParameter)
+                    .WithKts(_ktsFactory, _param.KtsParameter)
+                    .WithKeyConfirmation(kcFactory, macParam);
+                    
+                var serverKas = _kasBuilder.WithSchemeBuilder(_schemeBuilder).Build();
+                serverKas.InitializeThisPartyKeyingMaterial(iutSecretKeyingMaterial);
+
+                var result = serverKas.ComputeResult(iutSecretKeyingMaterial);
+                
+                await Notify(new KasAftDeferredResult()
+                {
+                    Result = new KasResult(result.Dkm, null, null, result.Tag)
+                });
+            }
+            catch (Exception e)
             {
-                Result = new KasResult(result.Dkm, null, null, result.Tag)
-            });
+                await Throw(e);
+            }
+            
         }
     }
 }

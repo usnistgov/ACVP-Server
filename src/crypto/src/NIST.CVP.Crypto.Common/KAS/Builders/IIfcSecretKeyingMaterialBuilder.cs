@@ -17,6 +17,7 @@ namespace NIST.CVP.Crypto.Common.KAS.Builders
             KasMode kasMode, 
             KeyAgreementRole thisPartyKeyAgreementRole, 
             KeyConfirmationRole keyConfirmationRole, 
-            KeyConfirmationDirection keyConfirmationDirection);
+            KeyConfirmationDirection keyConfirmationDirection,
+            bool shouldValidateContributions = true);
     }
 }

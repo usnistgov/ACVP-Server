@@ -1,5 +1,6 @@
 using System.Numerics;
 using Newtonsoft.Json;
+using NIST.CVP.Common.Oracle.DispositionTypes;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Crypto.Common.KAS.KDF;
@@ -16,6 +17,8 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
         public TestGroup ParentGroup { get; set; }
         public bool? TestPassed { get; set; }
         public bool Deferred { get; set; }
+        
+        public KasIfcValTestDisposition TestCaseDisposition { get; set; }
         
         /// <summary>
         /// Key pair used by the server in the KAS/KTS scheme

@@ -11,7 +11,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
     public class GenValTestsKasIfc : GenValTestsSingleRunnerBase
     {
         public override AlgoMode AlgoMode => AlgoMode.KAS_IFC_v1_0;
-        public override string Algorithm => "Kas-Ifc";
+        public override string Algorithm => "KAS-IFC";
         public override string Mode => string.Empty;
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
         public override IJsonConverterProvider JsonConverterProvider => new KasJsonConverterProvider();
@@ -69,6 +69,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                 Algorithm = Algorithm,
                 Mode = Mode,
                 Revision = Revision,
+                IsSample = true,
                 IutId = new BitString("BEEFFACE"),
                 PublicKeys = new []
                 {
@@ -84,7 +85,11 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                     Kas1_basic = new Kas1_basic()
                     {
                         L = 512,
-                        KasRole = new []{ KeyAgreementRole.InitiatorPartyU, KeyAgreementRole.ResponderPartyV },
+                        KasRole = new []
+                        {
+                            KeyAgreementRole.InitiatorPartyU, 
+                            //KeyAgreementRole.ResponderPartyV
+                        },
                         KdfMethods = new KdfMethods()
                         {
                             OneStepKdf = new OneStepKdf()

@@ -66,6 +66,56 @@ namespace NIST.CVP.Crypto.Oracle
             return await observableGrain.ObserveUntilResult();
         }
 
+        public async Task<KasValResultIfc> GetKasValTestIfcAsync(KasValParametersIfc param)
+        {
+            // Get RSA keys on behalf of the server and IUT.
+            var serverRequirements = KeyGenerationRequirementsHelper.GetKeyGenerationOptionsForSchemeAndRole(
+                param.Scheme, param.KasMode, param.ServerKeyAgreementRole, param.ServerKeyConfirmationRole,
+                param.KeyConfirmationDirection);
+
+            KeyPair serverKey = null;
+            if (serverRequirements.GeneratesEphemeralKeyPair)
+            {
+                var task = await GetRsaKeyAsync(new RsaKeyParameters()
+                {
+                    Modulus = param.Modulo,
+                    KeyFormat = param.PrivateKeyMode, 
+                    KeyMode = PrimeGenModes.B33,
+                    PrimeTest = PrimeTestModes.C2,
+                    PublicExponentMode = param.PublicExponentMode,
+                    PublicExponent = param.PublicExponent == 0 ? null : new BitString(param.PublicExponent)
+                });
+                serverKey = task.Key;
+            }
+            
+            var iutRequirements = KeyGenerationRequirementsHelper.GetKeyGenerationOptionsForSchemeAndRole(
+                param.Scheme, param.KasMode, param.IutKeyAgreementRole, param.IutKeyConfirmationRole,
+                param.KeyConfirmationDirection);
+
+            KeyPair iutKey = null;
+            if (iutRequirements.GeneratesEphemeralKeyPair)
+            {
+                var task = await GetRsaKeyAsync(new RsaKeyParameters()
+                {
+                    Modulus = param.Modulo,
+                    KeyFormat = param.PrivateKeyMode, 
+                    KeyMode = PrimeGenModes.B33,
+                    PrimeTest = PrimeTestModes.C2,
+                    PublicExponentMode = param.PublicExponentMode,
+                    PublicExponent = param.PublicExponent == 0 ? null : new BitString(param.PublicExponent)
+                });
+                serverKey = task.Key;
+            }
+            
+            var observableGrain = 
+                await GetObserverGrain<IOracleObserverKasValIfcCaseGrain, KasValResultIfc>();
+            await GrainInvokeRetryWrapper.WrapGrainCall(
+                observableGrain.Grain.BeginWorkAsync, 
+                param, serverKey, iutKey, LoadSheddingRetries);
+
+            return await observableGrain.ObserveUntilResult();
+        }
+
         public async Task<KasAftResultIfc> GetKasAftTestIfcAsync(KasAftParametersIfc param)
         {
             // Get an RSA key on behalf of the server party when needed
@@ -79,7 +129,8 @@ namespace NIST.CVP.Crypto.Oracle
                 var task = await GetRsaKeyAsync(new RsaKeyParameters()
                 {
                     Modulus = param.Modulo,
-                    KeyFormat = PrivateKeyModes.Standard,
+                    // it doesn't matter what format the key is in from the server perspective.
+                    KeyFormat = PrivateKeyModes.Crt, 
                     KeyMode = PrimeGenModes.B33,
                     PrimeTest = PrimeTestModes.C2,
                     PublicExponentMode = PublicExponentModes.Random,

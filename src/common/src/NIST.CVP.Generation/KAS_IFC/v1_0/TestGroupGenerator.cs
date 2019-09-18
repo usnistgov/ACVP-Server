@@ -23,7 +23,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
         private static readonly string[] TestTypes =
         {
             "AFT", 
-            //TODO "VAL"
+            // todo "VAL"
         };
         private static readonly BigInteger DefaultExponent = new BigInteger(65537);
         private readonly IOracle _oracle;
@@ -87,6 +87,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
                                     {
                                         groups.Add(new TestGroup()
                                         {
+                                            IsSample = param.IsSample,
                                             L = schemeBase.L,
                                             Modulo = modulo,
                                             PublicExponent = exponent,
@@ -109,6 +110,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
                                 {
                                     groups.Add(new TestGroup()
                                     {
+                                        IsSample = param.IsSample,
                                         L = schemeBase.L,
                                         Modulo = modulo,
                                         PublicExponent = exponent,
@@ -136,6 +138,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
                                     {
                                         groups.Add(new TestGroup()
                                         {
+                                            IsSample = param.IsSample,
                                             L = schemeBase.L,
                                             Modulo = modulo,
                                             PublicExponent = exponent,
@@ -158,6 +161,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
                                 {
                                     groups.Add(new TestGroup()
                                     {
+                                        IsSample = param.IsSample,
                                         L = schemeBase.L,
                                         Modulo = modulo,
                                         PublicExponent = exponent,

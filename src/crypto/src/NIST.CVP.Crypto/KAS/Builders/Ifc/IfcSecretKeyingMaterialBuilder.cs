@@ -55,15 +55,19 @@ namespace NIST.CVP.Crypto.KAS.Builders.Ifc
         }
 
         public IIfcSecretKeyingMaterial Build(IfcScheme scheme, KasMode kasMode, KeyAgreementRole thisPartyKeyAgreementRole,
-            KeyConfirmationRole keyConfirmationRole, KeyConfirmationDirection keyConfirmationDirection)
+            KeyConfirmationRole keyConfirmationRole, KeyConfirmationDirection keyConfirmationDirection, 
+            bool shouldValidateContributions = true)
         {
-            var generationRequirements = KeyGenerationRequirementsHelper.GetKeyGenerationOptionsForSchemeAndRole(
-                scheme, kasMode, thisPartyKeyAgreementRole, keyConfirmationRole, keyConfirmationDirection);
-
-            ValidateNonce(generationRequirements);
-            ValidateKey(generationRequirements);
-            ValidatePartyId(generationRequirements);
-            ValidateK(generationRequirements, scheme);
+            if (shouldValidateContributions)
+            {
+                var generationRequirements = KeyGenerationRequirementsHelper.GetKeyGenerationOptionsForSchemeAndRole(
+                    scheme, kasMode, thisPartyKeyAgreementRole, keyConfirmationRole, keyConfirmationDirection);
+                
+                ValidateNonce(generationRequirements);
+                ValidateKey(generationRequirements);
+                ValidatePartyId(generationRequirements);
+                ValidateK(generationRequirements, scheme);                
+            }
             
             return new IfcSecretKeyingMaterial()
             {

@@ -19,9 +19,14 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
         
         public ITestCaseGeneratorAsync<TestGroup, TestCase> GetCaseGenerator(TestGroup testGroup)
         {
-            // TODO should a SAMPLE aft test just use the val generator? they seemingly need the same properties.
-            // The val generator when running in such a mode would need to omit failure tests however.
-            // val generator can take in a bool flag for "shouldGenerateFailureCases"
+            if (testGroup.TestType.Equals(aftTest, StringComparison.OrdinalIgnoreCase) 
+                && testGroup.IsSample)
+            {
+                // When running in sample mode, the ACVP server needs produce vectors as if it were both parties.
+                // Since VAL tests do this anyway, we can fall back on its test case generator for producing sample AFT tests.
+                var validityTestCaseOptions = TestCaseDispositionHelper.PopulateValidityTestCaseOptions(testGroup, false);
+                return new TestCaseGeneratorVal(_oracle, validityTestCaseOptions);
+            }
             
             if (testGroup.TestType.Equals(aftTest, StringComparison.OrdinalIgnoreCase))
             {
@@ -30,7 +35,8 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
 
             if (testGroup.TestType.Equals(valTest, StringComparison.OrdinalIgnoreCase))
             {
-                throw new NotImplementedException();
+                var validityTestCaseOptions = TestCaseDispositionHelper.PopulateValidityTestCaseOptions(testGroup, true);
+                return new TestCaseGeneratorVal(_oracle, validityTestCaseOptions);
             }
 
             return new TestCaseGeneratorNull();

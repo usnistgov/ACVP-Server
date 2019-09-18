@@ -1,6 +1,7 @@
 using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Common.Helpers;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Crypto.Common.KAS.KDF;
@@ -13,6 +14,7 @@ namespace NIST.CVP.Generation.Core.JsonConverters
         public override bool CanConvert(Type objectType)
         {
             return objectType == typeof(IKdfConfiguration);
+            return objectType.ImplementsInterface(typeof(IKdfConfiguration));
         }
         
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
@@ -23,10 +25,12 @@ namespace NIST.CVP.Generation.Core.JsonConverters
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
             var jo = JObject.Load(reader);
-            var typeString = (string) jo[nameof(IKdfConfiguration.KdfType)];
-            var kdfType = EnumHelpers.GetEnumFromEnumDescription<KasKdf>(typeString);
+            var typeString = (string) jo["kdfType"];
+            var kdfType = EnumHelpers.GetEnumFromEnumDescription<KasKdf>(typeString, false);
+
+            var obj = GetKdfConfiguration(kdfType, jo, serializer); 
             
-            return GetKdfConfiguration(kdfType, jo, serializer);
+            return obj;
         }
 
         private object GetKdfConfiguration(KasKdf kdfType, JObject jo, JsonSerializer serializer)

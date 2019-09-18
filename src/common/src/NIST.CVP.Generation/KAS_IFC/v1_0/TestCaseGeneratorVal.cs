@@ -1,77 +1,71 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using NIST.CVP.Common.Oracle;
+using NIST.CVP.Common.Oracle.DispositionTypes;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Async;
-using NIST.CVP.Math.Helpers;
 using NLog;
 
 namespace NIST.CVP.Generation.KAS_IFC.v1_0
 {
-    public class TestCaseGeneratorAft : ITestCaseGeneratorWithPrep<TestGroup, TestCase>
+    public class TestCaseGeneratorVal : ITestCaseGeneratorAsync<TestGroup, TestCase>
     {
         private readonly IOracle _oracle;
-        private List<KeyPair> _keys = new List<KeyPair>(); 
+        private readonly List<KasIfcValTestDisposition> _testDispositions;
 
-        public TestCaseGeneratorAft(IOracle oracle)
+        public TestCaseGeneratorVal(IOracle oracle, List<KasIfcValTestDisposition> validityTestCaseOptions)
         {
             _oracle = oracle;
+            _testDispositions = validityTestCaseOptions;
+            NumberOfTestCasesToGenerate = _testDispositions.Count;
         }
 
-        public int NumberOfTestCasesToGenerate => 10;
-        
-        public GenerateResponse PrepareGenerator(TestGroup @group, bool isSample)
-        {
-            // Get IUT keys matching the group's public exponent and modulo
-            _keys = group.IutKeys
-                .Where(w => 
-                    w.PubKey.E == group.PublicExponent &&
-                    w.PubKey.N.ExactBitLength().ValueToMod(1024) == group.Modulo)
-                .Select(s => s)
-                .ToList();
-            
-            return new GenerateResponse();
-        }
-        
+        public int NumberOfTestCasesToGenerate { get; }
         public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup @group, bool isSample, int caseNo = -1)
         {
+            var testCaseDisposition = TestCaseDispositionHelper.GetTestCaseIntention(_testDispositions);
+            
             try
             {
-                var iutKey = _keys[caseNo % _keys.Count];
-            
-                var result = await _oracle.GetKasAftTestIfcAsync(new KasAftParametersIfc()
+                var result = await _oracle.GetKasValTestIfcAsync(new KasValParametersIfc()
                 {
-                    IsSample = isSample,
+                    Disposition = testCaseDisposition,
                     L = group.L,
                     Modulo = group.Modulo,
-                    PublicExponent = group.PublicExponent,
                     Scheme = group.Scheme,
                     KasMode = group.KasMode,
                     KdfConfiguration = group.KdfConfiguration,
                     KtsConfiguration = group.KtsConfiguration,
                     MacConfiguration = group.MacConfiguration,
+                    PublicExponent = group.PublicExponent,
+                    IutPartyId = group.IutId,
+                    ServerPartyId = group.ServerId,
+                    KeyConfirmationDirection = group.KeyConfirmationDirection,
                     KeyGenerationMethod = group.KeyGenerationMethod,
                     IutKeyAgreementRole = group.KasRole,
-                    KeyConfirmationDirection = group.KeyConfirmationDirection,
-                    IutKeyConfirmationRole = group.KeyConfirmationRole,
-                    IutKey = iutKey,
-                    IutPartyId = group.IutId,
-                    ServerPartyId = group.ServerId
+                    IutKeyConfirmationRole = group.KeyConfirmationRole
                 });
-            
+
                 return new TestCaseGenerateResponse<TestGroup, TestCase>(new TestCase()
                 {
-                    Deferred = true,
-                    TestPassed = true,
+                    Deferred = false,
+                    TestPassed = result.TestPassed,
                     ServerC = result.ServerC,
-                    K = result.ServerK,
                     ServerNonce = result.ServerNonce,
                     ServerKey = result.ServerKeyPair ?? new KeyPair() { PubKey = new PublicKey() },
+                    
+                    IutC = result.IutC,
+                    IutNonce = result.IutNonce,
                     IutKey = result.IutKeyPair ?? new KeyPair() { PubKey = new PublicKey() },
+                    
+                    KdfParameter = result.KdfParameter,
+                    
+                    K = result.ServerK ?? result.IutK,
+                    Dkm = result.KasResult.Dkm,
+                    Tag = result.KasResult.Tag
                 });
             }
             catch (Exception ex)

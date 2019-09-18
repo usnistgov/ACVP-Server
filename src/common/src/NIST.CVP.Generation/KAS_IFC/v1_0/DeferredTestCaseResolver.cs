@@ -20,6 +20,27 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
 
         public async Task<KasResult> CompleteDeferredCryptoAsync(TestGroup serverTestGroup, TestCase serverTestCase, TestCase iutTestCase)
         {
+            KtsParameter ktsParameter = null;
+            if (serverTestGroup.KtsConfiguration != null)
+            {
+                ktsParameter = new KtsParameter()
+                {
+                    KtsHashAlg = serverTestGroup.KtsConfiguration.KtsHashAlg,
+                    AssociatedDataPattern = serverTestGroup.KtsConfiguration.AssociatedDataPattern,
+                    Encoding = serverTestGroup.KtsConfiguration.Encoding
+                };
+            }
+
+            MacParameters macParameter = null;
+            if (serverTestGroup.MacConfiguration != null)
+            {
+                macParameter = new MacParameters(
+                    serverTestGroup.MacConfiguration.MacType,
+                    serverTestGroup.MacConfiguration.KeyLen,
+                    serverTestGroup.MacConfiguration.MacLen
+                );
+            }
+            
             var result = await _oracle.CompleteDeferredKasTestAsync(new KasAftDeferredParametersIfc()
             {
                 L = serverTestGroup.L,
@@ -30,17 +51,8 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
                 IutKeyAgreementRole = serverTestGroup.KasRole,
                 IutKeyConfirmationRole = serverTestGroup.KeyConfirmationRole,
                 KdfParameter = serverTestCase.KdfParameter,
-                KtsParameter = new KtsParameter()
-                {
-                    KtsHashAlg = serverTestGroup.KtsConfiguration.KtsHashAlg,
-                    AssociatedDataPattern = serverTestGroup.KtsConfiguration.AssociatedDataPattern,
-                    Encoding = serverTestGroup.KtsConfiguration.Encoding
-                },
-                MacParameter = new MacParameters(
-                    serverTestGroup.MacConfiguration.MacType, 
-                    serverTestGroup.MacConfiguration.KeyLen, 
-                    serverTestGroup.MacConfiguration.MacLen
-                ),
+                KtsParameter = ktsParameter,
+                MacParameter = macParameter,
                 ServerKey = serverTestCase.ServerKey,
                 IutKey = serverTestCase.IutKey,
                 ServerPartyId = serverTestGroup.ServerId,

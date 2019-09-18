@@ -51,17 +51,18 @@ namespace NIST.CVP.Generation.Core.Async
             }
             catch (FileNotFoundException ex)
             {
-                ThisLogger.Error($"ERROR in Validator. Unable to find file. {ex.StackTrace}");
+                ThisLogger.Error(ex, $"ERROR in Validator. Unable to find file.");
                 return new ValidateResponse(ex.Message, StatusCode.FileReadError);
             }
             catch (InvalidBitStringLengthException ex)
             {
-                ThisLogger.Error($"ERROR in Validator. Failed parsing");
+                ThisLogger.Error(ex, $"ERROR in Validator. Failed parsing");
                 return new ValidateResponse(ex.Message, StatusCode.BitStringParseError);
             }
             catch (Exception ex)
             {
                 ThisLogger.Error(ex, "ERROR in Validator.");
+                ThisLogger.Error(ex.ToString());
                 return new ValidateResponse(ex.Message, StatusCode.TestCaseValidatorError);
             }
 
@@ -141,6 +142,6 @@ namespace NIST.CVP.Generation.Core.Async
             }
         }
 
-        private Logger ThisLogger => LogManager.GetCurrentClassLogger();
+        private static Logger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }

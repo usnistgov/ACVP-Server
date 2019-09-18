@@ -20,6 +20,7 @@ namespace NIST.CVP.Generation.Core
            
             var config = new LoggingConfiguration();
             
+            
             AddTarget(GetConsoleTarget(), config, minLevel);
             var fileTarget = GetFileTarget(requestFile, algoTag);
             if (fileTarget != null)

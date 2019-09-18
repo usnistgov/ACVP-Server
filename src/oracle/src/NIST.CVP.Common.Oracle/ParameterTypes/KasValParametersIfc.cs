@@ -1,5 +1,6 @@
 using System.Numerics;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys;
+using NIST.CVP.Common.Oracle.DispositionTypes;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Crypto.Common.KAS.KC;
 using NIST.CVP.Crypto.Common.KAS.KDF;
@@ -8,9 +9,9 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Common.Oracle.ParameterTypes
 {
-    public class KasAftParametersIfc
+    public class KasValParametersIfc
     {
-        public bool IsSample { get; set; }
+        public KasIfcValTestDisposition Disposition { get; set; }
         
         public IfcScheme Scheme { get; set; }
         
@@ -46,14 +47,43 @@ namespace NIST.CVP.Common.Oracle.ParameterTypes
         public KeyConfirmationDirection KeyConfirmationDirection { get; set; }
         
         public IfcKeyGenerationMethod KeyGenerationMethod { get; set; }
+        
+        public PrivateKeyModes PrivateKeyMode
+        {
+            get
+            {
+                switch (KeyGenerationMethod)
+                {
+                    case IfcKeyGenerationMethod.RsaKpg1_crt:
+                    case IfcKeyGenerationMethod.RsaKpg2_crt:
+                        return PrivateKeyModes.Crt;
+                    default:
+                        return PrivateKeyModes.Standard;
+                }
+            }
+        }
 
+        public PublicExponentModes PublicExponentMode
+        {
+            get
+            {
+                switch (KeyGenerationMethod)
+                {
+                    case IfcKeyGenerationMethod.RsaKpg2_basic:
+                    case IfcKeyGenerationMethod.RsaKpg2_crt:
+                    case IfcKeyGenerationMethod.RsaKpg2_primeFactor:
+                        return PublicExponentModes.Random;
+                    default:
+                        return PublicExponentModes.Fixed;
+                }
+            }
+        }
+        
         public int Modulo { get; set; }
         
         public BigInteger PublicExponent { get; set; }
         
         public int L { get; set; }
-        
-        public KeyPair IutKey { get; set; }
         
         public IKdfConfiguration KdfConfiguration { get; set; }
         public KtsConfiguration KtsConfiguration { get; set; }

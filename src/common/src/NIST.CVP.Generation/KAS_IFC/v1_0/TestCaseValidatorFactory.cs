@@ -34,7 +34,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
                     }
                     else
                     {
-                        throw new NotImplementedException();
+                        list.Add(new TestCaseValidatorVal(workingTest));
                     }
                 }
             }

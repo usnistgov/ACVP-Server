@@ -16,6 +16,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
         public int TestGroupId { get; set; }
         public string TestType { get; set; }
         public List<TestCase> Tests { get; set; } = new List<TestCase>();
+        public bool IsSample { get; set; }
         
         public IfcScheme Scheme { get; set; }
         
