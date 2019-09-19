@@ -18,6 +18,7 @@ namespace NIST.CVP.Crypto.KAS.Builders.Ifc
     public class SchemeIfcBuilder : ISchemeIfcBuilder
     {
         private SchemeParametersIfc _schemeParameters;
+        private IIfcSecretKeyingMaterial _thisPartyKeyingMaterial;
         private IIfcSecretKeyingMaterialBuilder _thisPartyKeyingMaterialBuilder;
         private IFixedInfoFactory _fixedInfoFactory;
         private FixedInfoParameter _fixedInfoParameter;
@@ -32,7 +33,7 @@ namespace NIST.CVP.Crypto.KAS.Builders.Ifc
         private readonly IRsaSve _rsaSve;
         
         private readonly IEntropyProvider _entropyProvider;
-
+        
         public SchemeIfcBuilder(IKdfVisitor kdfVisitor, IRsaSve rsaSve, IEntropyProvider entropyProvider)
         {
             _kdfVisitor = kdfVisitor;
@@ -46,6 +47,12 @@ namespace NIST.CVP.Crypto.KAS.Builders.Ifc
             return this;
         }
 
+        public ISchemeIfcBuilder WithThisPartyKeyingMaterial(IIfcSecretKeyingMaterial value)
+        {
+            _thisPartyKeyingMaterial = value;
+            return this;
+        }
+        
         public ISchemeIfcBuilder WithThisPartyKeyingMaterialBuilder(IIfcSecretKeyingMaterialBuilder value)
         {
             _thisPartyKeyingMaterialBuilder = value;
@@ -83,20 +90,21 @@ namespace NIST.CVP.Crypto.KAS.Builders.Ifc
         public ISchemeIfc Build()
         {
             ValidateSchemeParameters();
-            ValidateSecretKeyingContribution();
             // TODO This is being used in a slightly different manner than I initially considered.
             // Not using the below validators for the moment due to kas having two public methods now.
             // One of which does not yet have enough information in the negotiation to provide the required parameters.
-//            ValidateFixedInfo();
-//            ValidateKdfFactory();
-//            ValidateKtsFactory();
-//            ValidateKcFactory();
-            
+            //ValidateSecretKeyingContribution();
+            // ValidateFixedInfo();
+            // ValidateKdfFactory();
+            // ValidateKtsFactory();
+            // ValidateKcFactory();
+
+            ISchemeIfc scheme = null;
             switch (_schemeParameters.KasAlgoAttributes.Scheme)
             {
                 case IfcScheme.Kas1_basic:
                 case IfcScheme.Kas1_partyV_keyConfirmation:
-                    return new SchemeBaseKasOneKeyPair(
+                    scheme = new SchemeBaseKasOneKeyPair(
                         _entropyProvider,
                         _schemeParameters, 
                         _fixedInfoFactory, 
@@ -107,11 +115,12 @@ namespace NIST.CVP.Crypto.KAS.Builders.Ifc
                         _kdfVisitor, 
                         _kdfParameters, 
                         _rsaSve);
+                    break;
                 case IfcScheme.Kas2_basic:
                 case IfcScheme.Kas2_bilateral_keyConfirmation:
                 case IfcScheme.Kas2_partyU_keyConfirmation:
                 case IfcScheme.Kas2_partyV_keyConfirmation:
-                    return new SchemeBaseKasTwoKeyPair(
+                    scheme = new SchemeBaseKasTwoKeyPair(
                         _entropyProvider,
                         _schemeParameters, 
                         _fixedInfoFactory, 
@@ -122,9 +131,10 @@ namespace NIST.CVP.Crypto.KAS.Builders.Ifc
                         _kdfVisitor, 
                         _kdfParameters, 
                         _rsaSve);
+                    break;
                 case IfcScheme.Kts_oaep_basic:
                 case IfcScheme.Kts_oaep_partyV_keyConfirmation:
-                    return new SchemeKts(
+                    scheme = new SchemeKts(
                         _entropyProvider, 
                         _schemeParameters, 
                         _fixedInfoFactory, 
@@ -134,9 +144,17 @@ namespace NIST.CVP.Crypto.KAS.Builders.Ifc
                         _macParameters, 
                         _ktsFactory, 
                         _ktsParameters);
+                    break;
                 default:
                     throw new ArgumentException(nameof(_schemeParameters.KasAlgoAttributes.Scheme));
             }
+
+            if (_thisPartyKeyingMaterial != null)
+            {
+                scheme.ThisPartyKeyingMaterial = _thisPartyKeyingMaterial;
+            }
+            
+            return scheme;
         }
 
         private void ValidateSchemeParameters()

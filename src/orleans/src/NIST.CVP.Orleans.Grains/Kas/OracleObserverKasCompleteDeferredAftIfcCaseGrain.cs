@@ -66,11 +66,22 @@ namespace NIST.CVP.Orleans.Grains.Kas
         {
             try
             {
+                var isServerPartyU = _param.ServerKeyAgreementRole == KeyAgreementRole.InitiatorPartyU;
+                var isServerPartyV = !isServerPartyU;
+                
                 _serverSecretKeyingMaterialBuilder
                     .WithPartyId(_param.ServerPartyId)
                     .WithKey(_param.ServerKey)
                     .WithC(_param.ServerC)
                     .WithDkmNonce(_param.ServerNonce);
+
+                var serverSecretKeyingMaterial = _serverSecretKeyingMaterialBuilder
+                    .Build(
+                        _param.Scheme, 
+                        _param.KasMode, 
+                        _param.ServerKeyAgreementRole,
+                        _param.ServerKeyConfirmationRole, 
+                        _param.KeyConfirmationDirection);
 
                 var iutSecretKeyingMaterial = _iutSecretKeyingMaterialBuilder
                     .WithPartyId(_param.IutPartyId)
@@ -98,6 +109,7 @@ namespace NIST.CVP.Orleans.Grains.Kas
                 {
                     fixedInfoParameter.Encoding = _param.KdfParameter.FixedInputEncoding;
                     fixedInfoParameter.FixedInfoPattern = _param.KdfParameter.FixedInfoPattern;
+                    fixedInfoParameter.Salt = _param.KdfParameter.Salt;
                 }
                 
                 // KTS fixed info construction
@@ -126,6 +138,7 @@ namespace NIST.CVP.Orleans.Grains.Kas
                             KasAssurance.None, 
                             _param.ServerPartyId))
                     .WithThisPartyKeyingMaterialBuilder(_serverSecretKeyingMaterialBuilder)
+                    .WithThisPartyKeyingMaterial(serverSecretKeyingMaterial)
                     .WithFixedInfo(_fixedInfoFactory, fixedInfoParameter)
                     .WithKdf(_kdfFactory, _param.KdfParameter)
                     .WithKts(_ktsFactory, _param.KtsParameter)
@@ -135,17 +148,19 @@ namespace NIST.CVP.Orleans.Grains.Kas
                 serverKas.InitializeThisPartyKeyingMaterial(iutSecretKeyingMaterial);
 
                 var result = serverKas.ComputeResult(iutSecretKeyingMaterial);
-                
-                await Notify(new KasAftDeferredResult()
+                var returnResult = new KasAftDeferredResult()
                 {
-                    Result = new KasResult(result.Dkm, null, null, result.Tag)
-                });
+                    ServerKeyingMaterial = isServerPartyU ? result.KeyingMaterialPartyU : result.KeyingMaterialPartyV,
+                    IutKeyingMaterial = isServerPartyV ? result.KeyingMaterialPartyU : result.KeyingMaterialPartyV,
+                    Result = new KasResult(result.Dkm, result.MacKey, result.MacData, result.Tag)
+                };
+                
+                await Notify(returnResult);
             }
             catch (Exception e)
             {
                 await Throw(e);
             }
-            
         }
     }
 }

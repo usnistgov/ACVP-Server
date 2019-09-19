@@ -14,8 +14,6 @@ using NIST.CVP.Crypto.Common.KAS.KC;
 using NIST.CVP.Crypto.Common.KAS.KDF;
 using NIST.CVP.Crypto.Common.KAS.Scheme;
 using NIST.CVP.Crypto.Common.KTS;
-using NIST.CVP.Math;
-using NIST.CVP.Math.Entropy;
 using NIST.CVP.Orleans.Grains.Interfaces.Kas;
 
 namespace NIST.CVP.Orleans.Grains.Kas
@@ -34,7 +32,6 @@ namespace NIST.CVP.Orleans.Grains.Kas
         private readonly IKtsFactory _ktsFactory;
         private readonly IKeyConfirmationFactory _keyConfirmationFactory;
         private readonly IFixedInfoFactory _fixedInfoFactory;
-        private readonly IEntropyProvider _entropyProvider;
         
         private KasValParametersIfc _param;
         private KeyPair _serverKeyPair;
@@ -52,8 +49,7 @@ namespace NIST.CVP.Orleans.Grains.Kas
             IKdfParameterVisitor kdfParameterVisitor,
             IKtsFactory ktsFactory,
             IKeyConfirmationFactory keyConfirmationFactory,
-            IFixedInfoFactory fixedInfoFactory,
-            IEntropyProvider entropyProvider
+            IFixedInfoFactory fixedInfoFactory
         ) 
             : base(nonOrleansScheduler)
         {
@@ -68,7 +64,6 @@ namespace NIST.CVP.Orleans.Grains.Kas
             _ktsFactory = ktsFactory;
             _keyConfirmationFactory = keyConfirmationFactory;
             _fixedInfoFactory = fixedInfoFactory;
-            _entropyProvider = entropyProvider;
         }
 
         public async Task<bool> BeginWorkAsync(KasValParametersIfc param, KeyPair serverKeyPair, KeyPair iutKeyPair)
@@ -119,10 +114,11 @@ namespace NIST.CVP.Orleans.Grains.Kas
                 IKdfParameter kdfParam = null;
                 if (KeyGenerationRequirementsHelper.IfcKdfSchemes.Contains(_param.Scheme))
                 {
+                    kdfParam = _param.KdfConfiguration.GetKdfParameter(_kdfParameterVisitor);
+                    
                     fixedInfoParameter.Encoding = _param.KdfConfiguration.FixedInputEncoding;
                     fixedInfoParameter.FixedInfoPattern = _param.KdfConfiguration.FixedInputPattern;
-                    
-                    kdfParam = _param.KdfConfiguration.GetKdfParameter(_kdfParameterVisitor);
+                    fixedInfoParameter.Salt = kdfParam.Salt;
                 }
                 
                 // KTS
@@ -200,7 +196,7 @@ namespace NIST.CVP.Orleans.Grains.Kas
                     .WithSchemeBuilder(_schemeBuilderPartyV)
                     .Build();
                     
-                kasPartyV.InitializeThisPartyKeyingMaterial(secretKeyingMaterialPartyV);
+                kasPartyV.InitializeThisPartyKeyingMaterial(initializedKeyingMaterialPartyU);
 
                 var initializedKeyingMaterialPartyV = kasPartyV.Scheme.ThisPartyKeyingMaterial;
 
@@ -223,7 +219,7 @@ namespace NIST.CVP.Orleans.Grains.Kas
                     ServerZ = isServerPartyU ? result.KeyingMaterialPartyU.Z : result.KeyingMaterialPartyV.Z,
                     ServerKeyPair = isServerPartyU ? result.KeyingMaterialPartyU.Key : result.KeyingMaterialPartyV.Key,
                     
-                    KasResult = new KasResult(result.Dkm, null, null, result.Tag),
+                    KasResult = new KasResult(result.Dkm, result.MacKey, result.MacData, result.Tag),
                     KdfParameter = kdfParam,
                     KtsParameter = ktsParam,
                     MacParameters = macParam,

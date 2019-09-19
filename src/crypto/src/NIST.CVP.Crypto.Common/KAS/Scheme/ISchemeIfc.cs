@@ -9,7 +9,7 @@ namespace NIST.CVP.Crypto.Common.KAS.Scheme
         /// <summary>
         /// The keying material to be used by this party.  Can be a key pair, nonce, ciphertext.
         /// </summary>
-        IIfcSecretKeyingMaterial ThisPartyKeyingMaterial { get; }
+        IIfcSecretKeyingMaterial ThisPartyKeyingMaterial { get; set; }
         /// <summary>
         /// Initialize this party's secret keying material, based on another party's keying material (in some instances).
         /// </summary>

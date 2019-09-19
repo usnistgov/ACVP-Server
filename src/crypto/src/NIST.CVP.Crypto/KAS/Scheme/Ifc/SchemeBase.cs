@@ -56,6 +56,16 @@ namespace NIST.CVP.Crypto.KAS.Scheme.Ifc
                 
                 throw new NotSupportedException("This party keying material not yet initialized.");
             }
+            set
+            {
+                if (_isThisPartyKeyingMaterialInitialized)
+                {
+                    throw new NotSupportedException("This party keying material has already been initialized.");
+                }
+
+                _isThisPartyKeyingMaterialInitialized = true;
+                _thisPartyKeyingMaterial = value;
+            }
         }
 
         public void InitializeThisPartyKeyingMaterial(IIfcSecretKeyingMaterial otherPartyKeyingMaterial)

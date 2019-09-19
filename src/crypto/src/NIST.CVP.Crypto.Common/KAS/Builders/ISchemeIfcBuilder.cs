@@ -19,6 +19,12 @@ namespace NIST.CVP.Crypto.Common.KAS.Builders
         /// <returns>this builder.</returns>
         ISchemeIfcBuilder WithSchemeParameters(SchemeParametersIfc value);
         /// <summary>
+        /// Sets the full secret keying material for this party when available.
+        /// </summary>
+        /// <param name="value">The secret keying material for this party.</param>
+        /// <returns>this builder.</returns>
+        ISchemeIfcBuilder WithThisPartyKeyingMaterial(IIfcSecretKeyingMaterial value);
+        /// <summary>
         /// A builder used to construct this party's contribution to the secret keying material.
         /// </summary>
         /// <param name="value">Builder for constructing this party's secret keying material.</param>
