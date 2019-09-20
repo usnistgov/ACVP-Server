@@ -5,26 +5,23 @@
   "revision": "1.0",
   "isSample": true,
   "iutId": "BEEFFACE",
-  "publicKeys": [
-    {
-      "e": "3BCF32AB",
-      "n": "CAAAB260AC87B780BD80F76CAB0B54F9B938803C1036A5F9D66F6AEF1869B43945E991155EC7178AA54A0BB1331FDAFD3B6A0984780842C96A88500B19D054111B53EAB5977D4B7F15230C610EE67177C361CB3A108581B47D5362EEC7C0AB7F3CEA25D6688EE69539682C9FFB1BE7F507EA875E3E234D0AA253467109ED9A5D9C1510AFA9A1DFCA0C827C96032AE5699E6D6C4271327DCA55093DE0C44025090014E4AD694D1C04582435FB5CCEDC9D28CD10608D44A6118AA60E91823330A0FD5E68C78028DAB1318642B7151FBED2937D46AB3C38F27E72D008C71DDD75071B4559F3B74990EA313B3542C402803BE4CCF499251B0C3349C92B394AD0EAF7"
-    }
-  ],
   "scheme": {
     "kaS1-basic": {
       "scheme": "KAS1-basic",
       "kasMode": "kdfNoKc",
       "kasRole": [
-        "initiator"
+        "initiator",
+        "responder"
       ],
       "keyGenerationMethods": {
-        "rsakpg1-crt": {
-          "keyGenerationMethod": "rsakpg1-crt",
+        "rsakpg2-basic": {
+          "keyGenerationMethod": "rsakpg2-basic",
+          "keyGenerationMode": "random",
+          "privateKeyMode": "standard",
           "modulo": [
             2048
           ],
-          "fixedPublicExponent": "3BCF32AB"
+          "fixedPublicExponent": ""
         }
       },
       "kdfMethods": {

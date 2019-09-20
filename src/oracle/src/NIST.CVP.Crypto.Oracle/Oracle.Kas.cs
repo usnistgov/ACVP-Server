@@ -104,7 +104,7 @@ namespace NIST.CVP.Crypto.Oracle
                     PublicExponentMode = param.PublicExponentMode,
                     PublicExponent = param.PublicExponent == 0 ? null : new BitString(param.PublicExponent)
                 });
-                serverKey = task.Key;
+                iutKey = task.Key;
             }
             
             var observableGrain = 

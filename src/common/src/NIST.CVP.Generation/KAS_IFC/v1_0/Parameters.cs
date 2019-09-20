@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Numerics;
 using Newtonsoft.Json;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Generation.Core;
@@ -198,15 +199,23 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
     public abstract class KeyGenerationMethodBase
     {
         /// <summary>
-        /// The enum KeyGeneration method
+        /// The enum KeyGeneration method.
         /// </summary>
         public abstract IfcKeyGenerationMethod KeyGenerationMethod { get; }
         /// <summary>
-        /// The modulo lengths supported
+        /// The exponent method for key generation.
+        /// </summary>
+        public abstract PublicExponentModes KeyGenerationMode { get; }
+        /// <summary>
+        /// The private key format.
+        /// </summary>
+        public abstract PrivateKeyModes PrivateKeyMode { get; }
+        /// <summary>
+        /// The modulo lengths supported.
         /// </summary>
         public int[] Modulo { get; set; }
         /// <summary>
-        /// The fixed public exponent (only applicable for rsakpg1*)
+        /// The fixed public exponent (only applicable for rsakpg1*).
         /// </summary>
         public BigInteger FixedPublicExponent { get; set; }
     }
@@ -214,31 +223,43 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
     public class RsaKpg1_basic : KeyGenerationMethodBase
     {
         public override IfcKeyGenerationMethod KeyGenerationMethod => IfcKeyGenerationMethod.RsaKpg1_basic;
+        public override PublicExponentModes KeyGenerationMode => PublicExponentModes.Fixed;
+        public override PrivateKeyModes PrivateKeyMode => PrivateKeyModes.Standard;
     }
 
     public class RsaKpg1_primeFactor : KeyGenerationMethodBase
     {
         public override IfcKeyGenerationMethod KeyGenerationMethod => IfcKeyGenerationMethod.RsaKpg1_primeFactor;
+        public override PublicExponentModes KeyGenerationMode => PublicExponentModes.Fixed;
+        public override PrivateKeyModes PrivateKeyMode => PrivateKeyModes.Standard;
     }
 
     public class RsaKpg1_crt : KeyGenerationMethodBase
     {
         public override IfcKeyGenerationMethod KeyGenerationMethod => IfcKeyGenerationMethod.RsaKpg1_crt;
+        public override PublicExponentModes KeyGenerationMode => PublicExponentModes.Fixed;
+        public override PrivateKeyModes PrivateKeyMode => PrivateKeyModes.Crt;
     }
 
     public class RsaKpg2_basic : KeyGenerationMethodBase
     {
         public override IfcKeyGenerationMethod KeyGenerationMethod => IfcKeyGenerationMethod.RsaKpg2_basic;
+        public override PublicExponentModes KeyGenerationMode => PublicExponentModes.Random;
+        public override PrivateKeyModes PrivateKeyMode => PrivateKeyModes.Standard;
     }
 
     public class RsaKpg2_primeFactor : KeyGenerationMethodBase
     {
         public override IfcKeyGenerationMethod KeyGenerationMethod => IfcKeyGenerationMethod.RsaKpg2_primeFactor;
+        public override PublicExponentModes KeyGenerationMode => PublicExponentModes.Random;
+        public override PrivateKeyModes PrivateKeyMode => PrivateKeyModes.Standard;
     }
 
     public class RsaKpg2_crt : KeyGenerationMethodBase
     {
         public override IfcKeyGenerationMethod KeyGenerationMethod => IfcKeyGenerationMethod.RsaKpg2_crt;
+        public override PublicExponentModes KeyGenerationMode => PublicExponentModes.Random;
+        public override PrivateKeyModes PrivateKeyMode => PrivateKeyModes.Crt;
     }
 
     public class KdfMethods

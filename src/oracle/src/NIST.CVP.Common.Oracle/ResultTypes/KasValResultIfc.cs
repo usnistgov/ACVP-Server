@@ -25,6 +25,8 @@ namespace NIST.CVP.Common.Oracle.ResultTypes
         public BitString IutZ { get; set; }
         public BitString IutK { get; set; }
 
+        public BitString Z { get; set; }
+        
         public IKdfParameter KdfParameter { get; set; }
         
         public KtsParameter KtsParameter { get; set; }

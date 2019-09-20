@@ -14,7 +14,6 @@ namespace NIST.CVP.Generation.Core.JsonConverters
         public override bool CanConvert(Type objectType)
         {
             return objectType == typeof(IKdfConfiguration);
-            return objectType.ImplementsInterface(typeof(IKdfConfiguration));
         }
         
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)

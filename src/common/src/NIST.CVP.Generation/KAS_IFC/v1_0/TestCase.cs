@@ -361,9 +361,17 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
         /// The encrypted C value created by the Server.
         /// The C value is comprised of a random value Z encrypted with the IUT's public key
         /// </summary>
-
         public BitString ServerC { get; set; }
         
+        /// <summary>
+        /// The IUT portion of the shared secret.
+        /// </summary>
+        public BitString IutZ { get; set; }
+        
+        /// <summary>
+        /// The Server portion of the shared secret.
+        /// </summary>
+        public BitString ServerZ { get; set; }
         /// <summary>
         /// The shared secret value
         /// </summary>

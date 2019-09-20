@@ -434,6 +434,13 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
         
         private void ValidateKeys(Parameters parameters, List<string> errorResults)
         {
+            if (parameters.IsSample)
+            {
+                // Cannot use the public keys provided for a sample, as we need the private keys as well
+                parameters.PublicKeys = null;
+                return;
+            }
+            
             if (!parameters.IsSample && (parameters.PublicKeys == null || !parameters.PublicKeys.Any()))
             {
                 errorResults.Add(nameof(parameters.PublicKeys));

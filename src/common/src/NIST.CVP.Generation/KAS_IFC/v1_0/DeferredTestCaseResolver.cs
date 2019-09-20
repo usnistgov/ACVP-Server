@@ -53,15 +53,18 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
                 KdfParameter = serverTestCase.KdfParameter,
                 KtsParameter = ktsParameter,
                 MacParameter = macParameter,
-                ServerKey = serverTestCase.ServerKey,
-                IutKey = serverTestCase.IutKey,
-                ServerPartyId = serverTestGroup.ServerId,
-                IutPartyId = serverTestGroup.IutId,
-                ServerC = serverTestCase.ServerC,
-                IutNonce = iutTestCase.IutNonce,
-                ServerNonce = serverTestCase.ServerNonce,
                 
+                ServerKey = serverTestCase.ServerKey,
+                ServerPartyId = serverTestGroup.ServerId,
+                ServerNonce = serverTestCase.ServerNonce,
+                ServerC = serverTestCase.ServerC,
+                ServerZ = serverTestCase.ServerZ,
+                
+                IutKey = serverTestCase.IutKey,
+                IutPartyId = serverTestGroup.IutId,
+                IutNonce = iutTestCase.IutNonce,
                 IutC = iutTestCase.IutC,
+                IutZ = iutTestCase.ServerZ
             }); 
             
             return new KasResult(result.Result.Dkm, null, null, result.Result.Tag);

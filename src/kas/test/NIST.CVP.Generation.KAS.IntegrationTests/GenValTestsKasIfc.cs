@@ -1,3 +1,4 @@
+using System.Numerics;
 using NIST.CVP.Common;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys;
 using NIST.CVP.Crypto.Common.KAS.Enums;
@@ -71,15 +72,6 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                 Revision = Revision,
                 IsSample = true,
                 IutId = new BitString("BEEFFACE"),
-                PublicKeys = new []
-                {
-                    // 2048
-                    new PublicKey()
-                    {
-                        E = new BitString("3BCF32AB").ToPositiveBigInteger(),
-                        N = new BitString("CAAAB260AC87B780BD80F76CAB0B54F9B938803C1036A5F9D66F6AEF1869B43945E991155EC7178AA54A0BB1331FDAFD3B6A0984780842C96A88500B19D054111B53EAB5977D4B7F15230C610EE67177C361CB3A108581B47D5362EEC7C0AB7F3CEA25D6688EE69539682C9FFB1BE7F507EA875E3E234D0AA253467109ED9A5D9C1510AFA9A1DFCA0C827C96032AE5699E6D6C4271327DCA55093DE0C44025090014E4AD694D1C04582435FB5CCEDC9D28CD10608D44A6118AA60E91823330A0FD5E68C78028DAB1318642B7151FBED2937D46AB3C38F27E72D008C71DDD75071B4559F3B74990EA313B3542C402803BE4CCF499251B0C3349C92B394AD0EAF7").ToPositiveBigInteger()
-                    }
-                },
                 Scheme = new Schemes()
                 {
                     Kas1_basic = new Kas1_basic()
@@ -88,7 +80,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                         KasRole = new []
                         {
                             KeyAgreementRole.InitiatorPartyU, 
-                            //KeyAgreementRole.ResponderPartyV
+                            KeyAgreementRole.ResponderPartyV
                         },
                         KdfMethods = new KdfMethods()
                         {
@@ -109,10 +101,14 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                         },
                         KeyGenerationMethods = new KeyGenerationMethods()
                         {
-                            RsaKpg1_crt = new RsaKpg1_crt()
+//                            RsaKpg1_basic = new RsaKpg1_basic()
+//                            {
+//                                Modulo = new[] { 2048 },
+//                                FixedPublicExponent = new BigInteger(65537)
+//                            },
+                            RsaKpg2_basic = new RsaKpg2_basic()
                             {
                                 Modulo = new[] { 2048 },
-                                FixedPublicExponent = new BitString("3BCF32AB").ToPositiveBigInteger()
                             }
                         }
                     },

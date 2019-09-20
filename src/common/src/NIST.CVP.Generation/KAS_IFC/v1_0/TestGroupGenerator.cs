@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore.Internal;
+using Microsoft.EntityFrameworkCore.Scaffolding.Internal;
 using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
@@ -25,7 +27,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
             "AFT", 
             // todo "VAL"
         };
-        private static readonly BigInteger DefaultExponent = new BigInteger(65537);
+        private static readonly BigInteger DefaultExponent = BigInteger.Zero; // new BigInteger(65537);
         private readonly IOracle _oracle;
 
         public TestGroupGenerator(IOracle oracle)
@@ -204,43 +206,8 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
 
                 return keys;
             }
-            
-            // When sample, we need to Generate key pairs up front to use on behalf of the IUT.
-            var modulos = parameters.Scheme.GetRegisteredSchemes().SelectMany(s =>
-                s.KeyGenerationMethods.GetRegisteredKeyGenerationMethods().SelectMany(s2 => s2.Modulo)).ToList();
-            var fixedExponents = parameters
-                .Scheme.GetRegisteredSchemes()
-                .SelectMany(s => s.KeyGenerationMethods.GetRegisteredKeyGenerationMethods()
-                    .Select(s2 => s2.FixedPublicExponent).Where(w => w != 0)).ToList();
-            
-            
-            if (!fixedExponents.Contains(DefaultExponent))
-            {
-                fixedExponents.Add(DefaultExponent);
-            }
 
-            var keyAttributes = (
-                from modulo in modulos 
-                from fixedExponent in fixedExponents 
-                select (modulo, fixedExponent)).ToList();
-
-            var tasks = new List<Task<RsaKeyResult>>();
-            foreach (var keyAttribute in keyAttributes)
-            {
-                tasks.Add(_oracle.GetRsaKeyAsync(new RsaKeyParameters
-                {
-                    KeyFormat = PrivateKeyModes.Crt,
-                    Modulus = keyAttribute.modulo,
-                    KeyMode = PrimeGenModes.B33,
-                    PublicExponentMode = PublicExponentModes.Fixed,
-                    PublicExponent = new BitString(keyAttribute.fixedExponent),
-                    PrimeTest = PrimeTestModes.C2
-                }));
-            }
-
-            Task.WhenAll(tasks);
-
-            return tasks.Select(task => task.Result.Key).ToArray();
+            return null;
         }
 
         private (KeyConfirmationDirection kcDir, KeyConfirmationRole kcRole) GetKeyConfirmationInfo(IfcScheme scheme, KeyAgreementRole role)

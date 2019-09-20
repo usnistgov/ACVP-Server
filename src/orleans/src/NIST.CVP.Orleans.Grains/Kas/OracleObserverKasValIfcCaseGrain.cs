@@ -14,6 +14,7 @@ using NIST.CVP.Crypto.Common.KAS.KC;
 using NIST.CVP.Crypto.Common.KAS.KDF;
 using NIST.CVP.Crypto.Common.KAS.Scheme;
 using NIST.CVP.Crypto.Common.KTS;
+using NIST.CVP.Math;
 using NIST.CVP.Orleans.Grains.Interfaces.Kas;
 
 namespace NIST.CVP.Orleans.Grains.Kas
@@ -224,6 +225,10 @@ namespace NIST.CVP.Orleans.Grains.Kas
                     KtsParameter = ktsParam,
                     MacParameters = macParam,
                     
+                    Z = new BitString(0)
+                        .ConcatenateBits(result.KeyingMaterialPartyU.Z ?? new BitString(0))
+                        .ConcatenateBits(result.KeyingMaterialPartyV.Z ?? new BitString(0)),
+
                     TestPassed = testPassed,
                     Disposition = _param.Disposition,
                 });

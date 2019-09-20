@@ -73,6 +73,7 @@ namespace NIST.CVP.Orleans.Grains.Kas
                     .WithPartyId(_param.ServerPartyId)
                     .WithKey(_param.ServerKey)
                     .WithC(_param.ServerC)
+                    .WithZ(_param.ServerZ)
                     .WithDkmNonce(_param.ServerNonce);
 
                 var serverSecretKeyingMaterial = _serverSecretKeyingMaterialBuilder
@@ -87,6 +88,7 @@ namespace NIST.CVP.Orleans.Grains.Kas
                     .WithPartyId(_param.IutPartyId)
                     .WithKey(_param.IutKey)
                     .WithC(_param.IutC)
+                    .WithZ(_param.IutZ)
                     .WithDkmNonce(_param.IutNonce)
                     .Build(
                         _param.Scheme, 
@@ -145,7 +147,6 @@ namespace NIST.CVP.Orleans.Grains.Kas
                     .WithKeyConfirmation(kcFactory, macParam);
                     
                 var serverKas = _kasBuilder.WithSchemeBuilder(_schemeBuilder).Build();
-                serverKas.InitializeThisPartyKeyingMaterial(iutSecretKeyingMaterial);
 
                 var result = serverKas.ComputeResult(iutSecretKeyingMaterial);
                 var returnResult = new KasAftDeferredResult()
