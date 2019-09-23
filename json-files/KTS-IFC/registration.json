@@ -1,0 +1,40 @@
+{
+  "vsId": 0,
+  "algorithm": "KTS-IFC",
+  "mode": "",
+  "revision": "1.0",
+  "isSample": true,
+  "iutId": "BEEFFACE",
+  "scheme": {
+    "ktS-OAEP-basic": {
+      "scheme": "KTS-OAEP-basic",
+      "kasMode": "noKdfNoKc",
+      "kasRole": [
+        "initiator",
+        "responder"
+      ],
+      "keyGenerationMethods": {
+        "rsakpg2-basic": {
+          "keyGenerationMethod": "rsakpg2-basic",
+          "keyGenerationMode": "random",
+          "privateKeyMode": "standard",
+          "modulo": [
+            2048
+          ],
+          "fixedPublicExponent": ""
+        }
+      },
+      "ktsMethod": {
+        "hashAlgs": [
+          "SHA2-224"
+        ],
+        "supportsNullAssociatedData": true,
+        "associatedDataPattern": "l|uPartyInfo|vPartyInfo",
+        "encoding": [
+          "concatenation"
+        ]
+      },
+      "l": 512
+    }
+  }
+}

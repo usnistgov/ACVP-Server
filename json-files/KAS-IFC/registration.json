@@ -44,6 +44,45 @@
         }
       },
       "l": 512
+    },
+    "kaS2-basic": {
+      "scheme": "KAS2-basic",
+      "kasMode": "kdfNoKc",
+      "kasRole": [
+        "initiator",
+        "responder"
+      ],
+      "keyGenerationMethods": {
+        "rsakpg2-basic": {
+          "keyGenerationMethod": "rsakpg2-basic",
+          "keyGenerationMode": "random",
+          "privateKeyMode": "standard",
+          "modulo": [
+            2048
+          ],
+          "fixedPublicExponent": ""
+        }
+      },
+      "kdfMethods": {
+        "oneStepKdf": {
+          "kdfType": "oneStep",
+          "auxFunctions": [
+            {
+              "auxFunctionName": "HMAC-SHA2-224",
+              "saltLen": 128,
+              "macSaltMethods": [
+                "Default",
+                "Random"
+              ]
+            }
+          ],
+          "fixedInputPattern": "l|uPartyInfo|vPartyInfo",
+          "encoding": [
+            "concatenation"
+          ]
+        }
+      },
+      "l": 512
     }
   }
 }

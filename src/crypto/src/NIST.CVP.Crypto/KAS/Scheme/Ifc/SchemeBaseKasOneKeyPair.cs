@@ -85,7 +85,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme.Ifc
         }
 
         protected override BitString GetEphemeralDataFromKeyContribution(IIfcSecretKeyingMaterial secretKeyingMaterial,
-            KeyAgreementRole keyAgreementRole)
+            KeyAgreementRole keyAgreementRole, bool excludeEphemeralData)
         {
             // KAS1        Party U        C
             // KAS1        Party V        NV

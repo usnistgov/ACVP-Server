@@ -51,7 +51,23 @@ namespace NIST.CVP.Crypto.KAS.Scheme.Ifc
                     // Create a key of L length, wrap it with the other parties public key.
                     var keyToEncodeEncrypt = EntropyProvider.GetEntropy(SchemeParameters.KasAlgoAttributes.L);
                     var kts = _ktsFactory.Get(_ktsParameter.KtsHashAlg);
-                    var fixedInfo = GetFixedInfo(otherPartyKeyingMaterial);
+                    
+                    // this is failing because fixed info is not yet initialized.  We can't have "C" until it is initialized, but "C" is derived
+                    // as a function of fixedInfo.  
+                    BitString fixedInfo = null;
+                    if (!string.IsNullOrEmpty(_ktsParameter.AssociatedDataPattern))
+                    {
+                        ThisPartyKeyingMaterial = _thisPartyKeyingMaterialBuilder.Build(
+                            SchemeParameters.KasAlgoAttributes.Scheme, 
+                            SchemeParameters.KasMode,
+                            SchemeParameters.KeyAgreementRole,
+                            SchemeParameters.KeyConfirmationRole,
+                            SchemeParameters.KeyConfirmationDirection
+                        );
+                        
+                        fixedInfo = GetFixedInfo(otherPartyKeyingMaterial);
+                    }
+                    
                     var c = kts.Encrypt(otherPartyKeyingMaterial.Key.PubKey, keyToEncodeEncrypt, fixedInfo).SharedSecretZ;
                     
                     thisPartyKeyingMaterialBuilder.WithK(keyToEncodeEncrypt);
@@ -72,22 +88,31 @@ namespace NIST.CVP.Crypto.KAS.Scheme.Ifc
             // Party U has the key, encrypts it with Party V's public key
             if (SchemeParameters.KeyAgreementRole == KeyAgreementRole.InitiatorPartyU)
             {
-                return ThisPartyKeyingMaterial.C;
+                return ThisPartyKeyingMaterial.K;
             }
 
             // Party V has the private key that is used to decrypt the key from party U.
-            var fixedInfo = GetFixedInfo(otherPartyKeyingMaterial);
+            BitString fixedInfo = null;
+            if (!string.IsNullOrEmpty(_ktsParameter.AssociatedDataPattern))
+            {
+                fixedInfo = GetFixedInfo(otherPartyKeyingMaterial, true);
+            }
             var thisPartyKey = ThisPartyKeyingMaterial.Key;
             var otherPartyCiphertext = otherPartyKeyingMaterial.C;
 
             return kts.Decrypt(thisPartyKey, otherPartyCiphertext, fixedInfo).SharedSecretZ;
         }
 
-        protected override BitString GetEphemeralDataFromKeyContribution(IIfcSecretKeyingMaterial secretKeyingMaterial, KeyAgreementRole keyAgreementRole)
+        protected override BitString GetEphemeralDataFromKeyContribution(IIfcSecretKeyingMaterial secretKeyingMaterial, KeyAgreementRole keyAgreementRole, bool excludeEphemeralData)
         {
             // KTS         Party U        C
             // KTS         Party V        null
 
+            if (excludeEphemeralData)
+            {
+                return null;
+            }
+            
             if (keyAgreementRole == KeyAgreementRole.InitiatorPartyU)
             {
                 return secretKeyingMaterial.C;

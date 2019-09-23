@@ -367,7 +367,6 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
         /// The IUT portion of the shared secret.
         /// </summary>
         public BitString IutZ { get; set; }
-        
         /// <summary>
         /// The Server portion of the shared secret.
         /// </summary>
@@ -377,11 +376,18 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
         /// </summary>
         /// <remarks>Should *not* be transmitted in prompt file.</remarks>
         public BitString Z { get; set; }
+
         /// <summary>
         /// The key chosen for wrapping in a KTS scheme 
         /// </summary>
         /// <remarks>Should *not* be transmitted in prompt file.</remarks>
-        public BitString K { get; set; }
+        public BitString IutK { get; set; }
+        /// <summary>
+        /// The key chosen for wrapping in a KTS scheme 
+        /// </summary>
+        /// <remarks>Should *not* be transmitted in prompt file.</remarks>
+        public BitString ServerK { get; set; }
+        
         /// <summary>
         /// The derived keying material - minus any bits that were used for key confirmation.
         /// </summary>

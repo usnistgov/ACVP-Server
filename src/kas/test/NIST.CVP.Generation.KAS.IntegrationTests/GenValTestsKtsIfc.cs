@@ -7,10 +7,10 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.KAS.IntegrationTests
 {
-    public class GenValTestsKasIfc : GenValTestsSingleRunnerBase
+    public class GenValTestsKtsIfc : GenValTestsSingleRunnerBase
     {
-        public override AlgoMode AlgoMode => AlgoMode.KAS_IFC_v1_0;
-        public override string Algorithm => "KAS-IFC";
+        public override AlgoMode AlgoMode => AlgoMode.KTS_IFC_v1_0;
+        public override string Algorithm => "KTS-IFC";
         public override string Mode => string.Empty;
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
         public override IJsonConverterProvider JsonConverterProvider => new KasJsonConverterProvider();
@@ -72,7 +72,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                 IutId = new BitString("BEEFFACE"),
                 Scheme = new Schemes()
                 {
-                    Kas1_basic = new Kas1_basic()
+                    Kts_oaep_basic = new Kts_oaep_basic()
                     {
                         L = 512,
                         KasRole = new []
@@ -80,22 +80,12 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                             KeyAgreementRole.InitiatorPartyU, 
                             KeyAgreementRole.ResponderPartyV
                         },
-                        KdfMethods = new KdfMethods()
+                        KtsMethod = new KtsMethod()
                         {
-                            OneStepKdf = new OneStepKdf()
-                            {
-                                Encoding = new []{ FixedInfoEncoding.Concatenation },
-                                AuxFunctions = new []
-                                {
-                                    new AuxFunction()
-                                    {
-                                        SaltLen = 128,
-                                        AuxFunctionName = KasKdfOneStepAuxFunction.HMAC_SHA2_D224,
-                                        MacSaltMethods = new []{ MacSaltMethod.Default, MacSaltMethod.Random }
-                                    }
-                                },
-                                FixedInputPattern = "l|uPartyInfo|vPartyInfo" 
-                            }
+                            Encoding = new []{ FixedInfoEncoding.Concatenation },
+                            HashAlgs = new []{ KasHashAlg.SHA2_D224 },
+                            AssociatedDataPattern = "l|uPartyInfo|vPartyInfo",
+                            SupportsNullAssociatedData = true
                         },
                         KeyGenerationMethods = new KeyGenerationMethods()
                         {
@@ -110,44 +100,6 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                             }
                         }
                     },
-                    Kas2_basic = new Kas2_basic()
-                    {
-                        L = 512,
-                        KasRole = new []
-                        {
-                            KeyAgreementRole.InitiatorPartyU, 
-                            KeyAgreementRole.ResponderPartyV
-                        },
-                        KdfMethods = new KdfMethods()
-                        {
-                            OneStepKdf = new OneStepKdf()
-                            {
-                                Encoding = new []{ FixedInfoEncoding.Concatenation },
-                                AuxFunctions = new []
-                                {
-                                    new AuxFunction()
-                                    {
-                                        SaltLen = 128,
-                                        AuxFunctionName = KasKdfOneStepAuxFunction.HMAC_SHA2_D224,
-                                        MacSaltMethods = new []{ MacSaltMethod.Default, MacSaltMethod.Random }
-                                    }
-                                },
-                                FixedInputPattern = "l|uPartyInfo|vPartyInfo" 
-                            }
-                        },
-                        KeyGenerationMethods = new KeyGenerationMethods()
-                        {
-//                            RsaKpg1_basic = new RsaKpg1_basic()
-//                            {
-//                                Modulo = new[] { 2048 },
-//                                FixedPublicExponent = new BigInteger(65537)
-//                            },
-                            RsaKpg2_basic = new RsaKpg2_basic()
-                            {
-                                Modulo = new[] { 2048 },
-                            }
-                        }
-                    },                    
                 }
             };
 

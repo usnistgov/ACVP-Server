@@ -56,16 +56,17 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
                     ServerZ = result.ServerZ,
                     ServerC = result.ServerC,
                     ServerNonce = result.ServerNonce,
+                    ServerK = result.ServerK,
                     ServerKey = result.ServerKeyPair ?? new KeyPair() { PubKey = new PublicKey() },
 
                     IutZ = result.IutZ,
                     IutC = result.IutC,
                     IutNonce = result.IutNonce,
+                    IutK = result.IutK,
                     IutKey = result.IutKeyPair ?? new KeyPair() { PubKey = new PublicKey() },
                     
                     KdfParameter = result.KdfParameter,
                     
-                    K = result.ServerK ?? result.IutK,
                     Dkm = result.KasResult.Dkm,
                     Tag = result.KasResult.Tag
                 });

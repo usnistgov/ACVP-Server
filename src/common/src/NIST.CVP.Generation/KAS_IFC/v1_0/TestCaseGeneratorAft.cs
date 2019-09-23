@@ -68,7 +68,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
                     Deferred = true,
                     TestPassed = true,
                     ServerC = result.ServerC,
-                    K = result.ServerK,
+                    ServerK = result.ServerK,
                     ServerNonce = result.ServerNonce,
                     ServerKey = result.ServerKeyPair ?? new KeyPair() { PubKey = new PublicKey() },
                     IutKey = result.IutKeyPair ?? new KeyPair() { PubKey = new PublicKey() },

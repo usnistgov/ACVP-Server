@@ -356,7 +356,12 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
 
         private void ValidateAssociatedDataPattern(string associatedDataPattern, List<string> errorResults)
         {
-            const string fiRegex = @"^((?!(salt|uPartyInfo|vPartyInfo|counter|literal\[[0-9a-fA-F]+\])).)+$";
+            if (string.IsNullOrEmpty(associatedDataPattern))
+            {
+                return;
+            }
+            
+            const string fiRegex = @"^((?!(l|uPartyInfo|vPartyInfo|counter|literal\[[0-9a-fA-F]+\])).)+$";
 
             var fiPieces = associatedDataPattern.Split("||".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
             foreach (var fiPiece in fiPieces)

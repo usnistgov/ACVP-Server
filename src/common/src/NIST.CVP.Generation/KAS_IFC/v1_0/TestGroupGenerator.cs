@@ -261,6 +261,11 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
 
         private List<IKdfConfiguration> GetKdfConfigurations(KdfMethods kdfMethods, int l)
         {
+            if (kdfMethods == null)
+            {
+                return new List<IKdfConfiguration>();
+            }
+            
             var list = new List<IKdfConfiguration>();
 
             GetKdfConfiguration(kdfMethods.OneStepKdf, l, list);

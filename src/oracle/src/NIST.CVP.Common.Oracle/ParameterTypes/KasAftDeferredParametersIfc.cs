@@ -58,6 +58,9 @@ namespace NIST.CVP.Common.Oracle.ParameterTypes
         public BitString IutNonce { get; set; }
         public BitString ServerNonce { get; set; }
         
+        public BitString IutK { get; set; }
+        public BitString ServerK { get; set; }
+        
         public IKdfParameter KdfParameter { get; set; }
         public KtsParameter KtsParameter { get; set; }
         public MacParameters MacParameter { get; set; }

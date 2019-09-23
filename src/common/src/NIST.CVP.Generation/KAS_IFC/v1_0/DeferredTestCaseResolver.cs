@@ -59,12 +59,14 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
                 ServerNonce = serverTestCase.ServerNonce,
                 ServerC = serverTestCase.ServerC,
                 ServerZ = serverTestCase.ServerZ,
+                ServerK = serverTestCase.ServerK,
                 
                 IutKey = serverTestCase.IutKey,
                 IutPartyId = serverTestGroup.IutId,
                 IutNonce = iutTestCase.IutNonce,
                 IutC = iutTestCase.IutC,
-                IutZ = iutTestCase.ServerZ
+                IutZ = iutTestCase.ServerZ,
+                IutK = iutTestCase.IutK
             }); 
             
             return new KasResult(result.Result.Dkm, null, null, result.Result.Tag);

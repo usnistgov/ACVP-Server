@@ -17,12 +17,12 @@ namespace NIST.CVP.Crypto.KAS.Scheme.Ifc
         private readonly IKeyConfirmationFactory _keyConfirmationFactory;
         private readonly IFixedInfoFactory _fixedInfoFactory;
         private readonly FixedInfoParameter _fixedInfoParameter;
-        private readonly IIfcSecretKeyingMaterialBuilder _thisPartyKeyingMaterialBuilder;
         private readonly MacParameters _macParameters;
         
         private IIfcSecretKeyingMaterial _thisPartyKeyingMaterial;
         private bool _isThisPartyKeyingMaterialInitialized;
 
+        protected readonly IIfcSecretKeyingMaterialBuilder _thisPartyKeyingMaterialBuilder;
         protected readonly IEntropyProvider EntropyProvider;
         
         protected SchemeBase(
@@ -58,11 +58,6 @@ namespace NIST.CVP.Crypto.KAS.Scheme.Ifc
             }
             set
             {
-                if (_isThisPartyKeyingMaterialInitialized)
-                {
-                    throw new NotSupportedException("This party keying material has already been initialized.");
-                }
-
                 _isThisPartyKeyingMaterialInitialized = true;
                 _thisPartyKeyingMaterial = value;
             }
@@ -70,11 +65,6 @@ namespace NIST.CVP.Crypto.KAS.Scheme.Ifc
 
         public void InitializeThisPartyKeyingMaterial(IIfcSecretKeyingMaterial otherPartyKeyingMaterial)
         {
-            if (_isThisPartyKeyingMaterialInitialized)
-            {
-                return;
-            }
-            
             _isThisPartyKeyingMaterialInitialized = true;
 
             BuildKeyingMaterialThisParty(_thisPartyKeyingMaterialBuilder, otherPartyKeyingMaterial);
@@ -138,13 +128,20 @@ namespace NIST.CVP.Crypto.KAS.Scheme.Ifc
             return keyConfirmation.ComputeMac();
         }
 
+        /// <summary>
+        /// Generate the <see cref="IKeyConfirmationParameters"/> based on the two parties information.
+        /// </summary>
+        /// <param name="otherPartyKeyingMaterial">The other parties keying information.</param>
+        /// <param name="keyToTransport">The derived keying material.</param>
+        /// <returns></returns>
         private IKeyConfirmationParameters GetKeyConfirmationParameters(IIfcSecretKeyingMaterial otherPartyKeyingMaterial, BitString keyToTransport)
         {
             var thisPartyEphemData =
-                GetEphemeralDataFromKeyContribution(ThisPartyKeyingMaterial, SchemeParameters.KeyAgreementRole);
+                GetEphemeralDataFromKeyContribution(ThisPartyKeyingMaterial, SchemeParameters.KeyAgreementRole, false);
             var otherPartyEphemData =
                 GetEphemeralDataFromKeyContribution(otherPartyKeyingMaterial,
-                    KeyGenerationRequirementsHelper.GetOtherPartyKeyAgreementRole(SchemeParameters.KeyAgreementRole));
+                    KeyGenerationRequirementsHelper.GetOtherPartyKeyAgreementRole(SchemeParameters.KeyAgreementRole),
+                    false);
             
             return new KeyConfirmationParameters(
                 SchemeParameters.KeyAgreementRole,
@@ -164,16 +161,17 @@ namespace NIST.CVP.Crypto.KAS.Scheme.Ifc
         /// <summary>
         /// Get the FixedInfo BitString for use in KDFs and KTS.
         /// </summary>
-        /// <param name="otherPartyKeyingMaterial"></param>
+        /// <param name="otherPartyKeyingMaterial">The other party keying material</param>
+        /// <param name="excludeEphemeralData">Should the ephemeral data be excluded? (Used for KTS fixed info generation)</param>
         /// <returns></returns>
-        protected BitString GetFixedInfo(IIfcSecretKeyingMaterial otherPartyKeyingMaterial)
+        protected BitString GetFixedInfo(IIfcSecretKeyingMaterial otherPartyKeyingMaterial, bool excludeEphemeralData = false)
         {
             var fixedInfo = _fixedInfoFactory.Get();
 
-            var thisPartyFixedInfo = GetPartyFixedInfo(ThisPartyKeyingMaterial, SchemeParameters.KeyAgreementRole);
+            var thisPartyFixedInfo = GetPartyFixedInfo(ThisPartyKeyingMaterial, SchemeParameters.KeyAgreementRole, excludeEphemeralData);
             var otherPartyRole =
                 KeyGenerationRequirementsHelper.GetOtherPartyKeyAgreementRole(SchemeParameters.KeyAgreementRole);
-            var otherPartyFixedInfo = GetPartyFixedInfo(otherPartyKeyingMaterial, otherPartyRole);
+            var otherPartyFixedInfo = GetPartyFixedInfo(otherPartyKeyingMaterial, otherPartyRole, excludeEphemeralData);
 
             _fixedInfoParameter.FixedInfoPartyU = SchemeParameters.KeyAgreementRole == KeyAgreementRole.InitiatorPartyU
                 ? thisPartyFixedInfo
@@ -191,10 +189,11 @@ namespace NIST.CVP.Crypto.KAS.Scheme.Ifc
         /// </summary>
         /// <param name="secretKeyingMaterial">The secret keying material for the party.</param>
         /// <param name="keyAgreementRole">The parties key agreement role.</param>
+        /// <param name="excludeEphemeralData">Should the ephemeral data be excluded? (Used for KTS fixed info generation)</param>
         /// <returns></returns>
-        private PartyFixedInfo GetPartyFixedInfo(IIfcSecretKeyingMaterial secretKeyingMaterial, KeyAgreementRole keyAgreementRole)
+        private PartyFixedInfo GetPartyFixedInfo(IIfcSecretKeyingMaterial secretKeyingMaterial, KeyAgreementRole keyAgreementRole, bool excludeEphemeralData)
         {
-            return new PartyFixedInfo(secretKeyingMaterial.PartyId, GetEphemeralDataFromKeyContribution(secretKeyingMaterial, keyAgreementRole));
+            return new PartyFixedInfo(secretKeyingMaterial.PartyId, GetEphemeralDataFromKeyContribution(secretKeyingMaterial, keyAgreementRole, excludeEphemeralData));
         }
        
         /// <summary>
@@ -217,8 +216,9 @@ namespace NIST.CVP.Crypto.KAS.Scheme.Ifc
         /// </summary>
         /// <param name="secretKeyingMaterial">a party's secret keying material</param>
         /// <param name="keyAgreementRole">a party's key agreement role</param>
+        /// <param name="excludeEphemeralData">Should the ephemeral data be excluded? (Used for KTS fixed info generation)</param>
         /// <returns></returns>
-        protected abstract BitString GetEphemeralDataFromKeyContribution(IIfcSecretKeyingMaterial secretKeyingMaterial, KeyAgreementRole keyAgreementRole);
+        protected abstract BitString GetEphemeralDataFromKeyContribution(IIfcSecretKeyingMaterial secretKeyingMaterial, KeyAgreementRole keyAgreementRole, bool excludeEphemeralData);
 
     }
 }

@@ -74,6 +74,7 @@ namespace NIST.CVP.Orleans.Grains.Kas
                     .WithKey(_param.ServerKey)
                     .WithC(_param.ServerC)
                     .WithZ(_param.ServerZ)
+                    .WithK(_param.ServerK)
                     .WithDkmNonce(_param.ServerNonce);
 
                 var serverSecretKeyingMaterial = _serverSecretKeyingMaterialBuilder
