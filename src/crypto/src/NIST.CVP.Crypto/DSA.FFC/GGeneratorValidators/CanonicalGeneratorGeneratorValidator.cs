@@ -47,7 +47,7 @@ namespace NIST.CVP.Crypto.DSA.FFC.GGeneratorValidators
                 }
 
                 // Need to make sure the BigInteger conversion doesn't drop leading 00 bytes, always have as much seed as q
-                var seedBits = new BitString(seed.GetFullSeed()).PadToModulusMsb(q.ExactBitLength());
+                var seedBits = new BitString(seed.GetFullSeed()).PadToModulusMsb(32);
                 
                 // 7
                 var countBS = new BitString(count, 16, false);      // value must be 16 bits long
@@ -105,7 +105,7 @@ namespace NIST.CVP.Crypto.DSA.FFC.GGeneratorValidators
                 }
 
                 // Need to make sure the BigInteger conversion doesn't drop leading 00 bytes, always have as much seed as q
-                var seedBits = new BitString(seed.GetFullSeed()).PadToModulusMsb(q.ExactBitLength());
+                var seedBits = new BitString(seed.GetFullSeed()).PadToModulusMsb(32);
                 
                 // 9
                 var countBS = new BitString(count, 16, false);      // value must be 16 bits long
