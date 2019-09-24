@@ -4,10 +4,12 @@ using System.Text;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Crypto.Common.KAS.KDF.KdfOneStep;
+using NIST.CVP.Crypto.CSHAKE;
 using NIST.CVP.Crypto.HMAC;
 using NIST.CVP.Crypto.KAS.Fakes;
 using NIST.CVP.Crypto.KAS.KDF;
 using NIST.CVP.Crypto.KAS.KDF.OneStep;
+using NIST.CVP.Crypto.KMAC;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
@@ -21,7 +23,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.KDF
         [Test]
         public void OriginalSharedSecretShouldBeModified()
         {
-            var kdfFactory = new KdfOneStepFactory(new ShaFactory(), new HmacFactory(new ShaFactory()));
+            var kdfFactory = new KdfOneStepFactory(new ShaFactory(), new HmacFactory(new ShaFactory()), new KmacFactory(new CSHAKEWrapper()));
             var fakeKdfFactory = new FakeKdfFactory_BadZ(kdfFactory);
 
             var originalZ = new BitString("01");

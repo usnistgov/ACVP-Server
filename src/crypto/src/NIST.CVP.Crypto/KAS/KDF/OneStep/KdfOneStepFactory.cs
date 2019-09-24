@@ -3,6 +3,7 @@ using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Crypto.Common.KAS.KDF.KdfOneStep;
 using NIST.CVP.Crypto.Common.MAC.HMAC;
+using NIST.CVP.Crypto.Common.MAC.KMAC;
 
 namespace NIST.CVP.Crypto.KAS.KDF.OneStep
 {
@@ -10,11 +11,13 @@ namespace NIST.CVP.Crypto.KAS.KDF.OneStep
     {
         private readonly IShaFactory _shaFactory;
         private readonly IHmacFactory _hmacFactory;
+        private readonly IKmacFactory _kmacFactory;
 
-        public KdfOneStepFactory(IShaFactory shaFactory, IHmacFactory hmacFactory)
+        public KdfOneStepFactory(IShaFactory shaFactory, IHmacFactory hmacFactory, IKmacFactory kmacFactory)
         {
             _shaFactory = shaFactory;
             _hmacFactory = hmacFactory;
+            _kmacFactory = kmacFactory;
         }
 
         public IKdfOneStep GetInstance(KasKdfOneStepAuxFunction auxFunction)
@@ -52,6 +55,10 @@ namespace NIST.CVP.Crypto.KAS.KDF.OneStep
                 case KasKdfOneStepAuxFunction.HMAC_SHA3_D384:
                 case KasKdfOneStepAuxFunction.HMAC_SHA3_D512:
                     return new KdfHmac(_hmacFactory, _shaFactory, auxFunction);
+                case KasKdfOneStepAuxFunction.KMAC_128:
+                    return new KdfKmac(_kmacFactory, 128);
+                case KasKdfOneStepAuxFunction.KMAC_256:
+                    return new KdfKmac(_kmacFactory, 256);
                 default:
                     throw new ArgumentException(nameof(auxFunction));
             }

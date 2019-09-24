@@ -57,7 +57,9 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
             (KasKdfOneStepAuxFunction.HMAC_SHA3_D224, true),
             (KasKdfOneStepAuxFunction.HMAC_SHA3_D256, true),
             (KasKdfOneStepAuxFunction.HMAC_SHA3_D384, true),
-            (KasKdfOneStepAuxFunction.HMAC_SHA3_D512, true)
+            (KasKdfOneStepAuxFunction.HMAC_SHA3_D512, true),
+            (KasKdfOneStepAuxFunction.KMAC_128, true),
+            (KasKdfOneStepAuxFunction.KMAC_256, true),
         };
 
         private static readonly AlgoMode[] ValidAlgoModes = new[]

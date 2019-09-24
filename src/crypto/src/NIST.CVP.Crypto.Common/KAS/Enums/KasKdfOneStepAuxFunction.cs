@@ -45,5 +45,9 @@ namespace NIST.CVP.Crypto.Common.KAS.Enums
         HMAC_SHA3_D384,
         [EnumMember(Value = "HMAC-SHA3-512")]        
         HMAC_SHA3_D512,
+        [EnumMember(Value = "KMAC-128")]
+        KMAC_128,
+        [EnumMember(Value = "KMAC-256")]
+        KMAC_256
     }
 }

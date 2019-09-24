@@ -10,6 +10,7 @@ using NIST.CVP.Crypto.Common.KAS.KDF;
 using NIST.CVP.Crypto.Common.KAS.KDF.KdfOneStep;
 using NIST.CVP.Crypto.Common.KAS.Scheme;
 using NIST.CVP.Crypto.Common.KTS;
+using NIST.CVP.Crypto.CSHAKE;
 using NIST.CVP.Crypto.HMAC;
 using NIST.CVP.Crypto.KAS.Builders.Ifc;
 using NIST.CVP.Crypto.KAS.FixedInfo;
@@ -17,6 +18,7 @@ using NIST.CVP.Crypto.KAS.KC;
 using NIST.CVP.Crypto.KAS.KDF;
 using NIST.CVP.Crypto.KAS.KDF.OneStep;
 using NIST.CVP.Crypto.KES;
+using NIST.CVP.Crypto.KMAC;
 using NIST.CVP.Crypto.KTS;
 using NIST.CVP.Crypto.RSA;
 using NIST.CVP.Crypto.SHAWrapper;
@@ -49,7 +51,7 @@ namespace NIST.CVP.Crypto.KAS.Tests
             var entropyFactory = new EntropyProviderFactory();
             var rsa = new Rsa(new RsaVisitor());
             
-            var kdfVisitor = new KdfVisitor(new KdfOneStepFactory(shaFactory, new HmacFactory(shaFactory)));
+            var kdfVisitor = new KdfVisitor(new KdfOneStepFactory(shaFactory, new HmacFactory(shaFactory), new KmacFactory(new CSHAKEWrapper())));
             var rsaSve = new RsaSve(rsa, entropyFactory);
             
             _kasBuilderPartyU = new KasIfcBuilder();

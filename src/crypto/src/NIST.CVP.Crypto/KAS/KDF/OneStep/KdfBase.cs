@@ -13,10 +13,14 @@ namespace NIST.CVP.Crypto.KAS.KDF.OneStep
         protected abstract BigInteger MaxInputLength { get; }
         protected abstract BitString H(BitString message, BitString salt);
 
+        protected int KeyDataLength;
+
         public virtual KdfResult DeriveKey(BitString z, int keyDataLength, BitString fixedInfo, BitString salt)
         {
+            KeyDataLength = keyDataLength;
+            
             // 1. reps =  keydatalen / hashlen.
-            var reps = keyDataLength.CeilingDivide(OutputLength);
+            var reps = KeyDataLength.CeilingDivide(OutputLength);
 
             // 2. If reps > (23^2 −1), then return an error indicator without performing the remaining actions.
             if (reps > ((BigInteger)1 << 32) - 1)
@@ -31,7 +35,7 @@ namespace NIST.CVP.Crypto.KAS.KDF.OneStep
 
             // 4. If counter || Z || FixedInfo is more than max_H_inputlen bits long,
             // then return an error indicator without performing the remaining actions
-            if (messageToH.BitLength > MaxInputLength)
+            if (MaxInputLength != -1 && messageToH.BitLength > MaxInputLength)
             {
                 throw new ArgumentException($"{nameof(messageToH)} exceeds length of {MaxInputLength}");
             }
@@ -53,14 +57,14 @@ namespace NIST.CVP.Crypto.KAS.KDF.OneStep
 
             // 6. Let K_Last be set to K(reps) if (keydatalen / hashlen) is an integer; otherwise, let K_Last
             // be set to the(keydatalen mod hashlen) leftmost bits of K(reps)
-            if (keyDataLength % OutputLength == 0)
+            if (KeyDataLength % OutputLength == 0)
             {
                 k = k.ConcatenateBits(H(messageToH, salt));
             }
             else
             {
                 k = k.ConcatenateBits(
-                    H(messageToH, salt).GetMostSignificantBits(keyDataLength % OutputLength)
+                    H(messageToH, salt).GetMostSignificantBits(KeyDataLength % OutputLength)
                 );
             }
 
