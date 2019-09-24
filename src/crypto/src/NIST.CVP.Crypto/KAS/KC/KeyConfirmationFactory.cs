@@ -10,7 +10,10 @@ using NIST.CVP.Crypto.Common.KAS.KC;
 using NIST.CVP.Crypto.Common.MAC.CMAC;
 using NIST.CVP.Crypto.Common.MAC.CMAC.Enums;
 using NIST.CVP.Crypto.Common.MAC.HMAC;
+using NIST.CVP.Crypto.Common.MAC.KMAC;
+using NIST.CVP.Crypto.CSHAKE;
 using NIST.CVP.Crypto.HMAC;
+using NIST.CVP.Crypto.KMAC;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Crypto.Symmetric.BlockModes;
 using NIST.CVP.Crypto.Symmetric.BlockModes.Aead;
@@ -23,12 +26,15 @@ namespace NIST.CVP.Crypto.KAS.KC
         private readonly IKeyConfirmationMacDataCreator _macDataCreator;
         private readonly ICmacFactory _cmacFactory;
         private readonly IHmacFactory _hmacFactory;
+        private readonly IKmacFactory _kmacFactory;
         
         public KeyConfirmationFactory(IKeyConfirmationMacDataCreator macDataCreator)
         {
             _macDataCreator = macDataCreator;
+            // TODO why am i newing this up?
             _cmacFactory = new CmacFactory(new BlockCipherEngineFactory(), new ModeBlockCipherFactory());
             _hmacFactory = new HmacFactory(new ShaFactory());
+            _kmacFactory = new KmacFactory(new CSHAKEWrapper());
         }
 
         public IKeyConfirmation GetInstance(IKeyConfirmationParameters parameters)
@@ -62,6 +68,10 @@ namespace NIST.CVP.Crypto.KAS.KC
 
                     return new KeyConfirmationHmac(
                         _macDataCreator, parameters, _hmacFactory.GetHmacInstance(new HashFunction(modeValue, digestSize)));
+                case KeyAgreementMacType.Kmac_128:
+                    return new KeyConfirmationKmac(_macDataCreator, parameters, _kmacFactory.GetKmacInstance(128, false));
+                case KeyAgreementMacType.Kmac_256:
+                    return new KeyConfirmationKmac(_macDataCreator, parameters, _kmacFactory.GetKmacInstance(256, false));
                 default:
                     throw new ArgumentException($"{GetType().Name}, {nameof(parameters.MacType)}");
             }

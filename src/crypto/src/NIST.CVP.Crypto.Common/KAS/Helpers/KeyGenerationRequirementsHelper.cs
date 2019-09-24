@@ -1492,6 +1492,8 @@ namespace NIST.CVP.Crypto.Common.KAS.Helpers
                     new KeyConfirmationMacDetail(KeyAgreementMacType.HmacSha3D256, 256, 112, 512),
                     new KeyConfirmationMacDetail(KeyAgreementMacType.HmacSha3D384, 384, 112, 512),
                     new KeyConfirmationMacDetail(KeyAgreementMacType.HmacSha3D512, 512, 112, 512),
+                    new KeyConfirmationMacDetail(KeyAgreementMacType.Kmac_128, 512, 112, 512),
+                    new KeyConfirmationMacDetail(KeyAgreementMacType.Kmac_256, 512, 112, 512),
                 };
 
         public static KeyConfirmationMacDetail GetKeyConfirmationMacDetails(KeyAgreementMacType macType)

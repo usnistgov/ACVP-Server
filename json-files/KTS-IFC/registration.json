@@ -65,8 +65,8 @@
         ]
       },
       "macMethods": {
-        "hmaC-SHA2-224": {
-          "macType": "hmac-sha2-224",
+        "kmaC-128": {
+          "macType": "kmac-128",
           "keyLen": 128,
           "macLen": 224
         }

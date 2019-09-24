@@ -129,7 +129,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                         },
                         MacMethods = new MacMethods()
                         {
-                            HmacSha2_D224 = new MacOptionHmacSha2_d224()
+                            Kmac128 = new MacOptionKmac128()
                             {
                                 KeyLen = 128,
                                 MacLen = 224

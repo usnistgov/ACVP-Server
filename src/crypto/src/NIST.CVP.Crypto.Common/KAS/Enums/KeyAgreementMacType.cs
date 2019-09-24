@@ -68,6 +68,16 @@ namespace NIST.CVP.Crypto.Common.KAS.Enums
         /// AES-CCM
         /// </summary>
         [EnumMember(Value = "aes-ccm")]
-        AesCcm
+        AesCcm,
+        /// <summary>
+        /// KMAC-128
+        /// </summary>
+        [EnumMember(Value="kmac-128")]
+        Kmac_128,
+        /// <summary>
+        /// KMAC-256
+        /// </summary>
+        [EnumMember(Value = "kmac-256")]
+        Kmac_256
     }
 }

@@ -409,6 +409,8 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
             ValidateMacKeyLen(l, macOptions.HmacSha3_D256, errorResults);
             ValidateMacKeyLen(l, macOptions.HmacSha3_D384, errorResults);
             ValidateMacKeyLen(l, macOptions.HmacSha3_D512, errorResults);
+            ValidateMacKeyLen(l, macOptions.Kmac128, errorResults);
+            ValidateMacKeyLen(l, macOptions.Kmac256, errorResults);
         }
 
         private void ValidateMacKeyLen(int schemeL, MacOptionsBase macMethod, List<string> errorResults)

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Numerics;
 using Newtonsoft.Json;
+using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys;
 using NIST.CVP.Crypto.Common.KAS.Enums;
@@ -54,23 +55,15 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
         {
             var list = new List<SchemeBase>();
 
-            if (Kas1_basic != null)
-                list.Add(Kas1_basic);
-            if (Kas1_partyV_confirmation != null)
-                list.Add(Kas1_partyV_confirmation);
-            if (Kas2_basic != null)
-                list.Add(Kas2_basic);
-            if (Kas2_bilateral_confirmation != null)
-                list.Add(Kas2_bilateral_confirmation);
-            if (Kas2_partyU_confirmation != null)
-                list.Add(Kas2_partyU_confirmation);
-            if (Kas2_partyV_confirmation != null)
-                list.Add(Kas2_partyV_confirmation);
-            if (Kts_oaep_basic != null)
-                list.Add(Kts_oaep_basic);
-            if (Kts_oaep_partyV_confirmation != null)
-                list.Add(Kts_oaep_partyV_confirmation);
-            
+            list.AddIfNotNull(Kas1_basic);
+            list.AddIfNotNull(Kas1_partyV_confirmation);
+            list.AddIfNotNull(Kas2_basic);
+            list.AddIfNotNull(Kas2_bilateral_confirmation);
+            list.AddIfNotNull(Kas2_partyU_confirmation);
+            list.AddIfNotNull(Kas2_partyV_confirmation);
+            list.AddIfNotNull(Kts_oaep_basic);
+            list.AddIfNotNull(Kts_oaep_partyV_confirmation);
+        
             return list;
         }
     }
@@ -179,19 +172,13 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
         {
             var list = new List<KeyGenerationMethodBase>();
 
-            if (RsaKpg1_basic != null)
-                list.Add(RsaKpg1_basic);
-            if (RsaKpg1_primeFactor != null)
-                list.Add(RsaKpg1_primeFactor);
-            if (RsaKpg1_crt != null)
-                list.Add(RsaKpg1_crt);
-            if (RsaKpg2_basic != null)
-                list.Add(RsaKpg2_basic);
-            if (RsaKpg2_primeFactor != null)
-                list.Add(RsaKpg2_primeFactor);
-            if (RsaKpg2_crt != null)
-                list.Add(RsaKpg2_crt);
-            
+            list.AddIfNotNull(RsaKpg1_basic);
+            list.AddIfNotNull(RsaKpg1_primeFactor);
+            list.AddIfNotNull(RsaKpg1_crt);
+            list.AddIfNotNull(RsaKpg2_basic);
+            list.AddIfNotNull(RsaKpg2_primeFactor);
+            list.AddIfNotNull(RsaKpg2_crt);
+        
             return list;
         }
     }
@@ -266,12 +253,11 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
     {
         public OneStepKdf OneStepKdf { get; set; }
         
-        public IEnumerable<KasKdf> GetRegisteredKdfMethods()
+        public IEnumerable<KdfMethodBase> GetRegisteredKdfMethods()
         {
-            var list = new List<KasKdf>();
+            var list = new List<OneStepKdf>();
 
-            if (OneStepKdf != null)
-                list.Add(KasKdf.OneStep);
+            list.AddIfNotNull(OneStepKdf);
            
             return list;
         }
@@ -365,34 +351,29 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
         public MacOptionHmacSha3_d384 HmacSha3_D384 { get; set; }
         [JsonProperty(PropertyName = "HMAC-SHA3-512")]
         public MacOptionHmacSha3_d512 HmacSha3_D512 { get; set; }
+        [JsonProperty(PropertyName = "KMAC-128")]
+        public MacOptionKmac128 Kmac128 { get; set; }
+        [JsonProperty(PropertyName = "KMAC-256")]
+        public MacOptionKmac256 Kmac256 { get; set; }
         
         public IEnumerable<MacOptionsBase> GetRegisteredMacMethods()
         {
             var list = new List<MacOptionsBase>();
 
-            if (Cmac != null)
-                list.Add(Cmac);
-            if (HmacSha2_D224 != null)
-                list.Add(HmacSha2_D224);
-            if (HmacSha2_D256 != null)
-                list.Add(HmacSha2_D256);
-            if (HmacSha2_D384 != null)
-                list.Add(HmacSha2_D384);
-            if (HmacSha2_D512 != null)
-                list.Add(HmacSha2_D512);
-            if (HmacSha2_D512_T224 != null)
-                list.Add(HmacSha2_D512_T224);
-            if (HmacSha2_D512_T256 != null)
-                list.Add(HmacSha2_D512_T256);
-            if (HmacSha3_D224 != null)
-                list.Add(HmacSha3_D224);
-            if (HmacSha3_D256 != null)
-                list.Add(HmacSha3_D256);
-            if (HmacSha3_D384 != null)
-                list.Add(HmacSha3_D384);
-            if (HmacSha3_D512 != null)
-                list.Add(HmacSha3_D512);
-            
+            list.AddIfNotNull(Cmac);
+            list.AddIfNotNull(HmacSha2_D224);
+            list.AddIfNotNull(HmacSha2_D256);
+            list.AddIfNotNull(HmacSha2_D384);
+            list.AddIfNotNull(HmacSha2_D512);
+            list.AddIfNotNull(HmacSha2_D512_T224);
+            list.AddIfNotNull(HmacSha2_D512_T256);
+            list.AddIfNotNull(HmacSha3_D224);
+            list.AddIfNotNull(HmacSha3_D256);
+            list.AddIfNotNull(HmacSha3_D384);
+            list.AddIfNotNull(HmacSha3_D512);
+            list.AddIfNotNull(Kmac128);
+            list.AddIfNotNull(Kmac256);
+
             return list;
         }
     }
@@ -513,5 +494,23 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
     public class MacOptionHmacSha3_d512 : MacOptionsBase
     {
         public override KeyAgreementMacType MacType => KeyAgreementMacType.HmacSha3D512;
+    }
+    
+    /// <inheritdoc />
+    /// <summary>
+    /// KMAC-128
+    /// </summary>
+    public class MacOptionKmac128 : MacOptionsBase
+    {
+        public override KeyAgreementMacType MacType => KeyAgreementMacType.Kmac_128;
+    }
+    
+    /// <inheritdoc />
+    /// <summary>
+    /// KMAC-256
+    /// </summary>
+    public class MacOptionKmac256 : MacOptionsBase
+    {
+        public override KeyAgreementMacType MacType => KeyAgreementMacType.Kmac_256;
     }
 }
