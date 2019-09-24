@@ -100,6 +100,42 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                             }
                         }
                     },
+                    Kts_oaep_partyV_confirmation = new Kts_oaep_partyV_confirmation()
+                    {
+                        L = 512,
+                        KasRole = new []
+                        {
+                            KeyAgreementRole.InitiatorPartyU, 
+                            KeyAgreementRole.ResponderPartyV
+                        },
+                        KtsMethod = new KtsMethod()
+                        {
+                            Encoding = new []{ FixedInfoEncoding.Concatenation },
+                            HashAlgs = new []{ KasHashAlg.SHA2_D224 },
+                            AssociatedDataPattern = "l|uPartyInfo|vPartyInfo",
+                            SupportsNullAssociatedData = true
+                        },
+                        KeyGenerationMethods = new KeyGenerationMethods()
+                        {
+//                            RsaKpg1_basic = new RsaKpg1_basic()
+//                            {
+//                                Modulo = new[] { 2048 },
+//                                FixedPublicExponent = new BigInteger(65537)
+//                            },
+                            RsaKpg2_basic = new RsaKpg2_basic()
+                            {
+                                Modulo = new[] { 2048 },
+                            }
+                        },
+                        MacMethods = new MacMethods()
+                        {
+                            HmacSha2_D224 = new MacOptionHmacSha2_d224()
+                            {
+                                KeyLen = 128,
+                                MacLen = 224
+                            }
+                        }
+                    },
                 }
             };
 

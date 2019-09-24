@@ -411,6 +411,11 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
 
         private void ValidateMacKeyLen(int schemeL, MacOptionsBase macMethod, List<string> errorResults)
         {
+            if (macMethod == null)
+            {
+                return;
+            }
+            
             var keyConfirmationMacDetails =
                 KeyGenerationRequirementsHelper.GetKeyConfirmationMacDetails(macMethod.MacType);
 
