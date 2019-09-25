@@ -87,7 +87,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
                 groups.AddRangeIfNotNullOrEmpty(genny.BuildTestGroups(p));
             }
 
-            Assert.AreEqual(34 * 3, groups.Count);
+            Assert.AreEqual(100, groups.Count);
         }
 
         private AlgSpec[] BuildCapabilities()
