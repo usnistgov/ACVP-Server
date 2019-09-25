@@ -6,9 +6,9 @@
   "isSample": true,
   "iutId": "BEEFFACE",
   "scheme": {
-    "kaS1-basic": {
-      "scheme": "KAS1-basic",
-      "kasMode": "kdfNoKc",
+    "kaS2-Party_V-confirmation": {
+      "scheme": "KAS2-Party_V-confirmation",
+      "kasMode": "kdfKc",
       "kasRole": [
         "initiator",
         "responder"
@@ -41,6 +41,13 @@
           "encoding": [
             "concatenation"
           ]
+        }
+      },
+      "macMethods": {
+        "hmaC-SHA2-224": {
+          "macType": "hmac-sha2-224",
+          "keyLen": 128,
+          "macLen": 224
         }
       },
       "l": 512

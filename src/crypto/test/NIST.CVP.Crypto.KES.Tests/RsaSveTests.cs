@@ -11,7 +11,7 @@ namespace NIST.CVP.Crypto.KES.Tests
     [TestFixture, FastCryptoTest]
     public class RsaSveTests
     {
-        private RsaSve _subject = new RsaSve(new Rsa(new RsaVisitor()), new EntropyProviderFactory());
+        private readonly RsaSve _subject = new RsaSve(new Rsa(new RsaVisitor()), new EntropyProvider(new Random800_90()));
 
         private static IEnumerable<object> _keyPairs = new List<object>()
         {

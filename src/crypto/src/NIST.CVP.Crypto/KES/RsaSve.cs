@@ -14,10 +14,10 @@ namespace NIST.CVP.Crypto.KES
         private readonly IRsa _rsa;
         private readonly IEntropyProvider _entropyProvider;
 
-        public RsaSve(IRsa rsa, IEntropyProviderFactory entropyFactory)
+        public RsaSve(IRsa rsa, IEntropyProvider entropyProvider)
         {
             _rsa = rsa;
-            _entropyProvider = entropyFactory.GetEntropyProvider(EntropyProviderTypes.Random);
+            _entropyProvider = entropyProvider;
         }
         
         public SharedSecretWithEncryptedValueResponse Generate(PublicKey rsaPublicKey)

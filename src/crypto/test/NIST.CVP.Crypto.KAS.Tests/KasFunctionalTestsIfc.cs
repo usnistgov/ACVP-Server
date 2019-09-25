@@ -9,6 +9,7 @@ using NIST.CVP.Crypto.Common.KAS.KC;
 using NIST.CVP.Crypto.Common.KAS.KDF;
 using NIST.CVP.Crypto.Common.KAS.KDF.KdfOneStep;
 using NIST.CVP.Crypto.Common.KAS.Scheme;
+using NIST.CVP.Crypto.Common.KES;
 using NIST.CVP.Crypto.Common.KTS;
 using NIST.CVP.Crypto.CSHAKE;
 using NIST.CVP.Crypto.HMAC;
@@ -43,7 +44,10 @@ namespace NIST.CVP.Crypto.KAS.Tests
         private IKtsFactory _ktsFactory;
         private IKeyConfirmationFactory _keyConfirmationFactory;
         private IFixedInfoFactory _fixedInfoFactory;
-
+        private IRsaSve _rsaSve;
+        
+        private readonly IEntropyProvider _entropyProvider = new EntropyProvider(new Random800_90());
+        
         [SetUp]
         public void Setup()
         {
@@ -52,13 +56,13 @@ namespace NIST.CVP.Crypto.KAS.Tests
             var rsa = new Rsa(new RsaVisitor());
             
             var kdfVisitor = new KdfVisitor(new KdfOneStepFactory(shaFactory, new HmacFactory(shaFactory), new KmacFactory(new CSHAKEWrapper())));
-            var rsaSve = new RsaSve(rsa, entropyFactory);
+            _rsaSve = new RsaSve(rsa, _entropyProvider);
             
             _kasBuilderPartyU = new KasIfcBuilder();
-            _schemeBuilderPartyU = new SchemeIfcBuilder(kdfVisitor, rsaSve, entropyFactory.GetEntropyProvider(EntropyProviderTypes.Random));
+            _schemeBuilderPartyU = new SchemeIfcBuilder(kdfVisitor);
             
             _kasBuilderPartyV = new KasIfcBuilder();
-            _schemeBuilderPartyV = new SchemeIfcBuilder(kdfVisitor, rsaSve, entropyFactory.GetEntropyProvider(EntropyProviderTypes.Random));
+            _schemeBuilderPartyV = new SchemeIfcBuilder(kdfVisitor);
             
             _secretKeyingMaterialBuilderPartyU = new IfcSecretKeyingMaterialBuilder();
             _secretKeyingMaterialBuilderPartyV = new IfcSecretKeyingMaterialBuilder();
@@ -197,6 +201,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 .WithKdf(_kdfFactory, kdfParam)
                 .WithKts(_ktsFactory, ktsParam)
                 .WithKeyConfirmation(kcFactory, macParam)
+                .WithEntropyProvider(_entropyProvider)
+                .WithRsaSve(_rsaSve)
                 .WithThisPartyKeyingMaterialBuilder(_secretKeyingMaterialBuilderPartyU);
 
             var kasPartyU = _kasBuilderPartyU
@@ -222,6 +228,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 .WithKdf(_kdfFactory, kdfParam)
                 .WithKts(_ktsFactory, ktsParam)
                 .WithKeyConfirmation(kcFactory, macParam)
+                .WithEntropyProvider(_entropyProvider)
+                .WithRsaSve(_rsaSve)
                 .WithThisPartyKeyingMaterialBuilder(_secretKeyingMaterialBuilderPartyV);
 
             var kasPartyV = _kasBuilderPartyV

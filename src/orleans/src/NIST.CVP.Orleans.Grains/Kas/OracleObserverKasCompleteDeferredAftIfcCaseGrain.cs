@@ -12,7 +12,9 @@ using NIST.CVP.Crypto.Common.KAS.Helpers;
 using NIST.CVP.Crypto.Common.KAS.KC;
 using NIST.CVP.Crypto.Common.KAS.KDF;
 using NIST.CVP.Crypto.Common.KAS.Scheme;
+using NIST.CVP.Crypto.Common.KES;
 using NIST.CVP.Crypto.Common.KTS;
+using NIST.CVP.Math.Entropy;
 using NIST.CVP.Orleans.Grains.Interfaces.Kas;
 
 namespace NIST.CVP.Orleans.Grains.Kas
@@ -28,6 +30,8 @@ namespace NIST.CVP.Orleans.Grains.Kas
         private readonly IKtsFactory _ktsFactory;
         private readonly IKeyConfirmationFactory _keyConfirmationFactory;
         private readonly IFixedInfoFactory _fixedInfoFactory;
+        private readonly IEntropyProvider _entropyProvider;
+        private readonly IRsaSve _rsaSve;
         
         private KasAftDeferredParametersIfc _param;
         
@@ -40,7 +44,9 @@ namespace NIST.CVP.Orleans.Grains.Kas
             IKdfFactory kdfFactory,
             IKtsFactory ktsFactory,
             IKeyConfirmationFactory keyConfirmationFactory,
-            IFixedInfoFactory fixedInfoFactory
+            IFixedInfoFactory fixedInfoFactory,
+            IEntropyProvider entropyProvider,
+            IRsaSve rsaSve
         ) 
             : base(nonOrleansScheduler)
         {
@@ -52,6 +58,8 @@ namespace NIST.CVP.Orleans.Grains.Kas
             _ktsFactory = ktsFactory;
             _keyConfirmationFactory = keyConfirmationFactory;
             _fixedInfoFactory = fixedInfoFactory;
+            _entropyProvider = entropyProvider;
+            _rsaSve = rsaSve;
         }
 
         public async Task<bool> BeginWorkAsync(KasAftDeferredParametersIfc param)
@@ -145,6 +153,8 @@ namespace NIST.CVP.Orleans.Grains.Kas
                     .WithFixedInfo(_fixedInfoFactory, fixedInfoParameter)
                     .WithKdf(_kdfFactory, _param.KdfParameter)
                     .WithKts(_ktsFactory, _param.KtsParameter)
+                    .WithRsaSve(_rsaSve)
+                    .WithEntropyProvider(_entropyProvider)
                     .WithKeyConfirmation(kcFactory, macParam);
                     
                 var serverKas = _kasBuilder.WithSchemeBuilder(_schemeBuilder).Build();

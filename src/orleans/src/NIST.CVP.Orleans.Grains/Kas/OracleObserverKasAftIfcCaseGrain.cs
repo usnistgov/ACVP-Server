@@ -7,6 +7,8 @@ using NIST.CVP.Crypto.Common.KAS.Builders;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Crypto.Common.KAS.KDF;
 using NIST.CVP.Crypto.Common.KAS.Scheme;
+using NIST.CVP.Crypto.Common.KES;
+using NIST.CVP.Math.Entropy;
 using NIST.CVP.Orleans.Grains.Interfaces.Kas;
 
 namespace NIST.CVP.Orleans.Grains.Kas
@@ -18,6 +20,8 @@ namespace NIST.CVP.Orleans.Grains.Kas
         private readonly IIfcSecretKeyingMaterialBuilder _serverSecretKeyingMaterialBuilder;
         private readonly IIfcSecretKeyingMaterialBuilder _iutSecretKeyingMaterialBuilder;
         private readonly IKdfParameterVisitor _kdfParameterVisitor;
+        private readonly IEntropyProvider _entropyProvider;
+        private readonly IRsaSve _rsaSve;
         
         private KasAftParametersIfc _param;
         private KeyPair _serverKeyPair;
@@ -28,7 +32,9 @@ namespace NIST.CVP.Orleans.Grains.Kas
             ISchemeIfcBuilder schemeBuilder,
             IIfcSecretKeyingMaterialBuilder serverSecretKeyingMaterialBuilder,
             IIfcSecretKeyingMaterialBuilder iutSecretKeyingMaterialBuilder,
-            IKdfParameterVisitor kdfParameterVisitor) 
+            IKdfParameterVisitor kdfParameterVisitor,
+            IEntropyProvider entropyProvider,
+            IRsaSve rsaSve) 
             : base(nonOrleansScheduler)
         {
             _kasBuilder = kasBuilder;
@@ -36,6 +42,8 @@ namespace NIST.CVP.Orleans.Grains.Kas
             _serverSecretKeyingMaterialBuilder = serverSecretKeyingMaterialBuilder;
             _iutSecretKeyingMaterialBuilder = iutSecretKeyingMaterialBuilder;
             _kdfParameterVisitor = kdfParameterVisitor;
+            _entropyProvider = entropyProvider;
+            _rsaSve = rsaSve;
         }
 
         public async Task<bool> BeginWorkAsync(KasAftParametersIfc param, KeyPair serverKeyPair)
@@ -94,7 +102,9 @@ namespace NIST.CVP.Orleans.Grains.Kas
                         _param.KeyConfirmationDirection, 
                         KasAssurance.None, 
                         _param.ServerPartyId))
-                .WithThisPartyKeyingMaterialBuilder(_serverSecretKeyingMaterialBuilder);
+                .WithThisPartyKeyingMaterialBuilder(_serverSecretKeyingMaterialBuilder)
+                .WithRsaSve(_rsaSve)
+                .WithEntropyProvider(_entropyProvider);
                 
             var serverKas = _kasBuilder.WithSchemeBuilder(_schemeBuilder).Build();
             serverKas.InitializeThisPartyKeyingMaterial(iutSecretKeyingMaterial);

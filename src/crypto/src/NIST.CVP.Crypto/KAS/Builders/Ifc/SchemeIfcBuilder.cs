@@ -26,19 +26,16 @@ namespace NIST.CVP.Crypto.KAS.Builders.Ifc
         private IKdfParameter _kdfParameters;
         private IKtsFactory _ktsFactory;
         private KtsParameter _ktsParameters;
+        private IRsaSve _rsaSve;
         private IKeyConfirmationFactory _keyConfirmationFactory;
         private MacParameters _macParameters;
+        private IEntropyProvider _entropyProvider;
         
         private readonly IKdfVisitor _kdfVisitor;
-        private readonly IRsaSve _rsaSve;
         
-        private readonly IEntropyProvider _entropyProvider;
-        
-        public SchemeIfcBuilder(IKdfVisitor kdfVisitor, IRsaSve rsaSve, IEntropyProvider entropyProvider)
+        public SchemeIfcBuilder(IKdfVisitor kdfVisitor)
         {
             _kdfVisitor = kdfVisitor;
-            _rsaSve = rsaSve;
-            _entropyProvider = entropyProvider;
         }
         
         public ISchemeIfcBuilder WithSchemeParameters(SchemeParametersIfc value)
@@ -80,10 +77,22 @@ namespace NIST.CVP.Crypto.KAS.Builders.Ifc
             return this;
         }
 
+        public ISchemeIfcBuilder WithRsaSve(IRsaSve value)
+        {
+            _rsaSve = value;
+            return this;
+        }
+
         public ISchemeIfcBuilder WithKeyConfirmation(IKeyConfirmationFactory factory, MacParameters parameter)
         {
             _keyConfirmationFactory = factory;
             _macParameters = parameter;
+            return this;
+        }
+
+        public ISchemeIfcBuilder WithEntropyProvider(IEntropyProvider value)
+        {
+            _entropyProvider = value;
             return this;
         }
 

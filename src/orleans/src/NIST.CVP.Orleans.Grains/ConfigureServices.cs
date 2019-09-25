@@ -208,6 +208,7 @@ namespace NIST.CVP.Orleans.Grains
             svc.AddSingleton<IFixedInfoStrategyFactory, FixedInfoStrategyFactory>();
             svc.AddSingleton<IFixedInfoFactory, FixedInfoFactory>();
             svc.AddTransient<IRsaSve, RsaSve>();
+            svc.AddTransient<IRsaSveBuilder, RsaSveBuilder>();
             svc.AddSingleton<IKtsFactory, KtsFactory>();
             
             svc.AddTransient<IIfcSecretKeyingMaterialBuilder, IfcSecretKeyingMaterialBuilder>();

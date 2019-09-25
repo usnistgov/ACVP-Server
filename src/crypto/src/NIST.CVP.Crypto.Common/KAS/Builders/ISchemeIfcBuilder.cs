@@ -3,7 +3,9 @@ using NIST.CVP.Crypto.Common.KAS.KC;
 using NIST.CVP.Crypto.Common.KAS.KDF;
 using NIST.CVP.Crypto.Common.KAS.KDF.KdfOneStep;
 using NIST.CVP.Crypto.Common.KAS.Scheme;
+using NIST.CVP.Crypto.Common.KES;
 using NIST.CVP.Crypto.Common.KTS;
+using NIST.CVP.Math.Entropy;
 
 namespace NIST.CVP.Crypto.Common.KAS.Builders
 {
@@ -52,16 +54,24 @@ namespace NIST.CVP.Crypto.Common.KAS.Builders
         /// <returns>this builder.</returns>
         ISchemeIfcBuilder WithKts(IKtsFactory factory, KtsParameter parameter);
         /// <summary>
+        /// Provides a <see cref="IRsaSve"/> instance to the builder.
+        /// </summary>
+        /// <param name="value">The <see cref="IRsaSve"/> implementation.</param>
+        /// <returns>this builder.</returns>
+        ISchemeIfcBuilder WithRsaSve(IRsaSve value);
+        /// <summary>
         /// Provides a Key Confirmation factory and parameter for performing key confirmation..
         /// </summary>
         /// <param name="factory">The KC factory.</param>
         /// <param name="parameter">The KC parameters.</param>
         /// <returns>this builder.</returns>
         ISchemeIfcBuilder WithKeyConfirmation(IKeyConfirmationFactory factory, MacParameters parameter);
+
         /// <summary>
         /// Build the Kas Ifc Scheme with the specified parameters.
         /// </summary>
         /// <returns>An instance of <see cref="ISchemeIfc"/>.</returns>
+        ISchemeIfcBuilder WithEntropyProvider(IEntropyProvider entropyProvider);
         ISchemeIfc Build();
     }
 }

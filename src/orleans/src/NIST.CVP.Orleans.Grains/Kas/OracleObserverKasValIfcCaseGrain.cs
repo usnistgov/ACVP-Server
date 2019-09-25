@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using NIST.CVP.Common;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys;
 using NIST.CVP.Crypto.Common.KAS;
 using NIST.CVP.Crypto.Common.KAS.Builders;
@@ -13,8 +14,10 @@ using NIST.CVP.Crypto.Common.KAS.Helpers;
 using NIST.CVP.Crypto.Common.KAS.KC;
 using NIST.CVP.Crypto.Common.KAS.KDF;
 using NIST.CVP.Crypto.Common.KAS.Scheme;
+using NIST.CVP.Crypto.Common.KES;
 using NIST.CVP.Crypto.Common.KTS;
 using NIST.CVP.Math;
+using NIST.CVP.Math.Entropy;
 using NIST.CVP.Orleans.Grains.Interfaces.Kas;
 
 namespace NIST.CVP.Orleans.Grains.Kas
@@ -33,11 +36,15 @@ namespace NIST.CVP.Orleans.Grains.Kas
         private readonly IKtsFactory _ktsFactory;
         private readonly IKeyConfirmationFactory _keyConfirmationFactory;
         private readonly IFixedInfoFactory _fixedInfoFactory;
+        private readonly IEntropyProvider _entropyProvider;
+        private readonly IRsaSve _rsaSve;
+        private readonly IRsaSveBuilder _rsaSveBuilder;
+        private readonly IRsa _rsa;
         
         private KasValParametersIfc _param;
         private KeyPair _serverKeyPair;
         private KeyPair _iutKeyPair;
-
+        
         public OracleObserverKasValIfcCaseGrain(
             LimitedConcurrencyLevelTaskScheduler nonOrleansScheduler,
             IKasIfcBuilder kasBuilderPartyU,
@@ -50,7 +57,11 @@ namespace NIST.CVP.Orleans.Grains.Kas
             IKdfParameterVisitor kdfParameterVisitor,
             IKtsFactory ktsFactory,
             IKeyConfirmationFactory keyConfirmationFactory,
-            IFixedInfoFactory fixedInfoFactory
+            IFixedInfoFactory fixedInfoFactory,
+            IEntropyProvider entropyProvider,
+            IRsaSve rsaSve,
+            IRsaSveBuilder rsaSveBuilder,
+            IRsa rsa
         ) 
             : base(nonOrleansScheduler)
         {
@@ -65,6 +76,10 @@ namespace NIST.CVP.Orleans.Grains.Kas
             _ktsFactory = ktsFactory;
             _keyConfirmationFactory = keyConfirmationFactory;
             _fixedInfoFactory = fixedInfoFactory;
+            _entropyProvider = entropyProvider;
+            _rsaSve = rsaSve;
+            _rsaSveBuilder = rsaSveBuilder;
+            _rsa = rsa;
         }
 
         public async Task<bool> BeginWorkAsync(KasValParametersIfc param, KeyPair serverKeyPair, KeyPair iutKeyPair)
@@ -101,6 +116,9 @@ namespace NIST.CVP.Orleans.Grains.Kas
                         isServerPartyV ? _param.ServerKeyConfirmationRole : _param.IutKeyConfirmationRole,
                         _param.KeyConfirmationDirection, 
                         false);
+
+                IRsaSve rsaSve = _rsaSve;
+                IEntropyProvider entropyProvider = _entropyProvider;
                 
                 var fixedInfoParameter = new FixedInfoParameter()
                 {
@@ -165,6 +183,8 @@ namespace NIST.CVP.Orleans.Grains.Kas
                     .WithKdf(_kdfFactory, kdfParam)
                     .WithKts(_ktsFactory, ktsParam)
                     .WithKeyConfirmation(kcFactory, macParam)
+                    .WithRsaSve(rsaSve)
+                    .WithEntropyProvider(entropyProvider)
                     .WithThisPartyKeyingMaterialBuilder(_secretKeyingMaterialBuilderPartyU);
 
                 var kasPartyU = _kasBuilderPartyU
@@ -191,6 +211,8 @@ namespace NIST.CVP.Orleans.Grains.Kas
                     .WithKdf(_kdfFactory, kdfParam)
                     .WithKts(_ktsFactory, ktsParam)
                     .WithKeyConfirmation(kcFactory, macParam)
+                    .WithRsaSve(rsaSve)
+                    .WithEntropyProvider(entropyProvider)
                     .WithThisPartyKeyingMaterialBuilder(_secretKeyingMaterialBuilderPartyV);
 
                 var kasPartyV = _kasBuilderPartyV

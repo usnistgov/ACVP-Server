@@ -11,7 +11,7 @@ namespace NIST.CVP.Math.Entropy
             _random = random;
         }
 
-        public BitString GetEntropy(int numberOfBits)
+        public virtual BitString GetEntropy(int numberOfBits)
         {
             return _random.GetRandomBitString(numberOfBits);
         }
