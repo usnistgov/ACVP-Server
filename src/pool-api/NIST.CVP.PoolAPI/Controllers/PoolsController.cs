@@ -29,7 +29,6 @@ namespace NIST.CVP.PoolAPI.Controllers
                 Converters = jsonConverterProvider.GetJsonConverters(),
                 Formatting = Formatting.Indented
             };
-
         }
 
         [HttpPost]
