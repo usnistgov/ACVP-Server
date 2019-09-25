@@ -28,12 +28,6 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
             // todo "VAL"
         };
         private static readonly BigInteger DefaultExponent = BigInteger.Zero; // new BigInteger(65537);
-        private readonly IOracle _oracle;
-
-        public TestGroupGenerator(IOracle oracle)
-        {
-            _oracle = oracle;
-        }
         
         public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
         {

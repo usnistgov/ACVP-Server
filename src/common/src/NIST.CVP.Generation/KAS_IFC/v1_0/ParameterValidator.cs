@@ -9,6 +9,7 @@ using NIST.CVP.Crypto.Common.Asymmetric.RSA.Helpers;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Crypto.Common.KAS.Helpers;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Math;
 using NIST.CVP.Math.Helpers;
 
 namespace NIST.CVP.Generation.KAS_IFC.v1_0
@@ -187,6 +188,11 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
             if (scheme.L < MinimumL || scheme.L > MaximumL)
             {
                 errorResults.Add($"{nameof(scheme.L)} should be within the range of {MinimumL} and {MaximumL}");
+            }
+
+            if (scheme.L % BitString.BITSINBYTE != 0)
+            {
+                errorResults.Add($"{nameof(scheme.L)} mod 8 should equal 0.");
             }
             
             ValidateKeyAgreementRoles(scheme.KasRole, errorResults);
@@ -423,16 +429,22 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
             var keyConfirmationMacDetails =
                 KeyGenerationRequirementsHelper.GetKeyConfirmationMacDetails(macMethod.MacType);
 
-            if (schemeL < macMethod.KeyLen)
+            if (schemeL <= macMethod.KeyLen)
             {
                 errorResults.Add($"Provided {nameof(schemeL)} value does not contain enough keying material to perform key confirmation with {macMethod.MacType}");
             }
+
+            if ((macMethod.KeyLen - schemeL) % BitString.BITSINBYTE != 0)
+            {
+                errorResults.Add($"Provided {nameof(macMethod.KeyLen)} - {nameof(schemeL)} mod 8 should equal 0.");
+            }
+            
             if (macMethod.KeyLen < keyConfirmationMacDetails.MinKeyLen || macMethod.KeyLen > keyConfirmationMacDetails.MaxKeyLen || 
                 (macMethod.MacType == KeyAgreementMacType.CmacAes && !ValidAesKeyLengths.Contains(macMethod.KeyLen)))
             {
                 errorResults.Add($"The provided {nameof(macMethod.KeyLen)} is outside the bounds of acceptable values for the specified {nameof(macMethod)} {macMethod.MacType}");
             }
-
+            
             if (macMethod.MacLen < keyConfirmationMacDetails.MinTagLen ||
                 macMethod.MacLen > keyConfirmationMacDetails.MaxTagLen)
             {
@@ -457,7 +469,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
             
             if (!parameters.IsSample && (parameters.PublicKeys == null || !parameters.PublicKeys.Any()))
             {
-                errorResults.Add(nameof(parameters.PublicKeys));
+                errorResults.Add($"The IUT shall provide {nameof(parameters.PublicKeys)} for each fixed exponent/modulo size registered, as well as public keys for use for each modulo size for random exponents (when applicable).");
                 return;
             }
             

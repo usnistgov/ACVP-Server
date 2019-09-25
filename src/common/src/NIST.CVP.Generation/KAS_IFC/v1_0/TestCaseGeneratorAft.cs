@@ -33,6 +33,15 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
                     w.PubKey.N.ExactBitLength().ValueToMod(1024) == group.Modulo)
                 .Select(s => s)
                 .ToList();
+
+            // Get IUT keys not taking into account the group public exponent (so random public exponent key groups)
+            if (_keys.Count == 0)
+            {
+                _keys = group.IutKeys
+                    .Where(w => w.PubKey.N.ExactBitLength().ValueToMod(1024) == group.Modulo)
+                    .Select(s => s)
+                    .ToList();
+            }
             
             return new GenerateResponse();
         }

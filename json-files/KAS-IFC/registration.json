@@ -6,9 +6,9 @@
   "isSample": true,
   "iutId": "BEEFFACE",
   "scheme": {
-    "kaS1-Party_V-confirmation": {
-      "scheme": "KAS1-Party_V-confirmation",
-      "kasMode": "kdfKc",
+    "kaS1-basic": {
+      "scheme": "KAS1-basic",
+      "kasMode": "kdfNoKc",
       "kasRole": [
         "initiator",
         "responder"
@@ -29,7 +29,7 @@
           "kdfType": "oneStep",
           "auxFunctions": [
             {
-              "auxFunctionName": "KMAC-128",
+              "auxFunctionName": "HMAC-SHA2-224",
               "saltLen": 128,
               "macSaltMethods": [
                 "Default",
@@ -41,13 +41,6 @@
           "encoding": [
             "concatenation"
           ]
-        }
-      },
-      "macMethods": {
-        "hmaC-SHA2-224": {
-          "macType": "hmac-sha2-224",
-          "keyLen": 128,
-          "macLen": 224
         }
       },
       "l": 512
