@@ -7,10 +7,12 @@ using NLog;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Web.Http.Cors;
 
 namespace NIST.CVP.PoolAPI.Controllers
 {
     [Route("api/[controller]")]
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     [ApiController]
     public class PoolsController : Controller
     {
