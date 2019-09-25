@@ -68,30 +68,15 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
                 PrimeTests = new[] { "tblc2" }
             };
 
-            var algSpecs = new AlgSpec[4];
-            algSpecs[0] = new AlgSpec
+            var algSpecs = new AlgSpec[ParameterValidator.VALID_KEY_GEN_MODES.Length];
+            for (var i = 0; i < algSpecs.Length; i++)
             {
-                RandPQ = "b.3.2",
-                Capabilities = caps
-            };
-
-            algSpecs[1] = new AlgSpec
-            {
-                RandPQ = "b.3.4",
-                Capabilities = caps
-            };
-
-            algSpecs[2] = new AlgSpec
-            {
-                RandPQ = "b.3.5",
-                Capabilities = caps
-            };
-
-            algSpecs[3] = new AlgSpec
-            {
-                RandPQ = "b.3.6",
-                Capabilities = caps
-            };
+                algSpecs[i] = new AlgSpec
+                {
+                    RandPQ = ParameterValidator.VALID_KEY_GEN_MODES[i],
+                    Capabilities = caps
+                };
+            }
 
             var p = new Parameters
             {
