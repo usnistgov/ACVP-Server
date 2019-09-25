@@ -32,6 +32,9 @@ namespace NIST.CVP.Generation.RSA.v1_0.KeyGen
                 {
                     foreach (var primeTest in capability.PrimeTests)
                     {
+                        // No KATs available for this size
+                        if (capability.Modulo == 4096) continue;
+                        
                         var testGroup = new TestGroup
                         {
                             PrimeGenMode = mode,

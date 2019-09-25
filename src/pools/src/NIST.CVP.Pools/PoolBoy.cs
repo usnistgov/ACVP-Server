@@ -68,7 +68,7 @@ namespace NIST.CVP.Pools
 
             try
             {
-                var response = (HttpWebResponse)request.GetResponse();
+                var response = (HttpWebResponse) request.GetResponse();
                 using (var streamReader = new StreamReader(response.GetResponseStream()))
                 {
                     var json = streamReader.ReadToEnd();
@@ -100,6 +100,11 @@ namespace NIST.CVP.Pools
 
                     return poolResult.Result;
                 }
+            }
+            catch (WebException)
+            {
+                LogManager.GetCurrentClassLogger().Error("Pool not accesible via web interface.");
+                return default(T);
             }
             catch (Exception ex)
             {

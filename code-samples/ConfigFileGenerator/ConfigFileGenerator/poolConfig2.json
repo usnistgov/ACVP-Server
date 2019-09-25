@@ -1,0 +1,2067 @@
+[
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.2",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA1",
+          "DigestSize": "d160"
+        },
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b32-4096-sha-1",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.2",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA2",
+          "DigestSize": "d224"
+        },
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b32-4096-sha2-224",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.2",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA2",
+          "DigestSize": "d256"
+        },
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b32-4096-sha2-256",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.2",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA2",
+          "DigestSize": "d384"
+        },
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b32-4096-sha2-384",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.2",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA2",
+          "DigestSize": "d512"
+        },
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b32-4096-sha2-512",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.2",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA2",
+          "DigestSize": "d512t224"
+        },
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b32-4096-sha2-512224",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.2",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA2",
+          "DigestSize": "d512t256"
+        },
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b32-4096-sha2-512256",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.2",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA1",
+          "DigestSize": "d160"
+        },
+        "PrimeTest": "tblC2",
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b32-4096-tblc2-sha-1",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.2",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA2",
+          "DigestSize": "d224"
+        },
+        "PrimeTest": "tblC2",
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b32-4096-tblc2-sha2-224",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.2",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA2",
+          "DigestSize": "d256"
+        },
+        "PrimeTest": "tblC2",
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b32-4096-tblc2-sha2-256",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.2",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA2",
+          "DigestSize": "d384"
+        },
+        "PrimeTest": "tblC2",
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b32-4096-tblc2-sha2-384",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.2",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA2",
+          "DigestSize": "d512"
+        },
+        "PrimeTest": "tblC2",
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b32-4096-tblc2-sha2-512",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.2",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA2",
+          "DigestSize": "d512t224"
+        },
+        "PrimeTest": "tblC2",
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b32-4096-tblc2-sha2-512224",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.2",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA2",
+          "DigestSize": "d512t256"
+        },
+        "PrimeTest": "tblC2",
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b32-4096-tblc2-sha2-512256",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.2",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA1",
+          "DigestSize": "d160"
+        },
+        "PrimeTest": "tblC3",
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b32-4096-tblc3-sha-1",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.2",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA2",
+          "DigestSize": "d224"
+        },
+        "PrimeTest": "tblC3",
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b32-4096-tblc3-sha2-224",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.2",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA2",
+          "DigestSize": "d256"
+        },
+        "PrimeTest": "tblC3",
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b32-4096-tblc3-sha2-256",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.2",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA2",
+          "DigestSize": "d384"
+        },
+        "PrimeTest": "tblC3",
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b32-4096-tblc3-sha2-384",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.2",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA2",
+          "DigestSize": "d512"
+        },
+        "PrimeTest": "tblC3",
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b32-4096-tblc3-sha2-512",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.2",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA2",
+          "DigestSize": "d512t224"
+        },
+        "PrimeTest": "tblC3",
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b32-4096-tblc3-sha2-512224",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.2",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA2",
+          "DigestSize": "d512t256"
+        },
+        "PrimeTest": "tblC3",
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b32-4096-tblc3-sha2-512256",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.3",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA1",
+          "DigestSize": "d160"
+        },
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b33-4096-sha-1",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.3",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA2",
+          "DigestSize": "d224"
+        },
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b33-4096-sha2-224",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.3",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA2",
+          "DigestSize": "d256"
+        },
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b33-4096-sha2-256",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.3",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA2",
+          "DigestSize": "d384"
+        },
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b33-4096-sha2-384",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.3",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA2",
+          "DigestSize": "d512"
+        },
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b33-4096-sha2-512",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.3",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA2",
+          "DigestSize": "d512t224"
+        },
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b33-4096-sha2-512224",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.3",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA2",
+          "DigestSize": "d512t256"
+        },
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b33-4096-sha2-512256",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.3",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA1",
+          "DigestSize": "d160"
+        },
+        "PrimeTest": "tblC2",
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b33-4096-tblc2-sha-1",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.3",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA2",
+          "DigestSize": "d224"
+        },
+        "PrimeTest": "tblC2",
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b33-4096-tblc2-sha2-224",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.3",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA2",
+          "DigestSize": "d256"
+        },
+        "PrimeTest": "tblC2",
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b33-4096-tblc2-sha2-256",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.3",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA2",
+          "DigestSize": "d384"
+        },
+        "PrimeTest": "tblC2",
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b33-4096-tblc2-sha2-384",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.3",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA2",
+          "DigestSize": "d512"
+        },
+        "PrimeTest": "tblC2",
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b33-4096-tblc2-sha2-512",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.3",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA2",
+          "DigestSize": "d512t224"
+        },
+        "PrimeTest": "tblC2",
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b33-4096-tblc2-sha2-512224",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.3",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA2",
+          "DigestSize": "d512t256"
+        },
+        "PrimeTest": "tblC2",
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b33-4096-tblc2-sha2-512256",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.3",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA1",
+          "DigestSize": "d160"
+        },
+        "PrimeTest": "tblC3",
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b33-4096-tblc3-sha-1",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.3",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA2",
+          "DigestSize": "d224"
+        },
+        "PrimeTest": "tblC3",
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b33-4096-tblc3-sha2-224",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.3",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA2",
+          "DigestSize": "d256"
+        },
+        "PrimeTest": "tblC3",
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b33-4096-tblc3-sha2-256",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.3",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA2",
+          "DigestSize": "d384"
+        },
+        "PrimeTest": "tblC3",
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b33-4096-tblc3-sha2-384",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.3",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA2",
+          "DigestSize": "d512"
+        },
+        "PrimeTest": "tblC3",
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b33-4096-tblc3-sha2-512",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.3",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA2",
+          "DigestSize": "d512t224"
+        },
+        "PrimeTest": "tblC3",
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b33-4096-tblc3-sha2-512224",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.3",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA2",
+          "DigestSize": "d512t256"
+        },
+        "PrimeTest": "tblC3",
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b33-4096-tblc3-sha2-512256",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.4",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA1",
+          "DigestSize": "d160"
+        },
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b34-4096-sha-1",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.4",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA2",
+          "DigestSize": "d224"
+        },
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b34-4096-sha2-224",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.4",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA2",
+          "DigestSize": "d256"
+        },
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b34-4096-sha2-256",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.4",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA2",
+          "DigestSize": "d384"
+        },
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b34-4096-sha2-384",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.4",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA2",
+          "DigestSize": "d512"
+        },
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b34-4096-sha2-512",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.4",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA2",
+          "DigestSize": "d512t224"
+        },
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b34-4096-sha2-512224",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.4",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA2",
+          "DigestSize": "d512t256"
+        },
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b34-4096-sha2-512256",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.4",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA1",
+          "DigestSize": "d160"
+        },
+        "PrimeTest": "tblC2",
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b34-4096-tblc2-sha-1",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.4",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA2",
+          "DigestSize": "d224"
+        },
+        "PrimeTest": "tblC2",
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b34-4096-tblc2-sha2-224",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.4",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA2",
+          "DigestSize": "d256"
+        },
+        "PrimeTest": "tblC2",
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b34-4096-tblc2-sha2-256",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.4",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA2",
+          "DigestSize": "d384"
+        },
+        "PrimeTest": "tblC2",
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b34-4096-tblc2-sha2-384",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.4",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA2",
+          "DigestSize": "d512"
+        },
+        "PrimeTest": "tblC2",
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b34-4096-tblc2-sha2-512",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.4",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA2",
+          "DigestSize": "d512t224"
+        },
+        "PrimeTest": "tblC2",
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b34-4096-tblc2-sha2-512224",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.4",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA2",
+          "DigestSize": "d512t256"
+        },
+        "PrimeTest": "tblC2",
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b34-4096-tblc2-sha2-512256",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.4",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA1",
+          "DigestSize": "d160"
+        },
+        "PrimeTest": "tblC3",
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b34-4096-tblc3-sha-1",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.4",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA2",
+          "DigestSize": "d224"
+        },
+        "PrimeTest": "tblC3",
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b34-4096-tblc3-sha2-224",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.4",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA2",
+          "DigestSize": "d256"
+        },
+        "PrimeTest": "tblC3",
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b34-4096-tblc3-sha2-256",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.4",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA2",
+          "DigestSize": "d384"
+        },
+        "PrimeTest": "tblC3",
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b34-4096-tblc3-sha2-384",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.4",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA2",
+          "DigestSize": "d512"
+        },
+        "PrimeTest": "tblC3",
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b34-4096-tblc3-sha2-512",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.4",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA2",
+          "DigestSize": "d512t224"
+        },
+        "PrimeTest": "tblC3",
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b34-4096-tblc3-sha2-512224",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.4",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA2",
+          "DigestSize": "d512t256"
+        },
+        "PrimeTest": "tblC3",
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b34-4096-tblc3-sha2-512256",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.5",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA1",
+          "DigestSize": "d160"
+        },
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b35-4096-sha-1",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.5",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA2",
+          "DigestSize": "d224"
+        },
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b35-4096-sha2-224",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.5",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA2",
+          "DigestSize": "d256"
+        },
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b35-4096-sha2-256",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.5",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA2",
+          "DigestSize": "d384"
+        },
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b35-4096-sha2-384",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.5",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA2",
+          "DigestSize": "d512"
+        },
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b35-4096-sha2-512",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.5",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA2",
+          "DigestSize": "d512t224"
+        },
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b35-4096-sha2-512224",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.5",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA2",
+          "DigestSize": "d512t256"
+        },
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b35-4096-sha2-512256",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.5",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA1",
+          "DigestSize": "d160"
+        },
+        "PrimeTest": "tblC2",
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b35-4096-tblc2-sha-1",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.5",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA2",
+          "DigestSize": "d224"
+        },
+        "PrimeTest": "tblC2",
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b35-4096-tblc2-sha2-224",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.5",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA2",
+          "DigestSize": "d256"
+        },
+        "PrimeTest": "tblC2",
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b35-4096-tblc2-sha2-256",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.5",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA2",
+          "DigestSize": "d384"
+        },
+        "PrimeTest": "tblC2",
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b35-4096-tblc2-sha2-384",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.5",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA2",
+          "DigestSize": "d512"
+        },
+        "PrimeTest": "tblC2",
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b35-4096-tblc2-sha2-512",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.5",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA2",
+          "DigestSize": "d512t224"
+        },
+        "PrimeTest": "tblC2",
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b35-4096-tblc2-sha2-512224",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.5",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA2",
+          "DigestSize": "d512t256"
+        },
+        "PrimeTest": "tblC2",
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b35-4096-tblc2-sha2-512256",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.5",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA1",
+          "DigestSize": "d160"
+        },
+        "PrimeTest": "tblC3",
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b35-4096-tblc3-sha-1",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.5",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA2",
+          "DigestSize": "d224"
+        },
+        "PrimeTest": "tblC3",
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b35-4096-tblc3-sha2-224",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.5",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA2",
+          "DigestSize": "d256"
+        },
+        "PrimeTest": "tblC3",
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b35-4096-tblc3-sha2-256",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.5",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA2",
+          "DigestSize": "d384"
+        },
+        "PrimeTest": "tblC3",
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b35-4096-tblc3-sha2-384",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.5",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA2",
+          "DigestSize": "d512"
+        },
+        "PrimeTest": "tblC3",
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b35-4096-tblc3-sha2-512",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.5",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA2",
+          "DigestSize": "d512t224"
+        },
+        "PrimeTest": "tblC3",
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b35-4096-tblc3-sha2-512224",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.5",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA2",
+          "DigestSize": "d512t256"
+        },
+        "PrimeTest": "tblC3",
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b35-4096-tblc3-sha2-512256",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.6",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA1",
+          "DigestSize": "d160"
+        },
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b36-4096-sha-1",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.6",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA2",
+          "DigestSize": "d224"
+        },
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b36-4096-sha2-224",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.6",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA2",
+          "DigestSize": "d256"
+        },
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b36-4096-sha2-256",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.6",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA2",
+          "DigestSize": "d384"
+        },
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b36-4096-sha2-384",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.6",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA2",
+          "DigestSize": "d512"
+        },
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b36-4096-sha2-512",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.6",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA2",
+          "DigestSize": "d512t224"
+        },
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b36-4096-sha2-512224",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.6",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA2",
+          "DigestSize": "d512t256"
+        },
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b36-4096-sha2-512256",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.6",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA1",
+          "DigestSize": "d160"
+        },
+        "PrimeTest": "tblC2",
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b36-4096-tblc2-sha-1",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.6",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA2",
+          "DigestSize": "d224"
+        },
+        "PrimeTest": "tblC2",
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b36-4096-tblc2-sha2-224",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.6",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA2",
+          "DigestSize": "d256"
+        },
+        "PrimeTest": "tblC2",
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b36-4096-tblc2-sha2-256",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.6",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA2",
+          "DigestSize": "d384"
+        },
+        "PrimeTest": "tblC2",
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b36-4096-tblc2-sha2-384",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.6",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA2",
+          "DigestSize": "d512"
+        },
+        "PrimeTest": "tblC2",
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b36-4096-tblc2-sha2-512",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.6",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA2",
+          "DigestSize": "d512t224"
+        },
+        "PrimeTest": "tblC2",
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b36-4096-tblc2-sha2-512224",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.6",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA2",
+          "DigestSize": "d512t256"
+        },
+        "PrimeTest": "tblC2",
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b36-4096-tblc2-sha2-512256",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.6",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA1",
+          "DigestSize": "d160"
+        },
+        "PrimeTest": "tblC3",
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b36-4096-tblc3-sha-1",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.6",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA2",
+          "DigestSize": "d224"
+        },
+        "PrimeTest": "tblC3",
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b36-4096-tblc3-sha2-224",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.6",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA2",
+          "DigestSize": "d256"
+        },
+        "PrimeTest": "tblC3",
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b36-4096-tblc3-sha2-256",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.6",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA2",
+          "DigestSize": "d384"
+        },
+        "PrimeTest": "tblC3",
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b36-4096-tblc3-sha2-384",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.6",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA2",
+          "DigestSize": "d512"
+        },
+        "PrimeTest": "tblC3",
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b36-4096-tblc3-sha2-512",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.6",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA2",
+          "DigestSize": "d512t224"
+        },
+        "PrimeTest": "tblC3",
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b36-4096-tblc3-sha2-512224",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  },
+  {
+    "PoolType": {
+      "type": "rsa_key",
+      "parameters": {
+        "KeyMode": "B.3.6",
+        "PublicExponentMode": "random",
+        "Modulus": 4096,
+        "HashAlg": {
+          "Mode": "SHA2",
+          "DigestSize": "d512t256"
+        },
+        "PrimeTest": "tblC3",
+        "KeyFormat": "standard"
+      }
+    },
+    "PoolName": "rsa-b36-4096-tblc3-sha2-512256",
+    "MaxCapacity": 100000,
+    "MinCapacity": 30000,
+    "RecycleRatePerHundred": 80.0
+  }
+]

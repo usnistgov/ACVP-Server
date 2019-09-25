@@ -49,6 +49,10 @@ namespace NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys
             {
                 security_strength = 128;
             }
+            else if (modulo == 4096)
+            {
+                security_strength = 128;
+            }
 
             return _rand.GetRandomBitString(2 * security_strength);
         }
@@ -85,11 +89,24 @@ namespace NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys
 
                 if (mode == PrimeGenModes.B32 || mode == PrimeGenModes.B34)
                 {
-                    max_both = 1007;
+                    max_both = 750;
                 }
                 else
                 {
                     max_both = 1518;
+                }
+            }
+            else if (modulo == 4096)
+            {
+                min_single = 200 + 1;
+
+                if (mode == PrimeGenModes.B32 || mode == PrimeGenModes.B34)
+                {
+                    max_both = 1005;
+                }
+                else
+                {
+                    max_both = 2030;
                 }
             }
 

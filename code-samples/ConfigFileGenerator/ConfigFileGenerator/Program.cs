@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using NIST.CVP.Common.Helpers;
 using NIST.CVP.Common.Oracle.DispositionTypes;
@@ -8,12 +9,12 @@ using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC.Enums;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
 using NIST.CVP.Crypto.Common.Hash.SHA2;
 using NIST.CVP.Crypto.Common.Symmetric.Enums;
-using NIST.CVP.Pools;
 using NIST.CVP.Pools.Enums;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using NIST.CVP.Pools.Models;
 
 namespace ConfigFileGenerator
 {
@@ -22,12 +23,12 @@ namespace ConfigFileGenerator
         public static void Main(string[] args)
         {
             var DEFAULT_MAX_CAPACITY = 50;
-            var DEFAULT_MONITOR_FREQUENCY = 30;
 
             var fullParamList = new List<PoolProperties>();
-
+            var rsaParamList = new List<PoolProperties>();
+            
             #region SHA1/2
-            var hashAlgs = new HashFunction[]
+            var hashAlgs = new []
             {
                 new HashFunction(ModeValues.SHA1, DigestSizes.d160),
                 new HashFunction(ModeValues.SHA2, DigestSizes.d224),
@@ -43,8 +44,7 @@ namespace ConfigFileGenerator
                 fullParamList.Add(new PoolProperties
                 {
                     MaxCapacity = DEFAULT_MAX_CAPACITY,
-                    MonitorFrequency = DEFAULT_MONITOR_FREQUENCY,
-                    FilePath = Stringify(SHAEnumHelpers.HashFunctionToString(hashAlg).Replace("/", "-")),
+                    PoolName = Stringify(SHAEnumHelpers.HashFunctionToString(hashAlg).Replace("/", "-")),
                     PoolType = new ParameterHolder
                     {
                         Type = PoolTypes.SHA_MCT,
@@ -66,8 +66,7 @@ namespace ConfigFileGenerator
                 fullParamList.Add(new PoolProperties
                 {
                     MaxCapacity = DEFAULT_MAX_CAPACITY,
-                    MonitorFrequency = DEFAULT_MONITOR_FREQUENCY,
-                    FilePath = Stringify("sha3", $"{digestSize}"),
+                    PoolName = Stringify("sha3", $"{digestSize}"),
                     PoolType = new ParameterHolder
                     {
                         Type = PoolTypes.SHA3_MCT,
@@ -87,8 +86,7 @@ namespace ConfigFileGenerator
                 fullParamList.Add(new PoolProperties
                 {
                     MaxCapacity = DEFAULT_MAX_CAPACITY,
-                    MonitorFrequency = DEFAULT_MONITOR_FREQUENCY,
-                    FilePath = Stringify("shake", $"{digestSize}"),
+                    PoolName = Stringify("shake", $"{digestSize}"),
                     PoolType = new ParameterHolder
                     {
                         Type = PoolTypes.SHA3_MCT,
@@ -107,7 +105,8 @@ namespace ConfigFileGenerator
 
             #region RSA
             var keyModes = EnumHelpers.GetEnumDescriptions<PrimeGenModes>();
-            var modulo = new[] {1024, 2048, 3072, 4096};
+            //var modulo = new[] {1024, 2048, 3072, 4096};
+            var modulo = new[] {4096};
             var primeTestModes = EnumHelpers.GetEnumDescriptions<PrimeTestModes>();
             var hashAlgsWrap = new List<NIST.CVP.Crypto.Common.Hash.ShaWrapper.HashFunction>
             {
@@ -128,11 +127,10 @@ namespace ConfigFileGenerator
                     {
                         foreach (var hashAlg in hashAlgsWrap)
                         {
-                            fullParamList.Add(new PoolProperties
+                            rsaParamList.Add(new PoolProperties
                             {
                                 MaxCapacity = DEFAULT_MAX_CAPACITY,
-                                MonitorFrequency = DEFAULT_MONITOR_FREQUENCY,
-                                FilePath = Stringify("rsa", keyMode.Replace(".", ""), $"{mod}", primeTestMode.Replace(".", ""), hashAlg.Name.Replace("/", "")),
+                                PoolName = Stringify("rsa", keyMode.Replace(".", ""), $"{mod}", primeTestMode.Replace(".", ""), hashAlg.Name.Replace("/", "")),
                                 PoolType = new ParameterHolder
                                 {
                                     Type = PoolTypes.RSA_KEY,
@@ -175,8 +173,7 @@ namespace ConfigFileGenerator
                             fullParamList.Add(new PoolProperties
                             {
                                 MaxCapacity = DEFAULT_MAX_CAPACITY,
-                                MonitorFrequency = DEFAULT_MONITOR_FREQUENCY,
-                                FilePath = Stringify("dsa", $"{lnPair.L}", $"{lnPair.N}", pqMode, gMode, hashAlg.Name.Replace("/", "-")),
+                                PoolName = Stringify("dsa", $"{lnPair.L}", $"{lnPair.N}", pqMode, gMode, hashAlg.Name.Replace("/", "-")),
                                 PoolType = new ParameterHolder
                                 {
                                     Type = PoolTypes.DSA_PQG,
@@ -205,8 +202,7 @@ namespace ConfigFileGenerator
                 fullParamList.Add(new PoolProperties
                 {
                     MaxCapacity = DEFAULT_MAX_CAPACITY,
-                    MonitorFrequency = DEFAULT_MONITOR_FREQUENCY,
-                    FilePath = Stringify("ecdsa", curve),
+                    PoolName = Stringify("ecdsa", curve),
                     PoolType = new ParameterHolder
                     {
                         Type = PoolTypes.ECDSA_KEY,
@@ -234,8 +230,7 @@ namespace ConfigFileGenerator
                         fullParamList.Add(new PoolProperties
                         {
                             MaxCapacity = DEFAULT_MAX_CAPACITY,
-                            MonitorFrequency = DEFAULT_MONITOR_FREQUENCY,
-                            FilePath = Stringify("aes", aesMode, $"{keySize}", direction),
+                            PoolName = Stringify("aes", aesMode, $"{keySize}", direction),
                             PoolType = new ParameterHolder
                             {
                                 Type = PoolTypes.AES_MCT,
@@ -266,8 +261,7 @@ namespace ConfigFileGenerator
                         fullParamList.Add(new PoolProperties
                         {
                             MaxCapacity = DEFAULT_MAX_CAPACITY,
-                            MonitorFrequency = DEFAULT_MONITOR_FREQUENCY,
-                            FilePath = Stringify("tdes", tdesMode, direction, "keyingoption", $"{keyingOption}"),
+                            PoolName = Stringify("tdes", tdesMode, direction, "keyingoption", $"{keyingOption}"),
                             PoolType = new ParameterHolder
                             {
                                 Type = PoolTypes.TDES_MCT,
@@ -285,7 +279,7 @@ namespace ConfigFileGenerator
             }
             #endregion TDES
 
-            var result = JsonConvert.SerializeObject(fullParamList, new JsonSerializerSettings
+            var result = JsonConvert.SerializeObject(rsaParamList, new JsonSerializerSettings
             {
                 Formatting = Formatting.Indented,
                 Converters = new List<JsonConverter>
@@ -295,7 +289,8 @@ namespace ConfigFileGenerator
             });
 
             var path = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
-            path = Path.Combine(path, $@"..\..\..\poolConfig.json");
+            path = Path.Combine(path, $@"../../../poolConfig2.json");
+            Console.WriteLine(path);
             File.WriteAllText(path, result);
         }
 
@@ -309,7 +304,6 @@ namespace ConfigFileGenerator
             }
 
             result = result.Remove(result.Length-1);
-            result += ".json";
 
             return result.ToLower();
         }
