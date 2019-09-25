@@ -66,6 +66,7 @@ namespace NIST.CVP.PoolAPI.Controllers
 
         [HttpGet]
         [Route("config")]
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
         // /api/pools/config
         public string GetPoolConfig()
         {
