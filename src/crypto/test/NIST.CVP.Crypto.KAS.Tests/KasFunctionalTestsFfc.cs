@@ -9,6 +9,7 @@ using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Crypto.Common.KAS.Scheme;
+using NIST.CVP.Crypto.CSHAKE;
 using NIST.CVP.Crypto.DSA.FFC;
 using NIST.CVP.Crypto.HMAC;
 using NIST.CVP.Crypto.KAS.Builders;
@@ -21,6 +22,7 @@ using NIST.CVP.Crypto.KAS.NoKC;
 using NIST.CVP.Crypto.KAS.Scheme;
 using NIST.CVP.Crypto.KAS.Scheme.Ffc;
 using NIST.CVP.Crypto.KES;
+using NIST.CVP.Crypto.KMAC;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Crypto.Symmetric.BlockModes;
 using NIST.CVP.Crypto.Symmetric.Engines;
@@ -58,7 +60,7 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new SchemeBuilderFfc(
                     _dsaFactory.Object,
                     new KdfOneStepFactory(
-                        new ShaFactory(), new HmacFactory(new ShaFactory())
+                        new ShaFactory(), new HmacFactory(new ShaFactory()), new KmacFactory(new CSHAKEWrapper())
                     ),
                     new KeyConfirmationFactory(new KeyConfirmationMacDataCreator()),
                     new NoKeyConfirmationFactory(new NoKeyConfirmationMacDataCreator()),

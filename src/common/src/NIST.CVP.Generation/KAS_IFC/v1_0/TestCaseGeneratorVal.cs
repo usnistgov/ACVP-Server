@@ -53,6 +53,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
                 {
                     Deferred = false,
                     TestPassed = result.TestPassed,
+                    TestCaseDisposition = result.Disposition,
                     ServerZ = result.ServerZ,
                     ServerC = result.ServerC,
                     ServerNonce = result.ServerNonce,

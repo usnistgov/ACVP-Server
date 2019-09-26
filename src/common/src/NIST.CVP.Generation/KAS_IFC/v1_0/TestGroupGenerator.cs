@@ -25,7 +25,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
         private static readonly string[] TestTypes =
         {
             "AFT", 
-            // todo "VAL"
+            "VAL"
         };
         private static readonly BigInteger DefaultExponent = BigInteger.Zero; // new BigInteger(65537);
         
