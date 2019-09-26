@@ -19,6 +19,8 @@ namespace NIST.CVP.Pools
     public class PoolBoy<T>
         where T : IResult
     {
+        private readonly ILogger ThisLogger = LogManager.GetCurrentClassLogger();
+        
         private readonly PoolConfig _poolConfig;
         private readonly IList<JsonConverter> _jsonConverters = new List<JsonConverter>
         {
@@ -87,13 +89,11 @@ namespace NIST.CVP.Pools
                     {
                         if (_poolConfig.PoolResultLogLength == 0 || json.Length <= _poolConfig.PoolResultLogLength)
                         {
-                            LogManager.GetCurrentClassLogger()
-                                .Info($"Using pool value: {json}");
+                            ThisLogger.Info($"Using pool value: {json}");
                         }
                         else
                         {
-                            LogManager.GetCurrentClassLogger()
-                                .Info($"Using pool value: {json.Substring(0, _poolConfig.PoolResultLogLength)}");
+                            ThisLogger.Info($"Using pool value: {json.Substring(0, _poolConfig.PoolResultLogLength)}");
                         }
 
                     }
@@ -103,13 +103,13 @@ namespace NIST.CVP.Pools
             }
             catch (WebException)
             {
-                LogManager.GetCurrentClassLogger().Error("Pool not accesible via web interface.");
+                ThisLogger.Error("Pool not accesible via web interface.");
                 return default(T);
             }
             catch (Exception ex)
             {
                 // Fall back to normal procedure
-                LogManager.GetCurrentClassLogger().Error(ex);
+                ThisLogger.Error(ex);
                 return default(T);
             }
         }

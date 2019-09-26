@@ -17,6 +17,8 @@ namespace NIST.CVP.Pools
 {
     public class PoolManager
     {
+        private static readonly ILogger ThisLogger = LogManager.GetCurrentClassLogger();
+        
         public readonly List<IPool> Pools = new List<IPool>();
         private readonly IOptions<PoolConfig> _poolConfig;
         private readonly string _poolConfigFile;
@@ -172,8 +174,7 @@ namespace NIST.CVP.Pools
                         _poolLogRepository.WriteLog(LogTypes.QueueOrleansWorkToPool, minPool.PoolName, startAction,
                             DateTime.Now, null);
 
-                        LogManager.GetCurrentClassLogger()
-                            .Log(LogLevel.Info, $"Pool was filled: \n\n {json}");
+                        ThisLogger.Log(LogLevel.Info, $"Pool was filled: \n\n {json}");
 
                         return new SpawnJobResponse()
                         {
@@ -195,12 +196,10 @@ namespace NIST.CVP.Pools
 
         private void LoadPools()
         {
-            LogManager.GetCurrentClassLogger()
-                .Log(LogLevel.Info, "Loading Pools.");
+            ThisLogger.Log(LogLevel.Info, "Loading Pools.");
 
             var configFileFound = File.Exists(_poolConfigFile);
-            LogManager.GetCurrentClassLogger()
-                .Log(LogLevel.Info, $"Loading Config file: {_poolConfigFile}. File found: {configFileFound}");
+            ThisLogger.Log(LogLevel.Info, $"Loading Config file: {_poolConfigFile}. File found: {configFileFound}");
 
             _properties = JsonConvert.DeserializeObject<PoolProperties[]>
             (
@@ -211,13 +210,11 @@ namespace NIST.CVP.Pools
                 }
             );
 
-            LogManager.GetCurrentClassLogger()
-                .Log(LogLevel.Info, "Config loaded.");
+            ThisLogger.Log(LogLevel.Info, "Config loaded.");
 
             foreach (var poolProperty in _properties)
             {
-                LogManager.GetCurrentClassLogger()
-                    .Log(LogLevel.Info, $"Attempting to load {poolProperty.PoolName}");
+                ThisLogger.Log(LogLevel.Info, $"Attempting to load {poolProperty.PoolName}");
 
                 try
                 {
@@ -225,17 +222,14 @@ namespace NIST.CVP.Pools
                 }
                 catch (Exception ex)
                 {
-                    LogManager.GetCurrentClassLogger()
-                        .Log(LogLevel.Error, ex);
+                    ThisLogger.Log(LogLevel.Error, ex);
                     throw;
                 }
 
-                LogManager.GetCurrentClassLogger()
-                    .Log(LogLevel.Info, $"{poolProperty.PoolName} loaded.");
+                ThisLogger.Log(LogLevel.Info, $"{poolProperty.PoolName} loaded.");
             }
 
-            LogManager.GetCurrentClassLogger()
-                .Log(LogLevel.Info, "Pools loaded.");
+            ThisLogger.Log(LogLevel.Info, "Pools loaded.");
         }
 
         private IPool GetMinimallyFilledPool()
@@ -262,8 +256,7 @@ namespace NIST.CVP.Pools
 
                 if (jobsToQueue > 0)
                 {
-                    LogManager.GetCurrentClassLogger()
-                        .Log(LogLevel.Info, $"Starting job to fill pool with {numberOfJobsToQueue} precomputed values, using parameters: \n\n {json}");
+                    ThisLogger.Log(LogLevel.Info, $"Starting job to fill pool with {numberOfJobsToQueue} precomputed values, using parameters: \n\n {json}");
                 }
 
                 // Add jobs to a list of tasks
