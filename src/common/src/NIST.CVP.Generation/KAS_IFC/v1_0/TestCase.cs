@@ -389,6 +389,16 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
         public BitString ServerK { get; set; }
         
         /// <summary>
+        /// The key parameter for a MAC in key confirmation.
+        /// </summary>
+        public BitString MacKey { get; set; }
+        
+        /// <summary>
+        /// The data parameter for a MAC in key confirmation.
+        /// </summary>
+        public BitString MacData { get; set; }
+        
+        /// <summary>
         /// The derived keying material - minus any bits that were used for key confirmation.
         /// </summary>
         public BitString Dkm { get; set; }

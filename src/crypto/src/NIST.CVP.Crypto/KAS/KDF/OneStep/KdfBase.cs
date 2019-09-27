@@ -69,7 +69,7 @@ namespace NIST.CVP.Crypto.KAS.KDF.OneStep
             }
 
             // 7. Set DerivedKeyingMaterial = K(1) || K(2) || … || K(reps-1) || K_Last.
-            return new KdfResult(k);
+            return new KdfResult(k.GetMostSignificantBits(keyDataLength));
         }
     }
 }

@@ -20,10 +20,20 @@ namespace NIST.CVP.Crypto.KAS.Fakes
         {
             var zBytesLen = param.Z.BitLength.CeilingDivide(BitString.BITSINBYTE);
             
+            var modifiedParam = new KdfParameterOneStep()
+            {
+                L = param.L,
+                Salt = param.Salt,
+                Z = param.Z.GetDeepCopy(),
+                AuxFunction = param.AuxFunction,
+                FixedInfoPattern = param.FixedInfoPattern,
+                FixedInputEncoding = param.FixedInputEncoding
+            };
+            
             // Modify a random byte within Z
-            param.Z[_random.GetRandomInt(0, zBytesLen)] += 2;
+            modifiedParam.Z[_random.GetRandomInt(0, zBytesLen)] += 2;
 
-            return _kdfVisitor.Kdf(param, fixedInfo);
+            return _kdfVisitor.Kdf(modifiedParam, fixedInfo);
         }
     }
 }

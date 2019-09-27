@@ -68,6 +68,9 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
                     
                     KdfParameter = result.KdfParameter,
                     
+                    MacKey = result.KasResult.MacKey,
+                    MacData = result.KasResult.MacData,
+                    
                     Dkm = result.KasResult.Dkm,
                     Tag = result.KasResult.Tag
                 });

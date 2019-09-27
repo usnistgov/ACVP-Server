@@ -310,6 +310,14 @@ namespace NIST.CVP.Orleans.Grains.Kas
                     Disposition = _param.Disposition,
                 };
 
+                if (_param.Disposition == KasIfcValTestDisposition.FailKeyConfirmationBits)
+                {
+                    var newDkm = result.MacKey.ConcatenateBits(result.Dkm);
+                    
+                    response.KasResult = new KasResult(
+                        newDkm, result.MacKey, result.MacData, result.Tag);
+                    response.TestPassed = false;
+                }
                 if (_param.Disposition == KasIfcValTestDisposition.FailChangedDkm)
                 {
                     var dkmByteLen = response.KasResult.Dkm.BitLength.CeilingDivide(BitString.BITSINBYTE);

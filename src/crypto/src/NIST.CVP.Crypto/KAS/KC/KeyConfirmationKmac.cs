@@ -9,20 +9,22 @@ namespace NIST.CVP.Crypto.KAS.KC
     public class KeyConfirmationKmac : KeyConfirmationBase
     {
         private static readonly BitString Customization = new BitString(Encoding.ASCII.GetBytes("KC"));
-        private readonly IKmac _kmac;
+        private readonly IKmacFactory _kmacFactory;
+        private readonly int _capacity;
 
         public KeyConfirmationKmac(
             IKeyConfirmationMacDataCreator macDataCreator, 
             IKeyConfirmationParameters keyConfirmationParameters,
-            IKmac kmac) : 
+            IKmacFactory kmacFactory, int capacity) : 
             base(macDataCreator, keyConfirmationParameters)
         {
-            _kmac = kmac;
+            _kmacFactory = kmacFactory;
+            _capacity = capacity;
         }
 
         protected override BitString Mac(BitString macData)
         {
-            var result = _kmac.Generate(
+            var result = _kmacFactory.GetKmacInstance(_capacity, false).Generate(
                 _keyConfirmationParameters.DerivedKeyingMaterial,
                 macData,
                 Customization,

@@ -40,11 +40,13 @@ namespace NIST.CVP.Crypto.KAS.Fakes
         public SharedSecretResponse Encrypt(PublicKey rsaPublicKey, BitString keyingMaterial, BitString additionalInput)
         {
             var keyingMaterialByteLen = keyingMaterial.BitLength.CeilingDivide(BitString.BITSINBYTE);
+
+            var newKeyingMaterial = keyingMaterial.GetDeepCopy();
             
             // Modify a random byte in the keying material prior to executing the base method
-            keyingMaterial[_random.GetRandomInt(0, keyingMaterialByteLen)] += 2;
+            newKeyingMaterial[_random.GetRandomInt(0, keyingMaterialByteLen)] += 2;
 
-            return _kts.Encrypt(rsaPublicKey, keyingMaterial, additionalInput);
+            return _kts.Encrypt(rsaPublicKey, newKeyingMaterial, additionalInput);
         }
 
         public SharedSecretResponse Decrypt(KeyPair rsaKeyPair, BitString ciphertext, BitString additionalInput)

@@ -69,9 +69,9 @@ namespace NIST.CVP.Crypto.KAS.KC
                     return new KeyConfirmationHmac(
                         _macDataCreator, parameters, _hmacFactory.GetHmacInstance(new HashFunction(modeValue, digestSize)));
                 case KeyAgreementMacType.Kmac_128:
-                    return new KeyConfirmationKmac(_macDataCreator, parameters, _kmacFactory.GetKmacInstance(128, false));
+                    return new KeyConfirmationKmac(_macDataCreator, parameters, _kmacFactory, 128);
                 case KeyAgreementMacType.Kmac_256:
-                    return new KeyConfirmationKmac(_macDataCreator, parameters, _kmacFactory.GetKmacInstance(256, false));
+                    return new KeyConfirmationKmac(_macDataCreator, parameters, _kmacFactory, 256);
                 default:
                     throw new ArgumentException($"{GetType().Name}, {nameof(parameters.MacType)}");
             }

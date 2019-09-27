@@ -179,9 +179,9 @@ namespace NIST.CVP.Orleans.Grains
             svc.AddSingleton<IKeyConfirmationMacDataCreator, KeyConfirmationMacDataCreator>();
             
             svc.AddTransient<IMacParametersBuilder, MacParametersBuilder>();
-            svc.AddSingleton<IKeyConfirmationFactory, KeyConfirmationFactory>();
+            svc.AddTransient<IKeyConfirmationFactory, KeyConfirmationFactory>(); // there is some state to KMAC instances, purposefully doing a transient rather than singleton factory in this case
             svc.AddSingleton<INoKeyConfirmationFactory, NoKeyConfirmationFactory>();
-            svc.AddSingleton<IKdfOneStepFactory, KdfOneStepFactory>();
+            svc.AddTransient<IKdfOneStepFactory, KdfOneStepFactory>(); // there is some state to KMAC instances, purposefully doing a transient rather than singleton factory in this case
 
             svc.AddSingleton<IOtherInfoFactory, OtherInfoFactory>();
 
@@ -202,9 +202,9 @@ namespace NIST.CVP.Orleans.Grains
 
             svc.AddSingleton<IEccDhComponent, EccDhComponent>();
 
-            svc.AddSingleton<IKdfFactory, KdfFactory>();
-            svc.AddSingleton<IKdfParameterVisitor, KdfParameterVisitor>();
-            svc.AddSingleton<IKdfVisitor, KdfVisitor>();
+            svc.AddTransient<IKdfFactory, KdfFactory>(); // there is some state to KMAC instances, purposefully doing a transient rather than singleton factory in this case
+            svc.AddTransient<IKdfParameterVisitor, KdfParameterVisitor>(); // there is some state to KMAC instances, purposefully doing a transient rather than singleton factory in this case
+            svc.AddTransient<IKdfVisitor, KdfVisitor>(); // there is some state to KMAC instances, purposefully doing a transient rather than singleton factory in this case
             svc.AddSingleton<IFixedInfoStrategyFactory, FixedInfoStrategyFactory>();
             svc.AddSingleton<IFixedInfoFactory, FixedInfoFactory>();
             svc.AddTransient<IRsaSve, RsaSve>();
