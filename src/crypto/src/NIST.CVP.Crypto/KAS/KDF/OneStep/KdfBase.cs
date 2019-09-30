@@ -1,9 +1,9 @@
-﻿using System;
-using System.Numerics;
-using NIST.CVP.Crypto.Common.KAS.KDF;
+﻿using NIST.CVP.Crypto.Common.KAS.KDF;
 using NIST.CVP.Crypto.Common.KAS.KDF.KdfOneStep;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Helpers;
+using System;
+using System.Numerics;
 
 namespace NIST.CVP.Crypto.KAS.KDF.OneStep
 {
@@ -18,7 +18,7 @@ namespace NIST.CVP.Crypto.KAS.KDF.OneStep
         public virtual KdfResult DeriveKey(BitString z, int keyDataLength, BitString fixedInfo, BitString salt)
         {
             KeyDataLength = keyDataLength;
-            
+
             // 1. reps =  keydatalen / hashlen.
             var reps = KeyDataLength.CeilingDivide(OutputLength);
 
@@ -55,17 +55,21 @@ namespace NIST.CVP.Crypto.KAS.KDF.OneStep
                 messageToH = counter.ConcatenateBits(z).ConcatenateBits(fixedInfo);
             }
 
-            // 6. Let K_Last be set to K(reps) if (keydatalen / hashlen) is an integer; otherwise, let K_Last
-            // be set to the(keydatalen mod hashlen) leftmost bits of K(reps)
-            if (KeyDataLength % OutputLength == 0)
+            // When the salt is null or 0 length, a hash function is in use, where we use the one step KDF as defined in the original 56A/B
+            if (salt?.BitLength == 0)
             {
-                k = k.ConcatenateBits(H(messageToH, salt));
-            }
-            else
-            {
-                k = k.ConcatenateBits(
-                    H(messageToH, salt).GetMostSignificantBits(KeyDataLength % OutputLength)
-                );
+                // 6. Let K_Last be set to K(reps) if (keydatalen / hashlen) is an integer; otherwise, let K_Last
+                // be set to the(keydatalen mod hashlen) leftmost bits of K(reps)
+                if (KeyDataLength % OutputLength == 0)
+                {
+                    k = k.ConcatenateBits(H(messageToH, salt));
+                }
+                else
+                {
+                    k = k.ConcatenateBits(
+                        H(messageToH, salt).GetMostSignificantBits(KeyDataLength % OutputLength)
+                    );
+                }
             }
 
             // 7. Set DerivedKeyingMaterial = K(1) || K(2) || … || K(reps-1) || K_Last.
