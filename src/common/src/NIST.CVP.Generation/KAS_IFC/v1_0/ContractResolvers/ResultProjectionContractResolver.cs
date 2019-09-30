@@ -1,8 +1,7 @@
-﻿using System;
-using System.Linq;
-using Newtonsoft.Json.Serialization;
-using NIST.CVP.Crypto.Common.KAS.Enums;
+﻿using Newtonsoft.Json.Serialization;
 using NIST.CVP.Generation.Core.ContractResolvers;
+using System;
+using System.Linq;
 
 namespace NIST.CVP.Generation.KAS_IFC.v1_0.ContractResolvers
 {
@@ -10,12 +9,80 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0.ContractResolvers
     {
         protected override Predicate<object> TestGroupSerialization(JsonProperty jsonProperty)
         {
-            return jsonProperty.ShouldSerialize = instance => true;
+            var includeProperties = new[]
+            {
+                nameof(TestGroup.TestGroupId),
+                nameof(TestGroup.Tests)
+            };
+
+            if (includeProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
+            {
+                return jsonProperty.ShouldSerialize =
+                    instance => true;
+            }
+
+            return jsonProperty.ShouldSerialize = instance => false;
         }
 
         protected override Predicate<object> TestCaseSerialization(JsonProperty jsonProperty)
         {
-            return jsonProperty.ShouldSerialize = instance => true;
+            var includeProperties = new[]
+            {
+                nameof(TestCase.TestCaseId)
+            };
+
+            if (includeProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
+            {
+                return jsonProperty.ShouldSerialize =
+                    instance => true;
+            }
+
+            #region Conditional Test Case properties
+            var valIncludeProperties = new[]
+            {
+                nameof(TestCase.TestPassed)
+            };
+            if (valIncludeProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
+            {
+                return jsonProperty.ShouldSerialize =
+                    instance =>
+                    {
+                        GetTestCaseFromTestCaseObject(instance, out var testGroup, out var testCase);
+
+                        if (testGroup.TestType.Equals("val", StringComparison.OrdinalIgnoreCase))
+                        {
+                            return true;
+                        }
+
+                        return false;
+                    };
+            }
+
+            var aftIncludeProperties = new[]
+            {
+                nameof(TestCase.IutC),
+                nameof(TestCase.IutNonce),
+                nameof(TestCase.Dkm),
+                nameof(TestCase.Tag),
+            };
+            if (aftIncludeProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
+            {
+                return jsonProperty.ShouldSerialize =
+                    instance =>
+                    {
+                        GetTestCaseFromTestCaseObject(instance, out var testGroup, out var testCase);
+
+                        if (testGroup.TestType.Equals("aft", StringComparison.OrdinalIgnoreCase))
+                        {
+                            return true;
+                        }
+
+                        return false;
+                    };
+            }
+            #endregion Conditional Test Case properties
+
+            return jsonProperty.ShouldSerialize = instance => false;
         }
     }
 }

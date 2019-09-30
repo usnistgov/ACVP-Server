@@ -1,13 +1,10 @@
-using System.Numerics;
 using Newtonsoft.Json;
 using NIST.CVP.Common.Oracle.DispositionTypes;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys;
-using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Crypto.Common.KAS.KDF;
-using NIST.CVP.Crypto.Common.KAS.Scheme;
-using NIST.CVP.Crypto.Common.KTS;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
+using System.Numerics;
 
 namespace NIST.CVP.Generation.KAS_IFC.v1_0
 {
@@ -17,9 +14,9 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
         public TestGroup ParentGroup { get; set; }
         public bool? TestPassed { get; set; }
         public bool Deferred { get; set; }
-        
+
         public KasIfcValTestDisposition TestCaseDisposition { get; set; }
-        
+
         /// <summary>
         /// Key pair used by the server in the KAS/KTS scheme
         /// </summary>
@@ -55,8 +52,8 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
             set => ServerKey.PrivKey.Q = value;
         }
 
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         private BigInteger _serverD;
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public BigInteger ServerD
         {
             get
@@ -177,7 +174,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
             }
         }
         #endregion Server Key Value Getters and Setters
-        
+
         /// <summary>
         /// Key pair used by the IUT in the KAS/KTS scheme
         /// </summary>
@@ -335,34 +332,40 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
             }
         }
         #endregion Iut Key Value Getters and Setters
-        
+
         /// <summary>
         /// The server nonce used for establishing a key using a KDF.
         /// </summary>
         public BitString ServerNonce { get; set; }
-        
+
         /// <summary>
         /// The iut nonce used for establishing a key using a KDF.
         /// </summary>
         public BitString IutNonce { get; set; }
-        
+
+        /// <summary>
+        /// The salt that is used by both the IUT and Server for key derivation.
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public BitString Salt => KdfParameter?.Salt;
+
         /// <summary>
         /// The KDF parameters used in the KDF function.
         /// </summary>
         public IKdfParameter KdfParameter { get; set; }
-        
+
         /// <summary>
         /// The encrypted C value created by the IUT.
         /// The C value is comprised of a random value Z encrypted with the server's public key
         /// </summary>
         public BitString IutC { get; set; }
-        
+
         /// <summary>
         /// The encrypted C value created by the Server.
         /// The C value is comprised of a random value Z encrypted with the IUT's public key
         /// </summary>
         public BitString ServerC { get; set; }
-        
+
         /// <summary>
         /// The IUT portion of the shared secret.
         /// </summary>
@@ -387,24 +390,26 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
         /// </summary>
         /// <remarks>Should *not* be transmitted in prompt file.</remarks>
         public BitString ServerK { get; set; }
-        
+
         /// <summary>
         /// The key parameter for a MAC in key confirmation.
         /// </summary>
         public BitString MacKey { get; set; }
-        
+
         /// <summary>
         /// The data parameter for a MAC in key confirmation.
         /// </summary>
         public BitString MacData { get; set; }
-        
+
         /// <summary>
         /// The derived keying material - minus any bits that were used for key confirmation.
         /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public BitString Dkm { get; set; }
         /// <summary>
         /// The tag as a result of key confirmation.
         /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public BitString Tag { get; set; }
     }
 }
