@@ -1,11 +1,11 @@
-﻿using System;
-using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
+﻿using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Common.KDF;
 using NIST.CVP.Crypto.Common.KDF.Enums;
 using NIST.CVP.Crypto.Common.MAC;
 using NIST.CVP.Crypto.Common.MAC.CMAC;
 using NIST.CVP.Crypto.Common.MAC.CMAC.Enums;
 using NIST.CVP.Crypto.Common.MAC.HMAC;
+using System;
 
 namespace NIST.CVP.Crypto.KDF
 {
@@ -49,7 +49,7 @@ namespace NIST.CVP.Crypto.KDF
 
                 case MacModes.CMAC_AES192:
                     return _cmacFactory.GetCmacInstance(CmacTypes.AES192);
-                
+
                 case MacModes.CMAC_AES256:
                     return _cmacFactory.GetCmacInstance(CmacTypes.AES256);
 
@@ -70,6 +70,24 @@ namespace NIST.CVP.Crypto.KDF
 
                 case MacModes.HMAC_SHA512:
                     return _hmacFactory.GetHmacInstance(new HashFunction(ModeValues.SHA2, DigestSizes.d512));
+
+                case MacModes.HMAC_SHA_d512t224:
+                    return _hmacFactory.GetHmacInstance(new HashFunction(ModeValues.SHA2, DigestSizes.d512t224));
+
+                case MacModes.HMAC_SHA_d512t256:
+                    return _hmacFactory.GetHmacInstance(new HashFunction(ModeValues.SHA2, DigestSizes.d512t256));
+
+                case MacModes.HMAC_SHA3_224:
+                    return _hmacFactory.GetHmacInstance(new HashFunction(ModeValues.SHA3, DigestSizes.d224));
+
+                case MacModes.HMAC_SHA3_256:
+                    return _hmacFactory.GetHmacInstance(new HashFunction(ModeValues.SHA3, DigestSizes.d256));
+
+                case MacModes.HMAC_SHA3_384:
+                    return _hmacFactory.GetHmacInstance(new HashFunction(ModeValues.SHA3, DigestSizes.d384));
+
+                case MacModes.HMAC_SHA3_512:
+                    return _hmacFactory.GetHmacInstance(new HashFunction(ModeValues.SHA3, DigestSizes.d512));
 
                 default:
                     throw new ArgumentException("MAC Mode not supported");

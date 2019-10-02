@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Generation.KDF.v1_0;
+﻿using NIST.CVP.Crypto.Common.KDF.Enums;
+using NIST.CVP.Generation.KDF.v1_0;
 using NIST.CVP.Math.Domain;
 
 namespace NIST.CVP.Generation.KDF.Tests
@@ -13,7 +14,7 @@ namespace NIST.CVP.Generation.KDF.Tests
         {
             _algorithm = "KDF";
             _mode = "";
-            _capabilities = new [] {new CapabilityBuilder().Build()};
+            _capabilities = new[] { new CapabilityBuilder().Build() };
         }
 
         public ParameterBuilder WithAlgorithm(string value)
@@ -47,30 +48,30 @@ namespace NIST.CVP.Generation.KDF.Tests
 
     public class CapabilityBuilder
     {
-        private string _kdfMode;
-        private string[] _macMode;
+        private KdfModes _kdfMode;
+        private MacModes[] _macMode;
         private MathDomain _supportedLengths;
-        private string[] _fixedDataOrder;
+        private CounterLocations[] _fixedDataOrder;
         private int[] _counterLength;
         private bool _supportsEmptyIv;
 
         public CapabilityBuilder()
         {
-            _kdfMode = "counter";
-            _macMode = new [] {"cmac-aes256", "hmac-sha2-224"};
+            _kdfMode = KdfModes.Counter;
+            _macMode = new[] { MacModes.CMAC_AES256, MacModes.HMAC_SHA224 };
             _supportedLengths = new MathDomain().AddSegment(new ValueDomainSegment(128));
-            _fixedDataOrder = new[] {"middle fixed data"};
-            _counterLength = new[] {8, 24};
+            _fixedDataOrder = new[] { CounterLocations.MiddleFixedData };
+            _counterLength = new[] { 8, 24 };
             _supportsEmptyIv = false;
         }
 
-        public CapabilityBuilder WithKdfMode(string value)
+        public CapabilityBuilder WithKdfMode(KdfModes value)
         {
             _kdfMode = value;
             return this;
         }
 
-        public CapabilityBuilder WithMacMode(string[] value)
+        public CapabilityBuilder WithMacMode(MacModes[] value)
         {
             _macMode = value;
             return this;
@@ -82,7 +83,7 @@ namespace NIST.CVP.Generation.KDF.Tests
             return this;
         }
 
-        public CapabilityBuilder WithFixedDataOrder(string[] value)
+        public CapabilityBuilder WithFixedDataOrder(CounterLocations[] value)
         {
             _fixedDataOrder = value;
             return this;

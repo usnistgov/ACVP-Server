@@ -1,10 +1,10 @@
-﻿using System.ComponentModel;
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
 
 namespace NIST.CVP.Crypto.Common.KDF.Enums
 {
     public enum KdfModes
     {
+        None,
         [EnumMember(Value = "counter")]
         Counter,
 

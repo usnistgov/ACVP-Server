@@ -1,19 +1,44 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using NIST.CVP.Common.ExtensionMethods;
-using NIST.CVP.Common.Helpers;
+﻿using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Crypto.Common.KDF.Enums;
 using NIST.CVP.Generation.Core;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace NIST.CVP.Generation.KDF.v1_0
 {
     public class ParameterValidator : ParameterValidatorBase, IParameterValidator<Parameters>
     {
-        public static string[] VALID_KDF_MODES = EnumHelpers.GetEnumDescriptions<KdfModes>().ToArray();
-        public static string[] VALID_MAC_MODES = EnumHelpers.GetEnumDescriptions<MacModes>().ToArray();
-        public static string[] VALID_DATA_ORDERS = EnumHelpers.GetEnumDescriptions<CounterLocations>().ToArray();
-        public static int[] VALID_COUNTER_LENGTHS = {0, 8, 16, 24, 32};
+        public static KdfModes[] VALID_KDF_MODES = { KdfModes.Counter, KdfModes.Feedback, KdfModes.Pipeline };
+
+        public static MacModes[] VALID_MAC_MODES =
+        {
+            MacModes.CMAC_AES128,
+            MacModes.CMAC_AES192,
+            MacModes.CMAC_AES256,
+            MacModes.CMAC_TDES,
+            MacModes.HMAC_SHA1,
+            MacModes.HMAC_SHA224,
+            MacModes.HMAC_SHA256,
+            MacModes.HMAC_SHA384,
+            MacModes.HMAC_SHA512,
+            MacModes.HMAC_SHA_d512t224,
+            MacModes.HMAC_SHA_d512t256,
+            MacModes.HMAC_SHA3_224,
+            MacModes.HMAC_SHA3_256,
+            MacModes.HMAC_SHA3_384,
+            MacModes.HMAC_SHA3_512
+        };
+
+        public static CounterLocations[] VALID_DATA_ORDERS =
+        {
+            CounterLocations.None,
+            CounterLocations.AfterFixedData,
+            CounterLocations.BeforeFixedData,
+            CounterLocations.BeforeIterator,
+            CounterLocations.MiddleFixedData
+        };
+        public static int[] VALID_COUNTER_LENGTHS = { 0, 8, 16, 24, 32 };
         public static int MAX_DATA_LENGTH = 4096;
         public static int MIN_DATA_LENGTH = 1;
 
@@ -24,7 +49,7 @@ namespace NIST.CVP.Generation.KDF.v1_0
             foreach (var capability in parameters.Capabilities)
             {
                 string result;
-                result = ValidateValue(capability.KdfMode, VALID_KDF_MODES, "KDF Mode");
+                result = ValidateArray(new[] { capability.KdfMode }, VALID_KDF_MODES, "KDF Mode");
                 errors.AddIfNotNullOrEmpty(result);
 
                 result = ValidateArray(capability.MacMode, VALID_MAC_MODES, "MAC Modes");
@@ -64,9 +89,9 @@ namespace NIST.CVP.Generation.KDF.v1_0
                 return;
             }
 
-            if (capability.KdfMode.Equals("counter", StringComparison.OrdinalIgnoreCase))
+            if (capability.KdfMode == KdfModes.Counter)
             {
-                if (capability.FixedDataOrder.Contains("none"))
+                if (capability.FixedDataOrder.Contains(CounterLocations.None))
                 {
                     errors.Add("none FixedDataOrder is not valid with Counter KDF");
                 }
@@ -76,19 +101,19 @@ namespace NIST.CVP.Generation.KDF.v1_0
                     errors.Add("Counter KDF requires a non-zero counter length");
                 }
 
-                if (capability.FixedDataOrder.Contains("before iterator"))
+                if (capability.FixedDataOrder.Contains(CounterLocations.BeforeIterator))
                 {
                     errors.Add("before iterator FixedDataORder is not valid with Counter KDF");
                 }
             }
             else
             {
-                if (capability.FixedDataOrder.Contains("middle fixed data"))
+                if (capability.FixedDataOrder.Contains(CounterLocations.MiddleFixedData))
                 {
                     errors.Add("middle fixed data FixedDataOrder is not valid with non-Counter KDFs");
                 }
 
-                if (capability.FixedDataOrder.Contains("none") && !capability.CounterLength.Contains(0))
+                if (capability.FixedDataOrder.Contains(CounterLocations.None) && !capability.CounterLength.Contains(0))
                 {
                     errors.Add("none FixedDataOrder must be paired with 0 counter length");
                 }

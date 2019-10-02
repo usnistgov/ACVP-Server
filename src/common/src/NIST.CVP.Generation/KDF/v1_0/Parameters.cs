@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Generation.Core;
+﻿using NIST.CVP.Crypto.Common.KDF.Enums;
+using NIST.CVP.Generation.Core;
 using NIST.CVP.Math.Domain;
 
 namespace NIST.CVP.Generation.KDF.v1_0
@@ -17,11 +18,11 @@ namespace NIST.CVP.Generation.KDF.v1_0
 
     public class Capability
     {
-        public string KdfMode { get; set; }
-        public string[] MacMode{get; set; }
-        public MathDomain SupportedLengths{ get; set; }
-        public string[] FixedDataOrder { get; set; }
-        public int[] CounterLength { get; set; } = {0};
+        public KdfModes KdfMode { get; set; }
+        public MacModes[] MacMode { get; set; }
+        public MathDomain SupportedLengths { get; set; }
+        public CounterLocations[] FixedDataOrder { get; set; }
+        public int[] CounterLength { get; set; } = { 0 };
         public bool SupportsEmptyIv { get; set; } = false;
     }
 }
