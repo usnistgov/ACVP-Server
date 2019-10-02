@@ -1,5 +1,4 @@
-using System.Linq;
-using System.Numerics;
+using NIST.CVP.Crypto.CMAC;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys;
 using NIST.CVP.Crypto.Common.KAS.Builders;
 using NIST.CVP.Crypto.Common.KAS.Enums;
@@ -23,10 +22,13 @@ using NIST.CVP.Crypto.KMAC;
 using NIST.CVP.Crypto.KTS;
 using NIST.CVP.Crypto.RSA;
 using NIST.CVP.Crypto.SHAWrapper;
+using NIST.CVP.Crypto.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Symmetric.Engines;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
+using System.Linq;
 
 namespace NIST.CVP.Crypto.KAS.Tests
 {
@@ -45,28 +47,32 @@ namespace NIST.CVP.Crypto.KAS.Tests
         private IKeyConfirmationFactory _keyConfirmationFactory;
         private IFixedInfoFactory _fixedInfoFactory;
         private IRsaSve _rsaSve;
-        
+
         private readonly IEntropyProvider _entropyProvider = new EntropyProvider(new Random800_90());
-        
+
         [SetUp]
         public void Setup()
         {
             var shaFactory = new ShaFactory();
             var entropyFactory = new EntropyProviderFactory();
             var rsa = new Rsa(new RsaVisitor());
-            
-            var kdfVisitor = new KdfVisitor(new KdfOneStepFactory(shaFactory, new HmacFactory(shaFactory), new KmacFactory(new CSHAKEWrapper())));
+
+            var kdfVisitor = new KdfVisitor(
+                new KdfOneStepFactory(shaFactory, new HmacFactory(shaFactory), new KmacFactory(new CSHAKEWrapper())),
+                new Crypto.KDF.KdfFactory(new CmacFactory(new BlockCipherEngineFactory(), new ModeBlockCipherFactory()),
+                new HmacFactory(new ShaFactory())), new HmacFactory(new ShaFactory()),
+                new CmacFactory(new BlockCipherEngineFactory(), new ModeBlockCipherFactory()));
             _rsaSve = new RsaSve(rsa, _entropyProvider);
-            
+
             _kasBuilderPartyU = new KasIfcBuilder();
             _schemeBuilderPartyU = new SchemeIfcBuilder(kdfVisitor);
-            
+
             _kasBuilderPartyV = new KasIfcBuilder();
             _schemeBuilderPartyV = new SchemeIfcBuilder(kdfVisitor);
-            
+
             _secretKeyingMaterialBuilderPartyU = new IfcSecretKeyingMaterialBuilder();
             _secretKeyingMaterialBuilderPartyV = new IfcSecretKeyingMaterialBuilder();
-            
+
             _kdfFactory = new KdfFactory(kdfVisitor);
             _kdfParameterVisitor = new KdfParameterVisitor(entropyFactory.GetEntropyProvider(EntropyProviderTypes.Random));
             _ktsFactory = new KtsFactory(shaFactory, rsa, entropyFactory);
@@ -83,12 +89,12 @@ namespace NIST.CVP.Crypto.KAS.Tests
             var kasMode = KasMode.KdfNoKc;
             var idPartyU = new BitString("1010101010");
             var idPartyV = new BitString("BEEFFACE");
-            
+
             // Set the key and party id for party u's builder
             _secretKeyingMaterialBuilderPartyU
                 .WithKey(null)
                 .WithPartyId(idPartyU);
-                
+
             // Partial party v secret keying material is needed for party U to initialize
             var secretKeyingMaterialPartyV = _secretKeyingMaterialBuilderPartyV
                 .WithKey(new KeyPair()
@@ -109,13 +115,13 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 })
                 .WithPartyId(idPartyV)
                 .Build(
-                    scheme, 
-                    kasMode, 
-                    KeyAgreementRole.ResponderPartyV, 
+                    scheme,
+                    kasMode,
+                    KeyAgreementRole.ResponderPartyV,
                     KeyConfirmationRole.None,
-                    KeyConfirmationDirection.None, 
+                    KeyConfirmationDirection.None,
                     false);
-            
+
             var fixedInfoParameter = new FixedInfoParameter()
             {
                 L = l,
@@ -124,7 +130,7 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 FixedInfoPartyV = null
                 // ^^^ These are set internally to the kas instance ^^^
             };
-            
+
             // KDF
             IKdfParameter kdfParam = null;
             var kdfConfiguration = new OneStepConfiguration()
@@ -139,12 +145,12 @@ namespace NIST.CVP.Crypto.KAS.Tests
             if (KeyGenerationRequirementsHelper.IfcKdfSchemes.Contains(scheme))
             {
                 kdfParam = kdfConfiguration.GetKdfParameter(_kdfParameterVisitor);
-                
+
                 fixedInfoParameter.Encoding = kdfConfiguration.FixedInputEncoding;
                 fixedInfoParameter.FixedInfoPattern = kdfConfiguration.FixedInputPattern;
                 fixedInfoParameter.Salt = kdfParam.Salt;
             }
-            
+
             // KTS
             KtsParameter ktsParam = null;
             var ktsConfiguration = new KtsConfiguration()
@@ -157,7 +163,7 @@ namespace NIST.CVP.Crypto.KAS.Tests
             {
                 fixedInfoParameter.Encoding = ktsConfiguration.Encoding;
                 fixedInfoParameter.FixedInfoPattern = ktsConfiguration.AssociatedDataPattern;
-                
+
                 ktsParam = new KtsParameter()
                 {
                     Encoding = ktsConfiguration.Encoding,
@@ -165,7 +171,7 @@ namespace NIST.CVP.Crypto.KAS.Tests
                     KtsHashAlg = ktsConfiguration.KtsHashAlg
                 };
             }
-            
+
             // MAC
             MacParameters macParam = null;
             MacConfiguration macConfiguration = new MacConfiguration()
@@ -178,14 +184,14 @@ namespace NIST.CVP.Crypto.KAS.Tests
             if (KeyGenerationRequirementsHelper.IfcKcSchemes.Contains(scheme))
             {
                 macParam = new MacParameters(
-                    macConfiguration.MacType, 
-                    macConfiguration.KeyLen, 
+                    macConfiguration.MacType,
+                    macConfiguration.KeyLen,
                     macConfiguration.MacLen);
 
                 kcFactory = _keyConfirmationFactory;
             }
-            
-            
+
+
             // Initialize Party U KAS
             _schemeBuilderPartyU
                 .WithSchemeParameters(new SchemeParametersIfc(
@@ -208,11 +214,11 @@ namespace NIST.CVP.Crypto.KAS.Tests
             var kasPartyU = _kasBuilderPartyU
                 .WithSchemeBuilder(_schemeBuilderPartyU)
                 .Build();
-                    
+
             kasPartyU.InitializeThisPartyKeyingMaterial(secretKeyingMaterialPartyV);
             var initializedKeyingMaterialPartyU = kasPartyU.Scheme.ThisPartyKeyingMaterial;
-            
-            
+
+
             // Initialize Party V KAS
             _schemeBuilderPartyV
                 .WithSchemeParameters(new SchemeParametersIfc(
@@ -235,14 +241,14 @@ namespace NIST.CVP.Crypto.KAS.Tests
             var kasPartyV = _kasBuilderPartyV
                 .WithSchemeBuilder(_schemeBuilderPartyV)
                 .Build();
-                    
+
             kasPartyV.InitializeThisPartyKeyingMaterial(initializedKeyingMaterialPartyU);
 
             var initializedKeyingMaterialPartyV = kasPartyV.Scheme.ThisPartyKeyingMaterial;
-            
+
             var resultPartyU = kasPartyU.ComputeResult(initializedKeyingMaterialPartyV);
             var resultPartyV = kasPartyV.ComputeResult(resultPartyU.KeyingMaterialPartyU);
-            
+
             Assert.AreEqual(resultPartyU.Dkm.ToHex(), resultPartyV.Dkm.ToHex());
         }
     }

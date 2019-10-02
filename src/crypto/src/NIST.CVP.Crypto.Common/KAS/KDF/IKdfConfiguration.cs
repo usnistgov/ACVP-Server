@@ -1,4 +1,3 @@
-using Newtonsoft.Json;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 
 namespace NIST.CVP.Crypto.Common.KAS.KDF
@@ -40,7 +39,7 @@ namespace NIST.CVP.Crypto.Common.KAS.KDF
         /// <summary>
         /// Utilize a <see cref="IKdfParameterVisitor"/> to create a <see cref="IKdfParameter"/> for use in a <see cref="IKdf"/>
         /// </summary>
-        /// <param name="visitor">The visitor for creating <see cref="IKdfParamter"/>s.</param>
+        /// <param name="visitor">The visitor for creating <see cref="IKdfParameter"/>s.</param>
         /// <returns></returns>
         IKdfParameter GetKdfParameter(IKdfParameterVisitor visitor);
     }

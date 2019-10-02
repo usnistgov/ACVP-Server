@@ -1,8 +1,8 @@
+using NIST.CVP.Crypto.Common.KAS.FixedInfo;
+using NIST.CVP.Math;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using NIST.CVP.Crypto.Common.KAS.FixedInfo;
-using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.KAS.FixedInfo
 {
@@ -14,7 +14,7 @@ namespace NIST.CVP.Crypto.KAS.FixedInfo
         {
             _fixedInfoStrategyFactory = fixedInfoStrategyFactory;
         }
-        
+
         public BitString Get(FixedInfoParameter param)
         {
             var fixedInfoParts = new Dictionary<string, BitString>();
@@ -32,7 +32,7 @@ namespace NIST.CVP.Crypto.KAS.FixedInfo
                 var workingPiece = piece.Replace("||", "");
                 GetDataFromPiece(fixedInfoParts, workingPiece, param);
             }
-            
+
             return _fixedInfoStrategyFactory.Get(param.Encoding).GetFixedInfo(fixedInfoParts);
         }
 
@@ -60,18 +60,24 @@ namespace NIST.CVP.Crypto.KAS.FixedInfo
                 return;
             }
 
-            if (workingPiece.Equals("salt", StringComparison.OrdinalIgnoreCase) && fixedInfoParameter.Salt?.BitLength > 0)
+            if (workingPiece.Equals("salt", StringComparison.OrdinalIgnoreCase))
             {
-                fixedInfoParts.Add(workingPiece, fixedInfoParameter.Salt);
+                if (fixedInfoParameter.Salt?.BitLength > 0)
+                {
+                    fixedInfoParts.Add(workingPiece, fixedInfoParameter.Salt);
+                }
                 return;
             }
-            
-            if (workingPiece.Equals("iv", StringComparison.OrdinalIgnoreCase) && fixedInfoParameter.Iv?.BitLength > 0)
+
+            if (workingPiece.Equals("iv", StringComparison.OrdinalIgnoreCase))
             {
-                fixedInfoParts.Add(workingPiece, fixedInfoParameter.Iv);
+                if (fixedInfoParameter.Iv?.BitLength > 0)
+                {
+                    fixedInfoParts.Add(workingPiece, fixedInfoParameter.Iv);
+                }
                 return;
             }
-            
+
             if (workingPiece.Equals("counter", StringComparison.OrdinalIgnoreCase))
             {
                 fixedInfoParts.Add(workingPiece, new BitString(32).BitStringAddition(BitString.One()));
@@ -86,7 +92,7 @@ namespace NIST.CVP.Crypto.KAS.FixedInfo
                 return;
             }
 
-            throw new ArgumentException(nameof(workingPiece));
+            throw new ArgumentException($"{nameof(workingPiece)}: {workingPiece}");
         }
     }
 }

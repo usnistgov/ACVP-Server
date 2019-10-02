@@ -1,6 +1,3 @@
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 using NIST.CVP.Common;
 using NIST.CVP.Common.Oracle.DispositionTypes;
 using NIST.CVP.Common.Oracle.ParameterTypes;
@@ -23,10 +20,13 @@ using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
 using NIST.CVP.Math.Helpers;
 using NIST.CVP.Orleans.Grains.Interfaces.Kas;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Orleans.Grains.Kas
 {
-    public class OracleObserverKasValIfcCaseGrain : ObservableOracleGrainBase<KasValResultIfc>, 
+    public class OracleObserverKasValIfcCaseGrain : ObservableOracleGrainBase<KasValResultIfc>,
     IOracleObserverKasValIfcCaseGrain
     {
         private readonly IKasIfcBuilder _kasBuilderPartyU;
@@ -46,11 +46,11 @@ namespace NIST.CVP.Orleans.Grains.Kas
         private readonly IRsaSveBuilder _rsaSveBuilder;
         private readonly IRsa _rsa;
         private readonly IRandom800_90 _random;
-        
+
         private KasValParametersIfc _param;
         private KeyPair _serverKeyPair;
         private KeyPair _iutKeyPair;
-        
+
         public OracleObserverKasValIfcCaseGrain(
             LimitedConcurrencyLevelTaskScheduler nonOrleansScheduler,
             IKasIfcBuilder kasBuilderPartyU,
@@ -70,7 +70,7 @@ namespace NIST.CVP.Orleans.Grains.Kas
             IRsaSveBuilder rsaSveBuilder,
             IRsa rsa,
             IRandom800_90 random
-        ) 
+        )
             : base(nonOrleansScheduler)
         {
             _kasBuilderPartyU = kasBuilderPartyU;
@@ -101,7 +101,7 @@ namespace NIST.CVP.Orleans.Grains.Kas
             await BeginGrainWorkAsync();
             return await Task.FromResult(true);
         }
-        
+
         protected override async Task DoWorkAsync()
         {
             try
@@ -114,22 +114,22 @@ namespace NIST.CVP.Orleans.Grains.Kas
                 _secretKeyingMaterialBuilderPartyU
                     .WithKey(isServerPartyU ? _serverKeyPair : _iutKeyPair)
                     .WithPartyId(isServerPartyU ? _param.ServerPartyId : _param.IutPartyId);
-                
+
                 // Partial party v secret keying material is needed for party U to initialize
                 var secretKeyingMaterialPartyV = _secretKeyingMaterialBuilderPartyV
                     .WithKey(isServerPartyV ? _serverKeyPair : _iutKeyPair)
                     .WithPartyId(isServerPartyV ? _param.ServerPartyId : _param.IutPartyId)
                     .Build(
-                        _param.Scheme, 
-                        _param.KasMode, 
-                        isServerPartyV ? _param.ServerKeyAgreementRole : _param.IutKeyAgreementRole, 
+                        _param.Scheme,
+                        _param.KasMode,
+                        isServerPartyV ? _param.ServerKeyAgreementRole : _param.IutKeyAgreementRole,
                         isServerPartyV ? _param.ServerKeyConfirmationRole : _param.IutKeyConfirmationRole,
-                        _param.KeyConfirmationDirection, 
+                        _param.KeyConfirmationDirection,
                         false);
 
                 IRsaSve rsaSve = _rsaSve;
                 IEntropyProvider entropyProvider = _entropyProvider;
-                
+
                 var fixedInfoParameter = new FixedInfoParameter()
                 {
                     L = _param.L,
@@ -146,15 +146,15 @@ namespace NIST.CVP.Orleans.Grains.Kas
                     {
                         MinimumLeadingZeroes = 4 // first nibble zero
                     };
-                    
+
                     entropyProvider = leadingZeroesEntropyFactory.GetEntropyProvider(EntropyProviderTypes.Random);
-                    
+
                     rsaSve = _rsaSveBuilder
                         .WithRsa(_rsa)
                         .WithEntropyProvider(entropyProvider)
                         .Build();
                 }
-                
+
                 // KDF
                 IKdfFactory kdfFactory = _kdfFactory;
                 if (_param.Disposition == KasIfcValTestDisposition.FailChangedZ)
@@ -167,17 +167,18 @@ namespace NIST.CVP.Orleans.Grains.Kas
                     kdfFactory = new KdfFactory(new FakeKdfVisitor_BadDkm(_kdfVisitor, _random));
                     testPassed = false;
                 }
-                
+
                 IKdfParameter kdfParam = null;
                 if (KeyGenerationRequirementsHelper.IfcKdfSchemes.Contains(_param.Scheme))
                 {
                     kdfParam = _param.KdfConfiguration.GetKdfParameter(_kdfParameterVisitor);
-                    
+
                     fixedInfoParameter.Encoding = _param.KdfConfiguration.FixedInputEncoding;
                     fixedInfoParameter.FixedInfoPattern = _param.KdfConfiguration.FixedInputPattern;
                     fixedInfoParameter.Salt = kdfParam.Salt;
+                    fixedInfoParameter.Iv = kdfParam.Iv;
                 }
-                
+
                 // KTS
                 IKtsFactory ktsFactory = _ktsFactory;
                 if (_param.Disposition == KasIfcValTestDisposition.FailChangedZ)
@@ -185,13 +186,13 @@ namespace NIST.CVP.Orleans.Grains.Kas
                     ktsFactory = new FakeKtsFactory_BadZ(_ktsFactory, _random);
                     testPassed = false;
                 }
-                
+
                 KtsParameter ktsParam = null;
                 if (KeyGenerationRequirementsHelper.IfcKtsSchemes.Contains(_param.Scheme))
                 {
                     fixedInfoParameter.Encoding = _param.KtsConfiguration.Encoding;
                     fixedInfoParameter.FixedInfoPattern = _param.KtsConfiguration.AssociatedDataPattern;
-                    
+
                     ktsParam = new KtsParameter()
                     {
                         Encoding = _param.KtsConfiguration.Encoding,
@@ -199,15 +200,15 @@ namespace NIST.CVP.Orleans.Grains.Kas
                         KtsHashAlg = _param.KtsConfiguration.KtsHashAlg
                     };
                 }
-                
+
                 // MAC
                 MacParameters macParam = null;
                 IKeyConfirmationFactory kcFactory = null;
                 if (KeyGenerationRequirementsHelper.IfcKcSchemes.Contains(_param.Scheme))
                 {
                     macParam = new MacParameters(
-                        _param.MacConfiguration.MacType, 
-                        _param.MacConfiguration.KeyLen, 
+                        _param.MacConfiguration.MacType,
+                        _param.MacConfiguration.KeyLen,
                         _param.MacConfiguration.MacLen);
 
                     kcFactory = _keyConfirmationFactory;
@@ -218,7 +219,7 @@ namespace NIST.CVP.Orleans.Grains.Kas
                         testPassed = false;
                     }
                 }
-                
+
                 // Initialize Party U KAS
                 _schemeBuilderPartyU
                     .WithSchemeParameters(new SchemeParametersIfc(
@@ -241,12 +242,12 @@ namespace NIST.CVP.Orleans.Grains.Kas
                 var kasPartyU = _kasBuilderPartyU
                     .WithSchemeBuilder(_schemeBuilderPartyU)
                     .Build();
-                    
+
                 kasPartyU.InitializeThisPartyKeyingMaterial(secretKeyingMaterialPartyV);
 
                 var initializedKeyingMaterialPartyU = kasPartyU.Scheme.ThisPartyKeyingMaterial;
-                
-                
+
+
                 // Initialize Party V KAS
                 _schemeBuilderPartyV
                     .WithSchemeParameters(new SchemeParametersIfc(
@@ -269,14 +270,14 @@ namespace NIST.CVP.Orleans.Grains.Kas
                 var kasPartyV = _kasBuilderPartyV
                     .WithSchemeBuilder(_schemeBuilderPartyV)
                     .Build();
-                    
+
                 kasPartyV.InitializeThisPartyKeyingMaterial(initializedKeyingMaterialPartyU);
 
                 var initializedKeyingMaterialPartyV = kasPartyV.Scheme.ThisPartyKeyingMaterial;
 
                 // Complete the KAS negotiation with whichever party is the IUT
-                var result = isServerPartyU ? 
-                    kasPartyV.ComputeResult(initializedKeyingMaterialPartyU) : 
+                var result = isServerPartyU ?
+                    kasPartyV.ComputeResult(initializedKeyingMaterialPartyU) :
                     kasPartyU.ComputeResult(initializedKeyingMaterialPartyV);
 
                 var response = new KasValResultIfc()
@@ -313,7 +314,7 @@ namespace NIST.CVP.Orleans.Grains.Kas
                 if (_param.Disposition == KasIfcValTestDisposition.FailKeyConfirmationBits)
                 {
                     var newDkm = result.MacKey.ConcatenateBits(result.Dkm);
-                    
+
                     response.KasResult = new KasResult(
                         newDkm, result.MacKey, result.MacData, result.Tag);
                     response.TestPassed = false;
@@ -330,7 +331,7 @@ namespace NIST.CVP.Orleans.Grains.Kas
                     response.KasResult.Tag[_random.GetRandomInt(0, tagByteLen)] += 2;
                     response.TestPassed = false;
                 }
-                
+
                 await Notify(response);
             }
             catch (Exception e)

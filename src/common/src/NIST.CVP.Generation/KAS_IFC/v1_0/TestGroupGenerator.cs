@@ -1,22 +1,18 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore.Internal;
-using Microsoft.EntityFrameworkCore.Scaffolding.Internal;
-using NIST.CVP.Common.Oracle;
-using NIST.CVP.Common.Oracle.ParameterTypes;
-using NIST.CVP.Common.Oracle.ResultTypes;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
+using NIST.CVP.Common.ExtensionMethods;
+using NIST.CVP.Common.Helpers;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Crypto.Common.KAS.KC;
 using NIST.CVP.Crypto.Common.KAS.KDF;
 using NIST.CVP.Crypto.Common.KAS.KDF.KdfOneStep;
+using NIST.CVP.Crypto.Common.KAS.KDF.KdfTwoStep;
+using NIST.CVP.Crypto.Common.KDF.Enums;
 using NIST.CVP.Crypto.Common.KTS;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Math;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Numerics;
 
 namespace NIST.CVP.Generation.KAS_IFC.v1_0
 {
@@ -24,11 +20,11 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
     {
         private static readonly string[] TestTypes =
         {
-            "AFT", 
+            "AFT",
             "VAL"
         };
         private static readonly BigInteger DefaultExponent = BigInteger.Zero; // new BigInteger(65537);
-        
+
         public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
         {
             List<TestGroup> groups = new List<TestGroup>();
@@ -62,17 +58,17 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
             foreach (var testType in TestTypes)
             {
                 var iutKeys = testType.Equals("AFT", StringComparison.OrdinalIgnoreCase) ? GetKeys(param) : null;
-                
+
                 foreach (var role in schemeBase.KasRole)
                 {
                     var keyConfInfo = GetKeyConfirmationInfo(schemeBase.Scheme, role);
-                    
+
                     foreach (var keyGenerationMethod in keyGenMethods)
                     {
                         var exponent = keyGenerationMethod.FixedPublicExponent == 0
                             ? DefaultExponent
                             : keyGenerationMethod.FixedPublicExponent;
-                        
+
                         foreach (var modulo in keyGenerationMethod.Modulo)
                         {
                             foreach (var kdfConfig in kdfMethods)
@@ -178,7 +174,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
                             }
                         }
                     }
-                }                
+                }
             }
         }
 
@@ -213,18 +209,18 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
                 case IfcScheme.Kts_oaep_basic:
                     return (KeyConfirmationDirection.None, KeyConfirmationRole.None);
                 case IfcScheme.Kas2_bilateral_keyConfirmation:
-                    return role == KeyAgreementRole.InitiatorPartyU ? 
-                        (KeyConfirmationDirection.Bilateral, KeyConfirmationRole.Provider) : 
+                    return role == KeyAgreementRole.InitiatorPartyU ?
+                        (KeyConfirmationDirection.Bilateral, KeyConfirmationRole.Provider) :
                         (KeyConfirmationDirection.Bilateral, KeyConfirmationRole.Recipient);
                 case IfcScheme.Kas2_partyU_keyConfirmation:
                     return role == KeyAgreementRole.InitiatorPartyU ?
-                        (KeyConfirmationDirection.Unilateral, KeyConfirmationRole.Provider) : 
+                        (KeyConfirmationDirection.Unilateral, KeyConfirmationRole.Provider) :
                         (KeyConfirmationDirection.Unilateral, KeyConfirmationRole.Recipient);
                 case IfcScheme.Kas1_partyV_keyConfirmation:
                 case IfcScheme.Kas2_partyV_keyConfirmation:
                 case IfcScheme.Kts_oaep_partyV_keyConfirmation:
                     return role == KeyAgreementRole.InitiatorPartyU ?
-                        (KeyConfirmationDirection.Unilateral, KeyConfirmationRole.Recipient) : 
+                        (KeyConfirmationDirection.Unilateral, KeyConfirmationRole.Recipient) :
                         (KeyConfirmationDirection.Unilateral, KeyConfirmationRole.Provider);
                 default:
                     throw new ArgumentException($"{nameof(scheme)} {nameof(role)}");
@@ -237,7 +233,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
             {
                 return new List<MacConfiguration>();
             }
-            
+
             List<MacConfiguration> list = new List<MacConfiguration>();
 
             foreach (var macMethod in schemeBaseMacMethods.GetRegisteredMacMethods())
@@ -249,7 +245,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
                     MacLen = macMethod.MacLen
                 });
             }
-            
+
             return list;
         }
 
@@ -259,24 +255,26 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
             {
                 return new List<IKdfConfiguration>();
             }
-            
+
             var list = new List<IKdfConfiguration>();
 
             GetKdfConfiguration(kdfMethods.OneStepKdf, l, list);
-            
+            GetKdfConfiguration(kdfMethods.TwoStepKdf, l, list);
+
             return list;
         }
 
-        private void GetKdfConfiguration(OneStepKdf kdfMethodsOneStepKdf, int l, List<IKdfConfiguration> list)
+        private void GetKdfConfiguration(OneStepKdf kdfMethod, int l, List<IKdfConfiguration> list)
         {
-            if (kdfMethodsOneStepKdf == null)
+            if (kdfMethod == null)
             {
                 return;
             }
 
-            foreach (var encoding in kdfMethodsOneStepKdf.Encoding)
+            // Since this KDF is specific to KAS, test each enumeration
+            foreach (var encoding in kdfMethod.Encoding)
             {
-                foreach (var auxFunction in kdfMethodsOneStepKdf.AuxFunctions)
+                foreach (var auxFunction in kdfMethod.AuxFunctions)
                 {
                     foreach (var saltMethod in auxFunction.MacSaltMethods)
                     {
@@ -284,7 +282,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
                         {
                             L = l,
                             FixedInputEncoding = encoding,
-                            FixedInputPattern = kdfMethodsOneStepKdf.FixedInputPattern,
+                            FixedInputPattern = kdfMethod.FixedInputPattern,
                             AuxFunction = auxFunction.AuxFunctionName,
                             SaltMethod = saltMethod,
                             SaltLen = auxFunction.SaltLen
@@ -293,16 +291,151 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
                 }
             }
         }
-        
+
+        private void GetKdfConfiguration(TwoStepKdf kdfMethod, int l, List<IKdfConfiguration> list)
+        {
+            if (kdfMethod == null)
+            {
+                return;
+            }
+
+            List<IKdfConfiguration> tempList = new List<IKdfConfiguration>();
+
+            foreach (var encoding in kdfMethod.Encoding)
+            {
+                foreach (var saltMethod in kdfMethod.MacSaltMethods)
+                {
+                    foreach (var capability in kdfMethod.Capabilities)
+                    {
+                        foreach (var counterLen in capability.CounterLength)
+                        {
+                            foreach (var fixedDataOrder in capability.FixedDataOrder)
+                            {
+                                foreach (var mac in capability.MacMode)
+                                {
+                                    var kdfMode = EnumHelpers.GetEnumFromEnumDescription<KdfModes>(capability.KdfMode);
+                                    var macMode = EnumHelpers.GetEnumFromEnumDescription<MacModes>(mac);
+                                    var counterLocation =
+                                        EnumHelpers.GetEnumFromEnumDescription<CounterLocations>(fixedDataOrder);
+
+                                    // If counter length is 0, only do the 'none', otherwise, skip the 'none'
+                                    if (counterLen == 0)
+                                    {
+                                        if (!counterLocation.Equals(CounterLocations.None))
+                                        {
+                                            continue;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (counterLocation.Equals(CounterLocations.None))
+                                        {
+                                            continue;
+                                        }
+                                    }
+
+                                    // Cannot generate groups when the counter is in the "middle".
+                                    if (counterLocation == CounterLocations.MiddleFixedData)
+                                    {
+                                        continue;
+                                    }
+
+                                    var saltLen = 0;
+                                    var ivLen = 0;
+                                    switch (macMode)
+                                    {
+                                        case MacModes.CMAC_AES128:
+                                            saltLen = 128;
+                                            ivLen = 128;
+                                            break;
+                                        case MacModes.CMAC_AES192:
+                                            saltLen = 192;
+                                            ivLen = 128;
+                                            break;
+                                        case MacModes.CMAC_AES256:
+                                            saltLen = 256;
+                                            ivLen = 128;
+                                            break;
+                                        case MacModes.CMAC_TDES:
+                                            continue;
+                                        case MacModes.HMAC_SHA1:
+                                            saltLen = 160;
+                                            ivLen = 160;
+                                            break;
+                                        case MacModes.HMAC_SHA224:
+                                            saltLen = 224;
+                                            ivLen = 224;
+                                            break;
+                                        case MacModes.HMAC_SHA256:
+                                            saltLen = 256;
+                                            ivLen = 256;
+                                            break;
+                                        case MacModes.HMAC_SHA384:
+                                            saltLen = 384;
+                                            ivLen = 384;
+                                            break;
+                                        case MacModes.HMAC_SHA512:
+                                            saltLen = 512;
+                                            ivLen = 512;
+                                            break;
+                                    }
+
+                                    if (kdfMode != KdfModes.Feedback)
+                                    {
+                                        ivLen = 0;
+                                    }
+
+                                    tempList.Add(new TwoStepConfiguration()
+                                    {
+                                        L = l,
+                                        SaltLen = saltLen,
+                                        FixedInputEncoding = encoding,
+                                        FixedInputPattern = kdfMethod.FixedInputPattern,
+                                        SaltMethod = saltMethod,
+                                        KdfMode = kdfMode,
+                                        MacMode = macMode,
+                                        CounterLocation = counterLocation,
+                                        CounterLen = counterLen,
+                                        IvLen = ivLen
+                                    });
+
+                                    // Only Feedback has an IV, so add additional group of 0 len iv when feedback group supports it.
+                                    if (capability.SupportsEmptyIv && kdfMode == KdfModes.Feedback)
+                                    {
+                                        tempList.Add(new TwoStepConfiguration()
+                                        {
+                                            L = l,
+                                            SaltLen = saltLen,
+                                            FixedInputEncoding = encoding,
+                                            FixedInputPattern = kdfMethod.FixedInputPattern,
+                                            SaltMethod = saltMethod,
+                                            KdfMode = kdfMode,
+                                            MacMode = macMode,
+                                            CounterLocation = counterLocation,
+                                            CounterLen = counterLen,
+                                            IvLen = 0
+                                        });
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            // No need to fully test each enumeration of this KDF, as it is tested separately, take max of 5 groups randomly.
+            list.AddRangeIfNotNullOrEmpty(tempList.Shuffle().Take(5));
+        }
+
         private List<KtsConfiguration> GetKtsConfigurations(KtsMethod schemeBaseKtsMethod)
         {
             if (schemeBaseKtsMethod == null)
             {
                 return new List<KtsConfiguration>();
             }
-            
+
             var list = new List<KtsConfiguration>();
-            
+
             foreach (var hashAlg in schemeBaseKtsMethod.HashAlgs)
             {
                 if (!string.IsNullOrEmpty(schemeBaseKtsMethod.AssociatedDataPattern))
@@ -314,7 +447,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
                             AssociatedDataPattern = schemeBaseKtsMethod.AssociatedDataPattern,
                             KtsHashAlg = hashAlg,
                             Encoding = encoding
-                        });                    
+                        });
                     }
                 }
 
@@ -327,7 +460,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
                     });
                 }
             }
-            
+
             return list;
         }
     }

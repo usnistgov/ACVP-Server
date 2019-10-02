@@ -352,6 +352,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
         /// <summary>
         /// The KDF parameters used in the KDF function.
         /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public IKdfParameter KdfParameter { get; set; }
 
         /// <summary>

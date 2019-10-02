@@ -1,17 +1,34 @@
-using System;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Common.KAS.KDF;
 using NIST.CVP.Crypto.Common.KAS.KDF.KdfOneStep;
+using NIST.CVP.Crypto.Common.KAS.KDF.KdfTwoStep;
+using NIST.CVP.Crypto.Common.KDF.Enums;
+using NIST.CVP.Crypto.Common.MAC;
+using NIST.CVP.Crypto.Common.MAC.CMAC;
+using NIST.CVP.Crypto.Common.MAC.CMAC.Enums;
+using NIST.CVP.Crypto.Common.MAC.HMAC;
 using NIST.CVP.Math;
+using System;
+using IKdfFactory = NIST.CVP.Crypto.Common.KDF.IKdfFactory;
 
 namespace NIST.CVP.Crypto.KAS.KDF
 {
     public class KdfVisitor : IKdfVisitor
     {
         private readonly IKdfOneStepFactory _kdfOneStepFactory;
+        private readonly IKdfFactory _kdfTwoStepFactory;
+        private readonly IHmacFactory _hmacFactory;
+        private readonly ICmacFactory _cmacFactory;
 
-        public KdfVisitor(IKdfOneStepFactory kdfOneStepFactory)
+        public KdfVisitor(IKdfOneStepFactory kdfOneStepFactory,
+            IKdfFactory kdfTwoStepFactory,
+            IHmacFactory hmacFactory,
+            ICmacFactory cmacFactory)
         {
             _kdfOneStepFactory = kdfOneStepFactory;
+            _kdfTwoStepFactory = kdfTwoStepFactory;
+            _hmacFactory = hmacFactory;
+            _cmacFactory = cmacFactory;
         }
 
         public KdfResult Kdf(KdfParameterOneStep param, BitString fixedInfo)
@@ -19,6 +36,62 @@ namespace NIST.CVP.Crypto.KAS.KDF
             var kdf = _kdfOneStepFactory.GetInstance(param.AuxFunction);
 
             return kdf.DeriveKey(param.Z, param.L, fixedInfo, param.Salt);
+        }
+
+        public KdfResult Kdf(KdfParameterTwoStep param, BitString fixedInfo)
+        {
+            // TODO this Two Step KDF (SP800-108) should support additional HMACS - all of sha3 and the truncated sha2s.
+
+            IMac randomnessExtractionMac = null;
+            MacModes keyExpansionMacMode = param.MacMode;
+            switch (param.MacMode)
+            {
+                case MacModes.CMAC_AES128:
+                    randomnessExtractionMac = _cmacFactory.GetCmacInstance(CmacTypes.AES128);
+                    break;
+                case MacModes.CMAC_AES192:
+                    randomnessExtractionMac = _cmacFactory.GetCmacInstance(CmacTypes.AES192);
+                    keyExpansionMacMode = MacModes.CMAC_AES128;
+                    break;
+                case MacModes.CMAC_AES256:
+                    randomnessExtractionMac = _cmacFactory.GetCmacInstance(CmacTypes.AES256);
+                    keyExpansionMacMode = MacModes.CMAC_AES128;
+                    break;
+                case MacModes.HMAC_SHA1:
+                    randomnessExtractionMac =
+                        _hmacFactory.GetHmacInstance(new HashFunction(ModeValues.SHA1, DigestSizes.d160));
+                    break;
+                case MacModes.HMAC_SHA224:
+                    randomnessExtractionMac =
+                        _hmacFactory.GetHmacInstance(new HashFunction(ModeValues.SHA2, DigestSizes.d224));
+                    break;
+                case MacModes.HMAC_SHA256:
+                    randomnessExtractionMac =
+                        _hmacFactory.GetHmacInstance(new HashFunction(ModeValues.SHA2, DigestSizes.d256));
+                    break;
+                case MacModes.HMAC_SHA384:
+                    randomnessExtractionMac =
+                        _hmacFactory.GetHmacInstance(new HashFunction(ModeValues.SHA2, DigestSizes.d384));
+                    break;
+                case MacModes.HMAC_SHA512:
+                    randomnessExtractionMac =
+                        _hmacFactory.GetHmacInstance(new HashFunction(ModeValues.SHA2, DigestSizes.d512));
+                    break;
+                default:
+                    throw new ArgumentException($"Invalid {nameof(MacModes)} provided to KdfVisitor.");
+            }
+
+            // Randomness extraction (step one)
+            var randomnessExtraction = randomnessExtractionMac.Generate(param.Salt, param.Z);
+
+            // Key Expansion (step two)
+            var kdf = _kdfTwoStepFactory.GetKdfInstance(
+                param.KdfMode,
+                keyExpansionMacMode,
+                param.CounterLocation,
+                param.CounterLen);
+
+            return new KdfResult(kdf.DeriveKey(randomnessExtraction.Mac, fixedInfo, param.L, param.Iv, 0).DerivedKey);
         }
     }
 }

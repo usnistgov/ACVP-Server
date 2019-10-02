@@ -1,16 +1,17 @@
-using System.Collections.Generic;
-using System.Numerics;
 using Newtonsoft.Json;
 using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.KDF.v1_0;
 using NIST.CVP.Math;
+using System.Collections.Generic;
+using System.Numerics;
 
 namespace NIST.CVP.Generation.KAS_IFC.v1_0
 {
-    public class Parameters : IParameters 
+    public class Parameters : IParameters
     {
         public int VectorSetId { get; set; }
         public string Algorithm { get; set; }
@@ -20,12 +21,12 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
         public BitString IutId { get; set; }
         public PublicKey[] PublicKeys { get; set; }
         public string[] Conformances { get; set; }
-        
+
         /// <summary>
         /// KAS Assurances
         /// </summary>
         public string[] Function { get; set; }
-        
+
         /// <summary>
         /// The KAS schemes to test
         /// </summary>
@@ -50,7 +51,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
         public Kts_oaep_basic Kts_oaep_basic { get; set; }
         [JsonProperty(PropertyName = "KTS-OAEP-Party_V-confirmation")]
         public Kts_oaep_partyV_confirmation Kts_oaep_partyV_confirmation { get; set; }
-        
+
         public IEnumerable<SchemeBase> GetRegisteredSchemes()
         {
             var list = new List<SchemeBase>();
@@ -63,7 +64,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
             list.AddIfNotNull(Kas2_partyV_confirmation);
             list.AddIfNotNull(Kts_oaep_basic);
             list.AddIfNotNull(Kts_oaep_partyV_confirmation);
-        
+
             return list;
         }
     }
@@ -167,7 +168,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
         public RsaKpg2_primeFactor RsaKpg2_primeFactor { get; set; }
         [JsonProperty(PropertyName = "rsakpg2-crt")]
         public RsaKpg2_crt RsaKpg2_crt { get; set; }
-        
+
         public IEnumerable<KeyGenerationMethodBase> GetRegisteredKeyGenerationMethods()
         {
             var list = new List<KeyGenerationMethodBase>();
@@ -178,7 +179,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
             list.AddIfNotNull(RsaKpg2_basic);
             list.AddIfNotNull(RsaKpg2_primeFactor);
             list.AddIfNotNull(RsaKpg2_crt);
-        
+
             return list;
         }
     }
@@ -252,13 +253,15 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
     public class KdfMethods
     {
         public OneStepKdf OneStepKdf { get; set; }
-        
+        public TwoStepKdf TwoStepKdf { get; set; }
+
         public IEnumerable<KdfMethodBase> GetRegisteredKdfMethods()
         {
-            var list = new List<OneStepKdf>();
+            var list = new List<KdfMethodBase>();
 
             list.AddIfNotNull(OneStepKdf);
-           
+            list.AddIfNotNull(TwoStepKdf);
+
             return list;
         }
     }
@@ -287,7 +290,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
         /// </summary>
         public AuxFunction[] AuxFunctions { get; set; }
     }
-    
+
     public class AuxFunction
     {
         /// <summary>
@@ -303,7 +306,14 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
         /// </summary>
         public MacSaltMethod[] MacSaltMethods { get; set; }
     }
-    
+
+    public class TwoStepKdf : KdfMethodBase
+    {
+        public override KasKdf KdfType => KasKdf.TwoStep;
+        public Capability[] Capabilities { get; set; }
+        public MacSaltMethod[] MacSaltMethods { get; set; }
+    }
+
     public class KtsMethod
     {
         /// <summary>
@@ -323,7 +333,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
         /// </summary>
         public FixedInfoEncoding[] Encoding { get; set; }
     }
-    
+
     /// <summary>
     /// Options for a MAC used in KeyConfirmation
     /// </summary>
@@ -355,7 +365,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
         public MacOptionKmac128 Kmac128 { get; set; }
         [JsonProperty(PropertyName = "KMAC-256")]
         public MacOptionKmac256 Kmac256 { get; set; }
-        
+
         public IEnumerable<MacOptionsBase> GetRegisteredMacMethods()
         {
             var list = new List<MacOptionsBase>();
@@ -495,7 +505,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
     {
         public override KeyAgreementMacType MacType => KeyAgreementMacType.HmacSha3D512;
     }
-    
+
     /// <inheritdoc />
     /// <summary>
     /// KMAC-128
@@ -504,7 +514,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
     {
         public override KeyAgreementMacType MacType => KeyAgreementMacType.Kmac_128;
     }
-    
+
     /// <inheritdoc />
     /// <summary>
     /// KMAC-256

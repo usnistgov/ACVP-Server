@@ -27,6 +27,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0.ContractResolvers
                 nameof(TestCase.ServerC),
                 nameof(TestCase.ServerNonce),
                 nameof(TestCase.Salt),
+                nameof(TestCase.KdfParameter)
             };
             if (includePropertiesAllScenarios.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
             {

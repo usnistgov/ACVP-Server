@@ -6,6 +6,8 @@ namespace NIST.CVP.Crypto.Common.KAS.Enums
     {
         None,
         [EnumMember(Value = "oneStep")]
-        OneStep
+        OneStep,
+        [EnumMember(Value = "twoStep")]
+        TwoStep,
     }
 }

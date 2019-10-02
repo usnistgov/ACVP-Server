@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
 using NIST.CVP.Common;
 using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Common.Helpers;
@@ -11,12 +7,16 @@ using NIST.CVP.Crypto.Common.KAS.Helpers;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Helpers;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace NIST.CVP.Generation.KAS_IFC.v1_0
 {
     public class ParameterValidator : ParameterValidatorBase, IParameterValidator<Parameters>
     {
-        
+
         #region Validation statics
         public static readonly KeyAgreementRole[] ValidKeyAgreementRoles =
         {
@@ -37,7 +37,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
             KasHashAlg.SHA3_D512
         };
 
-        public static readonly (KasKdfOneStepAuxFunction functionName, bool requiresSaltLength)[] ValidAuxMethods = 
+        public static readonly (KasKdfOneStepAuxFunction functionName, bool requiresSaltLength)[] ValidAuxMethods =
         {
             (KasKdfOneStepAuxFunction.SHA2_D224, false),
             (KasKdfOneStepAuxFunction.SHA2_D256, false),
@@ -79,14 +79,16 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
             IfcKeyGenerationMethod.RsaKpg2_crt,
         };
 
+        private static readonly MacSaltMethod[] ValidSaltGenerationMethods = { MacSaltMethod.Default, MacSaltMethod.Random };
+
         private static readonly FixedInfoEncoding[] ValidEncodingTypes = new[]
         {
             FixedInfoEncoding.Concatenation, FixedInfoEncoding.ConcatenationWithLengths
         };
-        
+
         private static readonly int[] ValidModulo = ParameterSetDetails.RsaModuloDetails.Keys.ToArray();
 
-        private static readonly int[] ValidAesKeyLengths = new[] {128, 192, 256};
+        private static readonly int[] ValidAesKeyLengths = new[] { 128, 192, 256 };
         private static readonly int MinimumL = 112;
         private static readonly int MaximumL = 1024;
         #endregion Validation statics
@@ -104,12 +106,12 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
             {
                 _isKasScheme = true;
             }
-            
+
             if (_algoMode == AlgoMode.KTS_IFC_v1_0)
             {
                 _isKtsScheme = true;
             }
-            
+
             if (!ValidAlgoModes.Contains(_algoMode))
             {
                 errorResults.Add("Invalid Algorithm, mode, revision combination.");
@@ -118,7 +120,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
 
             ValidateSchemes(parameters, errorResults);
             ValidateKeys(parameters, errorResults);
-            
+
             return new ParameterValidateResponse(errorResults);
         }
 
@@ -131,20 +133,20 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
             }
 
             var registeredSchemes = parameters.Scheme.GetRegisteredSchemes();
-            
+
             if (!registeredSchemes.Any())
             {
                 errorResults.Add("No Schemes were registered");
                 return;
             }
-            
+
             ValidateSchemesForAlgoMode(errorResults, registeredSchemes);
 
             if (errorResults.Any())
             {
                 return;
             }
-            
+
             ValidateScheme(parameters.Scheme.Kas1_basic, errorResults);
             ValidateScheme(parameters.Scheme.Kas1_partyV_confirmation, errorResults);
             ValidateScheme(parameters.Scheme.Kas2_basic, errorResults);
@@ -154,11 +156,11 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
             ValidateScheme(parameters.Scheme.Kts_oaep_basic, errorResults);
             ValidateScheme(parameters.Scheme.Kts_oaep_partyV_confirmation, errorResults);
         }
-       
+
         private void ValidateSchemesForAlgoMode(List<string> errorResults, IEnumerable<SchemeBase> registeredSchemes)
         {
             var invalidSchemeMessage = $"Invalid Schemes for registered {_algoMode}";
-            
+
             switch (_algoMode)
             {
                 case AlgoMode.KAS_IFC_v1_0:
@@ -177,7 +179,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
                     throw new Exception($"Invalid {_algoMode}");
             }
         }
-        
+
         private void ValidateScheme(SchemeBase scheme, List<string> errorResults)
         {
             if (scheme == null)
@@ -194,10 +196,10 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
             {
                 errorResults.Add($"{nameof(scheme.L)} mod 8 should equal 0.");
             }
-            
+
             ValidateKeyAgreementRoles(scheme.KasRole, errorResults);
             ValidateKeyGenerationMethod(scheme.KeyGenerationMethods, errorResults);
-            ValidateKdfMethods(scheme.KdfMethods, errorResults);
+            ValidateKdfMethods(scheme.KdfMethods, scheme.L, errorResults);
             ValidateKtsMethods(scheme.KtsMethod, errorResults);
             ValidateMacMethods(scheme.Scheme, scheme.MacMethods, scheme.L, errorResults);
         }
@@ -206,7 +208,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
         {
             errorResults.AddIfNotNullOrEmpty(ValidateArray(schemeRoles, ValidKeyAgreementRoles, "Key Agreement Roles"));
         }
-        
+
         private void ValidateKeyGenerationMethod(KeyGenerationMethods schemeKeyGenerationMethods, List<string> errorResults)
         {
             if (schemeKeyGenerationMethods == null)
@@ -216,10 +218,10 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
             }
 
             var keyGenerationMethods = schemeKeyGenerationMethods.GetRegisteredKeyGenerationMethods();
-            
+
             errorResults.AddIfNotNullOrEmpty(ValidateArray(
                 keyGenerationMethods.Select(s => s.KeyGenerationMethod), ValidKeyGenerationMethods, "Key Agreement Roles"));
-            
+
             ValidateKeyGenerationMethod(schemeKeyGenerationMethods.RsaKpg1_basic, errorResults, true);
             ValidateKeyGenerationMethod(schemeKeyGenerationMethods.RsaKpg1_primeFactor, errorResults, true);
             ValidateKeyGenerationMethod(schemeKeyGenerationMethods.RsaKpg1_crt, errorResults, true);
@@ -234,7 +236,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
             {
                 return;
             }
-            
+
             errorResults.AddIfNotNullOrEmpty(ValidateArray(keyGenBase.Modulo, ValidModulo, "Modulus"));
 
             if (requiresFixedPublicKey && !RsaKeyHelper.IsValidExponent(keyGenBase.FixedPublicExponent))
@@ -247,9 +249,9 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
                 errorResults.Add("Unexpected fixed public exponent");
             }
         }
-        
+
         #region kdfValidation
-        private void ValidateKdfMethods(KdfMethods schemeKdfMethods, List<string> errorResults)
+        private void ValidateKdfMethods(KdfMethods schemeKdfMethods, int l, List<string> errorResults)
         {
             // KTS Schemes don't use key derivation.
             if (_isKtsScheme)
@@ -264,27 +266,28 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
             }
 
             var registeredKdfs = schemeKdfMethods.GetRegisteredKdfMethods();
-            
+
             if (!registeredKdfs.Any())
             {
                 return;
             }
-            
-            ValidateKdfMethod(schemeKdfMethods.OneStepKdf, errorResults);
+
+            ValidateKdfMethod(schemeKdfMethods.OneStepKdf, l, errorResults);
+            ValidateKdfMethod(schemeKdfMethods.TwoStepKdf, l, errorResults);
         }
 
         #region OneStepKdf
-        private void ValidateKdfMethod(OneStepKdf oneStepKdf, List<string> errorResults)
+        private void ValidateKdfMethod(OneStepKdf kdf, int l, List<string> errorResults)
         {
-            if (oneStepKdf == null)
+            if (kdf == null)
             {
                 return;
             }
 
-            ValidateAuxFunction(oneStepKdf.AuxFunctions, errorResults);
+            ValidateAuxFunction(kdf.AuxFunctions, errorResults);
             // perhaps do in a "base" kdf validator?
-            ValidateFixedInputPattern(oneStepKdf.FixedInputPattern, errorResults);
-            ValidateEncoding(oneStepKdf.Encoding, errorResults);
+            ValidateFixedInputPattern(kdf.FixedInputPattern, errorResults);
+            ValidateEncoding(kdf.Encoding, errorResults);
         }
 
         private void ValidateAuxFunction(AuxFunction[] auxFunctions, List<string> errorResults)
@@ -296,12 +299,10 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
             }
 
             errorResults.AddIfNotNullOrEmpty(ValidateArray(
-                auxFunctions.Select(s => s.AuxFunctionName), 
-                ValidAuxMethods.Select(s => s.functionName), 
+                auxFunctions.Select(s => s.AuxFunctionName),
+                ValidAuxMethods.Select(s => s.functionName),
                 $"Aux Function"));
 
-            var validSaltGenerationMethods = new MacSaltMethod[] {MacSaltMethod.Default, MacSaltMethod.Random};
-            
             foreach (var auxFunction in auxFunctions)
             {
                 var needsSalt = ValidAuxMethods.First(w =>
@@ -314,8 +315,13 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
                     {
                         errorResults.Add($"Expected salt length for {nameof(auxFunction)} {auxFunction.AuxFunctionName}");
                     }
-                    
-                    errorResults.AddIfNotNullOrEmpty(ValidateArray(auxFunction.MacSaltMethods, validSaltGenerationMethods, nameof(MacSaltMethod)));
+
+                    if (auxFunction.SaltLen > 512)
+                    {
+                        errorResults.Add("Salt length may not exceed 512.");
+                    }
+
+                    errorResults.AddIfNotNullOrEmpty(ValidateArray(auxFunction.MacSaltMethods, ValidSaltGenerationMethods, nameof(MacSaltMethod)));
 
                 }
 
@@ -326,28 +332,73 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
                         errorResults.Add($"Unexpected salt length for {nameof(auxFunction)} {auxFunction.AuxFunctionName}");
                     }
 
-                    errorResults.AddIfNotNullOrEmpty(ValidateArray(auxFunction.MacSaltMethods, new MacSaltMethod[] { MacSaltMethod.None }, nameof(MacSaltMethod)));
+                    errorResults.AddIfNotNullOrEmpty(ValidateArray(auxFunction.MacSaltMethods, new[] { MacSaltMethod.None }, nameof(MacSaltMethod)));
                 }
             }
         }
 
-        private void ValidateFixedInputPattern(string auxFunctionFixedInputPattern, List<string> errorResults)
+        #endregion OneStepKdf
+
+        #region TwoStepKdf
+        private void ValidateKdfMethod(TwoStepKdf kdf, int l, List<string> errorResults)
         {
+            if (kdf == null)
+            {
+                return;
+            }
+
+            // perhaps do in a "base" kdf validator?
+            ValidateFixedInputPattern(kdf.FixedInputPattern, errorResults);
+            ValidateEncoding(kdf.Encoding, errorResults);
+            errorResults.AddIfNotNullOrEmpty(ValidateArray(kdf.MacSaltMethods, ValidSaltGenerationMethods, nameof(MacSaltMethod)));
+
+            var kdfTwoStepValidator = new KDF.v1_0.ParameterValidator();
+            var kdfParam = new KDF.v1_0.Parameters()
+            {
+                Algorithm = "KDF",
+                Revision = "1.0",
+                Capabilities = kdf.Capabilities
+            };
+
+            var validate = kdfTwoStepValidator.Validate(kdfParam);
+            if (!validate.Success)
+            {
+                errorResults.AddRangeIfNotNullOrEmpty(validate.Errors);
+                return;
+            }
+
+            // Ensure the L value is contained within the capabilities domain
+            foreach (var capability in kdf.Capabilities)
+            {
+                if (!capability.SupportedLengths.IsWithinDomain(l))
+                {
+                    errorResults.Add($"Provided {nameof(l)} value of {l} was not contained within the {nameof(capability.SupportedLengths)} domain.");
+                }
+            }
+        }
+        #endregion TwoStepKdf
+
+        private void ValidateFixedInputPattern(string fixedInputPattern, List<string> errorResults)
+        {
+            if (string.IsNullOrEmpty(fixedInputPattern))
+            {
+                errorResults.Add($"{nameof(fixedInputPattern)} was not provided.");
+            }
+
             const string fiRegex = @"^((?!(l|iv|salt|uPartyInfo|vPartyInfo|counter|literal\[[0-9a-fA-F]+\])).)+$";
 
-            var fiPieces = auxFunctionFixedInputPattern.Split("||".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+            var fiPieces = fixedInputPattern.Split("||".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
             foreach (var fiPiece in fiPieces)
             {
                 Regex regex = new Regex(fiRegex, RegexOptions.IgnoreCase);
                 if (regex.IsMatch(fiPiece))
                 {
-                    errorResults.Add($"{nameof(auxFunctionFixedInputPattern)} has invalid element {fiPiece}");
+                    errorResults.Add($"{nameof(fixedInputPattern)} has invalid element {fiPiece}");
                 }
             }
         }
-        #endregion OneStepKdf
         #endregion kdfValidation
-        
+
         #region ktsValidation
         private void ValidateKtsMethods(KtsMethod schemeKtsCapabilities, List<string> errorResults)
         {
@@ -356,7 +407,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
             {
                 return;
             }
-            
+
             errorResults.AddIfNotNullOrEmpty(ValidateArray(schemeKtsCapabilities.HashAlgs, ValidHashAlgs, "KTS HashAlgs"));
             ValidateAssociatedDataPattern(schemeKtsCapabilities.AssociatedDataPattern, errorResults);
             ValidateEncoding(schemeKtsCapabilities.Encoding, errorResults);
@@ -368,7 +419,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
             {
                 return;
             }
-            
+
             const string fiRegex = @"^((?!(l|uPartyInfo|vPartyInfo|counter|literal\[[0-9a-fA-F]+\])).)+$";
 
             var fiPieces = associatedDataPattern.Split("||".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
@@ -382,7 +433,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
             }
         }
         #endregion ktsValidation
-        
+
         #region macValidation
         private void ValidateMacMethods(IfcScheme scheme, MacMethods macOptions, int l, List<string> errorResults)
         {
@@ -403,7 +454,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
             {
                 errorResults.Add($"{nameof(macOptions)} contained no registered MAC algorithms.");
             }
-            
+
             ValidateMacKeyLen(l, macOptions.Cmac, errorResults);
             ValidateMacKeyLen(l, macOptions.HmacSha2_D224, errorResults);
             ValidateMacKeyLen(l, macOptions.HmacSha2_D256, errorResults);
@@ -425,7 +476,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
             {
                 return;
             }
-            
+
             var keyConfirmationMacDetails =
                 KeyGenerationRequirementsHelper.GetKeyConfirmationMacDetails(macMethod.MacType);
 
@@ -438,13 +489,13 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
             {
                 errorResults.Add($"Provided {nameof(macMethod.KeyLen)} - {nameof(schemeL)} mod 8 should equal 0.");
             }
-            
-            if (macMethod.KeyLen < keyConfirmationMacDetails.MinKeyLen || macMethod.KeyLen > keyConfirmationMacDetails.MaxKeyLen || 
+
+            if (macMethod.KeyLen < keyConfirmationMacDetails.MinKeyLen || macMethod.KeyLen > keyConfirmationMacDetails.MaxKeyLen ||
                 (macMethod.MacType == KeyAgreementMacType.CmacAes && !ValidAesKeyLengths.Contains(macMethod.KeyLen)))
             {
                 errorResults.Add($"The provided {nameof(macMethod.KeyLen)} is outside the bounds of acceptable values for the specified {nameof(macMethod)} {macMethod.MacType}");
             }
-            
+
             if (macMethod.MacLen < keyConfirmationMacDetails.MinTagLen ||
                 macMethod.MacLen > keyConfirmationMacDetails.MaxTagLen)
             {
@@ -452,12 +503,12 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
             }
         }
         #endregion macValidation
-        
+
         private void ValidateEncoding(FixedInfoEncoding[] encoding, List<string> errorResults)
         {
             errorResults.AddIfNotNullOrEmpty(ValidateArray(encoding, ValidEncodingTypes, "One Step KDF encoding type"));
         }
-        
+
         private void ValidateKeys(Parameters parameters, List<string> errorResults)
         {
             if (parameters.IsSample)
@@ -466,13 +517,13 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
                 parameters.PublicKeys = null;
                 return;
             }
-            
+
             if (!parameters.IsSample && (parameters.PublicKeys == null || !parameters.PublicKeys.Any()))
             {
                 errorResults.Add($"The IUT shall provide {nameof(parameters.PublicKeys)} for each fixed exponent/modulo size registered, as well as public keys for use for each modulo size for random exponents (when applicable).");
                 return;
             }
-            
+
             // Check for valid E values
             foreach (var key in parameters.PublicKeys)
             {
@@ -481,7 +532,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
                     errorResults.Add($"invalid {nameof(key.E)} value of {key.E.ExactBitString()}");
                 }
             }
-            
+
             // Check that each exponent included as fixed exponents (if any) contain keys with that exponent.
             foreach (var exponent in parameters
                 .Scheme.GetRegisteredSchemes()

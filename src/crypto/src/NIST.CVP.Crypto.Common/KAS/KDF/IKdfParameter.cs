@@ -1,5 +1,5 @@
+using Newtonsoft.Json;
 using NIST.CVP.Crypto.Common.KAS.Enums;
-using NIST.CVP.Crypto.Common.KAS.FixedInfo;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.Common.KAS.KDF
@@ -18,8 +18,13 @@ namespace NIST.CVP.Crypto.Common.KAS.KDF
         /// </summary>
         BitString Salt { get; set; }
         /// <summary>
+        /// The IV used with some KDFs.
+        /// </summary>
+        BitString Iv { get; set; }
+        /// <summary>
         /// The shared secret for use in deriving a key.
         /// </summary>
+        [JsonIgnore]
         BitString Z { get; set; }
         /// <summary>
         /// The length of the key to derive.
