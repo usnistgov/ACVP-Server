@@ -22,5 +22,17 @@ namespace NIST.CVP.Crypto.Common.KDF.Enums
         HMAC_SHA384,
         [EnumMember(Value = "HMAC-SHA2-512")]
         HMAC_SHA512,
+        [EnumMember(Value = "HMAC-SHA2-512/224")]
+        HMAC_SHA_d512t224,
+        [EnumMember(Value = "HMAC-SHA2-512/256")]
+        HMAC_SHA_d512t256,
+        [EnumMember(Value = "HMAC-SHA3-224")]
+        HMAC_SHA3_224,
+        [EnumMember(Value = "HMAC-SHA3-256")]
+        HMAC_SHA3_256,
+        [EnumMember(Value = "HMAC-SHA3-384")]
+        HMAC_SHA3_384,
+        [EnumMember(Value = "HMAC-SHA3-512")]
+        HMAC_SHA3_512,
     }
 }
