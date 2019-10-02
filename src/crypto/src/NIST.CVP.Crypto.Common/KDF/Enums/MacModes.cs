@@ -4,6 +4,7 @@ namespace NIST.CVP.Crypto.Common.KDF.Enums
 {
     public enum MacModes
     {
+        None,
         [EnumMember(Value = "CMAC-AES128")]
         CMAC_AES128,
         [EnumMember(Value = "CMAC-AES192")]
