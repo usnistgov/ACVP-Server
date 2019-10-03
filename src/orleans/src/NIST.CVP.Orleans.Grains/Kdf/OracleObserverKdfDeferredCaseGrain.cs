@@ -1,28 +1,28 @@
-﻿using System.Threading.Tasks;
-using NIST.CVP.Common;
+﻿using NIST.CVP.Common;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.Common.KDF.Enums;
 using NIST.CVP.Math;
 using NIST.CVP.Orleans.Grains.Interfaces.Kdf;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Orleans.Grains.Kdf
 {
-    public class OracleObserverKdfDeferredCaseGrain : ObservableOracleGrainBase<KdfResult>, 
+    public class OracleObserverKdfDeferredCaseGrain : ObservableOracleGrainBase<KdfResult>,
         IOracleObserverKdfDeferredCaseGrain
     {
         private readonly IRandom800_90 _rand;
-        
+
         private KdfParameters _param;
 
         public OracleObserverKdfDeferredCaseGrain(
             LimitedConcurrencyLevelTaskScheduler nonOrleansScheduler,
             IRandom800_90 rand
-        ) : base (nonOrleansScheduler)
+        ) : base(nonOrleansScheduler)
         {
             _rand = rand;
         }
-        
+
         public async Task<bool> BeginWorkAsync(KdfParameters param)
         {
             _param = param;
@@ -30,7 +30,7 @@ namespace NIST.CVP.Orleans.Grains.Kdf
             await BeginGrainWorkAsync();
             return await Task.FromResult(true);
         }
-        
+
         protected override async Task DoWorkAsync()
         {
             int keyLen = 0;
@@ -49,21 +49,27 @@ namespace NIST.CVP.Orleans.Grains.Kdf
                     break;
 
                 case MacModes.HMAC_SHA224:
+                case MacModes.HMAC_SHA_d512t224:
+                case MacModes.HMAC_SHA3_224:
                     keyLen = 128;
                     ivLen = 224;
                     break;
 
                 case MacModes.HMAC_SHA256:
+                case MacModes.HMAC_SHA_d512t256:
+                case MacModes.HMAC_SHA3_256:
                     keyLen = 128;
                     ivLen = 256;
                     break;
 
                 case MacModes.HMAC_SHA384:
+                case MacModes.HMAC_SHA3_384:
                     keyLen = 128;
                     ivLen = 384;
                     break;
 
                 case MacModes.HMAC_SHA512:
+                case MacModes.HMAC_SHA3_512:
                     keyLen = 128;
                     ivLen = 512;
                     break;

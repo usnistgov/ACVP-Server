@@ -38,11 +38,13 @@ namespace NIST.CVP.Generation.DSA.v1_0.PqgGen
 
             try
             {
+                var result = await _oracle.GetDsaDomainParametersAsync(param);
+                TestCase testCase;
+                
                 if (isSample)
                 {
                     // Needs PQ and G
-                    var result = await _oracle.GetDsaDomainParametersAsync(param);
-                    var testCase = new TestCase
+                    testCase = new TestCase
                     {
                         Counter = result.Counter,
                         Seed = result.Seed,
@@ -52,13 +54,11 @@ namespace NIST.CVP.Generation.DSA.v1_0.PqgGen
                         Index = result.Index
                     };
 
-                    return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
                 }
                 else
                 {
                     // Needs PQ
-                    var result = await _oracle.GetDsaDomainParametersAsync(param);
-                    var testCase = new TestCase
+                    testCase = new TestCase
                     {
                         Counter = result.Counter,
                         Seed = result.Seed,
@@ -67,9 +67,9 @@ namespace NIST.CVP.Generation.DSA.v1_0.PqgGen
                         // Do not save G, client is responsible for generating it
                         Index = result.Index
                     };
-
-                    return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
                 }
+                
+                return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
             }
             catch (Exception ex)
             {

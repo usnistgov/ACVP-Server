@@ -7,13 +7,17 @@ using NLog;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Web.Http.Cors;
 
 namespace NIST.CVP.PoolAPI.Controllers
 {
     [Route("api/[controller]")]
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     [ApiController]
     public class PoolsController : Controller
     {
+        private static readonly ILogger ThisLogger = LogManager.GetCurrentClassLogger();
+        
         private readonly PoolManager _poolManager;
         private bool _isFillingPool = false;
 
@@ -27,7 +31,6 @@ namespace NIST.CVP.PoolAPI.Controllers
                 Converters = jsonConverterProvider.GetJsonConverters(),
                 Formatting = Formatting.Indented
             };
-
         }
 
         [HttpPost]
@@ -40,7 +43,7 @@ namespace NIST.CVP.PoolAPI.Controllers
             }
             catch (Exception ex)
             {
-                LogManager.GetCurrentClassLogger().Error(ex);
+                ThisLogger.Error(ex);
             }
 
             return "";
@@ -56,7 +59,7 @@ namespace NIST.CVP.PoolAPI.Controllers
             }
             catch (Exception ex)
             {
-                LogManager.GetCurrentClassLogger().Error(ex);
+                ThisLogger.Error(ex);
             }
 
             return "";
@@ -64,6 +67,7 @@ namespace NIST.CVP.PoolAPI.Controllers
 
         [HttpGet]
         [Route("config")]
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
         // /api/pools/config
         public string GetPoolConfig()
         {
@@ -73,7 +77,7 @@ namespace NIST.CVP.PoolAPI.Controllers
             }
             catch (Exception ex)
             {
-                LogManager.GetCurrentClassLogger().Error(ex);
+                ThisLogger.Error(ex);
             }
 
             return "";
@@ -90,7 +94,7 @@ namespace NIST.CVP.PoolAPI.Controllers
             }
             catch (Exception ex)
             {
-                LogManager.GetCurrentClassLogger().Error(ex);
+                ThisLogger.Error(ex);
             }
 
             return "";
@@ -140,8 +144,7 @@ namespace NIST.CVP.PoolAPI.Controllers
                 {
                     await Task.WhenAll(tasks);
 
-                    LogManager.GetCurrentClassLogger()
-                        .Log(LogLevel.Info, "Pools have been filled.");
+                    ThisLogger.Log(LogLevel.Info, "Pools have been filled.");
                 }
 
                 _isFillingPool = false;
@@ -150,7 +153,7 @@ namespace NIST.CVP.PoolAPI.Controllers
             }
             catch (Exception ex)
             {
-                LogManager.GetCurrentClassLogger().Error(ex);
+                ThisLogger.Error(ex);
                 return false;
             }
         }
@@ -186,7 +189,7 @@ namespace NIST.CVP.PoolAPI.Controllers
             }
             catch (Exception ex)
             {
-                LogManager.GetCurrentClassLogger().Error(ex);
+                ThisLogger.Error(ex);
                 return false;
             }
         }
@@ -202,7 +205,7 @@ namespace NIST.CVP.PoolAPI.Controllers
             }
             catch (Exception ex)
             {
-                LogManager.GetCurrentClassLogger().Error(ex);
+                ThisLogger.Error(ex);
                 return "";
             }
         }

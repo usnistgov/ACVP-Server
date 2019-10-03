@@ -53,6 +53,7 @@ namespace NIST.CVP.PoolAPI
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             LogManager.GetCurrentClassLogger().Info("Configuring Startup service...");
+            app.UseCors(builder => builder.AllowAnyOrigin());
 
             if (env.IsDevelopment())
             {

@@ -70,6 +70,10 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
             {
                 lowerBound = _root2Mult2Pow1536Minus1;
             }
+            else if (nlen == 4096)
+            {
+                lowerBound = _root2Mult2Pow2048Minus1;
+            }
 
             // 1
             if (NumberTheory.GCD(2 * r1, r2) != 1)
@@ -242,6 +246,11 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
             {
                 lowerBound = _root2Mult2Pow1536Minus1;
                 modulo = _2Pow1536MinusFloorRoot2Mult2Pow1536Minus1;
+            }
+            else if (L == 4096 / 2)
+            {
+                lowerBound = _root2Mult2Pow2048Minus1;
+                modulo = NumberTheory.Pow2(2048) - _root2Mult2Pow2048Minus1; // TODO need to confirm value for 2048
             }
 
             x = lowerBound + x % modulo;

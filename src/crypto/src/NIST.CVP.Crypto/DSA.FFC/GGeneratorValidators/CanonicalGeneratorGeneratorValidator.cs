@@ -7,6 +7,7 @@ using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC.GGeneratorValidators;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Math;
+using NIST.CVP.Math.Helpers;
 
 namespace NIST.CVP.Crypto.DSA.FFC.GGeneratorValidators
 {
@@ -45,9 +46,12 @@ namespace NIST.CVP.Crypto.DSA.FFC.GGeneratorValidators
                     return new GGenerateResult("Invalid count");
                 }
 
+                // Need to make sure the BigInteger conversion doesn't drop leading 00 bytes, always have as much seed as q
+                var seedBits = new BitString(seed.GetFullSeed()).PadToModulusMsb(32);
+                
                 // 7
                 var countBS = new BitString(count, 16, false);      // value must be 16 bits long
-                var U = BitString.ConcatenateBits(new BitString(seed.GetFullSeed()), _ggen);
+                var U = BitString.ConcatenateBits(seedBits, _ggen);
                 U = BitString.ConcatenateBits(U, index);
                 U = BitString.ConcatenateBits(U, countBS);
 
@@ -100,9 +104,12 @@ namespace NIST.CVP.Crypto.DSA.FFC.GGeneratorValidators
                     return new GValidateResult("Too many iterations to find g");
                 }
 
+                // Need to make sure the BigInteger conversion doesn't drop leading 00 bytes, always have as much seed as q
+                var seedBits = new BitString(seed.GetFullSeed()).PadToModulusMsb(32);
+                
                 // 9
                 var countBS = new BitString(count, 16, false);      // value must be 16 bits long
-                var U = BitString.ConcatenateBits(new BitString(seed.GetFullSeed()), _ggen);
+                var U = BitString.ConcatenateBits(seedBits, _ggen);
                 U = BitString.ConcatenateBits(U, index);
                 U = BitString.ConcatenateBits(U, countBS);
                 

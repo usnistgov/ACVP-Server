@@ -8,7 +8,7 @@ namespace NIST.CVP.Generation.RSA.v1_0.SigGen
 {
     public class ParameterValidator : ParameterValidatorBase, IParameterValidator<Parameters>
     {
-        public static int[] VALID_MODULI = { 2048, 3072 };
+        public static int[] VALID_MODULI = { 2048, 3072, 4096 };
         public static string[] VALID_HASH_ALGS = { "sha-1", "sha2-224", "sha2-256", "sha2-384", "sha2-512", "sha2-512/224", "sha2-512/256" };
         public static string[] VALID_SIG_GEN_MODES = EnumHelpers.GetEnumDescriptions<SignatureSchemes>().ToArray();
         public static string[] VALID_CONFORMANCES = { "SP800-106" };

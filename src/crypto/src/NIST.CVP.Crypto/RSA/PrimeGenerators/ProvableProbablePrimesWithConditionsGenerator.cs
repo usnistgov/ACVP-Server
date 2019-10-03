@@ -51,9 +51,13 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
                 case 3072:
                     securityStrength = 128;
                     break;
+                
+                case 4096:
+                    securityStrength = 128;
+                    break;
 
                 default:
-                    return new PrimeGeneratorResult("Incorrect nlen, must be 1024, 2048, 3072");
+                    return new PrimeGeneratorResult("Incorrect nlen, must be 1024, 2048, 3072, 4096");
             }
 
             // 4

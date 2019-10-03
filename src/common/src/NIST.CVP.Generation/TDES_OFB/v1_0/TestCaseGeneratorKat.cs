@@ -19,7 +19,8 @@ namespace NIST.CVP.Generation.TDES_OFB.v1_0
                 {"permutation", KatData.GetPermutationData()},
                 {"inversepermutation", KatData.GetInversePermutationData()},
                 {"substitutiontable", KatData.GetSubstitutionTableData()},
-                {"variablekey", KatData.GetVariableKeyDataOFB()},
+                //{"variablekey", KatData.GetVariableKeyDataOFB()},        // Repeats keys
+                {"variablekey", KatData.GetVariableKeyData()},
                 {"variabletext", KatData.GetVariableTextData()}
             };
 

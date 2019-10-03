@@ -1,9 +1,7 @@
-﻿using NIST.CVP.Common.Helpers;
-using NIST.CVP.Crypto.Common.KDF.Enums;
+﻿using NIST.CVP.Crypto.Common.KDF.Enums;
 using NIST.CVP.Crypto.Common.KDF.Helpers;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math.Domain;
-using System;
 using System.Collections.Generic;
 
 namespace NIST.CVP.Generation.KDF.v1_0
@@ -17,12 +15,10 @@ namespace NIST.CVP.Generation.KDF.v1_0
             foreach (var capability in parameters.Capabilities)
             {
                 capability.SupportedLengths.SetRangeOptions(RangeDomainSegmentOptions.Random);
-                var kdfMode = EnumHelpers.GetEnumFromEnumDescription<KdfModes>(capability.KdfMode);
 
                 foreach (var mac in capability.MacMode)
                 {
-                    var macMode = EnumHelpers.GetEnumFromEnumDescription<MacModes>(mac);
-                    var macOutputLength = MacHelper.GetMacOutputLength(macMode);
+                    var macOutputLength = MacHelper.GetMacOutputLength(mac);
 
                     foreach (var counterLength in capability.CounterLength)
                     {
@@ -31,14 +27,14 @@ namespace NIST.CVP.Generation.KDF.v1_0
                             // If counter length is 0, only do the 'none', otherwise, skip the 'none'
                             if (counterLength == 0)
                             {
-                                if (!counterOrder.Equals("none", StringComparison.OrdinalIgnoreCase))
+                                if (counterOrder != CounterLocations.None)
                                 {
                                     continue;
                                 }
                             }
                             else
                             {
-                                if (counterOrder.Equals("none", StringComparison.OrdinalIgnoreCase))
+                                if (counterOrder == CounterLocations.None)
                                 {
                                     continue;
                                 }
@@ -52,10 +48,10 @@ namespace NIST.CVP.Generation.KDF.v1_0
                             {
                                 var testGroup = new TestGroup
                                 {
-                                    KdfMode = kdfMode,
-                                    MacMode = macMode,
+                                    KdfMode = capability.KdfMode,
+                                    MacMode = mac,
                                     CounterLength = counterLength,
-                                    CounterLocation = EnumHelpers.GetEnumFromEnumDescription<CounterLocations>(counterOrder),
+                                    CounterLocation = counterOrder,
                                     KeyOutLength = outputLen,
                                     ZeroLengthIv = false,
                                     TestType = "AFT"
@@ -64,14 +60,14 @@ namespace NIST.CVP.Generation.KDF.v1_0
                                 testGroups.Add(testGroup);
 
                                 // Only Feedback has an IV
-                                if (capability.SupportsEmptyIv && kdfMode == KdfModes.Feedback)
+                                if (capability.SupportsEmptyIv && capability.KdfMode == KdfModes.Feedback)
                                 {
                                     var testGroupNoIv = new TestGroup
                                     {
-                                        KdfMode = kdfMode,
-                                        MacMode = macMode,
+                                        KdfMode = capability.KdfMode,
+                                        MacMode = mac,
                                         CounterLength = counterLength,
-                                        CounterLocation = EnumHelpers.GetEnumFromEnumDescription<CounterLocations>(counterOrder),
+                                        CounterLocation = counterOrder,
                                         KeyOutLength = outputLen,
                                         ZeroLengthIv = true,
                                         TestType = "AFT"

@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
-    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <RuntimeIdentifiers>win-x64;osx-x64</RuntimeIdentifiers>
     <OutputType>Exe</OutputType>
     <StartupObject>NIST.CVP.PoolAPI.Program</StartupObject>
   </PropertyGroup>
@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNet.WebApi.Cors" Version="5.2.7" />
     <PackageReference Include="Microsoft.AspNetCore.App" Version="$(NuGetVersionMicrosoftAspNetCore)" />
     <PackageReference Include="Microsoft.AspNetCore.Hosting.WindowsServices" Version="2.1.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="$(NuGetVersionMicrosoftNETTestSdk)" />

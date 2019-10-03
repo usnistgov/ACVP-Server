@@ -1,12 +1,13 @@
 ﻿using NIST.CVP.Common;
+using NIST.CVP.Crypto.Common.KDF.Enums;
 using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Generation.KDF.Tests;
+using NIST.CVP.Generation.KDF.v1_0;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using System.Linq;
-using NIST.CVP.Generation.KDF.v1_0;
 
 namespace NIST.CVP.Generation.KDF.IntegrationTests
 {
@@ -39,22 +40,22 @@ namespace NIST.CVP.Generation.KDF.IntegrationTests
             var capabilities = new[]
             {
                 new CapabilityBuilder()
-                    .WithKdfMode("counter")
-                    .WithMacMode(new [] {"cmac-aes128", "hmac-sha2-384"})
+                    .WithKdfMode(KdfModes.Counter)
+                    .WithMacMode(new [] {MacModes.CMAC_AES128, MacModes.HMAC_SHA384})
                     .WithCounterLength(new [] {24})
-                    .WithFixedDataOrder(new [] {"after fixed data", "before fixed data"})
+                    .WithFixedDataOrder(new [] {CounterLocations.AfterFixedData, CounterLocations.BeforeFixedData})
                     .WithSupportedLengths(new MathDomain().AddSegment(new ValueDomainSegment(128)))
                     .Build(),
 
                 new CapabilityBuilder()
-                    .WithKdfMode("feedback")
-                    .WithMacMode(new [] {"cmac-tdes", "hmac-sha2-512"})
+                    .WithKdfMode(KdfModes.Feedback)
+                    .WithMacMode(new [] {MacModes.CMAC_TDES, MacModes.HMAC_SHA3_224})
                     .WithCounterLength(new [] {0})
-                    .WithFixedDataOrder(new [] {"none"})
+                    .WithFixedDataOrder(new [] {CounterLocations.None})
                     .WithSupportedLengths(new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 8, 512, 8)))
                     .Build()
             };
-            
+
             var p = new Parameters
             {
                 Algorithm = Algorithm,
@@ -72,31 +73,31 @@ namespace NIST.CVP.Generation.KDF.IntegrationTests
             var capabilities = new[]
             {
                 new CapabilityBuilder()
-                    .WithKdfMode("counter")
+                    .WithKdfMode(KdfModes.Counter)
                     .WithMacMode(ParameterValidator.VALID_MAC_MODES)
                     .WithCounterLength(ParameterValidator.VALID_COUNTER_LENGTHS.Except(new [] {0}).ToArray())
-                    .WithFixedDataOrder(new [] {"after fixed data", "before fixed data", "middle fixed data"})
+                    .WithFixedDataOrder(new [] {CounterLocations.AfterFixedData, CounterLocations.BeforeFixedData, CounterLocations.MiddleFixedData})
                     .WithSupportedLengths(new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 8, 1024)))
                     .Build(),
 
                 new CapabilityBuilder()
-                    .WithKdfMode("feedback")
+                    .WithKdfMode(KdfModes.Feedback)
                     .WithMacMode(ParameterValidator.VALID_MAC_MODES)
                     .WithCounterLength(ParameterValidator.VALID_COUNTER_LENGTHS)
-                    .WithFixedDataOrder(new [] {"none", "after fixed data", "before fixed data", "before iterator"})
+                    .WithFixedDataOrder(new [] {CounterLocations.None, CounterLocations.AfterFixedData, CounterLocations.BeforeFixedData, CounterLocations.BeforeIterator})
                     .WithSupportedLengths(new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 8, 1024)))
                     .WithSupportsEmptyIv(true)
                     .Build(),
 
                 new CapabilityBuilder()
-                    .WithKdfMode("double pipeline iteration")
+                    .WithKdfMode(KdfModes.Pipeline)
                     .WithMacMode(ParameterValidator.VALID_MAC_MODES)
                     .WithCounterLength(ParameterValidator.VALID_COUNTER_LENGTHS)
-                    .WithFixedDataOrder(new [] {"none", "after fixed data", "before fixed data", "before iterator"})
+                    .WithFixedDataOrder(new [] {CounterLocations.None, CounterLocations.AfterFixedData, CounterLocations.BeforeFixedData, CounterLocations.BeforeIterator})
                     .WithSupportedLengths(new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 8, 1024)))
                     .Build()
             };
-            
+
             var p = new Parameters
             {
                 Algorithm = Algorithm,

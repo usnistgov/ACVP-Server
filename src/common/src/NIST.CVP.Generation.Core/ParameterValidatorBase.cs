@@ -1,8 +1,8 @@
-﻿using System;
+﻿using NIST.CVP.Common.ExtensionMethods;
+using NIST.CVP.Math.Domain;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using NIST.CVP.Common.ExtensionMethods;
-using NIST.CVP.Math.Domain;
 
 namespace NIST.CVP.Generation.Core
 {
@@ -43,6 +43,23 @@ namespace NIST.CVP.Generation.Core
             }
             return null;
         }
+
+        protected string ValidateArray<T>(IEnumerable<T> supplied, IEnumerable<T> valid, string friendlyName)
+        {
+            if (supplied == null || !supplied.Any())
+            {
+                return $"No {friendlyName} supplied.";
+            }
+
+            var intersection = supplied.Intersect(valid);
+            if (intersection.Count() != supplied.Count())
+            {
+                var invalid = supplied.Except(valid);
+                return $"Invalid {friendlyName} supplied: {string.Join(",", invalid)}, intersect : {intersection.Count()}, supplied: {supplied.Count()}";
+            }
+            return null;
+        }
+
 
         protected string ValidateValue(string supplied, string[] validValues, string friendlyName)
         {
@@ -215,7 +232,7 @@ namespace NIST.CVP.Generation.Core
 
         protected string ValidateBoolean(bool? supplied, string friendlyName)
         {
-            if(supplied == null)
+            if (supplied == null)
             {
                 return $"No {friendlyName} supplied.";
             }

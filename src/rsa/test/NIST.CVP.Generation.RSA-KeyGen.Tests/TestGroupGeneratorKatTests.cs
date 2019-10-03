@@ -34,7 +34,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
             },
             new object[]
             {
-                3,
+                2,
                 new ParameterValidatorTests.ParameterBuilder()
                     .WithKeyGenModes(new [] {"B.3.3"})
                     .WithModuli(new [] {2048, 3072, 4096})
@@ -43,7 +43,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
             },
             new object[]
             {
-                6,
+                4,
                 new ParameterValidatorTests.ParameterBuilder()
                     .WithKeyGenModes(new [] {"B.3.3"})
                     .WithModuli(new [] {2048, 3072, 4096})
