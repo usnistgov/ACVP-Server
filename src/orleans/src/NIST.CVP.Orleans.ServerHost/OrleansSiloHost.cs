@@ -21,6 +21,7 @@ using Orleans.Hosting;
 using Orleans.Logging;
 using Orleans.Statistics;
 using OrleansTelemetryConsumers.Counters;
+using Environments = NIST.CVP.Common.Enums.Environments;
 
 namespace NIST.CVP.Orleans.ServerHost
 {

@@ -44,7 +44,7 @@ namespace NIST.CVP.PoolAPI
                     });
             });
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Latest);
 
             services.AddSingleton(Configuration);
 
@@ -81,7 +81,8 @@ namespace NIST.CVP.PoolAPI
             }
 
             //app.UseHttpsRedirection();
-            app.UseMvc();
+            //This is the endpoint dispatch middleware
+            app.UseRouting();
 
             LogManager.GetCurrentClassLogger().Info("Startup service configured.");
         }
