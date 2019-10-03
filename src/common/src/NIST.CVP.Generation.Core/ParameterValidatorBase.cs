@@ -8,6 +8,22 @@ namespace NIST.CVP.Generation.Core
 {
     public abstract class ParameterValidatorBase
     {
+        protected string ValidateArray(int[] supplied, int[] valid, string friendlyName)
+        {
+            if (supplied == null || supplied.Length == 0)
+            {
+                return $"No {friendlyName} supplied.";
+            }
+            var intersection = supplied.Intersect(valid);
+            if (intersection.Count() != supplied.Length)
+            {
+                var invalid = supplied.Except(valid);
+                return $"Invalid {friendlyName} supplied: {string.Join(",", invalid)}";
+            }
+            return null;
+        }
+
+
         protected string ValidateArray(string[] supplied, string[] valid, string friendlyName)
         {
             if (supplied == null || supplied.Length == 0)
@@ -24,22 +40,6 @@ namespace NIST.CVP.Generation.Core
             {
                 var invalid = supplied.Except(valid);
                 return $"Invalid {friendlyName} supplied: {string.Join(",", invalid)}, intersect : {intersection.Count()}, supplied: {supplied.Length}";
-            }
-            return null;
-        }
-        
-        protected string ValidateArray<T>(IEnumerable<T> supplied, IEnumerable<T> valid, string friendlyName)
-        {
-            if (supplied == null || !supplied.Any())
-            {
-                return $"No {friendlyName} supplied.";
-            }
-
-            var intersection = supplied.Intersect(valid);
-            if (intersection.Count() != supplied.Count())
-            {
-                var invalid = supplied.Except(valid);
-                return $"Invalid {friendlyName} supplied: {string.Join(",", invalid)}, intersect : {intersection.Count()}, supplied: {supplied.Count()}";
             }
             return null;
         }

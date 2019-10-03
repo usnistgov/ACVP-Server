@@ -1,5 +1,4 @@
 using NIST.CVP.Common.ExtensionMethods;
-using NIST.CVP.Common.Helpers;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Crypto.Common.KAS.KC;
@@ -313,36 +312,31 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
                             {
                                 foreach (var mac in capability.MacMode)
                                 {
-                                    var kdfMode = EnumHelpers.GetEnumFromEnumDescription<KdfModes>(capability.KdfMode);
-                                    var macMode = EnumHelpers.GetEnumFromEnumDescription<MacModes>(mac);
-                                    var counterLocation =
-                                        EnumHelpers.GetEnumFromEnumDescription<CounterLocations>(fixedDataOrder);
-
                                     // If counter length is 0, only do the 'none', otherwise, skip the 'none'
                                     if (counterLen == 0)
                                     {
-                                        if (!counterLocation.Equals(CounterLocations.None))
+                                        if (fixedDataOrder != CounterLocations.None)
                                         {
                                             continue;
                                         }
                                     }
                                     else
                                     {
-                                        if (counterLocation.Equals(CounterLocations.None))
+                                        if (fixedDataOrder == CounterLocations.None)
                                         {
                                             continue;
                                         }
                                     }
 
                                     // Cannot generate groups when the counter is in the "middle".
-                                    if (counterLocation == CounterLocations.MiddleFixedData)
+                                    if (fixedDataOrder == CounterLocations.MiddleFixedData)
                                     {
                                         continue;
                                     }
 
                                     var saltLen = 0;
                                     var ivLen = 0;
-                                    switch (macMode)
+                                    switch (mac)
                                     {
                                         case MacModes.CMAC_AES128:
                                             saltLen = 128;
@@ -380,7 +374,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
                                             break;
                                     }
 
-                                    if (kdfMode != KdfModes.Feedback)
+                                    if (capability.KdfMode != KdfModes.Feedback)
                                     {
                                         ivLen = 0;
                                     }
@@ -392,15 +386,15 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
                                         FixedInputEncoding = encoding,
                                         FixedInputPattern = kdfMethod.FixedInputPattern,
                                         SaltMethod = saltMethod,
-                                        KdfMode = kdfMode,
-                                        MacMode = macMode,
-                                        CounterLocation = counterLocation,
+                                        KdfMode = capability.KdfMode,
+                                        MacMode = mac,
+                                        CounterLocation = fixedDataOrder,
                                         CounterLen = counterLen,
                                         IvLen = ivLen
                                     });
 
                                     // Only Feedback has an IV, so add additional group of 0 len iv when feedback group supports it.
-                                    if (capability.SupportsEmptyIv && kdfMode == KdfModes.Feedback)
+                                    if (capability.SupportsEmptyIv && capability.KdfMode == KdfModes.Feedback)
                                     {
                                         tempList.Add(new TwoStepConfiguration()
                                         {
@@ -409,9 +403,9 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
                                             FixedInputEncoding = encoding,
                                             FixedInputPattern = kdfMethod.FixedInputPattern,
                                             SaltMethod = saltMethod,
-                                            KdfMode = kdfMode,
-                                            MacMode = macMode,
-                                            CounterLocation = counterLocation,
+                                            KdfMode = capability.KdfMode,
+                                            MacMode = mac,
+                                            CounterLocation = fixedDataOrder,
                                             CounterLen = counterLen,
                                             IvLen = 0
                                         });

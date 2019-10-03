@@ -40,8 +40,6 @@ namespace NIST.CVP.Crypto.KAS.KDF
 
         public KdfResult Kdf(KdfParameterTwoStep param, BitString fixedInfo)
         {
-            // TODO this Two Step KDF (SP800-108) should support additional HMACS - all of sha3 and the truncated sha2s.
-
             IMac randomnessExtractionMac = null;
             MacModes keyExpansionMacMode = param.MacMode;
             switch (param.MacMode)
@@ -76,6 +74,30 @@ namespace NIST.CVP.Crypto.KAS.KDF
                 case MacModes.HMAC_SHA512:
                     randomnessExtractionMac =
                         _hmacFactory.GetHmacInstance(new HashFunction(ModeValues.SHA2, DigestSizes.d512));
+                    break;
+                case MacModes.HMAC_SHA_d512t224:
+                    randomnessExtractionMac =
+                        _hmacFactory.GetHmacInstance(new HashFunction(ModeValues.SHA2, DigestSizes.d512t224));
+                    break;
+                case MacModes.HMAC_SHA_d512t256:
+                    randomnessExtractionMac =
+                        _hmacFactory.GetHmacInstance(new HashFunction(ModeValues.SHA2, DigestSizes.d512t256));
+                    break;
+                case MacModes.HMAC_SHA3_224:
+                    randomnessExtractionMac =
+                        _hmacFactory.GetHmacInstance(new HashFunction(ModeValues.SHA3, DigestSizes.d224));
+                    break;
+                case MacModes.HMAC_SHA3_256:
+                    randomnessExtractionMac =
+                        _hmacFactory.GetHmacInstance(new HashFunction(ModeValues.SHA3, DigestSizes.d256));
+                    break;
+                case MacModes.HMAC_SHA3_384:
+                    randomnessExtractionMac =
+                        _hmacFactory.GetHmacInstance(new HashFunction(ModeValues.SHA3, DigestSizes.d384));
+                    break;
+                case MacModes.HMAC_SHA3_512:
+                    randomnessExtractionMac =
+                        _hmacFactory.GetHmacInstance(new HashFunction(ModeValues.SHA3, DigestSizes.d512));
                     break;
                 default:
                     throw new ArgumentException($"Invalid {nameof(MacModes)} provided to KdfVisitor.");

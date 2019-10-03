@@ -1,5 +1,6 @@
 using NIST.CVP.Common;
 using NIST.CVP.Crypto.Common.KAS.Enums;
+using NIST.CVP.Crypto.Common.KDF.Enums;
 using NIST.CVP.Generation.Core.JsonConverters;
 using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Generation.KAS_IFC.v1_0;
@@ -193,18 +194,18 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                                     {
                                         CounterLength = new [] { 32 },
                                         SupportedLengths = new MathDomain().AddSegment(new ValueDomainSegment(512)),
-                                        MacMode = new [] { "CMAC-AES256", "HMAC-SHA2-512" },
-                                        KdfMode = "feedback",
-                                        FixedDataOrder = new []{ "after fixed data" },
+                                        MacMode = new [] { MacModes.CMAC_AES256, MacModes.HMAC_SHA3_224 },
+                                        KdfMode = KdfModes.Feedback,
+                                        FixedDataOrder = new []{ CounterLocations.AfterFixedData },
                                         SupportsEmptyIv = false
                                     },
                                     new Capability()
                                     {
                                         CounterLength = new [] { 32 },
                                         SupportedLengths = new MathDomain().AddSegment(new ValueDomainSegment(512)),
-                                        MacMode = new [] { "CMAC-AES256", "HMAC-SHA2-512" },
-                                        KdfMode = "counter",
-                                        FixedDataOrder = new []{ "after fixed data" },
+                                        MacMode = new [] { MacModes.CMAC_AES256, MacModes.HMAC_SHA3_224 },
+                                        KdfMode = KdfModes.Counter,
+                                        FixedDataOrder = new []{ CounterLocations.AfterFixedData },
                                         SupportsEmptyIv = false
                                     },
                                 },
