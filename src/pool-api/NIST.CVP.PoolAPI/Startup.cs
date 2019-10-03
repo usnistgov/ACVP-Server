@@ -17,6 +17,8 @@ namespace NIST.CVP.PoolAPI
 {
     public class Startup
     {
+        private const string CorsPolicyName = "AllowAnyOrigin";
+
         public Startup(IConfiguration config)
         {
             LogManager.GetCurrentClassLogger().Info("Startup service ctor.");
@@ -29,6 +31,19 @@ namespace NIST.CVP.PoolAPI
         public void ConfigureServices(IServiceCollection services)
         {
             LogManager.GetCurrentClassLogger().Info("Configuring IOC container.");
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy(CorsPolicyName,
+                    builder =>
+                    {
+                        builder
+                            .AllowAnyOrigin()
+                            .AllowAnyMethod()
+                            .AllowAnyHeader();
+                    });
+            });
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.AddSingleton(Configuration);
@@ -39,7 +54,7 @@ namespace NIST.CVP.PoolAPI
 
             services.AddSingleton<IDbConnectionStringFactory, DbConnectionStringFactory>();
             services.AddSingleton<IDbConnectionFactory, SqlDbConnectionFactory>();
-            
+
             services.AddSingleton<IJsonConverterProvider, JsonConverterProvider>();
             services.AddSingleton<IPoolFactory, PoolFactory>();
             services.AddSingleton<IPoolObjectFactory, PoolObjectFactory>();
@@ -53,7 +68,8 @@ namespace NIST.CVP.PoolAPI
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             LogManager.GetCurrentClassLogger().Info("Configuring Startup service...");
-            app.UseCors(builder => builder.AllowAnyOrigin());
+
+            app.UseCors(CorsPolicyName);
 
             if (env.IsDevelopment())
             {
