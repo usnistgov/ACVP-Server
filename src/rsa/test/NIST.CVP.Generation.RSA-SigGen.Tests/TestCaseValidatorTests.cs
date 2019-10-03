@@ -45,6 +45,21 @@ namespace NIST.CVP.Generation.RSA_SigGen.Tests
             Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
         }
 
+        [Test]
+        public async Task ShouldRunVerifyMethodAndFailWithBadKey()
+        {
+            var mockSigner = GetResolverMock();
+
+            var suppliedTestCase = GetResultTestCase();
+            suppliedTestCase.ParentGroup.Key.PubKey.E = 3;
+            
+            var subject = new TestCaseValidator(GetTestCase(), GetTestGroup(), mockSigner.Object);
+            var result = await subject.ValidateAsync(suppliedTestCase);
+            
+            mockSigner.Verify(v => v.CompleteDeferredCryptoAsync(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()), Times.Never);
+            Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
+        }
+
         private Mock<IDeferredTestCaseResolverAsync<TestGroup, TestCase, VerifyResult>> GetResolverMock()
         {
             return new Mock<IDeferredTestCaseResolverAsync<TestGroup, TestCase, VerifyResult>>();
@@ -74,7 +89,11 @@ namespace NIST.CVP.Generation.RSA_SigGen.Tests
             return new TestCase
             {
                 TestCaseId = 1,
-                Signature = new BitString("ABCD")
+                Signature = new BitString("ABCD"),
+                ParentGroup = new TestGroup
+                {
+                    Key = new KeyPair {PubKey = new PublicKey { E = 65537, N = BitString.Ones(2048).ToPositiveBigInteger() }}
+                }
             };
         }
     }
