@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using NIST.CVP.Pools;
 using NIST.CVP.Pools.Interfaces;
@@ -7,17 +8,15 @@ using NLog;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Web.Http.Cors;
 
 namespace NIST.CVP.PoolAPI.Controllers
 {
     [Route("api/[controller]")]
-    [EnableCors(origins: "*", headers: "*", methods: "*")]
     [ApiController]
     public class PoolsController : Controller
     {
         private static readonly ILogger ThisLogger = LogManager.GetCurrentClassLogger();
-        
+
         private readonly PoolManager _poolManager;
         private bool _isFillingPool = false;
 
@@ -67,7 +66,6 @@ namespace NIST.CVP.PoolAPI.Controllers
 
         [HttpGet]
         [Route("config")]
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
         // /api/pools/config
         public string GetPoolConfig()
         {
