@@ -55,6 +55,8 @@ namespace NIST.CVP.Pools
                 Type = type
             };
 
+            ThisLogger.Info($"Attempting to grab pool value for {JsonConvert.SerializeObject(paramHolder)}");
+
             using (var streamWriter = new StreamWriter(request.GetRequestStream()))
             {
                 streamWriter.Write(
@@ -101,15 +103,10 @@ namespace NIST.CVP.Pools
                     return poolResult.Result;
                 }
             }
-            catch (WebException)
-            {
-                ThisLogger.Error("Pool not accesible via web interface.");
-                return default(T);
-            }
             catch (Exception ex)
             {
                 // Fall back to normal procedure
-                ThisLogger.Error(ex);
+                ThisLogger.Error(ex, ex.StackTrace);
                 return default(T);
             }
         }

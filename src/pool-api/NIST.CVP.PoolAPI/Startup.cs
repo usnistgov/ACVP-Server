@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using NIST.CVP.Common.Config;
 using NIST.CVP.Common.Interfaces;
 using NIST.CVP.Common.Oracle;
@@ -66,7 +67,7 @@ namespace NIST.CVP.PoolAPI
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostEnvironment env)
         {
             LogManager.GetCurrentClassLogger().Info("Configuring Startup service...");
 

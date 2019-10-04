@@ -42,7 +42,7 @@ namespace NIST.CVP.PoolAPI.Controllers
             }
             catch (Exception ex)
             {
-                ThisLogger.Error(ex);
+                ThisLogger.Error(ex, ex.StackTrace);
             }
 
             return "";
