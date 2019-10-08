@@ -3,6 +3,8 @@ using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Async;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using NIST.CVP.Crypto.Common.Math;
+using NIST.CVP.Math.Helpers;
 
 namespace NIST.CVP.Generation.RSA.v1_0.SigGen
 {
@@ -27,10 +29,11 @@ namespace NIST.CVP.Generation.RSA.v1_0.SigGen
         public async Task<TestCaseValidation> ValidateAsync(TestCase suppliedResult, bool showExpected = false)
         {
             var errors = new List<string>();
-            Dictionary<string, string> expected = new Dictionary<string, string>(); ;
-            Dictionary<string, string> provided = new Dictionary<string, string>(); ;
+            var expected = new Dictionary<string, string>(); ;
+            var provided = new Dictionary<string, string>(); ;
 
             ValidateResultPresent(suppliedResult, errors);
+            ValidateKey(suppliedResult, errors);
             if (errors.Count == 0)
             {
                 await CheckResults(suppliedResult, errors, expected, provided);
@@ -51,6 +54,27 @@ namespace NIST.CVP.Generation.RSA.v1_0.SigGen
             return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = Core.Enums.Disposition.Passed };
         }
 
+        private void ValidateKey(TestCase suppliedResult, List<string> errors)
+        {
+            var key = suppliedResult.ParentGroup.Key;
+
+            if (key == null)
+            {
+                errors.Add("Could not find public key");
+                return;
+            }
+            
+            if (key.PubKey.N.ExactBitLength() != _serverGroup.Modulo)
+            {
+                errors.Add("N provided was not the correct size");
+            }
+
+            if (key.PubKey.E <= NumberTheory.Pow2(16) || key.PubKey.E >= NumberTheory.Pow2(256) || key.PubKey.E.IsEven)
+            {
+                errors.Add("E provided was invalid, must satisfy 2^16 <= e <= 2^256, and must be odd");
+            }
+        }
+
         private void ValidateResultPresent(TestCase suppliedResult, List<string> errors)
         {
             if (suppliedResult.Signature == null)
@@ -60,12 +84,12 @@ namespace NIST.CVP.Generation.RSA.v1_0.SigGen
 
             if (_serverGroup.IsMessageRandomized && suppliedResult.RandomValue == null)
             {
-                errors.Add($"{nameof(suppliedResult.RandomValue)} was not supplied.");
+                errors.Add($"{nameof(suppliedResult.RandomValue)} was not supplied");
             }
 
             if (_serverGroup.IsMessageRandomized && suppliedResult.RandomValueLen == 0)
             {
-                errors.Add($"{nameof(suppliedResult.RandomValueLen)} was not supplied.");
+                errors.Add($"{nameof(suppliedResult.RandomValueLen)} was not supplied");
             }
         }
 

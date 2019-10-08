@@ -51,7 +51,7 @@ namespace NIST.CVP.Generation.KAS.v1_0.ECC_Component
 
         private void ValidateFunctions(Parameters parameters, List<string> errorResults)
         {
-            if (ValidFunctions == null || ValidFunctions.Length == 0)
+            if (parameters.Function == null || parameters.Function.Length == 0)
             {
                 return;
             }
