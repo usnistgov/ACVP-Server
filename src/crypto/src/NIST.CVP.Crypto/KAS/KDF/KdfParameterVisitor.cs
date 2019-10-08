@@ -4,6 +4,7 @@ using NIST.CVP.Crypto.Common.KAS.KDF.KdfOneStep;
 using NIST.CVP.Crypto.Common.KAS.KDF.KdfTwoStep;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
+using System;
 
 namespace NIST.CVP.Crypto.KAS.KDF
 {
@@ -24,6 +25,14 @@ namespace NIST.CVP.Crypto.KAS.KDF
                 AuxFunction = kdfConfiguration.AuxFunction,
                 FixedInfoPattern = kdfConfiguration.FixedInputPattern,
                 FixedInputEncoding = kdfConfiguration.FixedInputEncoding,
+                // If the fixedInfoPattern contains these optional context specific fields, make up a value for them
+                Context = kdfConfiguration.FixedInputPattern.Contains(nameof(KdfParameterOneStep.Context), StringComparison.OrdinalIgnoreCase) ?
+                    _entropyProvider.GetEntropy(128) : null,
+                AlgorithmId = kdfConfiguration.FixedInputPattern.Contains(nameof(KdfParameterOneStep.AlgorithmId), StringComparison.OrdinalIgnoreCase) ?
+                    _entropyProvider.GetEntropy(128) : null,
+                Label = kdfConfiguration.FixedInputPattern.Contains(nameof(KdfParameterOneStep.Label), StringComparison.OrdinalIgnoreCase) ?
+                    _entropyProvider.GetEntropy(128) : null,
+
             };
 
             if (kdfConfiguration.SaltLen > 0)
@@ -52,7 +61,14 @@ namespace NIST.CVP.Crypto.KAS.KDF
                 KdfMode = kdfConfiguration.KdfMode,
                 MacMode = kdfConfiguration.MacMode,
                 CounterLen = kdfConfiguration.CounterLen,
-                CounterLocation = kdfConfiguration.CounterLocation
+                CounterLocation = kdfConfiguration.CounterLocation,
+                // If the fixedInfoPattern contains these optional context specific fields, make up a value for them
+                Context = kdfConfiguration.FixedInputPattern.Contains(nameof(KdfParameterOneStep.Context), StringComparison.OrdinalIgnoreCase) ?
+                    _entropyProvider.GetEntropy(128) : null,
+                AlgorithmId = kdfConfiguration.FixedInputPattern.Contains(nameof(KdfParameterOneStep.AlgorithmId), StringComparison.OrdinalIgnoreCase) ?
+                    _entropyProvider.GetEntropy(128) : null,
+                Label = kdfConfiguration.FixedInputPattern.Contains(nameof(KdfParameterOneStep.Label), StringComparison.OrdinalIgnoreCase) ?
+                    _entropyProvider.GetEntropy(128) : null,
             };
         }
     }

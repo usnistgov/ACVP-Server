@@ -37,7 +37,7 @@
               ]
             }
           ],
-          "fixedInputPattern": "l|uPartyInfo|vPartyInfo",
+          "fixedInputPattern": "algorithmId||l||uPartyInfo||vPartyInfo",
           "encoding": [
             "concatenation"
           ]
@@ -84,7 +84,7 @@
             "Default",
             "Random"
           ],
-          "fixedInputPattern": "l|iv|uPartyInfo|vPartyInfo",
+          "fixedInputPattern": "l||iv||uPartyInfo||vPartyInfo",
           "encoding": [
             "concatenation"
           ]

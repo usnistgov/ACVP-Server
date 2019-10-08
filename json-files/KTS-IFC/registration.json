@@ -29,7 +29,7 @@
           "SHA2-224"
         ],
         "supportsNullAssociatedData": true,
-        "associatedDataPattern": "l|uPartyInfo|vPartyInfo",
+        "associatedDataPattern": "l||uPartyInfo||vPartyInfo",
         "encoding": [
           "concatenation"
         ]

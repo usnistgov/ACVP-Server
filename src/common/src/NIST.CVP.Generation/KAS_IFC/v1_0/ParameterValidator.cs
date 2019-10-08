@@ -385,7 +385,13 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
                 errorResults.Add($"{nameof(fixedInputPattern)} was not provided.");
             }
 
-            const string fiRegex = @"^((?!(l|iv|salt|uPartyInfo|vPartyInfo|counter|literal\[[0-9a-fA-F]+\])).)+$";
+            const string fiRegex = @"^((?!(l|iv|salt|uPartyInfo|vPartyInfo|counter|context|algorithmId|label|literal\[[0-9a-fA-F]+\])).)+$";
+
+            // FixedInfo must contain uPartyInfo and vPartyInfo
+            if (!fixedInputPattern.Contains("uPartyInfo") || !fixedInputPattern.Contains("uPartyInfo"))
+            {
+                errorResults.Add($"{nameof(fixedInputPattern)} must contain both uPartyInfo and vPartyInfo.");
+            }
 
             var fiPieces = fixedInputPattern.Split("||".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
             foreach (var fiPiece in fiPieces)

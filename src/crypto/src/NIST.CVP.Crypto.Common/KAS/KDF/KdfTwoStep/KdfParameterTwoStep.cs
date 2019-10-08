@@ -17,6 +17,18 @@ namespace NIST.CVP.Crypto.Common.KAS.KDF.KdfTwoStep
         /// </summary>
         public BitString Iv { get; set; }
         /// <summary>
+        /// The algorithm ID indicator.
+        /// </summary>
+        public BitString AlgorithmId { get; set; }
+        /// <summary>
+        /// The Label for the transaction.
+        /// </summary>
+        public BitString Label { get; set; }
+        /// <summary>
+        /// The Context for the transaction.
+        /// </summary>
+        public BitString Context { get; set; }
+        /// <summary>
         /// The TwoStep KDF mode
         /// </summary>
         public KdfModes KdfMode { get; set; }

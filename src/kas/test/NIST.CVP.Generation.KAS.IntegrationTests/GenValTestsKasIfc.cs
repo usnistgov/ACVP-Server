@@ -107,7 +107,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                     //                                        MacSaltMethods = new []{ MacSaltMethod.Default, MacSaltMethod.Random }
                     //                                    }
                     //                                },
-                    //                                FixedInputPattern = "l|uPartyInfo|vPartyInfo" 
+                    //                                FixedInputPattern = "l||uPartyInfo||vPartyInfo" 
                     //                            }
                     //                        },
                     //                        KeyGenerationMethods = new KeyGenerationMethods()
@@ -145,7 +145,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                     //                                        MacSaltMethods = new []{ MacSaltMethod.Default, MacSaltMethod.Random }
                     //                                    }
                     //                                },
-                    //                                FixedInputPattern = "l|uPartyInfo|vPartyInfo" 
+                    //                                FixedInputPattern = "l||uPartyInfo||vPartyInfo" 
                     //                            }
                     //                        },
                     //                        KeyGenerationMethods = new KeyGenerationMethods()
@@ -183,7 +183,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                                         MacSaltMethods = new []{ MacSaltMethod.Default, MacSaltMethod.Random }
                                     }
                                 },
-                                FixedInputPattern = "l|uPartyInfo|vPartyInfo"
+                                FixedInputPattern = "algorithmId||l||uPartyInfo||vPartyInfo"
                             },
                             TwoStepKdf = new TwoStepKdf()
                             {
@@ -209,7 +209,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                                         SupportsEmptyIv = false
                                     },
                                 },
-                                FixedInputPattern = "l|iv|uPartyInfo|vPartyInfo",
+                                FixedInputPattern = "l||iv||uPartyInfo||vPartyInfo",
                                 MacSaltMethods = new[] { MacSaltMethod.Default, MacSaltMethod.Random }
                             }
                         },
@@ -256,7 +256,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                     //                                        MacSaltMethods = new []{ MacSaltMethod.Default, MacSaltMethod.Random }
                     //                                    }
                     //                                },
-                    //                                FixedInputPattern = "l|uPartyInfo|vPartyInfo" 
+                    //                                FixedInputPattern = "l||uPartyInfo||vPartyInfo" 
                     //                            }
                     //                        },
                     //                        KeyGenerationMethods = new KeyGenerationMethods()
@@ -302,7 +302,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                     //                                        MacSaltMethods = new []{ MacSaltMethod.Default, MacSaltMethod.Random }
                     //                                    }
                     //                                },
-                    //                                FixedInputPattern = "l|uPartyInfo|vPartyInfo" 
+                    //                                FixedInputPattern = "l||uPartyInfo||vPartyInfo" 
                     //                            }
                     //                        },
                     //                        KeyGenerationMethods = new KeyGenerationMethods()
@@ -348,7 +348,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                     //                                        MacSaltMethods = new []{ MacSaltMethod.Default, MacSaltMethod.Random }
                     //                                    }
                     //                                },
-                    //                                FixedInputPattern = "l|uPartyInfo|vPartyInfo" 
+                    //                                FixedInputPattern = "l||uPartyInfo||vPartyInfo" 
                     //                            }
                     //                        },
                     //                        KeyGenerationMethods = new KeyGenerationMethods()

@@ -84,6 +84,24 @@ namespace NIST.CVP.Crypto.KAS.FixedInfo
                 return;
             }
 
+            if (workingPiece.Equals("algorithmId", StringComparison.OrdinalIgnoreCase))
+            {
+                fixedInfoParts.Add(workingPiece, fixedInfoParameter.AlgorithmId);
+                return;
+            }
+
+            if (workingPiece.Equals("label", StringComparison.OrdinalIgnoreCase))
+            {
+                fixedInfoParts.Add(workingPiece, fixedInfoParameter.Label);
+                return;
+            }
+
+            if (workingPiece.Equals("context", StringComparison.OrdinalIgnoreCase))
+            {
+                fixedInfoParts.Add(workingPiece, fixedInfoParameter.Context);
+                return;
+            }
+
             if (workingPiece.StartsWith("literal[", StringComparison.OrdinalIgnoreCase))
             {
                 // remove the "literal[]" to get just the hex value

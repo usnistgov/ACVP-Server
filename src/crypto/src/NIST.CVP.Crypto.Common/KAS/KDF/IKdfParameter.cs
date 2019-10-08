@@ -16,10 +16,12 @@ namespace NIST.CVP.Crypto.Common.KAS.KDF
         /// <summary>
         /// The Salt used with MAC based KDFs.
         /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         BitString Salt { get; set; }
         /// <summary>
         /// The IV used with some KDFs.
         /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         BitString Iv { get; set; }
         /// <summary>
         /// The shared secret for use in deriving a key.
@@ -33,11 +35,28 @@ namespace NIST.CVP.Crypto.Common.KAS.KDF
         /// <summary>
         /// The pattern to use when constructing fixed info.
         /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         string FixedInfoPattern { get; set; }
         /// <summary>
         /// The encoding type of the fixedInput
         /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         FixedInfoEncoding FixedInputEncoding { get; set; }
+        /// <summary>
+        /// The algorithm ID indicator.
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        BitString AlgorithmId { get; set; }
+        /// <summary>
+        /// The Label for the transaction.
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        BitString Label { get; set; }
+        /// <summary>
+        /// The Context for the transaction.
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        BitString Context { get; set; }
         /// <summary>
         /// Accepts a <see cref="IKdfVisitor"/> this will in turn dispatch a call to a supported KDF.
         /// </summary>

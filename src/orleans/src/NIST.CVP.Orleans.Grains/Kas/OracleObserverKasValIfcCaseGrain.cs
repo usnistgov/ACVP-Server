@@ -177,6 +177,9 @@ namespace NIST.CVP.Orleans.Grains.Kas
                     fixedInfoParameter.FixedInfoPattern = _param.KdfConfiguration.FixedInputPattern;
                     fixedInfoParameter.Salt = kdfParam.Salt;
                     fixedInfoParameter.Iv = kdfParam.Iv;
+                    fixedInfoParameter.Label = kdfParam.Label;
+                    fixedInfoParameter.Context = kdfParam.Context;
+                    fixedInfoParameter.AlgorithmId = kdfParam.AlgorithmId;
                 }
 
                 // KTS
