@@ -64,5 +64,11 @@ namespace NIST.CVP.Crypto.Common.KAS.KDF
         /// <param name="fixedInfo">The contextual fixed information to be plugged into a kdf.</param>
         /// <returns>A derived key.</returns>
         KdfResult AcceptKdf(IKdfVisitor visitor, BitString fixedInfo);
+        /// <summary>
+        /// Set the C or Nonce values for the initiator and responder, for use in SP800-135 KDFs.
+        /// </summary>
+        /// <param name="initiatorData">The initiator ephemeral data (either a C value or nonce).</param>
+        /// <param name="responderData">The responder ephemeral data (either a C value or nonce).</param>
+        void SetEphemeralData(BitString initiatorData, BitString responderData);
     }
 }

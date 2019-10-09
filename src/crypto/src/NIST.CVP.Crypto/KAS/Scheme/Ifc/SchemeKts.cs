@@ -1,4 +1,3 @@
-using System;
 using NIST.CVP.Crypto.Common.KAS;
 using NIST.CVP.Crypto.Common.KAS.Builders;
 using NIST.CVP.Crypto.Common.KAS.Enums;
@@ -8,7 +7,7 @@ using NIST.CVP.Crypto.Common.KAS.Scheme;
 using NIST.CVP.Crypto.Common.KTS;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
-using Remotion.Linq.Parsing.Structure.IntermediateModel;
+using System;
 
 namespace NIST.CVP.Crypto.KAS.Scheme.Ifc
 {
@@ -19,7 +18,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme.Ifc
 
         public SchemeKts(
             IEntropyProvider entropyProvider,
-            SchemeParametersIfc schemeParameters, 
+            SchemeParametersIfc schemeParameters,
             IFixedInfoFactory fixedInfoFactory,
             FixedInfoParameter fixedInfoParameter,
             IIfcSecretKeyingMaterialBuilder thisPartyKeyingMaterialBuilder,
@@ -27,15 +26,15 @@ namespace NIST.CVP.Crypto.KAS.Scheme.Ifc
             MacParameters macParameters,
             IKtsFactory ktsFactory,
             KtsParameter ktsParameter
-            ) 
+            )
             : base
             (
-                entropyProvider, 
-                schemeParameters, 
-                fixedInfoFactory, 
-                fixedInfoParameter, 
-                thisPartyKeyingMaterialBuilder, 
-                keyConfirmationFactory, 
+                entropyProvider,
+                schemeParameters,
+                fixedInfoFactory,
+                fixedInfoParameter,
+                thisPartyKeyingMaterialBuilder,
+                keyConfirmationFactory,
                 macParameters)
         {
             _ktsFactory = ktsFactory;
@@ -51,25 +50,23 @@ namespace NIST.CVP.Crypto.KAS.Scheme.Ifc
                     // Create a key of L length, wrap it with the other parties public key.
                     var keyToEncodeEncrypt = EntropyProvider.GetEntropy(SchemeParameters.KasAlgoAttributes.L);
                     var kts = _ktsFactory.Get(_ktsParameter.KtsHashAlg);
-                    
-                    // this is failing because fixed info is not yet initialized.  We can't have "C" until it is initialized, but "C" is derived
-                    // as a function of fixedInfo.  
+
                     BitString fixedInfo = null;
                     if (!string.IsNullOrEmpty(_ktsParameter.AssociatedDataPattern))
                     {
                         ThisPartyKeyingMaterial = _thisPartyKeyingMaterialBuilder.Build(
-                            SchemeParameters.KasAlgoAttributes.Scheme, 
+                            SchemeParameters.KasAlgoAttributes.Scheme,
                             SchemeParameters.KasMode,
                             SchemeParameters.KeyAgreementRole,
                             SchemeParameters.KeyConfirmationRole,
                             SchemeParameters.KeyConfirmationDirection
                         );
-                        
+
                         fixedInfo = GetFixedInfo(otherPartyKeyingMaterial);
                     }
-                    
+
                     var c = kts.Encrypt(otherPartyKeyingMaterial.Key.PubKey, keyToEncodeEncrypt, fixedInfo).SharedSecretZ;
-                    
+
                     thisPartyKeyingMaterialBuilder.WithK(keyToEncodeEncrypt);
                     thisPartyKeyingMaterialBuilder.WithC(c);
                     break;
@@ -112,12 +109,12 @@ namespace NIST.CVP.Crypto.KAS.Scheme.Ifc
             {
                 return null;
             }
-            
+
             if (keyAgreementRole == KeyAgreementRole.InitiatorPartyU)
             {
                 return secretKeyingMaterial.C;
             }
-            
+
             return null;
         }
     }

@@ -1,8 +1,10 @@
 using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Crypto.Common.KAS.KC;
 using NIST.CVP.Crypto.Common.KAS.KDF;
+using NIST.CVP.Crypto.Common.KAS.KDF.KdfIkeV1;
 using NIST.CVP.Crypto.Common.KAS.KDF.KdfOneStep;
 using NIST.CVP.Crypto.Common.KAS.KDF.KdfTwoStep;
 using NIST.CVP.Crypto.Common.KDF.Enums;
@@ -259,6 +261,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
 
             GetKdfConfiguration(kdfMethods.OneStepKdf, l, list);
             GetKdfConfiguration(kdfMethods.TwoStepKdf, l, list);
+            GetKdfConfiguration(kdfMethods.IkeV1Kdf, l, list);
 
             return list;
         }
@@ -414,6 +417,35 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
                             }
                         }
                     }
+                }
+            }
+
+            // No need to fully test each enumeration of this KDF, as it is tested separately, take max of 5 groups randomly.
+            list.AddRangeIfNotNullOrEmpty(tempList.Shuffle().Take(5));
+        }
+
+        private void GetKdfConfiguration(IkeV1Kdf kdfMethod, int l, List<IKdfConfiguration> list)
+        {
+            if (kdfMethod == null)
+            {
+                return;
+            }
+
+            List<IKdfConfiguration> tempList = new List<IKdfConfiguration>();
+
+            foreach (var hashAlg in kdfMethod.HashFunctions)
+            {
+                var hashFunction = ShaAttributes.GetHashFunctionFromEnum(hashAlg);
+                // TODO remove multiply by 3 if concatenation is not used.
+                var outputLen = hashFunction.OutputLen * 3;
+
+                if (l <= outputLen)
+                {
+                    tempList.Add(new IkeV1Configuration()
+                    {
+                        L = l,
+                        HashFunction = hashAlg
+                    });
                 }
             }
 

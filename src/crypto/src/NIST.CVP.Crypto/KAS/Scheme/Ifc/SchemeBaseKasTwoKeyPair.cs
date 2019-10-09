@@ -1,4 +1,3 @@
-using System;
 using NIST.CVP.Crypto.Common.KAS;
 using NIST.CVP.Crypto.Common.KAS.Builders;
 using NIST.CVP.Crypto.Common.KAS.Enums;
@@ -9,6 +8,7 @@ using NIST.CVP.Crypto.Common.KAS.Scheme;
 using NIST.CVP.Crypto.Common.KES;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
+using System;
 
 namespace NIST.CVP.Crypto.KAS.Scheme.Ifc
 {
@@ -24,17 +24,17 @@ namespace NIST.CVP.Crypto.KAS.Scheme.Ifc
             MacParameters macParameters,
             IKdfVisitor kdfVisitor,
             IKdfParameter kdfParameter,
-            IRsaSve rsaSve) 
+            IRsaSve rsaSve)
             : base(
                 entropyProvider,
-                schemeParameters, 
-                fixedInfoFactory, 
-                fixedInfoParameter, 
-                thisPartyKeyingMaterialBuilder, 
-                keyConfirmationFactory, 
-                macParameters, 
-                kdfVisitor, 
-                kdfParameter, 
+                schemeParameters,
+                fixedInfoFactory,
+                fixedInfoParameter,
+                thisPartyKeyingMaterialBuilder,
+                keyConfirmationFactory,
+                macParameters,
+                kdfVisitor,
+                kdfParameter,
                 rsaSve)
         {
         }
@@ -54,29 +54,39 @@ namespace NIST.CVP.Crypto.KAS.Scheme.Ifc
         {
             BitString zU = null;
             BitString zV = null;
-            
+
+            BitString initiatorData = null;
+            BitString responderData = null;
+
             switch (SchemeParameters.KeyAgreementRole)
             {
                 case KeyAgreementRole.InitiatorPartyU:
                     zU = ThisPartyKeyingMaterial.Z;
-                    
+
                     // When party U, recover zV from cV
                     var recoverV = _rsaSve.Recover(ThisPartyKeyingMaterial.Key, otherPartyKeyingMaterial.C);
                     zV = recoverV.SharedSecretZ;
-                    
+
+                    initiatorData = ThisPartyKeyingMaterial.C;
+                    responderData = otherPartyKeyingMaterial.C;
                     break;
                 case KeyAgreementRole.ResponderPartyV:
                     zV = ThisPartyKeyingMaterial.Z;
-                    
+
                     // When party V, recover zU from cU
                     var recoverU = _rsaSve.Recover(ThisPartyKeyingMaterial.Key, otherPartyKeyingMaterial.C);
                     zU = recoverU.SharedSecretZ;
+
+                    initiatorData = otherPartyKeyingMaterial.C;
+                    responderData = ThisPartyKeyingMaterial.C;
 
                     break;
                 default:
                     throw new ArgumentException($"Invalid {nameof(SchemeParameters.KeyAgreementRole)}");
             }
-            
+
+            _kdfParameter.SetEphemeralData(initiatorData, responderData);
+
             var fixedInfo = GetFixedInfo(otherPartyKeyingMaterial);
 
             var z = zU.ConcatenateBits(zV);

@@ -9,5 +9,7 @@ namespace NIST.CVP.Crypto.Common.KAS.Enums
         OneStep,
         [EnumMember(Value = "twoStep")]
         TwoStep,
+        [EnumMember(Value = "IKEv1")]
+        Ike_v1
     }
 }

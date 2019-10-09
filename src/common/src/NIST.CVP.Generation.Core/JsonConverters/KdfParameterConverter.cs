@@ -3,6 +3,7 @@ using Newtonsoft.Json.Linq;
 using NIST.CVP.Common.Helpers;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Crypto.Common.KAS.KDF;
+using NIST.CVP.Crypto.Common.KAS.KDF.KdfIkeV1;
 using NIST.CVP.Crypto.Common.KAS.KDF.KdfOneStep;
 using NIST.CVP.Crypto.Common.KAS.KDF.KdfTwoStep;
 using System;
@@ -42,6 +43,8 @@ namespace NIST.CVP.Generation.Core.JsonConverters
                     return jo.ToObject<KdfParameterOneStep>(serializer);
                 case KasKdf.TwoStep:
                     return jo.ToObject<KdfParameterTwoStep>(serializer);
+                case KasKdf.Ike_v1:
+                    return jo.ToObject<KdfParameterIkeV1>(serializer);
                 default:
                     throw new ArgumentException("No serializer exists for this kdf type");
             }

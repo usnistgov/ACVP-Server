@@ -48,5 +48,10 @@ namespace NIST.CVP.Crypto.Common.KAS.KDF.KdfTwoStep
         {
             return visitor.Kdf(this, fixedInfo);
         }
+
+        public void SetEphemeralData(BitString initiatorData, BitString responderData)
+        {
+            // not used for this kdf
+        }
     }
 }

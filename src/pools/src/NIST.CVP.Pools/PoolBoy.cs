@@ -20,7 +20,7 @@ namespace NIST.CVP.Pools
         where T : IResult
     {
         private readonly ILogger ThisLogger = LogManager.GetCurrentClassLogger();
-        
+
         private readonly PoolConfig _poolConfig;
         private readonly IList<JsonConverter> _jsonConverters = new List<JsonConverter>
         {
@@ -55,22 +55,22 @@ namespace NIST.CVP.Pools
                 Type = type
             };
 
+            var paramHolderJson = JsonConvert.SerializeObject(
+                paramHolder,
+                new JsonSerializerSettings()
+                {
+                    Converters = _jsonConverters
+                }
+            );
+
             using (var streamWriter = new StreamWriter(request.GetRequestStream()))
             {
-                streamWriter.Write(
-                    JsonConvert.SerializeObject(
-                        paramHolder,
-                        new JsonSerializerSettings()
-                        {
-                            Converters = _jsonConverters
-                        }
-                    )
-                );
+                streamWriter.Write(paramHolderJson);
             }
 
             try
             {
-                var response = (HttpWebResponse) request.GetResponse();
+                var response = (HttpWebResponse)request.GetResponse();
                 using (var streamReader = new StreamReader(response.GetResponseStream()))
                 {
                     var json = streamReader.ReadToEnd();
@@ -82,6 +82,11 @@ namespace NIST.CVP.Pools
                     );
                     if (poolResult.PoolTooEmpty)
                     {
+                        if (_poolConfig.ShouldLogPoolValueUse)
+                        {
+
+                            ThisLogger.Warn($"Pool too empty for pool parameter: {paramHolderJson}");
+                        }
                         return default(T);
                     }
 

@@ -12,6 +12,7 @@ using NIST.CVP.Crypto.Common.KES;
 using NIST.CVP.Crypto.Common.KTS;
 using NIST.CVP.Crypto.CSHAKE;
 using NIST.CVP.Crypto.HMAC;
+using NIST.CVP.Crypto.IKEv1;
 using NIST.CVP.Crypto.KAS.Builders.Ifc;
 using NIST.CVP.Crypto.KAS.FixedInfo;
 using NIST.CVP.Crypto.KAS.KC;
@@ -61,7 +62,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new KdfOneStepFactory(shaFactory, new HmacFactory(shaFactory), new KmacFactory(new CSHAKEWrapper())),
                 new Crypto.KDF.KdfFactory(new CmacFactory(new BlockCipherEngineFactory(), new ModeBlockCipherFactory()),
                 new HmacFactory(new ShaFactory())), new HmacFactory(new ShaFactory()),
-                new CmacFactory(new BlockCipherEngineFactory(), new ModeBlockCipherFactory()));
+                new CmacFactory(new BlockCipherEngineFactory(), new ModeBlockCipherFactory()),
+                new IkeV1Factory());
             _rsaSve = new RsaSve(rsa, _entropyProvider);
 
             _kasBuilderPartyU = new KasIfcBuilder();

@@ -1,5 +1,6 @@
 using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Crypto.Common.KAS.KDF;
+using NIST.CVP.Crypto.Common.KAS.KDF.KdfIkeV1;
 using NIST.CVP.Crypto.Common.KAS.KDF.KdfOneStep;
 using NIST.CVP.Crypto.Common.KAS.KDF.KdfTwoStep;
 using NIST.CVP.Math;
@@ -69,6 +70,15 @@ namespace NIST.CVP.Crypto.KAS.KDF
                     _entropyProvider.GetEntropy(128) : null,
                 Label = kdfConfiguration.FixedInputPattern.Contains(nameof(KdfParameterOneStep.Label), StringComparison.OrdinalIgnoreCase) ?
                     _entropyProvider.GetEntropy(128) : null,
+            };
+        }
+
+        public IKdfParameter CreateParameter(IkeV1Configuration kdfConfiguration)
+        {
+            return new KdfParameterIkeV1()
+            {
+                L = kdfConfiguration.L,
+                HashFunction = kdfConfiguration.HashFunction
             };
         }
     }

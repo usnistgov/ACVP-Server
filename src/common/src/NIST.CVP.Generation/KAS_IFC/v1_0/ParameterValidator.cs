@@ -2,6 +2,9 @@ using NIST.CVP.Common;
 using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Common.Helpers;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Helpers;
+using NIST.CVP.Crypto.Common.Hash.SHA2;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Enums;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Crypto.Common.KAS.Helpers;
 using NIST.CVP.Generation.Core;
@@ -18,11 +21,14 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
     {
 
         #region Validation statics
+
         public static readonly KeyAgreementRole[] ValidKeyAgreementRoles =
         {
             KeyAgreementRole.InitiatorPartyU,
             KeyAgreementRole.ResponderPartyV
         };
+
+        // TODO remove this enum and field, use HashFunctions enum instead
         public static readonly KasHashAlg[] ValidHashAlgs =
         {
             KasHashAlg.SHA2_D224,
@@ -35,6 +41,21 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
             KasHashAlg.SHA3_D256,
             KasHashAlg.SHA3_D384,
             KasHashAlg.SHA3_D512
+        };
+
+        public static readonly HashFunctions[] ValidHashFunctions =
+        {
+            HashFunctions.Sha1,
+            HashFunctions.Sha2_d224,
+            HashFunctions.Sha2_d256,
+            HashFunctions.Sha2_d384,
+            HashFunctions.Sha2_d512,
+            HashFunctions.Sha2_d512t224,
+            HashFunctions.Sha2_d512t256,
+            HashFunctions.Sha3_d224,
+            HashFunctions.Sha3_d256,
+            HashFunctions.Sha3_d384,
+            HashFunctions.Sha3_d512,
         };
 
         public static readonly (KasKdfOneStepAuxFunction functionName, bool requiresSaltLength)[] ValidAuxMethods =
@@ -274,6 +295,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
 
             ValidateKdfMethod(schemeKdfMethods.OneStepKdf, l, errorResults);
             ValidateKdfMethod(schemeKdfMethods.TwoStepKdf, l, errorResults);
+            ValidateKdfMethod(schemeKdfMethods.IkeV1Kdf, l, errorResults);
         }
 
         #region OneStepKdf
@@ -377,6 +399,39 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
             }
         }
         #endregion TwoStepKdf
+
+        #region IkeV1
+        private void ValidateKdfMethod(IkeV1Kdf kdf, int l, List<string> errorResults)
+        {
+            if (kdf == null)
+            {
+                return;
+            }
+
+            errorResults.AddIfNotNullOrEmpty(ValidateArray(kdf.HashFunctions, ValidHashFunctions, "IKEv1 HashFunctions"));
+
+            // TODO this needs confirmation with the CT group as to the method of concatenation of the DKM with this KDF (if it exists at all).
+            // We need to ensure that (if using concatenation) the desired L is at a minimum the length of the hash output * 3.
+            var isValid = false;
+            foreach (var hashAlg in kdf.HashFunctions)
+            {
+                var hashFunction = ShaAttributes.GetHashFunctionFromEnum(hashAlg);
+                // TODO remove multiply by 3 if concatenation is not used.
+                var outputLen = hashFunction.OutputLen * 3;
+
+                if (l <= outputLen)
+                {
+                    isValid = true;
+                    break;
+                }
+            }
+
+            if (!isValid)
+            {
+                errorResults.Add($"No provided {nameof(HashFunction)} in use for IkeV1 would provide enough keying material to meet {nameof(l)}.");
+            }
+        }
+        #endregion IkeV1
 
         private void ValidateFixedInputPattern(string fixedInputPattern, List<string> errorResults)
         {

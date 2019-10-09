@@ -17,6 +17,11 @@ namespace NIST.CVP.Crypto.KAS.FixedInfo
 
         public BitString Get(FixedInfoParameter param)
         {
+            if (string.IsNullOrEmpty(param?.FixedInfoPattern))
+            {
+                return new BitString(0);
+            }
+
             var fixedInfoParts = new Dictionary<string, BitString>();
 
             // split the pattern into pieces

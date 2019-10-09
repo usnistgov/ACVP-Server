@@ -32,8 +32,7 @@
               "auxFunctionName": "KMAC-128",
               "saltLen": 128,
               "macSaltMethods": [
-                "Default",
-                "Random"
+                "Default"
               ]
             }
           ],
@@ -42,51 +41,10 @@
             "concatenation"
           ]
         },
-        "twoStepKdf": {
-          "kdfType": "twoStep",
-          "capabilities": [
-            {
-              "kdfMode": "feedback",
-              "macMode": [
-                "CMAC-AES256",
-                "HMAC-SHA3-224"
-              ],
-              "supportedLengths": [
-                512
-              ],
-              "fixedDataOrder": [
-                "after fixed data"
-              ],
-              "counterLength": [
-                32
-              ],
-              "supportsEmptyIv": false
-            },
-            {
-              "kdfMode": "counter",
-              "macMode": [
-                "CMAC-AES256",
-                "HMAC-SHA3-224"
-              ],
-              "supportedLengths": [
-                512
-              ],
-              "fixedDataOrder": [
-                "after fixed data"
-              ],
-              "counterLength": [
-                32
-              ],
-              "supportsEmptyIv": false
-            }
-          ],
-          "macSaltMethods": [
-            "Default",
-            "Random"
-          ],
-          "fixedInputPattern": "l||iv||uPartyInfo||vPartyInfo",
-          "encoding": [
-            "concatenation"
+        "ikeV1Kdf": {
+          "kdfType": "IKEv1",
+          "hashFunctions": [
+            "SHA3-512"
           ]
         }
       },

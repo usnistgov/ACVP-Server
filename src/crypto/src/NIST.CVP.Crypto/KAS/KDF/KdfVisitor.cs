@@ -1,7 +1,11 @@
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
 using NIST.CVP.Crypto.Common.KAS.KDF;
+using NIST.CVP.Crypto.Common.KAS.KDF.KdfIkeV1;
 using NIST.CVP.Crypto.Common.KAS.KDF.KdfOneStep;
 using NIST.CVP.Crypto.Common.KAS.KDF.KdfTwoStep;
+using NIST.CVP.Crypto.Common.KDF.Components.IKEv1;
+using NIST.CVP.Crypto.Common.KDF.Components.IKEv1.Enums;
 using NIST.CVP.Crypto.Common.KDF.Enums;
 using NIST.CVP.Crypto.Common.MAC;
 using NIST.CVP.Crypto.Common.MAC.CMAC;
@@ -19,16 +23,19 @@ namespace NIST.CVP.Crypto.KAS.KDF
         private readonly IKdfFactory _kdfTwoStepFactory;
         private readonly IHmacFactory _hmacFactory;
         private readonly ICmacFactory _cmacFactory;
+        private readonly IIkeV1Factory _ikeV1Factory;
 
         public KdfVisitor(IKdfOneStepFactory kdfOneStepFactory,
             IKdfFactory kdfTwoStepFactory,
             IHmacFactory hmacFactory,
-            ICmacFactory cmacFactory)
+            ICmacFactory cmacFactory,
+            IIkeV1Factory ikeV1Factory)
         {
             _kdfOneStepFactory = kdfOneStepFactory;
             _kdfTwoStepFactory = kdfTwoStepFactory;
             _hmacFactory = hmacFactory;
             _cmacFactory = cmacFactory;
+            _ikeV1Factory = ikeV1Factory;
         }
 
         public KdfResult Kdf(KdfParameterOneStep param, BitString fixedInfo)
@@ -114,6 +121,25 @@ namespace NIST.CVP.Crypto.KAS.KDF
                 param.CounterLen);
 
             return new KdfResult(kdf.DeriveKey(randomnessExtraction.Mac, fixedInfo, param.L, param.Iv, 0).DerivedKey);
+        }
+
+        public KdfResult Kdf(KdfParameterIkeV1 param, BitString fixedInfo = null)
+        {
+            var hashFunction = ShaAttributes.GetHashFunctionFromEnum(param.HashFunction);
+
+            var kdf = _ikeV1Factory.GetIkeV1Instance(AuthenticationMethods.Dsa, hashFunction);
+
+            // TODO THIS NEEDS CONFIRMATION FROM CT GROUP
+            var result = kdf.GenerateIke(param.InitiatorEphemeralData, param.ResponderEphemeralData, param.Z,
+                param.InitiatorEphemeralData, param.ResponderEphemeralData, null);
+
+            // TODO THIS NEEDS CONFIRMATION FROM CT GROUP
+            var dkm = new BitString(0)
+                .ConcatenateBits(result.SKeyIdD)
+                .ConcatenateBits(result.SKeyIdA)
+                .ConcatenateBits(result.SKeyIdE);
+
+            return new KdfResult(dkm.GetMostSignificantBits(param.L));
         }
     }
 }

@@ -2,6 +2,7 @@ using Newtonsoft.Json;
 using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Enums;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.KDF.v1_0;
@@ -254,6 +255,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
     {
         public OneStepKdf OneStepKdf { get; set; }
         public TwoStepKdf TwoStepKdf { get; set; }
+        public IkeV1Kdf IkeV1Kdf { get; set; }
 
         public IEnumerable<KdfMethodBase> GetRegisteredKdfMethods()
         {
@@ -261,6 +263,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
 
             list.AddIfNotNull(OneStepKdf);
             list.AddIfNotNull(TwoStepKdf);
+            list.AddIfNotNull(IkeV1Kdf);
 
             return list;
         }
@@ -320,6 +323,12 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
         /// The encoding type of the fixedInput
         /// </summary>
         public FixedInfoEncoding[] Encoding { get; set; }
+    }
+
+    public class IkeV1Kdf : KdfMethodBase
+    {
+        public override KasKdf KdfType => KasKdf.Ike_v1;
+        public HashFunctions[] HashFunctions { get; set; }
     }
 
     public class KtsMethod
