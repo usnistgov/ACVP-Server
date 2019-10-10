@@ -35,6 +35,8 @@ namespace NIST.CVP.Generation.DSA.v1_0.KeyGen
             };
 
             var result = await _oracle.CompleteDeferredDsaKeyAsync(param, fullParam);
+            
+            // TODO need a proper error message if it fails
             return result.Result ? new FfcKeyPairValidateResult() : new FfcKeyPairValidateResult("Fail");
         }
     }

@@ -72,7 +72,7 @@ namespace NIST.CVP.Generation.KAS.v1_0
 
         private void ValidateFunction(Parameters parameters, List<string> errorResults)
         {
-            if (ValidFunctions == null || ValidFunctions.Length == 0)
+            if (parameters.Function == null || parameters.Function.Length == 0)
             {
                 return;
             }

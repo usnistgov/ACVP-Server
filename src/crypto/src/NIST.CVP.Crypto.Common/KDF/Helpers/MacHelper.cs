@@ -27,6 +27,18 @@ namespace NIST.CVP.Crypto.Common.KDF.Helpers
                     return ShaAttributes.GetShaAttributes(ModeValues.SHA2, DigestSizes.d384).outputLen;
                 case MacModes.HMAC_SHA512:
                     return ShaAttributes.GetShaAttributes(ModeValues.SHA2, DigestSizes.d512).outputLen;
+                case MacModes.HMAC_SHA_d512t224:
+                    return ShaAttributes.GetShaAttributes(ModeValues.SHA2, DigestSizes.d512t224).outputLen;
+                case MacModes.HMAC_SHA_d512t256:
+                    return ShaAttributes.GetShaAttributes(ModeValues.SHA2, DigestSizes.d512t256).outputLen;
+                case MacModes.HMAC_SHA3_224:
+                    return ShaAttributes.GetShaAttributes(ModeValues.SHA3, DigestSizes.d224).outputLen;
+                case MacModes.HMAC_SHA3_256:
+                    return ShaAttributes.GetShaAttributes(ModeValues.SHA3, DigestSizes.d256).outputLen;
+                case MacModes.HMAC_SHA3_384:
+                    return ShaAttributes.GetShaAttributes(ModeValues.SHA3, DigestSizes.d384).outputLen;
+                case MacModes.HMAC_SHA3_512:
+                    return ShaAttributes.GetShaAttributes(ModeValues.SHA3, DigestSizes.d512).outputLen;
             }
 
             throw new ArgumentException(nameof(macMode));
