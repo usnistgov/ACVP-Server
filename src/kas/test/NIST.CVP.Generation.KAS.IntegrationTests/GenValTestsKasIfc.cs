@@ -169,21 +169,21 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                         },
                         KdfMethods = new KdfMethods()
                         {
-                            OneStepKdf = new OneStepKdf()
-                            {
-                                Encoding = new[] { FixedInfoEncoding.Concatenation },
-                                AuxFunctions = new[]
-                                {
-                                    new AuxFunction()
-                                    {
-                                        SaltLen = 128,
-                                        AuxFunctionName = KasKdfOneStepAuxFunction.KMAC_128,
-                                        MacSaltMethods = new []{ MacSaltMethod.Default }
-                                        //MacSaltMethods = new []{ MacSaltMethod.Default, MacSaltMethod.Random }
-                                    }
-                                },
-                                FixedInputPattern = "algorithmId||l||uPartyInfo||vPartyInfo"
-                            },
+                            //OneStepKdf = new OneStepKdf()
+                            //{
+                            //    Encoding = new[] { FixedInfoEncoding.Concatenation },
+                            //    AuxFunctions = new[]
+                            //    {
+                            //        new AuxFunction()
+                            //        {
+                            //            SaltLen = 128,
+                            //            AuxFunctionName = KasKdfOneStepAuxFunction.KMAC_128,
+                            //            MacSaltMethods = new []{ MacSaltMethod.Default }
+                            //            //MacSaltMethods = new []{ MacSaltMethod.Default, MacSaltMethod.Random }
+                            //        }
+                            //    },
+                            //    FixedInputPattern = "algorithmId||l||uPartyInfo||vPartyInfo"
+                            //},
                             //TwoStepKdf = new TwoStepKdf()
                             //{
                             //    Encoding = new[] { FixedInfoEncoding.Concatenation },
@@ -212,6 +212,10 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                             //    MacSaltMethods = new[] { MacSaltMethod.Default, MacSaltMethod.Random }
                             //},
                             IkeV1Kdf = new IkeV1Kdf()
+                            {
+                                HashFunctions = new[] { HashFunctions.Sha3_d512 }
+                            },
+                            IkeV2Kdf = new IkeV2Kdf()
                             {
                                 HashFunctions = new[] { HashFunctions.Sha3_d512 }
                             }

@@ -1,6 +1,7 @@
 using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Crypto.Common.KAS.KDF;
 using NIST.CVP.Crypto.Common.KAS.KDF.KdfIkeV1;
+using NIST.CVP.Crypto.Common.KAS.KDF.KdfIkeV2;
 using NIST.CVP.Crypto.Common.KAS.KDF.KdfOneStep;
 using NIST.CVP.Crypto.Common.KAS.KDF.KdfTwoStep;
 using NIST.CVP.Math;
@@ -76,6 +77,15 @@ namespace NIST.CVP.Crypto.KAS.KDF
         public IKdfParameter CreateParameter(IkeV1Configuration kdfConfiguration)
         {
             return new KdfParameterIkeV1()
+            {
+                L = kdfConfiguration.L,
+                HashFunction = kdfConfiguration.HashFunction
+            };
+        }
+
+        public IKdfParameter CreateParameter(IkeV2Configuration kdfConfiguration)
+        {
+            return new KdfParameterIkeV2()
             {
                 L = kdfConfiguration.L,
                 HashFunction = kdfConfiguration.HashFunction

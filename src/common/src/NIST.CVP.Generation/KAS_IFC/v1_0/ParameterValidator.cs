@@ -296,6 +296,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
             ValidateKdfMethod(schemeKdfMethods.OneStepKdf, l, errorResults);
             ValidateKdfMethod(schemeKdfMethods.TwoStepKdf, l, errorResults);
             ValidateKdfMethod(schemeKdfMethods.IkeV1Kdf, l, errorResults);
+            ValidateKdfMethod(schemeKdfMethods.IkeV2Kdf, l, errorResults);
         }
 
         #region OneStepKdf
@@ -432,6 +433,18 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
             }
         }
         #endregion IkeV1
+
+        #region IkeV2
+        private void ValidateKdfMethod(IkeV2Kdf kdf, int i, List<string> errorResults)
+        {
+            if (kdf == null)
+            {
+                return;
+            }
+
+            errorResults.AddIfNotNullOrEmpty(ValidateArray(kdf.HashFunctions, ValidHashFunctions, "IKEv1 HashFunctions"));
+        }
+        #endregion IkeV2
 
         private void ValidateFixedInputPattern(string fixedInputPattern, List<string> errorResults)
         {

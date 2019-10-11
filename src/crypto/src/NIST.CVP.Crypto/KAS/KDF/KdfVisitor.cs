@@ -2,10 +2,12 @@ using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
 using NIST.CVP.Crypto.Common.KAS.KDF;
 using NIST.CVP.Crypto.Common.KAS.KDF.KdfIkeV1;
+using NIST.CVP.Crypto.Common.KAS.KDF.KdfIkeV2;
 using NIST.CVP.Crypto.Common.KAS.KDF.KdfOneStep;
 using NIST.CVP.Crypto.Common.KAS.KDF.KdfTwoStep;
 using NIST.CVP.Crypto.Common.KDF.Components.IKEv1;
 using NIST.CVP.Crypto.Common.KDF.Components.IKEv1.Enums;
+using NIST.CVP.Crypto.Common.KDF.Components.IKEv2;
 using NIST.CVP.Crypto.Common.KDF.Enums;
 using NIST.CVP.Crypto.Common.MAC;
 using NIST.CVP.Crypto.Common.MAC.CMAC;
@@ -24,18 +26,21 @@ namespace NIST.CVP.Crypto.KAS.KDF
         private readonly IHmacFactory _hmacFactory;
         private readonly ICmacFactory _cmacFactory;
         private readonly IIkeV1Factory _ikeV1Factory;
+        private readonly IIkeV2Factory _ikeV2Factory;
 
         public KdfVisitor(IKdfOneStepFactory kdfOneStepFactory,
             IKdfFactory kdfTwoStepFactory,
             IHmacFactory hmacFactory,
             ICmacFactory cmacFactory,
-            IIkeV1Factory ikeV1Factory)
+            IIkeV1Factory ikeV1Factory,
+            IIkeV2Factory ikeV2Factory)
         {
             _kdfOneStepFactory = kdfOneStepFactory;
             _kdfTwoStepFactory = kdfTwoStepFactory;
             _hmacFactory = hmacFactory;
             _cmacFactory = cmacFactory;
             _ikeV1Factory = ikeV1Factory;
+            _ikeV2Factory = ikeV2Factory;
         }
 
         public KdfResult Kdf(KdfParameterOneStep param, BitString fixedInfo)
@@ -140,6 +145,25 @@ namespace NIST.CVP.Crypto.KAS.KDF
                 .ConcatenateBits(result.SKeyIdE);
 
             return new KdfResult(dkm.GetMostSignificantBits(param.L));
+        }
+
+        public KdfResult Kdf(KdfParameterIkeV2 param, BitString fixedInfo = null)
+        {
+            var hashFunction = ShaAttributes.GetHashFunctionFromEnum(param.HashFunction);
+
+            var kdf = _ikeV2Factory.GetInstance(hashFunction);
+
+            // TODO THIS NEEDS CONFIRMATION FROM CT GROUP
+            var result = kdf.GenerateDkmIke(
+                param.InitiatorEphemeralData,
+                param.ResponderEphemeralData,
+                param.Z,
+                param.InitiatorEphemeralData,
+                param.ResponderEphemeralData,
+                param.L);
+
+
+            return new KdfResult(result);
         }
     }
 }

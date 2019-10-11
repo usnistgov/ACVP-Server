@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using NIST.CVP.Crypto.Common.KAS.KDF.KdfIkeV2;
 
 namespace NIST.CVP.Generation.KAS_IFC.v1_0
 {
@@ -262,6 +263,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
             GetKdfConfiguration(kdfMethods.OneStepKdf, l, list);
             GetKdfConfiguration(kdfMethods.TwoStepKdf, l, list);
             GetKdfConfiguration(kdfMethods.IkeV1Kdf, l, list);
+            GetKdfConfiguration(kdfMethods.IkeV2Kdf, l, list);
 
             return list;
         }
@@ -447,6 +449,23 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
                         HashFunction = hashAlg
                     });
                 }
+            }
+
+            // No need to fully test each enumeration of this KDF, as it is tested separately, take max of 5 groups randomly.
+            list.AddRangeIfNotNullOrEmpty(tempList.Shuffle().Take(5));
+        }
+
+        private void GetKdfConfiguration(IkeV2Kdf kdfMethod, int l, List<IKdfConfiguration> list)
+        {
+            List<IKdfConfiguration> tempList = new List<IKdfConfiguration>();
+
+            foreach (var hashAlg in kdfMethod.HashFunctions)
+            {
+                tempList.Add(new IkeV2Configuration()
+                {
+                    L = l,
+                    HashFunction = hashAlg
+                });
             }
 
             // No need to fully test each enumeration of this KDF, as it is tested separately, take max of 5 groups randomly.

@@ -4,6 +4,7 @@ using NIST.CVP.Common.Helpers;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Crypto.Common.KAS.KDF;
 using NIST.CVP.Crypto.Common.KAS.KDF.KdfIkeV1;
+using NIST.CVP.Crypto.Common.KAS.KDF.KdfIkeV2;
 using NIST.CVP.Crypto.Common.KAS.KDF.KdfOneStep;
 using NIST.CVP.Crypto.Common.KAS.KDF.KdfTwoStep;
 using System;
@@ -45,6 +46,8 @@ namespace NIST.CVP.Generation.Core.JsonConverters
                     return jo.ToObject<TwoStepConfiguration>(serializer);
                 case KasKdf.Ike_v1:
                     return jo.ToObject<IkeV1Configuration>(serializer);
+                case KasKdf.Ike_v2:
+                    return jo.ToObject<IkeV2Configuration>(serializer);
                 default:
                     throw new ArgumentException("No serializer exists for this kdf type");
             }
