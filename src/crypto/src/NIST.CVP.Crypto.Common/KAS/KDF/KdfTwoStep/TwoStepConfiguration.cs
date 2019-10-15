@@ -6,6 +6,7 @@ namespace NIST.CVP.Crypto.Common.KAS.KDF.KdfTwoStep
     public class TwoStepConfiguration : IKdfConfiguration
     {
         public KasKdf KdfType => KasKdf.TwoStep;
+        public bool RequiresAdditionalNoncePair => false;
         public int L { get; set; }
         public int SaltLen { get; set; }
         public MacSaltMethod SaltMethod { get; set; }

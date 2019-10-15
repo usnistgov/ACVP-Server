@@ -5,6 +5,7 @@ using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Crypto.Common.KAS.KC;
 using NIST.CVP.Crypto.Common.KAS.KDF;
 using NIST.CVP.Crypto.Common.KAS.KDF.KdfIkeV1;
+using NIST.CVP.Crypto.Common.KAS.KDF.KdfIkeV2;
 using NIST.CVP.Crypto.Common.KAS.KDF.KdfOneStep;
 using NIST.CVP.Crypto.Common.KAS.KDF.KdfTwoStep;
 using NIST.CVP.Crypto.Common.KDF.Enums;
@@ -14,7 +15,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
-using NIST.CVP.Crypto.Common.KAS.KDF.KdfIkeV2;
 
 namespace NIST.CVP.Generation.KAS_IFC.v1_0
 {
@@ -55,7 +55,6 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
             var macMethods = GetMacConfigurations(schemeBase.MacMethods);
             var isMacScheme = macMethods.Count() != 0;
             var ktsMethod = GetKtsConfigurations(schemeBase.KtsMethod);
-            var kdfMethods = GetKdfConfigurations(schemeBase.KdfMethods, schemeBase.L);
 
             foreach (var testType in TestTypes)
             {
@@ -64,6 +63,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
                 foreach (var role in schemeBase.KasRole)
                 {
                     var keyConfInfo = GetKeyConfirmationInfo(schemeBase.Scheme, role);
+                    var kdfMethods = GetKdfConfigurations(testType, role, param.IsSample, schemeBase.KdfMethods, schemeBase.L);
 
                     foreach (var keyGenerationMethod in keyGenMethods)
                     {
@@ -251,7 +251,8 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
             return list;
         }
 
-        private List<IKdfConfiguration> GetKdfConfigurations(KdfMethods kdfMethods, int l)
+        #region KDFs
+        private List<IKdfConfiguration> GetKdfConfigurations(string testType, KeyAgreementRole role, bool isSample, KdfMethods kdfMethods, int l)
         {
             if (kdfMethods == null)
             {
@@ -262,8 +263,8 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
 
             GetKdfConfiguration(kdfMethods.OneStepKdf, l, list);
             GetKdfConfiguration(kdfMethods.TwoStepKdf, l, list);
-            GetKdfConfiguration(kdfMethods.IkeV1Kdf, l, list);
-            GetKdfConfiguration(kdfMethods.IkeV2Kdf, l, list);
+            GetKdfConfiguration(testType, role, isSample, kdfMethods.IkeV1Kdf, l, list);
+            GetKdfConfiguration(testType, role, isSample, kdfMethods.IkeV2Kdf, l, list);
 
             return list;
         }
@@ -426,7 +427,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
             list.AddRangeIfNotNullOrEmpty(tempList.Shuffle().Take(5));
         }
 
-        private void GetKdfConfiguration(IkeV1Kdf kdfMethod, int l, List<IKdfConfiguration> list)
+        private void GetKdfConfiguration(string testType, KeyAgreementRole role, bool isSample, IkeV1Kdf kdfMethod, int l, List<IKdfConfiguration> list)
         {
             if (kdfMethod == null)
             {
@@ -446,7 +447,9 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
                     tempList.Add(new IkeV1Configuration()
                     {
                         L = l,
-                        HashFunction = hashAlg
+                        HashFunction = hashAlg,
+                        ServerGenerateInitiatorAdditionalNonce = ShouldCreateAdditionalNonce(testType, role, isSample, true),
+                        ServerGenerateResponderAdditionalNonce = ShouldCreateAdditionalNonce(testType, role, isSample, false),
                     });
                 }
             }
@@ -455,7 +458,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
             list.AddRangeIfNotNullOrEmpty(tempList.Shuffle().Take(5));
         }
 
-        private void GetKdfConfiguration(IkeV2Kdf kdfMethod, int l, List<IKdfConfiguration> list)
+        private void GetKdfConfiguration(string testType, KeyAgreementRole role, bool isSample, IkeV2Kdf kdfMethod, int l, List<IKdfConfiguration> list)
         {
             List<IKdfConfiguration> tempList = new List<IKdfConfiguration>();
 
@@ -464,13 +467,46 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
                 tempList.Add(new IkeV2Configuration()
                 {
                     L = l,
-                    HashFunction = hashAlg
+                    HashFunction = hashAlg,
+                    ServerGenerateInitiatorAdditionalNonce = ShouldCreateAdditionalNonce(testType, role, isSample, true),
+                    ServerGenerateResponderAdditionalNonce = ShouldCreateAdditionalNonce(testType, role, isSample, false),
                 });
             }
 
             // No need to fully test each enumeration of this KDF, as it is tested separately, take max of 5 groups randomly.
             list.AddRangeIfNotNullOrEmpty(tempList.Shuffle().Take(5));
         }
+
+        /// <summary>
+        /// Determines if an additional nonce should be created based on the test type, iutRole, sample flag,
+        /// and whether or not we're checking against the initiator or responder nonce generation.
+        /// </summary>
+        /// <param name="testType">The test type for the group.</param>
+        /// <param name="iutRole">The IUT role for the group.</param>
+        /// <param name="isSample">Is this a sample vector set?</param>
+        /// <param name="checkingInitiatorNonceRequirement">Are we checking if the initiator should have an additional nonce generator, or the responder?</param>
+        /// <returns></returns>
+        private bool ShouldCreateAdditionalNonce(string testType, KeyAgreementRole iutRole, bool isSample, bool checkingInitiatorNonceRequirement)
+        {
+            // We need to create all additional nonces when sample or val test type, where everything is generated up front.
+            if (isSample || testType.Equals("VAL", StringComparison.OrdinalIgnoreCase))
+            {
+                return true;
+            }
+
+            switch (iutRole)
+            {
+                // we don't want to generate the initiator nonce if the iut is the initiator.
+                case KeyAgreementRole.InitiatorPartyU:
+                    return !checkingInitiatorNonceRequirement;
+                // we want to generate the initiator nonce if the iut is the responder.
+                case KeyAgreementRole.ResponderPartyV:
+                    return checkingInitiatorNonceRequirement;
+                default:
+                    throw new ArgumentException($"Invalid {nameof(iutRole)}");
+            }
+        }
+        #endregion KDFs
 
         private List<KtsConfiguration> GetKtsConfigurations(KtsMethod schemeBaseKtsMethod)
         {

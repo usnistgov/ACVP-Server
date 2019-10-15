@@ -7,6 +7,7 @@ namespace NIST.CVP.Crypto.Common.KAS.KDF.KdfIkeV2
     public class KdfParameterIkeV2 : IKdfParameter
     {
         public KasKdf KdfType => KasKdf.Ike_v2;
+        public bool RequiresAdditionalNoncePair => true;
         public BitString Salt { get; set; }
         public BitString Iv { get; set; }
         public BitString Z { get; set; }
@@ -28,6 +29,14 @@ namespace NIST.CVP.Crypto.Common.KAS.KDF.KdfIkeV2
         /// The ephemeral data (Either a C value or Nonce) from the responder.
         /// </summary>
         public BitString ResponderEphemeralData { get; private set; }
+        /// <summary>
+        /// Additional nonce used by the initiator for the KDF.
+        /// </summary>
+        public BitString AdditionalInitiatorNonce { get; set; }
+        /// <summary>
+        /// Additional nonce used by the responder for the KDF.
+        /// </summary>
+        public BitString AdditionalResponderNonce { get; set; }
         public KdfResult AcceptKdf(IKdfVisitor visitor, BitString fixedInfo)
         {
             return visitor.Kdf(this, fixedInfo);

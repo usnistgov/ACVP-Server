@@ -7,6 +7,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0.ContractResolvers
 {
     public class PromptProjectionContractResolver : ProjectionContractResolverBase<TestGroup, TestCase>
     {
+        // TODO update to serialize only necessary properties on the IKdfConfiguration/IKdfParameter objects
         protected override Predicate<object> TestGroupSerialization(JsonProperty jsonProperty)
         {
             return jsonProperty.ShouldSerialize = instance => true;

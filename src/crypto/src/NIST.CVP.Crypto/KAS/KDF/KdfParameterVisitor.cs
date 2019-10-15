@@ -12,6 +12,8 @@ namespace NIST.CVP.Crypto.KAS.KDF
 {
     public class KdfParameterVisitor : IKdfParameterVisitor
     {
+        private const int BitsOfEntropy = 128;
+
         private readonly IEntropyProvider _entropyProvider;
 
         public KdfParameterVisitor(IEntropyProvider entropyProvider)
@@ -29,11 +31,11 @@ namespace NIST.CVP.Crypto.KAS.KDF
                 FixedInputEncoding = kdfConfiguration.FixedInputEncoding,
                 // If the fixedInfoPattern contains these optional context specific fields, make up a value for them
                 Context = kdfConfiguration.FixedInputPattern.Contains(nameof(KdfParameterOneStep.Context), StringComparison.OrdinalIgnoreCase) ?
-                    _entropyProvider.GetEntropy(128) : null,
+                    _entropyProvider.GetEntropy(BitsOfEntropy) : null,
                 AlgorithmId = kdfConfiguration.FixedInputPattern.Contains(nameof(KdfParameterOneStep.AlgorithmId), StringComparison.OrdinalIgnoreCase) ?
-                    _entropyProvider.GetEntropy(128) : null,
+                    _entropyProvider.GetEntropy(BitsOfEntropy) : null,
                 Label = kdfConfiguration.FixedInputPattern.Contains(nameof(KdfParameterOneStep.Label), StringComparison.OrdinalIgnoreCase) ?
-                    _entropyProvider.GetEntropy(128) : null,
+                    _entropyProvider.GetEntropy(BitsOfEntropy) : null,
 
             };
 
@@ -66,11 +68,11 @@ namespace NIST.CVP.Crypto.KAS.KDF
                 CounterLocation = kdfConfiguration.CounterLocation,
                 // If the fixedInfoPattern contains these optional context specific fields, make up a value for them
                 Context = kdfConfiguration.FixedInputPattern.Contains(nameof(KdfParameterOneStep.Context), StringComparison.OrdinalIgnoreCase) ?
-                    _entropyProvider.GetEntropy(128) : null,
+                    _entropyProvider.GetEntropy(BitsOfEntropy) : null,
                 AlgorithmId = kdfConfiguration.FixedInputPattern.Contains(nameof(KdfParameterOneStep.AlgorithmId), StringComparison.OrdinalIgnoreCase) ?
-                    _entropyProvider.GetEntropy(128) : null,
+                    _entropyProvider.GetEntropy(BitsOfEntropy) : null,
                 Label = kdfConfiguration.FixedInputPattern.Contains(nameof(KdfParameterOneStep.Label), StringComparison.OrdinalIgnoreCase) ?
-                    _entropyProvider.GetEntropy(128) : null,
+                    _entropyProvider.GetEntropy(BitsOfEntropy) : null,
             };
         }
 
@@ -79,7 +81,9 @@ namespace NIST.CVP.Crypto.KAS.KDF
             return new KdfParameterIkeV1()
             {
                 L = kdfConfiguration.L,
-                HashFunction = kdfConfiguration.HashFunction
+                HashFunction = kdfConfiguration.HashFunction,
+                AdditionalInitiatorNonce = kdfConfiguration.ServerGenerateInitiatorAdditionalNonce ? _entropyProvider.GetEntropy(BitsOfEntropy) : null,
+                AdditionalResponderNonce = kdfConfiguration.ServerGenerateResponderAdditionalNonce ? _entropyProvider.GetEntropy(BitsOfEntropy) : null,
             };
         }
 
@@ -88,7 +92,9 @@ namespace NIST.CVP.Crypto.KAS.KDF
             return new KdfParameterIkeV2()
             {
                 L = kdfConfiguration.L,
-                HashFunction = kdfConfiguration.HashFunction
+                HashFunction = kdfConfiguration.HashFunction,
+                AdditionalInitiatorNonce = kdfConfiguration.ServerGenerateInitiatorAdditionalNonce ? _entropyProvider.GetEntropy(BitsOfEntropy) : null,
+                AdditionalResponderNonce = kdfConfiguration.ServerGenerateResponderAdditionalNonce ? _entropyProvider.GetEntropy(BitsOfEntropy) : null,
             };
         }
     }

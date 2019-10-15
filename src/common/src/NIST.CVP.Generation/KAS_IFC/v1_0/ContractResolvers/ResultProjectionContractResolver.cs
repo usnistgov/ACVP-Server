@@ -7,6 +7,8 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0.ContractResolvers
 {
     public class ResultProjectionContractResolver : ProjectionContractResolverBase<TestGroup, TestCase>
     {
+        // TODO update to serialize only necessary properties on the IKdfConfiguration/IKdfParameter objects
+
         protected override Predicate<object> TestGroupSerialization(JsonProperty jsonProperty)
         {
             var includeProperties = new[]
@@ -73,6 +75,27 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0.ContractResolvers
                         GetTestCaseFromTestCaseObject(instance, out var testGroup, out var testCase);
 
                         if (testGroup.TestType.Equals("aft", StringComparison.OrdinalIgnoreCase))
+                        {
+                            return true;
+                        }
+
+                        return false;
+                    };
+            }
+
+            var kdfParamIncludeProperties = new[]
+            {
+                nameof(TestCase.KdfParameter)
+            };
+            if (kdfParamIncludeProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
+            {
+                return jsonProperty.ShouldSerialize =
+                    instance =>
+                    {
+                        GetTestCaseFromTestCaseObject(instance, out var testGroup, out var testCase);
+
+                        if (testGroup.TestType.Equals("aft", StringComparison.OrdinalIgnoreCase) &&
+                            testGroup.KdfConfiguration.RequiresAdditionalNoncePair)
                         {
                             return true;
                         }

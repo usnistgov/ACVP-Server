@@ -14,6 +14,12 @@ namespace NIST.CVP.Crypto.Common.KAS.KDF
         /// </summary>
         KasKdf KdfType { get; }
         /// <summary>
+        /// Some KDFs require a second set of nonces outside the generation scope of the KAS scheme.
+        /// This flag is used to indicate when an additional pair of nonces is required.
+        /// </summary>
+        /// <remarks>This flag should be true for all SP800-135 KDFs, and false for the SP800-56C KDFs.</remarks>
+        bool RequiresAdditionalNoncePair { get; }
+        /// <summary>
         /// The Salt used with MAC based KDFs.
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -57,6 +63,14 @@ namespace NIST.CVP.Crypto.Common.KAS.KDF
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         BitString Context { get; set; }
+        /// <summary>
+        /// Additional nonce used by the initiator for some KDFs.
+        /// </summary>
+        BitString AdditionalInitiatorNonce { get; set; }
+        /// <summary>
+        /// Additional nonce used by the responder for some KDFs.
+        /// </summary>
+        BitString AdditionalResponderNonce { get; set; }
         /// <summary>
         /// Accepts a <see cref="IKdfVisitor"/> this will in turn dispatch a call to a supported KDF.
         /// </summary>

@@ -7,6 +7,7 @@ namespace NIST.CVP.Crypto.Common.KAS.KDF.KdfOneStep
     {
         /// <inheritdoc />
         public KasKdf KdfType => KasKdf.OneStep;
+        public bool RequiresAdditionalNoncePair => false;
         /// <summary>
         /// The AuxFunction (hash or mac) to use with the KDF.
         /// </summary>
@@ -39,6 +40,8 @@ namespace NIST.CVP.Crypto.Common.KAS.KDF.KdfOneStep
         /// The Context for the transaction.
         /// </summary>
         public BitString Context { get; set; }
+        public BitString AdditionalInitiatorNonce { get; set; }
+        public BitString AdditionalResponderNonce { get; set; }
         /// <summary>
         /// The pattern to use when constructing fixed info.
         /// </summary>

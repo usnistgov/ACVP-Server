@@ -136,7 +136,7 @@ namespace NIST.CVP.Crypto.KAS.KDF
 
             // TODO THIS NEEDS CONFIRMATION FROM CT GROUP
             var result = kdf.GenerateIke(param.InitiatorEphemeralData, param.ResponderEphemeralData, param.Z,
-                param.InitiatorEphemeralData, param.ResponderEphemeralData, null);
+                param.AdditionalInitiatorNonce, param.AdditionalResponderNonce, null);
 
             // TODO THIS NEEDS CONFIRMATION FROM CT GROUP
             var dkm = new BitString(0)
@@ -158,10 +158,9 @@ namespace NIST.CVP.Crypto.KAS.KDF
                 param.InitiatorEphemeralData,
                 param.ResponderEphemeralData,
                 param.Z,
-                param.InitiatorEphemeralData,
-                param.ResponderEphemeralData,
+                param.AdditionalInitiatorNonce,
+                param.AdditionalResponderNonce,
                 param.L);
-
 
             return new KdfResult(result);
         }

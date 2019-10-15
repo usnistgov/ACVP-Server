@@ -1,14 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using NIST.CVP.Common.ExtensionMethods;
-using NIST.CVP.Common.Oracle;
 using NIST.CVP.Crypto.Common.KAS;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Crypto.Common.KAS.Helpers;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Async;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Generation.KAS_IFC.v1_0
 {
@@ -29,7 +28,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
         }
 
         public int TestCaseId => _workingTest.TestCaseId;
-        
+
         public async Task<TestCaseValidation> ValidateAsync(TestCase suppliedResult, bool showExpected = false)
         {
             var errors = new List<string>();
@@ -71,7 +70,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
                     errors.Add($"Expected {nameof(suppliedResult.IutNonce)} but was not supplied");
                 }
             }
-            
+
             if (ShouldSupplyValueC())
             {
                 if (suppliedResult.IutC == null || suppliedResult.IutC.BitLength == 0)
@@ -87,6 +86,24 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
                     errors.Add($"Expected {nameof(suppliedResult.Tag)} but was not supplied");
                 }
             }
+
+            if (ShouldSupplyInitiatorNonce())
+            {
+                if (suppliedResult.KdfParameter?.AdditionalInitiatorNonce == null ||
+                    suppliedResult.KdfParameter?.AdditionalInitiatorNonce.BitLength == 0)
+                {
+                    errors.Add($"Expected {nameof(suppliedResult.KdfParameter.AdditionalInitiatorNonce)} but was not supplied");
+                }
+            }
+
+            if (ShouldSupplyResponderNonce())
+            {
+                if (suppliedResult.KdfParameter?.AdditionalResponderNonce == null ||
+                    suppliedResult.KdfParameter?.AdditionalResponderNonce.BitLength == 0)
+                {
+                    errors.Add($"Expected {nameof(suppliedResult.KdfParameter.AdditionalResponderNonce)} but was not supplied");
+                }
+            }
         }
 
         /// <summary>
@@ -100,7 +117,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
                 (IfcScheme.Kas1_basic, KeyAgreementRole.ResponderPartyV),
                 (IfcScheme.Kas1_partyV_keyConfirmation, KeyAgreementRole.ResponderPartyV),
             };
-            
+
             return map.TryFirst(w => w.scheme == _testGroup.Scheme && w.role == _testGroup.KasRole, out var result);
         }
 
@@ -130,7 +147,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
 
             return map.TryFirst(w => w.scheme == _testGroup.Scheme && w.role == _testGroup.KasRole, out var result);
         }
-        
+
         /// <summary>
         /// Tag should be supplied for all key confirmation schemes 
         /// </summary>
@@ -138,6 +155,34 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
         private bool ShouldSupplyTag()
         {
             return KeyGenerationRequirementsHelper.IfcKcSchemes.Contains(_testGroup.Scheme);
+        }
+
+        /// <summary>
+        /// When an AFT test if the IUT is partyU for this group, then the additional nonce is required.
+        /// </summary>
+        /// <returns></returns>
+        private bool ShouldSupplyInitiatorNonce()
+        {
+            if (_testGroup.TestType.Equals("VAL", StringComparison.OrdinalIgnoreCase))
+            {
+                return false;
+            }
+
+            return _testGroup.KdfConfiguration.RequiresAdditionalNoncePair && _testGroup.KasRole == KeyAgreementRole.InitiatorPartyU;
+        }
+
+        /// <summary>
+        /// When an AFT test if the IUT is partyV for this group, then the additional nonce is required.
+        /// </summary>
+        /// <returns></returns>
+        private bool ShouldSupplyResponderNonce()
+        {
+            if (_testGroup.TestType.Equals("VAL", StringComparison.OrdinalIgnoreCase))
+            {
+                return false;
+            }
+
+            return _testGroup.KdfConfiguration.RequiresAdditionalNoncePair && _testGroup.KasRole == KeyAgreementRole.ResponderPartyV;
         }
 
         private async Task CheckResults(TestCase suppliedResult, List<string> errors, Dictionary<string, string> expected, Dictionary<string, string> provided)
@@ -152,7 +197,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
                 expected.Add(nameof(serverResult.Dkm), serverResult.Dkm.ToHex());
                 provided.Add(nameof(suppliedResult.Dkm), suppliedResult.Dkm.ToHex());
             }
-            
+
             if (serverResult.Tag != null)
             {
                 if (!serverResult.Tag.Equals(suppliedResult.Tag))

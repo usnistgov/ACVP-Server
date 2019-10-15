@@ -16,6 +16,12 @@ namespace NIST.CVP.Crypto.Common.KAS.KDF
         /// </summary>
         KasKdf KdfType { get; }
         /// <summary>
+        /// Some KDFs require a second set of nonces outside the generation scope of the KAS scheme.
+        /// This flag is used to indicate when an additional pair of nonces is required.
+        /// </summary>
+        /// <remarks>This flag should be true for all SP800-135 KDFs, and false for the SP800-56C KDFs.</remarks>
+        bool RequiresAdditionalNoncePair { get; }
+        /// <summary>
         /// The length of the key to derive.
         /// </summary>
         int L { get; set; }

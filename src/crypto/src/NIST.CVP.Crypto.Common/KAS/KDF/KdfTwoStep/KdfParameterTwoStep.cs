@@ -7,6 +7,7 @@ namespace NIST.CVP.Crypto.Common.KAS.KDF.KdfTwoStep
     public class KdfParameterTwoStep : IKdfParameter
     {
         public KasKdf KdfType => KasKdf.TwoStep;
+        public bool RequiresAdditionalNoncePair => false;
         public BitString Salt { get; set; }
         public BitString Z { get; set; }
         public int L { get; set; }
@@ -28,6 +29,8 @@ namespace NIST.CVP.Crypto.Common.KAS.KDF.KdfTwoStep
         /// The Context for the transaction.
         /// </summary>
         public BitString Context { get; set; }
+        public BitString AdditionalInitiatorNonce { get; set; }
+        public BitString AdditionalResponderNonce { get; set; }
         /// <summary>
         /// The TwoStep KDF mode
         /// </summary>

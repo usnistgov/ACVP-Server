@@ -5,6 +5,7 @@ namespace NIST.CVP.Crypto.Common.KAS.KDF.KdfOneStep
     public class OneStepConfiguration : IKdfConfiguration
     {
         public KasKdf KdfType => KasKdf.OneStep;
+        public bool RequiresAdditionalNoncePair => false;
         public int L { get; set; }
         public int SaltLen { get; set; }
         public MacSaltMethod SaltMethod { get; set; }
