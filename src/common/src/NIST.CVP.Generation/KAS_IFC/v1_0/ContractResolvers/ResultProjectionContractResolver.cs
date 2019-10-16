@@ -1,4 +1,6 @@
 ﻿using Newtonsoft.Json.Serialization;
+using NIST.CVP.Crypto.Common.KAS.KDF.KdfIkeV1;
+using NIST.CVP.Crypto.Common.KAS.KDF.KdfIkeV2;
 using NIST.CVP.Generation.Core.ContractResolvers;
 using System;
 using System.Linq;
@@ -7,8 +9,6 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0.ContractResolvers
 {
     public class ResultProjectionContractResolver : ProjectionContractResolverBase<TestGroup, TestCase>
     {
-        // TODO update to serialize only necessary properties on the IKdfConfiguration/IKdfParameter objects
-
         protected override Predicate<object> TestGroupSerialization(JsonProperty jsonProperty)
         {
             var includeProperties = new[]
@@ -107,5 +107,71 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0.ContractResolvers
 
             return jsonProperty.ShouldSerialize = instance => false;
         }
+
+        protected override Predicate<object> ShouldSerialize(JsonProperty jsonProperty)
+        {
+            var type = jsonProperty.DeclaringType;
+
+            if (typeof(TestGroup).IsAssignableFrom(type))
+            {
+                return TestGroupSerialization(jsonProperty);
+            }
+
+            if (typeof(TestCase).IsAssignableFrom(type))
+            {
+                return TestCaseSerialization(jsonProperty);
+            }
+
+
+            if (typeof(KdfParameterIkeV1).IsAssignableFrom(type))
+            {
+                return KdfParameterIkeV1Serialization(jsonProperty);
+            }
+
+            if (typeof(KdfParameterIkeV2).IsAssignableFrom(type))
+            {
+                return KdfParameterIkeV2Serialization(jsonProperty);
+            }
+
+            return jsonProperty.ShouldSerialize;
+        }
+
+        #region KdfParameter
+        private Predicate<object> KdfParameterIkeV1Serialization(JsonProperty jsonProperty)
+        {
+            var includeProperties = new[]
+            {
+                nameof(KdfParameterIkeV1.KdfType),
+                nameof(KdfParameterIkeV1.AdditionalInitiatorNonce),
+                nameof(KdfParameterIkeV1.AdditionalResponderNonce),
+            };
+
+            if (includeProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
+            {
+                return jsonProperty.ShouldSerialize =
+                    instance => true;
+            }
+
+            return jsonProperty.ShouldSerialize = instance => false;
+        }
+
+        private Predicate<object> KdfParameterIkeV2Serialization(JsonProperty jsonProperty)
+        {
+            var includeProperties = new[]
+            {
+                nameof(KdfParameterIkeV2.KdfType),
+                nameof(KdfParameterIkeV2.AdditionalInitiatorNonce),
+                nameof(KdfParameterIkeV2.AdditionalResponderNonce),
+            };
+
+            if (includeProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
+            {
+                return jsonProperty.ShouldSerialize =
+                    instance => true;
+            }
+
+            return jsonProperty.ShouldSerialize = instance => false;
+        }
+        #endregion KdfParameter
     }
 }

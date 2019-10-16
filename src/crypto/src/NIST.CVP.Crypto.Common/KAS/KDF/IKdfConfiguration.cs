@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 
 namespace NIST.CVP.Crypto.Common.KAS.KDF
@@ -20,6 +21,7 @@ namespace NIST.CVP.Crypto.Common.KAS.KDF
         /// This flag is used to indicate when an additional pair of nonces is required.
         /// </summary>
         /// <remarks>This flag should be true for all SP800-135 KDFs, and false for the SP800-56C KDFs.</remarks>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         bool RequiresAdditionalNoncePair { get; }
         /// <summary>
         /// The length of the key to derive.
@@ -28,18 +30,22 @@ namespace NIST.CVP.Crypto.Common.KAS.KDF
         /// <summary>
         /// The length of the salt used.
         /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         int SaltLen { get; set; }
         /// <summary>
         /// How the salt is constructed.
         /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         MacSaltMethod SaltMethod { get; set; }
         /// <summary>
         /// The pattern used for FixedInputConstruction.
         /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         string FixedInputPattern { get; set; }
         /// <summary>
         /// The encoding type of the fixedInput
         /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         FixedInfoEncoding FixedInputEncoding { get; set; }
 
         /// <summary>

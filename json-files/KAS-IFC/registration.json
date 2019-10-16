@@ -25,6 +25,22 @@
         }
       },
       "kdfMethods": {
+        "oneStepKdf": {
+          "kdfType": "oneStep",
+          "auxFunctions": [
+            {
+              "auxFunctionName": "KMAC-128",
+              "saltLen": 128,
+              "macSaltMethods": [
+                "Default"
+              ]
+            }
+          ],
+          "fixedInputPattern": "algorithmId||l||uPartyInfo||vPartyInfo",
+          "encoding": [
+            "concatenation"
+          ]
+        },
         "ikeV1Kdf": {
           "kdfType": "IKEv1",
           "hashFunctions": [

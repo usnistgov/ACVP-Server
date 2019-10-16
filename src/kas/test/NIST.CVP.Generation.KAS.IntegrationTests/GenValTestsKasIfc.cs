@@ -169,21 +169,21 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                         },
                         KdfMethods = new KdfMethods()
                         {
-                            //OneStepKdf = new OneStepKdf()
-                            //{
-                            //    Encoding = new[] { FixedInfoEncoding.Concatenation },
-                            //    AuxFunctions = new[]
-                            //    {
-                            //        new AuxFunction()
-                            //        {
-                            //            SaltLen = 128,
-                            //            AuxFunctionName = KasKdfOneStepAuxFunction.KMAC_128,
-                            //            MacSaltMethods = new []{ MacSaltMethod.Default }
-                            //            //MacSaltMethods = new []{ MacSaltMethod.Default, MacSaltMethod.Random }
-                            //        }
-                            //    },
-                            //    FixedInputPattern = "algorithmId||l||uPartyInfo||vPartyInfo"
-                            //},
+                            OneStepKdf = new OneStepKdf()
+                            {
+                                Encoding = new[] { FixedInfoEncoding.Concatenation },
+                                AuxFunctions = new[]
+                                {
+                                    new AuxFunction()
+                                    {
+                                        SaltLen = 128,
+                                        AuxFunctionName = KasKdfOneStepAuxFunction.KMAC_128,
+                                        MacSaltMethods = new []{ MacSaltMethod.Default }
+                                        //MacSaltMethods = new []{ MacSaltMethod.Default, MacSaltMethod.Random }
+                                    }
+                                },
+                                FixedInputPattern = "algorithmId||l||uPartyInfo||vPartyInfo"
+                            },
                             //TwoStepKdf = new TwoStepKdf()
                             //{
                             //    Encoding = new[] { FixedInfoEncoding.Concatenation },

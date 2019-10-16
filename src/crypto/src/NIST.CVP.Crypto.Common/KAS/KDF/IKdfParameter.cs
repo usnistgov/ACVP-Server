@@ -66,10 +66,12 @@ namespace NIST.CVP.Crypto.Common.KAS.KDF
         /// <summary>
         /// Additional nonce used by the initiator for some KDFs.
         /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         BitString AdditionalInitiatorNonce { get; set; }
         /// <summary>
         /// Additional nonce used by the responder for some KDFs.
         /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         BitString AdditionalResponderNonce { get; set; }
         /// <summary>
         /// Accepts a <see cref="IKdfVisitor"/> this will in turn dispatch a call to a supported KDF.
