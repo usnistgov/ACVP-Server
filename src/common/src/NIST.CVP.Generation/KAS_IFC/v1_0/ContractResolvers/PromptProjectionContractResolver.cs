@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json.Serialization;
+using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Crypto.Common.KAS.KDF.KdfIkeV1;
 using NIST.CVP.Crypto.Common.KAS.KDF.KdfIkeV2;
 using NIST.CVP.Crypto.Common.KAS.KDF.KdfOneStep;
@@ -67,6 +68,37 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0.ContractResolvers
                         GetTestCaseFromTestCaseObject(instance, out var testGroup, out var testCase);
 
                         if (testGroup.TestType.Equals("val", StringComparison.OrdinalIgnoreCase))
+                        {
+                            return true;
+                        }
+
+                        return false;
+                    };
+            }
+
+            var includePropertiesValNonBasicKey = new[]
+            {
+                nameof(TestCase.ServerP),
+                nameof(TestCase.ServerQ),
+                nameof(TestCase.IutP),
+                nameof(TestCase.IutQ),
+            };
+            var keyGenMethodsToIncludePq = new[]
+            {
+                IfcKeyGenerationMethod.RsaKpg1_crt,
+                IfcKeyGenerationMethod.RsaKpg1_primeFactor,
+                IfcKeyGenerationMethod.RsaKpg2_crt,
+                IfcKeyGenerationMethod.RsaKpg2_primeFactor,
+            };
+
+            if (includePropertiesValNonBasicKey.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
+            {
+                return jsonProperty.ShouldSerialize =
+                    instance =>
+                    {
+                        GetTestCaseFromTestCaseObject(instance, out var testGroup, out var testCase);
+
+                        if (testGroup.TestType.Equals("val", StringComparison.OrdinalIgnoreCase) && keyGenMethodsToIncludePq.Contains(testGroup.KeyGenerationMethod))
                         {
                             return true;
                         }
