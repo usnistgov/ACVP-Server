@@ -46,14 +46,10 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0.ContractResolvers
             var includePropertiesValScenarios = new[]
             {
                 nameof(TestCase.ServerD),
-                nameof(TestCase.ServerP),
-                nameof(TestCase.ServerQ),
                 nameof(TestCase.ServerDmp1),
                 nameof(TestCase.ServerDmq1),
                 nameof(TestCase.ServerIqmp),
                 nameof(TestCase.IutD),
-                nameof(TestCase.IutP),
-                nameof(TestCase.IutQ),
                 nameof(TestCase.IutDmp1),
                 nameof(TestCase.IutDmq1),
                 nameof(TestCase.IutIqmp),

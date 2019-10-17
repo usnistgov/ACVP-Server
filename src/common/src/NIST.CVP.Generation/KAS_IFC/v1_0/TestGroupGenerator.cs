@@ -464,6 +464,11 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
 
         private void GetKdfConfiguration(string testType, KeyAgreementRole role, bool isSample, IkeV2Kdf kdfMethod, int l, List<IKdfConfiguration> list)
         {
+            if (kdfMethod == null)
+            {
+                return;
+            }
+
             List<IKdfConfiguration> tempList = new List<IKdfConfiguration>();
 
             foreach (var hashAlg in kdfMethod.HashFunctions)
@@ -484,6 +489,11 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
         private void GetKdfConfiguration(string testType, KeyAgreementRole role, bool isSample, TlsV10_11Kdf kdfMethod,
             int l, List<IKdfConfiguration> list)
         {
+            if (kdfMethod == null)
+            {
+                return;
+            }
+
             list.Add(new Tls10_11Configuration()
             {
                 L = l,
@@ -495,6 +505,11 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
         private void GetKdfConfiguration(string testType, KeyAgreementRole role, bool isSample, TlsV12Kdf kdfMethod,
             int l, List<IKdfConfiguration> list)
         {
+            if (kdfMethod == null)
+            {
+                return;
+            }
+
             foreach (var hashFunction in kdfMethod.HashFunctions)
             {
                 list.Add(new Tls12Configuration()

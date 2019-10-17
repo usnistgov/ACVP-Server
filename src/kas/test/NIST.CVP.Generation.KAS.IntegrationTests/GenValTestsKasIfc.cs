@@ -215,15 +215,15 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                             {
                                 HashFunctions = new[] { HashFunctions.Sha3_d512 }
                             },
-                            IkeV2Kdf = new IkeV2Kdf()
-                            {
-                                HashFunctions = new[] { HashFunctions.Sha3_d512 }
-                            },
-                            TlsV10_11Kdf = new TlsV10_11Kdf(),
-                            TlsV12Kdf = new TlsV12Kdf()
-                            {
-                                HashFunctions = new[] { HashFunctions.Sha2_d256 }
-                            }
+                            //IkeV2Kdf = new IkeV2Kdf()
+                            //{
+                            //    HashFunctions = new[] { HashFunctions.Sha3_d512 }
+                            //},
+                            //TlsV10_11Kdf = new TlsV10_11Kdf(),
+                            //TlsV12Kdf = new TlsV12Kdf()
+                            //{
+                            //    HashFunctions = new[] { HashFunctions.Sha2_d256 }
+                            //}
                         },
                         KeyGenerationMethods = new KeyGenerationMethods()
                         {
@@ -233,6 +233,14 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                             //                                FixedPublicExponent = new BigInteger(65537)
                             //                            },
                             RsaKpg2_basic = new RsaKpg2_basic()
+                            {
+                                Modulo = new[] { 2048 },
+                            },
+                            RsaKpg2_primeFactor = new RsaKpg2_primeFactor()
+                            {
+                                Modulo = new[] { 2048 },
+                            },
+                            RsaKpg2_crt = new RsaKpg2_crt()
                             {
                                 Modulo = new[] { 2048 },
                             }
