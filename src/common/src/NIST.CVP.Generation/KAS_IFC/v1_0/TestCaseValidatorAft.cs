@@ -163,7 +163,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
         /// <returns></returns>
         private bool ShouldSupplyInitiatorNonce()
         {
-            if (_testGroup.TestType.Equals("VAL", StringComparison.OrdinalIgnoreCase))
+            if (_testGroup.TestType.Equals("VAL", StringComparison.OrdinalIgnoreCase) || _testGroup.KdfConfiguration == null)
             {
                 return false;
             }
@@ -177,7 +177,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
         /// <returns></returns>
         private bool ShouldSupplyResponderNonce()
         {
-            if (_testGroup.TestType.Equals("VAL", StringComparison.OrdinalIgnoreCase))
+            if (_testGroup.TestType.Equals("VAL", StringComparison.OrdinalIgnoreCase) || _testGroup.KdfConfiguration == null)
             {
                 return false;
             }

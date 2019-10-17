@@ -97,7 +97,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0.ContractResolvers
                         GetTestCaseFromTestCaseObject(instance, out var testGroup, out var testCase);
 
                         if (testGroup.TestType.Equals("aft", StringComparison.OrdinalIgnoreCase) &&
-                            testGroup.KdfConfiguration.RequiresAdditionalNoncePair)
+                            (testGroup.KdfConfiguration != null && testGroup.KdfConfiguration.RequiresAdditionalNoncePair))
                         {
                             return true;
                         }

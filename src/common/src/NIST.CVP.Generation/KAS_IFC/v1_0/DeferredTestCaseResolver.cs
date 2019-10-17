@@ -43,13 +43,15 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
             }
 
             var kdfParameter = serverTestCase.KdfParameter;
-            kdfParameter.AdditionalInitiatorNonce = ShouldSupplyInitiatorNonce(serverTestGroup)
-                ? iutTestCase.KdfParameter.AdditionalInitiatorNonce
-                : kdfParameter.AdditionalInitiatorNonce;
-            kdfParameter.AdditionalResponderNonce = ShouldSupplyResponderNonce(serverTestGroup)
-                ? iutTestCase.KdfParameter.AdditionalResponderNonce
-                : kdfParameter.AdditionalResponderNonce;
-
+            if (kdfParameter != null)
+            {
+                kdfParameter.AdditionalInitiatorNonce = ShouldSupplyInitiatorNonce(serverTestGroup)
+                    ? iutTestCase.KdfParameter.AdditionalInitiatorNonce
+                    : kdfParameter.AdditionalInitiatorNonce;
+                kdfParameter.AdditionalResponderNonce = ShouldSupplyResponderNonce(serverTestGroup)
+                    ? iutTestCase.KdfParameter.AdditionalResponderNonce
+                    : kdfParameter.AdditionalResponderNonce;
+            }
 
             var result = await _oracle.CompleteDeferredKasTestAsync(new KasAftDeferredParametersIfc()
             {
@@ -88,7 +90,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
         /// <returns></returns>
         private bool ShouldSupplyInitiatorNonce(TestGroup serverTestGroup)
         {
-            if (serverTestGroup.TestType.Equals("VAL", StringComparison.OrdinalIgnoreCase))
+            if (serverTestGroup.TestType.Equals("VAL", StringComparison.OrdinalIgnoreCase) || serverTestGroup.KdfConfiguration == null)
             {
                 return false;
             }
@@ -102,7 +104,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
         /// <returns></returns>
         private bool ShouldSupplyResponderNonce(TestGroup serverTestGroup)
         {
-            if (serverTestGroup.TestType.Equals("VAL", StringComparison.OrdinalIgnoreCase))
+            if (serverTestGroup.TestType.Equals("VAL", StringComparison.OrdinalIgnoreCase) || serverTestGroup.KdfConfiguration == null)
             {
                 return false;
             }
