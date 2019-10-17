@@ -4,10 +4,14 @@ using NIST.CVP.Crypto.Common.KAS.KDF;
 using NIST.CVP.Crypto.Common.KAS.KDF.KdfIkeV1;
 using NIST.CVP.Crypto.Common.KAS.KDF.KdfIkeV2;
 using NIST.CVP.Crypto.Common.KAS.KDF.KdfOneStep;
+using NIST.CVP.Crypto.Common.KAS.KDF.KdfTls10_11;
+using NIST.CVP.Crypto.Common.KAS.KDF.KdfTls12;
 using NIST.CVP.Crypto.Common.KAS.KDF.KdfTwoStep;
 using NIST.CVP.Crypto.Common.KDF.Components.IKEv1;
 using NIST.CVP.Crypto.Common.KDF.Components.IKEv1.Enums;
 using NIST.CVP.Crypto.Common.KDF.Components.IKEv2;
+using NIST.CVP.Crypto.Common.KDF.Components.TLS;
+using NIST.CVP.Crypto.Common.KDF.Components.TLS.Enums;
 using NIST.CVP.Crypto.Common.KDF.Enums;
 using NIST.CVP.Crypto.Common.MAC;
 using NIST.CVP.Crypto.Common.MAC.CMAC;
@@ -27,13 +31,15 @@ namespace NIST.CVP.Crypto.KAS.KDF
         private readonly ICmacFactory _cmacFactory;
         private readonly IIkeV1Factory _ikeV1Factory;
         private readonly IIkeV2Factory _ikeV2Factory;
+        private readonly ITlsKdfFactory _tlsFactory;
 
         public KdfVisitor(IKdfOneStepFactory kdfOneStepFactory,
             IKdfFactory kdfTwoStepFactory,
             IHmacFactory hmacFactory,
             ICmacFactory cmacFactory,
             IIkeV1Factory ikeV1Factory,
-            IIkeV2Factory ikeV2Factory)
+            IIkeV2Factory ikeV2Factory,
+            ITlsKdfFactory tlsFactory)
         {
             _kdfOneStepFactory = kdfOneStepFactory;
             _kdfTwoStepFactory = kdfTwoStepFactory;
@@ -41,6 +47,7 @@ namespace NIST.CVP.Crypto.KAS.KDF
             _cmacFactory = cmacFactory;
             _ikeV1Factory = ikeV1Factory;
             _ikeV2Factory = ikeV2Factory;
+            _tlsFactory = tlsFactory;
         }
 
         public KdfResult Kdf(KdfParameterOneStep param, BitString fixedInfo)
@@ -163,6 +170,42 @@ namespace NIST.CVP.Crypto.KAS.KDF
                 param.L);
 
             return new KdfResult(result);
+        }
+
+        public KdfResult Kdf(KdfParameterTls10_11 param, BitString fixedInfo = null)
+        {
+            var hashFunction = ShaAttributes.GetHashFunctionFromEnum(param.HashFunction);
+
+            var kdf = _tlsFactory.GetTlsKdfInstance(TlsModes.v10v11, hashFunction);
+
+            // TODO confirm with CT group
+            var result = kdf.DeriveKey(
+                param.Z,
+                param.InitiatorEphemeralData,
+                param.ResponderEphemeralData,
+                param.AdditionalInitiatorNonce,
+                param.AdditionalResponderNonce,
+                param.L);
+
+            return new KdfResult(result.DerivedKey);
+        }
+
+        public KdfResult Kdf(KdfParameterTls12 param, BitString fixedInfo = null)
+        {
+            var hashFunction = ShaAttributes.GetHashFunctionFromEnum(param.HashFunction);
+
+            var kdf = _tlsFactory.GetTlsKdfInstance(TlsModes.v12, hashFunction);
+
+            // TODO confirm with CT group
+            var result = kdf.DeriveKey(
+                param.Z,
+                param.InitiatorEphemeralData,
+                param.ResponderEphemeralData,
+                param.AdditionalInitiatorNonce,
+                param.AdditionalResponderNonce,
+                param.L);
+
+            return new KdfResult(result.DerivedKey);
         }
     }
 }

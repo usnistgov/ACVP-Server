@@ -257,6 +257,8 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
         public TwoStepKdf TwoStepKdf { get; set; }
         public IkeV1Kdf IkeV1Kdf { get; set; }
         public IkeV2Kdf IkeV2Kdf { get; set; }
+        public TlsV10_11Kdf TlsV10_11Kdf { get; set; }
+        public TlsV12Kdf TlsV12Kdf { get; set; }
 
         public IEnumerable<KdfMethodBase> GetRegisteredKdfMethods()
         {
@@ -266,6 +268,8 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
             list.AddIfNotNull(TwoStepKdf);
             list.AddIfNotNull(IkeV1Kdf);
             list.AddIfNotNull(IkeV2Kdf);
+            list.AddIfNotNull(TlsV10_11Kdf);
+            list.AddIfNotNull(TlsV12Kdf);
 
             return list;
         }
@@ -336,6 +340,17 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
     public class IkeV2Kdf : KdfMethodBase
     {
         public override KasKdf KdfType => KasKdf.Ike_v2;
+        public HashFunctions[] HashFunctions { get; set; }
+    }
+
+    public class TlsV10_11Kdf : KdfMethodBase
+    {
+        public override KasKdf KdfType => KasKdf.Tls_v10_v11;
+    }
+
+    public class TlsV12Kdf : KdfMethodBase
+    {
+        public override KasKdf KdfType => KasKdf.Tls_v12;
         public HashFunctions[] HashFunctions { get; set; }
     }
 

@@ -3,6 +3,8 @@ using NIST.CVP.Crypto.Common.KAS.KDF;
 using NIST.CVP.Crypto.Common.KAS.KDF.KdfIkeV1;
 using NIST.CVP.Crypto.Common.KAS.KDF.KdfIkeV2;
 using NIST.CVP.Crypto.Common.KAS.KDF.KdfOneStep;
+using NIST.CVP.Crypto.Common.KAS.KDF.KdfTls10_11;
+using NIST.CVP.Crypto.Common.KAS.KDF.KdfTls12;
 using NIST.CVP.Crypto.Common.KAS.KDF.KdfTwoStep;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
@@ -90,6 +92,27 @@ namespace NIST.CVP.Crypto.KAS.KDF
         public IKdfParameter CreateParameter(IkeV2Configuration kdfConfiguration)
         {
             return new KdfParameterIkeV2()
+            {
+                L = kdfConfiguration.L,
+                HashFunction = kdfConfiguration.HashFunction,
+                AdditionalInitiatorNonce = kdfConfiguration.ServerGenerateInitiatorAdditionalNonce ? _entropyProvider.GetEntropy(BitsOfEntropy) : null,
+                AdditionalResponderNonce = kdfConfiguration.ServerGenerateResponderAdditionalNonce ? _entropyProvider.GetEntropy(BitsOfEntropy) : null,
+            };
+        }
+
+        public IKdfParameter CreateParameter(Tls10_11Configuration kdfConfiguration)
+        {
+            return new KdfParameterTls10_11()
+            {
+                L = kdfConfiguration.L,
+                AdditionalInitiatorNonce = kdfConfiguration.ServerGenerateInitiatorAdditionalNonce ? _entropyProvider.GetEntropy(BitsOfEntropy) : null,
+                AdditionalResponderNonce = kdfConfiguration.ServerGenerateResponderAdditionalNonce ? _entropyProvider.GetEntropy(BitsOfEntropy) : null,
+            };
+        }
+
+        public IKdfParameter CreateParameter(Tls12Configuration kdfConfiguration)
+        {
+            return new KdfParameterTls12()
             {
                 L = kdfConfiguration.L,
                 HashFunction = kdfConfiguration.HashFunction,

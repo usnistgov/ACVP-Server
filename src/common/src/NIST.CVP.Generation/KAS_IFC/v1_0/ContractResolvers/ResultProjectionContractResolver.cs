@@ -1,6 +1,8 @@
 ﻿using Newtonsoft.Json.Serialization;
 using NIST.CVP.Crypto.Common.KAS.KDF.KdfIkeV1;
 using NIST.CVP.Crypto.Common.KAS.KDF.KdfIkeV2;
+using NIST.CVP.Crypto.Common.KAS.KDF.KdfTls10_11;
+using NIST.CVP.Crypto.Common.KAS.KDF.KdfTls12;
 using NIST.CVP.Generation.Core.ContractResolvers;
 using System;
 using System.Linq;
@@ -133,6 +135,16 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0.ContractResolvers
                 return KdfParameterIkeV2Serialization(jsonProperty);
             }
 
+            if (typeof(KdfParameterTls10_11).IsAssignableFrom(type))
+            {
+                return KdfParameterTls10_11Serialization(jsonProperty);
+            }
+
+            if (typeof(KdfParameterTls12).IsAssignableFrom(type))
+            {
+                return KdfParameterTls12Serialization(jsonProperty);
+            }
+
             return jsonProperty.ShouldSerialize;
         }
 
@@ -162,6 +174,42 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0.ContractResolvers
                 nameof(KdfParameterIkeV2.KdfType),
                 nameof(KdfParameterIkeV2.AdditionalInitiatorNonce),
                 nameof(KdfParameterIkeV2.AdditionalResponderNonce),
+            };
+
+            if (includeProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
+            {
+                return jsonProperty.ShouldSerialize =
+                    instance => true;
+            }
+
+            return jsonProperty.ShouldSerialize = instance => false;
+        }
+
+        private Predicate<object> KdfParameterTls10_11Serialization(JsonProperty jsonProperty)
+        {
+            var includeProperties = new[]
+            {
+                nameof(KdfParameterTls10_11.KdfType),
+                nameof(KdfParameterTls10_11.AdditionalInitiatorNonce),
+                nameof(KdfParameterTls10_11.AdditionalResponderNonce),
+            };
+
+            if (includeProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
+            {
+                return jsonProperty.ShouldSerialize =
+                    instance => true;
+            }
+
+            return jsonProperty.ShouldSerialize = instance => false;
+        }
+
+        private Predicate<object> KdfParameterTls12Serialization(JsonProperty jsonProperty)
+        {
+            var includeProperties = new[]
+            {
+                nameof(KdfParameterTls10_11.KdfType),
+                nameof(KdfParameterTls10_11.AdditionalInitiatorNonce),
+                nameof(KdfParameterTls10_11.AdditionalResponderNonce),
             };
 
             if (includeProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))

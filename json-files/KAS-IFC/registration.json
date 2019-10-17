@@ -52,6 +52,15 @@
           "hashFunctions": [
             "SHA3-512"
           ]
+        },
+        "tlsV10_11Kdf": {
+          "kdfType": "tls_v1.0/v1.1"
+        },
+        "tlsV12Kdf": {
+          "kdfType": "tls_v1.2",
+          "hashFunctions": [
+            "SHA2-256"
+          ]
         }
       },
       "macMethods": {

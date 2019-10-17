@@ -2,6 +2,8 @@ using NIST.CVP.Crypto.Common.KAS.KDF;
 using NIST.CVP.Crypto.Common.KAS.KDF.KdfIkeV1;
 using NIST.CVP.Crypto.Common.KAS.KDF.KdfIkeV2;
 using NIST.CVP.Crypto.Common.KAS.KDF.KdfOneStep;
+using NIST.CVP.Crypto.Common.KAS.KDF.KdfTls10_11;
+using NIST.CVP.Crypto.Common.KAS.KDF.KdfTls12;
 using NIST.CVP.Crypto.Common.KAS.KDF.KdfTwoStep;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Helpers;
@@ -85,6 +87,39 @@ namespace NIST.CVP.Crypto.KAS.Fakes
             var zBytesLen = param.Z.BitLength.CeilingDivide(BitString.BITSINBYTE);
 
             var modifiedParam = new KdfParameterIkeV1()
+            {
+                L = param.L,
+                Z = param.Z.GetDeepCopy(),
+                HashFunction = param.HashFunction
+            };
+
+            // Modify a random byte within Z
+            modifiedParam.Z[_random.GetRandomInt(0, zBytesLen)] += 2;
+
+            return _kdfVisitor.Kdf(modifiedParam, fixedInfo);
+        }
+
+        public KdfResult Kdf(KdfParameterTls10_11 param, BitString fixedInfo = null)
+        {
+            var zBytesLen = param.Z.BitLength.CeilingDivide(BitString.BITSINBYTE);
+
+            var modifiedParam = new KdfParameterTls10_11()
+            {
+                L = param.L,
+                Z = param.Z.GetDeepCopy()
+            };
+
+            // Modify a random byte within Z
+            modifiedParam.Z[_random.GetRandomInt(0, zBytesLen)] += 2;
+
+            return _kdfVisitor.Kdf(modifiedParam, fixedInfo);
+        }
+
+        public KdfResult Kdf(KdfParameterTls12 param, BitString fixedInfo = null)
+        {
+            var zBytesLen = param.Z.BitLength.CeilingDivide(BitString.BITSINBYTE);
+
+            var modifiedParam = new KdfParameterTls12()
             {
                 L = param.L,
                 Z = param.Z.GetDeepCopy(),

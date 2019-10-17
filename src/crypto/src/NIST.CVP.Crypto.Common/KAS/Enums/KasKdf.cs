@@ -12,6 +12,10 @@ namespace NIST.CVP.Crypto.Common.KAS.Enums
         [EnumMember(Value = "IKEv1")]
         Ike_v1,
         [EnumMember(Value = "IKEv2")]
-        Ike_v2
+        Ike_v2,
+        [EnumMember(Value = "tls_v1.0/v1.1")]
+        Tls_v10_v11,
+        [EnumMember(Value = "tls_v1.2")]
+        Tls_v12,
     }
 }

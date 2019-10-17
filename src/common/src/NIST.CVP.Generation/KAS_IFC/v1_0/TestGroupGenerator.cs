@@ -7,6 +7,8 @@ using NIST.CVP.Crypto.Common.KAS.KDF;
 using NIST.CVP.Crypto.Common.KAS.KDF.KdfIkeV1;
 using NIST.CVP.Crypto.Common.KAS.KDF.KdfIkeV2;
 using NIST.CVP.Crypto.Common.KAS.KDF.KdfOneStep;
+using NIST.CVP.Crypto.Common.KAS.KDF.KdfTls10_11;
+using NIST.CVP.Crypto.Common.KAS.KDF.KdfTls12;
 using NIST.CVP.Crypto.Common.KAS.KDF.KdfTwoStep;
 using NIST.CVP.Crypto.Common.KDF.Enums;
 using NIST.CVP.Crypto.Common.KTS;
@@ -265,6 +267,8 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
             GetKdfConfiguration(kdfMethods.TwoStepKdf, l, list);
             GetKdfConfiguration(testType, role, isSample, kdfMethods.IkeV1Kdf, l, list);
             GetKdfConfiguration(testType, role, isSample, kdfMethods.IkeV2Kdf, l, list);
+            GetKdfConfiguration(testType, role, isSample, kdfMethods.TlsV10_11Kdf, l, list);
+            GetKdfConfiguration(testType, role, isSample, kdfMethods.TlsV12Kdf, l, list);
 
             return list;
         }
@@ -475,6 +479,32 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
 
             // No need to fully test each enumeration of this KDF, as it is tested separately, take max of 5 groups randomly.
             list.AddRangeIfNotNullOrEmpty(tempList.Shuffle().Take(5));
+        }
+
+        private void GetKdfConfiguration(string testType, KeyAgreementRole role, bool isSample, TlsV10_11Kdf kdfMethod,
+            int l, List<IKdfConfiguration> list)
+        {
+            list.Add(new Tls10_11Configuration()
+            {
+                L = l,
+                ServerGenerateInitiatorAdditionalNonce = ShouldCreateAdditionalNonce(testType, role, isSample, true),
+                ServerGenerateResponderAdditionalNonce = ShouldCreateAdditionalNonce(testType, role, isSample, false),
+            });
+        }
+
+        private void GetKdfConfiguration(string testType, KeyAgreementRole role, bool isSample, TlsV12Kdf kdfMethod,
+            int l, List<IKdfConfiguration> list)
+        {
+            foreach (var hashFunction in kdfMethod.HashFunctions)
+            {
+                list.Add(new Tls12Configuration()
+                {
+                    L = l,
+                    HashFunction = hashFunction,
+                    ServerGenerateInitiatorAdditionalNonce = ShouldCreateAdditionalNonce(testType, role, isSample, true),
+                    ServerGenerateResponderAdditionalNonce = ShouldCreateAdditionalNonce(testType, role, isSample, false),
+                });
+            }
         }
 
         /// <summary>

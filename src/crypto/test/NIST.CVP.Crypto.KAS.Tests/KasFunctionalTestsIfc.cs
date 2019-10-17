@@ -26,6 +26,7 @@ using NIST.CVP.Crypto.RSA;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Crypto.Symmetric.BlockModes;
 using NIST.CVP.Crypto.Symmetric.Engines;
+using NIST.CVP.Crypto.TLS;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
@@ -65,7 +66,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new HmacFactory(new ShaFactory())), new HmacFactory(new ShaFactory()),
                 new CmacFactory(new BlockCipherEngineFactory(), new ModeBlockCipherFactory()),
                 new IkeV1Factory(),
-                new IkeV2Factory(new HmacFactory(new ShaFactory())));
+                new IkeV2Factory(new HmacFactory(new ShaFactory())),
+                new TlsKdfFactory());
             _rsaSve = new RsaSve(rsa, _entropyProvider);
 
             _kasBuilderPartyU = new KasIfcBuilder();

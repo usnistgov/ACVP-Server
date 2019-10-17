@@ -58,6 +58,13 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
             HashFunctions.Sha3_d512,
         };
 
+        public static readonly HashFunctions[] ValidHashFunctionsTlsV12 =
+        {
+            HashFunctions.Sha2_d256,
+            HashFunctions.Sha2_d384,
+            HashFunctions.Sha2_d512,
+        };
+
         public static readonly (KasKdfOneStepAuxFunction functionName, bool requiresSaltLength)[] ValidAuxMethods =
         {
             (KasKdfOneStepAuxFunction.SHA2_D224, false),
@@ -297,6 +304,8 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
             ValidateKdfMethod(schemeKdfMethods.TwoStepKdf, l, errorResults);
             ValidateKdfMethod(schemeKdfMethods.IkeV1Kdf, l, errorResults);
             ValidateKdfMethod(schemeKdfMethods.IkeV2Kdf, l, errorResults);
+            ValidateKdfMethod(schemeKdfMethods.TlsV10_11Kdf, l, errorResults);
+            ValidateKdfMethod(schemeKdfMethods.TlsV12Kdf, l, errorResults);
         }
 
         #region OneStepKdf
@@ -443,6 +452,21 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
             }
 
             errorResults.AddIfNotNullOrEmpty(ValidateArray(kdf.HashFunctions, ValidHashFunctions, "IKEv1 HashFunctions"));
+        }
+
+        private void ValidateKdfMethod(TlsV10_11Kdf kdf, int i, List<string> errorResults)
+        {
+            // There's nothing to validate for this one
+        }
+
+        private void ValidateKdfMethod(TlsV12Kdf kdf, int i, List<string> errorResults)
+        {
+            if (kdf == null)
+            {
+                return;
+            }
+
+            errorResults.AddIfNotNullOrEmpty(ValidateArray(kdf.HashFunctions, ValidHashFunctionsTlsV12, "TLS v1.2 HashFunctions"));
         }
         #endregion IkeV2
 

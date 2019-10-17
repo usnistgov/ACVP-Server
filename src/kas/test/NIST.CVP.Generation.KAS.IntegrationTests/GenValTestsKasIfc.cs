@@ -218,6 +218,11 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                             IkeV2Kdf = new IkeV2Kdf()
                             {
                                 HashFunctions = new[] { HashFunctions.Sha3_d512 }
+                            },
+                            TlsV10_11Kdf = new TlsV10_11Kdf(),
+                            TlsV12Kdf = new TlsV12Kdf()
+                            {
+                                HashFunctions = new[] { HashFunctions.Sha2_d256 }
                             }
                         },
                         KeyGenerationMethods = new KeyGenerationMethods()
