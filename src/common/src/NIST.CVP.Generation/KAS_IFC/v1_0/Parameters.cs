@@ -1,7 +1,6 @@
 using Newtonsoft.Json;
 using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Enums;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Generation.Core;
@@ -20,7 +19,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
         public string Revision { get; set; }
         public bool IsSample { get; set; }
         public BitString IutId { get; set; }
-        public PublicKey[] PublicKeys { get; set; }
+        public IutKeys[] IutKeys { get; set; }
         public string[] Conformances { get; set; }
 
         /// <summary>
@@ -32,6 +31,16 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
         /// The KAS schemes to test
         /// </summary>
         public Schemes Scheme { get; set; }
+    }
+
+    /// <summary>
+    /// Represents keys from the IUT for use in creating ACVP server Z values encrypted with the IUT's public key to arrive at C.
+    /// </summary>
+    public class IutKeys
+    {
+        public BigInteger E { get; set; }
+        public BigInteger N { get; set; }
+        public IfcKeyGenerationMethod PrivateKeyFormat { get; set; }
     }
 
     public class Schemes

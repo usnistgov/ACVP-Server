@@ -1,5 +1,4 @@
 using Newtonsoft.Json;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Crypto.Common.KAS.KC;
 using NIST.CVP.Crypto.Common.KAS.KDF;
@@ -40,7 +39,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
         /// Public keys supplied by the IUT, for use in AFT tests.
         /// </summary>
         [JsonIgnore]
-        public KeyPair[] IutKeys { get; set; }
+        public IutKeys[] IutKeys { get; set; }
 
         public IKdfConfiguration KdfConfiguration { get; set; }
         public KtsConfiguration KtsConfiguration { get; set; }

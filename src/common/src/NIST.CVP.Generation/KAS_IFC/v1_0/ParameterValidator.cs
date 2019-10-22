@@ -28,6 +28,12 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
             KeyAgreementRole.ResponderPartyV
         };
 
+        public string[] ValidFunctions => new string[]
+        {
+            "keyPairGen",
+            "partialVal",
+        };
+
         // TODO remove this enum and field, use HashFunctions enum instead
         public static readonly KasHashAlg[] ValidHashAlgs =
         {
@@ -146,10 +152,21 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
                 return new ParameterValidateResponse(errorResults);
             }
 
+            ValidateFunction(parameters, errorResults);
             ValidateSchemes(parameters, errorResults);
             ValidateKeys(parameters, errorResults);
 
             return new ParameterValidateResponse(errorResults);
+        }
+
+        private void ValidateFunction(Parameters parameters, List<string> errorResults)
+        {
+            if (parameters.Function == null || parameters.Function.Length == 0)
+            {
+                return;
+            }
+
+            errorResults.AddIfNotNullOrEmpty(ValidateArray(parameters.Function, ValidFunctions, "Functions"));
         }
 
         private void ValidateSchemes(Parameters parameters, List<string> errorResults)
@@ -612,34 +629,70 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
             if (parameters.IsSample)
             {
                 // Cannot use the public keys provided for a sample, as we need the private keys as well
-                parameters.PublicKeys = null;
+                parameters.IutKeys = null;
                 return;
             }
 
-            if (!parameters.IsSample && (parameters.PublicKeys == null || !parameters.PublicKeys.Any()))
+            if (!parameters.IsSample && (parameters.IutKeys == null || !parameters.IutKeys.Any()))
             {
-                errorResults.Add($"The IUT shall provide {nameof(parameters.PublicKeys)} for each fixed exponent/modulo size registered, as well as public keys for use for each modulo size for random exponents (when applicable).");
+                errorResults.Add($"The IUT shall provide {nameof(parameters.IutKeys)} for each fixed exponent/modulo size registered, as well as public keys for use for each modulo size for random exponents (when applicable).");
                 return;
+            }
+
+            if (parameters.IutKeys.Any(a => a.PrivateKeyFormat == IfcKeyGenerationMethod.None))
+            {
+                errorResults.Add($"{nameof(IutKeys.PrivateKeyFormat)} not provided for one or more {nameof(IutKeys)}");
             }
 
             // Check for valid E values
-            foreach (var key in parameters.PublicKeys)
+            foreach (var key in parameters.IutKeys)
             {
                 if (!RsaKeyHelper.IsValidExponent(key.E))
                 {
-                    errorResults.Add($"invalid {nameof(key.E)} value of {key.E.ExactBitString()}");
+                    errorResults.Add($"invalid {nameof(key.E)} value of {key.E}");
                 }
             }
 
-            // Check that each exponent included as fixed exponents (if any) contain keys with that exponent.
-            foreach (var exponent in parameters
+            // collection of the product of fixed public exponent, key generation method, and modulo.
+            var exponentKeyGenMethodModulo = parameters
                 .Scheme.GetRegisteredSchemes()
                 .SelectMany(s => s.KeyGenerationMethods.GetRegisteredKeyGenerationMethods()
-                    .Select(s2 => s2.FixedPublicExponent).Where(w => w != 0)))
+                    .Select(s2 => new
+                    {
+                        s2.FixedPublicExponent,
+                        s2.KeyGenerationMethod,
+                        s2.Modulo
+                    }));
+
+            // Make sure there are IUT provided keys meeting the product.
+            foreach (var item in exponentKeyGenMethodModulo)
             {
-                if (!parameters.PublicKeys.Select(s => s.E).Contains(exponent))
+                if (item.FixedPublicExponent == 0)
                 {
-                    errorResults.Add($"{nameof(exponent)} ({exponent.ExactBitString()}) does not have a corresponding public key provided.");
+                    foreach (var modulo in item.Modulo)
+                    {
+                        if (!parameters.IutKeys.TryFirst(w =>
+                            w.PrivateKeyFormat == item.KeyGenerationMethod &&
+                            w.N.ExactBitLength() == modulo,
+                            out var result))
+                        {
+                            errorResults.Add($"Unable to find candidate key from {nameof(parameters.IutKeys)} matching {nameof(IutKeys.PrivateKeyFormat)} ({item.KeyGenerationMethod}) and {nameof(modulo)} ({modulo})");
+                        }
+                    }
+                }
+                else
+                {
+                    foreach (var modulo in item.Modulo)
+                    {
+                        if (!parameters.IutKeys.TryFirst(w =>
+                                w.PrivateKeyFormat == item.KeyGenerationMethod &&
+                                w.N.ExactBitLength() == modulo &&
+                                w.E == item.FixedPublicExponent,
+                            out var result))
+                        {
+                            errorResults.Add($"Unable to find candidate key from {nameof(parameters.IutKeys)} matching {nameof(IutKeys.PrivateKeyFormat)} ({item.KeyGenerationMethod}), {nameof(modulo)} ({modulo}), and {nameof(IutKeys.E)} ({new BitString(item.FixedPublicExponent.ToHex())})");
+                        }
+                    }
                 }
             }
         }

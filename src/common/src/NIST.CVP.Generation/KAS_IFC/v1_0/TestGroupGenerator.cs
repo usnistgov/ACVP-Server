@@ -182,23 +182,12 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
             }
         }
 
-        private KeyPair[] GetKeys(Parameters parameters)
+        private IutKeys[] GetKeys(Parameters parameters)
         {
             // When not sample, the IUT public keys are provided
             if (!parameters.IsSample)
             {
-                var keys = new KeyPair[parameters.PublicKeys.Length];
-                var count = 0;
-                foreach (var key in parameters.PublicKeys)
-                {
-                    keys[count] = new KeyPair()
-                    {
-                        PubKey = key
-                    };
-                    count++;
-                }
-
-                return keys;
+                return parameters.IutKeys;
             }
 
             return null;
