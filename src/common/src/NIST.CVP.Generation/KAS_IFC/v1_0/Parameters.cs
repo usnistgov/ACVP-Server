@@ -302,7 +302,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
         /// <summary>
         /// The pattern used for FixedInputConstruction.
         /// </summary>
-        public string FixedInputPattern { get; set; }
+        public string FixedInfoPattern { get; set; }
         /// <summary>
         /// The encoding type of the fixedInput
         /// </summary>
@@ -328,12 +328,16 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
     public class TwoStepKdf : KdfMethodBase
     {
         public override KasKdf KdfType => KasKdf.TwoStep;
-        public Capability[] Capabilities { get; set; }
+        public TwoStepCapabilities[] Capabilities { get; set; }
+    }
+
+    public class TwoStepCapabilities : Capability
+    {
         public MacSaltMethod[] MacSaltMethods { get; set; }
         /// <summary>
         /// The pattern used for FixedInputConstruction.
         /// </summary>
-        public string FixedInputPattern { get; set; }
+        public string FixedInfoPattern { get; set; }
         /// <summary>
         /// The encoding type of the fixedInput
         /// </summary>

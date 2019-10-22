@@ -1,10 +1,12 @@
 using NIST.CVP.Common;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Enums;
 using NIST.CVP.Crypto.Common.KAS.Enums;
+using NIST.CVP.Crypto.Common.KDF.Enums;
 using NIST.CVP.Generation.Core.JsonConverters;
 using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Generation.KAS_IFC.v1_0;
 using NIST.CVP.Math;
+using NIST.CVP.Math.Domain;
 using Parameters = NIST.CVP.Generation.KAS_IFC.v1_0.Parameters;
 using RegisterInjections = NIST.CVP.Generation.KAS_IFC.v1_0.RegisterInjections;
 
@@ -178,39 +180,41 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                                     {
                                         SaltLen = 128,
                                         AuxFunctionName = KasKdfOneStepAuxFunction.KMAC_128,
-                                        MacSaltMethods = new []{ MacSaltMethod.Default }
-                                        //MacSaltMethods = new []{ MacSaltMethod.Default, MacSaltMethod.Random }
+                                        MacSaltMethods = new []{ MacSaltMethod.Default, MacSaltMethod.Random }
                                     }
                                 },
-                                FixedInputPattern = "algorithmId||l||uPartyInfo||vPartyInfo"
+                                FixedInfoPattern = "algorithmId||l||uPartyInfo||vPartyInfo"
                             },
-                            //TwoStepKdf = new TwoStepKdf()
-                            //{
-                            //    Encoding = new[] { FixedInfoEncoding.Concatenation },
-                            //    Capabilities = new[]
-                            //    {
-                            //        new Capability()
-                            //        {
-                            //            CounterLength = new [] { 32 },
-                            //            SupportedLengths = new MathDomain().AddSegment(new ValueDomainSegment(512)),
-                            //            MacMode = new [] { MacModes.CMAC_AES256, MacModes.HMAC_SHA3_224 },
-                            //            KdfMode = KdfModes.Feedback,
-                            //            FixedDataOrder = new []{ CounterLocations.AfterFixedData },
-                            //            SupportsEmptyIv = false
-                            //        },
-                            //        new Capability()
-                            //        {
-                            //            CounterLength = new [] { 32 },
-                            //            SupportedLengths = new MathDomain().AddSegment(new ValueDomainSegment(512)),
-                            //            MacMode = new [] { MacModes.CMAC_AES256, MacModes.HMAC_SHA3_224 },
-                            //            KdfMode = KdfModes.Counter,
-                            //            FixedDataOrder = new []{ CounterLocations.AfterFixedData },
-                            //            SupportsEmptyIv = false
-                            //        },
-                            //    },
-                            //    FixedInputPattern = "l||iv||uPartyInfo||vPartyInfo",
-                            //    MacSaltMethods = new[] { MacSaltMethod.Default, MacSaltMethod.Random }
-                            //},
+                            TwoStepKdf = new TwoStepKdf()
+                            {
+                                Capabilities = new[]
+                                {
+                                    new TwoStepCapabilities()
+                                    {
+                                        Encoding = new[] { FixedInfoEncoding.Concatenation },
+                                        FixedInfoPattern = "l||label||uPartyInfo||vPartyInfo||context",
+                                        MacSaltMethods = new[] { MacSaltMethod.Default, MacSaltMethod.Random },
+                                        CounterLength = new [] { 32 },
+                                        SupportedLengths = new MathDomain().AddSegment(new ValueDomainSegment(512)),
+                                        MacMode = new [] { MacModes.CMAC_AES256, MacModes.HMAC_SHA3_224 },
+                                        KdfMode = KdfModes.Feedback,
+                                        FixedDataOrder = new []{ CounterLocations.AfterFixedData },
+                                        SupportsEmptyIv = false
+                                    },
+                                    new TwoStepCapabilities()
+                                    {
+                                        Encoding = new[] { FixedInfoEncoding.Concatenation },
+                                        FixedInfoPattern = "l||label||uPartyInfo||vPartyInfo||context",
+                                        MacSaltMethods = new[] { MacSaltMethod.Default, MacSaltMethod.Random },
+                                        CounterLength = new [] { 32 },
+                                        SupportedLengths = new MathDomain().AddSegment(new ValueDomainSegment(512)),
+                                        MacMode = new [] { MacModes.CMAC_AES256, MacModes.HMAC_SHA3_224 },
+                                        KdfMode = KdfModes.Counter,
+                                        FixedDataOrder = new []{ CounterLocations.AfterFixedData },
+                                        SupportsEmptyIv = false
+                                    },
+                                },
+                            },
                             IkeV1Kdf = new IkeV1Kdf()
                             {
                                 HashFunctions = new[] { HashFunctions.Sha3_d512 }

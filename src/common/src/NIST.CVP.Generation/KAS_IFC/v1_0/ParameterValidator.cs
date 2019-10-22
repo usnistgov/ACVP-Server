@@ -335,7 +335,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
 
             ValidateAuxFunction(kdf.AuxFunctions, errorResults);
             // perhaps do in a "base" kdf validator?
-            ValidateFixedInputPattern(kdf.FixedInputPattern, errorResults);
+            ValidateFixedInfoPattern(kdf.FixedInfoPattern, errorResults, new List<string>() { "uPartyInfo", "vPartyInfo" });
             ValidateEncoding(kdf.Encoding, errorResults);
         }
 
@@ -396,11 +396,6 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
                 return;
             }
 
-            // perhaps do in a "base" kdf validator?
-            ValidateFixedInputPattern(kdf.FixedInputPattern, errorResults);
-            ValidateEncoding(kdf.Encoding, errorResults);
-            errorResults.AddIfNotNullOrEmpty(ValidateArray(kdf.MacSaltMethods, ValidSaltGenerationMethods, nameof(MacSaltMethod)));
-
             var kdfTwoStepValidator = new KDF.v1_0.ParameterValidator();
             var kdfParam = new KDF.v1_0.Parameters()
             {
@@ -416,9 +411,13 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
                 return;
             }
 
-            // Ensure the L value is contained within the capabilities domain
             foreach (var capability in kdf.Capabilities)
             {
+                ValidateFixedInfoPattern(capability.FixedInfoPattern, errorResults, null);
+                ValidateEncoding(capability.Encoding, errorResults);
+                errorResults.AddIfNotNullOrEmpty(ValidateArray(capability.MacSaltMethods, ValidSaltGenerationMethods, nameof(MacSaltMethod)));
+
+                // Ensure the L value is contained within the capabilities domain
                 if (!capability.SupportedLengths.IsWithinDomain(l))
                 {
                     errorResults.Add($"Provided {nameof(l)} value of {l} was not contained within the {nameof(capability.SupportedLengths)} domain.");
@@ -487,28 +486,38 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
         }
         #endregion IkeV2
 
-        private void ValidateFixedInputPattern(string fixedInputPattern, List<string> errorResults)
+        private void ValidateFixedInfoPattern(string fixedInfoPattern, List<string> errorResults, List<string> requiredPieces)
         {
-            if (string.IsNullOrEmpty(fixedInputPattern))
+            if (string.IsNullOrEmpty(fixedInfoPattern))
             {
-                errorResults.Add($"{nameof(fixedInputPattern)} was not provided.");
+                errorResults.Add($"{nameof(fixedInfoPattern)} was not provided.");
+                return;
             }
 
-            const string fiRegex = @"^((?!(l|iv|salt|uPartyInfo|vPartyInfo|counter|context|algorithmId|label|literal\[[0-9a-fA-F]+\])).)+$";
+            const string fiRegex = @"^((?!(l|iv|salt|uPartyInfo|vPartyInfo|context|algorithmId|label|literal\[[0-9a-fA-F]+\])).)+$";
 
-            // FixedInfo must contain uPartyInfo and vPartyInfo
-            if (!fixedInputPattern.Contains("uPartyInfo") || !fixedInputPattern.Contains("uPartyInfo"))
+            if (requiredPieces != null)
             {
-                errorResults.Add($"{nameof(fixedInputPattern)} must contain both uPartyInfo and vPartyInfo.");
+                foreach (var requiredPiece in requiredPieces)
+                {
+                    if (!fixedInfoPattern.Contains(requiredPiece))
+                    {
+                        errorResults.Add($"{nameof(fixedInfoPattern)} missing required piece of {requiredPiece}");
+                    }
+                }
             }
 
-            var fiPieces = fixedInputPattern.Split("||".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+            var fiPieces = fixedInfoPattern.Split("||".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+            if (fiPieces?.Length == 0)
+            {
+                errorResults.Add($"Invalid {nameof(fixedInfoPattern)} {fixedInfoPattern}");
+            }
             foreach (var fiPiece in fiPieces)
             {
                 Regex regex = new Regex(fiRegex, RegexOptions.IgnoreCase);
                 if (regex.IsMatch(fiPiece))
                 {
-                    errorResults.Add($"{nameof(fixedInputPattern)} has invalid element {fiPiece}");
+                    errorResults.Add($"{nameof(fixedInfoPattern)} has invalid element {fiPiece}");
                 }
             }
         }
@@ -535,7 +544,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
                 return;
             }
 
-            const string fiRegex = @"^((?!(l|uPartyInfo|vPartyInfo|counter|literal\[[0-9a-fA-F]+\])).)+$";
+            const string fiRegex = @"^((?!(l|uPartyInfo|vPartyInfo|literal\[[0-9a-fA-F]+\])).)+$";
 
             var fiPieces = associatedDataPattern.Split("||".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
             foreach (var fiPiece in fiPieces)
@@ -621,7 +630,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
 
         private void ValidateEncoding(FixedInfoEncoding[] encoding, List<string> errorResults)
         {
-            errorResults.AddIfNotNullOrEmpty(ValidateArray(encoding, ValidEncodingTypes, "One Step KDF encoding type"));
+            errorResults.AddIfNotNullOrEmpty(ValidateArray(encoding, ValidEncodingTypes, "Encoding type"));
         }
 
         private void ValidateKeys(Parameters parameters, List<string> errorResults)

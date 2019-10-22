@@ -1,5 +1,4 @@
 using NIST.CVP.Common.ExtensionMethods;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Crypto.Common.KAS.KC;
@@ -280,7 +279,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
                         {
                             L = l,
                             FixedInputEncoding = encoding,
-                            FixedInputPattern = kdfMethod.FixedInputPattern,
+                            FixedInputPattern = kdfMethod.FixedInfoPattern,
                             AuxFunction = auxFunction.AuxFunctionName,
                             SaltMethod = saltMethod,
                             SaltLen = auxFunction.SaltLen
@@ -299,11 +298,11 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
 
             List<IKdfConfiguration> tempList = new List<IKdfConfiguration>();
 
-            foreach (var encoding in kdfMethod.Encoding)
+            foreach (var capability in kdfMethod.Capabilities)
             {
-                foreach (var saltMethod in kdfMethod.MacSaltMethods)
+                foreach (var encoding in capability.Encoding)
                 {
-                    foreach (var capability in kdfMethod.Capabilities)
+                    foreach (var saltMethod in capability.MacSaltMethods)
                     {
                         foreach (var counterLen in capability.CounterLength)
                         {
@@ -383,7 +382,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
                                         L = l,
                                         SaltLen = saltLen,
                                         FixedInputEncoding = encoding,
-                                        FixedInputPattern = kdfMethod.FixedInputPattern,
+                                        FixedInputPattern = capability.FixedInfoPattern,
                                         SaltMethod = saltMethod,
                                         KdfMode = capability.KdfMode,
                                         MacMode = mac,
@@ -400,7 +399,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
                                             L = l,
                                             SaltLen = saltLen,
                                             FixedInputEncoding = encoding,
-                                            FixedInputPattern = kdfMethod.FixedInputPattern,
+                                            FixedInputPattern = capability.FixedInfoPattern,
                                             SaltMethod = saltMethod,
                                             KdfMode = capability.KdfMode,
                                             MacMode = mac,

@@ -50,13 +50,69 @@
               "auxFunctionName": "KMAC-128",
               "saltLen": 128,
               "macSaltMethods": [
-                "Default"
+                "Default",
+                "Random"
               ]
             }
           ],
-          "fixedInputPattern": "algorithmId||l||uPartyInfo||vPartyInfo",
+          "fixedInfoPattern": "algorithmId||l||uPartyInfo||vPartyInfo",
           "encoding": [
             "concatenation"
+          ]
+        },
+        "twoStepKdf": {
+          "kdfType": "twoStep",
+          "capabilities": [
+            {
+              "macSaltMethods": [
+                "Default",
+                "Random"
+              ],
+              "fixedInfoPattern": "l||label||uPartyInfo||vPartyInfo||context",
+              "encoding": [
+                "concatenation"
+              ],
+              "kdfMode": "feedback",
+              "macMode": [
+                "CMAC-AES256",
+                "HMAC-SHA3-224"
+              ],
+              "supportedLengths": [
+                512
+              ],
+              "fixedDataOrder": [
+                "after fixed data"
+              ],
+              "counterLength": [
+                32
+              ],
+              "supportsEmptyIv": false
+            },
+            {
+              "macSaltMethods": [
+                "Default",
+                "Random"
+              ],
+              "fixedInfoPattern": "l||label||uPartyInfo||vPartyInfo||context",
+              "encoding": [
+                "concatenation"
+              ],
+              "kdfMode": "counter",
+              "macMode": [
+                "CMAC-AES256",
+                "HMAC-SHA3-224"
+              ],
+              "supportedLengths": [
+                512
+              ],
+              "fixedDataOrder": [
+                "after fixed data"
+              ],
+              "counterLength": [
+                32
+              ],
+              "supportsEmptyIv": false
+            }
           ]
         },
         "ikeV1Kdf": {
