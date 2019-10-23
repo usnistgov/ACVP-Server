@@ -64,7 +64,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
 
                 foreach(var testGroup in testVector.TestGroups)
                 {
-                    testGroup.PrimeGenMode = EnumHelpers.GetEnumFromEnumDescription<PrimeGenModes>(primeMode);
+                    testGroup.PrimeGenMode = EnumHelpers.GetEnumFromEnumDescription<PrimeGenFips186_4Modes>(primeMode);
 
                     if(testGroup.Tests.Count == 0)
                     {
@@ -98,10 +98,10 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
                         }
 
                         var result = algo
-                            .WithPrimeGenMode(testGroup.PrimeGenMode)
+                            .WithPrimeGenMode(RsaKeyGenAttributeConverter.GetPrimeGenFromSection(testGroup.PrimeGenMode))
                             .WithBitlens(testCase.Bitlens)
                             .WithHashFunction(sha)
-                            .WithPrimeTestMode(testGroup.PrimeTest)
+                            .WithPrimeTestMode(RsaKeyGenAttributeConverter.GetPrimeTestFromSection(testGroup.PrimeTest))
                             .WithEntropyProvider(entropyProvider)
                             .WithNlen(testGroup.Modulo)
                             .WithPublicExponent(testCase.Key.PubKey.E)
@@ -134,9 +134,9 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
         {
             var group = new TestGroup
             {
-                PrimeGenMode = PrimeGenModes.RandomProbablePrimes,
+                PrimeGenMode = RsaKeyGenAttributeConverter.GetSectionFromPrimeGen(PrimeGenModes.RandomProbablePrimes),
                 Modulo = modulo,
-                PrimeTest = primeTest,
+                PrimeTest = RsaKeyGenAttributeConverter.GetSectionFromPrimeTest(primeTest),
                 KeyFormat = PrivateKeyModes.Standard
             };
 

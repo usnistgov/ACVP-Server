@@ -26,7 +26,7 @@ namespace NIST.CVP.Generation.RSA.v1_0.KeyGen
     public class AlgSpec
     {
         [JsonProperty(PropertyName = "randPQ")]
-        public PrimeGenModes RandPQ;
+        public PrimeGenFips186_4Modes RandPQ;
 
         [JsonProperty(PropertyName = "properties")]
         public Capability[] Capabilities;
@@ -41,6 +41,6 @@ namespace NIST.CVP.Generation.RSA.v1_0.KeyGen
         public string[] HashAlgs;
 
         [JsonProperty(PropertyName = "primeTest")]
-        public PrimeTestModes[] PrimeTests;
+        public PrimeTestFips186_4Modes[] PrimeTests;
     }
 }

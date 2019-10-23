@@ -19,7 +19,7 @@ namespace NIST.CVP.Generation.RSA.v1_0.KeyGen
 
             foreach (var algSpec in parameters.AlgSpecs)
             {
-                if (algSpec.RandPQ != PrimeGenModes.RandomProbablePrimes)
+                if (algSpec.RandPQ != PrimeGenFips186_4Modes.B33)
                 {
                     continue;
                 }

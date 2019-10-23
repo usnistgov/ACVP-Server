@@ -20,7 +20,7 @@ namespace NIST.CVP.Generation.RSA.v1_0.KeyGen
 
         public TestCaseGeneratorKat(TestGroup testGroup, IOracle oracle)
         {
-            _kats = KatData.GetKatsForProperties(testGroup.Modulo, testGroup.PrimeTest);
+            _kats = KatData.GetKatsForProperties(testGroup.Modulo, RsaKeyGenAttributeConverter.GetPrimeTestFromSection(testGroup.PrimeTest));
             _oracle = oracle;
 
             if (_kats == null)

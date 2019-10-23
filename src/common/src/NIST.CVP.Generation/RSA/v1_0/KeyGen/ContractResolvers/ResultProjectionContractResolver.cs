@@ -9,10 +9,10 @@ namespace NIST.CVP.Generation.RSA.v1_0.KeyGen.ContractResolvers
 {
     public class ResultProjectionContractResolver : ProjectionContractResolverBase<TestGroup, TestCase>
     {
-        private readonly Dictionary<PrimeGenModes, string[]> _aftProperties = new Dictionary<PrimeGenModes, string[]>
+        private readonly Dictionary<PrimeGenFips186_4Modes, string[]> _aftProperties = new Dictionary<PrimeGenFips186_4Modes, string[]>
         {
             {
-                PrimeGenModes.RandomProvablePrimes,
+                PrimeGenFips186_4Modes.B32,
                 new []
                 {
                     nameof(TestCase.Seed),
@@ -20,11 +20,11 @@ namespace NIST.CVP.Generation.RSA.v1_0.KeyGen.ContractResolvers
                 }
             },
             {
-                PrimeGenModes.RandomProbablePrimes,
+                PrimeGenFips186_4Modes.B33,
                 new []{""}
             },
             {
-                PrimeGenModes.RandomProvablePrimesWithAuxiliaryProvablePrimes,
+                PrimeGenFips186_4Modes.B34,
                 new []
                 {
                     nameof(TestCase.Seed),
@@ -33,7 +33,7 @@ namespace NIST.CVP.Generation.RSA.v1_0.KeyGen.ContractResolvers
                 }
             },
             {
-                PrimeGenModes.RandomProbablePrimesWithAuxiliaryProvablePrimes,
+                PrimeGenFips186_4Modes.B35,
                 new []
                 {
                     nameof(TestCase.Seed),
@@ -44,7 +44,7 @@ namespace NIST.CVP.Generation.RSA.v1_0.KeyGen.ContractResolvers
                 }
             },
             {
-                PrimeGenModes.RandomProbablePrimesWithAuxiliaryProbablePrimes,
+                PrimeGenFips186_4Modes.B36,
                 new []
                 {
                     nameof(TestCase.E),

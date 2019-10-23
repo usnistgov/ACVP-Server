@@ -7,25 +7,24 @@ namespace NIST.CVP.Generation.RSA.v1_0.KeyGen
 {
     public static class RsaKeyGenAttributeConverter
     {
-        private static readonly List<(PrimeGenModes primeGen, string section)> _primeGenAttributes = new List<(PrimeGenModes, string)>
+        private static readonly List<(PrimeGenModes primeGen, PrimeGenFips186_4Modes section)> _primeGenAttributes = new List<(PrimeGenModes, PrimeGenFips186_4Modes)>
         {
-            (PrimeGenModes.RandomProvablePrimes, "B.3.2"),
-            (PrimeGenModes.RandomProbablePrimes, "B.3.3"),
-            (PrimeGenModes.RandomProvablePrimesWithAuxiliaryProvablePrimes, "B.3.4"),
-            (PrimeGenModes.RandomProbablePrimesWithAuxiliaryProvablePrimes, "B.3.5"),
-            (PrimeGenModes.RandomProbablePrimesWithAuxiliaryProbablePrimes, "B.3.6")
+            (PrimeGenModes.RandomProvablePrimes, PrimeGenFips186_4Modes.B32),
+            (PrimeGenModes.RandomProbablePrimes, PrimeGenFips186_4Modes.B33),
+            (PrimeGenModes.RandomProvablePrimesWithAuxiliaryProvablePrimes, PrimeGenFips186_4Modes.B34),
+            (PrimeGenModes.RandomProbablePrimesWithAuxiliaryProvablePrimes, PrimeGenFips186_4Modes.B35),
+            (PrimeGenModes.RandomProbablePrimesWithAuxiliaryProbablePrimes, PrimeGenFips186_4Modes.B36)
         };
         
-        private static readonly List<(PrimeTestModes primeTest, string section, string firehoseTest)> _primeTestAttributes = new List<(PrimeTestModes, string, string)>
+        private static readonly List<(PrimeTestModes primeTest, PrimeTestFips186_4Modes section)> _primeTestAttributes = new List<(PrimeTestModes, PrimeTestFips186_4Modes)>
         {
-            (PrimeTestModes.TwoPow100ErrorBound, "tblC2", "c.2"),
-            (PrimeTestModes.TwoPowSecurityStrengthErrorBound, "tblC3", "c.3")
+            (PrimeTestModes.TwoPow100ErrorBound, PrimeTestFips186_4Modes.TblC3),
+            (PrimeTestModes.TwoPowSecurityStrengthErrorBound, PrimeTestFips186_4Modes.TblC2)
         };
 
-        public static PrimeGenModes GetPrimeGenFromString(string section)
+        public static PrimeGenModes GetPrimeGenFromSection(PrimeGenFips186_4Modes section)
         {
-            if (!_primeGenAttributes.TryFirst(w => w.section.Equals(section, StringComparison.OrdinalIgnoreCase),
-                out var result))
+            if (!_primeGenAttributes.TryFirst(w => w.section == section, out var result))
             {
                 throw new ArgumentException($"{nameof(section)} provided does not exist");
             }
@@ -33,10 +32,9 @@ namespace NIST.CVP.Generation.RSA.v1_0.KeyGen
             return result.primeGen;
         }
 
-        public static string GetStringFromPrimeGen(PrimeGenModes primeGen)
+        public static PrimeGenFips186_4Modes GetSectionFromPrimeGen(PrimeGenModes primeGen)
         {
-            if (!_primeGenAttributes.TryFirst(w => w.primeGen == primeGen,
-                out var result))
+            if (!_primeGenAttributes.TryFirst(w => w.primeGen == primeGen, out var result))
             {
                 throw new ArgumentException($"{nameof(primeGen)} provided does not exist");
             }
@@ -44,10 +42,9 @@ namespace NIST.CVP.Generation.RSA.v1_0.KeyGen
             return result.section;
         }
         
-        public static PrimeTestModes GetPrimeTestFromString(string section)
+        public static PrimeTestModes GetPrimeTestFromSection(PrimeTestFips186_4Modes section)
         {
-            if (!_primeTestAttributes.TryFirst(w => w.section.Equals(section, StringComparison.OrdinalIgnoreCase),
-                out var result))
+            if (!_primeTestAttributes.TryFirst(w => w.section == section, out var result))
             {
                 throw new ArgumentException($"{nameof(section)} provided does not exist");
             }
@@ -55,21 +52,9 @@ namespace NIST.CVP.Generation.RSA.v1_0.KeyGen
             return result.primeTest;
         }
 
-        public static PrimeTestModes GetPrimeTestFromFirehose(string firehose)
+        public static PrimeTestFips186_4Modes GetSectionFromPrimeTest(PrimeTestModes primeTest)
         {
-            if (!_primeTestAttributes.TryFirst(w => w.firehoseTest.Equals(firehose, StringComparison.OrdinalIgnoreCase),
-                out var result))
-            {
-                throw new ArgumentException($"{nameof(firehose)} provided does not exist");
-            }
-            
-            return result.primeTest;    
-        }
-
-        public static string GetStringFromPrimeTest(PrimeTestModes primeTest)
-        {
-            if (!_primeTestAttributes.TryFirst(w => w.primeTest == primeTest,
-                out var result))
+            if (!_primeTestAttributes.TryFirst(w => w.primeTest == primeTest, out var result))
             {
                 throw new ArgumentException($"{nameof(primeTest)} provided does not exist");
             }

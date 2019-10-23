@@ -75,8 +75,8 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
             return new TestGroup
             {
                 Modulo = modulo,
-                PrimeTest = primeTest,
-                PrimeGenMode = PrimeGenModes.RandomProbablePrimes,
+                PrimeTest = RsaKeyGenAttributeConverter.GetSectionFromPrimeTest(primeTest),
+                PrimeGenMode = RsaKeyGenAttributeConverter.GetSectionFromPrimeGen(PrimeGenModes.RandomProbablePrimes),
                 KeyFormat = PrivateKeyModes.Standard,
                 PubExp = PublicExponentModes.Random
             };

@@ -24,9 +24,9 @@ namespace NIST.CVP.Generation.RSA.v1_0.KeyGen
             {
                 HashAlg = serverTestGroup.HashAlg,
                 KeyFormat = serverTestGroup.KeyFormat,
-                KeyMode = serverTestGroup.PrimeGenMode,
+                KeyMode = RsaKeyGenAttributeConverter.GetPrimeGenFromSection(serverTestGroup.PrimeGenMode),
                 Modulus = serverTestGroup.Modulo,
-                PrimeTest = serverTestGroup.PrimeTest,
+                PrimeTest = RsaKeyGenAttributeConverter.GetPrimeTestFromSection(serverTestGroup.PrimeTest),
                 PublicExponentMode = serverTestGroup.PubExp,
                 PublicExponent = serverTestGroup.FixedPubExp,
                 Seed = iutTestCase.Seed,

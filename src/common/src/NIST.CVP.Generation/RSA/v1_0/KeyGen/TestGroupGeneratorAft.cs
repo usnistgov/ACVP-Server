@@ -15,7 +15,7 @@ namespace NIST.CVP.Generation.RSA.v1_0.KeyGen
 
             foreach (var algSpec in parameters.AlgSpecs)
             {
-                if (algSpec.RandPQ == PrimeGenModes.RandomProbablePrimes)
+                if (algSpec.RandPQ == PrimeGenFips186_4Modes.B33)
                 {
                     continue;
                 }
@@ -23,7 +23,7 @@ namespace NIST.CVP.Generation.RSA.v1_0.KeyGen
                 foreach (var capability in algSpec.Capabilities)
                 {
                     // All provable
-                    if (algSpec.RandPQ == PrimeGenModes.RandomProvablePrimes || algSpec.RandPQ == PrimeGenModes.RandomProvablePrimesWithAuxiliaryProvablePrimes)
+                    if (algSpec.RandPQ == PrimeGenFips186_4Modes.B32 || algSpec.RandPQ == PrimeGenFips186_4Modes.B34)
                     {
                         foreach (var hashAlg in capability.HashAlgs)
                         {
@@ -44,7 +44,7 @@ namespace NIST.CVP.Generation.RSA.v1_0.KeyGen
                     }
 
                     // Both probable and provable
-                    if (algSpec.RandPQ == PrimeGenModes.RandomProbablePrimesWithAuxiliaryProvablePrimes)
+                    if (algSpec.RandPQ == PrimeGenFips186_4Modes.B35)
                     {
                         foreach (var hashAlg in capability.HashAlgs)
                         {
@@ -69,7 +69,7 @@ namespace NIST.CVP.Generation.RSA.v1_0.KeyGen
                     }
 
                     // All probable
-                    if (algSpec.RandPQ == PrimeGenModes.RandomProbablePrimesWithAuxiliaryProbablePrimes)
+                    if (algSpec.RandPQ == PrimeGenFips186_4Modes.B36)
                     {
                         foreach (var primeTest in capability.PrimeTests)
                         {

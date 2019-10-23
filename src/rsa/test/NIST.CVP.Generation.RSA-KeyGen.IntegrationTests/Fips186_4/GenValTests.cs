@@ -67,7 +67,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
                 {
                     Modulo = 2048,
                     HashAlgs = new[] { "sha2-224" },
-                    PrimeTests = new[] { PrimeTestModes.TwoPow100ErrorBound }    
+                    PrimeTests = new[] { PrimeTestFips186_4Modes.TblC3 }    
                 }
             };
 
@@ -75,27 +75,27 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
             {
                 new AlgSpec
                 {
-                    RandPQ = PrimeGenModes.RandomProvablePrimes,
+                    RandPQ = PrimeGenFips186_4Modes.B32,
                     Capabilities = caps
                 }, 
                 new AlgSpec
                 {
-                    RandPQ = PrimeGenModes.RandomProbablePrimes,
+                    RandPQ = PrimeGenFips186_4Modes.B33,
                     Capabilities = caps
                 }, 
                 new AlgSpec
                 {
-                    RandPQ = PrimeGenModes.RandomProvablePrimesWithAuxiliaryProvablePrimes,
+                    RandPQ = PrimeGenFips186_4Modes.B34,
                     Capabilities = caps
                 }, 
                 new AlgSpec
                 {
-                    RandPQ = PrimeGenModes.RandomProbablePrimesWithAuxiliaryProvablePrimes,
+                    RandPQ = PrimeGenFips186_4Modes.B35,
                     Capabilities = caps
                 }, 
                 new AlgSpec
                 {
-                    RandPQ = PrimeGenModes.RandomProbablePrimesWithAuxiliaryProbablePrimes,
+                    RandPQ = PrimeGenFips186_4Modes.B36,
                     Capabilities = caps
                 } 
             };
@@ -122,66 +122,62 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
             {
                 new AlgSpec
                 {
-                    RandPQ = PrimeGenModes.RandomProvablePrimes,
+                    RandPQ = PrimeGenFips186_4Modes.B32,
                     Capabilities = new []
                     {
                         new Capability
                         {
                             Modulo = 2048,
-                            HashAlgs = new [] { "sha2-224" },
-                            PrimeTests = new [] {PrimeTestModes.TwoPowSecurityStrengthErrorBound}    
+                            HashAlgs = new [] { "sha2-224" }
                         }
                     }
                 }, 
                 new AlgSpec
                 {
-                    RandPQ = PrimeGenModes.RandomProbablePrimes,
+                    RandPQ = PrimeGenFips186_4Modes.B33,
                     Capabilities = new []
                     {
                         new Capability
                         {
                             Modulo = 3072,
-                            HashAlgs = new [] { "sha2-256" },
-                            PrimeTests = new [] {PrimeTestModes.TwoPow100ErrorBound}    
+                            PrimeTests = new [] {PrimeTestFips186_4Modes.TblC3}    
                         }
                     }
                 }, 
                 new AlgSpec
                 {
-                    RandPQ = PrimeGenModes.RandomProvablePrimesWithAuxiliaryProvablePrimes,
+                    RandPQ = PrimeGenFips186_4Modes.B34,
                     Capabilities = new []
                     {
                         new Capability
                         {
                             Modulo = 4096,
-                            HashAlgs = new [] { "sha2-512" },
-                            PrimeTests = new [] {PrimeTestModes.TwoPowSecurityStrengthErrorBound}    
+                            HashAlgs = new [] { "sha2-512" }
                         }
                     }
                 }, 
                 new AlgSpec
                 {
-                    RandPQ = PrimeGenModes.RandomProbablePrimesWithAuxiliaryProvablePrimes,
+                    RandPQ = PrimeGenFips186_4Modes.B35,
                     Capabilities = new []
                     {
                         new Capability
                         {
                             Modulo = 2048,
                             HashAlgs = new [] { "sha2-224" },
-                            PrimeTests = new [] {PrimeTestModes.TwoPowSecurityStrengthErrorBound}    
+                            PrimeTests = new [] {PrimeTestFips186_4Modes.TblC2}    
                         }
                     }
                 }, 
                 new AlgSpec
                 {
-                    RandPQ = PrimeGenModes.RandomProbablePrimesWithAuxiliaryProbablePrimes,
+                    RandPQ = PrimeGenFips186_4Modes.B36,
                     Capabilities = new []
                     {
                         new Capability
                         {
                             Modulo = 4096,
-                            HashAlgs = new [] { "sha2-512" },
-                            PrimeTests = new [] {PrimeTestModes.TwoPowSecurityStrengthErrorBound}    
+                            PrimeTests = new [] {PrimeTestFips186_4Modes.TblC3}    
                         }
                     }
                 } 

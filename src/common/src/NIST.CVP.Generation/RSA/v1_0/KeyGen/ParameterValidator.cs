@@ -45,7 +45,7 @@ namespace NIST.CVP.Generation.RSA.v1_0.KeyGen
 
             foreach (var algSpec in parameters.AlgSpecs)
             {
-                if (algSpec.RandPQ == PrimeGenModes.Invalid)
+                if (algSpec.RandPQ == PrimeGenFips186_4Modes.Invalid)
                 {
                     errorResults.Add("Invalid or no rand pq");
                 }
@@ -65,15 +65,15 @@ namespace NIST.CVP.Generation.RSA.v1_0.KeyGen
                 {
                     PrimeGeneratorGuard.AgainstInvalidModulusFips186_4(capability.Modulo, errorResults);
                     
-                    if (algSpec.RandPQ == PrimeGenModes.RandomProvablePrimes || algSpec.RandPQ == PrimeGenModes.RandomProvablePrimesWithAuxiliaryProvablePrimes || algSpec.RandPQ == PrimeGenModes.RandomProbablePrimesWithAuxiliaryProvablePrimes)
+                    if (algSpec.RandPQ == PrimeGenFips186_4Modes.B32 || algSpec.RandPQ == PrimeGenFips186_4Modes.B34 || algSpec.RandPQ == PrimeGenFips186_4Modes.B35)
                     {
                         var result = ValidateArray(capability.HashAlgs, VALID_HASH_ALGS, "Hash Alg");
                         errorResults.AddIfNotNullOrEmpty(result);
                     }
 
-                    if (algSpec.RandPQ == PrimeGenModes.RandomProbablePrimes || algSpec.RandPQ == PrimeGenModes.RandomProbablePrimesWithAuxiliaryProbablePrimes || algSpec.RandPQ == PrimeGenModes.RandomProbablePrimesWithAuxiliaryProvablePrimes)
+                    if (algSpec.RandPQ == PrimeGenFips186_4Modes.B33 || algSpec.RandPQ == PrimeGenFips186_4Modes.B35 || algSpec.RandPQ == PrimeGenFips186_4Modes.B36)
                     {
-                        if (capability.PrimeTests.Contains(PrimeTestModes.Invalid) || !capability.PrimeTests.Any())
+                        if (capability.PrimeTests.Contains(PrimeTestFips186_4Modes.Invalid) || !capability.PrimeTests.Any())
                         {
                             errorResults.Add("Invalid prime test provided");
                         }

@@ -26,12 +26,12 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
                 {
                     Modulo = 2048,
                     HashAlg = new HashFunction(ModeValues.SHA2, DigestSizes.d256),
-                    PrimeGenMode = PrimeGenModes.RandomProbablePrimesWithAuxiliaryProbablePrimes,
+                    PrimeGenMode = PrimeGenFips186_4Modes.B36,
                     PubExp = PublicExponentModes.Fixed,
                     FixedPubExp = new BitString("ABCD"),
                     KeyFormat = PrivateKeyModes.Crt,
                     InfoGeneratedByServer = true,
-                    PrimeTest = PrimeTestModes.TwoPow100ErrorBound,
+                    PrimeTest = PrimeTestFips186_4Modes.TblC2,
                     TestType = "aft"
                 };
                 testGroups.Add(tg);

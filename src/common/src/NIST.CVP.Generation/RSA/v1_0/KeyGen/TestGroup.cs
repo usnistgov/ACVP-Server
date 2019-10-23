@@ -19,27 +19,11 @@ namespace NIST.CVP.Generation.RSA.v1_0.KeyGen
 
         public PrivateKeyModes KeyFormat { get; set; }
         
-        [JsonIgnore]
-        public PrimeTestModes PrimeTest { get; set; }
-
-        // Handles converting the section numbers to the proper name
         [JsonProperty(PropertyName = "primeTest")]
-        public string PrimeTestSection
-        {
-            get => RsaKeyGenAttributeConverter.GetStringFromPrimeTest(PrimeTest);
-            set => PrimeTest = RsaKeyGenAttributeConverter.GetPrimeTestFromString(value);
-        }
-        
-        // Handles converting the section numbers to the proper name
+        public PrimeTestFips186_4Modes PrimeTest { get; set; }
+
         [JsonProperty(PropertyName = "randPQ")]
-        public string PrimeGenSection
-        {
-            get => RsaKeyGenAttributeConverter.GetStringFromPrimeGen(PrimeGenMode);
-            set => PrimeGenMode = RsaKeyGenAttributeConverter.GetPrimeGenFromString(value);
-        }
-        
-        [JsonIgnore]
-        public PrimeGenModes PrimeGenMode { get; set; }
+        public PrimeGenFips186_4Modes PrimeGenMode { get; set; }
         
         public PublicExponentModes PubExp { get; set; }
 
@@ -64,7 +48,7 @@ namespace NIST.CVP.Generation.RSA.v1_0.KeyGen
             switch (name.ToLower())
             {
                 case "primemethod":
-                    PrimeGenMode = RsaKeyGenAttributeConverter.GetPrimeGenFromString(value);
+                    PrimeGenMode = EnumHelpers.GetEnumFromEnumDescription<PrimeGenFips186_4Modes>(value);
                     return true;
                 case "mod":
                     Modulo = int.Parse(value);
@@ -74,7 +58,7 @@ namespace NIST.CVP.Generation.RSA.v1_0.KeyGen
                     return true;
                 case "table for m-t test":
                 case "table for m-r test":
-                    PrimeTest = RsaKeyGenAttributeConverter.GetPrimeTestFromFirehose(value);
+                    PrimeTest = EnumHelpers.GetEnumFromEnumDescription<PrimeTestFips186_4Modes>(value);
                     return true;
             }
 

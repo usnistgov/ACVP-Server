@@ -101,7 +101,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
                 {
                     Modulo = ParameterValidator.VALID_MODULI[i],
                     HashAlgs = ParameterValidator.VALID_HASH_ALGS,
-                    PrimeTests = new [] {PrimeTestModes.TwoPow100ErrorBound, PrimeTestModes.TwoPowSecurityStrengthErrorBound}
+                    PrimeTests = new [] {PrimeTestFips186_4Modes.TblC2, PrimeTestFips186_4Modes.TblC3}
                 };
             }
 
@@ -109,27 +109,27 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
             {
                 new AlgSpec
                 {
-                    RandPQ = PrimeGenModes.RandomProvablePrimes,
+                    RandPQ = PrimeGenFips186_4Modes.B32,
                     Capabilities = caps
                 }, 
                 new AlgSpec
                 {
-                    RandPQ = PrimeGenModes.RandomProbablePrimes,
+                    RandPQ = PrimeGenFips186_4Modes.B33,
                     Capabilities = caps
                 }, 
                 new AlgSpec
                 {
-                    RandPQ = PrimeGenModes.RandomProvablePrimesWithAuxiliaryProvablePrimes,
+                    RandPQ = PrimeGenFips186_4Modes.B34,
                     Capabilities = caps
                 }, 
                 new AlgSpec
                 {
-                    RandPQ = PrimeGenModes.RandomProbablePrimesWithAuxiliaryProvablePrimes,
+                    RandPQ = PrimeGenFips186_4Modes.B35,
                     Capabilities = caps
                 }, 
                 new AlgSpec
                 {
-                    RandPQ = PrimeGenModes.RandomProbablePrimesWithAuxiliaryProbablePrimes,
+                    RandPQ = PrimeGenFips186_4Modes.B36,
                     Capabilities = caps
                 } 
             };

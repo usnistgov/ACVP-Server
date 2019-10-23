@@ -297,7 +297,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
                     {
                         Modulo = _moduli[i],
                         HashAlgs = _hashAlgs,
-                        PrimeTests = _primeTests.Select(pt => EnumHelpers.GetEnumFromEnumDescription<PrimeTestModes>(pt, false)).ToArray()
+                        PrimeTests = _primeTests.Select(pt => EnumHelpers.GetEnumFromEnumDescription<PrimeTestFips186_4Modes>(pt, false)).ToArray()
                     };
                 }
 
@@ -306,7 +306,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
                 {
                     algSpecs[i] = new AlgSpec
                     {
-                        RandPQ = EnumHelpers.GetEnumFromEnumDescription<PrimeGenModes>(_keyGenModes[i], false),
+                        RandPQ = EnumHelpers.GetEnumFromEnumDescription<PrimeGenFips186_4Modes>(_keyGenModes[i], false),
                         Capabilities = caps
                     };
                 }
