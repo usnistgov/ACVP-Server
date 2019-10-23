@@ -9,9 +9,10 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
 {
     public class GenValTestsKtsIfc : GenValTestsSingleRunnerBase
     {
-        public override AlgoMode AlgoMode => AlgoMode.KTS_IFC_v1_0;
+        public override AlgoMode AlgoMode => AlgoMode.KTS_IFC_Sp800_56Br2;
         public override string Algorithm => "KTS-IFC";
         public override string Mode => string.Empty;
+        public override string Revision => "Sp800-56Br2";
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
         public override IJsonConverterProvider JsonConverterProvider => new KasJsonConverterProvider();
 

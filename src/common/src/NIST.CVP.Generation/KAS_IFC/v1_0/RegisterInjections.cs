@@ -16,8 +16,8 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
     {
         public IEnumerable<AlgoMode> SupportedAlgoModeRevisions => new List<AlgoMode>()
         {
-            AlgoMode.KAS_IFC_v1_0,
-            AlgoMode.KTS_IFC_v1_0
+            AlgoMode.KAS_IFC_Sp800_56Br2,
+            AlgoMode.KTS_IFC_Sp800_56Br2
         };
 
         public void RegisterTypes(ContainerBuilder builder, AlgoMode algoMode)

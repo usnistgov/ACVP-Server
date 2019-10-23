@@ -2,7 +2,7 @@
   "vsId": 0,
   "algorithm": "KAS-IFC",
   "mode": "",
-  "revision": "1.0",
+  "revision": "Sp800-56Br2",
   "isSample": true,
   "iutId": "BEEFFACE",
   "scheme": {
@@ -14,24 +14,6 @@
         "responder"
       ],
       "keyGenerationMethods": {
-        "rsakpg2-basic": {
-          "keyGenerationMethod": "rsakpg2-basic",
-          "keyGenerationMode": "random",
-          "privateKeyMode": "standard",
-          "modulo": [
-            2048
-          ],
-          "fixedPublicExponent": ""
-        },
-        "rsakpg2-prime-factor": {
-          "keyGenerationMethod": "rsakpg2-prime-factor",
-          "keyGenerationMode": "random",
-          "privateKeyMode": "standard",
-          "modulo": [
-            2048
-          ],
-          "fixedPublicExponent": ""
-        },
         "rsakpg2-crt": {
           "keyGenerationMethod": "rsakpg2-crt",
           "keyGenerationMode": "random",

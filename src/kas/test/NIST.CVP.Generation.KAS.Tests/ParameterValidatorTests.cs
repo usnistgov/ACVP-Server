@@ -52,12 +52,6 @@ namespace NIST.CVP.Generation.KAS.Tests
             },
             new object[]
             {
-                "null function",
-                new ParameterBuilder().WithFunctions(null).BuildParameters(),
-                "function"
-            },
-            new object[]
-            {
                 "invalid function",
                 new ParameterBuilder().WithFunctions(new string[] { "invalid" }).BuildParameters(),
                 "function"

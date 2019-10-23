@@ -2,7 +2,7 @@
   "vsId": 0,
   "algorithm": "KTS-IFC",
   "mode": "",
-  "revision": "1.0",
+  "revision": "Sp800-56Br2",
   "isSample": true,
   "iutId": "BEEFFACE",
   "scheme": {

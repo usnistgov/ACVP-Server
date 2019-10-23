@@ -13,9 +13,10 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
 {
     public class GenValTestsKasIfc : GenValTestsSingleRunnerBase
     {
-        public override AlgoMode AlgoMode => AlgoMode.KAS_IFC_v1_0;
+        public override AlgoMode AlgoMode => AlgoMode.KAS_IFC_Sp800_56Br2;
         public override string Algorithm => "KAS-IFC";
         public override string Mode => string.Empty;
+        public override string Revision => "Sp800-56Br2";
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
         public override IJsonConverterProvider JsonConverterProvider => new KasJsonConverterProvider();
 
@@ -222,14 +223,14 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                             //                                Modulo = new[] { 2048 },
                             //                                FixedPublicExponent = new BigInteger(65537)
                             //                            },
-                            RsaKpg2_basic = new RsaKpg2_basic()
-                            {
-                                Modulo = new[] { 2048 },
-                            },
-                            RsaKpg2_primeFactor = new RsaKpg2_primeFactor()
-                            {
-                                Modulo = new[] { 2048 },
-                            },
+                            //RsaKpg2_basic = new RsaKpg2_basic()
+                            //{
+                            //    Modulo = new[] { 2048 },
+                            //},
+                            //RsaKpg2_primeFactor = new RsaKpg2_primeFactor()
+                            //{
+                            //    Modulo = new[] { 2048 },
+                            //},
                             RsaKpg2_crt = new RsaKpg2_crt()
                             {
                                 Modulo = new[] { 2048 },

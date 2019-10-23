@@ -99,8 +99,8 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
 
         private static readonly AlgoMode[] ValidAlgoModes = new[]
         {
-            AlgoMode.KAS_IFC_v1_0,
-            AlgoMode.KTS_IFC_v1_0
+            AlgoMode.KAS_IFC_Sp800_56Br2,
+            AlgoMode.KTS_IFC_Sp800_56Br2
         };
 
         private static readonly IfcKeyGenerationMethod[] ValidKeyGenerationMethods = new[]
@@ -136,12 +136,12 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
             List<string> errorResults = new List<string>();
             _algoMode = AlgoModeHelpers.GetAlgoModeFromAlgoAndMode(parameters.Algorithm, parameters.Mode, parameters.Revision);
 
-            if (_algoMode == AlgoMode.KAS_IFC_v1_0)
+            if (_algoMode == AlgoMode.KAS_IFC_Sp800_56Br2)
             {
                 _isKasScheme = true;
             }
 
-            if (_algoMode == AlgoMode.KTS_IFC_v1_0)
+            if (_algoMode == AlgoMode.KTS_IFC_Sp800_56Br2)
             {
                 _isKtsScheme = true;
             }
@@ -208,13 +208,13 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
 
             switch (_algoMode)
             {
-                case AlgoMode.KAS_IFC_v1_0:
+                case AlgoMode.KAS_IFC_Sp800_56Br2:
                     if (registeredSchemes.Select(s => s.Scheme).Intersect(KeyGenerationRequirementsHelper.IfcKtsSchemes).Any())
                     {
                         errorResults.Add(invalidSchemeMessage);
                     }
                     break;
-                case AlgoMode.KTS_IFC_v1_0:
+                case AlgoMode.KTS_IFC_Sp800_56Br2:
                     if (registeredSchemes.Select(s => s.Scheme).Intersect(KeyGenerationRequirementsHelper.IfcKdfSchemes).Any())
                     {
                         errorResults.Add(invalidSchemeMessage);
