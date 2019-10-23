@@ -57,10 +57,11 @@ namespace NIST.CVP.Generation.RSA.v1_0.SigVer
                             {
                                 KeyFormat = keyFormat,
                                 Modulus = modulo,
-                                KeyMode = PrimeGenModes.B33,
+                                KeyMode = PrimeGenModes.RandomProbablePrimes,
                                 PublicExponentMode = pubExpMode,
                                 PublicExponent = !string.IsNullOrEmpty(parameters.FixedPubExpValue) ? new BitString(parameters.FixedPubExpValue) : null,
-                                PrimeTest = PrimeTestModes.C2
+                                PrimeTest = PrimeTestModes.TwoPow100ErrorBound,
+                                Standard = parameters.Legacy ? Fips186Standard.Fips186_2 : Fips186Standard.Fips186_4
                             };
 
                             var testGroup = new TestGroup

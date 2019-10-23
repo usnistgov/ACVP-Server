@@ -17,16 +17,16 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
             {
                 0,
                 new ParameterValidatorTests.ParameterBuilder()
-                    .WithKeyGenModes(new[] {"B.3.3"})           // Wrong mode
+                    .WithKeyGenModes(new[] {"probable"})           // Wrong mode
                     .WithModuli(new[] {2048, 4096})
-                    .WithPrimeTests(new[] {"tblC2"})
+                    .WithPrimeTests(new[] {"2pow100"})
                     .Build()
             },
             new object[]
             {
                 8,
                 new ParameterValidatorTests.ParameterBuilder()
-                    .WithKeyGenModes(new [] {"B.3.2", "B.3.4"})
+                    .WithKeyGenModes(new [] {"provable", "provableWithProvableAux"})
                     .WithModuli(new [] {2048, 4096})
                     .WithHashAlgs(new [] {"SHA-1", "SHA2-224"})
                     .Build()
@@ -35,18 +35,18 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
             {
                 3,
                 new ParameterValidatorTests.ParameterBuilder()
-                    .WithKeyGenModes(new [] {"B.3.6"})
+                    .WithKeyGenModes(new [] {"probableWithProbableAux"})
                     .WithModuli(new [] {2048, 3072, 4096})
-                    .WithPrimeTests(new [] {"tblC2"})
+                    .WithPrimeTests(new [] {"2pow100"})
                     .Build()
             },
             new object[]
             {
                 12,
                 new ParameterValidatorTests.ParameterBuilder()
-                    .WithKeyGenModes(new [] {"B.3.5"})
+                    .WithKeyGenModes(new [] {"probableWithProvableAux"})
                     .WithModuli(new [] {2048, 3072, 4096})
-                    .WithPrimeTests(new [] {"tblC2", "tblC3"})
+                    .WithPrimeTests(new [] {"2pow100", "2powSecStr"})
                     .WithHashAlgs(new [] {"SHA2-512", "SHA2-512/224"})
                     .Build()
             },
@@ -54,9 +54,9 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
             {
                 90,
                 new ParameterValidatorTests.ParameterBuilder()
-                    .WithKeyGenModes(new [] {"B.3.2", "B.3.4", "B.3.5", "B.3.6"})
+                    .WithKeyGenModes(new [] {"provable", "provableWithProvableAux", "probableWithProvableAux", "probableWithProbableAux"})
                     .WithModuli(new [] {2048, 3072, 4096})
-                    .WithPrimeTests(new [] {"tblC2", "tblC3"})
+                    .WithPrimeTests(new [] {"2pow100", "2powSecStr"})
                     .WithHashAlgs(new [] {"SHA-1", "SHA2-224", "SHA2-256", "SHA2-384", "SHA2-512", "SHA2-512/224", "SHA2-512/256"})
                     .Build()
             }

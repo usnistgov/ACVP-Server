@@ -19,5 +19,6 @@ namespace NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys
         IKeyBuilder WithPublicExponent(BigInteger e);
         IKeyBuilder WithPublicExponent(BitString e);
         IKeyBuilder WithSeed(BitString seed);
+        IKeyBuilder WithStandard(Fips186Standard standard);
     }
 }

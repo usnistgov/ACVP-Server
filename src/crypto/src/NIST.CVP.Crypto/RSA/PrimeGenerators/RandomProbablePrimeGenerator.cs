@@ -1,66 +1,129 @@
 ﻿using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.PrimeGenerators;
 using NIST.CVP.Crypto.Common.Math;
-using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Numerics;
+using NIST.CVP.Math.Helpers;
 
 namespace NIST.CVP.Crypto.RSA.PrimeGenerators
 {
-    public class RandomProbablePrimeGenerator : PrimeGeneratorBase
+    public class RandomProbablePrimeGenerator : IFips186_2PrimeGenerator, IFips186_4PrimeGenerator, IFips186_5PrimeGenerator
     {
+        private readonly IEntropyProvider _entropyProvider;
+        private readonly PrimeTestModes _primeTestMode;
+
+        // Default properties for PrimeGenerator
+        private bool _kat = false;
+        private bool _performAShift = false;
+        private bool _performBShift = false;
+        private int _iBoundForP = 5;
+        private int _iBoundForQ = 5;
+
         public RandomProbablePrimeGenerator(IEntropyProvider entropyProvider, PrimeTestModes primeTestMode)
-            : base(entropyProvider: entropyProvider, primeTestMode: primeTestMode) { }
-
-        public override PrimeGeneratorResult GeneratePrimes(int nlen, BigInteger e, BitString seed)
         {
-            var kat = _entropyProvider.GetType() == typeof(TestableEntropyProvider);
+            _entropyProvider = entropyProvider;
+            _primeTestMode = primeTestMode;
+        }
 
-            // Remove these because we need this to support 1536-bit, 4096-bit and some smaller e values (3, 17)
-            //// 1
-            //if (nlen != 2048 && nlen != 3072)
-            //{
-            //    return new PrimeGeneratorResult("Incorrect nlen, must be 2048, 3072");
-            //}
+        public PrimeGeneratorResult GeneratePrimesKat(PrimeGeneratorParameters param)
+        {
+            _kat = true;
+            return GeneratePrimes(param);
+        }
 
-            //// 2
-            //if (e <= BigInteger.Pow(2, 16) || e >= BigInteger.Pow(2, 256) || e.IsEven)
-            //{
-            //    return new PrimeGeneratorResult("Incorrect e, must be greater than 2^16, less than 2^256, odd");
-            //}
+        public PrimeGeneratorResult GeneratePrimesFips186_2(PrimeGeneratorParameters param)
+        {
+            var errors = new List<string>();
+            
+            PrimeGeneratorGuard.AgainstInvalidModulusFips186_2(param.Modulus, errors);
+            PrimeGeneratorGuard.AgainstInvalidPublicExponentFips186_2(param.PublicE, errors);
+            
+            if (errors.Any())
+            {
+                return new PrimeGeneratorResult(string.Join(".", errors));
+            }
+            
+            return GeneratePrimes(param);
+        }
 
-            // 3
-            // security_strength doesn't matter
+        public PrimeGeneratorResult GeneratePrimesFips186_4(PrimeGeneratorParameters param)
+        {
+            var errors = new List<string>();
+            
+            PrimeGeneratorGuard.AgainstInvalidModulusFips186_4(param.Modulus, errors);
+            PrimeGeneratorGuard.AgainstInvalidPublicExponent(param.PublicE, errors);
+            
+            if (errors.Any())
+            {
+                return new PrimeGeneratorResult(string.Join(".", errors));
+            }
+            
+            return GeneratePrimes(param);
+        }
+
+        public PrimeGeneratorResult GeneratePrimesFips186_5(PrimeGeneratorParameters param)
+        {
+            _iBoundForP = 10;
+            _iBoundForQ = 20;
+
+            _performAShift = param.A != default(int);
+            _performBShift = param.B != default(int);
+
+            var errors = new List<string>();
+            
+            PrimeGeneratorGuard.AgainstInvalidModulusFips186_5(param.Modulus, errors);
+            PrimeGeneratorGuard.AgainstInvalidPublicExponent(param.PublicE, errors);
+            PrimeGeneratorGuard.AgainstInvalidAB(param.A, errors);
+            PrimeGeneratorGuard.AgainstInvalidAB(param.B, errors);
+            
+            if (errors.Any())
+            {
+                return new PrimeGeneratorResult(string.Join(".", errors));
+            }
+            
+            return GeneratePrimes(param);
+        }
+
+        private PrimeGeneratorResult GeneratePrimes(PrimeGeneratorParameters param)
+        {
+            // 1, 2, 3 performed by guards
 
             // 4, 4.1
             var i = 0;
             BigInteger p = 0;
-            var bound = GetBound(nlen);
+            var pqLowerBound = GetBound(param.Modulus);
+            
             do
             {
                 do
                 {
                     // 4.2
-                    if (p != 0 && kat)
+                    if (p != 0 && _kat)
                     {
                         return new PrimeGeneratorResult("Given p less than sqrt(2) * 2 ^ (n/2) - 1, need to get a new random number.");
                     }
-                    p = _entropyProvider.GetEntropy(nlen / 2).ToPositiveBigInteger();
+                    p = _entropyProvider.GetEntropy(param.Modulus / 2).ToPositiveBigInteger();
 
                     // 4.3
-                    if (p.IsEven)
+                    if (_performAShift)
+                    {
+                        p += (param.A - p).PosMod(8);
+                    }
+                    else if (p.IsEven)
                     {
                         p++;
                     }
 
                     // 4.4
-                } while (p < bound);
+                } while (p < pqLowerBound);
 
                 // 4.5
-                if (NumberTheory.GCD(p - 1, e) == 1)
+                if (NumberTheory.GCD(p - 1, param.PublicE) == 1)
                 {
-                    if (MillerRabin(nlen, p, false))
+                    if (PrimeGeneratorHelper.MillerRabin(_primeTestMode, param.Modulus, p, false))
                     {
                         break;
                     }
@@ -68,16 +131,16 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
 
                 // 4.6, 4.7
                 i++;
-                if (i >= 5 * (nlen / 2))
+                if (i >= _iBoundForP * (param.Modulus / 2))
                 {
                     return new PrimeGeneratorResult("Too many iterations for p");
                 }
 
-                if (kat)
+                if (_kat)
                 {
                     return new PrimeGeneratorResult("Given p is not prime");
                 }
-            } while (!kat);
+            } while (!_kat);
 
             // 5, 5.1
             i = 0;
@@ -87,26 +150,30 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
                 do
                 {
                     // 5.2
-                    if (q != 0 && kat)
+                    if (q != 0 && _kat)
                     {
                         return new PrimeGeneratorResult("Given q less than sqrt(2) * 2 ^ (n/2) - 1, need to get a new random number.");
                     }
-                    q = _entropyProvider.GetEntropy(nlen / 2).ToPositiveBigInteger();
+                    q = _entropyProvider.GetEntropy(param.Modulus / 2).ToPositiveBigInteger();
 
                     // 5.3
-                    if (q.IsEven)
+                    if (_performBShift)
+                    {
+                        q += (param.B - q).PosMod(8);
+                    }
+                    else if (q.IsEven)
                     {
                         q++;
                     }
 
                     // 5.4
                     // 5.5
-                } while (BigInteger.Abs(p - q) <= NumberTheory.Pow2(nlen / 2 - 100) || q < bound);
+                } while (BigInteger.Abs(p - q) <= NumberTheory.Pow2(param.Modulus / 2 - 100) || q < pqLowerBound);
 
                 // 5.6
-                if (NumberTheory.GCD(q - 1, e) == 1)
+                if (NumberTheory.GCD(q - 1, param.PublicE) == 1)
                 {
-                    if (MillerRabin(nlen, q, false))
+                    if (PrimeGeneratorHelper.MillerRabin(_primeTestMode, param.Modulus, q, false))
                     {
                         break;
                     }
@@ -114,16 +181,16 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
 
                 // 5.7, 5.8
                 i++;
-                if (i >= 5 * (nlen / 2))
+                if (i >= _iBoundForQ * (param.Modulus / 2))
                 {
                     return new PrimeGeneratorResult("Too many iterations for q");
                 }
 
-                if (kat)
+                if (_kat)
                 {
                     return new PrimeGeneratorResult("Given q is not prime");
                 }
-            } while (!kat);
+            } while (!_kat);
 
             var auxValues = new AuxiliaryResult();
             var primePair = new PrimePair {P = p, Q = q};
@@ -135,15 +202,15 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
             switch (nlen)
             {
                 case 1024:
-                    return _root2Mult2Pow512Minus1;
+                    return PrimeGeneratorHelper.Root2Mult2Pow512Minus1;
                 case 1536:
-                    return _root2Mult2Pow768Minus1;
+                    return PrimeGeneratorHelper.Root2Mult2Pow768Minus1;
                 case 2048:
-                    return _root2Mult2Pow1024Minus1;
+                    return PrimeGeneratorHelper.Root2Mult2Pow1024Minus1;
                 case 3072:
-                    return _root2Mult2Pow1536Minus1;
+                    return PrimeGeneratorHelper.Root2Mult2Pow1536Minus1;
                 case 4096:
-                    return _root2Mult2Pow2048Minus1;
+                    return PrimeGeneratorHelper.Root2Mult2Pow2048Minus1;
                 default:
                     throw new ArgumentException("Invalid nlen");
             }

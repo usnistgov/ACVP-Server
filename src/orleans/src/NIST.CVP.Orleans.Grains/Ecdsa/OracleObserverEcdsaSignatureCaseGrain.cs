@@ -53,7 +53,7 @@ namespace NIST.CVP.Orleans.Grains.Ecdsa
         {
             var curve = _curveFactory.GetCurve(_param.Curve);
             var domainParams = new EccDomainParameters(curve);
-            var eccDsa = _dsaFactory.GetInstance(_param.HashAlg);
+            var eccDsa = _dsaFactory.GetInstanceForSignatures(_param.HashAlg, _param.NonceProviderType, new EntropyProvider(new Random800_90()));
 
             var message = _entropyProvider.GetEntropy(_param.PreHashedMessage ? _param.HashAlg.OutputLen : 1024);
 

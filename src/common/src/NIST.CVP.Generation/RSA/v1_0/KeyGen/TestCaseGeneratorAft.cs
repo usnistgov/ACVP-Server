@@ -41,7 +41,8 @@ namespace NIST.CVP.Generation.RSA.v1_0.KeyGen
                     PrimeTest = group.PrimeTest,
                     HashAlg = group.HashAlg,
                     PublicExponentMode = group.PubExp,
-                    PublicExponent = group.FixedPubExp
+                    PublicExponent = group.FixedPubExp,
+                    Standard = Fips186Standard.Fips186_4
                 };
 
                 try
@@ -62,7 +63,7 @@ namespace NIST.CVP.Generation.RSA.v1_0.KeyGen
                     };
 
                     // TODO this really sucks, these bitstring values need slight modification because they don't always match the bitlens if they start with some 0s
-                    if (group.PrimeGenMode == PrimeGenModes.B36)
+                    if (group.PrimeGenMode == PrimeGenModes.RandomProbablePrimesWithAuxiliaryProbablePrimes)
                     {
                         testCase.XP1 = PadAuxValuesToMatchBitLens(result.AuxValues.XP1, testCase.Bitlens[0]);
                         testCase.XP2 = PadAuxValuesToMatchBitLens(result.AuxValues.XP2, testCase.Bitlens[1]);

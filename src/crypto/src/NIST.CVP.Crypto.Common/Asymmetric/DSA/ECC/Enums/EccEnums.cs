@@ -51,4 +51,10 @@ namespace NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC.Enums
         [EnumMember(Value = "extra bits")]
         ExtraRandomBits
     }
+
+    public enum NonceProviderTypes
+    {
+        Random,
+        Deterministic
+    }
 }

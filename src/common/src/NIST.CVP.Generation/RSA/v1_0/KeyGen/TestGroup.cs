@@ -18,10 +18,29 @@ namespace NIST.CVP.Generation.RSA.v1_0.KeyGen
         public string TestType { get; set; }
 
         public PrivateKeyModes KeyFormat { get; set; }
+        
+        [JsonIgnore]
         public PrimeTestModes PrimeTest { get; set; }
 
+        // Handles converting the section numbers to the proper name
+        [JsonProperty(PropertyName = "primeTest")]
+        public string PrimeTestSection
+        {
+            get => RsaKeyGenAttributeConverter.GetStringFromPrimeTest(PrimeTest);
+            set => PrimeTest = RsaKeyGenAttributeConverter.GetPrimeTestFromString(value);
+        }
+        
+        // Handles converting the section numbers to the proper name
         [JsonProperty(PropertyName = "randPQ")]
+        public string PrimeGenSection
+        {
+            get => RsaKeyGenAttributeConverter.GetStringFromPrimeGen(PrimeGenMode);
+            set => PrimeGenMode = RsaKeyGenAttributeConverter.GetPrimeGenFromString(value);
+        }
+        
+        [JsonIgnore]
         public PrimeGenModes PrimeGenMode { get; set; }
+        
         public PublicExponentModes PubExp { get; set; }
 
         [JsonIgnore]
@@ -45,7 +64,7 @@ namespace NIST.CVP.Generation.RSA.v1_0.KeyGen
             switch (name.ToLower())
             {
                 case "primemethod":
-                    PrimeGenMode = EnumHelpers.GetEnumFromEnumDescription<PrimeGenModes>(value);
+                    PrimeGenMode = RsaKeyGenAttributeConverter.GetPrimeGenFromString(value);
                     return true;
                 case "mod":
                     Modulo = int.Parse(value);
@@ -54,7 +73,8 @@ namespace NIST.CVP.Generation.RSA.v1_0.KeyGen
                     HashAlg = ShaAttributes.GetHashFunctionFromName(value);
                     return true;
                 case "table for m-t test":
-                    PrimeTest = EnumHelpers.GetEnumFromEnumDescription<PrimeTestModes>(value);
+                case "table for m-r test":
+                    PrimeTest = RsaKeyGenAttributeConverter.GetPrimeTestFromFirehose(value);
                     return true;
             }
 

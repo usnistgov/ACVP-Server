@@ -5,6 +5,8 @@ using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Common.KAS;
+using NIST.CVP.Math;
+using NIST.CVP.Math.Entropy;
 using NIST.CVP.Orleans.Grains.Interfaces.Kas;
 
 namespace NIST.CVP.Orleans.Grains.Kas
@@ -43,8 +45,7 @@ namespace NIST.CVP.Orleans.Grains.Kas
             var curve = _curveFactory.GetCurve(_param.Curve);
             var domainParameters = new EccDomainParameters(curve);
 
-            // note hash function is used for signing/verifying - not relevant for use in this algo
-            var ecdsa = _dsaFactory.GetInstance(new HashFunction(ModeValues.SHA2, DigestSizes.d512));
+            var ecdsa = _dsaFactory.GetInstanceForKeys(new EntropyProvider(new Random800_90()));
             
             // Generate a server key pair
             var serverKeyPair = ecdsa.GenerateKeyPair(domainParameters);

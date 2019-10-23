@@ -1,5 +1,8 @@
-﻿using NIST.CVP.Crypto.Common.Hash.SHA2;
+﻿using System;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA.PrimeGenerators;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.RSA.PrimeGenerators;
+using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -12,10 +15,20 @@ namespace NIST.CVP.Crypto.RSA.Tests.PrimeGenerators
         [Test]
         [TestCase(0, "010001", "ABCD")]
         [TestCase(2048, "03", "ABCD")]
-        public void ShouldFailWithBadParameters(int nlen, string e, string seed)
+        [TestCase(4096, "11", "ABCD")]
+        public void ShouldFailWithBadParametersFips186_4(int nlen, string e, string seed)
         {
-            var subject = new RandomProvablePrimeGenerator();
-            var result = subject.GeneratePrimes(nlen, new BitString(e).ToPositiveBigInteger(), new BitString(seed));
+            var param = new PrimeGeneratorParameters
+            {
+                Modulus = nlen,
+                PublicE = new BitString(e).ToPositiveBigInteger(),
+                Seed = new BitString(seed)
+            };
+            
+            var sha = new ShaFactory().GetShaInstance(new HashFunction(ModeValues.SHA2, DigestSizes.d256));
+            var subject = new RandomProvablePrimeGenerator(sha);
+
+            var result = subject.GeneratePrimesFips186_4(param);
             Assert.IsFalse(result.Success);
         }
 
@@ -31,13 +44,46 @@ namespace NIST.CVP.Crypto.RSA.Tests.PrimeGenerators
         [TestCase(3072, ModeValues.SHA2, DigestSizes.d384, "0100000001", "ad0c42e002efc105f2956a6b7899add6030a15f14aa8e066376e373636457162", "f29dc185111db13427cde1af67c9b4464ce701769f772b793e0df358ba65bc556ae6b539426d827481ed1634a2fc24004a4b330d59c2e0d7058196be57fb80bda555412b70914fcc9de124673d9e02cc37ad2733082fa9ceb21c277c5af659ae7d915e1df8bc2bb68badc0d51ea3a4cc826078c484fe817ee2163273e9f4df0c721a3a6ea562eb24e6ee80ffe4cb81d1ae5e3092d9ce691a1cfec1b760cdac9dc5fc0f13a1fdcdbfe5554dc8066f6332970a3127b271300e1aba98acc31d766f", "d2921e8eadfea920ae84b4203094c8f0ba18c1d81e5e1ac4359915c45548a3851769b234ab51706efb8be6f26cddb0b7bc396ed150b541437a37428eada8b51fde456074898193edca73da054cd3132d47ba52201058431235d9f3a23b80edbfdefccd7964d3da9fd175e2fa9591fa121ccc7f6e005bc5c16cafc0ce4103129944f44e4d5b47b6b46e326175137ee5f78f82dd2579de0b6da94f5426a8f4febf2a6ac0c02f6e4691afd181cbfdfe2c5ef415fa2782b1a34339dd485c8a409ce3")]
         [TestCase(3072, ModeValues.SHA2, DigestSizes.d512, "0100000001", "596f67f2b589b3514d92104e397e39057c7138ea71754867b7e1f289e468f072", "eb06083ad23cba32ab6fe80d161fe06bdb41819fea57e6961439e31f7c18a97cae6f6ff0200e88feca88dbbfa00dcc77430067105480d9fde809675ab6e8b2ddb762cb000d163ff022903e5b4e052c4ad414229bf15fd56f9b75fca761c1f1748f9c686f110157d88ad65db3824a5695b7debd7d51fbe6e6f9386b1ffefed4d348716f664b5e9663325e9d1157cee7019b2633cf679815daebb898c259e86d010fb312ff2895042867d74ac14cc2d6b6583c221c6764359fd7fc79b163209903", "c4a07fd73529b1cd1fe397a959d6f1d236b9f90814bc7006f2cb0d6ee22226c9b515c2bdad51627e149d82b339214233aa29a97a6d5fc026d050dc6f615d331072ebd3947eac87083ecd88ccec0b2a2cb1dce867096f592f37715d0ad67a081e60caf0d0eaabd410905e9c464bface12aa6240145580829eccae55ab1993a3ba2773487031b986387f754423715b6afa2cf4daff4971e71a5c93df547a67a7bd6b89f0009d1ce644bc6609ddc0fd9148c9a2c5bc2a1915999fd658252d68c75f")]
         [TestCase(3072, ModeValues.SHA2, DigestSizes.d256, "907121", "c69ea869dcd678859d6c07815cbf70322cf7d855c0f222b28905fb47eae3aa31", "d8e77976cc94ae3efc911b8af75738b2839ed279e67d8c7045c8445d2f16ce0e763e88dc7b7b15e478c3ef815c00fb92154bc00211d2c02a5707906c0fd915256390fa062f02e3233573ece24e5a59680ec5d42ac7bda3fdf1dfe711d4489c11dd70f759a7c7e2fa0bacc747c0be98a97b21f546f3f1a518638ac1ba41b5efb333b731687a94dbb58e95869f8b2478eb7c1b1930c33e710ff8f56049b6815953d09c028e4e1e052fbc5a8822e7d83c0bd7a0d113c0fac30f53164ec1c152a6f3", "d557d0368a89b55541c8deb52f530e8a98bb0c36f0dda6dedc75c368655ecf565f3df148e889060f0e518e2d964e178cb3e8331d193ef97de6e3889a54329e1f7b493000e4c4fe0a2fb97da636e8f53e4aeb069353746cf709e8e4c1996e0928ae67b18a676851ea464957fb72d92561a9855d624546280513b26e8b5091f859665f7d5c6078f078a127a639842ebccd6552592e053189569bf8809402e5b70972a709376be38a77a6369aac69f8d467c71b4bd41d43c305683457d84095d149")]
-        public void ShouldPassWithGoodParameters(int nlen, ModeValues mode, DigestSizes dig, string e, string seed, string p, string q)
+        public void ShouldPassWithGoodParametersFips186_4(int nlen, ModeValues mode, DigestSizes dig, string e, string seed, string p, string q)
         {
-            var subject = new RandomProvablePrimeGenerator(new HashFunction {Mode = mode, DigestSize = dig});
-            var result = subject.GeneratePrimes(nlen, new BitString(e).ToPositiveBigInteger(), new BitString(seed));
+            var param = new PrimeGeneratorParameters
+            {
+                Modulus = nlen,
+                PublicE = new BitString(e).ToPositiveBigInteger(),
+                Seed = new BitString(seed)
+            };
+            
+            var sha = new ShaFactory().GetShaInstance(new HashFunction(mode, dig));
+            var subject = new RandomProvablePrimeGenerator(sha);
+            
+            var result = subject.GeneratePrimesFips186_4(param);
+            
             Assert.IsTrue(result.Success, result.ErrorMessage);
-            Assert.AreEqual(new BitString(p).ToPositiveBigInteger(), result.P, "p");
-            Assert.AreEqual(new BitString(q).ToPositiveBigInteger(), result.Q, "q");
+            Assert.AreEqual(new BitString(p).ToPositiveBigInteger(), result.Primes.P, "p");
+            Assert.AreEqual(new BitString(q).ToPositiveBigInteger(), result.Primes.Q, "q");
+        }
+
+        [Test]
+        [TestCase(2048, ModeValues.SHA2, DigestSizes.d256, "010001", "e5f707e49c4e7cc8fb202b5cd957963713f1c4726677c09b6a7f5dfe", "F5ABFCB3F6EC1ECB249D757C921324A93E4D3EB4616C123446F78A21A008B09CBA60FF608939A6FEBE41BA08E3D5269110F05FB200C1D04021581377346593C9B08761728CFC7FEB7454CCB994158140C91B1DDB238B873896C4983C44EF986473943F6E3A5787E5E86D0026227A245FF643CA0FAD6D236D3FF4AA06424113AF", "BBBD36569F38A7BC6FEFDC757EDC5BB4A0F7EEE1C56BD89A298027CEB19A36C0C0FED124A28565ED768A409D8C66C84E6ACF83B76A36CE79676FFBB5310392B2A94C94CEAD92E22BE25911D5A1D8F904BD5FF11A67FC0FC2AD6569BE66BFBADCC7E9C33FCCB60583302C35E4F72DED4843E2A6D73CEA20C50B212520C40B30AF")]
+        [TestCase(3072, ModeValues.SHA2, DigestSizes.d512, "0123456789", "3a844a987bad733ac4914d4e7f1f27fb3db71868d1f65b123f9f3c8e3dd51dc6", "FF78DB51E9D1CD70947A7AF8ED89EF70ADF410DDD190555C7986CFB0ABF2183E2F108300E449C751FEE308743FBDDB708771319C66129E1E94C0DDE2862FF86892C536335E636D8D8BB4B2D0C51DD2EC1A36C4688AD34E1D9CADF4E755E16417076F6FA379AF07E1A1A7A9041366CE32DC5B5F6E5238FFD91BE494FB4F2B8868D84B118D054A4E4383FFFAA42BEB626513BCD30F13D6D0C470662117DC95D1F1099AD9CF96EE3EDBA204457CFF1B841013B79114A15FDFC56F07C887332E17EF", "F0DDAB3F1BCA6C12131F5628A20ADE9885E6C87769FC7119E7E5CB8E331749E7B23A2271C7C44AB11FF4D5965937C0D875F511B4BFE164A1CDC5267899FF9E91ABA0C5E6C87A4578A15732BB18F08E5F9E673737B5230E746810F9A12E06753E1DC56CE763BDE7F6A2688A7D9715A892E02A808CB5EAD917D570C762685045A440136BA0C626E1C967B7C982BC42470078D5B9D9E6B69268E4DE26C6656ADE791F49D65D7855F1B7A9F4E8634F134E48C7824E5FBC73AD871595EF3E0B31A767")]
+        [TestCase(4096, ModeValues.SHA3, DigestSizes.d256, "0100000001", "3a844a987bad733ac4914d4e7f1f27fb3db71868d1f65b123f9f3c8e3dd51dc6", "E62B90551C2BB0275BB410162AFF2C9CE08C197AC0781A67EF24FC57AFBEC6F7FA27E089D86AF1CDC4BDF2C3ED7096B33B9A2BBB73DBC4C0F8EA1DAB7E52C96A2C92A1034BF210F3D4DECCF3759B5A6B2878D4152C6032DD8AA0B157D7B94F0896FF8AC39510EA3546E7EA3FDEF1CDD472AB571480C014F3742D1EDBF4271788B7CECE996BAB13D851B97314C4EBCF88985E796140CC67B845A6688DA7729A72A9AF369B088BE6C12F0A2444195D6069C1518C988D7CF6887C48690E486E4FBCBCFFE8CC541746F1155EEF944C6225F9460CEA7CEDE319CCACBD23BA4C91CD6F9A70C658F90C9E86BB29C43BB980C0A4DA5166CA9AF14688DD65D86087865DF9", "EF5222613BA0E7E75BB4C10CB3844B1BAD19B5B70B5630CE61A393A3814BE45367AAD1BC78E5DFD6CF007FC1794007E6876E63264AEB1217961B932D3F52E85FED8B7A918D6E3C9B91238A770D5189BCFF6B71D67DCFC1579B42CA2C12BF2670D64834D1F4487D7E61EF9AB51D36434B229B388BE0F2A257C0E8DE70633AF300C269401154D55CBC2706837C9CC167733B1546A2E59437DC080813EE3E4EF311707E412E529CE8E1F392FD757C4FD536EE683BF3121A3E89FDAB7C89FB59635183D9357DAB9E321C104D3EF81835AF50A20C91E3987B8EA3DED0CE022B44B1A4B388CCB13CB9C2E422D9AA36DD9F593E1608BA07F76D78E93413B91703DDE79B")]
+        public void ShouldPassWithGoodParametersFips186_5(int nlen, ModeValues mode, DigestSizes dig, string e, string seed, string p, string q)
+        {
+            var param = new PrimeGeneratorParameters
+            {
+                Modulus = nlen,
+                PublicE = new BitString(e).ToPositiveBigInteger(),
+                Seed = new BitString(seed)
+            };
+            
+            var sha = new ShaFactory().GetShaInstance(new HashFunction(mode, dig));
+            var subject = new RandomProvablePrimeGenerator(sha);
+
+            var result = subject.GeneratePrimesFips186_5(param);
+            
+            Assert.IsTrue(result.Success, result.ErrorMessage);
+            Assert.AreEqual(p, new BitString(result.Primes.P).ToHex(), "p");
+            Assert.AreEqual(q, new BitString(result.Primes.Q).ToHex(), "q");
         }
     }
 }

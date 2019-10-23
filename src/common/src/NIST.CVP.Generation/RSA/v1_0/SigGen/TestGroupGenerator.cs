@@ -94,9 +94,10 @@ namespace NIST.CVP.Generation.RSA.v1_0.SigGen
                         {
                             KeyFormat = PrivateKeyModes.Standard,
                             Modulus = modulo,
-                            KeyMode = PrimeGenModes.B33,
+                            KeyMode = PrimeGenModes.RandomProbablePrimes,
                             PublicExponentMode = PublicExponentModes.Random,
-                            PrimeTest = PrimeTestModes.C2
+                            PrimeTest = PrimeTestModes.TwoPow100ErrorBound,
+                            Standard = Fips186Standard.Fips186_4
                         };
 
                         map.Add(testGroup, _oracle.GetRsaKeyAsync(param));

@@ -16,7 +16,7 @@ namespace NIST.CVP.Generation.RSA.v1_0.LegacySigVer
     {
         public IEnumerable<AlgoMode> SupportedAlgoModeRevisions => new List<AlgoMode>()
         {
-            AlgoMode.RSA_LegacySigVer_v1_0
+            AlgoMode.RSA_SigVer_Fips186_2
         };
 
         public void RegisterTypes(ContainerBuilder builder, AlgoMode algoMode)
