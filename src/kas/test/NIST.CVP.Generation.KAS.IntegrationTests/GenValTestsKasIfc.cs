@@ -1,5 +1,4 @@
 using NIST.CVP.Common;
-using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Enums;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Crypto.Common.KDF.Enums;
 using NIST.CVP.Generation.Core.JsonConverters;
@@ -215,19 +214,6 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                                     },
                                 },
                             },
-                            IkeV1Kdf = new IkeV1Kdf()
-                            {
-                                HashFunctions = new[] { HashFunctions.Sha3_d512 }
-                            },
-                            //IkeV2Kdf = new IkeV2Kdf()
-                            //{
-                            //    HashFunctions = new[] { HashFunctions.Sha3_d512 }
-                            //},
-                            //TlsV10_11Kdf = new TlsV10_11Kdf(),
-                            //TlsV12Kdf = new TlsV12Kdf()
-                            //{
-                            //    HashFunctions = new[] { HashFunctions.Sha2_d256 }
-                            //}
                         },
                         KeyGenerationMethods = new KeyGenerationMethods()
                         {

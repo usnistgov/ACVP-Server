@@ -306,7 +306,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
 
             if (schemeKdfMethods == null)
             {
-                errorResults.Add("A KDF is required and was not provided.");
+                errorResults.Add("KDF object was not found.");
                 return;
             }
 
@@ -314,6 +314,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
 
             if (!registeredKdfs.Any())
             {
+                errorResults.Add("At least one KDF is required.");
                 return;
             }
 

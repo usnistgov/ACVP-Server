@@ -275,10 +275,12 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
 
             list.AddIfNotNull(OneStepKdf);
             list.AddIfNotNull(TwoStepKdf);
-            list.AddIfNotNull(IkeV1Kdf);
-            list.AddIfNotNull(IkeV2Kdf);
-            list.AddIfNotNull(TlsV10_11Kdf);
-            list.AddIfNotNull(TlsV12Kdf);
+
+            // Application specific KDFs removed due to a meeting with the CT group 2019/10/22
+            //list.AddIfNotNull(IkeV1Kdf);
+            //list.AddIfNotNull(IkeV2Kdf);
+            //list.AddIfNotNull(TlsV10_11Kdf);
+            //list.AddIfNotNull(TlsV12Kdf);
 
             return list;
         }

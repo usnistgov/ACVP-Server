@@ -253,10 +253,12 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
 
             GetKdfConfiguration(kdfMethods.OneStepKdf, l, list);
             GetKdfConfiguration(kdfMethods.TwoStepKdf, l, list);
-            GetKdfConfiguration(testType, role, isSample, kdfMethods.IkeV1Kdf, l, list);
-            GetKdfConfiguration(testType, role, isSample, kdfMethods.IkeV2Kdf, l, list);
-            GetKdfConfiguration(testType, role, isSample, kdfMethods.TlsV10_11Kdf, l, list);
-            GetKdfConfiguration(testType, role, isSample, kdfMethods.TlsV12Kdf, l, list);
+
+            // The following KDFs are being removed due to a conversation with the CT group on 2019/10/22.
+            //GetKdfConfiguration(testType, role, isSample, kdfMethods.IkeV1Kdf, l, list);
+            //GetKdfConfiguration(testType, role, isSample, kdfMethods.IkeV2Kdf, l, list);
+            //GetKdfConfiguration(testType, role, isSample, kdfMethods.TlsV10_11Kdf, l, list);
+            //GetKdfConfiguration(testType, role, isSample, kdfMethods.TlsV12Kdf, l, list);
 
             return list;
         }
