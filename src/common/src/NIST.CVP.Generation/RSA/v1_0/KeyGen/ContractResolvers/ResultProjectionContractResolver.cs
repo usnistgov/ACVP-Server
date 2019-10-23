@@ -12,7 +12,7 @@ namespace NIST.CVP.Generation.RSA.v1_0.KeyGen.ContractResolvers
         private readonly Dictionary<PrimeGenModes, string[]> _aftProperties = new Dictionary<PrimeGenModes, string[]>
         {
             {
-                PrimeGenModes.B32,
+                PrimeGenModes.RandomProvablePrimes,
                 new []
                 {
                     nameof(TestCase.Seed),
@@ -20,11 +20,11 @@ namespace NIST.CVP.Generation.RSA.v1_0.KeyGen.ContractResolvers
                 }
             },
             {
-                PrimeGenModes.B33,
+                PrimeGenModes.RandomProbablePrimes,
                 new []{""}
             },
             {
-                PrimeGenModes.B34,
+                PrimeGenModes.RandomProvablePrimesWithAuxiliaryProvablePrimes,
                 new []
                 {
                     nameof(TestCase.Seed),
@@ -33,7 +33,7 @@ namespace NIST.CVP.Generation.RSA.v1_0.KeyGen.ContractResolvers
                 }
             },
             {
-                PrimeGenModes.B35,
+                PrimeGenModes.RandomProbablePrimesWithAuxiliaryProvablePrimes,
                 new []
                 {
                     nameof(TestCase.Seed),
@@ -44,7 +44,7 @@ namespace NIST.CVP.Generation.RSA.v1_0.KeyGen.ContractResolvers
                 }
             },
             {
-                PrimeGenModes.B36,
+                PrimeGenModes.RandomProbablePrimesWithAuxiliaryProbablePrimes,
                 new []
                 {
                     nameof(TestCase.E),

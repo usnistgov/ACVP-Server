@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
 using NIST.CVP.Generation.RSA.v1_0.KeyGen;
+using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
@@ -18,10 +17,10 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
             {
                 Algorithm = "RSA",
                 Mode = "KeyGen",
-                PubExpMode = "random",
+                PubExpMode = PublicExponentModes.Random,
                 IsSample = false,
                 InfoGeneratedByServer = false,
-                KeyFormat = "standard",
+                KeyFormat = PrivateKeyModes.Standard,
                 AlgSpecs = BuildCapabilities()
             };
 
@@ -37,9 +36,9 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
                 Mode = "KeyGen",
                 InfoGeneratedByServer = true,
                 IsSample = false,
-                PubExpMode = "fixed",
-                KeyFormat = "standard",
-                FixedPubExp = "010001",
+                PubExpMode = PublicExponentModes.Fixed,
+                KeyFormat = PrivateKeyModes.Standard,
+                FixedPubExp = new BitString("010001"),
                 AlgSpecs = BuildCapabilities()
             };
 
@@ -48,26 +47,42 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
 
         private AlgSpec[] BuildCapabilities()
         {
-            var caps = new Capability[ParameterValidator.VALID_MODULI.Length];
-            for (var i = 0; i < caps.Length; i++)
+            var caps = new Capability[1];
+            caps[0] = new Capability
             {
-                caps[i] = new Capability
-                {
-                    Modulo = ParameterValidator.VALID_MODULI[i],
-                    HashAlgs = ParameterValidator.VALID_HASH_ALGS,
-                    PrimeTests = ParameterValidator.VALID_PRIME_TESTS
-                };
-            }
+                Modulo = ParameterValidator.VALID_MODULI.First(),
+                HashAlgs = ParameterValidator.VALID_HASH_ALGS,
+                PrimeTests = new[] { PrimeTestModes.TwoPow100ErrorBound }
+            };
 
-            var algSpecs = new AlgSpec[ParameterValidator.VALID_KEY_GEN_MODES.Length];
-            for (var i = 0; i < algSpecs.Length; i++)
+            var algSpecs = new []
             {
-                algSpecs[i] = new AlgSpec
+                new AlgSpec
                 {
-                    RandPQ = ParameterValidator.VALID_KEY_GEN_MODES[i],
+                    RandPQ = PrimeGenModes.RandomProvablePrimes,
                     Capabilities = caps
-                };
-            }
+                }, 
+                new AlgSpec
+                {
+                    RandPQ = PrimeGenModes.RandomProbablePrimes,
+                    Capabilities = caps
+                }, 
+                new AlgSpec
+                {
+                    RandPQ = PrimeGenModes.RandomProvablePrimesWithAuxiliaryProvablePrimes,
+                    Capabilities = caps
+                }, 
+                new AlgSpec
+                {
+                    RandPQ = PrimeGenModes.RandomProbablePrimesWithAuxiliaryProvablePrimes,
+                    Capabilities = caps
+                }, 
+                new AlgSpec
+                {
+                    RandPQ = PrimeGenModes.RandomProbablePrimesWithAuxiliaryProbablePrimes,
+                    Capabilities = caps
+                } 
+            };
 
             return algSpecs;
         }

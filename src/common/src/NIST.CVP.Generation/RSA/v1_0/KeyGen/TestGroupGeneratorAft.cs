@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
-using NIST.CVP.Common.Helpers;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.RSA.v1_0.KeyGen
 {
@@ -17,17 +15,7 @@ namespace NIST.CVP.Generation.RSA.v1_0.KeyGen
 
             foreach (var algSpec in parameters.AlgSpecs)
             {
-                var mode = EnumHelpers.GetEnumFromEnumDescription<PrimeGenModes>(algSpec.RandPQ);
-                var pubExpMode = EnumHelpers.GetEnumFromEnumDescription<PublicExponentModes>(parameters.PubExpMode);
-                var keyFormat = EnumHelpers.GetEnumFromEnumDescription<PrivateKeyModes>(parameters.KeyFormat);
-
-                BitString pubExpVal = null;
-                if (pubExpMode == PublicExponentModes.Fixed)
-                {
-                    pubExpVal = new BitString(parameters.FixedPubExp);
-                }
-
-                if (mode == PrimeGenModes.B33)
+                if (algSpec.RandPQ == PrimeGenModes.RandomProbablePrimes)
                 {
                     continue;
                 }
@@ -35,19 +23,19 @@ namespace NIST.CVP.Generation.RSA.v1_0.KeyGen
                 foreach (var capability in algSpec.Capabilities)
                 {
                     // All provable
-                    if (mode == PrimeGenModes.B32 || mode == PrimeGenModes.B34)
+                    if (algSpec.RandPQ == PrimeGenModes.RandomProvablePrimes || algSpec.RandPQ == PrimeGenModes.RandomProvablePrimesWithAuxiliaryProvablePrimes)
                     {
                         foreach (var hashAlg in capability.HashAlgs)
                         {
                             var testGroup = new TestGroup
                             {
-                                PrimeGenMode = mode,
+                                PrimeGenMode = algSpec.RandPQ,
                                 Modulo = capability.Modulo,
                                 HashAlg = ShaAttributes.GetHashFunctionFromName(hashAlg),
-                                PubExp = pubExpMode,
-                                FixedPubExp = pubExpVal,
+                                PubExp = parameters.PubExpMode,
+                                FixedPubExp = parameters.FixedPubExp,
                                 InfoGeneratedByServer = parameters.InfoGeneratedByServer,
-                                KeyFormat = keyFormat,
+                                KeyFormat = parameters.KeyFormat,
                                 TestType = TEST_TYPE
                             };
 
@@ -56,7 +44,7 @@ namespace NIST.CVP.Generation.RSA.v1_0.KeyGen
                     }
 
                     // Both probable and provable
-                    if (mode == PrimeGenModes.B35)
+                    if (algSpec.RandPQ == PrimeGenModes.RandomProbablePrimesWithAuxiliaryProvablePrimes)
                     {
                         foreach (var hashAlg in capability.HashAlgs)
                         {
@@ -64,14 +52,14 @@ namespace NIST.CVP.Generation.RSA.v1_0.KeyGen
                             {
                                 var testGroup = new TestGroup
                                 {
-                                    PrimeGenMode = mode,
+                                    PrimeGenMode = algSpec.RandPQ,
                                     Modulo = capability.Modulo,
-                                    PrimeTest = EnumHelpers.GetEnumFromEnumDescription<PrimeTestModes>(primeTest),
+                                    PrimeTest = primeTest,
                                     HashAlg = ShaAttributes.GetHashFunctionFromName(hashAlg),
-                                    PubExp = pubExpMode,
-                                    FixedPubExp = pubExpVal,
+                                    PubExp = parameters.PubExpMode,
+                                    FixedPubExp = parameters.FixedPubExp,
                                     InfoGeneratedByServer = parameters.InfoGeneratedByServer,
-                                    KeyFormat = keyFormat,
+                                    KeyFormat = parameters.KeyFormat,
                                     TestType = TEST_TYPE
                                 };
 
@@ -81,19 +69,19 @@ namespace NIST.CVP.Generation.RSA.v1_0.KeyGen
                     }
 
                     // All probable
-                    if (mode == PrimeGenModes.B36)
+                    if (algSpec.RandPQ == PrimeGenModes.RandomProbablePrimesWithAuxiliaryProbablePrimes)
                     {
                         foreach (var primeTest in capability.PrimeTests)
                         {
                             var testGroup = new TestGroup
                             {
-                                PrimeGenMode = mode,
+                                PrimeGenMode = algSpec.RandPQ,
                                 Modulo = capability.Modulo,
-                                PrimeTest = EnumHelpers.GetEnumFromEnumDescription<PrimeTestModes>(primeTest),
-                                PubExp = pubExpMode,
-                                FixedPubExp = pubExpVal,
+                                PrimeTest = primeTest,
+                                PubExp = parameters.PubExpMode,
+                                FixedPubExp = parameters.FixedPubExp,
                                 InfoGeneratedByServer = parameters.InfoGeneratedByServer,
-                                KeyFormat = keyFormat,
+                                KeyFormat = parameters.KeyFormat,
                                 TestType = TEST_TYPE
                             };
 

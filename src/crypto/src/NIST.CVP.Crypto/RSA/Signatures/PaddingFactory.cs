@@ -11,7 +11,15 @@ namespace NIST.CVP.Crypto.RSA.Signatures
 {
     public class PaddingFactory : IPaddingFactory
     {
-        public IPaddingScheme GetPaddingScheme(SignatureSchemes sigMode, ISha sha, IEntropyProvider entropyProvider = null, int saltLength = 0)
+        private readonly IMaskFactory _maskFactory;
+
+        public PaddingFactory(IMaskFactory maskFactory)
+        {
+            _maskFactory = maskFactory;
+        }
+        
+        /// Always correct
+        public IPaddingScheme GetPaddingScheme(SignatureSchemes sigMode, ISha sha, PssMaskTypes maskType = PssMaskTypes.None, IEntropyProvider entropyProvider = null, int saltLength = 0)
         {
             switch (sigMode)
             {
@@ -22,14 +30,16 @@ namespace NIST.CVP.Crypto.RSA.Signatures
                     return new PkcsPadder(sha);
 
                 case SignatureSchemes.Pss:
-                    return new PssPadder(sha, entropyProvider, saltLength);
+                    var mask = _maskFactory.GetMaskInstance(maskType, sha.HashFunction);
+                    return new PssPadder(sha, mask, entropyProvider, saltLength);
 
                 default:
                     throw new ArgumentException("Invalid signature scheme");
             }
         }
 
-        public IPaddingScheme GetSigningPaddingScheme(SignatureSchemes sigMode, ISha sha, SignatureModifications errors, IEntropyProvider entropyProvider = null, int saltLength = 0)
+        /// Could introduce errors
+        public IPaddingScheme GetSigningPaddingScheme(SignatureSchemes sigMode, ISha sha, SignatureModifications errors, PssMaskTypes maskType = PssMaskTypes.None, IEntropyProvider entropyProvider = null, int saltLength = 0)
         {
             if (sigMode == SignatureSchemes.Ansx931)
             {
@@ -85,25 +95,27 @@ namespace NIST.CVP.Crypto.RSA.Signatures
             }
             else if (sigMode == SignatureSchemes.Pss)
             {
+                var mask = _maskFactory.GetMaskInstance(maskType, sha.HashFunction);
+                
                 switch (errors)
                 {
                     case SignatureModifications.None:
-                        return new PssPadder(sha, entropyProvider, saltLength);
+                        return new PssPadder(sha, mask, entropyProvider, saltLength);
 
                     case SignatureModifications.E:
-                        return new PssPadderWithModifiedPublicExponent(sha, entropyProvider, saltLength);
+                        return new PssPadderWithModifiedPublicExponent(sha, mask, entropyProvider, saltLength);
 
                     case SignatureModifications.Message:
-                        return new PssPadderWithModifiedMessage(sha, entropyProvider, saltLength);
+                        return new PssPadderWithModifiedMessage(sha, mask, entropyProvider, saltLength);
 
                     case SignatureModifications.ModifyTrailer:
-                        return new PssPadderWithModifiedTrailer(sha, entropyProvider, saltLength);
+                        return new PssPadderWithModifiedTrailer(sha, mask, entropyProvider, saltLength);
 
                     case SignatureModifications.MoveIr:
-                        return new PssPadderWithMovedIr(sha, entropyProvider, saltLength);
+                        return new PssPadderWithMovedIr(sha, mask, entropyProvider, saltLength);
 
                     case SignatureModifications.Signature:
-                        return new PssPadderWithModifiedSignature(sha, entropyProvider, saltLength);
+                        return new PssPadderWithModifiedSignature(sha, mask, entropyProvider, saltLength);
 
                     default:
                         throw new ArgumentException("Signature modification does not exist for selected scheme");

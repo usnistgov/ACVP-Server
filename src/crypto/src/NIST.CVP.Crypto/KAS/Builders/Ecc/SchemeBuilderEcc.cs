@@ -77,6 +77,7 @@ namespace NIST.CVP.Crypto.KAS.Builders.Ecc
                 EccKeyPair
             > scheme = null;
 
+            // TODO is this used for keys or signatures or both???
             var dsa = _dsaEccFactory.GetInstance(_withHashFunction);
 
             switch (schemeParameters.KasDsaAlgoAttributes.Scheme)

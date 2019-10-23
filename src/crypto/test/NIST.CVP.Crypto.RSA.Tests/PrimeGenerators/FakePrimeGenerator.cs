@@ -1,16 +1,21 @@
-﻿using NIST.CVP.Crypto.RSA.PrimeGenerators;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using NIST.CVP.Math;
-using System.Numerics;
+﻿using System;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.PrimeGenerators;
 
 namespace NIST.CVP.Crypto.RSA.Tests.PrimeGenerators
 {
-    public class FakePrimeGenerator : PrimeGeneratorBase
+    public class FakePrimeGenerator : IFips186_5PrimeGenerator, IFips186_4PrimeGenerator, IFips186_2PrimeGenerator
     {
-        public override PrimeGeneratorResult GeneratePrimes(int nlen, BigInteger e, BitString seed)
+        public PrimeGeneratorResult GeneratePrimesFips186_5(PrimeGeneratorParameters param)
+        {
+            throw new NotImplementedException();
+        }
+
+        public PrimeGeneratorResult GeneratePrimesFips186_4(PrimeGeneratorParameters param)
+        {
+            throw new NotImplementedException();
+        }
+
+        public PrimeGeneratorResult GeneratePrimesFips186_2(PrimeGeneratorParameters param)
         {
             throw new NotImplementedException();
         }

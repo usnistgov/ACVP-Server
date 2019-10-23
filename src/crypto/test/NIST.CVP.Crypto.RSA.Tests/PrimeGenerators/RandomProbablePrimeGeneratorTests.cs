@@ -1,4 +1,6 @@
 ﻿using System;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA.PrimeGenerators;
 using NIST.CVP.Crypto.RSA.PrimeGenerators;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
@@ -13,25 +15,85 @@ namespace NIST.CVP.Crypto.RSA.Tests.PrimeGenerators
         [Test]
         [TestCase(0, "010001")]
         [TestCase(2048, "03")]
-        public void ShouldFailWithBadParameters(int nlen, string e)
+        public void ShouldFailWithBadParametersFips186_4(int nlen, string e)
         {
-            var subject = new RandomProbablePrimeGenerator();
-            var result = subject.GeneratePrimes(nlen, new BitString(e).ToPositiveBigInteger(), null);
+            var param = new PrimeGeneratorParameters
+            {
+                Modulus = nlen,
+                PublicE = new BitString(e).ToPositiveBigInteger()
+            };
+            
+            var subject = new RandomProbablePrimeGenerator(new EntropyProvider(new Random800_90()), PrimeTestModes.TwoPow100ErrorBound);
+            
+            var result = subject.GeneratePrimesFips186_4(param);
+            
             Assert.IsFalse(result.Success);
         }
 
-        // This doesn't exactly test this way...
-        // It is RANDOM... Can't even ensure that these will return result.Success, bit I can make sure it runs at all
+        [Test]
+        [TestCase(1024, "03")]
+        [TestCase(1536, "11")]
+        [TestCase(2048, "010001")]
+        [TestCase(3072, "03")]
+        [TestCase(4096, "11")]
+        public void ShouldPassWithGoodParametersFips186_2(int nlen, string e)
+        {
+            var param = new PrimeGeneratorParameters
+            {
+                Modulus = nlen,
+                PublicE = new BitString(e).ToPositiveBigInteger()
+            };
+            
+            var subject = new RandomProbablePrimeGenerator(new EntropyProvider(new Random800_90()), PrimeTestModes.TwoPow100ErrorBound);
+            
+            var result = subject.GeneratePrimesFips186_2(param);
+            
+            Assert.IsTrue(result.Success, result.ErrorMessage);
+        }
+        
         [Test]
         [TestCase(2048, "df28ab")]
         [TestCase(2048, "e66d81")]
         [TestCase(3072, "df28ab")]
         [TestCase(3072, "e66d81")]
-        public void ShouldPassWithGoodParameters(int nlen, string e)
+        [TestCase(4096, "010001")]
+        public void ShouldPassWithGoodParametersFips186_4(int nlen, string e)
         {
-            var subject = new RandomProbablePrimeGenerator();
-            var result = subject.GeneratePrimes(nlen, new BitString(e).ToPositiveBigInteger(), null);
+            var param = new PrimeGeneratorParameters
+            {
+                Modulus = nlen,
+                PublicE = new BitString(e).ToPositiveBigInteger()
+            };
+            
+            var subject = new RandomProbablePrimeGenerator(new EntropyProvider(new Random800_90()), PrimeTestModes.TwoPow100ErrorBound);
+            
+            var result = subject.GeneratePrimesFips186_4(param);
+            
             Assert.IsTrue(result.Success, result.ErrorMessage);
+        }
+
+        [Test]
+        [TestCase(2048, "df28ab", 1, 3)]
+        [TestCase(2048, "010001", 7, 7)]
+        [TestCase(3072, "010001", 3, 5)]
+        [TestCase(4096, "e66d81", 5, 0)]
+        public void ShouldPassWithGoodParametersFips186_5(int nlen, string e, int a, int b)
+        {
+            var param = new PrimeGeneratorParameters
+            {
+                Modulus = nlen,
+                PublicE = new BitString(e).ToPositiveBigInteger(),
+                A = a,
+                B = b
+            };
+            
+            var subject = new RandomProbablePrimeGenerator(new EntropyProvider(new Random800_90()), PrimeTestModes.TwoPow100ErrorBound);
+
+            var result = subject.GeneratePrimesFips186_5(param);
+            
+            Assert.IsTrue(result.Success, result.ErrorMessage);
+            if (a != 0) Assert.AreEqual(a, (int) (result.Primes.P % 8));
+            if (b != 0) Assert.AreEqual(b, (int) (result.Primes.Q % 8));
         }
 
         // These are KATs
@@ -60,15 +122,22 @@ namespace NIST.CVP.Crypto.RSA.Tests.PrimeGenerators
             "fb61c111b038153b645cdd3103fc5eb3e9ab09b64d11de97a08662c569fb22456203fa5fc6b7e41a8e83fe995eeaea9cca670575a662447d39012aa093a051e781df6018c0ea8ab76d49353363074e92f070dfe3c3c8964acad4532da8bea7b0944ffd229f06da23abe7b050418abe4b44513777b988ab30ee696ef053e23ca5",
             "ebb6e652fcc1ba4dd72f5e0c5409c6bcde63f5781cd69a785045db14312d96d13809f96a20ce9c5417c9d01ec2b947c1c180ae208ddc88e8c140da1a241d27ba8c9ce33ff8f97334566bf99a7942b29c5663f8de4cdbcfc43659d5a1b1111f8c87b0d7346da6f7f16dafcdb1f014495c9f4f5635d4fa5ec48cdd323aa9dba968",
             false, "q not prime")]
-        public void ShouldPassKATs(int nlen, string e, string pRand, string qRand, bool expectedResult, string expectedMessage)
+        public void ShouldPassKATsFips186_4(int nlen, string e, string pRand, string qRand, bool expectedResult, string expectedMessage)
         {
-            var eBS = new BitString(e).ToPositiveBigInteger();
+            var param = new PrimeGeneratorParameters
+            {
+                Modulus = nlen,
+                PublicE = new BitString(e).ToPositiveBigInteger()
+            };
+            
+            var entropyProvider = new TestableEntropyProvider();
+            entropyProvider.AddEntropy(new BitString(pRand));
+            entropyProvider.AddEntropy(new BitString(qRand));
 
-            var subject = new RandomProbablePrimeGenerator(EntropyProviderTypes.Testable);
-            subject.AddEntropy(new BitString(pRand));
-            subject.AddEntropy(new BitString(qRand));
-
-            var result = subject.GeneratePrimes(nlen, eBS, null);
+            var subject = new RandomProbablePrimeGenerator(entropyProvider, PrimeTestModes.TwoPow100ErrorBound);
+            
+            var result = subject.GeneratePrimesKat(param);
+            
             Assert.AreEqual(expectedResult, result.Success, expectedMessage);
             if (!result.Success)
             {

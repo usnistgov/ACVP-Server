@@ -1,7 +1,8 @@
-﻿using NIST.CVP.Crypto.Common.Asymmetric.RSA.PrimeGenerators;
+﻿using System;
+using System.Numerics;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA.PrimeGenerators;
 using NIST.CVP.Crypto.Common.Math;
 using NIST.CVP.Math.Helpers;
-using System.Numerics;
 
 namespace NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys
 {
@@ -14,11 +15,12 @@ namespace NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys
             // Checks to avoid exceptions
             if (primes.P == 0 || primes.Q == 0 || e == 0)
             {
-                return new KeyPair
-                {
-                    PrivKey = new CrtPrivateKey {P = primes.P, Q = primes.Q},
-                    PubKey = new PublicKey {E = e, N = n}
-                };
+                throw new Exception("Invalid p, q, e provided for CRT Key");
+                //return new KeyPair
+                //{
+                //    PrivKey = new CrtPrivateKey {P = primes.P, Q = primes.Q},
+                //    PubKey = new PublicKey {E = e, N = n}
+                //};
             }
             
             var d = e.ModularInverse(NumberTheory.LCM(primes.P - 1, primes.Q - 1));

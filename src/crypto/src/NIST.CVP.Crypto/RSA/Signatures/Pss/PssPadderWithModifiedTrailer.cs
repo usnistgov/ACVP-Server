@@ -8,7 +8,7 @@ namespace NIST.CVP.Crypto.RSA.Signatures.Pss
 {
     public class PssPadderWithModifiedTrailer : PssPadder
     {
-        public PssPadderWithModifiedTrailer(ISha sha, IEntropyProvider entropy, int saltLength) : base(sha, entropy, saltLength) { }
+        public PssPadderWithModifiedTrailer(ISha sha, IMaskFunction mask, IEntropyProvider entropy, int saltLength) : base(sha, mask, entropy, saltLength) { }
 
         public override PaddingResult Pad(int nlen, BitString message)
         {
@@ -37,7 +37,7 @@ namespace NIST.CVP.Crypto.RSA.Signatures.Pss
             DB = BitString.ConcatenateBits(DB, salt);
 
             // All bit values
-            var dbMask = Mgf(H, emLen * 8 - H.BitLength - 1 * 8);
+            var dbMask = Mask.Mask(H, (emLen * 8) - H.BitLength - (1 * 8));
             var maskedDB = BitString.XOR(DB, dbMask);
 
             // Set leftmost bits to 0

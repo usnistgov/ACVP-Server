@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using Newtonsoft.Json;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.RSA.v1_0.SigGen

@@ -12,7 +12,7 @@ namespace NIST.CVP.Generation.ECDSA.v1_0.SigGen
         public string[] Conformances { get; set; } = { };
 
         public Capability[] Capabilities { get; set; }
-        public bool ComponentTest { get; set; } = false;
+        public bool ComponentTest { get; set; }
     }
 
     public class Capability

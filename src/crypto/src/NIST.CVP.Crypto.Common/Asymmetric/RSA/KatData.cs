@@ -11,22 +11,22 @@ namespace NIST.CVP.Crypto.Common.Asymmetric.RSA
         {
             if (modulo == 2048)
             {
-                if (ptMode == PrimeTestModes.C2)
+                if (ptMode == PrimeTestModes.TwoPow100ErrorBound)
                 {
                     return GetB33Mod2048TblC2();
                 }
-                else if (ptMode == PrimeTestModes.C3)
+                else if (ptMode == PrimeTestModes.TwoPowSecurityStrengthErrorBound)
                 {
                     return GetB33Mod2048TblC3();
                 }
             }
             else if (modulo == 3072)
             {
-                if (ptMode == PrimeTestModes.C2)
+                if (ptMode == PrimeTestModes.TwoPow100ErrorBound)
                 {
                     return GetB33Mod3072TblC2();
                 }
-                else if (ptMode == PrimeTestModes.C3)
+                else if (ptMode == PrimeTestModes.TwoPowSecurityStrengthErrorBound)
                 {
                     return GetB33Mod3072TblC3();
                 }

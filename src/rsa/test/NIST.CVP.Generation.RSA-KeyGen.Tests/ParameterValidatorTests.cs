@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using NIST.CVP.Common.Helpers;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
 using NIST.CVP.Generation.RSA.v1_0.KeyGen;
+using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
@@ -25,9 +28,9 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
         [Test]
         [TestCase("null", new object[] { null })]
         [TestCase("empty", new object[] { })]
-        [TestCase("Invalid", new object[] { "notValid" })]
-        [TestCase("Partially valid", new object[] { "b.3.2", "notValid" })]
-        [TestCase("Partially valid with null", new object[] { "b.3.", null })]
+        [TestCase("Invalid", new object[] { "invalid" })]
+        [TestCase("Partially valid", new object[] { "provable", "invalid" })]
+        [TestCase("Partially valid with null", new object[] { "invalid", null })]
         public void ShouldReturnErrorWithInvalidKeyGenMode(string label, object[] mode)
         {
             var strAlgs = mode.Select(v => (string)v).ToArray();
@@ -45,8 +48,8 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
         [Test]
         [TestCase("null", new object[] { null })]
         [TestCase("empty", new object[] { })]
-        [TestCase("Invalid", new object[] { "notValid" })]
-        [TestCase("Partially valid", new object[] { "sha2-224", "notValid" })]
+        [TestCase("Invalid", new object[] { "invalid" })]
+        [TestCase("Partially valid", new object[] { "sha2-224", "invalid" })]
         [TestCase("Partially valid with null", new object[] { "HA2-512/256", null })]
         public void ShouldReturnErrorWithInvalidHashAlgorithm(string label, object[] hashAlg)
         {
@@ -83,7 +86,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
         [Test]
         [TestCase("03")]
         [TestCase("")]
-        [TestCase("0")]
+        [TestCase("00")]
         [TestCase("1234")]
         public void ShouldReturnErrorWithInvalidEValue(string fixedValue)
         {
@@ -104,7 +107,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
             var subject = new ParameterValidator();
             var result = subject.Validate(
                 new ParameterBuilder()
-                    .WithKeyGenModes(new[] {"b.3.2", "b.3.3"})
+                    .WithKeyGenModes(new[] {"provable", "probable"})
                     .Build()
             );
 
@@ -154,27 +157,9 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
         }
 
         [Test]
-        [TestCase("GG")]
-        [TestCase("0192809ajsf0j3")]
-        [TestCase("BEEFFACE")]
-        [TestCase(null)]
-        public void ShouldNotValidateInvalidHex(string hex)
-        {
-            var subject = new ParameterValidator();
-            var result = subject.Validate(
-                new ParameterBuilder()
-                    .WithPubExpMode("fixed")
-                    .WithFixedPubExp(hex)
-                    .Build()
-            );
-
-            Assert.IsFalse(result.Success);
-        }
-
-        [Test]
-        [TestCase("b.3.2")]
-        [TestCase("b.3.4")]
-        [TestCase("b.3.5")]
+        [TestCase("provable")]
+        [TestCase("provableWithProvableAux")]
+        [TestCase("probableWithProvableAux")]
         public void ShouldCheckHashAlgForCertainModes(string mode)
         {
             var subject = new ParameterValidator();
@@ -182,7 +167,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
                 new ParameterBuilder()
                     .WithKeyGenModes(new[] {mode})
                     .WithHashAlgs(null)
-                    .WithPrimeTests(new[] {"tblc3"})
+                    .WithPrimeTests(new[] {"2powSecStr"})
                     .Build()
             );
 
@@ -191,8 +176,8 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
         }
 
         [Test]
-        [TestCase("b.3.3")]
-        [TestCase("b.3.6")]
+        [TestCase("probable")]
+        [TestCase("probableWithProbableAux")]
         public void ShouldNotCheckHashAlgForCertainModes(string mode)
         {
             var subject = new ParameterValidator();
@@ -200,7 +185,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
                 new ParameterBuilder()
                     .WithKeyGenModes(new[] {mode})
                     .WithHashAlgs(null)
-                    .WithPrimeTests(new[] {"tblc3"})
+                    .WithPrimeTests(new[] {"2powSecStr"})
                     .Build()
             );
 
@@ -208,9 +193,9 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
         }
 
         [Test]
-        [TestCase("b.3.3")]
-        [TestCase("b.3.5")]
-        [TestCase("b.3.6")]
+        [TestCase("probable")]
+        [TestCase("probableWithProvableAux")]
+        [TestCase("probableWithProbableAux")]
         public void ShouldCheckPrimeTestForCertainModes(string mode)
         {
             var subject = new ParameterValidator();
@@ -218,17 +203,16 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
                 new ParameterBuilder()
                     .WithKeyGenModes(new[] {mode})
                     .WithHashAlgs(new[] {"sha2-512"})
-                    .WithPrimeTests(null)
+                    .WithPrimeTests(new [] {"none"})
                     .Build()
             );
 
             Assert.IsFalse(result.Success, "Success check");
-            Assert.IsTrue(result.ErrorMessage.Contains("Prime Tests"), "Contains check");
         }
 
         [Test]
-        [TestCase("b.3.2")]
-        [TestCase("b.3.4")]
+        [TestCase("provable")]
+        [TestCase("provableWithProvableAux")]
         public void ShouldNotCheckPrimeTestForCertainModes(string mode)
         {
             var subject = new ParameterValidator();
@@ -236,7 +220,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
                 new ParameterBuilder()
                     .WithKeyGenModes(new[] {mode})
                     .WithHashAlgs(new[] {"sha2-512"})
-                    .WithPrimeTests(null)
+                    .WithPrimeTests(new [] {"none"})
                     .Build()
             );
 
@@ -259,10 +243,10 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
             {
                 _algorithm = "RSA";
                 _mode = "KeyGen";
-                _keyGenModes = new[] {"b.3.4", "b.3.6"};
+                _keyGenModes = new[] {"provableWithProvableAux", "probableWithProbableAux"};
                 _moduli = new[] {2048};
                 _hashAlgs = new[] {"sha-1", "sha2-256"};
-                _primeTests = new[] {"tblc2", "tblc3"};
+                _primeTests = new[] {"2powSecStr", "2pow100"};
                 _pubExpMode = "random";
                 _fixedPubExp = "";
                 _keyFormat = "standard";
@@ -313,7 +297,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
                     {
                         Modulo = _moduli[i],
                         HashAlgs = _hashAlgs,
-                        PrimeTests = _primeTests
+                        PrimeTests = _primeTests.Select(pt => EnumHelpers.GetEnumFromEnumDescription<PrimeTestModes>(pt, false)).ToArray()
                     };
                 }
 
@@ -322,7 +306,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
                 {
                     algSpecs[i] = new AlgSpec
                     {
-                        RandPQ = _keyGenModes[i],
+                        RandPQ = EnumHelpers.GetEnumFromEnumDescription<PrimeGenModes>(_keyGenModes[i], false),
                         Capabilities = caps
                     };
                 }
@@ -331,10 +315,10 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
                 {
                     Algorithm = _algorithm,
                     Mode = _mode,
-                    PubExpMode = _pubExpMode,
-                    FixedPubExp = _fixedPubExp,
+                    PubExpMode = EnumHelpers.GetEnumFromEnumDescription<PublicExponentModes>(_pubExpMode, false),
+                    FixedPubExp = new BitString(_fixedPubExp),
                     AlgSpecs = algSpecs,
-                    KeyFormat = _keyFormat
+                    KeyFormat = EnumHelpers.GetEnumFromEnumDescription<PrivateKeyModes>(_keyFormat, false)
                 };
             }
         }

@@ -4,7 +4,9 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
 using NIST.CVP.Generation.RSA.v1_0.KeyGen;
+using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.RSA_KeyGen.Tests
 {
@@ -46,11 +48,11 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
             {
                 Algorithm = "RSA",
                 Mode = "KeyGen",
-                FixedPubExp = "010001",
+                FixedPubExp = new BitString("010001"),
                 InfoGeneratedByServer = true,
                 IsSample = false,
-                PubExpMode = "fixed",
-                KeyFormat = "standard",
+                PubExpMode = PublicExponentModes.Fixed,
+                KeyFormat = PrivateKeyModes.Standard,
                 AlgSpecs = BuildCapabilities()
             };
 
@@ -75,8 +77,8 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
                 Mode = "KeyGen",
                 InfoGeneratedByServer = true,
                 IsSample = false,
-                PubExpMode = "random",
-                KeyFormat = "crt",
+                PubExpMode = PublicExponentModes.Random,
+                KeyFormat = PrivateKeyModes.Crt,
                 AlgSpecs = BuildCapabilities()
             };
 
@@ -99,19 +101,38 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
                 {
                     Modulo = ParameterValidator.VALID_MODULI[i],
                     HashAlgs = ParameterValidator.VALID_HASH_ALGS,
-                    PrimeTests = ParameterValidator.VALID_PRIME_TESTS
+                    PrimeTests = new [] {PrimeTestModes.TwoPow100ErrorBound, PrimeTestModes.TwoPowSecurityStrengthErrorBound}
                 };
             }
 
-            var algSpecs = new AlgSpec[ParameterValidator.VALID_KEY_GEN_MODES.Length];
-            for (var i = 0; i < algSpecs.Length; i++)
+            var algSpecs = new []
             {
-                algSpecs[i] = new AlgSpec
+                new AlgSpec
                 {
-                    RandPQ = ParameterValidator.VALID_KEY_GEN_MODES[i],
+                    RandPQ = PrimeGenModes.RandomProvablePrimes,
                     Capabilities = caps
-                };
-            }
+                }, 
+                new AlgSpec
+                {
+                    RandPQ = PrimeGenModes.RandomProbablePrimes,
+                    Capabilities = caps
+                }, 
+                new AlgSpec
+                {
+                    RandPQ = PrimeGenModes.RandomProvablePrimesWithAuxiliaryProvablePrimes,
+                    Capabilities = caps
+                }, 
+                new AlgSpec
+                {
+                    RandPQ = PrimeGenModes.RandomProbablePrimesWithAuxiliaryProvablePrimes,
+                    Capabilities = caps
+                }, 
+                new AlgSpec
+                {
+                    RandPQ = PrimeGenModes.RandomProbablePrimesWithAuxiliaryProbablePrimes,
+                    Capabilities = caps
+                } 
+            };
 
             return algSpecs;
         }

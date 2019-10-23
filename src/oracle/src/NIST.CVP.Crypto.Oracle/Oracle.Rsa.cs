@@ -2,7 +2,6 @@
 using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys;
-using NIST.CVP.Math;
 using NIST.CVP.Orleans.Grains.Interfaces.Rsa;
 using System.Threading.Tasks;
 using NIST.CVP.Crypto.Oracle.Helpers;
@@ -16,28 +15,20 @@ namespace NIST.CVP.Crypto.Oracle
 
         public virtual async Task<RsaKeyResult> GetRsaKeyAsync(RsaKeyParameters param)
         {
-            IRandom800_90 rand = new Random800_90();
-            IKeyGenParameterHelper keyGenHelper = new KeyGenParameterHelper(rand);
-
-            RsaPrimeResult result = null;
-            
-            while (true)
+            RsaPrimeResult result;
+            do
             {
-                param.Seed = keyGenHelper.GetSeed(param.Modulus);
+                param.Seed = KeyGenHelper.GetSeed(param.Modulus);
                 param.PublicExponent = param.PublicExponentMode == PublicExponentModes.Fixed ? 
                     param.PublicExponent : 
-                    keyGenHelper.GetEValue(RSA_PUBLIC_EXPONENT_BITS_MIN, RSA_PUBLIC_EXPONENT_BITS_MAX);
-                param.BitLens = keyGenHelper.GetBitlens(param.Modulus, param.KeyMode);
+                    KeyGenHelper.GetEValue(RSA_PUBLIC_EXPONENT_BITS_MIN, RSA_PUBLIC_EXPONENT_BITS_MAX);
+                param.BitLens = KeyGenHelper.GetBitlens(param.Modulus, param.KeyMode);
                 
                 // Generate key until success
                 result = await GetRsaPrimes(param);
-
-                if (result.Success)
-                {
-                    break;
-                }
-            }
-
+                
+            } while (!result.Success);
+            
             return new RsaKeyResult
             {
                 Key = result.Key,
@@ -80,9 +71,10 @@ namespace NIST.CVP.Crypto.Oracle
             {
                 KeyFormat = param.KeyFormat,
                 Modulus = param.Modulo,
-                PrimeTest = PrimeTestModes.C2,
+                PrimeTest = PrimeTestModes.TwoPow100ErrorBound,
                 PublicExponentMode = PublicExponentModes.Random,
-                KeyMode = PrimeGenModes.B33
+                KeyMode = PrimeGenModes.RandomProbablePrimes,
+                Standard = Fips186Standard.Fips186_4
             };
 
             var key = await GetRsaKeyAsync(keyParam);
@@ -156,11 +148,12 @@ namespace NIST.CVP.Crypto.Oracle
             {
                 var keyParam = new RsaKeyParameters()
                 {
-                    KeyMode = PrimeGenModes.B33,
+                    KeyMode = PrimeGenModes.RandomProbablePrimes,
                     Modulus = param.Modulo,
-                    PrimeTest = PrimeTestModes.C2,
+                    PrimeTest = PrimeTestModes.TwoPow100ErrorBound,
                     KeyFormat = PrivateKeyModes.Standard,
-                    PublicExponentMode = PublicExponentModes.Random
+                    PublicExponentMode = PublicExponentModes.Random,
+                    Standard = Fips186Standard.Fips186_4
                 };
                 var keyResult = await GetRsaKeyAsync(keyParam);
                 key = new KeyResult(keyResult.Key, keyResult.AuxValues);

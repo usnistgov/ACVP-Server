@@ -1,0 +1,93 @@
+{
+  "capabilities": [
+    {
+      "randPQ": "provable",
+      "properties": [
+        {
+          "modulo": 2048,
+          "hashAlg": [
+            "sha2-224"
+          ],
+          "primeTest": [
+            "2powSecStr"
+          ],
+          "pMod8": 1,
+          "qMod8": 1
+        }
+      ]
+    },
+    {
+      "randPQ": "probable",
+      "properties": [
+        {
+          "modulo": 3072,
+          "hashAlg": [
+            "sha2-256"
+          ],
+          "primeTest": [
+            "2pow100"
+          ],
+          "pMod8": 5,
+          "qMod8": 3
+        }
+      ]
+    },
+    {
+      "randPQ": "provableWithProvableAux",
+      "properties": [
+        {
+          "modulo": 4096,
+          "hashAlg": [
+            "sha2-512"
+          ],
+          "primeTest": [
+            "2powSecStr"
+          ],
+          "pMod8": 7,
+          "qMod8": 0
+        }
+      ]
+    },
+    {
+      "randPQ": "probableWithProvableAux",
+      "properties": [
+        {
+          "modulo": 2048,
+          "hashAlg": [
+            "sha2-224"
+          ],
+          "primeTest": [
+            "2powSecStr"
+          ],
+          "pMod8": 0,
+          "qMod8": 1
+        }
+      ]
+    },
+    {
+      "randPQ": "probableWithProbableAux",
+      "properties": [
+        {
+          "modulo": 4096,
+          "hashAlg": [
+            "sha2-512"
+          ],
+          "primeTest": [
+            "2powSecStr"
+          ],
+          "pMod8": 3,
+          "qMod8": 5
+        }
+      ]
+    }
+  ],
+  "vsId": 0,
+  "algorithm": "RSA",
+  "mode": "KeyGen",
+  "revision": "FIPS186-5",
+  "isSample": true,
+  "conformances": [],
+  "infoGeneratedByServer": true,
+  "pubExpMode": "random",
+  "keyFormat": "crt"
+}

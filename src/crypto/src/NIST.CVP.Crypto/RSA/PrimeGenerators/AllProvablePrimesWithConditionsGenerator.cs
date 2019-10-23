@@ -1,71 +1,66 @@
-﻿using NIST.CVP.Crypto.Common.Asymmetric.RSA.PrimeGenerators;
+﻿using System.Collections.Generic;
+using System.Linq;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA.PrimeGenerators;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Common.Math;
-using NIST.CVP.Math;
 using System.Numerics;
 
 namespace NIST.CVP.Crypto.RSA.PrimeGenerators
 {
-    public class AllProvablePrimesWithConditionsGenerator : PrimeGeneratorBase
+    public class AllProvablePrimesWithConditionsGenerator : IFips186_4PrimeGenerator, IFips186_5PrimeGenerator
     {
-        public AllProvablePrimesWithConditionsGenerator(ISha sha) : base(sha) { }
+        private readonly ISha _sha;
 
-        public override PrimeGeneratorResult GeneratePrimes(int nlen, BigInteger e, BitString seed)
+        public AllProvablePrimesWithConditionsGenerator(ISha sha)
+        {
+            _sha = sha;
+        }
+
+        public PrimeGeneratorResult GeneratePrimesFips186_4(PrimeGeneratorParameters param)
+        {
+            var errors = new List<string>();
+            
+            PrimeGeneratorGuard.AgainstInvalidModulusFips186_4(param.Modulus, errors);
+            PrimeGeneratorGuard.AgainstInvalidPublicExponent(param.PublicE, errors);
+            PrimeGeneratorGuard.AgainstInvalidSeed(param.Modulus, param.Seed, errors);
+            PrimeGeneratorGuard.AgainstInvalidBitlens(param.Modulus, param.BitLens, errors);
+
+            if (errors.Any())
+            {
+                return new PrimeGeneratorResult(string.Join(".", errors));
+            }
+            
+            return GeneratePrimes(param);
+        }
+
+        public PrimeGeneratorResult GeneratePrimesFips186_5(PrimeGeneratorParameters param)
+        {
+            var errors = new List<string>();
+            
+            PrimeGeneratorGuard.AgainstInvalidModulusFips186_5(param.Modulus, errors);
+            PrimeGeneratorGuard.AgainstInvalidPublicExponent(param.PublicE, errors);
+            PrimeGeneratorGuard.AgainstInvalidSeed(param.Modulus, param.Seed, errors);
+            PrimeGeneratorGuard.AgainstInvalidBitlens(param.Modulus, param.BitLens, errors);
+
+            if (errors.Any())
+            {
+                return new PrimeGeneratorResult(string.Join(".", errors));
+            }
+            
+            return GeneratePrimes(param);
+        }
+
+        private PrimeGeneratorResult GeneratePrimes(PrimeGeneratorParameters param)
         {
             BigInteger p, p1, p2, q, q1, q2;
 
-            if (_bitlens.Length != 4)
-            {
-                return new PrimeGeneratorResult("Needs exactly 4 bitlen values");
-            }
-
-            if (_bitlens[0] == 0 || _bitlens[1] == 0 || _bitlens[2] == 0 || _bitlens[3] == 0)
-            {
-                return new PrimeGeneratorResult("Empty bitlens, must be assigned outside of GeneratePrimes()");
-            }
-
-            // 1 -- redundant by (3)
-            // 2
-            if (e <= NumberTheory.Pow2(16) || e >= NumberTheory.Pow2(256) || e.IsEven)
-            {
-                return new PrimeGeneratorResult("Incorrect e, must be greater than 2^16, less than 2^256, odd");
-            }
-
-            // 3
-            int securityStrength;
-            switch (nlen)
-            {
-                case 1024:
-                    securityStrength = 80;
-                    break;
-
-                case 2048:
-                    securityStrength = 112;
-                    break;
-
-                case 3072:
-                    securityStrength = 128;
-                    break;
-                
-                case 4096:
-                    securityStrength = 128;
-                    break;
-
-                default:
-                    return new PrimeGeneratorResult("Incorrect nlen, must be 1024, 2048, 3072, 4096");
-            }
-
-            // 4
-            if (seed.BitLength != 2 * securityStrength)
-            {
-                return new PrimeGeneratorResult("Incorrect seed length");
-            }
+            // 1, 2, 3, 4 covered by Guards
 
             // 5
-            var workingSeed = seed.ToPositiveBigInteger();
+            var workingSeed = param.Seed.ToPositiveBigInteger();
 
             // 6
-            var pResult = ProvablePrimeConstruction(nlen / 2, _bitlens[0], _bitlens[1], workingSeed, e);
+            var pResult = PrimeGeneratorHelper.ProvablePrimeConstruction(_sha, param.Modulus / 2, param.BitLens[0], param.BitLens[1], workingSeed, param.PublicE);
             if (!pResult.Success)
             {
                 return new PrimeGeneratorResult($"Bad p gen: {pResult.ErrorMessage}");
@@ -79,7 +74,7 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
             do
             {
                 // 7
-                var qResult = ProvablePrimeConstruction(nlen / 2, _bitlens[2], _bitlens[3], workingSeed, e);
+                var qResult = PrimeGeneratorHelper.ProvablePrimeConstruction(_sha, param.Modulus / 2, param.BitLens[2], param.BitLens[3], workingSeed, param.PublicE);
                 if (!qResult.Success)
                 {
                     return new PrimeGeneratorResult($"Bad q gen: {qResult.ErrorMessage}");
@@ -91,7 +86,7 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
                 workingSeed = qResult.PrimeSeed;
 
             // 8
-            } while (BigInteger.Abs(p - q) <= NumberTheory.Pow2(nlen / 2 - 100));
+            } while (BigInteger.Abs(p - q) <= NumberTheory.Pow2(param.Modulus / 2 - 100));
 
             var auxValues = new AuxiliaryResult();
             var primePair = new PrimePair {P = p, Q = q};

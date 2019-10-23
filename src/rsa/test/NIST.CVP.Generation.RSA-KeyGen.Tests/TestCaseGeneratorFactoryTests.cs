@@ -23,7 +23,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
             {
                 TestType = testType,
                 Modulo = 2048,
-                PrimeTest = PrimeTestModes.C2
+                PrimeTest = PrimeTestModes.TwoPow100ErrorBound
             };
 
             var subject = new TestCaseGeneratorFactory(null);
