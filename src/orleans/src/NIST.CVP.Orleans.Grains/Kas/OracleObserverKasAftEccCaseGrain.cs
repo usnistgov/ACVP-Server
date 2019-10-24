@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using NIST.CVP.Common;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
@@ -31,8 +32,15 @@ namespace NIST.CVP.Orleans.Grains.Kas
         
         protected override async Task DoWorkAsync()
         {
-            // Notify observers of result
-            await Notify(_kasFactory.GetInstance(_param.KasMode).GetTest(_param));
+            try
+            {
+                // Notify observers of result
+                await Notify(_kasFactory.GetInstance(_param.KasMode).GetTest(_param));
+            }
+            catch (Exception ex)
+            {
+                await Throw(ex);
+            }
         }
     }
 }
