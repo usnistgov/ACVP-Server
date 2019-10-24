@@ -197,6 +197,8 @@ namespace NIST.CVP.Orleans.Grains
             svc.AddSingleton<IMqv<EccDomainParameters, EccKeyPair>, MqvEcc>();
             svc.AddTransient<ISchemeBuilder<KasDsaAlgoAttributesEcc, OtherPartySharedInformation<EccDomainParameters, EccKeyPair>, EccDomainParameters, EccKeyPair>, SchemeBuilderEcc>();
             svc.AddTransient<IKasBuilder<KasDsaAlgoAttributesEcc, OtherPartySharedInformation<EccDomainParameters, EccKeyPair>, EccDomainParameters, EccKeyPair>, KasBuilderEcc>();
+
+            svc.AddSingleton<IEccNonceProviderFactory, EccNonceProviderFactory>();
             svc.AddSingleton<IDsaEccFactory, DsaEccFactory>();
             svc.AddSingleton<IEccCurveFactory, EccCurveFactory>();
 
@@ -240,19 +242,16 @@ namespace NIST.CVP.Orleans.Grains
             svc.AddTransient<ISHA3_MCT, SHA3_MCT>();
             svc.AddTransient<ISHAKE_MCT, SHAKE_MCT>();
 
-            svc.AddSingleton<IKeyGenParameterHelper, KeyGenParameterHelper>();
             svc.AddTransient<IKeyBuilder, KeyBuilder>();
             svc.AddSingleton<IKeyComposerFactory, KeyComposerFactory>();
             svc.AddSingleton<IPrimeGeneratorFactory, PrimeGeneratorFactory>();
             svc.AddTransient<IRsa, Crypto.RSA.Rsa>();
             svc.AddTransient<IRsaVisitor, RsaVisitor>();
+            svc.AddTransient<IMaskFactory, MaskFactory>();
 
             svc.AddTransient<ISignatureBuilder, SignatureBuilder>();
             svc.AddSingleton<IPaddingFactory, PaddingFactory>();
             svc.AddSingleton<IShaFactory, ShaFactory>();
-
-            svc.AddSingleton<IEccCurveFactory, EccCurveFactory>();
-            svc.AddSingleton<IDsaEccFactory, DsaEccFactory>();
 
             svc.AddSingleton<IPQGeneratorValidatorFactory, PQGeneratorValidatorFactory>();
             svc.AddSingleton<IGGeneratorValidatorFactory, GGeneratorValidatorFactory>();

@@ -127,7 +127,7 @@ namespace NIST.CVP.Generation.Core.Tests
 
             var spacing = Mode == "" ? "" : "-";
             var friendlyAlgorithm = Algorithm.Replace("/", "-");
-            var newLocation = Path.Combine(JsonSavePath, $"{friendlyAlgorithm}{spacing}{Mode}");
+            var newLocation = Path.Combine(JsonSavePath, $"{friendlyAlgorithm}{spacing}{Mode}{spacing}{Revision}");
             if (Directory.Exists(newLocation))
             {
                 Directory.Delete(newLocation, true);

@@ -1,6 +1,4 @@
-﻿using System.Numerics;
-
-namespace NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC
+﻿namespace NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC
 {
     public interface IDsaEcc : IDsa<
         EccDomainParametersGenerateRequest,
@@ -15,7 +13,5 @@ namespace NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC
         EccSignatureResult,
         EccVerificationResult
         >
-    {
-        void AddEntropy(BigInteger entropy);
-    }
+    { }
 }

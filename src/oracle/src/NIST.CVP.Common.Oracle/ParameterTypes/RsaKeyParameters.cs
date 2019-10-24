@@ -15,6 +15,7 @@ namespace NIST.CVP.Common.Oracle.ParameterTypes
         public PrimeTestModes PrimeTest { get; set; }
         public BitString Seed { get; set; }
         public int[] BitLens { get; set; }
+        public Fips186Standard Standard { get; set; }
 
         public PrivateKeyModes KeyFormat { get; set; }
 

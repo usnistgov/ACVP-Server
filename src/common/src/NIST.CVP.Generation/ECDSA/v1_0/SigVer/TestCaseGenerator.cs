@@ -6,6 +6,7 @@ using NIST.CVP.Generation.Core.Async;
 using NLog;
 using System;
 using System.Threading.Tasks;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC.Enums;
 
 namespace NIST.CVP.Generation.ECDSA.v1_0.SigVer
 {
@@ -51,7 +52,8 @@ namespace NIST.CVP.Generation.ECDSA.v1_0.SigVer
                     Disposition = group.TestCaseExpectationProvider.GetRandomReason().GetReason(),
                     HashAlg = group.HashAlg,
                     Key = keyResult.Key,
-                    IsMessageRandomized = group.IsMessageRandomized
+                    IsMessageRandomized = group.IsMessageRandomized,
+                    NonceProviderType = NonceProviderTypes.Random        // Always the case for FIPS 186-4, choice for 186-5, but DetECDSA is handled in a separate set of gen/vals
                 };
 
                 var result = await _oracle.GetEcdsaVerifyResultAsync(param);

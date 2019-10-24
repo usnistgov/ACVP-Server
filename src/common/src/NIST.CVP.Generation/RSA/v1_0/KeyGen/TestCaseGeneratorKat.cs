@@ -20,7 +20,7 @@ namespace NIST.CVP.Generation.RSA.v1_0.KeyGen
 
         public TestCaseGeneratorKat(TestGroup testGroup, IOracle oracle)
         {
-            _kats = KatData.GetKatsForProperties(testGroup.Modulo, testGroup.PrimeTest);
+            _kats = KatData.GetKatsForProperties(testGroup.Modulo, RsaKeyGenAttributeConverter.GetPrimeTestFromSection(testGroup.PrimeTest));
             _oracle = oracle;
 
             if (_kats == null)
@@ -54,14 +54,17 @@ namespace NIST.CVP.Generation.RSA.v1_0.KeyGen
                 }
             };
 
-            var result = await _oracle.CompleteKeyAsync(keyResult, group.KeyFormat);
-
-            TestCase testCase = new TestCase
+            var testCase = new TestCase
             {
-                Key = result.Key,
                 TestPassed = !currentKat.FailureTest
             };
-
+            
+            if (testCase.TestPassed.Value)
+            {
+                var key = await _oracle.CompleteKeyAsync(keyResult, group.KeyFormat);
+                testCase.Key = key.Key;
+            }
+            
             return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
         }
     }

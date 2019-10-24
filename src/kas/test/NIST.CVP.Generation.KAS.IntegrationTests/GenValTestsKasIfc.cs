@@ -180,7 +180,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                                     {
                                         SaltLen = 128,
                                         AuxFunctionName = KasKdfOneStepAuxFunction.KMAC_128,
-                                        MacSaltMethods = new []{ MacSaltMethod.Default, MacSaltMethod.Random }
+                                        MacSaltMethods = new []{ MacSaltMethod.Default }
                                     }
                                 },
                                 FixedInfoPattern = "algorithmId||l||uPartyInfo||vPartyInfo"
@@ -193,26 +193,14 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                                     {
                                         Encoding = new[] { FixedInfoEncoding.Concatenation },
                                         FixedInfoPattern = "l||label||uPartyInfo||vPartyInfo||context",
-                                        MacSaltMethods = new[] { MacSaltMethod.Default, MacSaltMethod.Random },
+                                        MacSaltMethods = new[] { MacSaltMethod.Random },
                                         CounterLength = new [] { 32 },
                                         SupportedLengths = new MathDomain().AddSegment(new ValueDomainSegment(512)),
-                                        MacMode = new [] { MacModes.CMAC_AES256, MacModes.HMAC_SHA3_224 },
+                                        MacMode = new [] { MacModes.HMAC_SHA3_224 },
                                         KdfMode = KdfModes.Feedback,
                                         FixedDataOrder = new []{ CounterLocations.AfterFixedData },
                                         SupportsEmptyIv = false
-                                    },
-                                    new TwoStepCapabilities()
-                                    {
-                                        Encoding = new[] { FixedInfoEncoding.Concatenation },
-                                        FixedInfoPattern = "l||label||uPartyInfo||vPartyInfo||context",
-                                        MacSaltMethods = new[] { MacSaltMethod.Default, MacSaltMethod.Random },
-                                        CounterLength = new [] { 32 },
-                                        SupportedLengths = new MathDomain().AddSegment(new ValueDomainSegment(512)),
-                                        MacMode = new [] { MacModes.CMAC_AES256, MacModes.HMAC_SHA3_224 },
-                                        KdfMode = KdfModes.Counter,
-                                        FixedDataOrder = new []{ CounterLocations.AfterFixedData },
-                                        SupportsEmptyIv = false
-                                    },
+                                    }
                                 },
                             },
                         },

@@ -6,6 +6,7 @@ using NIST.CVP.Crypto.Common.KAS.Helpers;
 using NIST.CVP.Crypto.Oracle.Helpers;
 using NIST.CVP.Math;
 using NIST.CVP.Orleans.Grains.Interfaces.Kas;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace NIST.CVP.Crypto.Oracle
@@ -73,6 +74,7 @@ namespace NIST.CVP.Crypto.Oracle
                 param.Scheme, param.KasMode, param.ServerKeyAgreementRole, param.ServerKeyConfirmationRole,
                 param.KeyConfirmationDirection);
 
+            var keyTasks = new List<Task<RsaKeyResult>>();
             Task<RsaKeyResult> serverKeyTask = null;
             KeyPair serverKey = null;
             if (serverRequirements.GeneratesEphemeralKeyPair)
@@ -81,11 +83,12 @@ namespace NIST.CVP.Crypto.Oracle
                 {
                     Modulus = param.Modulo,
                     KeyFormat = param.PrivateKeyMode,
-                    KeyMode = PrimeGenModes.B33,
-                    PrimeTest = PrimeTestModes.C2,
+                    KeyMode = PrimeGenModes.RandomProbablePrimes,
+                    PrimeTest = PrimeTestModes.TwoPow100ErrorBound,
                     PublicExponentMode = param.PublicExponentMode,
                     PublicExponent = param.PublicExponent == 0 ? null : new BitString(param.PublicExponent)
                 });
+                keyTasks.Add(serverKeyTask);
             }
 
             var iutRequirements = KeyGenerationRequirementsHelper.GetKeyGenerationOptionsForSchemeAndRole(
@@ -100,21 +103,23 @@ namespace NIST.CVP.Crypto.Oracle
                 {
                     Modulus = param.Modulo,
                     KeyFormat = param.PrivateKeyMode,
-                    KeyMode = PrimeGenModes.B33,
-                    PrimeTest = PrimeTestModes.C2,
+                    KeyMode = PrimeGenModes.RandomProbablePrimes,
+                    PrimeTest = PrimeTestModes.TwoPow100ErrorBound,
                     PublicExponentMode = param.PublicExponentMode,
                     PublicExponent = param.PublicExponent == 0 ? null : new BitString(param.PublicExponent)
                 });
+                keyTasks.Add(iutKeyTask);
             }
+
+            await Task.WhenAll(keyTasks);
 
             if (serverKeyTask != null)
             {
-                await serverKeyTask;
                 serverKey = serverKeyTask.Result.Key;
             }
+
             if (iutKeyTask != null)
             {
-                await iutKeyTask;
                 iutKey = iutKeyTask.Result.Key;
             }
 
@@ -142,8 +147,8 @@ namespace NIST.CVP.Crypto.Oracle
                     Modulus = param.Modulo,
                     // it doesn't matter what format the key is in from the server perspective.
                     KeyFormat = PrivateKeyModes.Crt,
-                    KeyMode = PrimeGenModes.B33,
-                    PrimeTest = PrimeTestModes.C2,
+                    KeyMode = PrimeGenModes.RandomProbablePrimes,
+                    PrimeTest = PrimeTestModes.TwoPow100ErrorBound,
                     PublicExponentMode = PublicExponentModes.Random,
                 });
                 serverKey = task.Key;

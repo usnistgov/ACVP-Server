@@ -44,27 +44,27 @@ namespace NIST.CVP.Orleans.Grains.Rsa
             );
             _param.PublicExponent = new BitString(_fullParam.Key.PubKey.E);
 
-            if (_param.KeyMode == PrimeGenModes.B32)
+            if (_param.KeyMode == PrimeGenModes.RandomProvablePrimes)
             {
                 // Nothing
             }
-            else if (_param.KeyMode == PrimeGenModes.B33)
+            else if (_param.KeyMode == PrimeGenModes.RandomProbablePrimes)
             {
                 // P and Q
                 entropyProvider.AddEntropy(new BitString(_fullParam.Key.PrivKey.P, _param.Modulus / 2));
                 entropyProvider.AddEntropy(new BitString(_fullParam.Key.PrivKey.Q, _param.Modulus / 2));
             }
-            else if (_param.KeyMode == PrimeGenModes.B34)
+            else if (_param.KeyMode == PrimeGenModes.RandomProvablePrimesWithAuxiliaryProvablePrimes)
             {
                 // Nothing
             }
-            else if (_param.KeyMode == PrimeGenModes.B35)
+            else if (_param.KeyMode == PrimeGenModes.RandomProbablePrimesWithAuxiliaryProvablePrimes)
             {
                 // XP and XQ
                 entropyProvider.AddEntropy(_fullParam.AuxValues.XP);
                 entropyProvider.AddEntropy(_fullParam.AuxValues.XQ);
             }
-            else if (_param.KeyMode == PrimeGenModes.B36)
+            else if (_param.KeyMode == PrimeGenModes.RandomProbablePrimesWithAuxiliaryProbablePrimes)
             {
                 // XP and XQ
                 entropyProvider.AddEntropy(_fullParam.AuxValues.XP);

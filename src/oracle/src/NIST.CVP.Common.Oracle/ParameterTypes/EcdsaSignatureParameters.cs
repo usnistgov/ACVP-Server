@@ -12,9 +12,7 @@ namespace NIST.CVP.Common.Oracle.ParameterTypes
         public HashFunction HashAlg { get; set; }
         public Curve Curve { get; set; }
         public EcdsaSignatureDisposition Disposition { get; set; }
-        /// <summary>
-        /// 
-        /// </summary>
+        public NonceProviderTypes NonceProviderType { get; set; }
         public bool IsMessageRandomized { get; set; }
     }
 }
