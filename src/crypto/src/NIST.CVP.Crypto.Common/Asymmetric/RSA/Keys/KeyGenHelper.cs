@@ -8,8 +8,14 @@ namespace NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys
     {
         private static readonly IRandom800_90 _rand = new Random800_90();
         
-        public static BitString GetEValue(int minLen, int maxLen)
+        public static BitString GetEValue(Fips186Standard standard, int minLen, int maxLen)
         {
+            if (standard == Fips186Standard.Fips186_2)
+            {
+                var exp = new BigInteger[] {3, 17, 65537};
+                return new BitString(exp[_rand.GetRandomInt(0, 3)]);
+            }
+            
             BigInteger e;
             BitString e_bs;
             do
