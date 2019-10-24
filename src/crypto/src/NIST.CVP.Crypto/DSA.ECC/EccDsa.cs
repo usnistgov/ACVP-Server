@@ -50,6 +50,17 @@ namespace NIST.CVP.Crypto.DSA.ECC
             
         }
 
+        /// <summary>
+        /// KAS constructor
+        /// </summary>
+        /// <param name="sha">The SHA instance.</param>
+        /// <param name="entropyProvider">An entropy provider.</param>
+        public EccDsa(ISha sha, IEntropyProvider entropyProvider)
+        {
+            Sha = sha;
+            _entropyProvider = entropyProvider;
+        }
+
         public EccDomainParametersGenerateResult GenerateDomainParameters(EccDomainParametersGenerateRequest generateRequest)
         {
             throw new NotImplementedException();

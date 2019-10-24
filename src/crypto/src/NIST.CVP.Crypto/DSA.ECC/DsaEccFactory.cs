@@ -11,12 +11,14 @@ namespace NIST.CVP.Crypto.DSA.ECC
         private readonly IHmacFactory _hmacFactory;
         private readonly IShaFactory _shaFactory;
         private readonly IEccNonceProviderFactory _nonceProviderFactory;
+        private readonly IEntropyProviderFactory _entropyProviderFactory;
 
-        public DsaEccFactory(IShaFactory shaFactory, IHmacFactory hmacFactory, IEccNonceProviderFactory nonceProviderFactory)
+        public DsaEccFactory(IShaFactory shaFactory, IHmacFactory hmacFactory, IEccNonceProviderFactory nonceProviderFactory, IEntropyProviderFactory entropyProviderFactory)
         {
             _shaFactory = shaFactory;
             _hmacFactory = hmacFactory;
             _nonceProviderFactory = nonceProviderFactory;
+            _entropyProviderFactory = entropyProviderFactory;
         }
 
         /// <summary>
@@ -46,7 +48,7 @@ namespace NIST.CVP.Crypto.DSA.ECC
             var sha = _shaFactory.GetShaInstance(hashFunction);
             var hmac = _hmacFactory.GetHmacInstance(hashFunction);
             var nonceProvider = _nonceProviderFactory.GetNonceProvider(nonceProviderTypes, hmac, entropyProvider);
-            
+
             return new EccDsa(sha, nonceProvider);
         }
 
@@ -58,13 +60,16 @@ namespace NIST.CVP.Crypto.DSA.ECC
         public IDsaEcc GetInstanceForVerification(HashFunction hashFunction)
         {
             var sha = _shaFactory.GetShaInstance(hashFunction);
-            
+
             return new EccDsa(sha);
         }
 
         public IDsaEcc GetInstance(HashFunction hashFunction, EntropyProviderTypes entropyType = EntropyProviderTypes.Random)
         {
-            throw new System.NotImplementedException();
+            // KAS ECC is using the base IDsa function that relies on a hash function and entropy type.
+            // Kas ECC should be the only method using this function, but I didn't want to mark it obsolete,
+            // as the FFC KAS also uses this function from the base IDsa interface.
+            return new EccDsa(_shaFactory.GetShaInstance(hashFunction), _entropyProviderFactory.GetEntropyProvider(entropyType));
         }
     }
 }
