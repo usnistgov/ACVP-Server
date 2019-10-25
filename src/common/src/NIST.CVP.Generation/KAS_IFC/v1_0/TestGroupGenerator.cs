@@ -275,6 +275,35 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
             {
                 foreach (var auxFunction in kdfMethod.AuxFunctions)
                 {
+                    int saltLen = 0;
+                    switch (auxFunction.AuxFunctionName)
+                    {
+                        case KasKdfOneStepAuxFunction.HMAC_SHA2_D224:
+                        case KasKdfOneStepAuxFunction.HMAC_SHA2_D512_T224:
+                        case KasKdfOneStepAuxFunction.HMAC_SHA3_D224:
+                            saltLen = 224;
+                            break;
+                        case KasKdfOneStepAuxFunction.HMAC_SHA2_D256:
+                        case KasKdfOneStepAuxFunction.HMAC_SHA2_D512_T256:
+                        case KasKdfOneStepAuxFunction.HMAC_SHA3_D256:
+                            saltLen = 256;
+                            break;
+                        case KasKdfOneStepAuxFunction.HMAC_SHA2_D384:
+                        case KasKdfOneStepAuxFunction.HMAC_SHA3_D384:
+                            saltLen = 384;
+                            break;
+                        case KasKdfOneStepAuxFunction.HMAC_SHA2_D512:
+                        case KasKdfOneStepAuxFunction.HMAC_SHA3_D512:
+                            saltLen = 512;
+                            break;
+                        case KasKdfOneStepAuxFunction.KMAC_128:
+                            saltLen = 128;
+                            break;
+                        case KasKdfOneStepAuxFunction.KMAC_256:
+                            saltLen = 256;
+                            break;
+                    }
+
                     foreach (var saltMethod in auxFunction.MacSaltMethods)
                     {
                         list.Add(new OneStepConfiguration()
@@ -284,7 +313,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
                             FixedInputPattern = kdfMethod.FixedInfoPattern,
                             AuxFunction = auxFunction.AuxFunctionName,
                             SaltMethod = saltMethod,
-                            SaltLen = auxFunction.SaltLen
+                            SaltLen = saltLen
                         });
                     }
                 }

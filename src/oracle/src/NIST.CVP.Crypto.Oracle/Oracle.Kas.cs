@@ -81,6 +81,7 @@ namespace NIST.CVP.Crypto.Oracle
             {
                 serverKeyTask = GetRsaKeyAsync(new RsaKeyParameters()
                 {
+                    Standard = Fips186Standard.Fips186_5,
                     Modulus = param.Modulo,
                     KeyFormat = param.PrivateKeyMode,
                     KeyMode = PrimeGenModes.RandomProbablePrimes,
@@ -101,6 +102,7 @@ namespace NIST.CVP.Crypto.Oracle
             {
                 iutKeyTask = GetRsaKeyAsync(new RsaKeyParameters()
                 {
+                    Standard = Fips186Standard.Fips186_5,
                     Modulus = param.Modulo,
                     KeyFormat = param.PrivateKeyMode,
                     KeyMode = PrimeGenModes.RandomProbablePrimes,
@@ -144,6 +146,7 @@ namespace NIST.CVP.Crypto.Oracle
             {
                 var task = await GetRsaKeyAsync(new RsaKeyParameters()
                 {
+                    Standard = Fips186Standard.Fips186_5,
                     Modulus = param.Modulo,
                     // it doesn't matter what format the key is in from the server perspective.
                     KeyFormat = PrivateKeyModes.Crt,

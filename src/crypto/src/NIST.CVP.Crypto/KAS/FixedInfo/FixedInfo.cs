@@ -69,6 +69,11 @@ namespace NIST.CVP.Crypto.KAS.FixedInfo
             {
                 if (fixedInfoParameter.Salt?.BitLength > 0)
                 {
+                    // We only want to add the salt to the fixed info when it isn't the default
+                    if (fixedInfoParameter.Salt.ToPositiveBigInteger() == 0)
+                    {
+                        return;
+                    }
                     fixedInfoParts.Add(workingPiece, fixedInfoParameter.Salt);
                 }
                 return;

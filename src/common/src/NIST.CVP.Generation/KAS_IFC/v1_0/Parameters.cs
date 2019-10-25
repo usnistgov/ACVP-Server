@@ -318,10 +318,6 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
         /// </summary>
         public KasKdfOneStepAuxFunction AuxFunctionName { get; set; }
         /// <summary>
-        /// SaltLen applies to MAC based aux functions.
-        /// </summary>
-        public int SaltLen { get; set; }
-        /// <summary>
         /// The salting methods used for the KDF (hashes do not require salts, MACs do)
         /// </summary>
         public MacSaltMethod[] MacSaltMethods { get; set; }

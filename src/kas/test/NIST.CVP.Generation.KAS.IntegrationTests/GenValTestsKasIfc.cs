@@ -102,7 +102,6 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                     //                                {
                     //                                    new AuxFunction()
                     //                                    {
-                    //                                        SaltLen = 128,
                     //                                        AuxFunctionName = KasKdfOneStepAuxFunction.KMAC_128,
                     //                                        MacSaltMethods = new []{ MacSaltMethod.Default, MacSaltMethod.Random }
                     //                                    }
@@ -140,7 +139,6 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                     //                                {
                     //                                    new AuxFunction()
                     //                                    {
-                    //                                        SaltLen = 128,
                     //                                        AuxFunctionName = KasKdfOneStepAuxFunction.KMAC_128,
                     //                                        MacSaltMethods = new []{ MacSaltMethod.Default, MacSaltMethod.Random }
                     //                                    }
@@ -178,7 +176,6 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                                 {
                                     new AuxFunction()
                                     {
-                                        SaltLen = 128,
                                         AuxFunctionName = KasKdfOneStepAuxFunction.KMAC_128,
                                         MacSaltMethods = new []{ MacSaltMethod.Default }
                                     }
@@ -250,7 +247,6 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                     //                                {
                     //                                    new AuxFunction()
                     //                                    {
-                    //                                        SaltLen = 128,
                     //                                        AuxFunctionName = KasKdfOneStepAuxFunction.HMAC_SHA2_D224,
                     //                                        MacSaltMethods = new []{ MacSaltMethod.Default, MacSaltMethod.Random }
                     //                                    }
@@ -296,7 +292,6 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                     //                                {
                     //                                    new AuxFunction()
                     //                                    {
-                    //                                        SaltLen = 128,
                     //                                        AuxFunctionName = KasKdfOneStepAuxFunction.HMAC_SHA2_D224,
                     //                                        MacSaltMethods = new []{ MacSaltMethod.Default, MacSaltMethod.Random }
                     //                                    }
@@ -342,7 +337,6 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                     //                                {
                     //                                    new AuxFunction()
                     //                                    {
-                    //                                        SaltLen = 128,
                     //                                        AuxFunctionName = KasKdfOneStepAuxFunction.HMAC_SHA2_D224,
                     //                                        MacSaltMethods = new []{ MacSaltMethod.Default, MacSaltMethod.Random }
                     //                                    }

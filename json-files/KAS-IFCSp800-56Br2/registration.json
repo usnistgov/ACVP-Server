@@ -1,0 +1,83 @@
+{
+  "vsId": 0,
+  "algorithm": "KAS-IFC",
+  "mode": "",
+  "revision": "Sp800-56Br2",
+  "isSample": true,
+  "iutId": "BEEFFACE",
+  "scheme": {
+    "kaS1-Party_V-confirmation": {
+      "scheme": "KAS1-Party_V-confirmation",
+      "kasMode": "kdfKc",
+      "kasRole": [
+        "initiator",
+        "responder"
+      ],
+      "keyGenerationMethods": {
+        "rsakpg2-crt": {
+          "keyGenerationMethod": "rsakpg2-crt",
+          "keyGenerationMode": "random",
+          "privateKeyMode": "crt",
+          "modulo": [
+            2048
+          ],
+          "fixedPublicExponent": ""
+        }
+      },
+      "kdfMethods": {
+        "oneStepKdf": {
+          "kdfType": "oneStep",
+          "auxFunctions": [
+            {
+              "auxFunctionName": "KMAC-128",
+              "saltLen": 128,
+              "macSaltMethods": [
+                "Default"
+              ]
+            }
+          ],
+          "fixedInfoPattern": "algorithmId||l||uPartyInfo||vPartyInfo",
+          "encoding": [
+            "concatenation"
+          ]
+        },
+        "twoStepKdf": {
+          "kdfType": "twoStep",
+          "capabilities": [
+            {
+              "macSaltMethods": [
+                "Random"
+              ],
+              "fixedInfoPattern": "l||label||uPartyInfo||vPartyInfo||context",
+              "encoding": [
+                "concatenation"
+              ],
+              "kdfMode": "feedback",
+              "macMode": [
+                "HMAC-SHA3-224"
+              ],
+              "supportedLengths": [
+                512
+              ],
+              "fixedDataOrder": [
+                "after fixed data"
+              ],
+              "counterLength": [
+                32
+              ],
+              "supportsEmptyIv": false
+            }
+          ]
+        }
+      },
+      "macMethods": {
+        "kmaC-128": {
+          "macType": "kmac-128",
+          "keyLen": 128,
+          "macLen": 224
+        }
+      },
+      "l": 512
+    }
+  }
+}

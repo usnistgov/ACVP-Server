@@ -361,28 +361,11 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
 
                 if (needsSalt)
                 {
-                    if (auxFunction.SaltLen == 0)
-                    {
-                        errorResults.Add($"Expected salt length for {nameof(auxFunction)} {auxFunction.AuxFunctionName}");
-                    }
-
-                    if (auxFunction.SaltLen > 512)
-                    {
-                        errorResults.Add("Salt length may not exceed 512.");
-                    }
-
-                    errorResults.AddIfNotNullOrEmpty(ValidateArray(auxFunction.MacSaltMethods, ValidSaltGenerationMethods, nameof(MacSaltMethod)));
-
-                }
-
-                if (!needsSalt)
-                {
-                    if (auxFunction.SaltLen != 0)
-                    {
-                        errorResults.Add($"Unexpected salt length for {nameof(auxFunction)} {auxFunction.AuxFunctionName}");
-                    }
-
-                    errorResults.AddIfNotNullOrEmpty(ValidateArray(auxFunction.MacSaltMethods, new[] { MacSaltMethod.None }, nameof(MacSaltMethod)));
+                    errorResults.AddIfNotNullOrEmpty(
+                        ValidateArray(
+                            auxFunction.MacSaltMethods,
+                            new[] { MacSaltMethod.Default, MacSaltMethod.Random },
+                            "Salt Method OneStep KDF"));
                 }
             }
         }
@@ -423,6 +406,12 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
                 {
                     errorResults.Add($"Provided {nameof(l)} value of {l} was not contained within the {nameof(capability.SupportedLengths)} domain.");
                 }
+
+                errorResults.AddIfNotNullOrEmpty(
+                    ValidateArray(
+                        capability.MacSaltMethods,
+                        new[] { MacSaltMethod.Default, MacSaltMethod.Random },
+                        "Salt Method OneStep KDF"));
             }
         }
         #endregion TwoStepKdf
