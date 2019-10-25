@@ -17,21 +17,18 @@ namespace NIST.CVP.Orleans.Grains.Rsa
         private readonly IShaFactory _shaFactory;
         private readonly IKeyComposerFactory _keyComposerFactory;
         private readonly IKeyBuilder _keyBuilder;
-        private readonly IEntropyProvider _entropyProvider;
         
         public RsaRunner(
             ILogger<RsaRunner> logger,
             IShaFactory shaFactory,
             IKeyComposerFactory keyComposerFactory,
-            IKeyBuilder keyBuilder,
-            IEntropyProviderFactory entropyProviderFactory
+            IKeyBuilder keyBuilder
         )
         {
             _logger = logger;
             _shaFactory = shaFactory;
             _keyComposerFactory = keyComposerFactory;
             _keyBuilder = keyBuilder;
-            _entropyProvider = entropyProviderFactory.GetEntropyProvider(EntropyProviderTypes.Random);
         }
 
         public RsaPrimeResult GeneratePrimes(RsaKeyParameters param, IEntropyProvider entropyProvider)
@@ -57,6 +54,8 @@ namespace NIST.CVP.Orleans.Grains.Rsa
                 .WithKeyComposer(keyComposer)
                 .WithSeed(param.Seed)
                 .WithStandard(param.Standard)
+                .WithPMod8(param.PMod8)
+                .WithQMod8(param.QMod8)
                 .Build();
 
             if (!keyResult.Success)
