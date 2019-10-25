@@ -13,8 +13,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer.IntegrationTests.Fips186_4
         public override string Mode { get; } = "SigVer";
 
         public override AlgoMode AlgoMode => AlgoMode.ECDSA_SigVer_v1_0;
-
-
+        
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
 
         protected override string GetTestFileFewTestCases(string targetFolder)
@@ -48,8 +47,6 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer.IntegrationTests.Fips186_4
 
         protected override string GetTestFileLotsOfTestCases(string targetFolder)
         {
-            return GetTestFileFewTestCases(targetFolder);
-
             var caps = new[]
             {
                 new Capability
