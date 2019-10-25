@@ -21,6 +21,7 @@ namespace NIST.CVP.Crypto.RSA.Keys
         private IRsaKeyComposer _keyComposer;
         private readonly IPrimeGeneratorFactory _primeFactory;
         private Fips186Standard _standard;
+        private int _a, _b;
         
         public KeyBuilder(IPrimeGeneratorFactory primeFactory)
         {
@@ -93,6 +94,18 @@ namespace NIST.CVP.Crypto.RSA.Keys
             return this;
         }
 
+        public IKeyBuilder WithPMod8(int a)
+        {
+            _a = a;
+            return this;
+        }
+
+        public IKeyBuilder WithQMod8(int b)
+        {
+            _b = b;
+            return this;
+        }
+
         public KeyResult Build()
         {
             if (_keyComposer == null || _e == 0 || _nlen == 0 || _standard == Fips186Standard.None)
@@ -105,7 +118,9 @@ namespace NIST.CVP.Crypto.RSA.Keys
                 Modulus = _nlen,
                 BitLens = _bitlens,     // Only needed for AuxPrimes
                 PublicE = _e,
-                Seed = _seed            // Only Needed for ProvablePrimes
+                Seed = _seed,            // Only Needed for ProvablePrimes
+                A = _a,
+                B = _b
             };
 
             PrimeGeneratorResult primeResult;
