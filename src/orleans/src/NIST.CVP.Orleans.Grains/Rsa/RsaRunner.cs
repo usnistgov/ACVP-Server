@@ -86,31 +86,5 @@ namespace NIST.CVP.Orleans.Grains.Rsa
                 Key = keyComposer.ComposeKey(param.Key.PubKey.E, primePair)
             };
         }
-
-        // TODO is this used?
-        public RsaKeyResult GetRsaKey(RsaKeyParameters param)
-        {
-            RsaPrimeResult result;
-            do
-            {
-                param.Seed = KeyGenHelper.GetSeed(param.Modulus);
-                param.PublicExponent = param.PublicExponentMode == PublicExponentModes.Fixed ? 
-                    param.PublicExponent : 
-                    KeyGenHelper.GetEValue(param.Standard, RSA_PUBLIC_EXPONENT_BITS_MIN, RSA_PUBLIC_EXPONENT_BITS_MAX);
-                param.BitLens = KeyGenHelper.GetBitlens(param.Modulus, param.KeyMode);
-                
-                // Generate key until success
-                result = GeneratePrimes(param, _entropyProvider);
-
-            } while (!result.Success);
-
-            return new RsaKeyResult
-            {
-                Key = result.Key,
-                AuxValues = result.Aux,
-                BitLens = param.BitLens,
-                Seed = param.Seed
-            };
-        }
     }
 }
