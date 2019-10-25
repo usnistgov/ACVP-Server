@@ -217,14 +217,14 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.2",
+        "KeyMode": "provable",
         "PublicExponentMode": "random",
         "Modulus": 2048,
         "HashAlg": {
           "Mode": "SHA1",
           "DigestSize": "d160"
         },
-        "PrimeTest": "None",
+        "PrimeTest": "invalid",
         "KeyFormat": "standard"
       }
     },
@@ -237,14 +237,14 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.2",
+        "KeyMode": "provable",
         "PublicExponentMode": "random",
         "Modulus": 2048,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d224"
         },
-        "PrimeTest": "None",
+        "PrimeTest": "invalid",
         "KeyFormat": "standard"
       }
     },
@@ -257,14 +257,14 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.2",
+        "KeyMode": "provable",
         "PublicExponentMode": "random",
         "Modulus": 2048,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d256"
         },
-        "PrimeTest": "None",
+        "PrimeTest": "invalid",
         "KeyFormat": "standard"
       }
     },
@@ -277,14 +277,14 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.2",
+        "KeyMode": "provable",
         "PublicExponentMode": "random",
         "Modulus": 2048,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d384"
         },
-        "PrimeTest": "None",
+        "PrimeTest": "invalid",
         "KeyFormat": "standard"
       }
     },
@@ -297,14 +297,14 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.2",
+        "KeyMode": "provable",
         "PublicExponentMode": "random",
         "Modulus": 2048,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d512"
         },
-        "PrimeTest": "None",
+        "PrimeTest": "invalid",
         "KeyFormat": "standard"
       }
     },
@@ -317,14 +317,14 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.2",
+        "KeyMode": "provable",
         "PublicExponentMode": "random",
         "Modulus": 2048,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d512t224"
         },
-        "PrimeTest": "None",
+        "PrimeTest": "invalid",
         "KeyFormat": "standard"
       }
     },
@@ -337,14 +337,14 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.2",
+        "KeyMode": "provable",
         "PublicExponentMode": "random",
         "Modulus": 2048,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d512t256"
         },
-        "PrimeTest": "None",
+        "PrimeTest": "invalid",
         "KeyFormat": "standard"
       }
     },
@@ -357,14 +357,14 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.2",
+        "KeyMode": "provable",
         "PublicExponentMode": "random",
         "Modulus": 3072,
         "HashAlg": {
           "Mode": "SHA1",
           "DigestSize": "d160"
         },
-        "PrimeTest": "None",
+        "PrimeTest": "invalid",
         "KeyFormat": "standard"
       }
     },
@@ -377,14 +377,14 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.2",
+        "KeyMode": "provable",
         "PublicExponentMode": "random",
         "Modulus": 3072,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d224"
         },
-        "PrimeTest": "None",
+        "PrimeTest": "invalid",
         "KeyFormat": "standard"
       }
     },
@@ -397,14 +397,14 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.2",
+        "KeyMode": "provable",
         "PublicExponentMode": "random",
         "Modulus": 3072,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d256"
         },
-        "PrimeTest": "None",
+        "PrimeTest": "invalid",
         "KeyFormat": "standard"
       }
     },
@@ -417,14 +417,14 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.2",
+        "KeyMode": "provable",
         "PublicExponentMode": "random",
         "Modulus": 3072,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d384"
         },
-        "PrimeTest": "None",
+        "PrimeTest": "invalid",
         "KeyFormat": "standard"
       }
     },
@@ -437,14 +437,14 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.2",
+        "KeyMode": "provable",
         "PublicExponentMode": "random",
         "Modulus": 3072,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d512"
         },
-        "PrimeTest": "None",
+        "PrimeTest": "invalid",
         "KeyFormat": "standard"
       }
     },
@@ -457,14 +457,14 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.2",
+        "KeyMode": "provable",
         "PublicExponentMode": "random",
         "Modulus": 3072,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d512t224"
         },
-        "PrimeTest": "None",
+        "PrimeTest": "invalid",
         "KeyFormat": "standard"
       }
     },
@@ -477,14 +477,14 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.2",
+        "KeyMode": "provable",
         "PublicExponentMode": "random",
         "Modulus": 3072,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d512t256"
         },
-        "PrimeTest": "None",
+        "PrimeTest": "invalid",
         "KeyFormat": "standard"
       }
     },
@@ -497,14 +497,14 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.3",
+        "KeyMode": "probable",
         "PublicExponentMode": "random",
         "Modulus": 1024,
-        "PrimeTest": "tblC2",
+        "PrimeTest": "2powSecStr",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b33-1024-tblc2",
+    "PoolName": "rsa-b33-1024-2powSecStr",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -513,14 +513,14 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.3",
+        "KeyMode": "probable",
         "PublicExponentMode": "random",
         "Modulus": 1024,
-        "PrimeTest": "tblC3",
+        "PrimeTest": "2pow100",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b33-1024-tblc3",
+    "PoolName": "rsa-b33-1024-2pow100",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -529,14 +529,14 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.3",
+        "KeyMode": "probable",
         "PublicExponentMode": "random",
         "Modulus": 2048,
-        "PrimeTest": "tblC2",
+        "PrimeTest": "2powSecStr",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b33-2048-tblc2",
+    "PoolName": "rsa-b33-2048-2powSecStr",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -545,14 +545,14 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.3",
+        "KeyMode": "probable",
         "PublicExponentMode": "random",
         "Modulus": 2048,
-        "PrimeTest": "tblC3",
+        "PrimeTest": "2pow100",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b33-2048-tblc3",
+    "PoolName": "rsa-b33-2048-2pow100",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -561,14 +561,14 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.3",
+        "KeyMode": "probable",
         "PublicExponentMode": "random",
         "Modulus": 3072,
-        "PrimeTest": "tblC2",
+        "PrimeTest": "2powSecStr",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b33-3072-tblc2",
+    "PoolName": "rsa-b33-3072-2powSecStr",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -577,14 +577,14 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.3",
+        "KeyMode": "probable",
         "PublicExponentMode": "random",
         "Modulus": 3072,
-        "PrimeTest": "tblC3",
+        "PrimeTest": "2pow100",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b33-3072-tblc3",
+    "PoolName": "rsa-b33-3072-2pow100",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -593,14 +593,14 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.3",
+        "KeyMode": "probable",
         "PublicExponentMode": "random",
         "Modulus": 4096,
-        "PrimeTest": "tblC2",
+        "PrimeTest": "2powSecStr",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b33-4096-tblc2",
+    "PoolName": "rsa-b33-4096-2powSecStr",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -609,14 +609,14 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.3",
+        "KeyMode": "probable",
         "PublicExponentMode": "random",
         "Modulus": 4096,
-        "PrimeTest": "tblC3",
+        "PrimeTest": "2pow100",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b33-4096-tblc3",
+    "PoolName": "rsa-b33-4096-2pow100",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -625,14 +625,14 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.4",
+        "KeyMode": "provableWithProvableAux",
         "PublicExponentMode": "random",
         "Modulus": 2048,
         "HashAlg": {
           "Mode": "SHA1",
           "DigestSize": "d160"
         },
-        "PrimeTest": "none",
+        "PrimeTest": "invalid",
         "KeyFormat": "standard"
       }
     },
@@ -645,14 +645,14 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.4",
+        "KeyMode": "provableWithProvableAux",
         "PublicExponentMode": "random",
         "Modulus": 2048,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d224"
         },
-        "PrimeTest": "none",
+        "PrimeTest": "invalid",
         "KeyFormat": "standard"
       }
     },
@@ -665,14 +665,14 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.4",
+        "KeyMode": "provableWithProvableAux",
         "PublicExponentMode": "random",
         "Modulus": 2048,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d256"
         },
-        "PrimeTest": "none",
+        "PrimeTest": "invalid",
         "KeyFormat": "standard"
       }
     },
@@ -685,14 +685,14 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.4",
+        "KeyMode": "provableWithProvableAux",
         "PublicExponentMode": "random",
         "Modulus": 2048,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d384"
         },
-        "PrimeTest": "none",
+        "PrimeTest": "invalid",
         "KeyFormat": "standard"
       }
     },
@@ -705,14 +705,14 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.4",
+        "KeyMode": "provableWithProvableAux",
         "PublicExponentMode": "random",
         "Modulus": 2048,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d512"
         },
-        "PrimeTest": "none",
+        "PrimeTest": "invalid",
         "KeyFormat": "standard"
       }
     },
@@ -725,14 +725,14 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.4",
+        "KeyMode": "provableWithProvableAux",
         "PublicExponentMode": "random",
         "Modulus": 2048,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d512t224"
         },
-        "PrimeTest": "none",
+        "PrimeTest": "invalid",
         "KeyFormat": "standard"
       }
     },
@@ -745,14 +745,14 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.4",
+        "KeyMode": "provableWithProvableAux",
         "PublicExponentMode": "random",
         "Modulus": 2048,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d512t256"
         },
-        "PrimeTest": "none",
+        "PrimeTest": "invalid",
         "KeyFormat": "standard"
       }
     },
@@ -765,14 +765,14 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.4",
+        "KeyMode": "provableWithProvableAux",
         "PublicExponentMode": "random",
         "Modulus": 3072,
         "HashAlg": {
           "Mode": "SHA1",
           "DigestSize": "d160"
         },
-        "PrimeTest": "none",
+        "PrimeTest": "invalid",
         "KeyFormat": "standard"
       }
     },
@@ -785,14 +785,14 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.4",
+        "KeyMode": "provableWithProvableAux",
         "PublicExponentMode": "random",
         "Modulus": 3072,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d224"
         },
-        "PrimeTest": "none",
+        "PrimeTest": "invalid",
         "KeyFormat": "standard"
       }
     },
@@ -805,14 +805,14 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.4",
+        "KeyMode": "provableWithProvableAux",
         "PublicExponentMode": "random",
         "Modulus": 3072,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d256"
         },
-        "PrimeTest": "none",
+        "PrimeTest": "invalid",
         "KeyFormat": "standard"
       }
     },
@@ -825,14 +825,14 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.4",
+        "KeyMode": "provableWithProvableAux",
         "PublicExponentMode": "random",
         "Modulus": 3072,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d384"
         },
-        "PrimeTest": "none",
+        "PrimeTest": "invalid",
         "KeyFormat": "standard"
       }
     },
@@ -845,14 +845,14 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.4",
+        "KeyMode": "provableWithProvableAux",
         "PublicExponentMode": "random",
         "Modulus": 3072,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d512"
         },
-        "PrimeTest": "none",
+        "PrimeTest": "invalid",
         "KeyFormat": "standard"
       }
     },
@@ -865,14 +865,14 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.4",
+        "KeyMode": "provableWithProvableAux",
         "PublicExponentMode": "random",
         "Modulus": 3072,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d512t224"
         },
-        "PrimeTest": "none",
+        "PrimeTest": "invalid",
         "KeyFormat": "standard"
       }
     },
@@ -885,14 +885,14 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.4",
+        "KeyMode": "provableWithProvableAux",
         "PublicExponentMode": "random",
         "Modulus": 3072,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d512t256"
         },
-        "PrimeTest": "none",
+        "PrimeTest": "invalid",
         "KeyFormat": "standard"
       }
     },
@@ -905,18 +905,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.5",
+        "KeyMode": "probableWithProvableAux",
         "PublicExponentMode": "random",
         "Modulus": 2048,
         "HashAlg": {
           "Mode": "SHA1",
           "DigestSize": "d160"
         },
-        "PrimeTest": "tblC2",
+        "PrimeTest": "2powSecStr",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b35-2048-tblc2-sha-1",
+    "PoolName": "rsa-b35-2048-2powSecStr-sha-1",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -925,18 +925,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.5",
+        "KeyMode": "probableWithProvableAux",
         "PublicExponentMode": "random",
         "Modulus": 2048,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d224"
         },
-        "PrimeTest": "tblC2",
+        "PrimeTest": "2powSecStr",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b35-2048-tblc2-sha2-224",
+    "PoolName": "rsa-b35-2048-2powSecStr-sha2-224",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -945,18 +945,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.5",
+        "KeyMode": "probableWithProvableAux",
         "PublicExponentMode": "random",
         "Modulus": 2048,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d256"
         },
-        "PrimeTest": "tblC2",
+        "PrimeTest": "2powSecStr",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b35-2048-tblc2-sha2-256",
+    "PoolName": "rsa-b35-2048-2powSecStr-sha2-256",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -965,18 +965,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.5",
+        "KeyMode": "probableWithProvableAux",
         "PublicExponentMode": "random",
         "Modulus": 2048,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d384"
         },
-        "PrimeTest": "tblC2",
+        "PrimeTest": "2powSecStr",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b35-2048-tblc2-sha2-384",
+    "PoolName": "rsa-b35-2048-2powSecStr-sha2-384",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -985,18 +985,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.5",
+        "KeyMode": "probableWithProvableAux",
         "PublicExponentMode": "random",
         "Modulus": 2048,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d512"
         },
-        "PrimeTest": "tblC2",
+        "PrimeTest": "2powSecStr",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b35-2048-tblc2-sha2-512",
+    "PoolName": "rsa-b35-2048-2powSecStr-sha2-512",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -1005,18 +1005,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.5",
+        "KeyMode": "probableWithProvableAux",
         "PublicExponentMode": "random",
         "Modulus": 2048,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d512t224"
         },
-        "PrimeTest": "tblC2",
+        "PrimeTest": "2powSecStr",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b35-2048-tblc2-sha2-512224",
+    "PoolName": "rsa-b35-2048-2powSecStr-sha2-512224",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -1025,18 +1025,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.5",
+        "KeyMode": "probableWithProvableAux",
         "PublicExponentMode": "random",
         "Modulus": 2048,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d512t256"
         },
-        "PrimeTest": "tblC2",
+        "PrimeTest": "2powSecStr",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b35-2048-tblc2-sha2-512256",
+    "PoolName": "rsa-b35-2048-2powSecStr-sha2-512256",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -1045,18 +1045,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.5",
+        "KeyMode": "probableWithProvableAux",
         "PublicExponentMode": "random",
         "Modulus": 2048,
         "HashAlg": {
           "Mode": "SHA1",
           "DigestSize": "d160"
         },
-        "PrimeTest": "tblC3",
+        "PrimeTest": "2pow100",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b35-2048-tblc3-sha-1",
+    "PoolName": "rsa-b35-2048-2pow100-sha-1",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -1065,18 +1065,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.5",
+        "KeyMode": "probableWithProvableAux",
         "PublicExponentMode": "random",
         "Modulus": 2048,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d224"
         },
-        "PrimeTest": "tblC3",
+        "PrimeTest": "2pow100",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b35-2048-tblc3-sha2-224",
+    "PoolName": "rsa-b35-2048-2pow100-sha2-224",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -1085,18 +1085,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.5",
+        "KeyMode": "probableWithProvableAux",
         "PublicExponentMode": "random",
         "Modulus": 2048,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d256"
         },
-        "PrimeTest": "tblC3",
+        "PrimeTest": "2pow100",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b35-2048-tblc3-sha2-256",
+    "PoolName": "rsa-b35-2048-2pow100-sha2-256",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -1105,18 +1105,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.5",
+        "KeyMode": "probableWithProvableAux",
         "PublicExponentMode": "random",
         "Modulus": 2048,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d384"
         },
-        "PrimeTest": "tblC3",
+        "PrimeTest": "2pow100",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b35-2048-tblc3-sha2-384",
+    "PoolName": "rsa-b35-2048-2pow100-sha2-384",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -1125,18 +1125,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.5",
+        "KeyMode": "probableWithProvableAux",
         "PublicExponentMode": "random",
         "Modulus": 2048,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d512"
         },
-        "PrimeTest": "tblC3",
+        "PrimeTest": "2pow100",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b35-2048-tblc3-sha2-512",
+    "PoolName": "rsa-b35-2048-2pow100-sha2-512",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -1145,18 +1145,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.5",
+        "KeyMode": "probableWithProvableAux",
         "PublicExponentMode": "random",
         "Modulus": 2048,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d512t224"
         },
-        "PrimeTest": "tblC3",
+        "PrimeTest": "2pow100",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b35-2048-tblc3-sha2-512224",
+    "PoolName": "rsa-b35-2048-2pow100-sha2-512224",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -1165,18 +1165,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.5",
+        "KeyMode": "probableWithProvableAux",
         "PublicExponentMode": "random",
         "Modulus": 2048,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d512t256"
         },
-        "PrimeTest": "tblC3",
+        "PrimeTest": "2pow100",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b35-2048-tblc3-sha2-512256",
+    "PoolName": "rsa-b35-2048-2pow100-sha2-512256",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -1185,18 +1185,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.5",
+        "KeyMode": "probableWithProvableAux",
         "PublicExponentMode": "random",
         "Modulus": 3072,
         "HashAlg": {
           "Mode": "SHA1",
           "DigestSize": "d160"
         },
-        "PrimeTest": "tblC2",
+        "PrimeTest": "2powSecStr",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b35-3072-tblc2-sha-1",
+    "PoolName": "rsa-b35-3072-2powSecStr-sha-1",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -1205,18 +1205,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.5",
+        "KeyMode": "probableWithProvableAux",
         "PublicExponentMode": "random",
         "Modulus": 3072,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d224"
         },
-        "PrimeTest": "tblC2",
+        "PrimeTest": "2powSecStr",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b35-3072-tblc2-sha2-224",
+    "PoolName": "rsa-b35-3072-2powSecStr-sha2-224",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -1225,18 +1225,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.5",
+        "KeyMode": "probableWithProvableAux",
         "PublicExponentMode": "random",
         "Modulus": 3072,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d256"
         },
-        "PrimeTest": "tblC2",
+        "PrimeTest": "2powSecStr",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b35-3072-tblc2-sha2-256",
+    "PoolName": "rsa-b35-3072-2powSecStr-sha2-256",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -1245,18 +1245,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.5",
+        "KeyMode": "probableWithProvableAux",
         "PublicExponentMode": "random",
         "Modulus": 3072,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d384"
         },
-        "PrimeTest": "tblC2",
+        "PrimeTest": "2powSecStr",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b35-3072-tblc2-sha2-384",
+    "PoolName": "rsa-b35-3072-2powSecStr-sha2-384",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -1265,18 +1265,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.5",
+        "KeyMode": "probableWithProvableAux",
         "PublicExponentMode": "random",
         "Modulus": 3072,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d512"
         },
-        "PrimeTest": "tblC2",
+        "PrimeTest": "2powSecStr",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b35-3072-tblc2-sha2-512",
+    "PoolName": "rsa-b35-3072-2powSecStr-sha2-512",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -1285,18 +1285,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.5",
+        "KeyMode": "probableWithProvableAux",
         "PublicExponentMode": "random",
         "Modulus": 3072,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d512t224"
         },
-        "PrimeTest": "tblC2",
+        "PrimeTest": "2powSecStr",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b35-3072-tblc2-sha2-512224",
+    "PoolName": "rsa-b35-3072-2powSecStr-sha2-512224",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -1305,18 +1305,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.5",
+        "KeyMode": "probableWithProvableAux",
         "PublicExponentMode": "random",
         "Modulus": 3072,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d512t256"
         },
-        "PrimeTest": "tblC2",
+        "PrimeTest": "2powSecStr",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b35-3072-tblc2-sha2-512256",
+    "PoolName": "rsa-b35-3072-2powSecStr-sha2-512256",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -1325,18 +1325,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.5",
+        "KeyMode": "probableWithProvableAux",
         "PublicExponentMode": "random",
         "Modulus": 3072,
         "HashAlg": {
           "Mode": "SHA1",
           "DigestSize": "d160"
         },
-        "PrimeTest": "tblC3",
+        "PrimeTest": "2pow100",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b35-3072-tblc3-sha-1",
+    "PoolName": "rsa-b35-3072-2pow100-sha-1",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -1345,18 +1345,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.5",
+        "KeyMode": "probableWithProvableAux",
         "PublicExponentMode": "random",
         "Modulus": 3072,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d224"
         },
-        "PrimeTest": "tblC3",
+        "PrimeTest": "2pow100",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b35-3072-tblc3-sha2-224",
+    "PoolName": "rsa-b35-3072-2pow100-sha2-224",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -1365,18 +1365,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.5",
+        "KeyMode": "probableWithProvableAux",
         "PublicExponentMode": "random",
         "Modulus": 3072,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d256"
         },
-        "PrimeTest": "tblC3",
+        "PrimeTest": "2pow100",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b35-3072-tblc3-sha2-256",
+    "PoolName": "rsa-b35-3072-2pow100-sha2-256",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -1385,18 +1385,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.5",
+        "KeyMode": "probableWithProvableAux",
         "PublicExponentMode": "random",
         "Modulus": 3072,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d384"
         },
-        "PrimeTest": "tblC3",
+        "PrimeTest": "2pow100",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b35-3072-tblc3-sha2-384",
+    "PoolName": "rsa-b35-3072-2pow100-sha2-384",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -1405,18 +1405,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.5",
+        "KeyMode": "probableWithProvableAux",
         "PublicExponentMode": "random",
         "Modulus": 3072,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d512"
         },
-        "PrimeTest": "tblC3",
+        "PrimeTest": "2pow100",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b35-3072-tblc3-sha2-512",
+    "PoolName": "rsa-b35-3072-2pow100-sha2-512",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -1425,18 +1425,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.5",
+        "KeyMode": "probableWithProvableAux",
         "PublicExponentMode": "random",
         "Modulus": 3072,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d512t224"
         },
-        "PrimeTest": "tblC3",
+        "PrimeTest": "2pow100",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b35-3072-tblc3-sha2-512224",
+    "PoolName": "rsa-b35-3072-2pow100-sha2-512224",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -1445,18 +1445,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.5",
+        "KeyMode": "probableWithProvableAux",
         "PublicExponentMode": "random",
         "Modulus": 3072,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d512t256"
         },
-        "PrimeTest": "tblC3",
+        "PrimeTest": "2pow100",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b35-3072-tblc3-sha2-512256",
+    "PoolName": "rsa-b35-3072-2pow100-sha2-512256",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -1465,14 +1465,14 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.6",
+        "KeyMode": "probableWithProbableAux",
         "PublicExponentMode": "random",
         "Modulus": 2048,
-        "PrimeTest": "tblC2",
+        "PrimeTest": "2powSecStr",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b36-2048-tblc2",
+    "PoolName": "rsa-b36-2048-2powSecStr",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -1481,14 +1481,14 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.6",
+        "KeyMode": "probableWithProbableAux",
         "PublicExponentMode": "random",
         "Modulus": 2048,
-        "PrimeTest": "tblC3",
+        "PrimeTest": "2pow100",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b36-2048-tblc3",
+    "PoolName": "rsa-b36-2048-2pow100",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -1497,14 +1497,14 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.6",
+        "KeyMode": "probableWithProbableAux",
         "PublicExponentMode": "random",
         "Modulus": 3072,
-        "PrimeTest": "tblC2",
+        "PrimeTest": "2powSecStr",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b36-3072-tblc2",
+    "PoolName": "rsa-b36-3072-2powSecStr",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -1513,14 +1513,14 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.6",
+        "KeyMode": "probableWithProbableAux",
         "PublicExponentMode": "random",
         "Modulus": 3072,
-        "PrimeTest": "tblC3",
+        "PrimeTest": "2pow100",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b36-3072-tblc3",
+    "PoolName": "rsa-b36-3072-2pow100",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -1529,7 +1529,7 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.2",
+        "KeyMode": "provable",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
@@ -1548,7 +1548,7 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.2",
+        "KeyMode": "provable",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
@@ -1567,7 +1567,7 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.2",
+        "KeyMode": "provable",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
@@ -1586,7 +1586,7 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.2",
+        "KeyMode": "provable",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
@@ -1605,7 +1605,7 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.2",
+        "KeyMode": "provable",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
@@ -1624,7 +1624,7 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.2",
+        "KeyMode": "provable",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
@@ -1643,7 +1643,7 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.2",
+        "KeyMode": "provable",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
@@ -1662,18 +1662,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.2",
+        "KeyMode": "provable",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
           "Mode": "SHA1",
           "DigestSize": "d160"
         },
-        "PrimeTest": "tblC2",
+        "PrimeTest": "2powSecStr",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b32-4096-tblc2-sha-1",
+    "PoolName": "rsa-b32-4096-2powSecStr-sha-1",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -1682,18 +1682,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.2",
+        "KeyMode": "provable",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d224"
         },
-        "PrimeTest": "tblC2",
+        "PrimeTest": "2powSecStr",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b32-4096-tblc2-sha2-224",
+    "PoolName": "rsa-b32-4096-2powSecStr-sha2-224",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -1702,18 +1702,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.2",
+        "KeyMode": "provable",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d256"
         },
-        "PrimeTest": "tblC2",
+        "PrimeTest": "2powSecStr",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b32-4096-tblc2-sha2-256",
+    "PoolName": "rsa-b32-4096-2powSecStr-sha2-256",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -1722,18 +1722,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.2",
+        "KeyMode": "provable",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d384"
         },
-        "PrimeTest": "tblC2",
+        "PrimeTest": "2powSecStr",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b32-4096-tblc2-sha2-384",
+    "PoolName": "rsa-b32-4096-2powSecStr-sha2-384",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -1742,18 +1742,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.2",
+        "KeyMode": "provable",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d512"
         },
-        "PrimeTest": "tblC2",
+        "PrimeTest": "2powSecStr",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b32-4096-tblc2-sha2-512",
+    "PoolName": "rsa-b32-4096-2powSecStr-sha2-512",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -1762,18 +1762,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.2",
+        "KeyMode": "provable",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d512t224"
         },
-        "PrimeTest": "tblC2",
+        "PrimeTest": "2powSecStr",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b32-4096-tblc2-sha2-512224",
+    "PoolName": "rsa-b32-4096-2powSecStr-sha2-512224",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -1782,18 +1782,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.2",
+        "KeyMode": "provable",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d512t256"
         },
-        "PrimeTest": "tblC2",
+        "PrimeTest": "2powSecStr",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b32-4096-tblc2-sha2-512256",
+    "PoolName": "rsa-b32-4096-2powSecStr-sha2-512256",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -1802,18 +1802,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.2",
+        "KeyMode": "provable",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
           "Mode": "SHA1",
           "DigestSize": "d160"
         },
-        "PrimeTest": "tblC3",
+        "PrimeTest": "2pow100",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b32-4096-tblc3-sha-1",
+    "PoolName": "rsa-b32-4096-2pow100-sha-1",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -1822,18 +1822,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.2",
+        "KeyMode": "provable",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d224"
         },
-        "PrimeTest": "tblC3",
+        "PrimeTest": "2pow100",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b32-4096-tblc3-sha2-224",
+    "PoolName": "rsa-b32-4096-2pow100-sha2-224",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -1842,18 +1842,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.2",
+        "KeyMode": "provable",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d256"
         },
-        "PrimeTest": "tblC3",
+        "PrimeTest": "2pow100",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b32-4096-tblc3-sha2-256",
+    "PoolName": "rsa-b32-4096-2pow100-sha2-256",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -1862,18 +1862,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.2",
+        "KeyMode": "provable",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d384"
         },
-        "PrimeTest": "tblC3",
+        "PrimeTest": "2pow100",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b32-4096-tblc3-sha2-384",
+    "PoolName": "rsa-b32-4096-2pow100-sha2-384",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -1882,18 +1882,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.2",
+        "KeyMode": "provable",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d512"
         },
-        "PrimeTest": "tblC3",
+        "PrimeTest": "2pow100",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b32-4096-tblc3-sha2-512",
+    "PoolName": "rsa-b32-4096-2pow100-sha2-512",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -1902,18 +1902,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.2",
+        "KeyMode": "provable",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d512t224"
         },
-        "PrimeTest": "tblC3",
+        "PrimeTest": "2pow100",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b32-4096-tblc3-sha2-512224",
+    "PoolName": "rsa-b32-4096-2pow100-sha2-512224",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -1922,18 +1922,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.2",
+        "KeyMode": "provable",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d512t256"
         },
-        "PrimeTest": "tblC3",
+        "PrimeTest": "2pow100",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b32-4096-tblc3-sha2-512256",
+    "PoolName": "rsa-b32-4096-2pow100-sha2-512256",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -1942,7 +1942,7 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.3",
+        "KeyMode": "probable",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
@@ -1961,7 +1961,7 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.3",
+        "KeyMode": "probable",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
@@ -1980,7 +1980,7 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.3",
+        "KeyMode": "probable",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
@@ -1999,7 +1999,7 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.3",
+        "KeyMode": "probable",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
@@ -2018,7 +2018,7 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.3",
+        "KeyMode": "probable",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
@@ -2037,7 +2037,7 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.3",
+        "KeyMode": "probable",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
@@ -2056,7 +2056,7 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.3",
+        "KeyMode": "probable",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
@@ -2075,18 +2075,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.3",
+        "KeyMode": "probable",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
           "Mode": "SHA1",
           "DigestSize": "d160"
         },
-        "PrimeTest": "tblC2",
+        "PrimeTest": "2powSecStr",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b33-4096-tblc2-sha-1",
+    "PoolName": "rsa-b33-4096-2powSecStr-sha-1",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -2095,18 +2095,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.3",
+        "KeyMode": "probable",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d224"
         },
-        "PrimeTest": "tblC2",
+        "PrimeTest": "2powSecStr",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b33-4096-tblc2-sha2-224",
+    "PoolName": "rsa-b33-4096-2powSecStr-sha2-224",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -2115,18 +2115,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.3",
+        "KeyMode": "probable",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d256"
         },
-        "PrimeTest": "tblC2",
+        "PrimeTest": "2powSecStr",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b33-4096-tblc2-sha2-256",
+    "PoolName": "rsa-b33-4096-2powSecStr-sha2-256",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -2135,18 +2135,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.3",
+        "KeyMode": "probable",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d384"
         },
-        "PrimeTest": "tblC2",
+        "PrimeTest": "2powSecStr",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b33-4096-tblc2-sha2-384",
+    "PoolName": "rsa-b33-4096-2powSecStr-sha2-384",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -2155,18 +2155,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.3",
+        "KeyMode": "probable",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d512"
         },
-        "PrimeTest": "tblC2",
+        "PrimeTest": "2powSecStr",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b33-4096-tblc2-sha2-512",
+    "PoolName": "rsa-b33-4096-2powSecStr-sha2-512",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -2175,18 +2175,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.3",
+        "KeyMode": "probable",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d512t224"
         },
-        "PrimeTest": "tblC2",
+        "PrimeTest": "2powSecStr",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b33-4096-tblc2-sha2-512224",
+    "PoolName": "rsa-b33-4096-2powSecStr-sha2-512224",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -2195,18 +2195,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.3",
+        "KeyMode": "probable",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d512t256"
         },
-        "PrimeTest": "tblC2",
+        "PrimeTest": "2powSecStr",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b33-4096-tblc2-sha2-512256",
+    "PoolName": "rsa-b33-4096-2powSecStr-sha2-512256",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -2215,18 +2215,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.3",
+        "KeyMode": "probable",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
           "Mode": "SHA1",
           "DigestSize": "d160"
         },
-        "PrimeTest": "tblC3",
+        "PrimeTest": "2pow100",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b33-4096-tblc3-sha-1",
+    "PoolName": "rsa-b33-4096-2pow100-sha-1",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -2235,18 +2235,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.3",
+        "KeyMode": "probable",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d224"
         },
-        "PrimeTest": "tblC3",
+        "PrimeTest": "2pow100",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b33-4096-tblc3-sha2-224",
+    "PoolName": "rsa-b33-4096-2pow100-sha2-224",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -2255,18 +2255,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.3",
+        "KeyMode": "probable",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d256"
         },
-        "PrimeTest": "tblC3",
+        "PrimeTest": "2pow100",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b33-4096-tblc3-sha2-256",
+    "PoolName": "rsa-b33-4096-2pow100-sha2-256",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -2275,18 +2275,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.3",
+        "KeyMode": "probable",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d384"
         },
-        "PrimeTest": "tblC3",
+        "PrimeTest": "2pow100",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b33-4096-tblc3-sha2-384",
+    "PoolName": "rsa-b33-4096-2pow100-sha2-384",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -2295,18 +2295,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.3",
+        "KeyMode": "probable",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d512"
         },
-        "PrimeTest": "tblC3",
+        "PrimeTest": "2pow100",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b33-4096-tblc3-sha2-512",
+    "PoolName": "rsa-b33-4096-2pow100-sha2-512",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -2315,18 +2315,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.3",
+        "KeyMode": "probable",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d512t224"
         },
-        "PrimeTest": "tblC3",
+        "PrimeTest": "2pow100",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b33-4096-tblc3-sha2-512224",
+    "PoolName": "rsa-b33-4096-2pow100-sha2-512224",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -2335,18 +2335,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.3",
+        "KeyMode": "probable",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d512t256"
         },
-        "PrimeTest": "tblC3",
+        "PrimeTest": "2pow100",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b33-4096-tblc3-sha2-512256",
+    "PoolName": "rsa-b33-4096-2pow100-sha2-512256",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -2355,7 +2355,7 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.4",
+        "KeyMode": "provableWithProvableAux",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
@@ -2374,7 +2374,7 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.4",
+        "KeyMode": "provableWithProvableAux",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
@@ -2393,7 +2393,7 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.4",
+        "KeyMode": "provableWithProvableAux",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
@@ -2412,7 +2412,7 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.4",
+        "KeyMode": "provableWithProvableAux",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
@@ -2431,7 +2431,7 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.4",
+        "KeyMode": "provableWithProvableAux",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
@@ -2450,7 +2450,7 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.4",
+        "KeyMode": "provableWithProvableAux",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
@@ -2469,7 +2469,7 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.4",
+        "KeyMode": "provableWithProvableAux",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
@@ -2488,18 +2488,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.4",
+        "KeyMode": "provableWithProvableAux",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
           "Mode": "SHA1",
           "DigestSize": "d160"
         },
-        "PrimeTest": "tblC2",
+        "PrimeTest": "2powSecStr",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b34-4096-tblc2-sha-1",
+    "PoolName": "rsa-b34-4096-2powSecStr-sha-1",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -2508,18 +2508,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.4",
+        "KeyMode": "provableWithProvableAux",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d224"
         },
-        "PrimeTest": "tblC2",
+        "PrimeTest": "2powSecStr",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b34-4096-tblc2-sha2-224",
+    "PoolName": "rsa-b34-4096-2powSecStr-sha2-224",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -2528,18 +2528,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.4",
+        "KeyMode": "provableWithProvableAux",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d256"
         },
-        "PrimeTest": "tblC2",
+        "PrimeTest": "2powSecStr",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b34-4096-tblc2-sha2-256",
+    "PoolName": "rsa-b34-4096-2powSecStr-sha2-256",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -2548,18 +2548,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.4",
+        "KeyMode": "provableWithProvableAux",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d384"
         },
-        "PrimeTest": "tblC2",
+        "PrimeTest": "2powSecStr",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b34-4096-tblc2-sha2-384",
+    "PoolName": "rsa-b34-4096-2powSecStr-sha2-384",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -2568,18 +2568,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.4",
+        "KeyMode": "provableWithProvableAux",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d512"
         },
-        "PrimeTest": "tblC2",
+        "PrimeTest": "2powSecStr",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b34-4096-tblc2-sha2-512",
+    "PoolName": "rsa-b34-4096-2powSecStr-sha2-512",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -2588,18 +2588,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.4",
+        "KeyMode": "provableWithProvableAux",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d512t224"
         },
-        "PrimeTest": "tblC2",
+        "PrimeTest": "2powSecStr",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b34-4096-tblc2-sha2-512224",
+    "PoolName": "rsa-b34-4096-2powSecStr-sha2-512224",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -2608,18 +2608,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.4",
+        "KeyMode": "provableWithProvableAux",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d512t256"
         },
-        "PrimeTest": "tblC2",
+        "PrimeTest": "2powSecStr",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b34-4096-tblc2-sha2-512256",
+    "PoolName": "rsa-b34-4096-2powSecStr-sha2-512256",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -2628,18 +2628,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.4",
+        "KeyMode": "provableWithProvableAux",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
           "Mode": "SHA1",
           "DigestSize": "d160"
         },
-        "PrimeTest": "tblC3",
+        "PrimeTest": "2pow100",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b34-4096-tblc3-sha-1",
+    "PoolName": "rsa-b34-4096-2pow100-sha-1",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -2648,18 +2648,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.4",
+        "KeyMode": "provableWithProvableAux",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d224"
         },
-        "PrimeTest": "tblC3",
+        "PrimeTest": "2pow100",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b34-4096-tblc3-sha2-224",
+    "PoolName": "rsa-b34-4096-2pow100-sha2-224",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -2668,18 +2668,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.4",
+        "KeyMode": "provableWithProvableAux",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d256"
         },
-        "PrimeTest": "tblC3",
+        "PrimeTest": "2pow100",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b34-4096-tblc3-sha2-256",
+    "PoolName": "rsa-b34-4096-2pow100-sha2-256",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -2688,18 +2688,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.4",
+        "KeyMode": "provableWithProvableAux",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d384"
         },
-        "PrimeTest": "tblC3",
+        "PrimeTest": "2pow100",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b34-4096-tblc3-sha2-384",
+    "PoolName": "rsa-b34-4096-2pow100-sha2-384",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -2708,18 +2708,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.4",
+        "KeyMode": "provableWithProvableAux",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d512"
         },
-        "PrimeTest": "tblC3",
+        "PrimeTest": "2pow100",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b34-4096-tblc3-sha2-512",
+    "PoolName": "rsa-b34-4096-2pow100-sha2-512",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -2728,18 +2728,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.4",
+        "KeyMode": "provableWithProvableAux",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d512t224"
         },
-        "PrimeTest": "tblC3",
+        "PrimeTest": "2pow100",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b34-4096-tblc3-sha2-512224",
+    "PoolName": "rsa-b34-4096-2pow100-sha2-512224",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -2748,18 +2748,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.4",
+        "KeyMode": "provableWithProvableAux",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d512t256"
         },
-        "PrimeTest": "tblC3",
+        "PrimeTest": "2pow100",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b34-4096-tblc3-sha2-512256",
+    "PoolName": "rsa-b34-4096-2pow100-sha2-512256",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -2768,7 +2768,7 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.5",
+        "KeyMode": "probableWithProvableAux",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
@@ -2787,7 +2787,7 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.5",
+        "KeyMode": "probableWithProvableAux",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
@@ -2806,7 +2806,7 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.5",
+        "KeyMode": "probableWithProvableAux",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
@@ -2825,7 +2825,7 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.5",
+        "KeyMode": "probableWithProvableAux",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
@@ -2844,7 +2844,7 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.5",
+        "KeyMode": "probableWithProvableAux",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
@@ -2863,7 +2863,7 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.5",
+        "KeyMode": "probableWithProvableAux",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
@@ -2882,7 +2882,7 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.5",
+        "KeyMode": "probableWithProvableAux",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
@@ -2901,18 +2901,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.5",
+        "KeyMode": "probableWithProvableAux",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
           "Mode": "SHA1",
           "DigestSize": "d160"
         },
-        "PrimeTest": "tblC2",
+        "PrimeTest": "2powSecStr",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b35-4096-tblc2-sha-1",
+    "PoolName": "rsa-b35-4096-2powSecStr-sha-1",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -2921,18 +2921,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.5",
+        "KeyMode": "probableWithProvableAux",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d224"
         },
-        "PrimeTest": "tblC2",
+        "PrimeTest": "2powSecStr",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b35-4096-tblc2-sha2-224",
+    "PoolName": "rsa-b35-4096-2powSecStr-sha2-224",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -2941,18 +2941,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.5",
+        "KeyMode": "probableWithProvableAux",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d256"
         },
-        "PrimeTest": "tblC2",
+        "PrimeTest": "2powSecStr",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b35-4096-tblc2-sha2-256",
+    "PoolName": "rsa-b35-4096-2powSecStr-sha2-256",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -2961,18 +2961,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.5",
+        "KeyMode": "probableWithProvableAux",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d384"
         },
-        "PrimeTest": "tblC2",
+        "PrimeTest": "2powSecStr",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b35-4096-tblc2-sha2-384",
+    "PoolName": "rsa-b35-4096-2powSecStr-sha2-384",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -2981,18 +2981,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.5",
+        "KeyMode": "probableWithProvableAux",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d512"
         },
-        "PrimeTest": "tblC2",
+        "PrimeTest": "2powSecStr",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b35-4096-tblc2-sha2-512",
+    "PoolName": "rsa-b35-4096-2powSecStr-sha2-512",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -3001,18 +3001,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.5",
+        "KeyMode": "probableWithProvableAux",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d512t224"
         },
-        "PrimeTest": "tblC2",
+        "PrimeTest": "2powSecStr",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b35-4096-tblc2-sha2-512224",
+    "PoolName": "rsa-b35-4096-2powSecStr-sha2-512224",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -3021,18 +3021,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.5",
+        "KeyMode": "probableWithProvableAux",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d512t256"
         },
-        "PrimeTest": "tblC2",
+        "PrimeTest": "2powSecStr",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b35-4096-tblc2-sha2-512256",
+    "PoolName": "rsa-b35-4096-2powSecStr-sha2-512256",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -3041,18 +3041,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.5",
+        "KeyMode": "probableWithProvableAux",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
           "Mode": "SHA1",
           "DigestSize": "d160"
         },
-        "PrimeTest": "tblC3",
+        "PrimeTest": "2pow100",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b35-4096-tblc3-sha-1",
+    "PoolName": "rsa-b35-4096-2pow100-sha-1",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -3061,18 +3061,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.5",
+        "KeyMode": "probableWithProvableAux",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d224"
         },
-        "PrimeTest": "tblC3",
+        "PrimeTest": "2pow100",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b35-4096-tblc3-sha2-224",
+    "PoolName": "rsa-b35-4096-2pow100-sha2-224",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -3081,18 +3081,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.5",
+        "KeyMode": "probableWithProvableAux",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d256"
         },
-        "PrimeTest": "tblC3",
+        "PrimeTest": "2pow100",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b35-4096-tblc3-sha2-256",
+    "PoolName": "rsa-b35-4096-2pow100-sha2-256",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -3101,18 +3101,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.5",
+        "KeyMode": "probableWithProvableAux",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d384"
         },
-        "PrimeTest": "tblC3",
+        "PrimeTest": "2pow100",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b35-4096-tblc3-sha2-384",
+    "PoolName": "rsa-b35-4096-2pow100-sha2-384",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -3121,18 +3121,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.5",
+        "KeyMode": "probableWithProvableAux",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d512"
         },
-        "PrimeTest": "tblC3",
+        "PrimeTest": "2pow100",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b35-4096-tblc3-sha2-512",
+    "PoolName": "rsa-b35-4096-2pow100-sha2-512",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -3141,18 +3141,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.5",
+        "KeyMode": "probableWithProvableAux",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d512t224"
         },
-        "PrimeTest": "tblC3",
+        "PrimeTest": "2pow100",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b35-4096-tblc3-sha2-512224",
+    "PoolName": "rsa-b35-4096-2pow100-sha2-512224",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -3161,18 +3161,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.5",
+        "KeyMode": "probableWithProvableAux",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d512t256"
         },
-        "PrimeTest": "tblC3",
+        "PrimeTest": "2pow100",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b35-4096-tblc3-sha2-512256",
+    "PoolName": "rsa-b35-4096-2pow100-sha2-512256",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -3181,7 +3181,7 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.6",
+        "KeyMode": "probableWithProbableAux",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
@@ -3200,7 +3200,7 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.6",
+        "KeyMode": "probableWithProbableAux",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
@@ -3219,7 +3219,7 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.6",
+        "KeyMode": "probableWithProbableAux",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
@@ -3238,7 +3238,7 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.6",
+        "KeyMode": "probableWithProbableAux",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
@@ -3257,7 +3257,7 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.6",
+        "KeyMode": "probableWithProbableAux",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
@@ -3276,7 +3276,7 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.6",
+        "KeyMode": "probableWithProbableAux",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
@@ -3295,7 +3295,7 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.6",
+        "KeyMode": "probableWithProbableAux",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
@@ -3314,18 +3314,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.6",
+        "KeyMode": "probableWithProbableAux",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
           "Mode": "SHA1",
           "DigestSize": "d160"
         },
-        "PrimeTest": "tblC2",
+        "PrimeTest": "2powSecStr",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b36-4096-tblc2-sha-1",
+    "PoolName": "rsa-b36-4096-2powSecStr-sha-1",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -3334,18 +3334,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.6",
+        "KeyMode": "probableWithProbableAux",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d224"
         },
-        "PrimeTest": "tblC2",
+        "PrimeTest": "2powSecStr",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b36-4096-tblc2-sha2-224",
+    "PoolName": "rsa-b36-4096-2powSecStr-sha2-224",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -3354,18 +3354,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.6",
+        "KeyMode": "probableWithProbableAux",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d256"
         },
-        "PrimeTest": "tblC2",
+        "PrimeTest": "2powSecStr",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b36-4096-tblc2-sha2-256",
+    "PoolName": "rsa-b36-4096-2powSecStr-sha2-256",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -3374,18 +3374,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.6",
+        "KeyMode": "probableWithProbableAux",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d384"
         },
-        "PrimeTest": "tblC2",
+        "PrimeTest": "2powSecStr",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b36-4096-tblc2-sha2-384",
+    "PoolName": "rsa-b36-4096-2powSecStr-sha2-384",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -3394,18 +3394,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.6",
+        "KeyMode": "probableWithProbableAux",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d512"
         },
-        "PrimeTest": "tblC2",
+        "PrimeTest": "2powSecStr",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b36-4096-tblc2-sha2-512",
+    "PoolName": "rsa-b36-4096-2powSecStr-sha2-512",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -3414,18 +3414,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.6",
+        "KeyMode": "probableWithProbableAux",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d512t224"
         },
-        "PrimeTest": "tblC2",
+        "PrimeTest": "2powSecStr",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b36-4096-tblc2-sha2-512224",
+    "PoolName": "rsa-b36-4096-2powSecStr-sha2-512224",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -3434,18 +3434,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.6",
+        "KeyMode": "probableWithProbableAux",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d512t256"
         },
-        "PrimeTest": "tblC2",
+        "PrimeTest": "2powSecStr",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b36-4096-tblc2-sha2-512256",
+    "PoolName": "rsa-b36-4096-2powSecStr-sha2-512256",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -3454,18 +3454,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.6",
+        "KeyMode": "probableWithProbableAux",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
           "Mode": "SHA1",
           "DigestSize": "d160"
         },
-        "PrimeTest": "tblC3",
+        "PrimeTest": "2pow100",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b36-4096-tblc3-sha-1",
+    "PoolName": "rsa-b36-4096-2pow100-sha-1",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -3474,18 +3474,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.6",
+        "KeyMode": "probableWithProbableAux",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d224"
         },
-        "PrimeTest": "tblC3",
+        "PrimeTest": "2pow100",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b36-4096-tblc3-sha2-224",
+    "PoolName": "rsa-b36-4096-2pow100-sha2-224",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -3494,18 +3494,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.6",
+        "KeyMode": "probableWithProbableAux",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d256"
         },
-        "PrimeTest": "tblC3",
+        "PrimeTest": "2pow100",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b36-4096-tblc3-sha2-256",
+    "PoolName": "rsa-b36-4096-2pow100-sha2-256",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -3514,18 +3514,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.6",
+        "KeyMode": "probableWithProbableAux",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d384"
         },
-        "PrimeTest": "tblC3",
+        "PrimeTest": "2pow100",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b36-4096-tblc3-sha2-384",
+    "PoolName": "rsa-b36-4096-2pow100-sha2-384",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -3534,18 +3534,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.6",
+        "KeyMode": "probableWithProbableAux",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d512"
         },
-        "PrimeTest": "tblC3",
+        "PrimeTest": "2pow100",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b36-4096-tblc3-sha2-512",
+    "PoolName": "rsa-b36-4096-2pow100-sha2-512",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -3554,18 +3554,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.6",
+        "KeyMode": "probableWithProbableAux",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d512t224"
         },
-        "PrimeTest": "tblC3",
+        "PrimeTest": "2pow100",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b36-4096-tblc3-sha2-512224",
+    "PoolName": "rsa-b36-4096-2pow100-sha2-512224",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
@@ -3574,18 +3574,18 @@
     "PoolType": {
       "type": "rsa_key",
       "parameters": {
-        "KeyMode": "B.3.6",
+        "KeyMode": "probableWithProbableAux",
         "PublicExponentMode": "random",
         "Modulus": 4096,
         "HashAlg": {
           "Mode": "SHA2",
           "DigestSize": "d512t256"
         },
-        "PrimeTest": "tblC3",
+        "PrimeTest": "2pow100",
         "KeyFormat": "standard"
       }
     },
-    "PoolName": "rsa-b36-4096-tblc3-sha2-512256",
+    "PoolName": "rsa-b36-4096-2pow100-sha2-512256",
     "MaxCapacity": 100000,
     "MinCapacity": 30000,
     "RecycleRatePerHundred": 90
