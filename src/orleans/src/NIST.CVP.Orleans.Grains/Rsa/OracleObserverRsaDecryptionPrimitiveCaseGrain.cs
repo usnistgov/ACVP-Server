@@ -7,6 +7,7 @@ using NIST.CVP.Crypto.Common.Math;
 using NIST.CVP.Math;
 using NIST.CVP.Orleans.Grains.Interfaces.Rsa;
 using System.Threading.Tasks;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
 
 namespace NIST.CVP.Orleans.Grains.Rsa
 {
@@ -64,7 +65,7 @@ namespace NIST.CVP.Orleans.Grains.Rsa
 
                 // Pick a random n that is 2048 bits and less than the ciphertext
                 var n = _rand.GetRandomBigInteger(NumberTheory.Pow2(_param.Modulo - 1), cipherText.ToPositiveBigInteger());
-                var e = KeyGenHelper.GetEValue(RsaRunner.RSA_PUBLIC_EXPONENT_BITS_MIN, RsaRunner.RSA_PUBLIC_EXPONENT_BITS_MAX).ToPositiveBigInteger();
+                var e = KeyGenHelper.GetEValue(Fips186Standard.Fips186_4, RsaRunner.RSA_PUBLIC_EXPONENT_BITS_MIN, RsaRunner.RSA_PUBLIC_EXPONENT_BITS_MAX).ToPositiveBigInteger();
 
                 result = new RsaDecryptionPrimitiveResult
                 {

@@ -17,21 +17,18 @@ namespace NIST.CVP.Orleans.Grains.Rsa
         private readonly IShaFactory _shaFactory;
         private readonly IKeyComposerFactory _keyComposerFactory;
         private readonly IKeyBuilder _keyBuilder;
-        private readonly IEntropyProvider _entropyProvider;
         
         public RsaRunner(
             ILogger<RsaRunner> logger,
             IShaFactory shaFactory,
             IKeyComposerFactory keyComposerFactory,
-            IKeyBuilder keyBuilder,
-            IEntropyProviderFactory entropyProviderFactory
+            IKeyBuilder keyBuilder
         )
         {
             _logger = logger;
             _shaFactory = shaFactory;
             _keyComposerFactory = keyComposerFactory;
             _keyBuilder = keyBuilder;
-            _entropyProvider = entropyProviderFactory.GetEntropyProvider(EntropyProviderTypes.Random);
         }
 
         public RsaPrimeResult GeneratePrimes(RsaKeyParameters param, IEntropyProvider entropyProvider)
@@ -57,6 +54,8 @@ namespace NIST.CVP.Orleans.Grains.Rsa
                 .WithKeyComposer(keyComposer)
                 .WithSeed(param.Seed)
                 .WithStandard(param.Standard)
+                .WithPMod8(param.PMod8)
+                .WithQMod8(param.QMod8)
                 .Build();
 
             if (!keyResult.Success)
@@ -84,32 +83,6 @@ namespace NIST.CVP.Orleans.Grains.Rsa
             return new RsaKeyResult
             {
                 Key = keyComposer.ComposeKey(param.Key.PubKey.E, primePair)
-            };
-        }
-
-        // TODO is this used?
-        public RsaKeyResult GetRsaKey(RsaKeyParameters param)
-        {
-            RsaPrimeResult result;
-            do
-            {
-                param.Seed = KeyGenHelper.GetSeed(param.Modulus);
-                param.PublicExponent = param.PublicExponentMode == PublicExponentModes.Fixed ? 
-                    param.PublicExponent : 
-                    KeyGenHelper.GetEValue(RSA_PUBLIC_EXPONENT_BITS_MIN, RSA_PUBLIC_EXPONENT_BITS_MAX);
-                param.BitLens = KeyGenHelper.GetBitlens(param.Modulus, param.KeyMode);
-                
-                // Generate key until success
-                result = GeneratePrimes(param, _entropyProvider);
-
-            } while (!result.Success);
-
-            return new RsaKeyResult
-            {
-                Key = result.Key,
-                AuxValues = result.Aux,
-                BitLens = param.BitLens,
-                Seed = param.Seed
             };
         }
     }
