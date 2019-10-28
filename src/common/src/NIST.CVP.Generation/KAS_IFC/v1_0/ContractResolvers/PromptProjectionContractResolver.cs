@@ -16,7 +16,32 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0.ContractResolvers
     {
         protected override Predicate<object> TestGroupSerialization(JsonProperty jsonProperty)
         {
-            return jsonProperty.ShouldSerialize = instance => true;
+            var includePropertiesAllScenarios = new[]
+            {
+                nameof(TestGroup.TestGroupId),
+                nameof(TestGroup.TestType),
+                nameof(TestGroup.KeyConfirmationDirection),
+                nameof(TestGroup.KeyConfirmationRole),
+                nameof(TestGroup.KeyGenerationMethod),
+                nameof(TestGroup.L),
+                nameof(TestGroup.Modulo),
+                nameof(TestGroup.Scheme),
+                nameof(TestGroup.IutId),
+                nameof(TestGroup.ServerId),
+                nameof(TestGroup.KasRole),
+                nameof(TestGroup.KdfConfiguration),
+                nameof(TestGroup.KtsConfiguration),
+                nameof(TestGroup.MacConfiguration),
+                nameof(TestGroup.Tests),
+            };
+            
+            if (includePropertiesAllScenarios.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
+            {
+                return jsonProperty.ShouldSerialize =
+                    instance => true;
+            }
+
+            return jsonProperty.ShouldSerialize = instance => false;
         }
 
         protected override Predicate<object> TestCaseSerialization(JsonProperty jsonProperty)

@@ -30,9 +30,8 @@
           "auxFunctions": [
             {
               "auxFunctionName": "KMAC-128",
-              "saltLen": 128,
               "macSaltMethods": [
-                "Default"
+                "default"
               ]
             }
           ],
@@ -46,7 +45,7 @@
           "capabilities": [
             {
               "macSaltMethods": [
-                "Random"
+                "random"
               ],
               "fixedInfoPattern": "l||label||uPartyInfo||vPartyInfo||context",
               "encoding": [

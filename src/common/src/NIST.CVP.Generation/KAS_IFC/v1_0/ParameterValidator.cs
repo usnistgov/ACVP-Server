@@ -153,6 +153,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
             }
 
             ValidateFunction(parameters, errorResults);
+            ValidateIutId(parameters, errorResults);
             ValidateSchemes(parameters, errorResults);
             ValidateKeys(parameters, errorResults);
 
@@ -167,6 +168,14 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
             }
 
             errorResults.AddIfNotNullOrEmpty(ValidateArray(parameters.Function, ValidFunctions, "Functions"));
+        }
+        
+        private void ValidateIutId(Parameters parameters, List<string> errorResults)
+        {
+            if (parameters.IutId?.BitLength == 0)
+            {
+                errorResults.Add($"{nameof(parameters.IutId)} was not supplied.");
+            }
         }
 
         private void ValidateSchemes(Parameters parameters, List<string> errorResults)
