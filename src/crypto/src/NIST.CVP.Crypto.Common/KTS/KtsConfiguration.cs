@@ -4,7 +4,7 @@ namespace NIST.CVP.Crypto.Common.KTS
 {
     public class KtsConfiguration
     {
-        public KasHashAlg KtsHashAlg { get; set; }
+        public KasHashAlg HashAlg { get; set; }
         public string AssociatedDataPattern { get; set; }
         public FixedInfoEncoding Encoding { get; set; }
     }

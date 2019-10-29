@@ -71,7 +71,7 @@
       },
       "macMethods": {
         "kmaC-128": {
-          "macType": "kmac-128",
+          "macType": "KMAC-128",
           "keyLen": 128,
           "macLen": 224
         }

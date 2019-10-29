@@ -9,8 +9,8 @@ namespace NIST.CVP.Crypto.Common.KAS.KDF.KdfTls10_11
         public int L { get; set; }
         public int SaltLen { get; set; }
         public MacSaltMethod SaltMethod { get; set; }
-        public string FixedInputPattern { get; set; }
-        public FixedInfoEncoding FixedInputEncoding { get; set; }
+        public string FixedInfoPattern { get; set; }
+        public FixedInfoEncoding FixedInfoEncoding { get; set; }
         /// <summary>
         /// Should the initiator additional nonce be generated?
         /// </summary>

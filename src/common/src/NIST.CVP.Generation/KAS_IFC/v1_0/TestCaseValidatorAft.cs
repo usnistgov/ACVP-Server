@@ -112,13 +112,16 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
         /// <returns></returns>
         private bool ShouldSupplyNonce()
         {
-            var map = new List<(IfcScheme scheme, KeyAgreementRole role)>()
+            var map = new List<(IfcScheme scheme, KeyAgreementRole role, string testType)>()
             {
-                (IfcScheme.Kas1_basic, KeyAgreementRole.ResponderPartyV),
-                (IfcScheme.Kas1_partyV_keyConfirmation, KeyAgreementRole.ResponderPartyV),
+                (IfcScheme.Kas1_basic, KeyAgreementRole.ResponderPartyV, "aft"),
+                (IfcScheme.Kas1_partyV_keyConfirmation, KeyAgreementRole.ResponderPartyV, "aft"),
             };
 
-            return map.TryFirst(w => w.scheme == _testGroup.Scheme && w.role == _testGroup.KasRole, out var result);
+            return map.TryFirst(w => 
+                w.scheme == _testGroup.Scheme && 
+                w.role == _testGroup.KasRole &&
+                w.testType.Equals(_testGroup.TestType, StringComparison.OrdinalIgnoreCase), out var result);
         }
 
         /// <summary>

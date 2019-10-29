@@ -344,12 +344,6 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
         public BitString IutNonce { get; set; }
 
         /// <summary>
-        /// The salt that is used by both the IUT and Server for key derivation.
-        /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public BitString Salt => KdfParameter?.Salt;
-
-        /// <summary>
         /// The KDF parameters used in the KDF function.
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]

@@ -58,7 +58,6 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0.ContractResolvers
                 nameof(TestCase.ServerN),
                 nameof(TestCase.ServerC),
                 nameof(TestCase.ServerNonce),
-                nameof(TestCase.Salt),
                 nameof(TestCase.KdfParameter)
             };
             if (includePropertiesAllScenarios.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
@@ -218,12 +217,10 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0.ContractResolvers
         {
             var includeProperties = new[]
             {
-                nameof(OneStepConfiguration.L),
                 nameof(OneStepConfiguration.KdfType),
                 nameof(OneStepConfiguration.AuxFunction),
-                nameof(OneStepConfiguration.FixedInputEncoding),
-                nameof(OneStepConfiguration.FixedInputPattern),
-                nameof(OneStepConfiguration.SaltLen),
+                nameof(OneStepConfiguration.FixedInfoEncoding),
+                nameof(OneStepConfiguration.FixedInfoPattern),
                 nameof(OneStepConfiguration.SaltMethod),
             };
 
@@ -240,11 +237,9 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0.ContractResolvers
         {
             var includeProperties = new[]
             {
-                nameof(TwoStepConfiguration.L),
                 nameof(TwoStepConfiguration.KdfType),
-                nameof(TwoStepConfiguration.FixedInputEncoding),
-                nameof(TwoStepConfiguration.FixedInputPattern),
-                nameof(TwoStepConfiguration.SaltLen),
+                nameof(TwoStepConfiguration.FixedInfoEncoding),
+                nameof(TwoStepConfiguration.FixedInfoPattern),
                 nameof(TwoStepConfiguration.SaltMethod),
                 nameof(TwoStepConfiguration.CounterLen),
                 nameof(TwoStepConfiguration.CounterLocation),
@@ -265,7 +260,6 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0.ContractResolvers
         {
             var includeProperties = new[]
             {
-                nameof(IkeV1Configuration.L),
                 nameof(IkeV1Configuration.KdfType),
                 nameof(IkeV1Configuration.HashFunction),
                 nameof(IkeV1Configuration.RequiresAdditionalNoncePair),
@@ -284,7 +278,6 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0.ContractResolvers
         {
             var includeProperties = new[]
             {
-                nameof(IkeV2Configuration.L),
                 nameof(IkeV2Configuration.KdfType),
                 nameof(IkeV2Configuration.HashFunction),
                 nameof(IkeV2Configuration.RequiresAdditionalNoncePair),
@@ -303,7 +296,6 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0.ContractResolvers
         {
             var includeProperties = new[]
             {
-                nameof(Tls10_11Configuration.L),
                 nameof(Tls10_11Configuration.KdfType),
                 nameof(Tls10_11Configuration.RequiresAdditionalNoncePair),
             };
@@ -321,7 +313,6 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0.ContractResolvers
         {
             var includeProperties = new[]
             {
-                nameof(Tls12Configuration.L),
                 nameof(Tls12Configuration.KdfType),
                 nameof(Tls12Configuration.RequiresAdditionalNoncePair),
                 nameof(Tls12Configuration.HashFunction),

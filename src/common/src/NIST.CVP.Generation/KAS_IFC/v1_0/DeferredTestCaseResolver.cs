@@ -26,7 +26,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
             {
                 ktsParameter = new KtsParameter()
                 {
-                    KtsHashAlg = serverTestGroup.KtsConfiguration.KtsHashAlg,
+                    KtsHashAlg = serverTestGroup.KtsConfiguration.HashAlg,
                     AssociatedDataPattern = serverTestGroup.KtsConfiguration.AssociatedDataPattern,
                     Encoding = serverTestGroup.KtsConfiguration.Encoding
                 };

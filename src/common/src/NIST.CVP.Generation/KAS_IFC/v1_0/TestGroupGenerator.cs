@@ -309,8 +309,8 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
                         list.Add(new OneStepConfiguration()
                         {
                             L = l,
-                            FixedInputEncoding = encoding,
-                            FixedInputPattern = kdfMethod.FixedInfoPattern,
+                            FixedInfoEncoding = encoding,
+                            FixedInfoPattern = kdfMethod.FixedInfoPattern,
                             AuxFunction = auxFunction.AuxFunctionName,
                             SaltMethod = saltMethod,
                             SaltLen = saltLen
@@ -412,8 +412,8 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
                                     {
                                         L = l,
                                         SaltLen = saltLen,
-                                        FixedInputEncoding = encoding,
-                                        FixedInputPattern = capability.FixedInfoPattern,
+                                        FixedInfoEncoding = encoding,
+                                        FixedInfoPattern = capability.FixedInfoPattern,
                                         SaltMethod = saltMethod,
                                         KdfMode = capability.KdfMode,
                                         MacMode = mac,
@@ -429,8 +429,8 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
                                         {
                                             L = l,
                                             SaltLen = saltLen,
-                                            FixedInputEncoding = encoding,
-                                            FixedInputPattern = capability.FixedInfoPattern,
+                                            FixedInfoEncoding = encoding,
+                                            FixedInfoPattern = capability.FixedInfoPattern,
                                             SaltMethod = saltMethod,
                                             KdfMode = capability.KdfMode,
                                             MacMode = mac,
@@ -590,7 +590,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
                         list.Add(new KtsConfiguration()
                         {
                             AssociatedDataPattern = schemeBaseKtsMethod.AssociatedDataPattern,
-                            KtsHashAlg = hashAlg,
+                            HashAlg = hashAlg,
                             Encoding = encoding
                         });
                     }
@@ -601,7 +601,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
                     list.Add(new KtsConfiguration()
                     {
                         AssociatedDataPattern = string.Empty,
-                        KtsHashAlg = hashAlg
+                        HashAlg = hashAlg
                     });
                 }
             }

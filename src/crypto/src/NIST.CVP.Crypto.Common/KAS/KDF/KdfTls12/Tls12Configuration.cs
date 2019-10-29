@@ -10,8 +10,8 @@ namespace NIST.CVP.Crypto.Common.KAS.KDF.KdfTls12
         public int L { get; set; }
         public int SaltLen { get; set; }
         public MacSaltMethod SaltMethod { get; set; }
-        public string FixedInputPattern { get; set; }
-        public FixedInfoEncoding FixedInputEncoding { get; set; }
+        public string FixedInfoPattern { get; set; }
+        public FixedInfoEncoding FixedInfoEncoding { get; set; }
         /// <summary>
         /// The hash function in use for the KDF.
         /// </summary>

@@ -41,12 +41,12 @@ namespace NIST.CVP.Crypto.Common.KAS.KDF
         /// The pattern used for FixedInputConstruction.
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        string FixedInputPattern { get; set; }
+        string FixedInfoPattern { get; set; }
         /// <summary>
         /// The encoding type of the fixedInput
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        FixedInfoEncoding FixedInputEncoding { get; set; }
+        FixedInfoEncoding FixedInfoEncoding { get; set; }
 
         /// <summary>
         /// Utilize a <see cref="IKdfParameterVisitor"/> to create a <see cref="IKdfParameter"/> for use in a <see cref="IKdf"/>

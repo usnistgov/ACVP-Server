@@ -144,16 +144,16 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 L = l,
                 SaltLen = 128,
                 SaltMethod = MacSaltMethod.Default,
-                FixedInputEncoding = FixedInfoEncoding.Concatenation,
-                FixedInputPattern = "l|uPartyInfo|vPartyInfo",
+                FixedInfoEncoding = FixedInfoEncoding.Concatenation,
+                FixedInfoPattern = "l|uPartyInfo|vPartyInfo",
                 AuxFunction = KasKdfOneStepAuxFunction.HMAC_SHA2_D224
             };
             if (KeyGenerationRequirementsHelper.IfcKdfSchemes.Contains(scheme))
             {
                 kdfParam = kdfConfiguration.GetKdfParameter(_kdfParameterVisitor);
 
-                fixedInfoParameter.Encoding = kdfConfiguration.FixedInputEncoding;
-                fixedInfoParameter.FixedInfoPattern = kdfConfiguration.FixedInputPattern;
+                fixedInfoParameter.Encoding = kdfConfiguration.FixedInfoEncoding;
+                fixedInfoParameter.FixedInfoPattern = kdfConfiguration.FixedInfoPattern;
                 fixedInfoParameter.Salt = kdfParam.Salt;
             }
 
@@ -163,7 +163,7 @@ namespace NIST.CVP.Crypto.KAS.Tests
             {
                 Encoding = FixedInfoEncoding.Concatenation,
                 AssociatedDataPattern = "l|uPartyInfo|vPartyInfo",
-                KtsHashAlg = KasHashAlg.SHA2_D224
+                HashAlg = KasHashAlg.SHA2_D224
             };
             if (KeyGenerationRequirementsHelper.IfcKtsSchemes.Contains(scheme))
             {
@@ -174,7 +174,7 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 {
                     Encoding = ktsConfiguration.Encoding,
                     AssociatedDataPattern = ktsConfiguration.AssociatedDataPattern,
-                    KtsHashAlg = ktsConfiguration.KtsHashAlg
+                    KtsHashAlg = ktsConfiguration.HashAlg
                 };
             }
 

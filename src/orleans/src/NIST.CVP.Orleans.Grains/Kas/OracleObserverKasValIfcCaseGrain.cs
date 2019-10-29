@@ -173,8 +173,8 @@ namespace NIST.CVP.Orleans.Grains.Kas
                 {
                     kdfParam = _param.KdfConfiguration.GetKdfParameter(_kdfParameterVisitor);
 
-                    fixedInfoParameter.Encoding = _param.KdfConfiguration.FixedInputEncoding;
-                    fixedInfoParameter.FixedInfoPattern = _param.KdfConfiguration.FixedInputPattern;
+                    fixedInfoParameter.Encoding = _param.KdfConfiguration.FixedInfoEncoding;
+                    fixedInfoParameter.FixedInfoPattern = _param.KdfConfiguration.FixedInfoPattern;
                     fixedInfoParameter.Salt = kdfParam.Salt;
                     fixedInfoParameter.Iv = kdfParam.Iv;
                     fixedInfoParameter.Label = kdfParam.Label;
@@ -200,7 +200,7 @@ namespace NIST.CVP.Orleans.Grains.Kas
                     {
                         Encoding = _param.KtsConfiguration.Encoding,
                         AssociatedDataPattern = _param.KtsConfiguration.AssociatedDataPattern,
-                        KtsHashAlg = _param.KtsConfiguration.KtsHashAlg
+                        KtsHashAlg = _param.KtsConfiguration.HashAlg
                     };
                 }
 
