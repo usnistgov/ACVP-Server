@@ -54,6 +54,7 @@ namespace NIST.CVP.Generation.KDF.Tests
         private CounterLocations[] _fixedDataOrder;
         private int[] _counterLength;
         private bool _supportsEmptyIv;
+        private bool _requiresEmptyIv;
 
         public CapabilityBuilder()
         {
@@ -63,6 +64,7 @@ namespace NIST.CVP.Generation.KDF.Tests
             _fixedDataOrder = new[] { CounterLocations.MiddleFixedData };
             _counterLength = new[] { 8, 24 };
             _supportsEmptyIv = false;
+            _requiresEmptyIv = false;
         }
 
         public CapabilityBuilder WithKdfMode(KdfModes value)
@@ -101,6 +103,12 @@ namespace NIST.CVP.Generation.KDF.Tests
             return this;
         }
 
+        public CapabilityBuilder WithRequiresEmptyIv(bool value)
+        {
+            _requiresEmptyIv = value;
+            return this;
+        }
+
         public Capability Build()
         {
             return new Capability
@@ -110,7 +118,8 @@ namespace NIST.CVP.Generation.KDF.Tests
                 SupportedLengths = _supportedLengths,
                 FixedDataOrder = _fixedDataOrder,
                 CounterLength = _counterLength,
-                SupportsEmptyIv = _supportsEmptyIv
+                SupportsEmptyIv = _supportsEmptyIv,
+                RequiresEmptyIv = _requiresEmptyIv
             };
         }
     }
