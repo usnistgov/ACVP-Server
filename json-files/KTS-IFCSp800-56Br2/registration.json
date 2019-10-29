@@ -4,7 +4,7 @@
   "mode": "",
   "revision": "Sp800-56Br2",
   "isSample": true,
-  "iutId": "BEEFFACE",
+  "iutId": "123456ABCD",
   "scheme": {
     "ktS-OAEP-Party_V-confirmation": {
       "scheme": "KTS-OAEP-Party_V-confirmation",
@@ -36,7 +36,7 @@
       },
       "macMethods": {
         "kmaC-128": {
-          "macType": "kmac-128",
+          "macType": "KMAC-128",
           "keyLen": 128,
           "macLen": 224
         }

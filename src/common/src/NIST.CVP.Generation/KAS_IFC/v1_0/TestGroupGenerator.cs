@@ -386,18 +386,22 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
                                             ivLen = 160;
                                             break;
                                         case MacModes.HMAC_SHA224:
+                                        case MacModes.HMAC_SHA3_224:
                                             saltLen = 224;
                                             ivLen = 224;
                                             break;
                                         case MacModes.HMAC_SHA256:
+                                        case MacModes.HMAC_SHA3_256:
                                             saltLen = 256;
                                             ivLen = 256;
                                             break;
                                         case MacModes.HMAC_SHA384:
+                                        case MacModes.HMAC_SHA3_384:
                                             saltLen = 384;
                                             ivLen = 384;
                                             break;
                                         case MacModes.HMAC_SHA512:
+                                        case MacModes.HMAC_SHA3_512:
                                             saltLen = 512;
                                             ivLen = 512;
                                             break;

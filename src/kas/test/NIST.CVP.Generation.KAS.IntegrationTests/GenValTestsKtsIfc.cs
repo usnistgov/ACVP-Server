@@ -70,7 +70,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                 Mode = Mode,
                 Revision = Revision,
                 IsSample = true,
-                IutId = new BitString("BEEFFACE"),
+                IutId = new BitString("123456ABCD"),
                 Scheme = new Schemes()
                 {
                     //                    Kts_oaep_basic = new Kts_oaep_basic()

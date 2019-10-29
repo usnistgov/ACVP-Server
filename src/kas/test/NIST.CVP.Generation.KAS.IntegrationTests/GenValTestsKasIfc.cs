@@ -82,7 +82,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                 //                        E = new BitString("3BCF32AB").ToPositiveBigInteger()
                 //                    }, 
                 //                },
-                IutId = new BitString("BEEFFACE"),
+                IutId = new BitString("123456ABCD"),
                 Scheme = new Schemes()
                 {
                     //                    Kas1_basic = new Kas1_basic()

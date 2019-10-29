@@ -4,7 +4,7 @@
   "mode": "",
   "revision": "Sp800-56Br2",
   "isSample": true,
-  "iutId": "BEEFFACE",
+  "iutId": "123456ABCD",
   "scheme": {
     "kaS1-Party_V-confirmation": {
       "scheme": "KAS1-Party_V-confirmation",
