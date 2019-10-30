@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Cors;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using NIST.CVP.Pools;
 using NIST.CVP.Pools.Interfaces;
@@ -34,6 +33,7 @@ namespace NIST.CVP.PoolAPI.Controllers
         }
 
         [HttpPost]
+        [Produces("application/json")]
         // /api/pools
         public string GetDataFromPool(ParameterHolder parameterHolder)
         {
@@ -50,6 +50,7 @@ namespace NIST.CVP.PoolAPI.Controllers
         }
 
         [HttpGet]
+        [Produces("application/json")]
         // /api/pools
         public string GetDataAboutPools()
         {
@@ -67,6 +68,7 @@ namespace NIST.CVP.PoolAPI.Controllers
 
         [HttpGet]
         [Route("config")]
+        [Produces("application/json")]
         // /api/pools/config
         public string GetPoolConfig()
         {
@@ -84,6 +86,7 @@ namespace NIST.CVP.PoolAPI.Controllers
 
         [HttpPost]
         [Route("config")]
+        [Produces("application/json")]
         // /api/pools/config
         public string PostPoolConfig(PoolProperties poolProps)
         {
@@ -192,6 +195,7 @@ namespace NIST.CVP.PoolAPI.Controllers
 
         [HttpPost]
         [Route("status")]
+        [Produces("application/json")]
         // /api/pools/status
         public string PoolStatus(ParameterHolder parameterHolder)
         {
@@ -208,6 +212,7 @@ namespace NIST.CVP.PoolAPI.Controllers
 
         [HttpPost]
         [Route("status/name")]
+        [Produces("application/json")]
         // /api/pools/status/name
         public string PoolStatusNames(PoolNames names)
         {
