@@ -32,11 +32,16 @@ namespace NIST.CVP.Generation.RSA.v1_0.KeyGen
             return result.primeGen;
         }
 
-        public static PrimeGenFips186_4Modes GetSectionFromPrimeGen(PrimeGenModes primeGen)
+        public static PrimeGenFips186_4Modes GetSectionFromPrimeGen(PrimeGenModes primeGen, bool shouldThrow = true)
         {
             if (!_primeGenAttributes.TryFirst(w => w.primeGen == primeGen, out var result))
             {
-                throw new ArgumentException($"{nameof(primeGen)} provided does not exist");
+                if (shouldThrow)
+                {
+                    throw new ArgumentException($"{nameof(primeGen)} provided does not exist");
+                }
+
+                return PrimeGenFips186_4Modes.Invalid;
             }
             
             return result.section;
@@ -52,11 +57,16 @@ namespace NIST.CVP.Generation.RSA.v1_0.KeyGen
             return result.primeTest;
         }
 
-        public static PrimeTestFips186_4Modes GetSectionFromPrimeTest(PrimeTestModes primeTest)
+        public static PrimeTestFips186_4Modes GetSectionFromPrimeTest(PrimeTestModes primeTest, bool shouldThrow = true)
         {
             if (!_primeTestAttributes.TryFirst(w => w.primeTest == primeTest, out var result))
             {
-                throw new ArgumentException($"{nameof(primeTest)} provided does not exist");
+                if (shouldThrow)
+                {
+                    throw new ArgumentException($"{nameof(primeTest)} provided does not exist");
+                }
+
+                return PrimeTestFips186_4Modes.Invalid;
             }
             
             return result.section;

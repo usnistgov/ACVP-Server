@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
 using NIST.CVP.Generation.Core.DeSerialization;
 using NIST.CVP.Generation.Core.Enums;
 using NIST.CVP.Generation.Core.JsonConverters;
@@ -41,7 +42,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests.ContractResolvers
         [Test]
         public void ShouldSerializeGroupProperties()
         {
-            var tvs = TestDataMother.GetTestGroups();
+            var tvs = TestDataMother.GetTestGroups(PrimeGenFips186_4Modes.B32);
             var tg = tvs.TestGroups[0];
 
             var json = _serializer.Serialize(tvs, _projection);
@@ -60,7 +61,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests.ContractResolvers
         [Test]
         public void ShouldSerializeCaseProperties()
         {
-            var tvs = TestDataMother.GetTestGroups(1);
+            var tvs = TestDataMother.GetTestGroups(PrimeGenFips186_4Modes.B32);
             var tg = tvs.TestGroups[0];
             var tc = tg.Tests[0];
 
