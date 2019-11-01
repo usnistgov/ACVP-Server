@@ -35,18 +35,18 @@ namespace NIST.CVP.PoolAPI.Controllers
         [HttpPost]
         [Produces("application/json")]
         // /api/pools
-        public string GetDataFromPool(ParameterHolder parameterHolder)
+        public JsonResult GetDataFromPool(ParameterHolder parameterHolder)
         {
             try
             {
-                return JsonConvert.SerializeObject(_poolManager.GetResultFromPool(parameterHolder), _jsonSettings);
+                return new JsonResult(_poolManager.GetResultFromPool(parameterHolder), _jsonSettings);
             }
             catch (Exception ex)
             {
                 ThisLogger.Error(ex);
             }
 
-            return "";
+            return new JsonResult("");
         }
 
         [HttpGet]
@@ -86,20 +86,18 @@ namespace NIST.CVP.PoolAPI.Controllers
 
         [HttpPost]
         [Route("config")]
-        [Produces("application/json")]
         // /api/pools/config
-        public string PostPoolConfig(PoolProperties poolProps)
+        public JsonResult PostPoolConfig(PoolProperties poolProps)
         {
             try
             {
-                return JsonConvert.SerializeObject(_poolManager.EditPoolProperties(poolProps), _jsonSettings);
+                return new JsonResult(_poolManager.EditPoolProperties(poolProps), _jsonSettings);
             }
             catch (Exception ex)
             {
                 ThisLogger.Error(ex);
+                return new JsonResult("");
             }
-
-            return "";
         }
 
         [HttpPost]
@@ -195,35 +193,33 @@ namespace NIST.CVP.PoolAPI.Controllers
 
         [HttpPost]
         [Route("status")]
-        [Produces("application/json")]
         // /api/pools/status
-        public string PoolStatus(ParameterHolder parameterHolder)
+        public JsonResult PoolStatus(ParameterHolder parameterHolder)
         {
             try
             {
-                return JsonConvert.SerializeObject(_poolManager.GetPoolStatus(parameterHolder));
+                return new JsonResult(_poolManager.GetPoolStatus(parameterHolder), _jsonSettings);
             }
             catch (Exception ex)
             {
                 ThisLogger.Error(ex);
-                return "";
+                return new JsonResult("");
             }
         }
 
         [HttpPost]
         [Route("status/name")]
-        [Produces("application/json")]
         // /api/pools/status/name
-        public string PoolStatusNames(PoolNames names)
+        public JsonResult PoolStatusNames(PoolNames names)
         {
             try
             {
-                return JsonConvert.SerializeObject(names.Names.Select(pn => _poolManager.GetPoolStatus(pn)));
+                return new JsonResult(names.Names.Select(pn => _poolManager.GetPoolStatus(pn)), _jsonSettings);
             }
             catch (Exception ex)
             {
                 ThisLogger.Error(ex);
-                return "";
+                return new JsonResult("");
             }
         }
 

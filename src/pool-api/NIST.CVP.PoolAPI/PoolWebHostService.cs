@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Hosting.WindowsServices;
-using NIST.CVP.Pools;
 using NLog;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace NIST.CVP.PoolAPI
 {
@@ -30,7 +28,6 @@ namespace NIST.CVP.PoolAPI
         protected override void OnStopping()
         {
             _logger.Info("PoolWebAPI service stopped...");
-            
             base.OnStopping();
         }
     }
