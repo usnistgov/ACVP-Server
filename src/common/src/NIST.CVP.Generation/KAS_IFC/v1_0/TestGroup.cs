@@ -35,12 +35,6 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
         public BitString IutId { get; set; }
         public BitString ServerId { get; set; } = new BitString("434156536964");
 
-        /// <summary>
-        /// Public keys supplied by the IUT, for use in AFT tests.
-        /// </summary>
-        [JsonIgnore]
-        public IutKeys[] IutKeys { get; set; }
-
         public IKdfConfiguration KdfConfiguration { get; set; }
         public KtsConfiguration KtsConfiguration { get; set; }
         public MacConfiguration MacConfiguration { get; set; }

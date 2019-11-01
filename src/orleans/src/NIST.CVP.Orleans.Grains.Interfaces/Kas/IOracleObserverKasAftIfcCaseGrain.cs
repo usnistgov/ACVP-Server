@@ -8,6 +8,6 @@ namespace NIST.CVP.Orleans.Grains.Interfaces.Kas
 {
     public interface IOracleObserverKasAftIfcCaseGrain : IGrainWithGuidKey, IGrainObservable<KasAftResultIfc>
     {
-        Task<bool> BeginWorkAsync(KasAftParametersIfc param, KeyPair serverKeyPair);
+        Task<bool> BeginWorkAsync(KasAftParametersIfc param, KeyPair serverKeyPair, KeyPair iutKeyPair);
     }
 }

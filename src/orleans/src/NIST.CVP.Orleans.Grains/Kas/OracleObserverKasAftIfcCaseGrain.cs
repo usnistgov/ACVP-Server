@@ -25,7 +25,8 @@ namespace NIST.CVP.Orleans.Grains.Kas
         
         private KasAftParametersIfc _param;
         private KeyPair _serverKeyPair;
-        
+        private KeyPair _iutKeyPair;
+
         public OracleObserverKasAftIfcCaseGrain(
             LimitedConcurrencyLevelTaskScheduler nonOrleansScheduler,
             IKasIfcBuilder kasBuilder,
@@ -46,10 +47,11 @@ namespace NIST.CVP.Orleans.Grains.Kas
             _rsaSve = rsaSve;
         }
 
-        public async Task<bool> BeginWorkAsync(KasAftParametersIfc param, KeyPair serverKeyPair)
+        public async Task<bool> BeginWorkAsync(KasAftParametersIfc param, KeyPair serverKeyPair, KeyPair iutKeyPair)
         {
             _param = param;
             _serverKeyPair = serverKeyPair;
+            _iutKeyPair = iutKeyPair;
 
             await BeginGrainWorkAsync();
             return await Task.FromResult(true);
@@ -63,7 +65,7 @@ namespace NIST.CVP.Orleans.Grains.Kas
 
             var iutSecretKeyingMaterial = _iutSecretKeyingMaterialBuilder
                 .WithPartyId(_param.IutPartyId)
-                .WithKey(_param.IutKey)
+                .WithKey(_iutKeyPair)
                 .Build(
                     _param.Scheme, 
                     _param.KasMode, 
@@ -122,8 +124,8 @@ namespace NIST.CVP.Orleans.Grains.Kas
                 ServerK = serverContribution.K,
                 ServerNonce = serverContribution.DkmNonce,
                 ServerZ = serverContribution.Z,
-                IutKeyPair = _param.IutKey,
                 ServerKeyPair = _serverKeyPair,
+                IutKeyPair = _iutKeyPair,
                 KdfParameter = kdfParam
             });
         }

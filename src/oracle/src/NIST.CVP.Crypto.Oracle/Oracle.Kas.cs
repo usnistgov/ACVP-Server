@@ -136,30 +136,65 @@ namespace NIST.CVP.Crypto.Oracle
 
         public async Task<KasAftResultIfc> GetKasAftTestIfcAsync(KasAftParametersIfc param)
         {
-            // Get an RSA key on behalf of the server party when needed
+            // Get RSA keys on behalf of the server and IUT.
             var serverRequirements = KeyGenerationRequirementsHelper.GetKeyGenerationOptionsForSchemeAndRole(
                 param.Scheme, param.KasMode, param.ServerKeyAgreementRole, param.ServerKeyConfirmationRole,
                 param.KeyConfirmationDirection);
 
+            var keyTasks = new List<Task<RsaKeyResult>>();
+            Task<RsaKeyResult> serverKeyTask = null;
             KeyPair serverKey = null;
             if (serverRequirements.GeneratesEphemeralKeyPair)
             {
-                var task = await GetRsaKeyAsync(new RsaKeyParameters()
+                serverKeyTask = GetRsaKeyAsync(new RsaKeyParameters()
                 {
                     Standard = Fips186Standard.Fips186_5,
                     Modulus = param.Modulo,
-                    // it doesn't matter what format the key is in from the server perspective.
-                    KeyFormat = PrivateKeyModes.Crt,
+                    KeyFormat = param.PrivateKeyMode,
                     KeyMode = PrimeGenModes.RandomProbablePrimes,
                     PrimeTest = PrimeTestModes.TwoPow100ErrorBound,
-                    PublicExponentMode = PublicExponentModes.Random,
+                    PublicExponentMode = param.PublicExponentMode,
+                    PublicExponent = param.PublicExponent == 0 ? null : new BitString(param.PublicExponent)
                 });
-                serverKey = task.Key;
+                keyTasks.Add(serverKeyTask);
+            }
+
+            var iutRequirements = KeyGenerationRequirementsHelper.GetKeyGenerationOptionsForSchemeAndRole(
+                param.Scheme, param.KasMode, param.IutKeyAgreementRole, param.IutKeyConfirmationRole,
+                param.KeyConfirmationDirection);
+
+            Task<RsaKeyResult> iutKeyTask = null;
+            KeyPair iutKey = null;
+            if (iutRequirements.GeneratesEphemeralKeyPair)
+            {
+                iutKeyTask = GetRsaKeyAsync(new RsaKeyParameters()
+                {
+                    Standard = Fips186Standard.Fips186_5,
+                    Modulus = param.Modulo,
+                    KeyFormat = param.PrivateKeyMode,
+                    KeyMode = PrimeGenModes.RandomProbablePrimes,
+                    PrimeTest = PrimeTestModes.TwoPow100ErrorBound,
+                    PublicExponentMode = param.PublicExponentMode,
+                    PublicExponent = param.PublicExponent == 0 ? null : new BitString(param.PublicExponent)
+                });
+                keyTasks.Add(iutKeyTask);
+            }
+
+            await Task.WhenAll(keyTasks);
+
+            if (serverKeyTask != null)
+            {
+                serverKey = serverKeyTask.Result.Key;
+            }
+
+            if (iutKeyTask != null)
+            {
+                iutKey = iutKeyTask.Result.Key;
             }
 
             var observableGrain =
                 await GetObserverGrain<IOracleObserverKasAftIfcCaseGrain, KasAftResultIfc>();
-            await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, serverKey, LoadSheddingRetries);
+            await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, serverKey, iutKey, LoadSheddingRetries);
 
             return await observableGrain.ObserveUntilResult();
         }

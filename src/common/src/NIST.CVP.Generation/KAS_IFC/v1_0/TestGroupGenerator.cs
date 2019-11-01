@@ -59,8 +59,6 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
 
             foreach (var testType in TestTypes)
             {
-                var iutKeys = testType.Equals("AFT", StringComparison.OrdinalIgnoreCase) ? GetKeys(param) : null;
-
                 foreach (var role in schemeBase.KasRole)
                 {
                     var keyConfInfo = GetKeyConfirmationInfo(schemeBase.Scheme, role);
@@ -94,7 +92,6 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
                                             MacConfiguration = macMethod,
                                             TestType = testType,
                                             KeyGenerationMethod = keyGenerationMethod.KeyGenerationMethod,
-                                            IutKeys = iutKeys,
                                             IutId = param.IutId,
                                             KeyConfirmationDirection = keyConfInfo.kcDir,
                                             KeyConfirmationRole = keyConfInfo.kcRole,
@@ -117,7 +114,6 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
                                         MacConfiguration = null,
                                         TestType = testType,
                                         KeyGenerationMethod = keyGenerationMethod.KeyGenerationMethod,
-                                        IutKeys = iutKeys,
                                         IutId = param.IutId,
                                         KeyConfirmationDirection = keyConfInfo.kcDir,
                                         KeyConfirmationRole = keyConfInfo.kcRole,
@@ -145,7 +141,6 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
                                             MacConfiguration = macMethod,
                                             TestType = testType,
                                             KeyGenerationMethod = keyGenerationMethod.KeyGenerationMethod,
-                                            IutKeys = iutKeys,
                                             IutId = param.IutId,
                                             KeyConfirmationDirection = keyConfInfo.kcDir,
                                             KeyConfirmationRole = keyConfInfo.kcRole,
@@ -168,7 +163,6 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
                                         MacConfiguration = null,
                                         TestType = testType,
                                         KeyGenerationMethod = keyGenerationMethod.KeyGenerationMethod,
-                                        IutKeys = iutKeys,
                                         IutId = param.IutId,
                                         KeyConfirmationDirection = keyConfInfo.kcDir,
                                         KeyConfirmationRole = keyConfInfo.kcRole,
@@ -179,17 +173,6 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
                     }
                 }
             }
-        }
-
-        private IutKeys[] GetKeys(Parameters parameters)
-        {
-            // When not sample, the IUT public keys are provided
-            if (!parameters.IsSample)
-            {
-                return parameters.IutKeys;
-            }
-
-            return null;
         }
 
         private (KeyConfirmationDirection kcDir, KeyConfirmationRole kcRole) GetKeyConfirmationInfo(IfcScheme scheme, KeyAgreementRole role)
@@ -407,7 +390,8 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
                                             break;
                                     }
 
-                                    if (capability.KdfMode != KdfModes.Feedback)
+                                    if (capability.KdfMode != KdfModes.Feedback ||
+                                        (capability.KdfMode == KdfModes.Feedback && (capability.RequiresEmptyIv)))
                                     {
                                         ivLen = 0;
                                     }
@@ -426,8 +410,9 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
                                         IvLen = ivLen
                                     });
 
-                                    // Only Feedback has an IV, so add additional group of 0 len iv when feedback group supports it.
-                                    if (capability.SupportsEmptyIv && capability.KdfMode == KdfModes.Feedback)
+                                    // Only Feedback has an IV, so add additional group of 0 len iv when feedback group supports it,
+                                    // and it's not required (as that would have been covered in the above add.
+                                    if (capability.SupportsEmptyIv && !capability.RequiresEmptyIv && capability.KdfMode == KdfModes.Feedback)
                                     {
                                         tempList.Add(new TwoStepConfiguration()
                                         {

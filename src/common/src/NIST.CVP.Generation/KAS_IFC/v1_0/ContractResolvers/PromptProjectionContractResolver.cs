@@ -58,7 +58,13 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0.ContractResolvers
                 nameof(TestCase.ServerN),
                 nameof(TestCase.ServerC),
                 nameof(TestCase.ServerNonce),
-                nameof(TestCase.KdfParameter)
+                nameof(TestCase.KdfParameter),
+                nameof(TestCase.IutD),
+                nameof(TestCase.IutDmp1),
+                nameof(TestCase.IutDmq1),
+                nameof(TestCase.IutIqmp),
+                nameof(TestCase.IutP),
+                nameof(TestCase.IutQ),
             };
             if (includePropertiesAllScenarios.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
             {
@@ -73,10 +79,6 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0.ContractResolvers
                 nameof(TestCase.ServerDmp1),
                 nameof(TestCase.ServerDmq1),
                 nameof(TestCase.ServerIqmp),
-                nameof(TestCase.IutD),
-                nameof(TestCase.IutDmp1),
-                nameof(TestCase.IutDmq1),
-                nameof(TestCase.IutIqmp),
                 nameof(TestCase.Tag)
             };
 
@@ -100,8 +102,6 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0.ContractResolvers
             {
                 nameof(TestCase.ServerP),
                 nameof(TestCase.ServerQ),
-                nameof(TestCase.IutP),
-                nameof(TestCase.IutQ),
             };
             var keyGenMethodsToIncludePq = new[]
             {

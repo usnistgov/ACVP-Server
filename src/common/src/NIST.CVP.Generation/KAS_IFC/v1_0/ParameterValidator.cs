@@ -155,7 +155,6 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
             ValidateFunction(parameters, errorResults);
             ValidateIutId(parameters, errorResults);
             ValidateSchemes(parameters, errorResults);
-            ValidateKeys(parameters, errorResults);
 
             return new ParameterValidateResponse(errorResults);
         }
@@ -630,79 +629,6 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
         private void ValidateEncoding(FixedInfoEncoding[] encoding, List<string> errorResults)
         {
             errorResults.AddIfNotNullOrEmpty(ValidateArray(encoding, ValidEncodingTypes, "Encoding type"));
-        }
-
-        private void ValidateKeys(Parameters parameters, List<string> errorResults)
-        {
-            if (parameters.IsSample)
-            {
-                // Cannot use the public keys provided for a sample, as we need the private keys as well
-                parameters.IutKeys = null;
-                return;
-            }
-
-            if (!parameters.IsSample && (parameters.IutKeys == null || !parameters.IutKeys.Any()))
-            {
-                errorResults.Add($"The IUT shall provide {nameof(parameters.IutKeys)} for each fixed exponent/modulo size registered, as well as public keys for use for each modulo size for random exponents (when applicable).");
-                return;
-            }
-
-            if (parameters.IutKeys.Any(a => a.PrivateKeyFormat == IfcKeyGenerationMethod.None))
-            {
-                errorResults.Add($"{nameof(IutKeys.PrivateKeyFormat)} not provided for one or more {nameof(IutKeys)}");
-            }
-
-            // Check for valid E values
-            foreach (var key in parameters.IutKeys)
-            {
-                if (!RsaKeyHelper.IsValidExponent(key.E))
-                {
-                    errorResults.Add($"invalid {nameof(key.E)} value of {key.E}");
-                }
-            }
-
-            // collection of the product of fixed public exponent, key generation method, and modulo.
-            var exponentKeyGenMethodModulo = parameters
-                .Scheme.GetRegisteredSchemes()
-                .SelectMany(s => s.KeyGenerationMethods.GetRegisteredKeyGenerationMethods()
-                    .Select(s2 => new
-                    {
-                        s2.FixedPublicExponent,
-                        s2.KeyGenerationMethod,
-                        s2.Modulo
-                    }));
-
-            // Make sure there are IUT provided keys meeting the product.
-            foreach (var item in exponentKeyGenMethodModulo)
-            {
-                if (item.FixedPublicExponent == 0)
-                {
-                    foreach (var modulo in item.Modulo)
-                    {
-                        if (!parameters.IutKeys.TryFirst(w =>
-                            w.PrivateKeyFormat == item.KeyGenerationMethod &&
-                            w.N.ExactBitLength() == modulo,
-                            out var result))
-                        {
-                            errorResults.Add($"Unable to find candidate key from {nameof(parameters.IutKeys)} matching {nameof(IutKeys.PrivateKeyFormat)} ({item.KeyGenerationMethod}) and {nameof(modulo)} ({modulo})");
-                        }
-                    }
-                }
-                else
-                {
-                    foreach (var modulo in item.Modulo)
-                    {
-                        if (!parameters.IutKeys.TryFirst(w =>
-                                w.PrivateKeyFormat == item.KeyGenerationMethod &&
-                                w.N.ExactBitLength() == modulo &&
-                                w.E == item.FixedPublicExponent,
-                            out var result))
-                        {
-                            errorResults.Add($"Unable to find candidate key from {nameof(parameters.IutKeys)} matching {nameof(IutKeys.PrivateKeyFormat)} ({item.KeyGenerationMethod}), {nameof(modulo)} ({modulo}), and {nameof(IutKeys.E)} ({new BitString(item.FixedPublicExponent.ToHex())})");
-                        }
-                    }
-                }
-            }
         }
     }
 }

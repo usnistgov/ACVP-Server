@@ -1,4 +1,5 @@
 using System.Numerics;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Crypto.Common.KAS.KC;
@@ -43,6 +44,37 @@ namespace NIST.CVP.Common.Oracle.ParameterTypes
             }
         }
         
+        public PrivateKeyModes PrivateKeyMode
+        {
+            get
+            {
+                switch (KeyGenerationMethod)
+                {
+                    case IfcKeyGenerationMethod.RsaKpg1_crt:
+                    case IfcKeyGenerationMethod.RsaKpg2_crt:
+                        return PrivateKeyModes.Crt;
+                    default:
+                        return PrivateKeyModes.Standard;
+                }
+            }
+        }
+
+        public PublicExponentModes PublicExponentMode
+        {
+            get
+            {
+                switch (KeyGenerationMethod)
+                {
+                    case IfcKeyGenerationMethod.RsaKpg2_basic:
+                    case IfcKeyGenerationMethod.RsaKpg2_crt:
+                    case IfcKeyGenerationMethod.RsaKpg2_primeFactor:
+                        return PublicExponentModes.Random;
+                    default:
+                        return PublicExponentModes.Fixed;
+                }
+            }
+        }
+        
         public KeyConfirmationDirection KeyConfirmationDirection { get; set; }
         
         public IfcKeyGenerationMethod KeyGenerationMethod { get; set; }
@@ -52,8 +84,6 @@ namespace NIST.CVP.Common.Oracle.ParameterTypes
         public BigInteger PublicExponent { get; set; }
         
         public int L { get; set; }
-        
-        public KeyPair IutKey { get; set; }
         
         public IKdfConfiguration KdfConfiguration { get; set; }
         public KtsConfiguration KtsConfiguration { get; set; }

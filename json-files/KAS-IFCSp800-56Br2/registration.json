@@ -64,6 +64,7 @@
               "counterLength": [
                 32
               ],
+              "requiresEmptyIv": false,
               "supportsEmptyIv": false
             }
           ]
