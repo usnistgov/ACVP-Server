@@ -171,7 +171,7 @@ namespace NIST.CVP.Generation.KAS_IFC.v1_0
         
         private void ValidateIutId(Parameters parameters, List<string> errorResults)
         {
-            if (parameters.IutId?.BitLength == 0)
+            if (parameters.IutId == null || parameters.IutId.BitLength == 0)
             {
                 errorResults.Add($"{nameof(parameters.IutId)} was not supplied.");
             }
