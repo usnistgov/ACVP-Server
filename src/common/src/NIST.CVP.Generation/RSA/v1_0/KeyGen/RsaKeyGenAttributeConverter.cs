@@ -19,7 +19,8 @@ namespace NIST.CVP.Generation.RSA.v1_0.KeyGen
         private static readonly List<(PrimeTestModes primeTest, PrimeTestFips186_4Modes section)> _primeTestAttributes = new List<(PrimeTestModes, PrimeTestFips186_4Modes)>
         {
             (PrimeTestModes.TwoPow100ErrorBound, PrimeTestFips186_4Modes.TblC3),
-            (PrimeTestModes.TwoPowSecurityStrengthErrorBound, PrimeTestFips186_4Modes.TblC2)
+            (PrimeTestModes.TwoPowSecurityStrengthErrorBound, PrimeTestFips186_4Modes.TblC2),
+            (PrimeTestModes.Invalid, PrimeTestFips186_4Modes.Invalid)
         };
 
         public static PrimeGenModes GetPrimeGenFromSection(PrimeGenFips186_4Modes section)
