@@ -4,6 +4,7 @@ using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Signatures;
 using NIST.CVP.Generation.Core.Async;
 using System.Threading.Tasks;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
 
 namespace NIST.CVP.Generation.RSA.v1_0.SigGen
 {
@@ -27,6 +28,7 @@ namespace NIST.CVP.Generation.RSA.v1_0.SigGen
                 Modulo = serverTestGroup.Modulo,
                 PaddingScheme = serverTestGroup.Mode,
                 SaltLength = serverTestGroup.SaltLen,
+                MaskFunction = PssMaskTypes.MGF1,
                 IsMessageRandomized = iutTestGroup.IsMessageRandomized
             };
 

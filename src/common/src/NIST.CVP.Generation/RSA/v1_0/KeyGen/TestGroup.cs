@@ -18,10 +18,13 @@ namespace NIST.CVP.Generation.RSA.v1_0.KeyGen
         public string TestType { get; set; }
 
         public PrivateKeyModes KeyFormat { get; set; }
-        public PrimeTestModes PrimeTest { get; set; }
+        
+        [JsonProperty(PropertyName = "primeTest")]
+        public PrimeTestFips186_4Modes PrimeTest { get; set; }
 
         [JsonProperty(PropertyName = "randPQ")]
-        public PrimeGenModes PrimeGenMode { get; set; }
+        public PrimeGenFips186_4Modes PrimeGenMode { get; set; }
+        
         public PublicExponentModes PubExp { get; set; }
 
         [JsonIgnore]
@@ -45,7 +48,7 @@ namespace NIST.CVP.Generation.RSA.v1_0.KeyGen
             switch (name.ToLower())
             {
                 case "primemethod":
-                    PrimeGenMode = EnumHelpers.GetEnumFromEnumDescription<PrimeGenModes>(value);
+                    PrimeGenMode = EnumHelpers.GetEnumFromEnumDescription<PrimeGenFips186_4Modes>(value);
                     return true;
                 case "mod":
                     Modulo = int.Parse(value);
@@ -54,7 +57,15 @@ namespace NIST.CVP.Generation.RSA.v1_0.KeyGen
                     HashAlg = ShaAttributes.GetHashFunctionFromName(value);
                     return true;
                 case "table for m-t test":
-                    PrimeTest = EnumHelpers.GetEnumFromEnumDescription<PrimeTestModes>(value);
+                case "table for m-r test":
+                    if (value.ToLower() == "c.2")
+                    {
+                        PrimeTest = PrimeTestFips186_4Modes.TblC2;
+                    }
+                    else if (value.ToLower() == "c.3")
+                    {
+                        PrimeTest = PrimeTestFips186_4Modes.TblC3;
+                    }
                     return true;
             }
 

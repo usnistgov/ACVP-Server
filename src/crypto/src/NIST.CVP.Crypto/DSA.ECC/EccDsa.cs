@@ -12,23 +12,53 @@ namespace NIST.CVP.Crypto.DSA.ECC
     {
         public ISha Sha { get; }
 
+        private readonly IEccNonceProvider _nonceProvider;
+        
         private readonly IEntropyProviderFactory _entropyFactory = new EntropyProviderFactory();
         private readonly IEntropyProvider _entropyProvider;
 
-        public EccDsa(ISha sha, EntropyProviderTypes entropyType = EntropyProviderTypes.Random)
+        // Used for both signatures and keys
+        public EccDsa(ISha sha, IEccNonceProvider nonceProvider, EntropyProviderTypes entropyType)
         {
             Sha = sha;
+            _nonceProvider = nonceProvider;
             _entropyProvider = _entropyFactory.GetEntropyProvider(entropyType);
         }
 
-        public EccDsa(EntropyProviderTypes entropyType)
+        // Used for ONLY signatures
+        public EccDsa(ISha sha, IEccNonceProvider nonceProvider)
         {
-            _entropyProvider = _entropyFactory.GetEntropyProvider(entropyType);
+            Sha = sha;
+            _nonceProvider = nonceProvider;
         }
 
-        public void AddEntropy(BigInteger entropy)
+        // Used ONLY for verifying signatures
+        public EccDsa(ISha sha)
         {
-            _entropyProvider.AddEntropy(entropy);
+            Sha = sha;
+        }
+
+        // Used for ONLY keys
+        public EccDsa(IEntropyProvider entropyProvider)
+        {
+            _entropyProvider = entropyProvider;
+        }
+
+        // Used for ONLY key verification
+        public EccDsa()
+        {
+            
+        }
+
+        /// <summary>
+        /// KAS constructor
+        /// </summary>
+        /// <param name="sha">The SHA instance.</param>
+        /// <param name="entropyProvider">An entropy provider.</param>
+        public EccDsa(ISha sha, IEntropyProvider entropyProvider)
+        {
+            Sha = sha;
+            _entropyProvider = entropyProvider;
         }
 
         public EccDomainParametersGenerateResult GenerateDomainParameters(EccDomainParametersGenerateRequest generateRequest)
@@ -86,8 +116,15 @@ namespace NIST.CVP.Crypto.DSA.ECC
 
         public EccSignatureResult Sign(EccDomainParameters domainParameters, EccKeyPair keyPair, BitString message, bool skipHash = false)
         {
+            var bitsOfDigestNeeded = System.Math.Min(domainParameters.CurveE.OrderN.ExactBitLength(), Sha.HashFunction.OutputLen);
+
+            // Determine whether to hash or skip the hash step for component test
+            var hashDigest = skipHash ? message : Sha.HashMessage(message).Digest;
+            var e = hashDigest.MSBSubstring(0, bitsOfDigestNeeded).ToPositiveBigInteger();
+            
             // Generate random number k [1, n-1]
-            var k = _entropyProvider.GetEntropy(1, domainParameters.CurveE.OrderN - 1);
+            var k = _nonceProvider.GetNonce(keyPair.PrivateD, e, domainParameters.CurveE.OrderN);
+            //var k = _entropyProvider.GetEntropy(1, domainParameters.CurveE.OrderN - 1);
 
             // Compute point (x, y) = k * G
             var point = domainParameters.CurveE.Multiply(domainParameters.CurveE.BasePointG, k);
@@ -100,14 +137,6 @@ namespace NIST.CVP.Crypto.DSA.ECC
 
             // Compute s = k^-1 (e + d*r) mod n, where e = H(m) as an integer
             var kInverse = k.ModularInverse(domainParameters.CurveE.OrderN);
-
-            var bitsOfDigestNeeded = System.Math.Min(domainParameters.CurveE.OrderN.ExactBitLength(), Sha.HashFunction.OutputLen);
-
-            // Determine whether to hash or skip the hash step for component test
-            var hashDigest = skipHash ? message : Sha.HashMessage(message).Digest;
-            
-            var e = hashDigest.MSBSubstring(0, bitsOfDigestNeeded).ToPositiveBigInteger();
-
             var s = (kInverse * (e + keyPair.PrivateD * r)).PosMod(domainParameters.CurveE.OrderN);
 
             // Return pair (r, s)

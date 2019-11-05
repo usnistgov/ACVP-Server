@@ -4,19 +4,21 @@ namespace NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums
 {
     public enum PrimeGenModes
     {
-        [EnumMember(Value = "B.3.2")]
-        B32,
+        Invalid,
+        
+        [EnumMember(Value = "provable")]
+        RandomProvablePrimes,
 
-        [EnumMember(Value = "B.3.3")]
-        B33,
+        [EnumMember(Value = "probable")]
+        RandomProbablePrimes,
 
-        [EnumMember(Value = "B.3.4")]
-        B34,
+        [EnumMember(Value = "provableWithProvableAux")]
+        RandomProvablePrimesWithAuxiliaryProvablePrimes,
 
-        [EnumMember(Value = "B.3.5")]
-        B35,
+        [EnumMember(Value = "probableWithProvableAux")]
+        RandomProbablePrimesWithAuxiliaryProvablePrimes,
 
-        [EnumMember(Value = "B.3.6")]
-        B36
+        [EnumMember(Value = "probableWithProbableAux")]
+        RandomProbablePrimesWithAuxiliaryProbablePrimes
     }
 }

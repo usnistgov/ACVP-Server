@@ -4,6 +4,7 @@ using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
 using NIST.CVP.Generation.Core.Async;
 using System.Threading.Tasks;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC.Enums;
 
 namespace NIST.CVP.Generation.ECDSA.v1_0.SigGen
 {
@@ -30,7 +31,8 @@ namespace NIST.CVP.Generation.ECDSA.v1_0.SigGen
                 HashAlg = serverTestGroup.HashAlg,
                 PreHashedMessage = serverTestGroup.ComponentTest,
                 Key = iutTestGroup.KeyPair,
-                IsMessageRandomized = serverTestGroup.IsMessageRandomized
+                IsMessageRandomized = serverTestGroup.IsMessageRandomized,
+                NonceProviderType = NonceProviderTypes.Random
             };
 
             var fullParam = new EcdsaSignatureResult

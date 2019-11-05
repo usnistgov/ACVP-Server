@@ -45,11 +45,22 @@ namespace NIST.CVP.Pools
             LoadPools();
         }
 
+        public PoolInformation GetPoolStatus(string poolName)
+        {
+            if (Pools.TryFirst(pool => pool.PoolName.Equals(poolName, StringComparison.OrdinalIgnoreCase),
+                out var result))
+            {
+                return new PoolInformation { PoolName = result.PoolName, FillLevel = result.WaterLevel };
+            }
+            
+            return new PoolInformation { PoolExists = false };
+        }
+
         public PoolInformation GetPoolStatus(ParameterHolder paramHolder)
         {
             if (Pools.TryFirst(pool => pool.Param.Equals(paramHolder.Parameters), out var result))
             {
-                return new PoolInformation { FillLevel = result.WaterLevel };
+                return new PoolInformation { PoolName = result.PoolName, FillLevel = result.WaterLevel };
             }
 
             return new PoolInformation { PoolExists = false };
@@ -178,6 +189,7 @@ namespace NIST.CVP.Pools
 
                         return new SpawnJobResponse()
                         {
+                            PoolName = minPool.PoolName,
                             HasSpawnedJob = true,
                             PoolParameter = minPool.Param
                         };

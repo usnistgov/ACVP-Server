@@ -6,7 +6,7 @@ using NIST.CVP.Generation.Core.Async;
 using NLog;
 using System;
 using System.Threading.Tasks;
-using NIST.CVP.Math;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
 
 namespace NIST.CVP.Generation.RSA.v1_0.SigGen
 {
@@ -35,6 +35,7 @@ namespace NIST.CVP.Generation.RSA.v1_0.SigGen
                 Modulo = group.Modulo,
                 PaddingScheme = group.Mode,
                 SaltLength = group.SaltLen,
+                MaskFunction = PssMaskTypes.MGF1,
                 IsMessageRandomized = group.IsMessageRandomized
             };
 

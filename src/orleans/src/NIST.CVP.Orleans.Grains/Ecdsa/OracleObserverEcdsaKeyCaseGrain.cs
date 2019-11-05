@@ -4,7 +4,8 @@ using NIST.CVP.Common;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
-using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
+using NIST.CVP.Math;
+using NIST.CVP.Math.Entropy;
 using NIST.CVP.Orleans.Grains.Interfaces.Ecdsa;
 
 namespace NIST.CVP.Orleans.Grains.Ecdsa
@@ -40,8 +41,7 @@ namespace NIST.CVP.Orleans.Grains.Ecdsa
             var curve = _curveFactory.GetCurve(_param.Curve);
             var domainParams = new EccDomainParameters(curve);
 
-            // Hash function is not used, but the factory requires it
-            var eccDsa = _dsaFactory.GetInstance(new HashFunction(ModeValues.SHA2, DigestSizes.d256));
+            var eccDsa = _dsaFactory.GetInstanceForKeys(new EntropyProvider(new Random800_90()));
 
             var result = eccDsa.GenerateKeyPair(domainParams);
             if (!result.Success)

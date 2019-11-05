@@ -110,8 +110,10 @@ namespace NIST.CVP.Crypto.DSA.ECC.Tests
 
             var domainParams = new EccDomainParameters(curve);
 
-            var subject = new EccDsa(EntropyProviderTypes.Testable);
-            subject.AddEntropy(d);
+            var entropyProvider = new TestableEntropyProvider();
+            entropyProvider.AddEntropy(d);
+            
+            var subject = new EccDsa(entropyProvider);
 
             var result = subject.GenerateKeyPair(domainParams);
 
@@ -290,7 +292,7 @@ namespace NIST.CVP.Crypto.DSA.ECC.Tests
             var domainParams = new EccDomainParameters(curve);
             var keyPair = new EccKeyPair(Q);
 
-            var subject = new EccDsa(EntropyProviderTypes.Random);
+            var subject = new EccDsa();
 
             var result = subject.ValidateKeyPair(domainParams, keyPair);
 
@@ -428,15 +430,19 @@ namespace NIST.CVP.Crypto.DSA.ECC.Tests
             var curve = factory.GetCurve(curveEnum);
 
             var shaFactory = new ShaFactory();
-            var shaAttributes = AlgorithmSpecificationToDomainMapping.GetMappingFromAlgorithm(sha);
-            var hashFunction = new HashFunction(shaAttributes.shaMode, shaAttributes.shaDigestSize);
+            var (_, shaMode, shaDigestSize) = AlgorithmSpecificationToDomainMapping.GetMappingFromAlgorithm(sha);
+            var hashFunction = new HashFunction(shaMode, shaDigestSize);
             var hash = shaFactory.GetShaInstance(hashFunction);
 
+            var entropyProvider = new TestableEntropyProvider();
+            entropyProvider.AddEntropy(k);
+            var nonceProvider = new RandomNonceProvider(entropyProvider);
+            
             var domainParams = new EccDomainParameters(curve);
             var keyPair = new EccKeyPair(d);
 
-            var subject = new EccDsa(hash, EntropyProviderTypes.Testable);
-            subject.AddEntropy(k);
+            var subject = new EccDsa(hash, nonceProvider);
+            //subject.AddEntropy(k);
 
             var result = subject.Sign(domainParams, keyPair, msg);
 
@@ -548,15 +554,19 @@ namespace NIST.CVP.Crypto.DSA.ECC.Tests
             var curve = factory.GetCurve(curveEnum);
 
             var shaFactory = new ShaFactory();
-            var shaAttributes = AlgorithmSpecificationToDomainMapping.GetMappingFromAlgorithm(sha);
-            var hashFunction = new HashFunction(shaAttributes.shaMode, shaAttributes.shaDigestSize);
+            var (_, shaMode, shaDigestSize) = AlgorithmSpecificationToDomainMapping.GetMappingFromAlgorithm(sha);
+            var hashFunction = new HashFunction(shaMode, shaDigestSize);
             var hash = shaFactory.GetShaInstance(hashFunction);
 
+            var entropyProvider = new TestableEntropyProvider();
+            entropyProvider.AddEntropy(k);
+            var nonceProvider = new RandomNonceProvider(entropyProvider);
+            
             var domainParams = new EccDomainParameters(curve);
             var keyPair = new EccKeyPair(d);
 
-            var subject = new EccDsa(hash, EntropyProviderTypes.Testable);
-            subject.AddEntropy(k);
+            var subject = new EccDsa(hash, nonceProvider);
+            //subject.AddEntropy(k);
 
             var result = subject.Sign(domainParams, keyPair, msg);
 

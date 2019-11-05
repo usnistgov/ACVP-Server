@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using Autofac;
 using NIST.CVP.Common;
-using NIST.CVP.Common.Interfaces;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Async;
 using NIST.CVP.Generation.Core.DeSerialization;

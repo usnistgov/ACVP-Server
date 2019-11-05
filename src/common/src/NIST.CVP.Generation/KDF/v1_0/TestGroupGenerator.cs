@@ -46,21 +46,8 @@ namespace NIST.CVP.Generation.KDF.v1_0
 
                             foreach (var outputLen in testOutputLengths)
                             {
-                                var testGroup = new TestGroup
-                                {
-                                    KdfMode = capability.KdfMode,
-                                    MacMode = mac,
-                                    CounterLength = counterLength,
-                                    CounterLocation = counterOrder,
-                                    KeyOutLength = outputLen,
-                                    ZeroLengthIv = false,
-                                    TestType = "AFT"
-                                };
-
-                                testGroups.Add(testGroup);
-
-                                // Only Feedback has an IV
-                                if (capability.SupportsEmptyIv && capability.KdfMode == KdfModes.Feedback)
+                                // If an empty IV is allowed while the KDF is Feedback
+                                if ((capability.SupportsEmptyIv || capability.RequiresEmptyIv) && capability.KdfMode == KdfModes.Feedback)
                                 {
                                     var testGroupNoIv = new TestGroup
                                     {
@@ -74,6 +61,23 @@ namespace NIST.CVP.Generation.KDF.v1_0
                                     };
 
                                     testGroups.Add(testGroupNoIv);
+                                }
+
+                                // If the KDF is not Feedback, OR if the IUT does not require an empty IV
+                                if (!capability.RequiresEmptyIv || capability.KdfMode != KdfModes.Feedback)
+                                {
+                                    var testGroup = new TestGroup
+                                    {
+                                        KdfMode = capability.KdfMode,
+                                        MacMode = mac,
+                                        CounterLength = counterLength,
+                                        CounterLocation = counterOrder,
+                                        KeyOutLength = outputLen,
+                                        ZeroLengthIv = false,
+                                        TestType = "AFT"
+                                    };
+
+                                    testGroups.Add(testGroup);    
                                 }
                             }
                         }

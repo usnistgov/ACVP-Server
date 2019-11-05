@@ -3,12 +3,13 @@ using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
 using System;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA.Signatures;
 
 namespace NIST.CVP.Crypto.RSA.Signatures.Pss
 {
     public class PssPadderWithModifiedPublicExponent : PssPadder
     {
-        public PssPadderWithModifiedPublicExponent(ISha sha, IEntropyProvider entropy, int saltLength) : base(sha, entropy, saltLength) { }
+        public PssPadderWithModifiedPublicExponent(ISha sha, IMaskFunction mask, IEntropyProvider entropy, int saltLength) : base(sha, mask, entropy, saltLength) { }
 
         public override (KeyPair key, BitString message, int nlen) PrePadCheck(KeyPair key, BitString message, int nlen)
         {

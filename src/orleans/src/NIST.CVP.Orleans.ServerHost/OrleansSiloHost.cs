@@ -1,9 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Net;
-using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -54,6 +49,10 @@ namespace NIST.CVP.Orleans.ServerHost
                     options.ClusterId = _orleansConfig.ClusterId;
                     options.ServiceId = Constants.ServiceId;
                 })
+                .Configure<GrainCollectionOptions>(options =>
+                {
+                    options.CollectionAge = TimeSpan.FromMinutes(5);
+                })
                 .ConfigureServices(svcCollection =>
                 {
                     ConfigureServices.RegisterServices(svcCollection, _configurationRoot, _orleansConfig);
@@ -63,7 +62,11 @@ namespace NIST.CVP.Orleans.ServerHost
                     parts.AddApplicationPart(typeof(IGrainMarker).Assembly).WithReferences();
                 })
                 .UsePerfCounterEnvironmentStatistics()
-                .UseDashboard(options => { options.Port = _orleansConfig.OrleansDashboardPort; });
+                .UseDashboard(options =>
+                {
+                    options.Port = _orleansConfig.OrleansDashboardPort;
+                    options.CounterUpdateIntervalMs = 10000;
+                });
 
             ConfigureClustering(builder);
             ConfigureLoadShedding(builder);
@@ -77,7 +80,7 @@ namespace NIST.CVP.Orleans.ServerHost
         {
             await _silo.StopAsync(cancellationToken);
         }
-        
+
         private void ConfigureClustering(ISiloHostBuilder builder)
         {
             switch (_environmentConfig.Name)
@@ -107,7 +110,7 @@ namespace NIST.CVP.Orleans.ServerHost
                         options.ConnectionString = _connectionString;
                     });
                     builder.ConfigureEndpoints(
-                        siloPort: _orleansConfig.OrleansSiloPort, 
+                        siloPort: _orleansConfig.OrleansSiloPort,
                         gatewayPort: _orleansConfig.OrleansGatewayPort
                     );
                     break;
@@ -131,7 +134,7 @@ namespace NIST.CVP.Orleans.ServerHost
             builder.ConfigureLogging(logging =>
             {
                 logging.SetMinimumLevel(_orleansConfig.MinimumLogLevel);
-                
+
                 if (_orleansConfig.UseConsoleLogging)
                 {
                     logging.AddConsole();

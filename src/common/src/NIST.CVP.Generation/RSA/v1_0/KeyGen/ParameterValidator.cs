@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Numerics;
 using NIST.CVP.Common.ExtensionMethods;
-using NIST.CVP.Common.Helpers;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA.PrimeGenerators;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.RSA.v1_0.KeyGen
 {
@@ -14,50 +11,44 @@ namespace NIST.CVP.Generation.RSA.v1_0.KeyGen
     {
         public static int[] VALID_MODULI = {2048, 3072, 4096};
         public static string[] VALID_HASH_ALGS = { "sha-1", "sha2-224", "sha2-256", "sha2-384", "sha2-512", "sha2-512/224", "sha2-512/256" };
-        public static string[] VALID_KEY_GEN_MODES = EnumHelpers.GetEnumDescriptions<PrimeGenModes>().ToArray();
-        public static string[] VALID_PUB_EXP_MODES = EnumHelpers.GetEnumDescriptions<PublicExponentModes>().ToArray();
-        public static string[] VALID_PRIME_TESTS = EnumHelpers.GetEnumDescriptions<PrimeTestModes>().Except(new []{"none"}, StringComparer.OrdinalIgnoreCase).ToArray();
-        public static string[] VALID_KEY_FORMATS = EnumHelpers.GetEnumDescriptions<PrivateKeyModes>().ToArray();
 
         public ParameterValidateResponse Validate(Parameters parameters)
         {
             var errorResults = new List<string>();
-            var result = "";
 
-            result = ValidateValue(parameters.PubExpMode, VALID_PUB_EXP_MODES, "PubExp Modes");
-            errorResults.AddIfNotNullOrEmpty(result);
-
-            result = ValidateHex(parameters.FixedPubExp, "FixedPubExp hex");
-            errorResults.AddIfNotNullOrEmpty(result);
-
-            if (errorResults.Count > 0)
+            if (parameters.PubExpMode == PublicExponentModes.Invalid)
             {
-                return new ParameterValidateResponse(errorResults);
+                errorResults.Add("Public exponent mode not found");
+            }
+            
+            if (parameters.KeyFormat == PrivateKeyModes.Invalid)
+            {
+                errorResults.Add("Invalid or no private key format provided");
             }
 
-            // Gracefully check if the public exponent is valid
-            // Already checked if it was valid hex, so this is safe to run
-            if (EnumHelpers.GetEnumFromEnumDescription<PublicExponentModes>(parameters.PubExpMode) == PublicExponentModes.Fixed)
+            if (parameters.PubExpMode == PublicExponentModes.Fixed)
             {
-                var eValue = new BitString(parameters.FixedPubExp).ToPositiveBigInteger();
-                if (eValue < (BigInteger)2 << 15 || eValue > (BigInteger)2 << 255 || eValue.IsEven)
+                if (parameters.FixedPubExp == null)
                 {
-                    errorResults.Add("Invalid public exponent value provided");
+                    errorResults.Add("Invalid or no fixed public exponent provided");
+                }
+                else
+                {
+                    PrimeGeneratorGuard.AgainstInvalidPublicExponent(parameters.FixedPubExp.ToPositiveBigInteger(), errorResults);
                 }
             }
-
-            result = ValidateValue(parameters.KeyFormat, VALID_KEY_FORMATS, "Private Key Format");
-            errorResults.AddIfNotNullOrEmpty(result);
-
-            if (parameters.AlgSpecs.Length == 0)
+            
+            if (!parameters.AlgSpecs.Any())
             {
                 errorResults.Add("Nothing registered");
             }
 
             foreach (var algSpec in parameters.AlgSpecs)
             {
-                result = ValidateValue(algSpec.RandPQ, VALID_KEY_GEN_MODES, "KeyGen Modes");
-                errorResults.AddIfNotNullOrEmpty(result);
+                if (algSpec.RandPQ == PrimeGenFips186_4Modes.Invalid)
+                {
+                    errorResults.Add("Invalid or no rand pq");
+                }
 
                 if (algSpec.Capabilities.Length == 0)
                 {
@@ -72,21 +63,20 @@ namespace NIST.CVP.Generation.RSA.v1_0.KeyGen
 
                 foreach (var capability in algSpec.Capabilities)
                 {
-                    result = ValidateValue(capability.Modulo, VALID_MODULI, "Modulo");
-                    errorResults.AddIfNotNullOrEmpty(result);
-
-                    var friendlyName = algSpec.RandPQ.ToLower();
-
-                    if (friendlyName == "b.3.2" || friendlyName == "b.3.4" || friendlyName == "b.3.5")
+                    PrimeGeneratorGuard.AgainstInvalidModulusFips186_4(capability.Modulo, errorResults);
+                    
+                    if (algSpec.RandPQ == PrimeGenFips186_4Modes.B32 || algSpec.RandPQ == PrimeGenFips186_4Modes.B34 || algSpec.RandPQ == PrimeGenFips186_4Modes.B35)
                     {
-                        result = ValidateArray(capability.HashAlgs, VALID_HASH_ALGS, "Hash Alg");
+                        var result = ValidateArray(capability.HashAlgs, VALID_HASH_ALGS, "Hash Alg");
                         errorResults.AddIfNotNullOrEmpty(result);
                     }
 
-                    if (friendlyName == "b.3.3" || friendlyName == "b.3.5" || friendlyName == "b.3.6")
+                    if (algSpec.RandPQ == PrimeGenFips186_4Modes.B33 || algSpec.RandPQ == PrimeGenFips186_4Modes.B35 || algSpec.RandPQ == PrimeGenFips186_4Modes.B36)
                     {
-                        result = ValidateArray(capability.PrimeTests, VALID_PRIME_TESTS, "Prime Tests");
-                        errorResults.AddIfNotNullOrEmpty(result);
+                        if (capability.PrimeTests.Contains(PrimeTestFips186_4Modes.Invalid) || !capability.PrimeTests.Any())
+                        {
+                            errorResults.Add("Invalid prime test provided");
+                        }
                     }
                 }
             }

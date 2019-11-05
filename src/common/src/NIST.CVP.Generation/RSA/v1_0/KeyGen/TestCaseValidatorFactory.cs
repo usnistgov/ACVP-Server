@@ -23,9 +23,13 @@ namespace NIST.CVP.Generation.RSA.v1_0.KeyGen
                 {
                     var testType = group.TestType.ToLower();
 
-                    if (testType == "aft" || testType == "gdt")
+                    if (testType == "aft")
                     {
-                        list.Add(new TestCaseValidatorAft(test, group, new DeferredTestCaseResolver(_oracle)));
+                        list.Add(new TestCaseValidatorAft(test, group, new DeferredTestCaseResolverAFT(_oracle)));
+                    }
+                    else if (testType == "gdt")
+                    {
+                        list.Add(new TestCaseValidatorAft(test, group, new DeferredTestCaseResolverGDT(_oracle)));
                     }
                     else if (testType == "kat")
                     {

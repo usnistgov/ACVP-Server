@@ -61,7 +61,7 @@ namespace NIST.CVP.Orleans.Grains.Rsa
             var entropyProvider = new TestableEntropyProvider();
             entropyProvider.AddEntropy(salt);
 
-            var paddingScheme = _paddingFactory.GetPaddingScheme(_param.PaddingScheme, sha, entropyProvider, _param.SaltLength);
+            var paddingScheme = _paddingFactory.GetPaddingScheme(_param.PaddingScheme, sha, _param.MaskFunction, entropyProvider, _param.SaltLength);
 
             var messageCopy = message.GetDeepCopy();
             BitString randomValue = null;

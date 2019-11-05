@@ -1,5 +1,7 @@
 ﻿using Newtonsoft.Json;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.RSA.v1_0.KeyGen
 {
@@ -13,9 +15,9 @@ namespace NIST.CVP.Generation.RSA.v1_0.KeyGen
         public string[] Conformances { get; set; } = { };
 
         public bool InfoGeneratedByServer { get; set; } = true;
-        public string PubExpMode { get; set; }
-        public string FixedPubExp { get; set; } = "";
-        public string KeyFormat { get; set; }
+        public PublicExponentModes PubExpMode { get; set; }
+        public BitString FixedPubExp { get; set; }
+        public PrivateKeyModes KeyFormat { get; set; }
 
         [JsonProperty(PropertyName = "capabilities")]
         public AlgSpec[] AlgSpecs;
@@ -24,7 +26,7 @@ namespace NIST.CVP.Generation.RSA.v1_0.KeyGen
     public class AlgSpec
     {
         [JsonProperty(PropertyName = "randPQ")]
-        public string RandPQ;
+        public PrimeGenFips186_4Modes RandPQ;
 
         [JsonProperty(PropertyName = "properties")]
         public Capability[] Capabilities;
@@ -39,6 +41,6 @@ namespace NIST.CVP.Generation.RSA.v1_0.KeyGen
         public string[] HashAlgs;
 
         [JsonProperty(PropertyName = "primeTest")]
-        public string[] PrimeTests;
+        public PrimeTestFips186_4Modes[] PrimeTests;
     }
 }

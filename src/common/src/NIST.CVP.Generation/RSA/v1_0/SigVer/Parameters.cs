@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using Newtonsoft.Json;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.RSA.v1_0.SigVer
@@ -12,6 +13,9 @@ namespace NIST.CVP.Generation.RSA.v1_0.SigVer
         public bool IsSample { get; set; }
         public string[] Conformances { get; set; } = { };
 
+        // TODO is there a better way to do this? SigVer and LegacySigVer need to know this for key generation
+        public bool Legacy => Algorithm.Contains("legacy", StringComparison.OrdinalIgnoreCase) || Mode.Contains("legacy", StringComparison.OrdinalIgnoreCase);
+        
         [JsonProperty(PropertyName = "capabilities")]
         public AlgSpecs[] Capabilities { get; set; }
         public string PubExpMode { get; set; }
