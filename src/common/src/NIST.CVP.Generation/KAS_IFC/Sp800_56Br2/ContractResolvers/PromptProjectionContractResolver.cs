@@ -79,7 +79,8 @@ namespace NIST.CVP.Generation.KAS_IFC.Sp800_56Br2.ContractResolvers
                 nameof(TestCase.ServerDmp1),
                 nameof(TestCase.ServerDmq1),
                 nameof(TestCase.ServerIqmp),
-                nameof(TestCase.Tag)
+                nameof(TestCase.Tag),
+                nameof(TestCase.Dkm)
             };
 
             if (includePropertiesValScenarios.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
