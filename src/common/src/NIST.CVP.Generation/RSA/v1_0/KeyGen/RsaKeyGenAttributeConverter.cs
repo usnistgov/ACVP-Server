@@ -19,7 +19,8 @@ namespace NIST.CVP.Generation.RSA.v1_0.KeyGen
         private static readonly List<(PrimeTestModes primeTest, PrimeTestFips186_4Modes section)> _primeTestAttributes = new List<(PrimeTestModes, PrimeTestFips186_4Modes)>
         {
             (PrimeTestModes.TwoPow100ErrorBound, PrimeTestFips186_4Modes.TblC3),
-            (PrimeTestModes.TwoPowSecurityStrengthErrorBound, PrimeTestFips186_4Modes.TblC2)
+            (PrimeTestModes.TwoPowSecurityStrengthErrorBound, PrimeTestFips186_4Modes.TblC2),
+            (PrimeTestModes.Invalid, PrimeTestFips186_4Modes.Invalid)
         };
 
         public static PrimeGenModes GetPrimeGenFromSection(PrimeGenFips186_4Modes section)
@@ -32,11 +33,16 @@ namespace NIST.CVP.Generation.RSA.v1_0.KeyGen
             return result.primeGen;
         }
 
-        public static PrimeGenFips186_4Modes GetSectionFromPrimeGen(PrimeGenModes primeGen)
+        public static PrimeGenFips186_4Modes GetSectionFromPrimeGen(PrimeGenModes primeGen, bool shouldThrow = true)
         {
             if (!_primeGenAttributes.TryFirst(w => w.primeGen == primeGen, out var result))
             {
-                throw new ArgumentException($"{nameof(primeGen)} provided does not exist");
+                if (shouldThrow)
+                {
+                    throw new ArgumentException($"{nameof(primeGen)} provided does not exist");
+                }
+
+                return PrimeGenFips186_4Modes.Invalid;
             }
             
             return result.section;
@@ -52,11 +58,16 @@ namespace NIST.CVP.Generation.RSA.v1_0.KeyGen
             return result.primeTest;
         }
 
-        public static PrimeTestFips186_4Modes GetSectionFromPrimeTest(PrimeTestModes primeTest)
+        public static PrimeTestFips186_4Modes GetSectionFromPrimeTest(PrimeTestModes primeTest, bool shouldThrow = true)
         {
             if (!_primeTestAttributes.TryFirst(w => w.primeTest == primeTest, out var result))
             {
-                throw new ArgumentException($"{nameof(primeTest)} provided does not exist");
+                if (shouldThrow)
+                {
+                    throw new ArgumentException($"{nameof(primeTest)} provided does not exist");
+                }
+
+                return PrimeTestFips186_4Modes.Invalid;
             }
             
             return result.section;

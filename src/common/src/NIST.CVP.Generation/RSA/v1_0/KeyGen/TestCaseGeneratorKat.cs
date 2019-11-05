@@ -56,7 +56,8 @@ namespace NIST.CVP.Generation.RSA.v1_0.KeyGen
 
             var testCase = new TestCase
             {
-                TestPassed = !currentKat.FailureTest
+                TestPassed = !currentKat.FailureTest,
+                Key = keyResult.Key
             };
             
             if (testCase.TestPassed.Value)

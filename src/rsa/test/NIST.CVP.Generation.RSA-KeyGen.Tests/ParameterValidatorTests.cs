@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using NIST.CVP.Common.Helpers;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
 using NIST.CVP.Generation.RSA.v1_0.KeyGen;
@@ -297,7 +294,8 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
                     {
                         Modulo = _moduli[i],
                         HashAlgs = _hashAlgs,
-                        PrimeTests = _primeTests.Select(pt => EnumHelpers.GetEnumFromEnumDescription<PrimeTestFips186_4Modes>(pt, false)).ToArray()
+                        // Need to convert 186-5 enum description to 186-4 enum
+                        PrimeTests = _primeTests.Select(pt => RsaKeyGenAttributeConverter.GetSectionFromPrimeTest(EnumHelpers.GetEnumFromEnumDescription<PrimeTestModes>(pt, false), false)).ToArray()
                     };
                 }
 
@@ -306,7 +304,8 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
                 {
                     algSpecs[i] = new AlgSpec
                     {
-                        RandPQ = EnumHelpers.GetEnumFromEnumDescription<PrimeGenFips186_4Modes>(_keyGenModes[i], false),
+                        // Need to convert 186-5 enum description to 186-4 enum
+                        RandPQ = RsaKeyGenAttributeConverter.GetSectionFromPrimeGen(EnumHelpers.GetEnumFromEnumDescription<PrimeGenModes>(_keyGenModes[i], false), false),
                         Capabilities = caps
                     };
                 }
