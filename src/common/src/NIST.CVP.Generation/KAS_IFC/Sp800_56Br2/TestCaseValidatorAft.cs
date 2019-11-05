@@ -1,15 +1,15 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Crypto.Common.KAS;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Crypto.Common.KAS.Helpers;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Async;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace NIST.CVP.Generation.KAS_IFC.v1_0
+namespace NIST.CVP.Generation.KAS_IFC.Sp800_56Br2
 {
     public class TestCaseValidatorAft : ITestCaseValidatorAsync<TestGroup, TestCase>
     {

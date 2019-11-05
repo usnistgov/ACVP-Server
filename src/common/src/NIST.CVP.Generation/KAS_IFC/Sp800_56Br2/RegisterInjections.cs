@@ -4,13 +4,12 @@ using NIST.CVP.Common;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Async;
 using NIST.CVP.Generation.Core.DeSerialization;
-using NIST.CVP.Generation.Core.JsonConverters;
 using NIST.CVP.Generation.Core.Parsers;
-using NIST.CVP.Generation.KAS_IFC.v1_0.ContractResolvers;
+using NIST.CVP.Generation.KAS_IFC.Sp800_56Br2.ContractResolvers;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
 
-namespace NIST.CVP.Generation.KAS_IFC.v1_0
+namespace NIST.CVP.Generation.KAS_IFC.Sp800_56Br2
 {
     public class RegisterInjections : ISupportedAlgoModeRevisions
     {

@@ -1,9 +1,8 @@
 using System;
 using NIST.CVP.Common.Oracle;
 using NIST.CVP.Generation.Core.Async;
-using NIST.CVP.Generation.KAS.v1_0.Helpers;
 
-namespace NIST.CVP.Generation.KAS_IFC.v1_0
+namespace NIST.CVP.Generation.KAS_IFC.Sp800_56Br2
 {
     public class TestCaseGeneratorFactory : ITestCaseGeneratorFactoryAsync<TestGroup, TestCase>
     {

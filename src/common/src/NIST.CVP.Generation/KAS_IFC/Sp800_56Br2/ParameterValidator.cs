@@ -1,3 +1,7 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
 using NIST.CVP.Common;
 using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Common.Helpers;
@@ -9,13 +13,8 @@ using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Crypto.Common.KAS.Helpers;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
-using NIST.CVP.Math.Helpers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
 
-namespace NIST.CVP.Generation.KAS_IFC.v1_0
+namespace NIST.CVP.Generation.KAS_IFC.Sp800_56Br2
 {
     public class ParameterValidator : ParameterValidatorBase, IParameterValidator<Parameters>
     {

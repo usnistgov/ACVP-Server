@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using NIST.CVP.Generation.Core;
 
-namespace NIST.CVP.Generation.KAS_IFC.v1_0
+namespace NIST.CVP.Generation.KAS_IFC.Sp800_56Br2
 {
     public class TestVectorSet : ITestVectorSet<TestGroup, TestCase>
     {

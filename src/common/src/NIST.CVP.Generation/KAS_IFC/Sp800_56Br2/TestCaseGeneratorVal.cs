@@ -9,7 +9,7 @@ using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Async;
 using NLog;
 
-namespace NIST.CVP.Generation.KAS_IFC.v1_0
+namespace NIST.CVP.Generation.KAS_IFC.Sp800_56Br2
 {
     public class TestCaseGeneratorVal : ITestCaseGeneratorAsync<TestGroup, TestCase>
     {

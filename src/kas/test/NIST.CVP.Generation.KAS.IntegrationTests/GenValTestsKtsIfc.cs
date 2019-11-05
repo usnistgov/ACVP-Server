@@ -2,7 +2,7 @@ using NIST.CVP.Common;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Generation.Core.JsonConverters;
 using NIST.CVP.Generation.Core.Tests;
-using NIST.CVP.Generation.KAS_IFC.v1_0;
+using NIST.CVP.Generation.KAS_IFC.Sp800_56Br2;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.KAS.IntegrationTests

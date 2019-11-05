@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json.Serialization;
+﻿using System;
+using System.Linq;
+using Newtonsoft.Json.Serialization;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Crypto.Common.KAS.KDF.KdfIkeV1;
 using NIST.CVP.Crypto.Common.KAS.KDF.KdfIkeV2;
@@ -7,10 +9,8 @@ using NIST.CVP.Crypto.Common.KAS.KDF.KdfTls10_11;
 using NIST.CVP.Crypto.Common.KAS.KDF.KdfTls12;
 using NIST.CVP.Crypto.Common.KAS.KDF.KdfTwoStep;
 using NIST.CVP.Generation.Core.ContractResolvers;
-using System;
-using System.Linq;
 
-namespace NIST.CVP.Generation.KAS_IFC.v1_0.ContractResolvers
+namespace NIST.CVP.Generation.KAS_IFC.Sp800_56Br2.ContractResolvers
 {
     public class PromptProjectionContractResolver : ProjectionContractResolverBase<TestGroup, TestCase>
     {

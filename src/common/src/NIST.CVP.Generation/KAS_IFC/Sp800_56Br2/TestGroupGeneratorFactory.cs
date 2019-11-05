@@ -1,8 +1,7 @@
 using System.Collections.Generic;
-using NIST.CVP.Common.Oracle;
 using NIST.CVP.Generation.Core;
 
-namespace NIST.CVP.Generation.KAS_IFC.v1_0
+namespace NIST.CVP.Generation.KAS_IFC.Sp800_56Br2
 {
     public class TestGroupGeneratorFactory : ITestGroupGeneratorFactory<Parameters, TestGroup, TestCase>
     {

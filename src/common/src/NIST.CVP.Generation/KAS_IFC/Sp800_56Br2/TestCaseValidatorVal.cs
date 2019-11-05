@@ -1,11 +1,10 @@
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using NIST.CVP.Common.Helpers;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Async;
 
-namespace NIST.CVP.Generation.KAS_IFC.v1_0
+namespace NIST.CVP.Generation.KAS_IFC.Sp800_56Br2
 {
     public class TestCaseValidatorVal : ITestCaseValidatorAsync<TestGroup, TestCase>
     {

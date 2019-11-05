@@ -1,12 +1,12 @@
+using System.Numerics;
 using Newtonsoft.Json;
 using NIST.CVP.Common.Oracle.DispositionTypes;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys;
 using NIST.CVP.Crypto.Common.KAS.KDF;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
-using System.Numerics;
 
-namespace NIST.CVP.Generation.KAS_IFC.v1_0
+namespace NIST.CVP.Generation.KAS_IFC.Sp800_56Br2
 {
     public class TestCase : ITestCase<TestGroup, TestCase>
     {

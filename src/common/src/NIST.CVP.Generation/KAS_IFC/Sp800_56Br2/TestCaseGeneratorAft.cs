@@ -1,16 +1,13 @@
+using System;
+using System.Threading.Tasks;
 using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Async;
-using NIST.CVP.Math.Helpers;
 using NLog;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace NIST.CVP.Generation.KAS_IFC.v1_0
+namespace NIST.CVP.Generation.KAS_IFC.Sp800_56Br2
 {
     public class TestCaseGeneratorAft : ITestCaseGeneratorAsync<TestGroup, TestCase>
     {

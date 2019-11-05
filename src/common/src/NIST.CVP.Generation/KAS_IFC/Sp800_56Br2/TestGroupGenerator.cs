@@ -1,3 +1,7 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Numerics;
 using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
 using NIST.CVP.Crypto.Common.KAS.Enums;
@@ -12,12 +16,8 @@ using NIST.CVP.Crypto.Common.KAS.KDF.KdfTwoStep;
 using NIST.CVP.Crypto.Common.KDF.Enums;
 using NIST.CVP.Crypto.Common.KTS;
 using NIST.CVP.Generation.Core;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
 
-namespace NIST.CVP.Generation.KAS_IFC.v1_0
+namespace NIST.CVP.Generation.KAS_IFC.Sp800_56Br2
 {
     public class TestGroupGenerator : ITestGroupGenerator<Parameters, TestGroup, TestCase>
     {

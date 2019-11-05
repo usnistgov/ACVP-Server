@@ -4,7 +4,7 @@ using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Common.Oracle.DispositionTypes;
 using NIST.CVP.Crypto.Common.KAS.Helpers;
 
-namespace NIST.CVP.Generation.KAS_IFC.v1_0
+namespace NIST.CVP.Generation.KAS_IFC.Sp800_56Br2
 {
     public static class TestCaseDispositionHelper
     {
