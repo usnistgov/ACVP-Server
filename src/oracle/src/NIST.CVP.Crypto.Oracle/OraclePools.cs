@@ -2,7 +2,6 @@
 using NIST.CVP.Common.Config;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.PrimeGenerators;
 using NIST.CVP.Pools;
@@ -15,7 +14,8 @@ namespace NIST.CVP.Crypto.Oracle
     public class OraclePools : Oracle
     {
         private readonly IOptions<PoolConfig> _poolConfig;
-
+        private readonly IKeyComposerFactory _rsaKeyComposerFactory;
+        
         public OraclePools(
             IDbConnectionStringFactory dbConnectionStringFactory,
             IOptions<EnvironmentConfig> environmentConfig, 
@@ -23,6 +23,7 @@ namespace NIST.CVP.Crypto.Oracle
             IOptions<PoolConfig> poolConfig
         ) : base(dbConnectionStringFactory, environmentConfig, orleansConfig)
         {
+            _rsaKeyComposerFactory = new KeyComposerFactory();
             _poolConfig = poolConfig;
         }
         
@@ -153,24 +154,16 @@ namespace NIST.CVP.Crypto.Oracle
             var poolBoy = new PoolBoy<RsaKeyResult>(_poolConfig);
             var poolResult = poolBoy.GetObjectFromPool(param, PoolTypes.RSA_KEY);
 
-            if (poolResult != null)
-            {
-                if (param.KeyFormat == PrivateKeyModes.Crt)
-                {
-                    var crtKeyComposer = new CrtKeyComposer();
-                    poolResult.Key = crtKeyComposer.ComposeKey(
-                        poolResult.Key.PubKey.E,
-                        new PrimePair
-                        {
-                            P = poolResult.Key.PrivKey.P,
-                            Q = poolResult.Key.PrivKey.Q
-                        });
-                }
+            // No pool available, generate on-demand
+            if (poolResult == null) return await base.GetRsaKeyAsync(param);
+            
+            // Pool available, format key properly. Pools ONLY generate "standard" keys.
+            var keyComposer = _rsaKeyComposerFactory.GetKeyComposer(param.KeyFormat);
+            poolResult.Key = keyComposer.ComposeKey(poolResult.Key.PubKey.E,
+                new PrimePair {P = poolResult.Key.PrivKey.P, Q = poolResult.Key.PrivKey.Q});
 
-                return poolResult;
-            }
+            return poolResult;
 
-            return await base.GetRsaKeyAsync(param);
         }
     }
 }

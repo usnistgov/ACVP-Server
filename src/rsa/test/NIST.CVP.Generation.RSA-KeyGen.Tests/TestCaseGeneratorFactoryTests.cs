@@ -23,7 +23,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
             {
                 TestType = testType,
                 Modulo = 2048,
-                PrimeTest = PrimeTestModes.C2
+                PrimeTest = PrimeTestFips186_4Modes.TblC2
             };
 
             var subject = new TestCaseGeneratorFactory(null);

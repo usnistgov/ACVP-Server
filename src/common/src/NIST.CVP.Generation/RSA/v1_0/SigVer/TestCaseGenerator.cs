@@ -6,6 +6,7 @@ using NIST.CVP.Generation.RSA.v1_0.SigVer.TestCaseExpectations;
 using NLog;
 using System;
 using System.Threading.Tasks;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
 
 namespace NIST.CVP.Generation.RSA.v1_0.SigVer
 {
@@ -30,6 +31,7 @@ namespace NIST.CVP.Generation.RSA.v1_0.SigVer
                 Reason = group.TestCaseExpectationProvider.GetRandomReason().GetReason(),
                 SaltLength = group.SaltLen,
                 Key = group.Key,
+                MaskFunction = PssMaskTypes.MGF1,
                 IsMessageRandomized = group.IsMessageRandomized
             };
 

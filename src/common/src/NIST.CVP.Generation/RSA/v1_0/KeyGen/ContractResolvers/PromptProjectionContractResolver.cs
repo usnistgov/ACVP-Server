@@ -9,10 +9,10 @@ namespace NIST.CVP.Generation.RSA.v1_0.KeyGen.ContractResolvers
 {
     public class PromptProjectionContractResolver : ProjectionContractResolverBase<TestGroup, TestCase>
     {
-        private readonly Dictionary<PrimeGenModes, string[]> _aftProperties = new Dictionary<PrimeGenModes, string[]>
+        private readonly Dictionary<PrimeGenFips186_4Modes, string[]> _aftProperties = new Dictionary<PrimeGenFips186_4Modes, string[]>
         {
             {
-                PrimeGenModes.B32,
+                PrimeGenFips186_4Modes.B32,
                 new []
                 {
                     nameof(TestCase.Seed),
@@ -20,11 +20,20 @@ namespace NIST.CVP.Generation.RSA.v1_0.KeyGen.ContractResolvers
                 }
             },
             {
-                PrimeGenModes.B33,
+                PrimeGenFips186_4Modes.B33,
                 new []{""}
             },
             {
-                PrimeGenModes.B34,
+                PrimeGenFips186_4Modes.B34,
+                new []
+                {
+                    nameof(TestCase.Seed),
+                    nameof(TestCase.E),
+                    nameof(TestCase.Bitlens)
+                }
+            },
+            {
+                PrimeGenFips186_4Modes.B35,
                 new []
                 {
                     nameof(TestCase.Seed),
@@ -35,22 +44,7 @@ namespace NIST.CVP.Generation.RSA.v1_0.KeyGen.ContractResolvers
                 }
             },
             {
-                PrimeGenModes.B35,
-                new []
-                {
-                    nameof(TestCase.Seed),
-                    nameof(TestCase.E),
-                    nameof(TestCase.Bitlens),
-                    nameof(TestCase.XP),
-                    nameof(TestCase.XQ),
-                    nameof(TestCase.XP1),
-                    nameof(TestCase.XQ1),
-                    nameof(TestCase.XP2),
-                    nameof(TestCase.XQ2)
-                }
-            },
-            {
-                PrimeGenModes.B36,
+                PrimeGenFips186_4Modes.B36,
                 new []
                 {
                     nameof(TestCase.E),
@@ -72,8 +66,8 @@ namespace NIST.CVP.Generation.RSA.v1_0.KeyGen.ContractResolvers
                 GetTestGroupFromTestGroupObject(instance, out var testGroup);
 
                 // Ignore PrimeTest for B.3.2 and B.3.4
-                if (testGroup.PrimeGenMode == PrimeGenModes.B32 ||
-                    testGroup.PrimeGenMode == PrimeGenModes.B34)
+                if (testGroup.PrimeGenMode == PrimeGenFips186_4Modes.B32 ||
+                    testGroup.PrimeGenMode == PrimeGenFips186_4Modes.B34)
                 {
                     if (jsonProperty.UnderlyingName.Equals(nameof(TestGroup.PrimeTest),
                         StringComparison.OrdinalIgnoreCase))
@@ -83,8 +77,8 @@ namespace NIST.CVP.Generation.RSA.v1_0.KeyGen.ContractResolvers
                 }
 
                 // Ignore HashAlg for B.3.3, B.3.6
-                if (testGroup.PrimeGenMode == PrimeGenModes.B33 ||
-                    testGroup.PrimeGenMode == PrimeGenModes.B35)
+                if (testGroup.PrimeGenMode == PrimeGenFips186_4Modes.B33 ||
+                    testGroup.PrimeGenMode == PrimeGenFips186_4Modes.B36)
                 {
                     if (jsonProperty.UnderlyingName.Equals(nameof(TestGroup.HashAlgName),
                         StringComparison.OrdinalIgnoreCase))

@@ -9,7 +9,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
 {
     public class TestDataMother
     {
-        public static TestVectorSet GetTestGroups(int groups = 1)
+        public static TestVectorSet GetTestGroups(PrimeGenFips186_4Modes primeGenMode)
         {
             var tvs = new TestVectorSet
             {
@@ -20,18 +20,18 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
 
             var testGroups = new List<TestGroup>();
             tvs.TestGroups = testGroups;
-            for (var groupIdx = 0; groupIdx < groups; groupIdx++)
+            for (var groupIdx = 0; groupIdx < 1; groupIdx++)
             {
                 var tg = new TestGroup
                 {
                     Modulo = 2048,
                     HashAlg = new HashFunction(ModeValues.SHA2, DigestSizes.d256),
-                    PrimeGenMode = PrimeGenModes.B36,
+                    PrimeGenMode = primeGenMode,
                     PubExp = PublicExponentModes.Fixed,
                     FixedPubExp = new BitString("ABCD"),
                     KeyFormat = PrivateKeyModes.Crt,
                     InfoGeneratedByServer = true,
-                    PrimeTest = PrimeTestModes.C2,
+                    PrimeTest = PrimeTestFips186_4Modes.TblC2,
                     TestType = "aft"
                 };
                 testGroups.Add(tg);

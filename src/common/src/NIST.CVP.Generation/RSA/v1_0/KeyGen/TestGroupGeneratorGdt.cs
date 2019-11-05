@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
-using NIST.CVP.Common.Helpers;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.RSA.v1_0.KeyGen
 {
@@ -16,9 +14,7 @@ namespace NIST.CVP.Generation.RSA.v1_0.KeyGen
 
             foreach (var algSpec in parameters.AlgSpecs)
             {
-                var keyFormat = EnumHelpers.GetEnumFromEnumDescription<PrivateKeyModes>(parameters.KeyFormat);
-                var mode = EnumHelpers.GetEnumFromEnumDescription<PrimeGenModes>(algSpec.RandPQ);
-                if (mode != PrimeGenModes.B33)
+                if (algSpec.RandPQ != PrimeGenFips186_4Modes.B33)
                 {
                     continue;
                 }
@@ -29,12 +25,12 @@ namespace NIST.CVP.Generation.RSA.v1_0.KeyGen
                     {
                         var testGroup = new TestGroup
                         {
-                            PrimeGenMode = mode,
+                            PrimeGenMode = algSpec.RandPQ,
                             Modulo = capability.Modulo,
-                            PrimeTest = EnumHelpers.GetEnumFromEnumDescription<PrimeTestModes>(primeTest),
-                            PubExp = EnumHelpers.GetEnumFromEnumDescription<PublicExponentModes>(parameters.PubExpMode),
-                            FixedPubExp = new BitString(parameters.FixedPubExp),
-                            KeyFormat = keyFormat,
+                            PrimeTest = primeTest,
+                            PubExp = parameters.PubExpMode,
+                            FixedPubExp = parameters.FixedPubExp,
+                            KeyFormat = parameters.KeyFormat,
                             TestType = TEST_TYPE
                         };
 

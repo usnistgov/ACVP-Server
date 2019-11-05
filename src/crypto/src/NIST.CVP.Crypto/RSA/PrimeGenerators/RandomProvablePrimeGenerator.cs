@@ -1,55 +1,62 @@
-﻿using NIST.CVP.Crypto.Common.Asymmetric.RSA.PrimeGenerators;
+﻿using System.Collections.Generic;
+using System.Linq;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA.PrimeGenerators;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Common.Math;
-using NIST.CVP.Math;
 using System.Numerics;
 
 namespace NIST.CVP.Crypto.RSA.PrimeGenerators
 {
-    public class RandomProvablePrimeGenerator : PrimeGeneratorBase
+    public class RandomProvablePrimeGenerator : IFips186_4PrimeGenerator, IFips186_5PrimeGenerator
     {
-        public RandomProvablePrimeGenerator(ISha sha) : base(sha) { }
+        private readonly ISha _sha;
 
-        public override PrimeGeneratorResult GeneratePrimes(int nlen, BigInteger e, BitString seed)
+        public RandomProvablePrimeGenerator(ISha sha)
         {
-            // 1 -- redundant by (3)
-            // 2
-            if (e <=  NumberTheory.Pow2(16) || e >= NumberTheory.Pow2(256) || e.IsEven)
+            _sha = sha;
+        }
+
+        public PrimeGeneratorResult GeneratePrimesFips186_4(PrimeGeneratorParameters param)
+        {
+            var errors = new List<string>();
+            
+            PrimeGeneratorGuard.AgainstInvalidModulusFips186_4(param.Modulus, errors);
+            PrimeGeneratorGuard.AgainstInvalidPublicExponent(param.PublicE, errors);
+            PrimeGeneratorGuard.AgainstInvalidSeed(param.Modulus, param.Seed, errors);
+
+            if (errors.Any())
             {
-                return new PrimeGeneratorResult("Incorrect e, must be greater than 2^16, less than 2^256, odd");
+                return new PrimeGeneratorResult(string.Join(".", errors));
             }
+            
+            return GeneratePrimes(param);
+        }
 
-            // 3
-            int securityStrength;
-            switch (nlen)
+        public PrimeGeneratorResult GeneratePrimesFips186_5(PrimeGeneratorParameters param)
+        {
+            var errors = new List<string>();
+            
+            PrimeGeneratorGuard.AgainstInvalidModulusFips186_5(param.Modulus, errors);
+            PrimeGeneratorGuard.AgainstInvalidPublicExponent(param.PublicE, errors);
+            PrimeGeneratorGuard.AgainstInvalidSeed(param.Modulus, param.Seed, errors);
+
+            if (errors.Any())
             {
-                case 2048:
-                    securityStrength = 112;
-                    break;
-
-                case 3072:
-                    securityStrength = 128;
-                    break;
-                
-                case 4096:
-                    securityStrength = 128;
-                    break;
-
-                default:
-                    return new PrimeGeneratorResult("Incorrect nlen, must be 2048, 3072, 4096");
+                return new PrimeGeneratorResult(string.Join(".", errors));
             }
+            
+            return GeneratePrimes(param);
+        }
 
-            // 4
-            if (seed.BitLength != 2 * securityStrength)
-            {
-                return new PrimeGeneratorResult("Incorrect seed length");
-            }
+        private PrimeGeneratorResult GeneratePrimes(PrimeGeneratorParameters param)
+        {
+            // 1, 2, 3, 4 covered by guards
 
             // 5
-            var workingSeed = seed.ToPositiveBigInteger();
+            var workingSeed = param.Seed.ToPositiveBigInteger();
 
             // 6
-            var ppcResult = ProvablePrimeConstruction(nlen / 2, 1, 1, workingSeed, e);
+            var ppcResult = PrimeGeneratorHelper.ProvablePrimeConstruction(_sha, param.Modulus / 2, 1, 1, workingSeed, param.PublicE);
             if (!ppcResult.Success)
             {
                 return new PrimeGeneratorResult($"Bad Provable Prime Construction for p: {ppcResult.ErrorMessage}");
@@ -61,7 +68,7 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
             do
             {
                 // 7
-                ppcResult = ProvablePrimeConstruction(nlen / 2, 1, 1, workingSeed, e);
+                ppcResult = PrimeGeneratorHelper.ProvablePrimeConstruction(_sha, param.Modulus / 2, 1, 1, workingSeed, param.PublicE);
                 if (!ppcResult.Success)
                 {
                     return new PrimeGeneratorResult($"Bad Provable Prime Construction for q: {ppcResult.ErrorMessage}");
@@ -70,7 +77,7 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
                 workingSeed = ppcResult.PrimeSeed;
 
             // 8
-            } while (BigInteger.Abs(p - q) <= NumberTheory.Pow2(nlen / 2 - 100));
+            } while (BigInteger.Abs(p - q) <= NumberTheory.Pow2(param.Modulus / 2 - 100));
 
             // 9, 10
             var auxValues = new AuxiliaryResult();

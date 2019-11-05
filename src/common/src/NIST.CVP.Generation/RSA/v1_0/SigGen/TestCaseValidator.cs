@@ -3,7 +3,7 @@ using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Async;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using NIST.CVP.Crypto.Common.Math;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA.PrimeGenerators;
 using NIST.CVP.Math.Helpers;
 
 namespace NIST.CVP.Generation.RSA.v1_0.SigGen
@@ -29,8 +29,8 @@ namespace NIST.CVP.Generation.RSA.v1_0.SigGen
         public async Task<TestCaseValidation> ValidateAsync(TestCase suppliedResult, bool showExpected = false)
         {
             var errors = new List<string>();
-            var expected = new Dictionary<string, string>(); ;
-            var provided = new Dictionary<string, string>(); ;
+            var expected = new Dictionary<string, string>();
+            var provided = new Dictionary<string, string>();
 
             ValidateResultPresent(suppliedResult, errors);
             ValidateKey(suppliedResult, errors);
@@ -69,17 +69,14 @@ namespace NIST.CVP.Generation.RSA.v1_0.SigGen
                 errors.Add("N provided was not the correct size");
             }
 
-            if (key.PubKey.E <= NumberTheory.Pow2(16) || key.PubKey.E >= NumberTheory.Pow2(256) || key.PubKey.E.IsEven)
-            {
-                errors.Add("E provided was invalid, must satisfy 2^16 <= e <= 2^256, and must be odd");
-            }
+            PrimeGeneratorGuard.AgainstInvalidPublicExponent(key.PubKey.E, errors);
         }
 
         private void ValidateResultPresent(TestCase suppliedResult, List<string> errors)
         {
             if (suppliedResult.Signature == null)
             {
-                errors.Add("Could not find r or s");
+                errors.Add("Could not find signature");
             }
 
             if (_serverGroup.IsMessageRandomized && suppliedResult.RandomValue == null)

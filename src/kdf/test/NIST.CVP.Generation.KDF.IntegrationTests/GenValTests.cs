@@ -52,6 +52,7 @@ namespace NIST.CVP.Generation.KDF.IntegrationTests
                     .WithMacMode(new [] {MacModes.CMAC_TDES, MacModes.HMAC_SHA3_224})
                     .WithCounterLength(new [] {0})
                     .WithFixedDataOrder(new [] {CounterLocations.None})
+                    .WithRequiresEmptyIv(true)
                     .WithSupportedLengths(new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 8, 512, 8)))
                     .Build()
             };

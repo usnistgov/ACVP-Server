@@ -9,7 +9,6 @@ using NIST.CVP.Crypto.RSA.Signatures;
 using NIST.CVP.Math.Entropy;
 using NIST.CVP.Orleans.Grains.Interfaces.Rsa;
 using System.Threading.Tasks;
-using NIST.CVP.Math.Helpers;
 
 namespace NIST.CVP.Orleans.Grains.Rsa
 {
@@ -56,7 +55,7 @@ namespace NIST.CVP.Orleans.Grains.Rsa
             var entropyProvider = new TestableEntropyProvider();
             entropyProvider.AddEntropy(_fullParam.Salt);
 
-            var paddingScheme = _paddingFactory.GetPaddingScheme(_param.PaddingScheme, sha, entropyProvider, _param.SaltLength);
+            var paddingScheme = _paddingFactory.GetPaddingScheme(_param.PaddingScheme, sha, _param.MaskFunction, entropyProvider, _param.SaltLength);
 
             var messageCopy = _fullParam.Message.GetDeepCopy();
 

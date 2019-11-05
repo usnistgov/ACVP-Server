@@ -1,5 +1,5 @@
-﻿using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
-using System;
+﻿using System;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
 
 namespace NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys
 {

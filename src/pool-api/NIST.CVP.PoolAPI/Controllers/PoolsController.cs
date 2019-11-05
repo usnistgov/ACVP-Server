@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Cors;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using NIST.CVP.Pools;
 using NIST.CVP.Pools.Interfaces;
@@ -7,6 +6,7 @@ using NIST.CVP.Pools.Models;
 using NLog;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace NIST.CVP.PoolAPI.Controllers
@@ -33,6 +33,7 @@ namespace NIST.CVP.PoolAPI.Controllers
         }
 
         [HttpPost]
+        [Produces("application/json")]
         // /api/pools
         public string GetDataFromPool(ParameterHolder parameterHolder)
         {
@@ -49,6 +50,7 @@ namespace NIST.CVP.PoolAPI.Controllers
         }
 
         [HttpGet]
+        [Produces("application/json")]
         // /api/pools
         public string GetDataAboutPools()
         {
@@ -66,6 +68,7 @@ namespace NIST.CVP.PoolAPI.Controllers
 
         [HttpGet]
         [Route("config")]
+        [Produces("application/json")]
         // /api/pools/config
         public string GetPoolConfig()
         {
@@ -83,6 +86,7 @@ namespace NIST.CVP.PoolAPI.Controllers
 
         [HttpPost]
         [Route("config")]
+        [Produces("application/json")]
         // /api/pools/config
         public string PostPoolConfig(PoolProperties poolProps)
         {
@@ -104,7 +108,6 @@ namespace NIST.CVP.PoolAPI.Controllers
         public bool SavePoolConfig()
         {
             _poolManager.SavePoolConfigs();
-
             return true;
         }
 
@@ -146,7 +149,6 @@ namespace NIST.CVP.PoolAPI.Controllers
                 }
 
                 _isFillingPool = false;
-
                 return true;
             }
             catch (Exception ex)
@@ -155,7 +157,6 @@ namespace NIST.CVP.PoolAPI.Controllers
                 return false;
             }
         }
-
 
         private static void RequestPoolWater(int numberOfJobsToQueue, List<Task> tasks, IPool pool)
         {
@@ -194,12 +195,30 @@ namespace NIST.CVP.PoolAPI.Controllers
 
         [HttpPost]
         [Route("status")]
+        [Produces("application/json")]
         // /api/pools/status
         public string PoolStatus(ParameterHolder parameterHolder)
         {
             try
             {
                 return JsonConvert.SerializeObject(_poolManager.GetPoolStatus(parameterHolder));
+            }
+            catch (Exception ex)
+            {
+                ThisLogger.Error(ex);
+                return "";
+            }
+        }
+
+        [HttpPost]
+        [Route("status/name")]
+        [Produces("application/json")]
+        // /api/pools/status/name
+        public string PoolStatusNames(PoolNames names)
+        {
+            try
+            {
+                return JsonConvert.SerializeObject(names.Names.Select(pn => _poolManager.GetPoolStatus(pn)));
             }
             catch (Exception ex)
             {

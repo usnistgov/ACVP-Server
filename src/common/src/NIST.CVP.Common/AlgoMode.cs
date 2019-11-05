@@ -74,12 +74,22 @@ namespace NIST.CVP.Common
         DSA_SigVer_v1_0,
         [EnumMember(Value = "ECDSA-KeyGen-1.0")]
         ECDSA_KeyGen_v1_0,
+        [EnumMember(Value = "ECDSA-KeyGen-Fips186-5")]
+        ECDSA_KeyGen_Fips186_5,
         [EnumMember(Value = "ECDSA-KeyVer-1.0")]
         ECDSA_KeyVer_v1_0,
+        [EnumMember(Value = "ECDSA-KeyVer-Fips186-5")]
+        ECDSA_KeyVer_Fips186_5,
         [EnumMember(Value = "ECDSA-SigGen-1.0")]
         ECDSA_SigGen_v1_0,
+        [EnumMember(Value = "ECDSA-SigGen-Fips186-5")]
+        ECDSA_SigGen_Fips186_5,
         [EnumMember(Value = "ECDSA-SigVer-1.0")]
         ECDSA_SigVer_v1_0,
+        [EnumMember(Value = "ECDSA-SigVer-Fips186-5")]
+        ECDSA_SigVer_Fips186_5,
+        [EnumMember(Value = "DetECDSA-SigGen-Fips186-5")]
+        DetECDSA_SigGen_Fips186_5,
         [EnumMember(Value = "EDDSA-KeyGen-1.0")]
         EDDSA_KeyGen_v1_0,
         [EnumMember(Value = "EDDSA-KeyVer-1.0")]
@@ -154,12 +164,18 @@ namespace NIST.CVP.Common
         RSA_DecryptionPrimitive_v1_0,
         [EnumMember(Value = "RSA-KeyGen-1.0")]
         RSA_KeyGen_v1_0,
+        [EnumMember(Value = "RSA-KeyGen-Fips186-5")]
+        RSA_KeyGen_Fips186_5,
         [EnumMember(Value = "RSA-SigGen-1.0")]
         RSA_SigGen_v1_0,
-        [EnumMember(Value = "RSA-SigVer-1.0")]
-        RSA_SigVer_v1_0,
+        [EnumMember(Value = "RSA-SigGen-Fips186-5")]
+        RSA_SigGen_Fips186_5,
         [EnumMember(Value = "RSA-LegacySigVer-1.0")]
-        RSA_LegacySigVer_v1_0,
+        RSA_SigVer_Fips186_2,
+        [EnumMember(Value = "RSA-SigVer-1.0")]
+        RSA_SigVer_Fips186_4,
+        [EnumMember(Value = "RSA-SigVer-Fips186-5")]
+        RSA_SigVer_Fips186_5,
         [EnumMember(Value = "RSA-SignaturePrimitive-1.0")]
         RSA_SignaturePrimitive_v1_0,
         [EnumMember(Value = "SHA1-1.0")]

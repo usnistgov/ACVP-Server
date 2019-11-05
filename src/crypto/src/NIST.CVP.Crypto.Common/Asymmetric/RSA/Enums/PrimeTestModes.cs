@@ -4,13 +4,12 @@ namespace NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums
 {
     public enum PrimeTestModes
     {
-        [EnumMember(Value = "none")]
-        None,
+        Invalid,
 
-        [EnumMember(Value = "tblC2")]
-        C2,
+        [EnumMember(Value = "2pow100")]
+        TwoPow100ErrorBound,
 
-        [EnumMember(Value = "tblC3")]
-        C3
+        [EnumMember(Value = "2powSecStr")]
+        TwoPowSecurityStrengthErrorBound
     }
 }

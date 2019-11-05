@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using NIST.CVP.Generation.RSA.v1_0.KeyGen;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -17,37 +14,37 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
             {
                 0,
                 new ParameterValidatorTests.ParameterBuilder()
-                    .WithKeyGenModes(new[] {"B.3.3"})
+                    .WithKeyGenModes(new[] {"probable"})
                     .WithPubExpMode("fixed")            // Wrong mode
                     .WithModuli(new[] {2048})
-                    .WithPrimeTests(new[] {"tblC3"})
+                    .WithPrimeTests(new[] {"2powSecStr"})
                     .Build()
             },
             new object[]
             {
                 1,
                 new ParameterValidatorTests.ParameterBuilder()
-                    .WithKeyGenModes(new [] {"B.3.3"})
+                    .WithKeyGenModes(new [] {"probable"})
                     .WithModuli(new [] {2048})
-                    .WithPrimeTests(new [] {"tblC3"})
+                    .WithPrimeTests(new [] {"2powSecStr"})
                     .Build()
             },
             new object[]
             {
                 2,
                 new ParameterValidatorTests.ParameterBuilder()
-                    .WithKeyGenModes(new [] {"B.3.3"})
+                    .WithKeyGenModes(new [] {"probable"})
                     .WithModuli(new [] {2048, 3072, 4096})
-                    .WithPrimeTests(new [] {"tblC2"})
+                    .WithPrimeTests(new [] {"2pow100"})
                     .Build()
             },
             new object[]
             {
                 4,
                 new ParameterValidatorTests.ParameterBuilder()
-                    .WithKeyGenModes(new [] {"B.3.3"})
+                    .WithKeyGenModes(new [] {"probable"})
                     .WithModuli(new [] {2048, 3072, 4096})
-                    .WithPrimeTests(new [] {"tblC2", "tblC3"})
+                    .WithPrimeTests(new [] {"2pow100", "2powSecStr"})
                     .Build()
             }
         };

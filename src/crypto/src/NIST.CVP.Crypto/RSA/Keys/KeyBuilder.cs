@@ -20,12 +20,20 @@ namespace NIST.CVP.Crypto.RSA.Keys
         private PrimeGenModes _primeGenMode;
         private IRsaKeyComposer _keyComposer;
         private readonly IPrimeGeneratorFactory _primeFactory;
-
+        private Fips186Standard _standard;
+        private int _a, _b;
+        
         public KeyBuilder(IPrimeGeneratorFactory primeFactory)
         {
             _primeFactory = primeFactory;
         }
 
+        public IKeyBuilder WithStandard(Fips186Standard standard)
+        {
+            _standard = standard;
+            return this;
+        }
+        
         public IKeyBuilder WithHashFunction(ISha sha)
         {
             _sha = sha;
@@ -86,18 +94,60 @@ namespace NIST.CVP.Crypto.RSA.Keys
             return this;
         }
 
+        public IKeyBuilder WithPMod8(int a)
+        {
+            _a = a;
+            return this;
+        }
+
+        public IKeyBuilder WithQMod8(int b)
+        {
+            _b = b;
+            return this;
+        }
+
         public KeyResult Build()
         {
-            if (_keyComposer == null || _e == 0 || _nlen == 0)
+            if (_keyComposer == null || _e == 0 || _nlen == 0 || _standard == Fips186Standard.None)
             {
-                return new KeyResult($"Invalid parameters provided. Check e, n-len, key composer.");
+                return new KeyResult($"Invalid parameters provided. Check e, n-len, key composer, standard.");
             }
 
-            var primeGen = _primeFactory.GetPrimeGenerator(_primeGenMode, _sha, _entropyProvider, _primeTestMode);
-            primeGen.SetBitlens(_bitlens);
+            var primeGenParams = new PrimeGeneratorParameters
+            {
+                Modulus = _nlen,
+                BitLens = _bitlens,     // Only needed for AuxPrimes
+                PublicE = _e,
+                Seed = _seed,            // Only Needed for ProvablePrimes
+                A = _a,
+                B = _b
+            };
 
-            var primeResult = primeGen.GeneratePrimes(_nlen, _e, _seed);
-
+            PrimeGeneratorResult primeResult;
+            switch (_standard)
+            {
+                case Fips186Standard.Fips186_2:
+                    primeResult = _primeFactory
+                        .GetFips186_2PrimeGenerator(_entropyProvider, _primeTestMode)
+                        .GeneratePrimesFips186_2(primeGenParams);
+                    break;
+                
+                case Fips186Standard.Fips186_4:
+                    primeResult = _primeFactory
+                        .GetFips186_4PrimeGenerator(_primeGenMode, _sha, _entropyProvider, _primeTestMode)
+                        .GeneratePrimesFips186_4(primeGenParams);
+                    break;
+                
+                case Fips186Standard.Fips186_5:
+                    primeResult = _primeFactory
+                        .GetFips186_5PrimeGenerator(_primeGenMode, _sha, _entropyProvider, _primeTestMode)
+                        .GeneratePrimesFips186_5(primeGenParams);
+                    break;
+                
+                default:
+                    return new KeyResult("Unable to find standard to generate key against.");
+            }
+            
             if (!primeResult.Success)
             {
                 return new KeyResult($"Failed prime gen: {primeResult.ErrorMessage}");

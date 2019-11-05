@@ -4,6 +4,8 @@ namespace NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums
 {
     public enum PrivateKeyModes
     {
+        Invalid,
+        
         [EnumMember(Value = "standard")]
         Standard,
 

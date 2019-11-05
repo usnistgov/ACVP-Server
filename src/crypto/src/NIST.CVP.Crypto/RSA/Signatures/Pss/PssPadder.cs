@@ -11,15 +11,17 @@ namespace NIST.CVP.Crypto.RSA.Signatures.Pss
     public class PssPadder : IPaddingScheme
     {
         protected readonly ISha Sha;
+        protected readonly IMaskFunction Mask;
         protected readonly IEntropyProvider EntropyProvider;
         protected readonly int SaltLength;
 
         protected readonly BitString Bc = new BitString("BC");
         protected readonly BitString ZeroOne = new BitString("01");
 
-        public PssPadder(ISha sha, IEntropyProvider entropy, int saltLength)
+        public PssPadder(ISha sha, IMaskFunction mask, IEntropyProvider entropy, int saltLength)
         {
             Sha = sha;
+            Mask = mask;
             EntropyProvider = entropy;
             SaltLength = saltLength;
         }
@@ -37,21 +39,6 @@ namespace NIST.CVP.Crypto.RSA.Signatures.Pss
         public virtual BigInteger PostSignCheck(BigInteger signature, PublicKey pubKey)
         {
             return signature;
-        }
-
-        // B.2.1 Mask Generation Function 1 from RFC-3447
-        protected BitString Mgf(BitString seed, int maskLen)
-        {
-            var T = new BitString(0);
-            var iterations = maskLen.CeilingDivide(Sha.HashFunction.OutputLen) - 1;
-
-            for (BigInteger i = 0; i <= iterations; i++)
-            {
-                var dig = Sha.HashMessage(BitString.ConcatenateBits(seed, new BitString(i, 32))).Digest;
-                T = BitString.ConcatenateBits(T, dig);
-            }
-
-            return T.MSBSubstring(0, maskLen);
         }
 
         // 9.1.1 Encoding Operation from RFC-3447
@@ -81,7 +68,7 @@ namespace NIST.CVP.Crypto.RSA.Signatures.Pss
             DB = BitString.ConcatenateBits(DB, salt);
 
             // All bit values
-            var dbMask = Mgf(H, emLen * 8 - H.BitLength - 1 * 8);
+            var dbMask = Mask.Mask(H, (8 * emLen) - H.BitLength - 8);
             var maskedDB = BitString.XOR(DB, dbMask);
 
             // Set leftmost bits to 0
@@ -99,6 +86,7 @@ namespace NIST.CVP.Crypto.RSA.Signatures.Pss
 
         private VerifyResult EmsaPssVerify(BitString M, BitString EM, int emBits)
         {
+            // TODO there is an assumption here that EM is always a complete byte
             var mHash = Sha.HashMessage(M).Digest;
             if (EM.BitLength < mHash.BitLength / 8 + SaltLength + 2)
             {
@@ -119,7 +107,7 @@ namespace NIST.CVP.Crypto.RSA.Signatures.Pss
                 return new VerifyResult("RSA PSS Verify: Leading 0s not found in maskedDB");
             }
 
-            var dbMask = Mgf(H, EM.BitLength - mHash.BitLength - 8);
+            var dbMask = Mask.Mask(H, EM.BitLength - mHash.BitLength - 8);
             var DB = BitString.XOR(maskedDB, dbMask);
 
             for (var i = 0; i < EM.BitLength - emBits; i++)
