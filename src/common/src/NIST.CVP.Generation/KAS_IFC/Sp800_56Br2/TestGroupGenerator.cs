@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using NIST.CVP.Common.ExtensionMethods;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Crypto.Common.KAS.KC;
@@ -52,7 +53,7 @@ namespace NIST.CVP.Generation.KAS_IFC.Sp800_56Br2
                 return;
             }
 
-            var keyGenMethods = schemeBase.KeyGenerationMethods.GetRegisteredKeyGenerationMethods().ToList();
+            var keyGenMethods = GetKeyGenMethods(schemeBase);
             var macMethods = GetMacConfigurations(schemeBase.MacMethods);
             var isMacScheme = macMethods.Count() != 0;
             var ktsMethod = GetKtsConfigurations(schemeBase.KtsMethod);
@@ -175,6 +176,25 @@ namespace NIST.CVP.Generation.KAS_IFC.Sp800_56Br2
             }
         }
 
+        private static List<KeyGenerationMethodBase> GetKeyGenMethods(SchemeBase schemeBase)
+        {
+            var tempKeyGenMethods = schemeBase.KeyGenerationMethods.GetRegisteredKeyGenerationMethods().ToList().Shuffle();
+            
+            var keyGenMethods = new List<KeyGenerationMethodBase>();
+            
+            // Prefer random exponent methods
+            keyGenMethods.AddIfNotNull(tempKeyGenMethods.FirstOrDefault(w => w.KeyGenerationMode == PublicExponentModes.Random));
+
+            if (keyGenMethods.Count > 0)
+            {
+                return keyGenMethods;
+            }
+            
+            keyGenMethods.AddIfNotNull(tempKeyGenMethods.FirstOrDefault(w => w.KeyGenerationMode == PublicExponentModes.Fixed));
+            
+            return keyGenMethods;
+        }
+
         private (KeyConfirmationDirection kcDir, KeyConfirmationRole kcRole) GetKeyConfirmationInfo(IfcScheme scheme, KeyAgreementRole role)
         {
             switch (scheme)
@@ -210,8 +230,31 @@ namespace NIST.CVP.Generation.KAS_IFC.Sp800_56Br2
             }
 
             List<MacConfiguration> list = new List<MacConfiguration>();
+            var registeredMacMethods = schemeBaseMacMethods.GetRegisteredMacMethods().ToList().Shuffle();
+            
+            var cmacTypes = new[] {KeyAgreementMacType.CmacAes};
+            var hmacTypes = new[]
+            {
+                KeyAgreementMacType.HmacSha2D224,
+                KeyAgreementMacType.HmacSha2D256,
+                KeyAgreementMacType.HmacSha2D384,
+                KeyAgreementMacType.HmacSha2D512,
+                KeyAgreementMacType.HmacSha2D224, 
+                KeyAgreementMacType.HmacSha2D256,
+                KeyAgreementMacType.HmacSha3D224,
+                KeyAgreementMacType.HmacSha3D256,
+                KeyAgreementMacType.HmacSha3D384,
+                KeyAgreementMacType.HmacSha3D512,
+            };
+            var kmacTypes = new[] {KeyAgreementMacType.Kmac_128, KeyAgreementMacType.Kmac_256};
 
-            foreach (var macMethod in schemeBaseMacMethods.GetRegisteredMacMethods())
+            var chosenMacs = new List<MacOptionsBase>();
+            
+            chosenMacs.AddIfNotNull(registeredMacMethods.FirstOrDefault(w => cmacTypes.Contains(w.MacType)));
+            chosenMacs.AddIfNotNull(registeredMacMethods.FirstOrDefault(w => hmacTypes.Contains(w.MacType)));
+            chosenMacs.AddIfNotNull(registeredMacMethods.FirstOrDefault(w => kmacTypes.Contains(w.MacType)));
+            
+            foreach (var macMethod in chosenMacs)
             {
                 list.Add(new MacConfiguration()
                 {
@@ -253,10 +296,9 @@ namespace NIST.CVP.Generation.KAS_IFC.Sp800_56Br2
                 return;
             }
 
-            // Since this KDF is specific to KAS, test each enumeration
             foreach (var encoding in kdfMethod.Encoding)
             {
-                foreach (var auxFunction in kdfMethod.AuxFunctions)
+                foreach (var auxFunction in kdfMethod.AuxFunctions.ToList().Shuffle().Take(5))
                 {
                     int saltLen = 0;
                     switch (auxFunction.AuxFunctionName)
@@ -287,7 +329,7 @@ namespace NIST.CVP.Generation.KAS_IFC.Sp800_56Br2
                             break;
                     }
 
-                    foreach (var saltMethod in auxFunction.MacSaltMethods)
+                    foreach (var saltMethod in auxFunction.MacSaltMethods.ToList().Shuffle().Take(1))
                     {
                         list.Add(new OneStepConfiguration()
                         {
