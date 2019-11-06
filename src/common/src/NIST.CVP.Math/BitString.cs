@@ -791,9 +791,9 @@ namespace NIST.CVP.Math
         /// <summary>
         /// Gets substring of a BitString from the LSB direction.
         /// </summary>
-        /// <param name="bsToSub"></param>
+        /// <param name="bsToSub">BitString to pull bits from.</param>
         /// <param name="startIndex">Least significant bit is 0 index.</param>
-        /// <param name="numberOfBits"></param>
+        /// <param name="numberOfBits">Amount of bits to pull.</param>
         /// <returns></returns>
         public static BitString Substring(BitString bsToSub, int startIndex, int numberOfBits)
         {
@@ -815,6 +815,30 @@ namespace NIST.CVP.Math
             return new BitString(new BitArray(newBits));
         }
         
+        public BitString Substring(int startIndex, int numberOfBits)
+        {
+            return Substring(this, startIndex, numberOfBits);
+        }
+        
+        /// <summary>
+        /// Gets a substring of bits from the MSB direction. 
+        /// </summary>
+        /// <param name="bsToSub"></param>
+        /// <param name="startIndex">Start index from the MSB side. Most significant bit is index 0.</param>
+        /// <param name="numberOfBits"></param>
+        /// <returns></returns>
+        public static BitString MSBSubstring(BitString bsToSub, int startIndex, int numberOfBits)
+        {
+            return Substring(bsToSub, bsToSub.BitLength - startIndex - numberOfBits, numberOfBits);
+        }
+
+        public BitString MSBSubstring(int startIndex, int numberOfBits)
+        {
+            return MSBSubstring(this, startIndex, numberOfBits);
+        }      
+        #endregion Substring
+        
+        #region Padding
         /// <summary>
         /// Takes a BitString and adds LSbs to make the BitString hit a byte boundry.  
         /// Returns the original BitString if already at a byte boundry.
@@ -861,30 +885,7 @@ namespace NIST.CVP.Math
         {
             return PadToModulusMsb(this, modulus);
         }
-
-        public BitString Substring(int startIndex, int numberOfBits)
-        {
-            return Substring(this, startIndex, numberOfBits);
-        }
-
-
-        /// <summary>
-        /// Gets a substring of bits from the MSB direction. 
-        /// </summary>
-        /// <param name="bsToSub"></param>
-        /// <param name="startIndex">Start index from the MSB side. Most significant bit is index 0.</param>
-        /// <param name="numberOfBits"></param>
-        /// <returns></returns>
-        public static BitString MSBSubstring(BitString bsToSub, int startIndex, int numberOfBits)
-        {
-            return Substring(bsToSub, bsToSub.BitLength - startIndex - numberOfBits, numberOfBits);
-        }
-
-        public BitString MSBSubstring(int startIndex, int numberOfBits)
-        {
-            return MSBSubstring(this, startIndex, numberOfBits);
-        }
-        #endregion Substring
+        #endregion Padding
 
         public override bool Equals(object obj)
         {

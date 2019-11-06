@@ -1,30 +1,20 @@
-﻿using System;
-using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
-using NIST.CVP.Crypto.Common.KAS.Enums;
+using System;
 using NIST.CVP.Crypto.Common.KAS.KDF;
 
 namespace NIST.CVP.Crypto.KAS.KDF
 {
     public class KdfFactory : IKdfFactory
     {
-        private readonly IShaFactory _shaFactory;
-        
-        public KdfFactory(IShaFactory shaFactory)
+        private readonly IKdfVisitor _visitor;
+
+        public KdfFactory(IKdfVisitor visitor)
         {
-            _shaFactory = shaFactory;
+            _visitor = visitor;
         }
-
-        public IKdf GetInstance(KdfHashMode kdfHashMode, HashFunction hashFunction)
+        
+        public IKdf GetKdf()
         {
-            var sha = _shaFactory.GetShaInstance(hashFunction);
-
-            switch (kdfHashMode)
-            {
-                    case KdfHashMode.Sha:
-                        return new KdfSha(sha);
-                    default:
-                    throw new ArgumentException(nameof(kdfHashMode));
-            }
+            return new Kdf(_visitor);
         }
     }
 }

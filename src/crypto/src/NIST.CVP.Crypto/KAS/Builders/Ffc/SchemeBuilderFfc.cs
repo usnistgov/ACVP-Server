@@ -1,10 +1,12 @@
 ﻿using System;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
 using NIST.CVP.Crypto.Common.KAS.Enums;
+using NIST.CVP.Crypto.Common.KAS.FixedInfo;
 using NIST.CVP.Crypto.Common.KAS.KC;
 using NIST.CVP.Crypto.Common.KAS.KDF;
+using NIST.CVP.Crypto.Common.KAS.KDF.KdfOneStep;
 using NIST.CVP.Crypto.Common.KAS.NoKC;
-using NIST.CVP.Crypto.Common.KAS.Schema;
+using NIST.CVP.Crypto.Common.KAS.Scheme;
 using NIST.CVP.Crypto.Common.KES;
 using NIST.CVP.Crypto.KAS.Scheme.Ffc;
 using NIST.CVP.Math.Entropy;
@@ -26,7 +28,7 @@ namespace NIST.CVP.Crypto.KAS.Builders.Ffc
 
         public SchemeBuilderFfc(
             IDsaFfcFactory dsaFfcFactory, 
-            IKdfFactory kdfFactory, 
+            IKdfOneStepFactory kdfFactory, 
             IKeyConfirmationFactory keyConfirmationFactory, 
             INoKeyConfirmationFactory noKeyConfirmationFactory, 
             IOtherInfoFactory otherInfoFactory, 
@@ -75,7 +77,7 @@ namespace NIST.CVP.Crypto.KAS.Builders.Ffc
 
             var dsa = _dsaFfcFactory.GetInstance(_withHashFunction);
 
-            switch (schemeParameters.KasDsaAlgoAttributes.Scheme)
+            switch (schemeParameters.KasAlgoAttributes.Scheme)
             {
                 case FfcScheme.DhHybrid1:
                     scheme = new SchemeFfcDhHybrid1(dsa, _withKdfFactory,
@@ -113,7 +115,7 @@ namespace NIST.CVP.Crypto.KAS.Builders.Ffc
                         _withEntropyProvider, schemeParameters, kdfParameters, macParameters, _withDiffieHellman);
                     break;
                 default:
-                    throw new ArgumentException(nameof(schemeParameters.KasDsaAlgoAttributes.Scheme));
+                    throw new ArgumentException(nameof(schemeParameters.KasAlgoAttributes.Scheme));
             }
 
             if (backToOriginalState)

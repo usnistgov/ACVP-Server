@@ -23,6 +23,7 @@ namespace NIST.CVP.Generation.Core
             return null;
         }
 
+
         protected string ValidateArray(string[] supplied, string[] valid, string friendlyName)
         {
             if (supplied == null || supplied.Length == 0)

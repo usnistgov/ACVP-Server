@@ -1,10 +1,12 @@
 ﻿using System;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
 using NIST.CVP.Crypto.Common.KAS.Enums;
+using NIST.CVP.Crypto.Common.KAS.FixedInfo;
 using NIST.CVP.Crypto.Common.KAS.KC;
 using NIST.CVP.Crypto.Common.KAS.KDF;
+using NIST.CVP.Crypto.Common.KAS.KDF.KdfOneStep;
 using NIST.CVP.Crypto.Common.KAS.NoKC;
-using NIST.CVP.Crypto.Common.KAS.Schema;
+using NIST.CVP.Crypto.Common.KAS.Scheme;
 using NIST.CVP.Crypto.Common.KES;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
@@ -18,7 +20,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme.Ecc
         public SchemeEccFullUnified(
             IDsaEcc dsa,
             IEccCurveFactory curveFactory,
-            IKdfFactory kdfFactory,
+            IKdfOneStepFactory kdfFactory,
             IKeyConfirmationFactory keyConfirmationFactory,
             INoKeyConfirmationFactory noKeyConfirmationFactory,
             IOtherInfoFactory otherInfoFactory,
@@ -43,9 +45,9 @@ namespace NIST.CVP.Crypto.KAS.Scheme.Ecc
         {
             _diffieHellman = diffieHellman;
 
-            if (SchemeParameters.KasDsaAlgoAttributes.Scheme != EccScheme.FullUnified)
+            if (SchemeParameters.KasAlgoAttributes.Scheme != EccScheme.FullUnified)
             {
-                throw new ArgumentException(nameof(SchemeParameters.KasDsaAlgoAttributes.Scheme));
+                throw new ArgumentException(nameof(SchemeParameters.KasAlgoAttributes.Scheme));
             }
         }
 

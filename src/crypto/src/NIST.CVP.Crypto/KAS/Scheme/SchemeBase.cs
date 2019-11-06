@@ -1,11 +1,14 @@
-﻿using NIST.CVP.Crypto.Common.Asymmetric.DSA;
+﻿using System;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Common.KAS;
 using NIST.CVP.Crypto.Common.KAS.Enums;
+using NIST.CVP.Crypto.Common.KAS.FixedInfo;
 using NIST.CVP.Crypto.Common.KAS.KC;
 using NIST.CVP.Crypto.Common.KAS.KDF;
+using NIST.CVP.Crypto.Common.KAS.KDF.KdfOneStep;
 using NIST.CVP.Crypto.Common.KAS.NoKC;
-using NIST.CVP.Crypto.Common.KAS.Schema;
+using NIST.CVP.Crypto.Common.KAS.Scheme;
 using NIST.CVP.Crypto.KAS.KC;
 using NIST.CVP.Crypto.KAS.NoKC;
 using NIST.CVP.Math;
@@ -16,13 +19,13 @@ namespace NIST.CVP.Crypto.KAS.Scheme
     public abstract class SchemeBase<TSchemeParameters, TKasDsaAlgoAttributes, TOtherPartySharedInfo, TDomainParameters, TKeyPair> 
         : IScheme<TSchemeParameters, TKasDsaAlgoAttributes, TOtherPartySharedInfo, TDomainParameters, TKeyPair>
         where TSchemeParameters : ISchemeParameters<TKasDsaAlgoAttributes>
-        where TKasDsaAlgoAttributes : IKasDsaAlgoAttributes
+        where TKasDsaAlgoAttributes : IKasAlgoAttributes
         where TOtherPartySharedInfo : ISharedInformation<TDomainParameters, TKeyPair>
         where TDomainParameters : IDsaDomainParameters
         where TKeyPair : IDsaKeyPair
     {
 
-        protected IKdfFactory KdfFactory;
+        protected IKdfOneStepFactory KdfFactory;
         protected IKeyConfirmationFactory KeyConfirmationFactory;
         protected INoKeyConfirmationFactory NoKeyConfirmationFactory;
         protected IOtherInfoFactory OtherInfoFactory;
@@ -31,7 +34,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme
         protected MacParameters MacParameters;
 
         protected SchemeBase(
-            IKdfFactory kdfFactory, 
+            IKdfOneStepFactory kdfFactory, 
             IKeyConfirmationFactory keyConfirmationFactory, 
             INoKeyConfirmationFactory noKeyConfirmationFactory,
             IOtherInfoFactory otherInfoFactory,
@@ -136,14 +139,48 @@ namespace NIST.CVP.Crypto.KAS.Scheme
             var oi = GenerateOtherInformation(otherPartyInformation).GetOtherInfo();
 
             // Get keying material
-            var kdf = KdfFactory.GetInstance(KdfHashMode.Sha, sha.HashFunction);
-            var dkm = kdf.DeriveKey(z, KdfParameters.KeyLength, oi);
+            var kdfConfiguration = GetKdfAuxFunction(sha.HashFunction);
+            
+            var kdf = KdfFactory.GetInstance(kdfConfiguration);
+            var dkm = kdf.DeriveKey(z, KdfParameters.KeyLength, oi, null);
 
             // Perform no/key confirmation
             var computedKeyMac = ComputeMac(otherPartyInformation, dkm.DerivedKey);
 
             return new KasResult(z, oi, dkm.DerivedKey, computedKeyMac.MacData, computedKeyMac.Mac);
         }
+
+        private KasKdfOneStepAuxFunction GetKdfAuxFunction(HashFunction shaHashFunction)
+        {
+            /*
+             * TODO update old flavors of KAS-FFC/ECC to utilize the new KDFs,
+             * this will have a fair amount of changes needed, so for the moment
+             * continue only supporting hash KDF with a (bad) form of OI construction that was used in CAVS.
+             */
+            if (shaHashFunction.Mode == ModeValues.SHA2 && shaHashFunction.DigestSize == DigestSizes.d224)
+                return KasKdfOneStepAuxFunction.SHA2_D224;
+            if (shaHashFunction.Mode == ModeValues.SHA2 && shaHashFunction.DigestSize == DigestSizes.d256)
+                return KasKdfOneStepAuxFunction.SHA2_D256;
+            if (shaHashFunction.Mode == ModeValues.SHA2 && shaHashFunction.DigestSize == DigestSizes.d384)
+                return KasKdfOneStepAuxFunction.SHA2_D384;
+            if (shaHashFunction.Mode == ModeValues.SHA2 && shaHashFunction.DigestSize == DigestSizes.d512)
+                return KasKdfOneStepAuxFunction.SHA2_D512;
+            if (shaHashFunction.Mode == ModeValues.SHA2 && shaHashFunction.DigestSize == DigestSizes.d512t224)
+                return KasKdfOneStepAuxFunction.SHA2_D512_T224;
+            if (shaHashFunction.Mode == ModeValues.SHA2 && shaHashFunction.DigestSize == DigestSizes.d512t224)
+                return KasKdfOneStepAuxFunction.SHA2_D512_T224;
+            if (shaHashFunction.Mode == ModeValues.SHA3 && shaHashFunction.DigestSize == DigestSizes.d224)
+                return KasKdfOneStepAuxFunction.SHA3_D224;
+            if (shaHashFunction.Mode == ModeValues.SHA3 && shaHashFunction.DigestSize == DigestSizes.d256)
+                return KasKdfOneStepAuxFunction.SHA3_D256;
+            if (shaHashFunction.Mode == ModeValues.SHA3 && shaHashFunction.DigestSize == DigestSizes.d384)
+                return KasKdfOneStepAuxFunction.SHA3_D384;
+            if (shaHashFunction.Mode == ModeValues.SHA3 && shaHashFunction.DigestSize == DigestSizes.d512)
+                return KasKdfOneStepAuxFunction.SHA3_D512;
+
+            throw new ArgumentException($"Unexpected {nameof(shaHashFunction)} for retrieving a KDF.");
+        }
+
         #endregion interface implementation methods
 
         #region protected implemented methods

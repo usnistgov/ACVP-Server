@@ -1,6 +1,6 @@
-﻿using NIST.CVP.Math;
-using NIST.CVP.Crypto.Common.KDF.Components.IKEv2;
+﻿using NIST.CVP.Crypto.Common.KDF.Components.IKEv2;
 using NIST.CVP.Crypto.Common.MAC.HMAC;
+using NIST.CVP.Math;
 using NIST.CVP.Math.Helpers;
 
 namespace NIST.CVP.Crypto.IKEv2
@@ -12,6 +12,12 @@ namespace NIST.CVP.Crypto.IKEv2
         public IkeV2(IHmac hmac)
         {
             _hmac = hmac;
+        }
+
+        public BitString GenerateDkmIke(BitString ni, BitString nr, BitString gir, BitString spii, BitString spir, int dkmLength)
+        {
+            var sKeySeed = GenerateSKeySeed(ni, nr, gir);
+            return ExpansionKdf(sKeySeed, ni, nr, spii, spir, dkmLength);
         }
 
         public IkeResult GenerateIke(BitString ni, BitString nr, BitString gir, BitString girNew, BitString spii, BitString spir, int dkmLength)

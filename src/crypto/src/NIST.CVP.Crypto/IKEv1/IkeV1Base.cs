@@ -15,7 +15,7 @@ namespace NIST.CVP.Crypto.IKEv1
 
         public IkeResult GenerateIke(BitString ni, BitString nr, BitString gxy, BitString cky_i, BitString cky_r, BitString presharedKey = null)
         {
-            // Append fixed values together for convienence
+            // Append fixed values together for convenience
             var fixedData = gxy.ConcatenateBits(cky_i).ConcatenateBits(cky_r);
 
             var sKeyId = PseudoRandomFunction(ni, nr, gxy, cky_i, cky_r, presharedKey);

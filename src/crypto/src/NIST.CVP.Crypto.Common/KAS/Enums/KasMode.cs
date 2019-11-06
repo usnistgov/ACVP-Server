@@ -9,7 +9,7 @@ namespace NIST.CVP.Crypto.Common.KAS.Enums
     public enum KasMode
     {
         /// <summary>
-        /// No Kdf, No Key confirmation (component only test)
+        /// No Kdf, No Key confirmation - KAS component only, KTS basic
         /// </summary>
         [EnumMember(Value = "noKdfNoKc")]
         NoKdfNoKc,
@@ -24,6 +24,11 @@ namespace NIST.CVP.Crypto.Common.KAS.Enums
         /// Kdf, Key Confirmation
         /// </summary>
         [EnumMember(Value = "kdfKc")]
-        KdfKc
+        KdfKc,
+        /// <summary>
+        /// No Kdf with KeyConfirmation - utilized in KTS schemes with key confirmation.
+        /// </summary>
+        [EnumMember(Value = "noKdfKc")]
+        NoKdfKc
     }
 }

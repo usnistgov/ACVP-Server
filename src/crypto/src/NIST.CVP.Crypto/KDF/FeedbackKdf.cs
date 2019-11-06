@@ -41,7 +41,7 @@ namespace NIST.CVP.Crypto.KDF
                 }
             }
 
-            var prevK = iv.GetDeepCopy();
+            var prevK = iv?.GetDeepCopy() ?? new BitString(0);
             for (var i = 1; i <= n; i++)
             {
                 var counterBits = BitString.To32BitString(i).GetLeastSignificantBits(_counterLength);
@@ -64,7 +64,7 @@ namespace NIST.CVP.Crypto.KDF
                         // prevK || counter || fixedData
                         data = data.ConcatenateBits(prevK).ConcatenateBits(counterBits).ConcatenateBits(fixedData);
                         break;
-                       
+
                     case CounterLocations.None:
                         // prevK || fixedData
                         data = data.ConcatenateBits(prevK).ConcatenateBits(fixedData);

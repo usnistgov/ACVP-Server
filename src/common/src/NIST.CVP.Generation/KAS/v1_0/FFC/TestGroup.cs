@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Crypto.Common.KAS.Helpers;
-using NIST.CVP.Crypto.Common.KAS.Schema;
+using NIST.CVP.Crypto.Common.KAS.Scheme;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.KAS.v1_0.FFC
@@ -39,17 +39,17 @@ namespace NIST.CVP.Generation.KAS.v1_0.FFC
             set => DomainParams.G = value.ToPositiveBigInteger();
         }
 
-        public override KasDsaAlgoAttributesFfc KasDsaAlgoAttributes => 
+        public override KasDsaAlgoAttributesFfc KasAlgoAttributes => 
             new KasDsaAlgoAttributesFfc(Scheme, ParmSet);
         
         public override SchemeKeyNonceGenRequirement KeyNonceGenRequirementsIut => 
             KeyGenerationRequirementsHelper.GetKeyGenerationOptionsForSchemeAndRole(
-                KasDsaAlgoAttributes.Scheme, KasMode, KasRole, KcRole, KcType
+                KasAlgoAttributes.Scheme, KasMode, KasRole, KcRole, KcType
             );
 
         public override SchemeKeyNonceGenRequirement KeyNonceGenRequirementsServer => 
             KeyGenerationRequirementsHelper.GetKeyGenerationOptionsForSchemeAndRole(
-                KasDsaAlgoAttributes.Scheme, 
+                KasAlgoAttributes.Scheme, 
                 KasMode, 
                 KeyGenerationRequirementsHelper.GetOtherPartyKeyAgreementRole(KasRole), 
                 KeyGenerationRequirementsHelper.GetOtherPartyKeyConfirmationRole(KcRole), 

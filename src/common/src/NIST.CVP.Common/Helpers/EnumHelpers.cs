@@ -65,7 +65,7 @@ namespace NIST.CVP.Common.Helpers
             {
                 if (shouldThrow)
                 {
-                    ThisLogger.Error($"Couldn't find an {nameof(AlgoMode)} matching {nameof(enumDescription)} of \"{enumDescription}\"");
+                    ThisLogger.Error($"Couldn't find an {typeof(T)} matching {nameof(enumDescription)} of \"{enumDescription}\"");
                     throw;
                 }
 

@@ -30,7 +30,6 @@ using NIST.CVP.Crypto.Common.KAS.Builders;
 using NIST.CVP.Crypto.Common.KAS.KC;
 using NIST.CVP.Crypto.Common.KAS.KDF;
 using NIST.CVP.Crypto.Common.KAS.NoKC;
-using NIST.CVP.Crypto.Common.KAS.Schema;
 using NIST.CVP.Crypto.Common.KDF.Components.AnsiX942;
 using NIST.CVP.Crypto.Common.KDF.Components.AnsiX963;
 using NIST.CVP.Crypto.Common.KDF.Components.IKEv1;
@@ -104,8 +103,16 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using NIST.CVP.Crypto.AES_FF;
+using NIST.CVP.Crypto.Common.KAS.FixedInfo;
+using NIST.CVP.Crypto.Common.KAS.KDF.KdfOneStep;
+using NIST.CVP.Crypto.Common.KAS.Scheme;
+using NIST.CVP.Crypto.Common.KTS;
 using NIST.CVP.Crypto.Common.Symmetric.AES;
 using NIST.CVP.Crypto.Common.Symmetric.BlockModes.Ffx;
+using NIST.CVP.Crypto.KAS.Builders.Ifc;
+using NIST.CVP.Crypto.KAS.FixedInfo;
+using NIST.CVP.Crypto.KAS.KDF.OneStep;
+using NIST.CVP.Crypto.KTS;
 using NIST.CVP.Crypto.Symmetric.BlockModes.Ffx;
 
 namespace NIST.CVP.Orleans.Grains
@@ -172,9 +179,9 @@ namespace NIST.CVP.Orleans.Grains
             svc.AddSingleton<IKeyConfirmationMacDataCreator, KeyConfirmationMacDataCreator>();
             
             svc.AddTransient<IMacParametersBuilder, MacParametersBuilder>();
-            svc.AddSingleton<IKeyConfirmationFactory, KeyConfirmationFactory>();
+            svc.AddTransient<IKeyConfirmationFactory, KeyConfirmationFactory>(); // there is some state to KMAC instances, purposefully doing a transient rather than singleton factory in this case
             svc.AddSingleton<INoKeyConfirmationFactory, NoKeyConfirmationFactory>();
-            svc.AddSingleton<IKdfFactory, KdfFactory>();
+            svc.AddTransient<IKdfOneStepFactory, KdfOneStepFactory>(); // there is some state to KMAC instances, purposefully doing a transient rather than singleton factory in this case
 
             svc.AddSingleton<IOtherInfoFactory, OtherInfoFactory>();
 
@@ -197,6 +204,19 @@ namespace NIST.CVP.Orleans.Grains
 
             svc.AddSingleton<IEccDhComponent, EccDhComponent>();
 
+            svc.AddTransient<IKdfFactory, KdfFactory>(); // there is some state to KMAC instances, purposefully doing a transient rather than singleton factory in this case
+            svc.AddTransient<IKdfParameterVisitor, KdfParameterVisitor>(); // there is some state to KMAC instances, purposefully doing a transient rather than singleton factory in this case
+            svc.AddTransient<IKdfVisitor, KdfVisitor>(); // there is some state to KMAC instances, purposefully doing a transient rather than singleton factory in this case
+            svc.AddSingleton<IFixedInfoStrategyFactory, FixedInfoStrategyFactory>();
+            svc.AddSingleton<IFixedInfoFactory, FixedInfoFactory>();
+            svc.AddTransient<IRsaSve, RsaSve>();
+            svc.AddTransient<IRsaSveBuilder, RsaSveBuilder>();
+            svc.AddSingleton<IKtsFactory, KtsFactory>();
+            
+            svc.AddTransient<IIfcSecretKeyingMaterialBuilder, IfcSecretKeyingMaterialBuilder>();
+            svc.AddTransient<IKasIfcBuilder, KasIfcBuilder>();
+            svc.AddTransient<ISchemeIfcBuilder, SchemeIfcBuilder>();
+            
             svc.AddSingleton<IEdwardsCurveFactory, EdwardsCurveFactory>();
             svc.AddSingleton<IDsaEdFactory, DsaEdFactory>();
 
