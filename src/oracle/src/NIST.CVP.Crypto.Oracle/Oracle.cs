@@ -31,7 +31,7 @@ namespace NIST.CVP.Crypto.Oracle
 
         protected ILogger ThisLogger = LogManager.GetCurrentClassLogger();
 
-        protected virtual int LoadSheddingRetries => 500;
+        protected virtual int LoadSheddingRetries { get; }
 
         public Oracle(
             IDbConnectionStringFactory dbConnectionStringFactory,
@@ -43,6 +43,7 @@ namespace NIST.CVP.Crypto.Oracle
                 .GetConnectionString(Constants.OrleansConnectionString);
             _environmentConfig = environmentConfig;
             _orleansConfig = orleansConfig;
+            LoadSheddingRetries = _orleansConfig.Value.TimeoutRetryAttempts;
 
             _clusterClient = InitializeClient().GetAwaiter().GetResult();
         }
