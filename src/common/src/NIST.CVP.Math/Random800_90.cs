@@ -6,7 +6,8 @@ namespace NIST.CVP.Math
 {
     public class Random800_90 : IRandom800_90
     {
-        private readonly Random _randy = new Random();
+        private static readonly Random Randy = new Random();
+        
         public Random800_90()
         {
         }
@@ -21,7 +22,11 @@ namespace NIST.CVP.Math
             int numBytes = (length + 7)/8;
 
             var randomBytes = new byte[numBytes];
-            _randy.NextBytes(randomBytes);
+            lock (Randy)
+            {
+                Randy.NextBytes(randomBytes);                
+            }
+            
             var bitArray = new BitArray(randomBytes);
             bitArray.Length = length;//@@@not sure I like this because it kills the right most values
 
@@ -44,7 +49,10 @@ namespace NIST.CVP.Math
 
         public int GetRandomInt(int minInclusive, int maxExclusive)
         {
-            return _randy.Next(minInclusive, maxExclusive);
+            lock (Randy)
+            {
+                return Randy.Next(minInclusive, maxExclusive);
+            }
         }
 
         public BigInteger GetRandomBigInteger(BigInteger maxInclusive)
@@ -52,13 +60,16 @@ namespace NIST.CVP.Math
             byte[] bytes = maxInclusive.ToByteArray();
             BigInteger R;
 
-            do
+            lock (Randy)
             {
-                _randy.NextBytes(bytes);
-                bytes[bytes.Length - 1] &= (byte)0x7F; //force sign bit to positive
-                R = new BigInteger(bytes);
-            } while (R >= maxInclusive);
-
+                do
+                {
+                    Randy.NextBytes(bytes);
+                    bytes[bytes.Length - 1] &= (byte)0x7F; //force sign bit to positive
+                    R = new BigInteger(bytes);
+                } while (R >= maxInclusive);
+            }
+            
             return R;
         }
 
@@ -77,11 +88,14 @@ namespace NIST.CVP.Math
         public string GetRandomAlphaCharacters(int length)
         {
             var result = "";
-            for (var i = 0; i < length; i++)
+            lock (Randy)
             {
-                result += VALID_ALPHA_CHARACTERS[_randy.Next(VALID_ALPHA_CHARACTERS.Length)];
+                for (var i = 0; i < length; i++)
+                {
+                    result += VALID_ALPHA_CHARACTERS[Randy.Next(VALID_ALPHA_CHARACTERS.Length)];
+                }
             }
-
+            
             return result;
         }
 
@@ -90,17 +104,23 @@ namespace NIST.CVP.Math
         public string GetRandomString(int length)
         {
             var result = "";
-            for (var i = 0; i < length; i++)
+            lock (Randy)
             {
-                result += VALID_STRING_CHARACTERS[_randy.Next(VALID_STRING_CHARACTERS.Length)];
+                for (var i = 0; i < length; i++)
+                {
+                    result += VALID_STRING_CHARACTERS[Randy.Next(VALID_STRING_CHARACTERS.Length)];
+                }
             }
-
+            
             return result;
         }
 
         public decimal GetRandomDecimal()
         {
-            return (decimal)_randy.NextDouble();
+            lock (Randy)
+            {
+                return (decimal)Randy.NextDouble();                
+            }
         }
     }
 }
