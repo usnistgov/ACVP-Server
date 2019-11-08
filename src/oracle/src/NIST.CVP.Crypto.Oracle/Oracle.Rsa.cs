@@ -5,6 +5,7 @@ using NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys;
 using NIST.CVP.Orleans.Grains.Interfaces.Rsa;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA.PrimeGenerators;
 using NIST.CVP.Crypto.Oracle.Helpers;
 using NIST.CVP.Pools.Services;
 
@@ -18,35 +19,44 @@ namespace NIST.CVP.Crypto.Oracle
         public virtual async Task<RsaKeyResult> GetRsaKeyAsync(RsaKeyParameters param)
         {
             RsaPrimeResult result;
-            do
+            try
             {
-                param.Seed = KeyGenHelper.GetSeed(param.Modulus);
-                param.PublicExponent = param.PublicExponentMode == PublicExponentModes.Fixed ? 
-                    param.PublicExponent : 
-                    KeyGenHelper.GetEValue(param.Standard, RSA_PUBLIC_EXPONENT_BITS_MIN, RSA_PUBLIC_EXPONENT_BITS_MAX);
-                param.BitLens = KeyGenHelper.GetBitlens(param.Modulus, param.KeyMode);
-                
-                // Generate key until success
-                result = await GetRsaPrimes(param);
-
-                // TODO This is debug code due to RSA keygen getting into an infinite loop,
-                // this should be hit very seldom except in cases where we hit the error condition we're trying to monitor for.
-                if (!result.Success || result.Key?.PrivKey?.P == 0 || result.Key?.PrivKey?.Q == 0)
+                do
                 {
-                    var serializerSettings = new JsonSerializerSettings()
-                    {
-                        Formatting = Formatting.Indented,
-                        Converters = new JsonConverterProvider().GetJsonConverters()
-                    };
-                   
-                    var jsonParam = JsonConvert.SerializeObject(param, serializerSettings);
-                    ThisLogger.Warn($"KeyGen failed with the following parameter: {jsonParam}");
+                    param.Seed = KeyGenHelper.GetSeed(param.Modulus);
+                    param.PublicExponent = param.PublicExponentMode == PublicExponentModes.Fixed
+                        ? param.PublicExponent
+                        : KeyGenHelper.GetEValue(param.Standard, RSA_PUBLIC_EXPONENT_BITS_MIN,
+                            RSA_PUBLIC_EXPONENT_BITS_MAX);
+                    param.BitLens = KeyGenHelper.GetBitlens(param.Modulus, param.KeyMode);
 
-                    var jsonResult = JsonConvert.SerializeObject(result, serializerSettings);
-                    ThisLogger.Warn($"KeyGen result: {jsonResult}");
-                }
-                
-            } while (!result.Success);
+                    // Generate key until success
+                    result = await GetRsaPrimes(param);
+
+                    // TODO This is debug code due to RSA keygen getting into an infinite loop,
+                    // this should be hit very seldom except in cases where we hit the error condition we're trying to monitor for.
+                    if (!result.Success || result.Key?.PrivKey?.P == 0 || result.Key?.PrivKey?.Q == 0)
+                    {
+                        var serializerSettings = new JsonSerializerSettings()
+                        {
+                            Formatting = Formatting.Indented,
+                            Converters = new JsonConverterProvider().GetJsonConverters()
+                        };
+
+                        var jsonParam = JsonConvert.SerializeObject(param, serializerSettings);
+                        ThisLogger.Warn($"KeyGen failed with the following parameter: {jsonParam}");
+
+                        var jsonResult = JsonConvert.SerializeObject(result, serializerSettings);
+                        ThisLogger.Warn($"KeyGen result: {jsonResult}");
+                    }
+
+                } while (!result.Success);
+            }
+            catch (RsaPrimeGenException ex)
+            {
+                ThisLogger.Warn(ex);
+                return null;
+            }
             
             return new RsaKeyResult
             {
