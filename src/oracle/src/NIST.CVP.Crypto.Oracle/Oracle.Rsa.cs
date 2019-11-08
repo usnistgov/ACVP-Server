@@ -4,7 +4,9 @@ using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys;
 using NIST.CVP.Orleans.Grains.Interfaces.Rsa;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using NIST.CVP.Crypto.Oracle.Helpers;
+using NIST.CVP.Pools.Services;
 
 namespace NIST.CVP.Crypto.Oracle
 {
@@ -26,6 +28,23 @@ namespace NIST.CVP.Crypto.Oracle
                 
                 // Generate key until success
                 result = await GetRsaPrimes(param);
+
+                // TODO This is debug code due to RSA keygen getting into an infinite loop,
+                // this should be hit very seldom except in cases where we hit the error condition we're trying to monitor for.
+                if (!result.Success || result.Key?.PrivKey?.P == 0 || result.Key?.PrivKey?.Q == 0)
+                {
+                    var serializerSettings = new JsonSerializerSettings()
+                    {
+                        Formatting = Formatting.Indented,
+                        Converters = new JsonConverterProvider().GetJsonConverters()
+                    };
+                   
+                    var jsonParam = JsonConvert.SerializeObject(param, serializerSettings);
+                    ThisLogger.Warn($"KeyGen failed with the following parameter: {jsonParam}");
+
+                    var jsonResult = JsonConvert.SerializeObject(result, serializerSettings);
+                    ThisLogger.Warn($"KeyGen result: {jsonResult}");
+                }
                 
             } while (!result.Success);
             
