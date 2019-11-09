@@ -10,7 +10,7 @@ namespace NIST.CVP.Crypto.Common.Asymmetric.RSA.PrimeGenerators
     public static class PrimeGeneratorGuard
     {
         public static int[] ValidModulusFips186_2 = {1024, 1536, 2048, 3072, 4096};
-        public static int[] ValidModulusFips186_4 = {2048, 3072, 4096};
+        public static int[] ValidModulusFips186_4 = {1024, 2048, 3072, 4096}; // Allowing 1024 modulo for key gen for sigver
         public static int[] ValidModulusFips186_5 = {2048, 3072, 4096, 8192, 15360};
         public static BigInteger MinValidE = NumberTheory.Pow2(16);
         public static BigInteger MaxValidE = NumberTheory.Pow2(256);

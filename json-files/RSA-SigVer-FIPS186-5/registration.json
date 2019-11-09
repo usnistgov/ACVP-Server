@@ -2,7 +2,7 @@
   "vsId": 0,
   "algorithm": "RSA",
   "mode": "SigVer",
-  "revision": "1.0",
+  "revision": "FIPS186-5",
   "isSample": true,
   "conformances": [],
   "capabilities": [
@@ -12,7 +12,7 @@
         {
           "modulo": 2048,
           "maskFunction": [
-            "MGF1"
+            "mgf1"
           ],
           "hashPair": [
             {
@@ -28,7 +28,7 @@
         {
           "modulo": 3072,
           "maskFunction": [
-            "SHAKE128"
+            "shake-128"
           ],
           "hashPair": [
             {
@@ -44,7 +44,7 @@
         {
           "modulo": 4096,
           "maskFunction": [
-            "SHAKE256"
+            "shake-256"
           ],
           "hashPair": [
             {
@@ -65,7 +65,7 @@
         {
           "modulo": 2048,
           "maskFunction": [
-            "MGF1"
+            "mgf1"
           ],
           "hashPair": [
             {
@@ -81,7 +81,7 @@
         {
           "modulo": 3072,
           "maskFunction": [
-            "SHAKE128"
+            "shake-128"
           ],
           "hashPair": [
             {
@@ -97,7 +97,7 @@
         {
           "modulo": 4096,
           "maskFunction": [
-            "SHAKE256"
+            "shake-256"
           ],
           "hashPair": [
             {
