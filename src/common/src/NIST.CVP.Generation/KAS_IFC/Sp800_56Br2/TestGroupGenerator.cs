@@ -53,11 +53,6 @@ namespace NIST.CVP.Generation.KAS_IFC.Sp800_56Br2
                 return;
             }
 
-            var keyGenMethods = GetKeyGenMethods(schemeBase);
-            var macMethods = GetMacConfigurations(schemeBase.MacMethods);
-            var isMacScheme = macMethods.Count() != 0;
-            var ktsMethod = GetKtsConfigurations(schemeBase.KtsMethod);
-
             foreach (var testType in TestTypes)
             {
                 foreach (var role in schemeBase.KasRole)
@@ -65,14 +60,17 @@ namespace NIST.CVP.Generation.KAS_IFC.Sp800_56Br2
                     var keyConfInfo = GetKeyConfirmationInfo(schemeBase.Scheme, role);
                     var kdfMethods = GetKdfConfigurations(testType, role, param.IsSample, schemeBase.KdfMethods, schemeBase.L);
 
+                    var keyGenMethods = GetKeyGenMethods(schemeBase);
                     foreach (var keyGenerationMethod in keyGenMethods)
                     {
                         var exponent = keyGenerationMethod.FixedPublicExponent == 0
                             ? DefaultExponent
                             : keyGenerationMethod.FixedPublicExponent;
 
-                        foreach (var modulo in keyGenerationMethod.Modulo)
+                        foreach (var modulo in GetModulos(keyGenerationMethod))
                         {
+                            var macMethods = GetMacConfigurations(schemeBase.MacMethods);
+                            var isMacScheme = macMethods.Count() != 0;
                             foreach (var kdfConfig in kdfMethods)
                             {
                                 if (isMacScheme)
@@ -122,6 +120,7 @@ namespace NIST.CVP.Generation.KAS_IFC.Sp800_56Br2
                                 }
                             }
 
+                            var ktsMethod = GetKtsConfigurations(schemeBase.KtsMethod);
                             foreach (var ktsConfig in ktsMethod)
                             {
                                 if (isMacScheme)
@@ -176,7 +175,17 @@ namespace NIST.CVP.Generation.KAS_IFC.Sp800_56Br2
             }
         }
 
-        private static List<KeyGenerationMethodBase> GetKeyGenMethods(SchemeBase schemeBase)
+        private int[] GetModulos(KeyGenerationMethodBase keyGenerationMethod)
+        {
+            var registeredModulo = keyGenerationMethod.Modulo.ToList().Shuffle();
+
+            var pickedModulo = new int[1];
+            pickedModulo[0] = registeredModulo.First();
+            
+            return pickedModulo;
+        }
+
+        private List<KeyGenerationMethodBase> GetKeyGenMethods(SchemeBase schemeBase)
         {
             var tempKeyGenMethods = schemeBase.KeyGenerationMethods.GetRegisteredKeyGenerationMethods().ToList().Shuffle();
             
@@ -233,14 +242,17 @@ namespace NIST.CVP.Generation.KAS_IFC.Sp800_56Br2
             var registeredMacMethods = schemeBaseMacMethods.GetRegisteredMacMethods().ToList().Shuffle();
             
             var cmacTypes = new[] {KeyAgreementMacType.CmacAes};
-            var hmacTypes = new[]
+            var hmac2Types = new[]
             {
                 KeyAgreementMacType.HmacSha2D224,
                 KeyAgreementMacType.HmacSha2D256,
                 KeyAgreementMacType.HmacSha2D384,
                 KeyAgreementMacType.HmacSha2D512,
-                KeyAgreementMacType.HmacSha2D224, 
-                KeyAgreementMacType.HmacSha2D256,
+                KeyAgreementMacType.HmacSha2D512_T224, 
+                KeyAgreementMacType.HmacSha2D512_T256,
+            };
+            var hmac3Types = new[]
+            {
                 KeyAgreementMacType.HmacSha3D224,
                 KeyAgreementMacType.HmacSha3D256,
                 KeyAgreementMacType.HmacSha3D384,
@@ -251,7 +263,8 @@ namespace NIST.CVP.Generation.KAS_IFC.Sp800_56Br2
             var chosenMacs = new List<MacOptionsBase>();
             
             chosenMacs.AddIfNotNull(registeredMacMethods.FirstOrDefault(w => cmacTypes.Contains(w.MacType)));
-            chosenMacs.AddIfNotNull(registeredMacMethods.FirstOrDefault(w => hmacTypes.Contains(w.MacType)));
+            chosenMacs.AddIfNotNull(registeredMacMethods.FirstOrDefault(w => hmac2Types.Contains(w.MacType)));
+            chosenMacs.AddIfNotNull(registeredMacMethods.FirstOrDefault(w => hmac3Types.Contains(w.MacType)));
             chosenMacs.AddIfNotNull(registeredMacMethods.FirstOrDefault(w => kmacTypes.Contains(w.MacType)));
             
             foreach (var macMethod in chosenMacs)
@@ -298,7 +311,7 @@ namespace NIST.CVP.Generation.KAS_IFC.Sp800_56Br2
 
             foreach (var encoding in kdfMethod.Encoding)
             {
-                foreach (var auxFunction in kdfMethod.AuxFunctions.ToList().Shuffle().Take(5))
+                foreach (var auxFunction in GetKdfMethodAuxFunctions(kdfMethod))
                 {
                     int saltLen = 0;
                     switch (auxFunction.AuxFunctionName)
@@ -345,6 +358,40 @@ namespace NIST.CVP.Generation.KAS_IFC.Sp800_56Br2
             }
         }
 
+        private AuxFunction[] GetKdfMethodAuxFunctions(OneStepKdf kdfMethod)
+        {
+            var hmacSha2 = new[]
+            {
+                KasKdfOneStepAuxFunction.HMAC_SHA2_D224,
+                KasKdfOneStepAuxFunction.HMAC_SHA2_D256,
+                KasKdfOneStepAuxFunction.HMAC_SHA2_D384,
+                KasKdfOneStepAuxFunction.HMAC_SHA2_D512,
+                KasKdfOneStepAuxFunction.HMAC_SHA2_D512_T224,
+                KasKdfOneStepAuxFunction.HMAC_SHA2_D512_T224,
+            };
+            var hmacSha3 = new[]
+            {
+                KasKdfOneStepAuxFunction.HMAC_SHA3_D224,
+                KasKdfOneStepAuxFunction.HMAC_SHA3_D256,
+                KasKdfOneStepAuxFunction.HMAC_SHA3_D384,
+                KasKdfOneStepAuxFunction.HMAC_SHA3_D512,
+            };
+            var kmac = new[]
+            {
+                KasKdfOneStepAuxFunction.KMAC_128,
+                KasKdfOneStepAuxFunction.KMAC_256,
+            };
+            
+            var registeredMacMethods = kdfMethod.AuxFunctions.ToList().Shuffle();
+
+            var chosenAuxFunctions = new List<AuxFunction>();
+            chosenAuxFunctions.AddIfNotNull(registeredMacMethods.FirstOrDefault(f => hmacSha2.Contains(f.AuxFunctionName)));
+            chosenAuxFunctions.AddIfNotNull(registeredMacMethods.FirstOrDefault(f => hmacSha3.Contains(f.AuxFunctionName)));
+            chosenAuxFunctions.AddIfNotNull(registeredMacMethods.FirstOrDefault(f => kmac.Contains(f.AuxFunctionName)));
+            
+            return chosenAuxFunctions.ToArray();
+        }
+
         private void GetKdfConfiguration(TwoStepKdf kdfMethod, int l, List<IKdfConfiguration> list)
         {
             if (kdfMethod == null)
@@ -364,7 +411,7 @@ namespace NIST.CVP.Generation.KAS_IFC.Sp800_56Br2
                         {
                             foreach (var fixedDataOrder in capability.FixedDataOrder)
                             {
-                                foreach (var mac in capability.MacMode)
+                                foreach (var mac in GetCapabilityMacMode(capability))
                                 {
                                     // If counter length is 0, only do the 'none', otherwise, skip the 'none'
                                     if (counterLen == 0)
@@ -479,6 +526,56 @@ namespace NIST.CVP.Generation.KAS_IFC.Sp800_56Br2
 
             // No need to fully test each enumeration of this KDF, as it is tested separately, take max of 5 groups randomly.
             list.AddRangeIfNotNullOrEmpty(tempList.Shuffle().Take(5));
+        }
+
+        private MacModes[] GetCapabilityMacMode(TwoStepCapabilities capability)
+        {
+            var hmacSha2 = new[]
+            {
+                MacModes.HMAC_SHA224,
+                MacModes.HMAC_SHA256,
+                MacModes.HMAC_SHA384,
+                MacModes.HMAC_SHA512,
+                MacModes.HMAC_SHA_d512t224,
+                MacModes.HMAC_SHA_d512t256,
+            };
+            var hmacSha3 = new[]
+            {
+                MacModes.HMAC_SHA3_224,
+                MacModes.HMAC_SHA3_256,
+                MacModes.HMAC_SHA3_384,
+                MacModes.HMAC_SHA3_512,
+            };
+            var cmac = new[]
+            {
+                MacModes.CMAC_AES128,
+                MacModes.CMAC_AES192,
+                MacModes.CMAC_AES256,
+            };
+            
+            var registeredMacMethods = capability.MacMode.ToList().Shuffle();
+
+            var chosenMacModes = new List<MacModes>();
+
+            var chosenHmacSha2 = registeredMacMethods.FirstOrDefault(f => hmacSha2.Contains(f));
+            if (chosenHmacSha2 != MacModes.None)
+            {
+                chosenMacModes.Add(chosenHmacSha2);
+            }
+            
+            var chosenHmacSha3 = registeredMacMethods.FirstOrDefault(f => hmacSha3.Contains(f));
+            if (chosenHmacSha3 != MacModes.None)
+            {
+                chosenMacModes.Add(chosenHmacSha3);
+            }
+            
+            var chosenCmac = registeredMacMethods.FirstOrDefault(f => cmac.Contains(f));
+            if (chosenCmac != MacModes.None)
+            {
+                chosenMacModes.Add(chosenCmac);
+            }
+            
+            return chosenMacModes.ToArray();
         }
 
         private void GetKdfConfiguration(string testType, KeyAgreementRole role, bool isSample, IkeV1Kdf kdfMethod, int l, List<IKdfConfiguration> list)
