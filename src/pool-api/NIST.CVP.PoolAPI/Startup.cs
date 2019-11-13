@@ -45,8 +45,8 @@ namespace NIST.CVP.PoolAPI
                     });
             });
 
-            //services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Latest);
-            services.AddControllersWithViews();
+            services.AddControllersWithViews()
+                .AddNewtonsoftJson();
 
             services.AddSingleton(Configuration);
 

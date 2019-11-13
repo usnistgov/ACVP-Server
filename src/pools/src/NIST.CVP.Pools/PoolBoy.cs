@@ -85,7 +85,6 @@ namespace NIST.CVP.Pools
                     {
                         if (_poolConfig.ShouldLogPoolValueUse)
                         {
-
                             ThisLogger.Warn($"Pool too empty for pool parameter: {paramHolderJson}");
                         }
                         return default(T);
