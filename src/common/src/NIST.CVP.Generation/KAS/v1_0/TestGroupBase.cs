@@ -4,16 +4,16 @@ using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Crypto.Common.KAS.Helpers;
-using NIST.CVP.Crypto.Common.KAS.Schema;
+using NIST.CVP.Crypto.Common.KAS.Scheme;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.KAS.v1_0
 {
-    public abstract class TestGroupBase<TTestGroup, TTestCase, TKasDsaAlgoAttributes> : ITestGroup<TTestGroup, TTestCase>
-        where TKasDsaAlgoAttributes : IKasDsaAlgoAttributes
-        where TTestGroup : TestGroupBase<TTestGroup, TTestCase, TKasDsaAlgoAttributes>
-        where TTestCase : TestCaseBase<TTestGroup, TTestCase, TKasDsaAlgoAttributes>
+    public abstract class TestGroupBase<TTestGroup, TTestCase, TKasAlgoAttributes> : ITestGroup<TTestGroup, TTestCase>
+        where TKasAlgoAttributes : IKasAlgoAttributes
+        where TTestGroup : TestGroupBase<TTestGroup, TTestCase, TKasAlgoAttributes>
+        where TTestCase : TestCaseBase<TTestGroup, TTestCase, TKasAlgoAttributes>
     {
         public int TestGroupId { get; set; }
 
@@ -60,7 +60,7 @@ namespace NIST.CVP.Generation.KAS.v1_0
         public string NonceType { get; set; }
 
         [JsonIgnore]
-        public abstract TKasDsaAlgoAttributes KasDsaAlgoAttributes { get; }
+        public abstract TKasAlgoAttributes KasAlgoAttributes { get; }
 
         [JsonIgnore]
         public abstract SchemeKeyNonceGenRequirement KeyNonceGenRequirementsIut { get; }

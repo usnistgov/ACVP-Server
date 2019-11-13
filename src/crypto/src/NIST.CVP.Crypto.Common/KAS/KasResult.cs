@@ -8,7 +8,7 @@ namespace NIST.CVP.Crypto.Common.KAS
         /// Constructor used to create result with shared secret Z and Hashed Z within tag.  
         /// Used for component only tests
         /// </summary>
-        /// <param name="z">The derived secret</param>
+        /// <param name="z">The shared secret</param>
         /// <param name="tag">The hashed secret</param>
         public KasResult(BitString z, BitString tag)
         {
@@ -29,6 +29,30 @@ namespace NIST.CVP.Crypto.Common.KAS
             Z = z;
             Oi = oi;
             Dkm = dkm;
+            MacData = macData;
+            Tag = tag;
+        }
+
+        /// <summary>
+        /// The full generated/recovered key (used in instances where key confirmation is not utilized).
+        /// </summary>
+        /// <param name="dkm">The full key.</param>
+        public KasResult(BitString dkm)
+        {
+            Dkm = dkm;
+        }
+        
+        /// <summary>
+        /// Constructor used to create result for (at the time of writing) KAS-IFC.
+        /// </summary>
+        /// <param name="dkm">The derived keying material minus any bits used for the macKey.</param>
+        /// <param name="macKey">The macKey that is used for keyConfirmation, taken from most significant bits of the derivedKey.</param>
+        /// <param name="macData">The data that is plugged into the message parameter of a mac function.</param>
+        /// <param name="tag">The resulting tag of H(macKey, macData).</param>
+        public KasResult(BitString dkm, BitString macKey, BitString macData, BitString tag)
+        {
+            Dkm = dkm;
+            MacKey = macKey;
             MacData = macData;
             Tag = tag;
         }
@@ -55,9 +79,13 @@ namespace NIST.CVP.Crypto.Common.KAS
         /// </summary>
         public BitString Oi { get; }
         /// <summary>
-        /// The derived keying material portion of the mac function H(dkm, macData)
+        /// The negotiated key H(dkm, macData)
         /// </summary>
         public BitString Dkm { get; }
+        /// <summary>
+        /// The Key that is plugged into a MAC algorithm (taken from DKM) H(macKey, macData).
+        /// </summary>
+        public BitString MacKey { get; }
         /// <summary>
         /// The data portion of the mac function H(dkm, macData)
         /// </summary>

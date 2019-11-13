@@ -1,15 +1,15 @@
 ﻿using Newtonsoft.Json;
 using NIST.CVP.Common.Oracle.DispositionTypes;
-using NIST.CVP.Crypto.Common.KAS.Schema;
+using NIST.CVP.Crypto.Common.KAS.Scheme;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.KAS.v1_0
 {
-    public abstract class TestCaseBase<TTestGroup, TTestCase, TKasDsaAlgoAttributes> : ITestCase<TTestGroup, TTestCase>
-        where TKasDsaAlgoAttributes : IKasDsaAlgoAttributes
-        where TTestGroup : TestGroupBase<TTestGroup, TTestCase, TKasDsaAlgoAttributes>
-        where TTestCase : TestCaseBase<TTestGroup, TTestCase, TKasDsaAlgoAttributes>
+    public abstract class TestCaseBase<TTestGroup, TTestCase, TKasAlgoAttributes> : ITestCase<TTestGroup, TTestCase>
+        where TKasAlgoAttributes : IKasAlgoAttributes
+        where TTestGroup : TestGroupBase<TTestGroup, TTestCase, TKasAlgoAttributes>
+        where TTestCase : TestCaseBase<TTestGroup, TTestCase, TKasAlgoAttributes>
     {
         public int TestCaseId { get; set; }
         public bool? TestPassed { get; set; }

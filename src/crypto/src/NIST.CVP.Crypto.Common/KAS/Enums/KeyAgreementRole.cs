@@ -9,6 +9,10 @@ namespace NIST.CVP.Crypto.Common.KAS.Enums
     public enum KeyAgreementRole
     {
         /// <summary>
+        /// No Key Agreement Role was set (invalid)
+        /// </summary>
+        None,
+        /// <summary>
         /// The initiator, aka party U
         /// </summary>
         [EnumMember(Value = "initiator")]

@@ -64,7 +64,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
 
                 foreach(var testGroup in testVector.TestGroups)
                 {
-                    testGroup.PrimeGenMode = EnumHelpers.GetEnumFromEnumDescription<PrimeGenFips186_4Modes>(primeMode);
+                    testGroup.PrimeGenMode = RsaKeyGenAttributeConverter.GetSectionFromPrimeGen(EnumHelpers.GetEnumFromEnumDescription<PrimeGenModes>(primeMode));
 
                     if(testGroup.Tests.Count == 0)
                     {

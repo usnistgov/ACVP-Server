@@ -1,9 +1,10 @@
 ﻿using NIST.CVP.Common.ExtensionMethods;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Enums;
+using NIST.CVP.Math;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
-using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers
 {
@@ -30,6 +31,22 @@ namespace NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers
                 (ModeValues.SHAKE, DigestSizes.d256, -1, 1088, -1, "SHAKE-256") // no limit
             };
 
+        private static List<(HashFunctions hashFunction, ModeValues modeValue, DigestSizes digestSizes)>
+            _hashFunctionsMap = new List<(HashFunctions hashFunction, ModeValues modeValue, DigestSizes digestSizes)>()
+            {
+                (HashFunctions.Sha1, ModeValues.SHA1, DigestSizes.d160),
+                (HashFunctions.Sha2_d224, ModeValues.SHA2, DigestSizes.d224),
+                (HashFunctions.Sha2_d256, ModeValues.SHA2, DigestSizes.d256),
+                (HashFunctions.Sha2_d384, ModeValues.SHA2, DigestSizes.d384),
+                (HashFunctions.Sha2_d512, ModeValues.SHA2, DigestSizes.d512),
+                (HashFunctions.Sha2_d512t224, ModeValues.SHA2, DigestSizes.d512t224),
+                (HashFunctions.Sha2_d512t256, ModeValues.SHA2, DigestSizes.d512t256),
+                (HashFunctions.Sha3_d224, ModeValues.SHA3, DigestSizes.d224),
+                (HashFunctions.Sha3_d256, ModeValues.SHA3, DigestSizes.d256),
+                (HashFunctions.Sha3_d384, ModeValues.SHA3, DigestSizes.d384),
+                (HashFunctions.Sha3_d512, ModeValues.SHA3, DigestSizes.d512),
+            };
+
         public static List<(ModeValues mode, DigestSizes digestSize, int outputLen, int blockSize, BigInteger maxMessageSize, string name)> GetShaAttributes()
         {
             return shaAttributes;
@@ -40,7 +57,7 @@ namespace NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers
             return shaAttributes
                 .Select<(ModeValues, DigestSizes, int, int, BigInteger, string name), string>(s => s.name).ToList();
         }
-        
+
         public static (ModeValues mode, DigestSizes digestSize, int outputLen, int blockSize, BigInteger maxMessageSize, string name) GetShaAttributes(ModeValues mode, DigestSizes digestSize)
         {
             if (!GetShaAttributes()
@@ -67,6 +84,17 @@ namespace NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers
         {
             var attributes = GetShaAttributes(name);
             return new HashFunction(attributes.mode, attributes.digestSize);
+        }
+
+        public static HashFunction GetHashFunctionFromEnum(HashFunctions hashFunction)
+        {
+            if (!_hashFunctionsMap
+                .TryFirst(w => w.hashFunction == hashFunction, out var result))
+            {
+                throw new ArgumentException($"Invalid {nameof(hashFunction)}.");
+            }
+
+            return new HashFunction(result.modeValue, result.digestSizes);
         }
 
         public static BitString HashFunctionToBits(DigestSizes digestSize)

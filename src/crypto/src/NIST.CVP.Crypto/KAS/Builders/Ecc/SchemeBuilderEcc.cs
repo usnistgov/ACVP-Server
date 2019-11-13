@@ -1,10 +1,12 @@
 ﻿using System;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
 using NIST.CVP.Crypto.Common.KAS.Enums;
+using NIST.CVP.Crypto.Common.KAS.FixedInfo;
 using NIST.CVP.Crypto.Common.KAS.KC;
 using NIST.CVP.Crypto.Common.KAS.KDF;
+using NIST.CVP.Crypto.Common.KAS.KDF.KdfOneStep;
 using NIST.CVP.Crypto.Common.KAS.NoKC;
-using NIST.CVP.Crypto.Common.KAS.Schema;
+using NIST.CVP.Crypto.Common.KAS.Scheme;
 using NIST.CVP.Crypto.Common.KES;
 using NIST.CVP.Crypto.KAS.Scheme.Ecc;
 using NIST.CVP.Math.Entropy;
@@ -28,7 +30,7 @@ namespace NIST.CVP.Crypto.KAS.Builders.Ecc
         public SchemeBuilderEcc(
             IDsaEccFactory dsaEccFactory,
             IEccCurveFactory eccCurveFactory,
-            IKdfFactory kdfFactory,
+            IKdfOneStepFactory kdfFactory,
             IKeyConfirmationFactory keyConfirmationFactory,
             INoKeyConfirmationFactory noKeyConfirmationFactory,
             IOtherInfoFactory otherInfoFactory,
@@ -80,7 +82,7 @@ namespace NIST.CVP.Crypto.KAS.Builders.Ecc
             // TODO is this used for keys or signatures or both???
             var dsa = _dsaEccFactory.GetInstance(_withHashFunction);
 
-            switch (schemeParameters.KasDsaAlgoAttributes.Scheme)
+            switch (schemeParameters.KasAlgoAttributes.Scheme)
             {
                 case EccScheme.FullUnified:
                     scheme = new SchemeEccFullUnified(dsa, _eccCurveFactory, _withKdfFactory,
@@ -118,7 +120,7 @@ namespace NIST.CVP.Crypto.KAS.Builders.Ecc
                         _withEntropyProvider, schemeParameters, kdfParameters, macParameters, _withDiffieHellman);
                     break;
                 default:
-                    throw new ArgumentException(nameof(schemeParameters.KasDsaAlgoAttributes.Scheme));
+                    throw new ArgumentException(nameof(schemeParameters.KasAlgoAttributes.Scheme));
             }
 
             if (backToOriginalState)

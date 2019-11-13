@@ -35,5 +35,22 @@
         {
             return (value % modulo + modulo) % modulo;
         }
+
+        /// <summary>
+        /// Gets the next number meeting the modulo (or the number itself if evenly divisible).
+        /// </summary>
+        /// <param name="value">The number to return or add to.</param>
+        /// <param name="modulo">The desired modulo.</param>
+        /// <returns>The value, or value + remainder of the value mod modulo.</returns>
+        public static int ValueToMod(this int value, int modulo)
+        {
+            var remainder = value.PosMod(modulo); 
+            if (remainder == 0)
+            {
+                return value;
+            }
+
+            return value + modulo - remainder;
+        }
     }
 }

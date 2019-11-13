@@ -4,7 +4,7 @@ using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
 using NIST.CVP.Crypto.Common.KAS.Builders;
 using NIST.CVP.Crypto.Common.KAS.Enums;
-using NIST.CVP.Crypto.Common.KAS.Schema;
+using NIST.CVP.Crypto.Common.KAS.Scheme;
 using NIST.CVP.Math.Entropy;
 
 namespace NIST.CVP.Orleans.Grains.Kas.Ecc

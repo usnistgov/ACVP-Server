@@ -61,9 +61,10 @@ namespace NIST.CVP.Orleans.Grains.Rsa
             if (!keyResult.Success)
             {
                 _logger.LogDebug(keyResult.ErrorMessage);
+                throw new RsaPrimeGenException(keyResult.ErrorMessage);
             }
 
-            return new RsaPrimeResult()
+            return new RsaPrimeResult
             {
                 Success = keyResult.Success,
                 Key = keyResult.Key,

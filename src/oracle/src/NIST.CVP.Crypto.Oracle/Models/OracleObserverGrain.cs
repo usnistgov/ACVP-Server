@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using NIST.CVP.Crypto.Oracle.Helpers;
 using NIST.CVP.Orleans.Grains.Interfaces;
+using NLog;
 using Orleans;
 
 namespace NIST.CVP.Crypto.Oracle.Models
@@ -37,7 +38,10 @@ namespace NIST.CVP.Crypto.Oracle.Models
                 if (GrainObserver.IsFaulted)
                 {
                     await GrainInvokeRetryWrapper.WrapGrainCall(Grain.Unsubscribe, GrainObserverReference, LoadSheddingRetries);
-                    throw GrainObserver.GetException();
+                    var exception = GrainObserver.GetException();
+                    
+                    _logger.Error(exception, exception.StackTrace);
+                    throw exception;
                 }
             }
 
@@ -45,5 +49,7 @@ namespace NIST.CVP.Crypto.Oracle.Models
             await GrainInvokeRetryWrapper.WrapGrainCall(Grain.Unsubscribe, GrainObserverReference, LoadSheddingRetries);
             return result;
         }
+
+        private readonly ILogger _logger = LogManager.GetCurrentClassLogger();
     }
 }

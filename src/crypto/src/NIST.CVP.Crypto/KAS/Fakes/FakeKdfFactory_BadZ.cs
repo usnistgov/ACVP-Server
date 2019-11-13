@@ -2,48 +2,43 @@
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Crypto.Common.KAS.KDF;
+using NIST.CVP.Crypto.Common.KAS.KDF.KdfOneStep;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.KAS.Fakes
 {
-    public class FakeKdfFactory_BadZ : IKdfFactory
+    public class FakeKdfFactory_BadZ : IKdfOneStepFactory
     {
-        private readonly IKdfFactory _kdfFactory;
+        private readonly IKdfOneStepFactory _kdfFactory;
 
-        public FakeKdfFactory_BadZ(IKdfFactory kdfFactory)
+        public FakeKdfFactory_BadZ(IKdfOneStepFactory kdfFactory)
         {
             _kdfFactory = kdfFactory;
         }
 
-        public IKdf GetInstance(KdfHashMode kdfHashMode, HashFunction hashFunction)
+        public IKdfOneStep GetInstance(KasKdfOneStepAuxFunction auxFunction)
         {
-            var kdf = _kdfFactory.GetInstance(kdfHashMode, hashFunction);
-
-            switch (kdfHashMode)
-            {
-                case KdfHashMode.Sha:
-                    return new FakeKdfSha_BadZ(kdf);
-                default:
-                    throw new ArgumentException(nameof(kdfHashMode));
-            }
+            var kdf = _kdfFactory.GetInstance(auxFunction);
+            
+            return new FakeKdf_BadZ(kdf);
         }
     }
 
-    internal class FakeKdfSha_BadZ : IKdf
+    internal class FakeKdf_BadZ : IKdfOneStep
     {
-        private readonly IKdf _kdf;
+        private readonly IKdfOneStep _kdf;
 
-        public FakeKdfSha_BadZ(IKdf kdf)
+        public FakeKdf_BadZ(IKdfOneStep kdf)
         {
             _kdf = kdf;
         }
 
-        public KdfResult DeriveKey(BitString z, int keyDataLength, BitString otherInfo)
+        public KdfResult DeriveKey(BitString z, int keyDataLength, BitString otherInfo, BitString salt)
         {
             // change the z prior to passing to the KDF
             z[0] += 2;
 
-            return _kdf.DeriveKey(z, keyDataLength, otherInfo);
+            return _kdf.DeriveKey(z, keyDataLength, otherInfo, salt);
         }
     }
 }

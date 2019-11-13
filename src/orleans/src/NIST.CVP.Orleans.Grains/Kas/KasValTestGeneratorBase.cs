@@ -8,8 +8,9 @@ using NIST.CVP.Crypto.Common.KAS.Builders;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Crypto.Common.KAS.KC;
 using NIST.CVP.Crypto.Common.KAS.KDF;
+using NIST.CVP.Crypto.Common.KAS.KDF.KdfOneStep;
 using NIST.CVP.Crypto.Common.KAS.NoKC;
-using NIST.CVP.Crypto.Common.KAS.Schema;
+using NIST.CVP.Crypto.Common.KAS.Scheme;
 using NIST.CVP.Crypto.KAS.Fakes;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
@@ -22,7 +23,7 @@ namespace NIST.CVP.Orleans.Grains.Kas
         IKasValTestGenerator<TKasValParameters, TKasValResult>
         where TKasValParameters : KasValParametersBase
         where TKasValResult : KasValResultBase, new()
-        where TKasDsaAlgoAttributes : IKasDsaAlgoAttributes
+        where TKasDsaAlgoAttributes : IKasAlgoAttributes
         where TDomainParameters : IDsaDomainParameters
         where TKeyPair : IDsaKeyPair
     {
@@ -32,7 +33,7 @@ namespace NIST.CVP.Orleans.Grains.Kas
         > SchemeBuilder;
         private readonly IEntropyProviderFactory _entropyProviderFactory;
         private readonly IMacParametersBuilder _macParametersBuilder;
-        private readonly IKdfFactory _kdfFactory;
+        private readonly IKdfOneStepFactory _kdfFactory;
         private readonly INoKeyConfirmationFactory _noKeyConfirmationFactory;
         private readonly IKeyConfirmationFactory _keyConfirmationFactory;
         private readonly IShaFactory _shaFactory;
@@ -44,7 +45,7 @@ namespace NIST.CVP.Orleans.Grains.Kas
             > schemeBuilder,
             IEntropyProviderFactory entropyProviderFactory,
             IMacParametersBuilder macParametersBuilder,
-            IKdfFactory kdfFactory,
+            IKdfOneStepFactory kdfFactory,
             INoKeyConfirmationFactory noKeyConfirmationFactory,
             IKeyConfirmationFactory keyConfirmationFactory,
             IShaFactory shaFactory
@@ -83,7 +84,7 @@ namespace NIST.CVP.Orleans.Grains.Kas
             var serverKeyConfirmationRole = param.ServerKeyConfirmationRole;
 
             // Handles Failures due to changed z, dkm, macData
-            IKdfFactory kdfFactory = _kdfFactory;
+            IKdfOneStepFactory kdfFactory = _kdfFactory;
             if (param.KasValTestDisposition == KasValTestDisposition.FailChangedZ)
             {
                 result.TestPassed = false;
@@ -243,7 +244,7 @@ namespace NIST.CVP.Orleans.Grains.Kas
             TKasValParameters param,
             TKasValResult result,
             BitString partyId,
-            IKdfFactory kdfFactory,
+            IKdfOneStepFactory kdfFactory,
             INoKeyConfirmationFactory noKeyConfirmationFactory,
             IKeyConfirmationFactory keyConfirmationFactory
         );

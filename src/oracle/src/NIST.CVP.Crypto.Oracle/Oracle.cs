@@ -1,21 +1,22 @@
-﻿using System;
+﻿using Microsoft.Extensions.Options;
+using NIST.CVP.Common.Config;
+using NIST.CVP.Common.Enums;
+using NIST.CVP.Common.Interfaces;
+using NIST.CVP.Common.Oracle;
+using NIST.CVP.Crypto.Oracle.Exceptions;
+using NIST.CVP.Crypto.Oracle.Helpers;
+using NIST.CVP.Crypto.Oracle.Models;
+using NIST.CVP.Orleans.Grains.Interfaces;
+using NLog;
+using Orleans;
+using Orleans.Configuration;
+using Orleans.Hosting;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
-using NIST.CVP.Common.Oracle;
-using NIST.CVP.Orleans.Grains.Interfaces;
-using Orleans;
-using Orleans.Configuration;
-using Microsoft.Extensions.Options;
-using NIST.CVP.Common.Config;
-using NIST.CVP.Common.Enums;
-using NIST.CVP.Crypto.Oracle.Exceptions;
-using NIST.CVP.Common.Interfaces;
-using NIST.CVP.Crypto.Oracle.Helpers;
-using NIST.CVP.Crypto.Oracle.Models;
-using Orleans.Hosting;
 
 namespace NIST.CVP.Crypto.Oracle
 {
@@ -28,7 +29,9 @@ namespace NIST.CVP.Crypto.Oracle
         private readonly IClusterClient _clusterClient;
         private readonly string _orleansConnectionString;
 
-        protected virtual int LoadSheddingRetries => 500;
+        protected ILogger ThisLogger = LogManager.GetCurrentClassLogger();
+
+        protected virtual int LoadSheddingRetries { get; }
 
         public Oracle(
             IDbConnectionStringFactory dbConnectionStringFactory,
@@ -40,11 +43,12 @@ namespace NIST.CVP.Crypto.Oracle
                 .GetConnectionString(Constants.OrleansConnectionString);
             _environmentConfig = environmentConfig;
             _orleansConfig = orleansConfig;
+            LoadSheddingRetries = _orleansConfig.Value.TimeoutRetryAttempts;
 
             _clusterClient = InitializeClient().GetAwaiter().GetResult();
         }
 
-        protected async Task<OracleObserverGrain<TGrain, TGrainResultType>> 
+        protected async Task<OracleObserverGrain<TGrain, TGrainResultType>>
             GetObserverGrain<TGrain, TGrainResultType>()
             where TGrain : IGrainObservable<TGrainResultType>, IGrainWithGuidKey
         {
@@ -54,9 +58,9 @@ namespace NIST.CVP.Crypto.Oracle
             }
 
             var grain = _clusterClient.GetGrain<TGrain>(Guid.NewGuid());
-            
+
             var observer = new OracleGrainObserver<TGrainResultType>();
-            var observerReference = 
+            var observerReference =
                 await GrainInvokeRetryWrapper.WrapGrainCall(_clusterClient.CreateObjectReference<IGrainObserver<TGrainResultType>>, observer, LoadSheddingRetries);
             await GrainInvokeRetryWrapper.WrapGrainCall(grain.Subscribe, observerReference, LoadSheddingRetries);
 
@@ -68,7 +72,7 @@ namespace NIST.CVP.Crypto.Oracle
             var orleansConfig = _orleansConfig.Value;
 
             int initializeCounter = 0;
-            
+
             var initSucceed = false;
             while (!initSucceed)
             {

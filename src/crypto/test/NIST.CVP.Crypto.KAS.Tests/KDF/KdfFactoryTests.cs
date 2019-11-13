@@ -1,38 +1,61 @@
 ﻿using System;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Moq;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Common.KAS.Enums;
+using NIST.CVP.Crypto.Common.KAS.KDF.KdfOneStep;
+using NIST.CVP.Crypto.Common.MAC.HMAC;
+using NIST.CVP.Crypto.Common.MAC.KMAC;
+using NIST.CVP.Crypto.HMAC;
 using NIST.CVP.Crypto.KAS.KDF;
+using NIST.CVP.Crypto.KAS.KDF.OneStep;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Crypto.KAS.Tests.KDF
 {
-    [TestFixture,  FastCryptoTest]
+    [TestFixture, FastCryptoTest]
     public class KdfFactoryTests
     {
-        private KdfFactory _subject;
+        private KdfOneStepFactory _subject;
         private Mock<IShaFactory> _shaFactory;
+        private Mock<IHmacFactory> _hmacFactory;
+        private Mock<IKmacFactory> _kmacFactory;
         private Mock<ISha> _sha;
+        private Mock<IHmac> _hmac;
+        private Mock<IKmac> _kmac;
 
         [SetUp]
         public void Setup()
         {
             _sha = new Mock<ISha>();
-
+            _hmac = new Mock<IHmac>();
+            _kmac = new Mock<IKmac>();
+            
             _shaFactory = new Mock<IShaFactory>();
             _shaFactory
                 .Setup(s => s.GetShaInstance(It.IsAny<HashFunction>()))
                 .Returns(_sha.Object);
+            
+            _hmacFactory = new Mock<IHmacFactory>();
+            _hmacFactory
+                .Setup(s => s.GetHmacInstance(It.IsAny<HashFunction>()))
+                .Returns(_hmac.Object);
 
-            _subject = new KdfFactory(_shaFactory.Object);
+            _kmacFactory = new Mock<IKmacFactory>();
+            _kmacFactory
+                .Setup(s => s.GetKmacInstance(It.IsAny<int>(), It.IsAny<bool>()))
+                .Returns(_kmac.Object);
+            
+            _subject = new KdfOneStepFactory(_shaFactory.Object, _hmacFactory.Object, _kmacFactory.Object);
         }
 
         [Test]
-        [TestCase(KdfHashMode.Sha, typeof(KdfSha))]
-        public void ShouldReturnCorrectImplementation(KdfHashMode kdfHashMode, Type expectedType)
+        [TestCase(KasKdfOneStepAuxFunction.SHA2_D224, typeof(KdfSha))]
+        [TestCase(KasKdfOneStepAuxFunction.HMAC_SHA2_D224, typeof(KdfHmac))]
+        public void ShouldReturnCorrectImplementation(KasKdfOneStepAuxFunction auxFunction, Type expectedType)
         {
-            var result = _subject.GetInstance(kdfHashMode, new HashFunction(ModeValues.SHA1, DigestSizes.d160));
+            var result = _subject.GetInstance(auxFunction);
 
             Assert.IsInstanceOf(expectedType, result);
         }
@@ -41,9 +64,9 @@ namespace NIST.CVP.Crypto.KAS.Tests.KDF
         public void ShouldReturnArgumentExceptionWhenInvalidEnum()
         {
             int i = -1;
-            var badType = (KdfHashMode)i;
-
-            Assert.Throws(typeof(ArgumentException), () => _subject.GetInstance(badType, new HashFunction(ModeValues.SHA1, DigestSizes.d160)));
+            var badType = (KasKdfOneStepAuxFunction)i;
+            
+            Assert.Throws(typeof(ArgumentException), () => _subject.GetInstance(badType));
         }
     }
 }

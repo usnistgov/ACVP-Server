@@ -58,7 +58,14 @@ namespace NIST.CVP.Generation.RSA.v1_0.KeyGen
                     return true;
                 case "table for m-t test":
                 case "table for m-r test":
-                    PrimeTest = EnumHelpers.GetEnumFromEnumDescription<PrimeTestFips186_4Modes>(value);
+                    if (value.ToLower() == "c.2")
+                    {
+                        PrimeTest = PrimeTestFips186_4Modes.TblC2;
+                    }
+                    else if (value.ToLower() == "c.3")
+                    {
+                        PrimeTest = PrimeTestFips186_4Modes.TblC3;
+                    }
                     return true;
             }
 

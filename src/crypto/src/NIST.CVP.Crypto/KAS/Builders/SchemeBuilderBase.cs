@@ -1,10 +1,12 @@
 ﻿using NIST.CVP.Crypto.Common.Asymmetric.DSA;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Common.KAS.Builders;
+using NIST.CVP.Crypto.Common.KAS.FixedInfo;
 using NIST.CVP.Crypto.Common.KAS.KC;
 using NIST.CVP.Crypto.Common.KAS.KDF;
+using NIST.CVP.Crypto.Common.KAS.KDF.KdfOneStep;
 using NIST.CVP.Crypto.Common.KAS.NoKC;
-using NIST.CVP.Crypto.Common.KAS.Schema;
+using NIST.CVP.Crypto.Common.KAS.Scheme;
 using NIST.CVP.Crypto.Common.KES;
 using NIST.CVP.Math.Entropy;
 
@@ -12,12 +14,12 @@ namespace NIST.CVP.Crypto.KAS.Builders
 {
     public abstract class SchemeBuilderBase<TKasDsaAlgoAttributes, TSharedInformation, TDomainParameters, TKeyPair> 
         : ISchemeBuilder<TKasDsaAlgoAttributes, TSharedInformation, TDomainParameters, TKeyPair>
-        where TKasDsaAlgoAttributes : IKasDsaAlgoAttributes
+        where TKasDsaAlgoAttributes : IKasAlgoAttributes
         where TSharedInformation : ISharedInformation<TDomainParameters, TKeyPair>
         where TDomainParameters : IDsaDomainParameters
         where TKeyPair : IDsaKeyPair
     {
-        private readonly IKdfFactory _originalKdfFactory;
+        private readonly IKdfOneStepFactory _originalKdfFactory;
         private readonly IKeyConfirmationFactory _originalKeyConfirmationFactory;
         private readonly INoKeyConfirmationFactory _originalNoKeyConfirmationFactory;
         private readonly IOtherInfoFactory _originalOtherInfoFactory;
@@ -26,7 +28,7 @@ namespace NIST.CVP.Crypto.KAS.Builders
         private readonly IMqv<TDomainParameters, TKeyPair> _originalMqv;
 
         protected HashFunction _withHashFunction;
-        protected IKdfFactory _withKdfFactory;
+        protected IKdfOneStepFactory _withKdfFactory;
         protected IKeyConfirmationFactory _withKeyConfirmationFactory;
         protected INoKeyConfirmationFactory _withNoKeyConfirmationFactory;
         protected IOtherInfoFactory _withOtherInfoFactory;
@@ -35,7 +37,7 @@ namespace NIST.CVP.Crypto.KAS.Builders
         protected IMqv<TDomainParameters, TKeyPair> _withMqv;
 
         protected SchemeBuilderBase(
-            IKdfFactory kdfFactory,
+            IKdfOneStepFactory kdfFactory,
             IKeyConfirmationFactory keyConfirmationFactory,
             INoKeyConfirmationFactory noKeyConfirmationFactory,
             IOtherInfoFactory otherInfoFactory,
@@ -73,7 +75,7 @@ namespace NIST.CVP.Crypto.KAS.Builders
             TDomainParameters,
             TKeyPair
         > 
-            WithKdfFactory(IKdfFactory kdfFactory)
+            WithKdfFactory(IKdfOneStepFactory kdfFactory)
         {
             _withKdfFactory = kdfFactory;
             return this;

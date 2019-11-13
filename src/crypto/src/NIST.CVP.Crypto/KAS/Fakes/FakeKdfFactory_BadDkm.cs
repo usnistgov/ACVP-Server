@@ -2,45 +2,40 @@
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Crypto.Common.KAS.KDF;
+using NIST.CVP.Crypto.Common.KAS.KDF.KdfOneStep;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.KAS.Fakes
 {
-    public class FakeKdfFactory_BadDkm : IKdfFactory
+    public class FakeKdfFactory_BadDkm : IKdfOneStepFactory
     {
-        private readonly IKdfFactory _kdfFactory;
+        private readonly IKdfOneStepFactory _kdfFactory;
 
-        public FakeKdfFactory_BadDkm(IKdfFactory kdfFactory)
+        public FakeKdfFactory_BadDkm(IKdfOneStepFactory kdfFactory)
         {
             _kdfFactory = kdfFactory;
         }
 
-        public IKdf GetInstance(KdfHashMode kdfHashMode, HashFunction hashFunction)
+        public IKdfOneStep GetInstance(KasKdfOneStepAuxFunction auxFunction)
         {
-            var kdf = _kdfFactory.GetInstance(kdfHashMode, hashFunction);
-
-            switch (kdfHashMode)
-            {
-                case KdfHashMode.Sha:
-                    return new FakeKdfSha_BadDkm(kdf);
-                default:
-                    throw new ArgumentException(nameof(kdfHashMode));
-            }
+            var kdf = _kdfFactory.GetInstance(auxFunction);
+            
+            return new FakeKdf_BadDkm(kdf);
         }
     }
 
-    internal class FakeKdfSha_BadDkm : IKdf
+    internal class FakeKdf_BadDkm : IKdfOneStep
     {
-        private readonly IKdf _kdf;
+        private readonly IKdfOneStep _kdf;
 
-        public FakeKdfSha_BadDkm(IKdf kdf)
+        public FakeKdf_BadDkm(IKdfOneStep kdf)
         {
             _kdf = kdf;
         }
 
-        public KdfResult DeriveKey(BitString z, int keyDataLength, BitString otherInfo)
+        public KdfResult DeriveKey(BitString z, int keyDataLength, BitString otherInfo, BitString salt)
         {
-            var dkmResult = _kdf.DeriveKey(z, keyDataLength, otherInfo);
+            var dkmResult = _kdf.DeriveKey(z, keyDataLength, otherInfo, salt);
 
             // Change the DKM prior to returning
             dkmResult.DerivedKey[0] += 2;

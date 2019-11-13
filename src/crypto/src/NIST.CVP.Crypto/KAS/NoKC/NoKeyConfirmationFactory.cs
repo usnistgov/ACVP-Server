@@ -42,12 +42,18 @@ namespace NIST.CVP.Crypto.KAS.NoKC
                 case KeyAgreementMacType.HmacSha2D256:
                 case KeyAgreementMacType.HmacSha2D384:
                 case KeyAgreementMacType.HmacSha2D512:
+                case KeyAgreementMacType.HmacSha2D512_T224:
+                case KeyAgreementMacType.HmacSha2D512_T256:
+                case KeyAgreementMacType.HmacSha3D224:
+                case KeyAgreementMacType.HmacSha3D256:
+                case KeyAgreementMacType.HmacSha3D384:
+                case KeyAgreementMacType.HmacSha3D512:
                     ModeValues modeValue = ModeValues.SHA2;
                     DigestSizes digestSize = DigestSizes.NONE;
                     EnumMapping.GetHashFunctionOptions(parameters.KeyAgreementMacType, ref modeValue, ref digestSize);
                     return new NoKeyConfirmationHmac(_macDataCreator, parameters, _hmacFactory.GetHmacInstance(new HashFunction(modeValue, digestSize)));
                 default:
-                     throw new ArgumentException(nameof(parameters.KeyAgreementMacType));
+                     throw new ArgumentException($"{GetType().Name}, {nameof(parameters.KeyAgreementMacType)}");
             }
         }
     }

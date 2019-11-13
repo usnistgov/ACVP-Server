@@ -368,6 +368,12 @@ namespace NIST.CVP.Generation.KAS.v1_0.FFC
                 macOptions.AddIfNotNull(parameterSet.MacOption.HmacSha2_D256);
                 macOptions.AddIfNotNull(parameterSet.MacOption.HmacSha2_D384);
                 macOptions.AddIfNotNull(parameterSet.MacOption.HmacSha2_D512);
+                macOptions.AddIfNotNull(parameterSet.MacOption.HmacSha2_D512_T224);
+                macOptions.AddIfNotNull(parameterSet.MacOption.HmacSha2_D512_T256);
+                macOptions.AddIfNotNull(parameterSet.MacOption.HmacSha3_D224);
+                macOptions.AddIfNotNull(parameterSet.MacOption.HmacSha3_D256);
+                macOptions.AddIfNotNull(parameterSet.MacOption.HmacSha3_D384);
+                macOptions.AddIfNotNull(parameterSet.MacOption.HmacSha3_D512);
             }
 
             return macOptions;
