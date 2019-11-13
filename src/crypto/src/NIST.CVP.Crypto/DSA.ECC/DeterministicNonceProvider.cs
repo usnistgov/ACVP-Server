@@ -44,7 +44,7 @@ namespace NIST.CVP.Crypto.DSA.ECC
             var nlen = orderN.ExactBitLength();
             
             // 3
-            BigInteger k;
+            BigInteger k = 0;
 
             while (k == 0 || k >= orderN)
             {

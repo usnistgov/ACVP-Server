@@ -26,6 +26,7 @@ namespace NIST.CVP.Generation.Core.Tests
         public abstract string Algorithm { get; }
         public abstract string Mode { get; }
         public virtual string Revision { get; set; } = "1.0";
+        public virtual IJsonConverterProvider JsonConverterProvider => new JsonConverterProvider();
 
         public string DllDropLocation { get; private set; }
 
@@ -303,13 +304,17 @@ namespace NIST.CVP.Generation.Core.Tests
             return failedTestCases;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="targetFolder"></param>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
         protected string CreateRegistration(string targetFolder, IParameters parameters)
         {
-            JsonConverterProvider jcp = new JsonConverterProvider();
-
             var json = JsonConvert.SerializeObject(parameters, new JsonSerializerSettings
             {
-                Converters = jcp.GetJsonConverters().ToList(),
+                Converters = JsonConverterProvider.GetJsonConverters().ToList(),
                 Formatting = Formatting.Indented,
                 NullValueHandling = NullValueHandling.Ignore,
                 ContractResolver = new CamelCasePropertyNamesContractResolver()

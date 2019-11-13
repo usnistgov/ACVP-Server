@@ -1,9 +1,11 @@
 ﻿using NIST.CVP.Crypto.Common.Asymmetric.DSA;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
+using NIST.CVP.Crypto.Common.KAS.FixedInfo;
 using NIST.CVP.Crypto.Common.KAS.KC;
 using NIST.CVP.Crypto.Common.KAS.KDF;
+using NIST.CVP.Crypto.Common.KAS.KDF.KdfOneStep;
 using NIST.CVP.Crypto.Common.KAS.NoKC;
-using NIST.CVP.Crypto.Common.KAS.Schema;
+using NIST.CVP.Crypto.Common.KAS.Scheme;
 using NIST.CVP.Math.Entropy;
 
 namespace NIST.CVP.Crypto.Common.KAS.Builders
@@ -12,7 +14,7 @@ namespace NIST.CVP.Crypto.Common.KAS.Builders
     /// Interface for building a scheme instance
     /// </summary>
     public interface ISchemeBuilder<TKasDsaAlgoAttributes, TSharedInformation, TDomainParameters, TKeyPair>
-        where TKasDsaAlgoAttributes : IKasDsaAlgoAttributes
+        where TKasDsaAlgoAttributes : IKasAlgoAttributes
         where TSharedInformation : ISharedInformation<TDomainParameters, TKeyPair>
         where TDomainParameters : IDsaDomainParameters
         where TKeyPair : IDsaKeyPair
@@ -31,7 +33,7 @@ namespace NIST.CVP.Crypto.Common.KAS.Builders
             WithHashFunction(HashFunction hashFunction);
         
         /// <summary>
-        /// Sets the <see cref="IKdfFactory"/> used in the scheme.
+        /// Sets the <see cref="IKdfOneStepFactory"/> used in the scheme.
         /// </summary>
         /// <param name="kdfFactory">The kdf factory to use</param>
         /// <returns></returns>
@@ -41,7 +43,7 @@ namespace NIST.CVP.Crypto.Common.KAS.Builders
             TDomainParameters,
             TKeyPair
         > 
-            WithKdfFactory(IKdfFactory kdfFactory);
+            WithKdfFactory(IKdfOneStepFactory kdfFactory);
 
 
         /// <summary>

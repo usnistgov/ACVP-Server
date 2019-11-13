@@ -6,7 +6,7 @@ using NIST.CVP.Crypto.Common.KAS;
 using NIST.CVP.Crypto.Common.KAS.Builders;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Crypto.Common.KAS.Helpers;
-using NIST.CVP.Crypto.Common.KAS.Schema;
+using NIST.CVP.Crypto.Common.KAS.Scheme;
 using NIST.CVP.Math.Entropy;
 
 namespace NIST.CVP.Orleans.Grains.Kas
@@ -17,7 +17,7 @@ namespace NIST.CVP.Orleans.Grains.Kas
         : IKasAftDeferredTestResolver<TKasAftDeferredParameters, TKasAftDeferredResult>
         where TKasAftDeferredParameters : KasAftDeferredParametersBase
         where TKasAftDeferredResult : KasAftDeferredResult, new()
-        where TKasDsaAlgoAttributes : IKasDsaAlgoAttributes
+        where TKasDsaAlgoAttributes : IKasAlgoAttributes
         where TDomainParameters : IDsaDomainParameters
         where TKeyPair : IDsaKeyPair
         where TScheme : struct, IComparable

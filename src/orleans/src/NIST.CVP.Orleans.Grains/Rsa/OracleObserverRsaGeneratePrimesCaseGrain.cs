@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using NIST.CVP.Common;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
@@ -35,10 +36,17 @@ namespace NIST.CVP.Orleans.Grains.Rsa
         
         protected override async Task DoWorkAsync()
         {
-            var result = _rsaRunner.GeneratePrimes(_param, _entropyProvider);
+            try
+            {
+                var result = _rsaRunner.GeneratePrimes(_param, _entropyProvider);
 
-            // Notify observers of result
-            await Notify(result);
+                // Notify observers of result
+                await Notify(result);
+            }
+            catch (Exception e)
+            {
+                await Throw(e);
+            }
         }
     }
 }

@@ -1,0 +1,47 @@
+{
+  "vsId": 0,
+  "algorithm": "KTS-IFC",
+  "mode": "",
+  "revision": "Sp800-56Br2",
+  "isSample": true,
+  "iutId": "123456ABCD",
+  "scheme": {
+    "ktS-OAEP-Party_V-confirmation": {
+      "scheme": "KTS-OAEP-Party_V-confirmation",
+      "kasMode": "noKdfKc",
+      "kasRole": [
+        "initiator",
+        "responder"
+      ],
+      "keyGenerationMethods": {
+        "rsakpg2-basic": {
+          "keyGenerationMethod": "rsakpg2-basic",
+          "keyGenerationMode": "random",
+          "privateKeyMode": "standard",
+          "modulo": [
+            2048
+          ],
+          "fixedPublicExponent": ""
+        }
+      },
+      "ktsMethod": {
+        "hashAlgs": [
+          "SHA2-224"
+        ],
+        "supportsNullAssociatedData": true,
+        "associatedDataPattern": "l||uPartyInfo||vPartyInfo",
+        "encoding": [
+          "concatenation"
+        ]
+      },
+      "macMethods": {
+        "kmaC-128": {
+          "macType": "KMAC-128",
+          "keyLen": 128,
+          "macLen": 224
+        }
+      },
+      "l": 512
+    }
+  }
+}

@@ -254,7 +254,14 @@
                 "macLen": 128,
                 "nonceLen": 0
               },
-              "hmaC-SHA2-224": {
+              "hmaC-SHA2-512/224": {
+                "keyLen": [
+                  128
+                ],
+                "macLen": 128,
+                "nonceLen": 0
+              },
+              "hmaC-SHA3-224": {
                 "keyLen": [
                   128
                 ],

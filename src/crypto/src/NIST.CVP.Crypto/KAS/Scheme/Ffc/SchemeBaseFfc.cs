@@ -3,11 +3,13 @@ using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC.Enums;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Common.KAS.Enums;
+using NIST.CVP.Crypto.Common.KAS.FixedInfo;
 using NIST.CVP.Crypto.Common.KAS.Helpers;
 using NIST.CVP.Crypto.Common.KAS.KC;
 using NIST.CVP.Crypto.Common.KAS.KDF;
+using NIST.CVP.Crypto.Common.KAS.KDF.KdfOneStep;
 using NIST.CVP.Crypto.Common.KAS.NoKC;
-using NIST.CVP.Crypto.Common.KAS.Schema;
+using NIST.CVP.Crypto.Common.KAS.Scheme;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
 
@@ -29,7 +31,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme.Ffc
         
         protected SchemeBaseFfc(
             IDsaFfc dsa, 
-            IKdfFactory kdfFactory, 
+            IKdfOneStepFactory kdfFactory, 
             IKeyConfirmationFactory keyConfirmationFactory,
             INoKeyConfirmationFactory noKeyConfirmationFactory,
             IOtherInfoFactory otherInfoFactory,
@@ -145,7 +147,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme.Ffc
         /// <inheritdoc />
         protected override void GenerateDomainParameters()
         {
-            var paramDetails = ParameterSetDetails.GetDetailsForFfcParameterSet(SchemeParameters.KasDsaAlgoAttributes.ParameterSet);
+            var paramDetails = ParameterSetDetails.GetDetailsForFfcParameterSet(SchemeParameters.KasAlgoAttributes.ParameterSet);
 
             SetDomainParameters(
                 Dsa.GenerateDomainParameters(

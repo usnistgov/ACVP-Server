@@ -2,6 +2,7 @@
 using Moq;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.KAS.KDF;
+using NIST.CVP.Crypto.KAS.KDF.OneStep;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
@@ -92,7 +93,8 @@ namespace NIST.CVP.Crypto.KAS.Tests.KDF
             var result = _subject.DeriveKey(
                 new BitString(z), 
                 kdfSize,
-                otherInfo
+                otherInfo,
+                null
             );
 
             Assume.That(result.Success);

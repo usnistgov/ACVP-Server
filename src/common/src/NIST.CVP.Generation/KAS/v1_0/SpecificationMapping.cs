@@ -20,7 +20,13 @@ namespace NIST.CVP.Generation.KAS.v1_0
                 ("HMAC-SHA2-244", typeof(MacOptionHmacSha2_d224), new HashFunction(ModeValues.SHA2, DigestSizes.d224)),
                 ("HMAC-SHA2-256", typeof(MacOptionHmacSha2_d256), new HashFunction(ModeValues.SHA2, DigestSizes.d256)),
                 ("HMAC-SHA2-384", typeof(MacOptionHmacSha2_d384), new HashFunction(ModeValues.SHA2, DigestSizes.d384)),
-                ("HMAC-SHA2-512", typeof(MacOptionHmacSha2_d512), new HashFunction(ModeValues.SHA2, DigestSizes.d512))
+                ("HMAC-SHA2-512", typeof(MacOptionHmacSha2_d512), new HashFunction(ModeValues.SHA2, DigestSizes.d512)),
+                ("HMAC-SHA2-512/244", typeof(MacOptionHmacSha2_d512_t224), new HashFunction(ModeValues.SHA2, DigestSizes.d512t224)),
+                ("HMAC-SHA2-512/256", typeof(MacOptionHmacSha2_d512_t256), new HashFunction(ModeValues.SHA2, DigestSizes.d512t256)),
+                ("HMAC-SHA3-244", typeof(MacOptionHmacSha3_d224), new HashFunction(ModeValues.SHA3, DigestSizes.d224)),
+                ("HMAC-SHA3-256", typeof(MacOptionHmacSha3_d256), new HashFunction(ModeValues.SHA3, DigestSizes.d256)),
+                ("HMAC-SHA3-384", typeof(MacOptionHmacSha3_d384), new HashFunction(ModeValues.SHA3, DigestSizes.d384)),
+                ("HMAC-SHA3-512", typeof(MacOptionHmacSha3_d512), new HashFunction(ModeValues.SHA3, DigestSizes.d512)),
             };
 
         public static (string specificationHmac, Type macType, HashFunction hashFunction) GetHmacInfoFromParameterClass(MacOptionsBase macType)
@@ -43,7 +49,13 @@ namespace NIST.CVP.Generation.KAS.v1_0
                 ("HMAC-SHA2-244", typeof(MacOptionHmacSha2_d224), KeyAgreementMacType.HmacSha2D224),
                 ("HMAC-SHA2-256", typeof(MacOptionHmacSha2_d256), KeyAgreementMacType.HmacSha2D256),
                 ("HMAC-SHA2-384", typeof(MacOptionHmacSha2_d384), KeyAgreementMacType.HmacSha2D384),
-                ("HMAC-SHA2-512", typeof(MacOptionHmacSha2_d512), KeyAgreementMacType.HmacSha2D512)
+                ("HMAC-SHA2-512", typeof(MacOptionHmacSha2_d512), KeyAgreementMacType.HmacSha2D512),
+                ("HMAC-SHA2-512/244", typeof(MacOptionHmacSha2_d512_t224), KeyAgreementMacType.HmacSha2D224),
+                ("HMAC-SHA2-512/256", typeof(MacOptionHmacSha2_d512_t256), KeyAgreementMacType.HmacSha2D256),
+                ("HMAC-SHA3-244", typeof(MacOptionHmacSha3_d224), KeyAgreementMacType.HmacSha3D224),
+                ("HMAC-SHA3-256", typeof(MacOptionHmacSha3_d256), KeyAgreementMacType.HmacSha3D256),
+                ("HMAC-SHA3-384", typeof(MacOptionHmacSha3_d384), KeyAgreementMacType.HmacSha3D384),
+                ("HMAC-SHA3-512", typeof(MacOptionHmacSha3_d512), KeyAgreementMacType.HmacSha3D512),
             };
 
         public static (string specificationMac, Type macType, KeyAgreementMacType keyAgreementMacType) GetMacInfoFromParameterClass(MacOptionsBase macType)

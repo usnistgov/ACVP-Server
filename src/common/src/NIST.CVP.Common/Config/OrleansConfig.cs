@@ -63,5 +63,10 @@ namespace NIST.CVP.Common.Config
         /// The maximum number of concurrent work enqueued to Orleans work per GenVal instance.
         /// </summary>
         public int MaxWorkItemsToQueuePerGenValInstance { get; set; }
+        
+        /// <summary>
+        /// The maximum amount of times to retry a grain request in cases of timeout or load shedding.
+        /// </summary>
+        public int TimeoutRetryAttempts { get; set; }
     }
 }

@@ -964,7 +964,7 @@ namespace NIST.CVP.Math.Tests
         [TestCase(new bool[] { true, false, true }, new bool[] { false }, 1, 1)]
         [TestCase(new bool[] { true, false, true }, new bool[] { true, false }, 0, 2)]
         [TestCase(new bool[] { true, false, true }, new bool[] { true, false, true }, 0, 3)]
-        public void SubStringReturnsCorrectBitsWhenInvokedWithValidParamters(bool[] testBitString, bool[] expectedBitString, int startIndex, int numberOfBits)
+        public void SubStringReturnsCorrectBitsWhenInvokedWithValidParameters(bool[] testBitString, bool[] expectedBitString, int startIndex, int numberOfBits)
         {
             // Arrange
             BitString testBs = new BitString(new BitArray(testBitString));
@@ -1025,7 +1025,7 @@ namespace NIST.CVP.Math.Tests
             3,
             1
         )]
-        public void StaticSubStringReturnsCorrectBitsWhenInvokedWithValidParamters(bool[] testBitString, bool[] expectedBitString, int startIndex, int numberOfBits)
+        public void StaticSubStringReturnsCorrectBitsWhenInvokedWithValidParameters(bool[] testBitString, bool[] expectedBitString, int startIndex, int numberOfBits)
         {
             // Arrange
             BitString testBs = new BitString(new BitArray(testBitString));
@@ -1036,6 +1036,20 @@ namespace NIST.CVP.Math.Tests
 
             // Assert
             Assert.AreEqual(expectedBs, results);
+        }
+
+        [Test]
+        [TestCase("FF", 0, 4, "F0")]
+        [TestCase("FF00", 0, 4, "F0")]
+        [TestCase("000102030405060708090A0B0C0D0E0F", 0, 8, "00")]
+        [TestCase("000102030405060708090A0B0C0D0E0F", 8, 8, "01")]
+        [TestCase("000102030405060708090A0B0C0D0E0F", 8, 16, "0102")]
+        public void ShouldMsbSubstringCorrectly(string inputHex, int startIndex, int numberOfBits, string expectedHex)
+        {
+            var input = new BitString(inputHex);
+            var result = input.MSBSubstring(startIndex, numberOfBits);
+            
+            Assert.AreEqual(new BitString(expectedHex).ToHex(), result.ToHex());
         }
         #endregion SubString
 
@@ -1065,7 +1079,12 @@ namespace NIST.CVP.Math.Tests
         [TestCase(16, "FF", 4, true, "F000", 16)]
         [TestCase(16, "FF", 8, true, "FF00", 16)]
         [TestCase(16, "FF", 7, true, "FE00", 16)]
+        [TestCase(8, "FF", 4, false, "0F", 8)]
+        [TestCase(8, "FF", 8, false, "FF", 8)]
+        [TestCase(8, "FF", 7, false, "7F", 8)]
+        [TestCase(16, "FF", 4, false, "000F", 16)]
         [TestCase(16, "FF", 8, false, "00FF", 16)]
+        [TestCase(16, "FF", 7, false, "007F", 16)]
         public void ShouldPadToModulusBoundryOrReturnOriginalIfAtModulusBoundry(int modulus, string hex, int length, bool padLsb, string expectedHex, int expectedLength)
         {
             var hexBs = new BitString(hex, length);
@@ -1074,9 +1093,25 @@ namespace NIST.CVP.Math.Tests
             var result = BitString.PadToModulus(hexBs, modulus, padLsb);
 
             Assert.AreEqual(expectedLength, result.BitLength, nameof(expectedLength));
-            Assert.AreEqual(expectedBs, result, nameof(expectedHex));
+            Assert.AreEqual(expectedBs.ToHex(), result.ToHex(), nameof(expectedHex));
         }
+        
+        [TestCase(8, "FF", 4,  "0F", 8)]
+        [TestCase(8, "FF", 8,  "FF", 8)]
+        [TestCase(8, "FF", 7,  "7F", 8)]
+        [TestCase(16, "FF", 4, "000F", 16)]
+        [TestCase(16, "FF", 8, "00FF", 16)]
+        [TestCase(16, "FF", 7, "007F", 16)]
+        public void ShouldPadToModulusMsbBoundryOrReturnOriginalIfAtModulusBoundry(int modulus, string hex, int length, string expectedHex, int expectedLength)
+        {
+            var hexBs = new BitString(hex, length);
+            var expectedBs = new BitString(expectedHex);
 
+            var result = BitString.PadToModulusMsb(hexBs, modulus);
+
+            Assert.AreEqual(expectedLength, result.BitLength, nameof(expectedLength));
+            Assert.AreEqual(expectedBs.ToHex(), result.ToHex(), nameof(expectedHex));
+        }
         #endregion PadToModulus
 
         #region XOR

@@ -1,10 +1,12 @@
 ﻿using System;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
 using NIST.CVP.Crypto.Common.KAS.Enums;
+using NIST.CVP.Crypto.Common.KAS.FixedInfo;
 using NIST.CVP.Crypto.Common.KAS.KC;
 using NIST.CVP.Crypto.Common.KAS.KDF;
+using NIST.CVP.Crypto.Common.KAS.KDF.KdfOneStep;
 using NIST.CVP.Crypto.Common.KAS.NoKC;
-using NIST.CVP.Crypto.Common.KAS.Schema;
+using NIST.CVP.Crypto.Common.KAS.Scheme;
 using NIST.CVP.Crypto.Common.KES;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
@@ -17,7 +19,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme.Ffc
 
         public SchemeFfcDiffieHellmanEphemeral(
             IDsaFfc dsa, 
-            IKdfFactory kdfFactory, 
+            IKdfOneStepFactory kdfFactory, 
             IKeyConfirmationFactory keyConfirmationFactory,
             INoKeyConfirmationFactory noKeyConfirmationFactory,
             IOtherInfoFactory otherInfoFactory,
@@ -31,14 +33,14 @@ namespace NIST.CVP.Crypto.KAS.Scheme.Ffc
         {
             _diffieHellman = dh;
 
-            if (SchemeParameters.KasDsaAlgoAttributes.Scheme != FfcScheme.DhEphem)
+            if (SchemeParameters.KasAlgoAttributes.Scheme != FfcScheme.DhEphem)
             {
-                throw new ArgumentException(nameof(SchemeParameters.KasDsaAlgoAttributes.Scheme));
+                throw new ArgumentException(nameof(SchemeParameters.KasAlgoAttributes.Scheme));
             }
 
             if (SchemeParameters.KasMode == KasMode.KdfKc)
             {
-                throw new ArgumentException($"{SchemeParameters.KasMode} not possible with {SchemeParameters.KasDsaAlgoAttributes.Scheme}");
+                throw new ArgumentException($"{SchemeParameters.KasMode} not possible with {SchemeParameters.KasAlgoAttributes.Scheme}");
             }
         }
 

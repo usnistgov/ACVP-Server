@@ -4,7 +4,9 @@ using NIST.CVP.Crypto.Common.KAS.Builders;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Crypto.Common.KAS.KC;
 using NIST.CVP.Crypto.Common.KAS.KDF;
-using NIST.CVP.Crypto.Common.KAS.Schema;
+using NIST.CVP.Crypto.Common.KAS.KDF.KdfOneStep;
+using NIST.CVP.Crypto.Common.KAS.Scheme;
+using NIST.CVP.Crypto.KAS.FixedInfo;
 using NIST.CVP.Crypto.KAS.KDF;
 using NIST.CVP.Math;
 
@@ -12,7 +14,7 @@ namespace NIST.CVP.Crypto.KAS.Builders
 {
     public abstract class KasBuilderKdfKc<TKasDsaAlgoAttributes, TOtherPartySharedInfo, TDomainParameters, TKeyPair> 
         : IKasBuilderKdfKc<TKasDsaAlgoAttributes, TOtherPartySharedInfo, TDomainParameters, TKeyPair>
-        where TKasDsaAlgoAttributes : IKasDsaAlgoAttributes
+        where TKasDsaAlgoAttributes : IKasAlgoAttributes
         where TOtherPartySharedInfo : ISharedInformation<TDomainParameters, TKeyPair>
         where TDomainParameters : IDsaDomainParameters
         where TKeyPair : IDsaKeyPair
@@ -45,7 +47,7 @@ namespace NIST.CVP.Crypto.KAS.Builders
         }
 
         /// <summary>
-        /// Sets the keyLength for the <see cref="IKdf"/> options in the <see cref="IKas{TKasDsaAlgoAttributes,TOtherPartySharedInfo,TDomainParameters,TKeyPair}"/>
+        /// Sets the keyLength for the <see cref="IKdfOneStep"/> options in the <see cref="IKas{TKasDsaAlgoAttributes,TOtherPartySharedInfo,TDomainParameters,TKeyPair}"/>
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
@@ -61,7 +63,7 @@ namespace NIST.CVP.Crypto.KAS.Builders
         }
 
         /// <summary>
-        /// Sets the otherInfoPattern for the <see cref="IKdf"/> options in the <see cref="IKas"/>
+        /// Sets the otherInfoPattern for the <see cref="IKdfOneStep"/> options in the <see cref="IKas"/>
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>

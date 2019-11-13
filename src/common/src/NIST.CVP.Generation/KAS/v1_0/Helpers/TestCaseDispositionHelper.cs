@@ -4,7 +4,7 @@ using System.Linq;
 using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Common.Oracle.DispositionTypes;
 using NIST.CVP.Crypto.Common.KAS.Enums;
-using NIST.CVP.Crypto.Common.KAS.Schema;
+using NIST.CVP.Crypto.Common.KAS.Scheme;
 
 namespace NIST.CVP.Generation.KAS.v1_0.Helpers
 {
@@ -13,7 +13,7 @@ namespace NIST.CVP.Generation.KAS.v1_0.Helpers
         public static List<KasValTestDisposition> PopulateValidityTestCaseOptions<TTestGroup, TTestCase, TKasDsaAlgoAttributes>(
             TestGroupBase<TTestGroup, TTestCase, TKasDsaAlgoAttributes> testGroup
         )
-            where TKasDsaAlgoAttributes : IKasDsaAlgoAttributes
+            where TKasDsaAlgoAttributes : IKasAlgoAttributes
             where TTestGroup : TestGroupBase<TTestGroup, TTestCase, TKasDsaAlgoAttributes>
             where TTestCase : TestCaseBase<TTestGroup, TTestCase, TKasDsaAlgoAttributes>
         {

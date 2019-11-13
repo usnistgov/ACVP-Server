@@ -220,7 +220,12 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                                             KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
                                             MacLen = 128
                                         },
-                                        HmacSha2_D224 = new MacOptionHmacSha2_d224()
+                                        HmacSha2_D512_T224 = new MacOptionHmacSha2_d512_t224()
+                                        {
+                                            KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
+                                            MacLen = 128
+                                        },
+                                        HmacSha3_D224 = new MacOptionHmacSha3_d224()
                                         {
                                             KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
                                             MacLen = 128
