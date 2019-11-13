@@ -17,7 +17,6 @@ using NIST.CVP.Orleans.ServerHost.Models;
 using Orleans;
 using Orleans.Configuration;
 using Orleans.Hosting;
-using Orleans.Logging;
 using Orleans.Statistics;
 using Environments = NIST.CVP.Common.Enums.Environments;
 
@@ -141,11 +140,6 @@ namespace NIST.CVP.Orleans.ServerHost
                 if (_orleansConfig.UseConsoleLogging)
                 {
                     logging.AddConsole();
-                }
-
-                if (_orleansConfig.UseFileLogging)
-                {
-                    logging.AddProvider(new FileLoggerProvider($"{DateTime.UtcNow:yyyy-MM-dd_Hmm}_{_environmentConfig.Name}.log"));
                 }
             });
         }
