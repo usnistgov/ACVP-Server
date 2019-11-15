@@ -4,12 +4,18 @@ using NIST.CVP.Generation.Core;
 using NIST.CVP.ParameterChecker.Models;
 using NLog;
 using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using Newtonsoft.Json;
+using NIST.CVP.Pools.Services;
 
 namespace NIST.CVP.ParameterChecker.Helpers
 {
     public class ParameterCheckRunner
     {
         private readonly IComponentContext _scope;
+        protected IFileService FileService { get; set; } = new FileService();
 
         public ParameterCheckRunner(IComponentContext scope)
         {
@@ -41,11 +47,26 @@ namespace NIST.CVP.ParameterChecker.Helpers
             try
             {
                 var parameterFile = parsedParameters.ParameterFile.FullName;
+                var outputDirPath = Path.GetDirectoryName(parameterFile);
+                
                 var result = RunParameterChecker(parameterFile);
-
+                
                 if (result.Success)
                     return (int)result.StatusCode;
 
+                FileService.WriteFile(
+                    JsonConvert.SerializeObject(
+                        result,
+                        new JsonSerializerSettings
+                        {
+                            Formatting = Formatting.Indented,
+                            NullValueHandling = NullValueHandling.Ignore,
+                            Converters = new JsonConverterProvider().GetJsonConverters(),
+                        }
+                    ),
+                    Path.Combine(outputDirPath, "parameterCheck.json"),
+                    true);
+                
                 errorMessage = $"ERROR! Checking Registration Parameters for {parameterFile}: {result.ErrorMessage}";
                 Console.Error.WriteLine(errorMessage);
                 Program.Logger.Error($"Status Code: {result.StatusCode}");
@@ -67,8 +88,15 @@ namespace NIST.CVP.ParameterChecker.Helpers
         public ParameterCheckResponse RunParameterChecker(string registrationFile)
         {
             var paramChecker = _scope.Resolve<IParameterChecker>();
-            var result = paramChecker.CheckParameters(registrationFile);
-            return result;
+
+            try
+            {
+                return paramChecker.CheckParameters(new ParameterCheckRequest(FileService.ReadFile(registrationFile)));
+            }
+            catch (FileNotFoundException ex)
+            {
+                return new ParameterCheckResponse($"File {registrationFile} not found", StatusCode.FileReadError);
+            }
         }
 
         public static ILogger Logger => LogManager.GetCurrentClassLogger();

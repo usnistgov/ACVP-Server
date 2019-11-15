@@ -39,6 +39,6 @@ namespace NIST.CVP.Generation.Core
             StatusCode = statusCode;
         }
 
-        public bool Success => string.IsNullOrEmpty(ErrorMessage);
+        public bool Success => StatusCode == StatusCode.Success;
     }
 }
