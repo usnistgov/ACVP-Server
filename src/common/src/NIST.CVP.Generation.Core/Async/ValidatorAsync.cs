@@ -30,24 +30,12 @@ namespace NIST.CVP.Generation.Core.Async
             _vectorSetDeserializer = vectorSetDeserializer;
         }
 
-        public ValidateResponse Validate(string resultPath, string answerPath, bool showExpected)
+        public ValidateResponse Validate(ValidateRequest validateRequest)
         {
-            var resultText = ReadFromFile(resultPath);
-            var answerText = ReadFromFile(answerPath);
-
-            if (string.IsNullOrEmpty(resultText))
-            {
-                return new ValidateResponse("Unable to read result file.");
-            }
-            if (string.IsNullOrEmpty(answerText))
-            {
-                return new ValidateResponse("Unable to read internalProjection file.");
-            }
-
             TestVectorValidation response;
             try
             {
-                response = ValidateWorker(resultText, answerText, showExpected);
+                response = ValidateWorker(validateRequest.ResultJson, validateRequest.InternalJson, validateRequest.ShowExpected);
             }
             catch (FileNotFoundException ex)
             {
@@ -73,14 +61,7 @@ namespace NIST.CVP.Generation.Core.Async
                     NullValueHandling = NullValueHandling.Ignore
                 });
 
-            var saveResult = SaveToFile(Path.GetDirectoryName(resultPath), "validation.json", validationJson);
-
-            if (!string.IsNullOrEmpty(saveResult))
-            {
-                return new ValidateResponse(saveResult, StatusCode.FileSaveError);
-            }
-
-            return new ValidateResponse();
+            return new ValidateResponse(validationJson);
         }
 
         protected virtual TestVectorValidation ValidateWorker(string testResultText, string answerText, bool showExpected)
@@ -112,36 +93,6 @@ namespace NIST.CVP.Generation.Core.Async
             return response;
         }
         
-        /// <summary>
-        /// Returns contents of file as string
-        /// </summary>
-        /// <param name="path"></param>
-        /// <returns></returns>
-        private string ReadFromFile(string path)
-        {
-            if (!File.Exists(path))
-            {
-                throw new FileNotFoundException(path);
-            }
-
-            return File.ReadAllText(path);
-        }
-
-        private string SaveToFile(string fileRoot, string fileName, string json)
-        {
-            string path = Path.Combine(fileRoot, fileName);
-            try
-            {
-                File.WriteAllText(path, json);
-                return null;
-            }
-            catch (Exception ex)
-            {
-                ThisLogger.Error(ex);
-                return $"Could not create {path}";
-            }
-        }
-
         private static Logger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }
