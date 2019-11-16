@@ -1,17 +1,17 @@
 ﻿namespace NIST.CVP.Generation.Core.Parsers
 {
     /// <summary>
-    /// Provides methods of parsing parameters/registraiton from a file
+    /// Provides methods of parsing parameters/registration from a string.
     /// </summary>
     /// <typeparam name="TParameter">The parameters type</typeparam>
     public interface IParameterParser<TParameter> 
         where TParameter : IParameters
     {
         /// <summary>
-        /// Parse parameters from the file at <see cref="path"/> into <see cref="TParameter"/>
+        /// Parse parameters from the <see cref="contents" /> into <see cref="TParameter"/>
         /// </summary>
-        /// <param name="path">The file to parse</param>
+        /// <param name="contents">The contents to transform into a <see cref="TParameter"/></param>
         /// <returns></returns>
-        ParseResponse<TParameter> Parse(string path);
+        ParseResponse<TParameter> Parse(string contents);
     }
 }

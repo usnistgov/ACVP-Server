@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using Newtonsoft.Json;
 using NIST.CVP.Common.Enums;
 using NIST.CVP.Generation.Core.ContractResolvers;
@@ -25,26 +26,24 @@ namespace NIST.CVP.Generation.Core
             _parameterValidator = parameterValidator;
         }
 
-        public ParameterCheckResponse CheckParameters(string registrationFile)
+        public ParameterCheckResponse CheckParameters(ParameterCheckRequest request)
         {
             try
             {
-                var parameterResponse = _parameterParser.Parse(registrationFile);
+                var parameterResponse = _parameterParser.Parse(request.RegistrationJson);
                 if (!parameterResponse.Success)
                 {
-                    var response =  new ParameterCheckResponse(parameterResponse.ErrorMessage, StatusCode.ParameterError);
-                    return SaveOutputs(registrationFile, response);
+                    return new ParameterCheckResponse(parameterResponse.ErrorMessage, StatusCode.ParameterError);
                 }
 
                 var parameters = parameterResponse.ParsedObject;
                 var validateResponse = _parameterValidator.Validate(parameters);
                 if (!validateResponse.Success)
                 {
-                    var response = new ParameterCheckResponse(validateResponse.ErrorMessage, StatusCode.ParameterValidationError);
-                    return SaveOutputs(registrationFile, response);
+                    return new ParameterCheckResponse(validateResponse.ErrorMessage, StatusCode.ParameterValidationError);
                 }
 
-                return SaveOutputs(registrationFile, new ParameterCheckResponse());
+                return new ParameterCheckResponse();
             }
             catch (Exception ex)
             {

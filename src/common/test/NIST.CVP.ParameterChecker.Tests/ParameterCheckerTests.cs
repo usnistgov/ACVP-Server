@@ -1,4 +1,7 @@
 ﻿using System;
+using System.IO;
+using Autofac;
+using Moq;
 using NIST.CVP.ParameterChecker.Tests.Fakes;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -10,13 +13,24 @@ namespace NIST.CVP.ParameterChecker.Tests
     [TestFixture, UnitTest]
     public class ParameterCheckerTests
     {
+        private class FakeParameterCheckRunner : ParameterCheckRunner
+        {
+            public FakeParameterCheckRunner(IComponentContext scope, IFileService fileService) : base(scope)
+            {
+                FileService = fileService;
+            }
+        }
+        
         private ParameterCheckRunner _subject;
         private readonly FakeAutofacConfig _fakeAutofac = new FakeAutofacConfig();
 
         [Test]
         public void ShouldRunOnGoodParameters()
         {
-            _subject = new ParameterCheckRunner(_fakeAutofac.GetContainer().BeginLifetimeScope());
+            var fileService = new Mock<IFileService>();
+            fileService.Setup(s => s.ReadFile(It.IsAny<string>())).Returns(string.Empty);
+            
+            _subject = new FakeParameterCheckRunner(_fakeAutofac.GetContainer().BeginLifetimeScope(), fileService.Object);
             var result = _subject.RunParameterChecker("registration.json");
 
             Assert.IsNotNull(result);
@@ -29,7 +43,9 @@ namespace NIST.CVP.ParameterChecker.Tests
         [TestCase("badRegistration.json")]
         public void ShouldRunOnBadParameters(string file)
         {
-            _subject = new ParameterCheckRunner(_fakeAutofac.GetContainer().BeginLifetimeScope());
+            var fileService = new Mock<IFileService>();
+            fileService.Setup(s => s.ReadFile(It.IsAny<string>())).Throws(new FileNotFoundException());
+            _subject = new FakeParameterCheckRunner(_fakeAutofac.GetContainer().BeginLifetimeScope(), fileService.Object);
             var result = _subject.RunParameterChecker(file);
 
             Assert.IsNotNull(result, "Not null result");

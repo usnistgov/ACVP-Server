@@ -7,13 +7,25 @@ using NIST.CVP.Generation.GenValApp.Tests.Fakes;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using System.IO;
+using Autofac;
+using Moq;
 
 namespace NIST.CVP.Generation.GenValApp.Tests
 {
     [TestFixture, UnitTest]
     public class GenValRunnerTests
     {
-        private GenValRunner _subject;
+        private class FakeGenValRunner : GenValRunner
+        {
+            public FakeGenValRunner(IComponentContext scope) : base(scope)
+            {
+                var fileService = new Mock<IFileService>();
+                fileService.Setup(s => s.ReadFile(It.IsAny<string>())).Returns(string.Empty);
+                FileService = fileService.Object;
+            }
+        }
+        
+        private FakeGenValRunner _subject;
         private readonly FakeAutofacConfig _fakeAutofac = new FakeAutofacConfig();
 
         [Test]
@@ -21,7 +33,7 @@ namespace NIST.CVP.Generation.GenValApp.Tests
         {
             var parameters = new ArgumentParsingTarget();
 
-            _subject = new GenValRunner(_fakeAutofac.GetContainer().BeginLifetimeScope());
+            _subject = new FakeGenValRunner(_fakeAutofac.GetContainer().BeginLifetimeScope());
             var result = _subject.Run(parameters, GenValMode.Unset);
 
             Assert.AreNotEqual(0, result);
@@ -30,7 +42,7 @@ namespace NIST.CVP.Generation.GenValApp.Tests
         [Test]
         public void ShouldRunGeneration()
         {
-            _subject = new GenValRunner(_fakeAutofac.GetContainer().BeginLifetimeScope());
+            _subject = new FakeGenValRunner(_fakeAutofac.GetContainer().BeginLifetimeScope());
             var result = _subject.RunGeneration("registration.json");
 
             Assert.IsNotNull(result);
@@ -41,7 +53,7 @@ namespace NIST.CVP.Generation.GenValApp.Tests
         [Test]
         public void ShouldRunValidation()
         {
-            _subject = new GenValRunner(_fakeAutofac.GetContainer().BeginLifetimeScope());
+            _subject = new FakeGenValRunner(_fakeAutofac.GetContainer().BeginLifetimeScope());
             var result = _subject.RunValidation("response.json", "answer.json", false);
 
             Assert.IsNotNull(result);
@@ -62,7 +74,7 @@ namespace NIST.CVP.Generation.GenValApp.Tests
                 AnswerFile = genValMode == GenValMode.Validate ? new FileInfo(answerFile) : null
             };
 
-            _subject = new GenValRunner(_fakeAutofac.GetContainer().BeginLifetimeScope());
+            _subject = new FakeGenValRunner(_fakeAutofac.GetContainer().BeginLifetimeScope());
             var result = _subject.Run(parameters, genValMode);
 
             Assert.AreEqual(returnCode, result);

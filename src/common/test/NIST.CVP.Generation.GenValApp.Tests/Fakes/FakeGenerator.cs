@@ -7,13 +7,8 @@ namespace NIST.CVP.Generation.GenValApp.Tests.Fakes
 {
     public class FakeGenerator : IGenerator
     {
-        public GenerateResponse Generate(string requestFilePath)
+        public GenerateResponse Generate(GenerateRequest generateRequest)
         {
-            if (requestFilePath.Contains("bad"))
-            {
-                return new GenerateResponse("fail");
-            }
-
             return new GenerateResponse();
         }
     }
