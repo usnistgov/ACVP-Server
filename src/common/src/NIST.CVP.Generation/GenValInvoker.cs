@@ -97,7 +97,7 @@ namespace NIST.CVP.Generation
         /// </summary>
         /// <param name="algoMode">The algomode to use for determining the <see cref="ISupportedAlgoModeRevisions"/> to use.</param>
         /// <returns></returns>
-        private static ISupportedAlgoModeRevisions GetAlgoModeRevisionInjectables(AlgoMode algoMode)
+        public static ISupportedAlgoModeRevisions GetAlgoModeRevisionInjectables(AlgoMode algoMode)
         {
             var candidateAlgoModeRevisions = GetSupportedAlgoModeRevisions();
 
@@ -108,7 +108,7 @@ namespace NIST.CVP.Generation
         /// Returns the list of candidate <see cref="ISupportedAlgoModeRevisions"/>s - set of genvals per algo/mode/revision.
         /// </summary>
         /// <returns>list of classes that can support IOC registration for an algorithm.</returns>
-        private static List<ISupportedAlgoModeRevisions> GetSupportedAlgoModeRevisions()
+        public static List<ISupportedAlgoModeRevisions> GetSupportedAlgoModeRevisions()
         {
             var types = new List<ISupportedAlgoModeRevisions>();
 
