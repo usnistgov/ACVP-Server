@@ -20,11 +20,5 @@ namespace NIST.CVP.Generation.Core.Tests.Fakes
             iTestCaseGeneratorFactoryFactory,
             vectorSetSerializer
         ) { }
-
-        // Need an accessor for the protected method inside of GeneratorBase
-        public GenerateResponse SaveOutputsTester(string requestFilePath, FakeTestVectorSet testVector)
-        {
-            return SaveOutputs(requestFilePath, testVector);
-        }
     }
 }

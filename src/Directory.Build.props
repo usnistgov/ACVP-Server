@@ -26,7 +26,7 @@
 
     <!-- NuGet package versions -->
     <PropertyGroup>
-    	<NuGetVersionMicrosoftAspNetCore>2.1.10</NuGetVersionMicrosoftAspNetCore>
+    	<NuGetVersionMicrosoftAspNetCore>3.0.0</NuGetVersionMicrosoftAspNetCore>
         <NuGetVersionMicrosoftNETTestSdk>16.0.1</NuGetVersionMicrosoftNETTestSdk>
         <NuGetVersiondotnettestnunit>3.4.0-beta-3</NuGetVersiondotnettestnunit>
         <NuGetVersionTeamCityVSTestTestAdapter>1.0.15</NuGetVersionTeamCityVSTestTestAdapter>
@@ -38,15 +38,16 @@
         <NuGetVersionNewtonsoftJson>12.0.1</NuGetVersionNewtonsoftJson>
         <NuGetVersionCommandLineArgumentsParser>3.0.19</NuGetVersionCommandLineArgumentsParser>
         <NuGetVersionSystemRuntimeLoader>4.3.0</NuGetVersionSystemRuntimeLoader>
-        <NugetVersionMicrosoftOrleansServer>2.3.0</NugetVersionMicrosoftOrleansServer>
-        <NugetVersionMicrosoftOrleansOrleansCodeGeneratorBuild>2.3.0</NugetVersionMicrosoftOrleansOrleansCodeGeneratorBuild>
-        <NugetVersionMicrosoftOrleansClient>2.3.0</NugetVersionMicrosoftOrleansClient>
-        <NugetVersionMicrosoftOrleansCoreAbstractions>2.3.0</NugetVersionMicrosoftOrleansCoreAbstractions>
-        <NugetVersionMicrosoftOrleansClusteringAdoNet>2.3.0</NugetVersionMicrosoftOrleansClusteringAdoNet>
-        <NuGetVersionOrleansDashboard>2.3.1</NuGetVersionOrleansDashboard>
-        <NuGetVersionMicrosoftOrleansOrleansTelemetryConsumersCounters>2.3.0</NuGetVersionMicrosoftOrleansOrleansTelemetryConsumersCounters>
+        <NugetVersionMicrosoftOrleansServer>3.0.0</NugetVersionMicrosoftOrleansServer>
+        <NugetVersionMicrosoftOrleansOrleansCodeGeneratorBuild>3.0.0</NugetVersionMicrosoftOrleansOrleansCodeGeneratorBuild>
+        <NugetVersionMicrosoftOrleansClient>3.0.0</NugetVersionMicrosoftOrleansClient>
+        <NugetVersionMicrosoftOrleansCoreAbstractions>3.0.0</NugetVersionMicrosoftOrleansCoreAbstractions>
+        <NugetVersionMicrosoftOrleansClusteringAdoNet>3.0.0</NugetVersionMicrosoftOrleansClusteringAdoNet>
+        <NuGetVersionOrleansDashboard>3.0.0</NuGetVersionOrleansDashboard>
+        <NuGetVersionMicrosoftOrleansOrleansTelemetryConsumersCounters>3.0.0</NuGetVersionMicrosoftOrleansOrleansTelemetryConsumersCounters>
         <NugetVersionMicrosoftAspNetCoreHostingWindowsServices>2.1.0</NugetVersionMicrosoftAspNetCoreHostingWindowsServices>
         <NuGetVersionSystemServiceProcessServiceController>4.5.0</NuGetVersionSystemServiceProcessServiceController>
+        <NuGetVersionSystemDataSqlClient>4.7.0</NuGetVersionSystemDataSqlClient>
     </PropertyGroup>
 
 </Project>

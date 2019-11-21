@@ -202,8 +202,8 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
                 return new PpcResult("PPC: fail N1 + N2 check");
             }
 
-            BigInteger p, p0, p1, p2;
-            BigInteger pSeed, p0Seed, p2Seed;
+            BigInteger p = 0, p0 = 0, p1 = 0, p2 = 0;
+            BigInteger pSeed = 0, p0Seed = 0, p2Seed = 0;
 
             // 2
             if (N1 == 1)
@@ -272,8 +272,8 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
 
             // 12
             // sqrt(2) * 2^(L-1)
-            BigInteger lowerBound;
-            BigInteger modulo;
+            BigInteger lowerBound = 0;
+            BigInteger modulo = 0;
 
             if (L == 1024 / 2)
             {

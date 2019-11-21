@@ -1,5 +1,4 @@
 ﻿using System;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Moq;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Common.KAS.Enums;

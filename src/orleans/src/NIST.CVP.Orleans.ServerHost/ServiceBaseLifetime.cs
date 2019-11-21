@@ -13,12 +13,12 @@ namespace NIST.CVP.Orleans.ServerHost
     {
         private readonly TaskCompletionSource<object> _delayStart = new TaskCompletionSource<object>();
 
-        public ServiceBaseLifetime(IApplicationLifetime applicationLifetime)
+        public ServiceBaseLifetime(IHostApplicationLifetime applicationLifetime)
         {
             ApplicationLifetime = applicationLifetime ?? throw new ArgumentNullException(nameof(applicationLifetime));
         }
 
-        private IApplicationLifetime ApplicationLifetime { get; }
+        private IHostApplicationLifetime ApplicationLifetime { get; }
 
         public Task WaitForStartAsync(CancellationToken cancellationToken)
         {

@@ -181,7 +181,7 @@ namespace NIST.CVP.Crypto.DSA.FFC.PQGeneratorValidators
             var offset = 1;
 
             // 13
-            BigInteger computed_p;
+            BigInteger computed_p = 0;
             int i;
             for (i = 0; i <= count.Count; i++)
             {

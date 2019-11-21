@@ -13,6 +13,7 @@ namespace NIST.CVP.Generation.GenValApp.Helpers
     {
         private static string FileDirectory;
         private readonly IComponentContext _scope;
+        protected IFileService FileService { get; set; } = new FileService();
 
         public GenValRunner(IComponentContext scope)
         {
@@ -38,9 +39,32 @@ namespace NIST.CVP.Generation.GenValApp.Helpers
                             var registrationFile = parsedParameters.RegistrationFile.FullName;
                             var result = RunGeneration(registrationFile);
 
+                            var outputDirPath = Path.GetDirectoryName(registrationFile);
                             if (result.Success)
+                            {
+                                // Write out the produced vector files
+                                FileService.WriteFile(
+                                    Path.Combine(outputDirPath, "internalProjection.json"), 
+                                    result.InternalProjection, 
+                                    true);
+                                FileService.WriteFile(
+                                    Path.Combine(outputDirPath, "prompt.json"), 
+                                    result.PromptProjection, 
+                                    true);
+                                FileService.WriteFile(
+                                    Path.Combine(outputDirPath, "expectedResults.json"), 
+                                    result.ResultProjection, 
+                                    true);
+                                
                                 return (int)result.StatusCode;
-
+                            }
+                                
+                            // Write out the error file
+                            FileService.WriteFile(
+                                Path.Combine(outputDirPath, "error.txt"),
+                                result.ErrorMessage,
+                                true);
+                            
                             errorMessage = $"ERROR! Generating Test Vectors for {registrationFile}: {result.ErrorMessage}";
                             Console.Error.WriteLine(errorMessage);
                             Program.Logger.Error($"Status Code: {result.StatusCode}");
@@ -58,8 +82,23 @@ namespace NIST.CVP.Generation.GenValApp.Helpers
                             var showExpected = parsedParameters.ShowExpected;
                             var result = RunValidation(responseFile, answerFile, showExpected);
 
+                            var outputDirPath = Path.GetDirectoryName(responseFile);
                             if (result.Success)
+                            {
+                                // Write out the response from the validation.
+                                FileService.WriteFile(
+                                    Path.Combine(outputDirPath, "validation.json"), 
+                                    result.ValidationResult, 
+                                    true);
+                                
                                 return (int)result.StatusCode;
+                            }
+                                
+                            // Write out the error file
+                            FileService.WriteFile(
+                                Path.Combine(outputDirPath, "error.txt"),
+                                result.ErrorMessage,
+                                true);
 
                             errorMessage = $"ERROR! Validating Test Vectors for {responseFile}: {result.ErrorMessage}";
                             Console.Error.WriteLine(errorMessage);
@@ -95,10 +134,10 @@ namespace NIST.CVP.Generation.GenValApp.Helpers
         public GenerateResponse RunGeneration(string registrationFile)
         {
             var gen = _scope.Resolve<IGenerator>();
-            var result = gen.Generate(registrationFile);
+            
+            var result = gen.Generate(new GenerateRequest(FileService.ReadFile(registrationFile)));
             return result;
         }
-
 
         /// <summary>
         /// Run Validation of test vectors for an algorithm.
@@ -106,7 +145,11 @@ namespace NIST.CVP.Generation.GenValApp.Helpers
         public ValidateResponse RunValidation(string responseFile, string answerFile, bool showExpected)
         {
             var val = _scope.Resolve<IValidator>();
-            var result = val.Validate(responseFile, answerFile, showExpected);
+            var result = val.Validate(new ValidateRequest(
+                FileService.ReadFile(answerFile),
+                FileService.ReadFile(responseFile),
+                showExpected
+                ));
             return result;
         }
 

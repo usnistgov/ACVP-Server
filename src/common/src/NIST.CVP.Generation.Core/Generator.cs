@@ -16,11 +16,11 @@ namespace NIST.CVP.Generation.Core
         where TTestGroup : ITestGroup<TTestGroup, TTestCase>
         where TTestCase : ITestCase<TTestGroup, TTestCase>
     {
-        protected readonly ITestVectorFactory<TParameters, TTestVectorSet, TTestGroup, TTestCase> _testVectorFactory;
-        protected readonly IParameterParser<TParameters> _parameterParser;
-        protected readonly IParameterValidator<TParameters> _parameterValidator;
-        protected readonly ITestCaseGeneratorFactoryFactory<TTestVectorSet, TTestGroup, TTestCase> _testCaseGeneratorFactoryFactory;
-        protected readonly IVectorSetSerializer<TTestVectorSet, TTestGroup, TTestCase> _vectorSetSerializer;
+        private readonly ITestVectorFactory<TParameters, TTestVectorSet, TTestGroup, TTestCase> _testVectorFactory;
+        private readonly IParameterParser<TParameters> _parameterParser;
+        private readonly IParameterValidator<TParameters> _parameterValidator;
+        private readonly ITestCaseGeneratorFactoryFactory<TTestVectorSet, TTestGroup, TTestCase> _testCaseGeneratorFactoryFactory;
+        private readonly IVectorSetSerializer<TTestVectorSet, TTestGroup, TTestCase> _vectorSetSerializer;
 
         public readonly List<JsonOutputDetail> JsonOutputs = 
             new List<JsonOutputDetail>
@@ -45,11 +45,11 @@ namespace NIST.CVP.Generation.Core
             _vectorSetSerializer = vectorSetSerializer;
         }
 
-        public virtual GenerateResponse Generate(string requestFilePath)
+        public virtual GenerateResponse Generate(GenerateRequest generateRequest)
         {
             try
             {
-                var parameterResponse = _parameterParser.Parse(requestFilePath);
+                var parameterResponse = _parameterParser.Parse(generateRequest.RegistrationJson);
                 if (!parameterResponse.Success)
                 {
                     return new GenerateResponse(parameterResponse.ErrorMessage, StatusCode.ParameterError);
@@ -67,7 +67,7 @@ namespace NIST.CVP.Generation.Core
                     return testCasesResult;
                 }
 
-                return SaveOutputs(requestFilePath, testVector);
+                return CreateResponse(testVector);
             }
             catch (Exception ex)
             {
@@ -76,41 +76,12 @@ namespace NIST.CVP.Generation.Core
             }
         }
 
-        protected GenerateResponse SaveOutputs(string requestFilePath, TTestVectorSet testVector)
+        private GenerateResponse CreateResponse(TTestVectorSet testVector)
         {
-            var outputDirPath = Path.GetDirectoryName(requestFilePath);
-            foreach (var jsonOutput in JsonOutputs)
-            {
-                var saveResult = SaveProjectionToFile(outputDirPath, testVector, jsonOutput);
-                if (!string.IsNullOrEmpty(saveResult))
-                {
-                    return new GenerateResponse(saveResult, StatusCode.FileSaveError);
-                }
-            }
-
-            return new GenerateResponse();
-        }
-
-        private string SaveProjectionToFile(string outputPath, TTestVectorSet testVectorSet, JsonOutputDetail jsonOutput)
-        {
-            var json = _vectorSetSerializer.Serialize(testVectorSet, jsonOutput.Projection);
-
-            return SaveToFile(outputPath, jsonOutput.FileName, json);
-        }
-
-        private string SaveToFile(string fileRoot, string fileName, string json)
-        {
-            string path = Path.Combine(fileRoot, fileName);
-            try
-            {
-                File.WriteAllText(path, json);
-                return null;
-            }
-            catch (Exception ex)
-            {
-                ThisLogger.Error(ex);
-                return $"Could not create {path}";
-            }
+            return new GenerateResponse(
+                _vectorSetSerializer.Serialize(testVector, Projection.Server),
+                _vectorSetSerializer.Serialize(testVector, Projection.Prompt),
+                _vectorSetSerializer.Serialize(testVector, Projection.Result));
         }
 
         protected Logger ThisLogger => LogManager.GetCurrentClassLogger();

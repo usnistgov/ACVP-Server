@@ -55,6 +55,7 @@ namespace NIST.CVP.Pools
                 Type = type
             };
 
+            ThisLogger.Info($"Attempting to grab pool value for {JsonConvert.SerializeObject(paramHolder)}");
             var paramHolderJson = JsonConvert.SerializeObject(
                 paramHolder,
                 new JsonSerializerSettings()
@@ -84,7 +85,6 @@ namespace NIST.CVP.Pools
                     {
                         if (_poolConfig.ShouldLogPoolValueUse)
                         {
-
                             ThisLogger.Warn($"Pool too empty for pool parameter: {paramHolderJson}");
                         }
                         return default(T);
@@ -106,15 +106,10 @@ namespace NIST.CVP.Pools
                     return poolResult.Result;
                 }
             }
-            catch (WebException)
-            {
-                ThisLogger.Error("Pool not accesible via web interface.");
-                return default(T);
-            }
             catch (Exception ex)
             {
                 // Fall back to normal procedure
-                ThisLogger.Error(ex);
+                ThisLogger.Error(ex, ex.StackTrace);
                 return default(T);
             }
         }

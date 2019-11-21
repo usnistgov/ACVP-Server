@@ -46,7 +46,7 @@ namespace NIST.CVP.Math.Tests
 
             var subject = new NonAdjacentBitString(bigInt);
 
-            BigInteger result;
+            BigInteger result = 0;
 
             for (var i = subject.BitLength - 1; i >= 0; i--)
             {

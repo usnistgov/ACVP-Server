@@ -2,14 +2,17 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
     <RuntimeIdentifiers>win-x64;osx-x64</RuntimeIdentifiers>
     <GenerateProgramFile>false</GenerateProgramFile>
   </PropertyGroup>
 
   <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="$(NuGetVersionNewtonsoftJson)" />
-    <PackageReference Include="Microsoft.AspNetCore.App" Version="$(NuGetVersionMicrosoftAspNetCore)" />
     <PackageReference Include="CommandLineArgumentsParser" Version="$(NuGetVersionCommandLineArgumentsParser)" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="$(NuGetVersionMicrosoftNETTestSdk)" />
     <PackageReference Include="Autofac" Version="$(NuGetVersionAutofac)" />

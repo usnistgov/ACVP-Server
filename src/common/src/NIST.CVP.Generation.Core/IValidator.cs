@@ -8,10 +8,8 @@
         /// <summary>
         /// Validates server generated <see cref="ITestVectorSet"/> against the IUT provided answers.
         /// </summary>
-        /// <param name="resultPath">Results file (from IUT)</param>
-        /// <param name="answerPath">Answer file (server generated)</param>
-        /// <param name="showExpected">Shows expected results for incorrect responses</param>
+        /// <param name="validateRequest">Contains the ACVP server and IUT provided files for performing validation.</param>
         /// <returns></returns>
-        ValidateResponse Validate(string resultPath, string answerPath, bool showExpected);
+        ValidateResponse Validate(ValidateRequest validateRequest);
     }
 }

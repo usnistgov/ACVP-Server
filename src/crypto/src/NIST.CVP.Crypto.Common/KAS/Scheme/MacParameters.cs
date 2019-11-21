@@ -1,5 +1,4 @@
 ﻿using System;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Math;
 

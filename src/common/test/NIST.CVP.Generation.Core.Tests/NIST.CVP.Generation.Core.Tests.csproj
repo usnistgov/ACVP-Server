@@ -1,17 +1,21 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\..\oracle\src\NIST.CVP.Crypto.Oracle\NIST.CVP.Crypto.Oracle.csproj" />
+    <ProjectReference Include="..\..\src\NIST.CVP.Generation\NIST.CVP.Generation.csproj" />
     <ProjectReference Include="..\..\src\NIST.CVP.Generation.Core\NIST.CVP.Generation.Core.csproj" />
     <ProjectReference Include="..\NIST.CVP.Tests.Core\NIST.CVP.Tests.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.App" Version="$(NuGetVersionMicrosoftAspNetCore)" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="$(NuGetVersionMicrosoftNETTestSdk)" />
     <PackageReference Include="dotnet-test-nunit" Version="$(NuGetVersiondotnettestnunit)" />
     <PackageReference Include="TeamCity.VSTest.TestAdapter" Version="$(NuGetVersionTeamCityVSTestTestAdapter)" />

@@ -11,24 +11,19 @@ namespace NIST.CVP.Generation.Core.Parsers
         where TParameters : IParameters
     {
 
-        protected readonly IList<JsonConverter> _jsonConverters = new List<JsonConverter>
+        private readonly IList<JsonConverter> _jsonConverters = new List<JsonConverter>
         {
             new BitstringConverter(),
             new DomainConverter(),
             new BigIntegerConverter()
         };
 
-        public ParseResponse<TParameters> Parse(string path)
+        public ParseResponse<TParameters> Parse(string contents)
         {
-            if (!File.Exists(path))
-            {
-                return new ParseResponse<TParameters>($"Could not find file: {path}");
-            }
-
             try
             {
                 var parameters = JsonConvert.DeserializeObject<TParameters>(
-                    File.ReadAllText(path),
+                    contents,
                     new JsonSerializerSettings
                     {
                         Converters = _jsonConverters
@@ -39,7 +34,7 @@ namespace NIST.CVP.Generation.Core.Parsers
             catch (Exception ex)
             {
                 ThisLogger.Error(ex);
-                return new ParseResponse<TParameters>($"Could not parse file: {path}");
+                return new ParseResponse<TParameters>($"Could not parse {nameof(contents)} into {typeof(TParameters)}.");
             }
         }
 
