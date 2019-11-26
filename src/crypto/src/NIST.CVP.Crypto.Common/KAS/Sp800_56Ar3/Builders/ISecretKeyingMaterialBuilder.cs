@@ -11,6 +11,12 @@ namespace NIST.CVP.Crypto.Common.KAS.Sp800_56Ar3.Builders
     public interface ISecretKeyingMaterialBuilder
     {
         /// <summary>
+        /// Set the domain parameters used for key generation.
+        /// </summary>
+        /// <param name="value">The domain parameters.</param>
+        /// <returns>This builder.</returns>
+        ISecretKeyingMaterialBuilder WithDomainParameters(IDsaDomainParameters value);
+        /// <summary>
         /// Set the party ephemeral key. 
         /// </summary>
         /// <param name="value">The ephemeral key.</param>
@@ -48,14 +54,12 @@ namespace NIST.CVP.Crypto.Common.KAS.Sp800_56Ar3.Builders
         /// <param name="thisPartyKeyAgreementRole">This party key agreement role.</param>
         /// <param name="keyConfirmationRole">This party key confirmation role.</param>
         /// <param name="keyConfirmationDirection">The key confirmation direction.</param>
-        /// <param name="shouldValidateContributions">Should the builder validate the contributions?</param>
         /// <returns>The secret keying material.</returns>
         ISecretKeyingMaterial Build(
             KasScheme scheme, 
             KasMode kasMode, 
             KeyAgreementRole thisPartyKeyAgreementRole, 
             KeyConfirmationRole keyConfirmationRole, 
-            KeyConfirmationDirection keyConfirmationDirection,
-            bool shouldValidateContributions = true);
+            KeyConfirmationDirection keyConfirmationDirection);
     }
 }

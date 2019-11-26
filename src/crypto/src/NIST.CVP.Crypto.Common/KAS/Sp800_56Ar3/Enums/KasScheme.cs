@@ -4,6 +4,7 @@ namespace NIST.CVP.Crypto.Common.KAS.Sp800_56Ar3.Enums
 {
     public enum KasScheme
     {
+        None,
         [EnumMember(Value = "dhHybrid1")]
         FfcDhHybrid1,
         [EnumMember(Value = "mqv2")]

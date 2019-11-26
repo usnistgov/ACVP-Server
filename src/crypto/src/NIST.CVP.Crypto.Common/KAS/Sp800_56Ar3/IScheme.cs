@@ -15,6 +15,6 @@ namespace NIST.CVP.Crypto.Common.KAS.Sp800_56Ar3
         /// </summary>
         /// <param name="otherPartyKeyingMaterial">The other parties key contributions.</param>
         /// <returns>The result of the KAS operation.</returns>
-        KasResult ComputeResult(ISecretKeyingMaterial otherPartyKeyingMaterial);
+        KeyAgreementResult ComputeResult(ISecretKeyingMaterial otherPartyKeyingMaterial);
     }
 }

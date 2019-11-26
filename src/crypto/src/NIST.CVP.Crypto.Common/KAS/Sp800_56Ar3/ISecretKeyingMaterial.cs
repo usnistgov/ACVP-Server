@@ -1,4 +1,5 @@
 using NIST.CVP.Crypto.Common.Asymmetric.DSA;
+using NIST.CVP.Crypto.Common.KAS.Sp800_56Ar3.Enums;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.Common.KAS.Sp800_56Ar3
@@ -8,6 +9,14 @@ namespace NIST.CVP.Crypto.Common.KAS.Sp800_56Ar3
     /// </summary>
     public interface ISecretKeyingMaterial
     {
+        /// <summary>
+        /// The underlying algorithm utilized for the secret keying material and kas scheme.
+        /// </summary>
+        KasAlgorithm KasAlgorithm { get; }
+        /// <summary>
+        /// The domain parameters used to generate keys.
+        /// </summary>
+        IDsaDomainParameters DomainParameters { get; }
         /// <summary>
         /// The static keyPair belonging to the party.
         /// </summary>
@@ -24,5 +33,9 @@ namespace NIST.CVP.Crypto.Common.KAS.Sp800_56Ar3
         /// The nonce used for the generation of the derived keying material in some KAS schemes..
         /// </summary>
         BitString DkmNonce { get; }
+        /// <summary>
+        /// The party identifier.
+        /// </summary>
+        BitString PartyId { get; }
     }
 }

@@ -18,7 +18,7 @@ namespace NIST.CVP.Crypto.Common.KAS.Sp800_56Ar3.Builders
         /// <returns>this builder.</returns>
         ISchemeBuilder WithSchemeParameters(SchemeParameters value);
         /// <summary>
-        /// Sets the full secret keying material for this party when available.
+        /// Sets the full secret keying material for this party.
         /// </summary>
         /// <param name="value">The secret keying material for this party.</param>
         /// <returns>this builder.</returns>
@@ -44,12 +44,6 @@ namespace NIST.CVP.Crypto.Common.KAS.Sp800_56Ar3.Builders
         /// <param name="parameter">The KC parameters.</param>
         /// <returns>this builder.</returns>
         ISchemeBuilder WithKeyConfirmation(IKeyConfirmationFactory factory, MacParameters parameter);
-        /// <summary>
-        /// Provides an entropy provider to the built instance.
-        /// </summary>
-        /// <param name="entropyProvider">The entropy provider.</param>
-        /// <returns>this builder.</returns>
-        ISchemeBuilder WithEntropyProvider(IEntropyProvider entropyProvider);
         /// <summary>
         /// Build the Kas Scheme with the specified parameters.
         /// </summary>
