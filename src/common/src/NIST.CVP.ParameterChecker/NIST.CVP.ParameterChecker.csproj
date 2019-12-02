@@ -20,8 +20,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\NIST.CVP.Common\NIST.CVP.Common.csproj" />
-    <ProjectReference Include="..\NIST.CVP.Generation.Core\NIST.CVP.Generation.Core.csproj" />
-    <ProjectReference Include="..\NIST.CVP.Generation\NIST.CVP.Generation.csproj" />
+    <ProjectReference Include="..\..\..\generation\src\NIST.CVP.Generation.Core\NIST.CVP.Generation.Core.csproj" />
+    <ProjectReference Include="..\..\..\generation\src\NIST.CVP.Generation\NIST.CVP.Generation.csproj" />
   </ItemGroup>
 
 </Project>
