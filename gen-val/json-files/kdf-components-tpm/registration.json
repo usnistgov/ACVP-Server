@@ -1,0 +1,7 @@
+{
+  "vsId": 0,
+  "algorithm": "kdf-components",
+  "mode": "tpm",
+  "revision": "1.0",
+  "isSample": false
+}

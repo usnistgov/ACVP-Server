@@ -1,8 +1,0 @@
-{
-  "vsId": 0,
-  "algorithm": "RSA",
-  "mode": "DecryptionPrimitive",
-  "revision": "1.0",
-  "isSample": true,
-  "conformances": []
-}

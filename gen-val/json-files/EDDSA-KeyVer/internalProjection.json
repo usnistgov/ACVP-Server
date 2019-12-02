@@ -1,0 +1,65 @@
+{
+  "vsId": 0,
+  "algorithm": "EDDSA",
+  "mode": "KeyVer",
+  "revision": "1.0",
+  "isSample": true,
+  "testGroups": [
+    {
+      "tgId": 1,
+      "curve": "ED-25519",
+      "testType": "AFT",
+      "tests": [
+        {
+          "tcId": 1,
+          "testPassed": false,
+          "reason": "point not on curve",
+          "d": "F2D9839F2DE360247D01E7B2D6E0CD1253A26C622435EEC95C81F0AEDB0EECD1",
+          "q": "0FF93A126E8F01E255B7F89168238AC5B09CDBC2DFC8B2A15911937EF19969DC"
+        },
+        {
+          "tcId": 2,
+          "testPassed": true,
+          "reason": "none",
+          "d": "218B2AFC0F157533317ED281CCE7A9470FC4780BBA080C508094D4FF6DDE7F54",
+          "q": "E113DE1046C589C9908B540AE4CF54F8F45078BA78C48F8F154270BE3402FC43"
+        },
+        {
+          "tcId": 3,
+          "testPassed": false,
+          "reason": "x or y out of range",
+          "d": "5879ECF30B0E782B0CA3A85E97E60FCB967955EC399037DDDC18307A99926D5F",
+          "q": "1F48B0977F3A7D2A15C313BB1AD9F9452E9F1FD7A945289AE2E7926918D9D8F4"
+        }
+      ]
+    },
+    {
+      "tgId": 2,
+      "curve": "ED-448",
+      "testType": "AFT",
+      "tests": [
+        {
+          "tcId": 4,
+          "testPassed": false,
+          "reason": "point not on curve",
+          "d": "19A3901D22BB02C137B273A71659C69D66921D008BC16DE15B1CA2C453D47DB9F3736051F51BCFAFD8B503F5B798E96023010FB754B2F47AF6",
+          "q": "7BF1A88C7F066B027B63210779956216A6AEE33CCAFA6B025C0B26EA8C16EB313F40EB6496603CA8FCAB7D1D29EE34D704D3C64693D3908500"
+        },
+        {
+          "tcId": 5,
+          "testPassed": false,
+          "reason": "x or y out of range",
+          "d": "DB573F5CB8D3E64FE762A7E2CCCE9EB73535CC22D554BA3E5348F0320D38E5D90550B7BB610ECE6073107D0DCA9DA668F7817EBDE453D09313",
+          "q": "24A9F2A72812F31DA219D2D68366FDF2713FBA87750C469BD19F9A05E5372C1FB974B6481E221F0FEB5C20DFBA90E43479A701AF67ACA5B781"
+        },
+        {
+          "tcId": 6,
+          "testPassed": true,
+          "reason": "none",
+          "d": "0CA5006C1A3FEE208555A26B411BDB419D531258F5039872F1DCE95F7E6638F41465EB21458397CFC4B8F14A3DD5F9E41C830EBC94B5E6F8C7",
+          "q": "0102259F38AEABED8924E9280EA544796DF8B9CEF4D1550A530258A5546C01170F7AFBB4137D370EE6C904CCCBBF2D248797CA7679140DF480"
+        }
+      ]
+    }
+  ]
+}

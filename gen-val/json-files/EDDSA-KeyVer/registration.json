@@ -1,0 +1,12 @@
+{
+  "vsId": 0,
+  "algorithm": "EDDSA",
+  "mode": "KeyVer",
+  "revision": "1.0",
+  "isSample": true,
+  "conformances": [],
+  "curve": [
+    "ED-25519",
+    "ED-448"
+  ]
+}

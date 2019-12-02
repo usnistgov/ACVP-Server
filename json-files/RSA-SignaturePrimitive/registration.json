@@ -1,9 +1,0 @@
-{
-  "vsId": 0,
-  "algorithm": "RSA",
-  "mode": "SignaturePrimitive",
-  "revision": "1.0",
-  "isSample": false,
-  "conformances": [],
-  "keyFormat": "standard"
-}
