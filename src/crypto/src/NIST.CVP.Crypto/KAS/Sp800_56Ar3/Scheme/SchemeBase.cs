@@ -1,3 +1,4 @@
+using System;
 using NIST.CVP.Crypto.Common.KAS;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Crypto.Common.KAS.FixedInfo;
@@ -11,7 +12,7 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.KAS.Sp800_56Ar3.Scheme
 {
-    public abstract class SchemeBase : IScheme
+    internal abstract class SchemeBase : IScheme
     {
         private readonly IFixedInfoFactory _fixedInfoFactory;
         private readonly FixedInfoParameter _fixedInfoParameter;
@@ -46,9 +47,6 @@ namespace NIST.CVP.Crypto.KAS.Sp800_56Ar3.Scheme
         {
             var z = ComputeSharedSecret(otherPartyKeyingMaterial);
 
-            var fixedInfo = GetFixedInfo(otherPartyKeyingMaterial);
-            var dkm = DeriveKey(otherPartyKeyingMaterial, z, fixedInfo);
-
             var keyingMaterialPartyU = SchemeParameters.KeyAgreementRole == KeyAgreementRole.InitiatorPartyU
                 ? ThisPartyKeyingMaterial
                 : otherPartyKeyingMaterial;
@@ -56,6 +54,14 @@ namespace NIST.CVP.Crypto.KAS.Sp800_56Ar3.Scheme
                 ? ThisPartyKeyingMaterial
                 : otherPartyKeyingMaterial;
             
+            if (_kdfParameter == null)
+            {
+                return new KeyAgreementResult(keyingMaterialPartyU, keyingMaterialPartyV, z);
+            }
+            
+            var fixedInfo = GetFixedInfo(otherPartyKeyingMaterial);
+            var dkm = DeriveKey(otherPartyKeyingMaterial, z, fixedInfo);
+
             if (_keyConfirmationFactory == null)
             {
                 return new KeyAgreementResult(keyingMaterialPartyU, keyingMaterialPartyV, z, fixedInfo, dkm);
@@ -84,7 +90,33 @@ namespace NIST.CVP.Crypto.KAS.Sp800_56Ar3.Scheme
         /// <param name="kdfParameter">The kdfParameter parameter in which to have its ephemeral data set.</param>
         /// <param name="otherPartyKeyingMaterial">The other party keying material.</param>
         /// <param name="z">The shared secret z.</param>
-        protected abstract void SetKdfEphemeralData(IKdfParameter kdfParameter, ISecretKeyingMaterial otherPartyKeyingMaterial, BitString z);
+        private void SetKdfEphemeralData(IKdfParameter kdfParameter, ISecretKeyingMaterial otherPartyKeyingMaterial, BitString z)
+        {
+            BitString initiatorData = null;
+            BitString responderData = null;
+
+            kdfParameter.Z = z;
+            
+            switch (SchemeParameters.KeyAgreementRole)
+            {
+                case KeyAgreementRole.InitiatorPartyU:
+                    initiatorData = GetEphemeralDataFromKeyContribution(
+                        ThisPartyKeyingMaterial, SchemeParameters.KeyAgreementRole);
+                    responderData = GetEphemeralDataFromKeyContribution(
+                        otherPartyKeyingMaterial, KeyGenerationRequirementsHelper.GetOtherPartyKeyAgreementRole(SchemeParameters.KeyAgreementRole));
+                    break;
+                case KeyAgreementRole.ResponderPartyV:
+                    initiatorData = GetEphemeralDataFromKeyContribution(
+                        otherPartyKeyingMaterial, KeyGenerationRequirementsHelper.GetOtherPartyKeyAgreementRole(SchemeParameters.KeyAgreementRole));
+                    responderData = GetEphemeralDataFromKeyContribution(
+                        ThisPartyKeyingMaterial, SchemeParameters.KeyAgreementRole);
+                    break;
+                default:
+                    throw new ArgumentException($"Invalid {nameof(SchemeParameters.KeyAgreementRole)}");
+            }
+
+            kdfParameter.SetEphemeralData(initiatorData, responderData);
+        }
 
         /// <summary>
         /// Derives a key using a KDF in conjunction with a shared secret Z, and <see cref="ISecretKeyingMaterial"/> from two parties.

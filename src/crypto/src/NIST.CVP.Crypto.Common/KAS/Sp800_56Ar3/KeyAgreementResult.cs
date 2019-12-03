@@ -38,6 +38,21 @@ namespace NIST.CVP.Crypto.Common.KAS.Sp800_56Ar3
         public BitString Tag { get; }
 
         /// <summary>
+        /// Construct the Result for KAS without a KDF or KeyConfirmation (component test)
+        /// </summary>
+        /// <param name="secretKeyingMaterialPartyU">The secret keying material for party U.</param>
+        /// <param name="secretKeyingMaterialPartyV">The secret keying material for party V.</param>
+        /// <param name="z">The shared secret.</param>
+        public KeyAgreementResult(ISecretKeyingMaterial secretKeyingMaterialPartyU, 
+            ISecretKeyingMaterial secretKeyingMaterialPartyV, 
+            BitString z)
+        {
+            SecretKeyingMaterialPartyU = secretKeyingMaterialPartyU;
+            SecretKeyingMaterialPartyV = secretKeyingMaterialPartyV;
+            Z = z;
+        }
+        
+        /// <summary>
         /// Construct the Result for KAS without KeyConfirmation
         /// </summary>
         /// <param name="secretKeyingMaterialPartyU">The secret keying material for party U.</param>
@@ -50,11 +65,8 @@ namespace NIST.CVP.Crypto.Common.KAS.Sp800_56Ar3
             ISecretKeyingMaterial secretKeyingMaterialPartyV, 
             BitString z, 
             BitString fixedInfo, 
-            BitString dkm)
+            BitString dkm) : this(secretKeyingMaterialPartyU, secretKeyingMaterialPartyV, z)
         {
-            SecretKeyingMaterialPartyU = secretKeyingMaterialPartyU;
-            SecretKeyingMaterialPartyV = secretKeyingMaterialPartyV;
-            Z = z;
             FixedInfo = fixedInfo;
             Dkm = dkm;
         }

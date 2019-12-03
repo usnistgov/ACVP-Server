@@ -1,5 +1,7 @@
 using System;
 using System.Linq;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Crypto.Common.KAS.FixedInfo;
 using NIST.CVP.Crypto.Common.KAS.KC;
@@ -7,6 +9,10 @@ using NIST.CVP.Crypto.Common.KAS.KDF;
 using NIST.CVP.Crypto.Common.KAS.Scheme;
 using NIST.CVP.Crypto.Common.KAS.Sp800_56Ar3;
 using NIST.CVP.Crypto.Common.KAS.Sp800_56Ar3.Builders;
+using NIST.CVP.Crypto.Common.KAS.Sp800_56Ar3.Enums;
+using NIST.CVP.Crypto.Common.KES;
+using NIST.CVP.Crypto.KAS.Sp800_56Ar3.Scheme.Ecc;
+using NIST.CVP.Crypto.KAS.Sp800_56Ar3.Scheme.Ffc;
 
 namespace NIST.CVP.Crypto.KAS.Sp800_56Ar3.Builders
 {
@@ -16,11 +22,30 @@ namespace NIST.CVP.Crypto.KAS.Sp800_56Ar3.Builders
         private ISecretKeyingMaterial _thisPartyKeyingMaterial;
         private IFixedInfoFactory _fixedInfoFactory;
         private FixedInfoParameter _fixedInfoParameter;
-        private IKdfFactory _kdfFactory;
         private IKdfParameter _kdfParameter;
         private IKeyConfirmationFactory _keyConfirmationFactory;
         private MacParameters _keyConfirmationParameter;
+        
+        private readonly IKdfVisitor _kdfVisitor;
+        private readonly IDiffieHellman<EccDomainParameters, EccKeyPair> _eccDh;
+        private readonly IDiffieHellman<FfcDomainParameters, FfcKeyPair> _ffcDh;
+        private readonly IMqv<EccDomainParameters, EccKeyPair> _eccMqv;
+        private readonly IMqv<FfcDomainParameters, FfcKeyPair> _ffcMqv;
 
+        public SchemeBuilder(
+            IKdfVisitor kdfVisitor,
+            IDiffieHellman<EccDomainParameters, EccKeyPair> eccDh,
+            IDiffieHellman<FfcDomainParameters, FfcKeyPair> ffcDh,
+            IMqv<EccDomainParameters, EccKeyPair> eccMqv,
+            IMqv<FfcDomainParameters, FfcKeyPair> ffcMqv)
+        {
+            _kdfVisitor = kdfVisitor;
+            _eccDh = eccDh;
+            _ffcDh = ffcDh;
+            _eccMqv = eccMqv;
+            _ffcMqv = ffcMqv;
+        }
+        
         public ISchemeBuilder WithSchemeParameters(SchemeParameters value)
         {
             _schemeParameters = value;
@@ -40,9 +65,8 @@ namespace NIST.CVP.Crypto.KAS.Sp800_56Ar3.Builders
             return this;
         }
 
-        public ISchemeBuilder WithKdf(IKdfFactory factory, IKdfParameter parameter)
+        public ISchemeBuilder WithKdf(IKdfParameter parameter)
         {
-            _kdfFactory = factory;
             _kdfParameter = parameter;
             return this;
         }
@@ -62,8 +86,72 @@ namespace NIST.CVP.Crypto.KAS.Sp800_56Ar3.Builders
             ValidateKdf();
             ValidateKeyConfirmation();
             ValidateConsistentUnderlyingAlgorithm();
-            
-            throw new NotImplementedException();
+
+            IScheme scheme = null;
+            switch (_schemeParameters.KasAlgoAttributes.KasScheme)
+            {
+                case KasScheme.FfcDhEphem:
+                    return new SchemeFfcDiffieHellmanEphemeral(_schemeParameters, _thisPartyKeyingMaterial, _fixedInfoFactory,
+                        _fixedInfoParameter, _kdfVisitor, _kdfParameter, _keyConfirmationFactory,
+                        _keyConfirmationParameter, _ffcDh);
+                case KasScheme.FfcDhHybrid1:
+                    return new SchemeFfcDhHybrid1(_schemeParameters, _thisPartyKeyingMaterial, _fixedInfoFactory,
+                        _fixedInfoParameter, _kdfVisitor, _kdfParameter, _keyConfirmationFactory,
+                        _keyConfirmationParameter, _ffcDh);
+                case KasScheme.FfcDhHybridOneFlow:
+                    return new SchemeFfcDhHybridOneFlow(_schemeParameters, _thisPartyKeyingMaterial, _fixedInfoFactory,
+                        _fixedInfoParameter, _kdfVisitor, _kdfParameter, _keyConfirmationFactory,
+                        _keyConfirmationParameter, _ffcDh);
+                case KasScheme.FfcDhOneFlow:
+                    return new SchemeFfcDhOneFlow(_schemeParameters, _thisPartyKeyingMaterial, _fixedInfoFactory,
+                        _fixedInfoParameter, _kdfVisitor, _kdfParameter, _keyConfirmationFactory,
+                        _keyConfirmationParameter, _ffcDh);
+                case KasScheme.FfcMqv1:
+                    return new SchemeFfcMqv1(_schemeParameters, _thisPartyKeyingMaterial, _fixedInfoFactory,
+                        _fixedInfoParameter, _kdfVisitor, _kdfParameter, _keyConfirmationFactory,
+                        _keyConfirmationParameter, _ffcMqv);
+                case KasScheme.FfcMqv2:
+                    return new SchemeFfcMqv2(_schemeParameters, _thisPartyKeyingMaterial, _fixedInfoFactory,
+                        _fixedInfoParameter, _kdfVisitor, _kdfParameter, _keyConfirmationFactory,
+                        _keyConfirmationParameter, _ffcMqv);
+                case KasScheme.FfcDhStatic:
+                    return new SchemeFfcDhStatic(_schemeParameters, _thisPartyKeyingMaterial, _fixedInfoFactory,
+                        _fixedInfoParameter, _kdfVisitor, _kdfParameter, _keyConfirmationFactory,
+                        _keyConfirmationParameter, _ffcDh);
+                
+                
+                case KasScheme.EccEphemeralUnified:
+                    return new SchemeEccEphemeralUnified(_schemeParameters, _thisPartyKeyingMaterial, _fixedInfoFactory,
+                        _fixedInfoParameter, _kdfVisitor, _kdfParameter, _keyConfirmationFactory,
+                        _keyConfirmationParameter, _eccDh);
+                case KasScheme.EccFullMqv:
+                    return new SchemeEccFullMqv(_schemeParameters, _thisPartyKeyingMaterial, _fixedInfoFactory,
+                        _fixedInfoParameter, _kdfVisitor, _kdfParameter, _keyConfirmationFactory,
+                        _keyConfirmationParameter, _eccMqv);
+                case KasScheme.EccFullUnified:
+                    return new SchemeEccFullUnified(_schemeParameters, _thisPartyKeyingMaterial, _fixedInfoFactory,
+                        _fixedInfoParameter, _kdfVisitor, _kdfParameter, _keyConfirmationFactory,
+                        _keyConfirmationParameter, _eccDh);
+                case KasScheme.EccOnePassDh:
+                    return new SchemeEccOnePassDh(_schemeParameters, _thisPartyKeyingMaterial, _fixedInfoFactory,
+                        _fixedInfoParameter, _kdfVisitor, _kdfParameter, _keyConfirmationFactory,
+                        _keyConfirmationParameter, _eccDh);
+                case KasScheme.EccOnePassMqv:
+                    return new SchemeEccOnePassMqv(_schemeParameters, _thisPartyKeyingMaterial, _fixedInfoFactory,
+                        _fixedInfoParameter, _kdfVisitor, _kdfParameter, _keyConfirmationFactory,
+                        _keyConfirmationParameter, _eccMqv);
+                case KasScheme.EccOnePassUnified:
+                    return new SchemeEccOnePassUnified(_schemeParameters, _thisPartyKeyingMaterial, _fixedInfoFactory,
+                        _fixedInfoParameter, _kdfVisitor, _kdfParameter, _keyConfirmationFactory,
+                        _keyConfirmationParameter, _eccDh);
+                case KasScheme.EccStaticUnified:
+                    return new SchemeEccStaticUnified(_schemeParameters, _thisPartyKeyingMaterial, _fixedInfoFactory,
+                        _fixedInfoParameter, _kdfVisitor, _kdfParameter, _keyConfirmationFactory,
+                        _keyConfirmationParameter, _eccDh);
+                
+                default:
+                    throw new ArgumentException("Invalid scheme provided to builder.");
+            }
         }
 
         private void ValidateSchemeParameters()
@@ -93,7 +181,7 @@ namespace NIST.CVP.Crypto.KAS.Sp800_56Ar3.Builders
         {
             if (new[] {KasMode.KdfKc, KasMode.KdfNoKc}.Contains(_schemeParameters.KasMode))
             {
-                if (_kdfFactory == null || _kdfParameter == null)
+                if (_kdfParameter == null)
                 {
                     throw new ArgumentException("KAS configuration specified KDF, but KDF information was not provided to the builder.");
                 }
