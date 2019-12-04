@@ -8,6 +8,7 @@ namespace NIST.CVP.Crypto.Common.KAS.Builders
     {
         MacParameters Build();
         IMacParametersBuilder WithKeyAgreementMacType(KeyAgreementMacType value);
+        IMacParametersBuilder WithKeyLength(int value);
         IMacParametersBuilder WithMacLength(int value);
         IMacParametersBuilder WithNonce(BitString value);
     }

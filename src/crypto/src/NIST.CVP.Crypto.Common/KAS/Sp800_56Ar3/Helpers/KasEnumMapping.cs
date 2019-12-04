@@ -12,7 +12,7 @@ namespace NIST.CVP.Crypto.Common.KAS.Sp800_56Ar3.Helpers
         public static Dictionary<EccScheme, KasScheme> EccMap = new Dictionary<EccScheme, KasScheme>()
         {
             {EccScheme.EphemeralUnified, KasScheme.EccEphemeralUnified},
-            {EccScheme.FullMqv, KasScheme.FfcMqv1},
+            {EccScheme.FullMqv, KasScheme.EccFullMqv},
             {EccScheme.FullUnified, KasScheme.EccFullUnified},
             {EccScheme.StaticUnified, KasScheme.EccStaticUnified},
             {EccScheme.OnePassDh, KasScheme.EccOnePassDh},
