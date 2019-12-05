@@ -87,7 +87,6 @@ namespace NIST.CVP.Crypto.KAS.Sp800_56Ar3.Builders
             ValidateKeyConfirmation();
             ValidateConsistentUnderlyingAlgorithm();
 
-            IScheme scheme = null;
             switch (_schemeParameters.KasAlgoAttributes.KasScheme)
             {
                 case KasScheme.FfcDhEphem:
