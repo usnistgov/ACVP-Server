@@ -12,15 +12,9 @@ namespace NIST.CVP.TaskQueueProcessor.Providers
         // TODO Should this be made static with locks on the DB ? 
         private readonly SqlConnection _sql;
         private readonly TaskRetriever _taskRetriever = new TaskRetriever();
-        private readonly string _poolUrl;
-        private readonly int _poolPort;
-        private readonly bool _allowPoolSpawn;
 
-        public DbProvider(string connectionString, string poolUrl, int poolPort, bool allowPoolSpawn)
+        public DbProvider(string connectionString)
         {
-            _poolUrl = poolUrl;
-            _poolPort = poolPort;
-            _allowPoolSpawn = allowPoolSpawn;
             Console.WriteLine($"Connecting to database with connectionString: {connectionString}");
 
             try
@@ -54,7 +48,9 @@ namespace NIST.CVP.TaskQueueProcessor.Providers
             else
             {
                 // If there is no row returned, then there is no data to process, do pool stuff
-                task = new PoolTask(new PoolProvider(_poolUrl, _poolPort), _allowPoolSpawn); // TODO these should be removed from being parameters and into DI
+                reader.Close();
+                _sql.Close();
+                return null;
             }
 
             reader.Close();
@@ -68,7 +64,7 @@ namespace NIST.CVP.TaskQueueProcessor.Providers
                     GetResponseData(validationTask);
                     break;
             }
-            
+
             _sql.Close();
             return task;
         }

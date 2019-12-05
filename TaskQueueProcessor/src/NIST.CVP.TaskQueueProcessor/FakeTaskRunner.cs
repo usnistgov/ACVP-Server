@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 
 namespace NIST.CVP.TaskQueueProcessor
 {
-    public class FakeTaskRunner
+    public class TaskRunner : ITaskRunner
     {
         public async Task<int> RunTask(ITask task)
         {
