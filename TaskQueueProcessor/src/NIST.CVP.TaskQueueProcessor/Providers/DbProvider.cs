@@ -2,6 +2,8 @@ using System;
 using System.Data;
 using System.Data.SqlClient;
 using System.Text;
+using Microsoft.Extensions.Options;
+using NIST.CVP.Common.Config;
 using NIST.CVP.TaskQueueProcessor.Constants;
 using NIST.CVP.TaskQueueProcessor.TaskModels;
 
@@ -11,10 +13,17 @@ namespace NIST.CVP.TaskQueueProcessor.Providers
     {
         // TODO Should this be made static with locks on the DB ? 
         private readonly SqlConnection _sql;
-        private readonly TaskRetriever _taskRetriever = new TaskRetriever();
+        private readonly ITaskRetriever _taskRetriever;
 
-        public DbProvider(string connectionString)
+//        public DbProvider(IOptions<EnvironmentConfig> environmentConfig, ITaskRetriever taskRetriever)
+//        {
+//            _taskRetriever = taskRetriever;
+//            
+//        }
+        
+        public DbProvider(ITaskRetriever taskRetriever, string connectionString)
         {
+            _taskRetriever = taskRetriever;
             Console.WriteLine($"Connecting to database with connectionString: {connectionString}");
 
             try
@@ -69,7 +78,7 @@ namespace NIST.CVP.TaskQueueProcessor.Providers
             return task;
         }
 
-        public void DeleteCompletedTask(int taskId)
+        public void DeleteCompletedTask(long taskId)
         {
             _sql.Open();
 
@@ -115,7 +124,7 @@ namespace NIST.CVP.TaskQueueProcessor.Providers
                 CommandText = StoredProcedures.GET_CAPABILITIES,
                 CommandType = CommandType.StoredProcedure,
                 Connection = _sql,
-                Parameters = { "vsId", task.VsId }
+                Parameters = { new SqlParameter("vsId", task.VsId) }
             };
             
             var reader = getCapabilities.ExecuteReader();
@@ -126,7 +135,7 @@ namespace NIST.CVP.TaskQueueProcessor.Providers
             }
             else
             {
-                throw new Exception("Capabilities could not be found");
+                throw new Exception($"Capabilities could not be found for vsId: {task.VsId}");
             }
 
             reader.Close();
@@ -139,7 +148,7 @@ namespace NIST.CVP.TaskQueueProcessor.Providers
                 CommandText = StoredProcedures.GET_SUBMITTED,
                 CommandType = CommandType.StoredProcedure,
                 Connection = _sql,
-                Parameters = { "vsId", task.VsId }
+                Parameters = { new SqlParameter("vsId", task.VsId) }
             };
             
             var reader = getResponseData.ExecuteReader();
@@ -151,7 +160,7 @@ namespace NIST.CVP.TaskQueueProcessor.Providers
             }
             else
             {
-                throw new Exception("Response data could not be found");
+                throw new Exception($"Response data could not be found for vsId: {task.VsId}");
             }
 
             reader.Close();

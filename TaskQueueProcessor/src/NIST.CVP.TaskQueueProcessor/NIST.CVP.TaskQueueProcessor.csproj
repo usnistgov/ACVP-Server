@@ -12,7 +12,24 @@
         <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
         <PackageReference Include="System.ServiceProcess.ServiceController" Version="4.7.0-preview3.19551.4" />
         <PackageReference Include="Microsoft.Extensions.Hosting" Version="3.1.0-preview3.19553.2" />
-        <PackageReference Include="System.Data.SqlClient" Version="4.6.0" />
+        <PackageReference Include="System.Data.SqlClient" Version="4.7.0" />
+        <PackageReference Include="Microsoft.Orleans.Core.Abstractions" Version="3.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\gen-val\src\generation\src\NIST.CVP.Generation.Core\NIST.CVP.Generation.Core.csproj" />
+      <ProjectReference Include="..\..\..\gen-val\src\generation\src\NIST.CVP.Generation\NIST.CVP.Generation.csproj" />
+    </ItemGroup>
+
+    <!-- App settings linking -->
+    <ItemGroup>
+        <Content Include="..\..\..\gen-val\src\_appsettings\appsettings.json" Link="appsettings.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+        <Content Include="..\..\..\gen-val\src\_appsettings\appsettings.local.json" Link="appsettings.local.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+        <Content Include="..\..\..\gen-val\src\_appsettings\appsettings.tc.json" Link="appsettings.tc.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+        <Content Include="..\..\..\gen-val\src\_appsettings\appsettings.dev.json" Link="appsettings.dev.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+        <Content Include="..\..\..\gen-val\src\_appsettings\appsettings.test.json" Link="appsettings.test.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+        <Content Include="..\..\..\gen-val\src\_appsettings\appsettings.demo.json" Link="appsettings.demo.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+        <Content Include="..\..\..\gen-val\src\_appsettings\appsettings.prod.json" Link="appsettings.prod.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
     </ItemGroup>
     
 </Project>

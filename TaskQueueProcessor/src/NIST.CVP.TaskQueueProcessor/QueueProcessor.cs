@@ -13,24 +13,14 @@ namespace NIST.CVP.TaskQueueProcessor
     {
         private const int POLL_DELAY = 5;
         private const int CONCURRENT_TASK_LIMIT = 4;
-        private const string CONNECTION_STRING = "Server=localhost;Database=Acvp;User=SA;Password=Password123;";
-        private const bool ALLOW_POOL_SPAWN = true;
-        private const string POOL_URL = "localhost";
-        private const int POOL_PORT = 5002;
+        private const bool ALLOW_POOL_SPAWN = false;
 
         private Timer _timer;
-        private readonly Dictionary<int, Task> _tasks = new Dictionary<int, Task>();    // TODO how big is SQL BIGINT ? 
+        private readonly Dictionary<long, Task> _tasks = new Dictionary<long, Task>();
         private readonly List<Task> _poolTasks = new List<Task>();
         private readonly ITaskRunner _taskRunner;
         private readonly IDbProvider _dbProvider;
         private readonly IPoolProvider _poolProvider;
-
-        public QueueProcessor()
-        {
-            _taskRunner = new TaskRunner();
-            _dbProvider = new DbProvider(CONNECTION_STRING);
-            _poolProvider = new PoolProvider(POOL_URL, POOL_PORT);
-        }
 
         public QueueProcessor(ITaskRunner taskRunner, IDbProvider dbProvider, IPoolProvider poolProvider)
         {
