@@ -1,0 +1,21 @@
+{
+  "vsId": 0,
+  "algorithm": "SHAKE",
+  "revision": "1.0",
+  "isSample": true,
+  "conformances": [],
+  "digestSize": [
+    128,
+    256
+  ],
+  "inBit": true,
+  "outBit": true,
+  "inEmpty": true,
+  "outputLength": [
+    {
+      "min": 128,
+      "max": 4096,
+      "increment": 1
+    }
+  ]
+}

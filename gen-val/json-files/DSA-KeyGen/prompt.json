@@ -1,0 +1,122 @@
+{
+  "vsId": 0,
+  "algorithm": "DSA",
+  "mode": "KeyGen",
+  "isSample": true,
+  "testGroups": [
+    {
+      "tgId": 1,
+      "testType": "AFT",
+      "tests": [
+        {
+          "tcId": 1
+        },
+        {
+          "tcId": 2
+        },
+        {
+          "tcId": 3
+        },
+        {
+          "tcId": 4
+        },
+        {
+          "tcId": 5
+        },
+        {
+          "tcId": 6
+        },
+        {
+          "tcId": 7
+        },
+        {
+          "tcId": 8
+        },
+        {
+          "tcId": 9
+        },
+        {
+          "tcId": 10
+        }
+      ],
+      "l": 2048,
+      "n": 224
+    },
+    {
+      "tgId": 2,
+      "testType": "AFT",
+      "tests": [
+        {
+          "tcId": 11
+        },
+        {
+          "tcId": 12
+        },
+        {
+          "tcId": 13
+        },
+        {
+          "tcId": 14
+        },
+        {
+          "tcId": 15
+        },
+        {
+          "tcId": 16
+        },
+        {
+          "tcId": 17
+        },
+        {
+          "tcId": 18
+        },
+        {
+          "tcId": 19
+        },
+        {
+          "tcId": 20
+        }
+      ],
+      "l": 2048,
+      "n": 256
+    },
+    {
+      "tgId": 3,
+      "testType": "AFT",
+      "tests": [
+        {
+          "tcId": 21
+        },
+        {
+          "tcId": 22
+        },
+        {
+          "tcId": 23
+        },
+        {
+          "tcId": 24
+        },
+        {
+          "tcId": 25
+        },
+        {
+          "tcId": 26
+        },
+        {
+          "tcId": 27
+        },
+        {
+          "tcId": 28
+        },
+        {
+          "tcId": 29
+        },
+        {
+          "tcId": 30
+        }
+      ],
+      "l": 3072,
+      "n": 256
+    }
+  ]
+}

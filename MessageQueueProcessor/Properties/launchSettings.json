@@ -1,0 +1,10 @@
+﻿{
+  "profiles": {
+    "MessageQueueProcessor": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}

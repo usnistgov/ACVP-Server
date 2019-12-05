@@ -1,0 +1,17 @@
+[
+  {
+    "PoolType": {
+      "type": "aes",
+      "parameters": {
+        "Mode": 0,
+        "KeyLength": 128,
+        "DataLength": 128,
+        "Direction": "encrypt"
+      }
+    },
+    "PoolName": "aes-test1.json",
+    "MaxCapacity": 10,
+    "MinCapacity": 0,
+    "RecycleRatePerHundred": 0.0
+  }
+]
