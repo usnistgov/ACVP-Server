@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
 using NIST.CVP.TaskQueueProcessor.Providers;
+using NIST.CVP.TaskQueueProcessor.TaskModels;
 
 namespace NIST.CVP.TaskQueueProcessor
 {
@@ -19,19 +20,23 @@ namespace NIST.CVP.TaskQueueProcessor
 
         private Timer _timer;
         private readonly Dictionary<int, Task> _tasks = new Dictionary<int, Task>();    // TODO how big is SQL BIGINT ? 
-        private readonly FakeTaskRunner _taskRunner;
+        private readonly List<Task> _poolTasks = new List<Task>();
+        private readonly ITaskRunner _taskRunner;
         private readonly IDbProvider _dbProvider;
+        private readonly IPoolProvider _poolProvider;
 
         public QueueProcessor()
         {
-            _taskRunner = new FakeTaskRunner();
-            _dbProvider = new DbProvider(CONNECTION_STRING, POOL_URL, POOL_PORT, ALLOW_POOL_SPAWN);
+            _taskRunner = new TaskRunner();
+            _dbProvider = new DbProvider(CONNECTION_STRING);
+            _poolProvider = new PoolProvider(POOL_URL, POOL_PORT);
         }
 
-        public QueueProcessor(IDbProvider dbProvider)
+        public QueueProcessor(ITaskRunner taskRunner, IDbProvider dbProvider, IPoolProvider poolProvider)
         {
-            _taskRunner = new FakeTaskRunner();
+            _taskRunner = taskRunner;
             _dbProvider = dbProvider;
+            _poolProvider = poolProvider;
         }
         
         public Task StartAsync(CancellationToken cancellationToken)
@@ -52,7 +57,7 @@ namespace NIST.CVP.TaskQueueProcessor
 
             // Started but incomplete jobs are marked in the table in the db as un-started to be picked up on run
             Console.WriteLine("Stopping");
-            _dbProvider.RestartTasks();
+            _dbProvider.MarkTasksForRestart();
             Console.WriteLine("Tasks saved");
             
             return Task.CompletedTask;
@@ -68,7 +73,8 @@ namespace NIST.CVP.TaskQueueProcessor
         {
             try
             {
-                for (var i = 0; i < CONCURRENT_TASK_LIMIT; i++)
+                var taskCount = _tasks.Count;
+                for (var i = 0; i < taskCount; i++)
                 {
                     // Find any finished task and remove it from the dict, and remove its ID from the DB (if successful)
                     var finished = await Task.WhenAny(_tasks.Values);
@@ -97,12 +103,34 @@ namespace NIST.CVP.TaskQueueProcessor
                 Console.WriteLine(ex);
             }
         }
+
+        private async void CleanPoolTasks()
+        {
+            try
+            {
+                var poolCount = _poolTasks.Count;
+                for (var i = 0; i < poolCount; i++)
+                {
+                    var finished = await Task.WhenAny(_poolTasks);
+                    _poolTasks.Remove(finished);
+                }
+            }
+            catch (ArgumentException)
+            {
+                // No pools being processed at the moment
+            }
+        }
         
         private void PollForTask()
         {
             CleanTasks();
+
+            if (ALLOW_POOL_SPAWN)
+            {
+                CleanPoolTasks();
+            }
             
-            var tasksAvailable = CONCURRENT_TASK_LIMIT - _tasks.Count;
+            var tasksAvailable = CONCURRENT_TASK_LIMIT - _tasks.Count - _poolTasks.Count;
             if (tasksAvailable <= 0)
             {
                 return;
@@ -112,7 +140,20 @@ namespace NIST.CVP.TaskQueueProcessor
             while (tasksAvailable > 0)
             {
                 var nextTask = _dbProvider.GetNextTask();
-                _tasks.Add(nextTask.DbId, _taskRunner.RunTask(nextTask));
+
+                if (nextTask != null)
+                {
+                    _tasks.Add(nextTask.DbId, _taskRunner.RunTask(nextTask));
+                }
+                else
+                {
+                    if (ALLOW_POOL_SPAWN)
+                    {
+                        var poolTask = new PoolTask(_poolProvider);
+                        _poolTasks.Add(_taskRunner.RunTask(poolTask));    
+                    }
+                }
+                
                 tasksAvailable--;
             }
         }

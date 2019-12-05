@@ -4,6 +4,6 @@ namespace NIST.CVP.TaskQueueProcessor.Providers
     {
         ITask GetNextTask();
         void DeleteCompletedTask(int taskId);
-        void RestartTasks();
+        void MarkTasksForRestart();
     }
 }

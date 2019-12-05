@@ -9,7 +9,7 @@ namespace NIST.CVP.TaskQueueProcessor.TaskModels
     {
         public ExecutableTask GetTaskFromRow(SqlDataReader reader)
         {
-            var dbId = reader.GetInt32(0);
+            var dbId = reader.GetInt32(0);    // TODO verify type here? Is this a BIGINT? Long?
             var operation = reader.GetString(1).ToLower();
             var vsIdSampleJson = reader.GetString(2).ToLower();
 

@@ -25,11 +25,19 @@ namespace NIST.CVP.TaskQueueProcessor.Providers
             };
             
             var client = new HttpClient();
-            var response = client.GetAsync(uriBuilder.Uri);
 
-            if (!response.Result.IsSuccessStatusCode)
+            try
             {
-                throw new Exception($"Unable to complete request to PoolApi at {_uri}:{_port} with error {response.Result.StatusCode}"); 
+                var response = client.GetAsync(uriBuilder.Uri);
+
+                if (!response.Result.IsSuccessStatusCode)
+                {
+                    throw new Exception($"Unable to complete request to PoolApi at {_uri}:{_port} with error {response.Result.StatusCode}");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
             }
         }
     }
