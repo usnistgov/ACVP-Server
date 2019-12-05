@@ -52,7 +52,7 @@ namespace NIST.CVP.TaskQueueProcessor
 
             // Started but incomplete jobs are marked in the table in the db as un-started to be picked up on run
             Console.WriteLine("Stopping");
-            _dbProvider.RestartTasks();
+            _dbProvider.MarkTasksForRestart();
             Console.WriteLine("Tasks saved");
             
             return Task.CompletedTask;

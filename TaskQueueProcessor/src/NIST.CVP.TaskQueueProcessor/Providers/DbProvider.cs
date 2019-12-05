@@ -96,7 +96,7 @@ namespace NIST.CVP.TaskQueueProcessor.Providers
             _sql.Close();
         }
 
-        public void RestartTasks()
+        public void MarkTasksForRestart()
         {
             _sql.Open();
 
