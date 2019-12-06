@@ -10,7 +10,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Orleans.Core.Abstractions" Version="$(NugetVersionMicrosoftOrleansCoreAbstractions)" />
-    <PackageReference Include="Microsoft.Orleans.OrleansCodeGenerator.Build" Version="$(NugetVersionMicrosoftOrleansOrleansCodeGeneratorBuild)" />
+    <PackageReference Include="Microsoft.Orleans.CodeGenerator.MSBuild" Version="$(NugetVersionMicrosoftOrleansOrleansCodeGeneratorBuild)" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="$(NuGetVersionMicrosoftNETTestSdk)" />
   </ItemGroup>
   
