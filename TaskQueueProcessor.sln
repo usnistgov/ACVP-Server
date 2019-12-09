@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{AF1DAE3D-65BB-47F5-B397-95CA4606FC1A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{A0FF3522-18C4-4219-95A7-DB4882EE13E6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.TaskQueueProcessor", "TaskQueueProcessor\src\NIST.CVP.TaskQueueProcessor\NIST.CVP.TaskQueueProcessor.csproj", "{B324BED5-D48B-40EB-AE85-EFE0E5D26C98}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.TaskQueueProcessor.Tests", "TaskQueueProcessor\test\NIST.CVP.TaskQueueProcessor.Tests\NIST.CVP.TaskQueueProcessor.Tests.csproj", "{C635424F-F262-45CE-B09A-04737124A785}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B324BED5-D48B-40EB-AE85-EFE0E5D26C98} = {AF1DAE3D-65BB-47F5-B397-95CA4606FC1A}
+		{C635424F-F262-45CE-B09A-04737124A785} = {A0FF3522-18C4-4219-95A7-DB4882EE13E6}
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B324BED5-D48B-40EB-AE85-EFE0E5D26C98}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B324BED5-D48B-40EB-AE85-EFE0E5D26C98}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B324BED5-D48B-40EB-AE85-EFE0E5D26C98}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B324BED5-D48B-40EB-AE85-EFE0E5D26C98}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C635424F-F262-45CE-B09A-04737124A785}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C635424F-F262-45CE-B09A-04737124A785}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C635424F-F262-45CE-B09A-04737124A785}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C635424F-F262-45CE-B09A-04737124A785}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,43 @@
+{
+  "vsId": 0,
+  "algorithm": "EDDSA",
+  "mode": "KeyVer",
+  "revision": "1.0",
+  "isSample": true,
+  "testGroups": [
+    {
+      "tgId": 1,
+      "tests": [
+        {
+          "tcId": 1,
+          "testPassed": false
+        },
+        {
+          "tcId": 2,
+          "testPassed": true
+        },
+        {
+          "tcId": 3,
+          "testPassed": false
+        }
+      ]
+    },
+    {
+      "tgId": 2,
+      "tests": [
+        {
+          "tcId": 4,
+          "testPassed": false
+        },
+        {
+          "tcId": 5,
+          "testPassed": false
+        },
+        {
+          "tcId": 6,
+          "testPassed": true
+        }
+      ]
+    }
+  ]
+}
