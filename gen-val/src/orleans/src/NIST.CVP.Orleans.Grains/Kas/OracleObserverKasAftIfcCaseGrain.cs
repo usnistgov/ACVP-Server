@@ -1,7 +1,9 @@
 using System.Threading.Tasks;
 using NIST.CVP.Common;
 using NIST.CVP.Common.Oracle.ParameterTypes;
+using NIST.CVP.Common.Oracle.ParameterTypes.Kas.Sp800_56Br2;
 using NIST.CVP.Common.Oracle.ResultTypes;
+using NIST.CVP.Common.Oracle.ResultTypes.Kas.Sp800_56Br2;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys;
 using NIST.CVP.Crypto.Common.KAS.Builders;
 using NIST.CVP.Crypto.Common.KAS.Enums;

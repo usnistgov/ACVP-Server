@@ -8,11 +8,32 @@ using NIST.CVP.Math;
 using NIST.CVP.Orleans.Grains.Interfaces.Kas;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using NIST.CVP.Common.Oracle.ParameterTypes.Kas.Sp800_56Ar1;
+using NIST.CVP.Common.Oracle.ParameterTypes.Kas.Sp800_56Ar3;
+using NIST.CVP.Common.Oracle.ParameterTypes.Kas.Sp800_56Br2;
+using NIST.CVP.Common.Oracle.ResultTypes.Kas.Sp800_56Ar1;
+using NIST.CVP.Common.Oracle.ResultTypes.Kas.Sp800_56Ar3;
+using NIST.CVP.Common.Oracle.ResultTypes.Kas.Sp800_56Br2;
 
 namespace NIST.CVP.Crypto.Oracle
 {
     public partial class Oracle
     {
+        public Task<KasValResult> GetKasValTestAsync(KasValParameters param)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task<KasAftResult> GetKasAftTestAsync(KasAftParameters param)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task<KasAftDeferredResult> CompleteDeferredKasTestAsync(KasAftDeferredParameters param)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public async Task<KasValResultEcc> GetKasValTestEccAsync(KasValParametersEcc param)
         {
             var observableGrain =

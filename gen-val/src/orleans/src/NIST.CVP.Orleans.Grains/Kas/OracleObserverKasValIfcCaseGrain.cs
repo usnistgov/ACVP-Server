@@ -23,6 +23,8 @@ using NIST.CVP.Orleans.Grains.Interfaces.Kas;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using NIST.CVP.Common.Oracle.ParameterTypes.Kas.Sp800_56Br2;
+using NIST.CVP.Common.Oracle.ResultTypes.Kas.Sp800_56Br2;
 
 namespace NIST.CVP.Orleans.Grains.Kas
 {

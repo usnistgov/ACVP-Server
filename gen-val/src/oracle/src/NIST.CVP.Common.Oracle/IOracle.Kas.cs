@@ -1,11 +1,19 @@
-﻿using NIST.CVP.Common.Oracle.ParameterTypes;
-using NIST.CVP.Common.Oracle.ResultTypes;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using NIST.CVP.Common.Oracle.ParameterTypes.Kas.Sp800_56Ar1;
+using NIST.CVP.Common.Oracle.ParameterTypes.Kas.Sp800_56Ar3;
+using NIST.CVP.Common.Oracle.ParameterTypes.Kas.Sp800_56Br2;
+using NIST.CVP.Common.Oracle.ResultTypes.Kas.Sp800_56Ar1;
+using NIST.CVP.Common.Oracle.ResultTypes.Kas.Sp800_56Ar3;
+using NIST.CVP.Common.Oracle.ResultTypes.Kas.Sp800_56Br2;
 
 namespace NIST.CVP.Common.Oracle
 {
     public partial interface IOracle
     {
+        Task<KasValResult> GetKasValTestAsync(KasValParameters param);
+        Task<KasAftResult> GetKasAftTestAsync(KasAftParameters param);
+        Task<KasAftDeferredResult> CompleteDeferredKasTestAsync(KasAftDeferredParameters param);
+    
         Task<KasValResultEcc> GetKasValTestEccAsync(KasValParametersEcc param);
         Task<KasAftResultEcc> GetKasAftTestEccAsync(KasAftParametersEcc param);
         Task<KasAftDeferredResult> CompleteDeferredKasTestAsync(KasAftDeferredParametersEcc param);

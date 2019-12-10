@@ -102,6 +102,8 @@ using System;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using NIST.CVP.Common.Oracle.ParameterTypes.Kas.Sp800_56Ar1;
+using NIST.CVP.Common.Oracle.ResultTypes.Kas.Sp800_56Ar1;
 using NIST.CVP.Crypto.AES_FF;
 using NIST.CVP.Crypto.Common.KAS.FixedInfo;
 using NIST.CVP.Crypto.Common.KAS.KDF.KdfOneStep;
