@@ -95,8 +95,6 @@ using NIST.CVP.Math.Entropy;
 using NIST.CVP.Orleans.Grains.Aead;
 using NIST.CVP.Orleans.Grains.Eddsa;
 using NIST.CVP.Orleans.Grains.Kas;
-using NIST.CVP.Orleans.Grains.Kas.Ecc;
-using NIST.CVP.Orleans.Grains.Kas.Ffc;
 using NIST.CVP.Orleans.Grains.Rsa;
 using System;
 using System.Linq;
@@ -116,6 +114,9 @@ using NIST.CVP.Crypto.KAS.FixedInfo;
 using NIST.CVP.Crypto.KAS.KDF.OneStep;
 using NIST.CVP.Crypto.KTS;
 using NIST.CVP.Crypto.Symmetric.BlockModes.Ffx;
+using NIST.CVP.Orleans.Grains.Kas.Sp800_56Ar1;
+using NIST.CVP.Orleans.Grains.Kas.Sp800_56Ar1.Ecc;
+using NIST.CVP.Orleans.Grains.Kas.Sp800_56Ar1.Ffc;
 
 namespace NIST.CVP.Orleans.Grains
 {
