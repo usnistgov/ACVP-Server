@@ -1,27 +1,27 @@
 using System;
 using System.Net.Http;
+using Microsoft.Extensions.Options;
+using NIST.CVP.Common.Config;
 using NIST.CVP.TaskQueueProcessor.Constants;
 
 namespace NIST.CVP.TaskQueueProcessor.Providers
 {
     public class PoolProvider : IPoolProvider
     {
-        private readonly string _uri;
-        private readonly int _port;
+        private readonly IOptions<PoolConfig> _config;
 
-        public PoolProvider(string uri, int port)
+        public PoolProvider(IOptions<PoolConfig> config)
         {
-            _uri = uri;
-            _port = port;
+            _config = config;
         }
         
         public void SpawnPoolData()
         {
             var uriBuilder = new UriBuilder
             {
-                Host = _uri,
+                Host = _config.Value.RootUrl,
                 Path = PoolApiEndPoints.SPAWN,
-                Port = _port
+                Port = _config.Value.Port
             };
             
             var client = new HttpClient();
@@ -32,7 +32,7 @@ namespace NIST.CVP.TaskQueueProcessor.Providers
 
                 if (!response.Result.IsSuccessStatusCode)
                 {
-                    throw new Exception($"Unable to complete request to PoolApi at {_uri}:{_port} with error {response.Result.StatusCode}");
+                    throw new Exception($"Unable to complete request to PoolApi at {_config.Value.RootUrl}:{_config.Value.Port} with error {response.Result.StatusCode}");
                 }
             }
             catch (Exception ex)

@@ -1,9 +1,8 @@
 using System;
 using System.Data;
-using System.Data.SqlClient;
 using System.Text;
-using Microsoft.Extensions.Options;
-using NIST.CVP.Common.Config;
+using NIST.CVP.Common.Interfaces;
+using NIST.CVP.Pools.ExtensionMethods;
 using NIST.CVP.TaskQueueProcessor.Constants;
 using NIST.CVP.TaskQueueProcessor.TaskModels;
 
@@ -12,122 +11,96 @@ namespace NIST.CVP.TaskQueueProcessor.Providers
     public class DbProvider : IDbProvider
     {
         // TODO Should this be made static with locks on the DB ? 
-        private readonly SqlConnection _sql;
         private readonly ITaskRetriever _taskRetriever;
+        private readonly IDbConnectionFactory _connectionFactory;
+        private readonly IDbConnectionStringFactory _connectionStringFactory;
 
-//        public DbProvider(IOptions<EnvironmentConfig> environmentConfig, ITaskRetriever taskRetriever)
-//        {
-//            _taskRetriever = taskRetriever;
-//            
-//        }
-        
-        public DbProvider(ITaskRetriever taskRetriever, string connectionString)
+        public DbProvider(IDbConnectionStringFactory connectionStringFactory, IDbConnectionFactory connectionFactory, ITaskRetriever taskRetriever)
         {
             _taskRetriever = taskRetriever;
-            Console.WriteLine($"Connecting to database with connectionString: {connectionString}");
-
-            try
-            {
-                _sql = new SqlConnection(connectionString);
-            }
-            catch (SqlException sqlEx)
-            {
-                Console.WriteLine(sqlEx);
-            }
+            _connectionFactory = connectionFactory;
+            _connectionStringFactory = connectionStringFactory;
         }
 
         public ITask GetNextTask()
         {
             ITask task;
-            _sql.Open();
-
-            using var command = new SqlCommand
+            using (var connection = _connectionFactory.Get(_connectionStringFactory.GetConnectionString("Acvp")))
             {
-                CommandText = StoredProcedures.GET_TASK_QUEUE,
-                CommandType = CommandType.StoredProcedure,
-                Connection = _sql
-            };
+                connection.Open();
 
-            var reader = command.ExecuteReader();
+                using var command = connection.CreateCommand();
+                command.CommandText = StoredProcedures.GET_TASK_QUEUE;
+                command.CommandType = CommandType.StoredProcedure;
 
-            if (reader.Read())
-            {
-                task = _taskRetriever.GetTaskFromRow(reader);
-            }
-            else
-            {
-                // If there is no row returned, then there is no data to process, do pool stuff
+                var reader = command.ExecuteReader();
+                    
+                if (reader.Read())
+                {
+                    task = _taskRetriever.GetTaskFromRow(reader);
+                }
+                else
+                {
+                    // If there is no row returned, then there is no data to process, do pool stuff
+                    reader.Close();
+                    connection.Close();
+                    return null;
+                }
+
                 reader.Close();
-                _sql.Close();
-                return null;
+
+                switch (task)
+                {
+                    case GenerationTask generationTask:
+                        GetCapabilities(generationTask);
+                        break;
+                    case ValidationTask validationTask:
+                        GetResponseData(validationTask);
+                        break;
+                }
             }
 
-            reader.Close();
-
-            switch (task)
-            {
-                case GenerationTask generationTask:
-                    GetCapabilities(generationTask);
-                    break;
-                case ValidationTask validationTask:
-                    GetResponseData(validationTask);
-                    break;
-            }
-
-            _sql.Close();
             return task;
         }
 
         public void DeleteCompletedTask(long taskId)
         {
-            _sql.Open();
-
-            using var command = new SqlCommand
-            {
-                CommandText = StoredProcedures.DELETE_TASK_FROM_TASK_QUEUE,
-                CommandType = CommandType.StoredProcedure,
-                Connection = _sql,
-                Parameters = {"id", taskId}
-            };
-
-            var reader = command.ExecuteReader();
-
-            if (reader.RecordsAffected != 1)
-            {
-                throw new Exception("Incorrect number of rows affected by DELETE TASK FROM TASK QUEUE");
-            }
+            using var connection = _connectionFactory.Get(_connectionStringFactory.GetConnectionString("Acvp"));
+            connection.Open();
             
-            reader.Close();
-            _sql.Close();
+            using var command = connection.CreateCommand();
+            command.CommandText = StoredProcedures.DELETE_TASK_FROM_TASK_QUEUE;
+            command.CommandType = CommandType.StoredProcedure;
+            command.AddParameter("id", taskId);            
+
+            command.ExecuteNonQuery();
+            connection.Close();
         }
 
         public void MarkTasksForRestart()
         {
-            _sql.Open();
+            using var connection = _connectionFactory.Get(_connectionStringFactory.GetConnectionString("Acvp"));
+            connection.Open();
 
-            using var command = new SqlCommand
-            {
-                CommandText = StoredProcedures.UPDATE_IN_PROGRESS_TASK_TO_READY,
-                CommandType = CommandType.StoredProcedure,
-                Connection = _sql
-            };
+            using var command = connection.CreateCommand();
+            command.CommandText = StoredProcedures.UPDATE_IN_PROGRESS_TASK_TO_READY;
+            command.CommandType = CommandType.StoredProcedure;
 
-            var reader = command.ExecuteReader();
-            reader.Close();
-            _sql.Close();
+            command.ExecuteNonQuery();
+            connection.Close();
         }
 
         private void GetCapabilities(GenerationTask task)
         {
-            using var getCapabilities = new SqlCommand
-            {
-                CommandText = StoredProcedures.GET_CAPABILITIES,
-                CommandType = CommandType.StoredProcedure,
-                Connection = _sql,
-                Parameters = { new SqlParameter("vsId", task.VsId) }
-            };
-            
-            var reader = getCapabilities.ExecuteReader();
+            using var connection = _connectionFactory.Get(_connectionStringFactory.GetConnectionString("Acvp"));
+            connection.Open();
+
+            using var command = connection.CreateCommand();
+            command.CommandText = StoredProcedures.GET_CAPABILITIES;
+            command.CommandType = CommandType.StoredProcedure;
+            command.AddParameter("vsId", task.VsId);
+
+            var reader = command.ExecuteReader();
 
             if (reader.Read())
             {
@@ -139,19 +112,20 @@ namespace NIST.CVP.TaskQueueProcessor.Providers
             }
 
             reader.Close();
+            connection.Close();
         }
 
         private void GetResponseData(ValidationTask task)
         {
-            using var getResponseData = new SqlCommand
-            {
-                CommandText = StoredProcedures.GET_SUBMITTED,
-                CommandType = CommandType.StoredProcedure,
-                Connection = _sql,
-                Parameters = { new SqlParameter("vsId", task.VsId) }
-            };
+            using var connection = _connectionFactory.Get(_connectionStringFactory.GetConnectionString("Acvp"));
+            connection.Open();
+
+            using var command = connection.CreateCommand();
+            command.CommandText = StoredProcedures.GET_SUBMITTED;
+            command.CommandType = CommandType.StoredProcedure;
+            command.AddParameter("vsId", task.VsId);
             
-            var reader = getResponseData.ExecuteReader();
+            var reader = command.ExecuteReader();
 
             if (reader.Read())
             {
@@ -164,6 +138,7 @@ namespace NIST.CVP.TaskQueueProcessor.Providers
             }
 
             reader.Close();
+            connection.Close();
         }
     }
 }

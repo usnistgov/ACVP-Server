@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
+using NIST.CVP.Common.Config;
 using NIST.CVP.TaskQueueProcessor.Providers;
 using NIST.CVP.TaskQueueProcessor.TaskModels;
 
@@ -11,22 +13,22 @@ namespace NIST.CVP.TaskQueueProcessor
 {
     public class QueueProcessor : IHostedService, IDisposable
     {
-        private const int POLL_DELAY = 5;
-        private const int CONCURRENT_TASK_LIMIT = 4;
-        private const bool ALLOW_POOL_SPAWN = false;
-
         private Timer _timer;
         private readonly Dictionary<long, Task> _tasks = new Dictionary<long, Task>();
         private readonly List<Task> _poolTasks = new List<Task>();
         private readonly ITaskRunner _taskRunner;
         private readonly IDbProvider _dbProvider;
         private readonly IPoolProvider _poolProvider;
+        private readonly IOptions<PoolConfig> _poolConfig;
+        private readonly IOptions<TaskQueueProcessorConfig> _taskConfig;
 
-        public QueueProcessor(ITaskRunner taskRunner, IDbProvider dbProvider, IPoolProvider poolProvider)
+        public QueueProcessor(ITaskRunner taskRunner, IDbProvider dbProvider, IPoolProvider poolProvider, IOptions<PoolConfig> poolConfig, IOptions<TaskQueueProcessorConfig> taskConfig)
         {
             _taskRunner = taskRunner;
             _dbProvider = dbProvider;
             _poolProvider = poolProvider;
+            _poolConfig = poolConfig;
+            _taskConfig = taskConfig;
         }
         
         public Task StartAsync(CancellationToken cancellationToken)
@@ -35,7 +37,7 @@ namespace NIST.CVP.TaskQueueProcessor
                 (e) => PollForTask(),
                 null,
                 TimeSpan.Zero,
-                TimeSpan.FromSeconds(POLL_DELAY));
+                TimeSpan.FromSeconds(_taskConfig.Value.PollDelay));
             
             return Task.CompletedTask;
         }
@@ -115,12 +117,12 @@ namespace NIST.CVP.TaskQueueProcessor
         {
             CleanTasks();
 
-            if (ALLOW_POOL_SPAWN)
+            if (_poolConfig.Value.AllowPoolSpawn)
             {
                 CleanPoolTasks();
             }
             
-            var tasksAvailable = CONCURRENT_TASK_LIMIT - _tasks.Count - _poolTasks.Count;
+            var tasksAvailable = _taskConfig.Value.MaxConcurrency - _tasks.Count - _poolTasks.Count;
             if (tasksAvailable <= 0)
             {
                 return;
@@ -137,7 +139,7 @@ namespace NIST.CVP.TaskQueueProcessor
                 }
                 else
                 {
-                    if (ALLOW_POOL_SPAWN)
+                    if (_poolConfig.Value.AllowPoolSpawn)
                     {
                         var poolTask = new PoolTask(_poolProvider);
                         _poolTasks.Add(_taskRunner.RunTask(poolTask));    

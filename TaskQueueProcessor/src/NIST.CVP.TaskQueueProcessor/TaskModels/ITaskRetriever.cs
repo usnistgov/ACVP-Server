@@ -1,9 +1,9 @@
-using System.Data.SqlClient;
+using System.Data;
 
 namespace NIST.CVP.TaskQueueProcessor.TaskModels
 {
     public interface ITaskRetriever
     {
-        ExecutableTask GetTaskFromRow(SqlDataReader reader);
+        ExecutableTask GetTaskFromRow(IDataReader reader);
     }
 }
