@@ -16,9 +16,11 @@ namespace NIST.CVP.TaskQueueProcessor
         private Timer _timer;
         private readonly Dictionary<long, Task> _tasks = new Dictionary<long, Task>();
         private readonly List<Task> _poolTasks = new List<Task>();
+        
         private readonly ITaskRunner _taskRunner;
         private readonly IDbProvider _dbProvider;
         private readonly IPoolProvider _poolProvider;
+        
         private readonly IOptions<PoolConfig> _poolConfig;
         private readonly IOptions<TaskQueueProcessorConfig> _taskConfig;
 
@@ -61,7 +63,7 @@ namespace NIST.CVP.TaskQueueProcessor
             _timer?.Dispose();
         }
 
-        private async void CleanTasks()
+        public async void CleanTasks()
         {
             try
             {
@@ -79,6 +81,7 @@ namespace NIST.CVP.TaskQueueProcessor
                     }
                     else
                     {
+                        Console.WriteLine($"Task {dbId} completed successfully.");
                         _dbProvider.DeleteCompletedTask(dbId);
                     }
                 }
@@ -96,7 +99,7 @@ namespace NIST.CVP.TaskQueueProcessor
             }
         }
 
-        private async void CleanPoolTasks()
+        public async void CleanPoolTasks()
         {
             try
             {
@@ -105,6 +108,7 @@ namespace NIST.CVP.TaskQueueProcessor
                 {
                     var finished = await Task.WhenAny(_poolTasks);
                     _poolTasks.Remove(finished);
+                    Console.WriteLine("Pool task completed");
                 }
             }
             catch (ArgumentException)
@@ -113,7 +117,7 @@ namespace NIST.CVP.TaskQueueProcessor
             }
         }
         
-        private void PollForTask()
+        public void PollForTask()
         {
             CleanTasks();
 
@@ -131,6 +135,8 @@ namespace NIST.CVP.TaskQueueProcessor
             Console.WriteLine($"Polling db with {tasksAvailable} tasks available");
             while (tasksAvailable > 0)
             {
+                Console.WriteLine($"Executable tasks: {_tasks.Count}. Pool tasks: {_poolTasks.Count}");
+
                 var nextTask = _dbProvider.GetNextTask();
 
                 if (nextTask != null)
@@ -144,8 +150,12 @@ namespace NIST.CVP.TaskQueueProcessor
                         var poolTask = new PoolTask(_poolProvider);
                         _poolTasks.Add(_taskRunner.RunTask(poolTask));    
                     }
+                    else
+                    {
+                        break;
+                    }
                 }
-                
+
                 tasksAvailable--;
             }
         }

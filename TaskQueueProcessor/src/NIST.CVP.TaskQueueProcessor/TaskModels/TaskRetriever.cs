@@ -25,11 +25,13 @@ namespace NIST.CVP.TaskQueueProcessor.TaskModels
             {
                 case TaskActions.GENERATION:
                     var generationTask = JsonConvert.DeserializeObject<GenerationTask>(vsIdJson);
+                    generationTask.GenValInvoker = _genValInvoker;
                     generationTask.DbId = dbId;
                     return generationTask;
                 
                 case TaskActions.VALIDATION:
                     var validationTask = JsonConvert.DeserializeObject<ValidationTask>(vsIdJson);
+                    validationTask.GenValInvoker = _genValInvoker;
                     validationTask.DbId = dbId;
                     return validationTask;
                 

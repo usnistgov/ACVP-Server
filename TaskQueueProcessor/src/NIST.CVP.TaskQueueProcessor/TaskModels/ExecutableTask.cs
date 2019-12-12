@@ -6,13 +6,9 @@ namespace NIST.CVP.TaskQueueProcessor.TaskModels
     {
         public long DbId { get; set; }
         public int VsId { get; set; }
-
-        protected readonly IGenValInvoker _genValInvoker;
-
-        protected ExecutableTask(IGenValInvoker genValInvoker)
-        {
-            _genValInvoker = genValInvoker;
-        }
+        
+        public string Error { get; set; }
+        public IGenValInvoker GenValInvoker { protected get; set; }
         
         public abstract void Run();
     }

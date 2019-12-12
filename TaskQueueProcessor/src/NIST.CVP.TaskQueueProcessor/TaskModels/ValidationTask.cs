@@ -8,17 +8,23 @@ namespace NIST.CVP.TaskQueueProcessor.TaskModels
         public string SubmittedResults { get; set; }
         public string InternalProjection { get; set; }
         public bool Expected { get; set; }
-
-        public ValidationTask(IGenValInvoker genValInvoker) : base(genValInvoker) { }
-
+        public string Validation { get; set; }
+        
         public override void Run()
         {
             Console.WriteLine($"Validation Task: {VsId}");
             
-            var validateRequest = new ValidateRequest(InternalProjection, SubmittedResults, false);
-            //var response = _genValInvoker.Validate(validateRequest);
+            var validateRequest = new ValidateRequest(InternalProjection, SubmittedResults, Expected);
+            var response = GenValInvoker.Validate(validateRequest);
             
-            //Console.WriteLine(response.Success);
+            if (response.Success)
+            {
+                Console.WriteLine($"Success on vsId: {VsId}");
+            }
+            else
+            {
+                Console.WriteLine($"Error on vsId: {VsId}");
+            }
         }
     }
 }

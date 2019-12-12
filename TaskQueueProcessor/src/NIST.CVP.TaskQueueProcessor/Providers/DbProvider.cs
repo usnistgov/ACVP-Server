@@ -140,5 +140,15 @@ namespace NIST.CVP.TaskQueueProcessor.Providers
             reader.Close();
             connection.Close();
         }
+
+        public void PutPromptData(GenerationTask task)
+        {
+            
+        }
+
+        public void PutValidationData(ValidationTask task)
+        {
+            
+        }
     }
 }

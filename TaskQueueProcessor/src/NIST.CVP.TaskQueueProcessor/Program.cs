@@ -14,10 +14,6 @@ namespace NIST.CVP.TaskQueueProcessor
 {
     public static class Program
     {
-        private const string CONNECTION_STRING = "Server=localhost;Database=Acvp;User=SA;Password=Password123;";
-        private const string POOL_URL = "localhost";
-        private const int POOL_PORT = 5002;
-        
         public static void Main(string[] args)
         {
             CreateHostBuilder(args).Build().Run();
