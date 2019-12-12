@@ -5,9 +5,10 @@ GO
 
 -- Removes the completed row from the TASK_QUEUE
 CREATE PROCEDURE [acvp].[TaskQueueDelete]
-    @id BIGINT
+    @TaskID BIGINT
 AS
     DELETE
-    FROM [common].[TASK_QUEUE]
-    WHERE id = @id
+    FROM [common].[TaskQueue]
+    WHERE TaskID = @TaskID
+
 GO

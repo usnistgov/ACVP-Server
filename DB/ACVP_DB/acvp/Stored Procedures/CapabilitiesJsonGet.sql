@@ -5,10 +5,10 @@ GO
 
 -- Grabs the provided vsId from VECTOR_SET_EXPECTED_RESULTS
 CREATE PROCEDURE [acvp].[CapabilitiesGet]
-    @vsId BIGINT
+    @VsID INT
 AS
     SELECT capabilities
-    FROM [acvp].[VECTOR_SET_EXPECTED_RESULTS] vector_set_table
-    WHERE vector_set_table.vector_set_id = @vsId
-GO
+    FROM [acvp].[VectorSetJson] vector_set_table
+    WHERE vector_set_table.VsID = @VsID
 
+GO
