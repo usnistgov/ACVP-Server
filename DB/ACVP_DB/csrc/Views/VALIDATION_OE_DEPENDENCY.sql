@@ -1,0 +1,10 @@
+﻿
+
+CREATE VIEW [csrc].[VALIDATION_OE_DEPENDENCY]
+WITH SCHEMABINDING
+AS
+
+SELECT id, dependency_type, name, description
+FROM val.VALIDATION_OE_DEPENDENCY
+
+

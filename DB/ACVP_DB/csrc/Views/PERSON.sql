@@ -1,0 +1,9 @@
+﻿
+
+CREATE VIEW [csrc].[PERSON]
+WITH SCHEMABINDING
+AS
+
+SELECT id, full_name, org_id
+FROM val.PERSON
+

@@ -249,4 +249,7 @@
     <Build Include="val\Stored Procedures\DependencyOELinkForOEDeleteAll.sql" />
     <Build Include="val\Stored Procedures\WorkflowInsert.sql" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="common\Tables\TaskQueue.sql" />
+  </ItemGroup>
 </Project>
