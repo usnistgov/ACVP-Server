@@ -10,6 +10,8 @@ namespace NIST.CVP.TaskQueueProcessor.TaskModels
         public string Prompt { get; set; }
         public string InternalProjection { get; set; }
         
+        public GenerationTask(IGenValInvoker genValInvoker) : base(genValInvoker) { }
+        
         public override void Run()
         {
             Console.WriteLine($"Generation Task VsId: {VsId}, IsSample: {IsSample}");

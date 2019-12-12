@@ -250,6 +250,7 @@
     <Build Include="val\Stored Procedures\WorkflowInsert.sql" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="acvp\Tables\VectorSetJson.sql" />
     <Content Include="common\Tables\TaskQueue.sql" />
   </ItemGroup>
 </Project>

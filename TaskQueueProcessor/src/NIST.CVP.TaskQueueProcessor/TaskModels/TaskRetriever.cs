@@ -1,6 +1,5 @@
 using System;
 using System.Data;
-using Newtonsoft.Json;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.TaskQueueProcessor.Constants;
 
@@ -19,25 +18,24 @@ namespace NIST.CVP.TaskQueueProcessor.TaskModels
         {
             var dbId = reader.GetInt64(0);
             var operation = reader.GetString(1).ToLower();
-            var vsIdJson = reader.GetString(2).ToLower();
-            
-            switch (operation)
+            var vsId = reader.GetInt32(2);
+            var isSample = reader.GetInt32(3) == 1;            // Boolean
+            var showExpected = reader.GetInt32(4) == 1;        // Boolean
+
+            return operation switch
             {
-                case TaskActions.GENERATION:
-                    var generationTask = JsonConvert.DeserializeObject<GenerationTask>(vsIdJson);
-                    generationTask.GenValInvoker = _genValInvoker;
-                    generationTask.DbId = dbId;
-                    return generationTask;
+                TaskActions.GENERATION => new GenerationTask(_genValInvoker)
+                {
+                    DbId = dbId, IsSample = isSample, VsId = vsId
+                },
                 
-                case TaskActions.VALIDATION:
-                    var validationTask = JsonConvert.DeserializeObject<ValidationTask>(vsIdJson);
-                    validationTask.GenValInvoker = _genValInvoker;
-                    validationTask.DbId = dbId;
-                    return validationTask;
+                TaskActions.VALIDATION => new ValidationTask(_genValInvoker)
+                {
+                    DbId = dbId, Expected = showExpected, VsId = vsId
+                },
                 
-                default:
-                    throw new Exception($"Unknown task action: {operation}");
-            }
+                _ => throw new Exception($"Unknown task action: {operation}")
+            };
         }
     }
 }

@@ -10,6 +10,8 @@ namespace NIST.CVP.TaskQueueProcessor.TaskModels
         public bool Expected { get; set; }
         public string Validation { get; set; }
         
+        public ValidationTask(IGenValInvoker genValInvoker) : base(genValInvoker) { }
+        
         public override void Run()
         {
             Console.WriteLine($"Validation Task: {VsId}");
