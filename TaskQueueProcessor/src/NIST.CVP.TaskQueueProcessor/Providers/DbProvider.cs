@@ -71,7 +71,7 @@ namespace NIST.CVP.TaskQueueProcessor.Providers
             using var command = connection.CreateCommand();
             command.CommandText = StoredProcedures.DELETE_TASK_FROM_TASK_QUEUE;
             command.CommandType = CommandType.StoredProcedure;
-            command.AddParameter("id", taskId);            
+            command.AddParameter("TaskID", taskId);            
 
             command.ExecuteNonQuery();
             connection.Close();
@@ -98,13 +98,13 @@ namespace NIST.CVP.TaskQueueProcessor.Providers
             using var command = connection.CreateCommand();
             command.CommandText = StoredProcedures.GET_CAPABILITIES;
             command.CommandType = CommandType.StoredProcedure;
-            command.AddParameter("vsId", task.VsId);
+            command.AddParameter("VsID", task.VsId);
 
             var reader = command.ExecuteReader();
 
             if (reader.Read())
             {
-                task.Capabilities = Encoding.UTF8.GetString((byte[]) reader[0]);
+                task.Capabilities = reader[0].ToString();
             }
             else
             {
@@ -123,14 +123,14 @@ namespace NIST.CVP.TaskQueueProcessor.Providers
             using var command = connection.CreateCommand();
             command.CommandText = StoredProcedures.GET_SUBMITTED;
             command.CommandType = CommandType.StoredProcedure;
-            command.AddParameter("vsId", task.VsId);
+            command.AddParameter("VsID", task.VsId);
             
             var reader = command.ExecuteReader();
 
             if (reader.Read())
             {
-                task.SubmittedResults = Encoding.UTF8.GetString((byte[]) reader[0]);
-                task.InternalProjection = Encoding.UTF8.GetString((byte[]) reader[1]);
+                task.SubmittedResults = reader[0].ToString();
+                task.InternalProjection = reader[1].ToString();
             }
             else
             {
