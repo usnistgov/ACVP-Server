@@ -18,7 +18,7 @@ namespace NIST.CVP.Crypto.KAS.Sp800_56Ar3.Scheme.Ecc
             ISecretKeyingMaterial thisPartyKeyingMaterial, 
             IFixedInfoFactory fixedInfoFactory, 
             FixedInfoParameter fixedInfoParameter, 
-            IKdfVisitor kdfVisitor, 
+            IKdfFactory kdfFactory,
             IKdfParameter kdfParameter, 
             IKeyConfirmationFactory keyConfirmationFactory, 
             MacParameters keyConfirmationParameter,
@@ -28,7 +28,7 @@ namespace NIST.CVP.Crypto.KAS.Sp800_56Ar3.Scheme.Ecc
                 thisPartyKeyingMaterial, 
                 fixedInfoFactory, 
                 fixedInfoParameter, 
-                kdfVisitor, 
+                kdfFactory, 
                 kdfParameter, 
                 keyConfirmationFactory, 
                 keyConfirmationParameter)

@@ -15,25 +15,38 @@ using NIST.CVP.Common.Oracle.ResultTypes.Kas.Sp800_56Ar1;
 using NIST.CVP.Common.Oracle.ResultTypes.Kas.Sp800_56Ar3;
 using NIST.CVP.Common.Oracle.ResultTypes.Kas.Sp800_56Br2;
 using NIST.CVP.Orleans.Grains.Interfaces.Kas.Sp800_56Ar1;
+using NIST.CVP.Orleans.Grains.Interfaces.Kas.Sp800_56Ar3;
 using NIST.CVP.Orleans.Grains.Interfaces.Kas.Sp800_56Br2;
 
 namespace NIST.CVP.Crypto.Oracle
 {
     public partial class Oracle
     {
-        public Task<KasValResult> GetKasValTestAsync(KasValParameters param)
+        public async Task<KasValResult> GetKasValTestAsync(KasValParameters param)
         {
-            throw new System.NotImplementedException();
+            var observableGrain =
+                await GetObserverGrain<IObserverKasValGrain, KasValResult>();
+            await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, LoadSheddingRetries);
+
+            return await observableGrain.ObserveUntilResult();
         }
 
-        public Task<KasAftResult> GetKasAftTestAsync(KasAftParameters param)
+        public async Task<KasAftResult> GetKasAftTestAsync(KasAftParameters param)
         {
-            throw new System.NotImplementedException();
+            var observableGrain =
+                await GetObserverGrain<IObserverKasAftGrain, KasAftResult>();
+            await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, LoadSheddingRetries);
+
+            return await observableGrain.ObserveUntilResult();
         }
 
-        public Task<KasAftDeferredResult> CompleteDeferredKasTestAsync(KasAftDeferredParameters param)
+        public async Task<NIST.CVP.Common.Oracle.ResultTypes.Kas.Sp800_56Ar3.KasAftDeferredResult> CompleteDeferredKasTestAsync(KasAftDeferredParameters param)
         {
-            throw new System.NotImplementedException();
+            var observableGrain =
+                await GetObserverGrain<IObserverKasCompleteDeferredAftGrain, NIST.CVP.Common.Oracle.ResultTypes.Kas.Sp800_56Ar3.KasAftDeferredResult>();
+            await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, LoadSheddingRetries);
+
+            return await observableGrain.ObserveUntilResult();
         }
 
         public async Task<KasValResultEcc> GetKasValTestEccAsync(KasValParametersEcc param)
@@ -54,10 +67,10 @@ namespace NIST.CVP.Crypto.Oracle
             return await observableGrain.ObserveUntilResult();
         }
 
-        public async Task<KasAftDeferredResult> CompleteDeferredKasTestAsync(KasAftDeferredParametersEcc param)
+        public async Task<NIST.CVP.Common.Oracle.ResultTypes.Kas.Sp800_56Ar1.KasAftDeferredResult> CompleteDeferredKasTestAsync(KasAftDeferredParametersEcc param)
         {
             var observableGrain =
-                await GetObserverGrain<IOracleObserverKasCompleteDeferredAftEccCaseGrain, KasAftDeferredResult>();
+                await GetObserverGrain<IOracleObserverKasCompleteDeferredAftEccCaseGrain, NIST.CVP.Common.Oracle.ResultTypes.Kas.Sp800_56Ar1.KasAftDeferredResult>();
             await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, LoadSheddingRetries);
 
             return await observableGrain.ObserveUntilResult();
@@ -81,10 +94,10 @@ namespace NIST.CVP.Crypto.Oracle
             return await observableGrain.ObserveUntilResult();
         }
 
-        public async Task<KasAftDeferredResult> CompleteDeferredKasTestAsync(KasAftDeferredParametersFfc param)
+        public async Task<NIST.CVP.Common.Oracle.ResultTypes.Kas.Sp800_56Ar1.KasAftDeferredResult> CompleteDeferredKasTestAsync(KasAftDeferredParametersFfc param)
         {
             var observableGrain =
-                await GetObserverGrain<IOracleObserverKasCompleteDeferredAftFfcCaseGrain, KasAftDeferredResult>();
+                await GetObserverGrain<IOracleObserverKasCompleteDeferredAftFfcCaseGrain, NIST.CVP.Common.Oracle.ResultTypes.Kas.Sp800_56Ar1.KasAftDeferredResult>();
             await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, LoadSheddingRetries);
 
             return await observableGrain.ObserveUntilResult();
@@ -222,10 +235,10 @@ namespace NIST.CVP.Crypto.Oracle
             return await observableGrain.ObserveUntilResult();
         }
 
-        public async Task<KasAftDeferredResult> CompleteDeferredKasTestAsync(KasAftDeferredParametersIfc param)
+        public async Task<NIST.CVP.Common.Oracle.ResultTypes.Kas.Sp800_56Ar1.KasAftDeferredResult> CompleteDeferredKasTestAsync(KasAftDeferredParametersIfc param)
         {
             var observableGrain =
-                await GetObserverGrain<IOracleObserverKasCompleteDeferredAftIfcCaseGrain, KasAftDeferredResult>();
+                await GetObserverGrain<IOracleObserverKasCompleteDeferredAftIfcCaseGrain, NIST.CVP.Common.Oracle.ResultTypes.Kas.Sp800_56Ar1.KasAftDeferredResult>();
             await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, LoadSheddingRetries);
 
             return await observableGrain.ObserveUntilResult();

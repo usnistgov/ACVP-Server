@@ -36,12 +36,12 @@ namespace NIST.CVP.Crypto.Common.KAS.FixedInfo
         /// <summary>
         /// Party U's fixed info contribution.
         /// </summary>
-        public PartyFixedInfo FixedInfoPartyU { get; set; }
+        public PartyFixedInfo FixedInfoPartyU { get; private set; }
 
         /// <summary>
         /// Party V's fixed info contribution.
         /// </summary>
-        public PartyFixedInfo FixedInfoPartyV { get; set; }
+        public PartyFixedInfo FixedInfoPartyV { get; private set; }
 
         /// <summary>
         /// The algorithm ID indicator.
@@ -57,5 +57,16 @@ namespace NIST.CVP.Crypto.Common.KAS.FixedInfo
         /// The Context for the transaction.
         /// </summary>
         public BitString Context { get; set; }
+
+        /// <summary>
+        /// Sets the fixed info from the two contributing parties.
+        /// </summary>
+        /// <param name="partyU">The party U (initiator) fixed info.</param>
+        /// <param name="partyV">The party V (responder) fixed info.</param>
+        public void SetFixedInfo(PartyFixedInfo partyU, PartyFixedInfo partyV)
+        {
+            FixedInfoPartyU = partyU;
+            FixedInfoPartyV = partyV;
+        }
     }
 }

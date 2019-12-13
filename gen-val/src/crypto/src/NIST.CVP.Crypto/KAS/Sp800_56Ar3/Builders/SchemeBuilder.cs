@@ -22,24 +22,22 @@ namespace NIST.CVP.Crypto.KAS.Sp800_56Ar3.Builders
         private ISecretKeyingMaterial _thisPartyKeyingMaterial;
         private IFixedInfoFactory _fixedInfoFactory;
         private FixedInfoParameter _fixedInfoParameter;
+        private IKdfFactory _kdfFactory;
         private IKdfParameter _kdfParameter;
         private IKeyConfirmationFactory _keyConfirmationFactory;
         private MacParameters _keyConfirmationParameter;
         
-        private readonly IKdfVisitor _kdfVisitor;
         private readonly IDiffieHellman<EccDomainParameters, EccKeyPair> _eccDh;
         private readonly IDiffieHellman<FfcDomainParameters, FfcKeyPair> _ffcDh;
         private readonly IMqv<EccDomainParameters, EccKeyPair> _eccMqv;
         private readonly IMqv<FfcDomainParameters, FfcKeyPair> _ffcMqv;
 
         public SchemeBuilder(
-            IKdfVisitor kdfVisitor,
             IDiffieHellman<EccDomainParameters, EccKeyPair> eccDh,
             IDiffieHellman<FfcDomainParameters, FfcKeyPair> ffcDh,
             IMqv<EccDomainParameters, EccKeyPair> eccMqv,
             IMqv<FfcDomainParameters, FfcKeyPair> ffcMqv)
         {
-            _kdfVisitor = kdfVisitor;
             _eccDh = eccDh;
             _ffcDh = ffcDh;
             _eccMqv = eccMqv;
@@ -65,8 +63,9 @@ namespace NIST.CVP.Crypto.KAS.Sp800_56Ar3.Builders
             return this;
         }
 
-        public ISchemeBuilder WithKdf(IKdfParameter parameter)
+        public ISchemeBuilder WithKdf(IKdfFactory factory, IKdfParameter parameter)
         {
+            _kdfFactory = factory;
             _kdfParameter = parameter;
             return this;
         }
@@ -91,61 +90,61 @@ namespace NIST.CVP.Crypto.KAS.Sp800_56Ar3.Builders
             {
                 case KasScheme.FfcDhEphem:
                     return new SchemeFfcDiffieHellmanEphemeral(_schemeParameters, _thisPartyKeyingMaterial, _fixedInfoFactory,
-                        _fixedInfoParameter, _kdfVisitor, _kdfParameter, _keyConfirmationFactory,
+                        _fixedInfoParameter, _kdfFactory, _kdfParameter, _keyConfirmationFactory,
                         _keyConfirmationParameter, _ffcDh);
                 case KasScheme.FfcDhHybrid1:
                     return new SchemeFfcDhHybrid1(_schemeParameters, _thisPartyKeyingMaterial, _fixedInfoFactory,
-                        _fixedInfoParameter, _kdfVisitor, _kdfParameter, _keyConfirmationFactory,
+                        _fixedInfoParameter, _kdfFactory, _kdfParameter, _keyConfirmationFactory,
                         _keyConfirmationParameter, _ffcDh);
                 case KasScheme.FfcDhHybridOneFlow:
                     return new SchemeFfcDhHybridOneFlow(_schemeParameters, _thisPartyKeyingMaterial, _fixedInfoFactory,
-                        _fixedInfoParameter, _kdfVisitor, _kdfParameter, _keyConfirmationFactory,
+                        _fixedInfoParameter, _kdfFactory, _kdfParameter, _keyConfirmationFactory,
                         _keyConfirmationParameter, _ffcDh);
                 case KasScheme.FfcDhOneFlow:
                     return new SchemeFfcDhOneFlow(_schemeParameters, _thisPartyKeyingMaterial, _fixedInfoFactory,
-                        _fixedInfoParameter, _kdfVisitor, _kdfParameter, _keyConfirmationFactory,
+                        _fixedInfoParameter, _kdfFactory, _kdfParameter, _keyConfirmationFactory,
                         _keyConfirmationParameter, _ffcDh);
                 case KasScheme.FfcMqv1:
                     return new SchemeFfcMqv1(_schemeParameters, _thisPartyKeyingMaterial, _fixedInfoFactory,
-                        _fixedInfoParameter, _kdfVisitor, _kdfParameter, _keyConfirmationFactory,
+                        _fixedInfoParameter, _kdfFactory, _kdfParameter, _keyConfirmationFactory,
                         _keyConfirmationParameter, _ffcMqv);
                 case KasScheme.FfcMqv2:
                     return new SchemeFfcMqv2(_schemeParameters, _thisPartyKeyingMaterial, _fixedInfoFactory,
-                        _fixedInfoParameter, _kdfVisitor, _kdfParameter, _keyConfirmationFactory,
+                        _fixedInfoParameter, _kdfFactory, _kdfParameter, _keyConfirmationFactory,
                         _keyConfirmationParameter, _ffcMqv);
                 case KasScheme.FfcDhStatic:
                     return new SchemeFfcDhStatic(_schemeParameters, _thisPartyKeyingMaterial, _fixedInfoFactory,
-                        _fixedInfoParameter, _kdfVisitor, _kdfParameter, _keyConfirmationFactory,
+                        _fixedInfoParameter, _kdfFactory, _kdfParameter, _keyConfirmationFactory,
                         _keyConfirmationParameter, _ffcDh);
                 
                 
                 case KasScheme.EccEphemeralUnified:
                     return new SchemeEccEphemeralUnified(_schemeParameters, _thisPartyKeyingMaterial, _fixedInfoFactory,
-                        _fixedInfoParameter, _kdfVisitor, _kdfParameter, _keyConfirmationFactory,
+                        _fixedInfoParameter, _kdfFactory, _kdfParameter, _keyConfirmationFactory,
                         _keyConfirmationParameter, _eccDh);
                 case KasScheme.EccFullMqv:
                     return new SchemeEccFullMqv(_schemeParameters, _thisPartyKeyingMaterial, _fixedInfoFactory,
-                        _fixedInfoParameter, _kdfVisitor, _kdfParameter, _keyConfirmationFactory,
+                        _fixedInfoParameter, _kdfFactory, _kdfParameter, _keyConfirmationFactory,
                         _keyConfirmationParameter, _eccMqv);
                 case KasScheme.EccFullUnified:
                     return new SchemeEccFullUnified(_schemeParameters, _thisPartyKeyingMaterial, _fixedInfoFactory,
-                        _fixedInfoParameter, _kdfVisitor, _kdfParameter, _keyConfirmationFactory,
+                        _fixedInfoParameter, _kdfFactory, _kdfParameter, _keyConfirmationFactory,
                         _keyConfirmationParameter, _eccDh);
                 case KasScheme.EccOnePassDh:
                     return new SchemeEccOnePassDh(_schemeParameters, _thisPartyKeyingMaterial, _fixedInfoFactory,
-                        _fixedInfoParameter, _kdfVisitor, _kdfParameter, _keyConfirmationFactory,
+                        _fixedInfoParameter, _kdfFactory, _kdfParameter, _keyConfirmationFactory,
                         _keyConfirmationParameter, _eccDh);
                 case KasScheme.EccOnePassMqv:
                     return new SchemeEccOnePassMqv(_schemeParameters, _thisPartyKeyingMaterial, _fixedInfoFactory,
-                        _fixedInfoParameter, _kdfVisitor, _kdfParameter, _keyConfirmationFactory,
+                        _fixedInfoParameter, _kdfFactory, _kdfParameter, _keyConfirmationFactory,
                         _keyConfirmationParameter, _eccMqv);
                 case KasScheme.EccOnePassUnified:
                     return new SchemeEccOnePassUnified(_schemeParameters, _thisPartyKeyingMaterial, _fixedInfoFactory,
-                        _fixedInfoParameter, _kdfVisitor, _kdfParameter, _keyConfirmationFactory,
+                        _fixedInfoParameter, _kdfFactory, _kdfParameter, _keyConfirmationFactory,
                         _keyConfirmationParameter, _eccDh);
                 case KasScheme.EccStaticUnified:
                     return new SchemeEccStaticUnified(_schemeParameters, _thisPartyKeyingMaterial, _fixedInfoFactory,
-                        _fixedInfoParameter, _kdfVisitor, _kdfParameter, _keyConfirmationFactory,
+                        _fixedInfoParameter, _kdfFactory, _kdfParameter, _keyConfirmationFactory,
                         _keyConfirmationParameter, _eccDh);
                 
                 default:

@@ -17,7 +17,7 @@ namespace NIST.CVP.Crypto.KAS.Sp800_56Ar3.Scheme
         private readonly IFixedInfoFactory _fixedInfoFactory;
         private readonly FixedInfoParameter _fixedInfoParameter;
         private readonly IKdfParameter _kdfParameter;
-        private readonly IKdfVisitor _kdfVisitor;
+        private readonly IKdfFactory _kdfFactory;
         private readonly IKeyConfirmationFactory _keyConfirmationFactory;
         private readonly MacParameters _keyConfirmationParameter;
         
@@ -26,7 +26,7 @@ namespace NIST.CVP.Crypto.KAS.Sp800_56Ar3.Scheme
             ISecretKeyingMaterial thisPartyKeyingMaterial,
             IFixedInfoFactory fixedInfoFactory,
             FixedInfoParameter fixedInfoParameter,
-            IKdfVisitor kdfVisitor,
+            IKdfFactory kdfFactory,
             IKdfParameter kdfParameter,
             IKeyConfirmationFactory keyConfirmationFactory,
             MacParameters keyConfirmationParameter)
@@ -35,7 +35,7 @@ namespace NIST.CVP.Crypto.KAS.Sp800_56Ar3.Scheme
             ThisPartyKeyingMaterial = thisPartyKeyingMaterial;
             _fixedInfoFactory = fixedInfoFactory;
             _fixedInfoParameter = fixedInfoParameter;
-            _kdfVisitor = kdfVisitor;
+            _kdfFactory = kdfFactory;
             _kdfParameter = kdfParameter;
             _keyConfirmationFactory = keyConfirmationFactory;
             _keyConfirmationParameter = keyConfirmationParameter;
@@ -128,8 +128,7 @@ namespace NIST.CVP.Crypto.KAS.Sp800_56Ar3.Scheme
         private BitString DeriveKey(ISecretKeyingMaterial otherPartyKeyingMaterial, BitString z, BitString fixedInfo)
         {
             SetKdfEphemeralData(_kdfParameter, otherPartyKeyingMaterial, z);
-            
-            return _kdfParameter.AcceptKdf(_kdfVisitor, fixedInfo).DerivedKey;
+            return _kdfFactory.GetKdf().DeriveKey(_kdfParameter, fixedInfo).DerivedKey;
         }
         
         /// <summary>
@@ -146,12 +145,14 @@ namespace NIST.CVP.Crypto.KAS.Sp800_56Ar3.Scheme
                 KeyGenerationRequirementsHelper.GetOtherPartyKeyAgreementRole(SchemeParameters.KeyAgreementRole);
             var otherPartyFixedInfo = GetPartyFixedInfo(otherPartyKeyingMaterial, otherPartyRole);
 
-            _fixedInfoParameter.FixedInfoPartyU = SchemeParameters.KeyAgreementRole == KeyAgreementRole.InitiatorPartyU
-                ? thisPartyFixedInfo
-                : otherPartyFixedInfo;
-            _fixedInfoParameter.FixedInfoPartyV = SchemeParameters.KeyAgreementRole == KeyAgreementRole.ResponderPartyV
-                ? thisPartyFixedInfo
-                : otherPartyFixedInfo;
+            _fixedInfoParameter.SetFixedInfo(
+                SchemeParameters.KeyAgreementRole == KeyAgreementRole.InitiatorPartyU
+                    ? thisPartyFixedInfo
+                    : otherPartyFixedInfo,
+                SchemeParameters.KeyAgreementRole == KeyAgreementRole.ResponderPartyV
+                    ? thisPartyFixedInfo
+                    : otherPartyFixedInfo
+            );
             
             return fixedInfo.Get(_fixedInfoParameter);
         }

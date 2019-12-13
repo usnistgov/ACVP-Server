@@ -27,6 +27,8 @@ namespace NIST.CVP.Common.Oracle.DispositionTypes
         [EnumMember(Value = "Failure - IUT should calculate different tag due to MacData value changed.")]
         FailChangedMacData,
         [EnumMember(Value = "Failure - IUT should calculate different tag due to Tag value changed.")]
-        FailChangedTag
+        FailChangedTag,
+        [EnumMember(Value = "Failure - KeyConfirmation bits should have been removed from the final derived key.")]
+        FailKeyConfirmationBits
     }
 }

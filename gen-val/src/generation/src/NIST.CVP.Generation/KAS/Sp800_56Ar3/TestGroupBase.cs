@@ -31,6 +31,8 @@ namespace NIST.CVP.Generation.KAS.Sp800_56Ar3
         
         public KasScheme Scheme { get; set; }
         
+        public KasAlgorithm KasAlgorithm { get; set; }
+        
         public KeyAgreementRole KasRole { get; set; }
 
         public KasMode KasMode { get; set; }

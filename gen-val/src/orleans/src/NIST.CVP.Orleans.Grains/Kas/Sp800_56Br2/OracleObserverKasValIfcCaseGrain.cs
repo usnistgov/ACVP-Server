@@ -133,10 +133,6 @@ namespace NIST.CVP.Orleans.Grains.Kas.Sp800_56Br2
                 var fixedInfoParameter = new FixedInfoParameter()
                 {
                     L = _param.L,
-                    // vvv These are set internally to the kas instance vvv
-                    FixedInfoPartyU = null,
-                    FixedInfoPartyV = null
-                    // ^^^ These are set internally to the kas instance ^^^
                 };
 
                 // Handles setting up z value with a leading 0 nibble. 

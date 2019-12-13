@@ -33,9 +33,10 @@ namespace NIST.CVP.Crypto.Common.KAS.Sp800_56Ar3.Builders
         /// <summary>
         /// Provides KDF parameters for deriving a key from a secret.
         /// </summary>
+        /// <param name="factory">The KDF factory.</param>
         /// <param name="parameter">The KDF parameters.</param>
         /// <returns>this builder.</returns>
-        ISchemeBuilder WithKdf(IKdfParameter parameter);
+        ISchemeBuilder WithKdf(IKdfFactory factory, IKdfParameter parameter);
         /// <summary>
         /// Provides a Key Confirmation factory and parameter for performing key confirmation.
         /// </summary>

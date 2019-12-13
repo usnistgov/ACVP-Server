@@ -43,15 +43,13 @@ namespace NIST.CVP.Crypto.KAS.Tests
     /// </summary>
     public class KasFunctionalTestsEccSp800_56Ar3
     {
-        private IKasBuilder _kasBuilder;
         private ISchemeBuilder _schemeBuilder;
         
         private ISecretKeyingMaterialBuilder _secretKeyingMaterialBuilderThisParty;
         private ISecretKeyingMaterialBuilder _secretKeyingMaterialBuilderOtherParty;
-        
-        private IKdfParameterVisitor _kdfParameterVisitor;
+
+        private IKdfFactory _kdfFactory;
         private IKeyConfirmationFactory _keyConfirmationFactory;
-        private IFixedInfoFactory _fixedInfoFactory;
         
         private MacParametersBuilder _macParamsBuilder = new MacParametersBuilder();
         private IKasBuilder _subject = new KasBuilder();
@@ -73,21 +71,19 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new IkeV1Factory(),
                 new IkeV2Factory(new HmacFactory(new ShaFactory())),
                 new TlsKdfFactory());
-
+            _kdfFactory = new KdfFactory(kdfVisitor);
+            
             var eccDh = new DiffieHellmanEcc();
             var eccMqv = new MqvEcc();
             var ffcDh = new DiffieHellmanFfc();
             var ffcMqv = new MqvFfc();
             
-            _kasBuilder = new KasBuilder();
-            _schemeBuilder = new SchemeBuilder(kdfVisitor, eccDh, ffcDh, eccMqv, ffcMqv);
+            _schemeBuilder = new SchemeBuilder(eccDh, ffcDh, eccMqv, ffcMqv);
 
             _secretKeyingMaterialBuilderThisParty = new SecretKeyingMaterialBuilder();
             _secretKeyingMaterialBuilderOtherParty = new SecretKeyingMaterialBuilder();
 
-            _kdfParameterVisitor = new KdfParameterVisitor(entropyFactory.GetEntropyProvider(EntropyProviderTypes.Random));
             _keyConfirmationFactory = new KeyConfirmationFactory(new KeyConfirmationMacDataCreator());
-            _fixedInfoFactory = new FixedInfoFactory(new FixedInfoStrategyFactory());
         }
         
         private static object[] _test_keyConfirmation = new object[]
@@ -1110,7 +1106,7 @@ namespace NIST.CVP.Crypto.KAS.Tests
                     KeyGenerationRequirementsHelper.GetOtherPartyKeyConfirmationRole(keyConfirmationRole), keyConfirmationDirection);
 
             _schemeBuilder
-                .WithKdf(kdfParameter)
+                .WithKdf(_kdfFactory, kdfParameter)
                 .WithFixedInfo(fixedInfoFactory.Object, new FixedInfoParameter())
                 .WithKeyConfirmation(_keyConfirmationFactory, macParams)
                 .WithThisPartyKeyingMaterial(secretKeyingMaterialThisParty)
