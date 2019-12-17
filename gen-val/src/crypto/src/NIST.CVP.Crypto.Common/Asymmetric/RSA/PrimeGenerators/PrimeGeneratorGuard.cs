@@ -112,6 +112,11 @@ namespace NIST.CVP.Crypto.Common.Asymmetric.RSA.PrimeGenerators
                 case 4096:
                     return 128;
                 
+                // TODO confirmation
+                case 8192:
+                case 15360:
+                    return 128;
+                
                 default:
                     throw new ArgumentException($"{nameof(modulus)} provided is invalid: {modulus}.");
             }
