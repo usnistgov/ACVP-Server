@@ -87,7 +87,7 @@ namespace NIST.CVP.Crypto.Oracle
                     KeyMode = PrimeGenModes.RandomProbablePrimes,
                     PrimeTest = PrimeTestModes.TwoPow100ErrorBound,
                     PublicExponentMode = param.PublicExponentMode,
-                    PublicExponent = param.PublicExponent == 0 ? null : new BitString(param.PublicExponent)
+                    PublicExponent = param.PublicExponentMode == PublicExponentModes.Fixed ? new BitString(param.PublicExponent) : null 
                 });
                 keyTasks.Add(serverKeyTask);
             }
@@ -108,7 +108,7 @@ namespace NIST.CVP.Crypto.Oracle
                     KeyMode = PrimeGenModes.RandomProbablePrimes,
                     PrimeTest = PrimeTestModes.TwoPow100ErrorBound,
                     PublicExponentMode = param.PublicExponentMode,
-                    PublicExponent = param.PublicExponent == 0 ? null : new BitString(param.PublicExponent)
+                    PublicExponent = param.PublicExponentMode == PublicExponentModes.Fixed ? new BitString(param.PublicExponent) : null
                 });
                 keyTasks.Add(iutKeyTask);
             }
@@ -154,7 +154,7 @@ namespace NIST.CVP.Crypto.Oracle
                     KeyMode = PrimeGenModes.RandomProbablePrimes,
                     PrimeTest = PrimeTestModes.TwoPow100ErrorBound,
                     PublicExponentMode = param.PublicExponentMode,
-                    PublicExponent = param.PublicExponent == 0 ? null : new BitString(param.PublicExponent)
+                    PublicExponent = param.PublicExponentMode == PublicExponentModes.Fixed ? new BitString(param.PublicExponent) : null
                 });
                 keyTasks.Add(serverKeyTask);
             }
@@ -175,7 +175,7 @@ namespace NIST.CVP.Crypto.Oracle
                     KeyMode = PrimeGenModes.RandomProbablePrimes,
                     PrimeTest = PrimeTestModes.TwoPow100ErrorBound,
                     PublicExponentMode = param.PublicExponentMode,
-                    PublicExponent = param.PublicExponent == 0 ? null : new BitString(param.PublicExponent)
+                    PublicExponent = param.PublicExponentMode == PublicExponentModes.Fixed ? new BitString(param.PublicExponent) : null
                 });
                 keyTasks.Add(iutKeyTask);
             }

@@ -211,6 +211,10 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
                     return PrimeGeneratorHelper.Root2Mult2Pow1536Minus1;
                 case 4096:
                     return PrimeGeneratorHelper.Root2Mult2Pow2048Minus1;
+                case 8192:
+                    return PrimeGeneratorHelper.Root2Mult2Pow4096Minus1;
+                case 15360:
+                    return PrimeGeneratorHelper.Root2Mult2Pow7680Minus1;
                 default:
                     throw new ArgumentException("Invalid nlen");
             }
