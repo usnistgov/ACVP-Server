@@ -1,0 +1,12 @@
+﻿CREATE PROCEDURE [val].[OEInsert]
+
+	@Name nvarchar(2048)
+
+AS
+
+SET NOCOUNT ON
+
+INSERT INTO val.VALIDATION_OE ([name])
+VALUES (@Name)
+
+SELECT SCOPE_IDENTITY() AS OEID

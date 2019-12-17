@@ -1,0 +1,11 @@
+﻿CREATE PROCEDURE [val].[OEDelete]
+
+	@OEID bigint
+
+AS
+
+SET NOCOUNT ON
+
+DELETE 
+FROM val.VALIDATION_OE
+WHERE id = @OEID

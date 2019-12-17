@@ -1,7 +1,9 @@
-﻿namespace ACVPCore.Providers
+﻿using ACVPCore.Results;
+
+namespace ACVPCore.Providers
 {
 	public interface ITaskQueueProvider
 	{
-		void Insert(TaskType type, string payload);
+		Result Insert(TaskType type, string payload);
 	}
 }

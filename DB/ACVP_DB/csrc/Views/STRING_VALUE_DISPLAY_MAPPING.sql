@@ -1,0 +1,7 @@
+﻿CREATE VIEW [csrc].[STRING_VALUE_DISPLAY_MAPPING]
+WITH SCHEMABINDING
+AS
+
+SELECT id, property_id, string_value, display_value
+FROM ref.STRING_VALUE_DISPLAY_MAPPING
+

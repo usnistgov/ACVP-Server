@@ -1,7 +1,13 @@
-﻿namespace ACVPCore.Services
+﻿using ACVPCore.Models.Parameters;
+using ACVPCore.Results;
+
+namespace ACVPCore.Services
 {
 	public interface IDependencyService
 	{
-		void Delete(long dependencyID);
+		DeleteResult Delete(long dependencyID);
+		DeleteResult DeleteEvenIfUsed(long dependencyID);
+		DependencyResult Create(DependencyCreateParameters dependency);
+		DependencyResult Update(DependencyUpdateParameters parameters);
 	}
 }

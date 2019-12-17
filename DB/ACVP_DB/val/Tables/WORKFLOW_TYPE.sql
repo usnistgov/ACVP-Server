@@ -1,0 +1,6 @@
+﻿CREATE TABLE [val].[WORKFLOW_TYPE] (
+    [id]   INT            NOT NULL,
+    [type] NVARCHAR (256) NULL,
+    CONSTRAINT [PK_WORKFLOW_TYPE] PRIMARY KEY CLUSTERED ([id] ASC)
+);
+

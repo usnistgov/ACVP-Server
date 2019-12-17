@@ -1,0 +1,7 @@
+﻿CREATE TABLE [acvp].[ACVP_ROLE] (
+    [id]         BIGINT        IDENTITY (1, 1) NOT FOR REPLICATION NOT NULL,
+    [role_name]  NVARCHAR (64) NOT NULL,
+    [role_group] NVARCHAR (64) NOT NULL,
+    CONSTRAINT [PK_ACVP_ROLE] PRIMARY KEY CLUSTERED ([id] ASC)
+);
+

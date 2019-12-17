@@ -1,4 +1,5 @@
 ﻿using ACVPCore.Providers;
+using ACVPCore.Results;
 
 namespace ACVPCore.Services
 {
@@ -11,16 +12,23 @@ namespace ACVPCore.Services
 			_testSessionProvider = testSessionProvider;
 		}
 
-		public void Cancel(long testSessionID)
+		public Result Cancel(long testSessionID)
 		{
 			//Cancel all the vector sets on the test session
-			_testSessionProvider.CancelVectorSets(testSessionID);
+			Result result = _testSessionProvider.CancelVectorSets(testSessionID);
+
+			if (!result.IsSuccess)
+			{
+				return result;
+			}
 
 			//Cancel the test session
-			_testSessionProvider.Cancel(testSessionID);
+			result = _testSessionProvider.Cancel(testSessionID);
+
+			return result;
 		}
 
-		public void Create(long testSessionId, string acvVersion, string generator, bool isSample, long userID)
+		public Result Create(long testSessionId, string acvVersion, string generator, bool isSample, long userID)
 		{
 			int acvVersionID = acvVersion switch
 			{
@@ -28,7 +36,18 @@ namespace ACVPCore.Services
 				_ => -1
 			};
 
-			_testSessionProvider.Insert(testSessionId, acvVersionID, generator, isSample, !isSample, userID);
+			if (acvVersionID == -1)
+			{
+				return new Result("Unsupported ACVP version for Test Session creation");
+			}
+
+			return _testSessionProvider.Insert(testSessionId, acvVersionID, generator, isSample, !isSample, userID);
 		}
+
+		public bool CanSubmitForApproval(long testSessionID) => _testSessionProvider.GetStatus(testSessionID) == TestSessionStatus.Passed;
+
+		public TestSessionStatus GetStatus(long testSessionID) => _testSessionProvider.GetStatus(testSessionID);
+
+		public Result UpdateStatus(long testSessionID, TestSessionStatus testSessionStatus) => _testSessionProvider.UpdateStatus(testSessionID, testSessionStatus);
 	}
 }
