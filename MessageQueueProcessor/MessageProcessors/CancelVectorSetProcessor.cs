@@ -6,7 +6,7 @@ namespace MessageQueueProcessor.MessageProcessors
 {
 	public class CancelVectorSetProcessor : IMessageProcessor
 	{
-		private IVectorSetService _vectorSetService;
+		private readonly IVectorSetService _vectorSetService;
 
 		public CancelVectorSetProcessor(IVectorSetService vectorSetService)
 		{

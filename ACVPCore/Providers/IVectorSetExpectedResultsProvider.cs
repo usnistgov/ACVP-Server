@@ -1,7 +1,9 @@
-﻿namespace ACVPCore.Providers
+﻿using ACVPCore.Results;
+
+namespace ACVPCore.Providers
 {
 	public interface IVectorSetExpectedResultsProvider
 	{
-		void InsertWithCapabilities(long vectorSetID, string capabilities);
+		Result InsertWithCapabilities(long vectorSetID, string capabilities);
 	}
 }
