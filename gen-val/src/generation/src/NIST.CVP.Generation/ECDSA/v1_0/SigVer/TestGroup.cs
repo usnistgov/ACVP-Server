@@ -14,15 +14,22 @@ namespace NIST.CVP.Generation.ECDSA.v1_0.SigVer
     {
         public int TestGroupId { get; set; }
         public string TestType { get; set; }
+        
+        [JsonProperty(PropertyName = "component")]
+        public bool Component { get; set; }
+        
         [JsonProperty(PropertyName = "curve")]
         public Curve Curve { get; set; }
 
         [JsonIgnore]
         public bool IsMessageRandomized => "SP800-106".Equals(Conformance, StringComparison.OrdinalIgnoreCase);
+        
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string Conformance { get; set; } = string.Empty;
 
-        [JsonIgnore] public HashFunction HashAlg { get; set; }
+        [JsonIgnore] 
+        public HashFunction HashAlg { get; set; }
+        
         [JsonProperty(PropertyName = "hashAlg")]
         public string HashAlgName
         {
@@ -30,7 +37,8 @@ namespace NIST.CVP.Generation.ECDSA.v1_0.SigVer
             set => HashAlg = ShaAttributes.GetHashFunctionFromName(value);
         }
 
-        [JsonIgnore] public ITestCaseExpectationProvider<EcdsaSignatureDisposition> TestCaseExpectationProvider { get; set; }
+        [JsonIgnore] 
+        public ITestCaseExpectationProvider<EcdsaSignatureDisposition> TestCaseExpectationProvider { get; set; }
 
         public List<TestCase> Tests { get; set; } = new List<TestCase>();
 

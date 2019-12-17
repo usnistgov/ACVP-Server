@@ -10,6 +10,7 @@ namespace NIST.CVP.Generation.ECDSA.v1_0.SigVer
         public string Revision { get; set; }
         public bool IsSample { get; set; }
         public string[] Conformances { get; set; } = { };
+        public bool Component { get; set; }
 
         public Capability[] Capabilities { get; set; }
     }

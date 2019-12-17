@@ -39,6 +39,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer.IntegrationTests.Fips186_4
                 Revision = Revision,
                 IsSample = true,
                 Capabilities = caps,
+                Component = true,
                 Conformances = new[] { "SP800-106" }
             };
 
