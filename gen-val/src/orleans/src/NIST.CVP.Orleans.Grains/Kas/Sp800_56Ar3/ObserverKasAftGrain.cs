@@ -5,6 +5,7 @@ using NIST.CVP.Common.Oracle.ParameterTypes.Kas.Sp800_56Ar3;
 using NIST.CVP.Common.Oracle.ResultTypes.Kas.Sp800_56Ar3;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
+using NIST.CVP.Crypto.Common.KAS.KDF;
 using NIST.CVP.Crypto.Common.KAS.Sp800_56Ar3.Builders;
 using NIST.CVP.Crypto.Common.KAS.Sp800_56Ar3.Enums;
 using NIST.CVP.Math.Entropy;
@@ -19,22 +20,25 @@ namespace NIST.CVP.Orleans.Grains.Kas.Sp800_56Ar3
         private readonly ISecretKeyingMaterialBuilder _secretKeyingMaterialBuilder;
         private readonly IDsaEccFactory _dsaEccFactory;
         private readonly IDsaFfcFactory _dsaFfcFactory;
+        private readonly IEntropyProvider _entropyProvider;
+        private readonly IKdfParameterVisitor _kdfParameterVisitor;
         
         private KasAftParameters _param;
-        private IEntropyProvider _entropyProvider;
         
         public ObserverKasAftGrain(
             LimitedConcurrencyLevelTaskScheduler nonOrleansScheduler,
             ISecretKeyingMaterialBuilder secretKeyingMaterialBuilder,
             IDsaEccFactory dsaEccFactory,
             IDsaFfcFactory dsaFfcFactory,
-            IEntropyProvider entropyProvider
+            IEntropyProvider entropyProvider,
+            IKdfParameterVisitor kdfParameterVisitor
         ) : base (nonOrleansScheduler)
         {
             _secretKeyingMaterialBuilder = secretKeyingMaterialBuilder;
             _dsaEccFactory = dsaEccFactory;
             _dsaFfcFactory = dsaFfcFactory;
             _entropyProvider = entropyProvider;
+            _kdfParameterVisitor = kdfParameterVisitor;
         }
         
         public async Task<bool> BeginWorkAsync(KasAftParameters param)
@@ -79,6 +83,14 @@ namespace NIST.CVP.Orleans.Grains.Kas.Sp800_56Ar3
                     _param.ServerGenerationRequirements.KasMode, _param.ServerGenerationRequirements.ThisPartyKasRole,
                     _param.ServerGenerationRequirements.ThisPartyKeyConfirmationRole,
                     _param.ServerGenerationRequirements.KeyConfirmationDirection);
+                
+                IKdfParameter kdfParam = null;
+                if (_param.KdfConfiguration != null)
+                {
+                    kdfParam = _param.KdfConfiguration.GetKdfParameter(_kdfParameterVisitor);
+                }
+
+                result.KdfParameter = kdfParam;
                 
                 await Notify(result);
             }

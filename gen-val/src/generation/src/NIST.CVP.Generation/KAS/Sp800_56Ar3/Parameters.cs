@@ -158,9 +158,9 @@ namespace NIST.CVP.Generation.KAS.Sp800_56Ar3
         /// </summary>
         public KdfMethods KdfMethods { get; set; }
         /// <summary>
-        /// The MAC used for schemes utilizing KeyConfirmation
+        /// The KeyConfirmation configuration.
         /// </summary>
-        public MacMethods MacMethods { get; set; }
+        public KeyConfirmationMethod KeyConfirmationMethod { get; set; }
         /// <summary>
         /// The length of the key to derive using a KDF.
         /// </summary>
@@ -314,6 +314,22 @@ namespace NIST.CVP.Generation.KAS.Sp800_56Ar3
     }
     #endregion ECC
 
+    public class KeyConfirmationMethod
+    {
+        /// <summary>
+        /// The MAC used for schemes utilizing KeyConfirmation
+        /// </summary>
+        public MacMethods MacMethods { get; set; }
+        /// <summary>
+        /// The supported <see cref="KeyConfirmationDirection"/>s.
+        /// </summary>
+        public KeyConfirmationDirection[] KeyConfirmationDirections { get; set; }
+        /// <summary>
+        /// The supported <see cref="KeyConfirmationRole"/>s.
+        /// </summary>
+        public KeyConfirmationRole[] KeyConfirmationRoles { get; set; }
+    }
+    
     public class KdfMethods
     {
         public OneStepKdf OneStepKdf { get; set; }

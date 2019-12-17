@@ -24,13 +24,13 @@ namespace NIST.CVP.Generation.KAS.Sp800_56Ar3
 
         #region Validation statics
 
-        private static readonly AlgoMode[] ValidAlgoModes = new[]
+        private static readonly AlgoMode[] ValidAlgoModes =
         {
             AlgoMode.KAS_ECC_Sp800_56Ar3,
             AlgoMode.KAS_FFC_Sp800_56Ar3,
         };
 
-        private static readonly KasDpGeneration[] ValidFfcDpGeneration = new[]
+        private static readonly KasDpGeneration[] ValidFfcDpGeneration =
         {
             KasDpGeneration.Modp2048,
             KasDpGeneration.Modp3072,
@@ -46,7 +46,7 @@ namespace NIST.CVP.Generation.KAS.Sp800_56Ar3
             KasDpGeneration.Fc,
         };
         
-        private static readonly KasDpGeneration[] ValidEccDpGeneration = new[]
+        private static readonly KasDpGeneration[] ValidEccDpGeneration = 
         {
             KasDpGeneration.P192,
             KasDpGeneration.P224,
@@ -65,7 +65,7 @@ namespace NIST.CVP.Generation.KAS.Sp800_56Ar3
             KasDpGeneration.B571,
         };
 
-        private static readonly KasScheme[] ValidEccSchemes = new[]
+        private static readonly KasScheme[] ValidEccSchemes = 
         {
             KasScheme.EccEphemeralUnified,
             KasScheme.EccFullMqv,
@@ -76,7 +76,7 @@ namespace NIST.CVP.Generation.KAS.Sp800_56Ar3
             KasScheme.EccStaticUnified,
         };
         
-        private static readonly KasScheme[] ValidFfcSchemes = new[]
+        private static readonly KasScheme[] ValidFfcSchemes = 
         {
             KasScheme.FfcDhEphem,
             KasScheme.FfcDhHybrid1,
@@ -87,7 +87,25 @@ namespace NIST.CVP.Generation.KAS.Sp800_56Ar3
             KasScheme.FfcMqv2,
         };
         
-        public string[] ValidFunctions => new string[]
+        public static readonly KasScheme[] InvalidKcSchemes =
+        {
+            KasScheme.EccEphemeralUnified,
+            KasScheme.FfcDhEphem
+        };
+
+        public static readonly KeyConfirmationRole[] ValidKeyConfirmationRoles =
+        {
+            KeyConfirmationRole.Provider,
+            KeyConfirmationRole.Recipient,
+        };
+
+        public static readonly KeyConfirmationDirection[] ValidKeyConfirmationDirections =
+        {
+            KeyConfirmationDirection.Unilateral,
+            KeyConfirmationDirection.Bilateral
+        };
+        
+        public static readonly string[] ValidFunctions =
         {
             "keyPairGen",
             "fullVal",
@@ -166,12 +184,12 @@ namespace NIST.CVP.Generation.KAS.Sp800_56Ar3
 
         private static readonly MacSaltMethod[] ValidSaltGenerationMethods = { MacSaltMethod.Default, MacSaltMethod.Random };
 
-        private static readonly FixedInfoEncoding[] ValidEncodingTypes = new[]
+        private static readonly FixedInfoEncoding[] ValidEncodingTypes = 
         {
             FixedInfoEncoding.Concatenation, FixedInfoEncoding.ConcatenationWithLengths
         };
 
-        private static readonly int[] ValidAesKeyLengths = new[] { 128, 192, 256 };
+        private static readonly int[] ValidAesKeyLengths = { 128, 192, 256 };
         private static readonly int MinimumL = 112;
         private static readonly int MaximumL = 1024;
         #endregion Validation statics
@@ -261,7 +279,7 @@ namespace NIST.CVP.Generation.KAS.Sp800_56Ar3
                 return;
             }
 
-            var registeredSchemes = parameters.Scheme.GetRegisteredSchemes();
+            var registeredSchemes = parameters.Scheme.GetRegisteredSchemes().ToList();
 
             if (!registeredSchemes.Any())
             {
@@ -294,8 +312,8 @@ namespace NIST.CVP.Generation.KAS.Sp800_56Ar3
                         errorResults.Add(invalidSchemeMessage);
                     }
                     break;
-                case AlgoMode.KTS_IFC_Sp800_56Br2:
-                    if (registeredSchemes.Select(s => s.Scheme).Intersect(ValidFfcSchemes).Any())
+                case AlgoMode.KAS_FFC_Sp800_56Ar3:
+                    if (registeredSchemes.Select(s => s.Scheme).Intersect(ValidEccSchemes).Any())
                     {
                         errorResults.Add(invalidSchemeMessage);
                     }
@@ -324,7 +342,7 @@ namespace NIST.CVP.Generation.KAS.Sp800_56Ar3
 
             ValidateKeyAgreementRoles(scheme.KasRole, errorResults);
             ValidateKdfMethods(scheme.KdfMethods, scheme.L, errorResults);
-            ValidateMacMethods(scheme.Scheme, scheme.MacMethods, scheme.L, errorResults);
+            ValidateKeyConfirmation(scheme, errorResults);
         }
 
         private void ValidateKeyAgreementRoles(KeyAgreementRole[] schemeRoles, List<string> errorResults)
@@ -544,23 +562,43 @@ namespace NIST.CVP.Generation.KAS.Sp800_56Ar3
         }
         #endregion kdfValidation
 
-        #region macValidation
-        private void ValidateMacMethods(KasScheme scheme, MacMethods macOptions, int l, List<string> errorResults)
+        private void ValidateKeyConfirmation(SchemeBase scheme, List<string> errorResults)
         {
-            var registeredMacMethods = macOptions.GetRegisteredMacMethods();
-            
-            if (!registeredMacMethods.Any())
+            if (scheme.KeyConfirmationMethod == null)
             {
                 return;
             }
+            
+            errorResults.AddIfNotNullOrEmpty(ValidateArray(scheme.KeyConfirmationMethod.KeyConfirmationDirections, ValidKeyConfirmationDirections, "KeyConfirmationDirection"));
+            errorResults.AddIfNotNullOrEmpty(ValidateArray(scheme.KeyConfirmationMethod.KeyConfirmationRoles, ValidKeyConfirmationRoles, "KeyConfirmationRole"));
+            ValidateMacMethods(scheme.Scheme, scheme.KeyConfirmationMethod.MacMethods, scheme.L, errorResults);
+        }
+        
+        #region macValidation
+        private void ValidateMacMethods(KasScheme scheme, MacMethods macOptions, int l, List<string> errorResults)
+        {
+            var registeredMacMethods = macOptions.GetRegisteredMacMethods().ToList();
+            
+            if (!registeredMacMethods.Any())
+            {
+                errorResults.Add("MacConfigurations not provided for KeyConfirmation method.");
+                return;
+            }
 
+            // Certain schemes do not allow for key confirmation
+            if (registeredMacMethods.Any() && InvalidKcSchemes.Contains(scheme))
+            {
+                errorResults.Add($"KeyConfirmation not supported for scheme {scheme}");
+                return;
+            }
+            
             foreach (var macMethod in registeredMacMethods)
             {
-                ValidateMacKeyLen(l, macMethod, errorResults);
+                ValidateMacMethod(l, macMethod, errorResults);
             }
         }
 
-        private void ValidateMacKeyLen(int schemeL, MacOptionsBase macMethod, List<string> errorResults)
+        private void ValidateMacMethod(int schemeL, MacOptionsBase macMethod, List<string> errorResults)
         {
             if (macMethod == null)
             {

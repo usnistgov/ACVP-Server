@@ -14,6 +14,8 @@ using NIST.CVP.Common.Oracle.ParameterTypes.Kas.Sp800_56Br2;
 using NIST.CVP.Common.Oracle.ResultTypes.Kas.Sp800_56Ar1;
 using NIST.CVP.Common.Oracle.ResultTypes.Kas.Sp800_56Ar3;
 using NIST.CVP.Common.Oracle.ResultTypes.Kas.Sp800_56Br2;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
+using NIST.CVP.Crypto.Common.KAS.SafePrimes.Enums;
 using NIST.CVP.Orleans.Grains.Interfaces.Kas.Sp800_56Ar1;
 using NIST.CVP.Orleans.Grains.Interfaces.Kas.Sp800_56Ar3;
 using NIST.CVP.Orleans.Grains.Interfaces.Kas.Sp800_56Br2;
@@ -22,6 +24,15 @@ namespace NIST.CVP.Crypto.Oracle
 {
     public partial class Oracle
     {
+        public async Task<FfcDomainParameters> GetSafePrimeGroupsDomainParameterAsync(SafePrime param)
+        {
+            var observableGrain =
+                await GetObserverGrain<IObserverSafePrimesGroupDomainParameterGrain, FfcDomainParameters>();
+            await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, LoadSheddingRetries);
+
+            return await observableGrain.ObserveUntilResult();
+        }
+
         public async Task<KasValResult> GetKasValTestAsync(KasValParameters param)
         {
             var observableGrain =

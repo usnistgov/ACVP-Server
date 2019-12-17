@@ -13,7 +13,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.SafePrimes
     [TestFixture, FastCryptoTest]
     public class SafePrimesFactoryTest
     {
-        private ISafePrimesFactory _subject = new SafePrimesFactory();
+        private ISafePrimesGroupFactory _subject = new SafePrimesFactory();
         
         [Test]
         public void ShouldHaveCorrectRelationshipForQFromP()

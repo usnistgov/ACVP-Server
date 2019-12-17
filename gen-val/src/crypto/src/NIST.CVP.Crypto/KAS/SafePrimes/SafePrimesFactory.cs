@@ -8,7 +8,7 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.KAS.SafePrimes
 {
-    public class SafePrimesFactory : ISafePrimesFactory
+    public class SafePrimesFactory : ISafePrimesGroupFactory
     {
         public FfcDomainParameters GetSafePrime(SafePrime safePrime)
         {

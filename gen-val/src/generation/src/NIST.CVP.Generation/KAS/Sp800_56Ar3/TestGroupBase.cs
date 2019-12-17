@@ -36,8 +36,6 @@ namespace NIST.CVP.Generation.KAS.Sp800_56Ar3
         public KeyAgreementRole KasRole { get; set; }
 
         public KasMode KasMode { get; set; }
-        
-        public KeyAgreementMacType MacType { get; set; }
 
         public int L { get; set; }
         
@@ -52,29 +50,11 @@ namespace NIST.CVP.Generation.KAS.Sp800_56Ar3
                 KeyConfirmationDirection).requirments;
         
         public BitString IutId { get; set; }
-        public BitString ServerId { get; set; } = new BitString("434156536964");
+        public BitString ServerId { get; } = new BitString("434156536964");
         
         public IKdfConfiguration KdfConfiguration { get; set; }
         public MacConfiguration MacConfiguration { get; set; }
         public KeyConfirmationDirection KeyConfirmationDirection { get; set; }
         public KeyConfirmationRole KeyConfirmationRole { get; set; }
-        
-        /// <summary>
-        /// The key parameter for a MAC in key confirmation.
-        /// </summary>
-        public BitString MacKey { get; set; }
-        /// <summary>
-        /// The data parameter for a MAC in key confirmation.
-        /// </summary>
-        public BitString MacData { get; set; }
-
-        /// <summary>
-        /// The derived keying material - minus any bits that were used for key confirmation.
-        /// </summary>
-        public BitString Dkm { get; set; }
-        /// <summary>
-        /// The tag as a result of key confirmation.
-        /// </summary>
-        public BitString Tag { get; set; }
     }
 }

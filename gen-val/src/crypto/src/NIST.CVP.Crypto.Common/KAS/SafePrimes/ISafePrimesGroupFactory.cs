@@ -11,7 +11,7 @@ namespace NIST.CVP.Crypto.Common.KAS.SafePrimes
     /// https://tools.ietf.org/html/rfc3526#page-3
     /// https://tools.ietf.org/html/rfc7919#appendix-A.1
     /// </summary>
-    public interface ISafePrimesFactory
+    public interface ISafePrimesGroupFactory
     {
         /// <summary>
         /// Gets a <see cref="FfcDomainParameters"/> from a <see cref="SafePrime"/>.

@@ -2,14 +2,19 @@
 using NIST.CVP.Common.Oracle.ParameterTypes.Kas.Sp800_56Ar1;
 using NIST.CVP.Common.Oracle.ParameterTypes.Kas.Sp800_56Ar3;
 using NIST.CVP.Common.Oracle.ParameterTypes.Kas.Sp800_56Br2;
+using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Common.Oracle.ResultTypes.Kas.Sp800_56Ar1;
 using NIST.CVP.Common.Oracle.ResultTypes.Kas.Sp800_56Ar3;
 using NIST.CVP.Common.Oracle.ResultTypes.Kas.Sp800_56Br2;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
+using NIST.CVP.Crypto.Common.KAS.SafePrimes.Enums;
 
 namespace NIST.CVP.Common.Oracle
 {
     public partial interface IOracle
     {
+        Task<FfcDomainParameters> GetSafePrimeGroupsDomainParameterAsync(SafePrime param);
+        
         Task<KasValResult> GetKasValTestAsync(KasValParameters param);
         Task<KasAftResult> GetKasAftTestAsync(KasAftParameters param);
         Task<ResultTypes.Kas.Sp800_56Ar3.KasAftDeferredResult> CompleteDeferredKasTestAsync(KasAftDeferredParameters param);
