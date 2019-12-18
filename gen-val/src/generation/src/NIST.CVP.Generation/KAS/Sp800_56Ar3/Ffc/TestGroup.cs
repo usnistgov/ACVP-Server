@@ -1,8 +1,8 @@
-using NIST.CVP.Crypto.Common.KAS.Helpers;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
 
 namespace NIST.CVP.Generation.KAS.Sp800_56Ar3.Ffc
 {
-    public class TestGroup : TestGroupBase<TestGroup, TestCase>
+    public class TestGroup : TestGroupBase<TestGroup, TestCase, FfcKeyPair>
     {
         
     }

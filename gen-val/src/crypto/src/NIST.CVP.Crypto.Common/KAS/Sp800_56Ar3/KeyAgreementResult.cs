@@ -38,6 +38,16 @@ namespace NIST.CVP.Crypto.Common.KAS.Sp800_56Ar3
         public BitString Tag { get; }
 
         /// <summary>
+        /// indicates success/failure of Kas operation
+        /// </summary>
+        public bool Success => string.IsNullOrEmpty(ErrorMessage);
+
+        /// <summary>
+        /// The error message returned by the Kas operation
+        /// </summary>
+        public string ErrorMessage { get; }
+
+        /// <summary>
         /// Construct the Result for KAS without a KDF or KeyConfirmation (component test)
         /// </summary>
         /// <param name="secretKeyingMaterialPartyU">The secret keying material for party U.</param>
@@ -94,6 +104,11 @@ namespace NIST.CVP.Crypto.Common.KAS.Sp800_56Ar3
             MacKey = macKey;
             MacData = macData;
             Tag = tag;
+        }
+
+        public KeyAgreementResult(string errorMessage)
+        {
+            ErrorMessage = errorMessage;
         }
     }
 }

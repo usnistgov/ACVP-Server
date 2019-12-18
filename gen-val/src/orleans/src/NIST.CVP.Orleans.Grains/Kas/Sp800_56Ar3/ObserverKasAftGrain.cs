@@ -65,7 +65,7 @@ namespace NIST.CVP.Orleans.Grains.Kas.Sp800_56Ar3
                             (EccDomainParameters) _param.DomainParameters, 
                             _dsaEccFactory, 
                             _entropyProvider,
-                            _param.ServerPartyId);
+                            _param.PartyIdServer);
                         break;
                     case KasAlgorithm.Ffc:
                         KeyingMaterialHelpers.SetSecretKeyingMaterialBuilderInformation(
@@ -74,7 +74,7 @@ namespace NIST.CVP.Orleans.Grains.Kas.Sp800_56Ar3
                             (FfcDomainParameters) _param.DomainParameters, 
                             _dsaFfcFactory, 
                             _entropyProvider,
-                            _param.ServerPartyId);
+                            _param.PartyIdServer);
                         break;
                 }
 

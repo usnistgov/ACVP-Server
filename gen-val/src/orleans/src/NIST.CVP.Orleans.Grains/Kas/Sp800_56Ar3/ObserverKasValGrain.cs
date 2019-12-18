@@ -98,20 +98,22 @@ namespace NIST.CVP.Orleans.Grains.Kas.Sp800_56Ar3
                             KeyingMaterialHelpers.SetSecretKeyingMaterialBuilderInformation(
                                 _serverSecretKeyingMaterialBuilder, _param.ServerGenerationRequirements,
                                 (EccDomainParameters) _param.DomainParameters, _dsaEccFactory, _entropyProvider,
-                                _param.ServerPartyId);
+                                _param.PartyIdServer);
 
-                            KeyingMaterialHelpers.SetSecretKeyingMaterialBuilderInformation(_iutSecretKeyingMaterialBuilder,
-                                _param.IutGenerationRequirements, (EccDomainParameters) _param.DomainParameters,
-                                _dsaEccFactory, _entropyProvider, _param.IutPartyId);
+                            KeyingMaterialHelpers.SetSecretKeyingMaterialBuilderInformation(
+                                _iutSecretKeyingMaterialBuilder, _param.IutGenerationRequirements, 
+                                (EccDomainParameters) _param.DomainParameters,
+                                _dsaEccFactory, _entropyProvider, _param.PartyIdIut);
                             break;
                         case KasAlgorithm.Ffc:
                             KeyingMaterialHelpers.SetSecretKeyingMaterialBuilderInformation(
                                 _serverSecretKeyingMaterialBuilder, _param.ServerGenerationRequirements,
                                 (FfcDomainParameters) _param.DomainParameters, _dsaFfcFactory, _entropyProvider,
-                                _param.ServerPartyId);
-                            KeyingMaterialHelpers.SetSecretKeyingMaterialBuilderInformation(_iutSecretKeyingMaterialBuilder,
-                                _param.IutGenerationRequirements, (FfcDomainParameters) _param.DomainParameters,
-                                _dsaFfcFactory, _entropyProvider, _param.IutPartyId);
+                                _param.PartyIdServer);
+                            KeyingMaterialHelpers.SetSecretKeyingMaterialBuilderInformation(
+                                _iutSecretKeyingMaterialBuilder, _param.IutGenerationRequirements, 
+                                (FfcDomainParameters) _param.DomainParameters,
+                                _dsaFfcFactory, _entropyProvider, _param.PartyIdIut);
                             break;
                     }
 
@@ -180,7 +182,7 @@ namespace NIST.CVP.Orleans.Grains.Kas.Sp800_56Ar3
                             _param.IutGenerationRequirements.ThisPartyKeyConfirmationRole,
                             _param.IutGenerationRequirements.KeyConfirmationDirection, 
                             KasAssurance.None,
-                            _param.IutPartyId));
+                            _param.PartyIdIut));
 
                     var kasIut = _kasBuilder.WithSchemeBuilder(_schemeBuilder)
                         .Build();

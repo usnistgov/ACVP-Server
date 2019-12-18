@@ -1,11 +1,15 @@
 using System;
 using NIST.CVP.Common.Oracle;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA;
 using NIST.CVP.Generation.Core.Async;
 using NIST.CVP.Generation.KAS.Sp800_56Ar3.Helpers;
 
-namespace NIST.CVP.Generation.KAS.Sp800_56Ar3.Ecc
+namespace NIST.CVP.Generation.KAS.Sp800_56Ar3
 {
-    public class TestCaseGeneratorFactory : ITestCaseGeneratorFactoryAsync<TestGroup, TestCase>
+    public class TestCaseGeneratorFactory<TTestGroup, TTestCase, TKeyPair> : ITestCaseGeneratorFactoryAsync<TTestGroup, TTestCase>
+        where TTestGroup : TestGroupBase<TTestGroup, TTestCase, TKeyPair>
+        where TTestCase : TestCaseBase<TTestGroup, TTestCase, TKeyPair>, new()
+        where TKeyPair : IDsaKeyPair, new()
     {
         private readonly IOracle _oracle;
         
@@ -17,7 +21,7 @@ namespace NIST.CVP.Generation.KAS.Sp800_56Ar3.Ecc
             _oracle = oracle;
         }
         
-        public ITestCaseGeneratorAsync<TestGroup, TestCase> GetCaseGenerator(TestGroup testGroup)
+        public ITestCaseGeneratorAsync<TTestGroup, TTestCase> GetCaseGenerator(TTestGroup testGroup)
         {
             if (testGroup.TestType.Equals(aftTest, StringComparison.OrdinalIgnoreCase) 
                 && testGroup.IsSample)
@@ -25,21 +29,21 @@ namespace NIST.CVP.Generation.KAS.Sp800_56Ar3.Ecc
                 // When running in sample mode, the ACVP server needs produce vectors as if it were both parties.
                 // Since VAL tests do this anyway, we can fall back on its test case generator for producing sample AFT tests.
                 var validityTestCaseOptions = TestCaseDispositionHelper.PopulateValidityTestCaseOptions(testGroup, false);
-                return new TestCaseGeneratorVal(_oracle, validityTestCaseOptions);
+                return new TestCaseGeneratorVal<TTestGroup, TTestCase, TKeyPair>(_oracle, validityTestCaseOptions);
             }
             
             if (testGroup.TestType.Equals(aftTest, StringComparison.OrdinalIgnoreCase))
             {
-                return new TestCaseGeneratorAft(_oracle);
+                return new TestCaseGeneratorAft<TTestGroup, TTestCase, TKeyPair>(_oracle);
             }
 
             if (testGroup.TestType.Equals(valTest, StringComparison.OrdinalIgnoreCase))
             {
                 var validityTestCaseOptions = TestCaseDispositionHelper.PopulateValidityTestCaseOptions(testGroup, true);
-                return new TestCaseGeneratorVal(_oracle, validityTestCaseOptions);
+                return new TestCaseGeneratorVal<TTestGroup, TTestCase, TKeyPair>(_oracle, validityTestCaseOptions);
             }
 
-            return new TestCaseGeneratorNull();
+            return new TestCaseGeneratorNull<TTestGroup, TTestCase, TKeyPair>();
         }
     }
 }

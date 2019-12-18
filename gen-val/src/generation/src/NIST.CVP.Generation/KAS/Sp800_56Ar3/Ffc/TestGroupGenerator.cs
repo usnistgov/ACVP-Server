@@ -9,7 +9,7 @@ using NIST.CVP.Generation.KAS.Sp800_56Ar3.Enums;
 
 namespace NIST.CVP.Generation.KAS.Sp800_56Ar3.Ffc
 {
-    public class TestGroupGenerator : TestGroupGeneratorBase<TestGroup, TestCase, FfcDomainParameters>
+    public class TestGroupGenerator : TestGroupGeneratorBase<TestGroup, TestCase, FfcDomainParameters, FfcKeyPair>
     {
         private readonly IOracle _oracle;
 

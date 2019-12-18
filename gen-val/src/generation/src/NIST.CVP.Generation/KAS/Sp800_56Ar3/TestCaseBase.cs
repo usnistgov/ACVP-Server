@@ -1,19 +1,26 @@
 using Newtonsoft.Json;
 using NIST.CVP.Common.Oracle.DispositionTypes;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA;
 using NIST.CVP.Crypto.Common.KAS.KDF;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.KAS.Sp800_56Ar3
 {
-    public abstract class TestCaseBase<TTestGroup, TTestCase> : ITestCase<TTestGroup, TTestCase>
-        where TTestGroup : TestGroupBase<TTestGroup, TTestCase>
-        where TTestCase : TestCaseBase<TTestGroup, TTestCase>
+    public abstract class TestCaseBase<TTestGroup, TTestCase, TKeyPair> : ITestCase<TTestGroup, TTestCase>
+        where TTestGroup : TestGroupBase<TTestGroup, TTestCase, TKeyPair>
+        where TTestCase : TestCaseBase<TTestGroup, TTestCase, TKeyPair>
+        where TKeyPair : IDsaKeyPair
     {
         public int TestCaseId { get; set; }
         public TTestGroup ParentGroup { get; set; }
         public bool? TestPassed { get; set; }
         public bool Deferred { get; set; }
+        
+        [JsonIgnore] public abstract TKeyPair StaticKeyServer { get; set; }
+        [JsonIgnore] public abstract TKeyPair EphemeralKeyServer { get; set; }
+        [JsonIgnore] public abstract TKeyPair StaticKeyIut { get; set; }
+        [JsonIgnore] public abstract TKeyPair EphemeralKeyIut { get; set; }
         
         /// <summary>
         /// The intended result of the test case

@@ -7,16 +7,16 @@ namespace NIST.CVP.Common.Oracle.ParameterTypes.Kas.Sp800_56Ar3
 {
     public class KasAftDeferredParameters : KasParametersBase
     {
-        public BitString ServerDkmNonce { get; set; }
-        public BitString ServerEphemeralNonce { get; set; }
-        public IDsaKeyPair ServerEphemeralKey { get; set; }
-        public IDsaKeyPair ServerStaticKey { get; set; }
+        public BitString DkmNonceServer { get; set; }
+        public BitString EphemeralNonceServer { get; set; }
+        public IDsaKeyPair EphemeralKeyServer { get; set; }
+        public IDsaKeyPair StaticKeyServer { get; set; }
         
-        public BitString IutPartyId { get; set; }
-        public BitString IutDkmNonce { get; set; }
-        public BitString IutEphemeralNonce { get; set; }
-        public IDsaKeyPair IutEphemeralKey { get; set; }
-        public IDsaKeyPair IutStaticKey { get; set; }
+        public BitString PartyIdIut { get; set; }
+        public BitString DkmNonceIut { get; set; }
+        public BitString EphemeralNonceIut { get; set; }
+        public IDsaKeyPair EphemeralKeyIut { get; set; }
+        public IDsaKeyPair StaticKeyIut { get; set; }
         
         public int L { get; set; }
         

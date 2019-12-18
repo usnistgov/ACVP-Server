@@ -7,7 +7,7 @@ using NIST.CVP.Generation.KAS.Sp800_56Ar3.Enums;
 
 namespace NIST.CVP.Generation.KAS.Sp800_56Ar3.Ecc
 {
-    public class TestGroupGenerator : TestGroupGeneratorBase<TestGroup, TestCase, EccDomainParameters>
+    public class TestGroupGenerator : TestGroupGeneratorBase<TestGroup, TestCase, EccDomainParameters, EccKeyPair>
     {
         private readonly IOracle _oracle;
 

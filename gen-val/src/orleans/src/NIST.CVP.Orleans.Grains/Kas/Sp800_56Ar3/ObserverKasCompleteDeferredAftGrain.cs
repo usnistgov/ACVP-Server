@@ -62,11 +62,11 @@ namespace NIST.CVP.Orleans.Grains.Kas.Sp800_56Ar3
             var isServerPartyV = !isServerPartyU;
 
             _serverSecretKeyingMaterialBuilder
-                .WithPartyId(_param.ServerPartyId)
-                .WithEphemeralKey(_param.ServerEphemeralKey)
-                .WithStaticKey(_param.ServerStaticKey)
-                .WithEphemeralNonce(_param.ServerEphemeralNonce)
-                .WithDkmNonce(_param.ServerDkmNonce);
+                .WithPartyId(_param.PartyIdServer)
+                .WithEphemeralKey(_param.EphemeralKeyServer)
+                .WithStaticKey(_param.StaticKeyServer)
+                .WithEphemeralNonce(_param.EphemeralNonceServer)
+                .WithDkmNonce(_param.DkmNonceServer);
                 
             var serverSecretKeyingMaterial = _serverSecretKeyingMaterialBuilder
                 .Build(
@@ -77,11 +77,11 @@ namespace NIST.CVP.Orleans.Grains.Kas.Sp800_56Ar3
                     _param.ServerGenerationRequirements.KeyConfirmationDirection);
                 
             _iutSecretKeyingMaterialBuilder
-                .WithPartyId(_param.IutPartyId)
-                .WithEphemeralKey(_param.IutEphemeralKey)
-                .WithStaticKey(_param.IutStaticKey)
-                .WithEphemeralNonce(_param.IutEphemeralNonce)
-                .WithDkmNonce(_param.IutDkmNonce);
+                .WithPartyId(_param.PartyIdIut)
+                .WithEphemeralKey(_param.EphemeralKeyIut)
+                .WithStaticKey(_param.StaticKeyIut)
+                .WithEphemeralNonce(_param.EphemeralNonceIut)
+                .WithDkmNonce(_param.DkmNonceIut);
                 
             var iutSecretKeyingMaterial = _iutSecretKeyingMaterialBuilder
                 .Build(
@@ -122,7 +122,7 @@ namespace NIST.CVP.Orleans.Grains.Kas.Sp800_56Ar3
                         _param.ServerGenerationRequirements.ThisPartyKeyConfirmationRole,
                         _param.ServerGenerationRequirements.KeyConfirmationDirection,
                         KasAssurance.None,
-                        _param.ServerPartyId))
+                        _param.PartyIdServer))
                 .WithThisPartyKeyingMaterial(serverSecretKeyingMaterial)
                 .WithFixedInfo(_fixedInfoFactory, fixedInfoParameter)
                 .WithKdf(_kdfFactory, _param.KdfParameter)

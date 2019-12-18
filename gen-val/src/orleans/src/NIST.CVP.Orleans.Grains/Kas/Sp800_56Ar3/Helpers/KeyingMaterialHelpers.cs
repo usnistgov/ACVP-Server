@@ -29,6 +29,8 @@ namespace NIST.CVP.Orleans.Grains.Kas.Sp800_56Ar3.Helpers
             IEntropyProvider entropyProvider,
             BitString partyId)
         {
+            builder.WithDomainParameters(dp);
+            
             if (requirements.GeneratesEphemeralKeyPair)
             {
                 builder
@@ -80,7 +82,9 @@ namespace NIST.CVP.Orleans.Grains.Kas.Sp800_56Ar3.Helpers
             BitString partyId)
         {
             var curveAttributes = CurveAttributesHelper.GetCurveAttribute(dp.CurveE.CurveName);
-        
+
+            builder.WithDomainParameters(dp);
+            
             if (requirements.GeneratesEphemeralKeyPair)
             {
                 builder

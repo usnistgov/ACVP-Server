@@ -13,9 +13,7 @@ namespace NIST.CVP.Common.Oracle.ParameterTypes.Kas.Sp800_56Ar3
         
         public IDsaDomainParameters DomainParameters { get; set; }
         
-        public BitString ServerPartyId { get; set; }
-        
-        public IKdfConfiguration KdfConfiguration { get; set; }
+        public BitString PartyIdServer { get; set; }
         
         public SchemeKeyNonceGenRequirement IutGenerationRequirements { get; set; }
         public SchemeKeyNonceGenRequirement ServerGenerationRequirements { get; set; }

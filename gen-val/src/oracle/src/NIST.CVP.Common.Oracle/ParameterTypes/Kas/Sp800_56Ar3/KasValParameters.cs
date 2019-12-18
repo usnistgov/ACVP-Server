@@ -8,9 +8,10 @@ namespace NIST.CVP.Common.Oracle.ParameterTypes.Kas.Sp800_56Ar3
     public class KasValParameters : KasParametersBase
     {
         public KasValTestDisposition Disposition { get; set; }
-        public BitString IutPartyId { get; set; }
+        public BitString PartyIdIut { get; set; }
         public int L { get; set; }
         
+        public IKdfConfiguration KdfConfiguration { get; set; }
         public MacConfiguration MacConfiguration { get; set; }
     }
 }

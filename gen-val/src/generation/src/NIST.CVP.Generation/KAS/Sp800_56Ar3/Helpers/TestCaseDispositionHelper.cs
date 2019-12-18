@@ -3,17 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Common.Oracle.DispositionTypes;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 
 namespace NIST.CVP.Generation.KAS.Sp800_56Ar3.Helpers
 {
     public static class TestCaseDispositionHelper
     {
-        public static List<KasValTestDisposition> PopulateValidityTestCaseOptions<TTestGroup, TTestCase>(
-            TestGroupBase<TTestGroup, TTestCase> testGroup, bool includeFailureTests
+        public static List<KasValTestDisposition> PopulateValidityTestCaseOptions<TTestGroup, TTestCase, TKeyPair>(
+            TestGroupBase<TTestGroup, TTestCase, TKeyPair> testGroup, bool includeFailureTests
         )
-            where TTestGroup : TestGroupBase<TTestGroup, TTestCase>
-            where TTestCase : TestCaseBase<TTestGroup, TTestCase>
+            where TTestGroup : TestGroupBase<TTestGroup, TTestCase, TKeyPair>
+            where TTestCase : TestCaseBase<TTestGroup, TTestCase, TKeyPair>
+            where TKeyPair : IDsaKeyPair
         {
          List<KasValTestDisposition> validityTestCaseOptions = new List<KasValTestDisposition>();
             const int numberOfScenariosPerType = 2;

@@ -13,9 +13,10 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.KAS.Sp800_56Ar3
 {
-    public abstract class TestGroupBase<TTestGroup, TTestCase> : ITestGroup<TTestGroup, TTestCase>
-        where TTestGroup : TestGroupBase<TTestGroup, TTestCase>
-        where TTestCase : TestCaseBase<TTestGroup, TTestCase>
+    public abstract class TestGroupBase<TTestGroup, TTestCase, TKeyPair> : ITestGroup<TTestGroup, TTestCase>
+        where TTestGroup : TestGroupBase<TTestGroup, TTestCase, TKeyPair>
+        where TTestCase : TestCaseBase<TTestGroup, TTestCase, TKeyPair>
+        where TKeyPair : IDsaKeyPair
     {
         public int TestGroupId { get; set; }
         public string TestType { get; set; }
@@ -52,9 +53,13 @@ namespace NIST.CVP.Generation.KAS.Sp800_56Ar3
         public BitString IutId { get; set; }
         public BitString ServerId { get; } = new BitString("434156536964");
         
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public IKdfConfiguration KdfConfiguration { get; set; }
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public MacConfiguration MacConfiguration { get; set; }
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public KeyConfirmationDirection KeyConfirmationDirection { get; set; }
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public KeyConfirmationRole KeyConfirmationRole { get; set; }
     }
 }

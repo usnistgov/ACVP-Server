@@ -4,16 +4,18 @@ using System.Threading.Tasks;
 using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.DispositionTypes;
 using NIST.CVP.Common.Oracle.ParameterTypes.Kas.Sp800_56Ar3;
-using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Async;
 using NIST.CVP.Generation.KAS.Sp800_56Ar3.Helpers;
 using NLog;
 
-namespace NIST.CVP.Generation.KAS.Sp800_56Ar3.Ecc
+namespace NIST.CVP.Generation.KAS.Sp800_56Ar3
 {
-    public class TestCaseGeneratorVal : ITestCaseGeneratorAsync<TestGroup, TestCase>
+    public class TestCaseGeneratorVal<TTestGroup, TTestCase, TKeyPair> : ITestCaseGeneratorAsync<TTestGroup, TTestCase>
+        where TTestGroup : TestGroupBase<TTestGroup, TTestCase, TKeyPair>
+        where TTestCase : TestCaseBase<TTestGroup, TTestCase, TKeyPair>, new()
+        where TKeyPair : IDsaKeyPair
     {
         private readonly IOracle _oracle;
         private readonly List<KasValTestDisposition> _testDispositions;
@@ -26,7 +28,7 @@ namespace NIST.CVP.Generation.KAS.Sp800_56Ar3.Ecc
         }
 
         public int NumberOfTestCasesToGenerate { get; }
-        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup @group, bool isSample, int caseNo = -1)
+        public async Task<TestCaseGenerateResponse<TTestGroup, TTestCase>> GenerateAsync(TTestGroup @group, bool isSample, int caseNo = -1)
         {
             var testCaseDisposition = TestCaseDispositionHelper.GetTestCaseIntention(_testDispositions);
             
@@ -37,28 +39,29 @@ namespace NIST.CVP.Generation.KAS.Sp800_56Ar3.Ecc
                     Disposition = testCaseDisposition,
                     L = group.L,
                     KasScheme = group.Scheme,
+                    KasAlgorithm = group.KasAlgorithm,
                     DomainParameters = group.DomainParameters,
                     KdfConfiguration = group.KdfConfiguration,
                     MacConfiguration = group.MacConfiguration,
-                    IutPartyId = group.IutId,
-                    ServerPartyId = group.ServerId,
+                    PartyIdIut = group.IutId,
+                    PartyIdServer = group.ServerId,
                     IutGenerationRequirements = group.KeyNonceGenRequirementsIut,
                     ServerGenerationRequirements = group.KeyNonceGenRequirementsServer
                 });
 
-                return new TestCaseGenerateResponse<TestGroup, TestCase>(new TestCase()
+                return new TestCaseGenerateResponse<TTestGroup, TTestCase>(new TTestCase()
                 {
                     Deferred = false,
                     TestPassed = result.TestPassed,
                     TestCaseDisposition = result.Disposition,
                     
-                    EphemeralKeyServer = (EccKeyPair) result.ServerSecretKeyingMaterial.EphemeralKeyPair,
-                    StaticKeyServer = (EccKeyPair) result.ServerSecretKeyingMaterial.StaticKeyPair,
+                    EphemeralKeyServer = (TKeyPair) result.ServerSecretKeyingMaterial.EphemeralKeyPair,
+                    StaticKeyServer = (TKeyPair) result.ServerSecretKeyingMaterial.StaticKeyPair,
                     EphemeralNonceServer = result.ServerSecretKeyingMaterial.EphemeralNonce,
                     DkmNonceServer = result.ServerSecretKeyingMaterial.DkmNonce,
                     
-                    EphemeralKeyIut = (EccKeyPair) result.IutSecretKeyingMaterial.EphemeralKeyPair,
-                    StaticKeyIut = (EccKeyPair) result.IutSecretKeyingMaterial.StaticKeyPair,
+                    EphemeralKeyIut = (TKeyPair) result.IutSecretKeyingMaterial.EphemeralKeyPair,
+                    StaticKeyIut = (TKeyPair) result.IutSecretKeyingMaterial.StaticKeyPair,
                     EphemeralNonceIut = result.IutSecretKeyingMaterial.EphemeralNonce,
                     DkmNonceIut = result.IutSecretKeyingMaterial.DkmNonce,
                     
@@ -74,7 +77,7 @@ namespace NIST.CVP.Generation.KAS.Sp800_56Ar3.Ecc
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                return new TestCaseGenerateResponse<TestGroup, TestCase>(ex.Message);
+                return new TestCaseGenerateResponse<TTestGroup, TTestCase>(ex.Message);
             }
         }
 

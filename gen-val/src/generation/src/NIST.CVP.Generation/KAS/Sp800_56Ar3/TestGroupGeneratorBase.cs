@@ -14,15 +14,17 @@ using NIST.CVP.Crypto.Common.KAS.KDF.KdfOneStep;
 using NIST.CVP.Crypto.Common.KAS.KDF.KdfTls10_11;
 using NIST.CVP.Crypto.Common.KAS.KDF.KdfTls12;
 using NIST.CVP.Crypto.Common.KAS.KDF.KdfTwoStep;
+using NIST.CVP.Crypto.Common.KAS.Sp800_56Ar3.Enums;
 using NIST.CVP.Crypto.Common.KDF.Enums;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.KAS.Sp800_56Ar3
 {
-    public abstract class TestGroupGeneratorBase<TTestGroup, TTestCase, TDomainParameters> : ITestGroupGenerator<Parameters, TTestGroup, TTestCase>
-        where TTestGroup : TestGroupBase<TTestGroup, TTestCase>, new()
-        where TTestCase : TestCaseBase<TTestGroup, TTestCase>, new()
+    public abstract class TestGroupGeneratorBase<TTestGroup, TTestCase, TDomainParameters, TKeyPair> : ITestGroupGenerator<Parameters, TTestGroup, TTestCase>
+        where TTestGroup : TestGroupBase<TTestGroup, TTestCase, TKeyPair>, new()
+        where TTestCase : TestCaseBase<TTestGroup, TTestCase, TKeyPair>, new()
         where TDomainParameters : IDsaDomainParameters
+        where TKeyPair : IDsaKeyPair
     {
         private static readonly string[] TestTypes =
         {
@@ -78,6 +80,19 @@ namespace NIST.CVP.Generation.KAS.Sp800_56Ar3
                                     {
                                         foreach (var kcRole in schemeBase.KeyConfirmationMethod.KeyConfirmationRoles)
                                         {
+                                            // Two schemes do not allow key confirmation in a certain direction
+                                            if (new[] { KasScheme.EccOnePassDh, KasScheme.FfcDhOneFlow }.Contains(schemeBase.Scheme))
+                                            {
+                                                if (kcDirection == KeyConfirmationDirection.Bilateral ||
+                                                    (role == KeyAgreementRole.InitiatorPartyU &&
+                                                     kcRole == KeyConfirmationRole.Provider) ||
+                                                    (role == KeyAgreementRole.ResponderPartyV &&
+                                                     kcRole == KeyConfirmationRole.Recipient))
+                                                {
+                                                    continue;
+                                                }
+                                            }
+                                            
                                             groups.Add(new TTestGroup()
                                             {
                                                 IsSample = param.IsSample,
