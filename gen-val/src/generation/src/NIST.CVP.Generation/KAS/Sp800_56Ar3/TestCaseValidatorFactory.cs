@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using NIST.CVP.Common.Oracle;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA;
+using NIST.CVP.Crypto.Common.KAS.Sp800_56Ar3;
 using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.KAS.Sp800_56Ar3
@@ -13,11 +14,11 @@ namespace NIST.CVP.Generation.KAS.Sp800_56Ar3
         where TTestCase : TestCaseBase<TTestGroup, TTestCase, TKeyPair>, new()
         where TKeyPair : IDsaKeyPair
     {
-        private readonly IOracle _oracle;
+        private IDeferredTestCaseResolverAsync<TTestGroup, TTestCase, KeyAgreementResult> _deferredTestCaseResolver;
 
-        public TestCaseValidatorFactory(IOracle oracle)
+        public TestCaseValidatorFactory(IDeferredTestCaseResolverAsync<TTestGroup, TTestCase, KeyAgreementResult> deferredTestCaseResolver)
         {
-            _oracle = oracle;
+            _deferredTestCaseResolver = deferredTestCaseResolver;
         }
         
         public IEnumerable<ITestCaseValidatorAsync<TTestGroup, TTestCase>> GetValidators(TTestVectorSet testVectorSet)
@@ -35,7 +36,7 @@ namespace NIST.CVP.Generation.KAS.Sp800_56Ar3
                         list.Add(new TestCaseValidatorAft<TTestGroup, TTestCase, TKeyPair>(
                             workingTest,
                             group,
-                            new DeferredTestCaseResolver<TTestGroup, TTestCase, TKeyPair>(_oracle)));
+                            _deferredTestCaseResolver));
                     }
                     else
                     {

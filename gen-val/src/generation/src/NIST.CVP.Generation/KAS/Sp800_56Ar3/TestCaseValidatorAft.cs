@@ -30,6 +30,8 @@ namespace NIST.CVP.Generation.KAS.Sp800_56Ar3
             _deferredResolver = deferredResolver;
         }
     
+        public int TestCaseId => _workingTest.TestCaseId;
+        
         public async Task<TestCaseValidation> ValidateAsync(TTestCase suppliedResult, bool showExpected = false)
         {
             var errors = new List<string>();
@@ -84,9 +86,12 @@ namespace NIST.CVP.Generation.KAS.Sp800_56Ar3
                 }
             }
 
-            if (suppliedResult.Tag == null)
+            if (_testGroup.KeyConfirmationDirection != KeyConfirmationDirection.None)
             {
-                errors.Add($"Expected {nameof(suppliedResult.Tag)} but was not supplied");
+                if (suppliedResult.Tag == null)
+                {
+                    errors.Add($"Expected {nameof(suppliedResult.Tag)} but was not supplied");
+                }                
             }
         }
 
@@ -141,7 +146,5 @@ namespace NIST.CVP.Generation.KAS.Sp800_56Ar3
                     break;
             }
         }
-
-        public int TestCaseId { get; }
     }
 }

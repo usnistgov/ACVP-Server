@@ -12,7 +12,7 @@ using NLog;
 
 namespace NIST.CVP.Generation.KAS.Sp800_56Ar3
 {
-    public class TestCaseGeneratorVal<TTestGroup, TTestCase, TKeyPair> : ITestCaseGeneratorAsync<TTestGroup, TTestCase>
+    public abstract class TestCaseGeneratorValBase<TTestGroup, TTestCase, TKeyPair> : ITestCaseGeneratorAsync<TTestGroup, TTestCase>
         where TTestGroup : TestGroupBase<TTestGroup, TTestCase, TKeyPair>
         where TTestCase : TestCaseBase<TTestGroup, TTestCase, TKeyPair>, new()
         where TKeyPair : IDsaKeyPair
@@ -20,7 +20,7 @@ namespace NIST.CVP.Generation.KAS.Sp800_56Ar3
         private readonly IOracle _oracle;
         private readonly List<KasValTestDisposition> _testDispositions;
 
-        public TestCaseGeneratorVal(IOracle oracle, List<KasValTestDisposition> validityTestCaseOptions)
+        protected TestCaseGeneratorValBase(IOracle oracle, List<KasValTestDisposition> validityTestCaseOptions)
         {
             _oracle = oracle;
             _testDispositions = validityTestCaseOptions;
@@ -55,13 +55,13 @@ namespace NIST.CVP.Generation.KAS.Sp800_56Ar3
                     TestPassed = result.TestPassed,
                     TestCaseDisposition = result.Disposition,
                     
-                    EphemeralKeyServer = (TKeyPair) result.ServerSecretKeyingMaterial.EphemeralKeyPair,
-                    StaticKeyServer = (TKeyPair) result.ServerSecretKeyingMaterial.StaticKeyPair,
+                    EphemeralKeyServer = GetKey(result.ServerSecretKeyingMaterial.EphemeralKeyPair),
+                    StaticKeyServer = GetKey(result.ServerSecretKeyingMaterial.StaticKeyPair),
                     EphemeralNonceServer = result.ServerSecretKeyingMaterial.EphemeralNonce,
                     DkmNonceServer = result.ServerSecretKeyingMaterial.DkmNonce,
                     
-                    EphemeralKeyIut = (TKeyPair) result.IutSecretKeyingMaterial.EphemeralKeyPair,
-                    StaticKeyIut = (TKeyPair) result.IutSecretKeyingMaterial.StaticKeyPair,
+                    EphemeralKeyIut = GetKey(result.IutSecretKeyingMaterial.EphemeralKeyPair),
+                    StaticKeyIut = GetKey(result.IutSecretKeyingMaterial.StaticKeyPair),
                     EphemeralNonceIut = result.IutSecretKeyingMaterial.EphemeralNonce,
                     DkmNonceIut = result.IutSecretKeyingMaterial.DkmNonce,
                     
@@ -81,6 +81,8 @@ namespace NIST.CVP.Generation.KAS.Sp800_56Ar3
             }
         }
 
+        protected abstract TKeyPair GetKey(IDsaKeyPair keyPair);
+        
         private static readonly ILogger Logger = LogManager.GetCurrentClassLogger();
     }
 }

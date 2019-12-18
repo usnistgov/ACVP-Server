@@ -28,7 +28,7 @@ namespace NIST.CVP.Generation.KAS.Sp800_56Ar3
 
         public KasDpGeneration DomainParameterGenerationMode { get; set; }
         
-        public IDsaDomainParameters DomainParameters { get; set; }
+        [JsonIgnore] public IDsaDomainParameters DomainParameters { get; set; }
         
         public KasScheme Scheme { get; set; }
         

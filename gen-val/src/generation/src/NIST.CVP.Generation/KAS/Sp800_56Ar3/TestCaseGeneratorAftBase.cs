@@ -3,22 +3,20 @@ using System.Threading.Tasks;
 using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes.Kas.Sp800_56Ar3;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA;
-using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Async;
-using NIST.CVP.Generation.KAS.Sp800_56Ar3.Ecc;
 using NLog;
 
 namespace NIST.CVP.Generation.KAS.Sp800_56Ar3
 {
-    public class TestCaseGeneratorAft<TTestGroup, TTestCase, TKeyPair> : ITestCaseGeneratorAsync<TTestGroup, TTestCase>
+    public abstract class TestCaseGeneratorAftBase<TTestGroup, TTestCase, TKeyPair> : ITestCaseGeneratorAsync<TTestGroup, TTestCase>
         where TTestGroup : TestGroupBase<TTestGroup, TTestCase, TKeyPair>
         where TTestCase : TestCaseBase<TTestGroup, TTestCase, TKeyPair>, new()
         where TKeyPair : IDsaKeyPair
     {
         private readonly IOracle _oracle;
 
-        public TestCaseGeneratorAft(IOracle oracle)
+        protected TestCaseGeneratorAftBase(IOracle oracle)
         {
             _oracle = oracle;
         }
@@ -41,8 +39,8 @@ namespace NIST.CVP.Generation.KAS.Sp800_56Ar3
                 {
                     Deferred = true,
                     TestPassed = true,
-                    EphemeralKeyServer = (TKeyPair) result.ServerSecretKeyingMaterial.EphemeralKeyPair,
-                    StaticKeyServer = (TKeyPair) result.ServerSecretKeyingMaterial.StaticKeyPair,
+                    EphemeralKeyServer = GetKey(result.ServerSecretKeyingMaterial.EphemeralKeyPair),
+                    StaticKeyServer = GetKey(result.ServerSecretKeyingMaterial.StaticKeyPair),
                     DkmNonceServer = result.ServerSecretKeyingMaterial.DkmNonce,
                     EphemeralNonceServer = result.ServerSecretKeyingMaterial.EphemeralNonce
                 });
@@ -53,6 +51,8 @@ namespace NIST.CVP.Generation.KAS.Sp800_56Ar3
                 return new TestCaseGenerateResponse<TTestGroup, TTestCase>(ex.Message);
             }
         }
+
+        protected abstract TKeyPair GetKey(IDsaKeyPair keyPair);
         
         private static readonly ILogger Logger = LogManager.GetCurrentClassLogger();
     }

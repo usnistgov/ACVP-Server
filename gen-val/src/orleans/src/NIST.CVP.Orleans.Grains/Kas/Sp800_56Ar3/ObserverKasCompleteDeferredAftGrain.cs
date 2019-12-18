@@ -62,6 +62,7 @@ namespace NIST.CVP.Orleans.Grains.Kas.Sp800_56Ar3
             var isServerPartyV = !isServerPartyU;
 
             _serverSecretKeyingMaterialBuilder
+                .WithDomainParameters(_param.DomainParameters)
                 .WithPartyId(_param.PartyIdServer)
                 .WithEphemeralKey(_param.EphemeralKeyServer)
                 .WithStaticKey(_param.StaticKeyServer)
@@ -77,6 +78,7 @@ namespace NIST.CVP.Orleans.Grains.Kas.Sp800_56Ar3
                     _param.ServerGenerationRequirements.KeyConfirmationDirection);
                 
             _iutSecretKeyingMaterialBuilder
+                .WithDomainParameters(_param.DomainParameters)
                 .WithPartyId(_param.PartyIdIut)
                 .WithEphemeralKey(_param.EphemeralKeyIut)
                 .WithStaticKey(_param.StaticKeyIut)
