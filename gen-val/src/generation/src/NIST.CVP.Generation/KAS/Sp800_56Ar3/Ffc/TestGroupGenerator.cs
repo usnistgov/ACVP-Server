@@ -4,6 +4,7 @@ using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC.Enums;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Common.KAS.SafePrimes.Enums;
 using NIST.CVP.Generation.KAS.Sp800_56Ar3.Enums;
 
@@ -34,8 +35,8 @@ namespace NIST.CVP.Generation.KAS.Sp800_56Ar3.Ffc
                 KasDpGeneration.Modp6144 => _oracle.GetSafePrimeGroupsDomainParameterAsync(SafePrime.Modp6144),
                 KasDpGeneration.Modp8192 => _oracle.GetSafePrimeGroupsDomainParameterAsync(SafePrime.Modp8192),
 
-                KasDpGeneration.Fb => GenerateDomainParametersDsaAsync(2084, 224),
-                KasDpGeneration.Fc => GenerateDomainParametersDsaAsync(2084, 256),
+                KasDpGeneration.Fb => GenerateDomainParametersDsaAsync(2048, 224),
+                KasDpGeneration.Fc => GenerateDomainParametersDsaAsync(2048, 256),
                 
                 _ => throw new ArgumentException(
                     $"Invalid {nameof(group.DomainParameterGenerationMode)} {group.DomainParameterGenerationMode} for this group generator.")
@@ -49,7 +50,8 @@ namespace NIST.CVP.Generation.KAS.Sp800_56Ar3.Ffc
                 L = l,
                 N = n,
                 GGenMode = GeneratorGenMode.Unverifiable,
-                PQGenMode = PrimeGenMode.Probable
+                PQGenMode = PrimeGenMode.Probable,
+                HashAlg = new HashFunction(ModeValues.SHA2, DigestSizes.d224),
             });
 
             var result = await task;

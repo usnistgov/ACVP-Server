@@ -105,6 +105,7 @@ using NIST.CVP.Common.Oracle.ResultTypes.Kas.Sp800_56Ar1;
 using NIST.CVP.Crypto.AES_FF;
 using NIST.CVP.Crypto.Common.KAS.FixedInfo;
 using NIST.CVP.Crypto.Common.KAS.KDF.KdfOneStep;
+using NIST.CVP.Crypto.Common.KAS.SafePrimes;
 using NIST.CVP.Crypto.Common.KAS.Scheme;
 using NIST.CVP.Crypto.Common.KAS.Sp800_56Ar3;
 using NIST.CVP.Crypto.Common.KAS.Sp800_56Ar3.Builders;
@@ -114,6 +115,7 @@ using NIST.CVP.Crypto.Common.Symmetric.BlockModes.Ffx;
 using NIST.CVP.Crypto.KAS.Builders.Ifc;
 using NIST.CVP.Crypto.KAS.FixedInfo;
 using NIST.CVP.Crypto.KAS.KDF.OneStep;
+using NIST.CVP.Crypto.KAS.SafePrimes;
 using NIST.CVP.Crypto.KAS.Sp800_56Ar3.Builders;
 using NIST.CVP.Crypto.KTS;
 using NIST.CVP.Crypto.Symmetric.BlockModes.Ffx;
@@ -196,6 +198,7 @@ namespace NIST.CVP.Orleans.Grains
             svc.AddTransient<ISecretKeyingMaterialBuilder, SecretKeyingMaterialBuilder>();
             svc.AddTransient<ISchemeBuilder, SchemeBuilder>();
             svc.AddTransient<IKasBuilder, KasBuilder>();
+            svc.AddSingleton<ISafePrimesGroupFactory, SafePrimesFactory>();
             
             svc.AddSingleton<IDiffieHellman<FfcDomainParameters, FfcKeyPair>, DiffieHellmanFfc>();
             svc.AddSingleton<IMqv<FfcDomainParameters, FfcKeyPair>, MqvFfc>();

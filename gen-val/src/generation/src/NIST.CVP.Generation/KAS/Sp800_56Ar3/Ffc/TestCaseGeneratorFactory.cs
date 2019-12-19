@@ -1,10 +1,10 @@
 using System;
 using NIST.CVP.Common.Oracle;
-using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
 using NIST.CVP.Generation.Core.Async;
 using NIST.CVP.Generation.KAS.Sp800_56Ar3.Helpers;
 
-namespace NIST.CVP.Generation.KAS.Sp800_56Ar3.Ecc
+namespace NIST.CVP.Generation.KAS.Sp800_56Ar3.Ffc
 {
     public class TestCaseGeneratorFactory : ITestCaseGeneratorFactoryAsync<TestGroup, TestCase>
     {
@@ -40,7 +40,7 @@ namespace NIST.CVP.Generation.KAS.Sp800_56Ar3.Ecc
                 return new TestCaseGeneratorVal(_oracle, validityTestCaseOptions);
             }
 
-            return new TestCaseGeneratorNull<TestGroup, TestCase, EccKeyPair>();
+            return new TestCaseGeneratorNull<TestGroup, TestCase, FfcKeyPair>();
         }
     }
 }
