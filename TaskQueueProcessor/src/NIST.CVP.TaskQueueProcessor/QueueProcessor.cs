@@ -63,16 +63,23 @@ namespace NIST.CVP.TaskQueueProcessor
             _timer?.Dispose();
         }
 
-        public async void CleanTasks()
+        public void CleanTasks()
         {
             try
             {
                 var taskCount = _tasks.Count;
                 for (var i = 0; i < taskCount; i++)
                 {
+                    // If no more tasks are left, just stop
+                    if (!_tasks.Any())
+                    {
+                        return;
+                    }
+                    
                     // Find any finished task and remove it from the dict, and remove its ID from the DB (if successful)
-                    var finished = await Task.WhenAny(_tasks.Values);
-                    var dbId = _tasks.First(t => t.Value == finished).Key;
+                    var finished = Task.WhenAny(_tasks.Values.ToArray());
+                    var completed = _tasks.First(t => t.Value == finished.Result);
+                    var dbId = completed.Key;
                     _tasks.Remove(dbId);
 
                     if (!finished.IsCompletedSuccessfully)
@@ -99,14 +106,14 @@ namespace NIST.CVP.TaskQueueProcessor
             }
         }
 
-        public async void CleanPoolTasks()
+        public void CleanPoolTasks()
         {
             try
             {
                 var poolCount = _poolTasks.Count;
                 for (var i = 0; i < poolCount; i++)
                 {
-                    var finished = await Task.WhenAny(_poolTasks);
+                    var finished = Task.WhenAny(_poolTasks);
                     _poolTasks.Remove(finished);
                     Console.WriteLine("Pool task completed");
                 }
@@ -129,6 +136,7 @@ namespace NIST.CVP.TaskQueueProcessor
             var tasksAvailable = _taskConfig.Value.MaxConcurrency - _tasks.Count - _poolTasks.Count;
             if (tasksAvailable <= 0)
             {
+                Console.WriteLine("Full on tasks.");
                 return;
             }
 
@@ -141,17 +149,20 @@ namespace NIST.CVP.TaskQueueProcessor
 
                 if (nextTask != null)
                 {
+                    Console.WriteLine("Adding gen/val job.");
                     _tasks.Add(nextTask.DbId, _taskRunner.RunTask(nextTask));
                 }
                 else
                 {
                     if (_poolConfig.Value.AllowPoolSpawn)
                     {
+                        Console.WriteLine("Adding pool job.");
                         var poolTask = new PoolTask(_poolProvider);
                         _poolTasks.Add(_taskRunner.RunTask(poolTask));    
                     }
                     else
                     {
+                        Console.WriteLine("No pool job to add.");
                         break;
                     }
                 }

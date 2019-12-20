@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.TaskQueueProcessor.TaskModels
@@ -12,13 +13,13 @@ namespace NIST.CVP.TaskQueueProcessor.TaskModels
         
         public GenerationTask(IGenValInvoker genValInvoker) : base(genValInvoker) { }
         
-        public override void Run()
+        public override async Task<object> Run()
         {
             Console.WriteLine($"Generation Task VsId: {VsId}, IsSample: {IsSample}");
             Console.WriteLine($"Capabilities: {Capabilities}");
             
             var genRequest = new GenerateRequest(Capabilities);
-            var response = GenValInvoker.Generate(genRequest);
+            var response = await Task.Factory.StartNew(() => GenValInvoker.Generate(genRequest));
 
             if (response.Success)
             {
@@ -31,6 +32,8 @@ namespace NIST.CVP.TaskQueueProcessor.TaskModels
                 Console.WriteLine($"Error on vsId: {VsId}");
                 Error = response.ErrorMessage;
             }
+
+            return Task.FromResult(response);
         }
     }
 }

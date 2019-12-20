@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using NIST.CVP.TaskQueueProcessor.Providers;
 
 namespace NIST.CVP.TaskQueueProcessor.TaskModels
@@ -15,10 +16,10 @@ namespace NIST.CVP.TaskQueueProcessor.TaskModels
             _poolProvider = poolProvider;
         }
         
-        public void Run()
+        public async Task<object> Run()
         {
-            _poolProvider.SpawnPoolData();
             Console.WriteLine($"Pool Task");
+            return await _poolProvider.SpawnPoolData();
         }
     }
 }

@@ -1,3 +1,5 @@
+using System.Threading.Tasks;
+
 namespace NIST.CVP.TaskQueueProcessor.TaskModels
 {
     public class NullTask : ITask
@@ -5,7 +7,7 @@ namespace NIST.CVP.TaskQueueProcessor.TaskModels
         public long DbId { get; set; } = -1;
         public int VsId { get; set; } = -1;
         
-        public void Run()
+        public Task<object> Run()
         {
             throw new System.NotImplementedException();
         }

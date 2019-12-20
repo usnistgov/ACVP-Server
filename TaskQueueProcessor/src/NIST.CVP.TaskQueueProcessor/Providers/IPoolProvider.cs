@@ -1,7 +1,9 @@
+using System.Threading.Tasks;
+
 namespace NIST.CVP.TaskQueueProcessor.Providers
 {
     public interface IPoolProvider
     {
-        void SpawnPoolData();
+        Task<object> SpawnPoolData();
     }
 }

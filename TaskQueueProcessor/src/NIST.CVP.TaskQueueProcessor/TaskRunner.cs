@@ -7,9 +7,9 @@ namespace NIST.CVP.TaskQueueProcessor
     {
         public async Task<long> RunTask(ITask task)
         {
-            task.Run();
             Console.WriteLine($"Running job: {task.DbId}");
-            return await Task.FromResult(task.DbId);
+            await task.Run(); // stop executing method until you have a result from the task
+            return task.DbId;
         }
     }
 }
