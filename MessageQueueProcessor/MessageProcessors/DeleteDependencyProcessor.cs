@@ -1,19 +1,23 @@
 ﻿using System.Text.Json;
-using ACVPCore.Services;
+using ACVPWorkflow;
+using ACVPWorkflow.Results;
 using ACVPWorkflow.Services;
+using ACVPWorkflow.WorkflowItemProcessors;
 using MessageQueueProcessor.MessagePayloads;
 
 namespace MessageQueueProcessor.MessageProcessors
 {
 	public class DeleteDependencyProcessor : IMessageProcessor
 	{
-		private IDependencyService _dependencyService;
-		private IWorkflowService _workflowService;
+		private readonly IWorkflowService _workflowService;
+		private readonly IWorkflowItemProcessorFactory _workflowItemProcessorFactory;
+		private readonly bool _autoApprove;
 
-		public DeleteDependencyProcessor(IDependencyService dependencyService, IWorkflowService workflowService)
+		public DeleteDependencyProcessor(IWorkflowService workflowService, IWorkflowItemProcessorFactory workflowItemProcessorFactory, bool autoApprove)
 		{
-			_dependencyService = dependencyService;
 			_workflowService = workflowService;
+			_workflowItemProcessorFactory = workflowItemProcessorFactory;
+			_autoApprove = autoApprove;
 		}
 
 		public void Process(Message message)
@@ -21,23 +25,26 @@ namespace MessageQueueProcessor.MessageProcessors
 			//Get the payload so we can get the Json
 			RequestPayload requestPayload = JsonSerializer.Deserialize<RequestPayload>(message.Payload);
 
-			//Deserialize the JSON to get the ID, as that's all that's there
-			DeletePayload deletePayload = JsonSerializer.Deserialize<DeletePayload>(requestPayload.Json.ToString());
-
 			//Create the workflow item
-			_workflowService.CreateDependencyDelete(deletePayload.ID, null);
+			WorkflowInsertResult workflowInsertResult = _workflowService.AddWorkflowItem(APIAction.DeleteDependency, requestPayload.RequestID, requestPayload.Json.ToString(), requestPayload.UserID);
 
-
-
-			//TODO - Autoapprove logic here
-			if (false)
+			//Auto approve if configured to do so
+			if (workflowInsertResult.IsSuccess && _autoApprove)
 			{
-				//Delete that dependency
-				_dependencyService.Delete(deletePayload.ID);
+				//Build the workflow item to pass to the approval process
+				WorkflowItem workflowItem = new WorkflowItem
+				{
+					WorkflowItemID = (long)workflowInsertResult.WorkflowID,
+					APIAction = APIAction.DeleteDependency,
+					JSON = requestPayload.Json.ToString()
+				};
+
+				//Get the processor for this workflow item
+				IWorkflowItemProcessor workflowItemProcessor = _workflowItemProcessorFactory.GetWorkflowItemProcessor(APIAction.DeleteDependency);
+
+				//Approve it
+				workflowItemProcessor.Approve(workflowItem);
 			}
-
-			//TODO - something about updating a request?
-
 		}
 	}
 }

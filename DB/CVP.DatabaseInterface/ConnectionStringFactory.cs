@@ -4,7 +4,7 @@ namespace CVP.DatabaseInterface
 {
 	public class ConnectionStringFactory : IConnectionStringFactory
 	{
-		private IConfiguration _configuration;
+		private readonly IConfiguration _configuration;
 
 		public ConnectionStringFactory(IConfiguration configuration)
 		{

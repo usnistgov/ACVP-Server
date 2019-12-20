@@ -7,7 +7,7 @@ namespace MessageQueueProcessor
 {
 	public class MessageProvider : IMessageProvider
 	{
-		private string _acvpConnectionString;
+		private readonly string _acvpConnectionString;
 
 		public MessageProvider(IConnectionStringFactory connectionStringFactory)
 		{

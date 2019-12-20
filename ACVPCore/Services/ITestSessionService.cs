@@ -1,9 +1,15 @@
-﻿namespace ACVPCore.Services
+﻿using ACVPCore.Results;
+
+namespace ACVPCore.Services
 {
 	public interface ITestSessionService
 	{
-		void Cancel(long testSessionID);
+		Result Cancel(long testSessionID);
 
-		void Create(long testSessionId, string acvVersion, string generator, bool isSample, long userID);
+		Result Create(long testSessionId, string acvVersion, string generator, bool isSample, long userID);
+
+		bool CanSubmitForApproval(long testSessionID);
+		TestSessionStatus GetStatus(long testSessionID);
+		Result UpdateStatus(long testSessionID, TestSessionStatus testSessionStatus);
 	}
 }

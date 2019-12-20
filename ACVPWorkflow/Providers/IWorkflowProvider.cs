@@ -4,6 +4,8 @@ namespace ACVPWorkflow.Providers
 {
 	public interface IWorkflowProvider
 	{
-		WorkflowInsertResult Insert(WorkflowItemType workflowItemType, RequestAction action, string labName, string contact, string email, string json);
+		WorkflowInsertResult Insert(APIAction apiAction, WorkflowItemType workflowItemType, RequestAction action, long userID, string json, string labName, string contact, string email);
+		Result Update(long workflowItemID, WorkflowStatus status, long acceptID);
+		Result Update(long workflowItemID, WorkflowStatus status);
 	}
 }

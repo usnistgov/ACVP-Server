@@ -1,9 +1,10 @@
-﻿using MessageQueueProcessor.MessageProcessors;
+﻿using ACVPWorkflow;
+using MessageQueueProcessor.MessageProcessors;
 
 namespace MessageQueueProcessor
 {
 	public interface IMessageProcessorFactory
 	{
-		public IMessageProcessor GetMessageProcessor(MessageAction action);
+		public IMessageProcessor GetMessageProcessor(APIAction action);
 	}
 }

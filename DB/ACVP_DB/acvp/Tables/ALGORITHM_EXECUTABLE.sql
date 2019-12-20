@@ -1,0 +1,8 @@
+﻿CREATE TABLE [acvp].[ALGORITHM_EXECUTABLE] (
+    [algorithm_id] BIGINT         NOT NULL,
+    [name]         NVARCHAR (128) NOT NULL,
+    [mode]         NVARCHAR (128) NULL,
+    CONSTRAINT [PK_ALGORITHM_EXECUTABLE] PRIMARY KEY CLUSTERED ([algorithm_id] ASC),
+    CONSTRAINT [FK_ALGORITHM_EXECUTABLE_ID] FOREIGN KEY ([algorithm_id]) REFERENCES [ref].[CRYPTO_ALGORITHM] ([id])
+);
+

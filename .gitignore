@@ -40,6 +40,6 @@ orleans-master
 src/pool-api/NIST.CVP.PoolAPI/Pools/
 !src/pool-api/NIST.CVP.PoolAPI/Pools/poolConfig.json
 gen-val-*.zip
+Import Schema Logs 
 *.jfm
-*.sql
 *.idea

@@ -6,7 +6,7 @@ namespace MessageQueueProcessor.MessageProcessors
 {
 	public class CancelTestSessionProcessor : IMessageProcessor
 	{
-		private ITestSessionService _testSessionService;
+		private readonly ITestSessionService _testSessionService;
 
 		public CancelTestSessionProcessor(ITestSessionService testSessionService)
 		{

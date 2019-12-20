@@ -1,0 +1,15 @@
+﻿CREATE VIEW [csrc].[VALIDATION_SCENARIO_OE_LINK]
+WITH SCHEMABINDING
+AS
+
+SELECT	 L.scenario_id
+		,L.validation_oe_id
+FROM val.VALIDATION_SCENARIO_OE_LINK L
+	INNER JOIN
+	val.VALIDATION_SCENARIO S ON S.id = L.scenario_id
+	INNER JOIN
+	val.VALIDATION_RECORD R ON R.id = S.record_id
+	INNER JOIN
+	val.PRODUCT_INFORMATION P ON P.id = R.product_information_id
+							AND P.itar = 0
+
