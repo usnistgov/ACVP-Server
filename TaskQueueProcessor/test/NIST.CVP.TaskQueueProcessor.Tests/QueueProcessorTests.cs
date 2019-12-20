@@ -29,8 +29,8 @@ namespace NIST.CVP.TaskQueueProcessor.Tests
             _taskOptions = new OptionsWrapper<TaskQueueProcessorConfig>(new TaskQueueProcessorConfig { MaxConcurrency = 2, PollDelay = 5 });
 
             _dbProvider.SetupSequence(s => s.GetNextTask())
-                .Returns(new GenerationTask(_genValInvoker.Object){Capabilities = "capabilities1", DbId = 1, VsId = 2})
-                .Returns(new GenerationTask(_genValInvoker.Object){Capabilities = "capabilities2", DbId = 3, VsId = 4});
+                .Returns(new GenerationTask(_genValInvoker.Object, _dbProvider.Object){Capabilities = "capabilities1", DbId = 1, VsId = 2})
+                .Returns(new GenerationTask(_genValInvoker.Object, _dbProvider.Object){Capabilities = "capabilities2", DbId = 3, VsId = 4});
             
             _queueProcessor = new QueueProcessor(_taskRunner.Object, _dbProvider.Object, _poolProvider.Object, _poolOptions, _taskOptions);
         }

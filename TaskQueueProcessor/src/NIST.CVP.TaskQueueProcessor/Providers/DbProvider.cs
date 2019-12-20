@@ -150,5 +150,10 @@ namespace NIST.CVP.TaskQueueProcessor.Providers
         {
             
         }
+
+        public void PutErrorData(ExecutableTask task)
+        {
+            
+        }
     }
 }

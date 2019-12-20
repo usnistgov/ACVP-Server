@@ -2,16 +2,19 @@ using System;
 using System.Data;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.TaskQueueProcessor.Constants;
+using NIST.CVP.TaskQueueProcessor.Providers;
 
 namespace NIST.CVP.TaskQueueProcessor.TaskModels
 {
     public class TaskRetriever : ITaskRetriever
     {
         private readonly IGenValInvoker _genValInvoker;
+        private readonly IDbProvider _dbProvider;
         
-        public TaskRetriever(IGenValInvoker genValInvoker)
+        public TaskRetriever(IGenValInvoker genValInvoker, IDbProvider dbProvider)
         {
             _genValInvoker = genValInvoker;
+            _dbProvider = dbProvider;
         }
         
         public ExecutableTask GetTaskFromRow(IDataReader reader)
@@ -24,12 +27,12 @@ namespace NIST.CVP.TaskQueueProcessor.TaskModels
 
             return operation switch
             {
-                TaskActions.GENERATION => new GenerationTask(_genValInvoker)
+                TaskActions.GENERATION => new GenerationTask(_genValInvoker, _dbProvider)
                 {
                     DbId = dbId, IsSample = isSample, VsId = vsId
                 },
                 
-                TaskActions.VALIDATION => new ValidationTask(_genValInvoker)
+                TaskActions.VALIDATION => new ValidationTask(_genValInvoker, _dbProvider)
                 {
                     DbId = dbId, Expected = showExpected, VsId = vsId
                 },

@@ -9,5 +9,6 @@ namespace NIST.CVP.TaskQueueProcessor.Providers
         void MarkTasksForRestart();
         void PutPromptData(GenerationTask task);
         void PutValidationData(ValidationTask task);
+        void PutErrorData(ExecutableTask task);
     }
 }

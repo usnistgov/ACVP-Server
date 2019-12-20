@@ -114,7 +114,7 @@ namespace NIST.CVP.TaskQueueProcessor
                 for (var i = 0; i < poolCount; i++)
                 {
                     var finished = Task.WhenAny(_poolTasks);
-                    _poolTasks.Remove(finished);
+                    _poolTasks.Remove(finished.Result);
                     Console.WriteLine("Pool task completed");
                 }
             }

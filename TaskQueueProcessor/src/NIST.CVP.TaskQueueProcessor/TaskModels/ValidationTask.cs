@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.TaskQueueProcessor.Providers;
 
 namespace NIST.CVP.TaskQueueProcessor.TaskModels
 {
@@ -11,7 +12,7 @@ namespace NIST.CVP.TaskQueueProcessor.TaskModels
         public bool Expected { get; set; }
         public string Validation { get; set; }
         
-        public ValidationTask(IGenValInvoker genValInvoker) : base(genValInvoker) { }
+        public ValidationTask(IGenValInvoker genValInvoker, IDbProvider dbProvider) : base(genValInvoker, dbProvider) { }
         
         public override async Task<object> Run()
         {
@@ -24,11 +25,13 @@ namespace NIST.CVP.TaskQueueProcessor.TaskModels
             {
                 Console.WriteLine($"Success on vsId: {VsId}");
                 Validation = response.ValidationResult;
+                DbProvider.PutValidationData(this);
             }
             else
             {
                 Console.WriteLine($"Error on vsId: {VsId}");
                 Error = response.ErrorMessage;
+                DbProvider.PutErrorData(this);
             }
 
             return Task.FromResult(response);
