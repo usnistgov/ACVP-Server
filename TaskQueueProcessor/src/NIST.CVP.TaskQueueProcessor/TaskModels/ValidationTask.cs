@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.TaskQueueProcessor.TaskModels
@@ -12,21 +13,25 @@ namespace NIST.CVP.TaskQueueProcessor.TaskModels
         
         public ValidationTask(IGenValInvoker genValInvoker) : base(genValInvoker) { }
         
-        public override void Run()
+        public override async Task<object> Run()
         {
             Console.WriteLine($"Validation Task: {VsId}");
             
-            var validateRequest = new ValidateRequest(InternalProjection, SubmittedResults, Expected);
-            var response = GenValInvoker.Validate(validateRequest);
+            var valRequest = new ValidateRequest(InternalProjection, SubmittedResults, Expected);
+            var response = await Task.Factory.StartNew(() => GenValInvoker.Validate(valRequest));
             
             if (response.Success)
             {
                 Console.WriteLine($"Success on vsId: {VsId}");
+                Validation = response.ValidationResult;
             }
             else
             {
                 Console.WriteLine($"Error on vsId: {VsId}");
+                Error = response.ErrorMessage;
             }
+
+            return Task.FromResult(response);
         }
     }
 }

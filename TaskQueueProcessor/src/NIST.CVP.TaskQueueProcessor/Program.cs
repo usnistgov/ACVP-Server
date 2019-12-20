@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using NIST.CVP.Common;
 using NIST.CVP.Common.Config;
 using NIST.CVP.Common.Interfaces;
 using NIST.CVP.Common.Services;
@@ -32,10 +33,12 @@ namespace NIST.CVP.TaskQueueProcessor
                 {
                     services.AddSingleton<IDbConnectionStringFactory, DbConnectionStringFactory>();
                     services.AddSingleton<IDbConnectionFactory, SqlDbConnectionFactory>();
+                    services.AddSingleton(new LimitedConcurrencyLevelTaskScheduler(1));
 
                     services.Configure<TaskQueueProcessorConfig>(hostContext.Configuration.GetSection(nameof(TaskQueueProcessorConfig)));
                     services.Configure<EnvironmentConfig>(hostContext.Configuration.GetSection(nameof(EnvironmentConfig)));
                     services.Configure<PoolConfig>(hostContext.Configuration.GetSection(nameof(PoolConfig)));
+                    services.Configure<OrleansConfig>(hostContext.Configuration.GetSection(nameof(OrleansConfig)));
                     
                     services.AddSingleton<IGenValInvoker, GenValInvoker>();
                     services.AddSingleton<ITaskRetriever, TaskRetriever>();

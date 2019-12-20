@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.TaskQueueProcessor.TaskModels
@@ -15,6 +16,6 @@ namespace NIST.CVP.TaskQueueProcessor.TaskModels
             GenValInvoker = genValInvoker;
         }
         
-        public abstract void Run();
+        public abstract Task<object> Run();
     }
 }

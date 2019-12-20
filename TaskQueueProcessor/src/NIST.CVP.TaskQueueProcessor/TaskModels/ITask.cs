@@ -1,3 +1,5 @@
+using System.Threading.Tasks;
+
 namespace NIST.CVP.TaskQueueProcessor
 {
     public interface ITask
@@ -5,6 +7,6 @@ namespace NIST.CVP.TaskQueueProcessor
         long DbId { get; set; }
         int VsId { get; set; }
 
-        void Run();
+        Task<object> Run();
     }
 }
