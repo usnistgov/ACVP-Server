@@ -105,6 +105,13 @@ namespace NIST.CVP.Generation.KAS.Sp800_56Ar3
                 _testGroup, _workingTest, suppliedResult
             );
 
+            if (!serverResult.Z.Equals(_workingTest.Z))
+            {
+                errors.Add($"{nameof(suppliedResult.Z)} does not match");
+                expected.Add(nameof(_workingTest.Z), _workingTest.Z.ToHex());
+                provided.Add(nameof(serverResult.Z), serverResult.Z.ToHex());
+            }
+            
             if (!serverResult.Dkm.Equals(suppliedResult.Dkm))
             {
                 errors.Add($"{nameof(suppliedResult.Dkm)} does not match");

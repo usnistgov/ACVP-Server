@@ -581,7 +581,7 @@ namespace NIST.CVP.Generation.KAS.Sp800_56Ar3
             
             if (!registeredMacMethods.Any())
             {
-                errorResults.Add("MacConfigurations not provided for KeyConfirmation method.");
+                errorResults.Add("MacMethods not provided for KeyConfirmation method.");
                 return;
             }
 

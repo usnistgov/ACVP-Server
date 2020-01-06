@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using Newtonsoft.Json.Serialization;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
 using NIST.CVP.Crypto.Common.KAS.KDF.KdfIkeV1;
 using NIST.CVP.Crypto.Common.KAS.KDF.KdfIkeV2;
 using NIST.CVP.Crypto.Common.KAS.KDF.KdfOneStep;
@@ -101,12 +102,14 @@ namespace NIST.CVP.Generation.KAS.Sp800_56Ar3.Ffc.ContractResolvers
         {
             var type = jsonProperty.DeclaringType;
 
-            if (typeof(TestGroup).IsAssignableFrom(type))
+            if (typeof(TestGroup).IsAssignableFrom(type) ||
+                typeof(TestGroupBase<TestGroup, TestCase, FfcKeyPair>).IsAssignableFrom(type))
             {
                 return TestGroupSerialization(jsonProperty);
             }
 
-            if (typeof(TestCase).IsAssignableFrom(type))
+            if (typeof(TestCase).IsAssignableFrom(type) ||
+                typeof(TestCaseBase<TestGroup, TestCase, FfcKeyPair>).IsAssignableFrom(type))
             {
                 return TestCaseSerialization(jsonProperty);
             }

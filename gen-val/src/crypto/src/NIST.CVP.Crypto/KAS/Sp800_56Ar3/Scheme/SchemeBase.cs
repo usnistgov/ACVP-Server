@@ -73,7 +73,7 @@ namespace NIST.CVP.Crypto.KAS.Sp800_56Ar3.Scheme
             var keyConfirmationResult = KeyConfirmation(otherPartyKeyingMaterial, keyConfirmationKey);
             
             return new KeyAgreementResult(
-                keyingMaterialPartyU, keyingMaterialPartyV, z, fixedInfo, dkm, 
+                keyingMaterialPartyU, keyingMaterialPartyV, z, fixedInfo, newKeyToTransport, 
                 keyConfirmationKey, keyConfirmationResult.MacData, keyConfirmationResult.Mac);
         }
 
@@ -101,15 +101,15 @@ namespace NIST.CVP.Crypto.KAS.Sp800_56Ar3.Scheme
             {
                 case KeyAgreementRole.InitiatorPartyU:
                     initiatorData = GetEphemeralDataFromKeyContribution(
-                        ThisPartyKeyingMaterial, SchemeParameters.KeyAgreementRole);
+                        ThisPartyKeyingMaterial);
                     responderData = GetEphemeralDataFromKeyContribution(
-                        otherPartyKeyingMaterial, KeyGenerationRequirementsHelper.GetOtherPartyKeyAgreementRole(SchemeParameters.KeyAgreementRole));
+                        otherPartyKeyingMaterial);
                     break;
                 case KeyAgreementRole.ResponderPartyV:
                     initiatorData = GetEphemeralDataFromKeyContribution(
-                        otherPartyKeyingMaterial, KeyGenerationRequirementsHelper.GetOtherPartyKeyAgreementRole(SchemeParameters.KeyAgreementRole));
+                        otherPartyKeyingMaterial);
                     responderData = GetEphemeralDataFromKeyContribution(
-                        ThisPartyKeyingMaterial, SchemeParameters.KeyAgreementRole);
+                        ThisPartyKeyingMaterial);
                     break;
                 default:
                     throw new ArgumentException($"Invalid {nameof(SchemeParameters.KeyAgreementRole)}");
@@ -140,10 +140,8 @@ namespace NIST.CVP.Crypto.KAS.Sp800_56Ar3.Scheme
         {
             var fixedInfo = _fixedInfoFactory.Get();
 
-            var thisPartyFixedInfo = GetPartyFixedInfo(ThisPartyKeyingMaterial, SchemeParameters.KeyAgreementRole);
-            var otherPartyRole =
-                KeyGenerationRequirementsHelper.GetOtherPartyKeyAgreementRole(SchemeParameters.KeyAgreementRole);
-            var otherPartyFixedInfo = GetPartyFixedInfo(otherPartyKeyingMaterial, otherPartyRole);
+            var thisPartyFixedInfo = GetPartyFixedInfo(ThisPartyKeyingMaterial);
+            var otherPartyFixedInfo = GetPartyFixedInfo(otherPartyKeyingMaterial);
 
             _fixedInfoParameter.SetFixedInfo(
                 SchemeParameters.KeyAgreementRole == KeyAgreementRole.InitiatorPartyU
@@ -164,9 +162,9 @@ namespace NIST.CVP.Crypto.KAS.Sp800_56Ar3.Scheme
         /// <param name="secretKeyingMaterial">The secret keying material for the party.</param>
         /// <param name="keyAgreementRole">The parties key agreement role.</param>
         /// <returns></returns>
-        private PartyFixedInfo GetPartyFixedInfo(ISecretKeyingMaterial secretKeyingMaterial, KeyAgreementRole keyAgreementRole)
+        private PartyFixedInfo GetPartyFixedInfo(ISecretKeyingMaterial secretKeyingMaterial)
         {
-            return new PartyFixedInfo(secretKeyingMaterial.PartyId, GetEphemeralDataFromKeyContribution(secretKeyingMaterial, keyAgreementRole));
+            return new PartyFixedInfo(secretKeyingMaterial.PartyId, GetEphemeralDataFromKeyContribution(secretKeyingMaterial));
         }
         
         /// <summary>
@@ -175,7 +173,7 @@ namespace NIST.CVP.Crypto.KAS.Sp800_56Ar3.Scheme
         /// <param name="secretKeyingMaterial">a party's secret keying material</param>
         /// <param name="keyAgreementRole">a party's key agreement role</param>
         /// <returns>The ephemeral data for a party's contribution to fixedInfo.</returns>
-        protected abstract BitString GetEphemeralDataFromKeyContribution(ISecretKeyingMaterial secretKeyingMaterial, KeyAgreementRole keyAgreementRole);
+        protected abstract BitString GetEphemeralDataFromKeyContribution(ISecretKeyingMaterial secretKeyingMaterial);
         
         /// <summary>
         /// Performs key confirmation using both parties contributions to the key establishment. 
@@ -200,10 +198,9 @@ namespace NIST.CVP.Crypto.KAS.Sp800_56Ar3.Scheme
         private IKeyConfirmationParameters GetKeyConfirmationParameters(ISecretKeyingMaterial otherPartyKeyingMaterial, BitString keyToTransport)
         {
             var thisPartyEphemData =
-                GetEphemeralDataFromKeyContribution(ThisPartyKeyingMaterial, SchemeParameters.KeyAgreementRole);
+                GetEphemeralDataFromKeyContribution(ThisPartyKeyingMaterial);
             var otherPartyEphemData =
-                GetEphemeralDataFromKeyContribution(otherPartyKeyingMaterial,
-                    KeyGenerationRequirementsHelper.GetOtherPartyKeyAgreementRole(SchemeParameters.KeyAgreementRole));
+                GetEphemeralDataFromKeyContribution(otherPartyKeyingMaterial);
             
             return new KeyConfirmationParameters(
                 SchemeParameters.KeyAgreementRole,

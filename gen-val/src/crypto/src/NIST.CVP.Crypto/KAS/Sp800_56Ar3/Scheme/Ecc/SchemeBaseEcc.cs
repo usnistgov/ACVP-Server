@@ -34,8 +34,7 @@ namespace NIST.CVP.Crypto.KAS.Sp800_56Ar3.Scheme.Ecc
         {
         }
 
-        protected override BitString GetEphemeralDataFromKeyContribution(ISecretKeyingMaterial secretKeyingMaterial,
-            KeyAgreementRole keyAgreementRole)
+        protected override BitString GetEphemeralDataFromKeyContribution(ISecretKeyingMaterial secretKeyingMaterial)
         {
             if (secretKeyingMaterial.EphemeralKeyPair != null)
             {
@@ -44,10 +43,13 @@ namespace NIST.CVP.Crypto.KAS.Sp800_56Ar3.Scheme.Ecc
 
                 var ephemKey = (EccKeyPair) secretKeyingMaterial.EphemeralKeyPair;
                 
-                return BitString.ConcatenateBits(
-                    SharedSecretZHelper.FormatEccSharedSecretZ(ephemKey.PublicQ.X, exactLength),
-                    SharedSecretZHelper.FormatEccSharedSecretZ(ephemKey.PublicQ.Y, exactLength)
-                );
+                if (ephemKey.PublicQ.X != 0)
+                {
+                    return BitString.ConcatenateBits(
+                        SharedSecretZHelper.FormatEccSharedSecretZ(ephemKey.PublicQ.X, exactLength),
+                        SharedSecretZHelper.FormatEccSharedSecretZ(ephemKey.PublicQ.Y, exactLength)
+                    );                    
+                }
             }
             
             if (secretKeyingMaterial.EphemeralNonce != null && secretKeyingMaterial.EphemeralNonce?.BitLength != 0)

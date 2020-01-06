@@ -67,6 +67,8 @@ namespace NIST.CVP.Generation.KAS.Sp800_56Ar3
                     
                     KdfParameter = result.KdfParameter,
                     
+                    Z = result.KasResult.Z,
+                    
                     MacKey = result.KasResult.MacKey,
                     MacData = result.KasResult.MacData,
                     

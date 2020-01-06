@@ -55,6 +55,7 @@ namespace NIST.CVP.Generation.KAS.Sp800_56Ar3
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public IKdfParameter KdfParameter { get; set; }
         
+        public BitString Z { get; set; }
         public BitString MacKey { get; set; }
         public BitString MacData { get; set; }
         public BitString Dkm { get; set; }

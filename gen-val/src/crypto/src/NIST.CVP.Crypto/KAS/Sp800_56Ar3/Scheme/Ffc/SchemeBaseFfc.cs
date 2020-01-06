@@ -34,13 +34,16 @@ namespace NIST.CVP.Crypto.KAS.Sp800_56Ar3.Scheme.Ffc
         {
         }
 
-        protected override BitString GetEphemeralDataFromKeyContribution(ISecretKeyingMaterial secretKeyingMaterial,
-            KeyAgreementRole keyAgreementRole)
+        protected override BitString GetEphemeralDataFromKeyContribution(ISecretKeyingMaterial secretKeyingMaterial)
         {
             if (secretKeyingMaterial.EphemeralKeyPair != null)
             {
                 var ephemKey = (FfcKeyPair) secretKeyingMaterial.EphemeralKeyPair;
-                return new BitString(ephemKey.PublicKeyY).PadToModulusMsb(32);
+
+                if (ephemKey.PublicKeyY != 0)
+                {
+                    return new BitString(ephemKey.PublicKeyY).PadToModulusMsb(32);                    
+                }
             }
 
             if (secretKeyingMaterial.EphemeralNonce != null && secretKeyingMaterial.EphemeralNonce?.BitLength != 0)

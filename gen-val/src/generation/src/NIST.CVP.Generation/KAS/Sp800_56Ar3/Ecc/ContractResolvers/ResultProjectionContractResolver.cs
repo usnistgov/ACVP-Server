@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using Newtonsoft.Json.Serialization;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Generation.Core.ContractResolvers;
 
@@ -108,6 +109,25 @@ namespace NIST.CVP.Generation.KAS.Sp800_56Ar3.Ecc.ContractResolvers
             #endregion Conditional Test Case properties
 
             return jsonProperty.ShouldSerialize = instance => false;
+        }
+        
+        protected override Predicate<object> ShouldSerialize(JsonProperty jsonProperty)
+        {
+            var type = jsonProperty.DeclaringType;
+
+            if (typeof(TestGroup).IsAssignableFrom(type) ||
+                typeof(TestGroupBase<TestGroup, TestCase, EccKeyPair>).IsAssignableFrom(type))
+            {
+                return TestGroupSerialization(jsonProperty);
+            }
+
+            if (typeof(TestCase).IsAssignableFrom(type) ||
+                typeof(TestCaseBase<TestGroup, TestCase, EccKeyPair>).IsAssignableFrom(type))
+            {
+                return TestCaseSerialization(jsonProperty);
+            }
+
+            return jsonProperty.ShouldSerialize;
         }
     }
 }
