@@ -11,6 +11,7 @@ namespace NIST.CVP.TaskQueueProcessor.TaskModels
         public string Capabilities { get; set; }
         public string Prompt { get; set; }
         public string InternalProjection { get; set; }
+        public string ExpectedResults { get; set; }
         
         public GenerationTask(IGenValInvoker genValInvoker, IDbProvider dbProvider) : base(genValInvoker, dbProvider) { }
         
@@ -27,6 +28,7 @@ namespace NIST.CVP.TaskQueueProcessor.TaskModels
                 Console.WriteLine($"Success on vsId: {VsId}");
                 Prompt = response.PromptProjection;
                 InternalProjection = response.InternalProjection;
+                ExpectedResults = response.ResultProjection;
                 DbProvider.PutPromptData(this);
             }
             else

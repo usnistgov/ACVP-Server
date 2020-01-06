@@ -1,6 +1,6 @@
 using System;
+using System.Collections.Generic;
 using System.Data;
-using System.Text;
 using NIST.CVP.Common.Interfaces;
 using NIST.CVP.Pools.ExtensionMethods;
 using NIST.CVP.TaskQueueProcessor.Constants;
@@ -15,6 +15,8 @@ namespace NIST.CVP.TaskQueueProcessor.Providers
         private readonly IDbConnectionFactory _connectionFactory;
         private readonly IDbConnectionStringFactory _connectionStringFactory;
 
+        private const string ACVP_DB_NAME = "Acvp";
+        
         public DbProvider(IDbConnectionStringFactory connectionStringFactory, IDbConnectionFactory connectionFactory, ITaskRetriever taskRetriever)
         {
             _taskRetriever = taskRetriever;
@@ -22,86 +24,90 @@ namespace NIST.CVP.TaskQueueProcessor.Providers
             _connectionStringFactory = connectionStringFactory;
         }
 
+        private IDataReader RunCommandWithReader(string db, string procedure, IEnumerable<(string, object)> parameters = null)
+        {
+            using var connection = _connectionFactory.Get(_connectionStringFactory.GetConnectionString(db));
+            connection.Open();
+
+            using var command = connection.CreateCommand();
+            command.CommandText = procedure;
+            command.CommandType = CommandType.StoredProcedure;
+            command.AddParameters(parameters);
+            
+            var reader = command.ExecuteReader();
+            connection.Close();
+            return reader;
+        }
+
+        private void RunCommand(string db, string procedure, IEnumerable<(string, object)> parameters = null)
+        {
+            using var connection = _connectionFactory.Get(_connectionStringFactory.GetConnectionString(db));
+            connection.Open();
+
+            using var command = connection.CreateCommand();
+            command.CommandText = procedure;
+            command.CommandType = CommandType.StoredProcedure;
+            command.AddParameters(parameters);
+            
+            command.ExecuteNonQuery();
+            connection.Close();
+        }
+        
         public ITask GetNextTask()
         {
             ITask task;
-            using (var connection = _connectionFactory.Get(_connectionStringFactory.GetConnectionString("Acvp")))
+            var reader = RunCommandWithReader(ACVP_DB_NAME, StoredProcedures.GET_TASK_QUEUE);
+                
+            if (reader.Read())
             {
-                connection.Open();
-
-                using var command = connection.CreateCommand();
-                command.CommandText = StoredProcedures.GET_TASK_QUEUE;
-                command.CommandType = CommandType.StoredProcedure;
-
-                var reader = command.ExecuteReader();
-                    
-                if (reader.Read())
-                {
-                    task = _taskRetriever.GetTaskFromRow(reader);
-                }
-                else
-                {
-                    // If there is no row returned, then there is no data to process, do pool stuff
-                    reader.Close();
-                    connection.Close();
-                    return null;
-                }
-
+                task = _taskRetriever.GetTaskFromRow(reader);
+            }
+            else
+            {
+                // If there is no row returned, then there is no data to process, do pool stuff
                 reader.Close();
-
-                switch (task)
-                {
-                    case GenerationTask generationTask:
-                        GetCapabilities(generationTask);
-                        break;
-                    case ValidationTask validationTask:
-                        GetResponseData(validationTask);
-                        break;
-                }
+                return null;
             }
 
+            reader.Close();
+
+            switch (task)
+            {
+                case GenerationTask generationTask:
+                    GetCapabilities(generationTask);
+                    break;
+                case ValidationTask validationTask:
+                    GetResponseData(validationTask);
+                    break;
+            }
+            
             return task;
         }
 
         public void DeleteCompletedTask(long taskId)
         {
-            using var connection = _connectionFactory.Get(_connectionStringFactory.GetConnectionString("Acvp"));
-            connection.Open();
+            var parameters = new List<(string, object)>
+            {
+                ("TaskID", taskId)
+            };
             
-            using var command = connection.CreateCommand();
-            command.CommandText = StoredProcedures.DELETE_TASK_FROM_TASK_QUEUE;
-            command.CommandType = CommandType.StoredProcedure;
-            command.AddParameter("TaskID", taskId);            
-
-            command.ExecuteNonQuery();
-            connection.Close();
+            RunCommand(ACVP_DB_NAME, StoredProcedures.DELETE_TASK_FROM_TASK_QUEUE, parameters);
         }
 
         public void MarkTasksForRestart()
         {
-            using var connection = _connectionFactory.Get(_connectionStringFactory.GetConnectionString("Acvp"));
-            connection.Open();
-
-            using var command = connection.CreateCommand();
-            command.CommandText = StoredProcedures.UPDATE_IN_PROGRESS_TASK_TO_READY;
-            command.CommandType = CommandType.StoredProcedure;
-
-            command.ExecuteNonQuery();
-            connection.Close();
+            RunCommand(ACVP_DB_NAME, StoredProcedures.UPDATE_IN_PROGRESS_TASK_TO_READY);
         }
 
         private void GetCapabilities(GenerationTask task)
         {
-            using var connection = _connectionFactory.Get(_connectionStringFactory.GetConnectionString("Acvp"));
-            connection.Open();
+            var parameters = new List<(string, object)>
+            {
+                ("VsID", task.VsId)
+            };
 
-            using var command = connection.CreateCommand();
-            command.CommandText = StoredProcedures.GET_CAPABILITIES;
-            command.CommandType = CommandType.StoredProcedure;
-            command.AddParameter("VsID", task.VsId);
-
-            var reader = command.ExecuteReader();
-
+            var reader = RunCommandWithReader(ACVP_DB_NAME, StoredProcedures.GET_CAPABILITIES, parameters);
+            
             if (reader.Read())
             {
                 task.Capabilities = reader[0].ToString();
@@ -112,20 +118,16 @@ namespace NIST.CVP.TaskQueueProcessor.Providers
             }
 
             reader.Close();
-            connection.Close();
         }
 
         private void GetResponseData(ValidationTask task)
         {
-            using var connection = _connectionFactory.Get(_connectionStringFactory.GetConnectionString("Acvp"));
-            connection.Open();
+            var parameters = new List<(string, object)>
+            {
+                ("VsID", task.VsId)
+            };
 
-            using var command = connection.CreateCommand();
-            command.CommandText = StoredProcedures.GET_SUBMITTED;
-            command.CommandType = CommandType.StoredProcedure;
-            command.AddParameter("VsID", task.VsId);
-            
-            var reader = command.ExecuteReader();
+            var reader = RunCommandWithReader(ACVP_DB_NAME, StoredProcedures.GET_SUBMITTED, parameters);
 
             if (reader.Read())
             {
@@ -138,22 +140,40 @@ namespace NIST.CVP.TaskQueueProcessor.Providers
             }
 
             reader.Close();
-            connection.Close();
         }
 
         public void PutPromptData(GenerationTask task)
         {
+            var parameters = new List<(string, object)>
+            {
+                ("VsID", task.VsId),
+                ("Prompt", task.Prompt),
+                ("InternalProjection", task.InternalProjection),
+                ("ExpectedResults", task.ExpectedResults)
+            };
             
+            RunCommand(ACVP_DB_NAME, StoredProcedures.PUT_ALL_PROMPT_DATA, parameters);
         }
 
         public void PutValidationData(ValidationTask task)
         {
+            var parameters = new List<(string, object)>
+            {
+                ("VsID", task.VsId),
+                ("Prompt", task.Validation),
+            };
             
+            RunCommand(ACVP_DB_NAME, StoredProcedures.PUT_VALIDATION, parameters);
         }
 
         public void PutErrorData(ExecutableTask task)
         {
+            var parameters = new List<(string, object)>
+            {
+                ("Error", task.Error)
+            };
             
+            RunCommand(ACVP_DB_NAME, StoredProcedures.PUT_ERROR, parameters);
         }
     }
 }
