@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using NIST.CVP.Common.Interfaces;
-using NIST.CVP.Pools.ExtensionMethods;
+using NIST.CVP.Pools.ExtensionMethods;    // TODO move up somewhere more generic?
 using NIST.CVP.TaskQueueProcessor.Constants;
 using NIST.CVP.TaskQueueProcessor.TaskModels;
 
@@ -26,17 +26,15 @@ namespace NIST.CVP.TaskQueueProcessor.Providers
 
         private IDataReader RunCommandWithReader(string db, string procedure, IEnumerable<(string, object)> parameters = null)
         {
-            using var connection = _connectionFactory.Get(_connectionStringFactory.GetConnectionString(db));
+            var connection = _connectionFactory.Get(_connectionStringFactory.GetConnectionString(db));
             connection.Open();
 
             using var command = connection.CreateCommand();
             command.CommandText = procedure;
             command.CommandType = CommandType.StoredProcedure;
             command.AddParameters(parameters);
-            
-            var reader = command.ExecuteReader();
-            connection.Close();
-            return reader;
+
+            return command.ExecuteReader(CommandBehavior.CloseConnection);    // Close connection when the reader is done reading
         }
 
         private void RunCommand(string db, string procedure, IEnumerable<(string, object)> parameters = null)
@@ -49,10 +47,17 @@ namespace NIST.CVP.TaskQueueProcessor.Providers
             command.CommandType = CommandType.StoredProcedure;
             command.AddParameters(parameters);
             
-            command.ExecuteNonQuery();
+            var rowsAffected = command.ExecuteNonQuery();
+
+            if (rowsAffected == 0)
+            {
+                // Error notice?
+                // Is this always an error?
+            }
+            
             connection.Close();
         }
-        
+
         public ITask GetNextTask()
         {
             ITask task;
@@ -60,7 +65,7 @@ namespace NIST.CVP.TaskQueueProcessor.Providers
                 
             if (reader.Read())
             {
-                task = _taskRetriever.GetTaskFromRow(reader);
+                task = _taskRetriever.GetTaskFromRow(reader, this);
             }
             else
             {
