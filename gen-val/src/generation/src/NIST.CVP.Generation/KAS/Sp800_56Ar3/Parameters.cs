@@ -66,7 +66,7 @@ namespace NIST.CVP.Generation.KAS.Sp800_56Ar3
         /// <summary>
         /// FFC DhHybridOneFlow
         /// </summary>
-        [JsonProperty(PropertyName = "hybridOneFlow")]
+        [JsonProperty(PropertyName = "dhHybridOneFlow")]
         public FfcDhHybridOneFlow FfcDhHybridOneFlow { get; set; }
         /// <summary>
         /// FFC DhOneFLow

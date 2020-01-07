@@ -121,6 +121,20 @@ namespace NIST.CVP.Generation.KAS.Sp800_56Ar3
 
             if (_testGroup.KeyConfirmationDirection != KeyConfirmationDirection.None)
             {
+                if (!serverResult.MacKey.Equals(_workingTest.MacKey))
+                {
+                    errors.Add($"{nameof(suppliedResult.MacKey)} does not match");
+                    expected.Add(nameof(_workingTest.MacKey), _workingTest.MacKey.ToHex());
+                    provided.Add(nameof(serverResult.MacKey), serverResult.MacKey.ToHex());
+                }
+                
+                if (!serverResult.MacData.Equals(_workingTest.MacData))
+                {
+                    errors.Add($"{nameof(suppliedResult.MacData)} does not match");
+                    expected.Add(nameof(_workingTest.MacData), _workingTest.MacData.ToHex());
+                    provided.Add(nameof(serverResult.MacData), serverResult.MacData.ToHex());
+                }
+                
                 if (!serverResult.Tag.Equals(suppliedResult.Tag))
                 {
                     errors.Add($"{nameof(suppliedResult.Tag)} does not match");

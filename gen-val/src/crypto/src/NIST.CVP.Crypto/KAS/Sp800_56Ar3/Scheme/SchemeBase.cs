@@ -171,7 +171,6 @@ namespace NIST.CVP.Crypto.KAS.Sp800_56Ar3.Scheme
         /// The ephemeral data provided by a party's secret keying material to be used as a part of fixedInfo construction. 
         /// </summary>
         /// <param name="secretKeyingMaterial">a party's secret keying material</param>
-        /// <param name="keyAgreementRole">a party's key agreement role</param>
         /// <returns>The ephemeral data for a party's contribution to fixedInfo.</returns>
         protected abstract BitString GetEphemeralDataFromKeyContribution(ISecretKeyingMaterial secretKeyingMaterial);
         
