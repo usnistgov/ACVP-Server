@@ -24,8 +24,9 @@ namespace NIST.CVP.Generation.Core
         /// <summary>
         /// Construct the request.
         /// </summary>
-        /// <param name="InternalJson">The ACVP server internal projection json.</param>
+        /// <param name="internalJson">The ACVP server internal projection json.</param>
         /// <param name="resultJson">The IUT response json.</param>
+        /// <param name="showExpected">Should the expected answers be shown?</param>
         public ValidateRequest(string internalJson, string resultJson, bool showExpected)
         {
             InternalJson = internalJson;

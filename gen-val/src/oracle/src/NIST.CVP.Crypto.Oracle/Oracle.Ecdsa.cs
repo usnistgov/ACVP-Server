@@ -1,6 +1,8 @@
 ﻿using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
 using System.Threading.Tasks;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC.Enums;
 using NIST.CVP.Crypto.Oracle.Helpers;
 using NIST.CVP.Orleans.Grains.Interfaces.Ecdsa;
 
@@ -8,6 +10,15 @@ namespace NIST.CVP.Crypto.Oracle
 {
     public partial class Oracle
     {
+        public async Task<EccDomainParameters> GetEcdsaDomainParameterAsync(Curve param)
+        {
+            var observableGrain =
+                await GetObserverGrain<IObserverEcdsaDomainParameterGrain, EccDomainParameters>();
+            await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, LoadSheddingRetries);
+
+            return await observableGrain.ObserveUntilResult();
+        }
+        
         public virtual async Task<EcdsaKeyResult> GetEcdsaKeyAsync(EcdsaKeyParameters param)
         {
             var observableGrain = 

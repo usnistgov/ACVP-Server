@@ -5,6 +5,7 @@ namespace NIST.CVP.Crypto.Common.KAS.Enums
 {
     public enum EccScheme
     {
+        None,
         [EnumMember(Value = "fullUnified")]
         FullUnified,
         [EnumMember(Value = "fullMqv")]

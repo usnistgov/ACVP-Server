@@ -10,7 +10,7 @@ namespace NIST.CVP.Crypto.KES.Helpers
         {
             if (z.BitLength % 32 != 0)
             {
-                z = BitString.ConcatenateBits(BitString.Zeroes(32 - z.BitLength % 32), z);
+                z = z.PadToModulusMsb(32);
             }
         }
 
@@ -26,8 +26,7 @@ namespace NIST.CVP.Crypto.KES.Helpers
                 lengthMod8 = exactLength;
             }
 
-            var z = new BitString(p, lengthMod8);
-            return z;
+            return new BitString(p).PadToModulusMsb(lengthMod8);
         }
     }
 }

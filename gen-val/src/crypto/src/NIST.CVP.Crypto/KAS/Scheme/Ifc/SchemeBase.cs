@@ -173,12 +173,14 @@ namespace NIST.CVP.Crypto.KAS.Scheme.Ifc
                 KeyGenerationRequirementsHelper.GetOtherPartyKeyAgreementRole(SchemeParameters.KeyAgreementRole);
             var otherPartyFixedInfo = GetPartyFixedInfo(otherPartyKeyingMaterial, otherPartyRole, excludeEphemeralData);
 
-            _fixedInfoParameter.FixedInfoPartyU = SchemeParameters.KeyAgreementRole == KeyAgreementRole.InitiatorPartyU
-                ? thisPartyFixedInfo
-                : otherPartyFixedInfo;
-            _fixedInfoParameter.FixedInfoPartyV = SchemeParameters.KeyAgreementRole == KeyAgreementRole.ResponderPartyV
-                ? thisPartyFixedInfo
-                : otherPartyFixedInfo;
+            _fixedInfoParameter.SetFixedInfo(
+                SchemeParameters.KeyAgreementRole == KeyAgreementRole.InitiatorPartyU
+                    ? thisPartyFixedInfo
+                    : otherPartyFixedInfo,
+                SchemeParameters.KeyAgreementRole == KeyAgreementRole.ResponderPartyV
+                    ? thisPartyFixedInfo
+                    : otherPartyFixedInfo
+                );
             
             return fixedInfo.Get(_fixedInfoParameter);
         }
