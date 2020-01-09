@@ -51,13 +51,6 @@ namespace NIST.CVP.Generation.KAS.Sp800_56Ar3.Ecc.ContractResolvers
             {
                 nameof(TestCase.TestCaseId),
                 nameof(TestCase.KdfParameter),
-                nameof(TestCase.DkmNonceIut),
-                nameof(TestCase.EphemeralNonceIut),
-                
-                nameof(TestCase.EphemeralPublicKeyIutX),
-                nameof(TestCase.EphemeralPublicKeyIutY),
-                nameof(TestCase.StaticPublicKeyIutX),
-                nameof(TestCase.StaticPublicKeyIutY),
                 
                 nameof(TestCase.EphemeralPublicKeyServerX),
                 nameof(TestCase.EphemeralPublicKeyServerY),
@@ -76,6 +69,12 @@ namespace NIST.CVP.Generation.KAS.Sp800_56Ar3.Ecc.ContractResolvers
             #region Conditional Test Case properties
             var includePropertiesValScenarios = new[]
             {
+                nameof(TestCase.DkmNonceIut),
+                nameof(TestCase.EphemeralNonceIut),
+                nameof(TestCase.EphemeralPublicKeyIutX),
+                nameof(TestCase.EphemeralPublicKeyIutY),
+                nameof(TestCase.StaticPublicKeyIutX),
+                nameof(TestCase.StaticPublicKeyIutY),
                 nameof(TestCase.EphemeralPrivateKeyIut),
                 nameof(TestCase.StaticPrivateKeyIut),
                 nameof(TestCase.Tag),

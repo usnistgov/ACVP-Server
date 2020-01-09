@@ -8,6 +8,7 @@ using NIST.CVP.Crypto.Common.KAS.KDF.KdfOneStep;
 using NIST.CVP.Crypto.Common.KAS.KDF.KdfTls10_11;
 using NIST.CVP.Crypto.Common.KAS.KDF.KdfTls12;
 using NIST.CVP.Crypto.Common.KAS.KDF.KdfTwoStep;
+using NIST.CVP.Crypto.Common.KAS.SafePrimes.Enums;
 using NIST.CVP.Generation.Core.ContractResolvers;
 
 namespace NIST.CVP.Generation.KAS.Sp800_56Ar3.Ffc.ContractResolvers
@@ -39,6 +40,30 @@ namespace NIST.CVP.Generation.KAS.Sp800_56Ar3.Ffc.ContractResolvers
                     instance => true;
             }
 
+            var includeDomainParameters = new[]
+            {
+                nameof(TestGroup.P),
+                nameof(TestGroup.Q),
+                nameof(TestGroup.G),
+            };
+            
+            // We need to serialize the PQG when using "FB" or "FC" (safe prime group is none).
+            if (includeDomainParameters.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
+            {
+                return jsonProperty.ShouldSerialize =
+                    instance =>
+                    {
+                        GetTestGroupFromTestGroupObject(instance, out var testGroup);
+                        
+                        if (testGroup.SafePrime == SafePrime.None)
+                        {
+                            return true;
+                        }
+
+                        return false;
+                    };
+            }
+            
             return jsonProperty.ShouldSerialize = instance => false;
         }
 
@@ -51,11 +76,6 @@ namespace NIST.CVP.Generation.KAS.Sp800_56Ar3.Ffc.ContractResolvers
             {
                 nameof(TestCase.TestCaseId),
                 nameof(TestCase.KdfParameter),
-                nameof(TestCase.DkmNonceIut),
-                nameof(TestCase.EphemeralNonceIut),
-                
-                nameof(TestCase.EphemeralPublicKeyIut),
-                nameof(TestCase.StaticPublicKeyIut),
                 
                 nameof(TestCase.EphemeralPublicKeyServer),
                 nameof(TestCase.StaticPublicKeyServer),
@@ -72,6 +92,10 @@ namespace NIST.CVP.Generation.KAS.Sp800_56Ar3.Ffc.ContractResolvers
             #region Conditional Test Case properties
             var includePropertiesValScenarios = new[]
             {
+                nameof(TestCase.DkmNonceIut),
+                nameof(TestCase.EphemeralNonceIut),
+                nameof(TestCase.EphemeralPublicKeyIut),
+                nameof(TestCase.StaticPublicKeyIut),
                 nameof(TestCase.EphemeralPrivateKeyIut),
                 nameof(TestCase.StaticPrivateKeyIut),
                 nameof(TestCase.Tag),
