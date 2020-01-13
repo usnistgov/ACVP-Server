@@ -9,7 +9,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
     public class GenValTest_SafePrime_KeyGen : GenValTestsSingleRunnerBase
     {
         public override AlgoMode AlgoMode => AlgoMode.SafePrime_keyGen_v1_0;
-        public override string Algorithm => "SafePrime";
+        public override string Algorithm => "SafePrimes";
         public override string Mode => "KeyGen";
         public override string Revision => "1.0";
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
