@@ -6,63 +6,8 @@
   "isSample": true,
   "iutId": "123456ABCD",
   "scheme": {
-    "dhEphem": {
-      "scheme": "dhEphem",
-      "underlyingAlgorithm": "Ffc",
-      "kasRole": [
-        "initiator",
-        "responder"
-      ],
-      "kdfMethods": {
-        "oneStepKdf": {
-          "kdfType": "oneStep",
-          "auxFunctions": [
-            {
-              "auxFunctionName": "KMAC-128",
-              "macSaltMethods": [
-                "default"
-              ]
-            }
-          ],
-          "fixedInfoPattern": "algorithmId||l||uPartyInfo||vPartyInfo",
-          "encoding": [
-            "concatenation"
-          ]
-        },
-        "twoStepKdf": {
-          "kdfType": "twoStep",
-          "capabilities": [
-            {
-              "macSaltMethods": [
-                "random"
-              ],
-              "fixedInfoPattern": "l||label||uPartyInfo||vPartyInfo||context",
-              "encoding": [
-                "concatenation"
-              ],
-              "kdfMode": "feedback",
-              "macMode": [
-                "HMAC-SHA3-224"
-              ],
-              "supportedLengths": [
-                512
-              ],
-              "fixedDataOrder": [
-                "after fixed data"
-              ],
-              "counterLength": [
-                32
-              ],
-              "requiresEmptyIv": false,
-              "supportsEmptyIv": false
-            }
-          ]
-        }
-      },
-      "l": 512
-    },
-    "dhOneFlow": {
-      "scheme": "dhOneFlow",
+    "dhStatic": {
+      "scheme": "dhStatic",
       "underlyingAlgorithm": "Ffc",
       "kasRole": [
         "initiator",
@@ -123,7 +68,8 @@
           }
         },
         "keyConfirmationDirections": [
-          "unilateral"
+          "unilateral",
+          "bilateral"
         ],
         "keyConfirmationRoles": [
           "provider",
@@ -134,7 +80,6 @@
     }
   },
   "domainParameterGenerationMethods": [
-    "ffdhe2048",
-    "FB"
+    "ffdhe2048"
   ]
 }

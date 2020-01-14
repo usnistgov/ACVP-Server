@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ParameterTypes.Kas.Sp800_56Ar1;
 using NIST.CVP.Common.Oracle.ParameterTypes.Kas.Sp800_56Ar3;
 using NIST.CVP.Common.Oracle.ParameterTypes.Kas.Sp800_56Br2;
@@ -33,5 +34,7 @@ namespace NIST.CVP.Common.Oracle
         
         Task<KasEccComponentResult> GetKasEccComponentTestAsync(KasEccComponentParameters param);
         Task<KasEccComponentDeferredResult> CompleteDeferredKasComponentTestAsync(KasEccComponentDeferredParameters param);
+
+        Task<SafePrimesKeyVerResult> GetSafePrimesKeyVerTestAsync(SafePrimesKeyVerParameters param);
     }
 }

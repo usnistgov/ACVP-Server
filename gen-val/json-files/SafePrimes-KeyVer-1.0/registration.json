@@ -1,0 +1,11 @@
+{
+  "vsId": 0,
+  "algorithm": "SafePrimes",
+  "mode": "KeyVer",
+  "revision": "1.0",
+  "isSample": true,
+  "safePrimeGroups": [
+    "ffdhe2048",
+    "MODP-2048"
+  ]
+}

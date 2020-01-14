@@ -19,6 +19,7 @@ using NIST.CVP.Crypto.Common.KAS.SafePrimes.Enums;
 using NIST.CVP.Orleans.Grains.Interfaces.Kas.Sp800_56Ar1;
 using NIST.CVP.Orleans.Grains.Interfaces.Kas.Sp800_56Ar3;
 using NIST.CVP.Orleans.Grains.Interfaces.Kas.Sp800_56Br2;
+using NIST.CVP.Orleans.Grains.Interfaces.SafePrimes;
 
 namespace NIST.CVP.Crypto.Oracle
 {
@@ -268,6 +269,14 @@ namespace NIST.CVP.Crypto.Oracle
         {
             var observableGrain =
                 await GetObserverGrain<IOracleObserverKasEccComponentCompleteDeferredCaseGrain, KasEccComponentDeferredResult>();
+            await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, LoadSheddingRetries);
+
+            return await observableGrain.ObserveUntilResult();
+        }
+
+        public async Task<SafePrimesKeyVerResult> GetSafePrimesKeyVerTestAsync(SafePrimesKeyVerParameters param)
+        {
+            var observableGrain = await GetObserverGrain<IObserverSafePrimesKeyVerGrain, SafePrimesKeyVerResult>();
             await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, LoadSheddingRetries);
 
             return await observableGrain.ObserveUntilResult();
