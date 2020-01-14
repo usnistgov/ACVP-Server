@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Generation.Core;
+﻿using Newtonsoft.Json;
+using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.ECDSA.v1_0.SigVer
 {
@@ -10,6 +11,8 @@ namespace NIST.CVP.Generation.ECDSA.v1_0.SigVer
         public string Revision { get; set; }
         public bool IsSample { get; set; }
         public string[] Conformances { get; set; } = { };
+        
+        [JsonProperty(PropertyName = "componentTest")]
         public bool Component { get; set; }
 
         public Capability[] Capabilities { get; set; }

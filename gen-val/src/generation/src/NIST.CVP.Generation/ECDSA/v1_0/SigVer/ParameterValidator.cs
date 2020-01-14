@@ -1,4 +1,6 @@
-﻿using NIST.CVP.Common.ExtensionMethods;
+﻿using System;
+using System.Linq;
+using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Common.Helpers;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC.Enums;
 using NIST.CVP.Generation.Core;
@@ -44,6 +46,13 @@ namespace NIST.CVP.Generation.ECDSA.v1_0.SigVer
                 if (!string.IsNullOrEmpty(result))
                 {
                     errors.Add(result);
+                }
+                
+                // Not a valid combination
+                if (parameters.Conformances.Contains("SP800-106", StringComparer.OrdinalIgnoreCase) &&
+                    parameters.Component)
+                {
+                    errors.Add("Cannot combine SP800-106 conformance with pre-hash component testing");
                 }
             }
         }

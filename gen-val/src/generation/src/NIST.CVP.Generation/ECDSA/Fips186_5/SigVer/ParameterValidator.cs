@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.ECDSA.v1_0.SigVer;
@@ -20,7 +22,7 @@ namespace NIST.CVP.Generation.ECDSA.Fips186_5.SigVer
             {
                 errors.Add("No capabilities found");
             }
-
+            
             foreach (var capability in parameters.Capabilities)
             {
                 result = ValidateArray(capability.Curve, VALID_CURVES, "Curves");
@@ -43,6 +45,13 @@ namespace NIST.CVP.Generation.ECDSA.Fips186_5.SigVer
                 if (!string.IsNullOrEmpty(result))
                 {
                     errors.Add(result);
+                }
+
+                // Not a valid combination
+                if (parameters.Conformances.Contains("SP800-106", StringComparer.OrdinalIgnoreCase) &&
+                    parameters.Component)
+                {
+                    errors.Add("Cannot combine SP800-106 conformance with pre-hash component testing");
                 }
             }
         }
