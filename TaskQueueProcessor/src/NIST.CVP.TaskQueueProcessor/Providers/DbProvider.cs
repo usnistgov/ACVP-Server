@@ -165,7 +165,7 @@ namespace NIST.CVP.TaskQueueProcessor.Providers
             var parameters = new List<(string, object)>
             {
                 ("VsID", task.VsId),
-                ("Prompt", task.Validation),
+                ("ValidationResults", task.Validation),
             };
             
             RunCommand(ACVP_DB_NAME, StoredProcedures.PUT_VALIDATION, parameters);
@@ -175,6 +175,7 @@ namespace NIST.CVP.TaskQueueProcessor.Providers
         {
             var parameters = new List<(string, object)>
             {
+                ("VsID", task.VsId),
                 ("Error", task.Error)
             };
             
