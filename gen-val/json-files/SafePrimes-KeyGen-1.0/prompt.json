@@ -1,0 +1,41 @@
+{
+  "vsId": 0,
+  "algorithm": "SafePrimes",
+  "mode": "KeyGen",
+  "revision": "1.0",
+  "isSample": true,
+  "testGroups": [
+    {
+      "tgId": 1,
+      "testType": "AFT",
+      "tests": [
+        {
+          "tcId": 1
+        },
+        {
+          "tcId": 2
+        },
+        {
+          "tcId": 3
+        }
+      ],
+      "safePrimeGroup": "ffdhe2048"
+    },
+    {
+      "tgId": 2,
+      "testType": "AFT",
+      "tests": [
+        {
+          "tcId": 4
+        },
+        {
+          "tcId": 5
+        },
+        {
+          "tcId": 6
+        }
+      ],
+      "safePrimeGroup": "MODP-2048"
+    }
+  ]
+}

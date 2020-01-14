@@ -188,6 +188,8 @@ namespace NIST.CVP.Common
         RSA_SignaturePrimitive_v1_0,
         [EnumMember(Value = "SafePrime-KeyGen-1.0")]
         SafePrime_keyGen_v1_0,
+        [EnumMember(Value = "SafePrime-KeyVer-1.0")]
+        SafePrime_keyVer_v1_0,
         [EnumMember(Value = "SHA1-1.0")]
         SHA1_v1_0,
         [EnumMember(Value = "SHA-1-1.0")]
