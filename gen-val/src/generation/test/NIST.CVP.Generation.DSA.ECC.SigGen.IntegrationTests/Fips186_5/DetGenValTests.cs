@@ -4,6 +4,7 @@ using NIST.CVP.Generation.ECDSA.v1_0.SigGen;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
+using RegisterInjections = NIST.CVP.Generation.ECDSA.Fips186_5.DetSigGen.RegisterInjections;
 
 namespace NIST.CVP.Generation.DSA.ECC.SigGen.IntegrationTests.Fips186_5
 {
