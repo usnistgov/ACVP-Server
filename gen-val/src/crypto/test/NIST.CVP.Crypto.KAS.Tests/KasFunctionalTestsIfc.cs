@@ -131,10 +131,6 @@ namespace NIST.CVP.Crypto.KAS.Tests
             var fixedInfoParameter = new FixedInfoParameter()
             {
                 L = l,
-                // vvv These are set internally to the kas instance vvv
-                FixedInfoPartyU = null,
-                FixedInfoPartyV = null
-                // ^^^ These are set internally to the kas instance ^^^
             };
 
             // KDF

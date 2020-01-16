@@ -1,7 +1,10 @@
-﻿namespace ACVPCore.Services
+﻿using ACVPCore.Results;
+
+namespace ACVPCore.Services
 {
 	public interface ITaskQueueService
 	{
-		void AddGenerationTask(GenerationTask task);
+		Result AddGenerationTask(GenerationTask task);
+		Result AddValidationTask(ValidationTask task);
 	}
 }

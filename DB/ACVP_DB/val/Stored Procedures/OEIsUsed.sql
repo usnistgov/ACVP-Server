@@ -1,0 +1,14 @@
+﻿CREATE PROCEDURE [val].[OEIsUsed]
+
+	@OEID bigint
+
+AS
+
+SET NOCOUNT ON
+
+SELECT CAST(CASE
+			WHEN EXISTS(SELECT NULL
+						FROM val.VALIDATION_SCENARIO_OE_LINK
+						WHERE validation_oe_id = @OEID) THEN 1
+			ELSE 0
+		   END AS bit) AS IsUsed

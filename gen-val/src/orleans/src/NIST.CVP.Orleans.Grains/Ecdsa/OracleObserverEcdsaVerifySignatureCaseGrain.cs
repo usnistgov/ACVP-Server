@@ -57,7 +57,7 @@ namespace NIST.CVP.Orleans.Grains.Ecdsa
             var domainParams = new EccDomainParameters(curve);
             var eccDsa = _dsaFactory.GetInstanceForSignatures(_param.HashAlg, _param.NonceProviderType, new EntropyProvider(new Random800_90()));
 
-            var message = _rand.GetRandomBitString(1024);
+            var message = _rand.GetRandomBitString(_param.PreHashedMessage ? _param.HashAlg.OutputLen : 1024);
             var messageCopy = message.GetDeepCopy();
 
             BitString randomValue = null;
@@ -70,7 +70,7 @@ namespace NIST.CVP.Orleans.Grains.Ecdsa
                     .RandomizeMessage(messageCopy, _param.HashAlg.OutputLen);
             }
 
-            var result = eccDsa.Sign(domainParams, _key.Key, messageCopy);
+            var result = eccDsa.Sign(domainParams, _key.Key, messageCopy, _param.PreHashedMessage);
             if (!result.Success)
             {
                 throw new Exception();

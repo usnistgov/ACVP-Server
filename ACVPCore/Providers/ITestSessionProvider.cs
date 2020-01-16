@@ -1,10 +1,13 @@
-﻿namespace ACVPCore.Providers
+﻿using ACVPCore.Results;
+
+namespace ACVPCore.Providers
 {
 	public interface ITestSessionProvider
 	{
-		void Cancel(long id);
-		void CancelVectorSets(long id);
-
-		void Insert(long testSessionId, int acvVersionID, string generator, bool isSample, bool publishable, long userID);
+		Result Cancel(long id);
+		Result CancelVectorSets(long id);
+		Result Insert(long testSessionId, int acvVersionID, string generator, bool isSample, bool publishable, long userID);
+		TestSessionStatus GetStatus(long testSessionID);
+		Result UpdateStatus(long testSessionID, TestSessionStatus testSessionStatus);
 	}
 }

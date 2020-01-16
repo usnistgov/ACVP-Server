@@ -5,6 +5,7 @@ namespace NIST.CVP.Crypto.Common.KAS.Enums
 {
     public enum FfcScheme
     {
+        None,
         /// <summary>
         /// C(2e, 2s, FFC DH)
         /// </summary>

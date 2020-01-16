@@ -106,7 +106,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme.Ecc
                 }
             }
 
-                // When fullval, and the other party provides a ephemeral public key
+            // When fullval, and the other party provides a ephemeral public key
             if (SchemeParameters.KasAssurances.HasFlag(KasAssurance.PartialVal) &&
                 otherPartyInformation.EphemeralPublicKey != null)
             {

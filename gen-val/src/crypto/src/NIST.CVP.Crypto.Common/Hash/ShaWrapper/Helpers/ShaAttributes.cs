@@ -27,8 +27,8 @@ namespace NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers
                 (ModeValues.SHA3, DigestSizes.d256, 256, 1088, -1, "SHA3-256"), // no limit
                 (ModeValues.SHA3, DigestSizes.d384, 384, 832, -1, "SHA3-384"), // no limit
                 (ModeValues.SHA3, DigestSizes.d512, 512, 576, -1, "SHA3-512"), // no limit
-                (ModeValues.SHAKE, DigestSizes.d128, -1, 1344, -1, "SHAKE-128"), // no limit
-                (ModeValues.SHAKE, DigestSizes.d256, -1, 1088, -1, "SHAKE-256") // no limit
+                (ModeValues.SHAKE, DigestSizes.d128, 128, 1344, -1, "SHAKE-128"), // no limit, outputSize is "common output size", normally defined by the function calling SHAKE
+                (ModeValues.SHAKE, DigestSizes.d256, 256, 1088, -1, "SHAKE-256") // no limit, outputSize is "common output size", normally defined by the function calling SHAKE
             };
 
         private static List<(HashFunctions hashFunction, ModeValues modeValue, DigestSizes digestSizes)>

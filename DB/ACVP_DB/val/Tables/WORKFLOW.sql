@@ -9,9 +9,14 @@
     [lab_contact] NVARCHAR (100) NULL,
     [lab_email]   NVARCHAR (100) NULL,
     [action]      INT            NOT NULL,
+    [APIActionID] INT NULL, 
+    [RequestingUserId] BIGINT NULL, 
+    [LastUpdatedDate] DATETIME2 NULL, 
     CONSTRAINT [PK_WORKFLOW] PRIMARY KEY CLUSTERED ([id] ASC),
     CONSTRAINT [FK_WORKFLOW_ACTION] FOREIGN KEY ([action]) REFERENCES [val].[WORKFLOW_ACTION] ([id]),
     CONSTRAINT [FK_WORKFLOW_STATUS] FOREIGN KEY ([status]) REFERENCES [val].[WORKFLOW_STATUS] ([id]),
-    CONSTRAINT [FK_WORKFLOW_TYPE] FOREIGN KEY ([type]) REFERENCES [val].[WORKFLOW_TYPE] ([id])
+    CONSTRAINT [FK_WORKFLOW_TYPE] FOREIGN KEY ([type]) REFERENCES [val].[WORKFLOW_TYPE] ([id]),
+    CONSTRAINT [FK_APIAction] FOREIGN KEY ([APIActionID]) REFERENCES [acvp].[APIActions] ([APIActionID]),
+    CONSTRAINT [FK_ACVPUser] FOREIGN KEY ([RequestingUserId]) REFERENCES [acvp].[ACVP_USER] ([id]),
 );
 

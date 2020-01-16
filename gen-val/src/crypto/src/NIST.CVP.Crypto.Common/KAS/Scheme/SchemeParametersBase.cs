@@ -14,7 +14,7 @@ namespace NIST.CVP.Crypto.Common.KAS.Scheme
         /// <param name="kasMode">The mode of the KAS attempt</param>
         /// <param name="keyConfirmationRole">This party's key confirmation role</param>
         /// <param name="keyConfirmationDirection">This party's key confirmation direction</param>
-        /// <param name="kasAssurances">The assuances associated with the KAS</param>
+        /// <param name="kasAssurances">The assurances associated with the KAS</param>
         /// <param name="thisPartyId">The ID associated with this party</param>
         protected SchemeParametersBase(
             TKasAlgoAttributes kasAlgoAttributes,

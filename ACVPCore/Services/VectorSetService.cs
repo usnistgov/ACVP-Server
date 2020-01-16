@@ -1,4 +1,5 @@
 ﻿using ACVPCore.Providers;
+using ACVPCore.Results;
 
 namespace ACVPCore.Services
 {
@@ -13,24 +14,36 @@ namespace ACVPCore.Services
 			_vectorSetExpectedResultsProvider = vectorSetExpectedResultsProvider;
 		}
 
-		public void Cancel(long vectorSetID)
+		public Result Cancel(long vectorSetID)
 		{
 			//Cancel the vector set
-			_vectorSetProvider.Cancel(vectorSetID);
+			return _vectorSetProvider.Cancel(vectorSetID);
 		}
 
-		public void Create(long vectorSetID, long testSessionID, string generatorVersion, long algorithmID, string capabilities)
+		public Result Create(long vectorSetID, long testSessionID, string generatorVersion, long algorithmID, string capabilities)
 		{
+			Result result;
+
 			//Insert the vector set record
-			_vectorSetProvider.Insert(vectorSetID, testSessionID, generatorVersion, algorithmID);
+			result = _vectorSetProvider.Insert(vectorSetID, testSessionID, generatorVersion, algorithmID);
 
-			//Insert a vector set expected results record, which is where the capabilities actually go
-			_vectorSetExpectedResultsProvider.InsertWithCapabilities(vectorSetID, capabilities);
+			if (result.IsSuccess)
+			{
+				//Insert a vector set expected results record, which is where the capabilities actually go
+				result = _vectorSetExpectedResultsProvider.InsertWithCapabilities(vectorSetID, capabilities);
+			}
+
+			return result;
 		}
 
-		public void UpdateSubmittedResults(long vectorSetID, string results)
+		public Result UpdateSubmittedResults(long vectorSetID, string results)
 		{
-			_vectorSetProvider.UpdateSubmittedResults(vectorSetID, results);
+			return _vectorSetProvider.UpdateSubmittedResults(vectorSetID, results);
+		}
+
+		public Result RecordError(long vectorSetID, string errorMessage)
+		{
+			return _vectorSetProvider.UpdateStatus(vectorSetID, VectorSetStatus.Error, errorMessage);
 		}
 	}
 }

@@ -8,6 +8,9 @@ namespace NIST.CVP.Crypto.Common.KAS.Helpers
 {
     public static class KeyGenerationRequirementsHelper
     {
+        /// <summary>
+        /// FFC Key/Nonce generation requirements based on scheme, mode, key confirmation, etc.
+        /// </summary>
         public static
             List<SchemeKeyNonceGenRequirement<FfcScheme>> FfcSchemeKeyGenerationRequirements =
                 new List<SchemeKeyNonceGenRequirement<FfcScheme>>()
@@ -640,6 +643,9 @@ namespace NIST.CVP.Crypto.Common.KAS.Helpers
                     #endregion DhStatic
                 };
 
+        /// <summary>
+        /// ECC Key/Nonce generation requirements based on scheme, mode, key confirmation, etc.
+        /// </summary>
         public static
             List<SchemeKeyNonceGenRequirement<EccScheme>> EccSchemeKeyGenerationRequirements =
                 new List<SchemeKeyNonceGenRequirement<EccScheme>>()
@@ -1272,6 +1278,9 @@ namespace NIST.CVP.Crypto.Common.KAS.Helpers
                     #endregion StaticUnified
                 };
 
+        /// <summary>
+        /// IFC Key/Nonce generation requirements based on scheme, mode, key confirmation, etc.
+        /// </summary>
         public static
             List<SchemeKeyNonceGenRequirement<IfcScheme>> IfcSchemeKeyGenerationRequirements =
                 new List<SchemeKeyNonceGenRequirement<IfcScheme>>()
@@ -1386,6 +1395,16 @@ namespace NIST.CVP.Crypto.Common.KAS.Helpers
                     ),
                 };
         
+        /// <summary>
+        /// Get the <see cref="SchemeKeyNonceGenRequirement"/> for the specified scheme, kasMode, partyRole, keyConfirmationRole, and keyConfirmationDirection.
+        /// </summary>
+        /// <param name="scheme">The scheme.</param>
+        /// <param name="kasMode">The kas mode.</param>
+        /// <param name="thisPartyRole">The party role.</param>
+        /// <param name="thisPartyKeyConfirmationRole">The key confirmation role of the party.</param>
+        /// <param name="keyConfirmationDirection">The direction of the key confirmation.</param>
+        /// <returns><see cref="SchemeKeyNonceGenRequirement"/></returns>
+        /// <exception cref="ArgumentException">Thrown when the parameters cannot be mapped to a scheme.</exception>
         public static SchemeKeyNonceGenRequirement GetKeyGenerationOptionsForSchemeAndRole(
             FfcScheme scheme, 
             KasMode kasMode, 
@@ -1408,6 +1427,16 @@ namespace NIST.CVP.Crypto.Common.KAS.Helpers
             return result;
         }
 
+        /// <summary>
+        /// Get the <see cref="SchemeKeyNonceGenRequirement"/> for the specified scheme, kasMode, partyRole, keyConfirmationRole, and keyConfirmationDirection.
+        /// </summary>
+        /// <param name="scheme">The scheme.</param>
+        /// <param name="kasMode">The kas mode.</param>
+        /// <param name="thisPartyRole">The party role.</param>
+        /// <param name="thisPartyKeyConfirmationRole">The key confirmation role of the party.</param>
+        /// <param name="keyConfirmationDirection">The direction of the key confirmation.</param>
+        /// <returns><see cref="SchemeKeyNonceGenRequirement"/></returns>
+        /// <exception cref="ArgumentException">Thrown when the parameters cannot be mapped to a scheme.</exception>
         public static SchemeKeyNonceGenRequirement GetKeyGenerationOptionsForSchemeAndRole(
             EccScheme scheme,
             KasMode kasMode,
@@ -1430,6 +1459,16 @@ namespace NIST.CVP.Crypto.Common.KAS.Helpers
             return result;
         }
         
+        /// <summary>
+        /// Get the <see cref="SchemeKeyNonceGenRequirement"/> for the specified scheme, kasMode, partyRole, keyConfirmationRole, and keyConfirmationDirection.
+        /// </summary>
+        /// <param name="scheme">The scheme.</param>
+        /// <param name="kasMode">The kas mode.</param>
+        /// <param name="thisPartyRole">The party role.</param>
+        /// <param name="thisPartyKeyConfirmationRole">The key confirmation role of the party.</param>
+        /// <param name="keyConfirmationDirection">The direction of the key confirmation.</param>
+        /// <returns><see cref="SchemeKeyNonceGenRequirement"/></returns>
+        /// <exception cref="ArgumentException">Thrown when the parameters cannot be mapped to a scheme.</exception>
         public static SchemeKeyNonceGenRequirement GetKeyGenerationOptionsForSchemeAndRole(
             IfcScheme scheme,
             KasMode kasMode,
@@ -1496,6 +1535,12 @@ namespace NIST.CVP.Crypto.Common.KAS.Helpers
                     new KeyConfirmationMacDetail(KeyAgreementMacType.Kmac_256, 512, 112, 512),
                 };
 
+        /// <summary>
+        /// Get information on min/max lengths related to a KeyConfirmation mac function.
+        /// </summary>
+        /// <param name="macType">The mac function to pull information for.</param>
+        /// <returns><see cref="KeyConfirmationMacDetail"/></returns>
+        /// <exception cref="ArgumentException">Thrown when the macType cannot be mapped.</exception>
         public static KeyConfirmationMacDetail GetKeyConfirmationMacDetails(KeyAgreementMacType macType)
         {
             if (!KeyConfirmationMacDetails.TryFirst(f => f.MacType == macType, out var result))

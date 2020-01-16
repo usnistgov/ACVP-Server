@@ -1,11 +1,13 @@
 ﻿CREATE PROCEDURE [val].[WorkflowInsert]
 
-	 @WorkflowItemType int
+	 @APIActionID int
+	,@WorkflowItemType int
 	,@Action int
 	,@Status int
 	,@LabName nvarchar(100)
 	,@LabContactName nvarchar(100)
 	,@LabContactEmail nvarchar(100)
+	,@RequestingUserId bigint
 	,@Json nvarchar(MAX)
 
 AS
@@ -21,6 +23,9 @@ INSERT INTO val.WORKFLOW (
 	,lab_contact
 	,lab_email
 	,[action]
+	,APIActionID
+	,RequestingUserId
+	,LastUpdatedDate
 )
 VALUES (
 	 CURRENT_TIMESTAMP
@@ -31,6 +36,9 @@ VALUES (
 	,@LabContactName
 	,@LabContactEmail
 	,@Action
+	,@APIActionID
+	,@RequestingUserId
+	,CURRENT_TIMESTAMP
 )
 
 SELECT SCOPE_IDENTITY() AS WorkflowID

@@ -1,9 +1,12 @@
-﻿namespace ACVPCore.Services
+﻿using ACVPCore.Results;
+
+namespace ACVPCore.Services
 {
 	public interface IVectorSetService
 	{
-		void Cancel(long vectorSetID);
-		void UpdateSubmittedResults(long vectorSetID, string results);
-		void Create(long vectorSetID, long testSessionID, string generatorVersion, long algorithmID, string capabilities);
+		Result Cancel(long vectorSetID);
+		Result UpdateSubmittedResults(long vectorSetID, string results);
+		Result Create(long vectorSetID, long testSessionID, string generatorVersion, long algorithmID, string capabilities);
+		Result RecordError(long vectorSetID, string errorMessage);
 	}
 }

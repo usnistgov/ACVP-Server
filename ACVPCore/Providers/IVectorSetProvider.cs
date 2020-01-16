@@ -1,9 +1,12 @@
-﻿namespace ACVPCore.Providers
+﻿using ACVPCore.Results;
+
+namespace ACVPCore.Providers
 {
 	public interface IVectorSetProvider
 	{
-		void Cancel(long id);
-		void UpdateSubmittedResults(long vectorSetID, string results);
-		void Insert(long vectorSetID, long testSessionID, string generatorVersion, long algorithmID);
+		Result Cancel(long id);
+		Result UpdateSubmittedResults(long vectorSetID, string results);
+		Result UpdateStatus(long vectorSetID, VectorSetStatus status, string errorMessage);
+		Result Insert(long vectorSetID, long testSessionID, string generatorVersion, long algorithmID);
 	}
 }
