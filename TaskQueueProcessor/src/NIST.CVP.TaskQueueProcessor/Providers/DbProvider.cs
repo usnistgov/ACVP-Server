@@ -46,7 +46,7 @@ namespace NIST.CVP.TaskQueueProcessor.Providers
             command.CommandText = procedure;
             command.CommandType = CommandType.StoredProcedure;
             command.AddParameters(parameters);
-            
+
             var rowsAffected = command.ExecuteNonQuery();
 
             if (rowsAffected == 0)
@@ -165,7 +165,7 @@ namespace NIST.CVP.TaskQueueProcessor.Providers
             var parameters = new List<(string, object)>
             {
                 ("VsID", task.VsId),
-                ("ValidationResults", task.Validation),
+                ("Validation", task.Validation),
             };
             
             RunCommand(ACVP_DB_NAME, StoredProcedures.PUT_VALIDATION, parameters);

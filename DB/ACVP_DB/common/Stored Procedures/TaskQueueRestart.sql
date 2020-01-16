@@ -10,5 +10,4 @@ AS
     SET Status = 0
     FROM common.TaskQueue t
     WHERE Status = 1
-
 GO

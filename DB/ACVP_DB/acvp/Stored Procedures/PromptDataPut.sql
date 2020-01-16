@@ -4,7 +4,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE PROCEDURE [acvp].[PromptDataPut]
-    @VsID INT,
+    @VsID BIGINT,
     @Prompt NVARCHAR(MAX),
     @InternalProjection NVARCHAR(MAX),
     @ExpectedResults NVARCHAR(MAX)
