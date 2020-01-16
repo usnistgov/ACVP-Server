@@ -4,7 +4,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE PROCEDURE [acvp].[ValidationPut]
-    @VsID BIGINT,
+    @VsID INT,
     @Validation NVARCHAR(MAX)
 AS
     UPDATE [acvp].[VectorSetJson]

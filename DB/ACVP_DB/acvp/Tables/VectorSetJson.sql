@@ -3,7 +3,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [acvp].[VectorSetJson](
-	[VsID] [bigint] NOT NULL,
+	[VsID] [int] NOT NULL,
 	[Capabilities] [varchar](max) NOT NULL,
 	[Prompt] [varchar](max) NULL,
 	[ExpectedResults] [varchar](max) NULL,

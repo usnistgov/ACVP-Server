@@ -20,8 +20,8 @@ namespace NIST.CVP.TaskQueueProcessor.TaskModels
             var dbId = reader.GetInt64(0);
             var operation = reader.GetString(1).ToLower();
             var vsId = reader.GetInt32(2);
-            var isSample = reader.GetInt32(3) == 1;            // Boolean
-            var showExpected = reader.GetInt32(4) == 1;        // Boolean
+            var isSample = reader.GetBoolean(3);
+            var showExpected = reader.GetBoolean(4);
 
             return operation switch
             {
