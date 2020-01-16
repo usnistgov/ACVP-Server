@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+using ACVPCore.ExtensionMethods;
 using ACVPCore.Models;
 using ACVPCore.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -17,9 +17,9 @@ namespace Web.Admin.Controllers
         }
 
         [HttpGet]
-        public List<TestSessionLite> Get()
+        public WrappedEnumerable<TestSessionLite> Get()
         {
-            return _testSessionService.Get();
+            return _testSessionService.Get().WrapEnumerable();
         }
 
         [HttpGet("{testSessionId}")]
