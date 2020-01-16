@@ -1,4 +1,6 @@
-﻿using ACVPCore.Providers;
+﻿using System.Collections.Generic;
+using ACVPCore.Models;
+using ACVPCore.Providers;
 using ACVPCore.Results;
 
 namespace ACVPCore.Services
@@ -49,5 +51,7 @@ namespace ACVPCore.Services
 		public TestSessionStatus GetStatus(long testSessionID) => _testSessionProvider.GetStatus(testSessionID);
 
 		public Result UpdateStatus(long testSessionID, TestSessionStatus testSessionStatus) => _testSessionProvider.UpdateStatus(testSessionID, testSessionStatus);
+		public List<TestSessionLite> Get() => _testSessionProvider.Get();
+		public TestSession Get(long testSessionId) => _testSessionProvider.Get(testSessionId);
 	}
 }

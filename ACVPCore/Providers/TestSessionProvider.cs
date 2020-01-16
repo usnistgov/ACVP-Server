@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using ACVPCore.Models;
 using ACVPCore.Results;
 using CVP.DatabaseInterface;
 using Microsoft.Extensions.Logging;
@@ -107,6 +109,83 @@ namespace ACVPCore.Providers
 			}
 
 			return new Result();
+		}
+
+		public List<TestSessionLite> Get()
+		{
+			List<TestSessionLite> result = new List<TestSessionLite>();
+			var db = new MightyOrm(_acvpConnectionString);
+
+			try
+			{
+				var data = db.QueryFromProcedure("acvp.TestSessionsGet");
+
+				foreach (var item in data)
+				{
+					result.Add(new TestSessionLite()
+					{
+						Created = item.created_on,
+						Status = item.TestSessionStatusId ?? TestSessionStatus.Unknown,
+						TestSessionId = item.id
+					});
+				}
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex, ex.Message);
+			}
+			
+			return result;
+		}
+
+		public TestSession Get(long testSessionId)
+		{
+			var result = new TestSession()
+			{
+				TestSessionId = testSessionId
+			};
+			var db = new MightyOrm(_acvpConnectionString);
+
+			try
+			{
+				var testSessionData = db.SingleFromProcedure(
+					"acvp.TestSessionGetById", 
+					new 
+					{
+						testSessionId
+					});
+				result.Created = testSessionData.created_on;
+				result.Publishable = testSessionData.publishable;
+				result.Published = testSessionData.published;
+				result.PassedOn = testSessionData.passed_date;
+				result.IsSample = testSessionData.sample;
+				
+				result.VectorSets = new List<TestVectorSetLite>();
+				
+				var vectorSetsData = db.QueryFromProcedure(
+					"acvp.VectorSetGetByTestSessionId",
+					new 
+					{
+						testSessionId
+					});
+				foreach (var vectorSet in vectorSetsData)
+				{
+					result.VectorSets.Add(new TestVectorSetLite()
+					{
+						Algorithm = vectorSet.display_name,
+						Id = vectorSet.id,
+						Status = (VectorSetStatus)vectorSet.status,
+						AlgorithmId = vectorSet.algorithm_id,
+						GeneratorVersion = vectorSet.generator_version
+					});
+				}
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex, ex.Message);
+			}
+			
+			return result;
 		}
 	}
 }
