@@ -302,4 +302,16 @@
   <ItemGroup>
     <RefactorLog Include="ACVP_DB.refactorlog" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="acvp\Stored Procedures\CapabilitiesJsonGet.sql" />
+    <Content Include="acvp\Stored Procedures\ErrorPut.sql" />
+    <Content Include="acvp\Stored Procedures\PromptDataPut.sql" />
+    <Content Include="acvp\Stored Procedures\SubmittedJsonGet.sql" />
+    <Content Include="acvp\Stored Procedures\ValidationPut.sql" />
+    <Content Include="acvp\Tables\VectorSetJson.sql" />
+    <Content Include="common\Stored Procedures\TaskQueueDelete.sql" />
+    <Content Include="common\Stored Procedures\TaskQueueGet.sql" />
+    <Content Include="common\Stored Procedures\TaskQueueRestart.sql" />
+    <Content Include="common\Tables\TaskQueue.sql" />
+  </ItemGroup>
 </Project>

@@ -43,3 +43,5 @@ gen-val-*.zip
 Import Schema Logs 
 *.jfm
 *.idea
+*.local.json
+
