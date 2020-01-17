@@ -22,7 +22,7 @@ namespace NIST.CVP.Generation.TDES_OFB.IntegrationTests
         [SetUp]
         public void Setup()
         {
-            _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\LegacyParserFiles\");
+            _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\LegacyCavsFiles\tdes-ofb\");
             _algo = new OfbBlockCipher(new TdesEngine());
             _keyMaker = new MonteCarloKeyMaker();
             _algoMct = new MonteCarloTdesOfb(

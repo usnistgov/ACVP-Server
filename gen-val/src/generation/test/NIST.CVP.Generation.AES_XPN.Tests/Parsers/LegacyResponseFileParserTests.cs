@@ -12,15 +12,15 @@ namespace NIST.CVP.Generation.AES_XPN.Tests.Parsers
     [TestFixture, UnitTest]
     public class LegacyResponseFileParserTests
     {
-        private const string VALID_FILE_ENCRYPT = @"LegacyParserFiles\xpnEncryptExtIVExtSalt128.fax";
-        private const string VALID_FILE_DECRYPT = @"LegacyParserFiles\xpnDecrypt128.fax";
+        private const string VALID_FILE_ENCRYPT = @"aes-xpn\xpnEncryptExtIVExtSalt128.fax";
+        private const string VALID_FILE_DECRYPT = @"aes-xpn\xpnDecrypt128.fax";
         private string _unitTestPath;
         private const int _expectedGroups = 32;
 
         [OneTimeSetUp]
         public void Setup()
         {
-            _unitTestPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\");
+            _unitTestPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\LegacyCavsFiles\");
         }
 
         [Test]

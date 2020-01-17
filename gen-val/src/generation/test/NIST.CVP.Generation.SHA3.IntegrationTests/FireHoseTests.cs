@@ -23,14 +23,14 @@ namespace NIST.CVP.Generation.SHA3.IntegrationTests
         [SetUp]
         public void SetUp()
         {
-            _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\LegacyParserFiles");
+            _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\LegacyCavsFiles\sha3");
             _sha3 = new Crypto.SHA3.SHA3();
             _sha3MCT = new SHA3_MCT(_sha3);
             _shakeMCT = new SHAKE_MCT(_sha3);
         }
 
         [Test]
-        [TestCase("SHA3\\BitOriented")]
+        [TestCase(@"SHA3\BitOriented")]
         public void ShouldParseAndRunSHA3CAVSFiles(string folder)
         {
             var testPath = Path.Combine(_testPath, folder);
@@ -92,7 +92,7 @@ namespace NIST.CVP.Generation.SHA3.IntegrationTests
         }
 
         [Test]
-        [TestCase("SHAKE\\BitOriented")]
+        [TestCase(@"SHAKE\BitOriented")]
         public void ShouldParseAndRunSHAKECAVSFiles(string folder)
         {
             var testPath = Path.Combine(_testPath, folder);

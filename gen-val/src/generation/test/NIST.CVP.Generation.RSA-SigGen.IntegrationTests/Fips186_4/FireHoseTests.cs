@@ -21,7 +21,7 @@ namespace NIST.CVP.Generation.RSA_SigGen.IntegrationTests
         [SetUp]
         public void SetUp()
         {
-            _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\LegacyParserFiles\siggen\");
+            _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\LegacyCavsFiles\rsa\siggen\");
         }
 
         [Test]

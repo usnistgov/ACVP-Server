@@ -25,7 +25,7 @@ namespace NIST.CVP.Generation.AES_CFB1.IntegrationTests
         [SetUp]
         public void Setup()
         {
-            _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\LegacyParserFiles\");
+            _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\LegacyCavsFiles\aes-cfb1\");
             var engine = new AesEngine();
             _algo = new CfbBlockCipher(engine, new ShiftRegisterStrategyBit(engine));
             _mct = new MonteCarloAesCfb(

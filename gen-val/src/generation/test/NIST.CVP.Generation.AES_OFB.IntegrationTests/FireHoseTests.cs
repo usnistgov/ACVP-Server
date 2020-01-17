@@ -22,7 +22,7 @@ namespace NIST.CVP.Generation.AES_OFB.IntegrationTests
         [SetUp]
         public void Setup()
         {
-            _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\LegacyParserFiles\");
+            _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\LegacyCavsFiles\aes-ofb\");
             _aesOfb = new OfbBlockCipher(new AesEngine());
             _aesOfbMct = new MonteCarloAesOfb(new BlockCipherEngineFactory(), new ModeBlockCipherFactory(), new AesMonteCarloKeyMaker());
         }

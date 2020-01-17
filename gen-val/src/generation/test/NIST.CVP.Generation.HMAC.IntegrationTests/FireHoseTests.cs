@@ -17,7 +17,7 @@ namespace NIST.CVP.Generation.HMAC.IntegrationTests
         [SetUp]
         public void Setup()
         {
-            _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\LegacyParserFiles\");
+            _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\LegacyCavsFiles\hmac\");
         }
  
         [Test]

@@ -21,7 +21,7 @@ namespace NIST.CVP.Generation.RSA_SigVer.IntegrationTests.Fips186_2
         [SetUp]
         public void SetUp()
         {
-            _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\LegacyParserFiles\legacy-sigver\");
+            _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\LegacyCavsFiles\rsa\legacy-sigver\");
         }
 
         [Test]

@@ -20,7 +20,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer.IntegrationTests.Fips186_4
         [SetUp]
         public void SetUp()
         {
-            _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\legacyCavsFiles\ecdsa\SigVer\");
+            _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\LegacyCavsFiles\ECDSA\SigVer\");
             _shaFactory = new ShaFactory();
             _curveFactory = new EccCurveFactory();
         }

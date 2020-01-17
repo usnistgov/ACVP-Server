@@ -19,7 +19,7 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyGen.IntegrationTests.Fips186_4
         [SetUp]
         public void SetUp()
         {
-            _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\LegacyParserFiles\keygen\");
+            _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\LegacyCavsFiles\ECDSA\KeyGen\");
         }
 
         [Test]
@@ -33,7 +33,6 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyGen.IntegrationTests.Fips186_4
             var folderPath = new DirectoryInfo(Path.Combine(_testPath));
             var parser = new LegacyResponseFileParser();
             
-            //var algo = new EccDsa(EntropyProviderTypes.Testable);
             var curveFactory = new EccCurveFactory();
 
             foreach (var testFilePath in folderPath.EnumerateFiles())

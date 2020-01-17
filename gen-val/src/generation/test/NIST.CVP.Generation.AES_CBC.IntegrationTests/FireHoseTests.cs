@@ -25,7 +25,7 @@ namespace NIST.CVP.Generation.AES_CBC.IntegrationTests
         [SetUp]
         public void Setup()
         {
-            _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\LegacyParserFiles\");
+            _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\LegacyCavsFiles\aes-cbc\");
             _algo = new CbcBlockCipher(new AesEngine());
             _mct = new MonteCarloAesCbc(
                 new BlockCipherEngineFactory(), 
