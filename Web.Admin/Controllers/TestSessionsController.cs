@@ -1,5 +1,6 @@
 using ACVPCore.ExtensionMethods;
 using ACVPCore.Models;
+using ACVPCore.Results;
 using ACVPCore.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,22 +11,38 @@ namespace Web.Admin.Controllers
     public class TestSessionsController : ControllerBase
     {
         private readonly ITestSessionService _testSessionService;
+        private readonly IVectorSetService _vectorSetService;
 
-        public TestSessionsController(ITestSessionService testSessionService)
+        public TestSessionsController(
+            ITestSessionService testSessionService,
+            IVectorSetService vectorSetService)
         {
             _testSessionService = testSessionService;
+            _vectorSetService = vectorSetService;
         }
 
         [HttpGet]
-        public WrappedEnumerable<TestSessionLite> Get()
+        public WrappedEnumerable<TestSessionLite> GetTestSessions()
         {
             return _testSessionService.Get().WrapEnumerable();
         }
 
         [HttpGet("{testSessionId}")]
-        public TestSession Get(long testSessionId)
+        public TestSession GetTestSessionDetails(long testSessionId)
         {
             return _testSessionService.Get(testSessionId);
+        }
+
+        [HttpPost("{testSessionId}")]
+        public Result CancelTestSession(long testSessionId)
+        {
+            return _testSessionService.Cancel(testSessionId);
+        }
+        
+        [HttpPost("{vectorSetId}")]
+        public Result CancelVectorSet(long vectorSetId)
+        {
+            return _vectorSetService.Cancel(vectorSetId);
         }
     }
 }
