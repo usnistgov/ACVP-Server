@@ -17,12 +17,18 @@ namespace NIST.CVP.Generation.RSA.v1_0.KeyGen
         public int[] Bitlens { get; set; }
 
         // Potential auxiliary values
+        [JsonProperty(PropertyName = "xP")]
         public BitString XP { get; set; } = new BitString(0);
+        [JsonProperty(PropertyName = "xQ")]
         public BitString XQ { get; set; } = new BitString(0);
 
+        [JsonProperty(PropertyName = "xP1")]
         public BitString XP1 { get; set; } = new BitString(0);
+        [JsonProperty(PropertyName = "xP2")]
         public BitString XP2 { get; set; } = new BitString(0);
+        [JsonProperty(PropertyName = "xQ1")]
         public BitString XQ1 { get; set; } = new BitString(0);
+        [JsonProperty(PropertyName = "xQ2")]
         public BitString XQ2 { get; set; } = new BitString(0);
 
         [JsonIgnore]
@@ -82,6 +88,7 @@ namespace NIST.CVP.Generation.RSA.v1_0.KeyGen
         }
 
         private BigInteger _dmp1;
+        [JsonProperty(PropertyName = "dmp1")]
         public BigInteger Dmp1
         {
             get
@@ -112,6 +119,7 @@ namespace NIST.CVP.Generation.RSA.v1_0.KeyGen
         }
 
         private BigInteger _dmq1;
+        [JsonProperty(PropertyName = "dmq1")]
         public BigInteger Dmq1
         {
             get
@@ -142,6 +150,7 @@ namespace NIST.CVP.Generation.RSA.v1_0.KeyGen
         }
 
         private BigInteger _iqmp;
+        [JsonProperty(PropertyName = "iqmp")]
         public BigInteger Iqmp
         {
             get

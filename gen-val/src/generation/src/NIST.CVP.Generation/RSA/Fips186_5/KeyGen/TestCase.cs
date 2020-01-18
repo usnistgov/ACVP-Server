@@ -17,12 +17,18 @@ namespace NIST.CVP.Generation.RSA.Fips186_5.KeyGen
         public int[] Bitlens { get; set; }
 
         // Potential auxiliary values
+        [JsonProperty(PropertyName = "xP")]
         public BitString XP { get; set; }
+        [JsonProperty(PropertyName = "xQ")]
         public BitString XQ { get; set; }
 
+        [JsonProperty(PropertyName = "xP1")]
         public BitString XP1 { get; set; }
+        [JsonProperty(PropertyName = "xP2")]
         public BitString XP2 { get; set; }
+        [JsonProperty(PropertyName = "xQ1")]
         public BitString XQ1 { get; set; }
+        [JsonProperty(PropertyName = "xQ2")]
         public BitString XQ2 { get; set; }
 
         [JsonIgnore]
@@ -77,6 +83,7 @@ namespace NIST.CVP.Generation.RSA.Fips186_5.KeyGen
                 };
         }
 
+        [JsonProperty(PropertyName = "dmp1")]
         public BigInteger Dmp1
         {
             get
@@ -100,6 +107,7 @@ namespace NIST.CVP.Generation.RSA.Fips186_5.KeyGen
                 };
         }
 
+        [JsonProperty(PropertyName = "dmq1")]
         public BigInteger Dmq1
         {
             get
@@ -123,6 +131,7 @@ namespace NIST.CVP.Generation.RSA.Fips186_5.KeyGen
                 };
         }
 
+        [JsonProperty(PropertyName = "iqmp")]
         public BigInteger Iqmp
         {
             get
