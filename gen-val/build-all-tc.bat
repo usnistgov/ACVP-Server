@@ -1,5 +1,5 @@
 @echo on
-rem version 0.9.2
+rem version 0.9.3
 set "zip=c:\Program Files\7-Zip\7z.exe"
 
 For /f "tokens=2-4 delims=/ " %%a in ('date /t') do (set mydate=%%c%%a%%b)
@@ -24,7 +24,7 @@ echo =============================================================
 echo Building GenValApp
 echo =============================================================
 
-cd src\generation\src\NIST.CVP.Generation.GenValApp
+cd gen-val\src\generation\src\NIST.CVP.Generation.GenValApp
 dotnet clean
 dotnet restore
 dotnet build -c Release
@@ -41,7 +41,7 @@ rem Orleans build
 echo =============================================================
 echo Building OrleansServer
 echo =============================================================
-cd src\orleans\src\NIST.CVP.Orleans.ServerHost
+cd gen-val\src\orleans\src\NIST.CVP.Orleans.ServerHost
 dotnet clean
 dotnet restore
 dotnet build -c Release
@@ -59,7 +59,7 @@ echo =============================================================
 echo Building PoolAPI
 echo =============================================================
 
-cd src\pool-api\NIST.CVP.PoolAPI
+cd gen-val\src\pool-api\NIST.CVP.PoolAPI
 dotnet clean
 dotnet restore
 dotnet build -c Release
