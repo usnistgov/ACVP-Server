@@ -5,8 +5,8 @@ namespace ACVPCore.Services
 {
 	public class VectorSetService : IVectorSetService
 	{
-		IVectorSetProvider _vectorSetProvider;
-		IVectorSetExpectedResultsProvider _vectorSetExpectedResultsProvider;
+		private readonly IVectorSetProvider _vectorSetProvider;
+		private readonly IVectorSetExpectedResultsProvider _vectorSetExpectedResultsProvider;
 
 		public VectorSetService(IVectorSetProvider vectorSetProvider, IVectorSetExpectedResultsProvider vectorSetExpectedResultsProvider)
 		{

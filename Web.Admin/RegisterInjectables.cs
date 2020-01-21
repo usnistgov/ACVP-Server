@@ -15,6 +15,10 @@ namespace Web.Admin
         {
             item.AddSingleton<IConnectionStringFactory, ConnectionStringFactory>();
             
+            item.AddSingleton<IVectorSetExpectedResultsProvider, VectorSetExpectedResultsProvider>();
+            item.AddSingleton<IVectorSetProvider, VectorSetProvider>();
+            item.AddSingleton<IVectorSetService, VectorSetService>();
+            
             item.AddSingleton<ITestSessionProvider, TestSessionProvider>();
             item.AddSingleton<ITestSessionService, TestSessionService>();
         }

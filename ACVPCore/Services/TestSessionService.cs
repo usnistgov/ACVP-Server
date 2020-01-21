@@ -7,7 +7,7 @@ namespace ACVPCore.Services
 {
 	public class TestSessionService : ITestSessionService
 	{
-		ITestSessionProvider _testSessionProvider;
+		private readonly ITestSessionProvider _testSessionProvider;
 
 		public TestSessionService(ITestSessionProvider testSessionProvider)
 		{
@@ -52,6 +52,11 @@ namespace ACVPCore.Services
 
 		public Result UpdateStatus(long testSessionID, TestSessionStatus testSessionStatus) => _testSessionProvider.UpdateStatus(testSessionID, testSessionStatus);
 		public List<TestSessionLite> Get() => _testSessionProvider.Get();
-		public TestSession Get(long testSessionId) => _testSessionProvider.Get(testSessionId);
+		public TestSession Get(long testSessionId)
+		{
+			var testSession = _testSessionProvider.Get(testSessionId);
+			testSession.VectorSets = _testSessionProvider.GetVectorSetsForTestSession(testSessionId);
+			return testSession;
+		}
 	}
 }

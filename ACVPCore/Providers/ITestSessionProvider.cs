@@ -13,5 +13,6 @@ namespace ACVPCore.Providers
 		Result UpdateStatus(long testSessionID, TestSessionStatus testSessionStatus);
 		List<TestSessionLite> Get();
 		TestSession Get(long testSessionId);
+		List<TestVectorSetLite> GetVectorSetsForTestSession(long testSessionId);
 	}
 }
