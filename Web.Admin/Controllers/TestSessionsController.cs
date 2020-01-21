@@ -39,7 +39,7 @@ namespace Web.Admin.Controllers
             return _testSessionService.Cancel(testSessionId);
         }
         
-        [HttpPost("{vectorSetId}")]
+        [HttpPost("vectorSet/{vectorSetId}")]
         public Result CancelVectorSet(long vectorSetId)
         {
             return _vectorSetService.Cancel(vectorSetId);
