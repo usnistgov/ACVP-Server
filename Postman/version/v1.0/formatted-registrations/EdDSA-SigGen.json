@@ -1,0 +1,1 @@
+[{"algorithms": "{\"algorithm\":\"EDDSA\",\"mode\":\"sigGen\",\"revision\":\"1.0\",\"isSample\":true,\"pure\":true,\"preHash\":true,\"curve\":[\"ED-25519\",\"ED-448\"]}"}]

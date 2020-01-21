@@ -1,0 +1,1 @@
+[{"algorithms": "{\"algorithm\":\"ECDSA\",\"mode\":\"sigVer\",\"revision\":\"FIPS186-5\",\"componentTest\":true,\"capabilities\":[{\"curve\":[\"P-256\"],\"hashAlg\":[\"SHA3-224\"]}]}"}]

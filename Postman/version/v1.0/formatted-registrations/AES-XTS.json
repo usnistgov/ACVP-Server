@@ -1,0 +1,1 @@
+[{"algorithms": "{\"algorithm\":\"ACVP-AES-XTS\",\"revision\":\"1.0\",\"keyLen\":[128,256],\"direction\":[\"encrypt\",\"decrypt\"],\"payloadLen\":[{\"min\":128,\"max\":2048,\"increment\":1}],\"tweakMode\":[\"hex\",\"number\"]}"}]

@@ -1,0 +1,1 @@
+[{"algorithms":"{\"algorithm\": \"KAS-ECC\",\"mode\": \"CDH-Component\",\"revision\":\"1.0\",\"isSample\": true,\"function\":[\"dpGen\",\"dpVal\",\"keyPairGen\",\"fullVal\",\"partialVal\",\"keyRegen\"],\"curve\":[\"P-224\",\"K-233\",\"B-233\"]}"}]

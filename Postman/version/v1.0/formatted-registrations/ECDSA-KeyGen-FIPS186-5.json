@@ -1,0 +1,1 @@
+[{"algorithms": "{\"algorithm\":\"ECDSA\",\"mode\":\"keyGen\",\"revision\":\"FIPS186-5\",\"curve\":[\"P-224\",\"P-256\",\"P-384\",\"P-521\"],\"secretGenerationMode\":[\"extra bits\",\"testing candidates\"]}"}]

@@ -1,0 +1,1 @@
+[{"algorithms": "{\"algorithm\":\"ACVP-AES-CTR\",\"revision\":\"1.0\",\"keyLen\":[128,192,256],\"direction\":[\"encrypt\",\"decrypt\"],\"payloadLen\":[{\"min\":1,\"max\":128,\"increment\":1}],\"overflowCounter\":true,\"incrementalCounter\":true}"}]
