@@ -1,0 +1,1 @@
+[{"algorithms": "{\"algorithm\":\"ACVP-AES-GMAC\",\"revision\":\"1.0\",\"direction\":[\"encrypt\",\"decrypt\"],\"keyLen\":[128],\"ivLen\":[96,128],\"ivGen\":\"external\",\"ivGenMode\":\"8.2.2\",\"aadLen\":[128,120],\"tagLen\":[64]}"}]

@@ -1,0 +1,1 @@
+[{"algorithms": "{\"algorithm\":\"DSA\",\"mode\":\"sigGen\",\"revision\":\"1.0\",\"conformances\":[\"SP800-106\"],\"capabilities\":[{\"n\":224,\"l\":2048,\"hashAlg\":[\"SHA2-224\"]}]}"}]

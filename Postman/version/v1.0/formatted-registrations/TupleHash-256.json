@@ -1,0 +1,1 @@
+[{"algorithms": "{\"algorithm\":\"TUPLEHASH-256\",\"mode\":\"\",\"revision\":\"1.0\",\"isSample\":false,\"xof\":[true,false],\"hexCustomization\":false,\"outputLen\":[{\"min\":256,\"max\":2048,\"increment\":1}],\"msgLen\":[{\"min\":0,\"max\":2048,\"increment\":1}]}"}]

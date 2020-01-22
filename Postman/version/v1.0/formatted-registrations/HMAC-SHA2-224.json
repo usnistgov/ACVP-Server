@@ -1,0 +1,1 @@
+[{"algorithms": "{\"algorithm\":\"HMAC-SHA2-224\",\"mode\":\"\",\"revision\":\"1.0\",\"keyLen\":[{\"min\":8,\"max\":2048,\"increment\":8}],\"macLen\":[{\"min\":80,\"max\":160,\"increment\":8}]}"}]

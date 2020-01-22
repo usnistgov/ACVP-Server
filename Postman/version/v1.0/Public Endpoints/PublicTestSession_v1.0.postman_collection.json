@@ -1,0 +1,547 @@
+{
+	"info": {
+		"_postman_id": "359d6f17-636f-4435-b8b6-677c6b022421",
+		"name": "PublicTestSession_v1.0",
+		"description": "Initial ACVP E2E Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "TOTP",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a575bd91-e4d7-4c86-afc5-34ac0a075833",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"pm.test(\"Status 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Version Chk\", function () {",
+							"    pm.expect(jsonData[0].acvVersion).to.eql(\"1.0\");",
+							"});",
+							"pm.test(\"TOTP Chk\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"totp\");",
+							"});",
+							"pm.environment.set(\"totp\", jsonData[1].totp);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://{{env}}.acvts.nist.gov/acvp/totp",
+					"protocol": "https",
+					"host": [
+						"{{env}}",
+						"acvts",
+						"nist",
+						"gov"
+					],
+					"path": [
+						"acvp",
+						"totp"
+					]
+				},
+				"description": "TOTP Request to Test Env"
+			},
+			"response": []
+		},
+		{
+			"name": "LOGIN",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e2e8d825-f9c7-4284-b790-4e683fc47aab",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"pm.test(\"Status 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Version Chk\", function () {",
+							"    pm.expect(jsonData[0].acvVersion).to.eql(\"1.0\");",
+							"});",
+							"pm.test(\"Token Chk\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"accessToken\");",
+							"});",
+							"pm.environment.set(\"token1\", jsonData[1].accessToken);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n  {\r\n    \"acvVersion\": \"1.0\"\r\n  },\r\n  {\r\n    \"password\": \"{{totp}}\"\r\n  }\r\n]"
+				},
+				"url": {
+					"raw": "https://{{env}}.acvts.nist.gov/acvp/v1/login",
+					"protocol": "https",
+					"host": [
+						"{{env}}",
+						"acvts",
+						"nist",
+						"gov"
+					],
+					"path": [
+						"acvp",
+						"v1",
+						"login"
+					]
+				},
+				"description": "LOGIN Request to Test Env"
+			},
+			"response": []
+		},
+		{
+			"name": "REQ TestSession List",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "bf3e1269-3f4e-43a2-89b8-26c31c9106ca",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"pm.test(\"Status 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Version Chk\", function () {",
+							"    pm.expect(jsonData[0].acvVersion).to.eql(\"1.0\");",
+							"});",
+							"pm.test(\"Test Session Chk\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"/v1/testSessions\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "9223d06b-57c4-4d22-a171-40a684647750",
+						"exec": [
+							"pm.environment.set(\"retry\", 0);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token2}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://{{env}}.acvts.nist.gov/acvp/v1/testSessions",
+					"protocol": "https",
+					"host": [
+						"{{env}}",
+						"acvts",
+						"nist",
+						"gov"
+					],
+					"path": [
+						"acvp",
+						"v1",
+						"testSessions"
+					]
+				},
+				"description": "Vector Request to Test Env"
+			},
+			"response": []
+		},
+		{
+			"name": "CREATE TestSession_AES-GCM",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8ae5a85d-66cd-4f2f-aaf9-da073686a662",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"pm.test(\"Status 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Version Chk\", function () {",
+							"    pm.expect(jsonData[0].acvVersion).to.eql(\"1.0\");",
+							"});",
+							"pm.test(\"Token Chk\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"accessToken\");",
+							"});",
+							"pm.environment.set(\"token2\", jsonData[1].accessToken);",
+							"pm.environment.set(\"tsurl\", jsonData[1].url);",
+							"pm.environment.set(\"vsurl\", jsonData[1].vectorSetUrls);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token1}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n  {\n    \"acvVersion\": \"1.0\"\n  },\n  {\n    \"isSample\": true,\n    \"algorithms\": [\n      {\n        \"algorithm\": \"ACVP-AES-GCM\",\n        \"revision\": \"1.0\",\n        \"prereqVals\": [\n          {\n            \"algorithm\": \"AES\",\n            \"valValue\": \"123456\"\n          },\n          {\n            \"algorithm\": \"DRBG\",\n            \"valValue\": \"123456\"\n          }\n        ],\n        \"direction\": [\n          \"encrypt\",\n          \"decrypt\"\n        ],\n        \"ivGen\": \"external\",\n        \"ivGenMode\": \"8.2.1\",\n        \"keyLen\": [\n          128,\n          256\n        ],\n        \"payloadLen\": [\n          128\n        ],\n        \"tagLen\": [\n          120\n        ],\n        \"ivLen\": [\n          120\n        ],\n        \"ptLen\": [\n          0,\n          128,\n          136\n        ],\n        \"aadLen\": [\n          128,\n          136\n        ]\n      }\n    ]\n  }\n]"
+				},
+				"url": {
+					"raw": "https://{{env}}.acvts.nist.gov/acvp/v1/testSessions",
+					"protocol": "https",
+					"host": [
+						"{{env}}",
+						"acvts",
+						"nist",
+						"gov"
+					],
+					"path": [
+						"acvp",
+						"v1",
+						"testSessions"
+					]
+				},
+				"description": "REGISTER Request to Test Env"
+			},
+			"response": []
+		},
+		{
+			"name": "REQ TestSession Info",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "bf3e1269-3f4e-43a2-89b8-26c31c9106ca",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"pm.test(\"Status 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Version Chk\", function () {",
+							"    pm.expect(jsonData[0].acvVersion).to.eql(\"1.0\");",
+							"});",
+							"pm.test(\"Test Session Chk\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"/v1/testSessions\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "9223d06b-57c4-4d22-a171-40a684647750",
+						"exec": [
+							"pm.environment.set(\"retry\", 0);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token2}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://{{env}}.acvts.nist.gov{{tsurl}}",
+					"protocol": "https",
+					"host": [
+						"{{env}}",
+						"acvts",
+						"nist",
+						"gov{{tsurl}}"
+					]
+				},
+				"description": "Vector Request to Test Env"
+			},
+			"response": []
+		},
+		{
+			"name": "SUBMIT for Validation_TS123",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8ae5a85d-66cd-4f2f-aaf9-da073686a662",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"pm.test(\"Status 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Version Chk\", function () {",
+							"    pm.expect(jsonData[0].acvVersion).to.eql(\"1.0\");",
+							"});",
+							"pm.test(\"Test Session Chk\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"/v1/testSessions\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token2}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n  {\n    \"acvVersion\": \"1.0\"\n  },\n  {\n    \"moduleUrl\": \"/acvp/v1/modules/20\",\n    \"oeUrl\": \"/acvp/v1/oes/60\",\n    \"algorithmPrerequisites\": [\n      {\n        \"algorithm\": \"ACVP-AES-GCM\",\n        \"prerequisites\": [\n          {\n            \"algorithm\": \"AES\",\n            \"validationId\": \"123456\"\n          },\n          {\n            \"algorithm\": \"DRBG\",\n            \"validationId\": \"123456\"\n          }\n        ]\n      }\n    ],\n    \"signature\": {\n      \"algorithm\": \"SHA256RSA\",\n      \"certificate\": \"{base64encodedcertificate}\",\n      \"digitalSignature\": \"{base64encodedsignature}\"\n    }\n  }\n]"
+				},
+				"url": {
+					"raw": "https://{{env}}.acvts.nist.gov{{tsurl}}",
+					"protocol": "https",
+					"host": [
+						"{{env}}",
+						"acvts",
+						"nist",
+						"gov{{tsurl}}"
+					]
+				},
+				"description": "REGISTER Request to Test Env"
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE TestSession_TS123",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "4e4d546f-af18-4676-9abf-f350758ae63b",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"pm.test(\"Status 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Version Chk\", function () {",
+							"    pm.expect(jsonData[0].acvVersion).to.eql(\"1.0\");",
+							"});",
+							"pm.test(\"Test Session Chk\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"/v1/testSessions\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token2}}"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "https://{{env}}.acvts.nist.gov{{tsurl}}",
+					"protocol": "https",
+					"host": [
+						"{{env}}",
+						"acvts",
+						"nist",
+						"gov{{tsurl}}"
+					]
+				},
+				"description": "Answer Request to Test Env"
+			},
+			"response": []
+		},
+		{
+			"name": "REQ Validation Results_TS123",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "4e4d546f-af18-4676-9abf-f350758ae63b",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"pm.test(\"Status 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Version Chk\", function () {",
+							"    pm.expect(jsonData[0].acvVersion).to.eql(\"1.0\");",
+							"});",
+							"pm.test(\"Test Session Chk\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"/v1/testSessions\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "3c02b550-fd57-43d1-a411-6cff6770a5f2",
+						"exec": [
+							"setTimeout(function() {}, 25000); // wait 25 seconds"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token2}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://{{env}}.acvts.nist.gov{{tsurl}}/results",
+					"protocol": "https",
+					"host": [
+						"{{env}}",
+						"acvts",
+						"nist",
+						"gov{{tsurl}}"
+					],
+					"path": [
+						"results"
+					]
+				},
+				"description": "Answer Request to Test Env"
+			},
+			"response": []
+		},
+		{
+			"name": "REQ Validation Results_VS123",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "4e4d546f-af18-4676-9abf-f350758ae63b",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"pm.test(\"Status 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Version Chk\", function () {",
+							"    pm.expect(jsonData[0].acvVersion).to.eql(\"1.0\");",
+							"});",
+							"pm.test(\"vsId Chk\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"vsId\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token2}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://{{env}}.acvts.nist.gov{{vsurl}}/results",
+					"protocol": "https",
+					"host": [
+						"{{env}}",
+						"acvts",
+						"nist",
+						"gov{{vsurl}}"
+					],
+					"path": [
+						"results"
+					]
+				},
+				"description": "Answer Request to Test Env"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "c856decc-c3ef-4289-aef8-191c27be4dbb",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "87493567-f0bc-4230-b194-ed28fc9fd9c7",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
