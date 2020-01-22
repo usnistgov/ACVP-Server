@@ -21,6 +21,9 @@ namespace Web.Admin
             
             item.AddSingleton<ITestSessionProvider, TestSessionProvider>();
             item.AddSingleton<ITestSessionService, TestSessionService>();
+            
+            item.AddSingleton<IAcvpUserProvider, AcvpUserProvider>();
+            item.AddSingleton<IAcvpUserService, AcvpUserService>();
         }
     }
 }
