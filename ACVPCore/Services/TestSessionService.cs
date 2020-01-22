@@ -55,6 +55,10 @@ namespace ACVPCore.Services
 		public TestSession Get(long testSessionId)
 		{
 			var testSession = _testSessionProvider.Get(testSessionId);
+
+			if (testSession == null)
+				return null;
+			
 			testSession.VectorSets = _testSessionProvider.GetVectorSetsForTestSession(testSessionId);
 			return testSession;
 		}

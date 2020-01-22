@@ -28,9 +28,14 @@ namespace Web.Admin.Controllers
         }
 
         [HttpGet("{testSessionId}")]
-        public TestSession GetTestSessionDetails(long testSessionId)
+        public ActionResult<TestSession> GetTestSessionDetails(long testSessionId)
         {
-            return _testSessionService.Get(testSessionId);
+            var result = _testSessionService.Get(testSessionId);
+
+            if (result == null)
+                return new NotFoundResult();
+            
+            return result;
         }
 
         [HttpPost("{testSessionId}")]
