@@ -21,6 +21,9 @@ namespace Web.Admin
             
             item.AddSingleton<ITestSessionProvider, TestSessionProvider>();
             item.AddSingleton<ITestSessionService, TestSessionService>();
+
+            item.AddSingleton<IDependencyProvider, DependencyProvider>();
+            item.AddSingleton<IDependencyService, DependencyService>();
         }
     }
 }

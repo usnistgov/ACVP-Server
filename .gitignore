@@ -43,3 +43,4 @@ gen-val-*.zip
 Import Schema Logs 
 *.jfm
 *.idea
+Web.Admin/appsettings.json

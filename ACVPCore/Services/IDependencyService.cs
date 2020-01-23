@@ -1,4 +1,5 @@
-﻿using ACVPCore.Models.Parameters;
+﻿using ACVPCore.Models;
+using ACVPCore.Models.Parameters;
 using ACVPCore.Results;
 
 namespace ACVPCore.Services
@@ -9,5 +10,6 @@ namespace ACVPCore.Services
 		DeleteResult DeleteEvenIfUsed(long dependencyID);
 		DependencyResult Create(DependencyCreateParameters dependency);
 		DependencyResult Update(DependencyUpdateParameters parameters);
+		Dependency Get(long dependencyId);
 	}
 }

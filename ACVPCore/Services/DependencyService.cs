@@ -115,6 +115,11 @@ namespace ACVPCore.Services
 			return new DependencyResult(parameters.ID);
 		}
 
+		public Dependency Get(long dependencyId)
+		{
+			return _dependencyProvider.Get(dependencyId);
+		}
+
 		public bool DependencyIsUsed(long dependencyID)
 		{
 			return _dependencyProvider.DependencyIsUsed(dependencyID);
