@@ -45,8 +45,15 @@ namespace NIST.CVP.Tests.Core
                 directory = directory.Substring(0, binStartIndex);
             }
 
+            directory = Path.TrimEndingDirectorySeparator(directory);
+            while (pathAdditions.StartsWith(@"..\"))
+            {
+                directory = Directory.GetParent(directory).FullName;
+                pathAdditions = pathAdditions.Substring(3, pathAdditions.Length-3);
+            }
+            
             // combine the directory with the pathAdditions (mostly "../../" to get back to the test files.)
-            directory = Path.GetFullPath(directory + pathAdditions);
+            directory = Path.GetFullPath(Path.Combine(directory, pathAdditions));
 
             // optionally replace the "\" with a "/" if the file system needs it
             directory = directory.Replace('\\', Path.DirectorySeparatorChar);
