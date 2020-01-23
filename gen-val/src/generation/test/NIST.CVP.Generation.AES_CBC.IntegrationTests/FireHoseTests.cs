@@ -39,7 +39,7 @@ namespace NIST.CVP.Generation.AES_CBC.IntegrationTests
         {
             if (!Directory.Exists(_testPath))
             {
-                Assert.Fail("Test File Directory does not exist");
+                Assert.Fail($"Test File Directory does not exist: {_testPath}");
             }
 
             LegacyResponseFileParser parser = new LegacyResponseFileParser();
