@@ -45,6 +45,7 @@ namespace NIST.CVP.Tests.Core
                 directory = directory.Substring(0, binStartIndex);
             }
 
+            // Clean up the directory a bit before using
             directory = Path.TrimEndingDirectorySeparator(directory);
             while (pathAdditions.StartsWith(@"..\"))
             {
