@@ -24,6 +24,9 @@ namespace Web.Admin
 
             item.AddSingleton<IDependencyProvider, DependencyProvider>();
             item.AddSingleton<IDependencyService, DependencyService>();
+            
+            item.AddSingleton<IAcvpUserProvider, AcvpUserProvider>();
+            item.AddSingleton<IAcvpUserService, AcvpUserService>();
         }
     }
 }
