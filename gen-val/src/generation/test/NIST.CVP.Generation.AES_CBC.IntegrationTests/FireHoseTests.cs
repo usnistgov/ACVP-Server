@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using System.Linq;
-using NIST.CVP.Crypto.AES;
 using NIST.CVP.Crypto.Common.Symmetric;
 using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
 using NIST.CVP.Crypto.Common.Symmetric.Enums;
@@ -25,7 +24,7 @@ namespace NIST.CVP.Generation.AES_CBC.IntegrationTests
         [SetUp]
         public void Setup()
         {
-            _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\legacyCavsFiles\aes-cbc\");
+            _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\LegacyCavsFiles\aes-cbc\");
             _algo = new CbcBlockCipher(new AesEngine());
             _mct = new MonteCarloAesCbc(
                 new BlockCipherEngineFactory(), 
