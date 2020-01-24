@@ -81,6 +81,7 @@
     <Folder Include="common\Stored Procedures\" />
     <Folder Include="Security\" />
     <Folder Include="val\Stored Procedures" />
+    <Folder Include="ref\Stored Procedures" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="val\Tables\PRODUCT_INFORMATION.sql" />
@@ -298,6 +299,9 @@
     <Build Include="val\Tables\ValidationApprovalHistory.sql" />
     <Build Include="acvp\Tables\TestSessionStatus.sql" />
     <Build Include="acvp\Stored Procedures\TestSessionStatusGet.sql" />
+    <Build Include="acvp\Stored Procedures\VectorSetsForTestSessionGet.sql" />
+    <Build Include="ref\Stored Procedures\AlgorithmIDByNameAndModeGet.sql" />
+    <Build Include="val\Stored Procedures\CapabilitiesForScenarioAlgorithmGet.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="ACVP_DB.refactorlog" />

@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Text.Json.Serialization;
+using ACVPCore.Models.Parameters;
 
 namespace ACVPWorkflow.Models
 {
-	public class OEUpdatePayload
+	public class OEUpdatePayload : BasePayload
 	{
 		private string _name;
 		private List<string> _dependencyUrls;
@@ -39,5 +40,15 @@ namespace ACVPWorkflow.Models
 
 		public bool NameUpdated { get; private set; } = false;
 		public bool DependenciesUpdated { get; private set; } = false;
+
+
+		public OEUpdateParameters ToOEUpdateParameters() => new OEUpdateParameters
+		{
+			ID = ID,
+			Name = Name,
+			DependencyIDs = DependencyURLs.ConvertAll<long>(x => ParseIDFromURL(x)),
+			NameUpdated = NameUpdated,
+			DependenciesUpdated = DependenciesUpdated
+		};
 	}
 }

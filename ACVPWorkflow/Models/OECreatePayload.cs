@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Text.Json.Serialization;
+using ACVPCore.Models.Parameters;
 
 namespace ACVPWorkflow.Models
 {
-	public class OECreatePayload
+	public class OECreatePayload : BasePayload
 	{
 		[JsonPropertyName("id")]
 		public long ID { get => -1; }
@@ -22,5 +23,11 @@ namespace ACVPWorkflow.Models
 
 		[JsonPropertyName("dependencyUrls")]
 		public List<string> DependencyURLs { get; set; }
+
+		public OECreateParameters ToOECreateParameters() => new OECreateParameters
+		{
+			Name = Name,
+			DependencyIDs = DependencyURLs.ConvertAll<long>(x => ParseIDFromURL(x))
+		};
 	}
 }

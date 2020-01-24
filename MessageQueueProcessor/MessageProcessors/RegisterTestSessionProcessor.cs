@@ -32,7 +32,7 @@ namespace MessageQueueProcessor.MessageProcessors
 				foreach (VectorSetRegistration vectorSetRegistration in registerTestSessionPayload.VectorSetRegistrations)
 				{
 					//Create the vector set - this actually inserts the Vector Set record and an expected results record with the capabilities
-					Result vectorSetResult = _vectorSetService.Create(vectorSetRegistration.VectorSetID, registerTestSessionPayload.TestSessionID, "1.0", vectorSetRegistration.AlgorithmID, vectorSetRegistration.Capabilities.ToString());
+					Result vectorSetResult = _vectorSetService.Create(vectorSetRegistration.VectorSetID, registerTestSessionPayload.TestSessionID, "1.0", vectorSetRegistration.AlgorithmID, vectorSetRegistration.Capabilities.ToString());		//TODO - this generator version can't be hardcoded...
 
 					if (vectorSetResult.IsSuccess)
 					{

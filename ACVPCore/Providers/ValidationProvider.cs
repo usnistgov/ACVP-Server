@@ -18,7 +18,7 @@ namespace ACVPCore.Providers
 			_logger = logger;
 		}
 
-		public InsertResult Insert(long implementationID, bool isLCAVP = false)
+		public InsertResult Insert(ValidationSource validationSource, long validationNumber, long implementationID)
 		{
 			var db = new MightyOrm(_acvpConnectionString);
 
@@ -27,7 +27,8 @@ namespace ACVPCore.Providers
 				var data = db.SingleFromProcedure("val.ValidationRecordInsert", inParams: new
 				{
 					ImplmenentationId = implementationID,
-					SourceId = isLCAVP ? 18 : 1             //TODO - Once LCAVP goes away remove this hardcode to handle this being ACVP (1) vs LCAVP (18)
+					SourceId = validationSource,             //TODO - Once LCAVP goes away hardcode this to ACVP maybe
+					ValidationNumber = validationNumber
 				});
 
 				return new InsertResult(data.ValidationRecordId);
@@ -63,5 +64,40 @@ namespace ACVPCore.Providers
 
 			return validations;
 		}
+
+		public long GetNextACVPValidationNumber()
+		{
+			var db = new MightyOrm(_acvpConnectionString);
+
+			try
+			{
+				var data = db.SingleFromProcedure("val.NextACVPValidationNumberGet");
+
+				return data.ValidationNumber;
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex.Message);
+				return -1;
+			}
+		}
+
+		public long GetNextLCAVPValidationNumber()
+		{
+			var db = new MightyOrm(_acvpConnectionString);
+
+			try
+			{
+				var data = db.SingleFromProcedure("val.NextLCAVPValidationNumberGet");
+
+				return data.ValidationNumber;
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex.Message);
+				return -1;
+			}
+		}
+
 	}
 }

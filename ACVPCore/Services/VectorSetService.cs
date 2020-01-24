@@ -1,4 +1,5 @@
-﻿using ACVPCore.Providers;
+﻿using System.Collections.Generic;
+using ACVPCore.Providers;
 using ACVPCore.Results;
 
 namespace ACVPCore.Services
@@ -45,5 +46,9 @@ namespace ACVPCore.Services
 		{
 			return _vectorSetProvider.UpdateStatus(vectorSetID, VectorSetStatus.Error, errorMessage);
 		}
+
+		public List<(long ID, long AlgorithmID, VectorSetStatus Status, string ErrorMessage)> GetVectorSetsForTestSession(long testSessionID) => _vectorSetProvider.GetVectorSetIDsForTestSession(testSessionID);
+
+		public string GetCapabilities(long vectorSetID) => _vectorSetExpectedResultsProvider.GetCapabilities(vectorSetID);
 	}
 }

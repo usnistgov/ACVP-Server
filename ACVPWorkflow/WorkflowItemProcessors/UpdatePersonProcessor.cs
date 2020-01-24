@@ -3,6 +3,7 @@ using System.Text.Json;
 using ACVPCore.Models.Parameters;
 using ACVPCore.Results;
 using ACVPCore.Services;
+using ACVPWorkflow.Models;
 using ACVPWorkflow.Services;
 
 namespace ACVPWorkflow.WorkflowItemProcessors
@@ -20,7 +21,7 @@ namespace ACVPWorkflow.WorkflowItemProcessors
 
 		public void Approve(WorkflowItem workflowItem)
 		{
-			PersonUpdateParameters parameters = JsonSerializer.Deserialize<PersonUpdateParameters>(workflowItem.JSON);
+			PersonUpdateParameters parameters = JsonSerializer.Deserialize<PersonUpdatePayload>(workflowItem.JSON).ToPersonUpdateParameters();
 
 			//Update it
 			PersonResult personUpdateResult = _personService.Update(parameters);

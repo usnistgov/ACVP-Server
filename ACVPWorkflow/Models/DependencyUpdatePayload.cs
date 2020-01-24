@@ -64,10 +64,10 @@ namespace ACVPWorkflow.Models
 			}
 		}
 
-		//But use this to turn the attributes into something less goofy	
-		public List<DependencyAttributeCreateParameters> Attributes =>
-			//If no extension data (attributes) then return an empty collection. If there are attributes, return a collection of property objects
-			ExtensionDataAttributes == null ? new List<DependencyAttributeCreateParameters>() : ExtensionDataAttributes.Select(a => new DependencyAttributeCreateParameters { Name = a.Key, Value = a.Value.GetString() }).ToList();
+		////But use this to turn the attributes into something less goofy	
+		//public List<DependencyAttributeCreateParameters> Attributes =>
+		//	//If no extension data (attributes) then return an empty collection. If there are attributes, return a collection of property objects
+		//	ExtensionDataAttributes == null ? new List<DependencyAttributeCreateParameters>() : ExtensionDataAttributes.Select(a => new DependencyAttributeCreateParameters { Name = a.Key, Value = a.Value.GetString() }).ToList();
 
 
 
@@ -82,5 +82,24 @@ namespace ACVPWorkflow.Models
 
 		//[JsonIgnore]
 		public bool AttributesUpdated { get; private set; } = false;
+
+
+		public DependencyUpdateParameters ToDependencyUpdateParameters() =>
+			new DependencyUpdateParameters
+			{
+				ID = ID,
+				Type = Type,
+				Name = Name,
+				Description = Description,
+				Attributes = GetAttributeParameters(),
+				TypeUpdated = TypeUpdated,
+				NameUpdated = NameUpdated,
+				DescriptionUpdated = DescriptionUpdated,
+				AttributesUpdated = AttributesUpdated
+			};
+
+		private List<DependencyAttributeCreateParameters> GetAttributeParameters() =>
+			//If no extension data (attributes) then return an empty collection. If there are attributes, return a collection of property objects
+			ExtensionDataAttributes == null ? new List<DependencyAttributeCreateParameters>() : ExtensionDataAttributes.Select(a => new DependencyAttributeCreateParameters { Name = a.Key, Value = a.Value.GetString() }).ToList();
 	}
 }

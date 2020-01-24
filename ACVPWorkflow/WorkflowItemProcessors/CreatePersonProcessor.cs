@@ -3,6 +3,7 @@ using System.Text.Json;
 using ACVPCore.Models.Parameters;
 using ACVPCore.Results;
 using ACVPCore.Services;
+using ACVPWorkflow.Models;
 using ACVPWorkflow.Services;
 
 namespace ACVPWorkflow.WorkflowItemProcessors
@@ -20,7 +21,7 @@ namespace ACVPWorkflow.WorkflowItemProcessors
 
 		public void Approve(WorkflowItem workflowItem)
 		{
-			PersonCreateParameters parameters = JsonSerializer.Deserialize<PersonCreateParameters>(workflowItem.JSON);
+			PersonCreateParameters parameters = JsonSerializer.Deserialize<PersonCreatePayload>(workflowItem.JSON).ToPersonCreateParameters();
 
 			//Create it
 			PersonResult personCreateResult = _personService.Create(parameters);

@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json.Serialization;
+using ACVPCore.Models.Parameters;
 
 namespace ACVPWorkflow.Models
 {
-	public class OrganizationCreatePayload
+	public class OrganizationCreatePayload : BasePayload
 	{
 		[JsonPropertyName("id")]
 		public long ID { get => -1; }
@@ -28,6 +30,29 @@ namespace ACVPWorkflow.Models
 
 		[JsonPropertyName("addresses")]
 		public List<Address> Addresses { get; set; }
+
+
+		public OrganizationCreateParameters ToOrganizationCreateParameters() => new OrganizationCreateParameters
+		{
+			Name = Name,
+			Website = Website,
+			VoiceNumber = PhoneNumbers.FirstOrDefault(x => x.Type == "voice")?.Number,         //Though phone numbers are a collection of objects in the JSON, in the database there are just 2 fields on the org record
+			FaxNumber = PhoneNumbers.FirstOrDefault(x => x.Type == "fax")?.Number,
+			ParentOrganizationID = ParseNullableIDFromURL(ParentURL),
+			EmailAddresses = EmailAddresses,
+			Addresses = Addresses.Select(x => new AddressCreateParameters
+			{
+				Street1 = x.Street1,
+				Street2 = x.Street2,
+				Street3 = x.Street3,
+				Locality = x.Locality,
+				Region = x.Region,
+				PostalCode = x.PostalCode,
+				Country = x.Country
+			}).ToList()
+		};
+
+
 
 		public class PhoneNumber
 		{

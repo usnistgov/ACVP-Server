@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json.Serialization;
+using ACVPCore.Models.Parameters;
 
 namespace ACVPWorkflow.Models
 {
-	public class OrganizationUpdatePayload
+	public class OrganizationUpdatePayload : BasePayload
 	{
 		private string _name;
 		private string _website;
@@ -89,6 +91,81 @@ namespace ACVPWorkflow.Models
 		public bool PhoneNumbersUpdated { get; private set; } = false;
 		public bool EmailAddressesUpdated { get; private set; } = false;
 		public bool AddressesUpdated { get; private set; } = false;
+
+
+		public OrganizationUpdateParameters ToOrganizationUpdateParameters()
+		{
+			//Build a OrganizationUpdateParameters object. The nested addresses are a bit goofy since they can be new or updates, and different handling is required
+			List<object> AddressObjects = new List<object>();
+
+			for (int i = 0; i < Addresses.Count; i++)
+			{
+				var addressParameters = Addresses[i];
+
+				if (string.IsNullOrEmpty(addressParameters.URL))
+				{
+					//This will be a new address
+					AddressObjects.Add(new AddressCreateParameters
+					{
+						OrganizationID = ID,
+						OrderIndex = i,
+						Street1 = addressParameters.Street1,
+						Street2 = addressParameters.Street2,
+						Street3 = addressParameters.Street3,
+						Locality = addressParameters.Locality,
+						Region = addressParameters.Region,
+						PostalCode = addressParameters.PostalCode,
+						Country = addressParameters.Country
+					});
+				}
+				else
+				{
+					//This is an address update
+					AddressObjects.Add(new AddressUpdateParameters
+					{
+						ID = long.Parse(addressParameters.URL.Split("/")[^1]),
+						OrderIndex = i,
+						Street1 = addressParameters.Street1,
+						Street2 = addressParameters.Street2,
+						Street3 = addressParameters.Street3,
+						Locality = addressParameters.Locality,
+						Region = addressParameters.Region,
+						PostalCode = addressParameters.PostalCode,
+						Country = addressParameters.Country,
+						Street1Updated = addressParameters.Street1Updated,
+						Street2Updated = addressParameters.Street2Updated,
+						Street3Updated = addressParameters.Street3Updated,
+						LocalityUpdated = addressParameters.LocalityUpdated,
+						RegionUpdated = addressParameters.RegionUpdated,
+						PostalCodeUpdated = addressParameters.PostalCodeUpdated,
+						CountryUpdated = addressParameters.CountryUpdated
+						//Not passing org id because can't update that
+					});
+				}
+			}
+
+			return new OrganizationUpdateParameters
+			{
+				ID = ID,
+				Name = Name,
+				Website = Website,
+				VoiceNumber = PhoneNumbers.FirstOrDefault(x => x.Type == "voice")?.Number,         //Though phone numbers are a collection of objects in the JSON, in the database there are just 2 fields on the org record
+				FaxNumber = PhoneNumbers.FirstOrDefault(x => x.Type == "fax")?.Number,
+				ParentOrganizationID = ParseNullableIDFromURL(ParentOrganizationURL),
+				EmailAddresses = EmailAddresses,
+				Addresses = AddressObjects,
+				NameUpdated = NameUpdated,
+				WebsiteUpdated = WebsiteUpdated,
+				ParentOrganizationIDUpdated = ParentOrganizationURLUpdated,
+				PhoneNumbersUpdated = PhoneNumbersUpdated,
+				EmailAddressesUpdated = EmailAddressesUpdated,
+				AddressesUpdated = AddressesUpdated
+			};
+		}
+
+
+
+
 
 		public class PhoneNumber
 		{

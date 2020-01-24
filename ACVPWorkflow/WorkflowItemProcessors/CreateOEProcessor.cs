@@ -3,6 +3,7 @@ using System.Text.Json;
 using ACVPCore.Models.Parameters;
 using ACVPCore.Results;
 using ACVPCore.Services;
+using ACVPWorkflow.Models;
 using ACVPWorkflow.Services;
 
 namespace ACVPWorkflow.WorkflowItemProcessors
@@ -20,7 +21,7 @@ namespace ACVPWorkflow.WorkflowItemProcessors
 
 		public void Approve(WorkflowItem workflowItem)
 		{
-			OECreateParameters parameters = JsonSerializer.Deserialize<OECreateParameters>(workflowItem.JSON);
+			OECreateParameters parameters = JsonSerializer.Deserialize<OECreatePayload>(workflowItem.JSON).ToOECreateParameters();
 
 			//Create it
 			OEResult oeCreateResult = _oeService.Create(parameters);

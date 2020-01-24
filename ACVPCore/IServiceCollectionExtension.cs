@@ -29,6 +29,9 @@ namespace ACVPCore
 			services.AddSingleton<IImplementationProvider, ImplementationProvider>();
 			services.AddSingleton<IValidationProvider, ValidationProvider>();
 			services.AddSingleton<IValidationService, ValidationService>();
+			services.AddSingleton<IScenarioAlgorithmProvider, ScenarioAlgorithmProvider>();
+			services.AddSingleton<IScenarioOEProvider, ScenarioOEProvider>();
+			services.AddSingleton<IScenarioProvider, ScenarioProvider>();
 			return services;
 		}
 	}
