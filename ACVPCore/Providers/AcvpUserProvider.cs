@@ -67,7 +67,7 @@ namespace ACVPCore.Providers
                     FullName = data.fullName,
                     PersonId = data.personId,
                     AcvpUserId = data.acvpUserId,
-                    Certificate = Convert.ToBase64String((byte[]) data.certificate),
+                    CertificateBase64 = Convert.ToBase64String((byte[]) data.certificate),
                     Seed = data.seed,
                     CommonName = data.commonName
                 };
