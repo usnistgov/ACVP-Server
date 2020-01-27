@@ -5,7 +5,7 @@
   "main": "index.js",
   "dependencies": {
     "moment": "^2.24.0",
-    "newman": "4.5.5",
+    "newman": "",
     "newman-reporter-json": "^1.0.0",
     "newman-reporter-teamcity": "^0.1.12"
   },
