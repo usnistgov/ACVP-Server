@@ -2,7 +2,6 @@
 using ACVPCore.Models;
 using ACVPCore.Services;
 using Microsoft.AspNetCore.Mvc;
-using System;
 
 namespace Web.Admin.Controllers
 {
@@ -34,12 +33,9 @@ namespace Web.Admin.Controllers
         public WrappedEnumerable<Dependency> GetDependencies(long pageSize, long pageNumber)
         {
 
-            Console.WriteLine(pageSize);
-
+            // Set some defaults in case no values are provided
             if(pageSize == 0) { pageSize = 10; }
             if(pageNumber == 0) { pageNumber = 1; }
-
-            Console.WriteLine(pageSize);
 
             return _dependencyService.Get(pageSize, pageNumber).WrapEnumerable();
         }
