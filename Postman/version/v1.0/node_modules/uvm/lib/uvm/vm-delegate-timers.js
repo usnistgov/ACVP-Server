@@ -5,7 +5,7 @@ var vm = require('vm'),
     timerClearDelegates = ['clearImmediate', 'clearInterval', 'clearTimeout'];
 
 // normalize immediate functions (usually for browsers)
-if (!(typeof timers.setImmediate !== 'function' && typeof timers.clearImmediate === 'function')) {
+if (!(typeof timers.setImmediate === 'function' && typeof timers.clearImmediate === 'function')) {
     timers.setImmediate = function (fn) {
         return timers.setTimeout(fn, 0);
     };

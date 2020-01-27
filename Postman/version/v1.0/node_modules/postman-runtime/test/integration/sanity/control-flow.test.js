@@ -1,5 +1,6 @@
 var _ = require('lodash'),
-    sinon = require('sinon'),
+    sinon = require('sinon').createSandbox(),
+    expect = require('chai').expect,
     Collection = require('postman-collection').Collection,
     Runner = require('../../../index.js').Runner;
 
@@ -18,7 +19,7 @@ describe('Control Flow', function () {
             collection: {
                 item: [{
                     request: {
-                        url: 'http://postman-echo.com/get',
+                        url: 'https://postman-echo.com/get',
                         method: 'GET'
                     }
                 }]
@@ -31,13 +32,20 @@ describe('Control Flow', function () {
         });
     });
 
-    it('must allow a run to be aborted', function (done) {
+    after(function () {
+        sinon.restore();
+    });
+
+    it('should allow a run to be aborted', function (done) {
         callbacks.done = sinon.spy(function () {
-            expect(callbacks).be.ok();
-            expect(callbacks.done.calledOnce).be.ok();
-            expect(callbacks.done.getCall(0).args[0]).to.be(null);
-            expect(callbacks.start.calledOnce).be.ok();
-            expect(callbacks.abort.calledOnce).be.ok();
+            expect(callbacks).to.be.ok;
+            expect(callbacks.done.getCall(0).args[0]).to.be.null;
+            expect(callbacks).to.nested.include({
+                'done.calledOnce': true,
+                'start.calledOnce': true,
+                'abort.calledOnce': true
+            });
+
             return done();
         });
         // eslint-disable-next-line handle-callback-err
@@ -47,14 +55,17 @@ describe('Control Flow', function () {
         });
     });
 
-    it('must allow a run to be paused and then resumed', function (done) {
+    it('should allow a run to be paused and then resumed', function (done) {
         callbacks.done = sinon.spy(function () {
-            expect(callbacks).be.ok();
-            expect(callbacks.done.calledOnce).be.ok();
-            expect(callbacks.done.getCall(0).args[0]).to.be(null);
-            expect(callbacks.start.calledOnce).be.ok();
-            expect(callbacks.pause.calledOnce).be.ok();
-            expect(callbacks.resume.calledOnce).be.ok();
+            expect(callbacks).to.be.ok;
+            expect(callbacks.done.getCall(0).args[0]).to.be.null;
+            expect(callbacks).to.nested.include({
+                'done.calledOnce': true,
+                'start.calledOnce': true,
+                'pause.calledOnce': true,
+                'resume.calledOnce': true
+            });
+
             return done();
         });
 
@@ -67,14 +78,17 @@ describe('Control Flow', function () {
         });
     });
 
-    it('must allow a run to be paused and then aborted', function (done) {
+    it('should allow a run to be paused and then aborted', function (done) {
         callbacks.done = sinon.spy(function () {
-            expect(callbacks).be.ok();
-            expect(callbacks.done.calledOnce).be.ok();
-            expect(callbacks.done.getCall(0).args[0]).to.be(null);
-            expect(callbacks.start.calledOnce).be.ok();
-            expect(callbacks.pause.calledOnce).be.ok();
-            expect(callbacks.abort.calledOnce).be.ok();
+            expect(callbacks).to.be.ok;
+            expect(callbacks.done.getCall(0).args[0]).to.be.null;
+            expect(callbacks).to.nested.include({
+                'done.calledOnce': true,
+                'start.calledOnce': true,
+                'pause.calledOnce': true,
+                'abort.calledOnce': true
+            });
+
             return done();
         });
 
@@ -84,6 +98,53 @@ describe('Control Flow', function () {
             run.pause(() => {
                 setTimeout(run.abort.bind(run), timeout);
             });
+        });
+    });
+
+    it('should allow a run to be aborted with interrupting the script execution', function (done) {
+        var collection = {
+            item: [{
+                event: [{
+                    listen: 'prerequest',
+                    script: {
+                        exec: 'setTimeout(function () { throw "RUN ABORT FAILED" }, 10000);'
+                    }
+                }],
+                request: {
+                    url: 'https://postman-echo.com/get',
+                    method: 'GET'
+                }
+            }]
+        };
+
+        callbacks.script = function (err) {
+            expect(err).to.be.an('object');
+            expect(err).to.have.property('message', 'sandbox: execution interrupted, bridge disconnecting.');
+        };
+
+        callbacks.done = sinon.spy(function () {
+            expect(callbacks).to.be.ok;
+            expect(callbacks.done.getCall(0).args[0]).to.be.null;
+            expect(callbacks).to.nested.include({
+                'done.calledOnce': true,
+                'start.calledOnce': true,
+                'abort.calledOnce': true
+            });
+
+            return done();
+        });
+
+        // eslint-disable-next-line handle-callback-err
+        runner.run(new Collection(collection), {}, function (err, run) {
+            callbacks.beforeScript = function () {
+                // wait until execution starts
+                setTimeout(function () {
+                    run.host.dispose(); // stop script execution
+                    run.abort(); // abort the run
+                }, 1000);
+            };
+
+            run.start(callbacks);
         });
     });
 });

@@ -1,10 +1,11 @@
-var sdk = require('postman-collection');
+var sdk = require('postman-collection'),
+    expect = require('chai').expect;
 
-describe('script result format', function() {
+describe('script result format', function () {
     describe('sanity checks', function () {
         var testrun;
 
-        before(function(done) {
+        before(function (done) {
             this.run({
                 requester: {followRedirects: false},
                 collection: {
@@ -20,73 +21,74 @@ describe('script result format', function() {
                         request: 'https://postman-echo.com/get'
                     }
                 }
-            }, function(err, results) {
+            }, function (err, results) {
                 testrun = results;
                 done(err);
             });
         });
 
-        it('must have sent the request successfully', function() {
-            expect(testrun).be.ok();
-            expect(testrun.request.calledOnce).be.ok();
+        it('should have sent the request successfully', function () {
+            expect(testrun).to.be.ok;
+            expect(testrun).to.nested.include({
+                'request.calledOnce': true
+            });
 
-            expect(testrun.request.getCall(0).args[0]).to.be(null);
+            expect(testrun.request.getCall(0).args[0]).to.be.null;
         });
 
-        it('must have triggered the script event twice', function () {
-            expect(testrun.script.calledTwice).to.be.ok();
+        it('should have triggered the script event twice', function () {
+            expect(testrun).to.nested.include({
+                'script.calledTwice': true
+            });
         });
 
-        it('must have set the right targets in the result', function () {
+        it('should have set the right targets in the result', function () {
             var prerequest = testrun.script.firstCall.args[2],
                 test = testrun.script.secondCall.args[2];
 
-            expect(prerequest.target).to.be('prerequest');
-            expect(test.target).to.be('test');
+            expect(prerequest).to.have.property('target', 'prerequest');
+            expect(test).to.have.property('target', 'test');
         });
 
-        it('must have provided variable-scope objects in the events', function () {
+        it('should have provided variable-scope objects in the events', function () {
             var prerequest = testrun.script.firstCall.args[2],
                 test = testrun.script.secondCall.args[2];
 
-            expect(sdk.VariableScope.isVariableScope(prerequest.environment)).to.be(true);
-            expect(sdk.VariableScope.isVariableScope(prerequest.globals)).to.be(true);
+            expect(sdk.VariableScope.isVariableScope(prerequest.environment)).to.be.true;
+            expect(sdk.VariableScope.isVariableScope(prerequest.globals)).to.be.true;
 
-            expect(sdk.VariableScope.isVariableScope(test.environment)).to.be(true);
-            expect(sdk.VariableScope.isVariableScope(test.globals)).to.be(true);
+            expect(sdk.VariableScope.isVariableScope(test.environment)).to.be.true;
+            expect(sdk.VariableScope.isVariableScope(test.globals)).to.be.true;
         });
 
-        it('must have request in the result object', function () {
+        it('should have request in the result object', function () {
             var prerequest = testrun.script.firstCall.args[2],
                 test = testrun.script.secondCall.args[2];
 
-            expect(sdk.Request.isRequest(prerequest.request)).to.be(true);
-            expect(sdk.Request.isRequest(test.request)).to.be(true);
+            expect(sdk.Request.isRequest(prerequest.request)).to.be.true;
+            expect(sdk.Request.isRequest(test.request)).to.be.true;
         });
 
-        it('must have the cursor in the result', function () {
+        it('should have the cursor in the result', function () {
             var prerequest = testrun.script.firstCall.args[2],
                 test = testrun.script.secondCall.args[2];
 
-            expect(prerequest).to.have.property('cursor');
-            expect(test).to.have.property('cursor');
-
-            expect(prerequest.cursor).to.be.an('object');
-            expect(test.cursor).to.be.an('object');
+            expect(prerequest).to.have.property('cursor').that.is.an('object');
+            expect(test).to.have.property('cursor').that.is.an('object');
         });
 
-        it('must have data variables in the result', function () {
+        it('should have data variables in the result', function () {
             var prerequest = testrun.script.firstCall.args[2],
                 test = testrun.script.secondCall.args[2];
 
             expect(prerequest).to.have.property('data');
             expect(test).to.have.property('data');
 
-            expect(prerequest.data).to.eql({});
-            expect(test.data).to.eql({});
+            expect(prerequest).to.have.deep.property('data', {});
+            expect(test).to.have.deep.property('data', {});
         });
 
-        it('must have cookies in the result', function () {
+        it('should have cookies in the result', function () {
             var prerequest = testrun.script.firstCall.args[2],
                 test = testrun.script.secondCall.args[2];
 
@@ -96,38 +98,39 @@ describe('script result format', function() {
             expect(prerequest.cookies).to.eql([]); // @todo - should this be present in the pre-request script?
 
             // the test script must have a cookie
-            expect(test.cookies).to.be.an('array');
-            expect(test.cookies).to.have.length(1);
+            expect(test).to.have.property('cookies').that.is.an('array').that.has.lengthOf(1);
         });
 
-        it('must have empty return object', function () {
+        it('should have empty return object', function () {
             var prerequest = testrun.script.firstCall.args[2],
                 test = testrun.script.secondCall.args[2];
 
-            expect(prerequest.return).to.eql({async: false});
-            expect(test.return).to.eql({async: false});
+            expect(prerequest).to.have.deep.property('return', {async: false});
+            expect(test).to.have.deep.property('return', {async: false});
         });
 
-        it('must have a response in the test script result', function () {
+        it('should have a response in the test script result', function () {
             var test = testrun.script.secondCall.args[2];
 
             expect(test).to.have.property('response');
 
-            expect(sdk.Response.isResponse(test.response)).to.be(true);
+            expect(sdk.Response.isResponse(test.response)).to.be.true;
         });
 
-        it('must have completed the run', function() {
-            expect(testrun).be.ok();
-            expect(testrun.done.calledOnce).be.ok();
-            expect(testrun.done.getCall(0).args[0]).to.be(null);
-            expect(testrun.start.calledOnce).be.ok();
+        it('should have completed the run', function () {
+            expect(testrun).to.be.ok;
+            expect(testrun.done.getCall(0).args[0]).to.be.null;
+            expect(testrun).to.nested.include({
+                'done.calledOnce': true,
+                'start.calledOnce': true
+            });
         });
     });
 
     describe('next request in pre-request script', function () {
         var testrun;
 
-        before(function(done) {
+        before(function (done) {
             this.run({
                 requester: {followRedirects: false},
                 collection: {
@@ -140,35 +143,41 @@ describe('script result format', function() {
                         request: 'https://postman-echo.com/get'
                     }
                 }
-            }, function(err, results) {
+            }, function (err, results) {
                 testrun = results;
                 done(err);
             });
         });
 
-        it('must have sent the request successfully', function() {
-            expect(testrun).be.ok();
-            expect(testrun.request.calledOnce).be.ok();
+        it('should have sent the request successfully', function () {
+            expect(testrun).to.be.ok;
+            expect(testrun).to.nested.include({
+                'request.calledOnce': true
+            });
 
-            expect(testrun.request.getCall(0).args[0]).to.be(null);
+            expect(testrun.request.getCall(0).args[0]).to.be.null;
         });
 
-        it('must have triggered the script event once', function () {
-            expect(testrun.script.calledOnce).to.be.ok();
+        it('should have triggered the script event once', function () {
+            expect(testrun).to.nested.include({
+                'script.calledOnce': true
+            });
         });
 
-        it('must have a return object in the pre-request result', function () {
+        it('should have a return object in the pre-request result', function () {
             var prerequest = testrun.script.firstCall.args[2];
 
-            expect(prerequest.return).to.be.ok();
-            expect(prerequest.return).to.have.property('nextRequest', 'some-req-name');
+            expect(prerequest.return).to.be.ok;
+            expect(prerequest).to.have.nested.property('return.nextRequest', 'some-req-name');
         });
 
-        it('must have completed the run', function() {
-            expect(testrun).be.ok();
-            expect(testrun.done.calledOnce).be.ok();
-            expect(testrun.done.getCall(0).args[0]).to.be(null);
-            expect(testrun.start.calledOnce).be.ok();
+        it('should have completed the run', function () {
+            expect(testrun).to.be.ok;
+            expect(testrun.done.getCall(0).args[0]).to.be.null;
+            expect(testrun).to.nested.include({
+                'done.calledOnce': true,
+                'start.calledOnce': true
+            });
         });
     });
 });

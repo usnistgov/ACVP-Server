@@ -28,6 +28,7 @@ module.exports = function (exit) {
 
     var Mocha = require('mocha'),
         nyc = new NYC({
+            hookRequire: true,
             reportDir: COV_REPORT_PATH,
             tempDirectory: COV_REPORT_PATH,
             reporter: ['text', 'lcov', 'text-summary']
@@ -51,6 +52,7 @@ module.exports = function (exit) {
         return mocha.run(function (runError) {
             runError && console.error(runError.stack || runError);
 
+            nyc.reset();
             nyc.writeCoverageFile();
             nyc.report();
             nyc.checkCoverage({

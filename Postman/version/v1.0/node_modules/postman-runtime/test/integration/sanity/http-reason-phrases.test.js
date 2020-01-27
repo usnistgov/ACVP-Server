@@ -1,21 +1,23 @@
-describe('http reasons', function () {
-    var http = require('http'),
+var expect = require('chai').expect,
+    server = require('../../fixtures/server');
 
-        server,
+describe('http reasons', function () {
+    var httpServer,
         testrun;
 
     before(function (done) {
         var port,
             self = this;
 
-        server = http.createServer();
+        httpServer = server.createHTTPServer();
 
-        server.on('request', function (req, res) {
-            res.end(res.writeHead(400, 'Some Custom Reason'));
+        httpServer.on('/', function (req, res) {
+            res.writeHead(400, 'Some Custom Reason');
+            res.end();
         });
 
-        server.on('listening', function () {
-            port = server.address().port;
+        httpServer.listen(0, 'localhost', function () {
+            port = httpServer.address().port;
             self.run({
                 collection: {
                     item: {
@@ -27,27 +29,31 @@ describe('http reasons', function () {
                 done(err);
             });
         });
-
-        server.listen(0, 'localhost');
     });
 
-    it('must have started and completed the test run', function () {
-        expect(testrun).be.ok();
-        expect(testrun.done.calledOnce).be.ok();
-        expect(testrun.start.calledOnce).be.ok();
+    it('should have started and completed the test run', function () {
+        expect(testrun).to.be.ok;
+        expect(testrun).to.nested.include({
+            'done.calledOnce': true,
+            'start.calledOnce': true
+        });
     });
 
-    it('must receive the correct reason phrase from the server', function () {
+    it('should receive the correct reason phrase from the server', function () {
         var response = testrun.request.getCall(0).args[2];
 
-        expect(response.code).be(400);
-        expect(response.status).be('Some Custom Reason');
-        expect(response.details()).to.have.property('code', 400);
-        expect(response.details()).to.have.property('name', 'Some Custom Reason');
-        expect(response.details()).to.have.property('detail', 'The request cannot be fulfilled due to bad syntax.');
+        expect(response).to.deep.include({
+            code: 400,
+            status: 'Some Custom Reason'
+        });
+        expect(response.details()).to.deep.include({
+            code: 400,
+            name: 'Some Custom Reason',
+            detail: 'The request cannot be fulfilled due to bad syntax.'
+        });
     });
 
-    after(function () {
-        server.close();
+    after(function (done) {
+        httpServer.destroy(done);
     });
 });

@@ -1,24 +1,23 @@
-describe('multi valued headers', function () {
-    var _ = require('lodash'),
-        http = require('http'),
+var _ = require('lodash'),
+    expect = require('chai').expect,
+    server = require('../../fixtures/server');
 
-        server,
+describe('multi valued headers', function () {
+    var httpServer,
         testrun;
 
     before(function (done) {
         var port;
 
-        server = http.createServer();
+        httpServer = server.createHTTPServer();
 
-        server.on('request', function (req, res) {
+        httpServer.on('/', function (req, res) {
             res.setHeader('x-pm-test', ['one', 'two']); // adds a duplicate header to the response
             res.end('worked');
         });
 
-        server.listen(0, 'localhost');
-
-        server.on('listening', function () {
-            port = server.address().port;
+        httpServer.listen(0, 'localhost', function () {
+            port = httpServer.address().port;
 
             this.run({
                 collection: {
@@ -33,24 +32,26 @@ describe('multi valued headers', function () {
         }.bind(this));
     });
 
-    it('must have started and completed the test run', function () {
-        expect(testrun).be.ok();
-        expect(testrun.done.calledOnce).be.ok();
-        expect(testrun.start.calledOnce).be.ok();
-        expect(testrun.done.firstCall.args[0]).to.be(null);
+    it('should have started and completed the test run', function () {
+        expect(testrun).to.be.ok;
+        expect(testrun).to.nested.include({
+            'done.calledOnce': true,
+            'start.calledOnce': true,
+            'done.firstCall.args[0]': null
+        });
     });
 
-    it('must receive duplicate headers from the http server', function () {
+    it('should receive duplicate headers from the http server', function () {
         var response = testrun.request.getCall(0).args[2];
 
         // eslint-disable-next-line lodash/prop-shorthand
         expect(_.countBy(response.headers.members, function (header) {
             return header.key;
-        })['x-pm-test']).to.eql(2); // The "x-pm-test" header should occur twice
-        expect(response.text()).to.eql('worked');
+        })['x-pm-test']).to.equal(2); // The "x-pm-test" header should occur twice
+        expect(response.text()).to.equal('worked');
     });
 
-    after(function () {
-        server.close();
+    after(function (done) {
+        httpServer.destroy(done);
     });
 });

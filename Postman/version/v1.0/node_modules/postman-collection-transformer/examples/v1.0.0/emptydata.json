@@ -14,7 +14,7 @@
       "folder": null,
       "id": "e800d19c-0660-e2d6-ebc8-cfda8a56cddd",
       "name": "httpbin.org/get",
-      "dataMode": "params",
+      "dataMode": null,
       "data": null,
       "rawModeData": null,
       "descriptionFormat": "html",

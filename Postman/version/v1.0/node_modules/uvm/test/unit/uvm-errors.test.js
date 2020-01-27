@@ -1,14 +1,14 @@
 describe('uvm errors', function () {
     var uvm = require('../../lib');
 
-    it('must raise an error if sandbox disconnect is somehow broken', function (done) {
+    it('should raise an error if sandbox disconnect is somehow broken', function (done) {
         var context = uvm.spawn();
 
         // delete context._disconnect to further sabotage the bridge
         delete context._disconnect;
 
         context.on('error', function (err) {
-            expect(err).be.ok();
+            expect(err).to.be.ok;
             expect(err).to.have.property('message', 'uvm: cannot disconnect, communication bridge is broken');
             done();
         });
@@ -16,7 +16,7 @@ describe('uvm errors', function () {
         context.disconnect(null);
     });
 
-    it('must dispatch cyclic object', function (done) {
+    it('should dispatch cyclic object', function (done) {
         var context = uvm.spawn({
                 bootCode: `
                     bridge.on('transfer', function (data) {
@@ -30,10 +30,7 @@ describe('uvm errors', function () {
 
         context.on('error', done);
         context.on('transfer', function (data) {
-            expect(data).be.an('object');
-            expect(data).have.property('child');
-            expect(data.child).have.property('parent');
-            expect(data.child.parent).eql(data);
+            expect(data).to.be.an('object').that.has.property('child').that.has.property('parent', data);
             done();
         });
 
@@ -45,7 +42,7 @@ describe('uvm errors', function () {
         context.dispatch('transfer', cyclic);
     });
 
-    it('must not allow bridge raw interfaces to be accessed', function (done) {
+    it('should not allow bridge raw interfaces to be accessed', function (done) {
         uvm.spawn({
             bootCode: `
                 bridge.on('probe', function () {
@@ -59,16 +56,17 @@ describe('uvm errors', function () {
             if (err) { return done(err); }
             context.on('error', done);
             context.on('result', function (test) {
-                expect(test).be.an('object');
-                expect(test).not.have.property('typeofEmitter', 'function');
-                expect(test).not.have.property('typeofDispatcher', 'function');
+                expect(test).to.be.an('object').that.not.include({
+                    typeofEmitter: 'function',
+                    typeofDispatcher: 'function'
+                });
                 done();
             });
             context.dispatch('probe');
         });
     });
 
-    it('must allow escape sequences in arguments to be dispatched', function (done) {
+    it('should allow escape sequences in arguments to be dispatched', function (done) {
         uvm.spawn({
             bootCode: `
                 bridge.on('loopback', function (data) {
@@ -76,12 +74,12 @@ describe('uvm errors', function () {
                 });
             `
         }, function (err, context) {
-            expect(err).not.be.an('object');
+            expect(err).to.not.be.an('object');
 
             context.on('error', done);
             context.on('loopback', function (data) {
                 // eslint-disable-next-line no-useless-escape
-                expect(data).be('this has \n "escape" \'characters\"');
+                expect(data).to.equal('this has \n "escape" \'characters\"');
                 done();
             });
 

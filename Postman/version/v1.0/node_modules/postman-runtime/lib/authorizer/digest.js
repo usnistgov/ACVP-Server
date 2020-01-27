@@ -1,5 +1,6 @@
-var crypto = require('crypto-js'),
-    _ = require('lodash'),
+var _ = require('lodash'),
+    crypto = require('crypto-js'),
+    urlEncoder = require('postman-url-encoder'),
 
     EMPTY = '',
     ONE = '00000001',
@@ -47,6 +48,7 @@ var crypto = require('crypto-js'),
 
 /**
  * Generates a random string of given length
+ *
  * @todo Move this to util.js. After moving use that for hawk auth too
  * @param {Number} length
  */
@@ -59,6 +61,7 @@ function randomString (length) {
     for (i = 0; i < length; i++) {
         result[i] = ASCII_SOURCE[(Math.random() * ASCII_SOURCE_LENGTH) | 0];
     }
+
     return result.join(EMPTY);
 }
 
@@ -72,6 +75,7 @@ function randomString (length) {
  */
 _extractField = function (string, regexp) {
     var match = string.match(regexp);
+
     return match ? match[1] : EMPTY;
 };
 
@@ -298,7 +302,8 @@ module.exports = {
      */
     sign: function (auth, request, done) {
         var header,
-            params = auth.get(AUTH_PARAMETERS);
+            params = auth.get(AUTH_PARAMETERS),
+            url = urlEncoder.toNodeUrl(request.url.toString(true));
 
         if (!params.username || !params.realm) {
             return done(); // Nothing to do if required parameters are not present.
@@ -307,7 +312,7 @@ module.exports = {
         request.removeHeader(AUTHORIZATION, {ignoreCase: true});
 
         params.method = request.method;
-        params.uri = request.url.getPathWithQuery();
+        params.uri = url.path;
         params.body = request.body && request.body.toString();
 
         try {
@@ -320,6 +325,7 @@ module.exports = {
             value: header,
             system: true
         });
+
         return done();
     }
 };

@@ -24,7 +24,7 @@ export function SourceLocation(source, locInfo) {
 
 export function id(token) {
   if (/^\[.*\]$/.test(token)) {
-    return token.substr(1, token.length - 2);
+    return token.substring(1, token.length - 1);
   } else {
     return token;
   }
@@ -38,7 +38,7 @@ export function stripFlags(open, close) {
 }
 
 export function stripComment(comment) {
-  return comment.replace(/^\{\{~?\!-?-?/, '')
+  return comment.replace(/^\{\{~?!-?-?/, '')
                 .replace(/-?-?~?\}\}$/, '');
 }
 
@@ -47,8 +47,7 @@ export function preparePath(data, parts, loc) {
 
   let original = data ? '@' : '',
       dig = [],
-      depth = 0,
-      depthString = '';
+      depth = 0;
 
   for (let i = 0, l = parts.length; i < l; i++) {
     let part = parts[i].part,
@@ -62,7 +61,6 @@ export function preparePath(data, parts, loc) {
         throw new Exception('Invalid path: ' + original, {loc});
       } else if (part === '..') {
         depth++;
-        depthString += '../';
       }
     } else {
       dig.push(part);

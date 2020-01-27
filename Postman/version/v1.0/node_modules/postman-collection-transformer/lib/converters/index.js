@@ -52,6 +52,7 @@ generateConverter = function (model) {
 module.exports = {
     /**
      * All converters
+     *
      * @type {object<Converter>}
      *
      * @note this form of loading is most likely not browser friendly, find browser alternative

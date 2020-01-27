@@ -1,7 +1,9 @@
-describe('OAuth1 var in url params', function() {
+var expect = require('chai').expect;
+
+describe('OAuth1 var in url params', function () {
     var testrun;
 
-    before(function(done) {
+    before(function (done) {
         this.run({
             collection: {
                 item: [{
@@ -33,27 +35,32 @@ describe('OAuth1 var in url params', function() {
                     }
                 }]
             }
-        }, function(err, results) {
+        }, function (err, results) {
             testrun = results;
             done(err);
         });
     });
 
-    it('must have signed the oauth1 request successfully', function() {
-        expect(testrun).be.ok();
-        expect(testrun.request.calledOnce).be.ok();
+    it('should have signed the oauth1 request successfully', function () {
+        expect(testrun).to.be.ok;
+        expect(testrun).to.nested.include({
+            'request.calledOnce': true
+        });
 
-        expect(testrun.request.getCall(0).args[0]).to.be(null);
+        expect(testrun.request.getCall(0).args[0]).to.be.null;
 
         var response = testrun.request.getCall(0).args[2];
-        expect(response.code).to.eql(200);
+
+        expect(response).to.have.property('code', 200);
         expect(response.json()).to.have.property('status', 'pass');
     });
 
-    it('must have completed the run', function() {
-        expect(testrun).be.ok();
-        expect(testrun.done.calledOnce).be.ok();
-        expect(testrun.done.getCall(0).args[0]).to.be(null);
-        expect(testrun.start.calledOnce).be.ok();
+    it('should have completed the run', function () {
+        expect(testrun).to.be.ok;
+        expect(testrun.done.getCall(0).args[0]).to.be.null;
+        expect(testrun).to.nested.include({
+            'done.calledOnce': true,
+            'start.calledOnce': true
+        });
     });
 });
