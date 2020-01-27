@@ -120,6 +120,11 @@ namespace ACVPCore.Services
 			return _dependencyProvider.Get(dependencyId);
 		}
 
+		public List<Dependency> Get(long pageSize, long pageNumber)
+		{
+			return _dependencyProvider.Get(pageSize, pageNumber);
+		}
+
 		public bool DependencyIsUsed(long dependencyID)
 		{
 			return _dependencyProvider.DependencyIsUsed(dependencyID);

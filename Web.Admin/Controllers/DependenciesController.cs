@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using ACVPCore.ExtensionMethods;
 using ACVPCore.Models;
 using ACVPCore.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace Web.Admin.Controllers
 {
@@ -25,6 +22,26 @@ namespace Web.Admin.Controllers
         public Dependency GetDependency(long dependencyId)
         {
             return _dependencyService.Get(dependencyId);
+        }
+
+        //[HttpGet]
+        //public WrappedEnumerable<Dependency> GetDependencies()
+        //{
+        //    return _dependencyService.Get(1, 10).WrapEnumerable();
+        //}
+
+        [HttpGet]
+        public WrappedEnumerable<Dependency> GetDependencies(long pageSize, long pageNumber)
+        {
+
+            Console.WriteLine(pageSize);
+
+            if(pageSize == 0) { pageSize = 10; }
+            if(pageNumber == 0) { pageNumber = 1; }
+
+            Console.WriteLine(pageSize);
+
+            return _dependencyService.Get(pageSize, pageNumber).WrapEnumerable();
         }
     }
 }
