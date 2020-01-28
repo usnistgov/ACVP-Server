@@ -20,7 +20,7 @@ dotnet restore
 dotnet build -c Release
 dotnet publish -c Release -r win-x64
 
-cd bin/Release/$netcorappver/win-x64
+cd bin/Release/$netcoreappver/win-x64
 /usr/bin/zip -r publish.zip publish/
 mv publish.zip "$homedir/$datetimestamp_GenValsOrleans.zip"
 
@@ -32,7 +32,7 @@ dotnet restore
 dotnet build -c Release
 dotnet publish -c Release -r win-x64
 
-cd bin/Release/$netcorappver/win-x64
+cd bin/Release/$netcoreappver/win-x64
 /usr/bin/zip -r publish.zip publish/
 mv publish.zip "$homedir/$datetimestamp_OrleansServer.zip"
 
