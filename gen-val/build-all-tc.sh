@@ -21,11 +21,9 @@ dotnet restore
 dotnet build -c Release
 dotnet publish -c Release -r win-x64
 
-pwd
 cd bin/Release/$netcoreappver/win-x64
-pwd
-/usr/bin/zip -r publish.zip publish/
-mv publish.zip "$homedir/$datetimestamp_GenValsOrleans.zip"
+/usr/bin/zip -r $homedir/$datetimestamp_GenValsOrleans.zip publish/
+#mv publish.zip "$homedir/$datetimestamp_GenValsOrleans.zip"
 
 cd $homedir
 
@@ -36,8 +34,8 @@ dotnet build -c Release
 dotnet publish -c Release -r win-x64
 
 cd bin/Release/$netcoreappver/win-x64
-/usr/bin/zip -r publish.zip publish/
-mv publish.zip "$homedir/$datetimestamp_OrleansServer.zip"
+/usr/bin/zip -r $homedir/$datetimestamp_OrleansServer.zip publish/
+#mv publish.zip "$homedir/$datetimestamp_OrleansServer.zip"
 
 cd $homedir
 
@@ -48,8 +46,8 @@ dotnet build -c Release
 dotnet publish -c Release -r win-x64
 
 cd bin/Release/$netcoreappver/win-x64/
-/usr/bin/zip -r publish.zip publish/
-mv publish.zip "$homedir/$datetimestamp_PoolService.zip"
+/usr/bin/zip -r $homedir/$datetimestamp_PoolService.zip publish/
+#mv publish.zip "$homedir/$datetimestamp_PoolService.zip"
 
 cd $homedir
 
