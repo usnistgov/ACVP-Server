@@ -5,11 +5,11 @@ datetimestamp=$(date +%Y%m%d_%H%m)
 echo $datetimestamp
 
 # set homedir var from TC %homedir%
-homedir=$(%homedir%)
+homedir=$(pwd)
 echo $homedir
 
 # set netcorappver var from TC %netcorepath%
-netcoreappver=$(%netcoreappver%)
+netcoreappver="3.1"
 echo $netcoreappver
 
 cd $homedir
