@@ -21,6 +21,7 @@ dotnet build -c Release
 dotnet publish -c Release -r win-x64
 
 cd bin/Release/$netcoreappver/win-x64
+echo homedir is $homedir
 /usr/bin/zip -v -r $homedir/$datetimestamp_GenValsOrleans.zip publish/
 #mv publish.zip "$homedir/$datetimestamp_GenValsOrleans.zip"
 
@@ -33,6 +34,7 @@ dotnet build -c Release
 dotnet publish -c Release -r win-x64
 
 cd bin/Release/$netcoreappver/win-x64
+echo homedir is $homedir
 /usr/bin/zip -v -r $homedir/$datetimestamp_OrleansServer.zip publish/
 #mv publish.zip "$homedir/$datetimestamp_OrleansServer.zip"
 
@@ -45,9 +47,11 @@ dotnet build -c Release
 dotnet publish -c Release -r win-x64
 
 cd bin/Release/$netcoreappver/win-x64/
+echo homedir is $homedir
 /usr/bin/zip -v -r $homedir/$datetimestamp_PoolService.zip publish/
 #mv publish.zip "$homedir/$datetimestamp_PoolService.zip"
 
 cd $homedir
+echo homedir is $homedir
 
 ls -l *.zip
