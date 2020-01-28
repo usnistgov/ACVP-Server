@@ -9,18 +9,21 @@ homedir=$(pwd)
 echo $homedir
 
 # set netcorappver var from TC %netcorepath%
-netcoreappver="3.1"
+netcoreappver="netcoreapp3.1"
 echo $netcoreappver
 
 cd $homedir
 
 cd gen-val/src/generation/src/NIST.CVP.Generation.GenValApp
+pwd
 dotnet clean
 dotnet restore
 dotnet build -c Release
 dotnet publish -c Release -r win-x64
 
+pwd
 cd bin/Release/$netcoreappver/win-x64
+pwd
 /usr/bin/zip -r publish.zip publish/
 mv publish.zip "$homedir/$datetimestamp_GenValsOrleans.zip"
 
