@@ -1,0 +1,10 @@
+{
+    "url" : "/admin/acvp/testSessions/556",
+    "id" : 556,
+    "createdOn" : "2020-01-09T20:34:50.718Z",
+    "generator" : "1.0",
+    "passed" : null,
+    "published" : false,
+    "sample" : false,
+    "publishable" : true
+}
