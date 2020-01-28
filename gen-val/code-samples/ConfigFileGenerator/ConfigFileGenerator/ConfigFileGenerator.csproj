@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\src\crypto\src\NIST.CVP.Crypto.Common\NIST.CVP.Crypto.Common.csproj" />
+    <ProjectReference Include="..\..\..\src\crypto\src\NIST.CVP.Crypto\NIST.CVP.Crypto.csproj" />
+    <ProjectReference Include="..\..\..\src\oracle\src\NIST.CVP.Common.Oracle\NIST.CVP.Common.Oracle.csproj" />
+    <ProjectReference Include="..\..\..\src\pools\src\NIST.CVP.Pools\NIST.CVP.Pools.csproj" />
+  </ItemGroup>
+
+</Project>

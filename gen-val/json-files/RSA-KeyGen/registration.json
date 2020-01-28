@@ -1,0 +1,139 @@
+{
+  "capabilities": [
+    {
+      "randPQ": "B.3.2",
+      "properties": [
+        {
+          "modulo": 2048,
+          "hashAlg": [
+            "sha2-224"
+          ],
+          "primeTest": [
+            "tblC2",
+            "tblC3"
+          ]
+        },
+        {
+          "modulo": 3072,
+          "hashAlg": [
+            "sha2-224"
+          ],
+          "primeTest": [
+            "tblC2",
+            "tblC3"
+          ]
+        }
+      ]
+    },
+    {
+      "randPQ": "B.3.3",
+      "properties": [
+        {
+          "modulo": 2048,
+          "hashAlg": [
+            "sha2-224"
+          ],
+          "primeTest": [
+            "tblC2",
+            "tblC3"
+          ]
+        },
+        {
+          "modulo": 3072,
+          "hashAlg": [
+            "sha2-224"
+          ],
+          "primeTest": [
+            "tblC2",
+            "tblC3"
+          ]
+        }
+      ]
+    },
+    {
+      "randPQ": "B.3.4",
+      "properties": [
+        {
+          "modulo": 2048,
+          "hashAlg": [
+            "sha2-224"
+          ],
+          "primeTest": [
+            "tblC2",
+            "tblC3"
+          ]
+        },
+        {
+          "modulo": 3072,
+          "hashAlg": [
+            "sha2-224"
+          ],
+          "primeTest": [
+            "tblC2",
+            "tblC3"
+          ]
+        }
+      ]
+    },
+    {
+      "randPQ": "B.3.5",
+      "properties": [
+        {
+          "modulo": 2048,
+          "hashAlg": [
+            "sha2-224"
+          ],
+          "primeTest": [
+            "tblC2",
+            "tblC3"
+          ]
+        },
+        {
+          "modulo": 3072,
+          "hashAlg": [
+            "sha2-224"
+          ],
+          "primeTest": [
+            "tblC2",
+            "tblC3"
+          ]
+        }
+      ]
+    },
+    {
+      "randPQ": "B.3.6",
+      "properties": [
+        {
+          "modulo": 2048,
+          "hashAlg": [
+            "sha2-224"
+          ],
+          "primeTest": [
+            "tblC2",
+            "tblC3"
+          ]
+        },
+        {
+          "modulo": 3072,
+          "hashAlg": [
+            "sha2-224"
+          ],
+          "primeTest": [
+            "tblC2",
+            "tblC3"
+          ]
+        }
+      ]
+    }
+  ],
+  "vsId": 0,
+  "algorithm": "RSA",
+  "mode": "KeyGen",
+  "revision": "1.0",
+  "isSample": true,
+  "conformances": [],
+  "infoGeneratedByServer": true,
+  "pubExpMode": "random",
+  "fixedPubExp": "",
+  "keyFormat": "crt"
+}

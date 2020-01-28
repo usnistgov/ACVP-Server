@@ -1,0 +1,1 @@
+[{"algorithms": "{\"algorithm\":\"kdf-components\",\"mode\":\"tls\",\"revision\":\"1.0\",\"tlsVersion\":[\"v1.0/1.1\",\"v1.2\"],\"hashAlg\":[\"SHA2-256\",\"SHA2-384\",\"SHA2-512\"]}"}]

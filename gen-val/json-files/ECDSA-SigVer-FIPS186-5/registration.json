@@ -1,0 +1,33 @@
+{
+  "vsId": 0,
+  "algorithm": "ECDSA",
+  "mode": "SigVer",
+  "revision": "FIPS186-5",
+  "isSample": true,
+  "conformances": [],
+  "componentTest": true,
+  "capabilities": [
+    {
+      "curve": [
+        "p-224",
+        "p-256",
+        "p-384",
+        "p-521"
+      ],
+      "hashAlg": [
+        "sha2-224",
+        "sha2-256",
+        "sha2-384",
+        "sha2-512",
+        "sha2-512/224",
+        "sha2-512/256",
+        "sha3-224",
+        "sha3-256",
+        "sha3-384",
+        "sha3-512",
+        "shake-128",
+        "shake-256"
+      ]
+    }
+  ]
+}

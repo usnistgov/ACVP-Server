@@ -1,0 +1,17 @@
+{
+  "vsId": 0,
+  "algorithm": "kdf-components",
+  "mode": "tls",
+  "revision": "1.0",
+  "isSample": true,
+  "conformances": [],
+  "tlsVersion": [
+    "v1.0/1.1",
+    "v1.2"
+  ],
+  "hashAlg": [
+    "sha2-256",
+    "sha2-384",
+    "sha2-512"
+  ]
+}

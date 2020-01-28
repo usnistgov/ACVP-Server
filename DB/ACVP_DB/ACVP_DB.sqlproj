@@ -1,0 +1,320 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Name>ACVP_DB</Name>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectVersion>4.1</ProjectVersion>
+    <ProjectGuid>{8545efc4-7ee1-475b-b78d-8034293eca76}</ProjectGuid>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql130DatabaseSchemaProvider</DSP>
+    <OutputType>Database</OutputType>
+    <RootPath>
+    </RootPath>
+    <RootNamespace>ACVP_DB</RootNamespace>
+    <AssemblyName>ACVP_DB</AssemblyName>
+    <ModelCollation>1033,CI</ModelCollation>
+    <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
+    <DeployToDatabase>True</DeployToDatabase>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetLanguage>CS</TargetLanguage>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <SqlServerVerification>False</SqlServerVerification>
+    <IncludeCompositeObjects>True</IncludeCompositeObjects>
+    <TargetDatabaseSet>True</TargetDatabaseSet>
+    <DefaultCollation>SQL_Latin1_General_CP1_CI_AS</DefaultCollation>
+    <DefaultFilegroup>PRIMARY</DefaultFilegroup>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
+    <!-- Default to the v11.0 targets path if the targets file for the current VS version is not found -->
+    <SSDTExists Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets')">True</SSDTExists>
+    <VisualStudioVersion Condition="'$(SSDTExists)' == ''">11.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Condition="'$(SQLDBExtensionsRefPath)' != ''" Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <ItemGroup>
+    <Folder Include="Properties" />
+    <Folder Include="val\" />
+    <Folder Include="val\Tables\" />
+    <Folder Include="acvp\" />
+    <Folder Include="acvp\Tables\" />
+    <Folder Include="common\" />
+    <Folder Include="common\Tables\" />
+    <Folder Include="lcavp\" />
+    <Folder Include="lcavp\Tables\" />
+    <Folder Include="migration\" />
+    <Folder Include="migration\Tables\" />
+    <Folder Include="ref\" />
+    <Folder Include="ref\Tables\" />
+    <Folder Include="acvp\Views\" />
+    <Folder Include="csrc\" />
+    <Folder Include="csrc\Views\" />
+    <Folder Include="dbo\" />
+    <Folder Include="dbo\Functions\" />
+    <Folder Include="acvp\Stored Procedures\" />
+    <Folder Include="lcavp\Stored Procedures\" />
+    <Folder Include="migration\Stored Procedures\" />
+    <Folder Include="common\Stored Procedures\" />
+    <Folder Include="Security\" />
+    <Folder Include="val\Stored Procedures" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="val\Tables\PRODUCT_INFORMATION.sql" />
+    <Build Include="val\Tables\SUBMISSION.sql" />
+    <Build Include="val\Tables\SUBMISSION_STATUS.sql" />
+    <Build Include="val\Tables\VALIDATION_CAPABILITY.sql" />
+    <Build Include="val\Tables\VALIDATION_CONTACT.sql" />
+    <Build Include="val\Tables\VALIDATION_NOTE.sql" />
+    <Build Include="val\Tables\VALIDATION_OE.sql" />
+    <Build Include="val\Tables\VALIDATION_OE_DEPENDENCY.sql" />
+    <Build Include="acvp\Tables\ACVP_ROLE.sql" />
+    <Build Include="val\Tables\VALIDATION_OE_DEPENDENCY_ATTRIBUTE.sql" />
+    <Build Include="acvp\Tables\ACVP_USER.sql" />
+    <Build Include="val\Tables\VALIDATION_OE_DEPENDENCY_LINK.sql" />
+    <Build Include="acvp\Tables\ACVP_USER_ROLE.sql" />
+    <Build Include="val\Tables\VALIDATION_PREREQUISITE.sql" />
+    <Build Include="val\Tables\VALIDATION_RECORD.sql" />
+    <Build Include="acvp\Tables\ALGORITHM_EXECUTABLE.sql" />
+    <Build Include="acvp\Tables\METADATA.sql" />
+    <Build Include="val\Tables\VALIDATION_SCENARIO.sql" />
+    <Build Include="val\Tables\VALIDATION_SCENARIO_ALGORITHM.sql" />
+    <Build Include="acvp\Tables\PRODUCT_CAPABILITY.sql" />
+    <Build Include="val\Tables\VALIDATION_SCENARIO_OE_LINK.sql" />
+    <Build Include="acvp\Tables\REQUEST.sql" />
+    <Build Include="val\Tables\VALIDATION_SOURCE.sql" />
+    <Build Include="acvp\Tables\REQUEST_ACTION.sql" />
+    <Build Include="val\Tables\WORKFLOW.sql" />
+    <Build Include="acvp\Tables\TEST_SESSION.sql" />
+    <Build Include="val\Tables\WORKFLOW_ACTION.sql" />
+    <Build Include="acvp\Tables\VECTOR_SET.sql" />
+    <Build Include="val\Tables\WORKFLOW_STATUS.sql" />
+    <Build Include="acvp\Tables\VECTOR_SET_DATA.sql" />
+    <Build Include="val\Tables\WORKFLOW_TYPE.sql" />
+    <Build Include="acvp\Tables\VECTOR_SET_EXPECTED_RESULTS.sql" />
+    <Build Include="common\Tables\ADMIN_PERMISSION.sql" />
+    <Build Include="common\Tables\ADMIN_PERMISSION_ROLE.sql" />
+    <Build Include="common\Tables\ADMIN_ROLE.sql" />
+    <Build Include="common\Tables\ADMIN_USER.sql" />
+    <Build Include="common\Tables\ADMIN_USER_ROLE.sql" />
+    <Build Include="common\Tables\APPLICATION_PROPERTIES.sql" />
+    <Build Include="common\Tables\EVENT_LOG.sql" />
+    <Build Include="common\Tables\EVENT_LOG_TYPE.sql" />
+    <Build Include="common\Tables\MESSAGE_QUEUE.sql" />
+    <Build Include="common\Tables\TASK_QUEUE.sql" />
+    <Build Include="lcavp\Tables\SubmissionLog.sql" />
+    <Build Include="lcavp\Tables\SubmissionRegistrations.sql" />
+    <Build Include="migration\Tables\Contact_Contact.sql" />
+    <Build Include="migration\Tables\Contact_Person.sql" />
+    <Build Include="migration\Tables\Dependency.sql" />
+    <Build Include="migration\Tables\DependencyAttribute.sql" />
+    <Build Include="migration\Tables\Product_Address.sql" />
+    <Build Include="migration\Tables\Product_Organization.sql" />
+    <Build Include="migration\Tables\Product_Product.sql" />
+    <Build Include="migration\Tables\PROPERTY_STRING_VALUE_MAPPING.sql" />
+    <Build Include="migration\Tables\ValidationOE.sql" />
+    <Build Include="migration\Tables\VR_VR.sql" />
+    <Build Include="ref\Tables\ACV_VERSION.sql" />
+    <Build Include="ref\Tables\CRYPTO_ALGORITHM.sql" />
+    <Build Include="ref\Tables\CRYPTO_ALGORITHM_FAMILY.sql" />
+    <Build Include="ref\Tables\CRYPTO_ALGORITHM_LINK.sql" />
+    <Build Include="ref\Tables\CRYPTO_ALGORITHM_PROPERTY.sql" />
+    <Build Include="ref\Tables\CRYPTO_ALGORITHM_PROPERTY_PROTOCOL.sql" />
+    <Build Include="ref\Tables\CRYPTO_ALGORITHM_PROPERTY_PROTOCOL_ACV_VERSION_LINK.sql" />
+    <Build Include="ref\Tables\CRYPTO_PRIMITIVE.sql" />
+    <Build Include="ref\Tables\LEGACY_CRYPTO_ALGORITHM_FAMILY.sql" />
+    <Build Include="ref\Tables\LEGACY_CRYPTO_ALGORITHM_FAMILY_LINK.sql" />
+    <Build Include="ref\Tables\MODULE_TYPE.sql" />
+    <Build Include="ref\Tables\PROPERTY_TYPE.sql" />
+    <Build Include="ref\Tables\STRING_VALUE_DISPLAY_MAPPING.sql" />
+    <Build Include="val\Tables\ACVP_ID_GENERATOR.sql" />
+    <Build Include="val\Tables\ADDRESS.sql" />
+    <Build Include="val\Tables\LCAVP_ID_GENERATOR.sql" />
+    <Build Include="val\Tables\ORGANIZATION.sql" />
+    <Build Include="val\Tables\ORGANIZATION_EMAIL.sql" />
+    <Build Include="val\Tables\PERSON.sql" />
+    <Build Include="val\Tables\PERSON_EMAIL.sql" />
+    <Build Include="val\Tables\PERSON_NOTE.sql" />
+    <Build Include="val\Tables\PERSON_PHONE.sql" />
+    <Build Include="acvp\Views\REQUEST_WORKFLOW.sql" />
+    <Build Include="csrc\Views\ADDRESS.sql" />
+    <Build Include="csrc\Views\CRYPTO_ALGORITHM.sql" />
+    <Build Include="csrc\Views\CRYPTO_ALGORITHM_PROPERTY.sql" />
+    <Build Include="csrc\Views\LEGACY_CRYPTO_ALGORITHM_FAMILY.sql" />
+    <Build Include="csrc\Views\MODULE_TYPE.sql" />
+    <Build Include="csrc\Views\ORGANIZATION.sql" />
+    <Build Include="csrc\Views\ORGANIZATION_EMAIL.sql" />
+    <Build Include="csrc\Views\PERSON.sql" />
+    <Build Include="csrc\Views\PERSON_EMAIL.sql" />
+    <Build Include="csrc\Views\PERSON_PHONE.sql" />
+    <Build Include="csrc\Views\PRODUCT_INFORMATION.sql" />
+    <Build Include="csrc\Views\STRING_VALUE_DISPLAY_MAPPING.sql" />
+    <Build Include="csrc\Views\VALIDATION_CAPABILITY.sql" />
+    <Build Include="csrc\Views\VALIDATION_CONTACT.sql" />
+    <Build Include="csrc\Views\VALIDATION_NOTE.sql" />
+    <Build Include="csrc\Views\VALIDATION_OE.sql" />
+    <Build Include="csrc\Views\VALIDATION_OE_DEPENDENCY.sql" />
+    <Build Include="csrc\Views\VALIDATION_OE_DEPENDENCY_ATTRIBUTE.sql" />
+    <Build Include="csrc\Views\VALIDATION_OE_DEPENDENCY_LINK.sql" />
+    <Build Include="csrc\Views\VALIDATION_PREREQUISITE.sql" />
+    <Build Include="csrc\Views\VALIDATION_RECORD.sql" />
+    <Build Include="csrc\Views\VALIDATION_SCENARIO.sql" />
+    <Build Include="csrc\Views\VALIDATION_SCENARIO_ALGORITHM.sql" />
+    <Build Include="csrc\Views\VALIDATION_SCENARIO_OE_LINK.sql" />
+    <Build Include="csrc\Views\VALIDATION_SOURCE.sql" />
+    <Build Include="dbo\Functions\DecryptNvarchar.sql" />
+    <Build Include="dbo\Functions\DelimitedListToTable.sql" />
+    <Build Include="dbo\Functions\MonthPeriods.sql" />
+    <Build Include="dbo\Functions\ReportingYearPeriods.sql" />
+    <Build Include="acvp\Stored Procedures\spSetVectorSetData.sql">
+      <AnsiNulls>Off</AnsiNulls>
+    </Build>
+    <Build Include="acvp\Stored Procedures\VectorSetCleanup.sql" />
+    <Build Include="acvp\Stored Procedures\VectorSetDataForVectorSetGet.sql" />
+    <Build Include="acvp\Stored Procedures\VectorSetExpectedResultsForVectorSetGet.sql" />
+    <Build Include="acvp\Stored Procedures\VectorSetsToArchiveGet.sql" />
+    <Build Include="lcavp\Stored Procedures\AlgorithmsOnValidationGet.sql" />
+    <Build Include="lcavp\Stored Procedures\ArchiveFile.sql" />
+    <Build Include="lcavp\Stored Procedures\ConfigurationSettingsGet.sql" />
+    <Build Include="lcavp\Stored Procedures\ContactIDGet.sql" />
+    <Build Include="lcavp\Stored Procedures\ContactPersonIDGet.sql" />
+    <Build Include="lcavp\Stored Procedures\CValidationRecordIDForModuleGet.sql" />
+    <Build Include="lcavp\Stored Procedures\FilesToArchiveGet.sql" />
+    <Build Include="lcavp\Stored Procedures\ModuleIDGet.sql" />
+    <Build Include="lcavp\Stored Procedures\OEIDGet.sql" />
+    <Build Include="lcavp\Stored Procedures\PersonPhoneNumbersGet.sql" />
+    <Build Include="lcavp\Stored Procedures\ProductNameForValidationGet.sql" />
+    <Build Include="lcavp\Stored Procedures\SubmissionLogInsert.sql" />
+    <Build Include="lcavp\Stored Procedures\SubmissionRegistrationInsert.sql" />
+    <Build Include="lcavp\Stored Procedures\ValidationRecordIDForFamilyAndModuleGet.sql" />
+    <Build Include="lcavp\Stored Procedures\ValidationRecordIDGet.sql" />
+    <Build Include="lcavp\Stored Procedures\VendorAddressIDGet.sql" />
+    <Build Include="lcavp\Stored Procedures\VendorIDGet.sql" />
+    <Build Include="migration\Stored Procedures\AlgorithmsGet.sql" />
+    <Build Include="migration\Stored Procedures\DuplicateScenario.sql" />
+    <Build Include="migration\Stored Procedures\PrerequisiteInsert.sql" />
+    <Build Include="migration\Stored Procedures\PropertiesGet.sql" />
+    <Build Include="migration\Stored Procedures\PropertyStringValueMappingsGet.sql" />
+    <Build Include="migration\Stored Procedures\ScenarioAlgorithmInsert.sql" />
+    <Build Include="migration\Stored Procedures\ScenarioValidationRecordsGet.sql" />
+    <Build Include="migration\Stored Procedures\ValidationNumberForScenarioGet.sql" />
+    <Build Include="common\Stored Procedures\MessageQueueGetNext.sql" />
+    <Build Include="Security\acvp.sql" />
+    <Build Include="Security\common.sql" />
+    <Build Include="Security\csrc.sql" />
+    <Build Include="Security\lcavp.sql" />
+    <Build Include="Security\migration.sql" />
+    <Build Include="Security\ref.sql" />
+    <Build Include="Security\val.sql" />
+    <Build Include="common\Stored Procedures\MessageQueueMarkForJava.sql" />
+    <Build Include="common\Stored Procedures\MessageQueueGetNextForJava.sql" />
+    <Build Include="common\Stored Procedures\MessageQueueGetNextForDotNet.sql" />
+    <Build Include="common\Stored Procedures\MessageQueueDelete.sql" />
+    <Build Include="acvp\Stored Procedures\TestSessionCancel.sql" />
+    <Build Include="acvp\Stored Procedures\TestSessionVectorSetsCancel.sql" />
+    <Build Include="acvp\Stored Procedures\VectorSetCancel.sql" />
+    <Build Include="acvp\Stored Procedures\VectorSetUpdateSubmittedResults.sql" />
+    <Build Include="acvp\Stored Procedures\TestSessionInsert.sql" />
+    <Build Include="acvp\Stored Procedures\VectorSetInsert.sql" />
+    <Build Include="common\Stored Procedures\TaskQueueInsert.sql" />
+    <Build Include="acvp\Stored Procedures\VectorSetExpectedResultsInsertWithCapabilities.sql" />
+    <Build Include="val\Stored Procedures\DependencyDelete.sql" />
+    <Build Include="val\Stored Procedures\DependencyAttributeDelete.sql" />
+    <Build Include="val\Stored Procedures\DependencyAttributeDeleteAll.sql" />
+    <Build Include="val\Stored Procedures\DependencyOELinkForDependencyDeleteAll.sql" />
+    <Build Include="val\Stored Procedures\DependencyOELinkDelete.sql" />
+    <Build Include="val\Stored Procedures\DependencyOELinkForOEDeleteAll.sql" />
+    <Build Include="val\Stored Procedures\WorkflowInsert.sql" />
+    <Build Include="acvp\Stored Procedures\VectorSetUpdateStatusAndMessage.sql" />
+    <Build Include="acvp\Stored Procedures\WorkflowContactDataForUserGet.sql" />
+    <Build Include="acvp\Stored Procedures\RequestInsert.sql" />
+    <Build Include="val\Stored Procedures\DependencyAttributeInsert.sql" />
+    <Build Include="val\Stored Procedures\DependencyInsert.sql" />
+    <Build Include="val\Stored Procedures\WorkflowUpdateStatusAcceptID.sql" />
+    <Build Include="val\Stored Procedures\DependencyIsUsed.sql" />
+    <Build Include="val\Stored Procedures\WorkflowUpdateStatus.sql" />
+    <Build Include="val\Stored Procedures\DependencyUpdate.sql" />
+    <Build Include="val\Stored Procedures\DependencyGet.sql" />
+    <Build Include="val\Stored Procedures\DependencyAttributesGet.sql" />
+    <Build Include="val\Stored Procedures\OEDelete.sql" />
+    <Build Include="val\Stored Procedures\OEIsUsed.sql" />
+    <Build Include="val\Stored Procedures\OEDependencyLinksDeleteAll.sql" />
+    <Build Include="val\Stored Procedures\OEInsert.sql" />
+    <Build Include="val\Stored Procedures\OEDependencyLinkInsert.sql" />
+    <Build Include="val\Stored Procedures\OEUpdate.sql" />
+    <Build Include="val\Stored Procedures\OEDependencyLinksGet.sql" />
+    <Build Include="val\Stored Procedures\OrganizationDelete.sql" />
+    <Build Include="val\Stored Procedures\OrganizationEmailDeleteAll.sql" />
+    <Build Include="val\Stored Procedures\AddressDeleteAllForOrganization.sql" />
+    <Build Include="val\Stored Procedures\OrganizationIsUsed.sql" />
+    <Build Include="val\Stored Procedures\AddressDelete.sql" />
+    <Build Include="val\Stored Procedures\AddressesForOrganizationGet.sql" />
+    <Build Include="val\Stored Procedures\AddressInsert.sql" />
+    <Build Include="val\Stored Procedures\AddressUpdate.sql" />
+    <Build Include="val\Stored Procedures\AddressIsUsedOtherThanOrg.sql" />
+    <Build Include="val\Stored Procedures\OrganizationInsert.sql" />
+    <Build Include="val\Stored Procedures\OrganizationEmailInsert.sql" />
+    <Build Include="val\Stored Procedures\OrganizationUpdate.sql" />
+    <Build Include="val\Stored Procedures\PersonDelete.sql" />
+    <Build Include="val\Stored Procedures\PersonEmailDeleteAll.sql" />
+    <Build Include="val\Stored Procedures\PersonPhoneDeleteAll.sql" />
+    <Build Include="val\Stored Procedures\PersonInsert.sql" />
+    <Build Include="val\Stored Procedures\PersonEmailInsert.sql" />
+    <Build Include="val\Stored Procedures\PersonPhoneInsert.sql" />
+    <Build Include="val\Stored Procedures\PersonUpdate.sql" />
+    <Build Include="val\Stored Procedures\PersonIsUsed.sql" />
+    <Build Include="val\Stored Procedures\ImplementationDelete.sql" />
+    <Build Include="val\Stored Procedures\ImplementationContactsDeleteAll.sql" />
+    <Build Include="val\Stored Procedures\ImplementationInsert.sql" />
+    <Build Include="val\Stored Procedures\ImplementationContactInsert.sql" />
+    <Build Include="val\Stored Procedures\ImplementationUpdate.sql" />
+    <Build Include="val\Stored Procedures\ImplementationIsUsed.sql" />
+    <Build Include="acvp\Tables\APIActions.sql" />
+    <Build Include="acvp\Tables\AutoApproveConfiguration.sql" />
+    <Build Include="acvp\Stored Procedures\AutoApproveConfigurationGet.sql" />
+    <Build Include="val\Tables\ValidationApprovalHistory.sql" />
+    <Build Include="acvp\Tables\TestSessionStatus.sql" />
+    <Build Include="acvp\Stored Procedures\TestSessionStatusGet.sql" />
+    <Build Include="acvp\Stored Procedures\VectorSetGetByTestSessionId.sql" />
+    <Build Include="acvp\Stored Procedures\TestSessionsGet.sql" />
+    <Build Include="acvp\Stored Procedures\TestSessionGetById.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="ACVP_DB.refactorlog" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="acvp\Stored Procedures\CapabilitiesJsonGet.sql" />
+    <Content Include="acvp\Stored Procedures\ErrorPut.sql" />
+    <Content Include="acvp\Stored Procedures\PromptDataPut.sql" />
+    <Content Include="acvp\Stored Procedures\SubmittedJsonGet.sql" />
+    <Content Include="acvp\Stored Procedures\ValidationPut.sql" />
+    <Content Include="acvp\Tables\VectorSetJson.sql" />
+    <Content Include="common\Stored Procedures\TaskQueueDelete.sql" />
+    <Content Include="common\Stored Procedures\TaskQueueGet.sql" />
+    <Content Include="common\Stored Procedures\TaskQueueRestart.sql" />
+    <Content Include="common\Tables\TaskQueue.sql" />
+  </ItemGroup>
+</Project>

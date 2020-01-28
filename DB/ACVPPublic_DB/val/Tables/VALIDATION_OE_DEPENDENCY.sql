@@ -1,0 +1,8 @@
+﻿CREATE TABLE [val].[VALIDATION_OE_DEPENDENCY] (
+    [id]              BIGINT          IDENTITY (1, 1) NOT FOR REPLICATION NOT NULL,
+    [dependency_type] NVARCHAR (1024) NOT NULL,
+    [name]            NVARCHAR (1024) NOT NULL,
+    [description]     NVARCHAR (2048) NULL,
+    CONSTRAINT [PK_PRODUCT_INFORMATION_DEPENDENCY] PRIMARY KEY CLUSTERED ([id] ASC)
+);
+

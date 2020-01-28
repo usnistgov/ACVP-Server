@@ -1,0 +1,15 @@
+{
+  "vsId": 0,
+  "algorithm": "SHA3",
+  "mode": "",
+  "revision": "1.0",
+  "isSample": true,
+  "conformances": [],
+  "digestSize": [
+    224,
+    256
+  ],
+  "inBit": true,
+  "outBit": false,
+  "inEmpty": true
+}

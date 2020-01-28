@@ -1,0 +1,1 @@
+[{"algorithms": "{\"algorithm\":\"ACVP-TDES-KW\",\"revision\":\"1.0\",\"keyLen\":[192],\"direction\":[\"encrypt\",\"decrypt\"],\"kwCipher\":[\"cipher\",\"inverse\"],\"payloadLen\":[{\"min\":128,\"max\":2048,\"increment\":64}]}"}]

@@ -1,0 +1,1 @@
+[{"algorithms": "{\"algorithm\":\"KMAC-128\",\"mode\":\"\",\"revision\":\"1.0\",\"isSample\":false,\"xof\":[true,false],\"hexCustomization\":false,\"msgLen\":[{\"min\":0,\"max\":65536,\"increment\":1}],\"keyLen\":[{\"min\":256,\"max\":4096,\"increment\":1}],\"macLen\":[{\"min\":256,\"max\":4096,\"increment\":1}]}"}]

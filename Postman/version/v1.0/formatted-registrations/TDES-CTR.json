@@ -1,0 +1,1 @@
+[{"algorithms": "{\"algorithm\":\"ACVP-TDES-CTR\",\"revision\":\"1.0\",\"keyingOption\":[1,2],\"direction\":[\"encrypt\",\"decrypt\"],\"payloadLen\":[{\"min\":1,\"max\":64,\"increment\":1}],\"overflowCounter\":true,\"incrementalCounter\":false}"}]
