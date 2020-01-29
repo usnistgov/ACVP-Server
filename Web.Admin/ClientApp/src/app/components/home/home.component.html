@@ -1,0 +1,217 @@
+<div class="container">
+
+    <!--Row containing all the page content.  i.e. two columns -->
+    <div class="row mt-3">
+
+        <!-- The lefthand column containing a table of sessions -->
+        <div class="col-lg-6">
+
+            <!-- Row just for the page title-->
+            <div class="mt-3">
+              <h2>ACVP Test Sessions (Non-Functional hardcode data!)</h2>
+            </div>
+
+            <table class="table table-hover">
+              <thead class="thead-light">
+                <tr>
+                  <th scope="col">TSID</th>
+                  <th scope="col">Created</th>
+                  <th scope="col">Owner</th>
+                  <th scope="col">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">558</th>
+                  <td>2020-01-09 15:35</td>
+                  <td>Cisco Systems</td>
+                  <td>Incomplete</td>
+                </tr>
+                <tr>
+                  <th scope="row">557</th>
+                  <td>2020-01-09 15:32</td>
+                  <td>Cisco Systems</td>
+                  <td>Incomplete</td>
+                </tr>
+                <tr (click)="setSelectedSession(556)">
+                  <th scope="row">556</th>
+                  <td>2020-01-09 15:29</td>
+                  <td>Cisco Systems</td>
+                  <td>Complete</td>
+                </tr>
+                <tr>
+                  <th scope="row">555</th>
+                  <td>2020-01-09 15:23</td>
+                  <td>Gossamer Solutions</td>
+                  <td>Incomplete</td>
+                </tr>
+                <tr>
+                  <th scope="row">554</th>
+                  <td>2020-01-09 15:21</td>
+                  <td>Gossamer Solutions</td>
+                  <td>Complete</td>
+                </tr>
+                <tr>
+                  <th scope="row">553</th>
+                  <td>2020-01-09 15:20</td>
+                  <td>Gossamer Solutions</td>
+                  <td>Complete</td>
+                </tr>
+                <tr>
+                  <th scope="row">552</th>
+                  <td>2020-01-09 15:19</td>
+                  <td>Atsec</td>
+                  <td>Incomplete</td>
+                </tr>
+                <tr>
+                  <th scope="row">551</th>
+                  <td>2020-01-09 15:19</td>
+                  <td>Atsec</td>
+                  <td>Incomplete</td>
+                </tr>
+                <tr>
+                  <th scope="row">550</th>
+                  <td>2020-01-09 15:19</td>
+                  <td>Atsec</td>
+                  <td>Complete</td>
+                </tr>
+                <tr>
+                  <th scope="row">549</th>
+                  <td>2020-01-09 15:19</td>
+                  <td>Atsec</td>
+                  <td>Incomplete</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <nav aria-label="Pagination Buttons">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item disabled">
+                      <a class="page-link" href="#" aria-label="First">
+                          <span>&lt;&lt;</span>
+                      </a>
+                    </li>
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" aria-label="Previous">
+                            <span>&lt;</span>
+                        </a>
+                    </li>
+                  <li class="page-item"><a class="page-link" href="#">&gt;</a></li>
+                  <li class="page-item"><a class="page-link" href="#">&gt;&gt;</a></li>
+                </ul>
+              </nav>
+        </div>
+
+        <!-- The righthand column, containing the details of a given selected session -->
+        <!-- This ng-if format is from here: https://stackoverflow.com/questions/37111005/how-to-check-empty-object-in-angular-2-template-using-ngif/54400604 -->
+
+        <div class="col-lg-6" *ngIf="(selectedSession | json) != '{}'">
+          <div class="mt-3">
+            <h2>Test Session #{{selectedSession.id}}</h2>
+          </div>
+
+          <div class="col-lg-12">
+            <div class="card">
+              <div class="card-header bold-heading">
+                Details
+              </div>
+              <div class="card-body">
+                <span class="bold-heading">Created On:</span> {{ selectedSession.createdOn | date:'yyyy-MM-dd HH:mm' }}<br />
+                <span class="bold-heading">Passed:</span> {{ selectedSession.passed === null ? 'N/A' : selectedSession.passed }}<br />
+                <span class="bold-heading">Publishable:</span> {{ selectedSession.publishable }}<br />
+                <span class="bold-heading">Publihsed:</span> {{ selectedSession.published }}<br />
+                <span class="bold-heading">Sample:</span> {{ selectedSession.sample }}
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-lg-12 mt-3">
+            <div class="card">
+              <div class="card-header bold-heading">
+                Vector Sets
+              </div>
+              <div class="card-body">
+                <div style="min-height:250px;">
+                  <table class="table table-hover">
+                    <tr>
+                      <th>vsID</th>
+                      <th>Algorithm</th>
+                      <th>Mode</th>
+                      <th>Generator</th>
+                      <th>Status</th>
+                    </tr>
+                    <ng-container *ngFor="let vectorSet of selectedSessionVectorSets.data; let i = index">
+                      <tr data-toggle="collapse" [attr.data-target]="'#collapse' + vectorSet.id">
+                        <td>{{ vectorSet.id }}</td>
+                        <td>{{ vectorSet.algorithm.name }}</td>
+                        <td>{{ vectorSet.algorithm.mode }}</td>
+                        <td>{{ vectorSet.generatorVersion }}</td>
+                        <td>{{ vectorSet.status }}</td>
+                      </tr>
+                      <tr [attr.id]="'collapse' + vectorSet.id" class="collapse">
+                        <td colspan="5">
+                          <ul>
+                            <li><a [attr.href]="vectorSet.validationUrl" target="_blank">Validation Results</a></li>
+                            <li><a [attr.href]="vectorSet.capabilitiesUrl" target="_blank">Capabilities</a></li>
+                            <li><a [attr.href]="vectorSet.internalProjectionUrl" target="_blank">Internal Projection</a></li>
+                            <li><a [attr.href]="vectorSet.promptUrl" target="_blank">Prompt</a></li>
+                            <li><a [attr.href]="vectorSet.answersUrl" target="_blank">Answers</a></li>
+                            <li><a [attr.href]="vectorSet.submittedUrl" target="_blank">Submitted</a></li>
+                          </ul>
+                        </td>
+                        
+                      </tr>
+                    </ng-container>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        <div >
+          
+        </div>
+    </div>
+    <!-- Close Row -->
+
+    <!-- This is the row of cards that will contain the home page overview info.  
+        mt-3 means margin-top of 3rem.  
+        see: https://getbootstrap.com/docs/4.0/utilities/spacing/
+    -->
+    <!-- Note: temporarily removing, in roder to make a more exact copy of the current ACVP UI -->
+    <!-- <div class="row mt-3">
+        <div class="col col-lg-3">
+            <div class="card">
+                <h5 class="card-header">ACVP Status</h5>
+                <div class="card-body">
+                    <h5 class="card-title">15 In-Process</h5>
+                    <p class="card-text">
+                        Completed: 1504<br>
+                        In-Process: 15<br>
+                        CFailed 24
+                    </p>
+                    <a href="#" class="btn btn-primary">View ACVP Status</a>
+                </div>
+            </div>
+        </div>
+        <div class="col col-lg-3">
+            <div class="card h-100">
+                <h5 class="card-header">Workflow Status</h5>
+                <div class="card-body">
+                    <h5 class="card-title">4 Pending</h5>
+                    <p class="card-text">
+                        Atsec: 1<br>
+                        Pensec: 3<br>
+                        1 more...
+                    </p>
+                    <a href="#" class="btn btn-primary">View Workflow Items</a>
+                </div>
+            </div>
+        </div>
+        <div class="col col-lg-3">Column 1</div>
+    </div>
+    <div class="row mt-3">
+        
+    </div> -->
+
+</div>

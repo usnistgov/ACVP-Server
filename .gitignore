@@ -44,4 +44,4 @@ Import Schema Logs
 *.jfm
 *.idea
 *.local.json
-
+Web.Admin/appsettings.json
