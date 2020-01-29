@@ -79,10 +79,11 @@ namespace NIST.CVP.TaskQueueProcessor.Providers
             switch (task)
             {
                 case GenerationTask generationTask:
-                    GetCapabilities(generationTask);
+                    generationTask.Capabilities = GetJson(task.VsId, JsonFileTypes.CAPABILITIES);
                     break;
                 case ValidationTask validationTask:
-                    GetResponseData(validationTask);
+                    validationTask.SubmittedResults = GetJson(task.VsId, JsonFileTypes.SUBMITTED_RESULTS);
+                    validationTask.InternalProjection = GetJson(task.VsId, JsonFileTypes.INTERNAL_PROJECTION);
                     break;
             }
             
@@ -104,47 +105,36 @@ namespace NIST.CVP.TaskQueueProcessor.Providers
             RunCommand(ACVP_DB_NAME, StoredProcedures.UPDATE_IN_PROGRESS_TASK_TO_READY);
         }
 
-        private void GetCapabilities(GenerationTask task)
+        private string GetJson(long vsId, string jsonFileType)
         {
             var parameters = new List<(string, object)>
             {
-                ("VsID", task.VsId)
+                ("VsId", vsId),
+                ("JsonFileType", jsonFileType)
             };
 
-            var reader = RunCommandWithReader(ACVP_DB_NAME, StoredProcedures.GET_CAPABILITIES, parameters);
-            
-            if (reader.Read())
-            {
-                task.Capabilities = reader[0].ToString();
-            }
-            else
-            {
-                throw new Exception($"Capabilities could not be found for vsId: {task.VsId}");
-            }
+            var reader = RunCommandWithReader(ACVP_DB_NAME, StoredProcedures.GET_JSON, parameters);
 
+            if (!reader.Read())
+            {
+                throw new Exception($"No JSON found for vsId: {vsId}, jsonType: {jsonFileType}");
+            }            
+            
+            var returnContent = reader[0].ToString();
             reader.Close();
+            return returnContent;
         }
 
-        private void GetResponseData(ValidationTask task)
+        public void PutJson(long vsId, string jsonFileType, string jsonContent)
         {
             var parameters = new List<(string, object)>
             {
-                ("VsID", task.VsId)
+                ("VsId", vsId),
+                ("JsonFileType", jsonFileType),
+                ("Content", jsonContent)
             };
 
-            var reader = RunCommandWithReader(ACVP_DB_NAME, StoredProcedures.GET_SUBMITTED, parameters);
-
-            if (reader.Read())
-            {
-                task.SubmittedResults = reader[0].ToString();
-                task.InternalProjection = reader[1].ToString();
-            }
-            else
-            {
-                throw new Exception($"Response data could not be found for vsId: {task.VsId}");
-            }
-
-            reader.Close();
+            RunCommand(ACVP_DB_NAME, StoredProcedures.PUT_JSON, parameters);
         }
 
         public void PutPromptData(GenerationTask task)

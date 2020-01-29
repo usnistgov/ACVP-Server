@@ -5,6 +5,9 @@ namespace NIST.CVP.TaskQueueProcessor.Constants
         public const string GET_TASK_QUEUE = "acvp.TaskQueueGet";
         public const string DELETE_TASK_FROM_TASK_QUEUE = "acvp.TaskQueueDelete";
         public const string UPDATE_IN_PROGRESS_TASK_TO_READY = "acvp.TaskQueueRestart";
+        public const string GET_JSON = "acvp.VectorSetJsonGet";
+        public const string PUT_JSON = "acvp.VectorSetJsonPut";
+        
         public const string GET_CAPABILITIES = "acvp.CapabilitiesGet";
         public const string GET_SUBMITTED = "acvp.SubmittedGet";
         public const string PUT_ALL_PROMPT_DATA = "acvp.PromptDataPut";
