@@ -301,6 +301,7 @@
     <Build Include="acvp\Stored Procedures\VectorSetGetByTestSessionId.sql" />
     <Build Include="acvp\Stored Procedures\TestSessionsGet.sql" />
     <Build Include="acvp\Stored Procedures\TestSessionGetById.sql" />
+    <Build Include="val\Stored Procedures\DependenciesGet.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="ACVP_DB.refactorlog" />

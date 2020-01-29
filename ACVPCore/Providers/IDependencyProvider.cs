@@ -7,6 +7,7 @@ namespace ACVPCore.Providers
 	public interface IDependencyProvider
 	{
 		Dependency Get(long dependencyID);
+		List<Dependency> Get(long pageSize, long pageNumber);
 		List<DependencyAttribute> GetAttributes(long dependencyID);
 
 		Result Delete(long dependencyID);

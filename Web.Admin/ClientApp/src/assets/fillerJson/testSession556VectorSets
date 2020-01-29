@@ -1,0 +1,839 @@
+{
+  "totalCount" : 69,
+  "incomplete" : false,
+  "links" : {
+    "first" : null,
+    "next" : null,
+    "prev" : null,
+    "last" : null
+  },
+  "data" : [ {
+    "url" : "/admin/acvp/testSessions/563/vectorSets/6393",
+    "id" : 6393,
+    "testSessionUrl" : "/admin/acvp/testSessions/563",
+    "algorithm" : {
+      "name" : "KAS-FFC",
+      "mode" : "Component",
+      "revision" : "1.0"
+    },
+    "generatorVersion" : "1.0",
+    "status" : "PROCESSED",
+    "errorMessage" : null
+  }, {
+    "url" : "/admin/acvp/testSessions/563/vectorSets/6392",
+    "id" : 6392,
+    "testSessionUrl" : "/admin/acvp/testSessions/563",
+    "algorithm" : {
+      "name" : "KAS-ECC",
+      "mode" : "Component",
+      "revision" : "1.0"
+    },
+    "generatorVersion" : "1.0",
+    "status" : "PROCESSED",
+    "errorMessage" : null
+  }, {
+    "url" : "/admin/acvp/testSessions/563/vectorSets/6391",
+    "id" : 6391,
+    "testSessionUrl" : "/admin/acvp/testSessions/563",
+    "algorithm" : {
+      "name" : "KAS-ECC",
+      "mode" : "CDH-Component",
+      "revision" : "1.0"
+    },
+    "generatorVersion" : "1.0",
+    "status" : "PROCESSED",
+    "errorMessage" : null
+  }, {
+    "url" : "/admin/acvp/testSessions/563/vectorSets/6390",
+    "id" : 6390,
+    "testSessionUrl" : "/admin/acvp/testSessions/563",
+    "algorithm" : {
+      "name" : "ctrDRBG",
+      "mode" : null,
+      "revision" : "1.0"
+    },
+    "generatorVersion" : "1.0",
+    "status" : "PROCESSED",
+    "errorMessage" : null
+  }, {
+    "url" : "/admin/acvp/testSessions/563/vectorSets/6389",
+    "id" : 6389,
+    "testSessionUrl" : "/admin/acvp/testSessions/563",
+    "algorithm" : {
+      "name" : "hmacDRBG",
+      "mode" : null,
+      "revision" : "1.0"
+    },
+    "generatorVersion" : "1.0",
+    "status" : "PROCESSED",
+    "errorMessage" : null
+  }, {
+    "url" : "/admin/acvp/testSessions/563/vectorSets/6388",
+    "id" : 6388,
+    "testSessionUrl" : "/admin/acvp/testSessions/563",
+    "algorithm" : {
+      "name" : "hashDRBG",
+      "mode" : null,
+      "revision" : "1.0"
+    },
+    "generatorVersion" : "1.0",
+    "status" : "PROCESSED",
+    "errorMessage" : null
+  }, {
+    "url" : "/admin/acvp/testSessions/563/vectorSets/6387",
+    "id" : 6387,
+    "testSessionUrl" : "/admin/acvp/testSessions/563",
+    "algorithm" : {
+      "name" : "ECDSA",
+      "mode" : "sigVer",
+      "revision" : "1.0"
+    },
+    "generatorVersion" : "1.0",
+    "status" : "PROCESSED",
+    "errorMessage" : null
+  }, {
+    "url" : "/admin/acvp/testSessions/563/vectorSets/6386",
+    "id" : 6386,
+    "testSessionUrl" : "/admin/acvp/testSessions/563",
+    "algorithm" : {
+      "name" : "ECDSA",
+      "mode" : "sigGen",
+      "revision" : "1.0"
+    },
+    "generatorVersion" : "1.0",
+    "status" : "PROCESSED",
+    "errorMessage" : null
+  }, {
+    "url" : "/admin/acvp/testSessions/563/vectorSets/6385",
+    "id" : 6385,
+    "testSessionUrl" : "/admin/acvp/testSessions/563",
+    "algorithm" : {
+      "name" : "ECDSA",
+      "mode" : "keyVer",
+      "revision" : "1.0"
+    },
+    "generatorVersion" : "1.0",
+    "status" : "PROCESSED",
+    "errorMessage" : null
+  }, {
+    "url" : "/admin/acvp/testSessions/563/vectorSets/6384",
+    "id" : 6384,
+    "testSessionUrl" : "/admin/acvp/testSessions/563",
+    "algorithm" : {
+      "name" : "ECDSA",
+      "mode" : "keyGen",
+      "revision" : "1.0"
+    },
+    "generatorVersion" : "1.0",
+    "status" : "PROCESSED",
+    "errorMessage" : null
+  }, {
+    "url" : "/admin/acvp/testSessions/563/vectorSets/6383",
+    "id" : 6383,
+    "testSessionUrl" : "/admin/acvp/testSessions/563",
+    "algorithm" : {
+      "name" : "RSA",
+      "mode" : "sigVer",
+      "revision" : "1.0"
+    },
+    "generatorVersion" : "1.0",
+    "status" : "PROCESSED",
+    "errorMessage" : null
+  }, {
+    "url" : "/admin/acvp/testSessions/563/vectorSets/6382",
+    "id" : 6382,
+    "testSessionUrl" : "/admin/acvp/testSessions/563",
+    "algorithm" : {
+      "name" : "RSA",
+      "mode" : "sigGen",
+      "revision" : "1.0"
+    },
+    "generatorVersion" : "1.0",
+    "status" : "PROCESSED",
+    "errorMessage" : null
+  }, {
+    "url" : "/admin/acvp/testSessions/563/vectorSets/6381",
+    "id" : 6381,
+    "testSessionUrl" : "/admin/acvp/testSessions/563",
+    "algorithm" : {
+      "name" : "RSA",
+      "mode" : "keyGen",
+      "revision" : "1.0"
+    },
+    "generatorVersion" : "1.0",
+    "status" : "PROCESSED",
+    "errorMessage" : null
+  }, {
+    "url" : "/admin/acvp/testSessions/563/vectorSets/6380",
+    "id" : 6380,
+    "testSessionUrl" : "/admin/acvp/testSessions/563",
+    "algorithm" : {
+      "name" : "DSA",
+      "mode" : "sigVer",
+      "revision" : "1.0"
+    },
+    "generatorVersion" : "1.0",
+    "status" : "PROCESSED",
+    "errorMessage" : null
+  }, {
+    "url" : "/admin/acvp/testSessions/563/vectorSets/6379",
+    "id" : 6379,
+    "testSessionUrl" : "/admin/acvp/testSessions/563",
+    "algorithm" : {
+      "name" : "DSA",
+      "mode" : "sigGen",
+      "revision" : "1.0"
+    },
+    "generatorVersion" : "1.0",
+    "status" : "PROCESSED",
+    "errorMessage" : null
+  }, {
+    "url" : "/admin/acvp/testSessions/563/vectorSets/6378",
+    "id" : 6378,
+    "testSessionUrl" : "/admin/acvp/testSessions/563",
+    "algorithm" : {
+      "name" : "DSA",
+      "mode" : "keyGen",
+      "revision" : "1.0"
+    },
+    "generatorVersion" : "1.0",
+    "status" : "PROCESSED",
+    "errorMessage" : null
+  }, {
+    "url" : "/admin/acvp/testSessions/563/vectorSets/6377",
+    "id" : 6377,
+    "testSessionUrl" : "/admin/acvp/testSessions/563",
+    "algorithm" : {
+      "name" : "DSA",
+      "mode" : "pqgVer",
+      "revision" : "1.0"
+    },
+    "generatorVersion" : "1.0",
+    "status" : "PROCESSED",
+    "errorMessage" : null
+  }, {
+    "url" : "/admin/acvp/testSessions/563/vectorSets/6376",
+    "id" : 6376,
+    "testSessionUrl" : "/admin/acvp/testSessions/563",
+    "algorithm" : {
+      "name" : "DSA",
+      "mode" : "pqgGen",
+      "revision" : "1.0"
+    },
+    "generatorVersion" : "1.0",
+    "status" : "PROCESSED",
+    "errorMessage" : null
+  }, {
+    "url" : "/admin/acvp/testSessions/563/vectorSets/6375",
+    "id" : 6375,
+    "testSessionUrl" : "/admin/acvp/testSessions/563",
+    "algorithm" : {
+      "name" : "KDF",
+      "mode" : null,
+      "revision" : "1.0"
+    },
+    "generatorVersion" : "1.0",
+    "status" : "PROCESSED",
+    "errorMessage" : null
+  }, {
+    "url" : "/admin/acvp/testSessions/563/vectorSets/6374",
+    "id" : 6374,
+    "testSessionUrl" : "/admin/acvp/testSessions/563",
+    "algorithm" : {
+      "name" : "kdf-components",
+      "mode" : "ikev2",
+      "revision" : "1.0"
+    },
+    "generatorVersion" : "1.0",
+    "status" : "PROCESSED",
+    "errorMessage" : null
+  }, {
+    "url" : "/admin/acvp/testSessions/563/vectorSets/6373",
+    "id" : 6373,
+    "testSessionUrl" : "/admin/acvp/testSessions/563",
+    "algorithm" : {
+      "name" : "kdf-components",
+      "mode" : "srtp",
+      "revision" : "1.0"
+    },
+    "generatorVersion" : "1.0",
+    "status" : "PROCESSED",
+    "errorMessage" : null
+  }, {
+    "url" : "/admin/acvp/testSessions/563/vectorSets/6372",
+    "id" : 6372,
+    "testSessionUrl" : "/admin/acvp/testSessions/563",
+    "algorithm" : {
+      "name" : "kdf-components",
+      "mode" : "ssh",
+      "revision" : "1.0"
+    },
+    "generatorVersion" : "1.0",
+    "status" : "PROCESSED",
+    "errorMessage" : null
+  }, {
+    "url" : "/admin/acvp/testSessions/563/vectorSets/6371",
+    "id" : 6371,
+    "testSessionUrl" : "/admin/acvp/testSessions/563",
+    "algorithm" : {
+      "name" : "kdf-components",
+      "mode" : "snmp",
+      "revision" : "1.0"
+    },
+    "generatorVersion" : "1.0",
+    "status" : "PROCESSED",
+    "errorMessage" : null
+  }, {
+    "url" : "/admin/acvp/testSessions/563/vectorSets/6370",
+    "id" : 6370,
+    "testSessionUrl" : "/admin/acvp/testSessions/563",
+    "algorithm" : {
+      "name" : "kdf-components",
+      "mode" : "tls",
+      "revision" : "1.0"
+    },
+    "generatorVersion" : "1.0",
+    "status" : "PROCESSED",
+    "errorMessage" : null
+  }, {
+    "url" : "/admin/acvp/testSessions/563/vectorSets/6369",
+    "id" : 6369,
+    "testSessionUrl" : "/admin/acvp/testSessions/563",
+    "algorithm" : {
+      "name" : "HMAC-SHA3-512",
+      "mode" : null,
+      "revision" : "1.0"
+    },
+    "generatorVersion" : "1.0",
+    "status" : "PROCESSED",
+    "errorMessage" : null
+  }, {
+    "url" : "/admin/acvp/testSessions/563/vectorSets/6368",
+    "id" : 6368,
+    "testSessionUrl" : "/admin/acvp/testSessions/563",
+    "algorithm" : {
+      "name" : "HMAC-SHA3-384",
+      "mode" : null,
+      "revision" : "1.0"
+    },
+    "generatorVersion" : "1.0",
+    "status" : "PROCESSED",
+    "errorMessage" : null
+  }, {
+    "url" : "/admin/acvp/testSessions/563/vectorSets/6367",
+    "id" : 6367,
+    "testSessionUrl" : "/admin/acvp/testSessions/563",
+    "algorithm" : {
+      "name" : "HMAC-SHA3-256",
+      "mode" : null,
+      "revision" : "1.0"
+    },
+    "generatorVersion" : "1.0",
+    "status" : "PROCESSED",
+    "errorMessage" : null
+  }, {
+    "url" : "/admin/acvp/testSessions/563/vectorSets/6366",
+    "id" : 6366,
+    "testSessionUrl" : "/admin/acvp/testSessions/563",
+    "algorithm" : {
+      "name" : "HMAC-SHA3-224",
+      "mode" : null,
+      "revision" : "1.0"
+    },
+    "generatorVersion" : "1.0",
+    "status" : "PROCESSED",
+    "errorMessage" : null
+  }, {
+    "url" : "/admin/acvp/testSessions/563/vectorSets/6365",
+    "id" : 6365,
+    "testSessionUrl" : "/admin/acvp/testSessions/563",
+    "algorithm" : {
+      "name" : "HMAC-SHA2-512/256",
+      "mode" : null,
+      "revision" : "1.0"
+    },
+    "generatorVersion" : "1.0",
+    "status" : "PROCESSED",
+    "errorMessage" : null
+  }, {
+    "url" : "/admin/acvp/testSessions/563/vectorSets/6364",
+    "id" : 6364,
+    "testSessionUrl" : "/admin/acvp/testSessions/563",
+    "algorithm" : {
+      "name" : "HMAC-SHA2-512/224",
+      "mode" : null,
+      "revision" : "1.0"
+    },
+    "generatorVersion" : "1.0",
+    "status" : "PROCESSED",
+    "errorMessage" : null
+  }, {
+    "url" : "/admin/acvp/testSessions/563/vectorSets/6363",
+    "id" : 6363,
+    "testSessionUrl" : "/admin/acvp/testSessions/563",
+    "algorithm" : {
+      "name" : "HMAC-SHA2-512",
+      "mode" : null,
+      "revision" : "1.0"
+    },
+    "generatorVersion" : "1.0",
+    "status" : "PROCESSED",
+    "errorMessage" : null
+  }, {
+    "url" : "/admin/acvp/testSessions/563/vectorSets/6362",
+    "id" : 6362,
+    "testSessionUrl" : "/admin/acvp/testSessions/563",
+    "algorithm" : {
+      "name" : "HMAC-SHA2-384",
+      "mode" : null,
+      "revision" : "1.0"
+    },
+    "generatorVersion" : "1.0",
+    "status" : "PROCESSED",
+    "errorMessage" : null
+  }, {
+    "url" : "/admin/acvp/testSessions/563/vectorSets/6361",
+    "id" : 6361,
+    "testSessionUrl" : "/admin/acvp/testSessions/563",
+    "algorithm" : {
+      "name" : "HMAC-SHA2-256",
+      "mode" : null,
+      "revision" : "1.0"
+    },
+    "generatorVersion" : "1.0",
+    "status" : "PROCESSED",
+    "errorMessage" : null
+  }, {
+    "url" : "/admin/acvp/testSessions/563/vectorSets/6360",
+    "id" : 6360,
+    "testSessionUrl" : "/admin/acvp/testSessions/563",
+    "algorithm" : {
+      "name" : "HMAC-SHA2-224",
+      "mode" : null,
+      "revision" : "1.0"
+    },
+    "generatorVersion" : "1.0",
+    "status" : "PROCESSED",
+    "errorMessage" : null
+  }, {
+    "url" : "/admin/acvp/testSessions/563/vectorSets/6359",
+    "id" : 6359,
+    "testSessionUrl" : "/admin/acvp/testSessions/563",
+    "algorithm" : {
+      "name" : "HMAC-SHA-1",
+      "mode" : null,
+      "revision" : "1.0"
+    },
+    "generatorVersion" : "1.0",
+    "status" : "PROCESSED",
+    "errorMessage" : null
+  }, {
+    "url" : "/admin/acvp/testSessions/563/vectorSets/6358",
+    "id" : 6358,
+    "testSessionUrl" : "/admin/acvp/testSessions/563",
+    "algorithm" : {
+      "name" : "CMAC-TDES",
+      "mode" : null,
+      "revision" : "1.0"
+    },
+    "generatorVersion" : "1.0",
+    "status" : "PROCESSED",
+    "errorMessage" : null
+  }, {
+    "url" : "/admin/acvp/testSessions/563/vectorSets/6357",
+    "id" : 6357,
+    "testSessionUrl" : "/admin/acvp/testSessions/563",
+    "algorithm" : {
+      "name" : "CMAC-AES",
+      "mode" : null,
+      "revision" : "1.0"
+    },
+    "generatorVersion" : "1.0",
+    "status" : "PROCESSED",
+    "errorMessage" : null
+  }, {
+    "url" : "/admin/acvp/testSessions/563/vectorSets/6356",
+    "id" : 6356,
+    "testSessionUrl" : "/admin/acvp/testSessions/563",
+    "algorithm" : {
+      "name" : "SHAKE-256",
+      "mode" : null,
+      "revision" : "1.0"
+    },
+    "generatorVersion" : "1.0",
+    "status" : "ERROR",
+    "errorMessage" : "failed to generate tests for: 6356"
+  }, {
+    "url" : "/admin/acvp/testSessions/563/vectorSets/6355",
+    "id" : 6355,
+    "testSessionUrl" : "/admin/acvp/testSessions/563",
+    "algorithm" : {
+      "name" : "SHAKE-128",
+      "mode" : null,
+      "revision" : "1.0"
+    },
+    "generatorVersion" : "1.0",
+    "status" : "ERROR",
+    "errorMessage" : "failed to generate tests for: 6355"
+  }, {
+    "url" : "/admin/acvp/testSessions/563/vectorSets/6354",
+    "id" : 6354,
+    "testSessionUrl" : "/admin/acvp/testSessions/563",
+    "algorithm" : {
+      "name" : "SHA3-512",
+      "mode" : null,
+      "revision" : "1.0"
+    },
+    "generatorVersion" : "1.0",
+    "status" : "PROCESSED",
+    "errorMessage" : null
+  }, {
+    "url" : "/admin/acvp/testSessions/563/vectorSets/6353",
+    "id" : 6353,
+    "testSessionUrl" : "/admin/acvp/testSessions/563",
+    "algorithm" : {
+      "name" : "SHA3-384",
+      "mode" : null,
+      "revision" : "1.0"
+    },
+    "generatorVersion" : "1.0",
+    "status" : "PROCESSED",
+    "errorMessage" : null
+  }, {
+    "url" : "/admin/acvp/testSessions/563/vectorSets/6352",
+    "id" : 6352,
+    "testSessionUrl" : "/admin/acvp/testSessions/563",
+    "algorithm" : {
+      "name" : "SHA3-256",
+      "mode" : null,
+      "revision" : "1.0"
+    },
+    "generatorVersion" : "1.0",
+    "status" : "PROCESSED",
+    "errorMessage" : null
+  }, {
+    "url" : "/admin/acvp/testSessions/563/vectorSets/6351",
+    "id" : 6351,
+    "testSessionUrl" : "/admin/acvp/testSessions/563",
+    "algorithm" : {
+      "name" : "SHA3-224",
+      "mode" : null,
+      "revision" : "1.0"
+    },
+    "generatorVersion" : "1.0",
+    "status" : "PROCESSED",
+    "errorMessage" : null
+  }, {
+    "url" : "/admin/acvp/testSessions/563/vectorSets/6350",
+    "id" : 6350,
+    "testSessionUrl" : "/admin/acvp/testSessions/563",
+    "algorithm" : {
+      "name" : "SHA2-512/256",
+      "mode" : null,
+      "revision" : "1.0"
+    },
+    "generatorVersion" : "1.0",
+    "status" : "PROCESSED",
+    "errorMessage" : null
+  }, {
+    "url" : "/admin/acvp/testSessions/563/vectorSets/6349",
+    "id" : 6349,
+    "testSessionUrl" : "/admin/acvp/testSessions/563",
+    "algorithm" : {
+      "name" : "SHA2-512/224",
+      "mode" : null,
+      "revision" : "1.0"
+    },
+    "generatorVersion" : "1.0",
+    "status" : "PROCESSED",
+    "errorMessage" : null
+  }, {
+    "url" : "/admin/acvp/testSessions/563/vectorSets/6348",
+    "id" : 6348,
+    "testSessionUrl" : "/admin/acvp/testSessions/563",
+    "algorithm" : {
+      "name" : "SHA2-512",
+      "mode" : null,
+      "revision" : "1.0"
+    },
+    "generatorVersion" : "1.0",
+    "status" : "PROCESSED",
+    "errorMessage" : null
+  }, {
+    "url" : "/admin/acvp/testSessions/563/vectorSets/6347",
+    "id" : 6347,
+    "testSessionUrl" : "/admin/acvp/testSessions/563",
+    "algorithm" : {
+      "name" : "SHA2-384",
+      "mode" : null,
+      "revision" : "1.0"
+    },
+    "generatorVersion" : "1.0",
+    "status" : "PROCESSED",
+    "errorMessage" : null
+  }, {
+    "url" : "/admin/acvp/testSessions/563/vectorSets/6346",
+    "id" : 6346,
+    "testSessionUrl" : "/admin/acvp/testSessions/563",
+    "algorithm" : {
+      "name" : "SHA2-256",
+      "mode" : null,
+      "revision" : "1.0"
+    },
+    "generatorVersion" : "1.0",
+    "status" : "PROCESSED",
+    "errorMessage" : null
+  }, {
+    "url" : "/admin/acvp/testSessions/563/vectorSets/6345",
+    "id" : 6345,
+    "testSessionUrl" : "/admin/acvp/testSessions/563",
+    "algorithm" : {
+      "name" : "SHA2-224",
+      "mode" : null,
+      "revision" : "1.0"
+    },
+    "generatorVersion" : "1.0",
+    "status" : "PROCESSED",
+    "errorMessage" : null
+  }, {
+    "url" : "/admin/acvp/testSessions/563/vectorSets/6344",
+    "id" : 6344,
+    "testSessionUrl" : "/admin/acvp/testSessions/563",
+    "algorithm" : {
+      "name" : "SHA-1",
+      "mode" : null,
+      "revision" : "1.0"
+    },
+    "generatorVersion" : "1.0",
+    "status" : "PROCESSED",
+    "errorMessage" : null
+  }, {
+    "url" : "/admin/acvp/testSessions/563/vectorSets/6343",
+    "id" : 6343,
+    "testSessionUrl" : "/admin/acvp/testSessions/563",
+    "algorithm" : {
+      "name" : "ACVP-TDES-CTR",
+      "mode" : null,
+      "revision" : "1.0"
+    },
+    "generatorVersion" : "1.0",
+    "status" : "PROCESSED",
+    "errorMessage" : null
+  }, {
+    "url" : "/admin/acvp/testSessions/563/vectorSets/6342",
+    "id" : 6342,
+    "testSessionUrl" : "/admin/acvp/testSessions/563",
+    "algorithm" : {
+      "name" : "ACVP-TDES-CFB1",
+      "mode" : null,
+      "revision" : "1.0"
+    },
+    "generatorVersion" : "1.0",
+    "status" : "PROCESSED",
+    "errorMessage" : null
+  }, {
+    "url" : "/admin/acvp/testSessions/563/vectorSets/6341",
+    "id" : 6341,
+    "testSessionUrl" : "/admin/acvp/testSessions/563",
+    "algorithm" : {
+      "name" : "ACVP-TDES-CFB8",
+      "mode" : null,
+      "revision" : "1.0"
+    },
+    "generatorVersion" : "1.0",
+    "status" : "PROCESSED",
+    "errorMessage" : null
+  }, {
+    "url" : "/admin/acvp/testSessions/563/vectorSets/6340",
+    "id" : 6340,
+    "testSessionUrl" : "/admin/acvp/testSessions/563",
+    "algorithm" : {
+      "name" : "ACVP-TDES-CFB64",
+      "mode" : null,
+      "revision" : "1.0"
+    },
+    "generatorVersion" : "1.0",
+    "status" : "PROCESSED",
+    "errorMessage" : null
+  }, {
+    "url" : "/admin/acvp/testSessions/563/vectorSets/6339",
+    "id" : 6339,
+    "testSessionUrl" : "/admin/acvp/testSessions/563",
+    "algorithm" : {
+      "name" : "ACVP-TDES-OFB",
+      "mode" : null,
+      "revision" : "1.0"
+    },
+    "generatorVersion" : "1.0",
+    "status" : "PROCESSED",
+    "errorMessage" : null
+  }, {
+    "url" : "/admin/acvp/testSessions/563/vectorSets/6338",
+    "id" : 6338,
+    "testSessionUrl" : "/admin/acvp/testSessions/563",
+    "algorithm" : {
+      "name" : "ACVP-TDES-CBC",
+      "mode" : null,
+      "revision" : "1.0"
+    },
+    "generatorVersion" : "1.0",
+    "status" : "PROCESSED",
+    "errorMessage" : null
+  }, {
+    "url" : "/admin/acvp/testSessions/563/vectorSets/6337",
+    "id" : 6337,
+    "testSessionUrl" : "/admin/acvp/testSessions/563",
+    "algorithm" : {
+      "name" : "ACVP-TDES-ECB",
+      "mode" : null,
+      "revision" : "1.0"
+    },
+    "generatorVersion" : "1.0",
+    "status" : "PROCESSED",
+    "errorMessage" : null
+  }, {
+    "url" : "/admin/acvp/testSessions/563/vectorSets/6336",
+    "id" : 6336,
+    "testSessionUrl" : "/admin/acvp/testSessions/563",
+    "algorithm" : {
+      "name" : "ACVP-AES-GMAC",
+      "mode" : null,
+      "revision" : "1.0"
+    },
+    "generatorVersion" : "1.0",
+    "status" : "PROCESSED",
+    "errorMessage" : null
+  }, {
+    "url" : "/admin/acvp/testSessions/563/vectorSets/6335",
+    "id" : 6335,
+    "testSessionUrl" : "/admin/acvp/testSessions/563",
+    "algorithm" : {
+      "name" : "ACVP-AES-CTR",
+      "mode" : null,
+      "revision" : "1.0"
+    },
+    "generatorVersion" : "1.0",
+    "status" : "PROCESSED",
+    "errorMessage" : null
+  }, {
+    "url" : "/admin/acvp/testSessions/563/vectorSets/6334",
+    "id" : 6334,
+    "testSessionUrl" : "/admin/acvp/testSessions/563",
+    "algorithm" : {
+      "name" : "ACVP-AES-XTS",
+      "mode" : null,
+      "revision" : "1.0"
+    },
+    "generatorVersion" : "1.0",
+    "status" : "PROCESSED",
+    "errorMessage" : null
+  }, {
+    "url" : "/admin/acvp/testSessions/563/vectorSets/6333",
+    "id" : 6333,
+    "testSessionUrl" : "/admin/acvp/testSessions/563",
+    "algorithm" : {
+      "name" : "ACVP-AES-KW",
+      "mode" : null,
+      "revision" : "1.0"
+    },
+    "generatorVersion" : "1.0",
+    "status" : "PROCESSED",
+    "errorMessage" : null
+  }, {
+    "url" : "/admin/acvp/testSessions/563/vectorSets/6332",
+    "id" : 6332,
+    "testSessionUrl" : "/admin/acvp/testSessions/563",
+    "algorithm" : {
+      "name" : "ACVP-AES-CCM",
+      "mode" : null,
+      "revision" : "1.0"
+    },
+    "generatorVersion" : "1.0",
+    "status" : "PROCESSED",
+    "errorMessage" : null
+  }, {
+    "url" : "/admin/acvp/testSessions/563/vectorSets/6331",
+    "id" : 6331,
+    "testSessionUrl" : "/admin/acvp/testSessions/563",
+    "algorithm" : {
+      "name" : "ACVP-AES-OFB",
+      "mode" : null,
+      "revision" : "1.0"
+    },
+    "generatorVersion" : "1.0",
+    "status" : "PROCESSED",
+    "errorMessage" : null
+  }, {
+    "url" : "/admin/acvp/testSessions/563/vectorSets/6330",
+    "id" : 6330,
+    "testSessionUrl" : "/admin/acvp/testSessions/563",
+    "algorithm" : {
+      "name" : "ACVP-AES-CFB128",
+      "mode" : null,
+      "revision" : "1.0"
+    },
+    "generatorVersion" : "1.0",
+    "status" : "PROCESSED",
+    "errorMessage" : null
+  }, {
+    "url" : "/admin/acvp/testSessions/563/vectorSets/6329",
+    "id" : 6329,
+    "testSessionUrl" : "/admin/acvp/testSessions/563",
+    "algorithm" : {
+      "name" : "ACVP-AES-CFB8",
+      "mode" : null,
+      "revision" : "1.0"
+    },
+    "generatorVersion" : "1.0",
+    "status" : "PROCESSED",
+    "errorMessage" : null
+  }, {
+    "url" : "/admin/acvp/testSessions/563/vectorSets/6328",
+    "id" : 6328,
+    "testSessionUrl" : "/admin/acvp/testSessions/563",
+    "algorithm" : {
+      "name" : "ACVP-AES-CFB1",
+      "mode" : null,
+      "revision" : "1.0"
+    },
+    "generatorVersion" : "1.0",
+    "status" : "PROCESSED",
+    "errorMessage" : null
+  }, {
+    "url" : "/admin/acvp/testSessions/563/vectorSets/6327",
+    "id" : 6327,
+    "testSessionUrl" : "/admin/acvp/testSessions/563",
+    "algorithm" : {
+      "name" : "ACVP-AES-CBC",
+      "mode" : null,
+      "revision" : "1.0"
+    },
+    "generatorVersion" : "1.0",
+    "status" : "PROCESSED",
+    "errorMessage" : null
+  }, {
+    "url" : "/admin/acvp/testSessions/563/vectorSets/6326",
+    "id" : 6326,
+    "testSessionUrl" : "/admin/acvp/testSessions/563",
+    "algorithm" : {
+      "name" : "ACVP-AES-ECB",
+      "mode" : null,
+      "revision" : "1.0"
+    },
+    "generatorVersion" : "1.0",
+    "status" : "PROCESSED",
+    "errorMessage" : null
+  }, {
+    "url" : "/admin/acvp/testSessions/563/vectorSets/6325",
+    "id" : 6325,
+    "testSessionUrl" : "/admin/acvp/testSessions/563",
+    "algorithm" : {
+      "name" : "ACVP-AES-GCM",
+      "mode" : null,
+      "revision" : "1.0"
+    },
+    "generatorVersion" : "1.0",
+    "status" : "PROCESSED",
+    "errorMessage" : null
+  } ]
+}
