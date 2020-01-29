@@ -10,9 +10,9 @@ namespace ACVPCore.Providers
 	public class AlgorithmProvider : IAlgorithmProvider
 	{
 		private readonly string _acvpConnectionString;
-		private readonly ILogger<VectorSetExpectedResultsProvider> _logger;
+		private readonly ILogger<AlgorithmProvider> _logger;
 
-		public AlgorithmProvider(IConnectionStringFactory connectionStringFactory, ILogger<VectorSetExpectedResultsProvider> logger)
+		public AlgorithmProvider(IConnectionStringFactory connectionStringFactory, ILogger<AlgorithmProvider> logger)
 		{
 			_acvpConnectionString = connectionStringFactory.GetMightyConnectionString("ACVP");
 			_logger = logger;
@@ -53,7 +53,7 @@ namespace ACVPCore.Providers
 				{
 					algorithms.Add(new AlgorithmLookup
 					{
-						AlgorithmID = algorithm.AlgorithmID,
+						AlgorithmID = algorithm.AlgorithmId,
 						Name = algorithm.Name,
 						Mode = algorithm.Mode,
 						Revision = algorithm.Revision,

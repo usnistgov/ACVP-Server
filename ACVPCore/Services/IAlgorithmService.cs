@@ -1,4 +1,5 @@
-﻿using ACVPCore.Models;
+﻿using System.Collections.Generic;
+using ACVPCore.Models;
 
 namespace ACVPCore.Services
 {
@@ -6,5 +7,6 @@ namespace ACVPCore.Services
 	{
 		long GetAlgorithmID(string name, string mode);
 		AlgorithmLookup LookupAlgorithm(string name, string mode, string revision);
+		List<AlgorithmLookup> LookupAlgorithms(string name, string mode);
 	}
 }

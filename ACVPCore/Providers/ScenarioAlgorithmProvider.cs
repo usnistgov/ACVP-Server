@@ -46,7 +46,7 @@ namespace ACVPCore.Providers
 			List<(long ScenarioAlgorithmID, long AlgorithmID)> scenarioAlgorithms = new List<(long ScenarioAlgorithmID, long AlgorithmID)>();
 			try
 			{
-				var data = db.QueryFromProcedure("val.ScenariosAlgorithmsForScenarioGet", inParams: new
+				var data = db.QueryFromProcedure("val.ScenarioAlgorithmsForScenarioGet", inParams: new
 				{
 					ScenarioId = scenarioID
 				});
@@ -62,6 +62,23 @@ namespace ACVPCore.Providers
 			}
 
 			return scenarioAlgorithms;
+		}
+
+		public Result Delete(long scenarioAlgorithmID)
+		{
+			var db = new MightyOrm(_acvpConnectionString);
+
+			try
+			{
+				db.Execute("val.ScenarioAlgorithmDelete @0", scenarioAlgorithmID);
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex.Message);
+				return new Result(ex.Message);
+			}
+
+			return new Result();
 		}
 	}
 }

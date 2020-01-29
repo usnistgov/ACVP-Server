@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
 using ACVPCore.Algorithms.DataTypes;
-using ACVPCore.Models.Capabilities;
 
 namespace ACVPCore.Algorithms.Persisted
 {
-	public class AES_CMAC : AlgorithmBase
+	public class AES_CMAC : PersistedAlgorithmBase
 	{
-		[Property(Name = "capabilities", Type = DatabaseCapabilityType.Composite)]
+		[AlgorithmProperty(Name = "capabilities", Type = AlgorithmPropertyType.Composite)]
 		public List<CapabilityObject> Capabilities { get; set; } = new List<CapabilityObject>();
 
 		public AES_CMAC()
@@ -30,19 +29,19 @@ namespace ACVPCore.Algorithms.Persisted
 	}
 
 	public class CapabilityObject { 
-		[Property(Name = "direction", Type = DatabaseCapabilityType.StringArray )]
+		[AlgorithmProperty(Name = "direction", Type = AlgorithmPropertyType.StringArray )]
 		public List<string> Direction { get; set; }
 
-		[Property(Name = "keyLen", Type = DatabaseCapabilityType.NumberArray)]
+		[AlgorithmProperty(Name = "keyLen", Type = AlgorithmPropertyType.NumberArray)]
 		public List<long> KeyLength { get; set; }
 
-		[Property(Name = "mac", Type = DatabaseCapabilityType.Domain)]
+		[AlgorithmProperty(Name = "mac", Type = AlgorithmPropertyType.Domain)]
 		public Domain MacLength { get; set; }
 
-		[Property(Name = "msg", Type = DatabaseCapabilityType.Domain)]
+		[AlgorithmProperty(Name = "msg", Type = AlgorithmPropertyType.Domain)]
 		public Domain MessageLength { get; set; }
 
-		[Property(Name = "blockSize", Type = DatabaseCapabilityType.StringArray)]
+		[AlgorithmProperty(Name = "blockSize", Type = AlgorithmPropertyType.StringArray)]
 		public List<string> BlockSize { get; set; }
 	}
 }

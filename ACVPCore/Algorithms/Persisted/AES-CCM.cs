@@ -1,24 +1,25 @@
-﻿using ACVPCore.Models.Capabilities;
+﻿using System.Collections.Generic;
+using ACVPCore.Algorithms.DataTypes;
 
 namespace ACVPCore.Algorithms.Persisted
 {
-	public class AES_CCM : AlgorithmBase
+	public class AES_CCM : PersistedAlgorithmBase
 	{
 
-		[Property("key")]
-		public NumericArrayCapability KeyLength { get; set; }
+		[AlgorithmProperty(Name = "key", Type = AlgorithmPropertyType.NumberArray)]
+		public List<long> KeyLength { get; set; }
 
-		[Property("tag")]
-		public NumericArrayCapability TagLength { get; set; }
+		[AlgorithmProperty(Name = "tag", Type = AlgorithmPropertyType.NumberArray)]
+		public List<long> TagLength { get; set; }
 
-		[Property("iv")]
-		public NumericArrayCapability IVLength { get; set; }
+		[AlgorithmProperty(Name = "iv", Type = AlgorithmPropertyType.NumberArray)]
+		public List<long> IVLength { get; set; }
 
-		[Property("pt")]
-		public DomainCapability PayloadLength { get; set; }
+		[AlgorithmProperty(Name = "pt", Type = AlgorithmPropertyType.Domain)]
+		public Domain PayloadLength { get; set; }
 
-		[Property("aad")]
-		public DomainCapability AADLength { get; set; }
+		[AlgorithmProperty(Name = "aad", Type = AlgorithmPropertyType.Domain)]
+		public Domain AADLength { get; set; }
 
 		public AES_CCM()
 		{
@@ -27,11 +28,11 @@ namespace ACVPCore.Algorithms.Persisted
 
 		public AES_CCM(ACVPCore.Algorithms.External.AES_CCM external) : this()
 		{
-			KeyLength = CreateNumericArrayCapability(external.KeyLength);
-			TagLength = CreateNumericArrayCapability(external.TagLength);
-			IVLength = CreateNumericArrayCapability(external.IVLength);
-			PayloadLength = CreateDomainCapability(external.PayloadLength);
-			AADLength = CreateDomainCapability(external.AADLength);
+			KeyLength = external.KeyLength;
+			TagLength = external.TagLength;
+			IVLength = external.IVLength;
+			PayloadLength = external.PayloadLength;
+			AADLength = external.AADLength;
 		}
 	}
 }

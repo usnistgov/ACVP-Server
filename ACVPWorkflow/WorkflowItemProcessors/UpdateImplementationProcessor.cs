@@ -21,7 +21,7 @@ namespace ACVPWorkflow.WorkflowItemProcessors
 
 		public void Approve(WorkflowItem workflowItem)
 		{
-			ImplementationUpdateParameters parameters = JsonSerializer.Deserialize<ImplementationUpdatePayload>(workflowItem.JSON).ToImplementationUpdateParameters();
+			ImplementationUpdateParameters parameters = ((ImplementationUpdatePayload)workflowItem.Payload).ToImplementationUpdateParameters();
 
 			//Update it
 			ImplementationResult implementationUpdateResult = _implementationService.Update(parameters);

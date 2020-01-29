@@ -25,8 +25,8 @@ namespace ACVPCore.Providers
 			{
 				db.ExecuteProcedure("val.ScenarioOEInsert", inParams: new
 				{
-					ScenarioID = scenarioID,
-					OEID = oeID
+					ScenarioId = scenarioID,
+					OEId = oeID
 				});
 
 				//No ID on these records, so don't try to return one

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Text.Json;
 using ACVPCore.Models.Parameters;
 using ACVPCore.Results;
 using ACVPCore.Services;
@@ -22,7 +21,7 @@ namespace ACVPWorkflow.WorkflowItemProcessors
 		public void Approve(WorkflowItem workflowItem)
 		{
 			//Deserialize the JSON
-			DeleteParameters deleteParameters = JsonSerializer.Deserialize<DeletePayload>(workflowItem.JSON).ToDeleteParameters();
+			DeleteParameters deleteParameters = ((DeletePayload)workflowItem.Payload).ToDeleteParameters();
 
 			//Delete that dependency - will fail if dependency is in use
 			DeleteResult deleteResult = _dependencyService.Delete(deleteParameters.ID);

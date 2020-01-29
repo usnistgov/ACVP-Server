@@ -21,7 +21,7 @@ namespace ACVPWorkflow.WorkflowItemProcessors
 
 		public void Approve(WorkflowItem workflowItem)
 		{
-			PersonCreateParameters parameters = JsonSerializer.Deserialize<PersonCreatePayload>(workflowItem.JSON).ToPersonCreateParameters();
+			PersonCreateParameters parameters = ((PersonCreatePayload)workflowItem.Payload).ToPersonCreateParameters();
 
 			//Create it
 			PersonResult personCreateResult = _personService.Create(parameters);

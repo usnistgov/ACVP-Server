@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ACVPCore.Models.Capabilities
+﻿namespace ACVPCore.Algorithms.Persisted
 {
-	public enum DatabaseCapabilityType
+	public enum AlgorithmPropertyType
 	{
 		String,
 		Number,

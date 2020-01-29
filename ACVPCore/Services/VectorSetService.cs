@@ -19,6 +19,8 @@ namespace ACVPCore.Services
 		{
 			//Cancel the vector set
 			return _vectorSetProvider.Cancel(vectorSetID);
+
+			//TODO - Potentially update the Test Session status - if this was the last non-passed vector set, then the test session passes
 		}
 
 		public Result Create(long vectorSetID, long testSessionID, string generatorVersion, long algorithmID, string capabilities)

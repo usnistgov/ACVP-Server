@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace ACVPCore.Algorithms.External
 {
-	public class AES_CBC : : AlgorithmBase, IExternalAlgorithm
+	public class AES_CBC : AlgorithmBase, IExternalAlgorithm
 	{
 		[JsonPropertyName("direction")]
 		public List<string> Direction { get; set; }

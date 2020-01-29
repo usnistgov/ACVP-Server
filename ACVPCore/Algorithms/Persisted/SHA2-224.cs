@@ -1,10 +1,15 @@
-﻿using ACVPCore.Models.Capabilities;
+﻿using System.Collections.Generic;
+using ACVPCore.Algorithms.DataTypes;
 
 namespace ACVPCore.Algorithms.Persisted
 {
-	public class SHA2_224 : AlgorithmBase
+	public class SHA2_224 : PersistedAlgorithmBase
 	{
-		public DomainCapability MessageLength { get; set; }
+		[AlgorithmProperty(Name = "digestSize", Type = AlgorithmPropertyType.StringArray)]
+		public List<string> DigestSize { get; set; }
+
+		[AlgorithmProperty(Name = "key", Type = AlgorithmPropertyType.NumberArray)]
+		public Domain MessageLength { get; set; }
 
 		public SHA2_224()
 		{
@@ -13,7 +18,8 @@ namespace ACVPCore.Algorithms.Persisted
 
 		public SHA2_224(ACVPCore.Algorithms.External.SHA2_224 external) : this()
 		{
-			MessageLength = CreateDomainCapability(external.MessageLength);
+			MessageLength = external.MessageLength;
+			DigestSize = new List<string> { "224" };
 		}
 	}
 }

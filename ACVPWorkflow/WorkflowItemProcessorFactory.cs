@@ -37,8 +37,8 @@ namespace ACVPWorkflow
 			APIAction.CreateImplementation => new CreateImplementationProcessor(_implementationService, _workflowService),
 			APIAction.UpdateImplementation => new UpdateImplementationProcessor(_implementationService, _workflowService),
 			APIAction.DeleteImplementation => new DeleteImplementationProcessor(_implementationService, _workflowService),
-			APIAction.CreateOE => new CreateOEProcessor(_oeService, _workflowService),
-			APIAction.UpdateOE => new UpdateOEProcessor(_oeService, _workflowService),
+			APIAction.CreateOE => new CreateOEProcessor(_oeService, _dependencyService, _workflowService),
+			APIAction.UpdateOE => new UpdateOEProcessor(_oeService, _dependencyService, _workflowService),
 			APIAction.DeleteOE => new DeleteOEProcessor(_oeService, _workflowService),
 			APIAction.CreatePerson => new CreatePersonProcessor(_personService, _workflowService),
 			APIAction.UpdatePerson => new UpdatePersonProcessor(_personService, _workflowService),
@@ -46,7 +46,7 @@ namespace ACVPWorkflow
 			APIAction.CreateVendor => new CreateOrganizationProcessor(_organizationService, _workflowService),
 			APIAction.UpdateVendor => new UpdateOrganizationProcessor(_organizationService, _workflowService),
 			APIAction.DeleteVendor => new DeleteOrganizationProcessor(_organizationService, _workflowService),
-			APIAction.CertifyTestSession => new CertifyTestSessionProcessor(_validationService, _testSessionService, _vectorSetService, _workflowService),
+			APIAction.CertifyTestSession => new CertifyTestSessionProcessor(_validationService, _testSessionService, _vectorSetService, _dependencyService, _oeService, _implementationService, _workflowService),
 			_ => null
 		};
 	}

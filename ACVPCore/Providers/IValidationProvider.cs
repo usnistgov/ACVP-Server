@@ -9,5 +9,6 @@ namespace ACVPCore.Providers
 		InsertResult Insert(ValidationSource validationSource, long validationNumber, long implementationID);
 		long GetNextACVPValidationNumber();
 		long GetNextLCAVPValidationNumber();
+		Result ValidationTestSessionInsert(long validationID, long testSessionID);
 	}
 }

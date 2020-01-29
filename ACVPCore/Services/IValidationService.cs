@@ -1,19 +1,22 @@
 ﻿using System.Collections.Generic;
-using ACVPCore.Models.ProtoModels;
+using ACVPCore.Algorithms.External;
 using ACVPCore.Results;
 
 namespace ACVPCore.Services
 {
 	public interface IValidationService
 	{
-		InsertResult Create(long implementationID, bool isLCAVP = false);
+		InsertResult Create(ValidationSource validationSource, long implementationID);
+		InsertResult CreateScenario(long validationID, long oeID);
 		long GetLatestACVPValidationForImplementation(long implementationID);
+		long GetScenarioIDForValidationOE(long validationID, long oeID);
 		List<(long ValidationID, int ValidationSource)> GetValidationsForImplementation(long implementationID);
+		List<(long ScenarioAlgorithmID, long AlgorithmID)> GetScenarioAlgorithms(long scenarioID);
+		void DeleteScenarioAlgorithm(long scenarioAlgorithmID);
 		long GetValidationNumber(ValidationSource validationSource);
-		long FindMatchingScenario(long validationID, List<ScenarioAlgorithm> scenarioAlgorithms);
-		InsertResult AddScenarioToValidation(long validationID);
-		Result AddOEToScenario(long scenarioID, long oeID);
-
+		InsertResult AddScenarioAlgorithm(long scenarioID, long algorithmID);
+		void PersistCapabilities(long algorithmID, long scenarioAlgorithmID, IExternalAlgorithm externalAlgorithm);
+		Result LogValidationTestSession(long validationID, long testSessionID);
 
 	}
 }

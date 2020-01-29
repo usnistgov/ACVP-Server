@@ -24,14 +24,14 @@ namespace ACVPCore.Providers
 
 			try
 			{
-				var data = db.SingleFromProcedure("val.ValidationRecordInsert", inParams: new
+				var data = db.SingleFromProcedure("val.ValidationInsert", inParams: new
 				{
-					ImplmenentationId = implementationID,
+					ImplementationId = implementationID,
 					SourceId = validationSource,             //TODO - Once LCAVP goes away hardcode this to ACVP maybe
 					ValidationNumber = validationNumber
 				});
 
-				return new InsertResult(data.ValidationRecordId);
+				return new InsertResult(data.ValidationId);
 			}
 			catch (Exception ex)
 			{
@@ -54,7 +54,7 @@ namespace ACVPCore.Providers
 
 				foreach (var validation in data)
 				{
-					validations.Add((validation.ValidationRecordId, validation.SourceId));
+					validations.Add((validation.ValidationId, validation.SourceId));
 				}
 			}
 			catch (Exception ex)
@@ -96,6 +96,27 @@ namespace ACVPCore.Providers
 			{
 				_logger.LogError(ex.Message);
 				return -1;
+			}
+		}
+
+		public Result ValidationTestSessionInsert(long validationID, long testSessionID)
+		{
+			var db = new MightyOrm(_acvpConnectionString);
+
+			try
+			{
+				var data = db.ExecuteProcedure("val.ValidationTestSessionsInsert", inParams: new
+				{
+					ValidationId = validationID,
+					TestSessionId = testSessionID
+				});
+
+				return new Result();
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex.Message);
+				return new InsertResult(ex.Message);
 			}
 		}
 

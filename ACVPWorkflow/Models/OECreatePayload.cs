@@ -4,7 +4,7 @@ using ACVPCore.Models.Parameters;
 
 namespace ACVPWorkflow.Models
 {
-	public class OECreatePayload : BasePayload
+	public class OECreatePayload : BasePayload, IWorkflowItemPayload
 	{
 		[JsonPropertyName("id")]
 		public long ID { get => -1; }
@@ -23,6 +23,9 @@ namespace ACVPWorkflow.Models
 
 		[JsonPropertyName("dependencyUrls")]
 		public List<string> DependencyURLs { get; set; }
+
+		[JsonPropertyName("dependencies")]
+		public List<DependencyCreatePayload> DependenciesToCreate { get; set; }
 
 		public OECreateParameters ToOECreateParameters() => new OECreateParameters
 		{

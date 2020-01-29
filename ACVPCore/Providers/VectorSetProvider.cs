@@ -94,7 +94,7 @@ namespace ACVPCore.Providers
 
 			try
 			{
-				var data = db.ExecuteProcedure("acvp.VectorSetsForTestSessionGet", inParams: new
+				var data = db.QueryFromProcedure("acvp.VectorSetsForTestSessionGet", inParams: new
 				{
 					TestSessionId = testSessionID
 				});

@@ -5,7 +5,7 @@ using ACVPCore.Models.Parameters;
 
 namespace ACVPWorkflow.Models
 {
-	public class OrganizationUpdatePayload : BasePayload
+	public class OrganizationUpdatePayload : BasePayload, IWorkflowItemPayload
 	{
 		private string _name;
 		private string _website;

@@ -21,7 +21,7 @@ namespace ACVPWorkflow.WorkflowItemProcessors
 
 		public void Approve(WorkflowItem workflowItem)
 		{
-			OrganizationUpdateParameters parameters = JsonSerializer.Deserialize<OrganizationUpdatePayload>(workflowItem.JSON).ToOrganizationUpdateParameters();
+			OrganizationUpdateParameters parameters = ((OrganizationUpdatePayload)workflowItem.Payload).ToOrganizationUpdateParameters();
 
 			//Update it
 			OrganizationResult organizationUpdateResult = _organizationService.Update(parameters);

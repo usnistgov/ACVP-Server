@@ -2,7 +2,7 @@
 {
 	public enum ValidationSource
 	{
-		ACVP = 0,
+		ACVP = 1,
 		AES = 2,
 		CCM = 3,
 		Component = 4,
@@ -15,7 +15,7 @@
 		KDF = 11,
 		RNG = 12,
 		RSA = 13,
-		SHA-3 = 14,
+		SHA_3 = 14,
 		SHS = 15,
 		Skipjack = 16,
 		TDES = 17,

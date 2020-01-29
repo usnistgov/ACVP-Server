@@ -46,6 +46,7 @@ namespace ACVPCore.Algorithms.DataTypes
 
 		public override void Write(Utf8JsonWriter writer, Domain value, JsonSerializerOptions options)
 		{
+			//Not implementing this because not using it, yet
 			throw new NotImplementedException();
 		}
 	}

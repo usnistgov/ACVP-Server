@@ -4,10 +4,11 @@ using ACVPCore.Models.Parameters;
 
 namespace ACVPWorkflow.Models
 {
-	public class OEUpdatePayload : BasePayload
+	public class OEUpdatePayload : BasePayload, IWorkflowItemPayload
 	{
 		private string _name;
 		private List<string> _dependencyUrls;
+		private List<DependencyCreatePayload> _dependenciesToCreate;
 
 		[JsonPropertyName("id")]
 		public long ID { get; set; }
@@ -29,11 +30,22 @@ namespace ACVPWorkflow.Models
 
 		[JsonPropertyName("dependencyUrls")]
 		public List<string> DependencyURLs
-	{
+		{
 			get => _dependencyUrls;
 			set
 			{
 				_dependencyUrls = value;
+				DependenciesUpdated = true;
+			}
+		}
+
+		[JsonPropertyName("dependencies")]
+		public List<DependencyCreatePayload> DependenciesToCreate
+		{
+			get => _dependenciesToCreate;
+			set
+			{
+				_dependenciesToCreate = value;
 				DependenciesUpdated = true;
 			}
 		}

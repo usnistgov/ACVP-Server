@@ -12,16 +12,35 @@ namespace ACVPWorkflow.WorkflowItemProcessors
 	{
 		private readonly IOEService _oeService;
 		private readonly IWorkflowService _workflowService;
+		private readonly IDependencyService _dependencyService;
 
-		public CreateOEProcessor(IOEService oeService, IWorkflowService workflowService)
+		public CreateOEProcessor(IOEService oeService, IDependencyService dependencyService, IWorkflowService workflowService)
 		{
 			_oeService = oeService;
+			_dependencyService = dependencyService;
 			_workflowService = workflowService;
 		}
 
 		public void Approve(WorkflowItem workflowItem)
 		{
-			OECreateParameters parameters = JsonSerializer.Deserialize<OECreatePayload>(workflowItem.JSON).ToOECreateParameters();
+			OECreatePayload oeCreatePayload = (OECreatePayload)workflowItem.Payload;
+			OECreateParameters parameters = oeCreatePayload.ToOECreateParameters();
+
+			//If there were any new Dependencies in the OE, instead of just URLs, create those and add them to the collection of dependency IDs
+			foreach (DependencyCreatePayload dependencyCreatePayload in oeCreatePayload.DependenciesToCreate)
+			{
+				//Convert from a payload to parameters
+				DependencyCreateParameters dependencyCreateParameters = dependencyCreatePayload.ToDependencyCreateParameters();
+
+				//Create it
+				DependencyResult dependencyCreateResult = _dependencyService.Create(dependencyCreateParameters);
+
+				//Add it to the dependency list
+				if (dependencyCreateResult.IsSuccess)
+				{
+					parameters.DependencyIDs.Add(dependencyCreateResult.ID);
+				}
+			}
 
 			//Create it
 			OEResult oeCreateResult = _oeService.Create(parameters);

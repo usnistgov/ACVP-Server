@@ -38,29 +38,25 @@ namespace ACVPCore.Providers
 			}
 		}
 
-		public List<long> GetScenarioIDsForValidation(long validationID)
+		public long GetScenarioIDForValidationOE(long validationID, long oeID)
 		{
 			var db = new MightyOrm(_acvpConnectionString);
 
-			List<long> scenarioIDs = new List<long>();
 			try
 			{
-				var data = db.QueryFromProcedure("val.ScenariosForValidationGet", inParams: new
+				var data = db.SingleFromProcedure("val.ScenariosForValidationOEGet", inParams: new
 				{
-					ValidationId = validationID
+					ValidationId = validationID, 
+					OEId = oeID
 				});
 
-				foreach (var scenario in data)
-				{
-					scenarioIDs.Add(scenario.ScenarioId);
-				}
+				return data == null ? 0 : data.ScenarioId;
 			}
 			catch (Exception ex)
 			{
-				_logger.LogError(ex.Message);
+				_logger.LogError(ex, null);
+				return 0;
 			}
-
-			return scenarioIDs;
 		}
 	}
 }

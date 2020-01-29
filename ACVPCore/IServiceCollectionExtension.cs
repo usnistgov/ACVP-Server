@@ -32,6 +32,12 @@ namespace ACVPCore
 			services.AddSingleton<IScenarioAlgorithmProvider, ScenarioAlgorithmProvider>();
 			services.AddSingleton<IScenarioOEProvider, ScenarioOEProvider>();
 			services.AddSingleton<IScenarioProvider, ScenarioProvider>();
+			services.AddSingleton<IAlgorithmService, AlgorithmService>();
+			services.AddSingleton<IAlgorithmProvider, AlgorithmProvider>();
+			services.AddSingleton<ICapabilityService, CapabilityService>();
+			services.AddSingleton<ICapabilityProvider, CapabilityProvider>();
+			services.AddSingleton<IPropertyService, PropertyService>();
+			services.AddSingleton<IPropertyProvider, PropertyProvider>();
 			return services;
 		}
 	}

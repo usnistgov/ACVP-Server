@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text.Json;
 using ACVPWorkflow;
+using ACVPWorkflow.Models;
 using ACVPWorkflow.Results;
 using ACVPWorkflow.Services;
 using ACVPWorkflow.WorkflowItemProcessors;
@@ -12,12 +13,14 @@ namespace MessageQueueProcessor.MessageProcessors
 	{
 		private readonly IWorkflowService _workflowService;
 		private readonly IWorkflowItemProcessorFactory _workflowItemProcessorFactory;
+		private readonly IWorkflowItemPayloadFactory _workflowItemPayloadFactory;
 		private readonly Dictionary<APIAction, bool> _autoApproveConfiguration;
 
-		public RequestProcessor(IWorkflowService workflowService, IWorkflowItemProcessorFactory workflowItemProcessorFactory, Dictionary<APIAction, bool> autoApproveConfiguration)
+		public RequestProcessor(IWorkflowService workflowService, IWorkflowItemProcessorFactory workflowItemProcessorFactory, IWorkflowItemPayloadFactory workflowItemPayloadFactory, Dictionary<APIAction, bool> autoApproveConfiguration)
 		{
 			_workflowService = workflowService;
 			_workflowItemProcessorFactory = workflowItemProcessorFactory;
+			_workflowItemPayloadFactory = workflowItemPayloadFactory;
 			_autoApproveConfiguration = autoApproveConfiguration;
 		}
 
@@ -26,11 +29,14 @@ namespace MessageQueueProcessor.MessageProcessors
 			//Grab the action since it takes a little thinking to get it, and may use multiple times. In the future the message will contain this natively
 			APIAction apiAction = message.Action;
 
-			//Deserialize the payload
+			//Deserialize the request payload
 			RequestPayload requestPayload = JsonSerializer.Deserialize<RequestPayload>(message.Payload);
+			
+			//The Json element in this is actually a workflow payload, so jump through hoops to deserialize it
+			IWorkflowItemPayload workflowPayload = _workflowItemPayloadFactory.GetPayload(requestPayload.Json.GetRawText(), apiAction);
 
 			//Create the workflow item
-			WorkflowInsertResult workflowInsertResult = _workflowService.AddWorkflowItem(apiAction, requestPayload.RequestID, requestPayload.Json.ToString(), requestPayload.UserID);
+			WorkflowInsertResult workflowInsertResult = _workflowService.AddWorkflowItem(apiAction, requestPayload.RequestID, workflowPayload, requestPayload.UserID);
 
 			//Auto approve if configured to do so
 			if (workflowInsertResult.IsSuccess && _autoApproveConfiguration.GetValueOrDefault(apiAction))
@@ -40,7 +46,7 @@ namespace MessageQueueProcessor.MessageProcessors
 				{
 					WorkflowItemID = (long)workflowInsertResult.WorkflowID,
 					APIAction = apiAction,
-					JSON = requestPayload.Json.ToString()
+					Payload = workflowPayload
 				};
 
 				//Get the processor for this workflow item

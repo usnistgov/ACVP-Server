@@ -1,19 +1,22 @@
-﻿using ACVPWorkflow.Providers;
+﻿using ACVPWorkflow.Models;
+using ACVPWorkflow.Providers;
 using ACVPWorkflow.Results;
 
 namespace ACVPWorkflow.Services
 {
 	public class WorkflowService : IWorkflowService
 	{
-		IWorkflowProvider _workflowProvider;
-		IWorkflowContactProvider _workflowContactProvider;
-		IRequestProvider _requestProvider;
+		private readonly IWorkflowProvider _workflowProvider;
+		private readonly IWorkflowContactProvider _workflowContactProvider;
+		private readonly IRequestProvider _requestProvider;
+		private readonly IWorkflowItemPayloadFactory _workflowItemPayloadFactory;
 
-		public WorkflowService(IWorkflowProvider workflowProvider, IWorkflowContactProvider workflowContactProvider, IRequestProvider requestProvider)
+		public WorkflowService(IWorkflowProvider workflowProvider, IWorkflowContactProvider workflowContactProvider, IRequestProvider requestProvider, IWorkflowItemPayloadFactory workflowItemPayloadFactory)
 		{
 			_workflowProvider = workflowProvider;
 			_workflowContactProvider = workflowContactProvider;
 			_requestProvider = requestProvider;
+			_workflowItemPayloadFactory = workflowItemPayloadFactory;
 		}
 
 		public Result MarkApproved(long workflowItemID, long objectID)
@@ -30,7 +33,7 @@ namespace ACVPWorkflow.Services
 			return _workflowProvider.Update(workflowItemID, workflowStatus);
 		}
 
-		public WorkflowInsertResult AddWorkflowItem(APIAction apiAction, long requestID, string payload, long userID)
+		public WorkflowInsertResult AddWorkflowItem(APIAction apiAction, long requestID, IWorkflowItemPayload payload, long userID)
 		{
 			//Get the contact info to put on the workflow item - TODO - kill this sometime, replaced by the userID going on the record after LCAVP dies
 			WorkflowContact contact = BuildWorkflowContact(userID);
@@ -39,6 +42,7 @@ namespace ACVPWorkflow.Services
 			//Translate from the APIAction back to the legacy 2 part values
 			(WorkflowItemType workflowItemType, RequestAction requestAction) = apiAction switch
 			{
+				APIAction.CertifyTestSession => (WorkflowItemType.Validation, RequestAction.Create),
 				APIAction.CreateDependency => (WorkflowItemType.Dependency, RequestAction.Create),
 				APIAction.CreateImplementation => (WorkflowItemType.Implementation, RequestAction.Create),
 				APIAction.CreateOE => (WorkflowItemType.OE, RequestAction.Create),
@@ -58,7 +62,8 @@ namespace ACVPWorkflow.Services
 			};
 
 			//Create the workflow item
-			var result = _workflowProvider.Insert(apiAction, workflowItemType, requestAction, userID, payload, contact.Lab, contact.Name, contact.Email);
+			string stringPayload = _workflowItemPayloadFactory.SerializePayload(payload);
+			var result = _workflowProvider.Insert(apiAction, workflowItemType, requestAction, userID, stringPayload, contact.Lab, contact.Name, contact.Email);
 
 			//If it was successful, create the request record that goes with this item
 			if (result.IsSuccess)

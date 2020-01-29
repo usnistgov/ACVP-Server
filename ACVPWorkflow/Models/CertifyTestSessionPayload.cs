@@ -4,7 +4,7 @@ using ACVPCore.Models.Parameters;
 
 namespace ACVPWorkflow.Models
 {
-	public class CertifyTestSessionPayload : BasePayload
+	public class CertifyTestSessionPayload : BasePayload, IWorkflowItemPayload
 	{
 		[JsonPropertyName("testSessionId")]
 		public long TestSessionID { get; set; }
@@ -12,8 +12,14 @@ namespace ACVPWorkflow.Models
 		[JsonPropertyName("productUrl")]
 		public string ImplementationURL { get; set; }
 
+		[JsonPropertyName("product")]
+		public ImplementationCreatePayload ImplementationToCreate { get; set; }
+
 		[JsonPropertyName("oeUrl")]
 		public string OEURL { get; set; }
+
+		[JsonPropertyName("oe")]
+		public OECreatePayload OEToCreate { get; set; }
 
 		[JsonPropertyName("certification")]
 		public PointlessWrapper ContainerForPrereqs { get; set; }       //TODO kill this thing when we redo the public side, this message is stupid
@@ -30,31 +36,33 @@ namespace ACVPWorkflow.Models
 			};
 
 			//Translate the prereqs. This is kind of a mess because the prereqs as implemented in the Java public stuff doesn't make much sense. It only allows things like C:123, A:456, and AES:789 as the "validationId"
-			foreach (var payloadAlgorithmPrerequisites in ContainerForPrereqs.AlgorithmPrerequisites)
+			if (ContainerForPrereqs != null)
 			{
-				var algorithmPrerequisites = new CertifyTestSessionParameters.AlgorithmPrerequisites
+				foreach (var payloadAlgorithmPrerequisites in ContainerForPrereqs.AlgorithmPrerequisites)
 				{
-					AlgorithmName = payloadAlgorithmPrerequisites.Algorithm,
-					AlgorithmMode = payloadAlgorithmPrerequisites.Mode,
-					ValidationReferences = new List<CertifyTestSessionParameters.ValidationReference>()
-				};
-
-				foreach (var validationReference in payloadAlgorithmPrerequisites.ValidationReferences)
-				{
-					var splitValidationID = validationReference.ValidationID.Split(":");
-
-					algorithmPrerequisites.ValidationReferences.Add(new CertifyTestSessionParameters.ValidationReference
+					var algorithmPrerequisites = new CertifyTestSessionParameters.AlgorithmPrerequisites
 					{
-						AlgorithmFamily = validationReference.Algorithm,
-						ValidationSource = splitValidationID[0],
-						ValidationNumber = long.Parse(splitValidationID[1])	
-					});
+						AlgorithmName = payloadAlgorithmPrerequisites.Algorithm,
+						AlgorithmMode = payloadAlgorithmPrerequisites.Mode,
+						ValidationReferences = new List<CertifyTestSessionParameters.ValidationReference>()
+					};
+
+					foreach (var validationReference in payloadAlgorithmPrerequisites.ValidationReferences)
+					{
+						var splitValidationID = validationReference.ValidationID.Split(":");
+
+						algorithmPrerequisites.ValidationReferences.Add(new CertifyTestSessionParameters.ValidationReference
+						{
+							AlgorithmFamily = validationReference.Algorithm,
+							ValidationSource = splitValidationID[0],
+							ValidationNumber = long.Parse(splitValidationID[1])
+						});
+					}
+
+					//Finally can add 
+					certifyTestSessionParameters.Prerequisites.Add(algorithmPrerequisites);
 				}
-
-				//Finally can add 
-				certifyTestSessionParameters.Prerequisites.Add(algorithmPrerequisites);
 			}
-
 
 			return certifyTestSessionParameters;
 		}

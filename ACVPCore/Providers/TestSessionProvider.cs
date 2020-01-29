@@ -94,7 +94,7 @@ namespace ACVPCore.Providers
 
 			try
 			{
-				db.ExecuteProcedure("acvp.TestSessionStatusUpdate @0", inParams: new
+				db.ExecuteProcedure("acvp.TestSessionStatusUpdate", inParams: new
 				{
 					TestSessionId = testSessionID,
 					TestSessionStatusId = testSessionStatus

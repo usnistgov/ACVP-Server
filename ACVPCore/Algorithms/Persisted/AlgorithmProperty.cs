@@ -1,14 +1,13 @@
 ﻿using System;
-using ACVPCore.Models.Capabilities;
 
 namespace ACVPCore.Algorithms.Persisted
 {
 	[System.AttributeUsage(AttributeTargets.Property)]
-	public sealed class Property : Attribute
+	public sealed class AlgorithmProperty : Attribute
 	{
 		public string Name { get; set; }
 
-		public DatabaseCapabilityType Type { get; set; }
+		public AlgorithmPropertyType Type { get; set; }
 
 		public string DefaultValue { get; set; }
 

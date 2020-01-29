@@ -21,7 +21,7 @@ namespace ACVPWorkflow.WorkflowItemProcessors
 
 		public void Approve(WorkflowItem workflowItem)
 		{
-			DependencyUpdateParameters parameters = JsonSerializer.Deserialize<DependencyUpdatePayload>(workflowItem.JSON).ToDependencyUpdateParameters();
+			DependencyUpdateParameters parameters = ((DependencyUpdatePayload)workflowItem.Payload).ToDependencyUpdateParameters();
 
 			//Update it
 			DependencyResult dependencyUpdateResult = _dependencyService.Update(parameters);

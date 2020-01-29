@@ -21,7 +21,7 @@ namespace ACVPWorkflow.WorkflowItemProcessors
 
 		public void Approve(WorkflowItem workflowItem)
 		{
-			OrganizationCreateParameters parameters = JsonSerializer.Deserialize<OrganizationCreatePayload>(workflowItem.JSON).ToOrganizationCreateParameters();
+			OrganizationCreateParameters parameters = ((OrganizationCreatePayload)workflowItem.Payload).ToOrganizationCreateParameters();
 
 			//Create it
 			OrganizationResult organizationCreateResult = _organizationService.Create(parameters);

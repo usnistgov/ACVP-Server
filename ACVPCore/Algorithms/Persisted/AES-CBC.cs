@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using ACVPCore.Models.Capabilities;
+﻿using System.Collections.Generic;
 
 namespace ACVPCore.Algorithms.Persisted
 {
-	public class AES_CBC : AlgorithmBase
+	public class AES_CBC : PersistedAlgorithmBase
 	{
-		[Property("direction")]
-		public StringArrayCapability Direction { get; set; }
+		[AlgorithmProperty(Name = "direction", Type = AlgorithmPropertyType.StringArray)]
+		public List<string> Direction { get; set; }
 
-		[Property("key")]
-		public NumericArrayCapability KeyLength { get; set; }
+		[AlgorithmProperty(Name = "key", Type = AlgorithmPropertyType.NumberArray)]
+		public List<long> KeyLength { get; set; }
 
 		public AES_CBC()
 		{
@@ -20,8 +17,8 @@ namespace ACVPCore.Algorithms.Persisted
 
 		public AES_CBC(ACVPCore.Algorithms.External.AES_CBC external) : this()
 		{
-			Direction = CreateStringArrayCapability(external.Direction);
-			KeyLength = CreateNumericArrayCapability(external.KeyLength);
+			Direction = external.Direction;
+			KeyLength = external.KeyLength;
 		}
 	}
 }

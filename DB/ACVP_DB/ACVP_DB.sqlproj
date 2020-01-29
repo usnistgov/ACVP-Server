@@ -188,8 +188,6 @@
     <Build Include="csrc\Views\VALIDATION_SOURCE.sql" />
     <Build Include="dbo\Functions\DecryptNvarchar.sql" />
     <Build Include="dbo\Functions\DelimitedListToTable.sql" />
-    <Build Include="dbo\Functions\MonthPeriods.sql" />
-    <Build Include="dbo\Functions\ReportingYearPeriods.sql" />
     <Build Include="acvp\Stored Procedures\spSetVectorSetData.sql">
       <AnsiNulls>Off</AnsiNulls>
     </Build>
@@ -302,6 +300,24 @@
     <Build Include="acvp\Stored Procedures\VectorSetsForTestSessionGet.sql" />
     <Build Include="ref\Stored Procedures\AlgorithmIDByNameAndModeGet.sql" />
     <Build Include="val\Stored Procedures\CapabilitiesForScenarioAlgorithmGet.sql" />
+    <Build Include="val\Stored Procedures\CapabilitiesForScenarioAlgorithmDelete.sql" />
+    <Build Include="val\Stored Procedures\ScenarioAlgorithmDelete.sql" />
+    <Build Include="ref\Stored Procedures\AlgorithmsGet.sql" />
+    <Build Include="val\Stored Procedures\CapabilityInsert.sql" />
+    <Build Include="ref\Stored Procedures\PropertiesGet.sql" />
+    <Build Include="val\Stored Procedures\ScenarioAlgorithmInsert.sql" />
+    <Build Include="val\Stored Procedures\ScenarioAlgorithmsForScenarioGet.sql" />
+    <Build Include="val\Stored Procedures\ScenarioOEInsert.sql" />
+    <Build Include="val\Stored Procedures\ScenarioInsert.sql" />
+    <Build Include="acvp\Stored Procedures\TestSessionStatusUpdate.sql" />
+    <Build Include="val\Stored Procedures\ValidationInsert.sql" />
+    <Build Include="val\Stored Procedures\ValidationsForImplementationGet.sql" />
+    <Build Include="val\Stored Procedures\NextACVPValidationNumberGet.sql" />
+    <Build Include="val\Stored Procedures\NextLCAVPValidationNumberGet.sql" />
+    <Build Include="acvp\Stored Procedures\VectorSetExpectedResultsCapabilitiesGet.sql" />
+    <Build Include="val\Tables\ValidationTestSessions.sql" />
+    <Build Include="val\Stored Procedures\ValidationTestSessionsInsert.sql" />
+    <Build Include="val\Stored Procedures\ScenariosForValidationOEGet.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="ACVP_DB.refactorlog" />

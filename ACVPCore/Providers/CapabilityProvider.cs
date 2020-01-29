@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using ACVPCore.Models.Capabilities;
+using ACVPCore.Algorithms.Persisted;
 using ACVPCore.Results;
 using CVP.DatabaseInterface;
 using Microsoft.Extensions.Logging;
@@ -19,7 +19,24 @@ namespace ACVPCore.Providers
 			_logger = logger;
 		}
 
-		public InsertResult Insert(long scenarioAlgorithmID, long propertyID, long? rootCapabilityID, long? parentCapabilityID, int level, DatabaseCapabilityType type, int? orderIndex, bool historical, string stringValue, long? numberValue, bool? booleanValue)
+		public Result DeleteAllForScenarioAlgorithm(long scenarioAlgorithmID)
+		{
+			var db = new MightyOrm(_acvpConnectionString);
+
+			try
+			{
+				db.Execute("val.CapabilitiesForScenarioAlgorithmDelete @0", scenarioAlgorithmID);
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex.Message);
+				return new Result(ex.Message);
+			}
+
+			return new Result();
+		}
+
+		public InsertResult Insert(long scenarioAlgorithmID, long propertyID, long? rootCapabilityID, long? parentCapabilityID, int level, AlgorithmPropertyType type, int? orderIndex, bool historical, string stringValue, long? numberValue, bool? booleanValue)
 		{
 			var db = new MightyOrm(_acvpConnectionString);
 
@@ -49,75 +66,39 @@ namespace ACVPCore.Providers
 			}
 		}
 
-		public List<RawCapability> GetRawCapabilitiesForScenarioAlgorithm(long scenarioAlgorithmID)
+		public static AlgorithmPropertyType ToCapabilityType(string value) => value switch
 		{
-			var db = new MightyOrm(_acvpConnectionString);
-
-			List<RawCapability> rawCapabilities = new List<RawCapability>();
-			try
-			{
-				var data = db.QueryFromProcedure("val.CapabilitiesForScenarioAlgorithmGet", inParams: new
-				{
-					ScenarioAlgorithmId = scenarioAlgorithmID
-				});
-
-				foreach (var rawCapability in data)
-				{
-					rawCapabilities.Add(new RawCapability
-					{
-						ID = rawCapability.CapabilityId,
-						ParentCapabilityID = rawCapability.ParentCapabilityId,
-						RootCapabilityID = rawCapability.RootCapabilityId,
-						PropertyID = rawCapability.PropertyId,
-						CapabilityType = ToCapabilityType(rawCapability.CapabilityType),
-						Level = rawCapability.Level,
-						OrderIndex = rawCapability.OrderIndex,
-						StringValue = rawCapability.StringValue,
-						NumberValue = rawCapability.NumberValue,
-						BooleanValue = rawCapability.BooleanValue
-					});
-				}
-			}
-			catch (Exception ex)
-			{
-				_logger.LogError(ex.Message);
-			}
-
-			return rawCapabilities;
-		}
-
-		public static DatabaseCapabilityType ToCapabilityType(string value) => value switch
-		{
-			"AB" => DatabaseCapabilityType.BooleanArray,
-			"AC" => DatabaseCapabilityType.CompositeArray,
-			"AL" => DatabaseCapabilityType.LongArray,
-			"AN" => DatabaseCapabilityType.NumberArray,
-			"AO:R" => DatabaseCapabilityType.RangeArray,
-			"AS" => DatabaseCapabilityType.StringArray,
-			"B" => DatabaseCapabilityType.Boolean,
-			"C" => DatabaseCapabilityType.Composite,
-			"L" => DatabaseCapabilityType.Long,
-			"N" => DatabaseCapabilityType.Number,
-			"O:D" => DatabaseCapabilityType.Domain,
-			"S" => DatabaseCapabilityType.String
+			"AB" => AlgorithmPropertyType.BooleanArray,
+			"AC" => AlgorithmPropertyType.CompositeArray,
+			"AL" => AlgorithmPropertyType.LongArray,
+			"AN" => AlgorithmPropertyType.NumberArray,
+			"AO:R" => AlgorithmPropertyType.RangeArray,
+			"AS" => AlgorithmPropertyType.StringArray,
+			"B" => AlgorithmPropertyType.Boolean,
+			"C" => AlgorithmPropertyType.Composite,
+			"L" => AlgorithmPropertyType.Long,
+			"N" => AlgorithmPropertyType.Number,
+			"O:D" => AlgorithmPropertyType.Domain,
+			"S" => AlgorithmPropertyType.String,
+			_ => AlgorithmPropertyType.Boolean		//Garbage and wrong, just to get rid of the warning
 		};
 
-		public static int ToCapabilityRecordTypeThatIsNowUseless(DatabaseCapabilityType type) => type switch
+		public static int ToCapabilityRecordTypeThatIsNowUseless(AlgorithmPropertyType type) => type switch
 		{
 			//This probably isn't even needed anymore, not quite sure how it was used before, not going to use it for anything now...
 			//The original types were PRIMITIVE, ARRAY, COMPOSITE, OBJECT
-			DatabaseCapabilityType.BooleanArray => 1,
-			DatabaseCapabilityType.CompositeArray => 1,
-			DatabaseCapabilityType.LongArray => 1,
-			DatabaseCapabilityType.NumberArray => 1,
-			DatabaseCapabilityType.RangeArray => 3,		//The O in AO:R beats the A, apparently
-			DatabaseCapabilityType.StringArray => 1,
-			DatabaseCapabilityType.Boolean => 0,
-			DatabaseCapabilityType.Composite => 2,
-			DatabaseCapabilityType.Long => 0,
-			DatabaseCapabilityType.Number => 0,
-			DatabaseCapabilityType.Domain => 3,
-			DatabaseCapabilityType.String => 0,
+			AlgorithmPropertyType.BooleanArray => 1,
+			AlgorithmPropertyType.CompositeArray => 1,
+			AlgorithmPropertyType.LongArray => 1,
+			AlgorithmPropertyType.NumberArray => 1,
+			AlgorithmPropertyType.RangeArray => 3,     //The O in AO:R beats the A, apparently
+			AlgorithmPropertyType.StringArray => 1,
+			AlgorithmPropertyType.Boolean => 0,
+			AlgorithmPropertyType.Composite => 2,
+			AlgorithmPropertyType.Long => 0,
+			AlgorithmPropertyType.Number => 0,
+			AlgorithmPropertyType.Domain => 3,
+			AlgorithmPropertyType.String => 0,
 			_ => -1 //Garbage, just to get rid of the warning
 		};
 

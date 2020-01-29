@@ -5,7 +5,7 @@ using ACVPCore.Models.Parameters;
 
 namespace ACVPWorkflow.Models
 {
-	public class OrganizationCreatePayload : BasePayload
+	public class OrganizationCreatePayload : BasePayload, IWorkflowItemPayload
 	{
 		[JsonPropertyName("id")]
 		public long ID { get => -1; }

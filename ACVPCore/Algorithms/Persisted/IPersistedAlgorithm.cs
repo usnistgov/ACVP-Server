@@ -6,6 +6,5 @@ namespace ACVPCore.Algorithms.Persisted
 {
 	public interface IPersistedAlgorithm
 	{
-		bool Persist();
 	}
 }
