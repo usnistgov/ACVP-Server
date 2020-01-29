@@ -13,11 +13,13 @@ namespace ACVPWorkflow.Providers
 	{
 		private readonly string _acvpConnectionString;
 		private readonly ILogger<WorkflowProvider> _logger;
+		private readonly IWorkflowItemPayloadFactory _workflowItemPayloadFactory;
 
-		public WorkflowProvider(IConnectionStringFactory connectionStringFactory, ILogger<WorkflowProvider> logger)
+		public WorkflowProvider(IConnectionStringFactory connectionStringFactory, ILogger<WorkflowProvider> logger, IWorkflowItemPayloadFactory workflowItemPayloadFactory)
 		{
 			_acvpConnectionString = connectionStringFactory.GetMightyConnectionString("ACVP");
 			_logger = logger;
+			_workflowItemPayloadFactory = workflowItemPayloadFactory;
 		}
 
 		public WorkflowInsertResult Insert(APIAction apiAction, WorkflowItemType workflowItemType, RequestAction action, long userID, string json, string labName, string contact, string email)
@@ -144,8 +146,8 @@ namespace ACVPWorkflow.Providers
 				
 				return new WorkflowItem()
 				{
-					APIAction = data.apiActionId == null ? APIAction.Unknown : (APIAction) data.apiActionId,
-					JSON = data.jsonBlob,
+					APIAction = (APIAction)data.apiActionId,
+					Payload = _workflowItemPayloadFactory.GetPayload(data.jsonBlob, (APIAction)data.apiActionId),
 					WorkflowItemID = workflowItemId
 				};
 			}

@@ -1,4 +1,5 @@
-﻿using ACVPCore.Providers;
+﻿using System.Collections.Generic;
+using ACVPCore.Providers;
 using ACVPCore.Results;
 
 namespace ACVPCore.Services
@@ -18,6 +19,8 @@ namespace ACVPCore.Services
 		{
 			//Cancel the vector set
 			return _vectorSetProvider.Cancel(vectorSetID);
+
+			//TODO - Potentially update the Test Session status - if this was the last non-passed vector set, then the test session passes
 		}
 
 		public Result Create(long vectorSetID, long testSessionID, string generatorVersion, long algorithmID, string capabilities)
@@ -45,5 +48,9 @@ namespace ACVPCore.Services
 		{
 			return _vectorSetProvider.UpdateStatus(vectorSetID, VectorSetStatus.Error, errorMessage);
 		}
+
+		public List<(long ID, long AlgorithmID, VectorSetStatus Status, string ErrorMessage)> GetVectorSetsForTestSession(long testSessionID) => _vectorSetProvider.GetVectorSetIDsForTestSession(testSessionID);
+
+		public string GetCapabilities(long vectorSetID) => _vectorSetExpectedResultsProvider.GetCapabilities(vectorSetID);
 	}
 }

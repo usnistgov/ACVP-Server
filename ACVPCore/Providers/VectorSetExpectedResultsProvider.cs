@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using ACVPCore.Results;
 using CVP.DatabaseInterface;
 using Microsoft.Extensions.Logging;
@@ -32,6 +33,27 @@ namespace ACVPCore.Providers
 			}
 
 			return new Result();
+		}
+
+		public string GetCapabilities(long vectorSetID)
+		{
+			var db = new MightyOrm(_acvpConnectionString);
+
+			try
+			{
+				var data = db.SingleFromProcedure("acvp.VectorSetExpectedResultsCapabilitiesGet", inParams: new
+				{
+					VectorSetId = vectorSetID
+				});
+
+				return Encoding.UTF8.GetString((byte[])data.Capabilities);
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex.Message);
+				return null;
+			}
+
 		}
 	}
 }

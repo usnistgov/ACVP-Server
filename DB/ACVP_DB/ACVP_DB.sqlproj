@@ -81,6 +81,7 @@
     <Folder Include="common\Stored Procedures\" />
     <Folder Include="Security\" />
     <Folder Include="val\Stored Procedures" />
+    <Folder Include="ref\Stored Procedures" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="val\Tables\PRODUCT_INFORMATION.sql" />
@@ -187,8 +188,6 @@
     <Build Include="csrc\Views\VALIDATION_SOURCE.sql" />
     <Build Include="dbo\Functions\DecryptNvarchar.sql" />
     <Build Include="dbo\Functions\DelimitedListToTable.sql" />
-    <Build Include="dbo\Functions\MonthPeriods.sql" />
-    <Build Include="dbo\Functions\ReportingYearPeriods.sql" />
     <Build Include="acvp\Stored Procedures\spSetVectorSetData.sql">
       <AnsiNulls>Off</AnsiNulls>
     </Build>
@@ -302,20 +301,39 @@
     <Build Include="acvp\Stored Procedures\TestSessionsGet.sql" />
     <Build Include="acvp\Stored Procedures\TestSessionGetById.sql" />
     <Build Include="val\Stored Procedures\DependenciesGet.sql" />
+    <Build Include="acvp\Stored Procedures\VectorSetsForTestSessionGet.sql" />
+    <Build Include="ref\Stored Procedures\AlgorithmIDByNameAndModeGet.sql" />
+    <Build Include="val\Stored Procedures\CapabilitiesForScenarioAlgorithmGet.sql" />
+    <Build Include="val\Stored Procedures\CapabilitiesForScenarioAlgorithmDelete.sql" />
+    <Build Include="val\Stored Procedures\ScenarioAlgorithmDelete.sql" />
+    <Build Include="ref\Stored Procedures\AlgorithmsGet.sql" />
+    <Build Include="val\Stored Procedures\CapabilityInsert.sql" />
+    <Build Include="ref\Stored Procedures\PropertiesGet.sql" />
+    <Build Include="val\Stored Procedures\ScenarioAlgorithmInsert.sql" />
+    <Build Include="val\Stored Procedures\ScenarioAlgorithmsForScenarioGet.sql" />
+    <Build Include="val\Stored Procedures\ScenarioOEInsert.sql" />
+    <Build Include="val\Stored Procedures\ScenarioInsert.sql" />
+    <Build Include="acvp\Stored Procedures\TestSessionStatusUpdate.sql" />
+    <Build Include="val\Stored Procedures\ValidationInsert.sql" />
+    <Build Include="val\Stored Procedures\ValidationsForImplementationGet.sql" />
+    <Build Include="val\Stored Procedures\NextACVPValidationNumberGet.sql" />
+    <Build Include="val\Stored Procedures\NextLCAVPValidationNumberGet.sql" />
+    <Build Include="acvp\Stored Procedures\VectorSetExpectedResultsCapabilitiesGet.sql" />
+    <Build Include="val\Tables\ValidationTestSessions.sql" />
+    <Build Include="val\Stored Procedures\ValidationTestSessionsInsert.sql" />
+    <Build Include="val\Stored Procedures\ScenariosForValidationOEGet.sql" />
+    <Build Include="acvp\Stored Procedures\CapabilitiesJsonGet.sql" />
+    <Build Include="acvp\Stored Procedures\ErrorPut.sql" />
+    <Build Include="acvp\Stored Procedures\PromptDataPut.sql" />
+    <Build Include="acvp\Stored Procedures\SubmittedJsonGet.sql" />
+    <Build Include="acvp\Stored Procedures\ValidationPut.sql" />
+    <Build Include="acvp\Tables\VectorSetJson.sql" />
+    <Build Include="common\Stored Procedures\TaskQueueDelete.sql" />
+    <Build Include="common\Stored Procedures\TaskQueueGet.sql" />
+    <Build Include="common\Stored Procedures\TaskQueueRestart.sql" />
+    <Build Include="common\Tables\TaskQueue.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="ACVP_DB.refactorlog" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="acvp\Stored Procedures\CapabilitiesJsonGet.sql" />
-    <Content Include="acvp\Stored Procedures\ErrorPut.sql" />
-    <Content Include="acvp\Stored Procedures\PromptDataPut.sql" />
-    <Content Include="acvp\Stored Procedures\SubmittedJsonGet.sql" />
-    <Content Include="acvp\Stored Procedures\ValidationPut.sql" />
-    <Content Include="acvp\Tables\VectorSetJson.sql" />
-    <Content Include="common\Stored Procedures\TaskQueueDelete.sql" />
-    <Content Include="common\Stored Procedures\TaskQueueGet.sql" />
-    <Content Include="common\Stored Procedures\TaskQueueRestart.sql" />
-    <Content Include="common\Tables\TaskQueue.sql" />
   </ItemGroup>
 </Project>
