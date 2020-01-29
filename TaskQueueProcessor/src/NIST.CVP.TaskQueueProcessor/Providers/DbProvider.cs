@@ -105,6 +105,7 @@ namespace NIST.CVP.TaskQueueProcessor.Providers
             RunCommand(ACVP_DB_NAME, StoredProcedures.UPDATE_IN_PROGRESS_TASK_TO_READY);
         }
 
+        // Only used when building the next task
         private string GetJson(long vsId, string jsonFileType)
         {
             var parameters = new List<(string, object)>
@@ -135,41 +136,6 @@ namespace NIST.CVP.TaskQueueProcessor.Providers
             };
 
             RunCommand(ACVP_DB_NAME, StoredProcedures.PUT_JSON, parameters);
-        }
-
-        public void PutPromptData(GenerationTask task)
-        {
-            var parameters = new List<(string, object)>
-            {
-                ("VsID", task.VsId),
-                ("Prompt", task.Prompt),
-                ("InternalProjection", task.InternalProjection),
-                ("ExpectedResults", task.ExpectedResults)
-            };
-            
-            RunCommand(ACVP_DB_NAME, StoredProcedures.PUT_ALL_PROMPT_DATA, parameters);
-        }
-
-        public void PutValidationData(ValidationTask task)
-        {
-            var parameters = new List<(string, object)>
-            {
-                ("VsID", task.VsId),
-                ("Validation", task.Validation),
-            };
-            
-            RunCommand(ACVP_DB_NAME, StoredProcedures.PUT_VALIDATION, parameters);
-        }
-
-        public void PutErrorData(ExecutableTask task)
-        {
-            var parameters = new List<(string, object)>
-            {
-                ("VsID", task.VsId),
-                ("Error", task.Error)
-            };
-            
-            RunCommand(ACVP_DB_NAME, StoredProcedures.PUT_ERROR, parameters);
         }
     }
 }
