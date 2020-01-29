@@ -20,7 +20,7 @@ namespace NIST.CVP.Common.Helpers
     /// </remarks>
     public static class EntryPointConfigHelper
     {
-        private const string SETTINGS_FILE = "appsettings";
+        private const string SETTINGS_FILE = "sharedappsettings";
         private const string SETTINGS_EXTENSION = "json";
 
         /// <summary>
