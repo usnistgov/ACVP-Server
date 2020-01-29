@@ -306,7 +306,6 @@
     <Build Include="acvp\Tables\VectorSetJson.sql" />
     <Build Include="acvp\Stored Procedures\VectorSetJsonPut.sql" />
     <Build Include="acvp\Stored Procedures\VectorSetJsonGet.sql" />
-    <Build Include="common\Tables\TaskQueue_1.sql" />
     <Build Include="acvp\Stored Procedures\TaskQueueGet.sql">
       <AnsiNulls>Off</AnsiNulls>
     </Build>
