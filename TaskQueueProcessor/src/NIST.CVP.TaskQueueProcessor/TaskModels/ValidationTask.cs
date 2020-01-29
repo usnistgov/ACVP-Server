@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.TaskQueueProcessor.Constants;
 using NIST.CVP.TaskQueueProcessor.Providers;
 
 namespace NIST.CVP.TaskQueueProcessor.TaskModels
@@ -25,13 +26,13 @@ namespace NIST.CVP.TaskQueueProcessor.TaskModels
             {
                 Console.WriteLine($"Success on vsId: {VsId}");
                 Validation = response.ValidationResult;
-                DbProvider.PutValidationData(this);
+                DbProvider.PutJson(VsId, JsonFileTypes.VALIDATION, Validation);
             }
             else
             {
                 Console.WriteLine($"Error on vsId: {VsId}");
                 Error = response.ErrorMessage;
-                DbProvider.PutErrorData(this);
+                DbProvider.PutJson(VsId, JsonFileTypes.ERROR, Error);
             }
 
             return Task.FromResult(response);

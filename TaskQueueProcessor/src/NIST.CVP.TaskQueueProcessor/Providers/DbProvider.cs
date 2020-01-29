@@ -79,10 +79,11 @@ namespace NIST.CVP.TaskQueueProcessor.Providers
             switch (task)
             {
                 case GenerationTask generationTask:
-                    GetCapabilities(generationTask);
+                    generationTask.Capabilities = GetJson(task.VsId, JsonFileTypes.CAPABILITIES);
                     break;
                 case ValidationTask validationTask:
-                    GetResponseData(validationTask);
+                    validationTask.SubmittedResults = GetJson(task.VsId, JsonFileTypes.SUBMITTED_RESULTS);
+                    validationTask.InternalProjection = GetJson(task.VsId, JsonFileTypes.INTERNAL_PROJECTION);
                     break;
             }
             
@@ -104,82 +105,38 @@ namespace NIST.CVP.TaskQueueProcessor.Providers
             RunCommand(ACVP_DB_NAME, StoredProcedures.UPDATE_IN_PROGRESS_TASK_TO_READY);
         }
 
-        private void GetCapabilities(GenerationTask task)
+        // Only used when building the next task
+        private string GetJson(int vsId, string jsonFileType)
         {
             var parameters = new List<(string, object)>
             {
-                ("VsID", task.VsId)
+                ("VsId", vsId),
+                ("JsonFileType", jsonFileType)
             };
 
-            var reader = RunCommandWithReader(ACVP_DB_NAME, StoredProcedures.GET_CAPABILITIES, parameters);
-            
-            if (reader.Read())
-            {
-                task.Capabilities = reader[0].ToString();
-            }
-            else
-            {
-                throw new Exception($"Capabilities could not be found for vsId: {task.VsId}");
-            }
+            var reader = RunCommandWithReader(ACVP_DB_NAME, StoredProcedures.GET_JSON, parameters);
 
+            if (!reader.Read())
+            {
+                throw new Exception($"No JSON found for vsId: {vsId}, jsonType: {jsonFileType}");
+            }            
+            
+            // 3rd element is the Content, could update the SQL Stored Procedure to only provide the actual JSON content because nothing else actually matters here
+            var returnContent = reader[2].ToString();
             reader.Close();
+            return returnContent;
         }
 
-        private void GetResponseData(ValidationTask task)
+        public void PutJson(int vsId, string jsonFileType, string jsonContent)
         {
             var parameters = new List<(string, object)>
             {
-                ("VsID", task.VsId)
+                ("VsId", vsId),
+                ("JsonFileType", jsonFileType),
+                ("Content", jsonContent)
             };
 
-            var reader = RunCommandWithReader(ACVP_DB_NAME, StoredProcedures.GET_SUBMITTED, parameters);
-
-            if (reader.Read())
-            {
-                task.SubmittedResults = reader[0].ToString();
-                task.InternalProjection = reader[1].ToString();
-            }
-            else
-            {
-                throw new Exception($"Response data could not be found for vsId: {task.VsId}");
-            }
-
-            reader.Close();
-        }
-
-        public void PutPromptData(GenerationTask task)
-        {
-            var parameters = new List<(string, object)>
-            {
-                ("VsID", task.VsId),
-                ("Prompt", task.Prompt),
-                ("InternalProjection", task.InternalProjection),
-                ("ExpectedResults", task.ExpectedResults)
-            };
-            
-            RunCommand(ACVP_DB_NAME, StoredProcedures.PUT_ALL_PROMPT_DATA, parameters);
-        }
-
-        public void PutValidationData(ValidationTask task)
-        {
-            var parameters = new List<(string, object)>
-            {
-                ("VsID", task.VsId),
-                ("Validation", task.Validation),
-            };
-            
-            RunCommand(ACVP_DB_NAME, StoredProcedures.PUT_VALIDATION, parameters);
-        }
-
-        public void PutErrorData(ExecutableTask task)
-        {
-            var parameters = new List<(string, object)>
-            {
-                ("VsID", task.VsId),
-                ("Error", task.Error)
-            };
-            
-            RunCommand(ACVP_DB_NAME, StoredProcedures.PUT_ERROR, parameters);
+            RunCommand(ACVP_DB_NAME, StoredProcedures.PUT_JSON, parameters);
         }
     }
 }

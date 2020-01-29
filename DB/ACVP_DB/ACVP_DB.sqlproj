@@ -332,6 +332,12 @@
     <Build Include="common\Stored Procedures\TaskQueueGet.sql" />
     <Build Include="common\Stored Procedures\TaskQueueRestart.sql" />
     <Build Include="common\Tables\TaskQueue.sql" />
+    <Build Include="common\Tables\JsonFileType.sql" />
+    <Build Include="acvp\Tables\VectorSetJson.sql" />
+    <Build Include="acvp\Stored Procedures\VectorSetJsonPut.sql" />
+    <Build Include="acvp\Stored Procedures\VectorSetJsonGet.sql" />
+    <Build Include="acvp\Stored Procedures\TaskQueueGet.sql" />
+    <Build Include="acvp\Stored Procedures\TaskQueueDelete.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="ACVP_DB.refactorlog" />

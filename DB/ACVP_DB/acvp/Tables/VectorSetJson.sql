@@ -1,12 +1,8 @@
-CREATE TABLE [acvp].[VectorSetJson](
-	[VsID] [int] NOT NULL,
-	[Capabilities] [varchar](max) NOT NULL,
-	[Prompt] [varchar](max) NULL,
-	[ExpectedResults] [varchar](max) NULL,
-	[SubmittedResults] [varchar](max) NULL,
-	[ValidationResults] [varchar](max) NULL,
-	[InternalProjection] [varchar](max) NULL,
-    [Error] [varchar](max) NULL,
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-GO
-
+﻿CREATE TABLE [acvp].[VectorSetJson] (
+    [VsId]      INT        NOT NULL,
+    [FileType]  BIGINT        NOT NULL,
+    [Content]   VARCHAR (MAX) NOT NULL,
+    [CreatedOn] DATETIME      NOT NULL,
+    PRIMARY KEY CLUSTERED ([VsId] ASC, [FileType] ASC),
+    CONSTRAINT [FK_FileType] FOREIGN KEY ([FileType]) REFERENCES [common].[JsonFileType] ([Id])
+);
