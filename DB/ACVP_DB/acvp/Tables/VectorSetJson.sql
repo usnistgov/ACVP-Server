@@ -1,5 +1,5 @@
 ﻿CREATE TABLE [acvp].[VectorSetJson] (
-    [VsId]      BIGINT        NOT NULL,
+    [VsId]      INT        NOT NULL,
     [FileType]  BIGINT        NOT NULL,
     [Content]   VARCHAR (MAX) NOT NULL,
     [CreatedOn] DATETIME      NOT NULL,

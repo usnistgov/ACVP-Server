@@ -7,6 +7,6 @@ namespace NIST.CVP.TaskQueueProcessor.Providers
         ITask GetNextTask();
         void DeleteCompletedTask(long taskId);
         void MarkTasksForRestart();
-        void PutJson(long vsId, string jsonFileType, string jsonContent);
+        void PutJson(int vsId, string jsonFileType, string jsonContent);
     }
 }

@@ -106,7 +106,7 @@ namespace NIST.CVP.TaskQueueProcessor.Providers
         }
 
         // Only used when building the next task
-        private string GetJson(long vsId, string jsonFileType)
+        private string GetJson(int vsId, string jsonFileType)
         {
             var parameters = new List<(string, object)>
             {
@@ -121,12 +121,13 @@ namespace NIST.CVP.TaskQueueProcessor.Providers
                 throw new Exception($"No JSON found for vsId: {vsId}, jsonType: {jsonFileType}");
             }            
             
-            var returnContent = reader[0].ToString();
+            // 3rd element is the Content, could update the SQL Stored Procedure to only provide the actual JSON content because nothing else actually matters here
+            var returnContent = reader[2].ToString();
             reader.Close();
             return returnContent;
         }
 
-        public void PutJson(long vsId, string jsonFileType, string jsonContent)
+        public void PutJson(int vsId, string jsonFileType, string jsonContent)
         {
             var parameters = new List<(string, object)>
             {

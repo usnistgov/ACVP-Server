@@ -302,17 +302,22 @@
     <Build Include="acvp\Stored Procedures\TestSessionsGet.sql" />
     <Build Include="acvp\Stored Procedures\TestSessionGetById.sql" />
     <Build Include="val\Stored Procedures\DependenciesGet.sql" />
+    <Build Include="common\Tables\JsonFileType.sql" />
+    <Build Include="acvp\Tables\VectorSetJson.sql" />
+    <Build Include="acvp\Stored Procedures\VectorSetJsonPut.sql" />
+    <Build Include="acvp\Stored Procedures\VectorSetJsonGet.sql" />
+    <Build Include="common\Tables\TaskQueue_1.sql" />
+    <Build Include="acvp\Stored Procedures\TaskQueueGet.sql">
+      <AnsiNulls>Off</AnsiNulls>
+    </Build>
+    <Build Include="acvp\Stored Procedures\TaskQueueDelete.sql">
+      <AnsiNulls>Off</AnsiNulls>
+    </Build>
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="ACVP_DB.refactorlog" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="acvp\Stored Procedures\CapabilitiesJsonGet.sql" />
-    <Content Include="acvp\Stored Procedures\ErrorPut.sql" />
-    <Content Include="acvp\Stored Procedures\PromptDataPut.sql" />
-    <Content Include="acvp\Stored Procedures\SubmittedJsonGet.sql" />
-    <Content Include="acvp\Stored Procedures\ValidationPut.sql" />
-    <Content Include="acvp\Tables\VectorSetJson.sql" />
     <Content Include="common\Stored Procedures\TaskQueueDelete.sql" />
     <Content Include="common\Stored Procedures\TaskQueueGet.sql" />
     <Content Include="common\Stored Procedures\TaskQueueRestart.sql" />
