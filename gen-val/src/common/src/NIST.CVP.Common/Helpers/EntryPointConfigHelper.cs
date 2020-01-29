@@ -71,6 +71,8 @@ namespace NIST.CVP.Common.Helpers
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile($"{configurationFileDirectory}{SETTINGS_FILE}.{SETTINGS_EXTENSION}", optional: false, reloadOnChange: false)
                 .AddJsonFile($"{configurationFileDirectory}{SETTINGS_FILE}.{env}.{SETTINGS_EXTENSION}", optional: false, reloadOnChange: false)
+                .AddJsonFile($"{configurationFileDirectory}appsettings.{SETTINGS_EXTENSION}", optional: true, reloadOnChange: false)
+                .AddJsonFile($"{configurationFileDirectory}appsettings.{env}.{SETTINGS_EXTENSION}", optional: true, reloadOnChange: false)
                 .AddEnvironmentVariables();
 
             var configuration = builder.Build();

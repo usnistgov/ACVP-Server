@@ -17,22 +17,28 @@ using NIST.CVP.Orleans.ServerHost.Models;
 using Orleans;
 using Orleans.Configuration;
 using Orleans.Hosting;
+using Orleans.Runtime;
 using Orleans.Statistics;
+using Serilog.Extensions.Logging;
 using Environments = NIST.CVP.Common.Enums.Environments;
 
 namespace NIST.CVP.Orleans.ServerHost
 {
     public class OrleansSiloHost : IHostedService
     {
+        private readonly ILogger<OrleansSiloHost> _logger;
         private readonly OrleansConfig _orleansConfig;
         private readonly EnvironmentConfig _environmentConfig;
         private readonly IConfigurationRoot _configurationRoot;
         private readonly string _connectionString;
 
         private ISiloHost _silo;
-
-        public OrleansSiloHost(DirectoryConfig rootDirectory)
+        
+        public OrleansSiloHost(ILogger<OrleansSiloHost> logger, DirectoryConfig rootDirectory)
         {
+            _logger = logger;
+            _logger.Info("Orleans Silo construction.");
+            
             _configurationRoot = EntryPointConfigHelper.GetConfigurationRoot(rootDirectory.RootDirectory);
             var serviceCollection = EntryPointConfigHelper.GetBaseServiceCollection(_configurationRoot);
             var serviceProvider = EntryPointConfigHelper.Bootstrap(serviceCollection);
@@ -141,6 +147,8 @@ namespace NIST.CVP.Orleans.ServerHost
                 {
                     logging.AddConsole();
                 }
+
+                logging.AddProvider(new SerilogLoggerProvider());
             });
         }
     }

@@ -14,14 +14,19 @@
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 
-
   <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="$(NuGetVersionMicrosoftAspNetCore)" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="$(NuGetVersionMicrosoftAspNetCore)" />
     <PackageReference Include="Microsoft.Orleans.Clustering.AdoNet" Version="$(NugetVersionMicrosoftOrleansClusteringAdoNet)" />
     <PackageReference Include="Microsoft.Orleans.OrleansTelemetryConsumers.Counters" Version="$(NuGetVersionMicrosoftOrleansOrleansTelemetryConsumersCounters)" />
     <PackageReference Include="Microsoft.Orleans.Server" Version="$(NugetVersionMicrosoftOrleansServer)" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="$(NuGetVersionMicrosoftNETTestSdk)" />
     <PackageReference Include="OrleansDashboard" Version="$(NuGetVersionOrleansDashboard)" />
-    <PackageReference Include="System.ServiceProcess.ServiceController" Version="$(NuGetVersionSystemServiceProcessServiceController)" />
+    <PackageReference Include="Serilog" Version="$(NuGetVersionSerilog)" />
+    <PackageReference Include="Serilog.Extensions.Hosting" Version="$(NuGetVersionSerilogExtensionsHosting)" />
+    <PackageReference Include="Serilog.Extensions.Logging" Version="$(NuGetVersionSerilogExtensionsLogging)" />
+    <PackageReference Include="Serilog.Settings.Configuration" Version="$(NuGetVersionSerilogSettingsConfiguration)" />
+    <PackageReference Include="Serilog.Sinks.File" Version="$(NuGetVersionSerilogSinksFile)" />
   </ItemGroup>
 
   <ItemGroup>
