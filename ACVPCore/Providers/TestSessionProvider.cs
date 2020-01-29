@@ -154,6 +154,10 @@ namespace ACVPCore.Providers
 					{
 						testSessionId
 					});
+
+				if (testSessionData == null)
+					return null;
+				
 				result.Created = testSessionData.created_on;
 				result.Publishable = testSessionData.publishable;
 				result.Published = testSessionData.published;
@@ -161,28 +165,11 @@ namespace ACVPCore.Providers
 				result.IsSample = testSessionData.sample;
 				
 				result.VectorSets = new List<TestVectorSetLite>();
-				
-				var vectorSetsData = db.QueryFromProcedure(
-					"acvp.VectorSetGetByTestSessionId",
-					new 
-					{
-						testSessionId
-					});
-				foreach (var vectorSet in vectorSetsData)
-				{
-					result.VectorSets.Add(new TestVectorSetLite()
-					{
-						Algorithm = vectorSet.display_name,
-						Id = vectorSet.id,
-						Status = (VectorSetStatus)vectorSet.status,
-						AlgorithmId = vectorSet.algorithm_id,
-						GeneratorVersion = vectorSet.generator_version
-					});
-				}
 			}
 			catch (Exception ex)
 			{
 				_logger.LogError(ex, ex.Message);
+				return null;
 			}
 			
 			return result;
