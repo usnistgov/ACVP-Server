@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json.Serialization;
+using ACVPCore.Models.Parameters;
 
 namespace ACVPWorkflow.Models
 {
-	public class PersonCreatePayload
+	public class PersonCreatePayload : BasePayload, IWorkflowItemPayload
 	{
 		[JsonPropertyName("id")]
 		public long ID { get => -1; }
@@ -22,6 +24,16 @@ namespace ACVPWorkflow.Models
 
 		[JsonPropertyName("phoneNumbers")]
 		public List<PhoneNumber> PhoneNumbers { get; set; }
+
+
+		public PersonCreateParameters ToPersonCreateParameters() => new PersonCreateParameters
+		{
+			Name = Name,
+			OrganizationID = ParseIDFromURL(VendorURL),
+			PhoneNumbers = PhoneNumbers.Select(x => (x.Type, x.Number)).ToList(),
+			EmailAddresses = EmailAddresses,
+		};
+
 
 		public class PhoneNumber
 		{

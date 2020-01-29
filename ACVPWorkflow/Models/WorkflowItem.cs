@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ACVPWorkflow
+﻿namespace ACVPWorkflow.Models
 {
 	public class WorkflowItem
 	{
 		public long WorkflowItemID { get; set; }
 		public APIAction APIAction { get; set; }
-		public string JSON { get; set; }
+		public IWorkflowItemPayload Payload { get; set; }
 	}
 }

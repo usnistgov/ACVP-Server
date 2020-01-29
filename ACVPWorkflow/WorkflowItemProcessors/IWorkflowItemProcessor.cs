@@ -1,4 +1,6 @@
-﻿namespace ACVPWorkflow.WorkflowItemProcessors
+﻿using ACVPWorkflow.Models;
+
+namespace ACVPWorkflow.WorkflowItemProcessors
 {
 	public interface IWorkflowItemProcessor
 	{

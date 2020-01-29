@@ -1,5 +1,7 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.Text.Json;
+using System.Text.Json.Serialization;
 using ACVPWorkflow;
+using ACVPWorkflow.Models;
 
 namespace MessageQueueProcessor.MessagePayloads
 {
@@ -18,7 +20,7 @@ namespace MessageQueueProcessor.MessagePayloads
 		public long UserID { get; set; }
 
 		[JsonPropertyName("json")]
-		public object Json { get; set; }
+		public JsonElement Json { get; set; }
 
 		public WorkflowItemType WorkflowItemType
 		{

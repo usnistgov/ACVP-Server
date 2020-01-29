@@ -1,9 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json.Serialization;
+using ACVPCore;
+using ACVPCore.Models.Parameters;
 
 namespace ACVPWorkflow.Models
 {
-	public class ImplementationUpdatePayload
+	public class ImplementationUpdatePayload : BasePayload, IWorkflowItemPayload
 	{
 		private string _name;
 		private string _description;
@@ -109,5 +112,35 @@ namespace ACVPWorkflow.Models
 		public bool VendorURLUpdated { get; set; } = false;
 		public bool AddressURLUpdated { get; set; } = false;
 		public bool ContactURLsUpdated { get; set; } = false;
+
+
+		public ImplementationUpdateParameters ToImplementationUpdateParameters() => new ImplementationUpdateParameters
+		{
+			ID = ID,
+			Name = Name,
+			Description = Description,
+			Type = ParseImplementationType(Type),
+			Version = Version,
+			Website = Website,
+			OrganizationID = ParseNullableIDFromURL(VendorURL),
+			AddressID = ParseNullableIDFromURL(AddressURL),
+			ContactIDs = ContactURLs?.Select(x => ParseIDFromURL(x))?.ToList(),
+			NameUpdated = NameUpdated,
+			DescriptionUpdated = DescriptionUpdated,
+			TypeUpdated = TypeUpdated,
+			VersionUpdated = VersionUpdated,
+			WebsiteUpdated = WebsiteUpdated,
+			OrganizationIDUpdated = VendorURLUpdated,
+			AddressIDUpdated = AddressURLUpdated,
+			ContactIDsUpdated = ContactURLsUpdated
+		};
+
+		private ImplementationType ParseImplementationType(string type) => type.ToLower() switch
+		{
+			"software" => ImplementationType.Software,
+			"hardware" => ImplementationType.Hardware,
+			"firmware" => ImplementationType.Firmware,
+			_ => ImplementationType.Unknown
+		};
 	}
 }
