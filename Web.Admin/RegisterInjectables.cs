@@ -1,5 +1,7 @@
 using ACVPCore.Providers;
 using ACVPCore.Services;
+using ACVPWorkflow.Providers;
+using ACVPWorkflow.Services;
 using CVP.DatabaseInterface;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -27,6 +29,11 @@ namespace Web.Admin
             
             item.AddSingleton<IAcvpUserProvider, AcvpUserProvider>();
             item.AddSingleton<IAcvpUserService, AcvpUserService>();
+            
+            item.AddSingleton<IWorkflowContactProvider, WorkflowContactProvider>();
+            item.AddSingleton<IRequestProvider, RequestProvider>();
+            item.AddSingleton<IWorkflowProvider, WorkflowProvider>();
+            item.AddSingleton<IWorkflowService, WorkflowService>();
         }
     }
 }

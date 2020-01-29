@@ -3,6 +3,9 @@ using CVP.DatabaseInterface;
 using Microsoft.Extensions.Logging;
 using Mighty;
 using System;
+using System.Collections.Generic;
+using ACVPCore.ExtensionMethods;
+using ACVPWorkflow.Models;
 
 namespace ACVPWorkflow.Providers
 {
@@ -89,6 +92,67 @@ namespace ACVPWorkflow.Providers
 			{
 				_logger.LogError(ex.Message);
 				return new Result(ex.Message);
+			}
+		}
+
+		public List<WorkflowItemLite> GetWorkflowItems(WorkflowStatus status)
+		{
+			List<WorkflowItemLite> result = new List<WorkflowItemLite>();
+			var db = new MightyOrm(_acvpConnectionString);
+
+			try
+			{
+				var data = db.QueryFromProcedure("acvp.WorkflowItemsGetByStatus", new
+				{
+					WorkflowStatus = status
+				});
+
+				foreach (var item in data)
+				{
+					result.Add(new WorkflowItemLite()
+					{
+						Submitted = item.submitted,
+						Submitter = item.submitter,
+						SubmissionId = item.submissionId,
+						WorkflowStatus = (WorkflowStatus) item.workflowStatus,
+						WorkflowItemId = item.workflowItemId,
+						WorkflowItemType = (WorkflowItemType) item.workflowItemType
+					});
+				}
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex);
+			}
+			
+			return result;
+		}
+
+		public WorkflowItem GetWorkflowItem(long workflowItemId)
+		{
+			var db = new MightyOrm(_acvpConnectionString);
+
+			try
+			{
+				var data = db.SingleFromProcedure("acvp.WorkflowItemGetById", new
+				{
+					WorkflowItemId = workflowItemId
+				});
+
+				if (data == null)
+					return null;
+				
+				return new WorkflowItem()
+				{
+					APIAction = data.apiActionId == null ? APIAction.Unknown : (APIAction) data.apiActionId,
+					JSON = data.jsonBlob,
+					WorkflowItemID = workflowItemId
+				};
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex);
+				return null;
 			}
 		}
 	}
