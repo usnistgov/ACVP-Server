@@ -1,8 +1,3 @@
-SET ANSI_NULLS OFF
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-
 -- Set in-progress tasks back to un-started
 CREATE PROCEDURE [acvp].[TaskQueueRestart]
 AS

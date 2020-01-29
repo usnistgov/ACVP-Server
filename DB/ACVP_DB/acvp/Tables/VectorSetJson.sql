@@ -1,7 +1,3 @@
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
 CREATE TABLE [acvp].[VectorSetJson](
 	[VsID] [int] NOT NULL,
 	[Capabilities] [varchar](max) NOT NULL,

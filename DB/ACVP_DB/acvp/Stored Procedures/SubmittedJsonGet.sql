@@ -1,8 +1,3 @@
-SET ANSI_NULLS OFF
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-
 -- Grabs the provided vsId from VECTOR_SET_EXPECTED_RESULTS
 CREATE PROCEDURE [acvp].[SubmittedGet]
     @VsID INT
