@@ -1,7 +1,9 @@
 ﻿using System.Threading.Tasks;
+using Newtonsoft.Json;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.Oracle.Helpers;
+using NIST.CVP.Orleans.Grains.Interfaces.Exceptions;
 using NIST.CVP.Orleans.Grains.Interfaces.KeyWrap;
 
 namespace NIST.CVP.Crypto.Oracle
@@ -10,11 +12,19 @@ namespace NIST.CVP.Crypto.Oracle
     {
         public async Task<KeyWrapResult> GetKeyWrapCaseAsync(KeyWrapParameters param)
         {
-            var observableGrain = 
-                await GetObserverGrain<IOracleObserverKeyWrapCaseGrain, KeyWrapResult>();
-            await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, LoadSheddingRetries);
+            try
+            {
+                var observableGrain = 
+                    await GetObserverGrain<IOracleObserverKeyWrapCaseGrain, KeyWrapResult>();
+                await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, LoadSheddingRetries);
 
-            return await observableGrain.ObserveUntilResult();
+                return await observableGrain.ObserveUntilResult();
+            }
+            catch (OriginalClusterNodeSuicideException ex)
+            {
+                ThisLogger.Warn(ex, JsonConvert.SerializeObject(param));
+                return await GetKeyWrapCaseAsync(param);
+            }
         }
     }
 }
