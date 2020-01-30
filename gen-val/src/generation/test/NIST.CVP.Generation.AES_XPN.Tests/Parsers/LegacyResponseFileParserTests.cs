@@ -14,13 +14,16 @@ namespace NIST.CVP.Generation.AES_XPN.Tests.Parsers
     {
         private const string VALID_FILE_ENCRYPT = @"aes-xpn\xpnEncryptExtIVExtSalt128.fax";
         private const string VALID_FILE_DECRYPT = @"aes-xpn\xpnDecrypt128.fax";
-        private string _unitTestPath;
+        private const string BASE_PATH = @"..\..\LegacyCavsFiles\";
+        private string _encryptTestPath;
+        private string _decryptTestPath;
         private const int _expectedGroups = 32;
 
         [OneTimeSetUp]
         public void Setup()
         {
-            _unitTestPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\LegacyCavsFiles\");
+            _encryptTestPath = Utilities.GetConsistentTestingStartPath(GetType(), Path.Combine(BASE_PATH, VALID_FILE_ENCRYPT));
+            _decryptTestPath = Utilities.GetConsistentTestingStartPath(GetType(), Path.Combine(BASE_PATH, VALID_FILE_DECRYPT));
         }
 
         [Test]
@@ -47,7 +50,7 @@ namespace NIST.CVP.Generation.AES_XPN.Tests.Parsers
         public void ShouldParseValidFile()
         {
             var subject = new LegacyResponseFileParser();
-            var path = Path.Combine(_unitTestPath, VALID_FILE_ENCRYPT);
+            var path = _encryptTestPath;
             var result = subject.Parse(path);
             Assert.IsNotNull(result);
             Assert.IsTrue(result.Success);
@@ -57,7 +60,7 @@ namespace NIST.CVP.Generation.AES_XPN.Tests.Parsers
         public void ShouldHaveProperNumberOfGroups()
         {
             var subject = new LegacyResponseFileParser();
-            var path = Path.Combine(_unitTestPath, VALID_FILE_ENCRYPT);
+            var path = _encryptTestPath;
             var result = subject.Parse(path);
             Assume.That(result != null);
             var vectorSet = result.ParsedObject;
@@ -68,7 +71,7 @@ namespace NIST.CVP.Generation.AES_XPN.Tests.Parsers
         public void ShouldHaveTestsWithAADFilled()
         {
             var subject = new LegacyResponseFileParser();
-            var path = Path.Combine(_unitTestPath, VALID_FILE_ENCRYPT);
+            var path = _encryptTestPath;
             var result = subject.Parse(path);
             Assume.That(result != null);
             var vectorSet = result.ParsedObject;
@@ -79,7 +82,7 @@ namespace NIST.CVP.Generation.AES_XPN.Tests.Parsers
         public void ShouldHaveTestsWithKeyFilled()
         {
             var subject = new LegacyResponseFileParser();
-            var path = Path.Combine(_unitTestPath, VALID_FILE_ENCRYPT);
+            var path = _encryptTestPath;
             var result = subject.Parse(path);
             Assume.That(result != null);
             var vectorSet = result.ParsedObject;
@@ -91,7 +94,7 @@ namespace NIST.CVP.Generation.AES_XPN.Tests.Parsers
         public void ShouldHaveTestsWithIVFilled()
         {
             var subject = new LegacyResponseFileParser();
-            var path = Path.Combine(_unitTestPath, VALID_FILE_ENCRYPT);
+            var path = _encryptTestPath;
             var result = subject.Parse(path);
             Assume.That(result != null);
             var vectorSet = result.ParsedObject;
@@ -102,7 +105,7 @@ namespace NIST.CVP.Generation.AES_XPN.Tests.Parsers
         public void ShouldHaveTestsWithTagFilled()
         {
             var subject = new LegacyResponseFileParser();
-            var path = Path.Combine(_unitTestPath, VALID_FILE_ENCRYPT);
+            var path = _encryptTestPath;
             var result = subject.Parse(path);
             Assume.That(result != null);
             var vectorSet = result.ParsedObject;
@@ -114,7 +117,7 @@ namespace NIST.CVP.Generation.AES_XPN.Tests.Parsers
         public void ShouldHaveTestsWithPlainTextFilled()
         {
             var subject = new LegacyResponseFileParser();
-            var path = Path.Combine(_unitTestPath, VALID_FILE_ENCRYPT);
+            var path = _encryptTestPath;
             var result = subject.Parse(path);
             Assume.That(result != null);
             var vectorSet = result.ParsedObject;
@@ -126,7 +129,7 @@ namespace NIST.CVP.Generation.AES_XPN.Tests.Parsers
         public void ShouldHaveTestsWithCipherTextFilled()
         {
             var subject = new LegacyResponseFileParser();
-            var path = Path.Combine(_unitTestPath, VALID_FILE_ENCRYPT);
+            var path = _encryptTestPath;
             var result = subject.Parse(path);
             Assume.That(result != null);
             var vectorSet = result.ParsedObject;
@@ -138,7 +141,7 @@ namespace NIST.CVP.Generation.AES_XPN.Tests.Parsers
         public void ShouldParseValidDecryptFile()
         {
             var subject = new LegacyResponseFileParser();
-            var path = Path.Combine(_unitTestPath, VALID_FILE_DECRYPT);
+            var path = _decryptTestPath;
             var result = subject.Parse(path);
             Assert.IsNotNull(result);
             Assert.IsTrue(result.Success);
@@ -148,7 +151,7 @@ namespace NIST.CVP.Generation.AES_XPN.Tests.Parsers
         public void ShouldParseValidDecryptFileWithFailureTest()
         {
             var subject = new LegacyResponseFileParser();
-            var path = Path.Combine(_unitTestPath, VALID_FILE_DECRYPT);
+            var path = _decryptTestPath;
             var result = subject.Parse(path);
             Assume.That(result != null);
             var vectorSet = result.ParsedObject;
@@ -164,7 +167,7 @@ namespace NIST.CVP.Generation.AES_XPN.Tests.Parsers
         public void ShouldParseDecryptDirectionFromFileName()
         {
             var subject = new LegacyResponseFileParser();
-            var path = Path.Combine(_unitTestPath, VALID_FILE_DECRYPT);
+            var path = _decryptTestPath;
             var result = subject.Parse(path);
             Assume.That(result != null);
             var vectorSet = result.ParsedObject;
@@ -177,7 +180,7 @@ namespace NIST.CVP.Generation.AES_XPN.Tests.Parsers
         public void ShouldParseEncryptDirectionFromFileName()
         {
             var subject = new LegacyResponseFileParser();
-            var path = Path.Combine(_unitTestPath, VALID_FILE_ENCRYPT);
+            var path = _encryptTestPath;
             var result = subject.Parse(path);
             Assume.That(result != null);
             var vectorSet = result.ParsedObject;
