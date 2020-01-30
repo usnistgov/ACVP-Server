@@ -8,7 +8,7 @@ SET NOCOUNT ON
 
     UPDATE t
     SET Status = 1
-    OUTPUT inserted.TaskID, inserted.TaskType, inserted.VsID, inserted.IsSample, inserted.ShowExpected
+    OUTPUT inserted.TaskID, inserted.TaskType, inserted.VsId, inserted.IsSample, inserted.ShowExpected
     FROM common.TaskQueue t
     INNER JOIN (
         SELECT TOP 1 TaskID
