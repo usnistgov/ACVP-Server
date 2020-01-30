@@ -7,9 +7,9 @@ namespace MessageQueueProcessor.MessageProcessors
 {
 	public class RegisterTestSessionProcessor : IMessageProcessor
 	{
-		private ITestSessionService _testSessionService;
-		private IVectorSetService _vectorSetService;
-		private ITaskQueueService _taskQueueService;
+		private readonly ITestSessionService _testSessionService;
+		private readonly IVectorSetService _vectorSetService;
+		private readonly ITaskQueueService _taskQueueService;
 
 		public RegisterTestSessionProcessor(ITestSessionService testSessionService, IVectorSetService vectorSetService, ITaskQueueService taskQueueService)
 		{

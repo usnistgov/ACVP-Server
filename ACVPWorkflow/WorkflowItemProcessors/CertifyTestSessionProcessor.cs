@@ -102,7 +102,7 @@ namespace ACVPWorkflow.WorkflowItemProcessors
 					IExternalAlgorithm externalAlgorithm = ExternalAlgorithmFactory.Deserialize(registrationJSON);
 
 					//Add the capabilities based on that algorithm object
-					_validationService.PersistCapabilities(algorithmID, scenarioAlgorithmID, externalAlgorithm);
+					_validationService.CreateCapabilities(algorithmID, scenarioAlgorithmID, externalAlgorithm);
 
 					//Add the prereqs
 					//TODO - this
@@ -131,7 +131,8 @@ namespace ACVPWorkflow.WorkflowItemProcessors
 			return _implementationService.Create(implementationCreateParameters);
 		}
 
-		private InsertResult CreateInlineOE(OECreatePayload oeCreatePayload) {
+		private InsertResult CreateInlineOE(OECreatePayload oeCreatePayload)
+		{
 			//Convert the payload to create parameters
 			OECreateParameters oeCreateParameters = oeCreatePayload.ToOECreateParameters();
 

@@ -15,7 +15,7 @@ namespace ACVPCore.Services
 		void DeleteScenarioAlgorithm(long scenarioAlgorithmID);
 		long GetValidationNumber(ValidationSource validationSource);
 		InsertResult AddScenarioAlgorithm(long scenarioID, long algorithmID);
-		void PersistCapabilities(long algorithmID, long scenarioAlgorithmID, IExternalAlgorithm externalAlgorithm);
+		void CreateCapabilities(long algorithmID, long scenarioAlgorithmID, IExternalAlgorithm externalAlgorithm);
 		Result LogValidationTestSession(long validationID, long testSessionID);
 
 	}
