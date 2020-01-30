@@ -2,8 +2,11 @@
 using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Math;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using NIST.CVP.Crypto.Oracle.Helpers;
+using NIST.CVP.Orleans.Grains.Interfaces.Aead;
 using NIST.CVP.Orleans.Grains.Interfaces.Aes;
+using NIST.CVP.Orleans.Grains.Interfaces.Exceptions;
 
 namespace NIST.CVP.Crypto.Oracle
 {
@@ -11,77 +14,142 @@ namespace NIST.CVP.Crypto.Oracle
     {
         public async Task<AesResult> GetAesCaseAsync(AesParameters param)
         {
-            var observableGrain = 
-                await GetObserverGrain<IOracleObserverAesCaseGrain, AesResult>();
-            await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, LoadSheddingRetries);
+            try
+            {
+                var observableGrain = 
+                    await GetObserverGrain<IOracleObserverAesCaseGrain, AesResult>();
+                await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, LoadSheddingRetries);
 
-            return await observableGrain.ObserveUntilResult();
+                return await observableGrain.ObserveUntilResult();
+            }
+            catch (OriginalClusterNodeSuicideException ex)
+            {
+                ThisLogger.Warn(ex, JsonConvert.SerializeObject(param));
+                return await GetAesCaseAsync(param);
+            }
         }
         
         public virtual async Task<MctResult<AesResult>> GetAesMctCaseAsync(AesParameters param)
         {
-            var observableGrain = 
-                await GetObserverGrain<IOracleObserverAesMctCaseGrain, MctResult<AesResult>>();
-            
-            await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, LoadSheddingRetries);
+            try
+            {
+                var observableGrain = 
+                    await GetObserverGrain<IOracleObserverAesMctCaseGrain, MctResult<AesResult>>();
+                await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, LoadSheddingRetries);
 
-            return await observableGrain.ObserveUntilResult();
+                return await observableGrain.ObserveUntilResult();
+            }
+            catch (OriginalClusterNodeSuicideException ex)
+            {
+                ThisLogger.Warn(ex, JsonConvert.SerializeObject(param));
+                return await GetAesMctCaseAsync(param);
+            }
         }
 
         public async Task<AesXtsResult> GetAesXtsCaseAsync(AesXtsParameters param)
         {
-            var observableGrain = 
-                await GetObserverGrain<IOracleObserverAesXtsCaseGrain, AesXtsResult>();
-            await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, LoadSheddingRetries);
+            try
+            {
+                var observableGrain = 
+                    await GetObserverGrain<IOracleObserverAesXtsCaseGrain, AesXtsResult>();
+                await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, LoadSheddingRetries);
 
-            return await observableGrain.ObserveUntilResult();
+                return await observableGrain.ObserveUntilResult();
+            }
+            catch (OriginalClusterNodeSuicideException ex)
+            {
+                ThisLogger.Warn(ex, JsonConvert.SerializeObject(param));
+                return await GetAesXtsCaseAsync(param);
+            }
+
         }
 
         public async Task<AesResult> GetAesFfCaseAsync(AesFfParameters param)
         {
-            var observableGrain = 
-                await GetObserverGrain<IOracleObserverAesFfCaseGrain, AesResult>();
-            await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, LoadSheddingRetries);
+            try
+            {
+                var observableGrain = 
+                    await GetObserverGrain<IOracleObserverAesFfCaseGrain, AesResult>();
+                await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, LoadSheddingRetries);
 
-            return await observableGrain.ObserveUntilResult();
+                return await observableGrain.ObserveUntilResult();
+            }
+            catch (OriginalClusterNodeSuicideException ex)
+            {
+                ThisLogger.Warn(ex, JsonConvert.SerializeObject(param));
+                return await GetAesFfCaseAsync(param);
+            }
         }
 
         public async Task<AesResult> GetDeferredAesCounterCaseAsync(CounterParameters<AesParameters> param)
         {
-            var observableGrain = 
-                await GetObserverGrain<IOracleObserverAesDeferredCounterCaseGrain, AesResult>();
-            await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, LoadSheddingRetries);
+            try
+            {
+                var observableGrain = 
+                    await GetObserverGrain<IOracleObserverAesDeferredCounterCaseGrain, AesResult>();
+                await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, LoadSheddingRetries);
 
-            return await observableGrain.ObserveUntilResult();
+                return await observableGrain.ObserveUntilResult();
+            }
+            catch (OriginalClusterNodeSuicideException ex)
+            {
+                ThisLogger.Warn(ex, JsonConvert.SerializeObject(param));
+                return await GetDeferredAesCounterCaseAsync(param);
+            }
         }
 
         public async Task<AesResult> CompleteDeferredAesCounterCaseAsync(CounterParameters<AesParameters> param)
         {
-            var observableGrain = 
-                await GetObserverGrain<IOracleObserverAesCompleteDeferredCounterCaseGrain, AesResult>();
-            await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, LoadSheddingRetries);
+            try
+            {
+                var observableGrain = 
+                    await GetObserverGrain<IOracleObserverAesCompleteDeferredCounterCaseGrain, AesResult>();
+                await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, LoadSheddingRetries);
 
-            return await observableGrain.ObserveUntilResult();
+                return await observableGrain.ObserveUntilResult();
+            }
+            catch (OriginalClusterNodeSuicideException ex)
+            {
+                ThisLogger.Warn(ex, JsonConvert.SerializeObject(param));
+                return await CompleteDeferredAesCounterCaseAsync(param);
+            }
         }
 
         public async Task<CounterResult> ExtractIvsAsync(AesParameters param, AesResult fullParam)
         {
-            var observableGrain = 
-                await GetObserverGrain<IOracleObserverAesCounterExtractIvsCaseGrain, CounterResult>();
-            await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, fullParam, LoadSheddingRetries);
+            try
+            {
+                var observableGrain = 
+                    await GetObserverGrain<IOracleObserverAesCounterExtractIvsCaseGrain, CounterResult>();
+                await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, fullParam, LoadSheddingRetries);
 
-            return await observableGrain.ObserveUntilResult();
+                return await observableGrain.ObserveUntilResult();
+            }
+            catch (OriginalClusterNodeSuicideException ex)
+            {
+                ThisLogger.Warn(ex, JsonConvert.SerializeObject(param));
+                return await ExtractIvsAsync(param, fullParam);
+            }
         }
 
         public async Task<AesResult> GetAesCaseAsync(AesWithPayloadParameters param)
         {
-            var observableGrain =
-                await GetObserverGrain<IOracleObserverAesWithPayloadCaseGrain, AesResult>();
-            await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, LoadSheddingRetries);
+            try
+            {
+                var observableGrain =
+                    await GetObserverGrain<IOracleObserverAesWithPayloadCaseGrain, AesResult>();
+                await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, LoadSheddingRetries);
 
-            return await observableGrain.ObserveUntilResult();
+                return await observableGrain.ObserveUntilResult();
+            }
+            catch (OriginalClusterNodeSuicideException ex)
+            {
+                ThisLogger.Warn(ex, JsonConvert.SerializeObject(param));
+                return await GetAesCaseAsync(param);
+            }
         }
 
+        // TODO remove?
         private BitString GetStartingIv(bool overflow, bool incremental)
         {
             var rand = new Random800_90();
