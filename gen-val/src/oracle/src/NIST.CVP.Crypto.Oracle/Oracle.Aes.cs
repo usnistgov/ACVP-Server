@@ -4,7 +4,6 @@ using NIST.CVP.Math;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using NIST.CVP.Crypto.Oracle.Helpers;
-using NIST.CVP.Orleans.Grains.Interfaces.Aead;
 using NIST.CVP.Orleans.Grains.Interfaces.Aes;
 using NIST.CVP.Orleans.Grains.Interfaces.Exceptions;
 
