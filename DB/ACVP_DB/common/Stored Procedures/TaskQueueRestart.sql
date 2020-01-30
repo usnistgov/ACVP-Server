@@ -1,6 +1,10 @@
 -- Set in-progress tasks back to un-started
-CREATE PROCEDURE [acvp].[TaskQueueRestart]
+CREATE PROCEDURE [common].[TaskQueueRestart]
+
 AS
+
+SET NOCOUNT ON
+
     UPDATE t
     SET Status = 0
     FROM common.TaskQueue t

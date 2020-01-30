@@ -322,11 +322,6 @@
     <Build Include="val\Tables\ValidationTestSessions.sql" />
     <Build Include="val\Stored Procedures\ValidationTestSessionsInsert.sql" />
     <Build Include="val\Stored Procedures\ScenariosForValidationOEGet.sql" />
-    <Build Include="acvp\Stored Procedures\CapabilitiesJsonGet.sql" />
-    <Build Include="acvp\Stored Procedures\ErrorPut.sql" />
-    <Build Include="acvp\Stored Procedures\PromptDataPut.sql" />
-    <Build Include="acvp\Stored Procedures\SubmittedJsonGet.sql" />
-    <Build Include="acvp\Stored Procedures\ValidationPut.sql" />
     <Build Include="acvp\Tables\VectorSetJson.sql" />
     <Build Include="common\Stored Procedures\TaskQueueDelete.sql" />
     <Build Include="common\Stored Procedures\TaskQueueGet.sql" />
@@ -336,8 +331,6 @@
     <Build Include="acvp\Tables\VectorSetJson.sql" />
     <Build Include="acvp\Stored Procedures\VectorSetJsonPut.sql" />
     <Build Include="acvp\Stored Procedures\VectorSetJsonGet.sql" />
-    <Build Include="acvp\Stored Procedures\TaskQueueGet.sql" />
-    <Build Include="acvp\Stored Procedures\TaskQueueDelete.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="ACVP_DB.refactorlog" />

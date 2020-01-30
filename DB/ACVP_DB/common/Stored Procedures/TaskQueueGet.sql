@@ -1,7 +1,11 @@
 -- Grabs oldest unprocessed of common.TASK_QUEUE
 -- I think 1 is not-processed ? maybe?
-CREATE PROCEDURE [acvp].[TaskQueueGet]
+CREATE PROCEDURE [common].[TaskQueueGet]
+
 AS
+
+SET NOCOUNT ON
+
     UPDATE t
     SET Status = 1
     OUTPUT inserted.TaskID, inserted.TaskType, inserted.VsID, inserted.IsSample, inserted.ShowExpected
