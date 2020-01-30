@@ -9,15 +9,21 @@ namespace NIST.CVP.Orleans.Grains.Interfaces
     public interface IGrainObservable<out TResult>
     {
         /// <summary>
-        /// Subscribe an observer to an observable for updates.
+        /// The original subscribe from observer to observable, bootstraps some values to monitor for node suicide.
         /// </summary>
-        /// <param name="observer">The observer to subscribe</param>
+        /// <param name="observer">The observer to subscribe.</param>
         /// <returns></returns>
-        Task Subscribe(IGrainObserver<TResult> observer);
+        Task InitialSubscribe(IGrainObserver<TResult> observer);
+        /// <summary>
+        /// Heartbeat Subscribe refreshes observer to an observable to prevent staleness.
+        /// </summary>
+        /// <param name="observer">The observer to subscribe.</param>
+        /// <returns></returns>
+        Task HeartbeatSubscribe(IGrainObserver<TResult> observer);
         /// <summary>
         /// Unsubscribe an observer from an observable.
         /// </summary>
-        /// <param name="observer">The observer to unsubscribe</param>
+        /// <param name="observer">The observer to unsubscribe.</param>
         /// <returns></returns>
         Task Unsubscribe(IGrainObserver<TResult> observer);
     }

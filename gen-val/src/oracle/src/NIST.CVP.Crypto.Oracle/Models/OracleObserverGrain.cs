@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using NIST.CVP.Crypto.Oracle.Helpers;
 using NIST.CVP.Orleans.Grains.Interfaces;
+using NIST.CVP.Orleans.Grains.Interfaces.Exceptions;
 using NLog;
 using Orleans;
 
@@ -32,16 +33,24 @@ namespace NIST.CVP.Crypto.Oracle.Models
         {
             while (!GrainObserver.HasResult)
             {
-                await Task.Delay(TimeSpan.FromSeconds(Constants.TaskPollingSeconds));
-                await GrainInvokeRetryWrapper.WrapGrainCall(Grain.Subscribe, GrainObserverReference, LoadSheddingRetries);
-
-                if (GrainObserver.IsFaulted)
+                try
                 {
-                    await GrainInvokeRetryWrapper.WrapGrainCall(Grain.Unsubscribe, GrainObserverReference, LoadSheddingRetries);
-                    var exception = GrainObserver.GetException();
+                    await Task.Delay(TimeSpan.FromSeconds(Constants.TaskPollingSeconds));
+                    await GrainInvokeRetryWrapper.WrapGrainCall(Grain.HeartbeatSubscribe, GrainObserverReference, LoadSheddingRetries);
+
+                    if (GrainObserver.IsFaulted)
+                    {
+                        await GrainInvokeRetryWrapper.WrapGrainCall(Grain.Unsubscribe, GrainObserverReference, LoadSheddingRetries);
+                        var exception = GrainObserver.GetException();
                     
-                    _logger.Error(exception, exception.StackTrace);
-                    throw exception;
+                        _logger.Error(exception, exception.StackTrace);
+                        throw exception;
+                    }
+                }
+                catch (OriginalClusterNodeSuicideException ex)
+                {
+                    _logger.Error(ex, $"{nameof(ObserveUntilResult)} caught {nameof(OriginalClusterNodeSuicideException)}");
+                    throw;
                 }
             }
 

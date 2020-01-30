@@ -1,9 +1,12 @@
-﻿using NIST.CVP.Common.Oracle.ParameterTypes;
+﻿using System;
+using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
 using System.Numerics;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using NIST.CVP.Crypto.Oracle.Helpers;
 using NIST.CVP.Orleans.Grains.Interfaces.Dsa;
+using NIST.CVP.Orleans.Grains.Interfaces.Exceptions;
 
 namespace NIST.CVP.Crypto.Oracle
 {
@@ -11,27 +14,43 @@ namespace NIST.CVP.Crypto.Oracle
     {
         public virtual async Task<DsaDomainParametersResult> GetDsaPQAsync(DsaDomainParametersParameters param)
         {
-            var observableGrain = 
-                await GetObserverGrain<IOracleObserverDsaPqCaseGrain, DsaDomainParametersResult>();
-            await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, LoadSheddingRetries);
+            try
+            {
+                var observableGrain = 
+                    await GetObserverGrain<IOracleObserverDsaPqCaseGrain, DsaDomainParametersResult>();
+                await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, LoadSheddingRetries);
 
-            return await observableGrain.ObserveUntilResult();
+                return await observableGrain.ObserveUntilResult();
+            }
+            catch (OriginalClusterNodeSuicideException ex)
+            {
+                ThisLogger.Warn(ex, JsonConvert.SerializeObject(param));
+                return await GetDsaPQAsync(param);
+            }
         }
 
         public async Task<DsaDomainParametersResult> GetDsaGAsync(DsaDomainParametersParameters param, DsaDomainParametersResult pqParam)
         {
-            var observableGrain = 
-                await GetObserverGrain<IOracleObserverDsaGCaseGrain, DsaDomainParametersResult>();
-            await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, pqParam, LoadSheddingRetries);
+            try
+            {
+                var observableGrain = 
+                    await GetObserverGrain<IOracleObserverDsaGCaseGrain, DsaDomainParametersResult>();
+                await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, pqParam, LoadSheddingRetries);
 
-            return await observableGrain.ObserveUntilResult();
+                return await observableGrain.ObserveUntilResult();
+            }
+            catch (OriginalClusterNodeSuicideException ex)
+            {
+                ThisLogger.Warn(ex, JsonConvert.SerializeObject(param));
+                return await GetDsaGAsync(param, pqParam);
+            }
         }
 
         public virtual async Task<DsaDomainParametersResult> GetDsaDomainParametersAsync(DsaDomainParametersParameters param)
         {
             var pqResult = await GetDsaPQAsync(param);
             var gResult = pqResult;
-			if (pqResult.G == default(BigInteger))
+            if (pqResult.G == default(BigInteger))
             {
                 // Only try to get a G if the previous call didn't access the pool
                 gResult = await GetDsaGAsync(param, pqResult);
@@ -51,65 +70,121 @@ namespace NIST.CVP.Crypto.Oracle
 
         public async Task<VerifyResult<DsaDomainParametersResult>> GetDsaPQVerifyAsync(DsaDomainParametersParameters param, DsaDomainParametersResult fullParam)
         {
-            var observableGrain = 
-                await GetObserverGrain<IOracleObserverDsaPqVerifyCaseGrain, VerifyResult<DsaDomainParametersResult>>();
-            await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, fullParam, LoadSheddingRetries);
+            try
+            {
+                var observableGrain = 
+                    await GetObserverGrain<IOracleObserverDsaPqVerifyCaseGrain, VerifyResult<DsaDomainParametersResult>>();
+                await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, fullParam, LoadSheddingRetries);
 
-            return await observableGrain.ObserveUntilResult();
+                return await observableGrain.ObserveUntilResult();
+            }
+            catch (OriginalClusterNodeSuicideException ex)
+            {
+                ThisLogger.Warn(ex, JsonConvert.SerializeObject(param));
+                return await GetDsaPQVerifyAsync(param, fullParam);
+            }
         }
 
         public async Task<VerifyResult<DsaDomainParametersResult>> GetDsaGVerifyAsync(DsaDomainParametersParameters param, DsaDomainParametersResult fullParam)
         {
-            var observableGrain = 
-                await GetObserverGrain<IOracleObserverDsaGVerifyCaseGrain, VerifyResult<DsaDomainParametersResult>>();
-            await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, fullParam, LoadSheddingRetries);
+            try
+            {
+                var observableGrain = 
+                    await GetObserverGrain<IOracleObserverDsaGVerifyCaseGrain, VerifyResult<DsaDomainParametersResult>>();
+                await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, fullParam, LoadSheddingRetries);
 
-            return await observableGrain.ObserveUntilResult();
+                return await observableGrain.ObserveUntilResult();
+            }
+            catch (OriginalClusterNodeSuicideException ex)
+            {
+                ThisLogger.Warn(ex, JsonConvert.SerializeObject(param));
+                return await GetDsaPQVerifyAsync(param, fullParam);
+            }
         }
 
         public async Task<DsaKeyResult> GetDsaKeyAsync(DsaKeyParameters param)
         {
-            var observableGrain = 
-                await GetObserverGrain<IOracleObserverDsaKeyCaseGrain, DsaKeyResult>();
-            await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, LoadSheddingRetries);
+            try
+            {
+                var observableGrain = 
+                    await GetObserverGrain<IOracleObserverDsaKeyCaseGrain, DsaKeyResult>();
+                await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, LoadSheddingRetries);
 
-            return await observableGrain.ObserveUntilResult();
+                return await observableGrain.ObserveUntilResult();
+            }
+            catch (OriginalClusterNodeSuicideException ex)
+            {
+                ThisLogger.Warn(ex, JsonConvert.SerializeObject(param));
+                return await GetDsaKeyAsync(param);
+            }
         }
 
         public async Task<VerifyResult<DsaKeyResult>> CompleteDeferredDsaKeyAsync(DsaKeyParameters param, DsaKeyResult fullParam)
         {
-            var observableGrain = 
-                await GetObserverGrain<IOracleObserverDsaCompleteDeferredKeyCaseGrain, VerifyResult<DsaKeyResult>>();
-            await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, fullParam, LoadSheddingRetries);
+            try
+            {
+                var observableGrain = 
+                    await GetObserverGrain<IOracleObserverDsaCompleteDeferredKeyCaseGrain, VerifyResult<DsaKeyResult>>();
+                await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, fullParam, LoadSheddingRetries);
 
-            return await observableGrain.ObserveUntilResult();
+                return await observableGrain.ObserveUntilResult();
+            }
+            catch (OriginalClusterNodeSuicideException ex)
+            {
+                ThisLogger.Warn(ex, JsonConvert.SerializeObject(param));
+                return await CompleteDeferredDsaKeyAsync(param, fullParam);
+            }
         }
 
         public async Task<DsaSignatureResult> GetDeferredDsaSignatureAsync(DsaSignatureParameters param)
         {
-            var observableGrain = 
-                await GetObserverGrain<IOracleObserverDsaDeferredSignatureCaseGrain, DsaSignatureResult>();
-            await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, LoadSheddingRetries);
+            try
+            {
+                var observableGrain = 
+                    await GetObserverGrain<IOracleObserverDsaDeferredSignatureCaseGrain, DsaSignatureResult>();
+                await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, LoadSheddingRetries);
 
-            return await observableGrain.ObserveUntilResult();
+                return await observableGrain.ObserveUntilResult();
+            }
+            catch (OriginalClusterNodeSuicideException ex)
+            {
+                ThisLogger.Warn(ex, JsonConvert.SerializeObject(param));
+                return await GetDeferredDsaSignatureAsync(param);
+            }
         }
 
         public async Task<VerifyResult<DsaSignatureResult>> CompleteDeferredDsaSignatureAsync(DsaSignatureParameters param, DsaSignatureResult fullParam)
         {
-            var observableGrain = 
-                await GetObserverGrain<IOracleObserverDsaCompleteDeferredSignatureCaseGrain, VerifyResult<DsaSignatureResult>>();
-            await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, fullParam, LoadSheddingRetries);
+            try
+            {
+                var observableGrain = 
+                    await GetObserverGrain<IOracleObserverDsaCompleteDeferredSignatureCaseGrain, VerifyResult<DsaSignatureResult>>();
+                await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, fullParam, LoadSheddingRetries);
 
-            return await observableGrain.ObserveUntilResult();
+                return await observableGrain.ObserveUntilResult();
+            }
+            catch (OriginalClusterNodeSuicideException ex)
+            {
+                ThisLogger.Warn(ex, JsonConvert.SerializeObject(param));
+                return await CompleteDeferredDsaSignatureAsync(param, fullParam);
+            }
         }
 
         public async Task<DsaSignatureResult> GetDsaSignatureAsync(DsaSignatureParameters param)
         {
-            var observableGrain = 
-                await GetObserverGrain<IOracleObserverDsaSignatureCaseGrain, DsaSignatureResult>();
-            await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, LoadSheddingRetries);
+            try
+            {
+                var observableGrain = 
+                    await GetObserverGrain<IOracleObserverDsaSignatureCaseGrain, DsaSignatureResult>();
+                await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, LoadSheddingRetries);
 
-            return await observableGrain.ObserveUntilResult();
+                return await observableGrain.ObserveUntilResult();
+            }
+            catch (OriginalClusterNodeSuicideException ex)
+            {
+                ThisLogger.Warn(ex, JsonConvert.SerializeObject(param));
+                return await GetDsaSignatureAsync(param);
+            }
         }
     }
 }
