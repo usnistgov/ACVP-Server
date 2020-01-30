@@ -16,8 +16,8 @@ namespace ACVPWorkflow.Models
 		[JsonPropertyName("fullName")]
 		public string Name { get; set; }
 
-		[JsonPropertyName("vendorUrl")]
-		public string VendorURL { get; set; }
+		[JsonPropertyName("organizationUrl")]
+		public string OrganizationURL { get; set; }
 
 		[JsonPropertyName("emails")]
 		public List<string> EmailAddresses { get; set; }
@@ -29,7 +29,7 @@ namespace ACVPWorkflow.Models
 		public PersonCreateParameters ToPersonCreateParameters() => new PersonCreateParameters
 		{
 			Name = Name,
-			OrganizationID = ParseIDFromURL(VendorURL),
+			OrganizationID = ParseIDFromURL(OrganizationURL),
 			PhoneNumbers = PhoneNumbers.Select(x => (x.Type, x.Number)).ToList(),
 			EmailAddresses = EmailAddresses,
 		};

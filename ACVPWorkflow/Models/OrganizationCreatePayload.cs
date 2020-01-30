@@ -16,7 +16,7 @@ namespace ACVPWorkflow.Models
 		[JsonPropertyName("name")]
 		public string Name { get; set; }
 
-		[JsonPropertyName("website")]
+		[JsonPropertyName("link")]
 		public string Website { get; set; }
 
 		[JsonPropertyName("parentUrl")]
@@ -25,8 +25,11 @@ namespace ACVPWorkflow.Models
 		[JsonPropertyName("emails")]
 		public List<string> EmailAddresses { get; set; }
 
-		[JsonPropertyName("phoneNumbers")]
-		public List<PhoneNumber> PhoneNumbers { get; set; }
+		[JsonPropertyName("voiceNumber")]
+		public string VoiceNumber { get; set; }
+
+		[JsonPropertyName("faxNumber")]
+		public string FaxNumber { get; set; }
 
 		[JsonPropertyName("addresses")]
 		public List<Address> Addresses { get; set; }
@@ -36,8 +39,8 @@ namespace ACVPWorkflow.Models
 		{
 			Name = Name,
 			Website = Website,
-			VoiceNumber = PhoneNumbers.FirstOrDefault(x => x.Type == "voice")?.Number,         //Though phone numbers are a collection of objects in the JSON, in the database there are just 2 fields on the org record
-			FaxNumber = PhoneNumbers.FirstOrDefault(x => x.Type == "fax")?.Number,
+			VoiceNumber = VoiceNumber,
+			FaxNumber = FaxNumber,
 			ParentOrganizationID = ParseNullableIDFromURL(ParentURL),
 			EmailAddresses = EmailAddresses,
 			Addresses = Addresses.Select(x => new AddressCreateParameters
@@ -51,17 +54,6 @@ namespace ACVPWorkflow.Models
 				Country = x.Country
 			}).ToList()
 		};
-
-
-
-		public class PhoneNumber
-		{
-			[JsonPropertyName("number")]
-			public string Number { get; set; }
-
-			[JsonPropertyName("type")]
-			public string Type { get; set; }
-		}
 
 		public class Address
 		{

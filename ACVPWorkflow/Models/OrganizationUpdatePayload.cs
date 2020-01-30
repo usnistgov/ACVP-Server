@@ -11,7 +11,8 @@ namespace ACVPWorkflow.Models
 		private string _website;
 		private string _parentOrganizationURL;
 		private List<string> _emailAddresses;
-		private List<PhoneNumber> _phoneNumbers;
+		private string _voiceNumber;
+		private string _faxNumber;
 		private List<Address> _addresses;
 
 		[JsonPropertyName("id")]
@@ -31,7 +32,7 @@ namespace ACVPWorkflow.Models
 			}
 		}
 
-		[JsonPropertyName("website")]
+		[JsonPropertyName("link")]
 		public string Website
 		{
 			get => _website;
@@ -64,14 +65,25 @@ namespace ACVPWorkflow.Models
 			}
 		}
 
-		[JsonPropertyName("phoneNumbers")]
-		public List<PhoneNumber> PhoneNumbers
+		[JsonPropertyName("voiceNumber")]
+		public string VoiceNumber
 		{
-			get => _phoneNumbers;
+			get => _voiceNumber;
 			set
 			{
-				_phoneNumbers = value;
-				PhoneNumbersUpdated = true;
+				_voiceNumber = value;
+				VoiceNumberUpdated = true;
+			}
+		}
+
+		[JsonPropertyName("faxNumber")]
+		public string FaxNumber
+		{
+			get => _faxNumber;
+			set
+			{
+				_faxNumber = value;
+				FaxNumberUpdated = true;
 			}
 		}
 
@@ -88,7 +100,8 @@ namespace ACVPWorkflow.Models
 		public bool NameUpdated { get; private set; } = false;
 		public bool WebsiteUpdated { get; private set; } = false;
 		public bool ParentOrganizationURLUpdated { get; private set; } = false;
-		public bool PhoneNumbersUpdated { get; private set; } = false;
+		public bool VoiceNumberUpdated { get; private set; } = false;
+		public bool FaxNumberUpdated { get; private set; } = false;
 		public bool EmailAddressesUpdated { get; private set; } = false;
 		public bool AddressesUpdated { get; private set; } = false;
 
@@ -149,15 +162,16 @@ namespace ACVPWorkflow.Models
 				ID = ID,
 				Name = Name,
 				Website = Website,
-				VoiceNumber = PhoneNumbers.FirstOrDefault(x => x.Type == "voice")?.Number,         //Though phone numbers are a collection of objects in the JSON, in the database there are just 2 fields on the org record
-				FaxNumber = PhoneNumbers.FirstOrDefault(x => x.Type == "fax")?.Number,
+				VoiceNumber = VoiceNumber,
+				FaxNumber = FaxNumber,
 				ParentOrganizationID = ParseNullableIDFromURL(ParentOrganizationURL),
 				EmailAddresses = EmailAddresses,
 				Addresses = AddressObjects,
 				NameUpdated = NameUpdated,
 				WebsiteUpdated = WebsiteUpdated,
 				ParentOrganizationIDUpdated = ParentOrganizationURLUpdated,
-				PhoneNumbersUpdated = PhoneNumbersUpdated,
+				VoiceNumberUpdated = VoiceNumberUpdated,
+				FaxNumberUpdated = FaxNumberUpdated,
 				EmailAddressesUpdated = EmailAddressesUpdated,
 				AddressesUpdated = AddressesUpdated
 			};
