@@ -52,6 +52,11 @@ namespace NIST.CVP.Crypto.Oracle.Helpers
                     ThisLogger.Warn(ex,
                         $"{nameof(ConnectionFailedException)} stack: {ex.StackTrace}.");
                 }
+                catch (SiloUnavailableException ex)
+                {
+                    ThisLogger.Warn(ex,
+                        $"{nameof(SiloUnavailableException)} stack: {ex.StackTrace}.");
+                }
                 
                 await Task.Delay(TimeSpan.FromSeconds(Constants.TaskPollingSeconds));
             }
@@ -91,6 +96,11 @@ namespace NIST.CVP.Crypto.Oracle.Helpers
                 {
                     ThisLogger.Warn(ex,
                         $"{nameof(ConnectionFailedException)} stack: {ex.StackTrace}.");
+                }
+                catch (SiloUnavailableException ex)
+                {
+                    ThisLogger.Warn(ex,
+                        $"{nameof(SiloUnavailableException)} stack: {ex.StackTrace}.");
                 }
                 
                 await Task.Delay(TimeSpan.FromSeconds(Constants.TaskPollingSeconds));
@@ -132,6 +142,11 @@ namespace NIST.CVP.Crypto.Oracle.Helpers
                 {
                     ThisLogger.Warn(ex,
                         $"{nameof(ConnectionFailedException)} stack: {ex.StackTrace}.");
+                }
+                catch (SiloUnavailableException ex)
+                {
+                    ThisLogger.Warn(ex,
+                        $"{nameof(SiloUnavailableException)} stack: {ex.StackTrace}.");
                 }
                 
                 await Task.Delay(TimeSpan.FromSeconds(Constants.TaskPollingSeconds));
@@ -176,6 +191,11 @@ namespace NIST.CVP.Crypto.Oracle.Helpers
                 {
                     ThisLogger.Warn(ex,
                         $"{nameof(ConnectionFailedException)} stack: {ex.StackTrace}.");
+                }
+                catch (SiloUnavailableException ex)
+                {
+                    ThisLogger.Warn(ex,
+                        $"{nameof(SiloUnavailableException)} stack: {ex.StackTrace}.");
                 }
                 
                 await Task.Delay(TimeSpan.FromSeconds(Constants.TaskPollingSeconds));
@@ -222,6 +242,11 @@ namespace NIST.CVP.Crypto.Oracle.Helpers
                 {
                     ThisLogger.Warn(ex,
                         $"{nameof(ConnectionFailedException)} stack: {ex.StackTrace}.");
+                }
+                catch (SiloUnavailableException ex)
+                {
+                    ThisLogger.Warn(ex,
+                        $"{nameof(SiloUnavailableException)} stack: {ex.StackTrace}.");
                 }
                 
                 await Task.Delay(TimeSpan.FromSeconds(Constants.TaskPollingSeconds));
