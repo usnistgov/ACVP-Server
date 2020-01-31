@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Crypto.Common.DRBG;
+﻿using System;
+using NIST.CVP.Crypto.Common.DRBG;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using NIST.CVP.Crypto.Oracle.Helpers;
@@ -22,7 +23,7 @@ namespace NIST.CVP.Crypto.Oracle
             }
             catch (OriginalClusterNodeSuicideException ex)
             {
-                ThisLogger.Warn(ex, JsonConvert.SerializeObject(param));
+                ThisLogger.Warn(ex, $"{ex.Message}{Environment.NewLine}Restarting grain with {param.GetType()} parameter: {JsonConvert.SerializeObject(param)}");
                 return await GetDrbgCaseAsync(param);
             }
         }

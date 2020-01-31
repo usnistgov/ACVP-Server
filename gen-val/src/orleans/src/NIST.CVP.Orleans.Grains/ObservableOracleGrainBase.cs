@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
@@ -155,6 +156,11 @@ namespace NIST.CVP.Orleans.Grains
         {
             await Task.Factory.StartNew(() =>
             {
+                while (!_subsManager.Any())
+                {
+                    Task.Delay(5000);
+                }
+                
                 _subsManager.Notify(observer => observer.ReceiveMessageFromCluster(result));
             }, CancellationToken.None, TaskCreationOptions.None, OrleansScheduler);
         }
@@ -172,6 +178,11 @@ namespace NIST.CVP.Orleans.Grains
         {
             await Task.Factory.StartNew(() =>
             {
+                while (!_subsManager.Any())
+                {
+                    Task.Delay(5000);
+                }
+            
                 _subsManager.Notify(observer => observer.Throw(exception));
             }, CancellationToken.None, TaskCreationOptions.None, OrleansScheduler);
         }

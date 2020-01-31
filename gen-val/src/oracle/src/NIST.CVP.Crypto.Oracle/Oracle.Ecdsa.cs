@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Common.Oracle.ParameterTypes;
+﻿using System;
+using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -24,7 +25,7 @@ namespace NIST.CVP.Crypto.Oracle
             }
             catch (OriginalClusterNodeSuicideException ex)
             {
-                ThisLogger.Warn(ex, JsonConvert.SerializeObject(param));
+                ThisLogger.Warn(ex, $"{ex.Message}{Environment.NewLine}Restarting grain with {param.GetType()} parameter: {JsonConvert.SerializeObject(param)}");
                 return await GetEcdsaDomainParameterAsync(param);
             }
         }
@@ -41,7 +42,7 @@ namespace NIST.CVP.Crypto.Oracle
             }
             catch (OriginalClusterNodeSuicideException ex)
             {
-                ThisLogger.Warn(ex, JsonConvert.SerializeObject(param));
+                ThisLogger.Warn(ex, $"{ex.Message}{Environment.NewLine}Restarting grain with {param.GetType()} parameter: {JsonConvert.SerializeObject(param)}");
                 return await GetEcdsaKeyAsync(param);
             }
         }
@@ -58,7 +59,7 @@ namespace NIST.CVP.Crypto.Oracle
             }
             catch (OriginalClusterNodeSuicideException ex)
             {
-                ThisLogger.Warn(ex, JsonConvert.SerializeObject(param));
+                ThisLogger.Warn(ex, $"{ex.Message}{Environment.NewLine}Restarting grain with {param.GetType()} parameter: {JsonConvert.SerializeObject(param)}");
                 return await CompleteDeferredEcdsaKeyAsync(param, fullParam);
             }
         }
@@ -77,7 +78,7 @@ namespace NIST.CVP.Crypto.Oracle
             }
             catch (OriginalClusterNodeSuicideException ex)
             {
-                ThisLogger.Warn(ex, JsonConvert.SerializeObject(param));
+                ThisLogger.Warn(ex, $"{ex.Message}{Environment.NewLine}Restarting grain with {param.GetType()} parameter: {JsonConvert.SerializeObject(param)}");
                 return await GetEcdsaKeyVerifyAsync(param);
             }
         }
@@ -94,7 +95,7 @@ namespace NIST.CVP.Crypto.Oracle
             }
             catch (OriginalClusterNodeSuicideException ex)
             {
-                ThisLogger.Warn(ex, JsonConvert.SerializeObject(param));
+                ThisLogger.Warn(ex, $"{ex.Message}{Environment.NewLine}Restarting grain with {param.GetType()} parameter: {JsonConvert.SerializeObject(param)}");
                 return await GetDeferredEcdsaSignatureAsync(param);
             }
         }
@@ -111,7 +112,7 @@ namespace NIST.CVP.Crypto.Oracle
             }
             catch (OriginalClusterNodeSuicideException ex)
             {
-                ThisLogger.Warn(ex, JsonConvert.SerializeObject(param));
+                ThisLogger.Warn(ex, $"{ex.Message}{Environment.NewLine}Restarting grain with {param.GetType()} parameter: {JsonConvert.SerializeObject(param)}");
                 return await CompleteDeferredEcdsaSignatureAsync(param, fullParam);
             }
         }
@@ -128,7 +129,7 @@ namespace NIST.CVP.Crypto.Oracle
             }
             catch (OriginalClusterNodeSuicideException ex)
             {
-                ThisLogger.Warn(ex, JsonConvert.SerializeObject(param));
+                ThisLogger.Warn(ex, $"{ex.Message}{Environment.NewLine}Restarting grain with {param.GetType()} parameter: {JsonConvert.SerializeObject(param)}");
                 return await GetEcdsaSignatureAsync(param);
             }
         }
@@ -143,7 +144,13 @@ namespace NIST.CVP.Crypto.Oracle
             var key = await GetEcdsaKeyAsync(keyParam);
             // re-signs with "bad key" under specific error condition to ensure IUT validates as failed verification.
             var badKey = await GetEcdsaKeyAsync(keyParam);
-            
+
+            return await GetEcdsaVerifyResultAsync(param, key, badKey);
+        }
+
+        private async Task<VerifyResult<EcdsaSignatureResult>> GetEcdsaVerifyResultAsync(EcdsaSignatureParameters param,
+            EcdsaKeyResult key, EcdsaKeyResult badKey)
+        {
             try
             {
                 var observableGrain = 
@@ -154,8 +161,8 @@ namespace NIST.CVP.Crypto.Oracle
             }
             catch (OriginalClusterNodeSuicideException ex)
             {
-                ThisLogger.Warn(ex, JsonConvert.SerializeObject(param));
-                return await GetEcdsaVerifyResultAsync(param);
+                ThisLogger.Warn(ex, $"{ex.Message}{Environment.NewLine}Restarting grain with {param.GetType()} parameter: {JsonConvert.SerializeObject(param)}");
+                return await GetEcdsaVerifyResultAsync(param, key, badKey);
             }
         }
     }
