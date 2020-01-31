@@ -57,6 +57,11 @@ namespace NIST.CVP.Crypto.Oracle.Helpers
                     ThisLogger.Warn(ex,
                         $"{nameof(SiloUnavailableException)} stack: {ex.StackTrace}.");
                 }
+                catch (OrleansMessageRejectionException ex)
+                {
+                    ThisLogger.Warn(ex,
+                        $"{nameof(OrleansMessageRejectionException)} stack: {ex.StackTrace}.");
+                }
                 
                 await Task.Delay(TimeSpan.FromSeconds(Constants.TaskPollingSeconds));
             }
@@ -101,6 +106,11 @@ namespace NIST.CVP.Crypto.Oracle.Helpers
                 {
                     ThisLogger.Warn(ex,
                         $"{nameof(SiloUnavailableException)} stack: {ex.StackTrace}.");
+                }
+                catch (OrleansMessageRejectionException ex)
+                {
+                    ThisLogger.Warn(ex,
+                        $"{nameof(OrleansMessageRejectionException)} stack: {ex.StackTrace}.");
                 }
                 
                 await Task.Delay(TimeSpan.FromSeconds(Constants.TaskPollingSeconds));
@@ -147,6 +157,11 @@ namespace NIST.CVP.Crypto.Oracle.Helpers
                 {
                     ThisLogger.Warn(ex,
                         $"{nameof(SiloUnavailableException)} stack: {ex.StackTrace}.");
+                }
+                catch (OrleansMessageRejectionException ex)
+                {
+                    ThisLogger.Warn(ex,
+                        $"{nameof(OrleansMessageRejectionException)} stack: {ex.StackTrace}.");
                 }
                 
                 await Task.Delay(TimeSpan.FromSeconds(Constants.TaskPollingSeconds));
@@ -196,6 +211,11 @@ namespace NIST.CVP.Crypto.Oracle.Helpers
                 {
                     ThisLogger.Warn(ex,
                         $"{nameof(SiloUnavailableException)} stack: {ex.StackTrace}.");
+                }
+                catch (OrleansMessageRejectionException ex)
+                {
+                    ThisLogger.Warn(ex,
+                        $"{nameof(OrleansMessageRejectionException)} stack: {ex.StackTrace}.");
                 }
                 
                 await Task.Delay(TimeSpan.FromSeconds(Constants.TaskPollingSeconds));
@@ -247,6 +267,11 @@ namespace NIST.CVP.Crypto.Oracle.Helpers
                 {
                     ThisLogger.Warn(ex,
                         $"{nameof(SiloUnavailableException)} stack: {ex.StackTrace}.");
+                }
+                catch (OrleansMessageRejectionException ex)
+                {
+                    ThisLogger.Warn(ex,
+                        $"{nameof(OrleansMessageRejectionException)} stack: {ex.StackTrace}.");
                 }
                 
                 await Task.Delay(TimeSpan.FromSeconds(Constants.TaskPollingSeconds));
