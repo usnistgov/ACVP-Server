@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -21,7 +22,9 @@ namespace Web.Admin
         public void ConfigureServices(IServiceCollection services)
         {
             services.RegisterAcvpAdminServices();
-            services.AddControllersWithViews();
+            services.AddControllersWithViews()
+                .AddJsonOptions(
+                    options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/dist"; });
         }

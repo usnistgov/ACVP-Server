@@ -1,4 +1,6 @@
-﻿using ACVPWorkflow.Providers;
+﻿using System.Collections.Generic;
+using ACVPWorkflow.Models;
+using ACVPWorkflow.Providers;
 using ACVPWorkflow.Results;
 
 namespace ACVPWorkflow.Services
@@ -67,6 +69,16 @@ namespace ACVPWorkflow.Services
 			}
 
 			return result;
+		}
+
+		public List<WorkflowItemLite> GetWorkflowItems(WorkflowStatus status)
+		{
+			return _workflowProvider.GetWorkflowItems(status);
+		}
+
+		public WorkflowItem GetWorkflowItem(long workflowItemId)
+		{
+			return _workflowProvider.GetWorkflowItem(workflowItemId);
 		}
 
 		private WorkflowContact BuildWorkflowContact(long acvpUserID)
