@@ -4,6 +4,7 @@ import { HomeComponent } from './components/home/home.component'
 import { LegacyFileUploadComponent } from './components/legacy-file-upload/legacy-file-upload.component'
 import { ValidationDbValidationsComponent } from './components/validation-db-validations/validation-db-validations.component';
 import { ValidationDbDependenciesComponent } from './components/validation-db-dependencies/validation-db-dependencies.component';
+import { ValidationDbDependencyComponent } from './components/validation-db-dependency/validation-db-dependency.component';
 
 const routes: Routes = [
   {
@@ -21,6 +22,10 @@ const routes: Routes = [
   {
     path: 'validation-db/dependencies',
     component: ValidationDbDependenciesComponent
+  },
+  {
+    path: 'validation-db/dependencies/:id',
+    component: ValidationDbDependencyComponent
   }
 ];
 

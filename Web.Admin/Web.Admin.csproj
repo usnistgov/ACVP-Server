@@ -26,7 +26,21 @@
     </ItemGroup>
 
     <ItemGroup>
+      <None Remove="ClientApp\src\app\models\dependency-list.ts" />
+      <None Remove="ClientApp\src\app\models\dependency-lite.ts" />
+      <None Remove="ClientApp\src\app\models\dependency.ts" />
+      <None Remove="ClientApp\src\app\models\dependency\attribute.ts" />
+    </ItemGroup>
+
+    <ItemGroup>
       <ProjectReference Include="..\ACVPCore\ACVPCore.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <TypeScriptCompile Include="ClientApp\src\app\models\dependency\attribute.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\dependency\dependency-list.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\dependency\dependency-lite.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\dependency\dependency.ts" />
     </ItemGroup>
 
     <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

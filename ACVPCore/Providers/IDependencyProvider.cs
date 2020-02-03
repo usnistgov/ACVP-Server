@@ -18,7 +18,6 @@ namespace ACVPCore.Providers
 
 		InsertResult Insert(string type, string name, string description);
 		InsertResult InsertAttribute(long dependencyID, string name, string value);
-
 		Result Update(long dependencyID, string type, string name, string description, bool typeUpdated, bool nameUpdated, bool descriptionUpdated);
 
 		bool DependencyIsUsed(long dependencyID);
