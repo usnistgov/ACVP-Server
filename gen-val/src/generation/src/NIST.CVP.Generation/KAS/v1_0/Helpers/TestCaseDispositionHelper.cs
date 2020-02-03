@@ -36,7 +36,7 @@ namespace NIST.CVP.Generation.KAS.v1_0.Helpers
             validityTestCaseOptions.Add(KasValTestDisposition.FailChangedTag, numberOfScenariosPerType);
 
             // Conditions based on assurances
-            if ((testGroup.Function.HasFlag(KasAssurance.KeyPairGen) || testGroup.Function.HasFlag(KasAssurance.FullVal)) 
+            if ((testGroup.Function.HasFlag(KasAssurance.FullVal)) 
                 && testGroup.KeyNonceGenRequirementsIut.GeneratesStaticKeyPair)
             {
                 validityTestCaseOptions.Add(KasValTestDisposition.FailAssuranceIutStaticPublicKey, numberOfScenariosPerType);
@@ -61,13 +61,6 @@ namespace NIST.CVP.Generation.KAS.v1_0.Helpers
                 && testGroup.KeyNonceGenRequirementsServer.GeneratesStaticKeyPair)
             {
                 validityTestCaseOptions.Add(KasValTestDisposition.FailAssuranceServerStaticPublicKey, numberOfScenariosPerType);
-            }
-
-            if ((testGroup.KasMode == KasMode.KdfKc || testGroup.Function.HasFlag(KasAssurance.KeyPairGen)
-                || testGroup.Function.HasFlag(KasAssurance.KeyRegen)) 
-                && testGroup.KeyNonceGenRequirementsIut.GeneratesStaticKeyPair)
-            {
-                validityTestCaseOptions.Add(KasValTestDisposition.FailAssuranceIutStaticPrivateKey, numberOfScenariosPerType);
             }
 
             // Determine number of successful cases to generate

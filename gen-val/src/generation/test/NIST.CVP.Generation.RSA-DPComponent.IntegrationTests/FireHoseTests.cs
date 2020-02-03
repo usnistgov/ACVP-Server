@@ -15,7 +15,7 @@ namespace NIST.CVP.Generation.RSA_DPComponent.IntegrationTests
         [SetUp]
         public void SetUp()
         {
-            _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\LegacyParserFiles\dp-component\");
+            _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\LegacyCavsFiles\rsa\dp-component\");
         }
 
         [Test]

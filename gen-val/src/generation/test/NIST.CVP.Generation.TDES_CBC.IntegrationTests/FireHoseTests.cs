@@ -27,7 +27,7 @@ namespace NIST.CVP.Generation.TDES_CBC.IntegrationTests
         [SetUp]
         public void Setup()
         {
-            _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\LegacyParserFiles\");
+            _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\LegacyCavsFiles\tdes-cbc\");
             _algo = new CbcBlockCipher(new TdesEngine());
             _keyMaker = new MonteCarloKeyMaker();
             _algoMct = new MonteCarloTdesCbc(

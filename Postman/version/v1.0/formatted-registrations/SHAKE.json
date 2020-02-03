@@ -1,0 +1,1 @@
+[{"algorithms": "{\"algorithm\":\"SHAKE-128\",\"revision\":\"1.0\",\"inBit\":false,\"outBit\":false,\"inEmpty\":false,\"outputLen\":[{\"min\":256,\"max\":264,\"increment\":8}]}"}]

@@ -1,0 +1,1 @@
+[{"algorithms":"{\"algorithm\":\"KAS-ECC\",\"mode\":\"Component\",\"revision\":\"1.0\",\"isSample\":true,\"function\":[\"dpGen\",\"dpVal\",\"keyPairGen\",\"partialVal\",\"keyRegen\"],\"scheme\":{\"onePassUnified\":{\"kasRole\":[\"initiator\",\"responder\"],\"noKdfNoKc\":{\"parameterSet\":{\"eb\":{\"hashAlg\":[\"SHA2-224\"],\"curve\":\"P-224\"}}}}}}"}]

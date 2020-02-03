@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json.Serialization;
+using ACVPCore.Models.Parameters;
 
 namespace ACVPWorkflow.Models
 {
-	public class OrganizationCreatePayload
+	public class OrganizationCreatePayload : BasePayload, IWorkflowItemPayload
 	{
 		[JsonPropertyName("id")]
 		public long ID { get => -1; }
@@ -14,7 +16,7 @@ namespace ACVPWorkflow.Models
 		[JsonPropertyName("name")]
 		public string Name { get; set; }
 
-		[JsonPropertyName("website")]
+		[JsonPropertyName("link")]
 		public string Website { get; set; }
 
 		[JsonPropertyName("parentUrl")]
@@ -23,20 +25,35 @@ namespace ACVPWorkflow.Models
 		[JsonPropertyName("emails")]
 		public List<string> EmailAddresses { get; set; }
 
-		[JsonPropertyName("phoneNumbers")]
-		public List<PhoneNumber> PhoneNumbers { get; set; }
+		[JsonPropertyName("voiceNumber")]
+		public string VoiceNumber { get; set; }
+
+		[JsonPropertyName("faxNumber")]
+		public string FaxNumber { get; set; }
 
 		[JsonPropertyName("addresses")]
 		public List<Address> Addresses { get; set; }
 
-		public class PhoneNumber
-		{
-			[JsonPropertyName("number")]
-			public string Number { get; set; }
 
-			[JsonPropertyName("type")]
-			public string Type { get; set; }
-		}
+		public OrganizationCreateParameters ToOrganizationCreateParameters() => new OrganizationCreateParameters
+		{
+			Name = Name,
+			Website = Website,
+			VoiceNumber = VoiceNumber,
+			FaxNumber = FaxNumber,
+			ParentOrganizationID = ParseNullableIDFromURL(ParentURL),
+			EmailAddresses = EmailAddresses,
+			Addresses = Addresses.Select(x => new AddressCreateParameters
+			{
+				Street1 = x.Street1,
+				Street2 = x.Street2,
+				Street3 = x.Street3,
+				Locality = x.Locality,
+				Region = x.Region,
+				PostalCode = x.PostalCode,
+				Country = x.Country
+			}).ToList()
+		};
 
 		public class Address
 		{

@@ -1,0 +1,1 @@
+[{"algorithms": "{\"algorithm\":\"ACVP-AES-GCM-SIV\",\"revision\":\"1.0\",\"direction\":[\"encrypt\",\"decrypt\"],\"keyLen\":[128],\"payloadLen\":[128],\"aadLen\":[128,120]}"}]

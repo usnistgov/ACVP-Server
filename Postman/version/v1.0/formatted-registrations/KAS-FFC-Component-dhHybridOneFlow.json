@@ -1,0 +1,1 @@
+[{"algorithms":"{\"algorithm\":\"KAS-FFC\",\"mode\":\"Component\",\"revision\":\"1.0\",\"isSample\":true,\"function\":[\"dpGen\",\"dpVal\",\"keyPairGen\",\"fullVal\",\"keyRegen\"],\"scheme\":{\"hybridOneFlow\":{\"kasRole\":[\"initiator\",\"responder\"],\"noKdfNoKc\":{\"parameterSet\":{\"fb\":{\"hashAlg\":[\"SHA2-224\"]}}}}}}"}]

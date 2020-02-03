@@ -3,6 +3,7 @@ using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Generation.ECDSA.v1_0.SigVer;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
+using RegisterInjections = NIST.CVP.Generation.ECDSA.Fips186_5.SigVer.RegisterInjections;
 
 namespace NIST.CVP.Generation.DSA.ECC.SigVer.IntegrationTests.Fips186_5
 {
@@ -40,6 +41,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer.IntegrationTests.Fips186_5
                 Revision = Revision,
                 IsSample = true,
                 Capabilities = caps,
+                Component = false,
                 Conformances = new[] { "SP800-106" }
             };
 
@@ -64,7 +66,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer.IntegrationTests.Fips186_5
                 Revision = Revision,
                 IsSample = true,
                 Capabilities = caps,
-                Conformances = new[] { "SP800-106" }
+                Component = true
             };
 
             return CreateRegistration(targetFolder, p);
@@ -74,7 +76,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer.IntegrationTests.Fips186_5
         {
             if (testCase.testPassed != null)
             {
-                testCase.testPassed = !testCase.testPassed;
+                testCase.testPassed = !(bool)testCase.testPassed;
             }
         }
     }

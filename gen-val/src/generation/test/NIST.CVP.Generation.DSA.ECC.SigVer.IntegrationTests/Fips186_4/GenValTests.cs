@@ -39,7 +39,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer.IntegrationTests.Fips186_4
                 Revision = Revision,
                 IsSample = true,
                 Capabilities = caps,
-                Conformances = new[] { "SP800-106" }
+                Component = true
             };
 
             return CreateRegistration(targetFolder, p);
@@ -63,6 +63,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer.IntegrationTests.Fips186_4
                 Revision = Revision,
                 IsSample = true,
                 Capabilities = caps,
+                Component = false,
                 Conformances = new[] { "SP800-106" }
             };
 

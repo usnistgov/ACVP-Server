@@ -199,24 +199,24 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                                 },
                                 FixedInfoPattern = "algorithmId||l||uPartyInfo||vPartyInfo"
                             },
-                            TwoStepKdf = new TwoStepKdf()
-                            {
-                                Capabilities = new[]
-                                {
-                                    new TwoStepCapabilities()
-                                    {
-                                        Encoding = new[] { FixedInfoEncoding.Concatenation },
-                                        FixedInfoPattern = "l||label||uPartyInfo||vPartyInfo||context",
-                                        MacSaltMethods = new[] { MacSaltMethod.Random },
-                                        CounterLength = new [] { 32 },
-                                        SupportedLengths = new MathDomain().AddSegment(new ValueDomainSegment(512)),
-                                        MacMode = new [] { MacModes.HMAC_SHA3_224 },
-                                        KdfMode = KdfModes.Feedback,
-                                        FixedDataOrder = new []{ CounterLocations.AfterFixedData },
-                                        SupportsEmptyIv = false
-                                    }
-                                },
-                            },
+                            // TwoStepKdf = new TwoStepKdf()
+                            // {
+                            //     Capabilities = new[]
+                            //     {
+                            //         new TwoStepCapabilities()
+                            //         {
+                            //             Encoding = new[] { FixedInfoEncoding.Concatenation },
+                            //             FixedInfoPattern = "l||label||uPartyInfo||vPartyInfo||context",
+                            //             MacSaltMethods = new[] { MacSaltMethod.Random },
+                            //             CounterLength = new [] { 32 },
+                            //             SupportedLengths = new MathDomain().AddSegment(new ValueDomainSegment(512)),
+                            //             MacMode = new [] { MacModes.HMAC_SHA3_224 },
+                            //             KdfMode = KdfModes.Feedback,
+                            //             FixedDataOrder = new []{ CounterLocations.AfterFixedData },
+                            //             SupportsEmptyIv = false
+                            //         }
+                            //     },
+                            // },
                         },
                         KeyConfirmationMethod = new KeyConfirmationMethod()
                         {
@@ -231,17 +231,17 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                             KeyConfirmationDirections = new[]
                             {
                                 KeyConfirmationDirection.Unilateral, 
-                                KeyConfirmationDirection.Bilateral
+                                //KeyConfirmationDirection.Bilateral
                             },
                             KeyConfirmationRoles = new[]
                             {
                                 KeyConfirmationRole.Provider, 
-                                KeyConfirmationRole.Recipient,
+                                //KeyConfirmationRole.Recipient,
                             }
                         },
                     },
                 },
-                DomainParameterGenerationMethods = new[] { KasDpGeneration.Ffdhe2048 }
+                DomainParameterGenerationMethods = new[] { KasDpGeneration.Ffdhe2048, KasDpGeneration.Fb }
             };
 
             return CreateRegistration(folderName, p);

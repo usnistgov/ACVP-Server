@@ -186,10 +186,10 @@ namespace NIST.CVP.Common
         RSA_SigVer_Fips186_5,
         [EnumMember(Value = "RSA-SignaturePrimitive-1.0")]
         RSA_SignaturePrimitive_v1_0,
-        [EnumMember(Value = "SafePrime-KeyGen-1.0")]
-        SafePrime_keyGen_v1_0,
-        [EnumMember(Value = "SafePrime-KeyVer-1.0")]
-        SafePrime_keyVer_v1_0,
+        [EnumMember(Value = "SafePrimes-KeyGen-1.0")]
+        SafePrimes_keyGen_v1_0,
+        [EnumMember(Value = "SafePrimes-KeyVer-1.0")]
+        SafePrimes_keyVer_v1_0,
         [EnumMember(Value = "SHA1-1.0")]
         SHA1_v1_0,
         [EnumMember(Value = "SHA-1-1.0")]

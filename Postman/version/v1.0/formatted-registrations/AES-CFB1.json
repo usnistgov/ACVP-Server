@@ -1,0 +1,1 @@
+[{"algorithms": "{\"algorithm\":\"ACVP-AES-CFB1\",\"revision\":\"1.0\",\"direction\":[\"encrypt\",\"decrypt\"],\"keyLen\":[128,192,256]}"}]

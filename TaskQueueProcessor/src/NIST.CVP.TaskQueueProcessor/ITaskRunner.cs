@@ -4,6 +4,6 @@ namespace NIST.CVP.TaskQueueProcessor
 {
     public interface ITaskRunner
     {
-        Task<int> RunTask(ITask task);
+        Task<long> RunTask(ITask task);
     }
 }

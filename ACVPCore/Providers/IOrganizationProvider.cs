@@ -7,7 +7,7 @@ namespace ACVPCore.Providers
 		InsertResult Insert(string name, string website, string voiceNumber, string faxNumber, long? parentOrganizationID);
 		Result InsertEmailAddress(long organizationID, string emailAddress, int orderIndex);
 
-		Result Update(long organizationID, string name, string website, string voiceNumber, string faxNumber, long? parentOrganizationID, bool nameUpdated, bool websiteUpdated, bool phoneNumbersUpdated, bool parentOrganizationIDUpdated);
+		Result Update(long organizationID, string name, string website, string voiceNumber, string faxNumber, long? parentOrganizationID, bool nameUpdated, bool websiteUpdated, bool voiceNumberUpdated, bool faxNumberUpdated, bool parentOrganizationIDUpdated);
 
 		Result Delete(long organizationID);
 		Result DeleteAllEmails(long organizationID);

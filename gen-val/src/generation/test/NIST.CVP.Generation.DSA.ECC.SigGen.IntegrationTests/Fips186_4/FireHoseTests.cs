@@ -22,8 +22,8 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen.IntegrationTests.Fips186_4
         [SetUp]
         public void SetUp()
         {
-            _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\LegacyParserFiles\siggen\");
-            _testPathComponent = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\LegacyParserFiles\siggencomponent\");
+            _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\LegacyCavsFiles\ECDSA\SigGen\");
+            _testPathComponent = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\LegacyCavsFiles\ECDSA\SigGenComponent\");
             _shaFactory = new ShaFactory();
             _curveFactory = new EccCurveFactory();
         }

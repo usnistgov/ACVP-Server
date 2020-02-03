@@ -3,6 +3,7 @@ using System.Text.Json;
 using ACVPCore.Models.Parameters;
 using ACVPCore.Results;
 using ACVPCore.Services;
+using ACVPWorkflow.Models;
 using ACVPWorkflow.Services;
 
 namespace ACVPWorkflow.WorkflowItemProcessors
@@ -11,16 +12,35 @@ namespace ACVPWorkflow.WorkflowItemProcessors
 	{
 		private readonly IOEService _oeService;
 		private readonly IWorkflowService _workflowService;
+		private readonly IDependencyService _dependencyService;
 
-		public UpdateOEProcessor(IOEService oeService, IWorkflowService workflowService)
+		public UpdateOEProcessor(IOEService oeService, IDependencyService dependencyService, IWorkflowService workflowService)
 		{
 			_oeService = oeService;
+			_dependencyService = dependencyService;
 			_workflowService = workflowService;
 		}
 
 		public void Approve(WorkflowItem workflowItem)
 		{
-			OEUpdateParameters parameters = JsonSerializer.Deserialize<OEUpdateParameters>(workflowItem.JSON);
+			OEUpdatePayload oeUpdatePayload = (OEUpdatePayload)workflowItem.Payload;
+			OEUpdateParameters parameters = oeUpdatePayload.ToOEUpdateParameters();
+
+			//If there were any new Dependencies in the OE, instead of just URLs, create those and add them to the collection of dependency IDs
+			foreach (DependencyCreatePayload dependencyCreatePayload in oeUpdatePayload.DependenciesToCreate)
+			{
+				//Convert from a payload to parameters
+				DependencyCreateParameters dependencyCreateParameters = dependencyCreatePayload.ToDependencyCreateParameters();
+
+				//Create it
+				DependencyResult dependencyCreateResult = _dependencyService.Create(dependencyCreateParameters);
+
+				//Add it to the dependency list
+				if (dependencyCreateResult.IsSuccess)
+				{
+					parameters.DependencyIDs.Add(dependencyCreateResult.ID);
+				}
+			}
 
 			//Update it
 			OEResult oeUpdateResult = _oeService.Update(parameters);

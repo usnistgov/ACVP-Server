@@ -20,7 +20,7 @@ namespace NIST.CVP.Generation.CMAC.IntegrationTests
         [SetUp]
         public void Setup()
         {
-            _testPath = Utilities.GetConsistentTestingStartPath(GetType(), $@"..\..\TestFiles\LegacyParserFiles\{FolderName}");
+            _testPath = Utilities.GetConsistentTestingStartPath(GetType(), $@"..\..\LegacyCavsFiles\cmac\{FolderName}");
         }
 
         [Test]
@@ -39,7 +39,6 @@ namespace NIST.CVP.Generation.CMAC.IntegrationTests
                 Assert.Fail("No TestGroups were parsed.");
             }
             var testVector = parsedFiles.ParsedObject;
-
 
             int count = 0;
             int passes = 0;

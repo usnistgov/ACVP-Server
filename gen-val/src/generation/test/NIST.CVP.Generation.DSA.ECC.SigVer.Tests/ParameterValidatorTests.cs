@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using NIST.CVP.Generation.ECDSA.v1_0.SigVer;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -23,8 +20,19 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer.Tests
         }
 
         [Test]
-        //[TestCase(new object[] { null }, TestName = "ShouldReturnErrorWithInvalidHashAlg - null")]
-        //[TestCase(new object[] { }, TestName = "ShouldReturnErrorWithInvalidHashAlg - empty")]
+        public void ShouldNotAllow106ConformanceAndPreHash()
+        {
+            var subject = new ParameterValidator();
+            var parameters = new ParameterBuilder()
+                .WithComponent(true)
+                .WithConformances(new[] {"SP800-106"})
+                .Build();
+
+            var result = subject.Validate(parameters);
+            Assert.IsFalse(result.Success);
+        }
+
+        [Test]
         [TestCase(new object[] { "notValid" }, TestName = "ShouldReturnErrorWithInvalidHashAlg - invalid")]
         [TestCase(new object[] { "sha2-256", "notValid" }, TestName = "ShouldReturnErrorWithInvalidHashAlg - partially valid")]
         [TestCase(new object[] { "sha2-512/224", "sha2-384", null }, TestName = "ShouldReturnErrorWithInvalidHashAlg - partially valid with null")]
@@ -45,11 +53,9 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer.Tests
         }
 
         [Test]
-        //[TestCase(new object[] { null }, TestName = "ShouldReturnErrorWithInvalidHashAlg - null")]
-        //[TestCase(new object[] { }, TestName = "ShouldReturnErrorWithInvalidHashAlg - empty")]
-        [TestCase(new object[] { "notValid" }, TestName = "ShouldReturnErrorWithInvalidHashAlg - invalid")]
-        [TestCase(new object[] { "p-224", "notValid" }, TestName = "ShouldReturnErrorWithInvalidHashAlg - partially valid")]
-        [TestCase(new object[] { "p-256", "b-409", null }, TestName = "ShouldReturnErrorWithInvalidHashAlg - partially valid with null")]
+        [TestCase(new object[] { "notValid" }, TestName = "ShouldReturnErrorWithInvalidCurve - invalid")]
+        [TestCase(new object[] { "p-224", "notValid" }, TestName = "ShouldReturnErrorWithInvalidCurve - partially valid")]
+        [TestCase(new object[] { "p-256", "b-409", null }, TestName = "ShouldReturnErrorWithInvalidCurve - partially valid with null")]
         public void ShouldReturnErrorWithInvalidCurve(object[] mode)
         {
             var strModes = mode.Select(v => (string)v).ToArray();
@@ -93,6 +99,8 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer.Tests
         private string _algorithm;
         private string _mode;
         private Capability[] _capabilities;
+        private bool _component;
+        private string[] _conformances;
 
         public ParameterBuilder()
         {
@@ -116,6 +124,18 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer.Tests
             return this;
         }
 
+        public ParameterBuilder WithComponent(bool value)
+        {
+            _component = value;
+            return this;
+        }
+
+        public ParameterBuilder WithConformances(string[] value)
+        {
+            _conformances = value;
+            return this;
+        }
+        
         public ParameterBuilder WithCapabilities(Capability[] value)
         {
             _capabilities = value;
@@ -137,7 +157,9 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer.Tests
             {
                 Algorithm = _algorithm,
                 Mode = _mode,
-                Capabilities = _capabilities
+                Capabilities = _capabilities,
+                Component = _component,
+                Conformances = _conformances
             };
         }
     }

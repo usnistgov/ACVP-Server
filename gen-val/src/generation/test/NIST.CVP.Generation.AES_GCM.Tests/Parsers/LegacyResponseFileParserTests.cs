@@ -17,7 +17,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests.Parsers
         [OneTimeSetUp]
         public void Setup()
         {
-            _unitTestPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\");
+            _unitTestPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\LegacyCavsFiles\aes-gcm");
         }
 
         [Test]
@@ -192,6 +192,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests.Parsers
         }
 
         [Test]
+        [Ignore("These files don't exist anymore")]
         public void ShouldParseExternalGenerationFromFileName()
         {
             var subject = new LegacyResponseFileParser();

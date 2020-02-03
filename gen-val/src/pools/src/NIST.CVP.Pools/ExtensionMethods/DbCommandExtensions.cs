@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 
 namespace NIST.CVP.Pools.ExtensionMethods
@@ -19,6 +20,15 @@ namespace NIST.CVP.Pools.ExtensionMethods
             param.ParameterName = parameterName;
             param.Value = value ?? DBNull.Value;
             command.Parameters.Add(param);
+        }
+
+        public static void AddParameters(this IDbCommand command, IEnumerable<(string name, object value)> parameters)
+        {
+            if (parameters == null) return;
+            foreach (var (name, value) in parameters)
+            {
+                AddParameter(command, name, value);
+            }
         }
     }
 }

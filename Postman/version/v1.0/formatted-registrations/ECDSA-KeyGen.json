@@ -1,0 +1,1 @@
+[{"algorithms": "{\"algorithm\":\"ECDSA\",\"mode\":\"keyGen\",\"revision\":\"1.0\",\"curve\":[\"P-224\",\"P-256\",\"P-384\",\"P-521\",\"B-233\",\"B-283\",\"B-409\",\"B-571\",\"K-233\",\"K-283\",\"K-409\",\"K-571\"],\"secretGenerationMode\":[\"extra bits\",\"testing candidates\"]}"}]

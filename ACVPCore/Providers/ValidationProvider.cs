@@ -18,19 +18,20 @@ namespace ACVPCore.Providers
 			_logger = logger;
 		}
 
-		public InsertResult Insert(long implementationID, bool isLCAVP = false)
+		public InsertResult Insert(ValidationSource validationSource, long validationNumber, long implementationID)
 		{
 			var db = new MightyOrm(_acvpConnectionString);
 
 			try
 			{
-				var data = db.SingleFromProcedure("val.ValidationRecordInsert", inParams: new
+				var data = db.SingleFromProcedure("val.ValidationInsert", inParams: new
 				{
-					ImplmenentationId = implementationID,
-					SourceId = isLCAVP ? 18 : 1             //TODO - Once LCAVP goes away remove this hardcode to handle this being ACVP (1) vs LCAVP (18)
+					ImplementationId = implementationID,
+					SourceId = validationSource,             //TODO - Once LCAVP goes away hardcode this to ACVP maybe
+					ValidationNumber = validationNumber
 				});
 
-				return new InsertResult(data.ValidationRecordId);
+				return new InsertResult(data.ValidationId);
 			}
 			catch (Exception ex)
 			{
@@ -53,7 +54,7 @@ namespace ACVPCore.Providers
 
 				foreach (var validation in data)
 				{
-					validations.Add((validation.ValidationRecordId, validation.SourceId));
+					validations.Add((validation.ValidationId, validation.SourceId));
 				}
 			}
 			catch (Exception ex)
@@ -63,5 +64,61 @@ namespace ACVPCore.Providers
 
 			return validations;
 		}
+
+		public long GetNextACVPValidationNumber()
+		{
+			var db = new MightyOrm(_acvpConnectionString);
+
+			try
+			{
+				var data = db.SingleFromProcedure("val.NextACVPValidationNumberGet");
+
+				return data.ValidationNumber;
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex.Message);
+				return -1;
+			}
+		}
+
+		public long GetNextLCAVPValidationNumber()
+		{
+			var db = new MightyOrm(_acvpConnectionString);
+
+			try
+			{
+				var data = db.SingleFromProcedure("val.NextLCAVPValidationNumberGet");
+
+				return data.ValidationNumber;
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex.Message);
+				return -1;
+			}
+		}
+
+		public Result ValidationTestSessionInsert(long validationID, long testSessionID)
+		{
+			var db = new MightyOrm(_acvpConnectionString);
+
+			try
+			{
+				var data = db.ExecuteProcedure("val.ValidationTestSessionsInsert", inParams: new
+				{
+					ValidationId = validationID,
+					TestSessionId = testSessionID
+				});
+
+				return new Result();
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex.Message);
+				return new InsertResult(ex.Message);
+			}
+		}
+
 	}
 }

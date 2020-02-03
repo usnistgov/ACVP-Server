@@ -24,7 +24,7 @@ namespace NIST.CVP.Generation.AES_ECB.IntegrationTests
         [SetUp]
         public void Setup()
         {
-            _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\LegacyParserFiles\");
+            _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\LegacyCavsFiles\aes-ecb\");
             _aesEcb = new EcbBlockCipher(new AesEngine());
             _aesEcbMct = new MonteCarloAesEcb(new BlockCipherEngineFactory(), new ModeBlockCipherFactory(), new AesMonteCarloKeyMaker());
         }

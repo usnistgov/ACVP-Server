@@ -1,0 +1,1 @@
+[{"algorithms": "{\"algorithm\":\"RSA\",\"mode\":\"keyGen\",\"revision\":\"1.0\",\"capabilities\":[{\"randPQ\":\"B.3.3\",\"properties\":[{\"modulo\":2048,\"primeTest\":[\"tblC2\"]},{\"modulo\":3072,\"primeTest\":[\"tblC2\"]}]}],\"infoGeneratedByServer\":false,\"pubExpMode\":\"random\",\"keyFormat\":\"crt\"}"}]

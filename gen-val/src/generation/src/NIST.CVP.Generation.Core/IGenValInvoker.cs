@@ -1,3 +1,5 @@
+using System.Threading.Tasks;
+
 namespace NIST.CVP.Generation.Core
 {
     /// <summary>
