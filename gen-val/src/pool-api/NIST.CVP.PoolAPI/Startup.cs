@@ -1,12 +1,15 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System.Collections.Generic;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json;
 using NIST.CVP.Common.Config;
 using NIST.CVP.Common.Interfaces;
 using NIST.CVP.Common.Oracle;
+using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Common.Services;
 using NIST.CVP.Crypto.Oracle;
 using NIST.CVP.Pools;
@@ -58,6 +61,8 @@ namespace NIST.CVP.PoolAPI
             services.AddSingleton<IDbConnectionFactory, SqlDbConnectionFactory>();
 
             services.AddSingleton<IJsonConverterProvider, JsonConverterProvider>();
+            services.AddSingleton(serviceProvider  => new JsonConverterProvider().GetJsonConverters());
+            services.AddSingleton<IPoolRepository<IResult>, PoolSqlRepository<IResult>>();
             services.AddSingleton<IPoolFactory, PoolFactory>();
             services.AddSingleton<IPoolObjectFactory, PoolObjectFactory>();
             services.AddSingleton<IPoolRepositoryFactory, PoolSqlRepositoryFactory>();

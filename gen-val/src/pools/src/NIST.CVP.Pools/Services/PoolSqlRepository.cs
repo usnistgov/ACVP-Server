@@ -162,5 +162,33 @@ namespace NIST.CVP.Pools.Services
                 }
             }
         }
+        
+        public Dictionary<string, long> GetAllPoolCounts()
+        {
+            var results = new Dictionary<string, long>();
+            
+            using (var conn = _connectionFactory.Get(_connectionString))
+            {
+                conn.Open();
+
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = "GetPoolCounts";
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            results.Add(
+                                reader.GetString(reader.GetOrdinal("poolName")), 
+                                reader.GetInt64(reader.GetOrdinal("poolCount")));
+                        }
+                    }
+                }
+            }
+
+            return results;
+        }
     }
 }
