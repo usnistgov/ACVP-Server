@@ -15,7 +15,7 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen.IntegrationTests
         [SetUp]
         public void SetUp()
         {
-            _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\LegacyParserFiles\keygen\");
+            _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\LegacyCavsFiles\DSA\keygen\");
         }
 
         [Test]

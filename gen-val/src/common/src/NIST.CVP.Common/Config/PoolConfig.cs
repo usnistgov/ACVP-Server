@@ -40,5 +40,10 @@
         /// <remarks>Use 0 to log the entirety of the pool value (this will get big for things like MCT pool values).</remarks>
         /// </summary>
         public int PoolResultLogLength { get; set; }
+        
+        /// <summary>
+        /// Should the pools be allowed to spawn from the controller
+        /// </summary>
+        public bool AllowPoolSpawn { get; set; }
     }
 }

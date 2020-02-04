@@ -42,19 +42,19 @@ namespace NIST.CVP.Generation.TDES_CFBP.IntegrationTests
                 case BlockCipherModesOfOperation.CfbpBit:
                     testPath = Utilities.GetConsistentTestingStartPath(
                         GetType(),
-                        $@"..\..\TestFiles\LegacyParserFiles\tdes-cfbp1"
+                        $@"..\..\LegacyCavsFiles\tdes-cfb\acvp-tdes-cfbp1"
                     );
                     break;
                 case BlockCipherModesOfOperation.CfbpByte:
                     testPath = Utilities.GetConsistentTestingStartPath(
                         GetType(),
-                        $@"..\..\TestFiles\LegacyParserFiles\tdes-cfbp8"
+                        $@"..\..\LegacyCavsFiles\tdes-cfb\acvp-tdes-cfbp8"
                     );
                     break;
                 case BlockCipherModesOfOperation.CfbpBlock:
                     testPath = Utilities.GetConsistentTestingStartPath(
                         GetType(),
-                        $@"..\..\TestFiles\LegacyParserFiles\tdes-cfbp64"
+                        $@"..\..\LegacyCavsFiles\tdes-cfb\acvp-tdes-cfbp64"
                     );
                     break;
                 default:

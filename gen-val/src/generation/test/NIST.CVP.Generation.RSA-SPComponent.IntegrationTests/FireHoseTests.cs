@@ -15,7 +15,7 @@ namespace NIST.CVP.Generation.RSA_SPComponent.IntegrationTests
         [SetUp]
         public void SetUp()
         {
-            _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\LegacyParserFiles\sp-component\");
+            _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\LegacyCavsFiles\rsa\sp-component\");
         }
 
         [Test]

@@ -1,0 +1,1 @@
+[{"algorithms": "{\"algorithm\":\"RSA\",\"mode\":\"legacySigVer\",\"revision\":\"1.0\",\"capabilities\":[{\"sigType\":\"ansx9.31\",\"properties\":[{\"modulo\":1024,\"hashPair\":[{\"hashAlg\":\"SHA-1\",\"saltLen\":8}]}]}],\"pubExpMode\":\"random\"}"}]

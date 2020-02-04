@@ -45,7 +45,14 @@ namespace NIST.CVP.Pools
                 return default(T);
             }
 
-            var request = (HttpWebRequest)WebRequest.Create($"{_poolConfig.RootUrl}:{_poolConfig.Port}/api/pools");
+            var uriBuilder = new UriBuilder
+            {
+                Host = _poolConfig.RootUrl,
+                Path = "/api/pools",
+                Port = _poolConfig.Port
+            };
+            
+            var request = (HttpWebRequest)WebRequest.Create(uriBuilder.Uri.AbsoluteUri);
             request.ContentType = "application/json";
             request.Method = "POST";
 

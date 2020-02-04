@@ -16,7 +16,7 @@ namespace NIST.CVP.Generation.ANSIX963.IntegrationTests
         [SetUp]
         public void Setup()
         {
-            _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\LegacyParserFiles\ANSX\");
+            _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\LegacyCavsFiles\kdf-components\ANSX\");
         }
 
         [Test]

@@ -18,5 +18,6 @@ namespace NIST.CVP.Pools.Models
         public TParam WaterType { get; set; }
         public PoolProperties PoolProperties { get; set; }
         public string PoolName { get; set; }
+        public long PoolCount { get; set; }
     }
 }

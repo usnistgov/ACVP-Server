@@ -15,7 +15,7 @@ namespace NIST.CVP.Generation.SafePrimeGroups.v1_0.KeyGen
     {
         public IEnumerable<AlgoMode> SupportedAlgoModeRevisions => new List<AlgoMode>()
         {
-            AlgoMode.SafePrime_keyGen_v1_0
+            AlgoMode.SafePrimes_keyGen_v1_0
         };
 
         public void RegisterTypes(ContainerBuilder builder, AlgoMode algoMode)

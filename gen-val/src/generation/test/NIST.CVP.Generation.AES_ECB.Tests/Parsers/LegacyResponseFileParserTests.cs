@@ -10,6 +10,7 @@ using NUnit.Framework;
 namespace NIST.CVP.Generation.AES_ECB.Tests.Parsers
 {
     [TestFixture, UnitTest]
+    [Ignore("Files no longer exist")]
     public class LegacyResponseFileParserTests
     {
 

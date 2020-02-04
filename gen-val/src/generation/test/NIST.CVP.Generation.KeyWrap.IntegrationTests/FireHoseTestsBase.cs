@@ -29,7 +29,7 @@ namespace NIST.CVP.Generation.KeyWrap.IntegrationTests
         [SetUp]
         public void Setup()
         {
-            _testPath = Utilities.GetConsistentTestingStartPath(GetType(), $"..\\..\\TestFiles\\LegacyParserFiles\\{FolderName}");
+            _testPath = Utilities.GetConsistentTestingStartPath(GetType(), $@"..\..\LegacyCavsFiles\keyWrap\{FolderName}");
         }
  
         [Test]

@@ -1,0 +1,904 @@
+{
+	"info": {
+		"_postman_id": "663041f4-01a4-4a25-bcdc-9aa1ad9cec05",
+		"name": "Dev-Tests v1.0",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"item": [
+				{
+					"name": "TOTP Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "6bf8b9c4-336f-4dfa-8704-1a434636294d",
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"",
+									"if (jsonData.error) {",
+									"    pm.environment.set(\"next_step\", null);",
+									"}",
+									"else {",
+									"    pm.test(\"response must have totp\", function () {",
+									"        pm.expect(jsonData[1].totp);",
+									"    });",
+									"    ",
+									"    pm.environment.set(\"totp_token\", jsonData[1].totp);",
+									"",
+									"    pm.environment.set(\"next_step\", \"Access Token Login\");",
+									"}",
+									"",
+									"postman.setNextRequest(pm.environment.get(\"next_step\"));"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{https}}{{env}}.{{url}}/{{totp}}",
+							"host": [
+								"{{https}}{{env}}",
+								"{{url}}"
+							],
+							"path": [
+								"{{totp}}"
+							]
+						},
+						"description": "Test only, not publicly available."
+					},
+					"response": []
+				},
+				{
+					"name": "Refresh JWT",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "ace2ebee-a8e4-4a9c-9682-26fa89621553",
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"",
+									"if (jsonData.error) {",
+									"    pm.environment.set(\"next_step\", null);",
+									"}",
+									"else {",
+									"    pm.test(\"response must have access_token\", function () {",
+									"        pm.expect(jsonData[1].accessToken);",
+									"    });",
+									"    ",
+									"    pm.environment.set(\"access_token\", jsonData[1].accessToken);",
+									"    pm.environment.set(\"next_step\", pm.environment.get(\"post_refresh_step\"));",
+									"}",
+									"",
+									"postman.setNextRequest(pm.environment.get(\"next_step\"));"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n\t{\n\t\t\"acvVersion\": \"{{acv_version}}\" \n\t\t\n\t}, \n\t{\n\t\t\"password\": \"{{totp_token}}\",\n\t\t\"accessToken\": \"{{access_token}}\"\n\t}\n]"
+						},
+						"url": {
+							"raw": "{{https}}{{env}}.{{url}}/{{login}}",
+							"host": [
+								"{{https}}{{env}}",
+								"{{url}}"
+							],
+							"path": [
+								"{{login}}"
+							]
+						},
+						"description": "Send TOTP to get valid token"
+					},
+					"response": []
+				},
+				{
+					"name": "Access Token Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "41203838-26f1-4d23-b264-77bda863bc3d",
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"",
+									"if (jsonData.error) {",
+									"    pm.environment.set(\"next_step\", null);",
+									"}",
+									"else {",
+									"    pm.test(\"response must have access_token\", function () {",
+									"        pm.expect(jsonData[1].accessToken);",
+									"    });",
+									"    ",
+									"    pm.environment.set(\"access_token\", jsonData[1].accessToken);",
+									"    pm.environment.set(\"next_step\", \"Register\");",
+									"}",
+									"",
+									"postman.setNextRequest(pm.environment.get(\"next_step\"));"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n\t{\n\t\t\"acvVersion\": \"{{acv_version}}\" \n\t\t\n\t}, \n\t{\n\t\t\"password\": \"{{totp_token}}\"\n\t}\n]"
+						},
+						"url": {
+							"raw": "{{https}}{{env}}.{{url}}/{{login}}",
+							"host": [
+								"{{https}}{{env}}",
+								"{{url}}"
+							],
+							"path": [
+								"{{login}}"
+							]
+						},
+						"description": "Send TOTP to get valid token"
+					},
+					"response": []
+				},
+				{
+					"name": "TOTP for refresh",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "bdaa1c05-befb-4790-b9d7-3c25f14cedc5",
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"",
+									"if (jsonData.error) {",
+									"    pm.environment.set(\"next_step\", null);",
+									"}",
+									"else {",
+									"    pm.test(\"response must have totp\", function () {",
+									"        pm.expect(jsonData[1].totp);",
+									"    });",
+									"    ",
+									"    pm.environment.set(\"totp_token\", jsonData[1].totp);",
+									"",
+									"    pm.environment.set(\"next_step\", \"Refresh JWT\");",
+									"}",
+									"",
+									"postman.setNextRequest(pm.environment.get(\"next_step\"));"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{https}}{{env}}.{{url}}/{{totp}}",
+							"host": [
+								"{{https}}{{env}}",
+								"{{url}}"
+							],
+							"path": [
+								"{{totp}}"
+							]
+						},
+						"description": "Test only, not publicly available."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Algorithms",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8c552f40-9690-4db4-87bf-5b662d0b0cdb",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "d5df79c7-e832-4b0f-a03a-457143c0128f",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{https}}{{env}}.{{url}}/v1/algorithms",
+					"host": [
+						"{{https}}{{env}}",
+						"{{url}}"
+					],
+					"path": [
+						"v1",
+						"algorithms"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Answers",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "21bb07c8-a20c-408c-9104-becbca522024",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"",
+							"if (jsonData[1].retry) {",
+							"    pm.environment.set(\"next_step\", null);",
+							"    ",
+							"    pm.test(\"response must have testResults\", function () {",
+							"        pm.response.to.have.jsonBody(\"testResults\");",
+							"    });",
+							"}",
+							"else {",
+							"    pm.test(\"answers must have vsId\", function () {",
+							"        pm.expect(jsonData[1]).to.have.property('vsId');",
+							"    });",
+							"        ",
+							"    pm.test(\"answers must have tests\", function () {",
+							"        pm.expect(jsonData[1]).to.have.property('testGroups');",
+							"    });",
+							"    ",
+							"    pm.environment.set(\"prev_step\", \"Get Answers\");",
+							"    pm.environment.set(\"algorithm\", jsonData[1].algorithm);",
+							"    ",
+							"    if (jsonData[1].mode) {",
+							"        pm.environment.set(\"mode\", jsonData[1].mode);",
+							"    }",
+							"    else if (jsonData[1].retry) {",
+							"        pm.environment.set(\"next_step\", null);",
+							"    }",
+							"    else {",
+							"        pm.environment.set(\"mode\", null);",
+							"    }",
+							"    ",
+							"    pm.environment.set(\"test_results\", JSON.stringify(jsonData[1].testGroups));",
+							"    pm.environment.set(\"next_step\", \"Post Answers\");",
+							"}",
+							"",
+							"postman.setNextRequest(pm.environment.get(\"next_step\"));"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{https}}{{env}}.{{url}}/v1/testSessions/{{testSession_Id}}/vectorSets/{{vs_id}}/expected",
+					"host": [
+						"{{https}}{{env}}",
+						"{{url}}"
+					],
+					"path": [
+						"v1",
+						"testSessions",
+						"{{testSession_Id}}",
+						"vectorSets",
+						"{{vs_id}}",
+						"expected"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Refresh Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "eeda5165-a46b-4eed-bc40-24e56b448568",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"",
+							"if (jsonData.error) {",
+							"    pm.environment.set(\"next_step\", null);",
+							"}",
+							"else {",
+							"    pm.test(\"response must have access_token\", function () {",
+							"        pm.expect(jsonData[1].accessToken);",
+							"    });",
+							"    ",
+							"    pm.environment.set(\"access_token\", jsonData[1].accessToken);",
+							"    pm.environment.set(\"next_step\", pm.environment.get(\"prev_step\"));",
+							"}",
+							"",
+							"postman.setNextRequest(pm.environment.get(\"next_step\"));"
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n  {\n    \"acvVersion\": \"{{acv_version}}\"\n  }, \n  {\n    \"password\": \"{{totp_token}}\",\n    \"accessToken\": \"{{access_token}}\"\n  }\n]"
+				},
+				"url": {
+					"raw": "{{https}}{{env}}.{{url}}/{{login}}",
+					"host": [
+						"{{https}}{{env}}",
+						"{{url}}"
+					],
+					"path": [
+						"{{login}}"
+					]
+				},
+				"description": "Send TOTP to get valid token"
+			},
+			"response": []
+		},
+		{
+			"name": "Access Token Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "41203838-26f1-4d23-b264-77bda863bc3d",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"",
+							"if (jsonData.error) {",
+							"    pm.environment.set(\"next_step\", null);",
+							"}",
+							"else {",
+							"    pm.test(\"response must have access_token\", function () {",
+							"        pm.expect(jsonData[1].accessToken);",
+							"    });",
+							"    ",
+							"    pm.environment.set(\"access_token\", jsonData[1].accessToken);",
+							"    pm.environment.set(\"next_step\", \"Register\");",
+							"}",
+							"",
+							"postman.setNextRequest(pm.environment.get(\"next_step\"));"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n  {\n    \"acvVersion\": \"{{acv_version}}\" \n    \n  }, \n  {\n    \"password\": \"{{totp_token}}\"\n  }\n]"
+				},
+				"url": {
+					"raw": "{{https}}{{env}}.{{url}}/{{login}}",
+					"host": [
+						"{{https}}{{env}}",
+						"{{url}}"
+					],
+					"path": [
+						"{{login}}"
+					]
+				},
+				"description": "Send TOTP to get valid token"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Disposition",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a2efec54-9e4d-4a7c-927c-5640ece0bcdd",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"",
+							"pm.environment.set(\"prev_step\", \"TOTP for refresh\");",
+							"pm.environment.set(\"post_refresh_step\", \"Get Disposition\");",
+							"",
+							"if (jsonData[1].retry) {",
+							"    // If response has retry, repeat this call",
+							"    pm.environment.set(\"retry\", 10);",
+							"    pm.environment.set(\"next_step\", \"Wait\");",
+							"}",
+							"else {",
+							"    pm.test(\"disposition must have vsId\", function () {",
+							"        pm.expect(jsonData[1]).to.have.property('vsId');",
+							"    });",
+							"    ",
+							"    pm.test(\"disposition should pass\", function () {",
+							"        pm.expect(jsonData[1].disposition).to.eql('passed');",
+							"    });",
+							"    ",
+							"    pm.environment.set(\"next_step\", null);",
+							"}",
+							"",
+							"postman.setNextRequest(pm.environment.get(\"next_step\"));"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{https}}{{env}}.{{url}}/v1/testSessions/{{testSession_Id}}/vectorSets/{{vs_id}}/results",
+					"host": [
+						"{{https}}{{env}}",
+						"{{url}}"
+					],
+					"path": [
+						"v1",
+						"testSessions",
+						"{{testSession_Id}}",
+						"vectorSets",
+						"{{vs_id}}",
+						"results"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "TOTP Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "787d6d3a-1c74-48ae-bb1c-4ea654340d9e",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"",
+							"if (jsonData.error) {",
+							"    pm.environment.set(\"next_step\", null);",
+							"}",
+							"else {",
+							"    pm.test(\"response must have totp\", function () {",
+							"        pm.expect(jsonData[1].totp);",
+							"    });",
+							"    ",
+							"    pm.environment.set(\"totp_token\", jsonData[1].totp);",
+							"",
+							"    pm.environment.set(\"next_step\", \"Access Token Login\");",
+							"}",
+							"",
+							"postman.setNextRequest(pm.environment.get(\"next_step\"));"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{https}}{{env}}.{{url}}/{{totp}}",
+					"host": [
+						"{{https}}{{env}}",
+						"{{url}}"
+					],
+					"path": [
+						"{{totp}}"
+					]
+				},
+				"description": "Test only, not publicly available."
+			},
+			"response": []
+		},
+		{
+			"name": "Register",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8c552f40-9690-4db4-87bf-5b662d0b0cdb",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"",
+							"pm.environment.set(\"prev_step\", \"Register\");",
+							"",
+							"if (jsonData.error) {",
+							"    pm.environment.set(\"next_step\", null);",
+							"}",
+							"else {",
+							"    pm.test(\"response must have different access_token\", function () {",
+							"        pm.expect(jsonData[1].accessToken);",
+							"        pm.expect(jsonData[1].accessToken).to.not.equal(pm.environment.get(\"access_token\"));",
+							"    });",
+							"    ",
+							"    pm.environment.set(\"testSession_Id\", jsonData[1].url.split('/').pop().trim());",
+							"    ",
+							"    pm.environment.set(\"vs_id\", jsonData[1].vectorSetUrls[0].split('/').pop().trim());",
+							"    pm.environment.set(\"access_token\", jsonData[1].accessToken);",
+							"",
+							"    pm.environment.set(\"next_step\", \"Get Prompt\");",
+							"}",
+							"",
+							"postman.setNextRequest(pm.environment.get(\"next_step\"));"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "d5df79c7-e832-4b0f-a03a-457143c0128f",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[{\n\t\t\"acvVersion\": \"{{acv_version}}\"\n\t},\n\t{\n\t\t\"isSample\": true,\n\t\t\"algorithms\": [{{algorithms}}]\n\t}\n]"
+				},
+				"url": {
+					"raw": "{{https}}{{env}}.{{url}}/{{register}}",
+					"host": [
+						"{{https}}{{env}}",
+						"{{url}}"
+					],
+					"path": [
+						"{{register}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Prompt",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "188af6f2-9520-422e-bb74-41e11900c7a0",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"",
+							"pm.environment.set(\"prev_step\", \"TOTP for refresh\");",
+							"pm.environment.set(\"post_refresh_step\", \"Get Prompt\");",
+							"",
+							"if (jsonData.error) {",
+							"    pm.environment.set(\"next_step\", null);",
+							"}",
+							"else {",
+							"        pm.environment.set(\"acv_version\", jsonData[0].acvVersion);",
+							"        ",
+							"    if (jsonData[1].retry) {",
+							"        // If response has retry, repeat this call",
+							"        // The API can only run for 10 seconds maximum",
+							"        pm.environment.set(\"retry\", 10);",
+							"        pm.environment.set(\"next_step\", \"Wait\");",
+							"    }",
+							"    else {",
+							"        ",
+							"         pm.test(\"prompt must have vsId\", function () {",
+							"            pm.expect(jsonData[1]).to.have.property('vsId');",
+							"        });",
+							"        ",
+							"        pm.test(\"prompt must have tests\", function () {",
+							"            pm.expect(jsonData[1]).to.have.property('testGroups');",
+							"        });",
+							"        ",
+							"        // If response is complete, move on to next call",
+							"        pm.environment.set(\"prev_step\", \"Get Answers\");",
+							"        pm.environment.set(\"next_step\", \"Wait\");",
+							"    }",
+							"}",
+							"",
+							"postman.setNextRequest(pm.environment.get(\"next_step\"));"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{https}}{{env}}.{{url}}/v1/testSessions/{{testSession_Id}}/vectorSets/{{vs_id}}",
+					"host": [
+						"{{https}}{{env}}",
+						"{{url}}"
+					],
+					"path": [
+						"v1",
+						"testSessions",
+						"{{testSession_Id}}",
+						"vectorSets",
+						"{{vs_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Wait",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5a7ff893-de19-4081-a573-2f4ed36c920c",
+						"type": "text/javascript",
+						"exec": [
+							"pm.environment.set(\"next_step\", pm.environment.get(\"prev_step\"));",
+							"postman.setNextRequest(pm.environment.get(\"next_step\"));"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://postman-echo.com/delay/{{retry}}",
+					"protocol": "https",
+					"host": [
+						"postman-echo",
+						"com"
+					],
+					"path": [
+						"delay",
+						"{{retry}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post Answers",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8fabe1f0-a683-4c4e-9e5e-c7ab74f32d66",
+						"exec": [
+							"pm.environment.set(\"next_step\", \"Get Disposition\");",
+							"postman.setNextRequest(pm.environment.get(\"next_step\"));"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "2119f137-b650-4d8e-91b9-86dd6c120f21",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n  {\n    \"acvVersion\": \"{{acv_version}}\"\n  },\n  {\n    \"vsId\": {{vs_id}},\n    \"algorithm\": \"{{algorithm}}\",\n    \"testGroups\": {{test_results}}\n  }\n]"
+				},
+				"url": {
+					"raw": "{{https}}{{env}}.{{url}}/v1/testSessions/{{testSession_Id}}/vectorSets/{{vs_id}}/results",
+					"host": [
+						"{{https}}{{env}}",
+						"{{url}}"
+					],
+					"path": [
+						"v1",
+						"testSessions",
+						"{{testSession_Id}}",
+						"vectorSets",
+						"{{vs_id}}",
+						"results"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "ae23c60f-4383-40bb-9300-e0a2882de484",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "1e7731f4-b67c-41ff-b05c-a824844f5fa8",
+				"type": "text/javascript",
+				"exec": [
+					"pm.test(\"response must be valid and have a json body\", function () {",
+					"     pm.response.to.be.ok; ",
+					"     pm.response.to.be.withBody;",
+					"     pm.response.to.be.json;",
+					"});"
+				]
+			}
+		}
+	]
+}

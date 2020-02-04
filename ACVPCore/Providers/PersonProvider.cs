@@ -9,9 +9,9 @@ namespace ACVPCore.Providers
 	public class PersonProvider : IPersonProvider
 	{
 		private readonly string _acvpConnectionString;
-		private readonly ILogger<DependencyProvider> _logger;
+		private readonly ILogger<PersonProvider> _logger;
 
-		public PersonProvider(IConnectionStringFactory connectionStringFactory, ILogger<DependencyProvider> logger)
+		public PersonProvider(IConnectionStringFactory connectionStringFactory, ILogger<PersonProvider> logger)
 		{
 			_acvpConnectionString = connectionStringFactory.GetMightyConnectionString("ACVP");
 			_logger = logger;

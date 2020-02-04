@@ -23,7 +23,7 @@ namespace NIST.CVP.Generation.TDES_CBCI.IntegrationTests
         [SetUp]
         public void Setup()
         {
-            _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\LegacyParserFiles\");
+            _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\LegacyCavsFiles\tdes-cbci\");
             _algo = new CbciBlockCipher(new TdesEngine());
             _keyMaker = new MonteCarloKeyMaker();
             _algoMct = new MonteCarloTdesCbci(
@@ -36,7 +36,6 @@ namespace NIST.CVP.Generation.TDES_CBCI.IntegrationTests
         [Test]
         public void ShouldParseAndRunCAVSFiles()
         {
-            var _testPath = Utilities.GetConsistentTestingStartPath(GetType(), $@"..\..\TestFiles\LegacyParserFiles\");
             if (!Directory.Exists(_testPath))
             {
                 Assert.Fail("Test File Directory does not exist");

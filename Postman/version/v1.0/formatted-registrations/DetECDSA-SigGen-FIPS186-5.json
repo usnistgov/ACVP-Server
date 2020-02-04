@@ -1,0 +1,1 @@
+[{"algorithms": "{\"algorithm\":\"DetECDSA\",\"mode\":\"sigGen\",\"revision\":\"FIPS186-5\",\"capabilities\":[{\"curve\":[\"P-256\"],\"hashAlg\":[\"SHA3-256\"]}]}"}]

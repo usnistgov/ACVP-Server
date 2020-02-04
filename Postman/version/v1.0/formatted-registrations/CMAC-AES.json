@@ -1,0 +1,1 @@
+[{"algorithms": "{\"algorithm\":\"CMAC-AES\",\"mode\":\"\",\"revision\":\"1.0\",\"isSample\":false,\"conformances\":[],\"capabilities\":[{\"direction\":[\"gen\",\"ver\"],\"keyLen\":[128,256],\"msgLen\":[128],\"macLen\":[128]}]}"}]

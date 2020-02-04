@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Options;
+﻿using System.Collections.Generic;
+using Microsoft.Extensions.Options;
 using Moq;
 using NIST.CVP.Common.Config;
 using NIST.CVP.Common.Oracle;
@@ -30,6 +31,7 @@ namespace NIST.CVP.Pools.Tests
         private IPoolFactory _poolFactory;
         private Mock<IPool> _mockPool;
         private Mock<IJsonConverterProvider> _mockJsonConverterProvider = new Mock<IJsonConverterProvider>();
+        private readonly Mock<IPoolRepository<IResult>> _mockPoolRepository = new Mock<IPoolRepository<IResult>>();
         private readonly PoolConfig _poolConfig = new PoolConfig()
         {
             Port = 42,
@@ -43,6 +45,11 @@ namespace NIST.CVP.Pools.Tests
         [SetUp]
         public void SetUp()
         {
+            _mockPoolRepository.Setup(s => s.GetAllPoolCounts())
+                .Returns(new Dictionary<string, long>()
+                {
+                    { "this is a value", 0 }
+                });
             _mockOptionsPoolConfig = new Mock<IOptions<PoolConfig>>();
             _mockPoolRepositoryFactory = new Mock<IPoolRepositoryFactory>();
             _mockPoolLogRepository = new Mock<IPoolLogRepository>();
@@ -54,7 +61,8 @@ namespace NIST.CVP.Pools.Tests
                 new Mock<IOracle>().Object,
                 _mockPoolRepositoryFactory.Object,
                 _mockPoolLogRepository.Object,
-                new Mock<IPoolObjectFactory>().Object
+                new Mock<IPoolObjectFactory>().Object,
+                _mockPoolRepository.Object
             );
             _mockPool = new Mock<IPool>();
             _mockJsonConverterProvider = new Mock<IJsonConverterProvider>();

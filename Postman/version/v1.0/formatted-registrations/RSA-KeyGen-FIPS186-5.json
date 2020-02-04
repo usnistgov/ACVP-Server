@@ -1,0 +1,1 @@
+[{"algorithms": "{\"algorithm\":\"RSA\",\"mode\":\"keyGen\",\"revision\":\"FIPS186-5\",\"capabilities\":[{\"randPQ\":\"probable\",\"properties\":[{\"modulo\":2048,\"primeTest\":[\"2pow100\"],\"pMod8\":1,\"qMod8\":7},{\"modulo\":3072,\"primeTest\":[\"2powSecStr\"]}]}],\"infoGeneratedByServer\":false,\"pubExpMode\":\"random\",\"keyFormat\":\"crt\"}"}]

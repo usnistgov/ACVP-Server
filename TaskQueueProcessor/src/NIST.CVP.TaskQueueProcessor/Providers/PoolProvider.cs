@@ -1,43 +1,47 @@
 using System;
 using System.Net.Http;
+using System.Threading.Tasks;
+using Microsoft.Extensions.Options;
+using NIST.CVP.Common.Config;
 using NIST.CVP.TaskQueueProcessor.Constants;
 
 namespace NIST.CVP.TaskQueueProcessor.Providers
 {
     public class PoolProvider : IPoolProvider
     {
-        private readonly string _uri;
-        private readonly int _port;
+        private readonly IOptions<PoolConfig> _config;
 
-        public PoolProvider(string uri, int port)
+        public PoolProvider(IOptions<PoolConfig> config)
         {
-            _uri = uri;
-            _port = port;
+            _config = config;
         }
         
-        public void SpawnPoolData()
+        public async Task<object> SpawnPoolData()
         {
             var uriBuilder = new UriBuilder
             {
-                Host = _uri,
+                Host = _config.Value.RootUrl,
                 Path = PoolApiEndPoints.SPAWN,
-                Port = _port
+                Port = _config.Value.Port
             };
             
             var client = new HttpClient();
 
             try
             {
-                var response = client.GetAsync(uriBuilder.Uri);
+                var response = await client.GetAsync(uriBuilder.Uri);
 
-                if (!response.Result.IsSuccessStatusCode)
+                if (!response.IsSuccessStatusCode)
                 {
-                    throw new Exception($"Unable to complete request to PoolApi at {_uri}:{_port} with error {response.Result.StatusCode}");
+                    throw new Exception($"Unable to complete request to PoolApi at {_config.Value.RootUrl}:{_config.Value.Port} with error {response.StatusCode}");
                 }
+
+                return Task.FromResult(response);
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex);
+                throw ex;
             }
         }
     }

@@ -16,7 +16,7 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyVer.IntegrationTests.Fips186_4
         [SetUp]
         public void SetUp()
         {
-            _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\LegacyParserFiles\keyver\");
+            _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\LegacyCavsFiles\ECDSA\KeyVer\");
         }
 
         [Test]

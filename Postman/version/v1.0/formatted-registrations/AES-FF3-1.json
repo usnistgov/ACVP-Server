@@ -1,0 +1,1 @@
+[{"algorithms": "{\"algorithm\":\"ACVP-AES-FF3-1\",\"revision\":\"1.0\",\"direction\":[\"encrypt\"],\"keyLen\":[256],\"capabilities\":[{\"alphabet\":\"0123456789\",\"radix\":10,\"minLen\":10,\"maxLen\":56},{\"alphabet\":\"abcdefghijklmnopqrstuvwxyz\",\"radix\":26,\"minLen\":10,\"maxLen\":40}]}"}]

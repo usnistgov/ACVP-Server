@@ -18,7 +18,7 @@ namespace NIST.CVP.Generation.IKEv2.IntegrationTests
         [SetUp]
         public void Setup()
         {
-            _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\LegacyParserFiles\IKEv2\");
+            _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\LegacyCavsFiles\kdf-components\IKEv2\");
         }
 
         [Test]

@@ -28,7 +28,7 @@ namespace NIST.CVP.Generation.TDES_ECB.IntegrationTests
         [SetUp]
         public void Setup()
         {
-            _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\LegacyParserFiles\");
+            _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\LegacyCavsFiles\tdes-ecb\");
             _algo = new EcbBlockCipher(new TdesEngine());
             _algoMct = new MonteCarloTdesEcb(new BlockCipherEngineFactory(), new ModeBlockCipherFactory(), new MonteCarloKeyMaker());
         }

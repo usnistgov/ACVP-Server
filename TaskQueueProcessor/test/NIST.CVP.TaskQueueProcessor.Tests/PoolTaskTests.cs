@@ -17,7 +17,7 @@ namespace NIST.CVP.TaskQueueProcessor.Tests
         }
 
         [Test]
-        public void ShouldCallPoolApiWhenSpawnIsTrue()
+        public void ShouldCallPoolApiWhenSpawnIsCalled()
         {
             _poolProviderMock.Setup(s => s.SpawnPoolData()).Verifiable();
             var subject = new PoolTask(_poolProviderMock.Object);

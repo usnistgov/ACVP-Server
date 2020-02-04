@@ -1,5 +1,5 @@
 @echo on
-rem version 0.9.1
+rem version 0.9.3
 set "zip=c:\Program Files\7-Zip\7z.exe"
 
 For /f "tokens=2-4 delims=/ " %%a in ('date /t') do (set mydate=%%c%%a%%b)
@@ -20,54 +20,34 @@ echo %netcoreappver%
 
 cd %homedir%
 
-cd src\solutions\AllDeployable
+echo =============================================================
+echo Building GenValApp
+echo =============================================================
+
+cd gen-val\src\generation\src\NIST.CVP.Generation.GenValApp
 dotnet clean
 dotnet restore
-
-rem GenVals build
-
-cd ..\GenValAppRunner
-dotnet restore
-
-cd ..\AllDeployable
 dotnet build -c Release
-
-cd ..\GenValAppRunner
-dotnet build -c Release
-
-cd %homedir%
-cd src\common\src\NIST.CVP.Generation.GenValApp
 dotnet publish -c Release -r win-x64
 
-cd %homedir%
-cd src\common\src\NIST.CVP.Generation.GenValApp\bin\Release\%netcoreappver%\win-x64\
+rem cd %homedir%\src\generation\src\NIST.CVP.Generation.GenValApp\
+cd bin\Release\%netcoreappver%\win-x64\
 "%zip%" a -tzip publish.zip publish\
 move publish.zip "%homedir%\%mydate%_%mytime%_GenValsOrleans.zip"
 
 cd %homedir%
 
-rem ParameterChecker build
-
-cd src\solutions\ParameterChecker
+rem Orleans build
+echo =============================================================
+echo Building OrleansServer
+echo =============================================================
+cd gen-val\src\orleans\src\NIST.CVP.Orleans.ServerHost
+dotnet clean
 dotnet restore
 dotnet build -c Release
-cd %homedir%
-cd src\common\src\NIST.CVP.ParameterChecker\
 dotnet publish -c Release -r win-x64
 
-cd %homedir%
-cd src\common\src\NIST.CVP.ParameterChecker\bin\Release\%netcoreappver%\win-x64\
-"%zip%" a -tzip publish.zip publish\
-move publish.zip "%homedir%\%mydate%_%mytime%_ParameterChecker.zip"
-
-cd %homedir%
-
-rem Orleans build
-
-cd src\orleans\src\NIST.CVP.Orleans.ServerHost
-dotnet publish -c Release -r win-x64
-
-rem cd ..\..\orleans\src\NIST.CVP.Orleans.ServerHost\bin\Release\netcoreappver\win-x64\
+rem cd ..\..\orleans\src\NIST.CVP.Orleans.ServerHost\bin\Release\netcoreapp2.1\win-x64\
 cd bin\Release\%netcoreappver%\win-x64\
 "%zip%" a -tzip publish.zip publish\
 move publish.zip "%homedir%\%mydate%_%mytime%_OrleansServer.zip"
@@ -75,8 +55,14 @@ move publish.zip "%homedir%\%mydate%_%mytime%_OrleansServer.zip"
 cd %homedir%
 
 rem Pool API build
+echo =============================================================
+echo Building PoolAPI
+echo =============================================================
 
-cd src\pool-api\NIST.CVP.PoolAPI
+cd gen-val\src\pool-api\NIST.CVP.PoolAPI
+dotnet clean
+dotnet restore
+dotnet build -c Release
 dotnet publish -c Release -r win-x64
 
 cd bin\Release\%netcoreappver%\win-x64\

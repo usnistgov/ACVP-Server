@@ -1,0 +1,1 @@
+[{"algorithms": "{\"algorithm\":\"CMAC-TDES\",\"revision\":\"1.0\",\"isSample\":false,\"conformances\":[],\"capabilities\":[{\"direction\":[\"gen\",\"ver\"],\"keyingOption\":[1,2],\"msgLen\":[64],\"macLen\":[64]}]}"}]

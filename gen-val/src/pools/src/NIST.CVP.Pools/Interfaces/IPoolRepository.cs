@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Common.Oracle.ResultTypes;
+﻿using System.Collections.Generic;
+using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Pools.Models;
 
 namespace NIST.CVP.Pools.Interfaces
@@ -44,5 +45,11 @@ namespace NIST.CVP.Pools.Interfaces
         /// </summary>
         /// <param name="poolName">The pool to clean.</param>
         void CleanPool(string poolName);
+
+        /// <summary>
+        /// Retrieves pool levels for all pools - used in initial pool manager construction.
+        /// </summary>
+        /// <returns>Dictionary of poolName, poolCount</returns>
+        Dictionary<string, long> GetAllPoolCounts();
     }
 }

@@ -1,0 +1,481 @@
+{
+	"info": {
+		"_postman_id": "e527a37e-6d3b-4795-9503-a124ac82b234",
+		"name": "PublicVendor_v1.0",
+		"description": "Initial ACVP E2E Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "TOTP",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a575bd91-e4d7-4c86-afc5-34ac0a075833",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"pm.test(\"Status 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Version Chk\", function () {",
+							"    pm.expect(jsonData[0].acvVersion).to.eql(\"1.0\");",
+							"});",
+							"pm.test(\"TOTP Chk\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"totp\");",
+							"});",
+							"pm.environment.set(\"totp\", jsonData[1].totp);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://{{env}}.acvts.nist.gov/acvp/totp",
+					"protocol": "https",
+					"host": [
+						"{{env}}",
+						"acvts",
+						"nist",
+						"gov"
+					],
+					"path": [
+						"acvp",
+						"totp"
+					]
+				},
+				"description": "TOTP Request to Test Env"
+			},
+			"response": []
+		},
+		{
+			"name": "LOGIN",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e2e8d825-f9c7-4284-b790-4e683fc47aab",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"pm.test(\"Status 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Version Chk\", function () {",
+							"    pm.expect(jsonData[0].acvVersion).to.eql(\"1.0\");",
+							"});",
+							"pm.test(\"Token Chk\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"accessToken\");",
+							"});",
+							"pm.environment.set(\"token1\", jsonData[1].accessToken);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n  {\r\n    \"acvVersion\": \"1.0\"\r\n  },\r\n  {\r\n    \"password\": \"{{totp}}\"\r\n  }\r\n]"
+				},
+				"url": {
+					"raw": "https://{{env}}.acvts.nist.gov/acvp/v1/login",
+					"protocol": "https",
+					"host": [
+						"{{env}}",
+						"acvts",
+						"nist",
+						"gov"
+					],
+					"path": [
+						"acvp",
+						"v1",
+						"login"
+					]
+				},
+				"description": "LOGIN Request to Test Env"
+			},
+			"response": []
+		},
+		{
+			"name": "REQ Vendor List",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "bf3e1269-3f4e-43a2-89b8-26c31c9106ca",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"pm.test(\"Status 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Version Chk\", function () {",
+							"    pm.expect(jsonData[0].acvVersion).to.eql(\"1.0\");",
+							"});",
+							"pm.test(\"Vendor Chk\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"/v1/vendors\");",
+							"});",
+							"pm.environment.set(\"vendurl\", jsonData[1].data[15].url);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "9223d06b-57c4-4d22-a171-40a684647750",
+						"exec": [
+							"pm.environment.set(\"retry\", 0);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token1}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://{{env}}.acvts.nist.gov/acvp/v1/vendors?offset=10955&limit=20",
+					"protocol": "https",
+					"host": [
+						"{{env}}",
+						"acvts",
+						"nist",
+						"gov"
+					],
+					"path": [
+						"acvp",
+						"v1",
+						"vendors"
+					],
+					"query": [
+						{
+							"key": "offset",
+							"value": "10955"
+						},
+						{
+							"key": "limit",
+							"value": "20"
+						}
+					]
+				},
+				"description": "Vector Request to Test Env"
+			},
+			"response": []
+		},
+		{
+			"name": "CREATE Vendor",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8ae5a85d-66cd-4f2f-aaf9-da073686a662",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"pm.test(\"Status 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Version Chk\", function () {",
+							"    pm.expect(jsonData[0].acvVersion).to.eql(\"1.0\");",
+							"});",
+							"pm.test(\"Request Chk\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"/v1/requests\");",
+							"});",
+							"pm.environment.set(\"vendurl\", jsonData[1].url);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token1}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n  {\n    \"acvVersion\": \"1.0\"\n  },\n  {\n    \"name\": \"DMC Test 050219\",\n    \"website\": \"www.acme.acme\",\n    \"emails\": [\n      \"inquiry@acme.acme\"\n    ],\n    \"addresses\": [\n      {\n        \"street1\": \"0502 Main Street\",\n        \"locality\": \"Leland\",\n        \"region\": \"North Carolina\",\n        \"country\": \"USA\",\n        \"postalCode\": \"28451\"\n      }\n    ]\n  }\n]"
+				},
+				"url": {
+					"raw": "https://{{env}}.acvts.nist.gov/acvp/v1/vendors",
+					"protocol": "https",
+					"host": [
+						"{{env}}",
+						"acvts",
+						"nist",
+						"gov"
+					],
+					"path": [
+						"acvp",
+						"v1",
+						"vendors"
+					]
+				},
+				"description": "REGISTER Request to Test Env"
+			},
+			"response": []
+		},
+		{
+			"name": "REQ Vendor Info_VendorXYZ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "4e4d546f-af18-4676-9abf-f350758ae63b",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"pm.test(\"Status 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Version Chk\", function () {",
+							"    pm.expect(jsonData[0].acvVersion).to.eql(\"1.0\");",
+							"});",
+							"pm.test(\"Vendor Chk\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"/v1/vendors\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token1}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://{{env}}.acvts.nist.gov{{vendurl}}",
+					"protocol": "https",
+					"host": [
+						"{{env}}",
+						"acvts",
+						"nist",
+						"gov{{vendurl}}"
+					]
+				},
+				"description": "Answer Request to Test Env"
+			},
+			"response": []
+		},
+		{
+			"name": "REQ Contact Info_VendorXYZ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "4e4d546f-af18-4676-9abf-f350758ae63b",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"pm.test(\"Status 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Version Chk\", function () {",
+							"    pm.expect(jsonData[0].acvVersion).to.eql(\"1.0\");",
+							"});",
+							"pm.test(\"Vendor Chk\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"/v1/vendors\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token1}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://{{env}}.acvts.nist.gov{{vendurl}}/contacts",
+					"protocol": "https",
+					"host": [
+						"{{env}}",
+						"acvts",
+						"nist",
+						"gov{{vendurl}}"
+					],
+					"path": [
+						"contacts"
+					]
+				},
+				"description": "Answer Request to Test Env"
+			},
+			"response": []
+		},
+		{
+			"name": "UPDATE Vendor_VendorXYZ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8ae5a85d-66cd-4f2f-aaf9-da073686a662",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"pm.test(\"Status 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Version Chk\", function () {",
+							"    pm.expect(jsonData[0].acvVersion).to.eql(\"1.0\");",
+							"});",
+							"pm.test(\"Vendor Chk\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"/v1/vendors\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token1}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n  {\n    \"acvVersion\": \"1.0\"\n  },\n  {\n    \"name\": \"DMC Test 041219 Update\",\n    \"website\": \"www.acme.acme\",\n    \"emails\": [\n      \"inquiry@acme.acme\"\n    ],\n    \"addresses\": [\n      {\n        \"street1\": \"0412 Update Main Street\",\n        \"locality\": \"Leland\",\n        \"region\": \"North Carolina\",\n        \"country\": \"USA\",\n        \"postalCode\": \"28451\"\n      }\n    ]\n  }\n]"
+				},
+				"url": {
+					"raw": "https://{{env}}.acvts.nist.gov{{vendurl}}",
+					"protocol": "https",
+					"host": [
+						"{{env}}",
+						"acvts",
+						"nist",
+						"gov{{vendurl}}"
+					]
+				},
+				"description": "REGISTER Request to Test Env"
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE Vendor_VendorXYZ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "4e4d546f-af18-4676-9abf-f350758ae63b",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"pm.test(\"Status 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Version Chk\", function () {",
+							"    pm.expect(jsonData[0].acvVersion).to.eql(\"1.0\");",
+							"});",
+							"pm.test(\"Request Chk\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"/v1/requests\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token1}}"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "https://{{env}}.acvts.nist.gov{{vendurl}}",
+					"protocol": "https",
+					"host": [
+						"{{env}}",
+						"acvts",
+						"nist",
+						"gov{{vendurl}}"
+					]
+				},
+				"description": "Answer Request to Test Env"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "c856decc-c3ef-4289-aef8-191c27be4dbb",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "87493567-f0bc-4230-b194-ed28fc9fd9c7",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

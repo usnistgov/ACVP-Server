@@ -1,0 +1,1 @@
+[{"algorithms": "{\"algorithm\":\"ACVP-AES-CCM\",\"revision\":\"1.0\",\"keyLen\":[128],\"payloadLen\":[{\"min\":0,\"max\":256,\"increment\":8}],\"ivLen\":[56],\"aadLen\":[{\"min\":0,\"max\":256,\"increment\":8}],\"tagLen\":[32]}"}]
