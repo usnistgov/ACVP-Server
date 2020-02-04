@@ -65,12 +65,6 @@ namespace Web.Admin.Controllers
             return _dependencyService.Get(dependencyId);
         }
 
-        //[HttpGet]
-        //public WrappedEnumerable<Dependency> GetDependencies()
-        //{
-        //    return _dependencyService.Get(1, 10).WrapEnumerable();
-        //}
-
         [HttpGet]
         public WrappedEnumerable<Dependency> GetDependencies(long pageSize, long pageNumber)
         {

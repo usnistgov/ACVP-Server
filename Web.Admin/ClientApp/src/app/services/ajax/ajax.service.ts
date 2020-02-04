@@ -4,6 +4,7 @@ import { IWrappedEnumerable } from '../../interfaces/wrapped-enumerable';
 import { DependencyList } from '../../models/dependency/dependency-list';
 import { Dependency } from '../../models/dependency/dependency';
 import { Attribute } from '../../models/dependency/attribute';
+import { OperatingEnvironment } from '../../models/operatingEnvironment/operatingEnvironment';
 
 const httpOptions = {
   headers: new HttpHeaders()
@@ -47,5 +48,11 @@ export class AjaxService {
     return this.http.patch(this.apiRoot + '/dependencies/' + dependency.id, dependency);
   }
   // END - Dependency-related AJAX calls
+
+  // Operating Environment (OE) -related calls
+  getOE(id: number) {
+    return this.http.get<OperatingEnvironment>(this.apiRoot + '/OperatingEnvironments/' + id);
+  };
+  // END Operating Environment (OE) -related calls
 
 }

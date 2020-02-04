@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using ACVPCore.Models;
 using ACVPCore.Models.Parameters;
 using ACVPCore.Providers;
 using ACVPCore.Results;
@@ -95,6 +97,16 @@ namespace ACVPCore.Services
 		public bool OEIsUsed(long oeID)
 		{
 			return _oeProvider.OEIsUsed(oeID);
+		}
+
+		public OperatingEnvironment Get(long oeID)
+		{
+			return _oeProvider.Get(oeID);
+		}
+
+		public List<OperatingEnvironmentLite> Get(long pageSize, long pageNumber)
+		{
+			return _oeProvider.Get(pageSize, pageNumber);
 		}
 	}
 }

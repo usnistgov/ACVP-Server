@@ -18,6 +18,7 @@ import { ValidationDbValidationsComponent } from './components/validation-db-val
 import { ValidationDbDependenciesComponent } from './components/validation-db-dependencies/validation-db-dependencies.component';
 import { ValidationDbValidationComponent } from './components/validation-db-validation/validation-db-validation.component';
 import { ValidationDbDependencyComponent } from './components/validation-db-dependency/validation-db-dependency.component';
+import { ValidationDbOeComponent } from './components/validation-db-oe/validation-db-oe.component';
 
 
 @NgModule({
@@ -29,7 +30,8 @@ import { ValidationDbDependencyComponent } from './components/validation-db-depe
     ValidationDbValidationsComponent,
     ValidationDbDependenciesComponent,
     ValidationDbValidationComponent,
-    ValidationDbDependencyComponent
+    ValidationDbDependencyComponent,
+    ValidationDbOeComponent
   ],
   imports: [
     BrowserModule,

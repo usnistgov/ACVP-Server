@@ -1,15 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Dependency = /** @class */ (function () {
-    function Dependency() {
-    }
-    Dependency.prototype.DependencyLite = function (id, name, type, description, attributes) {
+    function Dependency(id, name, type, description, attributes) {
         this.id = id;
         this.name = name;
         this.type = type;
         this.description = description;
         this.attributes = attributes;
-    };
+    }
     ;
     return Dependency;
 }());

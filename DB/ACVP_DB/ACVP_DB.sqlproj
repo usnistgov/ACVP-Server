@@ -302,6 +302,9 @@
     <Build Include="acvp\Stored Procedures\TestSessionsGet.sql" />
     <Build Include="acvp\Stored Procedures\TestSessionGetById.sql" />
     <Build Include="val\Stored Procedures\DependenciesGet.sql" />
+    <Build Include="val\Stored Procedures\OEGet.sql" />
+    <Build Include="val\Stored Procedures\OEDependenciesGet.sql" />
+    <Build Include="val\Stored Procedures\OEsGet.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="ACVP_DB.refactorlog" />

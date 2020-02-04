@@ -26,7 +26,10 @@ namespace Web.Admin
 
             item.AddSingleton<IDependencyProvider, DependencyProvider>();
             item.AddSingleton<IDependencyService, DependencyService>();
-            
+
+            item.AddSingleton<IOEProvider, OEProvider>();
+            item.AddSingleton<IOEService, OEService>();
+
             item.AddSingleton<IAcvpUserProvider, AcvpUserProvider>();
             item.AddSingleton<IAcvpUserService, AcvpUserService>();
             

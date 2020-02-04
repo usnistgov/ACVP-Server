@@ -8,7 +8,7 @@ export class Dependency {
   description: string;
   attributes: Attribute[];
 
-  public DependencyLite(id: number,
+  public constructor(id: number,
     name: string,
     type: string,
     description: string,
