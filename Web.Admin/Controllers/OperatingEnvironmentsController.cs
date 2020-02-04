@@ -23,7 +23,7 @@ namespace Web.Admin.Controllers
         }
 
         [HttpGet("{oeId}")]
-        public OperatingEnvironment GetDependency(long oeID)
+        public OperatingEnvironment Get(long oeID)
         {
             return _oeService.Get(oeID);
         }
