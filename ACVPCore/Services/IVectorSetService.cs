@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using ACVPCore.Models;
 using ACVPCore.Results;
 
 namespace ACVPCore.Services
@@ -11,5 +12,7 @@ namespace ACVPCore.Services
 		Result RecordError(long vectorSetID, string errorMessage);
 		List<(long ID, long AlgorithmID, VectorSetStatus Status, string ErrorMessage)> GetVectorSetsForTestSession(long testSessionID);
 		string GetCapabilities(long vectorSetID);
+		TestVectorSet GetTestVectorSet(long vectorSetId);
+		string GetTestVectorFileJson(long vectorSetId, VectorSetJsonFileTypes fileType);
 	}
 }
