@@ -2,6 +2,7 @@ using System;
 using ACVPCore.ExtensionMethods;
 using ACVPCore.Models;
 using ACVPWorkflow;
+using ACVPWorkflow.Adapters;
 using ACVPWorkflow.Models;
 using ACVPWorkflow.Results;
 using ACVPWorkflow.Services;
@@ -16,11 +17,16 @@ namespace Web.Admin.Controllers
     {
         private readonly ILogger<WorkflowsController> _logger;
         private readonly IWorkflowService _workflowService;
+        private readonly IWorkflowApproveRejectAdapter _workflowApproveRejectAdapter;
 
-        public WorkflowsController(ILogger<WorkflowsController> logger, IWorkflowService workflowService)
+        public WorkflowsController(
+            ILogger<WorkflowsController> logger, 
+            IWorkflowService workflowService,
+            IWorkflowApproveRejectAdapter workflowApproveRejectAdapter)
         {
             _logger = logger;
             _workflowService = workflowService;
+            _workflowApproveRejectAdapter = workflowApproveRejectAdapter;
         }
         
         [HttpGet("status/{workflowStatus}")]
@@ -50,13 +56,13 @@ namespace Web.Admin.Controllers
         [HttpPost("{workflowId}/approve")]
         public Result ApproveWorkflow(long workflowId)
         {
-            throw new NotImplementedException();
+            return _workflowApproveRejectAdapter.Approve(workflowId);
         }
         
         [HttpPost("{workflowId}/reject")]
         public Result RejectWorkflow(long workflowId)
         {
-            throw new NotImplementedException();
+            return _workflowApproveRejectAdapter.Reject(workflowId);
         }
     }
 }

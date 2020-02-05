@@ -106,7 +106,7 @@ namespace ACVPWorkflow.Providers
 			{
 				var data = db.QueryFromProcedure("acvp.WorkflowItemsGetByStatus", new
 				{
-					WorkflowStatus = status
+					status
 				});
 
 				foreach (var item in data)
@@ -116,9 +116,8 @@ namespace ACVPWorkflow.Providers
 						Submitted = item.submitted,
 						Submitter = item.submitter,
 						SubmissionId = item.submissionId,
-						WorkflowStatus = (WorkflowStatus) item.workflowStatus,
 						WorkflowItemId = item.workflowItemId,
-						WorkflowItemType = (WorkflowItemType) item.workflowItemType
+						APIAction = (APIAction)item.apiAction
 					});
 				}
 			}
@@ -138,7 +137,7 @@ namespace ACVPWorkflow.Providers
 			{
 				var data = db.SingleFromProcedure("acvp.WorkflowItemGetById", new
 				{
-					WorkflowItemId = workflowItemId
+					workflowItemId
 				});
 
 				if (data == null)
