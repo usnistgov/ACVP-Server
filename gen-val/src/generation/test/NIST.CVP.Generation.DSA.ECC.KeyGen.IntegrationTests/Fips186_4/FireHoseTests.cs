@@ -19,7 +19,7 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyGen.IntegrationTests.Fips186_4
         [SetUp]
         public void SetUp()
         {
-            _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\LegacyCavsFiles\ECDSA\KeyGen\");
+            _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\LegacyCavsFiles\ecdsa\KeyGen\");
         }
 
         [Test]
