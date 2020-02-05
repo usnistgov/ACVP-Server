@@ -1,39 +1,80 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using ACVPCore.ExtensionMethods;
+using ACVPWorkflow.Exceptions;
 using ACVPWorkflow.Models;
 using ACVPWorkflow.Providers;
 using ACVPWorkflow.Results;
+using Microsoft.Extensions.Logging;
 
 namespace ACVPWorkflow.Services
 {
 	public class WorkflowService : IWorkflowService
 	{
+		private readonly ILogger<WorkflowService> _logger;
 		private readonly IWorkflowProvider _workflowProvider;
 		private readonly IWorkflowContactProvider _workflowContactProvider;
 		private readonly IRequestProvider _requestProvider;
 		private readonly IWorkflowItemPayloadFactory _workflowItemPayloadFactory;
+		private readonly IWorkflowItemProcessorFactory _workflowItemProcessorFactory;
+		
 
-		public WorkflowService(IWorkflowProvider workflowProvider, IWorkflowContactProvider workflowContactProvider, IRequestProvider requestProvider, IWorkflowItemPayloadFactory workflowItemPayloadFactory)
+		public WorkflowService(
+			ILogger<WorkflowService> logger,
+			IWorkflowProvider workflowProvider, 
+			IWorkflowContactProvider workflowContactProvider, 
+			IRequestProvider requestProvider, 
+			IWorkflowItemPayloadFactory workflowItemPayloadFactory,
+			IWorkflowItemProcessorFactory workflowItemProcessorFactory)
 		{
+			_logger = logger;
 			_workflowProvider = workflowProvider;
 			_workflowContactProvider = workflowContactProvider;
 			_requestProvider = requestProvider;
 			_workflowItemPayloadFactory = workflowItemPayloadFactory;
+			_workflowItemProcessorFactory = workflowItemProcessorFactory;
 		}
 
-		public Result MarkApproved(long workflowItemID, long objectID)
+		public Result Approve(WorkflowItem workflowItem)
 		{
 			//Create the garabge payload we put on the workflow item that replaces anything useful
 			//AcceptedWorkloadItemPayload payload = new AcceptedWorkloadItemPayload { URL = resultingObjectUrl };
 
-			//Do the update of the workflow item
-			return _workflowProvider.Update(workflowItemID, WorkflowStatus.Approved, objectID);
+			var workflowProcessor = _workflowItemProcessorFactory.GetWorkflowItemProcessor(workflowItem.APIAction);
+
+			try
+			{
+				var result = workflowProcessor.Approve(workflowItem);
+				
+				//Do the update of the workflow item
+				return _workflowProvider.Update(workflowItem.WorkflowItemID, WorkflowStatus.Approved, result);
+			}
+			catch (ResourceInUseException ex)
+			{
+				UpdateStatus(workflowItem, WorkflowStatus.Rejected);
+				_logger.LogWarning(ex);
+				return new Result(ex.Message);
+			}
+			catch (ResourceProcessorException ex)
+			{
+				UpdateStatus(workflowItem, WorkflowStatus.Incomplete);
+				_logger.LogError(ex);
+				return new Result(ex.Message);
+			}
 		}
 
-		public Result UpdateStatus(long workflowItemID, WorkflowStatus workflowStatus)
+		public Result Reject(WorkflowItem workflowItem)
 		{
-			return _workflowProvider.Update(workflowItemID, workflowStatus);
+			var workflowProcessor = _workflowItemProcessorFactory.GetWorkflowItemProcessor(workflowItem.APIAction);
+			workflowProcessor.Reject(workflowItem);
+			return UpdateStatus(workflowItem, WorkflowStatus.Rejected);
 		}
 
+		private Result UpdateStatus(WorkflowItem workflowItem, WorkflowStatus workflowStatus)
+		{
+			return _workflowProvider.Update(workflowItem.WorkflowItemID, workflowStatus);
+		}
+		
 		public WorkflowInsertResult AddWorkflowItem(APIAction apiAction, long requestID, IWorkflowItemPayload payload, long userID)
 		{
 			//Get the contact info to put on the workflow item - TODO - kill this sometime, replaced by the userID going on the record after LCAVP dies

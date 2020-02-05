@@ -15,15 +15,13 @@ namespace MessageQueueProcessor.MessageProcessors
 	{
 		private readonly ITestSessionService _testSessionService;
 		private readonly IWorkflowService _workflowService;
-		private readonly IWorkflowItemProcessorFactory _workflowItemProcessorFactory;
 		private readonly IWorkflowItemPayloadFactory _workflowItemPayloadFactory;
 		private readonly Dictionary<APIAction, bool> _autoApproveConfiguration;
 
-		public CertifyTestSessionProcessor(ITestSessionService testSessionService, IWorkflowService workflowService, IWorkflowItemProcessorFactory workflowItemProcessorFactory, IWorkflowItemPayloadFactory workflowItemPayloadFactory, Dictionary<APIAction, bool> autoApproveConfiguration)
+		public CertifyTestSessionProcessor(ITestSessionService testSessionService, IWorkflowService workflowService, IWorkflowItemPayloadFactory workflowItemPayloadFactory, Dictionary<APIAction, bool> autoApproveConfiguration)
 		{
 			_testSessionService = testSessionService;
 			_workflowService = workflowService;
-			_workflowItemProcessorFactory = workflowItemProcessorFactory;
 			_workflowItemPayloadFactory = workflowItemPayloadFactory;
 			_autoApproveConfiguration = autoApproveConfiguration;
 		}
@@ -74,11 +72,8 @@ namespace MessageQueueProcessor.MessageProcessors
 					Payload = workflowPayload
 				};
 
-				//Get the processor for this workflow item
-				IWorkflowItemProcessor workflowItemProcessor = _workflowItemProcessorFactory.GetWorkflowItemProcessor(APIAction.CertifyTestSession);
-
 				//Approve it
-				workflowItemProcessor.Approve(workflowItem);
+				_workflowService.Approve(workflowItem);
 			}
 		}
 	}

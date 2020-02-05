@@ -7,8 +7,8 @@ namespace ACVPWorkflow.Services
 	public interface IWorkflowService
 	{
 		WorkflowInsertResult AddWorkflowItem(APIAction apiAction, long requestID, IWorkflowItemPayload payload, long userID);
-		Result UpdateStatus(long workflowItemID, WorkflowStatus workflowStatus);
-		Result MarkApproved(long workflowItemID, long objectID);
+		Result Approve(WorkflowItem workflowItem);
+		Result Reject(WorkflowItem workflowItem);
 		List<WorkflowItemLite> GetWorkflowItems(WorkflowStatus status);
 		WorkflowItem GetWorkflowItem(long workflowItemId);
 	}

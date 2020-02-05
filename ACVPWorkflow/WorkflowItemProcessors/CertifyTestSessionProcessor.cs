@@ -19,9 +19,14 @@ namespace ACVPWorkflow.WorkflowItemProcessors
 		private readonly IDependencyService _dependencyService;
 		private readonly IOEService _oeService;
 		private readonly IImplementationService _implementationService;
-		private readonly IWorkflowService _workflowService;
 
-		public CertifyTestSessionProcessor(IValidationService validationService, ITestSessionService testSessionService, IVectorSetService vectorSetService, IDependencyService dependencyService, IOEService oeService, IImplementationService implementationService, IWorkflowService workflowService)
+		public CertifyTestSessionProcessor(
+			IValidationService validationService, 
+			ITestSessionService testSessionService, 
+			IVectorSetService vectorSetService, 
+			IDependencyService dependencyService, 
+			IOEService oeService, 
+			IImplementationService implementationService)
 		{
 			_validationService = validationService;
 			_testSessionService = testSessionService;
@@ -29,10 +34,9 @@ namespace ACVPWorkflow.WorkflowItemProcessors
 			_dependencyService = dependencyService;
 			_oeService = oeService;
 			_implementationService = implementationService;
-			_workflowService = workflowService;
 		}
 
-		public void Approve(WorkflowItem workflowItem)
+		public long Approve(WorkflowItem workflowItem)
 		{
 			CertifyTestSessionPayload certifyTestSessionPayload = (CertifyTestSessionPayload)workflowItem.Payload;
 			CertifyTestSessionParameters parameters = certifyTestSessionPayload.ToCertifyTestSessionParameters();
@@ -115,8 +119,7 @@ namespace ACVPWorkflow.WorkflowItemProcessors
 			//Log which validation the test session is a part of
 			_validationService.LogValidationTestSession(validationID, parameters.TestSessionID);
 
-			//Update the workflow item
-			_workflowService.MarkApproved(workflowItem.WorkflowItemID, validationID);
+			return validationID;
 		}
 
 		public void Reject(WorkflowItem workflowItem) { }
