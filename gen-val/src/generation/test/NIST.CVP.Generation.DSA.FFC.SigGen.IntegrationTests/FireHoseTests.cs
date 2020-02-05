@@ -20,7 +20,7 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen.IntegrationTests
         [SetUp]
         public void SetUp()
         {
-            _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\LegacyCavsFiles\DSA\siggen\");
+            _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\LegacyCavsFiles\dsa\siggen\");
             _shaFactory = new ShaFactory();
         }
 
