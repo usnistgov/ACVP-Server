@@ -13,8 +13,9 @@ namespace NIST.CVP.Crypto.RSA.Tests.PrimeGenerators
     {
         [Test]
         [TestCase(0, "010001", "ABCD", new[] {200, 200, 200, 200})]
-        [TestCase(1024, "0100000001", "5c029cd058da46698662234f46ca7fc9eabe138c", new[] {208, 231, 144, 244})]
-        [TestCase(1024, "d70ff9", "5c029cd058da46698662234f46ca7fc9eabe138c", new[] {208, 231, 144, 244})]
+        // 1024 is allowed for 186_4 for sigVer only. The keys still need to be generated under these parameters
+        //[TestCase(1024, "0100000001", "5c029cd058da46698662234f46ca7fc9eabe138c", new[] {208, 231, 144, 244})]
+        //[TestCase(1024, "d70ff9", "5c029cd058da46698662234f46ca7fc9eabe138c", new[] {208, 231, 144, 244})]
         [TestCase(2048, "03", "ABCD", new[] {200, 200, 200, 200})]
         [TestCase(2048, "010001", "ABCD", new[] {0, 200, 200, 200})]
         [TestCase(2048, "010001", "ABCD", new[] {200, 200, 200})]
