@@ -54,7 +54,7 @@
             <a class="dropdown-item" href="#">Persons</a>
             <a class="dropdown-item" href="#">Products</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" [routerLink]="['validation-db/operatingEnvironments']">OperatingEnvironments</a>
+            <a class="dropdown-item" href="#">OperatingEnvironments</a>
             <a class="dropdown-item" [routerLink]="['validation-db/dependencies']">Dependencies</a>
           </div>
         </li>
@@ -63,24 +63,10 @@
   </div>
 </nav>
 
-<router-outlet></router-outlet>
+<!-- Left down here for documentation's sake, so I remember the correct form of linking in the new Angular-->
+<!-- <ul>
+  <li><a routerLink="">Home</a></li>
+  <li><a routerLink="about">About</a></li>
+</ul> -->
 
-<!-- Application-Wide Success Modal -->
-<div class="modal fade" id="generalSuccessModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" [ngStyle]="{'display':display}">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Action Successful</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        Action Successful
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
+<router-outlet></router-outlet>

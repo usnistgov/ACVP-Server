@@ -16,10 +16,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { LegacyFileUploadComponent } from './components/legacy-file-upload/legacy-file-upload.component';
 import { ValidationDbValidationsComponent } from './components/validation-db-validations/validation-db-validations.component';
 import { ValidationDbDependenciesComponent } from './components/validation-db-dependencies/validation-db-dependencies.component';
-import { ValidationDbValidationComponent } from './components/validation-db-validation/validation-db-validation.component';
 import { ValidationDbDependencyComponent } from './components/validation-db-dependency/validation-db-dependency.component';
 import { ValidationDbOeComponent } from './components/validation-db-oe/validation-db-oe.component';
-
 
 @NgModule({
   declarations: [
@@ -29,7 +27,6 @@ import { ValidationDbOeComponent } from './components/validation-db-oe/validatio
     LegacyFileUploadComponent,
     ValidationDbValidationsComponent,
     ValidationDbDependenciesComponent,
-    ValidationDbValidationComponent,
     ValidationDbDependencyComponent,
     ValidationDbOeComponent
   ],
