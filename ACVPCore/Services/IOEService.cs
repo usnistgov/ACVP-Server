@@ -13,5 +13,7 @@ namespace ACVPCore.Services
 		bool OEIsUsed(long oeID);
 		OperatingEnvironment Get(long dependencyId);
 		List<OperatingEnvironmentLite> Get(long pageSize, long pageNumber);
+		Result AddDependencyLink(long oeID, long dependencyID);
+		Result RemoveDependencyLink(long oeID, long dependencyID);
 	}
 }

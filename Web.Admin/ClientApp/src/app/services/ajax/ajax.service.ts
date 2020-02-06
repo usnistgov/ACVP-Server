@@ -53,6 +53,24 @@ export class AjaxService {
   getOE(id: number) {
     return this.http.get<OperatingEnvironment>(this.apiRoot + '/OperatingEnvironments/' + id);
   };
+
+  addDependencyToOE(dependencyId: number, OEID: number) {
+
+    // Assemble message body
+    var requestBody = { dependencyId : 0 };
+    requestBody.dependencyId = dependencyId;
+
+    // POST it
+    return this.http.post(this.apiRoot + '/OperatingEnvironments/' + OEID + '/Dependencies', requestBody);
+  }
+
+  removeDependencyFromOE(dependencyId: number, OEID: number) {
+    return this.http.delete(this.apiRoot + '/OperatingEnvironments/' + OEID + '/Dependencies/' + dependencyId);
+  }
+
+  updateOE(oe: OperatingEnvironment) {
+    return this.http.patch(this.apiRoot + '/OperatingEnvironments/' + oe.id, oe);
+  }
   // END Operating Environment (OE) -related calls
 
 }

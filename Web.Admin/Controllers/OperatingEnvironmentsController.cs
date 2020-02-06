@@ -22,10 +22,22 @@ namespace Web.Admin.Controllers
             _oeService = oeService;
         }
 
-        [HttpGet("{oeId}")]
+        [HttpGet("{oeID}")]
         public OperatingEnvironment Get(long oeID)
         {
             return _oeService.Get(oeID);
+        }
+
+        [HttpPost("{oeID}/Dependencies")]
+        public Result AddDependencyLink(long oeID, [FromBody] OEDependencyLinkCreateParameters parameters)
+        {
+            return _oeService.AddDependencyLink(oeID, parameters.DependencyID);
+        }
+
+        [HttpDelete("{oeID}/Dependencies/{dependencyID}")]
+        public Result RemoveDependencyLink(long oeID, long dependencyID)
+        {
+            return _oeService.RemoveDependencyLink(oeID, dependencyID);
         }
 
         [HttpGet]

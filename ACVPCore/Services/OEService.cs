@@ -108,5 +108,15 @@ namespace ACVPCore.Services
 		{
 			return _oeProvider.Get(pageSize, pageNumber);
 		}
+
+		public Result AddDependencyLink(long oeID, long dependencyID)
+		{
+			return _oeProvider.InsertDependencyLink(oeID, dependencyID);
+		}
+
+		public Result RemoveDependencyLink(long oeID, long dependencyID)
+		{
+			return _oeProvider.DeleteDependencyLink(oeID, dependencyID);
+		}
 	}
 }

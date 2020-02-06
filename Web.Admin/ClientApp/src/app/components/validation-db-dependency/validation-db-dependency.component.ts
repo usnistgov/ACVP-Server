@@ -22,7 +22,7 @@ export class ValidationDbDependencyComponent implements OnInit {
 
   addAttribute(name: string, value: string) {
     this.ajs.addAttribute(this.selectedDependency.id, new Attribute(name, value)).subscribe(
-      data => { this.refreshPageData(); },
+      data => { this.refreshPageData(); this.newAttribute.name = ""; this.newAttribute.value = "";},
       err => { console.log("Attribute addition failed"); },
       () => {});
   }
@@ -31,7 +31,7 @@ export class ValidationDbDependencyComponent implements OnInit {
     this.ajs.deleteAttribute(this.selectedDependency.id, attributeId).subscribe(
       data => { this.refreshPageData(); },
       err => { },
-      () => { });;
+      () => { });
   }
 
   // Used to submit changes to the values on the lefthand side of the screen
@@ -39,7 +39,7 @@ export class ValidationDbDependencyComponent implements OnInit {
   // Available fields: name, type, description
   updateDependency() {
     this.updateStatusFlag = "processing";
-    this.ajs.updateDependency(this.selectedDependency).subscribe(
+    this.ajs.updateDependency(this.referenceCopyDependency).subscribe(
       data => { this.updateStatusFlag = "successful"; this.refreshPageData(); },
       err => { },
       () => { });
@@ -48,7 +48,7 @@ export class ValidationDbDependencyComponent implements OnInit {
   // Used to refresh the page after a dependency is added, or metadata is altered, etc.
   refreshPageData() {
     this.ajs.getDependency(this.selectedDependency.id).subscribe(
-      data => { this.selectedDependency = data; },
+      data => { this.selectedDependency = data; this.referenceCopyDependency = data; },
       err => { },
       () => { });
   }
