@@ -65,6 +65,13 @@ namespace Web.Admin.Controllers
             return _dependencyService.Get(dependencyId);
         }
 
+        [HttpPost]
+        public DependencyResult CreateDependency([FromBody] DependencyCreateParameters parameters)
+        {
+            //DependencyCreateParameters parameters = new DependencyCreateParameters();
+            return _dependencyService.Create(parameters);
+        }
+
         [HttpGet]
         public WrappedEnumerable<Dependency> GetDependencies(long pageSize, long pageNumber)
         {

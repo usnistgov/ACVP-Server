@@ -5,6 +5,7 @@ import { DependencyList } from '../../models/dependency/dependency-list';
 import { Dependency } from '../../models/dependency/dependency';
 import { Attribute } from '../../models/dependency/attribute';
 import { OperatingEnvironment } from '../../models/operatingEnvironment/operatingEnvironment';
+import { Result } from '../../models/responses/Result';
 
 const httpOptions = {
   headers: new HttpHeaders()
@@ -70,6 +71,10 @@ export class AjaxService {
 
   updateOE(oe: OperatingEnvironment) {
     return this.http.patch(this.apiRoot + '/OperatingEnvironments/' + oe.id, oe);
+  }
+
+  createDependency(dependency: Dependency) {
+    return this.http.post<Result>(this.apiRoot + '/Dependencies', dependency);
   }
   // END Operating Environment (OE) -related calls
 
