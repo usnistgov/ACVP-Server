@@ -28,7 +28,7 @@
     "OrleansSiloPort": 8000,
     "OrleansGatewayPort": 30000,
     "ClusterId": "cryptoDist-TC",
-    "MinimumLogLevel": "Information",
+    "MinimumLogLevel": "Warning",
     "UseConsoleLogging": true,
     "UseFileLogging": true,
     "OrleansDashboardPort": 8080,

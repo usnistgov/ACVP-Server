@@ -100,8 +100,12 @@ using System;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
+using NIST.CVP.Common.Interfaces;
 using NIST.CVP.Common.Oracle.ParameterTypes.Kas.Sp800_56Ar1;
 using NIST.CVP.Common.Oracle.ResultTypes.Kas.Sp800_56Ar1;
+using NIST.CVP.Common.Services;
 using NIST.CVP.Crypto.AES_FF;
 using NIST.CVP.Crypto.Common.KAS.FixedInfo;
 using NIST.CVP.Crypto.Common.KAS.KDF.KdfOneStep;
@@ -130,13 +134,24 @@ namespace NIST.CVP.Orleans.Grains
     /// </summary>
     public static class ConfigureServices
     {
-        public static void RegisterServices(
-            IServiceCollection svc,
-            IConfiguration configuration,
-            OrleansConfig orleansConfig
-        )
+        public static void RegisterServices(IConfiguration configuration, IServiceCollection svc)
         {
             svc.AddSingleton(configuration);
+            svc.AddSingleton<IDbConnectionStringFactory, DbConnectionStringFactory>();
+            svc.AddSingleton<IDbConnectionFactory, SqlDbConnectionFactory>();
+
+            svc.Configure<EnvironmentConfig>(configuration.GetSection(nameof(EnvironmentConfig)));
+            svc.Configure<PoolConfig>(configuration.GetSection(nameof(PoolConfig)));
+            svc.Configure<OrleansConfig>(configuration.GetSection(nameof(OrleansConfig)));
+            svc.Configure<OrleansConfig>(configuration.GetSection(nameof(OrleansConfig)));
+            
+            var serviceProvider = svc.BuildServiceProvider();
+            var orleansConfig = serviceProvider.GetService<IOptions<OrleansConfig>>().Value;
+            RegisterServices(svc, orleansConfig);
+        }
+        
+        private static void RegisterServices(IServiceCollection svc, OrleansConfig orleansConfig)
+        {
             svc.AddSingleton(new LimitedConcurrencyLevelTaskScheduler(
                 GetOrleansNodeMaxConcurrency(orleansConfig)
             ));
@@ -145,6 +160,7 @@ namespace NIST.CVP.Orleans.Grains
             svc.AddTransient<IEntropyProvider, EntropyProvider>();
 
             #region Orleans Registrations
+
             svc.AddSingleton<IAeadRunner, AeadRunner>();
 
             svc.AddSingleton<IEddsaKeyGenRunner, EddsaKeyGenRunner>();
@@ -167,6 +183,7 @@ namespace NIST.CVP.Orleans.Grains
             #endregion Orleans Registrations
 
             #region Crypto Registrations
+
             svc.AddSingleton<IBlockCipherEngineFactory, BlockCipherEngineFactory>();
             svc.AddSingleton<IModeBlockCipherFactory, ModeBlockCipherFactory>();
             svc.AddSingleton<IAeadModeBlockCipherFactory, AeadModeBlockCipherFactory>();
@@ -185,9 +202,10 @@ namespace NIST.CVP.Orleans.Grains
 
             svc.AddSingleton<INoKeyConfirmationMacDataCreator, NoKeyConfirmationMacDataCreator>();
             svc.AddSingleton<IKeyConfirmationMacDataCreator, KeyConfirmationMacDataCreator>();
-            
+
             svc.AddTransient<IMacParametersBuilder, MacParametersBuilder>();
-            svc.AddTransient<IKeyConfirmationFactory, KeyConfirmationFactory>(); // there is some state to KMAC instances, purposefully doing a transient rather than singleton factory in this case
+            svc.AddTransient<IKeyConfirmationFactory, KeyConfirmationFactory
+            >(); // there is some state to KMAC instances, purposefully doing a transient rather than singleton factory in this case
             svc.AddSingleton<INoKeyConfirmationFactory, NoKeyConfirmationFactory>();
             svc.AddTransient<IKdfOneStepFactory, KdfOneStepFactory>(); // there is some state to KMAC instances, purposefully doing a transient rather than singleton factory in this case
 
@@ -199,17 +217,25 @@ namespace NIST.CVP.Orleans.Grains
             svc.AddTransient<ISchemeBuilder, SchemeBuilder>();
             svc.AddTransient<IKasBuilder, KasBuilder>();
             svc.AddSingleton<ISafePrimesGroupFactory, SafePrimesFactory>();
-            
+
             svc.AddSingleton<IDiffieHellman<FfcDomainParameters, FfcKeyPair>, DiffieHellmanFfc>();
             svc.AddSingleton<IMqv<FfcDomainParameters, FfcKeyPair>, MqvFfc>();
-            svc.AddTransient<ISchemeBuilder<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair>, SchemeBuilderFfc>();
-            svc.AddTransient<IKasBuilder<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair>, KasBuilderFfc>();
+            svc.AddTransient<
+                ISchemeBuilder<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>,
+                    FfcDomainParameters, FfcKeyPair>, SchemeBuilderFfc>();
+            svc.AddTransient<
+                IKasBuilder<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>,
+                    FfcDomainParameters, FfcKeyPair>, KasBuilderFfc>();
             svc.AddSingleton<IDsaFfcFactory, DsaFfcFactory>();
 
             svc.AddSingleton<IDiffieHellman<EccDomainParameters, EccKeyPair>, DiffieHellmanEcc>();
             svc.AddSingleton<IMqv<EccDomainParameters, EccKeyPair>, MqvEcc>();
-            svc.AddTransient<ISchemeBuilder<KasDsaAlgoAttributesEcc, OtherPartySharedInformation<EccDomainParameters, EccKeyPair>, EccDomainParameters, EccKeyPair>, SchemeBuilderEcc>();
-            svc.AddTransient<IKasBuilder<KasDsaAlgoAttributesEcc, OtherPartySharedInformation<EccDomainParameters, EccKeyPair>, EccDomainParameters, EccKeyPair>, KasBuilderEcc>();
+            svc.AddTransient<
+                ISchemeBuilder<KasDsaAlgoAttributesEcc, OtherPartySharedInformation<EccDomainParameters, EccKeyPair>,
+                    EccDomainParameters, EccKeyPair>, SchemeBuilderEcc>();
+            svc.AddTransient<
+                IKasBuilder<KasDsaAlgoAttributesEcc, OtherPartySharedInformation<EccDomainParameters, EccKeyPair>,
+                    EccDomainParameters, EccKeyPair>, KasBuilderEcc>();
 
             svc.AddSingleton<IEccNonceProviderFactory, EccNonceProviderFactory>();
             svc.AddSingleton<IDsaEccFactory, DsaEccFactory>();
@@ -225,11 +251,11 @@ namespace NIST.CVP.Orleans.Grains
             svc.AddTransient<IRsaSve, RsaSve>();
             svc.AddTransient<IRsaSveBuilder, RsaSveBuilder>();
             svc.AddSingleton<IKtsFactory, KtsFactory>();
-            
+
             svc.AddTransient<IIfcSecretKeyingMaterialBuilder, IfcSecretKeyingMaterialBuilder>();
             svc.AddTransient<IKasIfcBuilder, KasIfcBuilder>();
             svc.AddTransient<ISchemeIfcBuilder, SchemeIfcBuilder>();
-            
+
             svc.AddSingleton<IEdwardsCurveFactory, EdwardsCurveFactory>();
             svc.AddSingleton<IDsaEdFactory, DsaEdFactory>();
 
@@ -280,6 +306,7 @@ namespace NIST.CVP.Orleans.Grains
 
             svc.AddTransient<IParallelHash, ParallelHash>();
             svc.AddTransient<IParallelHash_MCT, ParallelHash_MCT>();
+
             #endregion Crypto Registrations
         }
 
