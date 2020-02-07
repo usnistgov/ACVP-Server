@@ -1,9 +1,12 @@
 ﻿using System;
+using System.IO;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using NIST.CVP.Common.Helpers;
 using NIST.CVP.Orleans.Grains;
+using NIST.CVP.Orleans.ServerHost.Models;
 using Serilog;
 
 namespace NIST.CVP.Orleans.ServerHost
@@ -12,10 +15,11 @@ namespace NIST.CVP.Orleans.ServerHost
     {
         public static async Task Main(string[] args)
         {
-            await CreateHostBuilder(args).Build().RunAsync();
+            var directoryConfig = EntryPointConfigHelper.GetRootDirectory();
+            await CreateHostBuilder(args, directoryConfig).Build().RunAsync();
         }
 
-        private static IHostBuilder CreateHostBuilder(string[] args) =>
+        private static IHostBuilder CreateHostBuilder(string[] args, string directoryConfig) =>
             Host.CreateDefaultBuilder(args)
                 .ConfigureAppConfiguration((context, builder) =>
                 {
@@ -30,10 +34,11 @@ namespace NIST.CVP.Orleans.ServerHost
 
                     context.HostingEnvironment.EnvironmentName = env;
                     
-                    builder.AddJsonFile($"sharedappsettings.json", optional: false, reloadOnChange: false)
-                        .AddJsonFile($"sharedappsettings.{env}.json", optional: false, reloadOnChange: false)
-                        .AddJsonFile($"appsettings.json", optional: true, reloadOnChange: false)
-                        .AddJsonFile($"appsettings.{env}.json", optional: true, reloadOnChange: false);
+                    builder
+                        .AddJsonFile($"{directoryConfig}sharedappsettings.json", optional: false, reloadOnChange: false)
+                        .AddJsonFile($"{directoryConfig}sharedappsettings.{env}.json", optional: false, reloadOnChange: false)
+                        .AddJsonFile($"{directoryConfig}appsettings.json", optional: true, reloadOnChange: false)
+                        .AddJsonFile($"{directoryConfig}appsettings.{env}.json", optional: true, reloadOnChange: false);
                 })
                 .UseWindowsService()
                 .UseSerilog((context, loggerConfiguration) =>

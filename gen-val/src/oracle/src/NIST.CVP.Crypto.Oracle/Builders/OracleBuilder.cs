@@ -20,7 +20,7 @@ namespace NIST.CVP.Crypto.Oracle.Builders
 
         public OracleBuilder()
         {
-            var serviceProvider = EntryPointConfigHelper.Bootstrap(AppDomain.CurrentDomain.BaseDirectory);
+            var serviceProvider = EntryPointConfigHelper.GetServiceProviderFromConfigurationBuilder();
             _dbConnectionStringFactory = serviceProvider.GetService<IDbConnectionStringFactory>();
             _environmentConfig = serviceProvider.GetService<IOptions<EnvironmentConfig>>();
             _orleansConfig = serviceProvider.GetService<IOptions<OrleansConfig>>();

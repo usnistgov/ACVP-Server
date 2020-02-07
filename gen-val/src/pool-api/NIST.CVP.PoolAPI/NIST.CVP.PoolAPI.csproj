@@ -12,10 +12,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="$(NuGetVersionMicrosoftAspNetCore)" />
     <PackageReference Include="Microsoft.AspNetCore.Cors" Version="2.1.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Hosting.WindowsServices" Version="2.1.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="$(NuGetVersionMicrosoftNETTestSdk)" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="$(NuGetVersionMicrosoftAspNetCore)" />
+    <PackageReference Include="Serilog" Version="$(NuGetVersionSerilog)" />
+    <PackageReference Include="Serilog.Extensions.Hosting" Version="$(NuGetVersionSerilogExtensionsHosting)" />
+    <PackageReference Include="Serilog.Extensions.Logging" Version="$(NuGetVersionSerilogExtensionsLogging)" />
+    <PackageReference Include="Serilog.Settings.Configuration" Version="$(NuGetVersionSerilogSettingsConfiguration)" />
+    <PackageReference Include="Serilog.Sinks.File" Version="$(NuGetVersionSerilogSinksFile)" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="$(NuGetVersionSerilogSinksConsole)" />
   </ItemGroup>
 
   <ItemGroup>

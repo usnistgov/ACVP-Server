@@ -53,7 +53,7 @@
         <NuGetVersionSerilogExtensionsLogging>3.0.1</NuGetVersionSerilogExtensionsLogging>
         <NuGetVersionSerilogSettingsConfiguration>3.1.0</NuGetVersionSerilogSettingsConfiguration>
         <NuGetVersionSerilogSinksFile>4.1.0</NuGetVersionSerilogSinksFile>
-        
+        <NuGetVersionSerilogSinksConsole>3.1.1</NuGetVersionSerilogSinksConsole>
     </PropertyGroup>
 
 </Project>
