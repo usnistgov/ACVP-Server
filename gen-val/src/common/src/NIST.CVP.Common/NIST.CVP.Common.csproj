@@ -13,6 +13,7 @@
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="$(NuGetVersionMicrosoftNETTestSdk)" />
     <PackageReference Include="Autofac" Version="$(NuGetVersionAutofac)" />
     <PackageReference Include="NLog" Version="$(NuGetVersionNLog)" />
+    <PackageReference Include="Serilog" Version="$(NuGetVersionSerilog)" />
     <PackageReference Include="System.Data.SqlClient" Version="$(NuGetVersionSystemDataSqlClient)" />
   </ItemGroup>
   

@@ -16,6 +16,7 @@ using NIST.CVP.Common.Helpers;
 using NIST.CVP.Common.Interfaces;
 using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Services;
+using NIST.CVP.Common.Targets;
 using NIST.CVP.Crypto.Oracle;
 using NIST.CVP.Pools;
 using NIST.CVP.Pools.Interfaces;
@@ -28,6 +29,10 @@ namespace NIST.CVP.PoolAPI
     {
         public static async Task Main(string[] args)
         {
+            // Register the NLog -> Serilog target so Serilog can intercept NLog log calls.
+            Target.Register<SerilogTarget>(SerilogTarget.TargetName); 
+            SerilogTarget.ReplaceAllNLogTargetsWithSingleSerilogForwarder();
+            
             var directoryConfig = EntryPointConfigHelper.GetRootDirectory();
             await CreateHostBuilder(args, directoryConfig).Build().RunAsync();
         }

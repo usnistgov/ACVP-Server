@@ -45,6 +45,8 @@ namespace NIST.CVP.Crypto.Oracle
             _orleansConfig = orleansConfig;
             LoadSheddingRetries = _orleansConfig.Value.TimeoutRetryAttempts;
 
+            ThisLogger.Error("Test test test test test test test test test test test test ");
+            
             _clusterClient = InitializeClient().GetAwaiter().GetResult();
         }
 
