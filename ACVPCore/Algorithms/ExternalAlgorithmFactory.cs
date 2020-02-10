@@ -75,6 +75,7 @@ namespace ACVPCore.Algorithms
 				("KAS-ECC", "CDH-Component", "1.0") => JsonSerializer.Deserialize<KAS_ECC_CDH>(algorithmRegistration),
 				("KAS-ECC", null, "Sp800-56Ar3") => JsonSerializer.Deserialize<KAS_ECC_SP800_56Ar3>(algorithmRegistration),
 				("KAS-FFC", null, "1.0") => JsonSerializer.Deserialize<KAS_FFC>(algorithmRegistration),
+				("KAS-FFC", "Component", "1.0") => JsonSerializer.Deserialize<KAS_FFC_Component>(algorithmRegistration),
 				("KAS-FFC", null, "Sp800-56Ar3") => JsonSerializer.Deserialize<KAS_FFC_SP800_56Ar3>(algorithmRegistration),
 				("KDF", null, "1.0") => JsonSerializer.Deserialize<KDF>(algorithmRegistration),
 				("kdf-components", "ansix9.42", "1.0") => JsonSerializer.Deserialize<KDF_ANSIX942>(algorithmRegistration),

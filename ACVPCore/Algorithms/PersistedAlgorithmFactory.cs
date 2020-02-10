@@ -59,6 +59,7 @@ namespace ACVPCore.Algorithms
 				External.KAS_ECC_CDH x => new Persisted.KAS_ECC_CDH(x),
 				External.KAS_ECC_SP800_56Ar3 x => new Persisted.KAS_ECC_SP800_56Ar3(x),
 				External.KAS_FFC x => new Persisted.KAS_FFC(x),
+				External.KAS_FFC_Component x => new Persisted.KAS_FFC_Component(x),
 				External.KAS_FFC_SP800_56Ar3 x => new Persisted.KAS_FFC_SP800_56Ar3(x),
 				External.KDF x => new Persisted.KDF(x),
 				External.KDF_ANSIX942 x => new Persisted.KDF_ANSIX942(x),
