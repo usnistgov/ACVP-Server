@@ -5,6 +5,7 @@ using System.Text.Json.Serialization;
 
 namespace ACVPCore.Algorithms.DataTypes
 {
+	[JsonConverter(typeof(DomainConverter))]
 	public class Domain
 	{
 		public List<IDomainSegment> Segments { get; set; } = new List<IDomainSegment>();
