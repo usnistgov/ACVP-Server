@@ -4,6 +4,6 @@ namespace Web.Public
 {
     public interface IProtocolVersionWrapper
     {
-        JArray WrapJson(JObject json);
+        string WrapJson(JObject json);
     }
 }

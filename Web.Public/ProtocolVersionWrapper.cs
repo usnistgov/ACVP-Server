@@ -7,12 +7,20 @@ namespace Web.Public
         // TODO grab from config
         private readonly string _protocolVersion = "1.0";
         private readonly string _protocolVersionLabel = "acvVersion";
+
+        private readonly JObject _versionObject;
         
-        public JArray WrapJson(JObject json)
+        public ProtocolVersionWrapper()
         {
-            var versionObject = new JObject {[_protocolVersionLabel] = _protocolVersion};
-            var wrappedResponse = new JArray(versionObject, json);
-            return wrappedResponse;
+            _versionObject = new JObject {[_protocolVersionLabel] = _protocolVersion};
+        }
+        
+        public string WrapJson(JObject json)
+        {
+            var wrappedResponse = new JArray(_versionObject, json);
+            
+            // ToString provides indentation
+            return wrappedResponse.ToString();
         }
     }
 }

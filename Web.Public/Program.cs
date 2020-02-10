@@ -27,9 +27,7 @@ namespace Web.Public
 
                     //Inject local things
                     services.AddSingleton<IProtocolVersionWrapper, ProtocolVersionWrapper>();
-                    //services.AddSingleton<IMessageProvider, MessageProvider>();
-                    //services.AddSingleton<IMessageProcessorFactory, MessageProcessorFactory>();
-                    //services.AddSingleton<IAutoApproveProvider, AutoApproveProvider>();
+                    services.AddTransient<ITotpProvider, TotpProvider>();
                 });
     }
 }
