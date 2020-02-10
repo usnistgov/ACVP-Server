@@ -44,9 +44,13 @@
     <Content Include="..\..\..\..\..\_sharedappsettings\sharedappsettings.prod.json" Link="sharedappsettings.prod.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
   </ItemGroup>
   <ItemGroup>
-    <None Update="appsettings.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <None Update="appsettings.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="appsettings.local.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="appsettings.tc.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="appsettings.dev.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="appsettings.test.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="appsettings.demo.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="appsettings.prod.json" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
 </Project>

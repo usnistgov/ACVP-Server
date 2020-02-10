@@ -37,8 +37,8 @@ namespace NIST.CVP.Orleans.ServerHost
                     builder
                         .AddJsonFile($"{directoryConfig}sharedappsettings.json", optional: false, reloadOnChange: false)
                         .AddJsonFile($"{directoryConfig}sharedappsettings.{env}.json", optional: false, reloadOnChange: false)
-                        .AddJsonFile($"{directoryConfig}appsettings.json", optional: true, reloadOnChange: false)
-                        .AddJsonFile($"{directoryConfig}appsettings.{env}.json", optional: true, reloadOnChange: false);
+                        .AddJsonFile($"{directoryConfig}appsettings.json", optional: false, reloadOnChange: false)
+                        .AddJsonFile($"{directoryConfig}appsettings.{env}.json", optional: false, reloadOnChange: false);
                 })
                 .UseWindowsService()
                 .UseSerilog((context, loggerConfiguration) =>
