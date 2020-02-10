@@ -10,7 +10,6 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="$(NuGetVersionMicrosoftAspNetCore)" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="$(NuGetVersionMicrosoftAspNetCore)" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="$(NuGetVersionMicrosoftAspNetCore)" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="$(NuGetVersionMicrosoftNETTestSdk)" />
     <PackageReference Include="Autofac" Version="$(NuGetVersionAutofac)" />
     <PackageReference Include="NLog" Version="$(NuGetVersionNLog)" />
     <PackageReference Include="Serilog" Version="$(NuGetVersionSerilog)" />

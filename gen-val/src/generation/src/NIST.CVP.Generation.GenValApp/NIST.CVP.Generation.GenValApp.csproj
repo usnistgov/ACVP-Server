@@ -14,8 +14,6 @@
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="$(NuGetVersionNewtonsoftJson)" />
     <PackageReference Include="CommandLineArgumentsParser" Version="$(NuGetVersionCommandLineArgumentsParser)" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="$(NuGetVersionMicrosoftNETTestSdk)" />
-    <PackageReference Include="System.Runtime.Loader" Version="$(NuGetVersionSystemRuntimeLoader)" />
     <PackageReference Include="Autofac" Version="$(NuGetVersionAutofac)" />
     <PackageReference Include="Microsoft.Orleans.Client" Version="$(NugetVersionMicrosoftOrleansClient)" />
   </ItemGroup>

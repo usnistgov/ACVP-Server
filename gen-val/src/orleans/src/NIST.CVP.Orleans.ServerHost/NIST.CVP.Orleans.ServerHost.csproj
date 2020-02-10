@@ -4,10 +4,8 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <RuntimeIdentifiers>win-x64;osx-x64</RuntimeIdentifiers>
     <OutputType>Exe</OutputType>
-    <LangVersion>7.1</LangVersion>
     <ServerGarbageCollection>true</ServerGarbageCollection>
     <ConcurrentGarbageCollection>true</ConcurrentGarbageCollection>
-    <GenerateProgramFile>false</GenerateProgramFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -20,13 +18,16 @@
     <PackageReference Include="Microsoft.Orleans.Clustering.AdoNet" Version="$(NugetVersionMicrosoftOrleansClusteringAdoNet)" />
     <PackageReference Include="Microsoft.Orleans.OrleansTelemetryConsumers.Counters" Version="$(NuGetVersionMicrosoftOrleansOrleansTelemetryConsumersCounters)" />
     <PackageReference Include="Microsoft.Orleans.Server" Version="$(NugetVersionMicrosoftOrleansServer)" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="$(NuGetVersionMicrosoftNETTestSdk)" />
     <PackageReference Include="OrleansDashboard" Version="$(NuGetVersionOrleansDashboard)" />
     <PackageReference Include="Serilog" Version="$(NuGetVersionSerilog)" />
     <PackageReference Include="Serilog.Extensions.Hosting" Version="$(NuGetVersionSerilogExtensionsHosting)" />
     <PackageReference Include="Serilog.Extensions.Logging" Version="$(NuGetVersionSerilogExtensionsLogging)" />
     <PackageReference Include="Serilog.Settings.Configuration" Version="$(NuGetVersionSerilogSettingsConfiguration)" />
     <PackageReference Include="Serilog.Sinks.File" Version="$(NuGetVersionSerilogSinksFile)" />
+    
+    <PackageReference Include="System.IO.FileSystem.Primitives" Version="4.3.0" />
+    <PackageReference Include="System.Runtime.Handles" Version="4.3.0" />
+    <PackageReference Include="System.Text.Encoding.Extensions" Version="4.3.0" />
   </ItemGroup>
 
   <ItemGroup>

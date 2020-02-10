@@ -27,6 +27,7 @@
     <!-- NuGet package versions -->
     <PropertyGroup>
         <NuGetVersionMicrosoftAspNetCore>3.1.0</NuGetVersionMicrosoftAspNetCore>
+        <NuGetVersionCSharp>4.7.0</NuGetVersionCSharp>
         <NuGetVersionMicrosoftNETTestSdk>16.0.1</NuGetVersionMicrosoftNETTestSdk>
         <NuGetVersiondotnettestnunit>3.4.0-beta-3</NuGetVersiondotnettestnunit>
         <NuGetVersionTeamCityVSTestTestAdapter>1.0.15</NuGetVersionTeamCityVSTestTestAdapter>
@@ -37,7 +38,6 @@
         <NuGetVersionAutofac>4.9.2</NuGetVersionAutofac>
         <NuGetVersionNewtonsoftJson>12.0.1</NuGetVersionNewtonsoftJson>
         <NuGetVersionCommandLineArgumentsParser>3.0.19</NuGetVersionCommandLineArgumentsParser>
-        <NuGetVersionSystemRuntimeLoader>4.3.0</NuGetVersionSystemRuntimeLoader>
         <NugetVersionMicrosoftOrleansServer>3.0.2</NugetVersionMicrosoftOrleansServer>
         <NugetVersionMicrosoftOrleansOrleansCodeGeneratorBuild>3.0.2</NugetVersionMicrosoftOrleansOrleansCodeGeneratorBuild>
         <NugetVersionMicrosoftOrleansClient>3.0.2</NugetVersionMicrosoftOrleansClient>

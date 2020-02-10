@@ -94,13 +94,11 @@ using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
 using NIST.CVP.Orleans.Grains.Aead;
 using NIST.CVP.Orleans.Grains.Eddsa;
-using NIST.CVP.Orleans.Grains.Kas;
 using NIST.CVP.Orleans.Grains.Rsa;
 using System;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using NIST.CVP.Common.Interfaces;
 using NIST.CVP.Common.Oracle.ParameterTypes.Kas.Sp800_56Ar1;
@@ -111,7 +109,6 @@ using NIST.CVP.Crypto.Common.KAS.FixedInfo;
 using NIST.CVP.Crypto.Common.KAS.KDF.KdfOneStep;
 using NIST.CVP.Crypto.Common.KAS.SafePrimes;
 using NIST.CVP.Crypto.Common.KAS.Scheme;
-using NIST.CVP.Crypto.Common.KAS.Sp800_56Ar3;
 using NIST.CVP.Crypto.Common.KAS.Sp800_56Ar3.Builders;
 using NIST.CVP.Crypto.Common.KTS;
 using NIST.CVP.Crypto.Common.Symmetric.AES;
@@ -204,8 +201,7 @@ namespace NIST.CVP.Orleans.Grains
             svc.AddSingleton<IKeyConfirmationMacDataCreator, KeyConfirmationMacDataCreator>();
 
             svc.AddTransient<IMacParametersBuilder, MacParametersBuilder>();
-            svc.AddTransient<IKeyConfirmationFactory, KeyConfirmationFactory
-            >(); // there is some state to KMAC instances, purposefully doing a transient rather than singleton factory in this case
+            svc.AddTransient<IKeyConfirmationFactory, KeyConfirmationFactory>(); // there is some state to KMAC instances, purposefully doing a transient rather than singleton factory in this case
             svc.AddSingleton<INoKeyConfirmationFactory, NoKeyConfirmationFactory>();
             svc.AddTransient<IKdfOneStepFactory, KdfOneStepFactory>(); // there is some state to KMAC instances, purposefully doing a transient rather than singleton factory in this case
 
