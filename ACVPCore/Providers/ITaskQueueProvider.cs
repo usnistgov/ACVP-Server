@@ -4,6 +4,6 @@ namespace ACVPCore.Providers
 {
 	public interface ITaskQueueProvider
 	{
-		Result Insert(TaskType type, string payload);
+		Result Insert(TaskType type, long vectorSetID, bool isSample);
 	}
 }

@@ -144,7 +144,7 @@ namespace NIST.CVP.Orleans.ServerHost
             builder.ConfigureLogging(logging =>
             {
                 logging.SetMinimumLevel(_orleansConfig.MinimumLogLevel);
-
+                
                 if (_orleansConfig.UseConsoleLogging)
                 {
                     logging.AddConsole();

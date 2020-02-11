@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json.Serialization;
+using ACVPCore.Models.Parameters;
 
 namespace ACVPWorkflow.Models
 {
-	public class PersonUpdatePayload
+	public class PersonUpdatePayload : BasePayload, IWorkflowItemPayload
 	{
 		private string _name;
 		private string _vendorURL;
@@ -62,6 +64,21 @@ namespace ACVPWorkflow.Models
 		public bool VendorURLUpdated { get; private set; } = false;
 		public bool PhoneNumbersUpdated { get; private set; } = false;
 		public bool EmailAddressesUpdated { get; private set; } = false;
+
+
+		public PersonUpdateParameters ToPersonUpdateParameters() => new PersonUpdateParameters
+		{
+			ID = ID,
+			Name = Name,
+			OrganizationID = ParseNullableIDFromURL(VendorURL),
+			PhoneNumbers = PhoneNumbers?.Select(x => (x.Type, x.Number))?.ToList(),
+			EmailAddresses = EmailAddresses,
+			NameUpdated = NameUpdated,
+			OrganizationIDUpdated = VendorURLUpdated,
+			PhoneNumbersUpdated = PhoneNumbersUpdated,
+			EmailAddressesUpdated = EmailAddressesUpdated
+		};
+
 
 		public class PhoneNumber
 		{

@@ -1,12 +1,11 @@
-SET ANSI_NULLS OFF
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-
 -- Removes the completed row from the TASK_QUEUE
-CREATE PROCEDURE [acvp].[TaskQueueDelete]
+CREATE PROCEDURE [common].[TaskQueueDelete]
+
     @TaskID BIGINT
+
 AS
+    SET NOCOUNT ON
+
     DELETE
     FROM [common].[TaskQueue]
     WHERE TaskID = @TaskID

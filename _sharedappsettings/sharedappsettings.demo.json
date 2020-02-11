@@ -41,7 +41,7 @@
     "OrleansDashboardPort": 8080,
     "FallBackMinimumCores": 8,
     "LoadSheddingCpuThreshold": 0,
-    "MaxWorkItemsToQueuePerGenValInstance": 1000,
-    "TimeoutRetryAttempts": 5
+    "MaxWorkItemsToQueuePerGenValInstance": 250,
+    "TimeoutRetryAttempts": 15
   } 
 }

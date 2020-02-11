@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using ACVPCore.Models.Parameters;
 
 namespace ACVPWorkflow.Models
 {
-	public class DependencyCreatePayload
+	public class DependencyCreatePayload : IWorkflowItemPayload
 	{
 		[JsonPropertyName("id")]
 		public long ID { get => -1; }
@@ -24,5 +26,17 @@ namespace ACVPWorkflow.Models
 		//Since the dependency attributes do not have standard names, and are just key/value pair items, use the JsonExtensionData thing to capture all of the attribute data
 		[JsonExtensionData]
 		public Dictionary<string, JsonElement> Attributes { get; set; }
+
+
+		public DependencyCreateParameters ToDependencyCreateParameters()
+		{
+			return new DependencyCreateParameters
+			{
+				Type = Type,
+				Name = Name,
+				Description = Description,
+				Attributes = Attributes.Select(a => new DependencyAttributeCreateParameters { Name = a.Key, Value = a.Value.GetString() }).ToList()
+			};
+		}
 	}
 }

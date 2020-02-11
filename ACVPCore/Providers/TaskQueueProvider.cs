@@ -17,7 +17,7 @@ namespace ACVPCore.Providers
 			_logger = logger;
 		}
 
-		public Result Insert(TaskType type, string payload)
+		public Result Insert(TaskType type, long vectorSetID, bool isSample)
 		{
 			//Map the type in the task queue record with something easier to work with
 			string taskType = type switch
@@ -37,7 +37,12 @@ namespace ACVPCore.Providers
 
 			try
 			{
-				db.Execute("common.TaskQueueInsert @0, @1", taskType, System.Text.Encoding.UTF8.GetBytes(payload));
+				db.ExecuteProcedure("common.TaskQueueInsert", inParams: new
+				{
+					TaskType = taskType,
+					VectorSetId = vectorSetID,
+					IsSample = isSample
+				});
 			}
 			catch (Exception ex)
 			{

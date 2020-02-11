@@ -107,7 +107,7 @@ namespace ACVPCore.Providers
 			}
 		}
 
-		public Result Update(long organizationID, string name, string website, string voiceNumber, string faxNumber, long? parentOrganizationID, bool nameUpdated, bool websiteUpdated, bool phoneNumbersUpdated, bool parentOrganizationIDUpdated)
+		public Result Update(long organizationID, string name, string website, string voiceNumber, string faxNumber, long? parentOrganizationID, bool nameUpdated, bool websiteUpdated, bool voiceNumberUpdated, bool faxNumberUpdated, bool parentOrganizationIDUpdated)
 		{
 			if (nameUpdated && string.IsNullOrWhiteSpace(name)) return new Result("Invalid name value");
 
@@ -125,7 +125,8 @@ namespace ACVPCore.Providers
 					ParentOrganizationID = parentOrganizationID,
 					NameUpdated = nameUpdated,
 					WebsiteUpdated = websiteUpdated,
-					PhoneNumbersUpdated = phoneNumbersUpdated,
+					VoiceNumberUpdated = voiceNumberUpdated,
+					FaxNumberUpdated = faxNumberUpdated,
 					ParentOrganizationIDUpdated = parentOrganizationIDUpdated
 				});
 

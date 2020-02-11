@@ -123,9 +123,9 @@ namespace ACVPCore.Services
 			}
 
 			//Update the organization record if needed. Phone numbers go as a pair
-			if (parameters.NameUpdated || parameters.WebsiteUpdated || parameters.ParentOrganizationIDUpdated || parameters.PhoneNumbersUpdated)
+			if (parameters.NameUpdated || parameters.WebsiteUpdated || parameters.ParentOrganizationIDUpdated || parameters.VoiceNumberUpdated || parameters.FaxNumberUpdated)
 			{
-				Result organizationUpdateResult = _organizationProvider.Update(parameters.ID, parameters.Name, parameters.Website, parameters.VoiceNumber, parameters.FaxNumber, parameters.ParentOrganizationID, parameters.NameUpdated, parameters.WebsiteUpdated, parameters.PhoneNumbersUpdated, parameters.ParentOrganizationIDUpdated);
+				Result organizationUpdateResult = _organizationProvider.Update(parameters.ID, parameters.Name, parameters.Website, parameters.VoiceNumber, parameters.FaxNumber, parameters.ParentOrganizationID, parameters.NameUpdated, parameters.WebsiteUpdated, parameters.VoiceNumberUpdated, parameters.FaxNumberUpdated, parameters.ParentOrganizationIDUpdated);
 
 				if (!organizationUpdateResult.IsSuccess)
 				{
