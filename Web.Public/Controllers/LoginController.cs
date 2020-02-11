@@ -1,6 +1,6 @@
 using System;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json.Linq;
+using Web.Public.JsonObjects;
 
 namespace Web.Public.Controllers
 {
@@ -8,12 +8,10 @@ namespace Web.Public.Controllers
     [ApiController]
     public class LoginController : ControllerBase
     {
-        private readonly IProtocolVersionWrapper _versionWrapper;
         private readonly ITotpProvider _totpProvider;
         
-        public LoginController(IProtocolVersionWrapper versionWrapper, ITotpProvider totpProvider)
+        public LoginController(ITotpProvider totpProvider)
         {
-            _versionWrapper = versionWrapper;
             _totpProvider = totpProvider;
         }
         
@@ -22,7 +20,7 @@ namespace Web.Public.Controllers
         // RefreshToken includes both TOTP password AND the previous JWT
 
         [HttpPost]
-        public JArray PostPassword(string password)
+        public JsonResult Login(JwtRefreshObject content)
         {
             // Grab user from authentication
             
@@ -33,12 +31,6 @@ namespace Web.Public.Controllers
             // Db verification? maybe included in Validate step
             
             // Build Access Token (JWT)
-            throw new NotImplementedException();
-        }
-
-        [HttpPost]
-        public JArray RefreshToken(string password, string oldJwt)
-        {
             throw new NotImplementedException();
         }
     }

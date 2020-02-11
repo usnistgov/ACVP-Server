@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json.Linq;
+using Web.Public.JsonObjects;
 
 namespace Web.Public.Controllers
 {
@@ -8,17 +8,15 @@ namespace Web.Public.Controllers
     [ApiController]
     public class TotpController : ControllerBase
     {
-        private readonly IProtocolVersionWrapper _versionWrapper;
         private readonly ITotpProvider _totpProvider;
         
-        public TotpController(IProtocolVersionWrapper versionWrapper, ITotpProvider totpProvider)
+        public TotpController(ITotpProvider totpProvider)
         {
-            _versionWrapper = versionWrapper;
             _totpProvider = totpProvider;
         }
         
         [HttpGet]
-        public string GetTotp()
+        public JsonResult GetTotp()
         {
             // Use authentication to identify user
             
@@ -27,10 +25,15 @@ namespace Web.Public.Controllers
             
             // Compute Totp
             var result = _totpProvider.GenerateTotp(seed);
-            var passwordObject = new JObject{["password"] = result};
 
             // Wrap and return to user
-            return _versionWrapper.WrapJson(passwordObject);
+            var returnObject = new PasswordObject
+            {
+                AcvVersion = "1.0",
+                Password = result
+            };
+            
+            return new JsonResult(returnObject);
         }
     }
 }

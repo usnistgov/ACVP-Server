@@ -26,7 +26,6 @@ namespace Web.Public
                     //services.InjectDatabaseInterface();
 
                     //Inject local things
-                    services.AddSingleton<IProtocolVersionWrapper, ProtocolVersionWrapper>();
                     services.AddTransient<ITotpProvider, TotpProvider>();
                 });
     }
