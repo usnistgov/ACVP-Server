@@ -26,7 +26,8 @@
 
     <!-- NuGet package versions -->
     <PropertyGroup>
-    	<NuGetVersionMicrosoftAspNetCore>3.1.0</NuGetVersionMicrosoftAspNetCore>
+        <NuGetVersionMicrosoftAspNetCore>3.1.0</NuGetVersionMicrosoftAspNetCore>
+        <NuGetVersionCSharp>4.7.0</NuGetVersionCSharp>
         <NuGetVersionMicrosoftNETTestSdk>16.0.1</NuGetVersionMicrosoftNETTestSdk>
         <NuGetVersiondotnettestnunit>3.4.0-beta-3</NuGetVersiondotnettestnunit>
         <NuGetVersionTeamCityVSTestTestAdapter>1.0.15</NuGetVersionTeamCityVSTestTestAdapter>
@@ -37,7 +38,6 @@
         <NuGetVersionAutofac>4.9.2</NuGetVersionAutofac>
         <NuGetVersionNewtonsoftJson>12.0.1</NuGetVersionNewtonsoftJson>
         <NuGetVersionCommandLineArgumentsParser>3.0.19</NuGetVersionCommandLineArgumentsParser>
-        <NuGetVersionSystemRuntimeLoader>4.3.0</NuGetVersionSystemRuntimeLoader>
         <NugetVersionMicrosoftOrleansServer>3.0.2</NugetVersionMicrosoftOrleansServer>
         <NugetVersionMicrosoftOrleansOrleansCodeGeneratorBuild>3.0.2</NugetVersionMicrosoftOrleansOrleansCodeGeneratorBuild>
         <NugetVersionMicrosoftOrleansClient>3.0.2</NugetVersionMicrosoftOrleansClient>
@@ -48,6 +48,13 @@
         <NugetVersionMicrosoftAspNetCoreHostingWindowsServices>2.1.0</NugetVersionMicrosoftAspNetCoreHostingWindowsServices>
         <NuGetVersionSystemServiceProcessServiceController>4.5.0</NuGetVersionSystemServiceProcessServiceController>
         <NuGetVersionSystemDataSqlClient>4.7.0</NuGetVersionSystemDataSqlClient>
+        <NuGetVersionSerilog>2.9.0</NuGetVersionSerilog>
+        <NuGetVersionSerilogExtensionsHosting>3.0.0</NuGetVersionSerilogExtensionsHosting>
+        <NuGetVersionSerilogExtensionsLogging>3.0.1</NuGetVersionSerilogExtensionsLogging>
+        <NuGetVersionSerilogSettingsConfiguration>3.1.0</NuGetVersionSerilogSettingsConfiguration>
+        <NuGetVersionSerilogSinksFile>4.1.0</NuGetVersionSerilogSinksFile>
+        <NuGetVersionSerilogSinksConsole>3.1.1</NuGetVersionSerilogSinksConsole>
+        <NuGetVersionMicrosoftNETCoreTargets>3.1.0</NuGetVersionMicrosoftNETCoreTargets>
     </PropertyGroup>
 
 </Project>

@@ -50,33 +50,12 @@ namespace NIST.CVP.PoolAPI
 
             services.AddControllersWithViews()
                 .AddNewtonsoftJson();
-
-            services.AddSingleton(Configuration);
-
-            services.Configure<EnvironmentConfig>(Configuration.GetSection(nameof(EnvironmentConfig)));
-            services.Configure<PoolConfig>(Configuration.GetSection(nameof(PoolConfig)));
-            services.Configure<OrleansConfig>(Configuration.GetSection(nameof(OrleansConfig)));
-
-            services.AddSingleton<IDbConnectionStringFactory, DbConnectionStringFactory>();
-            services.AddSingleton<IDbConnectionFactory, SqlDbConnectionFactory>();
-
-            services.AddSingleton<IJsonConverterProvider, JsonConverterProvider>();
-            services.AddSingleton(serviceProvider  => new JsonConverterProvider().GetJsonConverters());
-            services.AddSingleton<IPoolRepository<IResult>, PoolSqlRepository<IResult>>();
-            services.AddSingleton<IPoolFactory, PoolFactory>();
-            services.AddSingleton<IPoolObjectFactory, PoolObjectFactory>();
-            services.AddSingleton<IPoolRepositoryFactory, PoolSqlRepositoryFactory>();
-            services.AddSingleton<IPoolLogRepository, PoolLogSqlRepository>();
-            services.AddSingleton<IOracle, OracleMinimalLoadSheddingRetries>();
-            services.AddSingleton<PoolManager>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostEnvironment env)
         {
             LogManager.GetCurrentClassLogger().Info("Configuring Startup service...");
-
-            app.UseCors(CorsPolicyName);
 
             if (env.IsDevelopment())
             {
@@ -88,6 +67,7 @@ namespace NIST.CVP.PoolAPI
             }
 
             app.UseRouting();
+            app.UseCors(CorsPolicyName);
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

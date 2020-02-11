@@ -1,12 +1,4 @@
-﻿using Microsoft.Extensions.Options;
-using MongoDB.Driver;
-using NIST.CVP.Common.Config;
-using NIST.CVP.Common.Oracle.ResultTypes;
-using NIST.CVP.Pools.Interfaces;
-using NIST.CVP.Pools.Models;
-using NIST.CVP.Common.ExtensionMethods;
-
-namespace NIST.CVP.Pools.Services
+﻿namespace NIST.CVP.Pools.Services
 {
     //public class PoolMongoRepository<TResult> : IPoolRepository<TResult>
     //    where TResult : IResult

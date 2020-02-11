@@ -31,15 +31,25 @@
     <Service Include="{82a7f48d-3b50-4b1e-b82e-3ada8210c358}" />
   </ItemGroup>
   
-  <!-- App settings linking -->
-  <ItemGroup>
-    <Content Include="..\..\..\_appsettings\appsettings.json" Link="appsettings.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
-    <Content Include="..\..\..\_appsettings\appsettings.local.json" Link="appsettings.local.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
-    <Content Include="..\..\..\_appsettings\appsettings.tc.json" Link="appsettings.tc.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
-    <Content Include="..\..\..\_appsettings\appsettings.dev.json" Link="appsettings.dev.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
-    <Content Include="..\..\..\_appsettings\appsettings.test.json" Link="appsettings.test.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
-    <Content Include="..\..\..\_appsettings\appsettings.demo.json" Link="appsettings.demo.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
-    <Content Include="..\..\..\_appsettings\appsettings.prod.json" Link="appsettings.prod.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+  <!-- vvv App settings linking, directory changes depending on build environment vvv -->
+  <ItemGroup Condition="$(ASPNETCORE_ENVIRONMENT) != 'tc'">
+    <Content Include="..\..\..\..\..\_sharedappsettings\sharedappsettings.json" Link="sharedappsettings.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="..\..\..\..\..\_sharedappsettings\sharedappsettings.local.json" Link="sharedappsettings.local.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="..\..\..\..\..\_sharedappsettings\sharedappsettings.tc.json" Link="sharedappsettings.tc.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="..\..\..\..\..\_sharedappsettings\sharedappsettings.dev.json" Link="sharedappsettings.dev.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="..\..\..\..\..\_sharedappsettings\sharedappsettings.test.json" Link="sharedappsettings.test.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="..\..\..\..\..\_sharedappsettings\sharedappsettings.demo.json" Link="sharedappsettings.demo.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="..\..\..\..\..\_sharedappsettings\sharedappsettings.prod.json" Link="sharedappsettings.prod.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
   </ItemGroup>
+  <ItemGroup Condition="$(ASPNETCORE_ENVIRONMENT) == 'tc'">
+    <Content Include="..\..\..\_sharedappsettings\sharedappsettings.json" Link="sharedappsettings.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="..\..\..\_sharedappsettings\sharedappsettings.local.json" Link="sharedappsettings.local.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="..\..\..\_sharedappsettings\sharedappsettings.tc.json" Link="sharedappsettings.tc.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="..\..\..\_sharedappsettings\sharedappsettings.dev.json" Link="sharedappsettings.dev.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="..\..\..\_sharedappsettings\sharedappsettings.test.json" Link="sharedappsettings.test.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="..\..\..\_sharedappsettings\sharedappsettings.demo.json" Link="sharedappsettings.demo.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="..\..\..\_sharedappsettings\sharedappsettings.prod.json" Link="sharedappsettings.prod.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+  </ItemGroup>
+  <!-- ^^^ App settings linking, directory changes depending on build environment ^^^ -->
 
 </Project>
