@@ -1,4 +1,5 @@
 ﻿using System;
+using ACVPCore.Models;
 using ACVPCore.Results;
 using CVP.DatabaseInterface;
 using Microsoft.Extensions.Logging;
@@ -15,6 +16,73 @@ namespace ACVPCore.Providers
 		{
 			_acvpConnectionString = connectionStringFactory.GetMightyConnectionString("ACVP");
 			_logger = logger;
+		}
+
+		public Implementation Get(long implementationID)
+		{
+			var db = new MightyOrm(_acvpConnectionString);
+
+			try
+			{
+				var data = db.SingleFromProcedure("val.ImplementationGet", inParams: new
+				{
+					implementationID = implementationID
+				});
+
+				if (data != null)
+				{
+
+					Organization organization = new Organization
+					{
+						ID = data.organization_id,
+						Name = data.organization_name,
+						Url = data.organization_url,
+						VoiceNumber = data.organization_voice_number,
+						FaxNumber = data.organization_fax_number,
+						Parent = (data.organization_parent_id == null) ? null : new Organization(){ ID = data.organization_parent_id }
+					};
+
+					Address address = new Address
+					{
+						ID = data.address_id,
+						Street1 = data.address_street1,
+						Street2 = data.address_street2,
+						Street3 = data.address_street3,
+						Locality = data.address_locality,
+						Region = data.address_region,
+						PostalCode = data.address_postal_code,
+						Country = data.address_country
+					};
+
+					return new Implementation
+					{
+						ID = implementationID,
+						Vendor = organization,
+						Address = address,
+						URL =  data.product_url,
+						Name = data.module_name,
+						Type = Enum.Parse(typeof(ACVPCore.Models.Implementation.ModuleType), data.module_type),
+						Version = data.module_version,
+						Description = data.module_description,
+						ITAR = data.product_itar
+					};
+
+				}
+				else
+				{
+					return null;
+				}
+
+				data = db.SingleFromProcedure("val.ImplementationGet", inParams: new
+				{
+					DependencyID = implementationID
+				});
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex.Message);
+				return null;
+			}
 		}
 
 		public Result Delete(long implementationID)
@@ -111,7 +179,6 @@ namespace ACVPCore.Providers
 				return new InsertResult(ex.Message);
 			}
 		}
-
 
 		public Result Update(long implementationID, string name, string description, ImplementationType type, string version, string website, long? organizationID, long? addressID, bool nameUpdated, bool descriptionUpdated, bool typeUpdated, bool versionUpdated, bool websiteUpdated, bool organizationIDUpdated, bool addressIDUpdated)
 		{

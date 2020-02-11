@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using ACVPCore.Models;
 using ACVPCore.Results;
 using CVP.DatabaseInterface;
 using Microsoft.Extensions.Logging;
@@ -110,6 +111,97 @@ namespace ACVPCore.Providers
 			}
 
 			return vectorSetIDs;
+		}
+
+		public TestVectorSet GetTestVectorSet(long vectorSetId)
+		{
+			var db = new MightyOrm(_acvpConnectionString);
+
+			try
+			{
+				var queryResult = db.SingleFromProcedure(
+					"acvp.VectorSetGet", 
+					new 
+					{
+						vectorSetId
+					});
+
+				if (queryResult == null)
+					return null;
+				
+				TestVectorSet result = new TestVectorSet()
+				{
+					Algorithm = queryResult.algorithmName,
+					AlgorithmId = queryResult.algorithmId,
+					GeneratorVersion = queryResult.generatorVersion,
+					Id = queryResult.vectorSetId,
+					Status = (VectorSetStatus)queryResult.status
+				};
+
+				return result;
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex, ex.Message);
+				return null;
+			}
+		}
+
+		public List<VectorSetJsonFileTypes> GetTestVectorSetJsonFilesAvailable(long vectorSetId)
+		{
+			var db = new MightyOrm(_acvpConnectionString);
+
+			try
+			{
+				var queryResult = db.QueryFromProcedure(
+					"acvp.VectorSetGetJsonFIleTypes", 
+					new 
+					{
+						vectorSetId
+					});
+
+				if (queryResult == null)
+					return new List<VectorSetJsonFileTypes>();
+				
+				List<VectorSetJsonFileTypes> result = new List<VectorSetJsonFileTypes>();
+				foreach (var item in queryResult)
+				{
+					result.Add(Enum.Parse<VectorSetJsonFileTypes>(item.fileType, true));
+				}
+
+				return result;
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex, ex.Message);
+				return null;
+			}
+		}
+
+		public string GetTestVectorFileJson(long vectorSetId, VectorSetJsonFileTypes fileType)
+		{
+			var db = new MightyOrm(_acvpConnectionString);
+
+			try
+			{
+				var queryResult = db.SingleFromProcedure(
+					"acvp.VectorSetJsonGet", 
+					new 
+					{
+						VsId = vectorSetId,
+						JsonFileType = fileType.ToString()
+					});
+
+				if (queryResult == null)
+					return null;
+
+				return queryResult.Content;
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex, ex.Message);
+				return null;
+			}
 		}
 	}
 }

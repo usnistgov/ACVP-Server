@@ -1,4 +1,5 @@
-﻿using ACVPWorkflow.Providers;
+﻿using ACVPWorkflow.Adapters;
+using ACVPWorkflow.Providers;
 using ACVPWorkflow.Services;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -14,6 +15,7 @@ namespace ACVPWorkflow
 			services.AddSingleton<IRequestProvider, RequestProvider>();
 			services.AddSingleton<IWorkflowItemProcessorFactory, WorkflowItemProcessorFactory>();
 			services.AddSingleton<IWorkflowItemPayloadFactory, WorkflowItemPayloadFactory>();
+			services.AddSingleton<IWorkflowApproveRejectAdapter, WorkflowApproveRejectAdapter>();
 			return services;
 		}
 	}

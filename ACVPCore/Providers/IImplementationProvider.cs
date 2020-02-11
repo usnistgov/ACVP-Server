@@ -1,10 +1,12 @@
-﻿using ACVPCore.Results;
+﻿using ACVPCore.Models;
+using ACVPCore.Results;
 
 namespace ACVPCore.Providers
 {
 	public interface IImplementationProvider
 	{
 		Result Delete(long implementationID);
+		Implementation Get(long implementationID);
 		Result DeleteAllContacts(long implementationID);
 		bool ImplementationIsUsed(long implementationID);
 		InsertResult Insert(string name, string description, ImplementationType type, string version, string website, long organizationID, long addressID, bool isITAR);

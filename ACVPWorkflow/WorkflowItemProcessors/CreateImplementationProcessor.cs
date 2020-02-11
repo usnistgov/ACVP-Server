@@ -3,6 +3,7 @@ using System.Text.Json;
 using ACVPCore.Models.Parameters;
 using ACVPCore.Results;
 using ACVPCore.Services;
+using ACVPWorkflow.Exceptions;
 using ACVPWorkflow.Models;
 using ACVPWorkflow.Services;
 
@@ -11,31 +12,27 @@ namespace ACVPWorkflow.WorkflowItemProcessors
 	public class CreateImplementationProcessor : IWorkflowItemProcessor
 	{
 		private readonly IImplementationService _implementationService;
-		private readonly IWorkflowService _workflowService;
 
-		public CreateImplementationProcessor(IImplementationService implementationService, IWorkflowService workflowService)
+		public CreateImplementationProcessor(IImplementationService implementationService)
 		{
 			_implementationService = implementationService;
-			_workflowService = workflowService;
 		}
 
-		public void Approve(WorkflowItem workflowItem)
+		public long Approve(WorkflowItem workflowItem)
 		{
 			ImplementationCreateParameters parameters = ((ImplementationCreatePayload)workflowItem.Payload).ToImplementationCreateParameters();
 
 			//Create it
 			ImplementationResult implementationCreateResult = _implementationService.Create(parameters);
 
-			//Update the workflow item
-			if (implementationCreateResult.IsSuccess)
+			if (!implementationCreateResult.IsSuccess)
 			{
-				_workflowService.MarkApproved(workflowItem.WorkflowItemID, implementationCreateResult.ID);
+				throw new ResourceProcessorException($"Failed approval on {nameof(workflowItem.APIAction)} {workflowItem.APIAction}");
 			}
+
+			return implementationCreateResult.ID;
 		}
 
-		public void Reject(WorkflowItem workflowItem)
-		{
-			throw new NotImplementedException();
-		}
+		public void Reject(WorkflowItem workflowItem) { }
 	}
 }

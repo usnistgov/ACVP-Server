@@ -1,5 +1,5 @@
-import { DependencyLite } from '../models/dependency-lite';
+import { DependencyLite } from '../models/dependency/dependency-lite';
 
 export interface IWrappedEnumerable {
-  data: DependencyLite[];
+  data: Object[];
 }

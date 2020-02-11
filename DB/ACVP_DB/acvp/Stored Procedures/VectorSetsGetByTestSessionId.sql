@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE [acvp].[VectorSetGetByTestSessionId]
+﻿CREATE PROCEDURE [acvp].[VectorSetsGetByTestSessionId]
 
 	@testSessionId bigint
 
