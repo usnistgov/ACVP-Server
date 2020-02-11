@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using ACVPCore.Results;
 using CVP.DatabaseInterface;
 using Microsoft.Extensions.Logging;
@@ -83,6 +84,32 @@ namespace ACVPCore.Providers
 			}
 
 			return new Result();
+		}
+
+		public List<(long ID, long AlgorithmID, VectorSetStatus Status, string ErrorMessage)> GetVectorSetIDsForTestSession(long testSessionID)
+		{
+			var db = new MightyOrm(_acvpConnectionString);
+
+			List<(long ID, long AlgorithmID, VectorSetStatus Status, string ErrorMessage)> vectorSetIDs = new List<(long ID, long AlgorithmID, VectorSetStatus Status, string ErrorMessage)>();
+
+			try
+			{
+				var data = db.QueryFromProcedure("acvp.VectorSetsForTestSessionGet", inParams: new
+				{
+					TestSessionId = testSessionID
+				});
+
+				foreach (var vectorSet in data)
+				{
+					vectorSetIDs.Add((vectorSet.VectorSetId, vectorSet.AlgorithmId, (VectorSetStatus)vectorSet.VectorSetStatusId, vectorSet.ErrorMessage ));
+				}
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex.Message);
+			}
+
+			return vectorSetIDs;
 		}
 	}
 }

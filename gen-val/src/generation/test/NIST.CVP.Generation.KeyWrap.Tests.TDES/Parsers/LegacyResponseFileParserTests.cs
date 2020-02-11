@@ -10,6 +10,7 @@ using NUnit.Framework;
 namespace NIST.CVP.Generation.KeyWrap.Tests.TDES.Parsers
 {
     [TestFixture, UnitTest]
+    [Ignore("Tests too complicated, see TDES-CBC")]
     public class LegacyResponseFileParserTests
     {
 

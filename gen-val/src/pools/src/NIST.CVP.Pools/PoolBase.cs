@@ -58,7 +58,7 @@ namespace NIST.CVP.Pools
 
             Random = new Random800_90();
 
-            WaterLevel = _poolRepository.GetPoolCount(PoolName, false);
+            WaterLevel = param.PoolCount;
         }
 
         public PoolResult<TResult> GetNext()

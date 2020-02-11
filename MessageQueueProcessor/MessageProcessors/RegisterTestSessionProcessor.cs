@@ -7,9 +7,9 @@ namespace MessageQueueProcessor.MessageProcessors
 {
 	public class RegisterTestSessionProcessor : IMessageProcessor
 	{
-		private ITestSessionService _testSessionService;
-		private IVectorSetService _vectorSetService;
-		private ITaskQueueService _taskQueueService;
+		private readonly ITestSessionService _testSessionService;
+		private readonly IVectorSetService _vectorSetService;
+		private readonly ITaskQueueService _taskQueueService;
 
 		public RegisterTestSessionProcessor(ITestSessionService testSessionService, IVectorSetService vectorSetService, ITaskQueueService taskQueueService)
 		{
@@ -32,7 +32,7 @@ namespace MessageQueueProcessor.MessageProcessors
 				foreach (VectorSetRegistration vectorSetRegistration in registerTestSessionPayload.VectorSetRegistrations)
 				{
 					//Create the vector set - this actually inserts the Vector Set record and an expected results record with the capabilities
-					Result vectorSetResult = _vectorSetService.Create(vectorSetRegistration.VectorSetID, registerTestSessionPayload.TestSessionID, "1.0", vectorSetRegistration.AlgorithmID, vectorSetRegistration.Capabilities.ToString());
+					Result vectorSetResult = _vectorSetService.Create(vectorSetRegistration.VectorSetID, registerTestSessionPayload.TestSessionID, "1.0", vectorSetRegistration.AlgorithmID, vectorSetRegistration.Capabilities.ToString());		//TODO - this generator version can't be hardcoded...
 
 					if (vectorSetResult.IsSuccess)
 					{

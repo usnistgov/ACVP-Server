@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Text.Json;
 using ACVPCore.Models.Parameters;
 using ACVPCore.Results;
 using ACVPCore.Services;
+using ACVPWorkflow.Models;
 using ACVPWorkflow.Services;
 
 namespace ACVPWorkflow.WorkflowItemProcessors
@@ -20,11 +20,11 @@ namespace ACVPWorkflow.WorkflowItemProcessors
 
 		public void Approve(WorkflowItem workflowItem)
 		{
-			//Deserialize the JSON to get the ID, as that's all that's there
-			DeleteParameters deletePayload = JsonSerializer.Deserialize<DeleteParameters>(workflowItem.JSON);
+			//Deserialize the JSON
+			DeleteParameters deleteParameters = ((DeletePayload)workflowItem.Payload).ToDeleteParameters();
 
 			//Delete that person - will fail if person is in use
-			DeleteResult deleteResult = _personService.Delete(deletePayload.ID);
+			DeleteResult deleteResult = _personService.Delete(deleteParameters.ID);
 
 			if (deleteResult.IsSuccess)
 			{

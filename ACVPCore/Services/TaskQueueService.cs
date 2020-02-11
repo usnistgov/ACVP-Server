@@ -15,13 +15,12 @@ namespace ACVPCore.Services
 
 		public Result AddGenerationTask(GenerationTask task)
 		{
-			return _taskQueueProvider.Insert(TaskType.Generation, JsonSerializer.Serialize(task));
+			return _taskQueueProvider.Insert(TaskType.Generation, task.VectorSetID, task.IsSample);
 		}
 
 		public Result AddValidationTask(ValidationTask task)
 		{
-			//Validation task payload is just the vector set ID as a string. A little odd that it isn't JSON like everything else
-			return _taskQueueProvider.Insert(TaskType.Validation, task.VectorSetID.ToString());
+			return _taskQueueProvider.Insert(TaskType.Validation, task.VectorSetID, false);
 		}
 	}
 }

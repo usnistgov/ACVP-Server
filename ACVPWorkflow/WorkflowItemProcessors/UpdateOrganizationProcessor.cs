@@ -3,6 +3,7 @@ using System.Text.Json;
 using ACVPCore.Models.Parameters;
 using ACVPCore.Results;
 using ACVPCore.Services;
+using ACVPWorkflow.Models;
 using ACVPWorkflow.Services;
 
 namespace ACVPWorkflow.WorkflowItemProcessors
@@ -20,7 +21,7 @@ namespace ACVPWorkflow.WorkflowItemProcessors
 
 		public void Approve(WorkflowItem workflowItem)
 		{
-			OrganizationUpdateParameters parameters = JsonSerializer.Deserialize<OrganizationUpdateParameters>(workflowItem.JSON);
+			OrganizationUpdateParameters parameters = ((OrganizationUpdatePayload)workflowItem.Payload).ToOrganizationUpdateParameters();
 
 			//Update it
 			OrganizationResult organizationUpdateResult = _organizationService.Update(parameters);

@@ -7,8 +7,6 @@ namespace NIST.CVP.TaskQueueProcessor.Providers
         ITask GetNextTask();
         void DeleteCompletedTask(long taskId);
         void MarkTasksForRestart();
-        void PutPromptData(GenerationTask task);
-        void PutValidationData(ValidationTask task);
-        void PutErrorData(ExecutableTask task);
+        void PutJson(int vsId, string jsonFileType, string jsonContent);
     }
 }
