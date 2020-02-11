@@ -11,3 +11,15 @@ docker start acvplocal
 Grab a back-up of the database (.bak) and do a restore via Azure Data Studio or some other SQL Client
 
 Change `appsettings.local.json` with your specific password.
+
+Sym Links
+Symbolic links are used to mirror the `Directory.build.props` file from `/_config` to -> `/`.  It's contained with `/config` for team city build purposes, but needs to be at `/` for local purposes.
+
+The following bash commands from `/` will create the needed sym links:
+
+```
+rm Directory.Build.props
+rm Directory.Packages.props
+ln -s ./_config/Directory.Build.props
+ln -s ./_config/Directory.Packages.props
+```
