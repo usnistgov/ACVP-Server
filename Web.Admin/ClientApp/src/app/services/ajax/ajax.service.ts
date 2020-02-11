@@ -6,6 +6,7 @@ import { Dependency } from '../../models/dependency/dependency';
 import { Attribute } from '../../models/dependency/attribute';
 import { OperatingEnvironment } from '../../models/operatingEnvironment/operatingEnvironment';
 import { Result } from '../../models/responses/Result';
+import { Product } from '../../models/Product/Product';
 
 const httpOptions = {
   headers: new HttpHeaders()
@@ -77,5 +78,11 @@ export class AjaxService {
     return this.http.post<Result>(this.apiRoot + '/Dependencies', dependency);
   }
   // END Operating Environment (OE) -related calls
+
+  // Product-Related calls
+  getProduct(id: number) {
+    return this.http.get<Product>(this.apiRoot + '/Products/' + id);
+  };
+  // END Product-related calls
 
 }

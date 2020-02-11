@@ -6,6 +6,7 @@ import { ValidationDbValidationsComponent } from './components/validation-db-val
 import { ValidationDbDependenciesComponent } from './components/validation-db-dependencies/validation-db-dependencies.component';
 import { ValidationDbDependencyComponent } from './components/validation-db-dependency/validation-db-dependency.component';
 import { ValidationDbOeComponent } from './components/validation-db-oe/validation-db-oe.component';
+import { ValidationDbProductComponent } from './components/validation-db-product/validation-db-product.component';
 
 const routes: Routes = [
   {
@@ -31,6 +32,10 @@ const routes: Routes = [
   {
     path: 'validation-db/operatingEnvironments/:id',
     component: ValidationDbOeComponent
+  },
+  {
+    path: 'validation-db/products/:id',
+    component: ValidationDbProductComponent
   }
 ];
 

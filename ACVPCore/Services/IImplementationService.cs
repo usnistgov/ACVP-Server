@@ -1,4 +1,5 @@
-﻿using ACVPCore.Models.Parameters;
+﻿using ACVPCore.Models;
+using ACVPCore.Models.Parameters;
 using ACVPCore.Results;
 
 namespace ACVPCore.Services
@@ -7,6 +8,7 @@ namespace ACVPCore.Services
 	{
 		ImplementationResult Create(ImplementationCreateParameters parameters);
 		DeleteResult Delete(long implementationID);
+		Implementation Get(long implementationID);
 		bool ImplementationIsUsed(long implementationID);
 		ImplementationResult Update(ImplementationUpdateParameters parameters);
 	}
