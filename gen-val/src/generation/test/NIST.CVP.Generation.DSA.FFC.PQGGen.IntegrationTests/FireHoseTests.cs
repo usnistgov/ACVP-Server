@@ -25,7 +25,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen.IntegrationTests
         [SetUp]
         public void SetUp()
         {
-            _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\LegacyCavsFiles\DSA\pqggen\");
+            _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\LegacyCavsFiles\dsa\pqggen\");
             _shaFactory = new ShaFactory();
         }
 

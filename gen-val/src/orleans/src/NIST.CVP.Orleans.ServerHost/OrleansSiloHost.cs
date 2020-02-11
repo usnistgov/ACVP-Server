@@ -11,36 +11,44 @@ using Microsoft.Extensions.Options;
 using NIST.CVP.Common.Config;
 using NIST.CVP.Common.Helpers;
 using NIST.CVP.Common.Interfaces;
+using NIST.CVP.Crypto.Common.KAS.KDF.KdfTls10_11;
 using NIST.CVP.Orleans.Grains;
 using NIST.CVP.Orleans.Grains.Interfaces;
 using NIST.CVP.Orleans.ServerHost.Models;
 using Orleans;
 using Orleans.Configuration;
 using Orleans.Hosting;
+using Orleans.Runtime;
 using Orleans.Statistics;
+using Serilog.Extensions.Logging;
 using Environments = NIST.CVP.Common.Enums.Environments;
 
 namespace NIST.CVP.Orleans.ServerHost
 {
     public class OrleansSiloHost : IHostedService
     {
+        private readonly ILogger<OrleansSiloHost> _logger;
+        private readonly IConfiguration _configuration;
         private readonly OrleansConfig _orleansConfig;
         private readonly EnvironmentConfig _environmentConfig;
-        private readonly IConfigurationRoot _configurationRoot;
         private readonly string _connectionString;
 
         private ISiloHost _silo;
-
-        public OrleansSiloHost(DirectoryConfig rootDirectory)
+        
+        public OrleansSiloHost(
+            ILogger<OrleansSiloHost> logger, 
+            IConfiguration configuration,
+            IDbConnectionStringFactory dbConnectionStringFactory,
+            IOptions<OrleansConfig> orleansConfig,
+            IOptions<EnvironmentConfig> environmentConfig)
         {
-            _configurationRoot = EntryPointConfigHelper.GetConfigurationRoot(rootDirectory.RootDirectory);
-            var serviceCollection = EntryPointConfigHelper.GetBaseServiceCollection(_configurationRoot);
-            var serviceProvider = EntryPointConfigHelper.Bootstrap(serviceCollection);
+            _logger = logger;
+            _logger.LogInformation("Orleans Silo initializing.");
 
-            _orleansConfig = serviceProvider.GetService<IOptions<OrleansConfig>>().Value;
-            _environmentConfig = serviceProvider.GetService<IOptions<EnvironmentConfig>>().Value;
-            _connectionString = serviceProvider.GetService<IDbConnectionStringFactory>()
-                .GetConnectionString(Constants.OrleansConnectionString);
+            _configuration = configuration;
+            _connectionString = dbConnectionStringFactory.GetConnectionString(Constants.OrleansConnectionString);
+            _orleansConfig = orleansConfig.Value;
+            _environmentConfig = environmentConfig.Value;
         }
 
         public async Task StartAsync(CancellationToken cancellationToken)
@@ -55,13 +63,13 @@ namespace NIST.CVP.Orleans.ServerHost
                 {
                     options.CollectionAge = TimeSpan.FromMinutes(5);
                 })
-                .ConfigureServices(svcCollection =>
-                {
-                    ConfigureServices.RegisterServices(svcCollection, _configurationRoot, _orleansConfig);
-                })
                 .ConfigureApplicationParts(parts =>
                 {
                     parts.AddApplicationPart(typeof(IGrainMarker).Assembly).WithReferences();
+                })
+                .ConfigureServices(svcCollection =>
+                {
+                    ConfigureServices.RegisterServices(_configuration, svcCollection);
                 })
                 .UsePerfCounterEnvironmentStatistics()
                 .UseDashboard(options =>
@@ -140,6 +148,11 @@ namespace NIST.CVP.Orleans.ServerHost
                 if (_orleansConfig.UseConsoleLogging)
                 {
                     logging.AddConsole();
+                }
+
+                if (_orleansConfig.UseFileLogging)
+                {
+                    logging.AddProvider(new SerilogLoggerProvider());                    
                 }
             });
         }

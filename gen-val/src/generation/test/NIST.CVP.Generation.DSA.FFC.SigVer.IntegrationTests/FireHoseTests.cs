@@ -18,7 +18,7 @@ namespace NIST.CVP.Generation.DSA.FFC.SigVer.IntegrationTests
         [SetUp]
         public void SetUp()
         {
-            _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\LegacyCavsFiles\DSA\sigver\");
+            _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\LegacyCavsFiles\dsa\sigver\");
             _shaFactory = new ShaFactory();
         }
 

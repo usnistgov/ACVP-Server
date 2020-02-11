@@ -5,21 +5,31 @@ namespace ACVPCore.Algorithms.Persisted
 {
 	public class SHA2_224 : PersistedAlgorithmBase
 	{
-		[AlgorithmProperty(Name = "digestSize", Type = AlgorithmPropertyType.StringArray)]
-		public List<string> DigestSize { get; set; }
+		[AlgorithmProperty("digestSize")]
+		public List<string> DigestSize { get; } = new List<string> { "224" };
 
-		[AlgorithmProperty(Name = "key", Type = AlgorithmPropertyType.NumberArray)]
+		[AlgorithmProperty("messageLength")]
 		public Domain MessageLength { get; set; }
+
+		[AlgorithmProperty("function")]
+		public List<string> Function { get; set; }
+
+		[AlgorithmProperty("inBit")]
+		public bool? InBit { get; set; }
+
+		[AlgorithmProperty("inEmpty")]
+		public bool? InEmpty { get; set; }
 
 		public SHA2_224()
 		{
 			Name = "SHA2-224";
+			Revision = "1.0";
 		}
 
 		public SHA2_224(ACVPCore.Algorithms.External.SHA2_224 external) : this()
 		{
 			MessageLength = external.MessageLength;
-			DigestSize = new List<string> { "224" };
+			Function = external.Function;
 		}
 	}
 }

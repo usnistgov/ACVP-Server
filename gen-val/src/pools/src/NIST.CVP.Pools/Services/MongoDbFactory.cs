@@ -1,7 +1,4 @@
-﻿using MongoDB.Driver;
-using NIST.CVP.Pools.Interfaces;
-
-namespace NIST.CVP.Pools.Services
+﻿namespace NIST.CVP.Pools.Services
 {
     //public class MongoDbFactory : IMongoDbFactory
     //{

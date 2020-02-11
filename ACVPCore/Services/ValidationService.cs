@@ -97,7 +97,7 @@ namespace ACVPCore.Services
 			IPersistedAlgorithm persistenceAlgorithm = PersistedAlgorithmFactory.GetPersistedAlgorithm(externalAlgorithm);
 
 			//Persist it - the entire algorithm object is just a class as far as the persistence mechanism is concerned, just with some non-property properties on it
-			_capabilityService.CreateClassCapabilities(algorithmID, scenarioAlgorithmID, null, null, 0, 0, persistenceAlgorithm);
+			_capabilityService.CreateClassCapabilities(algorithmID, scenarioAlgorithmID, null, null, 0, 0, null, persistenceAlgorithm);
 		}
 	}
 }

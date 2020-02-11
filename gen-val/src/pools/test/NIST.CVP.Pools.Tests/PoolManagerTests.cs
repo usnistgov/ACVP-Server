@@ -16,12 +16,14 @@ using NUnit.Framework;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 
 namespace NIST.CVP.Pools.Tests
 {
     [TestFixture]
     public class PoolManagerTests
     {
+        private Mock<ILogger<PoolManager>> _mockLogger;
         private Mock<IOptions<PoolConfig>> _mockOptionsPoolConfig;
         private Mock<IPoolRepositoryFactory> _mockPoolRepositoryFactory;
         private Mock<IPoolLogRepository> _mockPoolLogRepository;
@@ -45,6 +47,7 @@ namespace NIST.CVP.Pools.Tests
         [SetUp]
         public void SetUp()
         {
+            _mockLogger = new Mock<ILogger<PoolManager>>();
             _mockPoolRepository.Setup(s => s.GetAllPoolCounts())
                 .Returns(new Dictionary<string, long>()
                 {
@@ -83,6 +86,7 @@ namespace NIST.CVP.Pools.Tests
             _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\");
             _poolConfig.PoolConfigFile = Path.Combine(_testPath, _configFile);
             _subject = new PoolManager(
+                _mockLogger.Object,
                 _mockOptionsPoolConfig.Object,
                 _mockPoolLogRepository.Object,
                 _poolFactory,
@@ -314,6 +318,7 @@ namespace NIST.CVP.Pools.Tests
             _poolConfig.PoolConfigFile = fullPath;
 
             _subject = new PoolManager(
+                _mockLogger.Object,
                 _mockOptionsPoolConfig.Object,
                 _mockPoolLogRepository.Object,
                 _mockPoolFactory.Object,
@@ -344,6 +349,7 @@ namespace NIST.CVP.Pools.Tests
 
             // Reinitialize pools
             _subject = new PoolManager(
+                _mockLogger.Object,
                 _mockOptionsPoolConfig.Object,
                 _mockPoolLogRepository.Object,
                 _mockPoolFactory.Object,
@@ -360,6 +366,7 @@ namespace NIST.CVP.Pools.Tests
 
             // Reinitialize pools
             _subject = new PoolManager(
+                _mockLogger.Object,
                 _mockOptionsPoolConfig.Object,
                 _mockPoolLogRepository.Object,
                 _mockPoolFactory.Object,
@@ -378,6 +385,7 @@ namespace NIST.CVP.Pools.Tests
             _poolConfig.PoolConfigFile = fullPath;
 
             _subject = new PoolManager(
+                _mockLogger.Object,
                 _mockOptionsPoolConfig.Object,
                 _mockPoolLogRepository.Object,
                 _poolFactory,
@@ -404,6 +412,7 @@ namespace NIST.CVP.Pools.Tests
             _poolConfig.PoolConfigFile = fullPath;
 
             _subject = new PoolManager(
+                _mockLogger.Object,
                 _mockOptionsPoolConfig.Object,
                 _mockPoolLogRepository.Object,
                 _poolFactory,
