@@ -2,6 +2,7 @@
 using ACVPCore.Models.Parameters;
 using ACVPCore.Results;
 using ACVPCore.Services;
+using ACVPWorkflow.Exceptions;
 using ACVPWorkflow.Models;
 using ACVPWorkflow.Services;
 
@@ -10,17 +11,15 @@ namespace ACVPWorkflow.WorkflowItemProcessors
 	public class UpdateOEProcessor : IWorkflowItemProcessor
 	{
 		private readonly IOEService _oeService;
-		private readonly IWorkflowService _workflowService;
 		private readonly IDependencyService _dependencyService;
 
-		public UpdateOEProcessor(IOEService oeService, IDependencyService dependencyService, IWorkflowService workflowService)
+		public UpdateOEProcessor(IOEService oeService, IDependencyService dependencyService)
 		{
 			_oeService = oeService;
 			_dependencyService = dependencyService;
-			_workflowService = workflowService;
 		}
 
-		public void Approve(WorkflowItem workflowItem)
+		public long Approve(WorkflowItem workflowItem)
 		{
 			OEUpdatePayload oeUpdatePayload = (OEUpdatePayload)workflowItem.Payload;
 			OEUpdateParameters parameters = oeUpdatePayload.ToOEUpdateParameters();
@@ -44,16 +43,14 @@ namespace ACVPWorkflow.WorkflowItemProcessors
 			//Update it
 			OEResult oeUpdateResult = _oeService.Update(parameters);
 
-			//Update the workflow item
-			if (oeUpdateResult.IsSuccess)
+			if (!oeUpdateResult.IsSuccess)
 			{
-				_workflowService.MarkApproved(workflowItem.WorkflowItemID, oeUpdateResult.ID);
+				throw new ResourceProcessorException($"Failed approval on {nameof(workflowItem.APIAction)} {workflowItem.APIAction}");
 			}
+
+			return oeUpdateResult.ID;
 		}
 
-		public void Reject(WorkflowItem workflowItem)
-		{
-			throw new NotImplementedException();
-		}
+		public void Reject(WorkflowItem workflowItem) { }
 	}
 }

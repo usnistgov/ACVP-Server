@@ -3,6 +3,7 @@ using System.Text.Json;
 using ACVPCore.Models.Parameters;
 using ACVPCore.Results;
 using ACVPCore.Services;
+using ACVPWorkflow.Exceptions;
 using ACVPWorkflow.Models;
 using ACVPWorkflow.Services;
 
@@ -11,31 +12,27 @@ namespace ACVPWorkflow.WorkflowItemProcessors
 	public class UpdateOrganizationProcessor : IWorkflowItemProcessor
 	{
 		private readonly IOrganizationService _organizationService;
-		private readonly IWorkflowService _workflowService;
 
-		public UpdateOrganizationProcessor(IOrganizationService organizationService, IWorkflowService workflowService)
+		public UpdateOrganizationProcessor(IOrganizationService organizationService)
 		{
 			_organizationService = organizationService;
-			_workflowService = workflowService;
 		}
 
-		public void Approve(WorkflowItem workflowItem)
+		public long Approve(WorkflowItem workflowItem)
 		{
 			OrganizationUpdateParameters parameters = ((OrganizationUpdatePayload)workflowItem.Payload).ToOrganizationUpdateParameters();
 
 			//Update it
 			OrganizationResult organizationUpdateResult = _organizationService.Update(parameters);
 
-			//Update the workflow item
-			if (organizationUpdateResult.IsSuccess)
+			if (!organizationUpdateResult.IsSuccess)
 			{
-				_workflowService.MarkApproved(workflowItem.WorkflowItemID, organizationUpdateResult.ID);
+				throw new ResourceProcessorException($"Failed approval on {nameof(workflowItem.APIAction)} {workflowItem.APIAction}");
 			}
+
+			return organizationUpdateResult.ID;
 		}
 
-		public void Reject(WorkflowItem workflowItem)
-		{
-			throw new NotImplementedException();
-		}
+		public void Reject(WorkflowItem workflowItem) { }
 	}
 }

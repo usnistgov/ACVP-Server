@@ -2,11 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection.Metadata.Ecma335;
 using Newtonsoft.Json;
 using NIST.CVP.Common.Enums;
-using NIST.CVP.Generation.Core.ContractResolvers;
-using NIST.CVP.Generation.Core.Enums;
 using NIST.CVP.Generation.Core.JsonConverters;
 using NIST.CVP.Generation.Core.Parsers;
 using NLog;

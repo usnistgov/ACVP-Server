@@ -1,5 +1,7 @@
+using ACVPCore;
 using ACVPCore.Providers;
 using ACVPCore.Services;
+using ACVPWorkflow;
 using ACVPWorkflow.Providers;
 using ACVPWorkflow.Services;
 using CVP.DatabaseInterface;
@@ -15,8 +17,11 @@ namespace Web.Admin
         /// <param name="item">The service collection to manipulate.</param>
         public static void RegisterAcvpAdminServices(this IServiceCollection item)
         {
+            item.InjectACVPCore();
+            item.InjectACVPWorkflow();
+        
             item.AddSingleton<IConnectionStringFactory, ConnectionStringFactory>();
-            
+           
             item.AddSingleton<IVectorSetExpectedResultsProvider, VectorSetExpectedResultsProvider>();
             item.AddSingleton<IVectorSetProvider, VectorSetProvider>();
             item.AddSingleton<IVectorSetService, VectorSetService>();
@@ -26,7 +31,10 @@ namespace Web.Admin
 
             item.AddSingleton<IDependencyProvider, DependencyProvider>();
             item.AddSingleton<IDependencyService, DependencyService>();
-            
+
+            item.AddSingleton<IOEProvider, OEProvider>();
+            item.AddSingleton<IOEService, OEService>();
+
             item.AddSingleton<IAcvpUserProvider, AcvpUserProvider>();
             item.AddSingleton<IAcvpUserService, AcvpUserService>();
             
@@ -34,6 +42,7 @@ namespace Web.Admin
             item.AddSingleton<IRequestProvider, RequestProvider>();
             item.AddSingleton<IWorkflowProvider, WorkflowProvider>();
             item.AddSingleton<IWorkflowService, WorkflowService>();
+
         }
     }
 }

@@ -47,7 +47,6 @@ namespace NIST.CVP.Generation.Core.Tests
         private static readonly Logger ValLogger = LogManager.GetLogger("Validator");
 
         private static readonly string RootDirectory = AppDomain.CurrentDomain.BaseDirectory;
-        private IConfigurationRoot ConfigurationRoot;
         private IServiceProvider ServiceProvider;
 
         private static readonly IFileService FileService = new FileService();
@@ -58,9 +57,7 @@ namespace NIST.CVP.Generation.Core.Tests
             TestPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\temp_integrationTests\");
             JsonSavePath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\..\..\json-files\");
 
-            ConfigurationRoot = EntryPointConfigHelper.GetConfigurationRoot(RootDirectory);
-            var serviceCollection = EntryPointConfigHelper.GetBaseServiceCollection(ConfigurationRoot);
-            ServiceProvider = serviceCollection.BuildServiceProvider();
+            ServiceProvider = EntryPointConfigHelper.GetServiceProviderFromConfigurationBuilder();
         }
 
         [OneTimeTearDown]
