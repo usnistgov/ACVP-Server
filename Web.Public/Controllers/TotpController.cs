@@ -19,6 +19,10 @@ namespace Web.Public.Controllers
         public JsonResult GetTotp()
         {
             // Use authentication to identify user
+            var x = Request.Headers.Keys;
+            var y = Request.Headers.Values;
+
+            var cert = Request.HttpContext.Connection.ClientCertificate;
             
             // Grab seed from keystore
             var seed = new byte[] {0, 1, 2, 3};
@@ -32,7 +36,7 @@ namespace Web.Public.Controllers
                 AcvVersion = "1.0",
                 Password = result
             };
-            
+
             return new JsonResult(returnObject);
         }
     }
