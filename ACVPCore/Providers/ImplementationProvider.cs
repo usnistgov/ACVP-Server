@@ -186,6 +186,11 @@ namespace ACVPCore.Providers
 			if (versionUpdated && string.IsNullOrWhiteSpace(version)) return new Result("Invalid version value");
 			if (descriptionUpdated && string.IsNullOrWhiteSpace(description)) return new Result("Invalid description value");
 
+			Console.WriteLine(name);
+			Console.WriteLine(nameUpdated);
+			Console.WriteLine(version);
+			Console.WriteLine(versionUpdated);
+
 			var db = new MightyOrm(_acvpConnectionString);
 
 			try

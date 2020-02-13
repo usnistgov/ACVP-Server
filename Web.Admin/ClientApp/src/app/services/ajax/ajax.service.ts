@@ -7,6 +7,7 @@ import { Attribute } from '../../models/dependency/attribute';
 import { OperatingEnvironment } from '../../models/operatingEnvironment/operatingEnvironment';
 import { Result } from '../../models/responses/Result';
 import { Product } from '../../models/Product/Product';
+import { Address } from '../../models/Address/Address';
 
 const httpOptions = {
   headers: new HttpHeaders()
@@ -83,6 +84,13 @@ export class AjaxService {
   getProduct(id: number) {
     return this.http.get<Product>(this.apiRoot + '/Products/' + id);
   };
+
+  updateProduct(product: Product) {
+    return this.http.patch(this.apiRoot + '/Products/' + product.id, product);
+  }
+  updateAddress(address: Address) {
+    return this.http.patch(this.apiRoot + '/Addresses/' + address.id, address);
+  }
   // END Product-related calls
 
 }
