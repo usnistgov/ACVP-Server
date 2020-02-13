@@ -7,7 +7,7 @@ namespace ACVPCore.Algorithms.External
 	public class AES_CCM : AlgorithmBase, IExternalAlgorithm
 	{
 		[JsonPropertyName("keyLen")]
-		public List<long> KeyLength { get; set; }
+		public List<int> KeyLength{ get; set; }
 
 		[JsonPropertyName("tagLen")]
 		public List<long> TagLength { get; set; }

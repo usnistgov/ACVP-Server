@@ -16,7 +16,7 @@ namespace ACVPCore.Services
 			_algorithmProvider = algorithmProvider;
 
 			//Get all the algorithms and add them to the dictionary
-			_algorithmProvider.GetAlgorithms().ToDictionary(x => $"{x.Name}|{x.Mode}|{x.Revision}", x => x);
+			_algorithms = _algorithmProvider.GetAlgorithms().ToDictionary(x => $"{x.Name}|{x.Mode}|{x.Revision}", x => x);
 		}
 
 		public long GetAlgorithmID(string name, string mode) => _algorithmProvider.GetAlgorithmID(name, mode);

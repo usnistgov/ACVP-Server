@@ -12,12 +12,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 
 namespace NIST.CVP.Pools
 {
     public class PoolManager
     {
-        private static readonly ILogger ThisLogger = LogManager.GetCurrentClassLogger();
+        private ILogger<PoolManager> _logger;
         
         public readonly List<IPool> Pools = new List<IPool>();
         private readonly IOptions<PoolConfig> _poolConfig;
@@ -28,14 +29,16 @@ namespace NIST.CVP.Pools
         private PoolProperties[] _properties;
 
         private readonly IList<JsonConverter> _jsonConverters;
-
+        
         public PoolManager(
+            ILogger<PoolManager> logger,
             IOptions<PoolConfig> poolConfig,
             IPoolLogRepository poolLogRepository,
             IPoolFactory poolFactory,
             IJsonConverterProvider jsonConverterProvider
         )
         {
+            _logger = logger;
             _poolConfig = poolConfig;
             _poolConfigFile = _poolConfig.Value.PoolConfigFile;
             _poolLogRepository = poolLogRepository;
@@ -185,7 +188,7 @@ namespace NIST.CVP.Pools
                         _poolLogRepository.WriteLog(LogTypes.QueueOrleansWorkToPool, minPool.PoolName, startAction,
                             DateTime.Now, null);
 
-                        ThisLogger.Log(LogLevel.Info, $"Pool was filled: \n\n {json}");
+                        _logger.LogInformation($"Pool was filled: \n\n {json}");
 
                         return new SpawnJobResponse()
                         {
@@ -208,10 +211,10 @@ namespace NIST.CVP.Pools
 
         private void LoadPools()
         {
-            ThisLogger.Log(LogLevel.Info, "Loading Pools.");
+            _logger.LogInformation("Loading Pools.");
 
             var configFileFound = File.Exists(_poolConfigFile);
-            ThisLogger.Log(LogLevel.Info, $"Loading Config file: {_poolConfigFile}. File found: {configFileFound}");
+            _logger.LogInformation($"Loading Config file: {_poolConfigFile}. File found: {configFileFound}");
 
             _properties = JsonConvert.DeserializeObject<PoolProperties[]>
             (
@@ -222,11 +225,11 @@ namespace NIST.CVP.Pools
                 }
             );
 
-            ThisLogger.Log(LogLevel.Info, "Config loaded.");
+            _logger.LogInformation("Config loaded.");
 
             foreach (var poolProperty in _properties)
             {
-                ThisLogger.Log(LogLevel.Info, $"Attempting to load {poolProperty.PoolName}");
+                _logger.LogInformation($"Attempting to load {poolProperty.PoolName}");
 
                 try
                 {
@@ -234,14 +237,14 @@ namespace NIST.CVP.Pools
                 }
                 catch (Exception ex)
                 {
-                    ThisLogger.Log(LogLevel.Error, ex);
+                    _logger.LogError(ex, ex.Message);
                     throw;
                 }
 
-                ThisLogger.Log(LogLevel.Info, $"{poolProperty.PoolName} loaded.");
+                _logger.LogInformation($"{poolProperty.PoolName} loaded.");
             }
 
-            ThisLogger.Log(LogLevel.Info, "Pools loaded.");
+            _logger.LogInformation("Pools loaded.");
         }
 
         private IPool GetMinimallyFilledPool()
@@ -268,7 +271,7 @@ namespace NIST.CVP.Pools
 
                 if (jobsToQueue > 0)
                 {
-                    ThisLogger.Log(LogLevel.Info, $"Starting job to fill pool with {numberOfJobsToQueue} precomputed values, using parameters: \n\n {json}");
+                    _logger.LogInformation($"Starting job to fill pool with {numberOfJobsToQueue} precomputed values, using parameters: \n\n {json}");
                 }
 
                 // Add jobs to a list of tasks

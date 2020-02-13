@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text.Json;
+using System.Collections;
 using ACVPCore.Algorithms.DataTypes;
 using ACVPCore.Algorithms.Persisted;
 using ACVPCore.Models;
@@ -21,7 +22,7 @@ namespace ACVPCore.Services
 			_propertyService = propertyService;
 		}
 
-		public void CreateClassCapabilities(long algorithmID, long scenarioAlgorithmID, long? rootCapabilityID, long? parentCapabilityID, int level, int orderIndex, Object objectClass)
+		public void CreateClassCapabilities(long algorithmID, long scenarioAlgorithmID, long? rootCapabilityID, long? parentCapabilityID, int level, int orderIndex, string parentPropertyName, Object objectClass)
 		{
 			//Iterate through each property of the class
 			foreach (PropertyInfo prop in (objectClass.GetType()).GetProperties())
@@ -32,68 +33,77 @@ namespace ACVPCore.Services
 				//If it has that custom attribute then need to persist the capability
 				if (algorithmProperty != null)
 				{
-					//Look up the property to get the ID
-					PropertyLookup propertyLookup = _propertyService.LookupProperty(algorithmID, algorithmProperty.Name);
-					long propertyID = propertyLookup.PropertyID;
-
-					//Get the actual property object. This will be a long, string, bool, List<something>, Range, Domain, or another class instance
+					//Get the actual property value. This will be a long, string, bool, List<something>, Range, Domain, or another class instance, at least once cast...
 					Object classProperty = prop.GetValue(objectClass);
 
-					//Persist
-					switch (algorithmProperty.Type)
+					//If the property is a nullable type we may have a null, in which case skip this property because we don't need to create a capability for it
+					if (classProperty == null)
 					{
-						case AlgorithmPropertyType.Boolean:
-							CreateBooleanCapability(scenarioAlgorithmID, propertyID, rootCapabilityID, parentCapabilityID, level, orderIndex, (bool)classProperty);
-							break;
-
-						case AlgorithmPropertyType.BooleanArray:
-							CreateBooleanArrayCapability(scenarioAlgorithmID, propertyID, rootCapabilityID, parentCapabilityID, level, orderIndex, (List<bool>)classProperty);
-							break;
-
-						case AlgorithmPropertyType.Composite:
-							CreateCompositeCapability(algorithmID, scenarioAlgorithmID, propertyID, rootCapabilityID, parentCapabilityID, level, orderIndex, classProperty);
-							break;
-
-						case AlgorithmPropertyType.CompositeArray:
-							CreateCompositeArrayCapability(algorithmID, scenarioAlgorithmID, propertyID, rootCapabilityID, parentCapabilityID, level, orderIndex, (List<object>)classProperty);
-							break;
-
-						case AlgorithmPropertyType.Domain:
-							CreateDomainCapability(scenarioAlgorithmID, propertyID, rootCapabilityID, parentCapabilityID, level, orderIndex, (Domain)classProperty);
-							break;
-
-						case AlgorithmPropertyType.Long:
-							CreateLongCapability(scenarioAlgorithmID, propertyID, rootCapabilityID, parentCapabilityID, level, orderIndex, (long)classProperty);
-							break;
-
-						case AlgorithmPropertyType.LongArray:
-							CreateLongArrayCapability(scenarioAlgorithmID, propertyID, rootCapabilityID, parentCapabilityID, level, orderIndex, (List<long>)classProperty);
-							break;
-
-						case AlgorithmPropertyType.Number:
-							CreateNumberCapability(scenarioAlgorithmID, propertyID, rootCapabilityID, parentCapabilityID, level, orderIndex, (long)classProperty);
-							break;
-
-						case AlgorithmPropertyType.NumberArray:
-							CreateNumberArrayCapability(scenarioAlgorithmID, propertyID, rootCapabilityID, parentCapabilityID, level, orderIndex, (List<long>)classProperty);
-							break;
-
-						case AlgorithmPropertyType.Range:
-							CreateRangeCapability(scenarioAlgorithmID, propertyID, rootCapabilityID, parentCapabilityID, level, orderIndex, (Algorithms.DataTypes.Range)classProperty);
-							break;
-
-						case AlgorithmPropertyType.RangeArray:
-							CreateRangeArrayCapability(scenarioAlgorithmID, propertyID, rootCapabilityID, parentCapabilityID, level, orderIndex, (List<Algorithms.DataTypes.Range>)classProperty);
-							break;
-
-						case AlgorithmPropertyType.String:
-							CreateStringCapability(scenarioAlgorithmID, propertyID, rootCapabilityID, parentCapabilityID, level, orderIndex, (string)classProperty);
-							break;
-
-						case AlgorithmPropertyType.StringArray:
-							CreateStringArrayCapability(scenarioAlgorithmID, propertyID, rootCapabilityID, parentCapabilityID, level, orderIndex, (List<string>)classProperty);
-							break;
+						continue;
 					}
+
+					//If a nested name property, prepend the parent name to what is defined on the attribute. This allows reuse of the same class in multiple places in an algorithm's property tree - very useful in KAS
+					string propertyName = algorithmProperty.PrependParentPropertyName ? $"{parentPropertyName}/{algorithmProperty.Name}" : algorithmProperty.Name;
+
+					//Get the property ID
+					PropertyLookup propertyLookup = _propertyService.LookupProperty(algorithmID, propertyName);
+					long propertyID = propertyLookup.PropertyID;
+
+					//Create the capability based on the type of the property. The last 2 cases have to be last and in that order, as other types would be caught by them
+					switch (classProperty)
+					{
+						case bool x:
+							CreateBooleanCapability(scenarioAlgorithmID, propertyID, rootCapabilityID, parentCapabilityID, level, orderIndex, x);
+							break;
+
+						case Domain x:
+							CreateDomainCapability(scenarioAlgorithmID, propertyID, rootCapabilityID, parentCapabilityID, level, orderIndex, x);
+							break;
+
+						case int x:
+							CreateNumberCapability(scenarioAlgorithmID, propertyID, rootCapabilityID, parentCapabilityID, level, orderIndex, x);
+							break;
+
+						case long x:
+							CreateLongCapability(scenarioAlgorithmID, propertyID, rootCapabilityID, parentCapabilityID, level, orderIndex, x);
+							break;
+
+						case Algorithms.DataTypes.Range x:
+							CreateRangeCapability(scenarioAlgorithmID, propertyID, rootCapabilityID, parentCapabilityID, level, orderIndex, x);
+							break;
+
+						case string x:
+							CreateStringCapability(scenarioAlgorithmID, propertyID, rootCapabilityID, parentCapabilityID, level, orderIndex, x);
+							break;
+
+						case List<bool> x:
+							CreateBooleanArrayCapability(scenarioAlgorithmID, propertyID, rootCapabilityID, parentCapabilityID, level, orderIndex, x);
+							break;
+
+						case List<int> x:
+							CreateNumberArrayCapability(scenarioAlgorithmID, propertyID, rootCapabilityID, parentCapabilityID, level, orderIndex, x);
+							break;
+
+						case List<long> x:
+							CreateLongArrayCapability(scenarioAlgorithmID, propertyID, rootCapabilityID, parentCapabilityID, level, orderIndex, x);
+							break;
+
+						case List<Algorithms.DataTypes.Range> x:
+							CreateRangeArrayCapability(scenarioAlgorithmID, propertyID, rootCapabilityID, parentCapabilityID, level, orderIndex, x);
+							break;
+
+						case List<string> x:
+							CreateStringArrayCapability(scenarioAlgorithmID, propertyID, rootCapabilityID, parentCapabilityID, level, orderIndex, x);
+							break;
+
+						case IList x:
+							CreateCompositeArrayCapability(algorithmID, scenarioAlgorithmID, propertyID, rootCapabilityID, parentCapabilityID, level, orderIndex, propertyName, x);
+							break;
+
+						case object x:
+							CreateCompositeCapability(algorithmID, scenarioAlgorithmID, propertyID, rootCapabilityID, parentCapabilityID, level, orderIndex, propertyName, x);
+							break;
+					};
 				}
 			}
 		}
@@ -108,7 +118,7 @@ namespace ACVPCore.Services
 			_capabilityProvider.Insert(scenarioAlgorithmID, propertyID, rootCapabilityID, parentCapabilityID, level, AlgorithmPropertyType.Long, orderIndex, false, null, value, null);
 		}
 
-		public void CreateNumberCapability(long scenarioAlgorithmID, long propertyID, long? rootCapabilityID, long? parentCapabilityID, int level, int orderIndex, long value)
+		public void CreateNumberCapability(long scenarioAlgorithmID, long propertyID, long? rootCapabilityID, long? parentCapabilityID, int level, int orderIndex, int value)
 		{
 			_capabilityProvider.Insert(scenarioAlgorithmID, propertyID, rootCapabilityID, parentCapabilityID, level, AlgorithmPropertyType.Number, orderIndex, false, null, value, null);
 		}
@@ -141,7 +151,7 @@ namespace ACVPCore.Services
 			_capabilityProvider.Insert(scenarioAlgorithmID, propertyID, rootCapabilityID, parentCapabilityID, level, AlgorithmPropertyType.Domain, orderIndex, false, stringValue, null, null);
 		}
 
-		public void CreateCompositeCapability(long algorithmID, long scenarioAlgorithmID, long propertyID, long? rootCapabilityID, long? parentCapabilityID, int level, int orderIndex, object value)
+		public void CreateCompositeCapability(long algorithmID, long scenarioAlgorithmID, long propertyID, long? rootCapabilityID, long? parentCapabilityID, int level, int orderIndex, string propertyName, object value)
 		{
 			//Create the container capability
 			InsertResult result = _capabilityProvider.Insert(scenarioAlgorithmID, propertyID, rootCapabilityID, parentCapabilityID, level, AlgorithmPropertyType.Composite, orderIndex, false, null, null, null);
@@ -153,12 +163,15 @@ namespace ACVPCore.Services
 			if (level == 0) rootCapabilityID = containerCapabilityID;
 
 			//Create the child capabilities from this object
-			CreateClassCapabilities(algorithmID, scenarioAlgorithmID, rootCapabilityID, containerCapabilityID, level + 1, orderIndex, value);
+			CreateClassCapabilities(algorithmID, scenarioAlgorithmID, rootCapabilityID, containerCapabilityID, level + 1, orderIndex, propertyName, value);
 		}
 
 
 		public void CreateBooleanArrayCapability(long scenarioAlgorithmID, long propertyID, long? rootCapabilityID, long? parentCapabilityID, int level, int orderIndex, List<bool> values)
 		{
+			//Don't do anything if the collection is empty
+			if (values.Count == 0) return;
+
 			//Create the container capability
 			InsertResult result = _capabilityProvider.Insert(scenarioAlgorithmID, propertyID, rootCapabilityID, parentCapabilityID, level, AlgorithmPropertyType.BooleanArray, orderIndex, false, null, null, null);
 
@@ -177,6 +190,9 @@ namespace ACVPCore.Services
 
 		public void CreateLongArrayCapability(long scenarioAlgorithmID, long propertyID, long? rootCapabilityID, long? parentCapabilityID, int level, int orderIndex, List<long> values)
 		{
+			//Don't do anything if the collection is empty
+			if (values.Count == 0) return;
+
 			//Create the container capability
 			InsertResult result = _capabilityProvider.Insert(scenarioAlgorithmID, propertyID, rootCapabilityID, parentCapabilityID, level, AlgorithmPropertyType.LongArray, orderIndex, false, null, null, null);
 
@@ -193,8 +209,11 @@ namespace ACVPCore.Services
 			}
 		}
 
-		public void CreateNumberArrayCapability(long scenarioAlgorithmID, long propertyID, long? rootCapabilityID, long? parentCapabilityID, int level, int orderIndex, List<long> values)
+		public void CreateNumberArrayCapability(long scenarioAlgorithmID, long propertyID, long? rootCapabilityID, long? parentCapabilityID, int level, int orderIndex, List<int> values)
 		{
+			//Don't do anything if the collection is empty
+			if (values.Count == 0) return;
+
 			//Create the container capability
 			InsertResult result = _capabilityProvider.Insert(scenarioAlgorithmID, propertyID, rootCapabilityID, parentCapabilityID, level, AlgorithmPropertyType.NumberArray, orderIndex, false, null, null, null);
 
@@ -213,6 +232,9 @@ namespace ACVPCore.Services
 
 		public void CreateStringArrayCapability(long scenarioAlgorithmID, long propertyID, long? rootCapabilityID, long? parentCapabilityID, int level, int orderIndex, List<string> values)
 		{
+			//Don't do anything if the collection is empty
+			if (values.Count == 0) return;
+
 			//Create the container capability
 			InsertResult result = _capabilityProvider.Insert(scenarioAlgorithmID, propertyID, rootCapabilityID, parentCapabilityID, level, AlgorithmPropertyType.StringArray, orderIndex, false, null, null, null);
 
@@ -231,6 +253,9 @@ namespace ACVPCore.Services
 
 		public void CreateRangeArrayCapability(long scenarioAlgorithmID, long propertyID, long? rootCapabilityID, long? parentCapabilityID, int level, int orderIndex, List<ACVPCore.Algorithms.DataTypes.Range> values)
 		{
+			//Don't do anything if the collection is empty
+			if (values.Count == 0) return;
+
 			//Create the container capability
 			InsertResult result = _capabilityProvider.Insert(scenarioAlgorithmID, propertyID, rootCapabilityID, parentCapabilityID, level, AlgorithmPropertyType.RangeArray, orderIndex, false, null, null, null);
 
@@ -247,8 +272,11 @@ namespace ACVPCore.Services
 			}
 		}
 
-		public void CreateCompositeArrayCapability(long algorithmID, long scenarioAlgorithmID, long propertyID, long? rootCapabilityID, long? parentCapabilityID, int level, int orderIndex, List<object> values)
+		public void CreateCompositeArrayCapability(long algorithmID, long scenarioAlgorithmID, long propertyID, long? rootCapabilityID, long? parentCapabilityID, int level, int orderIndex, string propertyName, IList values)
 		{
+			//Don't do anything if the collection is empty
+			if (values.Count == 0) return;
+
 			//Create the container capability
 			InsertResult result = _capabilityProvider.Insert(scenarioAlgorithmID, propertyID, rootCapabilityID, parentCapabilityID, level, AlgorithmPropertyType.CompositeArray, orderIndex, false, null, null, null);
 
@@ -261,7 +289,7 @@ namespace ACVPCore.Services
 			//Create the child composite capabilities
 			for (int i = 0; i < values.Count; i++)
 			{
-				CreateCompositeCapability(algorithmID, scenarioAlgorithmID, propertyID, rootCapabilityID, containerCapabilityID, level + 1, i, values[i]);
+				CreateCompositeCapability(algorithmID, scenarioAlgorithmID, propertyID, rootCapabilityID, containerCapabilityID, level + 1, i, propertyName, values[i]);
 			}
 		}
 	}
