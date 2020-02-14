@@ -27,7 +27,7 @@ namespace NIST.CVP.Common.Helpers
         public static string GetRootDirectory()
         {
             var executingLocation = System.Reflection.Assembly.GetExecutingAssembly().Location;
-            var rootDirectory = Path.GetDirectoryName(executingLocation) + "\\";
+            var rootDirectory = Path.GetDirectoryName(executingLocation) + Path.DirectorySeparatorChar;
             Console.WriteLine($"{nameof(rootDirectory)}: {rootDirectory}");
             return rootDirectory;
         }
