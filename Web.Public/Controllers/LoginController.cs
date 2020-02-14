@@ -30,7 +30,7 @@ namespace Web.Public.Controllers
 
             if (!result.IsSuccess)
             {
-                return new JsonResult("Access denied! D:");
+                return new JsonResult($@"Access denied! D: Reason: {result.ErrorMessage}");
             }
             
             if (content.AccessToken != default)

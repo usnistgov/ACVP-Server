@@ -1,11 +1,12 @@
-﻿using System.Security.Cryptography.X509Certificates;
-using CVP.DatabaseInterface;
+﻿using System;
+using System.IO;
+using System.Security.Cryptography.X509Certificates;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Server.Kestrel.Https;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
-using Web.Public.Providers;
 
 namespace Web.Public
 {
@@ -13,11 +14,29 @@ namespace Web.Public
     {
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            var executingLocation = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            var rootDirectory = Path.GetDirectoryName(executingLocation) + Path.DirectorySeparatorChar;
+            CreateHostBuilder(args, rootDirectory).Build().Run();
         }
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
+        public static IHostBuilder CreateHostBuilder(string[] args, string directoryConfig) =>
             Host.CreateDefaultBuilder(args)
+                .ConfigureAppConfiguration((context, builder) =>
+                {
+                    var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+                    if (string.IsNullOrWhiteSpace(env))
+                    {
+                        throw new Exception("ASPNETCORE_ENVIRONMENT env variable not set.");
+                    }
+
+                    context.HostingEnvironment.EnvironmentName = env;
+
+                    builder
+                        //.AddJsonFile($"{directoryConfig}sharedappsettings.json", optional: false, reloadOnChange: false)
+                        //.AddJsonFile($"{directoryConfig}sharedappsettings.{env}.json", optional: false, reloadOnChange: false)
+                        .AddJsonFile($"{directoryConfig}appsettings.json", optional: false, reloadOnChange: false);
+                        //.AddJsonFile($"{directoryConfig}appsettings.{env}.json", optional: false, reloadOnChange: false);
+                })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
@@ -36,8 +55,8 @@ namespace Web.Public
                 })
                 .ConfigureServices((hostContext, services) =>
                 {
-                    services.AddSingleton<IConnectionStringFactory, ConnectionStringFactory>();
-                    services.AddTransient<ITotpProvider, TotpProvider>();
+                    services.RegisterAcvpAdminServices();
+                    services.Configure<TotpConfig>(hostContext.Configuration.GetSection("Totp"));
                 });
     }
 }

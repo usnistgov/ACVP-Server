@@ -1,6 +1,7 @@
 using System;
 using ACVPCore.Results;
 using CVP.DatabaseInterface;
+using Microsoft.Extensions.Options;
 using Mighty;
 using OtpNet;
 
@@ -9,22 +10,18 @@ namespace Web.Public.Providers
     public class TotpProvider : ITotpProvider
     {
         private readonly string _acvpConnectionString;
+        private readonly TotpConfig _totpConfig;
 
-        // TODO grab values from config
-        private readonly OtpHashMode _totpHmac = OtpHashMode.Sha256;
-        private readonly int _step = 30;
-        private readonly int _digits = 8;
-        private readonly bool _uniquenessEnforced = true;
-        
-        public TotpProvider(IConnectionStringFactory connectionStringFactory)
+        public TotpProvider(IConnectionStringFactory connectionStringFactory, IOptions<TotpConfig> totpConfig)
         {
             _acvpConnectionString = connectionStringFactory.GetMightyConnectionString("ACVPPublic");
+            _totpConfig = totpConfig.Value;
         }
         
         public string GenerateTotp(byte[] certRawData)
         {
             var seed = GetSeedFromUserCertificate(certRawData);
-            var totp = new Totp(seed, _step, _totpHmac, _digits);
+            var totp = new Totp(seed, _totpConfig.Step, StringToHmacMode(_totpConfig.Hmac), _totpConfig.Digits);
             return totp.ComputeTotp(DateTime.Now);
         }
 
@@ -32,7 +29,7 @@ namespace Web.Public.Providers
         {
             var seed = GetSeedFromUserCertificate(certRawData);
             
-            var totp = new Totp(seed, _step, _totpHmac, _digits);
+            var totp = new Totp(seed, _totpConfig.Step, StringToHmacMode(_totpConfig.Hmac), _totpConfig.Digits);
             var success = totp.VerifyTotp(DateTime.Now, password, out var computedWindow);
 
             // If they failed authentication, don't bother with anything else
@@ -58,7 +55,7 @@ namespace Web.Public.Providers
                 }
 
                 // Compare the last used window to the one just computed
-                if (previousComputedWindow == computedWindow && _uniquenessEnforced)
+                if (previousComputedWindow == computedWindow && _totpConfig.EnforceUniqueness)
                 {
                     return new Result("TOTP Window has already been used");
                 }
@@ -102,6 +99,17 @@ namespace Web.Public.Providers
             {
                 throw ex;
             }
+        }
+
+        private OtpHashMode StringToHmacMode(string hmac)
+        {
+            return hmac.ToLower() switch
+            {
+                "sha1" => OtpHashMode.Sha1,
+                "sha256" => OtpHashMode.Sha256,
+                "sha512" => OtpHashMode.Sha512,
+                _ => throw new Exception("Hmac provided via config is not supported for TOTP.")
+            };
         }
     }
 }
