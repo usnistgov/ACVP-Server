@@ -1,9 +1,7 @@
-﻿using MongoDB.Driver;
-
-namespace NIST.CVP.Pools.Interfaces
+﻿namespace NIST.CVP.Pools.Interfaces
 {
-    public interface IMongoDbFactory
-    {
-        IMongoClient GetMongoDbClient(string connectionString);
-    }
+    // public interface IMongoDbFactory
+    // {
+    //     IMongoClient GetMongoDbClient(string connectionString);
+    // }
 }

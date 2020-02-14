@@ -184,7 +184,7 @@ namespace ACVPCore.Providers
 			{
 				
 				var vectorSetsData = db.QueryFromProcedure(
-					"acvp.VectorSetGetByTestSessionId",
+					"acvp.VectorSetsGetByTestSessionId",
 					new 
 					{
 						testSessionId

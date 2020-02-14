@@ -16,6 +16,16 @@ namespace ACVPCore.Services
 			_dependencyProvider = dependencyProvider;
 		}
 
+		public InsertResult InsertAttribute(long dependencyID, string name, string value)
+		{
+			return _dependencyProvider.InsertAttribute(dependencyID, name, value);
+		}
+
+		public Result DeleteAttribute(long attributeID)
+		{
+			return _dependencyProvider.DeleteAttribute(attributeID);
+		}
+
 		public DeleteResult Delete(long dependencyID)
 		{
 			Result result;

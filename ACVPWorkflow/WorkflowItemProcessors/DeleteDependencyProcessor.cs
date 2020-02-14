@@ -2,6 +2,7 @@
 using ACVPCore.Models.Parameters;
 using ACVPCore.Results;
 using ACVPCore.Services;
+using ACVPWorkflow.Exceptions;
 using ACVPWorkflow.Models;
 using ACVPWorkflow.Services;
 
@@ -10,15 +11,13 @@ namespace ACVPWorkflow.WorkflowItemProcessors
 	public class DeleteDependencyProcessor : IWorkflowItemProcessor
 	{
 		private readonly IDependencyService _dependencyService;
-		private readonly IWorkflowService _workflowService;
 
-		public DeleteDependencyProcessor(IDependencyService dependencyService, IWorkflowService workflowService)
+		public DeleteDependencyProcessor(IDependencyService dependencyService)
 		{
 			_dependencyService = dependencyService;
-			_workflowService = workflowService;
 		}
 
-		public void Approve(WorkflowItem workflowItem)
+		public long Approve(WorkflowItem workflowItem)
 		{
 			//Deserialize the JSON
 			DeleteParameters deleteParameters = ((DeletePayload)workflowItem.Payload).ToDeleteParameters();
@@ -26,29 +25,23 @@ namespace ACVPWorkflow.WorkflowItemProcessors
 			//Delete that dependency - will fail if dependency is in use
 			DeleteResult deleteResult = _dependencyService.Delete(deleteParameters.ID);
 
-			if (deleteResult.IsSuccess)
+			if (deleteResult.IsInUse)
 			{
-				//Update status to approved
-				_workflowService.UpdateStatus(workflowItem.WorkflowItemID, WorkflowStatus.Approved);
+				throw new ResourceInUseException(
+					$"The resource could not be deleted as other resources are referencing it. Workflow Info: {workflowItem.APIAction} {workflowItem.WorkflowItemID}");
 			}
-			else
+			
+			if (!deleteResult.IsSuccess)
 			{
-				if (deleteResult.IsInUse)
-				{
-					//Mark rejected
-					_workflowService.UpdateStatus(workflowItem.WorkflowItemID, WorkflowStatus.Rejected);
-				}
-				else
-				{
-					//Mark as error? No way to do so, just in process
-					// TODO - something here
-				}
+				//Mark as error? No way to do so, just in process
+				// TODO - something here
+				throw new ResourceProcessorException(
+					$"The resource could not be deleted. Workflow Info: {workflowItem.APIAction} {workflowItem.WorkflowItemID}");				
 			}
+			
+			return deleteParameters.ID;
 		}
 
-		public void Reject(WorkflowItem workflowItem)
-		{
-			throw new NotImplementedException();
-		}
+		public void Reject(WorkflowItem workflowItem) { }
 	}
 }

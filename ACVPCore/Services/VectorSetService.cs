@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using ACVPCore.Models;
 using ACVPCore.Providers;
 using ACVPCore.Results;
 
@@ -52,5 +53,22 @@ namespace ACVPCore.Services
 		public List<(long ID, long AlgorithmID, VectorSetStatus Status, string ErrorMessage)> GetVectorSetsForTestSession(long testSessionID) => _vectorSetProvider.GetVectorSetIDsForTestSession(testSessionID);
 
 		public string GetCapabilities(long vectorSetID) => _vectorSetExpectedResultsProvider.GetCapabilities(vectorSetID);
+
+		public TestVectorSet GetTestVectorSet(long vectorSetId)
+		{
+			var result = _vectorSetProvider.GetTestVectorSet(vectorSetId);
+			
+			if (result == null)
+				return null;
+			
+			result.JsonFilesAvailable = _vectorSetProvider.GetTestVectorSetJsonFilesAvailable(vectorSetId);
+			
+			return result;
+		}
+
+		public string GetTestVectorFileJson(long vectorSetId, VectorSetJsonFileTypes fileType)
+		{
+			return _vectorSetProvider.GetTestVectorFileJson(vectorSetId, fileType);
+		}
 	}
 }

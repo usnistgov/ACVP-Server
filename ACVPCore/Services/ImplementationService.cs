@@ -1,4 +1,5 @@
-﻿using ACVPCore.Models.Parameters;
+﻿using ACVPCore.Models;
+using ACVPCore.Models.Parameters;
 using ACVPCore.Providers;
 using ACVPCore.Results;
 
@@ -11,6 +12,11 @@ namespace ACVPCore.Services
 		public ImplementationService(IImplementationProvider implementationProvider)
 		{
 			_implementationProvider = implementationProvider;
+		}
+
+		public Implementation Get(long implementationID)
+		{
+			return _implementationProvider.Get(implementationID);
 		}
 
 		public DeleteResult Delete(long implementationID)

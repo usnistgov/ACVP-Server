@@ -26,8 +26,30 @@
     </ItemGroup>
 
     <ItemGroup>
+      <None Remove="ClientApp\src\app\models\dependency-list.ts" />
+      <None Remove="ClientApp\src\app\models\dependency-lite.ts" />
+      <None Remove="ClientApp\src\app\models\dependency.ts" />
+      <None Remove="ClientApp\src\app\models\dependency\attribute.ts" />
+      <None Remove="ClientApp\src\app\models\Organization\Organization.ts" />
+      <None Remove="ClientApp\src\app\models\Product\Product.ts" />
+      <None Remove="ClientApp\src\app\models\OperatingEnvironment\operatingEnvironment.ts" />
+      <None Remove="ClientApp\src\app\models\responses\Result.ts" />
+    </ItemGroup>
+
+    <ItemGroup>
       <ProjectReference Include="..\ACVPCore\ACVPCore.csproj" />
       <ProjectReference Include="..\ACVPWorkflow\ACVPWorkflow.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <TypeScriptCompile Include="ClientApp\src\app\models\dependency\attribute.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\dependency\dependency-list.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\dependency\dependency-lite.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\dependency\dependency.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\Organization\Organization.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\Product\Product.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\OperatingEnvironment\OperatingEnvironment.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\responses\Result.ts" />
     </ItemGroup>
 
     <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

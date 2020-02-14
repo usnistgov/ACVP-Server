@@ -11,23 +11,23 @@ namespace ACVPCore.Algorithms.External
 
 		public AES_CMAC()
 		{
-			Name = "AES-CMAC";
+			Name = "CMAC-AES";
 			Revision = "1.0";
 		}
-	}
 
-	public class Capability
-	{
-		[JsonPropertyName("direction")]
-		public List<string> Direction { get; set; }
+		public class Capability
+		{
+			[JsonPropertyName("direction")]
+			public List<string> Direction { get; set; }
 
-		[JsonPropertyName("keyLen")]
-		public List<long> KeyLength { get; set; }
+			[JsonPropertyName("key")]
+			public List<int> KeyLength { get; set; }
 
-		[JsonPropertyName("macLen")]
-		public Domain MacLength { get; set; }
+			[JsonPropertyName("macLen")]
+			public Domain MacLength { get; set; }
 
-		[JsonPropertyName("msgLen")]
-		public Domain MessageLength { get; set; }
+			[JsonPropertyName("msgLen")]
+			public Domain MessageLength { get; set; }
+		}
 	}
 }

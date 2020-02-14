@@ -6,24 +6,25 @@ namespace ACVPCore.Algorithms.Persisted
 	public class AES_CCM : PersistedAlgorithmBase
 	{
 
-		[AlgorithmProperty(Name = "key", Type = AlgorithmPropertyType.NumberArray)]
-		public List<long> KeyLength { get; set; }
+		[AlgorithmProperty("key")]
+		public List<int> KeyLength{ get; set; }
 
-		[AlgorithmProperty(Name = "tag", Type = AlgorithmPropertyType.NumberArray)]
+		[AlgorithmProperty("tag")]
 		public List<long> TagLength { get; set; }
 
-		[AlgorithmProperty(Name = "iv", Type = AlgorithmPropertyType.NumberArray)]
+		[AlgorithmProperty("iv")]
 		public List<long> IVLength { get; set; }
 
-		[AlgorithmProperty(Name = "pt", Type = AlgorithmPropertyType.Domain)]
+		[AlgorithmProperty("pt")]
 		public Domain PayloadLength { get; set; }
 
-		[AlgorithmProperty(Name = "aad", Type = AlgorithmPropertyType.Domain)]
+		[AlgorithmProperty("aad")]
 		public Domain AADLength { get; set; }
 
 		public AES_CCM()
 		{
 			Name = "ACVP-AES-CCM";
+			Revision = "1.0";
 		}
 
 		public AES_CCM(ACVPCore.Algorithms.External.AES_CCM external) : this()

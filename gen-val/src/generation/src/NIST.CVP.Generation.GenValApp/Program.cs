@@ -9,6 +9,11 @@ using NIST.CVP.Generation.GenValApp.Helpers;
 using NIST.CVP.Generation.GenValApp.Models;
 using NLog;
 using System;
+using System.IO;
+using Microsoft.Extensions.Configuration;
+using NIST.CVP.Common.Config;
+using NIST.CVP.Common.Interfaces;
+using NIST.CVP.Common.Services;
 using NIST.CVP.Generation.Core.Helpers;
 using RunningOptionsHelper = NIST.CVP.Generation.GenValApp.Helpers.RunningOptionsHelper;
 
@@ -16,14 +21,11 @@ namespace NIST.CVP.Generation.GenValApp
 {
     public static class Program
     {
-        public static IServiceProvider ServiceProvider { get; }
-        public static readonly string RootDirectory = AppDomain.CurrentDomain.BaseDirectory;
+        private static IServiceProvider ServiceProvider { get; }
 
         static Program()
         {
-            var configurationRoot = EntryPointConfigHelper.GetConfigurationRoot(RootDirectory);
-            var serviceCollection = EntryPointConfigHelper.GetBaseServiceCollection(configurationRoot);
-            ServiceProvider = serviceCollection.BuildServiceProvider();
+            ServiceProvider = EntryPointConfigHelper.GetServiceProviderFromConfigurationBuilder();
         }
 
         /// <summary>

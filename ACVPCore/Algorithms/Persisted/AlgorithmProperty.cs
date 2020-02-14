@@ -9,12 +9,15 @@ namespace ACVPCore.Algorithms.Persisted
 
 		public AlgorithmPropertyType Type { get; set; }
 
+		public bool PrependParentPropertyName { get; set; } = false;
+
 		public string DefaultValue { get; set; }
 
-		//public Property() { }
-		//public Property(string name)
-		//{
-		//	Name = name;
-		//}
+		public AlgorithmProperty(string name)
+		{
+			Name = name;
+		}
+
+		public AlgorithmProperty() { }
 	}
 }

@@ -297,10 +297,12 @@
     <Build Include="val\Tables\ValidationApprovalHistory.sql" />
     <Build Include="acvp\Tables\TestSessionStatus.sql" />
     <Build Include="acvp\Stored Procedures\TestSessionStatusGet.sql" />
-    <Build Include="acvp\Stored Procedures\VectorSetGetByTestSessionId.sql" />
     <Build Include="acvp\Stored Procedures\TestSessionsGet.sql" />
     <Build Include="acvp\Stored Procedures\TestSessionGetById.sql" />
     <Build Include="val\Stored Procedures\DependenciesGet.sql" />
+    <Build Include="val\Stored Procedures\OEGet.sql" />
+    <Build Include="val\Stored Procedures\OEDependenciesGet.sql" />
+    <Build Include="val\Stored Procedures\OEsGet.sql" />
     <Build Include="acvp\Stored Procedures\VectorSetsForTestSessionGet.sql" />
     <Build Include="ref\Stored Procedures\AlgorithmIDByNameAndModeGet.sql" />
     <Build Include="val\Stored Procedures\CapabilitiesForScenarioAlgorithmGet.sql" />
@@ -331,6 +333,15 @@
     <Build Include="acvp\Tables\VectorSetJson.sql" />
     <Build Include="acvp\Stored Procedures\VectorSetJsonPut.sql" />
     <Build Include="acvp\Stored Procedures\VectorSetJsonGet.sql" />
+    <Build Include="acvp\Stored Procedures\WorkflowItemsGetByStatus.sql" />
+    <Build Include="acvp\Stored Procedures\WorkflowItemGetById.sql" />
+    <Build Include="acvp\Stored Procedures\VectorSetGet.sql" />
+    <Build Include="acvp\Stored Procedures\VectorSetGetJsonFIleTypes.sql" />
+    <Build Include="acvp\Stored Procedures\VectorSetsGetByTestSessionId.sql" />
+    <Build Include="acvp\Stored Procedures\AcvpUsersGet.sql" />
+    <Build Include="acvp\Stored Procedures\AcvpUserSetSeed.sql" />
+    <Build Include="acvp\Stored Procedures\AcvpUserGetById.sql" />
+    <Build Include="val\Stored Procedures\ImplementationGet.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="ACVP_DB.refactorlog" />
