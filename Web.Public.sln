@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web.Public", "Web.Public\We
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ACVPCore", "ACVPCore\ACVPCore.csproj", "{845A7288-A1D3-4122-84E1-DB6BC27B23C9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CVP.DatabaseInterface", "DB\CVP.DatabaseInterface\CVP.DatabaseInterface.csproj", "{DF53C870-2B07-4718-95D7-7A8FF9B6BF8A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,9 +22,14 @@ Global
 		{845A7288-A1D3-4122-84E1-DB6BC27B23C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{845A7288-A1D3-4122-84E1-DB6BC27B23C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{845A7288-A1D3-4122-84E1-DB6BC27B23C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DF53C870-2B07-4718-95D7-7A8FF9B6BF8A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF53C870-2B07-4718-95D7-7A8FF9B6BF8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF53C870-2B07-4718-95D7-7A8FF9B6BF8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF53C870-2B07-4718-95D7-7A8FF9B6BF8A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{4D2AA853-4E67-4B13-B56F-47D502A52FC0} = {E6D6E73F-90EB-4D17-80AC-18471D21E64A}
 		{845A7288-A1D3-4122-84E1-DB6BC27B23C9} = {E6D6E73F-90EB-4D17-80AC-18471D21E64A}
+		{DF53C870-2B07-4718-95D7-7A8FF9B6BF8A} = {E6D6E73F-90EB-4D17-80AC-18471D21E64A}
 	EndGlobalSection
 EndGlobal

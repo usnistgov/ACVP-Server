@@ -1,6 +1,6 @@
-using System;
 using Microsoft.AspNetCore.Mvc;
 using Web.Public.JsonObjects;
+using Web.Public.Providers;
 
 namespace Web.Public.Controllers
 {
@@ -23,15 +23,24 @@ namespace Web.Public.Controllers
         public JsonResult Login(JwtRefreshObject content)
         {
             // Grab user from authentication
+            var cert = HttpContext.Connection.ClientCertificate.RawData;
             
-            // Grab password from body JSON
+            // Validate TOTP
+            var result = _totpProvider.ValidateTotp(cert, content.Password);
+
+            if (!result.IsSuccess)
+            {
+                return new JsonResult("Access denied! D:");
+            }
             
-            // Validate Totp
-            
-            // Db verification? maybe included in Validate step
+            if (content.AccessToken != default)
+            {
+                // Is the old token used at all to construct the new one? 
+                // TOTP password is always included for refresh... 
+            }
             
             // Build Access Token (JWT)
-            throw new NotImplementedException();
+            return new JsonResult(result);
         }
     }
 }
