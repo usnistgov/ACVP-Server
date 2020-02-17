@@ -343,6 +343,8 @@
     <Build Include="acvp\Stored Procedures\AcvpUserGetById.sql" />
     <Build Include="val\Stored Procedures\ImplementationGet.sql" />
     <Build Include="val\Stored Procedures\ImplementationsGet.sql" />
+    <Build Include="acvp\Stored Procedures\ValidationsGet.sql" />
+    <Build Include="acvp\Stored Procedures\ValidationGetById.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="ACVP_DB.refactorlog" />

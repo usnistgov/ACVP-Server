@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using ACVPCore.ExtensionMethods;
+using ACVPCore.Models;
 using ACVPCore.Results;
 using CVP.DatabaseInterface;
 using Microsoft.Extensions.Logging;
@@ -120,5 +123,60 @@ namespace ACVPCore.Providers
 			}
 		}
 
+		public List<ValidationLite> GetValidations()
+		{
+			List<ValidationLite> result = new List<ValidationLite>();
+			var db = new MightyOrm(_acvpConnectionString);
+
+			try
+			{
+				var data = db.QueryFromProcedure("acvp.ValidationsGet");
+
+				result.AddRange(data.Select(item => new ValidationLite()
+				{
+					Created = item.created,
+					ProductName = item.productName,
+					ValidationId = item.validationId,
+					ValidationLabel = item.validationLabel
+				}));
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex, ex.Message);
+			}
+			
+			return result;
+		}
+
+		public Validation GetValidation(long validationId)
+		{
+			var db = new MightyOrm(_acvpConnectionString);
+
+			try
+			{
+				var data = db.SingleFromProcedure("acvp.ValidationGetById", new
+				{
+					validationId
+				});
+
+				if (data == null)
+					return null;
+				
+				return new Validation()
+				{
+					Created = data.created,
+					ProductName = data.productName,
+					ValidationId = data.validationId,
+					ValidationLabel = data.validationLabel,
+					Updated = data.updated,
+					VendorId = data.vendorId
+				};
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex);
+				return null;
+			}
+		}
 	}
 }
