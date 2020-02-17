@@ -45,3 +45,4 @@ Import Schema Logs
 *.idea
 *.local.json
 Web.Admin/appsettings.json
+Web.Admin/appsettings.json

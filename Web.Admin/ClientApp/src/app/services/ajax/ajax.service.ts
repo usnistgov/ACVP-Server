@@ -8,6 +8,8 @@ import { OperatingEnvironment } from '../../models/operatingEnvironment/operatin
 import { Result } from '../../models/responses/Result';
 import { Product } from '../../models/Product/Product';
 import { Address } from '../../models/Address/Address';
+import { ProductList } from '../../models/Product/ProductList';
+import { OperatingEnvironmentList } from '../../models/OperatingEnvironment/OperatingEnvironmentList';
 
 const httpOptions = {
   headers: new HttpHeaders()
@@ -57,6 +59,10 @@ export class AjaxService {
     return this.http.get<OperatingEnvironment>(this.apiRoot + '/OperatingEnvironments/' + id);
   };
 
+  getOEs(pageSize: number, pageNumber: number) {
+    return this.http.get<OperatingEnvironmentList>(this.apiRoot + '/OperatingEnvironments?pageNumber=' + pageNumber + '&pageSize=' + pageSize);
+  }
+
   addDependencyToOE(dependencyId: number, OEID: number) {
 
     // Assemble message body
@@ -84,6 +90,10 @@ export class AjaxService {
   getProduct(id: number) {
     return this.http.get<Product>(this.apiRoot + '/Products/' + id);
   };
+
+  getProducts(pageSize: number, pageNumber: number) {
+    return this.http.get<ProductList>(this.apiRoot + '/Products?pageNumber=' + pageNumber + '&pageSize=' + pageSize);
+  }
 
   updateProduct(product: Product) {
     return this.http.patch(this.apiRoot + '/Products/' + product.id, product);

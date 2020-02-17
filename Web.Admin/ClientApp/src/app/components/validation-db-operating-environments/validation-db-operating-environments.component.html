@@ -11,7 +11,7 @@
 
     <div class="col-lg-10">
       <div class="row mt-3">
-        <h2>Validation DB - Dependencies</h2>
+        <h2>Validation DB - Operating Environments</h2>
       </div>
 
       <!-- Main Table Row -->
@@ -21,21 +21,16 @@
             <tr>
               <th>ID</th>
               <th>Name</th>
-              <th>Type</th>
-              <th>Description</th>
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let dependency of dependencies" [routerLink]="dependency.id">
-              <td>{{ dependency.id }}</td>
-              <td>{{ (dependency.name === "") ? "---" : dependency.name }}</td>
-              <td>{{ (dependency.type === "") ? "---" : dependency.type }}</td>
-              <td>{{ (dependency.description === null) ? "---" : dependency.description }}</td>
+            <tr *ngFor="let operatingEnvironment of operatingEnvironments" [routerLink]="operatingEnvironment.id">
+              <td>{{ operatingEnvironment.id }}</td>
+              <td>{{ (operatingEnvironment.name === "") ? "---" : operatingEnvironment.name }}</td>
             </tr>
           </tbody>
         </table>
       </div><!-- Close Main Table Row -->
-
       <!-- Pagination Buttons Row-->
       <div class="row">
         <table class="center">

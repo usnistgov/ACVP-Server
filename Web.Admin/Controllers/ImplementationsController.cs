@@ -29,6 +29,15 @@ namespace Web.Admin.Controllers
             return _implementationService.Get(implementationId);
         }
 
+        [HttpGet]
+        public WrappedEnumerable<Implementation> ListImplementations(long pageSize, long pageNumber)
+        {
+            // Set some defaults in case no values are provided
+            if (pageSize == 0) { pageSize = 10; }
+            if (pageNumber == 0) { pageNumber = 1; }
+            return _implementationService.ListImplementations(pageSize, pageNumber).WrapEnumerable();
+        }
+
         [HttpPatch("{implementationId}")]
         public Result UpdateImplementation(Implementation implementation)
         {

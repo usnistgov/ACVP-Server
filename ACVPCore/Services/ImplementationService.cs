@@ -3,6 +3,7 @@ using ACVPCore.Models.Parameters;
 using ACVPCore.Providers;
 using ACVPCore.Results;
 using System;
+using System.Collections.Generic;
 
 namespace ACVPCore.Services
 {
@@ -19,7 +20,9 @@ namespace ACVPCore.Services
 		{
 			return _implementationProvider.Get(implementationID);
 		}
-
+		public List<Implementation> ListImplementations(long pageSize, long pageNumber) {
+			return _implementationProvider.GetImplementations(pageSize, pageNumber);
+		}
 		public DeleteResult Delete(long implementationID)
 		{
 			Result result;
