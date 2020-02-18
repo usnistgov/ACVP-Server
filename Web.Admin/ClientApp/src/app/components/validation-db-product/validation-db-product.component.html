@@ -14,21 +14,20 @@
         </div>
         <div class="card-body">
           <p class="card-text">
-
             <!-- These ngModel expressions are using a workaround for a known weakness: https://github.com/angular/angular/issues/7697 -->
             <label class="bold-heading">Name</label><input [(ngModel)]="referenceCopyProduct && referenceCopyProduct.name" type="text" class="form-control" />
-            <label class="bold-heading mt-1">Version</label><input [(ngModel)]="referenceCopyProduct && referenceCopyProduct.version" type="text" class="form-control" />
-            <label class="bold-heading mt-1">Type</label>
+            <label class="bold-heading mt-3">Version</label><input [(ngModel)]="referenceCopyProduct && referenceCopyProduct.version" type="text" class="form-control" />
+            <label class="bold-heading mt-3">Type</label>
             <select [(ngModel)]="referenceCopyProduct && referenceCopyProduct.type" class="form-control">
               <option>HARDWARE</option>
               <option>FIRMWARE</option>
               <option>SOFTWARE</option>
               <option>UNKNOWN</option>
             </select>
-            <label class="bold-heading mt-1">ITAR&nbsp;</label><input [(ngModel)]="referenceCopyProduct && referenceCopyProduct.itar" type="checkbox" /><br />
-            <label class="bold-heading mt-1">Description</label><textarea [(ngModel)]="referenceCopyProduct && referenceCopyProduct.description" type="text" class="form-control" placeholder="(Empty Description)" rows="4"></textarea>
+            <label class="bold-heading mt-3">ITAR&nbsp;</label>{{referenceCopyProduct?.itar }}<br />
+            <label class="bold-heading mt-3">Description</label><textarea [(ngModel)]="referenceCopyProduct && referenceCopyProduct.description" type="text" class="form-control" placeholder="(Empty Description)" rows="4"></textarea>
           </p>
-          <button class="btn btn-primary" (click)="updateOE()" style="float:left;margin-right:10px;">Apply Changes</button>
+          <button class="btn btn-primary" (click)="updateProduct()" style="float:left;margin-right:10px;">Apply Changes</button>
           <div *ngIf="updateStatusFlag === 'processing'">
             <div class="spinner-border spinner-border-sm text-warning"></div><span style="margin-left:10px;">Processing...</span>
           </div>
@@ -46,7 +45,7 @@
           <div class="card">
             <div class="card-header clearfix align-middle">
               <h5 style="float:left;">Vendor Information</h5>
-              <button class="btn btn-primary text-right" style="float:right;">View</button>
+              <button class="btn btn-primary text-right" routerLink="/validation-db/Organizations/{{referenceCopyProduct?.vendor?.id}}" style="float:right;">View Vendor</button>
             </div>
             <div class="card-body">
               <table style="width:100%">
@@ -84,6 +83,13 @@
               <label class="bold-heading mt-1">Region</label><input [(ngModel)]="referenceCopyProduct && referenceCopyProduct.address.region" type="text" class="form-control" placeholder="(Empty)" />
               <label class="bold-heading mt-1">Country</label><input [(ngModel)]="referenceCopyProduct && referenceCopyProduct.address.country" type="text" class="form-control" placeholder="(Empty)" />
               <label class="bold-heading mt-1">Postal Code</label><input [(ngModel)]="referenceCopyProduct && referenceCopyProduct.address.postalCode" type="text" class="form-control" placeholder="(Empty)" />
+              <button class="btn btn-primary mt-3" (click)="updateAddress()" style="float:left;margin-right:10px;">Apply Changes</button>
+              <div *ngIf="updateAddressStatusFlag === 'processing'">
+                <div class="spinner-border spinner-border-sm text-warning"></div><span style="margin-left:10px;">Processing...</span>
+              </div>
+              <div *ngIf="updateAddressStatusFlag === 'successful'">
+                <div class="text-success" style="float:left;">√</div><span style="margin-left:10px;">Success!</span>
+              </div>
             </div>
           </div> <!-- Close Dependency Attribute Card -->
         </div>

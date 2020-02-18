@@ -63,9 +63,9 @@ namespace Web.Admin.Controllers
         }
 
         [HttpGet("vectorSet/{vectorSetId}")]
-        public ActionResult<TestVectorSet> GetTestVectorSet(long vectorSetId)
+        public ActionResult<VectorSet> GetTestVectorSet(long vectorSetId)
         {
-            var result = _vectorSetService.GetTestVectorSet(vectorSetId);
+            var result = _vectorSetService.GetVectorSet(vectorSetId);
 
             if (result == null)
                 return new NotFoundResult();
@@ -78,7 +78,7 @@ namespace Web.Admin.Controllers
         {
             if(Enum.TryParse<VectorSetJsonFileTypes>(fileType, true, out var parsedFileType))
             {
-                var result = _vectorSetService.GetTestVectorFileJson(vectorSetId, parsedFileType);
+                var result = _vectorSetService.GetVectorFileJson(vectorSetId, parsedFileType);
                 
                 if (result == null)
                     return new NotFoundResult();

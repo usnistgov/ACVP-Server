@@ -1,5 +1,6 @@
 ﻿using ACVPCore.Models;
 using ACVPCore.Results;
+using System.Collections.Generic;
 
 namespace ACVPCore.Providers
 {
@@ -7,6 +8,7 @@ namespace ACVPCore.Providers
 	{
 		Result Delete(long implementationID);
 		Implementation Get(long implementationID);
+		List<Implementation> GetImplementations(long pageSize, long pageNumber);
 		Result DeleteAllContacts(long implementationID);
 		bool ImplementationIsUsed(long implementationID);
 		InsertResult Insert(string name, string description, ImplementationType type, string version, string website, long organizationID, long addressID, bool isITAR);

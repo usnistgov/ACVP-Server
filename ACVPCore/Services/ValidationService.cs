@@ -3,6 +3,7 @@ using System.Linq;
 using ACVPCore.Algorithms;
 using ACVPCore.Algorithms.External;
 using ACVPCore.Algorithms.Persisted;
+using ACVPCore.Models;
 using ACVPCore.Providers;
 using ACVPCore.Results;
 
@@ -90,7 +91,6 @@ namespace ACVPCore.Services
 		};
 
 		public Result LogValidationTestSession(long validationID, long testSessionID) => _validationProvider.ValidationTestSessionInsert(validationID, testSessionID);
-
 		public void CreateCapabilities(long algorithmID, long scenarioAlgorithmID, IExternalAlgorithm externalAlgorithm)
 		{
 			//Convert it to a persistence algorithm
@@ -98,6 +98,23 @@ namespace ACVPCore.Services
 
 			//Persist it - the entire algorithm object is just a class as far as the persistence mechanism is concerned, just with some non-property properties on it
 			_capabilityService.CreateClassCapabilities(algorithmID, scenarioAlgorithmID, null, null, 0, 0, null, persistenceAlgorithm);
+		}
+		
+		public List<ValidationLite> GetValidations()
+		{
+			return _validationProvider.GetValidations();
+		}
+
+		public Validation GetValidation(long validationId)
+		{
+			var result = _validationProvider.GetValidation(validationId);
+
+			if (result == null)
+				return null;
+			
+			// TODO may want to more fully hydrate the validation object with additional properties using other services
+			// or query them independently from the api
+			return result;
 		}
 	}
 }

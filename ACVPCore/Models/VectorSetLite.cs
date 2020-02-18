@@ -1,6 +1,6 @@
 namespace ACVPCore.Models
 {
-    public class TestVectorSetLite
+    public class VectorSetLite
     {
         public long Id { get; set; }
         public string GeneratorVersion { get; set; }

@@ -1,0 +1,59 @@
+<div class="container">
+  <div class="row">
+    <div class="col-lg-2">
+      <div class="row mt-3">
+        <h3>Filters</h3>
+      </div>
+      <div class="row mt-3">
+        <input type="text" class="form-control">
+      </div>
+    </div>
+
+    <div class="col-lg-10">
+      <div class="row mt-3">
+        <h2>Validation DB - Products</h2>
+      </div>
+
+      <!-- Main Table Row -->
+      <div class="row">
+        <table class="table table-hover">
+          <thead class="thead-light">
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Version</th>
+              <th>Type</th>
+              <th>Vendor</th>
+              <th>ITAR</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let product of products" [routerLink]="product.id">
+              <td>{{ product.id }}</td>
+              <td>{{ (product.name === "") ? "---" : product.name }}</td>
+              <td>{{ (product.version === "") ? "---" : product.version }}</td>
+              <td>{{ (product.type === "") ? "---" : product.type }}</td>
+              <td>{{ (product.vendor.name === null) ? "---" : product.vendor.name }}</td>
+              <td>{{ (product.itar === null) ? "---" : product.itar }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div><!-- Close Main Table Row -->
+      <!-- Pagination Buttons Row-->
+      <div class="row">
+        <table class="center">
+          <tr>
+            <td><button class="btn btn-primary bold-heading" (click)="getPage('first')">&lt;&lt;</button></td>
+            <td><button class="btn btn-primary bold-heading" (click)="getPage('previous')">&lt;</button></td>
+            <td><button class="btn btn-primary bold-heading" (click)="getPage('next')">&gt;</button></td>
+            <td><button class="btn btn-primary bold-heading">&gt;&gt;</button></td>
+          </tr>
+          <tr>
+            <td colspan="4" style="text-align:center;">Page {{ pageData.pageNumber }} of total</td>
+          </tr>
+        </table>
+      </div> <!-- Close Pagination Buttons Row -->
+
+    </div>
+  </div>
+</div>

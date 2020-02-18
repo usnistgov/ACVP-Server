@@ -26,13 +26,17 @@
     </ItemGroup>
 
     <ItemGroup>
+      <None Remove="ClientApp\src\app\models\Address\Address.ts" />
       <None Remove="ClientApp\src\app\models\dependency-list.ts" />
       <None Remove="ClientApp\src\app\models\dependency-lite.ts" />
       <None Remove="ClientApp\src\app\models\dependency.ts" />
       <None Remove="ClientApp\src\app\models\dependency\attribute.ts" />
+      <None Remove="ClientApp\src\app\models\OperatingEnvironment\OperatingEnvironmentList.ts" />
+      <None Remove="ClientApp\src\app\models\OperatingEnvironment\OperatingEnvironmentLite.ts" />
       <None Remove="ClientApp\src\app\models\Organization\Organization.ts" />
       <None Remove="ClientApp\src\app\models\Product\Product.ts" />
       <None Remove="ClientApp\src\app\models\OperatingEnvironment\operatingEnvironment.ts" />
+      <None Remove="ClientApp\src\app\models\Product\ProductList.ts" />
       <None Remove="ClientApp\src\app\models\responses\Result.ts" />
     </ItemGroup>
 
@@ -42,11 +46,15 @@
     </ItemGroup>
 
     <ItemGroup>
+      <TypeScriptCompile Include="ClientApp\src\app\models\Address\Address.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\models\dependency\attribute.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\models\dependency\dependency-list.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\models\dependency\dependency-lite.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\models\dependency\dependency.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\OperatingEnvironment\OperatingEnvironmentList.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\OperatingEnvironment\OperatingEnvironmentLite.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\models\Organization\Organization.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\Product\ProductList.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\models\Product\Product.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\models\OperatingEnvironment\OperatingEnvironment.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\models\responses\Result.ts" />
