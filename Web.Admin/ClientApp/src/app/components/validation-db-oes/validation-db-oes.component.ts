@@ -3,11 +3,11 @@ import { AjaxService } from '../../services/ajax/ajax.service';
 import { OperatingEnvironment } from '../../models/operatingEnvironment/operatingEnvironment';
 
 @Component({
-  selector: 'app-validation-db-operating-environments',
-  templateUrl: './validation-db-operating-environments.component.html',
-  styleUrls: ['./validation-db-operating-environments.component.scss']
+  selector: 'app-validation-db-oes',
+  templateUrl: './validation-db-oes.component.html',
+  styleUrls: ['./validation-db-oes.component.scss']
 })
-export class ValidationDbOperatingEnvironmentsComponent implements OnInit {
+export class ValidationDbOEsComponent implements OnInit {
 
   operatingEnvironments: OperatingEnvironment[];
 
