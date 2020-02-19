@@ -9,5 +9,6 @@ namespace ACVPCore.Services
 		OrganizationResult Update(OrganizationUpdateParameters parameters);
 		DeleteResult Delete(long organizationID);
 		bool OrganizationIsUsed(long organizationID);
+		bool OrganizationExists(long organizationID);
 	}
 }

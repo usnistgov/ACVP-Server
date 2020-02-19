@@ -283,6 +283,24 @@ namespace ACVPCore.Providers
 			}
 		}
 
+		public bool DependencyExists(long dependencyID)
+		{
+			var db = new MightyOrm(_acvpConnectionString);
+
+			try
+			{
+				return (bool)db.ScalarFromProcedure("val.DependencyExists", inParams: new
+				{
+					DependencyId = dependencyID
+				});
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex.Message);
+				return false;    //Default to false so we don't try do use it when we don't know if it exists
+			}
+		}
+
 		public List<Dependency> Get(long pageSize, long pageNumber)
 		{
 			var db = new MightyOrm(_acvpConnectionString);

@@ -13,9 +13,9 @@ namespace ACVPWorkflow.Models
 		private string _type;
 		private string _version;
 		private string _website;
-		private string _vendorURL;
+		//private string _vendorURL;
 		private string _addressURL;
-		private List<string> _contactUrls;
+		//private List<string> _contactUrls;
 
 		[JsonPropertyName("id")]
 		public long ID { get; set; }
@@ -146,7 +146,7 @@ namespace ACVPWorkflow.Models
 			set
 			{
 				_contacts = value;
-				ContactIDs = value.OrderBy(x => x.OrderIndex).Select(x => x.Person.ID).ToList();
+				ContactIDs = _contacts?.OrderBy(x => x.OrderIndex).Select(x => x.Person.ID).ToList();
 				ContactURLsUpdated = true;
 			}
 		}

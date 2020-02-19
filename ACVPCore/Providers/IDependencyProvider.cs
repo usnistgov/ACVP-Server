@@ -21,5 +21,6 @@ namespace ACVPCore.Providers
 		Result Update(long dependencyID, string type, string name, string description, bool typeUpdated, bool nameUpdated, bool descriptionUpdated);
 
 		bool DependencyIsUsed(long dependencyID);
+		bool DependencyExists(long dependencyID);
 	}
 }

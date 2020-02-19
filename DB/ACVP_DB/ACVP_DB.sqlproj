@@ -228,9 +228,6 @@
     <Build Include="Security\migration.sql" />
     <Build Include="Security\ref.sql" />
     <Build Include="Security\val.sql" />
-    <Build Include="common\Stored Procedures\MessageQueueMarkForJava.sql" />
-    <Build Include="common\Stored Procedures\MessageQueueGetNextForJava.sql" />
-    <Build Include="common\Stored Procedures\MessageQueueGetNextForDotNet.sql" />
     <Build Include="common\Stored Procedures\MessageQueueDelete.sql" />
     <Build Include="acvp\Stored Procedures\TestSessionCancel.sql" />
     <Build Include="acvp\Stored Procedures\TestSessionVectorSetsCancel.sql" />
@@ -342,6 +339,15 @@
     <Build Include="acvp\Stored Procedures\AcvpUserSetSeed.sql" />
     <Build Include="acvp\Stored Procedures\AcvpUserGetById.sql" />
     <Build Include="val\Stored Procedures\ImplementationGet.sql" />
+    <Build Include="val\Stored Procedures\DependencyExists.sql" />
+    <Build Include="val\Stored Procedures\OEExists.sql" />
+    <Build Include="val\Stored Procedures\OrganizationExists.sql" />
+    <Build Include="val\Stored Procedures\PersonExists.sql" />
+    <Build Include="val\Stored Procedures\AddressExists.sql" />
+    <Build Include="val\Stored Procedures\ImplementationExists.sql" />
+    <Build Include="acvp\Stored Procedures\TestSessionExists.sql" />
+    <Build Include="val\Stored Procedures\AddressGet.sql" />
+    <Build Include="common\Stored Procedures\MessageQueueUpdateStatus.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="ACVP_DB.refactorlog" />

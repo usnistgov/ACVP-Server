@@ -122,5 +122,10 @@ namespace ACVPCore.Services
 		{
 			return _personProvider.PersonIsUsed(personID);
 		}
+
+		public bool PersonExists(long personID)
+		{
+			return _personProvider.PersonExists(personID);
+		}
 	}
 }

@@ -8,6 +8,7 @@ namespace ACVPCore.Services
 		PersonResult Create(PersonCreateParameters parameters);
 		DeleteResult Delete(long personID);
 		bool PersonIsUsed(long personID);
+		bool PersonExists(long personID);
 		PersonResult Update(PersonUpdateParameters parameters);
 	}
 }

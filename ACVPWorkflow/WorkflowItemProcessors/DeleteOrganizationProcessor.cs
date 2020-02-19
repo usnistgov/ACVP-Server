@@ -1,24 +1,32 @@
-﻿using System;
-using ACVPCore.Models.Parameters;
+﻿using ACVPCore.Models.Parameters;
 using ACVPCore.Results;
 using ACVPCore.Services;
 using ACVPWorkflow.Exceptions;
 using ACVPWorkflow.Models;
-using ACVPWorkflow.Services;
 
 namespace ACVPWorkflow.WorkflowItemProcessors
 {
-	public class DeleteOrganizationProcessor : IWorkflowItemProcessor
+	public class DeleteOrganizationProcessor : BaseWorkflowItemProcessor, IWorkflowItemProcessor
 	{
 		private readonly IOrganizationService _organizationService;
+		private readonly IWorkflowItemPayloadValidatorFactory _workflowItemPayloadValidatorFactory;
 
-		public DeleteOrganizationProcessor(IOrganizationService organizationService)
+		public DeleteOrganizationProcessor(IOrganizationService organizationService, IWorkflowItemPayloadValidatorFactory workflowItemPayloadValidatorFactory)
 		{
 			_organizationService = organizationService;
+			_workflowItemPayloadValidatorFactory = workflowItemPayloadValidatorFactory;
+		}
+
+		public bool Validate(WorkflowItem workflowItem)
+		{
+			return IsPendingApproval(workflowItem) && _workflowItemPayloadValidatorFactory.GetWorkflowItemPayloadValidator(APIAction.DeleteVendor).Validate((DeletePayload)workflowItem.Payload);
 		}
 
 		public long Approve(WorkflowItem workflowItem)
 		{
+			//Validate this workflow item
+			Validate(workflowItem);
+
 			//Deserialize the JSON
 			DeleteParameters deleteParameters = ((DeletePayload)workflowItem.Payload).ToDeleteParameters();
 
@@ -27,16 +35,12 @@ namespace ACVPWorkflow.WorkflowItemProcessors
 
 			if (deleteResult.IsInUse)
 			{
-				throw new ResourceInUseException(
-					$"The resource could not be deleted as other resources are referencing it. Workflow Info: {workflowItem.APIAction} {workflowItem.WorkflowItemID}");
+				throw new ResourceInUseException($"The resource could not be deleted as other resources are referencing it. Workflow Info: {workflowItem.APIAction} {workflowItem.WorkflowItemID}");
 			}
 			
 			if (!deleteResult.IsSuccess)
 			{
-				//Mark as error? No way to do so, just in process
-				// TODO - something here
-				throw new ResourceProcessorException(
-					$"The resource could not be deleted. Workflow Info: {workflowItem.APIAction} {workflowItem.WorkflowItemID}");				
+				throw new ResourceProcessorException($"The resource could not be deleted. Workflow Info: {workflowItem.APIAction} {workflowItem.WorkflowItemID}");				
 			}
 			
 			return deleteParameters.ID;

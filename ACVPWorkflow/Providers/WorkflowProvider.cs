@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using ACVPCore.ExtensionMethods;
 using ACVPWorkflow.Models;
+using ACVPCore.Results;
 
 namespace ACVPWorkflow.Providers
 {
@@ -145,9 +146,10 @@ namespace ACVPWorkflow.Providers
 				
 				return new WorkflowItem()
 				{
-					APIAction = (APIAction)data.apiActionId,
-					Payload = _workflowItemPayloadFactory.GetPayload(data.jsonBlob, (APIAction)data.apiActionId),
-					WorkflowItemID = workflowItemId
+					APIAction = (APIAction)data.APIActionId,
+					Payload = _workflowItemPayloadFactory.GetPayload(data.JsonBlob, (APIAction)data.APIActionId),
+					WorkflowItemID = workflowItemId,
+					Status = (WorkflowStatus)data.Status
 				};
 			}
 			catch (Exception ex)

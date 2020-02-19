@@ -56,8 +56,8 @@ namespace ACVPWorkflow.Models
 			//OrganizationID = ParseIDFromURL(VendorURL),			//return to this in the future
 			OrganizationID = VendorObjectThatNeedsToGoAway.ID,
 			AddressID = ParseIDFromURL(AddressURL),
-			//ContactIDs = ContactURLs.Select(x => ParseIDFromURL(x)).ToList(),		//return to this in the future
-			ContactIDs = ContactsObjectThatNeedsToGoAway.OrderBy(x => x.OrderIndex).Select(x => x.Person.ID).ToList(),
+			//ContactIDs = ContactURLs?.Select(x => ParseIDFromURL(x)).ToList(),		//return to this in the future
+			ContactIDs = ContactsObjectThatNeedsToGoAway?.OrderBy(x => x.OrderIndex).Select(x => x.Person.ID).ToList(),
 			IsITAR = false      //TODO - Do something for ITARs. For now, assuming nothing is ITAR
 		};
 

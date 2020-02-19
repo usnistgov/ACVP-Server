@@ -16,6 +16,7 @@ namespace ACVPWorkflow
 			services.AddSingleton<IWorkflowItemProcessorFactory, WorkflowItemProcessorFactory>();
 			services.AddSingleton<IWorkflowItemPayloadFactory, WorkflowItemPayloadFactory>();
 			services.AddSingleton<IWorkflowApproveRejectAdapter, WorkflowApproveRejectAdapter>();
+			services.AddSingleton<IWorkflowItemPayloadValidatorFactory, WorkflowItemPayloadValidatorFactory>();
 			return services;
 		}
 	}

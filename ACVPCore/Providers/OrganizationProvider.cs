@@ -158,5 +158,23 @@ namespace ACVPCore.Providers
 				return true;    //Default to true so we don't try do delete when we shouldn't
 			}
 		}
+
+		public bool OrganizationExists(long oeID)
+		{
+			var db = new MightyOrm(_acvpConnectionString);
+
+			try
+			{
+				return (bool)db.ScalarFromProcedure("val.OrganizationExists", inParams: new
+				{
+					OrganizationId = oeID
+				});
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex.Message);
+				return false;    //Default to false so we don't try do use it when we don't know if it exists
+			}
+		}
 	}
 }

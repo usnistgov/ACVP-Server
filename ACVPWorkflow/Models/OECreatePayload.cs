@@ -31,7 +31,7 @@ namespace ACVPWorkflow.Models
 		//public List<DependencyCreatePayload> DependenciesToCreate { get; set; }
 
 		//This is a temporary, not for deserialization, property that will go away when we change the messages and can go back to the above
-		public List<DependencyCreatePayload> DependenciesToCreate => Dependencies.Where(x => x.IsInlineCreate).Select(x => new DependencyCreatePayload
+		public List<DependencyCreatePayload> DependenciesToCreate => Dependencies?.Where(x => x.IsInlineCreate).Select(x => new DependencyCreatePayload
 		{
 			Type = x.Type,
 			Name = x.Name,
@@ -45,8 +45,8 @@ namespace ACVPWorkflow.Models
 		public OECreateParameters ToOECreateParameters() => new OECreateParameters
 		{
 			Name = Name,
-			//DependencyIDs = DependencyURLs.ConvertAll<long>(x => ParseIDFromURL(x)),		//return to this
-			DependencyIDs = Dependencies.Where(x => !x.IsInlineCreate).Select(x => x.ID).ToList()
+			//DependencyIDs = DependencyURLs?.ConvertAll<long>(x => ParseIDFromURL(x)),		//return to this
+			DependencyIDs = Dependencies?.Where(x => !x.IsInlineCreate).Select(x => x.ID).ToList()
 		};
 
 		//This exists only to deal with the way the messages are implemented in Java, will go away when we rewrite

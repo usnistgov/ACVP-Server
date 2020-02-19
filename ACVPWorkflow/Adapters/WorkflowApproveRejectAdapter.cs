@@ -14,30 +14,30 @@ namespace ACVPWorkflow.Adapters
             _workflowItemProcessorFactory = workflowItemProcessorFactory;
         }
 
-        public Result Approve(long workflowId)
+        public KillThisResult Approve(long workflowId)
         {
             var workflowItem = _workflowService.GetWorkflowItem(workflowId);
             
             if (workflowItem == null)
-                return new Result($"Could not find workflow item to approve. {nameof(workflowId)}: {workflowId}");
+                return new KillThisResult($"Could not find workflow item to approve. {nameof(workflowId)}: {workflowId}");
 
             var workflowItemProcessor = _workflowItemProcessorFactory.GetWorkflowItemProcessor(workflowItem.APIAction);
             workflowItemProcessor.Approve(workflowItem);
             
-            return new Result();
+            return new KillThisResult();
         }
 
-        public Result Reject(long workflowId)
+        public KillThisResult Reject(long workflowId)
         {
             var workflowItem = _workflowService.GetWorkflowItem(workflowId);
             
             if (workflowItem == null)
-                return new Result($"Could not find workflow item to reject. {nameof(workflowId)}: {workflowId}");
+                return new KillThisResult($"Could not find workflow item to reject. {nameof(workflowId)}: {workflowId}");
 
             var workflowItemProcessor = _workflowItemProcessorFactory.GetWorkflowItemProcessor(workflowItem.APIAction);
             workflowItemProcessor.Reject(workflowItem);
             
-            return new Result();
+            return new KillThisResult();
         }
     }
 }

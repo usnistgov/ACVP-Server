@@ -70,6 +70,7 @@ namespace ACVPCore.Providers
 					addresses.Add(new Address
 					{
 						ID = address.ID,
+						OrganizationID = organizationID,
 						Street1 = address.Street1,
 						Street2 = address.Street2,
 						Street3 = address.Street3,
@@ -86,6 +87,37 @@ namespace ACVPCore.Providers
 			}
 
 			return addresses;
+		}
+
+		public Address Get(long addressID)
+		{
+			var db = new MightyOrm(_acvpConnectionString);
+
+			try
+			{
+				var data = db.SingleFromProcedure("val.AddressGet", inParams: new
+				{
+					OrganizationID = addressID
+				});
+
+				return data == null ? null : new Address
+				{
+					ID = addressID,
+					OrganizationID = data.OrganizationID,
+					Street1 = data.Street1,
+					Street2 = data.Street2,
+					Street3 = data.Street3,
+					Locality = data.Locality,
+					Region = data.Region,
+					PostalCode = data.PostalCode,
+					Country = data.Country
+				};
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex.Message);
+				return null;
+			}
 		}
 
 
@@ -176,6 +208,24 @@ namespace ACVPCore.Providers
 			{
 				_logger.LogError(ex.Message);
 				return true;    //Default to true so we don't try do delete when we shouldn't
+			}
+		}
+
+		public bool AddressExists(long addressID)
+		{
+			var db = new MightyOrm(_acvpConnectionString);
+
+			try
+			{
+				return (bool)db.ScalarFromProcedure("val.AddressExists", inParams: new
+				{
+					AddressId = addressID
+				});
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex.Message);
+				return false;    //Default to false so we don't try do use it when we don't know if it exists
 			}
 		}
 	}

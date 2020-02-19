@@ -208,5 +208,23 @@ namespace ACVPCore.Providers
 			
 			return result;
 		}
+
+		public bool TestSessionExists(long testSessionID)
+		{
+			var db = new MightyOrm(_acvpConnectionString);
+
+			try
+			{
+				return (bool)db.ScalarFromProcedure("acvp.TestSessionExists", inParams: new
+				{
+					TestSessionId = testSessionID
+				});
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex.Message);
+				return false;    //Default to false so we don't try do use it when we don't know if it exists
+			}
+		}
 	}
 }

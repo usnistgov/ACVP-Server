@@ -190,6 +190,24 @@ namespace ACVPCore.Providers
 			}
 		}
 
+		public bool OEExists(long oeID)
+		{
+			var db = new MightyOrm(_acvpConnectionString);
+
+			try
+			{
+				return (bool)db.ScalarFromProcedure("val.OEExists", inParams: new
+				{
+					OEId = oeID
+				});
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex.Message);
+				return false;    //Default to false so we don't try do use it when we don't know if it exists
+			}
+		}
+
 		public OperatingEnvironment Get(long oeID)
 		{
 			var db = new MightyOrm(_acvpConnectionString);

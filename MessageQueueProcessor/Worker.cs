@@ -25,30 +25,35 @@ namespace MessageQueueProcessor
 
 		protected override async Task ExecuteAsync(CancellationToken stoppingToken)
 		{
+			_logger.LogInformation("Starting Message Queue Processor");
+
 			while (!stoppingToken.IsCancellationRequested)
 			{
-				//Do work here
-				_logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
+				_logger.LogDebug($"Worker running at: {DateTimeOffset.Now}");
 
 				//Get the next message from the queue 
 				Message message = _messageProvider.GetNextMessage();
 
-				//Loop while we have messages to process
-				while (message != null)
+				//Loop while we have messages to process and we haven't tried to stop the service
+				while (message != null && !stoppingToken.IsCancellationRequested)
 				{
+					//Update the message status to show we're working on it
+					_messageProvider.UpdateStatus(message.ID, MessageStatus.Processing);
+
 					//Get the processor for this message - might not have one
 					IMessageProcessor messageProcessor = _messageProcessorFactory.GetMessageProcessor(message.Action);
 
-					//Process message or flag it for Java processing
+					//Process message or error
 					if (messageProcessor == null)
 					{
-						_logger.LogInformation($"Passing {message.Action.ToString()} message {message.ID} to the Java processor");
+						_logger.LogInformation($"Unable to find processor for message {message.ID}");
 
-						//Cannot process the message, so flag it for the Java processor to pick up
-						_messageProvider.MarkForJavaProcessor(message.ID);
+						_messageProvider.UpdateStatus(message.ID, MessageStatus.Error);
 					}
 					else
 					{
+						//TODO - Make the Process call return success/failure or throw an error, update message appropriately
+
 						//Process the message
 						messageProcessor.Process(message);
 

@@ -62,5 +62,10 @@ namespace ACVPCore.Services
 			testSession.VectorSets = _testSessionProvider.GetVectorSetsForTestSession(testSessionId);
 			return testSession;
 		}
+
+		public bool TestSessionExists(long testSessionID)
+		{
+			return _testSessionProvider.TestSessionExists(testSessionID);
+		}
 	}
 }

@@ -111,49 +111,52 @@ namespace ACVPWorkflow.Models
 			//Build a OrganizationUpdateParameters object. The nested addresses are a bit goofy since they can be new or updates, and different handling is required
 			List<object> AddressObjects = new List<object>();
 
-			for (int i = 0; i < Addresses.Count; i++)
+			if (Addresses != null)
 			{
-				var addressParameters = Addresses[i];
+				for (int i = 0; i < Addresses.Count; i++)
+				{
+					var addressParameters = Addresses[i];
 
-				if (string.IsNullOrEmpty(addressParameters.URL))
-				{
-					//This will be a new address
-					AddressObjects.Add(new AddressCreateParameters
+					if (string.IsNullOrEmpty(addressParameters.URL))
 					{
-						OrganizationID = ID,
-						OrderIndex = i,
-						Street1 = addressParameters.Street1,
-						Street2 = addressParameters.Street2,
-						Street3 = addressParameters.Street3,
-						Locality = addressParameters.Locality,
-						Region = addressParameters.Region,
-						PostalCode = addressParameters.PostalCode,
-						Country = addressParameters.Country
-					});
-				}
-				else
-				{
-					//This is an address update
-					AddressObjects.Add(new AddressUpdateParameters
+						//This will be a new address
+						AddressObjects.Add(new AddressCreateParameters
+						{
+							OrganizationID = ID,
+							OrderIndex = i,
+							Street1 = addressParameters.Street1,
+							Street2 = addressParameters.Street2,
+							Street3 = addressParameters.Street3,
+							Locality = addressParameters.Locality,
+							Region = addressParameters.Region,
+							PostalCode = addressParameters.PostalCode,
+							Country = addressParameters.Country
+						});
+					}
+					else
 					{
-						ID = long.Parse(addressParameters.URL.Split("/")[^1]),
-						OrderIndex = i,
-						Street1 = addressParameters.Street1,
-						Street2 = addressParameters.Street2,
-						Street3 = addressParameters.Street3,
-						Locality = addressParameters.Locality,
-						Region = addressParameters.Region,
-						PostalCode = addressParameters.PostalCode,
-						Country = addressParameters.Country,
-						Street1Updated = addressParameters.Street1Updated,
-						Street2Updated = addressParameters.Street2Updated,
-						Street3Updated = addressParameters.Street3Updated,
-						LocalityUpdated = addressParameters.LocalityUpdated,
-						RegionUpdated = addressParameters.RegionUpdated,
-						PostalCodeUpdated = addressParameters.PostalCodeUpdated,
-						CountryUpdated = addressParameters.CountryUpdated
-						//Not passing org id because can't update that
-					});
+						//This is an address update
+						AddressObjects.Add(new AddressUpdateParameters
+						{
+							ID = long.Parse(addressParameters.URL.Split("/")[^1]),
+							OrderIndex = i,
+							Street1 = addressParameters.Street1,
+							Street2 = addressParameters.Street2,
+							Street3 = addressParameters.Street3,
+							Locality = addressParameters.Locality,
+							Region = addressParameters.Region,
+							PostalCode = addressParameters.PostalCode,
+							Country = addressParameters.Country,
+							Street1Updated = addressParameters.Street1Updated,
+							Street2Updated = addressParameters.Street2Updated,
+							Street3Updated = addressParameters.Street3Updated,
+							LocalityUpdated = addressParameters.LocalityUpdated,
+							RegionUpdated = addressParameters.RegionUpdated,
+							PostalCodeUpdated = addressParameters.PostalCodeUpdated,
+							CountryUpdated = addressParameters.CountryUpdated
+							//Not passing org id because can't update that
+						});
+					}
 				}
 			}
 

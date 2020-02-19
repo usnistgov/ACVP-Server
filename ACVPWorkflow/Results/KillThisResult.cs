@@ -2,13 +2,13 @@
 
 namespace ACVPWorkflow.Results
 {
-	public class Result
+	public class KillThisResult
 	{
 		public List<string> Errors { get; set; } = new List<string>();
 		public bool IsSuccess { get => Errors.Count == 0; }
 
-		public Result() { }
-		public Result(string errorMessage)
+		public KillThisResult() { }
+		public KillThisResult(string errorMessage)
 		{
 			Errors.Add(errorMessage);
 		}

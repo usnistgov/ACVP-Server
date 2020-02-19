@@ -15,5 +15,6 @@ namespace ACVPCore.Services
 		Result UpdateStatus(long testSessionID, TestSessionStatus testSessionStatus);
 		List<TestSessionLite> Get();
 		TestSession Get(long testSessionId);
+		bool TestSessionExists(long testSessionID);
 	}
 }

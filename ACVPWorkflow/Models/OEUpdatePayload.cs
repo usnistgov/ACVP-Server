@@ -55,7 +55,7 @@ namespace ACVPWorkflow.Models
 		//}
 
 		//This is a temporary, not for deserialization, property that will go away when we change the messages and can go back to the above
-		public List<DependencyCreatePayload> DependenciesToCreate => Dependencies.Where(x => x.IsInlineCreate).Select(x => new DependencyCreatePayload
+		public List<DependencyCreatePayload> DependenciesToCreate => Dependencies?.Where(x => x.IsInlineCreate).Select(x => new DependencyCreatePayload
 		{
 			Type = x.Type,
 			Name = x.Name,
@@ -81,8 +81,8 @@ namespace ACVPWorkflow.Models
 		{
 			ID = ID,
 			Name = Name,
-			//DependencyIDs = DependencyURLs.ConvertAll<long>(x => ParseIDFromURL(x)),			//return to this when we rewrite public
-			DependencyIDs = Dependencies.Where(x => !x.IsInlineCreate).Select(x => x.ID).ToList(),
+			//DependencyIDs = DependencyURLs?.ConvertAll<long>(x => ParseIDFromURL(x)),			//return to this when we rewrite public
+			DependencyIDs = Dependencies?.Where(x => !x.IsInlineCreate).Select(x => x.ID).ToList(),
 			NameUpdated = NameUpdated,
 			DependenciesUpdated = DependenciesUpdated
 		};

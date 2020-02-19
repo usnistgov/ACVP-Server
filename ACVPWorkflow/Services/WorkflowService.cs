@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using ACVPCore.ExtensionMethods;
+using ACVPCore.Results;
 using ACVPWorkflow.Exceptions;
 using ACVPWorkflow.Models;
 using ACVPWorkflow.Providers;
@@ -35,11 +36,38 @@ namespace ACVPWorkflow.Services
 			_workflowItemProcessorFactory = workflowItemProcessorFactory;
 		}
 
+		public Result Validate(WorkflowItem workflowItem)
+		{
+			//Get the right processor for this kind of workflow item
+			var workflowProcessor = _workflowItemProcessorFactory.GetWorkflowItemProcessor(workflowItem.APIAction);
+
+			try
+			{
+				bool isValid = workflowProcessor.Validate(workflowItem);
+
+				//If it failed it would throw an exception, not return false...
+				return new Result();
+			}
+			catch (Exception ex) when (ex is ResourceInUseException 
+									|| ex is ResourceDoesNotExistException
+									|| ex is BusinessRuleException)
+			{
+				UpdateStatus(workflowItem, WorkflowStatus.Rejected);
+				_logger.LogWarning(ex);
+				return new Result(ex.Message);
+			}
+			catch (NotPendingApprovalException ex)
+			{
+				//No change to the workflow item status because we're simply preventing it from being acted upon again
+				_logger.LogWarning(ex);
+				return new Result(ex.Message);
+			}
+		}
+
+
 		public Result Approve(WorkflowItem workflowItem)
 		{
-			//Create the garabge payload we put on the workflow item that replaces anything useful
-			//AcceptedWorkloadItemPayload payload = new AcceptedWorkloadItemPayload { URL = resultingObjectUrl };
-
+			//Get the right processor for this kind of workflow item
 			var workflowProcessor = _workflowItemProcessorFactory.GetWorkflowItemProcessor(workflowItem.APIAction);
 
 			try
@@ -49,9 +77,17 @@ namespace ACVPWorkflow.Services
 				//Do the update of the workflow item
 				return _workflowProvider.Update(workflowItem.WorkflowItemID, WorkflowStatus.Approved, result);
 			}
-			catch (ResourceInUseException ex)
+			catch (Exception ex) when (ex is ResourceInUseException 
+									|| ex is ResourceDoesNotExistException
+									|| ex is BusinessRuleException)
 			{
 				UpdateStatus(workflowItem, WorkflowStatus.Rejected);
+				_logger.LogWarning(ex);
+				return new Result(ex.Message);
+			}
+			catch (NotPendingApprovalException ex)
+			{
+				//No change to the workflow item status because we're simply preventing it from being acted upon again
 				_logger.LogWarning(ex);
 				return new Result(ex.Message);
 			}

@@ -12,12 +12,12 @@ namespace ACVPWorkflow.Adapters
         /// </summary>
         /// <param name="workflowId">The workflow ID to approve.</param>
         /// <returns>Result</returns>
-        Result Approve(long workflowId);
+        KillThisResult Approve(long workflowId);
         /// <summary>
         /// Deny workflow item.
         /// </summary>
         /// <param name="workflowId">The workflow ID to deny.</param>
         /// <returns>Result</returns>
-        Result Reject(long workflowId);
+        KillThisResult Reject(long workflowId);
     }
 }

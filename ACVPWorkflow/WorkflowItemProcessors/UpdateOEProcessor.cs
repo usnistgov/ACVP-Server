@@ -1,26 +1,34 @@
-﻿using System;
-using ACVPCore.Models.Parameters;
+﻿using ACVPCore.Models.Parameters;
 using ACVPCore.Results;
 using ACVPCore.Services;
 using ACVPWorkflow.Exceptions;
 using ACVPWorkflow.Models;
-using ACVPWorkflow.Services;
 
 namespace ACVPWorkflow.WorkflowItemProcessors
 {
-	public class UpdateOEProcessor : IWorkflowItemProcessor
+	public class UpdateOEProcessor : BaseWorkflowItemProcessor, IWorkflowItemProcessor
 	{
 		private readonly IOEService _oeService;
 		private readonly IDependencyService _dependencyService;
+		private readonly IWorkflowItemPayloadValidatorFactory _workflowItemPayloadValidatorFactory;
 
-		public UpdateOEProcessor(IOEService oeService, IDependencyService dependencyService)
+		public UpdateOEProcessor(IOEService oeService, IDependencyService dependencyService, IWorkflowItemPayloadValidatorFactory workflowItemPayloadValidatorFactory)
 		{
 			_oeService = oeService;
 			_dependencyService = dependencyService;
+			_workflowItemPayloadValidatorFactory = workflowItemPayloadValidatorFactory;
+		}
+
+		public bool Validate(WorkflowItem workflowItem)
+		{
+			return IsPendingApproval(workflowItem) && _workflowItemPayloadValidatorFactory.GetWorkflowItemPayloadValidator(APIAction.UpdateOE).Validate((OEUpdatePayload)workflowItem.Payload);
 		}
 
 		public long Approve(WorkflowItem workflowItem)
 		{
+			//Validate this workflow item
+			Validate(workflowItem);
+
 			OEUpdatePayload oeUpdatePayload = (OEUpdatePayload)workflowItem.Payload;
 			OEUpdateParameters parameters = oeUpdatePayload.ToOEUpdateParameters();
 

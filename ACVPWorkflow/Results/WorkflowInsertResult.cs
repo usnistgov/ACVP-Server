@@ -1,4 +1,6 @@
-﻿namespace ACVPWorkflow.Results
+﻿using ACVPCore.Results;
+
+namespace ACVPWorkflow.Results
 {
 	public class WorkflowInsertResult : Result
 	{

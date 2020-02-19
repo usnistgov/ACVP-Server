@@ -35,6 +35,7 @@ namespace ACVPCore.Services
 			{
 				//Insert a vector set expected results record, which is where the capabilities actually go
 				result = _vectorSetExpectedResultsProvider.InsertWithCapabilities(vectorSetID, capabilities);
+				//TODO - change this to use the new table, so not vector set expected results... vectorsetjson
 			}
 
 			return result;

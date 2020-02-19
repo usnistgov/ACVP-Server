@@ -14,5 +14,6 @@ namespace ACVPCore.Providers
 		List<TestSessionLite> Get();
 		TestSession Get(long testSessionId);
 		List<TestVectorSetLite> GetVectorSetsForTestSession(long testSessionId);
+		bool TestSessionExists(long testSessionID);
 	}
 }

@@ -18,7 +18,7 @@ namespace MessageQueueProcessor.MessageProcessors
 			_taskQueueService = taskQueueService;
 		}
 
-		public void Process(Message message)
+		public Result Process(Message message)
 		{
 			//Deserialize the payload
 			RegisterTestSessionPayload registerTestSessionPayload = JsonSerializer.Deserialize<RegisterTestSessionPayload>(message.Payload);
@@ -53,6 +53,7 @@ namespace MessageQueueProcessor.MessageProcessors
 				}
 			}
 
+			return result;
 		}
 	}
 }
