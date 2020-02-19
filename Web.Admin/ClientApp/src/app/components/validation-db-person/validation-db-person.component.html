@@ -17,13 +17,13 @@
             <!-- These ngModel expressions are using a workaround for a known weakness: https://github.com/angular/angular/issues/7697 -->
             <label class="bold-heading">Name</label><input [(ngModel)]="referenceCopyPerson && referenceCopyPerson.name" type="text" class="form-control" />
           </p>
-          <button class="btn btn-primary" (click)="updatePerson()" style="float:left;margin-right:10px;">Apply Changes</button>
-          <div *ngIf="updateStatusFlag === 'processing'">
+          <button class="btn btn-primary" style="float:left;margin-right:10px;">Apply Changes</button>
+          <!--<div *ngIf="updateStatusFlag === 'processing'">
             <div class="spinner-border spinner-border-sm text-warning"></div><span style="margin-left:10px;">Processing...</span>
           </div>
           <div *ngIf="updateStatusFlag === 'successful'">
             <div class="text-success" style="float:left;">√</div><span style="margin-left:10px;">Success!</span>
-          </div>
+          </div>-->
         </div>
       </div> <!-- Close Product Information Card -->
     </div>

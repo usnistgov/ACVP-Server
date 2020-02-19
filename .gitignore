@@ -46,3 +46,7 @@ Import Schema Logs
 *.local.json
 Web.Admin/appsettings.json
 Web.Admin/appsettings.json
+Directory.Build.props
+Directory.Packages.props
+Directory.Build.props
+Directory.Packages.props

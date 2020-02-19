@@ -29,14 +29,11 @@ namespace Web.Admin.Controllers
         }
 
         [HttpPost("{personID}/phones")]
-        public Result AddPhone(PersonPhone phone)
+        public Result UpdatePerson(Person phone)
         {
             PersonUpdateParameters parameters = new PersonUpdateParameters();
 
-            if (phone != null)
-            {
-                
-            }
+            
 
             return null;
         }

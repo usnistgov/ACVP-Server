@@ -17,13 +17,6 @@
             <!-- These ngModel expressions are using a workaround for a known weakness: https://github.com/angular/angular/issues/7697 -->
             <label class="bold-heading">Name</label><input [(ngModel)]="referenceCopyProduct && referenceCopyProduct.name" type="text" class="form-control" />
             <label class="bold-heading mt-3">Version</label><input [(ngModel)]="referenceCopyProduct && referenceCopyProduct.version" type="text" class="form-control" />
-            <label class="bold-heading mt-3">Type</label>
-            <select [(ngModel)]="referenceCopyProduct && referenceCopyProduct.type" class="form-control">
-              <option>HARDWARE</option>
-              <option>FIRMWARE</option>
-              <option>SOFTWARE</option>
-              <option>UNKNOWN</option>
-            </select>
             <label class="bold-heading mt-3">ITAR&nbsp;</label>{{referenceCopyProduct?.itar }}<br />
             <label class="bold-heading mt-3">Description</label><textarea [(ngModel)]="referenceCopyProduct && referenceCopyProduct.description" type="text" class="form-control" placeholder="(Empty Description)" rows="4"></textarea>
           </p>
