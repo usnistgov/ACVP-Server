@@ -130,7 +130,7 @@ namespace ACVPCore.Providers
 
 			try
 			{
-				var data = db.QueryFromProcedure("acvp.ValidationsGet");
+				var data = db.QueryFromProcedure("val.ValidationsGet");
 
 				result.AddRange(data.Select(item => new ValidationLite()
 				{
@@ -154,7 +154,7 @@ namespace ACVPCore.Providers
 
 			try
 			{
-				var data = db.SingleFromProcedure("acvp.ValidationGetById", new
+				var data = db.SingleFromProcedure("val.ValidationGetById", new
 				{
 					validationId
 				});

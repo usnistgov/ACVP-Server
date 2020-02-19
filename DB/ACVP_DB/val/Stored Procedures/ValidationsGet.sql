@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE [acvp].[ValidationsGet]
+﻿CREATE PROCEDURE [val].[ValidationsGet]
 	
 AS
 BEGIN

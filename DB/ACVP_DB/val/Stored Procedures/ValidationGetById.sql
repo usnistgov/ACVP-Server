@@ -1,5 +1,5 @@
 ﻿
-CREATE PROCEDURE [acvp].[ValidationGetById]
+CREATE PROCEDURE [val].[ValidationGetById]
 	
 	@validationId bigint
 
