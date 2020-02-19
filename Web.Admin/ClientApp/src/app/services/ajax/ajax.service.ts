@@ -10,6 +10,7 @@ import { Product } from '../../models/Product/Product';
 import { Address } from '../../models/Address/Address';
 import { ProductList } from '../../models/Product/ProductList';
 import { OperatingEnvironmentList } from '../../models/OperatingEnvironment/OperatingEnvironmentList';
+import { Person } from '../../models/Person/Person';
 
 const httpOptions = {
   headers: new HttpHeaders()
@@ -103,4 +104,9 @@ export class AjaxService {
   }
   // END Product-related calls
 
+  // Person-Related calls
+  getPerson(id: number) {
+    return this.http.get<Person>(this.apiRoot + '/Persons/' + id);
+  }
+  // END Person-related calls
 }

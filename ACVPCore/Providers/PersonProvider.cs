@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using ACVPCore.Models;
 using ACVPCore.Results;
 using CVP.DatabaseInterface;
 using Microsoft.Extensions.Logging;
@@ -16,7 +18,83 @@ namespace ACVPCore.Providers
 			_acvpConnectionString = connectionStringFactory.GetMightyConnectionString("ACVP");
 			_logger = logger;
 		}
+		public Person Get(long personID)
+		{
+			var db = new MightyOrm(_acvpConnectionString);
 
+			var personResult = new Person();
+
+			personResult.Organization = new Organization();
+			personResult.PhoneNumbers = new List<PersonPhone>();
+			personResult.EmailAddresses = new List<string>();
+			personResult.Notes = new List<PersonNote>();
+
+			try
+			{
+				// First Section - Basic Personal data
+				var personData = db.SingleFromProcedure("val.PersonGet", inParams: new
+				{
+					PersonID = personID
+				});
+
+				personResult.ID = personData.person_id;
+				personResult.Name = personData.person_name;
+
+				personResult.Organization.ID = personData.organization_id;
+				personResult.Organization.Name = personData.organization_name;
+				personResult.Organization.Url = personData.organization_url;
+				personResult.Organization.VoiceNumber = personData.organization_voice;
+				personResult.Organization.FaxNumber = personData.organization_fax;
+
+				// Second section - Personal Email Data, a one-to-many relationship
+				var personEmailData = db.QueryFromProcedure("val.PersonGetEmails", inParams: new
+				{
+					PersonID = personID
+				});
+
+				foreach (var email in personEmailData) 
+				{ 
+					personResult.EmailAddresses.Add(email.email_address); 
+				}
+
+				// Second section - Personal Phone Data, a one-to-many relationship
+				var personPhoneData = db.QueryFromProcedure("val.PersonGetPhones", inParams: new
+				{
+					PersonID = personID
+				});
+
+				foreach (var phone in personPhoneData)
+				{
+					personResult.PhoneNumbers.Add(new PersonPhone {
+						Type = phone.phone_number_type,
+						Number = phone.phone_number 
+					});
+				}
+
+				// Third Section - PErsonal Notes
+				var personNoteData = db.QueryFromProcedure("val.PersonGetNotes", inParams: new
+				{
+					PersonID = personID
+				});
+
+				foreach (var note in personNoteData)
+				{
+					personResult.Notes.Add(new PersonNote
+					{
+						ID = note.id,
+						Time = note.note_date,
+						Subject = note.note_subject,
+						Body = note.note
+					});
+				}
+			}
+			catch(Exception ex)
+			{
+				_logger.LogError(ex.Message);
+			}
+
+			return personResult;
+		}
 		public Result Delete(long personID)
 		{
 			var db = new MightyOrm(_acvpConnectionString);

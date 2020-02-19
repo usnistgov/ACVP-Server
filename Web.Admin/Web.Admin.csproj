@@ -34,6 +34,7 @@
       <None Remove="ClientApp\src\app\models\OperatingEnvironment\OperatingEnvironmentList.ts" />
       <None Remove="ClientApp\src\app\models\OperatingEnvironment\OperatingEnvironmentLite.ts" />
       <None Remove="ClientApp\src\app\models\Organization\Organization.ts" />
+      <None Remove="ClientApp\src\app\models\Person\Person.ts" />
       <None Remove="ClientApp\src\app\models\Product\Product.ts" />
       <None Remove="ClientApp\src\app\models\OperatingEnvironment\operatingEnvironment.ts" />
       <None Remove="ClientApp\src\app\models\Product\ProductList.ts" />
@@ -54,10 +55,20 @@
       <TypeScriptCompile Include="ClientApp\src\app\models\OperatingEnvironment\OperatingEnvironmentList.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\models\OperatingEnvironment\OperatingEnvironmentLite.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\models\Organization\Organization.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\Person\Person.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\models\Product\ProductList.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\models\Product\Product.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\models\OperatingEnvironment\OperatingEnvironment.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\models\responses\Result.ts" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Update="ClientApp\src\app\models\Person\PersonNote.ts">
+        <SubType>Code</SubType>
+      </None>
+      <None Update="ClientApp\src\app\models\Person\PersonPhone.ts">
+        <SubType>Code</SubType>
+      </None>
     </ItemGroup>
 
     <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

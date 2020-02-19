@@ -15,12 +15,14 @@ import { NgxFileDropModule } from 'ngx-file-drop';
 import { HttpClientModule } from '@angular/common/http';
 import { LegacyFileUploadComponent } from './components/legacy-file-upload/legacy-file-upload.component';
 import { ValidationDbValidationsComponent } from './components/validation-db-validations/validation-db-validations.component';
+import { ValidationDbValidationComponent } from './components/validation-db-validation/validation-db-validation.component';
 import { ValidationDbDependenciesComponent } from './components/validation-db-dependencies/validation-db-dependencies.component';
 import { ValidationDbDependencyComponent } from './components/validation-db-dependency/validation-db-dependency.component';
 import { ValidationDbOeComponent } from './components/validation-db-oe/validation-db-oe.component';
 import { ValidationDbProductComponent } from './components/validation-db-product/validation-db-product.component';
 import { ValidationDbProductsComponent } from './components/validation-db-products/validation-db-products.component';
 import { ValidationDbOperatingEnvironmentsComponent } from './components/validation-db-operating-environments/validation-db-operating-environments.component';
+import { ValidationDbPersonComponent } from './components/validation-db-person/validation-db-person.component';
 
 @NgModule({
   declarations: [
@@ -29,12 +31,14 @@ import { ValidationDbOperatingEnvironmentsComponent } from './components/validat
     AboutComponent,
     LegacyFileUploadComponent,
     ValidationDbValidationsComponent,
+    ValidationDbValidationComponent,
     ValidationDbDependenciesComponent,
     ValidationDbDependencyComponent,
     ValidationDbOeComponent,
     ValidationDbProductComponent,
     ValidationDbProductsComponent,
-    ValidationDbOperatingEnvironmentsComponent
+    ValidationDbOperatingEnvironmentsComponent,
+    ValidationDbPersonComponent
   ],
   imports: [
     BrowserModule,

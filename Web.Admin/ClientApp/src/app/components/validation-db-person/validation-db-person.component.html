@@ -1,0 +1,118 @@
+<div class="container">
+  <div class="row mt-3">
+    <div class="col-lg-12">
+      <h2>#{{ selectedPerson?.id }} - {{ selectedPerson?.name }}</h2>
+    </div>
+  </div>
+  <div class="row mt-3">
+
+    <div class="col-lg-6">
+      <!-- Product Information Card-->
+      <div class="card">
+        <div class="card-header">
+          <h5>Person Information</h5>
+        </div>
+        <div class="card-body">
+          <p class="card-text">
+            <!-- These ngModel expressions are using a workaround for a known weakness: https://github.com/angular/angular/issues/7697 -->
+            <label class="bold-heading">Name</label><input [(ngModel)]="referenceCopyPerson && referenceCopyPerson.name" type="text" class="form-control" />
+          </p>
+          <button class="btn btn-primary" (click)="updatePerson()" style="float:left;margin-right:10px;">Apply Changes</button>
+          <div *ngIf="updateStatusFlag === 'processing'">
+            <div class="spinner-border spinner-border-sm text-warning"></div><span style="margin-left:10px;">Processing...</span>
+          </div>
+          <div *ngIf="updateStatusFlag === 'successful'">
+            <div class="text-success" style="float:left;">√</div><span style="margin-left:10px;">Success!</span>
+          </div>
+        </div>
+      </div> <!-- Close Product Information Card -->
+    </div>
+
+    <div class="col-lg-6">
+      <!-- Vendor Information Card-->
+      <div class="card">
+        <div class="card-header clearfix align-middle">
+          <h5 style="float:left;">Phone Information</h5>
+        </div>
+        <div class="card-body">
+          <table class="table">
+            <ng-template ngFor let-phoneNumber [ngForOf]="referenceCopyPerson?.phoneNumbers" let-i="index">
+              <tr>
+                <td width="80%">
+                  <label class="bold-heading">Type:&nbsp;&nbsp;</label>{{phoneNumber.type}}<br />
+                  <label class="bold-heading">Number:&nbsp;&nbsp;</label>{{phoneNumber.number}}<br />
+                </td>
+                <td align="center">
+                  <button class="button btn-danger btn-sm"><span class="bold-heading">X</span></button><br />
+                </td>
+              </tr>
+            </ng-template>
+            <tr *ngIf="newPhoneFlag === true">
+              <td width="80%">
+                <label class="bold-heading">Type:&nbsp;&nbsp;</label><input [(ngModel)]="newPhoneData.type" type="text" value="Type..." class="form-control"/><br />
+                <label class="bold-heading">Number:&nbsp;&nbsp;</label><input [(ngModel)]="newPhoneData.number" type="text" value="Type..." class="form-control"/><br />
+              </td>
+              <td align="center" style="align-middle">
+                <button class="button btn-primary btn-sm"><span class="bold-heading" (click)="submitNewPhone()">Apply</span></button><br />
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <button class="button btn-primary btn-sm"><span class="bold-heading" (click)="addNewPhone()">New +</span></button>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Close Row -->
+
+  <div class="row mt-3">
+    <div class="col-lg-6">
+      <div class="card">
+        <div class="card-header clearfix align-middle">
+          <h5 style="float:left;">Email Information</h5>
+          <!--<button class="btn btn-primary text-right" routerLink="/validation-db/Organizations/{{referenceCopyProduct?.vendor?.id}}" style="float:right;">View Vendor</button>-->
+        </div>
+        <div class="card-body">
+          <div *ngFor="let email of referenceCopyPerson?.emailAddresses; let i = index">
+            {{email}}
+            <br /> <!-- TODO: Make this prettier and more responsive (i.e. not just dummy whitespace) -->
+          </div>
+        </div>
+      </div> <!-- Close Vendor Information Card -->
+      <!-- Second Row, containing Dependency table -->
+    </div>
+
+    <div class="col-lg-6">
+      <div class="card">
+        <div class="card-header clearfix align-middle">
+          <h5 style="float:left;">NIST Notes</h5>
+          <!--<button class="btn btn-primary text-right" routerLink="/validation-db/Organizations/{{referenceCopyProduct?.vendor?.id}}" style="float:right;">View Vendor</button>-->
+        </div>
+        <div class="card-body">
+          <div *ngFor="let note of referenceCopyPerson?.notes; let i = index">
+            <table>
+              <tr>
+                <th width="20%">Subject</th>
+                <td>{{note.subject}}</td>
+              </tr>
+              <tr>
+                <th width="20%">Time</th>
+                <td>{{note.time}}</td>
+              </tr>
+              <tr>
+                <td colspan="2">{{note.body}}</td>
+              </tr>
+            </table>
+            <br />
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+</div>

@@ -1,9 +1,11 @@
-﻿using ACVPCore.Results;
+﻿using ACVPCore.Models;
+using ACVPCore.Results;
 
 namespace ACVPCore.Providers
 {
 	public interface IPersonProvider
 	{
+		Person Get(long personID);
 		Result Delete(long personID);
 		Result DeleteAllEmails(long personID);
 		Result DeleteAllPhoneNumbers(long personID);

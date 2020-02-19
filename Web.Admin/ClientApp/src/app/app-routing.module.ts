@@ -9,6 +9,7 @@ import { ValidationDbOeComponent } from './components/validation-db-oe/validatio
 import { ValidationDbProductComponent } from './components/validation-db-product/validation-db-product.component';
 import { ValidationDbProductsComponent } from './components/validation-db-products/validation-db-products.component';
 import { ValidationDbOperatingEnvironmentsComponent } from './components/validation-db-operating-environments/validation-db-operating-environments.component';
+import { ValidationDbPersonComponent } from './components/validation-db-person/validation-db-person.component';
 
 const routes: Routes = [
   {
@@ -46,6 +47,10 @@ const routes: Routes = [
   {
     path: 'validation-db/operatingEnvironments',
     component: ValidationDbOperatingEnvironmentsComponent
+  },
+  {
+    path: 'validation-db/persons/:id',
+    component: ValidationDbPersonComponent
   }
 ];
 
