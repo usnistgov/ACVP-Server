@@ -73,11 +73,6 @@ namespace ACVPCore.Providers
 				{
 					return null;
 				}
-
-				data = db.SingleFromProcedure("val.ImplementationGet", inParams: new
-				{
-					DependencyID = implementationID
-				});
 			}
 			catch (Exception ex)
 			{
