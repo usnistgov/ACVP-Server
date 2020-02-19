@@ -113,7 +113,7 @@ namespace ACVPCore.Providers
 			return vectorSetIDs;
 		}
 
-		public TestVectorSet GetTestVectorSet(long vectorSetId)
+		public VectorSet GetTestVectorSet(long vectorSetId)
 		{
 			var db = new MightyOrm(_acvpConnectionString);
 
@@ -129,7 +129,7 @@ namespace ACVPCore.Providers
 				if (queryResult == null)
 					return null;
 				
-				TestVectorSet result = new TestVectorSet()
+				VectorSet result = new VectorSet()
 				{
 					Algorithm = queryResult.algorithmName,
 					AlgorithmId = queryResult.algorithmId,
@@ -147,7 +147,7 @@ namespace ACVPCore.Providers
 			}
 		}
 
-		public List<VectorSetJsonFileTypes> GetTestVectorSetJsonFilesAvailable(long vectorSetId)
+		public List<VectorSetJsonFileTypes> GetVectorSetJsonFilesAvailable(long vectorSetId)
 		{
 			var db = new MightyOrm(_acvpConnectionString);
 
@@ -178,7 +178,7 @@ namespace ACVPCore.Providers
 			}
 		}
 
-		public string GetTestVectorFileJson(long vectorSetId, VectorSetJsonFileTypes fileType)
+		public string GetVectorFileJson(long vectorSetId, VectorSetJsonFileTypes fileType)
 		{
 			var db = new MightyOrm(_acvpConnectionString);
 

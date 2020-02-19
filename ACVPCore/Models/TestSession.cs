@@ -10,6 +10,6 @@ namespace ACVPCore.Models
         public bool Published { get; set; }
         public bool IsSample { get; set; }
         
-        public List<TestVectorSetLite> VectorSets { get; set; } = new List<TestVectorSetLite>();
+        public List<VectorSetLite> VectorSets { get; set; } = new List<VectorSetLite>();
     }
 }
