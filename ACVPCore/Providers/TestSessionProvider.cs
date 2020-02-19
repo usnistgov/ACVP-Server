@@ -164,7 +164,7 @@ namespace ACVPCore.Providers
 				result.PassedOn = testSessionData.passed_date;
 				result.IsSample = testSessionData.sample;
 				
-				result.VectorSets = new List<TestVectorSetLite>();
+				result.VectorSets = new List<VectorSetLite>();
 			}
 			catch (Exception ex)
 			{
@@ -175,9 +175,9 @@ namespace ACVPCore.Providers
 			return result;
 		}
 
-		public List<TestVectorSetLite> GetVectorSetsForTestSession(long testSessionId)
+		public List<VectorSetLite> GetVectorSetsForTestSession(long testSessionId)
 		{
-			var result = new List<TestVectorSetLite>();
+			var result = new List<VectorSetLite>();
 			var db = new MightyOrm(_acvpConnectionString);
 			
 			try
@@ -191,7 +191,7 @@ namespace ACVPCore.Providers
 					});
 				foreach (var vectorSet in vectorSetsData)
 				{
-					result.Add(new TestVectorSetLite()
+					result.Add(new VectorSetLite()
 					{
 						Algorithm = vectorSet.display_name,
 						Id = vectorSet.id,

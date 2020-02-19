@@ -55,21 +55,21 @@ namespace ACVPCore.Services
 
 		public string GetCapabilities(long vectorSetID) => _vectorSetExpectedResultsProvider.GetCapabilities(vectorSetID);
 
-		public TestVectorSet GetTestVectorSet(long vectorSetId)
+		public VectorSet GetVectorSet(long vectorSetId)
 		{
 			var result = _vectorSetProvider.GetTestVectorSet(vectorSetId);
 			
 			if (result == null)
 				return null;
 			
-			result.JsonFilesAvailable = _vectorSetProvider.GetTestVectorSetJsonFilesAvailable(vectorSetId);
+			result.JsonFilesAvailable = _vectorSetProvider.GetVectorSetJsonFilesAvailable(vectorSetId);
 			
 			return result;
 		}
 
-		public string GetTestVectorFileJson(long vectorSetId, VectorSetJsonFileTypes fileType)
+		public string GetVectorFileJson(long vectorSetId, VectorSetJsonFileTypes fileType)
 		{
-			return _vectorSetProvider.GetTestVectorFileJson(vectorSetId, fileType);
+			return _vectorSetProvider.GetVectorFileJson(vectorSetId, fileType);
 		}
 	}
 }

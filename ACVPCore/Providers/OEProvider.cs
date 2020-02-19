@@ -262,6 +262,7 @@ namespace ACVPCore.Providers
 
 				foreach (var oe in data)
 				{
+					Console.WriteLine(oe.id);
 					result.Add(new OperatingEnvironmentLite
 					{
 						ID = oe.id,
