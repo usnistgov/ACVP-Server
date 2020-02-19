@@ -348,6 +348,9 @@
     <Build Include="acvp\Stored Procedures\TestSessionExists.sql" />
     <Build Include="val\Stored Procedures\AddressGet.sql" />
     <Build Include="common\Stored Procedures\MessageQueueUpdateStatus.sql" />
+    <Build Include="val\Stored Procedures\ImplementationsGet.sql" />
+    <Build Include="acvp\Stored Procedures\ValidationsGet.sql" />
+    <Build Include="acvp\Stored Procedures\ValidationGetById.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="ACVP_DB.refactorlog" />
