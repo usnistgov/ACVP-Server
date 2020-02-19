@@ -10,14 +10,14 @@
       <!-- Product Information Card-->
       <div class="card">
         <div class="card-header">
-          <h5>Person Information</h5>
+          <h5>Personal Information</h5>
         </div>
         <div class="card-body">
           <p class="card-text">
             <!-- These ngModel expressions are using a workaround for a known weakness: https://github.com/angular/angular/issues/7697 -->
             <label class="bold-heading">Name</label><input [(ngModel)]="referenceCopyPerson && referenceCopyPerson.name" type="text" class="form-control" />
           </p>
-          <button class="btn btn-primary" style="float:left;margin-right:10px;">Apply Changes</button>
+          <button class="btn btn-primary" (click)="updateName()" style="float:left;margin-right:10px;">Apply Changes</button>
           <!--<div *ngIf="updateStatusFlag === 'processing'">
             <div class="spinner-border spinner-border-sm text-warning"></div><span style="margin-left:10px;">Processing...</span>
           </div>
@@ -26,93 +26,100 @@
           </div>-->
         </div>
       </div> <!-- Close Product Information Card -->
+
+      <div class="card mt-3">
+        <div class="card-header clearfix align-middle">
+          <h5 style="float:left;">Emails</h5>
+        </div>
+        <div class="card-body">
+          <table class="table">
+            <ng-template ngFor let-email [ngForOf]="referenceCopyPerson?.emailAddresses" let-i="index">
+              <tr>
+                <td width="90%">{{email}}</td>
+                <td width="10%"><button (click)="deleteEmail(i)" class="button btn-default btn-sm"><span class="bold-heading">X</span></button></td>
+              </tr>
+            </ng-template>
+            <tr>
+              <td width="90%"><input type="text" class="form-control" [(ngModel)]="newEmailData" /></td>
+              <td><button (click)="submitNewEmail()" class="button btn-primary btn-sm"><span class="bold-heading">+</span></button></td>
+            </tr>
+          </table>                  
+        </div>
+      </div>
     </div>
 
     <div class="col-lg-6">
-      <!-- Vendor Information Card-->
       <div class="card">
         <div class="card-header clearfix align-middle">
-          <h5 style="float:left;">Phone Information</h5>
+          <h5 style="float:left;">Phones</h5>
         </div>
         <div class="card-body">
           <table class="table">
             <ng-template ngFor let-phoneNumber [ngForOf]="referenceCopyPerson?.phoneNumbers" let-i="index">
               <tr>
-                <td width="80%">
+                <td width="90%">
                   <label class="bold-heading">Type:&nbsp;&nbsp;</label>{{phoneNumber.type}}<br />
                   <label class="bold-heading">Number:&nbsp;&nbsp;</label>{{phoneNumber.number}}<br />
                 </td>
-                <td align="center">
-                  <button class="button btn-danger btn-sm"><span class="bold-heading">X</span></button><br />
+                <td>
+                  <button class="button btn-default btn-sm" (click)="deletePhone(i)"><span class="bold-heading">X</span></button>
                 </td>
               </tr>
             </ng-template>
             <tr *ngIf="newPhoneFlag === true">
-              <td width="80%">
-                <label class="bold-heading">Type:&nbsp;&nbsp;</label><input [(ngModel)]="newPhoneData.type" type="text" value="Type..." class="form-control"/><br />
-                <label class="bold-heading">Number:&nbsp;&nbsp;</label><input [(ngModel)]="newPhoneData.number" type="text" value="Type..." class="form-control"/><br />
-              </td>
-              <td align="center" style="align-middle">
-                <button class="button btn-primary btn-sm"><span class="bold-heading" (click)="submitNewPhone()">Apply</span></button><br />
+              <td width="90%">
+                <label class="bold-heading">Type:&nbsp;&nbsp;</label><input [(ngModel)]="newPhoneData.type" type="text" value="Type..." class="form-control" /><br />
+                <label class="bold-heading">Number:&nbsp;&nbsp;</label><input [(ngModel)]="newPhoneData.number" type="text" value="Type..." class="form-control" /><br />
               </td>
             </tr>
             <tr>
               <td>
-                <button class="button btn-primary btn-sm"><span class="bold-heading" (click)="addNewPhone()">New +</span></button>
+                <button class="button btn-primary btn-sm" *ngIf="newPhoneFlag == false"><span class="bold-heading" (click)="newPhoneFlag = true">New +</span></button>
+                <button class="button btn-primary btn-sm" *ngIf="newPhoneFlag == true"><span class="bold-heading" (click)="submitNewPhone()">Apply</span></button>
               </td>
             </tr>
           </table>
         </div>
       </div>
     </div>
-  </div>
-  <!-- Close Row -->
 
-  <div class="row mt-3">
-    <div class="col-lg-6">
-      <div class="card">
-        <div class="card-header clearfix align-middle">
-          <h5 style="float:left;">Email Information</h5>
-          <!--<button class="btn btn-primary text-right" routerLink="/validation-db/Organizations/{{referenceCopyProduct?.vendor?.id}}" style="float:right;">View Vendor</button>-->
-        </div>
-        <div class="card-body">
-          <div *ngFor="let email of referenceCopyPerson?.emailAddresses; let i = index">
-            {{email}}
-            <br /> <!-- TODO: Make this prettier and more responsive (i.e. not just dummy whitespace) -->
-          </div>
-        </div>
-      </div> <!-- Close Vendor Information Card -->
-      <!-- Second Row, containing Dependency table -->
-    </div>
-
-    <div class="col-lg-6">
+    <!--<div class="col-lg-6">
       <div class="card">
         <div class="card-header clearfix align-middle">
           <h5 style="float:left;">NIST Notes</h5>
-          <!--<button class="btn btn-primary text-right" routerLink="/validation-db/Organizations/{{referenceCopyProduct?.vendor?.id}}" style="float:right;">View Vendor</button>-->
         </div>
         <div class="card-body">
-          <div *ngFor="let note of referenceCopyPerson?.notes; let i = index">
-            <table>
+          <table class="table">
+            <ng-template ngFor let-note [ngForOf]="referenceCopyPerson?.notes" let-i="index">
               <tr>
-                <th width="20%">Subject</th>
-                <td>{{note.subject}}</td>
+                <td width="80%">
+                  <label class="bold-heading">Subject:&nbsp;&nbsp;</label>{{note.subject}}<br />
+                  <label class="bold-heading">Time:&nbsp;&nbsp;</label>{{note.time}}<br />
+                  {{note.body}}
+                </td>
+                <td align="center" style="align-middle">
+                  <button class="button btn-default btn-sm" (click)="deleteNote(i)"><span class="bold-heading">X</span></button><br />
+                </td>
               </tr>
-              <tr>
-                <th width="20%">Time</th>
-                <td>{{note.time}}</td>
-              </tr>
-              <tr>
-                <td colspan="2">{{note.body}}</td>
-              </tr>
-            </table>
-            <br />
-          </div>
+            </ng-template>
+            <tr *ngIf="newNoteFlag === true">
+              <td width="80%">
+                <label class="bold-heading">Subject:&nbsp;&nbsp;</label><input [(ngModel)]="newNoteData.subject" type="text" value="Type..." class="form-control" /><br />
+                <label class="bold-heading">Body:&nbsp;&nbsp;</label><textarea [(ngModel)]="newNoteData.note" type="text" value="Type..." class="form-control"></textarea><br />
+              </td>
+              <td align="center" style="align-middle">
+                <button class="button btn-primary btn-sm"><span class="bold-heading" (click)="submitNewNote()">Apply</span></button><br />
+              </td>
+            </tr>
+            <tr>
+              <td colspan="3">
+                <button class="button btn-primary btn-sm"><span class="bold-heading" (click)="newNoteFlag = true">New +</span></button>
+              </td>
+            </tr>
+          </table>
+          <br />
         </div>
       </div>
-    </div>
-
+    </div>-->
   </div>
-
-
 </div>

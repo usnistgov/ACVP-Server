@@ -5,6 +5,7 @@ using ACVPCore.Models;
 using System;
 using ACVPCore.Models.Parameters;
 using ACVPCore.Results;
+using System.Collections.Generic;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -28,14 +29,38 @@ namespace Web.Admin.Controllers
             return _personService.Get(personID);
         }
 
-        [HttpPost("{personID}/phones")]
-        public Result UpdatePerson(Person phone)
+        [HttpPatch("{personID}")]
+        public Result UpdatePerson(long personID, Person person)
         {
             PersonUpdateParameters parameters = new PersonUpdateParameters();
+            parameters.PhoneNumbers = new List<(string Type, string Number)>();
+            parameters.EmailAddresses = new List<string>();
 
-            
+            parameters.ID = personID;
 
-            return null;
+            if (person.Name != null)
+            {
+                parameters.Name = person.Name;
+                parameters.NameUpdated = true;
+            }
+            if (person.PhoneNumbers != null)
+            {
+                foreach (PersonPhone phone in person.PhoneNumbers)
+                {
+                    parameters.PhoneNumbers.Add((phone.Type, phone.Number));
+                }
+                parameters.PhoneNumbersUpdated = true;
+            }
+            if (person.EmailAddresses != null)
+            {
+                foreach (string email in person.EmailAddresses)
+                {
+                    parameters.EmailAddresses.Add(email);
+                }
+                parameters.EmailAddressesUpdated = true;
+            }
+
+            return _personService.Update(parameters);
         }
     }
 }

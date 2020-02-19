@@ -108,5 +108,9 @@ export class AjaxService {
   getPerson(id: number) {
     return this.http.get<Person>(this.apiRoot + '/Persons/' + id);
   }
+
+  updatePerson(person: Person) {
+    return this.http.patch(this.apiRoot + '/Persons/' + person.id, person);
+  }
   // END Person-related calls
 }
