@@ -348,6 +348,7 @@
     <Build Include="val\Stored Procedures\PersonGet.sql" />
     <Build Include="val\Stored Procedures\PersonGetEmails.sql" />
     <Build Include="val\Stored Procedures\PersonGetNotes.sql" />
+    <Build Include="val\Stored Procedures\PersonsGet.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="ACVP_DB.refactorlog" />

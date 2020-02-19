@@ -1,6 +1,7 @@
 ﻿using ACVPCore.Models;
 using ACVPCore.Models.Parameters;
 using ACVPCore.Results;
+using System.Collections.Generic;
 
 namespace ACVPCore.Services
 {
@@ -11,5 +12,6 @@ namespace ACVPCore.Services
 		DeleteResult Delete(long personID);
 		bool PersonIsUsed(long personID);
 		PersonResult Update(PersonUpdateParameters parameters);
+		List<PersonLite> Get(long pageSize, long pageNumber);
 	}
 }

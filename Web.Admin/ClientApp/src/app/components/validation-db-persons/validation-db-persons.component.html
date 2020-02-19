@@ -11,7 +11,7 @@
 
     <div class="col-lg-10">
       <div class="row mt-3">
-        <h2>Validation DB - Products</h2>
+        <h2>Validation DB - ACVP Perons</h2>
       </div>
 
       <!-- Main Table Row -->
@@ -21,20 +21,14 @@
             <tr>
               <th>ID</th>
               <th>Name</th>
-              <th>Version</th>
-              <th>Type</th>
-              <th>Vendor</th>
-              <th>ITAR</th>
+              <th>Organization</th>
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let product of products" [routerLink]="product.id">
-              <td>{{ product.id }}</td>
-              <td>{{ (product.name === "") ? "---" : product.name }}</td>
-              <td>{{ (product.version === "") ? "---" : product.version }}</td>
-              <td>{{ (product.type === "") ? "---" : product.type }}</td>
-              <td>{{ (product.vendor.name === null) ? "---" : product.vendor.name }}</td>
-              <td><span [ngStyle]="{'color':product.itar === true ? 'red' : '' }">{{ (product.itar === null) ? "---" : product.itar }}</span></td>
+            <tr *ngFor="let person of persons" [routerLink]="person.id">
+              <td>{{ person.id }}</td>
+              <td>{{ (person.name === "") ? "---" : person.name }}</td>
+              <td>{{ (person.organizationName === "") ? "---" : person.organizationName }}</td>
             </tr>
           </tbody>
         </table>

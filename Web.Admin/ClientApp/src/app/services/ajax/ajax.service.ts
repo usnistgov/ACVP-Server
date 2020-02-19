@@ -10,6 +10,7 @@ import { Product } from '../../models/Product/Product';
 import { Address } from '../../models/Address/Address';
 import { ProductList } from '../../models/Product/ProductList';
 import { OperatingEnvironmentList } from '../../models/OperatingEnvironment/OperatingEnvironmentList';
+import { PersonList } from '../../models/Person/PersonList';
 import { Person } from '../../models/Person/Person';
 
 const httpOptions = {
@@ -111,6 +112,10 @@ export class AjaxService {
 
   updatePerson(person: Person) {
     return this.http.patch(this.apiRoot + '/Persons/' + person.id, person);
+  }
+
+  getPersons(pageSize: number, pageNumber: number) {
+    return this.http.get<PersonList>(this.apiRoot + '/Persons?pageNumber=' + pageNumber + '&pageSize=' + pageSize);
   }
   // END Person-related calls
 }

@@ -92,8 +92,8 @@ namespace ACVPCore.Providers
 			{
 				var data = db.QueryFromProcedure("val.ImplementationsGet", inParams: new
 				{
-					pageSize = pageSize,
-					pageNumber = pageNumber
+					PageSize = pageSize,
+					PageNumber = pageNumber
 				});
 
 				List<Implementation> implementations = new List<Implementation>();

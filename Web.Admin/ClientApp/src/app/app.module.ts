@@ -23,6 +23,7 @@ import { ValidationDbProductComponent } from './components/validation-db-product
 import { ValidationDbProductsComponent } from './components/validation-db-products/validation-db-products.component';
 import { ValidationDbOperatingEnvironmentsComponent } from './components/validation-db-operating-environments/validation-db-operating-environments.component';
 import { ValidationDbPersonComponent } from './components/validation-db-person/validation-db-person.component';
+import { ValidationDbPersonsComponent } from './components/validation-db-persons/validation-db-persons.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { ValidationDbPersonComponent } from './components/validation-db-person/v
     ValidationDbProductComponent,
     ValidationDbProductsComponent,
     ValidationDbOperatingEnvironmentsComponent,
-    ValidationDbPersonComponent
+    ValidationDbPersonComponent,
+    ValidationDbPersonsComponent
   ],
   imports: [
     BrowserModule,

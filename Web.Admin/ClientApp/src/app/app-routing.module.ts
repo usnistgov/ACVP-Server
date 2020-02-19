@@ -10,6 +10,7 @@ import { ValidationDbProductComponent } from './components/validation-db-product
 import { ValidationDbProductsComponent } from './components/validation-db-products/validation-db-products.component';
 import { ValidationDbOperatingEnvironmentsComponent } from './components/validation-db-operating-environments/validation-db-operating-environments.component';
 import { ValidationDbPersonComponent } from './components/validation-db-person/validation-db-person.component';
+import { ValidationDbPersonsComponent } from './components/validation-db-persons/validation-db-persons.component';
 
 const routes: Routes = [
   {
@@ -51,6 +52,10 @@ const routes: Routes = [
   {
     path: 'validation-db/persons/:id',
     component: ValidationDbPersonComponent
+  },
+  {
+    path: 'validation-db/persons',
+    component: ValidationDbPersonsComponent
   }
 ];
 

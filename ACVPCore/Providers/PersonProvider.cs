@@ -268,5 +268,36 @@ namespace ACVPCore.Providers
 				return true;    //Default to true so we don't try do delete when we shouldn't
 			}
 		}
+
+		public List<PersonLite> Get(long pageSize, long pageNumber)
+		{
+			var db = new MightyOrm(_acvpConnectionString);
+
+			List<PersonLite> result = new List<PersonLite>();
+
+			try
+			{
+				var data = db.QueryFromProcedure("val.PersonsGet", inParams: new
+				{
+					PageSize = pageSize,
+					PageNumber = pageNumber
+				});
+
+				foreach (var person in data)
+				{
+					result.Add(new PersonLite
+					{
+						ID = person.id,
+						Name = person.full_name,
+						OrganizationName = person.org_name
+					});
+				}
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex.Message);
+			}
+			return result;
+		}
 	}
 }

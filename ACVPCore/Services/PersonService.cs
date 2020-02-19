@@ -2,6 +2,7 @@
 using ACVPCore.Models.Parameters;
 using ACVPCore.Providers;
 using ACVPCore.Results;
+using System.Collections.Generic;
 
 namespace ACVPCore.Services
 {
@@ -125,6 +126,11 @@ namespace ACVPCore.Services
 		public bool PersonIsUsed(long personID)
 		{
 			return _personProvider.PersonIsUsed(personID);
+		}
+
+		public List<PersonLite> Get(long pageSize, long pageNumber)
+		{
+			return _personProvider.Get(pageSize, pageNumber);
 		}
 	}
 }
