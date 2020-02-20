@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using ACVPCore.ExtensionMethods;
 using ACVPCore.Models;
+using ACVPCore.Models.Parameters;
 using ACVPCore.Results;
 using CVP.DatabaseInterface;
 using Microsoft.Extensions.Logging;
@@ -111,22 +114,33 @@ namespace ACVPCore.Providers
 			return new Result();
 		}
 
-		public List<TestSessionLite> Get()
+		public PagedEnumerable<TestSessionLite> Get(TestSessionListParameters param)
 		{
 			List<TestSessionLite> result = new List<TestSessionLite>();
+			long totalRecords = 0;
 			var db = new MightyOrm(_acvpConnectionString);
 
 			try
 			{
-				var data = db.QueryFromProcedure("acvp.TestSessionsGet");
+				var data = db.QueryFromProcedure("acvp.TestSessionsGet",
+					new
+					{
+						param.PageSize, 
+						param.Page,
+						param.TestSessionId,
+						param.VectorSetId
+					}, new
+					{
+						totalRecords = 0
+					});
 
 				foreach (var item in data)
 				{
 					result.Add(new TestSessionLite()
 					{
-						Created = item.created_on,
-						Status = item.TestSessionStatusId ?? TestSessionStatus.Unknown,
-						TestSessionId = item.id
+						Created = item.Created,
+						Status = (TestSessionStatus) item.Status,
+						TestSessionId = item.TestSessionId
 					});
 				}
 			}
@@ -135,7 +149,7 @@ namespace ACVPCore.Providers
 				_logger.LogError(ex, ex.Message);
 			}
 			
-			return result;
+			return result.WrapPagingEnumerable(param.PageSize, param.Page, totalRecords);
 		}
 
 		public TestSession Get(long testSessionId)

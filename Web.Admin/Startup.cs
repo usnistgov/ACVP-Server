@@ -1,7 +1,6 @@
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,9 +21,25 @@ namespace Web.Admin
         public void ConfigureServices(IServiceCollection services)
         {
             services.RegisterAcvpAdminServices();
+            
             services.AddControllersWithViews()
                 .AddJsonOptions(
                     options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
+
+            // services.AddAuthentication(options =>
+            // {
+            //     options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            //     options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
+            // })
+            // .AddCookie()
+            // .AddOpenIdConnect(options =>
+            // {
+            //     options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            //     
+            //     options.Authority = "https://auth.nist.gov/adfs/.well-known/openid-configuration";
+            //     options.ClientId = "mySecret";
+            // });
+            
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/dist"; });
         }
@@ -45,11 +60,14 @@ namespace Web.Admin
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
             if (!env.IsDevelopment())
             {
                 app.UseSpaStaticFiles();
             }
 
+            //app.UseAuthentication();
+            
             app.UseRouting();
 
             app.UseEndpoints(endpoints =>

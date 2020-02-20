@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using ACVPCore.Models;
+using ACVPCore.Models.Parameters;
 using ACVPCore.Results;
 
 namespace ACVPCore.Providers
@@ -11,7 +12,7 @@ namespace ACVPCore.Providers
 		Result Insert(long testSessionId, int acvVersionID, string generator, bool isSample, bool publishable, long userID);
 		TestSessionStatus GetStatus(long testSessionID);
 		Result UpdateStatus(long testSessionID, TestSessionStatus testSessionStatus);
-		List<TestSessionLite> Get();
+		PagedEnumerable<TestSessionLite> Get(TestSessionListParameters param);
 		TestSession Get(long testSessionId);
 		List<VectorSetLite> GetVectorSetsForTestSession(long testSessionId);
 	}
