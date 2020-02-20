@@ -17,21 +17,17 @@
         <PackageReference Include="Serilog.Extensions.Logging" Version="3.0.1" />
         <PackageReference Include="Serilog.Settings.Configuration" Version="3.1.0" />
         <PackageReference Include="Serilog.Sinks.File" Version="4.1.0" />
+        <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="5.6.0" />
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Helpers" />
+      <Folder Include="logs" />
       <Folder Include="Properties" />
     </ItemGroup>
 
     <ItemGroup>
-      <Reference Include="CVP.DatabaseInterface, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-        <HintPath>..\DB\CVP.DatabaseInterface\bin\Debug\netstandard2.1\CVP.DatabaseInterface.dll</HintPath>
-      </Reference>
-    </ItemGroup>
-
-    <ItemGroup>
-      <ProjectReference Include="..\ACVPCore\ACVPCore.csproj" />
+      <ProjectReference Include="..\..\DB\CVP.DatabaseInterface\CVP.DatabaseInterface.csproj" />
+      <ProjectReference Include="..\..\ACVPCore\ACVPCore.csproj" />
     </ItemGroup>
     
 </Project>

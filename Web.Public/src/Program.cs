@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
+using Web.Public.Configs;
 
 namespace Web.Public
 {
@@ -32,10 +33,10 @@ namespace Web.Public
                     context.HostingEnvironment.EnvironmentName = env;
 
                     builder
-                        //.AddJsonFile($"{directoryConfig}sharedappsettings.json", optional: false, reloadOnChange: false)
-                        //.AddJsonFile($"{directoryConfig}sharedappsettings.{env}.json", optional: false, reloadOnChange: false)
-                        .AddJsonFile($"{directoryConfig}appsettings.json", optional: false, reloadOnChange: false);
-                        //.AddJsonFile($"{directoryConfig}appsettings.{env}.json", optional: false, reloadOnChange: false);
+                        //.AddJsonFile($"{directoryConfig}sharedappsettings.json", false, false)
+                        //.AddJsonFile($"{directoryConfig}sharedappsettings.{env}.json", false, false)
+                        .AddJsonFile($"{directoryConfig}appsettings.json", false, false);
+                        //.AddJsonFile($"{directoryConfig}appsettings.{env}.json", false, false);
                 })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
