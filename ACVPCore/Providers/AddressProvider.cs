@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using ACVPCore.Models;
 using ACVPCore.Results;
 using CVP.DatabaseInterface;
@@ -25,7 +26,10 @@ namespace ACVPCore.Providers
 
 			try
 			{
-				db.Execute("val.AddressDelete @0", addressID);
+				db.ExecuteProcedure("val.AddressDelete", inParams: new
+				{
+					AddressID = addressID
+				});
 			}
 			catch (Exception ex)
 			{
@@ -42,7 +46,10 @@ namespace ACVPCore.Providers
 
 			try
 			{
-				db.Execute("val.AddressDeleteAllForOrganization @0", organizationID);
+				db.ExecuteProcedure("val.AddressDeleteAllForOrganization", inParams: new
+				{
+					OrganizationID = organizationID
+				});
 			}
 			catch (Exception ex)
 			{
@@ -55,63 +62,32 @@ namespace ACVPCore.Providers
 
 		public List<Address> GetAllForOrganization(long organizationID)
 		{
-			var db = new MightyOrm(_acvpConnectionString);
+			var db = new MightyOrm<Address>(_acvpConnectionString);
 
-			List<Address> addresses = new List<Address>();
 			try
 			{
-				var data = db.QueryFromProcedure("val.AddressesForOrganizationGet", inParams: new
+				return db.QueryFromProcedure("val.AddressesForOrganizationGet", inParams: new
 				{
 					OrganizationID = organizationID
-				});
-
-				foreach (var address in data)
-				{
-					addresses.Add(new Address
-					{
-						ID = address.ID,
-						OrganizationID = organizationID,
-						Street1 = address.Street1,
-						Street2 = address.Street2,
-						Street3 = address.Street3,
-						Locality = address.Locality,
-						Region = address.Region,
-						PostalCode = address.PostalCode,
-						Country = address.Country
-					});
-				}
+				}).ToList();
 			}
 			catch (Exception ex)
 			{
 				_logger.LogError(ex.Message);
+				return new List<Address>();
 			}
-
-			return addresses;
 		}
 
 		public Address Get(long addressID)
 		{
-			var db = new MightyOrm(_acvpConnectionString);
+			var db = new MightyOrm<Address>(_acvpConnectionString);
 
 			try
 			{
-				var data = db.SingleFromProcedure("val.AddressGet", inParams: new
+				return db.SingleFromProcedure("val.AddressGet", inParams: new
 				{
-					OrganizationID = addressID
+					AddressId = addressID
 				});
-
-				return data == null ? null : new Address
-				{
-					ID = addressID,
-					OrganizationID = data.OrganizationID,
-					Street1 = data.Street1,
-					Street2 = data.Street2,
-					Street3 = data.Street3,
-					Locality = data.Locality,
-					Region = data.Region,
-					PostalCode = data.PostalCode,
-					Country = data.Country
-				};
 			}
 			catch (Exception ex)
 			{
@@ -127,7 +103,7 @@ namespace ACVPCore.Providers
 
 			try
 			{
-				var data = db.SingleFromProcedure("val.AddressInsert", inParams: new
+				var data = db.ScalarFromProcedure("val.AddressInsert", inParams: new
 				{
 					OrganizationID = organizationID,
 					OrderIndex = orderIndex,
@@ -146,7 +122,7 @@ namespace ACVPCore.Providers
 				}
 				else
 				{
-					return new InsertResult((long)data.ID);
+					return new InsertResult((long)data);
 				}
 			}
 			catch (Exception ex)
@@ -179,7 +155,7 @@ namespace ACVPCore.Providers
 					LocalityUpdated = localityUpdated,
 					RegionUpdated = regionUpdated,
 					PostalCodeUpdated = postalCodeUpdated,
-					CountryUpdated = countryUpdated,
+					CountryUpdated = countryUpdated
 				});
 
 				return new Result();
@@ -197,12 +173,10 @@ namespace ACVPCore.Providers
 
 			try
 			{
-				var data = db.SingleFromProcedure("val.AddressIsUsedOtherThanOrg", inParams: new
+				return (bool)db.ScalarFromProcedure("val.AddressIsUsedOtherThanOrg", inParams: new
 				{
 					AddressID = addressID
 				});
-
-				return data.IsUsed;
 			}
 			catch (Exception ex)
 			{
