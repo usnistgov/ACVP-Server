@@ -23,7 +23,7 @@ namespace MessageQueueProcessor.MessageProcessors
 			SubmitResultsPayload submitResultsPayload = JsonSerializer.Deserialize<SubmitResultsPayload>(message.Payload);
 
 			//Update the submitted results
-			Result result = _vectorSetService.UpdateSubmittedResults(submitResultsPayload.VectorSetID, submitResultsPayload.Results);
+			Result result = _vectorSetService.InsertSubmittedAnswers(submitResultsPayload.VectorSetID, submitResultsPayload.Results);
 
 			if (result.IsSuccess)
 			{

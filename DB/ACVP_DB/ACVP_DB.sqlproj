@@ -193,7 +193,6 @@
     </Build>
     <Build Include="acvp\Stored Procedures\VectorSetCleanup.sql" />
     <Build Include="acvp\Stored Procedures\VectorSetDataForVectorSetGet.sql" />
-    <Build Include="acvp\Stored Procedures\VectorSetExpectedResultsForVectorSetGet.sql" />
     <Build Include="acvp\Stored Procedures\VectorSetsToArchiveGet.sql" />
     <Build Include="lcavp\Stored Procedures\AlgorithmsOnValidationGet.sql" />
     <Build Include="lcavp\Stored Procedures\ArchiveFile.sql" />
@@ -236,7 +235,6 @@
     <Build Include="acvp\Stored Procedures\TestSessionInsert.sql" />
     <Build Include="acvp\Stored Procedures\VectorSetInsert.sql" />
     <Build Include="common\Stored Procedures\TaskQueueInsert.sql" />
-    <Build Include="acvp\Stored Procedures\VectorSetExpectedResultsInsertWithCapabilities.sql" />
     <Build Include="val\Stored Procedures\DependencyDelete.sql" />
     <Build Include="val\Stored Procedures\DependencyAttributeDelete.sql" />
     <Build Include="val\Stored Procedures\DependencyAttributeDeleteAll.sql" />
@@ -317,7 +315,6 @@
     <Build Include="val\Stored Procedures\ValidationsForImplementationGet.sql" />
     <Build Include="val\Stored Procedures\NextACVPValidationNumberGet.sql" />
     <Build Include="val\Stored Procedures\NextLCAVPValidationNumberGet.sql" />
-    <Build Include="acvp\Stored Procedures\VectorSetExpectedResultsCapabilitiesGet.sql" />
     <Build Include="val\Tables\ValidationTestSessions.sql" />
     <Build Include="val\Stored Procedures\ValidationTestSessionsInsert.sql" />
     <Build Include="val\Stored Procedures\ScenariosForValidationOEGet.sql" />

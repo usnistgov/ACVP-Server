@@ -110,7 +110,7 @@ namespace ACVPWorkflow.WorkflowItemProcessors
 					long scenarioAlgorithmID = scenarioAlgorithmInsertResult.ID;
 
 					//Get the registration JSON
-					string registrationJSON = _vectorSetService.GetCapabilities(vectorSet.ID);
+					string registrationJSON = _vectorSetService.GetVectorFileJson(vectorSet.ID, VectorSetJsonFileTypes.Capabilities);
 
 					//Deserialize that JSON
 					IExternalAlgorithm externalAlgorithm = ExternalAlgorithmFactory.Deserialize(registrationJSON);

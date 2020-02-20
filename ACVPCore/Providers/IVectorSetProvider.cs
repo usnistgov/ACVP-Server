@@ -11,8 +11,9 @@ namespace ACVPCore.Providers
 		Result UpdateStatus(long vectorSetID, VectorSetStatus status, string errorMessage);
 		Result Insert(long vectorSetID, long testSessionID, string generatorVersion, long algorithmID);
 		List<(long ID, long AlgorithmID, VectorSetStatus Status, string ErrorMessage)> GetVectorSetIDsForTestSession(long testSessionID);
-		VectorSet GetTestVectorSet(long vectorSetId);
+		VectorSet GetVectorSet(long vectorSetId);
 		List<VectorSetJsonFileTypes> GetVectorSetJsonFilesAvailable(long vectorSetId);
 		string GetVectorFileJson(long vectorSetId, VectorSetJsonFileTypes fileType);
+		Result InsertVectorSetJson(long vectorSetID, VectorSetJsonFileTypes fileType, string json);
 	}
 }
