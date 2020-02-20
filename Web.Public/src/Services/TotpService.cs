@@ -30,7 +30,7 @@ namespace Web.Public.Services
             var seed = _totpProvider.GetSeedFromUserCertificate(certRawData);
             
             var totp = new Totp(seed, _totpConfig.Step, StringToHmacMode(_totpConfig.Hmac), _totpConfig.Digits);
-            var success = totp.VerifyTotp(DateTime.Now, password, out var computedWindow);
+            var success = totp.VerifyTotp(DateTime.Now, password, out var computedWindow, VerificationWindow.RfcSpecifiedNetworkDelay);
 
             // If they failed authentication, don't bother with anything else
             if (!success)
