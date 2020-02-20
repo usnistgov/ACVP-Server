@@ -46,22 +46,34 @@ namespace MessageQueueProcessor
 					//Process message or error
 					if (messageProcessor == null)
 					{
-						_logger.LogInformation($"Unable to find processor for message {message.ID}");
-
+						//Mark it as an error
 						_messageProvider.UpdateStatus(message.ID, MessageStatus.Error);
+
+						//Log it
+						_logger.LogError($"Unable to find processor for message {message.ID}");
 					}
 					else
 					{
-						//TODO - Make the Process call return success/failure or throw an error, update message appropriately
-
 						//Process the message
-						messageProcessor.Process(message);
+						var messageProcessingResult = messageProcessor.Process(message);
 
-						//Done with the the message, so delete it
-						_messageProvider.DeleteMessage(message.ID);
+						if (messageProcessingResult.IsSuccess)
+						{
+							//Done with the the message, so delete it
+							_messageProvider.DeleteMessage(message.ID);
 
-						//Log it
-						_logger.LogInformation($"Processed {message.Action.ToString()} message {message.ID}");
+							//Log it
+							_logger.LogInformation($"Processed {message.Action.ToString()} message {message.ID}");
+						}
+						else
+						{
+							//Mark it as an error
+							_messageProvider.UpdateStatus(message.ID, MessageStatus.Error);
+
+							//Log it
+							_logger.LogError($"Error processing {message.Action.ToString()} message {message.ID} : {messageProcessingResult.ErrorMessage}");
+						}
+
 					}
 
 					//Get the next message
