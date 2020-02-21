@@ -12,19 +12,19 @@ namespace ACVPCore.Services
 	public class ValidationService : IValidationService
 	{
 		private readonly IValidationProvider _validationProvider;
+		private readonly IPrerequisiteService _prerequisiteService;
 		private readonly IScenarioProvider _scenarioProvider;
 		private readonly IScenarioOEProvider _scenarioOEProvider;
 		private readonly IScenarioAlgorithmProvider _scenarioAlgorithmProvider;
-		private readonly ICapabilityProvider _capabilityProvider;
 		private readonly ICapabilityService _capabilityService;
 
-		public ValidationService(IValidationProvider validationProvider, IScenarioProvider scenarioProvider, IScenarioOEProvider scenarioOEProvider, IScenarioAlgorithmProvider scenarioAlgorithmProvider, ICapabilityProvider capabilityProvider, ICapabilityService capabilityService)
+		public ValidationService(IValidationProvider validationProvider, IPrerequisiteService prerequisiteService, IScenarioProvider scenarioProvider, IScenarioOEProvider scenarioOEProvider, IScenarioAlgorithmProvider scenarioAlgorithmProvider, ICapabilityService capabilityService)
 		{
 			_validationProvider = validationProvider;
+			_prerequisiteService = prerequisiteService;
 			_scenarioProvider = scenarioProvider;
 			_scenarioOEProvider = scenarioOEProvider;
 			_scenarioAlgorithmProvider = scenarioAlgorithmProvider;
-			_capabilityProvider = capabilityProvider;
 			_capabilityService = capabilityService;
 		}
 
@@ -67,10 +67,10 @@ namespace ACVPCore.Services
 		public void DeleteScenarioAlgorithm(long scenarioAlgorithmID)
 		{
 			//Delete the capabilities
-			Result capabilitiesDeleteResult = _capabilityProvider.DeleteAllForScenarioAlgorithm(scenarioAlgorithmID);
+			Result capabilitiesDeleteResult = _capabilityService.DeleteAllForScenarioAlgorithm(scenarioAlgorithmID);
 
 			//Delete the prereqs
-			//TODO - prereqs!
+			Result prereqsDeleteResult = _prerequisiteService.DeleteAllForScenarioAlgorithm(scenarioAlgorithmID);
 
 			//Delete the scenario algorithm
 			Result scenarioAlgorithmDeleteResult = _scenarioAlgorithmProvider.Delete(scenarioAlgorithmID);

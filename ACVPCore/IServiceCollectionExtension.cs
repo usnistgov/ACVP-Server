@@ -37,6 +37,8 @@ namespace ACVPCore
 			services.AddSingleton<ICapabilityProvider, CapabilityProvider>();
 			services.AddSingleton<IPropertyService, PropertyService>();
 			services.AddSingleton<IPropertyProvider, PropertyProvider>();
+			services.AddSingleton<IPrerequisiteProvider, PrerequisiteProvider>();
+			services.AddSingleton<IPrerequisiteService, PrerequisiteService>();
 			return services;
 		}
 	}

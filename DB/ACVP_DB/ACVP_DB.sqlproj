@@ -348,6 +348,7 @@
     <Build Include="val\Stored Procedures\ImplementationsGet.sql" />
     <Build Include="val\Stored Procedures\ValidationsGet.sql" />
     <Build Include="val\Stored Procedures\ValidationGetById.sql" />
+    <Build Include="val\Stored Procedures\PrerequisitesForScenarioAlgorithmDelete.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="ACVP_DB.refactorlog" />
