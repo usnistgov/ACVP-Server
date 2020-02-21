@@ -3,6 +3,7 @@ using ACVPCore.ExtensionMethods;
 using ACVPCore.Models;
 using ACVPWorkflow;
 using ACVPWorkflow.Models;
+using ACVPWorkflow.Models.Parameters;
 using ACVPWorkflow.Results;
 using ACVPWorkflow.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -23,17 +24,13 @@ namespace Web.Admin.Controllers
             _workflowService = workflowService;
         }
         
-        [HttpGet("status/{workflowStatus}")]
-        public ActionResult<WrappedEnumerable<WorkflowItemLite>> GetWorkflows(string workflowStatus)
+        [HttpGet]
+        public ActionResult<WrappedEnumerable<WorkflowItemLite>> GetWorkflows([FromBody] WorkflowListParameters param)
         {
-            if(Enum.TryParse<WorkflowStatus>(workflowStatus, true, out var parsedStatus))
-            {
-                return _workflowService.GetWorkflowItems(parsedStatus).WrapEnumerable();
-            }
-
-            _logger.LogWarning($"{nameof(workflowStatus)} ({workflowStatus}) could not be parsed into a type of {nameof(WorkflowStatus)}");
+            if (param == null)
+                return new BadRequestResult();
             
-            return new BadRequestResult();
+            return _workflowService.GetWorkflowItems(param);
         }
 
         [HttpGet("{workflowId}")]

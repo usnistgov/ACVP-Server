@@ -26,20 +26,6 @@ namespace Web.Admin
                 .AddJsonOptions(
                     options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 
-            // services.AddAuthentication(options =>
-            // {
-            //     options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-            //     options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
-            // })
-            // .AddCookie()
-            // .AddOpenIdConnect(options =>
-            // {
-            //     options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-            //     
-            //     options.Authority = "https://auth.nist.gov/adfs/.well-known/openid-configuration";
-            //     options.ClientId = "mySecret";
-            // });
-            
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/dist"; });
         }
@@ -66,8 +52,6 @@ namespace Web.Admin
                 app.UseSpaStaticFiles();
             }
 
-            //app.UseAuthentication();
-            
             app.UseRouting();
 
             app.UseEndpoints(endpoints =>

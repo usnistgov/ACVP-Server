@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using ACVPCore.ExtensionMethods;
+using ACVPCore.Models;
 using ACVPWorkflow.Exceptions;
 using ACVPWorkflow.Models;
+using ACVPWorkflow.Models.Parameters;
 using ACVPWorkflow.Providers;
 using ACVPWorkflow.Results;
 using Microsoft.Extensions.Logging;
@@ -116,9 +118,9 @@ namespace ACVPWorkflow.Services
 			return result;
 		}
 
-		public List<WorkflowItemLite> GetWorkflowItems(WorkflowStatus status)
+		public PagedEnumerable<WorkflowItemLite> GetWorkflowItems(WorkflowListParameters param)
 		{
-			return _workflowProvider.GetWorkflowItems(status);
+			return _workflowProvider.GetWorkflowItems(param);
 		}
 
 		public WorkflowItem GetWorkflowItem(long workflowItemId)
