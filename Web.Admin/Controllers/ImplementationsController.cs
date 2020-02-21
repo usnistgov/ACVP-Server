@@ -14,11 +14,8 @@ namespace Web.Admin.Controllers
     public class ProductsController : ControllerBase
     {
         private readonly IImplementationService _implementationService;
-        private readonly IAddressService _addressService;
 
-        public ProductsController(
-           IImplementationService implementationService,
-           IAddressService addressService)
+        public ProductsController(IImplementationService implementationService)
         {
             _implementationService = implementationService;
         }
@@ -68,7 +65,7 @@ namespace Web.Admin.Controllers
                 parameters.OrganizationID = implementation.Vendor.ID;
                 parameters.OrganizationIDUpdated = true;
             }
-            if (implementation.Type != null)
+            if (implementation.Type != Implementation.ModuleType.UNKNOWN)
             {
                 parameters.Type = ImplementationTypeExtensions.FromString(implementation.Type.ToString());
                 parameters.TypeUpdated = true;
