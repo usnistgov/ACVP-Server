@@ -34,7 +34,7 @@
               <td>{{ (product.version === "") ? "---" : product.version }}</td>
               <td>{{ (product.type === "") ? "---" : product.type }}</td>
               <td>{{ (product.vendor.name === null) ? "---" : product.vendor.name }}</td>
-              <td>{{ (product.itar === null) ? "---" : product.itar }}</td>
+              <td><span [ngStyle]="{'color':product.itar === true ? 'red' : '' }">{{ (product.itar === null) ? "---" : product.itar }}</span></td>
             </tr>
           </tbody>
         </table>

@@ -5,8 +5,10 @@ using Mighty;
 using System;
 using System.Collections.Generic;
 using ACVPCore.ExtensionMethods;
+using ACVPCore.Models;
 using ACVPWorkflow.Models;
 using ACVPCore.Results;
+using ACVPWorkflow.Models.Parameters;
 
 namespace ACVPWorkflow.Providers
 {
@@ -98,27 +100,37 @@ namespace ACVPWorkflow.Providers
 			}
 		}
 
-		public List<WorkflowItemLite> GetWorkflowItems(WorkflowStatus status)
+		public PagedEnumerable<WorkflowItemLite> GetWorkflowItems(WorkflowListParameters param)
 		{
 			List<WorkflowItemLite> result = new List<WorkflowItemLite>();
+			long totalRecords = 0;
 			var db = new MightyOrm(_acvpConnectionString);
 
 			try
 			{
-				var data = db.QueryFromProcedure("acvp.WorkflowItemsGetByStatus", new
-				{
-					status
-				});
+				var data = db.QueryFromProcedure("acvp.WorkflowItemsGet", new
+					{
+						param.PageSize,
+						param.Page,
+						param.WorkflowItemId,
+						param.Type,
+						param.RequestId
+					},
+					new
+					{
+						totalRecords
+					});
 
 				foreach (var item in data)
 				{
 					result.Add(new WorkflowItemLite()
 					{
-						Submitted = item.submitted,
-						Submitter = item.submitter,
-						SubmissionId = item.submissionId,
-						WorkflowItemId = item.workflowItemId,
-						APIAction = (APIAction)item.apiAction
+						Submitted = item.Submitted,
+						Submitter = item.Submitter,
+						SubmissionId = item.SubmissionId,
+						WorkflowItemId = item.WorkflowItemId,
+						RequestId = item.RequestId,
+						APIAction = (APIAction)item.ApiAction
 					});
 				}
 			}
@@ -127,7 +139,7 @@ namespace ACVPWorkflow.Providers
 				_logger.LogError(ex);
 			}
 			
-			return result;
+			return result.WrapPagingEnumerable(param.PageSize, param.Page, totalRecords);
 		}
 
 		public WorkflowItem GetWorkflowItem(long workflowItemId)

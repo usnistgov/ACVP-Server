@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using ACVPCore.Models;
 using ACVPCore.Results;
 using ACVPWorkflow.Models;
+using ACVPWorkflow.Models.Parameters;
 using ACVPWorkflow.Results;
 
 namespace ACVPWorkflow.Services
@@ -11,7 +12,7 @@ namespace ACVPWorkflow.Services
 		Result Validate(WorkflowItem workflowItem);
 		Result Approve(WorkflowItem workflowItem);
 		Result Reject(WorkflowItem workflowItem);
-		List<WorkflowItemLite> GetWorkflowItems(WorkflowStatus status);
+		PagedEnumerable<WorkflowItemLite> GetWorkflowItems(WorkflowListParameters param);
 		WorkflowItem GetWorkflowItem(long workflowItemId);
 	}
 }

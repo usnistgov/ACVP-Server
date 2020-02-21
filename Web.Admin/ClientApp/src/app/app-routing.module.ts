@@ -8,7 +8,9 @@ import { ValidationDbDependencyComponent } from './components/validation-db-depe
 import { ValidationDbOeComponent } from './components/validation-db-oe/validation-db-oe.component';
 import { ValidationDbProductComponent } from './components/validation-db-product/validation-db-product.component';
 import { ValidationDbProductsComponent } from './components/validation-db-products/validation-db-products.component';
-import { ValidationDbOperatingEnvironmentsComponent } from './components/validation-db-operating-environments/validation-db-operating-environments.component';
+import { ValidationDbOEsComponent } from './components/validation-db-oes/validation-db-oes.component';
+import { ValidationDbPersonComponent } from './components/validation-db-person/validation-db-person.component';
+import { ValidationDbPersonsComponent } from './components/validation-db-persons/validation-db-persons.component';
 
 const routes: Routes = [
   {
@@ -45,7 +47,15 @@ const routes: Routes = [
   },
   {
     path: 'validation-db/operatingEnvironments',
-    component: ValidationDbOperatingEnvironmentsComponent
+    component: ValidationDbOEsComponent
+  },
+  {
+    path: 'validation-db/persons/:id',
+    component: ValidationDbPersonComponent
+  },
+  {
+    path: 'validation-db/persons',
+    component: ValidationDbPersonsComponent
   }
 ];
 

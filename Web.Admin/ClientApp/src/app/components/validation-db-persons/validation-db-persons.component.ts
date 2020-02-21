@@ -1,23 +1,23 @@
 import { Component, OnInit } from '@angular/core';
 import { AjaxService } from '../../services/ajax/ajax.service';
-import { OperatingEnvironment } from '../../models/operatingEnvironment/operatingEnvironment';
+import { Person } from '../../models/Person/Person';
 
 @Component({
-  selector: 'app-validation-db-operating-environments',
-  templateUrl: './validation-db-operating-environments.component.html',
-  styleUrls: ['./validation-db-operating-environments.component.scss']
+  selector: 'app-validation-db-persons',
+  templateUrl: './validation-db-persons.component.html',
+  styleUrls: ['./validation-db-persons.component.scss']
 })
-export class ValidationDbOperatingEnvironmentsComponent implements OnInit {
+export class ValidationDbPersonsComponent implements OnInit {
 
-  operatingEnvironments: OperatingEnvironment[];
+  persons: Person[];
 
   pageData = { "pageSize": 10, "pageNumber": 1 };
 
   constructor(private ajs: AjaxService) { }
 
   ngOnInit() {
-    this.ajs.getOEs(this.pageData.pageSize, this.pageData.pageNumber).subscribe(
-      data => { this.operatingEnvironments = data.data; },
+    this.ajs.getPersons(this.pageData.pageSize, this.pageData.pageNumber).subscribe(
+      data => { this.persons = data.data; },
       err => { /* we should find something useful to do in here at some point.  maybe a site-wide error popup in the html app.component? */ },
       () => { }
     );
@@ -35,8 +35,8 @@ export class ValidationDbOperatingEnvironmentsComponent implements OnInit {
       this.pageData.pageNumber++;
     }
 
-    this.ajs.getOEs(this.pageData.pageSize, this.pageData.pageNumber).subscribe(
-      data => { this.operatingEnvironments = data.data; },
+    this.ajs.getPersons(this.pageData.pageSize, this.pageData.pageNumber).subscribe(
+      data => { this.persons = data.data; },
       err => { /* we should find something useful to do in here at some point.  maybe a site-wide error popup in the html app.component? */ },
       () => { }
     );

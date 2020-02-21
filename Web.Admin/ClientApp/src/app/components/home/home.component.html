@@ -105,9 +105,9 @@
         <!-- The righthand column, containing the details of a given selected session -->
         <!-- This ng-if format is from here: https://stackoverflow.com/questions/37111005/how-to-check-empty-object-in-angular-2-template-using-ngif/54400604 -->
 
-        <div class="col-lg-6" *ngIf="(selectedSession | json) != '{}'">
+        <!--<div class="col-lg-6" *ngIf="(selectedSession | json) != '{}'">
           <div class="mt-3">
-            <h2>Test Session #{{selectedSession.id}}</h2>
+            <h2>Test Session #{{selectedSession?.id}}</h2>
           </div>
 
           <div class="col-lg-12">
@@ -116,16 +116,16 @@
                 Details
               </div>
               <div class="card-body">
-                <span class="bold-heading">Created On:</span> {{ selectedSession.createdOn | date:'yyyy-MM-dd HH:mm' }}<br />
-                <span class="bold-heading">Passed:</span> {{ selectedSession.passed === null ? 'N/A' : selectedSession.passed }}<br />
-                <span class="bold-heading">Publishable:</span> {{ selectedSession.publishable }}<br />
-                <span class="bold-heading">Publihsed:</span> {{ selectedSession.published }}<br />
-                <span class="bold-heading">Sample:</span> {{ selectedSession.sample }}
+                <span class="bold-heading">Created On:</span> {{ selectedSession?.createdOn | date:'yyyy-MM-dd HH:mm' }}<br />
+                <span class="bold-heading">Passed:</span> {{ selectedSession?.passed === null ? 'N/A' : selectedSession?.passed }}<br />
+                <span class="bold-heading">Publishable:</span> {{ selectedSession?.publishable }}<br />
+                <span class="bold-heading">Publihsed:</span> {{ selectedSession?.published }}<br />
+                <span class="bold-heading">Sample:</span> {{ selectedSession?.sample }}
               </div>
             </div>
-          </div>
+          </div>-->
           
-          <div class="col-lg-12 mt-3">
+          <!--<div class="col-lg-12 mt-3">
             <div class="card">
               <div class="card-header bold-heading">
                 Vector Sets
@@ -166,7 +166,7 @@
                 </div>
               </div>
             </div>
-          </div>
+          </div>-->
 
         <div >
           
