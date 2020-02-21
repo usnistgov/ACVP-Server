@@ -348,8 +348,6 @@
     <Build Include="val\Stored Procedures\ValidationsGet.sql" />
     <Build Include="val\Stored Procedures\ValidationGetById.sql" />
     <Build Include="val\Stored Procedures\PrerequisitesForScenarioAlgorithmDelete.sql" />
-    <Build Include="acvp\Stored Procedures\ValidationsGet.sql" />
-    <Build Include="acvp\Stored Procedures\ValidationGetById.sql" />
     <Build Include="val\Stored Procedures\PersonGet.sql" />
     <Build Include="val\Stored Procedures\PersonGetEmails.sql" />
     <Build Include="val\Stored Procedures\PersonGetNotes.sql" />
