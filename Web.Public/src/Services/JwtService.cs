@@ -31,6 +31,7 @@ namespace Web.Public.Services
         }
 
         // TODO needs testing, no claims are available to add yet because no other resources exist
+        // TODO Should use validate/create not something new
         public TokenResult Refresh(string previousToken)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -73,9 +74,26 @@ namespace Web.Public.Services
             }
         }
         
-        public Result Validate(string token)
+        // TODO incomplete
+        public Result Validate(string tokenString)
         {
-            return new Result();
+            var validationParameters = new TokenValidationParameters
+            {
+                 
+            };
+
+            try
+            {
+                var tokenHandler = new JwtSecurityTokenHandler();
+                var claims = tokenHandler.ValidateToken(tokenString, validationParameters, out var validatedToken);
+                
+                return new Result();
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex.StackTrace);
+                return new Result("Unable to validate JWT");
+            }
         }
 
         public TokenResult AddClaims()
