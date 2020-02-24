@@ -28,7 +28,7 @@ namespace ACVPCore.ExtensionMethods
         /// <param name="totalRecords">The total number of records.</param>
         /// <typeparam name="T">The type of object wrapped.</typeparam>
         /// <returns><see cref="PagedEnumerable{T}"/></returns>
-        public static PagedEnumerable<T> WrapPagingEnumerable<T>(this IEnumerable<T> items, int pageSize, int currentPage, long totalRecords)
+        public static PagedEnumerable<T> WrapPagedEnumerable<T>(this IEnumerable<T> items, int pageSize, int currentPage, long totalRecords)
         {
             return new PagedEnumerable<T>(items, pageSize, currentPage, totalRecords);
         }

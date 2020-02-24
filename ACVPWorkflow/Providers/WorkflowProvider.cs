@@ -102,13 +102,14 @@ namespace ACVPWorkflow.Providers
 
 		public PagedEnumerable<WorkflowItemLite> GetWorkflowItems(WorkflowListParameters param)
 		{
-			List<WorkflowItemLite> result = new List<WorkflowItemLite>();
+			var result = new List<WorkflowItemLite>();
 			long totalRecords = 0;
-			var db = new MightyOrm(_acvpConnectionString);
+			var db = new MightyOrm<WorkflowItemLite>(_acvpConnectionString);
 
 			try
 			{
-				var data = db.QueryFromProcedure("acvp.WorkflowItemsGet", new
+				var dbResult = db.QueryWithExpando("acvp.WorkflowItemsGet",
+					new
 					{
 						param.PageSize,
 						param.Page,
@@ -118,28 +119,18 @@ namespace ACVPWorkflow.Providers
 					},
 					new
 					{
-						totalRecords
+						totalRecords = (long) 0
 					});
 
-				foreach (var item in data)
-				{
-					result.Add(new WorkflowItemLite()
-					{
-						Submitted = item.Submitted,
-						Submitter = item.Submitter,
-						SubmissionId = item.SubmissionId,
-						WorkflowItemId = item.WorkflowItemId,
-						RequestId = item.RequestId,
-						APIAction = (APIAction)item.ApiAction
-					});
-				}
+				result = dbResult.Data;
+				totalRecords = dbResult.ResultsExpando.totalRecords;
 			}
 			catch (Exception ex)
 			{
 				_logger.LogError(ex);
 			}
-			
-			return result.WrapPagingEnumerable(param.PageSize, param.Page, totalRecords);
+
+			return result.WrapPagedEnumerable(param.PageSize, param.Page, totalRecords);
 		}
 
 		public WorkflowItem GetWorkflowItem(long workflowItemId)
