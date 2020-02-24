@@ -55,6 +55,7 @@
         <NuGetVersionSerilogSinksFile>4.1.0</NuGetVersionSerilogSinksFile>
         <NuGetVersionSerilogSinksConsole>3.1.1</NuGetVersionSerilogSinksConsole>
         <NuGetVersionMicrosoftNETCoreTargets>3.1.0</NuGetVersionMicrosoftNETCoreTargets>
+        <NuGetVersionMighty>3.1.1</NuGetVersionMighty>
     </PropertyGroup>
 
 </Project>
