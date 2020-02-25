@@ -46,8 +46,7 @@ namespace NIST.CVP.Generation.Core.Tests
         private static readonly Logger GenLogger = LogManager.GetLogger("Generator");
         private static readonly Logger ValLogger = LogManager.GetLogger("Validator");
 
-        private static readonly string RootDirectory = AppDomain.CurrentDomain.BaseDirectory;
-        private IServiceProvider ServiceProvider;
+        private IServiceProvider _serviceProvider;
 
         private static readonly IFileService FileService = new FileService();
         
@@ -57,7 +56,7 @@ namespace NIST.CVP.Generation.Core.Tests
             TestPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\temp_integrationTests\");
             JsonSavePath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\..\..\json-files\");
 
-            ServiceProvider = EntryPointConfigHelper.GetServiceProviderFromConfigurationBuilder();
+            _serviceProvider = EntryPointConfigHelper.GetServiceProviderFromConfigurationBuilder();
         }
 
         [OneTimeTearDown]
@@ -75,11 +74,11 @@ namespace NIST.CVP.Generation.Core.Tests
             var targetFolder = GetTestFolder("Few");
             var fileName = GetTestFileFewTestCases(targetFolder);
 
-            LoggingHelper.ConfigureLogging(fileName, "generator", LogLevel.Debug);
+            LoggingHelper.ConfigureLogging(fileName, "generator", LogLevel.Warn);
             GenLogger.Info($"{Algorithm}-{Mode} Test Vectors");
             RunGeneration(targetFolder, fileName, true);
 
-            LoggingHelper.ConfigureLogging(fileName, "validator", LogLevel.Debug);
+            LoggingHelper.ConfigureLogging(fileName, "validator", LogLevel.Warn);
             ValLogger.Info($"{Algorithm}-{Mode} Test Vectors");
             RunValidation(targetFolder);
 
@@ -243,7 +242,7 @@ namespace NIST.CVP.Generation.Core.Tests
         {
             var builder = new ContainerBuilder();
 
-            EntryPointConfigHelper.RegisterConfigurationInjections(ServiceProvider, builder);
+            EntryPointConfigHelper.RegisterConfigurationInjections(_serviceProvider, builder);
 
             RegistrationsOracle.RegisterTypes(builder, AlgoMode);
             RegistrationsGenVal.RegisterTypes(builder, AlgoMode);

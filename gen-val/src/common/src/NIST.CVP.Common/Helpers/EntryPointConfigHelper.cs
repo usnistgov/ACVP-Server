@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Net.Http;
 using Autofac;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -65,6 +66,8 @@ namespace NIST.CVP.Common.Helpers
             var serviceCollection = new ServiceCollection();
             serviceCollection.AddSingleton((IConfiguration)configurationRoot);
 
+            serviceCollection.AddHttpClient();
+            
             serviceCollection.AddSingleton<IDbConnectionStringFactory, DbConnectionStringFactory>();
             serviceCollection.AddSingleton<IDbConnectionFactory, SqlDbConnectionFactory>();
 
@@ -88,13 +91,16 @@ namespace NIST.CVP.Common.Helpers
         /// <param name="builder">The builder that will create the <see cref="IContainer"/></param>
         public static void RegisterConfigurationInjections(IServiceProvider serviceProvider, ContainerBuilder builder)
         {
-            builder.Register(context => serviceProvider.GetService<IConfiguration>());
-            builder.Register(context => serviceProvider.GetService<IDbConnectionStringFactory>());
-            builder.Register(context => serviceProvider.GetService<IDbConnectionFactory>());
+            builder.Register(context => serviceProvider.GetRequiredService<IConfiguration>());
 
-            builder.Register(context => serviceProvider.GetService<IOptions<EnvironmentConfig>>());
-            builder.Register(context => serviceProvider.GetService<IOptions<PoolConfig>>());
-            builder.Register(context => serviceProvider.GetService<IOptions<OrleansConfig>>());
+            builder.Register(context => serviceProvider.GetRequiredService<IHttpClientFactory>());
+            
+            builder.Register(context => serviceProvider.GetRequiredService<IDbConnectionStringFactory>());
+            builder.Register(context => serviceProvider.GetRequiredService<IDbConnectionFactory>());
+
+            builder.Register(context => serviceProvider.GetRequiredService<IOptions<EnvironmentConfig>>());
+            builder.Register(context => serviceProvider.GetRequiredService<IOptions<PoolConfig>>());
+            builder.Register(context => serviceProvider.GetRequiredService<IOptions<OrleansConfig>>());
         }
     }
 }

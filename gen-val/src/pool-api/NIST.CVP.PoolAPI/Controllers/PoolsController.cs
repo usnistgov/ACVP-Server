@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 
 namespace NIST.CVP.PoolAPI.Controllers
@@ -19,8 +20,14 @@ namespace NIST.CVP.PoolAPI.Controllers
         private readonly ILogger<PoolsController> _logger;
         private readonly JsonSerializerSettings _jsonSettings;
         private readonly PoolManager _poolManager;
-        private bool _isFillingPool = false;
+        
+        private readonly JsonResult _exceptionOnJsonEndpoint = new JsonResult(string.Empty)
+        {
+            StatusCode = StatusCodes.Status500InternalServerError
+        };
 
+        private bool _isFillingPool;
+        
         public PoolsController(ILogger<PoolsController> logger, PoolManager poolManager, IJsonConverterProvider jsonConverterProvider)
         {
             _logger = logger;
@@ -44,9 +51,8 @@ namespace NIST.CVP.PoolAPI.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.StackTrace);
+                return _exceptionOnJsonEndpoint;
             }
-
-            return new JsonResult("");
         }
 
         [HttpGet]
@@ -61,9 +67,8 @@ namespace NIST.CVP.PoolAPI.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.StackTrace);
+                return _exceptionOnJsonEndpoint;
             }
-
-            return new JsonResult("");
         }
 
         [HttpGet]
@@ -79,9 +84,8 @@ namespace NIST.CVP.PoolAPI.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.StackTrace);
+                return _exceptionOnJsonEndpoint;
             }
-
-            return new JsonResult("");
         }
 
         [HttpPost]
@@ -96,7 +100,7 @@ namespace NIST.CVP.PoolAPI.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.StackTrace);
-                return new JsonResult("");
+                return _exceptionOnJsonEndpoint;
             }
         }
 

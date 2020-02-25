@@ -1,20 +1,17 @@
-﻿using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Hosting;
-using NLog;
-using NLog.Config;
+﻿using Microsoft.AspNetCore.Hosting;
 using NLog.Targets;
 using System;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json;
 using NIST.CVP.Common.Config;
 using NIST.CVP.Common.Helpers;
 using NIST.CVP.Common.Interfaces;
 using NIST.CVP.Common.Oracle;
+using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Common.Services;
 using NIST.CVP.Common.Targets;
 using NIST.CVP.Crypto.Oracle;
@@ -75,12 +72,15 @@ namespace NIST.CVP.PoolAPI
                     services.AddSingleton<IDbConnectionFactory, SqlDbConnectionFactory>();
 
                     services.AddSingleton<IJsonConverterProvider, JsonConverterProvider>();
+                    services.AddSingleton(new JsonConverterProvider().GetJsonConverters());
                     services.AddSingleton<IPoolFactory, PoolFactory>();
                     services.AddSingleton<IPoolObjectFactory, PoolObjectFactory>();
                     services.AddSingleton<IPoolRepositoryFactory, PoolSqlRepositoryFactory>();
                     services.AddSingleton<IPoolLogRepository, PoolLogSqlRepository>();
                     services.AddSingleton<IOracle, OracleMinimalLoadSheddingRetries>();
 
+                    services.AddSingleton<IPoolRepository<IResult>, PoolSqlRepository<IResult>>();
+                    
                     services.AddSingleton<PoolManager>();
                 })
                 .ConfigureWebHostDefaults(builder => { builder.UseStartup<Startup>(); });        

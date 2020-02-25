@@ -35,6 +35,8 @@ namespace NIST.CVP.TaskQueueProcessor
                     services.AddSingleton<IDbConnectionFactory, SqlDbConnectionFactory>();
                     services.AddSingleton(new LimitedConcurrencyLevelTaskScheduler(1));
 
+                    services.AddHttpClient();
+                    
                     services.Configure<TaskQueueProcessorConfig>(hostContext.Configuration.GetSection(nameof(TaskQueueProcessorConfig)));
                     services.Configure<EnvironmentConfig>(hostContext.Configuration.GetSection(nameof(EnvironmentConfig)));
                     services.Configure<PoolConfig>(hostContext.Configuration.GetSection(nameof(PoolConfig)));
