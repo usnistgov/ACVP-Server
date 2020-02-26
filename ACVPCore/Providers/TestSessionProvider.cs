@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using ACVPCore.ExtensionMethods;
 using ACVPCore.Models;
+using ACVPCore.Models.Parameters;
 using ACVPCore.Results;
 using CVP.DatabaseInterface;
 using Microsoft.Extensions.Logging;
@@ -111,31 +114,35 @@ namespace ACVPCore.Providers
 			return new Result();
 		}
 
-		public List<TestSessionLite> Get()
+		public PagedEnumerable<TestSessionLite> Get(TestSessionListParameters param)
 		{
-			List<TestSessionLite> result = new List<TestSessionLite>();
-			var db = new MightyOrm(_acvpConnectionString);
-
+			var result = new List<TestSessionLite>();
+			long totalRecords = 0;
+			var db = new MightyOrm<TestSessionLite>(_acvpConnectionString);
+			
 			try
 			{
-				var data = db.QueryFromProcedure("acvp.TestSessionsGet");
-
-				foreach (var item in data)
-				{
-					result.Add(new TestSessionLite()
+				var dbResult = db.QueryWithExpando("acvp.TestSessionsGet",
+					new
 					{
-						Created = item.created_on,
-						Status = item.TestSessionStatusId ?? TestSessionStatus.Unknown,
-						TestSessionId = item.id
+						param.PageSize, 
+						param.Page,
+						param.TestSessionId,
+						param.VectorSetId
+					}, new
+					{
+						totalRecords = (long)0
 					});
-				}
+
+				result = dbResult.Data;
+				totalRecords = dbResult.ResultsExpando.totalRecords;
 			}
 			catch (Exception ex)
 			{
 				_logger.LogError(ex, ex.Message);
 			}
 			
-			return result;
+			return result.WrapPagedEnumerable(param.PageSize, param.Page, totalRecords);
 		}
 
 		public TestSession Get(long testSessionId)
@@ -207,6 +214,24 @@ namespace ACVPCore.Providers
 			}
 			
 			return result;
+		}
+
+		public bool TestSessionExists(long testSessionID)
+		{
+			var db = new MightyOrm(_acvpConnectionString);
+
+			try
+			{
+				return (bool)db.ScalarFromProcedure("acvp.TestSessionExists", inParams: new
+				{
+					TestSessionId = testSessionID
+				});
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex.Message);
+				return false;    //Default to false so we don't try do use it when we don't know if it exists
+			}
 		}
 	}
 }

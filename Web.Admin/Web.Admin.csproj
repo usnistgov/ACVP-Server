@@ -2,6 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>netcoreapp3.1</TargetFramework>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
         <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
         <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
         <IsPackable>false</IsPackable>
@@ -13,9 +14,19 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="3.1.0" />
-        <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.1.0" />
-        <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.0" />
+        <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="$(NuGetVersionMicrosoftAspNetCore)" />
+
+        <PackageReference Include="Serilog" Version="$(NuGetVersionSerilog)" />
+        <PackageReference Include="Serilog.Extensions.Hosting" Version="$(NuGetVersionSerilogExtensionsHosting)" />
+        <PackageReference Include="Serilog.Extensions.Logging" Version="$(NuGetVersionSerilogExtensionsLogging)" />
+        <PackageReference Include="Serilog.Settings.Configuration" Version="$(NuGetVersionSerilogSettingsConfiguration)" />
+        <PackageReference Include="Serilog.Sinks.File" Version="$(NuGetVersionSerilogSinksFile)" />
+        <PackageReference Include="Serilog.Sinks.Console" Version="$(NuGetVersionSerilogSinksConsole)" />
+
+        <PackageReference Include="Microsoft.NETCore.Targets" Version="$(NuGetVersionMicrosoftNETCoreTargets)" PrivateAssets="all" />
+        <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="$(NuGetVersionMicrosoftAspNetCore)" />
+        <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="$(NuGetVersionMicrosoftAspNetCore)" />
+        <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="$(NuGetVersionMicrosoftAspNetCore)" />
     </ItemGroup>
 
     <ItemGroup>
@@ -46,7 +57,29 @@
     <ItemGroup>
       <ProjectReference Include="..\ACVPCore\ACVPCore.csproj" />
       <ProjectReference Include="..\ACVPWorkflow\ACVPWorkflow.csproj" />
+      <ProjectReference Include="..\gen-val\src\common\src\NIST.CVP.Common\NIST.CVP.Common.csproj" />
     </ItemGroup>
+
+    <!-- vvv App settings linking, directory changes depending on build environment vvv -->
+    <ItemGroup Condition="$(ASPNETCORE_ENVIRONMENT) != 'tc'">
+        <Content Include="..\_sharedappsettings\sharedappsettings.json" Link="sharedappsettings.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+        <Content Include="..\_sharedappsettings\sharedappsettings.local.json" Link="sharedappsettings.local.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+        <Content Include="..\_sharedappsettings\sharedappsettings.tc.json" Link="sharedappsettings.tc.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+        <Content Include="..\_sharedappsettings\sharedappsettings.dev.json" Link="sharedappsettings.dev.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+        <Content Include="..\_sharedappsettings\sharedappsettings.test.json" Link="sharedappsettings.test.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+        <Content Include="..\_sharedappsettings\sharedappsettings.demo.json" Link="sharedappsettings.demo.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+        <Content Include="..\_sharedappsettings\sharedappsettings.prod.json" Link="sharedappsettings.prod.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    </ItemGroup>
+    <ItemGroup Condition="$(ASPNETCORE_ENVIRONMENT) == 'tc'">
+        <Content Include="..\_sharedappsettings\sharedappsettings.json" Link="sharedappsettings.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+        <Content Include="..\_sharedappsettings\sharedappsettings.tc.json" Link="sharedappsettings.tc.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+        <Content Include="..\_sharedappsettings\sharedappsettings.dev.json" Link="sharedappsettings.dev.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+        <Content Include="..\_sharedappsettings\sharedappsettings.test.json" Link="sharedappsettings.test.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+        <Content Include="..\_sharedappsettings\sharedappsettings.demo.json" Link="sharedappsettings.demo.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+        <Content Include="..\_sharedappsettings\sharedappsettings.prod.json" Link="sharedappsettings.prod.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    </ItemGroup>
+    <!-- ^^^ App settings linking, directory changes depending on build environment ^^^ -->
+
 
     <ItemGroup>
       <TypeScriptCompile Include="ClientApp\src\app\models\Address\AddressCreateParameters.ts">

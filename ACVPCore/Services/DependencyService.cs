@@ -139,5 +139,10 @@ namespace ACVPCore.Services
 		{
 			return _dependencyProvider.DependencyIsUsed(dependencyID);
 		}
+
+		public bool DependencyExists(long dependencyID)
+		{
+			return _dependencyProvider.DependencyExists(dependencyID);
+		}
 	}
 }

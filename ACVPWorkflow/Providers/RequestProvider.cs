@@ -17,7 +17,7 @@ namespace ACVPWorkflow.Providers
 			_logger = logger;
 		}
 
-		public Result Create(long requestID, RequestAction action, long workflowID, long userID)
+		public KillThisResult Create(long requestID, RequestAction action, long workflowID, long userID)
 		{
 			var db = new MightyOrm(_acvpConnectionString);
 
@@ -31,12 +31,12 @@ namespace ACVPWorkflow.Providers
 					UserID = userID
 				});
 
-				return new Result();
+				return new KillThisResult();
 			}
 			catch (Exception ex)
 			{
 				_logger.LogError(ex.Message);
-				return new Result(ex.Message);
+				return new KillThisResult(ex.Message);
 			}
 		}
 	}

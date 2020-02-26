@@ -269,6 +269,24 @@ namespace ACVPCore.Providers
 			}
 		}
 
+		public bool PersonExists(long personID)
+		{
+			var db = new MightyOrm(_acvpConnectionString);
+
+			try
+			{
+				return (bool)db.ScalarFromProcedure("val.PersonExists", inParams: new
+				{
+					PersonId = personID
+				});
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex.Message);
+				return false;    //Default to false so we don't try do use it when we don't know if it exists
+			}
+		}
+
 		public List<PersonLite> Get(long pageSize, long pageNumber)
 		{
 			var db = new MightyOrm(_acvpConnectionString);
@@ -297,6 +315,7 @@ namespace ACVPCore.Providers
 			{
 				_logger.LogError(ex.Message);
 			}
+			
 			return result;
 		}
 	}

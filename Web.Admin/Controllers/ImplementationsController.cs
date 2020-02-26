@@ -15,13 +15,6 @@ namespace Web.Admin.Controllers
     {
         private readonly IImplementationService _implementationService;
 
-        public ProductsController(
-           IImplementationService implementationService)
-        {
-            _implementationService = implementationService;
-        }
-
-        [HttpGet("{implementationId}")]
         public Implementation Get(long implementationId)
         {
             return _implementationService.Get(implementationId);
@@ -66,7 +59,7 @@ namespace Web.Admin.Controllers
                 parameters.OrganizationID = implementation.Vendor.ID;
                 parameters.OrganizationIDUpdated = true;
             }
-            if (implementation.Type != null)
+            if (implementation.Type != Implementation.ModuleType.UNKNOWN)
             {
                 parameters.Type = ImplementationTypeExtensions.FromString(implementation.Type.ToString());
                 parameters.TypeUpdated = true;

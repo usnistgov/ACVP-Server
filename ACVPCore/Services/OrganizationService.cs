@@ -160,5 +160,10 @@ namespace ACVPCore.Services
 		{
 			return _organizationProvider.Get(organizationID);
 		}
+		
+		public bool OrganizationExists(long organizationID)
+		{
+			return _organizationProvider.OrganizationExists(organizationID);
+		}
 	}
 }

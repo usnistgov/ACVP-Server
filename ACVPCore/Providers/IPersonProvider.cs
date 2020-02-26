@@ -15,6 +15,7 @@ namespace ACVPCore.Providers
 		Result InsertEmailAddress(long personID, string emailAddress, int orderIndex);
 		Result InsertPhoneNumber(long personID, string type, string number, int orderIndex);
 		bool PersonIsUsed(long personID);
+		bool PersonExists(long personID);
 		Result Update(long personID, string name, long? organizationID, bool nameUpdated, bool organizationIDUpdated);
 	}
 }

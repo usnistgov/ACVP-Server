@@ -1,25 +1,32 @@
-﻿using System;
-using System.Text.Json;
-using ACVPCore.Models.Parameters;
+﻿using ACVPCore.Models.Parameters;
 using ACVPCore.Results;
 using ACVPCore.Services;
 using ACVPWorkflow.Exceptions;
 using ACVPWorkflow.Models;
-using ACVPWorkflow.Services;
 
 namespace ACVPWorkflow.WorkflowItemProcessors
 {
-	public class UpdateDependencyProcessor : IWorkflowItemProcessor
+	public class UpdateDependencyProcessor : BaseWorkflowItemProcessor, IWorkflowItemProcessor
 	{
 		private readonly IDependencyService _dependencyService;
+		private IWorkflowItemPayloadValidatorFactory _workflowItemPayloadValidatorFactory;
 
-		public UpdateDependencyProcessor(IDependencyService dependencyService)
+		public UpdateDependencyProcessor(IDependencyService dependencyService, IWorkflowItemPayloadValidatorFactory workflowItemPayloadValidatorFactory)
 		{
 			_dependencyService = dependencyService;
+			_workflowItemPayloadValidatorFactory = workflowItemPayloadValidatorFactory;
+		}
+
+		public bool Validate(WorkflowItem workflowItem)
+		{
+			return IsPendingApproval(workflowItem) && _workflowItemPayloadValidatorFactory.GetWorkflowItemPayloadValidator(APIAction.UpdateDependency).Validate((DependencyUpdatePayload)workflowItem.Payload);
 		}
 
 		public long Approve(WorkflowItem workflowItem)
 		{
+			//Validate this workflow item
+			Validate(workflowItem);
+
 			DependencyUpdateParameters parameters = ((DependencyUpdatePayload)workflowItem.Payload).ToDependencyUpdateParameters();
 
 			//Update it

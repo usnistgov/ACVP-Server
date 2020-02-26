@@ -7,11 +7,10 @@ using ACVPCore.Models.Parameters;
 using ACVPCore.Results;
 using ACVPCore.Services;
 using ACVPWorkflow.Models;
-using ACVPWorkflow.Services;
 
 namespace ACVPWorkflow.WorkflowItemProcessors
 {
-	public class CertifyTestSessionProcessor : IWorkflowItemProcessor
+	public class CertifyTestSessionProcessor : BaseWorkflowItemProcessor, IWorkflowItemProcessor
 	{
 		private readonly IValidationService _validationService;
 		private readonly ITestSessionService _testSessionService;
@@ -19,6 +18,7 @@ namespace ACVPWorkflow.WorkflowItemProcessors
 		private readonly IDependencyService _dependencyService;
 		private readonly IOEService _oeService;
 		private readonly IImplementationService _implementationService;
+		private readonly IWorkflowItemPayloadValidatorFactory _workflowItemPayloadValidatorFactory;
 
 		public CertifyTestSessionProcessor(
 			IValidationService validationService, 
@@ -26,7 +26,8 @@ namespace ACVPWorkflow.WorkflowItemProcessors
 			IVectorSetService vectorSetService, 
 			IDependencyService dependencyService, 
 			IOEService oeService, 
-			IImplementationService implementationService)
+			IImplementationService implementationService,
+			IWorkflowItemPayloadValidatorFactory workflowItemPayloadValidatorFactory)
 		{
 			_validationService = validationService;
 			_testSessionService = testSessionService;
@@ -34,10 +35,19 @@ namespace ACVPWorkflow.WorkflowItemProcessors
 			_dependencyService = dependencyService;
 			_oeService = oeService;
 			_implementationService = implementationService;
+			_workflowItemPayloadValidatorFactory = workflowItemPayloadValidatorFactory;
+		}
+
+		public bool Validate(WorkflowItem workflowItem)
+		{
+			return IsPendingApproval(workflowItem) && _workflowItemPayloadValidatorFactory.GetWorkflowItemPayloadValidator(APIAction.CertifyTestSession).Validate((CertifyTestSessionPayload)workflowItem.Payload);
 		}
 
 		public long Approve(WorkflowItem workflowItem)
 		{
+			//Validate this workflow item
+			Validate(workflowItem);
+
 			CertifyTestSessionPayload certifyTestSessionPayload = (CertifyTestSessionPayload)workflowItem.Payload;
 			CertifyTestSessionParameters parameters = certifyTestSessionPayload.ToCertifyTestSessionParameters();
 
@@ -100,7 +110,7 @@ namespace ACVPWorkflow.WorkflowItemProcessors
 					long scenarioAlgorithmID = scenarioAlgorithmInsertResult.ID;
 
 					//Get the registration JSON
-					string registrationJSON = _vectorSetService.GetCapabilities(vectorSet.ID);
+					string registrationJSON = _vectorSetService.GetVectorFileJson(vectorSet.ID, VectorSetJsonFileTypes.Capabilities);
 
 					//Deserialize that JSON
 					IExternalAlgorithm externalAlgorithm = ExternalAlgorithmFactory.Deserialize(registrationJSON);

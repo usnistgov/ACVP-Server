@@ -4,6 +4,7 @@
   },
 
   "ConnectionStrings": {
+    "Acvp": "Server=localhost;Database=Acvp;Integrated Security=true;",
     "AcvpPools": "Server=localhost;Database=AcvpPools;Integrated Security=true;",
     "AcvpOrleans": "Server=localhost\\SQLEXPRESS;Database=AcvpOrleans;Integrated Security=true;Pooling=False;Max Pool Size=200;MultipleActiveResultSets=True"
   },

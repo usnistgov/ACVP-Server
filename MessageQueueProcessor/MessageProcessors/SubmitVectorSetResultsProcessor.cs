@@ -17,13 +17,13 @@ namespace MessageQueueProcessor.MessageProcessors
 			_taskQueueService = taskQueueService;
 		}
 
-		public void Process(Message message)
+		public Result Process(Message message)
 		{
 			//Get the payload so we can get what we need
 			SubmitResultsPayload submitResultsPayload = JsonSerializer.Deserialize<SubmitResultsPayload>(message.Payload);
 
 			//Update the submitted results
-			Result result = _vectorSetService.UpdateSubmittedResults(submitResultsPayload.VectorSetID, submitResultsPayload.Results);
+			Result result = _vectorSetService.InsertSubmittedAnswers(submitResultsPayload.VectorSetID, submitResultsPayload.Results);
 
 			if (result.IsSuccess)
 			{
@@ -39,6 +39,8 @@ namespace MessageQueueProcessor.MessageProcessors
 				//Update the status to reflect the error, including the error message 
 				_vectorSetService.RecordError(submitResultsPayload.VectorSetID, result.ErrorMessage);    //TODO - figure out if these errors ever get exposed to the end users, as it would be bad to expose the text
 			}
+
+			return result;
 		}
 	}
 }

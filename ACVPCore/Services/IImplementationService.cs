@@ -12,6 +12,7 @@ namespace ACVPCore.Services
 		Implementation Get(long implementationID);
 		List<Implementation> ListImplementations(long pageSize, long pageNumber);
 		bool ImplementationIsUsed(long implementationID);
+		bool ImplementationExists(long implementationID);
 		ImplementationResult Update(ImplementationUpdateParameters parameters);
 	}
 }

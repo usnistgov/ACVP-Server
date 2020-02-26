@@ -7,6 +7,7 @@ using System.Text.Json.Serialization;
 using ACVPCore;
 using ACVPCore.ExtensionMethods;
 using ACVPCore.Models;
+using ACVPCore.Models.Parameters;
 using ACVPCore.Results;
 using ACVPCore.Services;
 using ACVPWorkflow;
@@ -34,9 +35,12 @@ namespace Web.Admin.Controllers
         }
 
         [HttpGet]
-        public WrappedEnumerable<TestSessionLite> GetTestSessions()
+        public ActionResult<PagedEnumerable<TestSessionLite>> GetTestSessions([FromBody] TestSessionListParameters param)
         {
-            return _testSessionService.Get().WrapEnumerable();
+            if (param == null)
+                return new BadRequestResult();
+            
+            return _testSessionService.Get(param);
         }
 
         [HttpGet("{testSessionId}")]

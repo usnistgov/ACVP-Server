@@ -225,14 +225,24 @@ namespace ACVPCore.Providers
 						Name = person.full_name
 					});
 				}
+			}
+		}
+		public bool OrganizationExists(long oeID)
+		{
+			var db = new MightyOrm(_acvpConnectionString);
 
+			try
+			{
+				return (bool)db.ScalarFromProcedure("val.OrganizationExists", inParams: new
+				{
+					OrganizationId = oeID
+				});
 			}
 			catch (Exception ex)
 			{
 				_logger.LogError(ex.Message);
+				return false;    //Default to false so we don't try do use it when we don't know if it exists
 			}
-
-			return result;
 		}
 	}
 }

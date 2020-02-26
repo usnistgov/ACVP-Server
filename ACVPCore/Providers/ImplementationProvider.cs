@@ -73,11 +73,6 @@ namespace ACVPCore.Providers
 				{
 					return null;
 				}
-
-				data = db.SingleFromProcedure("val.ImplementationGet", inParams: new
-				{
-					DependencyID = implementationID
-				});
 			}
 			catch (Exception ex)
 			{
@@ -306,6 +301,24 @@ namespace ACVPCore.Providers
 			{
 				_logger.LogError(ex.Message);
 				return true;    //Default to true so we don't try do delete when we shouldn't
+			}
+		}
+
+		public bool ImplementationExists(long implementationID)
+		{
+			var db = new MightyOrm(_acvpConnectionString);
+
+			try
+			{
+				return (bool)db.ScalarFromProcedure("val.ImplementationExists", inParams: new
+				{
+					ImplementationId = implementationID
+				});
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex.Message);
+				return false;    //Default to false so we don't try do use it when we don't know if it exists
 			}
 		}
 	}

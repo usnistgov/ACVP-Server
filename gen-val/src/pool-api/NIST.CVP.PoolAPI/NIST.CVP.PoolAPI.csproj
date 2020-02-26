@@ -30,8 +30,8 @@
     <ProjectReference Include="..\..\pools\src\NIST.CVP.Pools\NIST.CVP.Pools.csproj" />
   </ItemGroup>
   
-    <!-- vvv App settings linking, directory changes depending on build environment vvv -->
-    <ItemGroup Condition="$(ASPNETCORE_ENVIRONMENT) != 'tc'">
+  <!-- vvv App settings linking, directory changes depending on build environment vvv -->
+  <ItemGroup Condition="$(ASPNETCORE_ENVIRONMENT) != 'tc'">
     <Content Include="..\..\..\..\_sharedappsettings\sharedappsettings.json" Link="sharedappsettings.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
     <Content Include="..\..\..\..\_sharedappsettings\sharedappsettings.local.json" Link="sharedappsettings.local.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
     <Content Include="..\..\..\..\_sharedappsettings\sharedappsettings.tc.json" Link="sharedappsettings.tc.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />

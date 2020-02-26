@@ -14,5 +14,6 @@ namespace ACVPCore.Providers
 		Result DeleteAllEmails(long organizationID);
 
 		bool OrganizationIsUsed(long organizationID);
+		bool OrganizationExists(long organizationID);
 	}
 }

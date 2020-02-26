@@ -128,6 +128,11 @@ namespace ACVPCore.Services
 			return _personProvider.PersonIsUsed(personID);
 		}
 
+		public bool PersonExists(long personID)
+		{
+			return _personProvider.PersonExists(personID);
+		}
+
 		public List<PersonLite> Get(long pageSize, long pageNumber)
 		{
 			return _personProvider.Get(pageSize, pageNumber);

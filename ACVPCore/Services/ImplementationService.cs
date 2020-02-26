@@ -104,5 +104,10 @@ namespace ACVPCore.Services
 		{
 			return _implementationProvider.ImplementationIsUsed(implementationID);
 		}
+
+		public bool ImplementationExists(long implementationID)
+		{
+			return _implementationProvider.ImplementationExists(implementationID);
+		}
 	}
 }
