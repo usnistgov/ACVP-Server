@@ -15,6 +15,12 @@ namespace Web.Admin.Controllers
     {
         private readonly IImplementationService _implementationService;
 
+        public ProductsController(
+           IImplementationService implementationService)
+        {
+            _implementationService = implementationService;
+        }
+
         public Implementation Get(long implementationId)
         {
             return _implementationService.Get(implementationId);

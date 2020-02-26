@@ -226,6 +226,11 @@ namespace ACVPCore.Providers
 					});
 				}
 			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex.Message);
+			}
+			return result;
 		}
 		public bool OrganizationExists(long oeID)
 		{
