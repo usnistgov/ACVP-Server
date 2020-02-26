@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using ACVPCore.Models;
 using ACVPCore.Models.Parameters;
 using ACVPCore.Providers;
 using ACVPCore.Results;
@@ -16,7 +17,6 @@ namespace ACVPCore.Services
 			_organizationProvider = organizationProvider;
 			_addressService = addressService;
 		}
-
 		public DeleteResult Delete(long organizationID)
 		{
 			Result result;
@@ -154,6 +154,11 @@ namespace ACVPCore.Services
 		public bool OrganizationIsUsed(long organizationID)
 		{
 			return _organizationProvider.OrganizationIsUsed(organizationID);
+		}
+
+		public Organization Get(long organizationID)
+		{
+			return _organizationProvider.Get(organizationID);
 		}
 	}
 }

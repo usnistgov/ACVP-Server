@@ -11,9 +11,9 @@ namespace ACVPCore.Providers
 	public class ImplementationProvider : IImplementationProvider
 	{
 		private readonly string _acvpConnectionString;
-		private readonly ILogger<DependencyProvider> _logger;
+		private readonly ILogger<ImplementationProvider> _logger;
 
-		public ImplementationProvider(IConnectionStringFactory connectionStringFactory, ILogger<DependencyProvider> logger)
+		public ImplementationProvider(IConnectionStringFactory connectionStringFactory, ILogger<ImplementationProvider> logger)
 		{
 			_acvpConnectionString = connectionStringFactory.GetMightyConnectionString("ACVP");
 			_logger = logger;
@@ -40,7 +40,7 @@ namespace ACVPCore.Providers
 						Url = data.organization_url,
 						VoiceNumber = data.organization_voice_number,
 						FaxNumber = data.organization_fax_number,
-						Parent = (data.organization_parent_id == null) ? null : new Organization(){ ID = data.organization_parent_id }
+						Parent = (data.organization_parent_id == null) ? null : new OrganizationLite(){ ID = data.organization_parent_id }
 					};
 
 					Address address = new Address
@@ -109,7 +109,7 @@ namespace ACVPCore.Providers
 							Url = attribute.organization_url,
 							VoiceNumber = attribute.organization_voice_number,
 							FaxNumber = attribute.organization_fax_number,
-							Parent = (attribute.organization_parent_id == null) ? null : new Organization() { ID = attribute.organization_parent_id }
+							Parent = (attribute.organization_parent_id == null) ? null : new OrganizationLite() { ID = attribute.organization_parent_id }
 						};
 
 						Address address = new Address

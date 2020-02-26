@@ -27,6 +27,7 @@
 
     <ItemGroup>
       <None Remove="ClientApp\src\app\models\Address\Address.ts" />
+      <None Remove="ClientApp\src\app\models\Address\AddressCreateParameters.ts" />
       <None Remove="ClientApp\src\app\models\dependency-list.ts" />
       <None Remove="ClientApp\src\app\models\dependency-lite.ts" />
       <None Remove="ClientApp\src\app\models\dependency.ts" />
@@ -48,6 +49,9 @@
     </ItemGroup>
 
     <ItemGroup>
+      <TypeScriptCompile Include="ClientApp\src\app\models\Address\AddressCreateParameters.ts">
+        <SubType>Code</SubType>
+      </TypeScriptCompile>
       <TypeScriptCompile Include="ClientApp\src\app\models\Address\Address.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\models\dependency\attribute.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\models\dependency\dependency-list.ts" />

@@ -12,6 +12,8 @@ import { ProductList } from '../../models/Product/ProductList';
 import { OperatingEnvironmentList } from '../../models/OperatingEnvironment/OperatingEnvironmentList';
 import { PersonList } from '../../models/Person/PersonList';
 import { Person } from '../../models/Person/Person';
+import { Organization } from '../../models/Organization/Organization';
+import { AddressCreateParameters } from '../../models/Address/AddressCreateParameters';
 
 const httpOptions = {
   headers: new HttpHeaders()
@@ -118,4 +120,21 @@ export class AjaxService {
     return this.http.get<PersonList>(this.apiRoot + '/Persons?pageNumber=' + pageNumber + '&pageSize=' + pageSize);
   }
   // END Person-related calls
+
+  // Organization-related calls
+  getOrganization(id: number) {
+    return this.http.get<Organization>(this.apiRoot + '/Organizations/' + id);
+  }
+
+  addNewAddress(parameters: AddressCreateParameters) {
+    return this.http.post(this.apiRoot + '/Addresses/', parameters);
+  }
+
+  deleteAddressFromOrganization(index: number, organizationID: number) {
+    return this.http.delete(this.apiRoot + '/Organizations/' + organizationID + '/Addresses/' + index);
+  }
+
+  updateOrganization(organization: Organization) {
+    return this.http.patch(this.apiRoot + '/Organizations/' + organization.id, organization);
+  }
 }

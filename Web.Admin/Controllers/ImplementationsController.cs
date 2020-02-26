@@ -14,11 +14,9 @@ namespace Web.Admin.Controllers
     public class ProductsController : ControllerBase
     {
         private readonly IImplementationService _implementationService;
-        private readonly IAddressService _addressService;
 
         public ProductsController(
-           IImplementationService implementationService,
-           IAddressService addressService)
+           IImplementationService implementationService)
         {
             _implementationService = implementationService;
         }

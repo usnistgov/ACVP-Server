@@ -19,6 +19,12 @@ namespace Web.Admin.Controllers
             _addressService = addressService;
         }
 
+        [HttpPost]
+        public InsertResult CreatePerson(AddressCreateParameters parameters)
+        {
+            return _addressService.Create(parameters);
+        }
+
 
         [HttpPatch("{addressId}")]
         public Result UpdateAddress(long addressId, Address address)
