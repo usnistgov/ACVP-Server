@@ -75,5 +75,6 @@
     <Build Include="dbo\Stored Procedures\GetPoolLogTypeIdFromName.sql" />
     <Build Include="dbo\Stored Procedures\GetPoolValue.sql" />
     <Build Include="dbo\Stored Procedures\MixStagingValuesIntoPool.sql" />
+    <Build Include="dbo\Stored Procedures\GetPoolCounts.sql" />
   </ItemGroup>
 </Project>

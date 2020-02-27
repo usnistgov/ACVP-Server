@@ -21,13 +21,13 @@ namespace NIST.CVP.Pools.Interfaces
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        bool AddWater(TResult value);
+        Task<bool> AddWater(TResult value);
 
         /// <summary>
         /// Gets a value from the pool
         /// </summary>
         /// <returns></returns>
-        PoolResult<TResult> GetNext();
+        Task<PoolResult<TResult>> GetNext();
     }
 
     public interface IPool
@@ -89,7 +89,7 @@ namespace NIST.CVP.Pools.Interfaces
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        bool AddWater(IResult value);
+        Task<bool> AddWater(IResult value);
 
         /// <summary>
         /// Submit a request to fill the pool with water
@@ -101,12 +101,12 @@ namespace NIST.CVP.Pools.Interfaces
         /// Get a result from the pool
         /// </summary>
         /// <returns></returns>
-        PoolResult<IResult> GetNextUntyped();
+        Task<PoolResult<IResult>> GetNextUntyped();
         
         /// <summary>
         /// Clears the pool of all values
         /// </summary>
         /// <returns></returns>
-        bool CleanPool();
+        Task<bool> CleanPool();
     }
 }

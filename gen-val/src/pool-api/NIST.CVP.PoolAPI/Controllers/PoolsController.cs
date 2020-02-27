@@ -42,11 +42,11 @@ namespace NIST.CVP.PoolAPI.Controllers
         [HttpPost]
         [Produces("application/json")]
         // /api/pools
-        public JsonResult GetDataFromPool(ParameterHolder parameterHolder)
+        public async Task<JsonResult> GetDataFromPool(ParameterHolder parameterHolder)
         {
             try
             {
-                return new JsonResult(_poolManager.GetResultFromPool(parameterHolder), _jsonSettings);
+                return new JsonResult(await _poolManager.GetResultFromPool(parameterHolder), _jsonSettings);
             }
             catch (Exception ex)
             {
@@ -182,11 +182,11 @@ namespace NIST.CVP.PoolAPI.Controllers
         [HttpPost]
         [Route("add")]
         // /api/pools/add
-        public bool PostDataToPool(ParameterHolder parameterHolder)
+        public async Task<bool> PostDataToPool(ParameterHolder parameterHolder)
         {
             try
             {
-                return _poolManager.AddResultToPool(parameterHolder);
+                return await _poolManager.AddResultToPool(parameterHolder);
             }
             catch (Exception ex)
             {
@@ -230,10 +230,10 @@ namespace NIST.CVP.PoolAPI.Controllers
         [HttpPost]
         [Route("clean")]
         // /api/pools/clean
-        public bool CleanPools()
+        public async Task<bool> CleanPools()
         {
             // TODO should this clean THEN save? Or leave that up to the consumer?
-            return _poolManager.CleanPools();
+            return await _poolManager.CleanPools();
         }
     }
 }
