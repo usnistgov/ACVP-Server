@@ -39,7 +39,7 @@ namespace ACVPCore.Algorithms.External
 		public class HashPair
 		{
 			[JsonPropertyName("hashAlg")]
-			public List<string> HashAlgorithms { get; set; }
+			public string HashAlgorithm { get; set; }
 
 			[JsonPropertyName("saltLen")]
 			public int? SaltLength { get; set; }
