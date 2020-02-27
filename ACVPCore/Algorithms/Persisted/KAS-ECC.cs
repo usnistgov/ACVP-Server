@@ -273,7 +273,7 @@ namespace ACVPCore.Algorithms.Persisted
 		public abstract class MacOptionsBase
 		{
 			[AlgorithmProperty(Name = "AES-CCM", PrependParentPropertyName = true)]
-			public MacOption AesCcm { get; set; }
+			public MacOptionWithNonceLen AesCcm { get; set; }
 
 			[AlgorithmProperty(Name = "CMAC", PrependParentPropertyName = true)]
 			public MacOption Cmac { get; set; }
@@ -308,7 +308,7 @@ namespace ACVPCore.Algorithms.Persisted
 
 			public static MacOptionsEB Create(External.KAS_ECC.MacOptionsEB externalMacOptions) => externalMacOptions == null ? null : new MacOptionsEB
 			{
-				AesCcm = MacOption.Create(externalMacOptions.AesCcm),
+				AesCcm = MacOptionWithNonceLen.Create(externalMacOptions.AesCcm),
 				Cmac = MacOption.Create(externalMacOptions.Cmac),
 				HmacSha2_D224 = MacOption.Create(externalMacOptions.HmacSha2_D224),
 				HmacSha2_D256 = MacOption.Create(externalMacOptions.HmacSha2_D256),
@@ -327,7 +327,7 @@ namespace ACVPCore.Algorithms.Persisted
 
 			public static MacOptionsEC Create(External.KAS_ECC.MacOptionsEC externalMacOptions) => externalMacOptions == null ? null : new MacOptionsEC
 			{
-				AesCcm = MacOption.Create(externalMacOptions.AesCcm),
+				AesCcm = MacOptionWithNonceLen.Create(externalMacOptions.AesCcm),
 				Cmac = MacOption.Create(externalMacOptions.Cmac),
 				HmacSha2_D256 = MacOption.Create(externalMacOptions.HmacSha2_D256),
 				HmacSha2_D384 = MacOption.Create(externalMacOptions.HmacSha2_D384),
@@ -342,7 +342,7 @@ namespace ACVPCore.Algorithms.Persisted
 
 			public static MacOptionsED Create(External.KAS_ECC.MacOptionsED externalMacOptions) => externalMacOptions == null ? null : new MacOptionsED
 			{
-				AesCcm = MacOption.Create(externalMacOptions.AesCcm),
+				AesCcm = MacOptionWithNonceLen.Create(externalMacOptions.AesCcm),
 				Cmac = MacOption.Create(externalMacOptions.Cmac),
 				HmacSha2_D384 = MacOption.Create(externalMacOptions.HmacSha2_D384),
 				HmacSha2_D512 = MacOption.Create(externalMacOptions.HmacSha2_D512)
@@ -353,7 +353,7 @@ namespace ACVPCore.Algorithms.Persisted
 		{
 			public static MacOptionsEE Create(External.KAS_ECC.MacOptionsEE externalMacOptions) => externalMacOptions == null ? null : new MacOptionsEE
 			{
-				AesCcm = MacOption.Create(externalMacOptions.AesCcm),
+				AesCcm = MacOptionWithNonceLen.Create(externalMacOptions.AesCcm),
 				Cmac = MacOption.Create(externalMacOptions.Cmac),
 				HmacSha2_D512 = MacOption.Create(externalMacOptions.HmacSha2_D512)
 			};
