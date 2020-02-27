@@ -13,7 +13,7 @@ BEGIN
 	EXEC [dbo].[GetPoolIdFromName] @poolName, @poolId OUTPUT
 
     DELETE TOP(1) [dbo].[PoolValues] WITH (READPAST)
-	OUTPUT deleted.*  
+	OUTPUT deleted.id, deleted.poolId, deleted.isStagingValue, deleted.dateCreated, deleted.dateLastUsed, deleted.timesUsed, deleted.[value]
 	WHERE poolId = @poolId
 		and isStagingValue = 0
 

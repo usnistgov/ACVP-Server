@@ -21,7 +21,6 @@ namespace NIST.CVP.Pools
         private ILogger<PoolManager> _logger;
         
         public readonly List<IPool> Pools = new List<IPool>();
-        private readonly IOptions<PoolConfig> _poolConfig;
         private readonly string _poolConfigFile;
         private readonly IPoolLogRepository _poolLogRepository;
         private readonly IPoolFactory _poolFactory;
@@ -39,8 +38,7 @@ namespace NIST.CVP.Pools
         )
         {
             _logger = logger;
-            _poolConfig = poolConfig;
-            _poolConfigFile = _poolConfig.Value.PoolConfigFile;
+            _poolConfigFile = poolConfig.Value.PoolConfigFile;
             _poolLogRepository = poolLogRepository;
             _poolFactory = poolFactory;
             _jsonConverters = jsonConverterProvider.GetJsonConverters();
@@ -69,26 +67,26 @@ namespace NIST.CVP.Pools
             return new PoolInformation { PoolExists = false };
         }
 
-        public bool AddResultToPool(ParameterHolder paramHolder)
+        public async Task<bool> AddResultToPool(ParameterHolder paramHolder)
         {
             if (Pools.TryFirst(pool => pool.Param.Equals(paramHolder.Parameters), out var result))
             {
-                return result.AddWater(paramHolder.Result);
+                return await result.AddWater(paramHolder.Result);
             }
 
             return false;
         }
 
-        public PoolResult<IResult> GetResultFromPool(ParameterHolder paramHolder)
+        public async Task<PoolResult<IResult>> GetResultFromPool(ParameterHolder paramHolder)
         {
             var startAction = DateTime.Now;
 
             if (Pools.TryFirst(pool => pool.Param.Equals(paramHolder.Parameters), out var result))
             {
-                return result.GetNextUntyped();
+                return await result.GetNextUntyped();
             }
 
-            _poolLogRepository.WriteLog(
+            await _poolLogRepository.WriteLog(
                 LogTypes.NoPool,
                 string.Empty,
                 startAction,
@@ -149,13 +147,17 @@ namespace NIST.CVP.Pools
             return true;
         }
 
-        public bool CleanPools()
+        public async Task<bool> CleanPools()
         {
+            var tasks = new List<Task>();
+            
             foreach (var pool in Pools)
             {
-                pool.CleanPool();
+                tasks.Add(pool.CleanPool());
             }
 
+            await Task.WhenAll(tasks);
+            
             return true;
         }
 
@@ -185,7 +187,7 @@ namespace NIST.CVP.Pools
                     {
                         await Task.WhenAll(tasks);
 
-                        _poolLogRepository.WriteLog(LogTypes.QueueOrleansWorkToPool, minPool.PoolName, startAction,
+                        await _poolLogRepository.WriteLog(LogTypes.QueueOrleansWorkToPool, minPool.PoolName, startAction,
                             DateTime.Now, null);
 
                         _logger.LogInformation($"Pool was filled: \n\n {json}");
@@ -204,7 +206,7 @@ namespace NIST.CVP.Pools
             }
             catch (Exception ex)
             {
-                LogManager.GetCurrentClassLogger().Error(ex);
+                _logger.LogError(ex, ex.Message);
                 return new SpawnJobResponse();
             }
         }

@@ -5,7 +5,7 @@
 
   "ConnectionStrings": {
     "Acvp": "Server=stvmdevsql03;Database=Acvp;Integrated Security=true;",
-    "AcvpPools": "Server=stvmdevsql03;Database=AcvpPools;Integrated Security=true;",
+    "AcvpPools": "Server=stvmdevsql03;Database=AcvpPools;Integrated Security=true;Max Pool Size=1000;",
     "AcvpOrleans": "Server=stvmdevsql03;Database=AcvpOrleans;Integrated Security=true;Pooling=False;Max Pool Size=200;MultipleActiveResultSets=True"
   },
 

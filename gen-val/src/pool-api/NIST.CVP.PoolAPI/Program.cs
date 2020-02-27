@@ -1,12 +1,11 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using NLog.Targets;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Newtonsoft.Json;
+using Microsoft.Extensions.Options;
 using NIST.CVP.Common.Config;
 using NIST.CVP.Common.Helpers;
 using NIST.CVP.Common.Interfaces;
@@ -31,29 +30,64 @@ namespace NIST.CVP.PoolAPI
             SerilogTarget.ReplaceAllNLogTargetsWithSingleSerilogForwarder();
             
             var directoryConfig = EntryPointConfigHelper.GetRootDirectory();
-            await CreateHostBuilder(args, directoryConfig).Build().RunAsync();
+            
+            var (env, configurationRoot, poolConfig) = PreBuildBuilder(directoryConfig);
+
+            await CreateHostBuilder(args, env, configurationRoot, poolConfig).Build().RunAsync();
         }
 
-        private static IHostBuilder CreateHostBuilder(string[] args, string directoryConfig) =>
+        /// <summary>
+        /// Some of the bootstrapping of the app actually relies on config values.
+        /// I'm not sure if there's a good way to hook into the config at the point of app bootstrapping, 
+        /// doesn't seem like it.  So to get what is needed, create a builder to load the config files
+        /// and pass the subsequent IConfiguration to the actual meaty app bootstrapping.
+        /// </summary>
+        /// <param name="directoryConfig">The directory configuration files are located.</param>
+        /// <returns>string representing the running environment, the configuration root, and pool configuration.</returns>
+        private static (string env, IConfigurationRoot configurationRoot, PoolConfig poolConfig) PreBuildBuilder(
+            string directoryConfig)
+        {
+            var env = GetEnvironmentName();
+            var tempConfigBuilder = new ConfigurationBuilder();
+            AddJsonFiles(directoryConfig, tempConfigBuilder, env);
+            var configurationRoot = tempConfigBuilder.Build();
+
+            var serviceCollection = new ServiceCollection();
+            serviceCollection.Configure<PoolConfig>(configurationRoot.GetSection(nameof(PoolConfig)));
+            var serviceProvider = serviceCollection.BuildServiceProvider();
+            var poolConfig = serviceProvider.GetService<IOptions<PoolConfig>>().Value;
+            return (env, configurationRoot, poolConfig);
+        }
+        
+        private static string GetEnvironmentName()
+        {
+            var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+            if (string.IsNullOrWhiteSpace(env))
+            {
+                /* TODO this could fall back to an environment,
+                         * when/if driver is updated to check for var
+                         */
+                throw new Exception("ASPNETCORE_ENVIRONMENT env variable not set.");
+            }
+
+            return env;
+        }
+        
+        private static void AddJsonFiles(string directoryConfig, IConfigurationBuilder builder, string env)
+        {
+            builder
+                .AddJsonFile($"{directoryConfig}sharedappsettings.json", optional: false, reloadOnChange: false)
+                .AddJsonFile($"{directoryConfig}sharedappsettings.{env}.json", optional: false, reloadOnChange: false)
+                .AddJsonFile($"{directoryConfig}appsettings.json", optional: false, reloadOnChange: false)
+                .AddJsonFile($"{directoryConfig}appsettings.{env}.json", optional: false, reloadOnChange: false);
+        }
+
+        private static IHostBuilder CreateHostBuilder(string[] args, string env, IConfigurationRoot configurationRoot, PoolConfig poolConfig) =>
             Host.CreateDefaultBuilder(args)
                 .ConfigureAppConfiguration((context, builder) =>
                 {
-                    var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-                    if (string.IsNullOrWhiteSpace(env))
-                    {
-                        /* TODO this could fall back to an environment,
-                         * when/if driver is updated to check for var
-                         */
-                        throw new Exception("ASPNETCORE_ENVIRONMENT env variable not set.");
-                    }
-
                     context.HostingEnvironment.EnvironmentName = env;
-                    
-                    builder
-                        .AddJsonFile($"{directoryConfig}sharedappsettings.json", optional: false, reloadOnChange: false)
-                        .AddJsonFile($"{directoryConfig}sharedappsettings.{env}.json", optional: false, reloadOnChange: false)
-                        .AddJsonFile($"{directoryConfig}appsettings.json", optional: false, reloadOnChange: false)
-                        .AddJsonFile($"{directoryConfig}appsettings.{env}.json", optional: false, reloadOnChange: false);
+                    builder.AddConfiguration(configurationRoot);
                 })
                 .UseWindowsService()
                 .UseSerilog((context, loggerConfiguration) =>
@@ -83,6 +117,10 @@ namespace NIST.CVP.PoolAPI
                     
                     services.AddSingleton<PoolManager>();
                 })
-                .ConfigureWebHostDefaults(builder => { builder.UseStartup<Startup>(); });        
+                .ConfigureWebHostDefaults(builder =>
+                {
+                    builder.UseUrls($"http://*:{poolConfig.Port}");
+                    builder.UseStartup<Startup>();
+                });
     }
 }
