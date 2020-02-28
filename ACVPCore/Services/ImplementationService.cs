@@ -91,7 +91,7 @@ namespace ACVPCore.Services
 				Result contactResult;
 				for (int i = 0; i < parameters.ContactIDs.Count; i++)
 				{
-					contactResult = _implementationProvider.InsertContact(parameters.ID, parameters.ContactIDs[i], i);
+					contactResult = AddContact(parameters.ID, parameters.ContactIDs[i], i);
 				}
 			}
 
@@ -108,5 +108,7 @@ namespace ACVPCore.Services
 		{
 			return _implementationProvider.ImplementationExists(implementationID);
 		}
+
+		public Result AddContact(long implementationID, long contactID, int orderIndex) => _implementationProvider.InsertContact(implementationID, contactID, orderIndex);
 	}
 }
