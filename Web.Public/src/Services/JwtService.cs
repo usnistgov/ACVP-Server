@@ -73,7 +73,7 @@ namespace Web.Public.Services
                 return new TokenResult("Unable to create JWT");
             }
         }
-        
+
         // TODO incomplete
         public Result Validate(string tokenString)
         {
