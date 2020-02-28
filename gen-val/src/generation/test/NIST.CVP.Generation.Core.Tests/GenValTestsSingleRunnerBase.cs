@@ -16,6 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Serilog;
 
 namespace NIST.CVP.Generation.Core.Tests
 {
@@ -208,7 +209,8 @@ namespace NIST.CVP.Generation.Core.Tests
             var registrationJson = FileService.ReadFile(fileName);
             
             // Run test vector generation
-            using (var scope = GetContainer(overrideRegisteredDependencies).BeginLifetimeScope())
+            using var scope = GetContainer(overrideRegisteredDependencies).BeginLifetimeScope();
+            try
             {
                 var gen = scope.Resolve<IGenerator>();
                 var result = gen.Generate(new GenerateRequest(registrationJson));
@@ -216,8 +218,14 @@ namespace NIST.CVP.Generation.Core.Tests
                 FileService.WriteFile(Path.Combine(targetFolder, _testVectorFileNames[0]), result.ResultProjection, true);
                 FileService.WriteFile(Path.Combine(targetFolder, _testVectorFileNames[1]), result.InternalProjection, true);
                 FileService.WriteFile(Path.Combine(targetFolder, _testVectorFileNames[2]), result.PromptProjection, true);
-                
+
                 Assert.IsTrue(result.Success, $"Generator failed to complete with status code: {result.StatusCode}, {EnumHelpers.GetEnumDescriptionFromEnum(result.StatusCode)}, {result.ErrorMessage}");
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex.Message);
+                Log.Error(ex.StackTrace);
+                Assert.Fail("Exception running Generator.");
             }
         }
 
@@ -227,14 +235,22 @@ namespace NIST.CVP.Generation.Core.Tests
             var internalJson = FileService.ReadFile(Path.Combine(targetFolder, _testVectorFileNames[1]));
             
             // Run test vector validation
-            using (var scope = GetContainer().BeginLifetimeScope())
+            using var scope = GetContainer().BeginLifetimeScope();
+            try
             {
                 var val = scope.Resolve<IValidator>();
                 var result = val.Validate(new ValidateRequest(internalJson, resultJson, true));
 
                 FileService.WriteFile(Path.Combine(targetFolder, "validation.json"), result.ValidationResult, true);
-                
-                Assert.IsTrue(result.Success, $"Validator failed to complete with status code: {result.StatusCode}, {EnumHelpers.GetEnumDescriptionFromEnum(result.StatusCode)}, {result.ErrorMessage}");
+
+                Assert.IsTrue(result.Success,
+                    $"Validator failed to complete with status code: {result.StatusCode}, {EnumHelpers.GetEnumDescriptionFromEnum(result.StatusCode)}, {result.ErrorMessage}");
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex.Message);
+                Log.Error(ex.StackTrace);
+                Assert.Fail("Exception running Validator.");
             }
         }
 
