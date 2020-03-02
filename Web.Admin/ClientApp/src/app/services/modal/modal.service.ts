@@ -14,4 +14,7 @@ export class ModalService {
     $("#" + modalId).modal('show');
   }
 
+  hideModal(modalId: string) {
+    $("#" + modalId).modal('hide');
+  }
 }

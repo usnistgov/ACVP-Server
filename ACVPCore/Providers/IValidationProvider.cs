@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using ACVPCore.Models;
 using ACVPCore.Results;
 
 namespace ACVPCore.Providers
@@ -10,5 +11,7 @@ namespace ACVPCore.Providers
 		long GetNextACVPValidationNumber();
 		long GetNextLCAVPValidationNumber();
 		Result ValidationTestSessionInsert(long validationID, long testSessionID);
+		List<ValidationLite> GetValidations();
+		Validation GetValidation(long validationId);
 	}
 }

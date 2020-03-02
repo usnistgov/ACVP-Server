@@ -13,5 +13,7 @@ namespace ACVPCore.Services
 		Result Update(AddressUpdateParameters parameters);
 		List<Address> GetAllForOrganization(long organizationID);
 		bool AddressIsUsedOtherThanOrg(long addressID);
+		bool AddressExists(long addressID);
+		Address Get(long addressID);
 	}
 }

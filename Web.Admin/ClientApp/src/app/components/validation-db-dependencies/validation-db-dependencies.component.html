@@ -40,9 +40,9 @@
       <div class="row">
         <table class="center">
           <tr>
-            <td><button class="btn btn-primary bold-heading">&lt;&lt;</button></td>
-            <td><button class="btn btn-primary bold-heading">&lt;</button></td>
-            <td><button class="btn btn-primary bold-heading">&gt;</button></td>
+            <td><button class="btn btn-primary bold-heading" (click)="getPage('first')">&lt;&lt;</button></td>
+            <td><button class="btn btn-primary bold-heading" (click)="getPage('previous')">&lt;</button></td>
+            <td><button class="btn btn-primary bold-heading" (click)="getPage('next')">&gt;</button></td>
             <td><button class="btn btn-primary bold-heading">&gt;&gt;</button></td>
           </tr>
           <tr>

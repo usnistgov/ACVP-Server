@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using ACVPCore.Models;
+using ACVPCore.Models.Parameters;
 using ACVPCore.Providers;
 using ACVPCore.Results;
 
@@ -51,7 +52,7 @@ namespace ACVPCore.Services
 		public TestSessionStatus GetStatus(long testSessionID) => _testSessionProvider.GetStatus(testSessionID);
 
 		public Result UpdateStatus(long testSessionID, TestSessionStatus testSessionStatus) => _testSessionProvider.UpdateStatus(testSessionID, testSessionStatus);
-		public List<TestSessionLite> Get() => _testSessionProvider.Get();
+		public PagedEnumerable<TestSessionLite> Get(TestSessionListParameters param) => _testSessionProvider.Get(param);
 		public TestSession Get(long testSessionId)
 		{
 			var testSession = _testSessionProvider.Get(testSessionId);
@@ -61,6 +62,11 @@ namespace ACVPCore.Services
 			
 			testSession.VectorSets = _testSessionProvider.GetVectorSetsForTestSession(testSessionId);
 			return testSession;
+		}
+
+		public bool TestSessionExists(long testSessionID)
+		{
+			return _testSessionProvider.TestSessionExists(testSessionID);
 		}
 	}
 }

@@ -20,7 +20,7 @@ using System.Threading.Tasks;
 
 namespace NIST.CVP.Crypto.Oracle
 {
-    public partial class Oracle : IOracle
+    public partial class Oracle : IOracle, IDisposable
     {
         private const int TimeoutSeconds = 60;
 
@@ -29,7 +29,7 @@ namespace NIST.CVP.Crypto.Oracle
         private readonly IClusterClient _clusterClient;
         private readonly string _orleansConnectionString;
 
-        protected ILogger ThisLogger = LogManager.GetCurrentClassLogger();
+        protected readonly ILogger ThisLogger = LogManager.GetCurrentClassLogger();
 
         protected virtual int LoadSheddingRetries { get; }
 
@@ -53,10 +53,7 @@ namespace NIST.CVP.Crypto.Oracle
         /// </summary>
         ~Oracle()
         {
-            if (_clusterClient.IsInitialized)
-            {
-                _clusterClient.Close();
-            }
+            Dispose(false);
         }
 
         /// <summary>
@@ -173,6 +170,20 @@ namespace NIST.CVP.Crypto.Oracle
                     });
                     break;
             }
+        }
+
+        private void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _clusterClient?.Dispose();
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
     }
 }

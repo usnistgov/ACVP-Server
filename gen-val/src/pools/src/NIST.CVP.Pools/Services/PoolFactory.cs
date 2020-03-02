@@ -36,8 +36,10 @@ namespace NIST.CVP.Pools.Services
             _poolRepositoryFactory = poolRepositoryFactory;
             _poolLogRepository = poolLogRepository;
             _poolObjectFactory = poolObjectFactory;
-            
-            _initialPoolCounts = poolRepository.GetAllPoolCounts();
+
+            var initialPoolCountsTask = poolRepository.GetAllPoolCounts();
+            initialPoolCountsTask.Wait();
+            _initialPoolCounts = initialPoolCountsTask.Result;
         }
 
         public IPool GetPool(PoolProperties poolProperties)

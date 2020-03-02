@@ -25,6 +25,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Pools", "gen-val\s
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.Common", "gen-val\src\crypto\src\NIST.CVP.Crypto.Common\NIST.CVP.Crypto.Common.csproj", "{0945B654-3E4A-4AD2-B8CA-3BE9D4411A09}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Crypto.Oracle", "gen-val\src\oracle\src\NIST.CVP.Crypto.Oracle\NIST.CVP.Crypto.Oracle.csproj", "{961ED06F-BFFD-43E3-A1BB-E4D5B90084D8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Orleans.Grains.Interfaces", "gen-val\src\orleans\src\NIST.CVP.Orleans.Grains.Interfaces\NIST.CVP.Orleans.Grains.Interfaces.csproj", "{A2484D70-6E21-44B8-9D20-7E0B2CCA36B7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -67,6 +71,14 @@ Global
 		{0945B654-3E4A-4AD2-B8CA-3BE9D4411A09}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0945B654-3E4A-4AD2-B8CA-3BE9D4411A09}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0945B654-3E4A-4AD2-B8CA-3BE9D4411A09}.Release|Any CPU.Build.0 = Release|Any CPU
+		{961ED06F-BFFD-43E3-A1BB-E4D5B90084D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{961ED06F-BFFD-43E3-A1BB-E4D5B90084D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{961ED06F-BFFD-43E3-A1BB-E4D5B90084D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{961ED06F-BFFD-43E3-A1BB-E4D5B90084D8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A2484D70-6E21-44B8-9D20-7E0B2CCA36B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2484D70-6E21-44B8-9D20-7E0B2CCA36B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2484D70-6E21-44B8-9D20-7E0B2CCA36B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2484D70-6E21-44B8-9D20-7E0B2CCA36B7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -81,6 +93,8 @@ Global
 		{9EEBAEAE-62DD-4CFC-8B9D-2DAA3228A8AB} = {AF1DAE3D-65BB-47F5-B397-95CA4606FC1A}
 		{D4776D45-D623-4BB5-8541-6A3030573F9D} = {AF1DAE3D-65BB-47F5-B397-95CA4606FC1A}
 		{0945B654-3E4A-4AD2-B8CA-3BE9D4411A09} = {AF1DAE3D-65BB-47F5-B397-95CA4606FC1A}
+		{961ED06F-BFFD-43E3-A1BB-E4D5B90084D8} = {AF1DAE3D-65BB-47F5-B397-95CA4606FC1A}
+		{A2484D70-6E21-44B8-9D20-7E0B2CCA36B7} = {AF1DAE3D-65BB-47F5-B397-95CA4606FC1A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {30A1396A-D4FA-4875-AA3A-BE0435E02B80}

@@ -14,6 +14,7 @@ namespace ACVPCore.Providers
 		Result DeleteDependencyLink(long oeID, long dependencyID);
 		List<long> GetDependencyLinks(long oeID);
 		bool OEIsUsed(long oeID);
+		bool OEExists(long oeID);
 		OperatingEnvironment Get(long oeID);
 		List<OperatingEnvironmentLite> Get(long pageSize, long pageNumber);
 	}

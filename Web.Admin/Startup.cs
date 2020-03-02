@@ -1,7 +1,7 @@
+using System;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,10 +21,10 @@ namespace Web.Admin
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.RegisterAcvpAdminServices();
             services.AddControllersWithViews()
                 .AddJsonOptions(
                     options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
+
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/dist"; });
         }
@@ -32,7 +32,7 @@ namespace Web.Admin
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
+            if (env.IsEnvironment(NIST.CVP.Common.Enums.Environments.Local.ToString()))
             {
                 app.UseDeveloperExceptionPage();
             }
@@ -45,7 +45,8 @@ namespace Web.Admin
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            if (!env.IsDevelopment())
+
+            if (!env.IsEnvironment(NIST.CVP.Common.Enums.Environments.Local.ToString()))
             {
                 app.UseSpaStaticFiles();
             }
@@ -66,7 +67,7 @@ namespace Web.Admin
 
                 spa.Options.SourcePath = "ClientApp";
 
-                if (env.IsDevelopment())
+                if (env.IsEnvironment(NIST.CVP.Common.Enums.Environments.Local.ToString()))
                 {
                     spa.UseAngularCliServer(npmScript: "start");
                 }

@@ -99,6 +99,11 @@ namespace ACVPCore.Services
 			return _oeProvider.OEIsUsed(oeID);
 		}
 
+		public bool OEExists(long oeID)
+		{
+			return _oeProvider.OEExists(oeID);
+		}
+
 		public OperatingEnvironment Get(long oeID)
 		{
 			return _oeProvider.Get(oeID);

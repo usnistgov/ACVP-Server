@@ -1,6 +1,8 @@
-﻿using ACVPCore.Models.Parameters;
+﻿using ACVPCore.Models;
+using ACVPCore.Models.Parameters;
 using ACVPCore.Providers;
 using ACVPCore.Results;
+using System.Collections.Generic;
 
 namespace ACVPCore.Services
 {
@@ -13,6 +15,10 @@ namespace ACVPCore.Services
 			_personProvider = personProvider;
 		}
 
+		public Person Get(long personID)
+		{
+			return _personProvider.Get(personID);
+		}
 		public DeleteResult Delete(long personID)
 		{
 			Result result;
@@ -117,10 +123,19 @@ namespace ACVPCore.Services
 			//Even though it is kind of stupid, return a result object that includes the URL, as I think that's what is expected to go into the workflow item
 			return new PersonResult(parameters.ID);
 		}
-
 		public bool PersonIsUsed(long personID)
 		{
 			return _personProvider.PersonIsUsed(personID);
+		}
+
+		public bool PersonExists(long personID)
+		{
+			return _personProvider.PersonExists(personID);
+		}
+
+		public List<PersonLite> Get(long pageSize, long pageNumber)
+		{
+			return _personProvider.Get(pageSize, pageNumber);
 		}
 	}
 }

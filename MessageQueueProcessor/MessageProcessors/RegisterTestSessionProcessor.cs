@@ -18,7 +18,7 @@ namespace MessageQueueProcessor.MessageProcessors
 			_taskQueueService = taskQueueService;
 		}
 
-		public void Process(Message message)
+		public Result Process(Message message)
 		{
 			//Deserialize the payload
 			RegisterTestSessionPayload registerTestSessionPayload = JsonSerializer.Deserialize<RegisterTestSessionPayload>(message.Payload);
@@ -31,8 +31,8 @@ namespace MessageQueueProcessor.MessageProcessors
 				//Loop through the vector set registrations
 				foreach (VectorSetRegistration vectorSetRegistration in registerTestSessionPayload.VectorSetRegistrations)
 				{
-					//Create the vector set - this actually inserts the Vector Set record and an expected results record with the capabilities
-					Result vectorSetResult = _vectorSetService.Create(vectorSetRegistration.VectorSetID, registerTestSessionPayload.TestSessionID, "1.0", vectorSetRegistration.AlgorithmID, vectorSetRegistration.Capabilities.ToString());		//TODO - this generator version can't be hardcoded...
+					//Create the vector set - this actually inserts the Vector Set record and the capabilities
+					Result vectorSetResult = _vectorSetService.Create(vectorSetRegistration.VectorSetID, registerTestSessionPayload.TestSessionID, "1.0", vectorSetRegistration.AlgorithmID, vectorSetRegistration.Capabilities.ToString());		//HACK - this generator version shouldn't be hardcoded, but it was in Java, and it isn't clear what it was for
 
 					if (vectorSetResult.IsSuccess)
 					{
@@ -53,6 +53,7 @@ namespace MessageQueueProcessor.MessageProcessors
 				}
 			}
 
+			return result;
 		}
 	}
 }

@@ -7,6 +7,7 @@ using System.Text.Json.Serialization;
 using ACVPCore;
 using ACVPCore.ExtensionMethods;
 using ACVPCore.Models;
+using ACVPCore.Models.Parameters;
 using ACVPCore.Results;
 using ACVPCore.Services;
 using ACVPWorkflow;
@@ -33,16 +34,24 @@ namespace Web.Admin.Controllers
             _vectorSetService = vectorSetService;
         }
 
-        [HttpGet]
-        public WrappedEnumerable<TestSessionLite> GetTestSessions()
+        [HttpPost]
+        public ActionResult<PagedEnumerable<TestSessionLite>> GetTestSessions([FromBody] TestSessionListParameters param)
         {
-            return _testSessionService.Get().WrapEnumerable();
+            if (param == null)
+                return new BadRequestResult();
+            
+            return _testSessionService.Get(param);
         }
 
         [HttpGet("{testSessionId}")]
         public ActionResult<TestSession> GetTestSessionDetails(long testSessionId)
         {
             var result = _testSessionService.Get(testSessionId);
+
+            for (int i = 0; i < result.VectorSets.Count; i++)
+            {
+                result.VectorSets[i] = _vectorSetService.GetVectorSet(result.VectorSets[i].Id);
+            }
 
             if (result == null)
                 return new NotFoundResult();
@@ -63,9 +72,9 @@ namespace Web.Admin.Controllers
         }
 
         [HttpGet("vectorSet/{vectorSetId}")]
-        public ActionResult<TestVectorSet> GetTestVectorSet(long vectorSetId)
+        public ActionResult<VectorSet> GetTestVectorSet(long vectorSetId)
         {
-            var result = _vectorSetService.GetTestVectorSet(vectorSetId);
+            var result = _vectorSetService.GetVectorSet(vectorSetId);
 
             if (result == null)
                 return new NotFoundResult();
@@ -78,7 +87,7 @@ namespace Web.Admin.Controllers
         {
             if(Enum.TryParse<VectorSetJsonFileTypes>(fileType, true, out var parsedFileType))
             {
-                var result = _vectorSetService.GetTestVectorFileJson(vectorSetId, parsedFileType);
+                var result = _vectorSetService.GetVectorFileJson(vectorSetId, parsedFileType);
                 
                 if (result == null)
                     return new NotFoundResult();

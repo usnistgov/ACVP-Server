@@ -13,18 +13,19 @@ namespace ACVPWorkflow.Models
 		private string _type;
 		private string _version;
 		private string _website;
-		private string _vendorURL;
+		//private string _vendorURL;
 		private string _addressURL;
-		private List<string> _contactUrls;
+		//private List<string> _contactUrls;
 
 		[JsonPropertyName("id")]
 		public long ID { get; set; }
 
 		[JsonPropertyName("url")]
-		public string URL => $"/admin/modules/{ID}"; 
+		public string URL => $"/admin/modules/{ID}";
 
 		[JsonPropertyName("name")]
-		public string Name {
+		public string Name
+		{
 			get => _name;
 			set
 			{
@@ -34,7 +35,8 @@ namespace ACVPWorkflow.Models
 		}
 
 		[JsonPropertyName("description")]
-		public string Description {
+		public string Description
+		{
 			get => _description;
 			set
 			{
@@ -44,7 +46,8 @@ namespace ACVPWorkflow.Models
 		}
 
 		[JsonPropertyName("type")]
-		public string Type {
+		public string Type
+		{
 			get => _type;
 			set
 			{
@@ -54,7 +57,8 @@ namespace ACVPWorkflow.Models
 		}
 
 		[JsonPropertyName("version")]
-		public string Version {
+		public string Version
+		{
 			get => _version;
 			set
 			{
@@ -64,7 +68,8 @@ namespace ACVPWorkflow.Models
 		}
 
 		[JsonPropertyName("website")]
-		public string Website {
+		public string Website
+		{
 			get => _website;
 			set
 			{
@@ -73,18 +78,20 @@ namespace ACVPWorkflow.Models
 			}
 		}
 
-		[JsonPropertyName("vendorUrl")]
-		public string VendorURL {
-			get => _vendorURL;
-			set
-			{
-				_vendorURL = value;
-				VendorURLUpdated = true;
-			}
-		}
+		//return to this in the future when Public is rewritten
+		//[JsonPropertyName("vendorUrl")]
+		//public string VendorURL {
+		//	get => _vendorURL;
+		//	set
+		//	{
+		//		_vendorURL = value;
+		//		VendorURLUpdated = true;
+		//	}
+		//}
 
 		[JsonPropertyName("addressUrl")]
-		public string AddressURL {
+		public string AddressURL
+		{
 			get => _addressURL;
 			set
 			{
@@ -93,16 +100,16 @@ namespace ACVPWorkflow.Models
 			}
 		}
 
-		[JsonPropertyName("contactUrls")]
-		public List<string> ContactURLs {
-			get => _contactUrls;
-			set
-			{
-				_contactUrls = value;
-				ContactURLsUpdated = true;
-			}
-		}
-
+		//return to this in the future when Public is rewritten
+		//[JsonPropertyName("contactUrls")]
+		//public List<string> ContactURLs {
+		//	get => _contactUrls;
+		//	set
+		//	{
+		//		_contactUrls = value;
+		//		ContactURLsUpdated = true;
+		//	}
+		//}
 
 		public bool NameUpdated { get; set; } = false;
 		public bool DescriptionUpdated { get; set; } = false;
@@ -113,6 +120,40 @@ namespace ACVPWorkflow.Models
 		public bool AddressURLUpdated { get; set; } = false;
 		public bool ContactURLsUpdated { get; set; } = false;
 
+		//Everything below this is here only to handle the goofy messages. It should go away once Public is rewritten
+		private long VendorID { get; set; }
+		private List<long> ContactIDs { get; set; }
+
+		private Vendor _vendor;
+		private List<Contact> _contacts;
+
+		[JsonPropertyName("vendor")]
+		public Vendor VendorObjectThatNeedsToGoAway
+		{
+			get => _vendor;
+			set
+			{
+				_vendor = value;
+				VendorID = value.ID;
+				VendorURLUpdated = true;
+			}
+		}
+
+		[JsonPropertyName("contacts")]
+		public List<Contact> ContactsObjectThatNeedsToGoAway
+		{
+			get => _contacts;
+			set
+			{
+				_contacts = value;
+				ContactIDs = _contacts?.OrderBy(x => x.OrderIndex).Select(x => x.Person.ID).ToList();
+				ContactURLsUpdated = true;
+			}
+		}
+
+
+
+
 
 		public ImplementationUpdateParameters ToImplementationUpdateParameters() => new ImplementationUpdateParameters
 		{
@@ -122,9 +163,11 @@ namespace ACVPWorkflow.Models
 			Type = ParseImplementationType(Type),
 			Version = Version,
 			Website = Website,
-			OrganizationID = ParseNullableIDFromURL(VendorURL),
+			//OrganizationID = ParseNullableIDFromURL(VendorURL),		//return to this in the future
+			OrganizationID = VendorID,
 			AddressID = ParseNullableIDFromURL(AddressURL),
-			ContactIDs = ContactURLs?.Select(x => ParseIDFromURL(x))?.ToList(),
+			//ContactIDs = ContactURLs?.Select(x => ParseIDFromURL(x))?.ToList(),		//return to this in the future
+			ContactIDs = ContactIDs,
 			NameUpdated = NameUpdated,
 			DescriptionUpdated = DescriptionUpdated,
 			TypeUpdated = TypeUpdated,
@@ -142,5 +185,29 @@ namespace ACVPWorkflow.Models
 			"firmware" => ImplementationType.Firmware,
 			_ => ImplementationType.Unknown
 		};
+
+
+
+		//These classes exist only to handle the senseless things that are done to screw up the data sent by the user before it gets put in the message. They can be removed when Public is rewritten to use reasonable messages.
+		public class Vendor
+		{
+			[JsonPropertyName("id")]
+			public long ID { get; set; }
+		}
+
+		public class Contact
+		{
+			[JsonPropertyName("orderIndex")]
+			public long OrderIndex { get; set; }
+
+			[JsonPropertyName("person")]
+			public Person Person { get; set; }
+		}
+
+		public class Person
+		{
+			[JsonPropertyName("id")]
+			public long ID { get; set; }
+		}
 	}
 }

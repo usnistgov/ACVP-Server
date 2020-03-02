@@ -17,14 +17,29 @@ export class ValidationDbDependenciesComponent implements OnInit {
 
   ngOnInit() {
     this.ajs.getDependencies(this.pageData.pageSize, this.pageData.pageNumber).subscribe(
-      data => { this.dependencies = data.data; console.log(this.dependencies); },
+      data => { this.dependencies = data.data; },
       err => { /* we should find something useful to do in here at some point.  maybe a site-wide error popup in the html app.component? */},
       () => { }
     );
   }
 
-  getPage() {
-    return null;
+  getPage(whichPage:string) {
+
+    if (whichPage == "first") {
+      this.pageData.pageNumber = 1;
+    }
+    else if (whichPage == "previous") {
+      this.pageData.pageNumber--;
+    }
+    else if (whichPage == "next") {
+      this.pageData.pageNumber++;
+    }
+
+    this.ajs.getDependencies(this.pageData.pageSize, this.pageData.pageNumber).subscribe(
+      data => { this.dependencies = data.data; },
+      err => { /* we should find something useful to do in here at some point.  maybe a site-wide error popup in the html app.component? */ },
+      () => { }
+    );
   };
 
 }

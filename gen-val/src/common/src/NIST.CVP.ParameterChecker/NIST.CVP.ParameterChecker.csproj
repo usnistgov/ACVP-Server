@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.NETCore.Targets" Version="$(NuGetVersionMicrosoftNETCoreTargets)" PrivateAssets="all" />
     <PackageReference Include="Newtonsoft.Json" Version="$(NuGetVersionNewtonsoftJson)" />
     <PackageReference Include="CommandLineArgumentsParser" Version="$(NuGetVersionCommandLineArgumentsParser)" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="$(NuGetVersionMicrosoftNETTestSdk)" />

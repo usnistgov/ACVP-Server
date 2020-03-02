@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using ACVPCore.Models;
 using ACVPCore.Results;
 using CVP.DatabaseInterface;
@@ -10,9 +11,9 @@ namespace ACVPCore.Providers
 	public class ImplementationProvider : IImplementationProvider
 	{
 		private readonly string _acvpConnectionString;
-		private readonly ILogger<DependencyProvider> _logger;
+		private readonly ILogger<ImplementationProvider> _logger;
 
-		public ImplementationProvider(IConnectionStringFactory connectionStringFactory, ILogger<DependencyProvider> logger)
+		public ImplementationProvider(IConnectionStringFactory connectionStringFactory, ILogger<ImplementationProvider> logger)
 		{
 			_acvpConnectionString = connectionStringFactory.GetMightyConnectionString("ACVP");
 			_logger = logger;
@@ -39,7 +40,7 @@ namespace ACVPCore.Providers
 						Url = data.organization_url,
 						VoiceNumber = data.organization_voice_number,
 						FaxNumber = data.organization_fax_number,
-						Parent = (data.organization_parent_id == null) ? null : new Organization(){ ID = data.organization_parent_id }
+						Parent = (data.organization_parent_id == null) ? null : new OrganizationLite(){ ID = data.organization_parent_id }
 					};
 
 					Address address = new Address
@@ -72,11 +73,6 @@ namespace ACVPCore.Providers
 				{
 					return null;
 				}
-
-				data = db.SingleFromProcedure("val.ImplementationGet", inParams: new
-				{
-					DependencyID = implementationID
-				});
 			}
 			catch (Exception ex)
 			{
@@ -84,7 +80,72 @@ namespace ACVPCore.Providers
 				return null;
 			}
 		}
+		public List<Implementation> GetImplementations(long pageSize, long pageNumber)
+		{
+			var db = new MightyOrm(_acvpConnectionString);
+			try
+			{
+				var data = db.QueryFromProcedure("val.ImplementationsGet", inParams: new
+				{
+					PageSize = pageSize,
+					PageNumber = pageNumber
+				});
 
+				List<Implementation> implementations = new List<Implementation>();
+
+				if (data != null)
+				{
+					foreach (var attribute in data)
+					{
+						Organization organization = new Organization
+						{
+							ID = attribute.organization_id,
+							Name = attribute.organization_name,
+							Url = attribute.organization_url,
+							VoiceNumber = attribute.organization_voice_number,
+							FaxNumber = attribute.organization_fax_number,
+							Parent = (attribute.organization_parent_id == null) ? null : new OrganizationLite() { ID = attribute.organization_parent_id }
+						};
+
+						Address address = new Address
+						{
+							ID = attribute.address_id,
+							Street1 = attribute.address_street1,
+							Street2 = attribute.address_street2,
+							Street3 = attribute.address_street3,
+							Locality = attribute.address_locality,
+							Region = attribute.address_region,
+							PostalCode = attribute.address_postal_code,
+							Country = attribute.address_country
+						};
+
+						implementations.Add(new Implementation
+						{
+							ID = attribute.product_id,
+							Vendor = organization,
+							Address = address,
+							URL = attribute.product_url,
+							Name = attribute.module_name,
+							Type = Enum.Parse(typeof(ACVPCore.Models.Implementation.ModuleType), attribute.module_type),
+							Version = attribute.module_version,
+							Description = attribute.module_description,
+							ITAR = attribute.product_itar
+						});
+					}
+				}
+				else
+				{
+					return null;
+				}
+
+				return implementations;
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex.Message);
+				return null;
+			}
+		}
 		public Result Delete(long implementationID)
 		{
 			var db = new MightyOrm(_acvpConnectionString);
@@ -186,6 +247,11 @@ namespace ACVPCore.Providers
 			if (versionUpdated && string.IsNullOrWhiteSpace(version)) return new Result("Invalid version value");
 			if (descriptionUpdated && string.IsNullOrWhiteSpace(description)) return new Result("Invalid description value");
 
+			Console.WriteLine(name);
+			Console.WriteLine(nameUpdated);
+			Console.WriteLine(version);
+			Console.WriteLine(versionUpdated);
+
 			var db = new MightyOrm(_acvpConnectionString);
 
 			try
@@ -235,6 +301,24 @@ namespace ACVPCore.Providers
 			{
 				_logger.LogError(ex.Message);
 				return true;    //Default to true so we don't try do delete when we shouldn't
+			}
+		}
+
+		public bool ImplementationExists(long implementationID)
+		{
+			var db = new MightyOrm(_acvpConnectionString);
+
+			try
+			{
+				return (bool)db.ScalarFromProcedure("val.ImplementationExists", inParams: new
+				{
+					ImplementationId = implementationID
+				});
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex.Message);
+				return false;    //Default to false so we don't try do use it when we don't know if it exists
 			}
 		}
 	}

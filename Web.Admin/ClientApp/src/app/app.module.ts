@@ -14,11 +14,18 @@ import { NgxFileDropModule } from 'ngx-file-drop';
 // one may be necessary once implementing AJAX shortly
 import { HttpClientModule } from '@angular/common/http';
 import { LegacyFileUploadComponent } from './components/legacy-file-upload/legacy-file-upload.component';
+import { ValidationDbValidationComponent } from './components/validation-db-validation/validation-db-validation.component';
 import { ValidationDbValidationsComponent } from './components/validation-db-validations/validation-db-validations.component';
 import { ValidationDbDependenciesComponent } from './components/validation-db-dependencies/validation-db-dependencies.component';
 import { ValidationDbDependencyComponent } from './components/validation-db-dependency/validation-db-dependency.component';
 import { ValidationDbOeComponent } from './components/validation-db-oe/validation-db-oe.component';
+import { ValidationDbOEsComponent } from './components/validation-db-oes/validation-db-oes.component';
 import { ValidationDbProductComponent } from './components/validation-db-product/validation-db-product.component';
+import { ValidationDbProductsComponent } from './components/validation-db-products/validation-db-products.component';
+import { ValidationDbPersonComponent } from './components/validation-db-person/validation-db-person.component';
+import { ValidationDbPersonsComponent } from './components/validation-db-persons/validation-db-persons.component';
+import { ValidationDbOrganizationComponent } from './components/validation-db-organization/validation-db-organization.component';
+import { ValidationDbOrganizationsComponent } from './components/validation-db-organizations/validation-db-organizations.component';
 
 @NgModule({
   declarations: [
@@ -26,11 +33,18 @@ import { ValidationDbProductComponent } from './components/validation-db-product
     HomeComponent,
     AboutComponent,
     LegacyFileUploadComponent,
+    ValidationDbValidationComponent,
     ValidationDbValidationsComponent,
-    ValidationDbDependenciesComponent,
     ValidationDbDependencyComponent,
+    ValidationDbDependenciesComponent,
     ValidationDbOeComponent,
-    ValidationDbProductComponent
+    ValidationDbOEsComponent,
+    ValidationDbProductComponent,
+    ValidationDbProductsComponent,
+    ValidationDbPersonComponent,
+    ValidationDbPersonsComponent,
+    ValidationDbOrganizationComponent,
+    ValidationDbOrganizationsComponent
   ],
   imports: [
     BrowserModule,
