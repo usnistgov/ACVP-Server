@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var Product = /** @class */ (function () {
     function Product() {
     }
-    Product.prototype.OperatingEnvironment = function (id, name, vendor, url, version, description, itar, address) {
+    Product.prototype.Product = function (id, name, vendor, url, version, description, itar, address) {
         this.id = id;
         this.name = name;
         this.url = url;

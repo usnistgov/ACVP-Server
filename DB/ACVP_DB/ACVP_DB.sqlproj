@@ -352,6 +352,9 @@
     <Build Include="val\Stored Procedures\PersonGetEmails.sql" />
     <Build Include="val\Stored Procedures\PersonGetNotes.sql" />
     <Build Include="val\Stored Procedures\PersonsGet.sql" />
+    <Build Include="val\Stored Procedures\OrganizationsGet.sql" />
+    <Build Include="val\Stored Procedures\OrganizationsGetAddresses.sql" />
+    <Build Include="val\Stored Procedures\OrganizationsGetPersons.sql" />
     <Build Include="acvp\Stored Procedures\WorkflowItemsGet.sql" />
   </ItemGroup>
   <ItemGroup>

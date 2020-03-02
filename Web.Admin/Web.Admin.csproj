@@ -38,6 +38,7 @@
 
     <ItemGroup>
       <None Remove="ClientApp\src\app\models\Address\Address.ts" />
+      <None Remove="ClientApp\src\app\models\Address\AddressCreateParameters.ts" />
       <None Remove="ClientApp\src\app\models\dependency-list.ts" />
       <None Remove="ClientApp\src\app\models\dependency-lite.ts" />
       <None Remove="ClientApp\src\app\models\dependency.ts" />
@@ -51,6 +52,12 @@
       <None Remove="ClientApp\src\app\models\OperatingEnvironment\operatingEnvironment.ts" />
       <None Remove="ClientApp\src\app\models\Product\ProductList.ts" />
       <None Remove="ClientApp\src\app\models\responses\Result.ts" />
+      <None Remove="ClientApp\src\app\models\TestSession\TestSession.ts" />
+      <None Remove="ClientApp\src\app\models\TestSession\TestSessionList.ts" />
+      <None Remove="ClientApp\src\app\models\TestSession\TestSessionLite.ts" />
+      <None Remove="ClientApp\src\app\models\TestSession\TestSessionStatus.ts" />
+      <None Remove="ClientApp\src\app\models\TestSession\VectorSet.ts" />
+      <None Remove="ClientApp\src\app\models\TestSession\VectorSetStatus.ts" />
     </ItemGroup>
 
     <ItemGroup>
@@ -62,6 +69,7 @@
     <!-- vvv App settings linking, directory changes depending on build environment vvv -->
     <ItemGroup Condition="$(ASPNETCORE_ENVIRONMENT) != 'tc'">
         <Content Include="..\_sharedappsettings\sharedappsettings.json" Link="sharedappsettings.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+        <Content Include="..\_sharedappsettings\sharedappsettings.example.json" Link="sharedappsettings.example.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
         <Content Include="..\_sharedappsettings\sharedappsettings.local.json" Link="sharedappsettings.local.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
         <Content Include="..\_sharedappsettings\sharedappsettings.tc.json" Link="sharedappsettings.tc.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
         <Content Include="..\_sharedappsettings\sharedappsettings.dev.json" Link="sharedappsettings.dev.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
@@ -81,6 +89,9 @@
 
 
     <ItemGroup>
+      <TypeScriptCompile Include="ClientApp\src\app\models\Address\AddressCreateParameters.ts">
+        <SubType>Code</SubType>
+      </TypeScriptCompile>
       <TypeScriptCompile Include="ClientApp\src\app\models\Address\Address.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\models\dependency\attribute.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\models\dependency\dependency-list.ts" />
@@ -97,6 +108,12 @@
       <TypeScriptCompile Include="ClientApp\src\app\models\Product\Product.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\models\OperatingEnvironment\OperatingEnvironment.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\models\responses\Result.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\TestSession\VectorSetStatus.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\TestSession\TestSession.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\TestSession\TestSessionList.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\TestSession\TestSessionLite.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\TestSession\TestSessionStatus.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\TestSession\VectorSet.ts" />
     </ItemGroup>
 
     <ItemGroup>
