@@ -16,16 +16,9 @@ namespace MessageQueueProcessor
 
 		public Message GetNextMessage()
 		{
-			var db = new MightyOrm(_acvpConnectionString);
+			var db = new MightyOrm<Message>(_acvpConnectionString);
 
-			var data = db.QueryFromProcedure("common.MessageQueueGetNext").FirstOrDefault();
-
-			return data == null ? null : new Message
-			{
-				ID = data.ID,
-				MessageType = (MessageType)data.MessageType,
-				Payload = data.Payload
-			};
+			return db.SingleFromProcedure("common.MessageQueueGetNext");
 		}
 
 		public void UpdateStatus(Guid id, MessageStatus messageStatus)
