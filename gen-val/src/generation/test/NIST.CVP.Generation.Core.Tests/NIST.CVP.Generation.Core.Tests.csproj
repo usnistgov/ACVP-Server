@@ -34,6 +34,7 @@
   <!-- vvv App settings linking, directory changes depending on build environment vvv -->
   <ItemGroup Condition="$(ASPNETCORE_ENVIRONMENT) != 'tc'">
     <Content Include="..\..\..\..\..\_sharedappsettings\sharedappsettings.json" Link="sharedappsettings.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="..\..\..\..\..\_sharedappsettings\sharedappsettings.example.json" Link="sharedappsettings.example.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
     <Content Include="..\..\..\..\..\_sharedappsettings\sharedappsettings.local.json" Link="sharedappsettings.local.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
     <Content Include="..\..\..\..\..\_sharedappsettings\sharedappsettings.tc.json" Link="sharedappsettings.tc.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
     <Content Include="..\..\..\..\..\_sharedappsettings\sharedappsettings.dev.json" Link="sharedappsettings.dev.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
