@@ -7,6 +7,12 @@ import { ValidationDbDependenciesComponent } from './components/validation-db-de
 import { ValidationDbDependencyComponent } from './components/validation-db-dependency/validation-db-dependency.component';
 import { ValidationDbOeComponent } from './components/validation-db-oe/validation-db-oe.component';
 import { ValidationDbProductComponent } from './components/validation-db-product/validation-db-product.component';
+import { ValidationDbProductsComponent } from './components/validation-db-products/validation-db-products.component';
+import { ValidationDbOEsComponent } from './components/validation-db-oes/validation-db-oes.component';
+import { ValidationDbPersonComponent } from './components/validation-db-person/validation-db-person.component';
+import { ValidationDbPersonsComponent } from './components/validation-db-persons/validation-db-persons.component';
+import { ValidationDbOrganizationComponent } from './components/validation-db-organization/validation-db-organization.component';
+import { ValidationDbOrganizationsComponent } from './components/validation-db-organizations/validation-db-organizations.component';
 
 const routes: Routes = [
   {
@@ -36,6 +42,30 @@ const routes: Routes = [
   {
     path: 'validation-db/products/:id',
     component: ValidationDbProductComponent
+  },
+  {
+    path: 'validation-db/products',
+    component: ValidationDbProductsComponent
+  },
+  {
+    path: 'validation-db/operatingEnvironments',
+    component: ValidationDbOEsComponent
+  },
+  {
+    path: 'validation-db/persons/:id',
+    component: ValidationDbPersonComponent
+  },
+  {
+    path: 'validation-db/persons',
+    component: ValidationDbPersonsComponent
+  },
+  {
+    path: 'validation-db/organizations',
+    component: ValidationDbOrganizationsComponent
+  },
+  {
+    path: 'validation-db/organizations/:id',
+    component: ValidationDbOrganizationComponent
   }
 ];
 

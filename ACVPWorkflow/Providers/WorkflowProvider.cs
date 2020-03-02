@@ -5,7 +5,10 @@ using Mighty;
 using System;
 using System.Collections.Generic;
 using ACVPCore.ExtensionMethods;
+using ACVPCore.Models;
 using ACVPWorkflow.Models;
+using ACVPCore.Results;
+using ACVPWorkflow.Models.Parameters;
 
 namespace ACVPWorkflow.Providers
 {
@@ -97,36 +100,37 @@ namespace ACVPWorkflow.Providers
 			}
 		}
 
-		public List<WorkflowItemLite> GetWorkflowItems(WorkflowStatus status)
+		public PagedEnumerable<WorkflowItemLite> GetWorkflowItems(WorkflowListParameters param)
 		{
-			List<WorkflowItemLite> result = new List<WorkflowItemLite>();
-			var db = new MightyOrm(_acvpConnectionString);
+			var result = new List<WorkflowItemLite>();
+			long totalRecords = 0;
+			var db = new MightyOrm<WorkflowItemLite>(_acvpConnectionString);
 
 			try
 			{
-				var data = db.QueryFromProcedure("acvp.WorkflowItemsGetByStatus", new
-				{
-					status
-				});
-
-				foreach (var item in data)
-				{
-					result.Add(new WorkflowItemLite()
+				var dbResult = db.QueryWithExpando("acvp.WorkflowItemsGet",
+					new
 					{
-						Submitted = item.submitted,
-						Submitter = item.submitter,
-						SubmissionId = item.submissionId,
-						WorkflowItemId = item.workflowItemId,
-						APIAction = (APIAction)item.apiAction
+						param.PageSize,
+						param.Page,
+						param.WorkflowItemId,
+						param.Type,
+						param.RequestId
+					},
+					new
+					{
+						totalRecords = (long) 0
 					});
-				}
+
+				result = dbResult.Data;
+				totalRecords = dbResult.ResultsExpando.totalRecords;
 			}
 			catch (Exception ex)
 			{
 				_logger.LogError(ex);
 			}
-			
-			return result;
+
+			return result.WrapPagedEnumerable(param.PageSize, param.Page, totalRecords);
 		}
 
 		public WorkflowItem GetWorkflowItem(long workflowItemId)
@@ -145,9 +149,10 @@ namespace ACVPWorkflow.Providers
 				
 				return new WorkflowItem()
 				{
-					APIAction = (APIAction)data.apiActionId,
-					Payload = _workflowItemPayloadFactory.GetPayload(data.jsonBlob, (APIAction)data.apiActionId),
-					WorkflowItemID = workflowItemId
+					APIAction = (APIAction)data.APIActionId,
+					Payload = _workflowItemPayloadFactory.GetPayload(data.JsonBlob, (APIAction)data.APIActionId),
+					WorkflowItemID = workflowItemId,
+					Status = (WorkflowStatus)data.Status
 				};
 			}
 			catch (Exception ex)

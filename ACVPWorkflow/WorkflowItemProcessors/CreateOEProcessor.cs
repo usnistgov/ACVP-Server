@@ -1,27 +1,34 @@
-﻿using System;
-using System.Text.Json;
-using ACVPCore.Models.Parameters;
+﻿using ACVPCore.Models.Parameters;
 using ACVPCore.Results;
 using ACVPCore.Services;
 using ACVPWorkflow.Exceptions;
 using ACVPWorkflow.Models;
-using ACVPWorkflow.Services;
 
 namespace ACVPWorkflow.WorkflowItemProcessors
 {
-	public class CreateOEProcessor : IWorkflowItemProcessor
+	public class CreateOEProcessor : BaseWorkflowItemProcessor, IWorkflowItemProcessor
 	{
 		private readonly IOEService _oeService;
 		private readonly IDependencyService _dependencyService;
+		private readonly IWorkflowItemPayloadValidatorFactory _workflowItemPayloadValidatorFactory;
 
-		public CreateOEProcessor(IOEService oeService, IDependencyService dependencyService)
+		public CreateOEProcessor(IOEService oeService, IDependencyService dependencyService, IWorkflowItemPayloadValidatorFactory workflowItemPayloadValidatorFactory)
 		{
 			_oeService = oeService;
 			_dependencyService = dependencyService;
+			_workflowItemPayloadValidatorFactory = workflowItemPayloadValidatorFactory;
+		}
+
+		public bool Validate(WorkflowItem workflowItem)
+		{
+			return IsPendingApproval(workflowItem) && _workflowItemPayloadValidatorFactory.GetWorkflowItemPayloadValidator(APIAction.CreateOE).Validate((OECreatePayload)workflowItem.Payload);
 		}
 
 		public long Approve(WorkflowItem workflowItem)
 		{
+			//Validate this workflow item
+			Validate(workflowItem);
+
 			OECreatePayload oeCreatePayload = (OECreatePayload)workflowItem.Payload;
 			OECreateParameters parameters = oeCreatePayload.ToOECreateParameters();
 

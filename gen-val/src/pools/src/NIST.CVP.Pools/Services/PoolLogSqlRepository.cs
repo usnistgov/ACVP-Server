@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using NIST.CVP.Common.Interfaces;
 using NIST.CVP.Pools.Enums;
@@ -23,26 +24,22 @@ namespace NIST.CVP.Pools.Services
             _connectionFactory = connectionFactory;
         }
 
-        public void WriteLog(LogTypes logType, string poolName, DateTime dateStart, DateTime? dateEnd, string msg)
+        public async Task WriteLog(LogTypes logType, string poolName, DateTime dateStart, DateTime? dateEnd, string msg)
         {
-            using (var conn = _connectionFactory.Get(_connectionString))
-            {
-                conn.Open();
+            using var conn = _connectionFactory.Get(_connectionString);
+            conn.Open();
 
-                using (var cmd = conn.CreateCommand())
-                {
-                    cmd.CommandText = "AddPoolLogEntry";
-                    cmd.CommandType = CommandType.StoredProcedure;
+            using var cmd = conn.CreateCommand();
+            cmd.CommandText = "AddPoolLogEntry";
+            cmd.CommandType = CommandType.StoredProcedure;
 
-                    cmd.AddParameter("logTypeName", logType.ToString());
-                    cmd.AddParameter("poolName", poolName);
-                    cmd.AddParameter("dateStart", dateStart);
-                    cmd.AddParameter("dateEnd", dateEnd);
-                    cmd.AddParameter("msg", msg);
+            cmd.AddParameter("logTypeName", logType.ToString());
+            cmd.AddParameter("poolName", poolName);
+            cmd.AddParameter("dateStart", dateStart);
+            cmd.AddParameter("dateEnd", dateEnd);
+            cmd.AddParameter("msg", msg);
 
-                    cmd.ExecuteNonQuery();
-                }
-            }
+            await cmd.ExecuteNonQueryAsync();
         }
     }
 }

@@ -48,12 +48,12 @@
             </thead>
             <tbody *ngIf="selectedOE">
               <!-- This is only here to avoid getting a few "not defined" errors before the AJAX returns -->
-              <tr *ngFor="let dependency of selectedOE.dependencies">
-                <td><a [routerLink]="['/validation-db/dependencies/',dependency.id]">View</a></td>
+              <tr *ngFor="let dependency of selectedOE.dependencies; index as i">
+                <td><a [routerLink]="['/validation-db/dependencies/', dependency.id]">View</a></td>
                 <td>{{ dependency.name }}</td>
                 <td>{{ dependency.type }}</td>
                 <td>{{ dependency.description }}</td>
-                <td><button class="btn btn-primary btn-sm bold-heading" (click)="deleteDependency(dependency.id)">x</button></td>
+                <td><button class="btn btn-primary btn-sm bold-heading" (click)="deleteAddressAtIndex(i)">x</button></td>
               </tr>
               <tr>
                 <td></td>

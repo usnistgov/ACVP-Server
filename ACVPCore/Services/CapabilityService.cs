@@ -22,6 +22,8 @@ namespace ACVPCore.Services
 			_propertyService = propertyService;
 		}
 
+		public Result DeleteAllForScenarioAlgorithm(long scenarioAlgorithmID) => _capabilityProvider.DeleteAllForScenarioAlgorithm(scenarioAlgorithmID);
+
 		public void CreateClassCapabilities(long algorithmID, long scenarioAlgorithmID, long? rootCapabilityID, long? parentCapabilityID, int level, int orderIndex, string parentPropertyName, Object objectClass)
 		{
 			//Iterate through each property of the class

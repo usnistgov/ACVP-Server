@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Options;
+﻿using System.Net.Http;
+using Microsoft.Extensions.Options;
 using NIST.CVP.Common.Config;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
@@ -15,22 +16,25 @@ namespace NIST.CVP.Crypto.Oracle
     {
         private readonly IOptions<PoolConfig> _poolConfig;
         private readonly IKeyComposerFactory _rsaKeyComposerFactory;
-        
+        private readonly IHttpClientFactory _httpClientFactory;
+
         public OraclePools(
             IDbConnectionStringFactory dbConnectionStringFactory,
             IOptions<EnvironmentConfig> environmentConfig, 
             IOptions<OrleansConfig> orleansConfig,
-            IOptions<PoolConfig> poolConfig
+            IOptions<PoolConfig> poolConfig,
+            IHttpClientFactory httpClientFactory
         ) : base(dbConnectionStringFactory, environmentConfig, orleansConfig)
         {
             _rsaKeyComposerFactory = new KeyComposerFactory();
             _poolConfig = poolConfig;
+            _httpClientFactory = httpClientFactory;
         }
         
         public override async Task<MctResult<AesResult>> GetAesMctCaseAsync(AesParameters param)
         {
-            var poolBoy = new PoolBoy<MctResult<AesResult>>(_poolConfig);
-            var poolResult = poolBoy.GetObjectFromPool(param, PoolTypes.AES_MCT);
+            var poolBoy = new PoolBoy<MctResult<AesResult>>(_poolConfig, _httpClientFactory);
+            var poolResult = await poolBoy.GetObjectFromPoolAsync(param, PoolTypes.AES_MCT);
             if (poolResult != null)
             {
                 return poolResult;
@@ -41,8 +45,8 @@ namespace NIST.CVP.Crypto.Oracle
 
         public override async Task<DsaDomainParametersResult> GetDsaPQAsync(DsaDomainParametersParameters param)
         {
-            var poolBoy = new PoolBoy<DsaDomainParametersResult>(_poolConfig);
-            var poolResult = poolBoy.GetObjectFromPool(param, PoolTypes.DSA_PQG);
+            var poolBoy = new PoolBoy<DsaDomainParametersResult>(_poolConfig, _httpClientFactory);
+            var poolResult = await poolBoy.GetObjectFromPoolAsync(param, PoolTypes.DSA_PQG);
             if (poolResult != null)
             {
                 // Will return a G (and some other properties) that are not necessary
@@ -54,8 +58,8 @@ namespace NIST.CVP.Crypto.Oracle
 
         public override async Task<DsaDomainParametersResult> GetDsaDomainParametersAsync(DsaDomainParametersParameters param)
         {
-            var poolBoy = new PoolBoy<DsaDomainParametersResult>(_poolConfig);
-            var poolResult = poolBoy.GetObjectFromPool(param, PoolTypes.DSA_PQG);
+            var poolBoy = new PoolBoy<DsaDomainParametersResult>(_poolConfig, _httpClientFactory);
+            var poolResult = await poolBoy.GetObjectFromPoolAsync(param, PoolTypes.DSA_PQG);
             if (poolResult != null)
             {
                 return poolResult;
@@ -66,8 +70,8 @@ namespace NIST.CVP.Crypto.Oracle
 
         public override async Task<EcdsaKeyResult> GetEcdsaKeyAsync(EcdsaKeyParameters param)
         {
-            var poolBoy = new PoolBoy<EcdsaKeyResult>(_poolConfig);
-            var poolResult = poolBoy.GetObjectFromPool(param, PoolTypes.ECDSA_KEY);
+            var poolBoy = new PoolBoy<EcdsaKeyResult>(_poolConfig, _httpClientFactory);
+            var poolResult = await poolBoy.GetObjectFromPoolAsync(param, PoolTypes.ECDSA_KEY);
             if (poolResult != null)
             {
                 return poolResult;
@@ -78,8 +82,8 @@ namespace NIST.CVP.Crypto.Oracle
 
         public override async Task<MctResult<HashResult>> GetShaMctCaseAsync(ShaParameters param)
         {
-            var poolBoy = new PoolBoy<MctResult<HashResult>>(_poolConfig);
-            var poolResult = poolBoy.GetObjectFromPool(param, PoolTypes.SHA_MCT);
+            var poolBoy = new PoolBoy<MctResult<HashResult>>(_poolConfig, _httpClientFactory);
+            var poolResult = await poolBoy.GetObjectFromPoolAsync(param, PoolTypes.SHA_MCT);
             if (poolResult != null)
             {
                 return poolResult;
@@ -90,8 +94,8 @@ namespace NIST.CVP.Crypto.Oracle
 
         public override async Task<MctResult<HashResult>> GetSha3MctCaseAsync(Sha3Parameters param)
         {
-            var poolBoy = new PoolBoy<MctResult<HashResult>>(_poolConfig);
-            var poolResult = poolBoy.GetObjectFromPool(param, PoolTypes.SHA3_MCT);
+            var poolBoy = new PoolBoy<MctResult<HashResult>>(_poolConfig, _httpClientFactory);
+            var poolResult = await poolBoy.GetObjectFromPoolAsync(param, PoolTypes.SHA3_MCT);
             if (poolResult != null)
             {
                 return poolResult;
@@ -102,8 +106,8 @@ namespace NIST.CVP.Crypto.Oracle
 
         public override async Task<MctResult<CShakeResult>> GetCShakeMctCaseAsync(CShakeParameters param)
         {
-            var poolBoy = new PoolBoy<MctResult<CShakeResult>>(_poolConfig);
-            var poolResult = poolBoy.GetObjectFromPool(param, PoolTypes.CSHAKE_MCT);
+            var poolBoy = new PoolBoy<MctResult<CShakeResult>>(_poolConfig, _httpClientFactory);
+            var poolResult = await poolBoy.GetObjectFromPoolAsync(param, PoolTypes.CSHAKE_MCT);
             if (poolResult != null)
             {
                 return poolResult;
@@ -114,8 +118,8 @@ namespace NIST.CVP.Crypto.Oracle
 
         public override async Task<MctResult<ParallelHashResult>> GetParallelHashMctCaseAsync(ParallelHashParameters param)
         {
-            var poolBoy = new PoolBoy<MctResult<ParallelHashResult>>(_poolConfig);
-            var poolResult = poolBoy.GetObjectFromPool(param, PoolTypes.PARALLEL_HASH_MCT);
+            var poolBoy = new PoolBoy<MctResult<ParallelHashResult>>(_poolConfig, _httpClientFactory);
+            var poolResult = await poolBoy.GetObjectFromPoolAsync(param, PoolTypes.PARALLEL_HASH_MCT);
             if (poolResult != null)
             {
                 return poolResult;
@@ -126,8 +130,8 @@ namespace NIST.CVP.Crypto.Oracle
 
         public override async Task<MctResult<TupleHashResult>> GetTupleHashMctCaseAsync(TupleHashParameters param)
         {
-            var poolBoy = new PoolBoy<MctResult<TupleHashResult>>(_poolConfig);
-            var poolResult = poolBoy.GetObjectFromPool(param, PoolTypes.TUPLE_HASH_MCT);
+            var poolBoy = new PoolBoy<MctResult<TupleHashResult>>(_poolConfig, _httpClientFactory);
+            var poolResult = await poolBoy.GetObjectFromPoolAsync(param, PoolTypes.TUPLE_HASH_MCT);
             if (poolResult != null)
             {
                 return poolResult;
@@ -138,8 +142,8 @@ namespace NIST.CVP.Crypto.Oracle
 
         public override async Task<MctResult<TdesResult>> GetTdesMctCaseAsync(TdesParameters param)
         {
-            var poolBoy = new PoolBoy<MctResult<TdesResult>>(_poolConfig);
-            var poolResult = poolBoy.GetObjectFromPool(param, PoolTypes.TDES_MCT);
+            var poolBoy = new PoolBoy<MctResult<TdesResult>>(_poolConfig, _httpClientFactory);
+            var poolResult = await poolBoy.GetObjectFromPoolAsync(param, PoolTypes.TDES_MCT);
             if (poolResult != null)
             {
                 return poolResult;
@@ -151,8 +155,8 @@ namespace NIST.CVP.Crypto.Oracle
         public override async Task<RsaKeyResult> GetRsaKeyAsync(RsaKeyParameters param)
         {
             // Only works with random public exponent
-            var poolBoy = new PoolBoy<RsaKeyResult>(_poolConfig);
-            var poolResult = poolBoy.GetObjectFromPool(param, PoolTypes.RSA_KEY);
+            var poolBoy = new PoolBoy<RsaKeyResult>(_poolConfig, _httpClientFactory);
+            var poolResult = await poolBoy.GetObjectFromPoolAsync(param, PoolTypes.RSA_KEY);
 
             // No pool available, generate on-demand
             if (poolResult == null) return await base.GetRsaKeyAsync(param);

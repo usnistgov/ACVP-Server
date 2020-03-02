@@ -7,6 +7,16 @@ import { Attribute } from '../../models/dependency/attribute';
 import { OperatingEnvironment } from '../../models/operatingEnvironment/operatingEnvironment';
 import { Result } from '../../models/responses/Result';
 import { Product } from '../../models/Product/Product';
+import { Address } from '../../models/Address/Address';
+import { ProductList } from '../../models/Product/ProductList';
+import { OperatingEnvironmentList } from '../../models/OperatingEnvironment/OperatingEnvironmentList';
+import { PersonList } from '../../models/Person/PersonList';
+import { Person } from '../../models/Person/Person';
+import { Organization } from '../../models/Organization/Organization';
+import { AddressCreateParameters } from '../../models/Address/AddressCreateParameters';
+import { TestSessionList } from '../../models/TestSession/TestSessionList';
+import { TestSession } from '../../models/TestSession/TestSession';
+import { VectorSet } from '../../models/TestSession/VectorSet';
 
 const httpOptions = {
   headers: new HttpHeaders()
@@ -20,14 +30,6 @@ export class AjaxService {
   apiRoot = "/api";
 
   constructor(private http: HttpClient) { }
-
-  getSession(sessionId:number) {
-    return this.http.get('/assets/fillerJson/testSession556', {});
-  }
-
-  getVectorSets(sessionId:number) {
-    return this.http.get('/assets/fillerJson/testSession556VectorSets', {});
-  }
 
   // Dependency-related AJAX calls
   getDependencies(pageSize: number, pageNumber: number) {
@@ -56,6 +58,10 @@ export class AjaxService {
     return this.http.get<OperatingEnvironment>(this.apiRoot + '/OperatingEnvironments/' + id);
   };
 
+  getOEs(pageSize: number, pageNumber: number) {
+    return this.http.get<OperatingEnvironmentList>(this.apiRoot + '/OperatingEnvironments?pageNumber=' + pageNumber + '&pageSize=' + pageSize);
+  }
+
   addDependencyToOE(dependencyId: number, OEID: number) {
 
     // Assemble message body
@@ -83,6 +89,69 @@ export class AjaxService {
   getProduct(id: number) {
     return this.http.get<Product>(this.apiRoot + '/Products/' + id);
   };
+
+  getProducts(pageSize: number, pageNumber: number) {
+    return this.http.get<ProductList>(this.apiRoot + '/Products?pageNumber=' + pageNumber + '&pageSize=' + pageSize);
+  }
+
+  updateProduct(product: Product) {
+    return this.http.patch(this.apiRoot + '/Products/' + product.id, product);
+  }
+  updateAddress(address: Address) {
+    return this.http.patch(this.apiRoot + '/Addresses/' + address.id, address);
+  }
   // END Product-related calls
 
+  // Person-Related calls
+  getPerson(id: number) {
+    return this.http.get<Person>(this.apiRoot + '/Persons/' + id);
+  }
+
+  updatePerson(person: Person) {
+    return this.http.patch(this.apiRoot + '/Persons/' + person.id, person);
+  }
+
+  getPersons(pageSize: number, pageNumber: number) {
+    return this.http.get<PersonList>(this.apiRoot + '/Persons?pageNumber=' + pageNumber + '&pageSize=' + pageSize);
+  }
+  // END Person-related calls
+
+  // Organization-related calls
+  getOrganization(id: number) {
+    return this.http.get<Organization>(this.apiRoot + '/Organizations/' + id);
+  }
+
+  addNewAddress(parameters: AddressCreateParameters) {
+    return this.http.post(this.apiRoot + '/Addresses/', parameters);
+  }
+
+  deleteAddressFromOrganization(index: number, organizationID: number) {
+    return this.http.delete(this.apiRoot + '/Organizations/' + organizationID + '/Addresses/' + index);
+  }
+
+  updateOrganization(organization: Organization) {
+    return this.http.patch(this.apiRoot + '/Organizations/' + organization.id, organization);
+  }
+  // END Organization-related calls
+
+  // Begin TestSession-related calls
+  getTestSessions(pageSize: number, pageNumber: number) {
+
+    // Build the request body
+    var params = { "pageSize" : 10, "page" : 1 };
+    params.pageSize = pageSize;
+    params.page = pageNumber;
+
+    return this.http.post<TestSessionList>(this.apiRoot + '/TestSessions', params);
+  }
+
+  getTestSession(sessionId: number) {
+    return this.http.get<TestSession>(this.apiRoot + '/TestSessions/' + sessionId);
+  }
+
+  getVectorSet(vectorSetId: number) {
+    return this.http.get<VectorSet>(this.apiRoot + '/TestSessions/VectorSet/' + vectorSetId);
+  }
+
+  // END TestSession-related calls
 }

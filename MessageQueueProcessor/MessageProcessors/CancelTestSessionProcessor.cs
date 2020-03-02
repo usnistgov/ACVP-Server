@@ -1,6 +1,7 @@
-﻿using ACVPCore.Services;
+﻿using System.Text.Json;
+using ACVPCore.Results;
+using ACVPCore.Services;
 using MessageQueueProcessor.MessagePayloads;
-using System.Text.Json;
 
 namespace MessageQueueProcessor.MessageProcessors
 {
@@ -13,13 +14,13 @@ namespace MessageQueueProcessor.MessageProcessors
 			_testSessionService = testSessionService;
 		}
 
-		public void Process(Message message)
+		public Result Process(Message message)
 		{
 			//Get the payload so we can get the test session id
 			CancelPayload cancelPayload = JsonSerializer.Deserialize<CancelPayload>(message.Payload);
 
 			//Cancel the test session
-			_testSessionService.Cancel(cancelPayload.TestSessionID);
+			return _testSessionService.Cancel(cancelPayload.TestSessionID);
 		}
 	}
 }

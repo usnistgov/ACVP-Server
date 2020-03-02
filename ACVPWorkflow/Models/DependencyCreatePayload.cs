@@ -35,7 +35,7 @@ namespace ACVPWorkflow.Models
 				Type = Type,
 				Name = Name,
 				Description = Description,
-				Attributes = Attributes.Select(a => new DependencyAttributeCreateParameters { Name = a.Key, Value = a.Value.GetString() }).ToList()
+				Attributes = Attributes?.Select(a => new DependencyAttributeCreateParameters { Name = a.Key, Value = a.Value.GetString() }).ToList()
 			};
 		}
 	}

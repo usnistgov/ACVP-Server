@@ -1,7 +1,9 @@
-﻿namespace MessageQueueProcessor.MessageProcessors
+﻿using ACVPCore.Results;
+
+namespace MessageQueueProcessor.MessageProcessors
 {
 	public interface IMessageProcessor
 	{
-		public void Process(Message message);
+		public Result Process(Message message);
 	}
 }

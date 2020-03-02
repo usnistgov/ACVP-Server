@@ -25,7 +25,10 @@ namespace ACVPCore.Providers
 
 			try
 			{
-				db.Execute("acvp.VectorSetCancel @0", id);
+				db.ExecuteProcedure("acvp.VectorSetCancel", inParams: new
+				{
+					id = id
+				});
 			}
 			catch (Exception ex)
 			{
@@ -42,7 +45,13 @@ namespace ACVPCore.Providers
 
 			try
 			{
-				db.Execute("acvp.VectorSetInsert @0, @1, @2, @3", vectorSetID, testSessionID, generatorVersion, algorithmID);
+				db.ExecuteProcedure("acvp.VectorSetInsert", inParams: new
+				{
+					VectorSetID = vectorSetID,
+					TestSessionID = testSessionID,
+					GeneratorVersion = generatorVersion,
+					AlgorithmID = algorithmID
+				});
 			}
 			catch (Exception ex)
 			{
@@ -102,7 +111,7 @@ namespace ACVPCore.Providers
 
 				foreach (var vectorSet in data)
 				{
-					vectorSetIDs.Add((vectorSet.VectorSetId, vectorSet.AlgorithmId, (VectorSetStatus)vectorSet.VectorSetStatusId, vectorSet.ErrorMessage ));
+					vectorSetIDs.Add((vectorSet.VectorSetId, vectorSet.AlgorithmId, (VectorSetStatus)vectorSet.VectorSetStatusId, vectorSet.ErrorMessage));
 				}
 			}
 			catch (Exception ex)
@@ -113,23 +122,23 @@ namespace ACVPCore.Providers
 			return vectorSetIDs;
 		}
 
-		public TestVectorSet GetTestVectorSet(long vectorSetId)
+		public VectorSet GetVectorSet(long vectorSetId)
 		{
 			var db = new MightyOrm(_acvpConnectionString);
 
 			try
 			{
 				var queryResult = db.SingleFromProcedure(
-					"acvp.VectorSetGet", 
-					new 
+					"acvp.VectorSetGet",
+					new
 					{
 						vectorSetId
 					});
 
 				if (queryResult == null)
 					return null;
-				
-				TestVectorSet result = new TestVectorSet()
+
+				VectorSet result = new VectorSet()
 				{
 					Algorithm = queryResult.algorithmName,
 					AlgorithmId = queryResult.algorithmId,
@@ -147,22 +156,22 @@ namespace ACVPCore.Providers
 			}
 		}
 
-		public List<VectorSetJsonFileTypes> GetTestVectorSetJsonFilesAvailable(long vectorSetId)
+		public List<VectorSetJsonFileTypes> GetVectorSetJsonFilesAvailable(long vectorSetId)
 		{
 			var db = new MightyOrm(_acvpConnectionString);
 
 			try
 			{
 				var queryResult = db.QueryFromProcedure(
-					"acvp.VectorSetGetJsonFIleTypes", 
-					new 
+					"acvp.VectorSetGetJsonFIleTypes",
+					new
 					{
 						vectorSetId
 					});
 
 				if (queryResult == null)
 					return new List<VectorSetJsonFileTypes>();
-				
+
 				List<VectorSetJsonFileTypes> result = new List<VectorSetJsonFileTypes>();
 				foreach (var item in queryResult)
 				{
@@ -178,15 +187,15 @@ namespace ACVPCore.Providers
 			}
 		}
 
-		public string GetTestVectorFileJson(long vectorSetId, VectorSetJsonFileTypes fileType)
+		public string GetVectorFileJson(long vectorSetId, VectorSetJsonFileTypes fileType)
 		{
 			var db = new MightyOrm(_acvpConnectionString);
 
 			try
 			{
 				var queryResult = db.SingleFromProcedure(
-					"acvp.VectorSetJsonGet", 
-					new 
+					"acvp.VectorSetJsonGet",
+					new
 					{
 						VsId = vectorSetId,
 						JsonFileType = fileType.ToString()
@@ -201,6 +210,28 @@ namespace ACVPCore.Providers
 			{
 				_logger.LogError(ex, ex.Message);
 				return null;
+			}
+		}
+
+		public Result InsertVectorSetJson(long vectorSetID, VectorSetJsonFileTypes fileType, string json)
+		{
+			var db = new MightyOrm(_acvpConnectionString);
+
+			try
+			{
+				db.ExecuteProcedure("acvp.VectorSetJsonPut", inParams: new
+				{
+					VsId = vectorSetID,
+					JsonFileType = fileType.ToString(),
+					Content = json
+				});
+
+				return new Result();
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex.Message);
+				return new Result(ex.Message);
 			}
 		}
 	}

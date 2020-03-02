@@ -43,7 +43,7 @@ namespace ACVPWorkflow.Models
 			FaxNumber = FaxNumber,
 			ParentOrganizationID = ParseNullableIDFromURL(ParentURL),
 			EmailAddresses = EmailAddresses,
-			Addresses = Addresses.Select(x => new AddressCreateParameters
+			Addresses = Addresses?.Select(x => new AddressCreateParameters
 			{
 				Street1 = x.Street1,
 				Street2 = x.Street2,

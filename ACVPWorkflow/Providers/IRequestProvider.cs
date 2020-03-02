@@ -4,6 +4,6 @@ namespace ACVPWorkflow.Providers
 {
 	public interface IRequestProvider
 	{
-		Result Create(long requestID, RequestAction action, long workflowID, long userID);
+		KillThisResult Create(long requestID, RequestAction action, long workflowID, long userID);
 	}
 }

@@ -9,12 +9,13 @@
 
     <ItemGroup>
         <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="3.1.0-preview3.19553.2" />
-        <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+        <PackageReference Include="Newtonsoft.Json" Version="$(NuGetVersionNewtonsoftJson)" />
         <PackageReference Include="NuGet.Packaging" Version="3.5.0-beta2-1484" />
         <PackageReference Include="System.ServiceProcess.ServiceController" Version="4.7.0-preview3.19551.4" />
         <PackageReference Include="Microsoft.Extensions.Hosting" Version="3.1.0-preview3.19553.2" />
         <PackageReference Include="System.Data.SqlClient" Version="4.7.0" />
-        <PackageReference Include="Microsoft.Orleans.Core.Abstractions" Version="3.0.0" />
+        <PackageReference Include="Microsoft.Orleans.Core.Abstractions" Version="$(NugetVersionMicrosoftOrleansCoreAbstractions)" />
+        <PackageReference Include="Microsoft.NETCore.Targets" Version="$(NuGetVersionMicrosoftNETCoreTargets)" PrivateAssets="all" />
     </ItemGroup>
 
     <ItemGroup>
@@ -25,6 +26,7 @@
     <!-- App settings linking -->
     <ItemGroup>
         <Content Include="..\..\..\_sharedappsettings\sharedappsettings.json" Link="sharedappsettings.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+        <Content Include="..\..\..\_sharedappsettings\sharedappsettings.example.json" Link="sharedappsettings.example.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
         <Content Include="..\..\..\_sharedappsettings\sharedappsettings.local.json" Link="sharedappsettings.local.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
         <Content Include="..\..\..\_sharedappsettings\sharedappsettings.tc.json" Link="sharedappsettings.tc.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
         <Content Include="..\..\..\_sharedappsettings\sharedappsettings.dev.json" Link="sharedappsettings.dev.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />

@@ -16,7 +16,7 @@ namespace ACVPWorkflow.Models
 		[JsonPropertyName("fullName")]
 		public string Name { get; set; }
 
-		[JsonPropertyName("organizationUrl")]
+		[JsonPropertyName("vendorUrl")]
 		public string OrganizationURL { get; set; }
 
 		[JsonPropertyName("emails")]
@@ -30,7 +30,7 @@ namespace ACVPWorkflow.Models
 		{
 			Name = Name,
 			OrganizationID = ParseIDFromURL(OrganizationURL),
-			PhoneNumbers = PhoneNumbers.Select(x => (x.Type, x.Number)).ToList(),
+			PhoneNumbers = PhoneNumbers?.OrderBy(x => x.OrderIndex).Select(x => (x.Type, x.Number)).ToList(),
 			EmailAddresses = EmailAddresses,
 		};
 
@@ -42,6 +42,9 @@ namespace ACVPWorkflow.Models
 
 			[JsonPropertyName("type")]
 			public string Type { get; set; }
+
+			[JsonPropertyName("orderIndex")]
+			public int OrderIndex { get; set; }
 		}
 	}
 }

@@ -1,9 +1,10 @@
 using System;
 using ACVPCore.ExtensionMethods;
 using ACVPCore.Models;
+using ACVPCore.Results;
 using ACVPWorkflow;
-using ACVPWorkflow.Adapters;
 using ACVPWorkflow.Models;
+using ACVPWorkflow.Models.Parameters;
 using ACVPWorkflow.Results;
 using ACVPWorkflow.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -17,29 +18,20 @@ namespace Web.Admin.Controllers
     {
         private readonly ILogger<WorkflowsController> _logger;
         private readonly IWorkflowService _workflowService;
-        private readonly IWorkflowApproveRejectAdapter _workflowApproveRejectAdapter;
 
-        public WorkflowsController(
-            ILogger<WorkflowsController> logger, 
-            IWorkflowService workflowService,
-            IWorkflowApproveRejectAdapter workflowApproveRejectAdapter)
+        public WorkflowsController(ILogger<WorkflowsController> logger, IWorkflowService workflowService)
         {
             _logger = logger;
             _workflowService = workflowService;
-            _workflowApproveRejectAdapter = workflowApproveRejectAdapter;
         }
         
-        [HttpGet("status/{workflowStatus}")]
-        public ActionResult<WrappedEnumerable<WorkflowItemLite>> GetWorkflows(string workflowStatus)
+        [HttpGet]
+        public ActionResult<PagedEnumerable<WorkflowItemLite>> GetWorkflows([FromBody] WorkflowListParameters param)
         {
-            if(Enum.TryParse<WorkflowStatus>(workflowStatus, true, out var parsedStatus))
-            {
-                return _workflowService.GetWorkflowItems(parsedStatus).WrapEnumerable();
-            }
-
-            _logger.LogWarning($"{nameof(workflowStatus)} ({workflowStatus}) could not be parsed into a type of {nameof(WorkflowStatus)}");
+            if (param == null)
+                return new BadRequestResult();
             
-            return new BadRequestResult();
+            return _workflowService.GetWorkflowItems(param);
         }
 
         [HttpGet("{workflowId}")]
@@ -54,15 +46,29 @@ namespace Web.Admin.Controllers
         }
 
         [HttpPost("{workflowId}/approve")]
-        public Result ApproveWorkflow(long workflowId)
+        public ActionResult<Result> ApproveWorkflow(long workflowId)
         {
-            return _workflowApproveRejectAdapter.Approve(workflowId);
+            var workflow = _workflowService.GetWorkflowItem(workflowId);
+
+            if (workflow == null)
+            {
+                return new NotFoundResult();
+            }
+            
+            return _workflowService.Approve(workflow);
         }
         
         [HttpPost("{workflowId}/reject")]
-        public Result RejectWorkflow(long workflowId)
+        public ActionResult<Result> RejectWorkflow(long workflowId)
         {
-            return _workflowApproveRejectAdapter.Reject(workflowId);
+            var workflow = _workflowService.GetWorkflowItem(workflowId);
+
+            if (workflow == null)
+            {
+                return new NotFoundResult();
+            }
+            
+            return _workflowService.Reject(workflow);
         }
     }
 }

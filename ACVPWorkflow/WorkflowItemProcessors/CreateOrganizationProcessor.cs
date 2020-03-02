@@ -1,25 +1,32 @@
-﻿using System;
-using System.Text.Json;
-using ACVPCore.Models.Parameters;
+﻿using ACVPCore.Models.Parameters;
 using ACVPCore.Results;
 using ACVPCore.Services;
 using ACVPWorkflow.Exceptions;
 using ACVPWorkflow.Models;
-using ACVPWorkflow.Services;
 
 namespace ACVPWorkflow.WorkflowItemProcessors
 {
-	public class CreateOrganizationProcessor : IWorkflowItemProcessor
+	public class CreateOrganizationProcessor : BaseWorkflowItemProcessor, IWorkflowItemProcessor
 	{
 		private readonly IOrganizationService _organizationService;
+		private readonly IWorkflowItemPayloadValidatorFactory _workflowItemPayloadValidatorFactory;
 
-		public CreateOrganizationProcessor(IOrganizationService organizationService)
+		public CreateOrganizationProcessor(IOrganizationService organizationService, IWorkflowItemPayloadValidatorFactory workflowItemPayloadValidatorFactory)
 		{
 			_organizationService = organizationService;
+			_workflowItemPayloadValidatorFactory = workflowItemPayloadValidatorFactory;
+		}
+
+		public bool Validate(WorkflowItem workflowItem)
+		{
+			return IsPendingApproval(workflowItem) && _workflowItemPayloadValidatorFactory.GetWorkflowItemPayloadValidator(APIAction.CreateVendor).Validate((OrganizationCreatePayload)workflowItem.Payload);
 		}
 
 		public long Approve(WorkflowItem workflowItem)
 		{
+			//Validate this workflow item
+			Validate(workflowItem);
+
 			OrganizationCreateParameters parameters = ((OrganizationCreatePayload)workflowItem.Payload).ToOrganizationCreateParameters();
 
 			//Create it

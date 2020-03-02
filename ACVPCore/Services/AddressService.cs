@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using ACVPCore.Models;
 using ACVPCore.Models.Parameters;
 using ACVPCore.Providers;
@@ -56,6 +55,16 @@ namespace ACVPCore.Services
 		public bool AddressIsUsedOtherThanOrg(long addressID)
 		{
 			return _addressProvider.AddressIsUsedOtherThanOrg(addressID);
+		}
+
+		public bool AddressExists(long addressID)
+		{
+			return _addressProvider.AddressExists(addressID);
+		}
+
+		public Address Get(long addressID)
+		{
+			return _addressProvider.Get(addressID);
 		}
 	}
 }

@@ -13,6 +13,7 @@ using NIST.CVP.Tests.Core;
 using NUnit.Framework;
 using System;
 using System.IO;
+using System.Threading.Tasks;
 using NIST.CVP.Pools.Interfaces;
 
 namespace NIST.CVP.Pools.Tests
@@ -50,10 +51,10 @@ namespace NIST.CVP.Pools.Tests
             _fullPath = Path.Combine(_testPath, $"{Guid.NewGuid()}.json");
 
             _poolRepositoryFactory.Setup(s => s.GetRepository<AesResult>()).Returns(_poolRepository.Object);
-            _poolRepository.Setup(s => s.GetPoolCount(It.IsAny<string>(), It.IsAny<bool>())).Returns(0);
+            _poolRepository.Setup(s => s.GetPoolCount(It.IsAny<string>(), It.IsAny<bool>())).Returns(Task.FromResult((long)0));
             _poolRepository
                 .Setup(s => s.GetResultFromPool(It.IsAny<string>()))
-                .Returns(() => new PoolObject<AesResult>());
+                .Returns(() => Task.FromResult(new PoolObject<AesResult>()));
         }
 
         [OneTimeTearDown]
@@ -76,21 +77,15 @@ namespace NIST.CVP.Pools.Tests
             var pool = new AesPool(GetConstructionParameters(param, PoolTypes.AES));
             
             // Add two items to the pool
-            pool.AddWater(new AesResult()
-            {
-
-            });
-            pool.AddWater(new AesResult()
-            {
-
-            });
+            pool.AddWater(new AesResult());
+            pool.AddWater(new AesResult());
 
             Assert.AreEqual(2, pool.WaterLevel);
         }
 
         [TestCase(true)]
         [TestCase(false)]
-        public void ShouldThrowWhenDirtyWaterAdded(bool cleanWater)
+        public async Task ShouldThrowWhenDirtyWaterAdded(bool cleanWater)
         {
             var param = new AesParameters
             {
@@ -104,16 +99,16 @@ namespace NIST.CVP.Pools.Tests
 
             if (cleanWater)
             {
-                Assert.IsTrue(pool.AddWater(new AesResult()));
+                Assert.IsTrue(await pool.AddWater(new AesResult()));
             }
             else
             {
-                Assert.Throws(typeof(ArgumentException), () => pool.AddWater(new HashResult()));
+                Assert.ThrowsAsync(typeof(ArgumentException), () => pool.AddWater(new HashResult()));
             }
         }
 
         [Test]
-        public void ShouldReturnResultsUponRequest()
+        public async Task ShouldReturnResultsUponRequest()
         {
             var param = new AesParameters
             {
@@ -125,29 +120,29 @@ namespace NIST.CVP.Pools.Tests
 
             var myTestBitString = new BitString("ABCD");
             var pool = new AesPool(GetConstructionParameters(param, PoolTypes.AES));
-            pool.AddWater(new AesResult()
+            await pool.AddWater(new AesResult()
             {
                 PlainText = myTestBitString
             });
 
             _poolRepository
                 .Setup(s => s.GetResultFromPool(It.IsAny<string>()))
-                .Returns(() => new PoolObject<AesResult>()
+                .Returns(() => Task.FromResult(new PoolObject<AesResult>()
                 {
                     Value = new AesResult()
                     {
                         PlainText = myTestBitString
                     }
-                });
+                }));
 
-            var result = pool.GetNext();
+            var result = await pool.GetNext();
             
             Assert.IsFalse(result.PoolTooEmpty);
             Assert.AreEqual("ABCD", result.Result.PlainText.ToHex());
         }
 
         [Test]
-        public void ShouldReturnSpecialResultWhenPoolEmpty()
+        public async Task ShouldReturnSpecialResultWhenPoolEmpty()
         {
             var param = new AesParameters
             {
@@ -158,18 +153,12 @@ namespace NIST.CVP.Pools.Tests
             };
 
             var pool = new AesPool(GetConstructionParameters(param, PoolTypes.AES));
-            pool.AddWater(new AesResult()
-            {
+            await pool.AddWater(new AesResult());
+            await pool.AddWater(new AesResult());
 
-            });
-            pool.AddWater(new AesResult()
-            {
-
-            });
-
-            var result1 = pool.GetNext();
-            var result2 = pool.GetNext();
-            var result3 = pool.GetNext();
+            var result1 = await pool.GetNext();
+            var result2 = await pool.GetNext();
+            var result3 = await pool.GetNext();
 
             Assert.IsFalse(result1.PoolTooEmpty);
             Assert.IsFalse(result2.PoolTooEmpty);
@@ -180,7 +169,7 @@ namespace NIST.CVP.Pools.Tests
         [Test]
         [TestCase(true, 2)]
         [TestCase(false, 1)]
-        public void ShouldRecycleValueWhenSpecified(bool shouldRecycle, int waterLevelPostValueGet)
+        public async Task ShouldRecycleValueWhenSpecified(bool shouldRecycle, int waterLevelPostValueGet)
         {
             var param = new AesParameters
             {
@@ -195,11 +184,11 @@ namespace NIST.CVP.Pools.Tests
 
             var pool = new AesPool(GetConstructionParameters(param, PoolTypes.AES));
             
-            pool.AddWater(new AesResult() { PlainText = new BitString("01") });
-            pool.AddWater(new AesResult() { PlainText = new BitString("02") });
+            await pool.AddWater(new AesResult() { PlainText = new BitString("01") });
+            await pool.AddWater(new AesResult() { PlainText = new BitString("02") });
             var addedWater = 2; // as per above water adds
 
-            pool.GetNextUntyped();
+            await pool.GetNextUntyped();
 
             _poolRepository
                 .Verify(
@@ -210,7 +199,7 @@ namespace NIST.CVP.Pools.Tests
         }
 
         [Test]
-        public void ShouldCleanPool()
+        public async Task ShouldCleanPool()
         {
             var param = new AesParameters
             {
@@ -221,14 +210,11 @@ namespace NIST.CVP.Pools.Tests
             };
 
             var pool = new AesPool(GetConstructionParameters(param, PoolTypes.AES));
-            pool.AddWater(new AesResult
-            {
-
-            });
+            await pool.AddWater(new AesResult());
             
             Assume.That(!pool.IsEmpty);
 
-            pool.CleanPool();
+            await pool.CleanPool();
 
             Assert.IsTrue(pool.IsEmpty);
         }

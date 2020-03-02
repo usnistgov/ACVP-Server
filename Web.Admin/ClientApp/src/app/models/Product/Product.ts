@@ -1,4 +1,5 @@
 import { Organization } from '../Organization/Organization';
+import { Address } from '../Address/Address';
 
 export class Product {
 
@@ -9,20 +10,23 @@ export class Product {
   version: string;
   description: string;
   itar: boolean;
+  address: Address;
 
-  public OperatingEnvironment(id: number,
+  public Product(id: number,
     name: string,
     vendor: Organization,
     url: string,
     version: string,
     description: string,
-    itar: boolean) {
+    itar: boolean,
+    address: Address) {
     this.id = id;
     this.name = name;
     this.url = url;
     this.version = version;
     this.description = description;
     this.itar = itar;
+    this.address = address;
   };
 
 }
