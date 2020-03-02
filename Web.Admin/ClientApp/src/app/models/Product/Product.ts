@@ -12,7 +12,7 @@ export class Product {
   itar: boolean;
   address: Address;
 
-  public OperatingEnvironment(id: number,
+  public Product(id: number,
     name: string,
     vendor: Organization,
     url: string,

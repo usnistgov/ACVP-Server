@@ -52,6 +52,12 @@
       <None Remove="ClientApp\src\app\models\OperatingEnvironment\operatingEnvironment.ts" />
       <None Remove="ClientApp\src\app\models\Product\ProductList.ts" />
       <None Remove="ClientApp\src\app\models\responses\Result.ts" />
+      <None Remove="ClientApp\src\app\models\TestSession\TestSession.ts" />
+      <None Remove="ClientApp\src\app\models\TestSession\TestSessionList.ts" />
+      <None Remove="ClientApp\src\app\models\TestSession\TestSessionLite.ts" />
+      <None Remove="ClientApp\src\app\models\TestSession\TestSessionStatus.ts" />
+      <None Remove="ClientApp\src\app\models\TestSession\VectorSet.ts" />
+      <None Remove="ClientApp\src\app\models\TestSession\VectorSetStatus.ts" />
     </ItemGroup>
 
     <ItemGroup>
@@ -101,6 +107,12 @@
       <TypeScriptCompile Include="ClientApp\src\app\models\Product\Product.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\models\OperatingEnvironment\OperatingEnvironment.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\models\responses\Result.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\TestSession\VectorSetStatus.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\TestSession\TestSession.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\TestSession\TestSessionList.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\TestSession\TestSessionLite.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\TestSession\TestSessionStatus.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\TestSession\VectorSet.ts" />
     </ItemGroup>
 
     <ItemGroup>

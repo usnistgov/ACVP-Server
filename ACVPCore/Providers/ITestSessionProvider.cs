@@ -14,7 +14,7 @@ namespace ACVPCore.Providers
 		Result UpdateStatus(long testSessionID, TestSessionStatus testSessionStatus);
 		PagedEnumerable<TestSessionLite> Get(TestSessionListParameters param);
 		TestSession Get(long testSessionId);
-		List<VectorSetLite> GetVectorSetsForTestSession(long testSessionId);
+		List<VectorSet> GetVectorSetsForTestSession(long testSessionId);
 		bool TestSessionExists(long testSessionID);
 	}
 }

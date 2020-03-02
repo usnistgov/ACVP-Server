@@ -34,7 +34,7 @@ namespace Web.Admin.Controllers
             _vectorSetService = vectorSetService;
         }
 
-        [HttpGet]
+        [HttpPost]
         public ActionResult<PagedEnumerable<TestSessionLite>> GetTestSessions([FromBody] TestSessionListParameters param)
         {
             if (param == null)
@@ -47,6 +47,11 @@ namespace Web.Admin.Controllers
         public ActionResult<TestSession> GetTestSessionDetails(long testSessionId)
         {
             var result = _testSessionService.Get(testSessionId);
+
+            for (int i = 0; i < result.VectorSets.Count; i++)
+            {
+                result.VectorSets[i] = _vectorSetService.GetVectorSet(result.VectorSets[i].Id);
+            }
 
             if (result == null)
                 return new NotFoundResult();

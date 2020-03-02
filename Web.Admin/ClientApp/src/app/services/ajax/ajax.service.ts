@@ -14,6 +14,9 @@ import { PersonList } from '../../models/Person/PersonList';
 import { Person } from '../../models/Person/Person';
 import { Organization } from '../../models/Organization/Organization';
 import { AddressCreateParameters } from '../../models/Address/AddressCreateParameters';
+import { TestSessionList } from '../../models/TestSession/TestSessionList';
+import { TestSession } from '../../models/TestSession/TestSession';
+import { VectorSet } from '../../models/TestSession/VectorSet';
 
 const httpOptions = {
   headers: new HttpHeaders()
@@ -27,14 +30,6 @@ export class AjaxService {
   apiRoot = "/api";
 
   constructor(private http: HttpClient) { }
-
-  getSession(sessionId:number) {
-    return this.http.get('/assets/fillerJson/testSession556', {});
-  }
-
-  getVectorSets(sessionId:number) {
-    return this.http.get('/assets/fillerJson/testSession556VectorSets', {});
-  }
 
   // Dependency-related AJAX calls
   getDependencies(pageSize: number, pageNumber: number) {
@@ -137,4 +132,26 @@ export class AjaxService {
   updateOrganization(organization: Organization) {
     return this.http.patch(this.apiRoot + '/Organizations/' + organization.id, organization);
   }
+  // END Organization-related calls
+
+  // Begin TestSession-related calls
+  getTestSessions(pageSize: number, pageNumber: number) {
+
+    // Build the request body
+    var params = { "pageSize" : 10, "page" : 1 };
+    params.pageSize = pageSize;
+    params.page = pageNumber;
+
+    return this.http.post<TestSessionList>(this.apiRoot + '/TestSessions', params);
+  }
+
+  getTestSession(sessionId: number) {
+    return this.http.get<TestSession>(this.apiRoot + '/TestSessions/' + sessionId);
+  }
+
+  getVectorSet(vectorSetId: number) {
+    return this.http.get<VectorSet>(this.apiRoot + '/TestSessions/VectorSet/' + vectorSetId);
+  }
+
+  // END TestSession-related calls
 }
