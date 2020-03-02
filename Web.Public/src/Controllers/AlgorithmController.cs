@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Web.Public.JsonObjects;
 using Web.Public.Providers;
 using Web.Public.Services;
 
@@ -20,14 +21,12 @@ namespace Web.Public.Controllers
         [HttpGet]
         public JsonResult GetAlgorithmList()
         {
-            // Authenticate
+            // Authenticate and refresh token
             
             // Retrieve and return listing
-                // (cache listing?)
-                var list = _algorithmProvider.GetAlgorithmList();
-                
-                
-            return new JsonResult("content not found");
+            var list = _algorithmProvider.GetAlgorithmList();
+            
+            return new JsonResult(new AlgorithmListObject {Jwt = new JwtObject(), AlgorithmList = list});
         }
     }
 }

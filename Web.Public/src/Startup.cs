@@ -28,6 +28,7 @@ namespace Web.Public
                 .AddJsonOptions(options =>
                 {
                     options.JsonSerializerOptions.WriteIndented = true;
+                    options.JsonSerializerOptions.IgnoreNullValues = true;
                 });
         }
 

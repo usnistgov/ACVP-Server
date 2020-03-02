@@ -4,6 +4,9 @@ namespace ACVPCore.Algorithms.External
 {
 	public class AlgorithmBase
 	{
+		[JsonPropertyName("id")]
+		public int AlgorithmId { get; set; }
+		
 		[JsonPropertyName("algorithm")]
 		public string Name { get; set; }
 

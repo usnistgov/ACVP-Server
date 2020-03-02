@@ -58,6 +58,7 @@ namespace Web.Public
                 {
                     services.RegisterAcvpAdminServices();
                     services.Configure<TotpConfig>(hostContext.Configuration.GetSection("Totp"));
+                    services.Configure<AlgorithmConfig>(hostContext.Configuration.GetSection("Algorithm"));
                 });
     }
 }
