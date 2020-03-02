@@ -26,7 +26,7 @@ namespace Web.Admin.Controllers
         }
         
         [HttpGet]
-        public ActionResult<WrappedEnumerable<WorkflowItemLite>> GetWorkflows([FromBody] WorkflowListParameters param)
+        public ActionResult<PagedEnumerable<WorkflowItemLite>> GetWorkflows([FromBody] WorkflowListParameters param)
         {
             if (param == null)
                 return new BadRequestResult();
