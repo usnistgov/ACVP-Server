@@ -75,6 +75,7 @@ namespace Web.Public.Services
         }
 
         // TODO incomplete
+        // Might not be needed with auto-validation middleware
         public Result Validate(string tokenString)
         {
             var validationParameters = new TokenValidationParameters

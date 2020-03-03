@@ -1,5 +1,9 @@
+using System;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
 using Web.Public.JsonObjects;
 using Web.Public.Providers;
 using Web.Public.Services;
@@ -24,11 +28,22 @@ namespace Web.Public.Controllers
         public JsonResult GetAlgorithmList()
         {
             // Authenticate and refresh token
-            
+            var jwt = HttpContext.GetTokenAsync("access_token").Result;
+            var refreshedToken = _jwtService.Refresh(jwt);
+
             // Retrieve and return listing
             var list = _algorithmProvider.GetAlgorithmList();
             
-            return new JsonResult(new AlgorithmListObject {Jwt = new JwtObject(), AlgorithmList = list});
+            return new JsonResult(
+                new AlgorithmListObject
+                {
+                    Jwt = new JwtObject
+                    {
+                        AccessToken = refreshedToken.IsSuccess ? refreshedToken.Token : "", 
+                        AcvVersion = "1.0"
+                    }, 
+                    AlgorithmList = list
+                });
         }
     }
 }
