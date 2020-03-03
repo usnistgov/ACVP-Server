@@ -30,9 +30,9 @@ namespace NIST.CVP.Generation.SHA3.IntegrationTests
         }
 
         [Test]
-        public void ShouldParseAndRunSHA3CAVSFiles(string folder)
+        public void ShouldParseAndRunSHA3CAVSFiles()
         {
-            var testPath = Path.Combine(_sha3TestPath, folder);
+            var testPath = _sha3TestPath;
 
             if (!Directory.Exists(testPath))
             {
@@ -91,9 +91,9 @@ namespace NIST.CVP.Generation.SHA3.IntegrationTests
         }
 
         [Test]
-        public void ShouldParseAndRunSHAKECAVSFiles(string folder)
+        public void ShouldParseAndRunSHAKECAVSFiles()
         {
-            var testPath = Path.Combine(_shakeTestPath, folder);
+            var testPath = _shakeTestPath;
 
             if (!Directory.Exists(testPath))
             {
