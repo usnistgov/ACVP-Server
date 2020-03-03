@@ -26,6 +26,9 @@ import { ValidationDbPersonComponent } from './components/validation-db-person/v
 import { ValidationDbPersonsComponent } from './components/validation-db-persons/validation-db-persons.component';
 import { ValidationDbOrganizationComponent } from './components/validation-db-organization/validation-db-organization.component';
 import { ValidationDbOrganizationsComponent } from './components/validation-db-organizations/validation-db-organizations.component';
+import { WorkflowComponent } from './components/workflow/workflow/workflow.component';
+import { WorkflowDependencyCreateComponent } from './components/workflow/dependency/create/workflow-dependency-create.component';
+import { WorkflowOrganizationCreateComponent } from './components/workflow/organization/create/workflow-organization-create.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +47,10 @@ import { ValidationDbOrganizationsComponent } from './components/validation-db-o
     ValidationDbPersonComponent,
     ValidationDbPersonsComponent,
     ValidationDbOrganizationComponent,
-    ValidationDbOrganizationsComponent
+    ValidationDbOrganizationsComponent,
+    WorkflowDependencyCreateComponent,
+    WorkflowComponent,
+    WorkflowOrganizationCreateComponent
   ],
   imports: [
     BrowserModule,
