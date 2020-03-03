@@ -25,7 +25,7 @@ namespace LCAVPCore.Registration.Algorithms.AES
 		public Domain TagLen { get; set; } = new Domain();
 
 
-		public AES_CCM(Dictionary<string, string> options) : base("ACVP-AES-CCM")
+		public AES_CCM(Dictionary<string, string> options, IDataProvider dataProvider) : base(dataProvider, "ACVP-AES-CCM")
 		{
 			//Prereqs
 			PreReqs.Add(BuildPrereq("AES", options.GetValue("AES_CCM_Prerequisite_AES")));

@@ -4,7 +4,6 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Text.RegularExpressions;
-using ACVPCore.Services;
 using LCAVPCore.Processors;
 using LCAVPCore.Registration;
 using Newtonsoft.Json;
@@ -19,8 +18,6 @@ namespace LCAVPCore
 		private readonly INewSubmissionProcessor _newSubmissionProcessor;
 		private readonly IChangeSubmissionProcessor _changeSubmissionProcessor;
 		private readonly IUpdateSubmissionProcessor _updateSubmissionProcessor;
-		private readonly IOEService _oeService;
-		private readonly IDependencyService _dependencyService;
 		private readonly IModuleProcessor _moduleProcessor;
 		private readonly IOEProcessor _oeProcessor;
 		private readonly IOrganizationProcessor _organizationProcessor;
@@ -40,8 +37,10 @@ namespace LCAVPCore
 			_validationProcessor = validationProcessor;
 		}
 
-		public SubmissionProcessingResult Process(string filePath, string senderEmail, string processedFileName, string extractedFilesRoot)
+		public SubmissionProcessingResult Process(string filePath, string senderEmail, string extractedFilesRoot, string processedFilesRoot)
 		{
+			string processedFileName = $"{DateTime.Now.ToString("yyyyMMddHHmmssfff")}_{Path.GetFileName(filePath)}";
+
 			FileExtractionResult extractionResult = null;
 			SubmissionProcessingResult submissionProcessingResult = new SubmissionProcessingResult();
 
@@ -193,6 +192,7 @@ namespace LCAVPCore
 
 								case (ProcessingType.New, WorkflowType.Validation):
 									_validationProcessor.Create((NewRegistrationContainer)processingResult.TheThingy);
+									//TODO - update the submission log with the validation ID that was created
 									break;
 
 								case (ProcessingType.Update, WorkflowType.Validation):
@@ -209,6 +209,11 @@ namespace LCAVPCore
 				submissionLogID = LogSubmission(submissionID, LabName, LabPOC, LabPOCEmail, submissionType, submissionProcessingResult.Success, senderEmail, processedFileName, extractionResult?.ExtractionPath, submissionProcessingResult.Errors);
 			}
 			submissionProcessingResult.SubmissionID = submissionLogID;
+
+			//Move the file to the processed location
+			string destinationPath = Path.Combine(processedFilesRoot, processedFileName);
+
+			File.Move(filePath, destinationPath);
 
 			return submissionProcessingResult;
 		}
@@ -232,10 +237,8 @@ namespace LCAVPCore
 		private (bool Found, string CAVSVersion, string LabName, string LabPOC, string LabPOCEmail, string NVLAPCode, string SubmissionCode, string UniqueNumber) ExtractINFMetadata(string filePath)
 		{
 			//Starting with this path, try to extract the needed metadata from inf file
-			using (ZipArchive archive = new ZipArchive(File.OpenRead(filePath), ZipArchiveMode.Read))
-			{
-				return RecursiveINFMetadataSearch(archive);
-			}
+			using ZipArchive archive = new ZipArchive(File.OpenRead(filePath), ZipArchiveMode.Read);
+			return RecursiveINFMetadataSearch(archive);
 		}
 
 		private (bool Found, string CAVSVersion, string LabName, string LabPOC, string LabPOCEmail, string NVLAPCode, string SubmissionCode, string UniqueNumber) RecursiveINFMetadataSearch(ZipArchive archive)
@@ -250,55 +253,53 @@ namespace LCAVPCore
 				//Found an inf file, so now extract the data we care about
 				infData.Found = true;
 
-				using (StreamReader reader = new StreamReader(infFile.Open()))
+				using StreamReader reader = new StreamReader(infFile.Open());
+				string line;
+				int linesFound = 0;     //Hacky way to keep track of whether or not all lines we care about here have been found, without having to write 5 booleans
+
+				//Read a line at a time from the stream until finding the line we care about
+				while ((line = reader.ReadLine()) != null && linesFound != 7)
 				{
-					string line;
-					int linesFound = 0;     //Hacky way to keep track of whether or not all lines we care about here have been found, without having to write 5 booleans
-
-					//Read a line at a time from the stream until finding the line we care about
-					while ((line = reader.ReadLine()) != null && linesFound != 7)
+					if (line.StartsWith("CAVS_Tool_Version"))
 					{
-						if (line.StartsWith("CAVS_Tool_Version"))
-						{
-							infData.CAVSVersion = line.Substring(18).Trim();
-							linesFound++;
-						}
+						infData.CAVSVersion = line.Substring(18).Trim();
+						linesFound++;
+					}
 
-						if (line.StartsWith("Lab_Name="))
-						{
-							infData.LabName = line.Substring(9).Trim();
-							linesFound++;
-						}
+					if (line.StartsWith("Lab_Name="))
+					{
+						infData.LabName = line.Substring(9).Trim();
+						linesFound++;
+					}
 
-						if (line.StartsWith("Lab_POC="))
-						{
-							infData.LabPOC = line.Substring(8).Trim();
-							linesFound++;
-						}
+					if (line.StartsWith("Lab_POC="))
+					{
+						infData.LabPOC = line.Substring(8).Trim();
+						linesFound++;
+					}
 
-						if (line.StartsWith("Lab_POC_Email="))
-						{
-							infData.LabPOCEmail = line.Substring(14).Trim();
-							linesFound++;
-						}
+					if (line.StartsWith("Lab_POC_Email="))
+					{
+						infData.LabPOCEmail = line.Substring(14).Trim();
+						linesFound++;
+					}
 
-						if (line.StartsWith("ImplCodePart1_NVLABCode="))    //Yes, spelled wrong
-						{
-							infData.NVLAPCode = line.Substring(24).Trim();
-							linesFound++;
-						}
+					if (line.StartsWith("ImplCodePart1_NVLABCode="))    //Yes, spelled wrong
+					{
+						infData.NVLAPCode = line.Substring(24).Trim();
+						linesFound++;
+					}
 
-						if (line.StartsWith("ImplCodePart2_SubmissionCode="))
-						{
-							infData.SubmissionCode = line.Substring(29).Trim();
-							linesFound++;
-						}
+					if (line.StartsWith("ImplCodePart2_SubmissionCode="))
+					{
+						infData.SubmissionCode = line.Substring(29).Trim();
+						linesFound++;
+					}
 
-						if (line.StartsWith("ImplCodePart3_UniqueNumber="))
-						{
-							infData.UniqueNumber = line.Substring(27).Trim();
-							linesFound++;
-						}
+					if (line.StartsWith("ImplCodePart3_UniqueNumber="))
+					{
+						infData.UniqueNumber = line.Substring(27).Trim();
+						linesFound++;
 					}
 				}
 			}
@@ -311,13 +312,11 @@ namespace LCAVPCore
 				foreach (ZipArchiveEntry zipFile in nestedZipFiles)
 				{
 					//Open the nested zip file as a stream
-					using (ZipArchive childArchive = new ZipArchive(zipFile.Open(), ZipArchiveMode.Read))   //There seems to be no way to force the stream to be read-only
+					using ZipArchive childArchive = new ZipArchive(zipFile.Open(), ZipArchiveMode.Read);
+					infData = RecursiveINFMetadataSearch(childArchive);
+					if (infData.Found)
 					{
-						infData = RecursiveINFMetadataSearch(childArchive);
-						if (infData.Found)
-						{
-							break;
-						}
+						break;
 					}
 				}
 			}
@@ -325,27 +324,21 @@ namespace LCAVPCore
 			return infData;
 		}
 
-		private string SubmissionTypeString(SubmissionType type)
+		private string SubmissionTypeString(SubmissionType type) => type switch
 		{
-			switch (type)
-			{
-				case SubmissionType.New: return "N";
-				case SubmissionType.Update: return "U";
-				case SubmissionType.Change: return "C";
-				default: return null;
-			}
-		}
+			SubmissionType.New => "N",
+			SubmissionType.Update => "U",
+			SubmissionType.Change => "C",
+			_ => null,
+		};
 
-		private SubmissionType SubmissionTypeFromString(string value)
+		private SubmissionType SubmissionTypeFromString(string value) => value switch
 		{
-			switch (value)
-			{
-				case "N": return SubmissionType.New;
-				case "U": return SubmissionType.Update;
-				case "C": return SubmissionType.Change;
-				default: return SubmissionType.Unknown;
-			}
-		}
+			"N" => SubmissionType.New,
+			"U" => SubmissionType.Update,
+			"C" => SubmissionType.Change,
+			_ => SubmissionType.Unknown,
+		};
 
 		private int LogSubmission(string submissionID, string labName, string labPOC, string labPOCEmail, SubmissionType submissionType, bool success, string senderEmailAddress, string zipFileName, string extractedFileLocation, List<string> errors)
 		{

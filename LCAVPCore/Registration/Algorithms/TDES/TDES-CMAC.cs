@@ -11,7 +11,7 @@ namespace LCAVPCore.Registration.Algorithms.TDES
 		[JsonProperty(PropertyName = "capabilities")]
 		public List<Capability> Capabilities { get; private set; } = new List<Capability>();		
 
-		public TDES_CMAC(Dictionary<string, string> options) : base("CMAC-TDES")
+		public TDES_CMAC(Dictionary<string, string> options, IDataProvider dataProvider) : base(dataProvider, "CMAC-TDES")
 		{
 			if (options.GetValue("CMACGen_TDES3") == "True")
 			{

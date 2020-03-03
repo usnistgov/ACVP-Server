@@ -11,7 +11,7 @@ namespace LCAVPCore.Registration.Algorithms.KDF
 		[JsonProperty("capabilities")]
 		public List<Capability> Capabilities { get; private set; } = new List<Capability>();
 
-		public KDF(Dictionary<string, string> options) : base("KDF")
+		public KDF(Dictionary<string, string> options, IDataProvider dataProvider) : base(dataProvider, "KDF")
 		{
 			//Prereqs
 			PreReqs.Add(BuildPrereq("KAS", options.GetValue("KDF108_Prerequisite_KAS")));

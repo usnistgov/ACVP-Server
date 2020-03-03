@@ -27,7 +27,7 @@ namespace LCAVPCore.Registration.Algorithms.AES
 		[JsonProperty(PropertyName = "tagLen")]
 		public List<int> TagLen { get; private set; } = new List<int>();
 
-		public AES_GMAC(string ivGenLocation, string ivGenMode, Dictionary<string, string> options) : base("ACVP-AES-GMAC")
+		public AES_GMAC(string ivGenLocation, string ivGenMode, Dictionary<string, string> options, IDataProvider dataProvider) : base(dataProvider, "ACVP-AES-GMAC")
 		{
 			//Prereqs
 			PreReqs.Add(BuildPrereq("AES", options.GetValue("AES_GCM_Prerequisite_AES")));

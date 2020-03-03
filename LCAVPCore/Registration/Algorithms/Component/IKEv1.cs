@@ -11,7 +11,7 @@ namespace LCAVPCore.Registration.Algorithms.Component
 		[JsonProperty(PropertyName = "capabilities")]
 		public List<Capability> Capabilities { get; private set; } = new List<Capability>();
 
-		public IKEv1(Dictionary<string, string> options) : base("kdf-components", "ikev1")
+		public IKEv1(Dictionary<string, string> options, IDataProvider dataProvider) : base(dataProvider, "kdf-components", "ikev1")
 		{
 			//Prereqs
 			PreReqs.Add(BuildPrereq("SHS", options.GetValue("KDF_800_135_Prerequisite_SHA")));

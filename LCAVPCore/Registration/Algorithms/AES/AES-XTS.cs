@@ -21,7 +21,7 @@ namespace LCAVPCore.Registration.Algorithms.AES
 		[JsonProperty(PropertyName = "tweakMode")]
 		public List<string> TweakMode { get; private set; } = new List<string>();
 
-		public AES_XTS(int keyLength, Dictionary<string, string> options) : base("ACVP-AES-XTS")
+		public AES_XTS(int keyLength, Dictionary<string, string> options, IDataProvider dataProvider) : base(dataProvider, "ACVP-AES-XTS")
 		{
 			//Most of the options are specific to the key length, and the JSON format requires separate registrations if the options differ, so play it safe and just do them separate
 

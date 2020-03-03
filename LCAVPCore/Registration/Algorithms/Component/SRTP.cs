@@ -15,7 +15,7 @@ namespace LCAVPCore.Registration.Algorithms.Component
 		[JsonProperty(PropertyName = "supportsZeroKdr")]
 		public bool SupportsZeroKDR { get; private set; }
 
-		public SRTP(Dictionary<string, string> options) : base("kdf-components", "srtp")
+		public SRTP(Dictionary<string, string> options, IDataProvider dataProvider) : base(dataProvider, "kdf-components", "srtp")
 		{
 			//Prereqs
 			PreReqs.Add(BuildPrereq("AES", options.GetValue("KDF_800_135_Prerequisite_AES")));

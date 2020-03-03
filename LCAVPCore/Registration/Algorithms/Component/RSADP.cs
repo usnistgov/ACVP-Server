@@ -9,7 +9,7 @@ namespace LCAVPCore.Registration.Algorithms.Component
 		[JsonProperty("modLen")]
 		public int ModLen { get; } = 2048;
 
-		public RSADP(Dictionary<string, string> options) : base("RSA", "decryptionPrimitive")
+		public RSADP(Dictionary<string, string> options, IDataProvider dataProvider) : base(dataProvider, "RSA", "decryptionPrimitive")
 		{
 		}
 

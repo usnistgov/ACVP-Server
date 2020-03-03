@@ -12,7 +12,7 @@ namespace LCAVPCore.Registration.Algorithms.RSA
 		[JsonProperty("pubKeyValue")]
 		public List<int> PublicKeyValues { get; private set; } = new List<int>();
 
-		public RSAKeyGen186_2(Dictionary<string, string> options) : base("RSA", "keyGen", "186-2")
+		public RSAKeyGen186_2(Dictionary<string, string> options, IDataProvider dataProvider) : base(dataProvider, "RSA", "keyGen", "186-2")
 		{
 			//Prereqs
 			PreReqs.Add(BuildPrereq("SHS", options.GetValue("FIPS186_3_RSA_Prerequisite_SHA_1")));

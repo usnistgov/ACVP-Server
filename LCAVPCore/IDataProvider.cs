@@ -15,5 +15,6 @@ namespace LCAVPCore
 		List<string> GetProductNameForValidations(List<(string Algorithm, int CertNumber)> affectedValidations);
 		int GetValidationRecordIDForModuleAndAlgo(int moduleID, string family);
 		List<(int OrderIndex, string PhoneNumber, string Type)> GetPhoneNumbersForPerson(int personID);
+		long GetValidationIDForSubmissionID(string submissionID);
 	}
 }

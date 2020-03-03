@@ -13,8 +13,8 @@ namespace LCAVPCore.Registration.Algorithms.RSA
 		[JsonProperty("fixedPubExp", NullValueHandling = NullValueHandling.Ignore)]
 		public string FixedPublicKeyExponentValue { get; set; } = null;
 
-		[JsonProperty("infoGeneratedByServer", NullValueHandling = NullValueHandling.Ignore)]
-		public bool InfoGeneratedByServer { get; set; } = null;
+		[JsonProperty("infoGeneratedByServer")]
+		public bool InfoGeneratedByServer { get; set; }
 
 		[JsonProperty("keyFormat")]
 		public string KeyFormat { get => "standard"; }
@@ -22,7 +22,7 @@ namespace LCAVPCore.Registration.Algorithms.RSA
 		[JsonProperty("capabilities")]
 		public List<Capability> Capabilities { get; private set; } = new List<Capability>();
 
-		public RSAKeyGen(string publicKeyExpoonentType, string fixedEValue, Dictionary<string, string> options) : base("RSA", "keyGen")
+		public RSAKeyGen(string publicKeyExpoonentType, string fixedEValue, Dictionary<string, string> options, IDataProvider dataProvider) : base(dataProvider, "RSA", "keyGen")
 		{
 			//Prereqs
 			PreReqs.Add(BuildPrereq("SHS", options.GetValue("FIPS186_3_RSA_Prerequisite_SHA_1")));

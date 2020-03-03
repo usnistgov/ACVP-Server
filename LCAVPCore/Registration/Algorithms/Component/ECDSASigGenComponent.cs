@@ -13,7 +13,7 @@ namespace LCAVPCore.Registration.Algorithms.Component
 		[JsonProperty(PropertyName = "componentTest")]
 		public bool IsComponent { get; } = true;
 
-		public ECDSASigGenComponent(Dictionary<string, string> options) : base("ECDSA", "sigGen")        //This is a odd, but "correct" - the Component ECDSA Sig Gen algorithm gets registered as an option of an ECDSA2 registration
+		public ECDSASigGenComponent(Dictionary<string, string> options, IDataProvider dataProvider) : base(dataProvider, "ECDSA", "sigGen")        //This is a odd, but "correct" - the Component ECDSA Sig Gen algorithm gets registered as an option of an ECDSA2 registration
 		{
 			//Prereqs
 			PreReqs.Add(BuildPrereq("DRBG", options.GetValue("ECDSA2_Prerequisite_DRBG")));

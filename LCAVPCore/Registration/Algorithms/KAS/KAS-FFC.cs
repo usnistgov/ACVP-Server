@@ -13,7 +13,7 @@ namespace LCAVPCore.Registration.Algorithms.KAS
 		[JsonProperty("scheme")]
 		public SchemeCollection Schemes { get; private set; } = new SchemeCollection();
 
-		public KAS_FFC(Dictionary<string, string> options) : base("KAS-FFC")
+		public KAS_FFC(Dictionary<string, string> options, IDataProvider dataProvider) : base(dataProvider, "KAS-FFC")
 		{
 			//Prereqs
 			PreReqs.Add(BuildPrereq("DSA", options.GetValue("KAS_Prerequisite_DSA")));

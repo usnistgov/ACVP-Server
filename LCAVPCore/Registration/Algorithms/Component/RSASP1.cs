@@ -9,7 +9,7 @@ namespace LCAVPCore.Registration.Algorithms.Component
 		[JsonProperty("keyFormat")]
 		public string KeyFormat { get => "standard"; }
 
-		public RSASP1(Dictionary<string, string> options) : base("RSA", "signaturePrimitive")
+		public RSASP1(Dictionary<string, string> options, IDataProvider dataProvider) : base(dataProvider, "RSA", "signaturePrimitive")
 		{
 		}
 

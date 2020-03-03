@@ -16,7 +16,7 @@ namespace LCAVPCore.Registration.Algorithms.TDES
 		[JsonProperty(PropertyName = "payloadLen")]
 		public Domain PayloadLen { get; set; } = new Domain();
 
-		public TDES_KW(Dictionary<string, string> options) : base("ACVP-TDES-KW")
+		public TDES_KW(Dictionary<string, string> options, IDataProvider dataProvider) : base(dataProvider, "ACVP-TDES-KW")
 		{
 			//Prereqs
 			PreReqs.Add(BuildPrereq("AES", options.GetValue("AES_Prerequisite")));

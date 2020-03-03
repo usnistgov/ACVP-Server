@@ -5,7 +5,7 @@ namespace LCAVPCore.Registration.Algorithms.Component
 {
 	public class TPM : AlgorithmBase, IAlgorithm
 	{
-		public TPM(Dictionary<string, string> options) : base("kdf-components", "tpm")
+		public TPM(Dictionary<string, string> options, IDataProvider dataProvider) : base(dataProvider, "kdf-components", "tpm")
 		{
 			//There is nothing in this registration except prereqs...
 

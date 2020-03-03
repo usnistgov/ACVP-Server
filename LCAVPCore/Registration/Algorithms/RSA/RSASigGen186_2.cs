@@ -10,7 +10,7 @@ namespace LCAVPCore.Registration.Algorithms.RSA
 		[JsonProperty("capabilities")]
 		public List<Capability> Capabilities { get; private set; } = new List<Capability>();
 
-		public RSASigGen186_2(Dictionary<string, string> options) : base("RSA", "sigGen", "186-2")
+		public RSASigGen186_2(Dictionary<string, string> options, IDataProvider dataProvider) : base(dataProvider, "RSA", "sigGen", "186-2")
 		{
 			//Prereqs
 			PreReqs.Add(BuildPrereq("SHS", options.GetValue("FIPS186_3_RSA_Prerequisite_SHA_1")));

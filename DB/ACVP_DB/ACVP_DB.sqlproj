@@ -353,6 +353,8 @@
     <Build Include="val\Stored Procedures\PersonGetNotes.sql" />
     <Build Include="val\Stored Procedures\PersonsGet.sql" />
     <Build Include="acvp\Stored Procedures\WorkflowItemsGet.sql" />
+    <Build Include="val\Stored Procedures\PrerequisiteInsert.sql" />
+    <Build Include="lcavp\Stored Procedures\ValidationIDForSubmissionIDGet.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="ACVP_DB.refactorlog" />

@@ -14,7 +14,7 @@ namespace LCAVPCore.Registration.Algorithms.ECDSA
 		[JsonProperty(PropertyName = "componentTest")]
 		public bool IsComponent { get; } = false;
 
-		public ECDSA_SigGen(Dictionary<string, string> options) : base("ECDSA", "sigGen")
+		public ECDSA_SigGen(Dictionary<string, string> options, IDataProvider dataProvider) : base(dataProvider, "ECDSA", "sigGen")
 		{
 			//Prereqs
 			PreReqs.Add(BuildPrereq("DRBG", options.GetValue("ECDSA2_Prerequisite_DRBG")));

@@ -11,7 +11,7 @@ namespace LCAVPCore.Registration.Algorithms.DSA
 		[JsonProperty(PropertyName = "capabilities")]
 		public List<KeyPairCapability> Capabilities { get; private set; } = new List<KeyPairCapability>();
 
-		public DSAKeyPair(Dictionary<string, string> options) : base("DSA", "keyGen")
+		public DSAKeyPair(Dictionary<string, string> options, IDataProvider dataProvider) : base(dataProvider, "DSA", "keyGen")
 		{
 			//Prereqs
 			//PreReqs.Add(BuildPrereq("SHS", options.GetValue("DSA2_Prerequisite_SHA_1")));

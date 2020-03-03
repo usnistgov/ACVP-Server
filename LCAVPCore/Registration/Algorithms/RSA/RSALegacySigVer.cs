@@ -11,7 +11,7 @@ namespace LCAVPCore.Registration.Algorithms.RSA
 		[JsonProperty("capabilities")]
 		public List<Capability> Capabilities { get; private set; } = new List<Capability>();
 
-		public RSALegacySigVer(Dictionary<string, string> options) : base("RSA", "legacySigVer")
+		public RSALegacySigVer(Dictionary<string, string> options, IDataProvider dataProvider) : base(dataProvider, "RSA", "legacySigVer")
 		{
 			//ANSX 9.31
 			if (options.GetValue("Legacy_FIPS186_2SigVer") == "True")

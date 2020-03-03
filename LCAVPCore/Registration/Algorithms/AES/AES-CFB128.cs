@@ -12,7 +12,7 @@ namespace LCAVPCore.Registration.Algorithms.AES
 		[JsonProperty(PropertyName = "keyLen")]
 		public List<int> KeyLen { get; private set; }
 
-		public AES_CFB128(Dictionary<string, string> options) : base("ACVP-AES-CFB128")
+		public AES_CFB128(Dictionary<string, string> options, IDataProvider dataProvider) : base(dataProvider, "ACVP-AES-CFB128")
 		{
 			List<string> validValues = new List<string> { "Both", "Encrypt", "Decrypt" };
 			KeyLen = new List<int>();

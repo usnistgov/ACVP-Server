@@ -16,7 +16,7 @@ namespace LCAVPCore.Registration.Algorithms.RSA
 		[JsonProperty("capabilities")]
 		public List<Capability> Capabilities { get; private set; } = new List<Capability>();
 
-		public RSASigVer(string publicKeyExponentType, string fixedEValue, Dictionary<string, string> options) : base("RSA", "sigVer")
+		public RSASigVer(string publicKeyExponentType, string fixedEValue, Dictionary<string, string> options, IDataProvider dataProvider) : base(dataProvider, "RSA", "sigVer")
 		{
 			//Prereqs
 			PreReqs.Add(BuildPrereq("SHS", options.GetValue("FIPS186_3_RSA_Prerequisite_SHA_1")));

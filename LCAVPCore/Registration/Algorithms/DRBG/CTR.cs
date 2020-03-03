@@ -22,7 +22,7 @@ namespace LCAVPCore.Registration.Algorithms.DRBG
 		[JsonProperty("capabilities")]
 		public List<ModeParameters> Modes { get; private set; } = new List<ModeParameters>();
 
-		public CTR(Dictionary<string, string> options) : base("ctrDRBG")
+		public CTR(Dictionary<string, string> options, IDataProvider dataProvider) : base(dataProvider, "ctrDRBG")
 		{
 			//Prereqs
 			PreReqs.Add(BuildPrereq("AES", options.GetValue("CTRDRBG_usedf_Prerequisite_AES")));

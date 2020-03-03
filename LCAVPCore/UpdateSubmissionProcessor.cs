@@ -13,10 +13,10 @@ namespace LCAVPCore
 {
 	public class UpdateSubmissionProcessor : IUpdateSubmissionProcessor
 	{
-		private IAlgorithmFactory _algorithmFactory;
-		private IAlgorithmEvaluatorFactory _algorithmEvaluatorFactory;
-		private IInfFileParser _infFileParser;
-		private IDataProvider _dataProvider;
+		private readonly IAlgorithmFactory _algorithmFactory;
+		private readonly IAlgorithmEvaluatorFactory _algorithmEvaluatorFactory;
+		private readonly IInfFileParser _infFileParser;
+		private readonly IDataProvider _dataProvider;
 
 		public UpdateSubmissionProcessor(IAlgorithmFactory algorithmFactory, IAlgorithmEvaluatorFactory algorithmEvaluatorFactory, IInfFileParser infFileParser, IDataProvider dataProvider)
 		{
@@ -406,7 +406,13 @@ namespace LCAVPCore
 					//}
 
 					//Handle any "In this same implementation" prereqs
-					registration.Scenarios = HandleInThisSameImplPrereqs(registration.Scenarios, moduleID);
+					registration.Scenarios = HandlePrereqLookups(registration.Scenarios, moduleID);
+
+					if (registration.Scenarios.SelectMany(x => x.Algorithms).SelectMany(x => x.Prerequisites).Any(x => x.IsUnprocessedSubmission))
+					{
+						string submissions = string.Join(", ", registration.Scenarios.SelectMany(x => x.Algorithms).SelectMany(x => x.Prerequisites).Where(x => x.IsUnprocessedSubmission).Select(x => x.SubmissionID));
+						errors.Add($"Cannot be processed because it depends on other submissions that have not been approved. Retry after you have approved submission(s) {submissions}");
+					}
 
 					//Create the processing result
 					ProcessingResult processingResult = new ProcessingResult
@@ -495,7 +501,13 @@ namespace LCAVPCore
 					//}
 
 					//Handle any "In this same implementation" prereqs
-					registration.Scenarios = HandleInThisSameImplPrereqs(registration.Scenarios, moduleID);
+					registration.Scenarios = HandlePrereqLookups(registration.Scenarios, moduleID);
+
+					if (registration.Scenarios.SelectMany(x => x.Algorithms).SelectMany(x => x.Prerequisites).Any(x => x.IsUnprocessedSubmission))
+					{
+						string submissions = string.Join(", ", registration.Scenarios.SelectMany(x => x.Algorithms).SelectMany(x => x.Prerequisites).Where(x => x.IsUnprocessedSubmission).Select(x => x.SubmissionID));
+						errors.Add($"Cannot be processed because it depends on other submissions that have not been approved. Retry after you have approved submission(s) {submissions}");
+					}
 
 					//Create the processing result from the registration
 					ProcessingResult processingResult = new ProcessingResult
@@ -566,7 +578,13 @@ namespace LCAVPCore
 						//}
 
 						//Handle any "In this same implementation" prereqs
-						registration.Scenarios = HandleInThisSameImplPrereqs(registration.Scenarios, moduleID);
+						registration.Scenarios = HandlePrereqLookups(registration.Scenarios, moduleID);
+
+						if (registration.Scenarios.SelectMany(x => x.Algorithms).SelectMany(x => x.Prerequisites).Any(x => x.IsUnprocessedSubmission))
+						{
+							string submissions = string.Join(", ", registration.Scenarios.SelectMany(x => x.Algorithms).SelectMany(x => x.Prerequisites).Where(x => x.IsUnprocessedSubmission).Select(x => x.SubmissionID));
+							errors.Add($"Cannot be processed because it depends on other submissions that have not been approved. Retry after you have approved submission(s) {submissions}");
+						}
 
 						//Create the processing result from the registration
 						ProcessingResult processingResult = new ProcessingResult
@@ -633,7 +651,13 @@ namespace LCAVPCore
 						//}
 
 						//Handle any "In this same implementation" prereqs
-						registration.Scenarios = HandleInThisSameImplPrereqs(registration.Scenarios, moduleID);
+						registration.Scenarios = HandlePrereqLookups(registration.Scenarios, moduleID);
+
+						if (registration.Scenarios.SelectMany(x => x.Algorithms).SelectMany(x => x.Prerequisites).Any(x => x.IsUnprocessedSubmission))
+						{
+							string submissions = string.Join(", ", registration.Scenarios.SelectMany(x => x.Algorithms).SelectMany(x => x.Prerequisites).Where(x => x.IsUnprocessedSubmission).Select(x => x.SubmissionID));
+							errors.Add($"Cannot be processed because it depends on other submissions that have not been approved. Retry after you have approved submission(s) {submissions}");
+						}
 
 						//Create processing result from the registration
 						ProcessingResult processingResult = new ProcessingResult
@@ -654,7 +678,7 @@ namespace LCAVPCore
 
 
 			}
-
+			
 			return results;
 		}
 
@@ -674,7 +698,7 @@ namespace LCAVPCore
 		}
 
 
-		private List<Scenario> HandleInThisSameImplPrereqs(List<Scenario> scenarios, int moduleID)
+		private List<Scenario> HandlePrereqLookups(List<Scenario> scenarios, int moduleID)
 		{
 			for (int i = 0; i < scenarios.Count; i++)
 			{
@@ -687,11 +711,26 @@ namespace LCAVPCore
 							if (scenarios[i].Algorithms[j].Prerequisites[k].SubmissionID == null
 								&& scenarios[i].Algorithms[j].Prerequisites[k].ValidationRecordID == null)
 							{
+								//Is a self referential prereq, so look up what that ID is - that may be complex since old stuff could be multiple validations
 								int validationRecordID = _dataProvider.GetValidationRecordIDForModuleAndAlgo(moduleID, scenarios[i].Algorithms[j].Prerequisites[k].Algorithm);
 
 								if (validationRecordID > 0)
 								{
 									scenarios[i].Algorithms[j].Prerequisites[k].ValidationRecordID = validationRecordID;
+								}
+							}
+							else if (scenarios[i].Algorithms[j].Prerequisites[k].SubmissionID != null)
+							{
+								//References another submission, so look it up
+								long validationID = _dataProvider.GetValidationIDForSubmissionID(scenarios[i].Algorithms[j].Prerequisites[k].SubmissionID);
+
+								if (validationID == -1)
+								{
+									scenarios[i].Algorithms[j].Prerequisites[k].IsUnprocessedSubmission = true;
+								}
+								else
+								{
+									scenarios[i].Algorithms[j].Prerequisites[k].ValidationRecordID = validationID;
 								}
 							}
 						}

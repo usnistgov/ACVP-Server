@@ -15,7 +15,7 @@ namespace LCAVPCore.Registration.Algorithms.SHA_3
 		//[JsonProperty(PropertyName = "digestSize")]
 		//public List<int> DigestSize { get; } = new List<int> { 512 };
 
-		public SHA3_512(Dictionary<string, string> options) : base("SHA3-512")
+		public SHA3_512(Dictionary<string, string> options, IDataProvider dataProvider) : base(dataProvider, "SHA3-512")
 		{
 			if (options.GetValue("SHA3_NoNull") == "False") IncludeNull = true;
 			if (options.GetValue("SHA3_512_Byte") == "False") BitOrientedInput = true;

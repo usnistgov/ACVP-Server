@@ -24,7 +24,7 @@ namespace LCAVPCore.Registration.Algorithms.DRBG
 		[JsonProperty("capabilities")]
 		public List<ModeParameters> Modes { get; private set; } = new List<ModeParameters>();
 
-		public HMAC(Dictionary<string, string> options) : base("hmacDRBG")
+		public HMAC(Dictionary<string, string> options, IDataProvider dataProvider) : base(dataProvider, "hmacDRBG")
 		{
 			//Prereqs
 			PreReqs.Add(BuildPrereq("HMAC", options.GetValue("HMACDRBG_Prerequisite_HMAC")));

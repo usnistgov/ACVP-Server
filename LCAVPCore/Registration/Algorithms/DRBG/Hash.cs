@@ -24,7 +24,7 @@ namespace LCAVPCore.Registration.Algorithms.DRBG
 		[JsonProperty("capabilities")]
 		public List<ModeParameters> Modes { get; private set; } = new List<ModeParameters>();
 
-		public Hash(Dictionary<string, string> options) : base("hashDRBG")
+		public Hash(Dictionary<string, string> options, IDataProvider dataProvider) : base(dataProvider, "hashDRBG")
 		{
 			//Prereqs
 			PreReqs.Add(BuildPrereq("SHS", options.GetValue("HashDRBG_Prerequisite_SHA")));

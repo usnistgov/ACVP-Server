@@ -26,7 +26,7 @@ namespace LCAVPCore.Registration.Algorithms.AES
 			public Domain MacLen { get; set; } = new Domain();
 		}
 
-		public AES_CMAC(Dictionary<string, string> options) : base("CMAC-AES")
+		public AES_CMAC(Dictionary<string, string> options, IDataProvider dataProvider) : base(dataProvider, "CMAC-AES")
 		{
 			//Need to loop through the 6 combinations of direction and keyLen to create the capabilities. Could try to merge them, but no...
 			foreach (string direction in new string[] { "Gen", "Ver" })

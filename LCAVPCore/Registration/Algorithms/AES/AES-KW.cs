@@ -20,7 +20,7 @@ namespace LCAVPCore.Registration.Algorithms.AES
 		[JsonProperty(PropertyName = "payloadLen")]
 		public Domain PayloadLen { get; set; } = new Domain();
 
-		public AES_KW(Dictionary<string, string> options) : base("ACVP-AES-KW")
+		public AES_KW(Dictionary<string, string> options, IDataProvider dataProvider) : base(dataProvider, "ACVP-AES-KW")
 		{
 			//Prereqs
 			PreReqs.Add(BuildPrereq("AES", options.GetValue("AES_Prerequisite")));

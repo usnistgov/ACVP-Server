@@ -13,7 +13,7 @@ namespace LCAVPCore.Registration.Algorithms.Component
 		[JsonProperty("passwordLength")]
 		public Domain PasswordLength { get; private set; } = new Domain();
 
-		public SNMP(Dictionary<string, string> options) : base("kdf-components", "snmp")
+		public SNMP(Dictionary<string, string> options, IDataProvider dataProvider) : base(dataProvider, "kdf-components", "snmp")
 		{
 			//Prereqs
 			PreReqs.Add(BuildPrereq("SHS", options.GetValue("KDF_800_135_Prerequisite_SHA")));

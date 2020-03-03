@@ -9,7 +9,7 @@ namespace LCAVPCore.Registration.Algorithms.ECDSA
 		[JsonProperty(PropertyName = "curve")]
 		public List<string> Curves = new List<string>();
 
-		public ECDSA_PKV(Dictionary<string, string> options) : base("ECDSA", "keyVer")
+		public ECDSA_PKV(Dictionary<string, string> options, IDataProvider dataProvider) : base(dataProvider, "ECDSA", "keyVer")
 		{
 			string[] curves = new string[] { "P-192", "P-224", "P-256", "P-384", "P-521", "K-163", "K-233", "K-283", "K-409", "K-571", "B-163", "B-233", "B-283", "B-409", "B-571" };
 

@@ -10,12 +10,10 @@ namespace LCAVPCore
 	public class ChangeSubmissionProcessor : IChangeSubmissionProcessor
 	{
 		private IDataProvider _dataProvider;
-		private IInfFileParser _infFileParser;
 
-		public ChangeSubmissionProcessor(IDataProvider dataProvider, IInfFileParser infFileParser)
+		public ChangeSubmissionProcessor(IDataProvider dataProvider)
 		{
 			_dataProvider = dataProvider;
-			_infFileParser = infFileParser;
 		}
 
 		public List<ProcessingResult> Process(string submissionRoot)

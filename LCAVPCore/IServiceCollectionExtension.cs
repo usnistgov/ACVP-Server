@@ -19,6 +19,12 @@ namespace LCAVPCore
 			services.AddSingleton<IUpdateSubmissionProcessor, UpdateSubmissionProcessor>();
 			services.AddSingleton<ILCAVPSubmissionProcessor, LCAVPSubmissionProcessor>();
 
+			services.AddSingleton<IDataProvider, DataProvider>();
+			services.AddSingleton<IAlgorithmFactory, AlgorithmFactory>();
+			services.AddSingleton<IAlgorithmEvaluatorFactory, AlgorithmEvaluatorFactory>();
+			services.AddSingleton<IInfFileParser, InfFileParser>();
+			services.AddSingleton<IAlgorithmChunkParserFactory, AlgorithmChunkParserFactory>();
+
 			return services;
 		}
 	}

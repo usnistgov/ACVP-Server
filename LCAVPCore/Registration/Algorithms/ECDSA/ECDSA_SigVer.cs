@@ -14,7 +14,7 @@ namespace LCAVPCore.Registration.Algorithms.ECDSA
 		[JsonProperty(PropertyName = "capabilities")]
 		public List<SigCapability> Capabilities { get; private set; } = new List<SigCapability>();
 
-		public ECDSA_SigVer(Dictionary<string, string> options) : base("ECDSA", "sigVer")
+		public ECDSA_SigVer(Dictionary<string, string> options, IDataProvider dataProvider) : base(dataProvider, "ECDSA", "sigVer")
 		{
 			//Prereqs
 			PreReqs.Add(BuildPrereq("SHS", options.GetValue("ECDSA2_Prerequisite_SHA_1")));

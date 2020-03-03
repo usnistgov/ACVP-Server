@@ -12,7 +12,7 @@ namespace LCAVPCore.Registration.Algorithms.TDES
 		[JsonProperty(PropertyName = "keyingOption")]
 		public List<int> KeyingOption { get; private set; }
 
-		public TDES_ECB(Dictionary<string, string> options) : base("ACVP-TDES-ECB")
+		public TDES_ECB(Dictionary<string, string> options, IDataProvider dataProvider) : base(dataProvider, "ACVP-TDES-ECB")
 		{
 			KeyingOption = new List<int>();
 			if (options.GetValue("ECB_KEY_CHOICE1") == "Yes") KeyingOption.Add(1);

@@ -17,14 +17,16 @@ namespace LCAVPCore.Processors
 		private readonly IValidationService _validationService;
 		private readonly IScenarioOEProvider _scenarioOEProvider;
 		private readonly ICapabilityService _capabilityService;
+		private readonly IPrerequisiteService _prerequisiteService;
 
-		public ValidationProcessor(ModuleProcessor moduleProcessor, OEProcessor oeProcessor, IValidationService validationService, IScenarioOEProvider scenarioOEProvider, ICapabilityService capabilityService)
+		public ValidationProcessor(ModuleProcessor moduleProcessor, OEProcessor oeProcessor, IValidationService validationService, IScenarioOEProvider scenarioOEProvider, ICapabilityService capabilityService, IPrerequisiteService prerequisiteService)
 		{
 			_moduleProcessor = moduleProcessor;
 			_validationService = validationService;
 			_scenarioOEProvider = scenarioOEProvider;
 			_oeProcessor = oeProcessor;
 			_capabilityService = capabilityService;
+			_prerequisiteService = prerequisiteService;
 		}
 
 		public InsertResult Create(NewRegistrationContainer foo)
@@ -50,6 +52,7 @@ namespace LCAVPCore.Processors
 					CreateCapabilities(scenarioAlgorithmResult.ID, algorithmThingy.Algorithm);
 
 					//Create the prereqs under it
+					CreatePrerequisites(validationCreateResult.ID, scenarioAlgorithmResult.ID, algorithmThingy.Prerequisites);
 				}
 			}
 
@@ -74,6 +77,7 @@ namespace LCAVPCore.Processors
 					CreateCapabilities(scenarioAlgorithmResult.ID, algorithmThingy.Algorithm);
 
 					//Create the prereqs under it
+					CreatePrerequisites(foo.ValidationID, scenarioAlgorithmResult.ID, algorithmThingy.Prerequisites);
 				}
 			}
 		}
@@ -108,6 +112,14 @@ namespace LCAVPCore.Processors
 
 			//Persist it - the entire algorithm object is just a class as far as the persistence mechanism is concerned, just with some non-property properties on it
 			_capabilityService.CreateClassCapabilities(algorithm.AlgorithmID, scenarioAlgorithmID, null, null, 0, 0, null, persistenceAlgorithm);
+		}
+
+		private void CreatePrerequisites(long validationID, long scenarioAlgorithmID, List<Prerequisite> prereqs)
+		{
+			foreach (Prerequisite prereq in prereqs)
+			{
+				_prerequisiteService.Create(scenarioAlgorithmID, (long)(prereq.ValidationRecordID ?? validationID), prereq.Algorithm);	//self referential prereqs will have a null ValidationRecordID, so use the validation ID instead. Since the ValidationRecordID is an int? some casting has to be done, and this is the only syntax that will handle all cases
+			}
 		}
 	}
 }

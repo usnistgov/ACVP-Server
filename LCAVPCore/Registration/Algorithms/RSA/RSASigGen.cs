@@ -13,7 +13,7 @@ namespace LCAVPCore.Registration.Algorithms.RSA
 		[JsonIgnore]
 		public bool Have186_4Capabilities => Capabilities.Count > 0;
 
-		public RSASigGen(Dictionary<string, string> options) : base("RSA", "sigGen")
+		public RSASigGen(Dictionary<string, string> options, IDataProvider dataProvider) : base(dataProvider, "RSA", "sigGen")
 		{
 			//Prereqs
 			PreReqs.Add(BuildPrereq("SHS", options.GetValue("FIPS186_3_RSA_Prerequisite_SHA_1")));

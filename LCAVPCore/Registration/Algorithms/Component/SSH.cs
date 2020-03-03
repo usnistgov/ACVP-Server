@@ -12,7 +12,7 @@ namespace LCAVPCore.Registration.Algorithms.Component
 		[JsonProperty(PropertyName = "hashAlg")]
 		public List<string> HashAlgorithms { get; private set; } = new List<string>();
 
-		public SSH(Dictionary<string, string> options) : base("kdf-components", "ssh")
+		public SSH(Dictionary<string, string> options, IDataProvider dataProvider) : base(dataProvider, "kdf-components", "ssh")
 		{
 			//Prereqs
 			PreReqs.Add(BuildPrereq("SHS", options.GetValue("KDF_800_135_Prerequisite_SHA")));

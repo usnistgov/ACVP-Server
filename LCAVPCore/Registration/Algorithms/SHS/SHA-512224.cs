@@ -10,7 +10,7 @@ namespace LCAVPCore.Registration.Algorithms.SHS
 		[JsonProperty(PropertyName = "messageLength")]
 		public Domain MessageLength { get; set; } = new Domain();
 
-		public SHA_512224(Dictionary<string, string> options) : base("SHA2-512/224")
+		public SHA_512224(Dictionary<string, string> options, IDataProvider dataProvider) : base(dataProvider, "SHA2-512/224")
 		{
 			bool byteOnly = options.GetValue("SHA512_224_Byte") == "True";
 

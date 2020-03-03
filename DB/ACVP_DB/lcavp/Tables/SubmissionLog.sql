@@ -14,6 +14,7 @@
     [SubmissionID]          NVARCHAR (100) NULL,
     [ErrorJson]             NVARCHAR (MAX) NULL,
     [Archived]              BIT            CONSTRAINT [DF_SubmissionLog_Archived] DEFAULT ((0)) NULL,
+    [ValidationId] BIGINT NULL, 
     CONSTRAINT [PK_SubmissionLog] PRIMARY KEY CLUSTERED ([SubmissionLogID] ASC)
 );
 

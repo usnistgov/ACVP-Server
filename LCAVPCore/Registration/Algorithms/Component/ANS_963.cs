@@ -20,7 +20,7 @@ namespace LCAVPCore.Registration.Algorithms.Component
 		[JsonProperty(PropertyName = "keyDataLength")]
 		public Domain KeyDataLength { get; private set; } = new Domain();
 
-		public ANS_963(Dictionary<string, string> options) : base("kdf-components", "ansix9.63")
+		public ANS_963(Dictionary<string, string> options, IDataProvider dataProvider) : base(dataProvider, "kdf-components", "ansix9.63")
 		{
 			//Prereqs
 			PreReqs.Add(BuildPrereq("SHS", options.GetValue("KDF_800_135_Prerequisite_SHA")));

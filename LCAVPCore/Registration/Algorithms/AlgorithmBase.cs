@@ -1,12 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using ACVPCore.Algorithms.Persisted;
 using Newtonsoft.Json;
 
 namespace LCAVPCore.Registration.Algorithms
 {
-	public abstract class AlgorithmBase : IAlgorithm
+	public abstract class AlgorithmBase // : IAlgorithm
 	{
+		private readonly IDataProvider _dataProvider;
+
 		//[JsonProperty(PropertyName = "algorithm", Order = -4)]
 		[JsonIgnore]
 		public string Algorithm { get; private set; }
@@ -48,14 +51,16 @@ namespace LCAVPCore.Registration.Algorithms
 		[JsonIgnore]
 		public List<string> Errors { get; set; } = new List<string>();
 
-		public AlgorithmBase(string algorithm, string mode = null)
+		public AlgorithmBase(IDataProvider dataProvider, string algorithm, string mode = null)
 		{
+			_dataProvider = dataProvider;
 			Algorithm = algorithm;
 			Mode = mode;
 		}
 
-		public AlgorithmBase(string algorithm, string mode, string revision)
+		public AlgorithmBase(IDataProvider dataProvider, string algorithm, string mode, string revision)
 		{
+			_dataProvider = dataProvider;
 			Algorithm = algorithm;
 			Mode = mode;
 			Revision = revision;
@@ -63,8 +68,10 @@ namespace LCAVPCore.Registration.Algorithms
 
 		public Prerequisite BuildPrereq(string algorithm, string value)
 		{
-			Prerequisite prereq = new Prerequisite();
-			prereq.Algorithm = algorithm;
+			Prerequisite prereq = new Prerequisite
+			{
+				Algorithm = algorithm
+			};
 
 			switch (value)
 			{
@@ -79,7 +86,7 @@ namespace LCAVPCore.Registration.Algorithms
 					//Not a special string, so either a cert number or a reference to a submission. First, see if it is a number
 					int certNumber;
 					bool isNumber = int.TryParse(value, out certNumber);
-					string searchAlgorithm = algorithm;	//Default need to look up what was passed in, but if an A/C need to search for A/C
+					string searchAlgorithm = algorithm; //Default need to look up what was passed in, but if an A/C need to search for A/C
 
 					if (!isNumber)
 					{
@@ -99,7 +106,7 @@ namespace LCAVPCore.Registration.Algorithms
 					if (isNumber)
 					{
 						//Look up the validation record ID
-						int validationRecordID = new DataProvider().GetValidationRecordID(searchAlgorithm, certNumber);
+						int validationRecordID = _dataProvider.GetValidationRecordID(searchAlgorithm, certNumber);
 						if (validationRecordID > 0)
 						{
 							prereq.ValidationRecordID = validationRecordID;
@@ -115,6 +122,8 @@ namespace LCAVPCore.Registration.Algorithms
 					{
 						//Assume it is a reference to a submission ID
 						prereq.SubmissionID = value;
+
+						//Need to look up the submission to get the validation ID, but can't do that here - way inappropriate to pass the validation ID here
 					}
 					break;
 			}
@@ -122,213 +131,206 @@ namespace LCAVPCore.Registration.Algorithms
 			return prereq;
 		}
 
-		private int GetAlgorithmID()
+		private int GetAlgorithmID() => $"{Algorithm}|{Mode}|{Revision}" switch
 		{
-			switch ($"{Algorithm}|{Mode}|{Revision}")
-			{
-				case "ACVP-AES-CBC||1.0": return 2;
-				case "ACVP-AES-CCM||1.0": return 7;
-				case "ACVP-AES-CFB1||1.0": return 3;
-				case "ACVP-AES-CFB128||1.0": return 5;
-				case "ACVP-AES-CFB8||1.0": return 4;
-				case "ACVP-AES-CTR||1.0": return 53;
-				case "ACVP-AES-ECB||1.0": return 1;
-				case "ACVP-AES-GCM||1.0": return 0;
-				case "ACVP-AES-KW||1.0": return 20;
-				case "ACVP-AES-KWP||1.0": return 49;
-				case "ACVP-AES-OFB||1.0": return 6;
-				case "ACVP-AES-XPN||1.0": return 47;
-				case "ACVP-AES-XTS||1.0": return 48;
-				case "CMAC-AES||1.0": return 42;
-				case "CMAC-TDES||1.0": return 43;
-				case "ctrDRBG||1.0": return 19;
-				case "DSA|keyGen|1.0": return 57;
-				case "DSA|keyGen|186-2": return 108;
-				case "DSA|pqgGen|1.0": return 65;
-				case "DSA|pqgGen|186-2": return 111;
-				case "DSA|pqgVer|1.0": return 66;
-				case "DSA|pqgVer|186-2": return 112;
-				case "DSA|primality|186-2": return 113;
-				case "DSA|sigGen|1.0": return 64;
-				case "DSA|sigGen|186-2": return 110;
-				case "DSA|sigVer|1.0": return 63;
-				case "DSA|sigVer|186-2": return 109;
-				case "dualEC_DRBG||1.0": return 107;
-				case "ECDSA|keyGen|1.0": return 67;
-				case "ECDSA|keyGen|186-2": return 114;
-				case "ECDSA|keyVer|1.0": return 68;
-				case "ECDSA|keyVer|186-2": return 115;
-				case "ECDSA|sigGen|1.0": return 69;
-				case "ECDSA|sigGen|186-2": return 116;
-				case "ECDSA|sigVer|1.0": return 70;
-				case "ECDSA|sigVer|186-2": return 117;
-				case "hashDRBG||1.0": return 61;
-				case "hmacDRBG||1.0": return 62;
-				case "HMAC-SHA-1||1.0": return 23;
-				case "HMAC-SHA2-224||1.0": return 24;
-				case "HMAC-SHA2-256||1.0": return 25;
-				case "HMAC-SHA2-384||1.0": return 26;
-				case "HMAC-SHA2-512||1.0": return 27;
-				case "HMAC-SHA2-512/224||1.0": return 28;
-				case "HMAC-SHA2-512/256||1.0": return 29;
-				case "HMAC-SHA3-224||1.0": return 30;
-				case "HMAC-SHA3-256||1.0": return 31;
-				case "HMAC-SHA3-384||1.0": return 32;
-				case "HMAC-SHA3-512||1.0": return 33;
-				case "KAS-ECC||1.0": return 72;
-				case "KAS-ECC|CDH-Component|1.0": return 84;
-				case "KAS-ECC|Component|1.0": return 86;
-				case "KAS-FFC||1.0": return 71;
-				case "KAS-FFC|Component|1.0": return 85;
-				case "KDF||1.0": return 80;
-				case "kdf-components|ansix9.63|1.0": return 79;
-				case "kdf-components|ikev1|1.0": return 73;
-				case "kdf-components|ikev2|1.0": return 74;
-				case "kdf-components|snmp|1.0": return 76;
-				case "kdf-components|srtp|1.0": return 77;
-				case "kdf-components|ssh|1.0": return 75;
-				case "kdf-components|tls|1.0": return 78;
-				case "RSA|decryptionPrimitive|1.0": return 81;
-				case "RSA|keyGen|1.0": return 58;
-				case "RSA|keyGen|186-2": return 118;
-				case "RSA|legacySigVer|1.0": return 83;
-				case "RSA|sigGen|1.0": return 59;
-				case "RSA|sigGen|186-2": return 119;
-				case "RSA|signaturePrimitive|1.0": return 82;
-				case "RSA|sigVer|1.0": return 60;
-				case "SHA-1||1.0": return 12;
-				case "SHA2-224||1.0": return 13;
-				case "SHA2-256||1.0": return 14;
-				case "SHA2-384||1.0": return 15;
-				case "SHA2-512||1.0": return 16;
-				case "SHA2-512/224||1.0": return 17;
-				case "SHA2-512/256||1.0": return 18;
-				case "SHA3-224||1.0": return 34;
-				case "SHA3-256||1.0": return 35;
-				case "SHA3-384||1.0": return 36;
-				case "SHA3-512||1.0": return 37;
-				case "SHAKE-128||1.0": return 38;
-				case "SHAKE-256||1.0": return 39;
-				case "ACVP-TDES-CBC||1.0": return 9;
-				case "ACVP-TDES-CBCI||1.0": return 55;
-				case "ACVP-TDES-CFB1||1.0": return 44;
-				case "ACVP-TDES-CFB64||1.0": return 46;
-				case "ACVP-TDES-CFB8||1.0": return 45;
-				case "ACVP-TDES-CFBP1||1.0": return 50;
-				case "ACVP-TDES-CFBP64||1.0": return 52;
-				case "ACVP-TDES-CFBP8||1.0": return 51;
-				case "ACVP-TDES-CTR||1.0": return 54;
-				case "ACVP-TDES-ECB||1.0": return 10;
-				case "ACVP-TDES-KW||1.0": return 21;
-				case "ACVP-TDES-OFB||1.0": return 22;
-				case "ACVP-TDES-OFBI||1.0": return 56;
-				default: return -1;
-			}
-		}
+			"ACVP-AES-CBC||1.0" => 2,
+			"ACVP-AES-CCM||1.0" => 7,
+			"ACVP-AES-CFB1||1.0" => 3,
+			"ACVP-AES-CFB128||1.0" => 5,
+			"ACVP-AES-CFB8||1.0" => 4,
+			"ACVP-AES-CTR||1.0" => 53,
+			"ACVP-AES-ECB||1.0" => 1,
+			"ACVP-AES-GCM||1.0" => 0,
+			"ACVP-AES-KW||1.0" => 20,
+			"ACVP-AES-KWP||1.0" => 49,
+			"ACVP-AES-OFB||1.0" => 6,
+			"ACVP-AES-XPN||1.0" => 47,
+			"ACVP-AES-XTS||1.0" => 48,
+			"CMAC-AES||1.0" => 42,
+			"CMAC-TDES||1.0" => 43,
+			"ctrDRBG||1.0" => 19,
+			"DSA|keyGen|1.0" => 57,
+			"DSA|keyGen|186-2" => 108,
+			"DSA|pqgGen|1.0" => 65,
+			"DSA|pqgGen|186-2" => 111,
+			"DSA|pqgVer|1.0" => 66,
+			"DSA|pqgVer|186-2" => 112,
+			"DSA|primality|186-2" => 113,
+			"DSA|sigGen|1.0" => 64,
+			"DSA|sigGen|186-2" => 110,
+			"DSA|sigVer|1.0" => 63,
+			"DSA|sigVer|186-2" => 109,
+			"dualEC_DRBG||1.0" => 107,
+			"ECDSA|keyGen|1.0" => 67,
+			"ECDSA|keyGen|186-2" => 114,
+			"ECDSA|keyVer|1.0" => 68,
+			"ECDSA|keyVer|186-2" => 115,
+			"ECDSA|sigGen|1.0" => 69,
+			"ECDSA|sigGen|186-2" => 116,
+			"ECDSA|sigVer|1.0" => 70,
+			"ECDSA|sigVer|186-2" => 117,
+			"hashDRBG||1.0" => 61,
+			"hmacDRBG||1.0" => 62,
+			"HMAC-SHA-1||1.0" => 23,
+			"HMAC-SHA2-224||1.0" => 24,
+			"HMAC-SHA2-256||1.0" => 25,
+			"HMAC-SHA2-384||1.0" => 26,
+			"HMAC-SHA2-512||1.0" => 27,
+			"HMAC-SHA2-512/224||1.0" => 28,
+			"HMAC-SHA2-512/256||1.0" => 29,
+			"HMAC-SHA3-224||1.0" => 30,
+			"HMAC-SHA3-256||1.0" => 31,
+			"HMAC-SHA3-384||1.0" => 32,
+			"HMAC-SHA3-512||1.0" => 33,
+			"KAS-ECC||1.0" => 72,
+			"KAS-ECC|CDH-Component|1.0" => 84,
+			"KAS-ECC|Component|1.0" => 86,
+			"KAS-FFC||1.0" => 71,
+			"KAS-FFC|Component|1.0" => 85,
+			"KDF||1.0" => 80,
+			"kdf-components|ansix9.63|1.0" => 79,
+			"kdf-components|ikev1|1.0" => 73,
+			"kdf-components|ikev2|1.0" => 74,
+			"kdf-components|snmp|1.0" => 76,
+			"kdf-components|srtp|1.0" => 77,
+			"kdf-components|ssh|1.0" => 75,
+			"kdf-components|tls|1.0" => 78,
+			"RSA|decryptionPrimitive|1.0" => 81,
+			"RSA|keyGen|1.0" => 58,
+			"RSA|keyGen|186-2" => 118,
+			"RSA|legacySigVer|1.0" => 83,
+			"RSA|sigGen|1.0" => 59,
+			"RSA|sigGen|186-2" => 119,
+			"RSA|signaturePrimitive|1.0" => 82,
+			"RSA|sigVer|1.0" => 60,
+			"SHA-1||1.0" => 12,
+			"SHA2-224||1.0" => 13,
+			"SHA2-256||1.0" => 14,
+			"SHA2-384||1.0" => 15,
+			"SHA2-512||1.0" => 16,
+			"SHA2-512/224||1.0" => 17,
+			"SHA2-512/256||1.0" => 18,
+			"SHA3-224||1.0" => 34,
+			"SHA3-256||1.0" => 35,
+			"SHA3-384||1.0" => 36,
+			"SHA3-512||1.0" => 37,
+			"SHAKE-128||1.0" => 38,
+			"SHAKE-256||1.0" => 39,
+			"ACVP-TDES-CBC||1.0" => 9,
+			"ACVP-TDES-CBCI||1.0" => 55,
+			"ACVP-TDES-CFB1||1.0" => 44,
+			"ACVP-TDES-CFB64||1.0" => 46,
+			"ACVP-TDES-CFB8||1.0" => 45,
+			"ACVP-TDES-CFBP1||1.0" => 50,
+			"ACVP-TDES-CFBP64||1.0" => 52,
+			"ACVP-TDES-CFBP8||1.0" => 51,
+			"ACVP-TDES-CTR||1.0" => 54,
+			"ACVP-TDES-ECB||1.0" => 10,
+			"ACVP-TDES-KW||1.0" => 21,
+			"ACVP-TDES-OFB||1.0" => 22,
+			"ACVP-TDES-OFBI||1.0" => 56,
+			_ => -1,
+		};
 
-		private string GetFamily()
+		private string GetFamily() => AlgorithmID switch
 		{
-			switch (AlgorithmID)
-			{
-				case 0: return "AES";
-				case 1: return "AES";
-				case 2: return "AES";
-				case 3: return "AES";
-				case 4: return "AES";
-				case 5: return "AES";
-				case 6: return "AES";
-				case 7: return "AES";
-				case 20: return "AES";
-				case 42: return "AES";
-				case 47: return "AES";
-				case 48: return "AES";
-				case 49: return "AES";
-				case 53: return "AES";
-				case 73: return "Component";
-				case 74: return "Component";
-				case 75: return "Component";
-				case 76: return "Component";
-				case 77: return "Component";
-				case 78: return "Component";
-				case 79: return "Component";
-				case 81: return "Component";
-				case 82: return "Component";
-				case 84: return "Component";
-				case 85: return "Component";
-				case 86: return "Component";
-				case 19: return "DRBG";
-				case 61: return "DRBG";
-				case 62: return "DRBG";
-				case 107: return "DRBG";
-				case 57: return "DSA";
-				case 63: return "DSA";
-				case 64: return "DSA";
-				case 65: return "DSA";
-				case 66: return "DSA";
-				case 108: return "DSA";
-				case 109: return "DSA";
-				case 110: return "DSA";
-				case 111: return "DSA";
-				case 112: return "DSA";
-				case 113: return "DSA";
-				case 67: return "ECDSA";
-				case 68: return "ECDSA";
-				case 69: return "ECDSA";
-				case 70: return "ECDSA";
-				case 114: return "ECDSA";
-				case 115: return "ECDSA";
-				case 116: return "ECDSA";
-				case 117: return "ECDSA";
-				case 23: return "HMAC";
-				case 24: return "HMAC";
-				case 25: return "HMAC";
-				case 26: return "HMAC";
-				case 27: return "HMAC";
-				case 28: return "HMAC";
-				case 29: return "HMAC";
-				case 30: return "HMAC";
-				case 31: return "HMAC";
-				case 32: return "HMAC";
-				case 33: return "HMAC";
-				case 71: return "KAS";
-				case 72: return "KAS";
-				case 80: return "KDF";
-				case 58: return "RSA";
-				case 59: return "RSA";
-				case 60: return "RSA";
-				case 83: return "RSA";
-				case 118: return "RSA";
-				case 119: return "RSA";
-				case 34: return "SHA-3";
-				case 35: return "SHA-3";
-				case 36: return "SHA-3";
-				case 37: return "SHA-3";
-				case 38: return "SHA-3";
-				case 39: return "SHA-3";
-				case 12: return "SHS";
-				case 13: return "SHS";
-				case 14: return "SHS";
-				case 15: return "SHS";
-				case 16: return "SHS";
-				case 17: return "SHS";
-				case 18: return "SHS";
-				case 9: return "TDES";
-				case 10: return "TDES";
-				case 21: return "TDES";
-				case 22: return "TDES";
-				case 43: return "TDES";
-				case 44: return "TDES";
-				case 45: return "TDES";
-				case 46: return "TDES";
-				case 50: return "TDES";
-				case 51: return "TDES";
-				case 52: return "TDES";
-				case 54: return "TDES";
-				case 55: return "TDES";
-				case 56: return "TDES";
-				default: return null;
-			}
-		}
-
+			0 => "AES",
+			1 => "AES",
+			2 => "AES",
+			3 => "AES",
+			4 => "AES",
+			5 => "AES",
+			6 => "AES",
+			7 => "AES",
+			20 => "AES",
+			42 => "AES",
+			47 => "AES",
+			48 => "AES",
+			49 => "AES",
+			53 => "AES",
+			73 => "Component",
+			74 => "Component",
+			75 => "Component",
+			76 => "Component",
+			77 => "Component",
+			78 => "Component",
+			79 => "Component",
+			81 => "Component",
+			82 => "Component",
+			84 => "Component",
+			85 => "Component",
+			86 => "Component",
+			19 => "DRBG",
+			61 => "DRBG",
+			62 => "DRBG",
+			107 => "DRBG",
+			57 => "DSA",
+			63 => "DSA",
+			64 => "DSA",
+			65 => "DSA",
+			66 => "DSA",
+			108 => "DSA",
+			109 => "DSA",
+			110 => "DSA",
+			111 => "DSA",
+			112 => "DSA",
+			113 => "DSA",
+			67 => "ECDSA",
+			68 => "ECDSA",
+			69 => "ECDSA",
+			70 => "ECDSA",
+			114 => "ECDSA",
+			115 => "ECDSA",
+			116 => "ECDSA",
+			117 => "ECDSA",
+			23 => "HMAC",
+			24 => "HMAC",
+			25 => "HMAC",
+			26 => "HMAC",
+			27 => "HMAC",
+			28 => "HMAC",
+			29 => "HMAC",
+			30 => "HMAC",
+			31 => "HMAC",
+			32 => "HMAC",
+			33 => "HMAC",
+			71 => "KAS",
+			72 => "KAS",
+			80 => "KDF",
+			58 => "RSA",
+			59 => "RSA",
+			60 => "RSA",
+			83 => "RSA",
+			118 => "RSA",
+			119 => "RSA",
+			34 => "SHA-3",
+			35 => "SHA-3",
+			36 => "SHA-3",
+			37 => "SHA-3",
+			38 => "SHA-3",
+			39 => "SHA-3",
+			12 => "SHS",
+			13 => "SHS",
+			14 => "SHS",
+			15 => "SHS",
+			16 => "SHS",
+			17 => "SHS",
+			18 => "SHS",
+			9 => "TDES",
+			10 => "TDES",
+			21 => "TDES",
+			22 => "TDES",
+			43 => "TDES",
+			44 => "TDES",
+			45 => "TDES",
+			46 => "TDES",
+			50 => "TDES",
+			51 => "TDES",
+			52 => "TDES",
+			54 => "TDES",
+			55 => "TDES",
+			56 => "TDES",
+			_ => null,
+		};
 	}
 }

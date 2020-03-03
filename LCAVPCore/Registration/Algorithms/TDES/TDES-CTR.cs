@@ -13,7 +13,7 @@ namespace LCAVPCore.Registration.Algorithms.TDES
 		//[JsonProperty(PropertyName = "ctrSource")]
 		//public string CtrSource { get; private set; }
 
-		public TDES_CTR(Dictionary<string, string> options) : base("ACVP-TDES-CTR")
+		public TDES_CTR(Dictionary<string, string> options, IDataProvider dataProvider) : base(dataProvider, "ACVP-TDES-CTR")
 		{
 			//if (options.GetValue("CTR_Src") == "External" || options.GetValue("CTR_Src") == "Both") Direction.Add("external");
 			//if (options.GetValue("CTR_Src") == "Internal" || options.GetValue("CTR_Src") == "Both") Direction.Add("internal");

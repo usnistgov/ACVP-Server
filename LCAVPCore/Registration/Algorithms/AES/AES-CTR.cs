@@ -15,7 +15,7 @@ namespace LCAVPCore.Registration.Algorithms.AES
 		//[JsonProperty(PropertyName = "ctrSource")]
 		//public string CtrSource { get; private set; }
 
-		public AES_CTR(Dictionary<string, string> options) : base("ACVP-AES-CTR")
+		public AES_CTR(Dictionary<string, string> options, IDataProvider dataProvider) : base(dataProvider, "ACVP-AES-CTR")
 		{
 			if (options.GetValue("CTR128_State") == "Encrypt") KeyLen.Add(128);
 			if (options.GetValue("CTR192_State") == "Encrypt") KeyLen.Add(192);

@@ -10,15 +10,17 @@ namespace LCAVPCore
 {
 	public class NewSubmissionProcessor : INewSubmissionProcessor
 	{
-		private IAlgorithmFactory _algorithmFactory;
-		private IAlgorithmEvaluatorFactory _algorithmEvaluatorFactory;
-		private IInfFileParser _infFileParser;
+		private readonly IAlgorithmFactory _algorithmFactory;
+		private readonly IAlgorithmEvaluatorFactory _algorithmEvaluatorFactory;
+		private readonly IInfFileParser _infFileParser;
+		private readonly IDataProvider _dataProvider;
 
-		public NewSubmissionProcessor(IAlgorithmFactory algorithmFactory, IAlgorithmEvaluatorFactory algorithmEvaluatorFactory, IInfFileParser infFileParser)
+		public NewSubmissionProcessor(IAlgorithmFactory algorithmFactory, IAlgorithmEvaluatorFactory algorithmEvaluatorFactory, IInfFileParser infFileParser, IDataProvider dataProvider)
 		{
 			_algorithmFactory = algorithmFactory;
 			_algorithmEvaluatorFactory = algorithmEvaluatorFactory;
 			_infFileParser = infFileParser;
+			_dataProvider = dataProvider;
 		}
 
 
@@ -91,6 +93,38 @@ namespace LCAVPCore
 
 			//Add any errors found when building the algorithm objects
 			processingResult.Errors.AddRange(registration.Scenarios.SelectMany(x => x.Algorithms).SelectMany(x => x.Algorithm.Errors));
+
+			//Do the lookups on any prereqs that reference submission IDs - and mark as unresolved if dependent submission has not been approved
+			bool havePendingPrereq = false;
+			foreach (var scenario in registration.Scenarios)
+			{
+				foreach (var algorithm in scenario.Algorithms)
+				{
+					foreach (var prereq in algorithm.Prerequisites.Where(x => !string.IsNullOrEmpty(x.SubmissionID)))
+					{
+						//Look it up
+						long validationID = _dataProvider.GetValidationIDForSubmissionID(prereq.SubmissionID);
+
+						//Update the prereq, or flag an error
+						if (validationID == -1)
+						{
+							prereq.IsUnprocessedSubmission = true;
+							havePendingPrereq = true;
+						}
+						else
+						{
+							prereq.ValidationRecordID = validationID;
+						}
+					}
+				}
+			}
+
+			//If there are any prereqs that reference submission IDs that have not been approved, throw an error
+			if (havePendingPrereq)
+			{
+				string submissions = string.Join(", ", registration.Scenarios.SelectMany(x => x.Algorithms).SelectMany(x => x.Prerequisites).Where(x => x.IsUnprocessedSubmission).Select(x => x.SubmissionID));
+				processingResult.Errors.Add($"Cannot be processed because it depends on other submissions that have not been approved. Retry after you have approved submission(s) {submissions}");
+			}
 
 
 			//Do the combining of like scenarios. Will use the resulting list on the registration

@@ -12,7 +12,7 @@ namespace LCAVPCore.Registration.Algorithms.KAS
 		[JsonProperty("curve")]
 		public List<string> Curves { get; private set; } = new List<string>();
 
-		public ECC_CDH(Dictionary<string, string> options) : base("KAS-ECC", "CDH-Component")
+		public ECC_CDH(Dictionary<string, string> options, IDataProvider dataProvider) : base(dataProvider, "KAS-ECC", "CDH-Component")
 		{
 			//Prereqs
 			PreReqs.Add(BuildPrereq("ECDSA", options.GetValue("KAS_Prerequisite_ECDSA")));

@@ -11,7 +11,7 @@ namespace LCAVPCore.Registration.Algorithms.DSA
 		[JsonProperty(PropertyName = "capabilities")]
 		public List<SigGenCapability> Capabilities { get; private set; } = new List<SigGenCapability>();
 
-		public DSASigGen(Dictionary<string, string> options) : base("DSA", "sigGen")
+		public DSASigGen(Dictionary<string, string> options, IDataProvider dataProvider) : base(dataProvider, "DSA", "sigGen")
 		{
 			//Prereqs
 			PreReqs.Add(BuildPrereq("SHS", options.GetValue("DSA2_Prerequisite_SHA_1")));

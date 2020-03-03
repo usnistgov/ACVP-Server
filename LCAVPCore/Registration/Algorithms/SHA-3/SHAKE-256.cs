@@ -24,7 +24,7 @@ namespace LCAVPCore.Registration.Algorithms.SHA_3
 		//[JsonProperty(PropertyName = "digestSize")]
 		//public List<int> DigestSize { get; } = new List<int> { 256 };
 
-		public SHAKE_256(Dictionary<string, string> options) : base("SHAKE-256")
+		public SHAKE_256(Dictionary<string, string> options, IDataProvider dataProvider) : base(dataProvider, "SHAKE-256")
 		{
 			if (options.GetValue("SHAKE_NoNull") == "False") IncludeNull = true;
 			if (options.GetValue("SHAKE256_Byte") == "False") BitOrientedInput = true;

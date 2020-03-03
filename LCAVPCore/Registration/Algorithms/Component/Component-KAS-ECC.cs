@@ -12,7 +12,7 @@ namespace LCAVPCore.Registration.Algorithms.KAS
 		[JsonProperty("scheme")]
 		public SchemeCollection Schemes { get; private set; } = new SchemeCollection();
 
-		public Component_KAS_ECC(Dictionary<string, string> options) : base("KAS-ECC", "Component")
+		public Component_KAS_ECC(Dictionary<string, string> options, IDataProvider dataProvider) : base(dataProvider, "KAS-ECC", "Component")
 		{
 			//Prereqs
 			PreReqs.Add(BuildPrereq("ECDSA", options.GetValue("KAS_Prerequisite_ECDSA")));

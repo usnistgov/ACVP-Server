@@ -23,7 +23,7 @@ namespace LCAVPCore.Registration.Algorithms.HMAC
 		[JsonProperty(PropertyName = "macLen")]
 		public Domain MacLen { get; set; } = new Domain();
 
-		public HMAC_SHA2_384(Dictionary<string, string> options) : base("HMAC-SHA2-384")
+		public HMAC_SHA2_384(Dictionary<string, string> options, IDataProvider dataProvider) : base(dataProvider, "HMAC-SHA2-384")
 		{
 			//Prereqs
 			PreReqs.Add(BuildPrereq("SHS", options.GetValue("HMAC_SHA_Prerequisite")));

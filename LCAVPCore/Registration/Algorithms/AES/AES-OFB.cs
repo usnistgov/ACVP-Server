@@ -12,7 +12,7 @@ namespace LCAVPCore.Registration.Algorithms.AES
 		[JsonProperty(PropertyName = "keyLen")]
 		public List<int> KeyLen { get; private set; } = new List<int>();
 
-		public AES_OFB(Dictionary<string, string> options) : base("ACVP-AES-OFB")
+		public AES_OFB(Dictionary<string, string> options, IDataProvider dataProvider) : base(dataProvider, "ACVP-AES-OFB")
 		{
 			List<string> validValues = new List<string> { "Both", "Encrypt", "Decrypt" };
 			if (validValues.Contains(options.GetValue("OFB128_State"))) KeyLen.Add(128);

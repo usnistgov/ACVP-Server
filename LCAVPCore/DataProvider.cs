@@ -14,6 +14,20 @@ namespace LCAVPCore
 			_acvpConnectionString = connectionStringFactory.GetMightyConnectionString("ACVP");
 		}
 
+		public long GetValidationIDForSubmissionID(string submissionID)
+		{
+			try
+			{
+				var db = new MightyOrm(_acvpConnectionString);
+
+				return (long)(db.ScalarFromProcedure("[lcavp].[ValidationIDForSubmissionIDGet]", inParams: new { SubmissionID = "XX201029-0-N-000329" }) ?? -1L);
+			}
+			catch
+			{
+				return -1;
+			}
+		}
+
 		public int GetVendorID(ChangeFile changeFile)
 		{
 			try

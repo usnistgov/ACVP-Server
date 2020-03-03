@@ -12,7 +12,7 @@ namespace LCAVPCore.Registration.Algorithms.ECDSA
 		[JsonProperty(PropertyName = "secretGenerationMode")]
 		public List<string> SecretGenerationMode = new List<string>();
 
-		public ECDSA_KeyPair(Dictionary<string, string> options) : base("ECDSA", "keyGen")
+		public ECDSA_KeyPair(Dictionary<string, string> options, IDataProvider dataProvider) : base(dataProvider, "ECDSA", "keyGen")
 		{
 			//Prereqs
 			PreReqs.Add(BuildPrereq("DRBG", options.GetValue("ECDSA2_Prerequisite_DRBG")));

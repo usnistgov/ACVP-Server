@@ -8,12 +8,15 @@ namespace LCAVPCore.Registration
 		public string Algorithm { get; set; }
 
 		[JsonIgnore]
-		public int? ValidationRecordID { get; set; }
+		public long? ValidationRecordID { get; set; }
 
 		[JsonProperty("validationUrl", NullValueHandling = NullValueHandling.Ignore)]
 		public string ValidationURL { get => ValidationRecordID == null ? null : $"/admin/validations/{ValidationRecordID}"; }
 
 		[JsonProperty("submissionId", NullValueHandling = NullValueHandling.Ignore)]
 		public string SubmissionID { get; set; }
+
+		[JsonIgnore]
+		public bool IsUnprocessedSubmission { get; set; } = false;
 	}
 }

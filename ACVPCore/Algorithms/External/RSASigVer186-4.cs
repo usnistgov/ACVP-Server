@@ -24,6 +24,8 @@ namespace ACVPCore.Algorithms.External
 			Revision = "1.0";
 		}
 
+		//TODO - this should account for SaltLength being required for PSS SignatureType, and not allowed for the others
+
 		public class Capability
 		{
 			[JsonPropertyName("sigType")]

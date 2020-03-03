@@ -13,7 +13,7 @@ namespace LCAVPCore.Registration.Algorithms.Component
 		public List<string> HashAlgorithms { get; private set; } = null;
 
 
-		public TLS(Dictionary<string, string> options) : base("kdf-components", "tls")
+		public TLS(Dictionary<string, string> options, IDataProvider dataProvider) : base(dataProvider, "kdf-components", "tls")
 		{
 			//Prereqs
 			PreReqs.Add(BuildPrereq("SHS", options.GetValue("KDF_800_135_Prerequisite_SHA")));

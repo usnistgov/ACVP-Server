@@ -33,7 +33,7 @@ namespace LCAVPCore.Registration.Algorithms.AES
 		[JsonProperty(PropertyName = "tagLen")]
 		public List<int> TagLen { get; set; } = new List<int>();
 
-		public AES_XPN(string ivGenLocation, string ivGenMode, Dictionary<string, string> options) : base("ACVP-AES-XPN")
+		public AES_XPN(string ivGenLocation, string ivGenMode, Dictionary<string, string> options, IDataProvider dataProvider) : base(dataProvider, "ACVP-AES-XPN")
 		{
 			//Prereqs
 			PreReqs.Add(BuildPrereq("AES", options.GetValue("AES_GCM_Prerequisite_AES")));
