@@ -44,7 +44,7 @@ namespace Web.Admin
                 })
                 .ConfigureServices((context, collection) =>
                 {
-                    collection.RegisterAcvpAdminServices();
+                    collection.RegisterAcvpAdminServices(context.Configuration);
                 })
                 .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
 
