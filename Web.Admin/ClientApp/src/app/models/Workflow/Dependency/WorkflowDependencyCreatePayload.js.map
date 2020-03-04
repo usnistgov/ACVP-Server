@@ -1,1 +1,1 @@
-{"version":3,"file":"WorkflowDependencyCreate.js","sourceRoot":"","sources":["WorkflowDependencyCreate.ts"],"names":[],"mappings":";;;;;;;;;;;;;;;AAAA,wDAAuD;AAEvD;IAAqD,mDAAgB;IAArE;;IAOA,CAAC;IAAD,sCAAC;AAAD,CAAC,AAPD,CAAqD,mCAAgB,GAOpE;AAPY,0EAA+B"}
+{"version":3,"file":"WorkflowDependencyCreatePayload.js","sourceRoot":"","sources":["WorkflowDependencyCreatePayload.ts"],"names":[],"mappings":";;AAEA;IAAA;IAOA,CAAC;IAAD,sCAAC;AAAD,CAAC,AAPD,IAOC;AAPY,0EAA+B"}

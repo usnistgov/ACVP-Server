@@ -18,6 +18,7 @@ import { TestSessionList } from '../../models/TestSession/TestSessionList';
 import { TestSession } from '../../models/TestSession/TestSession';
 import { VectorSet } from '../../models/TestSession/VectorSet';
 import { WorkflowItemBase } from '../../models/Workflow/WorkflowItemBase';
+import { IWorkflowItemPayload } from '../../models/Workflow/IWorkflowItemPayload';
 
 const httpOptions = {
   headers: new HttpHeaders()
@@ -158,7 +159,7 @@ export class AjaxService {
 
   // BEGIN Workflow calls
   getWorkflow(workflowId: number) {
-    return this.http.get<WorkflowItemBase>(this.apiRoot + '/Workflows/' + workflowId);
+    return this.http.get<WorkflowItemBase<IWorkflowItemPayload>>(this.apiRoot + '/Workflows/' + workflowId);
   }
   // End Workflow Calls
 }

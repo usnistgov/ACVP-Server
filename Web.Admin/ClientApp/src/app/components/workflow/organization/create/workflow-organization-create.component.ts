@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { WorkflowItemBase } from '../../../../models/Workflow/WorkflowItemBase';
+import { WorkflowOrganizationCreatePayload } from '../../../../models/Workflow/Organization/WorkflowOrganizationCreatePayload';
 
 @Component({
   selector: 'app-workflow-organization-create',
@@ -8,7 +9,7 @@ import { WorkflowItemBase } from '../../../../models/Workflow/WorkflowItemBase';
 })
 export class WorkflowOrganizationCreateComponent implements OnInit {
 
-  private workflowItem: WorkflowItemBase;
+  workflowItem: WorkflowItemBase<WorkflowOrganizationCreatePayload>;
 
   constructor() { }
 
@@ -17,7 +18,7 @@ export class WorkflowOrganizationCreateComponent implements OnInit {
  * [wfItem]="workflowItem" syntax in the HTML template.  i.e. how custom element attributes are specified
  */
   @Input()
-  set wfItem(item: WorkflowItemBase) {
+  set wfItem(item: WorkflowItemBase<WorkflowOrganizationCreatePayload>) {
     this.workflowItem = item;
   }
 

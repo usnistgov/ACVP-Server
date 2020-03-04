@@ -1,1 +1,1 @@
-{"version":3,"file":"WorkflowOrganizationCreatePayload.js","sourceRoot":"","sources":["WorkflowOrganizationCreatePayload.ts"],"names":[],"mappings":";;;;;;;;;;;;;;;AAAA,wDAAuD;AAGvD;IAAuD,qDAAgB;IAAvE;;IAUA,CAAC;IAAD,wCAAC;AAAD,CAAC,AAVD,CAAuD,mCAAgB,GAUtE;AAVY,8EAAiC"}
+{"version":3,"file":"WorkflowOrganizationCreatePayload.js","sourceRoot":"","sources":["WorkflowOrganizationCreatePayload.ts"],"names":[],"mappings":";;AAGA;IAAA;IAUA,CAAC;IAAD,wCAAC;AAAD,CAAC,AAVD,IAUC;AAVY,8EAAiC"}

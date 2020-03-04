@@ -1,7 +1,7 @@
 import { WorkflowItemBase } from '../WorkflowItemBase';
 import { Address } from '../../Address/Address';
 
-export class WorkflowOrganizationCreatePayload extends WorkflowItemBase {
+export class WorkflowOrganizationCreatePayload {
   id: number;
   url: string;
   name: string;

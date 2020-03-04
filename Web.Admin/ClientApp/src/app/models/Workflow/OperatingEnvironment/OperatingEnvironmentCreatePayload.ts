@@ -1,7 +1,6 @@
-import { WorkflowItemBase } from '../WorkflowItemBase';
 import { Dependency } from '../../dependency/dependency';
 
-export class OperatingEnvironmentCreatePayload extends WorkflowItemBase {
+export class OperatingEnvironmentCreatePayload {
   id: number;
   url: string;
   type: string;

@@ -48,6 +48,7 @@
       <None Remove="ClientApp\src\app\models\Organization\Organization.ts" />
       <None Remove="ClientApp\src\app\models\Person\Person.ts" />
       <None Remove="ClientApp\src\app\models\Person\PersonList.ts" />
+      <None Remove="ClientApp\src\app\models\Person\PersonLite.ts" />
       <None Remove="ClientApp\src\app\models\Product\Product.ts" />
       <None Remove="ClientApp\src\app\models\OperatingEnvironment\operatingEnvironment.ts" />
       <None Remove="ClientApp\src\app\models\Product\ProductList.ts" />
@@ -111,6 +112,7 @@
         <SubType>Code</SubType>
       </TypeScriptCompile>
       <TypeScriptCompile Include="ClientApp\src\app\models\Person\Person.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\Person\PersonLite.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\models\Product\ProductList.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\models\Product\Product.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\models\OperatingEnvironment\OperatingEnvironment.ts" />

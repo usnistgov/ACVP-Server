@@ -1,4 +1,5 @@
 import { Address } from '../Address/Address';
+import { PersonLite } from '../Person/PersonLite';
 
 export class Organization {
 
@@ -9,6 +10,7 @@ export class Organization {
   voiceNumber: string;
   faxNumber: string;
   parent: Organization;
+  persons: PersonLite[];
 
   public constructor(id: number,
     name: string,

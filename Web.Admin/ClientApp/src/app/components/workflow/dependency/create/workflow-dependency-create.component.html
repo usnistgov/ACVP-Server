@@ -52,12 +52,12 @@
       <h5 class="card-header">(Optional) User-Defined Attributes</h5>
       <div class="card-body">
         <table class="table">
-          <tr *ngFor="let pair of workflowItem.payload | keyvalue">
-            <th style="border:none;" *ngIf="pair.key != 'id' && pair.key != 'name' && pair.key != 'type' && pair.key != 'description' && pair.key != 'url'">
-              {{ pair.key }}
+          <tr *ngFor="let key of objectKeys(workflowItem.payload)">
+            <th style="border:none;" *ngIf="key != 'id' && key != 'name' && key != 'type' && key != 'description' && key != 'url'">
+              {{ key }}
             </th>
-            <td style="border:none;" *ngIf="pair.key != 'id' && pair.key != 'name' && pair.key != 'type' && pair.key != 'description' && pair.key != 'url'">
-              {{ pair.value }}
+            <td style="border:none;" *ngIf="key != 'id' && key != 'name' && key != 'type' && key != 'description' && key != 'url'">
+              {{ workflowItem.payload[key] }}
             </td>
           </tr>
         </table>

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AjaxService } from '../../../services/ajax/ajax.service';
 import { ActivatedRoute } from '@angular/router';
 import { WorkflowItemBase } from '../../../models/Workflow/WorkflowItemBase';
+import { IWorkflowItemPayload } from '../../../models/Workflow/IWorkflowItemPayload';
 
 @Component({
   selector: 'app-workflow',
@@ -10,7 +11,7 @@ import { WorkflowItemBase } from '../../../models/Workflow/WorkflowItemBase';
 })
 export class WorkflowComponent implements OnInit {
 
-  workflowItem: WorkflowItemBase;
+  workflowItem: WorkflowItemBase<IWorkflowItemPayload>;
 
   constructor(private ajs: AjaxService, private route: ActivatedRoute) { }
 
