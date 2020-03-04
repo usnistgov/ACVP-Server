@@ -16,10 +16,10 @@
             <th>Type</th>
             <td>{{workflowItem?.payload.type}}</td>
           </tr>
-          <tr>
+          <!--<tr>
             <th>CPE</th>
             <td>{{workflowItem?.payload.cpe}}</td>
-          </tr>
+          </tr>-->
           <tr>
             <th>Description</th>
             <td>{{workflowItem?.payload.description}}</td>
@@ -39,6 +39,26 @@
           </tr>
           <tr>
             <td style="border:none;text-align:center;"><button class="btn btn-danger" style="width:80%;">&#10006; Reject</button></td>
+          </tr>
+        </table>
+      </div>
+    </div> <!-- Close Dependency Info Card -->
+  </div> <!-- Close col-lg-6 -->
+</div>
+
+<div class="row mt-3">
+  <div class="col-lg-6">
+    <div class="card">
+      <h5 class="card-header">(Optional) User-Defined Attributes</h5>
+      <div class="card-body">
+        <table class="table">
+          <tr *ngFor="let pair of workflowItem.payload | keyvalue">
+            <th style="border:none;" *ngIf="pair.key != 'id' && pair.key != 'name' && pair.key != 'type' && pair.key != 'description' && pair.key != 'url'">
+              {{ pair.key }}
+            </th>
+            <td style="border:none;" *ngIf="pair.key != 'id' && pair.key != 'name' && pair.key != 'type' && pair.key != 'description' && pair.key != 'url'">
+              {{ pair.value }}
+            </td>
           </tr>
         </table>
       </div>
