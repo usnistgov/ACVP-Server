@@ -38,6 +38,13 @@ namespace Web.Public
                         .AddJsonFile($"{directoryConfig}appsettings.json", false, false);
                         //.AddJsonFile($"{directoryConfig}appsettings.{env}.json", false, false);
                 })
+                .ConfigureServices((hostContext, services) =>
+                {
+                    services.RegisterAcvpAdminServices();
+                    services.Configure<JwtConfig>(hostContext.Configuration.GetSection("Jwt"));
+                    services.Configure<TotpConfig>(hostContext.Configuration.GetSection("Totp"));
+                    services.Configure<AlgorithmConfig>(hostContext.Configuration.GetSection("Algorithm"));
+                })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
@@ -53,12 +60,6 @@ namespace Web.Public
                 .UseSerilog((hostContext, loggerConfiguration) =>
                 {
                     loggerConfiguration.ReadFrom.Configuration(hostContext.Configuration);
-                })
-                .ConfigureServices((hostContext, services) =>
-                {
-                    services.RegisterAcvpAdminServices();
-                    services.Configure<TotpConfig>(hostContext.Configuration.GetSection("Totp"));
-                    services.Configure<AlgorithmConfig>(hostContext.Configuration.GetSection("Algorithm"));
                 });
     }
 }

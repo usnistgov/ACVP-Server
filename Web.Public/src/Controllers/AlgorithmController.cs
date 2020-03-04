@@ -1,9 +1,6 @@
-using System;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Serilog;
 using Web.Public.JsonObjects;
 using Web.Public.Providers;
 using Web.Public.Services;
@@ -27,7 +24,7 @@ namespace Web.Public.Controllers
         [HttpGet]
         public JsonResult GetAlgorithmList()
         {
-            // Authenticate and refresh token
+            // Get and refresh token
             var jwt = HttpContext.GetTokenAsync("access_token").Result;
             var refreshedToken = _jwtService.Refresh(jwt);
 

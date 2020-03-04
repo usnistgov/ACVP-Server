@@ -11,7 +11,7 @@ namespace Web.Public.Tests
         [SetUp]
         public void SetUp()
         {
-            _jwtService = new JwtService();
+            //_jwtService = new JwtService();
         }
 
         [Test]

@@ -2,27 +2,25 @@ using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
-using ACVPCore.Results;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
+using Web.Public.Configs;
 using Web.Public.Results;
 
 namespace Web.Public.Services
 {
     public class JwtService : IJwtService
     {
-        private readonly string _secretKey;
         private readonly TimeSpan _defaultWindow;
-        private readonly string _issuer;
         private readonly SigningCredentials _signingCredentials;
+        private readonly JwtConfig _jwtOptions;
         
-        public JwtService()
+        public JwtService(IOptions<JwtConfig> jwtOptions)
         {
-            _secretKey =
-                "J6k2eVCTXDp5b97u6gNH5GaaqHDxCmzz2wv3PRPFRsuW2UavK8LGPRauC4VSeaetKTMtVmVzAC8fh8Psvp8PFybEvpYnULHfRpM8TA2an7GFehrLLvawVJdSRqh2unCnWehhh2SJMMg5bktRRapA8EGSgQUV8TCafqdSEHNWnGXTjjsMEjUpaxcADDNZLSYPMyPSfp6qe5LMcd5S9bXH97KeeMGyZTS2U8gp3LGk2kH4J4F3fsytfpe9H9qKwgjb";
-            _issuer = "NIST ACVP ENVIRONMENT";
-            _defaultWindow = new TimeSpan(0, 30, 0);
-            _signingCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.Default.GetBytes(_secretKey)), SecurityAlgorithms.HmacSha256Signature);
+            _jwtOptions = jwtOptions.Value;
+            _signingCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.Default.GetBytes(_jwtOptions.SecretKey)), _jwtOptions.SignatureScheme);
+            _defaultWindow = new TimeSpan(_jwtOptions.ValidWindowHours, _jwtOptions.ValidWindowMinutes, _jwtOptions.ValidWindowSeconds);
         }
         
         public TokenResult Create()
@@ -57,7 +55,7 @@ namespace Web.Public.Services
             {
                 NotBefore = timeNow,
                 Expires = timeNow + _defaultWindow,
-                Issuer = _issuer,
+                Issuer = _jwtOptions.Issuer,
                 SigningCredentials = _signingCredentials,
                 Claims = claims
             };
@@ -71,29 +69,6 @@ namespace Web.Public.Services
             {
                 Log.Error(ex.StackTrace);
                 return new TokenResult("Unable to create JWT");
-            }
-        }
-
-        // TODO incomplete
-        // Might not be needed with auto-validation middleware
-        public Result Validate(string tokenString)
-        {
-            var validationParameters = new TokenValidationParameters
-            {
-                 
-            };
-
-            try
-            {
-                var tokenHandler = new JwtSecurityTokenHandler();
-                var claims = tokenHandler.ValidateToken(tokenString, validationParameters, out var validatedToken);
-                
-                return new Result();
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex.StackTrace);
-                return new Result("Unable to validate JWT");
             }
         }
 

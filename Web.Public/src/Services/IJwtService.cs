@@ -7,7 +7,6 @@ namespace Web.Public.Services
     {
         TokenResult Create();
         TokenResult Refresh(string previousToken);
-        Result Validate(string token);
         TokenResult AddClaims();
     }
 }
