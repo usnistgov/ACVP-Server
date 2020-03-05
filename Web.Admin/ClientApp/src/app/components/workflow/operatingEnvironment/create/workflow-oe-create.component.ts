@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { WorkflowItemBase } from '../../../../models/Workflow/WorkflowItemBase';
+import { OperatingEnvironmentCreatePayload } from '../../../../models/Workflow/OperatingEnvironment/OperatingEnvironmentCreatePayload';
 
 @Component({
   selector: 'app-workflow-oe-create',
@@ -7,7 +9,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class WorkflowOeCreateComponent implements OnInit {
 
+  workflowItem: WorkflowItemBase<OperatingEnvironmentCreatePayload>;
+  objectKeys = Object.keys;
+
   constructor() { }
+
+  /*
+ * This is how the component takes the workflowItem from the main workflow controller using the
+ * [wfItem]="workflowItem" syntax in the HTML template.  i.e. how custom element attributes are specified
+ */
+  @Input()
+  set wfItem(item: WorkflowItemBase<OperatingEnvironmentCreatePayload>) {
+    this.workflowItem = item;
+  }
 
   ngOnInit() {
   }

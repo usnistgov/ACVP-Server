@@ -1,4 +1,5 @@
 <div class="container">
   <app-workflow-dependency-create *ngIf="workflowItem?.apiAction === 'CreateDependency'" [wfItem]="workflowItem"></app-workflow-dependency-create>
   <app-workflow-organization-create *ngIf="workflowItem?.apiAction === 'CreateVendor'" [wfItem]="workflowItem"></app-workflow-organization-create>
+  <app-workflow-oe-create *ngIf="workflowItem?.apiAction === 'CreateOE'" [wfItem]="workflowItem"></app-workflow-oe-create>
 </div>

@@ -7,4 +7,5 @@ export class OperatingEnvironmentCreatePayload {
   name: string;
   description: string;
   dependenciesToCreate: Dependency[];
+  dependencies: Dependency[];
 }
