@@ -3,9 +3,9 @@ using ACVPCore.Algorithms.External;
 
 namespace Web.Public.JsonObjects
 {
-    public class AlgorithmListObject
+    public class AlgorithmListObject : IJsonObject
     {
-        public JwtObject Jwt { get; set; }
+        public string AcvVersion { get; set; }
         public IEnumerable<AlgorithmBase> AlgorithmList { get; set; }
     }
 }

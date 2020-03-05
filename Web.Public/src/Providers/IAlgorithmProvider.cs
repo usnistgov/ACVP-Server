@@ -6,5 +6,6 @@ namespace Web.Public.Providers
     public interface IAlgorithmProvider
     {
         IEnumerable<AlgorithmBase> GetAlgorithmList();
+        AlgorithmBase GetAlgorithm(int id);
     }
 }

@@ -44,5 +44,16 @@ namespace Web.Public.Providers
                 throw ex;
             }
         }
+
+        public AlgorithmBase GetAlgorithm(int id)
+        {
+            if (!_cachedAlgorithmList.Any())
+            {
+                GetAlgorithmList();
+            }
+
+            var algo = _cachedAlgorithmList.FirstOrDefault(alg => alg.AlgorithmId == id);
+            return algo;
+        }
     }
 }
