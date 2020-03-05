@@ -8,6 +8,7 @@ using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Math;
+using NLog;
 
 namespace NIST.CVP.Generation.KAS.v1_0.FFC.Parsers
 {
@@ -20,17 +21,22 @@ namespace NIST.CVP.Generation.KAS.v1_0.FFC.Parsers
         private const string Algorithm = "KAS-FFC";
         private readonly BitString _serverId = new BitString("434156536964");
         private readonly BitString _iutId = new BitString("a1b2c3d4e5");
-
+        private readonly ILogger _logger = LogManager.GetCurrentClassLogger();
+        
         public ParseResponse<TestVectorSet> Parse(string path)
         {
             if (string.IsNullOrEmpty(path))
             {
-                return new ParseResponse<TestVectorSet>("There was no path supplied.");
+                var thereWasNoPathSupplied = "There was no path supplied.";
+                _logger.Error($"{thereWasNoPathSupplied}");
+                return new ParseResponse<TestVectorSet>(thereWasNoPathSupplied);
             }
 
             if (!Directory.Exists(path))
             {
-                return new ParseResponse<TestVectorSet>($"Could not find path {path}");
+                var notFound = $"Could not find path {path}";
+                _logger.Error(notFound);
+                return new ParseResponse<TestVectorSet>(notFound);
             }
 
             var groups = new List<TestGroup>();
@@ -46,6 +52,7 @@ namespace NIST.CVP.Generation.KAS.v1_0.FFC.Parsers
                 }
                 catch (Exception ex)
                 {
+                    _logger.Error(ex, ex.Message);
                     return new ParseResponse<TestVectorSet>(ex.Message);
                 }
 
