@@ -1,0 +1,71 @@
+<div class="row mt-3">
+  <h2>Workflow {{ workflowItem.workflowItemID}} - {{ workflowItem.status}}</h2>
+</div>
+
+<div class="row mt-3">
+  <div class="col-lg-6">
+    <div class="card">
+      <h5 class="card-header">Create New Person</h5>
+      <div class="card-body">
+        <table class="table">
+          <tr>
+            <th style="border:none;">Name</th>
+            <td style="border:none;">{{workflowItem?.payload.fullName}}</td>
+          </tr>
+          <tr>
+          <tr>
+            <th>Organization</th>
+            <td>Not Imp. yet.</td>
+          </tr>
+        </table>
+      </div>
+    </div> <!-- Close Org Info Card -->
+  </div> <!-- Close col-lg-6 -->
+
+  <div class="col-lg-6">
+    <div class="card">
+      <h5 class="card-header">Available Actions</h5>
+      <div class="card-body">
+        <table class="table" style="">
+          <tr>
+            <td style="border:none;text-align:center;"><button class="btn btn-primary" style="width:80%;">&#10004; Approve</button></td>
+          </tr>
+          <tr>
+            <td style="border:none;text-align:center;"><button class="btn btn-danger" style="width:80%;">&#10006; Reject</button></td>
+          </tr>
+        </table>
+      </div>
+    </div> <!-- Close Available Actions Card -->
+  </div> <!-- Close col-lg-6 -->
+</div>
+
+<div class="row mt-3">
+  <div class="col-lg-6">
+    <div class="card">
+      <h5 class="card-header">Phone Information</h5>
+      <div class="card-body">
+        <table class="table" style="">
+          <tr *ngFor="let phone of workflowItem?.payload?.phoneNumbers; index as i">
+            <td [ngStyle]="{'border': i === 0 ? 'none' : '' }">
+              <span class="bold-heading">Number</span> : {{ phone.type == number ? 'N/A' : phone.number }}<br />
+              <span class="bold-heading">Type</span> : {{ phone.type == null ? 'N/A' : phone.type }}
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div> <!-- Close Phone Info Card -->
+  </div> <!-- Close col-lg-6 -->
+
+  <div class="col-lg-6">
+    <div class="card">
+      <h5 class="card-header">Emails</h5>
+      <div class="card-body">
+        <table class="table" style="">
+          <tr *ngFor="let email of workflowItem.payload.emails; index as i">
+            <td [ngStyle]="{'border': i === 0 ? 'none' : '' }">{{ email }}</td>
+          </tr>
+        </table>
+      </div>
+    </div> <!-- Close Email Card -->
+  </div> <!-- Close col-lg-6 -->
+</div>

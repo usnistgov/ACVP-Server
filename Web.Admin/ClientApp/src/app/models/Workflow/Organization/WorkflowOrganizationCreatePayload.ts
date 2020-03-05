@@ -1,4 +1,3 @@
-import { WorkflowItemBase } from '../WorkflowItemBase';
 import { Address } from '../../Address/Address';
 
 export class WorkflowOrganizationCreatePayload {

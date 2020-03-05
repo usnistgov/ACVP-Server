@@ -30,6 +30,9 @@ import { WorkflowComponent } from './components/workflow/workflow/workflow.compo
 import { WorkflowDependencyCreateComponent } from './components/workflow/dependency/create/workflow-dependency-create.component';
 import { WorkflowOrganizationCreateComponent } from './components/workflow/organization/create/workflow-organization-create.component';
 import { WorkflowOeCreateComponent } from './components/workflow/operatingEnvironment/create/workflow-oe-create.component';
+import { WorkflowPersonCreateComponent } from './components/workflow/person/create/workflow-person-create.component';
+import { WorkflowProductCreateComponent } from './components/workflow/product/create/workflow-product-create.component';
+import { WorkflowValidationCreateComponent } from './components/workflow/validation/create/workflow-validation-create.component';
 
 @NgModule({
   declarations: [
@@ -52,7 +55,10 @@ import { WorkflowOeCreateComponent } from './components/workflow/operatingEnviro
     WorkflowDependencyCreateComponent,
     WorkflowComponent,
     WorkflowOrganizationCreateComponent,
-    WorkflowOeCreateComponent
+    WorkflowOeCreateComponent,
+    WorkflowPersonCreateComponent,
+    WorkflowProductCreateComponent,
+    WorkflowValidationCreateComponent
   ],
   imports: [
     BrowserModule,

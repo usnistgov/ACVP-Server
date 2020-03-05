@@ -65,6 +65,7 @@
       <None Remove="ClientApp\src\app\models\Workflow\IWorkflowItemPayload.ts" />
       <None Remove="ClientApp\src\app\models\Workflow\OperatingEnvironment\OperatingEnvironmentCreatePayload.ts" />
       <None Remove="ClientApp\src\app\models\Workflow\Organization\WorkflowOrganizationCreatePayload.ts" />
+      <None Remove="ClientApp\src\app\models\Workflow\Person\WorkflowPersonCreatePayload.ts" />
       <None Remove="ClientApp\src\app\models\Workflow\WorkflowItemBase.ts" />
       <None Remove="ClientApp\src\app\models\Workflow\WorkflowStatus.enum.ts" />
     </ItemGroup>
@@ -129,6 +130,9 @@
         <SubType>Code</SubType>
       </TypeScriptCompile>
       <TypeScriptCompile Include="ClientApp\src\app\models\Workflow\Organization\WorkflowOrganizationCreatePayload.ts">
+        <SubType>Code</SubType>
+      </TypeScriptCompile>
+      <TypeScriptCompile Include="ClientApp\src\app\models\Workflow\Person\WorkflowPersonCreatePayload.ts">
         <SubType>Code</SubType>
       </TypeScriptCompile>
       <TypeScriptCompile Include="ClientApp\src\app\models\Workflow\WorkflowStatus.enum.ts">
