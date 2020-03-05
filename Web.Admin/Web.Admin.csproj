@@ -27,6 +27,7 @@
         <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="$(NuGetVersionMicrosoftAspNetCore)" />
         <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="$(NuGetVersionMicrosoftAspNetCore)" />
         <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="$(NuGetVersionMicrosoftAspNetCore)" />
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.WsFederation" Version="$(NuGetVersionMicrosoftAspNetCore)" />
     </ItemGroup>
 
     <ItemGroup>
