@@ -21,6 +21,7 @@ namespace Web.Admin.Controllers
             _implementationService = implementationService;
         }
 
+        [HttpGet("{implementationId}")]
         public Implementation Get(long implementationId)
         {
             return _implementationService.Get(implementationId);

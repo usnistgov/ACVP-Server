@@ -8,6 +8,8 @@ namespace ACVPCore
 	{
 		public static IServiceCollection InjectACVPCore(this IServiceCollection services)
 		{
+			services.AddSingleton<IAdminUserProvider, AdminUserProvider>();
+			services.AddSingleton<IAdminUserService, AdminUserService>();
 			services.AddSingleton<ITestSessionService, TestSessionService>();
 			services.AddSingleton<ITestSessionProvider, TestSessionProvider>();
 			services.AddSingleton<IVectorSetService, VectorSetService>();

@@ -11,6 +11,8 @@ using ACVPCore.Models.Parameters;
 using ACVPCore.Results;
 using ACVPCore.Services;
 using ACVPWorkflow;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -23,7 +25,7 @@ namespace Web.Admin.Controllers
         private readonly ILogger<TestSessionsController> _logger;
         private readonly ITestSessionService _testSessionService;
         private readonly IVectorSetService _vectorSetService;
-        
+
         public TestSessionsController(
             ILogger<TestSessionsController> logger,
             ITestSessionService testSessionService,
@@ -35,7 +37,7 @@ namespace Web.Admin.Controllers
         }
 
         [HttpPost]
-        public ActionResult<PagedEnumerable<TestSessionLite>> GetTestSessions([FromBody] TestSessionListParameters param)
+        public ActionResult<PagedEnumerable<TestSessionLite>> GetTestSessions(TestSessionListParameters param)
         {
             if (param == null)
                 return new BadRequestResult();

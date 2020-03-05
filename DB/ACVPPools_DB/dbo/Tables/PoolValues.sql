@@ -10,3 +10,10 @@
     CONSTRAINT [FK_PoolValues_PoolInformation] FOREIGN KEY ([poolId]) REFERENCES [dbo].[PoolInformation] ([id])
 );
 
+
+
+
+GO
+CREATE NONCLUSTERED INDEX [NonClusteredIndex-PoolId-Staging]
+    ON [dbo].[PoolValues]([poolId] ASC, [isStagingValue] ASC);
+

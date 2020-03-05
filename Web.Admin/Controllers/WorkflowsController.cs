@@ -1,11 +1,7 @@
-using System;
-using ACVPCore.ExtensionMethods;
 using ACVPCore.Models;
 using ACVPCore.Results;
-using ACVPWorkflow;
 using ACVPWorkflow.Models;
 using ACVPWorkflow.Models.Parameters;
-using ACVPWorkflow.Results;
 using ACVPWorkflow.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -25,8 +21,8 @@ namespace Web.Admin.Controllers
             _workflowService = workflowService;
         }
         
-        [HttpGet]
-        public ActionResult<PagedEnumerable<WorkflowItemLite>> GetWorkflows([FromBody] WorkflowListParameters param)
+        [HttpPost]
+        public ActionResult<PagedEnumerable<WorkflowItemLite>> GetWorkflows(WorkflowListParameters param)
         {
             if (param == null)
                 return new BadRequestResult();
