@@ -28,7 +28,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
         public void Setup()
         {
             LoggingHelper.ConfigureLogging($"{this.GetType()}_{DateTime.Now:yyyy-MM-dd}.log", "firehose", LogLevel.Info);
-            _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\LegacyCavsFiles\kas\ffc\");
+            _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\LegacyCavsFiles\kas\FFC\");
         }
 
         [Test]
@@ -39,7 +39,6 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
 
             if (!parsedFiles.Success)
             {
-                
                 Assert.Fail("Failed parsing test files");
             }
 
