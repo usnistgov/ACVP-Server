@@ -161,5 +161,13 @@ export class AjaxService {
   getWorkflow(workflowId: number) {
     return this.http.get<WorkflowItemBase<IWorkflowItemPayload>>(this.apiRoot + '/Workflows/' + workflowId);
   }
+
+  approveWorkflow(workflowId: number) {
+    return this.http.post(this.apiRoot + '/Workflows/' + workflowId + '/approve', {});
+  }
+
+  rejectWorkflow(workflowId: number) {
+    return this.http.post(this.apiRoot + '/Workflows/' + workflowId + '/reject', {});
+  }
   // End Workflow Calls
 }
