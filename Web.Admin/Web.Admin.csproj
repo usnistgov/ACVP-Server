@@ -62,10 +62,13 @@
       <None Remove="ClientApp\src\app\models\TestSession\VectorSetStatus.ts" />
       <None Remove="ClientApp\src\app\models\Workflow\APIAction.enum.ts" />
       <None Remove="ClientApp\src\app\models\Workflow\Dependency\WorkflowDependencyCreatePayload.ts" />
+      <None Remove="ClientApp\src\app\models\Workflow\Dependency\WorkflowDependencyUpdatePayload.ts" />
       <None Remove="ClientApp\src\app\models\Workflow\IWorkflowItemPayload.ts" />
       <None Remove="ClientApp\src\app\models\Workflow\OperatingEnvironment\OperatingEnvironmentCreatePayload.ts" />
       <None Remove="ClientApp\src\app\models\Workflow\Organization\WorkflowOrganizationCreatePayload.ts" />
       <None Remove="ClientApp\src\app\models\Workflow\Person\WorkflowPersonCreatePayload.ts" />
+      <None Remove="ClientApp\src\app\models\Workflow\Product\WorkflowCreateProductPayloadContact.ts" />
+      <None Remove="ClientApp\src\app\models\Workflow\Product\WorkflowProductCreatePayload.ts" />
       <None Remove="ClientApp\src\app\models\Workflow\WorkflowItemBase.ts" />
       <None Remove="ClientApp\src\app\models\Workflow\WorkflowStatus.enum.ts" />
     </ItemGroup>
@@ -125,6 +128,9 @@
       <TypeScriptCompile Include="ClientApp\src\app\models\TestSession\TestSessionLite.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\models\TestSession\TestSessionStatus.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\models\TestSession\VectorSet.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\Workflow\Dependency\WorkflowDependencyUpdatePayload.ts">
+        <SubType>Code</SubType>
+      </TypeScriptCompile>
       <TypeScriptCompile Include="ClientApp\src\app\models\Workflow\IWorkflowItemPayload.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\models\Workflow\OperatingEnvironment\OperatingEnvironmentCreatePayload.ts">
         <SubType>Code</SubType>
@@ -133,6 +139,10 @@
         <SubType>Code</SubType>
       </TypeScriptCompile>
       <TypeScriptCompile Include="ClientApp\src\app\models\Workflow\Person\WorkflowPersonCreatePayload.ts">
+        <SubType>Code</SubType>
+      </TypeScriptCompile>
+      <TypeScriptCompile Include="ClientApp\src\app\models\Workflow\Product\WorkflowCreateProductPayloadContact.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\Workflow\Product\WorkflowProductCreatePayload.ts">
         <SubType>Code</SubType>
       </TypeScriptCompile>
       <TypeScriptCompile Include="ClientApp\src\app\models\Workflow\WorkflowStatus.enum.ts">

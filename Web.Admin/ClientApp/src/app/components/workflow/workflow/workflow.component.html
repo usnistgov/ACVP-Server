@@ -3,6 +3,8 @@
   <app-workflow-organization-create *ngIf="workflowItem?.apiAction === 'CreateVendor'" [wfItem]="workflowItem"></app-workflow-organization-create>
   <app-workflow-oe-create *ngIf="workflowItem?.apiAction === 'CreateOE'" [wfItem]="workflowItem"></app-workflow-oe-create>
   <app-workflow-person-create *ngIf="workflowItem?.apiAction === 'CreatePerson'" [wfItem]="workflowItem"></app-workflow-person-create>
-  <!--<app-workflow-product-create *ngIf="workflowItem?.apiAction === 'CreateImplementation'" [wfItem]="workflowItem"></app-workflow-product-create>-->
+  <app-workflow-product-create *ngIf="workflowItem?.apiAction === 'CreateImplementation'" [wfItem]="workflowItem"></app-workflow-product-create>
   <!--<app-workflow-validation-create *ngIf="workflowItem?.apiAction === 'CertifyTestSession'" [wfItem]="workflowItem"></app-workflow-validation-create>-->
+
+  <app-workflow-dependency-update *ngIf="workflowItem?.apiAction === 'UpdateDependency'" [wfItem]="workflowItem"></app-workflow-dependency-update>
 </div>

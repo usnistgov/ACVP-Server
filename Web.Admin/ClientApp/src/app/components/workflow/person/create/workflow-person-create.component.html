@@ -47,7 +47,7 @@
         <table class="table" style="">
           <tr *ngFor="let phone of workflowItem?.payload?.phoneNumbers; index as i">
             <td [ngStyle]="{'border': i === 0 ? 'none' : '' }">
-              <span class="bold-heading">Number</span> : {{ phone.type == number ? 'N/A' : phone.number }}<br />
+              <span class="bold-heading">Number</span> : {{ phone.number == null ? 'N/A' : phone.number }}<br />
               <span class="bold-heading">Type</span> : {{ phone.type == null ? 'N/A' : phone.type }}
             </td>
           </tr>
