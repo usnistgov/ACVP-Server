@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using ACVPCore.Models;
 using ACVPCore.Models.Parameters;
 using ACVPCore.Providers;
 using ACVPCore.Results;
@@ -16,7 +17,6 @@ namespace ACVPCore.Services
 			_organizationProvider = organizationProvider;
 			_addressService = addressService;
 		}
-
 		public DeleteResult Delete(long organizationID)
 		{
 			Result result;
@@ -123,9 +123,9 @@ namespace ACVPCore.Services
 			}
 
 			//Update the organization record if needed. Phone numbers go as a pair
-			if (parameters.NameUpdated || parameters.WebsiteUpdated || parameters.ParentOrganizationIDUpdated || parameters.PhoneNumbersUpdated)
+			if (parameters.NameUpdated || parameters.WebsiteUpdated || parameters.ParentOrganizationIDUpdated || parameters.VoiceNumberUpdated || parameters.FaxNumberUpdated)
 			{
-				Result organizationUpdateResult = _organizationProvider.Update(parameters.ID, parameters.Name, parameters.Website, parameters.VoiceNumber, parameters.FaxNumber, parameters.ParentOrganizationID, parameters.NameUpdated, parameters.WebsiteUpdated, parameters.PhoneNumbersUpdated, parameters.ParentOrganizationIDUpdated);
+				Result organizationUpdateResult = _organizationProvider.Update(parameters.ID, parameters.Name, parameters.Website, parameters.VoiceNumber, parameters.FaxNumber, parameters.ParentOrganizationID, parameters.NameUpdated, parameters.WebsiteUpdated, parameters.VoiceNumberUpdated, parameters.FaxNumberUpdated, parameters.ParentOrganizationIDUpdated);
 
 				if (!organizationUpdateResult.IsSuccess)
 				{
@@ -154,6 +154,16 @@ namespace ACVPCore.Services
 		public bool OrganizationIsUsed(long organizationID)
 		{
 			return _organizationProvider.OrganizationIsUsed(organizationID);
+		}
+
+		public Organization Get(long organizationID)
+		{
+			return _organizationProvider.Get(organizationID);
+		}
+		
+		public bool OrganizationExists(long organizationID)
+		{
+			return _organizationProvider.OrganizationExists(organizationID);
 		}
 	}
 }

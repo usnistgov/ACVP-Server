@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using ACVPCore.Models;
 using ACVPCore.Results;
 using CVP.DatabaseInterface;
 using Microsoft.Extensions.Logging;
@@ -10,9 +11,9 @@ namespace ACVPCore.Providers
 	public class OEProvider : IOEProvider
 	{
 		private readonly string _acvpConnectionString;
-		private readonly ILogger<DependencyProvider> _logger;
+		private readonly ILogger<OEProvider> _logger;
 
-		public OEProvider(IConnectionStringFactory connectionStringFactory, ILogger<DependencyProvider> logger)
+		public OEProvider(IConnectionStringFactory connectionStringFactory, ILogger<OEProvider> logger)
 		{
 			_acvpConnectionString = connectionStringFactory.GetMightyConnectionString("ACVP");
 			_logger = logger;
@@ -187,6 +188,92 @@ namespace ACVPCore.Providers
 				_logger.LogError(ex.Message);
 				return true;    //Default to true so we don't try do delete when we shouldn't
 			}
+		}
+
+		public bool OEExists(long oeID)
+		{
+			var db = new MightyOrm(_acvpConnectionString);
+
+			try
+			{
+				return (bool)db.ScalarFromProcedure("val.OEExists", inParams: new
+				{
+					OEId = oeID
+				});
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex.Message);
+				return false;    //Default to false so we don't try do use it when we don't know if it exists
+			}
+		}
+
+		public OperatingEnvironment Get(long oeID)
+		{
+			var db = new MightyOrm(_acvpConnectionString);
+
+			var OEResult = new OperatingEnvironment();
+			try
+			{
+				var OEData = db.SingleFromProcedure("val.OEGet", inParams: new
+				{
+					OEID = oeID
+				});
+ 
+				OEResult.ID = OEData.id;
+				OEResult.Name = OEData.name;
+
+				var data = db.QueryFromProcedure("val.OEDependenciesGet", inParams: new
+				{
+					OEID = oeID
+				});
+
+				foreach (var dependency in data)
+				{
+					OEResult.Dependencies.Add(new DependencyLite
+					{
+						ID = dependency.id,
+						Name = dependency.name,
+						Type = dependency.dependency_type,
+						Description = dependency.description
+					});
+				}
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex.Message);
+			}
+			return OEResult;
+		}
+
+		public List<OperatingEnvironmentLite> Get(long pageSize, long pageNumber)
+		{
+			var db = new MightyOrm(_acvpConnectionString);
+
+			List<OperatingEnvironmentLite> result = new List<OperatingEnvironmentLite>();
+
+			try
+			{
+				var data = db.QueryFromProcedure("val.OEsGet", inParams: new
+				{
+					PageSize = pageSize,
+					PageNumber = pageNumber
+				});
+
+				foreach (var oe in data)
+				{
+					result.Add(new OperatingEnvironmentLite
+					{
+						ID = oe.id,
+						Name = oe.name
+					});
+				}
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex.Message);
+			}
+			return result;
 		}
 	}
 }

@@ -3,6 +3,12 @@ using CVP.DatabaseInterface;
 using Microsoft.Extensions.Logging;
 using Mighty;
 using System;
+using System.Collections.Generic;
+using ACVPCore.ExtensionMethods;
+using ACVPCore.Models;
+using ACVPWorkflow.Models;
+using ACVPCore.Results;
+using ACVPWorkflow.Models.Parameters;
 
 namespace ACVPWorkflow.Providers
 {
@@ -10,11 +16,13 @@ namespace ACVPWorkflow.Providers
 	{
 		private readonly string _acvpConnectionString;
 		private readonly ILogger<WorkflowProvider> _logger;
+		private readonly IWorkflowItemPayloadFactory _workflowItemPayloadFactory;
 
-		public WorkflowProvider(IConnectionStringFactory connectionStringFactory, ILogger<WorkflowProvider> logger)
+		public WorkflowProvider(IConnectionStringFactory connectionStringFactory, ILogger<WorkflowProvider> logger, IWorkflowItemPayloadFactory workflowItemPayloadFactory)
 		{
 			_acvpConnectionString = connectionStringFactory.GetMightyConnectionString("ACVP");
 			_logger = logger;
+			_workflowItemPayloadFactory = workflowItemPayloadFactory;
 		}
 
 		public WorkflowInsertResult Insert(APIAction apiAction, WorkflowItemType workflowItemType, RequestAction action, long userID, string json, string labName, string contact, string email)
@@ -89,6 +97,68 @@ namespace ACVPWorkflow.Providers
 			{
 				_logger.LogError(ex.Message);
 				return new Result(ex.Message);
+			}
+		}
+
+		public PagedEnumerable<WorkflowItemLite> GetWorkflowItems(WorkflowListParameters param)
+		{
+			var result = new List<WorkflowItemLite>();
+			long totalRecords = 0;
+			var db = new MightyOrm<WorkflowItemLite>(_acvpConnectionString);
+
+			try
+			{
+				var dbResult = db.QueryWithExpando("acvp.WorkflowItemsGet",
+					new
+					{
+						param.PageSize,
+						param.Page,
+						param.WorkflowItemId,
+						param.Type,
+						param.RequestId
+					},
+					new
+					{
+						totalRecords = (long) 0
+					});
+
+				result = dbResult.Data;
+				totalRecords = dbResult.ResultsExpando.totalRecords;
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex);
+			}
+
+			return result.WrapPagedEnumerable(param.PageSize, param.Page, totalRecords);
+		}
+
+		public WorkflowItem GetWorkflowItem(long workflowItemId)
+		{
+			var db = new MightyOrm(_acvpConnectionString);
+
+			try
+			{
+				var data = db.SingleFromProcedure("acvp.WorkflowItemGetById", new
+				{
+					workflowItemId
+				});
+
+				if (data == null)
+					return null;
+				
+				return new WorkflowItem()
+				{
+					APIAction = (APIAction)data.APIActionId,
+					Payload = _workflowItemPayloadFactory.GetPayload(data.JsonBlob, (APIAction)data.APIActionId),
+					WorkflowItemID = workflowItemId,
+					Status = (WorkflowStatus)data.Status
+				};
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex);
+				return null;
 			}
 		}
 	}

@@ -10,6 +10,8 @@ require('colors');
 // set directories and files for test and coverage report
 var path = require('path'),
 
+    expect = require('chai').expect,
+
     IS_WINDOWS = (/^win/).test(process.platform),
     COV_REPORT_PATH = '.coverage',
     REPORT_PATH = path.join('.tmp', 'report.xml'),
@@ -21,16 +23,18 @@ module.exports = function (exit) {
         istanbulReport = '';
 
     // for CI, we use simple xunit reporter
-    if (process.env.CI) {
+    if (process.env.CI) { // eslint-disable-line no-process-env
         mochaReporter = 'xunit';
         istanbulReport = '--report cobertura';
     }
 
     // banner line
-    console.log('Running unit tests using mocha...'.yellow.bold);
+    console.info('Running unit tests using mocha...'.yellow.bold);
 
     mkdir('-p', '.tmp');
     test('-d', COV_REPORT_PATH) && rm('-rf', COV_REPORT_PATH) && mkdir('-p', COV_REPORT_PATH);
+
+    global.expect = expect;
 
     // windows istanbul and mocha commands need some special attention.
     if (IS_WINDOWS) {

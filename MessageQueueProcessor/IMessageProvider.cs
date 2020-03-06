@@ -6,6 +6,6 @@ namespace MessageQueueProcessor
 	{
 		void DeleteMessage(Guid id);
 		Message GetNextMessage();
-		void MarkForJavaProcessor(Guid id);
+		void UpdateStatus(Guid id, MessageStatus messageStatus);
 	}
 }

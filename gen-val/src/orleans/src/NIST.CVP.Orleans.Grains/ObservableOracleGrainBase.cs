@@ -1,9 +1,13 @@
 ﻿using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using NIST.CVP.Common;
 using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Orleans.Grains.Interfaces;
+using NIST.CVP.Orleans.Grains.Interfaces.Exceptions;
 using Orleans;
 
 namespace NIST.CVP.Orleans.Grains
@@ -45,6 +49,15 @@ namespace NIST.CVP.Orleans.Grains
         /// The collection to keep track of subscribers
         /// </summary>
         private GrainObserverManager<IGrainObserver<TResult>> _subsManager;
+        /// <summary>
+        /// Monitors if work has begun via a call to <see cref="BeginGrainWorkAsync"/>.
+        /// If the original working node suicides, because we are using stateless grains, the expectation is
+        /// <see cref="HeartbeatSubscribe"/>s will continue without work actually being set up on the grain.
+        ///
+        /// If this is encountered, we can throw an exception within Subscribe to the caller, indicating the work should
+        /// be resubmitted.
+        /// </summary>
+        private bool _hasWorkBegun = false;
 
         protected ObservableOracleGrainBase(LimitedConcurrencyLevelTaskScheduler nonOrleansScheduler)
         {
@@ -55,11 +68,25 @@ namespace NIST.CVP.Orleans.Grains
         {
             OrleansScheduler = TaskScheduler.Current;
             _subsManager = new GrainObserverManager<IGrainObserver<TResult>>();
+            
             await base.OnActivateAsync();
         }
 
-        public Task Subscribe(IGrainObserver<TResult> observer)
+        public Task InitialSubscribe(IGrainObserver<TResult> observer)
         {
+            _subsManager.Subscribe(observer);
+            return Task.CompletedTask;
+        }
+
+        public Task HeartbeatSubscribe(IGrainObserver<TResult> observer)
+        {
+            if (!_hasWorkBegun)
+            {
+                _subsManager.Subscribe(observer);
+                _subsManager.Notify(o => o.Throw(new OriginalClusterNodeSuicideException()));
+                return Task.CompletedTask;
+            }
+            
             _subsManager.Subscribe(observer);
             return Task.CompletedTask;
         }
@@ -77,6 +104,8 @@ namespace NIST.CVP.Orleans.Grains
         /// <returns></returns>
         protected Task<bool> BeginGrainWorkAsync()
         {
+            _hasWorkBegun = true;
+            
             Task.Factory.StartNew(() =>
             {
                 DoWorkAsyncWrapper().FireAndForget();

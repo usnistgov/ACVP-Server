@@ -1,0 +1,41 @@
+{
+  "EnvironmentConfig": {
+    "Name": "TC"
+  },
+
+  "ConnectionStrings": {
+    "Acvp": "Server=localhost;Database=Acvp;Integrated Security=true;",
+    "AcvpPools": "Server=localhost;Database=AcvpPools;Integrated Security=true;Max Pool Size=250;",
+    "AcvpOrleans": "Server=localhost\\SQLEXPRESS;Database=AcvpOrleans;Integrated Security=true;Pooling=False;Max Pool Size=200;MultipleActiveResultSets=True"
+  },
+
+  "PoolConfig": {
+    "RootUrl": "129.6.164.132",
+    "Port": 5002,
+    "ShouldRecyclePoolWater": true,
+    "PoolConfigFile": "D:\\Pools\\poolConfig.json",
+    "ShouldLogPoolValueUse": true,
+    "PoolResultLogLength": 0,
+    "OverrideMinimumPoolLevel": 1
+  },
+
+  "OrleansConfig": {
+    "OrleansNodeConfig": [
+      {
+        "HostName": "172.17.42.183",
+        "NumberOfCores": 4
+      }
+    ],
+    "OrleansSiloPort": 8000,
+    "OrleansGatewayPort": 30000,
+    "ClusterId": "cryptoDist-TC",
+    "MinimumLogLevel": "Warning",
+    "UseConsoleLogging": true,
+    "UseFileLogging": true,
+    "OrleansDashboardPort": 8080,
+    "FallBackMinimumCores": 2,
+    "LoadSheddingCpuThreshold": 0,
+    "MaxWorkItemsToQueuePerGenValInstance": 250,
+    "TimeoutRetryAttempts": 15
+  }
+}

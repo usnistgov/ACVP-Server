@@ -9,6 +9,7 @@ var _ = require('lodash').noConflict(),
 
 module.exports = {
     authMap: {
+        apikeyAuth: 'apikey',
         basicAuth: 'basic',
         bearerAuth: 'bearer',
         digestAuth: 'digest',

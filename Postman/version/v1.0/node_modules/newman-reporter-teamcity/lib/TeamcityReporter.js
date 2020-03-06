@@ -14,7 +14,7 @@ class TeamcityReporter {
     }
 
     beforeItem(err, args) {
-        this.currItem = {name: this.itemName(args.item), passed: true, failedAssertions: []};
+        this.currItem = {name: this.itemName(args.item, args.cursor), passed: true, failedAssertions: []};
         console.log(`##teamcity[testStarted name='${this.currItem.name}' captureStandardOutput='true' flowId='${this.flowId}']`);
     }
 
@@ -48,10 +48,11 @@ class TeamcityReporter {
     }
 
     /* HELPERS */
-    itemName(item) {
+    itemName(item, cursor) {
         const parentName = item.parent && item.parent() && item.parent().name ? item.parent().name : "";
         const folderOrEmpty = (!parentName || parentName === this.options.collection.name) ? "" : parentName + "/";
-        return this.escape(folderOrEmpty + item.name);
+        const iteration = cursor && cursor.cycles > 1 ? "/" + cursor.iteration : "";
+        return this.escape(folderOrEmpty + item.name + iteration);
     }
 
     /**

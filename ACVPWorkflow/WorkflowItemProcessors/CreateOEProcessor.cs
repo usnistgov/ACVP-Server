@@ -1,40 +1,64 @@
-﻿using System;
-using System.Text.Json;
-using ACVPCore.Models.Parameters;
+﻿using ACVPCore.Models.Parameters;
 using ACVPCore.Results;
 using ACVPCore.Services;
-using ACVPWorkflow.Services;
+using ACVPWorkflow.Exceptions;
+using ACVPWorkflow.Models;
 
 namespace ACVPWorkflow.WorkflowItemProcessors
 {
-	public class CreateOEProcessor : IWorkflowItemProcessor
+	public class CreateOEProcessor : BaseWorkflowItemProcessor, IWorkflowItemProcessor
 	{
 		private readonly IOEService _oeService;
-		private readonly IWorkflowService _workflowService;
+		private readonly IDependencyService _dependencyService;
+		private readonly IWorkflowItemPayloadValidatorFactory _workflowItemPayloadValidatorFactory;
 
-		public CreateOEProcessor(IOEService oeService, IWorkflowService workflowService)
+		public CreateOEProcessor(IOEService oeService, IDependencyService dependencyService, IWorkflowItemPayloadValidatorFactory workflowItemPayloadValidatorFactory)
 		{
 			_oeService = oeService;
-			_workflowService = workflowService;
+			_dependencyService = dependencyService;
+			_workflowItemPayloadValidatorFactory = workflowItemPayloadValidatorFactory;
 		}
 
-		public void Approve(WorkflowItem workflowItem)
+		public bool Validate(WorkflowItem workflowItem)
 		{
-			OECreateParameters parameters = JsonSerializer.Deserialize<OECreateParameters>(workflowItem.JSON);
+			return IsPendingApproval(workflowItem) && _workflowItemPayloadValidatorFactory.GetWorkflowItemPayloadValidator(APIAction.CreateOE).Validate((OECreatePayload)workflowItem.Payload);
+		}
+
+		public long Approve(WorkflowItem workflowItem)
+		{
+			//Validate this workflow item
+			Validate(workflowItem);
+
+			OECreatePayload oeCreatePayload = (OECreatePayload)workflowItem.Payload;
+			OECreateParameters parameters = oeCreatePayload.ToOECreateParameters();
+
+			//If there were any new Dependencies in the OE, instead of just URLs, create those and add them to the collection of dependency IDs
+			foreach (DependencyCreatePayload dependencyCreatePayload in oeCreatePayload.DependenciesToCreate)
+			{
+				//Convert from a payload to parameters
+				DependencyCreateParameters dependencyCreateParameters = dependencyCreatePayload.ToDependencyCreateParameters();
+
+				//Create it
+				DependencyResult dependencyCreateResult = _dependencyService.Create(dependencyCreateParameters);
+
+				//Add it to the dependency list
+				if (dependencyCreateResult.IsSuccess)
+				{
+					parameters.DependencyIDs.Add(dependencyCreateResult.ID);
+				}
+			}
 
 			//Create it
 			OEResult oeCreateResult = _oeService.Create(parameters);
 
-			//Update the workflow item
-			if (oeCreateResult.IsSuccess)
+			if (!oeCreateResult.IsSuccess)
 			{
-				_workflowService.MarkApproved(workflowItem.WorkflowItemID, oeCreateResult.ID);
+				throw new ResourceProcessorException($"Failed approval on {nameof(workflowItem.APIAction)} {workflowItem.APIAction}");
 			}
+			
+			return oeCreateResult.ID;
 		}
 
-		public void Reject(WorkflowItem workflowItem)
-		{
-			throw new NotImplementedException();
-		}
+		public void Reject(WorkflowItem workflowItem) { }
 	}
 }

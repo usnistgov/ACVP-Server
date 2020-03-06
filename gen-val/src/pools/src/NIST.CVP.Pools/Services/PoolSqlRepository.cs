@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using NIST.CVP.Common.Interfaces;
 using NIST.CVP.Common.Oracle.ResultTypes;
@@ -29,138 +30,140 @@ namespace NIST.CVP.Pools.Services
             _jsonConverters = jsonConverters;
         }
 
-        public void AddResultToPool(string poolName, bool useStagingPool, PoolObject<TResult> value)
+        public async Task AddResultToPool(string poolName, bool useStagingPool, PoolObject<TResult> value)
         {
-            using (var conn = _connectionFactory.Get(_connectionString))
+            await using var conn = _connectionFactory.Get(_connectionString);
+            conn.Open();
+
+            await using var cmd = conn.CreateCommand();
+            cmd.CommandText = "AddValueToPool";
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.AddParameter("poolName", poolName);
+            cmd.AddParameter(
+                "value", 
+                JsonConvert.SerializeObject(
+                    value.Value, new JsonSerializerSettings()
+                    {
+                        Converters = _jsonConverters
+                    }
+                )
+            );
+            cmd.AddParameter("isStagingValue", useStagingPool);
+            cmd.AddParameter("dateCreated", value.DateCreated);
+            cmd.AddParameter("dateLastUsed", value.DateLastUsed);
+            cmd.AddParameter("timesValueUsed", value.TimesUsed);
+
+            await cmd.ExecuteNonQueryAsync();
+        }
+
+        public async Task CleanPool(string poolName)
+        {
+            await using var conn = _connectionFactory.Get(_connectionString);
+            conn.Open();
+
+            await using var cmd = conn.CreateCommand();
+            cmd.CommandText = "ClearPool";
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.AddParameter("poolName", poolName);
+
+            await cmd.ExecuteNonQueryAsync();
+        }
+
+        public async Task<long> GetPoolCount(string poolName, bool useStagingPool)
+        {
+            await using var conn = _connectionFactory.Get(_connectionString);
+            conn.Open();
+
+            await using var cmd = conn.CreateCommand();
+            cmd.CommandText = "GetPoolCount";
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.AddParameter("poolName", poolName);
+            cmd.AddParameter("isStagingValue", useStagingPool);
+
+            await using (var reader = await cmd.ExecuteReaderAsync())
             {
-                conn.Open();
-
-                using (var cmd = conn.CreateCommand())
+                // There should only be one record
+                while (reader.Read())
                 {
-                    cmd.CommandText = "AddValueToPool";
-                    cmd.CommandType = CommandType.StoredProcedure;
+                    return reader.GetInt64(reader.GetOrdinal("poolCount"));
+                }
+            }
 
-                    cmd.AddParameter("poolName", poolName);
-                    cmd.AddParameter(
-                        "value", 
-                        JsonConvert.SerializeObject(
-                            value.Value, new JsonSerializerSettings()
+            return 0;
+        }
+
+        public async Task<PoolObject<TResult>> GetResultFromPool(string poolName)
+        {
+            await using var conn = _connectionFactory.Get(_connectionString);
+            conn.Open();
+
+            await using var cmd = conn.CreateCommand();
+            cmd.CommandText = "GetPoolValue";
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.AddParameter("poolName", poolName);
+
+            await using (var reader = await cmd.ExecuteReaderAsync())
+            {
+                // There should be a max of one record.
+                while (reader.Read())
+                {
+                    return new PoolObject<TResult>()
+                    {
+                        DateCreated = reader.GetDateTime(reader.GetOrdinal("dateCreated")),
+                        DateLastUsed = reader.GetNullableDateTime("dateLastUsed"),
+                        TimesUsed = reader.GetInt64(reader.GetOrdinal("timesUsed")),
+                        Value = JsonConvert.DeserializeObject<TResult>(
+                            reader.GetString(reader.GetOrdinal("value")),
+                            new JsonSerializerSettings()
                             {
                                 Converters = _jsonConverters
                             }
                         )
-                    );
-                    cmd.AddParameter("isStagingValue", useStagingPool);
-                    cmd.AddParameter("dateCreated", value.DateCreated);
-                    cmd.AddParameter("dateLastUsed", value.DateLastUsed);
-                    cmd.AddParameter("timesValueUsed", value.TimesUsed);
-
-                    cmd.ExecuteNonQuery();
+                    };
                 }
             }
+
+            return null;
         }
 
-        public void CleanPool(string poolName)
+        public async Task MixStagingPoolIntoPool(string poolName)
         {
-            using (var conn = _connectionFactory.Get(_connectionString))
-            {
-                conn.Open();
+            await using var conn = _connectionFactory.Get(_connectionString);
+            conn.Open();
 
-                using (var cmd = conn.CreateCommand())
-                {
-                    cmd.CommandText = "ClearPool";
-                    cmd.CommandType = CommandType.StoredProcedure;
+            await using var cmd = conn.CreateCommand();
+            cmd.CommandText = "MixStagingValuesIntoPool";
+            cmd.CommandType = CommandType.StoredProcedure;
 
-                    cmd.AddParameter("poolName", poolName);
+            cmd.AddParameter("poolName", poolName);
 
-                    cmd.ExecuteNonQuery();
-                }
-            }
+            await cmd.ExecuteNonQueryAsync();
         }
-
-        public long GetPoolCount(string poolName, bool useStagingPool)
+        
+        public async Task<Dictionary<string, long>> GetAllPoolCounts()
         {
-            using (var conn = _connectionFactory.Get(_connectionString))
+            var results = new Dictionary<string, long>();
+
+            await using var conn = _connectionFactory.Get(_connectionString);
+            conn.Open();
+
+            await using var cmd = conn.CreateCommand();
+            cmd.CommandText = "GetPoolCounts";
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            await using var reader = await cmd.ExecuteReaderAsync();
+            while (reader.Read())
             {
-                conn.Open();
-
-                using (var cmd = conn.CreateCommand())
-                {
-                    cmd.CommandText = "GetPoolCount";
-                    cmd.CommandType = CommandType.StoredProcedure;
-
-                    cmd.AddParameter("poolName", poolName);
-                    cmd.AddParameter("isStagingValue", useStagingPool);
-
-                    using (var reader = cmd.ExecuteReader())
-                    {
-                        // There should only be one record
-                        while (reader.Read())
-                        {
-                            return reader.GetInt64(reader.GetOrdinal("poolCount"));
-                        }
-                    }
-
-                    return 0;
-                }
+                results.Add(
+                    reader.GetString(reader.GetOrdinal("poolName")), 
+                    reader.GetInt64(reader.GetOrdinal("poolCount")));
             }
-        }
 
-        public PoolObject<TResult> GetResultFromPool(string poolName)
-        {
-            using (var conn = _connectionFactory.Get(_connectionString))
-            {
-                conn.Open();
-
-                using (var cmd = conn.CreateCommand())
-                {
-                    cmd.CommandText = "GetPoolValue";
-                    cmd.CommandType = CommandType.StoredProcedure;
-
-                    cmd.AddParameter("poolName", poolName);
-
-                    using (var reader = cmd.ExecuteReader())
-                    {
-                        // There should be a max of one record.
-                        while (reader.Read())
-                        {
-                            return new PoolObject<TResult>()
-                            {
-                                DateCreated = reader.GetDateTime(reader.GetOrdinal("dateCreated")),
-                                DateLastUsed = reader.GetNullableDateTime("dateLastUsed"),
-                                TimesUsed = reader.GetInt64(reader.GetOrdinal("timesUsed")),
-                                Value = JsonConvert.DeserializeObject<TResult>(
-                                    reader.GetString(reader.GetOrdinal("value")),
-                                    new JsonSerializerSettings()
-                                    {
-                                        Converters = _jsonConverters
-                                    }
-                                )
-                            };
-                        }
-                    }
-
-                    return null;
-                }
-            }
-        }
-
-        public void MixStagingPoolIntoPool(string poolName)
-        {
-            using (var conn = _connectionFactory.Get(_connectionString))
-            {
-                conn.Open();
-
-                using (var cmd = conn.CreateCommand())
-                {
-                    cmd.CommandText = "MixStagingValuesIntoPool";
-                    cmd.CommandType = CommandType.StoredProcedure;
-
-                    cmd.AddParameter("poolName", poolName);
-
-                    cmd.ExecuteNonQuery();
-                }
-            }
+            return results;
         }
     }
 }

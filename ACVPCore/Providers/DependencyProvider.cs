@@ -282,5 +282,55 @@ namespace ACVPCore.Providers
 				return true;    //Default to true so we don't try do delete when we shouldn't
 			}
 		}
+
+		public bool DependencyExists(long dependencyID)
+		{
+			var db = new MightyOrm(_acvpConnectionString);
+
+			try
+			{
+				return (bool)db.ScalarFromProcedure("val.DependencyExists", inParams: new
+				{
+					DependencyId = dependencyID
+				});
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex.Message);
+				return false;    //Default to false so we don't try do use it when we don't know if it exists
+			}
+		}
+
+		public List<Dependency> Get(long pageSize, long pageNumber)
+		{
+			var db = new MightyOrm(_acvpConnectionString);
+
+			List<Dependency> result = new List<Dependency>();
+			try
+			{
+				var data = db.QueryFromProcedure("val.DependenciesGet", inParams: new
+				{
+					PageSize = pageSize,
+					PageNumber = pageNumber
+				});
+
+				foreach (var attribute in data)
+				{
+					result.Add(new Dependency
+					{
+						ID = attribute.id,
+						Name = attribute.name,
+						Type = attribute.dependency_type,
+						Description = attribute.description
+					});
+				}
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex.Message);
+			}
+
+			return result;
+		}
 	}
 }

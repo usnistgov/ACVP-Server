@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Extensions.Options;
 using NIST.CVP.Common.Config;
 using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
+using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Pools.Enums;
 using NIST.CVP.Pools.Interfaces;
 using NIST.CVP.Pools.Models;
@@ -17,13 +20,15 @@ namespace NIST.CVP.Pools.Services
         private readonly IPoolRepositoryFactory _poolRepositoryFactory;
         private readonly IPoolLogRepository _poolLogRepository;
         private readonly IPoolObjectFactory _poolObjectFactory;
+        private readonly Dictionary<string, long> _initialPoolCounts;
 
         public PoolFactory(
             IOptions<PoolConfig> poolConfig,
             IOracle oracle,
             IPoolRepositoryFactory poolRepositoryFactory,
             IPoolLogRepository poolLogRepository,
-            IPoolObjectFactory poolObjectFactory
+            IPoolObjectFactory poolObjectFactory,
+            IPoolRepository<IResult> poolRepository
         )
         {
             _poolConfig = poolConfig;
@@ -31,6 +36,10 @@ namespace NIST.CVP.Pools.Services
             _poolRepositoryFactory = poolRepositoryFactory;
             _poolLogRepository = poolLogRepository;
             _poolObjectFactory = poolObjectFactory;
+
+            var initialPoolCountsTask = poolRepository.GetAllPoolCounts();
+            initialPoolCountsTask.Wait();
+            _initialPoolCounts = initialPoolCountsTask.Result;
         }
 
         public IPool GetPool(PoolProperties poolProperties)
@@ -94,7 +103,9 @@ namespace NIST.CVP.Pools.Services
                 PoolConfig = _poolConfig,
                 PoolProperties = poolProperties,
                 WaterType = param,
-                PoolName = poolProperties.PoolName
+                PoolName = poolProperties.PoolName,
+                PoolCount = _initialPoolCounts
+                    .FirstOrDefault(f => f.Key.Equals(poolProperties.PoolName, StringComparison.OrdinalIgnoreCase)).Value
             };
         }
     }

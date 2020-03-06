@@ -16,6 +16,16 @@ namespace ACVPCore.Services
 			_dependencyProvider = dependencyProvider;
 		}
 
+		public InsertResult InsertAttribute(long dependencyID, string name, string value)
+		{
+			return _dependencyProvider.InsertAttribute(dependencyID, name, value);
+		}
+
+		public Result DeleteAttribute(long attributeID)
+		{
+			return _dependencyProvider.DeleteAttribute(attributeID);
+		}
+
 		public DeleteResult Delete(long dependencyID)
 		{
 			Result result;
@@ -115,9 +125,24 @@ namespace ACVPCore.Services
 			return new DependencyResult(parameters.ID);
 		}
 
+		public Dependency Get(long dependencyId)
+		{
+			return _dependencyProvider.Get(dependencyId);
+		}
+
+		public List<Dependency> Get(long pageSize, long pageNumber)
+		{
+			return _dependencyProvider.Get(pageSize, pageNumber);
+		}
+
 		public bool DependencyIsUsed(long dependencyID)
 		{
 			return _dependencyProvider.DependencyIsUsed(dependencyID);
+		}
+
+		public bool DependencyExists(long dependencyID)
+		{
+			return _dependencyProvider.DependencyExists(dependencyID);
 		}
 	}
 }

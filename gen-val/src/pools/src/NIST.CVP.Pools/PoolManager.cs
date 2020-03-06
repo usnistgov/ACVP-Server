@@ -12,15 +12,15 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 
 namespace NIST.CVP.Pools
 {
     public class PoolManager
     {
-        private static readonly ILogger ThisLogger = LogManager.GetCurrentClassLogger();
+        private ILogger<PoolManager> _logger;
         
         public readonly List<IPool> Pools = new List<IPool>();
-        private readonly IOptions<PoolConfig> _poolConfig;
         private readonly string _poolConfigFile;
         private readonly IPoolLogRepository _poolLogRepository;
         private readonly IPoolFactory _poolFactory;
@@ -28,16 +28,17 @@ namespace NIST.CVP.Pools
         private PoolProperties[] _properties;
 
         private readonly IList<JsonConverter> _jsonConverters;
-
+        
         public PoolManager(
+            ILogger<PoolManager> logger,
             IOptions<PoolConfig> poolConfig,
             IPoolLogRepository poolLogRepository,
             IPoolFactory poolFactory,
             IJsonConverterProvider jsonConverterProvider
         )
         {
-            _poolConfig = poolConfig;
-            _poolConfigFile = _poolConfig.Value.PoolConfigFile;
+            _logger = logger;
+            _poolConfigFile = poolConfig.Value.PoolConfigFile;
             _poolLogRepository = poolLogRepository;
             _poolFactory = poolFactory;
             _jsonConverters = jsonConverterProvider.GetJsonConverters();
@@ -66,26 +67,26 @@ namespace NIST.CVP.Pools
             return new PoolInformation { PoolExists = false };
         }
 
-        public bool AddResultToPool(ParameterHolder paramHolder)
+        public async Task<bool> AddResultToPool(ParameterHolder paramHolder)
         {
             if (Pools.TryFirst(pool => pool.Param.Equals(paramHolder.Parameters), out var result))
             {
-                return result.AddWater(paramHolder.Result);
+                return await result.AddWater(paramHolder.Result);
             }
 
             return false;
         }
 
-        public PoolResult<IResult> GetResultFromPool(ParameterHolder paramHolder)
+        public async Task<PoolResult<IResult>> GetResultFromPool(ParameterHolder paramHolder)
         {
             var startAction = DateTime.Now;
 
             if (Pools.TryFirst(pool => pool.Param.Equals(paramHolder.Parameters), out var result))
             {
-                return result.GetNextUntyped();
+                return await result.GetNextUntyped();
             }
 
-            _poolLogRepository.WriteLog(
+            await _poolLogRepository.WriteLog(
                 LogTypes.NoPool,
                 string.Empty,
                 startAction,
@@ -146,13 +147,17 @@ namespace NIST.CVP.Pools
             return true;
         }
 
-        public bool CleanPools()
+        public async Task<bool> CleanPools()
         {
+            var tasks = new List<Task>();
+            
             foreach (var pool in Pools)
             {
-                pool.CleanPool();
+                tasks.Add(pool.CleanPool());
             }
 
+            await Task.WhenAll(tasks);
+            
             return true;
         }
 
@@ -182,10 +187,10 @@ namespace NIST.CVP.Pools
                     {
                         await Task.WhenAll(tasks);
 
-                        _poolLogRepository.WriteLog(LogTypes.QueueOrleansWorkToPool, minPool.PoolName, startAction,
+                        await _poolLogRepository.WriteLog(LogTypes.QueueOrleansWorkToPool, minPool.PoolName, startAction,
                             DateTime.Now, null);
 
-                        ThisLogger.Log(LogLevel.Info, $"Pool was filled: \n\n {json}");
+                        _logger.LogInformation($"Pool was filled: \n\n {json}");
 
                         return new SpawnJobResponse()
                         {
@@ -201,17 +206,17 @@ namespace NIST.CVP.Pools
             }
             catch (Exception ex)
             {
-                LogManager.GetCurrentClassLogger().Error(ex);
+                _logger.LogError(ex, ex.Message);
                 return new SpawnJobResponse();
             }
         }
 
         private void LoadPools()
         {
-            ThisLogger.Log(LogLevel.Info, "Loading Pools.");
+            _logger.LogInformation("Loading Pools.");
 
             var configFileFound = File.Exists(_poolConfigFile);
-            ThisLogger.Log(LogLevel.Info, $"Loading Config file: {_poolConfigFile}. File found: {configFileFound}");
+            _logger.LogInformation($"Loading Config file: {_poolConfigFile}. File found: {configFileFound}");
 
             _properties = JsonConvert.DeserializeObject<PoolProperties[]>
             (
@@ -222,11 +227,11 @@ namespace NIST.CVP.Pools
                 }
             );
 
-            ThisLogger.Log(LogLevel.Info, "Config loaded.");
+            _logger.LogInformation("Config loaded.");
 
             foreach (var poolProperty in _properties)
             {
-                ThisLogger.Log(LogLevel.Info, $"Attempting to load {poolProperty.PoolName}");
+                _logger.LogInformation($"Attempting to load {poolProperty.PoolName}");
 
                 try
                 {
@@ -234,14 +239,14 @@ namespace NIST.CVP.Pools
                 }
                 catch (Exception ex)
                 {
-                    ThisLogger.Log(LogLevel.Error, ex);
+                    _logger.LogError(ex, ex.Message);
                     throw;
                 }
 
-                ThisLogger.Log(LogLevel.Info, $"{poolProperty.PoolName} loaded.");
+                _logger.LogInformation($"{poolProperty.PoolName} loaded.");
             }
 
-            ThisLogger.Log(LogLevel.Info, "Pools loaded.");
+            _logger.LogInformation("Pools loaded.");
         }
 
         private IPool GetMinimallyFilledPool()
@@ -268,7 +273,7 @@ namespace NIST.CVP.Pools
 
                 if (jobsToQueue > 0)
                 {
-                    ThisLogger.Log(LogLevel.Info, $"Starting job to fill pool with {numberOfJobsToQueue} precomputed values, using parameters: \n\n {json}");
+                    _logger.LogInformation($"Starting job to fill pool with {numberOfJobsToQueue} precomputed values, using parameters: \n\n {json}");
                 }
 
                 // Add jobs to a list of tasks

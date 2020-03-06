@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Net.Http;
 using Autofac;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,41 +21,27 @@ namespace NIST.CVP.Common.Helpers
     /// </remarks>
     public static class EntryPointConfigHelper
     {
-        private const string SETTINGS_FILE = "appsettings";
-        private const string SETTINGS_EXTENSION = "json";
-
         /// <summary>
-        /// Bootstraps application from configuration file directory.
+        /// Get the root directory starting the application.
+        /// </summary>
+        /// <returns></returns>
+        public static string GetRootDirectory()
+        {
+            var executingLocation = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            var rootDirectory = Path.GetDirectoryName(executingLocation) + Path.DirectorySeparatorChar;
+            Console.WriteLine($"{nameof(rootDirectory)}: {rootDirectory}");
+            return rootDirectory;
+        }
+        
+        /// <summary>
+        /// Creates <see cref="IServiceProvider"/> using a <see cref="ConfigurationBuilder"/>.
+        /// Loads sharedappsettings.json (and for all environments). as well as appsettings (and for all environments).
         ///
-        /// Returns a <see cref="IServiceProvider"/> that has registered many of the reused
-        /// components within the ACVP application.
+        /// Relies on ASPNETCORE_ENVIRONMENT environment variable.
         /// </summary>
-        /// <param name="configurationFileDirectory">The directory configuration files are located.</param>
-        /// <returns></returns>
-        public static IServiceProvider Bootstrap(string configurationFileDirectory)
-        {
-            IConfigurationRoot configuration = GetConfigurationRoot(configurationFileDirectory);
-
-            return GetBaseServiceCollection(configuration).BuildServiceProvider();
-        }
-
-        /// <summary>
-        /// Returns a service provider given the provided service collection
-        /// </summary>
-        /// <param name="serviceCollection">Collection of services to be registered with IOC container.</param>
-        /// <returns></returns>
-        public static IServiceProvider Bootstrap(IServiceCollection serviceCollection)
-        {
-            return serviceCollection.BuildServiceProvider();
-        }
-
-        /// <summary>
-        /// Gets a configuration root from the configuration file directory.
-        /// This <see cref="IConfigurationRoot"/> can be used for building a <see cref="IServiceCollection"/>.
-        /// </summary>
-        /// <param name="configurationFileDirectory">The location of the configuration json files</param>
-        /// <returns></returns>
-        public static IConfigurationRoot GetConfigurationRoot(string configurationFileDirectory)
+        /// <returns><see cref="IServiceProvider"/> with several already registered types.</returns>
+        /// <exception cref="Exception">Thrown when ASPNETCORE_ENVIRONMENT not set.</exception>
+        public static IServiceProvider GetServiceProviderFromConfigurationBuilder()
         {
             string env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
             if (string.IsNullOrWhiteSpace(env))
@@ -68,33 +55,19 @@ namespace NIST.CVP.Common.Helpers
             Console.WriteLine($"Bootstrapping application using environment {env}");
 
             var builder = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile($"{configurationFileDirectory}{SETTINGS_FILE}.{SETTINGS_EXTENSION}", optional: false, reloadOnChange: false)
-                .AddJsonFile($"{configurationFileDirectory}{SETTINGS_FILE}.{env}.{SETTINGS_EXTENSION}", optional: false, reloadOnChange: false)
-                .AddEnvironmentVariables();
+                .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+                .AddJsonFile($"sharedappsettings.json", optional: false, reloadOnChange: false)
+                .AddJsonFile($"sharedappsettings.{env}.json", optional: false, reloadOnChange: false)
+                .AddJsonFile($"appsettings.json", optional: true, reloadOnChange: false)
+                .AddJsonFile($"appsettings.{env}.json", optional: true, reloadOnChange: false);
 
-            var configuration = builder.Build();
-            return configuration;
-        }
+            var configurationRoot = builder.Build();
 
-        /// <summary>
-        /// Gets the initial <see cref="IServiceCollection"/> with environment configurations
-        /// based on the provided <see cref="IConfigurationRoot"/>.
-        ///
-        /// The returned <see cref="IServiceCollection"/> is additive, so the consumer can add
-        /// additional registrations prior to the <see cref="IServiceCollection"/> be built into a
-        /// <see cref="IServiceProvider"/>.
-        /// </summary>
-        /// <param name="configurationRoot">The configuration root <see cref="GetConfigurationRoot"/></param>
-        /// <returns>An additive <see cref="IServiceCollection"/>.</returns>
-        public static IServiceCollection GetBaseServiceCollection(IConfigurationRoot configurationRoot)
-        {
             var serviceCollection = new ServiceCollection();
-            serviceCollection.AddOptions();
+            serviceCollection.AddSingleton((IConfiguration)configurationRoot);
 
-            serviceCollection.Configure<IConfiguration>(configurationRoot);
-            serviceCollection.AddSingleton<IConfiguration>(configurationRoot);
-
+            serviceCollection.AddHttpClient();
+            
             serviceCollection.AddSingleton<IDbConnectionStringFactory, DbConnectionStringFactory>();
             serviceCollection.AddSingleton<IDbConnectionFactory, SqlDbConnectionFactory>();
 
@@ -102,9 +75,9 @@ namespace NIST.CVP.Common.Helpers
             serviceCollection.Configure<PoolConfig>(configurationRoot.GetSection(nameof(PoolConfig)));
             serviceCollection.Configure<OrleansConfig>(configurationRoot.GetSection(nameof(OrleansConfig)));
 
-            return serviceCollection;
+            return serviceCollection.BuildServiceProvider();
         }
-
+        
         /// <summary>
         /// Additional IOC injections provided via configuration files.
         /// </summary>
@@ -118,12 +91,16 @@ namespace NIST.CVP.Common.Helpers
         /// <param name="builder">The builder that will create the <see cref="IContainer"/></param>
         public static void RegisterConfigurationInjections(IServiceProvider serviceProvider, ContainerBuilder builder)
         {
-            builder.Register(context => serviceProvider.GetService<IConfiguration>());
-            builder.Register(context => serviceProvider.GetService<IDbConnectionStringFactory>());
+            builder.Register(context => serviceProvider.GetRequiredService<IConfiguration>());
 
-            builder.Register(context => serviceProvider.GetService<IOptions<EnvironmentConfig>>());
-            builder.Register(context => serviceProvider.GetService<IOptions<PoolConfig>>());
-            builder.Register(context => serviceProvider.GetService<IOptions<OrleansConfig>>());
+            builder.Register(context => serviceProvider.GetRequiredService<IHttpClientFactory>());
+            
+            builder.Register(context => serviceProvider.GetRequiredService<IDbConnectionStringFactory>());
+            builder.Register(context => serviceProvider.GetRequiredService<IDbConnectionFactory>());
+
+            builder.Register(context => serviceProvider.GetRequiredService<IOptions<EnvironmentConfig>>());
+            builder.Register(context => serviceProvider.GetRequiredService<IOptions<PoolConfig>>());
+            builder.Register(context => serviceProvider.GetRequiredService<IOptions<OrleansConfig>>());
         }
     }
 }

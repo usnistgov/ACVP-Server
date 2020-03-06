@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using ACVPCore.Models;
 using ACVPCore.Results;
 using CVP.DatabaseInterface;
 using Microsoft.Extensions.Logging;
@@ -23,7 +25,10 @@ namespace ACVPCore.Providers
 
 			try
 			{
-				db.Execute("acvp.VectorSetCancel @0", id);
+				db.ExecuteProcedure("acvp.VectorSetCancel", inParams: new
+				{
+					id = id
+				});
 			}
 			catch (Exception ex)
 			{
@@ -40,7 +45,13 @@ namespace ACVPCore.Providers
 
 			try
 			{
-				db.Execute("acvp.VectorSetInsert @0, @1, @2, @3", vectorSetID, testSessionID, generatorVersion, algorithmID);
+				db.ExecuteProcedure("acvp.VectorSetInsert", inParams: new
+				{
+					VectorSetID = vectorSetID,
+					TestSessionID = testSessionID,
+					GeneratorVersion = generatorVersion,
+					AlgorithmID = algorithmID
+				});
 			}
 			catch (Exception ex)
 			{
@@ -83,6 +94,145 @@ namespace ACVPCore.Providers
 			}
 
 			return new Result();
+		}
+
+		public List<(long ID, long AlgorithmID, VectorSetStatus Status, string ErrorMessage)> GetVectorSetIDsForTestSession(long testSessionID)
+		{
+			var db = new MightyOrm(_acvpConnectionString);
+
+			List<(long ID, long AlgorithmID, VectorSetStatus Status, string ErrorMessage)> vectorSetIDs = new List<(long ID, long AlgorithmID, VectorSetStatus Status, string ErrorMessage)>();
+
+			try
+			{
+				var data = db.QueryFromProcedure("acvp.VectorSetsForTestSessionGet", inParams: new
+				{
+					TestSessionId = testSessionID
+				});
+
+				foreach (var vectorSet in data)
+				{
+					vectorSetIDs.Add((vectorSet.VectorSetId, vectorSet.AlgorithmId, (VectorSetStatus)vectorSet.VectorSetStatusId, vectorSet.ErrorMessage));
+				}
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex.Message);
+			}
+
+			return vectorSetIDs;
+		}
+
+		public VectorSet GetVectorSet(long vectorSetId)
+		{
+			var db = new MightyOrm(_acvpConnectionString);
+
+			try
+			{
+				var queryResult = db.SingleFromProcedure(
+					"acvp.VectorSetGet",
+					new
+					{
+						vectorSetId
+					});
+
+				if (queryResult == null)
+					return null;
+
+				VectorSet result = new VectorSet()
+				{
+					Algorithm = queryResult.algorithmName,
+					AlgorithmId = queryResult.algorithmId,
+					GeneratorVersion = queryResult.generatorVersion,
+					Id = queryResult.vectorSetId,
+					Status = (VectorSetStatus)queryResult.status
+				};
+
+				return result;
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex, ex.Message);
+				return null;
+			}
+		}
+
+		public List<VectorSetJsonFileTypes> GetVectorSetJsonFilesAvailable(long vectorSetId)
+		{
+			var db = new MightyOrm(_acvpConnectionString);
+
+			try
+			{
+				var queryResult = db.QueryFromProcedure(
+					"acvp.VectorSetGetJsonFIleTypes",
+					new
+					{
+						vectorSetId
+					});
+
+				if (queryResult == null)
+					return new List<VectorSetJsonFileTypes>();
+
+				List<VectorSetJsonFileTypes> result = new List<VectorSetJsonFileTypes>();
+				foreach (var item in queryResult)
+				{
+					result.Add(Enum.Parse<VectorSetJsonFileTypes>(item.fileType, true));
+				}
+
+				return result;
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex, ex.Message);
+				return null;
+			}
+		}
+
+		public string GetVectorFileJson(long vectorSetId, VectorSetJsonFileTypes fileType)
+		{
+			var db = new MightyOrm(_acvpConnectionString);
+
+			try
+			{
+				var queryResult = db.SingleFromProcedure(
+					"acvp.VectorSetJsonGet",
+					new
+					{
+						VsId = vectorSetId,
+						JsonFileType = fileType.ToString()
+					});
+
+				if (queryResult == null)
+					return null;
+
+				return queryResult.Content;
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex, ex.Message);
+				return null;
+			}
+		}
+
+		public Result InsertVectorSetJson(long vectorSetID, VectorSetJsonFileTypes fileType, string json)
+		{
+			var db = new MightyOrm(_acvpConnectionString);
+
+			try
+			{
+				db.ExecuteProcedure("acvp.VectorSetJsonPut", inParams: new
+				{
+					VsId = vectorSetID,
+					JsonFileType = fileType.ToString(),
+					Content = json
+				});
+
+				return new Result();
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex.Message);
+				return new Result(ex.Message);
+			}
 		}
 	}
 }

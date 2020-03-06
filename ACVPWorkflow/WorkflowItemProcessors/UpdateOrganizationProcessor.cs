@@ -1,40 +1,45 @@
-﻿using System;
-using System.Text.Json;
-using ACVPCore.Models.Parameters;
+﻿using ACVPCore.Models.Parameters;
 using ACVPCore.Results;
 using ACVPCore.Services;
-using ACVPWorkflow.Services;
+using ACVPWorkflow.Exceptions;
+using ACVPWorkflow.Models;
 
 namespace ACVPWorkflow.WorkflowItemProcessors
 {
-	public class UpdateOrganizationProcessor : IWorkflowItemProcessor
+	public class UpdateOrganizationProcessor : BaseWorkflowItemProcessor, IWorkflowItemProcessor
 	{
 		private readonly IOrganizationService _organizationService;
-		private readonly IWorkflowService _workflowService;
+		private readonly IWorkflowItemPayloadValidatorFactory _workflowItemPayloadValidatorFactory;
 
-		public UpdateOrganizationProcessor(IOrganizationService organizationService, IWorkflowService workflowService)
+		public UpdateOrganizationProcessor(IOrganizationService organizationService, IWorkflowItemPayloadValidatorFactory workflowItemPayloadValidatorFactory)
 		{
 			_organizationService = organizationService;
-			_workflowService = workflowService;
+			_workflowItemPayloadValidatorFactory = workflowItemPayloadValidatorFactory;
 		}
 
-		public void Approve(WorkflowItem workflowItem)
+		public bool Validate(WorkflowItem workflowItem)
 		{
-			OrganizationUpdateParameters parameters = JsonSerializer.Deserialize<OrganizationUpdateParameters>(workflowItem.JSON);
+			return IsPendingApproval(workflowItem) && _workflowItemPayloadValidatorFactory.GetWorkflowItemPayloadValidator(APIAction.UpdateVendor).Validate((OrganizationUpdatePayload)workflowItem.Payload);
+		}
+
+		public long Approve(WorkflowItem workflowItem)
+		{
+			//Validate this workflow item
+			Validate(workflowItem);
+
+			OrganizationUpdateParameters parameters = ((OrganizationUpdatePayload)workflowItem.Payload).ToOrganizationUpdateParameters();
 
 			//Update it
 			OrganizationResult organizationUpdateResult = _organizationService.Update(parameters);
 
-			//Update the workflow item
-			if (organizationUpdateResult.IsSuccess)
+			if (!organizationUpdateResult.IsSuccess)
 			{
-				_workflowService.MarkApproved(workflowItem.WorkflowItemID, organizationUpdateResult.ID);
+				throw new ResourceProcessorException($"Failed approval on {nameof(workflowItem.APIAction)} {workflowItem.APIAction}");
 			}
+
+			return organizationUpdateResult.ID;
 		}
 
-		public void Reject(WorkflowItem workflowItem)
-		{
-			throw new NotImplementedException();
-		}
+		public void Reject(WorkflowItem workflowItem) { }
 	}
 }

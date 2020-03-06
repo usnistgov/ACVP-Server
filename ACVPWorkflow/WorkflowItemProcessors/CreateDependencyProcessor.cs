@@ -1,40 +1,44 @@
-﻿using System;
-using System.Text.Json;
-using ACVPCore.Models.Parameters;
+﻿using ACVPCore.Models.Parameters;
 using ACVPCore.Results;
 using ACVPCore.Services;
-using ACVPWorkflow.Services;
+using ACVPWorkflow.Exceptions;
+using ACVPWorkflow.Models;
 
 namespace ACVPWorkflow.WorkflowItemProcessors
 {
-	public class CreateDependencyProcessor : IWorkflowItemProcessor
+	public class CreateDependencyProcessor : BaseWorkflowItemProcessor, IWorkflowItemProcessor
 	{
-		private readonly IDependencyService _dependencyService;
-		private readonly IWorkflowService _workflowService;
+		private readonly IDependencyService _dependencyService; private IWorkflowItemPayloadValidatorFactory _workflowItemPayloadValidatorFactory;
 
-		public CreateDependencyProcessor(IDependencyService dependencyService, IWorkflowService workflowService)
+		public CreateDependencyProcessor(IDependencyService dependencyService, IWorkflowItemPayloadValidatorFactory workflowItemPayloadValidatorFactory)
 		{
 			_dependencyService = dependencyService;
-			_workflowService = workflowService;
+			_workflowItemPayloadValidatorFactory = workflowItemPayloadValidatorFactory;
 		}
 
-		public void Approve(WorkflowItem workflowItem)
+		public bool Validate(WorkflowItem workflowItem)
 		{
-			DependencyCreateParameters parameters = JsonSerializer.Deserialize<DependencyCreateParameters>(workflowItem.JSON);
+			return IsPendingApproval(workflowItem) && _workflowItemPayloadValidatorFactory.GetWorkflowItemPayloadValidator(APIAction.CreateDependency).Validate((DependencyCreatePayload)workflowItem.Payload);
+		}
+
+		public long Approve(WorkflowItem workflowItem)
+		{
+			//Validate this workflow item
+			Validate(workflowItem);
+
+			DependencyCreateParameters parameters = ((DependencyCreatePayload)workflowItem.Payload).ToDependencyCreateParameters();
 
 			//Create it
 			DependencyResult dependencyCreateResult = _dependencyService.Create(parameters);
 
-			//Update the workflow item
-			if (dependencyCreateResult.IsSuccess)
+			if (!dependencyCreateResult.IsSuccess)
 			{
-				_workflowService.MarkApproved(workflowItem.WorkflowItemID, dependencyCreateResult.ID);
+				throw new ResourceProcessorException($"Failed approval on {nameof(workflowItem.APIAction)} {workflowItem.APIAction}");
 			}
+			
+			return dependencyCreateResult.ID;
 		}
 
-		public void Reject(WorkflowItem workflowItem)
-		{
-			throw new NotImplementedException();
-		}
+		public void Reject(WorkflowItem workflowItem) { }
 	}
 }

@@ -14,7 +14,6 @@ var chalk = require('chalk'),
         './lib',
         './bin',
         './test',
-        './examples/*.js',
         './npm/*.js',
         './index.js'
     ];

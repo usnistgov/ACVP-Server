@@ -100,6 +100,8 @@ namespace NIST.CVP.Generation.Core.Async
         private async Task QueueWork(TTestVectorSet testVector, List<Task<TestCaseGenerateResponse<TTestGroup, TTestCase>>> groupTasks, ITestCaseGeneratorAsync<TTestGroup, TTestCase> generator,
             TTestGroup @group, int caseNo)
         {
+            var debugLogged = false;
+            
             while (true)
             {
                 if (TryLock())
@@ -116,8 +118,13 @@ namespace NIST.CVP.Generation.Core.Async
                         return;
                     }
                 }
-                
-                _logger.Debug($"No additional work can be queued, trying again.");
+
+                // Only show this message once
+                if (!debugLogged)
+                {
+                    _logger.Debug($"No additional work can be queued, trying again.");
+                    debugLogged = true;
+                }
             }
         }
         

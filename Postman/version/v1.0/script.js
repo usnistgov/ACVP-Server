@@ -3,7 +3,7 @@
 // 2 must be registration file
 // 3 must be crt file
 // 4 must be key file
-// 5 must be environment "dev", "test", "demo"
+// 5 must be environment "dev", "test", "demo", "tc-dev"
 var registration_path = process.argv[2],
     crt_path = process.argv[3],
     key_path = process.argv[4],

@@ -13,6 +13,8 @@ namespace ACVPWorkflow
 			services.AddSingleton<IWorkflowContactProvider, WorkflowContactProvider>();
 			services.AddSingleton<IRequestProvider, RequestProvider>();
 			services.AddSingleton<IWorkflowItemProcessorFactory, WorkflowItemProcessorFactory>();
+			services.AddSingleton<IWorkflowItemPayloadFactory, WorkflowItemPayloadFactory>();
+			services.AddSingleton<IWorkflowItemPayloadValidatorFactory, WorkflowItemPayloadValidatorFactory>();
 			return services;
 		}
 	}

@@ -1,18 +1,20 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
-    <LangVersion>7.1</LangVersion>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
 
   <ItemGroup>
-    <FrameworkReference Include="Microsoft.AspNetCore.App" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="$(NuGetVersionMicrosoftNETTestSdk)" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="$(NuGetVersionMicrosoftAspNetCore)" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="$(NuGetVersionMicrosoftAspNetCore)" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="$(NuGetVersionMicrosoftAspNetCore)" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="$(NuGetVersionMicrosoftAspNetCore)" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="$(NuGetVersionMicrosoftAspNetCore)" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="$(NuGetVersionMicrosoftAspNetCore)" />
     <PackageReference Include="Autofac" Version="$(NuGetVersionAutofac)" />
     <PackageReference Include="NLog" Version="$(NuGetVersionNLog)" />
+    <PackageReference Include="Serilog" Version="$(NuGetVersionSerilog)" />
     <PackageReference Include="System.Data.SqlClient" Version="$(NuGetVersionSystemDataSqlClient)" />
   </ItemGroup>
   

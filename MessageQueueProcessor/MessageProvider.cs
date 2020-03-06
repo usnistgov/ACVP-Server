@@ -16,30 +16,30 @@ namespace MessageQueueProcessor
 
 		public Message GetNextMessage()
 		{
-			var db = new MightyOrm(_acvpConnectionString);
+			var db = new MightyOrm<Message>(_acvpConnectionString);
 
-			var data = db.Query("common.MessageQueueGetNextForDotNet").FirstOrDefault();
-
-			return data == null ? null : new Message
-			{
-				ID = data.ID,
-				MessageType = (MessageType)data.MessageType,
-				Payload = data.Payload
-			};
+			return db.SingleFromProcedure("common.MessageQueueGetNext");
 		}
 
-		public void MarkForJavaProcessor(Guid id)
+		public void UpdateStatus(Guid id, MessageStatus messageStatus)
 		{
 			var db = new MightyOrm(_acvpConnectionString);
 
-			db.Execute("common.MessageQueueMarkForJava @0", id);
+			db.ExecuteProcedure("common.MessageQueueUpdateStatus", inParams: new
+			{
+				MessageId = id,
+				StatusId = messageStatus
+			});
 		}
 
 		public void DeleteMessage(Guid id)
 		{
 			var db = new MightyOrm(_acvpConnectionString);
 
-			db.Execute("common.MessageQueueDelete @0", id);
+			db.ExecuteProcedure("common.MessageQueueDelete", inParams: new
+			{
+				MessageId = id
+			});
 		}
 	}
 }

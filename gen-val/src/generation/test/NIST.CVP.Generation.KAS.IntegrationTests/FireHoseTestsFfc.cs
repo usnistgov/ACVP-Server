@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
@@ -7,10 +8,12 @@ using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Crypto.Common.KAS.Helpers;
 using NIST.CVP.Crypto.Oracle.Builders;
 using NIST.CVP.Crypto.SHAWrapper;
+using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.KAS.v1_0.FFC;
 using NIST.CVP.Generation.KAS.v1_0.FFC.Parsers;
 using NIST.CVP.Tests.Core;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
+using NLog;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.KAS.IntegrationTests
@@ -19,11 +22,13 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
     public class FireHoseTestsFfc
     {
         string _testPath;
+        private readonly ILogger _logger = LogManager.GetCurrentClassLogger();
 
         [SetUp]
         public void Setup()
         {
-            _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\LegacyCavsFiles\kas\ffc\");
+            LoggingHelper.ConfigureLogging($"{this.GetType()}_{DateTime.Now:yyyy-MM-dd}.log", "firehose", LogLevel.Info);
+            _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\LegacyCavsFiles\kas\FFC\");
         }
 
         [Test]

@@ -20,7 +20,7 @@ using System.Threading.Tasks;
 
 namespace NIST.CVP.Crypto.Oracle
 {
-    public partial class Oracle : IOracle
+    public partial class Oracle : IOracle, IDisposable
     {
         private const int TimeoutSeconds = 60;
 
@@ -29,7 +29,7 @@ namespace NIST.CVP.Crypto.Oracle
         private readonly IClusterClient _clusterClient;
         private readonly string _orleansConnectionString;
 
-        protected ILogger ThisLogger = LogManager.GetCurrentClassLogger();
+        protected readonly ILogger ThisLogger = LogManager.GetCurrentClassLogger();
 
         protected virtual int LoadSheddingRetries { get; }
 
@@ -48,7 +48,22 @@ namespace NIST.CVP.Crypto.Oracle
             _clusterClient = InitializeClient().GetAwaiter().GetResult();
         }
 
-        protected async Task<OracleObserverGrain<TGrain, TGrainResultType>>
+        /// <summary>
+        /// Destructor, close the cluster client connection.
+        /// </summary>
+        ~Oracle()
+        {
+            Dispose(false);
+        }
+
+        /// <summary>
+        /// Get an observer grain from the cluster, and subscribe for updates.
+        /// </summary>
+        /// <typeparam name="TGrain">The grain type.</typeparam>
+        /// <typeparam name="TGrainResultType">The result type.</typeparam>
+        /// <returns>Task representing the Observer of type <see cref="TGrain"/> with result type of <see cref="TGrainResultType"/></returns>
+        /// <exception cref="OrleansInitializationException">Thrown when the Orleans client is not initialized.</exception>
+        private async Task<OracleObserverGrain<TGrain, TGrainResultType>>
             GetObserverGrain<TGrain, TGrainResultType>()
             where TGrain : IGrainObservable<TGrainResultType>, IGrainWithGuidKey
         {
@@ -62,11 +77,16 @@ namespace NIST.CVP.Crypto.Oracle
             var observer = new OracleGrainObserver<TGrainResultType>();
             var observerReference =
                 await GrainInvokeRetryWrapper.WrapGrainCall(_clusterClient.CreateObjectReference<IGrainObserver<TGrainResultType>>, observer, LoadSheddingRetries);
-            await GrainInvokeRetryWrapper.WrapGrainCall(grain.Subscribe, observerReference, LoadSheddingRetries);
+            await GrainInvokeRetryWrapper.WrapGrainCall(grain.InitialSubscribe, observerReference, LoadSheddingRetries);
 
             return new OracleObserverGrain<TGrain, TGrainResultType>(grain, observer, observerReference, LoadSheddingRetries);
         }
 
+        /// <summary>
+        /// Initialize the <see cref="IClusterClient"/> for communication to the Orleans cluster.
+        /// </summary>
+        /// <returns><see cref="Task"/> representing the <see cref="IClusterClient"/></returns>
+        /// <exception cref="OrleansInitializationException"></exception>
         private async Task<IClusterClient> InitializeClient()
         {
             var orleansConfig = _orleansConfig.Value;
@@ -120,6 +140,11 @@ namespace NIST.CVP.Crypto.Oracle
             return null;
         }
 
+        /// <summary>
+        /// Configure the <see cref="IClientBuilder"/> to use the appropriate type of clustering,
+        /// based on the environment.
+        /// </summary>
+        /// <param name="builder">The <see cref="IClientBuilder"/> to manipulate.</param>
         private void ConfigureClustering(IClientBuilder builder)
         {
             switch (_environmentConfig.Value.Name)
@@ -145,6 +170,20 @@ namespace NIST.CVP.Crypto.Oracle
                     });
                     break;
             }
+        }
+
+        private void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _clusterClient?.Dispose();
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
     }
 }

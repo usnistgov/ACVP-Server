@@ -1,35 +1,44 @@
 ﻿using System;
-using System.Text.Json;
 using ACVPCore.Models.Parameters;
 using ACVPCore.Results;
 using ACVPCore.Services;
-using ACVPWorkflow.Services;
+using ACVPWorkflow.Exceptions;
+using ACVPWorkflow.Models;
 
 namespace ACVPWorkflow.WorkflowItemProcessors
 {
-	public class UpdatePersonProcessor : IWorkflowItemProcessor
+	public class UpdatePersonProcessor : BaseWorkflowItemProcessor, IWorkflowItemProcessor
 	{
 		private readonly IPersonService _personService;
-		private readonly IWorkflowService _workflowService;
+		private readonly IWorkflowItemPayloadValidatorFactory _workflowItemPayloadValidatorFactory;
 
-		public UpdatePersonProcessor(IPersonService personService, IWorkflowService workflowService)
+		public UpdatePersonProcessor(IPersonService personService, IWorkflowItemPayloadValidatorFactory workflowItemPayloadValidatorFactory)
 		{
 			_personService = personService;
-			_workflowService = workflowService;
+			_workflowItemPayloadValidatorFactory = workflowItemPayloadValidatorFactory;
 		}
 
-		public void Approve(WorkflowItem workflowItem)
+		public bool Validate(WorkflowItem workflowItem)
 		{
-			PersonUpdateParameters parameters = JsonSerializer.Deserialize<PersonUpdateParameters>(workflowItem.JSON);
+			return IsPendingApproval(workflowItem) && _workflowItemPayloadValidatorFactory.GetWorkflowItemPayloadValidator(APIAction.UpdatePerson).Validate((PersonUpdatePayload)workflowItem.Payload);
+		}
+
+		public long Approve(WorkflowItem workflowItem)
+		{
+			//Validate this workflow item
+			Validate(workflowItem);
+
+			PersonUpdateParameters parameters = ((PersonUpdatePayload)workflowItem.Payload).ToPersonUpdateParameters();
 
 			//Update it
 			PersonResult personUpdateResult = _personService.Update(parameters);
 
-			//Update the workflow item
-			if (personUpdateResult.IsSuccess)
+			if (!personUpdateResult.IsSuccess)
 			{
-				_workflowService.MarkApproved(workflowItem.WorkflowItemID, personUpdateResult.ID);
+				throw new ResourceProcessorException($"Failed approval on {nameof(workflowItem.APIAction)} {workflowItem.APIAction}");
 			}
+
+			return personUpdateResult.ID;
 		}
 
 		public void Reject(WorkflowItem workflowItem)

@@ -7,19 +7,20 @@ namespace ACVPCore.Models.Parameters
 		public long TestSessionID { get; set; }
 		public long ImplementationID { get; set; }
 		public long OEID { get; set; }
-		public List<int> Prerequisites { get; set; }
+		public List<AlgorithmPrerequisites> Prerequisites { get; set; }
 
-		public class AlgorithmPrerequisite
+		public class AlgorithmPrerequisites
 		{
-			public string Algorithm { get; set; }
-			public string Mode { get; set; }
+			public string AlgorithmName { get; set; }
+			public string AlgorithmMode { get; set; }
 			public List<ValidationReference> ValidationReferences { get; set; }
 		}
 
 		public class ValidationReference
 		{
 			public string AlgorithmFamily { get; set; }
-			public string ValidationID { get; set; }
+			public string ValidationSource { get; set; }
+			public long ValidationNumber { get; set; } 
 		}
 	}
 }

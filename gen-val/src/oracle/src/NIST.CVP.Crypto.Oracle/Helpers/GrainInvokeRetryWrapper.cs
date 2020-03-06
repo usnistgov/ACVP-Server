@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using NIST.CVP.Orleans.Grains.Interfaces;
 using NIST.CVP.Crypto.Oracle.Exceptions;
 using NLog;
+using Orleans.Runtime.Messaging;
 
 namespace NIST.CVP.Crypto.Oracle.Helpers
 {
@@ -32,7 +33,7 @@ namespace NIST.CVP.Crypto.Oracle.Helpers
             while (timesToRetry > 0)
             {
                 timesToRetry--;
-                
+
                 try
                 {
                     await func(param);
@@ -45,6 +46,21 @@ namespace NIST.CVP.Crypto.Oracle.Helpers
                 catch (GatewayTooBusyException ex)
                 {
                     ThisLogger.Warn(ex, $"{nameof(GatewayTooBusyException)} stack: {ex.StackTrace}");
+                }
+                catch (ConnectionFailedException ex)
+                {
+                    ThisLogger.Warn(ex,
+                        $"{nameof(ConnectionFailedException)} stack: {ex.StackTrace}.");
+                }
+                catch (SiloUnavailableException ex)
+                {
+                    ThisLogger.Warn(ex,
+                        $"{nameof(SiloUnavailableException)} stack: {ex.StackTrace}.");
+                }
+                catch (OrleansMessageRejectionException ex)
+                {
+                    ThisLogger.Warn(ex,
+                        $"{nameof(OrleansMessageRejectionException)} stack: {ex.StackTrace}.");
                 }
                 
                 await Task.Delay(TimeSpan.FromSeconds(Constants.TaskPollingSeconds));
@@ -81,6 +97,21 @@ namespace NIST.CVP.Crypto.Oracle.Helpers
                 {
                     ThisLogger.Warn(ex, $"{nameof(GatewayTooBusyException)} stack: {ex.StackTrace}");
                 }
+                catch (ConnectionFailedException ex)
+                {
+                    ThisLogger.Warn(ex,
+                        $"{nameof(ConnectionFailedException)} stack: {ex.StackTrace}.");
+                }
+                catch (SiloUnavailableException ex)
+                {
+                    ThisLogger.Warn(ex,
+                        $"{nameof(SiloUnavailableException)} stack: {ex.StackTrace}.");
+                }
+                catch (OrleansMessageRejectionException ex)
+                {
+                    ThisLogger.Warn(ex,
+                        $"{nameof(OrleansMessageRejectionException)} stack: {ex.StackTrace}.");
+                }
                 
                 await Task.Delay(TimeSpan.FromSeconds(Constants.TaskPollingSeconds));
             }
@@ -116,6 +147,21 @@ namespace NIST.CVP.Crypto.Oracle.Helpers
                 catch (GatewayTooBusyException ex)
                 {
                     ThisLogger.Warn(ex, $"{nameof(GatewayTooBusyException)} stack: {ex.StackTrace}");
+                }
+                catch (ConnectionFailedException ex)
+                {
+                    ThisLogger.Warn(ex,
+                        $"{nameof(ConnectionFailedException)} stack: {ex.StackTrace}.");
+                }
+                catch (SiloUnavailableException ex)
+                {
+                    ThisLogger.Warn(ex,
+                        $"{nameof(SiloUnavailableException)} stack: {ex.StackTrace}.");
+                }
+                catch (OrleansMessageRejectionException ex)
+                {
+                    ThisLogger.Warn(ex,
+                        $"{nameof(OrleansMessageRejectionException)} stack: {ex.StackTrace}.");
                 }
                 
                 await Task.Delay(TimeSpan.FromSeconds(Constants.TaskPollingSeconds));
@@ -155,6 +201,21 @@ namespace NIST.CVP.Crypto.Oracle.Helpers
                 catch (GatewayTooBusyException ex)
                 {
                     ThisLogger.Warn(ex, $"{nameof(GatewayTooBusyException)} stack: {ex.StackTrace}");
+                }
+                catch (ConnectionFailedException ex)
+                {
+                    ThisLogger.Warn(ex,
+                        $"{nameof(ConnectionFailedException)} stack: {ex.StackTrace}.");
+                }
+                catch (SiloUnavailableException ex)
+                {
+                    ThisLogger.Warn(ex,
+                        $"{nameof(SiloUnavailableException)} stack: {ex.StackTrace}.");
+                }
+                catch (OrleansMessageRejectionException ex)
+                {
+                    ThisLogger.Warn(ex,
+                        $"{nameof(OrleansMessageRejectionException)} stack: {ex.StackTrace}.");
                 }
                 
                 await Task.Delay(TimeSpan.FromSeconds(Constants.TaskPollingSeconds));
@@ -196,6 +257,21 @@ namespace NIST.CVP.Crypto.Oracle.Helpers
                 catch (GatewayTooBusyException ex)
                 {
                     ThisLogger.Warn(ex, $"{nameof(GatewayTooBusyException)} stack: {ex.StackTrace}");
+                }
+                catch (ConnectionFailedException ex)
+                {
+                    ThisLogger.Warn(ex,
+                        $"{nameof(ConnectionFailedException)} stack: {ex.StackTrace}.");
+                }
+                catch (SiloUnavailableException ex)
+                {
+                    ThisLogger.Warn(ex,
+                        $"{nameof(SiloUnavailableException)} stack: {ex.StackTrace}.");
+                }
+                catch (OrleansMessageRejectionException ex)
+                {
+                    ThisLogger.Warn(ex,
+                        $"{nameof(OrleansMessageRejectionException)} stack: {ex.StackTrace}.");
                 }
                 
                 await Task.Delay(TimeSpan.FromSeconds(Constants.TaskPollingSeconds));

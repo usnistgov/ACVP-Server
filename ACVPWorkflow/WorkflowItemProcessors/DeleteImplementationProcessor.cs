@@ -1,54 +1,51 @@
-﻿using System;
-using System.Text.Json;
-using ACVPCore.Models.Parameters;
+﻿using ACVPCore.Models.Parameters;
 using ACVPCore.Results;
 using ACVPCore.Services;
-using ACVPWorkflow.Services;
+using ACVPWorkflow.Exceptions;
+using ACVPWorkflow.Models;
 
 namespace ACVPWorkflow.WorkflowItemProcessors
 {
-	public class DeleteImplementationProcessor : IWorkflowItemProcessor
+	public class DeleteImplementationProcessor : BaseWorkflowItemProcessor, IWorkflowItemProcessor
 	{
 		private readonly IImplementationService _implementationService;
-		private readonly IWorkflowService _workflowService;
+		private readonly IWorkflowItemPayloadValidatorFactory _workflowItemPayloadValidatorFactory;
 
-		public DeleteImplementationProcessor(IImplementationService implementationService, IWorkflowService workflowService)
+		public DeleteImplementationProcessor(IImplementationService implementationService, IWorkflowItemPayloadValidatorFactory workflowItemPayloadValidatorFactory)
 		{
 			_implementationService = implementationService;
-			_workflowService = workflowService;
+			_workflowItemPayloadValidatorFactory = workflowItemPayloadValidatorFactory;
 		}
 
-		public void Approve(WorkflowItem workflowItem)
+		public bool Validate(WorkflowItem workflowItem)
 		{
-			//Deserialize the JSON to get the ID, as that's all that's there
-			DeleteParameters deletePayload = JsonSerializer.Deserialize<DeleteParameters>(workflowItem.JSON);
+			return IsPendingApproval(workflowItem) && _workflowItemPayloadValidatorFactory.GetWorkflowItemPayloadValidator(APIAction.DeleteImplementation).Validate((DeletePayload)workflowItem.Payload);
+		}
+
+		public long Approve(WorkflowItem workflowItem)
+		{
+			//Validate this workflow item
+			Validate(workflowItem);
+
+			//Deserialize the JSON
+			DeleteParameters deleteParameters = ((DeletePayload)workflowItem.Payload).ToDeleteParameters();
 
 			//Delete that implementation - will fail if implementation is in use
-			DeleteResult deleteResult = _implementationService.Delete(deletePayload.ID);
+			DeleteResult deleteResult = _implementationService.Delete(deleteParameters.ID);
 
-			if (deleteResult.IsSuccess)
+			if (deleteResult.IsInUse)
 			{
-				//Update status to approved
-				_workflowService.UpdateStatus(workflowItem.WorkflowItemID, WorkflowStatus.Approved);
+				throw new ResourceInUseException($"The resource could not be deleted as other resources are referencing it. Workflow Info: {workflowItem.APIAction} {workflowItem.WorkflowItemID}");
 			}
-			else
+			
+			if (!deleteResult.IsSuccess)
 			{
-				if (deleteResult.IsInUse)
-				{
-					//Mark rejected
-					_workflowService.UpdateStatus(workflowItem.WorkflowItemID, WorkflowStatus.Rejected);
-				}
-				else
-				{
-					//Mark as error? No way to do so, just in process
-					// TODO - something here
-				}
+				throw new ResourceProcessorException($"The resource could not be deleted. Workflow Info: {workflowItem.APIAction} {workflowItem.WorkflowItemID}");				
 			}
+			
+			return deleteParameters.ID;
 		}
 
-		public void Reject(WorkflowItem workflowItem)
-		{
-			throw new NotImplementedException();
-		}
+		public void Reject(WorkflowItem workflowItem) { }
 	}
 }

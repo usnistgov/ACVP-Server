@@ -47,7 +47,7 @@
         document.body.appendChild(iframe);
     });
 
-    it('must load and dispatch messages', function (done) {
+    it('should load and dispatch messages', function (done) {
         uvm.spawn({
             _sandbox: iframe,
             bootCode: `
@@ -59,7 +59,7 @@
             if (err) { return done(err); }
 
             context.on('loopback', function (data) {
-                expect(data).be('this should return');
+                expect(data).to.equal('this should return');
                 done();
             });
             context.dispatch('loopback', 'this should return');

@@ -17,7 +17,8 @@ namespace ACVPCore.Models.Parameters
 		public bool NameUpdated { get; set; }
 		public bool WebsiteUpdated { get; set; }
 		public bool ParentOrganizationIDUpdated { get; set; }
-		public bool PhoneNumbersUpdated { get; set; }
+		public bool VoiceNumberUpdated { get; set; }
+		public bool FaxNumberUpdated { get; set; }
 		public bool EmailAddressesUpdated { get; set; }
 		public bool AddressesUpdated { get; set; }
 	}

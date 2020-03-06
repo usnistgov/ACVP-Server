@@ -19,7 +19,7 @@ namespace NIST.CVP.Generation.SHA2.IntegrationTests
         [SetUp]
         public void SetUp()
         {
-            _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\LegacyCavsFiles\SHA2");
+            _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\LegacyCavsFiles\sha2");
             _sha = new SHA();
             _shaMCT = new SHA_MCT(_sha);
         }

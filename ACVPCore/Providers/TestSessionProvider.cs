@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using ACVPCore.ExtensionMethods;
 using ACVPCore.Models;
+using ACVPCore.Models.Parameters;
 using ACVPCore.Results;
 using CVP.DatabaseInterface;
 using Microsoft.Extensions.Logging;
@@ -96,7 +99,7 @@ namespace ACVPCore.Providers
 
 			try
 			{
-				db.ExecuteProcedure("acvp.TestSessionStatusUpdate @0", inParams: new
+				db.ExecuteProcedure("acvp.TestSessionStatusUpdate", inParams: new
 				{
 					TestSessionId = testSessionID,
 					TestSessionStatusId = testSessionStatus
@@ -111,31 +114,35 @@ namespace ACVPCore.Providers
 			return new Result();
 		}
 
-		public List<TestSessionLite> Get()
+		public PagedEnumerable<TestSessionLite> Get(TestSessionListParameters param)
 		{
-			List<TestSessionLite> result = new List<TestSessionLite>();
-			var db = new MightyOrm(_acvpConnectionString);
-
+			var result = new List<TestSessionLite>();
+			long totalRecords = 0;
+			var db = new MightyOrm<TestSessionLite>(_acvpConnectionString);
+			
 			try
 			{
-				var data = db.QueryFromProcedure("acvp.TestSessionsGet");
-
-				foreach (var item in data)
-				{
-					result.Add(new TestSessionLite()
+				var dbResult = db.QueryWithExpando("acvp.TestSessionsGet",
+					new
 					{
-						Created = item.created_on,
-						Status = item.TestSessionStatusId ?? TestSessionStatus.Unknown,
-						TestSessionId = item.id
+						param.PageSize, 
+						param.Page,
+						param.TestSessionId,
+						param.VectorSetId
+					}, new
+					{
+						totalRecords = (long)0
 					});
-				}
+
+				result = dbResult.Data;
+				totalRecords = dbResult.ResultsExpando.totalRecords;
 			}
 			catch (Exception ex)
 			{
 				_logger.LogError(ex, ex.Message);
 			}
 			
-			return result;
+			return result.WrapPagedEnumerable(param.PageSize, param.Page, totalRecords);
 		}
 
 		public TestSession Get(long testSessionId)
@@ -154,23 +161,44 @@ namespace ACVPCore.Providers
 					{
 						testSessionId
 					});
+
+				if (testSessionData == null)
+					return null;
+				
 				result.Created = testSessionData.created_on;
 				result.Publishable = testSessionData.publishable;
 				result.Published = testSessionData.published;
 				result.PassedOn = testSessionData.passed_date;
 				result.IsSample = testSessionData.sample;
 				
-				result.VectorSets = new List<TestVectorSetLite>();
+				result.VectorSets = new List<VectorSet>();
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex, ex.Message);
+				return null;
+			}
+			
+			return result;
+		}
+
+		public List<VectorSet> GetVectorSetsForTestSession(long testSessionId)
+		{
+			var result = new List<VectorSet>();
+			var db = new MightyOrm(_acvpConnectionString);
+			
+			try
+			{
 				
 				var vectorSetsData = db.QueryFromProcedure(
-					"acvp.VectorSetGetByTestSessionId",
+					"acvp.VectorSetsGetByTestSessionId",
 					new 
 					{
 						testSessionId
 					});
 				foreach (var vectorSet in vectorSetsData)
 				{
-					result.VectorSets.Add(new TestVectorSetLite()
+					result.Add(new VectorSet()
 					{
 						Algorithm = vectorSet.display_name,
 						Id = vectorSet.id,
@@ -188,38 +216,22 @@ namespace ACVPCore.Providers
 			return result;
 		}
 
-		public List<TestVectorSetLite> GetVectorSetsForTestSession(long testSessionId)
+		public bool TestSessionExists(long testSessionID)
 		{
-			var result = new List<TestVectorSetLite>();
 			var db = new MightyOrm(_acvpConnectionString);
-			
+
 			try
 			{
-				
-				var vectorSetsData = db.QueryFromProcedure(
-					"acvp.VectorSetGetByTestSessionId",
-					new 
-					{
-						testSessionId
-					});
-				foreach (var vectorSet in vectorSetsData)
+				return (bool)db.ScalarFromProcedure("acvp.TestSessionExists", inParams: new
 				{
-					result.Add(new TestVectorSetLite()
-					{
-						Algorithm = vectorSet.display_name,
-						Id = vectorSet.id,
-						Status = (VectorSetStatus)vectorSet.status,
-						AlgorithmId = vectorSet.algorithm_id,
-						GeneratorVersion = vectorSet.generator_version
-					});
-				}
+					TestSessionId = testSessionID
+				});
 			}
 			catch (Exception ex)
 			{
-				_logger.LogError(ex, ex.Message);
+				_logger.LogError(ex.Message);
+				return false;    //Default to false so we don't try do use it when we don't know if it exists
 			}
-			
-			return result;
 		}
 	}
 }

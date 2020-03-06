@@ -1,6 +1,9 @@
-﻿using ACVPCore.Models.Parameters;
+﻿using ACVPCore.Models;
+using ACVPCore.Models.Parameters;
 using ACVPCore.Providers;
 using ACVPCore.Results;
+using System;
+using System.Collections.Generic;
 
 namespace ACVPCore.Services
 {
@@ -13,6 +16,13 @@ namespace ACVPCore.Services
 			_implementationProvider = implementationProvider;
 		}
 
+		public Implementation Get(long implementationID)
+		{
+			return _implementationProvider.Get(implementationID);
+		}
+		public List<Implementation> ListImplementations(long pageSize, long pageNumber) {
+			return _implementationProvider.GetImplementations(pageSize, pageNumber);
+		}
 		public DeleteResult Delete(long implementationID)
 		{
 			Result result;
@@ -63,8 +73,9 @@ namespace ACVPCore.Services
 			//Update the implementation record if needed.
 			if (parameters.NameUpdated || parameters.DescriptionUpdated || parameters.TypeUpdated || parameters.VersionUpdated || parameters.WebsiteUpdated || parameters.OrganizationIDUpdated || parameters.AddressIDUpdated)
 			{
+				Console.WriteLine("Inside the service-level check for changes");
 				Result implementationUpdateResult = _implementationProvider.Update(parameters.ID, parameters.Name, parameters.Description, parameters.Type, parameters.Version, parameters.Website, parameters.OrganizationID, parameters.AddressID, parameters.NameUpdated, parameters.DescriptionUpdated, parameters.TypeUpdated, parameters.VersionUpdated, parameters.WebsiteUpdated, parameters.OrganizationIDUpdated, parameters.AddressIDUpdated);
-
+				Console.WriteLine("Inside the service-level check for update success");
 				if (!implementationUpdateResult.IsSuccess)
 				{
 					return new ImplementationResult(implementationUpdateResult.ErrorMessage);
@@ -92,6 +103,11 @@ namespace ACVPCore.Services
 		public bool ImplementationIsUsed(long implementationID)
 		{
 			return _implementationProvider.ImplementationIsUsed(implementationID);
+		}
+
+		public bool ImplementationExists(long implementationID)
+		{
+			return _implementationProvider.ImplementationExists(implementationID);
 		}
 	}
 }

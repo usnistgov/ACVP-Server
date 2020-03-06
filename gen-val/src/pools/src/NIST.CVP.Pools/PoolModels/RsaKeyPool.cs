@@ -12,7 +12,7 @@ namespace NIST.CVP.Pools.PoolModels
 
         public override async Task RequestWater()
         {
-            AddWater(await Oracle.GetRsaKeyAsync(WaterType));
+            await AddWater(await Oracle.GetRsaKeyAsync(WaterType));
         }
     }
 }

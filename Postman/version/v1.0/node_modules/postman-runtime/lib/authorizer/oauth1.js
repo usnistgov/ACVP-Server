@@ -1,8 +1,13 @@
 var _ = require('lodash'),
-    RequestBody = require('postman-collection').RequestBody,
     oAuth1 = require('node-oauth1'),
+    urlEncoder = require('postman-url-encoder'),
+    RequestBody = require('postman-collection').RequestBody,
 
     EMPTY = '',
+    PROTOCOL_HTTP = 'http',
+    PROTOCOL_SEPARATOR = '://',
+    HTTPS_PORT = '443',
+    HTTP_PORT = '80',
 
     OAUTH1_PARAMS = {
         oauthConsumerKey: 'oauth_consumer_key',
@@ -13,6 +18,32 @@ var _ = require('lodash'),
         oauthVersion: 'oauth_version',
         oauthSignature: 'oauth_signature'
     };
+
+/**
+ * Returns a OAuth1.0-a compatible representation of the request URL, also called "Base URL".
+ * For details, http://oauth.net/core/1.0a/#anchor13
+ *
+ * todo: should we ignore the auth parameters of the URL or not? (the standard does not mention them)
+ * we currently are.
+ *
+ * @private
+ * @param {Url} url - Node's URL object
+ * @returns {String}
+ */
+function getOAuth1BaseUrl (url) {
+    var port = url.port ? url.port : undefined,
+        host = ((port === HTTP_PORT ||
+            port === HTTPS_PORT ||
+            port === undefined) && url.hostname) || url.host,
+        path = url.pathname,
+
+        // trim to convert 'http:' from Node's URL object to 'http'
+        protocol = _.trimEnd(url.protocol || PROTOCOL_HTTP, PROTOCOL_SEPARATOR);
+
+    protocol = (_.endsWith(protocol, PROTOCOL_SEPARATOR) ? protocol : protocol + PROTOCOL_SEPARATOR);
+
+    return protocol.toLowerCase() + host.toLowerCase() + path;
+}
 
 /**
  * @implements {AuthHandlerInterface}
@@ -178,6 +209,7 @@ module.exports = {
         }
         signature = oAuth1.SignatureMethod.sign(message, accessor);
         signatureParams.push({system: true, key: OAUTH1_PARAMS.oauthSignature, value: signature});
+
         return signatureParams;
     },
 
@@ -202,6 +234,7 @@ module.exports = {
                 'addParamsToHeader',
                 'addEmptyParamsToSign'
             ]),
+            url = urlEncoder.toNodeUrl(request.url.toString(true)),
             signatureParams,
             header;
 
@@ -227,13 +260,14 @@ module.exports = {
                     return accumulator;
                 }
                 accumulator[key] = value;
+
                 return accumulator;
             }, {});
         }
 
         // Generate a list of parameters associated with the signature.
         signatureParams = this.computeHeader({
-            url: request.url.getOAuth1BaseUrl(),
+            url: getOAuth1BaseUrl(url),
             method: request.method,
             queryParams: request.url.query && request.url.query.count() ? request.url.query.map(function (qParam) {
                 return {
@@ -274,7 +308,7 @@ module.exports = {
                 system: true
             });
         }
-        else if (/PUT|POST/.test(request.method) &&
+        else if ((/PUT|POST/).test(request.method) &&
                 (request.body && request.body.mode === RequestBody.MODES.urlencoded)) {
             _.forEach(signatureParams, function (param) {
                 request.body.urlencoded.add(param);

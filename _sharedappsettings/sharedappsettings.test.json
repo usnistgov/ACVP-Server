@@ -1,0 +1,46 @@
+{
+  "EnvironmentConfig" : {
+    "Name":  "Test" 
+  },
+
+  "ConnectionStrings": {
+    "Acvp": "Server=stvmtstsql02;Database=Acvp;Integrated Security=true;",
+    "AcvpPools": "Server=stvmtstsql02;Database=AcvpPools;Integrated Security=true;Max Pool Size=2000;",
+    "AcvpOrleans": "Server=stvmtstsql02;Database=AcvpOrleans;Integrated Security=true;Pooling=False;Max Pool Size=200;MultipleActiveResultSets=True"
+
+  },
+
+  "PoolConfig": {
+    "RootUrl": "172.18.42.151",
+    "Port": 5002,
+    "ShouldRecyclePoolWater": true,
+    "PoolConfigFile": "D:\\Pools\\poolConfig.json",
+    "ShouldLogPoolValueUse": true,
+    "PoolResultLogLength": 0,
+    "OverrideMinimumPoolLevel": 1
+  },
+
+  "OrleansConfig": {
+    "OrleansNodeConfig": [
+      {
+        "HostName":  "172.18.42.165",
+        "NumberOfCores" : 4
+      },
+      {
+        "HostName":  "172.18.42.153",
+        "NumberOfCores" : 4
+      }
+    ],
+    "OrleansSiloPort": 8000,
+    "OrleansGatewayPort": 30000,
+    "ClusterId":  "cryptoDist-test",
+    "MinimumLogLevel": "Warning",
+    "UseConsoleLogging": false,
+    "UseFileLogging": true,
+    "OrleansDashboardPort": 8080,
+    "FallBackMinimumCores": 4,
+    "LoadSheddingCpuThreshold": 0,
+    "MaxWorkItemsToQueuePerGenValInstance": 250,
+    "TimeoutRetryAttempts": 15
+  } 
+}

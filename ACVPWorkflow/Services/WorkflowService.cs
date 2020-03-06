@@ -1,35 +1,118 @@
-﻿using ACVPWorkflow.Providers;
+﻿using System;
+using System.Collections.Generic;
+using ACVPCore.ExtensionMethods;
+using ACVPCore.Results;
+using ACVPCore.Models;
+using ACVPWorkflow.Exceptions;
+using ACVPWorkflow.Models;
+using ACVPWorkflow.Models.Parameters;
+using ACVPWorkflow.Providers;
 using ACVPWorkflow.Results;
+using Microsoft.Extensions.Logging;
 
 namespace ACVPWorkflow.Services
 {
 	public class WorkflowService : IWorkflowService
 	{
-		IWorkflowProvider _workflowProvider;
-		IWorkflowContactProvider _workflowContactProvider;
-		IRequestProvider _requestProvider;
+		private readonly ILogger<WorkflowService> _logger;
+		private readonly IWorkflowProvider _workflowProvider;
+		private readonly IWorkflowContactProvider _workflowContactProvider;
+		private readonly IRequestProvider _requestProvider;
+		private readonly IWorkflowItemPayloadFactory _workflowItemPayloadFactory;
+		private readonly IWorkflowItemProcessorFactory _workflowItemProcessorFactory;
+		
 
-		public WorkflowService(IWorkflowProvider workflowProvider, IWorkflowContactProvider workflowContactProvider, IRequestProvider requestProvider)
+		public WorkflowService(
+			ILogger<WorkflowService> logger,
+			IWorkflowProvider workflowProvider, 
+			IWorkflowContactProvider workflowContactProvider, 
+			IRequestProvider requestProvider, 
+			IWorkflowItemPayloadFactory workflowItemPayloadFactory,
+			IWorkflowItemProcessorFactory workflowItemProcessorFactory)
 		{
+			_logger = logger;
 			_workflowProvider = workflowProvider;
 			_workflowContactProvider = workflowContactProvider;
 			_requestProvider = requestProvider;
+			_workflowItemPayloadFactory = workflowItemPayloadFactory;
+			_workflowItemProcessorFactory = workflowItemProcessorFactory;
 		}
 
-		public Result MarkApproved(long workflowItemID, long objectID)
+		public Result Validate(WorkflowItem workflowItem)
 		{
-			//Create the garabge payload we put on the workflow item that replaces anything useful
-			//AcceptedWorkloadItemPayload payload = new AcceptedWorkloadItemPayload { URL = resultingObjectUrl };
+			//Get the right processor for this kind of workflow item
+			var workflowProcessor = _workflowItemProcessorFactory.GetWorkflowItemProcessor(workflowItem.APIAction);
 
-			//Do the update of the workflow item
-			return _workflowProvider.Update(workflowItemID, WorkflowStatus.Approved, objectID);
+			try
+			{
+				bool isValid = workflowProcessor.Validate(workflowItem);
+
+				//If it failed it would throw an exception, not return false...
+				return new Result();
+			}
+			catch (Exception ex) when (ex is ResourceInUseException 
+									|| ex is ResourceDoesNotExistException
+									|| ex is BusinessRuleException)
+			{
+				UpdateStatus(workflowItem, WorkflowStatus.Rejected);
+				_logger.LogWarning(ex);
+				return new Result(ex.Message);
+			}
+			catch (NotPendingApprovalException ex)
+			{
+				//No change to the workflow item status because we're simply preventing it from being acted upon again
+				_logger.LogWarning(ex);
+				return new Result(ex.Message);
+			}
 		}
 
-		public Result UpdateStatus(long workflowItemID, WorkflowStatus workflowStatus)
+
+		public Result Approve(WorkflowItem workflowItem)
 		{
-			return _workflowProvider.Update(workflowItemID, workflowStatus);
+			//Get the right processor for this kind of workflow item
+			var workflowProcessor = _workflowItemProcessorFactory.GetWorkflowItemProcessor(workflowItem.APIAction);
+
+			try
+			{
+				var result = workflowProcessor.Approve(workflowItem);
+				
+				//Do the update of the workflow item
+				return _workflowProvider.Update(workflowItem.WorkflowItemID, WorkflowStatus.Approved, result);
+			}
+			catch (Exception ex) when (ex is ResourceInUseException 
+									|| ex is ResourceDoesNotExistException
+									|| ex is BusinessRuleException)
+			{
+				UpdateStatus(workflowItem, WorkflowStatus.Rejected);
+				_logger.LogWarning(ex);
+				return new Result(ex.Message);
+			}
+			catch (NotPendingApprovalException ex)
+			{
+				//No change to the workflow item status because we're simply preventing it from being acted upon again
+				_logger.LogWarning(ex);
+				return new Result(ex.Message);
+			}
+			catch (ResourceProcessorException ex)
+			{
+				UpdateStatus(workflowItem, WorkflowStatus.Incomplete);
+				_logger.LogError(ex);
+				return new Result(ex.Message);
+			}
 		}
 
+		public Result Reject(WorkflowItem workflowItem)
+		{
+			var workflowProcessor = _workflowItemProcessorFactory.GetWorkflowItemProcessor(workflowItem.APIAction);
+			workflowProcessor.Reject(workflowItem);
+			return UpdateStatus(workflowItem, WorkflowStatus.Rejected);
+		}
+
+		private Result UpdateStatus(WorkflowItem workflowItem, WorkflowStatus workflowStatus)
+		{
+			return _workflowProvider.Update(workflowItem.WorkflowItemID, workflowStatus);
+		}
+		
 		public WorkflowInsertResult AddWorkflowItem(APIAction apiAction, long requestID, string payload, long userID)
 		{
 			//Get the contact info to put on the workflow item - TODO - kill this sometime, replaced by the userID going on the record after LCAVP dies
@@ -39,6 +122,7 @@ namespace ACVPWorkflow.Services
 			//Translate from the APIAction back to the legacy 2 part values
 			(WorkflowItemType workflowItemType, RequestAction requestAction) = apiAction switch
 			{
+				APIAction.CertifyTestSession => (WorkflowItemType.Validation, RequestAction.Create),
 				APIAction.CreateDependency => (WorkflowItemType.Dependency, RequestAction.Create),
 				APIAction.CreateImplementation => (WorkflowItemType.Implementation, RequestAction.Create),
 				APIAction.CreateOE => (WorkflowItemType.OE, RequestAction.Create),
@@ -67,6 +151,16 @@ namespace ACVPWorkflow.Services
 			}
 
 			return result;
+		}
+
+		public PagedEnumerable<WorkflowItemLite> GetWorkflowItems(WorkflowListParameters param)
+		{
+			return _workflowProvider.GetWorkflowItems(param);
+		}
+
+		public WorkflowItem GetWorkflowItem(long workflowItemId)
+		{
+			return _workflowProvider.GetWorkflowItem(workflowItemId);
 		}
 
 		private WorkflowContact BuildWorkflowContact(long acvpUserID)

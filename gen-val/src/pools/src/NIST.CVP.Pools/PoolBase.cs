@@ -58,10 +58,10 @@ namespace NIST.CVP.Pools
 
             Random = new Random800_90();
 
-            WaterLevel = _poolRepository.GetPoolCount(PoolName, false);
+            WaterLevel = param.PoolCount;
         }
 
-        public PoolResult<TResult> GetNext()
+        public async Task<PoolResult<TResult>> GetNext()
         {
             var startAction = DateTime.Now;
 
@@ -73,11 +73,11 @@ namespace NIST.CVP.Pools
 
             if (WaterLevel < minWaterLevel)
             {
-                _poolLogRepository.WriteLog(LogTypes.PoolTooEmpty, PoolName, startAction, DateTime.Now, null);
+                await _poolLogRepository.WriteLog(LogTypes.PoolTooEmpty, PoolName, startAction, DateTime.Now, null);
                 return new PoolResult<TResult> { PoolTooEmpty = true };
             }
 
-            var result = _poolRepository.GetResultFromPool(PoolName);
+            var result = await _poolRepository.GetResultFromPool(PoolName);
 
             if (result != null)
             {
@@ -85,9 +85,9 @@ namespace NIST.CVP.Pools
                 result.DateLastUsed = endAction;
                 result.TimesUsed++;
                 WaterLevel--;
-                _poolLogRepository.WriteLog(LogTypes.GetValueFromPool, PoolName, startAction, endAction, null);
+                await _poolLogRepository.WriteLog(LogTypes.GetValueFromPool, PoolName, startAction, endAction, null);
 
-                RecycleValueWhenOptionsAllow(result);
+                await RecycleValueWhenOptionsAllow(result);
                 return new PoolResult<TResult>
                 {
                     Result = result.Value
@@ -97,9 +97,9 @@ namespace NIST.CVP.Pools
             throw new Exception("Unable to get next from queue");
         }
 
-        public PoolResult<IResult> GetNextUntyped()
+        public async Task<PoolResult<IResult>> GetNextUntyped()
         {
-            var result = GetNext();
+            var result = await GetNext();
             return new PoolResult<IResult>
             {
                 PoolTooEmpty = result.PoolTooEmpty,
@@ -107,9 +107,9 @@ namespace NIST.CVP.Pools
             };
         }
 
-        public bool AddWater(TResult value)
+        public async Task<bool> AddWater(TResult value)
         {
-            _poolRepository.AddResultToPool(
+            await _poolRepository.AddResultToPool(
                 PoolName,
                 false,
                 _poolObjectFactory.WrapResult(value)
@@ -119,32 +119,26 @@ namespace NIST.CVP.Pools
             return true;
         }
 
-        public bool AddWater(IResult value)
+        public async Task<bool> AddWater(IResult value)
         {
             if (value.GetType() != typeof(TResult))
             {
                 throw new ArgumentException($"Expecting {nameof(value)} to be of type {typeof(TResult)}");
             }
 
-            return AddWater((TResult)value);
+            return await AddWater((TResult)value);
         }
 
-        public bool AddWaterToStagingWater(PoolObject<TResult> value)
-        {
-            _poolRepository.AddResultToPool(PoolName, true, value);
-            return true;
-        }
-
-        public bool CleanPool()
+        public async Task<bool> CleanPool()
         {
             var startAction = DateTime.Now;
-            _poolRepository.CleanPool(PoolName);
+            await _poolRepository.CleanPool(PoolName);
             WaterLevel = 0;
-            _poolLogRepository.WriteLog(LogTypes.CleanPool, PoolName, startAction, DateTime.Now, null);
+            await _poolLogRepository.WriteLog(LogTypes.CleanPool, PoolName, startAction, DateTime.Now, null);
             return true;
         }
 
-        private void RecycleValueWhenOptionsAllow(PoolObject<TResult> result)
+        private async Task RecycleValueWhenOptionsAllow(PoolObject<TResult> result)
         {
             // Recycle the water when option is configured, and TimesValueReused is less than the max reuse
             if (_poolConfig.ShouldRecyclePoolWater)
@@ -154,20 +148,20 @@ namespace NIST.CVP.Pools
                 if (probToReuse < RecycleRate)
                 {
                     // Recycle value
-                    AddWaterToStagingWater(result);
+                    await _poolRepository.AddResultToPool(PoolName, true, result);
 
                     // Check if staged water needs to be mixed in
-                    if (_poolRepository.GetPoolCount(PoolName, true) > MaxStagingLevel)
+                    if (await _poolRepository.GetPoolCount(PoolName, true) > MaxStagingLevel)
                     {
                         var startAction = DateTime.Now;
-                        _poolRepository.MixStagingPoolIntoPool(PoolName);
-                        WaterLevel = _poolRepository.GetPoolCount(PoolName, false);
-                        _poolLogRepository.WriteLog(LogTypes.MixStagingPool, PoolName, startAction, DateTime.Now, null);
+                        await _poolRepository.MixStagingPoolIntoPool(PoolName);
+                        WaterLevel = await _poolRepository.GetPoolCount(PoolName, false);
+                        await _poolLogRepository.WriteLog(LogTypes.MixStagingPool, PoolName, startAction, DateTime.Now, null);
                     }
                 }
             }
         }
-
+        
         public abstract Task RequestWater();
     }
 }

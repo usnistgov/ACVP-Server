@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 using NLog;
 using NLog.Config;
 using NLog.Targets;
@@ -45,8 +42,16 @@ namespace NIST.CVP.Tests.Core
                 directory = directory.Substring(0, binStartIndex);
             }
 
+            // Clean up the directory a bit before using
+            directory = Path.TrimEndingDirectorySeparator(directory);
+            while (pathAdditions.StartsWith(@"..\"))
+            {
+                directory = Directory.GetParent(directory).FullName;
+                pathAdditions = pathAdditions.Substring(3, pathAdditions.Length-3);
+            }
+            
             // combine the directory with the pathAdditions (mostly "../../" to get back to the test files.)
-            directory = Path.GetFullPath(directory + pathAdditions);
+            directory = Path.GetFullPath(Path.Combine(directory, pathAdditions));
 
             // optionally replace the "\" with a "/" if the file system needs it
             directory = directory.Replace('\\', Path.DirectorySeparatorChar);

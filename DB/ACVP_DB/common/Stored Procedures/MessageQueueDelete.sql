@@ -1,10 +1,10 @@
 ﻿CREATE PROCEDURE [common].[MessageQueueDelete]
 
-	@id uniqueidentifier
+	@MessageId uniqueidentifier
 
 AS
 
 SET NOCOUNT ON
 
 DELETE FROM common.MESSAGE_QUEUE
-WHERE id = @id
+WHERE id = @MessageId

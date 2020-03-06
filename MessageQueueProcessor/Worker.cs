@@ -25,38 +25,55 @@ namespace MessageQueueProcessor
 
 		protected override async Task ExecuteAsync(CancellationToken stoppingToken)
 		{
+			_logger.LogInformation("Starting Message Queue Processor");
+
 			while (!stoppingToken.IsCancellationRequested)
 			{
-				//Do work here
-				_logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
+				_logger.LogDebug($"Worker running at: {DateTimeOffset.Now}");
 
 				//Get the next message from the queue 
 				Message message = _messageProvider.GetNextMessage();
 
-				//Loop while we have messages to process
-				while (message != null)
+				//Loop while we have messages to process and we haven't tried to stop the service
+				while (message != null && !stoppingToken.IsCancellationRequested)
 				{
+					//Update the message status to show we're working on it
+					_messageProvider.UpdateStatus(message.ID, MessageStatus.Processing);
+
 					//Get the processor for this message - might not have one
 					IMessageProcessor messageProcessor = _messageProcessorFactory.GetMessageProcessor(message.Action);
 
-					//Process message or flag it for Java processing
+					//Process message or error
 					if (messageProcessor == null)
 					{
-						_logger.LogInformation($"Passing {message.Action.ToString()} message {message.ID} to the Java processor");
+						//Mark it as an error
+						_messageProvider.UpdateStatus(message.ID, MessageStatus.Error);
 
-						//Cannot process the message, so flag it for the Java processor to pick up
-						_messageProvider.MarkForJavaProcessor(message.ID);
+						//Log it
+						_logger.LogError($"Unable to find processor for message {message.ID}");
 					}
 					else
 					{
 						//Process the message
-						messageProcessor.Process(message);
+						var messageProcessingResult = messageProcessor.Process(message);
 
-						//Done with the the message, so delete it
-						_messageProvider.DeleteMessage(message.ID);
+						if (messageProcessingResult.IsSuccess)
+						{
+							//Done with the the message, so delete it
+							_messageProvider.DeleteMessage(message.ID);
 
-						//Log it
-						_logger.LogInformation($"Processed {message.Action.ToString()} message {message.ID}");
+							//Log it
+							_logger.LogInformation($"Processed {message.Action.ToString()} message {message.ID}");
+						}
+						else
+						{
+							//Mark it as an error
+							_messageProvider.UpdateStatus(message.ID, MessageStatus.Error);
+
+							//Log it
+							_logger.LogError($"Error processing {message.Action.ToString()} message {message.ID} : {messageProcessingResult.ErrorMessage}");
+						}
+
 					}
 
 					//Get the next message

@@ -1,15 +1,18 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json.Serialization;
+using ACVPCore.Models.Parameters;
 
 namespace ACVPWorkflow.Models
 {
-	public class OrganizationUpdatePayload
+	public class OrganizationUpdatePayload : BasePayload, IWorkflowItemPayload
 	{
 		private string _name;
 		private string _website;
 		private string _parentOrganizationURL;
 		private List<string> _emailAddresses;
-		private List<PhoneNumber> _phoneNumbers;
+		private string _voiceNumber;
+		private string _faxNumber;
 		private List<Address> _addresses;
 
 		[JsonPropertyName("id")]
@@ -29,7 +32,7 @@ namespace ACVPWorkflow.Models
 			}
 		}
 
-		[JsonPropertyName("website")]
+		[JsonPropertyName("link")]
 		public string Website
 		{
 			get => _website;
@@ -62,14 +65,25 @@ namespace ACVPWorkflow.Models
 			}
 		}
 
-		[JsonPropertyName("phoneNumbers")]
-		public List<PhoneNumber> PhoneNumbers
+		[JsonPropertyName("voiceNumber")]
+		public string VoiceNumber
 		{
-			get => _phoneNumbers;
+			get => _voiceNumber;
 			set
 			{
-				_phoneNumbers = value;
-				PhoneNumbersUpdated = true;
+				_voiceNumber = value;
+				VoiceNumberUpdated = true;
+			}
+		}
+
+		[JsonPropertyName("faxNumber")]
+		public string FaxNumber
+		{
+			get => _faxNumber;
+			set
+			{
+				_faxNumber = value;
+				FaxNumberUpdated = true;
 			}
 		}
 
@@ -86,9 +100,89 @@ namespace ACVPWorkflow.Models
 		public bool NameUpdated { get; private set; } = false;
 		public bool WebsiteUpdated { get; private set; } = false;
 		public bool ParentOrganizationURLUpdated { get; private set; } = false;
-		public bool PhoneNumbersUpdated { get; private set; } = false;
+		public bool VoiceNumberUpdated { get; private set; } = false;
+		public bool FaxNumberUpdated { get; private set; } = false;
 		public bool EmailAddressesUpdated { get; private set; } = false;
 		public bool AddressesUpdated { get; private set; } = false;
+
+
+		public OrganizationUpdateParameters ToOrganizationUpdateParameters()
+		{
+			//Build a OrganizationUpdateParameters object. The nested addresses are a bit goofy since they can be new or updates, and different handling is required
+			List<object> AddressObjects = new List<object>();
+
+			if (Addresses != null)
+			{
+				for (int i = 0; i < Addresses.Count; i++)
+				{
+					var addressParameters = Addresses[i];
+
+					if (string.IsNullOrEmpty(addressParameters.URL))
+					{
+						//This will be a new address
+						AddressObjects.Add(new AddressCreateParameters
+						{
+							OrganizationID = ID,
+							OrderIndex = i,
+							Street1 = addressParameters.Street1,
+							Street2 = addressParameters.Street2,
+							Street3 = addressParameters.Street3,
+							Locality = addressParameters.Locality,
+							Region = addressParameters.Region,
+							PostalCode = addressParameters.PostalCode,
+							Country = addressParameters.Country
+						});
+					}
+					else
+					{
+						//This is an address update
+						AddressObjects.Add(new AddressUpdateParameters
+						{
+							ID = long.Parse(addressParameters.URL.Split("/")[^1]),
+							OrderIndex = i,
+							Street1 = addressParameters.Street1,
+							Street2 = addressParameters.Street2,
+							Street3 = addressParameters.Street3,
+							Locality = addressParameters.Locality,
+							Region = addressParameters.Region,
+							PostalCode = addressParameters.PostalCode,
+							Country = addressParameters.Country,
+							Street1Updated = addressParameters.Street1Updated,
+							Street2Updated = addressParameters.Street2Updated,
+							Street3Updated = addressParameters.Street3Updated,
+							LocalityUpdated = addressParameters.LocalityUpdated,
+							RegionUpdated = addressParameters.RegionUpdated,
+							PostalCodeUpdated = addressParameters.PostalCodeUpdated,
+							CountryUpdated = addressParameters.CountryUpdated
+							//Not passing org id because can't update that
+						});
+					}
+				}
+			}
+
+			return new OrganizationUpdateParameters
+			{
+				ID = ID,
+				Name = Name,
+				Website = Website,
+				VoiceNumber = VoiceNumber,
+				FaxNumber = FaxNumber,
+				ParentOrganizationID = ParseNullableIDFromURL(ParentOrganizationURL),
+				EmailAddresses = EmailAddresses,
+				Addresses = AddressObjects,
+				NameUpdated = NameUpdated,
+				WebsiteUpdated = WebsiteUpdated,
+				ParentOrganizationIDUpdated = ParentOrganizationURLUpdated,
+				VoiceNumberUpdated = VoiceNumberUpdated,
+				FaxNumberUpdated = FaxNumberUpdated,
+				EmailAddressesUpdated = EmailAddressesUpdated,
+				AddressesUpdated = AddressesUpdated
+			};
+		}
+
+
+
+
 
 		public class PhoneNumber
 		{

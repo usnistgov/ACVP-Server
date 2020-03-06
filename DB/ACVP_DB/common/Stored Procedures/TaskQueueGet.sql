@@ -1,15 +1,14 @@
-SET ANSI_NULLS OFF
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-
 -- Grabs oldest unprocessed of common.TASK_QUEUE
 -- I think 1 is not-processed ? maybe?
-CREATE PROCEDURE [acvp].[TaskQueueGet]
+CREATE PROCEDURE [common].[TaskQueueGet]
+
 AS
+
+SET NOCOUNT ON
+
     UPDATE t
     SET Status = 1
-    OUTPUT inserted.TaskID, inserted.TaskType, inserted.VsID, inserted.IsSample, inserted.ShowExpected
+    OUTPUT inserted.TaskID, inserted.TaskType, inserted.VsId, inserted.IsSample, inserted.ShowExpected
     FROM common.TaskQueue t
     INNER JOIN (
         SELECT TOP 1 TaskID

@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.TaskQueueProcessor.Constants;
 using NIST.CVP.TaskQueueProcessor.Providers;
 
 namespace NIST.CVP.TaskQueueProcessor.TaskModels
@@ -29,13 +30,16 @@ namespace NIST.CVP.TaskQueueProcessor.TaskModels
                 Prompt = response.PromptProjection;
                 InternalProjection = response.InternalProjection;
                 ExpectedResults = response.ResultProjection;
-                DbProvider.PutPromptData(this);
+
+                DbProvider.PutJson(VsId, JsonFileTypes.PROMPT, Prompt);
+                DbProvider.PutJson(VsId, JsonFileTypes.INTERNAL_PROJECTION, InternalProjection);
+                DbProvider.PutJson(VsId, JsonFileTypes.EXPECTED_RESULTS, ExpectedResults);
             }
             else
             {
                 Console.WriteLine($"Error on vsId: {VsId}");
                 Error = response.ErrorMessage;
-                DbProvider.PutErrorData(this);
+                DbProvider.PutJson(VsId, JsonFileTypes.ERROR, Error);
             }
 
             return Task.FromResult(response);

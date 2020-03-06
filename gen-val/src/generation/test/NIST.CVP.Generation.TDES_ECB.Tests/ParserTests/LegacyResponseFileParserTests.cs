@@ -9,6 +9,7 @@ using System.Linq;
 namespace NIST.CVP.Generation.TDES_ECB.Tests.ParserTests
 {
     [TestFixture, UnitTest]
+    [Ignore("Complicated tests. Need to simplify. See TDES-CBC")]
     public class LegacyResponseFileParserTests
     {
 

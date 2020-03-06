@@ -4,26 +4,22 @@ var async = require('async'),
 describe('uvm', function () {
     var uvm = require('../../lib');
 
-    it('must connect a new context', function (done) {
+    it('should connect a new context', function (done) {
         uvm.spawn({}, done);
     });
 
     describe('context', function () {
-        it('must have event emitter interface and .dispatch method', function () {
+        it('should have event emitter interface and .dispatch method', function () {
             var context = uvm.spawn();
 
-            expect(context).be.ok();
-            expect(context).to.have.property('dispatch');
-            expect(context.dispatch).be.a('function');
-            expect(context).to.have.property('emit');
-            expect(context.emit).be.a('function');
-            expect(context).to.have.property('on');
-            expect(context.on).be.a('function');
-            expect(context).to.have.property('disconnect');
-            expect(context.disconnect).be.a('function');
+            expect(context).to.be.ok;
+            expect(context).to.have.property('dispatch').that.is.a('function');
+            expect(context).to.have.property('emit').that.is.a('function');
+            expect(context).to.have.property('on').that.is.a('function');
+            expect(context).to.have.property('disconnect').that.is.a('function');
         });
 
-        it('must allow dispatching events to context', function () {
+        it('should allow dispatching events to context', function () {
             var context = uvm.spawn();
 
             context.dispatch();
@@ -31,7 +27,7 @@ describe('uvm', function () {
             context.dispatch('event-name', 'event-arg');
         });
 
-        it('must allow receiving events in context', function (done) {
+        it('should allow receiving events in context', function (done) {
             var sourceData = 'test',
                 context = uvm.spawn({
                     bootCode: `
@@ -42,26 +38,25 @@ describe('uvm', function () {
                 });
 
             context.on('loopback', function (data) {
-                expect(data).be('test');
+                expect(data).to.equal('test');
                 done();
             });
 
             context.dispatch('loopback', sourceData);
         });
 
-        (isNode ? it : it.skip)('must pass load error on broken boot code', function (done) {
+        (isNode ? it : it.skip)('should pass load error on broken boot code', function (done) {
             uvm.spawn({
                 bootCode: `
                     throw new Error('error in bootCode');
                 `
             }, function (err) {
-                expect(err).be.an('object');
-                expect(err).have.property('message', 'error in bootCode');
+                expect(err).to.be.an('error').that.has.property('message', 'error in bootCode');
                 done();
             });
         });
 
-        it('must not overflow dispatches when multiple vm is run', function (done) {
+        it('should not overflow dispatches when multiple vm is run', function (done) {
             // create two vms
             async.times(2, function (n, next) {
                 uvm.spawn({
@@ -75,8 +70,8 @@ describe('uvm', function () {
                 if (err) { return done(err); }
 
                 contexts[0].on('loopback', function (source, data) {
-                    expect(source).be(0);
-                    expect(data).be('zero');
+                    expect(source).to.equal(0);
+                    expect(data).to.equal('zero');
 
                     setTimeout(done, 100); // wait for other events before going done
                 });
@@ -90,7 +85,7 @@ describe('uvm', function () {
             });
         });
 
-        it('must restore dispatcher if it is deleted', function (done) {
+        it('should restore dispatcher if it is deleted', function (done) {
             uvm.spawn({
                 bootCode: `
                     bridge.on('deleteDispatcher', function () {
@@ -102,11 +97,11 @@ describe('uvm', function () {
                     });
                 `
             }, function (err, context) {
-                expect(err).not.be.an('object');
+                expect(err).to.not.be.an('object');
 
                 context.on('error', done);
                 context.on('loopback', function (data) {
-                    expect(data).be('this returns');
+                    expect(data).to.equal('this returns');
                     done();
                 });
 
@@ -115,7 +110,7 @@ describe('uvm', function () {
             });
         });
 
-        it('must trigger error if dispatched post disconnection', function (done) {
+        it('should trigger error if dispatched post disconnection', function (done) {
             uvm.spawn({
                 bootCode: `
                     bridge.on('loopback', function (data) {
@@ -123,11 +118,11 @@ describe('uvm', function () {
                     });
                 `
             }, function (err, context) {
-                expect(err).not.be.an('object');
+                expect(err).to.not.be.an('object');
 
                 context.on('error', function (err) {
-                    expect(err).be.ok();
-                    expect(err).have.property('message', 'uvm: unable to dispatch "loopback" post disconnection.');
+                    expect(err).to.be.an('error').that.has.property('message',
+                        'uvm: unable to dispatch "loopback" post disconnection.');
                     done();
                 });
 

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using ACVPCore.Models;
+using ACVPCore.Models.Parameters;
 using ACVPCore.Results;
 
 namespace ACVPCore.Services
@@ -13,7 +14,8 @@ namespace ACVPCore.Services
 		bool CanSubmitForApproval(long testSessionID);
 		TestSessionStatus GetStatus(long testSessionID);
 		Result UpdateStatus(long testSessionID, TestSessionStatus testSessionStatus);
-		List<TestSessionLite> Get();
+		PagedEnumerable<TestSessionLite> Get(TestSessionListParameters param);
 		TestSession Get(long testSessionId);
+		bool TestSessionExists(long testSessionID);
 	}
 }

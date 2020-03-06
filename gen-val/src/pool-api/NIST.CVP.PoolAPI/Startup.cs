@@ -1,12 +1,15 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System.Collections.Generic;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json;
 using NIST.CVP.Common.Config;
 using NIST.CVP.Common.Interfaces;
 using NIST.CVP.Common.Oracle;
+using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Common.Services;
 using NIST.CVP.Crypto.Oracle;
 using NIST.CVP.Pools;
@@ -47,31 +50,12 @@ namespace NIST.CVP.PoolAPI
 
             services.AddControllersWithViews()
                 .AddNewtonsoftJson();
-
-            services.AddSingleton(Configuration);
-
-            services.Configure<EnvironmentConfig>(Configuration.GetSection(nameof(EnvironmentConfig)));
-            services.Configure<PoolConfig>(Configuration.GetSection(nameof(PoolConfig)));
-            services.Configure<OrleansConfig>(Configuration.GetSection(nameof(OrleansConfig)));
-
-            services.AddSingleton<IDbConnectionStringFactory, DbConnectionStringFactory>();
-            services.AddSingleton<IDbConnectionFactory, SqlDbConnectionFactory>();
-
-            services.AddSingleton<IJsonConverterProvider, JsonConverterProvider>();
-            services.AddSingleton<IPoolFactory, PoolFactory>();
-            services.AddSingleton<IPoolObjectFactory, PoolObjectFactory>();
-            services.AddSingleton<IPoolRepositoryFactory, PoolSqlRepositoryFactory>();
-            services.AddSingleton<IPoolLogRepository, PoolLogSqlRepository>();
-            services.AddSingleton<IOracle, OracleMinimalLoadSheddingRetries>();
-            services.AddSingleton<PoolManager>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostEnvironment env)
         {
             LogManager.GetCurrentClassLogger().Info("Configuring Startup service...");
-
-            app.UseCors(CorsPolicyName);
 
             if (env.IsDevelopment())
             {
@@ -83,6 +67,7 @@ namespace NIST.CVP.PoolAPI
             }
 
             app.UseRouting();
+            app.UseCors(CorsPolicyName);
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

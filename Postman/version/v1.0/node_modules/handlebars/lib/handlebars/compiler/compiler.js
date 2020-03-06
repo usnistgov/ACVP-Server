@@ -54,9 +54,7 @@ Compiler.prototype = {
 
     options.blockParams = options.blockParams || [];
 
-    // These changes will propagate to the other compiler components
-    let knownHelpers = options.knownHelpers;
-    options.knownHelpers = {
+    options.knownHelpers = extend(Object.create(null), {
       'helperMissing': true,
       'blockHelperMissing': true,
       'each': true,
@@ -65,15 +63,7 @@ Compiler.prototype = {
       'with': true,
       'log': true,
       'lookup': true
-    };
-    if (knownHelpers) {
-      for (let name in knownHelpers) {
-        /* istanbul ignore else */
-        if (name in knownHelpers) {
-          this.options.knownHelpers[name] = knownHelpers[name];
-        }
-      }
-    }
+    }, options.knownHelpers);
 
     return this.accept(program);
   },
@@ -369,7 +359,6 @@ Compiler.prototype = {
     if (isEligible && !isHelper) {
       let name = sexpr.path.parts[0],
           options = this.options;
-
       if (options.knownHelpers[name]) {
         isHelper = true;
       } else if (options.knownHelpersOnly) {

@@ -1,5 +1,7 @@
-﻿using ACVPCore.Models.Parameters;
+﻿using ACVPCore.Models;
+using ACVPCore.Models.Parameters;
 using ACVPCore.Results;
+using System.Collections.Generic;
 
 namespace ACVPCore.Services
 {
@@ -9,5 +11,10 @@ namespace ACVPCore.Services
 		OEResult Update(OEUpdateParameters parameters);
 		DeleteResult Delete(long oeID);
 		bool OEIsUsed(long oeID);
+		bool OEExists(long oeID);
+		OperatingEnvironment Get(long dependencyId);
+		List<OperatingEnvironmentLite> Get(long pageSize, long pageNumber);
+		Result AddDependencyLink(long oeID, long dependencyID);
+		Result RemoveDependencyLink(long oeID, long dependencyID);
 	}
 }

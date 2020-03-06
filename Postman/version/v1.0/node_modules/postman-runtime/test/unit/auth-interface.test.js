@@ -1,5 +1,5 @@
 var sdk = require('postman-collection'),
-    expect = require('expect.js'),
+    expect = require('chai').expect,
     _ = require('lodash'),
     createAuthInterface = require('../../lib/authorizer/auth-interface');
 
@@ -18,27 +18,30 @@ const USER = 'batman',
 
 describe('AuthInterface', function () {
     it('should throw an error on invalid input', function () {
-        expect(createAuthInterface).withArgs({type: 'basic', basic: {}})
-            .to.throwError(/runtime~createAuthInterface: invalid auth/);
+        expect(function () {
+            createAuthInterface({type: 'basic', basic: {}});
+        }).to.throw(/runtime~createAuthInterface: invalid auth/);
     });
 
-    it('get with single key should return single value', function () {
+    it('should return a single value for get with single key', function () {
         var fakeAuth = new sdk.RequestAuth(fakeAuthObj),
             authInterface = createAuthInterface(fakeAuth);
-        expect(authInterface.get('user')).to.be(USER);
-        expect(authInterface.get('pass')).to.be(PASS);
-        expect(authInterface.get('joker')).to.be(undefined);
+
+        expect(authInterface.get('user')).to.equal(USER);
+        expect(authInterface.get('pass')).to.equal(PASS);
+        expect(authInterface.get('joker')).to.be.undefined;
     });
 
-    it('get with multiple keys should return object', function () {
+    it('should return an object for get with multiple keys', function () {
         var fakeAuth = new sdk.RequestAuth(fakeAuthObj),
             authInterface = createAuthInterface(fakeAuth);
+
         expect(authInterface.get(['user', 'pass', 'nonce', 'joker'])).to.eql(
             new sdk.VariableList(null, CREDENTIALS).toObject()
         );
     });
 
-    it('set with key and value should update the auth', function () {
+    it('should set with key and value and update the auth', function () {
         var fakeAuth = new sdk.RequestAuth(fakeAuthObj),
             authInterface = createAuthInterface(fakeAuth),
             newUsername = 'bane',
@@ -46,17 +49,17 @@ describe('AuthInterface', function () {
 
         authInterface.set('user', newUsername);
         authInterface.set('pass', newPassword);
-        expect(authInterface.get('user')).to.be(newUsername);
-        expect(authInterface.get('pass')).to.be(newPassword);
+        expect(authInterface.get('user')).to.equal(newUsername);
+        expect(authInterface.get('pass')).to.equal(newPassword);
     });
 
-    it('set should retain the data type of value', function () {
+    it('should retain the type of the set value', function () {
         var fakeAuth = new sdk.RequestAuth(fakeAuthObj),
             authInterface = createAuthInterface(fakeAuth);
 
         // test for Number
         authInterface.set('pass', 123);
-        expect(authInterface.get('pass')).to.be(123);
+        expect(authInterface.get('pass')).to.equal(123);
         // test for Object
         authInterface.set('pass', {foo: 123});
         expect(authInterface.get('pass')).to.eql({foo: 123});
@@ -65,19 +68,19 @@ describe('AuthInterface', function () {
         expect(authInterface.get('pass')).to.eql([1, 2, 3]);
         // test for Function
         authInterface.set('pass', function () { return 123; });
-        expect(authInterface.get('pass')).to.be(123);
+        expect(authInterface.get('pass')).to.equal(123);
     });
 
-    it('set with an object should update the auth', function () {
+    it('should update the auth when set with an object', function () {
         var fakeAuth = new sdk.RequestAuth(fakeAuthObj),
             authInterface = createAuthInterface(fakeAuth),
             newUsername = 'bane',
             newCreds = {user: newUsername}; // only partial update, password & nonce shoudn't change
 
         authInterface.set(newCreds);
-        expect(authInterface.get('user')).to.be(newUsername);
-        expect(authInterface.get('pass')).to.be(PASS);
-        expect(authInterface.get('nonce')).to.be(NONCE);
+        expect(authInterface.get('user')).to.equal(newUsername);
+        expect(authInterface.get('pass')).to.equal(PASS);
+        expect(authInterface.get('nonce')).to.equal(NONCE);
     });
 
     it('should not update non-empty user parameters', function () {
@@ -91,9 +94,9 @@ describe('AuthInterface', function () {
             fakeAuth = new sdk.RequestAuth(fakeAuthObj);
             authInterface = createAuthInterface(fakeAuth);
             authInterface.set('something', XYZ);
-            expect(authInterface.get('something')).to.be(value);
+            expect(authInterface.get('something')).to.equal(value);
             authInterface.set({'something': XYZ});
-            expect(authInterface.get('something')).to.be(value);
+            expect(authInterface.get('something')).to.equal(value);
         });
     });
 
@@ -108,13 +111,13 @@ describe('AuthInterface', function () {
             fakeAuth = new sdk.RequestAuth(fakeAuthObj);
             authInterface = createAuthInterface(fakeAuth);
             authInterface.set('something', XYZ);
-            expect(authInterface.get('something')).to.be(XYZ);
+            expect(authInterface.get('something')).to.equal(XYZ);
             authInterface.set({'something': ABC});
-            expect(authInterface.get('something')).to.be(ABC);
+            expect(authInterface.get('something')).to.equal(ABC);
         });
     });
 
-    it('new params should be added with system:true', function () {
+    it('should add new params with system:true', function () {
         var fakeAuth = new sdk.RequestAuth(fakeAuthObj),
             authInterface = createAuthInterface(fakeAuth),
             joker = 'heath ledger',
@@ -122,18 +125,19 @@ describe('AuthInterface', function () {
 
         authInterface.set('joker', joker);
         authInterface.set({'gordon': gordon});
-        expect(authInterface.get('joker')).to.be(joker);
-        expect(authInterface.get('gordon')).to.be(gordon);
+        expect(authInterface.get('joker')).to.equal(joker);
+        expect(authInterface.get('gordon')).to.equal(gordon);
         expect(fakeAuth.parameters().one('joker')).to.have.property('system', true);
         expect(fakeAuth.parameters().one('gordon')).to.have.property('system', true);
     });
 
-    it('set with invalid params should throw', function () {
+    it('should throw on set with invalid params', function () {
         var fakeAuth = new sdk.RequestAuth(fakeAuthObj),
             authInterface = createAuthInterface(fakeAuth),
             newPassword = 'tom hardy';
 
-        expect(authInterface.set).withArgs(true, newPassword)
-            .to.throwError(/runtime~AuthInterface: set should be called with `key` as a string or object/);
+        expect(function () {
+            authInterface.set(true, newPassword);
+        }).to.throw(/runtime~AuthInterface: set should be called with `key` as a string or object/);
     });
 });

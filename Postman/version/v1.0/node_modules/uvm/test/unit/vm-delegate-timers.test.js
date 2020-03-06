@@ -3,9 +3,11 @@
         timers = require('timers'),
         delegateTimers = require('../../lib/uvm/vm-delegate-timers');
 
-    it('must work', function () {
+    it('should work', function () {
         var context = vm.createContext({});
-        expect(delegateTimers).withArgs(context).not.throwError();
+        expect(function () {
+            delegateTimers(context);
+        }).to.not.throw();
     });
 
     describe('function', function () {
@@ -32,18 +34,17 @@
         });
 
         describe('setTimeout', function () {
-            it('must be defined', function () {
+            it('should be defined', function () {
                 vm.runInContext(`
-                    expect(setTimeout).be.a('function');
-                    expect(setTimeout).not.equal(timers.setTimeout);
+                    expect(setTimeout).to.be.a('function').that.not.equal(timers.setTimeout);
                 `, context);
             });
 
-            it('must be able to set a timeout of 100ms', function (done) {
+            it('should be able to set a timeout of 100ms', function (done) {
                 var startTime = Date.now();
 
                 context.done = function () {
-                    expect(Date.now() - startTime).be.above(95);
+                    expect(Date.now() - startTime).to.be.above(95);
                     done();
                 };
                 vm.runInContext(`
@@ -53,18 +54,17 @@
         });
 
         describe('clearTimeout', function () {
-            it('must be defined', function () {
+            it('should be defined', function () {
                 vm.runInContext(`
-                    expect(clearTimeout).be.a('function');
-                    expect(clearTimeout).not.equal(timers.clearTimeout);
+                    expect(clearTimeout).to.be.a('function').that.not.equal(timers.clearTimeout);
                 `, context);
             });
 
-            it('must be able to clear a timeout', function (done) {
+            it('should be able to clear a timeout', function (done) {
                 var startTime = Date.now();
 
                 context.done = function () {
-                    expect(Date.now() - startTime).be.above(95);
+                    expect(Date.now() - startTime).to.be.above(95);
                     done();
                 };
                 vm.runInContext(`
@@ -78,26 +78,24 @@
         });
 
         describe('setInterval and clear interval', function () {
-            it('must define setter', function () {
+            it('should define setter', function () {
                 vm.runInContext(`
-                    expect(setInterval).be.a('function');
-                    expect(setInterval).not.equal(timers.setInterval);
+                    expect(setInterval).to.be.a('function').that.not.equal(timers.setInterval);
                 `, context);
             });
 
-            it('must define cleaner', function () {
+            it('should define cleaner', function () {
                 vm.runInContext(`
-                    expect(clearInterval).be.a('function');
-                    expect(clearInterval).not.equal(timers.clearInterval);
+                    expect(clearInterval).to.be.a('function').that.not.equal(timers.clearInterval);
                 `, context);
             });
 
-            it('must be able to set and clear intervals', function (done) {
+            it('should be able to set and clear intervals', function (done) {
                 var intervals = context.intervals = [];
 
                 context.compute = function () {
                     expect(intervals).to.have.property('length', 2);
-                    expect(intervals[1] - intervals[0]).be.within(20, 45);
+                    expect(intervals[1] - intervals[0]).to.be.within(20, 45);
                     done();
                 };
 
@@ -117,14 +115,13 @@
         });
 
         describe('setImmediate', function () {
-            it('must be defined', function () {
+            it('should be defined', function () {
                 vm.runInContext(`
-                    expect(setImmediate).be.a('function');
-                    expect(setImmediate).not.equal(timers.setImmediate);
+                    expect(setImmediate).to.be.a('function').that.not.equal(timers.setImmediate);
                 `, context);
             });
 
-            it('must execute a function immediately', function (done) {
+            it('should execute a function immediately', function (done) {
                 context.done = function () { done(); };
                 vm.runInContext(`
                     setImmediate(done);
@@ -133,14 +130,13 @@
         });
 
         describe('clearImmediate', function () {
-            it('must be defined', function () {
+            it('should be defined', function () {
                 vm.runInContext(`
-                    expect(clearImmediate).be.a('function');
-                    expect(clearImmediate).not.equal(timers.clearImmediate);
+                    expect(clearImmediate).to.be.a('function').that.not.equal(timers.clearImmediate);
                 `, context);
             });
 
-            it('must be able to revoke immediate queue', function (done) {
+            it('should be able to revoke immediate queue', function (done) {
                 context.done = function () { done(); };
 
                 context.redone = function () {
@@ -162,14 +158,16 @@
         var context = delegateTimers(vm.createContext({ expect: expect }));
 
         context.done = function (err, res) {
-            expect(err).to.be(null);
-            expect(res).be.an('object');
-            expect(res.typeOf).have.property('setTimeout_', 'undefined');
-            expect(res.typeOf).have.property('setInterval_', 'undefined');
-            expect(res.typeOf).have.property('setImmediate_', 'undefined');
-            expect(res.typeOf).have.property('clearTimeout_', 'undefined');
-            expect(res.typeOf).have.property('clearInterval_', 'undefined');
-            expect(res.typeOf).have.property('clearImmediate_', 'undefined');
+            expect(err).to.be.null;
+            expect(res).to.be.an('object');
+            expect(res.typeOf).to.include.keys({
+                setTimeout_: 'undefined',
+                setInterval_: 'undefined',
+                setImmediate_: 'undefined',
+                clearTimeout_: 'undefined',
+                clearInterval_: 'undefined',
+                clearImmediate_: 'undefined'
+            });
             done();
         };
 
@@ -191,8 +189,8 @@
         var context = delegateTimers(vm.createContext({ expect: expect }));
 
         context.done = function () {
-            expect(Function).not.have.property('setFromVM');
-            expect(Object).not.have.property('setFromVM');
+            expect(Function).to.not.have.property('setFromVM');
+            expect(Object).to.not.have.property('setFromVM');
             done();
         };
 
@@ -209,8 +207,8 @@
         var context = delegateTimers(vm.createContext({ expect: expect }));
 
         context.done = function () {
-            expect(Object).not.have.property('setFromVM');
-            expect(Function).not.have.property('setFromVM');
+            expect(Object).to.not.have.property('setFromVM');
+            expect(Function).to.not.have.property('setFromVM');
             done();
         };
 

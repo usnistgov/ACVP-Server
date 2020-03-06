@@ -10,6 +10,7 @@ using System.Linq;
 namespace NIST.CVP.Generation.TDES_CBC.Tests.ParserTests
 {
     [TestFixture, UnitTest]
+    [Ignore("Are these needed? Could be reworked to be simpler.")]
     public class LegacyResponseFileParserTests
     {
 

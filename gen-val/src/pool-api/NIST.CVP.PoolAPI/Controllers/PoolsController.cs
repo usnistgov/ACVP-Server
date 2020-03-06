@@ -8,6 +8,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 
 namespace NIST.CVP.PoolAPI.Controllers
 {
@@ -15,15 +17,20 @@ namespace NIST.CVP.PoolAPI.Controllers
     [ApiController]
     public class PoolsController : Controller
     {
-        private static readonly ILogger ThisLogger = LogManager.GetCurrentClassLogger();
-
-        private readonly PoolManager _poolManager;
-        private bool _isFillingPool = false;
-
+        private readonly ILogger<PoolsController> _logger;
         private readonly JsonSerializerSettings _jsonSettings;
-
-        public PoolsController(PoolManager poolManager, IJsonConverterProvider jsonConverterProvider)
+        private readonly PoolManager _poolManager;
+        
+        private readonly JsonResult _exceptionOnJsonEndpoint = new JsonResult(string.Empty)
         {
+            StatusCode = StatusCodes.Status500InternalServerError
+        };
+
+        private bool _isFillingPool;
+        
+        public PoolsController(ILogger<PoolsController> logger, PoolManager poolManager, IJsonConverterProvider jsonConverterProvider)
+        {
+            _logger = logger;
             _poolManager = poolManager;
             _jsonSettings = new JsonSerializerSettings
             {
@@ -35,18 +42,17 @@ namespace NIST.CVP.PoolAPI.Controllers
         [HttpPost]
         [Produces("application/json")]
         // /api/pools
-        public JsonResult GetDataFromPool(ParameterHolder parameterHolder)
+        public async Task<JsonResult> GetDataFromPool(ParameterHolder parameterHolder)
         {
             try
             {
-                return new JsonResult(_poolManager.GetResultFromPool(parameterHolder), _jsonSettings);
+                return new JsonResult(await _poolManager.GetResultFromPool(parameterHolder), _jsonSettings);
             }
             catch (Exception ex)
             {
-                ThisLogger.Error(ex, ex.StackTrace);
+                _logger.LogError(ex, ex.StackTrace);
+                return _exceptionOnJsonEndpoint;
             }
-
-            return new JsonResult("");
         }
 
         [HttpGet]
@@ -60,10 +66,9 @@ namespace NIST.CVP.PoolAPI.Controllers
             }
             catch (Exception ex)
             {
-                ThisLogger.Error(ex);
+                _logger.LogError(ex, ex.StackTrace);
+                return _exceptionOnJsonEndpoint;
             }
-
-            return new JsonResult("");
         }
 
         [HttpGet]
@@ -78,10 +83,9 @@ namespace NIST.CVP.PoolAPI.Controllers
             }
             catch (Exception ex)
             {
-                ThisLogger.Error(ex);
+                _logger.LogError(ex, ex.StackTrace);
+                return _exceptionOnJsonEndpoint;
             }
-
-            return new JsonResult("");
         }
 
         [HttpPost]
@@ -95,8 +99,8 @@ namespace NIST.CVP.PoolAPI.Controllers
             }
             catch (Exception ex)
             {
-                ThisLogger.Error(ex);
-                return new JsonResult("");
+                _logger.LogError(ex, ex.StackTrace);
+                return _exceptionOnJsonEndpoint;
             }
         }
 
@@ -143,7 +147,7 @@ namespace NIST.CVP.PoolAPI.Controllers
                 {
                     await Task.WhenAll(tasks);
 
-                    ThisLogger.Log(LogLevel.Info, "Pools have been filled.");
+                    _logger.LogInformation("Pools have been filled.");
                 }
 
                 _isFillingPool = false;
@@ -151,7 +155,7 @@ namespace NIST.CVP.PoolAPI.Controllers
             }
             catch (Exception ex)
             {
-                ThisLogger.Error(ex);
+                _logger.LogError(ex, ex.StackTrace);
                 return false;
             }
         }
@@ -178,15 +182,15 @@ namespace NIST.CVP.PoolAPI.Controllers
         [HttpPost]
         [Route("add")]
         // /api/pools/add
-        public bool PostDataToPool(ParameterHolder parameterHolder)
+        public async Task<bool> PostDataToPool(ParameterHolder parameterHolder)
         {
             try
             {
-                return _poolManager.AddResultToPool(parameterHolder);
+                return await _poolManager.AddResultToPool(parameterHolder);
             }
             catch (Exception ex)
             {
-                ThisLogger.Error(ex);
+                _logger.LogError(ex, ex.StackTrace);
                 return false;
             }
         }
@@ -202,7 +206,7 @@ namespace NIST.CVP.PoolAPI.Controllers
             }
             catch (Exception ex)
             {
-                ThisLogger.Error(ex);
+                _logger.LogError(ex, ex.StackTrace);
                 return new JsonResult("");
             }
         }
@@ -218,7 +222,7 @@ namespace NIST.CVP.PoolAPI.Controllers
             }
             catch (Exception ex)
             {
-                ThisLogger.Error(ex);
+                _logger.LogError(ex, ex.StackTrace);
                 return new JsonResult("");
             }
         }
@@ -226,10 +230,10 @@ namespace NIST.CVP.PoolAPI.Controllers
         [HttpPost]
         [Route("clean")]
         // /api/pools/clean
-        public bool CleanPools()
+        public async Task<bool> CleanPools()
         {
             // TODO should this clean THEN save? Or leave that up to the consumer?
-            return _poolManager.CleanPools();
+            return await _poolManager.CleanPools();
         }
     }
 }

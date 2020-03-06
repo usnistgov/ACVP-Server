@@ -5,7 +5,7 @@
  */
 var _ = require('lodash'),
     uuid = require('uuid'),
-    CircularJSON = require('circular-json'),
+    Flatted = require('flatted'),
     MESSAGE = 'message',
     LOAD = 'load',
     ERROR = 'error',
@@ -45,7 +45,7 @@ var _ = require('lodash'),
                         emit(e.data.__emit_uvm);
                 });
             }(__uvm_dispatch, "${id}"));
-            __uvm_emit('["load.${id}"]');
+            __uvm_emit('${Flatted.stringify(['load.' + id])}');
             __uvm_dispatch = null; __uvm_emit = null;
         `;
 
@@ -68,7 +68,7 @@ module.exports = function (bridge, options, callback) {
             if (!(e && e.data && _.isString(e.data.__emit_uvm) && (e.data.__id_uvm === id))) { return; }
 
             var args;
-            try { args = CircularJSON.parse(e.data.__emit_uvm); }
+            try { args = Flatted.parse(e.data.__emit_uvm); }
             catch (err) { return bridge.emit(ERROR, err); }
             bridge.emit.apply(bridge, args); // eslint-disable-line prefer-spread
         },
@@ -83,7 +83,7 @@ module.exports = function (bridge, options, callback) {
                 }
 
                 iframe.contentWindow.postMessage({
-                    __emit_uvm: CircularJSON.stringify(Array.prototype.slice.call(arguments)),
+                    __emit_uvm: Flatted.stringify(Array.prototype.slice.call(arguments)),
                     __id_uvm: id
                 }, TARGET_ALL);
             };

@@ -29,6 +29,24 @@ test('#beforeItem correctly handles tests within a folder', () => {
   expect(outputData).toEqual(expect.stringMatching(/^##teamcity\[testStarted name='FolderName\/TestName' .*\]~~~$/));
 });
 
+test('#beforeItem correctly handles tests with iterations', () => {
+  const emitter = new EventEmitter();
+  const reporter = new TeamcityReporter(emitter, reporterOptions, options);
+
+  outputData = "";
+  console["log"] = jest.fn(storeLog);
+
+  let args2 = args;
+  args2 = {
+    ...args,
+    cursor: { iteration: 2, cycles: 4 },
+  };
+
+  emitter.emit('beforeItem', err, args2);
+  expect(outputData).toEqual(expect.stringMatching(/^##teamcity\[testStarted name='FolderName\/TestName\/2' .*\]~~~$/));
+});
+
+
 test('#item reports response code of failed requests correctly', () => {
   const emitter = new EventEmitter();
   const reporter = new TeamcityReporter(emitter, reporterOptions, options);

@@ -1,6 +1,72 @@
-<body>
-  <app-nav-menu></app-nav-menu>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container">
-    <router-outlet></router-outlet>
+    <a class="navbar-brand" [routerLink]="['/']"><img src="assets/ACVP-filler-logo.png" height="55px" width="217px">	</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto">
+
+        <!-- ACVP Navbar group -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbar_acvp" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            ACVP
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbar_acvp">
+            <a class="dropdown-item" href="#">Users</a>
+            <a class="dropdown-item" href="#">Sessions</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">Workflow Items</a>
+          </div>
+        </li>
+
+        <!-- Administration navbar group -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbar_administration" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Administration
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbar_administration">
+            <a class="dropdown-item" href="#">Properties</a>
+          </div>
+        </li>
+
+        <!-- Legacy (LCAVP) navbar group -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbar_legacy" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Legacy CAVP
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbar_legacy">
+            <a class="dropdown-item" [routerLink]="['/legacyFileUpload']">Upload ZIP</a>
+            <a class="dropdown-item" href="#">Review</a>
+          </div>
+        </li>
+
+        <!-- Validation DB navbar group -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbar_validation_db" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Validation DB
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbar_validation_db">
+            <a class="dropdown-item" [routerLink]="['/validation-db/validations']">Validations</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">Organizations</a>
+            <a class="dropdown-item" [routerLink]="['validation-db/persons']">Persons</a>
+            <a class="dropdown-item" [routerLink]="['validation-db/products']">Products</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" [routerLink]="['validation-db/operatingEnvironments']">Operating Environments</a>
+            <a class="dropdown-item" [routerLink]="['validation-db/dependencies']">Dependencies</a>
+          </div>
+        </li>
+      </ul>
+    </div>
   </div>
-</body>
+</nav>
+
+<!-- Left down here for documentation's sake, so I remember the correct form of linking in the new Angular-->
+<!-- <ul>
+  <li><a routerLink="">Home</a></li>
+  <li><a routerLink="about">About</a></li>
+</ul> -->
+
+<router-outlet></router-outlet>
