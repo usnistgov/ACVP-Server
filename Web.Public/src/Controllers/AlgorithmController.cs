@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Web.Public.JsonObjects;
 using Web.Public.Providers;
@@ -6,7 +5,6 @@ using Web.Public.Providers;
 namespace Web.Public.Controllers
 {
     [Route("acvp/algorithms")]
-    [Authorize]
     [ApiController]
     public class AlgorithmController : ControllerBase
     {
