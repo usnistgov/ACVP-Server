@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data.Common;
+using ACVPCore.ExtensionMethods;
 using ACVPCore.Models;
+using ACVPCore.Models.Parameters;
 using ACVPCore.Results;
 using CVP.DatabaseInterface;
 using Microsoft.Extensions.Logging;
@@ -301,36 +305,36 @@ namespace ACVPCore.Providers
 			}
 		}
 
-		public List<Dependency> Get(long pageSize, long pageNumber)
+		public PagedEnumerable<Dependency> Get(DependencyListParameters param)
 		{
-			var db = new MightyOrm(_acvpConnectionString);
+			var result = new List<Dependency>();
+			long totalRecords = 0;
+			var db = new MightyOrm<Dependency>(_acvpConnectionString);
 
-			List<Dependency> result = new List<Dependency>();
 			try
 			{
-				var data = db.QueryFromProcedure("val.DependenciesGet", inParams: new
+				var dbResult = db.QueryWithExpando("val.DependenciesGet", inParams: new
 				{
-					PageSize = pageSize,
-					PageNumber = pageNumber
+					PageSize = param.PageSize,
+					PageNumber = param.Page,
+					Id = param.Id,
+					Name = param.Name,
+					Type = param.Type,
+					Description = param.Description
+				}, new
+				{
+					totalRecords = (long)0
 				});
 
-				foreach (var attribute in data)
-				{
-					result.Add(new Dependency
-					{
-						ID = attribute.id,
-						Name = attribute.name,
-						Type = attribute.dependency_type,
-						Description = attribute.description
-					});
-				}
+				result = dbResult.Data;
+				totalRecords = dbResult.ResultsExpando.totalRecords;
 			}
 			catch (Exception ex)
 			{
 				_logger.LogError(ex.Message);
 			}
 
-			return result;
+			return result.WrapPagedEnumerable(param.PageSize, param.Page, totalRecords);
 		}
 	}
 }

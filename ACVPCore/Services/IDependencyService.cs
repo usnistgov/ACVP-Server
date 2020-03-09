@@ -14,7 +14,7 @@ namespace ACVPCore.Services
 		DependencyResult Create(DependencyCreateParameters dependency);
 		DependencyResult Update(DependencyUpdateParameters parameters);
 		Dependency Get(long dependencyId);
-		List<Dependency> Get(long pageSize, long pageNumber);
+		PagedEnumerable<Dependency> Get(DependencyListParameters param);
 		bool DependencyIsUsed(long dependencyID);
 		bool DependencyExists(long dependencyID);
 	}
