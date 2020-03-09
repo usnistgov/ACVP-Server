@@ -11,18 +11,18 @@
           </tr>
           <tr>
             <th>Name</th>
-            <td>{{workflowItem?.payload.name}}</td>
-            <td>{{currentState?.name}}</td>
+            <td>{{ currentState?.name == "" || currentState?.name == null ? "(Empty)" : currentState?.name }}</td>
+            <td>{{ workflowItem?.payload.name == "" || workflowItem?.payload.name == null ? "(Empty Name)" : workflowItem?.payload.name }}</td>
           </tr>
           <tr>
             <th>Type</th>
-            <td>{{workflowItem?.payload.type}}</td>
-            <td>{{currentState?.type}}</td>
+            <td>{{ currentState?.type == "" || currentState?.type == null ? "(Empty)" : currentState?.type }}</td>
+            <td>{{ workflowItem?.payload.type == "" || workflowItem?.payload.type == null ? "(Empty Type)" : workflowItem?.payload.type }}</td>
           </tr>
           <tr>
             <th>Description</th>
-            <td>{{workflowItem?.payload.description}}</td>
-            <td>{{currentState?.description}}</td>
+            <td>{{ currentState?.description == "" || currentState?.description == null ? "(Empty)" : currentState?.description }}</td>
+            <td>{{ workflowItem?.payload.description == "" || workflowItem?.payload.description == null ? "(Empty Description)" : workflowItem?.payload.description }}</td>
           </tr>
         </table>
       </div>
@@ -47,17 +47,18 @@
 </div>
 
 <div class="row mt-3">
+
   <div class="col-lg-6">
     <div class="card">
       <h5 class="card-header">Existing Attributes</h5>
       <div class="card-body">
         <table class="table">
-          <tr *ngFor="let key of objectKeys(workflowItem.payload)">
-            <th style="border:none;" *ngIf="isUserDefinedAttribute(key)">
-              {{ key }}
+          <tr *ngFor="let attribute of currentState?.attributes">
+            <th style="border:none;">
+              {{ attribute?.name == "" || atribute?.name == null ? "(Empty)" : attribute?.name }}
             </th>
-            <td style="border:none;" *ngIf="isUserDefinedAttribute(key)">
-              {{ workflowItem.payload[key] }}
+            <td style="border:none;">
+              {{ attribute?.value == "" || atribute?.value == null ? "(Empty)" : attribute?.value }}
             </td>
           </tr>
         </table>
@@ -70,12 +71,12 @@
       <h5 class="card-header">Proposed Attributes</h5>
       <div class="card-body">
         <table class="table">
-          <tr *ngFor="let attribute of currentState?.attributes">
-            <th style="border:none;">
-              {{ attribute.name }}
+          <tr *ngFor="let key of objectKeys(workflowItem.payload)">
+            <th style="border:none;" *ngIf="isUserDefinedAttribute(key)">
+              {{ key }}
             </th>
-            <td style="border:none;">
-              {{ attribute.value }}
+            <td style="border:none;" *ngIf="isUserDefinedAttribute(key)">
+              {{ workflowItem.payload[key] }}
             </td>
           </tr>
         </table>
