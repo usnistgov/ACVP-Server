@@ -1,21 +1,19 @@
 ﻿using ACVPCore;
-using ACVPCore.ExtensionMethods;
 using ACVPCore.Models;
 using ACVPCore.Models.Parameters;
 using ACVPCore.Results;
 using ACVPCore.Services;
 using Microsoft.AspNetCore.Mvc;
-using System;
 
 namespace Web.Admin.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductsController : ControllerBase
+    public class ImplementationsController : ControllerBase
     {
         private readonly IImplementationService _implementationService;
 
-        public ProductsController(
+        public ImplementationsController(
            IImplementationService implementationService)
         {
             _implementationService = implementationService;
@@ -27,13 +25,13 @@ namespace Web.Admin.Controllers
             return _implementationService.Get(implementationId);
         }
 
-        [HttpGet]
-        public WrappedEnumerable<Implementation> ListImplementations(long pageSize, long pageNumber)
+        [HttpPost]
+        public ActionResult<PagedEnumerable<Implementation>> ListImplementations(ImplementationListParameters param)
         {
-            // Set some defaults in case no values are provided
-            if (pageSize == 0) { pageSize = 10; }
-            if (pageNumber == 0) { pageNumber = 1; }
-            return _implementationService.ListImplementations(pageSize, pageNumber).WrapEnumerable();
+            if (param == null)
+                return new BadRequestResult();
+            
+            return _implementationService.ListImplementations(param);
         }
 
         [HttpPatch("{implementationId}")]
@@ -66,7 +64,7 @@ namespace Web.Admin.Controllers
                 parameters.OrganizationID = implementation.Vendor.ID;
                 parameters.OrganizationIDUpdated = true;
             }
-            if (implementation.Type != Implementation.ModuleType.UNKNOWN)
+            if (implementation.Type != ImplementationType.Unknown)
             {
                 parameters.Type = ImplementationTypeExtensions.FromString(implementation.Type.ToString());
                 parameters.TypeUpdated = true;
