@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using ACVPCore.ExtensionMethods;
 using ACVPCore.Models;
+using ACVPCore.Models.Parameters;
 using ACVPCore.Results;
 using CVP.DatabaseInterface;
 using Microsoft.Extensions.Logging;
@@ -246,34 +248,34 @@ namespace ACVPCore.Providers
 			return OEResult;
 		}
 
-		public List<OperatingEnvironmentLite> Get(long pageSize, long pageNumber)
+		public PagedEnumerable<OperatingEnvironmentLite> Get(OeListParameters param)
 		{
-			var db = new MightyOrm(_acvpConnectionString);
-
 			List<OperatingEnvironmentLite> result = new List<OperatingEnvironmentLite>();
+			long totalRecords = 0;
+			var db = new MightyOrm<OperatingEnvironmentLite>(_acvpConnectionString);
 
 			try
 			{
-				var data = db.QueryFromProcedure("val.OEsGet", inParams: new
+				var dbResult = db.QueryWithExpando("val.OEsGet", inParams: new
 				{
-					PageSize = pageSize,
-					PageNumber = pageNumber
+					PageSize = param.PageSize,
+					PageNumber = param.Page,
+					Id = param.Id,
+					Name = param.Name
+				}, new
+				{
+					totalRecords = (long)0
 				});
 
-				foreach (var oe in data)
-				{
-					result.Add(new OperatingEnvironmentLite
-					{
-						ID = oe.id,
-						Name = oe.name
-					});
-				}
+				result = dbResult.Data;
+				totalRecords = dbResult.ResultsExpando.totalRecords;
 			}
 			catch (Exception ex)
 			{
 				_logger.LogError(ex.Message);
 			}
-			return result;
+
+			return result.WrapPagedEnumerable(param.PageSize, param.Page, totalRecords);
 		}
 	}
 }

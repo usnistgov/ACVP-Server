@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using ACVPCore.Models;
+using ACVPCore.Models.Parameters;
 using ACVPCore.Results;
 
 namespace ACVPCore.Providers
@@ -16,6 +17,6 @@ namespace ACVPCore.Providers
 		bool OEIsUsed(long oeID);
 		bool OEExists(long oeID);
 		OperatingEnvironment Get(long oeID);
-		List<OperatingEnvironmentLite> Get(long pageSize, long pageNumber);
+		PagedEnumerable<OperatingEnvironmentLite> Get(OeListParameters param);
 	}
 }

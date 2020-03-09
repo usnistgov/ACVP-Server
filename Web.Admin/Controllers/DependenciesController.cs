@@ -72,8 +72,11 @@ namespace Web.Admin.Controllers
         }
 
         [HttpPost]
-        public PagedEnumerable<Dependency> GetDependencies(DependencyListParameters param)
+        public ActionResult<PagedEnumerable<Dependency>> GetDependencies(DependencyListParameters param)
         {
+            if (param == null)
+                return new BadRequestResult();
+            
             return _dependencyService.Get(param);
         }
     }

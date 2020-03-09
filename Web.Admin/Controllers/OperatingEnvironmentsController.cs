@@ -16,8 +16,7 @@ namespace Web.Admin.Controllers
     {
         private readonly IOEService _oeService;
 
-        public OperatingEnvironmentsController(
-           IOEService oeService)
+        public OperatingEnvironmentsController(IOEService oeService)
         {
             _oeService = oeService;
         }
@@ -40,14 +39,13 @@ namespace Web.Admin.Controllers
             return _oeService.RemoveDependencyLink(oeID, dependencyID);
         }
 
-        [HttpGet]
-        public WrappedEnumerable<OperatingEnvironmentLite> GetOEs(long pageSize, long pageNumber)
+        [HttpPost]
+        public ActionResult<PagedEnumerable<OperatingEnvironmentLite>> GetOEs(OeListParameters param)
         {
-            // Set some defaults in case no values are provided
-            if (pageSize == 0) { pageSize = 10; }
-            if (pageNumber == 0) { pageNumber = 1; }
+            if (param == null)
+                return new BadRequestResult();
 
-            return _oeService.Get(pageSize, pageNumber).WrapEnumerable();
+            return _oeService.Get(param);
         }
 
         [HttpPatch("{oeID}")]
