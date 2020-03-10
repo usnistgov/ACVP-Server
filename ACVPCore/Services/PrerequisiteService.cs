@@ -13,5 +13,7 @@ namespace ACVPCore.Services
 		}
 
 		public Result DeleteAllForScenarioAlgorithm(long scenarioAlgorithmID) => _prerequisiteProvider.DeleteAllForScenarioAlgorithm(scenarioAlgorithmID);
+
+		public InsertResult Create(long scenarioAlgorithmID, long validationID, string requirement) => _prerequisiteProvider.Insert(scenarioAlgorithmID, validationID, requirement);
 	}
 }

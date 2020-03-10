@@ -53,7 +53,7 @@ namespace ACVPCore.Algorithms.Persisted
 			[AlgorithmProperty("modulo")]
 			public int Modulo { get; set; }
 
-			[AlgorithmProperty("primeTest")]
+			[AlgorithmProperty("hashPair")]
 			public List<HashPair> HashPairs { get; set; } = new List<HashPair>();
 
 			public Property() { }
@@ -72,7 +72,7 @@ namespace ACVPCore.Algorithms.Persisted
 		public class HashPair
 		{
 			[AlgorithmProperty("hashAlg")]
-			public List<string> HashAlgorithms { get; set; }
+			public string HashAlgorithm { get; set; }
 
 			[AlgorithmProperty("saltLen")]
 			public int? SaltLength { get; set; }
@@ -80,7 +80,7 @@ namespace ACVPCore.Algorithms.Persisted
 			public HashPair() { }
 			public HashPair(External.RSASigGen186_4.HashPair externalHashPair)
 			{
-				HashAlgorithms = externalHashPair.HashAlgorithms;
+				HashAlgorithm = externalHashPair.HashAlgorithm;
 				SaltLength = externalHashPair.SaltLength;
 			}
 		}

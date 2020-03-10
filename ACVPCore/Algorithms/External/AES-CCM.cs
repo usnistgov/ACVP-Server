@@ -10,10 +10,10 @@ namespace ACVPCore.Algorithms.External
 		public List<int> KeyLength{ get; set; }
 
 		[JsonPropertyName("tagLen")]
-		public List<long> TagLength { get; set; }
+		public List<int> TagLength { get; set; }
 
 		[JsonPropertyName("ivLen")]
-		public List<long> IVLength { get; set; }
+		public Domain IVLength { get; set; }
 
 		[JsonPropertyName("payloadLen")]
 		public Domain PayloadLength { get; set; }

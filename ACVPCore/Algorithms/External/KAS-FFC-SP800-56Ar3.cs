@@ -59,8 +59,8 @@ namespace ACVPCore.Algorithms.External
 			[JsonPropertyName("keyConfirmationMethod")]
 			public KeyConfirmationMethod KeyConfirmationMethod { get; set; }
 
-			[JsonPropertyName("I")]
-			public int I { get; set; }
+			[JsonPropertyName("l")]
+			public int L { get; set; }
 		}
 
 		public class SchemeNoKc
@@ -71,8 +71,8 @@ namespace ACVPCore.Algorithms.External
 			[JsonPropertyName("kdfMethods")]
 			public KdfMethods KdfMethods { get; set; }
 
-			[JsonPropertyName("I")]
-			public int I { get; set; }
+			[JsonPropertyName("l")]
+			public int L { get; set; }
 		}
 
 
@@ -143,7 +143,7 @@ namespace ACVPCore.Algorithms.External
 			[JsonPropertyName("supportsEmptyIv")]
 			public bool SupportsEmptyIV { get; set; }
 
-			[JsonPropertyName("requriesEmptyIv")]
+			[JsonPropertyName("requiresEmptyIv")]
 			public bool RequiresEmptyIV { get; set; }
 		}
 

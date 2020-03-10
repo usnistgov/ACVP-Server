@@ -12,12 +12,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="$(NuGetVersionMicrosoftAspNetCore)" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="$(NuGetVersionMicrosoftAspNetCore)" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="$(NuGetVersionMicrosoftExtensionsLoggingAbstractions)" />
     <PackageReference Include="Mighty" Version="$(NuGetVersionMighty)" />
     <PackageReference Include="Otp.NET" Version="1.2.2" />
-    <PackageReference Include="System.Data.SqlClient" Version="4.8.0" />
-    <PackageReference Include="System.Text.Json" Version="4.7.0" />
+    <PackageReference Include="System.Data.SqlClient" Version="$(NuGetVersionSystemDataSqlClient)" />
+    <PackageReference Include="System.Text.Json" Version="$(NuGetVersionSystemTextJson)" />
   </ItemGroup>
 
   <ItemGroup>

@@ -26,7 +26,7 @@ namespace ACVPCore.Algorithms.Persisted
 		public class SchemeCollection
 		{
 			[AlgorithmProperty(Name = "ephemeralUnified", PrependParentPropertyName = true)]
-			public Scheme EphemeralUnified { get; set; }
+			public SchemeEphemeralUnified EphemeralUnified { get; set; }
 
 			[AlgorithmProperty(Name = "fullUnified", PrependParentPropertyName = true)]
 			public Scheme FullUnified { get; set; }
@@ -48,7 +48,7 @@ namespace ACVPCore.Algorithms.Persisted
 
 			public static SchemeCollection Create(External.KAS_ECC.SchemeCollection externalSchemeCollection) => externalSchemeCollection == null ? null : new SchemeCollection
 			{
-				EphemeralUnified = Scheme.Create(externalSchemeCollection.EphemeralUnified),
+				EphemeralUnified = SchemeEphemeralUnified.Create(externalSchemeCollection.EphemeralUnified),
 				FullUnified = Scheme.Create(externalSchemeCollection.FullUnified),
 				FullMQV = Scheme.Create(externalSchemeCollection.FullMQV),
 				OnePassUnified = Scheme.Create(externalSchemeCollection.OnePassUnified),
@@ -74,6 +74,21 @@ namespace ACVPCore.Algorithms.Persisted
 				Role = externalScheme.Role,
 				KdfNoKc = KdfNoKc.Create(externalScheme.KdfNoKc),
 				KdfKc = KdfKc.Create(externalScheme.KdfKc)
+			};
+		}
+
+		public class SchemeEphemeralUnified
+		{
+			[AlgorithmProperty(Name = "kasRole", PrependParentPropertyName = true)]
+			public List<string> Role { get; set; }
+
+			[AlgorithmProperty(Name = "kdfNoKc", PrependParentPropertyName = true)]
+			public KdfNoKc KdfNoKc { get; set; }
+
+			public static SchemeEphemeralUnified Create(External.KAS_ECC.SchemeEphemeralUnified externalScheme) => externalScheme == null ? null : new SchemeEphemeralUnified
+			{
+				Role = externalScheme.Role,
+				KdfNoKc = KdfNoKcStaticUnified.Create(externalScheme.KdfNoKc)
 			};
 		}
 
@@ -273,10 +288,14 @@ namespace ACVPCore.Algorithms.Persisted
 		public abstract class MacOptionsBase
 		{
 			[AlgorithmProperty(Name = "AES-CCM", PrependParentPropertyName = true)]
-			public MacOption AesCcm { get; set; }
+			public MacOptionWithNonceLen AesCcm { get; set; }
 
 			[AlgorithmProperty(Name = "CMAC", PrependParentPropertyName = true)]
 			public MacOption Cmac { get; set; }
+
+			//Hmac is kind of a garbage property, only there for some really, really old stuff. Never use it. Just there to match the database
+			[AlgorithmProperty(Name = "HMAC", PrependParentPropertyName = true)]
+			public MacOptionEmpty Hmac { get; set; }
 
 			[AlgorithmProperty(Name = "HMAC-SHA2-512", PrependParentPropertyName = true)]
 			public MacOption HmacSha2_D512 { get; set; }
@@ -308,7 +327,7 @@ namespace ACVPCore.Algorithms.Persisted
 
 			public static MacOptionsEB Create(External.KAS_ECC.MacOptionsEB externalMacOptions) => externalMacOptions == null ? null : new MacOptionsEB
 			{
-				AesCcm = MacOption.Create(externalMacOptions.AesCcm),
+				AesCcm = MacOptionWithNonceLen.Create(externalMacOptions.AesCcm),
 				Cmac = MacOption.Create(externalMacOptions.Cmac),
 				HmacSha2_D224 = MacOption.Create(externalMacOptions.HmacSha2_D224),
 				HmacSha2_D256 = MacOption.Create(externalMacOptions.HmacSha2_D256),
@@ -327,7 +346,7 @@ namespace ACVPCore.Algorithms.Persisted
 
 			public static MacOptionsEC Create(External.KAS_ECC.MacOptionsEC externalMacOptions) => externalMacOptions == null ? null : new MacOptionsEC
 			{
-				AesCcm = MacOption.Create(externalMacOptions.AesCcm),
+				AesCcm = MacOptionWithNonceLen.Create(externalMacOptions.AesCcm),
 				Cmac = MacOption.Create(externalMacOptions.Cmac),
 				HmacSha2_D256 = MacOption.Create(externalMacOptions.HmacSha2_D256),
 				HmacSha2_D384 = MacOption.Create(externalMacOptions.HmacSha2_D384),
@@ -342,7 +361,7 @@ namespace ACVPCore.Algorithms.Persisted
 
 			public static MacOptionsED Create(External.KAS_ECC.MacOptionsED externalMacOptions) => externalMacOptions == null ? null : new MacOptionsED
 			{
-				AesCcm = MacOption.Create(externalMacOptions.AesCcm),
+				AesCcm = MacOptionWithNonceLen.Create(externalMacOptions.AesCcm),
 				Cmac = MacOption.Create(externalMacOptions.Cmac),
 				HmacSha2_D384 = MacOption.Create(externalMacOptions.HmacSha2_D384),
 				HmacSha2_D512 = MacOption.Create(externalMacOptions.HmacSha2_D512)
@@ -353,7 +372,7 @@ namespace ACVPCore.Algorithms.Persisted
 		{
 			public static MacOptionsEE Create(External.KAS_ECC.MacOptionsEE externalMacOptions) => externalMacOptions == null ? null : new MacOptionsEE
 			{
-				AesCcm = MacOption.Create(externalMacOptions.AesCcm),
+				AesCcm = MacOptionWithNonceLen.Create(externalMacOptions.AesCcm),
 				Cmac = MacOption.Create(externalMacOptions.Cmac),
 				HmacSha2_D512 = MacOption.Create(externalMacOptions.HmacSha2_D512)
 			};

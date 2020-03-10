@@ -10,7 +10,7 @@ namespace ACVPCore.Algorithms.Persisted
 		public ECDSAKeyVer186_4()
 		{
 			Name = "ECDSA";
-			Mode = "keyGen";
+			Mode = "keyVer";
 			Revision = "1.0";
 		}
 

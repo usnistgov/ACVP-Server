@@ -14,7 +14,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="$(NuGetVersionMicrosoftAspNetCore)" />
+        <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="3.1.2" />
 
         <PackageReference Include="Serilog" Version="$(NuGetVersionSerilog)" />
         <PackageReference Include="Serilog.Extensions.Hosting" Version="$(NuGetVersionSerilogExtensionsHosting)" />
@@ -26,7 +26,7 @@
         <PackageReference Include="Microsoft.NETCore.Targets" Version="$(NuGetVersionMicrosoftNETCoreTargets)" PrivateAssets="all" />
         <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="$(NuGetVersionMicrosoftAspNetCore)" />
         <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="$(NuGetVersionMicrosoftAspNetCore)" />
-        <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="$(NuGetVersionMicrosoftAspNetCore)" />
+        <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="$(NuGetVersionMicrosoftVisualStudioWebCodeGenerationDesign)" />
         <PackageReference Include="Microsoft.AspNetCore.Authentication.WsFederation" Version="$(NuGetVersionMicrosoftAspNetCore)" />
     </ItemGroup>
 
@@ -78,6 +78,7 @@
       <ProjectReference Include="..\ACVPCore\ACVPCore.csproj" />
       <ProjectReference Include="..\ACVPWorkflow\ACVPWorkflow.csproj" />
       <ProjectReference Include="..\gen-val\src\common\src\NIST.CVP.Common\NIST.CVP.Common.csproj" />
+      <ProjectReference Include="..\LCAVPCore\LCAVPCore.csproj" />
     </ItemGroup>
 
     <!-- vvv App settings linking, directory changes depending on build environment vvv -->

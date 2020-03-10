@@ -9,7 +9,7 @@ namespace ACVPCore.Algorithms.External
 		public List<string> Curves { get; set; }
 
 		[JsonPropertyName("secretGenerationMode")]
-		public List<int> SecretGenerationMode { get; set; }
+		public List<string> SecretGenerationMode { get; set; }
 
 		public ECDSAKeyGen186_4()
 		{

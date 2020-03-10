@@ -8,22 +8,22 @@ namespace ACVPCore.Algorithms.Persisted
 		[AlgorithmProperty(Name = "direction")]
 		public List<string> Direction { get; set; }
 
-		[AlgorithmProperty(Name = "ivGen")]
+		[AlgorithmProperty(Name = "ivgen")]
 		public string IVGen { get; set; }
 
-		[AlgorithmProperty(Name = "ivGenMode")]
+		[AlgorithmProperty(Name = "ivgenmode")]
 		public string IVGenMode { get; set; }
 
 		[AlgorithmProperty(Name = "key")]
 		public List<int> KeyLength { get; set; }
 
-		[AlgorithmProperty(Name = "tagLen")]
+		[AlgorithmProperty(Name = "tag")]
 		public List<int> TagLength { get; set; }
 
-		[AlgorithmProperty(Name = "ivLen")]
+		[AlgorithmProperty(Name = "iv")]
 		public Domain IVLength { get; set; }
 
-		[AlgorithmProperty(Name = "aadLen")]
+		[AlgorithmProperty(Name = "aad")]
 		public Domain AADLength { get; set; }
 
 		public AES_GMAC()

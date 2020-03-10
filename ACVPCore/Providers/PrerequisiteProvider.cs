@@ -36,5 +36,27 @@ namespace ACVPCore.Providers
 
 			return new Result();
 		}
+
+		public InsertResult Insert(long scenarioAlgorithmID, long validationID, string requirement)
+		{
+			var db = new MightyOrm(_acvpConnectionString);
+
+			try
+			{
+				var data = db.ScalarFromProcedure("val.PrerequisiteInsert", inParams: new
+				{
+					ScenarioAlgorithmId = scenarioAlgorithmID,
+					ValidationId = validationID,
+					Requirement = requirement
+				});
+
+				return new InsertResult((long)data);
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex.Message);
+				return new InsertResult(ex.Message);
+			}
+		}
 	}
 }

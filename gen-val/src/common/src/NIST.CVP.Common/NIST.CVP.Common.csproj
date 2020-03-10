@@ -6,12 +6,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="$(NuGetVersionMicrosoftAspNetCore)" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="$(NuGetVersionMicrosoftAspNetCore)" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="$(NuGetVersionMicrosoftAspNetCore)" />
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="$(NuGetVersionMicrosoftAspNetCore)" />
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="$(NuGetVersionMicrosoftAspNetCore)" />
-    <PackageReference Include="Microsoft.Extensions.Http" Version="$(NuGetVersionMicrosoftAspNetCore)" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="$(NuGetVersionMicrosoftExtensionsOptionsConfigurationExtensions)" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="$(NuGetVersionMicrosoftExtensionsConfigurationJson)" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="$(NuGetVersionMicrosoftExtensionsDependencyInjections)" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="$(NuGetVersionMicrosoftExtensionsLogging)" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="$(NuGetVersionMicrosoftExtensionsConfiguration)" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="$(NuGetVersionMicrosoftExtensionsHttp)" />
     <PackageReference Include="Autofac" Version="$(NuGetVersionAutofac)" />
     <PackageReference Include="NLog" Version="$(NuGetVersionNLog)" />
     <PackageReference Include="Serilog" Version="$(NuGetVersionSerilog)" />
