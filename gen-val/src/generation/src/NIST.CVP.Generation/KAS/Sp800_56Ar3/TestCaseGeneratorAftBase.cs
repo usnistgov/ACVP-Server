@@ -32,7 +32,8 @@ namespace NIST.CVP.Generation.KAS.Sp800_56Ar3
                     KasScheme = group.Scheme,
                     KasAlgorithm = group.KasAlgorithm,
                     IutGenerationRequirements = group.KeyNonceGenRequirementsIut,
-                    ServerGenerationRequirements = group.KeyNonceGenRequirementsServer
+                    ServerGenerationRequirements = group.KeyNonceGenRequirementsServer,
+                    PartyIdServer = group.ServerId
                 });
 
                 return new TestCaseGenerateResponse<TTestGroup, TTestCase>(new TTestCase()

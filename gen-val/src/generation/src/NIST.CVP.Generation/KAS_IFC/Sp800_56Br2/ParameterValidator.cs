@@ -124,6 +124,18 @@ namespace NIST.CVP.Generation.KAS_IFC.Sp800_56Br2
         private static readonly int[] ValidAesKeyLengths = new[] { 128, 192, 256 };
         private static readonly int MinimumL = 112;
         private static readonly int MaximumL = 1024;
+        
+        private static readonly string[] ValidFixedInfoPatternPieces =
+        {
+            "l",
+            "iv",
+            "salt",
+            "uPartyInfo",
+            "vPartyInfo",
+            "context",
+            "algorithmId",
+            "label"
+        };
         #endregion Validation statics
 
         private AlgoMode _algoMode;
@@ -490,8 +502,10 @@ namespace NIST.CVP.Generation.KAS_IFC.Sp800_56Br2
                 errorResults.Add($"{nameof(fixedInfoPattern)} was not provided.");
                 return;
             }
-
-            const string fiRegex = @"^((?!(l|iv|salt|uPartyInfo|vPartyInfo|context|algorithmId|label|literal\[[0-9a-fA-F]+\])).)+$";
+            
+            Regex notHexRegex = new Regex(@"[^0-9a-fA-F]", RegexOptions.IgnoreCase);
+            string literalStart = "literal[";
+            string literalEnd = "]";
 
             if (requiredPieces != null)
             {
@@ -511,10 +525,22 @@ namespace NIST.CVP.Generation.KAS_IFC.Sp800_56Br2
             }
             foreach (var fiPiece in fiPieces)
             {
-                Regex regex = new Regex(fiRegex, RegexOptions.IgnoreCase);
-                if (regex.IsMatch(fiPiece))
+                if (fiPiece.StartsWith(literalStart) && fiPiece.EndsWith(literalEnd))
                 {
-                    errorResults.Add($"{nameof(fixedInfoPattern)} has invalid element {fiPiece}");
+                    var tempLiteral = fiPiece.Replace(literalStart, string.Empty);
+                    tempLiteral = tempLiteral.Replace(literalEnd, string.Empty);
+
+                    if (notHexRegex.IsMatch(tempLiteral))
+                    {
+                        errorResults.Add("literal element of fixedInfoPattern contained non hex values.");
+                    }
+                    
+                    continue;
+                }
+
+                if (!ValidFixedInfoPatternPieces.Contains(fiPiece))
+                {
+                    errorResults.Add($"Invalid portion of fixedInfoPattern: {fiPiece}");
                 }
             }
         }

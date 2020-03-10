@@ -13,9 +13,13 @@ namespace NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC.Helpers
                 case 1024:
                     return (N == 160);
                 case 2048:
-                    return (N == 224 || N == 256 || N == 2048);
+                    return (N == 224 || N == 256 || N == L);
                 case 3072:
-                    return (N == 256);
+                    return (N == 256 || N == L);
+                case 4096:
+                case 6144:
+                case 8192:
+                    return (N == L);
                 default:
                     return false;
             }
@@ -23,20 +27,20 @@ namespace NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC.Helpers
 
         public static int GetMillerRabinIterations(int L, int N)
         {
-            if (L == 1024)
+            switch (L)
             {
-                return 40;
+                case 1024:
+                    return 40;
+                case 2048:
+                    return 56;
+                case 3072:
+                case 4096:
+                case 6144:
+                case 8192:
+                    return 64;
+                default:
+                    throw new Exception("Not a valid L");
             }
-            else if(L == 2048)
-            {
-                return 56;
-            }
-            else if(L == 3072)
-            {
-                return 64;
-            }
-
-            throw new Exception("Not a valid L");
         }
     }
 }
