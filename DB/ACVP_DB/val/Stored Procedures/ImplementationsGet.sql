@@ -16,9 +16,9 @@ AS
 		JOIN [ref].[MODULE_TYPE] AS m
 		ON m.id = p.module_type
 	WHERE	1=1
-		AND ((@Id IS NULL OR p.id = @Id)
-		OR (@Name IS NULL OR p.module_name LIKE '%' + @Name + '%')
-		OR (@Name IS NULL OR p.implementation_description LIKE '%' + @Description + '%'))
+		AND (@Id IS NULL OR p.id = @Id)
+		AND (@Name IS NULL OR p.module_name LIKE '%' + @Name + '%')
+		AND (@Description IS NULL OR p.implementation_description LIKE '%' + @Description + '%')
 
 	SELECT  p.id as 'product_id',
 			p.product_url as 'product_url',
@@ -49,9 +49,9 @@ AS
 		JOIN [ref].[MODULE_TYPE] AS m
 		ON m.id = p.module_type
 	WHERE	1=1
-		AND ((@Id IS NULL OR p.id = @Id)
-		OR (@Name IS NULL OR p.module_name LIKE '%' + @Name + '%')
-		OR (@Name IS NULL OR p.implementation_description LIKE '%' + @Description + '%'))
+		AND (@Id IS NULL OR p.id = @Id)
+		AND (@Name IS NULL OR p.module_name LIKE '%' + @Name + '%')
+		AND (@Description IS NULL OR p.implementation_description LIKE '%' + @Description + '%')
 	ORDER BY p.id
 	OFFSET @PageSize * (@PageNumber - 1) ROWS
 	FETCH NEXT @PageSize ROWS ONLY;

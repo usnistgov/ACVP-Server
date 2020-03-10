@@ -29,14 +29,10 @@ namespace Web.Admin.Controllers
             return _personService.Get(personID);
         }
 
-        [HttpGet]
-        public WrappedEnumerable<PersonLite> GetPersons(long pageSize, long pageNumber)
+        [HttpPost]
+        public PagedEnumerable<PersonLite> GetPersons(PersonListParameters param)
         {
-            // Set some defaults in case no values are provided
-            if (pageSize == 0) { pageSize = 10; }
-            if (pageNumber == 0) { pageNumber = 1; }
-
-            return _personService.Get(pageSize, pageNumber).WrapEnumerable();
+            return _personService.Get(param);
         }
 
         [HttpPatch("{personID}")]
