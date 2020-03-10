@@ -60,8 +60,8 @@
         <h5 class="card-header">Addresses</h5>
         <div class="card-body">
           <table class="table">
+            <!-- This is only here to avoid getting a few "not defined" errors before the AJAX returns -->
             <tbody *ngIf="selectedOrganization">
-              <!-- This is only here to avoid getting a few "not defined" errors before the AJAX returns -->
               <tr *ngFor="let address of selectedOrganization.addresses; index as i">
                 <td>
                   {{ address.street1 }}<br />

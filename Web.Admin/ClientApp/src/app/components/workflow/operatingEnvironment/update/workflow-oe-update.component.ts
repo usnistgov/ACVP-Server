@@ -78,7 +78,6 @@ export class WorkflowOeUpdateComponent implements OnInit {
     this.ajs.getOE(this.workflowItem.payload.id).subscribe(
       data => {
         this.currentState = data;
-        console.log(this.currentState);
       },
       err => { },
       () => { }

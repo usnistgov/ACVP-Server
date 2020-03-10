@@ -169,6 +169,7 @@ namespace ACVPCore.Providers
 			result.Parent = new OrganizationLite();
 			result.Addresses = new List<Address>();
 			result.Persons = new List<PersonLite>();
+			result.Emails = new List<string>();
 			result.ID = organizationID;
 
 			try
@@ -224,6 +225,16 @@ namespace ACVPCore.Providers
 						ID = person.id,
 						Name = person.full_name
 					});
+				}
+
+				var emailData = db.QueryFromProcedure("val.OrganizationEmailsGet", inParams: new
+				{
+					OrganizationID = organizationID
+				});
+
+				foreach (var email in emailData)
+				{
+					result.Emails.Add(email.email_address);
 				}
 			}
 			catch (Exception ex)

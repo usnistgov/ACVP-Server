@@ -67,6 +67,7 @@
       <None Remove="ClientApp\src\app\models\Workflow\OperatingEnvironment\OperatingEnvironmentCreatePayload.ts" />
       <None Remove="ClientApp\src\app\models\Workflow\OperatingEnvironment\OperatingEnvironmentUpdatePayload.ts" />
       <None Remove="ClientApp\src\app\models\Workflow\Organization\WorkflowOrganizationCreatePayload.ts" />
+      <None Remove="ClientApp\src\app\models\Workflow\Organization\WorkflowOrganizationUpdatePayload.ts" />
       <None Remove="ClientApp\src\app\models\Workflow\Person\WorkflowPersonCreatePayload.ts" />
       <None Remove="ClientApp\src\app\models\Workflow\Product\WorkflowCreateProductPayloadContact.ts" />
       <None Remove="ClientApp\src\app\models\Workflow\Product\WorkflowProductCreatePayload.ts" />
@@ -139,6 +140,9 @@
       <TypeScriptCompile Include="ClientApp\src\app\models\Workflow\OperatingEnvironment\OperatingEnvironmentCreatePayload.ts">
         <SubType>Code</SubType>
       </TypeScriptCompile>
+      <TypeScriptCompile Include="ClientApp\src\app\models\Workflow\Organization\WorkflowOrganizationUpdatePayload.ts">
+        <SubType>Code</SubType>
+      </TypeScriptCompile>
       <TypeScriptCompile Include="ClientApp\src\app\models\Workflow\Organization\WorkflowOrganizationCreatePayload.ts">
         <SubType>Code</SubType>
       </TypeScriptCompile>
@@ -167,10 +171,6 @@
       <None Update="ClientApp\src\app\models\Workflow\WorkflowStatus.enum.js">
         <DependentUpon>WorkflowStatus.enum.ts</DependentUpon>
       </None>
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="ClientApp\src\app\components\workflow\organization\" />
     </ItemGroup>
 
     <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
