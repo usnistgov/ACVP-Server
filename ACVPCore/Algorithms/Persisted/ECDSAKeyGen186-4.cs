@@ -8,7 +8,7 @@ namespace ACVPCore.Algorithms.Persisted
 		public List<string> Curves { get; set; }
 
 		[AlgorithmProperty("secretGenerationMode")]
-		public List<int> SecretGenerationMode { get; set; }
+		public List<string> SecretGenerationMode { get; set; }
 
 		public ECDSAKeyGen186_4()
 		{

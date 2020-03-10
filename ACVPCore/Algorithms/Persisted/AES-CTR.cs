@@ -20,6 +20,9 @@ namespace ACVPCore.Algorithms.Persisted
 		[AlgorithmProperty(Name = "incrementalCounter", Type = AlgorithmPropertyType.Boolean)]
 		public bool? IncrementalCounter { get; set; }
 
+		[AlgorithmProperty(Name = "ctrSource", Type = AlgorithmPropertyType.StringArray)]
+		public List<string> CounterSource { get; set; }
+
 		public AES_CTR()
 		{
 			Name = "ACVP-AES-CTR";

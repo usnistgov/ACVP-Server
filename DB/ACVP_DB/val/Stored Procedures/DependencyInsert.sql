@@ -11,4 +11,4 @@ SET NOCOUNT ON
 INSERT INTO val.VALIDATION_OE_DEPENDENCY (dependency_type, [name], [description])
 VALUES (@Type, @Name, @Description)
 
-SELECT SCOPE_IDENTITY() AS DependencyID
+SELECT CAST(SCOPE_IDENTITY() AS bigint) AS DependencyID

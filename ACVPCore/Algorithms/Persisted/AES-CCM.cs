@@ -10,10 +10,10 @@ namespace ACVPCore.Algorithms.Persisted
 		public List<int> KeyLength{ get; set; }
 
 		[AlgorithmProperty("tag")]
-		public List<long> TagLength { get; set; }
+		public List<int> TagLength { get; set; }
 
 		[AlgorithmProperty("iv")]
-		public List<long> IVLength { get; set; }
+		public Domain IVLength { get; set; }
 
 		[AlgorithmProperty("pt")]
 		public Domain PayloadLength { get; set; }

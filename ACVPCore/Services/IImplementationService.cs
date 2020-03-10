@@ -14,5 +14,6 @@ namespace ACVPCore.Services
 		bool ImplementationIsUsed(long implementationID);
 		bool ImplementationExists(long implementationID);
 		ImplementationResult Update(ImplementationUpdateParameters parameters);
+		Result AddContact(long implementationID, long contactID, int orderIndex);
 	}
 }

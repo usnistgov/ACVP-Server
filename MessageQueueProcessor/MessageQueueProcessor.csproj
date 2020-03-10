@@ -7,8 +7,8 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.Targets" Version="$(NuGetVersionMicrosoftNETCoreTargets)" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="$(NuGetVersionMicrosoftAspNetCore)" />
-    <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="$(NuGetVersionMicrosoftAspNetCore)" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="$(NuGetVersionMicrosoftExtensionsHosting)" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="$(NuGetVersionMicrosoftExtensionsHostingWindowsServices)" />
     <PackageReference Include="Mighty" Version="$(NuGetVersionMighty)" />
     <PackageReference Include="Serilog" Version="$(NuGetVersionSerilog)" />
     <PackageReference Include="Serilog.Extensions.Hosting" Version="$(NuGetVersionSerilogExtensionsHosting)" />
