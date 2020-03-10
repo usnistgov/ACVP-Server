@@ -113,7 +113,7 @@ namespace ACVPWorkflow.Services
 			return _workflowProvider.Update(workflowItem.WorkflowItemID, workflowStatus);
 		}
 		
-		public WorkflowInsertResult AddWorkflowItem(APIAction apiAction, long requestID, IWorkflowItemPayload payload, long userID)
+		public WorkflowInsertResult AddWorkflowItem(APIAction apiAction, long requestID, string payload, long userID)
 		{
 			//Get the contact info to put on the workflow item - TODO - kill this sometime, replaced by the userID going on the record after LCAVP dies
 			WorkflowContact contact = BuildWorkflowContact(userID);
@@ -142,8 +142,7 @@ namespace ACVPWorkflow.Services
 			};
 
 			//Create the workflow item
-			string stringPayload = _workflowItemPayloadFactory.SerializePayload(payload);
-			var result = _workflowProvider.Insert(apiAction, workflowItemType, requestAction, userID, stringPayload, contact.Lab, contact.Name, contact.Email);
+			var result = _workflowProvider.Insert(apiAction, workflowItemType, requestAction, userID, payload, contact.Lab, contact.Name, contact.Email);
 
 			//If it was successful, create the request record that goes with this item
 			if (result.IsSuccess)

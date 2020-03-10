@@ -11,9 +11,9 @@ namespace ACVPCore.Providers
 	public class OEProvider : IOEProvider
 	{
 		private readonly string _acvpConnectionString;
-		private readonly ILogger<DependencyProvider> _logger;
+		private readonly ILogger<OEProvider> _logger;
 
-		public OEProvider(IConnectionStringFactory connectionStringFactory, ILogger<DependencyProvider> logger)
+		public OEProvider(IConnectionStringFactory connectionStringFactory, ILogger<OEProvider> logger)
 		{
 			_acvpConnectionString = connectionStringFactory.GetMightyConnectionString("ACVP");
 			_logger = logger;

@@ -11,6 +11,11 @@ import { ValidationDbProductsComponent } from './components/validation-db-produc
 import { ValidationDbOEsComponent } from './components/validation-db-oes/validation-db-oes.component';
 import { ValidationDbPersonComponent } from './components/validation-db-person/validation-db-person.component';
 import { ValidationDbPersonsComponent } from './components/validation-db-persons/validation-db-persons.component';
+import { ValidationDbOrganizationComponent } from './components/validation-db-organization/validation-db-organization.component';
+import { ValidationDbOrganizationsComponent } from './components/validation-db-organizations/validation-db-organizations.component';
+
+// This is a parent module that loads all the other workflow modules itself
+import { WorkflowComponent } from './components/workflow/workflow/workflow.component';
 
 const routes: Routes = [
   {
@@ -56,6 +61,19 @@ const routes: Routes = [
   {
     path: 'validation-db/persons',
     component: ValidationDbPersonsComponent
+  },
+  {
+    path: 'validation-db/organizations',
+    component: ValidationDbOrganizationsComponent
+  },
+  {
+    path: 'validation-db/organizations/:id',
+    component: ValidationDbOrganizationComponent
+  },
+  {
+    // This is a parent module that loads all the other workflow modules itself
+    path: 'workflow/:id',
+    component: WorkflowComponent
   }
 ];
 

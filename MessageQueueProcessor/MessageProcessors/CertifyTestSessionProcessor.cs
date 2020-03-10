@@ -33,10 +33,9 @@ namespace MessageQueueProcessor.MessageProcessors
 
 			//Deserialize the JSON into a CertifyTestSessionPayload object
 			CertifyTestSessionPayload certifyTestSessionPayload = JsonSerializer.Deserialize<CertifyTestSessionPayload>(requestPayload.Json.ToString());
-			IWorkflowItemPayload workflowPayload = _workflowItemPayloadFactory.GetPayload(requestPayload.Json.GetRawText(), APIAction.CertifyTestSession);
 
 			//Create the workflow item
-			WorkflowInsertResult workflowInsertResult = _workflowService.AddWorkflowItem(APIAction.CertifyTestSession, requestPayload.RequestID, workflowPayload, requestPayload.UserID);
+			WorkflowInsertResult workflowInsertResult = _workflowService.AddWorkflowItem(APIAction.CertifyTestSession, requestPayload.RequestID, requestPayload.Json.GetRawText(), requestPayload.UserID);
 
 			//Error if that failed
 			if (!workflowInsertResult.IsSuccess)
@@ -51,7 +50,7 @@ namespace MessageQueueProcessor.MessageProcessors
 			{
 				WorkflowItemID = (long)workflowInsertResult.WorkflowID,
 				APIAction = APIAction.CertifyTestSession,
-				Payload = workflowPayload
+				Payload = _workflowItemPayloadFactory.GetPayload(requestPayload.Json.GetRawText(), APIAction.CertifyTestSession)
 			};
 
 			//Check that the test session status is appropriate for the certify step. You'd think this should somehow return an error the the user if not, but not seeing a way to do so...

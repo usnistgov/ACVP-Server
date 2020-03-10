@@ -12,6 +12,10 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
+using System.Threading.Tasks;
 using PoolConfig = NIST.CVP.Common.Config.PoolConfig;
 
 namespace NIST.CVP.Pools
@@ -29,32 +33,32 @@ namespace NIST.CVP.Pools
             new BigIntegerConverter(),
             new StringEnumConverter()
         };
+        private readonly HttpClient _httpClient;
 
-        public PoolBoy(IOptions<PoolConfig> poolConfig)
+        public PoolBoy(IOptions<PoolConfig> poolConfig, IHttpClientFactory httpClientFactory)
         {
             if (poolConfig != null)
             {
                 _poolConfig = poolConfig.Value;
+                _httpClient = httpClientFactory.CreateClient(GetType().FullName);
+                _httpClient.BaseAddress = new UriBuilder()
+                {
+                    Host = _poolConfig.RootUrl,
+                    Path = "/api/pools",
+                    Port = _poolConfig.Port
+                }.Uri;
+                _httpClient.DefaultRequestHeaders
+                    .Accept
+                    .Add(new MediaTypeWithQualityHeaderValue("application/json"));
             }
         }
 
-        public T GetObjectFromPool(IParameters param, PoolTypes type)
+        public async Task<T> GetObjectFromPoolAsync(IParameters param, PoolTypes type)
         {
             if (_poolConfig == null)
             {
-                return default(T);
+                return default;
             }
-
-            var uriBuilder = new UriBuilder
-            {
-                Host = _poolConfig.RootUrl,
-                Path = "/api/pools",
-                Port = _poolConfig.Port
-            };
-            
-            var request = (HttpWebRequest)WebRequest.Create(uriBuilder.Uri.AbsoluteUri);
-            request.ContentType = "application/json";
-            request.Method = "POST";
 
             var paramHolder = new ParameterHolder
             {
@@ -71,53 +75,52 @@ namespace NIST.CVP.Pools
                 }
             );
 
-            using (var streamWriter = new StreamWriter(request.GetRequestStream()))
-            {
-                streamWriter.Write(paramHolderJson);
-            }
-
             try
             {
-                var response = (HttpWebResponse)request.GetResponse();
-                using (var streamReader = new StreamReader(response.GetResponseStream()))
+                var response = await _httpClient.PostAsync(
+                    _httpClient.BaseAddress.AbsoluteUri, new StringContent(paramHolderJson, Encoding.UTF8, "application/json"));
+                if (!response.IsSuccessStatusCode)
                 {
-                    var json = streamReader.ReadToEnd();
-                    var poolResult = JsonConvert.DeserializeObject<PoolResult<T>>(
-                        json, new JsonSerializerSettings()
-                        {
-                            Converters = _jsonConverters
-                        }
-                    );
-                    if (poolResult.PoolTooEmpty)
+                    ThisLogger.Error($"Pool boy failure, status code {response.StatusCode} from pool parameter: {paramHolderJson}");
+                    return default;
+                }
+            
+                var resultJson = await response.Content.ReadAsStringAsync();
+                var poolResult = JsonConvert.DeserializeObject<PoolResult<T>>(
+                    resultJson, new JsonSerializerSettings()
                     {
-                        if (_poolConfig.ShouldLogPoolValueUse)
-                        {
-                            ThisLogger.Warn($"Pool too empty for pool parameter: {paramHolderJson}");
-                        }
-                        return default(T);
+                        Converters = _jsonConverters
                     }
-
+                );
+            
+                if (poolResult.PoolTooEmpty)
+                {
                     if (_poolConfig.ShouldLogPoolValueUse)
                     {
-                        if (_poolConfig.PoolResultLogLength == 0 || json.Length <= _poolConfig.PoolResultLogLength)
-                        {
-                            ThisLogger.Info($"Using pool value: {json}");
-                        }
-                        else
-                        {
-                            ThisLogger.Info($"Using pool value: {json.Substring(0, _poolConfig.PoolResultLogLength)}");
-                        }
-
+                        ThisLogger.Warn($"Pool too empty for pool parameter: {paramHolderJson}");
                     }
-
-                    return poolResult.Result;
+                    return default;
                 }
+
+                if (_poolConfig.ShouldLogPoolValueUse)
+                {
+                    if (_poolConfig.PoolResultLogLength == 0 || resultJson.Length <= _poolConfig.PoolResultLogLength)
+                    {
+                        ThisLogger.Info($"Using pool value: {resultJson}");
+                    }
+                    else
+                    {
+                        ThisLogger.Info($"Using pool value: {resultJson.Substring(0, _poolConfig.PoolResultLogLength)}");
+                    }
+                }
+            
+                return poolResult.Result;
             }
             catch (Exception ex)
             {
                 // Fall back to normal procedure
                 ThisLogger.Error(ex, ex.StackTrace);
-                return default(T);
+                return default;
             }
         }
     }

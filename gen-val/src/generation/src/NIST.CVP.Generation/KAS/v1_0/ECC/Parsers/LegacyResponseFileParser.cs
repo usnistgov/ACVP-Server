@@ -36,7 +36,7 @@ namespace NIST.CVP.Generation.KAS.v1_0.ECC.Parsers
 
             var groups = new List<TestGroup>();
 
-            var files = Directory.GetFiles(path, "*ecc*.fax", SearchOption.AllDirectories);
+            var files = Directory.GetFiles(path, "*ECC*.fax", SearchOption.AllDirectories);
             foreach (var file in files)
             {
                 string fileName = Path.GetFileName(file).ToLower();

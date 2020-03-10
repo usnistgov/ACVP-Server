@@ -5,7 +5,7 @@
 
   "ConnectionStrings": {
     "Acvp": "Server=stvmprdsql01;Database=Acvp;Integrated Security=true;",
-    "AcvpPools": "Server=stvmprdsql01;Database=AcvpPools;Integrated Security=true;",
+    "AcvpPools": "Server=stvmprdsql01;Database=AcvpPools;Integrated Security=true;Max Pool Size=3500;",
     "AcvpOrleans": "Server=stvmprdsql01;Database=AcvpOrleans;Integrated Security=true;Pooling=False;Max Pool Size=200;MultipleActiveResultSets=True"
   },
 
@@ -42,7 +42,7 @@
     "OrleansDashboardPort": 8080,
     "FallBackMinimumCores": 8,
     "LoadSheddingCpuThreshold": 0,
-    "MaxWorkItemsToQueuePerGenValInstance": 250,
+    "MaxWorkItemsToQueuePerGenValInstance": 500,
     "TimeoutRetryAttempts": 15
   } 
 }

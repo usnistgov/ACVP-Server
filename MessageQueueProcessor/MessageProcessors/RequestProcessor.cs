@@ -29,11 +29,8 @@ namespace MessageQueueProcessor.MessageProcessors
 			//Deserialize the request payload
 			RequestPayload requestPayload = JsonSerializer.Deserialize<RequestPayload>(message.Payload);
 
-			//The Json element in this is actually a workflow payload, so jump through hoops to deserialize it
-			IWorkflowItemPayload workflowPayload = _workflowItemPayloadFactory.GetPayload(requestPayload.Json.GetRawText(), apiAction);
-
 			//Create the workflow item
-			var workflowInsertResult = _workflowService.AddWorkflowItem(apiAction, requestPayload.RequestID, workflowPayload, requestPayload.UserID);
+			var workflowInsertResult = _workflowService.AddWorkflowItem(apiAction, requestPayload.RequestID, requestPayload.Json.GetRawText(), requestPayload.UserID);
 
 			if (!workflowInsertResult.IsSuccess)
 			{
@@ -47,7 +44,7 @@ namespace MessageQueueProcessor.MessageProcessors
 			{
 				WorkflowItemID = (long)workflowInsertResult.WorkflowID,
 				APIAction = apiAction,
-				Payload = workflowPayload
+				Payload = _workflowItemPayloadFactory.GetPayload(requestPayload.Json.GetRawText(), apiAction)
 			};
 
 			//Validate the workflow item - might immediately reject it

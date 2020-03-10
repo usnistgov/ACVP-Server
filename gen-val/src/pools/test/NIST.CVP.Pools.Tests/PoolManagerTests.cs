@@ -49,10 +49,10 @@ namespace NIST.CVP.Pools.Tests
         {
             _mockLogger = new Mock<ILogger<PoolManager>>();
             _mockPoolRepository.Setup(s => s.GetAllPoolCounts())
-                .Returns(new Dictionary<string, long>()
+                .Returns(Task.FromResult(new Dictionary<string, long>()
                 {
                     { "this is a value", 0 }
-                });
+                }));
             _mockOptionsPoolConfig = new Mock<IOptions<PoolConfig>>();
             _mockPoolRepositoryFactory = new Mock<IPoolRepositoryFactory>();
             _mockPoolLogRepository = new Mock<IPoolLogRepository>();
@@ -77,8 +77,8 @@ namespace NIST.CVP.Pools.Tests
             _mockPoolRepositoryFactory
                 .Setup(s => s.GetRepository<HashResult>())
                 .Returns(() => _mockPoolShaRepository.Object);
-            _mockPoolAesRepository.Setup(s => s.GetPoolCount(It.IsAny<string>(), It.IsAny<bool>())).Returns(0);
-            _mockPoolShaRepository.Setup(s => s.GetPoolCount(It.IsAny<string>(), It.IsAny<bool>())).Returns(0);
+            _mockPoolAesRepository.Setup(s => s.GetPoolCount(It.IsAny<string>(), It.IsAny<bool>())).Returns(Task.FromResult((long)0));
+            _mockPoolShaRepository.Setup(s => s.GetPoolCount(It.IsAny<string>(), It.IsAny<bool>())).Returns(Task.FromResult((long)0));
             _mockPoolFactory.Setup(s => s.GetPool(It.IsAny<PoolProperties>())).Returns(_mockPool.Object);
             _mockPool.Setup(s => s.Param).Returns(() => new AesParameters());
             _mockPool.Setup(s => s.WaterLevel).Returns(0);
@@ -135,7 +135,7 @@ namespace NIST.CVP.Pools.Tests
         }
 
         [Test]
-        public void ShouldNotAddBadValuesToPool()
+        public async Task ShouldNotAddBadValuesToPool()
         {
             var paramHolder = new ParameterHolder
             {
@@ -156,13 +156,13 @@ namespace NIST.CVP.Pools.Tests
                 Type = PoolTypes.AES
             };
 
-            var result = _subject.AddResultToPool(paramHolder);
+            var result = await _subject.AddResultToPool(paramHolder);
 
             Assert.IsFalse(result);
         }
 
         [Test]
-        public void ShouldGetResultFromPool()
+        public async Task ShouldGetResultFromPool()
         {
             var aesResult = new AesResult()
             {
@@ -187,13 +187,13 @@ namespace NIST.CVP.Pools.Tests
 
             _mockPoolAesRepository
                 .Setup(s => s.GetResultFromPool(It.IsAny<string>()))
-                .Returns(() => new PoolObject<AesResult>()
+                .Returns(() => Task.FromResult(new PoolObject<AesResult>()
                 {
                     Value = aesResult
-                });
+                }));
 
-            _subject.AddResultToPool(paramHolder);
-            var result = _subject.GetResultFromPool(paramHolder);
+            await _subject.AddResultToPool(paramHolder);
+            var result = await _subject.GetResultFromPool(paramHolder);
 
             Assert.IsNotNull(result);
             Assert.IsNotNull(result.Result);
@@ -201,7 +201,7 @@ namespace NIST.CVP.Pools.Tests
         }
 
         [Test]
-        public void ShouldGetBadResultWhenPoolDoesNotExist()
+        public async Task ShouldGetBadResultWhenPoolDoesNotExist()
         {
             var paramHolder = new ParameterHolder
             {
@@ -222,7 +222,7 @@ namespace NIST.CVP.Pools.Tests
                 }
             };
 
-            var result = _subject.GetResultFromPool(paramHolder);
+            var result = await _subject.GetResultFromPool(paramHolder);
 
             Assert.IsNotNull(result);
             Assert.IsNull(result.Result);

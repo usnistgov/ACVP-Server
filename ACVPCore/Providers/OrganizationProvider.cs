@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using ACVPCore.Models;
 using ACVPCore.Results;
 using CVP.DatabaseInterface;
 using Microsoft.Extensions.Logging;
@@ -9,9 +11,9 @@ namespace ACVPCore.Providers
 	public class OrganizationProvider : IOrganizationProvider
 	{
 		private readonly string _acvpConnectionString;
-		private readonly ILogger<DependencyProvider> _logger;
+		private readonly ILogger<OrganizationProvider> _logger;
 
-		public OrganizationProvider(IConnectionStringFactory connectionStringFactory, ILogger<DependencyProvider> logger)
+		public OrganizationProvider(IConnectionStringFactory connectionStringFactory, ILogger<OrganizationProvider> logger)
 		{
 			_acvpConnectionString = connectionStringFactory.GetMightyConnectionString("ACVP");
 			_logger = logger;
@@ -159,6 +161,77 @@ namespace ACVPCore.Providers
 			}
 		}
 
+		public Organization Get(long organizationID)
+		{
+			var db = new MightyOrm(_acvpConnectionString);
+
+			Organization result = new Organization();
+			result.Parent = new OrganizationLite();
+			result.Addresses = new List<Address>();
+			result.Persons = new List<PersonLite>();
+			result.ID = organizationID;
+
+			try
+			{
+				var orgData = db.SingleFromProcedure("val.OrganizationGet", inParams: new
+				{
+					OrganizationID = organizationID
+				});
+
+				result.Name = orgData.name;
+				result.Url = orgData.organization_url;
+				result.VoiceNumber = orgData.voice_number;
+				result.FaxNumber = orgData.fax_number;
+				result.Parent = new OrganizationLite();
+				if (orgData.parent_organization_id == null) 
+				{
+					result.Parent.ID = 0; 
+				}
+				else 
+				{ 
+					result.Parent.ID = orgData.parent_organization_id; 
+				}
+
+				var addressData = db.QueryFromProcedure("val.OrganizationGetAddresses", inParams: new
+				{
+					OrganizationID = organizationID
+				});
+
+				foreach (var address in addressData)
+				{
+					result.Addresses.Add(new Address
+					{
+						ID = address.id,
+						Street1 = address.address_street1,
+						Street2 = address.address_street2,
+						Street3 = address.address_street3,
+						Locality = address.address_locality,
+						Region = address.address_region,
+						Country = address.address_country,
+						PostalCode = address.address_postal_code
+					});
+				}
+
+				var personData = db.QueryFromProcedure("val.OrganizationGetPersons", inParams: new
+				{
+					OrganizationID = organizationID
+				});
+
+				foreach (var person in personData)
+				{
+					result.Persons.Add(new PersonLite
+					{
+						ID = person.id,
+						Name = person.full_name
+					});
+				}
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex.Message);
+			}
+			return result;
+		}
 		public bool OrganizationExists(long oeID)
 		{
 			var db = new MightyOrm(_acvpConnectionString);

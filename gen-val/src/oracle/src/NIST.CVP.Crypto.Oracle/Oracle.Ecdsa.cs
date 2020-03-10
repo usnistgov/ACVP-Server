@@ -3,6 +3,7 @@ using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using NIST.CVP.Common.Oracle.DispositionTypes;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC.Enums;
 using NIST.CVP.Crypto.Oracle.Helpers;
@@ -143,7 +144,9 @@ namespace NIST.CVP.Crypto.Oracle
 
             var key = await GetEcdsaKeyAsync(keyParam);
             // re-signs with "bad key" under specific error condition to ensure IUT validates as failed verification.
-            var badKey = await GetEcdsaKeyAsync(keyParam);
+            EcdsaKeyResult badKey = null;
+            if (param.Disposition == EcdsaSignatureDisposition.ModifyKey)
+                badKey = await GetEcdsaKeyAsync(keyParam);
 
             return await GetEcdsaVerifyResultAsync(param, key, badKey);
         }

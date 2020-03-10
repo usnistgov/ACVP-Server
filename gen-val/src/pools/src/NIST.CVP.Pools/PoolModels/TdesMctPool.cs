@@ -12,7 +12,7 @@ namespace NIST.CVP.Pools.PoolModels
 
         public override async Task RequestWater()
         {
-            AddWater(await Oracle.GetTdesMctCaseAsync(WaterType));
+            await AddWater(await Oracle.GetTdesMctCaseAsync(WaterType));
         }
     }
 }

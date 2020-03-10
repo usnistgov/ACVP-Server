@@ -15,7 +15,7 @@ namespace NIST.CVP.Generation.ECDSA.v1_0.SigVer
         public int TestGroupId { get; set; }
         public string TestType { get; set; }
         
-        [JsonProperty(PropertyName = "component")]
+        [JsonProperty(PropertyName = "componentTest")]
         public bool Component { get; set; }
         
         [JsonProperty(PropertyName = "curve")]

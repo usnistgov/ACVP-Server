@@ -11,6 +11,8 @@ namespace ACVPCore.Models
         public string Url { get; set; }
         public string VoiceNumber { get; set; }
         public string FaxNumber { get; set; }
-        public Organization Parent { get; set; }
+        public OrganizationLite Parent { get; set; }
+        public List<Address> Addresses { get; set; }
+        public List<PersonLite> Persons { get; set; }
     }
 }

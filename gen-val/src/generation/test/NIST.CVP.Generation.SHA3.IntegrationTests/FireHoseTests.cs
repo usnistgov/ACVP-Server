@@ -6,16 +6,15 @@ using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
-using System;
 using System.IO;
-using System.Linq;
 
 namespace NIST.CVP.Generation.SHA3.IntegrationTests
 {
     [TestFixture, LongRunningIntegrationTest]
     public class FireHoseTests
     {
-        private string _testPath;
+        private string _sha3TestPath;
+        private string _shakeTestPath;
         private Crypto.SHA3.SHA3 _sha3;
         private SHA3_MCT _sha3MCT;
         private SHAKE_MCT _shakeMCT;
@@ -23,17 +22,17 @@ namespace NIST.CVP.Generation.SHA3.IntegrationTests
         [SetUp]
         public void SetUp()
         {
-            _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\LegacyCavsFiles\sha3");
+            _sha3TestPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\LegacyCavsFiles\sha3\SHA3\BitOriented");
+            _shakeTestPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\LegacyCavsFiles\sha3\SHAKE\BitOriented");
             _sha3 = new Crypto.SHA3.SHA3();
             _sha3MCT = new SHA3_MCT(_sha3);
             _shakeMCT = new SHAKE_MCT(_sha3);
         }
 
         [Test]
-        [TestCase(@"SHA3\BitOriented")]
-        public void ShouldParseAndRunSHA3CAVSFiles(string folder)
+        public void ShouldParseAndRunSHA3CAVSFiles()
         {
-            var testPath = Path.Combine(_testPath, folder);
+            var testPath = _sha3TestPath;
 
             if (!Directory.Exists(testPath))
             {
@@ -92,10 +91,9 @@ namespace NIST.CVP.Generation.SHA3.IntegrationTests
         }
 
         [Test]
-        [TestCase(@"SHAKE\BitOriented")]
-        public void ShouldParseAndRunSHAKECAVSFiles(string folder)
+        public void ShouldParseAndRunSHAKECAVSFiles()
         {
-            var testPath = Path.Combine(_testPath, folder);
+            var testPath = _shakeTestPath;
 
             if (!Directory.Exists(testPath))
             {

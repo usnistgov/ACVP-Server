@@ -15,7 +15,8 @@ namespace Web.Admin.Controllers
     {
         private readonly IImplementationService _implementationService;
 
-        public ProductsController(IImplementationService implementationService)
+        public ProductsController(
+           IImplementationService implementationService)
         {
             _implementationService = implementationService;
         }

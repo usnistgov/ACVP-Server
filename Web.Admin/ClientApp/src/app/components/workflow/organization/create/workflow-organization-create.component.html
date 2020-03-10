@@ -1,0 +1,96 @@
+<div class="row mt-3">
+  <h2>Workflow {{ workflowItem.workflowItemID}} - {{ workflowItem.status}}</h2>
+</div>
+
+<div class="row mt-3">
+  <div class="col-lg-6">
+    <div class="card">
+      <h5 class="card-header">Create New Organization</h5>
+      <div class="card-body">
+        <table class="table">
+          <tr>
+            <th style="border:none;">Name</th>
+            <td style="border:none;">{{workflowItem?.payload.name}}</td>
+          </tr>
+          <tr>
+            <th>Link</th>
+            <td>{{workflowItem?.payload.link}}</td>
+          </tr>
+          <tr>
+            <th>Parent</th>
+            <td>{{workflowItem?.payload.parentUrl == null ? "No Parent" : workflowItem?.payload.parentUrl}}</td>
+          </tr>
+        </table>
+      </div>
+    </div> <!-- Close Org Info Card -->
+  </div> <!-- Close col-lg-6 -->
+
+  <div class="col-lg-6">
+    <div class="card">
+      <h5 class="card-header">Available Actions</h5>
+      <div class="card-body">
+        <table class="table">
+          <tr>
+            <td style="border:none;text-align:center;"><button class="btn btn-primary" style="width:80%;" (click)="approveWorkflow()">&#10004; Approve</button></td>
+          </tr>
+          <tr>
+            <td style="border:none;text-align:center;"><button class="btn btn-danger" style="width:80%;" (click)="rejectWorkflow()">&#10006; Reject</button></td>
+          </tr>
+        </table>
+      </div>
+    </div> <!-- Close Available Actions Card -->
+  </div> <!-- Close col-lg-6 -->
+</div>
+
+<div class="row mt-3">
+  <div class="col-lg-6">
+    <div class="card">
+      <h5 class="card-header">Phone Information</h5>
+      <div class="card-body">
+        <table class="table" style="">
+          <tr>
+            <th style="border:none;">Voice</th>
+            <td style="border:none;">{{workflowItem?.payload.voiceNumber == null ? "N/A" : workflowItem?.payload.voiceNumber }}</td>
+          </tr>
+          <tr>
+            <th>Fax</th>
+            <td>{{ workflowItem?.payload.faxNumber == null ? "N/A" : workflowItem?.payload.faxNumber }}</td>
+          </tr>
+        </table>
+      </div>
+    </div> <!-- Close Phone Info Card -->
+  </div> <!-- Close col-lg-6 -->
+
+  <div class="col-lg-6">
+    <div class="card">
+      <h5 class="card-header">Emails</h5>
+      <div class="card-body">
+        <table class="table" style="">
+          <tr *ngFor="let email of workflowItem.payload.emails; index as i" >
+            <td [ngStyle]="{'border': i === 0 ? 'none' : '' }">{{ email }}</td>
+          </tr>
+        </table>
+      </div>
+    </div> <!-- Close Email Card -->
+  </div> <!-- Close col-lg-6 -->
+</div>
+
+<div class="row mt-3">
+  <div class="col-lg-6">
+    <div class="card">
+      <h5 class="card-header">Addresses</h5>
+      <div class="card-body">
+        <table class="table" style="">
+          <tr *ngFor="let address of workflowItem.payload.addresses; index as i">
+            <td [ngStyle]="{'border': i === 0 ? 'none' : '' }">
+              {{address.street1}}<br />
+              {{ address.street2 !== null ? address.street2 : '' }}<br *ngIf="address.street2 !== null" />
+              {{ address.street3 !== null ? address.street3 : '' }}<br *ngIf="address.street3 !== null" />
+              {{address.locality}} {{address.region}}, {{address.country}} {{address.postalCode}}
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div> <!-- Close Address Info Card -->
+  </div> <!-- Close col-lg-6 -->
+</div>

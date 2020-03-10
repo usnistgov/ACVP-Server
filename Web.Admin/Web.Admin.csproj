@@ -24,9 +24,10 @@
         <PackageReference Include="Serilog.Sinks.Console" Version="$(NuGetVersionSerilogSinksConsole)" />
 
         <PackageReference Include="Microsoft.NETCore.Targets" Version="$(NuGetVersionMicrosoftNETCoreTargets)" PrivateAssets="all" />
-        <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="3.1.2" />
-        <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.1.2" />
-        <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.1" />
+        <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="$(NuGetVersionMicrosoftAspNetCore)" />
+        <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="$(NuGetVersionMicrosoftAspNetCore)" />
+        <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="$(NuGetVersionMicrosoftVisualStudioWebCodeGenerationDesign)" />
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.WsFederation" Version="$(NuGetVersionMicrosoftAspNetCore)" />
     </ItemGroup>
 
     <ItemGroup>
@@ -38,6 +39,7 @@
 
     <ItemGroup>
       <None Remove="ClientApp\src\app\models\Address\Address.ts" />
+      <None Remove="ClientApp\src\app\models\Address\AddressCreateParameters.ts" />
       <None Remove="ClientApp\src\app\models\dependency-list.ts" />
       <None Remove="ClientApp\src\app\models\dependency-lite.ts" />
       <None Remove="ClientApp\src\app\models\dependency.ts" />
@@ -47,10 +49,29 @@
       <None Remove="ClientApp\src\app\models\Organization\Organization.ts" />
       <None Remove="ClientApp\src\app\models\Person\Person.ts" />
       <None Remove="ClientApp\src\app\models\Person\PersonList.ts" />
+      <None Remove="ClientApp\src\app\models\Person\PersonLite.ts" />
       <None Remove="ClientApp\src\app\models\Product\Product.ts" />
       <None Remove="ClientApp\src\app\models\OperatingEnvironment\operatingEnvironment.ts" />
       <None Remove="ClientApp\src\app\models\Product\ProductList.ts" />
       <None Remove="ClientApp\src\app\models\responses\Result.ts" />
+      <None Remove="ClientApp\src\app\models\TestSession\TestSession.ts" />
+      <None Remove="ClientApp\src\app\models\TestSession\TestSessionList.ts" />
+      <None Remove="ClientApp\src\app\models\TestSession\TestSessionLite.ts" />
+      <None Remove="ClientApp\src\app\models\TestSession\TestSessionStatus.ts" />
+      <None Remove="ClientApp\src\app\models\TestSession\VectorSet.ts" />
+      <None Remove="ClientApp\src\app\models\TestSession\VectorSetStatus.ts" />
+      <None Remove="ClientApp\src\app\models\Workflow\APIAction.enum.ts" />
+      <None Remove="ClientApp\src\app\models\Workflow\Dependency\WorkflowDependencyCreatePayload.ts" />
+      <None Remove="ClientApp\src\app\models\Workflow\Dependency\WorkflowDependencyUpdatePayload.ts" />
+      <None Remove="ClientApp\src\app\models\Workflow\IWorkflowItemPayload.ts" />
+      <None Remove="ClientApp\src\app\models\Workflow\OperatingEnvironment\OperatingEnvironmentCreatePayload.ts" />
+      <None Remove="ClientApp\src\app\models\Workflow\OperatingEnvironment\OperatingEnvironmentUpdatePayload.ts" />
+      <None Remove="ClientApp\src\app\models\Workflow\Organization\WorkflowOrganizationCreatePayload.ts" />
+      <None Remove="ClientApp\src\app\models\Workflow\Person\WorkflowPersonCreatePayload.ts" />
+      <None Remove="ClientApp\src\app\models\Workflow\Product\WorkflowCreateProductPayloadContact.ts" />
+      <None Remove="ClientApp\src\app\models\Workflow\Product\WorkflowProductCreatePayload.ts" />
+      <None Remove="ClientApp\src\app\models\Workflow\WorkflowItemBase.ts" />
+      <None Remove="ClientApp\src\app\models\Workflow\WorkflowStatus.enum.ts" />
     </ItemGroup>
 
     <ItemGroup>
@@ -63,6 +84,7 @@
     <!-- vvv App settings linking, directory changes depending on build environment vvv -->
     <ItemGroup Condition="$(ASPNETCORE_ENVIRONMENT) != 'tc'">
         <Content Include="..\_sharedappsettings\sharedappsettings.json" Link="sharedappsettings.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+        <Content Include="..\_sharedappsettings\sharedappsettings.example.json" Link="sharedappsettings.example.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
         <Content Include="..\_sharedappsettings\sharedappsettings.local.json" Link="sharedappsettings.local.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
         <Content Include="..\_sharedappsettings\sharedappsettings.tc.json" Link="sharedappsettings.tc.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
         <Content Include="..\_sharedappsettings\sharedappsettings.dev.json" Link="sharedappsettings.dev.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
@@ -82,6 +104,9 @@
 
 
     <ItemGroup>
+      <TypeScriptCompile Include="ClientApp\src\app\models\Address\AddressCreateParameters.ts">
+        <SubType>Code</SubType>
+      </TypeScriptCompile>
       <TypeScriptCompile Include="ClientApp\src\app\models\Address\Address.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\models\dependency\attribute.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\models\dependency\dependency-list.ts" />
@@ -94,10 +119,43 @@
         <SubType>Code</SubType>
       </TypeScriptCompile>
       <TypeScriptCompile Include="ClientApp\src\app\models\Person\Person.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\Person\PersonLite.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\models\Product\ProductList.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\models\Product\Product.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\models\OperatingEnvironment\OperatingEnvironment.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\models\responses\Result.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\TestSession\VectorSetStatus.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\TestSession\TestSession.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\TestSession\TestSessionList.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\TestSession\TestSessionLite.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\TestSession\TestSessionStatus.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\TestSession\VectorSet.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\Workflow\Dependency\WorkflowDependencyUpdatePayload.ts">
+        <SubType>Code</SubType>
+      </TypeScriptCompile>
+      <TypeScriptCompile Include="ClientApp\src\app\models\Workflow\IWorkflowItemPayload.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\Workflow\OperatingEnvironment\OperatingEnvironmentUpdatePayload.ts">
+        <SubType>Code</SubType>
+      </TypeScriptCompile>
+      <TypeScriptCompile Include="ClientApp\src\app\models\Workflow\OperatingEnvironment\OperatingEnvironmentCreatePayload.ts">
+        <SubType>Code</SubType>
+      </TypeScriptCompile>
+      <TypeScriptCompile Include="ClientApp\src\app\models\Workflow\Organization\WorkflowOrganizationCreatePayload.ts">
+        <SubType>Code</SubType>
+      </TypeScriptCompile>
+      <TypeScriptCompile Include="ClientApp\src\app\models\Workflow\Person\WorkflowPersonCreatePayload.ts">
+        <SubType>Code</SubType>
+      </TypeScriptCompile>
+      <TypeScriptCompile Include="ClientApp\src\app\models\Workflow\Product\WorkflowCreateProductPayloadContact.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\Workflow\Product\WorkflowProductCreatePayload.ts">
+        <SubType>Code</SubType>
+      </TypeScriptCompile>
+      <TypeScriptCompile Include="ClientApp\src\app\models\Workflow\WorkflowStatus.enum.ts">
+        <SubType>Code</SubType>
+      </TypeScriptCompile>
+      <TypeScriptCompile Include="ClientApp\src\app\models\Workflow\APIAction.enum.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\Workflow\Dependency\WorkflowDependencyCreatePayload.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\Workflow\WorkflowItemBase.ts" />
     </ItemGroup>
 
     <ItemGroup>
@@ -107,6 +165,13 @@
       <None Update="ClientApp\src\app\models\Person\PersonPhone.ts">
         <SubType>Code</SubType>
       </None>
+      <None Update="ClientApp\src\app\models\Workflow\WorkflowStatus.enum.js">
+        <DependentUpon>WorkflowStatus.enum.ts</DependentUpon>
+      </None>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="ClientApp\src\app\components\workflow\organization\" />
     </ItemGroup>
 
     <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

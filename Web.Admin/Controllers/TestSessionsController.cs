@@ -11,6 +11,8 @@ using ACVPCore.Models.Parameters;
 using ACVPCore.Results;
 using ACVPCore.Services;
 using ACVPWorkflow;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -23,7 +25,7 @@ namespace Web.Admin.Controllers
         private readonly ILogger<TestSessionsController> _logger;
         private readonly ITestSessionService _testSessionService;
         private readonly IVectorSetService _vectorSetService;
-        
+
         public TestSessionsController(
             ILogger<TestSessionsController> logger,
             ITestSessionService testSessionService,
@@ -34,8 +36,8 @@ namespace Web.Admin.Controllers
             _vectorSetService = vectorSetService;
         }
 
-        [HttpGet]
-        public ActionResult<PagedEnumerable<TestSessionLite>> GetTestSessions([FromBody] TestSessionListParameters param)
+        [HttpPost]
+        public ActionResult<PagedEnumerable<TestSessionLite>> GetTestSessions(TestSessionListParameters param)
         {
             if (param == null)
                 return new BadRequestResult();
@@ -47,6 +49,11 @@ namespace Web.Admin.Controllers
         public ActionResult<TestSession> GetTestSessionDetails(long testSessionId)
         {
             var result = _testSessionService.Get(testSessionId);
+
+            for (int i = 0; i < result.VectorSets.Count; i++)
+            {
+                result.VectorSets[i] = _vectorSetService.GetVectorSet(result.VectorSets[i].Id);
+            }
 
             if (result == null)
                 return new NotFoundResult();
