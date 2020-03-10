@@ -19,5 +19,5 @@ VALUES (
 	,@Requirement
 )
 
-SELECT SCOPE_IDENTITY() AS PrerequisiteId
+SELECT CAST(SCOPE_IDENTITY() AS bigint) AS PrerequisiteId
 

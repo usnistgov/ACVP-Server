@@ -11,16 +11,16 @@ namespace LCAVPCore.Processors
 	public class ModuleProcessor : IModuleProcessor
 	{
 		private readonly IImplementationService _implementationService;
-		private readonly IPersonService _personService;
 		private readonly IAddressService _addressService;
 		private readonly IOrganizationService _organizationService;
+		private readonly IPersonProcessor _personProcessor;
 
-		public ModuleProcessor(IImplementationService implementationService, IPersonService personService, IAddressService addressService, IOrganizationService organizationService)
+		public ModuleProcessor(IImplementationService implementationService, IAddressService addressService, IOrganizationService organizationService, IPersonProcessor personProcessor)
 		{
 			_implementationService = implementationService;
-			_personService = personService;
 			_addressService = addressService;
 			_organizationService = organizationService;
+			_personProcessor = personProcessor;
 		}
 
 		public InsertResult Create(Module module)
@@ -37,7 +37,10 @@ namespace LCAVPCore.Processors
 			List<long> contactIDs = new List<long>();
 			foreach (Contact contact in module.Contacts)
 			{
-				var result = new PersonProcessor(_personService).Create(contact);
+				//Need to put the newly created org ID on the contact object so it can be created
+				contact.OrganizationID = organizationCreateResult.ID;
+
+				var result = _personProcessor.Create(contact);
 				contactIDs.Add(result.ID);
 			}
 
@@ -81,18 +84,26 @@ namespace LCAVPCore.Processors
 
 			//Contact updates are handled through Person updates
 			//Contact additions have to be handled here, but they're incompatible with how the implementation update works, so they have to be done differently
-			if (module.Contact1Added)
+			if (module.Contact1Added || module.Contact2Added)
 			{
-				var result = new PersonProcessor(_personService).Create(module.Contacts[0]);
+				//Contact creation means Person creation, which requires an organization that we don't have. So need to look up the Implementation to get its org id
+				long organizationID = _implementationService.Get(module.ID).Vendor.ID;
 
-				_implementationService.AddContact(module.ID, result.ID, 0);
-			}
+				if (module.Contact1Added)
+				{
+					module.Contacts[0].OrganizationID = organizationID;
+					var result = _personProcessor.Create(module.Contacts[0]);
 
-			if (module.Contact2Added)
-			{
-				var result = new PersonProcessor(_personService).Create(module.Contacts[module.Contacts.Count - 1]);		//The collection will only have 1 contact in it if only contact 2 was added, so take whatever the last contact is
+					_implementationService.AddContact(module.ID, result.ID, 0);
+				}
 
-				_implementationService.AddContact(module.ID, result.ID, 1);
+				if (module.Contact2Added)
+				{
+					module.Contacts[module.Contacts.Count - 1].OrganizationID = organizationID;
+					var result = _personProcessor.Create(module.Contacts[module.Contacts.Count - 1]);       //The collection will only have 1 contact in it if only contact 2 was added, so take whatever the last contact is
+
+					_implementationService.AddContact(module.ID, result.ID, 1);
+				}
 			}
 		}
 	}

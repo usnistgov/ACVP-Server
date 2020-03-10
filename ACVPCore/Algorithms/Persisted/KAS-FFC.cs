@@ -174,7 +174,7 @@ namespace ACVPCore.Algorithms.Persisted
 			[AlgorithmProperty(Name = "fb", PrependParentPropertyName = true)]
 			public ParameterSetFB FB { get; set; }
 
-			[AlgorithmProperty(Name = "ec", PrependParentPropertyName = true)]
+			[AlgorithmProperty(Name = "fc", PrependParentPropertyName = true)]
 			public ParameterSetFC FC { get; set; }
 
 			public static ParameterSets Create(External.KAS_FFC.ParameterSets externalParameterSets) => externalParameterSets == null ? null : new ParameterSets

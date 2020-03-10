@@ -25,5 +25,5 @@ VALUES (
 	,@ParentOrganizationID
 )
 
-SELECT SCOPE_IDENTITY() AS OrganizationID
+SELECT CAST(SCOPE_IDENTITY() AS bigint) AS OrganizationID
 

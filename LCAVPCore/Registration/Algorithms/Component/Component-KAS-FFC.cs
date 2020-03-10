@@ -132,7 +132,7 @@ namespace LCAVPCore.Registration.Algorithms.Component
 		public IPersistedAlgorithm ToPersistedAlgorithm() => new ACVPCore.Algorithms.Persisted.KAS_FFC_Component
 		{
 			Functions = Functions,
-			Schemes = Schemes.ToPersisted()
+			Schemes = Schemes?.ToPersisted()
 		};
 	}
 
@@ -161,13 +161,13 @@ namespace LCAVPCore.Registration.Algorithms.Component
 
 		public ACVPCore.Algorithms.Persisted.KAS_FFC_Component.SchemeCollection ToPersisted() => new ACVPCore.Algorithms.Persisted.KAS_FFC_Component.SchemeCollection
 		{
-			DhEphem = DhEphem.ToPersisted(),
-			Mqv1 = Mqv1.ToPersisted(),
-			DhHybrid1 = DhHybrid1.ToPersisted(),
-			Mqv2 = Mqv2.ToPersisted(),
-			DhHybridOneFlow = DhHybridOneFlow.ToPersisted(),
-			DhOneFlow = DhOneFlow.ToPersisted(),
-			DhStatic = DhStatic.ToPersisted()
+			DhEphem = DhEphem?.ToPersisted(),
+			Mqv1 = Mqv1?.ToPersisted(),
+			DhHybrid1 = DhHybrid1?.ToPersisted(),
+			Mqv2 = Mqv2?.ToPersisted(),
+			DhHybridOneFlow = DhHybridOneFlow?.ToPersisted(),
+			DhOneFlow = DhOneFlow?.ToPersisted(),
+			DhStatic = DhStatic?.ToPersisted()
 		};
 	}
 
@@ -182,7 +182,7 @@ namespace LCAVPCore.Registration.Algorithms.Component
 		public ACVPCore.Algorithms.Persisted.KAS_FFC_Component.Scheme ToPersisted() => new ACVPCore.Algorithms.Persisted.KAS_FFC_Component.Scheme
 		{
 			Role = Role,
-			NoKdfNoKc = NoKdfNoKc.ToPersisted()
+			NoKdfNoKc = NoKdfNoKc?.ToPersisted()
 		};
 	}
 
@@ -216,7 +216,7 @@ namespace LCAVPCore.Registration.Algorithms.Component
 
 		public ACVPCore.Algorithms.Persisted.KAS_FFC_Component.NoKdfNoKc ToPersisted() => new ACVPCore.Algorithms.Persisted.KAS_FFC_Component.NoKdfNoKc
 		{
-			ParameterSets = ParameterSets.ToPersisted()
+			ParameterSets = ParameterSets?.ToPersisted()
 		};
 	}
 
@@ -238,8 +238,8 @@ namespace LCAVPCore.Registration.Algorithms.Component
 
 		public ACVPCore.Algorithms.Persisted.KAS_FFC_Component.ParameterSets ToPersisted() => new ACVPCore.Algorithms.Persisted.KAS_FFC_Component.ParameterSets
 		{
-			FB = Fb.ToPersisted(),
-			FC = Fc.ToPersisted()
+			FB = Fb?.ToPersisted(),
+			FC = Fc?.ToPersisted()
 		};
 	}
 

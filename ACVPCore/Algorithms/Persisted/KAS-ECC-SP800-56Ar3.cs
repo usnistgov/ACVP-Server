@@ -78,15 +78,15 @@ namespace ACVPCore.Algorithms.Persisted
 			[AlgorithmProperty(Name = "keyConfirmationMethod", PrependParentPropertyName = true)]
 			public KeyConfirmationMethod KeyConfirmationMethod { get; set; }
 
-			[AlgorithmProperty(Name = "I", PrependParentPropertyName = true)]
-			public int I { get; set; }
+			[AlgorithmProperty(Name = "l", PrependParentPropertyName = true)]
+			public int L { get; set; }
 
 			public static Scheme Create(External.KAS_ECC_SP800_56Ar3.Scheme externalScheme) => externalScheme == null ? null : new Scheme
 			{
 				KasRole = externalScheme.KasRole,
 				KdfMethods = KdfMethods.Create(externalScheme.KdfMethods),
 				KeyConfirmationMethod = KeyConfirmationMethod.Create(externalScheme.KeyConfirmationMethod),
-				I = externalScheme.I
+				L = externalScheme.L
 			};
 		}
 
@@ -98,14 +98,14 @@ namespace ACVPCore.Algorithms.Persisted
 			[AlgorithmProperty(Name = "kdfMethods", PrependParentPropertyName = true)]
 			public KdfMethods KdfMethods { get; set; }
 
-			[AlgorithmProperty(Name = "I", PrependParentPropertyName = true)]
-			public int I { get; set; }
+			[AlgorithmProperty(Name = "l", PrependParentPropertyName = true)]
+			public int L { get; set; }
 
 			public static SchemeNoKc Create(External.KAS_ECC_SP800_56Ar3.SchemeNoKc externalSchemeNoKc) => externalSchemeNoKc == null ? null : new SchemeNoKc
 			{
 				KasRole = externalSchemeNoKc.KasRole,
 				KdfMethods = KdfMethods.Create(externalSchemeNoKc.KdfMethods),
-				I = externalSchemeNoKc.I
+				L = externalSchemeNoKc.L
 			};
 		}
 
@@ -201,7 +201,7 @@ namespace ACVPCore.Algorithms.Persisted
 			[AlgorithmProperty(Name = "supportsEmptyIv", PrependParentPropertyName = true)]
 			public bool SupportsEmptyIV { get; set; }
 
-			[AlgorithmProperty(Name = "requriesEmptyIv", PrependParentPropertyName = true)]
+			[AlgorithmProperty(Name = "requiresEmptyIv", PrependParentPropertyName = true)]
 			public bool RequiresEmptyIV { get; set; }
 
 			public static Capability Create(External.KAS_ECC_SP800_56Ar3.Capability externalCapability) => externalCapability == null ? null : new Capability
@@ -298,10 +298,10 @@ namespace ACVPCore.Algorithms.Persisted
 
 		public class MacMethod
 		{
-			[AlgorithmProperty(Name = "keyLength", PrependParentPropertyName = true)]
+			[AlgorithmProperty(Name = "keyLen", PrependParentPropertyName = true)]
 			public int KeyLength { get; set; }
 
-			[AlgorithmProperty(Name = "macLength", PrependParentPropertyName = true)]
+			[AlgorithmProperty(Name = "macLen", PrependParentPropertyName = true)]
 			public int MacLength { get; set; }
 
 			public static MacMethod Create(External.KAS_ECC_SP800_56Ar3.MacMethod externalMacMethod) => externalMacMethod == null ? null : new MacMethod

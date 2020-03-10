@@ -249,13 +249,13 @@ namespace LCAVPCore.Registration.Algorithms.KAS
 
 			public ACVPCore.Algorithms.Persisted.KAS_ECC.SchemeCollection ToPersisted() => new ACVPCore.Algorithms.Persisted.KAS_ECC.SchemeCollection
 			{
-				EphemeralUnified = EphemeralUnified.ToPersisted(),
-				FullUnified = FullUnified.ToPersisted(),
-				FullMQV = FullMQV.ToPersisted(),
-				OnePassUnified = OnePassUnified.ToPersisted(),
-				OnePassMQV = OnePassMQV.ToPersisted(),
-				OnePassDH = OnePassDH.ToPersisted(),
-				StaticUnified = StaticUnified.ToPersistedStaticUnified()
+				EphemeralUnified = EphemeralUnified?.ToPersistedEphemeralUnified(),
+				FullUnified = FullUnified?.ToPersisted(),
+				FullMQV = FullMQV?.ToPersisted(),
+				OnePassUnified = OnePassUnified?.ToPersisted(),
+				OnePassMQV = OnePassMQV?.ToPersisted(),
+				OnePassDH = OnePassDH?.ToPersisted(),
+				StaticUnified = StaticUnified?.ToPersistedStaticUnified()
 			};
 		}
 
@@ -273,15 +273,21 @@ namespace LCAVPCore.Registration.Algorithms.KAS
 			public ACVPCore.Algorithms.Persisted.KAS_ECC.Scheme ToPersisted() => new ACVPCore.Algorithms.Persisted.KAS_ECC.Scheme
 			{
 				Role = Role,
-				KdfNoKc = KdfNoKc.ToPersisted(),
-				KdfKc = KdfKc.ToPersisted()
+				KdfNoKc = KdfNoKc?.ToPersisted(),
+				KdfKc = KdfKc?.ToPersisted()
+			};
+
+			public ACVPCore.Algorithms.Persisted.KAS_ECC.SchemeEphemeralUnified ToPersistedEphemeralUnified() => new ACVPCore.Algorithms.Persisted.KAS_ECC.SchemeEphemeralUnified
+			{
+				Role = Role,
+				KdfNoKc = KdfNoKc?.ToPersisted()
 			};
 
 			public ACVPCore.Algorithms.Persisted.KAS_ECC.SchemeStaticUnified ToPersistedStaticUnified() => new ACVPCore.Algorithms.Persisted.KAS_ECC.SchemeStaticUnified
 			{
 				Role = Role,
-				KdfNoKc = KdfNoKc.ToPersistedStaticUnified(),
-				KdfKc = KdfKc.ToPersistedStaticUnified()
+				KdfNoKc = KdfNoKc?.ToPersistedStaticUnified(),
+				KdfKc = KdfKc?.ToPersistedStaticUnified()
 			};
 		}
 
@@ -325,14 +331,14 @@ namespace LCAVPCore.Registration.Algorithms.KAS
 
 			public ACVPCore.Algorithms.Persisted.KAS_ECC.KdfNoKc ToPersisted() => new ACVPCore.Algorithms.Persisted.KAS_ECC.KdfNoKc
 			{
-				KdfOption = KdfOption.ToPersisted(),
-				ParameterSets = ParameterSets.ToPersisted()
+				KdfOption = KdfOption?.ToPersisted(),
+				ParameterSets = ParameterSets?.ToPersisted()
 			};
 
 			public ACVPCore.Algorithms.Persisted.KAS_ECC.KdfNoKcStaticUnified ToPersistedStaticUnified() => new ACVPCore.Algorithms.Persisted.KAS_ECC.KdfNoKcStaticUnified
 			{
-				KdfOption = KdfOption.ToPersisted(),
-				ParameterSets = ParameterSets.ToPersisted(),
+				KdfOption = KdfOption?.ToPersisted(),
+				ParameterSets = ParameterSets?.ToPersisted(),
 				DkmNonceTypes = DkmNonceTypes
 			};
 		}
@@ -345,16 +351,16 @@ namespace LCAVPCore.Registration.Algorithms.KAS
 
 			public new ACVPCore.Algorithms.Persisted.KAS_ECC.KdfKc ToPersisted() => new ACVPCore.Algorithms.Persisted.KAS_ECC.KdfKc
 			{
-				KcOption = KcOption.ToPersisted(),
-				KdfOption = KdfOption.ToPersisted(),
-				ParameterSets = ParameterSets.ToPersisted()
+				KcOption = KcOption?.ToPersisted(),
+				KdfOption = KdfOption?.ToPersisted(),
+				ParameterSets = ParameterSets?.ToPersisted()
 			};
 
 			public new ACVPCore.Algorithms.Persisted.KAS_ECC.KdfKcStaticUnified ToPersistedStaticUnified() => new ACVPCore.Algorithms.Persisted.KAS_ECC.KdfKcStaticUnified
 			{
-				KcOption = KcOption.ToPersisted(),
-				KdfOption = KdfOption.ToPersisted(),
-				ParameterSets = ParameterSets.ToPersisted(),
+				KcOption = KcOption?.ToPersisted(),
+				KdfOption = KdfOption?.ToPersisted(),
+				ParameterSets = ParameterSets?.ToPersisted(),
 				DkmNonceTypes = DkmNonceTypes
 			};
 		}
@@ -386,10 +392,10 @@ namespace LCAVPCore.Registration.Algorithms.KAS
 
 			public ACVPCore.Algorithms.Persisted.KAS_ECC.ParameterSets ToPersisted() => new ACVPCore.Algorithms.Persisted.KAS_ECC.ParameterSets
 			{
-				EB = EB.ToPersistedParameterSetEB(),
-				EC = EC.ToPersistedParameterSetEC(),
-				ED = ED.ToPersistedParameterSetED(),
-				EE = EE.ToPersistedParameterSetEE()
+				EB = EB?.ToPersistedParameterSetEB(),
+				EC = EC?.ToPersistedParameterSetEC(),
+				ED = ED?.ToPersistedParameterSetED(),
+				EE = EE?.ToPersistedParameterSetEE()
 			};
 
 		}
@@ -540,28 +546,28 @@ namespace LCAVPCore.Registration.Algorithms.KAS
 			{
 				Curve = Curve,
 				HashAlg = HashAlg,
-				MacOption = MacOption.ToPersistedMacOptionsEB()
+				MacOption = MacOption?.ToPersistedMacOptionsEB()
 			};
 
 			public ACVPCore.Algorithms.Persisted.KAS_ECC.ParameterSetEC ToPersistedParameterSetEC() => new ACVPCore.Algorithms.Persisted.KAS_ECC.ParameterSetEC
 			{
 				Curve = Curve,
 				HashAlg = HashAlg,
-				MacOption = MacOption.ToPersistedMacOptionsEC()
+				MacOption = MacOption?.ToPersistedMacOptionsEC()
 			};
 
 			public ACVPCore.Algorithms.Persisted.KAS_ECC.ParameterSetED ToPersistedParameterSetED() => new ACVPCore.Algorithms.Persisted.KAS_ECC.ParameterSetED
 			{
 				Curve = Curve,
 				HashAlg = HashAlg,
-				MacOption = MacOption.ToPersistedMacOptionsED()
+				MacOption = MacOption?.ToPersistedMacOptionsED()
 			};
 
 			public ACVPCore.Algorithms.Persisted.KAS_ECC.ParameterSetEE ToPersistedParameterSetEE() => new ACVPCore.Algorithms.Persisted.KAS_ECC.ParameterSetEE
 			{
 				Curve = Curve,
 				HashAlg = HashAlg,
-				MacOption = MacOption.ToPersistedMacOptionsEE()
+				MacOption = MacOption?.ToPersistedMacOptionsEE()
 			};
 		}
 
@@ -611,36 +617,36 @@ namespace LCAVPCore.Registration.Algorithms.KAS
 
 			public ACVPCore.Algorithms.Persisted.KAS_ECC.MacOptionsEB ToPersistedMacOptionsEB() => new ACVPCore.Algorithms.Persisted.KAS_ECC.MacOptionsEB
 			{
-				AesCcm = AesCcm.ToPersistedMacOptionWithNonceLen(),
-				Cmac = Cmac.ToPersistedMacOption(),
-				HmacSha2_D224 = HmacSha2_D224.ToPersistedMacOption(),
-				HmacSha2_D256 = HmacSha2_D256.ToPersistedMacOption(),
-				HmacSha2_D384 = HmacSha2_D384.ToPersistedMacOption(),
-				HmacSha2_D512 = HmacSha2_D512.ToPersistedMacOption()
+				AesCcm = AesCcm?.ToPersistedMacOptionWithNonceLen(),
+				Cmac = Cmac?.ToPersistedMacOption(),
+				HmacSha2_D224 = HmacSha2_D224?.ToPersistedMacOption(),
+				HmacSha2_D256 = HmacSha2_D256?.ToPersistedMacOption(),
+				HmacSha2_D384 = HmacSha2_D384?.ToPersistedMacOption(),
+				HmacSha2_D512 = HmacSha2_D512?.ToPersistedMacOption()
 			};
 
 			public ACVPCore.Algorithms.Persisted.KAS_ECC.MacOptionsEC ToPersistedMacOptionsEC() => new ACVPCore.Algorithms.Persisted.KAS_ECC.MacOptionsEC
 			{
-				AesCcm = AesCcm.ToPersistedMacOptionWithNonceLen(),
-				Cmac = Cmac.ToPersistedMacOption(),
-				HmacSha2_D256 = HmacSha2_D256.ToPersistedMacOption(),
-				HmacSha2_D384 = HmacSha2_D384.ToPersistedMacOption(),
-				HmacSha2_D512 = HmacSha2_D512.ToPersistedMacOption()
+				AesCcm = AesCcm?.ToPersistedMacOptionWithNonceLen(),
+				Cmac = Cmac?.ToPersistedMacOption(),
+				HmacSha2_D256 = HmacSha2_D256?.ToPersistedMacOption(),
+				HmacSha2_D384 = HmacSha2_D384?.ToPersistedMacOption(),
+				HmacSha2_D512 = HmacSha2_D512?.ToPersistedMacOption()
 			};
 
 			public ACVPCore.Algorithms.Persisted.KAS_ECC.MacOptionsED ToPersistedMacOptionsED() => new ACVPCore.Algorithms.Persisted.KAS_ECC.MacOptionsED
 			{
-				AesCcm = AesCcm.ToPersistedMacOptionWithNonceLen(),
-				Cmac = Cmac.ToPersistedMacOption(),
-				HmacSha2_D384 = HmacSha2_D384.ToPersistedMacOption(),
-				HmacSha2_D512 = HmacSha2_D512.ToPersistedMacOption()
+				AesCcm = AesCcm?.ToPersistedMacOptionWithNonceLen(),
+				Cmac = Cmac?.ToPersistedMacOption(),
+				HmacSha2_D384 = HmacSha2_D384?.ToPersistedMacOption(),
+				HmacSha2_D512 = HmacSha2_D512?.ToPersistedMacOption()
 			};
 
 			public ACVPCore.Algorithms.Persisted.KAS_ECC.MacOptionsEE ToPersistedMacOptionsEE() => new ACVPCore.Algorithms.Persisted.KAS_ECC.MacOptionsEE
 			{
-				AesCcm = AesCcm.ToPersistedMacOptionWithNonceLen(),
-				Cmac = Cmac.ToPersistedMacOption(),
-				HmacSha2_D512 = HmacSha2_D512.ToPersistedMacOption()
+				AesCcm = AesCcm?.ToPersistedMacOptionWithNonceLen(),
+				Cmac = Cmac?.ToPersistedMacOption(),
+				HmacSha2_D512 = HmacSha2_D512?.ToPersistedMacOption()
 			};
 		}
 
@@ -712,7 +718,7 @@ namespace LCAVPCore.Registration.Algorithms.KAS
 		public IPersistedAlgorithm ToPersistedAlgorithm() => new ACVPCore.Algorithms.Persisted.KAS_ECC
 		{
 			Functions = Functions,
-			Schemes = Schemes.ToPersisted()
+			Schemes = Schemes?.ToPersisted()
 		};
 
 	}

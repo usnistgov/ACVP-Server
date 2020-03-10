@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using LCAVPCore.Processors;
 using LCAVPCore.Registration;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 
 namespace LCAVPCore
@@ -23,8 +24,10 @@ namespace LCAVPCore
 		private readonly IOrganizationProcessor _organizationProcessor;
 		private readonly IPersonProcessor _personProcessor;
 		private readonly IValidationProcessor _validationProcessor;
+		private readonly string _extractedFilesRoot;
+		private readonly string _processedFilesRoot;
 
-		public LCAVPSubmissionProcessor(ISubmissionLogger submissionLogger, INewSubmissionProcessor newSubmissionProcessor, IChangeSubmissionProcessor changeSubmissionProcessor, IUpdateSubmissionProcessor updateSubmissionProcessor, IModuleProcessor moduleProcessor, IOEProcessor oeProcessor, IOrganizationProcessor organizationProcessor, IPersonProcessor personProcessor, IValidationProcessor validationProcessor)
+		public LCAVPSubmissionProcessor(ISubmissionLogger submissionLogger, INewSubmissionProcessor newSubmissionProcessor, IChangeSubmissionProcessor changeSubmissionProcessor, IUpdateSubmissionProcessor updateSubmissionProcessor, IModuleProcessor moduleProcessor, IOEProcessor oeProcessor, IOrganizationProcessor organizationProcessor, IPersonProcessor personProcessor, IValidationProcessor validationProcessor, IConfiguration configuration)
 		{
 			_submissionLogger = submissionLogger;
 			_newSubmissionProcessor = newSubmissionProcessor;
@@ -35,9 +38,11 @@ namespace LCAVPCore
 			_organizationProcessor = organizationProcessor;
 			_personProcessor = personProcessor;
 			_validationProcessor = validationProcessor;
+			_extractedFilesRoot = configuration.GetValue<string>("LCAVP:ExtractedFilesRoot");
+			_processedFilesRoot = configuration.GetValue<string>("LCAVP:ProcessedFilesRoot");
 		}
 
-		public SubmissionProcessingResult Process(string filePath, string senderEmail, string extractedFilesRoot, string processedFilesRoot)
+		public SubmissionProcessingResult Process(string filePath, string senderEmail)
 		{
 			string processedFileName = $"{DateTime.Now.ToString("yyyyMMddHHmmssfff")}_{Path.GetFileName(filePath)}";
 
@@ -109,7 +114,7 @@ namespace LCAVPCore
 			if (submissionProcessingResult.Success)
 			{
 				//Extract the zip file
-				FileHandler fileHandler = new FileHandler(submissionType, extractedFilesRoot);
+				FileHandler fileHandler = new FileHandler(submissionType, _extractedFilesRoot);
 				extractionResult = fileHandler.ExtractZip(filePath);
 
 				if (!extractionResult.Success)
@@ -191,8 +196,11 @@ namespace LCAVPCore
 									break;
 
 								case (ProcessingType.New, WorkflowType.Validation):
-									_validationProcessor.Create((NewRegistrationContainer)processingResult.TheThingy);
-									//TODO - update the submission log with the validation ID that was created
+									var result = _validationProcessor.Create((NewRegistrationContainer)processingResult.TheThingy);
+
+									//Update the submission log with the validation ID that was created - this may get used by future submissions in prereqs
+									_submissionLogger.UpdateValidationIDForSubmissionLogID(submissionLogID, result.ID);
+
 									break;
 
 								case (ProcessingType.Update, WorkflowType.Validation):
@@ -211,7 +219,7 @@ namespace LCAVPCore
 			submissionProcessingResult.SubmissionID = submissionLogID;
 
 			//Move the file to the processed location
-			string destinationPath = Path.Combine(processedFilesRoot, processedFileName);
+			string destinationPath = Path.Combine(_processedFilesRoot, processedFileName);
 
 			File.Move(filePath, destinationPath);
 

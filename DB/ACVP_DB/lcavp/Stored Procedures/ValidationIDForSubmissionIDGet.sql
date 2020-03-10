@@ -5,7 +5,7 @@
 AS
 	SET NOCOUNT ON
 
-	SELECT TOP 1 ValidationID
+	SELECT TOP 1 ValidationId
 	FROM lcavp.SubmissionLog
 	WHERE SubmissionID = @SubmissionID
 

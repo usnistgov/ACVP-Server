@@ -16,5 +16,5 @@ VALUES (
 	,@OrganizationID
 )
 
-SELECT SCOPE_IDENTITY() AS PersonID
+SELECT CAST(SCOPE_IDENTITY() AS bigint) AS PersonID
 

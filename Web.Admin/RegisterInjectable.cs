@@ -1,6 +1,7 @@
 using ACVPCore;
 using ACVPWorkflow;
 using CVP.DatabaseInterface;
+using LCAVPCore;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Web.Admin
@@ -17,6 +18,7 @@ namespace Web.Admin
             
             item.InjectACVPCore();
             item.InjectACVPWorkflow();
+            item.InjectLCAVPCore();
         }
     }
 }

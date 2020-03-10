@@ -26,7 +26,7 @@ namespace ACVPCore.Algorithms.Persisted
 		public class SchemeCollection
 		{
 			[AlgorithmProperty(Name = "ephemeralUnified", PrependParentPropertyName = true)]
-			public Scheme EphemeralUnified { get; set; }
+			public SchemeEphemeralUnified EphemeralUnified { get; set; }
 
 			[AlgorithmProperty(Name = "fullUnified", PrependParentPropertyName = true)]
 			public Scheme FullUnified { get; set; }
@@ -48,7 +48,7 @@ namespace ACVPCore.Algorithms.Persisted
 
 			public static SchemeCollection Create(External.KAS_ECC.SchemeCollection externalSchemeCollection) => externalSchemeCollection == null ? null : new SchemeCollection
 			{
-				EphemeralUnified = Scheme.Create(externalSchemeCollection.EphemeralUnified),
+				EphemeralUnified = SchemeEphemeralUnified.Create(externalSchemeCollection.EphemeralUnified),
 				FullUnified = Scheme.Create(externalSchemeCollection.FullUnified),
 				FullMQV = Scheme.Create(externalSchemeCollection.FullMQV),
 				OnePassUnified = Scheme.Create(externalSchemeCollection.OnePassUnified),
@@ -74,6 +74,21 @@ namespace ACVPCore.Algorithms.Persisted
 				Role = externalScheme.Role,
 				KdfNoKc = KdfNoKc.Create(externalScheme.KdfNoKc),
 				KdfKc = KdfKc.Create(externalScheme.KdfKc)
+			};
+		}
+
+		public class SchemeEphemeralUnified
+		{
+			[AlgorithmProperty(Name = "kasRole", PrependParentPropertyName = true)]
+			public List<string> Role { get; set; }
+
+			[AlgorithmProperty(Name = "kdfNoKc", PrependParentPropertyName = true)]
+			public KdfNoKc KdfNoKc { get; set; }
+
+			public static SchemeEphemeralUnified Create(External.KAS_ECC.SchemeEphemeralUnified externalScheme) => externalScheme == null ? null : new SchemeEphemeralUnified
+			{
+				Role = externalScheme.Role,
+				KdfNoKc = KdfNoKcStaticUnified.Create(externalScheme.KdfNoKc)
 			};
 		}
 
@@ -277,6 +292,10 @@ namespace ACVPCore.Algorithms.Persisted
 
 			[AlgorithmProperty(Name = "CMAC", PrependParentPropertyName = true)]
 			public MacOption Cmac { get; set; }
+
+			//Hmac is kind of a garbage property, only there for some really, really old stuff. Never use it. Just there to match the database
+			[AlgorithmProperty(Name = "HMAC", PrependParentPropertyName = true)]
+			public MacOptionEmpty Hmac { get; set; }
 
 			[AlgorithmProperty(Name = "HMAC-SHA2-512", PrependParentPropertyName = true)]
 			public MacOption HmacSha2_D512 { get; set; }

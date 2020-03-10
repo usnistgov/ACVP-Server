@@ -26,14 +26,15 @@ namespace LCAVPCore.Processors
 				Website = organization.Website,
 				Addresses = new List<AddressCreateParameters>{
 					new AddressCreateParameters {
-					Street1 = organization.Address[0].Street1,
-				Street2 = organization.Address[0].Street2,
-				Street3 = organization.Address[0].Street3,
-				Locality = organization.Address[0].Locality,
-				Region = organization.Address[0].Region,
-				Country = organization.Address[0].Country,
-				PostalCode = organization.Address[0].PostalCode,
-				} }
+						Street1 = organization.Address[0].Street1,
+						Street2 = organization.Address[0].Street2,
+						Street3 = organization.Address[0].Street3,
+						Locality = organization.Address[0].Locality,
+						Region = organization.Address[0].Region,
+						Country = organization.Address[0].Country,
+						PostalCode = organization.Address[0].PostalCode
+					}
+				}
 			};
 
 			return _organizationService.Create(createParameters);
@@ -68,8 +69,8 @@ namespace LCAVPCore.Processors
 				AddressUpdateParameters addressUpdateParameters = new AddressUpdateParameters
 				{
 					ID = foo.ID,
-					OrderIndex = 0,		//Because only have 1 if coming this way...
-					OrganizationID = foo.VendorID		//This won't get used, but still populating it since I have it
+					OrderIndex = 0,     //Because only have 1 if coming this way...
+					OrganizationID = foo.VendorID       //This won't get used, but still populating it since I have it
 				};
 
 				if (foo.Street1Updated) { addressUpdateParameters.Street1 = foo.Street1; addressUpdateParameters.Street1Updated = true; }

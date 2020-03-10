@@ -22,7 +22,7 @@ namespace LCAVPCore.Registration.Algorithms.AES
 		public Domain AadLen { get; set; } = new Domain();
 
 		[JsonProperty(PropertyName = "tagLen")]
-		public Domain TagLen { get; set; } = new Domain();
+		public List<int> TagLen { get; set; } = new List<int>();
 
 
 		public AES_CCM(Dictionary<string, string> options, IDataProvider dataProvider) : base(dataProvider, "ACVP-AES-CCM")
@@ -86,9 +86,9 @@ namespace LCAVPCore.Registration.Algorithms.AES
 		{
 			KeyLength = KeyLen,
 			PayloadLength = PtLen.ToCoreDomain(),
-			IVLength = IvLen.ToLongList(),
+			IVLength = IvLen.ToCoreDomain(),
 			AADLength = AadLen.ToCoreDomain(),
-			TagLength = TagLen.ToLongList()
+			TagLength = TagLen
 		};
 	}
 }

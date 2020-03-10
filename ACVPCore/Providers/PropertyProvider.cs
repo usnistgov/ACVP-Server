@@ -48,5 +48,35 @@ namespace ACVPCore.Providers
 
 			return properties;
 		}
+
+		public List<PropertyTreeValidationNode> GetPropertyTreeValidationNodes(long algorithmID)
+		{
+			var db = new MightyOrm(_acvpConnectionString);
+
+			List<PropertyTreeValidationNode> nodes = new List<PropertyTreeValidationNode>();
+
+			try
+			{
+				var data = db.QueryFromProcedure("ref.PropertyTreeValidationNodesGet", inParams: new { AlgorithmId = algorithmID });
+
+				foreach (var item in data)
+				{
+					nodes.Add(new PropertyTreeValidationNode
+					{
+						ID = item.PropertyID,
+						Name = item.PropertyName,
+						Level = item.Level,
+						OrderIndex = item.OrderIndex,
+						Type = item.PropertyType.Trim()
+					});
+				}
+			}
+			catch(Exception ex)
+			{
+				_logger.LogError(ex.ToString());
+			}
+
+			return nodes;
+		}
 	}
 }

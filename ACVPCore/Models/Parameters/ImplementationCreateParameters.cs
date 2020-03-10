@@ -11,7 +11,7 @@ namespace ACVPCore.Models.Parameters
 		public string Website { get; set; }
 		public long OrganizationID { get; set; }
 		public long AddressID { get; set; }
-		public List<long> ContactIDs { get; set; }
+		public List<long> ContactIDs { get; set; } = new List<long>();
 		public bool IsITAR { get; set; }
 	}
 }

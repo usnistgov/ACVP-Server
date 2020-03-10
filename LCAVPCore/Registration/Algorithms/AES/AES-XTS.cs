@@ -23,6 +23,9 @@ namespace LCAVPCore.Registration.Algorithms.AES
 
 		public AES_XTS(int keyLength, Dictionary<string, string> options, IDataProvider dataProvider) : base(dataProvider, "ACVP-AES-XTS")
 		{
+			//Prereqs
+			PreReqs.Add(BuildPrereq("AES", options.GetValue("XTS-AES_Prerequisite_AES")));
+
 			//Most of the options are specific to the key length, and the JSON format requires separate registrations if the options differ, so play it safe and just do them separate
 
 			//KeyLen is pretty simple, since it is the basis for this whole registration

@@ -162,13 +162,13 @@ namespace LCAVPCore.Registration.Algorithms.KAS
 
 			public ACVPCore.Algorithms.Persisted.KAS_ECC_Component.SchemeCollection ToPersisted() => new ACVPCore.Algorithms.Persisted.KAS_ECC_Component.SchemeCollection
 			{
-				EphemeralUnified = EphemeralUnified.ToPersisted(),
-				FullUnified = FullUnified.ToPersisted(),
-				FullMQV = FullMQV.ToPersisted(),
-				OnePassUnified = OnePassUnified.ToPersisted(),
-				OnePassMQV = OnePassMQV.ToPersisted(),
-				OnePassDH = OnePassDH.ToPersisted(),
-				StaticUnified = StaticUnified.ToPersisted()
+				EphemeralUnified = EphemeralUnified?.ToPersisted(),
+				FullUnified = FullUnified?.ToPersisted(),
+				FullMQV = FullMQV?.ToPersisted(),
+				OnePassUnified = OnePassUnified?.ToPersisted(),
+				OnePassMQV = OnePassMQV?.ToPersisted(),
+				OnePassDH = OnePassDH?.ToPersisted(),
+				StaticUnified = StaticUnified?.ToPersisted()
 			};
 		}
 
@@ -183,7 +183,7 @@ namespace LCAVPCore.Registration.Algorithms.KAS
 			public ACVPCore.Algorithms.Persisted.KAS_ECC_Component.Scheme ToPersisted() => new ACVPCore.Algorithms.Persisted.KAS_ECC_Component.Scheme
 			{
 				Role = Role,
-				NoKdfNoKc = NoKdfNoKc.ToPersisted()
+				NoKdfNoKc = NoKdfNoKc?.ToPersisted()
 			};
 		}
 
@@ -217,7 +217,7 @@ namespace LCAVPCore.Registration.Algorithms.KAS
 
 			public ACVPCore.Algorithms.Persisted.KAS_ECC_Component.NoKdfNoKc ToPersisted() => new ACVPCore.Algorithms.Persisted.KAS_ECC_Component.NoKdfNoKc
 			{
-				ParameterSets = ParameterSets.ToPersisted()
+				ParameterSets = ParameterSets?.ToPersisted()
 			};
 		}
 
@@ -246,10 +246,10 @@ namespace LCAVPCore.Registration.Algorithms.KAS
 
 			public ACVPCore.Algorithms.Persisted.KAS_ECC_Component.ParameterSets ToPersisted() => new ACVPCore.Algorithms.Persisted.KAS_ECC_Component.ParameterSets
 			{
-				EB = EB.ToPersisted(),
-				EC = EC.ToPersisted(),
-				ED = ED.ToPersisted(),
-				EE = EE.ToPersisted()
+				EB = EB?.ToPersisted(),
+				EC = EC?.ToPersisted(),
+				ED = ED?.ToPersisted(),
+				EE = EE?.ToPersisted()
 			};
 		}
 
@@ -318,7 +318,7 @@ namespace LCAVPCore.Registration.Algorithms.KAS
 		public IPersistedAlgorithm ToPersistedAlgorithm() => new ACVPCore.Algorithms.Persisted.KAS_ECC_Component
 		{
 			Functions = Functions,
-			Schemes = Schemes.ToPersisted()
+			Schemes = Schemes?.ToPersisted()
 		};
 	}
 }

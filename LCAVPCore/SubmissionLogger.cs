@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using CVP.DatabaseInterface;
 using Mighty;
 
@@ -20,7 +19,20 @@ namespace LCAVPCore
 			{
 				var db = new MightyOrm(_acvpConnectionString);
 
-				var data = db.Query("EXEC [lcavp].[SubmissionLogInsert] @0, @1, @2, @3, @4, @5, @6, @7, @8, @9, @10", submissionID, labName, labPOC, labPOCEmail, submissionType, receivedDate, status, senderEmailAddress, zipFileName, extractedFileLocation, errorJson).FirstOrDefault();
+				var data = db.SingleFromProcedure("[lcavp].[SubmissionLogInsert]", inParams: new
+				{
+					SubmissionID = submissionID,
+					LabName = labName,
+					LabPOC = labPOC,
+					LabPOCEmail = labPOCEmail,
+					SubmissionType = submissionType,
+					ReceivedDate = receivedDate,
+					Status = status,
+					SenderEmailAddress = senderEmailAddress,
+					ZipFileName = zipFileName,
+					ExtractedFileLocation = extractedFileLocation,
+					ErrorJson = errorJson
+				});
 
 				return (int)data.SubmissionLogID;
 			}
@@ -36,13 +48,38 @@ namespace LCAVPCore
 			{
 				var db = new MightyOrm(_acvpConnectionString);
 
-				db.Execute("EXEC [lcavp].[SubmissionRegistrationInsert] @0, @1, @2, @3, @4", submissionID, status, workflowType, registrationJson, errorJson);
+				db.ExecuteProcedure("[lcavp].[SubmissionRegistrationInsert]", inParams: new
+				{
+					SubmissionID = submissionID,
+					Status = status,
+					WorkflowTypeID = workflowType,
+					RegistrationJson = registrationJson,
+					ErrorJson = errorJson
+				});
 
 				return true;
 			}
 			catch
 			{
 				return false;
+			}
+		}
+
+		public void UpdateValidationIDForSubmissionLogID(int submissionLogID, long validationID)
+		{
+			try
+			{
+				var db = new MightyOrm(_acvpConnectionString);
+
+				db.ExecuteProcedure("lcavp.UpdateValidationIDForSubmissionLogID", inParams: new
+				{
+					SubmissionLogID = submissionLogID,
+					ValidationId = validationID
+				});
+			}
+			catch
+			{
+				//Meh
 			}
 		}
 	}

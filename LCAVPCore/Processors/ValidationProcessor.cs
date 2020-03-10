@@ -12,14 +12,14 @@ namespace LCAVPCore.Processors
 {
 	public class ValidationProcessor : IValidationProcessor
 	{
-		private readonly ModuleProcessor _moduleProcessor;
-		private readonly OEProcessor _oeProcessor;
+		private readonly IModuleProcessor _moduleProcessor;
+		private readonly IOEProcessor _oeProcessor;
 		private readonly IValidationService _validationService;
 		private readonly IScenarioOEProvider _scenarioOEProvider;
 		private readonly ICapabilityService _capabilityService;
 		private readonly IPrerequisiteService _prerequisiteService;
 
-		public ValidationProcessor(ModuleProcessor moduleProcessor, OEProcessor oeProcessor, IValidationService validationService, IScenarioOEProvider scenarioOEProvider, ICapabilityService capabilityService, IPrerequisiteService prerequisiteService)
+		public ValidationProcessor(IModuleProcessor moduleProcessor, IOEProcessor oeProcessor, IValidationService validationService, IScenarioOEProvider scenarioOEProvider, ICapabilityService capabilityService, IPrerequisiteService prerequisiteService)
 		{
 			_moduleProcessor = moduleProcessor;
 			_validationService = validationService;
@@ -116,7 +116,8 @@ namespace LCAVPCore.Processors
 
 		private void CreatePrerequisites(long validationID, long scenarioAlgorithmID, List<Prerequisite> prereqs)
 		{
-			foreach (Prerequisite prereq in prereqs)
+			//Because of a weird old thing in how prereqs were being serialized, which I don't want to mess with, prereqs may be null instead of an empty list. So need to catch that
+			foreach (Prerequisite prereq in prereqs ?? new List<Prerequisite>())
 			{
 				_prerequisiteService.Create(scenarioAlgorithmID, (long)(prereq.ValidationRecordID ?? validationID), prereq.Algorithm);	//self referential prereqs will have a null ValidationRecordID, so use the validation ID instead. Since the ValidationRecordID is an int? some casting has to be done, and this is the only syntax that will handle all cases
 			}

@@ -53,7 +53,7 @@ namespace ACVPCore.Algorithms.Persisted
 			[AlgorithmProperty("modulo")]
 			public int Modulo { get; set; }
 
-			[AlgorithmProperty("primeTest")]
+			[AlgorithmProperty("hashPair")]
 			public List<HashPair> HashPairs { get; set; } = new List<HashPair>();
 
 			public Property() { }

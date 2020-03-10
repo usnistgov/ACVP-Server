@@ -8,7 +8,7 @@ namespace ACVPCore.Algorithms.Persisted
 		[AlgorithmProperty(Name = "direction", Type = AlgorithmPropertyType.StringArray)]
 		public List<string> Direction { get; set; }
 
-		[AlgorithmProperty(Name = "keyLen", Type = AlgorithmPropertyType.NumberArray)]
+		[AlgorithmProperty(Name = "key", Type = AlgorithmPropertyType.NumberArray)]
 		public List<int> KeyLength{ get; set; }
 
 		[AlgorithmProperty(Name = "tweakLen", Type = AlgorithmPropertyType.Domain)]

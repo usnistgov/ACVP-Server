@@ -33,7 +33,7 @@ namespace ACVPCore.Algorithms.Persisted
 			[AlgorithmProperty(Name = "direction")]
 			public List<string> Direction { get; set; }
 
-			[AlgorithmProperty(Name = "keyLen")]
+			[AlgorithmProperty(Name = "key")]
 			public List<int> KeyLength { get; set; }
 
 			[AlgorithmProperty(Name = "mac")]

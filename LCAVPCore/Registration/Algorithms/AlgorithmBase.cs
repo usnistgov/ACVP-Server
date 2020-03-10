@@ -141,6 +141,7 @@ namespace LCAVPCore.Registration.Algorithms
 			"ACVP-AES-CTR||1.0" => 53,
 			"ACVP-AES-ECB||1.0" => 1,
 			"ACVP-AES-GCM||1.0" => 0,
+			"ACVP-AES-GMAC||1.0" => 141,
 			"ACVP-AES-KW||1.0" => 20,
 			"ACVP-AES-KWP||1.0" => 49,
 			"ACVP-AES-OFB||1.0" => 6,

@@ -10,6 +10,9 @@ namespace ACVPCore.Algorithms.Persisted
 		[AlgorithmProperty(Name = "key", Type = AlgorithmPropertyType.NumberArray)]
 		public List<int> KeyLength { get; set; }
 
+		[AlgorithmProperty(Name = "pt", Type = AlgorithmPropertyType.NumberArray)]
+		public List<int> PayloadLength { get; set; }
+
 		public AES_CBC()
 		{
 			Name = "ACVP-AES-CBC";
