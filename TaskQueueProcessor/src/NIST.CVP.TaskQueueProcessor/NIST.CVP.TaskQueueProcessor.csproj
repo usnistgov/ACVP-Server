@@ -10,7 +10,6 @@
     <ItemGroup>
         <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="$(NuGetVersionMicrosoftExtensionsHostingWindowsServices)" />
         <PackageReference Include="Newtonsoft.Json" Version="$(NuGetVersionNewtonsoftJson)" />
-        <PackageReference Include="NuGet.Packaging" Version="3.5.0-beta2-1484" />
         <PackageReference Include="System.ServiceProcess.ServiceController" Version="$(NuGetVersionSystemServiceProcessServiceController)" />
         <PackageReference Include="Microsoft.Extensions.Hosting" Version="$(NuGetVersionMicrosoftExtensionsHosting)" />
         <PackageReference Include="System.Data.SqlClient" Version="$(NuGetVersionSystemDataSqlClient)" />
