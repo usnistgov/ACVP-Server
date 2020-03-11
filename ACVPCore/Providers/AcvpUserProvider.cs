@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using ACVPCore.ExtensionMethods;
 using ACVPCore.Models;
+using ACVPCore.Models.Parameters;
 using ACVPCore.Results;
 using CVP.DatabaseInterface;
 using Microsoft.Extensions.Logging;
@@ -20,30 +22,38 @@ namespace ACVPCore.Providers
             _logger = logger;
         }
         
-        public List<AcvpUserLite> GetUserList()
+        public PagedEnumerable<AcvpUserLite> GetUserList(AcvpUserListParameters param)
         {
             List<AcvpUserLite> result = new List<AcvpUserLite>();
-            var db = new MightyOrm(_acvpConnectionString);
+            long totalRecords = 0;
+            var db = new MightyOrm<AcvpUserLite>(_acvpConnectionString);
 
             try
             {
-                var data = db.QueryFromProcedure("acvp.AcvpUsersGet");
-
-                result.AddRange(data.Select(item => new AcvpUserLite()
-                {
-                    CompanyId = item.companyId,
-                    CompanyName = item.companyName,
-                    FullName = item.fullName,
-                    PersonId = item.personId,
-                    AcvpUserId = item.acvpUserId
-                }));
+                var dbData = db.QueryWithExpando("acvp.AcvpUsersGet",
+                    inParams: new 
+                    {
+                        PageSize = param.PageSize,
+                        Page = param.Page,
+                        AcvpUserId = param.AcvpUserId,
+                        PersonId = param.PersonId,
+                        CompanyName = param.CompanyName,
+                        PersonName = param.PersonName
+                    },
+                    new
+                    {
+                        totalRecords = (long)0
+                    });
+                
+                result = dbData.Data;
+                totalRecords = dbData.ResultsExpando.totalRecords;
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
             }
 			
-            return result;
+            return result.WrapPagedEnumerable(param.PageSize, param.PageSize, totalRecords);
         }
 
         public AcvpUser GetUserDetails(long userId)

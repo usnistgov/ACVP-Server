@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using ACVPCore.Models;
+using ACVPCore.Models.Parameters;
 using ACVPCore.Providers;
 using ACVPCore.Results;
 
@@ -14,9 +15,9 @@ namespace ACVPCore.Services
             _adminUserProvider = adminUserProvider;
         }
         
-        public List<AcvpUserLite> GetUserList()
+        public PagedEnumerable<AcvpUserLite> GetUserList(AcvpUserListParameters param)
         {
-            return _adminUserProvider.GetUserList();
+            return _adminUserProvider.GetUserList(param);
         }
 
         public AcvpUser GetUserDetails(long userId)
