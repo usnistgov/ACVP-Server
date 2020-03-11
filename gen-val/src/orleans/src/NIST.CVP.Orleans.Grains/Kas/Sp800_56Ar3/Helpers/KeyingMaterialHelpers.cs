@@ -33,20 +33,22 @@ namespace NIST.CVP.Orleans.Grains.Kas.Sp800_56Ar3.Helpers
             
             if (requirements.GeneratesEphemeralKeyPair)
             {
+                var key = dsaFactory.GetInstance(
+                    new HashFunction(ModeValues.SHA2, DigestSizes.d512), // hash does not matter for this case
+                    EntropyProviderTypes.Random).GenerateKeyPair(dp); 
+                
                 builder
-                    .WithEphemeralKey(
-                        dsaFactory.GetInstance(
-                            new HashFunction(ModeValues.SHA2, DigestSizes.d512), // hash does not matter for this case
-                            EntropyProviderTypes.Random).GenerateKeyPair(dp).KeyPair);
+                    .WithEphemeralKey(key.KeyPair);
             }
 
             if (requirements.GeneratesStaticKeyPair)
             {
+                var key = dsaFactory.GetInstance(
+                    new HashFunction(ModeValues.SHA2, DigestSizes.d512), // hash does not matter for this case
+                    EntropyProviderTypes.Random).GenerateKeyPair(dp);
+                
                 builder
-                    .WithStaticKey(
-                        dsaFactory.GetInstance(
-                            new HashFunction(ModeValues.SHA2, DigestSizes.d512), // hash does not matter for this case
-                            EntropyProviderTypes.Random).GenerateKeyPair(dp).KeyPair);
+                    .WithStaticKey(key.KeyPair);
             }
 
             if (requirements.GeneratesEphemeralNonce)
@@ -87,20 +89,22 @@ namespace NIST.CVP.Orleans.Grains.Kas.Sp800_56Ar3.Helpers
             
             if (requirements.GeneratesEphemeralKeyPair)
             {
+                var key = dsaFactory.GetInstance(
+                    new HashFunction(ModeValues.SHA2, DigestSizes.d512), // hash does not matter for this case
+                    EntropyProviderTypes.Random).GenerateKeyPair(dp);
+                
                 builder
-                    .WithEphemeralKey(
-                        dsaFactory.GetInstance(
-                            new HashFunction(ModeValues.SHA2, DigestSizes.d512), // hash does not matter for this case
-                            EntropyProviderTypes.Random).GenerateKeyPair(dp).KeyPair);
+                    .WithEphemeralKey(key.KeyPair);
             }
 
             if (requirements.GeneratesStaticKeyPair)
             {
+                var key = dsaFactory.GetInstance(
+                    new HashFunction(ModeValues.SHA2, DigestSizes.d512), // hash does not matter for this case
+                    EntropyProviderTypes.Random).GenerateKeyPair(dp); 
+                
                 builder
-                    .WithStaticKey(
-                        dsaFactory.GetInstance(
-                            new HashFunction(ModeValues.SHA2, DigestSizes.d512), // hash does not matter for this case
-                            EntropyProviderTypes.Random).GenerateKeyPair(dp).KeyPair);
+                    .WithStaticKey(key.KeyPair);
             }
 
             if (requirements.GeneratesEphemeralNonce)

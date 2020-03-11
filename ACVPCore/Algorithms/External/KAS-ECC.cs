@@ -27,7 +27,7 @@ namespace ACVPCore.Algorithms.External
 			public Scheme FullMQV { get; set; }
 
 			[JsonPropertyName("ephemeralUnified")]
-			public Scheme EphemeralUnified { get; set; }
+			public SchemeEphemeralUnified EphemeralUnified { get; set; }
 
 			[JsonPropertyName("onePassUnified")]
 			public Scheme OnePassUnified { get; set; }
@@ -52,6 +52,15 @@ namespace ACVPCore.Algorithms.External
 
 			[JsonPropertyName("kdfKc")]
 			public KdfKc KdfKc { get; set; }
+		}
+
+		public class SchemeEphemeralUnified
+		{
+			[JsonPropertyName("kasRole")]
+			public List<string> Role { get; set; }
+
+			[JsonPropertyName("kdfNoKc")]
+			public KdfNoKcStaticUnified KdfNoKc { get; set; }
 		}
 
 		public class SchemeStaticUnified

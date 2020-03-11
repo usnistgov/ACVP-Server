@@ -44,7 +44,7 @@ namespace ACVPCore.Algorithms.Persisted
 			public SchemeKC DhOneFlow { get; set; }
 
 			[AlgorithmProperty(Name = "dhStatic", PrependParentPropertyName = true)]
-			public SchemeKC DhStatic { get; set; }
+			public SchemeDhStatic DhStatic { get; set; }
 
 			public static SchemeCollection Create(External.KAS_FFC.SchemeCollection externalSchemeCollection) => externalSchemeCollection == null ? null : new SchemeCollection
 			{
@@ -54,7 +54,7 @@ namespace ACVPCore.Algorithms.Persisted
 				Mqv2 = SchemeKC.Create(externalSchemeCollection.Mqv2),
 				DhHybridOneFlow = SchemeKC.Create(externalSchemeCollection.DhHybridOneFlow),
 				DhOneFlow = SchemeKC.Create(externalSchemeCollection.DhOneFlow),
-				DhStatic = SchemeKC.Create(externalSchemeCollection.DhStatic)
+				DhStatic = SchemeDhStatic.Create(externalSchemeCollection.DhStatic)
 			};
 		}
 
@@ -89,6 +89,25 @@ namespace ACVPCore.Algorithms.Persisted
 			};
 		}
 
+		public class SchemeDhStatic
+		{
+			[AlgorithmProperty(Name = "kasRole", PrependParentPropertyName = true)]
+			public List<string> Role { get; set; }
+
+			[AlgorithmProperty(Name = "kdfNoKc", PrependParentPropertyName = true)]
+			public KdfNoKcDhStatic KdfNoKc { get; set; }
+
+			[AlgorithmProperty(Name = "kdfKc", PrependParentPropertyName = true)]
+			public KdfKcDhStatic KdfKc { get; set; }
+
+			public static SchemeDhStatic Create(External.KAS_FFC.SchemeDhStatic externalScheme) => externalScheme == null ? null : new SchemeDhStatic
+			{
+				Role = externalScheme.Role,
+				KdfNoKc = KdfNoKcDhStatic.Create(externalScheme.KdfNoKc),
+				KdfKc = KdfKcDhStatic.Create(externalScheme.KdfKc)
+			};
+		}
+
 		public abstract class KdfBase
 		{
 			[AlgorithmProperty(Name = "kdfOption", PrependParentPropertyName = true)]
@@ -107,6 +126,19 @@ namespace ACVPCore.Algorithms.Persisted
 			};
 		}
 
+		public class KdfNoKcDhStatic : KdfBase
+		{
+			[AlgorithmProperty(Name = "dkmNonceTypes", PrependParentPropertyName = true)]
+			public List<string> DkmNonceTypes { get; set; }
+
+			public static KdfNoKcDhStatic Create(External.KAS_FFC.KdfNoKcDhStatic externalKdfNoKc) => externalKdfNoKc == null ? null : new KdfNoKcDhStatic
+			{
+				KdfOption = KdfOptions.Create(externalKdfNoKc.KdfOption),
+				ParameterSets = ParameterSets.Create(externalKdfNoKc.ParameterSets),
+				DkmNonceTypes = externalKdfNoKc.DkmNonceTypes
+			};
+		}
+
 
 		public class KdfKc : KdfBase
 		{
@@ -120,6 +152,20 @@ namespace ACVPCore.Algorithms.Persisted
 			};
 		}
 
+		public class KdfKcDhStatic : KdfKc
+		{
+			[AlgorithmProperty(Name = "dkmNonceTypes", PrependParentPropertyName = true)]
+			public List<string> DkmNonceTypes { get; set; }
+
+			public static KdfKcDhStatic Create(External.KAS_FFC.KdfKcDhStatic externalKdfKc) => externalKdfKc == null ? null : new KdfKcDhStatic
+			{
+				KcOption = KcOptions.Create(externalKdfKc.KcOption),
+				KdfOption = KdfOptions.Create(externalKdfKc.KdfOption),
+				ParameterSets = ParameterSets.Create(externalKdfKc.ParameterSets),
+				DkmNonceTypes = externalKdfKc.DkmNonceTypes
+			};
+		}
+
 		public class ParameterSets
 		{
 			[AlgorithmProperty(Name = "fa", PrependParentPropertyName = true)]
@@ -128,7 +174,7 @@ namespace ACVPCore.Algorithms.Persisted
 			[AlgorithmProperty(Name = "fb", PrependParentPropertyName = true)]
 			public ParameterSetFB FB { get; set; }
 
-			[AlgorithmProperty(Name = "ec", PrependParentPropertyName = true)]
+			[AlgorithmProperty(Name = "fc", PrependParentPropertyName = true)]
 			public ParameterSetFC FC { get; set; }
 
 			public static ParameterSets Create(External.KAS_FFC.ParameterSets externalParameterSets) => externalParameterSets == null ? null : new ParameterSets

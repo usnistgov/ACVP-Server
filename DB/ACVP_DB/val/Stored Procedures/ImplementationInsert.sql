@@ -34,5 +34,5 @@ VALUES (
 	,@IsITAR
 )
 
-SELECT SCOPE_IDENTITY() AS ImplementationID
+SELECT CAST(SCOPE_IDENTITY() AS bigint) AS ImplementationID
 

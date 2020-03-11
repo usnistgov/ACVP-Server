@@ -8,6 +8,10 @@ export class Dependency {
   description: string;
   attributes: Attribute[];
 
+  // Field only used in OE-Update/OE-Crate workflow items, but it makes no sense
+  // to have a whole extra model class, so here we are - RLS 3/9/20
+  isInlineCreate: boolean;
+
   public constructor(id: number,
     name: string,
     type: string,

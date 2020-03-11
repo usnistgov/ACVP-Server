@@ -8,25 +8,25 @@ namespace ACVPCore.Algorithms.Persisted
 		[AlgorithmProperty(Name = "direction", Type = AlgorithmPropertyType.StringArray)]
 		public List<string> Direction { get; set; }
 
-		[AlgorithmProperty(Name = "ivGen", Type = AlgorithmPropertyType.String)]
+		[AlgorithmProperty(Name = "ivgen", Type = AlgorithmPropertyType.String)]
 		public string IVGen { get; set; }
 
-		[AlgorithmProperty(Name = "ivGenMode", Type = AlgorithmPropertyType.String)]
+		[AlgorithmProperty(Name = "ivgenmode", Type = AlgorithmPropertyType.String)]
 		public string IVGenMode { get; set; }
 
 		[AlgorithmProperty(Name = "key", Type = AlgorithmPropertyType.NumberArray)]
 		public List<int> KeyLength { get; set; }
 
-		[AlgorithmProperty(Name = "tagLen", Type = AlgorithmPropertyType.NumberArray)]
+		[AlgorithmProperty(Name = "tag", Type = AlgorithmPropertyType.NumberArray)]
 		public List<int> TagLength { get; set; }
 
-		[AlgorithmProperty(Name = "ivLen", Type = AlgorithmPropertyType.Domain)]
+		[AlgorithmProperty(Name = "iv", Type = AlgorithmPropertyType.Domain)]
 		public Domain IVLength { get; set; }
 
-		[AlgorithmProperty(Name = "payloadLen", Type = AlgorithmPropertyType.Domain)]
+		[AlgorithmProperty(Name = "pt", Type = AlgorithmPropertyType.Domain)]
 		public Domain PayloadLength { get; set; }
 
-		[AlgorithmProperty(Name = "aadLen", Type = AlgorithmPropertyType.Domain)]
+		[AlgorithmProperty(Name = "aad", Type = AlgorithmPropertyType.Domain)]
 		public Domain AADLength { get; set; }
 
 		public AES_GCM()

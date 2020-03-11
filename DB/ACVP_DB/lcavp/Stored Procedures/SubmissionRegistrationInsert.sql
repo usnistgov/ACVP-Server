@@ -11,4 +11,6 @@ SET NOCOUNT ON
 INSERT INTO lcavp.SubmissionRegistrations (SubmissionID, [Status], RegistrationJson, ErrorJson, WorkflowTypeID)
 VALUES (@SubmissionID, @Status, @RegistrationJson, @ErrorJson, @WorkflowTypeID)
 
+SELECT SCOPE_IDENTITY() AS SubmissionRegistrationID
+
 

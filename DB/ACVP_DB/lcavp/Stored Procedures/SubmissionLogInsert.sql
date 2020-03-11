@@ -18,7 +18,7 @@ SET NOCOUNT ON
 INSERT INTO lcavp.SubmissionLog (SubmissionID, LabName, LabPOC, LabPOCEmail, SubmissionType, ReceivedDate, ProcessedDate, [Status], SenderEmailAddress, ZipFileName, ExtractedFileLocation, ErrorJson, Archived)
 VALUES (@SubmissionID, @LabName, @LabPOC, @LabPOCEmail, @SubmissionType, @ReceivedDate, SYSUTCDATETIME(), @Status, @SenderEmailAddress, @ZipFileName, @ExtractedFileLocation, @ErrorJson, 0)
 
-SELECT SCOPE_IDENTITY() AS SubmissionLogID
+SELECT CAST(SCOPE_IDENTITY() AS int) AS SubmissionLogID
 
 
 

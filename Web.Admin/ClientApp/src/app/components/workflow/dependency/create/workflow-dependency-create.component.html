@@ -1,8 +1,4 @@
 <div class="row mt-3">
-  <h2>Workflow {{ workflowItem.workflowItemID}}</h2>
-</div>
-
-<div class="row mt-3">
   <div class="col-lg-6">
     <div class="card">
       <h5 class="card-header">Create New Dependency</h5>
@@ -29,14 +25,17 @@
     <div class="card">
       <h5 class="card-header">Available Actions</h5>
       <div class="card-body">
-        <table class="table" style="">
+        <table class="table" *ngIf="workflowItem?.status == 'Pending'">
           <tr>
-            <td style="border:none;text-align:center;"><button class="btn btn-primary" style="width:80%;">&#10004; Approve</button></td>
+            <td style="border:none;text-align:center;"><button class="btn btn-primary" style="width:80%;" (click)="approveWorkflow()">&#10004; Approve</button></td>
           </tr>
           <tr>
-            <td style="border:none;text-align:center;"><button class="btn btn-danger" style="width:80%;">&#10006; Reject</button></td>
+            <td style="border:none;text-align:center;"><button class="btn btn-danger" style="width:80%;" (click)="rejectWorkflow()">&#10006; Reject</button></td>
           </tr>
         </table>
+        <div style="text-align:center;">
+          No available actions
+        </div>
       </div>
     </div> <!-- Close Dependency Info Card -->
   </div> <!-- Close col-lg-6 -->

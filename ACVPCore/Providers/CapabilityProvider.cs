@@ -62,6 +62,7 @@ namespace ACVPCore.Providers
 			catch (Exception ex)
 			{
 				_logger.LogError(ex.Message);
+				_logger.LogError($"{scenarioAlgorithmID} Property: {propertyID} Parent: {parentCapabilityID} AlgoPropType: {type} ConvertedToNumber: {ToCapabilityRecordTypeThatIsNowUseless(type)}" );
 				return new InsertResult(ex.Message);
 			}
 		}
@@ -99,7 +100,8 @@ namespace ACVPCore.Providers
 			AlgorithmPropertyType.Number => 0,
 			AlgorithmPropertyType.Domain => 3,
 			AlgorithmPropertyType.String => 0,
-			_ => -1 //Garbage, just to get rid of the warning
+			AlgorithmPropertyType.Range => 3,
+			_ => -1 //Garbage, just to get rid of the warning, will throw a FK violation in the database if it gets hit
 		};
 
 	}

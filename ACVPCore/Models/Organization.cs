@@ -14,5 +14,6 @@ namespace ACVPCore.Models
         public OrganizationLite Parent { get; set; }
         public List<Address> Addresses { get; set; }
         public List<PersonLite> Persons { get; set; }
+        public List<String> Emails { get; set; }
     }
 }

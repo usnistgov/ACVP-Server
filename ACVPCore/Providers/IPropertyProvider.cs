@@ -6,5 +6,6 @@ namespace ACVPCore.Providers
 	public interface IPropertyProvider
 	{
 		List<PropertyLookup> GetProperties();
+		List<PropertyTreeValidationNode> GetPropertyTreeValidationNodes(long algorithmID);
 	}
 }

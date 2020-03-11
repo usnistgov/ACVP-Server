@@ -3,6 +3,7 @@ import { WorkflowItemBase } from '../../../../models/Workflow/WorkflowItemBase';
 import { WorkflowProductCreatePayload } from '../../../../models/Workflow/Product/WorkflowProductCreatePayload';
 import { AjaxService } from '../../../../services/ajax/ajax.service';
 import { WorkflowCreateProductPayloadContact } from '../../../../models/Workflow/Product/WorkflowCreateProductPayloadContact';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-workflow-product-create',
@@ -13,7 +14,29 @@ export class WorkflowProductCreateComponent implements OnInit {
 
   workflowItem: WorkflowItemBase<WorkflowProductCreatePayload>;
 
-  constructor(private ajs: AjaxService) { }
+  constructor(private ajs: AjaxService, private router: Router) { }
+
+  approveWorkflow() {
+    this.ajs.approveWorkflow(this.workflowItem.workflowItemID).subscribe(
+      data => { this.refreshPageData(); },
+      err => { },
+      () => { }
+    );
+  }
+  rejectWorkflow() {
+    this.ajs.rejectWorkflow(this.workflowItem.workflowItemID).subscribe(
+      data => { this.refreshPageData(); },
+      err => { },
+      () => { }
+    );
+  }
+
+  refreshPageData() {
+    this.router.navigateByUrl('/', { skipLocationChange: true })
+      .then(() =>
+        this.router.navigate(['workflow/' + this.workflowItem.workflowItemID])
+      );
+  }
 
   /*
  * This is how the component takes the workflowItem from the main workflow controller using the

@@ -39,7 +39,7 @@ namespace ACVPCore.Algorithms.External
 			public SchemeKC DhOneFlow { get; set; }
 
 			[JsonPropertyName("dhStatic")]
-			public SchemeKC DhStatic { get; set; }
+			public SchemeDhStatic DhStatic { get; set; }
 		}
 
 		public abstract class SchemeBase
@@ -59,6 +59,20 @@ namespace ACVPCore.Algorithms.External
 			public KdfKc KdfKc { get; set; }
 		}
 
+		public class SchemeDhStatic
+		{
+			[JsonPropertyName("kasRole")]
+			public List<string> Role { get; set; }
+
+			[JsonPropertyName("kdfNoKc")]
+			public KdfNoKcDhStatic KdfNoKc { get; set; }
+
+			[JsonPropertyName("kdfKc")]
+			public KdfKcDhStatic KdfKc { get; set; }
+		}
+
+
+
 		public abstract class KdfBase
 		{
 			[JsonPropertyName("kdfOption")]
@@ -71,10 +85,22 @@ namespace ACVPCore.Algorithms.External
 
 		public class KdfNoKc : KdfBase { }
 
+		public class KdfNoKcDhStatic : KdfNoKc
+		{
+			[JsonPropertyName("dkmNonceTypes")]
+			public List<string> DkmNonceTypes { get; set; }
+		}
+
 		public class KdfKc : KdfBase
 		{
 			[JsonPropertyName("kcOption")]
 			public KcOptions KcOption { get; set; }
+		}
+
+		public class KdfKcDhStatic : KdfKc
+		{
+			[JsonPropertyName("dkmNonceTypes")]
+			public List<string> DkmNonceTypes { get; set; }
 		}
 
 		public class ParameterSets

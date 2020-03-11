@@ -53,7 +53,7 @@ namespace ACVPCore.Algorithms.Persisted
 			public List<int> CounterLength { get; set; }
 
 			[AlgorithmProperty("supportsEmptyIv")]
-			public bool SupportsEmptyIV { get; set; }
+			public bool? SupportsEmptyIV { get; set; }
 		}
 	}
 

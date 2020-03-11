@@ -74,9 +74,8 @@ namespace ACVPCore.Services
 			//Update the implementation record if needed.
 			if (parameters.NameUpdated || parameters.DescriptionUpdated || parameters.TypeUpdated || parameters.VersionUpdated || parameters.WebsiteUpdated || parameters.OrganizationIDUpdated || parameters.AddressIDUpdated)
 			{
-				Console.WriteLine("Inside the service-level check for changes");
 				Result implementationUpdateResult = _implementationProvider.Update(parameters.ID, parameters.Name, parameters.Description, parameters.Type, parameters.Version, parameters.Website, parameters.OrganizationID, parameters.AddressID, parameters.NameUpdated, parameters.DescriptionUpdated, parameters.TypeUpdated, parameters.VersionUpdated, parameters.WebsiteUpdated, parameters.OrganizationIDUpdated, parameters.AddressIDUpdated);
-				Console.WriteLine("Inside the service-level check for update success");
+
 				if (!implementationUpdateResult.IsSuccess)
 				{
 					return new ImplementationResult(implementationUpdateResult.ErrorMessage);
@@ -93,7 +92,7 @@ namespace ACVPCore.Services
 				Result contactResult;
 				for (int i = 0; i < parameters.ContactIDs.Count; i++)
 				{
-					contactResult = _implementationProvider.InsertContact(parameters.ID, parameters.ContactIDs[i], i);
+					contactResult = AddContact(parameters.ID, parameters.ContactIDs[i], i);
 				}
 			}
 
@@ -110,5 +109,7 @@ namespace ACVPCore.Services
 		{
 			return _implementationProvider.ImplementationExists(implementationID);
 		}
+
+		public Result AddContact(long implementationID, long contactID, int orderIndex) => _implementationProvider.InsertContact(implementationID, contactID, orderIndex);
 	}
 }

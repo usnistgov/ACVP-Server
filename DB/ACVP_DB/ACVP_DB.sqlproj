@@ -356,6 +356,10 @@
     <Build Include="val\Stored Procedures\OrganizationsGetAddresses.sql" />
     <Build Include="val\Stored Procedures\OrganizationsGetPersons.sql" />
     <Build Include="acvp\Stored Procedures\WorkflowItemsGet.sql" />
+    <Build Include="val\Stored Procedures\PrerequisiteInsert.sql" />
+    <Build Include="lcavp\Stored Procedures\ValidationIDForSubmissionIDGet.sql" />
+    <Build Include="lcavp\Stored Procedures\UpdateValidationIDForSubmissionLogID.sql" />
+    <Build Include="ref\Stored Procedures\PropertyTreeValidationNodesGet.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="ACVP_DB.refactorlog" />
