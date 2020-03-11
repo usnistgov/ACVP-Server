@@ -11,6 +11,7 @@ export class Organization {
   faxNumber: string;
   parent: Organization;
   persons: PersonLite[];
+  emails: string[];
 
   public constructor(id: number,
     name: string,

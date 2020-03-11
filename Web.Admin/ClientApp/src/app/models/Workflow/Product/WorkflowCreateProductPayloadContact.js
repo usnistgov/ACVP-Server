@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var WorkflowCreateProductPayloadContacts = /** @class */ (function () {
-    function WorkflowCreateProductPayloadContacts() {
+var WorkflowCreateProductPayloadContact = /** @class */ (function () {
+    function WorkflowCreateProductPayloadContact() {
     }
-    return WorkflowCreateProductPayloadContacts;
+    return WorkflowCreateProductPayloadContact;
 }());
-exports.WorkflowCreateProductPayloadContacts = WorkflowCreateProductPayloadContacts;
-//# sourceMappingURL=WorkflowCreateProductPayloadContacts.js.map
+exports.WorkflowCreateProductPayloadContact = WorkflowCreateProductPayloadContact;
+//# sourceMappingURL=WorkflowCreateProductPayloadContact.js.map

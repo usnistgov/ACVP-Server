@@ -12,7 +12,7 @@
           <tr *ngIf="workflowItem.payload.nameUpdated == true">
             <th>Name</th>
             <td>{{ currentState?.name == "" || currentState?.name == null ? "(Empty)" : currentState?.name }}</td>
-            <td>{{ workflowItem?.payload.name == "" || workflowItem?.payload.name == null ? "(Empty)" : workflowItem?.payload.name }}</td>
+            <td>{{ workflowItem?.payload.fullName == "" || workflowItem?.payload.fullName == null ? "(Empty)" : workflowItem?.payload.fullName }}</td>
           </tr>
           <tr *ngIf="workflowItem.payload.nameUpdated == false">
             <th>Name</th>
