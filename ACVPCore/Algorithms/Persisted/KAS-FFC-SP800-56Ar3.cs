@@ -165,13 +165,10 @@ namespace ACVPCore.Algorithms.Persisted
 			[AlgorithmProperty(Name = "capabilities", PrependParentPropertyName = true)]
 			public List<Capability> Capabilities { get; set; } = new List<Capability>();
 
-			[AlgorithmProperty(Name = "supportedLengths", PrependParentPropertyName = true)]
-			public Domain SupportedLengths { get; set; }
 
 			public static TwoStepKdf Create(External.KAS_FFC_SP800_56Ar3.TwoStepKdf externalTwoStepKdf) => externalTwoStepKdf == null ? null : new TwoStepKdf
 			{
-				Capabilities = externalTwoStepKdf.Capabilities?.Select(x => Capability.Create(x)).ToList(),
-				SupportedLengths = externalTwoStepKdf.SupportedLengths
+				Capabilities = externalTwoStepKdf.Capabilities?.Select(x => Capability.Create(x)).ToList()
 			};
 		}
 
@@ -204,6 +201,9 @@ namespace ACVPCore.Algorithms.Persisted
 			[AlgorithmProperty(Name = "requiresEmptyIv", PrependParentPropertyName = true)]
 			public bool RequiresEmptyIV { get; set; }
 
+			[AlgorithmProperty(Name = "supportedLengths", PrependParentPropertyName = true)]
+			public Domain SupportedLengths { get; set; }
+
 			public static Capability Create(External.KAS_FFC_SP800_56Ar3.Capability externalCapability) => externalCapability == null ? null : new Capability
 			{
 				MacSaltMethods = externalCapability.MacSaltMethods,
@@ -214,7 +214,8 @@ namespace ACVPCore.Algorithms.Persisted
 				FixedDataOrder = externalCapability.FixedDataOrder,
 				CounterLength = externalCapability.CounterLength,
 				SupportsEmptyIV = externalCapability.SupportsEmptyIV,
-				RequiresEmptyIV = externalCapability.RequiresEmptyIV
+				RequiresEmptyIV = externalCapability.RequiresEmptyIV,
+				SupportedLengths = externalCapability.SupportedLengths
 			};
 		}
 
@@ -254,10 +255,10 @@ namespace ACVPCore.Algorithms.Persisted
 			[AlgorithmProperty(Name = "HMAC-SHA2-512", PrependParentPropertyName = true)]
 			public MacMethod HMAC_SHA2_512 { get; set; }
 
-			[AlgorithmProperty(Name = "HMAC-SHA2-512/224", PrependParentPropertyName = true)]
+			[AlgorithmProperty(Name = "HMAC-SHA2-512224", PrependParentPropertyName = true)]
 			public MacMethod HMAC_SHA2_512224 { get; set; }
 
-			[AlgorithmProperty(Name = "HMAC-SHA2-512/256", PrependParentPropertyName = true)]
+			[AlgorithmProperty(Name = "HMAC-SHA2-512256", PrependParentPropertyName = true)]
 			public MacMethod HMAC_SHA2_512256 { get; set; }
 
 			[AlgorithmProperty(Name = "HMAC-SHA3-224", PrependParentPropertyName = true)]

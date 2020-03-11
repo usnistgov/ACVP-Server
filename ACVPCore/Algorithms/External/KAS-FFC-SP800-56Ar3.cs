@@ -112,9 +112,6 @@ namespace ACVPCore.Algorithms.External
 		{
 			[JsonPropertyName("capabilities")]
 			public List<Capability> Capabilities { get; set; }
-
-			[JsonPropertyName("supportedLengths")]
-			public Domain SupportedLengths { get; set; }
 		}
 
 		public class Capability
@@ -145,6 +142,9 @@ namespace ACVPCore.Algorithms.External
 
 			[JsonPropertyName("requiresEmptyIv")]
 			public bool RequiresEmptyIV { get; set; }
+
+			[JsonPropertyName("supportedLengths")]
+			public Domain SupportedLengths { get; set; }
 		}
 
 		public class KeyConfirmationMethod
@@ -204,10 +204,10 @@ namespace ACVPCore.Algorithms.External
 
 		public class MacMethod
 		{
-			[JsonPropertyName("keyLength")]
+			[JsonPropertyName("keyLen")]
 			public int KeyLength { get; set; }
 
-			[JsonPropertyName("macLength")]
+			[JsonPropertyName("macLen")]
 			public int MacLength { get; set; }
 		}
 	}
