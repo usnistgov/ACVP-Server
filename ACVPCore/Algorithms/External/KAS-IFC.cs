@@ -4,11 +4,8 @@ using ACVPCore.Algorithms.DataTypes;
 
 namespace ACVPCore.Algorithms.External
 {
-	public class KAS_FFC_SP800_56Ar3 : AlgorithmBase, IExternalAlgorithm
+	public class KAS_IFC : AlgorithmBase, IExternalAlgorithm
 	{
-		[JsonPropertyName("domainParameterGenerationMethods")]
-		public List<string> DomainParameterGenerationMethods { get; set; }
-
 		[JsonPropertyName("function")]
 		public List<string> Functions { get; set; }
 
@@ -18,55 +15,40 @@ namespace ACVPCore.Algorithms.External
 		[JsonPropertyName("scheme")]
 		public SchemeCollection Schemes { get; set; }
 
-		public KAS_FFC_SP800_56Ar3()
+		public KAS_IFC()
 		{
-			Name = "KAS-FFC";
-			Revision = "Sp800-56Ar3";
+			Name = "KAS-IFC";
+			Revision = "Sp800-56Br2";
 		}
 
 		public class SchemeCollection
 		{
-			[JsonPropertyName("dhHybrid1")]
-			public Scheme DhHybrid1 { get; set; }
+			[JsonPropertyName("KAS1-basic")]
+			public SchemeBase KAS1Basic { get; set; }
 
-			[JsonPropertyName("mqv2")]
-			public Scheme MQV2 { get; set; }
+			[JsonPropertyName("KAS2-basic")]
+			public SchemeBase KAS2Basic { get; set; }
 
-			[JsonPropertyName("dhEphem")]
-			public SchemeNoKc DhEphemeral { get; set; }
+			[JsonPropertyName("KAS1-Party_V-confirmation")]
+			public SchemeWithMacMethods KAS1PartyVConfirmation { get; set; }
 
-			[JsonPropertyName("dhHybridOneFlow")]
-			public Scheme DhHybridOneFlow { get; set; }
+			[JsonPropertyName("KAS2-bilateral-confirmation")]
+			public SchemeWithMacMethods KAS2BilateralConfirmation { get; set; }
 
-			[JsonPropertyName("mqv1")]
-			public Scheme MQV1 { get; set; }
+			[JsonPropertyName("KAS2-Party_U-confirmation")]
+			public SchemeWithMacMethods KAS2PartyUConfirmation { get; set; }
 
-			[JsonPropertyName("dhOneFlow")]
-			public Scheme DhOneFlow { get; set; }
-
-			[JsonPropertyName("dhStatic")]
-			public Scheme DhStatic { get; set; }
+			[JsonPropertyName("KAS2-Party_V-confirmation")]
+			public SchemeWithMacMethods KAS2PartyVConfirmation { get; set; }
 		}
 
-		public class Scheme
+		public class SchemeBase
 		{
 			[JsonPropertyName("kasRole")]
 			public List<string> KasRole { get; set; }
 
-			[JsonPropertyName("kdfMethods")]
-			public KdfMethods KdfMethods { get; set; }
-
-			[JsonPropertyName("keyConfirmationMethod")]
-			public KeyConfirmationMethod KeyConfirmationMethod { get; set; }
-
-			[JsonPropertyName("l")]
-			public int L { get; set; }
-		}
-
-		public class SchemeNoKc
-		{
-			[JsonPropertyName("kasRole")]
-			public List<string> KasRole { get; set; }
+			[JsonPropertyName("keyGenerationMethods")]
+			public KeyGenerationMethods KeyGenerationMethods { get; set; }
 
 			[JsonPropertyName("kdfMethods")]
 			public KdfMethods KdfMethods { get; set; }
@@ -75,6 +57,45 @@ namespace ACVPCore.Algorithms.External
 			public int L { get; set; }
 		}
 
+		public class SchemeWithMacMethods : SchemeBase
+		{
+			[JsonPropertyName("macMethods")]
+			public MacMethods MacMethods { get; set; }
+		}
+
+
+		public class KeyGenerationMethods
+		{
+			[JsonPropertyName("rsakpg1-basic")]
+			public KeyGenerationMethodModuloFixedPubExp RSAKpg1Basic { get; set; }
+
+			[JsonPropertyName("rsakpg1-prime-factor")]
+			public KeyGenerationMethodModuloFixedPubExp RSAKpg1PrimeFactor { get; set; }
+
+			[JsonPropertyName("rsakpg1-crt")]
+			public KeyGenerationMethodModuloFixedPubExp RSAKpg1Crt { get; set; }
+
+			[JsonPropertyName("rsakpg2-basic")]
+			public KeyGenerationMethodModulo RSAKpg2Basic { get; set; }
+
+			[JsonPropertyName("rsakpg2-prime-factor")]
+			public KeyGenerationMethodModulo RSAKpg2PrimeFactor { get; set; }
+
+			[JsonPropertyName("rsakpg2-crt")]
+			public KeyGenerationMethodModulo RSAKpg2Crt { get; set; }
+		}
+
+		public class KeyGenerationMethodModulo
+		{
+			[JsonPropertyName("modulo")]
+			public List<int> Modulo { get; set; }
+		}
+
+		public class KeyGenerationMethodModuloFixedPubExp : KeyGenerationMethodModulo
+		{
+			[JsonPropertyName("fixedPublicExponent")]
+			public string FixedPublicExponent { get; set; }
+		}
 
 		public class KdfMethods
 		{
@@ -83,9 +104,7 @@ namespace ACVPCore.Algorithms.External
 
 			[JsonPropertyName("twoStepKdf")]
 			public TwoStepKdf TwoStepKdf { get; set; }
-
 		}
-
 
 		public class OneStepKdf
 		{
@@ -147,18 +166,6 @@ namespace ACVPCore.Algorithms.External
 			public Domain SupportedLengths { get; set; }
 		}
 
-		public class KeyConfirmationMethod
-		{
-			[JsonPropertyName("keyConfirmationDirections")]
-			public List<string> KeyConfirmationDirections { get; set; }
-
-			[JsonPropertyName("keyConfirmationRoles")]
-			public List<string> KeyConfirmationRoles { get; set; }
-
-			[JsonPropertyName("macMethods")]
-			public MacMethods MacMethods { get; set; }
-		}
-
 		public class MacMethods
 		{
 			[JsonPropertyName("CMAC")]
@@ -199,7 +206,6 @@ namespace ACVPCore.Algorithms.External
 
 			[JsonPropertyName("HMAC-SHA3-512")]
 			public MacMethod HMAC_SHA3_512 { get; set; }
-
 		}
 
 		public class MacMethod
