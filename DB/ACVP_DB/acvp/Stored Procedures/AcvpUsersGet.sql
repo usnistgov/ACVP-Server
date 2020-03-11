@@ -1,7 +1,7 @@
 ﻿CREATE PROCEDURE [acvp].[AcvpUsersGet]
 	
 	@PageSize BIGINT,
-	@Page BIGINT,
+	@PageNumber BIGINT,
 	@AcvpUserId BIGINT = NULL,
 	@PersonId BIGINT = NULL,
 	@CompanyName NVARCHAR(1024) = NULL,
@@ -36,5 +36,7 @@ BEGIN
 		AND (@CompanyName IS NULL OR o.[name] LIKE '%' + @CompanyName + '%')
 		AND (@PersonName IS NULL OR p.full_name LIKE '%' + @PersonName + '%')
 	ORDER BY au.id
+	OFFSET @PageSize * (@PageNumber - 1) ROWS
+	FETCH NEXT @PageSize ROWS ONLY;
 
 END

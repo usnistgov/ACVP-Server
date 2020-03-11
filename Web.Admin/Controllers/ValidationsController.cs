@@ -1,6 +1,7 @@
 using System;
 using ACVPCore.ExtensionMethods;
 using ACVPCore.Models;
+using ACVPCore.Models.Parameters;
 using ACVPCore.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,19 +9,22 @@ namespace Web.Admin.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class ValidationController : ControllerBase
+    public class ValidationsController : ControllerBase
     {
         private readonly IValidationService _validationService;
 
-        public ValidationController(IValidationService validationService)
+        public ValidationsController(IValidationService validationService)
         {
             _validationService = validationService;
         }
         
-        [HttpGet]
-        public WrappedEnumerable<ValidationLite> GetValidations()
+        [HttpPost]
+        public ActionResult<PagedEnumerable<ValidationLite>> GetValidations(ValidationListParameters param)
         {
-            return _validationService.GetValidations().WrapEnumerable();
+            if (param == null)
+                return new BadRequestResult();
+
+            return _validationService.GetValidations(param);
         }
 
         [HttpGet("{validationId}")]

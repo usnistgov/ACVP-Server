@@ -34,7 +34,7 @@ namespace ACVPCore.Providers
                     inParams: new 
                     {
                         PageSize = param.PageSize,
-                        Page = param.Page,
+                        PageNumber = param.Page,
                         AcvpUserId = param.AcvpUserId,
                         PersonId = param.PersonId,
                         CompanyName = param.CompanyName,
