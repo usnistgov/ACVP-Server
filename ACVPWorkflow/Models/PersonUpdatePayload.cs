@@ -18,7 +18,7 @@ namespace ACVPWorkflow.Models
 		[JsonPropertyName("url")]
 		public string URL { get => $"/admin/persons/{ID}"; }
 
-		[JsonPropertyName("name")]
+		[JsonPropertyName("fullName")]
 		public string Name
 		{
 			get => _name;
@@ -29,7 +29,7 @@ namespace ACVPWorkflow.Models
 			}
 		}
 
-		[JsonPropertyName("vendorUrl")]
+		[JsonPropertyName("organizationUrl")]
 		public string VendorURL
 		{
 			get => _vendorURL;
