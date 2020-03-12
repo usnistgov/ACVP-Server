@@ -10,6 +10,8 @@ namespace ACVPCore
 		{
 			services.AddSingleton<IAdminUserProvider, AdminUserProvider>();
 			services.AddSingleton<IAdminUserService, AdminUserService>();
+			services.AddSingleton<IAcvpUserProvider, AcvpUserProvider>();
+			services.AddSingleton<IAcvpUserService, AcvpUserService>();
 			services.AddSingleton<ITestSessionService, TestSessionService>();
 			services.AddSingleton<ITestSessionProvider, TestSessionProvider>();
 			services.AddSingleton<IVectorSetService, VectorSetService>();

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using ACVPCore.ExtensionMethods;
 using ACVPCore.Models;
+using ACVPCore.Models.Parameters;
 using ACVPCore.Results;
 using CVP.DatabaseInterface;
 using Microsoft.Extensions.Logging;
@@ -62,7 +64,7 @@ namespace ACVPCore.Providers
 						Address = address,
 						URL =  data.product_url,
 						Name = data.module_name,
-						Type = Enum.Parse(typeof(ACVPCore.Models.Implementation.ModuleType), data.module_type),
+						Type = Enum.Parse(typeof(ImplementationType), data.module_type),
 						Version = data.module_version,
 						Description = data.module_description,
 						ITAR = data.product_itar
@@ -80,22 +82,30 @@ namespace ACVPCore.Providers
 				return null;
 			}
 		}
-		public List<Implementation> GetImplementations(long pageSize, long pageNumber)
+		public PagedEnumerable<Implementation> GetImplementations(ImplementationListParameters param)
 		{
+			long totalRecords = 0;
 			var db = new MightyOrm(_acvpConnectionString);
 			try
 			{
-				var data = db.QueryFromProcedure("val.ImplementationsGet", inParams: new
+				var data = db.QueryWithExpando("val.ImplementationsGet", inParams: new
 				{
-					PageSize = pageSize,
-					PageNumber = pageNumber
+					PageSize = param.PageSize,
+					PageNumber = param.Page,
+					Id = param.Id,
+					Name = param.Name,
+					Description = param.Description
+				}, 
+					outParams: new
+				{
+					totalRecords = (long)0
 				});
 
 				List<Implementation> implementations = new List<Implementation>();
 
 				if (data != null)
 				{
-					foreach (var attribute in data)
+					foreach (var attribute in data.Data)
 					{
 						Organization organization = new Organization
 						{
@@ -126,19 +136,21 @@ namespace ACVPCore.Providers
 							Address = address,
 							URL = attribute.product_url,
 							Name = attribute.module_name,
-							Type = Enum.Parse(typeof(ACVPCore.Models.Implementation.ModuleType), attribute.module_type),
+							Type = Enum.Parse(typeof(ImplementationType), attribute.module_type, true),
 							Version = attribute.module_version,
 							Description = attribute.module_description,
 							ITAR = attribute.product_itar
 						});
 					}
+
+					totalRecords = (long)data.ResultsExpando.totalRecords;
 				}
 				else
 				{
 					return null;
 				}
 
-				return implementations;
+				return implementations.WrapPagedEnumerable(param.PageSize, param.Page, totalRecords);
 			}
 			catch (Exception ex)
 			{

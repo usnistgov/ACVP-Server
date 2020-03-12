@@ -109,9 +109,9 @@ namespace ACVPCore.Services
 			return _oeProvider.Get(oeID);
 		}
 
-		public List<OperatingEnvironmentLite> Get(long pageSize, long pageNumber)
+		public PagedEnumerable<OperatingEnvironmentLite> Get(OeListParameters param)
 		{
-			return _oeProvider.Get(pageSize, pageNumber);
+			return _oeProvider.Get(param);
 		}
 
 		public Result AddDependencyLink(long oeID, long dependencyID)

@@ -133,9 +133,9 @@ namespace ACVPCore.Services
 			return _personProvider.PersonExists(personID);
 		}
 
-		public List<PersonLite> Get(long pageSize, long pageNumber)
+		public PagedEnumerable<PersonLite> Get(PersonListParameters param)
 		{
-			return _personProvider.Get(pageSize, pageNumber);
+			return _personProvider.Get(param);
 		}
 	}
 }

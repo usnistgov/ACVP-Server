@@ -20,8 +20,9 @@ namespace ACVPCore.Services
 		{
 			return _implementationProvider.Get(implementationID);
 		}
-		public List<Implementation> ListImplementations(long pageSize, long pageNumber) {
-			return _implementationProvider.GetImplementations(pageSize, pageNumber);
+		public PagedEnumerable<Implementation> ListImplementations(ImplementationListParameters param) 
+		{
+			return _implementationProvider.GetImplementations(param);
 		}
 		public DeleteResult Delete(long implementationID)
 		{
