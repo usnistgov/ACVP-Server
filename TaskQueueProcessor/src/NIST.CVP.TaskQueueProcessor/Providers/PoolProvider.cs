@@ -29,6 +29,7 @@ namespace NIST.CVP.TaskQueueProcessor.Providers
 
             try
             {
+                // TODO right now 1 pool spawn is nowhere near as much work as 1 vector set for Orleans. This could be multiplied to get more work done during idle time
                 var response = await client.GetAsync(uriBuilder.Uri);
 
                 if (!response.IsSuccessStatusCode)

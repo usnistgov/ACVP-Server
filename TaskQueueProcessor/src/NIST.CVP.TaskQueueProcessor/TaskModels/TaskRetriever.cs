@@ -19,7 +19,7 @@ namespace NIST.CVP.TaskQueueProcessor.TaskModels
         {
             var dbId = reader.GetInt64(0);
             var operation = reader.GetString(1).ToLower();
-            var vsId = reader.GetInt32(2);
+            var vsId = reader.GetInt64(2);
             var isSample = reader.GetBoolean(3);
             var showExpected = reader.GetBoolean(4);
 
@@ -27,12 +27,12 @@ namespace NIST.CVP.TaskQueueProcessor.TaskModels
             {
                 TaskActions.GENERATION => new GenerationTask(_genValInvoker, dbProvider)
                 {
-                    DbId = dbId, IsSample = isSample, VsId = vsId
+                    DbId = dbId, IsSample = isSample, VsId = (int)vsId
                 },
                 
                 TaskActions.VALIDATION => new ValidationTask(_genValInvoker, dbProvider)
                 {
-                    DbId = dbId, Expected = showExpected, VsId = vsId
+                    DbId = dbId, Expected = showExpected, VsId = (int)vsId
                 },
                 
                 _ => throw new Exception($"Unknown task action: {operation}")
