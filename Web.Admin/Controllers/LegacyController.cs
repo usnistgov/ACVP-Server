@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
-using ACVPCore.Results;
+using System.Net.Http.Headers;
 using ACVPCore.Services;
 using LCAVPCore;
 using Microsoft.AspNetCore.Mvc;
@@ -23,13 +24,36 @@ namespace Web.Admin.Controllers
             _propertyService = propertyService;
         }
 
-
-        [HttpGet("{fileName}")]
-        public Result DumbProcessTest(string fileName)
+        [HttpPost("Upload"), DisableRequestSizeLimit]
+        public ActionResult<string> Upload()
         {
-            string filePath = Path.Combine(_uploadPath, fileName);
-            _lcavpSubmissionProcessor.Process(filePath, "me@foo.com");
-            return new Result();
+            try
+            {
+                var uploadedFile = Request.Form.Files[0];
+
+                if (uploadedFile.Length > 0)
+                {
+                    //Get the file name
+                    string fileName = ContentDispositionHeaderValue.Parse(uploadedFile.ContentDisposition).FileName.Trim('"');
+
+                    //Combine with the upload root to give us the full path the file will be saved as 
+                    string destinationPath = Path.Combine(_uploadPath, fileName);
+
+                    //Save the file to that location
+                    using var stream = new FileStream(destinationPath, FileMode.Create);
+                    uploadedFile.CopyTo(stream);
+                    stream.Close();
+
+                    //Call LCAVP
+                    _lcavpSubmissionProcessor.Process(destinationPath);
+                }
+                return "Guess it worked?";
+            }
+            catch (Exception ex)
+            {
+                var doingThisToAvoidTheWarningThatIsTreatedLikeAnError = ex;
+                return "Upload failed";
+            }
         }
 
         [HttpGet("VerifyPersistedAlgorithmProperties")]
