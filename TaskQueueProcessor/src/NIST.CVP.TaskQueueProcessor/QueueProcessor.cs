@@ -8,6 +8,7 @@ using Microsoft.Extensions.Options;
 using NIST.CVP.Common.Config;
 using NIST.CVP.TaskQueueProcessor.Providers;
 using NIST.CVP.TaskQueueProcessor.TaskModels;
+using Serilog;
 
 namespace NIST.CVP.TaskQueueProcessor
 {
@@ -50,9 +51,9 @@ namespace NIST.CVP.TaskQueueProcessor
             _timer?.Change(Timeout.Infinite, 0);
 
             // Started but incomplete jobs are marked in the table in the db as un-started to be picked up on run
-            Console.WriteLine("Stopping");
+            Log.Information("Stopping");
             _dbProvider.MarkTasksForRestart();
-            Console.WriteLine("Tasks saved");
+            Log.Information("Tasks saved");
             
             return Task.CompletedTask;
         }
@@ -84,11 +85,11 @@ namespace NIST.CVP.TaskQueueProcessor
 
                     if (!finished.IsCompletedSuccessfully)
                     {
-                        Console.WriteLine($"Task {dbId} did not complete successfully. {finished.Exception}");
+                        Log.Error(finished.Exception, $"Task (dbId: {dbId}) did not complete successfully.");
                     }
                     else
                     {
-                        Console.WriteLine($"Task {dbId} completed successfully.");
+                        Log.Debug($"Task (dbId: {dbId}) completed successfully.");
                         _dbProvider.DeleteCompletedTask(dbId);
                     }
                 }
@@ -96,13 +97,12 @@ namespace NIST.CVP.TaskQueueProcessor
             catch (ArgumentException)
             {
                 // Nothing in the queue, just wait for a new Poll
-                Console.WriteLine("Queue is empty, waiting to poll");
+                Log.Information("Queue is empty, waiting to poll");
             }
             catch (InvalidOperationException ex)
             {
                 // This should never happen. Task.WhenAny would throw first under the same conditions that would cause this
-                Console.WriteLine("Something REALLY went wrong...");
-                Console.WriteLine(ex);
+                Log.Error(ex, "Something REALLY went wrong... Unable to remove task properly.");
             }
         }
 
@@ -115,7 +115,7 @@ namespace NIST.CVP.TaskQueueProcessor
                 {
                     var finished = Task.WhenAny(_poolTasks);
                     _poolTasks.Remove(finished.Result);
-                    Console.WriteLine("Pool task completed");
+                    Log.Debug("Pool task completed");
                 }
             }
             catch (ArgumentException)
@@ -136,33 +136,33 @@ namespace NIST.CVP.TaskQueueProcessor
             var tasksAvailable = _taskConfig.Value.MaxConcurrency - _tasks.Count - _poolTasks.Count;
             if (tasksAvailable <= 0)
             {
-                Console.WriteLine("Full on tasks.");
+                Log.Debug("Full on tasks.");
                 return;
             }
 
-            Console.WriteLine($"Polling db with {tasksAvailable} tasks available");
+            Log.Debug($"Polling db with {tasksAvailable} tasks available");
             while (tasksAvailable > 0)
             {
-                Console.WriteLine($"Executable tasks: {_tasks.Count}. Pool tasks: {_poolTasks.Count}");
+                Log.Debug($"Executable tasks: {_tasks.Count}. Pool tasks: {_poolTasks.Count}");
 
                 var nextTask = _dbProvider.GetNextTask();
 
                 if (nextTask != null)
                 {
-                    Console.WriteLine("Adding gen/val job.");
+                    Log.Debug("Adding gen/val job.");
                     _tasks.Add(nextTask.DbId, _taskRunner.RunTask(nextTask));
                 }
                 else
                 {
                     if (_poolConfig.Value.AllowPoolSpawn)
                     {
-                        Console.WriteLine("Adding pool job.");
+                        Log.Debug("Adding pool job.");
                         var poolTask = new PoolTask(_poolProvider);
                         _poolTasks.Add(_taskRunner.RunTask(poolTask));    
                     }
                     else
                     {
-                        Console.WriteLine("No pool job to add.");
+                        Log.Debug("No pool job to add.");
                         break;
                     }
                 }

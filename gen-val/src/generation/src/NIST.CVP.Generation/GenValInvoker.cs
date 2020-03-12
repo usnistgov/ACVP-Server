@@ -8,6 +8,8 @@ using NIST.CVP.Common;
 using NIST.CVP.Common.Helpers;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Helpers;
+using Serilog;
+using Serilog.Context;
 
 namespace NIST.CVP.Generation
 {
@@ -28,20 +30,32 @@ namespace NIST.CVP.Generation
             return parameterChecker.CheckParameters(request);
         }
 
-        public GenerateResponse Generate(GenerateRequest request)
+        public GenerateResponse Generate(GenerateRequest request, int vsId)
         {
             var algoMode = DetermineAlgoModeFromRegistration(request);
             using var container = GetContainer(algoMode).BeginLifetimeScope();
             var generator = container.Resolve<IGenerator>();
-            return generator.Generate(request);
+            
+            using (LogContext.PushProperty("VsID", vsId))
+            using (LogContext.PushProperty("Application", "Generator"))
+            {
+                Log.Information($"Running Generation for algo: {EnumHelpers.GetEnumDescriptionFromEnum(algoMode)}");
+                return generator.Generate(request);   
+            }
         }
         
-        public ValidateResponse Validate(ValidateRequest request)
+        public ValidateResponse Validate(ValidateRequest request, int vsId)
         {
             var algoMode = DetermineAlgoModeFromValidationRequest(request);
             using var container = GetContainer(algoMode).BeginLifetimeScope();
             var validator = container.Resolve<IValidator>();
-            return validator.Validate(request);
+            
+            using (LogContext.PushProperty("VsID", vsId))
+            using (LogContext.PushProperty("Application", "Validator"))
+            {
+                Log.Information($"Running Validation for algo: {EnumHelpers.GetEnumDescriptionFromEnum(algoMode)}");
+                return validator.Validate(request);
+            }
         }
 
         private AlgoMode DetermineAlgoModeFromRegistration(ParameterCheckRequest request)
