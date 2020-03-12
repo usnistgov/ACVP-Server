@@ -1,0 +1,125 @@
+<div class="row mt-3">
+  <div class="col-lg-9">
+    <div class="card">
+      <h5 class="card-header">Update Product ({{workflowItem.payload.id}})</h5>
+      <div class="card-body">
+        <table class="table">
+          <tr>
+            <th style="border:none;" width="10%"></th>
+            <th style="border:none;" width="40%">Existing</th>
+            <th style="border:none;" width="40%">Update</th>
+          </tr>
+          <tr *ngIf="workflowItem.payload.nameUpdated == true">
+            <th>Name</th>
+            <td>{{ currentState?.name == "" || currentState?.name == null ? "(Empty)" : currentState?.name }}</td>
+            <td>{{ workflowItem?.payload.name == "" || workflowItem?.payload.name == null ? "(Empty)" : workflowItem?.payload.name }}</td>
+          </tr>
+          <tr *ngIf="workflowItem.payload.nameUpdated == false">
+            <th>Name</th>
+            <td>{{ currentState?.name == "" || currentState?.name == null ? "(Empty)" : currentState?.name }}</td>
+            <td>(No Changes)</td>
+          </tr>
+          <tr *ngIf="workflowItem.payload.versionUpdated == true">
+            <th>Version</th>
+            <td>{{ currentState?.version == "" || currentState?.version == null ? "(Empty)" : currentState?.version }}</td>
+            <td>{{ workflowItem?.payload.version == "" || workflowItem?.payload.version == null ? "(Empty)" : workflowItem?.payload.version }}</td>
+          </tr>
+          <tr *ngIf="workflowItem.payload.versionUpdated == false">
+            <th>Version</th>
+            <td>{{ currentState?.version == "" || currentState?.version == null ? "(Empty)" : currentState?.version }}</td>
+            <td>(No Changes)</td>
+          </tr>
+          <tr *ngIf="workflowItem.payload.typeUpdated == true">
+            <th>Type</th>
+            <td>{{ currentState?.type == "" || currentState?.type == null ? "(Empty)" : currentState?.type }}</td>
+            <td>{{ workflowItem?.payload.type == "" || workflowItem?.payload.type == null ? "(Empty)" : workflowItem?.payload.type }}</td>
+          </tr>
+          <tr *ngIf="workflowItem.payload.typeUpdated == false">
+            <th>Type</th>
+            <td>{{ currentState?.type == "" || currentState?.type == null ? "(Empty)" : currentState?.type }}</td>
+            <td>(No Changes)</td>
+          </tr>
+          <tr *ngIf="workflowItem.payload.websiteUpdated == true">
+            <th>URL</th>
+            <td>{{ currentState?.url == "" || currentState?.url == null ? "(Empty)" : currentState?.url }}</td>
+            <td>{{ workflowItem?.payload.website == "" || workflowItem?.payload.website == null ? "(Empty)" : workflowItem?.payload.website }}</td>
+          </tr>
+          <tr *ngIf="workflowItem.payload.websiteUpdated == false">
+            <th>URL</th>
+            <td>{{ currentState?.url == "" || currentState?.url == null ? "(Empty)" : currentState?.url }}</td>
+            <td>(No Changes)</td>
+          </tr>
+          <tr *ngIf="workflowItem.payload.vendorURLUpdated == true">
+            <th>Vendor</th>
+            <td>{{ currentState?.vendor.name == "" || currentState?.vendor.name == null ? "(Empty)" : currentState?.vendor.name }}</td>
+            <td>{{ workflowItem?.payload.vendor.name == "" || workflowItem?.payload.vendor.name == null ? "(Empty)" : workflowItem?.payload.vendor.name }}</td>
+          </tr>
+          <tr *ngIf="workflowItem.payload.vendorURLUpdated == false">
+            <th>Vendor</th>
+            <td>{{ currentState?.vendor.name == "" || currentState?.vendor.name == null ? "(Empty)" : currentState?.vendor.name }}</td>
+            <td>(No Changes)</td>
+          </tr>
+          <tr *ngIf="workflowItem.payload.descriptionUpdated == true">
+            <th>Description</th>
+            <td>{{ currentState?.description == "" || currentState?.description == null ? "(Empty)" : currentState?.description }}</td>
+            <td>{{ workflowItem?.payload.description == "" || workflowItem?.payload.description == null ? "(Empty)" : workflowItem?.payload.description }}</td>
+          </tr>
+          <tr *ngIf="workflowItem.payload.descriptionUpdated == false">
+            <th>Description</th>
+            <td>{{ currentState?.description == "" || currentState?.description == null ? "(Empty)" : currentState?.description }}</td>
+            <td>(No Changes)</td>
+          </tr>
+        </table>
+      </div>
+    </div> <!-- Close Dependency Info Card -->
+  </div> <!-- Close col-lg-6 -->
+
+  <div class="col-lg-3">
+    <div class="card">
+      <h5 class="card-header">Available Actions</h5>
+      <div class="card-body">
+        <table class="table">
+          <tr>
+            <td style="border:none;text-align:center;"><button class="btn btn-primary" style="width:80%;" (click)="approveWorkflow()">&#10004; Approve</button></td>
+          </tr>
+          <tr>
+            <td style="border:none;text-align:center;"><button class="btn btn-danger" style="width:80%;" (click)="rejectWorkflow()">&#10006; Reject</button></td>
+          </tr>
+        </table>
+      </div>
+    </div> <!-- Close Dependency Info Card -->
+  </div> <!-- Close col-lg-6 -->
+</div>
+
+<div class="row mt-3">
+
+  <!--<div class="col-lg-6">
+    <div class="card">
+      <h5 class="card-header">Proposed Contacts</h5>
+      <div class="card-body">
+        <table class="table table-hover" *ngIf="workflowItem">
+          <tbody>
+            <tr *ngFor="let contact of workflowItem?.payload?.contacts; index as i">
+              <td><a [routerLink]="['/validation-db/persons/' + contact.person.id]">{{contact.person.name}}</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div> 
+  </div>-->
+
+  <!--<div class="col-lg-6">
+    <div class="card">
+      <h5 class="card-header">Existing Contacts</h5>
+      <div class="card-body">
+        <table class="table table-hover" *ngIf="workflowItem">
+          <tbody>
+            <tr *ngFor="let contact of currentState?.contacts; index as i">
+              <td><a [routerLink]="['/validation-db/persons/' + contact.person.id]">{{contact.person.name}}</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>-->
+</div>

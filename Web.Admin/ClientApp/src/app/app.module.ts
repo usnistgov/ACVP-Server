@@ -37,6 +37,7 @@ import { WorkflowDependencyUpdateComponent } from './components/workflow/depende
 import { WorkflowOeUpdateComponent } from './components/workflow/operatingEnvironment/update/workflow-oe-update.component';
 import { WorkflowOrganizationUpdateComponent } from './components/workflow/organization/update/workflow-organization-update.component';
 import { WorkflowPersonUpdateComponent } from './components/workflow/person/update/workflow-person-update.component';
+import { WorkflowProductUpdateComponent } from './components/workflow/product/update/workflow-product-update.component';
 
 @NgModule({
   declarations: [
@@ -66,7 +67,8 @@ import { WorkflowPersonUpdateComponent } from './components/workflow/person/upda
     WorkflowDependencyUpdateComponent,
     WorkflowOeUpdateComponent,
     WorkflowOrganizationUpdateComponent,
-    WorkflowPersonUpdateComponent
+    WorkflowPersonUpdateComponent,
+    WorkflowProductUpdateComponent
   ],
   imports: [
     BrowserModule,

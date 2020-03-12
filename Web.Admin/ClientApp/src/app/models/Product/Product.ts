@@ -7,6 +7,7 @@ export class Product {
   vendor: Organization;
   name: string;
   url: string;
+  type: string;
   version: string;
   description: string;
   itar: boolean;
