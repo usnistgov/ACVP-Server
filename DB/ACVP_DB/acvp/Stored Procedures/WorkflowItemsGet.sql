@@ -27,6 +27,7 @@ BEGIN
 			, ISNULL(lab_name, 'NIST') as Submitter
 			, CONCAT('ACVP ', r.id) as SubmissionId 
 			, ISNULL(APIActionID, 0) as ApiAction
+			, w.status as Status
 	FROM	val.WORKFLOW w
 	INNER	JOIN acvp.REQUEST r on w.id = r.workflow_id
 	WHERE	1=1

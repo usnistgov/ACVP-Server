@@ -10,5 +10,6 @@ namespace ACVPWorkflow.Models
         public string SubmissionId { get; set; }
         public string Submitter { get; set; }
         public DateTime Submitted { get; set; }
+        public WorkflowStatus Status { get; set; }
     }
 }
