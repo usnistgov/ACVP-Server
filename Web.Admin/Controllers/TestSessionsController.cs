@@ -1,110 +1,99 @@
 using System;
-using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Text;
-using System.Text.Json.Serialization;
 using ACVPCore;
 using ACVPCore.ExtensionMethods;
 using ACVPCore.Models;
 using ACVPCore.Models.Parameters;
 using ACVPCore.Results;
 using ACVPCore.Services;
-using ACVPWorkflow;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 namespace Web.Admin.Controllers
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class TestSessionsController : ControllerBase
-    {
-        private readonly ILogger<TestSessionsController> _logger;
-        private readonly ITestSessionService _testSessionService;
-        private readonly IVectorSetService _vectorSetService;
+	[ApiController]
+	[Route("api/[controller]")]
+	public class TestSessionsController : ControllerBase
+	{
+		private readonly ILogger<TestSessionsController> _logger;
+		private readonly ITestSessionService _testSessionService;
+		private readonly IVectorSetService _vectorSetService;
 
-        public TestSessionsController(
-            ILogger<TestSessionsController> logger,
-            ITestSessionService testSessionService,
-            IVectorSetService vectorSetService)
-        {
-            _logger = logger;
-            _testSessionService = testSessionService;
-            _vectorSetService = vectorSetService;
-        }
+		public TestSessionsController(ILogger<TestSessionsController> logger, ITestSessionService testSessionService, IVectorSetService vectorSetService)
+		{
+			_logger = logger;
+			_testSessionService = testSessionService;
+			_vectorSetService = vectorSetService;
+		}
 
-        [HttpPost]
-        public ActionResult<PagedEnumerable<TestSessionLite>> GetTestSessions(TestSessionListParameters param)
-        {
-            if (param == null)
-                return new BadRequestResult();
-            
-            return _testSessionService.Get(param);
-        }
+		[HttpPost]
+		public ActionResult<PagedEnumerable<TestSessionLite>> GetTestSessions(TestSessionListParameters param)
+		{
+			if (param == null)
+				return new BadRequestResult();
 
-        [HttpGet("{testSessionId}")]
-        public ActionResult<TestSession> GetTestSessionDetails(long testSessionId)
-        {
-            var result = _testSessionService.Get(testSessionId);
+			return _testSessionService.Get(param);
+		}
 
-            for (int i = 0; i < result.VectorSets.Count; i++)
-            {
-                result.VectorSets[i] = _vectorSetService.GetVectorSet(result.VectorSets[i].Id);
-            }
+		[HttpGet("{testSessionId}")]
+		public ActionResult<TestSession> GetTestSessionDetails(long testSessionId)
+		{
+			var result = _testSessionService.Get(testSessionId);
 
-            if (result == null)
-                return new NotFoundResult();
-            
-            return result;
-        }
+			for (int i = 0; i < result.VectorSets.Count; i++)
+			{
+				result.VectorSets[i] = _vectorSetService.GetVectorSet(result.VectorSets[i].Id);
+			}
 
-        [HttpPost("{testSessionId}")]
-        public Result CancelTestSession(long testSessionId)
-        {
-            return _testSessionService.Cancel(testSessionId);
-        }
-        
-        [HttpPost("vectorSet/{vectorSetId}")]
-        public Result CancelVectorSet(long vectorSetId)
-        {
-            return _vectorSetService.Cancel(vectorSetId);
-        }
+			if (result == null)
+				return new NotFoundResult();
 
-        [HttpGet("vectorSet/{vectorSetId}")]
-        public ActionResult<VectorSet> GetTestVectorSet(long vectorSetId)
-        {
-            var result = _vectorSetService.GetVectorSet(vectorSetId);
+			return result;
+		}
 
-            if (result == null)
-                return new NotFoundResult();
+		[HttpPost("{testSessionId}")]
+		public Result CancelTestSession(long testSessionId)
+		{
+			return _testSessionService.Cancel(testSessionId);
+		}
 
-            return result;
-        }
+		[HttpPost("vectorSet/{vectorSetId}")]
+		public Result CancelVectorSet(long vectorSetId)
+		{
+			return _vectorSetService.Cancel(vectorSetId);
+		}
 
-        [HttpGet("vectorSet/{vectorSetId}/json/{fileType}")]
-        public IActionResult GetJsonFileForVectorSet(long vectorSetId, string fileType)
-        {
-            if(Enum.TryParse<VectorSetJsonFileTypes>(fileType, true, out var parsedFileType))
-            {
-                var result = _vectorSetService.GetVectorFileJson(vectorSetId, parsedFileType);
-                
-                if (result == null)
-                    return new NotFoundResult();
-                
-                if (!string.IsNullOrEmpty(result))
-                {
-                    return Content(result, "application/json");
-                }
-            }
-            else
-            {
-                _logger.LogWarning($"{nameof(fileType)} ({fileType}) could not be parsed into a type of {nameof(VectorSetJsonFileTypes)}");
-            }
-            
-            return new BadRequestResult();
-        }
-    }
+		[HttpGet("vectorSet/{vectorSetId}")]
+		public ActionResult<VectorSet> GetTestVectorSet(long vectorSetId)
+		{
+			var result = _vectorSetService.GetVectorSet(vectorSetId);
+
+			if (result == null)
+				return new NotFoundResult();
+
+			return result;
+		}
+
+		[HttpGet("vectorSet/{vectorSetId}/json/{fileType}")]
+		public IActionResult GetJsonFileForVectorSet(long vectorSetId, string fileType)
+		{
+			if (Enum.TryParse<VectorSetJsonFileTypes>(fileType, true, out var parsedFileType))
+			{
+				var result = _vectorSetService.GetVectorFileJson(vectorSetId, parsedFileType);
+
+				if (result == null)
+					return new NotFoundResult();
+
+				if (!string.IsNullOrEmpty(result))
+				{
+					return Content(result, "application/json");
+				}
+			}
+			else
+			{
+				_logger.LogWarning($"{nameof(fileType)} ({fileType}) could not be parsed into a type of {nameof(VectorSetJsonFileTypes)}");
+			}
+
+			return new BadRequestResult();
+		}
+	}
 }
