@@ -8,8 +8,6 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
 import { AboutComponent } from './components/about/about.component';
 
-import { NgxFileDropModule } from 'ngx-file-drop';
-
 // These two additional ones are for the ngx-file-upload library used for LCAVP uploads.  However, the HTTP
 // one may be necessary once implementing AJAX shortly
 import { HttpClientModule } from '@angular/common/http';
@@ -77,8 +75,7 @@ import { WorkflowProductUpdateComponent } from './components/workflow/product/up
     BrowserAnimationsModule,
 
     // For NgxFileUpload
-    HttpClientModule,
-    NgxFileDropModule
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

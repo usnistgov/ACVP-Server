@@ -21,7 +21,6 @@
     "@angular/router": "~8.2.14",
     "angular-file-uploader": "^5.0.2",
     "bootstrap": "^4.4.1",
-    "ngx-file-drop": "^8.0.8",
     "ngx-pagination": "^5.0.0",
     "rxjs": "~6.4.0",
     "tslib": "^1.10.0",
