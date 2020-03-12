@@ -34,7 +34,9 @@ export class AjaxService {
 
   // Dependency-related AJAX calls
   getDependencies(pageSize: number, pageNumber: number) {
-    return this.http.get<DependencyList>(this.apiRoot + '/dependencies?pageNumber=' + pageNumber + '&pageSize=' + pageSize);
+    var params = { "pageSize" : pageSize, "page" : pageNumber };
+
+    return this.http.post<DependencyList>(this.apiRoot + '/dependencies', params);
   };
 
   getDependency(id: number) {
@@ -143,11 +145,8 @@ export class AjaxService {
 
   // Begin TestSession-related calls
   getTestSessions(pageSize: number, pageNumber: number) {
-
     // Build the request body
-    var params = { "pageSize" : 10, "page" : 1 };
-    params.pageSize = pageSize;
-    params.page = pageNumber;
+    var params = { "pageSize" : pageSize, "page" : pageNumber};
 
     return this.http.post<TestSessionList>(this.apiRoot + '/TestSessions', params);
   }
