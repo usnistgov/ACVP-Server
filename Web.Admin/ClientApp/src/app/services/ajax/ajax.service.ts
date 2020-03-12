@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { IWrappedEnumerable } from '../../interfaces/wrapped-enumerable';
 import { DependencyList } from '../../models/dependency/dependency-list';
 import { Dependency } from '../../models/dependency/dependency';
 import { Attribute } from '../../models/dependency/attribute';
