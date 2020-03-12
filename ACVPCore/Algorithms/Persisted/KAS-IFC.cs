@@ -4,11 +4,8 @@ using ACVPCore.Algorithms.DataTypes;
 
 namespace ACVPCore.Algorithms.Persisted
 {
-	public class KAS_FFC_SP800_56Ar3 : PersistedAlgorithmBase
+	public class KAS_IFC : PersistedAlgorithmBase
 	{
-		[AlgorithmProperty(Name = "domainParameterGenerationMethods")]
-		public List<string> DomainParameterGenerationMethods { get; set; }
-
 		[AlgorithmProperty(Name = "function")]
 		public List<string> Functions { get; set; }
 
@@ -18,15 +15,14 @@ namespace ACVPCore.Algorithms.Persisted
 		[AlgorithmProperty(Name = "scheme")]
 		public SchemeCollection Schemes { get; set; }
 
-		public KAS_FFC_SP800_56Ar3()
+		public KAS_IFC()
 		{
-			Name = "KAS-FFC";
-			Revision = "Sp800-56Ar3";
+			Name = "KAS-IFC";
+			Revision = "Sp800-56Br2";
 		}
 
-		public KAS_FFC_SP800_56Ar3(ACVPCore.Algorithms.External.KAS_FFC_SP800_56Ar3 external) : this()
+		public KAS_IFC(ACVPCore.Algorithms.External.KAS_IFC external) : this()
 		{
-			DomainParameterGenerationMethods = external.DomainParameterGenerationMethods;
 			Functions = external.Functions;
 			IUTID = external.IUTID;
 			Schemes = SchemeCollection.Create(external.Schemes);
@@ -34,78 +30,124 @@ namespace ACVPCore.Algorithms.Persisted
 
 		public class SchemeCollection
 		{
-			[AlgorithmProperty(Name = "dhHybrid1", PrependParentPropertyName = true)]
-			public Scheme DhHybrid1 { get; set; }
+			[AlgorithmProperty(Name = "KAS1-basic", PrependParentPropertyName = true)]
+			public SchemeBase KAS1Basic { get; set; }
 
-			[AlgorithmProperty(Name = "mqv2", PrependParentPropertyName = true)]
-			public Scheme MQV2 { get; set; }
+			[AlgorithmProperty(Name = "KAS2-basic", PrependParentPropertyName = true)]
+			public SchemeBase KAS2Basic { get; set; }
 
-			[AlgorithmProperty(Name = "dhEphem", PrependParentPropertyName = true)]
-			public SchemeNoKc DhEphemeral { get; set; }
+			[AlgorithmProperty(Name = "KAS1-Party_V-confirmation", PrependParentPropertyName = true)]
+			public SchemeWithMacMethods KAS1PartyVConfirmation { get; set; }
 
-			[AlgorithmProperty(Name = "dhHybridOneFlow", PrependParentPropertyName = true)]
-			public Scheme DhHybridOneFlow { get; set; }
+			[AlgorithmProperty(Name = "KAS2-bilateral-confirmation", PrependParentPropertyName = true)]
+			public SchemeWithMacMethods KAS2BilateralConfirmation { get; set; }
 
-			[AlgorithmProperty(Name = "mqv1", PrependParentPropertyName = true)]
-			public Scheme MQV1 { get; set; }
+			[AlgorithmProperty(Name = "KAS2-Party_U-confirmation", PrependParentPropertyName = true)]
+			public SchemeWithMacMethods KAS2PartyUConfirmation { get; set; }
 
-			[AlgorithmProperty(Name = "dhOneFlow", PrependParentPropertyName = true)]
-			public Scheme DhOneFlow { get; set; }
+			[AlgorithmProperty(Name = "KAS2-Party_V-confirmation", PrependParentPropertyName = true)]
+			public SchemeWithMacMethods KAS2PartyVConfirmation { get; set; }
 
-			[AlgorithmProperty(Name = "dhStatic", PrependParentPropertyName = true)]
-			public Scheme DhStatic { get; set; }
-
-			public static SchemeCollection Create(External.KAS_FFC_SP800_56Ar3.SchemeCollection externalSchemeCollection) => externalSchemeCollection == null ? null : new SchemeCollection
+			public static SchemeCollection Create(External.KAS_IFC.SchemeCollection externalSchemeCollection) => externalSchemeCollection == null ? null : new SchemeCollection
 			{
-				DhHybrid1 = Scheme.Create(externalSchemeCollection.DhHybrid1),
-				MQV2 = Scheme.Create(externalSchemeCollection.MQV2),
-				DhEphemeral = SchemeNoKc.Create(externalSchemeCollection.DhEphemeral),
-				DhHybridOneFlow = Scheme.Create(externalSchemeCollection.DhHybridOneFlow),
-				MQV1 = Scheme.Create(externalSchemeCollection.MQV1),
-				DhOneFlow = Scheme.Create(externalSchemeCollection.DhOneFlow),
-				DhStatic = Scheme.Create(externalSchemeCollection.DhStatic)
+				KAS1Basic = SchemeBase.Create(externalSchemeCollection.KAS1Basic),
+				KAS2Basic = SchemeBase.Create(externalSchemeCollection.KAS2Basic),
+				KAS1PartyVConfirmation = SchemeWithMacMethods.Create(externalSchemeCollection.KAS1PartyVConfirmation),
+				KAS2BilateralConfirmation = SchemeWithMacMethods.Create(externalSchemeCollection.KAS2BilateralConfirmation),
+				KAS2PartyUConfirmation = SchemeWithMacMethods.Create(externalSchemeCollection.KAS2PartyUConfirmation),
+				KAS2PartyVConfirmation = SchemeWithMacMethods.Create(externalSchemeCollection.KAS2PartyVConfirmation)
 			};
 		}
 
-		public class Scheme
+		public class SchemeBase
 		{
 			[AlgorithmProperty(Name = "kasRole", PrependParentPropertyName = true)]
 			public List<string> KasRole { get; set; }
 
+			[AlgorithmProperty(Name = "keyGenerationMethods", PrependParentPropertyName = true)]
+			public KeyGenerationMethods KeyGenerationMethods { get; set; }
+
 			[AlgorithmProperty(Name = "kdfMethods", PrependParentPropertyName = true)]
 			public KdfMethods KdfMethods { get; set; }
-
-			[AlgorithmProperty(Name = "keyConfirmationMethod", PrependParentPropertyName = true)]
-			public KeyConfirmationMethod KeyConfirmationMethod { get; set; }
 
 			[AlgorithmProperty(Name = "l", PrependParentPropertyName = true)]
 			public int L { get; set; }
 
-			public static Scheme Create(External.KAS_FFC_SP800_56Ar3.Scheme externalScheme) => externalScheme == null ? null : new Scheme
+			public static SchemeBase Create(External.KAS_IFC.SchemeBase externalScheme) => externalScheme == null ? null : new SchemeBase
 			{
 				KasRole = externalScheme.KasRole,
+				KeyGenerationMethods = KeyGenerationMethods.Create(externalScheme.KeyGenerationMethods),
 				KdfMethods = KdfMethods.Create(externalScheme.KdfMethods),
-				KeyConfirmationMethod = KeyConfirmationMethod.Create(externalScheme.KeyConfirmationMethod),
 				L = externalScheme.L
 			};
 		}
 
-		public class SchemeNoKc
+		public class SchemeWithMacMethods : SchemeBase
 		{
-			[AlgorithmProperty(Name = "kasRole", PrependParentPropertyName = true)]
-			public List<string> KasRole { get; set; }
+			[AlgorithmProperty(Name = "macMethods", PrependParentPropertyName = true)]
+			public MacMethods MacMethods { get; set; }
 
-			[AlgorithmProperty(Name = "kdfMethods", PrependParentPropertyName = true)]
-			public KdfMethods KdfMethods { get; set; }
-
-			[AlgorithmProperty(Name = "l", PrependParentPropertyName = true)]
-			public int L { get; set; }
-
-			public static SchemeNoKc Create(External.KAS_FFC_SP800_56Ar3.SchemeNoKc externalSchemeNoKc) => externalSchemeNoKc == null ? null : new SchemeNoKc
+			public static SchemeWithMacMethods Create(External.KAS_IFC.SchemeWithMacMethods externalSchemeWithMacMethods) => externalSchemeWithMacMethods == null ? null : new SchemeWithMacMethods
 			{
-				KasRole = externalSchemeNoKc.KasRole,
-				KdfMethods = KdfMethods.Create(externalSchemeNoKc.KdfMethods),
-				L = externalSchemeNoKc.L
+				KasRole = externalSchemeWithMacMethods.KasRole,
+				KeyGenerationMethods = KeyGenerationMethods.Create(externalSchemeWithMacMethods.KeyGenerationMethods),
+				KdfMethods = KdfMethods.Create(externalSchemeWithMacMethods.KdfMethods),
+				L = externalSchemeWithMacMethods.L,
+				MacMethods = MacMethods.Create(externalSchemeWithMacMethods.MacMethods),
+			};
+		}
+
+		public class KeyGenerationMethods
+		{
+			[AlgorithmProperty(Name = "rsakpg1-basic", PrependParentPropertyName = true)]
+			public KeyGenerationMethodModuloFixedPubExp RSAKpg1Basic { get; set; }
+
+			[AlgorithmProperty(Name = "rsakpg1-prime-factor", PrependParentPropertyName = true)]
+			public KeyGenerationMethodModuloFixedPubExp RSAKpg1PrimeFactor { get; set; }
+
+			[AlgorithmProperty(Name = "rsakpg1-crt", PrependParentPropertyName = true)]
+			public KeyGenerationMethodModuloFixedPubExp RSAKpg1Crt { get; set; }
+
+			[AlgorithmProperty(Name = "rsakpg2-basic", PrependParentPropertyName = true)]
+			public KeyGenerationMethodModulo RSAKpg2Basic { get; set; }
+
+			[AlgorithmProperty(Name = "rsakpg2-prime-factor", PrependParentPropertyName = true)]
+			public KeyGenerationMethodModulo RSAKpg2PrimeFactor { get; set; }
+
+			[AlgorithmProperty(Name = "rsakpg2-crt", PrependParentPropertyName = true)]
+			public KeyGenerationMethodModulo RSAKpg2Crt { get; set; }
+
+			public static KeyGenerationMethods Create(External.KAS_IFC.KeyGenerationMethods externalKeyGenerationMethods) => externalKeyGenerationMethods == null ? null : new KeyGenerationMethods
+			{
+				RSAKpg1Basic = KeyGenerationMethodModuloFixedPubExp.Create(externalKeyGenerationMethods.RSAKpg1Basic),
+				RSAKpg1PrimeFactor = KeyGenerationMethodModuloFixedPubExp.Create(externalKeyGenerationMethods.RSAKpg1PrimeFactor),
+				RSAKpg1Crt = KeyGenerationMethodModuloFixedPubExp.Create(externalKeyGenerationMethods.RSAKpg1Crt),
+				RSAKpg2Basic = KeyGenerationMethodModulo.Create(externalKeyGenerationMethods.RSAKpg2Basic),
+				RSAKpg2PrimeFactor = KeyGenerationMethodModulo.Create(externalKeyGenerationMethods.RSAKpg2PrimeFactor),
+				RSAKpg2Crt = KeyGenerationMethodModulo.Create(externalKeyGenerationMethods.RSAKpg2Crt)
+			};
+		}
+
+		public class KeyGenerationMethodModulo
+		{
+			[AlgorithmProperty(Name = "modulo", PrependParentPropertyName = true)]
+			public List<int> Modulo { get; set; }
+
+			public static KeyGenerationMethodModulo Create(External.KAS_IFC.KeyGenerationMethodModulo externalKeyGenerationMethodModulo) => externalKeyGenerationMethodModulo == null ? null : new KeyGenerationMethodModulo
+			{
+				Modulo = externalKeyGenerationMethodModulo.Modulo
+			};
+		}
+
+		public class KeyGenerationMethodModuloFixedPubExp : KeyGenerationMethodModulo
+		{
+			[AlgorithmProperty(Name = "fixedPublicExponent", PrependParentPropertyName = true)]
+			public string FixedPublicExponent { get; set; }
+
+			public static KeyGenerationMethodModuloFixedPubExp Create(External.KAS_IFC.KeyGenerationMethodModuloFixedPubExp externalKeyGenerationMethodModuloFixedPubExp) => externalKeyGenerationMethodModuloFixedPubExp == null ? null : new KeyGenerationMethodModuloFixedPubExp
+			{
+				Modulo = externalKeyGenerationMethodModuloFixedPubExp.Modulo,
+				FixedPublicExponent = externalKeyGenerationMethodModuloFixedPubExp.FixedPublicExponent
 			};
 		}
 
@@ -118,7 +160,7 @@ namespace ACVPCore.Algorithms.Persisted
 			[AlgorithmProperty(Name = "twoStepKdf", PrependParentPropertyName = true)]
 			public TwoStepKdf TwoStepKdf { get; set; }
 
-			public static KdfMethods Create(External.KAS_FFC_SP800_56Ar3.KdfMethods externalKdfMethods) => externalKdfMethods == null ? null : new KdfMethods
+			public static KdfMethods Create(External.KAS_IFC.KdfMethods externalKdfMethods) => externalKdfMethods == null ? null : new KdfMethods
 			{
 				OneStepKdf = OneStepKdf.Create(externalKdfMethods.OneStepKdf),
 				TwoStepKdf = TwoStepKdf.Create(externalKdfMethods.TwoStepKdf)
@@ -137,7 +179,7 @@ namespace ACVPCore.Algorithms.Persisted
 			[AlgorithmProperty(Name = "encoding", PrependParentPropertyName = true)]
 			public List<string> Encoding { get; set; }
 
-			public static OneStepKdf Create(External.KAS_FFC_SP800_56Ar3.OneStepKdf externalOneStepKdf) => externalOneStepKdf == null ? null : new OneStepKdf
+			public static OneStepKdf Create(External.KAS_IFC.OneStepKdf externalOneStepKdf) => externalOneStepKdf == null ? null : new OneStepKdf
 			{
 				FixedInfoPattern = externalOneStepKdf.FixedInfoPattern,
 				Encoding = externalOneStepKdf.Encoding,
@@ -153,7 +195,7 @@ namespace ACVPCore.Algorithms.Persisted
 			[AlgorithmProperty(Name = "macSaltMethods", PrependParentPropertyName = true)]
 			public List<string> MacSaltMethods { get; set; }
 
-			public static AuxFunction Create(External.KAS_FFC_SP800_56Ar3.AuxFunction externalAuxFunction) => externalAuxFunction == null ? null : new AuxFunction
+			public static AuxFunction Create(External.KAS_IFC.AuxFunction externalAuxFunction) => externalAuxFunction == null ? null : new AuxFunction
 			{
 				MacSaltMethods = externalAuxFunction.MacSaltMethods,
 				AuxFunctionName = externalAuxFunction.AuxFunctionName
@@ -165,10 +207,9 @@ namespace ACVPCore.Algorithms.Persisted
 			[AlgorithmProperty(Name = "capabilities", PrependParentPropertyName = true)]
 			public List<Capability> Capabilities { get; set; } = new List<Capability>();
 
-
-			public static TwoStepKdf Create(External.KAS_FFC_SP800_56Ar3.TwoStepKdf externalTwoStepKdf) => externalTwoStepKdf == null ? null : new TwoStepKdf
+			public static TwoStepKdf Create(External.KAS_IFC.TwoStepKdf externalTwoStepKdf) => externalTwoStepKdf == null ? null : new TwoStepKdf
 			{
-				Capabilities = externalTwoStepKdf.Capabilities?.Select(x => Capability.Create(x)).ToList()
+				Capabilities = externalTwoStepKdf.Capabilities?.Select(x => Capability.Create(x)).ToList(),
 			};
 		}
 
@@ -204,7 +245,7 @@ namespace ACVPCore.Algorithms.Persisted
 			[AlgorithmProperty(Name = "supportedLengths", PrependParentPropertyName = true)]
 			public Domain SupportedLengths { get; set; }
 
-			public static Capability Create(External.KAS_FFC_SP800_56Ar3.Capability externalCapability) => externalCapability == null ? null : new Capability
+			public static Capability Create(External.KAS_IFC.Capability externalCapability) => externalCapability == null ? null : new Capability
 			{
 				MacSaltMethods = externalCapability.MacSaltMethods,
 				FixedInfoPattern = externalCapability.FixedInfoPattern,
@@ -216,25 +257,6 @@ namespace ACVPCore.Algorithms.Persisted
 				SupportsEmptyIV = externalCapability.SupportsEmptyIV,
 				RequiresEmptyIV = externalCapability.RequiresEmptyIV,
 				SupportedLengths = externalCapability.SupportedLengths
-			};
-		}
-
-		public class KeyConfirmationMethod
-		{
-			[AlgorithmProperty(Name = "keyConfirmationDirections", PrependParentPropertyName = true)]
-			public List<string> KeyConfirmationDirections { get; set; }
-
-			[AlgorithmProperty(Name = "keyConfirmationRoles", PrependParentPropertyName = true)]
-			public List<string> KeyConfirmationRoles { get; set; }
-
-			[AlgorithmProperty(Name = "macMethods", PrependParentPropertyName = true)]
-			public MacMethods MacMethods { get; set; }
-
-			public static KeyConfirmationMethod Create(External.KAS_FFC_SP800_56Ar3.KeyConfirmationMethod externalKeyConfirmationMethod) => externalKeyConfirmationMethod == null ? null : new KeyConfirmationMethod
-			{
-				KeyConfirmationDirections = externalKeyConfirmationMethod.KeyConfirmationDirections,
-				KeyConfirmationRoles = externalKeyConfirmationMethod.KeyConfirmationRoles,
-				MacMethods = MacMethods.Create(externalKeyConfirmationMethod.MacMethods)
 			};
 		}
 
@@ -279,7 +301,7 @@ namespace ACVPCore.Algorithms.Persisted
 			[AlgorithmProperty(Name = "KMAC-256", PrependParentPropertyName = true)]
 			public MacMethod KMAC_256 { get; set; }
 
-			public static MacMethods Create(External.KAS_FFC_SP800_56Ar3.MacMethods externalMacMethods) => externalMacMethods == null ? null : new MacMethods
+			public static MacMethods Create(External.KAS_IFC.MacMethods externalMacMethods) => externalMacMethods == null ? null : new MacMethods
 			{
 				CMAC = MacMethod.Create(externalMacMethods.CMAC),
 				HMAC_SHA2_224 = MacMethod.Create(externalMacMethods.HMAC_SHA2_224),
@@ -305,7 +327,7 @@ namespace ACVPCore.Algorithms.Persisted
 			[AlgorithmProperty(Name = "macLen", PrependParentPropertyName = true)]
 			public int MacLength { get; set; }
 
-			public static MacMethod Create(External.KAS_FFC_SP800_56Ar3.MacMethod externalMacMethod) => externalMacMethod == null ? null : new MacMethod
+			public static MacMethod Create(External.KAS_IFC.MacMethod externalMacMethod) => externalMacMethod == null ? null : new MacMethod
 			{
 				KeyLength = externalMacMethod.KeyLength,
 				MacLength = externalMacMethod.MacLength

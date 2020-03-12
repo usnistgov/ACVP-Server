@@ -16,7 +16,7 @@ namespace ACVPWorkflow.Models
 		[JsonPropertyName("fullName")]
 		public string Name { get; set; }
 
-		[JsonPropertyName("vendorUrl")]
+		[JsonPropertyName("organizationUrl")]
 		public string OrganizationURL { get; set; }
 
 		[JsonPropertyName("emails")]

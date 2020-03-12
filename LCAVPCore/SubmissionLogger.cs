@@ -13,7 +13,7 @@ namespace LCAVPCore
 			_acvpConnectionString = connectionStringFactory.GetMightyConnectionString("ACVP");
 		}
 
-		public int LogSubmission(string submissionID, string labName, string labPOC, string labPOCEmail, string submissionType, DateTime receivedDate, int status, string senderEmailAddress, string zipFileName, string extractedFileLocation, string errorJson)
+		public int LogSubmission(string submissionID, string labName, string labPOC, string labPOCEmail, string submissionType, DateTime receivedDate, int status, string zipFileName, string extractedFileLocation, string errorJson)
 		{
 			try
 			{
@@ -28,7 +28,7 @@ namespace LCAVPCore
 					SubmissionType = submissionType,
 					ReceivedDate = receivedDate,
 					Status = status,
-					SenderEmailAddress = senderEmailAddress,
+					SenderEmailAddress = "",
 					ZipFileName = zipFileName,
 					ExtractedFileLocation = extractedFileLocation,
 					ErrorJson = errorJson

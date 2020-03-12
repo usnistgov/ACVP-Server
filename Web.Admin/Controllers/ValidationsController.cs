@@ -1,4 +1,3 @@
-using System;
 using ACVPCore.ExtensionMethods;
 using ACVPCore.Models;
 using ACVPCore.Models.Parameters;
@@ -27,15 +26,15 @@ namespace Web.Admin.Controllers
             return _validationService.GetValidations(param);
         }
 
-        [HttpGet("{validationId}")]
-        public ActionResult<Validation> GetValidation(long validationId)
-        {
-            var result = _validationService.GetValidation(validationId);
-            
-            if (result == null)
-                return new NotFoundResult();
+		[HttpGet("{validationId}")]
+		public ActionResult<Validation> GetValidation(long validationId)
+		{
+			var result = _validationService.GetValidation(validationId);
 
-            return result;
-        }
-    }
+			if (result == null)
+				return new NotFoundResult();
+
+			return result;
+		}
+	}
 }

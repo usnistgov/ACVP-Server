@@ -14,7 +14,7 @@ namespace ACVPCore.Services
         {
             _adminUserProvider = adminUserProvider;
         }
-        
+
         public PagedEnumerable<AcvpUserLite> GetUserList(AcvpUserListParameters param)
         {
             return _adminUserProvider.GetUserList(param);

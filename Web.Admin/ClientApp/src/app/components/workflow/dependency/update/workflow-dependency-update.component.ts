@@ -14,7 +14,7 @@ export class WorkflowDependencyUpdateComponent implements OnInit {
 
   workflowItem: WorkflowItemBase<WorkflowDependencyUpdatePayload>;
   currentState: Dependency;
-  
+  objectKeys = Object.keys;
 
   constructor(private ajs: AjaxService, private router: Router) { }
 

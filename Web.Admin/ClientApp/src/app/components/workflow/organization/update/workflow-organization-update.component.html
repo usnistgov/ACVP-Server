@@ -16,14 +16,14 @@
           </tr>
           <tr>
             <th>Link</th>
-            <td>{{ currentState?.link == "" || currentState?.link == null ? "(Empty)" : currentState?.link }}</td>
+            <td>{{ currentState?.url == "" || currentState?.url == null ? "(Empty)" : currentState?.url }}</td>
             <td>{{ workflowItem?.payload.link == "" || workflowItem?.payload.link == null ? "(Empty)" : workflowItem?.payload.link }}</td>
           </tr>
-          <tr>
+          <!--<tr>
             <th>Name</th>
-            <td>{{ currentState?.parentUrl == "" || currentState?.parentUrl == null ? "(Empty)" : currentState?.parentUrl }}</td>
+            <td>{{ currentState?.parent.url == "" || currentState?.parentUrl == null ? "(Empty)" : currentState?.parentUrl }}</td>
             <td>{{ workflowItem?.payload.parentUrl == "" || workflowItem?.payload.parentUrl == null ? "(Empty)" : workflowItem?.payload.parentUrl }}</td>
-          </tr>
+          </tr>-->
           <tr>
             <th>Voice Number</th>
             <td>{{ currentState?.voiceNumber == "" || currentState?.voiceNumber == null ? "(Empty)" : currentState?.voiceNumber }}</td>

@@ -2,6 +2,6 @@
 {
 	public interface ILCAVPSubmissionProcessor
 	{
-		SubmissionProcessingResult Process(string filePath, string senderEmail);
+		SubmissionProcessingResult Process(string filePath);
 	}
 }

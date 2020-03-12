@@ -360,6 +360,7 @@
     <Build Include="lcavp\Stored Procedures\ValidationIDForSubmissionIDGet.sql" />
     <Build Include="lcavp\Stored Procedures\UpdateValidationIDForSubmissionLogID.sql" />
     <Build Include="ref\Stored Procedures\PropertyTreeValidationNodesGet.sql" />
+    <Build Include="val\Stored Procedures\OrganizationEmailsGet.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="ACVP_DB.refactorlog" />

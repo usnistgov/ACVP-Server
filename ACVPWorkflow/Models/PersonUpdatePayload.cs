@@ -8,7 +8,7 @@ namespace ACVPWorkflow.Models
 	public class PersonUpdatePayload : BasePayload, IWorkflowItemPayload
 	{
 		private string _name;
-		private string _vendorURL;
+		private string _organizationURL;
 		private List<string> _emailAddresses;
 		private List<PhoneNumber> _phoneNumbers;
 
@@ -18,7 +18,7 @@ namespace ACVPWorkflow.Models
 		[JsonPropertyName("url")]
 		public string URL { get => $"/admin/persons/{ID}"; }
 
-		[JsonPropertyName("name")]
+		[JsonPropertyName("fullName")]
 		public string Name
 		{
 			get => _name;
@@ -29,14 +29,14 @@ namespace ACVPWorkflow.Models
 			}
 		}
 
-		[JsonPropertyName("vendorUrl")]
-		public string VendorURL
+		[JsonPropertyName("organizationUrl")]
+		public string OrganizationURL
 		{
-			get => _vendorURL;
+			get => _organizationURL;
 			set
 			{
-				_vendorURL = value;
-				VendorURLUpdated = true;
+				_organizationURL = value;
+				OrganizationURLUpdated = true;
 			}
 		}
 
@@ -61,7 +61,7 @@ namespace ACVPWorkflow.Models
 		}
 
 		public bool NameUpdated { get; private set; } = false;
-		public bool VendorURLUpdated { get; private set; } = false;
+		public bool OrganizationURLUpdated { get; private set; } = false;
 		public bool PhoneNumbersUpdated { get; private set; } = false;
 		public bool EmailAddressesUpdated { get; private set; } = false;
 
@@ -70,11 +70,11 @@ namespace ACVPWorkflow.Models
 		{
 			ID = ID,
 			Name = Name,
-			OrganizationID = ParseNullableIDFromURL(VendorURL),
+			OrganizationID = ParseNullableIDFromURL(OrganizationURL),
 			PhoneNumbers = PhoneNumbers?.Select(x => (x.Type, x.Number))?.ToList(),
 			EmailAddresses = EmailAddresses,
 			NameUpdated = NameUpdated,
-			OrganizationIDUpdated = VendorURLUpdated,
+			OrganizationIDUpdated = OrganizationURLUpdated,
 			PhoneNumbersUpdated = PhoneNumbersUpdated,
 			EmailAddressesUpdated = EmailAddressesUpdated
 		};
