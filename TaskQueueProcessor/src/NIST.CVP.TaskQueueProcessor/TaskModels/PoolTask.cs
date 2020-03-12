@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using NIST.CVP.TaskQueueProcessor.Providers;
+using Serilog;
 
 namespace NIST.CVP.TaskQueueProcessor.TaskModels
 {
@@ -18,7 +19,7 @@ namespace NIST.CVP.TaskQueueProcessor.TaskModels
         
         public async Task<object> Run()
         {
-            Console.WriteLine($"Pool Task");
+            Log.Information($"Pool Task spawned");
             return await _poolProvider.SpawnPoolData();
         }
     }

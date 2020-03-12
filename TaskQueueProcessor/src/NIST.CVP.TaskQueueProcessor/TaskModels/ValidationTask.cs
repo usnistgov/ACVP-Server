@@ -1,8 +1,8 @@
-using System;
 using System.Threading.Tasks;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.TaskQueueProcessor.Constants;
 using NIST.CVP.TaskQueueProcessor.Providers;
+using Serilog;
 
 namespace NIST.CVP.TaskQueueProcessor.TaskModels
 {
@@ -17,20 +17,20 @@ namespace NIST.CVP.TaskQueueProcessor.TaskModels
         
         public override async Task<object> Run()
         {
-            Console.WriteLine($"Validation Task: {VsId}");
+            Log.Information($"Validation Task: {VsId}");
             
             var valRequest = new ValidateRequest(InternalProjection, SubmittedResults, Expected);
-            var response = await Task.Factory.StartNew(() => GenValInvoker.Validate(valRequest));
+            var response = await Task.Factory.StartNew(() => GenValInvoker.Validate(valRequest, VsId));
             
             if (response.Success)
             {
-                Console.WriteLine($"Success on vsId: {VsId}");
+                Log.Information($"Success on vsId: {VsId}");
                 Validation = response.ValidationResult;
                 DbProvider.PutJson(VsId, JsonFileTypes.VALIDATION, Validation);
             }
             else
             {
-                Console.WriteLine($"Error on vsId: {VsId}");
+                Log.Error($"Error on vsId: {VsId}");
                 Error = response.ErrorMessage;
                 DbProvider.PutJson(VsId, JsonFileTypes.ERROR, Error);
             }

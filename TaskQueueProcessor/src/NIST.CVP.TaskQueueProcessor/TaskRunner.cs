@@ -1,5 +1,5 @@
-using System;
 using System.Threading.Tasks;
+using Serilog;
 
 namespace NIST.CVP.TaskQueueProcessor
 {
@@ -7,7 +7,7 @@ namespace NIST.CVP.TaskQueueProcessor
     {
         public async Task<long> RunTask(ITask task)
         {
-            Console.WriteLine($"Running job: {task.DbId}");
+            Log.Information($"Running job: {task.DbId}");
             await task.Run(); // stop executing method until you have a result from the task
             return task.DbId;
         }
