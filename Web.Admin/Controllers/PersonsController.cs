@@ -14,7 +14,7 @@ namespace Web.Admin.Controllers
 	{
 		private readonly IPersonService _personService;
 
-		public PersonsController(PersonService personService)
+		public PersonsController(IPersonService personService)
 		{
 			_personService = personService;
 		}
