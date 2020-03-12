@@ -13,6 +13,6 @@ namespace ACVPCore.Services
 		bool PersonIsUsed(long personID);
 		bool PersonExists(long personID);
 		PersonResult Update(PersonUpdateParameters parameters);
-		List<PersonLite> Get(long pageSize, long pageNumber);
+		PagedEnumerable<PersonLite> Get(PersonListParameters param);
 	}
 }

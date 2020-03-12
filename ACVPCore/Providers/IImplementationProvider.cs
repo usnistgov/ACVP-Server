@@ -1,6 +1,7 @@
 ﻿using ACVPCore.Models;
 using ACVPCore.Results;
 using System.Collections.Generic;
+using ACVPCore.Models.Parameters;
 
 namespace ACVPCore.Providers
 {
@@ -8,7 +9,7 @@ namespace ACVPCore.Providers
 	{
 		Result Delete(long implementationID);
 		Implementation Get(long implementationID);
-		List<Implementation> GetImplementations(long pageSize, long pageNumber);
+		PagedEnumerable<Implementation> GetImplementations(ImplementationListParameters param);
 		Result DeleteAllContacts(long implementationID);
 		bool ImplementationIsUsed(long implementationID);
 		bool ImplementationExists(long implementationID);

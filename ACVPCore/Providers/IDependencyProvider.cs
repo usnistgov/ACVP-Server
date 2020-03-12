@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using ACVPCore.Models;
+using ACVPCore.Models.Parameters;
 using ACVPCore.Results;
 
 namespace ACVPCore.Providers
@@ -7,7 +8,7 @@ namespace ACVPCore.Providers
 	public interface IDependencyProvider
 	{
 		Dependency Get(long dependencyID);
-		List<Dependency> Get(long pageSize, long pageNumber);
+		PagedEnumerable<Dependency> Get(DependencyListParameters param);
 		List<DependencyAttribute> GetAttributes(long dependencyID);
 
 		Result Delete(long dependencyID);

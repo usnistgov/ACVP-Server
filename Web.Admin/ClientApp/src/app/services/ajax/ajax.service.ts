@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { IWrappedEnumerable } from '../../interfaces/wrapped-enumerable';
 import { DependencyList } from '../../models/dependency/dependency-list';
 import { Dependency } from '../../models/dependency/dependency';
 import { Attribute } from '../../models/dependency/attribute';
@@ -35,7 +34,9 @@ export class AjaxService {
 
   // Dependency-related AJAX calls
   getDependencies(pageSize: number, pageNumber: number) {
-    return this.http.get<DependencyList>(this.apiRoot + '/dependencies?pageNumber=' + pageNumber + '&pageSize=' + pageSize);
+    var params = { "pageSize" : pageSize, "page" : pageNumber };
+
+    return this.http.post<DependencyList>(this.apiRoot + '/dependencies', params);
   };
 
   getDependency(id: number) {
@@ -61,7 +62,9 @@ export class AjaxService {
   };
 
   getOEs(pageSize: number, pageNumber: number) {
-    return this.http.get<OperatingEnvironmentList>(this.apiRoot + '/OperatingEnvironments?pageNumber=' + pageNumber + '&pageSize=' + pageSize);
+    var params = { "pageSize" : pageSize, "page" : pageNumber };
+
+    return this.http.post<OperatingEnvironmentList>(this.apiRoot + '/OperatingEnvironments', params);
   }
 
   addDependencyToOE(dependencyId: number, OEID: number) {
@@ -89,11 +92,13 @@ export class AjaxService {
 
   // Product-Related calls
   getProduct(id: number) {
-    return this.http.get<Product>(this.apiRoot + '/Products/' + id);
+    return this.http.get<Product>(this.apiRoot + '/Implementations/' + id);
   };
 
   getProducts(pageSize: number, pageNumber: number) {
-    return this.http.get<ProductList>(this.apiRoot + '/Products?pageNumber=' + pageNumber + '&pageSize=' + pageSize);
+    var params = { "pageSize" : pageSize, "page" : pageNumber };
+
+    return this.http.post<ProductList>(this.apiRoot + '/Implementations', params);
   }
 
   updateProduct(product: Product) {
@@ -114,7 +119,9 @@ export class AjaxService {
   }
 
   getPersons(pageSize: number, pageNumber: number) {
-    return this.http.get<PersonList>(this.apiRoot + '/Persons?pageNumber=' + pageNumber + '&pageSize=' + pageSize);
+    var params = { "pageSize" : pageSize, "page" : pageNumber };
+
+    return this.http.post<PersonList>(this.apiRoot + '/Persons', params);
   }
   // END Person-related calls
 
@@ -138,11 +145,8 @@ export class AjaxService {
 
   // Begin TestSession-related calls
   getTestSessions(pageSize: number, pageNumber: number) {
-
     // Build the request body
-    var params = { "pageSize" : 10, "page" : 1 };
-    params.pageSize = pageSize;
-    params.page = pageNumber;
+    var params = { "pageSize" : pageSize, "page" : pageNumber};
 
     return this.http.post<TestSessionList>(this.apiRoot + '/TestSessions', params);
   }

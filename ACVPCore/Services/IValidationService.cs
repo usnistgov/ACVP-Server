@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using ACVPCore.Algorithms.External;
 using ACVPCore.Models;
+using ACVPCore.Models.Parameters;
 using ACVPCore.Results;
 
 namespace ACVPCore.Services
@@ -18,7 +19,7 @@ namespace ACVPCore.Services
 		InsertResult AddScenarioAlgorithm(long scenarioID, long algorithmID);
 		void CreateCapabilities(long algorithmID, long scenarioAlgorithmID, IExternalAlgorithm externalAlgorithm);
 		Result LogValidationTestSession(long validationID, long testSessionID);
-		List<ValidationLite> GetValidations();
+		PagedEnumerable<ValidationLite> GetValidations(ValidationListParameters param);
 		Validation GetValidation(long validationId);
 	}
 }

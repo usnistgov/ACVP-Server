@@ -1,5 +1,6 @@
 using ACVPCore.ExtensionMethods;
 using ACVPCore.Models;
+using ACVPCore.Models.Parameters;
 using ACVPCore.Results;
 using ACVPCore.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -17,10 +18,13 @@ namespace Web.Admin.Controllers
             _adminUserService = adminUserService;
         }
         
-        [HttpGet]
-        public WrappedEnumerable<AcvpUserLite> Get()
+        [HttpPost]
+        public ActionResult<WrappedEnumerable<AcvpUserLite>> Get(AcvpUserListParameters param)
         {
-            return _adminUserService.GetUserList().WrapEnumerable();
+            if (param == null)
+                return new BadRequestResult();
+            
+            return _adminUserService.GetUserList(param);
         }
 
         [HttpGet("{userId}")]

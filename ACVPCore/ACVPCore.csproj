@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DB\CVP.DatabaseInterface\CVP.DatabaseInterface.csproj" />
+    <ProjectReference Include="..\gen-val\src\common\src\NIST.CVP.Math\NIST.CVP.Math.csproj" />
   </ItemGroup>
 
 </Project>

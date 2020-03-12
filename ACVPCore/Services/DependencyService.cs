@@ -130,9 +130,9 @@ namespace ACVPCore.Services
 			return _dependencyProvider.Get(dependencyId);
 		}
 
-		public List<Dependency> Get(long pageSize, long pageNumber)
+		public PagedEnumerable<Dependency> Get(DependencyListParameters param)
 		{
-			return _dependencyProvider.Get(pageSize, pageNumber);
+			return _dependencyProvider.Get(param);
 		}
 
 		public bool DependencyIsUsed(long dependencyID)

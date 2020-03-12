@@ -4,6 +4,7 @@ using ACVPCore.Algorithms;
 using ACVPCore.Algorithms.External;
 using ACVPCore.Algorithms.Persisted;
 using ACVPCore.Models;
+using ACVPCore.Models.Parameters;
 using ACVPCore.Providers;
 using ACVPCore.Results;
 
@@ -100,9 +101,9 @@ namespace ACVPCore.Services
 			_capabilityService.CreateClassCapabilities(algorithmID, scenarioAlgorithmID, null, null, 0, 0, null, persistenceAlgorithm);
 		}
 		
-		public List<ValidationLite> GetValidations()
+		public PagedEnumerable<ValidationLite> GetValidations(ValidationListParameters param)
 		{
-			return _validationProvider.GetValidations();
+			return _validationProvider.GetValidations(param);
 		}
 
 		public Validation GetValidation(long validationId)

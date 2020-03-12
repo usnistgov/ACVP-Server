@@ -42,7 +42,7 @@ namespace LCAVPCore
 			_processedFilesRoot = configuration.GetValue<string>("LCAVP:ProcessedFilesRoot");
 		}
 
-		public SubmissionProcessingResult Process(string filePath, string senderEmail)
+		public SubmissionProcessingResult Process(string filePath)
 		{
 			string processedFileName = $"{DateTime.Now.ToString("yyyyMMddHHmmssfff")}_{Path.GetFileName(filePath)}";
 
@@ -159,7 +159,7 @@ namespace LCAVPCore
 				submissionProcessingResult.Errors.AddRange(submissionProcessingResult.ProcessingResults.SelectMany(r => r.Errors));
 
 				//Log the submission
-				submissionLogID = LogSubmission(submissionID, LabName, LabPOC, LabPOCEmail, submissionType, submissionProcessingResult.Success, senderEmail, processedFileName, extractionResult.ExtractionPath, submissionProcessingResult.Errors);
+				submissionLogID = LogSubmission(submissionID, LabName, LabPOC, LabPOCEmail, submissionType, submissionProcessingResult.Success, processedFileName, extractionResult.ExtractionPath, submissionProcessingResult.Errors);
 
 				//Assuming submission logged successfully, log the results of each individual inf file that was processed, each producing its own "registration"
 				if (submissionLogID != -1)
@@ -214,7 +214,7 @@ namespace LCAVPCore
 			else
 			{
 				//Log the submission
-				submissionLogID = LogSubmission(submissionID, LabName, LabPOC, LabPOCEmail, submissionType, submissionProcessingResult.Success, senderEmail, processedFileName, extractionResult?.ExtractionPath, submissionProcessingResult.Errors);
+				submissionLogID = LogSubmission(submissionID, LabName, LabPOC, LabPOCEmail, submissionType, submissionProcessingResult.Success, processedFileName, extractionResult?.ExtractionPath, submissionProcessingResult.Errors);
 			}
 			submissionProcessingResult.SubmissionID = submissionLogID;
 
@@ -348,11 +348,11 @@ namespace LCAVPCore
 			_ => SubmissionType.Unknown,
 		};
 
-		private int LogSubmission(string submissionID, string labName, string labPOC, string labPOCEmail, SubmissionType submissionType, bool success, string senderEmailAddress, string zipFileName, string extractedFileLocation, List<string> errors)
+		private int LogSubmission(string submissionID, string labName, string labPOC, string labPOCEmail, SubmissionType submissionType, bool success, string zipFileName, string extractedFileLocation, List<string> errors)
 		{
 			string errorJson = errors.Count == 0 ? null : JsonConvert.SerializeObject(errors);      //If no errors, an empty list will be in the serialized output, this prevents anything from being returned in that case. Kludge.
 
-			return _submissionLogger.LogSubmission(submissionID, labName, labPOC, labPOCEmail, SubmissionTypeString(submissionType), DateTime.Now.ToUniversalTime(), success ? 1 : 0, senderEmailAddress, zipFileName, extractedFileLocation, errorJson);
+			return _submissionLogger.LogSubmission(submissionID, labName, labPOC, labPOCEmail, SubmissionTypeString(submissionType), DateTime.Now.ToUniversalTime(), success ? 1 : 0, zipFileName, extractedFileLocation, errorJson);
 		}
 
 		private void LogSubmissionRegistration(int submissionID, ProcessingResult processingResult)

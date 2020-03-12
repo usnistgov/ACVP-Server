@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
+using ACVPCore.ExtensionMethods;
 using ACVPCore.Models;
+using ACVPCore.Models.Parameters;
 using ACVPCore.Results;
 using CVP.DatabaseInterface;
 using Microsoft.Extensions.Logging;
@@ -287,36 +290,36 @@ namespace ACVPCore.Providers
 			}
 		}
 
-		public List<PersonLite> Get(long pageSize, long pageNumber)
+		public PagedEnumerable<PersonLite> Get(PersonListParameters param)
 		{
-			var db = new MightyOrm(_acvpConnectionString);
+			var db = new MightyOrm<PersonLite>(_acvpConnectionString);
 
 			List<PersonLite> result = new List<PersonLite>();
-
+			long totalRecords = 0;
+			
 			try
 			{
-				var data = db.QueryFromProcedure("val.PersonsGet", inParams: new
+				var dbResult = db.QueryWithExpando("val.PersonsGet", inParams: new
 				{
-					PageSize = pageSize,
-					PageNumber = pageNumber
+					PageSize = param.PageSize,
+					PageNumber = param.Page,
+					Id = param.Id,
+					Name = param.Name,
+					OrganizationName = param.OrganizationName
+				}, outParams: new
+				{
+					totalRecords = (long)0
 				});
 
-				foreach (var person in data)
-				{
-					result.Add(new PersonLite
-					{
-						ID = person.id,
-						Name = person.full_name,
-						OrganizationName = person.org_name
-					});
-				}
+				result = dbResult.Data;
+				totalRecords = dbResult.ResultsExpando.totalRecords;
 			}
 			catch (Exception ex)
 			{
 				_logger.LogError(ex.Message);
 			}
 			
-			return result;
+			return result.WrapPagedEnumerable(param.PageSize, param.Page, totalRecords);
 		}
 	}
 }

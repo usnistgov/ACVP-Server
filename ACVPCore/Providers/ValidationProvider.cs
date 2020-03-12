@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using ACVPCore.ExtensionMethods;
 using ACVPCore.Models;
+using ACVPCore.Models.Parameters;
 using ACVPCore.Results;
 using CVP.DatabaseInterface;
 using Microsoft.Extensions.Logging;
@@ -123,29 +124,37 @@ namespace ACVPCore.Providers
 			}
 		}
 
-		public List<ValidationLite> GetValidations()
+		public PagedEnumerable<ValidationLite> GetValidations(ValidationListParameters param)
 		{
 			List<ValidationLite> result = new List<ValidationLite>();
-			var db = new MightyOrm(_acvpConnectionString);
+			long totalRecords = 0;
+			var db = new MightyOrm<ValidationLite>(_acvpConnectionString);
 
 			try
 			{
-				var data = db.QueryFromProcedure("val.ValidationsGet");
+				var dbData = db.QueryWithExpando("val.ValidationsGet",
+					inParams: new
+					{
+						PageSize = param.PageSize,
+						PageNumber = param.Page,
+						ValidationId = param.ValidationId,
+						ValidationLabel = param.ValidationLabel,
+						ProductName = param.ProductName
+					},
+					new
+					{
+						totalRecords = (long)0
+					});
 
-				result.AddRange(data.Select(item => new ValidationLite()
-				{
-					Created = item.created,
-					ProductName = item.productName,
-					ValidationId = item.validationId,
-					ValidationLabel = item.validationLabel
-				}));
+				result = dbData.Data;
+				totalRecords = dbData.ResultsExpando.totalRecords;
 			}
 			catch (Exception ex)
 			{
 				_logger.LogError(ex, ex.Message);
 			}
 			
-			return result;
+			return result.WrapPagedEnumerable(param.PageSize, param.Page, totalRecords);
 		}
 
 		public Validation GetValidation(long validationId)
