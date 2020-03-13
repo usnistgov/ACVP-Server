@@ -1,7 +1,6 @@
 ﻿{
 	"ApplicationName": "Gen/Val runner",
-
 	"EnvironmentConfig": null,
 	"PoolConfig": null,
-  "OrleansConfig":  null
+  	"OrleansConfig":  null
 }

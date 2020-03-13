@@ -15,7 +15,9 @@
     "ShouldRecyclePoolWater": true,
     "PoolConfigFile": "C:\\Pools\\poolConfig.json",
     "ShouldLogPoolValueUse": true,
-    "PoolResultLogLength":  1000 
+    "PoolResultLogLength":  1000 ,
+    "OverrideMinimumPoolLevel": 1,
+    "AllowPoolSpawn": false
   },
 
   "OrleansConfig": {
