@@ -10,8 +10,6 @@ using NIST.CVP.Pools.Models;
 using NLog;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -106,11 +104,11 @@ namespace NIST.CVP.Pools
                 {
                     if (_poolConfig.PoolResultLogLength == 0 || resultJson.Length <= _poolConfig.PoolResultLogLength)
                     {
-                        ThisLogger.Info($"Using pool value: {resultJson}");
+                        ThisLogger.Debug($"Using pool value: {resultJson}");
                     }
                     else
                     {
-                        ThisLogger.Info($"Using pool value: {resultJson.Substring(0, _poolConfig.PoolResultLogLength)}");
+                        ThisLogger.Debug($"Using pool value: {resultJson.Substring(0, _poolConfig.PoolResultLogLength)}");
                     }
                 }
             
