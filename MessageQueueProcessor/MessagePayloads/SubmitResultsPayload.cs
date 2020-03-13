@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace MessageQueueProcessor.MessagePayloads
 {
@@ -11,6 +12,6 @@ namespace MessageQueueProcessor.MessagePayloads
 		public long AlgorithmID { get; set; }
 
 		[JsonPropertyName("response")]
-		public string Results { get; set; }
+		public JsonElement Results { get; set; }
 	}
 }

@@ -43,6 +43,8 @@ namespace ACVPCore.Services
 			return _vectorSetProvider.InsertVectorSetJson(vectorSetID, VectorSetJsonFileTypes.SubmittedAnswers, results);
 		}
 
+		public Result UpdateStatus(long vectorSetID, VectorSetStatus status) => _vectorSetProvider.UpdateStatus(vectorSetID, status, null);
+
 		public Result RecordError(long vectorSetID, string errorMessage)
 		{
 			return _vectorSetProvider.UpdateStatus(vectorSetID, VectorSetStatus.Error, errorMessage);
