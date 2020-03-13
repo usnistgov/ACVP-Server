@@ -19,50 +19,18 @@ namespace NIST.CVP.Math.Helpers
             Which is reversed from the way CAVS thinks about it
             So we're going backwards here
         */
-        public static BitArray BitShiftRight(this BitArray bArray)
-        {
-            var copy = new BitArray(bArray);
-            for (int idx = 0; idx < copy.Length - 1; idx++)
-            {
-                copy[idx] = copy[idx + 1];
-            }
-            copy[copy.Length - 1] = false;
+        public static BitArray BitShiftRight(this BitArray bArray) => bArray.RightShift(1);
 
-            return copy;
-        }
+        public static BitArray BitShiftRight(this BitArray bArray, int increment) => bArray.RightShift(increment);
 
-        public static BitArray BitShiftLeft(this BitArray bArray)
-        {
-            var copy = new BitArray(bArray);
-            for (int idx = copy.Length - 1; idx > 0; idx--)
-            {
-                copy[idx] = copy[idx -1];
-            }
-            copy[0] = false;
+        public static BitArray BitShiftLeft(this BitArray bArray) => bArray.LeftShift(1);
 
-            return copy;
-        }
-        
+        public static BitArray BitShiftLeft(this BitArray bArray, int increment) => bArray.LeftShift(increment);
+
         public static byte[] ToBytes(this BitArray bArray)
         {
             byte[] bytes = new byte[(bArray.Length - 1) / BITSINBYTE + 1];
-            //_bits.CopyTo(bytes, 0); This would be nice, but it is not supported in .Net Core 1.0.1
-
-            int byteIndex = 0;
-
-            for (int bit = 0; bit < bArray.Length; bit++)
-            {
-                if (bArray[bit])
-                {
-                    bytes[byteIndex] |= (byte)(1 << (bit % BITSINBYTE));
-                }
-
-                // New byte when bit (+1 since start index of 0) mod 8 = 0
-                if (bit > 0 && (bit + 1) % BITSINBYTE == 0)
-                {
-                    byteIndex++;
-                }
-            }
+            bArray.CopyTo(bytes, 0);
             return bytes;
         }
 
@@ -72,6 +40,8 @@ namespace NIST.CVP.Math.Helpers
             //{
             //    throw new IndexOutOfRangeException();
             //}
+
+
 
             var copy = new BitArray(length);
             for (int i = startIndex, j = 0; j < length; i++, j++)
@@ -84,10 +54,9 @@ namespace NIST.CVP.Math.Helpers
         public static String ToBinaryString(this BitArray bArray)
         {
             var sb = new StringBuilder();
-            foreach (var b in bArray)
-            {
-                sb.Append(Convert.ToBoolean(b) ? "1" : "0");
-            }
+            bool[] boolArray = new bool[bArray.Length];
+            bArray.CopyTo(boolArray, 0);
+            Array.ForEach(boolArray, b => sb.Append(b ? "1" : "0"));
             return sb.ToString();
         }
 
