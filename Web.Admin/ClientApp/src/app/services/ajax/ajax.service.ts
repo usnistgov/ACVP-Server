@@ -18,6 +18,7 @@ import { TestSession } from '../../models/TestSession/TestSession';
 import { VectorSet } from '../../models/TestSession/VectorSet';
 import { WorkflowItemBase } from '../../models/Workflow/WorkflowItemBase';
 import { IWorkflowItemPayload } from '../../models/Workflow/IWorkflowItemPayload';
+import { WorkflowItemList } from '../../models/Workflow/WorkflowItemList';
 
 const httpOptions = {
   headers: new HttpHeaders()
@@ -164,6 +165,13 @@ export class AjaxService {
   // BEGIN Workflow calls
   getWorkflow(workflowId: number) {
     return this.http.get<WorkflowItemBase<IWorkflowItemPayload>>(this.apiRoot + '/Workflows/' + workflowId);
+  }
+
+  getWorkflows(pageSize: number, pageNumber: number) {
+    // Build the request body
+    var params = { "pageSize": pageSize, "page": pageNumber };
+
+    return this.http.post<WorkflowItemList>(this.apiRoot + '/Workflows', params);
   }
 
   approveWorkflow(workflowId: number) {

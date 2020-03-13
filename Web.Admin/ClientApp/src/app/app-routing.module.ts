@@ -16,6 +16,7 @@ import { ValidationDbOrganizationsComponent } from './components/validation-db-o
 
 // This is a parent module that loads all the other workflow modules itself
 import { WorkflowComponent } from './components/workflow/workflow/workflow.component';
+import { WorkflowsComponent } from './components/workflows/workflows.component';
 
 const routes: Routes = [
   {
@@ -74,6 +75,11 @@ const routes: Routes = [
     // This is a parent module that loads all the other workflow modules itself
     path: 'workflow/:id',
     component: WorkflowComponent
+  },
+  {
+    // This is a parent module that loads all the other workflow modules itself
+    path: 'workflow',
+    component: WorkflowsComponent
   }
 ];
 
