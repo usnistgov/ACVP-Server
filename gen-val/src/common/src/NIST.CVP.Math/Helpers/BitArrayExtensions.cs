@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace NIST.CVP.Math.Helpers
 {
@@ -40,8 +36,6 @@ namespace NIST.CVP.Math.Helpers
             //{
             //    throw new IndexOutOfRangeException();
             //}
-
-
 
             var copy = new BitArray(length);
             for (int i = startIndex, j = 0; j < length; i++, j++)
