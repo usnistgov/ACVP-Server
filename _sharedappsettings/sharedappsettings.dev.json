@@ -8,6 +8,10 @@
     "AcvpPools": "Server=stvmdevsql03;Database=AcvpPools;Integrated Security=true;Max Pool Size=2000;",
     "AcvpOrleans": "Server=stvmdevsql03;Database=AcvpOrleans;Integrated Security=true;Pooling=False;Max Pool Size=200;MultipleActiveResultSets=True"
   },
+  "TaskQueueProcessorConfig": {
+    "PollDelay": 5,
+    "MaxConcurrency": 32
+  },
 
   "PoolConfig": {
     "RootUrl": "172.17.42.151",
@@ -16,7 +20,8 @@
     "PoolConfigFile": "C:\\Pools\\poolConfig.json",
     "ShouldLogPoolValueUse": true,
     "PoolResultLogLength": 0,
-    "OverrideMinimumPoolLevel": 1
+    "OverrideMinimumPoolLevel": 1,
+    "AllowPoolSpawn": false
   },
 
   "OrleansConfig": {
