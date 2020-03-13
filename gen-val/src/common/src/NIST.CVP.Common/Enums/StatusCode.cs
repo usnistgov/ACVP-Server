@@ -44,6 +44,9 @@ namespace NIST.CVP.Common.Enums
         FileReadError = 11,
         
         [EnumMember(Value = "BitString parse error, unable to read one or more BitStrings.  Contact service provider.")]
-        BitStringParseError = 12
+        BitStringParseError = 12,
+        
+        [EnumMember(Value = "Validation failed. Incorrect responses provided.")]
+        ValidatorFail = 13
     }
 }

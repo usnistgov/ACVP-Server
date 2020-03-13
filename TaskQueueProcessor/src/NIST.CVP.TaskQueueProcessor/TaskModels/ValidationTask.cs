@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using NIST.CVP.Common.Enums;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.TaskQueueProcessor.Constants;
 using NIST.CVP.TaskQueueProcessor.Providers;
@@ -22,11 +23,18 @@ namespace NIST.CVP.TaskQueueProcessor.TaskModels
             var valRequest = new ValidateRequest(InternalProjection, SubmittedResults, Expected);
             var response = await Task.Factory.StartNew(() => GenValInvoker.Validate(valRequest, VsId));
             
-            if (response.Success)
+            if (response.StatusCode == StatusCode.Success)
             {
                 Log.Information($"Success on vsId: {VsId}");
                 Validation = response.ValidationResult;
                 DbProvider.SetStatus(VsId, StatusType.PASSED, "");
+                DbProvider.PutJson(VsId, JsonFileTypes.VALIDATION, Validation);
+            }
+            else if (response.StatusCode == StatusCode.ValidatorFail)
+            {
+                Log.Information($"Incorrect response on vsId: {VsId}");
+                Validation = response.ValidationResult;
+                DbProvider.SetStatus(VsId, StatusType.FAILED, "");
                 DbProvider.PutJson(VsId, JsonFileTypes.VALIDATION, Validation);
             }
             else
