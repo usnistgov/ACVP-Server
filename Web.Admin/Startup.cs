@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
+using Microsoft.AspNetCore.StaticFiles.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -46,36 +47,27 @@ namespace Web.Admin
             {
                 services.AddAuthentication(sharedOptions =>
                     {
-                        sharedOptions.DefaultScheme = WsFederationDefaults.AuthenticationScheme;
-                        sharedOptions.DefaultChallengeScheme = WsFederationDefaults.AuthenticationScheme;
+                        sharedOptions.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                        sharedOptions.DefaultAuthenticateScheme = WsFederationDefaults.AuthenticationScheme;
                     })
                     .AddWsFederation(options =>
                     {
                         options.Wtrealm = ssoConfig.WtRealm;
                         options.MetadataAddress = ssoConfig.AdfsMetadata;
-                    });
-                    // .AddCookie(options =>
-                    // {
-                    //     options.Cookie.HttpOnly = true;
-                    //     options.Cookie.SameSite = SameSiteMode.Strict;
-                    //     options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
-                    //     options.Cookie.IsEssential = true;
-                    //     options.Events.OnValidatePrincipal = PrincipalValidator.ValidateAsync;
-                    // });
+                        options.Events.OnSecurityTokenValidated = PrincipalValidator.ValidateAsync;
+                    })
+                    .AddCookie();
             }
             else
             {
                 var mockAuth = "MockAuthentication";
-                services.AddAuthentication(mockAuth)
-                    .AddScheme<AuthenticationSchemeOptions, MockAuthenticatedUser>(mockAuth, null);
-                // .AddCookie(options =>
-                // {
-                //     options.Cookie.HttpOnly = false;
-                //     options.Cookie.SameSite = SameSiteMode.Lax;
-                //     options.Cookie.SecurePolicy = CookieSecurePolicy.None;
-                //     options.Cookie.IsEssential = true;
-                //     options.Events.OnValidatePrincipal = PrincipalValidator.ValidateAsync;
-                // });
+                services.AddAuthentication(options =>
+                    {
+                        options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                        options.DefaultAuthenticateScheme = mockAuth;
+                    })
+                    .AddScheme<AuthenticationSchemeOptions, MockAuthenticatedUser>(mockAuth, null)
+                    .AddCookie();
             }
         }
 
@@ -95,12 +87,8 @@ namespace Web.Admin
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
-            if (!env.IsEnvironment(NIST.CVP.Common.Enums.Environments.Local.ToString()))
-            {
-                app.UseSpaStaticFiles();
-            }
-
+            app.UseSpaStaticFiles();
+            
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
