@@ -31,6 +31,7 @@ namespace NIST.CVP.TaskQueueProcessor.TaskModels
                 InternalProjection = response.InternalProjection;
                 ExpectedResults = response.ResultProjection;
 
+                DbProvider.SetStatus(VsId, StatusType.PASSED, "");
                 DbProvider.PutJson(VsId, JsonFileTypes.PROMPT, Prompt);
                 DbProvider.PutJson(VsId, JsonFileTypes.INTERNAL_PROJECTION, InternalProjection);
                 DbProvider.PutJson(VsId, JsonFileTypes.EXPECTED_RESULTS, ExpectedResults);
@@ -39,6 +40,7 @@ namespace NIST.CVP.TaskQueueProcessor.TaskModels
             {
                 Log.Error($"Error on vsId: {VsId}");
                 Error = response.ErrorMessage;
+                DbProvider.SetStatus(VsId, StatusType.ERROR, "");
                 DbProvider.PutJson(VsId, JsonFileTypes.ERROR, Error);
             }
 

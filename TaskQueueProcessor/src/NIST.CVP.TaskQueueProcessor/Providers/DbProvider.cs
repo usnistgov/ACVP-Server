@@ -138,5 +138,17 @@ namespace NIST.CVP.TaskQueueProcessor.Providers
 
             RunCommand(ACVP_DB_NAME, StoredProcedures.PUT_JSON, parameters);
         }
+
+        public void SetStatus(int vsId, StatusType status, string errorMessage)
+        {
+            var parameters = new List<(string, object)>
+            {
+                ("VectorSetID", vsId),
+                ("Status", status),
+                ("ErrorMessage", errorMessage)
+            };
+            
+            RunCommand(ACVP_DB_NAME, StoredProcedures.SET_STATUS, parameters);
+        }
     }
 }

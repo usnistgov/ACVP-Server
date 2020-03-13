@@ -26,12 +26,14 @@ namespace NIST.CVP.TaskQueueProcessor.TaskModels
             {
                 Log.Information($"Success on vsId: {VsId}");
                 Validation = response.ValidationResult;
+                DbProvider.SetStatus(VsId, StatusType.PASSED, "");
                 DbProvider.PutJson(VsId, JsonFileTypes.VALIDATION, Validation);
             }
             else
             {
                 Log.Error($"Error on vsId: {VsId}");
                 Error = response.ErrorMessage;
+                DbProvider.SetStatus(VsId, StatusType.ERROR, "");
                 DbProvider.PutJson(VsId, JsonFileTypes.ERROR, Error);
             }
 

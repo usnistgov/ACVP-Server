@@ -1,4 +1,4 @@
-using NIST.CVP.TaskQueueProcessor.TaskModels;
+using NIST.CVP.TaskQueueProcessor.Constants;
 
 namespace NIST.CVP.TaskQueueProcessor.Providers
 {
@@ -8,5 +8,6 @@ namespace NIST.CVP.TaskQueueProcessor.Providers
         void DeleteCompletedTask(long taskId);
         void MarkTasksForRestart();
         void PutJson(int vsId, string jsonFileType, string jsonContent);
+        void SetStatus(int vsId, StatusType status, string errorMessage);
     }
 }
