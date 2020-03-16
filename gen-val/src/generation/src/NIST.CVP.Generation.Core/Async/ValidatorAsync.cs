@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using NIST.CVP.Common.Enums;
 using NIST.CVP.Generation.Core.ContractResolvers;
 using NIST.CVP.Generation.Core.DeSerialization;
+using NIST.CVP.Generation.Core.Enums;
 using NIST.CVP.Math.Exceptions;
 using NLog;
 
@@ -54,6 +55,7 @@ namespace NIST.CVP.Generation.Core.Async
                 return new ValidateResponse(ex.Message, StatusCode.TestCaseValidatorError);
             }
 
+            var statusCode = response.Disposition == Disposition.Passed ? StatusCode.Success : StatusCode.ValidatorFail;
             var validationJson = JsonConvert.SerializeObject(response, Formatting.Indented,
                 new JsonSerializerSettings
                 {
@@ -61,7 +63,7 @@ namespace NIST.CVP.Generation.Core.Async
                     NullValueHandling = NullValueHandling.Ignore
                 });
 
-            return new ValidateResponse(validationJson);
+            return new ValidateResponse(validationJson, statusCode);
         }
 
         protected virtual TestVectorValidation ValidateWorker(string testResultText, string answerText, bool showExpected)

@@ -15,14 +15,9 @@ export class HomeComponent implements OnInit {
   selectedSession: TestSession;
   sessions: TestSessionList;
 
-  // Necessary alias to make Math available to the front-end for paging calculations
-  math = Math;
-
   constructor(private ajs: AjaxService, private router: Router, private route: ActivatedRoute) { }
 
   getPage(whichPage: string) {
-
-    console.log(whichPage);
 
     if (whichPage == "first") {
       this.sessions.currentPage = 1;
@@ -33,12 +28,12 @@ export class HomeComponent implements OnInit {
       }
     }
     else if (whichPage == "next") {
-      if (this.sessions.currentPage < (Math.floor(this.sessions.totalRecords / this.sessions.pageSize))) {
+      if (this.sessions.currentPage < this.sessions.totalPages) {
         this.sessions.currentPage = ++this.sessions.currentPage;
       }
     }
     else if (whichPage == "last") {
-      this.sessions.currentPage = (Math.floor(this.sessions.totalRecords / this.sessions.pageSize));
+      this.sessions.currentPage = this.sessions.totalPages;
     }
 
     this.ajs.getTestSessions(this.sessions.pageSize, this.sessions.currentPage).subscribe(

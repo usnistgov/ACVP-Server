@@ -16,7 +16,8 @@
     "PoolConfigFile": "D:\\Pools\\poolConfig.json",
     "ShouldLogPoolValueUse": true,
     "PoolResultLogLength": 0,
-    "OverrideMinimumPoolLevel": 1
+    "OverrideMinimumPoolLevel": 1,
+    "AllowPoolSpawn": false
   },
 
   "OrleansConfig": {

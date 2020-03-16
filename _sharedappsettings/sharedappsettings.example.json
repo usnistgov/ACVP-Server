@@ -8,11 +8,6 @@
     "AcvpPools": "Server=localhost\\SQLEXPRESS01;Database=AcvpPools;Integrated Security=true;Max Pool Size=250;",
     "AcvpOrleans": "Server=localhost\\SQLEXPRESS01;Database=AcvpOrleans;Integrated Security=true;Pooling=False;Max Pool Size=200;MultipleActiveResultSets=True"
   },
-  
-  "TaskQueueProcessorConfig": {
-    "PollDelay": 5,
-    "MaxConcurrency": 2
-  },
 
   "PoolConfig": {
     "RootUrl": "localhost",
