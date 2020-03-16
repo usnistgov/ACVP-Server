@@ -6,6 +6,8 @@ using Microsoft.Extensions.Hosting;
 using NIST.CVP.Common;
 using NIST.CVP.Common.Config;
 using NIST.CVP.Common.Helpers;
+using NIST.CVP.Common.Interfaces;
+using NIST.CVP.Common.Services;
 using NIST.CVP.Common.Targets;
 using NLog.Targets;
 using Serilog;
@@ -56,6 +58,8 @@ namespace NIST.CVP.TaskQueueProcessor
                     
                     // Orleans
                     services.AddSingleton(new LimitedConcurrencyLevelTaskScheduler(1));
+                    services.AddTransient<IDbConnectionStringFactory, DbConnectionStringFactory>();
+                    services.AddTransient<IDbConnectionFactory, SqlDbConnectionFactory>();
 
                     // Pools
                     services.AddHttpClient();
