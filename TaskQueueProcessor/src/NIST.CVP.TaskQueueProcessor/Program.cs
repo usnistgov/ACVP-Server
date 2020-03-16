@@ -1,4 +1,5 @@
 ﻿using System;
+using ACVPCore;
 using CVP.DatabaseInterface;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -54,7 +55,11 @@ namespace NIST.CVP.TaskQueueProcessor
                 })
                 .ConfigureServices((hostContext, services) =>
                 {
+                    // CVP.DB
                     services.InjectDatabaseInterface();
+                    
+                    // ACVPCore
+                    services.InjectACVPCore();
                     
                     // Orleans
                     services.AddSingleton(new LimitedConcurrencyLevelTaskScheduler(1));
@@ -69,7 +74,7 @@ namespace NIST.CVP.TaskQueueProcessor
                     services.Configure<EnvironmentConfig>(hostContext.Configuration.GetSection(nameof(EnvironmentConfig)));
                     services.Configure<PoolConfig>(hostContext.Configuration.GetSection(nameof(PoolConfig)));
                     services.Configure<OrleansConfig>(hostContext.Configuration.GetSection(nameof(OrleansConfig)));
-                    
+
                     // TQP
                     services.InjectTaskQueueProcessorInterfaces();
                 });

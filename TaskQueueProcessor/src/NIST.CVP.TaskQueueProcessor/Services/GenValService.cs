@@ -1,5 +1,7 @@
 using System;
 using System.Threading.Tasks;
+using ACVPCore.Providers;
+using ACVPCore.Services;
 using CVP.DatabaseInterface;
 using Mighty;
 using NIST.CVP.Common.Enums;
@@ -16,11 +18,13 @@ namespace NIST.CVP.TaskQueueProcessor.Services
         private readonly IGenValInvoker _genValInvoker;
         private readonly IJsonProvider _jsonProvider;
         private readonly string _connectionString;
+        private readonly ITestSessionService _testSessionService;
         
-        public GenValService(IGenValInvoker genValInvoker, IJsonProvider jsonProvider, IConnectionStringFactory connectionStringFactory)
+        public GenValService(IGenValInvoker genValInvoker, IJsonProvider jsonProvider, ITestSessionService testSessionService, IConnectionStringFactory connectionStringFactory)
         {
             _genValInvoker = genValInvoker;
             _jsonProvider = jsonProvider;
+            _testSessionService = testSessionService;
             _connectionString = connectionStringFactory.GetMightyConnectionString("ACVP");
         }
         
@@ -48,7 +52,8 @@ namespace NIST.CVP.TaskQueueProcessor.Services
             {
                 Log.Error($"Error on vsId: {generationTask.VsId}");
                 generationTask.Error = response.ErrorMessage;
-                
+
+                _testSessionService.UpdateStatusFromVectorSetsWithVectorSetID(generationTask.VsId);
                 SetStatus(generationTask.VsId, StatusType.ERROR, "");
                 _jsonProvider.PutJson(generationTask.VsId, JsonFileTypes.ERROR, generationTask.Error);
             }
@@ -68,6 +73,7 @@ namespace NIST.CVP.TaskQueueProcessor.Services
                 Log.Information($"Success on vsId: {validationTask.VsId}");
                 validationTask.Validation = response.ValidationResult;
                 
+                _testSessionService.UpdateStatusFromVectorSetsWithVectorSetID(validationTask.VsId);
                 SetStatus(validationTask.VsId, StatusType.PASSED, "");
                 _jsonProvider.PutJson(validationTask.VsId, JsonFileTypes.VALIDATION, validationTask.Validation);
             }
@@ -76,6 +82,7 @@ namespace NIST.CVP.TaskQueueProcessor.Services
                 Log.Information($"Incorrect response on vsId: {validationTask.VsId}");
                 validationTask.Validation = response.ValidationResult;
                 
+                _testSessionService.UpdateStatusFromVectorSetsWithVectorSetID(validationTask.VsId);
                 SetStatus(validationTask.VsId, StatusType.FAILED, "");
                 _jsonProvider.PutJson(validationTask.VsId, JsonFileTypes.VALIDATION, validationTask.Validation);
             }
@@ -84,6 +91,7 @@ namespace NIST.CVP.TaskQueueProcessor.Services
                 Log.Error($"Error on vsId: {validationTask.VsId}");
                 validationTask.Error = response.ErrorMessage;
                 
+                _testSessionService.UpdateStatusFromVectorSetsWithVectorSetID(validationTask.VsId);
                 SetStatus(validationTask.VsId, StatusType.ERROR, "");
                 _jsonProvider.PutJson(validationTask.VsId, JsonFileTypes.ERROR, validationTask.Error);
             }
