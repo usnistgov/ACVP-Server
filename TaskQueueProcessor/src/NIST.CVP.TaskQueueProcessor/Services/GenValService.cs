@@ -28,18 +28,9 @@ namespace NIST.CVP.TaskQueueProcessor.Services
         {
             Log.Information($"Generation Task VsId: {generationTask.VsId}, IsSample: {generationTask.IsSample}");
             Log.Debug($"Capabilities: {generationTask.Capabilities}");
-
-            GenerateRequest genRequest;
-            GenerateResponse response = new GenerateResponse();
-            try
-            {
-                genRequest = new GenerateRequest(generationTask.Capabilities);
-                response = await Task.Factory.StartNew(() => _genValInvoker.Generate(genRequest, generationTask.VsId));
-            }
-            catch (Exception ex)
-            {
-                Log.Debug(ex, "Error");
-            }
+            
+            var genRequest = new GenerateRequest(generationTask.Capabilities);
+            var response = await Task.Factory.StartNew(() => _genValInvoker.Generate(genRequest, generationTask.VsId));
             
             if (response.Success)
             {
