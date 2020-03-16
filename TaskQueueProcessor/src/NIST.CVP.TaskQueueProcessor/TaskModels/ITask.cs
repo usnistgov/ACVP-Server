@@ -1,12 +1,7 @@
-using System.Threading.Tasks;
-
-namespace NIST.CVP.TaskQueueProcessor
+namespace NIST.CVP.TaskQueueProcessor.TaskModels
 {
     public interface ITask
     {
-        long DbId { get; set; }
-        int VsId { get; set; }
-
-        Task<object> Run();
+        
     }
 }
