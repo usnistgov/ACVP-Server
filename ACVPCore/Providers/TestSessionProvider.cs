@@ -233,5 +233,23 @@ namespace ACVPCore.Providers
 				return false;    //Default to false so we don't try do use it when we don't know if it exists
 			}
 		}
+
+		public long GetTestSessionIDFromVectorSet(long vectorSetID)
+		{
+			var db = new MightyOrm(_acvpConnectionString);
+
+			try
+			{
+				return (long)db.ScalarFromProcedure("acvp.TestSessionIdGetByVectorSetId", inParams: new
+				{
+					VectorSetId = vectorSetID
+				});
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex.Message);
+				return -1;    //Default to false so we don't try do use it when we don't know if it exists
+			}
+		}
 	}
 }
