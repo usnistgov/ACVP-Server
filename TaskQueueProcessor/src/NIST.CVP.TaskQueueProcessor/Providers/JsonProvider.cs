@@ -22,13 +22,13 @@ namespace NIST.CVP.TaskQueueProcessor.Providers
 
             try
             {
-                var jsonData = acvp.QueryWithExpando(StoredProcedures.GET_JSON, new
+                var jsonData = acvp.SingleFromProcedure(StoredProcedures.GET_JSON, new
                 {
                     VsId = vsId,
                     JsonFileType = jsonFileType
                 });
 
-                return jsonData.ResultsExpando.Data;
+                return jsonData.Content;
             }
             catch (Exception ex)
             {

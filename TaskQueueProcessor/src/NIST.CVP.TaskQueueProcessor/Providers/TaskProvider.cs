@@ -21,16 +21,15 @@ namespace NIST.CVP.TaskQueueProcessor.Providers
         
         public ExecutableTask GetTaskFromQueue()
         {
-            ExecutableTask task;
             var acvp = new MightyOrm(_connectionString);
-            var taskRow = acvp.QueryWithExpando(StoredProcedures.GET_TASK_QUEUE);
+            var taskRow = acvp.SingleFromProcedure(StoredProcedures.GET_TASK_QUEUE);
 
             // If there is no row returned, then there is no data to process, do pool stuff
-            if (!taskRow.Data.Any())
+            if (taskRow == null)
                 return null;
             
             // Parse out data into either generation or validation task
-            var executableTask = BuildExecutableTask(taskRow.ResultsExpando);
+            var executableTask = BuildExecutableTask(taskRow);
             switch (executableTask)
             {
                 case GenerationTask generationTask:
@@ -49,9 +48,9 @@ namespace NIST.CVP.TaskQueueProcessor.Providers
 
         private ExecutableTask BuildExecutableTask(dynamic data)
         {
-            string operation = data.Operation;
-            long dbId = data.Id;
-            int vsId = (int)data.VsID;
+            string operation = data.TaskType;
+            long dbId = data.TaskID;
+            int vsId = (int)data.VsId;
             bool isSample = data.IsSample;
             bool showExpected = data.ShowExpected;
             
