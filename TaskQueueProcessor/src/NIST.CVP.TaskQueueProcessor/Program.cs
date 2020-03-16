@@ -1,17 +1,12 @@
 ﻿using System;
+using CVP.DatabaseInterface;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NIST.CVP.Common;
 using NIST.CVP.Common.Config;
 using NIST.CVP.Common.Helpers;
-using NIST.CVP.Common.Interfaces;
-using NIST.CVP.Common.Services;
 using NIST.CVP.Common.Targets;
-using NIST.CVP.Generation;
-using NIST.CVP.Generation.Core;
-using NIST.CVP.TaskQueueProcessor.Providers;
-using NIST.CVP.TaskQueueProcessor.TaskModels;
 using NLog.Targets;
 using Serilog;
 
@@ -57,25 +52,22 @@ namespace NIST.CVP.TaskQueueProcessor
                 })
                 .ConfigureServices((hostContext, services) =>
                 {
-                    services.AddSingleton<IDbConnectionStringFactory, DbConnectionStringFactory>();
-                    services.AddSingleton<IDbConnectionFactory, SqlDbConnectionFactory>();
+                    services.InjectDatabaseInterface();
+                    
+                    // Orleans
                     services.AddSingleton(new LimitedConcurrencyLevelTaskScheduler(1));
 
+                    // Pools
                     services.AddHttpClient();
                     
+                    // Setup Configs
                     services.Configure<TaskQueueProcessorConfig>(hostContext.Configuration.GetSection(nameof(TaskQueueProcessorConfig)));
                     services.Configure<EnvironmentConfig>(hostContext.Configuration.GetSection(nameof(EnvironmentConfig)));
                     services.Configure<PoolConfig>(hostContext.Configuration.GetSection(nameof(PoolConfig)));
                     services.Configure<OrleansConfig>(hostContext.Configuration.GetSection(nameof(OrleansConfig)));
                     
-                    services.AddSingleton<IGenValInvoker, GenValInvoker>();
-                    services.AddSingleton<ITaskRetriever, TaskRetriever>();
-                    services.AddSingleton<IDbProvider, DbProvider>();
-                    
-                    services.AddSingleton<ITaskRunner, TaskRunner>();
-                    services.AddTransient<IPoolProvider, PoolProvider>();
-                    
-                    services.AddHostedService<QueueProcessor>();
+                    // TQP
+                    services.InjectTaskQueueProcessorInterfaces();
                 });
     }
 }

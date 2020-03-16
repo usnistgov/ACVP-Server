@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using NIST.CVP.Common.Config;
-using NIST.CVP.TaskQueueProcessor.Providers;
+using NIST.CVP.TaskQueueProcessor.Services;
 using NIST.CVP.TaskQueueProcessor.TaskModels;
 using Serilog;
 
@@ -17,19 +17,17 @@ namespace NIST.CVP.TaskQueueProcessor
         private Timer _timer;
         private readonly Dictionary<long, Task> _tasks = new Dictionary<long, Task>();
         private readonly List<Task> _poolTasks = new List<Task>();
-        
-        private readonly ITaskRunner _taskRunner;
-        private readonly IDbProvider _dbProvider;
-        private readonly IPoolProvider _poolProvider;
+
+        private readonly ITaskService _taskService;
+        private readonly ICleaningService _cleaningService;
         
         private readonly IOptions<PoolConfig> _poolConfig;
         private readonly IOptions<TaskQueueProcessorConfig> _taskConfig;
 
-        public QueueProcessor(ITaskRunner taskRunner, IDbProvider dbProvider, IPoolProvider poolProvider, IOptions<PoolConfig> poolConfig, IOptions<TaskQueueProcessorConfig> taskConfig)
+        public QueueProcessor(ITaskService taskService, ICleaningService cleaningService, IOptions<PoolConfig> poolConfig, IOptions<TaskQueueProcessorConfig> taskConfig)
         {
-            _taskRunner = taskRunner;
-            _dbProvider = dbProvider;
-            _poolProvider = poolProvider;
+            _taskService = taskService;
+            _cleaningService = cleaningService;
             _poolConfig = poolConfig;
             _taskConfig = taskConfig;
         }
@@ -52,7 +50,7 @@ namespace NIST.CVP.TaskQueueProcessor
 
             // Started but incomplete jobs are marked in the table in the db as un-started to be picked up on run
             Log.Information("Stopping");
-            _dbProvider.MarkTasksForRestart();
+            _cleaningService.MarkTasksForRestart();
             Log.Information("Tasks saved");
             
             return Task.CompletedTask;
@@ -90,7 +88,7 @@ namespace NIST.CVP.TaskQueueProcessor
                     else
                     {
                         Log.Debug($"Task (dbId: {dbId}) completed successfully.");
-                        _dbProvider.DeleteCompletedTask(dbId);
+                        _cleaningService.DeleteCompletedTask(dbId);
                     }
                 }
             }
@@ -145,20 +143,19 @@ namespace NIST.CVP.TaskQueueProcessor
             {
                 Log.Debug($"Executable tasks: {_tasks.Count}. Pool tasks: {_poolTasks.Count}");
 
-                var nextTask = _dbProvider.GetNextTask();
+                var nextTask = _taskService.GetTaskFromQueue();
 
                 if (nextTask != null)
                 {
                     Log.Debug("Adding gen/val job.");
-                    _tasks.Add(nextTask.DbId, _taskRunner.RunTask(nextTask));
+                    _tasks.Add(nextTask.DbId, _taskService.RunTask(nextTask));
                 }
                 else
                 {
                     if (_poolConfig.Value.AllowPoolSpawn)
                     {
                         Log.Debug("Adding pool job.");
-                        var poolTask = new PoolTask(_poolProvider);
-                        _poolTasks.Add(_taskRunner.RunTask(poolTask));    
+                        _poolTasks.Add(_taskService.RunTask(new PoolTask()));    
                     }
                     else
                     {
