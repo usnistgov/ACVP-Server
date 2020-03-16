@@ -1,8 +1,8 @@
 using System.Threading.Tasks;
 
-namespace NIST.CVP.TaskQueueProcessor.Providers
+namespace NIST.CVP.TaskQueueProcessor.Services
 {
-    public interface IPoolProvider
+    public interface IPoolService
     {
         Task<object> SpawnPoolData();
     }
