@@ -8,18 +8,26 @@ namespace ACVPCore.Services
 	public class VectorSetService : IVectorSetService
 	{
 		private readonly IVectorSetProvider _vectorSetProvider;
+		private readonly ITestSessionService _testSessionService;
 
-		public VectorSetService(IVectorSetProvider vectorSetProvider)
+		public VectorSetService(IVectorSetProvider vectorSetProvider, ITestSessionService testSessionService)
 		{
 			_vectorSetProvider = vectorSetProvider;
+			_testSessionService = testSessionService;
 		}
 
 		public Result Cancel(long vectorSetID)
 		{
 			//Cancel the vector set
-			return _vectorSetProvider.Cancel(vectorSetID);
+			Result result = _vectorSetProvider.Cancel(vectorSetID);
 
-			//TODO - Potentially update the Test Session status - if this was the last non-passed vector set, then the test session passes
+			if (result.IsSuccess)
+			{
+				//Potentially update the Test Session status
+				result = _testSessionService.UpdateStatusFromVectorSetsWithVectorSetID(vectorSetID);
+			}
+
+			return result;
 		}
 
 		public Result Create(long vectorSetID, long testSessionID, string generatorVersion, long algorithmID, string capabilities)

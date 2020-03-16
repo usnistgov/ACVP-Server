@@ -14,6 +14,8 @@ namespace ACVPCore.Services
 		bool CanSubmitForApproval(long testSessionID);
 		TestSessionStatus GetStatus(long testSessionID);
 		Result UpdateStatus(long testSessionID, TestSessionStatus testSessionStatus);
+		Result UpdateStatusFromVectorSets(long testSessionID);
+		Result UpdateStatusFromVectorSetsWithVectorSetID(long vectorSetID);
 		PagedEnumerable<TestSessionLite> Get(TestSessionListParameters param);
 		TestSession Get(long testSessionId);
 		bool TestSessionExists(long testSessionID);
