@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
-using System.Numerics;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace NIST.CVP.Math.Helpers
 {
@@ -85,14 +82,7 @@ namespace NIST.CVP.Math.Helpers
             bool[] boolArray = new bool[length];
             for (int i = 0; i < length; i++)
             {
-                if (onesAndZeroes[i] == '0')
-                {
-                    boolArray[i] = false;
-                }
-                if (onesAndZeroes[i] == '1')
-                {
-                    boolArray[i] = true;
-                }
+                boolArray[i] = onesAndZeroes[i] == '1';
             }
 
             return new BitArray(boolArray);
@@ -100,7 +90,7 @@ namespace NIST.CVP.Math.Helpers
 
         public static BitArray GetBitArrayFromStringOf1sAnd0sReversed(string onesAndZeroes)
         {
-            return GetBitArrayFromStringOf1sAnd0s(onesAndZeroes).Reverse();
+            return ReverseBitArrayBits(GetBitArrayFromStringOf1sAnd0s(onesAndZeroes));
         }
     }
 }

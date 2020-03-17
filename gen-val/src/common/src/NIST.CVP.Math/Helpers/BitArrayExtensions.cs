@@ -15,13 +15,13 @@ namespace NIST.CVP.Math.Helpers
             Which is reversed from the way CAVS thinks about it
             So we're going backwards here
         */
-        public static BitArray BitShiftRight(this BitArray bArray) => bArray.RightShift(1);
+        public static BitArray BitShiftRight(this BitArray bArray) => new BitArray(bArray).RightShift(1);
 
-        public static BitArray BitShiftRight(this BitArray bArray, int increment) => bArray.RightShift(increment);
+        public static BitArray BitShiftRight(this BitArray bArray, int increment) => new BitArray(bArray).RightShift(increment);
 
-        public static BitArray BitShiftLeft(this BitArray bArray) => bArray.LeftShift(1);
+        public static BitArray BitShiftLeft(this BitArray bArray) => new BitArray(bArray).LeftShift(1);
 
-        public static BitArray BitShiftLeft(this BitArray bArray, int increment) => bArray.LeftShift(increment);
+        public static BitArray BitShiftLeft(this BitArray bArray, int increment) => new BitArray(bArray).LeftShift(increment);
 
         public static byte[] ToBytes(this BitArray bArray)
         {
