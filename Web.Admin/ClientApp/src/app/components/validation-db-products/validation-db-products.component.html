@@ -1,11 +1,9 @@
 <div class="container">
   <div class="row">
     <div class="col-lg-2">
-      <div class="row mt-3">
+      <div class="container mt-3">
         <h3>Filters</h3>
-      </div>
-      <div class="row mt-3">
-        <input type="text" class="form-control">
+        (Not yet implemented)
       </div>
     </div>
 
@@ -28,7 +26,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let product of products" [routerLink]="product.id">
+            <tr *ngFor="let product of products.data" [routerLink]="product.id">
               <td>{{ product.id }}</td>
               <td>{{ (product.name === "") ? "---" : product.name }}</td>
               <td>{{ (product.version === "") ? "---" : product.version }}</td>
@@ -46,10 +44,10 @@
             <td><button class="btn btn-primary bold-heading" (click)="getPage('first')">&lt;&lt;</button></td>
             <td><button class="btn btn-primary bold-heading" (click)="getPage('previous')">&lt;</button></td>
             <td><button class="btn btn-primary bold-heading" (click)="getPage('next')">&gt;</button></td>
-            <td><button class="btn btn-primary bold-heading">&gt;&gt;</button></td>
+            <td><button class="btn btn-primary bold-heading" (click)="getPage('last')">&gt;&gt;</button></td>
           </tr>
           <tr>
-            <td colspan="4" style="text-align:center;">Page {{ pageData.pageNumber }} of total</td>
+            <td colspan="4" style="text-align:center;">Page {{ products?.currentPage }} of {{ products?.totalPages }}</td>
           </tr>
         </table>
       </div> <!-- Close Pagination Buttons Row -->

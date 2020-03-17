@@ -1,6 +1,7 @@
 import { TestSessionLite } from './TestSessionLite';
+import { IWrappedEnumerable } from '../../interfaces/wrapped-enumerable';
 
-export class TestSessionList {
+export class TestSessionList implements IWrappedEnumerable {
 
   pageSize: number;
   currentPage: number;

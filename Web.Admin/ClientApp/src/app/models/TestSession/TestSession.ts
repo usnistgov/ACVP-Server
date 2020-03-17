@@ -3,7 +3,7 @@ import { VectorSet } from './VectorSet';
 
 export class TestSession {
 
-  id: number;
+  testSessionId: number;
   created: Date;
   status: TestSessionStatus;
   passedOn: Date;

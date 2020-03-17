@@ -47,6 +47,8 @@
       <None Remove="ClientApp\src\app\models\OperatingEnvironment\OperatingEnvironmentList.ts" />
       <None Remove="ClientApp\src\app\models\OperatingEnvironment\OperatingEnvironmentLite.ts" />
       <None Remove="ClientApp\src\app\models\Organization\Organization.ts" />
+      <None Remove="ClientApp\src\app\models\Organization\OrganizationList.ts" />
+      <None Remove="ClientApp\src\app\models\Organization\OrganizationLite.ts" />
       <None Remove="ClientApp\src\app\models\Person\Person.ts" />
       <None Remove="ClientApp\src\app\models\Person\PersonList.ts" />
       <None Remove="ClientApp\src\app\models\Person\PersonLite.ts" />
@@ -121,7 +123,11 @@
       <TypeScriptCompile Include="ClientApp\src\app\models\dependency\dependency.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\models\OperatingEnvironment\OperatingEnvironmentList.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\models\OperatingEnvironment\OperatingEnvironmentLite.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\Organization\OrganizationLite.ts">
+        <SubType>Code</SubType>
+      </TypeScriptCompile>
       <TypeScriptCompile Include="ClientApp\src\app\models\Organization\Organization.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\Organization\OrganizationList.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\models\Person\PersonList.ts">
         <SubType>Code</SubType>
       </TypeScriptCompile>
