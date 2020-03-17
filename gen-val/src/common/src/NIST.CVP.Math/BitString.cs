@@ -193,23 +193,7 @@ namespace NIST.CVP.Math
             }
 
             byte[] bytes = new byte[(Bits.Length - 1) / BITSINBYTE + 1];
-            //_bits.CopyTo(bytes, 0); This would be nice, but it is not supported in .Net Core 1.0.1
-
-            int byteIndex = 0;
-
-            for (int bit = 0; bit < Bits.Length; bit++)
-            {
-                if (Bits[bit])
-                {
-                    bytes[byteIndex] |= (byte)(1 << (bit % BITSINBYTE));
-                }
-
-                // New byte when bit (+1 since start index of 0) mod 8 = 0
-                if (bit > 0 && (bit + 1) % BITSINBYTE == 0)
-                {
-                    byteIndex++;
-                }
-            }
+            _bits.CopyTo(bytes, 0);
 
             // Note bytes are currently in LSB, 
             // class inputs/outputs byte arrays in MSB by default, 
@@ -772,17 +756,8 @@ namespace NIST.CVP.Math
         public static BitString ConcatenateBits(BitString mostSignificantBits, BitString leastSignificantBits)
         {
             bool[] bits = new bool[mostSignificantBits.BitLength + leastSignificantBits.BitLength];
-
-            for (int i = 0; i < leastSignificantBits.BitLength; i++)
-            {
-                bits[i] = leastSignificantBits.Bits[i];
-            }
-
-            for (int i = 0; i < mostSignificantBits.BitLength; i++)
-            {
-                bits[leastSignificantBits.BitLength + i] = mostSignificantBits.Bits[i];
-            }
-
+            leastSignificantBits.Bits.CopyTo(bits, 0);
+            mostSignificantBits.Bits.CopyTo(bits, leastSignificantBits.BitLength);
             return new BitString(new BitArray(bits));
         }
         #endregion Concatentation
