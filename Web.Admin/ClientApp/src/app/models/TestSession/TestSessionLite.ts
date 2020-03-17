@@ -2,14 +2,14 @@ import { TestSessionStatus } from './TestSessionStatus';
 
 export class TestSessionLite {
 
-  id: number;
+  testSessionId: number;
   created: Date;
   status: TestSessionStatus;
 
-  public TestSessionLite(id: number,
+  public TestSessionLite(testSessionId: number,
     created: Date,
     status: TestSessionStatus) {
-    this.id = id;
+    this.testSessionId = testSessionId;
     this.created = created;
     this.status = status;
   };
