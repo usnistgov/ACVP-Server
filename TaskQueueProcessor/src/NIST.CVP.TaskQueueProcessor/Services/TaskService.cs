@@ -1,4 +1,4 @@
-using System.Threading.Tasks;
+using System;
 using NIST.CVP.TaskQueueProcessor.Providers;
 using NIST.CVP.TaskQueueProcessor.TaskModels;
 using Serilog;
@@ -8,13 +8,13 @@ namespace NIST.CVP.TaskQueueProcessor.Services
     public class TaskService : ITaskService
     {
         private readonly ITaskProvider _taskProvider;
-        private readonly IGenValService _genvalService;
+        private readonly IGenValService _genValService;
         private readonly IPoolService _poolService;
 
         public TaskService(ITaskProvider taskProvider, IGenValService genValService, IPoolService poolService)
         {
             _taskProvider = taskProvider;
-            _genvalService = genValService;
+            _genValService = genValService;
             _poolService = poolService;
         }
 
@@ -24,27 +24,37 @@ namespace NIST.CVP.TaskQueueProcessor.Services
             return _taskProvider.GetTaskFromQueue();
         }
 
-        public async Task<long> RunTask(ExecutableTask task)
+        public void RunTask(ExecutableTask task)
         {
             Log.Information($"Running job: {task.DbId}");
+            var taskType = "";
 
             // Stop executing method until you have a result from the task
-            switch (task)
+            try
             {
-                case GenerationTask generationTask:
-                    await _genvalService.RunGenerator(generationTask);
-                    break;
-                
-                case ValidationTask validationTask:
-                    await _genvalService.RunValidator(validationTask);
-                    break;
-                
-                case PoolTask poolTask:
-                    await _poolService.SpawnPoolData();
-                    break;
+                switch (task)
+                {
+                    case GenerationTask generationTask:
+                        taskType = "generation";
+                        _genValService.RunGenerator(generationTask);
+                        break;
+
+                    case ValidationTask validationTask:
+                        taskType = "validation";
+                        _genValService.RunValidator(validationTask);
+                        break;
+
+                    case PoolTask poolTask:
+                        taskType = "pool spawn";
+                        _poolService.SpawnPoolData();
+                        break;
+                }
             }
-            
-            return task.DbId;
+            catch (Exception ex)
+            {
+                Log.Error(ex, $"Exception on dbId: {task.DbId}, vsId: {task.VsId}, running: {taskType}");
+                // No repeated throw, just exit out normally
+            }
         }
     }
 }
