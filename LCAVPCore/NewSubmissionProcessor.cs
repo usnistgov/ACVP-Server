@@ -122,7 +122,7 @@ namespace LCAVPCore
 			//If there are any prereqs that reference submission IDs that have not been approved, throw an error
 			if (havePendingPrereq)
 			{
-				string submissions = string.Join(", ", registration.Scenarios.SelectMany(x => x.Algorithms).SelectMany(x => x.Prerequisites).Where(x => x.IsUnprocessedSubmission).Select(x => x.SubmissionID));
+				string submissions = string.Join(", ", registration.Scenarios.SelectMany(x => x.Algorithms).SelectMany(x => x.Prerequisites ?? new List<Prerequisite>()).Where(x => x.IsUnprocessedSubmission).Select(x => x.SubmissionID));
 				processingResult.Errors.Add($"Cannot be processed because it depends on other submissions that have not been approved. Retry after you have approved submission(s) {submissions}");
 			}
 

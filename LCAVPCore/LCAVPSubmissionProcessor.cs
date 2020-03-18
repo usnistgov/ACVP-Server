@@ -179,18 +179,22 @@ namespace LCAVPCore
 						{
 							switch ((processingResult.Type, processingResult.WorkflowType))
 							{
+								case (ProcessingType.Change, WorkflowType.Module):
 								case (ProcessingType.Update, WorkflowType.Module):
 									_moduleProcessor.Update((Module)processingResult.TheThingy);
 									break;
 
+								case (ProcessingType.Change, WorkflowType.OE):
 								case (ProcessingType.Update, WorkflowType.OE):
 									_oeProcessor.Update((OperationalEnvironment)processingResult.TheThingy);
 									break;
 
+								case (ProcessingType.Change, WorkflowType.Organization):
 								case (ProcessingType.Update, WorkflowType.Organization):
 									_organizationProcessor.Update((Vendor)processingResult.TheThingy);
 									break;
 
+								case (ProcessingType.Change, WorkflowType.Person):
 								case (ProcessingType.Update, WorkflowType.Person):
 									_personProcessor.Update((Contact)processingResult.TheThingy);
 									break;

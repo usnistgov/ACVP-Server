@@ -252,9 +252,7 @@ namespace LCAVPCore
 			try
 			{
 				var db = new MightyOrm(_acvpConnectionString);
-
-				var (Algorithm, CertNumber) = GetAnAlgoValidation(changeFile.AffectedValidations);
-
+				
 				//Get the original address fields - only some are populated
 				string address1 = null
 					, address2 = null
