@@ -12,5 +12,6 @@ namespace ACVPCore.Services
 		DeleteResult Delete(long organizationID);
 		bool OrganizationIsUsed(long organizationID);
 		bool OrganizationExists(long organizationID);
+		PagedEnumerable<OrganizationLite> Get(OrganizationListParameters param);
 	}
 }

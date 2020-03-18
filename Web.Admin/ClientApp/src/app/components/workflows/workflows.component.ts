@@ -16,8 +16,6 @@ export class WorkflowsComponent implements OnInit {
 
   WorkflowStatusOptions = [ "All", "Pending", "Approved", "Incomplete", "Rejected" ];
 
-  pageData = { "pageSize": 10, "pageNumber": 1, "totalPages" : 0};
-
   constructor(private ajs: AjaxService, private router: Router, private route: ActivatedRoute) { }
 
   getPage(whichPage: string) {

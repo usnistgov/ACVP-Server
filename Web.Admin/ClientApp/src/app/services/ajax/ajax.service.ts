@@ -19,6 +19,7 @@ import { VectorSet } from '../../models/TestSession/VectorSet';
 import { WorkflowItemBase } from '../../models/Workflow/WorkflowItemBase';
 import { IWorkflowItemPayload } from '../../models/Workflow/IWorkflowItemPayload';
 import { WorkflowItemList } from '../../models/Workflow/WorkflowItemList';
+import { OrganizationList } from '../../models/Organization/OrganizationList';
 
 const httpOptions = {
   headers: new HttpHeaders()
@@ -129,6 +130,12 @@ export class AjaxService {
   // Organization-related calls
   getOrganization(id: number) {
     return this.http.get<Organization>(this.apiRoot + '/Organizations/' + id);
+  }
+
+  getOrganizations(pageSize: number, pageNumber: number) {
+    var params = { "pageSize": pageSize, "page": pageNumber };
+
+    return this.http.post<OrganizationList>(this.apiRoot + '/Organizations', params);
   }
 
   addNewAddress(parameters: AddressCreateParameters) {

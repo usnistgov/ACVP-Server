@@ -20,7 +20,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr [ngClass]="(session.testSessionId == selectedSession?.testSessionId) ? 'table-active' : ''" *ngFor="let session of sessions?.data" (click)="setSelectedSession(session.testSessionId)">
+          <tr *ngFor="let session of sessions?.data" [ngClass]="(session.testSessionId == selectedSession?.testSessionId) ? 'table-active' : ''" (click)="setSelectedSession(session.testSessionId)">
             <th scope="row">{{session?.testSessionId}}</th>
             <td>{{session?.created | date:'yyyy-MM-dd HH:mm'}}</td>
             <td>{{session?.status}}</td>

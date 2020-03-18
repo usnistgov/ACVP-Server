@@ -12,7 +12,7 @@
 	{
 		public static ImplementationType FromString(string value)
 		{
-			return value.ToLower() switch
+			return value?.ToLower() switch
 			{
 				"software" => ImplementationType.Software,
 				"hardware" => ImplementationType.Hardware,

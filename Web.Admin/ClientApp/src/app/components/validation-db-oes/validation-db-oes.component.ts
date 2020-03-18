@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AjaxService } from '../../services/ajax/ajax.service';
-import { OperatingEnvironment } from '../../models/operatingEnvironment/operatingEnvironment';
+import { OperatingEnvironmentList } from '../../models/OperatingEnvironment/OperatingEnvironmentList';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-validation-db-oes',
@@ -9,15 +10,23 @@ import { OperatingEnvironment } from '../../models/operatingEnvironment/operatin
 })
 export class ValidationDbOEsComponent implements OnInit {
 
-  operatingEnvironments: OperatingEnvironment[];
+  operatingEnvironments: OperatingEnvironmentList;
 
-  pageData = { "pageSize": 10, "pageNumber": 1 };
-
-  constructor(private ajs: AjaxService) { }
+  constructor(private ajs: AjaxService, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.ajs.getOEs(this.pageData.pageSize, this.pageData.pageNumber).subscribe(
-      data => { this.operatingEnvironments = data.data; },
+
+    this.operatingEnvironments = new OperatingEnvironmentList();
+    this.operatingEnvironments.pageSize = 10;
+    this.operatingEnvironments.currentPage = 1;
+
+    // Check if the page param is set.  If so, store it in the "currentPage"...
+    if (this.route.snapshot.queryParamMap.get('page')) {
+      this.operatingEnvironments.currentPage = parseInt(this.route.snapshot.queryParamMap.get('page'));
+    }
+
+    this.ajs.getOEs(this.operatingEnvironments.pageSize, this.operatingEnvironments.currentPage).subscribe(
+      data => { this.operatingEnvironments = data; },
       err => { /* we should find something useful to do in here at some point.  maybe a site-wide error popup in the html app.component? */ },
       () => { }
     );
@@ -26,17 +35,30 @@ export class ValidationDbOEsComponent implements OnInit {
   getPage(whichPage: string) {
 
     if (whichPage == "first") {
-      this.pageData.pageNumber = 1;
+      this.operatingEnvironments.currentPage = 1;
     }
     else if (whichPage == "previous") {
-      this.pageData.pageNumber--;
+      if (this.operatingEnvironments.currentPage > 1) {
+        this.operatingEnvironments.currentPage = --this.operatingEnvironments.currentPage;
+      }
     }
     else if (whichPage == "next") {
-      this.pageData.pageNumber++;
+      if (this.operatingEnvironments.currentPage < this.operatingEnvironments.totalPages) {
+        this.operatingEnvironments.currentPage = ++this.operatingEnvironments.currentPage;
+      }
+    }
+    else if (whichPage == "last") {
+      this.operatingEnvironments.currentPage = this.operatingEnvironments.totalPages;
     }
 
-    this.ajs.getOEs(this.pageData.pageSize, this.pageData.pageNumber).subscribe(
-      data => { this.operatingEnvironments = data.data; },
+    this.ajs.getOEs(this.operatingEnvironments.pageSize, this.operatingEnvironments.currentPage).subscribe(
+      data => {
+        this.operatingEnvironments = data;
+        this.router.navigate([], {
+          queryParams: { page: this.operatingEnvironments.currentPage },
+          queryParamsHandling: 'merge'
+        });
+      },
       err => { /* we should find something useful to do in here at some point.  maybe a site-wide error popup in the html app.component? */ },
       () => { }
     );

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AjaxService } from '../../services/ajax/ajax.service'
-import { DependencyLite } from '../../models/dependency/dependency-lite';
+import { DependencyList } from '../../models/dependency/dependency-list';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-validation-db-dependencies',
@@ -9,34 +10,55 @@ import { DependencyLite } from '../../models/dependency/dependency-lite';
 })
 export class ValidationDbDependenciesComponent implements OnInit {
 
-  dependencies: DependencyLite[];
+  dependencies: DependencyList;
 
-  pageData = { "pageSize" : 10, "pageNumber" : 1 };
-
-  constructor(private ajs: AjaxService) { }
+  constructor(private ajs: AjaxService, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.ajs.getDependencies(this.pageData.pageSize, this.pageData.pageNumber).subscribe(
-      data => { this.dependencies = data.data; },
+
+    this.dependencies = new DependencyList();
+    this.dependencies.pageSize = 10;
+    this.dependencies.currentPage = 1;
+
+    // Check if the page param is set.  If so, store it in the "currentPage"...
+    if (this.route.snapshot.queryParamMap.get('page')) {
+      this.dependencies.currentPage = parseInt(this.route.snapshot.queryParamMap.get('page'));
+    }
+
+    this.ajs.getDependencies(this.dependencies.pageSize, this.dependencies.currentPage).subscribe(
+      data => { this.dependencies = data; },
       err => { /* we should find something useful to do in here at some point.  maybe a site-wide error popup in the html app.component? */},
       () => { }
     );
   }
 
-  getPage(whichPage:string) {
+  getPage(whichPage: string) {
 
     if (whichPage == "first") {
-      this.pageData.pageNumber = 1;
+      this.dependencies.currentPage = 1;
     }
     else if (whichPage == "previous") {
-      this.pageData.pageNumber--;
+      if (this.dependencies.currentPage > 1) {
+        this.dependencies.currentPage = --this.dependencies.currentPage;
+      }
     }
     else if (whichPage == "next") {
-      this.pageData.pageNumber++;
+      if (this.dependencies.currentPage < this.dependencies.totalPages) {
+        this.dependencies.currentPage = ++this.dependencies.currentPage;
+      }
+    }
+    else if (whichPage == "last") {
+      this.dependencies.currentPage = this.dependencies.totalPages;
     }
 
-    this.ajs.getDependencies(this.pageData.pageSize, this.pageData.pageNumber).subscribe(
-      data => { this.dependencies = data.data; },
+    this.ajs.getDependencies(this.dependencies.pageSize, this.dependencies.currentPage).subscribe(
+      data => {
+        this.dependencies = data;
+        this.router.navigate([], {
+          queryParams: { page: this.dependencies.currentPage },
+          queryParamsHandling: 'merge'
+        });
+      },
       err => { /* we should find something useful to do in here at some point.  maybe a site-wide error popup in the html app.component? */ },
       () => { }
     );

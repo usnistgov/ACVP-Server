@@ -37,12 +37,14 @@ namespace NIST.CVP.Common.Targets
 
         static Serilog.Events.LogEventLevel ConvertLevel(LogLevel logEventLevel)
         {
-            if (logEventLevel == LogLevel.Info)
-                return Serilog.Events.LogEventLevel.Information;
             if (logEventLevel == LogLevel.Trace)
                 return Serilog.Events.LogEventLevel.Verbose;
             if (logEventLevel == LogLevel.Debug)
                 return Serilog.Events.LogEventLevel.Debug;
+            if (logEventLevel == LogLevel.Info)
+                return Serilog.Events.LogEventLevel.Information;
+            if (logEventLevel == LogLevel.Warn)
+                return Serilog.Events.LogEventLevel.Warning;    
             if (logEventLevel == LogLevel.Error)
                 return Serilog.Events.LogEventLevel.Error;
             return Serilog.Events.LogEventLevel.Fatal;

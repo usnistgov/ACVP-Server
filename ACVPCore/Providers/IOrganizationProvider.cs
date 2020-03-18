@@ -1,4 +1,5 @@
 ﻿using ACVPCore.Models;
+using ACVPCore.Models.Parameters;
 using ACVPCore.Results;
 
 namespace ACVPCore.Providers
@@ -15,5 +16,6 @@ namespace ACVPCore.Providers
 
 		bool OrganizationIsUsed(long organizationID);
 		bool OrganizationExists(long organizationID);
+		PagedEnumerable<OrganizationLite> Get(OrganizationListParameters param);
 	}
 }

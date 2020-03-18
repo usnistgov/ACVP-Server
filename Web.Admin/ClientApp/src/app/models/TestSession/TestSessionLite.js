@@ -3,8 +3,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var TestSessionLite = /** @class */ (function () {
     function TestSessionLite() {
     }
-    TestSessionLite.prototype.TestSessionLite = function (id, created, status) {
-        this.id = id;
+    TestSessionLite.prototype.TestSessionLite = function (testSessionId, created, status) {
+        this.testSessionId = testSessionId;
         this.created = created;
         this.status = status;
     };

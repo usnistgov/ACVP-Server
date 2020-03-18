@@ -43,19 +43,19 @@ namespace NIST.CVP.TaskQueueProcessor.Services
                 generationTask.InternalProjection = response.InternalProjection;
                 generationTask.ExpectedResults = response.ResultProjection;
 
-                SetStatus(generationTask.VsId, StatusType.PROCESSED, "");
                 _jsonProvider.PutJson(generationTask.VsId, JsonFileTypes.PROMPT, generationTask.Prompt);
                 _jsonProvider.PutJson(generationTask.VsId, JsonFileTypes.INTERNAL_PROJECTION, generationTask.InternalProjection);
                 _jsonProvider.PutJson(generationTask.VsId, JsonFileTypes.EXPECTED_RESULTS, generationTask.ExpectedResults);
+                SetStatus(generationTask.VsId, StatusType.PROCESSED, "");
             }
             else
             {
                 Log.Error($"Error on vsId: {generationTask.VsId}");
                 generationTask.Error = response.ErrorMessage;
 
-                _testSessionService.UpdateStatusFromVectorSetsWithVectorSetID(generationTask.VsId);
-                SetStatus(generationTask.VsId, StatusType.ERROR, "");
                 _jsonProvider.PutJson(generationTask.VsId, JsonFileTypes.ERROR, generationTask.Error);
+                SetStatus(generationTask.VsId, StatusType.ERROR, "");
+                _testSessionService.UpdateStatusFromVectorSetsWithVectorSetID(generationTask.VsId);
             }
 
             return Task.FromResult(response);
@@ -73,27 +73,27 @@ namespace NIST.CVP.TaskQueueProcessor.Services
                 Log.Information($"Success on vsId: {validationTask.VsId}");
                 validationTask.Validation = response.ValidationResult;
                 
-                _testSessionService.UpdateStatusFromVectorSetsWithVectorSetID(validationTask.VsId);
-                SetStatus(validationTask.VsId, StatusType.PASSED, "");
                 _jsonProvider.PutJson(validationTask.VsId, JsonFileTypes.VALIDATION, validationTask.Validation);
+                SetStatus(validationTask.VsId, StatusType.PASSED, "");
+                _testSessionService.UpdateStatusFromVectorSetsWithVectorSetID(validationTask.VsId);
             }
             else if (response.StatusCode == StatusCode.ValidatorFail)
             {
                 Log.Information($"Incorrect response on vsId: {validationTask.VsId}");
                 validationTask.Validation = response.ValidationResult;
                 
-                _testSessionService.UpdateStatusFromVectorSetsWithVectorSetID(validationTask.VsId);
-                SetStatus(validationTask.VsId, StatusType.FAILED, "");
                 _jsonProvider.PutJson(validationTask.VsId, JsonFileTypes.VALIDATION, validationTask.Validation);
+                SetStatus(validationTask.VsId, StatusType.FAILED, "");
+                _testSessionService.UpdateStatusFromVectorSetsWithVectorSetID(validationTask.VsId);
             }
             else
             {
                 Log.Error($"Error on vsId: {validationTask.VsId}");
                 validationTask.Error = response.ErrorMessage;
                 
-                _testSessionService.UpdateStatusFromVectorSetsWithVectorSetID(validationTask.VsId);
-                SetStatus(validationTask.VsId, StatusType.ERROR, "");
                 _jsonProvider.PutJson(validationTask.VsId, JsonFileTypes.ERROR, validationTask.Error);
+                SetStatus(validationTask.VsId, StatusType.ERROR, "");
+                _testSessionService.UpdateStatusFromVectorSetsWithVectorSetID(validationTask.VsId);
             }
 
             return Task.FromResult(response);

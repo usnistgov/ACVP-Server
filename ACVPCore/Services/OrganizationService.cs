@@ -50,6 +50,11 @@ namespace ACVPCore.Services
 
 		}
 
+		public PagedEnumerable<OrganizationLite> Get(OrganizationListParameters param)
+		{
+			return _organizationProvider.Get(param);
+		}
+
 		public OrganizationResult Create(OrganizationCreateParameters parameters)
 		{
 			//Insert the organization record

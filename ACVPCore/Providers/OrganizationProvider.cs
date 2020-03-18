@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using ACVPCore.ExtensionMethods;
 using ACVPCore.Models;
+using ACVPCore.Models.Parameters;
 using ACVPCore.Results;
 using CVP.DatabaseInterface;
 using Microsoft.Extensions.Logging;
@@ -85,6 +87,37 @@ namespace ACVPCore.Providers
 				return new InsertResult(ex.Message);
 			}
 		}
+
+		public PagedEnumerable<OrganizationLite> Get(OrganizationListParameters param)
+		{
+			var result = new List<OrganizationLite>();
+			long totalRecords = 0;
+			var db = new MightyOrm<OrganizationLite>(_acvpConnectionString);
+
+			try
+			{
+				var dbResult = db.QueryWithExpando("val.OrganizationsGet", inParams: new
+				{
+					PageSize = param.PageSize,
+					PageNumber = param.Page,
+					Id = param.Id,
+					Name = param.Name
+				}, new
+				{
+					totalRecords = (long)0
+				});
+
+				result = dbResult.Data;
+				totalRecords = dbResult.ResultsExpando.totalRecords;
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex.Message);
+			}
+
+			return result.WrapPagedEnumerable(param.PageSize, param.Page, totalRecords);
+		}
+
 
 		public Result InsertEmailAddress(long organizationID, string emailAddress, int orderIndex)
 		{
