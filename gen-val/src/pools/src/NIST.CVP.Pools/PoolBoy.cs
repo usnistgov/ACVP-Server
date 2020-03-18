@@ -64,7 +64,7 @@ namespace NIST.CVP.Pools
                 Type = type
             };
 
-            ThisLogger.Info($"Attempting to grab pool value for {JsonConvert.SerializeObject(paramHolder)}");
+            ThisLogger.Debug($"Attempting to grab pool value for {JsonConvert.SerializeObject(paramHolder)}");
             var paramHolderJson = JsonConvert.SerializeObject(
                 paramHolder,
                 new JsonSerializerSettings()
