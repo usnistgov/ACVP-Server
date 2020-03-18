@@ -44,6 +44,7 @@ const loadTestStartTime = moment();
  */
 function filterRegistrations(element) {
     const registrationsToFilter = [
+        ".DS_Store",
         "DSA-PQGGen-canonical.json", 
         "DSA-PQGGen-unverified.json", 
         "DSA-PQGVer-canonical.json", 
