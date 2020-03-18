@@ -89,6 +89,7 @@ namespace NIST.CVP.TaskQueueProcessor
             if (executableTask is ExecutableTask completedTask)
             {
                 _tasks.Remove(completedTask.DbId);
+                _cleaningService.DeleteCompletedTask(completedTask.DbId);
             }
         }
 
