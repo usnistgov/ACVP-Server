@@ -134,7 +134,7 @@ namespace LCAVPCore
 								}
 
 								//Handle Module changes
-								if (changeFile.IncludesModuleChange || changeFile.IncludesContact1Add || changeFile.IncludesContact2Add)	// || changeFile.IncludesAddressChange)
+								if (changeFile.IncludesModuleChange || changeFile.IncludesContact1Add || changeFile.IncludesContact2Add)    // || changeFile.IncludesAddressChange)
 								{
 									(Module module, string errorMessage) = BuildModuleUpdate(changeFile);
 
@@ -294,13 +294,13 @@ namespace LCAVPCore
 			{
 				Address address = new Address() { ID = addressID, VendorID = vendorID };
 
-				if (changeFile.UpdatedFields.ContainsKey("Address1")) address.Street1 = CleanValue(changeFile.UpdatedFields.GetValue("Address1").UpdatedValue);
-				if (changeFile.UpdatedFields.ContainsKey("Address2")) address.Street2 = CleanValue(changeFile.UpdatedFields.GetValue("Address2").UpdatedValue);
-				if (changeFile.UpdatedFields.ContainsKey("Address3")) address.Street3 = CleanValue(changeFile.UpdatedFields.GetValue("Address3").UpdatedValue);
-				if (changeFile.UpdatedFields.ContainsKey("City")) address.Locality = changeFile.UpdatedFields.GetValue("City").UpdatedValue;
-				if (changeFile.UpdatedFields.ContainsKey("State")) address.Region = changeFile.UpdatedFields.GetValue("State").UpdatedValue;
-				if (changeFile.UpdatedFields.ContainsKey("Zip")) address.PostalCode = changeFile.UpdatedFields.GetValue("Zip").UpdatedValue;
-				if (changeFile.UpdatedFields.ContainsKey("Country")) address.Country = changeFile.UpdatedFields.GetValue("Country").UpdatedValue;
+				if (changeFile.UpdatedFields.ContainsKey("Address1")) { address.Street1 = CleanValue(changeFile.UpdatedFields.GetValue("Address1").UpdatedValue); address.Street1Updated = true; }
+				if (changeFile.UpdatedFields.ContainsKey("Address2")) { address.Street2 = CleanValue(changeFile.UpdatedFields.GetValue("Address2").UpdatedValue); address.Street2Updated = true; }
+				if (changeFile.UpdatedFields.ContainsKey("Address3")) { address.Street3 = CleanValue(changeFile.UpdatedFields.GetValue("Address3").UpdatedValue); address.Street3Updated = true; }
+				if (changeFile.UpdatedFields.ContainsKey("City")) { address.Locality = changeFile.UpdatedFields.GetValue("City").UpdatedValue; address.LocalityUpdated = true; }
+				if (changeFile.UpdatedFields.ContainsKey("State")) { address.Region = changeFile.UpdatedFields.GetValue("State").UpdatedValue; address.RegionUpdated = true; }
+				if (changeFile.UpdatedFields.ContainsKey("Zip")) { address.PostalCode = changeFile.UpdatedFields.GetValue("Zip").UpdatedValue; address.PostalCodeUpdated = true; }
+				if (changeFile.UpdatedFields.ContainsKey("Country")) { address.Country = changeFile.UpdatedFields.GetValue("Country").UpdatedValue; address.CountryUpdated = true; }
 
 				return (address, null);
 			}
@@ -366,7 +366,7 @@ namespace LCAVPCore
 					}
 
 					//Now do any additions - this means the current value in the change file is blank
-					if (changeFile.UpdatedFields.ContainsKey($"PhoneNo{contactNumberSuffix}") && string.IsNullOrEmpty(changeFile.UpdatedFields[$"PhoneNo{contactNumberSuffix}"].CurrentValue ))
+					if (changeFile.UpdatedFields.ContainsKey($"PhoneNo{contactNumberSuffix}") && string.IsNullOrEmpty(changeFile.UpdatedFields[$"PhoneNo{contactNumberSuffix}"].CurrentValue))
 					{
 						phoneNumbers.Add((999, changeFile.UpdatedFields[$"PhoneNo{contactNumberSuffix}"].UpdatedValue, "voice"));
 					}
