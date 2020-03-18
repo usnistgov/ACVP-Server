@@ -97,13 +97,7 @@
                       <p *ngIf="vectorSet.jsonFilesAvailable.length == 0">No Files Available</p>
                       <p *ngIf="vectorSet.jsonFilesAvailable.length > 0">Available Files:</p>
                       <ul>
-                        <li *ngIf="vectorSet.jsonFilesAvailable.includes('Results')"><a [attr.href]="'/api/testSessions/vectorSet/' + vectorSet.id + '/json/results'">Validation Results</a></li>
-                        <li *ngIf="vectorSet.jsonFilesAvailable.includes('Capabilites')"><a [attr.href]="'/api/testSessions/vectorSet/' + vectorSet.id + '/json/capabilities'">Capabilities</a></li>
-                        <li *ngIf="vectorSet.jsonFilesAvailable.includes('InternalProjection')"><a [attr.href]="'/api/testSessions/vectorSet/' + vectorSet.id + '/json/internalProjection'">Internal Projection</a></li>
-                        <li *ngIf="vectorSet.jsonFilesAvailable.includes('Prompt')"><a [attr.href]="'/api/testSessions/vectorSet/' + vectorSet.id + '/json/prompt'">Prompt</a></li>
-                        <li *ngIf="vectorSet.jsonFilesAvailable.includes('Answers')"><a [attr.href]="'/api/testSessions/vectorSet/' + vectorSet.id + '/json/answers'">Answers</a></li>
-                        <li *ngIf="vectorSet.jsonFilesAvailable.includes('Submitted')"><a [attr.href]="'/api/testSessions/vectorSet/' + vectorSet.id + '/json/submitted'">Submitted</a></li>
-                        <li *ngIf="vectorSet.jsonFilesAvailable.includes('Error')"><a [attr.href]="'/api/testSessions/vectorSet/' + vectorSet.id + '/json/error'">Error</a></li>
+                        <li *ngFor="let fileName of vectorSet.jsonFilesAvailable"><a [attr.href]="'/api/testSessions/vectorSet/' + vectorSet.id + '/json/' + fileName">{{fileName}}</a></li>
                       </ul>
                     </td>
 
