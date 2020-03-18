@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using ACVPCore.Models;
 using ACVPCore.Models.Parameters;
@@ -21,13 +22,11 @@ namespace ACVPCore.Services
 			//Cancel all the vector sets on the test session
 			Result result = _testSessionProvider.CancelVectorSets(testSessionID);
 
-			if (!result.IsSuccess)
+			if (result.IsSuccess)
 			{
-				return result;
+				//Cancel the test session
+				result = UpdateStatus(testSessionID, TestSessionStatus.Cancelled);
 			}
-
-			//Cancel the test session
-			result = _testSessionProvider.Cancel(testSessionID);
 
 			return result;
 		}
@@ -52,7 +51,38 @@ namespace ACVPCore.Services
 
 		public TestSessionStatus GetStatus(long testSessionID) => _testSessionProvider.GetStatus(testSessionID);
 
-		public Result UpdateStatus(long testSessionID, TestSessionStatus testSessionStatus) => _testSessionProvider.UpdateStatus(testSessionID, testSessionStatus);
+		public Result UpdateStatus(long testSessionID, TestSessionStatus testSessionStatus)
+		{
+			//During the public rewrite we can simplify to this
+			// => _testSessionProvider.UpdateStatus(testSessionID, testSessionStatus);
+
+			//But until then need to do some special things in some cases to make Java happy
+			switch (testSessionStatus)
+			{
+				case TestSessionStatus.Passed:
+					//Set disposition = true, passed_data = now
+					_testSessionProvider.UpdateStatusFieldsForJava(testSessionID, DateTime.Now, true, null, null);
+					break;
+
+				case TestSessionStatus.Failed:
+					//Set disposition = false
+					_testSessionProvider.UpdateStatusFieldsForJava(testSessionID, null, false, null, null);
+					break;
+
+				case TestSessionStatus.Cancelled:
+					//Set disposition = false, publishable = false
+					_testSessionProvider.UpdateStatusFieldsForJava(testSessionID, null, false, false, null);
+					break;
+
+				case TestSessionStatus.SubmittedForApproval:
+					//Set published = true. Yes, that is dumb
+					_testSessionProvider.UpdateStatusFieldsForJava(testSessionID, null, null, null, true);
+					break;
+			}
+			
+			//Finally do the basic update
+			return _testSessionProvider.UpdateStatus(testSessionID, testSessionStatus);
+		}
 
 		public Result UpdateStatusFromVectorSets(long testSessionID)
 		{

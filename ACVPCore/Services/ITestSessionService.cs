@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using ACVPCore.Models;
+﻿using ACVPCore.Models;
 using ACVPCore.Models.Parameters;
 using ACVPCore.Results;
 
