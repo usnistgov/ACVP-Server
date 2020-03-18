@@ -10,7 +10,7 @@ namespace Web.Admin.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
-	public class PersonsController : ControllerBase
+	public class PersonsController : BaseAuthorizedController
 	{
 		private readonly IPersonService _personService;
 

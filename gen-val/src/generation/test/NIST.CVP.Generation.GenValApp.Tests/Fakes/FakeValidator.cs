@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using NIST.CVP.Common.Enums;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.GenValApp.Tests.Fakes
@@ -9,7 +10,7 @@ namespace NIST.CVP.Generation.GenValApp.Tests.Fakes
     {
         public ValidateResponse Validate(ValidateRequest validateRequest)
         {
-            return new ValidateResponse(string.Empty);
+            return new ValidateResponse(string.Empty, StatusCode.Success);
         }
     }
 }

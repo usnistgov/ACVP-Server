@@ -4,14 +4,16 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using ACVPCore.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.WsFederation;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Web.Admin.Auth
 {
     public class PrincipalValidator
     {
-        public static async Task ValidateAsync(CookieValidatePrincipalContext context)
+        public static async Task ValidateAsync(SecurityTokenValidatedContext context)
         {
             var logger = context.HttpContext.RequestServices.GetRequiredService<ILogger<PrincipalValidator>>();
 
@@ -25,8 +27,9 @@ namespace Web.Admin.Auth
             var email = context.Principal.Claims.FirstOrDefault(f => f.Type == ClaimTypes.Email)?.Value;
             if (string.IsNullOrEmpty(email))
             {
-                logger.LogWarning($"no claims found for {nameof(ClaimTypes.Email)}");
-                context.RejectPrincipal();
+                var noEmailClaims = $"No claims found for {nameof(ClaimTypes.Email)}."; 
+                logger.LogWarning(noEmailClaims);
+                context.Fail(noEmailClaims);
                 return;
             }
                 
@@ -35,8 +38,9 @@ namespace Web.Admin.Auth
             var isValid = await adminUserService.IsUserAuthorized(email);
             if (!isValid)
             {
-                logger.LogWarning($"{email} is not authorized.");
-                context.RejectPrincipal();
+                var unauthorizedUserMessage = $"{email} is not authorized."; 
+                logger.LogWarning(unauthorizedUserMessage);
+                context.Fail(unauthorizedUserMessage);
             }
         }
     }

@@ -9,7 +9,7 @@ namespace Web.Admin.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
-	public class DependenciesController : ControllerBase
+	public class DependenciesController : BaseAuthorizedController
 	{
 		private readonly IDependencyService _dependencyService;
 

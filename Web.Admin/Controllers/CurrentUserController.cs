@@ -6,7 +6,7 @@ namespace Web.Admin.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class CurrentUserController
+    public class CurrentUserController : BaseAuthorizedController
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
 
