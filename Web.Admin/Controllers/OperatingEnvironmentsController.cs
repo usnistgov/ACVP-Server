@@ -9,7 +9,7 @@ namespace Web.Admin.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
-	public class OperatingEnvironmentsController : ControllerBase
+	public class OperatingEnvironmentsController : BaseAuthorizedController
 	{
 		private readonly IOEService _oeService;
 

@@ -9,7 +9,7 @@ namespace Web.Admin.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class UsersController : ControllerBase
+    public class UsersController : BaseAuthorizedController
     {
         private readonly IAcvpUserService _adminUserService;
 

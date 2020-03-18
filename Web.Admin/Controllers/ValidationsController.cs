@@ -8,7 +8,7 @@ namespace Web.Admin.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class ValidationsController : ControllerBase
+    public class ValidationsController : BaseAuthorizedController
     {
         private readonly IValidationService _validationService;
 
