@@ -32,28 +32,31 @@ namespace NIST.CVP.Generation
 
         public GenerateResponse Generate(GenerateRequest request, int vsId)
         {
-            var algoMode = DetermineAlgoModeFromRegistration(request);
-            using var container = GetContainer(algoMode).BeginLifetimeScope();
-            var generator = container.Resolve<IGenerator>();
-            
             using (LogContext.PushProperty("VsID", vsId))
             using (LogContext.PushProperty("Application", "Generator"))
             {
+                var algoMode = DetermineAlgoModeFromRegistration(request);
+
                 Log.Information($"Running Generation for algo: {EnumHelpers.GetEnumDescriptionFromEnum(algoMode)}");
+
+                using var container = GetContainer(algoMode).BeginLifetimeScope();
+                var generator = container.Resolve<IGenerator>();
                 return generator.Generate(request);   
             }
         }
         
         public ValidateResponse Validate(ValidateRequest request, int vsId)
         {
-            var algoMode = DetermineAlgoModeFromValidationRequest(request);
-            using var container = GetContainer(algoMode).BeginLifetimeScope();
-            var validator = container.Resolve<IValidator>();
-            
+
             using (LogContext.PushProperty("VsID", vsId))
             using (LogContext.PushProperty("Application", "Validator"))
             {
+                var algoMode = DetermineAlgoModeFromValidationRequest(request);
+
                 Log.Information($"Running Validation for algo: {EnumHelpers.GetEnumDescriptionFromEnum(algoMode)}");
+                
+                using var container = GetContainer(algoMode).BeginLifetimeScope();
+                var validator = container.Resolve<IValidator>();
                 return validator.Validate(request);
             }
         }

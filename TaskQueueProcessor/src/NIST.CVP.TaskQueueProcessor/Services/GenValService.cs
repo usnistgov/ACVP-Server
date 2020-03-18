@@ -1,6 +1,4 @@
 using System;
-using System.Threading.Tasks;
-using ACVPCore.Providers;
 using ACVPCore.Services;
 using CVP.DatabaseInterface;
 using Mighty;
@@ -28,13 +26,13 @@ namespace NIST.CVP.TaskQueueProcessor.Services
             _connectionString = connectionStringFactory.GetMightyConnectionString("ACVP");
         }
         
-        public async Task<object> RunGenerator(GenerationTask generationTask)
+        public void RunGenerator(GenerationTask generationTask)
         {
             Log.Information($"Generation Task VsId: {generationTask.VsId}, IsSample: {generationTask.IsSample}");
             Log.Debug($"Capabilities: {generationTask.Capabilities}");
             
             var genRequest = new GenerateRequest(generationTask.Capabilities);
-            var response = await Task.Factory.StartNew(() => _genValInvoker.Generate(genRequest, generationTask.VsId));
+            var response = _genValInvoker.Generate(genRequest, generationTask.VsId);
 
             if (response.Success)
             {
@@ -57,16 +55,14 @@ namespace NIST.CVP.TaskQueueProcessor.Services
                 SetStatus(generationTask.VsId, StatusType.ERROR, "");
                 _testSessionService.UpdateStatusFromVectorSetsWithVectorSetID(generationTask.VsId);
             }
-
-            return Task.FromResult(response);
         }
 
-        public async Task<object> RunValidator(ValidationTask validationTask)
+        public void RunValidator(ValidationTask validationTask)
         {
             Log.Information($"Validation Task: {validationTask.VsId}");
             
             var valRequest = new ValidateRequest(validationTask.InternalProjection, validationTask.SubmittedResults, validationTask.Expected);
-            var response = await Task.Factory.StartNew(() => _genValInvoker.Validate(valRequest, validationTask.VsId));
+            var response = _genValInvoker.Validate(valRequest, validationTask.VsId);
             
             if (response.StatusCode == StatusCode.Success)
             {
@@ -95,8 +91,6 @@ namespace NIST.CVP.TaskQueueProcessor.Services
                 SetStatus(validationTask.VsId, StatusType.ERROR, "");
                 _testSessionService.UpdateStatusFromVectorSetsWithVectorSetID(validationTask.VsId);
             }
-
-            return Task.FromResult(response);
         }
 
         private void SetStatus(int vsId, StatusType status, string errorMessage)
