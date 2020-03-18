@@ -5,13 +5,13 @@ using Microsoft.Extensions.Options;
 using NIST.CVP.Common.Config;
 using NIST.CVP.TaskQueueProcessor.Constants;
 
-namespace NIST.CVP.TaskQueueProcessor.Providers
+namespace NIST.CVP.TaskQueueProcessor.Services
 {
-    public class PoolProvider : IPoolProvider
+    public class PoolService : IPoolService
     {
         private readonly IOptions<PoolConfig> _config;
 
-        public PoolProvider(IOptions<PoolConfig> config)
+        public PoolService(IOptions<PoolConfig> config)
         {
             _config = config;
         }
