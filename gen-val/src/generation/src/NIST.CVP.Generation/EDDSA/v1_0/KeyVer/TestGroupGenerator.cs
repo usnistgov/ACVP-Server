@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using NIST.CVP.Common.Helpers;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.Ed.Enums;
 using NIST.CVP.Generation.Core;
@@ -23,7 +25,7 @@ namespace NIST.CVP.Generation.EDDSA.v1_0.KeyVer
                 testGroups.Add(testGroup);
             }
 
-            return testGroups;
+            return Task.FromResult(testGroups.AsEnumerable());
         }
     }
 }

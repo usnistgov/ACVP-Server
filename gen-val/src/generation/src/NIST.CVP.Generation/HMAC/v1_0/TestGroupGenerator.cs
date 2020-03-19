@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
@@ -20,7 +21,7 @@ namespace NIST.CVP.Generation.HMAC.v1_0
         {
             var testGroups = new List<TestGroup>();
 
-            return CreateGroups(parameters, testGroups);
+            return Task.FromResult(CreateGroups(parameters, testGroups));
         }
 
         private IEnumerable<TestGroup> CreateGroups(Parameters parameters, List<TestGroup> testGroups)

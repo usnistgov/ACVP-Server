@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using NIST.CVP.Common.Helpers;
 using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.DispositionTypes;
@@ -60,7 +62,7 @@ namespace NIST.CVP.Generation.EDDSA.v1_0.SigVer
                 }
             }
 
-            return testGroups;
+            return Task.FromResult(testGroups.AsEnumerable());
         }
     }
 }

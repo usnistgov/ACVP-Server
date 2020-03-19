@@ -4,6 +4,8 @@ using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.ECDSA.v1_0.SigVer.TestCaseExpectations;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Generation.ECDSA.v1_0.SigVer
 {
@@ -46,7 +48,7 @@ namespace NIST.CVP.Generation.ECDSA.v1_0.SigVer
                 }
             }
 
-            return testGroups;
+            return Task.FromResult(testGroups.AsEnumerable());
         }
     }
 }
