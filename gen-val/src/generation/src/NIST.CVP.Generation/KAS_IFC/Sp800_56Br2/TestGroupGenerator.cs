@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using System.Threading.Tasks;
 using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
@@ -35,7 +36,7 @@ namespace NIST.CVP.Generation.KAS_IFC.Sp800_56Br2
 
             GenerateGroups(parameters.Scheme, parameters, groups);
 
-            return groups;
+            return Task.FromResult(groups.AsEnumerable());
         }
 
         private void GenerateGroups(Schemes parametersScheme, Parameters param, List<TestGroup> groups)

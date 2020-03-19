@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Common.Helpers;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC.Enums;
@@ -24,7 +25,7 @@ namespace NIST.CVP.Generation.KAS.v1_0.ECC
             var flagFunctions = SpecificationMapping.FunctionArrayToFlags(parameters.Function);
             GenerateGroups(parameters.Scheme, flagFunctions, groups);
 
-            return groups;
+            return Task.FromResult(groups.AsEnumerable());
         }
 
         private void GenerateGroups(Schemes parametersScheme, KasAssurance flagFunctions, List<TestGroup> groups)

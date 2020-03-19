@@ -29,14 +29,14 @@ namespace NIST.CVP.Generation.KAS.v1_0.FFC
             _oracle = oracle;
         }
 
-        public Task<IEnumerable<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
+        public async Task<IEnumerable<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             List<TestGroup> groups = new List<TestGroup>();
 
             var flagFunctions = SpecificationMapping.FunctionArrayToFlags(parameters.Function);
             GenerateGroups(parameters.Scheme, flagFunctions, groups);
 
-            GeneratePqgPerGroup(groups);
+            await GeneratePqgPerGroupAsync(groups);
             
             return groups;
         }
@@ -50,12 +50,6 @@ namespace NIST.CVP.Generation.KAS.v1_0.FFC
             CreateGroupsPerScheme(parametersScheme.FfcMqv1, flagFunctions, groups);
             CreateGroupsPerScheme(parametersScheme.FfcDhOneFlow, flagFunctions, groups);
             CreateGroupsPerScheme(parametersScheme.FfcDhStatic, flagFunctions, groups);
-        }
-
-        private void GeneratePqgPerGroup(List<TestGroup> groups)
-        {
-            var task = GeneratePqgPerGroupAsync(groups);
-            task.Wait();
         }
 
         private async Task GeneratePqgPerGroupAsync(List<TestGroup> groups)
