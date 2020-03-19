@@ -43,14 +43,28 @@ const loadTestStartTime = moment();
  * @param {string} element - the file name to potentially filter 
  */
 function filterRegistrations(element) {
+    
+    // Skips entire json files (or unwanted files in general)
     const registrationsToFilter = [
+        ".DS_Store",
         "DSA-PQGGen-canonical.json", 
         "DSA-PQGGen-unverified.json", 
         "DSA-PQGVer-canonical.json", 
         "DSA-PQGVer-unverified.json"
     ];
 
-    const shouldProcessRegistrationFile = !registrationsToFilter.includes(element);
+    // Skips any json file that contains the substring
+    const partialsToFilter = [
+        "KAS"
+    ]
+
+    let shouldProcessRegistrationFile = !registrationsToFilter.includes(element);
+
+    for (let i = 0; i < partialsToFilter.length; i++){
+        if (element.includes(partialsToFilter[i])){
+            shouldProcessRegistrationFile = false;
+        }
+    }
 
     if (shouldProcessRegistrationFile) {
         console.log(`including file: ${element}`);

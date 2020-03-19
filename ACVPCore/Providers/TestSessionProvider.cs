@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using ACVPCore.ExtensionMethods;
 using ACVPCore.Models;
 using ACVPCore.Models.Parameters;
@@ -20,23 +19,6 @@ namespace ACVPCore.Providers
 		{
 			_acvpConnectionString = connectionStringFactory.GetMightyConnectionString("ACVP");
 			_logger = logger;
-		}
-
-		public Result Cancel(long id)
-		{
-			var db = new MightyOrm(_acvpConnectionString);
-
-			try
-			{
-				db.Execute("acvp.TestSessionCancel @0", id);
-			}
-			catch (Exception ex)
-			{
-				_logger.LogError(ex.Message);
-				return new Result(ex.Message);
-			}
-
-			return new Result();
 		}
 
 		public Result CancelVectorSets(long id)
@@ -103,6 +85,30 @@ namespace ACVPCore.Providers
 				{
 					TestSessionId = testSessionID,
 					TestSessionStatusId = testSessionStatus
+				});
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex.Message);
+				return new Result(ex.Message);
+			}
+
+			return new Result();
+		}
+
+		public Result UpdateStatusFieldsForJava(long testSessionID, DateTime? passedDate, bool? disposition, bool? publishable, bool? published)
+		{
+			var db = new MightyOrm(_acvpConnectionString);
+
+			try
+			{
+				db.ExecuteProcedure("acvp.TestSessionStatusUpdateForJava", inParams: new
+				{
+					TestSessionId = testSessionID,
+					PassedDate = passedDate,
+					Disposition = disposition,
+					Publishable = publishable,
+					Published = published
 				});
 			}
 			catch (Exception ex)

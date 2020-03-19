@@ -8,7 +8,7 @@ namespace Web.Admin.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
-	public class AddressesController : ControllerBase
+	public class AddressesController : BaseAuthorizedController
 	{
 		private readonly IAddressService _addressService;
 

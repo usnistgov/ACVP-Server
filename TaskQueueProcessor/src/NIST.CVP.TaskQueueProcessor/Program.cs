@@ -62,7 +62,6 @@ namespace NIST.CVP.TaskQueueProcessor
                     services.InjectACVPCore();
                     
                     // Orleans
-                    services.AddSingleton(new LimitedConcurrencyLevelTaskScheduler(1));
                     services.AddTransient<IDbConnectionStringFactory, DbConnectionStringFactory>();
                     services.AddTransient<IDbConnectionFactory, SqlDbConnectionFactory>();
 

@@ -79,9 +79,16 @@ namespace NIST.CVP.TaskQueueProcessor
                 
                 await Task.Delay(_taskConfig.PollDelay * 1000, stoppingToken);
             }
-            
+        }
+
+        public override Task StopAsync(CancellationToken cancellationToken)
+        {
             // Stop commands
-            MarkTasksForRestart();
+            Log.Information("Stopping");
+            _cleaningService.MarkTasksForRestart();
+            Log.Information("Tasks saved");
+            
+            return base.StopAsync(cancellationToken);
         }
 
         private void OnGenValCompleted(Task thread, object executableTask)
@@ -89,19 +96,13 @@ namespace NIST.CVP.TaskQueueProcessor
             if (executableTask is ExecutableTask completedTask)
             {
                 _tasks.Remove(completedTask.DbId);
+                _cleaningService.DeleteCompletedTask(completedTask.DbId);
             }
         }
 
         private void OnPoolSpawnCompleted(Task task)
         {
             _poolTasks--;
-        }
-
-        private void MarkTasksForRestart()
-        {
-            Log.Information("Stopping");
-            _cleaningService.MarkTasksForRestart();
-            Log.Information("Tasks saved");
         }
     }
 }

@@ -311,7 +311,6 @@ namespace NIST.CVP.Generation.KAS.v1_0
         {
             if (string.IsNullOrEmpty(oiPattern))
             {
-                errorResults.Add($"{nameof(oiPattern)} was not provided.");
                 return;
             }
             
