@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace NIST.CVP.Generation.ECDSA.v1_0.SigVer
 {
-    public class TestGroupGenerator : ITestGroupGenerator<Parameters, TestGroup, TestCase>
+    public class TestGroupGenerator : ITestGroupGeneratorAsync<Parameters, TestGroup, TestCase>
     {
         private readonly bool _randomizeMessagePriorToSign;
 
@@ -16,7 +16,7 @@ namespace NIST.CVP.Generation.ECDSA.v1_0.SigVer
             _randomizeMessagePriorToSign = randomizeMessagePriorToSign;
         }
 
-        public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
+        public Task<IEnumerable<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             // Use a hash set because the registration allows for duplicate pairings to occur
             // Equality of groups is done via name of the curve and name of the hash function.

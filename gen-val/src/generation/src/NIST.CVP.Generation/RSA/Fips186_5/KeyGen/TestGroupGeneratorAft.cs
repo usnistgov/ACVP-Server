@@ -5,11 +5,11 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.RSA.Fips186_5.KeyGen
 {
-    public class TestGroupGeneratorAft : ITestGroupGenerator<Parameters, TestGroup, TestCase>
+    public class TestGroupGeneratorAft : ITestGroupGeneratorAsync<Parameters, TestGroup, TestCase>
     {
         private const string TEST_TYPE = "AFT";
 
-        public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
+        public Task<IEnumerable<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             var testGroups = new List<TestGroup>();
 

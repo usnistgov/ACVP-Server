@@ -9,7 +9,7 @@ using NIST.CVP.Generation.EDDSA.v1_0.SigVer.TestCaseExpectations;
 
 namespace NIST.CVP.Generation.EDDSA.v1_0.SigVer
 {
-    public class TestGroupGenerator : ITestGroupGenerator<Parameters, TestGroup, TestCase>
+    public class TestGroupGenerator : ITestGroupGeneratorAsync<Parameters, TestGroup, TestCase>
     {
         private readonly IOracle _oracle;
 
@@ -18,7 +18,7 @@ namespace NIST.CVP.Generation.EDDSA.v1_0.SigVer
             _oracle = oracle;
         }
 
-        public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
+        public Task<IEnumerable<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             // Use a hash set because the registration allows for duplicate pairings to occur
             // Equality of groups is done via name of the curve and name of the hash function.

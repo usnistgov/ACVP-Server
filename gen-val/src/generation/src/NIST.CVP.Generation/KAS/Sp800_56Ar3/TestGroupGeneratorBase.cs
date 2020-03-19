@@ -20,7 +20,7 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.KAS.Sp800_56Ar3
 {
-    public abstract class TestGroupGeneratorBase<TTestGroup, TTestCase, TDomainParameters, TKeyPair> : ITestGroupGenerator<Parameters, TTestGroup, TTestCase>
+    public abstract class TestGroupGeneratorBase<TTestGroup, TTestCase, TDomainParameters, TKeyPair> : ITestGroupGeneratorAsync<Parameters, TTestGroup, TTestCase>
         where TTestGroup : TestGroupBase<TTestGroup, TTestCase, TKeyPair>, new()
         where TTestCase : TestCaseBase<TTestGroup, TTestCase, TKeyPair>, new()
         where TDomainParameters : IDsaDomainParameters

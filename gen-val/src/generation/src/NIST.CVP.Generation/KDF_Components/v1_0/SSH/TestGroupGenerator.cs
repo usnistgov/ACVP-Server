@@ -6,9 +6,9 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.KDF_Components.v1_0.SSH
 {
-    public class TestGroupGenerator : ITestGroupGenerator<Parameters, TestGroup, TestCase>
+    public class TestGroupGenerator : ITestGroupGeneratorAsync<Parameters, TestGroup, TestCase>
     {
-        public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
+        public Task<IEnumerable<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             var list = new List<TestGroup>();
 

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace NIST.CVP.Generation.EDDSA.v1_0.SigGen
 {
-    public class TestGroupGenerator : ITestGroupGenerator<Parameters, TestGroup, TestCase>
+    public class TestGroupGenerator : ITestGroupGeneratorAsync<Parameters, TestGroup, TestCase>
     {
         private const string TEST_TYPE = "AFT";
 
@@ -20,7 +20,7 @@ namespace NIST.CVP.Generation.EDDSA.v1_0.SigGen
             _oracle = oracle;
         }
 
-        public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
+        public Task<IEnumerable<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             var groups = BuildTestGroupsAsync(parameters);
             groups.Wait();

@@ -4,11 +4,11 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.AES_CFB8.v1_0
 {
-    public class TestGroupGeneratorMonteCarlo : ITestGroupGenerator<Parameters, TestGroup, TestCase>
+    public class TestGroupGeneratorMonteCarlo : ITestGroupGeneratorAsync<Parameters, TestGroup, TestCase>
     {
         public const string _MCT_TEST_TYPE_LABEL = "MCT";
 
-        public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
+        public Task<IEnumerable<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             var testGroups = new List<TestGroup>();
             var algoMode = AlgoModeHelpers.GetAlgoModeFromAlgoAndMode(parameters.Algorithm, parameters.Mode, parameters.Revision);

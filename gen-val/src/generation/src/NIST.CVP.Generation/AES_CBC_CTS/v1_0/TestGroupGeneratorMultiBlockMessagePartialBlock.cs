@@ -1,14 +1,16 @@
 ﻿using NIST.CVP.Common.Helpers;
 using NIST.CVP.Generation.Core;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Generation.AES_CBC_CTS.v1_0
 {
-    public class TestGroupGeneratorMultiBlockMessagePartialBlock : ITestGroupGenerator<Parameters, TestGroup, TestCase>
+    public class TestGroupGeneratorMultiBlockMessagePartialBlock : ITestGroupGeneratorAsync<Parameters, TestGroup, TestCase>
     {
         public const string MMT_TYPE_LABEL = "AFT";
 
-        public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
+        public Task<IEnumerable<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             var testGroups = new List<TestGroup>();
 
@@ -29,7 +31,7 @@ namespace NIST.CVP.Generation.AES_CBC_CTS.v1_0
                     testGroups.Add(testGroup);
                 }
             }
-            return testGroups;
+            return Task.FromResult(testGroups.AsEnumerable());
         }
     }
 }

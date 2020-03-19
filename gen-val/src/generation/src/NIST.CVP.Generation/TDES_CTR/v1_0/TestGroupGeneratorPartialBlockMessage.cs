@@ -3,12 +3,12 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.TDES_CTR.v1_0
 {
-    public class TestGroupGeneratorPartialBlockMessage : ITestGroupGenerator<Parameters, TestGroup, TestCase>
+    public class TestGroupGeneratorPartialBlockMessage : ITestGroupGeneratorAsync<Parameters, TestGroup, TestCase>
     {
         private const string TEST_TYPE = "AFT";
         private const string INTERNAL_TEST_TYPE = "partialblock";
 
-        public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
+        public Task<IEnumerable<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             var testGroups = new List<TestGroup>();
 

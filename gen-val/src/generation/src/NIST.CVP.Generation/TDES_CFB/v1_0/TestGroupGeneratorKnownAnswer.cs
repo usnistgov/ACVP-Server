@@ -5,11 +5,11 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.TDES_CFB.v1_0
 {
-    public class TestGroupGeneratorKnownAnswer : ITestGroupGenerator<Parameters, TestGroup, TestCase>
+    public class TestGroupGeneratorKnownAnswer : ITestGroupGeneratorAsync<Parameters, TestGroup, TestCase>
     {
         private readonly string[] _katTests = KatData.GetLabels();
 
-        public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
+        public Task<IEnumerable<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             var algoMode = AlgoModeHelpers.GetAlgoModeFromAlgoAndMode(parameters.Algorithm, parameters.Mode, parameters.Revision);
             var testGroups = new List<TestGroup>();

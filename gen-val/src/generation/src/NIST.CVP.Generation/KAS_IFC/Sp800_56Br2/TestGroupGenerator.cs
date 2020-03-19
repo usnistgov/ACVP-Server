@@ -20,7 +20,7 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.KAS_IFC.Sp800_56Br2
 {
-    public class TestGroupGenerator : ITestGroupGenerator<Parameters, TestGroup, TestCase>
+    public class TestGroupGenerator : ITestGroupGeneratorAsync<Parameters, TestGroup, TestCase>
     {
         private static readonly string[] TestTypes =
         {
@@ -29,7 +29,7 @@ namespace NIST.CVP.Generation.KAS_IFC.Sp800_56Br2
         };
         private static readonly BigInteger DefaultExponent = BigInteger.Zero; // new BigInteger(65537);
 
-        public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
+        public Task<IEnumerable<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             List<TestGroup> groups = new List<TestGroup>();
 

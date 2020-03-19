@@ -4,7 +4,7 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.AES_CFB8.v1_0
 {
-    public class TestGroupGeneratorKnownAnswerTests : ITestGroupGenerator<Parameters, TestGroup, TestCase>
+    public class TestGroupGeneratorKnownAnswerTests : ITestGroupGeneratorAsync<Parameters, TestGroup, TestCase>
     {
         private readonly string[] _katTests = new string[]
         {
@@ -14,7 +14,7 @@ namespace NIST.CVP.Generation.AES_CFB8.v1_0
             "VarKey"
         };
 
-        public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
+        public Task<IEnumerable<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             var testGroups = new List<TestGroup>();
             var algoMode = AlgoModeHelpers.GetAlgoModeFromAlgoAndMode(parameters.Algorithm, parameters.Mode, parameters.Revision);

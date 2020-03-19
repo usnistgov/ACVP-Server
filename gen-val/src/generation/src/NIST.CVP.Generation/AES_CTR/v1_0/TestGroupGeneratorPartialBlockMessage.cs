@@ -3,11 +3,11 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.AES_CTR.v1_0
 {
-    public class TestGroupGeneratorPartialBlockMessage : ITestGroupGenerator<Parameters, TestGroup, TestCase>
+    public class TestGroupGeneratorPartialBlockMessage : ITestGroupGeneratorAsync<Parameters, TestGroup, TestCase>
     {
         public const string LABEL = "partialblock";
 
-        public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
+        public Task<IEnumerable<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             var testGroups = new List<TestGroup>();
 

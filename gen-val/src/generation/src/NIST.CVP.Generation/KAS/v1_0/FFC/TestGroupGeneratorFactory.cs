@@ -13,10 +13,10 @@ namespace NIST.CVP.Generation.KAS.v1_0.FFC
             _oracle = oracle;
         }
 
-        public IEnumerable<ITestGroupGenerator<Parameters, TestGroup, TestCase>> GetTestGroupGenerators(Parameters parameters)
+        public IEnumerable<ITestGroupGeneratorAsync<Parameters, TestGroup, TestCase>> GetTestGroupGenerators(Parameters parameters)
         {
             var list =
-                new HashSet<ITestGroupGenerator<Parameters, TestGroup, TestCase>>()
+                new HashSet<ITestGroupGeneratorAsync<Parameters, TestGroup, TestCase>>()
                 {
                     new TestGroupGenerator(_oracle),
                 };

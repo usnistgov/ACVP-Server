@@ -4,11 +4,11 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.SHA2.v1_0
 {
-    public class TestGroupGeneratorAlgorithmFunctionalTest : ITestGroupGenerator<Parameters, TestGroup, TestCase>
+    public class TestGroupGeneratorAlgorithmFunctionalTest : ITestGroupGeneratorAsync<Parameters, TestGroup, TestCase>
     {
         public const string TEST_TYPE = "AFT";
 
-        public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
+        public Task<IEnumerable<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             var testGroups = new List<TestGroup>();
             foreach (var digestSize in parameters.DigestSizes)

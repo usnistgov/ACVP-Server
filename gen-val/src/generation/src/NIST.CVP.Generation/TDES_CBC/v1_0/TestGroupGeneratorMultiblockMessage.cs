@@ -3,11 +3,11 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.TDES_CBC.v1_0
 {
-    public class TestGroupGeneratorMultiblockMessage : ITestGroupGenerator<Parameters, TestGroup, TestCase>
+    public class TestGroupGeneratorMultiblockMessage : ITestGroupGeneratorAsync<Parameters, TestGroup, TestCase>
     {
         private const string TEST_TYPE = "MultiBlockMessage";
 
-        public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
+        public Task<IEnumerable<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             var testGroups = new List<TestGroup>();
             foreach (var function in parameters.Direction)

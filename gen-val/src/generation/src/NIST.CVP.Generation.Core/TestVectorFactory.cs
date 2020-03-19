@@ -1,10 +1,11 @@
 ﻿using NIST.CVP.Common.ExtensionMethods;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Generation.Core
 {
-    public class TestVectorFactory<TParameters, TTestVectorSet, TTestGroup, TTestCase> : ITestVectorFactory<TParameters, TTestVectorSet, TTestGroup, TTestCase>
+    public class TestVectorFactory<TParameters, TTestVectorSet, TTestGroup, TTestCase> : ITestVectorFactoryAsync<TParameters, TTestVectorSet, TTestGroup, TTestCase>
         where TParameters : IParameters
         where TTestVectorSet : class, ITestVectorSet<TTestGroup, TTestCase>, new()
         where TTestGroup : class, ITestGroup<TTestGroup, TTestCase>
@@ -17,14 +18,14 @@ namespace NIST.CVP.Generation.Core
             _iTestGroupGeneratorFactory = iTestGroupGeneratorFactory;
         }
 
-        public TTestVectorSet BuildTestVectorSet(TParameters parameters)
+        public async Task<TTestVectorSet> BuildTestVectorSetAsync(TParameters parameters)
         {
             List<TTestGroup> groups = new List<TTestGroup>();
 
             var groupGenerators = _iTestGroupGeneratorFactory.GetTestGroupGenerators(parameters).ToList();
             foreach (var groupGenerator in groupGenerators)
             {
-                groups.AddRangeIfNotNullOrEmpty(groupGenerator.BuildTestGroups(parameters));
+                groups.AddRangeIfNotNullOrEmpty(await groupGenerator.BuildTestGroupsAsync(parameters));
             }
 
             int testGroupId = 1;

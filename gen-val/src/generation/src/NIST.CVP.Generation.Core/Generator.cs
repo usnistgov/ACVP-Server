@@ -17,7 +17,7 @@ namespace NIST.CVP.Generation.Core
         where TTestGroup : ITestGroup<TTestGroup, TTestCase>
         where TTestCase : ITestCase<TTestGroup, TTestCase>
     {
-        private readonly ITestVectorFactory<TParameters, TTestVectorSet, TTestGroup, TTestCase> _testVectorFactory;
+        private readonly ITestVectorFactoryAsync<TParameters, TTestVectorSet, TTestGroup, TTestCase> _testVectorFactory;
         private readonly IParameterParser<TParameters> _parameterParser;
         private readonly IParameterValidator<TParameters> _parameterValidator;
         private readonly ITestCaseGeneratorFactoryFactory<TTestVectorSet, TTestGroup, TTestCase> _testCaseGeneratorFactoryFactory;
@@ -32,7 +32,7 @@ namespace NIST.CVP.Generation.Core
         };
 
         public Generator(
-            ITestVectorFactory<TParameters, TTestVectorSet, TTestGroup, TTestCase> testVectorFactory, 
+            ITestVectorFactoryAsync<TParameters, TTestVectorSet, TTestGroup, TTestCase> testVectorFactory, 
             IParameterParser<TParameters> parameterParser, 
             IParameterValidator<TParameters> parameterValidator, 
             ITestCaseGeneratorFactoryFactory<TTestVectorSet, TTestGroup, TTestCase> iTestCaseGeneratorFactoryFactory,
@@ -61,7 +61,7 @@ namespace NIST.CVP.Generation.Core
                 {
                     return new GenerateResponse(validateResponse.ErrorMessage, StatusCode.ParameterValidationError);
                 }
-                var testVector = _testVectorFactory.BuildTestVectorSet(parameters);
+                var testVector = await _testVectorFactory.BuildTestVectorSetAsync(parameters);
                 var testCasesResult = await _testCaseGeneratorFactoryFactory.BuildTestCasesAsync(testVector);
                 if (!testCasesResult.Success)
                 {

@@ -10,7 +10,7 @@ using NLog;
 
 namespace NIST.CVP.Generation.RSA.Fips186_5.SigGen
 {
-    public class TestGroupGenerator : ITestGroupGenerator<Parameters, TestGroup, TestCase>
+    public class TestGroupGenerator : ITestGroupGeneratorAsync<Parameters, TestGroup, TestCase>
     {
         private readonly IOracle _oracle;
         private readonly bool _randomizeMessagePriorToSign;
@@ -23,7 +23,7 @@ namespace NIST.CVP.Generation.RSA.Fips186_5.SigGen
 
         public const string TEST_TYPE = "GDT";
 
-        public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
+        public Task<IEnumerable<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             if (parameters.IsSample)
             {

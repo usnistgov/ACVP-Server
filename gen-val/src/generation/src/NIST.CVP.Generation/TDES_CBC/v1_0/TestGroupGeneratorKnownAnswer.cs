@@ -3,7 +3,7 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.TDES_CBC.v1_0
 {
-    public class TestGroupGeneratorKnownAnswer : ITestGroupGenerator<Parameters, TestGroup, TestCase>
+    public class TestGroupGeneratorKnownAnswer : ITestGroupGeneratorAsync<Parameters, TestGroup, TestCase>
     {
         private readonly string[] _katTests = new string[]
         {
@@ -14,7 +14,7 @@ namespace NIST.CVP.Generation.TDES_CBC.v1_0
             "VariableText"
         };
 
-        public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
+        public Task<IEnumerable<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             var testGroups = new List<TestGroup>();
             foreach (var function in parameters.Direction)

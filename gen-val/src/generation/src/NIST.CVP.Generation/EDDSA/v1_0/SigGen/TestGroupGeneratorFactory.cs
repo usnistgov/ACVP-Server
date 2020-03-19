@@ -13,9 +13,9 @@ namespace NIST.CVP.Generation.EDDSA.v1_0.SigGen
             _oracle = oracle;
         }
 
-        public IEnumerable<ITestGroupGenerator<Parameters, TestGroup, TestCase>> GetTestGroupGenerators(Parameters parameters)
+        public IEnumerable<ITestGroupGeneratorAsync<Parameters, TestGroup, TestCase>> GetTestGroupGenerators(Parameters parameters)
         {
-            var list = new HashSet<ITestGroupGenerator<Parameters, TestGroup, TestCase>>
+            var list = new HashSet<ITestGroupGeneratorAsync<Parameters, TestGroup, TestCase>>
             {
                 new TestGroupGenerator(_oracle),
                 new TestGroupGeneratorBitFlip(_oracle)

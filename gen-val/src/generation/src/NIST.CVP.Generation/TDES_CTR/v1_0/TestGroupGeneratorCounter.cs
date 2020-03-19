@@ -3,11 +3,11 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.TDES_CTR.v1_0
 {
-    public class TestGroupGeneratorCounter : ITestGroupGenerator<Parameters, TestGroup, TestCase>
+    public class TestGroupGeneratorCounter : ITestGroupGeneratorAsync<Parameters, TestGroup, TestCase>
     {
         public const string TEST_TYPE = "CTR";
 
-        public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
+        public Task<IEnumerable<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             var testGroups = new List<TestGroup>();
 

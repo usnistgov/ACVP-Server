@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.AES_CCM.v1_0
 {
-    public class TestGroupGeneratorEcma : ITestGroupGenerator<Parameters, TestGroup, TestCase>
+    public class TestGroupGeneratorEcma : ITestGroupGeneratorAsync<Parameters, TestGroup, TestCase>
     {
         private const int NONCE_LEN = 13 * 8;
         private const int TAG_LEN = 8 * 8;
@@ -15,7 +16,7 @@ namespace NIST.CVP.Generation.AES_CCM.v1_0
         private const int AAD_MAX_LEN = 32 * 8;
         private readonly string[] DIRECTIONS = {"encrypt", "decrypt"};
 
-        public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
+        public Task<IEnumerable<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             var testGroups = new List<TestGroup>();
 
@@ -54,7 +55,7 @@ namespace NIST.CVP.Generation.AES_CCM.v1_0
                 testGroups.Add(testGroupVadt);
             }
 
-            return testGroups;
+            return Task.FromResult(testGroups.AsEnumerable());
         }
     }
 }

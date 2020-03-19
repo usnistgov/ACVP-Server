@@ -6,7 +6,7 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.SafePrimeGroups.v1_0.KeyVer
 {
-    public class TestGroupGenerator : ITestGroupGenerator<Parameters, TestGroup, TestCase>
+    public class TestGroupGenerator : ITestGroupGeneratorAsync<Parameters, TestGroup, TestCase>
     {
         private readonly IOracle _oracle;
 
@@ -15,7 +15,7 @@ namespace NIST.CVP.Generation.SafePrimeGroups.v1_0.KeyVer
             _oracle = oracle;
         }
         
-        public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
+        public Task<IEnumerable<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             var testGroups = new List<TestGroup>();
 

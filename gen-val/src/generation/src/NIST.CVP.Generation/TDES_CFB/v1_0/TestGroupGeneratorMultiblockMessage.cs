@@ -4,12 +4,12 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.TDES_CFB.v1_0
 {
-    public class TestGroupGeneratorMultiblockMessage : ITestGroupGenerator<Parameters, TestGroup, TestCase>
+    public class TestGroupGeneratorMultiblockMessage : ITestGroupGeneratorAsync<Parameters, TestGroup, TestCase>
     {
         private const string TEST_TYPE = "AFT";
         private const string INTERNAL_TEST_TYPE = "MultiBlockMessage";
 
-        public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
+        public Task<IEnumerable<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             var algoMode = AlgoModeHelpers.GetAlgoModeFromAlgoAndMode(parameters.Algorithm, parameters.Mode, parameters.Revision);
             var testGroups = new List<TestGroup>();

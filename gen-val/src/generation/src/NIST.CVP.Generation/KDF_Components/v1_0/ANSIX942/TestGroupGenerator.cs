@@ -11,9 +11,9 @@ using NIST.CVP.Math.Domain;
 
 namespace NIST.CVP.Generation.KDF_Components.v1_0.ANSIX942
 {
-    public class TestGroupGenerator : ITestGroupGenerator<Parameters, TestGroup, TestCase>
+    public class TestGroupGenerator : ITestGroupGeneratorAsync<Parameters, TestGroup, TestCase>
     {
-        public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
+        public Task<IEnumerable<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             var groups = new HashSet<TestGroup>();
             foreach (var mode in parameters.KdfType)

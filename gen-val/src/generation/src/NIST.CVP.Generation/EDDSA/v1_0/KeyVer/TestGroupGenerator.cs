@@ -6,9 +6,9 @@ using NIST.CVP.Generation.EDDSA.v1_0.KeyVer.TestCaseExpectations;
 
 namespace NIST.CVP.Generation.EDDSA.v1_0.KeyVer
 {
-    public class TestGroupGenerator : ITestGroupGenerator<Parameters, TestGroup, TestCase>
+    public class TestGroupGenerator : ITestGroupGeneratorAsync<Parameters, TestGroup, TestCase>
     {
-        public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
+        public Task<IEnumerable<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             var testGroups = new List<TestGroup>();
 

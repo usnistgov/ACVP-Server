@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace NIST.CVP.Generation.DSA.v1_0.KeyGen
 {
-    public class TestGroupGenerator : ITestGroupGenerator<Parameters, TestGroup, TestCase>
+    public class TestGroupGenerator : ITestGroupGeneratorAsync<Parameters, TestGroup, TestCase>
     {
         private readonly IOracle _oracle;
 
@@ -20,7 +20,7 @@ namespace NIST.CVP.Generation.DSA.v1_0.KeyGen
             _oracle = oracle;
         }
 
-        public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
+        public Task<IEnumerable<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             var groups = BuildTestGroupsAsync(parameters);
             groups.Wait();

@@ -9,11 +9,11 @@ using NIST.CVP.Math.Domain;
 
 namespace NIST.CVP.Generation.DRBG.v1_0
 {
-    public class TestGroupGenerator : ITestGroupGenerator<Parameters, TestGroup, TestCase>
+    public class TestGroupGenerator : ITestGroupGeneratorAsync<Parameters, TestGroup, TestCase>
     {
         public const int _MAX_BIT_SIZE = 1024;
 
-        public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
+        public Task<IEnumerable<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             var groups = new List<TestGroup>();
 

@@ -8,11 +8,11 @@ using NIST.CVP.Math.Domain;
 
 namespace NIST.CVP.Generation.KeyWrap.v1_0.AES
 {
-    public class TestGroupGenerator : ITestGroupGenerator<Parameters, TestGroup, TestCase>
+    public class TestGroupGenerator : ITestGroupGeneratorAsync<Parameters, TestGroup, TestCase>
     {
         public const int _MAX_BIT_SIZE = 4096;
 
-        public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
+        public Task<IEnumerable<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             var groups = new List<TestGroup>();
 

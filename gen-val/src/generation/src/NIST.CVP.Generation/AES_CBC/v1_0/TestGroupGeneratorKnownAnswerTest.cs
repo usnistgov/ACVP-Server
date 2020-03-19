@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.AES_CBC.v1_0
 {
-    public class TestGroupGeneratorKnownAnswerTests : ITestGroupGenerator<Parameters, TestGroup, TestCase>
+    public class TestGroupGeneratorKnownAnswerTests : ITestGroupGeneratorAsync<Parameters, TestGroup, TestCase>
     {
         private const string TEST_TYPE = "AFT";
         private readonly string[] _katTests = new string[]
@@ -14,7 +16,7 @@ namespace NIST.CVP.Generation.AES_CBC.v1_0
             "VarKey"
         };
 
-        public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
+        public Task<IEnumerable<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             var testGroups = new List<TestGroup>();
 
@@ -30,14 +32,13 @@ namespace NIST.CVP.Generation.AES_CBC.v1_0
                             KeyLength = keyLength,
                             TestType = TEST_TYPE,
                             InternalTestType = katTest
-                            
                         };
                         testGroups.Add(testGroup);
                     }
                 }
             }
 
-            return testGroups;
+            return Task.FromResult(testGroups.AsEnumerable());
         }
     }
 }

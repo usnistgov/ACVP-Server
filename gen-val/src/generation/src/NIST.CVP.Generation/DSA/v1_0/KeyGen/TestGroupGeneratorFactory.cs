@@ -13,9 +13,9 @@ namespace NIST.CVP.Generation.DSA.v1_0.KeyGen
             _oracle = oracle;
         }
 
-        public IEnumerable<ITestGroupGenerator<Parameters, TestGroup, TestCase>> GetTestGroupGenerators(Parameters parameters)
+        public IEnumerable<ITestGroupGeneratorAsync<Parameters, TestGroup, TestCase>> GetTestGroupGenerators(Parameters parameters)
         {
-            var list = new HashSet<ITestGroupGenerator<Parameters, TestGroup, TestCase>>
+            var list = new HashSet<ITestGroupGeneratorAsync<Parameters, TestGroup, TestCase>>
             {
                 new TestGroupGenerator(_oracle)
             };

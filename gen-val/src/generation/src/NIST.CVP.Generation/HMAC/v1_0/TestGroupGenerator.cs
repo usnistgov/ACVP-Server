@@ -8,7 +8,7 @@ using NIST.CVP.Math.Domain;
 
 namespace NIST.CVP.Generation.HMAC.v1_0
 {
-    public class TestGroupGenerator : ITestGroupGenerator<Parameters, TestGroup, TestCase>
+    public class TestGroupGenerator : ITestGroupGeneratorAsync<Parameters, TestGroup, TestCase>
     {
         private const int _MESSAGE_LENGTH = 128;
         private const string _TEST_TYPE = "AFT";
@@ -16,7 +16,7 @@ namespace NIST.CVP.Generation.HMAC.v1_0
         public int[] KeyLens { get; private set; }
         public int[] MacLens { get; private set; }
 
-        public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
+        public Task<IEnumerable<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             var testGroups = new List<TestGroup>();
 
