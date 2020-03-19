@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.AES_CTR.v1_0
@@ -33,7 +35,7 @@ namespace NIST.CVP.Generation.AES_CTR.v1_0
                 }
             }
             
-            return testGroups;
+            return Task.FromResult(testGroups.AsEnumerable());
         }
     }
 }

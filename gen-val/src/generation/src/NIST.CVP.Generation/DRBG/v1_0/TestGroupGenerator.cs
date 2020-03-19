@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Crypto.Common.DRBG;
 using NIST.CVP.Crypto.Common.DRBG.Helpers;
@@ -19,7 +20,7 @@ namespace NIST.CVP.Generation.DRBG.v1_0
 
             CreateGroups(groups, parameters);
 
-            return groups;
+            return Task.FromResult(groups.AsEnumerable());
         }
 
         private void CreateGroups(List<TestGroup> groups, Parameters parameters)

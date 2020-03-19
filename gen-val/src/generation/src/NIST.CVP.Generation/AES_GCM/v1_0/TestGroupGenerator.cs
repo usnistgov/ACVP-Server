@@ -5,6 +5,7 @@ using NIST.CVP.Math.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Generation.AES_GCM.v1_0
 {
@@ -99,7 +100,7 @@ namespace NIST.CVP.Generation.AES_GCM.v1_0
                     }
                 }
             }
-            return testGroups;
+            return Task.FromResult(testGroups.AsEnumerable());
         }
 
         private List<int> GetTestableValuesFromCapability(MathDomain capability)

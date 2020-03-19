@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math.Domain;
@@ -99,7 +100,7 @@ namespace NIST.CVP.Generation.CMAC.v1_0
                 }
             }
 
-            return testGroups;
+            return Task.FromResult(testGroups.AsEnumerable());
         }
 
         private void DetermineLengths(Capability capability, ref int[] msgLens, ref int[] macLens)

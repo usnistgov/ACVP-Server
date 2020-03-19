@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math.Domain;
@@ -48,30 +49,30 @@ namespace NIST.CVP.Generation.AES_XPN.v1_0
             {
                 foreach (var keyLength in parameters.KeyLen)
                 {
-                        foreach (var ptLength in ptLengths)
+                    foreach (var ptLength in ptLengths)
+                    {
+                        foreach (var aadLength in aadLengths)
                         {
-                            foreach (var aadLength in aadLengths)
+                            foreach (var tagLength in tagLengths)
                             {
-                                foreach (var tagLength in tagLengths)
-                                {
-                                var testGroup = new TestGroup
-                                {
-                                    Function = function,
-                                    PayloadLength = ptLength,
-                                    KeyLength = keyLength,
-                                    AadLength = aadLength,
-                                    TagLength = tagLength,
-                                    IvGeneration = parameters.IvGen,
-                                    IvGenerationMode = parameters.IvGenMode,
-                                    SaltGen = parameters.SaltGen
-                                };
-                                testGroups.Add(testGroup);
+                            var testGroup = new TestGroup
+                            {
+                                Function = function,
+                                PayloadLength = ptLength,
+                                KeyLength = keyLength,
+                                AadLength = aadLength,
+                                TagLength = tagLength,
+                                IvGeneration = parameters.IvGen,
+                                IvGenerationMode = parameters.IvGenMode,
+                                SaltGen = parameters.SaltGen
+                            };
+                            testGroups.Add(testGroup);
                             }
                         }
                     }
                 }
             }
-            return testGroups;
+            return Task.FromResult(testGroups.AsEnumerable());
         }
 
         private List<int> GetTestableValuesFromCapability(MathDomain capability)
