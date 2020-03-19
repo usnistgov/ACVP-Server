@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.KDF_Components.v1_0.TPMv1_2
@@ -7,13 +9,13 @@ namespace NIST.CVP.Generation.KDF_Components.v1_0.TPMv1_2
     {
         public Task<IEnumerable<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
-            return new List<TestGroup>
+            return Task.FromResult(new List<TestGroup>
             {
                 new TestGroup
                 {
                     TestType = "AFT"
                 }
-            };
+            }.AsEnumerable());
         }
     }
 }

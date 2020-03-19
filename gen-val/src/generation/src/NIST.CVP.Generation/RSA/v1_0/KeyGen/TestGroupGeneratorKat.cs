@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
 using NIST.CVP.Generation.Core;
 
@@ -14,7 +16,7 @@ namespace NIST.CVP.Generation.RSA.v1_0.KeyGen
 
             if (parameters.PubExpMode == PublicExponentModes.Fixed)
             {
-                return testGroups;
+                return Task.FromResult(testGroups.AsEnumerable());
             }
 
             foreach (var algSpec in parameters.AlgSpecs)
@@ -46,7 +48,7 @@ namespace NIST.CVP.Generation.RSA.v1_0.KeyGen
                 }
             }
 
-            return testGroups;
+            return Task.FromResult(testGroups.AsEnumerable());
         }
     }
 }

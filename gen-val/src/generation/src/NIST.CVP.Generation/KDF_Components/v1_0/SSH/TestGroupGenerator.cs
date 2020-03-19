@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using NIST.CVP.Common.Helpers;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
 using NIST.CVP.Crypto.Common.KDF.Components.SSH.Enums;
@@ -25,7 +27,7 @@ namespace NIST.CVP.Generation.KDF_Components.v1_0.SSH
                 }
             }
 
-            return list;
+            return Task.FromResult(list.AsEnumerable());
         }
     }
 }

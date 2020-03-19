@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using NIST.CVP.Common.Oracle;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
@@ -31,7 +32,7 @@ namespace NIST.CVP.Generation.SafePrimeGroups.v1_0.KeyVer
 
             GetDomainParametersForGroups(testGroups).Wait();
             
-            return testGroups;
+            return Task.FromResult(testGroups.AsEnumerable());
         }
 
         private async Task GetDomainParametersForGroups(List<TestGroup> testGroups)

@@ -1,5 +1,7 @@
 ﻿using NIST.CVP.Generation.Core;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Generation.TupleHash.v1_0
 {
@@ -29,7 +31,7 @@ namespace NIST.CVP.Generation.TupleHash.v1_0
                 }
             }
 
-            return testGroups;
+            return Task.FromResult(testGroups.AsEnumerable());
         }
     }
 }

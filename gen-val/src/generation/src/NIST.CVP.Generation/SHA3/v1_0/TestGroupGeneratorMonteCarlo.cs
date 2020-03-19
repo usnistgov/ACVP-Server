@@ -1,6 +1,8 @@
 ﻿using NIST.CVP.Generation.Core;
 using NIST.CVP.Math.Domain;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Generation.SHA3.v1_0
 {
@@ -34,7 +36,7 @@ namespace NIST.CVP.Generation.SHA3.v1_0
                 testGroups.Add(testGroup);
             }
 
-            return testGroups;
+            return Task.FromResult(testGroups.AsEnumerable());
         }
     }
 }

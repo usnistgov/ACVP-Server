@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Crypto.Common.Symmetric.KeyWrap.Enums;
 using NIST.CVP.Generation.Core;
@@ -18,7 +19,7 @@ namespace NIST.CVP.Generation.KeyWrap.v1_0.AES
 
             CreateGroups(groups, parameters);
 
-            return groups;
+            return Task.FromResult(groups.AsEnumerable());
         }
 
         private void CreateGroups(List<TestGroup> groups, Parameters parameters)

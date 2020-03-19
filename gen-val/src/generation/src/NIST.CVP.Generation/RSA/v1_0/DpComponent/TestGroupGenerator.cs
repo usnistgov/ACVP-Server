@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.RSA.v1_0.DpComponent
@@ -7,7 +9,7 @@ namespace NIST.CVP.Generation.RSA.v1_0.DpComponent
     {
         public Task<IEnumerable<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
-            return new List<TestGroup>
+            return Task.FromResult(new List<TestGroup>
             {
                 new TestGroup
                 {
@@ -15,7 +17,7 @@ namespace NIST.CVP.Generation.RSA.v1_0.DpComponent
                     TotalTestCases = parameters.IsSample ? 6 : 30,
                     TotalFailingCases = parameters.IsSample ? 2 : 10
                 }
-            };
+            }.AsEnumerable());
         }
     }
 }

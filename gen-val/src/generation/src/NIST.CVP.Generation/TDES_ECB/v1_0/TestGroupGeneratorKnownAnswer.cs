@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using NIST.CVP.Crypto.Common.Symmetric.TDES.KATs;
 using NIST.CVP.Generation.Core;
 
@@ -27,7 +29,7 @@ namespace NIST.CVP.Generation.TDES_ECB.v1_0
                 }
             }
 
-            return testGroups;
+            return Task.FromResult(testGroups.AsEnumerable());
         }
     }
 }

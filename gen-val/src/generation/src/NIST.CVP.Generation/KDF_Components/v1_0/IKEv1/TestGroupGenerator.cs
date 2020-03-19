@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Common.Helpers;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
@@ -55,7 +56,7 @@ namespace NIST.CVP.Generation.KDF_Components.v1_0.IKEv1
                 }
             }
 
-            return testGroups;
+            return Task.FromResult(testGroups.AsEnumerable());
         }
 
         private List<int> GetMinMaxOtherValueForDomain(MathDomain domain)
