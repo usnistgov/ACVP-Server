@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using NIST.CVP.Common.Enums;
 using NIST.CVP.Generation.Core.ContractResolvers;
 using NIST.CVP.Generation.Core.DeSerialization;
@@ -45,7 +46,7 @@ namespace NIST.CVP.Generation.Core
             _vectorSetSerializer = vectorSetSerializer;
         }
 
-        public virtual GenerateResponse Generate(GenerateRequest generateRequest)
+        public virtual async Task<GenerateResponse> GenerateAsync(GenerateRequest generateRequest)
         {
             try
             {
@@ -61,7 +62,7 @@ namespace NIST.CVP.Generation.Core
                     return new GenerateResponse(validateResponse.ErrorMessage, StatusCode.ParameterValidationError);
                 }
                 var testVector = _testVectorFactory.BuildTestVectorSet(parameters);
-                var testCasesResult = _testCaseGeneratorFactoryFactory.BuildTestCases(testVector);
+                var testCasesResult = await _testCaseGeneratorFactoryFactory.BuildTestCasesAsync(testVector);
                 if (!testCasesResult.Success)
                 {
                     return testCasesResult;

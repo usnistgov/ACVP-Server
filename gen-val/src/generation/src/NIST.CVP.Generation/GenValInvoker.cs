@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using Autofac;
 using Newtonsoft.Json;
 using NIST.CVP.Common;
@@ -30,7 +31,7 @@ namespace NIST.CVP.Generation
             return parameterChecker.CheckParameters(request);
         }
 
-        public GenerateResponse Generate(GenerateRequest request, int vsId)
+        public async Task<GenerateResponse> GenerateAsync(GenerateRequest request, int vsId)
         {
             using (LogContext.PushProperty("VsID", vsId))
             using (LogContext.PushProperty("Application", "Generator"))
@@ -41,10 +42,10 @@ namespace NIST.CVP.Generation
 
                 using var container = GetContainer(algoMode).BeginLifetimeScope();
                 var generator = container.Resolve<IGenerator>();
-                return generator.Generate(request);   
+                return await generator.GenerateAsync(request);   
             }
         }
-        
+
         public ValidateResponse Validate(ValidateRequest request, int vsId)
         {
 

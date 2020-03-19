@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -54,9 +55,18 @@ namespace NIST.CVP.TaskQueueProcessor
                         Log.Information($"Grabbed dbId: {task.DbId}, vsId: {task.VsId} for gen/val processing");
                         tasksRunning++;
                         _tasks.Add(task.DbId);
+
+                        try
+                        {
+                            var genValTask = _taskService.RunTaskAsync(task);
+                            genValTask.ContinueWith(OnGenValCompleted, task, stoppingToken);
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine(e);
+                            throw;
+                        }
                         
-                        var genValTask = Task.Factory.StartNew(() => _taskService.RunTask(task), stoppingToken);
-                        genValTask.ContinueWith(OnGenValCompleted, task, stoppingToken);
                     }
                     else if (_poolConfig.AllowPoolSpawn)    // task is always null at this point
                     {

@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using NIST.CVP.TaskQueueProcessor.Providers;
 using NIST.CVP.TaskQueueProcessor.TaskModels;
 using Serilog;
@@ -35,9 +36,7 @@ namespace NIST.CVP.TaskQueueProcessor.Services
                 switch (task)
                 {
                     case GenerationTask generationTask:
-                        taskType = "generation";
-                        _genValService.RunGenerator(generationTask);
-                        break;
+                        throw new InvalidOperationException("Needs to be run async.");
 
                     case ValidationTask validationTask:
                         taskType = "validation";
@@ -55,6 +54,40 @@ namespace NIST.CVP.TaskQueueProcessor.Services
                 Log.Error(ex, $"Exception on dbId: {task.DbId}, vsId: {task.VsId}, running: {taskType}");
                 // No repeated throw, just exit out normally
             }
+        }
+        
+        public Task RunTaskAsync(ExecutableTask task)
+        {
+            Log.Information($"Running job: {task.DbId}");
+            var taskType = "";
+
+            // Stop executing method until you have a result from the task
+            try
+            {
+                switch (task)
+                {
+                    case GenerationTask generationTask:
+                        taskType = "generation";
+                        return _genValService.RunGeneratorAsync(generationTask);
+
+                    case ValidationTask validationTask:
+                        taskType = "validation";
+                        _genValService.RunValidator(validationTask);
+                        break;
+
+                    case PoolTask poolTask:
+                        taskType = "pool spawn";
+                        _poolService.SpawnPoolData();
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, $"Exception on dbId: {task.DbId}, vsId: {task.VsId}, running: {taskType}");
+                // No repeated throw, just exit out normally
+            }
+
+            return Task.CompletedTask;
         }
     }
 }

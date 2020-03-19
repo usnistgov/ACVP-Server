@@ -39,7 +39,7 @@ namespace NIST.CVP.Generation.Core.Async
             return task.Result;
         }
 
-        private async Task<GenerateResponse> BuildTestCasesAsync(TTestVectorSet testVector)
+        public async Task<GenerateResponse> BuildTestCasesAsync(TTestVectorSet testVector)
         {
             // Keep track of a map of tasks for generating test cases, keyed on the group
             var tasks = new Dictionary<
