@@ -77,6 +77,7 @@
       <None Remove="ClientApp\src\app\models\Workflow\Product\WorkflowProductUpdatePayload.ts" />
       <None Remove="ClientApp\src\app\models\Workflow\Validation\WorkflowValidationCreatePayload.ts" />
       <None Remove="ClientApp\src\app\models\Workflow\Validation\WorkflowValidationCreatePayloadCertification.ts" />
+      <None Remove="ClientApp\src\app\models\Workflow\WorkflowDeletePayload.ts" />
       <None Remove="ClientApp\src\app\models\Workflow\WorkflowItemBase.ts" />
       <None Remove="ClientApp\src\app\models\Workflow\WorkflowItemList.ts" />
       <None Remove="ClientApp\src\app\models\Workflow\WorkflowItemLite.ts" />
@@ -174,6 +175,7 @@
       </TypeScriptCompile>
       <TypeScriptCompile Include="ClientApp\src\app\models\Workflow\Validation\WorkflowValidationCreatePayload.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\models\Workflow\Validation\WorkflowValidationCreatePayloadCertification.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\Workflow\WorkflowDeletePayload.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\models\Workflow\WorkflowItemList.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\models\Workflow\WorkflowItemLite.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\models\Workflow\WorkflowStatus.enum.ts">
