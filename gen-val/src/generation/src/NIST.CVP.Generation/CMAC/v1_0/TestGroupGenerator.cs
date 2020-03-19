@@ -14,7 +14,7 @@ namespace NIST.CVP.Generation.CMAC.v1_0
         {
             var testGroups = new List<TestGroup>();
 
-            return CreateGroups(parameters, testGroups);
+            return Task.FromResult(CreateGroups(parameters, testGroups).AsEnumerable());
         }
 
         private IEnumerable<TestGroup> CreateGroups(Parameters parameters, List<TestGroup> testGroups)
@@ -100,7 +100,7 @@ namespace NIST.CVP.Generation.CMAC.v1_0
                 }
             }
 
-            return Task.FromResult(testGroups.AsEnumerable());
+            return testGroups;
         }
 
         private void DetermineLengths(Capability capability, ref int[] msgLens, ref int[] macLens)
