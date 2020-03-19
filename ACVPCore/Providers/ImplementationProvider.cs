@@ -24,7 +24,6 @@ namespace ACVPCore.Providers
 		public Implementation Get(long implementationID)
 		{
 			var db = new MightyOrm(_acvpConnectionString);
-
 			try
 			{
 				var data = db.SingleFromProcedure("val.ImplementationGet", inParams: new
@@ -57,6 +56,9 @@ namespace ACVPCore.Providers
 						Country = data.address_country
 					};
 
+					// Why this can't be inlined is beyond my comprehension... tried it, but it gives NullReferences - RLS4 03/19/20
+					ImplementationType tmp = ImplementationTypeExtensions.FromString(data.module_type);
+
 					return new Implementation
 					{
 						ID = implementationID,
@@ -64,7 +66,7 @@ namespace ACVPCore.Providers
 						Address = address,
 						URL =  data.product_url,
 						Name = data.module_name,
-						Type = Enum.Parse(typeof(ImplementationType), data.module_type),
+						Type = tmp,
 						Version = data.module_version,
 						Description = data.module_description,
 						ITAR = data.product_itar
