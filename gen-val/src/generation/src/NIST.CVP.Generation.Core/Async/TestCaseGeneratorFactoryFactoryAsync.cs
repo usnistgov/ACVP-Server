@@ -32,13 +32,6 @@ namespace NIST.CVP.Generation.Core.Async
             _maximumWorkToQueue = orleansConfig.Value.MaxWorkItemsToQueuePerGenValInstance;
         }
 
-        public GenerateResponse BuildTestCases(TTestVectorSet testVector)
-        {
-            var task = BuildTestCasesAsync(testVector);
-            task.Wait();
-            return task.Result;
-        }
-
         public async Task<GenerateResponse> BuildTestCasesAsync(TTestVectorSet testVector)
         {
             // Keep track of a map of tasks for generating test cases, keyed on the group

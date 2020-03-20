@@ -19,24 +19,24 @@ namespace NIST.CVP.Generation.KAS.Sp800_56Ar3.Ffc
             _oracle = oracle;
         }
         
-        protected override Task<FfcDomainParameters> GenerateDomainParametersAsync(TestGroup @group)
+        protected override async Task<FfcDomainParameters> GenerateDomainParametersAsync(TestGroup @group)
         {
             return group.DomainParameterGenerationMode switch
             {
-                KasDpGeneration.Ffdhe2048 => _oracle.GetSafePrimeGroupsDomainParameterAsync(SafePrime.Ffdhe2048),
-                KasDpGeneration.Ffdhe3072 => _oracle.GetSafePrimeGroupsDomainParameterAsync(SafePrime.Ffdhe3072),
-                KasDpGeneration.Ffdhe4096 => _oracle.GetSafePrimeGroupsDomainParameterAsync(SafePrime.Ffdhe4096),
-                KasDpGeneration.Ffdhe6144 => _oracle.GetSafePrimeGroupsDomainParameterAsync(SafePrime.Ffdhe6144),
-                KasDpGeneration.Ffdhe8192 => _oracle.GetSafePrimeGroupsDomainParameterAsync(SafePrime.Ffdhe8192),
+                KasDpGeneration.Ffdhe2048 => await _oracle.GetSafePrimeGroupsDomainParameterAsync(SafePrime.Ffdhe2048),
+                KasDpGeneration.Ffdhe3072 => await _oracle.GetSafePrimeGroupsDomainParameterAsync(SafePrime.Ffdhe3072),
+                KasDpGeneration.Ffdhe4096 => await _oracle.GetSafePrimeGroupsDomainParameterAsync(SafePrime.Ffdhe4096),
+                KasDpGeneration.Ffdhe6144 => await _oracle.GetSafePrimeGroupsDomainParameterAsync(SafePrime.Ffdhe6144),
+                KasDpGeneration.Ffdhe8192 => await _oracle.GetSafePrimeGroupsDomainParameterAsync(SafePrime.Ffdhe8192),
                 
-                KasDpGeneration.Modp2048 => _oracle.GetSafePrimeGroupsDomainParameterAsync(SafePrime.Modp2048),
-                KasDpGeneration.Modp3072 => _oracle.GetSafePrimeGroupsDomainParameterAsync(SafePrime.Modp3072),
-                KasDpGeneration.Modp4096 => _oracle.GetSafePrimeGroupsDomainParameterAsync(SafePrime.Modp4096),
-                KasDpGeneration.Modp6144 => _oracle.GetSafePrimeGroupsDomainParameterAsync(SafePrime.Modp6144),
-                KasDpGeneration.Modp8192 => _oracle.GetSafePrimeGroupsDomainParameterAsync(SafePrime.Modp8192),
+                KasDpGeneration.Modp2048 => await _oracle.GetSafePrimeGroupsDomainParameterAsync(SafePrime.Modp2048),
+                KasDpGeneration.Modp3072 => await _oracle.GetSafePrimeGroupsDomainParameterAsync(SafePrime.Modp3072),
+                KasDpGeneration.Modp4096 => await _oracle.GetSafePrimeGroupsDomainParameterAsync(SafePrime.Modp4096),
+                KasDpGeneration.Modp6144 => await _oracle.GetSafePrimeGroupsDomainParameterAsync(SafePrime.Modp6144),
+                KasDpGeneration.Modp8192 => await _oracle.GetSafePrimeGroupsDomainParameterAsync(SafePrime.Modp8192),
 
-                KasDpGeneration.Fb => GenerateDomainParametersDsaAsync(2048, 224),
-                KasDpGeneration.Fc => GenerateDomainParametersDsaAsync(2048, 256),
+                KasDpGeneration.Fb => await GenerateDomainParametersDsaAsync(2048, 224),
+                KasDpGeneration.Fc => await GenerateDomainParametersDsaAsync(2048, 256),
                 
                 _ => throw new ArgumentException(
                     $"Invalid {nameof(group.DomainParameterGenerationMode)} {group.DomainParameterGenerationMode} for this group generator.")

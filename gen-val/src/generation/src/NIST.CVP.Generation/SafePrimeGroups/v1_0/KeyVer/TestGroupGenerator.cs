@@ -16,7 +16,7 @@ namespace NIST.CVP.Generation.SafePrimeGroups.v1_0.KeyVer
             _oracle = oracle;
         }
         
-        public Task<IEnumerable<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
+        public async Task<IEnumerable<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             var testGroups = new List<TestGroup>();
 
@@ -30,9 +30,9 @@ namespace NIST.CVP.Generation.SafePrimeGroups.v1_0.KeyVer
                 testGroups.Add(testGroup);
             }
 
-            GetDomainParametersForGroups(testGroups).Wait();
+            await GetDomainParametersForGroups(testGroups);
             
-            return Task.FromResult(testGroups.AsEnumerable());
+            return testGroups;
         }
 
         private async Task GetDomainParametersForGroups(List<TestGroup> testGroups)
