@@ -56,7 +56,7 @@ namespace NIST.CVP.TaskQueueProcessor.Services
             }
         }
         
-        public Task RunTaskAsync(ExecutableTask task)
+        public async Task RunTaskAsync(ExecutableTask task)
         {
             Log.Information($"Running job: {task.DbId}");
             var taskType = "";
@@ -68,7 +68,8 @@ namespace NIST.CVP.TaskQueueProcessor.Services
                 {
                     case GenerationTask generationTask:
                         taskType = "generation";
-                        return _genValService.RunGeneratorAsync(generationTask);
+                        await _genValService.RunGeneratorAsync(generationTask);
+                        return;
 
                     case ValidationTask validationTask:
                         taskType = "validation";
@@ -86,8 +87,6 @@ namespace NIST.CVP.TaskQueueProcessor.Services
                 Log.Error(ex, $"Exception on dbId: {task.DbId}, vsId: {task.VsId}, running: {taskType}");
                 // No repeated throw, just exit out normally
             }
-
-            return Task.CompletedTask;
         }
     }
 }

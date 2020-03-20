@@ -118,6 +118,8 @@ namespace NIST.CVP.Generation.Core.Async
                     _logger.Debug($"No additional work can be queued, trying again.");
                     debugLogged = true;
                 }
+                
+                await Task.Delay(ThrottleDelayInMilliseconds);
             }
         }
         

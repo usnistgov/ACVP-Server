@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Generation.Core.Tests.Fakes
 {
-    public class FakeTestGroupGenerator : ITestGroupGenerator<FakeParameters, FakeTestGroup, FakeTestCase>
+    public class FakeTestGroupGenerator : ITestGroupGeneratorAsync<FakeParameters, FakeTestGroup, FakeTestCase>
     {
-        public IEnumerable<FakeTestGroup> BuildTestGroups(FakeParameters parameters)
+        public Task<IEnumerable<FakeTestGroup>> BuildTestGroupsAsync(FakeParameters parameters)
         {
             return null;
         }

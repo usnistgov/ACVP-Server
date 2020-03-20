@@ -40,11 +40,11 @@ namespace NIST.CVP.Orleans.Grains
         /// <summary>
         /// CPU bound work <see cref="TaskScheduler"/>
         /// </summary>
-        protected readonly LimitedConcurrencyLevelTaskScheduler NonOrleansScheduler;
+        private readonly LimitedConcurrencyLevelTaskScheduler _nonOrleansScheduler;
         /// <summary>
         /// The <see cref="TaskScheduler"/> utilized via Orleans
         /// </summary>
-        protected TaskScheduler OrleansScheduler;
+        private TaskScheduler _orleansScheduler;
         /// <summary>
         /// The collection to keep track of subscribers
         /// </summary>
@@ -57,16 +57,18 @@ namespace NIST.CVP.Orleans.Grains
         /// If this is encountered, we can throw an exception within Subscribe to the caller, indicating the work should
         /// be resubmitted.
         /// </summary>
-        private bool _hasWorkBegun = false;
+        private bool _hasWorkBegun;
+
+        private TResult _result;
 
         protected ObservableOracleGrainBase(LimitedConcurrencyLevelTaskScheduler nonOrleansScheduler)
         {
-            NonOrleansScheduler = nonOrleansScheduler;
+            _nonOrleansScheduler = nonOrleansScheduler;
         }
 
         public override async Task OnActivateAsync()
         {
-            OrleansScheduler = TaskScheduler.Current;
+            _orleansScheduler = TaskScheduler.Current;
             _subsManager = new GrainObserverManager<IGrainObserver<TResult>>();
             
             await base.OnActivateAsync();
@@ -78,17 +80,22 @@ namespace NIST.CVP.Orleans.Grains
             return Task.CompletedTask;
         }
 
-        public Task HeartbeatSubscribe(IGrainObserver<TResult> observer)
+        public async Task HeartbeatSubscribe(IGrainObserver<TResult> observer)
         {
             if (!_hasWorkBegun)
             {
                 _subsManager.Subscribe(observer);
                 _subsManager.Notify(o => o.Throw(new OriginalClusterNodeSuicideException()));
-                return Task.CompletedTask;
+                return;
             }
             
             _subsManager.Subscribe(observer);
-            return Task.CompletedTask;
+
+            // Sometimes the notify isn't caught on original result completion, try it again on heartbeats.
+            if (_result != null)
+            {
+                await Notify(_result);
+            }
         }
 
         public Task Unsubscribe(IGrainObserver<TResult> observer)
@@ -98,8 +105,8 @@ namespace NIST.CVP.Orleans.Grains
         }
 
         /// <summary>
-        /// Fires off CPU bound work onto a separate task scheduler <see cref="NonOrleansScheduler"/>
-        /// as to not block the Orleans task scheduler <see cref="OrleansScheduler"/>
+        /// Fires off CPU bound work onto a separate task scheduler <see cref="_nonOrleansScheduler"/>
+        /// as to not block the Orleans task scheduler <see cref="_orleansScheduler"/>
         /// </summary>
         /// <returns></returns>
         protected Task<bool> BeginGrainWorkAsync()
@@ -109,7 +116,7 @@ namespace NIST.CVP.Orleans.Grains
             Task.Factory.StartNew(() =>
             {
                 DoWorkAsyncWrapper().FireAndForget();
-            }, CancellationToken.None, TaskCreationOptions.None, NonOrleansScheduler).FireAndForget();
+            }, CancellationToken.None, TaskCreationOptions.None, _nonOrleansScheduler).FireAndForget();
 
             return Task.FromResult(true);
         }
@@ -145,7 +152,7 @@ namespace NIST.CVP.Orleans.Grains
 
         /// <summary>
         /// Sends notification to subscribed observers about computed result.
-        /// This notification is scheduled on the <see cref="OrleansScheduler"/>
+        /// This notification is scheduled on the <see cref="_orleansScheduler"/>
         /// as per requirements.
         ///
         /// Caller should invoke within <see cref="DoWorkAsync"/>
@@ -154,15 +161,20 @@ namespace NIST.CVP.Orleans.Grains
         /// <returns></returns>
         protected async Task Notify(TResult result)
         {
+            if (_result == null)
+            {
+                _result = result;
+            }
+            
             await Task.Factory.StartNew(() =>
             {
                 _subsManager.Notify(observer => observer.ReceiveMessageFromCluster(result));
-            }, CancellationToken.None, TaskCreationOptions.None, OrleansScheduler);
+            }, CancellationToken.None, TaskCreationOptions.None, _orleansScheduler);
         }
 
         /// <summary>
         /// Sends notification to subscribed observers about exception.
-        /// This notification is scheduled on the <see cref="OrleansScheduler"/>
+        /// This notification is scheduled on the <see cref="_orleansScheduler"/>
         /// as per requirements.
         ///
         /// Caller should invoke within <see cref="DoWorkAsync"/>
@@ -174,7 +186,7 @@ namespace NIST.CVP.Orleans.Grains
             await Task.Factory.StartNew(() =>
             {
                 _subsManager.Notify(observer => observer.Throw(exception));
-            }, CancellationToken.None, TaskCreationOptions.None, OrleansScheduler);
+            }, CancellationToken.None, TaskCreationOptions.None, _orleansScheduler);
         }
     }
 }

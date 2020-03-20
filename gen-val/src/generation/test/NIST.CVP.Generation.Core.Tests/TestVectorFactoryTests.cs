@@ -3,6 +3,8 @@ using NIST.CVP.Generation.Core.Tests.Fakes;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using FakeParameters = NIST.CVP.Generation.Core.Tests.Fakes.FakeParameters;
 using FakeTestVectorSet = NIST.CVP.Generation.Core.Tests.Fakes.FakeTestVectorSet;
 
@@ -14,19 +16,19 @@ namespace NIST.CVP.Generation.Core.Tests
 
         private TestVectorFactory<FakeParameters, FakeTestVectorSet, FakeTestGroup, FakeTestCase> _subject;
         private Mock<ITestGroupGeneratorFactory<FakeParameters, FakeTestGroup, FakeTestCase>> _testGroupGeneratorFactory;
-        private Mock<ITestGroupGenerator<FakeParameters, FakeTestGroup, FakeTestCase>> _testGroupGenerator;
+        private Mock<ITestGroupGeneratorAsync<FakeParameters, FakeTestGroup, FakeTestCase>> _testGroupGenerator;
 
         [SetUp]
         public void Setup()
         {
             _testGroupGeneratorFactory = new Mock<ITestGroupGeneratorFactory<FakeParameters, FakeTestGroup, FakeTestCase>>();
-            _testGroupGenerator = new Mock<ITestGroupGenerator<FakeParameters, FakeTestGroup, FakeTestCase>>();
+            _testGroupGenerator = new Mock<ITestGroupGeneratorAsync<FakeParameters, FakeTestGroup, FakeTestCase>>();
     }
 
         [Test]
         [TestCase("test")]
         [TestCase("test-again")]
-        public void ShouldSetAlgorithmProperlyFromTheParameters(string algorithm)
+        public async Task ShouldSetAlgorithmProperlyFromTheParameters(string algorithm)
         {
             FakeParameters p = new FakeParameters()
             {
@@ -35,7 +37,7 @@ namespace NIST.CVP.Generation.Core.Tests
             };
 
             _subject = new TestVectorFactory<FakeParameters, FakeTestVectorSet, FakeTestGroup, FakeTestCase>(_testGroupGeneratorFactory.Object);
-            var result = _subject.BuildTestVectorSet(p);
+            var result = await _subject.BuildTestVectorSetAsync(p);
 
             Assert.AreEqual(algorithm, result.Algorithm);
         }
@@ -43,7 +45,7 @@ namespace NIST.CVP.Generation.Core.Tests
         [Test]
         [TestCase(true)]
         [TestCase(false)]
-        public void ShouldSetIsSampleProperlyFromTheParameters(bool isSample)
+        public async Task ShouldSetIsSampleProperlyFromTheParameters(bool isSample)
         {
             FakeParameters p = new FakeParameters()
             {
@@ -52,7 +54,7 @@ namespace NIST.CVP.Generation.Core.Tests
             };
 
             _subject = new TestVectorFactory<FakeParameters, FakeTestVectorSet, FakeTestGroup, FakeTestCase>(_testGroupGeneratorFactory.Object);
-            var result = _subject.BuildTestVectorSet(p);
+            var result = await _subject.BuildTestVectorSetAsync(p);
 
             Assert.AreEqual(isSample, result.IsSample);
         }
@@ -61,9 +63,9 @@ namespace NIST.CVP.Generation.Core.Tests
         [TestCase(1)]
         [TestCase(2)]
         [TestCase(3)]
-        public void ShouldInvokeITestGroupGeneratorExpectedNumberOfTimes(int numberOfInvokes)
+        public async Task ShouldInvokeITestGroupGeneratorExpectedNumberOfTimes(int numberOfInvokes)
         {
-            List<ITestGroupGenerator<FakeParameters, FakeTestGroup, FakeTestCase>> gennies = new List<ITestGroupGenerator<FakeParameters, FakeTestGroup, FakeTestCase>>();
+            var gennies = new List<ITestGroupGeneratorAsync<FakeParameters, FakeTestGroup, FakeTestCase>>();
             for (int i = 0; i < numberOfInvokes; i++)
             {
                 gennies.Add(_testGroupGenerator.Object);
@@ -73,16 +75,16 @@ namespace NIST.CVP.Generation.Core.Tests
                 .Setup(s => s.GetTestGroupGenerators(It.IsAny<FakeParameters>()))
                 .Returns(gennies);
             _testGroupGenerator
-                .Setup(s => s.BuildTestGroups(It.IsAny<FakeParameters>()))
-                .Returns(new List<FakeTestGroup>());
+                .Setup(s => s.BuildTestGroupsAsync(It.IsAny<FakeParameters>()))
+                .Returns(Task.FromResult(new List<FakeTestGroup>().AsEnumerable()));
 
             _subject = new TestVectorFactory<FakeParameters, FakeTestVectorSet, FakeTestGroup, FakeTestCase>(_testGroupGeneratorFactory.Object);
 
             FakeParameters p = new FakeParameters();
-            _subject.BuildTestVectorSet(p);
+            await _subject.BuildTestVectorSetAsync(p);
 
-            _testGroupGeneratorFactory.Verify(v => v.GetTestGroupGenerators(It.IsAny<FakeParameters>()), Times.Once, nameof(_subject.BuildTestVectorSet));
-            _testGroupGenerator.Verify(v => v.BuildTestGroups(It.IsAny<FakeParameters>()), Times.Exactly(numberOfInvokes), nameof(_testGroupGenerator.Object.BuildTestGroups));
+            _testGroupGeneratorFactory.Verify(v => v.GetTestGroupGenerators(It.IsAny<FakeParameters>()), Times.Once, nameof(_subject.BuildTestVectorSetAsync));
+            _testGroupGenerator.Verify(v => v.BuildTestGroupsAsync(It.IsAny<FakeParameters>()), Times.Exactly(numberOfInvokes), nameof(_testGroupGenerator.Object.BuildTestGroupsAsync));
         }
 
         [Test]
@@ -91,9 +93,9 @@ namespace NIST.CVP.Generation.Core.Tests
         [TestCase("aft", "aft")]
         [TestCase("AFT", "AFT")]
         [TestCase("MCT", "MCT")]
-        public void ShouldSetAftInGroupWhenNullOrEmpty(string testType, string expectedType)
+        public async Task ShouldSetAftInGroupWhenNullOrEmpty(string testType, string expectedType)
         {
-            var gennies = new List<ITestGroupGenerator<FakeParameters, FakeTestGroup, FakeTestCase>>
+            var gennies = new List<ITestGroupGeneratorAsync<FakeParameters, FakeTestGroup, FakeTestCase>>
             {
                 _testGroupGenerator.Object
             };
@@ -102,21 +104,21 @@ namespace NIST.CVP.Generation.Core.Tests
                 .Setup(s => s.GetTestGroupGenerators(It.IsAny<FakeParameters>()))
                 .Returns(gennies);
             _testGroupGenerator
-                .Setup(s => s.BuildTestGroups(It.IsAny<FakeParameters>()))
+                .Setup(s => s.BuildTestGroupsAsync(It.IsAny<FakeParameters>()))
                 .Returns(() => 
-                    new List<FakeTestGroup>()
+                    Task.FromResult(new List<FakeTestGroup>()
                     {
                         new FakeTestGroup()
                         {
                             TestType = testType
                         }
-                    });
+                    }.AsEnumerable()));
 
             _subject = new TestVectorFactory<FakeParameters, FakeTestVectorSet, FakeTestGroup, FakeTestCase>(_testGroupGeneratorFactory.Object);
 
             FakeParameters p = new FakeParameters();
 
-            var result = _subject.BuildTestVectorSet(p);
+            var result = await _subject.BuildTestVectorSetAsync(p);
 
             Assert.AreEqual(result.TestGroups[0].TestType, expectedType);
         }

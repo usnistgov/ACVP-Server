@@ -16,6 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Serilog;
 
 namespace NIST.CVP.Generation.Core.Tests
@@ -70,14 +71,14 @@ namespace NIST.CVP.Generation.Core.Tests
         }
 
         [Test]
-        public void ShouldReportAllSuccessfulTestsWithinValidationFewTestCases()
+        public async Task ShouldReportAllSuccessfulTestsWithinValidationFewTestCases()
         {
             var targetFolder = GetTestFolder("Few");
             var fileName = GetTestFileFewTestCases(targetFolder);
 
             LoggingHelper.ConfigureLogging(fileName, "generator", LogLevel.Warn);
             GenLogger.Info($"{Algorithm}-{Mode} Test Vectors");
-            RunGeneration(targetFolder, fileName, true);
+            await RunGeneration(targetFolder, fileName, true);
 
             LoggingHelper.ConfigureLogging(fileName, "validator", LogLevel.Warn);
             ValLogger.Info($"{Algorithm}-{Mode} Test Vectors");
@@ -204,7 +205,7 @@ namespace NIST.CVP.Generation.Core.Tests
             return targetFolder;
         }
 
-        protected void RunGeneration(string targetFolder, string fileName, bool overrideRegisteredDependencies)
+        protected async Task RunGeneration(string targetFolder, string fileName, bool overrideRegisteredDependencies)
         {
             var registrationJson = FileService.ReadFile(fileName);
             
@@ -213,7 +214,7 @@ namespace NIST.CVP.Generation.Core.Tests
             try
             {
                 var gen = scope.Resolve<IGenerator>();
-                var result = gen.Generate(new GenerateRequest(registrationJson));
+                var result = await gen.GenerateAsync(new GenerateRequest(registrationJson));
 
                 FileService.WriteFile(Path.Combine(targetFolder, _testVectorFileNames[0]), result.ResultProjection, true);
                 FileService.WriteFile(Path.Combine(targetFolder, _testVectorFileNames[1]), result.InternalProjection, true);

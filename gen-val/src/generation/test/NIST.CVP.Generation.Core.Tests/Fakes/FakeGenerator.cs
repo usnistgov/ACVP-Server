@@ -8,7 +8,7 @@ namespace NIST.CVP.Generation.Core.Tests.Fakes
         public FakeGenerator() : base (null, null, null, null, null) {  }
 
         public FakeGenerator(
-            ITestVectorFactory<FakeParameters, FakeTestVectorSet, FakeTestGroup, FakeTestCase> testVectorFactory,
+            ITestVectorFactoryAsync<FakeParameters, FakeTestVectorSet, FakeTestGroup, FakeTestCase> testVectorFactory,
             IParameterParser<FakeParameters> parameterParser,
             IParameterValidator<FakeParameters> parameterValidator,
             ITestCaseGeneratorFactoryFactory<FakeTestVectorSet, FakeTestGroup, FakeTestCase> iTestCaseGeneratorFactoryFactory,

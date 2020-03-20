@@ -21,7 +21,7 @@ namespace NIST.CVP.Crypto.Oracle
                 var observableGrain =
                     await GetObserverGrain<IObserverEcdsaDomainParameterGrain, EccDomainParameters>();
                 await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, LoadSheddingRetries);
-
+            
                 return await observableGrain.ObserveUntilResult();
             }
             catch (OriginalClusterNodeSuicideException ex)
