@@ -39,7 +39,7 @@
     <div class="card">
       <h5 class="card-header">Phone Information</h5>
       <div class="card-body">
-        <table class="table" style="">
+        <table class="table">
           <tr *ngFor="let phone of workflowItem?.payload?.phoneNumbers; index as i">
             <td [ngStyle]="{'border': i === 0 ? 'none' : '' }">
               <span class="bold-heading">Number</span> : {{ phone.number == null ? 'N/A' : phone.number }}<br />
@@ -55,7 +55,7 @@
     <div class="card">
       <h5 class="card-header">Emails</h5>
       <div class="card-body">
-        <table class="table" style="">
+        <table class="table">
           <tr *ngFor="let email of workflowItem.payload.emails; index as i">
             <td [ngStyle]="{'border': i === 0 ? 'none' : '' }">{{ email }}</td>
           </tr>

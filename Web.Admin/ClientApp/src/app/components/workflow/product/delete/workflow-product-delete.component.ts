@@ -1,19 +1,19 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { WorkflowItemBase } from '../../../../models/Workflow/WorkflowItemBase';
 import { WorkflowDeletePayload } from '../../../../models/Workflow/WorkflowDeletePayload';
-import { Organization } from '../../../../models/Organization/Organization';
+import { WorkflowItemBase } from '../../../../models/Workflow/WorkflowItemBase';
 import { AjaxService } from '../../../../services/ajax/ajax.service';
 import { Router } from '@angular/router';
+import { Product } from '../../../../models/Product/Product';
 
 @Component({
-  selector: 'app-workflow-organization-delete',
-  templateUrl: './workflow-organization-delete.component.html',
-  styleUrls: ['./workflow-organization-delete.component.scss']
+  selector: 'app-workflow-product-delete',
+  templateUrl: './workflow-product-delete.component.html',
+  styleUrls: ['./workflow-product-delete.component.scss']
 })
-export class WorkflowOrganizationDeleteComponent implements OnInit {
+export class WorkflowProductDeleteComponent implements OnInit {
 
   workflowItem: WorkflowItemBase<WorkflowDeletePayload>;
-  currentState: Organization;
+  product: Product;
 
   constructor(private ajs: AjaxService, private router: Router) { }
 
@@ -45,14 +45,18 @@ export class WorkflowOrganizationDeleteComponent implements OnInit {
  */
   @Input()
   set wfItem(item: WorkflowItemBase<WorkflowDeletePayload>) {
-
-    // Set the workflow item data in place
     this.workflowItem = item;
 
-    // Go get the current state for comparison
-    this.ajs.getOrganization(this.workflowItem.payload.id).subscribe(
+    this.ajs.getProduct(this.workflowItem.payload.id).subscribe(
       data => {
-        this.currentState = data;
+        this.product = JSON.parse(JSON.stringify(data));
+
+        this.ajs.getOrganization(this.product.vendor.id).subscribe(
+          data => { this.product.vendor = JSON.parse(JSON.stringify(data)); },
+          err => { },
+          () => { }
+        );
+
       },
       err => { },
       () => { }
