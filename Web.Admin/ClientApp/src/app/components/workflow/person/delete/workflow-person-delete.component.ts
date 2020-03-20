@@ -1,19 +1,19 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { WorkflowDeletePayload } from '../../../../models/Workflow/WorkflowDeletePayload';
 import { WorkflowItemBase } from '../../../../models/Workflow/WorkflowItemBase';
-import { WorkflowPersonCreatePayload } from '../../../../models/Workflow/Person/WorkflowPersonCreatePayload';
+import { Person } from '../../../../models/Person/Person';
 import { AjaxService } from '../../../../services/ajax/ajax.service';
 import { Router } from '@angular/router';
-import { Organization } from '../../../../models/Organization/Organization';
 
 @Component({
-  selector: 'app-workflow-person-create',
-  templateUrl: './workflow-person-create.component.html',
-  styleUrls: ['./workflow-person-create.component.scss']
+  selector: 'app-workflow-person-delete',
+  templateUrl: './workflow-person-delete.component.html',
+  styleUrls: ['./workflow-person-delete.component.scss']
 })
-export class WorkflowPersonCreateComponent implements OnInit {
+export class WorkflowPersonDeleteComponent implements OnInit {
 
-  workflowItem: WorkflowItemBase<WorkflowPersonCreatePayload>;
-  organization: Organization;
+  workflowItem: WorkflowItemBase<WorkflowDeletePayload>;
+  currentState: Person;
 
   constructor(private ajs: AjaxService, private router: Router) { }
 
@@ -44,13 +44,16 @@ export class WorkflowPersonCreateComponent implements OnInit {
  * [wfItem]="workflowItem" syntax in the HTML template.  i.e. how custom element attributes are specified
  */
   @Input()
-  set wfItem(item: WorkflowItemBase<WorkflowPersonCreatePayload>) {
+  set wfItem(item: WorkflowItemBase<WorkflowDeletePayload>) {
+
+    // Set the workflow item data in place
     this.workflowItem = item;
 
-    // Get the organization data in order to populate the organization field
-    const splitString = this.workflowItem.payload.organizationUrl.split('/');
-    this.ajs.getOrganization(parseInt(splitString[splitString.length - 1])).subscribe(
-      data => { this.organization = data; },
+    // Go get the current state for comparison
+    this.ajs.getPerson(this.workflowItem.payload.id).subscribe(
+      data => {
+        this.currentState = data;
+      },
       err => { },
       () => { }
     );

@@ -38,6 +38,9 @@ import { WorkflowPersonUpdateComponent } from './components/workflow/person/upda
 import { WorkflowProductUpdateComponent } from './components/workflow/product/update/workflow-product-update.component';
 import { WorkflowsComponent } from './components/workflows/workflows.component';
 import { WorkflowDependencyDeleteComponent } from './components/workflow/dependency/delete/workflow-dependency-delete.component';
+import { WorkflowOeDeleteComponent } from './components/workflow/operatingEnvironment/delete/workflow-oe-delete.component';
+import { WorkflowOrganizationDeleteComponent } from './components/workflow/organization/delete/workflow-organization-delete.component';
+import { WorkflowPersonDeleteComponent } from './components/workflow/person/delete/workflow-person-delete.component';
 
 @NgModule({
   declarations: [
@@ -70,7 +73,10 @@ import { WorkflowDependencyDeleteComponent } from './components/workflow/depende
     WorkflowPersonUpdateComponent,
     WorkflowProductUpdateComponent,
     WorkflowsComponent,
-    WorkflowDependencyDeleteComponent
+    WorkflowDependencyDeleteComponent,
+    WorkflowOeDeleteComponent,
+    WorkflowOrganizationDeleteComponent,
+    WorkflowPersonDeleteComponent
   ],
   imports: [
     BrowserModule,

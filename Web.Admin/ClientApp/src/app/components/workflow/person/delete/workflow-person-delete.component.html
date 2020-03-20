@@ -1,16 +1,16 @@
 <div class="row mt-3">
   <div class="col-lg-6">
     <div class="card">
-      <h5 class="card-header">Create New Person</h5>
+      <h5 class="card-header">Delete Person</h5>
       <div class="card-body">
         <table class="table">
           <tr>
             <th style="border:none;">Name</th>
-            <td style="border:none;">{{workflowItem?.payload.fullName}}</td>
+            <td style="border:none;">{{currentState?.name}}</td>
           </tr>
           <tr>
-            <th style="border:none;">Name</th>
-            <td style="border:none;"><a [routerLink]="['/validation-db/organizations/' + organization?.id]">{{ organization?.id }} - {{ organization?.name }}</a></td>
+            <th style="border:none;">Organization</th>
+            <td style="border:none;"><a [routerLink]="['/validation-db/organizations/' + currentState?.organization.id]">{{ currentState?.organization.id }} - {{ currentState?.organization.name }}</a></td>
           </tr>
         </table>
       </div>
@@ -39,8 +39,8 @@
     <div class="card">
       <h5 class="card-header">Phone Information</h5>
       <div class="card-body">
-        <table class="table" style="">
-          <tr *ngFor="let phone of workflowItem?.payload?.phoneNumbers; index as i">
+        <table class="table">
+          <tr *ngFor="let phone of currentState?.phoneNumbers; index as i">
             <td [ngStyle]="{'border': i === 0 ? 'none' : '' }">
               <span class="bold-heading">Number</span> : {{ phone.number == null ? 'N/A' : phone.number }}<br />
               <span class="bold-heading">Type</span> : {{ phone.type == null ? 'N/A' : phone.type }}
@@ -55,8 +55,8 @@
     <div class="card">
       <h5 class="card-header">Emails</h5>
       <div class="card-body">
-        <table class="table" style="">
-          <tr *ngFor="let email of workflowItem.payload.emails; index as i">
+        <table class="table">
+          <tr *ngFor="let email of currentState?.emailAddresses; index as i">
             <td [ngStyle]="{'border': i === 0 ? 'none' : '' }">{{ email }}</td>
           </tr>
         </table>

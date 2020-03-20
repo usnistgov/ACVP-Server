@@ -24,5 +24,7 @@
   <app-workflow-product-update *ngIf="workflowItem?.apiAction === 'UpdateImplementation'" [wfItem]="workflowItem"></app-workflow-product-update>
 
   <app-workflow-dependency-delete *ngIf="workflowItem?.apiAction === 'DeleteDependency'" [wfItem]="workflowItem"></app-workflow-dependency-delete>
-
+  <app-workflow-oe-delete *ngIf="workflowItem?.apiAction === 'DeleteOE'" [wfItem]="workflowItem"></app-workflow-oe-delete>
+  <app-workflow-organization-delete *ngIf="workflowItem?.apiAction === 'DeleteVendor'" [wfItem]="workflowItem"></app-workflow-organization-delete>
+  <app-workflow-person-delete *ngIf="workflowItem?.apiAction === 'DeletePerson'" [wfItem]="workflowItem"></app-workflow-person-delete>
 </div>

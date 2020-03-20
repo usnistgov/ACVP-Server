@@ -1,19 +1,19 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { WorkflowItemBase } from '../../../../models/Workflow/WorkflowItemBase';
-import { WorkflowPersonCreatePayload } from '../../../../models/Workflow/Person/WorkflowPersonCreatePayload';
+import { WorkflowDeletePayload } from '../../../../models/Workflow/WorkflowDeletePayload';
+import { Organization } from '../../../../models/Organization/Organization';
 import { AjaxService } from '../../../../services/ajax/ajax.service';
 import { Router } from '@angular/router';
-import { Organization } from '../../../../models/Organization/Organization';
 
 @Component({
-  selector: 'app-workflow-person-create',
-  templateUrl: './workflow-person-create.component.html',
-  styleUrls: ['./workflow-person-create.component.scss']
+  selector: 'app-workflow-organization-delete',
+  templateUrl: './workflow-organization-delete.component.html',
+  styleUrls: ['./workflow-organization-delete.component.scss']
 })
-export class WorkflowPersonCreateComponent implements OnInit {
+export class WorkflowOrganizationDeleteComponent implements OnInit {
 
-  workflowItem: WorkflowItemBase<WorkflowPersonCreatePayload>;
-  organization: Organization;
+  workflowItem: WorkflowItemBase<WorkflowDeletePayload>;
+  currentState: Organization;
 
   constructor(private ajs: AjaxService, private router: Router) { }
 
@@ -44,13 +44,17 @@ export class WorkflowPersonCreateComponent implements OnInit {
  * [wfItem]="workflowItem" syntax in the HTML template.  i.e. how custom element attributes are specified
  */
   @Input()
-  set wfItem(item: WorkflowItemBase<WorkflowPersonCreatePayload>) {
+  set wfItem(item: WorkflowItemBase<WorkflowDeletePayload>) {
+
+    // Set the workflow item data in place
     this.workflowItem = item;
 
-    // Get the organization data in order to populate the organization field
-    const splitString = this.workflowItem.payload.organizationUrl.split('/');
-    this.ajs.getOrganization(parseInt(splitString[splitString.length - 1])).subscribe(
-      data => { this.organization = data; },
+    // Go get the current state for comparison
+    this.ajs.getOrganization(this.workflowItem.payload.id).subscribe(
+      data => {
+        this.currentState = data;
+        console.log(data);
+      },
       err => { },
       () => { }
     );

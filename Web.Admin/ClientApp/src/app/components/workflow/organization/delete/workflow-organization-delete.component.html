@@ -1,20 +1,20 @@
 <div class="row mt-3">
   <div class="col-lg-6">
     <div class="card">
-      <h5 class="card-header">Create New Organization</h5>
+      <h5 class="card-header">Delete Organization</h5>
       <div class="card-body">
         <table class="table">
           <tr>
             <th style="border:none;">Name</th>
-            <td style="border:none;">{{workflowItem?.payload.name}}</td>
+            <td style="border:none;">{{currentState?.name}}</td>
           </tr>
           <tr>
             <th>Link</th>
-            <td>{{workflowItem?.payload.link}}</td>
+            <td>{{currentState?.url}}</td>
           </tr>
           <tr>
             <th>Parent</th>
-            <td>{{workflowItem?.payload.parentUrl == null ? "No Parent" : workflowItem?.payload.parentUrl}}</td>
+            <td>{{currentState?.parentUrl == null ? "No Parent" : currentState?.parentUrl}}</td>
           </tr>
         </table>
       </div>
@@ -46,11 +46,11 @@
         <table class="table" style="">
           <tr>
             <th style="border:none;">Voice</th>
-            <td style="border:none;">{{workflowItem?.payload.voiceNumber == null ? "N/A" : workflowItem?.payload.voiceNumber }}</td>
+            <td style="border:none;">{{currentState?.voiceNumber == null ? "N/A" : currentState?.voiceNumber }}</td>
           </tr>
           <tr>
             <th>Fax</th>
-            <td>{{ workflowItem?.payload.faxNumber == null ? "N/A" : workflowItem?.payload.faxNumber }}</td>
+            <td>{{ currentState?.faxNumber == null ? "N/A" : currentState?.faxNumber }}</td>
           </tr>
         </table>
       </div>
@@ -61,11 +61,12 @@
     <div class="card">
       <h5 class="card-header">Emails</h5>
       <div class="card-body">
-        <table class="table" style="">
-          <tr *ngFor="let email of workflowItem.payload.emails; index as i" >
+        <table class="table" *ngIf="currentState?.emails.length > 0">
+          <tr *ngFor="let email of currentState?.emails; index as i">
             <td [ngStyle]="{'border': i === 0 ? 'none' : '' }">{{ email }}</td>
           </tr>
         </table>
+        <span *ngIf="currentState?.emails.length <= 0">No emails defined</span>
       </div>
     </div> <!-- Close Email Card -->
   </div> <!-- Close col-lg-6 -->
@@ -77,7 +78,7 @@
       <h5 class="card-header">Addresses</h5>
       <div class="card-body">
         <table class="table" style="">
-          <tr *ngFor="let address of workflowItem.payload.addresses; index as i">
+          <tr *ngFor="let address of currentState?.addresses; index as i">
             <td [ngStyle]="{'border': i === 0 ? 'none' : '' }">
               {{address.street1}}<br />
               {{ address.street2 !== null ? address.street2 : '' }}<br *ngIf="address.street2 !== null" />

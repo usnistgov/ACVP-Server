@@ -1,21 +1,29 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { WorkflowItemBase } from '../../../../models/Workflow/WorkflowItemBase';
-import { WorkflowPersonCreatePayload } from '../../../../models/Workflow/Person/WorkflowPersonCreatePayload';
+import { WorkflowDeletePayload } from '../../../../models/Workflow/WorkflowDeletePayload';
+import { OperatingEnvironment } from '../../../../models/operatingEnvironment/operatingEnvironment';
 import { AjaxService } from '../../../../services/ajax/ajax.service';
 import { Router } from '@angular/router';
-import { Organization } from '../../../../models/Organization/Organization';
 
 @Component({
-  selector: 'app-workflow-person-create',
-  templateUrl: './workflow-person-create.component.html',
-  styleUrls: ['./workflow-person-create.component.scss']
+  selector: 'app-workflow-oe-delete',
+  templateUrl: './workflow-oe-delete.component.html',
+  styleUrls: ['./workflow-oe-delete.component.scss']
 })
-export class WorkflowPersonCreateComponent implements OnInit {
+export class WorkflowOeDeleteComponent implements OnInit {
 
-  workflowItem: WorkflowItemBase<WorkflowPersonCreatePayload>;
-  organization: Organization;
+  workflowItem: WorkflowItemBase<WorkflowDeletePayload>;
+  currentState: OperatingEnvironment;
+  objectKeys = Object.keys;
 
   constructor(private ajs: AjaxService, private router: Router) { }
+
+  shouldAttributeBeDisplayed(key: string) {
+    if (key == "id") {
+      return false;
+    }
+    return true;
+  }
 
   approveWorkflow() {
     this.ajs.approveWorkflow(this.workflowItem.workflowItemID).subscribe(
@@ -44,17 +52,16 @@ export class WorkflowPersonCreateComponent implements OnInit {
  * [wfItem]="workflowItem" syntax in the HTML template.  i.e. how custom element attributes are specified
  */
   @Input()
-  set wfItem(item: WorkflowItemBase<WorkflowPersonCreatePayload>) {
+  set wfItem(item: WorkflowItemBase<WorkflowDeletePayload>) {
     this.workflowItem = item;
 
-    // Get the organization data in order to populate the organization field
-    const splitString = this.workflowItem.payload.organizationUrl.split('/');
-    this.ajs.getOrganization(parseInt(splitString[splitString.length - 1])).subscribe(
-      data => { this.organization = data; },
+    this.ajs.getOE(this.workflowItem.payload.id).subscribe(
+      data => {
+        this.currentState = data;
+      },
       err => { },
       () => { }
     );
-
   }
 
   ngOnInit() {
