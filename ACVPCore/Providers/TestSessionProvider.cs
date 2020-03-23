@@ -257,5 +257,22 @@ namespace ACVPCore.Providers
 				return -1;    //Default to false so we don't try do use it when we don't know if it exists
 			}
 		}
+
+		public void Expire(int ageInDays)
+		{
+			var db = new MightyOrm(_acvpConnectionString);
+
+			try
+			{
+				db.ExecuteProcedure("acvp.TestSessionsExpire", inParams: new
+				{
+					AgeInDays = ageInDays
+				});
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex.Message);
+			}
+		}
 	}
 }

@@ -213,6 +213,32 @@ namespace ACVPCore.Providers
 			}
 		}
 
+		public List<(VectorSetJsonFileTypes FileType, string Content, DateTime CreatedOn)> GetVectorFileJson(long vectorSetID)
+		{
+			var db = new MightyOrm(_acvpConnectionString);
+
+			List<(VectorSetJsonFileTypes FileType, string Content, DateTime CreatedOn)> vectorSetJson = new List<(VectorSetJsonFileTypes FileType, string Content, DateTime CreatedOn)>();
+
+			try
+			{
+				var data = db.QueryFromProcedure("acvp.VectorSetJsonGetAll", inParams: new
+				{
+					VectorSetId = vectorSetID
+				});
+
+				foreach (var row in data)
+				{
+					vectorSetJson.Add(((VectorSetJsonFileTypes)row.FileType, row.Content, row.CreatedOn));
+				}
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex.Message);
+			}
+
+			return vectorSetJson;
+		}
+
 		public Result InsertVectorSetJson(long vectorSetID, VectorSetJsonFileTypes fileType, string json)
 		{
 			var db = new MightyOrm(_acvpConnectionString);
@@ -233,6 +259,49 @@ namespace ACVPCore.Providers
 				_logger.LogError(ex.Message);
 				return new Result(ex.Message);
 			}
+		}
+
+		public Result Archive(long vectorSetId)
+		{
+			var db = new MightyOrm(_acvpConnectionString);
+
+			try
+			{
+				db.ExecuteProcedure("acvp.VectorSetArchive", inParams: new
+				{
+					VectorSetId = vectorSetId
+				});
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex.Message);
+				return new Result(ex.Message);
+			}
+
+			return new Result();
+		}
+
+		public List<long> GetVectorSetsToArchive()
+		{
+			List<long> vectorSetIDs = new List<long>();
+
+			var db = new MightyOrm(_acvpConnectionString);
+
+			try
+			{
+				var data = db.QueryFromProcedure("acvp.VectorSetsToArchiveGet");
+
+				foreach (var row in data)
+				{
+					vectorSetIDs.Add(row.VectorSetId);
+				}
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex.Message);
+			}
+
+			return vectorSetIDs;
 		}
 	}
 }

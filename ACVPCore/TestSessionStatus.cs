@@ -8,6 +8,7 @@
 		Failed = 3,
 		Passed = 4,
 		SubmittedForApproval = 5,
-		Published = 6
+		Published = 6,
+		Expired = 7
 	}
 }

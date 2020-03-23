@@ -145,5 +145,7 @@ namespace ACVPCore.Services
 		{
 			return _testSessionProvider.TestSessionExists(testSessionID);
 		}
+
+		public void Expire(int ageInDays) => _testSessionProvider.Expire(ageInDays);
 	}
 }

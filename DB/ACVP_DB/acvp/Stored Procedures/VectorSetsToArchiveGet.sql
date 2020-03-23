@@ -4,13 +4,18 @@ AS
 
 SET NOCOUNT ON
 
-SELECT V.id, V.[status]
-FROM acvp.TEST_SESSION T
+-- Everything tied to cancelled, published, or expired test sessions
+SELECT VS.id AS VectorSetId
+FROM acvp.TEST_SESSION TS
 	INNER JOIN
-	acvp.VECTOR_SET V ON V.test_session_id = T.id
-					 AND T.published = 1
-					 AND (EXISTS (SELECT NULL FROM acvp.VECTOR_SET_DATA D WHERE D.vector_set_id = V.id)
-							OR EXISTS (SELECT NULL FROM acvp.VECTOR_SET_EXPECTED_RESULTS E WHERE E.vector_set_id = V.id))
-					 --AND V.archived = 0
-					 -- TODO - replace the 2 ugly AND lines with this archived one once I can add the archived field to the vector set table
+	acvp.VECTOR_SET VS ON VS.test_session_id = TS.id
+					  AND VS.Archived = 0
+					  AND TS.TestSessionStatusId IN (1, 6, 7)		-- Cancelled, published, or expired
 
+UNION
+
+-- Individual vector set cancellations
+SELECT id AS VectorSetId
+FROM acvp.VECTOR_SET
+WHERE [status] = 5		-- Cancelled
+  AND Archived = 0

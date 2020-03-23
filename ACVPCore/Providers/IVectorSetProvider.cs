@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using ACVPCore.Models;
 using ACVPCore.Results;
 
@@ -14,6 +15,9 @@ namespace ACVPCore.Providers
 		VectorSet GetVectorSet(long vectorSetId);
 		List<VectorSetJsonFileTypes> GetVectorSetJsonFilesAvailable(long vectorSetId);
 		string GetVectorFileJson(long vectorSetId, VectorSetJsonFileTypes fileType);
+		List<(VectorSetJsonFileTypes FileType, string Content, DateTime CreatedOn)> GetVectorFileJson(long vectorSetID);
 		Result InsertVectorSetJson(long vectorSetID, VectorSetJsonFileTypes fileType, string json);
+		Result Archive(long vectorSetId);
+		List<long> GetVectorSetsToArchive();
 	}
 }
