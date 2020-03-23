@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
+using Web.Public.Configs;
 
 namespace Web.Public
 {
@@ -32,10 +33,17 @@ namespace Web.Public
                     context.HostingEnvironment.EnvironmentName = env;
 
                     builder
-                        //.AddJsonFile($"{directoryConfig}sharedappsettings.json", optional: false, reloadOnChange: false)
-                        //.AddJsonFile($"{directoryConfig}sharedappsettings.{env}.json", optional: false, reloadOnChange: false)
-                        .AddJsonFile($"{directoryConfig}appsettings.json", optional: false, reloadOnChange: false);
-                        //.AddJsonFile($"{directoryConfig}appsettings.{env}.json", optional: false, reloadOnChange: false);
+                        //.AddJsonFile($"{directoryConfig}sharedappsettings.json", false, false)
+                        //.AddJsonFile($"{directoryConfig}sharedappsettings.{env}.json", false, false)
+                        .AddJsonFile($"{directoryConfig}appsettings.json", false, false);
+                        //.AddJsonFile($"{directoryConfig}appsettings.{env}.json", false, false);
+                })
+                .ConfigureServices((hostContext, services) =>
+                {
+                    services.RegisterAcvpAdminServices();
+                    services.Configure<JwtConfig>(hostContext.Configuration.GetSection("Jwt"));
+                    services.Configure<TotpConfig>(hostContext.Configuration.GetSection("Totp"));
+                    services.Configure<AlgorithmConfig>(hostContext.Configuration.GetSection("Algorithm"));
                 })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
@@ -52,11 +60,6 @@ namespace Web.Public
                 .UseSerilog((hostContext, loggerConfiguration) =>
                 {
                     loggerConfiguration.ReadFrom.Configuration(hostContext.Configuration);
-                })
-                .ConfigureServices((hostContext, services) =>
-                {
-                    services.RegisterAcvpAdminServices();
-                    services.Configure<TotpConfig>(hostContext.Configuration.GetSection("Totp"));
                 });
     }
 }

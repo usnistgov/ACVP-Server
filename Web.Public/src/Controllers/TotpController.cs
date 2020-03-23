@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Web.Public.JsonObjects;
-using Web.Public.Providers;
+using Web.Public.Services;
 
 namespace Web.Public.Controllers
 {
@@ -9,11 +9,11 @@ namespace Web.Public.Controllers
     [ApiController]
     public class TotpController : ControllerBase
     {
-        private readonly ITotpProvider _totpProvider;
+        private readonly ITotpService _totpService;
         
-        public TotpController(ITotpProvider totpProvider)
+        public TotpController(ITotpService totpService)
         {
-            _totpProvider = totpProvider;
+            _totpService = totpService;
         }
         
         [HttpGet]
@@ -23,7 +23,7 @@ namespace Web.Public.Controllers
             var certRawData = Request.HttpContext.Connection.ClientCertificate.RawData;
             
             // Compute Totp
-            var result = _totpProvider.GenerateTotp(certRawData);
+            var result = _totpService.GenerateTotp(certRawData);
 
             // Wrap and return to user
             var returnObject = new PasswordObject

@@ -1,4 +1,4 @@
-namespace Web.Public
+namespace Web.Public.Configs
 {
     public class TotpConfig
     {
