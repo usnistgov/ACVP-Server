@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Generation.Core.Async
 {
@@ -18,6 +19,6 @@ namespace NIST.CVP.Generation.Core.Async
         /// <param name="testResults">The IUT supplied results to validate</param>
         /// <param name="showExpected">Shows the expected result in the validation file</param>
         /// <returns></returns>
-        TestVectorValidation ValidateResults(IEnumerable<ITestCaseValidatorAsync<TTestGroup, TTestCase>> testCaseValidators, IEnumerable<TTestGroup> testResults, bool showExpected);
+        Task<TestVectorValidation> ValidateResultsAsync(IEnumerable<ITestCaseValidatorAsync<TTestGroup, TTestCase>> testCaseValidators, IEnumerable<TTestGroup> testResults, bool showExpected);
     }
 }

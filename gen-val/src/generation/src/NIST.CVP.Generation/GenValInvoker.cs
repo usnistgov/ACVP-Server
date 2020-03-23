@@ -31,7 +31,7 @@ namespace NIST.CVP.Generation
             return parameterChecker.CheckParameters(request);
         }
 
-        public async Task<GenerateResponse> GenerateAsync(GenerateRequest request, int vsId)
+        public Task<GenerateResponse> GenerateAsync(GenerateRequest request, int vsId)
         {
             using (LogContext.PushProperty("VsID", vsId))
             using (LogContext.PushProperty("Application", "Generator"))
@@ -42,11 +42,11 @@ namespace NIST.CVP.Generation
 
                 using var container = GetContainer(algoMode).BeginLifetimeScope();
                 var generator = container.Resolve<IGenerator>();
-                return await generator.GenerateAsync(request);   
+                return generator.GenerateAsync(request);   
             }
         }
 
-        public ValidateResponse Validate(ValidateRequest request, int vsId)
+        public Task<ValidateResponse> ValidateAsync(ValidateRequest request, int vsId)
         {
 
             using (LogContext.PushProperty("VsID", vsId))
@@ -58,7 +58,7 @@ namespace NIST.CVP.Generation
                 
                 using var container = GetContainer(algoMode).BeginLifetimeScope();
                 var validator = container.Resolve<IValidator>();
-                return validator.Validate(request);
+                return validator.ValidateAsync(request);
             }
         }
 

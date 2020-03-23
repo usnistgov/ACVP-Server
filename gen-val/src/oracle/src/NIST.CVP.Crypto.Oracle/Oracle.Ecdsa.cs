@@ -26,7 +26,7 @@ namespace NIST.CVP.Crypto.Oracle
             }
             catch (OriginalClusterNodeSuicideException ex)
             {
-                ThisLogger.Warn(ex, $"{ex.Message}{Environment.NewLine}Restarting grain with {param.GetType()} parameter: {JsonConvert.SerializeObject(param)}");
+                _logger.Warn(ex, $"{ex.Message}{Environment.NewLine}Restarting grain with {param.GetType()} parameter: {JsonConvert.SerializeObject(param)}");
                 return await GetEcdsaDomainParameterAsync(param);
             }
         }
@@ -43,7 +43,7 @@ namespace NIST.CVP.Crypto.Oracle
             }
             catch (OriginalClusterNodeSuicideException ex)
             {
-                ThisLogger.Warn(ex, $"{ex.Message}{Environment.NewLine}Restarting grain with {param.GetType()} parameter: {JsonConvert.SerializeObject(param)}");
+                _logger.Warn(ex, $"{ex.Message}{Environment.NewLine}Restarting grain with {param.GetType()} parameter: {JsonConvert.SerializeObject(param)}");
                 return await GetEcdsaKeyAsync(param);
             }
         }
@@ -60,7 +60,7 @@ namespace NIST.CVP.Crypto.Oracle
             }
             catch (OriginalClusterNodeSuicideException ex)
             {
-                ThisLogger.Warn(ex, $"{ex.Message}{Environment.NewLine}Restarting grain with {param.GetType()} parameter: {JsonConvert.SerializeObject(param)}");
+                _logger.Warn(ex, $"{ex.Message}{Environment.NewLine}Restarting grain with {param.GetType()} parameter: {JsonConvert.SerializeObject(param)}");
                 return await CompleteDeferredEcdsaKeyAsync(param, fullParam);
             }
         }
@@ -79,7 +79,7 @@ namespace NIST.CVP.Crypto.Oracle
             }
             catch (OriginalClusterNodeSuicideException ex)
             {
-                ThisLogger.Warn(ex, $"{ex.Message}{Environment.NewLine}Restarting grain with {param.GetType()} parameter: {JsonConvert.SerializeObject(param)}");
+                _logger.Warn(ex, $"{ex.Message}{Environment.NewLine}Restarting grain with {param.GetType()} parameter: {JsonConvert.SerializeObject(param)}");
                 return await GetEcdsaKeyVerifyAsync(param);
             }
         }
@@ -96,7 +96,7 @@ namespace NIST.CVP.Crypto.Oracle
             }
             catch (OriginalClusterNodeSuicideException ex)
             {
-                ThisLogger.Warn(ex, $"{ex.Message}{Environment.NewLine}Restarting grain with {param.GetType()} parameter: {JsonConvert.SerializeObject(param)}");
+                _logger.Warn(ex, $"{ex.Message}{Environment.NewLine}Restarting grain with {param.GetType()} parameter: {JsonConvert.SerializeObject(param)}");
                 return await GetDeferredEcdsaSignatureAsync(param);
             }
         }
@@ -113,7 +113,7 @@ namespace NIST.CVP.Crypto.Oracle
             }
             catch (OriginalClusterNodeSuicideException ex)
             {
-                ThisLogger.Warn(ex, $"{ex.Message}{Environment.NewLine}Restarting grain with {param.GetType()} parameter: {JsonConvert.SerializeObject(param)}");
+                _logger.Warn(ex, $"{ex.Message}{Environment.NewLine}Restarting grain with {param.GetType()} parameter: {JsonConvert.SerializeObject(param)}");
                 return await CompleteDeferredEcdsaSignatureAsync(param, fullParam);
             }
         }
@@ -130,7 +130,7 @@ namespace NIST.CVP.Crypto.Oracle
             }
             catch (OriginalClusterNodeSuicideException ex)
             {
-                ThisLogger.Warn(ex, $"{ex.Message}{Environment.NewLine}Restarting grain with {param.GetType()} parameter: {JsonConvert.SerializeObject(param)}");
+                _logger.Warn(ex, $"{ex.Message}{Environment.NewLine}Restarting grain with {param.GetType()} parameter: {JsonConvert.SerializeObject(param)}");
                 return await GetEcdsaSignatureAsync(param);
             }
         }
@@ -164,7 +164,7 @@ namespace NIST.CVP.Crypto.Oracle
             }
             catch (OriginalClusterNodeSuicideException ex)
             {
-                ThisLogger.Warn(ex, $"{ex.Message}{Environment.NewLine}Restarting grain with {param.GetType()} parameter: {JsonConvert.SerializeObject(param)}");
+                _logger.Warn(ex, $"{ex.Message}{Environment.NewLine}Restarting grain with {param.GetType()} parameter: {JsonConvert.SerializeObject(param)}");
                 return await GetEcdsaVerifyResultAsync(param, key, badKey);
             }
         }

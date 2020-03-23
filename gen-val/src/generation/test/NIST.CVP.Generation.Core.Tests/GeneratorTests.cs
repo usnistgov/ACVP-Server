@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Moq;
 using NIST.CVP.Common.Enums;
+using NIST.CVP.Common.Oracle;
 using NIST.CVP.Generation.Core.DeSerialization;
 using NIST.CVP.Generation.Core.Enums;
 using NIST.CVP.Generation.Core.Parsers;
@@ -20,6 +21,7 @@ namespace NIST.CVP.Generation.Core.Tests
     [TestFixture, UnitTest]
     public class GeneratorTests
     {
+        private Mock<IOracle> _mockOracle;
         private Mock<ITestVectorFactoryAsync<FakeParameters, FakeTestVectorSet, FakeTestGroup, FakeTestCase>> _mockITestVectorFactory;
         private Mock<ITestCaseGeneratorFactoryFactory<FakeTestVectorSet, FakeTestGroup, FakeTestCase>> _mockITestCaseGeneratorFactoryFactory;
         private Mock<IParameterParser<FakeParameters>> _mockIParameterParser;
@@ -31,12 +33,15 @@ namespace NIST.CVP.Generation.Core.Tests
         [SetUp]
         public void Setup()
         {
+            _mockOracle = new Mock<IOracle>();
             _mockITestVectorFactory = new Mock<ITestVectorFactoryAsync<FakeParameters, FakeTestVectorSet, FakeTestGroup, FakeTestCase>>();
             _mockITestCaseGeneratorFactoryFactory = new Mock<ITestCaseGeneratorFactoryFactory<FakeTestVectorSet, FakeTestGroup, FakeTestCase>>();
             _mockIParameterParser = new Mock<IParameterParser<FakeParameters>>();
             _mockIParameterValidator = new Mock<IParameterValidator<FakeParameters>>();
             _mockIVectorSetSerializer = new Mock<IVectorSetSerializer<FakeTestVectorSet, FakeTestGroup, FakeTestCase>>();
 
+            _mockOracle.Setup(s => s.InitializeClusterClient()).Returns(Task.CompletedTask);
+            _mockOracle.Setup(s => s.CloseClusterClient()).Returns(Task.CompletedTask);
             _mockIParameterParser
                 .Setup(s => s.Parse(It.IsAny<string>()))
                 .Returns(() => new ParseResponse<FakeParameters>(new FakeParameters()));
@@ -61,6 +66,7 @@ namespace NIST.CVP.Generation.Core.Tests
                 .Returns(() => "");
 
             _subject = new Generator<FakeParameters, FakeTestVectorSet, FakeTestGroup, FakeTestCase>(
+                _mockOracle.Object,
                 _mockITestVectorFactory.Object,
                 _mockIParameterParser.Object,
                 _mockIParameterValidator.Object,

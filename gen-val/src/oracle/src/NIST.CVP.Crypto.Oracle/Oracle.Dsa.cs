@@ -24,7 +24,7 @@ namespace NIST.CVP.Crypto.Oracle
             }
             catch (OriginalClusterNodeSuicideException ex)
             {
-                ThisLogger.Warn(ex, $"{ex.Message}{Environment.NewLine}Restarting grain with {param.GetType()} parameter: {JsonConvert.SerializeObject(param)}");
+                _logger.Warn(ex, $"{ex.Message}{Environment.NewLine}Restarting grain with {param.GetType()} parameter: {JsonConvert.SerializeObject(param)}");
                 return await GetDsaPQAsync(param);
             }
         }
@@ -41,7 +41,7 @@ namespace NIST.CVP.Crypto.Oracle
             }
             catch (OriginalClusterNodeSuicideException ex)
             {
-                ThisLogger.Warn(ex, $"{ex.Message}{Environment.NewLine}Restarting grain with {param.GetType()} parameter: {JsonConvert.SerializeObject(param)}");
+                _logger.Warn(ex, $"{ex.Message}{Environment.NewLine}Restarting grain with {param.GetType()} parameter: {JsonConvert.SerializeObject(param)}");
                 return await GetDsaGAsync(param, pqParam);
             }
         }
@@ -80,7 +80,7 @@ namespace NIST.CVP.Crypto.Oracle
             }
             catch (OriginalClusterNodeSuicideException ex)
             {
-                ThisLogger.Warn(ex, $"{ex.Message}{Environment.NewLine}Restarting grain with {param.GetType()} parameter: {JsonConvert.SerializeObject(param)}");
+                _logger.Warn(ex, $"{ex.Message}{Environment.NewLine}Restarting grain with {param.GetType()} parameter: {JsonConvert.SerializeObject(param)}");
                 return await GetDsaPQVerifyAsync(param, fullParam);
             }
         }
@@ -97,7 +97,7 @@ namespace NIST.CVP.Crypto.Oracle
             }
             catch (OriginalClusterNodeSuicideException ex)
             {
-                ThisLogger.Warn(ex, $"{ex.Message}{Environment.NewLine}Restarting grain with {param.GetType()} parameter: {JsonConvert.SerializeObject(param)}");
+                _logger.Warn(ex, $"{ex.Message}{Environment.NewLine}Restarting grain with {param.GetType()} parameter: {JsonConvert.SerializeObject(param)}");
                 return await GetDsaPQVerifyAsync(param, fullParam);
             }
         }
@@ -114,7 +114,7 @@ namespace NIST.CVP.Crypto.Oracle
             }
             catch (OriginalClusterNodeSuicideException ex)
             {
-                ThisLogger.Warn(ex, $"{ex.Message}{Environment.NewLine}Restarting grain with {param.GetType()} parameter: {JsonConvert.SerializeObject(param)}");
+                _logger.Warn(ex, $"{ex.Message}{Environment.NewLine}Restarting grain with {param.GetType()} parameter: {JsonConvert.SerializeObject(param)}");
                 return await GetDsaKeyAsync(param);
             }
         }
@@ -131,7 +131,7 @@ namespace NIST.CVP.Crypto.Oracle
             }
             catch (OriginalClusterNodeSuicideException ex)
             {
-                ThisLogger.Warn(ex, $"{ex.Message}{Environment.NewLine}Restarting grain with {param.GetType()} parameter: {JsonConvert.SerializeObject(param)}");
+                _logger.Warn(ex, $"{ex.Message}{Environment.NewLine}Restarting grain with {param.GetType()} parameter: {JsonConvert.SerializeObject(param)}");
                 return await CompleteDeferredDsaKeyAsync(param, fullParam);
             }
         }
@@ -148,7 +148,7 @@ namespace NIST.CVP.Crypto.Oracle
             }
             catch (OriginalClusterNodeSuicideException ex)
             {
-                ThisLogger.Warn(ex, $"{ex.Message}{Environment.NewLine}Restarting grain with {param.GetType()} parameter: {JsonConvert.SerializeObject(param)}");
+                _logger.Warn(ex, $"{ex.Message}{Environment.NewLine}Restarting grain with {param.GetType()} parameter: {JsonConvert.SerializeObject(param)}");
                 return await GetDeferredDsaSignatureAsync(param);
             }
         }
@@ -165,7 +165,7 @@ namespace NIST.CVP.Crypto.Oracle
             }
             catch (OriginalClusterNodeSuicideException ex)
             {
-                ThisLogger.Warn(ex, $"{ex.Message}{Environment.NewLine}Restarting grain with {param.GetType()} parameter: {JsonConvert.SerializeObject(param)}");
+                _logger.Warn(ex, $"{ex.Message}{Environment.NewLine}Restarting grain with {param.GetType()} parameter: {JsonConvert.SerializeObject(param)}");
                 return await CompleteDeferredDsaSignatureAsync(param, fullParam);
             }
         }
@@ -182,7 +182,7 @@ namespace NIST.CVP.Crypto.Oracle
             }
             catch (OriginalClusterNodeSuicideException ex)
             {
-                ThisLogger.Warn(ex, $"{ex.Message}{Environment.NewLine}Restarting grain with {param.GetType()} parameter: {JsonConvert.SerializeObject(param)}");
+                _logger.Warn(ex, $"{ex.Message}{Environment.NewLine}Restarting grain with {param.GetType()} parameter: {JsonConvert.SerializeObject(param)}");
                 return await GetDsaSignatureAsync(param);
             }
         }

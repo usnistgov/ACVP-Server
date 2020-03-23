@@ -10,11 +10,10 @@ namespace NIST.CVP.Crypto.Oracle
         protected override int LoadSheddingRetries => 5;
 
         public OracleMinimalLoadSheddingRetries(
-            IDbConnectionStringFactory dbConnectionStringFactory, 
-            IOptions<EnvironmentConfig> environmentConfig, 
+            IClusterClientFactory clusterClientFactory, 
             IOptions<OrleansConfig> orleansConfig
         ) 
-            : base(dbConnectionStringFactory, environmentConfig, orleansConfig)
+            : base(clusterClientFactory, orleansConfig)
         {
         }
     }

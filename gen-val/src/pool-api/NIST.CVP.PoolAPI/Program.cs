@@ -102,6 +102,8 @@ namespace NIST.CVP.PoolAPI
                     services.Configure<PoolConfig>(hostContext.Configuration.GetSection(nameof(PoolConfig)));
                     services.Configure<OrleansConfig>(hostContext.Configuration.GetSection(nameof(OrleansConfig)));
 
+                    services.AddSingleton<IClusterClientFactory, ClusterClientFactory>();
+                    
                     services.AddSingleton<IDbConnectionStringFactory, DbConnectionStringFactory>();
                     services.AddSingleton<IDbConnectionFactory, SqlDbConnectionFactory>();
 

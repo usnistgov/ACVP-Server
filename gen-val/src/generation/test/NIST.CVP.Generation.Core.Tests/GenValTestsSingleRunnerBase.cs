@@ -76,13 +76,13 @@ namespace NIST.CVP.Generation.Core.Tests
             var targetFolder = GetTestFolder("Few");
             var fileName = GetTestFileFewTestCases(targetFolder);
 
-            LoggingHelper.ConfigureLogging(fileName, "generator", LogLevel.Warn);
+            LoggingHelper.ConfigureLogging(fileName, "generator", LogLevel.Info);
             GenLogger.Info($"{Algorithm}-{Mode} Test Vectors");
             await RunGeneration(targetFolder, fileName, true);
 
-            LoggingHelper.ConfigureLogging(fileName, "validator", LogLevel.Warn);
+            LoggingHelper.ConfigureLogging(fileName, "validator", LogLevel.Info);
             ValLogger.Info($"{Algorithm}-{Mode} Test Vectors");
-            RunValidation(targetFolder);
+            await RunValidation(targetFolder);
 
             // Get object for the validation.json
             var dp = new DynamicParser();
@@ -93,18 +93,18 @@ namespace NIST.CVP.Generation.Core.Tests
         }
 
         [Test]
-        public void ShouldReportAllSuccessfulTestsWithinValidationLotsOfTests()
+        public async Task ShouldReportAllSuccessfulTestsWithinValidationLotsOfTests()
         {
             var targetFolder = GetTestFolder("Lots");
             var fileName = GetTestFileLotsOfTestCases(targetFolder);
 
-            LoggingHelper.ConfigureLogging(fileName, "generator", LogLevel.Debug);
+            LoggingHelper.ConfigureLogging(fileName, "generator", LogLevel.Info);
             GenLogger.Info($"{Algorithm}-{Mode} Test Vectors");
-            RunGeneration(targetFolder, fileName, false);
+            await RunGeneration(targetFolder, fileName, false);
 
-            LoggingHelper.ConfigureLogging(fileName, "validator", LogLevel.Debug);
+            LoggingHelper.ConfigureLogging(fileName, "validator", LogLevel.Info);
             ValLogger.Info($"{Algorithm}-{Mode} Test Vectors");
-            RunValidation(targetFolder);
+            await RunValidation(targetFolder);
 
             // Get object for the validation.json
             var dp = new DynamicParser();
@@ -131,15 +131,15 @@ namespace NIST.CVP.Generation.Core.Tests
         }
 
         [Test]
-        public void ShouldReportFailedDispositionOnErrorTests()
+        public async Task ShouldReportFailedDispositionOnErrorTests()
         {
             var targetFolder = GetTestFolder("FailedTests");
             var fileName = GetTestFileFewTestCases(targetFolder);
 
             var expectedFailTestCases = new List<int>();
-            RunGeneration(targetFolder, fileName, true);
+            await RunGeneration(targetFolder, fileName, true);
             GetFailureTestCases(targetFolder, ref expectedFailTestCases);
-            RunValidation(targetFolder);
+            await RunValidation(targetFolder);
 
             // Get object for the validation.json
             var dp = new DynamicParser();
@@ -230,7 +230,7 @@ namespace NIST.CVP.Generation.Core.Tests
             }
         }
 
-        protected void RunValidation(string targetFolder)
+        protected async Task RunValidation(string targetFolder)
         {
             var resultJson = FileService.ReadFile(Path.Combine(targetFolder, _testVectorFileNames[0]));
             var internalJson = FileService.ReadFile(Path.Combine(targetFolder, _testVectorFileNames[1]));
@@ -240,7 +240,7 @@ namespace NIST.CVP.Generation.Core.Tests
             try
             {
                 var val = scope.Resolve<IValidator>();
-                var result = val.Validate(new ValidateRequest(internalJson, resultJson, true));
+                var result = await val.ValidateAsync(new ValidateRequest(internalJson, resultJson, true));
 
                 FileService.WriteFile(Path.Combine(targetFolder, "validation.json"), result.ValidationResult, true);
 

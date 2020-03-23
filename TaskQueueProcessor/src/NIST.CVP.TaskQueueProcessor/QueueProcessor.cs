@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using NIST.CVP.Common.Config;
+using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.TaskQueueProcessor.Services;
 using NIST.CVP.TaskQueueProcessor.TaskModels;
 using Serilog;
@@ -58,8 +59,7 @@ namespace NIST.CVP.TaskQueueProcessor
 
                         try
                         {
-                            var genValTask = _taskService.RunTaskAsync(task);
-                            genValTask.ContinueWith(OnGenValCompleted, task, stoppingToken);
+                            QueueGenVal(task).FireAndForget();
                         }
                         catch (Exception e)
                         {
@@ -85,10 +85,23 @@ namespace NIST.CVP.TaskQueueProcessor
                         Log.Debug("No tasks available, wait for re-poll.");
                         break;
                     }
+                    
+                    Log.Debug("Polling delay within max concurrency loop");
+                    await Task.Delay(_taskConfig.PollDelay * 1000, stoppingToken);
                 }
                 
+                Log.Debug("Polling delay within main loop.");
                 await Task.Delay(_taskConfig.PollDelay * 1000, stoppingToken);
             }
+        }
+
+        private async Task QueueGenVal(ExecutableTask task)
+        {
+            await _taskService.RunTaskAsync(task);
+            
+            Log.Information($"Completed task {task.DbId}, VsId {task.VsId}");
+            _tasks.Remove(task.DbId);
+            _cleaningService.DeleteCompletedTask(task.DbId);
         }
 
         public override Task StopAsync(CancellationToken cancellationToken)
@@ -105,6 +118,7 @@ namespace NIST.CVP.TaskQueueProcessor
         {
             if (executableTask is ExecutableTask completedTask)
             {
+                Log.Information($"Completed task {completedTask.DbId}, VsId {completedTask.VsId}");
                 _tasks.Remove(completedTask.DbId);
                 _cleaningService.DeleteCompletedTask(completedTask.DbId);
             }

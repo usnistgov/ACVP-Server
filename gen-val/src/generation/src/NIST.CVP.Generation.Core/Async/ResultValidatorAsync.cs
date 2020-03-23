@@ -27,23 +27,15 @@ namespace NIST.CVP.Generation.Core.Async
             _maximumWorkToQueue = orleansConfig.Value.MaxWorkItemsToQueuePerGenValInstance;
         }
     
-        public TestVectorValidation ValidateResults(
-            IEnumerable<ITestCaseValidatorAsync<TTestGroup, TTestCase>> testCaseValidators, 
-            IEnumerable<TTestGroup> testResults,
-            bool showExpected
-        )
-        {
-            var task = ValidateResultsAsync(testCaseValidators, testResults, showExpected);
-            task.Wait();
-            return task.Result;
-        }
-
-        private async Task<TestVectorValidation> ValidateResultsAsync(
+        public async Task<TestVectorValidation> ValidateResultsAsync(
             IEnumerable<ITestCaseValidatorAsync<TTestGroup, TTestCase>> testCaseValidators, 
             IEnumerable<TTestGroup> testResults, 
             bool showExpected
         )
         {
+            testCaseValidators = testCaseValidators.ToList();
+            testResults = testResults.ToList();
+            
             // Keep track of validation tasks
             var tasks = new List<Task<TestCaseValidation>>();
 
@@ -116,6 +108,7 @@ namespace NIST.CVP.Generation.Core.Async
                 }
                 
                 _logger.Debug($"No additional work can be queued, trying again.");
+                await Task.Delay(ThrottleDelayInMilliseconds);
             }
         }
         

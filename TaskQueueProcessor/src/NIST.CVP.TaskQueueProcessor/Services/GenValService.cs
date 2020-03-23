@@ -58,12 +58,12 @@ namespace NIST.CVP.TaskQueueProcessor.Services
             }
         }
 
-        public void RunValidator(ValidationTask validationTask)
+        public async Task RunValidatorAsync(ValidationTask validationTask)
         {
             Log.Information($"Validation Task: {validationTask.VsId}");
             
             var valRequest = new ValidateRequest(validationTask.InternalProjection, validationTask.SubmittedResults, validationTask.Expected);
-            var response = _genValInvoker.Validate(valRequest, validationTask.VsId);
+            var response = await _genValInvoker.ValidateAsync(valRequest, validationTask.VsId);
             
             if (response.StatusCode == StatusCode.Success)
             {

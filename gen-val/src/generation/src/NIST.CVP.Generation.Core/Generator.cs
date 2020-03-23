@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using NIST.CVP.Common.Enums;
+using NIST.CVP.Common.Oracle;
+using NIST.CVP.Crypto.Oracle;
 using NIST.CVP.Generation.Core.ContractResolvers;
 using NIST.CVP.Generation.Core.DeSerialization;
 using NIST.CVP.Generation.Core.Enums;
@@ -17,6 +19,7 @@ namespace NIST.CVP.Generation.Core
         where TTestGroup : ITestGroup<TTestGroup, TTestCase>
         where TTestCase : ITestCase<TTestGroup, TTestCase>
     {
+        private readonly IOracle _oracle;
         private readonly ITestVectorFactoryAsync<TParameters, TTestVectorSet, TTestGroup, TTestCase> _testVectorFactory;
         private readonly IParameterParser<TParameters> _parameterParser;
         private readonly IParameterValidator<TParameters> _parameterValidator;
@@ -32,6 +35,7 @@ namespace NIST.CVP.Generation.Core
         };
 
         public Generator(
+            IOracle oracle,
             ITestVectorFactoryAsync<TParameters, TTestVectorSet, TTestGroup, TTestCase> testVectorFactory, 
             IParameterParser<TParameters> parameterParser, 
             IParameterValidator<TParameters> parameterValidator, 
@@ -39,6 +43,7 @@ namespace NIST.CVP.Generation.Core
             IVectorSetSerializer<TTestVectorSet, TTestGroup, TTestCase> vectorSetSerializer
         )
         {
+            _oracle = oracle;
             _testVectorFactory = testVectorFactory;
             _parameterParser = parameterParser;
             _parameterValidator = parameterValidator;
@@ -50,6 +55,8 @@ namespace NIST.CVP.Generation.Core
         {
             try
             {
+                await _oracle.InitializeClusterClient();
+                
                 var parameterResponse = _parameterParser.Parse(generateRequest.RegistrationJson);
                 if (!parameterResponse.Success)
                 {
@@ -63,6 +70,9 @@ namespace NIST.CVP.Generation.Core
                 }
                 var testVector = await _testVectorFactory.BuildTestVectorSetAsync(parameters);
                 var testCasesResult = await _testCaseGeneratorFactoryFactory.BuildTestCasesAsync(testVector);
+
+                await _oracle.CloseClusterClient();
+                
                 if (!testCasesResult.Success)
                 {
                     return testCasesResult;

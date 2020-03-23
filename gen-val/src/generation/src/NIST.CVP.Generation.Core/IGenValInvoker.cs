@@ -24,6 +24,6 @@ namespace NIST.CVP.Generation.Core
         /// </summary>
         /// <param name="request">The ACVP internal projection and IUT json.</param>
         /// <returns></returns>
-        ValidateResponse Validate(ValidateRequest request, int vsId);
+        Task<ValidateResponse> ValidateAsync(ValidateRequest request, int vsId);
     }
 }

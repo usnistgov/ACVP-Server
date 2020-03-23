@@ -40,8 +40,7 @@ namespace NIST.CVP.TaskQueueProcessor.Services
 
                     case ValidationTask validationTask:
                         taskType = "validation";
-                        _genValService.RunValidator(validationTask);
-                        break;
+                        throw new InvalidOperationException("Needs to be run async.");
 
                     case PoolTask poolTask:
                         taskType = "pool spawn";
@@ -56,7 +55,7 @@ namespace NIST.CVP.TaskQueueProcessor.Services
             }
         }
         
-        public async Task RunTaskAsync(ExecutableTask task)
+        public Task RunTaskAsync(ExecutableTask task)
         {
             Log.Information($"Running job: {task.DbId}");
             var taskType = "";
@@ -68,13 +67,11 @@ namespace NIST.CVP.TaskQueueProcessor.Services
                 {
                     case GenerationTask generationTask:
                         taskType = "generation";
-                        await _genValService.RunGeneratorAsync(generationTask);
-                        return;
+                        return _genValService.RunGeneratorAsync(generationTask);
 
                     case ValidationTask validationTask:
                         taskType = "validation";
-                        _genValService.RunValidator(validationTask);
-                        break;
+                        return _genValService.RunValidatorAsync(validationTask);
 
                     case PoolTask poolTask:
                         taskType = "pool spawn";
@@ -87,6 +84,8 @@ namespace NIST.CVP.TaskQueueProcessor.Services
                 Log.Error(ex, $"Exception on dbId: {task.DbId}, vsId: {task.VsId}, running: {taskType}");
                 // No repeated throw, just exit out normally
             }
+
+            return Task.CompletedTask;
         }
     }
 }

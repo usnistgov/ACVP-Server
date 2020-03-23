@@ -6,6 +6,6 @@ namespace NIST.CVP.TaskQueueProcessor.Services
     public interface IGenValService
     {
         Task RunGeneratorAsync(GenerationTask generationTask);
-        void RunValidator(ValidationTask validationTask);
+        Task RunValidatorAsync(ValidationTask validationTask);
     }
 }
