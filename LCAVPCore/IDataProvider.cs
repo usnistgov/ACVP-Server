@@ -16,5 +16,6 @@ namespace LCAVPCore
 		int GetValidationRecordIDForModuleAndAlgo(int moduleID, string family);
 		List<(int OrderIndex, string PhoneNumber, string Type)> GetPhoneNumbersForPerson(int personID);
 		long GetValidationIDForSubmissionID(string submissionID);
+		long GetValidationNumberForValidationID(long validationID);
 	}
 }

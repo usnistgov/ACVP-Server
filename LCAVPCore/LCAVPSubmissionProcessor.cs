@@ -24,10 +24,11 @@ namespace LCAVPCore
 		private readonly IOrganizationProcessor _organizationProcessor;
 		private readonly IPersonProcessor _personProcessor;
 		private readonly IValidationProcessor _validationProcessor;
+		private readonly IDataProvider _dataProvider;
 		private readonly string _extractedFilesRoot;
 		private readonly string _processedFilesRoot;
 
-		public LCAVPSubmissionProcessor(ISubmissionLogger submissionLogger, INewSubmissionProcessor newSubmissionProcessor, IChangeSubmissionProcessor changeSubmissionProcessor, IUpdateSubmissionProcessor updateSubmissionProcessor, IModuleProcessor moduleProcessor, IOEProcessor oeProcessor, IOrganizationProcessor organizationProcessor, IPersonProcessor personProcessor, IValidationProcessor validationProcessor, IConfiguration configuration)
+		public LCAVPSubmissionProcessor(ISubmissionLogger submissionLogger, INewSubmissionProcessor newSubmissionProcessor, IChangeSubmissionProcessor changeSubmissionProcessor, IUpdateSubmissionProcessor updateSubmissionProcessor, IModuleProcessor moduleProcessor, IOEProcessor oeProcessor, IOrganizationProcessor organizationProcessor, IPersonProcessor personProcessor, IValidationProcessor validationProcessor, IDataProvider dataProvider, IConfiguration configuration)
 		{
 			_submissionLogger = submissionLogger;
 			_newSubmissionProcessor = newSubmissionProcessor;
@@ -38,6 +39,7 @@ namespace LCAVPCore
 			_organizationProcessor = organizationProcessor;
 			_personProcessor = personProcessor;
 			_validationProcessor = validationProcessor;
+			_dataProvider = dataProvider;
 			_extractedFilesRoot = configuration.GetValue<string>("LCAVP:ExtractedFilesRoot");
 			_processedFilesRoot = configuration.GetValue<string>("LCAVP:ProcessedFilesRoot");
 		}
@@ -55,21 +57,6 @@ namespace LCAVPCore
 			{
 				submissionProcessingResult.Errors.Add("Not a zip file");
 			}
-
-			//if (submissionProcessingResult.Success)
-			//{
-			//Is the file name correct?
-			//	string fileNameOnly = Path.GetFileNameWithoutExtension(filePath);
-
-			//	Regex fileNamePattern = new Regex(@"^[\d-]+\d-(?<type>[NUC])-.+$");
-			//	if (!fileNamePattern.IsMatch(fileNameOnly))
-			//	{
-			//		success = false;
-			//		//errors.Add("Improper file name");
-			//		submissionProcessingResult.Errors.Add("Improper file name");
-			//	}
-			//}
-
 
 			//Get some metadata out of the inf file
 			(bool Found, string CAVSVersion, string LabName, string LabPOC, string LabPOCEmail, string NVLAPCode, string SubmissionCode, string UniqueNumber) = ExtractINFMetadata(filePath);
@@ -205,6 +192,9 @@ namespace LCAVPCore
 									//Update the submission log with the validation ID that was created - this may get used by future submissions in prereqs
 									_submissionLogger.UpdateValidationIDForSubmissionLogID(submissionLogID, result.ID);
 
+									//Populate the validation number on the result
+									submissionProcessingResult.ValidationNumber = _dataProvider.GetValidationNumberForValidationID(result.ID);
+
 									break;
 
 								case (ProcessingType.Update, WorkflowType.Validation):
@@ -220,12 +210,18 @@ namespace LCAVPCore
 				//Log the submission
 				submissionLogID = LogSubmission(submissionID, LabName, LabPOC, LabPOCEmail, submissionType, submissionProcessingResult.Success, processedFileName, extractionResult?.ExtractionPath, submissionProcessingResult.Errors);
 			}
-			submissionProcessingResult.SubmissionID = submissionLogID;
 
 			//Move the file to the processed location
 			string destinationPath = Path.Combine(_processedFilesRoot, processedFileName);
 
 			File.Move(filePath, destinationPath);
+
+			//Populate some of the fields on the result
+			submissionProcessingResult.SubmissionType = submissionType;
+			submissionProcessingResult.LabName = LabName;
+			submissionProcessingResult.LabPOC = LabPOC;
+			submissionProcessingResult.LabPOCEmail = LabPOCEmail;
+			submissionProcessingResult.SubmissionID = submissionLogID;
 
 			return submissionProcessingResult;
 		}
