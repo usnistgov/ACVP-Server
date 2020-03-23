@@ -18,5 +18,6 @@ namespace ACVPCore.Providers
 		List<VectorSet> GetVectorSetsForTestSession(long testSessionId);
 		long GetTestSessionIDFromVectorSet(long vectorSetID);
 		bool TestSessionExists(long testSessionID);
+		void Expire(int ageInDays);
 	}
 }
