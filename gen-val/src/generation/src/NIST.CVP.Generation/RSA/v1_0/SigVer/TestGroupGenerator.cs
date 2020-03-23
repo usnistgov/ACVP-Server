@@ -26,7 +26,7 @@ namespace NIST.CVP.Generation.RSA.v1_0.SigVer
             _randomizeMessagePriorToSign = randomizeMessagePriorToSign;
         }
 
-        public async Task<IEnumerable<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
+        public async Task<List<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             var testGroups = new List<TestGroup>();
             var pubExpMode = EnumHelpers.GetEnumFromEnumDescription<PublicExponentModes>(parameters.PubExpMode);

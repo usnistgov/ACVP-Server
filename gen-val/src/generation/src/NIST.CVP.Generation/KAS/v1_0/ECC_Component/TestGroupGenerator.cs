@@ -11,7 +11,7 @@ namespace NIST.CVP.Generation.KAS.v1_0.ECC_Component
     {
         private const string testType = "AFT";
 
-        public Task<IEnumerable<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
+        public Task<List<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             List<TestGroup> groups = new List<TestGroup>();
             foreach (var curveString in parameters.Curve)
@@ -26,7 +26,7 @@ namespace NIST.CVP.Generation.KAS.v1_0.ECC_Component
                 groups.Add(group);
             }
 
-            return Task.FromResult(groups.AsEnumerable());
+            return Task.FromResult(groups);
         }
     }
 }

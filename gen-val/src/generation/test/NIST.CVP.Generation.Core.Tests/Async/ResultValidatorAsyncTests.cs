@@ -193,7 +193,7 @@ namespace NIST.CVP.Generation.Core.Tests.Async
                 });
             }
             
-            var result = await _subject.ValidateResultsAsync(validators, new [] { testGroup }, false);
+            var result = await _subject.ValidateResultsAsync(validators, new List<FakeTestGroup>() { testGroup }, false);
             
             Assert.AreEqual(numberToQueue, result.Validations.Count());
         }

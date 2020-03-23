@@ -76,7 +76,7 @@ namespace NIST.CVP.Generation.Core.Tests
                 .Returns(gennies);
             _testGroupGenerator
                 .Setup(s => s.BuildTestGroupsAsync(It.IsAny<FakeParameters>()))
-                .Returns(Task.FromResult(new List<FakeTestGroup>().AsEnumerable()));
+                .Returns(Task.FromResult(new List<FakeTestGroup>()));
 
             _subject = new TestVectorFactory<FakeParameters, FakeTestVectorSet, FakeTestGroup, FakeTestCase>(_testGroupGeneratorFactory.Object);
 
@@ -112,7 +112,7 @@ namespace NIST.CVP.Generation.Core.Tests
                         {
                             TestType = testType
                         }
-                    }.AsEnumerable()));
+                    }));
 
             _subject = new TestVectorFactory<FakeParameters, FakeTestVectorSet, FakeTestGroup, FakeTestCase>(_testGroupGeneratorFactory.Object);
 

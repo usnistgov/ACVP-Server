@@ -30,13 +30,13 @@ namespace NIST.CVP.Generation.KAS_IFC.Sp800_56Br2
         };
         private static readonly BigInteger DefaultExponent = BigInteger.Zero; // new BigInteger(65537);
 
-        public Task<IEnumerable<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
+        public Task<List<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             List<TestGroup> groups = new List<TestGroup>();
 
             GenerateGroups(parameters.Scheme, parameters, groups);
 
-            return Task.FromResult(groups.AsEnumerable());
+            return Task.FromResult(groups);
         }
 
         private void GenerateGroups(Schemes parametersScheme, Parameters param, List<TestGroup> groups)

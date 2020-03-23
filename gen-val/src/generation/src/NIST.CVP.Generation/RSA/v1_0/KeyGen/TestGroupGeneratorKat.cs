@@ -10,13 +10,13 @@ namespace NIST.CVP.Generation.RSA.v1_0.KeyGen
     {
         private const string TEST_TYPE = "KAT";
 
-        public Task<IEnumerable<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
+        public Task<List<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             var testGroups = new List<TestGroup>();
 
             if (parameters.PubExpMode == PublicExponentModes.Fixed)
             {
-                return Task.FromResult(testGroups.AsEnumerable());
+                return Task.FromResult(testGroups);
             }
 
             foreach (var algSpec in parameters.AlgSpecs)
@@ -48,7 +48,7 @@ namespace NIST.CVP.Generation.RSA.v1_0.KeyGen
                 }
             }
 
-            return Task.FromResult(testGroups.AsEnumerable());
+            return Task.FromResult(testGroups);
         }
     }
 }

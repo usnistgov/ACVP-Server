@@ -12,7 +12,7 @@ namespace NIST.CVP.Generation.DSA.v1_0.PqgGen
     {
         public const string TEST_TYPE = "GDT";
 
-        public Task<IEnumerable<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
+        public Task<List<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             var testGroups = new List<TestGroup>();
 
@@ -38,7 +38,7 @@ namespace NIST.CVP.Generation.DSA.v1_0.PqgGen
                 }
             }
 
-            return Task.FromResult(testGroups.AsEnumerable());
+            return Task.FromResult(testGroups);
         }
     }
 }

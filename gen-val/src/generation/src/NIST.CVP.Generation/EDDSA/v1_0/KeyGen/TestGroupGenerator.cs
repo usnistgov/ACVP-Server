@@ -9,7 +9,7 @@ namespace NIST.CVP.Generation.EDDSA.v1_0.KeyGen
 {
     public class TestGroupGenerator : ITestGroupGeneratorAsync<Parameters, TestGroup, TestCase>
     {
-        public Task<IEnumerable<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
+        public Task<List<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             var testGroups = new List<TestGroup>();
 
@@ -27,7 +27,7 @@ namespace NIST.CVP.Generation.EDDSA.v1_0.KeyGen
                 }
             }
 
-            return Task.FromResult(testGroups.AsEnumerable());
+            return Task.FromResult(testGroups);
         }
     }
 }

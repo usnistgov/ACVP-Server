@@ -10,7 +10,7 @@ namespace NIST.CVP.Generation.AES_XTS.v1_0
     {
         private const string TEST_TYPE_LABEL = "AFT";
 
-        public Task<IEnumerable<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
+        public Task<List<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             var testGroups = new List<TestGroup>();
             parameters.PayloadLen.SetRangeOptions(RangeDomainSegmentOptions.Random);
@@ -45,7 +45,7 @@ namespace NIST.CVP.Generation.AES_XTS.v1_0
                 }
             }
 
-            return Task.FromResult(testGroups.AsEnumerable());
+            return Task.FromResult(testGroups);
         }
     }
 }

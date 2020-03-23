@@ -10,7 +10,7 @@ namespace NIST.CVP.Generation.KDF_Components.v1_0.SSH
 {
     public class TestGroupGenerator : ITestGroupGeneratorAsync<Parameters, TestGroup, TestCase>
     {
-        public Task<IEnumerable<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
+        public Task<List<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             var list = new List<TestGroup>();
 
@@ -27,7 +27,7 @@ namespace NIST.CVP.Generation.KDF_Components.v1_0.SSH
                 }
             }
 
-            return Task.FromResult(list.AsEnumerable());
+            return Task.FromResult(list);
         }
     }
 }

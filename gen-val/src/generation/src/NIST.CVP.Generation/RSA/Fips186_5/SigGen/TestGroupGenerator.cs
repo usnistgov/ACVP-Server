@@ -23,7 +23,7 @@ namespace NIST.CVP.Generation.RSA.Fips186_5.SigGen
 
         public const string TEST_TYPE = "GDT";
 
-        public async Task<IEnumerable<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
+        public async Task<List<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             if (parameters.IsSample)
             {

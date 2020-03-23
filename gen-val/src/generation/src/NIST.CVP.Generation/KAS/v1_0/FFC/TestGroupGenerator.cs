@@ -29,7 +29,7 @@ namespace NIST.CVP.Generation.KAS.v1_0.FFC
             _oracle = oracle;
         }
 
-        public async Task<IEnumerable<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
+        public async Task<List<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             List<TestGroup> groups = new List<TestGroup>();
 

@@ -10,14 +10,14 @@ namespace NIST.CVP.Generation.CMAC.v1_0
 {
     public class TestGroupGenerator : ITestGroupGeneratorAsync<Parameters, TestGroup, TestCase>
     {
-        public Task<IEnumerable<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
+        public Task<List<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             var testGroups = new List<TestGroup>();
 
-            return Task.FromResult(CreateGroups(parameters, testGroups).AsEnumerable());
+            return Task.FromResult(CreateGroups(parameters, testGroups));
         }
 
-        private IEnumerable<TestGroup> CreateGroups(Parameters parameters, List<TestGroup> testGroups)
+        private List<TestGroup> CreateGroups(Parameters parameters, List<TestGroup> testGroups)
         {
             foreach (var capability in parameters.Capabilities)
             {

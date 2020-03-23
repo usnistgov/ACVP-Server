@@ -8,7 +8,7 @@ namespace NIST.CVP.Generation.KDF_Components.v1_0.ANXIX963
 {
     public class TestGroupGenerator : ITestGroupGeneratorAsync<Parameters, TestGroup, TestCase>
     {
-        public Task<IEnumerable<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
+        public Task<List<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             var testGroups = new HashSet<TestGroup>();
             foreach (var hashAlg in parameters.HashAlg)
@@ -36,7 +36,7 @@ namespace NIST.CVP.Generation.KDF_Components.v1_0.ANXIX963
                 }
             }
             
-            return Task.FromResult(testGroups.AsEnumerable());
+            return Task.FromResult(testGroups.ToList());
         }
 
         public static bool IsValidGroup(int fieldSize, int hashOutputLength)

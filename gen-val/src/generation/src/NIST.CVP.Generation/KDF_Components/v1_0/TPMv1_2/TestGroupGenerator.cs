@@ -7,7 +7,7 @@ namespace NIST.CVP.Generation.KDF_Components.v1_0.TPMv1_2
 {
     public class TestGroupGenerator : ITestGroupGeneratorAsync<Parameters, TestGroup, TestCase>
     {
-        public Task<IEnumerable<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
+        public Task<List<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             return Task.FromResult(new List<TestGroup>
             {
@@ -15,7 +15,7 @@ namespace NIST.CVP.Generation.KDF_Components.v1_0.TPMv1_2
                 {
                     TestType = "AFT"
                 }
-            }.AsEnumerable());
+            });
         }
     }
 }

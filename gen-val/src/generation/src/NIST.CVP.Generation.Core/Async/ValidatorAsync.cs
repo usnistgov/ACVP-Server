@@ -89,7 +89,7 @@ namespace NIST.CVP.Generation.Core.Async
                 throw new Exception("Unable to parse internalProjection file.");
             }
 
-            var testCaseValidators = _testCaseValidatorFactory.GetValidators(answers).ToList();
+            var testCaseValidators = _testCaseValidatorFactory.GetValidators(answers);
 
             if (testCaseValidators == null || !testCaseValidators.Any())
             {

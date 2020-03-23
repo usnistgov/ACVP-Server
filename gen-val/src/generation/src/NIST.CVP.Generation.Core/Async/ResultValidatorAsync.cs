@@ -28,21 +28,18 @@ namespace NIST.CVP.Generation.Core.Async
         }
     
         public async Task<TestVectorValidation> ValidateResultsAsync(
-            IEnumerable<ITestCaseValidatorAsync<TTestGroup, TTestCase>> testCaseValidators, 
-            IEnumerable<TTestGroup> testResults, 
+            List<ITestCaseValidatorAsync<TTestGroup, TTestCase>> testCaseValidators, 
+            List<TTestGroup> testResults, 
             bool showExpected
         )
         {
-            testCaseValidators = testCaseValidators.ToList();
-            testResults = testResults.ToList();
-            
             // Keep track of validation tasks
             var tasks = new List<Task<TestCaseValidation>>();
 
             // result of validations
             var validations = new List<TestCaseValidation>();
 
-            var expectedTaskCount = testCaseValidators.Count();
+            var expectedTaskCount = testCaseValidators.Count;
             
             // for every test case validator, start a task to validate the test
             foreach (var caseValidator in testCaseValidators)
@@ -82,8 +79,10 @@ namespace NIST.CVP.Generation.Core.Async
             {
                 await Task.Delay(ThrottleDelayInMilliseconds);
             }
+
+            var results = await Task.WhenAll(tasks);
             
-            validations.AddRange(await Task.WhenAll(tasks));
+            validations.AddRange(results);
 
             return new TestVectorValidation { Validations = validations };
         }
@@ -129,6 +128,6 @@ namespace NIST.CVP.Generation.Core.Async
             }
         }
 
-        private static Logger _logger => LogManager.GetCurrentClassLogger();
+        private static Logger _logger = LogManager.GetCurrentClassLogger();
     }
 }

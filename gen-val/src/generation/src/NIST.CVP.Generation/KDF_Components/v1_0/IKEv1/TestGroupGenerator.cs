@@ -12,7 +12,7 @@ namespace NIST.CVP.Generation.KDF_Components.v1_0.IKEv1
 {
     public class TestGroupGenerator : ITestGroupGeneratorAsync<Parameters, TestGroup, TestCase>
     {
-        public Task<IEnumerable<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
+        public Task<List<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             var testGroups = new HashSet<TestGroup>();
 
@@ -56,7 +56,7 @@ namespace NIST.CVP.Generation.KDF_Components.v1_0.IKEv1
                 }
             }
 
-            return Task.FromResult(testGroups.AsEnumerable());
+            return Task.FromResult(testGroups.ToList());
         }
 
         private List<int> GetMinMaxOtherValueForDomain(MathDomain domain)

@@ -20,6 +20,6 @@ namespace NIST.CVP.Generation.Core
         /// </summary>
         /// <param name="parameters">The parameters to build groups off of.</param>
         /// <returns></returns>
-        Task<IEnumerable<TTestGroup>> BuildTestGroupsAsync(TParameters parameters);
+        Task<List<TTestGroup>> BuildTestGroupsAsync(TParameters parameters);
     }
 }

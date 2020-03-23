@@ -68,6 +68,7 @@ namespace NIST.CVP.Generation.Core.Async
             }
             
             int testId = 1;
+
             // for each group
             foreach (var keyValuePair in tasks)
             {

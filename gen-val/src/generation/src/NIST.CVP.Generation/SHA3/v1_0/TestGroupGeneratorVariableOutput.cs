@@ -9,14 +9,14 @@ namespace NIST.CVP.Generation.SHA3.v1_0
     {
         private const string TEST_TYPE = "VOT";
 
-        public Task<IEnumerable<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
+        public Task<List<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             var testGroups = new List<TestGroup>();
 
             // VOT tests are only valid for shake
             if (!parameters.Algorithm.ToLower().Contains("shake"))
             {
-                return Task.FromResult(testGroups.AsEnumerable());
+                return Task.FromResult(testGroups);
             }
 
             foreach (var digestSize in parameters.DigestSizes)
@@ -35,7 +35,7 @@ namespace NIST.CVP.Generation.SHA3.v1_0
                 testGroups.Add(testGroup);
             }
 
-            return Task.FromResult(testGroups.AsEnumerable());
+            return Task.FromResult(testGroups);
         }
     }
 }

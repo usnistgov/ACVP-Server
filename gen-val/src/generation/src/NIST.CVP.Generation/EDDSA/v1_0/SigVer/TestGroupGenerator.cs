@@ -20,7 +20,7 @@ namespace NIST.CVP.Generation.EDDSA.v1_0.SigVer
             _oracle = oracle;
         }
 
-        public Task<IEnumerable<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
+        public Task<List<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             // Use a hash set because the registration allows for duplicate pairings to occur
             // Equality of groups is done via name of the curve and name of the hash function.
@@ -62,7 +62,7 @@ namespace NIST.CVP.Generation.EDDSA.v1_0.SigVer
                 }
             }
 
-            return Task.FromResult(testGroups.AsEnumerable());
+            return Task.FromResult(testGroups.ToList());
         }
     }
 }

@@ -17,14 +17,14 @@ namespace NIST.CVP.Generation.HMAC.v1_0
         public int[] KeyLens { get; private set; }
         public int[] MacLens { get; private set; }
 
-        public Task<IEnumerable<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
+        public Task<List<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             var testGroups = new List<TestGroup>();
 
             return Task.FromResult(CreateGroups(parameters, testGroups));
         }
 
-        private IEnumerable<TestGroup> CreateGroups(Parameters parameters, List<TestGroup> testGroups)
+        private List<TestGroup> CreateGroups(Parameters parameters, List<TestGroup> testGroups)
         {
             var result = AlgorithmSpecificationToDomainMapping.GetMappingFromAlgorithm(parameters.Algorithm);
             

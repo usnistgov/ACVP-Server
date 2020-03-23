@@ -9,7 +9,7 @@ namespace NIST.CVP.Generation.RSA.v1_0.SpComponent
 {
     public class TestGroupGenerator : ITestGroupGeneratorAsync<Parameters, TestGroup, TestCase>
     {
-        public Task<IEnumerable<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
+        public Task<List<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             return Task.FromResult(new List<TestGroup>
             {
@@ -17,7 +17,7 @@ namespace NIST.CVP.Generation.RSA.v1_0.SpComponent
                 {
                     KeyFormat = EnumHelpers.GetEnumFromEnumDescription<PrivateKeyModes>(parameters.KeyFormat)
                 }
-            }.AsEnumerable());
+            });
         }
     }
 }

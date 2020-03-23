@@ -20,7 +20,7 @@ namespace NIST.CVP.Generation.DSA.v1_0.KeyGen
             _oracle = oracle;
         }
 
-        public async Task<IEnumerable<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
+        public async Task<List<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             var testGroups = new List<TestGroup>();
 

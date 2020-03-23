@@ -11,7 +11,7 @@ namespace NIST.CVP.Generation.RSA.Fips186_5.KeyGen
     {
         private const string TEST_TYPE = "AFT";
 
-        public Task<IEnumerable<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
+        public Task<List<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             var testGroups = new List<TestGroup>();
 
@@ -90,7 +90,7 @@ namespace NIST.CVP.Generation.RSA.Fips186_5.KeyGen
                 }
             }
 
-            return Task.FromResult(testGroups.AsEnumerable());
+            return Task.FromResult(testGroups);
         }
     }
 }

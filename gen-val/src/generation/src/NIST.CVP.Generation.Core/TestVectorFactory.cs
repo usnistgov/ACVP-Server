@@ -23,6 +23,7 @@ namespace NIST.CVP.Generation.Core
             List<TTestGroup> groups = new List<TTestGroup>();
 
             var groupGenerators = _iTestGroupGeneratorFactory.GetTestGroupGenerators(parameters).ToList();
+            
             foreach (var groupGenerator in groupGenerators)
             {
                 groups.AddRangeIfNotNullOrEmpty(await groupGenerator.BuildTestGroupsAsync(parameters));

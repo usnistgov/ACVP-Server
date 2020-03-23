@@ -10,7 +10,7 @@ namespace NIST.CVP.Generation.AES_CFB1.v1_0
     {
         public const string MMT_TYPE_LABEL = "MMT";
 
-        public Task<IEnumerable<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
+        public Task<List<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             var testGroups = new List<TestGroup>();
             var algoMode = AlgoModeHelpers.GetAlgoModeFromAlgoAndMode(parameters.Algorithm, parameters.Mode, parameters.Revision);
@@ -29,7 +29,7 @@ namespace NIST.CVP.Generation.AES_CFB1.v1_0
                     testGroups.Add(testGroup);
                 }
             }
-            return Task.FromResult(testGroups.AsEnumerable());
+            return Task.FromResult(testGroups);
         }
     }
 }

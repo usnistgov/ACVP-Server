@@ -18,14 +18,14 @@ namespace NIST.CVP.Generation.KAS.v1_0.ECC
         private const int MAX_KEY_SIZE = 4096;
         private readonly string[] _testTypes = new string[] { "AFT", "VAL" };
         
-        public Task<IEnumerable<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
+        public Task<List<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             List<TestGroup> groups = new List<TestGroup>();
 
             var flagFunctions = SpecificationMapping.FunctionArrayToFlags(parameters.Function);
             GenerateGroups(parameters.Scheme, flagFunctions, groups);
 
-            return Task.FromResult(groups.AsEnumerable());
+            return Task.FromResult(groups);
         }
 
         private void GenerateGroups(Schemes parametersScheme, KasAssurance flagFunctions, List<TestGroup> groups)

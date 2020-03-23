@@ -8,7 +8,7 @@ namespace NIST.CVP.Generation.Core.Async
     /// </summary>
     /// <typeparam name="TTestGroup">Specific test group type in which to perform validation</typeparam>
     /// <typeparam name="TTestCase">Specific test case type in which to perform validation</typeparam>
-    public interface IResultValidatorAsync<TTestGroup, out TTestCase>
+    public interface IResultValidatorAsync<TTestGroup, TTestCase>
         where TTestGroup : ITestGroup<TTestGroup, TTestCase>
         where TTestCase : ITestCase<TTestGroup, TTestCase>
     {
@@ -19,6 +19,6 @@ namespace NIST.CVP.Generation.Core.Async
         /// <param name="testResults">The IUT supplied results to validate</param>
         /// <param name="showExpected">Shows the expected result in the validation file</param>
         /// <returns></returns>
-        Task<TestVectorValidation> ValidateResultsAsync(IEnumerable<ITestCaseValidatorAsync<TTestGroup, TTestCase>> testCaseValidators, IEnumerable<TTestGroup> testResults, bool showExpected);
+        Task<TestVectorValidation> ValidateResultsAsync(List<ITestCaseValidatorAsync<TTestGroup, TTestCase>> testCaseValidators, List<TTestGroup> testResults, bool showExpected);
     }
 }

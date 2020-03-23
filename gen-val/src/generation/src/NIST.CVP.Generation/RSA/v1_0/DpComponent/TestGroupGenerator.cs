@@ -7,7 +7,7 @@ namespace NIST.CVP.Generation.RSA.v1_0.DpComponent
 {
     public class TestGroupGenerator : ITestGroupGeneratorAsync<Parameters, TestGroup, TestCase>
     {
-        public Task<IEnumerable<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
+        public Task<List<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             return Task.FromResult(new List<TestGroup>
             {
@@ -17,7 +17,7 @@ namespace NIST.CVP.Generation.RSA.v1_0.DpComponent
                     TotalTestCases = parameters.IsSample ? 6 : 30,
                     TotalFailingCases = parameters.IsSample ? 2 : 10
                 }
-            }.AsEnumerable());
+            });
         }
     }
 }

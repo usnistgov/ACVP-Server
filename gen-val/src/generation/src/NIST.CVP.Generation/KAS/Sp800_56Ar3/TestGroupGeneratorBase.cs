@@ -32,7 +32,7 @@ namespace NIST.CVP.Generation.KAS.Sp800_56Ar3
             "VAL"
         };
 
-        public async Task<IEnumerable<TTestGroup>> BuildTestGroupsAsync(Parameters parameters)
+        public async Task<List<TTestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             List<TTestGroup> groups = new List<TTestGroup>();
 

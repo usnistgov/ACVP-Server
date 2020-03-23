@@ -26,7 +26,7 @@ namespace NIST.CVP.Generation.RSA.Fips186_5.SigVer
             _randomizeMessagePriorToSign = randomizeMessagePriorToSign;
         }
 
-        public async Task<IEnumerable<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
+        public async Task<List<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             var testGroups = new List<TestGroup>();
             var keyFormat = EnumHelpers.GetEnumFromEnumDescription<PrivateKeyModes>(parameters.KeyFormat);

@@ -15,7 +15,7 @@ namespace NIST.CVP.Generation.AES_CTR.v1_0
             "VarKey"
         };
 
-        public Task<IEnumerable<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
+        public Task<List<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             var testGroups = new List<TestGroup>();
 
@@ -37,7 +37,7 @@ namespace NIST.CVP.Generation.AES_CTR.v1_0
                 }
             }
 
-            return Task.FromResult(testGroups.AsEnumerable());
+            return Task.FromResult(testGroups);
         }
     }
 }

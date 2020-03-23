@@ -16,7 +16,7 @@ namespace NIST.CVP.Generation.SafePrimeGroups.v1_0.KeyVer
             _oracle = oracle;
         }
         
-        public async Task<IEnumerable<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
+        public async Task<List<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             var testGroups = new List<TestGroup>();
 

@@ -10,7 +10,7 @@ namespace NIST.CVP.Generation.AES_CFB8.v1_0
     {
         public const string _MCT_TEST_TYPE_LABEL = "MCT";
 
-        public Task<IEnumerable<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
+        public Task<List<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             var testGroups = new List<TestGroup>();
             var algoMode = AlgoModeHelpers.GetAlgoModeFromAlgoAndMode(parameters.Algorithm, parameters.Mode, parameters.Revision);
@@ -31,7 +31,7 @@ namespace NIST.CVP.Generation.AES_CFB8.v1_0
                 }
             }
 
-            return Task.FromResult(testGroups.AsEnumerable());
+            return Task.FromResult(testGroups);
         }
     }
 }

@@ -9,7 +9,7 @@ namespace NIST.CVP.Generation.CSHAKE.v1_0
     {
         public const string TEST_TYPE = "MCT";
 
-        public Task<IEnumerable<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
+        public Task<List<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             var testGroups = new List<TestGroup>();
 
@@ -27,7 +27,7 @@ namespace NIST.CVP.Generation.CSHAKE.v1_0
                 testGroups.Add(testGroup);
             }
 
-            return Task.FromResult(testGroups.AsEnumerable());
+            return Task.FromResult(testGroups);
         }
     }
 }

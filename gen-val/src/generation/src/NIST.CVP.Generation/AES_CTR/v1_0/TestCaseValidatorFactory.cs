@@ -15,7 +15,7 @@ namespace NIST.CVP.Generation.AES_CTR.v1_0
             _oracle = oracle;
         }
 
-        public IEnumerable<ITestCaseValidatorAsync<TestGroup, TestCase>> GetValidators(TestVectorSet testVectorSet)
+        public List<ITestCaseValidatorAsync<TestGroup, TestCase>> GetValidators(TestVectorSet testVectorSet)
         {
             var list = new List<ITestCaseValidatorAsync<TestGroup, TestCase>>();
 

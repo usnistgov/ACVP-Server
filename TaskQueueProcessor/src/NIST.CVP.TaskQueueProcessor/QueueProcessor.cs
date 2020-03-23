@@ -15,20 +15,25 @@ namespace NIST.CVP.TaskQueueProcessor
     public class QueueProcessor : BackgroundService
     {
         private readonly List<long> _tasks = new List<long>();
-        private int _poolTasks = 0;
+        private int _poolTasks;
+        private int _genValtasksRunning;
+        private int _allTasks => _poolTasks + _genValtasksRunning;
+        private int _maxTasks;
         
         private readonly ITaskService _taskService;
         private readonly ICleaningService _cleaningService;
         
         private readonly PoolConfig _poolConfig;
         private readonly TaskQueueProcessorConfig _taskConfig;
-
+        
         public QueueProcessor(ITaskService taskService, ICleaningService cleaningService, IOptions<PoolConfig> poolConfig, IOptions<TaskQueueProcessorConfig> taskConfig)
         {
             _taskService = taskService;
             _cleaningService = cleaningService;
             _poolConfig = poolConfig.Value;
             _taskConfig = taskConfig.Value;
+
+            _maxTasks = taskConfig.Value.MaxConcurrency;
         }
         
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -39,13 +44,12 @@ namespace NIST.CVP.TaskQueueProcessor
             while (!stoppingToken.IsCancellationRequested)
             {
                 // Check if there is room for a new job
-                var tasksRunning = _tasks.Count + _poolTasks;    // Don't use actual lists for count so tasksRunning only increases within the loop
-                if (tasksRunning == _taskConfig.MaxConcurrency)
+                if (_genValtasksRunning == _taskConfig.MaxConcurrency)
                 {
                     Log.Debug("Full on jobs. Re-poll.");
                 }
                 
-                while (tasksRunning < _taskConfig.MaxConcurrency)
+                while (_allTasks < _maxTasks)
                 {
                     // Grab the next task
                     var task = _taskService.GetTaskFromQueue();
@@ -54,7 +58,7 @@ namespace NIST.CVP.TaskQueueProcessor
                     {
                         // Spawn a one-off task to run
                         Log.Information($"Grabbed dbId: {task.DbId}, vsId: {task.VsId} for gen/val processing");
-                        tasksRunning++;
+                        _genValtasksRunning++;
                         _tasks.Add(task.DbId);
 
                         try
@@ -72,7 +76,6 @@ namespace NIST.CVP.TaskQueueProcessor
                     {
                         // Pool spawning, if configured
                         Log.Information("Running pool spawn");
-                        tasksRunning++;
                         _poolTasks++;
 
                         var poolTask = Task.Factory.StartNew(() => _taskService.RunTask(new PoolTask()), stoppingToken);
@@ -100,6 +103,7 @@ namespace NIST.CVP.TaskQueueProcessor
             await _taskService.RunTaskAsync(task);
             
             Log.Information($"Completed task {task.DbId}, VsId {task.VsId}");
+            _genValtasksRunning--;
             _tasks.Remove(task.DbId);
             _cleaningService.DeleteCompletedTask(task.DbId);
         }
@@ -112,16 +116,6 @@ namespace NIST.CVP.TaskQueueProcessor
             Log.Information("Tasks saved");
             
             return base.StopAsync(cancellationToken);
-        }
-
-        private void OnGenValCompleted(Task thread, object executableTask)
-        {
-            if (executableTask is ExecutableTask completedTask)
-            {
-                Log.Information($"Completed task {completedTask.DbId}, VsId {completedTask.VsId}");
-                _tasks.Remove(completedTask.DbId);
-                _cleaningService.DeleteCompletedTask(completedTask.DbId);
-            }
         }
 
         private void OnPoolSpawnCompleted(Task task)

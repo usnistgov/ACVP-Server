@@ -10,7 +10,7 @@ namespace NIST.CVP.Generation.TDES_CFBP.v1_0
     {
         private const string TEST_TYPE = "MCT";
 
-        public Task<IEnumerable<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
+        public Task<List<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             var algoMode = AlgoModeHelpers.GetAlgoModeFromAlgoAndMode(parameters.Algorithm, parameters.Mode, parameters.Revision);
             var testGroups = new List<TestGroup>();
@@ -36,7 +36,7 @@ namespace NIST.CVP.Generation.TDES_CFBP.v1_0
                 }
             }
 
-            return Task.FromResult(testGroups.AsEnumerable());
+            return Task.FromResult(testGroups);
         }
     }
 }

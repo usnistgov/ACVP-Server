@@ -14,13 +14,13 @@ namespace NIST.CVP.Generation.DRBG.v1_0
     {
         public const int _MAX_BIT_SIZE = 1024;
 
-        public Task<IEnumerable<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
+        public Task<List<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             var groups = new List<TestGroup>();
 
             CreateGroups(groups, parameters);
 
-            return Task.FromResult(groups.AsEnumerable());
+            return Task.FromResult(groups);
         }
 
         private void CreateGroups(List<TestGroup> groups, Parameters parameters)
