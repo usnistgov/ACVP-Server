@@ -19,9 +19,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ACVPCore\ACVPCore.csproj" />
-    <ProjectReference Include="..\ACVPWorkflow\ACVPWorkflow.csproj" />
-    <ProjectReference Include="..\DB\CVP.DatabaseInterface\CVP.DatabaseInterface.csproj" />
+    <ProjectReference Include="..\Libraries\Internal\ACVPCore\ACVPCore.csproj" />
+    <ProjectReference Include="..\Libraries\Internal\ACVPWorkflow\ACVPWorkflow.csproj" />
+    <ProjectReference Include="..\Libraries\Shared\CVP.DatabaseInterface\CVP.DatabaseInterface.csproj" />
     <ProjectReference Include="..\gen-val\src\common\src\NIST.CVP.Common\NIST.CVP.Common.csproj" />
   </ItemGroup>
 

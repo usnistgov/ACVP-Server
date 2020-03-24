@@ -85,10 +85,12 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\ACVPCore\ACVPCore.csproj" />
-      <ProjectReference Include="..\ACVPWorkflow\ACVPWorkflow.csproj" />
+      <ProjectReference Include="..\Libraries\Internal\ACVPCore\ACVPCore.csproj" />
+      <ProjectReference Include="..\Libraries\Internal\ACVPWorkflow\ACVPWorkflow.csproj" />
       <ProjectReference Include="..\gen-val\src\common\src\NIST.CVP.Common\NIST.CVP.Common.csproj" />
-      <ProjectReference Include="..\LCAVPCore\LCAVPCore.csproj" />
+      <ProjectReference Include="..\Libraries\Internal\LCAVPCore\LCAVPCore.csproj" />
+      <ProjectReference Include="..\Libraries\Shared\NIST.CVP.Enumerables\NIST.CVP.Enumerables.csproj" />
+      <ProjectReference Include="..\Libraries\Shared\NIST.CVP.Results\NIST.CVP.Results.csproj" />
     </ItemGroup>
 
     <!-- vvv App settings linking, directory changes depending on build environment vvv -->
