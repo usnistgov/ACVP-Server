@@ -246,7 +246,7 @@ namespace ACVPCore.Providers
 
 			try
 			{
-				return (long)db.ScalarFromProcedure("acvp.TestSessionIdGetByVectorSetId", inParams: new
+				return (long)db.ScalarFromProcedure("acvp.TestSessionIdGet", inParams: new
 				{
 					VectorSetId = vectorSetID
 				});
@@ -254,7 +254,7 @@ namespace ACVPCore.Providers
 			catch (Exception ex)
 			{
 				_logger.LogError(ex.Message);
-				return -1;    //Default to false so we don't try do use it when we don't know if it exists
+				return -1;
 			}
 		}
 
