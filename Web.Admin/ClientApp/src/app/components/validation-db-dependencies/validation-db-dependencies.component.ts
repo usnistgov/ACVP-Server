@@ -19,7 +19,7 @@ export class ValidationDbDependenciesComponent implements OnInit {
 
   loadData() {
 
-    // Anytime the uers's search changes, we default to page one
+    // Anytime the user's search changes, we default to page one
     this.listData.page = 1;
 
     // This sets the queryParams, but if they're empty, they end up having "&name=" by itself in the URL
@@ -52,12 +52,10 @@ export class ValidationDbDependenciesComponent implements OnInit {
     this.dds.getDependencies(this.listData).subscribe(
       data => {
         this.dependencies = data;
-        console.log('Hello 3');
         this.router.navigate([], {
           queryParams: { page: this.dependencies.currentPage },
           queryParamsHandling: 'merge'
         });
-        console.log('Hello 4');
       },
       err => { /* we should find something useful to do in here at some point.  maybe a site-wide error popup in the html app.component? */ },
       () => { }
