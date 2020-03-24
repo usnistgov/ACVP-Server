@@ -25,7 +25,7 @@ namespace Web.Public
 
             item.AddTransient<IAlgorithmProvider, AlgorithmProvider>();
 
-            item.AddTransient<IVendorProvider, VendorProvider>();
+            item.AddTransient<IOrganizationProvider, OrganizationProvider>();
         }
     }
 }
