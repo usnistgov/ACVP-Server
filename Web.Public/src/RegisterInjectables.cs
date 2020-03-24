@@ -24,6 +24,8 @@ namespace Web.Public
             item.AddTransient<IJwtService, JwtService>();
 
             item.AddTransient<IAlgorithmProvider, AlgorithmProvider>();
+
+            item.AddTransient<IVendorProvider, VendorProvider>();
         }
     }
 }

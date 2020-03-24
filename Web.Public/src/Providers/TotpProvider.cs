@@ -36,7 +36,7 @@ namespace Web.Public.Providers
             catch (Exception ex)
             {
                 Log.Error(ex.StackTrace);
-                throw ex;
+                throw;
             }
         }
 
@@ -63,7 +63,7 @@ namespace Web.Public.Providers
             catch (Exception ex)
             {
                 Log.Error(ex.StackTrace);
-                throw ex;
+                throw;
             }
         }
 
@@ -83,7 +83,7 @@ namespace Web.Public.Providers
             catch (Exception ex)
             {
                 Log.Error(ex.StackTrace);
-                throw ex;
+                throw;
             }
         }
     }
