@@ -126,7 +126,6 @@ export class WorkflowsComponent implements OnInit {
         () => { }
       );
     }
-
   }
 
   ngOnInit() {

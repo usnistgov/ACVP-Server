@@ -36,30 +36,6 @@ export class AjaxService {
 
   constructor(private http: HttpClient) { }
 
-  // Dependency-related AJAX calls
-  getDependencies(pageSize: number, pageNumber: number) {
-    var params = { "pageSize": pageSize, "page": pageNumber };
-
-    return this.http.post<DependencyList>(this.apiRoot + '/dependencies', params);
-  };
-
-  getDependency(id: number) {
-    return this.http.get<Dependency>(this.apiRoot + '/dependencies/' + id);
-  };
-
-  addAttribute(dependencyId: number, attribute: Attribute) {
-    return this.http.post(this.apiRoot + '/dependencies/' + dependencyId + '/attributes', attribute);
-  }
-
-  deleteAttribute(dependencyId: number, attributeId: number) {
-    return this.http.delete(this.apiRoot + '/dependencies/' + dependencyId + '/attributes/' + attributeId);
-  }
-
-  updateDependency(dependency: Dependency) {
-    return this.http.patch(this.apiRoot + '/dependencies/' + dependency.id, dependency);
-  }
-  // END - Dependency-related AJAX calls
-
   // Operating Environment (OE) -related calls
   getOE(id: number) {
     return this.http.get<OperatingEnvironment>(this.apiRoot + '/OperatingEnvironments/' + id);
