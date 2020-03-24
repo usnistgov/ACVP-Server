@@ -72,6 +72,7 @@
     <Folder Include="dbo\Functions\" />
     <Folder Include="common\Stored Procedures\" />
     <Folder Include="Security\" />
+    <Folder Include="acvp\Stored Procedures\" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="acvp\Tables\ACVP_ROLE.sql" />
@@ -126,5 +127,9 @@
     <Build Include="Security\external.sql" />
     <Build Include="Security\ref.sql" />
     <Build Include="Security\val.sql" />
+    <Build Include="acvp\Tables\AcvpUserAuthentications.sql" />
+    <Build Include="acvp\Stored Procedures\PreviousComputedWindowByUserSet.sql" />
+    <Build Include="acvp\Stored Procedures\PreviousComputedWindowByUserGet.sql" />
+    <Build Include="acvp\Stored Procedures\AcvpUserGetByCertificate.sql" />
   </ItemGroup>
 </Project>

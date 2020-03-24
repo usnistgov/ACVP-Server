@@ -20,7 +20,21 @@ namespace LCAVPCore
 			{
 				var db = new MightyOrm(_acvpConnectionString);
 
-				return (long)(db.ScalarFromProcedure("[lcavp].[ValidationIDForSubmissionIDGet]", inParams: new { SubmissionID = "XX201029-0-N-000329" }) ?? -1L);
+				return (long)(db.ScalarFromProcedure("[lcavp].[ValidationIDForSubmissionIDGet]", inParams: new { SubmissionID = submissionID }) ?? -1L);
+			}
+			catch
+			{
+				return -1;
+			}
+		}
+
+		public long GetValidationNumberForValidationID(long validationID)
+		{
+			try
+			{
+				var db = new MightyOrm(_acvpConnectionString);
+
+				return (long)(db.ScalarFromProcedure("[lcavp].[ValidationNumberForIDGet]", inParams: new { ValidationId = validationID }) ?? -1L);
 			}
 			catch
 			{

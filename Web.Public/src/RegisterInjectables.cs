@@ -2,6 +2,7 @@ using ACVPCore;
 using CVP.DatabaseInterface;
 using Microsoft.Extensions.DependencyInjection;
 using Web.Public.Providers;
+using Web.Public.Services;
 
 namespace Web.Public
 {
@@ -14,10 +15,15 @@ namespace Web.Public
         public static void RegisterAcvpAdminServices(this IServiceCollection item)
         {
             item.InjectACVPCore();
-            //item.InjectACVPWorkflow();
 
             item.AddSingleton<IConnectionStringFactory, ConnectionStringFactory>();
+            
+            item.AddTransient<ITotpService, TotpService>();
             item.AddTransient<ITotpProvider, TotpProvider>();
+
+            item.AddTransient<IJwtService, JwtService>();
+
+            item.AddTransient<IAlgorithmProvider, AlgorithmProvider>();
         }
     }
 }

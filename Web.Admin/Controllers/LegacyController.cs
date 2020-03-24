@@ -25,7 +25,7 @@ namespace Web.Admin.Controllers
         }
 
         [HttpPost("Upload"), DisableRequestSizeLimit]
-        public ActionResult<string> Upload()
+        public ActionResult<SubmissionProcessingResult> Upload()
         {
             try
             {
@@ -45,14 +45,17 @@ namespace Web.Admin.Controllers
                     stream.Close();
 
                     //Call LCAVP
-                    _lcavpSubmissionProcessor.Process(destinationPath);
+                    return _lcavpSubmissionProcessor.Process(destinationPath);
                 }
-                return "Guess it worked?";
+                else
+                {
+                    return new BadRequestResult();
+                }
             }
             catch (Exception ex)
             {
                 var doingThisToAvoidTheWarningThatIsTreatedLikeAnError = ex;
-                return "Upload failed";
+                return new BadRequestResult();
             }
         }
 
