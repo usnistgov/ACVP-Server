@@ -24,4 +24,12 @@ var APIAction;
     APIAction["SubmitVectorSetResults"] = "SubmitVectorSetResults";
     APIAction["CancelVectorSet"] = "CancelVectorSet";
 })(APIAction = exports.APIAction || (exports.APIAction = {}));
+// This portion is sued to enable us to iterate over the values in the HTML to create the workflow
+// page's APIAction dropdown select box
+(function (APIAction) {
+    function values() {
+        return Object.keys(APIAction).filter(function (type) { return isNaN(type) && type !== 'values'; });
+    }
+    APIAction.values = values;
+})(APIAction = exports.APIAction || (exports.APIAction = {}));
 //# sourceMappingURL=APIAction.enum.js.map

@@ -20,6 +20,8 @@ import { WorkflowItemBase } from '../../models/Workflow/WorkflowItemBase';
 import { IWorkflowItemPayload } from '../../models/Workflow/IWorkflowItemPayload';
 import { WorkflowItemList } from '../../models/Workflow/WorkflowItemList';
 import { OrganizationList } from '../../models/Organization/OrganizationList';
+import { APIAction } from '../../models/Workflow/APIAction.enum';
+import { RouteReuseStrategy } from '@angular/router';
 
 const httpOptions = {
   headers: new HttpHeaders()
@@ -36,7 +38,7 @@ export class AjaxService {
 
   // Dependency-related AJAX calls
   getDependencies(pageSize: number, pageNumber: number) {
-    var params = { "pageSize" : pageSize, "page" : pageNumber };
+    var params = { "pageSize": pageSize, "page": pageNumber };
 
     return this.http.post<DependencyList>(this.apiRoot + '/dependencies', params);
   };
@@ -64,7 +66,7 @@ export class AjaxService {
   };
 
   getOEs(pageSize: number, pageNumber: number) {
-    var params = { "pageSize" : pageSize, "page" : pageNumber };
+    var params = { "pageSize": pageSize, "page": pageNumber };
 
     return this.http.post<OperatingEnvironmentList>(this.apiRoot + '/OperatingEnvironments', params);
   }
@@ -72,7 +74,7 @@ export class AjaxService {
   addDependencyToOE(dependencyId: number, OEID: number) {
 
     // Assemble message body
-    var requestBody = { dependencyId : 0 };
+    var requestBody = { dependencyId: 0 };
     requestBody.dependencyId = dependencyId;
 
     // POST it
@@ -98,7 +100,7 @@ export class AjaxService {
   };
 
   getProducts(pageSize: number, pageNumber: number) {
-    var params = { "pageSize" : pageSize, "page" : pageNumber };
+    var params = { "pageSize": pageSize, "page": pageNumber };
 
     return this.http.post<ProductList>(this.apiRoot + '/Implementations', params);
   }
@@ -121,7 +123,7 @@ export class AjaxService {
   }
 
   getPersons(pageSize: number, pageNumber: number) {
-    var params = { "pageSize" : pageSize, "page" : pageNumber };
+    var params = { "pageSize": pageSize, "page": pageNumber };
 
     return this.http.post<PersonList>(this.apiRoot + '/Persons', params);
   }
@@ -154,7 +156,7 @@ export class AjaxService {
   // Begin TestSession-related calls
   getTestSessions(pageSize: number, pageNumber: number) {
     // Build the request body
-    var params = { "pageSize" : pageSize, "page" : pageNumber};
+    var params = { "pageSize": pageSize, "page": pageNumber };
 
     return this.http.post<TestSessionList>(this.apiRoot + '/TestSessions', params);
   }
@@ -174,9 +176,19 @@ export class AjaxService {
     return this.http.get<WorkflowItemBase<IWorkflowItemPayload>>(this.apiRoot + '/Workflows/' + workflowId);
   }
 
-  getWorkflows(pageSize: number, pageNumber: number) {
+  getWorkflows(pageSize: number, pageNumber: number, RequestId: string, APIAction: string, DBID: string) {
+
+    if (RequestId === "") { RequestId = null; }
+    if (DBID === "") { DBID = null; }
+
     // Build the request body
-    var params = { "pageSize": pageSize, "page": pageNumber };
+    var params = {
+      "pageSize": pageSize,
+      "page": pageNumber,
+      "requestId": RequestId,
+      "APIActionID": APIAction,
+      "WorkflowItemID": parseInt(DBID)
+    };
 
     return this.http.post<WorkflowItemList>(this.apiRoot + '/Workflows', params);
   }

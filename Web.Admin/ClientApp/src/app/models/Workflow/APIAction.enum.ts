@@ -21,3 +21,15 @@ export enum APIAction {
   SubmitVectorSetResults = 'SubmitVectorSetResults',
   CancelVectorSet = 'CancelVectorSet'
 }
+
+// This portion is sued to enable us to iterate over the values in the HTML to create the workflow
+// page's APIAction dropdown select box
+export namespace APIAction {
+
+  export function values() {
+    return Object.keys(APIAction).filter(
+      (type) => isNaN(<any>type) && type !== 'values'
+    );
+  }
+
+}
