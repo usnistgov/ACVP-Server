@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using NIST.CVP.Common;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
@@ -31,6 +32,7 @@ namespace NIST.CVP.Orleans.Grains.Ecdsa
         
         protected override async Task DoWorkAsync()
         {
+            await Task.Delay(1000);
             await Notify(new EccDomainParameters(_curveFactory.GetCurve(_param)));
         }
     }

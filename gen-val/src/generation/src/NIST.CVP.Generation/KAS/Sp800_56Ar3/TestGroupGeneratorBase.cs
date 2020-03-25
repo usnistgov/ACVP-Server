@@ -609,15 +609,18 @@ namespace NIST.CVP.Generation.KAS.Sp800_56Ar3
         
         private async Task GenerateDomainParametersAsync(List<TTestGroup> groups)
         {
-            var tasks = new Dictionary<TTestGroup, Task<TDomainParameters>>();
+            var map = new Dictionary<TTestGroup, Task<TDomainParameters>>();
+            var tasks = new List<Task<TDomainParameters>>();
             foreach (var group in groups)
             {
-                tasks.Add(group, GenerateDomainParametersAsync(group));
+                var task = GenerateDomainParametersAsync(group);
+                map.Add(group, task);
+                tasks.Add(task);
             }
 
-            await Task.WhenAll(tasks.Values);
+            await Task.WhenAll(tasks);
 
-            foreach (var (group, value) in tasks)
+            foreach (var (group, value) in map)
             {
                 group.DomainParameters = value.Result;
             }

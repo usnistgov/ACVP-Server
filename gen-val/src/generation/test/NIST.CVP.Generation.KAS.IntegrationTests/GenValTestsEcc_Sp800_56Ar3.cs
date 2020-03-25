@@ -77,13 +77,13 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                 IutId = new BitString("123456ABCD"),
                 Scheme = new Schemes()
                 {
-                    EccStaticUnified = new EccStaticUnified()
+                    EccOnePassUnified = new EccOnePassUnified()
                     {
                         L = 512,
                         KasRole = new[]
                         {
                             KeyAgreementRole.InitiatorPartyU,
-                            //KeyAgreementRole.ResponderPartyV
+                            KeyAgreementRole.ResponderPartyV
                         },
                         KdfMethods = new KdfMethods()
                         {
@@ -137,7 +137,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                             KeyConfirmationRoles = new[]
                             {
                                 KeyConfirmationRole.Provider, 
-                                //KeyConfirmationRole.Recipient,
+                                KeyConfirmationRole.Recipient,
                             }
                         },
                     },

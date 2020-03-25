@@ -1,12 +1,11 @@
 using System.Threading.Tasks;
 using NIST.CVP.Common;
-using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
 using NIST.CVP.Crypto.Common.KAS.SafePrimes;
 using NIST.CVP.Crypto.Common.KAS.SafePrimes.Enums;
 using NIST.CVP.Orleans.Grains.Interfaces.Kas.Sp800_56Ar3;
 
-namespace NIST.CVP.Orleans.Grains.Kas.Sp800_56Br2
+namespace NIST.CVP.Orleans.Grains.Kas.Sp800_56Ar3
 {
     public class ObserverSafePrimesGroupDomainParameterGrain : ObservableOracleGrainBase<FfcDomainParameters>, IObserverSafePrimesGroupDomainParameterGrain
     {

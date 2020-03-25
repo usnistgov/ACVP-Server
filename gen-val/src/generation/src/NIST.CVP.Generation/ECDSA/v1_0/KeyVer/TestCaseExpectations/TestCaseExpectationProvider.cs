@@ -2,41 +2,36 @@
 using NIST.CVP.Common.Oracle.DispositionTypes;
 using NIST.CVP.Generation.Core;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 
 namespace NIST.CVP.Generation.ECDSA.v1_0.KeyVer.TestCaseExpectations
 {
     public class TestCaseExpectationProvider : ITestCaseExpectationProvider<EcdsaKeyDisposition>
     {
-        private readonly List<TestCaseExpectationReason> _expectationReasons;
+        private readonly ConcurrentQueue<TestCaseExpectationReason> _expectationReasons;
 
         public TestCaseExpectationProvider(bool isSample = false)
         {
-            _expectationReasons = new List<TestCaseExpectationReason>();
+            var expectationReasons = new List<TestCaseExpectationReason>();
 
             int countForEachCase = (isSample ? 1 : 4);
 
-            _expectationReasons.Add(new TestCaseExpectationReason(EcdsaKeyDisposition.None), countForEachCase);
-            _expectationReasons.Add(new TestCaseExpectationReason(EcdsaKeyDisposition.OutOfRange), countForEachCase);
-            _expectationReasons.Add(new TestCaseExpectationReason(EcdsaKeyDisposition.NotOnCurve), countForEachCase);
+            expectationReasons.Add(new TestCaseExpectationReason(EcdsaKeyDisposition.None), countForEachCase);
+            expectationReasons.Add(new TestCaseExpectationReason(EcdsaKeyDisposition.OutOfRange), countForEachCase);
+            expectationReasons.Add(new TestCaseExpectationReason(EcdsaKeyDisposition.NotOnCurve), countForEachCase);
 
-            _expectationReasons = _expectationReasons.Shuffle();
+            _expectationReasons = new ConcurrentQueue<TestCaseExpectationReason>(expectationReasons.Shuffle());
         }
 
         public ITestCaseExpectationReason<EcdsaKeyDisposition> GetRandomReason()
         {
-            if (_expectationReasons.Count == 0)
+            if (_expectationReasons.TryDequeue(out var reason))
             {
-                throw new IndexOutOfRangeException($"No {nameof(TestCaseExpectationReason)} remaining to pull");
-            }
-
-            lock (_expectationReasons)
-            {
-                var reason = _expectationReasons[0];
-                _expectationReasons.RemoveAt(0);
-
                 return reason;
             }
+            
+            throw new IndexOutOfRangeException($"No {nameof(TestCaseExpectationReason)} remaining to pull");
         }
     }
 }

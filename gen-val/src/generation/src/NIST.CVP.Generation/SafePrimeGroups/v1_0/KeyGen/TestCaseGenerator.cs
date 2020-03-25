@@ -8,7 +8,7 @@ using NLog;
 
 namespace NIST.CVP.Generation.SafePrimeGroups.v1_0.KeyGen
 {
-    public class TestCaseGenerator : ITestCaseGeneratorAsync<TestGroup, TestCase>
+    public class TestCaseGenerator : ITestCaseGeneratorWithPrep<TestGroup, TestCase>
     {
         private readonly IOracle _oracle;
 
@@ -19,13 +19,20 @@ namespace NIST.CVP.Generation.SafePrimeGroups.v1_0.KeyGen
             _oracle = oracle;
         }
 
+        public GenerateResponse PrepareGenerator(TestGroup @group, bool isSample)
+        {
+            if (isSample)
+            {
+                NumberOfTestCasesToGenerate = 3;
+            }
+            return new GenerateResponse();
+        }
+        
         public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample, int caseNo = 0)
         {
             // when sample, need to actually generate a key on behalf of the IUT.
             if (isSample)
             {
-                NumberOfTestCasesToGenerate = 3;
-
                 try
                 {
                     var dp = await _oracle.GetSafePrimeGroupsDomainParameterAsync(group.SafePrimeGroup);

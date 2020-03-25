@@ -24,11 +24,19 @@ namespace NIST.CVP.Generation.Core
 
             var groupGenerators = _iTestGroupGeneratorFactory.GetTestGroupGenerators(parameters).ToList();
             
+            var testGroupBuildTasks = new List<Task<List<TTestGroup>>>();
             foreach (var groupGenerator in groupGenerators)
             {
-                groups.AddRangeIfNotNullOrEmpty(await groupGenerator.BuildTestGroupsAsync(parameters));
+                testGroupBuildTasks.Add(groupGenerator.BuildTestGroupsAsync(parameters));
             }
 
+            var completedGroups = await Task.WhenAll(testGroupBuildTasks);
+
+            foreach (var task in completedGroups)
+            {
+                groups.AddRangeIfNotNullOrEmpty(task);
+            }
+            
             int testGroupId = 1;
             foreach (var group in groups)
             {

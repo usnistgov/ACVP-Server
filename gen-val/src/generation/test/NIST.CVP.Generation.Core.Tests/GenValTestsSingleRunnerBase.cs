@@ -272,6 +272,11 @@ namespace NIST.CVP.Generation.Core.Tests
             return builder.Build();
         }
 
+        private IGenValInvoker GetGenValInvoker(bool overrideRegisteredDependencies = false)
+        {
+            return new GenValInvoker(_serviceProvider);
+        }
+
         protected virtual void OverrideRegisteredDependencies(ContainerBuilder builder)
         {
 

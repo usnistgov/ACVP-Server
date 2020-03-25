@@ -1,42 +1,38 @@
 ﻿using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
 using NIST.CVP.Generation.Core;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using NIST.CVP.Common.ExtensionMethods;
 
 namespace NIST.CVP.Generation.RSA.v1_0.SigVer.TestCaseExpectations
 {
     public class TestCaseExpectationProvider : ITestCaseExpectationProvider<SignatureModifications>
     {
-        private readonly List<TestCaseExpectationReason> _expectationReasons;
+        private readonly ConcurrentQueue<TestCaseExpectationReason> _expectationReasons;
 
         public TestCaseExpectationProvider(bool isSample = false)
         {
-            _expectationReasons = new List<TestCaseExpectationReason>();
-            _expectationReasons.Add(new TestCaseExpectationReason(SignatureModifications.Message));
-            _expectationReasons.Add(new TestCaseExpectationReason(SignatureModifications.None));
-            _expectationReasons.Add(new TestCaseExpectationReason(SignatureModifications.E));
-            _expectationReasons.Add(new TestCaseExpectationReason(SignatureModifications.Signature));
-            _expectationReasons.Add(new TestCaseExpectationReason(SignatureModifications.MoveIr));
-            _expectationReasons.Add(new TestCaseExpectationReason(SignatureModifications.ModifyTrailer));
+            var expectationReasons = new List<TestCaseExpectationReason>();
+            expectationReasons.Add(new TestCaseExpectationReason(SignatureModifications.Message));
+            expectationReasons.Add(new TestCaseExpectationReason(SignatureModifications.None));
+            expectationReasons.Add(new TestCaseExpectationReason(SignatureModifications.E));
+            expectationReasons.Add(new TestCaseExpectationReason(SignatureModifications.Signature));
+            expectationReasons.Add(new TestCaseExpectationReason(SignatureModifications.MoveIr));
+            expectationReasons.Add(new TestCaseExpectationReason(SignatureModifications.ModifyTrailer));
 
-            _expectationReasons = _expectationReasons.OrderBy(a => Guid.NewGuid()).ToList();
+            _expectationReasons = new ConcurrentQueue<TestCaseExpectationReason>(expectationReasons.Shuffle());
         }
 
         public ITestCaseExpectationReason<SignatureModifications> GetRandomReason()
         {
-            if (_expectationReasons.Count == 0)
+            if (_expectationReasons.TryDequeue(out var reason))
             {
-                throw new IndexOutOfRangeException($"no {nameof(TestCaseExpectationReason)} remaining to pull");
-            }
-
-            lock (_expectationReasons)
-            {
-                var reason = _expectationReasons[0];
-                _expectationReasons.RemoveAt(0);
-
                 return reason;
             }
+            
+            throw new IndexOutOfRangeException($"No {nameof(TestCaseExpectationReason)} remaining to pull");
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Common.Oracle.DispositionTypes;
@@ -8,46 +9,40 @@ namespace NIST.CVP.Generation.EDDSA.v1_0.SigVer.TestCaseExpectations
 {
     public class TestCaseExpectationProvider : ITestCaseExpectationProvider<EddsaSignatureDisposition>
     {
-        private readonly List<TestCaseExpectationReason> _expectationReasons;
+        private readonly ConcurrentQueue<TestCaseExpectationReason> _expectationReasons;
 
         public TestCaseExpectationProvider(bool isSample = false)
         {
-            _expectationReasons = new List<TestCaseExpectationReason>();
+            var expectationReasons = new List<TestCaseExpectationReason>();
 
             if (isSample)
             {
-                _expectationReasons.Add(new TestCaseExpectationReason(EddsaSignatureDisposition.None));
-                _expectationReasons.Add(new TestCaseExpectationReason(EddsaSignatureDisposition.ModifyMessage));
-                _expectationReasons.Add(new TestCaseExpectationReason(EddsaSignatureDisposition.ModifyKey));
-                _expectationReasons.Add(new TestCaseExpectationReason(EddsaSignatureDisposition.ModifyR));
-                _expectationReasons.Add(new TestCaseExpectationReason(EddsaSignatureDisposition.ModifyS));
+                expectationReasons.Add(new TestCaseExpectationReason(EddsaSignatureDisposition.None));
+                expectationReasons.Add(new TestCaseExpectationReason(EddsaSignatureDisposition.ModifyMessage));
+                expectationReasons.Add(new TestCaseExpectationReason(EddsaSignatureDisposition.ModifyKey));
+                expectationReasons.Add(new TestCaseExpectationReason(EddsaSignatureDisposition.ModifyR));
+                expectationReasons.Add(new TestCaseExpectationReason(EddsaSignatureDisposition.ModifyS));
             }
             else
             {
-                _expectationReasons.Add(new TestCaseExpectationReason(EddsaSignatureDisposition.None), 3);
-                _expectationReasons.Add(new TestCaseExpectationReason(EddsaSignatureDisposition.ModifyMessage), 3);
-                _expectationReasons.Add(new TestCaseExpectationReason(EddsaSignatureDisposition.ModifyKey), 3);
-                _expectationReasons.Add(new TestCaseExpectationReason(EddsaSignatureDisposition.ModifyR), 3);
-                _expectationReasons.Add(new TestCaseExpectationReason(EddsaSignatureDisposition.ModifyS), 3);
+                expectationReasons.Add(new TestCaseExpectationReason(EddsaSignatureDisposition.None), 3);
+                expectationReasons.Add(new TestCaseExpectationReason(EddsaSignatureDisposition.ModifyMessage), 3);
+                expectationReasons.Add(new TestCaseExpectationReason(EddsaSignatureDisposition.ModifyKey), 3);
+                expectationReasons.Add(new TestCaseExpectationReason(EddsaSignatureDisposition.ModifyR), 3);
+                expectationReasons.Add(new TestCaseExpectationReason(EddsaSignatureDisposition.ModifyS), 3);
             }
 
-            _expectationReasons = _expectationReasons.Shuffle();
+            _expectationReasons = new ConcurrentQueue<TestCaseExpectationReason>(expectationReasons.Shuffle());
         }
 
         public ITestCaseExpectationReason<EddsaSignatureDisposition> GetRandomReason()
         {
-            if (_expectationReasons.Count == 0)
+            if (_expectationReasons.TryDequeue(out var reason))
             {
-                throw new IndexOutOfRangeException($"No {nameof(TestCaseExpectationReason)} remaining to pull");
-            }
-
-            lock (_expectationReasons)
-            {
-                var reason = _expectationReasons[0];
-                _expectationReasons.RemoveAt(0);
-
                 return reason;
             }
+            
+            throw new IndexOutOfRangeException($"No {nameof(TestCaseExpectationReason)} remaining to pull");
         }
     }
 }

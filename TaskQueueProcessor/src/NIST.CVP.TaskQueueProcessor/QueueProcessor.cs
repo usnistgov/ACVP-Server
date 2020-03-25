@@ -1,9 +1,9 @@
 using System;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
+using NIST.CVP.Common;
 using NIST.CVP.Common.Config;
 using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.TaskQueueProcessor.Services;
@@ -14,98 +14,89 @@ namespace NIST.CVP.TaskQueueProcessor
 {
     public class QueueProcessor : BackgroundService
     {
-        private readonly List<long> _tasks = new List<long>();
-        private int _poolTasks;
-        private int _genValtasksRunning;
-        private int _allTasks => _poolTasks + _genValtasksRunning;
-        private int _maxTasks;
-        
         private readonly ITaskService _taskService;
         private readonly ICleaningService _cleaningService;
         
         private readonly PoolConfig _poolConfig;
         private readonly TaskQueueProcessorConfig _taskConfig;
-        
-        public QueueProcessor(ITaskService taskService, ICleaningService cleaningService, IOptions<PoolConfig> poolConfig, IOptions<TaskQueueProcessorConfig> taskConfig)
+
+        private readonly SemaphoreSlim _semaphore;
+        private readonly int _maxTasks;
+        private readonly LimitedConcurrencyLevelTaskScheduler _scheduler;
+
+        public QueueProcessor(ITaskService taskService, ICleaningService cleaningService, IOptions<PoolConfig> poolConfig, IOptions<TaskQueueProcessorConfig> taskConfig, LimitedConcurrencyLevelTaskScheduler scheduler)
         {
             _taskService = taskService;
             _cleaningService = cleaningService;
             _poolConfig = poolConfig.Value;
             _taskConfig = taskConfig.Value;
 
-            _maxTasks = taskConfig.Value.MaxConcurrency;
+            _maxTasks = taskConfig.Value.MaxConcurrency + 1;
+            _maxTasks = 1;
+            _semaphore = new SemaphoreSlim(_maxTasks, _maxTasks);
+            _scheduler = scheduler;
         }
         
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            await Task.Delay(_taskConfig.PollDelay * 1000 * 2, stoppingToken);
-            Log.Information("Starting Task Queue Processor");
-
             while (!stoppingToken.IsCancellationRequested)
             {
-                // Check if there is room for a new job
-                if (_genValtasksRunning == _taskConfig.MaxConcurrency)
+                await Task.Delay(_taskConfig.PollDelay * 1000 * 2, stoppingToken);
+                await _semaphore.WaitAsync(stoppingToken);
+
+                Log.Debug($"Grabbed a spot from the semaphore. Semaphore currently using {_maxTasks - _semaphore.CurrentCount} of {_maxTasks} threads.");
+
+                // Grab the next task
+                var task = _taskService.GetTaskFromQueue();
+                //var task = GetMockTask();
+                if (task != null)
                 {
-                    Log.Debug("Full on jobs. Re-poll.");
+                    // Spawn a one-off task to run
+                    Log.Information($"Grabbed dbId: {task.DbId}, vsId: {task.VsId} for gen/val processing");
+                
+                    await QueueGenVal(task, stoppingToken);
+                    continue;
                 }
                 
-                while (_allTasks < _maxTasks)
-                {
-                    // Grab the next task
-                    var task = _taskService.GetTaskFromQueue();
-                    
-                    if (task != null)
-                    {
-                        // Spawn a one-off task to run
-                        Log.Information($"Grabbed dbId: {task.DbId}, vsId: {task.VsId} for gen/val processing");
-                        _genValtasksRunning++;
-                        _tasks.Add(task.DbId);
-
-                        try
-                        {
-                            QueueGenVal(task).FireAndForget();
-                        }
-                        catch (Exception e)
-                        {
-                            Console.WriteLine(e);
-                            throw;
-                        }
-                        
-                    }
-                    else if (_poolConfig.AllowPoolSpawn)    // task is always null at this point
-                    {
-                        // Pool spawning, if configured
-                        Log.Information("Running pool spawn");
-                        _poolTasks++;
-
-                        var poolTask = Task.Factory.StartNew(() => _taskService.RunTask(new PoolTask()), stoppingToken);
-                        poolTask.ContinueWith(OnPoolSpawnCompleted, stoppingToken);
-                    }
-
-                    // No more tasks available, wait for re-poll
-                    if (task == null)
-                    {
-                        Log.Debug("No tasks available, wait for re-poll.");
-                        break;
-                    }
-                    
-                    Log.Debug("Polling delay within max concurrency loop");
-                    await Task.Delay(_taskConfig.PollDelay * 1000, stoppingToken);
-                }
-                
-                Log.Debug("Polling delay within main loop.");
-                await Task.Delay(_taskConfig.PollDelay * 1000, stoppingToken);
+                Log.Debug("No tasks available. Releasing the semaphore log and waiting.");
+                _semaphore.Release();
+                await Task.Delay(_taskConfig.PollDelay * 1000 * 2, stoppingToken);
+                // TODO pool spawn.
             }
         }
-
-        private async Task QueueGenVal(ExecutableTask task)
+        
+        private Task QueueGenVal(ExecutableTask task, CancellationToken stoppingToken)
         {
-            await _taskService.RunTaskAsync(task);
-            
-            Log.Information($"Completed task {task.DbId}, VsId {task.VsId}");
-            _genValtasksRunning--;
-            _tasks.Remove(task.DbId);
-            _cleaningService.DeleteCompletedTask(task.DbId);
+            try
+            {
+                return Task.Run(async () =>
+                {
+                    try
+                    {
+                        var genValTask = _taskService.RunTaskAsync(task);
+
+                        await genValTask;
+                        
+                        Log.Information($"Completed task {task.DbId}, VsId {task.VsId}");
+                        _cleaningService.DeleteCompletedTask(task.DbId);
+                    }
+                    catch (Exception e)
+                    {
+                        Log.Error(e, e.Message);
+                    }
+                    finally
+                    {
+                        Log.Information("Generation task completed. Releasing Semaphore.");
+                        _semaphore.Release();                        
+                    }
+                }, stoppingToken);
+                
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
 
         public override Task StopAsync(CancellationToken cancellationToken)
@@ -120,7 +111,68 @@ namespace NIST.CVP.TaskQueueProcessor
 
         private void OnPoolSpawnCompleted(Task task)
         {
-            _poolTasks--;
+            _semaphore.Release();
+        }
+
+        private ExecutableTask GetMockTask()
+        {
+            #region
+            var capabilities = @"{
+      ""vsId"" : 10134,
+      ""isSample"" : true,
+      ""algorithm"" : ""KAS-ECC"",
+      ""revision"" : ""Sp800-56Ar3"",
+      ""iutId"" : ""123456ABCD"",
+      ""scheme"" : {
+        ""onePassDh"" : {
+          ""kasRole"" : [ ""initiator"", ""responder"" ],
+          ""kdfMethods"" : {
+            ""oneStepKdf"" : {
+              ""auxFunctions"" : [ {
+                ""auxFunctionName"" : ""KMAC-128"",
+                ""macSaltMethods"" : [ ""default"" ]
+              } ],
+              ""fixedInfoPattern"" : ""algorithmId||l||uPartyInfo||vPartyInfo"",
+              ""encoding"" : [ ""concatenation"" ]
+            },
+            ""twoStepKdf"" : {
+              ""capabilities"" : [ {
+                ""macSaltMethods"" : [ ""random"" ],
+                ""fixedInfoPattern"" : ""l||label||uPartyInfo||vPartyInfo||context"",
+                ""encoding"" : [ ""concatenation"" ],
+                ""kdfMode"" : ""feedback"",
+                ""macMode"" : [ ""HMAC-SHA3-224"" ],
+                ""supportedLengths"" : [ 512 ],
+                ""fixedDataOrder"" : [ ""after fixed data"" ],
+                ""counterLength"" : [ 32 ],
+                ""requiresEmptyIv"" : false,
+                ""supportsEmptyIv"" : false
+              } ]
+            }
+          },
+          ""keyConfirmationMethod"" : {
+            ""macMethods"" : {
+              ""KMAC-128"" : {
+                ""keyLen"" : 128,
+                ""macLen"" : 128
+              }
+            },
+            ""keyConfirmationDirections"" : [ ""unilateral"" ],
+            ""keyConfirmationRoles"" : [ ""provider"", ""recipient"" ]
+          },
+          ""l"" : 512
+        }
+      },
+      ""domainParameterGenerationMethods"" : [ ""P-192"" ]
+    }";
+            #endregion
+
+            return new GenerationTask()
+            {
+                Capabilities = capabilities,
+                DbId = 1,
+                VsId = 1
+            };
         }
     }
 }
