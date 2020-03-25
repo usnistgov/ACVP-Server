@@ -57,6 +57,16 @@ export class AjaxService {
     return this.http.post(this.apiRoot + '/OperatingEnvironments/' + OEID + '/Dependencies', requestBody);
   }
 
+  getDependencies(pageSize: number, pageNumber: number) {
+    var params = { "pageSize": pageSize, "page": pageNumber };
+
+    return this.http.post<DependencyList>(this.apiRoot + '/Dependencies', params);
+  }
+
+  getDependency(id: number) {
+    return this.http.get<Dependency>(this.apiRoot + '/Dependency/' + id);
+  };
+
   removeDependencyFromOE(dependencyId: number, OEID: number) {
     return this.http.delete(this.apiRoot + '/OperatingEnvironments/' + OEID + '/Dependencies/' + dependencyId);
   }
