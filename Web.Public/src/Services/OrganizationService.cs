@@ -1,6 +1,10 @@
+using System.Collections.Generic;
 using ACVPCore.Models;
 using ACVPCore.Models.Parameters;
 using ACVPCore.Results;
+using NIST.CVP.Enumerables;
+using NIST.CVP.Results;
+using Web.Public.Helpers;
 using Web.Public.Providers;
 
 namespace Web.Public.Services
@@ -19,9 +23,9 @@ namespace Web.Public.Services
             return _organizationProvider.Get(organizationID);
         }
 
-        public PagedEnumerable<OrganizationLite> GetList(OrganizationListParameters param)
+        public List<Organization> GetList(PagingOptions pagingOptions)
         {
-            return _organizationProvider.GetList(param);
+            return _organizationProvider.GetList(pagingOptions);
         }
         
         public OrganizationResult Create(OrganizationCreateParameters parameters)

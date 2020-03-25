@@ -20,15 +20,23 @@ namespace Web.Public.Controllers
         }
         
         [HttpGet]
-        public void GetVendorList()
+        public JsonResult GetVendorList(int limit, int offset)
         {
-            var result = _organizationService.GetList(new OrganizationListParameters());
+            var pagingOptions = new PagingOptions
+            {
+                Limit = limit,
+                Offset = offset
+            };
+            
+            var result = _organizationService.GetList(pagingOptions);
+            return new JsonResult("");
         }
 
         [HttpGet("{id}")]
-        public void GetVendor(long id)
+        public JsonResult GetVendor(long id)
         {
             var result = _organizationService.Get(id);
+            return new JsonResult(result);
         }
         
         [HttpPost]
