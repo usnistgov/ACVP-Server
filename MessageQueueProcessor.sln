@@ -5,17 +5,29 @@ VisualStudioVersion = 16.0.29503.13
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MessageQueueProcessor", "MessageQueueProcessor\MessageQueueProcessor.csproj", "{A10AEB50-79FA-4448-A414-5F77B92C2B65}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ACVPCore", "ACVPCore\ACVPCore.csproj", "{A10F6EFD-3F9D-4E35-A2FC-8AEFA814AA9E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ACVPCore", "Libraries\Internal\ACVPCore\ACVPCore.csproj", "{A10F6EFD-3F9D-4E35-A2FC-8AEFA814AA9E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ACVPWorkflow", "ACVPWorkflow\ACVPWorkflow.csproj", "{5712C89D-53BE-4B4C-8BD4-3FB422DDB337}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ACVPWorkflow", "Libraries\Internal\ACVPWorkflow\ACVPWorkflow.csproj", "{5712C89D-53BE-4B4C-8BD4-3FB422DDB337}"
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "ACVP_DB", "DB\ACVP_DB\ACVP_DB.sqlproj", "{8545EFC4-7EE1-475B-B78D-8034293ECA76}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CVP.DatabaseInterface", "DB\CVP.DatabaseInterface\CVP.DatabaseInterface.csproj", "{B6F42958-925D-4B8D-95D0-BB5B8AE3BC6F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CVP.DatabaseInterface", "Libraries\Shared\CVP.DatabaseInterface\CVP.DatabaseInterface.csproj", "{B6F42958-925D-4B8D-95D0-BB5B8AE3BC6F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Common", "gen-val\src\common\src\NIST.CVP.Common\NIST.CVP.Common.csproj", "{1C5CBCB8-3513-46D2-A09D-3F026C946023}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Math", "gen-val\src\common\src\NIST.CVP.Math\NIST.CVP.Math.csproj", "{2EA0BEA9-C517-4AD0-946E-8718BC2926E3}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Algorithms.External", "Libraries\Shared\NIST.CVP.Algorithms.External\NIST.CVP.Algorithms.External.csproj", "{017A5127-CA75-478D-9455-3327437901E1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Algorithms.DataTypes", "Libraries\Shared\NIST.CVP.Algorithms.DataTypes\NIST.CVP.Algorithms.DataTypes.csproj", "{502D3AB2-AAA1-40A4-AAEE-E96DC7F5F38C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Algorithms.Persisted", "Libraries\Internal\NIST.CVP.Algorithms.Persisted\NIST.CVP.Algorithms.Persisted.csproj", "{B947C214-FFB4-4388-94DE-BECE275B3B75}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Results", "Libraries\Shared\NIST.CVP.Results\NIST.CVP.Results.csproj", "{5994EFFC-8D57-4225-B105-58B5513BD525}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.ExtensionMethods", "Libraries\Shared\NIST.CVP.ExtensionMethods\NIST.CVP.ExtensionMethods.csproj", "{514B4C3E-5127-4484-A2B2-7458EEF20C6B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Enumerables", "Libraries\Shared\NIST.CVP.Enumerables\NIST.CVP.Enumerables.csproj", "{FB573E8B-D8B7-4FC0-8A49-48E2939F55CA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,6 +65,30 @@ Global
 		{2EA0BEA9-C517-4AD0-946E-8718BC2926E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2EA0BEA9-C517-4AD0-946E-8718BC2926E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2EA0BEA9-C517-4AD0-946E-8718BC2926E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{017A5127-CA75-478D-9455-3327437901E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{017A5127-CA75-478D-9455-3327437901E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{017A5127-CA75-478D-9455-3327437901E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{017A5127-CA75-478D-9455-3327437901E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{502D3AB2-AAA1-40A4-AAEE-E96DC7F5F38C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{502D3AB2-AAA1-40A4-AAEE-E96DC7F5F38C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{502D3AB2-AAA1-40A4-AAEE-E96DC7F5F38C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{502D3AB2-AAA1-40A4-AAEE-E96DC7F5F38C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B947C214-FFB4-4388-94DE-BECE275B3B75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B947C214-FFB4-4388-94DE-BECE275B3B75}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B947C214-FFB4-4388-94DE-BECE275B3B75}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B947C214-FFB4-4388-94DE-BECE275B3B75}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5994EFFC-8D57-4225-B105-58B5513BD525}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5994EFFC-8D57-4225-B105-58B5513BD525}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5994EFFC-8D57-4225-B105-58B5513BD525}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5994EFFC-8D57-4225-B105-58B5513BD525}.Release|Any CPU.Build.0 = Release|Any CPU
+		{514B4C3E-5127-4484-A2B2-7458EEF20C6B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{514B4C3E-5127-4484-A2B2-7458EEF20C6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{514B4C3E-5127-4484-A2B2-7458EEF20C6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{514B4C3E-5127-4484-A2B2-7458EEF20C6B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB573E8B-D8B7-4FC0-8A49-48E2939F55CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB573E8B-D8B7-4FC0-8A49-48E2939F55CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB573E8B-D8B7-4FC0-8A49-48E2939F55CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB573E8B-D8B7-4FC0-8A49-48E2939F55CA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

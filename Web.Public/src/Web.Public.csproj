@@ -29,8 +29,11 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\DB\CVP.DatabaseInterface\CVP.DatabaseInterface.csproj" />
-      <ProjectReference Include="..\..\ACVPCore\ACVPCore.csproj" />
+      <ProjectReference Include="..\..\Libraries\Shared\CVP.DatabaseInterface\CVP.DatabaseInterface.csproj" />
+      <ProjectReference Include="..\..\Libraries\Shared\NIST.CVP.Algorithms.External\NIST.CVP.Algorithms.External.csproj" />
+      <ProjectReference Include="..\..\Libraries\Shared\NIST.CVP.Enumerables\NIST.CVP.Enumerables.csproj" />
+      <ProjectReference Include="..\..\Libraries\Shared\NIST.CVP.ExtensionMethods\NIST.CVP.ExtensionMethods.csproj" />
+      <ProjectReference Include="..\..\Libraries\Shared\NIST.CVP.Results\NIST.CVP.Results.csproj" />
     </ItemGroup>
     
 </Project>

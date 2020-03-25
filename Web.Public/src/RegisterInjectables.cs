@@ -1,4 +1,3 @@
-using ACVPCore;
 using CVP.DatabaseInterface;
 using Microsoft.Extensions.DependencyInjection;
 using Web.Public.Providers;
@@ -14,8 +13,6 @@ namespace Web.Public
         /// <param name="item">The service collection to manipulate.</param>
         public static void RegisterAcvpAdminServices(this IServiceCollection item)
         {
-            item.InjectACVPCore();
-
             item.AddSingleton<IConnectionStringFactory, ConnectionStringFactory>();
             
             item.AddTransient<ITotpService, TotpService>();

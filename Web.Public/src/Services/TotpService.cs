@@ -1,5 +1,5 @@
 using System;
-using ACVPCore.Results;
+using NIST.CVP.Results;
 using Microsoft.Extensions.Options;
 using OtpNet;
 using Web.Public.Configs;
