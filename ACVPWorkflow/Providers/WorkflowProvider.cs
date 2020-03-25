@@ -114,7 +114,7 @@ namespace ACVPWorkflow.Providers
 						param.PageSize,
 						param.Page,
 						param.WorkflowItemId,
-						param.Type,
+						param.APIActionId,
 						param.RequestId
 					},
 					new

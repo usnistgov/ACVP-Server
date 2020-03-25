@@ -1,1 +1,62 @@
-<p>Hello</p>
+<div class="row mt-3">
+  <div class="col-lg-6">
+    <div class="card">
+      <h5 class="card-header">Delete Dependency</h5>
+      <div class="card-body">
+        <table class="table">
+          <tr>
+            <th style="border:none;">Name</th>
+            <td style="border:none;">{{currentState?.name}}</td>
+          </tr>
+          <tr>
+            <th>Type</th>
+            <td>{{currentState?.type}}</td>
+          </tr>
+          <tr>
+            <th>Description</th>
+            <td>{{currentState?.description}}</td>
+          </tr>
+        </table>
+      </div>
+    </div> <!-- Close Dependency Info Card -->
+  </div> <!-- Close col-lg-6 -->
+
+  <div class="col-lg-6">
+    <div class="card">
+      <h5 class="card-header">Available Actions</h5>
+      <div class="card-body">
+        <table class="table" *ngIf="workflowItem?.status == 'Pending'">
+          <tr>
+            <td style="border:none;text-align:center;"><button class="btn btn-primary" style="width:80%;" (click)="approveWorkflow()">&#10004; Approve</button></td>
+          </tr>
+          <tr>
+            <td style="border:none;text-align:center;"><button class="btn btn-danger" style="width:80%;" (click)="rejectWorkflow()">&#10006; Reject</button></td>
+          </tr>
+        </table>
+        <div *ngIf="workflowItem?.status == 'Rejected'" style="text-align:center;">
+          No available actions
+        </div>
+      </div>
+    </div> <!-- Close Dependency Info Card -->
+  </div> <!-- Close col-lg-6 -->
+</div>
+
+<div class="row mt-3">
+  <div class="col-lg-6">
+    <div class="card">
+      <h5 class="card-header">(Optional) User-Defined Attributes</h5>
+      <div class="card-body">
+        <table class="table" *ngIf="currentState != null">
+          <tr *ngFor="let attribute of currentState?.attributes">
+            <th style="border:none;">
+              {{ attribute.name }}
+            </th>
+            <td style="border:none;">
+              {{ attribute.value }}
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div> <!-- Close Dependency Info Card -->
+  </div> <!-- Close col-lg-6 -->
+</div>

@@ -18,5 +18,6 @@ namespace ACVPCore.Services
 		PagedEnumerable<TestSessionLite> Get(TestSessionListParameters param);
 		TestSession Get(long testSessionId);
 		bool TestSessionExists(long testSessionID);
+		void Expire(int ageInDays);
 	}
 }

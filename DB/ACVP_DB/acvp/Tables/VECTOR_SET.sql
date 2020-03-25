@@ -5,6 +5,7 @@
     [algorithm_id]         BIGINT         NOT NULL,
     [status]               INT            DEFAULT ((0)) NOT NULL,
     [vector_error_message] NVARCHAR (MAX) NULL,
+    [Archived] BIT NOT NULL DEFAULT 0, 
     CONSTRAINT [PK_VECTOR_SET] PRIMARY KEY CLUSTERED ([id] ASC),
     CONSTRAINT [FK_VECTOR_SET_CRYPTO_ALGORITHM_ID] FOREIGN KEY ([algorithm_id]) REFERENCES [ref].[CRYPTO_ALGORITHM] ([id]),
     CONSTRAINT [FK_VECTOR_SET_TEST_SESSION_ID] FOREIGN KEY ([test_session_id]) REFERENCES [acvp].[TEST_SESSION] ([id])

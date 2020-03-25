@@ -3,6 +3,7 @@ import { WorkflowItemBase } from '../../../../models/Workflow/WorkflowItemBase';
 import { WorkflowPersonCreatePayload } from '../../../../models/Workflow/Person/WorkflowPersonCreatePayload';
 import { AjaxService } from '../../../../services/ajax/ajax.service';
 import { Router } from '@angular/router';
+import { Organization } from '../../../../models/Organization/Organization';
 
 @Component({
   selector: 'app-workflow-person-create',
@@ -12,6 +13,7 @@ import { Router } from '@angular/router';
 export class WorkflowPersonCreateComponent implements OnInit {
 
   workflowItem: WorkflowItemBase<WorkflowPersonCreatePayload>;
+  organization: Organization;
 
   constructor(private ajs: AjaxService, private router: Router) { }
 
@@ -44,6 +46,15 @@ export class WorkflowPersonCreateComponent implements OnInit {
   @Input()
   set wfItem(item: WorkflowItemBase<WorkflowPersonCreatePayload>) {
     this.workflowItem = item;
+
+    // Get the organization data in order to populate the organization field
+    const splitString = this.workflowItem.payload.organizationUrl.split('/');
+    this.ajs.getOrganization(parseInt(splitString[splitString.length - 1])).subscribe(
+      data => { this.organization = data; },
+      err => { },
+      () => { }
+    );
+
   }
 
   ngOnInit() {

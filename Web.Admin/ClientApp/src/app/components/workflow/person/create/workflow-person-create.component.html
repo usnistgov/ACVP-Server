@@ -1,8 +1,4 @@
 <div class="row mt-3">
-  <h2>Workflow {{ workflowItem.workflowItemID}} - {{ workflowItem.status}}</h2>
-</div>
-
-<div class="row mt-3">
   <div class="col-lg-6">
     <div class="card">
       <h5 class="card-header">Create New Person</h5>
@@ -13,9 +9,8 @@
             <td style="border:none;">{{workflowItem?.payload.fullName}}</td>
           </tr>
           <tr>
-          <tr>
-            <th>Organization</th>
-            <td>Not Imp. yet.</td>
+            <th style="border:none;">Name</th>
+            <td style="border:none;"><a [routerLink]="['/validation-db/organizations/' + organization?.id]">{{ organization?.id }} - {{ organization?.name }}</a></td>
           </tr>
         </table>
       </div>
@@ -44,7 +39,7 @@
     <div class="card">
       <h5 class="card-header">Phone Information</h5>
       <div class="card-body">
-        <table class="table" style="">
+        <table class="table">
           <tr *ngFor="let phone of workflowItem?.payload?.phoneNumbers; index as i">
             <td [ngStyle]="{'border': i === 0 ? 'none' : '' }">
               <span class="bold-heading">Number</span> : {{ phone.number == null ? 'N/A' : phone.number }}<br />
@@ -60,7 +55,7 @@
     <div class="card">
       <h5 class="card-header">Emails</h5>
       <div class="card-body">
-        <table class="table" style="">
+        <table class="table">
           <tr *ngFor="let email of workflowItem.payload.emails; index as i">
             <td [ngStyle]="{'border': i === 0 ? 'none' : '' }">{{ email }}</td>
           </tr>

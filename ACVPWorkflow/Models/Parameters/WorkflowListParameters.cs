@@ -14,7 +14,7 @@ namespace ACVPWorkflow.Models.Parameters
         /// <summary>
         /// The API Action type to search for.
         /// </summary>
-        public APIAction? Type { get; set; }
+        public APIAction? APIActionId { get; set; }
         /// <summary>
         /// The requestId of the workflow item.
         /// </summary>

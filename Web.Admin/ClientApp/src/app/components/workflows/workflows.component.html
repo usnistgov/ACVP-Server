@@ -1,37 +1,30 @@
 <div class="container">
   <div class="row">
     <div class="col-lg-2">
+
       <div class="row mt-3">
+        <h2>&nbsp;</h2><!-- Just for visual spacing purposes -->
+      </div>
+
+      <div class="row">
         <div class="container">
           <h3>Filters</h3>
-          (Not yet implemented)
-        </div>
-      </div>
-      <div class="container">
-        <!--<div class="row mt-3">
-          <select class="form-control" (change)="getNewPageData($event.target.value)">
-            <option [value]="status" *ngFor="let status of WorkflowStatusOptions">
-              {{status}}
+          <label class="bold-heading">RequestId</label><br />
+          <input type="text" class="form-control" [(ngModel)]="requestId" (ngModelChange)="loadData()" placeholder="Request Id" />
+          <br /> <!-- Just for spacing -->
+          <label class="bold-heading">API Action</label><br />
+          <select class="form-control" #selectList (change)="setAPIAction(selectList.value)">
+            <!--[(ngModel)]="selectedAPIAction" (ngModelChange)="updateFilters()"-->
+            <option (click)="setAPIAction('All')" value="All">All</option>
+            <option *ngFor="let apiAction of APIAction.values()" (click)="setAPIAction(apiAction)" value="{{apiAction}}">
+              {{apiAction}}
             </option>
           </select>
-        </div>-->
+          <br />
+          <label class="bold-heading">DB ID</label><br />
+          <input type="text" class="form-control" [(ngModel)]="DBID" (ngModelChange)="loadData()" placeholder="DB ID" />
 
-        <!--<div class="row mt-3">
-          <div class="form-check">
-            <input class="form-check-input" type="radio" name="CreateDependencyRadio" id="CreateDependencyRadio" value="CreateDependency">
-            <label class="form-check-label" for="exampleRadios1">CreateDependency</label><br />
-            <input class="form-check-input" type="radio" name="UpdateDependencyRadio" id="UpdateDependencyRadio" value="UpdateDependency">
-            <label class="form-check-label" for="exampleRadios1">UpdateDependency</label><br />
-            <input class="form-check-input" type="radio" name="DeleteDependencyRadio" id="DeleteDependencyRadio" value="DeleteDependency">
-            <label class="form-check-label" for="exampleRadios1">DeleteDependency</label><br />
-            <input class="form-check-input" type="radio" name="CreateImplementationRadio" id="CreateImplementationRadio" value="CreateImplementation">
-            <label class="form-check-label" for="exampleRadios1">CreateImplementation</label><br />
-            <input class="form-check-input" type="radio" name="UpdateImplementationRadio" id="UpdateImplementationRadio" value="UpdateImplementation">
-            <label class="form-check-label" for="exampleRadios1">UpdateImplementation</label><br />
-            <input class="form-check-input" type="radio" name="DeleteImplementationRadio" id="DeleteImplementationRadio" value="DeleteImplementation">
-            <label class="form-check-label" for="exampleRadios1">DeleteImplementation</label><br />
-          </div>
-        </div>-->
+        </div>
       </div>
     </div>
 

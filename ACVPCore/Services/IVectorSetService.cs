@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using ACVPCore.Models;
 using ACVPCore.Results;
 
@@ -14,5 +15,8 @@ namespace ACVPCore.Services
 		List<(long ID, long AlgorithmID, VectorSetStatus Status, string ErrorMessage)> GetVectorSetsForTestSession(long testSessionID);
 		VectorSet GetVectorSet(long vectorSetId);
 		string GetVectorFileJson(long vectorSetId, VectorSetJsonFileTypes fileType);
+		List<(VectorSetJsonFileTypes FileType, string Content, DateTime CreatedOn)> GetVectorFileJson(long vectorSetID);
+		Result Archive(long vectorSetID);
+		List<long> GetVectorSetsToArchive();
 	}
 }
