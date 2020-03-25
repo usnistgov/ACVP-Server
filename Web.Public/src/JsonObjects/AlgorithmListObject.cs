@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using ACVPCore.Algorithms.External;
+using NIST.CVP.Algorithms.External;
 
 namespace Web.Public.JsonObjects
 {

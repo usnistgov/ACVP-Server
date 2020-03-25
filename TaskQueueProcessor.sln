@@ -27,9 +27,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Crypto.Oracle", "g
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Orleans.Grains.Interfaces", "gen-val\src\orleans\src\NIST.CVP.Orleans.Grains.Interfaces\NIST.CVP.Orleans.Grains.Interfaces.csproj", "{A2484D70-6E21-44B8-9D20-7E0B2CCA36B7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ACVPCore", "ACVPCore\ACVPCore.csproj", "{AB32FB25-6B59-44B7-8DE9-CF6D7CAC3815}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ACVPCore", "Libraries\Internal\ACVPCore\ACVPCore.csproj", "{AB32FB25-6B59-44B7-8DE9-CF6D7CAC3815}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CVP.DatabaseInterface", "DB\CVP.DatabaseInterface\CVP.DatabaseInterface.csproj", "{21FFB838-A392-4015-A587-AB71DC0168FA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CVP.DatabaseInterface", "Libraries\Shared\CVP.DatabaseInterface\CVP.DatabaseInterface.csproj", "{21FFB838-A392-4015-A587-AB71DC0168FA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

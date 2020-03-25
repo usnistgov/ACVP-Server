@@ -1,6 +1,6 @@
 ﻿using ACVPCore.Models;
 using ACVPCore.Models.Parameters;
-using ACVPCore.Results;
+using NIST.CVP.Results;
 using ACVPCore.Services;
 using Microsoft.AspNetCore.Mvc;
 

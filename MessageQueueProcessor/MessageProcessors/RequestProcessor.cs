@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Text.Json;
-using ACVPCore.Results;
 using ACVPWorkflow;
 using ACVPWorkflow.Models;
 using ACVPWorkflow.Services;
 using MessageQueueProcessor.MessagePayloads;
+using NIST.CVP.Results;
 
 namespace MessageQueueProcessor.MessageProcessors
 {

@@ -1,5 +1,5 @@
 using System.IdentityModel.Tokens.Jwt;
-using ACVPCore.Results;
+using NIST.CVP.Results;
 
 namespace Web.Public.Results
 {

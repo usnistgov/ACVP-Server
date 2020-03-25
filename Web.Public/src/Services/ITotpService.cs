@@ -1,4 +1,4 @@
-using ACVPCore.Results;
+using NIST.CVP.Results;
 
 namespace Web.Public.Services
 {

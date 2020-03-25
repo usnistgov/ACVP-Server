@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using ACVPCore.Algorithms.External;
-using ACVPCore.ExtensionMethods;
+using NIST.CVP.Algorithms.External;
+using NIST.CVP.ExtensionMethods;
 using CVP.DatabaseInterface;
 using Microsoft.Extensions.Options;
 using Mighty;

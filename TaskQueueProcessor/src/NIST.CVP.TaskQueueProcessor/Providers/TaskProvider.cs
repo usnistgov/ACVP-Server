@@ -1,6 +1,4 @@
 using System;
-using System.Linq;
-using ACVPCore.ExtensionMethods;
 using CVP.DatabaseInterface;
 using Mighty;
 using NIST.CVP.TaskQueueProcessor.Constants;
