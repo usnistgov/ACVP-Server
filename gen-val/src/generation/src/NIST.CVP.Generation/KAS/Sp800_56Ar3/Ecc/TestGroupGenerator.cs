@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using NIST.CVP.Common.Oracle;
+using NIST.CVP.Common.Oracle.ParameterTypes.Kas.Sp800_56Ar3;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC.Enums;
 using NIST.CVP.Generation.KAS.Sp800_56Ar3.Enums;
@@ -16,30 +18,26 @@ namespace NIST.CVP.Generation.KAS.Sp800_56Ar3.Ecc
             _oracle = oracle;
         }
 
-        protected override async Task<EccDomainParameters> GenerateDomainParametersAsync(TestGroup @group)
+        protected override async Task GenerateDomainParametersAsync(List<TestGroup> groups)
         {
-            return await _oracle.GetEcdsaDomainParameterAsync(group.Curve);
-            //
-            // return group.DomainParameterGenerationMode switch
-            // {
-            //     KasDpGeneration.B163 => await _oracle.GetEcdsaDomainParameterAsync(Curve.B163),
-            //     KasDpGeneration.B233 => await _oracle.GetEcdsaDomainParameterAsync(Curve.B233),
-            //     KasDpGeneration.B283 => await _oracle.GetEcdsaDomainParameterAsync(Curve.B283),
-            //     KasDpGeneration.B409 => await _oracle.GetEcdsaDomainParameterAsync(Curve.B409),
-            //     KasDpGeneration.B571 => await _oracle.GetEcdsaDomainParameterAsync(Curve.B571),
-            //     KasDpGeneration.K163 => await _oracle.GetEcdsaDomainParameterAsync(Curve.K163),
-            //     KasDpGeneration.K233 => await _oracle.GetEcdsaDomainParameterAsync(Curve.K233),
-            //     KasDpGeneration.K283 => await _oracle.GetEcdsaDomainParameterAsync(Curve.K283),
-            //     KasDpGeneration.K409 => await _oracle.GetEcdsaDomainParameterAsync(Curve.K409),
-            //     KasDpGeneration.K571 => await _oracle.GetEcdsaDomainParameterAsync(Curve.K571),
-            //     KasDpGeneration.P192 => await _oracle.GetEcdsaDomainParameterAsync(Curve.P192),
-            //     KasDpGeneration.P224 => await _oracle.GetEcdsaDomainParameterAsync(Curve.P224),
-            //     KasDpGeneration.P256 => await _oracle.GetEcdsaDomainParameterAsync(Curve.P256),
-            //     KasDpGeneration.P384 => await _oracle.GetEcdsaDomainParameterAsync(Curve.P384),
-            //     KasDpGeneration.P521 => await _oracle.GetEcdsaDomainParameterAsync(Curve.P521),
-            //     _ => throw new ArgumentException(
-            //         $"Invalid {nameof(group.DomainParameterGenerationMode)} {group.DomainParameterGenerationMode} for this group generator.")
-            // };
+            var map = new Dictionary<TestGroup, Task<EccDomainParameters>>();
+            foreach (var group in groups)
+            {
+                map.Add(group, GenerateDomainParametersAsync(group));
+            }
+
+            foreach (var (group, value) in map)
+            {
+                group.DomainParameters = await value;
+            }
+        }
+        
+        private async Task<EccDomainParameters> GenerateDomainParametersAsync(TestGroup @group)
+        {
+            var task = _oracle.GetEcdsaDomainParameterAsync(new EcdsaCurveParameters() {Curve = group.Curve});
+            var result = await task;
+            
+            return result.EccDomainParameters;
         }
     }
 }

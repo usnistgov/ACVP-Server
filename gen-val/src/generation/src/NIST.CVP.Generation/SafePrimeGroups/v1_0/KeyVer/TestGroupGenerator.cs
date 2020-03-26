@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using NIST.CVP.Common.Oracle;
+using NIST.CVP.Common.Oracle.ParameterTypes.Kas.Sp800_56Ar3;
+using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
 using NIST.CVP.Generation.Core;
 
@@ -37,17 +39,17 @@ namespace NIST.CVP.Generation.SafePrimeGroups.v1_0.KeyVer
 
         private async Task GetDomainParametersForGroups(List<TestGroup> testGroups)
         {
-            var tasks = new Dictionary<TestGroup, Task<FfcDomainParameters>>();
+            var tasks = new Dictionary<TestGroup, Task<FfcDomainParametersResult>>();
             foreach (var group in testGroups)
             {
-                tasks.Add(group, _oracle.GetSafePrimeGroupsDomainParameterAsync(group.SafePrimeGroup));
+                tasks.Add(group, _oracle.GetSafePrimeGroupsDomainParameterAsync(new SafePrimeParameters() { SafePrime = group.SafePrimeGroup}));
             }
 
             await Task.WhenAll(tasks.Values);
 
             foreach (var (group, value) in tasks)
             {
-                group.DomainParameters = value.Result;
+                group.DomainParameters = value.Result.DomainParameters;
             }
         }
     }

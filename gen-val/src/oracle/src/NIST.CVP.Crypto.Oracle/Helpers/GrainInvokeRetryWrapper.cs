@@ -135,7 +135,7 @@ namespace NIST.CVP.Crypto.Oracle.Helpers
             while (timesToRetry > 0)
             {
                 timesToRetry--;
-                
+
                 try
                 {
                     return await func(param);

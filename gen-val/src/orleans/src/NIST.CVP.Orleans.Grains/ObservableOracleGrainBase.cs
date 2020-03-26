@@ -60,7 +60,7 @@ namespace NIST.CVP.Orleans.Grains
         private bool _hasWorkBegun;
 
         private TResult _result;
-
+        
         protected ObservableOracleGrainBase(LimitedConcurrencyLevelTaskScheduler nonOrleansScheduler)
         {
             _nonOrleansScheduler = nonOrleansScheduler;
@@ -80,22 +80,18 @@ namespace NIST.CVP.Orleans.Grains
             return Task.CompletedTask;
         }
 
-        public async Task HeartbeatSubscribe(IGrainObserver<TResult> observer)
+        public Task HeartbeatSubscribe(IGrainObserver<TResult> observer)
         {
             if (!_hasWorkBegun)
             {
                 _subsManager.Subscribe(observer);
                 _subsManager.Notify(o => o.Throw(new OriginalClusterNodeSuicideException()));
-                return;
+                return Task.CompletedTask;
             }
             
             _subsManager.Subscribe(observer);
 
-            // Sometimes the notify isn't caught on original result completion, try it again on heartbeats.
-            if (_result != null)
-            {
-                await Notify(_result);
-            }
+            return Task.CompletedTask;
         }
 
         public Task Unsubscribe(IGrainObserver<TResult> observer)
@@ -161,13 +157,11 @@ namespace NIST.CVP.Orleans.Grains
         /// <returns></returns>
         protected async Task Notify(TResult result)
         {
-            if (_result == null)
-            {
-                _result = result;
-            }
-            
             await Task.Factory.StartNew(() =>
             {
+                if (_result == null)
+                    _result = result;
+                
                 _subsManager.Notify(observer => observer.ReceiveMessageFromCluster(result));
             }, CancellationToken.None, TaskCreationOptions.None, _orleansScheduler);
         }

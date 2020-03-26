@@ -53,16 +53,14 @@ namespace NIST.CVP.Orleans.ServerHost
 
         public async Task StartAsync(CancellationToken cancellationToken)
         {
+            _logger.LogInformation("Orleans Silo starting...");
             var builder = new SiloHostBuilder()
                 .Configure<ClusterOptions>(options =>
                 {
                     options.ClusterId = _orleansConfig.ClusterId;
                     options.ServiceId = Constants.ServiceId;
                 })
-                .Configure<GrainCollectionOptions>(options =>
-                {
-                    options.CollectionAge = TimeSpan.FromMinutes(5);
-                })
+                .Configure<GrainCollectionOptions>(options => { options.CollectionAge = TimeSpan.FromMinutes(5); })
                 .ConfigureApplicationParts(parts =>
                 {
                     parts.AddApplicationPart(typeof(IGrainMarker).Assembly).WithReferences();
@@ -144,16 +142,8 @@ namespace NIST.CVP.Orleans.ServerHost
             builder.ConfigureLogging(logging =>
             {
                 logging.SetMinimumLevel(_orleansConfig.MinimumLogLevel);
-                
-                if (_orleansConfig.UseConsoleLogging)
-                {
-                    logging.AddConsole();
-                }
-
-                if (_orleansConfig.UseFileLogging)
-                {
-                    logging.AddProvider(new SerilogLoggerProvider());                    
-                }
+                logging.AddConsole();
+                logging.AddProvider(new SerilogLoggerProvider());
             });
         }
     }

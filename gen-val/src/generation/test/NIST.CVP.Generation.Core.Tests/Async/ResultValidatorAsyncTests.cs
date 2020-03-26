@@ -170,7 +170,7 @@ namespace NIST.CVP.Generation.Core.Tests.Async
                 .Setup(s => s.ValidateAsync(It.IsAny<FakeTestCase>(), It.IsAny<bool>()))
                 .Returns(async () =>
                 {
-                    await Task.Delay(1000);
+                    await Task.Yield();
                     return new TestCaseValidation();
                 });
             

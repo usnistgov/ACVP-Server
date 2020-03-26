@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
+using NIST.CVP.Common.Oracle.ParameterTypes.Kas.Sp800_56Ar3;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Async;
 using NLog;
@@ -35,10 +36,10 @@ namespace NIST.CVP.Generation.SafePrimeGroups.v1_0.KeyGen
             {
                 try
                 {
-                    var dp = await _oracle.GetSafePrimeGroupsDomainParameterAsync(group.SafePrimeGroup);
+                    var dp = await _oracle.GetSafePrimeGroupsDomainParameterAsync(new SafePrimeParameters() { SafePrime = group.SafePrimeGroup});
                     var result = await _oracle.GetDsaKeyAsync(new DsaKeyParameters()
                     {
-                        DomainParameters = dp
+                        DomainParameters = dp.DomainParameters
                     });
 
                     return new TestCaseGenerateResponse<TestGroup, TestCase>(new TestCase

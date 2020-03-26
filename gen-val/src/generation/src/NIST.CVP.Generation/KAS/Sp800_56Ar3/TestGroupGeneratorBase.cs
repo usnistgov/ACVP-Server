@@ -607,25 +607,6 @@ namespace NIST.CVP.Generation.KAS.Sp800_56Ar3
         }
         #endregion KDFs
         
-        private async Task GenerateDomainParametersAsync(List<TTestGroup> groups)
-        {
-            var map = new Dictionary<TTestGroup, Task<TDomainParameters>>();
-            var tasks = new List<Task<TDomainParameters>>();
-            foreach (var group in groups)
-            {
-                var task = GenerateDomainParametersAsync(group);
-                map.Add(group, task);
-                tasks.Add(task);
-            }
-
-            await Task.WhenAll(tasks);
-
-            foreach (var (group, value) in map)
-            {
-                group.DomainParameters = value.Result;
-            }
-        }
-
-        protected abstract Task<TDomainParameters> GenerateDomainParametersAsync(TTestGroup group);
+        protected abstract Task GenerateDomainParametersAsync(List<TTestGroup> groups);
     }
 }

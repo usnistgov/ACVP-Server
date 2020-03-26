@@ -28,12 +28,12 @@ namespace NIST.CVP.Crypto.Oracle
 {
     public partial class Oracle
     {
-        public async Task<FfcDomainParameters> GetSafePrimeGroupsDomainParameterAsync(SafePrime param)
+        public async Task<FfcDomainParametersResult> GetSafePrimeGroupsDomainParameterAsync(SafePrimeParameters param)
         {
             try
             {
                 var observableGrain =
-                    await GetObserverGrain<IObserverSafePrimesGroupDomainParameterGrain, FfcDomainParameters>();
+                    await GetObserverGrain<IObserverSafePrimesGroupDomainParameterGrain, FfcDomainParametersResult>();
                 await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, LoadSheddingRetries);
             
                 return await observableGrain.ObserveUntilResult();
@@ -356,12 +356,12 @@ namespace NIST.CVP.Crypto.Oracle
             }
         }
 
-        public async Task<NIST.CVP.Common.Oracle.ResultTypes.Kas.Sp800_56Ar1.KasAftDeferredResult> CompleteDeferredKasTestAsync(KasAftDeferredParametersIfc param)
+        public async Task<NIST.CVP.Common.Oracle.ResultTypes.Kas.Sp800_56Br2.KasAftDeferredResult> CompleteDeferredKasTestAsync(KasAftDeferredParametersIfc param)
         {
             try
             {
                 var observableGrain =
-                    await GetObserverGrain<IOracleObserverKasCompleteDeferredAftIfcCaseGrain, NIST.CVP.Common.Oracle.ResultTypes.Kas.Sp800_56Ar1.KasAftDeferredResult>();
+                    await GetObserverGrain<IOracleObserverKasCompleteDeferredAftIfcCaseGrain, NIST.CVP.Common.Oracle.ResultTypes.Kas.Sp800_56Br2.KasAftDeferredResult>();
                 await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, LoadSheddingRetries);
 
                 return await observableGrain.ObserveUntilResult();

@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using NIST.CVP.Common.Oracle;
+using NIST.CVP.Common.Oracle.ParameterTypes.Kas.Sp800_56Ar3;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
 
 namespace NIST.CVP.Generation.KAS.Sp800_56Ar3.Ecc
@@ -12,7 +13,10 @@ namespace NIST.CVP.Generation.KAS.Sp800_56Ar3.Ecc
 
         protected override async Task<EccDomainParameters> GetDomainParameters(TestGroup serverTestGroup)
         {
-            return await Oracle.GetEcdsaDomainParameterAsync(serverTestGroup.Curve);
+            var task = Oracle.GetEcdsaDomainParameterAsync(new EcdsaCurveParameters() {Curve = serverTestGroup.Curve});
+            var result = await task;
+            
+            return result.EccDomainParameters;
         }
     }
 }

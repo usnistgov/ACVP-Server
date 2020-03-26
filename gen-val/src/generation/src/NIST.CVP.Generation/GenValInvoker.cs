@@ -31,7 +31,7 @@ namespace NIST.CVP.Generation
             return parameterChecker.CheckParameters(request);
         }
 
-        public Task<GenerateResponse> GenerateAsync(GenerateRequest request, int vsId)
+        public async Task<GenerateResponse> GenerateAsync(GenerateRequest request, int vsId)
         {
             using (LogContext.PushProperty("VsID", vsId))
             using (LogContext.PushProperty("Application", "Generator"))
@@ -42,11 +42,12 @@ namespace NIST.CVP.Generation
 
                 using var container = GetContainer(algoMode).BeginLifetimeScope();
                 var generator = container.Resolve<IGenerator>();
-                return generator.GenerateAsync(request);   
+                var generatorTask = generator.GenerateAsync(request);
+                return await generatorTask;   
             }
         }
 
-        public Task<ValidateResponse> ValidateAsync(ValidateRequest request, int vsId)
+        public async Task<ValidateResponse> ValidateAsync(ValidateRequest request, int vsId)
         {
 
             using (LogContext.PushProperty("VsID", vsId))
@@ -58,7 +59,7 @@ namespace NIST.CVP.Generation
                 
                 using var container = GetContainer(algoMode).BeginLifetimeScope();
                 var validator = container.Resolve<IValidator>();
-                return validator.ValidateAsync(request);
+                return await validator.ValidateAsync(request);
             }
         }
 
@@ -119,7 +120,7 @@ namespace NIST.CVP.Generation
         {
             var candidateAlgoModeRevisions = GetSupportedAlgoModeRevisions();
 
-            return candidateAlgoModeRevisions.FirstOrDefault(w => w.SupportedAlgoModeRevisions.Contains(algoMode));
+            return candidateAlgoModeRevisions.First(w => w.SupportedAlgoModeRevisions.Contains(algoMode));
         }
 
         /// <summary>

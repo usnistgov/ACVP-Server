@@ -11,12 +11,11 @@ namespace NIST.CVP.TaskQueueProcessor
     {
         public static IServiceCollection InjectTaskQueueProcessorInterfaces(this IServiceCollection services)
         {
-            services.AddSingleton(new LimitedConcurrencyLevelTaskScheduler(1));
-            services.AddTransient<IGenValInvoker, GenValInvoker>();
-            services.AddTransient<IGenValService, GenValService>();
-            services.AddTransient<ITaskProvider, TaskProvider>();
-            services.AddTransient<IPoolService, PoolService>();
-            services.AddTransient<IJsonProvider, JsonProvider>();
+            services.AddSingleton<IGenValInvoker, GenValInvoker>();
+            services.AddSingleton<IGenValService, GenValService>();
+            services.AddSingleton<ITaskProvider, TaskProvider>();
+            services.AddSingleton<IPoolService, PoolService>();
+            services.AddSingleton<IJsonProvider, JsonProvider>();
                     
             services.AddSingleton<ITaskService, TaskService>();
             services.AddSingleton<ICleaningService, CleaningService>();

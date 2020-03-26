@@ -3,7 +3,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
-using NIST.CVP.Common;
 using NIST.CVP.Common.Config;
 using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.TaskQueueProcessor.Services;
@@ -22,19 +21,17 @@ namespace NIST.CVP.TaskQueueProcessor
 
         private readonly SemaphoreSlim _semaphore;
         private readonly int _maxTasks;
-        private readonly LimitedConcurrencyLevelTaskScheduler _scheduler;
 
-        public QueueProcessor(ITaskService taskService, ICleaningService cleaningService, IOptions<PoolConfig> poolConfig, IOptions<TaskQueueProcessorConfig> taskConfig, LimitedConcurrencyLevelTaskScheduler scheduler)
+        public QueueProcessor(ITaskService taskService, ICleaningService cleaningService, IOptions<PoolConfig> poolConfig, IOptions<TaskQueueProcessorConfig> taskConfig)
         {
             _taskService = taskService;
             _cleaningService = cleaningService;
             _poolConfig = poolConfig.Value;
             _taskConfig = taskConfig.Value;
 
-            _maxTasks = taskConfig.Value.MaxConcurrency + 1;
+            _maxTasks = taskConfig.Value.MaxConcurrency;
             _maxTasks = 1;
             _semaphore = new SemaphoreSlim(_maxTasks, _maxTasks);
-            _scheduler = scheduler;
         }
         
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -54,7 +51,7 @@ namespace NIST.CVP.TaskQueueProcessor
                     // Spawn a one-off task to run
                     Log.Information($"Grabbed dbId: {task.DbId}, vsId: {task.VsId} for gen/val processing");
                 
-                    await QueueGenVal(task, stoppingToken);
+                    QueueGenVal(task, stoppingToken).FireAndForget();
                     continue;
                 }
                 
