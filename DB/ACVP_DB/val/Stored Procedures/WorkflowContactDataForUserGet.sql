@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE [acvp].[WorkflowContactDataForUserGet]
+﻿CREATE PROCEDURE [val].[WorkflowContactDataForUserGet]
 	
 	@ACVPUserID bigint
 

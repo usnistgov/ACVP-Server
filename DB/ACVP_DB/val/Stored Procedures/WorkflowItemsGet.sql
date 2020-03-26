@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE [acvp].[WorkflowItemsGet]
+﻿CREATE PROCEDURE [val].[WorkflowItemsGet]
 	
 	@PageSize INT,
 	@Page INT,
@@ -31,7 +31,7 @@ BEGIN
 	INNER	JOIN acvp.REQUEST r on w.id = r.workflow_id
 	WHERE	1=1
 		AND (@WorkflowItemId IS NULL OR CAST(w.id as varchar) LIKE '%' + CAST(@WorkflowItemId as varchar) + '%')
-		AND	(@APIActionId IS NULL OR w.ApiActionID = @APIActionId)
+		AND	(@APIActionId IS NULL OR w.APIActionID = @APIActionId)
 		AND	(@RequestId IS NULL OR CAST(r.id as varchar) LIKE '%' + CAST(@RequestId as varchar) + '%')
 	ORDER	BY w.id DESC
 	OFFSET (@Page - 1) * @PageSize ROWS

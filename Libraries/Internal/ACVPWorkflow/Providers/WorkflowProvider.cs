@@ -108,7 +108,7 @@ namespace ACVPWorkflow.Providers
 
 			try
 			{
-				var dbResult = db.QueryWithExpando("acvp.WorkflowItemsGet",
+				var dbResult = db.QueryWithExpando("val.WorkflowItemsGet",
 					new
 					{
 						param.PageSize,
@@ -139,7 +139,7 @@ namespace ACVPWorkflow.Providers
 
 			try
 			{
-				var data = db.SingleFromProcedure("acvp.WorkflowItemGetById", new
+				var data = db.SingleFromProcedure("val.WorkflowItemGetById", new
 				{
 					workflowItemId
 				});

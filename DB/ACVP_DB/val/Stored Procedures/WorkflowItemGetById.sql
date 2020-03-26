@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE [acvp].[WorkflowItemGetById]
+﻿CREATE PROCEDURE [val].[WorkflowItemGetById]
 	
 	@WorkflowItemId BIGINT
 
