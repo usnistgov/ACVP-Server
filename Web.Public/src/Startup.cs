@@ -25,33 +25,33 @@ namespace Web.Public
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //services
-            //    .AddAuthentication(options =>
-            //    {
-            //        options.DefaultScheme = CertificateAuthenticationDefaults.AuthenticationScheme;
-            //        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-            //        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            //    })
-            //    .AddCertificate(options =>
-            //    {
-            //        options.AllowedCertificateTypes = CertificateTypes.All;
-            //    })
-            //    .AddJwtBearer(options =>
-            //    {
-            //        options.TokenValidationParameters = new TokenValidationParameters
-            //        {
-            //            ValidateIssuer = true,
-            //            ValidIssuer = _jwtConfig.Issuer,
-            //            ValidateActor = false,
-            //            ValidateAudience = false,
-            //            ValidateLifetime = true,
-            //            ValidateTokenReplay = true,
-            //            ValidateIssuerSigningKey = true,
-            //            IssuerSigningKey = new SymmetricSecurityKey(Encoding.Default.GetBytes(_jwtConfig.SecretKey)),
-            //            SaveSigninToken = true
-            //        };
-            //    });
-            
+            services
+                .AddAuthentication(options =>
+                {
+                    options.DefaultScheme = CertificateAuthenticationDefaults.AuthenticationScheme;
+                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
+                .AddCertificate(options =>
+                {
+                    options.AllowedCertificateTypes = CertificateTypes.All;
+                })
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidIssuer = _jwtConfig.Issuer,
+                        ValidateActor = false,
+                        ValidateAudience = false,
+                        ValidateLifetime = true,
+                        ValidateTokenReplay = true,
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.Default.GetBytes(_jwtConfig.SecretKey)),
+                        SaveSigninToken = true
+                    };
+                });
+
             services
                 .AddControllersWithViews()
                 .AddJsonOptions(options =>
@@ -67,8 +67,8 @@ namespace Web.Public
             _jwtConfig = jwtConfig.Value;
             
             app.UseRouting();
-            //app.UseAuthentication();
-            //app.UseAuthorization();
+            app.UseAuthentication();
+            app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

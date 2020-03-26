@@ -10,7 +10,7 @@ using Web.Public.Services;
 namespace Web.Public.Controllers
 {
 	[Route("acvp/vendors")]
-	//[Authorize]
+	[Authorize]
 	[ApiController]
 	public class OrganizationController : ControllerBase
 	{
@@ -46,14 +46,10 @@ namespace Web.Public.Controllers
 			//If limit was not present, or a garbage value, make it a default
 			if (limit <= 0) limit = 20;
 
-			//Create a collection of all the query parameters except limit and offset - these would be the filter pieces
-			//var filterParameters = Request.Query.Where(x => x.Key != "limit" && x.Key != "offset").Select(x => (x.Key, x.Value.FirstOrDefault())).ToList();
-
 			//Build the querystring that excluded limit and offset
 			string filterString = string.Join("&", Request.Query.Where(x => x.Key != "limit" && x.Key != "offset").Select(x => $"{x.Key}={x.Value.FirstOrDefault()}"));
 
 			//Try to build a filter string from those parameters
-			//var filter = FilterStringService.BuildFilterString(filterParameters, _legalPropertyDefinitions);
 			var filter = FilterStringService.BuildFilterString(filterString, _legalPropertyDefinitions);
 
 			if (filter.IsValid)

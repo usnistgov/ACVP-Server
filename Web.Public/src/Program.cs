@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
+using System.Security.Cryptography.X509Certificates;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Server.Kestrel.Https;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -39,21 +41,21 @@ namespace Web.Public
                 .ConfigureServices((hostContext, services) =>
                 {
                     services.RegisterAcvpPublicServices();
-                    //services.Configure<JwtConfig>(hostContext.Configuration.GetSection("Jwt"));
-                    //services.Configure<TotpConfig>(hostContext.Configuration.GetSection("Totp"));
-                    //services.Configure<AlgorithmConfig>(hostContext.Configuration.GetSection("Algorithm"));
+                    services.Configure<JwtConfig>(hostContext.Configuration.GetSection("Jwt"));
+                    services.Configure<TotpConfig>(hostContext.Configuration.GetSection("Totp"));
+                    services.Configure<AlgorithmConfig>(hostContext.Configuration.GetSection("Algorithm"));
                 })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                    //webBuilder.ConfigureKestrel(options =>
-                    //{
-                    //    options.ConfigureHttpsDefaults(configureOptions =>
-                    //    {
-                    //        configureOptions.ServerCertificate = new X509Certificate2("/Users/ctc/Documents/postman-certs/cceli-localhost.p12", "test");
-                    //        configureOptions.ClientCertificateMode = ClientCertificateMode.RequireCertificate;
-                    //    });
-                    //});
+                    webBuilder.ConfigureKestrel(options =>
+                    {
+                        options.ConfigureHttpsDefaults(configureOptions =>
+                        {
+                            configureOptions.ServerCertificate = new X509Certificate2("/Users/ctc/Documents/postman-certs/cceli-localhost.p12", "test");
+                            configureOptions.ClientCertificateMode = ClientCertificateMode.RequireCertificate;
+                        });
+                    });
                 })
                 .UseSerilog((hostContext, loggerConfiguration) =>
                 {
