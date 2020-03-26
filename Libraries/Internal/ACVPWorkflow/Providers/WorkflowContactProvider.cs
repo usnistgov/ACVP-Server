@@ -22,7 +22,7 @@ namespace ACVPWorkflow.Providers
 
 			try
 			{
-				var data = db.SingleFromProcedure("val.WorkflowContactDataForUserGet", inParams: new
+				var data = db.SingleFromProcedure("acvp.WorkflowContactDataForUserGet", inParams: new
 				{
 					ACVPUserID = acvpUserID
 				});
