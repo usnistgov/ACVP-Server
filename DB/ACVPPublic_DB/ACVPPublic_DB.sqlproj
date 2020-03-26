@@ -138,5 +138,8 @@
     <Build Include="val\Stored Procedures\OrganizationFilteredListGet.sql" />
     <Build Include="val\Stored Procedures\PersonFilteredListGet.sql" />
     <Build Include="dbo\Functions\DelimitedListToTable.sql" />
+    <Build Include="val\Stored Procedures\OrganizationGet.sql" />
+    <Build Include="val\Stored Procedures\OrganizationEmailsGet.sql" />
+    <Build Include="val\Stored Procedures\AddressesForOrganizationGet.sql" />
   </ItemGroup>
 </Project>

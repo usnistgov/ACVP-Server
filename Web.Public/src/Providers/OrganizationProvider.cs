@@ -4,9 +4,7 @@ using System.Linq;
 using CVP.DatabaseInterface;
 using Microsoft.Extensions.Logging;
 using Mighty;
-using NIST.CVP.Enumerables;
 using NIST.CVP.ExtensionMethods;
-using Web.Public.Helpers;
 using Web.Public.Models;
 
 namespace Web.Public.Providers
@@ -22,38 +20,6 @@ namespace Web.Public.Providers
 			_acvpConnectionString = connectionStringFactory.GetMightyConnectionString("ACVPPublic");
 		}
 
-		public List<Organization> GetList(PagingOptions pagingOptions)
-		{
-			// var db = new MightyOrm<OrganizationLite>(_acvpConnectionString);
-			//
-			// try
-			// {
-			// 	var dbResult = db.QueryWithExpando("val.OrganizationsGet", inParams: new
-			// 	{
-			// 		param.PageSize,
-			// 		PageNumber = param.Page,
-			// 		param.Id,
-			// 		param.Name
-			// 	}, new
-			// 	{
-			// 		totalRecords = (long)0
-			// 	});
-			//
-			// 	var result = dbResult.Data;
-			// 	long totalRecords = dbResult.ResultsExpando.totalRecords;
-			// 	
-			// 	return result.WrapPagedEnumerable(param.PageSize, param.Page, totalRecords);
-			// }
-			// catch (Exception ex)
-			// {
-			// 	Log.Error("Unable to get organization list", ex);
-			// 	throw;
-			// }
-
-			// Needs to be rewritten to use public paging technique of (amount, offset)
-			return null;
-		}
-
 		public Organization Get(long organizationID)
 		{
 			var db = new MightyOrm(_acvpConnectionString);
@@ -67,9 +33,9 @@ namespace Web.Public.Providers
 
 				var result = new Organization
 				{
-					ID = orgData.id,
-					Name = orgData.name,
-					Website = orgData.organization_url,
+					ID = orgData.Id,
+					Name = orgData.Name,
+					Website = orgData.Website,
 				};
 
 				List<PhoneNumber> phoneNumbers = new List<PhoneNumber>();
@@ -77,7 +43,7 @@ namespace Web.Public.Providers
 				if (!string.IsNullOrEmpty(orgData.FaxNumber)) phoneNumbers.Add(new PhoneNumber { Number = orgData.FaxNumber, Type = "fax" });
 				if (phoneNumbers.Count > 0) result.PhoneNumbers = phoneNumbers;
 
-				var addressData = db.QueryFromProcedure("val.OrganizationGetAddresses", inParams: new
+				var addressData = db.QueryFromProcedure("val.AddressesForOrganizationGet", inParams: new
 				{
 					OrganizationID = organizationID
 				});
@@ -90,20 +56,20 @@ namespace Web.Public.Providers
 					{
 						result.Addresses.Add(new Address
 						{
-							ID = address.id,
+							ID = address.ID,
 							OrganizationID = organizationID,
-							Street1 = address.address_street1,
-							Street2 = address.address_street2,
-							Street3 = address.address_street3,
-							Locality = address.address_locality,
-							Region = address.address_region,
-							Country = address.address_country,
-							PostalCode = address.address_postal_code
+							Street1 = address.Street1,
+							Street2 = address.Street2,
+							Street3 = address.Street3,
+							Locality = address.Locality,
+							Region = address.Region,
+							Country = address.Country,
+							PostalCode = address.PostalCode
 						});
 					}
 				}
 
-				var emailData = db.QueryFromProcedure("val.OrganizationGetEmails", inParams: new
+				var emailData = db.QueryFromProcedure("val.OrganizationEmailsGet", inParams: new
 				{
 					OrganizationID = organizationID
 				});
@@ -114,7 +80,7 @@ namespace Web.Public.Providers
 
 					foreach (var email in emailData)
 					{
-						result.Emails.Add(email.email_address);
+						result.Emails.Add(email.EmailAddress);
 					}
 				}
 

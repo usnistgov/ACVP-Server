@@ -27,18 +27,12 @@ namespace Web.Public.Controllers
 			_organizationService = organizationService;
 		}
 
-		//[HttpGet()]
-		//public JsonResult GetVendorList(int limit, int offset)
-		//{
-		//	var pagingOptions = new PagingOptions
-		//	{
-		//		Limit = limit,
-		//		Offset = offset
-		//	};
-
-		//	var result = _organizationService.GetList(pagingOptions);
-		//	return new JsonResult("");
-		//}
+		[HttpGet("{id}")]
+		public JsonResult GetVendor(long id)
+		{
+			var result = _organizationService.Get(id);
+			return new JsonResult(result);
+		}
 
 		[HttpGet]
 		public PagedResponse<Organization> GetFilteredVendorList()
@@ -76,13 +70,6 @@ namespace Web.Public.Controllers
 			}
 
 			return null;
-		}
-
-		[HttpGet("{id}")]
-		public JsonResult GetVendor(long id)
-		{
-			var result = _organizationService.Get(id);
-			return new JsonResult(result);
 		}
 	}
 }
