@@ -11,7 +11,7 @@ namespace Web.Public
         /// Registers all required services for the ACVP public app.
         /// </summary>
         /// <param name="item">The service collection to manipulate.</param>
-        public static void RegisterAcvpAdminServices(this IServiceCollection item)
+        public static void RegisterAcvpPublicServices(this IServiceCollection item)
         {
             item.AddSingleton<IConnectionStringFactory, ConnectionStringFactory>();
             

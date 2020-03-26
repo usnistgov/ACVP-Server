@@ -73,6 +73,7 @@
     <Folder Include="common\Stored Procedures\" />
     <Folder Include="Security\" />
     <Folder Include="acvp\Stored Procedures\" />
+    <Folder Include="val\Stored Procedures" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="acvp\Tables\ACVP_ROLE.sql" />
@@ -131,5 +132,11 @@
     <Build Include="acvp\Stored Procedures\PreviousComputedWindowByUserSet.sql" />
     <Build Include="acvp\Stored Procedures\PreviousComputedWindowByUserGet.sql" />
     <Build Include="acvp\Stored Procedures\AcvpUserGetByCertificate.sql" />
+    <Build Include="val\Stored Procedures\DependencyFilteredListGet.sql" />
+    <Build Include="val\Stored Procedures\ImplementationFilteredListGet.sql" />
+    <Build Include="val\Stored Procedures\OEFilteredListGet.sql" />
+    <Build Include="val\Stored Procedures\OrganizationFilteredListGet.sql" />
+    <Build Include="val\Stored Procedures\PersonFilteredListGet.sql" />
+    <Build Include="dbo\Functions\DelimitedListToTable.sql" />
   </ItemGroup>
 </Project>
