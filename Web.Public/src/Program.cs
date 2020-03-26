@@ -40,7 +40,7 @@ namespace Web.Public
                 })
                 .ConfigureServices((hostContext, services) =>
                 {
-                    services.RegisterAcvpAdminServices();
+                    services.RegisterAcvpPublicServices();
                     services.Configure<JwtConfig>(hostContext.Configuration.GetSection("Jwt"));
                     services.Configure<TotpConfig>(hostContext.Configuration.GetSection("Totp"));
                     services.Configure<AlgorithmConfig>(hostContext.Configuration.GetSection("Algorithm"));

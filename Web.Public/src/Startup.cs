@@ -52,7 +52,7 @@ namespace Web.Public
                         SaveSigninToken = true
                     };
                 });
-            
+
             services
                 .AddControllersWithViews()
                 .AddJsonOptions(options =>

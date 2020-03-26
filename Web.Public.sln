@@ -13,21 +13,23 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Web.Public.Tests", "Web.Pub
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Web.Public", "Web.Public\src\Web.Public.csproj", "{C6E7CEE4-3308-45C5-8B78-00EA1E98ED3B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.ExtensionMethods", "Libraries\Shared\NIST.CVP.ExtensionMethods\NIST.CVP.ExtensionMethods.csproj", "{94E720D4-EE6C-4071-91BC-A1770CC600F9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.ExtensionMethods", "Libraries\Shared\NIST.CVP.ExtensionMethods\NIST.CVP.ExtensionMethods.csproj", "{94E720D4-EE6C-4071-91BC-A1770CC600F9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Enumerables", "Libraries\Shared\NIST.CVP.Enumerables\NIST.CVP.Enumerables.csproj", "{D4DC7666-5142-4F28-98EF-4140B39B2984}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Math", "gen-val\src\common\src\NIST.CVP.Math\NIST.CVP.Math.csproj", "{C99DF45A-7AB2-450A-9223-3C0642C5B6AA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Results", "Libraries\Shared\NIST.CVP.Results\NIST.CVP.Results.csproj", "{12AF4284-BB20-407D-8251-E2BAA5D43C5E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Results", "Libraries\Shared\NIST.CVP.Results\NIST.CVP.Results.csproj", "{12AF4284-BB20-407D-8251-E2BAA5D43C5E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ACVPCore", "Libraries\Internal\ACVPCore\ACVPCore.csproj", "{58C4A07B-B6C9-4F20-B25D-87961D316A1B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ACVPCore", "Libraries\Internal\ACVPCore\ACVPCore.csproj", "{58C4A07B-B6C9-4F20-B25D-87961D316A1B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Algorithms.Persisted", "Libraries\Internal\NIST.CVP.Algorithms.Persisted\NIST.CVP.Algorithms.Persisted.csproj", "{1A4F738A-76C5-4AF8-95EA-4132920E51AF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Algorithms.Persisted", "Libraries\Internal\NIST.CVP.Algorithms.Persisted\NIST.CVP.Algorithms.Persisted.csproj", "{1A4F738A-76C5-4AF8-95EA-4132920E51AF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Algorithms.DataTypes", "Libraries\Shared\NIST.CVP.Algorithms.DataTypes\NIST.CVP.Algorithms.DataTypes.csproj", "{4D39DCA3-45D8-43F5-95C3-529CE97242EA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Algorithms.DataTypes", "Libraries\Shared\NIST.CVP.Algorithms.DataTypes\NIST.CVP.Algorithms.DataTypes.csproj", "{4D39DCA3-45D8-43F5-95C3-529CE97242EA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Algorithms.External", "Libraries\Shared\NIST.CVP.Algorithms.External\NIST.CVP.Algorithms.External.csproj", "{8E30C2C2-0BCE-4D24-9324-55E933F60580}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Algorithms.External", "Libraries\Shared\NIST.CVP.Algorithms.External\NIST.CVP.Algorithms.External.csproj", "{8E30C2C2-0BCE-4D24-9324-55E933F60580}"
+EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "ACVPPublic_DB", "DB\ACVPPublic_DB\ACVPPublic_DB.sqlproj", "{69BF781C-F0B6-4E82-A735-BF615C6899D3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -79,6 +81,12 @@ Global
 		{8E30C2C2-0BCE-4D24-9324-55E933F60580}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8E30C2C2-0BCE-4D24-9324-55E933F60580}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8E30C2C2-0BCE-4D24-9324-55E933F60580}.Release|Any CPU.Build.0 = Release|Any CPU
+		{69BF781C-F0B6-4E82-A735-BF615C6899D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{69BF781C-F0B6-4E82-A735-BF615C6899D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{69BF781C-F0B6-4E82-A735-BF615C6899D3}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{69BF781C-F0B6-4E82-A735-BF615C6899D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{69BF781C-F0B6-4E82-A735-BF615C6899D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{69BF781C-F0B6-4E82-A735-BF615C6899D3}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -95,6 +103,7 @@ Global
 		{1A4F738A-76C5-4AF8-95EA-4132920E51AF} = {E6D6E73F-90EB-4D17-80AC-18471D21E64A}
 		{4D39DCA3-45D8-43F5-95C3-529CE97242EA} = {E6D6E73F-90EB-4D17-80AC-18471D21E64A}
 		{8E30C2C2-0BCE-4D24-9324-55E933F60580} = {E6D6E73F-90EB-4D17-80AC-18471D21E64A}
+		{69BF781C-F0B6-4E82-A735-BF615C6899D3} = {E6D6E73F-90EB-4D17-80AC-18471D21E64A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {62E9A5BD-DDED-44DA-82EE-37C3EAA0E436}
