@@ -155,7 +155,7 @@ namespace NIST.CVP.Generation.Core.Tests.Async
                 .Setup(s => s.GenerateAsync(It.IsAny<FakeTestGroup>(), It.IsAny<bool>(), It.IsAny<int>()))
                 .Returns(async () =>
                 {
-                    await Task.Delay(10);
+                    await Task.Yield();
                     return new TestCaseGenerateResponse<FakeTestGroup, FakeTestCase>(new FakeTestCase());
                 });
             _subject =

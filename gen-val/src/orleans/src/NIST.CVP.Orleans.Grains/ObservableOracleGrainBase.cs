@@ -91,6 +91,11 @@ namespace NIST.CVP.Orleans.Grains
             
             _subsManager.Subscribe(observer);
 
+            if (_result != null)
+            {
+                _subsManager.Notify(o => o.ReceiveMessageFromCluster(_result));
+            }
+
             return Task.CompletedTask;
         }
 
