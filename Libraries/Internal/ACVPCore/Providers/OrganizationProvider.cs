@@ -199,12 +199,14 @@ namespace ACVPCore.Providers
 		{
 			var db = new MightyOrm(_acvpConnectionString);
 
-			Organization result = new Organization();
-			result.Parent = new OrganizationLite();
-			result.Addresses = new List<Address>();
-			result.Persons = new List<PersonLite>();
-			result.Emails = new List<string>();
-			result.ID = organizationID;
+			Organization result = new Organization
+			{
+				Parent = new OrganizationLite(),
+				Addresses = new List<Address>(),
+				Persons = new List<PersonLite>(),
+				Emails = new List<string>(),
+				ID = organizationID
+			};
 
 			try
 			{
@@ -213,21 +215,16 @@ namespace ACVPCore.Providers
 					OrganizationID = organizationID
 				});
 
-				result.Name = orgData.name;
-				result.Url = orgData.organization_url;
-				result.VoiceNumber = orgData.voice_number;
-				result.FaxNumber = orgData.fax_number;
-				result.Parent = new OrganizationLite();
-				if (orgData.parent_organization_id == null) 
+				result.Name = orgData.Name;
+				result.Url = orgData.Website;
+				result.VoiceNumber = orgData.VoiceNumber;
+				result.FaxNumber = orgData.FaxNumber;
+				result.Parent = new OrganizationLite
 				{
-					result.Parent.ID = 0; 
-				}
-				else 
-				{ 
-					result.Parent.ID = orgData.parent_organization_id; 
-				}
+					ID = orgData.ParentOrganizationId ?? 0
+				};
 
-				var addressData = db.QueryFromProcedure("val.OrganizationGetAddresses", inParams: new
+				var addressData = db.QueryFromProcedure("val.AddressesForOrganizationGet", inParams: new
 				{
 					OrganizationID = organizationID
 				});
@@ -236,14 +233,14 @@ namespace ACVPCore.Providers
 				{
 					result.Addresses.Add(new Address
 					{
-						ID = address.id,
-						Street1 = address.address_street1,
-						Street2 = address.address_street2,
-						Street3 = address.address_street3,
-						Locality = address.address_locality,
-						Region = address.address_region,
-						Country = address.address_country,
-						PostalCode = address.address_postal_code
+						ID = address.ID,
+						Street1 = address.Street1,
+						Street2 = address.Street2,
+						Street3 = address.Street3,
+						Locality = address.Locality,
+						Region = address.Region,
+						Country = address.Country,
+						PostalCode = address.PostalCode
 					});
 				}
 
@@ -256,8 +253,8 @@ namespace ACVPCore.Providers
 				{
 					result.Persons.Add(new PersonLite
 					{
-						ID = person.id,
-						Name = person.full_name
+						ID = person.Id,
+						Name = person.FullName
 					});
 				}
 
@@ -268,7 +265,7 @@ namespace ACVPCore.Providers
 
 				foreach (var email in emailData)
 				{
-					result.Emails.Add(email.email_address);
+					result.Emails.Add(email.EmailAddress);
 				}
 			}
 			catch (Exception ex)

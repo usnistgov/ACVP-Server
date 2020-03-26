@@ -223,8 +223,8 @@ namespace ACVPCore.Providers
 					OEID = oeID
 				});
  
-				OEResult.ID = OEData.id;
-				OEResult.Name = OEData.name;
+				OEResult.ID = OEData.Id;
+				OEResult.Name = OEData.Name;
 
 				var data = db.QueryFromProcedure("val.OEDependenciesGet", inParams: new
 				{

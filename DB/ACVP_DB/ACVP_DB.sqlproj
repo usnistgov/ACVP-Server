@@ -352,8 +352,7 @@
     <Build Include="val\Stored Procedures\PersonGetNotes.sql" />
     <Build Include="val\Stored Procedures\PersonsGet.sql" />
     <Build Include="val\Stored Procedures\OrganizationGet.sql" />
-    <Build Include="val\Stored Procedures\OrganizationsGetAddresses.sql" />
-    <Build Include="val\Stored Procedures\OrganizationsGetPersons.sql" />
+    <Build Include="val\Stored Procedures\OrganizationGetPersons.sql" />
     <Build Include="acvp\Stored Procedures\WorkflowItemsGet.sql" />
     <Build Include="val\Stored Procedures\PrerequisiteInsert.sql" />
     <Build Include="lcavp\Stored Procedures\ValidationIDForSubmissionIDGet.sql" />
