@@ -4,6 +4,8 @@ import { WorkflowDeletePayload } from '../../../../models/Workflow/WorkflowDelet
 import { OperatingEnvironment } from '../../../../models/operatingEnvironment/operatingEnvironment';
 import { AjaxService } from '../../../../services/ajax/ajax.service';
 import { Router } from '@angular/router';
+import { WorkflowProviderService } from '../../../../services/ajax/workflow/workflow-provider.service';
+import { OperatingEnvironmentProviderService } from '../../../../services/ajax/operatingEnvironment/operating-environment-provider.service';
 
 @Component({
   selector: 'app-workflow-oe-delete',
@@ -16,7 +18,7 @@ export class WorkflowOeDeleteComponent implements OnInit {
   currentState: OperatingEnvironment;
   objectKeys = Object.keys;
 
-  constructor(private ajs: AjaxService, private router: Router) { }
+  constructor(private OEService: OperatingEnvironmentProviderService, private workflowService: WorkflowProviderService, private router: Router) { }
 
   shouldAttributeBeDisplayed(key: string) {
     if (key == "id") {
@@ -26,14 +28,14 @@ export class WorkflowOeDeleteComponent implements OnInit {
   }
 
   approveWorkflow() {
-    this.ajs.approveWorkflow(this.workflowItem.workflowItemID).subscribe(
+    this.workflowService.approveWorkflow(this.workflowItem.workflowItemID).subscribe(
       data => { this.refreshPageData(); },
       err => { },
       () => { }
     );
   }
   rejectWorkflow() {
-    this.ajs.rejectWorkflow(this.workflowItem.workflowItemID).subscribe(
+    this.workflowService.rejectWorkflow(this.workflowItem.workflowItemID).subscribe(
       data => { this.refreshPageData(); },
       err => { },
       () => { }
@@ -55,7 +57,7 @@ export class WorkflowOeDeleteComponent implements OnInit {
   set wfItem(item: WorkflowItemBase<WorkflowDeletePayload>) {
     this.workflowItem = item;
 
-    this.ajs.getOE(this.workflowItem.payload.id).subscribe(
+    this.OEService.getOE(this.workflowItem.payload.id).subscribe(
       data => {
         this.currentState = data;
       },

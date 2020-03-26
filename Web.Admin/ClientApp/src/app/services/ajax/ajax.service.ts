@@ -1,14 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { DependencyList } from '../../models/dependency/dependency-list';
-import { Dependency } from '../../models/dependency/dependency';
-import { Attribute } from '../../models/dependency/attribute';
-import { OperatingEnvironment } from '../../models/operatingEnvironment/operatingEnvironment';
-import { Result } from '../../models/responses/Result';
 import { Product } from '../../models/Product/Product';
 import { Address } from '../../models/Address/Address';
 import { ProductList } from '../../models/Product/ProductList';
-import { OperatingEnvironmentList } from '../../models/OperatingEnvironment/OperatingEnvironmentList';
 import { PersonList } from '../../models/Person/PersonList';
 import { Person } from '../../models/Person/Person';
 import { Organization } from '../../models/Organization/Organization';
@@ -20,8 +14,6 @@ import { WorkflowItemBase } from '../../models/Workflow/WorkflowItemBase';
 import { IWorkflowItemPayload } from '../../models/Workflow/IWorkflowItemPayload';
 import { WorkflowItemList } from '../../models/Workflow/WorkflowItemList';
 import { OrganizationList } from '../../models/Organization/OrganizationList';
-import { APIAction } from '../../models/Workflow/APIAction.enum';
-import { RouteReuseStrategy } from '@angular/router';
 
 const httpOptions = {
   headers: new HttpHeaders()
@@ -35,50 +27,6 @@ export class AjaxService {
   apiRoot = "/api";
 
   constructor(private http: HttpClient) { }
-
-  // Operating Environment (OE) -related calls
-  getOE(id: number) {
-    return this.http.get<OperatingEnvironment>(this.apiRoot + '/OperatingEnvironments/' + id);
-  };
-
-  getOEs(pageSize: number, pageNumber: number) {
-    var params = { "pageSize": pageSize, "page": pageNumber };
-
-    return this.http.post<OperatingEnvironmentList>(this.apiRoot + '/OperatingEnvironments', params);
-  }
-
-  addDependencyToOE(dependencyId: number, OEID: number) {
-
-    // Assemble message body
-    var requestBody = { dependencyId: 0 };
-    requestBody.dependencyId = dependencyId;
-
-    // POST it
-    return this.http.post(this.apiRoot + '/OperatingEnvironments/' + OEID + '/Dependencies', requestBody);
-  }
-
-  getDependencies(pageSize: number, pageNumber: number) {
-    var params = { "pageSize": pageSize, "page": pageNumber };
-
-    return this.http.post<DependencyList>(this.apiRoot + '/Dependencies', params);
-  }
-
-  getDependency(id: number) {
-    return this.http.get<Dependency>(this.apiRoot + '/Dependency/' + id);
-  };
-
-  removeDependencyFromOE(dependencyId: number, OEID: number) {
-    return this.http.delete(this.apiRoot + '/OperatingEnvironments/' + OEID + '/Dependencies/' + dependencyId);
-  }
-
-  updateOE(oe: OperatingEnvironment) {
-    return this.http.patch(this.apiRoot + '/OperatingEnvironments/' + oe.id, oe);
-  }
-
-  createDependency(dependency: Dependency) {
-    return this.http.post<Result>(this.apiRoot + '/Dependencies', dependency);
-  }
-  // END Operating Environment (OE) -related calls
 
   // Product-Related calls
   getProduct(id: number) {
@@ -156,35 +104,4 @@ export class AjaxService {
   }
 
   // END TestSession-related calls
-
-  // BEGIN Workflow calls
-  getWorkflow(workflowId: number) {
-    return this.http.get<WorkflowItemBase<IWorkflowItemPayload>>(this.apiRoot + '/Workflows/' + workflowId);
-  }
-
-  getWorkflows(pageSize: number, pageNumber: number, RequestId: string, APIAction: string, DBID: string) {
-
-    if (RequestId === "") { RequestId = null; }
-    if (DBID === "") { DBID = null; }
-
-    // Build the request body
-    var params = {
-      "pageSize": pageSize,
-      "page": pageNumber,
-      "requestId": RequestId,
-      "APIActionID": APIAction,
-      "WorkflowItemID": parseInt(DBID)
-    };
-
-    return this.http.post<WorkflowItemList>(this.apiRoot + '/Workflows', params);
-  }
-
-  approveWorkflow(workflowId: number) {
-    return this.http.post(this.apiRoot + '/Workflows/' + workflowId + '/approve', {});
-  }
-
-  rejectWorkflow(workflowId: number) {
-    return this.http.post(this.apiRoot + '/Workflows/' + workflowId + '/reject', {});
-  }
-  // End Workflow Calls
 }

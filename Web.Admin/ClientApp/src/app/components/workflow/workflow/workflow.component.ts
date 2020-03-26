@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { AjaxService } from '../../../services/ajax/ajax.service';
 import { ActivatedRoute } from '@angular/router';
 import { WorkflowItemBase } from '../../../models/Workflow/WorkflowItemBase';
 import { IWorkflowItemPayload } from '../../../models/Workflow/IWorkflowItemPayload';
+import { WorkflowProviderService } from '../../../services/ajax/workflow/workflow-provider.service';
 
 @Component({
   selector: 'app-workflow',
@@ -13,11 +13,11 @@ export class WorkflowComponent implements OnInit {
 
   workflowItem: WorkflowItemBase<IWorkflowItemPayload>;
 
-  constructor(private ajs: AjaxService, private route: ActivatedRoute) { }
+  constructor(private workflowService: WorkflowProviderService, private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
-      this.ajs.getWorkflow(parseInt(params.get("id"))).subscribe(
+      this.workflowService.getWorkflow(parseInt(params.get("id"))).subscribe(
         data => { this.workflowItem = data; console.log(this.workflowItem); },
         err => { },
         () => { })
