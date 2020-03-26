@@ -1,8 +1,7 @@
 namespace Web.Public.JsonObjects
 {
-    public class JwtObject : IJsonObject
+    public class JwtObject
     {
-        public string AcvVersion { get; set; }
         public string AccessToken { get; set; }
     }
 }

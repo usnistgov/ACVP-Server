@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Web.Public.Helpers;
 using Web.Public.JsonObjects;
 using Web.Public.Providers;
 
@@ -16,24 +17,19 @@ namespace Web.Public.Controllers
         }
 
         [HttpGet]
-        public JsonResult GetAlgorithmList()
+        public JsonHttpStatusResult GetAlgorithmList()
         {
             // Retrieve and return listing
             var list = _algorithmProvider.GetAlgorithmList();
-            
-            return new JsonResult(
-                new AlgorithmListObject
-                {
-                    AcvVersion = "1.0",
-                    AlgorithmList = list
-                });
+            return new JsonHttpStatusResult(JsonHelper.BuildVersionedObject(new AlgorithmListObject {AlgorithmList = list}));
         }
 
         [HttpGet("{id}")]
-        public JsonResult GetAlgorithmProperties(int id)
+        public string GetAlgorithmProperties(int id)
         {
             var algo = _algorithmProvider.GetAlgorithm(id);
-            return algo == null ? new JsonResult($"No algorithm matches provided id: {id}") : new JsonResult(algo);
+            return "";
+            //return algo == null ? new JsonResult($"No algorithm matches provided id: {id}").ToString() : JsonHelper.BuildVersionedObject(algo);
         }
     }
 }

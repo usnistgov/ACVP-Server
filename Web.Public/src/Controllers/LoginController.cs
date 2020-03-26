@@ -1,4 +1,6 @@
+using System.Net;
 using Microsoft.AspNetCore.Mvc;
+using Web.Public.Helpers;
 using Web.Public.JsonObjects;
 using Web.Public.Services;
 
@@ -33,21 +35,38 @@ namespace Web.Public.Controllers
             // If no validation, don't proceed
             if (!result.IsSuccess)
             {
-                return new JsonResult($@"Access denied! D: Reason: {result.ErrorMessage}");
+                var errorObject = new ErrorObject
+                {
+                    Error = $"Access denied! Reason: {result.ErrorMessage}"
+                };
+                
+                return new JsonHttpStatusResult(
+                    JsonHelper.BuildVersionedObject(
+                        errorObject),
+                    HttpStatusCode.Forbidden);
             }
             
             // Either create or refresh the token
             var tokenResult = content.AccessToken == null ? _jwtService.Create() : _jwtService.Refresh(content.AccessToken);
             if (!tokenResult.IsSuccess)
             {
-                return new JsonResult(tokenResult.ErrorMessage);
+                var errorObject = new ErrorObject
+                {
+                    Error = tokenResult.ErrorMessage
+                };
+                
+                return new JsonHttpStatusResult(
+                    JsonHelper.BuildVersionedObject(
+                        errorObject), 
+                    HttpStatusCode.Forbidden);
             }
-            
-            return new JsonResult(new JwtObject
-            {
-                AcvVersion = "1.0",
-                AccessToken = tokenResult.Token
-            });
+
+            return new JsonHttpStatusResult(
+                JsonHelper.BuildVersionedObject(
+                    new JwtObject
+                    {
+                        AccessToken = tokenResult.Token
+                    }));
         }
     }
 }

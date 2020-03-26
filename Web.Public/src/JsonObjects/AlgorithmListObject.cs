@@ -3,9 +3,8 @@ using NIST.CVP.Algorithms.External;
 
 namespace Web.Public.JsonObjects
 {
-    public class AlgorithmListObject : IJsonObject
+    public class AlgorithmListObject
     {
-        public string AcvVersion { get; set; }
         public IEnumerable<AlgorithmBase> AlgorithmList { get; set; }
     }
 }

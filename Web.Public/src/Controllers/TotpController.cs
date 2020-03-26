@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Web.Public.Helpers;
 using Web.Public.JsonObjects;
 using Web.Public.Services;
 
@@ -17,7 +18,7 @@ namespace Web.Public.Controllers
         }
         
         [HttpGet]
-        public JsonResult GetTotp()
+        public JsonHttpStatusResult GetTotp()
         {
             // Use authentication to identify user
             var certRawData = Request.HttpContext.Connection.ClientCertificate.RawData;
@@ -26,13 +27,12 @@ namespace Web.Public.Controllers
             var result = _totpService.GenerateTotp(certRawData);
 
             // Wrap and return to user
-            var returnObject = new PasswordObject
+            var passwordObject = new PasswordObject
             {
-                AcvVersion = "1.0",
                 Password = result
             };
-
-            return new JsonResult(returnObject);
+            
+            return new JsonHttpStatusResult(JsonHelper.BuildVersionedObject(passwordObject));
         }
     }
 }
