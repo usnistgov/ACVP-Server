@@ -1,6 +1,7 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using NIST.CVP.Common.Config;
@@ -13,6 +14,7 @@ namespace NIST.CVP.TaskQueueProcessor
 {
     public class QueueProcessor : BackgroundService
     {
+        private readonly IServiceProvider _serviceProvider;
         private readonly ITaskService _taskService;
         private readonly ICleaningService _cleaningService;
         
@@ -21,9 +23,10 @@ namespace NIST.CVP.TaskQueueProcessor
 
         private readonly SemaphoreSlim _semaphore;
         private readonly int _maxTasks;
-
-        public QueueProcessor(ITaskService taskService, ICleaningService cleaningService, IOptions<PoolConfig> poolConfig, IOptions<TaskQueueProcessorConfig> taskConfig)
+        
+        public QueueProcessor(IServiceProvider serviceProvider, ITaskService taskService, ICleaningService cleaningService, IOptions<PoolConfig> poolConfig, IOptions<TaskQueueProcessorConfig> taskConfig)
         {
+            _serviceProvider = serviceProvider;
             _taskService = taskService;
             _cleaningService = cleaningService;
             _poolConfig = poolConfig.Value;
@@ -50,8 +53,8 @@ namespace NIST.CVP.TaskQueueProcessor
                 {
                     // Spawn a one-off task to run
                     Log.Information($"Grabbed dbId: {task.DbId}, vsId: {task.VsId} for gen/val processing");
-                
                     QueueGenVal(task, stoppingToken).FireAndForget();
+                    Log.Debug("Job queued.");
                     continue;
                 }
                 
@@ -64,36 +67,27 @@ namespace NIST.CVP.TaskQueueProcessor
         
         private Task QueueGenVal(ExecutableTask task, CancellationToken stoppingToken)
         {
-            try
+            return Task.Run(async () =>
             {
-                return Task.Run(async () =>
+                try
                 {
-                    try
-                    {
-                        var genValTask = _taskService.RunTaskAsync(task);
+                    var genValTask = _taskService.RunTaskAsync(task);
 
-                        await genValTask;
+                    await genValTask;
                         
-                        Log.Information($"Completed task {task.DbId}, VsId {task.VsId}");
-                        _cleaningService.DeleteCompletedTask(task.DbId);
-                    }
-                    catch (Exception e)
-                    {
-                        Log.Error(e, e.Message);
-                    }
-                    finally
-                    {
-                        Log.Information("Generation task completed. Releasing Semaphore.");
-                        _semaphore.Release();                        
-                    }
-                }, stoppingToken);
-                
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
+                    Log.Information($"Completed task {task.DbId}, VsId {task.VsId}");
+                    _cleaningService.DeleteCompletedTask(task.DbId);
+                }
+                catch (Exception e)
+                {
+                    Log.Error(e, e.Message);
+                }
+                finally
+                {
+                    Log.Information("Generation task completed. Releasing Semaphore.");
+                    _semaphore.Release();                        
+                }
+            }, stoppingToken);
         }
 
         public override Task StopAsync(CancellationToken cancellationToken)
@@ -162,6 +156,13 @@ namespace NIST.CVP.TaskQueueProcessor
       },
       ""domainParameterGenerationMethods"" : [ ""P-192"" ]
     }";
+
+//             capabilities = @"{
+//     ""algorithm"" : ""ACVP-AES-CBC"",
+//     ""revision"" : ""1.0"",
+//     ""keyLen"" : [128],
+//     ""direction"": [""encrypt""]
+// }";
             #endregion
 
             return new GenerationTask()

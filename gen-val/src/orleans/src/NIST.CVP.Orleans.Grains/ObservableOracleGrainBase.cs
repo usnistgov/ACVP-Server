@@ -117,7 +117,7 @@ namespace NIST.CVP.Orleans.Grains
             Task.Factory.StartNew(() =>
             {
                 DoWorkAsyncWrapper().FireAndForget();
-            }, CancellationToken.None, TaskCreationOptions.None, _nonOrleansScheduler).FireAndForget();
+            }, CancellationToken.None, TaskCreationOptions.LongRunning, _nonOrleansScheduler).FireAndForget();
 
             return Task.FromResult(true);
         }
@@ -162,12 +162,18 @@ namespace NIST.CVP.Orleans.Grains
         /// <returns></returns>
         protected async Task Notify(TResult result)
         {
-            await Task.Factory.StartNew(() =>
+            if (_result == null)
+                _result = result;
+            
+            await Task.Factory.StartNew(async () =>
             {
-                if (_result == null)
-                    _result = result;
+                await _subsManager.Notify(new Func<IGrainObserver<TResult>, Task>((o) =>
+                {
+                    o.ReceiveMessageFromCluster(result);
+                    return Task.CompletedTask;
+                }));
                 
-                _subsManager.Notify(observer => observer.ReceiveMessageFromCluster(result));
+                //_subsManager.Notify(observer => observer.ReceiveMessageFromCluster(result));
             }, CancellationToken.None, TaskCreationOptions.None, _orleansScheduler);
         }
 

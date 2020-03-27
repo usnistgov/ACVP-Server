@@ -26,9 +26,11 @@ namespace NIST.CVP.Generation.KAS.Sp800_56Ar3.Ecc
                 map.Add(group, GenerateDomainParametersAsync(group));
             }
 
+            await Task.WhenAll(map.Values);
+            
             foreach (var pair in map)
             {
-                pair.Key.DomainParameters = await pair.Value;
+                pair.Key.DomainParameters = pair.Value.Result;
             }
         }
         
