@@ -120,15 +120,10 @@ namespace Web.Public.Providers
 
 				//Create the objects to hold the final data
 				long totalRecords;
-				List<Organization> organizations = new List<Organization>();
-
-				//Create some collections to temporarily hold the data
-				//var rawOrganizations = new List<(long ID, string Name, string Website, string VoiceNumber, string FaxNumber)>();
-				//var rawAddresses = new List<(long OrgID, int OrderIndex, string Street1, string Street2, string Street3, string Locality, string Region, string Country, string PostalCode)>();
-
+				var organizations = new List<Organization>();
 
 				//Get the enumerator to manually iterate over the results
-				var enumerator = data.GetEnumerator();
+				using var enumerator = data.GetEnumerator();
 
 				//Move to the first result set, the total records
 				enumerator.MoveNext();
@@ -157,7 +152,7 @@ namespace Web.Public.Providers
 				//Build the list of organization objects
 				foreach (var rawOrg in rawOrganizations.OrderBy(x => x.Id))
 				{
-					Organization org = new Organization
+					var org = new Organization
 					{
 						ID = rawOrg.Id,
 						Name = rawOrg.Name,
@@ -166,13 +161,24 @@ namespace Web.Public.Providers
 					};
 
 					//Add the phone numbers collection, which takes some manipulation
-					List<PhoneNumber> phoneNumbers = new List<PhoneNumber>();
-					if (!string.IsNullOrEmpty(rawOrg.VoiceNumber)) phoneNumbers.Add(new PhoneNumber { Number = rawOrg.VoiceNumber, Type = "voice" });
-					if (!string.IsNullOrEmpty(rawOrg.FaxNumber)) phoneNumbers.Add(new PhoneNumber { Number = rawOrg.FaxNumber, Type = "fax" });
-					if (phoneNumbers.Count > 0) org.PhoneNumbers = phoneNumbers;
+					var phoneNumbers = new List<PhoneNumber>();
+					if (!string.IsNullOrEmpty(rawOrg.VoiceNumber))
+					{
+						phoneNumbers.Add(new PhoneNumber { Number = rawOrg.VoiceNumber, Type = "voice" });
+					}
+
+					if (!string.IsNullOrEmpty(rawOrg.FaxNumber))
+					{
+						phoneNumbers.Add(new PhoneNumber { Number = rawOrg.FaxNumber, Type = "fax" });
+					}
+
+					if (phoneNumbers.Count > 0)
+					{
+						org.PhoneNumbers = phoneNumbers;
+					}
 
 					//Add the addresses
-					org.Addresses = rawAddresses?.Where(x => x.OrganizationId == org.ID)?.Select(x => new Address
+					org.Addresses = rawAddresses.Where(x => x.OrganizationId == org.ID).Select(x => new Address
 					{
 						ID = x.Id,
 						OrganizationID = x.OrganizationId,
@@ -183,7 +189,7 @@ namespace Web.Public.Providers
 						Region = x.Region,
 						Country = x.Country,
 						PostalCode = x.PostalCode
-					})?.ToList();
+					}).ToList();
 
 					//Finally add it to the collection
 					organizations.Add(org);
