@@ -5,7 +5,7 @@
     },
     "Generate": {
       "commandName": "Project",
-      "commandLineArgs": "-g \"registration.json\""
+      "commandLineArgs": "-g \"C:\\workspace\\logs\\_local\\test\\registration.json\""
     },
     "Validate": {
       "commandName": "Project",
