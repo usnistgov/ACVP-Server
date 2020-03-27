@@ -135,8 +135,8 @@ namespace NIST.CVP.Generation.GenValApp.Helpers
         {
             var gen = _scope.Resolve<IGenerator>();
             
-            var result = gen.Generate(new GenerateRequest(FileService.ReadFile(registrationFile)));
-            return result;
+            var result = gen.GenerateAsync(new GenerateRequest(FileService.ReadFile(registrationFile)));
+            return result.GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -145,12 +145,12 @@ namespace NIST.CVP.Generation.GenValApp.Helpers
         public ValidateResponse RunValidation(string responseFile, string answerFile, bool showExpected)
         {
             var val = _scope.Resolve<IValidator>();
-            var result = val.Validate(new ValidateRequest(
+            var result = val.ValidateAsync(new ValidateRequest(
                 FileService.ReadFile(answerFile),
                 FileService.ReadFile(responseFile),
                 showExpected
                 ));
-            return result;
+            return result.GetAwaiter().GetResult();
         }
 
         public static ILogger Logger => LogManager.GetCurrentClassLogger();
