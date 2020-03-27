@@ -8,7 +8,7 @@ namespace NIST.CVP.MessageQueue
 	{
 		public static IServiceCollection InjectMessageQueue(this IServiceCollection services)
 		{
-			services.AddSingleton<IMessageProvider, MessageProvider>();
+			services.AddSingleton<IMessageQueueProvider, MessageQueueProvider>();
 			services.AddSingleton<IMessageQueueService, MessageQueueService>();
 			return services;
 		}

@@ -1,14 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using CVP.DatabaseInterface;
 using Mighty;
 
 namespace NIST.CVP.MessageQueue.Providers
 {
-	public class MessageProvider : IMessageProvider
+	public class MessageQueueProvider : IMessageQueueProvider
 	{
 		private readonly string _acvpConnectionString;
 
-		public MessageProvider(IConnectionStringFactory connectionStringFactory)
+		public MessageQueueProvider(IConnectionStringFactory connectionStringFactory)
 		{
 			_acvpConnectionString = connectionStringFactory.GetMightyConnectionString("ACVP");
 		}
@@ -36,6 +38,23 @@ namespace NIST.CVP.MessageQueue.Providers
 			var db = new MightyOrm(_acvpConnectionString);
 
 			db.ExecuteProcedure("common.MessageQueueDelete", inParams: new
+			{
+				MessageId = id
+			});
+		}
+
+		public List<MessageQueueItem> List()
+		{
+			var db = new MightyOrm<MessageQueueItem>(_acvpConnectionString);
+
+			return db.QueryFromProcedure("common.MessageQueueList").ToList();
+		}
+
+		public string GetMessagePayload(Guid id)
+		{
+			var db = new MightyOrm(_acvpConnectionString);
+
+			return (string)db.ScalarFromProcedure("common.MessageGetPayload", inParams: new
 			{
 				MessageId = id
 			});

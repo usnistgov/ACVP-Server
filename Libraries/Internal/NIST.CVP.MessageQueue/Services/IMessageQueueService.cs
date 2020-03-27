@@ -9,5 +9,7 @@ namespace NIST.CVP.MessageQueue.Services
 		void DeleteMessage(Guid id);
 		Message GetNextMessage();
 		void UpdateMessageStatus(Guid id, MessageStatus messageStatus);
+		List<MessageQueueItem> List();
+		string GetMessagePayload(Guid id);
 	}
 }

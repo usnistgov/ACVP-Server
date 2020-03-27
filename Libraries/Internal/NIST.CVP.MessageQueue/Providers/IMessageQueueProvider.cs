@@ -1,11 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace NIST.CVP.MessageQueue.Providers
 {
-	public interface IMessageProvider
+	public interface IMessageQueueProvider
 	{
 		void DeleteMessage(Guid id);
 		Message GetNextMessage();
 		void UpdateStatus(Guid id, MessageStatus messageStatus);
+		List<MessageQueueItem> List();
+		string GetMessagePayload(Guid id);
 	}
 }
