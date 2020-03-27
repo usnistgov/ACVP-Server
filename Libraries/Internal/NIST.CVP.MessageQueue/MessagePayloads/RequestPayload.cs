@@ -1,9 +1,8 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
 using ACVPWorkflow;
-using ACVPWorkflow.Models;
 
-namespace MessageQueueProcessor.MessagePayloads
+namespace NIST.CVP.MessageQueue.MessagePayloads
 {
 	public class RequestPayload
 	{

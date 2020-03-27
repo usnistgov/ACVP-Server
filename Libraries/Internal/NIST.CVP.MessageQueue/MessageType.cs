@@ -1,4 +1,4 @@
-﻿namespace MessageQueueProcessor
+﻿namespace NIST.CVP.MessageQueue
 {
 	public enum MessageType
 	{

@@ -5,6 +5,8 @@ using MessageQueueProcessor.MessageProcessors;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using NIST.CVP.MessageQueue;
+using NIST.CVP.MessageQueue.Providers;
 
 namespace MessageQueueProcessor
 {

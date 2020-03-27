@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MessageQueueProcessor
+namespace NIST.CVP.MessageQueue.Providers
 {
 	public interface IMessageProvider
 	{

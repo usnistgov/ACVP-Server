@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Linq;
 using CVP.DatabaseInterface;
 using Mighty;
 
-namespace MessageQueueProcessor
+namespace NIST.CVP.MessageQueue.Providers
 {
 	public class MessageProvider : IMessageProvider
 	{

@@ -1,7 +1,7 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace MessageQueueProcessor.MessagePayloads
+namespace NIST.CVP.MessageQueue.MessagePayloads
 {
 	public class SubmitResultsPayload
 	{
