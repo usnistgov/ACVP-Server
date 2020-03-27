@@ -1,14 +1,16 @@
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.RSA.Fips186_5.KeyGen
 {
-    public class TestGroupGeneratorGdt : ITestGroupGenerator<Parameters, TestGroup, TestCase>
+    public class TestGroupGeneratorGdt : ITestGroupGeneratorAsync<Parameters, TestGroup, TestCase>
     {
         private const string TEST_TYPE = "GDT";
 
-        public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
+        public Task<List<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             var testGroups = new List<TestGroup>();
 
@@ -36,7 +38,7 @@ namespace NIST.CVP.Generation.RSA.Fips186_5.KeyGen
                 }
             }
 
-            return testGroups;
+            return Task.FromResult(testGroups);
         }
     }
 }

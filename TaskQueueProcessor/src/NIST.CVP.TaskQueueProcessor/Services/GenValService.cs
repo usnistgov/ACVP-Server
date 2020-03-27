@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using ACVPCore.Services;
 using CVP.DatabaseInterface;
 using Mighty;
@@ -26,13 +27,13 @@ namespace NIST.CVP.TaskQueueProcessor.Services
             _connectionString = connectionStringFactory.GetMightyConnectionString("ACVP");
         }
         
-        public void RunGenerator(GenerationTask generationTask)
+        public async Task RunGeneratorAsync(GenerationTask generationTask)
         {
             Log.Information($"Generation Task VsId: {generationTask.VsId}, IsSample: {generationTask.IsSample}");
             Log.Debug($"Capabilities: {generationTask.Capabilities}");
             
             var genRequest = new GenerateRequest(generationTask.Capabilities);
-            var response = _genValInvoker.Generate(genRequest, generationTask.VsId);
+            var response = await _genValInvoker.GenerateAsync(genRequest, generationTask.VsId);
 
             if (response.Success)
             {
@@ -57,12 +58,12 @@ namespace NIST.CVP.TaskQueueProcessor.Services
             }
         }
 
-        public void RunValidator(ValidationTask validationTask)
+        public async Task RunValidatorAsync(ValidationTask validationTask)
         {
             Log.Information($"Validation Task: {validationTask.VsId}");
             
             var valRequest = new ValidateRequest(validationTask.InternalProjection, validationTask.SubmittedResults, validationTask.Expected);
-            var response = _genValInvoker.Validate(valRequest, validationTask.VsId);
+            var response = await _genValInvoker.ValidateAsync(valRequest, validationTask.VsId);
             
             if (response.StatusCode == StatusCode.Success)
             {

@@ -6,11 +6,12 @@ using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC.Enums;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
 using NIST.CVP.Generation.Core;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace NIST.CVP.Generation.ECDSA.v1_0.SigGen
 {
-    public class TestGroupGenerator : ITestGroupGenerator<Parameters, TestGroup, TestCase>
+    public class TestGroupGenerator : ITestGroupGeneratorAsync<Parameters, TestGroup, TestCase>
     {
         private readonly IOracle _oracle;
         private readonly bool _randomizeMessagePriorToSign;
@@ -21,15 +22,7 @@ namespace NIST.CVP.Generation.ECDSA.v1_0.SigGen
             _randomizeMessagePriorToSign = randomizeMessagePriorToSign;
         }
 
-        public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
-        {
-            var groups = BuildTestGroupsAsync(parameters);
-            groups.Wait();
-
-            return groups.Result;
-        }
-
-        private async Task<IEnumerable<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
+        public async Task<List<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             // Use a hash set because the registration allows for duplicate pairings to occur
             // Equality of groups is done via name of the curve and name of the hash function.
@@ -60,7 +53,7 @@ namespace NIST.CVP.Generation.ECDSA.v1_0.SigGen
                     }
                 }
 
-                return testGroups;
+                return testGroups.ToList();
             }
 
             // For samples, we need to generate keys up front
@@ -104,7 +97,7 @@ namespace NIST.CVP.Generation.ECDSA.v1_0.SigGen
                 testGroups.Add(group);
             }
 
-            return testGroups;
+            return testGroups.ToList();
         }
     }
 }

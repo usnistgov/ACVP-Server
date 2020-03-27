@@ -15,7 +15,7 @@ namespace NIST.CVP.Generation.ECDSA.Fips186_5.DetSigGen
             _oracle = oracle;
         }
 
-        public IEnumerable<ITestCaseValidatorAsync<TestGroup, TestCase>> GetValidators(TestVectorSet testVectorSet)
+        public List<ITestCaseValidatorAsync<TestGroup, TestCase>> GetValidators(TestVectorSet testVectorSet)
         {
             var list = new List<ITestCaseValidatorAsync<TestGroup, TestCase>>();
 

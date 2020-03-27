@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using NIST.CVP.Generation.AES_XTS.v1_0;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Domain;
@@ -84,7 +85,7 @@ namespace NIST.CVP.Generation.AES_XTS.Tests
 
         [Test]
         [TestCaseSource(nameof(GetParametersAndExpectedGroups))]
-        public void ShouldReturnOneITestGroupForEachCombination(string label, string[] direction, int[] keyLen, string[] tweakModes, MathDomain ptLen, int expectedResultCount)
+        public async Task ShouldReturnOneITestGroupForEachCombination(string label, string[] direction, int[] keyLen, string[] tweakModes, MathDomain ptLen, int expectedResultCount)
         {
             var p = new Parameters
             {
@@ -97,7 +98,7 @@ namespace NIST.CVP.Generation.AES_XTS.Tests
             };
 
             _subject = new TestGroupGenerator();
-            var result = _subject.BuildTestGroups(p).ToList();
+            var result = await _subject.BuildTestGroupsAsync(p);
 
             Assert.AreEqual(expectedResultCount, result.Count);
         }

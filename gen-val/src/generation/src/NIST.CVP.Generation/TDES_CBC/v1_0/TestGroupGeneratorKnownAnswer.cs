@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.TDES_CBC.v1_0
 {
-    public class TestGroupGeneratorKnownAnswer : ITestGroupGenerator<Parameters, TestGroup, TestCase>
+    public class TestGroupGeneratorKnownAnswer : ITestGroupGeneratorAsync<Parameters, TestGroup, TestCase>
     {
         private readonly string[] _katTests = new string[]
         {
@@ -14,7 +16,7 @@ namespace NIST.CVP.Generation.TDES_CBC.v1_0
             "VariableText"
         };
 
-        public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
+        public Task<List<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             var testGroups = new List<TestGroup>();
             foreach (var function in parameters.Direction)
@@ -31,7 +33,7 @@ namespace NIST.CVP.Generation.TDES_CBC.v1_0
                     testGroups.Add(tg);
                 }
             }
-            return testGroups;
+            return Task.FromResult(testGroups);
         }
     }
 }

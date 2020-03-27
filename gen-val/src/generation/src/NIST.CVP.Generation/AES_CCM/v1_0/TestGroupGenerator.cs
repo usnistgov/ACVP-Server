@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.AES_CCM.v1_0
 {
-    public class TestGroupGenerator : ITestGroupGenerator<Parameters, TestGroup, TestCase>
+    public class TestGroupGenerator : ITestGroupGeneratorAsync<Parameters, TestGroup, TestCase>
     {
         public int[] KeyLens { get; private set; }
         public int[] PtLens { get; private set; }
@@ -14,7 +15,7 @@ namespace NIST.CVP.Generation.AES_CCM.v1_0
         public int[] TagLens { get; private set; }
         public bool Supports2pow16bytes { get; private set; }
 
-        public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
+        public Task<List<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             var groups = new List<TestGroup>();
 
@@ -25,7 +26,7 @@ namespace NIST.CVP.Generation.AES_CCM.v1_0
                 CreateGroups(testType, groups);
             }
 
-            return groups;
+            return Task.FromResult(groups);
         }
 
         private void PopulateLengths(Parameters parameters)

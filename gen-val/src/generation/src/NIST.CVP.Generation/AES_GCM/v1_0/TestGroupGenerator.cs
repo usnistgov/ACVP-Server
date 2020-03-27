@@ -5,12 +5,13 @@ using NIST.CVP.Math.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Generation.AES_GCM.v1_0
 {
-    public class TestGroupGenerator : ITestGroupGenerator<Parameters, TestGroup, TestCase>
+    public class TestGroupGenerator : ITestGroupGeneratorAsync<Parameters, TestGroup, TestCase>
     {
-        public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
+        public Task<List<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             var testGroups = new List<TestGroup>();
 
@@ -99,7 +100,7 @@ namespace NIST.CVP.Generation.AES_GCM.v1_0
                     }
                 }
             }
-            return testGroups;
+            return Task.FromResult(testGroups);
         }
 
         private List<int> GetTestableValuesFromCapability(MathDomain capability)

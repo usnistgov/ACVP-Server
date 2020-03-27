@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using NIST.CVP.Common.Oracle.ParameterTypes;
+using NIST.CVP.Common.Oracle.ParameterTypes.Kas.Sp800_56Ar3;
 using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC.Enums;
@@ -8,7 +9,7 @@ namespace NIST.CVP.Common.Oracle
 {
     public partial interface IOracle
     {
-        Task<EccDomainParameters> GetEcdsaDomainParameterAsync(Curve param);
+        Task<EccDomainParametersResult> GetEcdsaDomainParameterAsync(EcdsaCurveParameters param);
         
         Task<EcdsaKeyResult> GetEcdsaKeyAsync(EcdsaKeyParameters param);
         Task<EcdsaKeyResult> CompleteDeferredEcdsaKeyAsync(EcdsaKeyParameters param, EcdsaKeyResult fullParam);

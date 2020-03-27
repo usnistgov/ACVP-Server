@@ -20,7 +20,7 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.KAS.Sp800_56Ar3
 {
-    public abstract class TestGroupGeneratorBase<TTestGroup, TTestCase, TDomainParameters, TKeyPair> : ITestGroupGenerator<Parameters, TTestGroup, TTestCase>
+    public abstract class TestGroupGeneratorBase<TTestGroup, TTestCase, TDomainParameters, TKeyPair> : ITestGroupGeneratorAsync<Parameters, TTestGroup, TTestCase>
         where TTestGroup : TestGroupBase<TTestGroup, TTestCase, TKeyPair>, new()
         where TTestCase : TestCaseBase<TTestGroup, TTestCase, TKeyPair>, new()
         where TDomainParameters : IDsaDomainParameters
@@ -32,13 +32,13 @@ namespace NIST.CVP.Generation.KAS.Sp800_56Ar3
             "VAL"
         };
 
-        public IEnumerable<TTestGroup> BuildTestGroups(Parameters parameters)
+        public async Task<List<TTestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             List<TTestGroup> groups = new List<TTestGroup>();
 
             GenerateGroups(parameters.Scheme, parameters, groups);
 
-            GenerateDomainParametersAsync(groups).Wait();
+            await GenerateDomainParametersAsync(groups);
             
             return groups;
         }
@@ -607,22 +607,6 @@ namespace NIST.CVP.Generation.KAS.Sp800_56Ar3
         }
         #endregion KDFs
         
-        private async Task GenerateDomainParametersAsync(List<TTestGroup> groups)
-        {
-            var tasks = new Dictionary<TTestGroup, Task<TDomainParameters>>();
-            foreach (var group in groups)
-            {
-                tasks.Add(group, GenerateDomainParametersAsync(group));
-            }
-
-            await Task.WhenAll(tasks.Values);
-
-            foreach (var (group, value) in tasks)
-            {
-                group.DomainParameters = value.Result;
-            }
-        }
-
-        protected abstract Task<TDomainParameters> GenerateDomainParametersAsync(TTestGroup group);
+        protected abstract Task GenerateDomainParametersAsync(List<TTestGroup> groups);
     }
 }

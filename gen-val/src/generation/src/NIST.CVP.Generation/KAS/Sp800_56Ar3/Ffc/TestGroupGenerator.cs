@@ -1,7 +1,11 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
+using NIST.CVP.Common.Oracle.ParameterTypes.Kas.Sp800_56Ar3;
+using NIST.CVP.Common.Oracle.ResultTypes;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC.Enums;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
@@ -19,30 +23,52 @@ namespace NIST.CVP.Generation.KAS.Sp800_56Ar3.Ffc
             _oracle = oracle;
         }
         
-        protected override Task<FfcDomainParameters> GenerateDomainParametersAsync(TestGroup @group)
+        protected override async Task GenerateDomainParametersAsync(List<TestGroup> groups)
+        {
+            var map = new Dictionary<TestGroup, Task<FfcDomainParameters>>();
+            foreach (var group in groups)
+            {
+                map.Add(group, GenerateDomainParametersAsync(group));
+            }
+
+            foreach (var (group, value) in map)
+            {
+                group.DomainParameters = await value;
+            }
+        }
+        
+        private async Task<FfcDomainParameters> GenerateDomainParametersAsync(TestGroup @group)
         {
             return group.DomainParameterGenerationMode switch
             {
-                KasDpGeneration.Ffdhe2048 => _oracle.GetSafePrimeGroupsDomainParameterAsync(SafePrime.Ffdhe2048),
-                KasDpGeneration.Ffdhe3072 => _oracle.GetSafePrimeGroupsDomainParameterAsync(SafePrime.Ffdhe3072),
-                KasDpGeneration.Ffdhe4096 => _oracle.GetSafePrimeGroupsDomainParameterAsync(SafePrime.Ffdhe4096),
-                KasDpGeneration.Ffdhe6144 => _oracle.GetSafePrimeGroupsDomainParameterAsync(SafePrime.Ffdhe6144),
-                KasDpGeneration.Ffdhe8192 => _oracle.GetSafePrimeGroupsDomainParameterAsync(SafePrime.Ffdhe8192),
+                KasDpGeneration.Ffdhe2048 => await GenerateSafePrimeDomainParametersAsync(SafePrime.Ffdhe2048),
+                KasDpGeneration.Ffdhe3072 => await GenerateSafePrimeDomainParametersAsync(SafePrime.Ffdhe3072),
+                KasDpGeneration.Ffdhe4096 => await GenerateSafePrimeDomainParametersAsync(SafePrime.Ffdhe4096),
+                KasDpGeneration.Ffdhe6144 => await GenerateSafePrimeDomainParametersAsync(SafePrime.Ffdhe6144),
+                KasDpGeneration.Ffdhe8192 => await GenerateSafePrimeDomainParametersAsync(SafePrime.Ffdhe8192),
                 
-                KasDpGeneration.Modp2048 => _oracle.GetSafePrimeGroupsDomainParameterAsync(SafePrime.Modp2048),
-                KasDpGeneration.Modp3072 => _oracle.GetSafePrimeGroupsDomainParameterAsync(SafePrime.Modp3072),
-                KasDpGeneration.Modp4096 => _oracle.GetSafePrimeGroupsDomainParameterAsync(SafePrime.Modp4096),
-                KasDpGeneration.Modp6144 => _oracle.GetSafePrimeGroupsDomainParameterAsync(SafePrime.Modp6144),
-                KasDpGeneration.Modp8192 => _oracle.GetSafePrimeGroupsDomainParameterAsync(SafePrime.Modp8192),
+                KasDpGeneration.Modp2048 => await GenerateSafePrimeDomainParametersAsync(SafePrime.Modp2048),
+                KasDpGeneration.Modp3072 => await GenerateSafePrimeDomainParametersAsync(SafePrime.Modp3072),
+                KasDpGeneration.Modp4096 => await GenerateSafePrimeDomainParametersAsync(SafePrime.Modp4096),
+                KasDpGeneration.Modp6144 => await GenerateSafePrimeDomainParametersAsync(SafePrime.Modp6144),
+                KasDpGeneration.Modp8192 => await GenerateSafePrimeDomainParametersAsync(SafePrime.Modp8192),
 
-                KasDpGeneration.Fb => GenerateDomainParametersDsaAsync(2048, 224),
-                KasDpGeneration.Fc => GenerateDomainParametersDsaAsync(2048, 256),
+                KasDpGeneration.Fb => await GenerateDomainParametersDsaAsync(2048, 224),
+                KasDpGeneration.Fc => await GenerateDomainParametersDsaAsync(2048, 256),
                 
                 _ => throw new ArgumentException(
                     $"Invalid {nameof(group.DomainParameterGenerationMode)} {group.DomainParameterGenerationMode} for this group generator.")
             };
         }
 
+        private async Task<FfcDomainParameters> GenerateSafePrimeDomainParametersAsync(SafePrime safePrime)
+        {
+            var task = _oracle.GetSafePrimeGroupsDomainParameterAsync(new SafePrimeParameters() { SafePrime = safePrime});
+            var result = await task;
+            
+            return new FfcDomainParameters(result.DomainParameters.P, result.DomainParameters.Q, result.DomainParameters.G);
+        }
+        
         private async Task<FfcDomainParameters> GenerateDomainParametersDsaAsync(int l, int n)
         {
             var task = _oracle.GetDsaDomainParametersAsync(new DsaDomainParametersParameters()

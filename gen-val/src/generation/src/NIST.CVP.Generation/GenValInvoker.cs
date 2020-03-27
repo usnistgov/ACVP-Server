@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using Autofac;
 using Newtonsoft.Json;
 using NIST.CVP.Common;
@@ -30,7 +31,7 @@ namespace NIST.CVP.Generation
             return parameterChecker.CheckParameters(request);
         }
 
-        public GenerateResponse Generate(GenerateRequest request, int vsId)
+        public async Task<GenerateResponse> GenerateAsync(GenerateRequest request, int vsId)
         {
             using (LogContext.PushProperty("VsID", vsId))
             using (LogContext.PushProperty("Application", "Generator"))
@@ -41,11 +42,12 @@ namespace NIST.CVP.Generation
 
                 using var container = GetContainer(algoMode).BeginLifetimeScope();
                 var generator = container.Resolve<IGenerator>();
-                return generator.Generate(request);   
+                var generatorTask = generator.GenerateAsync(request);
+                return await generatorTask;   
             }
         }
-        
-        public ValidateResponse Validate(ValidateRequest request, int vsId)
+
+        public async Task<ValidateResponse> ValidateAsync(ValidateRequest request, int vsId)
         {
 
             using (LogContext.PushProperty("VsID", vsId))
@@ -57,7 +59,7 @@ namespace NIST.CVP.Generation
                 
                 using var container = GetContainer(algoMode).BeginLifetimeScope();
                 var validator = container.Resolve<IValidator>();
-                return validator.Validate(request);
+                return await validator.ValidateAsync(request);
             }
         }
 
@@ -118,7 +120,7 @@ namespace NIST.CVP.Generation
         {
             var candidateAlgoModeRevisions = GetSupportedAlgoModeRevisions();
 
-            return candidateAlgoModeRevisions.FirstOrDefault(w => w.SupportedAlgoModeRevisions.Contains(algoMode));
+            return candidateAlgoModeRevisions.First(w => w.SupportedAlgoModeRevisions.Contains(algoMode));
         }
 
         /// <summary>

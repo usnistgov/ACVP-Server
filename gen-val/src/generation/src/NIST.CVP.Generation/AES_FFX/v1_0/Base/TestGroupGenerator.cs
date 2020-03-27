@@ -2,14 +2,16 @@
 using NIST.CVP.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.Generation.Core;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Generation.AES_FFX.v1_0.Base
 {
-    public class TestGroupGenerator : ITestGroupGenerator<Parameters, TestGroup, TestCase>
+    public class TestGroupGenerator : ITestGroupGeneratorAsync<Parameters, TestGroup, TestCase>
     {
         public const string AFT_TYPE_LABEL = "AFT";
 
-        public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
+        public Task<List<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             var testGroups = new List<TestGroup>();
             var algoMode = AlgoModeHelpers.GetAlgoModeFromAlgoAndMode(parameters.Algorithm, parameters.Mode, parameters.Revision);
@@ -33,7 +35,7 @@ namespace NIST.CVP.Generation.AES_FFX.v1_0.Base
                     }
                 }
             }
-            return testGroups;
+            return Task.FromResult(testGroups);
         }
     }
 }

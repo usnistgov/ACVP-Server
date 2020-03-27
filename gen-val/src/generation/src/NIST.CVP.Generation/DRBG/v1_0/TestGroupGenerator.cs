@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Crypto.Common.DRBG;
 using NIST.CVP.Crypto.Common.DRBG.Helpers;
@@ -9,17 +10,17 @@ using NIST.CVP.Math.Domain;
 
 namespace NIST.CVP.Generation.DRBG.v1_0
 {
-    public class TestGroupGenerator : ITestGroupGenerator<Parameters, TestGroup, TestCase>
+    public class TestGroupGenerator : ITestGroupGeneratorAsync<Parameters, TestGroup, TestCase>
     {
         public const int _MAX_BIT_SIZE = 1024;
 
-        public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
+        public Task<List<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             var groups = new List<TestGroup>();
 
             CreateGroups(groups, parameters);
 
-            return groups;
+            return Task.FromResult(groups);
         }
 
         private void CreateGroups(List<TestGroup> groups, Parameters parameters)

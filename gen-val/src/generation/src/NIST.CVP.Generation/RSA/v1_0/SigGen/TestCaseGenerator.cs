@@ -10,7 +10,7 @@ using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
 
 namespace NIST.CVP.Generation.RSA.v1_0.SigGen
 {
-    public class TestCaseGenerator : ITestCaseGeneratorAsync<TestGroup, TestCase>
+    public class TestCaseGenerator : ITestCaseGeneratorWithPrep<TestGroup, TestCase>
     {
         private readonly IOracle _oracle;
 
@@ -20,14 +20,18 @@ namespace NIST.CVP.Generation.RSA.v1_0.SigGen
         {
             _oracle = oracle;
         }
-
-        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample, int caseNo = 0)
+        
+        public GenerateResponse PrepareGenerator(TestGroup @group, bool isSample)
         {
             if (isSample)
             {
                 NumberOfTestCasesToGenerate = 3;
             }
+            return new GenerateResponse();
+        }
 
+        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample, int caseNo = 0)
+        {
             var param = new RsaSignatureParameters
             {
                 HashAlg = group.HashAlg,

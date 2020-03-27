@@ -21,7 +21,7 @@ namespace NIST.CVP.Generation.KAS.Sp800_56Ar3
             _deferredTestCaseResolver = deferredTestCaseResolver;
         }
         
-        public IEnumerable<ITestCaseValidatorAsync<TTestGroup, TTestCase>> GetValidators(TTestVectorSet testVectorSet)
+        public List<ITestCaseValidatorAsync<TTestGroup, TTestCase>> GetValidators(TTestVectorSet testVectorSet)
         {
             var list = new List<ITestCaseValidatorAsync<TTestGroup, TTestCase>>();
 

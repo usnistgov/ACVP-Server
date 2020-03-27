@@ -14,7 +14,7 @@ namespace NIST.CVP.Common.Oracle
 {
     public partial interface IOracle
     {
-        Task<FfcDomainParameters> GetSafePrimeGroupsDomainParameterAsync(SafePrime param);
+        Task<FfcDomainParametersResult> GetSafePrimeGroupsDomainParameterAsync(SafePrimeParameters param);
         
         Task<KasValResult> GetKasValTestAsync(KasValParameters param);
         Task<KasAftResult> GetKasAftTestAsync(KasAftParameters param);
@@ -30,7 +30,7 @@ namespace NIST.CVP.Common.Oracle
 
         Task<KasValResultIfc> GetKasValTestIfcAsync(KasValParametersIfc param);
         Task<KasAftResultIfc> GetKasAftTestIfcAsync(KasAftParametersIfc param);
-        Task<ResultTypes.Kas.Sp800_56Ar1.KasAftDeferredResult> CompleteDeferredKasTestAsync(KasAftDeferredParametersIfc param);
+        Task<ResultTypes.Kas.Sp800_56Br2.KasAftDeferredResult> CompleteDeferredKasTestAsync(KasAftDeferredParametersIfc param);
         
         Task<KasEccComponentResult> GetKasEccComponentTestAsync(KasEccComponentParameters param);
         Task<KasEccComponentDeferredResult> CompleteDeferredKasComponentTestAsync(KasEccComponentDeferredParameters param);

@@ -1,12 +1,14 @@
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using NIST.CVP.Common.Helpers;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.SafePrimeGroups.v1_0.KeyGen
 {
-    public class TestGroupGenerator : ITestGroupGenerator<Parameters, TestGroup, TestCase>
+    public class TestGroupGenerator : ITestGroupGeneratorAsync<Parameters, TestGroup, TestCase>
     {
-        public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
+        public Task<List<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             var testGroups = new List<TestGroup>();
 
@@ -20,7 +22,7 @@ namespace NIST.CVP.Generation.SafePrimeGroups.v1_0.KeyGen
                 testGroups.Add(testGroup);
             }
 
-            return testGroups;
+            return Task.FromResult(testGroups);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
 using NIST.CVP.Generation.Core;
@@ -8,10 +9,10 @@ using NIST.CVP.Math.Domain;
 namespace NIST.CVP.Generation.KDF_Components.v1_0.IKEv2
 {
 
-    public class TestGroupGenerator : ITestGroupGenerator<Parameters, TestGroup, TestCase>
+    public class TestGroupGenerator : ITestGroupGeneratorAsync<Parameters, TestGroup, TestCase>
     {
 
-        public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
+        public Task<List<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             var testGroups = new HashSet<TestGroup>();
 
@@ -56,7 +57,7 @@ namespace NIST.CVP.Generation.KDF_Components.v1_0.IKEv2
                 }
             }
 
-            return testGroups;
+            return Task.FromResult(testGroups.ToList());
         }
 
         private List<int> GetMinMaxOtherValueForDomain(MathDomain domain)
