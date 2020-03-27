@@ -33,7 +33,6 @@ namespace NIST.CVP.TaskQueueProcessor
             _taskConfig = taskConfig.Value;
 
             _maxTasks = taskConfig.Value.MaxConcurrency;
-            _maxTasks = 1;
             _semaphore = new SemaphoreSlim(_maxTasks, _maxTasks);
         }
         
@@ -53,19 +52,24 @@ namespace NIST.CVP.TaskQueueProcessor
                 {
                     // Spawn a one-off task to run
                     Log.Information($"Grabbed dbId: {task.DbId}, vsId: {task.VsId} for gen/val processing");
-                    QueueGenVal(task, stoppingToken).FireAndForget();
-                    Log.Debug("Job queued.");
+                    QueueGenVal(stoppingToken, task).FireAndForget();
+                    continue;
+                }
+
+                if (_poolConfig.AllowPoolSpawn && _semaphore.CurrentCount > 1)
+                {
+                    Log.Debug("No gen-val work to queue, starting pool population task.");
+                    QueuePoolWork(stoppingToken).FireAndForget();
                     continue;
                 }
                 
                 Log.Debug("No tasks available. Releasing the semaphore log and waiting.");
                 _semaphore.Release();
                 await Task.Delay(_taskConfig.PollDelay * 1000 * 2, stoppingToken);
-                // TODO pool spawn.
             }
         }
         
-        private Task QueueGenVal(ExecutableTask task, CancellationToken stoppingToken)
+        private Task QueueGenVal(CancellationToken stoppingToken, ExecutableTask task)
         {
             return Task.Run(async () =>
             {
@@ -90,6 +94,28 @@ namespace NIST.CVP.TaskQueueProcessor
             }, stoppingToken);
         }
 
+        private Task QueuePoolWork(CancellationToken cancellationToken)
+        {
+            return Task.Run(async () =>
+            {
+                try
+                {
+                    var poolTask = _taskService.RunTaskAsync(new PoolTask());
+
+                    await poolTask;
+                }
+                catch (Exception e)
+                {
+                    Log.Error(e, e.Message);
+                }
+                finally
+                {
+                    Log.Debug("Pool task completed. Releasing Semaphore.");
+                    _semaphore.Release();                        
+                }
+            }, cancellationToken);
+        }
+
         public override Task StopAsync(CancellationToken cancellationToken)
         {
             // Stop commands
@@ -98,79 +124,6 @@ namespace NIST.CVP.TaskQueueProcessor
             Log.Information("Tasks saved");
             
             return base.StopAsync(cancellationToken);
-        }
-
-        private void OnPoolSpawnCompleted(Task task)
-        {
-            _semaphore.Release();
-        }
-
-        private ExecutableTask GetMockTask()
-        {
-            #region
-            var capabilities = @"{
-      ""vsId"" : 10134,
-      ""isSample"" : true,
-      ""algorithm"" : ""KAS-ECC"",
-      ""revision"" : ""Sp800-56Ar3"",
-      ""iutId"" : ""123456ABCD"",
-      ""scheme"" : {
-        ""onePassDh"" : {
-          ""kasRole"" : [ ""initiator"", ""responder"" ],
-          ""kdfMethods"" : {
-            ""oneStepKdf"" : {
-              ""auxFunctions"" : [ {
-                ""auxFunctionName"" : ""KMAC-128"",
-                ""macSaltMethods"" : [ ""default"" ]
-              } ],
-              ""fixedInfoPattern"" : ""algorithmId||l||uPartyInfo||vPartyInfo"",
-              ""encoding"" : [ ""concatenation"" ]
-            },
-            ""twoStepKdf"" : {
-              ""capabilities"" : [ {
-                ""macSaltMethods"" : [ ""random"" ],
-                ""fixedInfoPattern"" : ""l||label||uPartyInfo||vPartyInfo||context"",
-                ""encoding"" : [ ""concatenation"" ],
-                ""kdfMode"" : ""feedback"",
-                ""macMode"" : [ ""HMAC-SHA3-224"" ],
-                ""supportedLengths"" : [ 512 ],
-                ""fixedDataOrder"" : [ ""after fixed data"" ],
-                ""counterLength"" : [ 32 ],
-                ""requiresEmptyIv"" : false,
-                ""supportsEmptyIv"" : false
-              } ]
-            }
-          },
-          ""keyConfirmationMethod"" : {
-            ""macMethods"" : {
-              ""KMAC-128"" : {
-                ""keyLen"" : 128,
-                ""macLen"" : 128
-              }
-            },
-            ""keyConfirmationDirections"" : [ ""unilateral"" ],
-            ""keyConfirmationRoles"" : [ ""provider"", ""recipient"" ]
-          },
-          ""l"" : 512
-        }
-      },
-      ""domainParameterGenerationMethods"" : [ ""P-192"" ]
-    }";
-
-//             capabilities = @"{
-//     ""algorithm"" : ""ACVP-AES-CBC"",
-//     ""revision"" : ""1.0"",
-//     ""keyLen"" : [128],
-//     ""direction"": [""encrypt""]
-// }";
-            #endregion
-
-            return new GenerationTask()
-            {
-                Capabilities = capabilities,
-                DbId = 1,
-                VsId = 1
-            };
         }
     }
 }

@@ -25,36 +25,6 @@ namespace NIST.CVP.TaskQueueProcessor.Services
             return _taskProvider.GetTaskFromQueue();
         }
 
-        public void RunTask(ExecutableTask task)
-        {
-            Log.Information($"Running job: {task.DbId}");
-            var taskType = "";
-
-            // Stop executing method until you have a result from the task
-            try
-            {
-                switch (task)
-                {
-                    case GenerationTask generationTask:
-                        throw new InvalidOperationException("Needs to be run async.");
-
-                    case ValidationTask validationTask:
-                        taskType = "validation";
-                        throw new InvalidOperationException("Needs to be run async.");
-
-                    case PoolTask poolTask:
-                        taskType = "pool spawn";
-                        _poolService.SpawnPoolData();
-                        break;
-                }
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex, $"Exception on dbId: {task.DbId}, vsId: {task.VsId}, running: {taskType}");
-                // No repeated throw, just exit out normally
-            }
-        }
-        
         public async Task RunTaskAsync(ExecutableTask task)
         {
             Log.Information($"Running job: {task.DbId}");
@@ -77,7 +47,7 @@ namespace NIST.CVP.TaskQueueProcessor.Services
 
                     case PoolTask poolTask:
                         taskType = "pool spawn";
-                        _poolService.SpawnPoolData();
+                        await _poolService.SpawnPoolDataAsync();
                         break;
                 }
             }

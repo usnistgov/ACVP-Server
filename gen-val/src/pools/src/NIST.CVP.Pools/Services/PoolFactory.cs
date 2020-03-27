@@ -40,6 +40,7 @@ namespace NIST.CVP.Pools.Services
             var initialPoolCountsTask = poolRepository.GetAllPoolCounts();
             initialPoolCountsTask.Wait();
             _initialPoolCounts = initialPoolCountsTask.Result;
+            oracle.InitializeClusterClient().Wait();
         }
 
         public IPool GetPool(PoolProperties poolProperties)
