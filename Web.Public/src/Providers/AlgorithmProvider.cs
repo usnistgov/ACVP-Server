@@ -45,6 +45,7 @@ namespace Web.Public.Providers
             }
         }
 
+        // TODO could be improved. not very informative right now
         public AlgorithmBase GetAlgorithm(int id)
         {
             if (!_cachedAlgorithmList.Any())

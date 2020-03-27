@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Primitives;
 using Web.Public.Helpers;
+using Web.Public.JsonObjects;
 using Web.Public.Models;
 using Web.Public.Services;
 
@@ -28,26 +29,44 @@ namespace Web.Public.Controllers
 		}
 
 		[HttpGet("{id}")]
-		public JsonResult GetVendor(long id)
+		public JsonHttpStatusResult GetVendor(long id)
 		{
 			var result = _organizationService.Get(id);
-			return new JsonResult(result);
+			if (result == null)
+			{
+				return new JsonHttpStatusResult(
+					JsonHelper.BuildVersionedObject(
+						new ErrorObject
+						{
+							Error = $"Unable to find organization with id: {id}"
+						}),
+					HttpStatusCode.NotFound);
+			}
+			
+			return new JsonHttpStatusResult(JsonHelper.BuildVersionedObject(result));
 		}
 
 		[HttpGet]
-		public PagedResponse<Organization> GetFilteredVendorList()
+		public JsonHttpStatusResult GetFilteredVendorList()
 		{
 			//Try to read limit and offset, if passed in
-			int limit = 0;
-			int offset = 0;
-			if (Request.Query.TryGetValue("limit", out StringValues stringLimit)) { int.TryParse(stringLimit.First(), out limit); }
-			if (Request.Query.TryGetValue("offset", out StringValues stringOffset)) { int.TryParse(stringLimit.First(), out offset); }
+			var limit = 0;
+			var offset = 0;
+			if (Request.Query.TryGetValue("limit", out var stringLimit))
+			{
+				int.TryParse(stringLimit.First(), out limit);
+			}
+
+			if (Request.Query.TryGetValue("offset", out var stringOffset))
+			{
+				int.TryParse(stringOffset.First(), out offset);
+			}
 
 			//If limit was not present, or a garbage value, make it a default
 			if (limit <= 0) limit = 20;
 
 			//Build the querystring that excluded limit and offset
-			string filterString = string.Join("&", Request.Query.Where(x => x.Key != "limit" && x.Key != "offset").Select(x => $"{x.Key}={x.Value.FirstOrDefault()}"));
+			var filterString = string.Join("&", Request.Query.Where(x => x.Key != "limit" && x.Key != "offset").Select(x => $"{x.Key}={x.Value.FirstOrDefault()}"));
 
 			//Try to build a filter string from those parameters
 			var filter = FilterStringService.BuildFilterString(filterString, _legalPropertyDefinitions);
@@ -61,11 +80,17 @@ namespace Web.Public.Controllers
 				};
 
 				var data = _organizationService.GetFilteredList(filter.FilterString, pagingOptions, filter.OrDelimiter, filter.AndDelimiter);
-
-				return new PagedResponse<Organization>(data.TotalCount, data.Organizations, "/acvp/v1/vendors", pagingOptions, filterString);
+				var pagedData =  new PagedResponse<Organization>(data.TotalCount, data.Organizations, "/acvp/v1/vendors", pagingOptions, filterString);
+				
+				return new JsonHttpStatusResult(JsonHelper.BuildVersionedObject(pagedData));
 			}
 
-			return null;
+			var error = new ErrorObject
+			{
+				Error = $"Invalid filter applied: {filterString}"
+			};
+			
+			return new JsonHttpStatusResult(JsonHelper.BuildVersionedObject(error), HttpStatusCode.RequestedRangeNotSatisfiable);
 		}
 	}
 }

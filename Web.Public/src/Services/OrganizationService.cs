@@ -14,11 +14,9 @@ namespace Web.Public.Services
 			_organizationProvider = organizationProvider;
 		}
 
-		public Organization Get(long organizationID)
-		{
-			return _organizationProvider.Get(organizationID);
-		}
+		public Organization Get(long organizationID) => _organizationProvider.Get(organizationID);
 
-		public (long TotalCount, List<Organization> Organizations) GetFilteredList(string filter, PagingOptions pagingOptions, string orDelimiter, string andDelimiter) => _organizationProvider.GetFilteredList(filter, pagingOptions.Offset, pagingOptions.Limit, orDelimiter, andDelimiter);
+		public (long TotalCount, List<Organization> Organizations) GetFilteredList(string filter, PagingOptions pagingOptions, string orDelimiter, string andDelimiter)
+			=> _organizationProvider.GetFilteredList(filter, pagingOptions.Offset, pagingOptions.Limit, orDelimiter, andDelimiter);
 	}
 }

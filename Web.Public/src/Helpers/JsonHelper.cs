@@ -7,9 +7,10 @@ namespace Web.Public.Helpers
 {
     public static class JsonHelper
     {
-        public static JsonSerializerOptions _jsonSerializerOptions = new JsonSerializerOptions
+        private static readonly JsonSerializerOptions JsonSerializerOptions = new JsonSerializerOptions
         {
-            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+            IgnoreNullValues = true
         };
         
         public static object BuildVersionedObject(object content)
@@ -23,13 +24,13 @@ namespace Web.Public.Helpers
             using (var writer = new Utf8JsonWriter(stream))
             {
                 writer.WriteStartArray();
-                JsonSerializer.Serialize(writer, versionObject, _jsonSerializerOptions);
-                JsonSerializer.Serialize(writer, content, _jsonSerializerOptions);
+                JsonSerializer.Serialize(writer, versionObject, JsonSerializerOptions);
+                JsonSerializer.Serialize(writer, content, JsonSerializerOptions);
                 writer.WriteEndArray();
             }
 
             // This kinda sucks but prevents "double json" results using JsonResult
-            return JsonSerializer.Deserialize<object>(Encoding.UTF8.GetString(stream.ToArray()), _jsonSerializerOptions);
+            return JsonSerializer.Deserialize<object>(Encoding.UTF8.GetString(stream.ToArray()), JsonSerializerOptions);
         }
     }
 }

@@ -1,3 +1,4 @@
+using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using Web.Public.Helpers;
 using Web.Public.JsonObjects;
@@ -25,11 +26,21 @@ namespace Web.Public.Controllers
         }
 
         [HttpGet("{id}")]
-        public string GetAlgorithmProperties(int id)
+        public JsonHttpStatusResult GetAlgorithmProperties(int id)
         {
             var algo = _algorithmProvider.GetAlgorithm(id);
-            return "";
-            //return algo == null ? new JsonResult($"No algorithm matches provided id: {id}").ToString() : JsonHelper.BuildVersionedObject(algo);
+            if (algo == null)
+            {
+                return new JsonHttpStatusResult(
+                    JsonHelper.BuildVersionedObject(
+                    new ErrorObject
+                            {
+                                Error = $"No algorithm matches provided id: {id}"
+                            }),
+                    HttpStatusCode.NotFound);
+            }
+            
+            return new JsonHttpStatusResult(JsonHelper.BuildVersionedObject(algo));
         }
     }
 }

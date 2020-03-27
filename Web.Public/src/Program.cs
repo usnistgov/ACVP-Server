@@ -35,8 +35,8 @@ namespace Web.Public
                     builder
                         //.AddJsonFile($"{directoryConfig}sharedappsettings.json", false, false)
                         //.AddJsonFile($"{directoryConfig}sharedappsettings.{env}.json", false, false)
-                        .AddJsonFile($"{directoryConfig}appsettings.json", false, false);
-                        //.AddJsonFile($"{directoryConfig}appsettings.{env}.json", false, false);
+                        .AddJsonFile($"{directoryConfig}appsettings.json", false, false)
+                        .AddJsonFile($"{directoryConfig}appsettings.{env}.json", false, false);
                 })
                 .ConfigureServices((hostContext, services) =>
                 {

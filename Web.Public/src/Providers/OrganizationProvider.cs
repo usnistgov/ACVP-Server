@@ -4,7 +4,6 @@ using System.Linq;
 using CVP.DatabaseInterface;
 using Microsoft.Extensions.Logging;
 using Mighty;
-using NIST.CVP.ExtensionMethods;
 using Web.Public.Models;
 
 namespace Web.Public.Providers
@@ -38,10 +37,21 @@ namespace Web.Public.Providers
 					Website = orgData.Website,
 				};
 
-				List<PhoneNumber> phoneNumbers = new List<PhoneNumber>();
-				if (!string.IsNullOrEmpty(orgData.VoiceNumber)) phoneNumbers.Add(new PhoneNumber { Number = orgData.VoiceNumber, Type = "voice" });
-				if (!string.IsNullOrEmpty(orgData.FaxNumber)) phoneNumbers.Add(new PhoneNumber { Number = orgData.FaxNumber, Type = "fax" });
-				if (phoneNumbers.Count > 0) result.PhoneNumbers = phoneNumbers;
+				var phoneNumbers = new List<PhoneNumber>();
+				if (!string.IsNullOrEmpty(orgData.VoiceNumber))
+				{
+					phoneNumbers.Add(new PhoneNumber { Number = orgData.VoiceNumber, Type = "voice" });
+				}
+
+				if (!string.IsNullOrEmpty(orgData.FaxNumber))
+				{
+					phoneNumbers.Add(new PhoneNumber { Number = orgData.FaxNumber, Type = "fax" });
+				}
+
+				if (phoneNumbers.Count > 0)
+				{
+					result.PhoneNumbers = phoneNumbers;
+				}
 
 				var addressData = db.QueryFromProcedure("val.AddressesForOrganizationGet", inParams: new
 				{
