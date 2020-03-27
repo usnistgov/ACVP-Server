@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { WorkflowItemBase } from '../../../../models/Workflow/WorkflowItemBase';
 import { WorkflowDeletePayload } from '../../../../models/Workflow/WorkflowDeletePayload';
 import { Dependency } from '../../../../models/dependency/dependency';
+import { WorkflowProviderService } from '../../../../services/ajax/workflow/workflow-provider.service';
+import { DependencyDataProviderService } from '../../../../services/ajax/dependency/dependency-data-provider.service';
 
 @Component({
   selector: 'app-workflow-dependency-delete',
@@ -16,17 +18,17 @@ export class WorkflowDependencyDeleteComponent implements OnInit {
   workflowItem: WorkflowItemBase<WorkflowDeletePayload>;
   objectKeys = Object.keys;
 
-  constructor(private ajs: AjaxService, private router: Router) { }
+  constructor(private DependencyDataService: DependencyDataProviderService, private workflowService: WorkflowProviderService, private router: Router) { }
 
   approveWorkflow() {
-    this.ajs.approveWorkflow(this.workflowItem.workflowItemID).subscribe(
+    this.workflowService.approveWorkflow(this.workflowItem.workflowItemID).subscribe(
       data => { this.refreshPageData(); },
       err => { },
       () => { }
     );
   }
   rejectWorkflow() {
-    this.ajs.rejectWorkflow(this.workflowItem.workflowItemID).subscribe(
+    this.workflowService.rejectWorkflow(this.workflowItem.workflowItemID).subscribe(
       data => { this.refreshPageData(); },
       err => { },
       () => { }
@@ -48,7 +50,7 @@ export class WorkflowDependencyDeleteComponent implements OnInit {
   set wfItem(item: WorkflowItemBase<WorkflowDeletePayload>) {
     this.workflowItem = item;
 
-    this.ajs.getDependency(this.workflowItem.payload.id).subscribe(
+    this.DependencyDataService.getDependency(this.workflowItem.payload.id).subscribe(
       data => { this.currentState = data; console.log(this.currentState); },
       err => { },
       () => { }

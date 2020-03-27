@@ -242,7 +242,6 @@
     <Build Include="val\Stored Procedures\DependencyOELinkForOEDeleteAll.sql" />
     <Build Include="val\Stored Procedures\WorkflowInsert.sql" />
     <Build Include="acvp\Stored Procedures\VectorSetUpdateStatusAndMessage.sql" />
-    <Build Include="acvp\Stored Procedures\WorkflowContactDataForUserGet.sql" />
     <Build Include="acvp\Stored Procedures\RequestInsert.sql" />
     <Build Include="val\Stored Procedures\DependencyAttributeInsert.sql" />
     <Build Include="val\Stored Procedures\DependencyInsert.sql" />
@@ -326,7 +325,6 @@
     <Build Include="acvp\Tables\VectorSetJson.sql" />
     <Build Include="acvp\Stored Procedures\VectorSetJsonPut.sql" />
     <Build Include="acvp\Stored Procedures\VectorSetJsonGet.sql" />
-    <Build Include="acvp\Stored Procedures\WorkflowItemGetById.sql" />
     <Build Include="acvp\Stored Procedures\VectorSetGet.sql" />
     <Build Include="acvp\Stored Procedures\VectorSetGetJsonFIleTypes.sql" />
     <Build Include="acvp\Stored Procedures\VectorSetsGetByTestSessionId.sql" />
@@ -352,9 +350,7 @@
     <Build Include="val\Stored Procedures\PersonGetNotes.sql" />
     <Build Include="val\Stored Procedures\PersonsGet.sql" />
     <Build Include="val\Stored Procedures\OrganizationGet.sql" />
-    <Build Include="val\Stored Procedures\OrganizationsGetAddresses.sql" />
-    <Build Include="val\Stored Procedures\OrganizationsGetPersons.sql" />
-    <Build Include="acvp\Stored Procedures\WorkflowItemsGet.sql" />
+    <Build Include="val\Stored Procedures\OrganizationGetPersons.sql" />
     <Build Include="val\Stored Procedures\PrerequisiteInsert.sql" />
     <Build Include="lcavp\Stored Procedures\ValidationIDForSubmissionIDGet.sql" />
     <Build Include="lcavp\Stored Procedures\UpdateValidationIDForSubmissionLogID.sql" />
@@ -368,6 +364,9 @@
     <Build Include="lcavp\Stored Procedures\ValidationNumberForIDGet.sql" />
     <Build Include="Security\ACVPKeyProtectionCert.sql" />
     <Build Include="Security\ACVPKey.sql" />
+    <Build Include="val\Stored Procedures\WorkflowItemGetById.sql" />
+    <Build Include="val\Stored Procedures\WorkflowItemsGet.sql" />
+    <Build Include="acvp\Stored Procedures\WorkflowContactDataForUserGet.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="ACVP_DB.refactorlog" />

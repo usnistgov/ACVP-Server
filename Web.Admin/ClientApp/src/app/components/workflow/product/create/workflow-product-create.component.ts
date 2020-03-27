@@ -4,6 +4,7 @@ import { WorkflowProductCreatePayload } from '../../../../models/Workflow/Produc
 import { AjaxService } from '../../../../services/ajax/ajax.service';
 import { WorkflowCreateProductPayloadContact } from '../../../../models/Workflow/Product/WorkflowCreateProductPayloadContact';
 import { Router } from '@angular/router';
+import { WorkflowProviderService } from '../../../../services/ajax/workflow/workflow-provider.service';
 
 @Component({
   selector: 'app-workflow-product-create',
@@ -14,17 +15,17 @@ export class WorkflowProductCreateComponent implements OnInit {
 
   workflowItem: WorkflowItemBase<WorkflowProductCreatePayload>;
 
-  constructor(private ajs: AjaxService, private router: Router) { }
+  constructor(private ajs: AjaxService, private workflowService: WorkflowProviderService, private router: Router) { }
 
   approveWorkflow() {
-    this.ajs.approveWorkflow(this.workflowItem.workflowItemID).subscribe(
+    this.workflowService.approveWorkflow(this.workflowItem.workflowItemID).subscribe(
       data => { this.refreshPageData(); },
       err => { },
       () => { }
     );
   }
   rejectWorkflow() {
-    this.ajs.rejectWorkflow(this.workflowItem.workflowItemID).subscribe(
+    this.workflowService.rejectWorkflow(this.workflowItem.workflowItemID).subscribe(
       data => { this.refreshPageData(); },
       err => { },
       () => { }

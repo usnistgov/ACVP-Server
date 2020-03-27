@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { AjaxService } from '../../services/ajax/ajax.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { WorkflowItemList } from '../../models/Workflow/WorkflowItemList';
 import { APIAction } from '../../models/Workflow/APIAction.enum';
+import { WorkflowProviderService } from '../../services/ajax/workflow/workflow-provider.service';
 
 @Component({
   selector: 'app-workflows',
@@ -20,7 +20,7 @@ export class WorkflowsComponent implements OnInit {
 
   WorkflowStatusOptions = [ "All", "Pending", "Approved", "Incomplete", "Rejected" ];
 
-  constructor(private ajs: AjaxService, private router: Router, private route: ActivatedRoute) { }
+  constructor(private workflowService: WorkflowProviderService, private router: Router, private route: ActivatedRoute) { }
 
   getPage(whichPage: string) {
 
@@ -41,7 +41,7 @@ export class WorkflowsComponent implements OnInit {
       this.workflowItems.currentPage = this.workflowItems.totalPages;
     }
 
-    this.ajs.getWorkflows(this.workflowItems.pageSize, this.workflowItems.currentPage, this.requestId, this.selectedAPIAction, this.DBID).subscribe(
+    this.workflowService.getWorkflows(this.workflowItems.pageSize, this.workflowItems.currentPage, this.requestId, this.selectedAPIAction, this.DBID).subscribe(
       data => {
         this.workflowItems = data;
         this.router.navigate([], {
@@ -101,7 +101,7 @@ export class WorkflowsComponent implements OnInit {
     }
 
     if (this.selectedAPIAction === "All") {
-      this.ajs.getWorkflows(this.workflowItems.pageSize, this.workflowItems.currentPage, this.requestId, null, this.DBID).subscribe(
+      this.workflowService.getWorkflows(this.workflowItems.pageSize, this.workflowItems.currentPage, this.requestId, null, this.DBID).subscribe(
         data => {
           this.workflowItems = data;
           this.router.navigate([], {
@@ -114,7 +114,7 @@ export class WorkflowsComponent implements OnInit {
       );
     }
     else {
-      this.ajs.getWorkflows(this.workflowItems.pageSize, this.workflowItems.currentPage, this.requestId, this.selectedAPIAction, this.DBID).subscribe(
+      this.workflowService.getWorkflows(this.workflowItems.pageSize, this.workflowItems.currentPage, this.requestId, this.selectedAPIAction, this.DBID).subscribe(
         data => {
           this.workflowItems = data;
           this.router.navigate([], {

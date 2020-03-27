@@ -5,11 +5,11 @@ VisualStudioVersion = 16.0.29806.167
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataMaintainer", "DataMaintainer\DataMaintainer.csproj", "{4EC4CF1E-0E13-4B12-B377-276D8AF4B098}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ACVPCore", "ACVPCore\ACVPCore.csproj", "{FA2F77F4-2570-41F3-8F5C-26BC4BCF2AAE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ACVPCore", "Libraries\Internal\ACVPCore\ACVPCore.csproj", "{FA2F77F4-2570-41F3-8F5C-26BC4BCF2AAE}"
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "ACVP_DB", "DB\ACVP_DB\ACVP_DB.sqlproj", "{8545EFC4-7EE1-475B-B78D-8034293ECA76}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CVP.DatabaseInterface", "DB\CVP.DatabaseInterface\CVP.DatabaseInterface.csproj", "{6FACFB55-2B58-44C6-A1A4-047ED7648EC5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CVP.DatabaseInterface", "Libraries\Shared\CVP.DatabaseInterface\CVP.DatabaseInterface.csproj", "{6FACFB55-2B58-44C6-A1A4-047ED7648EC5}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Math", "gen-val\src\common\src\NIST.CVP.Math\NIST.CVP.Math.csproj", "{BFD26572-6571-4564-BD47-BDEECE2B4EC0}"
 EndProject

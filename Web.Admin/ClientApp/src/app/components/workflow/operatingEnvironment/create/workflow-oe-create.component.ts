@@ -3,6 +3,8 @@ import { WorkflowItemBase } from '../../../../models/Workflow/WorkflowItemBase';
 import { OperatingEnvironmentCreatePayload } from '../../../../models/Workflow/OperatingEnvironment/OperatingEnvironmentCreatePayload';
 import { AjaxService } from '../../../../services/ajax/ajax.service';
 import { Router } from '@angular/router';
+import { OperatingEnvironmentProviderService } from '../../../../services/ajax/operatingEnvironment/operating-environment-provider.service';
+import { WorkflowProviderService } from '../../../../services/ajax/workflow/workflow-provider.service';
 
 @Component({
   selector: 'app-workflow-oe-create',
@@ -14,17 +16,17 @@ export class WorkflowOeCreateComponent implements OnInit {
   workflowItem: WorkflowItemBase<OperatingEnvironmentCreatePayload>;
   objectKeys = Object.keys;
 
-  constructor(private ajs: AjaxService, private router: Router) { }
+  constructor(private workflowService: WorkflowProviderService, private router: Router) { }
 
   approveWorkflow() {
-    this.ajs.approveWorkflow(this.workflowItem.workflowItemID).subscribe(
+    this.workflowService.approveWorkflow(this.workflowItem.workflowItemID).subscribe(
       data => { this.refreshPageData(); },
       err => { },
       () => { }
     );
   }
   rejectWorkflow() {
-    this.ajs.rejectWorkflow(this.workflowItem.workflowItemID).subscribe(
+    this.workflowService.rejectWorkflow(this.workflowItem.workflowItemID).subscribe(
       data => { this.refreshPageData(); },
       err => { },
       () => { }

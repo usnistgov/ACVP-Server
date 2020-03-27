@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AjaxService } from '../../services/ajax/ajax.service';
 import { OperatingEnvironmentList } from '../../models/OperatingEnvironment/OperatingEnvironmentList';
 import { ActivatedRoute, Router } from '@angular/router';
+import { OperatingEnvironmentProviderService } from '../../services/ajax/operatingEnvironment/operating-environment-provider.service';
 
 @Component({
   selector: 'app-validation-db-oes',
@@ -12,7 +13,7 @@ export class ValidationDbOEsComponent implements OnInit {
 
   operatingEnvironments: OperatingEnvironmentList;
 
-  constructor(private ajs: AjaxService, private router: Router, private route: ActivatedRoute) { }
+  constructor(private oeps: OperatingEnvironmentProviderService, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit() {
 
@@ -25,7 +26,7 @@ export class ValidationDbOEsComponent implements OnInit {
       this.operatingEnvironments.currentPage = parseInt(this.route.snapshot.queryParamMap.get('page'));
     }
 
-    this.ajs.getOEs(this.operatingEnvironments.pageSize, this.operatingEnvironments.currentPage).subscribe(
+    this.oeps.getOEs(this.operatingEnvironments.pageSize, this.operatingEnvironments.currentPage).subscribe(
       data => { this.operatingEnvironments = data; },
       err => { /* we should find something useful to do in here at some point.  maybe a site-wide error popup in the html app.component? */ },
       () => { }
@@ -51,7 +52,7 @@ export class ValidationDbOEsComponent implements OnInit {
       this.operatingEnvironments.currentPage = this.operatingEnvironments.totalPages;
     }
 
-    this.ajs.getOEs(this.operatingEnvironments.pageSize, this.operatingEnvironments.currentPage).subscribe(
+    this.oeps.getOEs(this.operatingEnvironments.pageSize, this.operatingEnvironments.currentPage).subscribe(
       data => {
         this.operatingEnvironments = data;
         this.router.navigate([], {

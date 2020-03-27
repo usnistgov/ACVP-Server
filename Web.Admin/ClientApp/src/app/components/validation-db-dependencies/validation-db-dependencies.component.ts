@@ -63,7 +63,6 @@ export class ValidationDbDependenciesComponent implements OnInit {
   }
 
   ngOnInit() {
-
     this.listData = new DependencyListParameters("","","");
     this.dependencies = new DependencyList();
 

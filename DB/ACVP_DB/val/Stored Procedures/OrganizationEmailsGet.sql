@@ -1,6 +1,13 @@
 ﻿CREATE PROCEDURE [val].[OrganizationEmailsGet]
+	
 	@OrganizationID bigint
+
 AS
-	SELECT * FROM val.ORGANIZATION_EMAIL AS ORGEMAIL
-	WHERE ORGEMAIL.organization_id = @OrganizationID
-	ORDER BY ORGEMAIL.order_index
+
+SET NOCOUNT ON
+
+SELECT	 email_address AS EmailAddress
+		,order_index AS OrderIndex	 
+FROM val.ORGANIZATION_EMAIL
+WHERE organization_id = @OrganizationID
+ORDER BY order_index

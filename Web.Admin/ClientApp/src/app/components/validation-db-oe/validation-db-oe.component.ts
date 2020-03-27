@@ -6,6 +6,7 @@ import { ModalService } from '../../services/modal/modal.service';
 import { Dependency } from '../../models/dependency/dependency';
 import { Attribute } from '../../models/dependency/attribute';
 import { DependencyList } from '../../models/dependency/dependency-list';
+import { OperatingEnvironmentProviderService } from '../../services/ajax/operatingEnvironment/operating-environment-provider.service';
 
 @Component({
   selector: 'app-validation-db-oe',
@@ -22,38 +23,38 @@ export class ValidationDbOeComponent implements OnInit {
 
   dependencyListPageData = { resultsPerPage : 10, pageNumber : 1 };
 
-  constructor(private ajs: AjaxService, private route: ActivatedRoute, private modalService: ModalService) { }
+  constructor(private oeps: OperatingEnvironmentProviderService, private route: ActivatedRoute, private modalService: ModalService) { }
 
   addDependency(dependencyId: number) {
-    this.ajs.addDependencyToOE(dependencyId, this.selectedOE.id).subscribe(
+    this.oeps.addDependencyToOE(dependencyId, this.selectedOE.id).subscribe(
       data => { this.refreshPageData(); },
       err => { },
       () => { })
   }
 
   createAndAddDependency() {
-    this.ajs.createDependency(this.newDependency).subscribe(
+    this.oeps.createDependency(this.newDependency).subscribe(
       data => { this.addDependency(data.id); this.newDependency = new Dependency(0, "", "", "", new Array<Attribute>()); },
       err => { },
       () => { });
   }
 
   deleteDependency(dependencyId:number) {
-    this.ajs.removeDependencyFromOE(dependencyId, this.selectedOE.id).subscribe(
+    this.oeps.removeDependencyFromOE(dependencyId, this.selectedOE.id).subscribe(
       data => { this.refreshPageData(); },
       err => { },
       () => { })
   }
 
   refreshPageData() {
-    this.ajs.getOE(this.selectedOE.id).subscribe(
+    this.oeps.getOE(this.selectedOE.id).subscribe(
       data => { this.selectedOE = JSON.parse(JSON.stringify(data)); this.referenceCopyOE = JSON.parse(JSON.stringify(data)); },
       err => { },
       () => { });
   }
 
   updateOE() {
-    this.ajs.updateOE(this.referenceCopyOE).subscribe(
+    this.oeps.updateOE(this.referenceCopyOE).subscribe(
       data => { this.refreshPageData(); },
       err => { },
       () => { });
@@ -61,7 +62,7 @@ export class ValidationDbOeComponent implements OnInit {
 
   editDependencies() {
 
-    this.ajs.getDependencies(this.dependencyListPageData.resultsPerPage, this.dependencyListPageData.pageNumber).subscribe(
+    this.oeps.getDependencies(this.dependencyListPageData.resultsPerPage, this.dependencyListPageData.pageNumber).subscribe(
       data => { this.availableDependencies = data; },
       err => { },
       () => { })
@@ -78,7 +79,7 @@ export class ValidationDbOeComponent implements OnInit {
       this.dependencyListPageData.pageNumber = this.dependencyListPageData.pageNumber + 1;
     }
 
-    this.ajs.getDependencies(this.dependencyListPageData.resultsPerPage, this.dependencyListPageData.pageNumber).subscribe(
+    this.oeps.getDependencies(this.dependencyListPageData.resultsPerPage, this.dependencyListPageData.pageNumber).subscribe(
       data => { this.availableDependencies = data; },
       err => { },
       () => { })
@@ -86,7 +87,7 @@ export class ValidationDbOeComponent implements OnInit {
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
-      this.ajs.getOE(parseInt(params.get("id"))).subscribe(
+      this.oeps.getOE(parseInt(params.get("id"))).subscribe(
         data => { this.selectedOE = JSON.parse(JSON.stringify(data)); this.referenceCopyOE = JSON.parse(JSON.stringify(data)); },
         err => { },
         () => { })

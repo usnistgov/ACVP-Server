@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ACVPCore\ACVPCore.csproj" />
+    <ProjectReference Include="..\Libraries\Internal\ACVPCore\ACVPCore.csproj" />
     <ProjectReference Include="..\gen-val\src\common\src\NIST.CVP.Common\NIST.CVP.Common.csproj" />
   </ItemGroup>
 
