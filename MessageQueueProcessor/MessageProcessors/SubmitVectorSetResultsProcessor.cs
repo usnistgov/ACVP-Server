@@ -1,7 +1,8 @@
 ﻿using System.Text.Json;
 using ACVPCore;
 using ACVPCore.Services;
-using MessageQueueProcessor.MessagePayloads;
+using NIST.CVP.MessageQueue;
+using NIST.CVP.MessageQueue.MessagePayloads;
 using NIST.CVP.Results;
 
 namespace MessageQueueProcessor.MessageProcessors
