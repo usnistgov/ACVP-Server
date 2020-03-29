@@ -12,14 +12,14 @@ SET NOCOUNT ON
 SELECT	@TotalRecords = COUNT_BIG(1)
 FROM [val].[VALIDATION_OE] AS o
 WHERE	1=1
-	AND (@Id IS NULL OR o.id = @Id)
+	AND (@Id IS NULL OR o.id LIKE CAST(@Id as varchar) + '%')
 	AND	(@Name IS NULL OR o.[name] LIKE '%' + @Name + '%')
 
 SELECT	o.id,
 		o.[name]
 FROM [val].[VALIDATION_OE] AS o
 WHERE	1=1
-	AND (@Id IS NULL OR o.id = @Id)
+	AND (@Id IS NULL OR o.id LIKE CAST(@Id as varchar) + '%')
 	AND	(@Name IS NULL OR o.[name] LIKE '%' + @Name + '%')
 ORDER BY o.id
 OFFSET @PageSize * (@PageNumber - 1) ROWS

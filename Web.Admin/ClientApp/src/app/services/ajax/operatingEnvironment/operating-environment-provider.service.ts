@@ -5,6 +5,7 @@ import { OperatingEnvironmentList } from '../../../models/OperatingEnvironment/O
 import { DependencyList } from '../../../models/dependency/dependency-list';
 import { Dependency } from '../../../models/dependency/dependency';
 import { Result } from '../../../models/responses/Result';
+import { OperatingEnvironmentListParameters } from '../../../models/OperatingEnvironment/OperatingEnvironmentListParameters';
 
 @Injectable({
   providedIn: 'root'
@@ -20,11 +21,23 @@ export class OperatingEnvironmentProviderService {
     return this.http.get<OperatingEnvironment>(this.apiRoot + '/OperatingEnvironments/' + id);
   };
 
-  getOEs(pageSize: number, pageNumber: number) {
-    var params = { "pageSize": pageSize, "page": pageNumber };
+  // Dependency-related AJAX calls
+  getOEs(params: OperatingEnvironmentListParameters) {
+    console.log(params);
+    // These need to be here because the API handles nulls but not empty strings well, so we
+    // need to null-out anything that's an empty-string due to the angular two-way data binding to a text box
+    if (params.name === "") { params.name = null; }
+    if (params.id === "") { params.id = null; }
 
-    return this.http.post<OperatingEnvironmentList>(this.apiRoot + '/OperatingEnvironments', params);
-  }
+    var slightlyReformatted = {
+      "page": params.page,
+      "pageSize": params.pageSize,
+      "name": params.name,
+      "id": parseInt(params.id) // Because text inputs must bind to strings, but the API takes integers
+    }
+
+    return this.http.post<OperatingEnvironmentList>(this.apiRoot + '/OperatingEnvironments', slightlyReformatted);
+  };
 
   addDependencyToOE(dependencyId: number, OEID: number) {
 

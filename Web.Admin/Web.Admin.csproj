@@ -46,6 +46,7 @@
       <None Remove="ClientApp\src\app\models\dependency\attribute.ts" />
       <None Remove="ClientApp\src\app\models\dependency\DependencyListParameters.ts" />
       <None Remove="ClientApp\src\app\models\OperatingEnvironment\OperatingEnvironmentList.ts" />
+      <None Remove="ClientApp\src\app\models\OperatingEnvironment\OperatingEnvironmentListParameters.ts" />
       <None Remove="ClientApp\src\app\models\OperatingEnvironment\OperatingEnvironmentLite.ts" />
       <None Remove="ClientApp\src\app\models\Organization\Organization.ts" />
       <None Remove="ClientApp\src\app\models\Organization\OrganizationList.ts" />
@@ -128,6 +129,7 @@
       <TypeScriptCompile Include="ClientApp\src\app\models\dependency\dependency.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\models\dependency\DependencyListParameters.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\models\OperatingEnvironment\OperatingEnvironmentList.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\OperatingEnvironment\OperatingEnvironmentListParameters.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\models\OperatingEnvironment\OperatingEnvironmentLite.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\models\Organization\OrganizationLite.ts">
         <SubType>Code</SubType>
